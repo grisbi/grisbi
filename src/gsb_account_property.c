@@ -80,6 +80,8 @@ static void gsb_account_property_iban_delete_text ( GtkEditable *entry,
                         gint start_pos,
                         gint end_pos,
                         GtkWidget *combobox );
+static void gsb_account_property_iban_display_bank_data ( gint current_account,
+                        gint bank_number );
 static gboolean gsb_account_property_iban_focus_in_event ( GtkWidget *entry, 
                         GdkEventFocus *ev,
                         gpointer data );
@@ -1156,26 +1158,18 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
 
     if ( iban == NULL || strlen (iban) == 0 )
     {
-        gsb_account_property_set_label_code_banque ( );
-        gsb_autofunc_entry_set_value (detail_guichet,
-                        gsb_data_account_get_bank_branch_code (
-                        current_account), current_account);
-        gsb_autofunc_entry_set_value (detail_no_compte,
-                        gsb_data_account_get_bank_account_number (
-                        current_account), current_account );
-        gsb_autofunc_entry_set_value (detail_cle_compte,
-                        gsb_data_account_get_bank_account_key (
-                        current_account), current_account );
+        gsb_account_property_iban_display_bank_data ( current_account,
+                        bank_number );
         return FALSE;
     }
 
     s_iban = gsb_account_property_iban_get_struc ( g_strndup (iban, 2) );
 
-    /* on ne fixe pas les données banquaires pour un IBAN sans modèle */
+    /* on affiche les données banquaires pour un IBAN sans modèle */
     if ( g_strcmp0 (s_iban -> locale, "XX") == 0 )
     {
-        gsb_bank_list_set_bank (bank_list_combobox, 0, current_account );
-        gtk_label_set_text ( GTK_LABEL (label_code_banque), "" );
+        gsb_account_property_iban_display_bank_data ( current_account,
+                        bank_number );
         gsb_account_property_iban_switch_bank_data ( TRUE );
         return FALSE;
     }
@@ -1330,6 +1324,27 @@ void gsb_account_property_iban_switch_bank_data ( gboolean sensitive )
 
 
 /**
+ *
+ *
+ *
+ *
+ * */
+void gsb_account_property_iban_display_bank_data ( gint current_account,
+                        gint bank_number )
+{
+    gtk_label_set_text ( GTK_LABEL (label_code_banque),
+                        gsb_data_bank_get_code (bank_number) );
+    gsb_autofunc_entry_set_value (detail_guichet,
+                        gsb_data_account_get_bank_branch_code (
+                        current_account), current_account);
+    gsb_autofunc_entry_set_value (detail_no_compte,
+                        gsb_data_account_get_bank_account_number (
+                        current_account), current_account );
+    gsb_autofunc_entry_set_value (detail_cle_compte,
+                        gsb_data_account_get_bank_account_key (
+                        current_account), current_account );        
+}
+/**
  * Contrôle la validité du numéro IBAN (non opérationnel pour la partie IBAN)
  *
  * \param le numéro IBAN
@@ -1341,9 +1356,14 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
     struct iso_13616_iban *s_iban;
     gchar *model;
     gchar *tmpstr = NULL;
+    gchar *substr;
     gchar *ptr = NULL;
     gchar *buffer = NULL;
+    GString *gstring;
     gint i = 0;
+    gulong lnum;
+    gint reste = 0;
+    gint result = 0;
 
     if ( iban == NULL )
         return 0;
@@ -1352,24 +1372,29 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
 
     s_iban = gsb_account_property_iban_get_struc ( g_strndup (iban, 2) );
 
-    /* on ne contrôle pas l'IBAN sans modèle */
-    if ( g_strcmp0 (s_iban -> locale, "XX") == 0 )
-        return 1;
-    else
-    {
+    model = my_strdelimit ( s_iban -> iban, " -", "" );
+    tmpstr = my_strdelimit ( iban, " -", "" );
 
-        model = my_strdelimit ( s_iban -> iban, " -", "" );
-        tmpstr = my_strdelimit ( iban, " -", "" );
-        if ( g_utf8_strlen (model, -1) != g_utf8_strlen (tmpstr, -1) )
-        {
-            g_free ( model );
-            g_free ( tmpstr );
-            return 0;
-        }
+    /* on ne contrôle pas la longueur d'un IBAN sans modèle */
+    if ( g_strcmp0 (s_iban -> locale, "XX") != 0 && 
+                    g_utf8_strlen (model, -1) != g_utf8_strlen (tmpstr, -1) )
+    {
+        g_free ( model );
+        g_free ( tmpstr );
+        return 0;
     }
 
-    /* mise en forme de l'IBAN avant contrôle */
-    tmpstr = g_strconcat ( tmpstr + 4, g_strndup (tmpstr, 2), "00", NULL );
+    /* mise en forme de l'IBAN avant contrôle 
+     * on place les 4 premiers caractères en fin de chaine et on remplace 
+     * les 2 chiffres du code de contrôle par des 0.
+     * Ensuite on remplace les lettres par des chiffres selon un
+     * codage particulier A = 10 B = 11 etc... 
+     */
+
+    if ( strlen (tmpstr) > 4 )
+        tmpstr = g_strconcat ( tmpstr + 4, g_strndup (tmpstr, 2), "00", NULL );
+    else
+        return 0;
 
     ptr = tmpstr;
     while ( ptr[i]  )
@@ -1379,7 +1404,7 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
             if ( buffer == NULL )
                 buffer = g_strdup_printf ( "%c", ptr[i] );
             else
-                buffer = g_strconcat ( buffer, 
+                buffer = g_strconcat ( buffer,
                         g_strdup_printf ("%c", ptr[i]), NULL );
         }
         else
@@ -1387,17 +1412,51 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
             if ( buffer == NULL )
                 buffer = g_strdup_printf ( "%d", ptr[i] - 55 );
             else
-                buffer = g_strconcat ( buffer, 
+                buffer = g_strconcat ( buffer,
                         g_strdup_printf ("%d", ptr[i] - 55), NULL );
         }
         i++;
     }
 
-    /* pas encore réussi à vérifier le calcul de l'IBAN */
+    g_free ( tmpstr );
+    /* vérification du calcul de l'IBAN
+     *
+     * methode : on procède par étapes
+     * on prend les 9 premiers chiffres et on les divise par 97
+     * on ajoute au reste les 7 ou 8 chiffres suivants que l'on divise par 97
+     * on procède ainsi jusqu'a la fin de la chaine. Ensuite on soustrait le
+     * dernier reste à 98 ce qui donne le code de contrôle
+     */
+    gstring = g_string_new ( buffer );
 
-    g_free ( buffer );
+    while ( gstring -> len > 0 )
+    {
+        substr = g_strndup ( gstring -> str, 9 );
+        lnum = ( gulong ) my_strtod ( substr, NULL );
+        reste = lnum % 97;
+        g_free ( substr );
+        
+        if ( gstring -> len >= 9 )
+        {
+            gstring = g_string_erase ( gstring, 0, 9 );
+            gstring = g_string_prepend ( gstring,
+                        g_strdup_printf ("%d", reste) );
+        }
+        else
+            break;
+    }
 
-    return 1;
+    g_string_free ( gstring, TRUE );
+
+    tmpstr = g_strdup_printf ("%d", 98 - reste );
+
+    if ( g_strcmp0 ( tmpstr, g_strndup (iban + 2, 2) ) == 0 )
+        result = 1;
+    else
+        result = 0;
+    g_free ( tmpstr );
+
+    return result;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */
