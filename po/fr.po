@@ -7165,18 +7165,15 @@ msgstr ""
 "Souhaitez-vous continuer ?"
 
 #: src/gsb_form.c:2591
-#, fuzzy
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 "Une opération dont le tiers est un état doit forcément être une nouvelle "
 "opération."
 
 #: src/gsb_form.c:2596
-#, fuzzy
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
-"Une opération dont le tiers est un état doit forcément être une nouvelle "
-"opération."
+"Une opération dont le tiers est un état ne peut pas être une sous-opération."
 
 #: src/gsb_form.c:2607
 msgid "The word \"Report\" is reserved. Please use another one."
