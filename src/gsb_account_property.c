@@ -75,6 +75,7 @@ static gboolean gsb_account_property_changed ( GtkWidget *widget,
                         gint *p_origin  );
 static gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
                         gpointer null );
+static void gsb_account_property_iban_clear_label_data ( void );
 static gint gsb_account_property_iban_control_iban ( gchar *iban );
 static void gsb_account_property_iban_delete_text ( GtkEditable *entry,                                                        
                         gint start_pos,
@@ -1303,6 +1304,7 @@ void gsb_account_property_iban_switch_bank_data ( gboolean sensitive )
     if ( sensitive )
     {
         gtk_widget_set_sensitive ( GTK_WIDGET (bank_list_combobox), sensitive );
+        gsb_account_property_iban_clear_label_data ( );
         gtk_widget_show ( GTK_WIDGET (detail_guichet) );
         gtk_widget_hide ( GTK_WIDGET (label_guichet) );
         gtk_widget_show ( GTK_WIDGET (detail_no_compte) );
@@ -1344,6 +1346,23 @@ void gsb_account_property_iban_display_bank_data ( gint current_account,
                         gsb_data_account_get_bank_account_key (
                         current_account), current_account );        
 }
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void gsb_account_property_iban_clear_label_data ( void )
+{
+    gtk_label_set_text ( GTK_LABEL (label_code_banque), "" );
+    gtk_label_set_text ( GTK_LABEL (label_guichet), "" );
+    gtk_label_set_text ( GTK_LABEL (label_no_compte), "" );
+    gtk_label_set_text ( GTK_LABEL (label_cle_compte), "" );
+}
+
+
 /**
  * Contrôle la validité du numéro IBAN (non opérationnel pour la partie IBAN)
  *
