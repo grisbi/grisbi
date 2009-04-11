@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2004-2008 Benjamin Drieu (bdrieu@april.org)	          */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -1214,7 +1214,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 				      NULL, &no_orig_division, &no_orig_sub_division, 
 				      &transaction_number, NULL );
 
-	/* get the type of row (div, sub-div, tranaction) */
+	/* get the type of row (div, sub-div, transaction) */
 	orig_type = metatree_get_row_type ( model, orig_path );
 
 	/* get the destination param */
@@ -1278,40 +1278,35 @@ void move_transaction_to_sub_division ( gint transaction_number,
     gint old_div, old_sub_div;
 
     if ( !model )
-	return;
+        return;
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
 
     /* Insert new row */
     if ( dest_path )
-    {
-	gtk_tree_model_get_iter ( model, &dest_iter, dest_path );
-    }
+        gtk_tree_model_get_iter ( model, &dest_iter, dest_path );
     else
     {
-	GtkTreeIter * p_iter = get_iter_from_div ( model, no_division, no_sub_division );
-	if ( p_iter )
-	{
-	    dest_iter = *p_iter;
-	}
+        GtkTreeIter * p_iter = get_iter_from_div ( model,
+                        no_division, no_sub_division );
+        if ( p_iter )
+            dest_iter = *p_iter;
     }
 
     /* Avoid filling "empty" not yet selected subdivisions */
     if ( gtk_tree_model_iter_children ( model, &child_iter, &dest_iter ) )
     {
-	gchar * name;
-	gtk_tree_model_get ( model, &child_iter, META_TREE_TEXT_COLUMN, &name, -1 );
-	if ( name )
-	{
-	    gtk_tree_store_insert ( GTK_TREE_STORE (model), &child_iter, &dest_iter, 0 );
-	    fill_transaction_row ( model, &child_iter, transaction_number);
-	}
+        gchar * name;
+
+        gtk_tree_model_get ( model, &child_iter,
+                        META_TREE_TEXT_COLUMN, &name, -1 );
+        if ( name )
+            gtk_tree_store_insert ( GTK_TREE_STORE (model),
+                        &child_iter, &dest_iter, 0 );
     }
     else
-    {
-	gtk_tree_store_append ( GTK_TREE_STORE (model), &child_iter, &dest_iter );
-	fill_transaction_row ( model, &child_iter, transaction_number);
-    }
+        gtk_tree_store_append ( GTK_TREE_STORE (model),
+                        &child_iter, &dest_iter );
 
     /* get the old div */
     old_div = iface -> transaction_div_id (transaction_number);
@@ -1325,13 +1320,18 @@ void move_transaction_to_sub_division ( gint transaction_number,
     iface -> transaction_set_sub_div_id ( transaction_number, no_sub_division );
     gsb_transactions_list_update_transaction (transaction_number);
 
+    /* met à jour la transaction dans la liste corrige bug d'affichage */
+    fill_transaction_row ( model, &child_iter, transaction_number);
+
     /* Update new parents */
     if ( iface -> depth > 1 )
     {
-	iface -> add_transaction_to_sub_div ( transaction_number, no_division, no_sub_division );
-	fill_sub_division_row ( model, iface, &dest_iter, no_division, no_sub_division );
-	if ( gtk_tree_model_iter_parent ( model, &parent_iter, &dest_iter ) )
-	    fill_division_row ( model, iface, &parent_iter, no_division );
+        iface -> add_transaction_to_sub_div ( transaction_number,
+                        no_division, no_sub_division );
+        fill_sub_division_row ( model, iface, &dest_iter,
+                        no_division, no_sub_division );
+        if ( gtk_tree_model_iter_parent ( model, &parent_iter, &dest_iter ) )
+            fill_division_row ( model, iface, &parent_iter, no_division );
     }
     else
     {
@@ -1344,25 +1344,22 @@ void move_transaction_to_sub_division ( gint transaction_number,
 	 &&
 	 gtk_tree_model_get_iter ( model, &orig_iter, orig_path ) )
     {
-	if ( gtk_tree_model_iter_parent ( model, &parent_iter, &orig_iter ) )
-	{
-	    if ( iface -> depth > 1 )
-	    {
-		fill_sub_division_row ( model, iface, &parent_iter, 
-					old_div,
-					old_sub_div );
-		if ( gtk_tree_model_iter_parent ( model, &gd_parent_iter, 
-						  &parent_iter ) )
-		    fill_division_row ( model, iface, &gd_parent_iter, transaction_number );
-	    }
-	    else
-	    {
-		fill_division_row ( model, iface, &parent_iter, transaction_number );
-	    }
-	}
-
-	/* Remove old row */
-	gtk_tree_store_remove ( GTK_TREE_STORE (model), &orig_iter );
+        if ( gtk_tree_model_iter_parent ( model, &parent_iter, &orig_iter ) )
+        {
+            if ( iface -> depth > 1 )
+            {
+                fill_sub_division_row ( model, iface, &parent_iter, 
+                        old_div, old_sub_div );
+                if ( gtk_tree_model_iter_parent ( model, &gd_parent_iter, 
+                        &parent_iter ) )
+                    fill_division_row ( model, iface, &gd_parent_iter, 
+                        old_div );
+            }
+            else
+                fill_division_row ( model, iface, &parent_iter, old_div );
+        }
+        /* Remove old row */
+        gtk_tree_store_remove ( GTK_TREE_STORE (model), &orig_iter );
     }
 
     /* We did some modifications */
