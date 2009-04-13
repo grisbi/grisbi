@@ -27,6 +27,8 @@
 #include "./dialog.h"
 #include "./gsb_account_property.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_budget.h"
+#include "./gsb_data_category.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
@@ -52,6 +54,11 @@
 /*START_STATIC*/
 static gboolean division_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path, 
 				      GtkTreeIter *iter, gpointer data );
+static void fill_division_zero ( GtkTreeModel * model, MetatreeInterface * iface, 
+                        GtkTreeIter * iter );
+static void fill_sub_division_zero ( GtkTreeModel * model, MetatreeInterface * iface, 
+			     GtkTreeIter * iter,
+			     gint division );
 static void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter, 
 			    gint transaction_number );
 static gboolean find_associated_transactions ( MetatreeInterface * iface, 
@@ -252,6 +259,8 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     enum meta_tree_row_type type;
     gint number_transactions;
 
+    devel_debug_int ( division );
+
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
 
@@ -341,9 +350,8 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 	return;
 
     string_tmp = iface -> sub_div_name (division, sub_division);
-
     number_transactions = iface -> sub_div_nb_transactions ( division, sub_division );
-    
+
     if ( number_transactions )
     {
 	gchar *label;
@@ -831,7 +839,10 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 			      MetatreeInterface * iface, 
 			      gint sub_division, gint division )
 {
+    devel_debug (NULL);
+
     GtkTreeIter iter, * it;
+    GtkTreePath *path;
 
     if ( find_associated_transactions ( iface, division, 
 					sub_division ) )
@@ -839,6 +850,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	gint nouveau_no_division, nouveau_no_sub_division;
 	GSList *liste_tmp;
 	GSList *list_tmp_transactions;
+    GSList *list_num = NULL;
 
 	/* fill nouveau_no_division and nouveau_no_sub_division */
 	if ( ! find_destination_blob ( iface, model, division, sub_division, 
@@ -860,7 +872,9 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 						      nouveau_no_sub_division );
 		iface -> transaction_set_div_id (transaction_number_tmp, nouveau_no_division);
 		iface -> transaction_set_sub_div_id (transaction_number_tmp, nouveau_no_sub_division);
-	    }
+        list_num = g_slist_append ( list_num, GINT_TO_POINTER (
+                        transaction_number_tmp) );
+        }
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
 
@@ -881,6 +895,8 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	    {
 		iface -> scheduled_set_div_id ( scheduled_number, nouveau_no_division );
 		iface -> scheduled_set_sub_div_id ( scheduled_number, nouveau_no_sub_division );
+        list_num = g_slist_append ( list_num, GINT_TO_POINTER (
+                        scheduled_number) );
 	    }
 
 	    liste_tmp = liste_tmp -> next;
@@ -889,11 +905,30 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	/* Fill sub division */
 	it = get_iter_from_div ( model, nouveau_no_division, nouveau_no_sub_division );
 	if ( it )
+    {
+        GtkTreeIter child_iter;
+        gint transaction_number;
+        
 	    fill_sub_division_row ( model, iface, it,
 				    nouveau_no_division,
 				    nouveau_no_sub_division );
+        
+        path = gtk_tree_model_get_path ( model, it );
+        if ( gtk_tree_view_row_expanded ( tree_view, path ) )
+        {
+            while ( list_num )
+            {
+                transaction_number = GPOINTER_TO_INT ( list_num -> data );
+                gtk_tree_store_append ( GTK_TREE_STORE(model), &child_iter, it );
+                fill_transaction_row ( model, &child_iter, transaction_number);
+                list_num = list_num -> next;
+            }
+            g_slist_free ( list_num );
+            gtk_tree_path_free ( path );
+        }
+    }
 
-	/* Fill division as well */
+    /* Fill division as well */
 	it = get_iter_from_div ( model, nouveau_no_division, 0 );
 	if ( it )
 	    fill_division_row ( model, iface, it, nouveau_no_division );
@@ -903,12 +938,15 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	{
 	    case 0:
 		transaction_list_update_element (ELEMENT_PARTY);
+        gsb_data_payee_update_counters ( );
 		break;
 	    case 1:
 		transaction_list_update_element (ELEMENT_CATEGORY);
+        gsb_data_category_update_counters ();
 		break;
 	    case 2:
 		transaction_list_update_element (ELEMENT_BUDGET);
+        gsb_data_budget_update_counters ();
 		break;
 	}
     }
@@ -917,6 +955,12 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
     iface -> remove_sub_div (division, sub_division);
 
     metatree_remove_iter_and_select_next ( tree_view, model, &iter );
+
+    /* Fill old division */
+	it = get_iter_from_div ( model, division, 0 );
+	if ( it )
+	    fill_division_row ( model, iface, it, division );
+
     modification_fichier(TRUE);
 }
 
@@ -1328,7 +1372,11 @@ void move_transaction_to_sub_division ( gint transaction_number,
     {
         iface -> add_transaction_to_sub_div ( transaction_number,
                         no_division, no_sub_division );
-        fill_sub_division_row ( model, iface, &dest_iter,
+        if ( no_sub_division == 0 )
+            fill_sub_division_zero ( model, iface, &dest_iter, 
+                        no_division );
+        else
+            fill_sub_division_row ( model, iface, &dest_iter,
                         no_division, no_sub_division );
         if ( gtk_tree_model_iter_parent ( model, &parent_iter, &dest_iter ) )
             fill_division_row ( model, iface, &parent_iter, no_division );
@@ -1348,7 +1396,13 @@ void move_transaction_to_sub_division ( gint transaction_number,
         {
             if ( iface -> depth > 1 )
             {
-                fill_sub_division_row ( model, iface, &parent_iter, 
+                if ( old_div == 0 )
+                    fill_division_zero ( model, iface, &parent_iter );
+                else if ( old_sub_div == 0 )
+                    fill_sub_division_zero ( model, iface, &parent_iter, 
+                        old_div );
+                else
+                    fill_sub_division_row ( model, iface, &parent_iter, 
                         old_div, old_sub_div );
                 if ( gtk_tree_model_iter_parent ( model, &gd_parent_iter, 
                         &parent_iter ) )
@@ -1630,7 +1684,6 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 	GSList *sub_division_list;
 
 	tmp_division = iface -> div_id (division_list -> data);
-
 	/* if we are on the current division and no sub-division, go to the next */
 	if ( division && !sub_division && division == tmp_division )
 	{
@@ -1667,11 +1720,10 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 	    gint tmp_sub_division;
 
 	    tmp_sub_division = iface -> sub_div_id (sub_division_list -> data);
-
-	    if (tmp_sub_division == sub_division)
+	    if (division == tmp_division && tmp_sub_division == sub_division)
 	    {
-		sub_division_list = sub_division_list -> next;
-		continue;
+            sub_division_list = sub_division_list -> next;
+            continue;
 	    }
 
 	    switch ( iface -> div_type (tmp_division))
@@ -1735,8 +1787,12 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 	/* we want to move the transactions */
 	if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	{
-	    gchar* tmpstr1 = g_strdup_printf ( _("It is compulsory to specify a destination %s to move transactions but no %s was entered."), _(iface -> meta_name), _(iface -> meta_name) );
-	    gchar* tmpstr2 = g_strdup_printf ( _("Please enter a %s!"), _(iface -> meta_name) );
+	    gchar* tmpstr1 = g_strdup_printf (
+                        _("It is compulsory to specify a destination %s "
+                        "to move transactions but no %s was entered."),
+                        _(iface -> meta_name), _(iface -> meta_name) );
+	    gchar* tmpstr2 = g_strdup_printf ( _("Please enter a %s!"),
+                        _(iface -> meta_name) );
 	    dialogue_warning_hint ( tmpstr1 , tmpstr2 );
 	    g_free ( tmpstr1 );
 	    g_free ( tmpstr2 );
@@ -1754,7 +1810,8 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 	nouveau_no_division = iface -> get_div_pointer_from_name ( split_division[0], 0 );
 
 	if (nouveau_no_division)
-	    nouveau_no_sub_division =  iface -> get_sub_div_pointer_from_name ( nouveau_no_division, split_division[1], 0 );
+	    nouveau_no_sub_division =  iface -> get_sub_div_pointer_from_name ( 
+                        nouveau_no_division, split_division[1], 0 );
 
 	g_strfreev ( split_division );
     }
@@ -2294,7 +2351,132 @@ inline gboolean metatree_sort_column  ( GtkTreeModel * model,
 }
 
 
+/**
+ * Fill an empty division row with textual representation of a division
+ * structure, in the form: "Name (num transactions) Balance".
+ *
+ * \param model		The GtkTreeModel that contains iter.
+ * \param iface		A pointer to the metatree interface to use
+ * \param iter		Iter to fill with division data.
+ * \param division		Division structure number. (category number, payee number or budget number)
+ */
+void fill_division_zero ( GtkTreeModel * model, MetatreeInterface * iface, 
+                        GtkTreeIter * iter )
+{
+    gchar *balance = NULL;
+    gchar *string_tmp;
+    GtkTreeIter dumb_iter;
+    gint number_transactions;
 
+    devel_debug ( NULL );
+    if ( ! metatree_model_is_displayed ( model ) )
+	return;
+
+    string_tmp = iface -> div_name ( 0 );
+    number_transactions = iface -> div_nb_transactions ( 0 );
+
+    if (number_transactions)
+    {
+	gchar *label;
+
+	label = g_strdup_printf ( "%s (%d)",
+				  string_tmp,
+				  number_transactions);
+	g_free (string_tmp);
+	string_tmp = label;
+
+	balance = gsb_real_get_string_with_currency ( iface -> div_balance ( 0 ),
+						      iface -> tree_currency (), TRUE );
+
+	/* add a white child to show the arrow to open it */
+	if ( ! gtk_tree_model_iter_has_child ( model, iter )
+	     &&
+	     (iface -> depth == 1 ))
+	    gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
+    }
+
+    /* set 0 for the sub-div, so no categ/no budget have 0 for div and 0 for sub-div */
+    gtk_tree_store_set (GTK_TREE_STORE(model), iter,
+			META_TREE_TEXT_COLUMN, string_tmp,
+			META_TREE_POINTER_COLUMN, 0,
+			META_TREE_BALANCE_COLUMN, balance,
+			META_TREE_XALIGN_COLUMN, 1.0,
+			META_TREE_NO_DIV_COLUMN, 0,
+			META_TREE_NO_SUB_DIV_COLUMN, 0,
+			META_TREE_NO_TRANSACTION_COLUMN, 0,
+			META_TREE_FONT_COLUMN, 800,
+			META_TREE_DATE_COLUMN, NULL,
+			-1);
+    g_free (string_tmp);
+    if (balance)
+	g_free (balance);
+}
+
+
+/**
+ * Fill an empty sub-division row with textual representation of a
+ * sub-division structure, in the form: "Name (num transactions)
+ * Balance".
+ *
+ * \param model		The GtkTreeModel that contains iter.
+ * \param iface		A pointer to the metatree interface to use
+ * \param iter		Iter to fill with sub-division data.
+ * \param division	Division structure number (parent).
+ * \param sub_division	Sub-division structure number.
+ */
+void fill_sub_division_zero ( GtkTreeModel * model, MetatreeInterface * iface, 
+			     GtkTreeIter * iter,
+			     gint division )
+{
+    devel_debug_int ( division );
+    gchar *balance = NULL;
+    gchar *string_tmp;
+    GtkTreeIter dumb_iter;
+    gint number_transactions = 0;
+
+    if ( ! metatree_model_is_displayed ( model ) )
+	return;
+
+    /* if no division, there is no sub division */
+    if (!division)
+	return;
+
+    string_tmp = iface -> sub_div_name (division, 0);
+
+    number_transactions = iface -> sub_div_nb_transactions ( division, 0 );
+    
+    if ( number_transactions )
+    {
+	gchar *label;
+
+	label = g_strdup_printf ( "%s (%d)",
+				  string_tmp,
+				  number_transactions );
+	g_free (string_tmp);
+	string_tmp = label;
+
+	if ( ! gtk_tree_model_iter_has_child ( model, iter ) )
+	    gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
+
+	balance = gsb_real_get_string_with_currency ( iface -> sub_div_balance ( division, 0 ),
+						      iface -> tree_currency (), TRUE );
+    }
+    
+    gtk_tree_store_set ( GTK_TREE_STORE (model), iter,
+			 META_TREE_TEXT_COLUMN, string_tmp,
+			 META_TREE_POINTER_COLUMN, 0,
+			 META_TREE_BALANCE_COLUMN, balance,
+			 META_TREE_XALIGN_COLUMN, 1.0,
+			 META_TREE_NO_DIV_COLUMN, division,
+			 META_TREE_NO_SUB_DIV_COLUMN, 0,
+			 META_TREE_NO_TRANSACTION_COLUMN, 0,
+			 META_TREE_FONT_COLUMN, 400,
+			 META_TREE_DATE_COLUMN, NULL,
+			 -1 );
+    g_free (string_tmp);
+    if (balance)
+	g_free (balance);
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
