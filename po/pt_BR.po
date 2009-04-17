@@ -44,7 +44,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-07 20:50+0200\n"
+"POT-Creation-Date: 2009-04-13 00:10+0200\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
@@ -694,7 +694,7 @@ msgid "Edit selected transaction"
 msgstr "Apagar lançamento"
 
 #. comments line
-#: src/barre_outils.c:483 src/gsb_account_property.c:557
+#: src/barre_outils.c:483 src/gsb_account_property.c:572
 #: src/gsb_scheduler_list.c:332
 msgid "Comments"
 msgstr "Comentários"
@@ -1636,15 +1636,15 @@ msgstr "Transferências"
 
 #. mise en place de la paddingbox des comptes
 #: src/etats_config.c:510 src/etats_config.c:513 src/etats_config.c:7159
-#: src/fenetre_principale.c:244 src/navigation.c:255
+#: src/fenetre_principale.c:244 src/navigation.c:252
 msgid "Accounts"
 msgstr "Contas"
 
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
 #: src/etats_config.c:528 src/etats_config.c:531 src/etats_config.c:3039
-#: src/etats_config.c:7231 src/fenetre_principale.c:279 src/navigation.c:327
-#: src/navigation.c:1256
+#: src/etats_config.c:7231 src/fenetre_principale.c:279 src/navigation.c:324
+#: src/navigation.c:1249
 msgid "Categories"
 msgstr "Categorias"
 
@@ -1652,7 +1652,7 @@ msgstr "Categorias"
 #. set the title
 #: src/etats_config.c:537 src/etats_config.c:540 src/etats_config.c:3851
 #: src/etats_config.c:7318 src/export_csv.c:786 src/fenetre_principale.c:284
-#: src/navigation.c:344 src/navigation.c:1271 src/traitement_variables.c:78
+#: src/navigation.c:341 src/navigation.c:1260 src/traitement_variables.c:78
 msgid "Budgetary lines"
 msgstr "Orçamentos"
 
@@ -1954,7 +1954,7 @@ msgid "Outgoing budget lines"
 msgstr "Orçamento de despesas"
 
 #. set the title
-#: src/etats_config.c:4041 src/navigation.c:290 src/navigation.c:1228
+#: src/etats_config.c:4041 src/navigation.c:287 src/navigation.c:1225
 #: src/tiers_onglet.c:217
 #, fuzzy
 msgid "Payees"
@@ -2544,8 +2544,8 @@ msgstr "Fechar"
 msgid "Clone selected report"
 msgstr "Clonar relatório"
 
-#: src/etats_onglet.c:237 src/fenetre_principale.c:289 src/navigation.c:361
-#: src/navigation.c:1291
+#: src/etats_onglet.c:237 src/fenetre_principale.c:289 src/navigation.c:358
+#: src/navigation.c:1276
 msgid "Reports"
 msgstr "Relatórios"
 
@@ -2821,7 +2821,7 @@ msgstr ""
 msgid "Select accounts to export"
 msgstr "Selecionar contas para exportar"
 
-#: src/export.c:169 src/export_csv.c:741 src/gsb_account_property.c:215
+#: src/export.c:169 src/export_csv.c:741 src/gsb_account_property.c:230
 #: src/import.c:1136 src/import.c:1172
 msgid "Account name"
 msgstr "Nome da conta"
@@ -2868,7 +2868,7 @@ msgid "CSV format"
 msgstr ""
 
 #. set the initial balance
-#: src/export_csv.c:274 src/gsb_account_property.c:510
+#: src/export_csv.c:274 src/gsb_account_property.c:525
 #: src/gsb_assistant_reconcile_config.c:441 src/gsb_reconcile.c:209
 #: src/gsb_reconcile_config.c:228
 msgid "Initial balance"
@@ -2929,13 +2929,13 @@ msgstr "Reconciliação número"
 msgid "Main page"
 msgstr "Página inicial"
 
-#: src/fenetre_principale.c:261 src/navigation.c:273 src/parametres.c:315
+#: src/fenetre_principale.c:261 src/navigation.c:270 src/parametres.c:315
 #: src/parametres.c:943
 msgid "Scheduler"
 msgstr "Agenda"
 
 #. set the title
-#: src/fenetre_principale.c:273 src/navigation.c:308 src/navigation.c:1244
+#: src/fenetre_principale.c:273 src/navigation.c:305 src/navigation.c:1237
 #, fuzzy
 msgid "Balance estimate"
 msgstr "Saldos"
@@ -3581,102 +3581,102 @@ msgstr ""
 "tem volta."
 
 #. crÃ©ation de la ligne des dÃ©tails du compte
-#: src/gsb_account_property.c:209
+#: src/gsb_account_property.c:224
 msgid "Account details"
 msgstr "Detalhes da conta"
 
-#: src/gsb_account_property.c:232 src/import.c:1088
+#: src/gsb_account_property.c:247 src/import.c:1088
 msgid "Account type"
 msgstr "Tipo da conta"
 
-#: src/gsb_account_property.c:250 src/import.c:1190
+#: src/gsb_account_property.c:265 src/import.c:1190
 msgid "Account currency"
 msgstr "Moeda da conta"
 
 #. create closed account line
-#: src/gsb_account_property.c:264
+#: src/gsb_account_property.c:279
 msgid "Closed account"
 msgstr "Conta fechada"
 
 #. crÃ©ation de la ligne du titulaire du compte
-#: src/gsb_account_property.c:286
+#: src/gsb_account_property.c:301
 msgid "Account holder"
 msgstr "Titular da conta"
 
-#: src/gsb_account_property.c:290
+#: src/gsb_account_property.c:305
 msgid "Holder name"
 msgstr "Nome do titular"
 
 #. now the checkbutton for different address
-#: src/gsb_account_property.c:315
+#: src/gsb_account_property.c:330
 #, fuzzy
 msgid "Holder's own address"
 msgstr "Titular tem seu próprio endereço"
 
 #. crÃ©ation de la ligne de l'Ã©tablissement financier
-#: src/gsb_account_property.c:348 src/gsb_bank.c:508
+#: src/gsb_account_property.c:363 src/gsb_bank.c:508
 msgid "Bank"
 msgstr "Banco"
 
-#: src/gsb_account_property.c:352
+#: src/gsb_account_property.c:367
 msgid "Financial institution"
 msgstr "Instituição financeira"
 
 #. Bank BIC code item
-#: src/gsb_account_property.c:382 src/gsb_bank.c:759
+#: src/gsb_account_property.c:397 src/gsb_bank.c:759
 #, fuzzy
 msgid "BIC code"
 msgstr "Código ISO"
 
-#: src/gsb_account_property.c:399
+#: src/gsb_account_property.c:414
 #, fuzzy
 msgid "IBAN number"
 msgstr "Número"
 
-#: src/gsb_account_property.c:430
+#: src/gsb_account_property.c:445
 msgid "Bank sort code"
 msgstr "Código do banco automático"
 
-#: src/gsb_account_property.c:446
+#: src/gsb_account_property.c:461
 msgid "Bank branch code"
 msgstr "Código do banco em branco"
 
-#: src/gsb_account_property.c:469
+#: src/gsb_account_property.c:484
 msgid "Account number / Key"
 msgstr "Número da conta  / Dígito"
 
 #. crÃ©ation de la ligne du solde initial
-#: src/gsb_account_property.c:505
+#: src/gsb_account_property.c:520
 msgid "Balances"
 msgstr "Saldos"
 
-#: src/gsb_account_property.c:527
+#: src/gsb_account_property.c:542
 msgid "Minimum authorised balance"
 msgstr "Saldo mínimo autorizado"
 
-#: src/gsb_account_property.c:544
+#: src/gsb_account_property.c:559
 #, fuzzy
 msgid "Minimum desired balance"
 msgstr "Saldo mínimo desejado"
 
-#: src/gsb_account_property.c:687 src/gsb_assistant_account.c:434
+#: src/gsb_account_property.c:702 src/gsb_assistant_account.c:434
 msgid "Bank account"
 msgstr "Conta bancária"
 
-#: src/gsb_account_property.c:687
+#: src/gsb_account_property.c:702
 msgid "Cash account"
 msgstr "Conta de caixa"
 
-#: src/gsb_account_property.c:687 src/gsb_assistant_account.c:447
+#: src/gsb_account_property.c:702 src/gsb_assistant_account.c:447
 msgid "Liabilities account"
 msgstr "Conta de responsabilidades"
 
-#: src/gsb_account_property.c:687 src/gsb_assistant_account.c:443
+#: src/gsb_account_property.c:702 src/gsb_assistant_account.c:443
 msgid "Assets account"
 msgstr "Conta de bens"
 
 #. ask for the currency of the transactions
-#: src/gsb_account_property.c:811
+#: src/gsb_account_property.c:826
 #, c-format
 msgid ""
 "You are changing the currency of the account, do you want to change the "
@@ -3687,12 +3687,12 @@ msgid ""
 "Archived and reconcilied transactions will be left unmodified."
 msgstr ""
 
-#: src/gsb_account_property.c:814
+#: src/gsb_account_property.c:829
 #, fuzzy
 msgid "Change the transactions currency"
 msgstr "Transferir os lançamentos para"
 
-#: src/gsb_account_property.c:1047
+#: src/gsb_account_property.c:1061
 msgid "Your IBAN number is not correct. Please check your entry."
 msgstr ""
 
@@ -3961,7 +3961,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
 #: src/gsb_assistant_archive.c:354 src/gsb_data_payee.c:514
-#: src/gsb_form.c:2583 src/gsb_form.c:2584 src/navigation.c:1289
+#: src/gsb_form.c:2583 src/gsb_form.c:2584 src/navigation.c:1274
 msgid "Report"
 msgstr "Relatório"
 
@@ -4234,7 +4234,7 @@ msgstr "Criar uma nova conta"
 msgid "Import data from online bank services or from accounting software"
 msgstr ""
 
-#: src/gsb_assistant_file.c:564 src/navigation.c:1158
+#: src/gsb_assistant_file.c:564 src/navigation.c:1155
 #: src/traitement_variables.c:288
 #, fuzzy
 msgid "My accounts"
@@ -7594,7 +7594,7 @@ msgid ""
 "it will be automaticaly incremented later"
 msgstr ""
 
-#: src/gsb_reconcile.c:553 src/navigation.c:1045
+#: src/gsb_reconcile.c:553 src/navigation.c:1042
 #, fuzzy, c-format
 msgid "Last statement: %s"
 msgstr "Última atualização"
@@ -7780,7 +7780,7 @@ msgid "Only this one"
 msgstr "Somente esta"
 
 #. set the title
-#: src/gsb_scheduler_list.c:1744 src/navigation.c:1204
+#: src/gsb_scheduler_list.c:1744 src/navigation.c:1201
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "Lançamentos agendados fechados"
@@ -9035,27 +9035,27 @@ msgstr "Nova forma de pagamento"
 msgid "New payee #%d"
 msgstr "Nova forma de pagamento"
 
-#: src/metatree.c:455
+#: src/metatree.c:464
 #, fuzzy
 msgid "split"
 msgstr "Dividir"
 
 #. FIXME: tell the truth ;-)
-#: src/metatree.c:684
+#: src/metatree.c:693
 msgid "This should not theorically happen."
 msgstr ""
 
-#: src/metatree.c:685
+#: src/metatree.c:694
 msgid "Can't remove selected division."
 msgstr ""
 
 #. create the box to move change the division and sub-div of the transactions
-#: src/metatree.c:1601
+#: src/metatree.c:1628
 #, fuzzy, c-format
 msgid "'%s' still contains transactions or archived transactions."
 msgstr "Converter lançamento para lançamentos agendados"
 
-#: src/metatree.c:1605
+#: src/metatree.c:1632
 #, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
@@ -9063,43 +9063,43 @@ msgid ""
 "along with their division."
 msgstr ""
 
-#: src/metatree.c:1617
+#: src/metatree.c:1644
 #, fuzzy, c-format
 msgid "Transfer transactions to %s"
 msgstr "Transferir os lançamentos para"
 
-#: src/metatree.c:1716
+#: src/metatree.c:1741
 #, fuzzy, c-format
 msgid "Just remove this %s."
 msgstr "Apagar somente esta categoria."
 
-#: src/metatree.c:1718
+#: src/metatree.c:1743
 #, fuzzy, c-format
 msgid "Just remove this sub-%s."
 msgstr "Apagar somente esta sub-categoria."
 
-#: src/metatree.c:1741
+#: src/metatree.c:1767
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
 "was entered."
 msgstr ""
 
-#: src/metatree.c:1742
+#: src/metatree.c:1770
 #, fuzzy, c-format
 msgid "Please enter a %s!"
 msgstr "Por favor,informe uma categoria!"
 
-#: src/navigation.c:1052
+#: src/navigation.c:1049
 msgid "Last statement: none"
 msgstr "Última atualização: nenhuma"
 
 #. set the title
-#: src/navigation.c:1070
+#: src/navigation.c:1067
 msgid "Account transactions"
 msgstr "Lançamentos da conta"
 
-#: src/navigation.c:1076
+#: src/navigation.c:1073
 #, fuzzy
 msgid "closed"
 msgstr "Fechar"

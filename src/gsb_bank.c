@@ -62,7 +62,7 @@ static  gboolean gsb_bank_list_change_selection ( GtkTreeSelection *selection,
 static  gboolean gsb_bank_list_changed ( GtkWidget *combobox,
                         gpointer null );
 static  gboolean gsb_bank_list_check_separator ( GtkTreeModel *model,
-						GtkTreeIter *iter,
+                        GtkTreeIter *iter,
 						gpointer null );
 static  gboolean gsb_bank_update_form ( gint bank_number,
                         GtkWidget *frame );

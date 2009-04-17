@@ -88,37 +88,40 @@ enum meta_tree_row_type {
 /*START_DECLARATION*/
 void appui_sur_ajout_sub_division ( GtkTreeModel * model );
 gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
-			      GtkTreeViewColumn * col, gpointer userdata );
+                        GtkTreeViewColumn * col, gpointer userdata );
 gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter, 
-				     GtkTreePath * tree_path, gpointer user_data ) ;
+                        GtkTreePath * tree_path, gpointer user_data ) ;
 gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
-				       GtkSelectionData * selection_data );
+                        GtkSelectionData * selection_data );
 gboolean division_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
-				      GtkSelectionData * selection_data );
+                        GtkSelectionData * selection_data );
 void expand_arbre_division ( GtkWidget *bouton, gint depth );
 void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface, 
-			 GtkTreeIter * iter, gint division );
+                        GtkTreeIter * iter, gint division );
 void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface, 
-			     GtkTreeIter * iter,
-			     gint division,
-			     gint sub_division );
+                        GtkTreeIter * iter,
+                        gint division,
+                        gint sub_division );
 GtkTreeIter *get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
 void metatree_new_division ( GtkTreeModel * model );
-void metatree_register_widget_as_linked ( GtkTreeModel * model, GtkWidget * widget,
-					  gchar * link_type );
+void metatree_register_widget_as_linked ( GtkTreeModel * model,
+                        GtkWidget * widget,
+                        gchar * link_type );
 void metatree_remove_transaction ( GtkTreeView * tree_view,
-				   MetatreeInterface * iface, 
-				   gint transaction,
-				   gboolean delete_transaction );
+                        MetatreeInterface * iface, 
+                        gint transaction,
+                        gboolean delete_transaction );
 gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel * model );
-void metatree_set_linked_widgets_sensitive ( GtkTreeModel * model, gboolean sensitive,
-					     gchar * link_type );
-gboolean metatree_sort_column  ( GtkTreeModel * model, 
-					GtkTreeIter * a, GtkTreeIter * b, 
-					gpointer user_data );
+void metatree_set_linked_widgets_sensitive ( GtkTreeModel * model,
+                        gboolean sensitive,
+                        gchar * link_type );
+gboolean metatree_sort_column  ( GtkTreeModel * model,
+                        GtkTreeIter * a, GtkTreeIter * b,
+                        gpointer user_data );
 gboolean supprimer_division ( GtkTreeView * tree_view );
-void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * model, 
-				  gint transaction_number );
+void update_transaction_in_tree ( MetatreeInterface * iface, 
+                        GtkTreeModel * model, 
+                        gint transaction_number );
 /*END_DECLARATION*/
 
 #endif

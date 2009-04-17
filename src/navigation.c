@@ -101,14 +101,11 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 
 
 /*START_EXTERN*/
-extern GtkTreeStore *budgetary_line_tree_model;
-extern GtkTreeStore * categ_tree_model;
 extern GtkWidget *label_last_statement;
 extern GtkWidget *label_titre_fichier;
 extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget *notebook_general;
-extern GtkTreeStore *payee_tree_model;
 extern gchar *titre_fichier;
 /*END_EXTERN*/
 
@@ -1228,11 +1225,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    title = g_strdup(_("Payees"));
 
 	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
-        /* comment by pbiava the 02/08/2009 bug 428 */
-	    //~ if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (payee_tree_model), 
-						   //~ &dummy_iter ) )
+	    gsb_form_set_expander_visible (FALSE, FALSE );
 		payee_fill_tree ();
 	    break;
 
@@ -1256,11 +1249,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    title = g_strdup(_("Categories"));
 
 	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
-        /* comment by pbiava the 02/08/2009 bug 428 */
-	    //~ if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (categ_tree_model), 
-						   //~ &dummy_iter ) )
+	    gsb_form_set_expander_visible (FALSE, FALSE );
         remplit_arbre_categ ();
 	    break;
 
@@ -1271,11 +1260,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    title = g_strdup(_("Budgetary lines"));
 
 	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
-        /* comment by pbiava the 02/08/2009 bug 428 */
-	    //~ if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (budgetary_line_tree_model), 
-						   //~ &dummy_iter ) )
+	    gsb_form_set_expander_visible (FALSE, FALSE );
 		remplit_arbre_imputation ();
 	    break;
 
