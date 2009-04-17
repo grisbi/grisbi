@@ -18,6 +18,7 @@ New in version 0.6 :
    + Pre-built category sets dependent of the locale
    + All colors can be customized
    + Astonishing icons ... can't ask for more!
+ - Greek translation thanks to Achilleas
  - Archival of old transactions, possibly into separate files
  - Form structure defined by user
  - End of the obligation to use Euro
