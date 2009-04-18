@@ -32,6 +32,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_payee.h"
 #include "./gsb_data_report.h"
+#include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
 #include "./tiers_onglet.h"
 #include "./gsb_real.h"
@@ -781,6 +782,23 @@ gint gsb_data_payee_remove_unused ( void )
 				    GINT_TO_POINTER (payee_number));
 	}
 	tmp_list = tmp_list -> next;
+    }
+
+    /* it also scans the list of sheduled transactions. fix bug 538 */
+    tmp_list = gsb_data_scheduled_get_scheduled_list ();
+    while (tmp_list)
+    {
+        gint payee_number;
+
+        payee_number = gsb_data_scheduled_get_party_number (
+                        gsb_data_scheduled_get_scheduled_number (
+                        tmp_list -> data));
+        if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
+        {
+            used = g_slist_append ( used,
+                        GINT_TO_POINTER (payee_number));
+        }
+        tmp_list = tmp_list -> next;
     }
 
     if (!used)
