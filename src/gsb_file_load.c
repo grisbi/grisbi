@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2009 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/*			2003-2009 Benjamin Drieu (bdrieu@april.org)             	      */
+/* 			http://www.grisbi.org			                        	      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -125,18 +125,18 @@ static void gsb_file_load_start_element ( GMarkupParseContext *context,
 				   gpointer user_data,
 				   GError **error);
 static void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
-					      const gchar *element_name,
-					      const gchar **attribute_names,
-					      const gchar **attribute_values,
-					      gpointer user_data,
-					      GError **error);
+					    const gchar *element_name,
+					    const gchar **attribute_names,
+                        const gchar **attribute_values,
+					    gpointer user_data,
+					    GError **error);
 static void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context,
-					     const gchar *text,
-					     gsize text_len,  
-					     gpointer user_data,
-					     GError **error);
+                        const gchar *text,
+					    gsize text_len,  
+					    gpointer user_data,
+					    GError **error);
 static void gsb_file_load_transactions ( const gchar **attribute_names,
-				  const gchar **attribute_values );
+                        const gchar **attribute_values );
 static gboolean gsb_file_load_update_previous_version ( void );
 /*END_STATIC*/
 
@@ -216,12 +216,16 @@ static GSList *payment_conversion_list = NULL;
 struct reconcile_conversion_struct
 {
     gint reconcile_number;
+    gint account_number;
     GDate *final_date;
     gsb_real final_balance;
 };
+static GSList *reconcile_print_list = NULL;
 static GSList *reconcile_conversion_list = NULL;
 static struct reconcile_conversion_struct *buffer_reconcile_conversion;
 
+static gint cmp_int (struct reconcile_conversion_struct *reconcile_1,
+                    struct reconcile_conversion_struct *reconcile_2);
 
 /**
  * called to open the grisbi file given in param
@@ -5317,7 +5321,19 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 			       "No" ))
 		    reconcile_number = gsb_data_reconcile_set_new_number (reconcile_number,
 									  utils_str_atoi ( attribute_values[i]));
-
+        buffer_reconcile_conversion = g_malloc0 (sizeof (GMarkupParser));
+        if (buffer_reconcile_conversion)
+        {
+            buffer_reconcile_conversion -> reconcile_number = reconcile_number;
+            buffer_reconcile_conversion -> account_number = 0;
+            if ( g_slist_find_custom (reconcile_print_list,
+                        buffer_reconcile_conversion,(GCompareFunc) cmp_int) == NULL)
+            {
+                reconcile_print_list = g_slist_append ( reconcile_print_list,
+                                     buffer_reconcile_conversion );
+            }
+            buffer_reconcile_conversion = NULL;
+        }
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
 		    gsb_data_reconcile_set_name ( reconcile_number,
@@ -5926,14 +5942,14 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Date_dernier_releve" ))
     {
-	/* as the date comes before the last number of reconcile, the fastest way is to use
-	 * a buffer for ther reconcile structure, and when we have the last number of reconcile,
-	 * we append the buffer to the list */
-	buffer_reconcile_conversion = g_malloc0 (sizeof (GMarkupParser));
-	if (buffer_reconcile_conversion)
-	{
-		    gchar **pointeur_char;
-	    pointeur_char = g_strsplit ( text, "/", 0 );
+        /* as the date comes before the last number of reconcile, the fastest way is to use
+         * a buffer for ther reconcile structure, and when we have the last number of reconcile,
+         * we append the buffer to the list */
+        buffer_reconcile_conversion = g_malloc0 (sizeof (GMarkupParser));
+        if (buffer_reconcile_conversion)
+        {
+            gchar **pointeur_char;
+            pointeur_char = g_strsplit ( text, "/", 0 );
 
 		    buffer_reconcile_conversion -> final_date = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
 					    utils_str_atoi ( pointeur_char[1] ),
@@ -7456,59 +7472,82 @@ gboolean gsb_file_load_update_previous_version ( void )
 	     * it contains now an account number, init and final dates and
 	     * init and final balances
 	     * and now there is no more informations on reconcile in the account
-	     * so here we try to fill that fields, and especially set the last final date
-	     * and last final balance in the last reconciles
-	     * hopefully, we can do that because each reconciled transaction has its number of reconcile */
+	     * so here we try to fill that fields, and especially set the last
+	     * final date and last final balance in the last reconciles
+	     * hopefully, we can do that because each reconciled transaction has 
+         * its number of reconcile */
 
-	    /* first step, fill the account numbers and try to fill the init and final dates */
+	    /* first step, fill the account numbers and try to fill the init 
+         * and final dates */
 	    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
 	    while ( list_tmp_transactions )
 	    {
-		gint transaction_number;
-		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+            gint transaction_number;
+            transaction_number = gsb_data_transaction_get_transaction_number (
+                        list_tmp_transactions -> data);
 
-		/* ok first we work only with reconciled transactions */
-		if (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE)
-		{
-		    gint reconcile_number;
-		    const GDate *date_reconcile;
-		    const GDate *date_transaction;
+            /* ok first we work only with reconciled transactions */
+            if (gsb_data_transaction_get_marked_transaction (
+                            transaction_number) == OPERATION_RAPPROCHEE)
+            {
+                gint reconcile_number;
+                const GDate *date_reconcile;
+                const GDate *date_transaction;
 
-		    reconcile_number = gsb_data_transaction_get_reconcile_number (transaction_number);
+                reconcile_number = gsb_data_transaction_get_reconcile_number (
+                            transaction_number);
 
-		    /* ok, we set the account number (faster to not check and directly write it... even if already done) */
-		    gsb_data_reconcile_set_account ( reconcile_number,
-						     gsb_data_transaction_get_account_number (transaction_number ));
+                /* ok, we set the account number (faster to not check and directly
+                 * write it... even if already done) */
+                gsb_data_reconcile_set_account ( reconcile_number,
+                            gsb_data_transaction_get_account_number (
+                            transaction_number ));
 
-		    /* set the initial date, we cannot have exactly the date of the reconciled paper, but we will
-		     * take the first date of the transactions of this reconcile */
-		    date_reconcile = gsb_data_reconcile_get_init_date (reconcile_number);
-		    date_transaction = gsb_data_transaction_get_date (transaction_number);
+                /* set the initial date, we cannot have exactly the date of the
+                 * reconciled paper, but we will take the first date of the
+                 * transactions of this reconcile */
+                date_reconcile = gsb_data_reconcile_get_init_date (reconcile_number);
+                date_transaction = gsb_data_transaction_get_date (transaction_number);
 
-		    if ( !date_reconcile
-			 ||
-			 g_date_compare ( date_reconcile, date_transaction) > 0 )
-			gsb_data_reconcile_set_init_date ( reconcile_number, date_transaction );
+                if ( !date_reconcile
+                 ||
+                 g_date_compare ( date_reconcile, date_transaction) > 0 )
+                gsb_data_reconcile_set_init_date ( reconcile_number, date_transaction );
 
-		    /* set the final date in the same way */
-		    date_reconcile = gsb_data_reconcile_get_final_date (reconcile_number);
+                /* set the final date in the same way */
+                date_reconcile = gsb_data_reconcile_get_final_date (reconcile_number);
 
-		    if ( !date_reconcile
-			 ||
-			 g_date_compare ( date_reconcile, date_transaction) < 0 )
-			gsb_data_reconcile_set_final_date ( reconcile_number, date_transaction );
+                if ( !date_reconcile
+                 ||
+                 g_date_compare ( date_reconcile, date_transaction) < 0 )
+                gsb_data_reconcile_set_final_date ( reconcile_number, date_transaction );
 
-		    /* add the amount of the transaction to the init balance of that reconcile,
-		     * used later to find the initials and finals balances */
-		    if (!gsb_data_transaction_get_mother_transaction_number (transaction_number))
-			gsb_data_reconcile_set_init_balance ( reconcile_number,
-							      gsb_real_add ( gsb_data_reconcile_get_init_balance (reconcile_number),
-									     gsb_data_transaction_get_amount (transaction_number)));
-		}
+                /* add the amount of the transaction to the init balance of that reconcile,
+                 * used later to find the initials and finals balances */
+                if (!gsb_data_transaction_get_mother_transaction_number (transaction_number))
+                    gsb_data_reconcile_set_init_balance ( reconcile_number,
+                            gsb_real_add ( gsb_data_reconcile_get_init_balance (
+                            reconcile_number),
+                            gsb_data_transaction_get_amount (transaction_number)));
+            }
 		list_tmp_transactions = list_tmp_transactions -> next;
 	    }
 
+        /* juste pour une édition ultérieure */
+        list_tmp = reconcile_print_list;
+        while ( list_tmp )
+	    {
+            struct reconcile_conversion_struct *reconcile;
+
+            reconcile = list_tmp -> data;
+            reconcile -> account_number = gsb_data_reconcile_get_account (
+                            reconcile -> reconcile_number);
+            list_tmp = list_tmp -> next;
+	    }
+            
+        reconcile_print_list = g_slist_sort ( reconcile_print_list, (GCompareFunc) cmp_int );
+        
 	    /* second step, we find the last reconcile for each account and fill the final date and final balance,
 	     * so really no change for user because that is not calculated */
 	    list_tmp = reconcile_conversion_list;
@@ -7517,7 +7556,6 @@ gboolean gsb_file_load_update_previous_version ( void )
 		struct reconcile_conversion_struct *reconcile;
 
 		reconcile = list_tmp -> data;
-
 		gsb_data_reconcile_set_final_date ( reconcile -> reconcile_number,
 						    reconcile -> final_date );
 		gsb_data_reconcile_set_final_balance ( reconcile -> reconcile_number,
@@ -7525,8 +7563,9 @@ gboolean gsb_file_load_update_previous_version ( void )
 		list_tmp = list_tmp -> next;
 	    }
 
-	    /* after that, some reconciles can have the account number to -1 if they hadn't any transactions
-	     * associated to them, we delete them here */
+	    /* after that, some reconciles can have the account number to -1 
+         * if they hadn't any transactions associated to them,
+	     * we delete them here */
 	    dlist_tmp = gsb_data_reconcile_get_reconcile_list ();
 	    while (dlist_tmp)
 	    {
@@ -7540,41 +7579,72 @@ gboolean gsb_file_load_update_previous_version ( void )
 		    gsb_data_reconcile_remove (reconcile_number);
 	    }
 
-	    /* third step, we want to fill the inital and final balance of all the reconcile
-	     * but all that we have is the final balance of the last reconcile and the transactions for
-	     * all the reconciles (cannot run from the beginning with the initial balance of account because
-	     * user can change the first time the initial balance of the reconcile)
+	    /* third step, we want to fill the inital and final balance of
+	     * all the reconcile but all that we have is the final balance
+         * of the last reconcile and the transactions for all the
+	     * reconciles (cannot run from the beginning with the initial
+         * balance of account because user can change the first time the
+	     * initial balance of the reconcile).
 	     * so run from the end and go to the start */
 
 	    list_tmp = gsb_data_account_get_list_accounts ();
 	    while (list_tmp)
 	    {
-		gint account_number;
-		gint reconcile_number;
+            gint account_number;
+            gint reconcile_number;
 
-		account_number = gsb_data_account_get_no_account (list_tmp -> data);
+            account_number = gsb_data_account_get_no_account (list_tmp -> data);
 
-		/* for each account, we find the last reconcile number, get the final balance 
-		 * and calculate the initial balance, wich is the final balance of the previous reconcile... */
-		reconcile_number = gsb_data_reconcile_get_account_last_number (account_number);
+            /* for each account, we find the last reconcile number, get the 
+             * final balance and calculate the initial balance, wich is the
+             * final balance of the previous reconcile... */
+            reconcile_number = gsb_data_reconcile_get_account_last_number (
+                        account_number);
+            printf ("dernier rapprochement pour le compte %d = %d\n", 
+                        account_number, reconcile_number );
+            do
+            {
+                gint previous_reconcile_number;
 
-		do
-		{
-		    gint previous_reconcile_number;
+                gsb_data_reconcile_set_init_balance ( reconcile_number,
+                        gsb_real_sub ( gsb_data_reconcile_get_final_balance (
+                        reconcile_number),
+                        gsb_data_reconcile_get_init_balance (
+                        reconcile_number)));
+                previous_reconcile_number = gsb_data_reconcile_get_previous (reconcile_number);
+                if (previous_reconcile_number)
+                gsb_data_reconcile_set_final_balance ( previous_reconcile_number,
+                                       gsb_data_reconcile_get_init_balance (reconcile_number));
+                reconcile_number = previous_reconcile_number;
+            }
+            while (reconcile_number);
 
-		    gsb_data_reconcile_set_init_balance ( reconcile_number,
-							  gsb_real_sub ( gsb_data_reconcile_get_final_balance (reconcile_number),
-									 gsb_data_reconcile_get_init_balance (reconcile_number)));
-		    previous_reconcile_number = gsb_data_reconcile_get_previous (reconcile_number);
-		    if (previous_reconcile_number)
-			gsb_data_reconcile_set_final_balance ( previous_reconcile_number,
-							       gsb_data_reconcile_get_init_balance (reconcile_number));
-		    reconcile_number = previous_reconcile_number;
-		}
-		while (reconcile_number);
-
-		list_tmp = list_tmp -> next;
+            list_tmp = list_tmp -> next;
 	    }
+
+        /* edition provisoire pour deboggage import des rapprochements */
+        list_tmp = reconcile_print_list;
+	    while (list_tmp)
+	    {
+            struct reconcile_conversion_struct *reconcile;
+            gint reconcile_number;
+
+            reconcile = list_tmp -> data;
+            reconcile_number = reconcile -> reconcile_number;
+            printf ("N° %3d - Compte = %11s - date : initiale %s "
+                        "finale %s - solde : initial %9s final %9s\n" , 
+                        reconcile_number,
+                        gsb_data_account_get_name (reconcile -> account_number),
+                        gsb_format_gdate (gsb_data_reconcile_get_init_date (
+                        reconcile_number)),
+                        gsb_format_gdate (gsb_data_reconcile_get_final_date (
+                        reconcile_number)),
+                        gsb_real_get_string (gsb_data_reconcile_get_init_balance (
+                        reconcile_number)),
+                        gsb_real_get_string (gsb_data_reconcile_get_final_balance (
+                        reconcile_number)));
+            list_tmp = list_tmp -> next;
+        }
 
 	    /*
 	     * untill 0.6, no archive, so by default we let grisbi check at opening and set
@@ -7695,6 +7765,25 @@ gint gsb_file_load_get_new_payment_number ( gint account_number,
 }
 
 
+gint cmp_int (struct reconcile_conversion_struct *reconcile_1,
+                    struct reconcile_conversion_struct *reconcile_2)
+{
+    gint num_1, num_2;
+
+    num_1 = reconcile_1 -> account_number;
+    num_2 = reconcile_2 -> account_number;
+    if ( num_1 == 0 && num_2 == 0 )
+    {
+        num_1 = reconcile_1 -> reconcile_number;
+        num_2 = reconcile_2 -> reconcile_number;
+    }
+    if ( num_1 < num_2 )
+        return -1;
+    else if ( num_1 == num_2 )
+        return 0;
+    else
+        return 1;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
