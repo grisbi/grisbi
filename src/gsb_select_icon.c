@@ -606,6 +606,9 @@ GdkPixbuf *gsb_select_icon_resize_logo_pixbuf ( GdkPixbuf *pixbuf )
     GdkPixbuf * tmp;
     gint ratio_width, ratio_height, ratio;
 
+    if ( ! pixbuf )
+        return NULL;
+
     ratio_width = gdk_pixbuf_get_width ( pixbuf ) / LOGO_WIDTH;
     if ( ( gdk_pixbuf_get_width ( pixbuf ) % LOGO_WIDTH ) > 0 )
         ratio_width ++;
@@ -613,9 +616,7 @@ GdkPixbuf *gsb_select_icon_resize_logo_pixbuf ( GdkPixbuf *pixbuf )
     if ( ( gdk_pixbuf_get_width ( pixbuf ) % LOGO_HEIGHT ) > 0 )
         ratio_height ++;
     ratio = ( ratio_width > ratio_height ) ? ratio_width : ratio_height;
-    devel_debug_int ( ratio );
 
-    warning_debug ( "le logo est trop grand " );
     tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8,
                gdk_pixbuf_get_width ( pixbuf )/ratio,
                gdk_pixbuf_get_height ( pixbuf )/ratio );

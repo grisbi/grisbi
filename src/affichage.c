@@ -154,25 +154,25 @@ GtkWidget * onglet_display_fonts ( void )
 
     if (!pixbuf)
     {
-	preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE,
-					     GTK_ICON_SIZE_BUTTON );
+        preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE,
+                        GTK_ICON_SIZE_BUTTON );
     }
     else
     {
-	if ( gdk_pixbuf_get_width(pixbuf) > 64 ||
-	     gdk_pixbuf_get_height(pixbuf) > 64 )
-	{
-	    GdkPixbuf * tmp;
-	    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8,
-				   gdk_pixbuf_get_width(pixbuf)/2,
-				   gdk_pixbuf_get_height(pixbuf)/2 );
-	    gdk_pixbuf_scale ( pixbuf, tmp, 0, 0,
-			       gdk_pixbuf_get_width(pixbuf)/2,
-			       gdk_pixbuf_get_height(pixbuf)/2,
-			       0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
-	    pixbuf = tmp;
-	}
-	preview = gtk_image_new_from_pixbuf (pixbuf);
+        if ( gdk_pixbuf_get_width(pixbuf) > 64 ||
+             gdk_pixbuf_get_height(pixbuf) > 64 )
+        {
+            GdkPixbuf * tmp;
+            tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8,
+                       gdk_pixbuf_get_width(pixbuf)/2,
+                       gdk_pixbuf_get_height(pixbuf)/2 );
+            gdk_pixbuf_scale ( pixbuf, tmp, 0, 0,
+                       gdk_pixbuf_get_width(pixbuf)/2,
+                       gdk_pixbuf_get_height(pixbuf)/2,
+                       0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
+            pixbuf = tmp;
+        }
+        preview = gtk_image_new_from_pixbuf (pixbuf);
     }
     g_signal_connect ( G_OBJECT (preview ), "destroy",
 			G_CALLBACK ( gtk_widget_destroyed), &preview );
@@ -191,7 +191,8 @@ GtkWidget * onglet_display_fonts ( void )
     hbox = gtk_hbox_new ( FALSE, 10 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    check_button = gtk_check_button_new_with_label ( _("Use a custom font for the transactions"));
+    check_button = gtk_check_button_new_with_label ( 
+                        _("Use a custom font for the transactions"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), check_button, FALSE, FALSE, 0 );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
 				   etat.utilise_fonte_listes );

@@ -1002,11 +1002,15 @@ gboolean navigation_change_account ( gint *no_account )
     /* Update the title of the file if needed */
     if ( etat.display_grisbi_title == GSB_ACCOUNT_OWNER )
     {
-         if (titre_fichier && strlen (titre_fichier) )
-            g_free (titre_fichier);
-        titre_fichier = my_strdup ( gsb_data_account_get_owner 
-                        (new_account) );
-        devel_debug ( titre_fichier );
+        gchar * tmpstr;
+
+        tmpstr = my_strdup ( gsb_data_account_get_owner (new_account) );
+        if ( tmpstr && strlen (tmpstr) > 0 )
+        {
+            if (titre_fichier && strlen (titre_fichier) )
+                g_free (titre_fichier);
+            titre_fichier = g_strdup ( tmpstr );
+        }
         gsb_file_update_window_title ( );
         if (label_titre_fichier)
         {
@@ -1121,7 +1125,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     GtkWidget * account_notebook;
     gint account_number, page_number;
     gint report_number;
-    //~ GtkTreeIter dummy_iter;
     gchar * title = NULL; 
     gchar * suffix = NULL; 
 
@@ -1148,11 +1151,12 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /* set the title */
 	    if ( titre_fichier && strlen ( titre_fichier ) )
 	    {
-		title = g_strconcat ( "Grisbi : " , titre_fichier, NULL );
+            title = g_strconcat ( "Grisbi : " , titre_fichier, NULL );
 	    }
 	    else
 	    {
-		title = g_strconcat ( "Grisbi : " , _("My accounts"), NULL );
+            title = g_strconcat ( "Grisbi : " , _("My accounts"), NULL );
+            titre_fichier = g_strdup  ( _("My accounts") );
 	    }
 
 	    /* what to be done if switch to that page */
@@ -1172,7 +1176,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /* what to be done if switch to that page */
 	    if (account_number >= 0 )
 	    {
-		navigation_change_account ( GINT_TO_POINTER(account_number) );
+		navigation_change_account ( GINT_TO_POINTER (account_number) );
 		gsb_account_property_fill_page ();
 	    }
 	    gsb_menu_update_accounts_in_menus ();

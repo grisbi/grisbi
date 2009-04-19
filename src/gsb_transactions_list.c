@@ -2546,6 +2546,8 @@ gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_nu
     gint contra_transaction_number;
     gint current_account;
 
+    devel_debug_int ( target_account );
+
     source_account = gsb_data_transaction_get_account_number (transaction_number);
     contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
 
@@ -2579,11 +2581,14 @@ gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_nu
     if (current_account == source_account
 	||
 	current_account == target_account)
-    {
-	transaction_list_filter (current_account);
-	transaction_list_colorize ();
-	transaction_list_set_balances ();
-    }
+        gsb_transactions_list_update_tree_view ( current_account, FALSE );
+
+    /* recalculates the balance of the current account */
+    gsb_data_account_calculate_current_and_marked_balances (target_account);
+
+    /* update the first page */
+    mise_a_jour_liste_comptes_accueil = 1;
+    mise_a_jour_soldes_minimaux = 1;
 
     return TRUE;
 }

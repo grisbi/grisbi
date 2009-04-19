@@ -86,7 +86,7 @@ G_MODULE_EXPORT const gchar plugin_name[] = "gnucash";
 /** Initialization function. */
 extern void gnucash_plugin_register ()
 {
-    devel_debug ("Initializating gnucash plugin\n");
+    devel_debug ("Initializating gnucash plugin");
 
     register_import_format ( &gnucash_format );
 }

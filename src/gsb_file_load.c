@@ -245,32 +245,31 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 
     /* general check */
     
-    if ( !g_file_test ( filename,
-			G_FILE_TEST_EXISTS ))
+    if ( !g_file_test (filename, G_FILE_TEST_EXISTS) )
     {
-        gchar* tmpstr1 = g_strdup_printf (_("Cannot open file '%s': %s"),
-					      filename,
-					      _("File does not exist") );
-	gchar* tmpstr2 = g_strdup_printf ( _("Error loading file '%s'"), filename);
-	dialogue_error_hint ( tmpstr1, tmpstr2 );
-	g_free ( tmpstr1 );
-	g_free ( tmpstr2 );
-	gsb_file_remove_name_from_opened_list (filename);
-	return FALSE;
+        gchar* tmpstr1 = g_strdup_printf ( _("Cannot open file '%s': %s"),
+                        filename,
+                        _("File does not exist") );
+        gchar* tmpstr2 = g_strdup_printf ( _("Error loading file '%s'"), filename);
+        dialogue_error_hint ( tmpstr1, tmpstr2 );
+        g_free ( tmpstr1 );
+        g_free ( tmpstr2 );
+        gsb_file_remove_name_from_opened_list (filename);
+        return FALSE;
     }
 
     /* check here if it's not a regular file */
-    if ( !g_file_test ( filename,
-			G_FILE_TEST_IS_REGULAR ))
+    if ( !g_file_test ( filename, G_FILE_TEST_IS_REGULAR ))
     {
-        gchar* tmpstr1 = g_strdup_printf ( _("%s doesn't seem to be a regular file,\nplease check it and try again."),
+        gchar* tmpstr1 = g_strdup_printf ( 
+                        _("%s doesn't seem to be a regular file,\nplease check it and try again."),
 						filename );
         gchar* tmpstr2 = g_strdup_printf ( _("Error loading file '%s'"), filename);
-	dialogue_error_hint ( tmpstr1 , tmpstr2);
-	g_free ( tmpstr1 );
-	g_free ( tmpstr2 );
-	gsb_file_remove_name_from_opened_list (filename);
-	return ( FALSE );
+        dialogue_error_hint ( tmpstr1 , tmpstr2);
+        g_free ( tmpstr1 );
+        g_free ( tmpstr2 );
+        gsb_file_remove_name_from_opened_list (filename);
+        return ( FALSE );
     }
 
      /* fill the buffer stat to check the permission */
@@ -284,79 +283,79 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     /* load the file */
     if (gsb_file_util_get_contents (filename, &file_content, &length))
     {
-	GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
-	GMarkupParseContext *context;
-	gsb_plugin *plugin;
+        GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
+        GMarkupParseContext *context;
+        gsb_plugin *plugin;
 
-	/* first, we check if the file is crypted, if it is, we decrypt it */
-	if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) )
-	{
-	    plugin = gsb_plugin_find ( "openssl" );
-	    if ( plugin )
-	    {
-		gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
-		
-		crypt_function = (gpointer) plugin -> plugin_run;
-		length = crypt_function ( filename, &file_content, FALSE, length );
-		
-		if ( ! length )
-		    return FALSE;
-	    }
-	    else
-	    {
-		dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
-					"handle that file.\n\n"
-					"Please make sure if is installed (i.e. check "
-					"that 'grisbi-ssl' package is installed) and "
-					"try again."),
-				      _("Encryption plugin not found." ) );
-		return FALSE;
-	    }
-	}
+        /* first, we check if the file is crypted, if it is, we decrypt it */
+        if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) )
+        {
+            plugin = gsb_plugin_find ( "openssl" );
+            if ( plugin )
+            {
+            gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
+            
+            crypt_function = (gpointer) plugin -> plugin_run;
+            length = crypt_function ( filename, &file_content, FALSE, length );
+            
+            if ( ! length )
+                return FALSE;
+            }
+            else
+            {
+                dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
+                        "handle that file.\n\n"
+                        "Please make sure if is installed (i.e. check "
+                        "that 'grisbi-ssl' package is installed) and "
+                        "try again."),
+                        _("Encryption plugin not found." ) );
+                return FALSE;
+            }
+        }
 
-	/* we begin to check if we are in a version under 0.6 or 0.6 and above,
-	 * because the xml structure changes after 0.6 */
+        /* we begin to check if we are in a version under 0.6 or 0.6 and above,
+         * because the xml structure changes after 0.6 */
 
-	if ( gsb_file_load_check_new_structure (file_content))
-	{
-	    /* fill the GMarkupParser for a new xml structure */
-	    markup_parser -> start_element = (void *) gsb_file_load_start_element;
-	    markup_parser -> error = (void *) gsb_file_load_error;
-	}
-	else
-	{
-	    /* fill the GMarkupParser for the last xml structure */
-	    markup_parser -> start_element = (void *) gsb_file_load_start_element_before_0_6;
-	    markup_parser -> end_element = (void *) gsb_file_load_end_element_before_0_6;
-	    markup_parser -> text = (void *) gsb_file_load_text_element_before_0_6;
+        if ( gsb_file_load_check_new_structure (file_content))
+        {
+            /* fill the GMarkupParser for a new xml structure */
+            markup_parser -> start_element = (void *) gsb_file_load_start_element;
+            markup_parser -> error = (void *) gsb_file_load_error;
+        }
+        else
+        {
+            /* fill the GMarkupParser for the last xml structure */
+            markup_parser -> start_element = (void *) gsb_file_load_start_element_before_0_6;
+            markup_parser -> end_element = (void *) gsb_file_load_end_element_before_0_6;
+            markup_parser -> text = (void *) gsb_file_load_text_element_before_0_6;
 
-	    /* we will have to convert the method of payments numbers */
-	    payment_conversion_list = NULL;
-	    /* we will have to set the final date and balance in the last reconcile */
-	    reconcile_conversion_list = NULL;
-	}
+            /* we will have to convert the method of payments numbers */
+            payment_conversion_list = NULL;
+            /* we will have to set the final date and balance in the last reconcile */
+            reconcile_conversion_list = NULL;
+        }
 
-	context = g_markup_parse_context_new ( markup_parser,
-					       0,
-					       NULL,
-					       NULL );
-	download_tmp_values.download_ok = FALSE;
+        context = g_markup_parse_context_new ( markup_parser,
+                        0,
+                        NULL,
+                        NULL );
+        download_tmp_values.download_ok = FALSE;
 
-	g_markup_parse_context_parse ( context,
-				       file_content,
-				       strlen (file_content),
-				       NULL );
-	if ( !download_tmp_values.download_ok )
-	{
-	    g_markup_parse_context_free (context);
-	    g_free (markup_parser);
-	    g_free (file_content);
-	    return FALSE;
-	}
+        g_markup_parse_context_parse ( context,
+                        file_content,
+                        strlen (file_content),
+                        NULL );
+        if ( !download_tmp_values.download_ok )
+        {
+            g_markup_parse_context_free (context);
+            g_free (markup_parser);
+            g_free (file_content);
+            return FALSE;
+        }
 
-	g_markup_parse_context_free (context);
-	g_free (markup_parser);
-	g_free (file_content);
+        g_markup_parse_context_free (context);
+        g_free (markup_parser);
+        g_free (file_content);
     }
     else
     {
@@ -364,11 +363,11 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 					      filename,
 					      latin2utf8 (strerror(errno)));
         gchar* tmpstr2 = g_strdup_printf ( _("Error loading file '%s'"), filename);
-	dialogue_error_hint (tmpstr1, tmpstr2);
-	g_free ( tmpstr1 );
-	g_free ( tmpstr2 );
-	gsb_file_remove_name_from_opened_list (filename);
-	return FALSE;
+        dialogue_error_hint (tmpstr1, tmpstr2);
+        g_free ( tmpstr1 );
+        g_free ( tmpstr2 );
+        gsb_file_remove_name_from_opened_list (filename);
+        return FALSE;
     }
     return gsb_file_load_update_previous_version();
 }
@@ -607,7 +606,8 @@ void gsb_file_load_error ( GMarkupParseContext *context,
 			   gpointer user_data )
 {
     /* the first time we come here, we check if it's a grisbi file */
-    gchar* tmpstr = g_strdup_printf (_("An error occured while parsing the file :\nError number : %d\n%s"),
+    gchar* tmpstr = g_strdup_printf (
+                        _("An error occured while parsing the file :\nError number : %d\n%s"),
 				     error -> code,
 				     error -> message );
     dialogue_error ( tmpstr );
@@ -774,11 +774,13 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
 	    chemin_logo = my_strdup (attribute_values[i]);
         pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
-        gsb_select_icon_set_logo_pixbuf ( pixbuf );
-        /* modify the icon of grisbi (set in the panel of gnome or other) */
-        if (g_file_test ( chemin_logo, G_FILE_TEST_EXISTS ) && etat.utilise_logo)
-            gtk_window_set_default_icon_from_file ( chemin_logo, NULL );
-        g_free ( chemin_logo );
+        if ( pixbuf )
+        {
+            gtk_window_set_default_icon ( pixbuf );
+            gsb_select_icon_set_logo_pixbuf ( pixbuf );
+        }
+        if ( chemin_logo && strlen (chemin_logo) > 0 )
+            g_free ( chemin_logo );
 	}
 
 	else if ( !strcmp ( attribute_names[i],
@@ -4380,7 +4382,6 @@ void gsb_file_load_logo_accueil ( const gchar **attribute_names,
                                 (gchar *) attribute_values[i] );
             gtk_window_set_default_icon ( pixbuf );
             gsb_select_icon_set_logo_pixbuf ( pixbuf );
-            devel_debug ("Chargement du logo");
             i++;
             continue;
         }
@@ -5686,11 +5687,13 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
 
         chemin_logo = my_strdup (text);
         pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
-        gsb_select_icon_set_logo_pixbuf ( pixbuf );
-        /* modify the icon of grisbi (set in the panel of gnome or other) */
-        if (g_file_test ( chemin_logo, G_FILE_TEST_EXISTS ) && etat.utilise_logo)
-            gtk_window_set_default_icon_from_file ( chemin_logo, NULL );
-        g_free ( chemin_logo );
+        if ( pixbuf )
+        {
+            gtk_window_set_default_icon ( pixbuf );
+            gsb_select_icon_set_logo_pixbuf ( pixbuf );
+        }
+        if ( chemin_logo && strlen (chemin_logo) > 0 )
+            g_free ( chemin_logo );
         return;
     }
 
@@ -7027,11 +7030,11 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    /* d'une ventilation */
 
 	    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
-
 	    while ( list_tmp_transactions )
 	    {
-		gint transaction_number_tmp;
-		transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+            gint transaction_number_tmp;
+            transaction_number_tmp = gsb_data_transaction_get_transaction_number (
+                        list_tmp_transactions -> data);
 
 		/*  si l'opération est une ventil, on refait le tour de la liste pour trouver ses filles */
 
@@ -7042,14 +7045,17 @@ gboolean gsb_file_load_update_previous_version ( void )
 
 		    while ( list_tmp_transactions_2 )
 		    {
-			gint transaction_number_tmp_2;
-			transaction_number_tmp_2 = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
+                gint transaction_number_tmp_2;
+                transaction_number_tmp_2 = gsb_data_transaction_get_transaction_number (
+                        list_tmp_transactions_2 -> data) ;
 
-			if ( gsb_data_transaction_get_account_number (transaction_number_tmp_2) == gsb_data_transaction_get_account_number (transaction_number_tmp)
+			if ( gsb_data_transaction_get_account_number (transaction_number_tmp_2) == 
+                        gsb_data_transaction_get_account_number (transaction_number_tmp)
 			     &&
-			     gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp_2) == transaction_number_tmp)
+			     gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp_2) == 
+                        transaction_number_tmp)
 			    gsb_data_transaction_set_reconcile_number ( transaction_number_tmp_2,
-									gsb_data_transaction_get_reconcile_number (transaction_number_tmp));
+                        gsb_data_transaction_get_reconcile_number (transaction_number_tmp));
 
 			list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
 		    }
@@ -7134,27 +7140,25 @@ gboolean gsb_file_load_update_previous_version ( void )
 
 	    if ( !etat.retient_affichage_par_compte )
 	    {
-		gint affichage_r;
-		gint nb_lignes_ope;
-		GSList *list_tmp;
+            gint affichage_r;
+            gint nb_lignes_ope;
+            GSList *list_tmp;
 
-		affichage_r = 0;
-		nb_lignes_ope = 3;
+            affichage_r = 0;
+            nb_lignes_ope = 3;
 
-		list_tmp = gsb_data_account_get_list_accounts ();
+            list_tmp = gsb_data_account_get_list_accounts ();
 
-		while ( list_tmp )
-		{
-		    i = gsb_data_account_get_no_account ( list_tmp -> data );
+            while ( list_tmp )
+            {
+                i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-		    gsb_data_account_set_r ( i,
-					     affichage_r );
-		    gsb_data_account_set_nb_rows ( i, 
-						   nb_lignes_ope );
+                gsb_data_account_set_r ( i, affichage_r );
+                gsb_data_account_set_nb_rows ( i, nb_lignes_ope );
 
-		    list_tmp = list_tmp -> next;
-		}
-	    } 
+                list_tmp = list_tmp -> next;
+            }
+	    }
 
 	    /* to go from 0.5.x to 0.6.x, there is a change in the method of payment :
 	     * before, they were saved in each account, and have for each accounts numbers 1, 2, 3...
@@ -7163,66 +7167,71 @@ gboolean gsb_file_load_update_previous_version ( void )
 	     * the change is done while downloading the file, all we need to do now is to change
 	     * the payment number of all the transactions and scheduled transactions to set the new number */
 	    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
+        printf ("nbre de transactions importees %d\n", g_slist_length (list_tmp_transactions));
 	    while ( list_tmp_transactions )
 	    {
-		gint transaction_number;
+            gint transaction_number;
 
-		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+            transaction_number = gsb_data_transaction_get_transaction_number (
+                        list_tmp_transactions -> data);
 
-		gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-								    gsb_file_load_get_new_payment_number ( gsb_data_transaction_get_account_number (transaction_number),
-													   gsb_data_transaction_get_method_of_payment_number (transaction_number)));
+            gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+                        gsb_file_load_get_new_payment_number (
+                        gsb_data_transaction_get_account_number (transaction_number),
+                        gsb_data_transaction_get_method_of_payment_number (transaction_number)) );
 
-		list_tmp_transactions = list_tmp_transactions -> next;
+            list_tmp_transactions = list_tmp_transactions -> next;
 	    }
 
 	    /* do the same for scheduled transactions */
 	    list_tmp_scheduled = gsb_data_scheduled_get_scheduled_list ();
 	    while (list_tmp_scheduled)
 	    {
-		gint scheduled_number;
-		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_scheduled -> data);
+            gint scheduled_number;
+            scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_scheduled -> data);
 
-		gsb_data_scheduled_set_method_of_payment_number ( scheduled_number,
-								  gsb_file_load_get_new_payment_number ( gsb_data_scheduled_get_account_number (scheduled_number),
-													 gsb_data_scheduled_get_method_of_payment_number (scheduled_number)));
+            gsb_data_scheduled_set_method_of_payment_number ( scheduled_number,
+                        gsb_file_load_get_new_payment_number (
+                        gsb_data_scheduled_get_account_number (scheduled_number),
+                        gsb_data_scheduled_get_method_of_payment_number (scheduled_number)) );
 
-		list_tmp_scheduled = list_tmp_scheduled -> next;
+            list_tmp_scheduled = list_tmp_scheduled -> next;
 	    }
 
 	    /* do the same for the sort list of accounts and default payment */
 	    list_tmp = gsb_data_account_get_list_accounts ();
+        printf ("nbre de comptes importees %d\n", g_slist_length (list_tmp));
 	    while ( list_tmp )
 	    {
-		GSList *sorted_list;
-		GSList *new_sorted_list = NULL;
+            GSList *sorted_list;
+            GSList *new_sorted_list = NULL;
 
-		account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+            account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
-		gsb_data_account_set_default_debit ( account_number,
-						     gsb_file_load_get_new_payment_number ( account_number,
-											    gsb_data_account_get_default_debit (account_number)));
-		gsb_data_account_set_default_credit ( account_number,
-						      gsb_file_load_get_new_payment_number ( account_number,
-											     gsb_data_account_get_default_credit (account_number)));
+            gsb_data_account_set_default_debit ( account_number,
+                        gsb_file_load_get_new_payment_number ( account_number,
+                        gsb_data_account_get_default_debit (account_number)));
+            gsb_data_account_set_default_credit ( account_number,
+                        gsb_file_load_get_new_payment_number ( account_number,
+                        gsb_data_account_get_default_credit (account_number)) );
 
-		sorted_list = gsb_data_account_get_sort_list (account_number);
-		while (sorted_list)
-		{
-		    gint new_number;
+            sorted_list = gsb_data_account_get_sort_list (account_number);
+            while (sorted_list)
+            {
+                gint new_number;
 
-		    new_number = gsb_file_load_get_new_payment_number ( account_number,
-									GPOINTER_TO_INT (sorted_list -> data));
-		    if (new_number)
-			new_sorted_list = g_slist_append ( new_sorted_list,
-							   GINT_TO_POINTER (new_number));
+                new_number = gsb_file_load_get_new_payment_number ( account_number,
+                                        GPOINTER_TO_INT (sorted_list -> data));
+                if (new_number)
+                new_sorted_list = g_slist_append ( new_sorted_list,
+                                   GINT_TO_POINTER (new_number));
 
-		    sorted_list = sorted_list -> next;
-		}
-		gsb_data_account_sort_list_free (account_number);
-		gsb_data_account_set_sort_list (account_number, new_sorted_list);
+                sorted_list = sorted_list -> next;
+            }
+            gsb_data_account_sort_list_free (account_number);
+            gsb_data_account_set_sort_list (account_number, new_sorted_list);
 
-		list_tmp = list_tmp -> next;
+            list_tmp = list_tmp -> next;
 	    }
 
 	    /* a problem untill the 0.5.7 :
