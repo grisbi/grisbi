@@ -857,18 +857,21 @@ gboolean gsb_transactions_list_update_transaction ( gint transaction_number )
     account_number = gsb_data_transaction_get_account_number (transaction_number);
 
     /* update the current balance */
-    current_balance = gsb_real_add ( gsb_data_account_get_current_balance (account_number),
-				     gsb_data_transaction_get_adjusted_amount (transaction_number, -1));
-    gsb_data_account_set_current_balance ( account_number,
-					   current_balance);
+    //~ current_balance = gsb_real_add ( gsb_data_account_get_current_balance (account_number),
+				     //~ gsb_data_transaction_get_adjusted_amount (transaction_number, -1));
+    //~ gsb_data_account_set_current_balance ( account_number,
+					   //~ current_balance);
 
     if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
-	string = g_strdup_printf ( "<span color=\"red\">%s</span>",
-				   gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-								       gsb_data_account_get_currency (account_number), TRUE ));
+        string = g_strdup_printf ( "<span color=\"red\">%s</span>",
+                    gsb_real_get_string_with_currency (
+                    gsb_data_account_get_current_balance (account_number),
+                    gsb_data_account_get_currency (account_number), TRUE ));
     else
-	string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-						     gsb_data_account_get_currency (account_number), TRUE );
+        string = gsb_real_get_string_with_currency (
+                        gsb_data_account_get_current_balance (account_number),
+                        gsb_data_account_get_currency (account_number), TRUE );
+
     gsb_gui_headings_update_suffix (string);
     g_free(string);
 
@@ -2549,26 +2552,31 @@ gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_nu
     devel_debug_int ( target_account );
 
     source_account = gsb_data_transaction_get_account_number (transaction_number);
-    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (
+                        transaction_number);
 
     /* if it's a transfer, update the contra-transaction category line */
     if (contra_transaction_number > 0)
     {
-	/* the transaction is a transfer, we check if the contra-transaction is not on the target account */
-	if ( gsb_data_transaction_get_account_number (contra_transaction_number) == target_account )
-	{
-	    dialogue_error ( _("Cannot move a transfer on his contra-account"));
-	    return FALSE;
-	}
+        /* the transaction is a transfer, we check if the contra-transaction is not on 
+         * the target account */
+        if ( gsb_data_transaction_get_account_number (
+                        contra_transaction_number) == target_account )
+        {
+            dialogue_error ( _("Cannot move a transfer on his contra-account"));
+            return FALSE;
+        }
     }
 
     /* we change now the account of the transaction */
     gsb_data_transaction_set_account_number ( transaction_number,
 					      target_account );
 
-    /* update the field of the contra transaction if necessary */
+    /* update the field of the contra transaction if necessary. Ce transfert ne doit pas
+     * modifier la balance du compte */
     if (contra_transaction_number > 0)
-	gsb_transactions_list_update_transaction (contra_transaction_number);
+        transaction_list_update_transaction (contra_transaction_number);
+
 
     /* normally we can change the account only by right click button
      * so the current transaction is selected,
