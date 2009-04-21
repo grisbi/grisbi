@@ -1996,21 +1996,38 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 							     element_number,
 							     GSB_RIGHT );
 	    if ( element_suivant == -2 )
-		gsb_form_finish_edition();
-        /* pbiava the 03/15/09 fix the bug 494 */
-        else if ( element_suivant == TRANSACTION_FORM_DEBIT ||
-                        element_suivant == TRANSACTION_FORM_CREDIT )
+            gsb_form_finish_edition();
+        /* fix the bug 494 */
+        else if ( element_suivant == TRANSACTION_FORM_DEBIT )
         {
-            do {
-                element_suivant = gsb_form_widget_next_element ( account_number,
-							     element_suivant,
-							     GSB_RIGHT );
-            } while ( element_suivant == TRANSACTION_FORM_DEBIT ||
-                        element_suivant == TRANSACTION_FORM_CREDIT );
-            gsb_form_widget_set_focus ( element_suivant );
+            if ( gsb_form_widget_check_empty (
+                        gsb_form_widget_get_widget (element_suivant)) &&
+                        !gsb_form_widget_check_empty (
+                        gsb_form_widget_get_widget (TRANSACTION_FORM_CREDIT)))
+            {
+                gsb_form_widget_set_focus ( TRANSACTION_FORM_CREDIT );
+            }
+            else
+                gsb_form_widget_set_focus ( element_suivant );
+        }
+        else if ( element_suivant == TRANSACTION_FORM_CREDIT )
+        {
+            if ( gtk_entry_get_text_length (GTK_ENTRY (widget)) > 0 )
+            {
+                do {
+                    element_suivant = gsb_form_widget_next_element (
+                                        account_number, element_suivant, GSB_RIGHT );
+                } while ( element_suivant == TRANSACTION_FORM_DEBIT ||
+                            element_suivant == TRANSACTION_FORM_CREDIT );
+                gsb_form_widget_set_focus ( element_suivant );
+            }
+            else
+            {
+                gsb_form_widget_set_focus ( element_suivant );
+            }
         }
 	    else
-		gsb_form_widget_set_focus ( element_suivant );
+            gsb_form_widget_set_focus ( element_suivant );
 	    return TRUE;
 	    break;
 
