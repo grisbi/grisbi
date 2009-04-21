@@ -773,15 +773,15 @@ gint gsb_data_payee_remove_unused ( void )
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
-	gint payee_number;
+        gint payee_number;
 
-	payee_number = gsb_data_transaction_get_party_number (gsb_data_transaction_get_transaction_number (tmp_list -> data));
-	if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
-	{
-	    used = g_slist_append ( used,
-				    GINT_TO_POINTER (payee_number));
-	}
-	tmp_list = tmp_list -> next;
+        payee_number = gsb_data_transaction_get_party_number (
+                    gsb_data_transaction_get_transaction_number (tmp_list -> data));
+        if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
+        {
+            used = g_slist_append ( used, GINT_TO_POINTER (payee_number));
+        }
+        tmp_list = tmp_list -> next;
     }
 
     /* it also scans the list of sheduled transactions. fix bug 538 */
@@ -795,30 +795,25 @@ gint gsb_data_payee_remove_unused ( void )
                         tmp_list -> data));
         if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
         {
-            used = g_slist_append ( used,
-                        GINT_TO_POINTER (payee_number));
+            used = g_slist_append ( used, GINT_TO_POINTER (payee_number));
         }
         tmp_list = tmp_list -> next;
     }
-
-    if (!used)
-	return 0;
 
     /* now check each payee to know if it is used */
     tmp_list = gsb_data_payee_get_payees_list ();
     while (tmp_list)
     {
-	struct_payee *payee = tmp_list -> data;
+        struct_payee *payee = tmp_list -> data;
 
-	tmp_list = tmp_list -> next;
-
-	if (!g_slist_find (used, GINT_TO_POINTER (payee -> payee_number)))
-	{
-	    /* payee not used */
-	    payee_buffer = payee;	/* increase speed */
-	    gsb_data_payee_remove (payee -> payee_number);
-	    nb_removed++;
-	}
+        tmp_list = tmp_list -> next;
+        if ( !used || !g_slist_find (used, GINT_TO_POINTER (payee -> payee_number)))
+        {
+            /* payee not used */
+            payee_buffer = payee;	/* increase speed */
+            gsb_data_payee_remove (payee -> payee_number);
+            nb_removed++;
+        }
     }
     return nb_removed;
 }
