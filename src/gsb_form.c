@@ -1987,7 +1987,36 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_LEFT );
-	    gsb_form_widget_set_focus ( element_suivant );
+	    if ( element_suivant == TRANSACTION_FORM_CREDIT )
+        {
+            if ( gsb_form_widget_check_empty (
+                        gsb_form_widget_get_widget (element_suivant)) &&
+                        !gsb_form_widget_check_empty (
+                        gsb_form_widget_get_widget (TRANSACTION_FORM_DEBIT)))
+            {
+                gsb_form_widget_set_focus ( TRANSACTION_FORM_DEBIT );
+            }
+            else
+                gsb_form_widget_set_focus ( element_suivant );
+        }
+        else if ( element_suivant == TRANSACTION_FORM_DEBIT )
+        {
+            if ( gtk_entry_get_text_length (GTK_ENTRY (widget)) > 0 )
+            {
+                do {
+                    element_suivant = gsb_form_widget_next_element (
+                                        account_number, element_suivant, GSB_LEFT );
+                } while ( element_suivant == TRANSACTION_FORM_DEBIT ||
+                            element_suivant == TRANSACTION_FORM_CREDIT );
+                gsb_form_widget_set_focus ( element_suivant );
+            }
+            else
+            {
+                gsb_form_widget_set_focus ( element_suivant );
+            }
+        }
+	    else
+            gsb_form_widget_set_focus ( element_suivant );
 	    return TRUE;
 	    break;
 
@@ -1998,8 +2027,10 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    if ( element_suivant == -2 )
             gsb_form_finish_edition();
         /* fix the bug 494 */
+        /* si element_suivant est débit */
         else if ( element_suivant == TRANSACTION_FORM_DEBIT )
         {
+            /* si débit est vide et crédit rempli je vais à crédit */
             if ( gsb_form_widget_check_empty (
                         gsb_form_widget_get_widget (element_suivant)) &&
                         !gsb_form_widget_check_empty (
@@ -2007,11 +2038,14 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
             {
                 gsb_form_widget_set_focus ( TRANSACTION_FORM_CREDIT );
             }
+            /* sinon je reste à débit */
             else
                 gsb_form_widget_set_focus ( element_suivant );
         }
+        /* si element suivant est crédit */
         else if ( element_suivant == TRANSACTION_FORM_CREDIT )
         {
+            /* je regarde ce que vaut débit et si il y a quelque chose je saute crédit */
             if ( gtk_entry_get_text_length (GTK_ENTRY (widget)) > 0 )
             {
                 do {
@@ -2021,11 +2055,13 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
                             element_suivant == TRANSACTION_FORM_CREDIT );
                 gsb_form_widget_set_focus ( element_suivant );
             }
+            /* sinon je reste à crédit */
             else
             {
                 gsb_form_widget_set_focus ( element_suivant );
             }
         }
+        /* sinon je donne le focus à l'élément suivant */
 	    else
             gsb_form_widget_set_focus ( element_suivant );
 	    return TRUE;
