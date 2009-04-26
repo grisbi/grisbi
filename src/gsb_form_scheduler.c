@@ -119,7 +119,9 @@ static gint last_account_number = 0;
 /**
  * create the scheduled part : that widgets are created at the beginning
  * and normally never destroyed, they are showed only for
- * scheduled transactions
+ * scheduled transactions 
+ * Cela ne fonctionne pas : tous les widgets sont détruits par la
+ * fonction gsb_form_create_widgets ( )
  *
  * \param table a GtkTable with the dimension SCHEDULED_HEIGHT*SCHEDULED_WIDTH to be filled
  *
@@ -135,7 +137,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 
     /* just in case... be sure that not created */
     if (scheduled_element_list)
-	return FALSE;
+        gsb_form_scheduler_free_list ( );
 
     /* check the dimensions, 
      * if problem give a warning message but continue the program with changing the values */
@@ -147,10 +149,11 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 	 ||
 	 row != SCHEDULED_HEIGHT )
     {
-	warning_debug ( _("gsb_form_scheduler_create is called with a bad table,\nthe number of rows or columns is not good.\nThe function will resize the table to the correct values but should check that warning."));
-	gtk_table_resize ( GTK_TABLE (table),
-			   SCHEDULED_HEIGHT, 
-			   SCHEDULED_WIDTH );
+        warning_debug ( _("gsb_form_scheduler_create is called with a bad table,\n"
+                          "the number of rows or columns is not good.\n"
+                          "The function will resize the table to the correct values but "
+                          "should check that warning."));
+        gtk_table_resize ( GTK_TABLE (table), SCHEDULED_HEIGHT, SCHEDULED_WIDTH );
     }
 
     /* ok, now fill the form 
@@ -162,7 +165,8 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 	    GtkWidget *widget = NULL;
 	    const gchar *tooltip_text = NULL;
 	    gchar *text_auto [] = { _("Manual"), _("Automatic"), NULL };
-	    gchar *text_frequency [] = { _("Once"), _("Weekly"), _("Monthly"), _("two months"),  _("trimester"), _("Yearly"), _("Custom"), NULL };
+	    gchar *text_frequency [] = { _("Once"), _("Weekly"), _("Monthly"), _("two months"),
+                        _("trimester"), _("Yearly"), _("Custom"), NULL };
 	    gchar *text_frequency_user [] = { _("Days"), _("Weeks"), _("Months"), _("Years"), NULL };
 
 	    element_number = row*SCHEDULED_WIDTH + column;
@@ -170,38 +174,37 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 	    switch ( element_number )
 	    {
 		case SCHEDULED_FORM_ACCOUNT:
-		    widget = gsb_account_create_combo_list ((GtkSignalFunc) gsb_form_scheduler_change_account, NULL, FALSE);
-		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget),
-					       0 );
+		    widget = gsb_account_create_combo_list ((GtkSignalFunc) 
+                        gsb_form_scheduler_change_account, NULL, FALSE);
+		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
 		    tooltip_text = SPACIFY(_("Choose the account"));
 		    break;
 
 		case SCHEDULED_FORM_AUTO:
-		    widget = gsb_combo_box_new_with_index ( text_auto,
-							    NULL, NULL );
+		    widget = gsb_combo_box_new_with_index ( text_auto, NULL, NULL );
 		    tooltip_text = SPACIFY(_("Automatic/manual scheduled transaction"));
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency,
-							    G_CALLBACK (gsb_form_scheduler_frequency_button_changed), NULL );
+                        G_CALLBACK (gsb_form_scheduler_frequency_button_changed), NULL );
 		    tooltip_text = SPACIFY(_("Frequency"));
 		    break;
 
 		case SCHEDULED_FORM_LIMIT_DATE:
 		    widget = gsb_calendar_entry_new (FALSE);
 		    g_signal_connect ( G_OBJECT (widget),
-				       "button-press-event",
-				       G_CALLBACK (gsb_form_scheduler_button_press_event),
-				       GINT_TO_POINTER (element_number));
+                        "button-press-event",
+                        G_CALLBACK (gsb_form_scheduler_button_press_event),
+                        GINT_TO_POINTER (element_number));
 		    g_signal_connect ( G_OBJECT (widget),
-				       "focus-in-event",
-				       G_CALLBACK (gsb_form_entry_get_focus),
-				       GINT_TO_POINTER (element_number));
+                        "focus-in-event",
+                        G_CALLBACK (gsb_form_entry_get_focus),
+                        GINT_TO_POINTER (element_number));
 		    g_signal_connect_after ( G_OBJECT (widget),
-					     "focus-out-event",
-					     G_CALLBACK (gsb_form_scheduler_entry_lose_focus),
-					     GINT_TO_POINTER (element_number));
+                        "focus-out-event",
+					    G_CALLBACK (gsb_form_scheduler_entry_lose_focus),
+					    GINT_TO_POINTER (element_number));
 		    tooltip_text = SPACIFY(_("Frequency"));
 		    break;
 
@@ -218,34 +221,35 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 	    }
 
 	    if (!widget)
-		continue;
+            continue;
 
 	    if (tooltip_text)
-		gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-					      tooltip_text);
+            gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
+                        tooltip_text);
 
 	    /* save the element */
 	    element = g_malloc0 (sizeof (scheduled_element));
 	    element -> element_number = element_number;
 	    element -> element_widget = widget;
 	    scheduled_element_list = g_slist_append ( scheduled_element_list,
-						      element );
+                        element );
 
 	    /* set the key signal */
 	    g_signal_connect ( G_OBJECT (widget),
-			       "key-press-event",
-			       G_CALLBACK (gsb_form_key_press_event),
-			       GINT_TO_POINTER (SCHEDULED_FORM_ACCOUNT));
+                        "key-press-event",
+                        G_CALLBACK (gsb_form_key_press_event),
+                        GINT_TO_POINTER (SCHEDULED_FORM_ACCOUNT));
 
 	    /* set in the form */
 	    gtk_table_attach ( GTK_TABLE (table),
-			       widget,
-			       column, column+1,
-			       row, row+1,
-			       GTK_EXPAND | GTK_FILL,
-			       GTK_EXPAND | GTK_FILL,
-			       0, 0);
+                        widget,
+                        column, column+1,
+                        row, row+1,
+                        GTK_EXPAND | GTK_FILL,
+                        GTK_EXPAND | GTK_FILL,
+                        0, 0);
 	}
+    gsb_form_scheduler_clean ( );
     return FALSE;
 }
 
