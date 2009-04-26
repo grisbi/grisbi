@@ -744,9 +744,15 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 			     -1 );
 
 	/* if it's a split, we append a white line now */
-	if (gsb_data_scheduled_get_split_of_scheduled (scheduled_number))
-	    gsb_scheduler_list_append_new_scheduled ( gsb_data_scheduled_new_white_line (scheduled_number),
+	if (gsb_data_scheduled_get_split_of_scheduled (scheduled_number) && !virtual_transaction)
+	{
+	    gint white_line_number = gsb_data_scheduled_get_white_line (scheduled_number);
+
+	    if (white_line_number == -1)
+		white_line_number = gsb_data_scheduled_new_white_line (scheduled_number);
+	    gsb_scheduler_list_append_new_scheduled ( white_line_number,
 						      end_date );
+	}
 
 	/* if it's a split, we show only one time and color the background */
 	if ( mother_iter )
@@ -767,7 +773,6 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 	    end_date &&
 	    g_date_compare ( end_date, pGDateCurrent ) > 0 &&
 	    !mother_iter );
-
     if ( mother_iter )
 	gtk_tree_iter_free (mother_iter);
     return TRUE;
