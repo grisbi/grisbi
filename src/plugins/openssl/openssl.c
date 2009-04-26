@@ -36,7 +36,7 @@
 
 /*START_EXTERN*/
 extern gchar *crypt_key;
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 #ifndef NOSSL

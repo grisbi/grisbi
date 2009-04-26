@@ -55,8 +55,8 @@ static GtkWidget *file_obfuscate_page_2 ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *nom_fichier_comptes;
-extern gsb_real null_real;
+extern gchar *nom_fichier_comptes ;
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 

@@ -54,7 +54,7 @@ static gint category_transaction_div_id ( gint transaction_number );
 
 /*START_EXTERN*/
 extern gint no_devise_totaux_categ;
-extern gsb_real null_real;
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 static MetatreeInterface _category_interface = {

@@ -97,7 +97,7 @@ static  void go_option_menu_update_contents_real (GOOptionMenu *option_menu,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

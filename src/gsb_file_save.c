@@ -125,8 +125,8 @@ static gulong gsb_file_save_transaction_part ( gulong iterator,
 
 
 /*START_EXTERN*/
-extern gchar *adresse_commune;
-extern gchar *adresse_secondaire;
+extern gchar *adresse_commune ;
+extern gchar *adresse_secondaire ;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor archive_background_color;
@@ -144,7 +144,7 @@ extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];
-extern gchar *titre_fichier;
+extern gchar *titre_fichier ;
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/

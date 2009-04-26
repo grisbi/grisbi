@@ -102,9 +102,9 @@ extern gint devise_generale_etat;
 extern gint devise_ib_etat;
 extern gint devise_tiers_etat;
 extern gint exo_en_cours_etat;
+extern struct struct_etat_affichage gtktable_affichage ;
 extern struct struct_etat_affichage gtktable_affichage;
-extern struct struct_etat_affichage gtktable_affichage;
-extern struct struct_etat_affichage latex_affichage;
+extern struct struct_etat_affichage latex_affichage ;
 extern gint ligne_debut_partie;
 extern gsb_real montant_categ_etat;
 extern gsb_real montant_compte_etat;
@@ -131,8 +131,8 @@ extern const gchar *nom_ib_en_cours;
 extern const gchar *nom_ss_categ_en_cours;
 extern const gchar *nom_ss_ib_en_cours;
 extern const gchar *nom_tiers_en_cours;
-extern GtkWidget *notebook_general;
-extern gsb_real null_real;
+extern GtkWidget *notebook_general ;
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 

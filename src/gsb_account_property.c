@@ -172,7 +172,7 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern gsb_real null_real;
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 

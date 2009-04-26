@@ -255,7 +255,7 @@ void gsb_form_transaction_check_change_button ( gint currency_number,
  * \return FALSE
  * */
 gboolean gsb_form_transaction_recover_splits_of_transaction ( gint new_transaction_number,
-								  gint no_last_split )
+							      gint no_last_split )
 {
     GSList *list_tmp_transactions;
 

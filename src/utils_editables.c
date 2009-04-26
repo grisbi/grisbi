@@ -34,7 +34,7 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 

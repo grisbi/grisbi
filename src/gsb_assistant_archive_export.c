@@ -86,7 +86,7 @@ static  gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

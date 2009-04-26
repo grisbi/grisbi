@@ -51,7 +51,7 @@ static GtkWidget * print_backtrace ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *nom_fichier_comptes;
+extern gchar *nom_fichier_comptes ;
 extern GtkUIManager * ui_manager;
 /*END_EXTERN*/
 

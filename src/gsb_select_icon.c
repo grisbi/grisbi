@@ -48,7 +48,7 @@ static gchar * gsb_select_icon_troncate_name_icon ( gchar *name_icon, gint trunc
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 static GtkWidget * dialog;

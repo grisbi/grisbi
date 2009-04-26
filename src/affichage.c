@@ -72,8 +72,8 @@ static void update_fonte_listes ( gchar *fontname,
 
 
 /*START_EXTERN*/
-extern gchar *adresse_commune;
-extern gchar *adresse_secondaire;
+extern gchar *adresse_commune ;
+extern gchar *adresse_secondaire ;
 extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_fond[2];
@@ -86,15 +86,15 @@ extern GdkColor default_couleur_grise;
 extern GdkColor default_couleur_selection;
 extern GdkColor default_split_background;
 extern GdkColor default_text_color[2];
-extern GtkWidget *fenetre_preferences;
-extern GtkWidget *hbox_title;
-extern GtkWidget *label_titre_fichier;
-extern GtkWidget *logo_accueil;
-extern gchar *nom_fichier_comptes;
+extern GtkWidget *fenetre_preferences ;
+extern GtkWidget *hbox_title ;
+extern GtkWidget *label_titre_fichier ;
+extern GtkWidget *logo_accueil ;
+extern gchar *nom_fichier_comptes ;
 extern GdkColor split_background;
 extern GdkColor text_color[2];
-extern gchar *titre_fichier;
-extern GtkWidget *window;
+extern gchar *titre_fichier ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

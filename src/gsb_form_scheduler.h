@@ -31,6 +31,8 @@ gboolean gsb_form_scheduler_free_list ( void );
 gint gsb_form_scheduler_get_account ( void );
 GtkWidget *gsb_form_scheduler_get_element_widget ( gint element_number );
 gboolean gsb_form_scheduler_get_scheduler_part ( gint scheduled_number );
+gboolean gsb_form_scheduler_recover_splits_of_transaction ( gint scheduled_transaction,
+							    gint transaction_number );
 gboolean gsb_form_scheduler_sensitive_buttons ( gboolean sensitive );
 gboolean gsb_form_scheduler_set ( gint scheduled_number );
 gboolean gsb_form_scheduler_set_frequency ( gint frequency );

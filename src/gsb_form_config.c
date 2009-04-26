@@ -82,7 +82,7 @@ static gboolean gsb_form_config_update_form_config ( gint account_number );
 extern GtkWidget *form_transaction_part;
 extern gint max;
 extern gint saved_allocation_size;
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

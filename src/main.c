@@ -76,10 +76,10 @@ GtkWidget *window_vbox_principale = NULL;
 
 
 /*START_EXTERN*/
-extern FILE *debug_file;
+extern FILE *debug_file ;
 extern gint hauteur_window;
 extern gint largeur_window;
-extern gchar *nom_fichier_comptes;
+extern gchar *nom_fichier_comptes ;
 /*END_EXTERN*/
 
 /**

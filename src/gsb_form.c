@@ -105,8 +105,8 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget * navigation_tree_view;
-extern GtkWidget *window;
+extern GtkWidget * navigation_tree_view ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 /** label of the last statement */
@@ -2316,10 +2316,10 @@ gboolean gsb_form_finish_edition ( void )
 		     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_split))
 		     &&
 		     (split_transaction_number = gsb_form_transactions_look_for_last_party ( gsb_data_transaction_get_party_number (transaction_number),
-												 transaction_number,
-												 gsb_data_transaction_get_account_number(transaction_number))))
+											     transaction_number,
+											     gsb_data_transaction_get_account_number(transaction_number))))
 		    gsb_form_transaction_recover_splits_of_transaction ( transaction_number,
-									     split_transaction_number);
+									 split_transaction_number);
 	    }
 	    else
 	    {
@@ -2342,10 +2342,24 @@ gboolean gsb_form_finish_edition ( void )
 	    gsb_form_scheduler_get_scheduler_part (transaction_number);
 
 	    if (new_transaction)
-            gsb_scheduler_list_append_new_scheduled ( transaction_number,
-                        gsb_scheduler_list_get_end_date_scheduled_showed ());
+	    {
+		gint split_transaction_number;
+
+		gsb_scheduler_list_append_new_scheduled ( transaction_number,
+							  gsb_scheduler_list_get_end_date_scheduled_showed ());
+		/* recover if necessary previous children */
+		if (gsb_data_scheduled_get_split_of_scheduled (transaction_number)
+		    &&
+		    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_split))
+		    &&
+		    (split_transaction_number = gsb_form_transactions_look_for_last_party ( gsb_data_scheduled_get_party_number (transaction_number),
+											    0,
+											    gsb_data_scheduled_get_account_number(transaction_number))))
+		    gsb_form_scheduler_recover_splits_of_transaction ( transaction_number,
+								       split_transaction_number);
+	    }
 	    else
-            gsb_scheduler_list_update_transaction_in_list (transaction_number);
+		gsb_scheduler_list_update_transaction_in_list (transaction_number);
 
 	    /* needed for the two in case of we change the date */
 	    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());

@@ -101,12 +101,12 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 
 
 /*START_EXTERN*/
-extern GtkWidget *label_last_statement;
-extern GtkWidget *label_titre_fichier;
+extern GtkWidget *label_last_statement ;
+extern GtkWidget *label_titre_fichier ;
 extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
-extern GtkWidget *notebook_general;
-extern gchar *titre_fichier;
+extern GtkWidget *notebook_general ;
+extern gchar *titre_fichier ;
 /*END_EXTERN*/
 
 

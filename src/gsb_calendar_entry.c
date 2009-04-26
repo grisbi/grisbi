@@ -64,7 +64,7 @@ static void gsb_calendar_entry_step_date ( GtkWidget *entry,
 
 /*START_EXTERN*/
 extern GdkColor calendar_entry_color;
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 #define ENTRY_NORMAL 0

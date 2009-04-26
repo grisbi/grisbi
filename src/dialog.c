@@ -41,7 +41,7 @@ static gboolean dialogue_update_var ( GtkWidget * checkbox, gint message );
 
 
 /*START_EXTERN*/
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

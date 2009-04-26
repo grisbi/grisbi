@@ -30,7 +30,7 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 gboolean gsb_form_change_sensitive_buttons ( gboolean sensitive );
 void gsb_form_check_auto_separator ( GtkWidget *entry );
 gboolean gsb_form_clean ( gint account_number );
-void gsb_form_create_widgets ();
+void gsb_form_create_widgets ( void );
 gboolean gsb_form_entry_get_focus ( GtkWidget *entry );
 gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 				     GdkEventFocus *ev,
@@ -49,7 +49,7 @@ gint gsb_form_get_account_number ( void );
 GtkWidget *gsb_form_get_form_widget ( void );
 gint gsb_form_get_origin ( void );
 GtkWidget *gsb_form_get_scheduler_part ( void );
-gboolean gsb_form_is_visible ();
+gboolean gsb_form_is_visible ( void );
 gboolean gsb_form_key_press_event ( GtkWidget *widget,
 				    GdkEventKey *ev,
 				    gint *ptr_origin );

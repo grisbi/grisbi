@@ -28,9 +28,9 @@
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
-extern G_MODULE_EXPORT const gchar plugin_name[];
-extern G_MODULE_EXPORT const gchar plugin_name[];
-extern G_MODULE_EXPORT const gchar plugin_name[];
+extern G_MODULE_EXPORT const gchar plugin_name[] ;
+extern G_MODULE_EXPORT const gchar plugin_name[] ;
+extern G_MODULE_EXPORT const gchar plugin_name[] ;
 /*END_EXTERN*/
 
 /*START_STATIC*/

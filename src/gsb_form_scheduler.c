@@ -41,6 +41,8 @@
 #include "./gsb_form_widget.h"
 #include "./gsb_fyear.h"
 #include "./gsb_payment_method.h"
+#include "./gsb_scheduler_list.h"
+#include "./gsb_transactions_list.h"
 #include "./gtk_combofix.h"
 #include "./utils_str.h"
 #include "./gtk_combofix.h"
@@ -1224,5 +1226,36 @@ gboolean gsb_form_scheduler_set_frequency_user_button ( gboolean automatic )
     return gsb_combo_box_set_index ( button,
 				     automatic );
 }
+
+
+/**
+ * Clone the children of a splitted transaction to add the to the new splitted scheduled
+ * 
+ * \param scheduled_transaction		the splitted scheduled transaction we want to add the children
+ * \param transaction_number		the splitted transaction we want to clone the children
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_scheduler_recover_splits_of_transaction ( gint scheduled_transaction,
+							    gint transaction_number )
+{
+    GSList *tmp_list;
+
+    /* first clone the transactions */
+    gsb_transactions_list_splitted_to_scheduled (transaction_number, scheduled_transaction);
+
+    /* add the children to the list */
+    tmp_list = gsb_data_scheduled_get_scheduled_list ();
+    while (tmp_list)
+    {
+	gint scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
+
+	if (gsb_data_scheduled_get_mother_scheduled_number (scheduled_number) == scheduled_transaction)
+	    gsb_scheduler_list_append_new_scheduled (scheduled_number, NULL);
+	tmp_list = tmp_list -> next;
+    }
+    return FALSE;
+}
+
 
 

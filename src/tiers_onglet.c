@@ -106,9 +106,9 @@ GtkTreeStore *payee_tree_model = NULL;
 gboolean sortie_edit_payee = FALSE;
 
 /*START_EXTERN*/
-extern GSList *liste_associations_tiers;
-extern MetatreeInterface * payee_interface;
-extern GtkWidget *window;
+extern GSList *liste_associations_tiers ;
+extern MetatreeInterface * payee_interface ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 enum payees_assistant_page

@@ -84,10 +84,10 @@ static GtkNotebook * preference_frame = NULL;
 
 /*START_EXTERN*/
 extern gboolean execute_scheduled_of_month;
-extern struct conditional_message messages[];
+extern struct conditional_message messages[] ;
 extern gint nb_days_before_scheduled;
-extern gint nb_max_derniers_fichiers_ouverts;
-extern GtkWidget *window;
+extern gint nb_max_derniers_fichiers_ouverts ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

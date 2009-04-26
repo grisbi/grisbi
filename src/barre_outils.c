@@ -76,7 +76,7 @@ GtkWidget *menu_import_rules;
 
 /*START_EXTERN*/
 extern GtkWidget *barre_outils;
-extern gboolean block_menu_cb;
+extern gboolean block_menu_cb ;
 extern GtkUIManager * ui_manager;
 /*END_EXTERN*/
 

@@ -73,7 +73,7 @@ static gint gsb_data_report_amount_comparison_max_number ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 

@@ -74,11 +74,11 @@ static gboolean gsb_currency_config_update_list ( GtkWidget * checkbox,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *main_vbox;
+extern GtkWidget *main_vbox ;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 GtkWidget *combo_devise_totaux_tiers;

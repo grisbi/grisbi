@@ -83,20 +83,20 @@ gint id_timeout = 0;
 
 
 /*START_EXTERN*/
-extern GtkWidget *main_hpaned;
-extern GtkWidget *main_vbox;
+extern GtkWidget *main_hpaned ;
+extern GtkWidget *main_vbox ;
 extern gint max;
-extern GtkWidget * navigation_tree_view;
-extern gsize nb_derniers_fichiers_ouverts;
-extern gint nb_max_derniers_fichiers_ouverts;
-extern gchar *nom_fichier_comptes;
-extern GtkWidget *notebook_general;
-extern gchar **tab_noms_derniers_fichiers_ouverts;
-extern GtkWidget *table_etat;
-extern gchar *titre_fichier;
-extern GtkWidget *tree_view_vbox;
-extern GtkWidget *window;
-extern GtkWidget *window_vbox_principale;
+extern GtkWidget * navigation_tree_view ;
+extern gsize nb_derniers_fichiers_ouverts ;
+extern gint nb_max_derniers_fichiers_ouverts ;
+extern gchar *nom_fichier_comptes ;
+extern GtkWidget *notebook_general ;
+extern gchar **tab_noms_derniers_fichiers_ouverts ;
+extern GtkWidget *table_etat ;
+extern gchar *titre_fichier ;
+extern GtkWidget *tree_view_vbox ;
+extern GtkWidget *window ;
+extern GtkWidget *window_vbox_principale ;
 /*END_EXTERN*/
 
 

@@ -40,7 +40,7 @@ static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookP
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
