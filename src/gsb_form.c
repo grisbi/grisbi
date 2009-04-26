@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     copyright (c)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*     copyright (c)	2000-2008 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2004-2008 Benjamin Drieu (bdrieu@april.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -119,7 +119,7 @@ static GtkWidget *form_expander = NULL;
  * for scheduled transactions
  * for transactions
  * the buttons valid/cancel */
-static GtkWidget *form_scheduled_part;
+GtkWidget *form_scheduled_part;
 GtkWidget *form_transaction_part;
 
 /* block the size allocate signal to avoid to move several times
@@ -202,7 +202,7 @@ GtkWidget *gsb_form_get_scheduler_part ( void )
  *  gsb_form_new().  It is reentrant, that is calling it over and over
  *  will reinitialize form content and delete previous content.
  */
-void gsb_form_create_widgets ()
+void gsb_form_create_widgets ( void )
 {
     GtkWidget * hbox, * label, * separator, * hbox_buttons, * hbox_buttons_inner;
     GtkWidget * child = gtk_bin_get_child ( GTK_BIN(form_expander) );
@@ -223,8 +223,8 @@ void gsb_form_create_widgets ()
     /* set the label transaction form */
     label = gtk_label_new ( NULL );
     gchar* tmpstr = g_strconcat ( "<span weight=\"bold\">", 
-						       _("Transaction/Scheduled _form"),
-						       "</span>", NULL );
+                                _("Transaction/Scheduled _form"),
+                                "</span>", NULL );
     gtk_label_set_markup_with_mnemonic ( GTK_LABEL ( label ), tmpstr );
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -259,16 +259,16 @@ void gsb_form_create_widgets ()
     /* the scheduled part is a table of SCHEDULED_WIDTH col x SCHEDULED_HEIGHT rows */
 
     form_scheduled_part = gtk_table_new ( SCHEDULED_HEIGHT, 
-					  SCHEDULED_WIDTH,
-					  FALSE );
+                      SCHEDULED_WIDTH,
+                      FALSE );
     g_signal_connect ( G_OBJECT (form_scheduled_part ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &form_scheduled_part );
+                    G_CALLBACK ( gtk_widget_destroyed), &form_scheduled_part );
     gtk_table_set_col_spacings ( GTK_TABLE (form_scheduled_part),
-				 6 );
+                    6 );
     gtk_box_pack_start ( GTK_BOX (transaction_form),
-			 form_scheduled_part,
-			 FALSE, FALSE,
-			 0 );
+                    form_scheduled_part,
+                    FALSE, FALSE,
+                    0 );
 
     gsb_form_scheduler_create (form_scheduled_part);
 
@@ -1047,7 +1047,7 @@ gboolean gsb_form_show ( gboolean show )
  *
  * \return TRUE if transactions forms is expanded, FALSE otherwise.
  */
-gboolean gsb_form_is_visible ()
+gboolean gsb_form_is_visible ( void )
 {
     return gtk_expander_get_expanded ( GTK_EXPANDER ( form_expander ) );
 }
@@ -2001,7 +2001,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
         }
         else if ( element_suivant == TRANSACTION_FORM_DEBIT )
         {
-            if ( gtk_entry_get_text_length (GTK_ENTRY (widget)) > 0 )
+            if ( strlen (gtk_entry_get_text (GTK_ENTRY (widget))) > 0 )
             {
                 do {
                     element_suivant = gsb_form_widget_next_element (
@@ -2027,10 +2027,10 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    if ( element_suivant == -2 )
             gsb_form_finish_edition();
         /* fix the bug 494 */
-        /* si element_suivant est débit */
+        /* si element_suivant est dÃ©bit */
         else if ( element_suivant == TRANSACTION_FORM_DEBIT )
         {
-            /* si débit est vide et crédit rempli je vais à crédit */
+            /* si dÃ©bit est vide et crÃ©dit rempli je vais Ã  crÃ©dit */
             if ( gsb_form_widget_check_empty (
                         gsb_form_widget_get_widget (element_suivant)) &&
                         !gsb_form_widget_check_empty (
@@ -2038,15 +2038,15 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
             {
                 gsb_form_widget_set_focus ( TRANSACTION_FORM_CREDIT );
             }
-            /* sinon je reste à débit */
+            /* sinon je reste Ã  dÃ©bit */
             else
                 gsb_form_widget_set_focus ( element_suivant );
         }
-        /* si element suivant est crédit */
+        /* si element suivant est crÃ©dit */
         else if ( element_suivant == TRANSACTION_FORM_CREDIT )
         {
-            /* je regarde ce que vaut débit et si il y a quelque chose je saute crédit */
-            if ( gtk_entry_get_text_length (GTK_ENTRY (widget)) > 0 )
+            /* je regarde ce que vaut dÃ©bit et si il y a quelque chose je saute crÃ©dit */
+            if ( strlen (gtk_entry_get_text (GTK_ENTRY (widget))) > 0 )
             {
                 do {
                     element_suivant = gsb_form_widget_next_element (
@@ -2055,13 +2055,13 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
                             element_suivant == TRANSACTION_FORM_CREDIT );
                 gsb_form_widget_set_focus ( element_suivant );
             }
-            /* sinon je reste à crédit */
+            /* sinon je reste Ã  crÃ©dit */
             else
             {
                 gsb_form_widget_set_focus ( element_suivant );
             }
         }
-        /* sinon je donne le focus à l'élément suivant */
+        /* sinon je donne le focus Ã  l'Ã©lÃ©ment suivant */
 	    else
             gsb_form_widget_set_focus ( element_suivant );
 	    return TRUE;
@@ -2156,7 +2156,8 @@ gboolean gsb_form_finish_edition ( void )
 
     /* set a debug here, if transaction_number is 0, should look for where it comes */
     if (!transaction_number)
-	notice_debug ("Coming in gsb_form_finish_edition with a 0 number of transaction. This is a bug,\nplease try to do it again and report the bug.");
+	notice_debug ("Coming in gsb_form_finish_edition with a 0 number of transaction. "
+                  "This is a bug,\nplease try to do it again and report the bug.");
 
     account_number = gsb_form_get_account_number ();
 
@@ -2190,13 +2191,13 @@ gboolean gsb_form_finish_edition ( void )
      *  -2, -3, ... for the white lines of scheduled transactions
      *  or it's an execution of scheduled transaction */
     if ( transaction_number < 0 ) 
-	new_transaction = 1;
+        new_transaction = 1;
     else
-	new_transaction = 0;
+        new_transaction = 0;
 
     /* check if the datas are ok */
     if ( !gsb_form_validate_form_transaction (transaction_number, is_transaction))
-	return FALSE;
+        return FALSE;
 
     /* if the party is a report, we make as transactions as the number of parties in the
      * report. So we create a list with the party's numbers or -1 if it's a normal
@@ -2255,10 +2256,11 @@ gboolean gsb_form_finish_edition ( void )
 	    /* it's a new transaction, we create it, and set the mother if necessary */
 	    gint mother_transaction = 0;
 
-	    /* if we are on a white child (ie number < -1, -1 is only for the general white line), get the mother of transaction */
+	    /* if we are on a white child (ie number < -1, -1 is only for the general white line),
+         * get the mother of transaction */
 	    if ( transaction_number < -1 )
-		mother_transaction = gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction);
-
+            mother_transaction = gsb_data_mix_get_mother_transaction_number (
+                                        transaction_number, is_transaction);
 	    transaction_number = gsb_data_mix_new_transaction (account_number, is_transaction);
 
 	    gsb_data_mix_set_mother_transaction_number ( transaction_number,
@@ -2273,9 +2275,9 @@ gboolean gsb_form_finish_edition ( void )
 	    if ( is_transaction
 		 &&
 		 !gsb_data_transaction_get_mother_transaction_number (transaction_number))
-		gsb_data_account_set_current_balance ( account_number,
-						       gsb_real_sub ( gsb_data_account_get_current_balance (account_number),
-								      gsb_data_transaction_get_adjusted_amount (transaction_number, -1)));
+            gsb_data_account_set_current_balance ( account_number,
+                        gsb_real_sub ( gsb_data_account_get_current_balance (account_number),
+                        gsb_data_transaction_get_adjusted_amount (transaction_number, -1)));
 	}
 
 	/* take the datas in the form, except the category */
@@ -2340,10 +2342,10 @@ gboolean gsb_form_finish_edition ( void )
 	    gsb_form_scheduler_get_scheduler_part (transaction_number);
 
 	    if (new_transaction)
-		gsb_scheduler_list_append_new_scheduled ( transaction_number,
-							  gsb_scheduler_list_get_end_date_scheduled_showed ());
+            gsb_scheduler_list_append_new_scheduled ( transaction_number,
+                        gsb_scheduler_list_get_end_date_scheduled_showed ());
 	    else
-		gsb_scheduler_list_update_transaction_in_list (transaction_number);
+            gsb_scheduler_list_update_transaction_in_list (transaction_number);
 
 	    /* needed for the two in case of we change the date */
 	    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
@@ -2358,40 +2360,41 @@ gboolean gsb_form_finish_edition ( void )
 	 &&
 	 etat.equilibrage )
     {
-	if (new_transaction)
-	    /* we are reconciling and it's a new transaction, so need to show the checkbox */
-	    transaction_list_show_toggle_mark (TRUE);
-	else
-	{
-	    /* we are reconciling and it's a modification of transaction, need to recalculate the marked balance */
-	    gsb_data_account_calculate_marked_balance (account_number);
-	    gsb_reconcile_update_amounts (NULL, NULL);
-	}
+        if (new_transaction)
+            /* we are reconciling and it's a new transaction, so need to show the checkbox */
+            transaction_list_show_toggle_mark (TRUE);
+        else
+        {
+            /* we are reconciling and it's a modification of transaction, need to 
+             * recalculate the marked balance */
+            gsb_data_account_calculate_marked_balance (account_number);
+            gsb_reconcile_update_amounts (NULL, NULL);
+        }
     }
 
     /* if we executed a scheduled transation, need to increase the date of the scheduled
      * and execute the children if it's a split */
     if (execute_scheduled)
     {
-	gint increase_result;
+        gint increase_result;
 
-	/* first, check if it's a scheduled split and execute the childrent */
-	if (gsb_data_scheduled_get_split_of_scheduled (saved_scheduled_number))
-	    gsb_scheduler_execute_children_of_scheduled_transaction ( saved_scheduled_number,
-								      transaction_number );
+        /* first, check if it's a scheduled split and execute the childrent */
+        if ( gsb_data_scheduled_get_split_of_scheduled (saved_scheduled_number) )
+            gsb_scheduler_execute_children_of_scheduled_transaction ( saved_scheduled_number,
+                        transaction_number );
+ 
+        /* now we can increase the scheduled transaction */
+        increase_result = gsb_scheduler_increase_scheduled ( saved_scheduled_number );
 
-	/* now we can increase the scheduled transaction */
-	increase_result = gsb_scheduler_increase_scheduled (saved_scheduled_number);
+        /* the next step is to update the list, but do it only if we are on the scheduled
+         * list, else we needn't because the update will be done when going to that list */
+        if (gsb_gui_navigation_get_current_page () == GSB_SCHEDULER_PAGE)
+        {
+            if (increase_result)
+                gsb_scheduler_list_update_transaction_in_list ( saved_scheduled_number );
 
-	/* the next step is to update the list, but do it only if we are on the scheduled
-	 * list, else we needn't because the update will be done when going to that list */
-	if (gsb_gui_navigation_get_current_page () == GSB_SCHEDULER_PAGE)
-	{
-	    if (increase_result)
-		gsb_scheduler_list_update_transaction_in_list (saved_scheduled_number);
-
-	    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
-	}
+            gsb_scheduler_list_set_background_color ( gsb_scheduler_list_get_tree_view () );
+        }
     }
 
     /* if it was a new transaction, do the stuff to do another new transaction */
@@ -2410,9 +2413,9 @@ gboolean gsb_form_finish_edition ( void )
 
 	    white_line_number = gsb_data_mix_get_white_line (transaction_number, is_transaction);
 	    if (is_transaction)
-		transaction_list_select (white_line_number);
+            transaction_list_select (white_line_number);
 	    else
-		gsb_scheduler_list_select (white_line_number);
+            gsb_scheduler_list_select (white_line_number);
 	}
 
 	/* it was a new transaction, we save the last date entry */
@@ -2420,23 +2423,24 @@ gboolean gsb_form_finish_edition ( void )
 
 	/* we need to use edit_transaction to make a new child split if necessary */
 	if (is_transaction)
-	    gsb_transactions_list_edit_transaction (gsb_data_account_get_current_transaction_number (account_number));
+	    gsb_transactions_list_edit_transaction (
+                        gsb_data_account_get_current_transaction_number (account_number) );
 	else
 	    gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
     }
     else
-	gsb_form_hide ();
+        gsb_form_hide ();
 
     /* if it was a modification of transaction, we need to update the sort and colors
      * (done automaticaly for new transaction) */
     if (!new_transaction && !execute_scheduled)
-	gsb_transactions_list_update_tree_view (account_number, TRUE);
+        gsb_transactions_list_update_tree_view (account_number, TRUE);
 
     /* show the warnings */
     if (is_transaction)
     {
-	affiche_dialogue_soldes_minimaux ();
-	update_transaction_in_trees (transaction_number);
+        affiche_dialogue_soldes_minimaux ();
+        update_transaction_in_trees (transaction_number);
     }
 
     /* as we modify or create a transaction, we invalidate the current report */
