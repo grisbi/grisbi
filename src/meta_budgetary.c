@@ -51,7 +51,7 @@ static gint budgetary_lint_get_number_by_name ( const gchar *name, gboolean crea
 
 /*START_EXTERN*/
 extern gint no_devise_totaux_ib;
-extern gsb_real null_real ;
+extern gsb_real null_real;
 /*END_EXTERN*/
 
 

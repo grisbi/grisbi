@@ -62,9 +62,9 @@ static void gsb_reconcile_sensitive ( gboolean sensitive );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *label_last_statement ;
+extern GtkWidget *label_last_statement;
 extern gint mise_a_jour_liste_comptes_accueil;
-extern GtkWidget * navigation_tree_view ;
+extern GtkWidget * navigation_tree_view;
 extern GtkWidget * reconcile_panel;
 extern GtkUIManager * ui_manager;
 /*END_EXTERN*/

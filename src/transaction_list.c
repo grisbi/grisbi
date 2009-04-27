@@ -72,12 +72,12 @@ extern GdkColor couleur_fond[2];
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
-extern gsb_real null_real ;
-extern GSList *orphan_child_transactions ;
+extern gsb_real null_real;
+extern GSList *orphan_child_transactions;
 extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 

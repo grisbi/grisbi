@@ -123,7 +123,7 @@ static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real ;
+extern gsb_real null_real;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
@@ -2564,6 +2564,14 @@ GdkPixbuf *gsb_data_account_get_account_icon_pixbuf ( gint account_number )
 }
 
 
+/**
+ * get the default pixbuf icon for the kind_account
+ * 
+ * \param kind_account
+ * 
+ * \return pixbuf icon 
+ * */
+
 GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_kind )
 {
     GdkPixbuf * pixbuf = NULL;
@@ -2594,7 +2602,6 @@ GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_k
         g_object_set_data ( G_OBJECT ( pixbuf ), "name_icon",  
                                g_build_filename (PIXMAPS_DIR,
                                account_icon, NULL) );
-
     else
         devel_debug ( error -> message );
 
@@ -2602,6 +2609,12 @@ GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_k
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
 void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
 {
     GdkPixbuf * pixbuf;
@@ -2617,9 +2630,8 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
         name_icon = g_object_get_data ( G_OBJECT ( pixbuf ), "name_icon" );
     else
         name_icon = g_build_filename (PIXMAPS_DIR, "ac_bank.png", NULL);
-    devel_debug (name_icon);
+
     new_icon = gsb_select_icon_create_window ( name_icon );
-    devel_debug (new_icon);
     if ( new_icon )
     {
         current_account = gsb_gui_navigation_get_current_account ();
@@ -2631,6 +2643,12 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
 gchar *gsb_data_account_get_owner (gint account_number)
 {
     struct_account *account;

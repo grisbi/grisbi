@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
 /*			2003-2009 Benjamin Drieu (bdrieu@april.org)             	      */
+/*                      2009 Pierre Biava (pierre@pierre.biava.name)          */
 /* 			http://www.grisbi.org			                        	      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -19,7 +20,6 @@
 /*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 
 #include "include.h"
@@ -74,6 +74,113 @@
 #include "./gsb_data_report.h"
 /*END_INCLUDE*/
 
+/** temporary structure to set the final date and the final balance of a reconcile
+ * in the reconcile itself, and not in the account as before 0.6.0 */
+struct reconcile_conversion_struct
+{
+    gint reconcile_number;
+    gint account_number;
+    GDate *final_date;
+    gsb_real final_balance;
+};
+
+/*START_STATIC*/
+static gint cmp_int (struct reconcile_conversion_struct *reconcile_1,
+                        struct reconcile_conversion_struct *reconcile_2);
+static void gsb_file_load_account_part ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
+                        const gchar *text );
+static void gsb_file_load_archive ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_bank ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
+static void gsb_file_load_color_part ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_currency ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_currency_link ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
+					    const gchar *element_name,
+					    gpointer user_data,
+					    GError **error);
+static void gsb_file_load_financial_year ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_general_part ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
+					    const gchar *text );
+static gint gsb_file_load_get_new_payment_number ( gint account_number,
+					    gint payment_number );
+static void gsb_file_load_import_rule ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_logo_accueil ( const gchar **attribute_names,
+				       const gchar **attribute_values );
+static void gsb_file_load_party ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_payment_part ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_print_part ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_reconcile ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
+					    const gchar *text );
+static void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
+					    const gchar **attribute_values );
+static void gsb_file_load_start_element ( GMarkupParseContext *context,
+                        const gchar *element_name,
+                        const gchar **attribute_names,
+                        const gchar **attribute_values,
+                        gpointer user_data,
+                        GError **error);
+static void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
+                        const gchar *element_name,
+					    const gchar **attribute_names,
+					    const gchar **attribute_values,
+					    gpointer user_data,
+					    GError **error);
+static void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context,
+					    const gchar *text,
+					    gsize text_len,  
+					    gpointer user_data,
+					    GError **error);
+static void gsb_file_load_transactions ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static gboolean gsb_file_load_update_previous_version ( void );
+/*END_STATIC*/
+
+
+/*START_EXTERN*/
+extern gchar *adresse_commune;
+extern gchar *adresse_secondaire;
+extern gint affichage_echeances;
+extern gint affichage_echeances_perso_nb_libre;
+extern GdkColor archive_background_color;
+extern GdkColor calendar_entry_color;
+extern GdkColor couleur_fond[2];
+extern GdkColor couleur_grise;
+extern GdkColor couleur_selection;
+extern gint display_one_line;
+extern gint display_three_lines;
+extern gint display_two_lines;
+extern struct iso_4217_currency iso_4217_currencies[];
+extern GtkWidget *logo_accueil;
+extern gint no_devise_totaux_categ;
+extern gint no_devise_totaux_ib;
+extern gint no_devise_totaux_tiers;
+extern gsb_real null_real;
+extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
+extern GdkColor split_background;
+extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern GdkColor text_color[2];
+extern gchar *titre_fichier;
+extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
+extern gint valeur_echelle_recherche_date_import;
+/*END_EXTERN*/
+
 static struct
 {
     gboolean download_ok;
@@ -118,128 +225,31 @@ static GSList *payment_conversion_list = NULL;
 
 /** temporary structure to set the final date and the final balance of a reconcile
  * in the reconcile itself, and not in the account as before 0.6.0 */
-struct reconcile_conversion_struct
-{
-    gint reconcile_number;
-    gint account_number;
-    GDate *final_date;
-    gsb_real final_balance;
-};
+//~ struct reconcile_conversion_struct
+//~ {
+    //~ gint reconcile_number;
+    //~ gint account_number;
+    //~ GDate *final_date;
+    //~ gsb_real final_balance;
+//~ };
 
+static GSList *reconcile_conversion_list = NULL;
+static struct reconcile_conversion_struct *buffer_reconcile_conversion;
+
+/* structure temporaire utilisée pour faire un lien entre ancien et nouveau numéro
+ * de rapprochement et chaque compte parce que dans les versions précédentes de Grisbi
+ * on pouvait utiliser un même rapprochement dans les opérations car celles-ci étaient 
+ * organisées par comptes */
 struct old_new_rec_conversion_struct
 {
     gint account_number;
     gint old_rec_number;
     gint new_rec_number;
 };
-static GSList *reconcile_print_list = NULL;
 static GSList *old_new_rec_list = NULL;
-static GSList *reconcile_conversion_list = NULL;
-static struct reconcile_conversion_struct *buffer_reconcile_conversion;
 static struct old_new_rec_conversion_struct *buffer_old_new_rec_conversion;
 
-static gint cmp_int (struct reconcile_conversion_struct *reconcile_1,
-                    struct reconcile_conversion_struct *reconcile_2);
-
-/*START_STATIC*/
-static gint cmp_int (struct reconcile_conversion_struct *reconcile_1,
-                    struct reconcile_conversion_struct *reconcile_2);
-static void gsb_file_load_account_part ( const gchar **attribute_names,
-				  const gchar **attribute_values );
-static void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
-					     const gchar *text );
-static void gsb_file_load_archive ( const gchar **attribute_names,
-			     const gchar **attribute_values );
-static void gsb_file_load_bank ( const gchar **attribute_names,
-			  const gchar **attribute_values );
-static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
-static void gsb_file_load_color_part ( const gchar **attribute_names,
-				const gchar **attribute_values );
-static void gsb_file_load_currency ( const gchar **attribute_names,
-			      const gchar **attribute_values );
-static void gsb_file_load_currency_link ( const gchar **attribute_names,
-				   const gchar **attribute_values );
-static void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
-					    const gchar *element_name,
-					    gpointer user_data,
-					    GError **error);
-static void gsb_file_load_financial_year ( const gchar **attribute_names,
-				    const gchar **attribute_values );
-static void gsb_file_load_general_part ( const gchar **attribute_names,
-				  const gchar **attribute_values );
-static void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
-					     const gchar *text );
-static gint gsb_file_load_get_new_payment_number ( gint account_number,
-					    gint payment_number );
-static void gsb_file_load_import_rule ( const gchar **attribute_names,
-				 const gchar **attribute_values );
-static void gsb_file_load_logo_accueil ( const gchar **attribute_names,
-				       const gchar **attribute_values );
-static void gsb_file_load_party ( const gchar **attribute_names,
-			   const gchar **attribute_values );
-static void gsb_file_load_payment_part ( const gchar **attribute_names,
-				  const gchar **attribute_values );
-static void gsb_file_load_print_part ( const gchar **attribute_names,
-				const gchar **attribute_values );
-static void gsb_file_load_reconcile ( const gchar **attribute_names,
-			       const gchar **attribute_values );
-static void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
-					    const gchar *text );
-static void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
-					    const gchar **attribute_values );
-static void gsb_file_load_start_element ( GMarkupParseContext *context,
-				   const gchar *element_name,
-				   const gchar **attribute_names,
-				   const gchar **attribute_values,
-				   gpointer user_data,
-				   GError **error);
-static void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
-					      const gchar *element_name,
-					      const gchar **attribute_names,
-					      const gchar **attribute_values,
-					      gpointer user_data,
-					      GError **error);
-static void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context,
-					     const gchar *text,
-					     gsize text_len,  
-					     gpointer user_data,
-					     GError **error);
-static void gsb_file_load_transactions ( const gchar **attribute_names,
-				  const gchar **attribute_values );
-static gboolean gsb_file_load_update_previous_version ( void );
-/*END_STATIC*/
-
-
-/*START_EXTERN*/
-extern gchar *adresse_commune ;
-extern gchar *adresse_secondaire ;
-extern gint affichage_echeances;
-extern gint affichage_echeances_perso_nb_libre;
-extern GdkColor archive_background_color;
-extern GdkColor calendar_entry_color;
-extern GdkColor couleur_fond[2];
-extern GdkColor couleur_grise;
-extern GdkColor couleur_selection;
-extern gint display_one_line;
-extern gint display_three_lines;
-extern gint display_two_lines;
-extern struct iso_4217_currency iso_4217_currencies[] ;
-extern GtkWidget *logo_accueil ;
-extern gint no_devise_totaux_categ;
-extern gint no_devise_totaux_ib;
-extern gint no_devise_totaux_tiers;
-extern gsb_real null_real ;
-extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
-extern GdkColor split_background;
-extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern GdkColor text_color[2];
-extern gchar *titre_fichier ;
-extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
-extern gint valeur_echelle_recherche_date_import;
-/*END_EXTERN*/
-
-
-
+static GSList *reconcile_print_list = NULL;
 
 /**
  * called to open the grisbi file given in param
@@ -405,11 +415,11 @@ gboolean gsb_file_load_check_new_structure ( gchar *file_content )
 
 
 void gsb_file_load_start_element ( GMarkupParseContext *context,
-				   const gchar *element_name,
-				   const gchar **attribute_names,
-				   const gchar **attribute_values,
-				   gpointer user_data,
-				   GError **error)
+                        const gchar *element_name,
+                        const gchar **attribute_names,
+                        const gchar **attribute_values,
+                        gpointer user_data,
+                        GError **error)
 {
     /* the first time we come here, we check if it's a grisbi file */
     if ( !download_tmp_values.download_ok )
@@ -616,8 +626,8 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 
 
 void gsb_file_load_error ( GMarkupParseContext *context,
-			   GError *error,
-			   gpointer user_data )
+                        GError *error,
+                        gpointer user_data )
 {
     /* the first time we come here, we check if it's a grisbi file */
     gchar* tmpstr = g_strdup_printf (
@@ -638,7 +648,7 @@ void gsb_file_load_error ( GMarkupParseContext *context,
  *
  * */
 void gsb_file_load_general_part ( const gchar **attribute_names,
-				  const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
 
@@ -959,7 +969,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_color_part ( const gchar **attribute_names,
-				const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
 
@@ -1153,7 +1163,7 @@ void gsb_file_load_color_part ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_print_part ( const gchar **attribute_names,
-				const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
 
@@ -1260,7 +1270,7 @@ void gsb_file_load_print_part ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_account_part ( const gchar **attribute_names,
-				  const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint account_number = 0;
@@ -1639,7 +1649,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_payment_part ( const gchar **attribute_names,
-				  const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint payment_number;
@@ -1739,7 +1749,7 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_transactions ( const gchar **attribute_names,
-				  const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint transaction_number = 0;
@@ -2300,7 +2310,7 @@ void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_party ( const gchar **attribute_names,
-			   const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint payee_number;
@@ -2378,7 +2388,7 @@ void gsb_file_load_party ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_category ( const gchar **attribute_names,
-			      const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint category_number = 0;
@@ -2440,7 +2450,7 @@ void gsb_file_load_category ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_sub_category ( const gchar **attribute_names,
-				  const gchar **attribute_values)
+                        const gchar **attribute_values)
 {
     gint i=0;
     gint category_number = 0;
@@ -2503,7 +2513,7 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_budgetary ( const gchar **attribute_names,
-			       const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint budget_number = 0;
@@ -2565,7 +2575,7 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
-				   const gchar **attribute_values)
+                        const gchar **attribute_values)
 {
     gint i=0;
     gint budget_number = 0;
@@ -2628,7 +2638,7 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_currency ( const gchar **attribute_names,
-			      const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint currency_number;
@@ -2725,7 +2735,7 @@ void gsb_file_load_currency ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_currency_link ( const gchar **attribute_names,
-				   const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint link_number;
@@ -2796,7 +2806,7 @@ void gsb_file_load_currency_link ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_bank ( const gchar **attribute_names,
-			  const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint bank_number = 0;
@@ -2949,7 +2959,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_financial_year ( const gchar **attribute_names,
-				    const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint fyear_number;
@@ -3043,7 +3053,7 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_archive ( const gchar **attribute_names,
-			     const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint archive_number;
@@ -3140,7 +3150,7 @@ void gsb_file_load_archive ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_reconcile ( const gchar **attribute_names,
-			       const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint reconcile_number = 0;
@@ -3238,7 +3248,7 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_import_rule ( const gchar **attribute_names,
-				 const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint import_rule_number = 0;
@@ -3345,7 +3355,7 @@ void gsb_file_load_import_rule ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_report ( const gchar **attribute_names,
-			    const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint report_number = 0;
@@ -4082,7 +4092,7 @@ void gsb_file_load_report ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_text_comparison ( const gchar **attribute_names,
-				     const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint text_comparison_number = 0;
     gint i=0;
@@ -4245,7 +4255,7 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_amount_comparison ( const gchar **attribute_names,
-				       const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint amount_comparison_number = 0;
@@ -4403,11 +4413,11 @@ void gsb_file_load_logo_accueil ( const gchar **attribute_names,
     while ( attribute_names[i] );
 }
 void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
-					      const gchar *element_name,
-					      const gchar **attribute_names,
-					      const gchar **attribute_values,
-					      gpointer user_data,
-					      GError **error)
+                        const gchar *element_name,
+					    const gchar **attribute_names,
+					    const gchar **attribute_values,
+					    gpointer user_data,
+					    GError **error)
 {
     /* the first time we come here, we check if it's a grisbi file */
     gchar **pointeur_char;
@@ -5562,10 +5572,10 @@ void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
 }
 
 void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context,
-					     const gchar *text,
-					     gsize text_len,  
-					     gpointer user_data,
-					     GError **error)
+					    const gchar *text,
+					    gsize text_len,  
+					    gpointer user_data,
+					    GError **error)
 {
     /* we come here for all text element, we split here to go
      * on the necessary function to work with that element */
@@ -5582,7 +5592,7 @@ void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context,
 }
 
 void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
-					     const gchar *text )
+					    const gchar *text )
 {
     const gchar *element_name;
 
@@ -5775,7 +5785,7 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
 
 
 void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
-					     const gchar *text )
+                        const gchar *text )
 {
     const gchar *element_name;
 
@@ -7880,7 +7890,7 @@ gint gsb_file_load_get_new_payment_number ( gint account_number,
 
 
 gint cmp_int (struct reconcile_conversion_struct *reconcile_1,
-                    struct reconcile_conversion_struct *reconcile_2)
+                        struct reconcile_conversion_struct *reconcile_2)
 {
     gint num_1, num_2, num_3, num_4;
 

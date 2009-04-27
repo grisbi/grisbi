@@ -35,7 +35,7 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 #if GTK_CHECK_VERSION(2,10,0)

@@ -75,8 +75,8 @@ gint no_devise_totaux_ib;
 gboolean sortie_edit_budgetary_line = FALSE;
 
 /*START_EXTERN*/
-extern MetatreeInterface * budgetary_interface ;
-extern GtkWidget *window ;
+extern MetatreeInterface * budgetary_interface;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 

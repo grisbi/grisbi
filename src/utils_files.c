@@ -45,7 +45,7 @@ static void utils_files_file_chooser_cancel ( GtkWidget *bouton, GtkWidget *choo
 
 
 /*START_EXTERN*/
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 

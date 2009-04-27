@@ -49,7 +49,7 @@ static  GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 enum first_assistant_page

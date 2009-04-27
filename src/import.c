@@ -143,7 +143,7 @@ static void traitement_operations_importees ( void );
 extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 /* recopie des types de transaction de la libofx en attendant une version propre */

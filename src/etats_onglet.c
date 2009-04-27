@@ -82,11 +82,11 @@ static GtkWidget *reports_toolbar = NULL;
 
 
 /*START_EXTERN*/
-extern struct struct_etat_affichage csv_affichage ;
-extern struct struct_etat_affichage html_affichage ;
-extern struct struct_etat_affichage latex_affichage ;
-extern GtkWidget *notebook_general ;
-extern GtkWidget *window ;
+extern struct struct_etat_affichage csv_affichage;
+extern struct struct_etat_affichage html_affichage;
+extern struct struct_etat_affichage latex_affichage;
+extern GtkWidget *notebook_general;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 /** Different formats supported.  */

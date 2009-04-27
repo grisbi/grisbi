@@ -37,7 +37,7 @@ static void launch_url (GtkAboutDialog *about, const gchar * link, gpointer data
 
 
 /*START_EXTERN*/
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 

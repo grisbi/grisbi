@@ -64,10 +64,10 @@ static  GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *adresse_commune ;
-extern gchar *nom_fichier_comptes ;
-extern gchar *titre_fichier ;
-extern GtkWidget *window ;
+extern gchar *adresse_commune;
+extern gchar *nom_fichier_comptes;
+extern gchar *titre_fichier;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 enum file_assistant_page

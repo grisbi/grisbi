@@ -162,16 +162,16 @@ gchar *cell_views[] = {
 
 
 /*START_EXTERN*/
-extern GSList *liste_labels_titres_colonnes_liste_ope ;
+extern GSList *liste_labels_titres_colonnes_liste_ope;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GtkWidget * navigation_tree_view ;
-extern GtkWidget *notebook_general ;
+extern GtkWidget * navigation_tree_view;
+extern GtkWidget *notebook_general;
 extern GtkWidget *reconcile_sort_list_button;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -844,7 +844,7 @@ gboolean gsb_transactions_list_update_transaction ( gint transaction_number )
 {
     gint account_number;
     gchar *string;
-    gsb_real current_balance;
+    //~ gsb_real current_balance;
 
     devel_debug_int (transaction_number);
 
@@ -857,6 +857,8 @@ gboolean gsb_transactions_list_update_transaction ( gint transaction_number )
     account_number = gsb_data_transaction_get_account_number (transaction_number);
 
     /* update the current balance */
+    /* mis en commentaire car cela modifie le solde du compte même si on ne modifie pas
+     * le montant de l'opération voir impacts sur une modification du solde. */
     //~ current_balance = gsb_real_add ( gsb_data_account_get_current_balance (account_number),
 				     //~ gsb_data_transaction_get_adjusted_amount (transaction_number, -1));
     //~ gsb_data_account_set_current_balance ( account_number,
