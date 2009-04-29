@@ -2,9 +2,9 @@
 /*                                                                            */
 /*                                  gsb_real	                              */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	          */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -158,43 +158,45 @@ gchar *gsb_real_format_string ( gsb_real number,
     /*     Construct the result in the reverse order from right to left, then reverse it. */
     do
     {
-	if ( i == number.exponent)
-	{
-	    *string = 0;
-	    string = exponent;
-	    result_div.quot = num;
-	}
-	else
-	{
-	    if (i > number.exponent)
-		j++;
+        if ( i == number.exponent)
+        {
+            *string = 0;
+            string = exponent;
+            result_div.quot = num;
+        }
+        else
+        {
+            if (i > number.exponent)
+                j++;
 
-	    if ( j == 4 )
-	    {
-		j=0;
-		if ( * (conv -> mon_thousands_sep ) )
-		{
-		    *string++ = * ( conv -> mon_thousands_sep );
-		}
-		else
-		{
-		    i--;
-		}
-		result_div.quot = num;
-	    }
-	    else
-	    {
-		result_div = div ( num, 10 );
-		*string++ = result_div.rem + '0';
-	    }
-	}
-	i++;
-	/* we check also i < (number.exponent+2)
-	 * the +2 is for 0. at the left of the separator,
-	 * with that check, 0 will be 0.00 if exponent = 2,
-	 * and 0.51 will be 0.51 and no 51 without that check */
+            if ( j == 4 )
+            {
+                j=0;
+                if ( * (conv -> mon_thousands_sep ) )
+                {
+                    *string++ = * ( conv -> mon_thousands_sep );
+                }
+                else
+                {
+                    i--;
+                }
+                result_div.quot = num;
+            }
+            else
+            {
+                result_div = div ( num, 10 );
+                *string++ = result_div.rem + '0';
+            }
+        }
+        i++;
+        /* we check also i < (number.exponent+2)
+         * the +2 is for 0. at the left of the separator,
+         * with that check, 0 will be 0.00 if exponent = 2,
+         * and 0.51 will be 0.51 and no 51 without that check */
     }
     while ( ( num = result_div.quot )
+        ||
+        i < number.exponent
 	    ||
   	    (currency_number
 	     &&
@@ -204,15 +206,15 @@ gchar *gsb_real_format_string ( gsb_real number,
     /* Add the sign at the end of the string just before to reverse it to avoid
        to have to insert it at the begin just after... */
     string = g_strdup_printf ( "%s%s%s%s%s%s%s%s", 
-			       ( currency_symbol && conv -> p_cs_precedes ? currency_symbol : "" ),
-			       ( currency_symbol && conv -> p_sep_by_space ? " " : "" ),
-			       number.mantissa < 0 ? conv -> negative_sign : conv -> positive_sign,
-			       strlen (exponent) ? g_strreverse ( exponent ) : "0",
-			       ( * conv -> mon_decimal_point ? conv -> mon_decimal_point : "." ),
-			       g_strreverse ( mantissa ),
-			       ( currency_symbol && ! conv -> p_cs_precedes && conv -> p_sep_by_space ? 
-				 " " : "" ),
-			       ( currency_symbol && ! conv -> p_cs_precedes ? currency_symbol : "" ) );
+                    ( currency_symbol && conv -> p_cs_precedes ? currency_symbol : "" ),
+                    ( currency_symbol && conv -> p_sep_by_space ? " " : "" ),
+                    number.mantissa < 0 ? conv -> negative_sign : conv -> positive_sign,
+                    strlen (exponent) ? g_strreverse ( exponent ) : "0",
+                    ( * conv -> mon_decimal_point ? conv -> mon_decimal_point : "." ),
+                    g_strreverse ( mantissa ),
+                    ( currency_symbol && ! conv -> p_cs_precedes && conv -> p_sep_by_space ? 
+                    " " : "" ),
+                    ( currency_symbol && ! conv -> p_cs_precedes ? currency_symbol : "" ) );
 
     g_free ( exponent );
     g_free ( mantissa );
