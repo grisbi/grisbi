@@ -1108,8 +1108,12 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 	    transaction_archive_number = 0;
 	}
 
-	/* set the reals */
-	amount = gsb_real_get_string (gsb_data_transaction_get_amount ( transaction_number ));
+	/* set the reals. On met en forme le résultat pour avoir une cohérence dans les montants
+     * enregistrés dans le fichier à valider */
+	amount = gsb_real_get_string_with_currency ( gsb_data_transaction_get_amount (
+                        transaction_number),
+                        gsb_data_transaction_get_currency_number (transaction_number),
+                        FALSE );
 	exchange_rate = gsb_real_get_string (gsb_data_transaction_get_exchange_rate (transaction_number ));
 	exchange_fees = gsb_real_get_string (gsb_data_transaction_get_exchange_fees ( transaction_number));
 	

@@ -126,7 +126,7 @@ gchar *gsb_real_format_string ( gsb_real number,
      * i think it's ok like that, and to adapt the view according with the currency and not the current
      * locale is much more complicated */
     if (currency_number && show_symbol)
-	currency_symbol = gsb_data_currency_get_code (currency_number);
+        currency_symbol = gsb_data_currency_get_code (currency_number);
     
     /* First of all if number = 0 I return 0 with the symbol of the currency if necessary */
     if (number.mantissa == 0)
@@ -140,12 +140,13 @@ gchar *gsb_real_format_string ( gsb_real number,
     }
 
     /* first we need to adapt the exponent to the currency */
-    if (currency_number
+    if ( currency_number
 	&&
-	number.exponent != gsb_data_currency_get_floating_point (currency_number))
-	/* the exponent of the real is not the same of the currency, need to adapt it */
-	number = gsb_real_adjust_exponent (number, gsb_data_currency_get_floating_point (currency_number));
-
+	number.exponent != gsb_data_currency_get_floating_point (currency_number) )
+        /* the exponent of the real is not the same of the currency, need to adapt it */
+        number = gsb_real_adjust_exponent ( number, gsb_data_currency_get_floating_point (
+                        currency_number) );
+    
     /* for a long int : max 11 char
      * so with the possible -, the spaces and the .
      * we arrive to maximum 14 char : -21 474 836.48 + 1 for the 0 terminal */
@@ -155,7 +156,7 @@ gchar *gsb_real_format_string ( gsb_real number,
 
     num = labs(number.mantissa);
 
-    /*     Construct the result in the reverse order from right to left, then reverse it. */
+    /* Construct the result in the reverse order from right to left, then reverse it. */
     do
     {
         if ( i == number.exponent)
@@ -196,7 +197,7 @@ gchar *gsb_real_format_string ( gsb_real number,
     }
     while ( ( num = result_div.quot )
         ||
-        i < number.exponent
+        i < number.exponent+2
 	    ||
   	    (currency_number
 	     &&
@@ -221,7 +222,6 @@ gchar *gsb_real_format_string ( gsb_real number,
 
     return ( string );
 }
-
 
 
 /**

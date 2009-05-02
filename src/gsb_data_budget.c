@@ -1537,7 +1537,8 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
 							     gsb_data_transaction_get_amount (transaction_number).mantissa <0 );
 	gsb_data_transaction_set_budgetary_number ( transaction_number,
 						    budget_number );
-	gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
+    if ( tab_char[1] )
+        gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
 							gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
 													g_strstrip (tab_char[1]),
 													TRUE ));
@@ -1561,7 +1562,8 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
 							     gsb_data_scheduled_get_amount (transaction_number).mantissa <0 );
 	gsb_data_scheduled_set_budgetary_number ( transaction_number,
 						    budget_number );
-	gsb_data_scheduled_set_sub_budgetary_number ( transaction_number,
+    if ( tab_char[1] )
+        gsb_data_scheduled_set_sub_budgetary_number ( transaction_number,
 						      gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
 												      tab_char[1],
 												      TRUE ));
