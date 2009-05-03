@@ -7486,24 +7486,23 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    while ( list_tmp_transactions )
 	    {
             gint transaction_number;
-            gint reconcile_number;
             
             transaction_number = gsb_data_transaction_get_transaction_number (
                         list_tmp_transactions -> data);
 
             /* ok first we work only with reconciled transactions */
             if ( gsb_data_transaction_get_marked_transaction (
-                            transaction_number) == OPERATION_RAPPROCHEE 
-                &&
-                (reconcile_number = gsb_data_transaction_get_reconcile_number (
-                        transaction_number )) > 0 )
+                            transaction_number) == OPERATION_RAPPROCHEE )
             {
+                gint reconcile_number;
                 gint account_number;
                 gint reconcile_account;
                 const GDate *date_reconcile;
                 const GDate *date_transaction;
                 gboolean trouve = FALSE;
 
+                reconcile_number = gsb_data_transaction_get_reconcile_number (
+                        transaction_number );
                 reconcile_account = gsb_data_reconcile_get_account ( reconcile_number );
 
                 account_number = gsb_data_transaction_get_account_number (
