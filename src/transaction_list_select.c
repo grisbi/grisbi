@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -67,7 +67,8 @@ gboolean transaction_list_select ( gint transaction_number )
     g_return_val_if_fail ( custom_list != NULL, FALSE );
 
     /* if the selection didn't change, do nothing */
-    if (gsb_data_transaction_get_transaction_number (custom_list -> selected_row) == transaction_number)
+    if ( gsb_data_transaction_get_transaction_number (custom_list -> selected_row) == 
+        transaction_number )
 	return FALSE;
 
     /* first, we un-select the last transaction */
@@ -101,7 +102,6 @@ gboolean transaction_list_select ( gint transaction_number )
     if (record -> mother_row)
     {
 	gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
-	gtk_tree_path_append_index (path, record -> filtered_pos);
 	gtk_tree_view_expand_row ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
 				   path, FALSE );
     }
