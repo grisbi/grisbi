@@ -216,6 +216,7 @@ static GSList *payment_conversion_list = NULL;
 struct reconcile_conversion_struct
 {
     gint reconcile_number;
+    gint account_number;
     GDate *final_date;
     gsb_real final_balance;
 };
@@ -5979,6 +5980,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 	if (buffer_reconcile_conversion)
 	{
 	    buffer_reconcile_conversion -> reconcile_number = utils_str_atoi ( text);
+        buffer_reconcile_conversion -> account_number = account_number;
 	    reconcile_conversion_list = g_slist_append ( reconcile_conversion_list,
 							 buffer_reconcile_conversion );
 	    buffer_reconcile_conversion = NULL;
@@ -7545,15 +7547,15 @@ gboolean gsb_file_load_update_previous_version ( void )
                     if ( trouve == FALSE )
                     {
                         buffer_old_new_rec_conversion = g_malloc0 (sizeof (
-                                                            struct old_new_rec_conversion_struct));
+                            struct old_new_rec_conversion_struct));
                         buffer_old_new_rec_conversion -> account_number = account_number;
                         buffer_old_new_rec_conversion -> old_rec_number = reconcile_number;
                         reconcile_number = gsb_data_reconcile_new ( 
-                                                gsb_data_reconcile_get_name (reconcile_number) );
+                            gsb_data_reconcile_get_name (reconcile_number) );
                         gsb_data_reconcile_set_account ( reconcile_number, account_number );
                         buffer_old_new_rec_conversion -> new_rec_number = reconcile_number;
                         old_new_rec_list = g_slist_append ( old_new_rec_list,
-                                                            buffer_old_new_rec_conversion );
+                                                buffer_old_new_rec_conversion );
                     }
                 }
 
@@ -7597,12 +7599,14 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    while ( list_tmp )
 	    {
 		struct reconcile_conversion_struct *reconcile;
+        gint reconcile_number;
 
 		reconcile = list_tmp -> data;
-
-		gsb_data_reconcile_set_final_date ( reconcile -> reconcile_number,
+        reconcile_number = gsb_data_reconcile_get_account_last_number (
+                        reconcile -> account_number );
+		gsb_data_reconcile_set_final_date ( reconcile_number,
 						    reconcile -> final_date );
-		gsb_data_reconcile_set_final_balance ( reconcile -> reconcile_number,
+		gsb_data_reconcile_set_final_balance ( reconcile_number,
 						       reconcile -> final_balance );
 		list_tmp = list_tmp -> next;
 	    }
