@@ -457,7 +457,7 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 
     /* we have to change the amount by the opposite */
     gsb_data_transaction_set_amount (contra_transaction_number,
-				     gsb_real_opposite (gsb_data_transaction_get_amount (transaction_number)));;
+				     gsb_real_opposite (gsb_data_transaction_get_amount (transaction_number)));
 
 
     /* we have to check the change */
@@ -484,6 +484,9 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 	gsb_transactions_list_append_new_transaction (contra_transaction_number, TRUE);
     else
 	gsb_transactions_list_update_transaction (contra_transaction_number);
+
+    /* recalculates the balance of the transfer account */
+    gsb_data_account_calculate_current_and_marked_balances ( account_transfer );
 
     return contra_transaction_number;
 }
