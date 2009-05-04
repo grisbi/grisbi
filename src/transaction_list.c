@@ -40,6 +40,7 @@
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
 #include "./gsb_data_archive_store.h"
+#include "./gsb_data_category.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_transaction.h"
 #include "./utils_dates.h"
@@ -63,7 +64,8 @@ static  void transaction_list_append_child ( gint transaction_number );
 static  CustomRecord *transaction_list_create_record ( gint transaction_number,
 						      gint line_in_transaction );
 static gint transaction_list_get_last_line ( gint nb_rows );
-static  gboolean transaction_list_update_white_child ( CustomRecord *white_record );
+static gboolean transaction_list_update_child ( CustomRecord *child_record );
+static gboolean transaction_list_update_white_child ( CustomRecord *white_record );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -989,7 +991,7 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 
     /* if we update a child, only 1 line */
     if (record -> mother_row)
-	nb_rows = 1;
+        return transaction_list_update_child ( record );
     else
 	nb_rows = TRANSACTION_LIST_ROWS_NB;
 
@@ -1818,6 +1820,49 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
     return TRUE;
 }
 
+
+static gboolean transaction_list_update_child ( CustomRecord *child_record )
+{
+    gchar *tmpstr;
+    CustomRecord *mother_record;
+    CustomRecord *white_record;
+    gint transaction_nb;
+    CustomList *custom_list;
+    gsb_real number = null_real;
+
+    if (!child_record)
+        return FALSE;
+
+    mother_record = child_record -> mother_row;
+    if ( !mother_record )
+        return FALSE;
+
+    custom_list = transaction_model_get_model ();
+
+    transaction_nb = gsb_data_transaction_get_transaction_number (
+                        child_record -> transaction_pointer);
+
+    /* update the child line */
+    tmpstr = gsb_transactions_get_category_real_name ( transaction_nb );
+    if ( ! tmpstr )
+        tmpstr = "";
+    child_record -> visible_col[2] = g_strdup_printf ( tmpstr );
+    if ( tmpstr && strlen (tmpstr) )
+        g_free ( tmpstr );
+
+    number = gsb_data_transaction_get_amount ( transaction_nb );
+    number.mantissa = labs(number.mantissa);
+    tmpstr = gsb_real_get_string_with_currency (number,
+                        gsb_data_transaction_get_currency_number (transaction_nb), TRUE);
+    child_record -> visible_col[4] = g_strdup_printf ( tmpstr );
+    g_free ( tmpstr );
+
+    /* we need now to recalculate the amount of split and update the white line */
+    white_record = mother_record -> children_rows[mother_record -> number_of_children -1];
+    transaction_list_update_white_child (white_record);
+
+    return TRUE;
+}
 
 /**
  * return the last visible line
