@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2008 Benjamin Drieu (bdrieu@april.org)  	      */
-/* 			http://www.grisbi.org   			      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      	  */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org)  	      			  */
+/* 			http://www.grisbi.org   			      						  */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -42,6 +42,7 @@
 #include "./gsb_data_payee.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_form.h"
+#include "./gsb_form_scheduler.h"
 #include "./fenetre_principale.h"
 #include "./gsb_real.h"
 #include "./gsb_scheduler.h"
@@ -1407,32 +1408,43 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void )
 gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
 						gpointer null )
 {
-    gint tmp_number;
+    gint tmp_number = 0;
+    gint account_number;
 
     /* wanted to set that function in gsb_scheduler_list_button_press but g_signal_connect_after
      * seems not to work in that case... */
 
     /* protect last_scheduled_number because when refill the list, set selection to 0 and so last_scheduled_number... */
-     tmp_number = gsb_scheduler_list_get_current_scheduled_number ();
+    tmp_number = gsb_scheduler_list_get_current_scheduled_number ();
 
-     if (tmp_number)
-	 last_scheduled_number = tmp_number;
+    if (tmp_number)
+        last_scheduled_number = tmp_number;
+
+    /* if etat.show_transaction_selected_in_form => edit the scheduled transaction */
+    if ( tmp_number != 0 && etat.show_transaction_selected_in_form )
+            gsb_scheduler_list_edit_transaction (tmp_number);
+    else if ( tmp_number == 0 )
+    {
+        gsb_form_scheduler_clean ( );
+        account_number = gsb_data_scheduled_get_account_number (tmp_number);
+        gsb_form_clean ( account_number );
+    }
 
     /* sensitive/unsensitive the button execute */
     gtk_widget_set_sensitive ( scheduler_button_execute,
-			       (tmp_number > 0)
-			       &&
-			       !gsb_data_scheduled_get_mother_scheduled_number (tmp_number));
+                        (tmp_number > 0)
+                        &&
+                        !gsb_data_scheduled_get_mother_scheduled_number (tmp_number));
 
     /* sensitive/unsensitive the button edit */
 
     gtk_widget_set_sensitive ( scheduler_button_edit,
-			       (tmp_number > 0));
+                        (tmp_number > 0));
 
     /* sensitive/unsensitive the button delete */
 
     gtk_widget_set_sensitive ( scheduler_button_delete,
-			       (tmp_number > 0));
+                        (tmp_number > 0));
 
     return FALSE;
 }
@@ -1493,7 +1505,6 @@ gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
 					   GdkEventButton *ev )
 {
-    devel_debug (NULL);
 
     /* if double-click => edit the scheduled transaction */
 
