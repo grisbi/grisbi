@@ -1719,7 +1719,8 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
     gsb_calendar_update ();
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
 
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return FALSE;
 }
@@ -1756,7 +1757,8 @@ gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity p
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
     gsb_scheduler_list_select (-1);
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -1894,7 +1896,8 @@ gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
 	for (i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
 	    if (gtk_tree_view_column_get_width (scheduler_list_column[i]))
 		scheduler_col_width[i] = (gtk_tree_view_column_get_width (scheduler_list_column[i]) * 100) / allocation -> width + 1;
-	modification_fichier (TRUE);
+	if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
 	return FALSE;
     }

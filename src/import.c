@@ -1444,7 +1444,8 @@ void traitement_operations_importees ( void )
 	dialogue (_("You have just imported reconciled transactions but they not associated with any reconcile number yet. "
 		    "You may associate them with a reconcilation later via the preferences windows."));
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 }
 
 
@@ -3095,7 +3096,8 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 	    mise_a_jour_liste_comptes_accueil = 1;
 	    mise_a_jour_soldes_minimaux = 1;
 
-	    modification_fichier ( TRUE );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
 
 	    if ( result != GTK_RESPONSE_OK
 		 &&
@@ -3792,7 +3794,8 @@ gboolean gsb_import_associations_check_add_button ( GObject * main_widget )
 gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button )
 {
     valeur_echelle_recherche_date_import = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ));
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return ( FALSE );
 }
 
@@ -4030,7 +4033,8 @@ gboolean gsb_import_by_rule ( gint rule )
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_accueil (FALSE);
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return FALSE;
 }

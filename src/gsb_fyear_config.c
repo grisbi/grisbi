@@ -551,7 +551,8 @@ gboolean gsb_fyear_config_modify_fyear ( GtkWidget *entry,
 			  FYEAR_INVALID_COLUMN, invalid,
 			  FYEAR_NUMBER_COLUMN, fyear_number,
 			  -1 );
-     modification_fichier (TRUE);
+     if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
      return FALSE;
 }
 
@@ -647,7 +648,8 @@ gboolean gsb_fyear_config_add_fyear ( GtkWidget *tree_view )
 
     /* Update various menus */
     gsb_fyear_update_fyear_list ();
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -738,7 +740,8 @@ gboolean gsb_fyear_config_remove_fyear ( GtkWidget *tree_view )
 
 	/* Update various menus */
 	gsb_fyear_update_fyear_list ();
-	modification_fichier (TRUE);
+	if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     }
     return FALSE;
 }

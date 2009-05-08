@@ -839,7 +839,8 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
     gsb_form_config_fill_store (account_number);
     gsb_form_fill_from_account (account_number);
 
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -959,7 +960,8 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
 	    }
     }
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     /* update the form if needed */
     if ( !etat.formulaire_distinct_par_compte
@@ -997,7 +999,8 @@ gboolean gsb_form_config_add_line ( void )
     gsb_form_config_fill_store (account_number);
     gsb_form_create_widgets ();
 
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -1072,7 +1075,8 @@ gboolean gsb_form_config_remove_line ( void )
     gsb_form_config_fill_store (account_number);
     gsb_form_create_widgets ();
 
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -1110,7 +1114,8 @@ gboolean gsb_form_config_add_column ( void )
 
     /* show the result */
     gsb_form_config_realized ( form_config_tree_view, NULL );
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -1191,7 +1196,8 @@ gboolean gsb_form_config_remove_column ( void )
 
     /* fill the list */
     gsb_form_config_realized ( form_config_tree_view, NULL );
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -1375,7 +1381,8 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
     gsb_form_config_fill_store (account_number);
     gsb_form_fill_from_account (account_number);
 
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return (FALSE);
 }
 

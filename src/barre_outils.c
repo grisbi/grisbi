@@ -325,28 +325,32 @@ gboolean change_aspect_liste ( gint demande )
 											  menu_name ( "ViewMenu", "ShowOneLine", NULL ) ) ), 
 					   TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    modification_fichier ( TRUE );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
 	    break;
 	case 2 :
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
 											  menu_name ( "ViewMenu", "ShowTwoLines", NULL ) ) ), 
 					   TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    modification_fichier ( TRUE );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
 	    break;
 	case 3 :
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
 											  menu_name ( "ViewMenu", "ShowThreeLines", NULL ) ) ), 
 					   TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    modification_fichier ( TRUE );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
 	    break;
 	case 4 :
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
 											  menu_name ( "ViewMenu", "ShowFourLines", NULL ) ) ), 
 					   TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    modification_fichier ( TRUE );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
 	    break;
 
 	case 5 :
@@ -354,7 +358,8 @@ gboolean change_aspect_liste ( gint demande )
 	    /* ope avec r */
 
 	    mise_a_jour_affichage_r ( 1 );
-	    modification_fichier ( TRUE );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
 
 	    block_menu_cb = TRUE;
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
@@ -369,7 +374,8 @@ gboolean change_aspect_liste ( gint demande )
 	    /* ope sans r */
 
 	    mise_a_jour_affichage_r ( 0 );
-	    modification_fichier ( TRUE );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
 
 	    block_menu_cb = TRUE;
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 

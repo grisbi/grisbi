@@ -476,7 +476,8 @@ static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
 	/* remove from the list */
 	gtk_list_store_remove ( GTK_LIST_STORE (model),
 				&iter );
-	modification_fichier (TRUE);
+	if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     }
     return FALSE;
 }
@@ -586,7 +587,8 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 	    transaction_list_set_balances ();
 	}
 	
-	modification_fichier (TRUE);
+	if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     }
     return FALSE;
 }

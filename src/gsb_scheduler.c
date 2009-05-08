@@ -45,6 +45,7 @@
 #include "./utils_str.h"
 #include "./gsb_scheduler_list.h"
 #include "./erreur.h"
+#include "./structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -547,7 +548,8 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     if ( automatic_transactions_taken )
     {
 	mise_a_jour_liste_echeances_auto_accueil = 1;
-	modification_fichier ( TRUE );
+	if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     }
 
     if ( scheduled_transactions_to_take )

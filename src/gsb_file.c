@@ -149,7 +149,8 @@ gboolean gsb_file_new_finish ( void )
     mise_a_jour_accueil ( TRUE );
     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -560,7 +561,7 @@ gboolean gsb_file_save_file ( gint origine )
 
 	/* update variables */
 	etat.fichier_deja_ouvert = 0;
-	modification_fichier ( FALSE );
+    modification_fichier ( FALSE );
 	gsb_file_update_window_title ();
 	gsb_file_append_name_to_opened_list ( nom_fichier_comptes );
     }

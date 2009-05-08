@@ -1639,7 +1639,8 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 	/* update the order of accounts in first page */
 	mise_a_jour_liste_comptes_accueil = TRUE;
 
-	modification_fichier (TRUE);
+	if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     }
     return FALSE;
 }

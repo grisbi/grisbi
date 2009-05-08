@@ -59,7 +59,7 @@ typedef struct
 /*START_STATIC*/
 static  void _gsb_data_reconcile_free ( struct_reconcile *reconcile );
 static gint gsb_data_reconcile_cmp_int (struct_reconcile *reconcile_1,
-                                 struct_reconcile *reconcile_2);
+                        struct_reconcile *reconcile_2);
 static gpointer gsb_data_reconcile_get_structure ( gint reconcile_number );
 static gint gsb_data_reconcile_max_number ( void );
 /*END_STATIC*/
@@ -305,7 +305,7 @@ gboolean gsb_data_reconcile_remove ( gint reconcile_number )
  * \return the new number or 0 if the reconcile doen't exist
  * */
 gint gsb_data_reconcile_set_new_number ( gint reconcile_number,
-					 gint new_no_reconcile )
+                        gint new_no_reconcile )
 {
     struct_reconcile *reconcile;
 
@@ -349,7 +349,7 @@ const gchar *gsb_data_reconcile_get_name ( gint reconcile_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_reconcile_set_name ( gint reconcile_number,
-				       const gchar *name )
+                        const gchar *name )
 {
     struct_reconcile *reconcile;
 
@@ -434,7 +434,7 @@ gint gsb_data_reconcile_get_account ( gint reconcile_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_reconcile_set_account ( gint reconcile_number,
-					  gint account_number )
+                        gint account_number )
 {
     struct_reconcile *reconcile;
 
@@ -530,7 +530,7 @@ const GDate *gsb_data_reconcile_get_final_date ( gint reconcile_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_reconcile_set_final_date ( gint reconcile_number,
-					     const GDate *date )
+                        const GDate *date )
 {
     struct_reconcile *reconcile;
 
@@ -671,7 +671,7 @@ gint gsb_data_reconcile_get_account_last_number ( gint account_number )
  * \return the number of the found reconcile or 0 if not found
  * */
 gint gsb_data_reconcile_get_number_by_date ( const GDate *date,
-					     gint account_number )
+                        gint account_number )
 {
     GList *tmp_list;
 
@@ -752,7 +752,7 @@ GList *gsb_data_reconcile_get_sort_reconcile_list ( gint account_number )
  * \return 0 -1 1 comme strcmp
  * */
 gint gsb_data_reconcile_cmp_int (struct_reconcile *reconcile_1,
-                                 struct_reconcile *reconcile_2)
+                        struct_reconcile *reconcile_2)
 {
     if ( ! reconcile_1 -> reconcile_final_date )
         return -1;

@@ -540,7 +540,8 @@ gboolean gsb_file_others_load ( gchar *filename,
 	g_free (markup_parser);
 	g_free (file_content);
 
-	modification_fichier (TRUE);
+	if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     }
     else
     {

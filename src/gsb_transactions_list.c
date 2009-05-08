@@ -1346,11 +1346,13 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
 						      new_selected_transaction);
 
     /* show the content of the transaction in the form,
-     * only if the form is shown */
-    if (etat.show_transaction_selected_in_form
+     * only if the form is shown and not a white line */
+    if ( etat.show_transaction_selected_in_form
 	&&
-	gsb_form_is_visible ())
-	gsb_form_fill_by_transaction (new_selected_transaction, TRUE, FALSE);
+	gsb_form_is_visible ()
+    &&
+    new_selected_transaction != -1 )
+        gsb_form_fill_by_transaction (new_selected_transaction, TRUE, FALSE);
 
     /* give the focus to the transaction_tree_view pbiava 02/09/2009 
      * edit due to a regression loss of <CtrlR> */
@@ -1486,7 +1488,8 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
     /* need to update the marked amount on the home page */
     mise_a_jour_liste_comptes_accueil = 1;
 
-    modification_fichier( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return FALSE;
 }
@@ -1633,7 +1636,8 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     /* need to update the marked amount on the home page */
     mise_a_jour_liste_comptes_accueil = 1;
 
-    modification_fichier( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return FALSE;
 }
@@ -1930,7 +1934,8 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     if (show_warning)
 	gsb_form_escape_form ();
 
-    modification_fichier( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return TRUE;
 }
 
@@ -2264,7 +2269,8 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr )
     /* now we can update the element */
     transaction_list_update_element (element);
     update_titres_tree_view ();
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -2336,7 +2342,8 @@ gboolean clone_selected_transaction ( GtkWidget *menu_item,
 
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -2364,7 +2371,8 @@ static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
     transaction_list_select (new_transaction_number);
     gsb_transactions_list_edit_transaction (new_transaction_number);
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -2470,7 +2478,8 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
 	g_free (string);
 	mise_a_jour_accueil (FALSE);
 
-	modification_fichier ( TRUE );
+	if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     }
     return FALSE;
 }
@@ -2510,7 +2519,8 @@ void move_selected_operation_to_account_nb ( gint *account )
 	gsb_gui_headings_update_suffix (string);
 	g_free (string);
 
-	modification_fichier ( TRUE );
+	if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     }
 }
 
@@ -2600,7 +2610,8 @@ void schedule_selected_transaction ()
     gsb_scheduler_list_select (scheduled_number);
     gsb_scheduler_list_edit_transaction (scheduled_number);
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 }
 
 
@@ -3042,7 +3053,8 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
     transaction_list_set_balances ();
     transaction_list_select (selected_transaction);
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 

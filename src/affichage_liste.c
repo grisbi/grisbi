@@ -225,7 +225,8 @@ static gboolean display_mode_button_changed ( GtkWidget *button,
     /* update the visible account */
     gsb_transactions_list_update_tree_view (gsb_gui_navigation_get_current_account (), TRUE);
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return FALSE;
 }

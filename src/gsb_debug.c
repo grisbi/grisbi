@@ -329,7 +329,8 @@ gboolean gsb_debug_try_fix ( gboolean (* fix) () )
 
     if ( fix () )
     {
-	modification_fichier ( TRUE );	
+	if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 	dialogue_hint ( _("Grisbi successfully repaired this account file.  "
 			  "You may now save your modifications."),
 			_("Fix completed"));

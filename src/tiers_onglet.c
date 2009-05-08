@@ -389,7 +389,8 @@ gboolean payee_remove_unused ( GtkWidget *button,
 				   nb_removed);
 	dialogue (tmpstr);
 	g_free (tmpstr);
-	modification_fichier (TRUE);
+	if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     }
     return FALSE;
 }
@@ -660,7 +661,8 @@ gboolean edit_payee ( GtkTreeView * view )
 
     /* update the transactions list */
     transaction_list_update_element (ELEMENT_PARTY);
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -892,7 +894,8 @@ void appui_sur_manage_tiers ( void )
 		}
         dialogue (tmpstr);
         g_free (tmpstr);
-        modification_fichier (TRUE);
+        if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
         /* On sélectionne le nouveau tiers */
         valid = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (
                     payee_tree_model), &iter );

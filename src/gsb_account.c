@@ -48,6 +48,7 @@
 #include "./fenetre_principale.h"
 #include "./gsb_form_scheduler.h"
 #include "./include.h"
+#include "./structures.h"
 #include "./gsb_real.h"
 #include "./gsb_data_account.h"
 /*END_INCLUDE*/
@@ -144,7 +145,8 @@ gboolean gsb_account_new ( kind_account account_type,
 	gsb_account_property_fill_page ();
     }
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return TRUE;
 }
 
@@ -176,9 +178,9 @@ gboolean gsb_account_delete ( void )
     /* if the last account, close the file */
     if ( gsb_data_account_get_accounts_amount () == 1 )
     {
-	modification_fichier ( FALSE );
-	gsb_file_close ();
-	return FALSE;
+        modification_fichier ( FALSE );
+        gsb_file_close ();
+        return FALSE;
     }
 
     /* delete the schedules transactions on that account */
@@ -262,7 +264,8 @@ gboolean gsb_account_delete ( void )
     /* Update navigation pane. */
     gsb_gui_navigation_remove_account ( deleted_account );
 
-    modification_fichier( TRUE ); 
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 

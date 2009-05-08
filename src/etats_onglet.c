@@ -868,7 +868,8 @@ gboolean ajout_etat ( void )
     gsb_gui_update_gui_to_report ( report_number );
 
     personnalisation_etat ();
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return FALSE;
 }
@@ -974,7 +975,8 @@ void efface_etat ( void )
 
     gsb_gui_unsensitive_report_widgets ();
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
 }
 
@@ -1297,7 +1299,8 @@ void dupliquer_etat ( void )
     gsb_gui_update_gui_to_report ( report_number );
 
     personnalisation_etat ();
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 }
 
 

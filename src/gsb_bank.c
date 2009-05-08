@@ -298,7 +298,8 @@ static gboolean gsb_bank_combobox_changed ( GtkWidget *combobox,
 		   gsb_bank_list_get_bank_number (combobox));
 
     /* Mark file as modified */
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return FALSE;
 }
@@ -1136,7 +1137,8 @@ static gboolean gsb_bank_add ( GtkWidget *button,
 	gsb_bank_edit_bank (bank_number, button);
     }
 
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -1211,13 +1213,15 @@ static gboolean gsb_bank_delete ( GtkWidget *button,
 	gtk_list_store_remove ( GTK_LIST_STORE (model),
 				&iter );
 	gsb_data_bank_remove (bank_number);
-	modification_fichier ( TRUE );
+	if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     }
 
     /* remove the bank from the combobox list */
     gsb_bank_update_selected_line_model (NULL);
 
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 

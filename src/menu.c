@@ -646,7 +646,8 @@ gboolean gsb_gui_toggle_show_closed_accounts ()
 
     create_account_list ( navigation_model );
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return FALSE;
 }

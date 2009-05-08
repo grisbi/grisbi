@@ -794,7 +794,8 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
     gsb_assistant_sensitive_button_next ( assistant,
 					  TRUE );
 
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 

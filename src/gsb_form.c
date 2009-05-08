@@ -2448,7 +2448,8 @@ gboolean gsb_form_finish_edition ( void )
     /* give the focus to the navigation_tree_view pbiava 02/08/2009 */
     gtk_widget_grab_focus (navigation_tree_view);
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 

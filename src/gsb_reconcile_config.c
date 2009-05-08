@@ -532,7 +532,8 @@ gboolean gsb_reconcile_config_delete ( GtkWidget *button,
 		/* update the last statement for that account */
 		gsb_navigation_update_statement_label (account_number);
 	    }
-	    modification_fichier (TRUE);
+	    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 	}
     }
 

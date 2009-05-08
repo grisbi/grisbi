@@ -37,6 +37,7 @@
 #include "./traitement_variables.h"
 #include "./utils.h"
 #include "./include.h"
+#include "./structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -529,7 +530,8 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     else
 	gtk_widget_hide (label);
 
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -565,7 +567,8 @@ gboolean gsb_currency_link_config_add_link ( GtkWidget *tree_view )
 					   &iter );
     gtk_tree_selection_select_iter ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
 				     &iter );
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
@@ -600,7 +603,8 @@ gboolean gsb_currency_link_config_remove_link ( GtkWidget *tree_view )
 	gtk_widget_set_sensitive ( GTK_WIDGET ( g_object_get_data ( G_OBJECT (model),
 								    "hbox_line")),
 				   FALSE );
-	modification_fichier (TRUE);
+	if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     }
     return FALSE;
 }

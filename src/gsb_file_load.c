@@ -7726,7 +7726,8 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    /* 	 to set just before the new version */
 	    /* ********************************************************* */
 
-	    modification_fichier ( TRUE );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
 
 	    /* ************************************* */
 	    /* 	    opening 0.6.0                    */

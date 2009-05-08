@@ -288,7 +288,8 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
     else
         gtk_widget_destroy ( logo_accueil );
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return ( FALSE );
 }
@@ -532,7 +533,8 @@ void change_logo_accueil ( GtkWidget * file_selector )
         gtk_container_add ( GTK_CONTAINER(logo_button), preview );
         
         /* Mark file as modified */
-        modification_fichier ( TRUE );
+        if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
     }
 }
 /* **************************************************************************************************************************** */
@@ -634,7 +636,8 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
     gsb_file_update_window_title();
 
     /* Mark file as modified */
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return FALSE;
 }

@@ -845,7 +845,8 @@ gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
     if (path && strlen (path) > 0)
         g_free (path);
 
-    modification_fichier (TRUE);
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return FALSE;
 }

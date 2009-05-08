@@ -44,6 +44,7 @@
 #include "./gsb_data_transaction.h"
 #include "./include.h"
 #include "./erreur.h"
+#include "./structures.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
 
@@ -115,10 +116,10 @@ typedef struct
 
 /*START_STATIC*/
 static  void _gsb_data_account_free ( struct_account* account );
+static gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number );
 static void gsb_data_account_delete_all_accounts (void);
 static struct_account *gsb_data_account_get_structure ( gint no );
 static gint gsb_data_account_max_number ( void );
-static gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number );
 static gboolean gsb_data_account_set_default_sort_values ( gint account_number );
 static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 					 gint target_account );
@@ -2237,7 +2238,8 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
 
     g_slist_free (last_list);
 
-    modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return TRUE;
 }

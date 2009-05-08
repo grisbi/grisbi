@@ -609,8 +609,8 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     /* go back to the normal transactions list */
     gsb_reconcile_cancel (NULL, NULL);
 
-    modification_fichier( TRUE );
-
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     return FALSE;
 }
 
