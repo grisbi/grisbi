@@ -15,7 +15,7 @@ goto endofperl
 #  -------------------------------------------------------------------------
 #                               GRISBI for Windows
 #  -------------------------------------------------------------------------
-# $Id: autogen.bat,v 1.12 2006/12/10 17:20:39 teilginn Exp $
+# $Id: autogen.bat,v 1.13 2009/05/08 17:41:01 pbiava Exp $
 #  -------------------------------------------------------------------------
 # 
 #  Copyleft 2004 (c) François Terrot
@@ -40,6 +40,9 @@ goto endofperl
 #  History:
 #
 #  $Log: autogen.bat,v $
+#  Revision 1.13  2009/05/08 17:41:01  pbiava
+#  minor fixes in windows project's generation
+#
 #  Revision 1.12  2006/12/10 17:20:39  teilginn
 #  last modifications to make grisbi win32 compliant with gtk 2.8
 #
@@ -377,7 +380,7 @@ sub _cp # {{{
             next LS if ( /\.{1,2}$/ ) ; # Skip . and ..
             _cp ("$path/$file","$_",$ref_ignore);
         }
-        closedir DIR;
+#        closedir DIR;
         _cd('..','TRUE');
     }
     elsif ( $file =~ m/^\/.*\/$/ ) # regexp
@@ -760,7 +763,7 @@ sub _cb_grisbi_dev
             my $cflags = $config{'environment'}{'cflags'};
             foreach my $copt (@{$config{'includes'}{'item'}})
             {
-                $cflags .= $copt." ";
+                $cflags .= " ".$copt;
             }
             $cflags =~s/\//\\/g;
             
@@ -771,7 +774,7 @@ sub _cb_grisbi_dev
             my $ldflags = $config{'environment'}{'ldflags'};
             foreach my $ldopt (@{$config{'libraries'}{'item'}})
             {
-                $ldflags .= $ldopt." ";
+                $ldflags .= " ".$ldopt;
             }
             $ldflags =~s/\s+/ _\@\@_/g ;
             $ldflags =~s/\//\\/g;
@@ -1243,7 +1246,7 @@ gtkbin    = GTKBINVERS
 [environment]
 compiler  = gcc ; only gcc is supported yet
 cflags    = -Wall \$(INCS) -D _WIN32 -mms-bitfields -g -D _WIN32_IE=0x0410
-ldflags   = -L\"\$(GCCBASEDIR)/lib\" -L\"\$(GTKDEVDIR)/lib/\" \$(LIBS) -mwindows
+ldflags   = -L\"\$(GCCBASEDIR)/lib\" -L\"\$(GTKDEVDIR)/lib/\" -mwindows
 
 [includes]
 item[0] = -I\"../win32\" -I\"../src\" 
