@@ -18,6 +18,7 @@
 #else
 /* Some old Windows version have difficulties with dat starting file names */
 #define C_GRISBIRC  (g_strconcat ( "\\", PACKAGE, "rc", NULL))
+#define C_OLD_GRISBIRC  (g_strconcat ( "\\.", PACKAGE, "rc", NULL))
 #define C_PATH_CONFIG (win32_get_grisbirc_folder_path( ))
 #define C_PATH_DATA_FILES (g_get_home_dir ( ))
 #endif
