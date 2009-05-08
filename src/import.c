@@ -1368,9 +1368,6 @@ void traitement_operations_importees ( void )
 		break;
 	}
 
-	/* update the current and marked balance */
-	gsb_data_account_calculate_current_and_marked_balances (account_number);
-
 	/* first, we create the rule if asked */
 	if (compte -> create_rule && compte -> action != IMPORT_CREATE_ACCOUNT)
 	{
@@ -1705,10 +1702,6 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
     /* set the initial balance */
     gsb_data_account_set_init_balance ( account_number,
 					imported_account -> solde);
-    gsb_data_account_set_current_balance ( account_number,
-					   imported_account -> solde);
-    gsb_data_account_set_marked_balance ( account_number,
-					  imported_account -> solde);
 
     /* Use two lines view by default. */
     gsb_data_account_set_nb_rows ( account_number, 2 );
@@ -4012,8 +4005,6 @@ gboolean gsb_import_by_rule ( gint rule )
 		pointe_opes_importees (account);
 		break;
 	}
-	/* update the current and marked balance */
-	gsb_data_account_calculate_current_and_marked_balances (account_number);
 
 	/* save the charmap for the last file used */
 	gsb_data_import_rule_set_charmap (rule, charmap_imported);

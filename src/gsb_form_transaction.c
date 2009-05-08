@@ -485,9 +485,6 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
     else
 	gsb_transactions_list_update_transaction (contra_transaction_number);
 
-    /* recalculates the balance of the transfer account */
-    gsb_data_account_calculate_current_and_marked_balances ( account_transfer );
-
     return contra_transaction_number;
 }
 

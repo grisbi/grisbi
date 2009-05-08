@@ -22,8 +22,6 @@ typedef enum _kind_account	kind_account;
 
 
 /* START_DECLARATION */
-gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number );
-gsb_real gsb_data_account_calculate_marked_balance ( gint account_number );
 gsb_real gsb_data_account_calculate_waiting_marked_balance ( gint account_number );
 void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data );
 gint gsb_data_account_compare_position ( gint account_number_1,
@@ -82,6 +80,7 @@ gint gsb_data_account_new ( kind_account account_kind );
 gboolean gsb_data_account_reorder ( GSList *new_order );
 gint gsb_data_account_set_account_number ( gint account_number,
 					   gint new_no );
+gboolean gsb_data_account_set_balances_are_dirty ( gint account_number );
 gboolean gsb_data_account_set_bank ( gint account_number,
 				     gint bank );
 gboolean gsb_data_account_set_bank_account_iban ( gint account_number, const gchar *iban );
@@ -97,8 +96,6 @@ gboolean gsb_data_account_set_comment ( gint account_number,
 					const gchar *comment );
 gboolean gsb_data_account_set_currency ( gint account_number,
 					 gint currency );
-gboolean gsb_data_account_set_current_balance ( gint account_number,
-						gsb_real balance );
 gboolean gsb_data_account_set_current_transaction_number ( gint account_number,
 							   gint transaction_number );
 gboolean gsb_data_account_set_default_credit ( gint account_number,
@@ -120,8 +117,6 @@ gboolean gsb_data_account_set_init_balance ( gint account_number,
 					     gsb_real balance );
 gboolean gsb_data_account_set_kind ( gint account_number,
 				     kind_account account_kind );
-gboolean gsb_data_account_set_marked_balance ( gint account_number,
-					       gsb_real balance );
 gboolean gsb_data_account_set_mini_balance_authorized ( gint account_number,
 							gsb_real balance );
 gboolean gsb_data_account_set_mini_balance_authorized_message ( gint account_number,

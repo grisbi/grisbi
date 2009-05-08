@@ -45,10 +45,14 @@
 /*START_STATIC*/
 static  gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
 						   gint new_page );
+static  gboolean gsb_assistant_first_enter_page_3 ( GtkWidget *assistant,
+						   gint new_page );
 static  GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant );
+static  GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gboolean result_reconcile;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -56,6 +60,7 @@ enum first_assistant_page
 {
     FIRST_ASSISTANT_INTRO= 0,
     FIRST_ASSISTANT_PAGE_2,
+    FIRST_ASSISTANT_PAGE_3,
     FIRST_ASSISTANT_PAGE_FINISH,
 };
 
@@ -149,8 +154,14 @@ GtkResponseType gsb_assistant_first_come_to_0_6 ( void )
 			     gsb_assistant_first_page_2 (assistant),
 			     FIRST_ASSISTANT_PAGE_2,
 			     FIRST_ASSISTANT_INTRO,
-			     0,
+			     FIRST_ASSISTANT_PAGE_3,
 			     G_CALLBACK (gsb_assistant_first_enter_page_2) );
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_first_page_3 (assistant),
+			     FIRST_ASSISTANT_PAGE_3,
+			     FIRST_ASSISTANT_PAGE_2,
+			     0,
+			     G_CALLBACK (gsb_assistant_first_enter_page_3) );
 
     /* now we launch the assistant */
     return_value = gsb_assistant_run (assistant);
@@ -289,12 +300,82 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button,
 			 FALSE, TRUE, 0);
 
+    gtk_widget_show_all (page);
+    return page;
+}
+
+
+/**
+ * create the page 3 of the first assistant
+ * this is the page for report error of reconcile import of an old grisbi file
+ *
+ * \param assistant the GtkWidget assistant
+ *
+ * \return a GtkWidget containing the page
+ * */
+static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
+{
+    GtkWidget *page;
+    GtkWidget *vbox;
+    GtkWidget *label;
+    //~ GtkWidget *entry;
+    //~ GtkWidget *button;
+    GtkWidget *paddingbox;
+    //~ GtkWidget *table;
+    GtkSizeGroup *size_group;
+    //~ gchar *text;
+    GtkWidget *hbox;
+    GtkWidget *image;
+
+    page = gtk_hbox_new (FALSE, 15);
+    gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
+
+    size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
+
+    vbox = new_vbox_with_title_and_icon ( _("Reconciliation"), "reconciliationlg.png" );
+    gtk_box_pack_start ( GTK_BOX (page), vbox, TRUE, TRUE, 0 );
+
+    paddingbox = new_paddingbox_with_title (vbox, FALSE,
+					    _("Error getting reconciliations"));
+
+    hbox = gtk_hbox_new ( FALSE, 15 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 15 );
+
+    image = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_DIALOG );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0);
+
+    label = gtk_label_new ( _("When importing the file from the previous version, "
+                              "Grisbi has found inconsistencies\n"
+                              "and could not restore all the reconciliatoins of one or "
+                              "more accounts.\n\n"
+                              "Although this has no impact on the integrity of data, "
+                              "wrong values can be found.\n\n"
+                              "Check in the \"Preferences\" for more information.") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
 
     gtk_widget_show_all (page);
     return page;
 }
 
 
+/**
+ * If error creating reconcilaitions, display the third page 
+ * otherwise exit normally
+ *
+ * \param assistant
+ * \param new_page
+ *
+ * \return FALSE
+ * */
+static gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
+						   gint new_page )
+{
+    if ( result_reconcile == TRUE )
+        gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, 
+				       GTK_RESPONSE_APPLY );
+
+    return FALSE;
+}
 
 /**
  * keep the forward button of the last page instead of
@@ -305,10 +386,9 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
  *
  * \return FALSE
  * */
-static gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
+static gboolean gsb_assistant_first_enter_page_3 ( GtkWidget *assistant,
 						   gint new_page )
 {
-
     gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, 
 				       GTK_RESPONSE_APPLY );
 

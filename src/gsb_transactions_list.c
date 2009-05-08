@@ -611,11 +611,6 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
     /* append the transaction to the tree view */
     transaction_list_append_transaction (transaction_number);
 
-    /*  set the new current balance */
-    gsb_data_account_set_current_balance ( account_number,
-					   gsb_real_add ( gsb_data_account_get_current_balance (account_number),
-							  gsb_data_transaction_get_adjusted_amount (transaction_number, -1)));
-
     /* update the transaction list only if the account is showed,
      * else it's because we execute a scheduled transaction and all
      * of that stuff will be done when we will show the account */
@@ -1449,17 +1444,11 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
 
     if (gsb_data_transaction_get_marked_transaction (transaction_number))
     {
-	gsb_data_account_set_marked_balance ( account_number,
-					      gsb_real_sub ( gsb_data_account_get_marked_balance (account_number),
-							     amount ));
 	gsb_data_transaction_set_marked_transaction ( transaction_number,
 						      OPERATION_NORMALE );
     }
     else
     {
-	gsb_data_account_set_marked_balance ( account_number,
-					      gsb_real_add ( gsb_data_account_get_marked_balance (account_number),
-							     amount ));
 	gsb_data_transaction_set_marked_transaction ( transaction_number,
 						      OPERATION_POINTEE );
     }
@@ -1575,9 +1564,6 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     if ( gsb_data_transaction_get_marked_transaction ( transaction_number) == OPERATION_RAPPROCHEE)
     {
 	/* ok, this is a R transaction, we just un-R it but keep the reconcile_number into the transaction */
-	gsb_data_account_set_marked_balance ( account_number,
-					      gsb_real_sub ( gsb_data_account_get_marked_balance (account_number),
-							     amount ));
 	gsb_data_transaction_set_marked_transaction ( transaction_number,
 						      OPERATION_NORMALE );
 	transaction_list_set ( &iter,
@@ -1596,9 +1582,6 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 	if (!reconcile_number)
 	    return FALSE;
 
-	gsb_data_account_set_marked_balance ( account_number,
-					      gsb_real_add ( gsb_data_account_get_marked_balance (account_number),
-							     amount ));
 	gsb_data_transaction_set_marked_transaction ( transaction_number,
 						      OPERATION_RAPPROCHEE );
 	gsb_data_transaction_set_reconcile_number ( transaction_number,
@@ -2476,8 +2459,6 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
 
 	update_transaction_in_trees (gsb_data_account_get_current_transaction_number (source_account));
 
-	gsb_data_account_calculate_current_and_marked_balances (source_account);
-
 	if (gsb_data_account_get_current_balance (source_account).mantissa < 0)
 	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
 				       gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (source_account),
@@ -2518,8 +2499,6 @@ void move_selected_operation_to_account_nb ( gint *account )
 	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
 	update_transaction_in_trees (gsb_data_account_get_current_transaction_number (source_account));
-
-	gsb_data_account_calculate_current_and_marked_balances (source_account);
 
 	if (gsb_data_account_get_current_balance (source_account).mantissa < 0)
 	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
@@ -2592,9 +2571,6 @@ gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_nu
 	||
 	current_account == target_account)
         gsb_transactions_list_update_tree_view ( current_account, FALSE );
-
-    /* recalculates the balance of the current account */
-    gsb_data_account_calculate_current_and_marked_balances (target_account);
 
     /* update the first page */
     mise_a_jour_liste_comptes_accueil = 1;

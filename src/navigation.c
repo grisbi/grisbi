@@ -63,40 +63,40 @@
 /*START_STATIC*/
 static void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter );
 static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
-					      GdkEventKey *ev,
-					      GtkTreeModel *model );
+                        GdkEventKey *ev,
+                        GtkTreeModel *model );
 static  gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree_model, 
-							     GtkTreePath *path, 
-							     GtkTreeIter *iter, 
-							     gpointer data );
+                        GtkTreePath *path, 
+                        GtkTreeIter *iter, 
+                        gpointer data );
 static  gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel * tree_model, 
-							     GtkTreePath *path, 
-							     GtkTreeIter *iter, 
-							     gpointer data );
+                        GtkTreePath *path, 
+                        GtkTreeIter *iter, 
+                        gpointer data );
 static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
-					  GtkTreeModel *model );
+                        GtkTreeModel *model );
 static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection, 
-					       GtkTreeIter * iter, gint page, 
-					       gint account_number, gpointer report );
+					    GtkTreeIter * iter, gint page, 
+					    gint account_number, gpointer report );
 static void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model, 
-					      GtkTreeIter * account_iter,
-					      gint account_number );
+                        GtkTreeIter * account_iter,
+                        gint account_number );
 static  gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel * tree_model, 
-							     GtkTreePath *path, 
-							     GtkTreeIter *iter, 
-							     gpointer data );
+                        GtkTreePath *path, 
+                        GtkTreeIter *iter, 
+                        gpointer data );
 static void gsb_gui_navigation_update_report_iter ( GtkTreeModel * model, 
-					     GtkTreeIter * report_iter,
-					     gint report_number );
+                        GtkTreeIter * report_iter,
+                        gint report_number );
 static  gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree_model, 
-							    GtkTreePath *path, 
-							    GtkTreeIter *iter, 
-							    gpointer data );
+                        GtkTreePath *path, 
+                        GtkTreeIter *iter, 
+                        gpointer data );
 static gboolean navigation_sort_column ( GtkTreeModel * model, 
-				  GtkTreeIter * a, GtkTreeIter * b, 
-				  gpointer user_data );
+                        GtkTreeIter * a, GtkTreeIter * b, 
+                        gpointer user_data );
 static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
-					 GtkSelectionData * selection_data );
+                        GtkSelectionData * selection_data );
 /*END_STATIC*/
 
 
@@ -609,8 +609,8 @@ void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter )
  *
  */
 gboolean navigation_sort_column ( GtkTreeModel * model, 
-				  GtkTreeIter * a, GtkTreeIter * b, 
-				  gpointer user_data )
+                        GtkTreeIter * a, GtkTreeIter * b, 
+                        gpointer user_data )
 {
     gint page_a, page_b, account_a, account_b, report_a, report_b;
 
@@ -668,9 +668,9 @@ gboolean navigation_sort_column ( GtkTreeModel * model,
  * \return TRUE if this iter matches.
  */
 static gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel * tree_model, 
-							     GtkTreePath *path, 
-							     GtkTreeIter *iter, 
-							     gpointer data )
+                        GtkTreePath *path, 
+                        GtkTreeIter *iter, 
+                        gpointer data )
 {
     gint account_number;
 
@@ -702,9 +702,9 @@ static gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel * tree
  * \return TRUE if this iter matches.
  */
 static gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree_model, 
-							    GtkTreePath *path, 
-							    GtkTreeIter *iter, 
-							    gpointer data )
+                        GtkTreePath *path, 
+                        GtkTreeIter *iter, 
+                        gpointer data )
 {
     gint report_nb;
 
@@ -745,8 +745,8 @@ void gsb_gui_navigation_update_report ( gint report_number )
  * \param data		Number of report as a reference.
  */
 void gsb_gui_navigation_update_report_iter ( GtkTreeModel * model, 
-					     GtkTreeIter * report_iter,
-					     gint report_number )
+                        GtkTreeIter * report_iter,
+                        gint report_number )
 {
     gtk_tree_store_set(GTK_TREE_STORE(model), report_iter, 
 		       NAVIGATION_TEXT, gsb_data_report_get_report_name (report_number), 
@@ -772,9 +772,9 @@ void gsb_gui_navigation_update_report_iter ( GtkTreeModel * model,
  * \return TRUE if this iter matches.
  */
 static gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel * tree_model, 
-							     GtkTreePath *path, 
-							     GtkTreeIter *iter, 
-							     gpointer data )
+                        GtkTreePath *path, 
+                        GtkTreeIter *iter, 
+                        gpointer data )
 {
     gint report;
 
@@ -855,8 +855,8 @@ void gsb_gui_navigation_update_account ( gint account_number )
  * \param data		Number of account as a reference.
  */
 void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model, 
-					      GtkTreeIter * account_iter,
-					      gint account_number )
+                        GtkTreeIter * account_iter,
+                        gint account_number )
 {
     GdkPixbuf * pixbuf = NULL;
 
@@ -889,9 +889,9 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model,
  * \return TRUE if this iter matches.
  */
 static gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree_model, 
-							     GtkTreePath *path, 
-							     GtkTreeIter *iter, 
-							     gpointer data )
+                        GtkTreePath *path, 
+                        GtkTreeIter *iter, 
+                        gpointer data )
 {
     gint account_number;
 
@@ -917,7 +917,7 @@ static gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree
  * \param switch_to_account TRUE to show the account, FALSE to just create it
  */
 void gsb_gui_navigation_add_account ( gint account_number,
-				      gboolean switch_to_account )
+                        gboolean switch_to_account )
 {
     GtkTreeIter parent, iter;
 
@@ -1042,15 +1042,16 @@ void gsb_navigation_update_statement_label ( gint account_number )
     reconcile_number = gsb_data_reconcile_get_account_last_number (account_number);
     if (reconcile_number)
     {
-        gchar* tmpstr2 = gsb_format_gdate (gsb_data_reconcile_get_final_date (reconcile_number));
+        gchar* tmpstr2 = gsb_format_gdate (gsb_data_reconcile_get_final_date (
+                                            reconcile_number));
         gchar* tmpstr = g_strdup_printf ( _("Last statement: %s"), tmpstr2);
-	gtk_label_set_text ( GTK_LABEL ( label_last_statement ), tmpstr);
-	g_free ( tmpstr );
-	g_free ( tmpstr2 );
+        gtk_label_set_text ( GTK_LABEL ( label_last_statement ), tmpstr);
+        g_free ( tmpstr );
+        g_free ( tmpstr2 );
     }
     else
-	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
-			     _("Last statement: none") );
+        gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
+                                            _("Last statement: none") );
 }
 
 
@@ -1120,7 +1121,7 @@ void gsb_gui_navigation_remove_account ( gint account_number )
  * \return FALSE
  */
 gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
-					  GtkTreeModel *model )
+                        GtkTreeModel *model )
 {
     GtkWidget * account_notebook;
     gint account_number, page_number;
@@ -1363,8 +1364,8 @@ gboolean gsb_gui_navigation_set_selection ( gint page, gint account_number, gpoi
  * \return		TRUE on success.
  */
 void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection, 
-					       GtkTreeIter * iter, gint page, 
-					       gint account_number, gpointer report )
+					    GtkTreeIter * iter, gint page, 
+					    gint account_number, gpointer report )
 {
     do 
     {
@@ -1499,8 +1500,8 @@ gboolean gsb_gui_navigation_select_next ()
  * \return FALSE : the signal continue / TRUE : the signal is stopped here
  * */
 gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
-					      GdkEventKey *ev,
-					      GtkTreeModel *model )
+                        GdkEventKey *ev,
+                        GtkTreeModel *model )
 {
     gint page;
     GtkTreeIter iter;
@@ -1563,7 +1564,7 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
  * \return FALSE, to allow future processing by the callback chain.
  */
 gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
-					 GtkSelectionData * selection_data )
+                        GtkSelectionData * selection_data )
 {
     gchar *tmpstr = gtk_tree_path_to_string (path);
     gchar *tmpstr2 = g_strdup_printf ( "Orig path : %s", tmpstr);
@@ -1587,8 +1588,8 @@ gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTre
  *
  */
 gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
-					 GtkTreePath * dest_path,
-					 GtkSelectionData * selection_data )
+                        GtkTreePath * dest_path,
+                        GtkSelectionData * selection_data )
 {
     gchar *tmpstr = gtk_tree_path_to_string (dest_path);
     gchar *tmpstr2 = g_strdup_printf ( "Dest path : %s", tmpstr);
@@ -1650,8 +1651,8 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
  *
  */
 gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
-					GtkTreePath * dest_path,
-					GtkSelectionData * selection_data )
+                        GtkTreePath * dest_path,
+                        GtkSelectionData * selection_data )
 {
     if ( dest_path && selection_data )
     {

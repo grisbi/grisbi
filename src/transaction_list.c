@@ -40,7 +40,6 @@
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
 #include "./gsb_data_archive_store.h"
-#include "./gsb_data_category.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_transaction.h"
 #include "./utils_dates.h"
@@ -893,10 +892,6 @@ void transaction_list_set_balances ( void )
 	gtk_tree_model_row_changed(GTK_TREE_MODEL(custom_list), path, &iter);
 	gtk_tree_path_free(path);
     }
-
-    /* update the current balance of the account */
-    gsb_data_account_set_current_balance ( account_number,
-					   current_total );
 
     /* update the headings balance */
     if (gsb_data_account_get_current_balance (account_number).mantissa < 0)

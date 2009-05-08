@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -58,6 +58,8 @@ typedef struct
 
 /*START_STATIC*/
 static  void _gsb_data_reconcile_free ( struct_reconcile *reconcile );
+static gint gsb_data_reconcile_cmp_int (struct_reconcile *reconcile_1,
+                                 struct_reconcile *reconcile_2);
 static gpointer gsb_data_reconcile_get_structure ( gint reconcile_number );
 static gint gsb_data_reconcile_max_number ( void );
 /*END_STATIC*/
@@ -539,10 +541,13 @@ gboolean gsb_data_reconcile_set_final_date ( gint reconcile_number,
 
     /* we free the last date */
     if ( reconcile -> reconcile_final_date )
-	g_date_free (reconcile -> reconcile_final_date);
+        g_date_free (reconcile -> reconcile_final_date);
 
     /* and copy the new one */
     reconcile -> reconcile_final_date = gsb_date_copy (date);
+
+    /* retrie la liste */
+    reconcile_list = g_list_sort ( reconcile_list, (GCompareFunc) gsb_data_reconcile_cmp_int );
 
     return TRUE;
 }
@@ -645,73 +650,16 @@ gboolean gsb_data_reconcile_set_final_balance ( gint reconcile_number,
  * */
 gint gsb_data_reconcile_get_account_last_number ( gint account_number )
 {
-    GList *tmp;
-    gint number_tmp = 0;
-
-    tmp = reconcile_list;
-
-    while ( tmp )
-    {
-	struct_reconcile *reconcile;
-
-	reconcile = tmp -> data;
-
-	if ( reconcile -> account_number == account_number
-	     &&
-	     reconcile -> reconcile_number > number_tmp )
-	    number_tmp = reconcile -> reconcile_number;
-
-	tmp = tmp -> next;
-    }
-    return number_tmp;
-}
-
-
-/**
- * find the previous reconcile in the same account
- *
- * \param reconcile_number
- *
- * \return the previous reconcile or 0 if it was the first
- * */
-gint gsb_data_reconcile_get_previous ( gint reconcile_number )
-{
     GList *tmp_list;
-    struct_reconcile *reconcile;
-    gint account_number;
 
-    /* first we localize the GList struct of that reconcile */
-    tmp_list = reconcile_list;
-    while (tmp_list)
-    {
-	reconcile = tmp_list -> data;
-
-	if (reconcile -> reconcile_number == reconcile_number)
-	    break;
-	tmp_list = tmp_list -> next;
-    }
-
-    
-    /* ok, here tmp_list points normally on the GList of the reconcile */
-    if (!tmp_list)
-	return 0;
-
-    /* now, try to find the previous reconcile for the same account */
-    account_number = reconcile -> account_number;
-    tmp_list = tmp_list -> prev;
-
-    while (tmp_list)
-    {
-	reconcile = tmp_list -> data;
-
-	if (reconcile -> account_number == account_number)
-	    return reconcile -> reconcile_number;
-	tmp_list = tmp_list -> prev;
-    }
-
-    /* no previous, return 0 */
-    return 0;
+    tmp_list = g_list_last ( gsb_data_reconcile_get_sort_reconcile_list (
+                                        account_number) );
+    if ( tmp_list )
+        return GPOINTER_TO_INT ( tmp_list -> data );
+    else
+        return 0;
 }
+
 
 /**
  * try to find a reconcile wich contains the date given in param
@@ -752,3 +700,68 @@ gint gsb_data_reconcile_get_number_by_date ( const GDate *date,
     }
     return 0;
 }
+
+
+/**
+ * renvoie la liste des rapprochements triée par date pour un compte donné
+ *
+ * \param account_number
+ *
+ * \return the reconcile list for that account
+ * */
+GList *gsb_data_reconcile_get_sort_reconcile_list ( gint account_number )
+{
+    GList *tmp_list;
+    GList *rec_list = NULL;
+    GList *new_list = NULL;
+    struct_reconcile *reconcile;
+
+    /* first we localize the GList struct of that reconcile */
+    tmp_list = reconcile_list;
+    while (tmp_list)
+    {
+        reconcile = tmp_list -> data;
+
+        if (reconcile -> account_number == account_number)
+        {
+            rec_list = g_list_insert_sorted ( rec_list, reconcile, 
+                                             (GCompareFunc) gsb_data_reconcile_cmp_int );
+        }
+	   
+        tmp_list = tmp_list -> next;
+    }
+
+    tmp_list = rec_list;
+    while (tmp_list)
+    {
+        reconcile = tmp_list -> data;
+        
+        new_list = g_list_append ( new_list, GINT_TO_POINTER (
+                                    reconcile -> reconcile_number) );
+        tmp_list = tmp_list -> next;
+    }
+    return new_list;
+}
+
+
+/**
+ * compare deux rapprochements par date
+ *
+ * \param reconcile_1, reconcile_2
+ *
+ * \return 0 -1 1 comme strcmp
+ * */
+gint gsb_data_reconcile_cmp_int (struct_reconcile *reconcile_1,
+                                 struct_reconcile *reconcile_2)
+{
+    if ( ! reconcile_1 -> reconcile_final_date )
+        return -1;
+    else if ( ! reconcile_2 -> reconcile_final_date )
+        return 1;
+    else
+        return g_date_compare ( reconcile_1 -> reconcile_final_date,
+                           reconcile_2 -> reconcile_final_date );
+}
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

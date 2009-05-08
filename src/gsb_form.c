@@ -2267,18 +2267,6 @@ gboolean gsb_form_finish_edition ( void )
 							 mother_transaction,
 							 is_transaction );
 	}
-	else
-	{
-	    /* it's not a new transaction, if it's not a child split,
-	     * we remove the amount of that transaction from the balance of the account,
-	     * because later, the amount will be add again to the balance */
-	    if ( is_transaction
-		 &&
-		 !gsb_data_transaction_get_mother_transaction_number (transaction_number))
-            gsb_data_account_set_current_balance ( account_number,
-                        gsb_real_sub ( gsb_data_account_get_current_balance (account_number),
-                        gsb_data_transaction_get_adjusted_amount (transaction_number, -1)));
-	}
 
 	/* take the datas in the form, except the category */
 	gsb_form_take_datas_from_form ( transaction_number, is_transaction );
@@ -2379,9 +2367,6 @@ gboolean gsb_form_finish_edition ( void )
             transaction_list_show_toggle_mark (TRUE);
         else
         {
-            /* we are reconciling and it's a modification of transaction, need to 
-             * recalculate the marked balance */
-            gsb_data_account_calculate_marked_balance (account_number);
             gsb_reconcile_update_amounts (NULL, NULL);
         }
     }

@@ -76,6 +76,7 @@ typedef struct
     gsb_real 	init_balance;
     gsb_real 	mini_balance_wanted;
     gsb_real 	mini_balance_authorized;
+    gboolean    balances_are_dirty;
     gsb_real 	current_balance;
     gsb_real 	marked_balance;
 
@@ -117,6 +118,7 @@ static  void _gsb_data_account_free ( struct_account* account );
 static void gsb_data_account_delete_all_accounts (void);
 static struct_account *gsb_data_account_get_structure ( gint no );
 static gint gsb_data_account_max_number ( void );
+static gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number );
 static gboolean gsb_data_account_set_default_sort_values ( gint account_number );
 static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 					 gint target_account );
@@ -820,10 +822,11 @@ gboolean gsb_data_account_set_init_balance ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
-	return FALSE;
+    if ( !account )
+        return FALSE;
 
     account -> init_balance = balance;
+    account -> balances_are_dirty = TRUE;
 
     return TRUE;
 }
@@ -917,46 +920,23 @@ gboolean gsb_data_account_set_mini_balance_authorized ( gint account_number,
 }
 
 
-
 /**
- * get the current balance  of the account
+ * flag the current and marked balance dirty to force recompute
  * 
  * \param account_number no of the account
- * 
- * \return balance or 0 if the account doesn't exist
- * */
-gsb_real gsb_data_account_get_current_balance ( gint account_number )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return null_real;
-
-    return account -> current_balance;
-}
-
-
-/**
- * set the current balance  of the account
- * 
- * \param account_number no of the account
- * \param balance balance to set
  * 
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_data_account_set_current_balance ( gint account_number,
-						gsb_real balance )
+gboolean gsb_data_account_set_balances_are_dirty ( gint account_number )
 {
     struct_account *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
     if (!account )
-	return FALSE;
+        return FALSE;
 
-    account -> current_balance = balance;
+    account -> balances_are_dirty = TRUE;
 
     return TRUE;
 }
@@ -965,8 +945,8 @@ gboolean gsb_data_account_set_current_balance ( gint account_number,
 
 /**
  * calculate and fill in the account the current and marked balance of that account
- * it's faster than calling gsb_data_account_calculate_current_balance and
- * gsb_data_account_calculate_marked_balance because throw the list only one time
+ * it's faster than calling gsb_data_account_privatecalculate_current_balance and
+ * gsb_data_account_private_calculate_marked_balance because throw the list only one time
  * called especially to init that values
  * the value calculated will have the same exponent of the currency account
  *
@@ -982,10 +962,11 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
     gsb_real marked_balance;
     gint floating_point;
 
+    devel_debug_int ( account_number );
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
-	return null_real;
+    if ( !account )
+        return null_real;
 
     floating_point = gsb_data_currency_get_floating_point (account -> currency);
 
@@ -1023,13 +1004,37 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 }
 
 
+/**
+ * get the current balance  of the account
+ * 
+ * \param account_number no of the account
+ * 
+ * \return balance or 0 if the account doesn't exist
+ * */
+gsb_real gsb_data_account_get_current_balance ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+        return null_real;
+
+    if ( account -> balances_are_dirty )
+    {
+        gsb_data_account_calculate_current_and_marked_balances ( account_number );
+        account -> balances_are_dirty = FALSE;
+    }
+    return account -> current_balance;
+}
+
 
 /**
  * get the marked balance of the account
  * this is the total of all marked transactions (R, P and T)
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return balance or 0 if the account doesn't exist
  * */
 gsb_real gsb_data_account_get_marked_balance ( gint account_number )
@@ -1038,83 +1043,17 @@ gsb_real gsb_data_account_get_marked_balance ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
-	return null_real;
+    if ( !account )
+        return null_real;
 
+    if( account -> balances_are_dirty )
+    {
+        gsb_data_account_calculate_current_and_marked_balances( account_number );
+        account -> balances_are_dirty = FALSE;
+    }
     return account -> marked_balance;
 }
 
-
-/**
- * set the marked balance  of the account
- * this is the total of all marked transactions (R, P and T)
- *
- * \param account_number no of the account
- * \param balance balance to set
- * 
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_data_account_set_marked_balance ( gint account_number,
-					       gsb_real balance )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return FALSE;
-
-    account -> marked_balance = balance;
-
-    return TRUE;
-}
-
-/**
- * calculate and fill in the account the marked balance of that account
- * the value calculated will have the same exponent of the currency account
- *
- * \param account_number
- *
- * \return the marked balance
- * */
-gsb_real gsb_data_account_calculate_marked_balance ( gint account_number )
-{
-    struct_account *account;
-    GSList *tmp_list;
-    gsb_real marked_balance;
-    gint floating_point;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return null_real;
-
-    floating_point = gsb_data_currency_get_floating_point (account -> currency);
-    marked_balance = gsb_real_adjust_exponent ( account -> init_balance,
-						floating_point );
-
-    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
-
-    while (tmp_list)
-    {
-	gint transaction_number;
-
-	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-
-	if ( gsb_data_transaction_get_account_number (transaction_number) == account_number
-	     &&
-	     !gsb_data_transaction_get_mother_transaction_number (transaction_number)
-	     &&
-	     gsb_data_transaction_get_marked_transaction (transaction_number))
-	    marked_balance = gsb_real_add ( marked_balance,
-					    gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point));
-	tmp_list = tmp_list -> next;
-    }
-
-    account -> marked_balance = marked_balance;
-
-    return marked_balance;
-}
 
 /**
  * calculate the amount of the marked T and P transactions, don't take care of R transactions

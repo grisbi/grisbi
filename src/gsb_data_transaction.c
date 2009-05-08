@@ -665,9 +665,10 @@ gboolean gsb_data_transaction_set_amount ( gint transaction_number,
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
     if ( !transaction )
-	return FALSE;
+        return FALSE;
 
     transaction -> transaction_amount = amount;
+    gsb_data_account_set_balances_are_dirty ( transaction -> account_number );
     
     return TRUE;
 }
@@ -1432,24 +1433,25 @@ gboolean gsb_data_transaction_set_marked_transaction ( gint transaction_number,
     if ( !transaction )
 	return FALSE;
 
+    gsb_data_account_set_balances_are_dirty ( transaction->account_number );
     transaction -> marked_transaction = marked_transaction;
 
     /* if the transaction is a split, change all the children */
     if (transaction -> split_of_transaction)
     {
-	GSList *tmp_list;
-	GSList *save_tmp_list;
+        GSList *tmp_list;
+        GSList *save_tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
-	save_tmp_list = tmp_list;
+        tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
+        save_tmp_list = tmp_list;
 
-	while (tmp_list)
-	{
-	    transaction = tmp_list -> data;
-	    transaction -> marked_transaction = marked_transaction;
-	    tmp_list = tmp_list -> next;
-	}
-	g_slist_free (save_tmp_list);
+        while (tmp_list)
+        {
+            transaction = tmp_list -> data;
+            transaction -> marked_transaction = marked_transaction;
+            tmp_list = tmp_list -> next;
+        }
+        g_slist_free (save_tmp_list);
     }
 
     return TRUE;
@@ -2138,6 +2140,7 @@ static void gsb_data_transaction_free ( struct_transaction *transaction)
 {
     if ( ! transaction )
         return;
+    gsb_data_account_set_balances_are_dirty ( transaction -> account_number );
     if ( transaction -> transaction_id )
         g_free ( transaction -> transaction_id );
     if ( transaction -> notes )

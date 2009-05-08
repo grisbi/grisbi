@@ -3,7 +3,7 @@
 
 
 /* START_INCLUDE_H */
-#include "././gsb_real.h"
+#include "./gsb_real.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
@@ -18,8 +18,8 @@ gint gsb_data_reconcile_get_no_reconcile ( gpointer reconcile_ptr );
 gint gsb_data_reconcile_get_number_by_date ( const GDate *date,
 					     gint account_number );
 gint gsb_data_reconcile_get_number_by_name ( const gchar *name );
-gint gsb_data_reconcile_get_previous ( gint reconcile_number );
 GList *gsb_data_reconcile_get_reconcile_list ( void );
+GList *gsb_data_reconcile_get_sort_reconcile_list ( gint account_number );
 gboolean gsb_data_reconcile_init_variables ( void );
 gint gsb_data_reconcile_new ( const gchar *name );
 gboolean gsb_data_reconcile_remove ( gint reconcile_number );

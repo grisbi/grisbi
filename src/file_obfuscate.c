@@ -137,8 +137,6 @@ gboolean file_obfuscate_run ( void )
 		gsb_data_account_set_init_balance (account_number, null_real);
 		gsb_data_account_set_mini_balance_wanted (account_number, null_real);
 		gsb_data_account_set_mini_balance_authorized (account_number, null_real);
-		gsb_data_account_set_current_balance (account_number, null_real);
-		gsb_data_account_set_marked_balance (account_number, null_real);
 		gsb_data_account_set_bank_branch_code (account_number, NULL);
 		gsb_data_account_set_bank_account_number (account_number, NULL);
 		gsb_data_account_set_bank_account_key (account_number, NULL);

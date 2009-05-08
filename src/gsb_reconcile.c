@@ -299,10 +299,6 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 
     account_number = gsb_gui_navigation_get_current_account ();
 
-    /* normally the marked balance is set all the time, but in case
-     * of bug, better to recalculate here because don't take too much time */
-    gsb_data_account_calculate_marked_balance (account_number);
-
     reconcile_number = gsb_data_reconcile_get_account_last_number (account_number);
 
     /* get the last reconcile number and try to increase the number in the name */
