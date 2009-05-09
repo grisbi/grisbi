@@ -42,18 +42,18 @@ gsb_real null_real = { 0 , 0 };
 
 /*START_STATIC*/
 static gchar *gsb_real_format_string ( gsb_real number,
-				gint currency_number,
-				gboolean show_symbol );
-static gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_exponent );
+                        gint currency_number,
+                        gboolean show_symbol );
+static gsb_real gsb_real_get_from_string_normalized ( const gchar *string, 
+                        gint default_exponent );
 static gboolean gsb_real_normalize ( gsb_real *number_1,
-			      gsb_real *number_2 );
+                        gsb_real *number_2 );
 static gdouble gsb_real_real_to_double ( gsb_real number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern gint max;
 /*END_EXTERN*/
-
 
 
 /**
@@ -85,8 +85,8 @@ gchar *gsb_real_get_string ( gsb_real number )
  * \return a newly allocated string of the number
  * */
 gchar *gsb_real_get_string_with_currency ( gsb_real number,
-					   gint currency_number,
-					   gboolean show_symbol )
+                        gint currency_number,
+                        gboolean show_symbol )
 {
     gchar *string;
 
@@ -184,7 +184,6 @@ gchar *gsb_real_format_string ( gsb_real number,
         gchar *ptr_char, *ptr_fin = NULL;
         gchar *dest = NULL;
         gchar *ch;
-        gint i = 0;
 
         reverse = g_utf8_strreverse ( mantissa, -1 );
         dest = g_malloc0 ( 30 * sizeof (gunichar));
@@ -192,16 +191,20 @@ gchar *gsb_real_format_string ( gsb_real number,
         nbre_char = g_utf8_strlen ( reverse, -1);
         ptr_char = reverse;
         ptr_fin = dest;
-        for (i = 0; i < nbre_char; i++)
+        while ( (nbre_char = g_utf8_strlen (ptr_char, -1)) > 0)
         {
-            ch = g_strndup (ptr_char, 1);
-            if ( i == 3 )
-                ptr_fin = g_stpcpy (ptr_fin, mon_thousands_sep_utf8 );
+            ch = g_strndup (ptr_char, 3);
             ptr_fin = g_stpcpy ( ptr_fin, ch );
-            ptr_char = g_utf8_next_char ( ptr_char );
+            g_free ( ch );
+            ptr_fin = g_stpcpy (ptr_fin, mon_thousands_sep_utf8 );
 
-            if (ptr_char == NULL) break;
+            nbre_char = g_utf8_strlen ( ptr_char, -1 );
+            if ( nbre_char > 3 )
+                ptr_char = g_utf8_offset_to_pointer ( ptr_char, 3 );
+            else
+                ptr_char = g_utf8_offset_to_pointer ( ptr_char, nbre_char );
         }
+
         mantissa = g_utf8_strreverse ( dest, -1 );
         g_free ( reverse );
         g_free ( dest );
@@ -292,7 +295,10 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
 
     if ( !string
 	 ||
-	 !strlen (string))
+	 !strlen (string) )
+        return number;
+
+    if ( g_strcmp0 (string, "0") == 0 )
         return number;
 
     new_str = my_strdup (string);
@@ -333,7 +339,6 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
 }
 
 
-
 /**
  * compare 2 gsb_real and return the result (-1, 0, 1)
  *
@@ -343,7 +348,7 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
  * \return -1 if number_1 < number_2 ; 0 if number_1 = number_2 ; 1 if number_1 > number_2
  * */
 gint gsb_real_cmp ( gsb_real number_1,
-		    gsb_real number_2 )
+                        gsb_real number_2 )
 {
     gsb_real_normalize ( &number_1,
 			 &number_2 );
@@ -366,7 +371,7 @@ gint gsb_real_cmp ( gsb_real number_1,
  * \return TRUE
  * */
 gboolean gsb_real_normalize ( gsb_real *number_1,
-			      gsb_real *number_2 )
+                        gsb_real *number_2 )
 {
     glong limit_number;
     gboolean invert = FALSE;
@@ -436,7 +441,7 @@ gsb_real gsb_real_abs ( gsb_real number )
  * \return the transformed number
  * */
 gsb_real gsb_real_adjust_exponent ( gsb_real number,
-				    gint return_exponent )
+                        gint return_exponent )
 {
     gdouble tmp;
 
@@ -477,7 +482,7 @@ gsb_real gsb_real_adjust_exponent ( gsb_real number,
  * \return a gsb_real = number_1 + number_2
  * */
 gsb_real gsb_real_add ( gsb_real number_1,
-			gsb_real number_2 )
+                        gsb_real number_2 )
 {
     gsb_real number = number_1;
     
@@ -497,7 +502,7 @@ gsb_real gsb_real_add ( gsb_real number_1,
  * \return a gsb_real = number_1 - number_2
  * */
 gsb_real gsb_real_sub ( gsb_real number_1,
-			gsb_real number_2 )
+                        gsb_real number_2 )
 {
     gsb_real number = number_1;
     
@@ -533,7 +538,7 @@ gsb_real gsb_real_opposite ( gsb_real number )
  * \return the multiplication between the 2
  * */
 gsb_real gsb_real_mul ( gsb_real number_1,
-			gsb_real number_2 )
+                        gsb_real number_2 )
 {
     number_1.mantissa *= number_2.mantissa;
     number_1.exponent += number_2.exponent;
@@ -550,7 +555,7 @@ gsb_real gsb_real_mul ( gsb_real number_1,
  * \return the multiplication between the 2
  * */
 gsb_real gsb_real_div ( gsb_real number_1,
-			gsb_real number_2 )
+                        gsb_real number_2 )
 {
     gsb_real number;
 
