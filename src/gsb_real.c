@@ -112,19 +112,19 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
  *			function will never return NULL) 
  */
 gchar *gsb_real_format_string ( gsb_real number,
-				gint currency_number,
-				gboolean show_symbol )
+                        gint currency_number,
+                        gboolean show_symbol )
 {
     struct lconv * conv = localeconv ( );
-    div_t result_div;
-    gchar *string, *exponent, *mantissa;
-    gint i = 0, j=0;
+    gchar *string, *exponent = NULL, *mantissa;
     glong num;
+    gint nbre_char;
     const gchar *currency_symbol = NULL;
+    char buf[G_ASCII_DTOSTR_BUF_SIZE];
 
-    /* as we use localeconv, all the currencies in grisbi will be formatted as the locale of the system
-     * i think it's ok like that, and to adapt the view according with the currency and not the current
-     * locale is much more complicated */
+    /* as we use localeconv, all the currencies in grisbi will be formatted as the locale of 
+     * the system i think it's ok like that, and to adapt the view according with the 
+     * currency and not the current locale is much more complicated */
     if (currency_number && show_symbol)
         currency_symbol = gsb_data_currency_get_code (currency_number);
     
@@ -140,79 +140,82 @@ gchar *gsb_real_format_string ( gsb_real number,
     }
 
     /* first we need to adapt the exponent to the currency */
+    /* if the exponent of the real is not the same of the currency, need to adapt it */
     if ( currency_number
-	&&
-	number.exponent != gsb_data_currency_get_floating_point (currency_number) )
-        /* the exponent of the real is not the same of the currency, need to adapt it */
+      &&
+      number.exponent != gsb_data_currency_get_floating_point (currency_number) )
         number = gsb_real_adjust_exponent ( number, gsb_data_currency_get_floating_point (
                         currency_number) );
-    
-    /* for a long int : max 11 char
-     * so with the possible -, the spaces and the .
-     * we arrive to maximum 14 char : -21 474 836.48 + 1 for the 0 terminal */
-    mantissa = g_malloc0 ( 15*sizeof (gchar) );
-    exponent = g_malloc0 ( 15*sizeof (gchar) );
-    string = mantissa;
 
+    /* on traite la conversion avec g_ascii_dtostr */
     num = labs(number.mantissa);
 
-    /* Construct the result in the reverse order from right to left, then reverse it. */
-    do
+    mantissa = g_ascii_dtostr ( buf, sizeof (buf), num );
+    if ( ! mantissa )
+            return g_strdup ("Error");
+
+    nbre_char = g_utf8_strlen ( mantissa, -1);
+
+    /* on extrait la partie entière et la partie décimale */
+    if ( nbre_char > number.exponent )
     {
-        if ( i == number.exponent)
+        exponent = g_strdup ( mantissa + (nbre_char - number.exponent ) );
+        mantissa = g_strndup ( mantissa, (nbre_char - number.exponent) );
+    }
+    else
+    {
+        if ( nbre_char < number.exponent )
         {
-            *string = 0;
-            string = exponent;
-            result_div.quot = num;
+            exponent = g_strnfill ( number.exponent - nbre_char, '0' );
+            exponent = g_strconcat ( exponent, mantissa, NULL );
         }
         else
-        {
-            if (i > number.exponent)
-                j++;
-
-            if ( j == 4 )
-            {
-                j=0;
-                if ( * (conv -> mon_thousands_sep ) )
-                {
-                    *string++ = * ( conv -> mon_thousands_sep );
-                }
-                else
-                {
-                    i--;
-                }
-                result_div.quot = num;
-            }
-            else
-            {
-                result_div = div ( num, 10 );
-                *string++ = result_div.rem + '0';
-            }
-        }
-        i++;
-        /* we check also i < (number.exponent+2)
-         * the +2 is for 0. at the left of the separator,
-         * with that check, 0 will be 0.00 if exponent = 2,
-         * and 0.51 will be 0.51 and no 51 without that check */
+            exponent = g_strdup ( mantissa );
+        mantissa = g_strdup ( "0" );
     }
-    while ( ( num = result_div.quot )
-        ||
-        i < number.exponent+2
-	    ||
-  	    (currency_number
-	     &&
-	     i < gsb_data_currency_get_floating_point (currency_number)));
 
+    /* on insère le séparateur des milliers */
+    gchar *mon_thousands_sep_utf8;
 
+    if ( nbre_char > 3 && (mon_thousands_sep_utf8 = g_locale_to_utf8 (
+                        conv->mon_thousands_sep, -1, NULL, NULL, NULL )) )
+    {
+        gchar *reverse;
+        gchar *ptr_char, *ptr_fin = NULL;
+        gchar *dest = NULL;
+        gchar *ch;
+        gint i = 0;
+
+        reverse = g_utf8_strreverse ( mantissa, -1 );
+        dest = g_malloc0 ( 30 * sizeof (gunichar));
+
+        nbre_char = g_utf8_strlen ( reverse, -1);
+        ptr_char = reverse;
+        ptr_fin = dest;
+        for (i = 0; i < nbre_char; i++)
+        {
+            ch = g_strndup (ptr_char, 1);
+            if ( i == 3 )
+                ptr_fin = g_stpcpy (ptr_fin, mon_thousands_sep_utf8 );
+            ptr_fin = g_stpcpy ( ptr_fin, ch );
+            ptr_char = g_utf8_next_char ( ptr_char );
+
+            if (ptr_char == NULL) break;
+        }
+        mantissa = g_utf8_strreverse ( dest, -1 );
+        g_free ( reverse );
+        g_free ( dest );
+    }
+    
     /* Add the sign at the end of the string just before to reverse it to avoid
        to have to insert it at the begin just after... */
     string = g_strdup_printf ( "%s%s%s%s%s%s%s%s", 
                     ( currency_symbol && conv -> p_cs_precedes ? currency_symbol : "" ),
                     ( currency_symbol && conv -> p_sep_by_space ? " " : "" ),
                     number.mantissa < 0 ? conv -> negative_sign : conv -> positive_sign,
-                    strlen (exponent) ? g_strreverse ( exponent ) : "0",
+                    mantissa,
                     ( * conv -> mon_decimal_point ? conv -> mon_decimal_point : "." ),
-                    g_strreverse ( mantissa ),
+                    strlen (exponent) ? exponent : "0",
                     ( currency_symbol && ! conv -> p_cs_precedes && conv -> p_sep_by_space ? 
                     " " : "" ),
                     ( currency_symbol && ! conv -> p_cs_precedes ? currency_symbol : "" ) );
@@ -220,7 +223,7 @@ gchar *gsb_real_format_string ( gsb_real number,
     g_free ( exponent );
     g_free ( mantissa );
 
-    return ( string );
+    return string;
 }
 
 
@@ -279,83 +282,52 @@ gsb_real gsb_real_new ( gint mantissa, gint exponent )
  */
 gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_exponent )
 {
+    struct lconv * conv = localeconv ( );
     gsb_real number = null_real;
-    gint i = 0, sign;
-    gchar *string_tmp;
+    gchar *new_str;
+    gchar *mon_thousands_sep_utf8;
+    gchar *ptr;
+    gchar**	tab;
+    gint sign;
 
     if ( !string
 	 ||
 	 !strlen (string))
-	return number;
+        return number;
 
-    string_tmp = my_strdup (string);
+    new_str = my_strdup (string);
 
-    /* if there is an exponent, finish the string at the good position of the exponent */
-    if ( default_exponent > 0 )
+    /* on enlève les séparateurs des milliers */
+    mon_thousands_sep_utf8 = g_locale_to_utf8 (
+                        conv->mon_thousands_sep, -1, NULL, NULL, NULL );
+    if ( g_utf8_strchr (new_str, -1, g_utf8_get_char (mon_thousands_sep_utf8)) )
     {
-	gchar *separator, *tmp;
-
-	separator = strrchr ( string_tmp, '.' );
-	if ( ! separator )
-	    separator = strrchr ( string_tmp, ',' );
-
-	if ( separator )
-	{
-	    tmp = string_tmp + strlen ( string_tmp ) - 1;
-	    while ( * tmp == '0' && ( tmp - separator > default_exponent ) &&
-		    tmp >= string_tmp ) 
-	    {
-		* tmp = '\0';
-		tmp --;
-	    }
-	}
+        tab = g_strsplit ( new_str, mon_thousands_sep_utf8, 0 );
+        g_free ( new_str );
+        new_str = g_strjoinv ( "", tab );
+        g_strfreev ( tab );
     }
 
-    if (string_tmp[0] == '-')
-    {
-	sign = -1;
-	i++;
-    }
+    /* on extrait le signe */
+    if ( new_str[0] == *(conv -> negative_sign) )
+        sign = -1;
     else
-    {
-	sign = 1;
-	/* sometimes we can have "+12" so we pass the + */
-	if (string_tmp[0] == '+' )
-	    i++;
-    }
+        sign = 1;
 
-    while (string_tmp[i])
-    {
-	switch (string_tmp[i])
-	{
-	    case ',':
-	    case '.':
-		number.exponent = strlen (string_tmp) -i -1;
-		break;
+    /* On détermine l'exponent */
+    if ( (ptr = g_strrstr (new_str, conv -> mon_decimal_point)) )
+        number.exponent = strlen ( ptr ) - 1;
 
-	    case ' ':
-		break;
+    /* on détermine la mantisse on supprime tous les séparateurs et autres signes */
+    tab = g_strsplit_set ( new_str, g_strconcat (
+                        "+", "-", conv -> mon_decimal_point, NULL), 0 );
+    g_free ( new_str );
+    new_str = g_strjoinv ( "", tab );
+    g_strfreev ( tab );
 
-	    default:
-		if (string_tmp[i] >= '0'
-		    &&
-		    string_tmp[i] <= '9' )
-		{
-		    number.mantissa = number.mantissa * 10;
-		    number.mantissa = number.mantissa + string_tmp[i] - '0';
-		}
-		else
-		{
-		    /* if there is another char, we do nothing */
-		    g_free (string_tmp);
-		    return null_real;
-		}
-	}
-	i++;
-    }
-
+    number.mantissa = (glong) g_ascii_strtod ( new_str, NULL );
     number.mantissa = sign * number.mantissa;
-    g_free (string_tmp);
+    g_free ( new_str );
 
     return number;
 }
@@ -563,13 +535,9 @@ gsb_real gsb_real_opposite ( gsb_real number )
 gsb_real gsb_real_mul ( gsb_real number_1,
 			gsb_real number_2 )
 {
-    gsb_real number;
-
-    number = gsb_real_double_to_real ( gsb_real_real_to_double (number_1)
-				       *
-				       gsb_real_real_to_double (number_2));
-
-    return number;
+    number_1.mantissa *= number_2.mantissa;
+    number_1.exponent += number_2.exponent;
+    return number_1;
 }
 
 
