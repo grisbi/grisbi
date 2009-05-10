@@ -4,6 +4,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	          */
 /*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/*                      2009 Pierre Biava (pierre@pierre.biava.name)          */
 /* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -44,15 +45,13 @@ gsb_real null_real = { 0 , 0 };
 static gchar *gsb_real_format_string ( gsb_real number,
                         gint currency_number,
                         gboolean show_symbol );
-static gsb_real gsb_real_get_from_string_normalized ( const gchar *string, 
-                        gint default_exponent );
+static gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_exponent );
 static gboolean gsb_real_normalize ( gsb_real *number_1,
                         gsb_real *number_2 );
 static gdouble gsb_real_real_to_double ( gsb_real number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint max;
 /*END_EXTERN*/
 
 

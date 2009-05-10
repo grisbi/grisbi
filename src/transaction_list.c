@@ -59,8 +59,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  void transaction_list_append_child ( gint transaction_number );
-static  CustomRecord *transaction_list_create_record ( gint transaction_number,
+static void transaction_list_append_child ( gint transaction_number );
+static CustomRecord *transaction_list_create_record ( gint transaction_number,
 						      gint line_in_transaction );
 static gint transaction_list_get_last_line ( gint nb_rows );
 static gboolean transaction_list_update_child ( CustomRecord *child_record );

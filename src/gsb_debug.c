@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*     Copyright (C)	2004-2005 Alain Portal (aportal@univ-montp2.fr)	      */
-/*                  	2006-2006 Benjamin Drieu (bdrieu@april.org)	      */
-/*			http://www.grisbi.org   			      */
+/*                  	2006-2006 Benjamin Drieu (bdrieu@april.org)	          */
+/*			http://www.grisbi.org   			                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */

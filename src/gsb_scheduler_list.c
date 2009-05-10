@@ -34,6 +34,7 @@
 #include "./barre_outils.h"
 #include "./dialog.h"
 #include "./utils_dates.h"
+#include "./gsb_account_property.h"
 #include "./gsb_automem.h"
 #include "./gsb_calendar.h"
 #include "./gsb_data_account.h"
@@ -1882,7 +1883,7 @@ gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number )
  * called when the size of the tree view changed, to keep the same ration
  * between the columns
  *
- * \param tree_view	the tree view of the transactions list
+ * \param tree_view	    the tree view of the scheduled transactions list
  * \param allocation	the new size
  * \param null
  *
@@ -1893,24 +1894,27 @@ gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
 					    gpointer null )
 {
     gint i;
-
+    devel_debug (NULL);
     if (allocation -> width == scheduler_current_tree_view_width)
     {
-	/* size of the tree view didn't change, but we received an allocated signal
-	 * it happens several times, and especially when we change the columns,
-	 * so we update the colums */
+        /* size of the tree view didn't change, but we received an allocated signal
+         * it happens several times, and especially when we change the columns,
+         * so we update the colums */
 
-	/* sometimes, when the list is not visible, he will set all the columns to 1%... we block that here */
-	if (gtk_tree_view_column_get_width (scheduler_list_column[0]) == 1)
-	    return FALSE;
+        /* sometimes, when the list is not visible, he will set all the columns to 1%... 
+         * we block that here */
+        if (gtk_tree_view_column_get_width (scheduler_list_column[0]) == 1)
+            return FALSE;
 
-	for (i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
-	    if (gtk_tree_view_column_get_width (scheduler_list_column[i]))
-		scheduler_col_width[i] = (gtk_tree_view_column_get_width (scheduler_list_column[i]) * 100) / allocation -> width + 1;
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        for (i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
+        {
+            if (gtk_tree_view_column_get_width (scheduler_list_column[i]))
+                scheduler_col_width[i] = (gtk_tree_view_column_get_width (
+                        scheduler_list_column[i]) * 100) / allocation -> width + 1;
+        }
+        gsb_account_property_set_label_code_banque ( );
 
-	return FALSE;
+        return FALSE;
     }
 
     /* the size of the tree view changed, we keep the ration between the columns,
@@ -1920,12 +1924,12 @@ gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
 
     for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS - 1 ; i++ )
     {
-	gint width;
+        gint width;
 
-	width = (scheduler_col_width[i] * (allocation -> width))/ 100;
-	if ( width > 0 )
-	    gtk_tree_view_column_set_fixed_width ( scheduler_list_column[i],
-						   width );
+        width = (scheduler_col_width[i] * (allocation -> width))/ 100;
+        if ( width > 0 )
+            gtk_tree_view_column_set_fixed_width ( scheduler_list_column[i],
+                               width );
     }
     return FALSE;
 }

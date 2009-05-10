@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2009 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/*			2003-2009 Benjamin Drieu (bdrieu@april.org)	                      */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -952,8 +952,9 @@ static GtkWidget *gsb_config_scheduler_page ( void )
 						      _("Warn/Execute the scheduled transactions of the month"),
 						      &execute_scheduled_of_month,
 						      NULL, NULL );
-    g_signal_connect ( G_OBJECT (button), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &button );
+    /* commenté provisoirement pour supprimer un plantage sous windows */
+    //~ g_signal_connect ( G_OBJECT (button), "destroy",
+		       //~ G_CALLBACK ( gtk_widget_destroyed), &button );
 
     hbox = gtk_hbox_new ( FALSE, 0);
     gtk_box_pack_start ( GTK_BOX (vbox_pref),

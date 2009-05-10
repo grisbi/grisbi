@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2006-2009 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	          */
+/*			2006-2009 Benjamin Drieu (bdrieu@april.org)	                      */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -906,7 +906,7 @@ gboolean gsb_currency_config_set_int_from_combobox ( GtkWidget *combobox, gint *
     }
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
+    //~ if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
     return (FALSE);
 }

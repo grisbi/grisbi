@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     copyright (c)	2000-2007 C�dric Auger (cedric@grisbi.org)	      */
-/*			2004-2007 Benjamin Drieu (bdrieu@april.org) 	      */
-/*			http://www.grisbi.org   			      */
+/*     copyright (c)	2000-2007 Cédric Auger (cedric@grisbi.org)	          */
+/*			2004-2007 Benjamin Drieu (bdrieu@april.org) 	                  */
+/*			http://www.grisbi.org   			                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */

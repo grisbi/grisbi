@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2009 Cédric Auger (cedric@grisbi.org)	          */
 /*			2004-2009 Benjamin Drieu (bdrieu@april.org) 	                  */
+/*                      2009 Pierre Biava (pierre@pierre.biava.name)          */
 /*			http://www.grisbi.org   			                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -608,29 +609,29 @@ void gsb_account_property_fill_page ( void )
     current_account = gsb_gui_navigation_get_current_account ();
 
     gsb_autofunc_entry_set_value (detail_nom_compte,
-				  gsb_data_account_get_name (current_account), current_account);
+                        gsb_data_account_get_name (current_account), current_account);
 
     gsb_autofunc_combobox_set_index (detail_type_compte,
-				     gsb_data_account_get_kind (current_account), current_account);
+                        gsb_data_account_get_kind (current_account), current_account);
 
     /* modification pour mettre à jour l'icône du sélecteur d'icône du compte */
     image = gsb_data_account_get_account_icon_image ( current_account );
     gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image );
 
     gsb_autofunc_currency_set_currency_number (detail_devise_compte,
-					       gsb_data_account_get_currency (current_account), current_account);
+                        gsb_data_account_get_currency (current_account), current_account);
 
     gsb_autofunc_checkbutton_set_value (detail_compte_cloture,
-					gsb_data_account_get_closed_account (current_account), current_account);
+                        gsb_data_account_get_closed_account (current_account), current_account);
 
     gsb_autofunc_entry_set_value ( detail_titulaire_compte,
-				   gsb_data_account_get_holder_name (current_account), current_account );
+                        gsb_data_account_get_holder_name (current_account), current_account );
 
     gsb_autofunc_checkbutton_set_value ( button_holder_address,
-					 gsb_data_account_get_holder_address (current_account) != NULL, 0 );
+                        gsb_data_account_get_holder_address (current_account) != NULL, 0 );
 
     gsb_autofunc_textview_set_value ( detail_adresse_titulaire,
-				      gsb_data_account_get_holder_address (current_account), current_account );
+                        gsb_data_account_get_holder_address (current_account), current_account );
 
     /* fill bank informations */
     bank_number = gsb_data_account_get_bank (current_account);
@@ -638,25 +639,27 @@ void gsb_account_property_fill_page ( void )
     gsb_account_property_set_label_code_bic ( bank_number );
 
     gsb_account_property_iban_set_iban (
-                    gsb_data_account_get_bank_account_iban (current_account) );
+                        gsb_data_account_get_bank_account_iban (current_account) );
     
     if ( gsb_account_property_iban_set_bank_from_iban (
                         gsb_data_account_get_bank_account_iban (current_account)) )
-        gsb_account_property_iban_switch_bank_data ( FALSE );    
+        gsb_account_property_iban_switch_bank_data ( FALSE );
     else
         gsb_account_property_iban_switch_bank_data ( TRUE );
 
     gsb_autofunc_real_set ( detail_solde_init,
-			    gsb_data_account_get_init_balance (current_account,
-							       gsb_data_currency_get_floating_point (gsb_data_account_get_currency (current_account))),
-			    current_account);
+                        gsb_data_account_get_init_balance (current_account,
+                        gsb_data_currency_get_floating_point (
+                        gsb_data_account_get_currency ( current_account))), current_account);
     gsb_autofunc_real_set (detail_solde_mini_autorise,
-			   gsb_data_account_get_mini_balance_authorized (current_account), current_account);
+                        gsb_data_account_get_mini_balance_authorized (current_account),
+                        current_account);
     gsb_autofunc_real_set (detail_solde_mini_voulu,
-			   gsb_data_account_get_mini_balance_wanted (current_account), current_account);
+                        gsb_data_account_get_mini_balance_wanted (current_account),
+                        current_account);
 
     gsb_autofunc_textview_set_value ( detail_commentaire,
-				      gsb_data_account_get_comment (current_account), current_account);
+                        gsb_data_account_get_comment (current_account), current_account);
 }
 
 
@@ -675,16 +678,18 @@ gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
     gint bank_number;
 
     if (!combobox)
-	return FALSE;
+        return FALSE;
 
     bank_number = gsb_bank_list_get_bank_number (combobox);
 
     if (bank_number <= 0)
-	gtk_label_set_text ( GTK_LABEL (label_code_banque),
-			     NULL );
+        gtk_label_set_text ( GTK_LABEL (label_code_banque),
+                        NULL );
     else
-	gtk_label_set_text ( GTK_LABEL (label_code_banque),
-			     gsb_data_bank_get_code (bank_number));
+        gtk_label_set_text ( GTK_LABEL (label_code_banque),
+                        gsb_data_bank_get_code (bank_number));
+    gsb_account_property_set_label_code_bic ( bank_number );
+
     return FALSE;
 }
 
@@ -1297,14 +1302,10 @@ void gsb_account_property_iban_set_iban ( const gchar *iban )
 {
     gint position = 0;
 
-    if ( iban == NULL || strlen (iban) == 0 )
-        gtk_editable_delete_text ( GTK_EDITABLE (detail_IBAN), 0, -1 );
-    else
-    {
-        gtk_editable_delete_text ( GTK_EDITABLE (detail_IBAN), 0, -1 );
+    gtk_editable_delete_text ( GTK_EDITABLE (detail_IBAN), 0, -1 );
+    if ( iban && strlen (iban) > 0 )
         gtk_editable_insert_text ( GTK_EDITABLE (detail_IBAN),
                             iban, -1, &position );
-    }
 }
 
 /**
@@ -1358,7 +1359,7 @@ void gsb_account_property_iban_display_bank_data ( gint current_account,
                         current_account), current_account );
     gsb_autofunc_entry_set_value (detail_cle_compte,
                         gsb_data_account_get_bank_account_key (
-                        current_account), current_account );        
+                        current_account), current_account );
 }
 
 
@@ -1370,7 +1371,6 @@ void gsb_account_property_iban_display_bank_data ( gint current_account,
  * */
 void gsb_account_property_iban_clear_label_data ( void )
 {
-    gtk_label_set_text ( GTK_LABEL (label_code_banque), "" );
     gtk_label_set_text ( GTK_LABEL (label_guichet), "" );
     gtk_label_set_text ( GTK_LABEL (label_no_compte), "" );
     gtk_label_set_text ( GTK_LABEL (label_cle_compte), "" );

@@ -1,9 +1,9 @@
 /* ************************************************************************** */
-/*                                  gsb_automem.c                            */
+/*                                  gsb_automem.c                             */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org)	          */
+/*			2003-2009 Benjamin Drieu (bdrieu@april.org)	                      */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */

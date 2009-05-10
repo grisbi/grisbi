@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	    	  */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	    				  */
+/* 			http://www.grisbi.org				    						  */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -29,7 +29,6 @@
 
 /*START_INCLUDE*/
 #include "traitement_variables.h"
-#include "./gsb_account_property.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
@@ -181,11 +180,8 @@ void modification_fichier ( gboolean modif )
     /* If no file is loaded, do not change menu items. */
     if ( ! gsb_data_account_get_accounts_amount () )
     {
-	return;
+        return;
     }
-
-    /* pbiava on 03/24/2009 fix bug display bank code */
-    gsb_account_property_set_label_code_banque ( );
 
     if ( modif )
     {
@@ -197,8 +193,8 @@ void modification_fichier ( gboolean modif )
     }
     else
     {
-	etat.modification_fichier = 0;
-	gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, FALSE );
+        etat.modification_fichier = 0;
+        gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, FALSE );
     }
 }
 
