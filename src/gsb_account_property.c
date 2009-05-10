@@ -636,8 +636,6 @@ void gsb_account_property_fill_page ( void )
     /* fill bank informations */
     bank_number = gsb_data_account_get_bank (current_account);
 
-    gsb_account_property_set_label_code_bic ( bank_number );
-
     gsb_account_property_iban_set_iban (
                         gsb_data_account_get_bank_account_iban (current_account) );
     
@@ -881,9 +879,7 @@ gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
 
 
 /**
- * pbiava on 03/24/2009 fix bug display bank code
- *
- * appellée au moment de l'ouverture de l'onglet caractéristique du compte
+ * positionne le code bank
  *
  * */
 void gsb_account_property_set_label_code_banque ( void )
@@ -908,9 +904,9 @@ void gsb_account_property_set_label_code_banque ( void )
 
 
 /**
+ * positionne le code BIC et le label correspondant si le premier existe
  *
- *
- *
+ * \param bank_number
  *
  **/
 void gsb_account_property_set_label_code_bic ( gint bank_number )
@@ -1146,11 +1142,12 @@ gboolean gsb_account_property_iban_focus_out_event ( GtkWidget *entry,
 
 
 /**
- * Affiche les données bancaires à partir du numero IBAN
+ * Affiche les données bancaires à partir du numero IBAN. Si le N° IBAN n'existe pas
+ * on affiche les données bancaires classiques
  *
  * \param le numéro IBAN
  *
- * \return TRUE si OK FALSE autrement
+ * \return TRUE si OK FALSE si affichage des donnés bancaires classiques
  * */
 gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
 {
@@ -1309,9 +1306,10 @@ void gsb_account_property_iban_set_iban ( const gchar *iban )
 }
 
 /**
+ * Bascule l'affichage des caractéristiques bancaires soit vers les données
+ *  classiques soit vers les données crées à partir de l'IBAN
  *
- *
- *
+ \param sensitive Si TRUE affiche les données classiques si FALSE les données IBAN
  *
  * */
 void gsb_account_property_iban_switch_bank_data ( gboolean sensitive )
@@ -1341,9 +1339,11 @@ void gsb_account_property_iban_switch_bank_data ( gboolean sensitive )
 
 
 /**
+ * Affiche les données classiques du compte, données que l'on peut modifier
+ * en ligne.
  *
- *
- *
+ * \param current_account
+ * \param bank_number
  *
  * */
 void gsb_account_property_iban_display_bank_data ( gint current_account,
@@ -1351,6 +1351,7 @@ void gsb_account_property_iban_display_bank_data ( gint current_account,
 {
     gtk_label_set_text ( GTK_LABEL (label_code_banque),
                         gsb_data_bank_get_code (bank_number) );
+    gsb_account_property_set_label_code_bic ( bank_number );
     gsb_autofunc_entry_set_value (detail_guichet,
                         gsb_data_account_get_bank_branch_code (
                         current_account), current_account);
