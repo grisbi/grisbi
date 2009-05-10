@@ -64,8 +64,8 @@
 /*START_STATIC*/
 static void gsb_file_append_name_to_opened_list ( gchar * path_fichier );
 static gboolean gsb_file_automatic_backup ( gpointer null );
-static  gchar *gsb_file_dialog_ask_name ( void );
-static  gint gsb_file_dialog_save ( void );
+static gchar *gsb_file_dialog_ask_name ( void );
+static gint gsb_file_dialog_save ( void );
 static gboolean gsb_file_save_backup ( void );
 static gboolean gsb_file_save_file ( gint origine );
 /*END_STATIC*/
@@ -980,59 +980,62 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
 
     if ( !nb_max_derniers_fichiers_ouverts ||
 	 !path_fichier)
-	return;
+        return;
 
     if ( nb_derniers_fichiers_ouverts < 0 )
-	nb_derniers_fichiers_ouverts = 0;
+        nb_derniers_fichiers_ouverts = 0;
 
     if ( !g_path_is_absolute ( nom_fichier_comptes ) )
     {
-	real_name = g_strdup( (gchar*)realpath ( nom_fichier_comptes, NULL ));
-	if ( ! real_name )
-	{
-	    notice_debug ( "could not resolve relative file name" );
-	    return;
-	}
-	devel_debug ( real_name );
+        real_name = g_strdup( (gchar*)realpath ( nom_fichier_comptes, NULL ));
+        if ( ! real_name )
+        {
+            notice_debug ( "could not resolve relative file name" );
+            return;
+        }
+        devel_debug ( real_name );
     }
     else
     {
-	real_name = g_strdup ( path_fichier );
+        real_name = g_strdup ( path_fichier );
     }
 
-    /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts noms */
+    /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts 
+     * noms */
     position = 0;
 
-    for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
-	if ( !strcmp ( real_name, tab_noms_derniers_fichiers_ouverts[i] ))
-	{
-	    /* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
-	    if ( !i )
-		return;
+    for ( i = 0; i < nb_derniers_fichiers_ouverts; i++ )
+    {
+        if ( !strcmp ( real_name, tab_noms_derniers_fichiers_ouverts[i] ))
+        {
+            /* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
+            if ( !i )
+                return;
 
-	    position = i;
-	}
+            position = i;
+        }
+    }
 
-    efface_derniers_fichiers_ouverts();
+    efface_derniers_fichiers_ouverts ( );
 
     if ( position )
     {
-	/*       le fichier a été trouvé, on fait juste une rotation */
-	for ( i=position ; i>0 ; i-- )
-	    tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
-	if ( real_name )
-	    tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
-	else
-	    tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( "<no file>" );
+        /* le fichier a été trouvé, on fait juste une rotation */
+        for ( i = position; i > 0 ; i-- )
+            tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
+        if ( real_name )
+            tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
+        else
+            tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( "<no file>" );
 
-	affiche_derniers_fichiers_ouverts();
+        affiche_derniers_fichiers_ouverts ( );
 
-	return;
+        return;
     }
 
-    /*   le fichier est nouveau, on décale tout d'un cran et on met le nouveau à 0 */
+    /* le fichier est nouveau, on décale tout d'un cran et on met le nouveau à 0 */
 
-    /*   si on est déjà au max, c'est juste un décalage avec perte du dernier */
+    /* si on est déjà au max, c'est juste un décalage avec perte du dernier */
     /* on garde le ptit dernier dans le cas contraire */
 
     if ( nb_derniers_fichiers_ouverts )
@@ -1068,17 +1071,20 @@ void gsb_file_remove_name_from_opened_list ( gchar *filename )
 {
     gint i, j;
 
+    devel_debug ( filename );
     efface_derniers_fichiers_ouverts();
+    devel_debug_int ( nb_derniers_fichiers_ouverts );
 
-    for ( i = 0 ; i < nb_derniers_fichiers_ouverts ; i++ )
+    for ( i = 0 ; i < nb_derniers_fichiers_ouverts; i++ )
     {
-	if ( ! strcmp (filename, tab_noms_derniers_fichiers_ouverts[i]) )
-	{
-	    nb_derniers_fichiers_ouverts--;
-
-	    for ( j = i; ( j + 1 ) < nb_derniers_fichiers_ouverts; j++ )
-		tab_noms_derniers_fichiers_ouverts[j] = tab_noms_derniers_fichiers_ouverts[j+1];
-	}
+        if ( strcmp (filename, tab_noms_derniers_fichiers_ouverts[i]) == 0 )
+        {
+            for ( j = i; ( j + 1 ) < nb_derniers_fichiers_ouverts; j++ )
+            {
+                tab_noms_derniers_fichiers_ouverts[j] = tab_noms_derniers_fichiers_ouverts[j+1];
+            }
+            nb_derniers_fichiers_ouverts--;
+        }
     }
     affiche_derniers_fichiers_ouverts();
 }
