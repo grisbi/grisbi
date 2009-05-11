@@ -1,7 +1,7 @@
 /* *******************************************************************************/
 /*                                 GRISBI                                        */
-/* Programme de gestion financière personnelle                                   */
-/*           	  license : GPLv2                                             */
+/*              Programme de gestion financière personnelle                      */
+/*           	                license : GPLv2                                  */
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
@@ -32,7 +32,6 @@
 #ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif
-
 
 #include "include.h"
 
@@ -82,6 +81,40 @@ extern gint largeur_window;
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
+#if HAVE_CUNIT
+
+#include <CUnit/Automated.h>
+#include <CUnit/Basic.h>
+
+#include "gsb_real_cunit.h"
+
+int gsb_cunit_run_tests()
+{
+    /* initialize the CUnit test registry */
+    if (CUE_SUCCESS != CU_initialize_registry())
+        return CU_get_error();
+
+    /* add a suite to the registry */
+    CU_pSuite pSuite = gsb_real_cunit_create_suite();
+    if(NULL == pSuite)
+    {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+
+    /* Run all tests */
+#ifdef _WIN32
+    CU_automated_run_tests();
+#else//_WIN32
+	CU_basic_run_tests();
+#endif//_WIN32
+    CU_cleanup_registry();
+    return CU_get_error();
+}
+#endif//HAVE_CUNIT
+
+
+
 /**
  * Main function
  *
@@ -92,6 +125,10 @@ extern gchar *nom_fichier_comptes;
  */
 int main (int argc, char **argv)
 {
+#if HAVE_CUNIT
+    gsb_cunit_run_tests();
+#endif//HAVE_CUNIT
+
     GtkWidget * statusbar;
     gboolean first_use = FALSE;
     gchar *string;

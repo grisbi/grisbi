@@ -28,6 +28,9 @@ gsb_real gsb_real_div ( gsb_real number_1,
 gsb_real gsb_real_double_to_real ( gdouble number );
 gsb_real gsb_real_get_from_string ( const gchar *string );
 gchar *gsb_real_get_string ( gsb_real number );
+gchar *gsb_real_raw_format_string ( gsb_real number,
+                        struct lconv *conv,
+                        const gchar *currency_symbol );
 gchar *gsb_real_get_string_with_currency ( gsb_real number,
                         gint currency_number,
                         gboolean show_symbol );

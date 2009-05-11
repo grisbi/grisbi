@@ -41,6 +41,11 @@
 
 gsb_real null_real = { 0 , 0 };
 
+glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
+                            1000000, 10000000, 100000000, 1000000000 };
+
+#define sizeofarray(x) (sizeof(x)/sizeof(*x))
+
 /*START_STATIC*/
 static gchar *gsb_real_format_string ( gsb_real number,
                         gint currency_number,
@@ -96,6 +101,127 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
 }
 
 
+/**
+ * Return the real in a formatted string with an optional currency
+ * symbol, according to the given locale regarding decimal separator,
+ * thousands separator and positive or negative sign.
+ * 
+ * \param number		    Number to format.
+ * \param conv      		the locale obtained with localeconv(), or built manually
+ * \param currency_symbol 	the currency symbol
+ *
+ * \return		A newly allocated string of the number (this
+ *			function will never return NULL) 
+ */
+gchar *gsb_real_raw_format_string (gsb_real number,
+                        struct lconv *conv,
+                        const gchar *currency_symbol )
+{
+    if ( (number.exponent < 0)
+    || (number.exponent >= sizeofarray (gsb_real_power_10))
+    || (number.mantissa == 0x80000000) )
+        return g_strdup("###ERR###");
+
+    gchar format[40];
+    gchar *result = NULL;
+    const gchar *cs_start = (currency_symbol && conv->p_cs_precedes) ? currency_symbol : "";
+    const gchar *cs_start_space = (currency_symbol && conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
+    const gchar *sign = (number.mantissa < 0) ? conv->negative_sign : conv->positive_sign;
+    const gchar *mon_decimal_point = conv->mon_decimal_point && *conv->mon_decimal_point ? conv->mon_decimal_point : ".";
+    const gchar *cs_end_space = (currency_symbol && !conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
+    const gchar *cs_end = (currency_symbol && !conv->p_cs_precedes) ? currency_symbol : "";
+
+    ldiv_t units = ldiv ( labs (number.mantissa), gsb_real_power_10[number.exponent] );
+    if ( units.quot < 1000 )
+    {
+        g_snprintf (format, sizeof(format), "%s%d%s",
+                                           "%s%s%s%d%s%0",
+                                           number.exponent,
+                                           "d%s%s" );
+        result = g_strdup_printf ( format, 
+                        cs_start,
+                        cs_start_space,
+                        sign,
+                        units.quot,
+                        mon_decimal_point,
+                        units.rem,
+                        cs_end_space,
+                        cs_end );
+    }
+    else
+    {
+        gchar *mon_thousands_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1,
+                                                        NULL, NULL, NULL );
+        div_t thousands = div ( units.quot, 1000 );
+        if ( thousands.quot < 1000 )
+        {
+            g_snprintf ( format, sizeof (format), "%s%d%s",
+                                                "%s%s%s%d%s%03d%s%0",
+                                                number.exponent,
+                                                "d%s%s");
+            result = g_strdup_printf ( format, 
+                            cs_start,
+                            cs_start_space,
+                            sign,
+                            thousands.quot,
+                            mon_thousands_sep,
+                            thousands.rem,
+                            mon_decimal_point,
+                            units.rem,
+                            cs_end_space,
+                            cs_end );
+        }
+        else
+        {
+            div_t millions = div ( thousands.quot, 1000 );
+            if ( millions.quot < 1000 )
+            {
+                g_snprintf ( format, sizeof (format), "%s%d%s",
+                                                    "%s%s%s%d%s%03d%s%03d%s%0",
+                                                    number.exponent,
+                                                    "d%s%s");
+                result = g_strdup_printf ( format, 
+                                cs_start,
+                                cs_start_space,
+                                sign,
+                                millions.quot,
+                                mon_thousands_sep,
+                                millions.rem,
+                                mon_thousands_sep,
+                                thousands.rem,
+                                mon_decimal_point,
+                                units.rem,
+                                cs_end_space,
+                                cs_end);
+            }
+            else
+            {
+                div_t billions = div ( millions.quot, 1000 );
+                g_snprintf ( format, sizeof (format), "%s%d%s",
+                                                    "%s%s%s%d%s%03d%s%03d%s%03d%s%0",
+                                                    number.exponent,
+                                                    "d%s%s" );
+                result = g_strdup_printf ( format, 
+                                cs_start,
+                                cs_start_space,
+                                sign,
+                                billions.quot,
+                                mon_thousands_sep,
+                                billions.rem,
+                                mon_thousands_sep,
+                                millions.rem,
+                                mon_thousands_sep,
+                                thousands.rem,
+                                mon_decimal_point,
+                                units.rem,
+                                cs_end_space,
+                                cs_end );
+            }
+        }
+        g_free ( mon_thousands_sep );
+    }
+    return result;
+}
 
 
 /**
@@ -114,118 +240,19 @@ gchar *gsb_real_format_string ( gsb_real number,
                         gint currency_number,
                         gboolean show_symbol )
 {
-    struct lconv * conv = localeconv ( );
-    gchar *string, *exponent = NULL, *mantissa;
-    glong num;
-    gint nbre_char;
-    const gchar *currency_symbol = NULL;
-    char buf[G_ASCII_DTOSTR_BUF_SIZE];
+    gint floating_point;
 
-    /* as we use localeconv, all the currencies in grisbi will be formatted as the locale of 
-     * the system i think it's ok like that, and to adapt the view according with the 
-     * currency and not the current locale is much more complicated */
-    if (currency_number && show_symbol)
-        currency_symbol = gsb_data_currency_get_code (currency_number);
-    
-    /* First of all if number = 0 I return 0 with the symbol of the currency if necessary */
-    if (number.mantissa == 0)
-    {
-        if (currency_symbol && conv -> p_cs_precedes)
-            return g_strdup_printf ( "%s %s", currency_symbol, "0" );
-        else if (currency_symbol && ! conv -> p_cs_precedes)
-            return g_strdup_printf ( "%s %s", "0", currency_symbol );
-        else
-            return g_strdup ("0");
-    }
+    const gchar *currency_symbol = (currency_number && show_symbol)
+                                   ? gsb_data_currency_get_code (currency_number)
+                                   : NULL;
 
     /* first we need to adapt the exponent to the currency */
     /* if the exponent of the real is not the same of the currency, need to adapt it */
-    if ( currency_number
-      &&
-      number.exponent != gsb_data_currency_get_floating_point (currency_number) )
-        number = gsb_real_adjust_exponent ( number, gsb_data_currency_get_floating_point (
-                        currency_number) );
-
-    /* on traite la conversion avec g_ascii_dtostr */
-    num = labs(number.mantissa);
-
-    mantissa = g_ascii_dtostr ( buf, sizeof (buf), num );
-    if ( ! mantissa )
-            return g_strdup ("Error");
-
-    nbre_char = g_utf8_strlen ( mantissa, -1);
-
-    /* on extrait la partie entière et la partie décimale */
-    if ( nbre_char > number.exponent )
-    {
-        exponent = g_strdup ( mantissa + (nbre_char - number.exponent ) );
-        mantissa = g_strndup ( mantissa, (nbre_char - number.exponent) );
-    }
-    else
-    {
-        if ( nbre_char < number.exponent )
-        {
-            exponent = g_strnfill ( number.exponent - nbre_char, '0' );
-            exponent = g_strconcat ( exponent, mantissa, NULL );
-        }
-        else
-            exponent = g_strdup ( mantissa );
-        mantissa = g_strdup ( "0" );
-    }
-
-    /* on insère le séparateur des milliers */
-    gchar *mon_thousands_sep_utf8;
-
-    if ( nbre_char > 3 && (mon_thousands_sep_utf8 = g_locale_to_utf8 (
-                        conv->mon_thousands_sep, -1, NULL, NULL, NULL )) )
-    {
-        gchar *reverse;
-        gchar *ptr_char, *ptr_fin = NULL;
-        gchar *dest = NULL;
-        gchar *ch;
-
-        reverse = g_utf8_strreverse ( mantissa, -1 );
-        dest = g_malloc0 ( 30 * sizeof (gunichar));
-
-        nbre_char = g_utf8_strlen ( reverse, -1);
-        ptr_char = reverse;
-        ptr_fin = dest;
-        while ( (nbre_char = g_utf8_strlen (ptr_char, -1)) > 0)
-        {
-            ch = g_strndup (ptr_char, 3);
-            ptr_fin = g_stpcpy ( ptr_fin, ch );
-            g_free ( ch );
-            ptr_fin = g_stpcpy (ptr_fin, mon_thousands_sep_utf8 );
-
-            nbre_char = g_utf8_strlen ( ptr_char, -1 );
-            if ( nbre_char > 3 )
-                ptr_char = g_utf8_offset_to_pointer ( ptr_char, 3 );
-            else
-                ptr_char = g_utf8_offset_to_pointer ( ptr_char, nbre_char );
-        }
-
-        mantissa = g_utf8_strreverse ( dest, -1 );
-        g_free ( reverse );
-        g_free ( dest );
-    }
+    floating_point = gsb_data_currency_get_floating_point ( currency_number );
+    if ( currency_number && number.exponent != floating_point )
+        number = gsb_real_adjust_exponent ( number, floating_point );
     
-    /* Add the sign at the end of the string just before to reverse it to avoid
-       to have to insert it at the begin just after... */
-    string = g_strdup_printf ( "%s%s%s%s%s%s%s%s", 
-                    ( currency_symbol && conv -> p_cs_precedes ? currency_symbol : "" ),
-                    ( currency_symbol && conv -> p_sep_by_space ? " " : "" ),
-                    number.mantissa < 0 ? conv -> negative_sign : conv -> positive_sign,
-                    mantissa,
-                    ( * conv -> mon_decimal_point ? conv -> mon_decimal_point : "." ),
-                    strlen (exponent) ? exponent : "0",
-                    ( currency_symbol && ! conv -> p_cs_precedes && conv -> p_sep_by_space ? 
-                    " " : "" ),
-                    ( currency_symbol && ! conv -> p_cs_precedes ? currency_symbol : "" ) );
-
-    g_free ( exponent );
-    g_free ( mantissa );
-
-    return string;
+    return gsb_real_raw_format_string ( number, localeconv(), currency_symbol );
 }
 
 

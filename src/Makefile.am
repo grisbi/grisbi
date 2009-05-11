@@ -1,12 +1,12 @@
 # Process this file with automake to produce Makefile.in
 
 localedir = $(datadir)/locale
-INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(prefix)/lib/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(datadir)/doc/@PACKAGE@\""  -Wall
+INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DHAVE_CUNIT -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(prefix)/lib/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(datadir)/doc/@PACKAGE@\""  -Wall
 bin_PROGRAMS = grisbi
 
 # TODO: This manual setting of -Wl is a hack, I cannot get it from
 # configure right now because of no doc.
-grisbi_LDFLAGS = @lt_prog_compiler_wl@@export_dynamic_flag_spec@
+grisbi_LDFLAGS = @lt_prog_compiler_wl@@export_dynamic_flag_spec@ -lcunit
 
 config_dir = config
 
@@ -97,6 +97,7 @@ sources = \
 	gsb_payment_method_config.c	\
 	gsb_plugins.c		\
 	gsb_real.c		\
+	gsb_real_cunit.c	\
 	gsb_reconcile.c		\
 	gsb_reconcile_config.c	\
 	gsb_reconcile_list.c	\
@@ -226,13 +227,14 @@ grisbi_INCLUDES =		\
 	gsb_payment_method_config.h	\
         gsb_plugins.h           \
 	gsb_real.h		\
+	gsb_real_cunit.h	\
 	gsb_reconcile.h		\
 	gsb_reconcile_config.h	\
 	gsb_reconcile_list.h	\
 	gsb_reconcile_sort_config.h	\
 	gsb_report.h		\
         gsb_status.h            \
-	gsb_select_icon.h \
+	gsb_select_icon.h 	\
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\
 	gsb_transactions_list.h	\
@@ -266,16 +268,16 @@ grisbi_INCLUDES =		\
 	parametres.h		\
 	parse_cmdline.h		\
 	print_config.h		\
-	print_dialog_config.h		\
+	print_dialog_config.h	\
 	print_report.h		\
-	print_transactions_list.h		\
+	print_transactions_list.h	\
 	qif.h			\
 	tip.h			\
 	structures.h		\
 	tiers_onglet.h		\
 	traitement_variables.h	\
 	transaction_list.h	\
-	transaction_list_select.h\
+	transaction_list_select.h	\
 	transaction_list_sort.h	\
 	transaction_model.h	\
 	utils.h			\

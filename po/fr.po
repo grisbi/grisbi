@@ -6731,6 +6731,7 @@ msgid ""
 msgstr ""
 "Grisbi ne peut pas ouvrir le fichier. Vous pourrez trouver les dernières "
 "sauvegardes datées dans « %s » ce qui vous donnera facilement la dernière.\n"
+"\n"
 "Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
 "expliquer ce qui s'est passé."
 
@@ -6923,7 +6924,7 @@ msgstr "Impossible d'ouvrir le fichier « %s » : %s"
 
 #: src/gsb_file_load.c:268
 msgid "File does not exist"
-msgstr "Le fichier existe déjà"
+msgstr "Le fichier n'existe pas"
 
 #: src/gsb_file_load.c:281 src/gsb_file_others.c:429
 #, c-format
