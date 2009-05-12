@@ -49,8 +49,24 @@ int gsb_real_cunit_clean_suite(void)
     return 0;
 }
 
+void gsb_real_cunit__gsb_real_get_from_string()
+{
+     //TODO make gsb_real_get_from_string testable without this
+	//~ setlocale ( LC_MONETARY, "C" );
+
+    gsb_real val = gsb_real_get_from_string("123,45");
+    CU_ASSERT_EQUAL(123, val.mantissa);
+    CU_ASSERT_EQUAL(2, val.exponent);
+
+    val = gsb_real_get_from_string("21 000 000");
+    CU_ASSERT_EQUAL(2100000000, val.mantissa);
+    CU_ASSERT_EQUAL(2, val.exponent);
+}
+
 void gsb_real_cunit__gsb_real_raw_format_string()
 {
+    gchar *s;
+    gsb_real n;
     struct lconv conv;
     memset(&conv, 0, sizeof(conv));
     conv.positive_sign = "<+>";
@@ -58,9 +74,22 @@ void gsb_real_cunit__gsb_real_raw_format_string()
     conv.mon_thousands_sep = "< >";
     conv.mon_decimal_point = "<.>";
     gchar *currency_symbol = "<¤>";
-    
-    gsb_real n = {31415, 1};
-    gchar *s = gsb_real_raw_format_string(n, &conv, currency_symbol);
+        
+    n.mantissa = 1;
+    n.exponent = 2;
+    s = gsb_real_raw_format_string(n, &conv, currency_symbol);
+    CU_ASSERT_STRING_EQUAL("<+>0<.>01<¤>", s);
+    g_free(s);
+
+    n.mantissa = 10;
+    n.exponent = 2;
+    s = gsb_real_raw_format_string(n, &conv, currency_symbol);
+    CU_ASSERT_STRING_EQUAL("<+>0<.>10<¤>", s);
+    g_free(s);
+
+    n.mantissa = 31415;
+    n.exponent = 1;
+    s = gsb_real_raw_format_string(n, &conv, currency_symbol);
     CU_ASSERT_STRING_EQUAL("<+>3< >141<.>5<¤>", s);
     g_free(s);
 
@@ -162,7 +191,8 @@ CU_pSuite gsb_real_cunit_create_suite()
     if(NULL == pSuite)
         return NULL;
 
-    if((NULL == CU_add_test(pSuite, "of gsb_real_raw_format_string()", gsb_real_cunit__gsb_real_raw_format_string))
+    if((NULL == CU_add_test(pSuite, "of gsb_real_get_from_string()",   gsb_real_cunit__gsb_real_get_from_string))
+    || (NULL == CU_add_test(pSuite, "of gsb_real_raw_format_string()", gsb_real_cunit__gsb_real_raw_format_string))
     || (NULL == CU_add_test(pSuite, "of gsb_real_add()",               gsb_real_cunit__gsb_real_add))
        )
         return NULL;
