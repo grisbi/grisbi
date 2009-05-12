@@ -51,16 +51,13 @@ int gsb_real_cunit_clean_suite(void)
 
 void gsb_real_cunit__gsb_real_get_from_string()
 {
-     //TODO make gsb_real_get_from_string testable without this
-	//~ setlocale ( LC_MONETARY, "C" );
-
     gsb_real val = gsb_real_get_from_string("123,45");
-    CU_ASSERT_EQUAL(123, val.mantissa);
+    CU_ASSERT_EQUAL(12345, val.mantissa);
     CU_ASSERT_EQUAL(2, val.exponent);
 
-    val = gsb_real_get_from_string("21 000 000");
-    CU_ASSERT_EQUAL(2100000000, val.mantissa);
-    CU_ASSERT_EQUAL(2, val.exponent);
+    val = gsb_real_get_from_string("21000000");
+    CU_ASSERT_EQUAL(21000000, val.mantissa);
+    CU_ASSERT_EQUAL(0, val.exponent);
 }
 
 void gsb_real_cunit__gsb_real_raw_format_string()
