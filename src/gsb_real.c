@@ -340,21 +340,24 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
         return number;
 
     new_str = my_strdup (string);
-    //~ printf ("\nnew_str avant mon_thousands_sep_utf8 %s\n", new_str );
+
     /* on enlève les séparateurs des milliers */
     mon_thousands_sep_utf8 = g_locale_to_utf8 (
                         conv->mon_thousands_sep, -1, NULL, NULL, NULL );
-    if ( mon_thousands_sep_utf8 && g_utf8_strlen (mon_thousands_sep_utf8, -1) )
+    if ( (mon_thousands_sep_utf8 && g_utf8_strlen (mon_thousands_sep_utf8, -1)) ||
+        (ptr = g_strrstr (new_str, " ")) )
     {
-        if ( g_utf8_strchr (new_str, -1, g_utf8_get_char (mon_thousands_sep_utf8)) )
+        if ( g_utf8_strchr (new_str, -1, g_utf8_get_char (mon_thousands_sep_utf8)) ||
+            g_utf8_strchr (new_str, -1, ' ') )
         {
-            tab = g_strsplit ( new_str, mon_thousands_sep_utf8, 0 );
+            tab = g_strsplit_set ( new_str, g_strconcat (
+                        " ", mon_thousands_sep_utf8, NULL), 0 );
             g_free ( new_str );
             new_str = g_strjoinv ( "", tab );
             g_strfreev ( tab );
         }
     }
-    //~ printf ("new_str après mon_thousands_sep_utf8 %s\n", new_str );
+
     /* on extrait le signe */
     if ( new_str[0] == *(conv -> negative_sign) )
         sign = -1;
@@ -362,20 +365,25 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
         sign = 1;
 
     /* On détermine l'exponent */
-    if ( (ptr = g_strrstr (new_str, conv -> mon_decimal_point)) )
+    if ( (ptr = g_strrstr (new_str, ".")) ||
+        (ptr = g_strrstr (new_str, ",")) )
         number.exponent = strlen ( ptr ) - 1;
-//~ printf ("number.exponent = %d\n", number.exponent );
+    else if ( strlen (conv -> mon_decimal_point) == 0 )
+        number.exponent = 0;
+    else if ( (ptr = g_strrstr (new_str, conv -> mon_decimal_point)) )
+        number.exponent = strlen ( ptr ) - 1;
+
     /* on détermine la mantisse on supprime tous les séparateurs et autres signes */
     tab = g_strsplit_set ( new_str, g_strconcat (
-                        "+", "-", conv -> mon_decimal_point, NULL), 0 );
+                        "+-.,", conv -> mon_decimal_point, NULL), 0 );
     g_free ( new_str );
     new_str = g_strjoinv ( "", tab );
     g_strfreev ( tab );
-    //~ printf ("new_string après suppression des signes %s\n", new_str );
+
     number.mantissa = (glong) g_ascii_strtod ( new_str, NULL );
     number.mantissa = sign * number.mantissa;
     g_free ( new_str );
-//~ printf ("number.mantissa = %ld\n", number.mantissa );
+
     return number;
 }
 
