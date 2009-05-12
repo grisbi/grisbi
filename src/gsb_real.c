@@ -240,18 +240,30 @@ gchar *gsb_real_format_string ( gsb_real number,
                         gint currency_number,
                         gboolean show_symbol )
 {
+    struct lconv * conv = localeconv ( );
     gint floating_point;
 
     const gchar *currency_symbol = (currency_number && show_symbol)
                                    ? gsb_data_currency_get_code (currency_number)
                                    : NULL;
 
+    /* First of all if number = 0 I return 0 with the symbol of the currency if necessary */
+    if (number.mantissa == 0)
+    {
+        if (currency_symbol && conv -> p_cs_precedes)
+            return g_strdup_printf ( "%s %s", currency_symbol, "0" );
+        else if (currency_symbol && ! conv -> p_cs_precedes)
+            return g_strdup_printf ( "%s %s", "0", currency_symbol );
+        else
+            return g_strdup ("0");
+    }
+
     /* first we need to adapt the exponent to the currency */
     /* if the exponent of the real is not the same of the currency, need to adapt it */
     floating_point = gsb_data_currency_get_floating_point ( currency_number );
     if ( currency_number && number.exponent != floating_point )
         number = gsb_real_adjust_exponent ( number, floating_point );
-    
+
     return gsb_real_raw_format_string ( number, localeconv(), currency_symbol );
 }
 
@@ -328,18 +340,21 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
         return number;
 
     new_str = my_strdup (string);
-
+    //~ printf ("\nnew_str avant mon_thousands_sep_utf8 %s\n", new_str );
     /* on enlève les séparateurs des milliers */
     mon_thousands_sep_utf8 = g_locale_to_utf8 (
                         conv->mon_thousands_sep, -1, NULL, NULL, NULL );
-    if ( g_utf8_strchr (new_str, -1, g_utf8_get_char (mon_thousands_sep_utf8)) )
+    if ( mon_thousands_sep_utf8 && g_utf8_strlen (mon_thousands_sep_utf8, -1) )
     {
-        tab = g_strsplit ( new_str, mon_thousands_sep_utf8, 0 );
-        g_free ( new_str );
-        new_str = g_strjoinv ( "", tab );
-        g_strfreev ( tab );
+        if ( g_utf8_strchr (new_str, -1, g_utf8_get_char (mon_thousands_sep_utf8)) )
+        {
+            tab = g_strsplit ( new_str, mon_thousands_sep_utf8, 0 );
+            g_free ( new_str );
+            new_str = g_strjoinv ( "", tab );
+            g_strfreev ( tab );
+        }
     }
-
+    //~ printf ("new_str après mon_thousands_sep_utf8 %s\n", new_str );
     /* on extrait le signe */
     if ( new_str[0] == *(conv -> negative_sign) )
         sign = -1;
@@ -349,18 +364,18 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
     /* On détermine l'exponent */
     if ( (ptr = g_strrstr (new_str, conv -> mon_decimal_point)) )
         number.exponent = strlen ( ptr ) - 1;
-
+//~ printf ("number.exponent = %d\n", number.exponent );
     /* on détermine la mantisse on supprime tous les séparateurs et autres signes */
     tab = g_strsplit_set ( new_str, g_strconcat (
                         "+", "-", conv -> mon_decimal_point, NULL), 0 );
     g_free ( new_str );
     new_str = g_strjoinv ( "", tab );
     g_strfreev ( tab );
-
+    //~ printf ("new_string après suppression des signes %s\n", new_str );
     number.mantissa = (glong) g_ascii_strtod ( new_str, NULL );
     number.mantissa = sign * number.mantissa;
     g_free ( new_str );
-
+//~ printf ("number.mantissa = %ld\n", number.mantissa );
     return number;
 }
 
