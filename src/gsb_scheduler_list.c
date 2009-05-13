@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      	  */
 /*			2004-2008 Benjamin Drieu (bdrieu@april.org)  	      			  */
+/*      2009 Thomas Peel (thomas.peel@live.fr)                                */
 /* 			http://www.grisbi.org   			      						  */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -1901,7 +1902,7 @@ gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
          * it happens several times, and especially when we change the columns,
          * so we update the colums */
 
-        /* sometimes, when the list is not visible, he will set all the columns to 1%... 
+        /* sometimes, when the list is not visible, he will set all the columns to 1%...
          * we block that here */
         if (gtk_tree_view_column_get_width (scheduler_list_column[0]) == 1)
             return FALSE;
@@ -1912,7 +1913,6 @@ gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
                 scheduler_col_width[i] = (gtk_tree_view_column_get_width (
                         scheduler_list_column[i]) * 100) / allocation -> width + 1;
         }
-        gsb_account_property_set_label_code_banque ( );
 
         return FALSE;
     }

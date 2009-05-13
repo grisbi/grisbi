@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org)	          */
 /*			2003-2009 Benjamin Drieu (bdrieu@april.org)	                      */
+/*      2009 Thomas Peel (thomas.peel@live.fr)                                */
 /* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -47,6 +48,7 @@
 /*START_STATIC*/
 static  gboolean gsb_bank_add ( GtkWidget *button,
                         gpointer null );
+static  void gsb_bank_code_changed ( GtkEntry *entry, gpointer data );
 static  void gsb_bank_bic_code_changed ( GtkEntry *entry, gpointer data );
 static  gboolean gsb_bank_combobox_changed ( GtkWidget *combobox,
 					    gboolean default_func (gint, gint));
@@ -749,7 +751,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    bank_code = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_code), 0);
+    bank_code = gsb_autofunc_entry_new ( NULL, G_CALLBACK (gsb_bank_code_changed), NULL, G_CALLBACK (gsb_data_bank_set_code), 0);
     gtk_size_group_add_widget ( size_group, bank_code );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       bank_code, 1, 2, 1, 2,
@@ -764,8 +766,8 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       label, 0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    bank_BIC = gsb_autofunc_entry_new ( NULL, 
-                        G_CALLBACK (gsb_bank_bic_code_changed), NULL, 
+    bank_BIC = gsb_autofunc_entry_new ( NULL,
+                        G_CALLBACK (gsb_bank_bic_code_changed), NULL,
                         G_CALLBACK (gsb_data_bank_set_bic), 0);
     gtk_size_group_add_widget ( size_group, bank_BIC );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -1226,9 +1228,29 @@ static gboolean gsb_bank_delete ( GtkWidget *button,
 }
 
 
+
 /**
- * met à jour le label code BIC dans la vue account_property
+ * Update bank code in account_property view
+ * when it's change in the edit_bank form.
  *
+ * \param entry
+ * \param null
+ *
+ * */
+static void gsb_bank_code_changed ( GtkEntry *entry, gpointer data )
+{
+    gint bank_number;
+
+    bank_number = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (entry),
+                        "number_for_func") );
+    gsb_account_property_set_label_code_banque ( bank_number );
+}
+
+
+
+/**
+ * Update BIC code in account_property view
+ * when it's change in the edit_bank form.
  * \param entry
  * \param null
  *
