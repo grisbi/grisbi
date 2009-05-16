@@ -1,8 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cedric Auger (cedric@grisbi.org)	          */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/*                      2009 Pierre Biava (pierre@pierre.biava.name)          */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -29,6 +30,7 @@
 #include "./gsb_form_widget.h"
 #include "./utils_str.h"
 #include "./gsb_calendar_entry.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -44,8 +46,11 @@ extern gint max;
 /* save of the last date entried */
 static gchar *last_date = NULL;
 
-
-
+struct struct_last_entry_date {
+    gchar *date_string;
+    GDate *last_entry_date;
+};
+static struct struct_last_entry_date *buffer_entry_date = NULL;
 
 /**
  * return the last_date if defined, else the date of the day
@@ -175,16 +180,19 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
 
     if ( strlen (string))
     {
-	GDate *date;
+        GDate *date;
 
-	date = gsb_parse_date_string (string);
-	if (!date)
-	    return FALSE;
+        date = gsb_date_get_last_entry_date ( string );
+        if (!date)
+            return FALSE;
 
-	gchar* tmpstr = gsb_format_gdate (date);
-	gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr);
-	g_free ( tmpstr );
-	g_date_free (date);
+        gchar* tmpstr = gsb_format_gdate (date);
+        gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr);
+        if ( buffer_entry_date == NULL )
+            buffer_entry_date = g_malloc0 ( sizeof (struct struct_last_entry_date) );
+        buffer_entry_date -> date_string = g_strdup ( tmpstr );
+        buffer_entry_date -> last_entry_date = date;
+        g_free ( tmpstr );
     }
     else
     {
@@ -216,12 +224,18 @@ gboolean gsb_date_check_entry ( GtkWidget *entry )
 
     if ( strlen (string))
     {
-	GDate *date;
+        GDate *date;
 
-	date = gsb_parse_date_string (string);
-	if (!date)
-	    return FALSE;
-	g_date_free (date);
+        date = gsb_date_get_last_entry_date ( string );
+        if (!date)
+            return FALSE;
+        else
+        {
+            if ( buffer_entry_date == NULL )
+                buffer_entry_date = g_malloc0 ( sizeof (struct struct_last_entry_date) );
+            buffer_entry_date -> date_string = g_strdup ( string );
+            buffer_entry_date -> last_entry_date = date;
+        }
     }
     return ( TRUE );
 }
@@ -235,7 +249,7 @@ gboolean gsb_date_check_entry ( GtkWidget *entry )
  *
  * \return NULL if not a date
  */
-gchar ** split_unique_datefield ( gchar * string, gchar date_tokens [] )
+gchar **split_unique_datefield ( gchar * string, gchar date_tokens [] )
 {
 /*TODO dOm : I add a & before date_tokens to avoid warning. Is is correct ? */
     gchar ** return_tab = g_new ( gchar *, g_strv_length ( &date_tokens ) + 1 );
@@ -251,18 +265,17 @@ gchar ** split_unique_datefield ( gchar * string, gchar date_tokens [] )
 
     for ( i = 0 ; date_tokens [ i ] && string < max; i ++ )
     {
-	if ( size != 8 ||
-	     date_tokens [ i ] != 'y' ||
-	     date_tokens [ i ] != 'Y' )
-	{
-	    return_tab [ i ] = g_strndup ( string, 2 );
-	    string += 2;
-	}
-	else
-	{
-	    return_tab [ i ] = g_strndup ( string, 4 );
-	    string += 4;
-	}
+        if ( size != 8 ||
+             date_tokens [ i ] != 'Y' )
+        {
+            return_tab [ i ] = g_strndup ( string, 2 );
+            string += 2;
+        }
+        else
+        {
+            return_tab [ i ] = g_strndup ( string, 4 );
+            string += 4;
+        }
     }
 
     return_tab [ i ] = NULL;
@@ -281,10 +294,10 @@ gchar ** split_unique_datefield ( gchar * string, gchar date_tokens [] )
  *
  * \return a newly allocated gdate or NULL if cannot set
  */
-GDate * gsb_parse_date_string ( const gchar *date_string )
+GDate *gsb_parse_date_string ( const gchar *date_string )
 {
     GDate *date;
-    gchar * string, * format, * tmp, * len, * orig;
+    gchar * string, * format;
     gchar ** tab_date;
     gchar date_tokens [ 4 ] = { 0, 0, 0, 0 };
     int num_tokens = 0, num_fields = 0, i, j;
@@ -296,69 +309,65 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
 
     /* Keep the const gchar in that function */
     string = my_strdup (date_string);
-    if ( ! string || ! strlen ( string ) )
-	return NULL;
+    if ( ! string )
+        return NULL;
     g_strstrip ( string );
-    orig = string;
 
     /* Obtain date format tokens to compute order. */
+#ifdef _WIN32
+    format = ["%d%m%Y"];
+#else
     format = nl_langinfo ( D_FMT );
+#endif
+
     while ( * format )
     {
-	if ( * format == '%' )
-	{
-	    switch ( * ++format )
-	    {
-		case 'd': case 'm': case 'y': case 'Y':
-		    date_tokens [ num_tokens++ ] = *format ;
-		    if ( num_tokens > 3 )
-		    {
-			dialogue_error_brain_damage ();
-		    }
-		default:
-		    break;
-	    }
-	}
-	format++;
+        if ( * format == '%' )
+        {
+            switch ( * ++format )
+            {
+            case 'd': case 'm': case 'y': case 'Y':
+                date_tokens [ num_tokens++ ] = *format ;
+                if ( num_tokens > 3 )
+                {
+                    dialogue_error_brain_damage ();
+                }
+            default:
+                break;
+            }
+        }
+        format++;
     }
 
     /* TODO: Check that m,d,Yy are present. */
     
     /* replace all separators by . */
     g_strcanon ( string, "0123456789", '.' );
-
     /* remove the . at the beginning and ending of the string */
     while ( * string == '.' && * string ) string ++;
     while ( string [ strlen ( string ) - 1 ] == '.' && strlen ( string ) ) 
-	string [ strlen ( string )  - 1 ] = '\0';
-    len = string + strlen ( string );
+        string [ strlen ( string )  - 1 ] = '\0';
 
     /* remove if there are some .. */
-    while ( (tmp = strstr ( string, ".." )) )
-    {
-	strncpy ( tmp, tmp+1, len - tmp );
-	len --;
-    }
-    *len = 0;
-
+    tab_date = g_strsplit ( string, "..", 0 );
+    string = g_strjoinv ( ".", tab_date );
     /* split the parts of the date */
     tab_date = g_strsplit_set ( string, ".", 0 );
-    g_free ( orig );
 
     num_fields = g_strv_length ( tab_date );
 
     if ( num_fields == 1 )
     {
-	/* there is only 1 field in the date, try to split the number (ie 01042000 gives 01/04/2000) */
-	gchar ** new_tab_date = split_unique_datefield ( tab_date [ 0 ], date_tokens );
-	if ( ! new_tab_date )
-	    return NULL;
-	else
-	{
-	    g_strfreev ( tab_date ); 
-	    tab_date = new_tab_date;
-	    num_fields = g_strv_length ( tab_date );
-	}
+        /* there is only 1 field in the date, try to split the number (ie 01042000 gives 01/04/2000) */
+        gchar ** new_tab_date = split_unique_datefield ( tab_date [ 0 ], date_tokens );
+        if ( ! new_tab_date )
+            return NULL;
+        else
+        {
+            g_strfreev ( tab_date ); 
+            tab_date = new_tab_date;
+            num_fields = g_strv_length ( tab_date );
+        }
     }
 
     /* Initialize date */
@@ -366,56 +375,64 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
 
     for ( i = 0, j = 0 ; i < num_tokens && j < num_fields ; i ++ )
     {
-	int nvalue = atoi ( tab_date [ j ] );
-	switch ( date_tokens [ i ] )
-	{
-	    case 'm':
-		if ( g_date_valid_month ( nvalue ) && num_fields >= 2 )
-		{
-		    g_date_set_month ( date, nvalue );
-		    j++;
-		}
-		break;
-	    case 'd':
-		if ( g_date_valid_day ( nvalue ) )
-		{
-		    g_date_set_day ( date, nvalue );
-		    j++;
-		}
-		break;
-	    case 'y':
-	    case 'Y':
-		if ( strlen ( tab_date [ j ] ) == 2
-		     ||
-		     strlen (tab_date[j] ) == 1)
-		{
-		    if ( nvalue < 60 )
-		    {
-			nvalue += 2000;
-		    }
-		    else
-		    {
-			nvalue += 1900;
-		    }
-		}
-		if ( g_date_valid_year ( nvalue ) && num_fields >= 3 )
-		{
-		    g_date_set_year ( date, nvalue );
-		    j++;
-		}
-		break;
-	    default:
-		g_printerr ( ">> Unknown format '%c'\n", date_tokens [ i ] );
-		break;
-	}
+        int nvalue = atoi ( tab_date [ j ] );
+        switch ( date_tokens [ i ] )
+        {
+            case 'm':
+            if ( g_date_valid_month ( nvalue ) )
+            {
+                g_date_set_month ( date, nvalue );
+                j++;
+            }
+            else
+                return NULL;
+            break;
+            case 'd':
+            if ( g_date_valid_day ( nvalue ) )
+            {
+                g_date_set_day ( date, nvalue );
+                j++;
+            }
+            else
+                return NULL;
+            break;
+            case 'y':
+            case 'Y':
+            if ( strlen ( tab_date [ j ] ) == 2
+                 ||
+                 strlen (tab_date[j] ) == 1)
+            {
+                if ( nvalue < 60 )
+                {
+                nvalue += 2000;
+                }
+                else
+                {
+                nvalue += 1900;
+                }
+            }
+            if ( g_date_valid_year ( nvalue ) && num_fields >= 3 )
+            {
+                g_date_set_year ( date, nvalue );
+                j++;
+            }
+            else
+                return NULL;
+            break;
+            default:
+                g_printerr ( ">> Unknown format '%c'\n", date_tokens [ i ] );
+                return NULL;
+            break;
+        }
     }
     g_strfreev ( tab_date );
 
     /* need here to check if the date is valid, else an error occurs when
      * write for example only 31, and the current month has only 30 days... */
-    if (!g_date_valid (date))
-	date = NULL;
-    return date;
+    if ( !g_date_valid (date) )
+        return NULL;
+    else
+        return date;
 }
 
 
@@ -501,7 +518,7 @@ gchar *gsb_format_gdate ( const GDate *date )
  *
  * \return		A newly allocated string representing date.
  */
-gchar * gsb_format_gdate_safe ( const GDate *date )
+gchar *gsb_format_gdate_safe ( const GDate *date )
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
 
@@ -516,7 +533,18 @@ gchar * gsb_format_gdate_safe ( const GDate *date )
 }
 
 
-
+/**
+ * retourne la date bufferisée si les deux chaines correspondent 
+ * sinon renvoie une date issue de la chaine passée en paramètre
+ * 
+ * */
+GDate *gsb_date_get_last_entry_date ( const gchar *string )
+{
+    if ( buffer_entry_date && g_strcmp0 ( string , buffer_entry_date -> date_string) == 0 )
+        return gsb_date_copy ( buffer_entry_date -> last_entry_date );
+    else
+        return gsb_parse_date_string ( string );
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

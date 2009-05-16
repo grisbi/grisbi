@@ -36,6 +36,7 @@
 #include "./utils_dates.h"
 #include "./gsb_form_widget.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -159,7 +160,7 @@ GDate *gsb_calendar_entry_get_date ( GtkWidget *entry )
 	!gsb_date_check_entry (entry))
 	return NULL;
 
-    date = gsb_parse_date_string (gtk_entry_get_text (GTK_ENTRY (entry)));
+    date = gsb_date_get_last_entry_date (gtk_entry_get_text (GTK_ENTRY (entry)));
     return date;
 }
 
@@ -320,7 +321,7 @@ void gsb_calendar_entry_step_date ( GtkWidget *entry,
     if ( !gsb_date_check_and_complete_entry ( entry, TRUE ) )
 	return;
 
-    date = gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY ( entry )));
+    date = gsb_date_get_last_entry_date ( gtk_entry_get_text ( GTK_ENTRY ( entry )));
 
     switch ( movement )
     {
@@ -416,7 +417,7 @@ gboolean gsb_calendar_entry_changed ( GtkWidget *entry,
     }
 
     /* to check the date, we just try to see if can have a dote from the entry */
-    date = gsb_parse_date_string (gtk_entry_get_text (GTK_ENTRY (entry)));
+    date = gsb_date_get_last_entry_date (gtk_entry_get_text (GTK_ENTRY (entry)));
 
     if (date)
     {
