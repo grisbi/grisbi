@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     copyright (c)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
-/*			2004-2009 Benjamin Drieu (bdrieu@april.org) 	                  */
-/*			http://www.grisbi.org   			                              */
+/*     copyright (c)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2004-2009 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -633,11 +633,13 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
 
 	if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
 	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
-				       gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-									   gsb_data_account_get_currency (account_number), TRUE ));
+                        gsb_real_get_string_with_currency (
+                        gsb_data_account_get_current_balance ( account_number ),
+                        gsb_data_account_get_currency ( account_number ), TRUE ) );
 	else
-	    string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-							 gsb_data_account_get_currency (account_number), TRUE );
+	    string = gsb_real_get_string_with_currency (
+                        gsb_data_account_get_current_balance ( account_number ),
+                        gsb_data_account_get_currency ( account_number ), TRUE );
 	gsb_gui_headings_update_suffix (string);
 	g_free (string);
 
@@ -1332,26 +1334,24 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
     /* the white number has no account number, so we take the current account */
     if ( new_selected_transaction != -1 )
     {
-	account_number = gsb_data_transaction_get_account_number (new_selected_transaction);
+    account_number = gsb_data_transaction_get_account_number (new_selected_transaction);
     gsb_menu_transaction_operations_set_sensitive ( TRUE );
     }
     else
     {
-	account_number = gsb_gui_navigation_get_current_account ();
-	gsb_menu_transaction_operations_set_sensitive ( FALSE );
+    account_number = gsb_gui_navigation_get_current_account ();
+    gsb_menu_transaction_operations_set_sensitive ( FALSE );
     }
 
     /* save the new current transaction */
     gsb_data_account_set_current_transaction_number ( account_number,
-						      new_selected_transaction);
+                        new_selected_transaction);
 
     /* show the content of the transaction in the form,
-     * only if the form is shown and not a white line */
+     * only if the form is shown */
     if ( etat.show_transaction_selected_in_form
-	&&
-	gsb_form_is_visible ()
     &&
-    new_selected_transaction != -1 )
+    gsb_form_is_visible () )
         gsb_form_fill_by_transaction (new_selected_transaction, TRUE, FALSE);
 
     /* give the focus to the transaction_tree_view pbiava 02/09/2009 
@@ -1653,7 +1653,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
  * \return the number of the chosen reconcile or 0 if cancel
  * */
 gint gsb_transactions_list_choose_reconcile ( gint account_number,
-					      gint selected_reconcile_number )
+                        gint selected_reconcile_number )
 {
     GtkWidget *dialog;
     GtkWidget *tree_view;
@@ -1826,7 +1826,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
  * \return FALSE if canceled or nothing done, TRUE if ok
  * */
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
-						    gint show_warning )
+                        gint show_warning )
 {
     gint account_number;
 
@@ -2507,15 +2507,17 @@ void move_selected_operation_to_account_nb ( gint *account )
 	gchar *string;
 	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
-	update_transaction_in_trees (gsb_data_account_get_current_transaction_number (source_account));
+	update_transaction_in_trees ( gsb_data_account_get_current_transaction_number (
+                        source_account ) ) ;
 
-	if (gsb_data_account_get_current_balance (source_account).mantissa < 0)
+	if ( gsb_data_account_get_current_balance (source_account).mantissa < 0 )
 	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
-				       gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (source_account),
-									   gsb_data_account_get_currency (source_account), TRUE ));
+                        gsb_real_get_string_with_currency (
+                        gsb_data_account_get_current_balance ( source_account ),
+                        gsb_data_account_get_currency ( source_account ), TRUE ) );
 	else
 	    string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (source_account),
-							 gsb_data_account_get_currency (source_account), TRUE );
+                        gsb_data_account_get_currency ( source_account ), TRUE );
 	gsb_gui_headings_update_suffix (string);
 	g_free (string);
 
