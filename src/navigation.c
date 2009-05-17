@@ -1082,11 +1082,13 @@ void gsb_navigation_update_account_label ( gint account_number )
     currency_number = gsb_data_account_get_currency (account_number);
     if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
 	suffix = g_strdup_printf ( "<span color=\"red\">%s</span>",
-				   gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-								       currency_number, TRUE ));
+                        gsb_real_get_string_with_currency (
+                        gsb_data_account_get_current_balance ( account_number ),
+                        currency_number, TRUE ) );
     else
-	suffix = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-						     currency_number, TRUE );
+	suffix = gsb_real_get_string_with_currency (
+                        gsb_data_account_get_current_balance ( account_number ),
+                        currency_number, TRUE );
     if (!suffix)
     	suffix = g_strdup("");
     gsb_gui_headings_update ( title, suffix );

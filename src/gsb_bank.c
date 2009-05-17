@@ -48,8 +48,8 @@
 /*START_STATIC*/
 static  gboolean gsb_bank_add ( GtkWidget *button,
                         gpointer null );
-static  void gsb_bank_code_changed ( GtkEntry *entry, gpointer data );
 static  void gsb_bank_bic_code_changed ( GtkEntry *entry, gpointer data );
+static  void gsb_bank_code_changed ( GtkEntry *entry, gpointer data );
 static  gboolean gsb_bank_combobox_changed ( GtkWidget *combobox,
 					    gboolean default_func (gint, gint));
 static  gboolean gsb_bank_create_combobox_model ( void );

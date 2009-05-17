@@ -48,7 +48,7 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number );
 gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
 							gboolean update_tree_view );
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
-						    gint show_warning );
+                        gint show_warning );
 gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transaction_number );
 gboolean gsb_transactions_list_edit_current_transaction ( void );
 gboolean gsb_transactions_list_edit_transaction ( gint transaction_number );

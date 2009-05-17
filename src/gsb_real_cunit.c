@@ -2,10 +2,10 @@
 /*                                                                            */
 /*                                  gsb_real_cunit                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 CÃ©dric Auger (cedric@grisbi.org)	          */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/*                      2009 Pierre Biava (pierre@pierre.biava.name)          */
-/* 			http://www.grisbi.org				                              */
+/*     Copyright (C)    2000-2007 CÃ©dric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*                      2009 MickaÃ«l Remars (grisbi@remars.com)               */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -28,10 +28,23 @@
  * cunit tests for gsb_real
  */
 
-#include "gsb_real_cunit.h"
-
 #include "include.h"
-#include "gsb_real.h"
+
+/* START_INCLUDE */
+#include "gsb_real_cunit.h"
+#include "./gsb_real.h"
+/* END_INCLUDE */
+
+/* START_STATIC */
+static void gsb_real_cunit__gsb_real_add ( void );
+static void gsb_real_cunit__gsb_real_get_from_string ( void );
+static void gsb_real_cunit__gsb_real_raw_format_string ( void );
+static int gsb_real_cunit_clean_suite ( void );
+static int gsb_real_cunit_init_suite ( void );
+/* END_STATIC */
+
+/* START_EXTERN */
+/* END_EXTERN */
 
 /* The suite initialization function.
  * Returns zero on success, non-zero otherwise.
@@ -49,7 +62,7 @@ int gsb_real_cunit_clean_suite(void)
     return 0;
 }
 
-void gsb_real_cunit__gsb_real_get_from_string()
+void gsb_real_cunit__gsb_real_get_from_string ( void )
 {
     gsb_real val = gsb_real_get_from_string("123,45");
     CU_ASSERT_EQUAL(12345, val.mantissa);
@@ -60,7 +73,7 @@ void gsb_real_cunit__gsb_real_get_from_string()
     CU_ASSERT_EQUAL(0, val.exponent);
 }
 
-void gsb_real_cunit__gsb_real_raw_format_string()
+void gsb_real_cunit__gsb_real_raw_format_string ( void )
 {
     gchar *s;
     gsb_real n;
@@ -70,30 +83,30 @@ void gsb_real_cunit__gsb_real_raw_format_string()
     conv.negative_sign = "<->";
     conv.mon_thousands_sep = "< >";
     conv.mon_decimal_point = "<.>";
-    gchar *currency_symbol = "<¤>";
+    gchar *currency_symbol = "<Â¤>";
         
     n.mantissa = 1;
     n.exponent = 2;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<+>0<.>01<¤>", s);
+    CU_ASSERT_STRING_EQUAL("<+>0<.>01<Â¤>", s);
     g_free(s);
 
     n.mantissa = 10;
     n.exponent = 2;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<+>0<.>10<¤>", s);
+    CU_ASSERT_STRING_EQUAL("<+>0<.>10<Â¤>", s);
     g_free(s);
 
     n.mantissa = 31415;
     n.exponent = 1;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<+>3< >141<.>5<¤>", s);
+    CU_ASSERT_STRING_EQUAL("<+>3< >141<.>5<Â¤>", s);
     g_free(s);
 
     n.mantissa = 31415;
     n.exponent = 9;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<+>0<.>000031415<¤>", s);
+    CU_ASSERT_STRING_EQUAL("<+>0<.>000031415<Â¤>", s);
     g_free(s);
 
     n.mantissa = 31415;
@@ -111,37 +124,37 @@ void gsb_real_cunit__gsb_real_raw_format_string()
     n.mantissa = 0x7FFFFFFF;
     n.exponent = 0;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<+>2< >147< >483< >647<.>0<¤>", s);
+    CU_ASSERT_STRING_EQUAL("<+>2< >147< >483< >647<.>0<Â¤>", s);
     g_free(s);
 
     n.mantissa = 0x7FFFFFFF;
     n.exponent = 1;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<+>214< >748< >364<.>7<¤>", s);
+    CU_ASSERT_STRING_EQUAL("<+>214< >748< >364<.>7<Â¤>", s);
     g_free(s);
 
     n.mantissa = 0x7FFFFFFF;
     n.exponent = 2;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<+>21< >474< >836<.>47<¤>", s);
+    CU_ASSERT_STRING_EQUAL("<+>21< >474< >836<.>47<Â¤>", s);
     g_free(s);
 
     n.mantissa = 0x80000001;
     n.exponent = 0;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<->2< >147< >483< >647<.>0<¤>", s);
+    CU_ASSERT_STRING_EQUAL("<->2< >147< >483< >647<.>0<Â¤>", s);
     g_free(s);
 
     n.mantissa = 0x80000001;
     n.exponent = 1;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<->214< >748< >364<.>7<¤>", s);
+    CU_ASSERT_STRING_EQUAL("<->214< >748< >364<.>7<Â¤>", s);
     g_free(s);
 
     n.mantissa = 0x80000001;
     n.exponent = 2;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<->21< >474< >836<.>47<¤>", s);
+    CU_ASSERT_STRING_EQUAL("<->21< >474< >836<.>47<Â¤>", s);
     g_free(s);
 
     n.mantissa = 0x80000000;
@@ -153,25 +166,25 @@ void gsb_real_cunit__gsb_real_raw_format_string()
     n.mantissa = 2100000000;
     n.exponent = 2;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<+>21< >000< >000<.>00<¤>", s);
+    CU_ASSERT_STRING_EQUAL("<+>21< >000< >000<.>00<Â¤>", s);
     g_free(s);
 
     conv.p_sep_by_space = 1;
     n.mantissa = 123;
     n.exponent = 2;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<+>1<.>23 <¤>", s);
+    CU_ASSERT_STRING_EQUAL("<+>1<.>23 <Â¤>", s);
     g_free(s);
 
     conv.p_sep_by_space = 1;
     n.mantissa = 123;
     n.exponent = 2;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<+>1<.>23 <¤>", s);
+    CU_ASSERT_STRING_EQUAL("<+>1<.>23 <Â¤>", s);
     g_free(s);
 }
 
-void gsb_real_cunit__gsb_real_add()
+void gsb_real_cunit__gsb_real_add ( void )
 {
     gsb_real a = {1, 0};
     gsb_real b = {31415, 4};
@@ -180,7 +193,7 @@ void gsb_real_cunit__gsb_real_add()
     CU_ASSERT_EQUAL(4, r.exponent);
 }
 
-CU_pSuite gsb_real_cunit_create_suite()
+CU_pSuite gsb_real_cunit_create_suite ( void )
 {
     CU_pSuite pSuite = CU_add_suite("gsb_real",
                                     gsb_real_cunit_init_suite,

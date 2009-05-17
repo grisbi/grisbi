@@ -1,9 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/*                      2008-2009 Pierre Biava (pierre@pierre.biava.name)     */
-/* 			http://www.grisbi.org				                              */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/*                      2008-2009 Pierre Biava (grisbi@pierre.biava.name)     */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -127,6 +127,7 @@ static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkWidget *detail_nom_compte;
 extern gsb_real null_real;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
@@ -2560,13 +2561,19 @@ GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_k
 void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
 {
     GdkPixbuf * pixbuf;
-    GtkWidget *image;
+    GtkWidget *image, *bouton;
     gchar * name_icon;
     gchar * new_icon;
     gint current_account;
 
     devel_debug ( NULL );
-    image = gtk_button_get_image ( GTK_BUTTON ( button ) );
+
+    if ( GTK_IS_BUTTON (button) == FALSE )
+        bouton = g_object_get_data ( G_OBJECT ( detail_nom_compte), "ac_icon_button" );
+    else
+        bouton = button;
+
+    image = gtk_button_get_image ( GTK_BUTTON ( bouton ) );
     pixbuf = gtk_image_get_pixbuf ( GTK_IMAGE ( image ) );
     if ( pixbuf )
         name_icon = g_object_get_data ( G_OBJECT ( pixbuf ), "name_icon" );
@@ -2579,7 +2586,7 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
         current_account = gsb_gui_navigation_get_current_account ();
         gsb_data_account_set_name_icon ( current_account, new_icon );
         image = gsb_data_account_get_account_icon_image ( current_account );
-        gtk_button_set_image ( GTK_BUTTON ( button ), image );
+        gtk_button_set_image ( GTK_BUTTON ( bouton ), image );
         gsb_gui_navigation_update_account ( current_account );
     }
 }

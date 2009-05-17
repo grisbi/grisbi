@@ -35,7 +35,6 @@
 #include "./barre_outils.h"
 #include "./dialog.h"
 #include "./utils_dates.h"
-#include "./gsb_account_property.h"
 #include "./gsb_automem.h"
 #include "./gsb_calendar.h"
 #include "./gsb_data_account.h"
@@ -80,7 +79,7 @@ static gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 					GdkEventKey *ev );
 static gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void);
 static gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
-						gpointer null );
+                        gpointer null );
 static void gsb_scheduler_list_set_model ( GtkTreeModel *model );
 static void gsb_scheduler_list_set_sorted_model ( GtkTreeModelSort *tree_model_sort );
 static void gsb_scheduler_list_set_tree_view ( GtkWidget *tree_view );
@@ -1408,7 +1407,7 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void )
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
-						gpointer null )
+                        gpointer null )
 {
     gint tmp_number = 0;
     gint account_number;

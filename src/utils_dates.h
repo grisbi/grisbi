@@ -7,7 +7,7 @@
 /* START_DECLARATION */
 GDate *gdate_today ( void );
 gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
-					     gboolean set_today );
+                        gboolean set_today );
 gboolean gsb_date_check_entry ( GtkWidget *entry );
 GDate *gsb_date_copy ( const GDate *date );
 void gsb_date_free_last_date ( void );

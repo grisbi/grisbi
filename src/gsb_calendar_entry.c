@@ -36,7 +36,6 @@
 #include "./utils_dates.h"
 #include "./gsb_form_widget.h"
 #include "./include.h"
-#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

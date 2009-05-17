@@ -30,11 +30,10 @@
 #include "./gsb_form_widget.h"
 #include "./utils_str.h"
 #include "./gsb_calendar_entry.h"
-#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gchar ** split_unique_datefield ( gchar * string, gchar date_tokens [] );
+static gchar **split_unique_datefield ( gchar * string, gchar date_tokens [] );
 /*END_STATIC*/
 
 

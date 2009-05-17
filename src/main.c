@@ -1,7 +1,7 @@
 /* *******************************************************************************/
 /*                                 GRISBI                                        */
 /*              Programme de gestion financière personnelle                      */
-/*           	                license : GPLv2                                  */
+/*                              license : GPLv2                                  */
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
@@ -45,6 +45,7 @@
 #include "./gsb_file_config.h"
 #include "./gsb_status.h"
 #include "./gsb_plugins.h"
+#include "./gsb_real_cunit.h"
 #include "./traitement_variables.h"
 #include "./erreur.h"
 #include "./parse_cmdline.h"
@@ -58,6 +59,7 @@
 
 
 /*START_STATIC*/
+static int gsb_cunit_run_tests();
 static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
 					  GdkEventWindowState *event,
 					  gpointer null );
@@ -166,7 +168,7 @@ int main (int argc, char **argv)
 
     if ( setlocale ( LC_MONETARY, getenv ( "LC_MONETARY" ) ) == NULL )
     {
-	setlocale ( LC_MONETARY, getenv ( "LANG" ) );
+    setlocale ( LC_MONETARY, getenv ( "LANG" ) );
     }
 
     gtk_init(&argc, &argv);
@@ -180,7 +182,7 @@ int main (int argc, char **argv)
     sigemptyset (&(sig_sev.sa_mask));
 
     if ( sigaction ( SIGSEGV, &sig_sev, NULL ))
-	g_print (_("Error on sigaction: SIGSEGV won't be trapped\n"));
+    g_print (_("Error on sigaction: SIGSEGV won't be trapped\n"));
 #endif
 
     /* parse command line parameter, exit with correct error code when needed */
@@ -198,10 +200,8 @@ int main (int argc, char **argv)
 #endif
     /* create the icon of grisbi (set in the panel of gnome or other) */
     string = g_build_filename ( PIXMAPS_DIR, "grisbi.png", NULL );
-    if (g_file_test ( string,
-		      G_FILE_TEST_EXISTS ))
-	gtk_window_set_default_icon_from_file ( string,
-						NULL );
+    if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
+    gtk_window_set_default_icon_from_file ( string, NULL );
     g_free (string);
 
     /* initialisation of the variables */
