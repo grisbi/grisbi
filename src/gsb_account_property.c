@@ -74,7 +74,7 @@
 
 /*START_STATIC*/
 static gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
-						gpointer null );
+                        gpointer null );
 static gboolean gsb_account_property_changed ( GtkWidget *widget,
                         gint *p_origin  );
 static gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
@@ -153,6 +153,7 @@ static GtkWidget *detail_solde_mini_autorise = NULL;
 static GtkWidget *detail_solde_mini_voulu = NULL;
 static GtkWidget *detail_commentaire = NULL;
 static GtkWidget *button_holder_address = NULL;
+static GtkWidget *bouton_icon = NULL;
 static GtkWidget *detail_IBAN = NULL;
 static GtkWidget *label_code_bic = NULL;
 static GtkWidget *label_guichet = NULL;
@@ -191,7 +192,8 @@ GtkWidget *gsb_account_property_create_page ( void )
     GtkWidget *onglet, *vbox, *scrolled_window, *hbox, *vbox2;
     GtkWidget *label, *scrolled_window_text, *paddingbox;
     GtkSizeGroup * size_group;
-    GtkWidget *hbox_account, *vbox_account, *align, *button = NULL;
+    GtkWidget *align;
+    //~ GtkWidget *hbox_account, *vbox_account, *button = NULL;
 
     devel_debug ( NULL );
 
@@ -201,6 +203,15 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
+    /* Création du bouton pour modifier l'icône de compte. C'est un moyen de
+     * contourner le bug du gtk_viewport */
+    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
+    bouton_icon = gtk_button_new ( );
+    gtk_widget_set_size_request ( bouton_icon, -1, 40 );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NORMAL );
+    gtk_container_add ( GTK_CONTAINER ( align ), bouton_icon );
+    gtk_box_pack_start ( GTK_BOX ( onglet ), align, FALSE, FALSE, 0);
+
     /* partie du haut avec les détails du compte */
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
@@ -208,35 +219,38 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( onglet ), scrolled_window, TRUE, TRUE, 0 );
 
     vbox = gtk_vbox_new ( FALSE, 5 );
+
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ), vbox );
     gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window ) -> child ),
                         GTK_SHADOW_NONE );
 
     /* création de la ligne des détails du compte */
-    paddingbox = new_paddingbox_with_title (vbox, TRUE, _("Account details"));
+    paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Account details"));
+    //~ paddingbox = new_paddingbox_with_title (vbox, TRUE, _("Account details"));
     
-    hbox_account = hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox_account, FALSE, FALSE, 0 );
+    //~ hbox_account = hbox = gtk_hbox_new ( FALSE, 6 );
+    //~ gtk_box_pack_start ( GTK_BOX(paddingbox), hbox_account, FALSE, FALSE, 0 );
 
     /* Ajout d'un sélecteur d'icône pour les comptes */
-    align = gtk_alignment_new (0.5,0.5,0.5,0.5);
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), align );
-    gtk_box_pack_start ( GTK_BOX(hbox_account), align, FALSE, FALSE, 0);
+    //~ align = gtk_alignment_new (0.5,0.5,0.5,0.5);
+    //~ gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), align );
+    //~ gtk_box_pack_start ( GTK_BOX(hbox_account), align, FALSE, FALSE, 0);
 
-    button = gsb_automem_imagefile_button_new ( GSB_BUTTON_ICON,
-                        NULL,
-                        "ac_bank.png",
-                        G_CALLBACK(gsb_data_account_change_account_icon),
-                        button );
-    gtk_widget_set_size_request ( button, -1, 40 );
-    gtk_container_add (GTK_CONTAINER (align), button);
+    //~ button = gsb_automem_imagefile_button_new ( GSB_BUTTON_ICON,
+                        //~ NULL,
+                        //~ "ac_bank.png",
+                        //~ G_CALLBACK(gsb_data_account_change_account_icon),
+                        //~ button );
+    //~ gtk_widget_set_size_request ( button, -1, 40 );
+    //~ gtk_container_add (GTK_CONTAINER (align), button);
 
-    vbox_account = gtk_vbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX(hbox_account), vbox_account, TRUE, TRUE, 0);
+    //~ vbox_account = gtk_vbox_new ( FALSE, 5 );
+    //~ gtk_box_pack_start ( GTK_BOX(hbox_account), vbox_account, TRUE, TRUE, 0);
 
     /* création de la ligne du nom du compte */
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX(vbox_account), hbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX(vbox_account), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( COLON(_("Account name")) );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
@@ -253,11 +267,12 @@ GtkWidget *gsb_account_property_create_page ( void )
                         "destroy",
                         G_CALLBACK ( gtk_widget_destroyed),
                         &detail_nom_compte );
-    g_object_set_data ( G_OBJECT ( detail_nom_compte), "ac_icon_button", button);
+    //~ g_object_set_data ( G_OBJECT ( detail_nom_compte), "ac_icon_button", button);
 
     /* create the box of kind of account */
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX(vbox_account), hbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX(vbox_account), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( COLON(_("Account type")) );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
@@ -279,7 +294,8 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     /* create the currency line */
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX(vbox_account), hbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX(vbox_account), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( COLON(_("Account currency")) );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
@@ -309,7 +325,20 @@ GtkWidget *gsb_account_property_create_page ( void )
                         "destroy",
                         G_CALLBACK ( gtk_widget_destroyed),
                         &detail_compte_cloture );
-    gtk_box_pack_start ( GTK_BOX ( vbox_account ), detail_compte_cloture, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), detail_compte_cloture, FALSE, FALSE, 0 );
+    //~ gtk_box_pack_start ( GTK_BOX ( vbox_account ), detail_compte_cloture, FALSE, FALSE, 0 );
+
+    /* set the callback for the button_icon */
+    g_signal_connect ( G_OBJECT (bouton_icon ),
+                        "destroy",
+                        G_CALLBACK ( gtk_widget_destroyed),
+                        &bouton_icon );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NONE );
+
+    g_signal_connect ( G_OBJECT( bouton_icon ),
+                        "pressed",
+                        G_CALLBACK(gsb_data_account_change_account_icon),
+                        NULL );
 
     /* création de la ligne du titulaire du compte */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Account holder"));
@@ -328,7 +357,7 @@ GtkWidget *gsb_account_property_create_page ( void )
                         0);
     g_signal_connect ( G_OBJECT (detail_titulaire_compte ),
                         "destroy",
-            G_CALLBACK ( gtk_widget_destroyed),
+                        G_CALLBACK ( gtk_widget_destroyed),
                         &detail_titulaire_compte );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_titulaire_compte, TRUE, TRUE, 0);
 
@@ -670,8 +699,9 @@ void gsb_account_property_fill_page ( void )
 
     /* modification pour mettre à jour l'icône du sélecteur d'icône du compte */
     image = gsb_data_account_get_account_icon_image ( current_account );
-    gtk_button_set_image ( GTK_BUTTON ( g_object_get_data ( 
-                        G_OBJECT ( detail_nom_compte), "ac_icon_button" ) ), image );
+    gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image );
+    //~ gtk_button_set_image ( GTK_BUTTON ( g_object_get_data ( 
+                        //~ G_OBJECT ( detail_nom_compte), "ac_icon_button" ) ), image );
 
     gsb_autofunc_currency_set_currency_number (detail_devise_compte,
                         gsb_data_account_get_currency (current_account), current_account);
@@ -813,8 +843,9 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
     case PROPERTY_KIND:
         gsb_gui_navigation_update_account ( account_number );
         image = gsb_data_account_get_account_icon_image ( account_number );
-        gtk_button_set_image ( GTK_BUTTON ( g_object_get_data ( 
-                        G_OBJECT ( detail_nom_compte), "ac_icon_button" ) ), image );
+        gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image );
+        //~ gtk_button_set_image ( GTK_BUTTON ( g_object_get_data ( 
+                        //~ G_OBJECT ( detail_nom_compte), "ac_icon_button" ) ), image );
         gsb_form_clean(gsb_form_get_account_number ());
         break;
 
@@ -854,7 +885,7 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
  * \return FALSE
  * */
 gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
-						gpointer null )
+                        gpointer null )
 {
     gint account_number;
     gint new_currency_number;
