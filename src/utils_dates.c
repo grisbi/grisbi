@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)    2000-2008 Cedric Auger (cedric@grisbi.org)	          */
+/*     Copyright (C)    2000-2008 Cedric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
 /*                      2009 Pierre Biava (pierre@pierre.biava.name)          */
 /*          http://www.grisbi.org                                             */
@@ -64,12 +64,12 @@ gchar *gsb_date_today ( void )
 {
     if (!last_date)
     {
-	GDate *date;
-	gchar date_str[SIZEOF_FORMATTED_STRING_DATE];
+    GDate *date;
+    gchar date_str[SIZEOF_FORMATTED_STRING_DATE];
 
-	date = gdate_today();
-	g_date_strftime ( date_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
-	gsb_date_set_last_date (date_str);
+    date = gdate_today();
+    g_date_strftime ( date_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
+    gsb_date_set_last_date (date_str);
     }
     return (last_date);
 }
@@ -119,7 +119,7 @@ GDate *gdate_today ( void )
 
     date = g_date_new ();
     g_date_set_time (  date,
-		       time (NULL));
+                        time (NULL));
     return ( date );
 }
 
@@ -137,13 +137,13 @@ GDate *gsb_date_copy ( const GDate *date )
     GDate *new_date;
 
     if ( !date
-	 ||
-	 !g_date_valid (date))
-	return NULL;
+    ||
+     !g_date_valid (date))
+    return NULL;
 
     new_date = g_date_new_dmy ( g_date_get_day ( date ),
-				g_date_get_month ( date ),
-				g_date_get_year ( date ));
+                        g_date_get_month ( date ),
+                        g_date_get_year ( date ));
 
     return new_date;
 }
@@ -163,20 +163,20 @@ GDate *gsb_date_copy ( const GDate *date )
  * \return FALSE if problem with the date, TRUE if ok or entry empty
  * */
 gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
-					     gboolean set_today )
+                        gboolean set_today )
 {
     const gchar *string;
 
     if (!entry)
-	return FALSE;
+    return FALSE;
     
     /* if the entry is grey (empty), go away */
     if (gsb_form_widget_check_empty (entry))
-	return (TRUE);
+    return (TRUE);
 
     string = gtk_entry_get_text ( GTK_ENTRY (entry));
     if (!string)
-	return FALSE;
+    return FALSE;
 
     if ( strlen (string))
     {
@@ -196,9 +196,8 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
     }
     else
     {
-	if (set_today)
-	    gtk_entry_set_text ( GTK_ENTRY (entry),
-				 gsb_date_today() );
+    if (set_today)
+        gtk_entry_set_text ( GTK_ENTRY (entry), gsb_date_today() );
     }
     return ( TRUE );
 }
@@ -216,11 +215,11 @@ gboolean gsb_date_check_entry ( GtkWidget *entry )
     const gchar *string;
 
     if (!entry)
-	return FALSE;
+    return FALSE;
     
     string = gtk_entry_get_text ( GTK_ENTRY (entry));
     if (!string)
-	return FALSE;
+    return FALSE;
 
     if ( strlen (string))
     {
@@ -260,7 +259,7 @@ gchar **split_unique_datefield ( gchar * string, gchar date_tokens [] )
     /* size 1 could be used for example if we write 1 to set 01/mm/yyyy */
     if ( size != 1 && size != 2 && size != 4 && size != 6 && size != 8 )
     {
-	return NULL;
+    return NULL;
     }
 
     for ( i = 0 ; date_tokens [ i ] && string < max; i ++ )
@@ -303,9 +302,9 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     int num_tokens = 0, num_fields = 0, i, j;
 
     if ( !date_string
-	 ||
-	 !strlen (date_string))
-	return NULL;
+    ||
+    !strlen (date_string))
+    return NULL;
 
     /* Keep the const gchar in that function */
     string = my_strdup (date_string);
@@ -315,7 +314,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 
     /* Obtain date format tokens to compute order. */
 #ifdef _WIN32
-    format = ["%d%m%Y"];
+    format = "%d%m%Y";
 #else
     format = nl_langinfo ( D_FMT );
 #endif
@@ -442,23 +441,24 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
  * representation of a date.  It expects format %m/%d/%Y (american
  * style).
  *
- * \param	
+ * \param
  *
- * \return return a newly allocated string or NULL if the format of the date_string parameter is invalid.
+ * \return return a newly allocated string or NULL if the format of the date_string 
+ * parameter is invalid.
  */
 GDate *gsb_parse_date_string_safe ( const gchar *date_string )
 {
     gchar **tab_date;
     GDate * date;
-	
+
     tab_date = g_strsplit ( date_string, "/", 3 );
     if ( tab_date[0] && tab_date[1] && tab_date[2] )
     {
-	date = g_date_new_dmy ( utils_str_atoi ( tab_date[1] ),
-				utils_str_atoi ( tab_date[0] ),
-				utils_str_atoi ( tab_date[2] ) );
-	g_strfreev ( tab_date );
-	return date;
+    date = g_date_new_dmy ( utils_str_atoi ( tab_date[1] ),
+                        utils_str_atoi ( tab_date[0] ),
+                        utils_str_atoi ( tab_date[2] ) );
+    g_strfreev ( tab_date );
+    return date;
     }
 
     return NULL;
@@ -500,7 +500,7 @@ gchar *gsb_format_gdate ( const GDate *date )
 
     if ( !date || !g_date_valid ( date ))
     {
-	return my_strdup ( "" );
+    return my_strdup ( "" );
     }
 
     g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
@@ -524,7 +524,7 @@ gchar *gsb_format_gdate_safe ( const GDate *date )
 
     if ( !date || !g_date_valid ( date ))
     {
-	return my_strdup ( "" );
+    return my_strdup ( "" );
     }
 
     g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%m/%d/%Y", date );
