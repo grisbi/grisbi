@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
-/* 			http://www.grisbi.org				                              */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -134,8 +134,8 @@ void transaction_list_append_transaction ( gint transaction_number )
     /* if this is a child, go to append_child_record */
     if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
-	transaction_list_append_child (transaction_number);
-	return;
+    transaction_list_append_child (transaction_number);
+    return;
     }
 
     /* the transaction is a mother */
@@ -812,7 +812,6 @@ void transaction_list_set_balances ( void )
     GtkTreeIter iter;
     GtkTreePath *path;
     gpointer last_transaction_pointer = NULL;
-    gchar *string;
     CustomList *custom_list;
 
     custom_list = transaction_model_get_model ();
@@ -894,15 +893,7 @@ void transaction_list_set_balances ( void )
     }
 
     /* update the headings balance */
-    if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
-	string = g_strdup_printf ( "<span color=\"red\">%s</span>",
-				   gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-								       gsb_data_account_get_currency (account_number), TRUE ));
-    else
-	string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-						     gsb_data_account_get_currency (account_number), TRUE );
-    gsb_gui_headings_update_suffix (string);
-    g_free (string);
+    gsb_data_account_colorize_current_balance ( account_number );
 }
 
 

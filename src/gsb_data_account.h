@@ -24,6 +24,7 @@ typedef enum _kind_account	kind_account;
 /* START_DECLARATION */
 gsb_real gsb_data_account_calculate_waiting_marked_balance ( gint account_number );
 void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data );
+void gsb_data_account_colorize_current_balance ( gint account_number );
 gint gsb_data_account_compare_position ( gint account_number_1,
 					 gint account_number_2 );
 gboolean gsb_data_account_delete ( gint account_number );

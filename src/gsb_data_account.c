@@ -35,6 +35,7 @@
 #include "./gsb_data_currency.h"
 #include "./gsb_data_form.h"
 #include "./gsb_data_transaction.h"
+#include "./fenetre_principale.h"
 #include "./navigation.h"
 #include "./gsb_real.h"
 #include "./gsb_select_icon.h"
@@ -2654,4 +2655,31 @@ gboolean gsb_data_account_set_bank_account_iban ( gint account_number, const gch
         account -> bank_account_iban = my_strdup ( iban );
 
     return TRUE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void gsb_data_account_colorize_current_balance ( gint account_number )
+{
+    gchar *string;
+
+	if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
+	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
+                        gsb_real_get_string_with_currency (
+                        gsb_data_account_get_current_balance (account_number),
+                        gsb_data_account_get_currency (account_number), TRUE ));
+	else
+	    string = gsb_real_get_string_with_currency (
+                        gsb_data_account_get_current_balance (account_number),
+                        gsb_data_account_get_currency (account_number), TRUE );
+    if ( !string )
+    	string = g_strdup ( "" );
+
+	gsb_gui_headings_update_suffix ( string );
+	g_free ( string );
 }

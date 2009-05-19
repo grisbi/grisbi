@@ -620,7 +620,6 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
 	&&
 	!gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
-	gchar *string;
 	gint selected_transaction;
 
 	/* we cannot use update_tree_view here because re-filter the model will close
@@ -631,17 +630,7 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
 	transaction_list_set_balances ();
 	transaction_list_select (selected_transaction);
 
-	if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
-	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
-                        gsb_real_get_string_with_currency (
-                        gsb_data_account_get_current_balance ( account_number ),
-                        gsb_data_account_get_currency ( account_number ), TRUE ) );
-	else
-	    string = gsb_real_get_string_with_currency (
-                        gsb_data_account_get_current_balance ( account_number ),
-                        gsb_data_account_get_currency ( account_number ), TRUE );
-	gsb_gui_headings_update_suffix (string);
-	g_free (string);
+    gsb_data_account_colorize_current_balance ( account_number );
 
 	/* if it's a mother, open the expander */
 	if (gsb_data_transaction_get_split_of_transaction (transaction_number))
@@ -840,8 +829,6 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 gboolean gsb_transactions_list_update_transaction ( gint transaction_number )
 {
     gint account_number;
-    gchar *string;
-    //~ gsb_real current_balance;
 
     devel_debug_int (transaction_number);
 
@@ -852,27 +839,7 @@ gboolean gsb_transactions_list_update_transaction ( gint transaction_number )
     transaction_list_set_balances ();
 
     account_number = gsb_data_transaction_get_account_number (transaction_number);
-
-    /* update the current balance */
-    /* mis en commentaire car cela modifie le solde du compte même si on ne modifie pas
-     * le montant de l'opération voir impacts sur une modification du solde. */
-    //~ current_balance = gsb_real_add ( gsb_data_account_get_current_balance (account_number),
-				     //~ gsb_data_transaction_get_adjusted_amount (transaction_number, -1));
-    //~ gsb_data_account_set_current_balance ( account_number,
-					   //~ current_balance);
-
-    if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
-        string = g_strdup_printf ( "<span color=\"red\">%s</span>",
-                    gsb_real_get_string_with_currency (
-                    gsb_data_account_get_current_balance (account_number),
-                    gsb_data_account_get_currency (account_number), TRUE ));
-    else
-        string = gsb_real_get_string_with_currency (
-                        gsb_data_account_get_current_balance (account_number),
-                        gsb_data_account_get_currency (account_number), TRUE );
-
-    gsb_gui_headings_update_suffix (string);
-    g_free(string);
+    gsb_data_account_colorize_current_balance ( account_number );
 
     /* update first page */
     mise_a_jour_liste_comptes_accueil = 1;

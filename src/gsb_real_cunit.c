@@ -49,7 +49,7 @@ static int gsb_real_cunit_init_suite ( void );
 /* The suite initialization function.
  * Returns zero on success, non-zero otherwise.
  */
-int gsb_real_cunit_init_suite(void)
+int gsb_real_cunit_init_suite ( void )
 {
     return 0;
 }
@@ -57,7 +57,7 @@ int gsb_real_cunit_init_suite(void)
 /* The suite cleanup function.
  * Returns zero on success, non-zero otherwise.
  */
-int gsb_real_cunit_clean_suite(void)
+int gsb_real_cunit_clean_suite ( void )
 {
     return 0;
 }

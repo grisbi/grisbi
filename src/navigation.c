@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/* 			http://www.grisbi.org				                              */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -1065,8 +1065,6 @@ void gsb_navigation_update_statement_label ( gint account_number )
 void gsb_navigation_update_account_label ( gint account_number )
 {
     gchar * title = NULL; 
-    gchar * suffix = NULL; 
-    gint currency_number;
 
     /* set the title */
     title = g_strconcat ( _("Account transactions"), " : ",
@@ -1079,20 +1077,7 @@ void gsb_navigation_update_account_label ( gint account_number )
 	g_free ( old_title );
     }
 
-    currency_number = gsb_data_account_get_currency (account_number);
-    if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
-	suffix = g_strdup_printf ( "<span color=\"red\">%s</span>",
-                        gsb_real_get_string_with_currency (
-                        gsb_data_account_get_current_balance ( account_number ),
-                        currency_number, TRUE ) );
-    else
-	suffix = gsb_real_get_string_with_currency (
-                        gsb_data_account_get_current_balance ( account_number ),
-                        currency_number, TRUE );
-    if (!suffix)
-    	suffix = g_strdup("");
-    gsb_gui_headings_update ( title, suffix );
-    g_free ( suffix );
+    gsb_data_account_colorize_current_balance ( account_number );
     g_free ( title );
 }
 

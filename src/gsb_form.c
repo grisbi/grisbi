@@ -1733,6 +1733,8 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
      * because if strlen < floating point we need to
      * malloc another string */
     string = my_strdup (gtk_entry_get_text (GTK_ENTRY(entry)));
+    if ( !string || strlen (string) == 0 )
+        return;
 
     account_number = gsb_form_get_account_number ();
     floating_point = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_number));

@@ -7684,19 +7684,6 @@ gboolean gsb_file_load_update_previous_version ( void )
                         reconcile_number),
                         gsb_data_reconcile_get_init_balance (
                         reconcile_number)));
-                if (reconcile_number > 0)
-                    printf ("1 - N° %3d - date : initiale %s "
-                        "finale %s - solde : initial %9s final %9s\n" , 
-                        reconcile_number,
-                        gsb_format_gdate (gsb_data_reconcile_get_init_date (
-                        reconcile_number)),
-                        gsb_format_gdate (gsb_data_reconcile_get_final_date (
-                        reconcile_number)),
-                        gsb_real_get_string (gsb_data_reconcile_get_init_balance (
-                        reconcile_number)),
-                        gsb_real_get_string (gsb_data_reconcile_get_final_balance (
-                        reconcile_number)));
-
                 if ( rec_list -> prev )
                 {
                     previous_reconcile_number = GPOINTER_TO_INT ( (rec_list -> prev) -> data );

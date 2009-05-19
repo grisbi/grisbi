@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cedric Auger (cedric@grisbi.org)            */
-/*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*                      2009 Pierre Biava (pierre@pierre.biava.name)          */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
