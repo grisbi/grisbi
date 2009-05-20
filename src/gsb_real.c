@@ -563,13 +563,8 @@ gsb_real gsb_real_add ( gsb_real number_1,
 gsb_real gsb_real_sub ( gsb_real number_1,
                         gsb_real number_2 )
 {
-    gsb_real number = number_1;
-    
-    gsb_real_normalize ( &number,
-			 &number_2 );
-
-    number.mantissa = number.mantissa - number_2.mantissa;
-    return number;
+    number_2.mantissa = -number_2.mantissa;
+    return gsb_real_add ( number_1, number_2 );
 }
 
 
