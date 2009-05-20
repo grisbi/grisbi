@@ -32,6 +32,7 @@
 
 
 #include "include.h"
+#include <assert.h>
 
 /*START_INCLUDE*/
 #include "gsb_real.h"
@@ -409,61 +410,71 @@ gint gsb_real_cmp ( gsb_real number_1,
 }
 
 /**
- * normalize the 2 numbers to be able to work with them later
+ * reduce the exponent to its smallest possible value,
+ * without losing any precision
+ *
+ * \param num a pointer to the number to be reduced
+ **/
+void gsb_real_minimize_exponent ( gsb_real *num )
+{
+    while ( num->exponent > 0 )
+    {
+        ldiv_t d = ldiv ( num->mantissa, 10 );
+        if ( d.rem != 0 )
+            return;
+        num->mantissa = d.quot;
+        --num->exponent;
+    }
+}
+
+/**
+ * grow the exponent up to target_exponent
+ * (only if possible without losing precision)
+ *
+ * \param num a pointer to the number
+ * \param target_exponent the desired exponent
+ **/
+void gsb_real_grow_exponent( gsb_real *num, guint target_exponent )
+{
+    assert ( target_exponent > num->exponent );
+    gint64 mantissa = num->mantissa;
+    gint exponent = num->exponent;
+    while ( exponent < target_exponent )
+    {
+        gint64 new_mantissa = mantissa * 10;
+        if ( ( new_mantissa > G_MAXLONG ) || ( new_mantissa < G_MINLONG ) )
+            break;
+        mantissa = new_mantissa;
+        ++exponent;
+    }
+    num->mantissa = mantissa;
+    num->exponent = exponent;
+}
+
+/**
+ * normalize the 2 numbers to be able to add/substract/compare them later
  * for that transform the 2 numbers to have the same exponent
  * and after that we can work on the mantissa
  *
  * \param number_1 a pointer to gsb_real wich contains the number_1 to transform
  * \param number_2 a pointer to gsb_real wich contains the number_2 to transform
  *
- * \return TRUE
+ * \return TRUE if normalization occured
+ * FALSE if exponents can't be the same without loss of precision
  * */
-gboolean gsb_real_normalize ( gsb_real *number_1,
-                        gsb_real *number_2 )
+gboolean gsb_real_normalize ( gsb_real *a, gsb_real *b )
 {
-    glong limit_number;
-    gboolean invert = FALSE;
-
-    limit_number = G_MAXLONG / 10;
-
-    while ( number_1 -> exponent != number_2 -> exponent )
+    gsb_real_minimize_exponent ( a );
+    gsb_real_minimize_exponent ( b );
+    if ( a->exponent < b->exponent )
     {
-	/* if we go over the upper limit we change the sense */
-	if ( !invert
-	     &&
-	     ( labs (number_1 -> mantissa) > limit_number
-	      ||
-	      labs (number_2 -> mantissa) > limit_number ))
-	    invert = TRUE;
-
-	if (number_1 -> exponent > number_2 -> exponent)
-	{
-	    if (invert)
-	    {
-		number_1 -> exponent--;
-		number_1 -> mantissa = number_1 -> mantissa / 10;
-	    }
-	    else
-	    {
-		number_2 -> exponent++;
-		number_2 -> mantissa = number_2 -> mantissa * 10;
-	    }
-	}
-	else
-	{
-	    if (invert)
-	    {
-		number_2 -> exponent--;
-		number_2 -> mantissa = number_2 -> mantissa / 10;
-	    }
-	    else
-	    {
-		number_1 -> exponent++;
-		number_1 -> mantissa = number_1 -> mantissa * 10;
-	    }
-	}
+        gsb_real_grow_exponent ( a, b->exponent );
     }
-    return TRUE;
+    else if ( b->exponent < a->exponent )
+    {
+        gsb_real_grow_exponent ( b, a->exponent );
+    }
+    return ( a->exponent == b->exponent );
 }
 
 /**
