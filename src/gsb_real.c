@@ -42,6 +42,7 @@
 /*END_INCLUDE*/
 
 gsb_real null_real = { 0 , 0 };
+gsb_real error_real = { 0x80000000, 0 };
 
 glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
                             1000000, 10000000, 100000000, 1000000000 };
@@ -530,26 +531,25 @@ gsb_real gsb_real_adjust_exponent ( gsb_real number,
 
 /**
  * add 2 gsb_real
- * !! CARREFULL : that function can create an overflow and return something invalid
- * 	to avoid that, don't cass the fuctions gsb_data_transaction_get_adjusted_amount and similar with -1
- * 		as return_exponent, but the exponent of the currency
- * 	if someone find how to detect the overflow on the line number.mantissa + number_2.mantissa, please teach me !!
+ * when an overflow occurs, error_real is returned
  *
  * \param number_1
  * \param number_2
  *
- * \return a gsb_real = number_1 + number_2
+ * \return a gsb_real = number_1 + number_2, or error_real when an error occured
  * */
 gsb_real gsb_real_add ( gsb_real number_1,
                         gsb_real number_2 )
 {
-    gsb_real number = number_1;
-    
-    gsb_real_normalize ( &number,
-			 &number_2 );
-
-    number.mantissa = number.mantissa + number_2.mantissa;
-    return number;
+    if ( ( number_1.mantissa == error_real.mantissa )
+      || ( number_2.mantissa == error_real.mantissa )
+      || !gsb_real_normalize ( &number_1, &number_2 ) )
+        return error_real;
+    gint64 mantissa = (gint64)number_1.mantissa + number_2.mantissa;
+    if ( ( mantissa > G_MAXLONG ) || ( mantissa < G_MINLONG ) )
+        return error_real;
+    number_1.mantissa = mantissa;
+    return number_1;
 }
 
 /**
