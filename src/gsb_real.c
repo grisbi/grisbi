@@ -414,18 +414,32 @@ gint gsb_real_cmp ( gsb_real number_1,
  * reduce the exponent to its smallest possible value,
  * without losing any precision
  *
+ * \param mantissa a pointer to the 64 bits mantissa to be reduced
+ * \param exponent a pointer to the exponent to be reduced
+ **/
+void gsb_real_raw_minimize_exponent ( gint64 *mantissa, gint *exponent )
+{
+    while ( *exponent > 0 )
+    {
+        lldiv_t d = lldiv ( *mantissa, 10 );
+        if ( d.rem != 0 )
+            return;
+        *mantissa = d.quot;
+        --*exponent;
+    }
+}
+
+/**
+ * reduce the exponent to its smallest possible value,
+ * without losing any precision
+ *
  * \param num a pointer to the number to be reduced
  **/
 void gsb_real_minimize_exponent ( gsb_real *num )
 {
-    while ( num->exponent > 0 )
-    {
-        ldiv_t d = ldiv ( num->mantissa, 10 );
-        if ( d.rem != 0 )
-            return;
-        num->mantissa = d.quot;
-        --num->exponent;
-    }
+    gint64 mantissa = num->mantissa;
+    gsb_real_raw_minimize_exponent ( &mantissa, &num->exponent);
+    num->mantissa = mantissa;
 }
 
 /**
@@ -589,13 +603,17 @@ gsb_real gsb_real_opposite ( gsb_real number )
  * \param number_1
  * \param number_2
  *
- * \return the multiplication between the 2
+ * \return the multiplication between the 2, or error_real if an overflow occured
  * */
 gsb_real gsb_real_mul ( gsb_real number_1,
                         gsb_real number_2 )
 {
-    number_1.mantissa *= number_2.mantissa;
+    gint64 mantissa = (gint64)number_1.mantissa * number_2.mantissa;
     number_1.exponent += number_2.exponent;
+    gsb_real_raw_minimize_exponent ( &mantissa, &number_1.exponent );
+    if ( ( mantissa > G_MAXLONG ) || ( mantissa < G_MINLONG ) )
+        return error_real;
+    number_1.mantissa = mantissa;
     return number_1;
 }
 

@@ -324,6 +324,71 @@ void gsb_real_cunit__gsb_real_sub()
     CU_ASSERT_EQUAL ( 0, r.exponent );
 }
 
+void gsb_real_cunit__gsb_real_mul()
+{
+    gsb_real a = { 12, 1 };
+    gsb_real b = { 31415, 4 };
+    gsb_real r = gsb_real_mul ( a, b );
+    CU_ASSERT_EQUAL ( 37698, r.mantissa );
+    CU_ASSERT_EQUAL ( 4, r.exponent );
+    
+    a.mantissa = 0x7FFFFFFF;
+    a.exponent = 0;
+    b.mantissa = 2;
+    b.exponent = 0;
+    r = gsb_real_mul ( a, b );
+    CU_ASSERT_EQUAL ( 0x80000000, r.mantissa );
+    CU_ASSERT_EQUAL ( 0, r.exponent );
+    
+    a.mantissa = 0x7FFFFFFF;
+    a.exponent = 0;
+    b.mantissa = 9;
+    b.exponent = 1;
+    r = gsb_real_mul ( a, b );
+    CU_ASSERT_EQUAL ( 0x80000000, r.mantissa );
+    CU_ASSERT_EQUAL ( 0, r.exponent );
+    
+    a.mantissa = 0x80000001;
+    a.exponent = 0;
+    b.mantissa = 2;
+    b.exponent = 0;
+    r = gsb_real_mul ( a, b );
+    CU_ASSERT_EQUAL ( 0x80000000, r.mantissa );
+    CU_ASSERT_EQUAL ( 0, r.exponent );
+
+    a.mantissa = 0x80000000;
+    a.exponent = 0;
+    b.mantissa = 9;
+    b.exponent = 1;
+    r = gsb_real_mul ( a, b );
+    CU_ASSERT_EQUAL ( 0x80000000, r.mantissa );
+    CU_ASSERT_EQUAL ( 0, r.exponent );
+
+    a.mantissa = 100;
+    a.exponent = 0;
+    b.mantissa = 0x80000000;
+    b.exponent = 0;
+    r = gsb_real_mul(a, b);
+    CU_ASSERT_EQUAL ( 0x80000000, r.mantissa );
+    CU_ASSERT_EQUAL ( 0, r.exponent );
+
+    a.mantissa = 22000;
+    a.exponent = 0;
+    b.mantissa = 100000;
+    b.exponent = 0;
+    r = gsb_real_mul ( a, b );
+    CU_ASSERT_EQUAL ( 0x80000000, r.mantissa );
+    CU_ASSERT_EQUAL ( 0, r.exponent );
+
+    a.mantissa = -22000;
+    a.exponent = 0;
+    b.mantissa = 100000;
+    b.exponent = 0;
+    r = gsb_real_mul ( a, b );
+    CU_ASSERT_EQUAL ( 0x80000000, r.mantissa );
+    CU_ASSERT_EQUAL ( 0, r.exponent );
+}
+
 CU_pSuite gsb_real_cunit_create_suite ( void )
 {
     CU_pSuite pSuite = CU_add_suite("gsb_real",
@@ -337,6 +402,7 @@ CU_pSuite gsb_real_cunit_create_suite ( void )
     || (NULL == CU_add_test(pSuite, "of gsb_real_gsb_real_normalize()",  gsb_real_cunit__gsb_real_normalize))
     || (NULL == CU_add_test(pSuite, "of gsb_real_add()",               gsb_real_cunit__gsb_real_add))
     || (NULL == CU_add_test(pSuite, "of gsb_real_sub()",               gsb_real_cunit__gsb_real_sub))
+    || (NULL == CU_add_test(pSuite, "of gsb_real_mul()",               gsb_real_cunit__gsb_real_mul))
        )
         return NULL;
 
