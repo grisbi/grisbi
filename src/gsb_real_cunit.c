@@ -184,6 +184,48 @@ void gsb_real_cunit__gsb_real_raw_format_string ( void )
     g_free(s);
 }
 
+void gsb_real_cunit__gsb_real_normalize()
+{
+    gsb_real a;
+    gsb_real b;
+    a.mantissa = 1;
+    a.exponent = 0;
+    b.mantissa = 31415;
+    b.exponent = 4;
+    CU_ASSERT_EQUAL ( TRUE, gsb_real_normalize ( &a, &b ) );
+    CU_ASSERT_EQUAL ( 10000, a.mantissa );
+    CU_ASSERT_EQUAL ( 4, a.exponent );
+    CU_ASSERT_EQUAL ( 31415, b.mantissa );
+    CU_ASSERT_EQUAL ( 4, b.exponent );
+
+    a.mantissa = 0x7FFFFFFF;
+    a.exponent = 1;
+    b.mantissa = 11;
+    b.exponent = 0;
+    CU_ASSERT_EQUAL ( TRUE, gsb_real_normalize ( &a, &b ) );
+    CU_ASSERT_EQUAL ( 0x7FFFFFFF, a.mantissa );
+    CU_ASSERT_EQUAL ( 1, a.exponent );
+    CU_ASSERT_EQUAL ( 110, b.mantissa );
+    CU_ASSERT_EQUAL ( 1, b.exponent );
+
+    a.mantissa = 11;
+    a.exponent = 0;
+    b.mantissa = 0x7FFFFFFF;
+    b.exponent = 1;
+    CU_ASSERT_EQUAL ( TRUE, gsb_real_normalize ( &a, &b ) );
+    CU_ASSERT_EQUAL ( 110, a.mantissa );
+    CU_ASSERT_EQUAL ( 1, a.exponent );
+    CU_ASSERT_EQUAL ( 0x7FFFFFFF, b.mantissa );
+    CU_ASSERT_EQUAL ( 1, b.exponent );
+
+    a.mantissa = 0x7FFFFFFF;
+    a.exponent = 1;
+    b.mantissa = 0x7FFFFFFF;
+    b.exponent = 0;
+    // Impossible to normalize without losing precision
+    CU_ASSERT_EQUAL ( FALSE, gsb_real_normalize ( &a, &b ) );
+}
+
 void gsb_real_cunit__gsb_real_add ( void )
 {
     gsb_real a = {1, 0};
@@ -292,6 +334,7 @@ CU_pSuite gsb_real_cunit_create_suite ( void )
 
     if((NULL == CU_add_test(pSuite, "of gsb_real_get_from_string()",   gsb_real_cunit__gsb_real_get_from_string))
     || (NULL == CU_add_test(pSuite, "of gsb_real_raw_format_string()", gsb_real_cunit__gsb_real_raw_format_string))
+    || (NULL == CU_add_test(pSuite, "of gsb_real_gsb_real_normalize()",  gsb_real_cunit__gsb_real_normalize))
     || (NULL == CU_add_test(pSuite, "of gsb_real_add()",               gsb_real_cunit__gsb_real_add))
     || (NULL == CU_add_test(pSuite, "of gsb_real_sub()",               gsb_real_cunit__gsb_real_sub))
        )

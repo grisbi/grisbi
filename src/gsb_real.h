@@ -21,6 +21,8 @@ gsb_real gsb_real_add ( gsb_real number_1,
                         gsb_real number_2 );
 gsb_real gsb_real_adjust_exponent ( gsb_real number,
                         gint return_exponent );
+gboolean gsb_real_normalize ( gsb_real *number_1,
+                        gsb_real *number_2 );
 gint gsb_real_cmp ( gsb_real number_1,
                         gsb_real number_2 );
 gsb_real gsb_real_div ( gsb_real number_1,

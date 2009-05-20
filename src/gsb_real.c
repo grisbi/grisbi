@@ -52,8 +52,6 @@ static gchar *gsb_real_format_string ( gsb_real number,
                         gint currency_number,
                         gboolean show_symbol );
 static gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_exponent );
-static gboolean gsb_real_normalize ( gsb_real *number_1,
-                        gsb_real *number_2 );
 static gdouble gsb_real_real_to_double ( gsb_real number );
 /*END_STATIC*/
 
