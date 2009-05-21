@@ -39,7 +39,6 @@
 #include "./fenetre_principale.h"
 #include "./menu.h"
 #include "./etats_onglet.h"
-#include "./gsb_real.h"
 #include "./gsb_reconcile.h"
 #include "./gsb_scheduler_list.h"
 #include "./gsb_transactions_list.h"

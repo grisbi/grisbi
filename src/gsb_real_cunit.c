@@ -33,12 +33,18 @@
 /* START_INCLUDE */
 #include "gsb_real_cunit.h"
 #include "./gsb_real.h"
+#include "./gsb_real.h"
 /* END_INCLUDE */
 
 /* START_STATIC */
 static void gsb_real_cunit__gsb_real_add ( void );
 static void gsb_real_cunit__gsb_real_get_from_string ( void );
+static void gsb_real_cunit__gsb_real_mul();
+static void gsb_real_cunit__gsb_real_normalize();
 static void gsb_real_cunit__gsb_real_raw_format_string ( void );
+static void gsb_real_cunit__gsb_real_raw_get_from_string();
+static void gsb_real_cunit__gsb_real_raw_get_from_string__locale();
+static void gsb_real_cunit__gsb_real_sub();
 static int gsb_real_cunit_clean_suite ( void );
 static int gsb_real_cunit_init_suite ( void );
 /* END_STATIC */

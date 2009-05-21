@@ -1,9 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -70,7 +70,7 @@ typedef struct
 /*START_STATIC*/
 static  void _gsb_data_archive_store_free ( struct_store_archive *archive );
 static  struct_store_archive *gsb_data_archive_store_find_struct ( gint archive_number,
-								  gint account_number );
+                        gint account_number );
 static  gint gsb_data_archive_store_max_number ( void );
 static  gint gsb_data_archive_store_new ( void );
 /*END_STATIC*/
@@ -101,10 +101,10 @@ gboolean gsb_data_archive_store_init_variables ( void )
         GSList* tmp_list = archive_store_list;
         while ( tmp_list )
         {
-	    struct_store_archive *archive;
-	    archive = tmp_list -> data;
-	    tmp_list = tmp_list -> next;
-	    _gsb_data_archive_store_free ( archive );
+        struct_store_archive *archive;
+        archive = tmp_list -> data;
+        tmp_list = tmp_list -> next;
+        _gsb_data_archive_store_free ( archive );
         }
         g_slist_free ( archive_store_list );
     }
@@ -140,7 +140,7 @@ gint gsb_data_archive_store_get_number ( gpointer archive_ptr )
     struct_store_archive *archive;
 
     if ( !archive_ptr )
-	return 0;
+    return 0;
 
     archive = archive_ptr;
     archive_store_buffer = archive;
@@ -165,54 +165,55 @@ void gsb_data_archive_store_create_list ( void )
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
-	gint transaction_number;
-	gint archive_number;
+    gint transaction_number;
+    gint archive_number;
 
-	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+    transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
 
-	/* we are not interested on children transactions */
-	if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
-	{
-	    tmp_list = tmp_list -> next;
-	    continue;
-	}
+    /* we are not interested on children transactions */
+    if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
+    {
+        tmp_list = tmp_list -> next;
+        continue;
+    }
 
-	archive_number = gsb_data_transaction_get_archive_number (transaction_number);
+    archive_number = gsb_data_transaction_get_archive_number (transaction_number);
 
-	if (archive_number)
-	{
-	    struct_store_archive *archive;
-	    gint floating_point;
-	    gint account_number;
+    if (archive_number)
+    {
+        struct_store_archive *archive;
+        gint floating_point;
+        gint account_number;
+        account_number = gsb_data_transaction_get_account_number (transaction_number);
+        floating_point = gsb_data_currency_get_floating_point (
+                            gsb_data_account_get_currency (account_number) );
+        archive = gsb_data_archive_store_find_struct ( archive_number, account_number);
+        if (archive)
+        {
+        /* there is already a struct_store_archive for the same archive and the same account,
+         * we increase the balance */
+        archive -> balance = gsb_real_add ( archive -> balance,
+                                gsb_data_transaction_get_adjusted_amount (transaction_number,
+                                floating_point));
+        archive -> nb_transactions++;
+        }
+        else
+        {
+        /* there is no struct_store_archive for that transaction, we make a new one 
+         * with the balance of the transaction as balance */
+        gint archive_store_number;
 
-	    account_number = gsb_data_transaction_get_account_number (transaction_number);
-	    floating_point = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_number));
-	    archive = gsb_data_archive_store_find_struct ( archive_number,
-							   account_number);
-	    if (archive)
-	    {
-		/* there is already a struct_store_archive for the same archive and the same account,
-		 * we increase the balance */
-		archive -> balance = gsb_real_add ( archive -> balance,
-						    gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point));
-		archive -> nb_transactions++;
-	    }
-	    else
-	    {
-		/* there is no struct_store_archive for that transaction, we make a new one 
-		 * with the balance of the transaction as balance */
-		gint archive_store_number;
+        archive_store_number = gsb_data_archive_store_new ();
+        archive = gsb_data_archive_store_get_structure (archive_store_number);
 
-		archive_store_number = gsb_data_archive_store_new ();
-		archive = gsb_data_archive_store_get_structure (archive_store_number);
-
-		archive -> archive_number = archive_number;
-		archive -> account_number = account_number;
-		archive -> balance = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
-		archive -> nb_transactions = 1;
-	    }
-	}
-	tmp_list = tmp_list -> next;
+        archive -> archive_number = archive_number;
+        archive -> account_number = account_number;
+        archive -> balance = gsb_data_transaction_get_adjusted_amount (
+                        transaction_number, floating_point);
+        archive -> nb_transactions = 1;
+        }
+    }
+    tmp_list = tmp_list -> next;
     }
 }
 
@@ -225,7 +226,7 @@ static void _gsb_data_archive_store_free ( struct_store_archive *archive )
         return;
     g_free ( archive );
     if ( archive_store_buffer == archive )
-	archive_store_buffer = NULL;
+    archive_store_buffer = NULL;
 }
 
 /**
@@ -242,10 +243,10 @@ gboolean gsb_data_archive_store_remove ( gint archive_store_number )
     archive = gsb_data_archive_store_get_structure ( archive_store_number );
 
     if (!archive)
-	return FALSE;
+    return FALSE;
 
     archive_store_list = g_slist_remove ( archive_store_list,
-					  archive );
+                      archive );
 
     _gsb_data_archive_store_free ( archive );
     return TRUE;
@@ -265,16 +266,16 @@ gboolean gsb_data_archive_store_remove_by_archive ( gint archive_number )
     tmp_list = archive_store_list;
     while (tmp_list)
     {
-	struct_store_archive *archive;
+    struct_store_archive *archive;
 
-	archive = tmp_list -> data;
-	tmp_list = tmp_list -> next;
-	if (archive -> archive_number == archive_number)
-	{
-	    archive_store_list = g_slist_remove ( archive_store_list,
-						  archive );
-	    _gsb_data_archive_store_free ( archive );
-	}
+    archive = tmp_list -> data;
+    tmp_list = tmp_list -> next;
+    if (archive -> archive_number == archive_number)
+    {
+        archive_store_list = g_slist_remove ( archive_store_list,
+                          archive );
+        _gsb_data_archive_store_free ( archive );
+    }
     }
     return TRUE;
 }
@@ -296,7 +297,7 @@ gint gsb_data_archive_store_get_archive_number ( gint archive_store_number )
     archive = gsb_data_archive_store_get_structure ( archive_store_number );
 
     if (!archive)
-	return 0;
+    return 0;
 
     return archive -> archive_number;
 }
@@ -315,7 +316,7 @@ gint gsb_data_archive_store_get_account_number ( gint archive_store_number )
     archive = gsb_data_archive_store_get_structure ( archive_store_number );
 
     if (!archive)
-	return 0;
+    return 0;
 
     return archive -> account_number;
 }
@@ -335,7 +336,7 @@ gsb_real gsb_data_archive_store_get_balance ( gint archive_store_number )
     archive = gsb_data_archive_store_get_structure ( archive_store_number );
 
     if (!archive)
-	return null_real;
+    return null_real;
 
     return archive -> balance;
 }
@@ -354,7 +355,7 @@ gint gsb_data_archive_store_get_transactions_number ( gint archive_store_number 
     archive = gsb_data_archive_store_get_structure ( archive_store_number );
 
     if (!archive)
-	return 0;
+    return 0;
 
     return archive -> nb_transactions;
 }
@@ -373,29 +374,29 @@ gpointer gsb_data_archive_store_get_structure ( gint archive_store_number )
     GSList *tmp;
 
     if (!archive_store_number)
-	return NULL;
+    return NULL;
 
     /* before checking all the archives, we check the buffer */
     if ( archive_store_buffer
-	 &&
-	 archive_store_buffer -> archive_store_number == archive_store_number )
-	return archive_store_buffer;
+     &&
+     archive_store_buffer -> archive_store_number == archive_store_number )
+    return archive_store_buffer;
 
     tmp = archive_store_list;
 
     while ( tmp )
     {
-	struct_store_archive *archive;
+    struct_store_archive *archive;
 
-	archive = tmp -> data;
+    archive = tmp -> data;
 
-	if ( archive -> archive_store_number == archive_store_number )
-	{
-	    archive_store_buffer = archive;
-	    return archive;
-	}
+    if ( archive -> archive_store_number == archive_store_number )
+    {
+        archive_store_buffer = archive;
+        return archive;
+    }
 
-	tmp = tmp -> next;
+    tmp = tmp -> next;
     }
     return NULL;
 }
@@ -416,14 +417,14 @@ static gint gsb_data_archive_store_max_number ( void )
 
     while ( tmp )
     {
-	struct_store_archive *archive;
+    struct_store_archive *archive;
 
-	archive = tmp -> data;
+    archive = tmp -> data;
 
-	if ( archive -> archive_store_number > number_tmp )
-	    number_tmp = archive -> archive_store_number;
+    if ( archive -> archive_store_number > number_tmp )
+        number_tmp = archive -> archive_store_number;
 
-	tmp = tmp -> next;
+    tmp = tmp -> next;
     }
     return number_tmp;
 }
@@ -438,23 +439,23 @@ static gint gsb_data_archive_store_max_number ( void )
  * \return a pointer to the found struct_store_archive or NULL
  * */
 static struct_store_archive *gsb_data_archive_store_find_struct ( gint archive_number,
-								  gint account_number )
+                        gint account_number )
 {
     GSList *tmp_list;
 
     tmp_list = archive_store_list;
     while (tmp_list)
     {
-	struct_store_archive *archive;
+    struct_store_archive *archive;
 
-	archive = tmp_list -> data;
+    archive = tmp_list -> data;
 
-	if (archive -> archive_number == archive_number
-	    &&
-	    archive -> account_number == account_number )
-	    return archive;
+    if (archive -> archive_number == archive_number
+        &&
+        archive -> account_number == account_number )
+        return archive;
 
-	tmp_list = tmp_list -> next;
+    tmp_list = tmp_list -> next;
     }
     return NULL;
 }
@@ -474,8 +475,8 @@ static gint gsb_data_archive_store_new ( void )
     archive = g_malloc0 ( sizeof ( struct_store_archive ));
     if (!archive)
     {
-	dialogue_error_memory ();
-	return 0;
+    dialogue_error_memory ();
+    return 0;
     }
     archive -> archive_store_number = gsb_data_archive_store_max_number () + 1;
 

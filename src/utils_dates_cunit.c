@@ -2,10 +2,10 @@
 /*                                                                            */
 /*                                  utils_dates_cunit                         */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	          */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
 /*                      2009 Mickaël Remars (grisbi@remars.com)               */
-/* 			http://www.grisbi.org				                              */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -32,10 +32,13 @@
 
 /* START_INCLUDE */
 #include "utils_dates_cunit.h"
-#include "utils_dates.h"
+#include "./utils_dates.h"
 /* END_INCLUDE */
 
 /* START_STATIC */
+static void utils_dates_cunit__gsb_parse_date_string ( void );
+static int utils_dates_cunit_clean_suite ( void );
+static int utils_dates_cunit_init_suite ( void );
 /* END_STATIC */
 
 /* START_EXTERN */
@@ -44,7 +47,7 @@
 /* The suite initialization function.
  * Returns zero on success, non-zero otherwise.
  */
-int utils_dates_cunit_init_suite(void)
+int utils_dates_cunit_init_suite ( void )
 {
     return 0;
 }
@@ -57,7 +60,7 @@ int utils_dates_cunit_clean_suite(void)
     return 0;
 }
 
-void utils_dates_cunit__gsb_parse_date_string(void)
+void utils_dates_cunit__gsb_parse_date_string ( void )
 {
     GDate *date = NULL;
     // invalid day
@@ -112,7 +115,7 @@ void utils_dates_cunit__gsb_parse_date_string(void)
     CU_ASSERT_EQUAL(G_DATE_BAD_DAY, g_date_get_day(date));
 }
 
-CU_pSuite utils_dates_cunit_create_suite(void)
+CU_pSuite utils_dates_cunit_create_suite ( void )
 {
     CU_pSuite pSuite = CU_add_suite("utils_dates",
                                     utils_dates_cunit_init_suite,

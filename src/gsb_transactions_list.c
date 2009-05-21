@@ -73,36 +73,35 @@ static gboolean assert_selected_transaction ();
 static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr );
 static GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y );
 static gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
-					      GdkEventButton *ev,
-					      gpointer null );
+                        GdkEventButton *ev,
+                        gpointer null );
 static gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view_column,
-						    gint *column_ptr );
+                        gint *column_ptr );
 static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
-						  gint *no_column );
+                        gint *no_column );
 static gboolean gsb_transactions_list_check_mark ( gint transaction_number );
 static gint gsb_transactions_list_choose_reconcile ( gint account_number,
                         gint selected_reconcile_number );
 static  gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
-						       gpointer null );
+                        gpointer null );
 static gint gsb_transactions_list_clone_transaction ( gint transaction_number,
-					       gint mother_transaction_number );
+                        gint mother_transaction_number );
 static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model );
 static void gsb_transactions_list_create_tree_view_columns ( void );
-static gboolean gsb_transactions_list_fill_archive_store ( void );
 static gboolean gsb_transactions_list_fill_model ( void );
 static gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
-							     gint target_account );
+                        gint target_account );
 static void gsb_transactions_list_set_tree_view (GtkWidget *tree_view);
 static gboolean gsb_transactions_list_size_allocate ( GtkWidget *tree_view,
-					       GtkAllocation *allocation,
-					       gpointer null );
+                        GtkAllocation *allocation,
+                        gpointer null );
 static gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number );
 static gboolean gsb_transactions_list_switch_mark ( gint transaction_number );
 static gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
-							   GdkEventButton *ev,
-							   gint *no_column );
+                        GdkEventButton *ev,
+                        gint *no_column );
 static gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
-					      gpointer null );
+                        gpointer null );
 static void popup_transaction_context_menu ( gboolean full, int x, int y );
 static gint schedule_transaction ( gint transaction_number );
 static void update_titres_tree_view ( void );
@@ -218,7 +217,7 @@ GtkWidget *gsb_transactions_list_get_tree_view (void)
  * \return
  * */
 void gsb_transactions_list_update_tree_view ( gint account_number,
-					      gboolean keep_selected_transaction )
+                        gboolean keep_selected_transaction )
 {
     gint selected_transaction;
 
@@ -291,14 +290,14 @@ GtkWidget *gsb_transactions_list_make_gui_list ( void )
     /* we add the tree view in a scrolled window which will be returned */
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+                        GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					  GTK_SHADOW_IN );
+                        GTK_SHADOW_IN );
 
     /* and now we can create the tree_view */
-    tree_view = gsb_transactions_list_create_tree_view (GTK_TREE_MODEL (transaction_model_get_model ()));
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			tree_view );
+    tree_view = gsb_transactions_list_create_tree_view ( GTK_TREE_MODEL (
+                        transaction_model_get_model ()) );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view );
 
     /* we save the values */
     gsb_transactions_list_set_tree_view (tree_view);
@@ -527,7 +526,10 @@ gboolean gsb_transactions_list_fill_model ( void )
 	 * wich didn't find their mother. show them now */
 	if (orphan_child_transactions)
 	{
-	    gchar *message = _("Some children didn't find their mother in the list, this shouldn't happen and there is probably a bug behind that. Please contact the Grisbi team.\n\nThe concerned children number are :\n");
+	    gchar *message = _("Some children didn't find their mother in the list, this "
+                           "shouldn't happen and there is probably a bug behind that. "
+                           "Please contact the Grisbi team.\n\nThe concerned children "
+                           "number are :\n");
 	    gchar *string_1;
 	    gchar *string_2;
 
@@ -569,12 +571,12 @@ gboolean gsb_transactions_list_fill_archive_store ( void )
     tmp_list = gsb_data_archive_store_get_archives_list ();
     while (tmp_list)
     {
-	gint archive_store_number;
+    gint archive_store_number;
 
-	/* get the store archive struct */
-	archive_store_number = gsb_data_archive_store_get_number (tmp_list -> data);
-	transaction_list_append_archive (archive_store_number);
-	tmp_list = tmp_list -> next;
+    /* get the store archive struct */
+    archive_store_number = gsb_data_archive_store_get_number (tmp_list -> data);
+    transaction_list_append_archive (archive_store_number);
+    tmp_list = tmp_list -> next;
     }
     return FALSE;
 }
@@ -600,7 +602,7 @@ gboolean gsb_transactions_list_fill_archive_store ( void )
  * \return FALSE
  * */
 gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
-							gboolean update_tree_view )
+                        gboolean update_tree_view )
 {
     gint account_number;
 
@@ -657,7 +659,7 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
  * \return a newly allocated string which represent the content of the transaction, or NULL
  * */
 gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
-						 gint cell_content_number )
+                        gint cell_content_number )
 {
     gint account_currency;
 
@@ -1036,7 +1038,7 @@ gint find_element_col_split ( gint element_number )
 /* soit le solde initial - les opés R si elles ne sont pas affichées */
 /******************************************************************************/
 gsb_real solde_debut_affichage ( gint account_number,
-				 gint floating_point)
+                        gint floating_point)
 {
     gsb_real solde;
     GSList *list_tmp_transactions;
@@ -1082,8 +1084,8 @@ gsb_real solde_debut_affichage ( gint account_number,
  * \return normally TRUE to block the signal, if we are outside the tree_view, FALSE
  * */
 gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
-					      GdkEventButton *ev,
-					      gpointer null )
+                        GdkEventButton *ev,
+                        gpointer null )
 {
     GtkTreeIter iter;
     GtkTreeModel *model;
@@ -1212,7 +1214,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 /* gère le clavier sur la liste des opés */
 /******************************************************************************/
 gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
-					   GdkEventKey *ev )
+                        GdkEventKey *ev )
 {
     gint account_number;
     gint transaction_number;
@@ -2296,7 +2298,7 @@ void remove_transaction ()
  * \return FALSE
  */
 gboolean clone_selected_transaction ( GtkWidget *menu_item,
-				      gpointer null )
+                        gpointer null )
 {
     gint new_transaction_number;
 
@@ -2324,7 +2326,7 @@ gboolean clone_selected_transaction ( GtkWidget *menu_item,
  * \return FALSE
  * */
 static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
-						       gpointer null )
+                        gpointer null )
 {
     gint new_transaction_number;
 
@@ -2354,7 +2356,7 @@ static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
  * \return the number newly created transaction.
  */
 gint gsb_transactions_list_clone_transaction ( gint transaction_number,
-					       gint mother_transaction_number )
+                        gint mother_transaction_number )
 {
     gint new_transaction_number;
 
@@ -2416,7 +2418,7 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number,
  * \return FALSE
  */
 gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
-					      gpointer null )
+                        gpointer null )
 {
     gint target_account, source_account;
     gchar *string;
@@ -2503,7 +2505,7 @@ void move_selected_operation_to_account_nb ( gint *account )
  * return TRUE if ok
  */
 gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
-							     gint target_account )
+                        gint target_account )
 {
     gint source_account;
     gint contra_transaction_number;
@@ -2783,8 +2785,8 @@ void gsb_transactions_list_splitted_to_scheduled ( gint transaction_number,
  * \return FALSE
  * */
 gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
-							   GdkEventButton *ev,
-							   gint *no_column )
+                        GdkEventButton *ev,
+                        gint *no_column )
 {
     GtkWidget *menu, *menu_item;
     gint i;
@@ -2899,7 +2901,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
  * \return FALSE
  * */
 gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
-						  gint *no_column )
+                        gint *no_column )
 {
     gint column_number;
     gint account_number;
@@ -2942,7 +2944,7 @@ gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
  * \return FALSE
  * */
 gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view_column,
-						    gint *column_ptr )
+                        gint *column_ptr )
 {
     GtkSortType sort_type;
     gint current_column;
@@ -3142,9 +3144,9 @@ void gsb_transactions_list_set_visible_rows_number ( gint rows_number )
  * \return TRUE if the transaction should be shown, FALSE else
  * */
 gboolean gsb_transactions_list_transaction_visible ( gpointer transaction_ptr,
-						     gint account_number,
-						     gint line_in_transaction,
-						     gint what_is_line )
+                        gint account_number,
+                        gint line_in_transaction,
+                        gint what_is_line )
 {
     gint transaction_number;
     gint r_shown;
@@ -3271,7 +3273,7 @@ gboolean gsb_transactions_list_switch_expander ( gint transaction_number )
  * \return FALSE
  * */
 gboolean gsb_transactions_list_restore_archive ( gint archive_number,
-						 gboolean show_warning )
+                        gboolean show_warning )
 {
     GSList *tmp_list;
     gint account_number;
@@ -3284,8 +3286,8 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
 
     orphan_child_transactions = NULL;
 
-    /* second step, we add all the archived transactions of that archive into the transactions_list
-     * and into the store */
+    /* second step, we add all the archived transactions of that archive into the
+     * transactions_list and into the store */
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
@@ -3371,8 +3373,8 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
  * \return FALSE
  * */
 gboolean gsb_transactions_list_size_allocate ( GtkWidget *tree_view,
-					       GtkAllocation *allocation,
-					       gpointer null )
+                        GtkAllocation *allocation,
+                        gpointer null )
 {
     gint i;
 

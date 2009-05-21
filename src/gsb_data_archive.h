@@ -19,16 +19,16 @@ gboolean gsb_data_archive_init_variables ( void );
 gint gsb_data_archive_new ( const gchar *name );
 gboolean gsb_data_archive_remove ( gint archive_number );
 gboolean gsb_data_archive_set_beginning_date ( gint archive_number,
-					      const GDate *date );
+                        const GDate *date );
 gboolean gsb_data_archive_set_end_date ( gint archive_number,
-					 const GDate *date );
+                        const GDate *date );
 gboolean gsb_data_archive_set_fyear ( gint archive_number,
-				      gint fyear_number );
+                        gint fyear_number );
 gboolean gsb_data_archive_set_name ( gint archive_number,
-				     const gchar *name );
+                        const gchar *name );
 gint gsb_data_archive_set_new_number ( gint archive_number,
-				       gint new_no_archive );
+                        gint new_no_archive );
 gboolean gsb_data_archive_set_report_title ( gint archive_number,
-					     const gchar *report_title );
+                        const gchar *report_title );
 /* END_DECLARATION */
 #endif

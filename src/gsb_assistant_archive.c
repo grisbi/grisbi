@@ -1,8 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*                      2008-2009 Pierre Biava (grisbi@pierre.biava.name)     */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -34,12 +35,14 @@
 #include "./gsb_assistant.h"
 #include "./gsb_calendar_entry.h"
 #include "./gsb_data_archive.h"
+#include "./gsb_data_archive_store.h"
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_report.h"
 #include "./gsb_data_transaction.h"
 #include "./utils_dates.h"
 #include "./gsb_fyear.h"
 #include "./gsb_report.h"
+#include "./gsb_transactions_list.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./etats_calculs.h"
@@ -56,13 +59,13 @@ static  GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistan
 static  GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_archive_page_success ( void );
 static  gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assistant,
-							       gint new_page );
+                        gint new_page );
 static  gboolean gsb_assistant_archive_switch_to_intro ( GtkWidget *assistant,
-							gint new_page );
+                        gint new_page );
 static  gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
-						       gint new_page );
+                        gint new_page );
 static  gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
-							 gint new_page );
+                        gint new_page );
 static  gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant );
 /*END_STATIC*/
 
@@ -558,7 +561,7 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
  * \return FALSE
  * */
 static gboolean gsb_assistant_archive_switch_to_intro ( GtkWidget *assistant,
-							gint new_page )
+                        gint new_page )
 {
     /* enter into the intro page */
     gsb_assistant_change_button_next ( assistant,
@@ -579,7 +582,7 @@ static gboolean gsb_assistant_archive_switch_to_intro ( GtkWidget *assistant,
  * \return FALSE
  * */
 static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
-						       gint new_page )
+                        gint new_page )
 {
     GSList *tmp_list;
     const GDate *date = NULL;
@@ -587,7 +590,7 @@ static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
     /* enter into the menu page */
     gtk_label_set_text ( GTK_LABEL (label_archived), NULL );
     gsb_assistant_change_button_next ( assistant,
-				       GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+                        GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
     gsb_assistant_archive_update_labels ( assistant );
 
     /* set the initial date to the first transaction in grisbi */
@@ -629,41 +632,41 @@ static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
  * \return FALSE
  * */
 static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assistant,
-							       gint new_page )
+                        gint new_page )
 {
     gchar * string = NULL;
 
     gsb_assistant_change_button_next ( assistant,
-				       GTK_STOCK_APPLY, GTK_RESPONSE_YES );
+                    GTK_STOCK_APPLY, GTK_RESPONSE_YES );
 
     if ( GTK_WIDGET_IS_SENSITIVE (initial_date) )
     {
-	gchar * sdate, * fdate;
-	sdate = gsb_format_gdate ( gsb_calendar_entry_get_date (initial_date));
-	fdate = gsb_format_gdate (gsb_calendar_entry_get_date (final_date));
-	string = g_strdup_printf ( _("Archive from %s to %s"), sdate, fdate );
-	g_free ( sdate );
-	g_free ( fdate );
+    gchar * sdate, * fdate;
+    sdate = gsb_format_gdate ( gsb_calendar_entry_get_date (initial_date));
+    fdate = gsb_format_gdate (gsb_calendar_entry_get_date (final_date));
+    string = g_strdup_printf ( _("Archive from %s to %s"), sdate, fdate );
+    g_free ( sdate );
+    g_free ( fdate );
     }
     else if ( GTK_WIDGET_IS_SENSITIVE (financial_year_button) )
     {
-	gint fyear;
-	fyear = gsb_fyear_get_fyear_from_combobox ( financial_year_button, NULL );
-	string = g_strdup_printf ( _("Archive of financial year %s"), 
-				   gsb_data_fyear_get_name ( fyear ) );
+    gint fyear;
+    fyear = gsb_fyear_get_fyear_from_combobox ( financial_year_button, NULL );
+    string = g_strdup_printf ( _("Archive of financial year %s"), 
+                        gsb_data_fyear_get_name ( fyear ) );
     }
     else if ( GTK_WIDGET_IS_SENSITIVE (report_button) )
     {
-	gint report_number;
-	report_number = gsb_report_get_report_from_combobox (report_button);
-	string = g_strdup_printf ( _("Archive of report %s"), 
-				   gsb_data_report_get_report_name ( report_number ) );
+    gint report_number;
+    report_number = gsb_report_get_report_from_combobox (report_button);
+    string = g_strdup_printf ( _("Archive of report %s"), 
+                        gsb_data_report_get_report_name ( report_number ) );
     }
 
     if ( string )
     {
-	gtk_entry_set_text ( GTK_ENTRY ( name_entry ), string );
-	g_free ( string );
+    gtk_entry_set_text ( GTK_ENTRY ( name_entry ), string );
+    g_free ( string );
     }
 
     gsb_assistant_sensitive_button_next ( assistant, TRUE );
@@ -683,7 +686,7 @@ static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assist
  * \return FALSE
  * */
 static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
-							 gint new_page )
+                        gint new_page )
 {
     /* if we come here, we are sure that :
      * there is a own name to the archive
@@ -699,76 +702,79 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
      * with no transactions related. */
     if (!list_transaction_to_archive)
     {
-	gtk_widget_hide (vbox_congratulation);
-	gtk_widget_show (vbox_failed);
-	gsb_assistant_sensitive_button_prev ( assistant, TRUE );
-	gsb_assistant_sensitive_button_next ( assistant, FALSE );
-	return FALSE;
+    gtk_widget_hide (vbox_congratulation);
+    gtk_widget_show (vbox_failed);
+    gsb_assistant_sensitive_button_prev ( assistant, TRUE );
+    gsb_assistant_sensitive_button_next ( assistant, FALSE );
+    return FALSE;
     }
 
     /* first, create the archive */
     archive_number = gsb_data_archive_new (gtk_entry_get_text (GTK_ENTRY (name_entry)));
     if (!archive_number)
     {
-	gtk_widget_hide (vbox_congratulation);
-	gtk_widget_show (vbox_failed);
-	return FALSE;
+    gtk_widget_hide (vbox_congratulation);
+    gtk_widget_show (vbox_failed);
+    return FALSE;
     }
 
     gsb_assistant_change_button_next ( assistant,
-				       GTK_STOCK_CLOSE, GTK_RESPONSE_APPLY );
+                        GTK_STOCK_CLOSE, GTK_RESPONSE_APPLY );
 
     /* fill the archive */
     if (GTK_WIDGET_IS_SENSITIVE (initial_date))
     {
-	GDate *init_gdate;
-	GDate *final_gdate;
-	init_gdate = gsb_calendar_entry_get_date (initial_date);
-	final_gdate = gsb_calendar_entry_get_date (final_date);
+    GDate *init_gdate;
+    GDate *final_gdate;
+    init_gdate = gsb_calendar_entry_get_date (initial_date);
+    final_gdate = gsb_calendar_entry_get_date (final_date);
 
-	gsb_data_archive_set_beginning_date ( archive_number,
-					     init_gdate );
-	gsb_data_archive_set_end_date ( archive_number,
-					final_gdate );
-	g_date_free (init_gdate);
-	g_date_free (final_gdate);
+    gsb_data_archive_set_beginning_date ( archive_number, init_gdate );
+    gsb_data_archive_set_end_date ( archive_number, final_gdate );
+    g_date_free (init_gdate);
+    g_date_free (final_gdate);
     }
     if (GTK_WIDGET_IS_SENSITIVE (financial_year_button))
-	gsb_data_archive_set_fyear ( archive_number,
-				     gsb_fyear_get_fyear_from_combobox (financial_year_button,NULL));
+    gsb_data_archive_set_fyear ( archive_number,
+                        gsb_fyear_get_fyear_from_combobox (financial_year_button,NULL));
 
     if (GTK_WIDGET_IS_SENSITIVE (report_button))
     {
-	gint report_number;
+    gint report_number;
 
-	report_number = gsb_report_get_report_from_combobox (report_button);
+    report_number = gsb_report_get_report_from_combobox (report_button);
 
-	gsb_data_archive_set_report_title ( archive_number,
-					    etats_titre (report_number));
+    gsb_data_archive_set_report_title ( archive_number,
+                        etats_titre (report_number));
     }
 
     /* mark the transactions as archived */
     tmp_list = list_transaction_to_archive;
     while (tmp_list)
     {
-	gint transaction_number;
+    gint transaction_number;
 
-	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
-	gsb_data_transaction_set_archive_number ( transaction_number,
-						  archive_number );
-	tmp_list = tmp_list -> next;
+    transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+    gsb_data_transaction_set_archive_number ( transaction_number, archive_number );
+    tmp_list = tmp_list -> next;
     }
 
+    /* on recrée la liste des archives par compte */
+    gsb_data_archive_store_init_variables ();
+    gsb_data_archive_store_create_list ( );
+    gsb_transactions_list_fill_archive_store ( );
+
     /* set the message */
-    string = g_strdup_printf ( _("Archive '%s' was successfully created and %d transactions out of %d were archived.\n\n"),
-			       gsb_data_archive_get_name (archive_number),
-			       g_slist_length (list_transaction_to_archive),
-			       g_slist_length (list_transaction_to_archive) +
-			       g_slist_length (gsb_data_transaction_get_transactions_list ()));
+    string = g_strdup_printf ( _("Archive '%s' was successfully created and %d transactions "
+                                 "out of %d were archived.\n\n"),
+                        gsb_data_archive_get_name (archive_number),
+                        g_slist_length (list_transaction_to_archive),
+                        g_slist_length (list_transaction_to_archive) +
+                        g_slist_length (gsb_data_transaction_get_transactions_list ()));
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (congratulations_view));
     gtk_text_buffer_get_iter_at_mark ( buffer, &iter, 
-				       gtk_text_buffer_get_mark ( buffer, "status" ) );
+                        gtk_text_buffer_get_mark ( buffer, "status" ) );
     gtk_text_buffer_insert ( buffer, &iter, string, strlen(string) );
 
     g_free (string);
@@ -781,18 +787,13 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
     list_transaction_to_archive = NULL;
 
     /* erase all the previous entries */
-    gtk_entry_set_text ( GTK_ENTRY (name_entry),
-			 "" );
-    gtk_entry_set_text ( GTK_ENTRY (initial_date),
-			 "" );
-    gtk_entry_set_text ( GTK_ENTRY (final_date),
-			 "" );
+    gtk_entry_set_text ( GTK_ENTRY (name_entry), "" );
+    gtk_entry_set_text ( GTK_ENTRY (initial_date), "" );
+    gtk_entry_set_text ( GTK_ENTRY (final_date), "" );
 
     /* propose to go in one or another way */
-    gsb_assistant_sensitive_button_prev ( assistant,
-					  TRUE );
-    gsb_assistant_sensitive_button_next ( assistant,
-					  TRUE );
+    gsb_assistant_sensitive_button_prev ( assistant, TRUE );
+    gsb_assistant_sensitive_button_next ( assistant, TRUE );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
@@ -819,83 +820,82 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
     
     /* erase the last list of transactions to archive */
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU
-	&&
-	list_transaction_to_archive)
+    &&
+    list_transaction_to_archive)
     {
-	g_slist_free (list_transaction_to_archive);
-	list_transaction_to_archive = NULL;
+    g_slist_free (list_transaction_to_archive);
+    list_transaction_to_archive = NULL;
     }
 
     /* ok for now the choice is on initial/final date */
     if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU &&
-	 GTK_WIDGET_IS_SENSITIVE (initial_date))
+    GTK_WIDGET_IS_SENSITIVE (initial_date))
     {
-	GDate *init_gdate;
-	GDate *final_gdate;
-	init_gdate = gsb_calendar_entry_get_date (initial_date);
-	final_gdate = gsb_calendar_entry_get_date (final_date);
-	string = NULL;
+    GDate *init_gdate;
+    GDate *final_gdate;
+    init_gdate = gsb_calendar_entry_get_date (initial_date);
+    final_gdate = gsb_calendar_entry_get_date (final_date);
+    string = NULL;
 
-	if (!strlen ( gtk_entry_get_text (GTK_ENTRY (initial_date))))
-	    string = my_strdup (_("<span foreground=\"red\">Please fill the initial date</span>"));
-	if (!string
-	    &&
-	    !strlen ( gtk_entry_get_text (GTK_ENTRY (final_date))))
-	    string = my_strdup (_("<span foreground=\"red\">Please fill the final date</span>"));
-	if ( !string
-	     &&
-	     init_gdate
-	     &&
-	     final_gdate
-	     &&
-	     g_date_compare (init_gdate, final_gdate) > 0 )
-	    string = my_strdup (_("<span foreground=\"red\">The initial date is after the final date</span>"));
-	if ( !string
-	     &&
-	     !init_gdate)
-	    string = my_strdup (_("<span foreground=\"red\">The initial date is not valid.</span>"));
-	if ( !string
-	     &&
-	     !final_gdate)
-	    string = my_strdup (_("<span foreground=\"red\">The final date is not valid</span>"));
-	if ( !string
-	     &&
-	     gsb_data_archive_get_from_date (init_gdate))
-	    string = my_strdup (_("<span foreground=\"red\">The initial date belongs already to an archive.</span>"));
-	if ( !string
-	     &&
-	     gsb_data_archive_get_from_date (final_gdate))
-	    string = my_strdup (_("<span foreground=\"red\">The final date belongs already to an archive.</span>"));
+    if (!strlen ( gtk_entry_get_text (GTK_ENTRY (initial_date))))
+        string = my_strdup (_("<span foreground=\"red\">Please fill the initial date</span>"));
+    if (!string
+        &&
+        !strlen ( gtk_entry_get_text (GTK_ENTRY (final_date))))
+        string = my_strdup (_("<span foreground=\"red\">Please fill the final date</span>"));
+    if ( !string
+         &&
+         init_gdate
+         &&
+         final_gdate
+         &&
+         g_date_compare (init_gdate, final_gdate) > 0 )
+        string = my_strdup (_("<span foreground=\"red\">The initial date is after the final date</span>"));
+    if ( !string
+         &&
+         !init_gdate)
+        string = my_strdup (_("<span foreground=\"red\">The initial date is not valid.</span>"));
+    if ( !string
+         &&
+         !final_gdate )
+        string = my_strdup (_("<span foreground=\"red\">The final date is not valid</span>"));
+    if ( !string
+         &&
+         gsb_data_archive_get_from_date (init_gdate) )
+        string = my_strdup (_("<span foreground=\"red\">The initial date belongs already to an archive.</span>"));
+    if ( !string
+         &&
+         gsb_data_archive_get_from_date (final_gdate) )
+        string = my_strdup (_("<span foreground=\"red\">The final date belongs already to an archive.</span>"));
 
-	if (string)
-	{
-	    gtk_label_set_markup ( GTK_LABEL (label_archived),
-				   string );
-	    g_free (string);
-	    gsb_assistant_sensitive_button_next ( assistant, FALSE );
-	    return FALSE;
-	}
+    if (string)
+    {
+        gtk_label_set_markup ( GTK_LABEL (label_archived), string );
+        g_free (string);
+        gsb_assistant_sensitive_button_next ( assistant, FALSE );
+        return FALSE;
+    }
 
-	/* the dates are ok */
-	tmp_list = gsb_data_transaction_get_transactions_list ();
-	while (tmp_list)
-	{
-	    gint transaction_number;
-	    transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+    /* the dates are ok */
+    tmp_list = gsb_data_transaction_get_transactions_list ();
+    while (tmp_list)
+    {
+        gint transaction_number;
+        transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
 
-	    if ( g_date_compare ( init_gdate,
-				  gsb_data_transaction_get_date (transaction_number)) <= 0
-		 &&
-		 g_date_compare ( final_gdate,
-				  gsb_data_transaction_get_date (transaction_number)) >= 0 )
-		/* the transaction is into the dates, we append its address to the list to archive
-		 * we could use gsb_assistant_archive_add_transaction_to_list but it's a lost of time
-		 * because all the linked transactions will be taken because we work with dates,
-		 * so don't use that function and add the transaction directly */
-		list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
-							       tmp_list -> data );
-	    tmp_list = tmp_list -> next;
-	}
+        if ( g_date_compare ( init_gdate,
+                        gsb_data_transaction_get_date (transaction_number)) <= 0
+         &&
+         g_date_compare ( final_gdate,
+                        gsb_data_transaction_get_date (transaction_number)) >= 0 )
+        /* the transaction is into the dates, we append its address to the list to archive
+         * we could use gsb_assistant_archive_add_transaction_to_list but it's a lost of time
+         * because all the linked transactions will be taken because we work with dates,
+         * so don't use that function and add the transaction directly */
+        list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
+                        tmp_list -> data );
+        tmp_list = tmp_list -> next;
+    }
     }
 
     /* ok for now the choice is on fyear */
@@ -1018,9 +1018,9 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 /**
  * add a transaction (in fact is pointer) to the list of transactions wich will be archived
  * add too all the linked transactions with it
- * 	ie : 	the contra-transfer if exists
- * 		if child, the mother and the other children
- * 		if split, the children
+ *  ie :    the contra-transfer if exists
+ *      if child, the mother and the other children
+ *      if split, the children
  *
  * prevent multiple entry of the transaction, so can just call that function,
  * 	the same transaction won't be added several times
@@ -1034,16 +1034,16 @@ static void gsb_assistant_archive_add_transaction_to_list ( gpointer transaction
 {
     gint transaction_number;
 
-    if (!transaction_pointer
-	||
-	!(transaction_number = gsb_data_transaction_get_transaction_number (transaction_pointer)))
-	return;
+    if ( !transaction_pointer
+     ||
+     !(transaction_number = gsb_data_transaction_get_transaction_number (transaction_pointer)) )
+    return;
 
     /* add the transaction itself */
-    if (!g_slist_find ( list_transaction_to_archive,
-			transaction_pointer ))
-	list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
-						       transaction_pointer );
+    if ( !g_slist_find ( list_transaction_to_archive,
+                        transaction_pointer ) )
+    list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
+                        transaction_pointer );
 
     /* check for contra-transaction */
     gsb_assistant_archive_add_contra_transaction_to_list (transaction_number);
@@ -1075,22 +1075,26 @@ static void gsb_assistant_archive_add_contra_transaction_to_list ( gint transact
     if (transaction_number <= 0)
 	return;
 
-    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (
+                        transaction_number);
     if (contra_transaction_number > 0)
     {
 	gpointer contra_transaction_pointer;
 
-	contra_transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (contra_transaction_number);
+	contra_transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (
+                        contra_transaction_number);
 
 	/* add the contra-transaction */
-	if (!g_slist_find ( list_transaction_to_archive,
-			    contra_transaction_pointer ))
+	if ( !g_slist_find ( list_transaction_to_archive,
+			    contra_transaction_pointer ) )
 	    list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
 							   contra_transaction_pointer );
 
 	/* if the contra-transaction is a child of split,
 	 * we need to add the split and all children to the list */
-	gsb_assistant_archive_add_children_to_list (gsb_data_transaction_get_mother_transaction_number (contra_transaction_number));
+	gsb_assistant_archive_add_children_to_list (
+                        gsb_data_transaction_get_mother_transaction_number (
+                        contra_transaction_number) );
     }
     return;
 }

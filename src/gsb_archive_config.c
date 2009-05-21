@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -68,14 +68,14 @@ static GtkWidget *archive_name_entry = NULL;
 
 /*START_STATIC*/
 static  gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
-						    GtkWidget *tree_view );
+                        GtkWidget *tree_view );
 static  gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
-						     GtkWidget *tree_view );
+                        GtkWidget *tree_view );
 static  void gsb_archive_config_fill_list ( GtkListStore *store );
 static  gboolean gsb_archive_config_name_changed ( GtkWidget *entry,
-						  GtkWidget *tree_view );
+                        GtkWidget *tree_view );
 static  gboolean gsb_archive_config_select ( GtkTreeSelection *selection,
-					    GtkWidget *paddingbox );
+                        GtkWidget *paddingbox );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -347,7 +347,7 @@ static void gsb_archive_config_fill_list ( GtkListStore *store )
  * \return FALSE
  */
 static gboolean gsb_archive_config_select ( GtkTreeSelection *selection,
-					    GtkWidget *paddingbox )
+                        GtkWidget *paddingbox )
 {
     GtkTreeIter iter;
     gboolean good;
@@ -395,7 +395,7 @@ static gboolean gsb_archive_config_select ( GtkTreeSelection *selection,
  * \return FALSE
  */
 static gboolean gsb_archive_config_name_changed ( GtkWidget *entry,
-						  GtkWidget *tree_view )
+                        GtkWidget *tree_view )
 {
     GtkTreeSelection *selection;
     GtkTreeIter iter;
@@ -435,7 +435,7 @@ static gboolean gsb_archive_config_name_changed ( GtkWidget *entry,
  * \return FALSE
  * */
 static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
-						    GtkWidget *tree_view )
+                        GtkWidget *tree_view )
 {
     GtkTreeSelection *selection;
     GtkTreeIter iter;
@@ -446,37 +446,41 @@ static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
 
     if (good)
     {
-	GtkTreeModel *model;
-	gint archive_number;
+    GtkTreeModel *model;
+    gint archive_number;
 
-	model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
-	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
-			     ARCHIVES_NUMBER, &archive_number,
-			     -1 );
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
+    gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+                        ARCHIVES_NUMBER, &archive_number,
+                        -1 );
 
-	if (!archive_number)
-	    return FALSE;
+    if (!archive_number)
+        return FALSE;
 
-	gchar* tmpstr = g_strdup_printf (_("Warning, you are about the delete the archive \"%s\".\n\nIf you continue, all the transactions linked to that archive will loose the link and will begin again not archived.\nAll the informations about that archive will be destroyed.\n\nDo you want to continue ?"),
-						    gsb_data_archive_get_name (archive_number));
-	if (!question_yes_no_hint (_("Deleting an archive"), tmpstr , GTK_RESPONSE_CANCEL ))
-	{
-            g_free ( tmpstr );
-	    return FALSE;
-	}
+    gchar* tmpstr = g_strdup_printf (
+                        _("Warning, you are about the delete the archive \"%s\".\n\n"
+                          "If you continue, all the transactions linked to that archive "
+                          "will loose the link and will begin again not archived.\n"
+                          "All the informations about that archive will be destroyed.\n\n"
+                          "Do you want to continue ?"),
+                        gsb_data_archive_get_name (archive_number) );
+    if (!question_yes_no_hint (_("Deleting an archive"), tmpstr , GTK_RESPONSE_CANCEL ))
+    {
+        g_free ( tmpstr );
+        return FALSE;
+    }
         g_free ( tmpstr );
 
-	/* ok, now we delete the archive */
-	/* first step, we show it in the lists */
-	gsb_transactions_list_restore_archive (archive_number, FALSE);
+    /* ok, now we delete the archive */
+    /* first step, we show it in the lists */
+    gsb_transactions_list_restore_archive (archive_number, FALSE);
 
-	/* now we remove the link of all the transactions and the archive itself */
-	gsb_data_archive_remove (archive_number);
+    /* now we remove the link of all the transactions and the archive itself */
+    gsb_data_archive_remove (archive_number);
 
-	/* remove from the list */
-	gtk_list_store_remove ( GTK_LIST_STORE (model),
-				&iter );
-	if ( etat.modification_fichier == 0 )
+    /* remove from the list */
+    gtk_list_store_remove ( GTK_LIST_STORE (model), &iter );
+    if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
     }
     return FALSE;
@@ -493,7 +497,7 @@ static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
  * \return FALSE
  * */
 static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
-						     GtkWidget *tree_view )
+                        GtkWidget *tree_view )
 {
     GtkTreeSelection *selection;
     GtkTreeIter iter;
@@ -517,9 +521,17 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 	if (!archive_number)
 	    return FALSE;
 
-	gchar* tmpstr = g_strdup_printf (_("Warning, you are about the delete the archive \"%s\" and its associated transactions.\n\nIf you continue, all the transactions linked to that archive will be deleted and the initials amounts of the accounts will be adjusted.\nAll the informations about that archive will be destroyed.\nYou should have at least exported that archive into another file...\n\nAre you sure you want to continue ?"),
-						    gsb_data_archive_get_name (archive_number));
-	if (!question_yes_no_hint (_("Deleting an archive and its transactions"), tmpstr, GTK_RESPONSE_CANCEL ))
+	gchar* tmpstr = g_strdup_printf (
+                        _("Warning, you are about the delete the archive \"%s\" and its "
+                          "associated transactions.\n\nIf you continue, all the transactions "
+                          "linked to that archive will be deleted and the initials amounts "
+                          "of the accounts will be adjusted.\nAll the informations about "
+                          "that archive will be destroyed.\nYou should have at least exported "
+                          "that archive into another file...\n\nAre you sure you want to "
+                          "continue ?"),
+                        gsb_data_archive_get_name (archive_number) );
+	if (!question_yes_no_hint ( _("Deleting an archive and its transactions"),
+                        tmpstr, GTK_RESPONSE_CANCEL ) )
 	{
 	    g_free ( tmpstr );
 	    return FALSE;
@@ -541,8 +553,8 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 		/* change the initial amount of the corresponding account */
 		account_number = gsb_data_archive_store_get_account_number (archive_store_number);
 		gsb_data_account_set_init_balance ( account_number,
-						    gsb_real_add ( gsb_data_account_get_init_balance (account_number, -1),
-								   gsb_data_archive_store_get_balance (archive_store_number)));
+                        gsb_real_add ( gsb_data_account_get_init_balance (account_number, -1),
+                        gsb_data_archive_store_get_balance (archive_store_number)));
 
 		/* remove the archive store */
 		tmp_list = tmp_list -> next;

@@ -2,7 +2,7 @@
 /*                                                                            */
 /*                                  gsb_real                                  */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	          */
+/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
 /*                      2009 Pierre Biava (grisbi@pierre.biava.name)          */
 /*                      2009 Mickaël Remars (grisbi@remars.com)               */
@@ -37,8 +37,6 @@
 /*START_INCLUDE*/
 #include "gsb_real.h"
 #include "./gsb_data_currency.h"
-#include "./gsb_data_transaction.h"
-#include "./utils_str.h"
 /*END_INCLUDE*/
 
 gsb_real null_real = { 0 , 0 };
@@ -54,6 +52,9 @@ static gchar *gsb_real_format_string ( gsb_real number,
                         gint currency_number,
                         gboolean show_symbol );
 static gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_exponent );
+static void gsb_real_grow_exponent( gsb_real *num, guint target_exponent );
+static void gsb_real_minimize_exponent ( gsb_real *num );
+static void gsb_real_raw_minimize_exponent ( gint64 *mantissa, gint *exponent );
 static gdouble gsb_real_real_to_double ( gsb_real number );
 /*END_STATIC*/
 

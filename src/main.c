@@ -50,6 +50,7 @@
 #include "./erreur.h"
 #include "./parse_cmdline.h"
 #include "./import.h"
+#include "./utils_dates_cunit.h"
 #include "./parse_cmdline.h"
 #include "./gsb_file_config.h"
 #include "./include.h"

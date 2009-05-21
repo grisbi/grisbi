@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-19 20:10+0200\n"
+"POT-Creation-Date: 2009-05-21 17:15+0200\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team:  <en@li.org>\n"
@@ -780,7 +780,7 @@ msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_transactions_list.c:2067
+#: src/barre_outils.c:95 src/gsb_transactions_list.c:2072
 msgid "New transaction"
 msgstr "עיסקה חדשה"
 
@@ -931,7 +931,7 @@ msgid "Edit selected transaction"
 msgstr "מחיקת עיסקה"
 
 #. comments line
-#: src/barre_outils.c:489 src/gsb_account_property.c:654
+#: src/barre_outils.c:489 src/gsb_account_property.c:633
 #: src/gsb_scheduler_list.c:334
 msgid "Comments"
 msgstr "הערות"
@@ -981,7 +981,7 @@ msgstr "קטגוריה"
 
 #: src/categories_onglet.c:162 src/export_csv.c:774 src/gsb_reconcile.c:157
 #: src/gsb_scheduler_list.c:334 src/gsb_transactions_list.c:149
-#: src/gsb_transactions_list.c:2851 src/import_csv.c:86
+#: src/gsb_transactions_list.c:2856 src/import_csv.c:86
 #: src/imputation_budgetaire.c:175 src/tiers_onglet.c:238
 #: src/traitement_variables.c:80
 msgid "Balance"
@@ -1144,7 +1144,7 @@ msgstr "אין קטגוריה (%d)"
 #: src/gsb_assistant_reconcile_config.c:1243 src/gsb_bank.c:732
 #: src/gsb_bank.c:855 src/gsb_currency_config.c:355 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:239
-#: src/gsb_reconcile_config.c:179 src/gsb_transactions_list.c:1692
+#: src/gsb_reconcile_config.c:179 src/gsb_transactions_list.c:1697
 #: src/imputation_budgetaire.c:677 src/tiers_onglet.c:581
 msgid "Name"
 msgstr "שם"
@@ -1608,13 +1608,13 @@ msgid "Result without financial year"
 msgstr "תוצאה ללא שנת כספים"
 
 #: src/etats_affiche.c:1392 src/gsb_scheduler_list.c:951
-#: src/gsb_transactions_list.c:3223
+#: src/gsb_transactions_list.c:3228
 #, c-format
 msgid "Transfer to %s"
 msgstr "העברה אל %s"
 
 #: src/etats_affiche.c:1394 src/gsb_scheduler_list.c:954
-#: src/gsb_transactions_list.c:3226
+#: src/gsb_transactions_list.c:3231
 #, c-format
 msgid "Transfer from %s"
 msgstr "העברה מאת %s"
@@ -1669,7 +1669,7 @@ msgstr "העברה"
 
 #: src/etats_affiche.c:1846 src/export_csv.c:561 src/gsb_data_category.c:1039
 #: src/gsb_form.c:740 src/gsb_form.c:2535 src/gsb_form.c:2907
-#: src/gsb_form_scheduler.c:327 src/gsb_transactions_list.c:3201
+#: src/gsb_form_scheduler.c:327 src/gsb_transactions_list.c:3206
 msgid "Split of transaction"
 msgstr "שבירת עיסקה"
 
@@ -2030,7 +2030,7 @@ msgstr "פירוט שנות הכספים"
 
 #. set the initial date
 #: src/etats_config.c:2323 src/gsb_archive_config.c:98
-#: src/gsb_assistant_archive.c:239 src/gsb_assistant_archive_export.c:150
+#: src/gsb_assistant_archive.c:242 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:415
 #: src/gsb_assistant_reconcile_config.c:1243 src/gsb_reconcile_config.c:192
 msgid "Initial date"
@@ -2038,10 +2038,10 @@ msgstr "תאריך התחלה"
 
 #. set the final date
 #: src/etats_config.c:2355 src/gsb_archive_config.c:98
-#: src/gsb_assistant_archive.c:257 src/gsb_assistant_archive_export.c:150
+#: src/gsb_assistant_archive.c:260 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:428
 #: src/gsb_assistant_reconcile_config.c:1243 src/gsb_reconcile_config.c:96
-#: src/gsb_reconcile_config.c:205 src/gsb_transactions_list.c:1692
+#: src/gsb_reconcile_config.c:205 src/gsb_transactions_list.c:1697
 msgid "Final date"
 msgstr "תאריך סיום"
 
@@ -2947,8 +2947,8 @@ msgstr "קובץ LaTeX"
 msgid "Exporting report ..."
 msgstr "ייצוא הדו\"ח בתור CSV ..."
 
-#: src/etats_onglet.c:1218 src/gsb_debug.c:245 src/gsb_file.c:453
-#: src/gsb_file.c:569 src/gsb_file.c:614
+#: src/etats_onglet.c:1218 src/gsb_debug.c:245 src/gsb_file.c:470
+#: src/gsb_file.c:586 src/gsb_file.c:631
 #, fuzzy
 msgid "Done"
 msgstr "ללא"
@@ -3042,8 +3042,7 @@ msgstr ""
 msgid "Select accounts to export"
 msgstr "בחירת החשבונות לייצוא"
 
-#. ~ gtk_box_pack_start ( GTK_BOX(vbox_account), hbox, FALSE, FALSE, 0 );
-#: src/export.c:169 src/export_csv.c:741 src/gsb_account_property.c:255
+#: src/export.c:169 src/export_csv.c:741 src/gsb_account_property.c:250
 #: src/import.c:1143 src/import.c:1180
 msgid "Account name"
 msgstr "שם חשבון"
@@ -3090,7 +3089,7 @@ msgid "CSV format"
 msgstr ""
 
 #. set the initial balance
-#: src/export_csv.c:274 src/gsb_account_property.c:604
+#: src/export_csv.c:274 src/gsb_account_property.c:583
 #: src/gsb_assistant_reconcile_config.c:441 src/gsb_reconcile.c:209
 #: src/gsb_reconcile_config.c:228
 msgid "Initial balance"
@@ -3803,103 +3802,101 @@ msgstr ""
 "ניתן לבטל פעולה זו."
 
 #. crÃ©ation de la ligne des dÃ©tails du compte
-#: src/gsb_account_property.c:228
+#: src/gsb_account_property.c:219
 msgid "Account details"
 msgstr "פרטי חשבון"
 
-#. ~ gtk_box_pack_start ( GTK_BOX(vbox_account), hbox, FALSE, FALSE, 0 );
-#: src/gsb_account_property.c:277 src/import.c:1094
+#: src/gsb_account_property.c:270 src/import.c:1094
 msgid "Account type"
 msgstr "סוג חשבון"
 
-#. ~ gtk_box_pack_start ( GTK_BOX(vbox_account), hbox, FALSE, FALSE, 0 );
-#: src/gsb_account_property.c:300 src/import.c:1199
+#: src/gsb_account_property.c:292 src/import.c:1199
 msgid "Account currency"
 msgstr "מטבע החשבון"
 
 #. create closed account line
-#: src/gsb_account_property.c:318
+#: src/gsb_account_property.c:310
 msgid "Closed account"
 msgstr "חשבון סגור"
 
 #. crÃ©ation de la ligne du titulaire du compte
-#: src/gsb_account_property.c:344
+#: src/gsb_account_property.c:323
 msgid "Account holder"
 msgstr "מיקום לחשבון"
 
-#: src/gsb_account_property.c:348
+#: src/gsb_account_property.c:327
 msgid "Holder name"
 msgstr "שם המיקום"
 
-#: src/gsb_account_property.c:380
+#: src/gsb_account_property.c:359
 #, fuzzy
 msgid "Holder's own address"
 msgstr "למחזיק ישנה כתובת משל עצמו"
 
 #. crÃ©ation de la ligne de l'Ã©tablissement financier
-#: src/gsb_account_property.c:419 src/gsb_bank.c:511
+#: src/gsb_account_property.c:398 src/gsb_bank.c:511
 msgid "Bank"
 msgstr "בנק"
 
-#: src/gsb_account_property.c:423
+#: src/gsb_account_property.c:402
 msgid "Financial institution"
 msgstr "מוסד פיננסי"
 
 #. Bank BIC code item
-#: src/gsb_account_property.c:459 src/gsb_bank.c:762
+#: src/gsb_account_property.c:438 src/gsb_bank.c:762
 #, fuzzy
 msgid "BIC code"
 msgstr "קוד ISO"
 
-#: src/gsb_account_property.c:477
+#: src/gsb_account_property.c:456
 #, fuzzy
 msgid "IBAN number"
 msgstr "מספר"
 
-#: src/gsb_account_property.c:508
+#: src/gsb_account_property.c:487
 msgid "Bank sort code"
 msgstr "קוד המיון של הבנק"
 
-#: src/gsb_account_property.c:526
+#: src/gsb_account_property.c:505
 msgid "Bank branch code"
 msgstr "מספר הסניף של הבנק"
 
-#: src/gsb_account_property.c:555
+#: src/gsb_account_property.c:534
 msgid "Account number / Key"
 msgstr "מספר / מפתח חשבון"
 
 #. crÃ©ation de la ligne du solde initial
-#: src/gsb_account_property.c:599
+#: src/gsb_account_property.c:578
 msgid "Balances"
 msgstr "יתרות"
 
-#: src/gsb_account_property.c:622
+#: src/gsb_account_property.c:601
 msgid "Minimum authorised balance"
 msgstr "יתרה מינימלית מותרת"
 
-#: src/gsb_account_property.c:641
+#: src/gsb_account_property.c:620
 #, fuzzy
 msgid "Minimum desired balance"
 msgstr "יתרה מינימלית רצויה"
 
-#: src/gsb_account_property.c:785 src/gsb_assistant_account.c:434
+#: src/gsb_account_property.c:762 src/gsb_assistant_account.c:434
 msgid "Bank account"
 msgstr "חשבון בנק"
 
-#: src/gsb_account_property.c:785
+#: src/gsb_account_property.c:762
 msgid "Cash account"
 msgstr "חשבון מזומן"
 
-#: src/gsb_account_property.c:785 src/gsb_assistant_account.c:447
+#: src/gsb_account_property.c:762 src/gsb_assistant_account.c:447
 msgid "Liabilities account"
 msgstr "חשבון התחייבויות"
 
-#: src/gsb_account_property.c:785 src/gsb_assistant_account.c:443
+#: src/gsb_account_property.c:762 src/gsb_assistant_account.c:443
 msgid "Assets account"
 msgstr "חשבון נכסים"
 
 #. ask for the currency of the transactions
-#: src/gsb_account_property.c:910
+#: src/gsb_account_property.c:885
 #, c-format
 msgid ""
 "You are changing the currency of the account, do you want to change the "
@@ -3910,12 +3907,12 @@ msgid ""
 "Archived and reconcilied transactions will be left unmodified."
 msgstr ""
 
-#: src/gsb_account_property.c:913
+#: src/gsb_account_property.c:888
 #, fuzzy
 msgid "Change the transactions currency"
 msgstr "להעביר את העיסקאות אל"
 
-#: src/gsb_account_property.c:1128
+#: src/gsb_account_property.c:1103
 msgid "Your IBAN number is not correct. Please check your entry."
 msgstr ""
 
@@ -3965,7 +3962,7 @@ msgstr ""
 msgid " transactions are not archived."
 msgstr "לא לכלול עיסקאות שאינן העברות"
 
-#: src/gsb_archive_config.c:460
+#: src/gsb_archive_config.c:461
 #, c-format
 msgid ""
 "Warning, you are about the delete the archive \"%s\".\n"
@@ -3977,12 +3974,12 @@ msgid ""
 "Do you want to continue ?"
 msgstr ""
 
-#: src/gsb_archive_config.c:462
+#: src/gsb_archive_config.c:467
 #, fuzzy
 msgid "Deleting an archive"
 msgstr "מחיקת קו תקציב"
 
-#: src/gsb_archive_config.c:520
+#: src/gsb_archive_config.c:525
 #, c-format
 msgid ""
 "Warning, you are about the delete the archive \"%s\" and its associated "
@@ -3996,7 +3993,7 @@ msgid ""
 "Are you sure you want to continue ?"
 msgstr ""
 
-#: src/gsb_archive_config.c:522
+#: src/gsb_archive_config.c:533
 #, fuzzy
 msgid "Deleting an archive and its transactions"
 msgstr "מחיקת עיסקה מתוכננת"
@@ -4110,7 +4107,7 @@ msgid "Cashier"
 msgstr "מזומן"
 
 #. come from check while opening file
-#: src/gsb_assistant_archive.c:123
+#: src/gsb_assistant_archive.c:126
 #, c-format
 msgid ""
 "There are a lot of transactions in your file (%d) and it is advised not to "
@@ -4128,7 +4125,7 @@ msgid ""
 msgstr ""
 
 #. come by menu action
-#: src/gsb_assistant_archive.c:135
+#: src/gsb_assistant_archive.c:138
 msgid ""
 "This assistant will guide you through the process of archiving transactions "
 "to increase the speed of grisbi.\n"
@@ -4140,65 +4137,65 @@ msgid ""
 msgstr ""
 
 #. create the assistant
-#: src/gsb_assistant_archive.c:142
+#: src/gsb_assistant_archive.c:145
 #, fuzzy
 msgid "Archive transactions"
 msgstr "הוספת העיסקאות"
 
 #. set up the menu
-#: src/gsb_assistant_archive.c:203
+#: src/gsb_assistant_archive.c:206
 msgid "Please select a way to select transactions for this archive"
 msgstr ""
 
 #. archive by date
-#: src/gsb_assistant_archive.c:211
+#: src/gsb_assistant_archive.c:214
 #, fuzzy
 msgid "Archive by date"
 msgstr "מיון על פי תאריך"
 
-#: src/gsb_assistant_archive.c:221
+#: src/gsb_assistant_archive.c:224
 msgid "Grisbi will archive all transactions between initial and final dates."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:277
+#: src/gsb_assistant_archive.c:280
 #, fuzzy
 msgid "Archive by financial year"
 msgstr "פיצול לפי שנת כספים"
 
-#: src/gsb_assistant_archive.c:287
+#: src/gsb_assistant_archive.c:290
 #, fuzzy
 msgid "Grisbi will archive all transactions belonging to a financial year."
 msgstr "קישור עיסקאות ללא שנות כספים"
 
-#: src/gsb_assistant_archive.c:305
+#: src/gsb_assistant_archive.c:308
 #, fuzzy
 msgid "Financial year :"
 msgstr "שנת הכספים"
 
-#: src/gsb_assistant_archive.c:326
+#: src/gsb_assistant_archive.c:329
 #, fuzzy
 msgid "Archive by report"
 msgstr "הדפסת דו\"ח"
 
-#: src/gsb_assistant_archive.c:336
+#: src/gsb_assistant_archive.c:339
 msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:354 src/gsb_data_payee.c:515
+#: src/gsb_assistant_archive.c:357 src/gsb_data_payee.c:515
 #: src/gsb_form.c:2642 src/gsb_form.c:2643 src/navigation.c:1266
 msgid "Report"
 msgstr "דו\"ח"
 
 #. set up the menu
-#: src/gsb_assistant_archive.c:412
+#: src/gsb_assistant_archive.c:415
 msgid "Please choose a name for archive"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:483 src/import.c:827
+#: src/gsb_assistant_archive.c:486 src/import.c:827
 msgid "Congratulations !"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:495
+#: src/gsb_assistant_archive.c:498
 msgid ""
 "In case grisbi is still too slow after you created archives,remember that "
 "you can configure it no to load the marked transactions (R) at startup, to "
@@ -4208,12 +4205,12 @@ msgid ""
 "this assistant."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:527
+#: src/gsb_assistant_archive.c:530
 #, fuzzy
 msgid "Failed !"
 msgstr "קובץ"
 
-#: src/gsb_assistant_archive.c:539
+#: src/gsb_assistant_archive.c:542
 msgid ""
 "An error occurred while creating the archive...\n"
 "Most probably, you are trying to create an empty archive that grisbi "
@@ -4222,23 +4219,23 @@ msgid ""
 "Press the Previous button to try again or cancel this process."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:644
+#: src/gsb_assistant_archive.c:647
 #, c-format
 msgid "Archive from %s to %s"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:652
+#: src/gsb_assistant_archive.c:655
 #, fuzzy, c-format
 msgid "Archive of financial year %s"
 msgstr "שנת הכספים"
 
-#: src/gsb_assistant_archive.c:659
+#: src/gsb_assistant_archive.c:662
 #, c-format
 msgid "Archive of report %s"
 msgstr ""
 
 #. set the message
-#: src/gsb_assistant_archive.c:763
+#: src/gsb_assistant_archive.c:768
 #, c-format
 msgid ""
 "Archive '%s' was successfully created and %d transactions out of %d were "
@@ -4246,34 +4243,34 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:840
+#: src/gsb_assistant_archive.c:841
 msgid "<span foreground=\"red\">Please fill the initial date</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:844
+#: src/gsb_assistant_archive.c:845
 msgid "<span foreground=\"red\">Please fill the final date</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:852
+#: src/gsb_assistant_archive.c:853
 msgid ""
 "<span foreground=\"red\">The initial date is after the final date</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:856
+#: src/gsb_assistant_archive.c:857
 msgid "<span foreground=\"red\">The initial date is not valid.</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:860
+#: src/gsb_assistant_archive.c:861
 msgid "<span foreground=\"red\">The final date is not valid</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:864
+#: src/gsb_assistant_archive.c:865
 msgid ""
 "<span foreground=\"red\">The initial date belongs already to an archive.</"
 "span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:868
+#: src/gsb_assistant_archive.c:869
 msgid ""
 "<span foreground=\"red\">The final date belongs already to an archive.</span>"
 msgstr ""
@@ -4784,7 +4781,7 @@ msgstr "בחירת עיסקאות בהתאם לטקסט"
 
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
-#: src/gsb_assistant_reconcile_config.c:1197 src/gsb_transactions_list.c:1643
+#: src/gsb_assistant_reconcile_config.c:1197 src/gsb_transactions_list.c:1648
 #, fuzzy
 msgid "Selection of a reconciliation"
 msgstr "אישור הסרת תיאום ידנית"
@@ -6580,8 +6577,8 @@ msgstr "כרטיס אשראי"
 msgid "Direct debit"
 msgstr "חיוב ישיר"
 
-#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1984
-#: src/gsb_data_transaction.c:2046
+#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1983
+#: src/gsb_data_transaction.c:2045
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "לא ניתן להקציב זכרון; מעכשיו, היכונו לדברים רעים..."
 
@@ -6881,13 +6878,13 @@ msgstr "טעינת קובץ חשבונות"
 msgid "Failed to load accounts"
 msgstr "בחירת חשבונות בנק"
 
-#: src/gsb_file.c:386 src/gsb_file.c:397 src/gsb_file_load.c:267
+#: src/gsb_file.c:386 src/gsb_file.c:403 src/gsb_file_load.c:267
 #: src/gsb_file_load.c:281 src/gsb_file_load.c:379
 #, fuzzy, c-format
 msgid "Error loading file '%s'"
 msgstr "שגיאה בפתיחת הקובץ '%s'."
 
-#: src/gsb_file.c:387
+#: src/gsb_file.c:388
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -6897,7 +6894,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: src/gsb_file.c:401
+#: src/gsb_file.c:408
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -6908,7 +6905,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: src/gsb_file.c:404
+#: src/gsb_file.c:415
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -6917,17 +6914,17 @@ msgid ""
 msgstr ""
 
 #. ok, here the file or backup is loaded
-#: src/gsb_file.c:415
+#: src/gsb_file.c:430
 msgid "Checking schedulers"
 msgstr ""
 
 #. check the amounts of all the accounts
-#: src/gsb_file.c:428
+#: src/gsb_file.c:443
 #, fuzzy
 msgid "Checking amounts"
 msgstr "בדיקה"
 
-#: src/gsb_file.c:529
+#: src/gsb_file.c:546
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -6938,77 +6935,77 @@ msgstr ""
 "s\" אשר נמצאת מתחת."
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:530 src/gsb_file.c:759 src/parametres.c:688
+#: src/gsb_file.c:547 src/gsb_file.c:776 src/parametres.c:688
 msgid "Force saving of locked files"
 msgstr "שמירה בכוח של קבצים נעולים"
 
-#: src/gsb_file.c:531
+#: src/gsb_file.c:548
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "לא ניתן לשמור את הקובץ \"%s\""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: src/gsb_file.c:546
+#: src/gsb_file.c:563
 #, fuzzy
 msgid "Saving file"
 msgstr "שמירת קובץ"
 
-#: src/gsb_file.c:595
+#: src/gsb_file.c:612
 msgid "Saving backup"
 msgstr "שמירת גיבוי"
 
-#: src/gsb_file.c:756
+#: src/gsb_file.c:773
 #, fuzzy
 msgid "Save locked files?"
 msgstr "שמירת קובץ"
 
-#: src/gsb_file.c:757
+#: src/gsb_file.c:774
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: src/gsb_file.c:758 src/gsb_file.c:769 src/gsb_file.c:954
+#: src/gsb_file.c:775 src/gsb_file.c:786 src/gsb_file.c:971
 msgid "unnamed"
 msgstr "ללא שם"
 
-#: src/gsb_file.c:761 src/gsb_file.c:772
+#: src/gsb_file.c:778 src/gsb_file.c:789
 msgid "Close without saving"
 msgstr "סגירה ללא שמירה"
 
-#: src/gsb_file.c:768
+#: src/gsb_file.c:785
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "העם לשמור את השינויים במסמך '%s' לפני הסגירה?"
 
-#: src/gsb_file.c:781
+#: src/gsb_file.c:798
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr ""
 
-#: src/gsb_file.c:786
+#: src/gsb_file.c:803
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr ""
 
-#: src/gsb_file.c:791
+#: src/gsb_file.c:808
 #, fuzzy, c-format
 msgid "%d seconds"
 msgstr "%d חודשים"
 
-#: src/gsb_file.c:794
+#: src/gsb_file.c:811
 #, fuzzy, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr "במקרה של סגירה ללא שמירה, כל השינויים שנעשו - ייעלמו."
 
-#: src/gsb_file.c:830
+#: src/gsb_file.c:847
 msgid "Name the accounts file"
 msgstr "שם קובץ החשבונות"
 
-#: src/gsb_file.c:958
+#: src/gsb_file.c:975
 msgid "Grisbi"
 msgstr "גריסבי"
 
@@ -7825,7 +7822,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "הצהרה אחרונה"
 
-#: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1692
+#: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1697
 #, fuzzy
 msgid "Init date"
 msgstr "תאריך התחלה"
@@ -7958,8 +7955,8 @@ msgstr "האם רק למחוק עיסקה ספציפית זו, או את כל ש
 msgid "Delete a scheduled transaction"
 msgstr "מחיקת עיסקה מתוכננת"
 
-#: src/gsb_scheduler_list.c:1656 src/gsb_transactions_list.c:1841
-#: src/gsb_transactions_list.c:1856
+#: src/gsb_scheduler_list.c:1656 src/gsb_transactions_list.c:1846
+#: src/gsb_transactions_list.c:1861
 #, fuzzy
 msgid "Delete a transaction"
 msgstr "מחיקת עיסקה"
@@ -8053,7 +8050,7 @@ msgstr "לסמן הכל"
 msgid "Cheque number"
 msgstr "מספר ההמחאה"
 
-#: src/gsb_transactions_list.c:530 src/gsb_transactions_list.c:3328
+#: src/gsb_transactions_list.c:530 src/gsb_transactions_list.c:3333
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8061,49 +8058,49 @@ msgid ""
 "The concerned children number are :\n"
 msgstr ""
 
-#: src/gsb_transactions_list.c:772
+#: src/gsb_transactions_list.c:777
 msgid "P"
 msgstr ""
 
-#: src/gsb_transactions_list.c:776
+#: src/gsb_transactions_list.c:781
 msgid "T"
 msgstr ""
 
-#: src/gsb_transactions_list.c:780 src/gsb_transactions_list.c:1562
+#: src/gsb_transactions_list.c:785 src/gsb_transactions_list.c:1567
 msgid "R"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1145
+#: src/gsb_transactions_list.c:1150
 #, c-format
 msgid "Do you want to load the transaction of the archive %s into the list ?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1154
+#: src/gsb_transactions_list.c:1159
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1156
+#: src/gsb_transactions_list.c:1161
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1497
+#: src/gsb_transactions_list.c:1502
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
 
 #. it's a normal transaction, ask to be sure
-#: src/gsb_transactions_list.c:1504 src/gsb_transactions_list.c:1519
+#: src/gsb_transactions_list.c:1509 src/gsb_transactions_list.c:1524
 msgid "Confirmation of manual (un)reconciliation"
 msgstr "אישור הסרת תיאום ידנית"
 
-#: src/gsb_transactions_list.c:1505
+#: src/gsb_transactions_list.c:1510
 #, fuzzy
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -8120,7 +8117,7 @@ msgstr ""
 "\n"
 "האם באמת זו הפעולה אשר יש לבצע?"
 
-#: src/gsb_transactions_list.c:1520
+#: src/gsb_transactions_list.c:1525
 #, fuzzy
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -8133,7 +8130,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: src/gsb_transactions_list.c:1575
+#: src/gsb_transactions_list.c:1580
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -8141,26 +8138,26 @@ msgid ""
 "did."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1576
+#: src/gsb_transactions_list.c:1581
 #, fuzzy
 msgid "Marking a transaction as R"
 msgstr "סימון העיסקאות"
 
-#: src/gsb_transactions_list.c:1655
+#: src/gsb_transactions_list.c:1660
 #, fuzzy
 msgid "Select the reconciliation to associate to the selected transaction"
 msgstr "העיסקאות שלא תואמו וגם לא נבדקו"
 
-#: src/gsb_transactions_list.c:1777
+#: src/gsb_transactions_list.c:1782
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1819
+#: src/gsb_transactions_list.c:1824
 #, fuzzy
 msgid "Impossible to delete an archived transaction."
 msgstr "לא ניתן למחוק עיסקה מתואמת."
 
-#: src/gsb_transactions_list.c:1828
+#: src/gsb_transactions_list.c:1833
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -8168,71 +8165,71 @@ msgid ""
 "necessary."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1838
+#: src/gsb_transactions_list.c:1843
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1853
+#: src/gsb_transactions_list.c:1858
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
 #. Edit transaction
-#: src/gsb_transactions_list.c:2052
+#: src/gsb_transactions_list.c:2057
 msgid "Edit transaction"
 msgstr "עריכת עיסקה"
 
 #. Delete transaction
-#: src/gsb_transactions_list.c:2075
+#: src/gsb_transactions_list.c:2080
 msgid "Delete transaction"
 msgstr "מחיקת עיסקה"
 
 #. use transaction as template
-#: src/gsb_transactions_list.c:2089
+#: src/gsb_transactions_list.c:2094
 msgid "Use selected transaction as a template"
 msgstr "שימוש בעיסקה הנבחרת בתור תבנית"
 
 #. Clone transaction
-#: src/gsb_transactions_list.c:2099
+#: src/gsb_transactions_list.c:2104
 msgid "Clone transaction"
 msgstr "שכפול עיסקה"
 
 #. Convert to scheduled transaction
-#: src/gsb_transactions_list.c:2112
+#: src/gsb_transactions_list.c:2117
 msgid "Convert transaction to scheduled transaction"
 msgstr "המרת העיסקה לעיסקה מתוזמנת"
 
 #. Move to another account
-#: src/gsb_transactions_list.c:2121
+#: src/gsb_transactions_list.c:2126
 msgid "Move transaction to another account"
 msgstr "העברת העיסקה לחשבון אחר"
 
 #. Change cell content.
-#: src/gsb_transactions_list.c:2144
+#: src/gsb_transactions_list.c:2149
 msgid "Change cell content"
 msgstr ""
 
-#: src/gsb_transactions_list.c:2526
+#: src/gsb_transactions_list.c:2531
 msgid "Cannot move a transfer on his contra-account"
 msgstr "לא ניתן להעביר העברה אל עיסקה נגדית זו"
 
 #. sort by line
-#: src/gsb_transactions_list.c:2805
+#: src/gsb_transactions_list.c:2810
 #, fuzzy
 msgid "Sort list by :"
 msgstr "מיון על פי תאריך"
 
-#: src/gsb_transactions_list.c:3210
+#: src/gsb_transactions_list.c:3215
 msgid "Transfer to a deleted account"
 msgstr "העברה לחשבון שנמחק"
 
-#: src/gsb_transactions_list.c:3212
+#: src/gsb_transactions_list.c:3217
 msgid "Transfer from a deleted account"
 msgstr "העברה מחשבון שנמחק"
 
-#: src/gsb_transactions_list.c:3356
+#: src/gsb_transactions_list.c:3361
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -10085,7 +10082,7 @@ msgstr "הצגת עיסקאות"
 msgid "Reconciliation ref."
 msgstr "הפנייה לתיאום"
 
-#: src/transaction_list.c:166 src/transaction_list.c:965
+#: src/transaction_list.c:166 src/transaction_list.c:966
 #: src/transaction_list.c:1789
 #, fuzzy, c-format
 msgid "Total : %s (variance : %s)"

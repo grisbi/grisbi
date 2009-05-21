@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*            2003-2008 Benjamin Drieu (bdrieu@april.org)                     */
+/*             http://www.grisbi.org                                          */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -53,8 +53,8 @@
 /*START_STATIC*/
 static gboolean gsb_main_page_click_on_account ( gint *account_number );
 static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
-				   GdkEventButton *event,
-				   gint scheduled_number );
+                        GdkEventButton *event,
+                        gint scheduled_number );
 static void update_fin_comptes_passifs ( gboolean force );
 static void update_liste_comptes_accueil ( gboolean force );
 static void update_liste_echeances_auto_accueil ( gboolean force );
@@ -293,8 +293,8 @@ void mise_a_jour_accueil ( gboolean force )
 /*        Fonction appelée lorsqu'on clicke sur une échéance à saisir        */
 /* ************************************************************************* */
 gboolean saisie_echeance_accueil ( GtkWidget *event_box,
-				   GdkEventButton *event,
-				   gint scheduled_number )
+                        GdkEventButton *event,
+                        gint scheduled_number )
 {
     GtkWidget *parent_save, *dialog, *hbox;
     gint result;

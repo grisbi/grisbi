@@ -1,9 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2007 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -224,15 +224,15 @@ gint gsb_data_archive_new ( const gchar *name )
     archive = g_malloc0 ( sizeof ( struct_archive ));
     if (!archive)
     {
-	dialogue_error_memory ();
-	return 0;
+    dialogue_error_memory ();
+    return 0;
     }
     archive -> archive_number = gsb_data_archive_max_number () + 1;
 
     if (name)
-	archive -> archive_name = my_strdup (name);
+    archive -> archive_name = my_strdup (name);
     else 
-	archive -> archive_name = NULL;
+    archive -> archive_name = NULL;
 
     archive_list = g_slist_append ( archive_list, archive );
     archive_buffer = archive;
@@ -312,14 +312,14 @@ gboolean gsb_data_archive_remove ( gint archive_number )
  * \return the new number or 0 if the archive doen't exist
  * */
 gint gsb_data_archive_set_new_number ( gint archive_number,
-				       gint new_no_archive )
+                        gint new_no_archive )
 {
     struct_archive *archive;
 
     archive = gsb_data_archive_get_structure ( archive_number );
 
     if (!archive)
-	return 0;
+    return 0;
 
     archive -> archive_number = new_no_archive;
     return new_no_archive;
@@ -374,7 +374,7 @@ const gchar *gsb_data_archive_get_name ( gint archive_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_archive_set_name ( gint archive_number,
-				     const gchar *name )
+                        const gchar *name )
 {
     struct_archive *archive;
 
@@ -425,7 +425,7 @@ GDate *gsb_data_archive_get_beginning_date ( gint archive_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_archive_set_beginning_date ( gint archive_number,
-					      const GDate *date )
+                        const GDate *date )
 {
     struct_archive *archive;
 
@@ -475,7 +475,7 @@ GDate *gsb_data_archive_get_end_date ( gint archive_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_archive_set_end_date ( gint archive_number,
-					 const GDate *date )
+                        const GDate *date )
 {
     struct_archive *archive;
 
@@ -523,7 +523,7 @@ gint gsb_data_archive_get_fyear ( gint archive_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_archive_set_fyear ( gint archive_number,
-				      gint fyear_number )
+                        gint fyear_number )
 {
     struct_archive *archive;
 
@@ -567,7 +567,7 @@ const gchar *gsb_data_archive_get_report_title ( gint archive_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_archive_set_report_title ( gint archive_number,
-					     const gchar *report_title )
+                        const gchar *report_title )
 {
     struct_archive *archive;
 

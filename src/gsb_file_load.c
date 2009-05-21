@@ -91,17 +91,17 @@ static void gsb_file_load_currency ( const gchar **attribute_names,
 static void gsb_file_load_currency_link ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
-					    const gchar *element_name,
-					    gpointer user_data,
-					    GError **error);
+                        const gchar *element_name,
+                        gpointer user_data,
+                        GError **error);
 static void gsb_file_load_financial_year ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_general_part ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
-					    const gchar *text );
+                        const gchar *text );
 static gint gsb_file_load_get_new_payment_number ( gint account_number,
-					    gint payment_number );
+                        gint payment_number );
 static void gsb_file_load_import_rule ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_logo_accueil ( const gchar **attribute_names,
@@ -115,9 +115,9 @@ static void gsb_file_load_print_part ( const gchar **attribute_names,
 static void gsb_file_load_reconcile ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
-					    const gchar *text );
+                        const gchar *text );
 static void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
-					    const gchar **attribute_values );
+                        const gchar **attribute_values );
 static gboolean gsb_file_load_set_last_reconcile_data ( gint account_number,
                         GDate *final_date,
                         gsb_real final_balance );
@@ -129,15 +129,15 @@ static void gsb_file_load_start_element ( GMarkupParseContext *context,
                         GError **error);
 static void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
                         const gchar *element_name,
-					    const gchar **attribute_names,
-					    const gchar **attribute_values,
-					    gpointer user_data,
-					    GError **error);
+                        const gchar **attribute_names,
+                        const gchar **attribute_values,
+                        gpointer user_data,
+                        GError **error);
 static void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context,
-					    const gchar *text,
-					    gsize text_len,  
-					    gpointer user_data,
-					    GError **error);
+                        const gchar *text,
+                        gsize text_len,  
+                        gpointer user_data,
+                        GError **error);
 static void gsb_file_load_transactions ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static gboolean gsb_file_load_update_previous_version ( void );
@@ -2055,7 +2055,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
  *
  * */
 void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
-					    const gchar **attribute_values )
+                        const gchar **attribute_values )
 {
     gint i=0;
     gint scheduled_number = 0;
@@ -3050,45 +3050,45 @@ void gsb_file_load_archive ( const gchar **attribute_names,
     GDate *date;
 
     if ( !attribute_names[i] )
-	return;
+    return;
 
     archive_number = gsb_data_archive_new (NULL);
 
     do
     {
-	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
-	/* 	   go to the next */
-	if ( !strcmp (attribute_values[i],
-		      "(null)"))
-	{
-	    i++;
-	    continue;
-	}
+    /* 	we test at the beginning if the attribute_value is NULL, if yes, */
+    /* 	   go to the next */
+    if ( !strcmp (attribute_values[i],
+                "(null)"))
+    {
+        i++;
+        continue;
+    }
 
-	if ( !strcmp ( attribute_names[i],
-		       "Nb" ))
-	{
-	    archive_number = gsb_data_archive_set_new_number (archive_number,
-							      utils_str_atoi (attribute_values[i]));
-	    i++;
-	    continue;
-	}
+    if ( !strcmp ( attribute_names[i],
+                "Nb" ))
+    {
+        archive_number = gsb_data_archive_set_new_number (archive_number,
+                                utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
 
-	if ( !strcmp ( attribute_names[i],
-		       "Na" ))
-	{
-	    gsb_data_archive_set_name ( archive_number,
-					attribute_values[i]);
-	    i++;
-	    continue;
-	}
+    if ( !strcmp ( attribute_names[i],
+                "Na" ))
+    {
+        gsb_data_archive_set_name ( archive_number,
+                    attribute_values[i]);
+        i++;
+        continue;
+    }
 
-	if ( !strcmp ( attribute_names[i],
-		       "Bdte" ))
-	{
-	    date = gsb_parse_date_string_safe (attribute_values[i]);
-	    gsb_data_archive_set_beginning_date ( archive_number,
-						 date );
+    if ( !strcmp ( attribute_names[i],
+                "Bdte" ))
+    {
+        date = gsb_parse_date_string_safe (attribute_values[i]);
+        gsb_data_archive_set_beginning_date ( archive_number,
+                            date );
 	    if ( date )
 		g_date_free (date);
 	    i++;
@@ -4404,10 +4404,10 @@ void gsb_file_load_logo_accueil ( const gchar **attribute_names,
 }
 void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
                         const gchar *element_name,
-					    const gchar **attribute_names,
-					    const gchar **attribute_values,
-					    gpointer user_data,
-					    GError **error)
+                        const gchar **attribute_names,
+                        const gchar **attribute_values,
+                        gpointer user_data,
+                        GError **error)
 {
     /* the first time we come here, we check if it's a grisbi file */
     gchar **pointeur_char;
@@ -5530,9 +5530,9 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 
 void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
-					    const gchar *element_name,
-					    gpointer user_data,
-					    GError **error)
+                        const gchar *element_name,
+                        gpointer user_data,
+                        GError **error)
 {
     /* when it's the end of an element, we set it in the split structure to 0 */
 
@@ -5548,10 +5548,10 @@ void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
 }
 
 void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context,
-					    const gchar *text,
-					    gsize text_len,  
-					    gpointer user_data,
-					    GError **error)
+                        const gchar *text,
+                        gsize text_len,  
+                        gpointer user_data,
+                        GError **error)
 {
     /* we come here for all text element, we split here to go
      * on the necessary function to work with that element */
@@ -5568,7 +5568,7 @@ void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context,
 }
 
 void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
-					    const gchar *text )
+                        const gchar *text )
 {
     const gchar *element_name;
 
@@ -6197,7 +6197,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 
 
 void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
-					    const gchar *text )
+                        const gchar *text )
 {
     const gchar *element_name;
 
@@ -7787,7 +7787,7 @@ gboolean gsb_file_load_update_previous_version ( void )
  * \return the new number of payment or 0 if not found
  * */
 gint gsb_file_load_get_new_payment_number ( gint account_number,
-					    gint payment_number )
+                        gint payment_number )
 {
     GSList *tmp_list;
     

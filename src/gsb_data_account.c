@@ -124,11 +124,10 @@ static struct_account *gsb_data_account_get_structure ( gint no );
 static gint gsb_data_account_max_number ( void );
 static gboolean gsb_data_account_set_default_sort_values ( gint account_number );
 static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
-					 gint target_account );
+                        gint target_account );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *detail_nom_compte;
 extern gsb_real null_real;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
@@ -522,7 +521,7 @@ gint gsb_data_account_get_nb_rows ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_nb_rows ( gint account_number,
-					gint nb_rows )
+                        gint nb_rows )
 {
     struct_account *account;
 
@@ -574,7 +573,7 @@ gboolean gsb_data_account_get_r ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_r ( gint account_number,
-				  gboolean show_r )
+                        gboolean show_r )
 {
     struct_account *account;
 
@@ -615,7 +614,7 @@ gchar *gsb_data_account_get_id ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_id ( gint account_number,
-				   const gchar *id )
+                        const gchar *id )
 {
     struct_account *account;
 
@@ -690,7 +689,7 @@ kind_account gsb_data_account_get_kind ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_kind ( gint account_number,
-				     kind_account account_kind )
+                        kind_account account_kind )
 {
     struct_account *account;
 
@@ -733,7 +732,7 @@ gchar *gsb_data_account_get_name ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_name ( gint account_number,
-				     const gchar *name )
+                        const gchar *name )
 {
     struct_account *account;
 
@@ -797,7 +796,7 @@ gint gsb_data_account_get_no_account_by_name ( const gchar *account_name )
  * \return balance or NULL if the account doesn't exist
  * */
 gsb_real gsb_data_account_get_init_balance ( gint account_number,
-					     gint floating_point )
+                        gint floating_point )
 {
     struct_account *account;
 
@@ -866,7 +865,7 @@ gsb_real gsb_data_account_get_mini_balance_wanted ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_mini_balance_wanted ( gint account_number,
-						    gsb_real balance )
+                        gsb_real balance )
 {
     struct_account *account;
 
@@ -909,7 +908,7 @@ gsb_real gsb_data_account_get_mini_balance_authorized ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_mini_balance_authorized ( gint account_number,
-							gsb_real balance )
+                        gsb_real balance )
 {
     struct_account *account;
 
@@ -1113,7 +1112,7 @@ gsb_real gsb_data_account_calculate_waiting_marked_balance ( gint account_number
  * \return  the element_number used to sort or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_element_sort ( gint account_number,
-					 gint no_column )
+                        gint no_column )
 {
     struct_account *account;
 
@@ -1148,8 +1147,8 @@ gint gsb_data_account_get_element_sort ( gint account_number,
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_element_sort ( gint account_number,
-					     gint no_column,
-					     gint element_number )
+                        gint no_column,
+                        gint element_number )
 {
     struct_account *account;
 
@@ -1253,7 +1252,7 @@ gboolean gsb_data_account_get_mini_balance_wanted_message ( gint account_number 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_mini_balance_wanted_message ( gint account_number,
-							    gboolean value )
+                        gboolean value )
 {
     struct_account *account;
 
@@ -1294,7 +1293,7 @@ gboolean gsb_data_account_get_mini_balance_authorized_message ( gint account_num
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_mini_balance_authorized_message ( gint account_number,
-								gboolean value )
+                        gboolean value )
 {
     struct_account *account;
 
@@ -1335,7 +1334,7 @@ gint gsb_data_account_get_currency ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_currency ( gint account_number,
-					 gint currency )
+                        gint currency )
 {
     struct_account *account;
 
@@ -1373,7 +1372,7 @@ gint gsb_data_account_get_bank ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_bank ( gint account_number,
-				     gint bank )
+                        gint bank )
 {
     struct_account *account;
 
@@ -1415,7 +1414,7 @@ gchar *gsb_data_account_get_bank_branch_code ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_bank_branch_code ( gint account_number,
-						 const gchar *bank_branch_code )
+                        const gchar *bank_branch_code )
 {
     struct_account *account;
 
@@ -1463,7 +1462,7 @@ gchar *gsb_data_account_get_bank_account_number ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_bank_account_number ( gint account_number,
-						    const gchar *bank_account_number )
+                        const gchar *bank_account_number )
 {
     struct_account *account;
 
@@ -1512,7 +1511,7 @@ gchar *gsb_data_account_get_bank_account_key ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_bank_account_key ( gint account_number,
-						 const gchar *bank_account_key )
+                        const gchar *bank_account_key )
 {
     struct_account *account;
 
@@ -1556,7 +1555,7 @@ gint gsb_data_account_get_closed_account ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_closed_account ( gint account_number,
-					       gint closed_account )
+                        gint closed_account )
 {
     struct_account *account;
 
@@ -1598,7 +1597,7 @@ gchar *gsb_data_account_get_comment ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_comment ( gint account_number,
-					const gchar *comment )
+                        const gchar *comment )
 {
     struct_account *account;
 
@@ -1647,7 +1646,7 @@ gint gsb_data_account_get_reconcile_sort_type ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_reconcile_sort_type ( gint account_number,
-						    gint sort_type )
+                        gint sort_type )
 {
     struct_account *account;
 
@@ -1694,7 +1693,7 @@ GSList *gsb_data_account_get_sort_list ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_sort_list ( gint account_number,
-					  GSList *list )
+                        GSList *list )
 {
     struct_account *account;
 
@@ -1718,7 +1717,7 @@ gboolean gsb_data_account_set_sort_list ( gint account_number,
  * \return TRUE ok, FALSE problem
  * */
 gboolean gsb_data_account_sort_list_add ( gint account_number,
-					  gint payment_number )
+                        gint payment_number )
 {
     struct_account *account;
 
@@ -1742,7 +1741,7 @@ gboolean gsb_data_account_sort_list_add ( gint account_number,
  * \return TRUE ok, FALSE problem
  * */
 gboolean gsb_data_account_sort_list_remove ( gint account_number,
-					     gint payment_number )
+                        gint payment_number )
 {
     struct_account *account;
 
@@ -1810,7 +1809,7 @@ gint gsb_data_account_get_split_neutral_payment ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_split_neutral_payment ( gint account_number,
-						      gint split_neutral_payment )
+                        gint split_neutral_payment )
 {
     struct_account *account;
 
@@ -1855,7 +1854,7 @@ gchar *gsb_data_account_get_holder_name ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_holder_name ( gint account_number,
-					    const gchar *holder_name )
+                        const gchar *holder_name )
 {
     struct_account *account;
 
@@ -1903,7 +1902,7 @@ gchar *gsb_data_account_get_holder_address ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_holder_address ( gint account_number,
-					       const gchar *holder_address )
+                        const gchar *holder_address )
 {
     struct_account *account;
 
@@ -1954,7 +1953,7 @@ gint gsb_data_account_get_default_debit ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_default_debit ( gint account_number,
-					      gint default_debit )
+                        gint default_debit )
 {
     struct_account *account;
 
@@ -1999,7 +1998,7 @@ gint gsb_data_account_get_default_credit ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_default_credit ( gint account_number,
-					       gint default_credit )
+                        gint default_credit )
 {
     struct_account *account;
 
@@ -2045,7 +2044,7 @@ gfloat gsb_data_account_get_row_align ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_row_align ( gint account_number,
-					  gfloat row_align )
+                        gfloat row_align )
 {
     struct_account *account;
 
@@ -2090,7 +2089,7 @@ gint gsb_data_account_get_sort_type ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_sort_type ( gint account_number,
-					  gint sort_type )
+                        gint sort_type )
 {
     struct_account *account;
 
@@ -2137,7 +2136,7 @@ gint gsb_data_account_get_sort_column ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_sort_column ( gint account_number,
-					    gint sort_column )
+                        gint sort_column )
 {
     struct_account *account;
 
@@ -2182,7 +2181,7 @@ gpointer gsb_data_account_get_form_organization ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_form_organization ( gint account_number,
-						  gpointer form_organization )
+                        gpointer form_organization )
 {
     struct_account *account;
 
@@ -2258,7 +2257,7 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
  * \return -1 if account_number_1 before, account_number_2, and +1 else, 0 if one of account doesn't exist
  * */
 gint gsb_data_account_compare_position ( gint account_number_1,
-					 gint account_number_2 )
+                        gint account_number_2 )
 {
     gint pos_1, pos_2;
     struct_account *account_1;
@@ -2290,7 +2289,7 @@ gint gsb_data_account_compare_position ( gint account_number_1,
  * \return FALSE
  * */
 gboolean gsb_data_account_move_account ( gint account_number,
-					 gint dest_account_number )
+                        gint dest_account_number )
 {
     struct_account *account;
 
@@ -2379,7 +2378,7 @@ gboolean gsb_data_account_set_default_sort_values ( gint account_number )
  * \return TRUE ok, FALSE problem
  * */
 gboolean gsb_data_form_dup_sort_values ( gint origin_account,
-					 gint target_account )
+                        gint target_account )
 {
     gint j;
     struct_account *origin_account_ptr;
@@ -2432,22 +2431,22 @@ gchar *gsb_data_account_get_name_icon (gint account_number)
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_name_icon ( gint account_number,
-					       const gchar *filename )
+                        const gchar *filename )
 {
     struct_account *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
     if (!account )
-	return FALSE;
+    return FALSE;
 
     if ( account -> name_icon )
         g_free ( account -> name_icon );
 
     if (!filename || !strlen (filename))
-	account -> name_icon = NULL;
+    account -> name_icon = NULL;
     else
-	account -> name_icon = my_strdup (filename);
+    account -> name_icon = my_strdup (filename);
 
     return TRUE;
 }
@@ -2562,19 +2561,14 @@ GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_k
 void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
 {
     GdkPixbuf * pixbuf;
-    GtkWidget *image, *bouton;
+    GtkWidget *image;
     gchar * name_icon;
     gchar * new_icon;
     gint current_account;
 
     devel_debug ( NULL );
 
-    if ( GTK_IS_BUTTON (button) == FALSE )
-        bouton = g_object_get_data ( G_OBJECT ( detail_nom_compte), "ac_icon_button" );
-    else
-        bouton = button;
-
-    image = gtk_button_get_image ( GTK_BUTTON ( bouton ) );
+    image = gtk_button_get_image ( GTK_BUTTON ( button ) );
     pixbuf = gtk_image_get_pixbuf ( GTK_IMAGE ( image ) );
     if ( pixbuf )
         name_icon = g_object_get_data ( G_OBJECT ( pixbuf ), "name_icon" );
@@ -2587,7 +2581,7 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
         current_account = gsb_gui_navigation_get_current_account ();
         gsb_data_account_set_name_icon ( current_account, new_icon );
         image = gsb_data_account_get_account_icon_image ( current_account );
-        gtk_button_set_image ( GTK_BUTTON ( bouton ), image );
+        gtk_button_set_image ( GTK_BUTTON ( button ), image );
         gsb_gui_navigation_update_account ( current_account );
     }
 }

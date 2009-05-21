@@ -171,22 +171,22 @@ void gsb_file_new_gui ( void )
     /* Create main widget. */
     gsb_status_message ( _("Creating main window"));
     gtk_box_pack_start ( GTK_BOX ( window_vbox_principale), create_main_widget(),
-			 TRUE, TRUE, 0 );
+                        TRUE, TRUE, 0 );
 
     /* create the model */
     if (!transaction_list_create ())
     {
-	dialogue_error (_("The model of the list couldn't be created... Bad things will happen very soon..."));
-	return;
+    dialogue_error (_("The model of the list couldn't be created... Bad things will happen very soon..."));
+    return;
     }
 
     /* Create transaction list. */
     tree_view_widget = gsb_transactions_list_make_gui_list ();
     gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ),
-			 tree_view_widget,
-			 TRUE,
-			 TRUE,
-			 0 );
+                tree_view_widget,
+                TRUE,
+                TRUE,
+                0 );
     gtk_widget_show ( tree_view_widget );
 
 
@@ -328,7 +328,7 @@ void gsb_file_set_backup_path ( const gchar *path )
  * \return FALSE
  * */
 gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
-				     gint *file_number_ptr )
+                        gint *file_number_ptr )
 {
     /* continue only if can close the current file */
     if ( !gsb_file_close() )
@@ -371,44 +371,59 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     if ( gsb_file_load_open_file (filename))
     {
-	/* the file has been opened succesfully */
-	/* we make a backup if necessary */
-	if ( etat.sauvegarde_demarrage )
-	    gsb_file_save_backup();
+        /* the file has been opened succesfully */
+        /* we make a backup if necessary */
+        if ( etat.sauvegarde_demarrage )
+            gsb_file_save_backup();
     }
     else
     {
-	/* Loading failed. */
-	gsb_status_message ( _("Failed to load accounts") );
+        /* Loading failed. */
+        gsb_status_message ( _("Failed to load accounts") );
 
-	if ( etat.sauvegarde_demarrage || etat.make_backup || etat.make_backup_every_minutes )
-	{
-	    gchar *tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
-	    gchar *tmpstr2 = g_strdup_printf ( _("Grisbi was unable to load file. You should find the last backups in '%s', they are saved with date and time into their name so you should find easily the last backup saved.\nPlease contact the Grisbi's team on devel@listes.grisbi.org to find what happened to you current file."),
-					       gsb_file_get_backup_path ());
-	    dialogue_error_hint ( tmpstr2, tmpstr );
-	    g_free ( tmpstr );
-	    g_free ( tmpstr2 );
-	    gsb_status_stop_wait ( TRUE );
-	    return FALSE;
-	}
-	else
-	{
-	    gchar *tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
-	    gchar *tmpstr2;
+        if ( etat.sauvegarde_demarrage || etat.make_backup || etat.make_backup_every_minutes )
+        {
+            gchar *tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
+            gchar *tmpstr2 = g_strdup_printf ( 
+                                _("Grisbi was unable to load file. You should find the last "
+                                  "backups in '%s', they are saved with date and time into "
+                                  "their name so you should find easily the last backup "
+                                  "saved.\n"
+                                  "Please contact the Grisbi's team on devel@listes.grisbi.org "
+                                  "to find what happened to you current file."),
+                                gsb_file_get_backup_path ());
+            dialogue_error_hint ( tmpstr2, tmpstr );
+            g_free ( tmpstr );
+            g_free ( tmpstr2 );
+            gsb_status_stop_wait ( TRUE );
+            return FALSE;
+        }
+        else
+        {
+            gchar *tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
+            gchar *tmpstr2;
 
-	    if (gsb_file_get_backup_path ())
-		tmpstr2 = g_strdup_printf ( _("Grisbi was unable to load file and the backups seem not to be activated... This is a bad thing.\nYour backup path is '%s', try to find if earlier you had some backups in there ?\nPlease contact the Grisbi's team on devel@listes.grisbi.org to find what happened to you current file."),
-					    gsb_file_get_backup_path ());
-	    else
-		tmpstr2 = my_strdup ( _("Grisbi was unable to load file and the backups seem not to be activated... This is a bad thing.\nPlease contact the Grisbi's team on devel@listes.grisbi.org to find what happened to you current file."));
+            if (gsb_file_get_backup_path ())
+            tmpstr2 = g_strdup_printf ( 
+                            _("Grisbi was unable to load file and the backups seem not to "
+                              "be activated... This is a bad thing.\nYour backup path is '%s', "
+                              "try to find if earlier you had some backups in there ?\n"
+                              "Please contact the Grisbi's team on devel@listes.grisbi.org "
+                              "to find what happened to you current file."),
+                            gsb_file_get_backup_path ());
+            else
+            tmpstr2 = my_strdup ( _("Grisbi was unable to load file and the backups seem not "
+                                    "to be activated... This is a bad thing.\n"
+                                    "Please contact the Grisbi's team on "
+                                    "devel@listes.grisbi.org to find what happened to you "
+                                    "current file."));
 
-	    dialogue_error_hint ( tmpstr2, tmpstr );
-	    g_free ( tmpstr );
-	    g_free ( tmpstr2 );
-	    gsb_status_stop_wait ( TRUE );
-	    return FALSE;
-	}
+            dialogue_error_hint ( tmpstr2, tmpstr );
+            g_free ( tmpstr );
+            g_free ( tmpstr2 );
+            gsb_status_stop_wait ( TRUE );
+            return FALSE;
+        }
     }
 
     /* ok, here the file or backup is loaded */
@@ -436,18 +451,20 @@ gboolean gsb_file_open_file ( gchar *filename )
 	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	/* set the minimum balances to be shown or not */
-	value = gsb_real_cmp ( gsb_data_account_get_current_balance (account_number), gsb_data_account_get_mini_balance_authorized (account_number)) == -1;
-		gsb_data_account_set_mini_balance_authorized_message ( account_number, value);
-			value = gsb_real_cmp ( gsb_data_account_get_current_balance (account_number), gsb_data_account_get_mini_balance_wanted (account_number)) == -1;
-				gsb_data_account_set_mini_balance_wanted_message ( account_number, value);
+	value = gsb_real_cmp ( gsb_data_account_get_current_balance (account_number), 
+                          gsb_data_account_get_mini_balance_authorized (account_number) ) == -1;
+    gsb_data_account_set_mini_balance_authorized_message ( account_number, value);
+    value = gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
+                          gsb_data_account_get_mini_balance_wanted (account_number) ) == -1;
+    gsb_data_account_set_mini_balance_wanted_message ( account_number, value);
 	list_tmp = list_tmp -> next;
     }
 
     /* update the main page */
     mise_a_jour_accueil (TRUE);
 
-    /* for now, the flag for modification of the file is ok, but the menu couldn't be set as sensitive/unsensitive
-     * so do it now */
+    /* for now, the flag for modification of the file is ok, but the menu couldn't be set
+     * as sensitive/unsensitive so do it now */
     modification_fichier (etat.modification_fichier != 0);
 
     gsb_status_message ( _("Done") );
@@ -626,7 +643,7 @@ gboolean gsb_file_save_backup ( void )
  * \return FALSE
  * */
 gboolean gsb_file_automatic_backup_start ( GtkWidget *checkbutton,
-					   gpointer null )
+                        gpointer null )
 {
     devel_debug_int (etat.make_backup_every_minutes);
 
@@ -662,7 +679,7 @@ gboolean gsb_file_automatic_backup_start ( GtkWidget *checkbutton,
  * \return FALSE
  * */
 gboolean gsb_file_automatic_backup_change_time ( GtkWidget *spinbutton,
-						 gpointer null )
+                        gpointer null )
 {
     devel_debug_int (etat.make_backup_nb_minutes);
 

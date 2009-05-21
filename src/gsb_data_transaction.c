@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -42,6 +42,7 @@
 #include "./utils_dates.h"
 #include "./gsb_real.h"
 #include "./utils_str.h"
+#include "./transaction_list.h"
 #include "./include.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
@@ -55,18 +56,18 @@ typedef struct
 {
     /** @name general stuff */
     gint transaction_number;
-    gchar *transaction_id;				/**< filled by ofx */
+    gchar *transaction_id;              /**< filled by ofx */
     gint account_number;
     gsb_real transaction_amount;
     gint party_number;
     gchar *notes;
-    gint marked_transaction;				/**<  OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELERAPPROCHEE=T, OPERATION_RAPPROCHEE=R */
-    gint archive_number;				/**< if it's an archived transaction, contains the number of the archive */
-    gshort automatic_transaction;			/**< 0=manual, 1=automatic (scheduled transaction) */
-    gint reconcile_number;				/**< the number of reconcile, carreful : can be filled without marked_transaction=OPERATION_RAPPROCHEE sometimes,
-    								it happen if the user did ctrl R to un-R the transaction, we keep reconcile_number because most of them
-								will re-R after the change, and that value will help the user to find wich statement it belong.
-								so always check marked_transaction before checking reconcile_number here */
+    gint marked_transaction;            /**<  OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELERAPPROCHEE=T, OPERATION_RAPPROCHEE=R */
+    gint archive_number;                /**< if it's an archived transaction, contains the number of the archive */
+    gshort automatic_transaction;       /**< 0=manual, 1=automatic (scheduled transaction) */
+    gint reconcile_number;              /**< the number of reconcile, carreful : can be filled without marked_transaction=OPERATION_RAPPROCHEE sometimes,
+                                             it happen if the user did ctrl R to un-R the transaction, we keep reconcile_number because most of them
+                                             will re-R after the change, and that value will help the user to find wich statement it belong.
+                                             o always check marked_transaction before checking reconcile_number here */
     guint financial_year_number;
     gchar *voucher;
     gchar *bank_references;
@@ -77,7 +78,7 @@ typedef struct
 
     /** @name currency stuff */
     gint currency_number;
-    gint change_between_account_and_transaction;	/**< if 1 : 1 account_currency = (exchange_rate * amount) transaction_currency */
+    gint change_between_account_and_transaction;    /**< if 1 : 1 account_currency = (exchange_rate * amount) transaction_currency */
     gsb_real exchange_rate;
     gsb_real exchange_fees;
 
@@ -86,9 +87,9 @@ typedef struct
     gint sub_category_number;
     gint budgetary_number;
     gint sub_budgetary_number;
-    gint transaction_number_transfer;			/**< -1 for a transfer to a deleted account, the contra-transaction number else */
-    gint split_of_transaction;				/**< 1 if it's a split of transaction */
-    gint mother_transaction_number;			/**< for a split, the mother's transaction number */
+    gint transaction_number_transfer;   /**< -1 for a transfer to a deleted account, the contra-transaction number else */
+    gint split_of_transaction;          /**< 1 if it's a split of transaction */
+    gint mother_transaction_number;     /**< for a split, the mother's transaction number */
 
     /** @name method of payment */
     gint method_of_payment_number;
@@ -402,7 +403,7 @@ const gchar *gsb_data_transaction_get_transaction_id ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_transaction_id ( gint transaction_number,
-						   const gchar *transaction_id )
+                        const gchar *transaction_id )
 {
     struct_transaction *transaction;
 
@@ -452,7 +453,7 @@ gint gsb_data_transaction_get_account_number ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
-						   gint no_account )
+                        gint no_account )
 {
     struct_transaction *transaction;
 
@@ -516,7 +517,7 @@ const GDate *gsb_data_transaction_get_date ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_date ( gint transaction_number,
-					 const GDate *date )
+                        const GDate *date )
 {
     struct_transaction *transaction;
 
@@ -585,7 +586,7 @@ const GDate *gsb_data_transaction_get_value_date ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
-					       const GDate *date )
+                        const GDate *date )
 {
     struct_transaction *transaction;
 
@@ -658,7 +659,7 @@ gsb_real gsb_data_transaction_get_amount ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_amount ( gint transaction_number,
-					   gsb_real amount )
+                        gsb_real amount )
 {
     struct_transaction *transaction;
 
@@ -690,7 +691,7 @@ gboolean gsb_data_transaction_set_amount ( gint transaction_number,
  * \return the amount of the transaction
  * */
 gsb_real gsb_data_transaction_get_adjusted_amount ( gint transaction_number,
-						    gint return_exponent )
+                        gint return_exponent )
 {
     struct_transaction *transaction;
 
@@ -718,8 +719,8 @@ gsb_real gsb_data_transaction_get_adjusted_amount ( gint transaction_number,
  * \return the amount of the transaction
  * */
 gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transaction_number,
-								 gint return_currency_number,
-								 gint return_exponent )
+                        gint return_currency_number,
+                        gint return_exponent )
 {
     struct_transaction *transaction;
     gsb_real amount = null_real;
@@ -809,7 +810,7 @@ gint gsb_data_transaction_get_currency_number ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_currency_number ( gint transaction_number,
-						    gint no_currency )
+                        gint no_currency )
 {
     struct_transaction *transaction;
 
@@ -878,7 +879,7 @@ gint gsb_data_transaction_get_change_between ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_change_between ( gint transaction_number,
-						   gint value )
+                        gint value )
 {
     struct_transaction *transaction;
 
@@ -943,7 +944,7 @@ gsb_real gsb_data_transaction_get_exchange_rate ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_exchange_rate ( gint transaction_number,
-						  gsb_real rate )
+                        gsb_real rate )
 {
     struct_transaction *transaction;
 
@@ -1006,7 +1007,7 @@ gsb_real gsb_data_transaction_get_exchange_fees ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_exchange_fees ( gint transaction_number,
-						  gsb_real rate )
+                        gsb_real rate )
 {
     struct_transaction *transaction;
 
@@ -1070,7 +1071,7 @@ gint gsb_data_transaction_get_party_number ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_party_number ( gint transaction_number,
-						 gint no_party )
+                        gint no_party )
 {
     struct_transaction *transaction;
 
@@ -1130,7 +1131,7 @@ gint gsb_data_transaction_get_category_number ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_category_number ( gint transaction_number,
-						    gint no_category )
+                        gint no_category )
 {
     struct_transaction *transaction;
 
@@ -1172,7 +1173,7 @@ gint gsb_data_transaction_get_sub_category_number ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_sub_category_number ( gint transaction_number,
-							gint no_sub_category )
+                        gint no_sub_category )
 {
     struct_transaction *transaction;
 
@@ -1216,7 +1217,7 @@ gint gsb_data_transaction_get_split_of_transaction ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_split_of_transaction ( gint transaction_number,
-							     gint is_split )
+                        gint is_split )
 {
     struct_transaction *transaction;
 
@@ -1259,7 +1260,7 @@ const gchar *gsb_data_transaction_get_notes ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_notes ( gint transaction_number,
-					  const gchar *notes )
+                        const gchar *notes )
 {
     struct_transaction *transaction;
 
@@ -1312,7 +1313,7 @@ gint gsb_data_transaction_get_method_of_payment_number ( gint transaction_number
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_method_of_payment_number ( gint transaction_number,
-							     gint number )
+                        gint number )
 {
     struct_transaction *transaction;
 
@@ -1370,7 +1371,7 @@ const gchar *gsb_data_transaction_get_method_of_payment_content ( gint transacti
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_method_of_payment_content ( gint transaction_number,
-							      const gchar *method_of_payment_content )
+                        const gchar *method_of_payment_content )
 {
     struct_transaction *transaction;
 
@@ -1424,7 +1425,7 @@ gint gsb_data_transaction_get_marked_transaction ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_marked_transaction ( gint transaction_number,
-						       gint marked_transaction )
+                        gint marked_transaction )
 {
     struct_transaction *transaction;
 
@@ -1488,14 +1489,14 @@ gint gsb_data_transaction_get_archive_number ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_archive_number ( gint transaction_number,
-						   gint archive_number )
+                        gint archive_number )
 {
     struct_transaction *transaction;
 
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
     if ( !transaction )
-	return FALSE;
+    return FALSE;
 
     /* we choose to set or not the transaction to the transactions_list
      * if the archive_number of the transaction is 0 for now, it's already in that list,
@@ -1503,20 +1504,21 @@ gboolean gsb_data_transaction_set_archive_number ( gint transaction_number,
      * else, according to the new value, we remove it or append it */
     if (transaction -> archive_number)
     {
-	/* that transaction was an archive, so it's only in the complete_transactions_list */
-	if  (!archive_number)
-	    /* the transaction was an archive, and we transform it as non archived transaction,
-	     * so we add it into the transactions_list */
-	    transactions_list = g_slist_append ( transactions_list,
-						 transaction );
+    /* that transaction was an archive, so it's only in the complete_transactions_list */
+    if  (!archive_number)
+        /* the transaction was an archive, and we transform it as non archived transaction,
+         * so we add it into the transactions_list */
+        transactions_list = g_slist_append ( transactions_list, transaction );
     }
     else
     {
-	/* the transaction was not an archive, so it's into the 2 lists,
-	 * if we transform it as an archive, we remove it from the transactions_list */
-	if (archive_number)
-	    transactions_list = g_slist_remove ( transactions_list,
-						 transaction );
+        /* the transaction was not an archive, so it's into the 2 lists,
+         * if we transform it as an archive, we remove it from the transactions_list */
+        if (archive_number)
+        {
+        transaction_list_remove_archive_transaction ( transaction_number );
+        transactions_list = g_slist_remove ( transactions_list, transaction );
+        }
     }
 
     transaction -> archive_number = archive_number;
@@ -1549,7 +1551,7 @@ gint gsb_data_transaction_get_automatic_transaction ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_automatic_transaction ( gint transaction_number,
-							  gint automatic_transaction )
+                        gint automatic_transaction )
 {
     struct_transaction *transaction;
 
@@ -1591,7 +1593,7 @@ gint gsb_data_transaction_get_reconcile_number ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_reconcile_number ( gint transaction_number,
-						     gint reconcile_number )
+                        gint reconcile_number )
 {
     struct_transaction *transaction;
 
@@ -1650,7 +1652,7 @@ gint gsb_data_transaction_get_financial_year_number ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_financial_year_number ( gint transaction_number,
-							  gint financial_year_number )
+                        gint financial_year_number )
 {
     struct_transaction *transaction;
 
@@ -1689,7 +1691,7 @@ gint gsb_data_transaction_get_budgetary_number ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_budgetary_number ( gint transaction_number,
-						     gint budgetary_number )
+                        gint budgetary_number )
 {
     struct_transaction *transaction;
 
@@ -1727,7 +1729,7 @@ gint gsb_data_transaction_get_sub_budgetary_number ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_sub_budgetary_number ( gint transaction_number,
-							 gint sub_budgetary_number )
+                        gint sub_budgetary_number )
 {
     struct_transaction *transaction;
 
@@ -1766,7 +1768,7 @@ const gchar *gsb_data_transaction_get_voucher ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_voucher ( gint transaction_number,
-					    const gchar *voucher )
+                        const gchar *voucher )
 {
     struct_transaction *transaction;
 
@@ -1821,7 +1823,7 @@ const gchar *gsb_data_transaction_get_bank_references ( gint transaction_number 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_bank_references ( gint transaction_number,
-						    const gchar *bank_references )
+                        const gchar *bank_references )
 {
     struct_transaction *transaction;
 
@@ -1872,7 +1874,7 @@ gint gsb_data_transaction_get_contra_transaction_number ( gint transaction_numbe
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_contra_transaction_number ( gint transaction_number,
-							      gint transaction_number_transfer )
+                        gint transaction_number_transfer )
 {
     struct_transaction *transaction;
 
@@ -1945,7 +1947,7 @@ gint gsb_data_transaction_get_mother_transaction_number ( gint transaction_numbe
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_mother_transaction_number ( gint transaction_number,
-							      gint mother_transaction_number )
+                        gint mother_transaction_number )
 {
     struct_transaction *transaction;
 
@@ -1973,7 +1975,7 @@ gboolean gsb_data_transaction_set_mother_transaction_number ( gint transaction_n
  * \return the number of the new transaction
  * */
 gint gsb_data_transaction_new_transaction_with_number ( gint no_account,
-							gint transaction_number )
+                        gint transaction_number )
 {
     struct_transaction *transaction;
 
@@ -2085,7 +2087,7 @@ gint gsb_data_transaction_new_white_line ( gint mother_transaction_number)
  * \return TRUE if ok, FALSE else
  * */
 gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
-						 gint target_transaction_number )
+                        gint target_transaction_number )
 {
     struct_transaction *source_transaction;
     struct_transaction *target_transaction;
@@ -2332,7 +2334,7 @@ void gsb_data_transaction_delete_all_transactions ()
  * \return a GSList of the address/numbers of the children, NULL if no child
  * */
 GSList *gsb_data_transaction_get_children ( gint transaction_number,
-					    gboolean return_number)
+                        gboolean return_number)
 {
     struct_transaction *transaction;
     GSList *children_list = NULL;
@@ -2400,7 +2402,7 @@ GSList *gsb_data_transaction_get_children ( gint transaction_number,
  * \return the number of the transaction or 0 if not found
  * */
 gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
-						    gint account_number )
+                        gint account_number )
 {
     GSList *tmp_list;
 
@@ -2508,7 +2510,7 @@ gint gsb_data_transaction_get_white_line ( gint transaction_number )
  * \return the number of the transaction if one is found, FALSE if none found, so can use it
  * */
 gint gsb_data_transaction_check_content_payment ( gint payment_number,
-						  gint number )
+                        gint number )
 {
     GSList *tmp_list;
 
