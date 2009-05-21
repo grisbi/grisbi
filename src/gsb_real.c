@@ -417,68 +417,15 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
  */
 gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_exponent )
 {
-    struct lconv * conv = localeconv ( );
-    gsb_real number = null_real;
-    gchar *new_str;
-    gchar *mon_thousands_sep_utf8;
-    gchar *ptr;
-    gchar**	tab;
-    gint sign;
-
-    if ( !string
-	 ||
-	 !strlen (string) )
-        return number;
-
-    if ( g_strcmp0 (string, "0") == 0 )
-        return number;
-
-    new_str = my_strdup (string);
-
-    /* on enlève les séparateurs des milliers */
-    mon_thousands_sep_utf8 = g_locale_to_utf8 (
-                        conv->mon_thousands_sep, -1, NULL, NULL, NULL );
-    if ( (mon_thousands_sep_utf8 && g_utf8_strlen (mon_thousands_sep_utf8, -1)) ||
-        (ptr = g_strrstr (new_str, " ")) )
-    {
-        if ( g_utf8_strchr (new_str, -1, g_utf8_get_char (mon_thousands_sep_utf8)) ||
-            g_utf8_strchr (new_str, -1, ' ') )
-        {
-            tab = g_strsplit_set ( new_str, g_strconcat (
-                        " ", mon_thousands_sep_utf8, NULL), 0 );
-            g_free ( new_str );
-            new_str = g_strjoinv ( "", tab );
-            g_strfreev ( tab );
-        }
-    }
-
-    /* on extrait le signe */
-    if ( new_str[0] == *(conv -> negative_sign) )
-        sign = -1;
-    else
-        sign = 1;
-
-    /* On détermine l'exponent */
-    if ( (ptr = g_strrstr (new_str, ".")) ||
-        (ptr = g_strrstr (new_str, ",")) )
-        number.exponent = strlen ( ptr ) - 1;
-    else if ( strlen (conv -> mon_decimal_point) == 0 )
-        number.exponent = 0;
-    else if ( (ptr = g_strrstr (new_str, conv -> mon_decimal_point)) )
-        number.exponent = strlen ( ptr ) - 1;
-
-    /* on détermine la mantisse on supprime tous les séparateurs et autres signes */
-    tab = g_strsplit_set ( new_str, g_strconcat (
-                        "+-.,", conv -> mon_decimal_point, NULL), 0 );
-    g_free ( new_str );
-    new_str = g_strjoinv ( "", tab );
-    g_strfreev ( tab );
-
-    number.mantissa = (glong) g_ascii_strtod ( new_str, NULL );
-    number.mantissa = sign * number.mantissa;
-    g_free ( new_str );
-
-    return number;
+    struct lconv *conv = localeconv ( );
+    gchar *mon_thousands_sep = g_locale_to_utf8 (
+                             conv->mon_thousands_sep, -1, NULL, NULL, NULL );
+    gchar *mon_decimal_point = g_locale_to_utf8 (
+                             conv->mon_decimal_point, -1, NULL, NULL, NULL );
+    gsb_real result =  gsb_real_raw_get_from_string ( string, mon_thousands_sep, mon_decimal_point );
+    g_free ( mon_thousands_sep );
+    g_free ( mon_decimal_point );
+    return result;
 }
 
 
