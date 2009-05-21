@@ -120,7 +120,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
 {
     if ( (number.exponent < 0)
     || (number.exponent >= sizeofarray (gsb_real_power_10))
-    || (number.mantissa == 0x80000000) )
+    || (number.mantissa == error_real.mantissa) )
         return g_strdup("###ERR###");
 
     gchar format[40];
