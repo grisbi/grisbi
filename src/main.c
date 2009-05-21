@@ -89,6 +89,7 @@ extern gchar *nom_fichier_comptes;
 #include <CUnit/Basic.h>
 
 #include "gsb_real_cunit.h"
+#include "utils_dates_cunit.h"
 
 int gsb_cunit_run_tests()
 {
@@ -97,8 +98,9 @@ int gsb_cunit_run_tests()
         return CU_get_error();
 
     /* add a suite to the registry */
-    CU_pSuite pSuite = gsb_real_cunit_create_suite();
-    if(NULL == pSuite)
+    if ( ( NULL == gsb_real_cunit_create_suite ( ) )
+      || ( NULL == utils_dates_cunit_create_suite ( ) )
+        )
     {
         CU_cleanup_registry();
         return CU_get_error();

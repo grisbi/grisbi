@@ -138,6 +138,7 @@ sources = \
 	utils.c			\
 	utils_buttons.c		\
 	utils_dates.c		\
+	utils_dates_cunit.c		\
 	utils_editables.c	\
 	utils_file_selection.c	\
 	utils_files.c		\
@@ -283,6 +284,7 @@ grisbi_INCLUDES =		\
 	utils.h			\
 	utils_buttons.h		\
 	utils_dates.h		\
+	utils_dates_cunit.h		\
 	utils_editables.h	\
 	utils_file_selection.h	\
 	utils_files.h		\
