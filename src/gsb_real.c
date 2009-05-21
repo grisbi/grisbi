@@ -307,6 +307,99 @@ gsb_real gsb_real_new ( gint mantissa, gint exponent )
 }
 
 
+/**
+ * get a gsb_real number from a string
+ * the string can be formatted :
+ * - spaces and the given utf8-encoded thousands separators are ignored
+ * - handle ",", "." and the given utf8-encoded decimal separator
+ * - another character makes a error_real return
+ *
+ * \param string
+ * \param mon_thousands_sep, can be NULL or empty, but only one utf8 sequence
+ * \param mon_decimal_point, can be NULL or empty, but only one utf8 sequence
+ *
+ * \return the number in the string transformed to gsb_real
+ */
+gsb_real gsb_real_raw_get_from_string ( const gchar *string,
+                                        const gchar *mon_thousands_sep,
+                                        const gchar *mon_decimal_point )
+{
+    assert ( !mon_thousands_sep || ( g_utf8_strlen ( mon_thousands_sep, -1 ) <= 1 ) );
+    assert ( !mon_decimal_point || ( g_utf8_strlen ( mon_decimal_point, -1 ) <= 1 ) );
+
+    if ( !string)
+        return error_real;
+
+    unsigned mts_len = mon_thousands_sep
+                       ? strlen ( mon_thousands_sep )
+                       : 0;
+    unsigned mdp_len = mon_decimal_point ? strlen ( mon_decimal_point ) : 0;
+
+    static const gchar *space_chars = " ";
+    static const gchar *decimal_chars = ".,";
+    static const gchar *positive_chars = "+";
+    static const gchar *negative_chars = "-";
+
+    unsigned nb_digits = 0;
+    gint64 mantissa = 0;
+    gint8 sign = 0;
+    gint8 dot_position = -1;
+    const gchar *p = string;
+    for ( ; ; )
+    {
+        if ( g_ascii_isdigit ( *p ) )
+        {
+            mantissa *= 10;
+            mantissa += ( *p - '0' );
+            if ( mantissa > G_MAXLONG )
+                return error_real;
+            if ( sign == 0 ) sign = 1; // no sign found yet ==> positive
+            ++nb_digits;
+            ++p;
+        }
+        else if ( *p == 0 ) // terminal zero
+        {
+            gint exponent = ( dot_position >= 0 )
+                              ? nb_digits - dot_position
+                              : 0;
+            gsb_real result = { sign * mantissa, exponent };
+            return result;
+        }
+        else if ( strchr ( space_chars, *p )
+             || ( mts_len && ( strncmp ( p, mon_thousands_sep, mts_len ) == 0 ) ) )
+        {
+            // just skip spaces and thousands separators
+            p = g_utf8_find_next_char ( p, NULL );
+        }
+        else if ( strchr ( decimal_chars, *p )
+             || ( mdp_len && ( strncmp ( p, mon_decimal_point, mdp_len ) == 0 ) ) )
+        {
+            if ( dot_position >= 0 ) // already found a decimal separator
+                return error_real;
+            dot_position = nb_digits;
+            p = g_utf8_find_next_char ( p, NULL );
+        }
+        else if ( strchr ( negative_chars, *p ) )
+        {
+            if ( sign != 0 ) // sign already set
+                return error_real;
+            sign = -1;
+            ++p;
+        }
+        else if ( strchr ( positive_chars, *p ) )
+        {
+            if ( sign != 0 ) // sign already set
+                return error_real;
+            sign = 1;
+            ++p;
+        }
+        else // unknown char ==> error
+        {
+            return error_real;
+        }
+    }
+}
+
 
 /**
  * get a real number from a string

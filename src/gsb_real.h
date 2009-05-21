@@ -28,6 +28,9 @@ gint gsb_real_cmp ( gsb_real number_1,
 gsb_real gsb_real_div ( gsb_real number_1,
                         gsb_real number_2 );
 gsb_real gsb_real_double_to_real ( gdouble number );
+gsb_real gsb_real_raw_get_from_string ( const gchar *string,
+                                        const gchar *mon_thousands_sep,
+                                        const gchar *mon_decimal_point );
 gsb_real gsb_real_get_from_string ( const gchar *string );
 gchar *gsb_real_get_string ( gsb_real number );
 gchar *gsb_real_get_string_with_currency ( gsb_real number,

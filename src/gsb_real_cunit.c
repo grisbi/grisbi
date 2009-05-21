@@ -73,6 +73,237 @@ void gsb_real_cunit__gsb_real_get_from_string ( void )
     CU_ASSERT_EQUAL(0, val.exponent);
 }
 
+void gsb_real_cunit__gsb_real_raw_get_from_string()
+{
+    gsb_real val;
+    // NULL ==> error
+    val = gsb_real_raw_get_from_string ( NULL, NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    val = gsb_real_raw_get_from_string ( "", NULL, NULL );
+    // empty ==> 0
+    CU_ASSERT_EQUAL ( 0, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    val = gsb_real_raw_get_from_string ( "0", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    val = gsb_real_raw_get_from_string ( "1", NULL, NULL );
+    CU_ASSERT_EQUAL ( 1, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    val = gsb_real_raw_get_from_string ( "12", NULL, NULL );
+    CU_ASSERT_EQUAL ( 12, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // ignore left spaces
+    val = gsb_real_raw_get_from_string ( "   12", NULL, NULL );
+    CU_ASSERT_EQUAL ( 12, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // ignore right spaces
+    val = gsb_real_raw_get_from_string ( "12   ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 12, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // ignore left-middle-right spaces
+    val = gsb_real_raw_get_from_string ( "    1   2   ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 12, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // significant zeros
+    val = gsb_real_raw_get_from_string ( "12000", NULL, NULL );
+    CU_ASSERT_EQUAL ( 12000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // useless zeros
+    val = gsb_real_raw_get_from_string ( "00012", NULL, NULL );
+    CU_ASSERT_EQUAL ( 12, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // comma decimal separator
+    val = gsb_real_raw_get_from_string ( "123,45", NULL, NULL );
+    CU_ASSERT_EQUAL ( 12345, val.mantissa );
+    CU_ASSERT_EQUAL ( 2, val.exponent );
+
+    // dot decimal separator
+    val = gsb_real_raw_get_from_string ( "123.45", NULL, NULL );
+    CU_ASSERT_EQUAL ( 12345, val.mantissa );
+    CU_ASSERT_EQUAL ( 2, val.exponent );
+
+    // decimal separator with spaces
+    val = gsb_real_raw_get_from_string ( "  123  .  45  ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 12345, val.mantissa );
+    CU_ASSERT_EQUAL ( 2, val.exponent );
+
+    // decimal separator with space, and zeroes
+    val = gsb_real_raw_get_from_string ( "0 0123.4500", NULL, NULL );
+    CU_ASSERT_EQUAL ( 1234500, val.mantissa );
+    CU_ASSERT_EQUAL ( 4, val.exponent );
+
+    // decimal separator with space, zero, and value less than 1
+    val = gsb_real_raw_get_from_string ( "  0.123  45 ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 12345, val.mantissa );
+    CU_ASSERT_EQUAL ( 5, val.exponent );
+
+    // decimal separator with space, no zero, and value less than 1
+    val = gsb_real_raw_get_from_string ( "  .123  45 ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 12345, val.mantissa );
+    CU_ASSERT_EQUAL ( 5, val.exponent );
+
+    // multiple decimal separators ==> error
+    val = gsb_real_raw_get_from_string ( "  123  .  45 . ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // large number
+    val = gsb_real_raw_get_from_string ( "21000000", NULL, NULL );
+    CU_ASSERT_EQUAL ( 21000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // large number with thousands separators
+    val = gsb_real_raw_get_from_string ( "21 000 000", NULL, NULL );
+    CU_ASSERT_EQUAL ( 21000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // large number (largest-1) with thousands separators
+    val = gsb_real_raw_get_from_string ( " 2 147 483 646 ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 2147483646, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // largest positive number with thousands separators
+    val = gsb_real_raw_get_from_string ( " 2 147 483 647 ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 2147483647, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // too large positive number ==> error
+    val = gsb_real_raw_get_from_string ( " 2 147 483 648 ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // too large positive number ==> error
+    val = gsb_real_raw_get_from_string ( " 2 147 483 649 ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // very large positive number ==> error
+    val = gsb_real_raw_get_from_string ( " 112 147 483 649 ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // 0 with positive sign
+    val = gsb_real_raw_get_from_string ( "+0", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // 0 with negative sign
+    val = gsb_real_raw_get_from_string ( "-0", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // negative number
+    val = gsb_real_raw_get_from_string ( "-1", NULL, NULL );
+    CU_ASSERT_EQUAL ( -1, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // positive number
+    val = gsb_real_raw_get_from_string ( "+1", NULL, NULL );
+    CU_ASSERT_EQUAL ( 1, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // negative two digits
+    val = gsb_real_raw_get_from_string ( "-12", NULL, NULL );
+    CU_ASSERT_EQUAL ( -12, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // positive two digits
+    val = gsb_real_raw_get_from_string ( "+12", NULL, NULL );
+    CU_ASSERT_EQUAL ( 12, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // negative sign at unexpected position ==> error
+    val = gsb_real_raw_get_from_string ( "1-2", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // positive sign at unexpected position ==> error
+    val = gsb_real_raw_get_from_string ( "1+2", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // two signs ==> error
+    val = gsb_real_raw_get_from_string ( "-1+2", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // two signs ==> error
+    val = gsb_real_raw_get_from_string ( "+1-2", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // two signs ==> error
+    val = gsb_real_raw_get_from_string ( "--1", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // decimal separator, no zero, and value less than 1
+    val = gsb_real_raw_get_from_string ( "-.12345", NULL, NULL );
+    CU_ASSERT_EQUAL ( -12345, val.mantissa );
+    CU_ASSERT_EQUAL ( 5, val.exponent );
+
+    // large negative number (largest+1) with thousands separators
+    val = gsb_real_raw_get_from_string ( " -2 147 483 646 ", NULL, NULL );
+    CU_ASSERT_EQUAL ( -2147483646, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // largest negative number with thousands separators
+    val = gsb_real_raw_get_from_string ( " -2 147 483 647 ", NULL, NULL );
+    CU_ASSERT_EQUAL ( -2147483647, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // too large negative number ==> error
+    val = gsb_real_raw_get_from_string ( " -2 147 483 648 ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // too large negative number ==> error
+    val = gsb_real_raw_get_from_string ( " -2 147 483 649 ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // too large negative number ==> error
+    val = gsb_real_raw_get_from_string ( " -112 147 483 649 ", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+
+    // error number as string ==> error
+    val = gsb_real_raw_get_from_string ( "###ERR###", NULL, NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+}
+
+void gsb_real_cunit__gsb_real_raw_get_from_string__locale()
+{
+    gsb_real val;
+    // locale's thousands separator override comma
+    val = gsb_real_raw_get_from_string ( "1,000.00", ",", "." );
+    CU_ASSERT_EQUAL ( 100000, val.mantissa );
+    CU_ASSERT_EQUAL ( 2, val.exponent );
+
+    // utf8 thousands separator (non-break space)
+    gchar tmp[] = { '1', 0xC2, 0xA0, '0', '0', '0', '.', '0', '0', 0x0 };
+    val = gsb_real_raw_get_from_string ( tmp, "\xC2\xA0", NULL );
+    CU_ASSERT_EQUAL ( 100000, val.mantissa );
+    CU_ASSERT_EQUAL ( 2, val.exponent );
+
+    // non-break space used as separator, but locale says somthing else
+    val = gsb_real_raw_get_from_string ( tmp, "\xC2\xA1", NULL );
+    CU_ASSERT_EQUAL ( 0x80000000, val.mantissa );
+    CU_ASSERT_EQUAL ( 0, val.exponent );
+}
+
 void gsb_real_cunit__gsb_real_raw_format_string ( void )
 {
     gchar *s;
@@ -397,12 +628,14 @@ CU_pSuite gsb_real_cunit_create_suite ( void )
     if(NULL == pSuite)
         return NULL;
 
-    if((NULL == CU_add_test(pSuite, "of gsb_real_get_from_string()",   gsb_real_cunit__gsb_real_get_from_string))
-    || (NULL == CU_add_test(pSuite, "of gsb_real_raw_format_string()", gsb_real_cunit__gsb_real_raw_format_string))
-    || (NULL == CU_add_test(pSuite, "of gsb_real_gsb_real_normalize()",  gsb_real_cunit__gsb_real_normalize))
-    || (NULL == CU_add_test(pSuite, "of gsb_real_add()",               gsb_real_cunit__gsb_real_add))
-    || (NULL == CU_add_test(pSuite, "of gsb_real_sub()",               gsb_real_cunit__gsb_real_sub))
-    || (NULL == CU_add_test(pSuite, "of gsb_real_mul()",               gsb_real_cunit__gsb_real_mul))
+    if ( ( NULL == CU_add_test( pSuite, "of gsb_real_get_from_string()",     gsb_real_cunit__gsb_real_get_from_string ) )
+      || ( NULL == CU_add_test( pSuite, "of gsb_real_raw_get_from_string()", gsb_real_cunit__gsb_real_raw_get_from_string ) )
+      || ( NULL == CU_add_test( pSuite, "of gsb_real_raw_get_from_string() with locale", gsb_real_cunit__gsb_real_raw_get_from_string__locale ) )
+      || ( NULL == CU_add_test( pSuite, "of gsb_real_raw_format_string()",   gsb_real_cunit__gsb_real_raw_format_string ) )
+      || ( NULL == CU_add_test( pSuite, "of gsb_real_gsb_real_normalize()",  gsb_real_cunit__gsb_real_normalize ) )
+      || ( NULL == CU_add_test( pSuite, "of gsb_real_add()",                 gsb_real_cunit__gsb_real_add ) )
+      || ( NULL == CU_add_test( pSuite, "of gsb_real_sub()",                 gsb_real_cunit__gsb_real_sub ) )
+      || ( NULL == CU_add_test( pSuite, "of gsb_real_mul()",                 gsb_real_cunit__gsb_real_mul ) )
        )
         return NULL;
 
