@@ -45,22 +45,20 @@
 #include "./gsb_file_config.h"
 #include "./gsb_status.h"
 #include "./gsb_plugins.h"
-#include "./gsb_real_cunit.h"
 #include "./traitement_variables.h"
 #include "./erreur.h"
 #include "./parse_cmdline.h"
 #include "./import.h"
-#include "./utils_dates_cunit.h"
 #include "./parse_cmdline.h"
 #include "./gsb_file_config.h"
 #include "./include.h"
 #include "./erreur.h"
 #include "./structures.h"
+#include "./main_cunit.h"
 /*END_INCLUDE*/
 
 
 /*START_STATIC*/
-static int gsb_cunit_run_tests();
 static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
 					  GdkEventWindowState *event,
 					  gpointer null );
@@ -84,41 +82,6 @@ extern gint largeur_window;
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
-#if HAVE_CUNIT
-
-#include <CUnit/Automated.h>
-#include <CUnit/Basic.h>
-
-#include "gsb_real_cunit.h"
-#include "utils_dates_cunit.h"
-
-int gsb_cunit_run_tests()
-{
-    /* initialize the CUnit test registry */
-    if (CUE_SUCCESS != CU_initialize_registry())
-        return CU_get_error();
-
-    /* add a suite to the registry */
-    if ( ( NULL == gsb_real_cunit_create_suite ( ) )
-      || ( NULL == utils_dates_cunit_create_suite ( ) )
-        )
-    {
-        CU_cleanup_registry();
-        return CU_get_error();
-    }
-
-    /* Run all tests */
-#ifdef _WIN32
-    CU_automated_run_tests();
-#else//_WIN32
-	CU_basic_run_tests();
-#endif//_WIN32
-    CU_cleanup_registry();
-    return CU_get_error();
-}
-#endif//HAVE_CUNIT
-
-
 
 /**
  * Main function
@@ -130,9 +93,7 @@ int gsb_cunit_run_tests()
  */
 int main (int argc, char **argv)
 {
-#if HAVE_CUNIT
     gsb_cunit_run_tests();
-#endif//HAVE_CUNIT
 
     GtkWidget * statusbar;
     gboolean first_use = FALSE;

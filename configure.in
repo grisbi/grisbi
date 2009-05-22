@@ -142,6 +142,31 @@ AM_CONDITIONAL(HAVE_SSL, test x$nossl != xtrue)
 
 
 dnl
+dnl Check for cunit
+dnl
+AC_CHECK_HEADER(CUnit/Basic.h,,nocunit=true)
+AC_ARG_WITH(cunit,
+	[  --with-cunit         build grisbi with cunit tests [default=without]],
+	[build_cunit=$withval],
+	[build_cunit=no]
+)
+if test x$build_cunit != xyes
+then
+	nocunit=true
+else
+	if test x$nocunit != xtrue
+	then
+		nocunit=false
+		CFLAGS="${CFLAGS} -DHAVE_CUNIT"
+		LDFLAGS="${LDFLAGS} -lcunit"
+	else
+		AC_MSG_RESULT([libcunit header missing. Check your libcunit installation])
+	fi
+fi
+AM_CONDITIONAL(HAVE_CUNIT, test x$nocunit != xtrue)
+
+
+dnl
 dnl Check for libofx
 dnl
 AC_CHECK_HEADER(libofx/libofx.h,,noofx=true)

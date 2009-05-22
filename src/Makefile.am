@@ -1,12 +1,12 @@
 # Process this file with automake to produce Makefile.in
 
 localedir = $(datadir)/locale
-INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DHAVE_CUNIT -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(prefix)/lib/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(datadir)/doc/@PACKAGE@\""  -Wall
+INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(prefix)/lib/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(datadir)/doc/@PACKAGE@\""  -Wall
 bin_PROGRAMS = grisbi
 
 # TODO: This manual setting of -Wl is a hack, I cannot get it from
 # configure right now because of no doc.
-grisbi_LDFLAGS = @lt_prog_compiler_wl@@export_dynamic_flag_spec@ -lcunit
+grisbi_LDFLAGS = @lt_prog_compiler_wl@@export_dynamic_flag_spec@
 
 config_dir = config
 
@@ -97,7 +97,6 @@ sources = \
 	gsb_payment_method_config.c	\
 	gsb_plugins.c		\
 	gsb_real.c		\
-	gsb_real_cunit.c	\
 	gsb_reconcile.c		\
 	gsb_reconcile_config.c	\
 	gsb_reconcile_list.c	\
@@ -115,6 +114,7 @@ sources = \
 	import_csv.c		\
 	imputation_budgetaire.c	\
 	main.c			\
+	main_cunit.c			\
 	menu.c			\
 	meta_budgetary.c	\
 	meta_categories.c	\
@@ -138,7 +138,6 @@ sources = \
 	utils.c			\
 	utils_buttons.c		\
 	utils_dates.c		\
-	utils_dates_cunit.c		\
 	utils_editables.c	\
 	utils_file_selection.c	\
 	utils_files.c		\
@@ -146,8 +145,6 @@ sources = \
 	utils_operations.c	\
 	utils_str.c		\
 	balance_estimate_tab.c
-
-grisbi_SOURCES = $(sources) $(sources_config)
 
 grisbi_INCLUDES =		\
 	$(include_config)       \
@@ -228,7 +225,6 @@ grisbi_INCLUDES =		\
 	gsb_payment_method_config.h	\
         gsb_plugins.h           \
 	gsb_real.h		\
-	gsb_real_cunit.h	\
 	gsb_reconcile.h		\
 	gsb_reconcile_config.h	\
 	gsb_reconcile_list.h	\
@@ -259,6 +255,7 @@ grisbi_INCLUDES =		\
 	imputation_budgetaire.h	\
 	include.h		\
 	main.h			\
+	main_cunit.h			\
 	menu.h			\
         meta_budgetary.h        \
         meta_categories.h       \
@@ -284,7 +281,6 @@ grisbi_INCLUDES =		\
 	utils.h			\
 	utils_buttons.h		\
 	utils_dates.h		\
-	utils_dates_cunit.h		\
 	utils_editables.h	\
 	utils_file_selection.h	\
 	utils_files.h		\
@@ -292,8 +288,21 @@ grisbi_INCLUDES =		\
 	utils_operations.h	\
 	utils_str.h
 
+cunit_sources = \
+	gsb_real_cunit.c	\
+	utils_dates_cunit.c	
 
-EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime $(grisbi_INCLUDES)
+cunit_includes = \
+	gsb_real_cunit.h	\
+	utils_dates_cunit.h
+
+if HAVE_CUNIT
+grisbi_SOURCES = $(sources) $(sources_config) $(cunit_sources)
+else#HAVE_CUNIT
+grisbi_SOURCES = $(sources) $(sources_config)
+endif#HAVE_CUNIT
+
+EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime $(grisbi_INCLUDES) $(cunit_sources) $(cunit_includes)
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
