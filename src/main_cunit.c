@@ -40,6 +40,7 @@
 #include "include.h"
 
 /*START_INCLUDE*/
+#include "gsb_data_account_cunit.h"
 #include "gsb_real_cunit.h"
 #include "utils_dates_cunit.h"
 /*END_INCLUDE*/
@@ -61,7 +62,8 @@ int gsb_cunit_run_tests()
         return CU_get_error();
 
     /* add a suite to the registry */
-    if ( ( NULL == gsb_real_cunit_create_suite ( ) )
+    if ( ( NULL == gsb_data_account_cunit_create_suite ( ) )
+      || ( NULL == gsb_real_cunit_create_suite ( ) )
       || ( NULL == utils_dates_cunit_create_suite ( ) )
         )
     {

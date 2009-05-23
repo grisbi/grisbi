@@ -27,6 +27,7 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data );
 void gsb_data_account_colorize_current_balance ( gint account_number );
 gint gsb_data_account_compare_position ( gint account_number_1,
                         gint account_number_2 );
+gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number );
 gboolean gsb_data_account_delete ( gint account_number );
 gint gsb_data_account_first_number ( void );
 gint gsb_data_account_get_account_by_id ( const gchar *account_id );

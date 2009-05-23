@@ -118,7 +118,6 @@ typedef struct
 
 /*START_STATIC*/
 static  void _gsb_data_account_free ( struct_account* account );
-static gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number );
 static void gsb_data_account_delete_all_accounts (void);
 static struct_account *gsb_data_account_get_structure ( gint no );
 static gint gsb_data_account_max_number ( void );
