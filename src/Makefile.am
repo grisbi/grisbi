@@ -289,10 +289,12 @@ grisbi_INCLUDES =		\
 	utils_str.h
 
 cunit_sources = \
+	gsb_data_account_cunit.c	\
 	gsb_real_cunit.c	\
 	utils_dates_cunit.c	
 
 cunit_includes = \
+	gsb_data_account_cunit.h	\
 	gsb_real_cunit.h	\
 	utils_dates_cunit.h
 
