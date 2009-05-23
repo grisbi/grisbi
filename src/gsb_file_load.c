@@ -87,7 +87,7 @@ static void gsb_file_load_bank ( const gchar **attribute_names,
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
 static void gsb_file_load_color_part ( const gchar **attribute_names,
                         const gchar **attribute_values );
-static gboolean gsb_file_load_copy_old_file_and_glib ( gchar *filename, gchar *file_content);
+static void gsb_file_load_copy_old_file ( gchar *filename, gchar *file_content);
 static void gsb_file_load_currency ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_currency_link ( const gchar **attribute_names,
@@ -345,13 +345,8 @@ gboolean gsb_file_load_open_file ( gchar *filename )
         else
         {
             /* copy of an old file grisbi */
-//~ #if GLIB_CHECK_VERSION(2,18,0)
-        //~ if ( ! gsb_file_load_copy_old_file ( filename ) )
-            //~ return FALSE;
-//~ # else
-            if ( ! gsb_file_load_copy_old_file_and_glib ( filename, file_content ) )
-            return FALSE;
-//~ #endif
+            gsb_file_load_copy_old_file ( filename, file_content );
+
             /* fill the GMarkupParser for the last xml structure */
             markup_parser -> start_element = (void *) gsb_file_load_start_element_before_0_6;
             markup_parser -> end_element = (void *) gsb_file_load_end_element_before_0_6;
@@ -7908,13 +7903,11 @@ gboolean gsb_file_load_set_last_reconcile_data ( gint account_number,
  *
  * \return TRUE : ok, FALSE : problem
  * */
-/*gboolean gsb_file_load_copy_old_file ( gchar *filename )
+
+void gsb_file_load_copy_old_file ( gchar *filename, gchar *file_content)
 {
     if ( g_str_has_suffix (filename, ".gsb" ) )
     {
-        gchar *new_filename;
-        GFile * file_ori;
-        GFile * file_copy;
         GError * error = NULL;
 
         copy_old_filename = g_path_get_basename ( filename );
@@ -7923,31 +7916,22 @@ gboolean gsb_file_load_set_last_reconcile_data ( gint account_number,
         copy_old_filename = g_build_filename ( G_DIR_SEPARATOR_S, 
                         my_get_XDG_grisbi_data_dir (),
                         copy_old_filename, NULL );
+
+#if GLIB_CHECK_VERSION (2,18,0)
+        GFile * file_ori;
+        GFile * file_copy;
+
         file_ori = g_file_new_for_path ( filename );
         file_copy = g_file_new_for_path ( copy_old_filename );
         if ( !g_file_copy ( file_ori, file_copy, G_FILE_COPY_OVERWRITE, 
                         NULL, NULL, NULL, &error ) )
             dialogue_error (error -> message );
-    }
-    return TRUE;
-} */
-
-gboolean gsb_file_load_copy_old_file_and_glib ( gchar *filename, gchar *file_content)
-{
-    if ( g_str_has_suffix (filename, ".gsb" ) )
-    {
-        GError * error = NULL;
-
-        copy_old_filename = g_path_get_basename ( filename );
-        copy_old_filename = gsb_string_remplace_string ( copy_old_filename, ".gsb",
-                        "-old-version.gsb" );
-        copy_old_filename = g_build_filename ( G_DIR_SEPARATOR_S, 
-                        my_get_XDG_grisbi_data_dir (),
-                        copy_old_filename, NULL );
+#else
         if ( ! g_file_set_contents ( copy_old_filename, file_content,-1, &error ) )
             dialogue_error (error -> message );
+#endif
+        g_free ( copy_old_filename );
     }
-    return TRUE;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */
