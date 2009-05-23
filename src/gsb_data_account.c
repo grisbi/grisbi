@@ -128,6 +128,7 @@ static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 
 /*START_EXTERN*/
 extern gsb_real null_real;
+extern gsb_real error_real;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
@@ -976,6 +977,8 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 						 floating_point );
     marked_balance = gsb_real_adjust_exponent ( account -> init_balance,
 						floating_point );
+    gsb_real current_balance_later = null_real;
+    gsb_real marked_balance_later = null_real;
 
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
 
@@ -989,20 +992,30 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 	     &&
 	     !gsb_data_transaction_get_mother_transaction_number (transaction_number))
 	{
-	    current_balance = gsb_real_add ( current_balance,
-					     gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point));
+        gsb_real adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
+
+        gsb_real tmp_balance = gsb_real_add ( current_balance, adjusted_amout );
+	    if( tmp_balance.mantissa != error_real.mantissa )
+	        current_balance = tmp_balance;
+        else
+            current_balance_later = gsb_real_add ( current_balance_later, adjusted_amout);
 
 	    if ( gsb_data_transaction_get_marked_transaction (transaction_number))
-		marked_balance = gsb_real_add ( marked_balance,
-						gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point));
+	    {
+            tmp_balance = gsb_real_add ( marked_balance, adjusted_amout );
+    	    if( tmp_balance.mantissa != error_real.mantissa )
+	            marked_balance = tmp_balance;
+            else
+                marked_balance_later = gsb_real_add ( marked_balance_later, adjusted_amout);
+        }
 	}
 	tmp_list = tmp_list -> next;
     }
 
-    account -> current_balance = current_balance;
-    account -> marked_balance = marked_balance;
+    account -> current_balance = gsb_real_add ( current_balance, current_balance_later );
+    account -> marked_balance = gsb_real_add ( marked_balance, marked_balance_later );
 
-    return current_balance;
+    return account -> current_balance;
 }
 
 
