@@ -1,15 +1,15 @@
 # translation of es.po to Español
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) 2004 THE PACKAGE'S COPYRIGHT HOLDER.
-# Carlos M. Cámara Mora <carcam_moceu@yahoo.es>, 2004.
 #
 #
+# Carlos M. Cámara Mora <carcam_moceu@yahoo.es>, 200, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-05-21 17:15+0200\n"
-"PO-Revision-Date: 2009-05-08 19:25+0200\n"
+"PO-Revision-Date: 2009-05-23 21:08+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8318,13 +8318,12 @@ msgid "Import terminated"
 msgstr "Importación terminada"
 
 #: src/import.c:949
-#, fuzzy
 msgid ""
 "You have successfully set up transactions import into Grisbi. Press the "
 "'Close' button to terminate import."
 msgstr ""
-"Ha configurado correctamente la importación de transacciones en Grisbi.  "
-"Pulse el botón de 'Cerrar' para terminar la importación."
+"Ha configurado correctamente la importación de transacciones en Grisbi. "
+"Pulse el botón 'Cerrar' para terminar la importación."
 
 #: src/import.c:1070
 msgid "file"
@@ -8388,12 +8387,12 @@ msgstr ""
 "Intentaremos continuar con la importación, pero pueden suceder cosas malas..."
 
 #: src/import.c:1395
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
 "to that rule. Please set a name or let it empty to cancel the rule creation."
 msgstr ""
-"Quiere crear una regla de importación para la cuenta %s pero no le dio un "
+"Quiere crear una regla de importación para la cuenta %s, pero no le dio un "
 "nombre a esa regla. Por favor, elija un nombre o déjelo en blanco para "
 "cancelar la creación de la regla."
 
@@ -8422,7 +8421,6 @@ msgid "Please wait"
 msgstr "Por favor espere"
 
 #: src/import.c:1461
-#, fuzzy
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
@@ -8430,7 +8428,7 @@ msgid ""
 msgstr ""
 "Acaba de importar transacciones reconciliadas, pero no están asociadas a "
 "ningún número de reconciliación todavía. Puede asociarlas con una "
-"reconciliación más tarde a través de la ventana de opciones."
+"reconciliación más tarde a través de las ventanas de configuración."
 
 #: src/import.c:1715
 msgid "Imported account"
@@ -8532,11 +8530,9 @@ msgid "Orphaned transactions"
 msgstr "Transacciones huérfanas"
 
 #: src/import.c:2908
-#, fuzzy
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
-"Marque las transacciones que desea añadir a la lista y pinche en el botón "
-"añadir"
+"Marque las transacciones que desea añadir a la lista y pinche en el botón OK"
 
 #: src/import.c:2979
 msgid "Mark"
@@ -8590,13 +8586,12 @@ msgid "Import associations"
 msgstr "Importar asociaciones"
 
 #: src/import.c:3307
-#, fuzzy
 msgid ""
 "This will associate a search string to a payee every time you import a file. "
 "For instance, all QIF labels containing 'Rent' could be associated with  a "
 "specific payee representing your landlord."
 msgstr ""
-"Esto asociará una cadena de búsqueda a un pagador cada vez que importe un "
+"Esto asociará una cadena de búsqueda a un tercero cada vez que importe un "
 "fichero.  Por ejemplo, todas las etiquetas QIF que contengan 'Renta' podrían "
 "asociarse con un tercero específico que represente a su casero."
 
