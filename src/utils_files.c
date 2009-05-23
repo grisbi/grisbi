@@ -1,10 +1,10 @@
 /* ************************************************************************** */
-/*                                  utils_files.c			      */
+/*                                  utils_files.c                             */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
-/*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2007 Benjamin Drieu (bdrieu@april.org)                       */
+/*          2003-2004 Alain Portal (aportal@univ-montp2.fr)                   */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -124,7 +124,7 @@ gchar* my_get_XDG_grisbirc_dir(void)
  * 
  * \return the absolute path of the home directory
  */
-gchar* my_get_XDG_grisbi_data_dir(void)
+gchar* my_get_XDG_grisbi_data_dir ( void )
 {
 #ifndef _WIN32
     return (gchar *) C_PATH_DATA_FILES;
@@ -140,7 +140,7 @@ gchar* my_get_XDG_grisbi_data_dir(void)
  * 
  * \return the absolute path of the configuration file directory
  */
-gchar* my_get_gsb_file_default_dir(void)
+gchar* my_get_gsb_file_default_dir ( void )
 {
 #ifndef _WIN32
     return (gchar *) g_get_home_dir();
@@ -161,8 +161,8 @@ gchar* my_get_gsb_file_default_dir(void)
  * \return EOF, 1 if ok, 0 if problem
  * */
 gint get_utf8_line_from_file ( FILE *fichier,
-			       gchar **string,
-			       const gchar *coding_system )
+                        gchar **string,
+                        const gchar *coding_system )
 {
     gchar c = 0;
     gint i = 0;

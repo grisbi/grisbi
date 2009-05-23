@@ -40,9 +40,10 @@
 #include "include.h"
 
 /*START_INCLUDE*/
-#include "gsb_data_account_cunit.h"
-#include "gsb_real_cunit.h"
-#include "utils_dates_cunit.h"
+#include "main_cunit.h"
+#include "./gsb_data_account_cunit.h"
+#include "./gsb_real_cunit.h"
+#include "./utils_dates_cunit.h"
 /*END_INCLUDE*/
 
 #endif/*HAVE_CUNIT*/
@@ -75,7 +76,7 @@ int gsb_cunit_run_tests()
 #ifdef _WIN32
     CU_automated_run_tests();
 #else//_WIN32
-	CU_basic_run_tests();
+    CU_basic_run_tests();
 #endif//_WIN32
     CU_cleanup_registry();
     return CU_get_error();

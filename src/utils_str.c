@@ -1,9 +1,9 @@
 /* ************************************************************************** */
 /*                                  utils_str.c                               */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cedric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -105,7 +105,7 @@ gchar *utils_str_itoa ( gint integer )
  * \return a newly allocated string with only 'exponent' digits after the separator (need to be freed). This function returns NULL if the amount_string parameter is NULL.
  * */
 gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
-					       gint exponent )
+                        gint exponent )
 {
     gint i=0;
     gchar *return_string;
@@ -255,8 +255,8 @@ gchar * latin2utf8 ( const gchar * inchar)
  * \return a newly allocated string or NULL
  * */
 gchar *my_strdelimit ( const gchar *string,
-		       const gchar *delimiters,
-		       const gchar *new_delimiters )
+                        const gchar *delimiters,
+                        const gchar *new_delimiters )
 {
     gchar **tab_str;
     gchar *retour;
@@ -327,7 +327,7 @@ gint my_strcmp ( gchar *string_1, gchar *string_2 )
  * \return -1 if string_1 berfore string_2
  * */
 gint gsb_strcasecmp ( gchar *string_1,
-		      gchar *string_2 )
+                        gchar *string_2 )
 {
     string_1 = my_strdup ( string_1 );
     string_1 = g_strdelimit ( string_1, "éÉèÈêÊ", 'e' );
@@ -364,7 +364,7 @@ gint gsb_strcasecmp ( gchar *string_1,
  * \return -1 string_1 before string_2 (or string_2 NULL) ; 0 if same or NULL everyone ; +1 if string_1 after string_2 (or string_1 NULL)
  * */
 gint my_strcasecmp ( const gchar *string_1,
-		     const gchar *string_2 )
+                        const gchar *string_2 )
 {
     if (!string_1 && string_2)
 	return 1;
@@ -407,8 +407,8 @@ gint my_strcasecmp ( const gchar *string_1,
 /* my_strncasecmp : compare 2 chaines case-insensitive que ce soit utf8 ou ascii */
 /* ******************************************************************************* */
 gint my_strncasecmp ( gchar *string_1,
-		      gchar *string_2,
-		      gint longueur )
+                        gchar *string_2,
+                        gint longueur )
 {
     if ( string_1
 	 &&
@@ -472,7 +472,7 @@ gchar *my_strdup ( const gchar *string )
  * \return a dupplicate version of the string with max length character (must to be freed)
  * */
 gchar *limit_string ( gchar *string,
-		      gint length )
+                        gint length )
 {
     gchar *string_return;
     gchar *tmpstr;
@@ -513,7 +513,7 @@ gchar *limit_string ( gchar *string,
  * \return a g_slist or NULL
  * */
 GSList *gsb_string_get_int_list_from_string ( const gchar *string,
-					      gchar *delimiter )
+                        gchar *delimiter )
 {
     GSList *list_tmp;
     gchar **tab;
@@ -557,7 +557,7 @@ GSList *gsb_string_get_int_list_from_string ( const gchar *string,
  * \return a g_slist or NULL
  * */
 GSList *gsb_string_get_string_list_from_string ( const gchar *string,
-						 gchar *delimiter )
+                        gchar *delimiter )
 {
     GSList *list_tmp;
     gchar **tab;
@@ -746,7 +746,6 @@ gchar * gsb_string_remplace_string ( gchar * str, gchar *old_str, gchar *new_str
     long_old = g_utf8_strlen ( old_str, -1 );
     chaine = g_strndup ( str, (ptr_debut - str) );
     chaine = g_strconcat ( chaine, new_str, ( ptr_debut + long_old ), NULL );
-    devel_debug ( chaine );
     return g_strdup ( chaine );
 }
 

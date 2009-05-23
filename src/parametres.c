@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
-/*			2003-2009 Benjamin Drieu (bdrieu@april.org)	                      */
-/* 			http://www.grisbi.org				                              */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2009 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -731,51 +731,42 @@ GtkWidget *onglet_fichier ( void )
 					   &(etat.compress_backup), NULL, NULL );
     g_signal_connect ( G_OBJECT (button ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &button );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Backup at each opening? */
     button = gsb_automem_checkbutton_new ( _("Make a backup copy after opening files"),
 					   &(etat.sauvegarde_demarrage), NULL, NULL);
     g_signal_connect ( G_OBJECT (button ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &button );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup ? */
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
 					  &etat.make_backup, NULL, NULL);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup every x minutes */
     hbox = gtk_hbox_new ( FALSE, 6);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
 					  &etat.make_backup_every_minutes,
 					  G_CALLBACK (gsb_file_automatic_backup_start), NULL);
-    gtk_box_pack_start ( GTK_BOX (hbox), button,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_spin_button_new ( &etat.make_backup_nb_minutes,
 					   G_CALLBACK (gsb_file_automatic_backup_change_time), NULL );
-    gtk_box_pack_start ( GTK_BOX (hbox), button,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
 
     label = gtk_label_new (_(" minutes"));
-    gtk_box_pack_start ( GTK_BOX (hbox), label,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     /* if automatic backup, choose a dir */
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     label = gtk_label_new ( COLON(_("Backup directory")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
 
     /* on passe par une fonction intermédiaire pour pallier à un bug
      * du gtk_file_chooser_button_new qui donne le répertoire home
@@ -790,9 +781,9 @@ GtkWidget *onglet_fichier ( void )
         gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),
                         my_get_XDG_grisbi_data_dir () );
     g_signal_connect ( G_OBJECT (button),
-		       "selection-changed",
-		       G_CALLBACK ( gsb_config_backup_dir_chosen ),
-		       dialog );
+                        "selection-changed",
+                        G_CALLBACK ( gsb_config_backup_dir_chosen ),
+                        dialog );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button,
 			 FALSE, TRUE, 0);
 

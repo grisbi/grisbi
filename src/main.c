@@ -41,6 +41,7 @@
 #include "./dialog.h"
 #include "./tip.h"
 #include "./gsb_assistant_first.h"
+#include "./main_cunit.h"
 #include "./gsb_file.h"
 #include "./gsb_file_config.h"
 #include "./gsb_status.h"
@@ -54,14 +55,13 @@
 #include "./include.h"
 #include "./erreur.h"
 #include "./structures.h"
-#include "./main_cunit.h"
 /*END_INCLUDE*/
 
 
 /*START_STATIC*/
 static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
-					  GdkEventWindowState *event,
-					  gpointer null );
+                        GdkEventWindowState *event,
+                        gpointer null );
 static  gboolean main_window_delete_event (GtkWidget *window, gpointer data);
 static  void main_window_destroy_event( GObject* obj, gpointer data);
 /*END_STATIC*/
@@ -305,8 +305,8 @@ int main (int argc, char **argv)
  * \return FALSE
  * */
 gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
-					  GdkEventWindowState *event,
-					  gpointer null )
+                        GdkEventWindowState *event,
+                        gpointer null )
 {
 
     if (event -> changed_mask == GDK_WINDOW_STATE_FULLSCREEN)

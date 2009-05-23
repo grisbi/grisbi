@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
-/*			2003-2009 Benjamin Drieu (bdrieu@april.org)	                      */
-/* 			http://www.grisbi.org				                              */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2009 Benjamin Drieu (bdrieu@april.org)	                      */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -70,57 +70,58 @@
 
 /*START_STATIC*/
 static gulong gsb_file_save_account_part ( gulong iterator,
-				    gulong *length_calculated,
-				    gchar **file_content );
+                        gulong *length_calculated,
+                        gchar **file_content );
 static gulong gsb_file_save_archive_part ( gulong iterator,
-				    gulong *length_calculated,
-				    gchar **file_content );
+                        gulong *length_calculated,
+                        gchar **file_content );
 static gulong gsb_file_save_bank_part ( gulong iterator,
-				 gulong *length_calculated,
-				 gchar **file_content );
+                        gulong *length_calculated,
+                        gchar **file_content );
 static gulong gsb_file_save_color_part ( gulong iterator,
-				  gulong *length_calculated,
-				  gchar **file_content,
-				  gint archive_number );
+                        gulong *length_calculated,
+                        gchar **file_content,
+                        gint archive_number );
 static gulong gsb_file_save_currency_link_part ( gulong iterator,
-					  gulong *length_calculated,
-					  gchar **file_content );
+                        gulong *length_calculated,
+                        gchar **file_content );
 static gulong gsb_file_save_currency_part ( gulong iterator,
-				     gulong *length_calculated,
-				     gchar **file_content );
+                        gulong *length_calculated,
+                        gchar **file_content );
 static gulong gsb_file_save_financial_year_part ( gulong iterator,
-					   gulong *length_calculated,
-					   gchar **file_content );
+                        gulong *length_calculated,
+                        gchar **file_content );
 static gulong gsb_file_save_general_part ( gulong iterator,
-				    gulong *length_calculated,
-				    gchar **file_content,
-				    gint archive_number );
+                        gulong *length_calculated,
+                        gchar **file_content,
+                        gint archive_number );
 static gulong gsb_file_save_import_rule_part ( gulong iterator,
-					gulong *length_calculated,
-					gchar **file_content );
+                        gulong *length_calculated,
+                        gchar **file_content );
 static gulong gsb_file_save_logo_part ( gulong iterator,
-					gulong *length_calculated,
-					gchar **file_content );
+                        gulong *length_calculated,
+                        gchar **file_content );
 static gulong gsb_file_save_party_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
 static gulong gsb_file_save_payment_part ( gulong iterator,
-				    gulong *length_calculated,
-				    gchar **file_content );
+                        gulong *length_calculated,
+                        gchar **file_content );
 static gulong gsb_file_save_print_part ( gulong iterator,
-				  gulong *length_calculated,
-				  gchar **file_content,
-				  gint archive_number );
+                        gulong *length_calculated,
+                        gchar **file_content,
+                        gint archive_number );
 static gulong gsb_file_save_reconcile_part ( gulong iterator,
-				      gulong *length_calculated,
-				      gchar **file_content );
+                        gulong *length_calculated,
+                        gchar **file_content );
+static void gsb_file_save_remove_old_file ( gchar *filename );
 static gulong gsb_file_save_scheduled_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
 static gulong gsb_file_save_transaction_part ( gulong iterator,
-					gulong *length_calculated,
-					gchar **file_content,
-					gint archive_number );
+                        gulong *length_calculated,
+                        gchar **file_content,
+                        gint archive_number );
 /*END_STATIC*/
 
 
@@ -131,6 +132,7 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
+extern gchar *copy_old_filename;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
@@ -147,6 +149,7 @@ extern GdkColor text_color[2];
 extern gchar *titre_fichier;
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -167,8 +170,8 @@ extern gint valeur_echelle_recherche_date_import;
  * \return TRUE : ok, FALSE : problem
  * */
 gboolean gsb_file_save_save_file ( const gchar *filename,
-				   gboolean compress,
-				   gint archive_number )
+                        gboolean compress,
+                        gint archive_number )
 {
     gint do_chmod;
     gulong iterator;
@@ -438,6 +441,12 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 		    S_IRUSR | S_IWUSR );
     }
 
+    /* Si le fichier est un d'une version précédente de grisbi on demande si on l'efface */
+    if ( copy_old_filename && strlen ( copy_old_filename ) > 0 )
+    {
+        gsb_file_save_remove_old_file ( copy_old_filename );
+    }
+
     etat.en_train_de_sauvegarder = 0;
 
     return ( TRUE );
@@ -457,9 +466,9 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
  * \return the new iterator
  * */
 gulong gsb_file_save_append_part ( gulong iterator,
-				   gulong *length_calculated,
-				   gchar **file_content,
-				   gchar *new_string )
+                        gulong *length_calculated,
+                        gchar **file_content,
+                        gchar *new_string )
 {
     if ( !new_string )
 	return iterator;
@@ -497,9 +506,9 @@ gulong gsb_file_save_append_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_general_part ( gulong iterator,
-				    gulong *length_calculated,
-				    gchar **file_content,
-				    gint archive_number )
+                        gulong *length_calculated,
+                        gchar **file_content,
+                        gint archive_number )
 {
     gchar *first_string_to_free;
     gchar *second_string_to_free;
@@ -680,9 +689,9 @@ gulong gsb_file_save_general_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_color_part ( gulong iterator,
-				  gulong *length_calculated,
-				  gchar **file_content,
-				  gint archive_number )
+                        gulong *length_calculated,
+                        gchar **file_content,
+                        gint archive_number )
 {
     gchar *new_string;
 
@@ -763,9 +772,9 @@ gulong gsb_file_save_color_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_print_part ( gulong iterator,
-				  gulong *length_calculated,
-				  gchar **file_content,
-				  gint archive_number )
+                        gulong *length_calculated,
+                        gchar **file_content,
+                        gint archive_number )
 {
     gchar *new_string;
 
@@ -816,8 +825,8 @@ gulong gsb_file_save_print_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_account_part ( gulong iterator,
-				    gulong *length_calculated,
-				    gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GSList *list_tmp;
 
@@ -1024,8 +1033,8 @@ gulong gsb_file_save_account_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_payment_part ( gulong iterator,
-				    gulong *length_calculated,
-				    gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GSList *list_tmp;
 
@@ -1070,9 +1079,9 @@ gulong gsb_file_save_payment_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_transaction_part ( gulong iterator,
-					gulong *length_calculated,
-					gchar **file_content,
-					gint archive_number )
+                        gulong *length_calculated,
+                        gchar **file_content,
+                        gint archive_number )
 {
     GSList *list_tmp;
 
@@ -1303,8 +1312,8 @@ gulong gsb_file_save_party_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_category_part ( gulong iterator,
-				     gulong *length_calculated,
-				     gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1380,8 +1389,8 @@ gulong gsb_file_save_category_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_budgetary_part ( gulong iterator,
-				      gulong *length_calculated,
-				      gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1457,8 +1466,8 @@ gulong gsb_file_save_budgetary_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_currency_part ( gulong iterator,
-				     gulong *length_calculated,
-				     gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1502,8 +1511,8 @@ gulong gsb_file_save_currency_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_currency_link_part ( gulong iterator,
-					  gulong *length_calculated,
-					  gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1552,8 +1561,8 @@ gulong gsb_file_save_currency_link_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_bank_part ( gulong iterator,
-				 gulong *length_calculated,
-				 gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1605,8 +1614,8 @@ gulong gsb_file_save_bank_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_financial_year_part ( gulong iterator,
-					   gulong *length_calculated,
-					   gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1658,8 +1667,8 @@ gulong gsb_file_save_financial_year_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_archive_part ( gulong iterator,
-				    gulong *length_calculated,
-				    gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1714,8 +1723,8 @@ gulong gsb_file_save_archive_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_reconcile_part ( gulong iterator,
-				      gulong *length_calculated,
-				      gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GList *list_tmp;
 
@@ -1781,8 +1790,8 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_import_rule_part ( gulong iterator,
-					gulong *length_calculated,
-					gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GSList *list_tmp;
 
@@ -1829,9 +1838,9 @@ gulong gsb_file_save_import_rule_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_report_part ( gulong iterator,
-				   gulong *length_calculated,
-				   gchar **file_content,
-				   gboolean current_report )
+                        gulong *length_calculated,
+                        gchar **file_content,
+                        gboolean current_report )
 {
     GSList *list_tmp;
 	
@@ -2409,8 +2418,8 @@ gulong gsb_file_save_report_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_logo_part ( gulong iterator,
-					gulong *length_calculated,
-					gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GdkPixbuf *pixbuf = NULL;
     gchar *new_string = NULL;
@@ -2438,3 +2447,58 @@ gulong gsb_file_save_logo_part ( gulong iterator,
 }
 
 
+/**
+ * efface la copie du fichier de comptes ancienne version
+ *
+ * \param filename  le chemein du fichier à effacer
+ *
+ * */
+void gsb_file_save_remove_old_file ( gchar *filename )
+{
+    GtkWidget *dialog;
+    GtkWidget *content_area;
+    GtkWidget *hbox;
+    GtkWidget *image;
+    GtkWidget *label;
+    gint resultat;
+
+    dialog = gtk_dialog_new_with_buttons ( 
+                        _("Delete a copy of file of the old version of grisbi"),
+                        GTK_WINDOW ( window ),
+                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                        GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
+                        GTK_STOCK_YES, GTK_RESPONSE_OK,
+                        NULL );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
+
+    content_area = GTK_DIALOG(dialog) -> vbox;
+    hbox = gtk_hbox_new ( FALSE, 5);
+    gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( content_area ), hbox, FALSE, FALSE, 5 );
+
+    image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, 
+                        GTK_ICON_SIZE_DIALOG );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
+
+    gchar *tmpstr = g_strconcat ( 
+                        _("Careful, you are about to deleting the copy of file\n"
+                        "of the old version of grisbi.\n"
+                        "\n<b>Do you want to continue ?</b>"),
+                        NULL );
+
+    label = gtk_label_new ( tmpstr );
+    gtk_label_set_use_markup ( GTK_LABEL( label ), TRUE );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
+    g_free ( tmpstr );
+
+    gtk_widget_show_all ( dialog );
+
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+
+    if ( resultat == GTK_RESPONSE_OK )
+        g_unlink ( filename );
+    if ( GTK_IS_DIALOG ( dialog ) )
+        gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+}

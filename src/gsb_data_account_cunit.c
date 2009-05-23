@@ -32,12 +32,16 @@
 
 /* START_INCLUDE */
 #include "gsb_data_account_cunit.h"
-#include "gsb_data_account.h"
-#include "gsb_data_currency.h"
-#include "gsb_data_transaction.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_currency.h"
+#include "./gsb_data_transaction.h"
+#include "./gsb_real.h"
 /* END_INCLUDE */
 
 /* START_STATIC */
+static void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balances();
+static int gsb_data_account_cunit_clean_suite(void);
+static int gsb_data_account_cunit_init_suite(void);
 /* END_STATIC */
 
 /* START_EXTERN */
