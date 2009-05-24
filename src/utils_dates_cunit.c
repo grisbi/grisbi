@@ -55,7 +55,7 @@ int utils_dates_cunit_init_suite ( void )
 /* The suite cleanup function.
  * Returns zero on success, non-zero otherwise.
  */
-int utils_dates_cunit_clean_suite(void)
+int utils_dates_cunit_clean_suite ( void )
 {
     return 0;
 }

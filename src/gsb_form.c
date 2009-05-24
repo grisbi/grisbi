@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     copyright (c)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
-/*			2004-2008 Benjamin Drieu (bdrieu@april.org) 	                  */
-/*			http://www.grisbi.org   			                              */
+/*     copyright (c)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -85,23 +85,23 @@
 
 /*START_STATIC*/
 static gboolean gsb_form_activate_expander ( GtkWidget *expander,
-				      gpointer null );
+                        gpointer null );
 static gboolean gsb_form_button_press ( GtkWidget *vbox,
-				 GdkEventButton *ev,
-				 gpointer null );
+                        GdkEventButton *ev,
+                        gpointer null );
 static gint gsb_form_check_for_transfer ( const gchar *entry_string );
 static gboolean gsb_form_get_categories ( gint transaction_number,
-				   gint new_transaction,
-				   gboolean is_transaction );
+                        gint new_transaction,
+                        gboolean is_transaction );
 static gint gsb_form_get_element_expandable ( gint element_number );
 static gboolean gsb_form_hide ( void );
 static  gboolean gsb_form_size_allocate ( GtkWidget *widget,
-					 GtkAllocation *allocation,
-					 gpointer null );
+                        GtkAllocation *allocation,
+                        gpointer null );
 static void gsb_form_take_datas_from_form ( gint transaction_number,
-				     gboolean is_transaction );
+                        gboolean is_transaction );
 static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
-					      gboolean is_transaction );
+                        gboolean is_transaction );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -375,8 +375,8 @@ void gsb_form_create_widgets ( void )
  * \return FALSE
  * */
 static gboolean gsb_form_size_allocate ( GtkWidget *widget,
-					 GtkAllocation *allocation,
-					 gpointer null )
+                        GtkAllocation *allocation,
+                        gpointer null )
 {
     if (gsb_form_is_visible () && !block_size_allocate)
     {
@@ -400,8 +400,8 @@ static gboolean gsb_form_size_allocate ( GtkWidget *widget,
  * \return FALSE
  * */
 gboolean gsb_form_fill_by_transaction ( gint transaction_number,
-					gint is_transaction,
-					gboolean grab_focus )
+                        gint is_transaction,
+                        gboolean grab_focus )
 {
     gint mother_number;
     gint account_number;
@@ -581,7 +581,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
  * \return FALSE
  * */
 gboolean gsb_form_set_sensitive ( gboolean split,
-				  gboolean split_child)
+                        gboolean split_child)
 {
     GSList *tmp_list;
 
@@ -653,9 +653,9 @@ gboolean gsb_form_set_sensitive ( gboolean split,
  * \return
  * */
 void gsb_form_fill_element ( gint element_number,
-			     gint account_number,
-			     gint transaction_number,
-			     gboolean is_transaction )
+                        gint account_number,
+                        gint transaction_number,
+                        gboolean is_transaction )
 {
     GtkWidget *widget;
     gchar *char_tmp;
@@ -928,7 +928,7 @@ void gsb_form_fill_element ( gint element_number,
  * return FALSE
  * */
 gboolean gsb_form_set_expander_visible ( gboolean visible,
-					 gboolean transactions_list )
+                        gboolean transactions_list )
 {
     if ( visible )
     {
@@ -974,7 +974,7 @@ gboolean gsb_form_switch_expander ( void )
  * \return FALSE
  * */
 gboolean gsb_form_activate_expander ( GtkWidget *expander,
-				      gpointer null )
+                        gpointer null )
 {
     devel_debug (NULL);
 
@@ -1499,8 +1499,8 @@ gboolean gsb_form_entry_get_focus ( GtkWidget *entry )
  * \return FALSE
  * */
 gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
-				     GdkEventFocus *ev,
-				     gint *ptr_origin )
+                        GdkEventFocus *ev,
+                        gint *ptr_origin )
 {
     gchar *string;
     gint element_number;
@@ -1836,8 +1836,8 @@ gint gsb_form_check_for_transfer ( const gchar *entry_string )
  * \return FALSE
  * */
 gboolean gsb_form_button_press_event ( GtkWidget *entry,
-				       GdkEventButton *ev,
-				       gint *ptr_origin )
+                        GdkEventButton *ev,
+                        gint *ptr_origin )
 {
     gint element_number;
     GtkWidget *widget;
@@ -1945,8 +1945,8 @@ gboolean gsb_form_change_sensitive_buttons ( gboolean sensitive )
  * \return FALSE
  * */
 gboolean gsb_form_key_press_event ( GtkWidget *widget,
-				    GdkEventKey *ev,
-				    gint *ptr_origin )
+                        GdkEventKey *ev,
+                        gint *ptr_origin )
 {
     gint element_number;
     gint account_number;
@@ -1986,9 +1986,22 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    break;
 
 	case GDK_ISO_Left_Tab:
-	    element_suivant = gsb_form_widget_next_element ( account_number,
+        element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_LEFT );
+
+        if ( element_number == TRANSACTION_FORM_VALUE_DATE )
+        {
+            GtkWidget * widget_prov = gsb_form_widget_get_widget (
+                        TRANSACTION_FORM_VALUE_DATE);
+
+            if (strlen (gtk_entry_get_text (GTK_ENTRY (widget_prov))) == 0 )
+            {
+                gsb_form_widget_set_empty ( widget_prov, TRUE );
+                gtk_entry_set_text ( GTK_ENTRY ( widget_prov ), _("Value date") );
+            }
+            gsb_form_widget_set_focus ( element_suivant );
+        }
 	    if ( element_suivant == TRANSACTION_FORM_CREDIT )
         {
             if ( gsb_form_widget_check_empty (
@@ -2026,6 +2039,20 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_RIGHT );
+
+        /* si élément = date de valeur fix the bug 578 */
+        if ( element_number == TRANSACTION_FORM_VALUE_DATE )
+        {
+            GtkWidget * widget_prov = gsb_form_widget_get_widget (
+                        TRANSACTION_FORM_VALUE_DATE);
+
+            if (strlen (gtk_entry_get_text ( GTK_ENTRY ( widget_prov ) ) ) == 0 )
+            {
+                gsb_form_widget_set_empty ( widget_prov, TRUE );
+                gtk_entry_set_text ( GTK_ENTRY ( widget_prov ), _("Value date") );
+            }
+            gsb_form_widget_set_focus ( element_suivant );
+        }
 	    if ( element_suivant == -2 )
             gsb_form_finish_edition();
         /* fix the bug 494 */
@@ -2466,7 +2493,7 @@ gboolean gsb_form_finish_edition ( void )
  * \return TRUE or FALSE
  * */
 gboolean gsb_form_validate_form_transaction ( gint transaction_number,
-					      gboolean is_transaction )
+                        gboolean is_transaction )
 {
     gint account_number;
     GtkWidget *widget;
@@ -2690,7 +2717,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
  * \return
  * */
 void gsb_form_take_datas_from_form ( gint transaction_number,
-				     gboolean is_transaction )
+                        gboolean is_transaction )
 {
     GSList *tmp_list;
     GDate *date;
@@ -2874,8 +2901,8 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
  * \return FALSE
  * */
 gboolean gsb_form_get_categories ( gint transaction_number,
-				   gint new_transaction,
-				   gboolean is_transaction )
+                        gint new_transaction,
+                        gboolean is_transaction )
 {
     GtkWidget *category_combofix;
 
@@ -3124,8 +3151,8 @@ gboolean gsb_form_escape_form ( void )
  * \return FALSE
  * */
 gboolean gsb_form_allocate_size ( GtkWidget *table,
-				  GtkAllocation *allocation,
-				  gpointer null )
+                        GtkAllocation *allocation,
+                        gpointer null )
 {
     gint row, column;
     gint account_number;
@@ -3215,8 +3242,8 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
  * \return FALSE
  * */
 gboolean gsb_form_button_press ( GtkWidget *vbox,
-				 GdkEventButton *ev,
-				 gpointer null )
+                        GdkEventButton *ev,
+                        gpointer null )
 {
     GtkWidget *menu, *menu_item;
 

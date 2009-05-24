@@ -962,21 +962,20 @@ void gsb_file_update_window_title ( void )
     devel_debug ( "gsb_file_update_window_title" );
 
     if ( titre_fichier && strlen(titre_fichier) )
-      titre = g_strdup(titre_fichier);
+        titre = g_strdup(titre_fichier);
     else
     {
-	if ( nom_fichier_comptes )
-	    titre = g_path_get_basename (nom_fichier_comptes);
-	else
-	    titre = g_strconcat ( "<", _("unnamed"), ">", NULL );
+        if ( nom_fichier_comptes )
+            titre = g_path_get_basename (nom_fichier_comptes);
+        else
+            titre = g_strconcat ( "<", _("unnamed"), ">", NULL );
     }
 
-    gchar* tmpstr = titre;
-    titre = g_strconcat ( tmpstr, " - ", _("Grisbi"), NULL );
-    g_free ( tmpstr );
-
+    titre = g_strconcat ( titre, " - ", _("Grisbi"), NULL );
     gtk_window_set_title ( GTK_WINDOW ( window ), titre );
-    g_free ( titre );
+
+    if ( titre && strlen ( titre ) > 0 )
+        g_free ( titre );
 }
 
 

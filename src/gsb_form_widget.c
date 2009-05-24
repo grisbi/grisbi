@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/* 			http://www.grisbi.org				                              */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -150,7 +150,7 @@ gboolean gsb_form_widget_free_list ( void )
  * \return the widget or NULL (if the element number is zero)
  * */
 GtkWidget *gsb_form_widget_create ( gint element_number,
-				    gint account_number )
+                        gint account_number )
 {
     GtkWidget *widget;
 
@@ -163,7 +163,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
     {
 	case TRANSACTION_FORM_DATE:
 	case TRANSACTION_FORM_VALUE_DATE:
-	    widget = gsb_calendar_entry_new (TRUE);
+	    widget = gsb_calendar_entry_new ( FALSE );
 	    break;
 
 	case TRANSACTION_FORM_DEBIT:
@@ -483,8 +483,8 @@ gchar *gsb_form_widget_get_name ( gint element_number )
  * 		-2 if end of the form and need to finish it
  * */
 gint gsb_form_widget_next_element ( gint account_number,
-				    gint element_number,
-				    gint direction )
+                        gint element_number,
+                        gint direction )
 {
     gint row;
     gint column;
@@ -636,7 +636,7 @@ void gsb_form_widget_set_focus ( gint element_number )
     GtkWidget *widget;
 
     gchar* tmpstr = g_strdup_printf ( "gsb_form_widget_set_focus %d", element_number );
-    devel_debug ( tmpstr );
+
     g_free ( tmpstr );
 
     widget = gsb_form_widget_get_widget (element_number);
@@ -685,7 +685,7 @@ gboolean gsb_form_widget_check_empty ( GtkWidget *entry )
  * \return 
  * */
 void gsb_form_widget_set_empty ( GtkWidget *entry,
-				 gboolean empty )
+                    gboolean empty )
 {
     GdkColor gray, black;
 
