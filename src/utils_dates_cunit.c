@@ -64,10 +64,7 @@ void utils_dates_cunit__gsb_parse_date_string ( void )
 {
     GDate *date = NULL;
     // invalid day
-    date = gsb_parse_date_string ( "00/02/2009" );
-    CU_ASSERT_EQUAL(G_DATE_BAD_YEAR, g_date_get_year(date));
-    CU_ASSERT_EQUAL(G_DATE_BAD_MONTH, g_date_get_month(date));
-    CU_ASSERT_EQUAL(G_DATE_BAD_DAY, g_date_get_day(date));
+    CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "00/02/2009" ) );
 
     date = gsb_parse_date_string ( "01/02/2009" );
     CU_ASSERT_EQUAL(2009, g_date_get_year(date));
@@ -75,16 +72,10 @@ void utils_dates_cunit__gsb_parse_date_string ( void )
     CU_ASSERT_EQUAL(1, g_date_get_day(date));
 
     // invalid day
-    date = gsb_parse_date_string ( "30/02/2009" );
-    CU_ASSERT_EQUAL(G_DATE_BAD_YEAR, g_date_get_year(date));
-    CU_ASSERT_EQUAL(G_DATE_BAD_MONTH, g_date_get_month(date));
-    CU_ASSERT_EQUAL(G_DATE_BAD_DAY, g_date_get_day(date));
+    CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "30/02/2009" ) );
 
     // 2009 is not a leap year
-    date = gsb_parse_date_string ( "29/02/2009" );
-    CU_ASSERT_EQUAL(G_DATE_BAD_YEAR, g_date_get_year(date));
-    CU_ASSERT_EQUAL(G_DATE_BAD_MONTH, g_date_get_month(date));
-    CU_ASSERT_EQUAL(G_DATE_BAD_DAY, g_date_get_day(date));
+    CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "29/02/2009" ) );
 
     // 2008 was a leap year
     date = gsb_parse_date_string ( "29/02/2008" );
@@ -103,16 +94,10 @@ void utils_dates_cunit__gsb_parse_date_string ( void )
     CU_ASSERT_EQUAL(31, g_date_get_day(date));
 
     // invalid day
-    date = gsb_parse_date_string ( "32/12/2009" );
-    CU_ASSERT_EQUAL(G_DATE_BAD_YEAR, g_date_get_year(date));
-    CU_ASSERT_EQUAL(G_DATE_BAD_MONTH, g_date_get_month(date));
-    CU_ASSERT_EQUAL(G_DATE_BAD_DAY, g_date_get_day(date));
+    CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "32/12/2009" ) );
 
     // invalid month
-    date = gsb_parse_date_string ( "13/13/2009" );
-    CU_ASSERT_EQUAL(G_DATE_BAD_YEAR, g_date_get_year(date));
-    CU_ASSERT_EQUAL(G_DATE_BAD_MONTH, g_date_get_month(date));
-    CU_ASSERT_EQUAL(G_DATE_BAD_DAY, g_date_get_day(date));
+    CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "13/13/2009" ) );
 }
 
 CU_pSuite utils_dates_cunit_create_suite ( void )
