@@ -59,17 +59,17 @@
 static GtkWidget * create_preferences_tree ( );
 static  GtkWidget *gsb_config_scheduler_page ( void );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
-				    GtkTreeModel * model );
+                        GtkTreeModel * model );
 static GtkWidget *onglet_fichier ( void );
 static GtkWidget *onglet_messages_and_warnings ( void );
 static GtkWidget *onglet_programmes (void);
 static gboolean preference_selectable_func (GtkTreeSelection *selection,
-				     GtkTreeModel *model,
-				     GtkTreePath *path,
-				     gboolean path_currently_selected,
-				     gpointer data);
+                        GtkTreeModel *model,
+                        GtkTreePath *path,
+                        gboolean path_currently_selected,
+                        gpointer data);
 static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
-					GtkTreeModel *model );
+                        GtkTreeModel *model );
 /*END_STATIC*/
 
 
@@ -108,64 +108,69 @@ GtkWidget * create_preferences_tree ( )
 
     /* Create model */
     preference_tree_model = gtk_tree_store_new (3,
-						G_TYPE_STRING,
-						G_TYPE_INT,
-						G_TYPE_INT );
+                        G_TYPE_STRING,
+                        G_TYPE_INT,
+                        G_TYPE_INT );
 
     /* Create container + TreeView */
-    sw = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
-					 GTK_SHADOW_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-				    GTK_POLICY_NEVER,
-				    GTK_POLICY_AUTOMATIC);
+    sw = gtk_scrolled_window_new ( NULL, NULL );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW (sw),
+                        GTK_SHADOW_IN );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW (sw),
+                        GTK_POLICY_NEVER,
+                        GTK_POLICY_AUTOMATIC );
     tree_view = gtk_tree_view_new();
-    g_signal_connect ( G_OBJECT (tree_view ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &tree_view );
-    gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view),
-			     GTK_TREE_MODEL (preference_tree_model));
-    g_object_unref (G_OBJECT(preference_tree_model));
+    //~ g_signal_connect ( G_OBJECT ( tree_view ),
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed ),
+                        //~ &tree_view );
+    gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view),
+                        GTK_TREE_MODEL ( preference_tree_model ) );
+    g_object_unref ( G_OBJECT(preference_tree_model) );
 
     /* Make column */
     cell = gtk_cell_renderer_text_new ();
-    column =
-	gtk_tree_view_column_new_with_attributes ("Categories",
-						  cell,
-						  "text", 0,
-						  NULL);
+    column = gtk_tree_view_column_new_with_attributes ("Categories",
+                        cell,
+                        "text", 0,
+                        NULL);
     gtk_tree_view_column_add_attribute ( GTK_TREE_VIEW_COLUMN(column), cell,
-					 "weight", 2 );
+                        "weight", 2 );
 
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view),
-				 GTK_TREE_VIEW_COLUMN (column));
+                        GTK_TREE_VIEW_COLUMN (column));
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW (tree_view), FALSE );
 
     /* Handle select */
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-    g_signal_connect (selection, "changed",
-		      ((GCallback)selectionne_liste_preference),
-		      preference_tree_model);
+    g_signal_connect (selection, 
+                        "changed",
+                        (GCallback) selectionne_liste_preference,
+                        preference_tree_model);
 
     /* Choose which entries will be selectable */
-    gtk_tree_selection_set_select_function ( selection, preference_selectable_func,
-					     NULL, NULL );
+    gtk_tree_selection_set_select_function ( selection,
+                        preference_selectable_func,
+                        NULL, NULL );
 
     /* Put the tree in the scroll */
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
 
     /* expand all rows after the treeview widget has been realized */
-    g_signal_connect (tree_view, "realize",
-		      ((GCallback)gtk_tree_view_expand_all), NULL);
+    g_signal_connect ( tree_view, 
+                        "realize",
+                        (GCallback) gtk_tree_view_expand_all,
+                        NULL );
 
     return sw;
 }
 
 
 gboolean preference_selectable_func (GtkTreeSelection *selection,
-				     GtkTreeModel *model,
-				     GtkTreePath *path,
-				     gboolean path_currently_selected,
-				     gpointer data)
+                        GtkTreeModel *model,
+                        GtkTreePath *path,
+                        gboolean path_currently_selected,
+                        gpointer data)
 {
     GtkTreeIter iter;
     GValue value = {0, };
@@ -175,8 +180,8 @@ gboolean preference_selectable_func (GtkTreeSelection *selection,
 
     if ( g_value_get_int(&value) == NOT_A_PAGE )
     {
-	g_value_unset (&value);
-	return FALSE;
+        g_value_unset (&value);
+        return FALSE;
     }
 
     g_value_unset (&value);
@@ -189,14 +194,14 @@ gboolean preference_selectable_func (GtkTreeSelection *selection,
  * call the preferences page by a menu
  *
  * \param menu_item
- * \param page_ptr	the page to open
+ * \param page_ptr  the page to open
  *
  * \return FALSE
  * */
 gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,
-				     gpointer page_ptr )
+                        gpointer page_ptr )
 {
-    preferences (GPOINTER_TO_INT (page_ptr));
+    preferences (GPOINTER_TO_INT (page_ptr) );
     return FALSE;
 }
 
@@ -218,308 +223,309 @@ gboolean preferences ( gint page )
 
     /* Create dialog */
     fenetre_preferences = gtk_dialog_new_with_buttons (_("Grisbi preferences"),
-					   GTK_WINDOW ( window ),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-					   NULL );
+                        GTK_WINDOW ( window ),
+                        GTK_DIALOG_MODAL,
+                        GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+                        NULL );
 
     gtk_window_set_default_size ( GTK_WINDOW ( fenetre_preferences ), -1, 500 );
     gtk_window_set_position ( GTK_WINDOW ( fenetre_preferences ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( fenetre_preferences ), TRUE );
 
-    g_signal_connect ( G_OBJECT (fenetre_preferences ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &fenetre_preferences );
+    g_signal_connect ( G_OBJECT (fenetre_preferences ),
+                        "destroy",
+                        G_CALLBACK (gtk_widget_destroyed),
+                        &fenetre_preferences );
 
     /* Create List & Tree for topics */
     tree = create_preferences_tree();
     hpaned = gtk_hpaned_new();
-    g_signal_connect ( G_OBJECT (hpaned ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &hpaned );
-    gtk_paned_add1(GTK_PANED(hpaned), tree);
+    //~ g_signal_connect ( G_OBJECT (hpaned ),
+                        //~ "destroy",
+                        //~ G_CALLBACK (gtk_widget_destroyed),
+                        //~ &hpaned );
+    gtk_paned_add1 ( GTK_PANED(hpaned), tree );
     hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_paned_add2(GTK_PANED(hpaned), hbox);
+    gtk_paned_add2 ( GTK_PANED (hpaned), hbox );
 
-    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( "  " ),
-			 FALSE, FALSE, 0 ); /* FIXME: ugly! */
+    //~ gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( "  " ),
+                        //~ FALSE, FALSE, 0 ); /* FIXME: ugly! */
 
     /* Frame for preferences */
     preference_frame = GTK_NOTEBOOK ( gtk_notebook_new () );
-    g_signal_connect ( G_OBJECT (preference_frame ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &preference_frame );
+    //~ g_signal_connect ( G_OBJECT (preference_frame ), 
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed),
+                        //~ &preference_frame );
     gtk_notebook_set_show_border ( preference_frame, FALSE );
     gtk_notebook_set_show_tabs  ( preference_frame, FALSE );
     gtk_notebook_set_scrollable ( preference_frame, TRUE );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), GTK_WIDGET(preference_frame),
-			 TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), GTK_WIDGET(preference_frame), TRUE, TRUE, 0 );
 
     /* Main subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter,
-			0, _("Main"),
-			1, NOT_A_PAGE,
-			2, 800,
-			-1);
+                        &iter,
+                        0, _("Main"),
+                        1, NOT_A_PAGE,
+                        2, 800,
+                        -1);
 
     /* File tab */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Files"),
-			1, FILES_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Files"),
+                        1, FILES_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, onglet_fichier(), NULL);
     /* by default, we select that first page */
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Archives"),
-			1, ARCHIVE_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Archives"),
+                        1, ARCHIVE_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, gsb_archive_config_create (), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Import"),
-			1, IMPORT_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Import"),
+                        1, IMPORT_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, onglet_importation(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Import associations"),
-			1, IMPORT_ASSOCIATION_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Import associations"),
+                        1, IMPORT_ASSOCIATION_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, 
                         gsb_import_associations_gere_tiers (), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Programs"),
-			1, SOFTWARE_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Programs"),
+                        1, SOFTWARE_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, onglet_programmes(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Scheduler"),
-			1, SCHEDULER_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Scheduler"),
+                        1, SCHEDULER_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, gsb_config_scheduler_page (), NULL);
 
     /* Display subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter,
-			0, _("Display"),
-			1, NOT_A_PAGE,
-			2, 800,
-			-1);
+                        &iter,
+                        0, _("Display"),
+                        1, NOT_A_PAGE,
+                        2, 800,
+                        -1);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Fonts & logo"),
-			1, FONTS_AND_LOGO_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Fonts & logo"),
+                        1, FONTS_AND_LOGO_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, onglet_display_fonts(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Messages & warnings"),
-			1, MESSAGES_AND_WARNINGS_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Messages & warnings"),
+                        1, MESSAGES_AND_WARNINGS_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, onglet_messages_and_warnings(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Addresses & titles"),
-			1, ADDRESSES_AND_TITLES_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Addresses & titles"),
+                        1, ADDRESSES_AND_TITLES_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, onglet_display_addresses(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Totals currencies"),
-			1, TOTALS_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Totals currencies"),
+                        1, TOTALS_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, gsb_currency_config_create_totals_page(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Toolbars"),
-			1, TOOLBARS_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Toolbars"),
+                        1, TOOLBARS_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, tab_display_toolbar(), NULL);
 
     /* Transactions subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter,
-			0, _("Transactions"),
-			1, NOT_A_PAGE,
-			2, 800,
-			-1);
+                        &iter,
+                        0, _("Transactions"),
+                        1, NOT_A_PAGE,
+                        2, 800,
+                        -1);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("List behavior"),
-			1, TRANSACTIONS_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("List behavior"),
+                        1, TRANSACTIONS_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame,
-			      GTK_WIDGET(onglet_affichage_operations()), NULL);
+                        GTK_WIDGET(onglet_affichage_operations()), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Reconciliation"),
-			1, RECONCILIATION_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Reconciliation"),
+                        1, RECONCILIATION_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, gsb_reconcile_config_create(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Sort for reconciliation"),
-			1, RECONCILIATION_SORT_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Sort for reconciliation"),
+                        1, RECONCILIATION_SORT_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, gsb_reconcile_sort_config_create(), NULL);
 
     /* Transaction form subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter,
-			0, _("Transaction form"),
-			1, NOT_A_PAGE,
-			2, 800,
-			-1);
+                        &iter,
+                        0, _("Transaction form"),
+                        1, NOT_A_PAGE,
+                        2, 800,
+                        -1);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Content"),
-			1, TRANSACTION_FORM_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Content"),
+                        1, TRANSACTION_FORM_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, gsb_form_config_create_page(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2,&iter );
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Behavior"),
-			1, TRANSACTION_FORM_BEHAVIOR_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Behavior"),
+                        1, TRANSACTION_FORM_BEHAVIOR_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, onglet_diverse_form_and_lists(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2,&iter );
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Completion"),
-			1, TRANSACTION_FORM_COMPLETION_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Completion"),
+                        1, TRANSACTION_FORM_COMPLETION_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, onglet_form_completion(), NULL);
 
     /* Resources subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter,
-			0, _("Resources"),
-			1, NOT_A_PAGE,
-			2, 800,
-			-1);
+                        &iter,
+                        0, _("Resources"),
+                        1, NOT_A_PAGE,
+                        2, 800,
+                        -1);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Currencies"),
-			1, CURRENCIES_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Currencies"),
+                        1, CURRENCIES_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, gsb_currency_config_create_page(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Currencies links"),
-			1, CURRENCY_LINKS_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Currencies links"),
+                        1, CURRENCY_LINKS_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, gsb_currency_link_config_create_page (), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Banks"),
-			1, BANKS_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Banks"),
+                        1, BANKS_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, gsb_bank_create_page (FALSE), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Financial years"),
-			1, FINANCIAL_YEARS_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Financial years"),
+                        1, FINANCIAL_YEARS_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, gsb_fyear_config_create_page(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Payment methods"),
-			1, METHODS_OF_PAYMENT_PAGE,
-			2, 400,
-			-1);
+                        &iter2,
+                        0, _("Payment methods"),
+                        1, METHODS_OF_PAYMENT_PAGE,
+                        2, 400,
+                        -1);
     gtk_notebook_append_page (preference_frame, gsb_payment_method_config_create (), NULL);
 
     gtk_widget_show_all ( hpaned );
     gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(fenetre_preferences) -> vbox ),
-			 hpaned, TRUE, TRUE, 0);
+                        hpaned, TRUE, TRUE, 0);
 
     /* select the page */
-    if (page >= 0 && page < NUM_PREFERENCES_PAGES)
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK (preference_frame),
-					page );
+    if ( page >= 0 && page < NUM_PREFERENCES_PAGES )
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK (preference_frame), page );
 
-    while ( 1 )
+    switch (gtk_dialog_run ( GTK_DIALOG ( fenetre_preferences ) ))
     {
-	switch (gtk_dialog_run ( GTK_DIALOG ( fenetre_preferences ) ))
-	{
-	    case GTK_RESPONSE_HELP:
-		/* Hook some help function */
-		break;
-	    default:
-		gtk_widget_destroy ( GTK_WIDGET ( fenetre_preferences ));
-		return FALSE;
-	}
+        case GTK_RESPONSE_HELP:
+        /* Hook some help function */
+        break;
+        default:
+        gtk_widget_destroy ( GTK_WIDGET ( fenetre_preferences ));
+        return FALSE;
     }
     return FALSE;
 }
@@ -529,21 +535,21 @@ gboolean preferences ( gint page )
 /* callback appelé quand on sélectionne un membre de la liste */
 /* ************************************************************************************************************** */
 gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
-					GtkTreeModel *model )
+                        GtkTreeModel *model )
 {
     GtkTreeIter iter;
     GValue value = {0, };
     gint preference_selected;
 
-    if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
-	return(FALSE);
+    if ( ! gtk_tree_selection_get_selected (selection, NULL, &iter) )
+    return ( FALSE );
 
-    gtk_tree_model_get_value (model, &iter, 1, &value);
+    gtk_tree_model_get_value ( model, &iter, 1, &value );
 
-    preference_selected = g_value_get_int(&value);
-    gtk_notebook_set_current_page (preference_frame, preference_selected);
+    preference_selected = g_value_get_int ( &value );
+    gtk_notebook_set_current_page ( preference_frame, preference_selected );
 
-    g_value_unset (&value);
+    g_value_unset ( &value );
 
     return FALSE;
 }
@@ -563,26 +569,27 @@ GtkWidget *onglet_messages_and_warnings ( void )
     GtkTreeViewColumn * column;
     int i;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"),
-					       "warnings.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"), "warnings.png" );
 
     /* Tip of the day */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Tip of the day"));
 
     /* Display or not tips */
     tip_checkbox = gsb_automem_checkbutton_new ( _("Display tip of the day"),
-					      &(etat.show_tip),
-					      NULL, NULL );
+                        &(etat.show_tip),
+                        NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), tip_checkbox, FALSE, FALSE, 0 );
 
     /* Warnings */
-    paddingbox = new_paddingbox_with_title (vbox_pref, TRUE, _("Display following warnings messages"));
-    model = GTK_TREE_MODEL(gtk_tree_store_new (3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ));
+    paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE, 
+                        _("Display following warnings messages") );
+
+    model = GTK_TREE_MODEL(gtk_tree_store_new ( 3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ) );
 
     sw = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-				    GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+                        GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
     tree_view = gtk_tree_view_new();
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model) );
@@ -601,13 +608,14 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
     for  ( i = 0; messages[i].name; i++ )
     {
-	GtkTreeIter iter;
-	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
-	gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-			    0, !messages[i] . hidden,
-			    1, _(messages[i] . hint),
-			    2, i,
-			    -1);
+        GtkTreeIter iter;
+
+        gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
+        gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
+                        0, !messages[i] . hidden,
+                        1, _(messages[i] . hint),
+                        2, i,
+                        -1);
     }
 
     /* Show everything */
@@ -615,7 +623,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
     if ( !gsb_data_account_get_accounts_amount () )
     {
-      gtk_widget_set_sensitive ( vbox_pref, FALSE );
+        gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
 
     return ( vbox_pref );
@@ -628,7 +636,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
  *
  */
 gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
-				    GtkTreeModel * model )
+                        GtkTreeModel * model )
 {
     GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
     GtkTreeIter iter;
@@ -661,88 +669,100 @@ GtkWidget *onglet_fichier ( void )
     GtkWidget *label;
     GtkWidget *button;
     GtkWidget *dialog;
-
-    vbox_pref = new_vbox_with_title_and_icon ( _("Files"),
-					       "files.png" );
+devel_debug (NULL);
+    vbox_pref = new_vbox_with_title_and_icon ( _("Files"), "files.png" );
 
     /* Account file handling */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-					    _("Account files handling"));
+                        _("Account files handling"));
 
     /* Automatically load last file on startup? */
     button = gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
-					  &(etat.dernier_fichier_auto), NULL, NULL );
-    g_signal_connect ( G_OBJECT (button ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &button );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-			 FALSE, FALSE, 0 );
+                        &(etat.dernier_fichier_auto), NULL, NULL );
+    //~ g_signal_connect ( G_OBJECT ( button ), 
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed ),
+                        //~ &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (_("Automatically save on exit"),
-					  &(etat.sauvegarde_auto), NULL, NULL);
-    g_signal_connect ( G_OBJECT (button ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &button );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-			 FALSE, FALSE, 0 );
+                        &(etat.sauvegarde_auto), NULL, NULL);
+    //~ g_signal_connect ( G_OBJECT ( button ), 
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed ),
+                        //~ &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Warn if file is used by someone else? */
     button = gsb_automem_checkbutton_new ( _("Force saving of locked files"),
-					   &(etat.force_enregistrement), NULL, NULL );
-    g_signal_connect ( G_OBJECT (button ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &button );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-			 FALSE, FALSE, 0 );
+                        &(etat.force_enregistrement), NULL, NULL );
+    //~ g_signal_connect ( G_OBJECT ( button ), 
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed ),
+                        //~ &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* crypt the grisbi file */
     button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-					   &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-    g_signal_connect ( G_OBJECT (button ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &button );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-			 FALSE, FALSE, 0 );
+                        &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
+    //~ g_signal_connect ( G_OBJECT ( button ), 
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed ),
+                        //~ &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Compression level of files */
     button = gsb_automem_checkbutton_new ( _("Compress Grisbi file"),
-					   &(etat.compress_file), NULL, NULL );
-    g_signal_connect ( G_OBJECT (button ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &button );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-			 FALSE, FALSE, 0 );
+                        &(etat.compress_file), NULL, NULL );
+    //~ g_signal_connect ( G_OBJECT ( button ),
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed ),
+                        //~ &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Memorize last opened files in menu */
     hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
     label = gtk_label_new ( COLON(_("Memorise last opened files")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
+
     button = gsb_automem_spin_button_new ( &(nb_max_derniers_fichiers_ouverts),
-					   G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
-    g_signal_connect ( G_OBJECT (button ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &button );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button,
-			 FALSE, FALSE, 0 );
+                        G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
+    //~ g_signal_connect ( G_OBJECT ( button ),
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed ),
+                        //~ &button );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* Backups */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-					    _("Backups"));
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Backups"));
 
     /* Compression level of backups */
     button = gsb_automem_checkbutton_new ( _("Compress Grisbi backup"),
-					   &(etat.compress_backup), NULL, NULL );
-    g_signal_connect ( G_OBJECT (button ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &button );
+                        &(etat.compress_backup), NULL, NULL );
+    //~ g_signal_connect ( G_OBJECT ( button ), 
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed ),
+                        //~ &button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Backup at each opening? */
     button = gsb_automem_checkbutton_new ( _("Make a backup copy after opening files"),
-					   &(etat.sauvegarde_demarrage), NULL, NULL);
-    g_signal_connect ( G_OBJECT (button ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &button );
+                        &(etat.sauvegarde_demarrage), NULL, NULL);
+    //~ g_signal_connect ( G_OBJECT ( button ), 
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed ),
+                        //~ &button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup ? */
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
-					  &etat.make_backup, NULL, NULL);
+                        &etat.make_backup, NULL, NULL);
+    //~ g_signal_connect ( G_OBJECT ( button ),
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed ),
+                        //~ &button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup every x minutes */
@@ -750,12 +770,16 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
-					  &etat.make_backup_every_minutes,
-					  G_CALLBACK (gsb_file_automatic_backup_start), NULL);
+                        &etat.make_backup_every_minutes,
+                        G_CALLBACK (gsb_file_automatic_backup_start), NULL);
+    //~ g_signal_connect ( G_OBJECT ( button ),
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed ),
+                        //~ &button );
     gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_spin_button_new ( &etat.make_backup_nb_minutes,
-					   G_CALLBACK (gsb_file_automatic_backup_change_time), NULL );
+                        G_CALLBACK (gsb_file_automatic_backup_change_time), NULL );
     gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
 
     label = gtk_label_new (_(" minutes"));
@@ -773,8 +797,9 @@ GtkWidget *onglet_fichier ( void )
      * lorsque l'on annule le choix du nouveau répertoire */
     dialog = utils_files_create_file_chooser ( window,
                         _("Select/Create backup directory") );
-    button = gtk_file_chooser_button_new_with_dialog (dialog);
-    if (gsb_file_get_backup_path ())
+
+    button = gtk_file_chooser_button_new_with_dialog ( dialog );
+    if ( gsb_file_get_backup_path ( ) )
         gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),
                         gsb_file_get_backup_path ());
     else
@@ -784,15 +809,12 @@ GtkWidget *onglet_fichier ( void )
                         "selection-changed",
                         G_CALLBACK ( gsb_config_backup_dir_chosen ),
                         dialog );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button,
-			 FALSE, TRUE, 0);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0);
 
     gtk_widget_show_all ( vbox_pref );
 
     if ( !gsb_data_account_get_accounts_amount () )
-    {
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
-    }
+        gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
     return ( vbox_pref );
 }
@@ -802,16 +824,16 @@ GtkWidget *onglet_fichier ( void )
  * Warns that there is no coming back if password is forgotten when
  * encryption is activated.
  *
- * \param checkbox	Checkbox that triggered event.
- * \param data		Unused.
+ * \param checkbox  Checkbox that triggered event.
+ * \param data      Unused.
  *
- * \return		FALSE
+ * \return          FALSE
  */
 gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
 {
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (checkbox)))
     {
-	dialog_message ( "encryption-is-irreversible" );
+    dialog_message ( "encryption-is-irreversible" );
     }
 
     return FALSE;
@@ -826,15 +848,15 @@ gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
  * \return FALSE
  * */
 gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
-					GtkWidget *dialog )
+                        GtkWidget *dialog )
 {
     gchar *path;
 
-    path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (button));
-    devel_debug ( path);
-    gsb_file_set_backup_path (path);
-    if (path && strlen (path) > 0)
-        g_free (path);
+    path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( button ) );
+    devel_debug ( path );
+    gsb_file_set_backup_path ( path );
+    if ( path && strlen ( path ) > 0 )
+        g_free ( path );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
@@ -868,21 +890,23 @@ GtkWidget *onglet_programmes (void)
     gtk_size_group_add_widget ( size_group, label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
     entry = gsb_automem_entry_new ( &etat.browser_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     text = g_strconcat ( "<span foreground=\"blue\">",
-			_("You may use %s to expand the URL - I.e: 'firefox -remote %s' "), "</span>", NULL );
+                        _("You may use %s to expand the URL - I.e: 'firefox -remote %s' "),
+                        "</span>", NULL );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 1, 2, 1, 2,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
     g_free ( text );
 
 
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("LaTeX support (old print system)"));
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
+                        _("LaTeX support (old print system)"));
 
     table = gtk_table_new ( 0, 2, FALSE );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
@@ -893,7 +917,7 @@ GtkWidget *onglet_programmes (void)
     gtk_size_group_add_widget ( size_group, label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
     entry = gsb_automem_entry_new ( &etat.latex_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
@@ -901,7 +925,7 @@ GtkWidget *onglet_programmes (void)
     gtk_size_group_add_widget ( size_group, label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
     entry = gsb_automem_entry_new ( &etat.dvips_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
@@ -932,37 +956,35 @@ static GtkWidget *gsb_config_scheduler_page ( void )
     GtkWidget *entry;
     GtkWidget *button;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Scheduler"),
-					       "scheduler.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Scheduler"), "scheduler.png" );
 
     /* Number of days before a warning message advertising a scheduled
        transaction */
     button = gsb_automem_radiobutton_new_with_title ( vbox_pref,
-						      _("Scheduler warnings at Grisbi's opening"),
-						      _("Warn/Execute the scheduled transactions arriving at expiration date"),
-						      _("Warn/Execute the scheduled transactions of the month"),
-						      &execute_scheduled_of_month,
-						      NULL, NULL );
+                        _("Scheduler warnings at Grisbi's opening"),
+                        _("Warn/Execute the scheduled transactions arriving at expiration date"),
+                        _("Warn/Execute the scheduled transactions of the month"),
+                        &execute_scheduled_of_month,
+                        NULL, NULL );
     /* commenté provisoirement pour supprimer un plantage sous windows */
-    //~ g_signal_connect ( G_OBJECT (button), "destroy",
-		       //~ G_CALLBACK ( gtk_widget_destroyed), &button );
+    //~ g_signal_connect ( G_OBJECT (button),
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed),
+                        //~ &button );
 
     hbox = gtk_hbox_new ( FALSE, 0);
-    gtk_box_pack_start ( GTK_BOX (vbox_pref),
-			 hbox,
-			 FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new ( SPACIFY(COLON(_("Number of days before the warning or the execution"))));
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 label, FALSE, FALSE, 0 );
+    label = gtk_label_new ( SPACIFY ( COLON (
+                        _("Number of days before the warning or the execution"))) );
+    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
-    entry = gsb_automem_spin_button_new ( &nb_days_before_scheduled,
-					  NULL, NULL );
-    g_signal_connect ( G_OBJECT (entry), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &entry );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 entry,
-			 FALSE, FALSE, 0 );
+    entry = gsb_automem_spin_button_new ( &nb_days_before_scheduled, NULL, NULL );
+    //~ g_signal_connect ( G_OBJECT (entry),
+                        //~ "destroy",
+                        //~ G_CALLBACK ( gtk_widget_destroyed),
+                        //~ &entry );
+    gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );
 
     return vbox_pref;
 }
