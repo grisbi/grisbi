@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)            */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/* 			http://www.grisbi.org                                             */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -42,7 +42,7 @@
 
 /*START_STATIC*/
 static gint gsb_payment_method_get_payment_position ( GtkWidget *combo_box,
-					       gint payment_number );
+                        gint payment_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -65,9 +65,9 @@ static gint gsb_payment_method_get_payment_position ( GtkWidget *combo_box,
  * \return FALSE if fail, TRUE if ok
  * */
 gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
-						gint sign,
-						gint account_number,
-						gint exclude )
+                        gint sign,
+                        gint account_number,
+                        gint exclude )
 {
     GtkWidget *widget =  NULL;
     GtkListStore *store;
@@ -220,7 +220,7 @@ gint gsb_payment_method_get_selected_number ( GtkWidget *combo_box )
  * \return the position of the payment or -1 if not found
  * */
 gint gsb_payment_method_get_payment_position ( GtkWidget *combo_box,
-					       gint payment_number )
+                        gint payment_number )
 {
     gint i = 0;
     GtkTreeModel *model;
@@ -255,6 +255,44 @@ gint gsb_payment_method_get_payment_position ( GtkWidget *combo_box,
 
 
 /**
+ * set active the payment number in param
+ *
+ * \param       combo_box
+ * \param       payment_number
+ *
+ * */
+void gsb_payment_method_set_payment_position ( GtkWidget *combo_box,
+                        gint payment_number )
+{
+    gint i = 0;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+
+    if ( !payment_number || !combo_box )
+    return;
+
+    model = gtk_combo_box_get_model ( GTK_COMBO_BOX ( combo_box ) );
+    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
+    {
+    do
+    {
+        gint tmp;
+
+        gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 1, &tmp, -1 );
+        if ( tmp == payment_number )
+        {
+            gtk_combo_box_set_active_iter ( GTK_COMBO_BOX (combo_box), &iter );
+            return;
+        }
+        i++; 
+    }
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+    }
+    return;
+}
+
+
+/**
  * set the given payment number in the combobox
  * if not found, set the default payment number for that account
  *
@@ -265,7 +303,7 @@ gint gsb_payment_method_get_payment_position ( GtkWidget *combo_box,
  * \return TRUE if we can set the payment_number, FALSE if it's the default wich is set
  * */
 gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
-						   gint payment_number )
+                        gint payment_number )
 {
     gint position;
     gboolean return_value;
@@ -303,7 +341,7 @@ gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
  * \return FALSE
  * */
 gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
-					       gpointer null )
+                        gpointer null )
 {
     gint payment_number;
     GtkWidget *cheque_entry;

@@ -66,6 +66,8 @@ extern GtkWidget *form_button_valid;
 /** contains a list of struct_element according to the current form */
 static GSList *form_list_widgets = NULL;
 
+static gchar *old_debit = NULL;
+static gchar *old_credit = NULL;
 
 /**
  * return the list wich contains the widgets of the form
@@ -741,9 +743,9 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
     /* still not found, if change the content of the form, something come in entry
      * wich is nothing, so protect here */
     if ( !GTK_IS_WIDGET (entry)
-	 ||
-	 !GTK_IS_ENTRY (entry))
-	return FALSE;
+     ||
+     !GTK_IS_ENTRY (entry))
+    return FALSE;
 
     /* it clears the entry in question */
     if ( gsb_form_widget_check_empty (entry) )
@@ -758,11 +760,18 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
     switch ( element_number )
     {
     case TRANSACTION_FORM_DEBIT :
-	    /* we change the payment method to adapt it for the debit */
+        /* on met old_debit = NULl car avec g_free plantage */
+        if ( old_debit && strlen ( old_debit ) > 0 )
+            old_debit = NULL;
+
+        /* we change the payment method to adapt it for the debit */
         /* empty the credit */
         widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CREDIT);
         if (!gsb_form_widget_check_empty (widget))
         {
+            old_credit = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (
+                        gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT ) ) ) );
+            printf ("old_credit = %s\n", old_credit );
             gtk_entry_set_text ( GTK_ENTRY (widget),
                      gsb_form_widget_get_name (TRANSACTION_FORM_CREDIT));
             gsb_form_widget_set_empty ( widget,
@@ -796,13 +805,20 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
             }
         }
         gsb_form_check_auto_separator (entry);
-	    break;
-	case TRANSACTION_FORM_CREDIT :
-	    /* we change the payment method to adapt it for the debit */
+        break;
+    case TRANSACTION_FORM_CREDIT :
+         /* on met old_credit = NULl car avec g_free plantage */
+        if ( old_credit && strlen ( old_credit ) > 0 )
+            old_credit = NULL;
+
+        /* we change the payment method to adapt it for the debit */
         /* empty the credit */
         widget = gsb_form_widget_get_widget (TRANSACTION_FORM_DEBIT);
         if (!gsb_form_widget_check_empty (widget))
         {
+            old_debit = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (
+                        gsb_form_widget_get_widget ( TRANSACTION_FORM_DEBIT ) ) ) );
+            printf ("old_debit = %s\n", old_debit );
             gtk_entry_set_text ( GTK_ENTRY (widget),
                      gsb_form_widget_get_name (TRANSACTION_FORM_DEBIT));
             gsb_form_widget_set_empty ( widget,
@@ -835,7 +851,7 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
             }
         }
         gsb_form_check_auto_separator (entry);
-	    break;
+        break;
     }
     
     /* sensitive the valid and cancel buttons */
@@ -848,4 +864,22 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
         gsb_fyear_set_combobox_history ( fyear_button, 0 );
 
     return FALSE;
+}
+
+
+gchar *gsb_form_widget_get_old_credit ( void )
+{
+    if ( old_credit && strlen ( old_credit ) > 0 )
+        return g_strdup ( old_credit );
+    else
+        return NULL;
+}
+
+
+gchar *gsb_form_widget_get_old_debit ( void )
+{
+    if ( old_debit && strlen ( old_debit ) > 0 )
+        return g_strdup ( old_debit );
+    else
+        return NULL;
 }
