@@ -1163,6 +1163,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /* what to be done if switch to that page */
 	    if (account_number >= 0 )
 	    {
+		title = g_strconcat ( _("Account"), " : ", gsb_data_account_get_name (account_number), NULL );
 		navigation_change_account ( GINT_TO_POINTER (account_number) );
 		gsb_account_property_fill_page ();
 	    }
