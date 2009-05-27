@@ -328,6 +328,21 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 
 
 
+/**
+ * Update one of the heading bar label with a new text.
+ *
+ * \param label	Label to update.
+ * \param text	String to display in headings bar.
+ *
+ */
+void gsb_gui_headings_private_update_label_markup ( GtkLabel *label, const gchar *text )
+{
+    gchar* escstr = g_markup_escape_text ( text, -1 );
+    gchar* tmpstr = g_strconcat ( "<b>", escstr, "</b>", NULL );
+    gtk_label_set_markup ( label, tmpstr );
+    g_free ( tmpstr );
+    g_free ( escstr );
+}
 
 /**
  * Update headings bar with a new title and a new suffix.
@@ -338,12 +353,8 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
  */
 void gsb_gui_headings_update ( gchar * title, gchar * suffix )
 {
-    gchar* tmpstr = g_strconcat ( "<b>", title, "</b>", NULL );
-    gtk_label_set_markup ( GTK_LABEL(headings_title), tmpstr);
-    g_free ( tmpstr );
-    tmpstr = g_strconcat ( "<b>", suffix, "</b>", NULL );
-    gtk_label_set_markup ( GTK_LABEL(headings_suffix), tmpstr);
-    g_free ( tmpstr );
+    gsb_gui_headings_private_update_label_markup ( GTK_LABEL(headings_title), title );
+    gsb_gui_headings_update_suffix ( suffix );
 }
 
 /**
@@ -354,9 +365,7 @@ void gsb_gui_headings_update ( gchar * title, gchar * suffix )
  */
 void gsb_gui_headings_update_suffix ( gchar * suffix )
 {
-    gchar* tmpstr = g_strconcat ( "<b>", suffix, "</b>", NULL );
-    gtk_label_set_markup ( GTK_LABEL(headings_suffix), tmpstr );
-    g_free ( tmpstr );
+    gsb_gui_headings_private_update_label_markup ( GTK_LABEL(headings_suffix), suffix );
 }
 
 
