@@ -274,8 +274,6 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     enum meta_tree_row_type type;
     gint number_transactions;
 
-    devel_debug_int ( division );
-
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
 

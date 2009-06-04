@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger	(cedric@grisbi.org)	          */
-/*			2006-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/* 			http://www.grisbi.org				      						  */
+/*     Copyright (C)    2000-2008 Cédric Auger	(cedric@grisbi.org)           */
+/*          2006-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -88,6 +88,7 @@ extern GdkColor default_split_background;
 extern GdkColor default_text_color[2];
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *hbox_title;
+extern gchar *initial_file_title;
 extern GtkWidget *label_titre_fichier;
 extern GtkWidget *logo_accueil;
 extern gchar *nom_fichier_comptes;
@@ -262,7 +263,7 @@ GtkWidget * onglet_display_fonts ( void )
 
 /* ********************************************************************** */
 gboolean change_choix_utilise_logo ( GtkWidget *check_button,
-				     GtkWidget *hbox )
+                        GtkWidget *hbox )
 {
 
     etat.utilise_logo = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON 
@@ -298,7 +299,7 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 
 /* ********************************************************************** */
 gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
-					    GtkWidget *vbox )
+                        GtkWidget *vbox )
 {
     etat.utilise_fonte_listes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ));
     gtk_widget_set_sensitive ( vbox,
@@ -319,7 +320,7 @@ gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
  * \return
  * */
 void update_fonte_listes ( gchar *fontname,
-			   gpointer null)
+                        gpointer null)
 {
     GValue value = {0,};
     gchar *font;
@@ -587,7 +588,7 @@ gboolean modification_logo_accueil ( )
  * \return FALSE
  * */
 static gboolean preferences_view_update_preview_logo ( GtkFileChooser *file_chooser,
-						       GtkWidget *preview )
+                        GtkWidget *preview )
 {
   char *filename;
   GdkPixbuf *pixbuf;
@@ -621,7 +622,7 @@ static gboolean preferences_view_update_preview_logo ( GtkFileChooser *file_choo
  * \param position Not used handler parameter.
  */
 gboolean update_homepage_title (GtkEntry *entry, gchar *value,
-				gint length, gint * position)
+                        gint length, gint * position)
 {
     /* at the first use of grisbi,label_titre_fichier doesn't still exist */
     if (label_titre_fichier)
@@ -805,7 +806,7 @@ static GtkWidget *preferences_view_create_color_combobox (void)
  * \return FALSE
  * */
 static gboolean preferences_view_color_combobox_changed ( GtkWidget *combobox,
-							  GtkWidget *color_button )
+                        GtkWidget *color_button )
 {
     GtkTreeIter iter;
 
@@ -837,7 +838,7 @@ static gboolean preferences_view_color_combobox_changed ( GtkWidget *combobox,
  * \return FALSE
  * */
 static gboolean preferences_view_color_changed ( GtkWidget *color_button,
-						 GtkWidget *combobox )
+                        GtkWidget *combobox )
 {
     GtkTreeIter iter;
 
@@ -878,7 +879,7 @@ static gboolean preferences_view_color_changed ( GtkWidget *color_button,
  * \return FALSE
  * */
 static gboolean preferences_view_color_default ( GtkWidget *button,
-						 GtkWidget *combobox )
+                        GtkWidget *combobox )
 {
     GtkTreeIter iter;
 
@@ -939,26 +940,31 @@ gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry )
     {
         case GSB_ACCOUNTS_FILE:
         gtk_widget_set_sensitive ( entry, TRUE);
-        if (titre_fichier && strlen (titre_fichier) )
-                g_free (titre_fichier);
-        tmpstr = my_strdup ( gtk_entry_get_text (GTK_ENTRY (entry) ) );
-        if (tmpstr && strlen (tmpstr) )
+        if (initial_file_title && strlen (initial_file_title) )
         {
-            titre_fichier = my_strdup ( tmpstr );
+            gtk_entry_set_text ( GTK_ENTRY (entry), initial_file_title );
+            if (titre_fichier && strlen (titre_fichier) )
+                g_free (titre_fichier);
+
+            titre_fichier = my_strdup ( initial_file_title );
+        }
+        else
+        {
+            gtk_entry_set_text ( GTK_ENTRY (entry), "" );
+            titre_fichier = g_strdup ( _("My accounts") );
+        }
+        gsb_file_update_window_title ( );
+        if (label_titre_fichier)
+        {
+            tmpstr = g_strconcat ("<span size=\"x-large\">",
+                        titre_fichier, "</span>", NULL );
+            gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr );
             g_free ( tmpstr );
-            gsb_file_update_window_title ( );
-            if (label_titre_fichier)
-            {
-                tmpstr = g_strconcat ("<span size=\"x-large\">",
-                            titre_fichier, "</span>", NULL );
-                gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr );
-                g_free ( tmpstr );
-            }
         }
         break;
         case GSB_ACCOUNT_OWNER:
         gtk_widget_set_sensitive ( entry, FALSE);
-	    account_number = gsb_gui_navigation_get_current_account ( );
+        account_number = gsb_gui_navigation_get_current_account ( );
         if ( account_number == -1 )
         {
             account_number = gsb_gui_navigation_get_last_account ( );

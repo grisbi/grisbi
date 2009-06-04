@@ -200,6 +200,9 @@ static gint last_sub_budget_number = 0;
 /* to import older file than 0.6, makes the link between report and comparison structures */
 static gint last_report_number;
 
+/* initial_file_title sert à garder le bon nom du fichier de compte */
+gchar *initial_file_title;
+
 /** filled only when loading a version before 0.6, contains the order of the accounts
  * in the 0.6, the accounts are saved directly in the good order
  * this is a list of the accounts number, in the good order */
@@ -698,6 +701,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         if ( titre_fichier )
             g_free ( titre_fichier );
         titre_fichier = my_strdup (attribute_values[i]);
+        initial_file_title = my_strdup (attribute_values[i]);
     }
 
     else if ( !strcmp ( attribute_names[i],
