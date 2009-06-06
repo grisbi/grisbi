@@ -414,11 +414,8 @@ gboolean gsb_data_transaction_set_transaction_id ( gint transaction_number,
 
     if ( transaction -> transaction_id )
         g_free ( transaction -> transaction_id );
+	transaction -> transaction_id = g_strdup ( transaction_id ? transaction_id : "" );
 
-    if (transaction_id)
-	transaction -> transaction_id = my_strdup (transaction_id);
-    else
-    	transaction -> transaction_id = NULL;
     return TRUE;
 }
 
@@ -1271,13 +1268,7 @@ gboolean gsb_data_transaction_set_notes ( gint transaction_number,
 
     if ( transaction -> notes )
         g_free ( transaction -> notes );
-
-    if ( notes
-	 &&
-	 strlen (notes))
-	transaction -> notes = my_strdup (notes);
-    else
-	transaction -> notes = NULL;
+	transaction -> notes = g_strdup ( notes ? notes : "" );
     
     return TRUE;
 }
@@ -1382,13 +1373,7 @@ gboolean gsb_data_transaction_set_method_of_payment_content ( gint transaction_n
 
     if ( transaction -> method_of_payment_content )
         g_free ( transaction -> method_of_payment_content );
-
-    if ( method_of_payment_content
-	 &&
-	 strlen (method_of_payment_content))
-	transaction -> method_of_payment_content = my_strdup (method_of_payment_content);
-    else
-	transaction -> method_of_payment_content = NULL;
+	transaction -> method_of_payment_content = g_strdup ( method_of_payment_content ? method_of_payment_content : "" );
     
     return TRUE;
 }
@@ -1834,13 +1819,7 @@ gboolean gsb_data_transaction_set_bank_references ( gint transaction_number,
 
     if ( transaction -> bank_references )
         g_free ( transaction -> bank_references );
-
-    if ( bank_references
-	 &&
-	 strlen (bank_references))
-	transaction -> bank_references = my_strdup (bank_references);
-    else
-	transaction -> bank_references = NULL;
+	transaction -> bank_references = g_strdup ( bank_references ? bank_references : "" );
     
     return TRUE;
 }
@@ -1991,10 +1970,13 @@ gint gsb_data_transaction_new_transaction_with_number ( gint no_account,
 	transaction_number = gsb_data_transaction_get_last_number () + 1;
 
     transaction -> account_number = no_account;
+    transaction -> transaction_id = g_strdup("");
     transaction -> transaction_number = transaction_number;
     transaction -> currency_number = gsb_data_account_get_currency (no_account);
+    transaction -> notes = g_strdup("");
     transaction -> voucher = g_strdup("");
     transaction -> bank_references = g_strdup("");
+    transaction -> method_of_payment_content = g_strdup("");
 
     /* we append the transaction to the complete transactions list and the non archive transaction list */
     transactions_list = g_slist_append ( transactions_list,

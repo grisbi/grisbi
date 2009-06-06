@@ -572,12 +572,7 @@ gboolean gsb_data_payee_set_description ( gint no_payee,
     /* we free the last name */
     if ( payee -> payee_description )
 	g_free (payee -> payee_description);
-    
-    /* and copy the new one */
-    if (description)
-	payee -> payee_description = my_strdup (description);
-    else
-	payee -> payee_description = NULL;
+	payee -> payee_description = g_strdup ( description ? description : "" );
 
     return TRUE;
 }
@@ -846,12 +841,7 @@ gboolean gsb_data_payee_set_search_string ( gint no_payee, const gchar *search_s
     /* we free the last name */
     if ( payee -> payee_search_string )
         g_free (payee -> payee_search_string);
-    
-    /* and copy the new one */
-    if (search_string)
-        payee -> payee_search_string = my_strdup (search_string);
-    else
-        payee -> payee_search_string = NULL;
+    payee -> payee_search_string = g_strdup ( search_string ? search_string : "" );
 
     return TRUE;
 }
