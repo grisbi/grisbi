@@ -809,14 +809,10 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* mise en place du no de chèque/virement */
 
 	case ELEMENT_CHQ:
-	    if ( gsb_data_transaction_get_method_of_payment_content ( transaction_number))
-		return ( g_strconcat ( "(",
-				       gsb_data_transaction_get_method_of_payment_content ( transaction_number),
-				       ")",
-				       NULL ));
-	    else
-		return ( NULL );
-	    break;
+      {
+        const gchar *value = gsb_data_transaction_get_method_of_payment_content ( transaction_number );
+	    return ( value && *value ) ? g_strconcat ( "(", value, ")", NULL ) : NULL;
+      }
     }
     return ( NULL );
 }
