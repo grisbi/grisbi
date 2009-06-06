@@ -524,12 +524,12 @@ gchar *gsb_format_gdate_safe ( const GDate *date )
 
     if ( !date || !g_date_valid ( date ))
     {
-    return my_strdup ( "" );
+    return g_strdup ( "" );
     }
 
     g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%m/%d/%Y", date );
 
-    return my_strdup ( retour_str );
+    return g_strdup ( retour_str );
 }
 
 

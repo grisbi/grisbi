@@ -612,19 +612,31 @@ gboolean gsb_file_save_backup ( void )
     gsb_status_message ( _("Saving backup") );
 
     name = g_path_get_basename (nom_fichier_comptes);
+    if ( g_str_has_suffix ( name, ".gsb" ) )
+    {
+        gchar **tab_str;
 
+        tab_str = g_strsplit ( name, ".gsb", 0 );
+        if ( tab_str[0] && strlen ( tab_str[0] ) )
+        {
+            g_free ( name );
+            name = g_strdup ( tab_str[0] );
+            g_strfreev ( tab_str );
+        }
+    }
     /* create a filename for the backup :
-     * filename-yyyy-mm-dd_mm:hh:ss */
+     * filename_yyyymmddTmmhhss.gsb */
     time ( &temps );
     day_time = localtime (&temps);
-    filename = g_strdup_printf ( "%s/%s_%d-%02d-%02d_%02d:%02d:%02d",
-				 gsb_file_get_backup_path (),
-				 name,
-				 day_time -> tm_year + 1900, day_time -> tm_mon + 1, day_time -> tm_mday,
-				 day_time -> tm_hour, day_time -> tm_min, day_time -> tm_sec );
+    filename =  g_strdup_printf ( "%s%s%s_%d%02d%02dT%02d%02d%02d.gsb",
+                        gsb_file_get_backup_path (),
+                        G_DIR_SEPARATOR_S,
+                        name,
+                        day_time -> tm_year + 1900, day_time -> tm_mon + 1, day_time -> tm_mday,
+                        day_time -> tm_hour, day_time -> tm_min, day_time -> tm_sec );
     retour = gsb_file_save_save_file ( filename,
-				       etat.compress_backup,
-				       FALSE );
+                        etat.compress_backup,
+                        FALSE );
     g_free (filename);
     g_free (name);
 
