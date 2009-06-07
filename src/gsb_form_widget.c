@@ -766,16 +766,15 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
 
         /* we change the payment method to adapt it for the debit */
         /* empty the credit */
-        widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CREDIT);
-        if (!gsb_form_widget_check_empty (widget))
+        widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
+        if ( !gsb_form_widget_check_empty ( widget ) )
         {
             old_credit = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (
                         gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT ) ) ) );
             printf ("old_credit = %s\n", old_credit );
-            gtk_entry_set_text ( GTK_ENTRY (widget),
-                     gsb_form_widget_get_name (TRANSACTION_FORM_CREDIT));
-            gsb_form_widget_set_empty ( widget,
-                        TRUE );
+            gtk_entry_set_text ( GTK_ENTRY ( widget ),
+                     gsb_form_widget_get_name ( TRANSACTION_FORM_CREDIT ) );
+            gsb_form_widget_set_empty ( widget, TRUE );
         }
 
         widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE);
@@ -784,27 +783,28 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
          * (if grey, it's a child of split so do nothing) */
         if ( widget
              &&
-             GTK_WIDGET_SENSITIVE (widget))
+             GTK_WIDGET_SENSITIVE ( widget ) )
         {
             /* change the signe of the method of payment and the contra */
-            if ( gsb_payment_method_get_combo_sign (widget) == GSB_PAYMENT_CREDIT)
+            if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_CREDIT )
             {
                 gsb_payment_method_create_combo_list ( widget,
-                                       GSB_PAYMENT_DEBIT,
-                                       account_number, 0 );
+                                        GSB_PAYMENT_DEBIT,
+                                        account_number, 0 );
                 /* if there is no payment method, the last function hide it, but we have
                  * to hide the cheque element too */
-                if ( !GTK_WIDGET_VISIBLE (widget))
+                if ( ! GTK_WIDGET_VISIBLE (widget) )
                     gtk_widget_hide (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
 
-                widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
-                if ( GTK_WIDGET_VISIBLE (widget))
-                    gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA),
-                                       GSB_PAYMENT_CREDIT,
-                                       account_number, 0 );
+                widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA );
+                if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
+                    gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (
+                                        TRANSACTION_FORM_CONTRA ),
+                                        GSB_PAYMENT_CREDIT,
+                                        account_number, 0 );
             }
         }
-        gsb_form_check_auto_separator (entry);
+        gsb_form_check_auto_separator ( entry );
         break;
     case TRANSACTION_FORM_CREDIT :
          /* on met old_credit = NULl car avec g_free plantage */
@@ -813,16 +813,15 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
 
         /* we change the payment method to adapt it for the debit */
         /* empty the credit */
-        widget = gsb_form_widget_get_widget (TRANSACTION_FORM_DEBIT);
-        if (!gsb_form_widget_check_empty (widget))
+        widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_DEBIT );
+        if ( !gsb_form_widget_check_empty ( widget ) )
         {
             old_debit = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (
                         gsb_form_widget_get_widget ( TRANSACTION_FORM_DEBIT ) ) ) );
             printf ("old_debit = %s\n", old_debit );
             gtk_entry_set_text ( GTK_ENTRY (widget),
-                     gsb_form_widget_get_name (TRANSACTION_FORM_DEBIT));
-            gsb_form_widget_set_empty ( widget,
-                        TRUE );
+                        gsb_form_widget_get_name (TRANSACTION_FORM_DEBIT));
+            gsb_form_widget_set_empty ( widget, TRUE );
         }
         widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE);
 
@@ -836,18 +835,18 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
             if ( gsb_payment_method_get_combo_sign (widget) == GSB_PAYMENT_DEBIT)
             {
                 gsb_payment_method_create_combo_list ( widget,
-                                       GSB_PAYMENT_CREDIT,
-                                       account_number, 0 );
+                                        GSB_PAYMENT_CREDIT,
+                                        account_number, 0 );
                 /* if there is no payment method, the last function hide it, but we have
                  * to hide the cheque element too */
                 if ( !GTK_WIDGET_VISIBLE (widget))
                     gtk_widget_hide (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
 
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA);
-                if ( GTK_WIDGET_VISIBLE (widget))
+                if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
                     gsb_payment_method_create_combo_list ( widget,
-                                       GSB_PAYMENT_DEBIT,
-                                       account_number, 0 );
+                                        GSB_PAYMENT_DEBIT,
+                                        account_number, 0 );
             }
         }
         gsb_form_check_auto_separator (entry);
