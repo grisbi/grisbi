@@ -133,7 +133,6 @@ extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COL
 /*END_EXTERN*/
 
 
-
 /** contains a g_slist of struct_account in the good order */
 static GSList *list_accounts = NULL;
 
@@ -217,19 +216,9 @@ gint gsb_data_account_new ( kind_account account_kind )
 
     /* set the base */
     account -> account_number = last_number + 1;
-    account -> account_id = g_strdup("");
     account -> account_name = g_strdup_printf ( _("No name %d"),
 						account -> account_number );
     account -> currency = gsb_data_currency_get_default_currency ();
-    account -> name_icon = g_strdup("");
-    account -> comment = g_strdup("");
-    account -> holder_name = g_strdup("");
-    account -> holder_address = g_strdup("");
-
-    account -> bank_branch_code = g_strdup("");
-    account -> bank_account_number = g_strdup("");
-    account -> bank_account_key = g_strdup("");
-    account -> bank_account_iban = g_strdup("");
 
     /* set the kind of account */
     account -> account_kind = account_kind;
@@ -633,8 +622,10 @@ gboolean gsb_data_account_set_id ( gint account_number,
     if (!account )
 	return FALSE;
 
-    g_free ( account -> account_id );
-    account -> account_id = g_strdup ( id ? id : "" );
+    if ( account -> account_id )
+        g_free ( account -> account_id );
+
+    account -> account_id = my_strdup (id);
 
     return TRUE;
 }
@@ -749,8 +740,13 @@ gboolean gsb_data_account_set_name ( gint account_number,
     if (!account )
 	return FALSE;
 
-    g_free ( account -> account_name );
-	account -> account_name = g_strdup ( name ? name : "" );
+    if ( account -> account_name )
+        g_free ( account -> account_name );
+
+    if (!name || !strlen (name))
+	account -> account_name = NULL;
+    else
+	account -> account_name = my_strdup (name);
 
     return TRUE;
 }
@@ -1438,8 +1434,13 @@ gboolean gsb_data_account_set_bank_branch_code ( gint account_number,
     if (!account )
 	return FALSE;
 
-    g_free ( account -> bank_branch_code );
-	account -> bank_branch_code = g_strdup ( bank_branch_code ? bank_branch_code : "" );
+    if ( account -> bank_branch_code )
+        g_free ( account -> bank_branch_code );
+
+    if (!bank_branch_code || !strlen (bank_branch_code))
+	account -> bank_branch_code = NULL;
+    else
+	account -> bank_branch_code = my_strdup (bank_branch_code);
 
     return TRUE;
 }
@@ -1481,8 +1482,13 @@ gboolean gsb_data_account_set_bank_account_number ( gint account_number,
     if (!account )
 	return FALSE;
 
-    g_free ( account -> bank_account_number );
-	account -> bank_account_number = g_strdup ( bank_account_number ? bank_account_number : "" );
+    if ( account -> bank_account_number )
+        g_free ( account -> bank_account_number );
+
+    if (!bank_account_number || !strlen (bank_account_number))
+	account -> bank_account_number = NULL;
+    else
+	account -> bank_account_number = my_strdup (bank_account_number);
 
     return TRUE;
 }
@@ -1525,8 +1531,13 @@ gboolean gsb_data_account_set_bank_account_key ( gint account_number,
     if (!account )
 	return FALSE;
 
-    g_free ( account -> bank_account_key );
-	account -> bank_account_key = g_strdup ( bank_account_key ? bank_account_key : "" );
+    if ( account -> bank_account_key )
+        g_free ( account -> bank_account_key );
+
+    if (!bank_account_key || !strlen (bank_account_key))
+	account -> bank_account_key = NULL;
+    else
+	account -> bank_account_key = my_strdup (bank_account_key);
 
     return TRUE;
 }
@@ -1606,8 +1617,9 @@ gboolean gsb_data_account_set_comment ( gint account_number,
     if (!account )
 	return FALSE;
 
-    g_free ( account -> comment );
-    account -> comment = g_strdup ( comment ? comment : "" );
+    if ( account -> comment )
+        g_free ( account -> comment );
+    account -> comment = my_strdup (comment);
 
     return TRUE;
 }
@@ -1862,8 +1874,13 @@ gboolean gsb_data_account_set_holder_name ( gint account_number,
     if (!account )
 	return FALSE;
 
-    g_free ( account -> holder_name );
-	account -> holder_name = g_strdup ( holder_name ? holder_name : "" );
+    if ( account -> holder_name )
+        g_free ( account -> holder_name );
+
+    if (!holder_name || !strlen (holder_name))
+	account -> holder_name = NULL;
+    else
+	account -> holder_name = my_strdup (holder_name);
 
     return TRUE;
 }
@@ -1905,8 +1922,13 @@ gboolean gsb_data_account_set_holder_address ( gint account_number,
     if (!account )
 	return FALSE;
 
-    g_free ( account -> holder_address );
-	account -> holder_address = g_strdup ( holder_address ? holder_address : "" );
+    if ( account -> holder_address )
+        g_free ( account -> holder_address );
+
+    if (!holder_address || !strlen (holder_address))
+	account -> holder_address = NULL;
+    else
+	account -> holder_address = my_strdup (holder_address);
 
     return TRUE;
 }
@@ -2429,7 +2451,9 @@ gboolean gsb_data_account_set_name_icon ( gint account_number,
     if (!account )
     return FALSE;
 
-    g_free ( account -> name_icon );
+    if ( account -> name_icon && strlen ( account -> name_icon ) )
+        g_free ( account -> name_icon );
+
     account -> name_icon = g_strdup ( filename ? filename : "" );
 
     return TRUE;
@@ -2466,7 +2490,8 @@ GdkPixbuf *gsb_data_account_get_account_icon_pixbuf ( gint account_number )
     gchar * account_icon;
     GError *error = NULL;
 
-    if ( (account_icon = gsb_data_account_get_name_icon ( account_number ) ) )
+    account_icon = gsb_data_account_get_name_icon ( account_number );
+    if ( account_icon && strlen ( account_icon ) > 0 )
     {
         pixbuf = gdk_pixbuf_new_from_file_at_size ( account_icon , 32, 32, &error );
         g_object_set_data ( G_OBJECT ( pixbuf ), "name_icon", account_icon );
@@ -2474,7 +2499,7 @@ GdkPixbuf *gsb_data_account_get_account_icon_pixbuf ( gint account_number )
 
     if ( ! pixbuf )
     {
-        if (account_icon && strlen (account_icon) > 0)
+        if ( account_icon && strlen ( account_icon ) > 0 )
         {
             gchar* tmpstr = g_strconcat( "Erreur de pixbuf : " , 
                  error -> message, " image ",
@@ -2624,8 +2649,13 @@ gboolean gsb_data_account_set_bank_account_iban ( gint account_number, const gch
     if (!account )
         return FALSE;
     
-    g_free ( account -> bank_account_iban );
-    account -> bank_account_iban = g_strdup ( iban ? iban : "" );
+    if ( account -> bank_account_iban )
+        g_free ( account -> bank_account_iban );
+
+    if (!iban || !strlen (iban))
+        account -> bank_account_iban = NULL;
+    else
+        account -> bank_account_iban = my_strdup ( iban );
 
     return TRUE;
 }
