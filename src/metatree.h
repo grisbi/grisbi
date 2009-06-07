@@ -115,7 +115,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 void metatree_set_linked_widgets_sensitive ( GtkTreeModel * model,
                         gboolean sensitive,
                         gchar * link_type );
-gboolean metatree_sort_column  ( GtkTreeModel * model,
+inline gboolean metatree_sort_column  ( GtkTreeModel * model,
                         GtkTreeIter * a, GtkTreeIter * b,
                         gpointer user_data );
 gboolean supprimer_division ( GtkTreeView * tree_view );

@@ -61,7 +61,7 @@
 /*START_STATIC*/
 static  void transaction_list_append_child ( gint transaction_number );
 static  CustomRecord *transaction_list_create_record ( gint transaction_number,
-						       gint line_in_transaction );
+						      gint line_in_transaction );
 static gint transaction_list_get_last_line ( gint nb_rows );
 static  gboolean transaction_list_update_white_child ( CustomRecord *white_record );
 /*END_STATIC*/
@@ -1057,11 +1057,20 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 	}
     }
 
-    if (record -> mother_row)
+    /* if the modification is on a child or a mother, update the white line */
+    if (record -> mother_row || record -> number_of_children)
     {
 	/* we need now to recalculate the amount of split and update the white line */
-	CustomRecord *mother_record = record -> mother_row;
-	CustomRecord *white_record = mother_record -> children_rows[mother_record -> number_of_children -1];
+	CustomRecord *mother_record;
+	CustomRecord *white_record;
+
+	/* get the mother if child */
+	if (record -> mother_row)
+	    mother_record = record -> mother_row;
+	else
+	    mother_record = record;
+	white_record = mother_record -> children_rows[mother_record -> number_of_children -1];
+
 	transaction_list_update_white_child (white_record);
     }
 

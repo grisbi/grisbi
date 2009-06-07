@@ -33,7 +33,6 @@
 #include "gsb_data_scheduled.h"
 #include "./dialog.h"
 #include "./utils_dates.h"
-#include "./utils_str.h"
 #include "./include.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/

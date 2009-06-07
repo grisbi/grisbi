@@ -45,6 +45,7 @@
 /*START_STATIC*/
 static GtkWidget *create_main_notebook (void );
 static gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook );
+static void gsb_gui_headings_private_update_label_markup ( GtkLabel *label, const gchar *text );
 static gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 					  GtkNotebookPage *page,
 					  guint page_number,

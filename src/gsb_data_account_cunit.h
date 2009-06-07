@@ -7,7 +7,7 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-CU_pSuite gsb_data_account_cunit_create_suite ( void );
+CU_pSuite gsb_data_account_cunit_create_suite();
 /* END_DECLARATION */
 
 #endif//_GSB_DATA_ACCOUNT_CUNIT_H

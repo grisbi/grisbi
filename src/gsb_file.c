@@ -64,8 +64,8 @@
 /*START_STATIC*/
 static void gsb_file_append_name_to_opened_list ( gchar * path_fichier );
 static gboolean gsb_file_automatic_backup ( gpointer null );
-static gchar *gsb_file_dialog_ask_name ( void );
-static gint gsb_file_dialog_save ( void );
+static  gchar *gsb_file_dialog_ask_name ( void );
+static  gint gsb_file_dialog_save ( void );
 static gboolean gsb_file_save_backup ( void );
 static gboolean gsb_file_save_file ( gint origine );
 /*END_STATIC*/

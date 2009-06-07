@@ -59,6 +59,7 @@
 #include "./utils_str.h"
 #include "./structures.h"
 #include "./custom_list.h"
+#include "./utils_str.h"
 #include "./gsb_data_form.h"
 #include "./gsb_scheduler_list.h"
 #include "./include.h"

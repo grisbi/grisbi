@@ -35,7 +35,6 @@
 #include "./gsb_data_report_amout_comparison.h"
 #include "./gsb_data_report_text_comparison.h"
 #include "./utils_dates.h"
-#include "./utils_str.h"
 /*END_INCLUDE*/
 
 /** \struct

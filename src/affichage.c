@@ -30,6 +30,7 @@
 #include "./gsb_data_account.h"
 #include "./gsb_file.h"
 #include "./navigation.h"
+#include "./fenetre_principale.h"
 #include "./barre_outils.h"
 #include "./gsb_scheduler_list.h"
 #include "./gsb_select_icon.h"
@@ -37,6 +38,7 @@
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./utils.h"
+#include "./parametres.h"
 #include "./transaction_list.h"
 #include "./utils_font.h"
 #include "./structures.h"
@@ -46,31 +48,30 @@
 #include "./gsb_select_icon.h"
 #include "./include.h"
 #include "./erreur.h"
-#include "./fenetre_principale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
-					   gpointer null );
 static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
-					    GtkWidget *vbox );
+                        GtkWidget *vbox );
 static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
-				     GtkWidget *hbox );
+                        GtkWidget *hbox );
 static gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry );
 static void change_logo_accueil ( GtkWidget * file_selector );
 static gboolean change_toolbar_display_mode ( GtkRadioButton *button );
 static gboolean modification_logo_accueil ( );
+static gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
+					   gpointer null );
 static  gboolean preferences_view_color_changed ( GtkWidget *color_button,
-						 GtkWidget *combobox );
+                        GtkWidget *combobox );
 static  gboolean preferences_view_color_combobox_changed ( GtkWidget *combobox,
-							  GtkWidget *color_button );
+                        GtkWidget *color_button );
 static  gboolean preferences_view_color_default ( GtkWidget *button,
-						 GtkWidget *combobox );
+                        GtkWidget *combobox );
 static  GtkWidget *preferences_view_create_color_combobox (void);
 static  gboolean preferences_view_update_preview_logo ( GtkFileChooser *file_chooser,
-						       GtkWidget *preview );
+                        GtkWidget *preview );
 static void update_fonte_listes ( gchar *fontname,
-			   gpointer null);
+                        gpointer null);
 /*END_STATIC*/
 
 
