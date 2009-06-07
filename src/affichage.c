@@ -46,9 +46,12 @@
 #include "./gsb_select_icon.h"
 #include "./include.h"
 #include "./erreur.h"
+#include "./fenetre_principale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
+					   gpointer null );
 static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
 					    GtkWidget *vbox );
 static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
@@ -724,12 +727,31 @@ GtkWidget *tab_display_toolbar ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
 			 gsb_automem_checkbutton_new ( _("Display headings bar"),
 						       &(etat.show_headings_bar),
-						       NULL, NULL ),
+						       G_CALLBACK (preferences_switch_headings_bar), NULL ),
 			 FALSE, FALSE, 0 );
 
     return ( vbox_pref );
 
 }
+
+
+/**
+ * called when switch the preferences heading bar button
+ * to show/hide the headings bar
+ *
+ * \param toggle button
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
+					   gpointer null )
+{
+    gsb_gui_update_show_headings ();
+    return FALSE;
+}
+
+
 
 /**
  * create a list of customable colors
