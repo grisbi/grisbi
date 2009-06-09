@@ -967,7 +967,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
     gsb_real marked_balance;
     gint floating_point;
 
-    devel_debug_int ( account_number );
+    //~ devel_debug_int ( account_number );
     account = gsb_data_account_get_structure ( account_number );
 
     if ( !account )

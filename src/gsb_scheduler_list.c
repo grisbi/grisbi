@@ -702,7 +702,7 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
     const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS];
     gint mother_scheduled_number;
 
-    devel_debug_int (scheduled_number);
+    //~ devel_debug_int (scheduled_number);
 
     if (!tree_model_scheduler_list)
 	return FALSE;

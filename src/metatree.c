@@ -425,47 +425,47 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 
     string = gsb_data_transaction_get_notes ( transaction_number);
 
-    if (string)
+    if ( string && strlen ( string ) > 0 )
     {
-	if ( strlen ( gsb_data_transaction_get_notes ( transaction_number)) > 30 )
-	{
-	    const gchar *tmp;
+        if ( strlen ( string ) > 30 )
+        {
+            const gchar *tmp;
 
-	    tmp = string + 30;
+            tmp = string + 30;
 
-	    tmp = strchr ( tmp, ' ' );
-	    if ( !tmp )
-	    {
-		/* We do not risk splitting the string
-		   in the middle of a UTF-8 accent
-		   ... the end is probably near btw. */
-		notes = my_strdup (gsb_data_transaction_get_notes ( transaction_number));
-	    }
-	    else 
-	    {
-		gchar * trunc = g_strndup ( gsb_data_transaction_get_notes ( transaction_number), 
-					    (tmp - string));
-		notes = g_strconcat ( trunc, " ...", NULL );
-		g_free ( trunc );
-	    }
-	}
-	else 
-	{
-	    notes = my_strdup (gsb_data_transaction_get_notes ( transaction_number));
-	}
+            tmp = strchr ( tmp, ' ' );
+            if ( !tmp )
+            {
+                /* We do not risk splitting the string
+                   in the middle of a UTF-8 accent
+                   ... the end is probably near btw. */
+                notes = my_strdup ( string );
+            }
+            else 
+            {
+                gchar * trunc = g_strndup ( string, ( tmp - string ) );
+                notes = g_strconcat ( trunc, " ...", NULL );
+                g_free ( trunc );
+            }
+        }
+        else 
+        {
+            notes = my_strdup ( string );
+        }
     }
     else
     {
-	notes = my_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number),
-						   TRUE));
+        notes = my_strdup (gsb_data_payee_get_name (
+                        gsb_data_transaction_get_party_number ( transaction_number),
+                        TRUE));
     }
 
     label = gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number));
  
     if ( notes )
     {
-	label = g_strconcat ( label, " : ", notes, NULL );
-	g_free (notes); 
+        label = g_strconcat ( label, " : ", notes, NULL );
+        g_free (notes); 
     }
 
     if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number))
