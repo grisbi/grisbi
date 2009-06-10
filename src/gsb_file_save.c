@@ -497,6 +497,25 @@ gulong gsb_file_save_append_part ( gulong iterator,
     return iterator;
 }
 
+
+
+/**
+ * Protect the caller against NULL strings.
+ * 
+ * It simply returns the passed string when it is not NULL,
+ * or "(null)" when it is NULL.
+ *
+ * \param string the string to be returned
+ *
+ * \return the given string, or "(null)" if it is a NULL pointer. 
+ * */
+const gchar *my_safe_null_str ( const gchar *string )
+{
+    return string ? string : "(null)";
+}
+
+
+
 /**
  * save the general part
  *
@@ -652,13 +671,13 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tAutomatic_amount_separator=\"%d\"\n"
 					   "\t\tCSV_separator=\"%s\"\n"
 					   "\t\tCSV_skipped_lines=\"%s\" />\n",
-	VERSION_FICHIER,
-	VERSION,
+	my_safe_null_str(VERSION_FICHIER),
+	my_safe_null_str(VERSION),
 	etat.crypt_file,
 	is_archive,
-    tmpstr,
-	adresse_commune,
-	adresse_secondaire,
+	my_safe_null_str(tmpstr),
+	my_safe_null_str(adresse_commune),
+	my_safe_null_str(adresse_secondaire),
 	no_devise_totaux_tiers,
 	no_devise_totaux_categ,
 	no_devise_totaux_ib,
@@ -666,19 +685,19 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	affichage_echeances_perso_nb_libre,
 	affichage_echeances_perso_j_m_a,
 	valeur_echelle_recherche_date_import,
-    etat.get_extract_number_for_check,
-    etat.get_fusion_import_planed_transactions,
-    etat.get_categorie_for_payee,
+	etat.get_extract_number_for_check,
+	etat.get_fusion_import_planed_transactions,
+	etat.get_categorie_for_payee,
 	etat.get_fyear_by_value_date,
 	etat.utilise_logo,
 	etat.retient_affichage_par_compte,
-	transactions_view,
+	my_safe_null_str(transactions_view),
 	display_one_line,
 	display_two_lines,
 	display_three_lines,
 	etat.formulaire_distinct_par_compte,
-	transaction_column_width_write,
-	scheduler_column_width_write,
+	my_safe_null_str(transaction_column_width_write),
+	my_safe_null_str(scheduler_column_width_write),
 	etat.combofix_mixed_sort,
 	etat.combofix_max_item,
 	etat.combofix_case_sensitive,
@@ -686,8 +705,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.combofix_force_payee,
 	etat.combofix_force_category,
 	etat.automatic_separator,
-	etat.csv_separator,
-	skipped_lines_string );
+	my_safe_null_str(etat.csv_separator),
+	my_safe_null_str(skipped_lines_string) );
 
     g_free (transactions_view);
     g_free (scheduler_column_width_write);
@@ -824,10 +843,10 @@ gulong gsb_file_save_print_part ( gulong iterator,
 					   gsb_data_print_config_get_draw_title (),
 					   gsb_data_print_config_get_draw_interval_dates (),
 					   gsb_data_print_config_get_draw_dates_are_value_dates (),
-					   pango_font_description_to_string (gsb_data_print_config_get_font_transactions ()),
-					   pango_font_description_to_string (gsb_data_print_config_get_font_title ()),
-					   pango_font_description_to_string (gsb_data_print_config_get_report_font_transactions ()),
-					   pango_font_description_to_string (gsb_data_print_config_get_report_font_title ()));
+                       my_safe_null_str(pango_font_description_to_string (gsb_data_print_config_get_font_transactions ())),
+					   my_safe_null_str(pango_font_description_to_string (gsb_data_print_config_get_font_title ())),
+					   my_safe_null_str(pango_font_description_to_string (gsb_data_print_config_get_report_font_transactions ())),
+					   my_safe_null_str(pango_font_description_to_string (gsb_data_print_config_get_report_font_title ())));
 
     /* append the new string to the file content
      * and return the new iterator */
@@ -993,38 +1012,38 @@ gulong gsb_file_save_account_part ( gulong iterator,
 					       "\t\tForm_lines_number=\"%d\"\n"
 					       "\t\tForm_organization=\"%s\"\n"
 					       "\t\tForm_columns_width=\"%s\" />\n",
-	    gsb_data_account_get_name (account_number),
-	    gsb_data_account_get_id (account_number),
+	    my_safe_null_str(gsb_data_account_get_name (account_number)),
+	    my_safe_null_str(gsb_data_account_get_id (account_number)),
 	    account_number,
-	    gsb_data_account_get_holder_name (account_number),
+	    my_safe_null_str(gsb_data_account_get_holder_name (account_number)),
 	    gsb_data_account_get_kind (account_number),
 	    gsb_data_account_get_currency (account_number),
-        gsb_data_account_get_name_icon (account_number),
+	    my_safe_null_str(gsb_data_account_get_name_icon (account_number)),
 	    gsb_data_account_get_bank (account_number),
-	    gsb_data_account_get_bank_branch_code (account_number),
-	    gsb_data_account_get_bank_account_number (account_number),
-	    gsb_data_account_get_bank_account_key (account_number),
-        gsb_data_account_get_bank_account_iban (account_number),
-	    init_balance,
-	    mini_wanted,
-	    mini_auto,
+	    my_safe_null_str(gsb_data_account_get_bank_branch_code (account_number)),
+	    my_safe_null_str(gsb_data_account_get_bank_account_number (account_number)),
+	    my_safe_null_str(gsb_data_account_get_bank_account_key (account_number)),
+	    my_safe_null_str(gsb_data_account_get_bank_account_iban (account_number)),
+	    my_safe_null_str(init_balance),
+	    my_safe_null_str(mini_wanted),
+	    my_safe_null_str(mini_auto),
 	    gsb_data_account_get_closed_account (account_number),
 	    gsb_data_account_get_r (account_number),
 	    gsb_data_account_get_nb_rows (account_number),
-	    gsb_data_account_get_comment (account_number),
-	    gsb_data_account_get_holder_address (account_number),
+	    my_safe_null_str(gsb_data_account_get_comment (account_number)),
+	    my_safe_null_str(gsb_data_account_get_holder_address (account_number)),
 	    gsb_data_account_get_default_debit (account_number),
 	    gsb_data_account_get_default_credit (account_number),
 	    gsb_data_account_get_reconcile_sort_type (account_number),
 	    gsb_data_account_get_split_neutral_payment (account_number),
-	    sort_list,
+	    my_safe_null_str(sort_list),
 	    gsb_data_account_get_sort_type (account_number),
 	    gsb_data_account_get_sort_column (account_number),
-	    sort_kind_column,
+	    my_safe_null_str(sort_kind_column),
 	    gsb_data_form_get_nb_columns (account_number),
 	    gsb_data_form_get_nb_rows (account_number),
-	    form_organization,
-	    form_columns_width );
+	    my_safe_null_str(form_organization),
+	    my_safe_null_str(form_columns_width) );
 
 	g_free (sort_list);
 	g_free (sort_kind_column);
@@ -1074,7 +1093,7 @@ gulong gsb_file_save_payment_part ( gulong iterator,
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Payment Number=\"%d\" Name=\"%s\" Sign=\"%d\" Show_entry=\"%d\" Automatic_number=\"%d\" Current_number=\"%d\" Account=\"%d\" />\n",
 					       payment_number,
-					       gsb_data_payment_get_name (payment_number),
+                           my_safe_null_str(gsb_data_payment_get_name (payment_number)),
 					       gsb_data_payment_get_sign (payment_number),
 					       gsb_data_payment_get_show_entry (payment_number),
 					       gsb_data_payment_get_automatic_numbering (payment_number),
@@ -1158,21 +1177,21 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Cu=\"%d\" Am=\"%s\" Exb=\"%d\" Exr=\"%s\" Exf=\"%s\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Ar=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Mo=\"%d\" />\n",
 					       gsb_data_transaction_get_account_number ( transaction_number ),
 					       transaction_number,
-					       gsb_data_transaction_get_transaction_id ( transaction_number),
-					       date,
-					       value_date,
+					       my_safe_null_str(gsb_data_transaction_get_transaction_id ( transaction_number)),
+					       my_safe_null_str(date),
+					       my_safe_null_str(value_date),
 					       gsb_data_transaction_get_currency_number (transaction_number ),
-					       amount,
+					       my_safe_null_str(amount),
 					       gsb_data_transaction_get_change_between (transaction_number ),
-					       exchange_rate,
-					       exchange_fees,
+					       my_safe_null_str(exchange_rate),
+					       my_safe_null_str(exchange_fees),
 					       gsb_data_transaction_get_party_number ( transaction_number),
 					       gsb_data_transaction_get_category_number ( transaction_number),
 					       gsb_data_transaction_get_sub_category_number (transaction_number),
 					       gsb_data_transaction_get_split_of_transaction (transaction_number),
-					       gsb_data_transaction_get_notes (transaction_number),
+					       my_safe_null_str(gsb_data_transaction_get_notes (transaction_number)),
 					       gsb_data_transaction_get_method_of_payment_number (transaction_number),
-					       gsb_data_transaction_get_method_of_payment_content (transaction_number),
+					       my_safe_null_str(gsb_data_transaction_get_method_of_payment_content (transaction_number)),
 					       gsb_data_transaction_get_marked_transaction (transaction_number),
 					       transaction_archive_number,
 					       gsb_data_transaction_get_automatic_transaction (transaction_number),
@@ -1180,8 +1199,8 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 					       gsb_data_transaction_get_financial_year_number (transaction_number),
 					       gsb_data_transaction_get_budgetary_number (transaction_number),
 					       gsb_data_transaction_get_sub_budgetary_number (transaction_number),
-					       gsb_data_transaction_get_voucher (transaction_number),
-					       gsb_data_transaction_get_bank_references (transaction_number),
+					       my_safe_null_str(gsb_data_transaction_get_voucher (transaction_number)),
+					       my_safe_null_str(gsb_data_transaction_get_bank_references (transaction_number)),
 					       gsb_data_transaction_get_contra_transaction_number (transaction_number),
 					       gsb_data_transaction_get_mother_transaction_number (transaction_number));
 
@@ -1241,9 +1260,9 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Scheduled Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" Am=\"%s\" Cu=\"%d\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Tra=\"%d\" Pn=\"%d\" CPn=\"%d\" Pc=\"%s\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" Au=\"%d\" Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Br=\"%d\" Mo=\"%d\" />\n",
 					       scheduled_number,
-					       date,
+					       my_safe_null_str(date),
 					       gsb_data_scheduled_get_account_number ( scheduled_number),
-					       amount,
+					       my_safe_null_str(amount),
 					       gsb_data_scheduled_get_currency_number ( scheduled_number),
 					       gsb_data_scheduled_get_party_number ( scheduled_number),
 					       gsb_data_scheduled_get_category_number ( scheduled_number),
@@ -1251,16 +1270,16 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 					       gsb_data_scheduled_get_account_number_transfer ( scheduled_number),
 					       gsb_data_scheduled_get_method_of_payment_number ( scheduled_number),
 					       gsb_data_scheduled_get_contra_method_of_payment_number ( scheduled_number),
-					       gsb_data_scheduled_get_method_of_payment_content ( scheduled_number),
+					       my_safe_null_str(gsb_data_scheduled_get_method_of_payment_content ( scheduled_number)),
 					       gsb_data_scheduled_get_financial_year_number ( scheduled_number),
 					       gsb_data_scheduled_get_budgetary_number ( scheduled_number),
 					       gsb_data_scheduled_get_sub_budgetary_number ( scheduled_number),
-					       gsb_data_scheduled_get_notes ( scheduled_number),
+					       my_safe_null_str(gsb_data_scheduled_get_notes ( scheduled_number)),
 					       gsb_data_scheduled_get_automatic_scheduled ( scheduled_number),
 					       gsb_data_scheduled_get_frequency ( scheduled_number),
 					       gsb_data_scheduled_get_user_interval ( scheduled_number),
 					       gsb_data_scheduled_get_user_entry ( scheduled_number),
-					       limit_date,
+					       my_safe_null_str(limit_date),
 					       gsb_data_scheduled_get_split_of_scheduled ( scheduled_number),
 					       gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number));
 
@@ -1309,9 +1328,9 @@ gulong gsb_file_save_party_part ( gulong iterator,
         new_string = g_markup_printf_escaped ( 
                             "\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" Search=\"%s\" />\n",
                             payee_number,
-                            gsb_data_payee_get_name (payee_number, TRUE ),
-                            gsb_data_payee_get_description (payee_number),
-                            gsb_data_payee_get_search_string (payee_number) );
+                            my_safe_null_str(gsb_data_payee_get_name (payee_number, TRUE )),
+                            my_safe_null_str(gsb_data_payee_get_description (payee_number)),
+                            my_safe_null_str(gsb_data_payee_get_search_string (payee_number) ));
 
         /* append the new string to the file content
          * and take the new iterator */
@@ -1355,9 +1374,9 @@ gulong gsb_file_save_category_part ( gulong iterator,
 
 	new_string = g_markup_printf_escaped ( "\t<Category Nb=\"%d\" Na=\"%s\" Kd=\"%d\" />\n",
 					       category_number,
-					       gsb_data_category_get_name ( category_number,
+					       my_safe_null_str(gsb_data_category_get_name ( category_number,
 									    0,
-									    NULL ),
+									    NULL )),
 					       gsb_data_category_get_type ( category_number ));
 
 	/* append the new string to the file content
@@ -1383,9 +1402,9 @@ gulong gsb_file_save_category_part ( gulong iterator,
 	    new_string = g_markup_printf_escaped ( "\t<Sub_category Nbc=\"%d\" Nb=\"%d\" Na=\"%s\" />\n",
 						   category_number,
 						   sub_category_number,
-						   gsb_data_category_get_sub_category_name ( category_number,
+						   my_safe_null_str(gsb_data_category_get_sub_category_name ( category_number,
 											     sub_category_number,
-											     NULL ));
+											     NULL )));
 
 	    /* append the new string to the file content
 	     * and take the new iterator */
@@ -1432,9 +1451,9 @@ gulong gsb_file_save_budgetary_part ( gulong iterator,
 
 	new_string = g_markup_printf_escaped ( "\t<Budgetary Nb=\"%d\" Na=\"%s\" Kd=\"%d\" />\n",
 					       budget_number,
-					       gsb_data_budget_get_name ( budget_number,
+					       my_safe_null_str(gsb_data_budget_get_name ( budget_number,
 									  0,
-									  NULL ),
+									  NULL )),
 					       gsb_data_budget_get_type ( budget_number ));
 
 	/* append the new string to the file content
@@ -1460,9 +1479,9 @@ gulong gsb_file_save_budgetary_part ( gulong iterator,
 	    new_string = g_markup_printf_escaped ( "\t<Sub_budgetary Nbb=\"%d\" Nb=\"%d\" Na=\"%s\" />\n",
 						   budget_number,
 						   sub_budget_number,
-						   gsb_data_budget_get_sub_budget_name ( budget_number,
+						   my_safe_null_str(gsb_data_budget_get_sub_budget_name ( budget_number,
 											 sub_budget_number,
-											 NULL ));
+											 NULL )));
 
 	    /* append the new string to the file content
 	     * and take the new iterator */
@@ -1508,9 +1527,9 @@ gulong gsb_file_save_currency_part ( gulong iterator,
 
 	new_string = g_markup_printf_escaped ( "\t<Currency Nb=\"%d\" Na=\"%s\" Co=\"%s\" Ico=\"%s\" Fl=\"%d\" />\n",
 					       currency_number,
-					       gsb_data_currency_get_name (currency_number),
-					       gsb_data_currency_get_code (currency_number),
-					       gsb_data_currency_get_code_iso4217 (currency_number),
+					       my_safe_null_str(gsb_data_currency_get_name (currency_number)),
+					       my_safe_null_str(gsb_data_currency_get_code (currency_number)),
+					       my_safe_null_str(gsb_data_currency_get_code_iso4217 (currency_number)),
 					       gsb_data_currency_get_floating_point (currency_number));
 
 	/* append the new string to the file content
@@ -1558,7 +1577,7 @@ gulong gsb_file_save_currency_link_part ( gulong iterator,
 					       link_number,
 					       gsb_data_currency_link_get_first_currency (link_number),
 					       gsb_data_currency_link_get_second_currency (link_number),
-					       change_rate);
+					       my_safe_null_str(change_rate));
         g_free ( change_rate );
 
 	/* append the new string to the file content
@@ -1602,18 +1621,18 @@ gulong gsb_file_save_bank_part ( gulong iterator,
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Bank Nb=\"%d\" Na=\"%s\" Co=\"%s\" BIC=\"%s\" Adr=\"%s\" Tel=\"%s\" Mail=\"%s\" Web=\"%s\" Nac=\"%s\" Faxc=\"%s\" Telc=\"%s\" Mailc=\"%s\" Rem=\"%s\" />\n",
                         bank_number,
-                        gsb_data_bank_get_name (bank_number),
-                        gsb_data_bank_get_code (bank_number),
-                        gsb_data_bank_get_bic (bank_number),
-                        gsb_data_bank_get_bank_address (bank_number),
-                        gsb_data_bank_get_bank_tel (bank_number),
-                        gsb_data_bank_get_bank_mail (bank_number),
-                        gsb_data_bank_get_bank_web (bank_number),
-                        gsb_data_bank_get_correspondent_name (bank_number),
-                        gsb_data_bank_get_correspondent_fax (bank_number),
-                        gsb_data_bank_get_correspondent_tel (bank_number),
-                        gsb_data_bank_get_correspondent_mail (bank_number),
-                        gsb_data_bank_get_bank_note (bank_number));
+                        my_safe_null_str(gsb_data_bank_get_name (bank_number)),
+                        my_safe_null_str(gsb_data_bank_get_code (bank_number)),
+                        my_safe_null_str(gsb_data_bank_get_bic (bank_number)),
+                        my_safe_null_str(gsb_data_bank_get_bank_address (bank_number)),
+                        my_safe_null_str(gsb_data_bank_get_bank_tel (bank_number)),
+                        my_safe_null_str(gsb_data_bank_get_bank_mail (bank_number)),
+                        my_safe_null_str(gsb_data_bank_get_bank_web (bank_number)),
+                        my_safe_null_str(gsb_data_bank_get_correspondent_name (bank_number)),
+                        my_safe_null_str(gsb_data_bank_get_correspondent_fax (bank_number)),
+                        my_safe_null_str(gsb_data_bank_get_correspondent_tel (bank_number)),
+                        my_safe_null_str(gsb_data_bank_get_correspondent_mail (bank_number)),
+                        my_safe_null_str(gsb_data_bank_get_bank_note (bank_number)));
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1661,9 +1680,9 @@ gulong gsb_file_save_financial_year_part ( gulong iterator,
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped( "\t<Financial_year Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Sho=\"%d\" />\n",
 					      fyear_number,
-					      gsb_data_fyear_get_name (fyear_number),
-					      beginning_date,
-					      end_date,
+					      my_safe_null_str(gsb_data_fyear_get_name (fyear_number)),
+					      my_safe_null_str(beginning_date),
+					      my_safe_null_str(end_date),
 					      gsb_data_fyear_get_form_show (fyear_number));
 
 	g_free (beginning_date);
@@ -1714,11 +1733,11 @@ gulong gsb_file_save_archive_part ( gulong iterator,
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped( "\t<Archive Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Fye=\"%d\" Rep=\"%s\" />\n",
 					      archive_number,
-					      gsb_data_archive_get_name (archive_number),
-					      beginning_date,
-					      end_date,
+					      my_safe_null_str(gsb_data_archive_get_name (archive_number)),
+					      my_safe_null_str(beginning_date),
+					      my_safe_null_str(end_date),
 					      gsb_data_archive_get_fyear (archive_number),
-					      gsb_data_archive_get_report_title (archive_number));
+					      my_safe_null_str(gsb_data_archive_get_report_title (archive_number)));
 
 	if (beginning_date)
 	    g_free (beginning_date);
@@ -1781,12 +1800,12 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" Acc=\"%d\" Idate=\"%s\" Fdate=\"%s\" Ibal=\"%s\" Fbal=\"%s\" />\n",
 					       reconcile_number,
-					       gsb_data_reconcile_get_name (reconcile_number),
+					       my_safe_null_str(gsb_data_reconcile_get_name (reconcile_number)),
 					       gsb_data_reconcile_get_account (reconcile_number),
-					       init_date,
-					       final_date,
-					       init_balance, 
-					       final_balance );
+					       my_safe_null_str(init_date),
+					       my_safe_null_str(final_date),
+					       my_safe_null_str(init_balance),
+					       my_safe_null_str(final_balance));
 
 	g_free (init_date);
 	g_free (final_date);
@@ -1830,12 +1849,12 @@ gulong gsb_file_save_import_rule_part ( gulong iterator,
 
 	new_string = g_markup_printf_escaped ( "\t<Import_rule Nb=\"%d\" Na=\"%s\" Acc=\"%d\" Cur=\"%d\" Inv=\"%d\" Enc=\"%s\" Fil=\"%s\" Act=\"%d\" />\n",
 					       import_rule_number,
-					       gsb_data_import_rule_get_name (import_rule_number),
+					       my_safe_null_str(gsb_data_import_rule_get_name (import_rule_number)),
 					       gsb_data_import_rule_get_account (import_rule_number),
 					       gsb_data_import_rule_get_currency (import_rule_number),
 					       gsb_data_import_rule_get_invert (import_rule_number),
-					       gsb_data_import_rule_get_charmap (import_rule_number),
-					       gsb_data_import_rule_get_last_file_name (import_rule_number),
+					       my_safe_null_str(gsb_data_import_rule_get_charmap (import_rule_number)),
+					       my_safe_null_str(gsb_data_import_rule_get_last_file_name (import_rule_number)),
 					       gsb_data_import_rule_get_action (import_rule_number));
 
 	/* append the new string to the file content
@@ -2220,8 +2239,8 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tUse_text=\"%d\"\n"
 					       "\t\tUse_amount=\"%d\" />\n",
 	    report_number_to_write,
-	    report_name,
-	    general_sort_type,
+	    my_safe_null_str(report_name),
+	    my_safe_null_str(general_sort_type),
 	    gsb_data_report_get_show_r (report_number),
 	    gsb_data_report_get_show_report_transactions (report_number),
 	    gsb_data_report_get_show_report_transaction_amount (report_number),
@@ -2250,25 +2269,25 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gsb_data_report_get_report_can_click (report_number),
 	    gsb_data_report_get_use_financial_year (report_number),
 	    gsb_data_report_get_financial_year_type (report_number),
-	    financial_year_select,
+	    my_safe_null_str(financial_year_select),
 	    gsb_data_report_get_date_type (report_number),
-	    date_start,
-	    date_end,
+	    my_safe_null_str(date_start),
+	    my_safe_null_str(date_end),
 	    gsb_data_report_get_period_split (report_number),
 	    gsb_data_report_get_period_split_type (report_number),
 	    gsb_data_report_get_financial_year_split (report_number),
 	    gsb_data_report_get_period_split_day (report_number),
 	    gsb_data_report_get_account_use_chosen (report_number),
-	    account_selected,
+	    my_safe_null_str(account_selected),
 	    gsb_data_report_get_account_group_reports (report_number),
 	    gsb_data_report_get_account_show_amount (report_number),
 	    gsb_data_report_get_account_show_name (report_number),
 	    gsb_data_report_get_transfer_choice (report_number),
-	    transfer_selected_accounts,
+	    my_safe_null_str(transfer_selected_accounts),
 	    gsb_data_report_get_transfer_reports_only (report_number),
 	    gsb_data_report_get_category_used (report_number),
 	    gsb_data_report_get_category_detail_used (report_number),
-	    categ_selected,
+	    my_safe_null_str(categ_selected),
 	    gsb_data_report_get_category_show_category_amount (report_number),
 	    gsb_data_report_get_category_show_sub_category (report_number),
 	    gsb_data_report_get_category_show_without_category (report_number),
@@ -2277,7 +2296,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gsb_data_report_get_category_show_name (report_number),
 	    gsb_data_report_get_budget_used (report_number),
 	    gsb_data_report_get_budget_detail_used (report_number),
-	    budget_selected,
+	    my_safe_null_str(budget_selected),
 	    gsb_data_report_get_budget_show_budget_amount (report_number),
 	    gsb_data_report_get_budget_show_sub_budget (report_number),
 	    gsb_data_report_get_budget_show_without_budget (report_number),
@@ -2286,14 +2305,14 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gsb_data_report_get_budget_show_name (report_number),
 	    gsb_data_report_get_payee_used (report_number),
 	    gsb_data_report_get_payee_detail_used (report_number),
-	    payee_selected,
+	    my_safe_null_str(payee_selected),
 	    gsb_data_report_get_payee_show_payee_amount (report_number),
 	    gsb_data_report_get_payee_currency (report_number),
 	    gsb_data_report_get_payee_show_name (report_number),
 	    gsb_data_report_get_amount_comparison_currency (report_number),
 	    gsb_data_report_get_amount_comparison_only_report_non_null (report_number),
 	    gsb_data_report_get_method_of_payment_used (report_number),
-	    payment_method_list,
+	    my_safe_null_str(payment_method_list),
 	    gsb_data_report_get_text_comparison_used (report_number),
 	    gsb_data_report_get_amount_comparison_used (report_number));
 
@@ -2353,7 +2372,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 						   gsb_data_report_text_comparison_get_link_to_last_text_comparison (text_comparison_number),
 						   gsb_data_report_text_comparison_get_field (text_comparison_number),
 						   gsb_data_report_text_comparison_get_operator (text_comparison_number),
-						   gsb_data_report_text_comparison_get_text (text_comparison_number),
+						   my_safe_null_str(gsb_data_report_text_comparison_get_text (text_comparison_number)),
 						   gsb_data_report_text_comparison_get_use_text (text_comparison_number),
 						   gsb_data_report_text_comparison_get_first_comparison (text_comparison_number),
 						   gsb_data_report_text_comparison_get_link_first_to_second_part (text_comparison_number),
@@ -2411,8 +2430,8 @@ gulong gsb_file_save_report_part ( gulong iterator,
 						   gsb_data_report_amount_comparison_get_first_comparison (amount_comparison_number),
 						   gsb_data_report_amount_comparison_get_link_first_to_second_part (amount_comparison_number),
 						   gsb_data_report_amount_comparison_get_second_comparison (amount_comparison_number),
-						   first_amount,
-						   second_amount);
+						   my_safe_null_str(first_amount),
+						   my_safe_null_str(second_amount));
 
 	    g_free (first_amount);
 	    g_free (second_amount);
@@ -2459,7 +2478,7 @@ gulong gsb_file_save_logo_part ( gulong iterator,
 
         new_string = g_markup_printf_escaped ( "\t<Logo\n"
                             "\t\tImage=\"%s\" />\n", 
-                            str64 );
+                            my_safe_null_str(str64) );
     }    
 
     iterator = gsb_file_save_append_part ( iterator,
