@@ -802,7 +802,13 @@ gboolean gsb_data_scheduled_set_notes ( gint scheduled_number,
 
     if ( scheduled -> notes )
         g_free ( scheduled -> notes );
-	scheduled -> notes = g_strdup ( notes ? notes : "" );
+
+    if ( notes
+	 &&
+	 strlen (notes))
+	scheduled -> notes = my_strdup (notes);
+    else
+	scheduled -> notes = NULL;
 
     return TRUE;
 }
@@ -913,7 +919,13 @@ gboolean gsb_data_scheduled_set_method_of_payment_content ( gint scheduled_numbe
 
     if ( scheduled -> method_of_payment_content )
         g_free ( scheduled -> method_of_payment_content );
-	scheduled -> method_of_payment_content = g_strdup ( method_of_payment_content ? method_of_payment_content : "" );
+
+    if ( method_of_payment_content
+	 &&
+	 strlen (method_of_payment_content))
+	scheduled -> method_of_payment_content = my_strdup (method_of_payment_content);
+    else
+	scheduled -> method_of_payment_content = NULL;
 
     return TRUE;
 }

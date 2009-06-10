@@ -217,20 +217,9 @@ gint gsb_data_bank_new ( const gchar *name )
 
     bank = g_malloc0 ( sizeof ( struct_bank ));
     bank -> bank_number = gsb_data_bank_max_number () + 1;
-    bank -> bank_name = g_strdup(name ? name : "");
-    bank -> bank_code = g_strdup("");
-    bank -> bank_BIC = g_strdup("");
 
-    bank -> bank_address = g_strdup("");
-    bank -> bank_tel = g_strdup("");
-    bank -> bank_mail = g_strdup("");
-    bank -> bank_web = g_strdup("");
-    bank -> bank_note = g_strdup("");
-
-    bank -> correspondent_name = g_strdup("");
-    bank -> correspondent_tel = g_strdup("");
-    bank -> correspondent_mail = g_strdup("");
-    bank -> correspondent_fax = g_strdup("");
+    if (name)
+	bank -> bank_name = my_strdup (name);
 
     bank_list = g_slist_append ( bank_list, bank );
 
@@ -375,7 +364,7 @@ gboolean gsb_data_bank_set_name ( gint bank_number,
 	g_free (bank -> bank_name);
 
     /* and copy the new one */
-    bank -> bank_name = g_strdup ( name ? name : "" );
+    bank -> bank_name = my_strdup (name);
 
     return TRUE;
 }
@@ -425,7 +414,7 @@ gboolean gsb_data_bank_set_code ( gint bank_number,
 	g_free (bank -> bank_code);
 
     /* and copy the new one */
-    bank -> bank_code = g_strdup ( bank_code ? bank_code : "" );
+    bank -> bank_code = my_strdup (bank_code);
 
     return TRUE;
 }
@@ -476,7 +465,7 @@ gboolean gsb_data_bank_set_bank_address ( gint bank_number,
 	g_free (bank -> bank_address);
 
     /* and copy the new one */
-    bank -> bank_address = g_strdup ( bank_address ? bank_address : "" );
+    bank -> bank_address = my_strdup (bank_address);
 
     return TRUE;
 }
@@ -525,7 +514,7 @@ gboolean gsb_data_bank_set_bank_tel ( gint bank_number,
 	g_free (bank -> bank_tel);
 
     /* and copy the new one */
-    bank -> bank_tel = g_strdup ( bank_tel ? bank_tel : "" );
+    bank -> bank_tel = my_strdup (bank_tel);
 
     return TRUE;
 }
@@ -575,7 +564,7 @@ gboolean gsb_data_bank_set_bank_mail ( gint bank_number,
 	g_free (bank -> bank_mail);
 
     /* and copy the new one */
-    bank -> bank_mail = g_strdup ( bank_mail ? bank_mail : "" );
+    bank -> bank_mail = my_strdup (bank_mail);
 
     return TRUE;
 }
@@ -625,7 +614,7 @@ gboolean gsb_data_bank_set_bank_web ( gint bank_number,
 	g_free (bank -> bank_web);
 
     /* and copy the new one */
-    bank -> bank_web = g_strdup ( bank_web ? bank_web : "" );
+    bank -> bank_web = my_strdup (bank_web);
 
     return TRUE;
 }
@@ -675,7 +664,7 @@ gboolean gsb_data_bank_set_bank_note ( gint bank_number,
 	g_free (bank -> bank_note);
 
     /* and copy the new one */
-    bank -> bank_note = g_strdup ( bank_note ? bank_note : "" );
+    bank -> bank_note = my_strdup (bank_note);
 
     return TRUE;
 }
@@ -725,7 +714,7 @@ gboolean gsb_data_bank_set_correspondent_name ( gint bank_number,
 	g_free (bank -> correspondent_name);
 
     /* and copy the new one */
-    bank -> correspondent_name = g_strdup ( correspondent_name ? correspondent_name : "" );
+    bank -> correspondent_name = my_strdup (correspondent_name);
 
     return TRUE;
 }
@@ -775,7 +764,7 @@ gboolean gsb_data_bank_set_correspondent_tel ( gint bank_number,
 	g_free (bank -> correspondent_tel);
 
     /* and copy the new one */
-    bank -> correspondent_tel = g_strdup ( correspondent_tel ? correspondent_tel : "" );
+    bank -> correspondent_tel = my_strdup (correspondent_tel);
 
     return TRUE;
 }
@@ -825,7 +814,7 @@ gboolean gsb_data_bank_set_correspondent_mail ( gint bank_number,
 	g_free (bank -> correspondent_mail);
 
     /* and copy the new one */
-    bank -> correspondent_mail = g_strdup ( correspondent_mail ? correspondent_mail : "" );
+    bank -> correspondent_mail = my_strdup (correspondent_mail);
 
     return TRUE;
 }
@@ -875,7 +864,7 @@ gboolean gsb_data_bank_set_correspondent_fax ( gint bank_number,
 	g_free (bank -> correspondent_fax);
 
     /* and copy the new one */
-    bank -> correspondent_fax = g_strdup ( correspondent_fax ? correspondent_fax : "" );
+    bank -> correspondent_fax = my_strdup (correspondent_fax);
 
     return TRUE;
 }
@@ -924,7 +913,7 @@ gboolean gsb_data_bank_set_bic ( gint bank_number, const gchar *bank_BIC )
 	g_free (bank -> bank_BIC);
 
     /* and copy the new one */
-    bank -> bank_BIC = g_strdup ( bank_BIC ? bank_BIC : "" );
+    bank -> bank_BIC = my_strdup (bank_BIC);
     
     return TRUE;
 }

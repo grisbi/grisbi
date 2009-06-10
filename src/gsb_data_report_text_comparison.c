@@ -299,7 +299,7 @@ gint gsb_data_report_text_comparison_dup ( gint last_text_comparison_number )
     text_comparison -> field = last_text_comparison -> field;
     text_comparison -> operator = last_text_comparison -> operator;
     if (last_text_comparison -> text)
-	text_comparison -> text = g_strdup (last_text_comparison -> text ? last_text_comparison -> text : "");
+	text_comparison -> text = my_strdup (last_text_comparison -> text);
     text_comparison -> use_text = last_text_comparison -> use_text;
     text_comparison -> first_comparison = last_text_comparison -> first_comparison;
     text_comparison -> first_amount = last_text_comparison -> first_amount;
@@ -502,8 +502,10 @@ gboolean gsb_data_report_text_comparison_set_text ( gint text_comparison_number,
     if ( !text_comparison )
 	return FALSE;
 
-    g_free(text_comparison -> text);
-	text_comparison -> text = g_strdup (text ? text : "");
+    if ( text && strlen (text))
+	text_comparison -> text = my_strdup (text);
+    else
+	text_comparison -> text = NULL;
 
     return TRUE;
 }
