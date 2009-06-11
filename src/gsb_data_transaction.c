@@ -462,7 +462,9 @@ gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
     if ( !transaction )
 	return FALSE;
 
+    gsb_data_account_set_balances_are_dirty ( transaction -> account_number );    
     transaction -> account_number = no_account;
+    gsb_data_account_set_balances_are_dirty ( no_account );
 
     /* if the transaction is a split, change all the children */
     if (transaction -> split_of_transaction)
