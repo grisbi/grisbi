@@ -1112,8 +1112,8 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     GtkWidget * account_notebook;
     gint account_number, page_number;
     gint report_number;
-    gchar * title = NULL; 
-    gchar * suffix = NULL; 
+    gchar * title = NULL;
+    gboolean clear_sufix = TRUE;
 
     devel_debug (NULL);
 
@@ -1166,6 +1166,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 		title = g_strconcat ( _("Account"), " : ", gsb_data_account_get_name (account_number), NULL );
 		navigation_change_account ( GINT_TO_POINTER (account_number) );
 		gsb_account_property_fill_page ();
+		clear_sufix = FALSE;
 	    }
 	    gsb_menu_update_accounts_in_menus ();
 	    gsb_menu_update_view_menu ( account_number );
@@ -1287,12 +1288,11 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
      * because gsb_navigation_update_account_label was called instead */
     if (title)
     {
-	if (!suffix)
-	    suffix = g_strdup("");
-	gsb_gui_headings_update ( title, suffix );
-	g_free ( suffix );
+	gsb_gui_headings_update_title ( title );
 	g_free ( title );
     }
+    if (clear_sufix)
+        gsb_gui_headings_update_suffix ( "" );
     return FALSE;
 }
 

@@ -1761,7 +1761,8 @@ gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity p
 
     gchar* tmpstr = g_strconcat ( _("Scheduled transactions"), " : ",
 					    names[periodicity], NULL);
-    gsb_gui_headings_update ( tmpstr, "" );
+    gsb_gui_headings_update_title ( tmpstr );
+    gsb_gui_headings_update_suffix ( "" );
     g_free ( tmpstr );
 
     affichage_echeances = periodicity;

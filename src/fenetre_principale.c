@@ -346,16 +346,14 @@ void gsb_gui_headings_private_update_label_markup ( GtkLabel *label, const gchar
 }
 
 /**
- * Update headings bar with a new title and a new suffix.
+ * Update headings bar with a new title.
  *
  * \param title		String to display as a title in headings bar.
- * \param suffix	String to display as a suffix in headings bar.
  *
  */
-void gsb_gui_headings_update ( gchar * title, gchar * suffix )
+void gsb_gui_headings_update_title ( gchar * title )
 {
     gsb_gui_headings_private_update_label_markup ( GTK_LABEL(headings_title), title, TRUE );
-    gsb_gui_headings_update_suffix ( suffix );
 }
 
 /**

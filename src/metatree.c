@@ -2275,7 +2275,8 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 							  iface -> tree_currency (), TRUE );
 	}
 
-	gsb_gui_headings_update ( text, balance );
+	gsb_gui_headings_update_title ( text );
+    gsb_gui_headings_update_suffix ( balance );
 	g_free ( text );
 	selection_is_set = TRUE;
     }

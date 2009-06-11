@@ -23,7 +23,7 @@ typedef enum GSB_GENERAL_NOTEBOOK_PAGES {
 
 /* START_DECLARATION */
 GtkWidget * create_main_widget ( void );
-void gsb_gui_headings_update ( gchar * title, gchar * suffix );
+void gsb_gui_headings_update_title ( gchar * title );
 void gsb_gui_headings_update_suffix ( gchar * suffix );
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page );
 void gsb_gui_sensitive_headings ( gboolean sensitive );
