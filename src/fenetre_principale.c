@@ -45,7 +45,7 @@
 /*START_STATIC*/
 static GtkWidget *create_main_notebook (void );
 static gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook );
-static void gsb_gui_headings_private_update_label_markup ( GtkLabel *label, const gchar *text );
+static void gsb_gui_headings_private_update_label_markup ( GtkLabel *label, const gchar *text, gboolean escape_text );
 static gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 					  GtkNotebookPage *page,
 					  guint page_number,
@@ -335,13 +335,14 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
  * \param text	String to display in headings bar.
  *
  */
-void gsb_gui_headings_private_update_label_markup ( GtkLabel *label, const gchar *text )
+void gsb_gui_headings_private_update_label_markup ( GtkLabel *label, const gchar *text, gboolean escape_text )
 {
-    gchar* escstr = g_markup_escape_text ( text, -1 );
+    const gchar* escstr = escape_text ? g_markup_escape_text ( text, -1 ) : text;
     gchar* tmpstr = g_strconcat ( "<b>", escstr, "</b>", NULL );
     gtk_label_set_markup ( label, tmpstr );
     g_free ( tmpstr );
-    g_free ( escstr );
+    if ( escape_text )
+        g_free ( (gchar*)escstr );
 }
 
 /**
@@ -353,7 +354,7 @@ void gsb_gui_headings_private_update_label_markup ( GtkLabel *label, const gchar
  */
 void gsb_gui_headings_update ( gchar * title, gchar * suffix )
 {
-    gsb_gui_headings_private_update_label_markup ( GTK_LABEL(headings_title), title );
+    gsb_gui_headings_private_update_label_markup ( GTK_LABEL(headings_title), title, TRUE );
     gsb_gui_headings_update_suffix ( suffix );
 }
 
@@ -365,7 +366,7 @@ void gsb_gui_headings_update ( gchar * title, gchar * suffix )
  */
 void gsb_gui_headings_update_suffix ( gchar * suffix )
 {
-    gsb_gui_headings_private_update_label_markup ( GTK_LABEL(headings_suffix), suffix );
+    gsb_gui_headings_private_update_label_markup ( GTK_LABEL(headings_suffix), suffix, FALSE );
 }
 
 
