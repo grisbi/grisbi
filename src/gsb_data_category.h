@@ -72,5 +72,11 @@ gboolean gsb_data_category_sub_category_remove ( gint no_category,
 void gsb_data_category_update_counters ( void );
 gchar * gsb_debug_duplicate_categ_check ();
 gboolean gsb_debug_duplicate_categ_fix ();
+gint gsb_data_category_test_create_category ( gint no_category,
+                        const gchar *name,
+                        gint category_type );
+gboolean gsb_data_category_test_create_sub_category ( gint no_category,
+                        gint no_sub_category,
+                        const gchar *name );
 /* END_DECLARATION */
 #endif

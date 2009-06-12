@@ -2421,7 +2421,6 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
                         gpointer null )
 {
     gint target_account, source_account;
-    gchar *string;
 
     if (! assert_selected_transaction()) return FALSE;
 
@@ -2436,16 +2435,9 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
 
 	update_transaction_in_trees (gsb_data_account_get_current_transaction_number (source_account));
 
-	if (gsb_data_account_get_current_balance (source_account).mantissa < 0)
-	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
-				       gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (source_account),
-									   gsb_data_account_get_currency (source_account), TRUE ));
-	else
-	    string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (source_account),
-							 gsb_data_account_get_currency (source_account), TRUE );
-	gsb_gui_headings_update_suffix (string);
-	g_free (string);
-	mise_a_jour_accueil (FALSE);
+    gsb_data_account_colorize_current_balance ( source_account );
+
+    mise_a_jour_accueil (FALSE);
 
 	if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
@@ -2473,22 +2465,12 @@ void move_selected_operation_to_account_nb ( gint *account )
     if ( gsb_transactions_list_move_transaction_to_account ( gsb_data_account_get_current_transaction_number (source_account),
 							     target_account ))
     {
-	gchar *string;
 	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
 	update_transaction_in_trees ( gsb_data_account_get_current_transaction_number (
                         source_account ) ) ;
 
-	if ( gsb_data_account_get_current_balance (source_account).mantissa < 0 )
-	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
-                        gsb_real_get_string_with_currency (
-                        gsb_data_account_get_current_balance ( source_account ),
-                        gsb_data_account_get_currency ( source_account ), TRUE ) );
-	else
-	    string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (source_account),
-                        gsb_data_account_get_currency ( source_account ), TRUE );
-	gsb_gui_headings_update_suffix (string);
-	g_free (string);
+    gsb_data_account_colorize_current_balance ( source_account );
 
 	if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );

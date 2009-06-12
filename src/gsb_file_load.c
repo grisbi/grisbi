@@ -250,6 +250,19 @@ static struct old_new_rec_conversion_struct *buffer_old_new_rec_conversion;
  * d'une version antérieure de grisbi */
 gchar *copy_old_filename = NULL;
 
+/* structure temporaire pour le chargement d'un tiers/catégorie/imputation et sous-catégorie
+ * sous-imputation */
+struct new_div_sous_div_struct
+{
+    gint no_div;
+    gint new_no_div;
+    gint no_sub_div;
+    gchar *name;
+    gint type;
+
+};
+static struct new_div_sous_div_struct *buffer_new_div_sous_div;
+
 /**
  * called to open the grisbi file given in param
  *
@@ -2400,7 +2413,10 @@ void gsb_file_load_category ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
-    gint category_number = 0;
+
+    if ( buffer_new_div_sous_div )
+        g_free ( buffer_new_div_sous_div );
+    buffer_new_div_sous_div = g_malloc0 ( sizeof ( struct new_div_sous_div_struct ) );
 
     if ( !attribute_names[i] )
     return;
@@ -2420,8 +2436,7 @@ void gsb_file_load_category ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "Nb" ))
     {
-        category_number = gsb_data_category_new_with_number ( utils_str_atoi (attribute_values[i]));
-
+        buffer_new_div_sous_div -> no_div = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
@@ -2429,8 +2444,7 @@ void gsb_file_load_category ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "Na" ))
     {
-        gsb_data_category_set_name ( category_number,
-                              attribute_values[i]);
+        buffer_new_div_sous_div -> name = g_strdup ( attribute_values[i] );
         i++;
         continue;
     }
@@ -2438,8 +2452,7 @@ void gsb_file_load_category ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "Kd" ))
     {
-        gsb_data_category_set_type ( category_number,
-                              utils_str_atoi (attribute_values[i]));
+        buffer_new_div_sous_div -> type = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
@@ -2448,6 +2461,11 @@ void gsb_file_load_category ( const gchar **attribute_names,
     i++;
     }
     while ( attribute_names[i] );
+
+    buffer_new_div_sous_div -> new_no_div = gsb_data_category_test_create_category (
+                        buffer_new_div_sous_div -> no_div,
+                        buffer_new_div_sous_div -> name,
+                        buffer_new_div_sous_div -> type );
 }
 
 
@@ -2463,7 +2481,6 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
 {
     gint i=0;
     gint category_number = 0;
-    gint sub_category_number = 0;
 
     if ( !attribute_names[i] )
     return;
@@ -2491,8 +2508,8 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "Nb" ))
     {
-        sub_category_number = gsb_data_category_new_sub_category_with_number ( utils_str_atoi (attribute_values[i]),
-                                                                   category_number );
+        if ( category_number == buffer_new_div_sous_div -> no_div )
+            buffer_new_div_sous_div -> no_sub_div = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
@@ -2500,9 +2517,8 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "Na" ))
     {
-        gsb_data_category_set_sub_category_name ( category_number,
-                                  sub_category_number,
-                                          attribute_values[i] );
+        if ( category_number == buffer_new_div_sous_div -> no_div )
+            buffer_new_div_sous_div -> name = g_strdup ( attribute_values[i] );
         i++;
         continue;
     }
@@ -2511,6 +2527,19 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
     i++;
     }
     while ( attribute_names[i] );
+
+    if ( !gsb_data_category_test_create_sub_category (
+                            buffer_new_div_sous_div -> new_no_div,
+                            buffer_new_div_sous_div -> no_sub_div,
+							buffer_new_div_sous_div -> name ) )
+    {
+        gchar *tmpstr = g_strdup_printf ( "no_category = %d no_sub_category = %d nom = %s\n",
+                            buffer_new_div_sous_div -> new_no_div,
+                            buffer_new_div_sous_div -> no_sub_div,
+							buffer_new_div_sous_div -> name );
+        devel_debug ( tmpstr );
+    }
+
 }
 
 
@@ -5968,7 +5997,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
         /* as the date comes before the last number of reconcile, the fastest way is to use
          * a buffer for ther reconcile structure, and when we have the last number of reconcile,
          * we append the buffer to the list */
-        buffer_reconcile_conversion = g_malloc0 (sizeof (GMarkupParser));
+        buffer_reconcile_conversion = g_malloc0 (sizeof (struct reconcile_conversion_struct));
         if (buffer_reconcile_conversion)
         {
             gchar **pointeur_char;

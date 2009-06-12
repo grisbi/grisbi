@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -206,7 +206,7 @@ gpointer gsb_data_category_get_empty_category ( void )
  * \return the adr of the struct of the category (NULL if doesn't exit)
  * */
 gpointer gsb_data_category_get_structure_in_list ( gint no_category,
-						   GSList *list )
+                        GSList *list )
 {
     GSList *tmp;
 
@@ -242,7 +242,7 @@ gpointer gsb_data_category_get_structure_in_list ( gint no_category,
  * \return the adr of the struct of the sub-category (NULL if doesn't exit)
  * */
 gpointer gsb_data_category_get_sub_category_structure ( gint no_category,
-							gint no_sub_category )
+                        gint no_sub_category )
 {
     GSList *tmp;
     struct_category *category;
@@ -549,7 +549,7 @@ void _gsb_data_sub_category_free ( struct_sub_category *sub_category )
  * \return TRUE ok
  * */
 gboolean gsb_data_category_sub_category_remove ( gint no_category,
-						 gint no_sub_category )
+                        gint no_sub_category )
 {
     struct_category *category;
     struct_sub_category *sub_category;
@@ -582,7 +582,7 @@ gboolean gsb_data_category_sub_category_remove ( gint no_category,
  * \return the number of the new sub-category or 0 if problem
  * */
 gint gsb_data_category_new_sub_category ( gint category_number,
-					  const gchar *name )
+                        const gchar *name )
 {
     gint sub_category_number;
 
@@ -609,7 +609,7 @@ gint gsb_data_category_new_sub_category ( gint category_number,
  * \return the number of the new sub-category or 0 if problem
  * */
 gint gsb_data_category_new_sub_category_with_number ( gint number,
-						      gint category_number)
+                        gint category_number)
 {
     struct_category *category;
     struct_sub_category *sub_category;
@@ -644,8 +644,8 @@ gint gsb_data_category_new_sub_category_with_number ( gint number,
  * \return TRUE ok, FALSE if fail
  * */
 gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
-							const gchar *string,
-							gboolean is_transaction )
+                        const gchar *string,
+                        gboolean is_transaction )
 {
     gchar **tab_char;
     gint category_number = 0;
@@ -700,7 +700,7 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
  * \return the number of the category or 0 if problem
  * */
 gint gsb_data_category_get_number_by_name ( const gchar *name,
-					    gboolean create,
+                        gboolean create,
 					    gint category_type )
 {
     GSList *list_tmp;
@@ -1598,7 +1598,88 @@ gboolean gsb_debug_duplicate_categ_fix ()
 }
 
 
+/**
+ * 
+ * 
+ *
+ * \param 
+ *
+ * \return
+ * */
 
+gint gsb_data_category_test_create_category ( gint no_category,
+                        const gchar *name,
+                        gint category_type )
+{
+    GSList *list_tmp;
+    gint category_number = 0;
+    struct_category *category;
+
+    list_tmp = g_slist_find_custom ( category_list,
+                        name,
+                        (GCompareFunc) gsb_data_category_get_pointer_from_name_in_glist );
+
+    if ( list_tmp )
+    {
+        category = list_tmp -> data;
+        return category -> category_number;
+    }
+    else
+    {
+        category = gsb_data_category_get_structure ( no_category );
+
+        if ( !category )
+        {
+            category_number = gsb_data_category_new_with_number ( no_category );
+            gsb_data_category_set_name ( category_number, name );
+            gsb_data_category_set_type ( category_number, category_type );
+        }
+        else
+        {
+            category_number = gsb_data_category_new (name);
+            gsb_data_category_set_type ( category_number, category_type );
+            gsb_category_update_combofix ();
+        }
+        return category_number;
+    }
+}
+
+
+gboolean gsb_data_category_test_create_sub_category ( gint no_category,
+                        gint no_sub_category,
+                        const gchar *name )
+{
+    GSList *list_tmp;
+    gint sub_category_number = 0;
+    struct_category *category;
+    struct_sub_category *sub_category;
+
+    category = gsb_data_category_get_structure ( no_category );
+    list_tmp = g_slist_find_custom ( category -> sub_category_list,
+                        name,
+                        (GCompareFunc) gsb_data_category_get_pointer_from_sub_name_in_glist );
+
+    if ( list_tmp )
+        return TRUE;
+    else
+    {
+        sub_category = gsb_data_category_get_sub_category_structure ( no_category,
+                        no_sub_category );
+        if ( !sub_category )
+        {
+            sub_category_number = gsb_data_category_new_sub_category_with_number (
+                        no_sub_category, no_category );
+            gsb_data_category_set_sub_category_name ( no_category, no_sub_category, name );
+        }
+        else
+        {
+            sub_category_number = gsb_data_category_new_sub_category ( no_category, name );
+            gsb_category_update_combofix ();
+        }
+        return TRUE;
+    }
+    return FALSE;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

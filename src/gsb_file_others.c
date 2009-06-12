@@ -1,21 +1,23 @@
-/* file gsb_file_others.c
- * used to save and load differents files under grisbi */
-/*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org) */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/*                                                                            */
+/*     Copyright (C)    2000-2005 Cédric Auger (cedric@grisbi.org)            */
+/*          http://www.grisbi.org                                             */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 /**
  * \file gsb_file_others.c
@@ -426,7 +428,8 @@ gboolean gsb_file_others_load ( gchar *filename,
     if ( !g_file_test ( filename,
 			G_FILE_TEST_IS_REGULAR ))
     {
-        gchar* tmpstr = g_strdup_printf ( _("%s doesn't seem to be a regular file,\nplease check it and try again."),
+        gchar* tmpstr = g_strdup_printf ( 
+                        _("%s doesn't seem to be a regular file,\nplease check it and try again."),
 					   filename );
 	dialogue_error ( tmpstr );
 	g_free ( tmpstr );
