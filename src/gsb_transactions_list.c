@@ -1342,6 +1342,10 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
 gboolean gsb_transactions_list_edit_transaction ( gint transaction_number )
 {
     devel_debug_int (transaction_number);
+    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
+                        gsb_data_transaction_get_account_number ( transaction_number ),
+                        NULL );
+    transaction_list_select ( transaction_number );
     gsb_form_fill_by_transaction ( transaction_number, TRUE, TRUE );
     return FALSE;
 }
