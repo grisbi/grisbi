@@ -2350,9 +2350,9 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 														   TRUE ));
 	    }
 	}
-    else if ( etat.get_categorie_for_payee )
+    else if ( etat.get_categorie_for_payee && !imported_transaction -> cheque)
     {
-        /* pbiava the 02/26/2009 associate category and bugetary to the tiers */
+        /* associate category and bugetary to the tiers except for checks */
         last_transaction_number = gsb_form_transactions_look_for_last_party (
                                     payee_number, transaction_number,
                                     account_number );
@@ -2385,8 +2385,6 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     }
 
     /* récupération des notes */
-    /* 	pbiava on 03/22/2009 modifié pour conserver la sauvegarde de l'import
-     * du tiers importé si nécessaire */
     if ( imported_transaction -> notes &&
                         strlen (imported_transaction -> notes) )
         gsb_data_transaction_set_notes ( transaction_number,
