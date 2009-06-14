@@ -221,7 +221,8 @@ void gsb_transactions_list_update_tree_view ( gint account_number,
 {
     gint selected_transaction = 0;
 
-    /* called sometimes with gsb_gui_navigation_get_current_account, so check we are on an account */
+    /* called sometimes with gsb_gui_navigation_get_current_account, so check we are 
+     * on an account */
     if ( account_number == -1 )
         return;
 
@@ -3035,15 +3036,17 @@ void mise_a_jour_affichage_r ( gboolean show_r )
 
     current_account = gsb_gui_navigation_get_current_account ();
 
-    /*     we check all the accounts */
+    /*  we check all the accounts */
     /* 	if etat.retient_affichage_par_compte is set, only gsb_gui_navigation_get_current_account () will change */
     /* 	else, all the accounts change */
 
     if ( show_r == gsb_data_account_get_r (current_account))
-	return;
+    {
+        gsb_transactions_list_update_tree_view ( current_account, show_r );
+        return;
+    }
 
-    gsb_data_account_set_r ( current_account,
-			     show_r );
+    gsb_data_account_set_r ( current_account, show_r );
 
     if ( !etat.retient_affichage_par_compte )
     {
@@ -3062,7 +3065,7 @@ void mise_a_jour_affichage_r ( gboolean show_r )
 	    list_tmp = list_tmp -> next;
 	}
     }
-    gsb_transactions_list_update_tree_view (current_account, TRUE);
+    gsb_transactions_list_update_tree_view ( current_account, show_r );
 
     /* update the button in toolbar */
     gsb_gui_update_bouton_affiche_ope_r ( show_r );
@@ -3107,14 +3110,13 @@ void gsb_transactions_list_set_visible_rows_number ( gint rows_number )
 	     ||
 	     i == current_account)
 	{
-	    gsb_data_account_set_nb_rows ( i,
-					   rows_number );
+	    gsb_data_account_set_nb_rows ( i, rows_number );
 	}
 	list_tmp = list_tmp -> next;
     }
 
     /* we update the screen */
-    gsb_transactions_list_update_tree_view (current_account, TRUE);
+    gsb_transactions_list_update_tree_view ( current_account, FALSE );
 }
 
 

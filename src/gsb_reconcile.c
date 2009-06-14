@@ -107,16 +107,11 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 3 );
     gtk_container_add ( GTK_CONTAINER ( frame ), vbox );
 
-    /* if we use the arrows in the reconcile widget, work on the transaction list */
-    //~ g_signal_connect ( G_OBJECT ( vbox ), "key_press_event",
-		       //~ G_CALLBACK ( gsb_transactions_list_key_press ), NULL );
-
     /* the title of the frame */ 
     label = gtk_label_new ( NULL );
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_misc_set_alignment ( GTK_MISC (label), 0.0, 0.0 );
     gtk_frame_set_label_widget ( GTK_FRAME(frame), label);
-
 
     /* number of reconcile */ 
     hbox = gtk_hbox_new ( FALSE, 5 );
@@ -128,10 +123,6 @@ GtkWidget *gsb_reconcile_create_box ( void )
     reconcile_number_entry = gtk_entry_new ();
     gtk_widget_set_tooltip_text ( GTK_WIDGET (reconcile_number_entry),
 				  SPACIFY(_("If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation.\nYou can let it empty if you don't want to keep a trace of the reconciliation.")));
-    /* Comment by pbiava the 01/31/2009 fix bug 468
-    g_signal_connect ( G_OBJECT ( reconcile_number_entry ),
-		       "key-press-event",
-		       G_CALLBACK ( gsb_reconcile_key_press_event ), NULL ); */
     gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_number_entry, TRUE, TRUE, 0);
 
     separator = gtk_hseparator_new();
@@ -168,19 +159,12 @@ GtkWidget *gsb_reconcile_create_box ( void )
     g_signal_connect ( G_OBJECT ( reconcile_initial_balance_entry ), "changed",
 		       G_CALLBACK (gsb_reconcile_update_amounts),
 		       NULL );
-    //~ g_signal_connect ( G_OBJECT ( reconcile_initial_balance_entry ),
-		       //~ "key-press-event",
-		       //~ G_CALLBACK ( gsb_reconcile_key_press_event ), NULL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_initial_balance_entry,
 				2, 3, 2, 3 );
 
     /* make the new date entry */
     reconcile_new_date_entry = gsb_calendar_entry_new (TRUE);
     gtk_widget_set_size_request ( reconcile_new_date_entry, 50, -1 );
-    /* Comment by pbiava the 01/31/2009 fix bug 468
-    g_signal_connect ( G_OBJECT ( reconcile_new_date_entry ),
-		       "key-press-event",
-		       G_CALLBACK( gsb_reconcile_key_press_event ), NULL ); */
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_new_date_entry,
 				0, 1, 4, 5 );
 
@@ -190,10 +174,6 @@ GtkWidget *gsb_reconcile_create_box ( void )
     g_signal_connect ( G_OBJECT ( reconcile_final_balance_entry ), "changed",
 		       G_CALLBACK (gsb_reconcile_update_amounts),
 		       NULL );
-    /* Comment by pbiava the 01/31/2009 fix bug 468
-    g_signal_connect ( G_OBJECT ( reconcile_final_balance_entry ),
-		       "key-press-event",
-		       G_CALLBACK ( gsb_reconcile_key_press_event ), NULL ); */
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_final_balance_entry,
 				2, 3, 4, 5 );
 
@@ -373,8 +353,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 	g_free (last_name);
     }
     else
-	gtk_entry_set_text ( GTK_ENTRY ( reconcile_number_entry ),
-			     "1" );
+	gtk_entry_set_text ( GTK_ENTRY ( reconcile_number_entry ), "1" );
 
     /* increase the last date of 1 month */
     date = gsb_date_copy (gsb_data_reconcile_get_final_date (reconcile_number));
@@ -410,8 +389,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     }
     else
     {
-	gtk_label_set_text ( GTK_LABEL ( reconcile_last_date_label ),
-			     _("None") );
+	gtk_label_set_text ( GTK_LABEL ( reconcile_last_date_label ), _("None") );
 
 	date = gdate_today();
 
@@ -453,14 +431,14 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     reconcile_save_show_marked = gsb_data_account_get_r (account_number);
     if (reconcile_save_show_marked)
     {
-	gsb_data_account_set_r (account_number, FALSE );
-	mise_a_jour_affichage_r (FALSE);
+        gsb_data_account_set_r (account_number, FALSE );
+        mise_a_jour_affichage_r (FALSE);
     }
 
     /* 1 line on the transaction list */
     reconcile_save_rows_number = gsb_data_account_get_nb_rows (account_number);
     if (reconcile_save_rows_number != 1)
-	gsb_transactions_list_set_visible_rows_number ( 1 );
+        gsb_transactions_list_set_visible_rows_number ( 1 );
 
     /* sort by method of payment if in conf */
     if (gsb_data_account_get_reconcile_sort_type (account_number))
@@ -553,24 +531,22 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 
     /* create the new reconcile structure */
     reconcile_number = gsb_data_reconcile_new (gtk_entry_get_text (GTK_ENTRY (reconcile_number_entry)));
-    gsb_data_reconcile_set_account ( reconcile_number,
-				     account_number );
+    gsb_data_reconcile_set_account ( reconcile_number, account_number );
 
     /* set the variables of the reconcile */
-    gsb_data_reconcile_set_final_date ( reconcile_number,
-					date );
+    gsb_data_reconcile_set_final_date ( reconcile_number, date );
     g_date_free (date);
 
     date = gsb_parse_date_string (gtk_label_get_text (GTK_LABEL (reconcile_last_date_label)));
-    gsb_data_reconcile_set_init_date ( reconcile_number,
-				       date );
+    gsb_data_reconcile_set_init_date ( reconcile_number, date );
     g_free (date);
 
-    real = gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (reconcile_initial_balance_entry)));
-    gsb_data_reconcile_set_init_balance ( reconcile_number,
-					  real );
+    real = gsb_real_get_from_string ( gtk_entry_get_text (
+                        GTK_ENTRY ( reconcile_initial_balance_entry ) ) );
+    gsb_data_reconcile_set_init_balance ( reconcile_number, real );
 
-    real = gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (reconcile_final_balance_entry)));
+    real = gsb_real_get_from_string ( gtk_entry_get_text (
+                        GTK_ENTRY ( reconcile_final_balance_entry ) ) );
     gsb_data_reconcile_set_final_balance ( reconcile_number,
 					   real );
 
@@ -580,7 +556,8 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     while ( list_tmp_transactions )
     {
 	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+	transaction_number_tmp = gsb_data_transaction_get_transaction_number (
+                        list_tmp_transactions -> data);
 
 	if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number
 	     &&
@@ -596,13 +573,8 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
 
-    /* update the P and T to R in the list if R are shown,
-     * else just re-filter */
-    /* comment by pbiava 02/11/2009 no update tag P or T in R  fix bug 477 */
-    //~ if (gsb_data_account_get_r (account_number))
-        transaction_list_update_element (ELEMENT_MARK);
-    //~ else
-        //~ gsb_transactions_list_update_tree_view (account_number, TRUE);
+    /* update the P and T to R in the list */
+    transaction_list_update_element (ELEMENT_MARK);
 
     mise_a_jour_liste_comptes_accueil = 1;
 
@@ -666,24 +638,24 @@ gboolean gsb_reconcile_cancel ( GtkWidget *button,
     /* restore the good sort of the list */
     if (transaction_list_sort_get_reconcile_sort ())
     {
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (reconcile_sort_list_button),
-				       FALSE );
-	gsb_reconcile_list_button_clicked (reconcile_sort_list_button, NULL);
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (reconcile_sort_list_button),
+                           FALSE );
+        gsb_reconcile_list_button_clicked (reconcile_sort_list_button, NULL);
     }
+
+    transaction_list_show_toggle_mark (FALSE);
 
     /* restore the saved data */
     etat.retient_affichage_par_compte = reconcile_save_account_display;
 
     if (reconcile_save_rows_number != 1)
-	gsb_transactions_list_set_visible_rows_number ( reconcile_save_rows_number );
+        gsb_transactions_list_set_visible_rows_number ( reconcile_save_rows_number );
 
     if (reconcile_save_show_marked)
     {
-	gsb_data_account_set_r (gsb_gui_navigation_get_current_account (), TRUE );
-	mise_a_jour_affichage_r (TRUE);
+        gsb_data_account_set_r (gsb_gui_navigation_get_current_account (), TRUE );
+        mise_a_jour_affichage_r (TRUE);
     }
-
-    transaction_list_show_toggle_mark (FALSE);
 
     /* Don't display uneeded widget for now. */
     gtk_widget_hide ( reconcile_panel );
@@ -691,48 +663,6 @@ gboolean gsb_reconcile_cancel ( GtkWidget *button,
 
     return FALSE;
 }
-
-
-/**
- * called by a key-press-event in any entry of the reconcile
- *
- * \param entry
- * \param event
- * \param null
- *
- * \return FALSE
- * */
-/* Comment by pbiava the 01/31/2009 fix bug 468
-gboolean gsb_reconcile_key_press_event ( GtkWidget *entry,
-					 GdkEventKey *event,
-					 gpointer null )
-{
-    switch ( event -> keyval )
-    {
-	case GDK_Tab:
-	    !* This is hardcoded because normal cycle does not work
-	     * ... why? -- benj 
-         * tabs now operating normally in my configuration pbiava*!
-        devel_debug ("GDK_Tab");
-	    if ( entry == reconcile_number_entry )
-	    {
-            gtk_widget_grab_focus ( GTK_WIDGET ( reconcile_new_date_entry ) );
-	    }
-	    else if ( entry == reconcile_new_date_entry )
-	    {
-            gtk_widget_grab_focus ( GTK_WIDGET ( reconcile_final_balance_entry ) );
-	    }
-	    else if ( entry == reconcile_final_balance_entry )
-	    {
-            gtk_widget_grab_focus ( GTK_WIDGET ( reconcile_number_entry ) );
-	    }
-	    return FALSE;
-	default:
-	    !* Reverting to default handler *!
-	    return FALSE;
-    }
-    return TRUE;
-} */
 
 
 /**
