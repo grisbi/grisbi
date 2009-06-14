@@ -219,20 +219,22 @@ GtkWidget *gsb_transactions_list_get_tree_view (void)
 void gsb_transactions_list_update_tree_view ( gint account_number,
                         gboolean keep_selected_transaction )
 {
-    gint selected_transaction;
+    gint selected_transaction = 0;
 
     /* called sometimes with gsb_gui_navigation_get_current_account, so check we are on an account */
-    if (account_number == -1)
-	return;
+    if ( account_number == -1 )
+        return;
 
-    if (keep_selected_transaction)
-        selected_transaction = transaction_list_select_get ();
-    transaction_list_filter (account_number);
+    if ( keep_selected_transaction )
+        selected_transaction = transaction_list_select_get ( );
+    transaction_list_filter ( account_number );
     transaction_list_sort ();
     transaction_list_colorize ();
-    transaction_list_set_balances ();
-    if (keep_selected_transaction)
-        transaction_list_select (selected_transaction);
+    if ( etat.show_transaction_gives_balance )
+        transaction_list_set_color_jour ( account_number );
+    transaction_list_set_balances ( );
+    if ( keep_selected_transaction )
+        transaction_list_select ( selected_transaction );
 }
 
 
@@ -617,26 +619,17 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
      * else it's because we execute a scheduled transaction and all
      * of that stuff will be done when we will show the account */
     if (update_tree_view
-	&&
-	gsb_gui_navigation_get_current_account () == account_number
-	&&
-	!gsb_data_transaction_get_mother_transaction_number (transaction_number))
+     &&
+     gsb_gui_navigation_get_current_account () == account_number
+     &&
+     !gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
-	gint selected_transaction;
+        gsb_transactions_list_update_tree_view ( account_number, TRUE );
+        gsb_data_account_colorize_current_balance ( account_number );
 
-	/* we cannot use update_tree_view here because re-filter the model will close
-	 * all the opened splits */
-	selected_transaction = transaction_list_select_get ();
-	transaction_list_sort ();
-	transaction_list_colorize ();
-	transaction_list_set_balances ();
-	transaction_list_select (selected_transaction);
-
-    gsb_data_account_colorize_current_balance ( account_number );
-
-	/* if it's a mother, open the expander */
-	if (gsb_data_transaction_get_split_of_transaction (transaction_number))
-	    gsb_transactions_list_switch_expander (transaction_number);
+        /* if it's a mother, open the expander */
+        if (gsb_data_transaction_get_split_of_transaction (transaction_number))
+            gsb_transactions_list_switch_expander (transaction_number);
     }
 
     /* on réaffichera l'accueil */
@@ -1223,68 +1216,73 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 
     switch ( ev -> keyval )
     {
-	case GDK_Return :		/* entrée */
-	case GDK_KP_Enter :
-	case GDK_Tab :
+    case GDK_Return :   /* entrée */
+    case GDK_KP_Enter :
+    case GDK_Tab :
 
-	    gsb_transactions_list_edit_transaction (gsb_data_account_get_current_transaction_number (account_number));
-	    break;
+        gsb_transactions_list_edit_transaction (
+                        gsb_data_account_get_current_transaction_number ( account_number ) );
+        break;
 
-	case GDK_Up :		/* touches flèche haut */
-	case GDK_KP_Up :
+    case GDK_Up :       /* touches flèche haut */
+    case GDK_KP_Up :
 
-	    transaction_list_select_up (TRUE);
-	    break;
+        transaction_list_select_up (TRUE);
+        break;
 
-	case GDK_Down :		/* touches flèche bas */
-	case GDK_KP_Down :
+    case GDK_Down :     /* touches flèche bas */
+    case GDK_KP_Down :
 
-	    transaction_list_select_down (TRUE);
-	    break;
+        transaction_list_select_down (TRUE);
+        break;
 
-	case GDK_Delete:		/*  del  */
-	    gsb_transactions_list_delete_transaction (gsb_data_account_get_current_transaction_number (account_number), TRUE);
-	    break;
+    case GDK_Delete:    /*  del  */
+        gsb_transactions_list_delete_transaction (
+                        gsb_data_account_get_current_transaction_number ( account_number ),
+                        TRUE );
+        break;
 
-	case GDK_P:			/* touche P */
-	case GDK_p:			/* touche p */
+    case GDK_P:         /* touche P */
+    case GDK_p:         /* touche p */
 
-	    if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
-		gsb_transactions_list_switch_mark (gsb_data_account_get_current_transaction_number (account_number));
-	    break;
+        if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
+        gsb_transactions_list_switch_mark (
+                        gsb_data_account_get_current_transaction_number ( account_number ) );
+        break;
 
-	case GDK_r:			/* touche r */
-	case GDK_R:			/* touche R */
+    case GDK_r:         /* touche r */
+    case GDK_R:         /* touche R */
 
-	    if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
-		gsb_transactions_list_switch_R_mark (gsb_data_account_get_current_transaction_number (account_number));
-	    break;
+        if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
+        gsb_transactions_list_switch_R_mark (
+                        gsb_data_account_get_current_transaction_number ( account_number ) );
+        break;
 
-    case GDK_t:			/* touche t */
-    case GDK_T:			/* touche T */
+    case GDK_t:         /* touche t */
+    case GDK_T:         /* touche T */
         transaction_list_select ( -1 );
         break;
 
-	case GDK_space:
-	    transaction_number = gsb_data_account_get_current_transaction_number (account_number);
-	    if ( transaction_number > 0)
-	    {
-		if (etat.equilibrage)
-		{
-		    /* we are reconciling, so mark/unmark the transaction */
-		    gsb_transactions_list_switch_mark (transaction_number);
-		    transaction_list_select_down (FALSE);
-		}
-		else
-		    /* space open/close a split */
-		    gsb_transactions_list_switch_expander (transaction_number);
-	    }
-	    break;
+    case GDK_space:
+        transaction_number = gsb_data_account_get_current_transaction_number ( account_number );
+        if ( transaction_number > 0 )
+        {
+        if ( etat.equilibrage )
+        {
+            /* we are reconciling, so mark/unmark the transaction */
+            gsb_transactions_list_switch_mark ( transaction_number );
+            transaction_list_select_down ( FALSE );
+        }
+        else
+            /* space open/close a split */
+            gsb_transactions_list_switch_expander ( transaction_number );
+        }
+        break;
 
-	case GDK_Left:
-	    /* if we press left, give back the focus to the tree at left */
-	    gtk_widget_grab_focus (navigation_tree_view);
-	    break;
+    case GDK_Left:
+        /* if we press left, give back the focus to the tree at left */
+        gtk_widget_grab_focus ( navigation_tree_view );
+        break;
     }
 
     return TRUE;
@@ -2676,7 +2674,7 @@ gint schedule_transaction ( gint transaction_number )
  * \return
  * */
 void gsb_transactions_list_splitted_to_scheduled ( gint transaction_number,
-						   gint scheduled_number )
+                        gint scheduled_number )
 {
     GSList *list_tmp_transactions;
     list_tmp_transactions = gsb_data_transaction_get_transactions_list ();

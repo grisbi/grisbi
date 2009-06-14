@@ -135,6 +135,7 @@ extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern gchar *copy_old_filename;
 extern GdkColor couleur_fond[2];
+extern GdkColor couleur_jour;
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
 extern gint display_one_line;
@@ -740,60 +741,66 @@ gulong gsb_file_save_color_part ( gulong iterator,
 
     /* save the general informations */
     new_string = g_markup_printf_escaped ( "\t<Color\n"
-					   "\t\tBackground_color_0_red=\"%d\"\n"
-					   "\t\tBackground_color_0_green=\"%d\"\n"
-					   "\t\tBackground_color_0_blue=\"%d\"\n"
-					   "\t\tBackground_color_1_red=\"%d\"\n"
-					   "\t\tBackground_color_1_green=\"%d\"\n"
-					   "\t\tBackground_color_1_blue=\"%d\"\n"
-					   "\t\tBackground_scheduled_red=\"%d\"\n"
-					   "\t\tBackground_scheduled_green=\"%d\"\n"
-					   "\t\tBackground_scheduled_blue=\"%d\"\n"
-					   "\t\tBackground_archive_red=\"%d\"\n"
-					   "\t\tBackground_archive_green=\"%d\"\n"
-					   "\t\tBackground_archive_blue=\"%d\"\n"
-					   "\t\tSelection_red=\"%d\"\n"
-					   "\t\tSelection_green=\"%d\"\n"
-					   "\t\tSelection_blue=\"%d\"\n"
-					   "\t\tBackground_split_red=\"%d\"\n"
-					   "\t\tBackground_split_green=\"%d\"\n"
-					   "\t\tBackground_split_blue=\"%d\"\n"
-					   "\t\tText_color_0_red=\"%d\"\n"
-					   "\t\tText_color_0_green=\"%d\"\n"
-					   "\t\tText_color_0_blue=\"%d\"\n"
-					   "\t\tText_color_1_red=\"%d\"\n"
-					   "\t\tText_color_1_green=\"%d\"\n"
-					   "\t\tText_color_1_blue=\"%d\"\n"
-					   "\t\tCalendar_entry_red=\"%d\"\n"
-					   "\t\tCalendar_entry_green=\"%d\"\n"
-					   "\t\tCalendar_entry_blue=\"%d\" />\n",
-	couleur_fond[0].red,
-	couleur_fond[0].green,
-	couleur_fond[0].blue,
-	couleur_fond[1].red,
-	couleur_fond[1].green,
-	couleur_fond[1].blue,
-	couleur_grise.red,
-	couleur_grise.green,
-	couleur_grise.blue,
-	archive_background_color.red,
-	archive_background_color.green,
-	archive_background_color.blue,
-	couleur_selection.red,
-	couleur_selection.green,
-	couleur_selection.blue,
-	split_background.red,
-	split_background.green,
-	split_background.blue,
-	text_color[0].red,
-	text_color[0].green,
-	text_color[0].blue,
-	text_color[1].red,
-	text_color[1].green,
-	text_color[1].blue,
-	calendar_entry_color.red,
-	calendar_entry_color.green,
-	calendar_entry_color.blue );
+                        "\t\tBackground_color_0_red=\"%d\"\n"
+                        "\t\tBackground_color_0_green=\"%d\"\n"
+                        "\t\tBackground_color_0_blue=\"%d\"\n"
+                        "\t\tBackground_color_1_red=\"%d\"\n"
+                        "\t\tBackground_color_1_green=\"%d\"\n"
+                        "\t\tBackground_color_1_blue=\"%d\"\n"
+                        "\t\tCouleur_jour_red=\"%d\"\n"
+                        "\t\tCouleur_jour_green=\"%d\"\n"
+                        "\t\tCouleur_jour_blue=\"%d\"\n"
+                        "\t\tBackground_scheduled_red=\"%d\"\n"
+                        "\t\tBackground_scheduled_green=\"%d\"\n"
+                        "\t\tBackground_scheduled_blue=\"%d\"\n"
+                        "\t\tBackground_archive_red=\"%d\"\n"
+                        "\t\tBackground_archive_green=\"%d\"\n"
+                        "\t\tBackground_archive_blue=\"%d\"\n"
+                        "\t\tSelection_red=\"%d\"\n"
+                        "\t\tSelection_green=\"%d\"\n"
+                        "\t\tSelection_blue=\"%d\"\n"
+                        "\t\tBackground_split_red=\"%d\"\n"
+                        "\t\tBackground_split_green=\"%d\"\n"
+                        "\t\tBackground_split_blue=\"%d\"\n"
+                        "\t\tText_color_0_red=\"%d\"\n"
+                        "\t\tText_color_0_green=\"%d\"\n"
+                        "\t\tText_color_0_blue=\"%d\"\n"
+                        "\t\tText_color_1_red=\"%d\"\n"
+                        "\t\tText_color_1_green=\"%d\"\n"
+                        "\t\tText_color_1_blue=\"%d\"\n"
+                        "\t\tCalendar_entry_red=\"%d\"\n"
+                        "\t\tCalendar_entry_green=\"%d\"\n"
+                        "\t\tCalendar_entry_blue=\"%d\" />\n",
+    couleur_fond[0].red,
+    couleur_fond[0].green,
+    couleur_fond[0].blue,
+    couleur_fond[1].red,
+    couleur_fond[1].green,
+    couleur_fond[1].blue,
+    couleur_jour.red,
+    couleur_jour.green,
+    couleur_jour.blue,
+    couleur_grise.red,
+    couleur_grise.green,
+    couleur_grise.blue,
+    archive_background_color.red,
+    archive_background_color.green,
+    archive_background_color.blue,
+    couleur_selection.red,
+    couleur_selection.green,
+    couleur_selection.blue,
+    split_background.red,
+    split_background.green,
+    split_background.blue,
+    text_color[0].red,
+    text_color[0].green,
+    text_color[0].blue,
+    text_color[1].red,
+    text_color[1].green,
+    text_color[1].blue,
+    calendar_entry_color.red,
+    calendar_entry_color.green,
+    calendar_entry_color.blue );
 
     /* append the new string to the file content
      * and return the new iterator */

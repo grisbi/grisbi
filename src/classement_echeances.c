@@ -1,10 +1,10 @@
 /* ************************************************************************** */
 /*                                  classement_echeances.c                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
-/*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2003 CÃ©dric Auger (cedric@grisbi.org)           */
+/*          2003-2004 Benjamin Drieu (bdrieu@april.org)                       */
+/*          2003-2004 Alain Portal (aportal@univ-montp2.fr)                   */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -41,7 +41,7 @@
 
 
 /* ************************************************************************* */
-/* Classement de deux Ã©chÃ©ances d'opÃ©rations par date                        */
+/* Classement de deux échéances d'opérations par date                        */
 /* ************************************************************************* */
 gint classement_sliste_echeance_par_date ( gint scheduled_number_1, 
 					   gint scheduled_number_2 )

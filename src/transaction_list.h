@@ -18,6 +18,7 @@ gboolean transaction_list_remove_archive_transaction ( gint transaction_number )
 gboolean transaction_list_remove_transaction ( gint transaction_number );
 void transaction_list_set ( GtkTreeIter *iter, ... );
 void transaction_list_set_balances ( void );
+void transaction_list_set_color_jour ( gint account_number );
 gboolean transaction_list_show_toggle_mark ( gboolean show );
 gboolean transaction_list_update_cell ( gint cell_col,
 					gint cell_line );

@@ -61,7 +61,7 @@
 /*START_STATIC*/
 static  void transaction_list_append_child ( gint transaction_number );
 static  CustomRecord *transaction_list_create_record ( gint transaction_number,
-						      gint line_in_transaction );
+                        gint line_in_transaction );
 static gint transaction_list_get_last_line ( gint nb_rows );
 static  gboolean transaction_list_update_white_child ( CustomRecord *white_record );
 /*END_STATIC*/
@@ -69,6 +69,7 @@ static  gboolean transaction_list_update_white_child ( CustomRecord *white_recor
 /*START_EXTERN*/
 extern GdkColor archive_background_color;
 extern GdkColor couleur_fond[2];
+extern GdkColor couleur_jour;
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
@@ -1167,7 +1168,7 @@ gboolean transaction_list_update_element ( gint element_number )
  * \return FALSE : problem, nothing done ; TRUE : ok
  * */
 gboolean transaction_list_update_column ( gint column,
-					  GValue *value )
+                        GValue *value )
 {
     gint i;
     GtkTreeIter iter;
@@ -1263,7 +1264,7 @@ gboolean transaction_list_update_column ( gint column,
  * \return FALSE : problem, nothing done ; TRUE : ok
  * */
 gboolean transaction_list_update_cell ( gint cell_col,
-					gint cell_line )
+                        gint cell_line )
 {
     gint element_number;
     gint column_element_split;
@@ -1781,7 +1782,7 @@ static void transaction_list_append_child ( gint transaction_number )
  * \return NULL if problem, or the newly allocated record
  * */
 static CustomRecord *transaction_list_create_record ( gint transaction_number,
-						      gint line_in_transaction )
+                        gint line_in_transaction )
 {
     gint column;
     CustomRecord *newrecord;
@@ -2033,3 +2034,46 @@ gboolean transaction_list_remove_archive_transaction ( gint transaction_number )
     return TRUE;
 }
 
+
+/**
+ * colorise avec un fond vert la ligne qui correspond à la date du jour
+ *
+ * \param 
+ *
+ * \return
+ * */
+void transaction_list_set_color_jour ( gint account_number )
+{
+    gint i;
+    gint number_jour;
+    gint transaction_number;
+    CustomList *custom_list;
+
+    devel_debug (NULL);
+
+    number_jour = gsb_data_transaction_get_last_transaction_before_today_day (
+                        account_number );
+    if ( number_jour <= 1 )
+        return;
+
+    custom_list = transaction_model_get_model ();
+    g_return_if_fail ( custom_list != NULL );
+
+    for (i=0 ; i < custom_list -> num_visibles_rows ; i++)
+    {
+        CustomRecord *record;
+
+        record = custom_list -> visibles_rows[i];
+
+        if (record -> what_is_line == IS_TRANSACTION)
+        {
+            transaction_number = gsb_data_transaction_get_transaction_number (
+                        record -> transaction_pointer);
+            if ( number_jour == transaction_number )
+            {
+                /* set the color of the row */
+                record -> row_bg = &couleur_jour;
+            }            
+        }
+    }
+}

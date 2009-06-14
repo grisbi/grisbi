@@ -60,7 +60,7 @@ static void change_logo_accueil ( GtkWidget * file_selector );
 static gboolean change_toolbar_display_mode ( GtkRadioButton *button );
 static gboolean modification_logo_accueil ( );
 static gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
-					   gpointer null );
+                        gpointer null );
 static  gboolean preferences_view_color_changed ( GtkWidget *color_button,
                         GtkWidget *combobox );
 static  gboolean preferences_view_color_combobox_changed ( GtkWidget *combobox,
@@ -81,11 +81,13 @@ extern gchar *adresse_secondaire;
 extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_fond[2];
+extern GdkColor couleur_jour;
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
 extern GdkColor default_archive_background_color;
 extern GdkColor default_calendar_entry_color;
 extern GdkColor default_couleur_fond[2];
+extern GdkColor default_couleur_jour;
 extern GdkColor default_couleur_grise;
 extern GdkColor default_couleur_selection;
 extern GdkColor default_split_background;
@@ -746,7 +748,7 @@ GtkWidget *tab_display_toolbar ( void )
  * \return FALSE
  * */
 gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
-					   gpointer null )
+                        gpointer null )
 {
     gsb_gui_update_show_headings ();
     return FALSE;
@@ -769,42 +771,43 @@ static GtkWidget *preferences_view_create_color_combobox (void)
     GtkCellRenderer *renderer;
 
     struct config_color {
-	gchar *name;
-	GdkColor *color;
-	GdkColor *default_color;
+    gchar *name;
+    GdkColor *color;
+    GdkColor *default_color;
 
     } config_colors[] = {
-	{ N_("Transaction list background 1"), &couleur_fond[0], &default_couleur_fond[0]},
-	{ N_("Transaction list background 2"), &couleur_fond[1], &default_couleur_fond[1]},
-	{ N_("Color of transaction's text"), &text_color[0], &default_text_color[0]},
-	{ N_("Text of unfinished splitted transaction"), &text_color[1], &default_text_color[1]},
-	{ N_("Children of splitted transaction"), &split_background, &default_split_background},
-	{ N_("Selection color"), &couleur_selection, &default_couleur_selection},
-	{ N_("Background of non selectable scheduled transactions"), &couleur_grise, &default_couleur_grise},
-	{ N_("Archive color"), &archive_background_color, &default_archive_background_color},
-	{ N_("Background of invalid date entry"), &calendar_entry_color, &default_calendar_entry_color },
-	{ NULL, 0, 0},
+    { N_("Transaction list background 1"), &couleur_fond[0], &default_couleur_fond[0]},
+    { N_("Transaction list background 2"), &couleur_fond[1], &default_couleur_fond[1]},
+    { N_("Color for the operation that gives the balance today"), &couleur_jour, &default_couleur_jour},
+    { N_("Color of transaction's text"), &text_color[0], &default_text_color[0]},
+    { N_("Text of unfinished splitted transaction"), &text_color[1], &default_text_color[1]},
+    { N_("Children of splitted transaction"), &split_background, &default_split_background},
+    { N_("Selection color"), &couleur_selection, &default_couleur_selection},
+    { N_("Background of non selectable scheduled transactions"), &couleur_grise, &default_couleur_grise},
+    { N_("Archive color"), &archive_background_color, &default_archive_background_color},
+    { N_("Background of invalid date entry"), &calendar_entry_color, &default_calendar_entry_color },
+    { NULL, 0, 0},
     };
 
     /* the store contains the name of the color we can modify and
      * a pointer to the corresponding variable */
     store = gtk_list_store_new ( 3,
-				 G_TYPE_STRING,
-				 G_TYPE_POINTER,
-				 G_TYPE_POINTER );
+                        G_TYPE_STRING,
+                        G_TYPE_POINTER,
+                        G_TYPE_POINTER );
     /* fill the store */
     for ( i = 0 ; config_colors[i].name != NULL ; i++ )
     {
-	GtkTreeIter iter;
+    GtkTreeIter iter;
 
-	gtk_list_store_append ( GTK_LIST_STORE (store),
-				&iter );
-	gtk_list_store_set ( GTK_LIST_STORE (store),
-			     &iter,
-			     0, _(config_colors[i].name),
-			     1, config_colors[i].color,
-			     2, config_colors[i].default_color,
-			     -1);
+    gtk_list_store_append ( GTK_LIST_STORE (store),
+                        &iter );
+    gtk_list_store_set ( GTK_LIST_STORE (store),
+                        &iter,
+                        0, _(config_colors[i].name),
+                        1, config_colors[i].color,
+                        2, config_colors[i].default_color,
+                        -1);
     }
 
     /* create the combobox */
@@ -813,8 +816,8 @@ static GtkWidget *preferences_view_create_color_combobox (void)
     renderer = gtk_cell_renderer_text_new ();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combobox), renderer,
-				    "text", 0,
-				    NULL);
+                        "text", 0,
+                        NULL);
     return combobox;
 }
 

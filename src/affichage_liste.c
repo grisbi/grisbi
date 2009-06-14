@@ -1,9 +1,9 @@
 /* ************************************************************************** */
 /*  ce fichier contient les paramètres de l'affichage de la liste d'opé       */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)            */
-/*			2008 Benjamin Drieu (bdrieu@april.org)                            */
-/* 			http://www.grisbi.org                                             */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2008 Benjamin Drieu (bdrieu@april.org)                            */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -41,13 +41,15 @@
 #include "./gtk_combofix.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static  gboolean display_mode_button_changed ( GtkWidget *button,
-					      gint *line_ptr );
+                        gint *line_ptr );
 static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
-							  gpointer null );
+                        gpointer null );
+static void gsb_transactions_list_display_show_gives_balance ( void );
 static gboolean gsb_transactions_list_display_update_combofix ( void );
 /*END_STATIC*/
 
@@ -90,106 +92,113 @@ GtkWidget *onglet_affichage_operations ( void )
     GtkWidget * vbox_pref, *label, *paddingbox;
     GtkWidget *hbox, *vbox_label, *vbox_buttons;
     gchar *display_mode_lines_text [] = {
-	_("In one line visible, show the lines"),
-	_("In two lines visibles, show the lines"),
-	_("In three lines visibles, show the lines"),
+    _("In one line visible, show the lines"),
+    _("In two lines visibles, show the lines"),
+    _("In three lines visibles, show the lines"),
     };
     gchar *line_1 [] = {
-	"1", "2", "3", "4",
-	NULL };
+    "1", "2", "3", "4",
+    NULL };
     gchar *line_2 [] = {
-	"1-2", "1-3", "1-4", "2-3", "2-4", "3-4",
-	NULL };
+    "1-2", "1-3", "1-4", "2-3", "2-4", "3-4",
+    NULL };
     gchar *line_3 [] = {
-	"1-2-3", "1-2-4", "1-3-4", "2-3-4",
-	NULL };
+    "1-2-3", "1-2-4", "1-3-4", "2-3-4",
+    NULL };
     gint i;
 
-	vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list behavior"),
-			"transaction-list.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list behavior"),
+                        "transaction-list.png" );
 
-	/* heading and boxes for layout */
-	paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-			_("Display modes"));
+    /* heading and boxes for layout */
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _( "Display modes" ) );
 
-	hbox = gtk_hbox_new ( FALSE, 5);
-	vbox_label = gtk_vbox_new ( TRUE, 5);
-	vbox_buttons = gtk_vbox_new ( TRUE, 5);
-	gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+    hbox = gtk_hbox_new ( FALSE, 5);
+    vbox_label = gtk_vbox_new ( TRUE, 5);
+    vbox_buttons = gtk_vbox_new ( TRUE, 5);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     /* fill the table */
     for (i=0 ; i<3 ; i++)
     {
-	gint j;
-	GtkWidget *button;
-	gchar **text_line = NULL;
-	gint position = 0;
+    gint j;
+    GtkWidget *button;
+    gchar **text_line = NULL;
+    gint position = 0;
 
-	/* set the line title */
-	label = gtk_label_new ( COLON(display_mode_lines_text[i]));
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
-	gtk_box_pack_start ( GTK_BOX (vbox_label), label, FALSE, FALSE, 0);
+    /* set the line title */
+    label = gtk_label_new ( COLON(display_mode_lines_text[i]));
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
+    gtk_box_pack_start ( GTK_BOX (vbox_label), label, FALSE, FALSE, 0);
 
-	switch (i)
-	{
-	    case 0:
-		text_line = line_1;
-		position = display_one_line;
-		break;
-	    case 1:
-		text_line = line_2;
-		position = display_two_lines;
-		break;
-	    case 2:
-		text_line = line_3;
-		position = display_three_lines;
-		break;
-	}
+    switch (i)
+    {
+        case 0:
+        text_line = line_1;
+        position = display_one_line;
+        break;
+        case 1:
+        text_line = line_2;
+        position = display_two_lines;
+        break;
+        case 2:
+        text_line = line_3;
+        position = display_three_lines;
+        break;
+    }
 
-	button = gtk_combo_box_new_text ();
-	g_signal_connect ( G_OBJECT (button), "changed",
-			G_CALLBACK (display_mode_button_changed),
-			GINT_TO_POINTER (i));
-	gtk_box_pack_start ( GTK_BOX (vbox_buttons), button, FALSE, FALSE, 0);
+    button = gtk_combo_box_new_text ();
+    g_signal_connect ( G_OBJECT (button), "changed",
+            G_CALLBACK (display_mode_button_changed),
+            GINT_TO_POINTER (i));
+    gtk_box_pack_start ( GTK_BOX (vbox_buttons), button, FALSE, FALSE, 0);
 
-	j=0;
-	while (text_line[j])
-	{
-	    gtk_combo_box_append_text (GTK_COMBO_BOX (button), text_line[j]);
-	    j++;
-	}
-	gtk_combo_box_set_active ( GTK_COMBO_BOX (button), position);
+    j=0;
+    while (text_line[j])
+    {
+        gtk_combo_box_append_text (GTK_COMBO_BOX (button), text_line[j]);
+        j++;
+    }
+    gtk_combo_box_set_active ( GTK_COMBO_BOX (button), position);
     }
 
 
-	/* pack vboxes in hbox */
-	gtk_box_pack_start ( GTK_BOX ( hbox ), vbox_label, FALSE, FALSE, 0 );
-	gtk_box_pack_start ( GTK_BOX ( hbox ), vbox_buttons, FALSE, FALSE, 0 );
+    /* pack vboxes in hbox */
+    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox_label, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox_buttons, FALSE, FALSE, 0 );
 
 
     /* do we show the content of the selected transaction in the form for
      * each selection ? */
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 gsb_automem_checkbutton_new (_("Use simple click to select transactions"),
-						      &etat.show_transaction_selected_in_form,
-						      NULL, NULL ),
-			 FALSE, FALSE, 0 );
+                        gsb_automem_checkbutton_new (
+                        _("Use simple click to select transactions"),
+                        &etat.show_transaction_selected_in_form,
+                        NULL, NULL ),
+                        FALSE, FALSE, 0 );
 
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+                        gsb_automem_checkbutton_new (
+                        _("Highlights the transaction that gives the balance today"),
+                        &etat.show_transaction_gives_balance,
+                        G_CALLBACK ( gsb_transactions_list_display_show_gives_balance ), NULL ),
+                        FALSE, FALSE, 0 );
 
     /* Account distinction */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
-					    _("Account differentiation"));
+                        _("Account differentiation"));
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 gsb_automem_checkbutton_new (_("Remember display settings for each account separately"),
-						      &etat.retient_affichage_par_compte,
-						      NULL, NULL ),
-			 FALSE, FALSE, 0 );
+                        gsb_automem_checkbutton_new (
+                        _("Remember display settings for each account separately"),
+                        &etat.retient_affichage_par_compte,
+                        NULL, NULL ),
+                        FALSE, FALSE, 0 );
 
     if ( !gsb_data_account_get_accounts_amount () )
     {
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+        gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
 
     return ( vbox_pref );
@@ -205,7 +214,7 @@ GtkWidget *onglet_affichage_operations ( void )
  * \return FALSE
  * */
 static gboolean display_mode_button_changed ( GtkWidget *button,
-					      gint *line_ptr )
+                        gint *line_ptr )
 {
     gint line = GPOINTER_TO_INT (line_ptr);
 
@@ -245,7 +254,7 @@ static gboolean display_mode_button_changed ( GtkWidget *button,
  * \return TRUE : the line should be showed, FALSE : the line must be hidden
  * */
 gboolean display_mode_check_line ( gint line_in_transaction,
-				   gint visibles_lines )
+                        gint visibles_lines )
 {
     switch (visibles_lines)
     {
@@ -579,7 +588,7 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
  * \return FALSE
  * */
 gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
-							  gpointer null )
+                        gpointer null )
 {
     etat.combofix_max_item = utils_str_atoi ( gtk_entry_get_text (GTK_ENTRY (entry)));
     gsb_transactions_list_display_update_combofix ();
@@ -587,7 +596,17 @@ gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
     return FALSE;
 }
 
-							
+
+
+void gsb_transactions_list_display_show_gives_balance ( void )
+{
+    gint account_number;
+
+    account_number = gsb_gui_navigation_get_current_account ( );
+    devel_debug_int ( account_number);
+    if ( account_number != -1 )
+        gsb_transactions_list_update_tree_view ( account_number, TRUE );
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -120,10 +120,6 @@ GtkWidget * create_preferences_tree ( )
                         GTK_POLICY_NEVER,
                         GTK_POLICY_AUTOMATIC );
     tree_view = gtk_tree_view_new();
-    //~ g_signal_connect ( G_OBJECT ( tree_view ),
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed ),
-                        //~ &tree_view );
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view),
                         GTK_TREE_MODEL ( preference_tree_model ) );
     g_object_unref ( G_OBJECT(preference_tree_model) );
@@ -240,23 +236,12 @@ gboolean preferences ( gint page )
     /* Create List & Tree for topics */
     tree = create_preferences_tree();
     hpaned = gtk_hpaned_new();
-    //~ g_signal_connect ( G_OBJECT (hpaned ),
-                        //~ "destroy",
-                        //~ G_CALLBACK (gtk_widget_destroyed),
-                        //~ &hpaned );
     gtk_paned_add1 ( GTK_PANED(hpaned), tree );
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_paned_add2 ( GTK_PANED (hpaned), hbox );
 
-    //~ gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( "  " ),
-                        //~ FALSE, FALSE, 0 ); /* FIXME: ugly! */
-
     /* Frame for preferences */
     preference_frame = GTK_NOTEBOOK ( gtk_notebook_new () );
-    //~ g_signal_connect ( G_OBJECT (preference_frame ), 
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed),
-                        //~ &preference_frame );
     gtk_notebook_set_show_border ( preference_frame, FALSE );
     gtk_notebook_set_show_tabs  ( preference_frame, FALSE );
     gtk_notebook_set_scrollable ( preference_frame, TRUE );
@@ -679,45 +664,25 @@ devel_debug (NULL);
     /* Automatically load last file on startup? */
     button = gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
                         &(etat.dernier_fichier_auto), NULL, NULL );
-    //~ g_signal_connect ( G_OBJECT ( button ), 
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed ),
-                        //~ &button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (_("Automatically save on exit"),
                         &(etat.sauvegarde_auto), NULL, NULL);
-    //~ g_signal_connect ( G_OBJECT ( button ), 
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed ),
-                        //~ &button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Warn if file is used by someone else? */
     button = gsb_automem_checkbutton_new ( _("Force saving of locked files"),
                         &(etat.force_enregistrement), NULL, NULL );
-    //~ g_signal_connect ( G_OBJECT ( button ), 
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed ),
-                        //~ &button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* crypt the grisbi file */
     button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
                         &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-    //~ g_signal_connect ( G_OBJECT ( button ), 
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed ),
-                        //~ &button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Compression level of files */
     button = gsb_automem_checkbutton_new ( _("Compress Grisbi file"),
                         &(etat.compress_file), NULL, NULL );
-    //~ g_signal_connect ( G_OBJECT ( button ),
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed ),
-                        //~ &button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Memorize last opened files in menu */
@@ -729,10 +694,6 @@ devel_debug (NULL);
 
     button = gsb_automem_spin_button_new ( &(nb_max_derniers_fichiers_ouverts),
                         G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
-    //~ g_signal_connect ( G_OBJECT ( button ),
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed ),
-                        //~ &button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* Backups */
@@ -741,28 +702,16 @@ devel_debug (NULL);
     /* Compression level of backups */
     button = gsb_automem_checkbutton_new ( _("Compress Grisbi backup"),
                         &(etat.compress_backup), NULL, NULL );
-    //~ g_signal_connect ( G_OBJECT ( button ), 
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed ),
-                        //~ &button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Backup at each opening? */
     button = gsb_automem_checkbutton_new ( _("Make a backup copy after opening files"),
                         &(etat.sauvegarde_demarrage), NULL, NULL);
-    //~ g_signal_connect ( G_OBJECT ( button ), 
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed ),
-                        //~ &button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup ? */
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
                         &etat.make_backup, NULL, NULL);
-    //~ g_signal_connect ( G_OBJECT ( button ),
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed ),
-                        //~ &button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup every x minutes */
@@ -772,10 +721,6 @@ devel_debug (NULL);
     button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
                         &etat.make_backup_every_minutes,
                         G_CALLBACK (gsb_file_automatic_backup_start), NULL);
-    //~ g_signal_connect ( G_OBJECT ( button ),
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed ),
-                        //~ &button );
     gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_spin_button_new ( &etat.make_backup_nb_minutes,
@@ -966,11 +911,6 @@ static GtkWidget *gsb_config_scheduler_page ( void )
                         _("Warn/Execute the scheduled transactions of the month"),
                         &execute_scheduled_of_month,
                         NULL, NULL );
-    /* commenté provisoirement pour supprimer un plantage sous windows */
-    //~ g_signal_connect ( G_OBJECT (button),
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed),
-                        //~ &button );
 
     hbox = gtk_hbox_new ( FALSE, 0);
     gtk_box_pack_start ( GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
@@ -980,10 +920,6 @@ static GtkWidget *gsb_config_scheduler_page ( void )
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     entry = gsb_automem_spin_button_new ( &nb_days_before_scheduled, NULL, NULL );
-    //~ g_signal_connect ( G_OBJECT (entry),
-                        //~ "destroy",
-                        //~ G_CALLBACK ( gtk_widget_destroyed),
-                        //~ &entry );
     gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );
 
     return vbox_pref;

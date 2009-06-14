@@ -154,6 +154,7 @@ extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_fond[2];
+extern GdkColor couleur_jour;
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
 extern gint display_one_line;
@@ -1037,6 +1038,24 @@ void gsb_file_load_color_part ( const gchar **attribute_names,
                         "Background_color_1_blue" ))
     {
         couleur_fond[1].blue = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_jour_red" ))
+    {
+        couleur_jour.red = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_jour_green" ))
+    {
+        couleur_jour.green = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_jour_blue" ))
+    {
+        couleur_jour.blue = utils_str_atoi (attribute_values[i]);
     }
 
     else if ( !strcmp ( attribute_names[i],

@@ -49,6 +49,7 @@ gsb_real gsb_data_transaction_get_exchange_fees ( gint transaction_number );
 gsb_real gsb_data_transaction_get_exchange_rate ( gint transaction_number );
 gint gsb_data_transaction_get_financial_year_number ( gint transaction_number );
 gint gsb_data_transaction_get_last_number (void);
+gint gsb_data_transaction_get_last_transaction_before_today_day ( gint no_account );
 gint gsb_data_transaction_get_marked_transaction ( gint transaction_number );
 const gchar *gsb_data_transaction_get_method_of_payment_content ( gint transaction_number );
 gint gsb_data_transaction_get_method_of_payment_number ( gint transaction_number );

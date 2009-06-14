@@ -102,9 +102,9 @@ gboolean gsb_file_config_load_config ( void )
     config = g_key_file_new ();
     
     result = g_key_file_load_from_file ( config,
-					 filename,
-					 G_KEY_FILE_KEEP_COMMENTS,
-					 NULL );
+                        filename,
+                        G_KEY_FILE_KEEP_COMMENTS,
+                        NULL );
     /* if key_file couldn't load the conf, it's because it's the last
      * conf (HOME or xml) or no conf... try the HOME conf and the xml conf */
     if (!result)
@@ -124,9 +124,9 @@ gboolean gsb_file_config_load_config ( void )
         config = g_key_file_new ();
         
         result = g_key_file_load_from_file ( config,
-					 filename,
-					 G_KEY_FILE_KEEP_COMMENTS,
-					 NULL );
+                        filename,
+                        G_KEY_FILE_KEEP_COMMENTS,
+                        NULL );
         /* si on ne le trouve pas on recherche le fichier au format xml */
         if (!result)
         {
@@ -143,275 +143,281 @@ gboolean gsb_file_config_load_config ( void )
     /* get the geometry */
 
     largeur_window = g_key_file_get_integer ( config,
-					      "Geometry",
-					      "Width",
-					      NULL );
+                        "Geometry",
+                        "Width",
+                        NULL );
 
     hauteur_window = g_key_file_get_integer ( config,
-					      "Geometry",
-					      "Height",
-					      NULL );
+                        "Geometry",
+                        "Height",
+                        NULL );
 
     etat.full_screen = g_key_file_get_integer ( config,
-						"Geometry",
-						"Full screen",
-						NULL );
+                        "Geometry",
+                        "Full screen",
+                        NULL );
 
 
     /* get general */
     etat.r_modifiable = g_key_file_get_integer ( config,
-						 "General",
-						 "Can modify R",
-						 NULL );
+                        "General",
+                        "Can modify R",
+                        NULL );
 
     gsb_file_update_last_path ( g_key_file_get_string ( config,
-							"General",
-							"Path",
-							NULL ));
+                        "General",
+                        "Path",
+                        NULL ));
 
     etat.make_backup = g_key_file_get_integer ( config,
-						"General",
-						"Make backup",
-						NULL );
+                        "General",
+                        "Make backup",
+                        NULL );
 
     etat.make_backup_every_minutes = g_key_file_get_integer ( config,
-							      "General",
-							      "Make backup every x minutes",
-							      NULL );
+                        "General",
+                        "Make backup every x minutes",
+                        NULL );
 
     etat.make_backup_nb_minutes = g_key_file_get_integer ( config,
-							   "General",
-							   "Make backup nb minutes",
-							   NULL );
+                        "General",
+                        "Make backup nb minutes",
+                        NULL );
 
     gsb_file_set_backup_path ( g_key_file_get_string ( config,
-						       "General",
-						       "Backup path",
-						       NULL ));
+                        "General",
+                        "Backup path",
+                        NULL ));
 
     etat.alerte_permission = g_key_file_get_integer ( config,
-						      "General",
-						      "Show permission alert",
-						      NULL );
+                        "General",
+                        "Show permission alert",
+                        NULL );
 
     etat.entree = g_key_file_get_integer ( config,
-					   "General",
-					   "Function of entry",
-					   NULL );
+                        "General",
+                        "Function of entry",
+                        NULL );
 
     etat.alerte_mini = g_key_file_get_integer ( config,
-						"General",
-						"Show alert messages",
-						NULL );
+                        "General",
+                        "Show alert messages",
+                        NULL );
 
     etat.utilise_fonte_listes = g_key_file_get_integer ( config,
-							 "General",
-							 "Use user font",
-							 NULL );
+                        "General",
+                        "Use user font",
+                        NULL );
     
     etat.font_string = g_key_file_get_string ( config, "General", "Font name", NULL );
     
     etat.latex_command = g_key_file_get_string ( config,
-						 "General",
-						 "Latex command",
-						 NULL );
+                        "General",
+                        "Latex command",
+                        NULL );
 
     etat.dvips_command = g_key_file_get_string ( config,
-						 "General",
-						 "Dvips command",
-						 NULL );
+                        "General",
+                        "Dvips command",
+                        NULL );
 
     etat.browser_command = g_key_file_get_string ( config,
-						   "General",
-						   "Web",
-						   NULL );
+                        "General",
+                        "Web",
+                        NULL );
 
     etat.largeur_colonne_comptes_operation = g_key_file_get_integer ( config,
-								      "General",
-								      "Panel width",
-								      NULL );
+                        "General",
+                        "Panel width",
+                        NULL );
 
     /* get input/output */
     etat.dernier_fichier_auto = g_key_file_get_integer ( config,
-							 "IO",
-							 "Load last file",
-							 NULL );
+                        "IO",
+                        "Load last file",
+                        NULL );
 
     etat.sauvegarde_auto = g_key_file_get_integer ( config,
-						    "IO",
-						    "Save at closing",
-						    NULL );
+                        "IO",
+                        "Save at closing",
+                        NULL );
 
     etat.sauvegarde_demarrage = g_key_file_get_integer ( config,
-							 "IO",
-							 "Save at opening",
-							 NULL );
+                        "IO",
+                        "Save at opening",
+                        NULL );
 
     nb_max_derniers_fichiers_ouverts = g_key_file_get_integer ( config,
-								"IO",
-								"Nb last opened files",
-								NULL );
+                        "IO",
+                        "Nb last opened files",
+                        NULL );
 
     etat.compress_file = g_key_file_get_integer ( config,
-						  "IO",
-						  "Compress file",
-						  NULL );
+                        "IO",
+                        "Compress file",
+                        NULL );
 
     etat.compress_backup = g_key_file_get_integer ( config,
-						    "IO",
-						    "Compress backup",
-						    NULL );
+                        "IO",
+                        "Compress backup",
+                        NULL );
 
     etat.force_enregistrement = g_key_file_get_integer ( config,
-							 "IO",
-							 "Force saving",
-							 NULL );
+                        "IO",
+                        "Force saving",
+                        NULL );
 
     tab_noms_derniers_fichiers_ouverts = g_key_file_get_string_list ( config,
-								      "IO",
-								      "Names last files",
-								      &nb_derniers_fichiers_ouverts,
-								      NULL );
+                        "IO",
+                        "Names last files",
+                        &nb_derniers_fichiers_ouverts,
+                        NULL );
     if (tab_noms_derniers_fichiers_ouverts)
-	nom_fichier_comptes = my_strdup (tab_noms_derniers_fichiers_ouverts [ 0 ]);
+        nom_fichier_comptes = my_strdup (tab_noms_derniers_fichiers_ouverts [ 0 ]);
     else
-	nom_fichier_comptes = NULL;
+        nom_fichier_comptes = NULL;
 
     etat.check_for_archival = g_key_file_get_integer ( config, 
-						       "IO",
-						       "Check_archival_at_opening",
-						       NULL );
+                        "IO",
+                        "Check_archival_at_opening",
+                        NULL );
 
     etat.max_non_archived_transactions_for_check = g_key_file_get_integer ( config, 
-									    "IO",
-									    "Max_transactions_before_warn_archival",
-									    NULL );
+                        "IO",
+                        "Max_transactions_before_warn_archival",
+                        NULL );
     
     /* get scheduled section */
     nb_days_before_scheduled = g_key_file_get_integer ( config,
-							"Scheduled",
-							"Days before remind",
-							NULL );
+                        "Scheduled",
+                        "Days before remind",
+                        NULL );
 
     execute_scheduled_of_month = g_key_file_get_integer ( config,
-							"Scheduled",
-							"Execute scheduled of month",
-							NULL );
+                        "Scheduled",
+                        "Execute scheduled of month",
+                        NULL );
 
     /* get shown section */
     etat.formulaire_toujours_affiche = g_key_file_get_integer ( config,
-								"Display",
-								"Show transaction form",
-								NULL );
+                        "Display",
+                        "Show transaction form",
+                        NULL );
 
     etat.show_transaction_selected_in_form = g_key_file_get_integer ( config,
-							  "Display",
-							  "Show selected transaction in form",
-							  NULL );
+                        "Display",
+                        "Show selected transaction in form",
+                        NULL );
+
+    etat.show_transaction_gives_balance = g_key_file_get_integer ( config,
+                        "Display",
+                        "Show transaction gives balance",
+                        NULL );
 
     etat.largeur_auto_colonnes = g_key_file_get_integer ( config,
-							  "Display",
-							  "Columns width auto",
-							  NULL );
+                        "Display",
+                        "Columns width auto",
+                        NULL );
 
     etat.affichage_exercice_automatique = g_key_file_get_integer ( config,
-								   "Display",
-								   "Show automatic financial year",
-								   NULL );
+                        "Display",
+                        "Show automatic financial year",
+                        NULL );
+
     etat.limit_completion_to_current_account = g_key_file_get_integer ( config,
-									"Display",
-									"Limit payee completion",
-									NULL );
+                        "Display",
+                        "Limit payee completion",
+                        NULL );
 
     etat.display_toolbar = g_key_file_get_integer ( config,
-						    "Display",
-						    "Display toolbar",
-						    NULL );
+                        "Display",
+                        "Display toolbar",
+                        NULL );
 
     etat.show_toolbar = g_key_file_get_integer ( config,
-						 "Display",
-						 "Show toolbar",
-						 NULL );
+                        "Display",
+                        "Show toolbar",
+                        NULL );
 
     etat.show_headings_bar = g_key_file_get_integer ( config,
-						      "Display",
-						      "Show headings bar",
-						      NULL );
+                        "Display",
+                        "Show headings bar",
+                        NULL );
 
     etat.show_closed_accounts = g_key_file_get_integer ( config,
-							 "Display",
-							 "Show closed accounts",
-							 NULL );
+                        "Display",
+                        "Show closed accounts",
+                        NULL );
 
     etat.display_grisbi_title = g_key_file_get_integer ( config,
-							 "Display",
-							 "Display grisbi title",
-							 NULL );
+                        "Display",
+                        "Display grisbi title",
+                        NULL );
 
     /* get messages */
     for ( i = 0; messages[i].name; i ++ )
     {
-	gchar * name = g_strconcat ( messages[i].name , "-answer", NULL );
-	messages[i].hidden = g_key_file_get_integer ( config, "Messages",
-						      messages[i].name, NULL );
-	messages[i].default_answer = g_key_file_get_integer ( config, "Messages",
-							      name, NULL );
-	g_free ( name );
+        gchar * name = g_strconcat ( messages[i].name , "-answer", NULL );
+        messages[i].hidden = g_key_file_get_integer ( config, "Messages",
+                        messages[i].name, NULL );
+        messages[i].default_answer = g_key_file_get_integer ( config, "Messages",
+                        name, NULL );
+        g_free ( name );
     }
 
     etat.last_tip = g_key_file_get_integer ( config,
-					     "Messages",
-					     "Last tip",
-					     NULL );
+                        "Messages",
+                        "Last tip",
+                        NULL );
 
     etat.show_tip = g_key_file_get_integer ( config,
-					     "Messages",
-					     "Show tip",
-					     NULL );
+                        "Messages",
+                        "Show tip",
+                        NULL );
 
     /* get printer config */
 
     etat.print_config.printer = g_key_file_get_integer ( config,
-							 "Print config",
-							 "Printer",
-							 NULL );
+                        "Print config",
+                        "Printer",
+                        NULL );
 
     etat.print_config.printer_name = g_key_file_get_string ( config,
-							     "Print config",
-							     "Printer name",
-							     NULL );
+                        "Print config",
+                        "Printer name",
+                        NULL );
 
     etat.print_config.printer_filename = g_key_file_get_string ( config,
-								 "Print config",
-								 "Printer filename",
-								 NULL );
+                        "Print config",
+                        "Printer filename",
+                        NULL );
 
     etat.print_config.filetype = g_key_file_get_integer ( config,
-							  "Print config",
-							  "Filetype",
-							  NULL );
+                        "Print config",
+                        "Filetype",
+                        NULL );
 
     etat.print_config.orientation = g_key_file_get_integer ( config,
-							     "Print config",
-							     "Orientation",
-							     NULL );
+                        "Print config",
+                        "Orientation",
+                        NULL );
 
     /* get the paper config */
 
     etat.print_config.paper_config.name = g_key_file_get_string ( config,
-								  "Paper config",
-								  "Name",
-								  NULL );
+                        "Paper config",
+                        "Name",
+                        NULL );
 
     etat.print_config.paper_config.width = g_key_file_get_integer ( config,
-								    "Paper config",
-								    "Width",
-								    NULL );
+                        "Paper config",
+                        "Width",
+                        NULL );
 
     etat.print_config.paper_config.height = g_key_file_get_integer ( config,
-								     "Paper config",
-								     "Height",
-								     NULL );
+                        "Paper config",
+                        "Height",
+                        NULL );
 
     g_free (filename);
     g_key_file_free (config);
@@ -444,289 +450,289 @@ gboolean gsb_file_config_save_config ( void )
     
     /* get the geometry */
     if ( GTK_WIDGET ( window) -> window ) 
-	gtk_window_get_size (GTK_WINDOW ( window ),
-			     &largeur_window,&hauteur_window);
+        gtk_window_get_size (GTK_WINDOW ( window ),
+                        &largeur_window,&hauteur_window);
     else 
     {
-	largeur_window = 0;
-	hauteur_window = 0;
+        largeur_window = 0;
+        hauteur_window = 0;
     }
 
     g_key_file_set_integer ( config,
-			     "Geometry",
-			     "Width",
-			     largeur_window );
+                        "Geometry",
+                        "Width",
+                        largeur_window );
     g_key_file_set_integer ( config,
-			     "Geometry",
-			     "Height",
-			     hauteur_window );
+                        "Geometry",
+                        "Height",
+                        hauteur_window );
     g_key_file_set_integer ( config,
-			     "Geometry",
-			     "Full screen",
-			     etat.full_screen );
+                        "Geometry",
+                        "Full screen",
+                        etat.full_screen );
 
 
 
     /* save general */
     g_key_file_set_integer ( config,
-			     "General",
-			     "Can modify R",
-			     etat.r_modifiable );
+                        "General",
+                        "Can modify R",
+                        etat.r_modifiable );
     g_key_file_set_string ( config,
-			    "General",
-			    "Path",
-			    gsb_file_get_last_path () );
+                        "General",
+                        "Path",
+                        gsb_file_get_last_path () );
     g_key_file_set_integer ( config,
-			     "General",
-			     "Make backup",
-			     etat.make_backup );
+                        "General",
+                        "Make backup",
+                        etat.make_backup );
     g_key_file_set_integer ( config,
-			     "General",
-			     "Make backup every x minutes",
-			     etat.make_backup_every_minutes );
+                        "General",
+                        "Make backup every x minutes",
+                        etat.make_backup_every_minutes );
     g_key_file_set_integer ( config,
-			     "General",
-			     "Make backup nb minutes",
-			     etat.make_backup_nb_minutes );
+                        "General",
+                        "Make backup nb minutes",
+                        etat.make_backup_nb_minutes );
     if (gsb_file_get_backup_path ())
-	g_key_file_set_string ( config,
-				"General",
-				"Backup path",
-				gsb_file_get_backup_path ());
+        g_key_file_set_string ( config,
+                        "General",
+                        "Backup path",
+                        gsb_file_get_backup_path ());
     g_key_file_set_integer ( config,
-			     "General",
-			     "Show permission alert",
-			     etat.alerte_permission );
+                        "General",
+                        "Show permission alert",
+                        etat.alerte_permission );
     g_key_file_set_integer ( config,
-			     "General",
-			     "Function of entry",
-			     etat.entree );
+                        "General",
+                        "Function of entry",
+                        etat.entree );
     g_key_file_set_integer ( config,
-			     "General",
-			     "Show alert messages",
-			     etat.alerte_mini );
+                        "General",
+                        "Show alert messages",
+                        etat.alerte_mini );
     g_key_file_set_integer ( config,
-			     "General",
-			     "Use user font",
-			     etat.utilise_fonte_listes );
+                        "General",
+                        "Use user font",
+                        etat.utilise_fonte_listes );
     if (etat.font_string)
-	g_key_file_set_string ( config,
-				"General",
-				"Font name",
-				etat.font_string );
+        g_key_file_set_string ( config,
+                        "General",
+                        "Font name",
+                        etat.font_string );
     if (etat.latex_command)
-    g_key_file_set_string ( config,
-			    "General",
-			    "Latex command",
-			    etat.latex_command );
+        g_key_file_set_string ( config,
+                        "General",
+                        "Latex command",
+                        etat.latex_command );
     if (etat.dvips_command)
-    g_key_file_set_string ( config,
-			    "General",
-			    "Dvips command",
-			    etat.dvips_command );
+        g_key_file_set_string ( config,
+                        "General",
+                        "Dvips command",
+                        etat.dvips_command );
     if (etat.browser_command)
     {
-	gchar *string;
+        gchar *string;
 
-	string = my_strdelimit ( etat.browser_command,
-				 "&",
-				 "\\e" );
-	g_key_file_set_string ( config,
-				"General",
-				"Web",
-				string );
-	g_free (string);
+        string = my_strdelimit ( etat.browser_command, "&", "\\e" );
+        g_key_file_set_string ( config,
+                        "General",
+                        "Web",
+                        string );
+        g_free (string);
     }
 
     /* Remember size of main panel */
     if (main_hpaned && GTK_IS_WIDGET (main_hpaned))
-	etat.largeur_colonne_comptes_operation = gtk_paned_get_position ( GTK_PANED ( main_hpaned ) );
+    etat.largeur_colonne_comptes_operation = gtk_paned_get_position ( GTK_PANED ( main_hpaned ) );
     g_key_file_set_integer ( config,
-			     "General",
-			     "Panel width",
-			     etat.largeur_colonne_comptes_operation );
+                        "General",
+                        "Panel width",
+                        etat.largeur_colonne_comptes_operation );
 
     /* save input/output */
     g_key_file_set_integer ( config,
-			     "IO",
-			     "Load last file",
-			     etat.dernier_fichier_auto );
+                        "IO",
+                        "Load last file",
+                        etat.dernier_fichier_auto );
 
     g_key_file_set_integer ( config,
-			     "IO",
-			     "Save at closing",
-			     etat.sauvegarde_auto );
+                        "IO",
+                        "Save at closing",
+                        etat.sauvegarde_auto );
 
     g_key_file_set_integer ( config,
-			     "IO",
-			     "Save at opening",
-			     etat.sauvegarde_demarrage );
+                        "IO",
+                        "Save at opening",
+                        etat.sauvegarde_demarrage );
 
     g_key_file_set_integer ( config,
-			     "IO",
-			     "Nb last opened files",
-			     nb_max_derniers_fichiers_ouverts );
+                        "IO",
+                        "Nb last opened files",
+                        nb_max_derniers_fichiers_ouverts );
 
     g_key_file_set_integer ( config,
-			     "IO",
-			     "Compress file",
-			     etat.compress_file );
+                        "IO",
+                        "Compress file",
+                        etat.compress_file );
 
     g_key_file_set_integer ( config,
-			     "IO",
-			     "Compress backup",
-			     etat.compress_backup );
+                        "IO",
+                        "Compress backup",
+                        etat.compress_backup );
 
     g_key_file_set_integer ( config,
-			     "IO",
-			     "Force saving",
-			     etat.force_enregistrement );
+                        "IO",
+                        "Force saving",
+                        etat.force_enregistrement );
 
     if ( nb_derniers_fichiers_ouverts > 0
-	 &&
-	 tab_noms_derniers_fichiers_ouverts)
+     &&
+     tab_noms_derniers_fichiers_ouverts)
         g_key_file_set_string_list ( config,
-				     "IO",
-				     "Names last files",
-				     (const gchar **) tab_noms_derniers_fichiers_ouverts,
-				     nb_derniers_fichiers_ouverts);
+                        "IO",
+                        "Names last files",
+                        (const gchar **) tab_noms_derniers_fichiers_ouverts,
+                        nb_derniers_fichiers_ouverts);
 
     g_key_file_set_integer ( config, 
-			     "IO",
-			     "Check_archival_at_opening",
-			     etat.check_for_archival );
+                        "IO",
+                        "Check_archival_at_opening",
+                        etat.check_for_archival );
 
     g_key_file_set_integer ( config, 
-			     "IO",
-			     "Max_transactions_before_warn_archival",
-			     etat.max_non_archived_transactions_for_check );
+                        "IO",
+                        "Max_transactions_before_warn_archival",
+                        etat.max_non_archived_transactions_for_check );
 
     /* save scheduled section */
     g_key_file_set_integer ( config,
-			     "Scheduled",
-			     "Days before remind",
-			     nb_days_before_scheduled );
+                        "Scheduled",
+                        "Days before remind",
+                        nb_days_before_scheduled );
 
     g_key_file_set_integer ( config,
-			     "Scheduled",
-			     "Execute scheduled of month",
-			     execute_scheduled_of_month );
+                        "Scheduled",
+                        "Execute scheduled of month",
+                        execute_scheduled_of_month );
 
     /* save shown section */
     g_key_file_set_integer ( config,
-			     "Display",
-			     "Show transaction form",
-			     etat.formulaire_toujours_affiche );
+                        "Display",
+                        "Show transaction form",
+                        etat.formulaire_toujours_affiche );
 
     g_key_file_set_integer ( config,
-			     "Display",
-			     "Show selected transaction in form",
-			     etat.show_transaction_selected_in_form );
+                        "Display",
+                        "Show selected transaction in form",
+                        etat.show_transaction_selected_in_form );
 
     g_key_file_set_integer ( config,
-			     "Display",
-			     "Show automatic financial year",
-			     etat.affichage_exercice_automatique );
+                        "Display",
+                        "Show transaction gives balance",
+                        etat.show_transaction_gives_balance );
 
     g_key_file_set_integer ( config,
-			     "Display",
-			     "Limit payee completion",
-			     etat.limit_completion_to_current_account );
+                        "Display",
+                        "Show automatic financial year",
+                        etat.affichage_exercice_automatique );
 
     g_key_file_set_integer ( config,
-			     "Display",
-			     "Display toolbar",
-			     etat.display_toolbar );
+                        "Display",
+                        "Limit payee completion",
+                        etat.limit_completion_to_current_account );
 
     g_key_file_set_integer ( config,
-			     "Display",
-			     "Show toolbar",
-			     etat.show_toolbar );
+                        "Display",
+                        "Display toolbar",
+                        etat.display_toolbar );
 
     g_key_file_set_integer ( config,
-			     "Display",
-			     "Show headings bar",
-			     etat.show_headings_bar );
+                        "Display",
+                        "Show toolbar",
+                        etat.show_toolbar );
 
     g_key_file_set_integer ( config,
-			     "Display",
-			     "Show closed accounts",
-			     etat.show_closed_accounts );
+                        "Display",
+                        "Show headings bar",
+                        etat.show_headings_bar );
 
     g_key_file_set_integer ( config,
-			     "Display",
-			     "Display grisbi title",
-			     etat.display_grisbi_title );
+                        "Display",
+                        "Show closed accounts",
+                        etat.show_closed_accounts );
+
+    g_key_file_set_integer ( config,
+                        "Display",
+                        "Display grisbi title",
+                        etat.display_grisbi_title );
 
     /* save messages */
 
     for ( i = 0; messages[i].name; i ++ )
     {
-	gchar * name = g_strconcat ( messages[i].name , "-answer", NULL );
+        gchar * name = g_strconcat ( messages[i].name , "-answer", NULL );
 
-	g_key_file_set_integer ( config, "Messages", messages[i].name, messages[i].hidden );
-	g_key_file_set_integer ( config, "Messages", name, messages[i].default_answer );
-	g_free ( name );
+        g_key_file_set_integer ( config, "Messages", messages[i].name, messages[i].hidden );
+        g_key_file_set_integer ( config, "Messages", name, messages[i].default_answer );
+        g_free ( name );
     }
 
     g_key_file_set_integer ( config,
-			     "Messages",
-			     "Last tip",
-			     etat.last_tip );
+                        "Messages",
+                        "Last tip",
+                        etat.last_tip );
 
     g_key_file_set_integer ( config,
-			     "Messages",
-			     "Show tip",
-			     etat.show_tip );
+                        "Messages",
+                        "Show tip",
+                        etat.show_tip );
 
     /* save printer config */
 
     g_key_file_set_integer ( config,
-			     "Print config",
-			     "Printer",
-			     etat.print_config.printer );
+                        "Print config",
+                        "Printer",
+                        etat.print_config.printer );
 
     g_key_file_set_string ( config,
-			    "Print config",
-			    "Printer name",
-			    etat.print_config.printer_name );
+                        "Print config",
+                        "Printer name",
+                        etat.print_config.printer_name );
     if ( etat.print_config.printer_filename )
     g_key_file_set_string ( config,
-			    "Print config",
-			    "Printer filename",
-			    etat.print_config.printer_filename );
+                        "Print config",
+                        "Printer filename",
+                        etat.print_config.printer_filename );
 
     g_key_file_set_integer ( config,
-			     "Print config",
-			     "Filetype",
-			     etat.print_config.filetype );
+                        "Print config",
+                        "Filetype",
+                        etat.print_config.filetype );
 
     g_key_file_set_integer ( config,
-			     "Print config",
-			     "Orientation",
-			     etat.print_config.orientation );
+                        "Print config",
+                        "Orientation",
+                        etat.print_config.orientation );
 
     /* save the paper config */
     g_key_file_set_string ( config,
-			    "Paper config",
-			    "Name",
-			    etat.print_config.paper_config.name );
+                        "Paper config",
+                        "Name",
+                        etat.print_config.paper_config.name );
     g_key_file_set_integer ( config,
-			     "Paper config",
-			     "Width",
-			     etat.print_config.paper_config.width );
+                        "Paper config",
+                        "Width",
+                        etat.print_config.paper_config.width );
     g_key_file_set_integer ( config,
-			     "Paper config",
-			     "Height",
-			     etat.print_config.paper_config.height );
+                        "Paper config",
+                        "Height",
+                        etat.print_config.paper_config.height );
 
     /* save into a file */
-    file_content = g_key_file_to_data ( config,
-					&length,
-					NULL );
+    file_content = g_key_file_to_data ( config, &length, NULL );
 
-    conf_file = fopen ( filename,
-			  "w" );
+    conf_file = fopen ( filename, "w" );
 
     #ifndef _WIN32
     if ( !conf_file )
@@ -737,21 +743,18 @@ gboolean gsb_file_config_save_config ( void )
     #endif
 
     if ( !conf_file
-	 ||
-	 !fwrite ( file_content,
-		   sizeof (gchar),
-		   length,
-		   conf_file ))
+     ||
+     !fwrite ( file_content, sizeof ( gchar ), length, conf_file ) )
     {
-	gchar* tmpstr = g_strdup_printf ( _("Cannot save configuration file '%s': %s"),
-					   filename,
-					   latin2utf8(strerror(errno)) );
-	dialogue_error ( tmpstr );
-	g_free ( tmpstr );
-	g_free ( file_content);
-	g_free (filename);
-	g_key_file_free (config);
-	return ( FALSE );
+        gchar* tmpstr = g_strdup_printf ( _("Cannot save configuration file '%s': %s"),
+                        filename,
+                        latin2utf8(strerror ( errno )) );
+        dialogue_error ( tmpstr );
+        g_free ( tmpstr );
+        g_free ( file_content);
+        g_free (filename);
+        g_key_file_free (config);
+        return ( FALSE );
     }
     
     fclose (conf_file);
@@ -845,10 +848,10 @@ gboolean gsb_file_config_load_last_xml_config ( gchar *filename )
  * \return
  * */
 void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
-					     const gchar *text,
-					     gsize text_len,  
-					     gpointer user_data,
-					     GError **error)
+                        const gchar *text,
+                        gsize text_len,  
+                        gpointer user_data,
+                        GError **error)
 {
     const gchar *element_name;
     gint i;
@@ -1178,12 +1181,13 @@ void gsb_file_config_clean_config ( void )
     etat.show_toolbar = TRUE;                       /* Show toolbar or not. */
     etat.show_headings_bar = TRUE;                  /* Show toolbar or not. */
     etat.show_transaction_selected_in_form = 1;     /* show selected transaction in form */
+    etat.show_transaction_gives_balance = 1;         /* show transaction that gives the balance of the day */
     etat.show_closed_accounts = FALSE;
 
     if (etat.font_string)
     {
-	g_free (etat.font_string);
-	etat.font_string = NULL;
+    g_free (etat.font_string);
+    etat.font_string = NULL;
     }
     
     etat.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
@@ -1216,19 +1220,19 @@ void gsb_file_config_clean_config ( void )
 #ifndef _WIN32
     if ( g_file_test ( "/usr/bin/firefox", G_FILE_TEST_EXISTS ) )
     {
-	etat.browser_command = g_strdup ( "/usr/bin/firefox" );
+    etat.browser_command = g_strdup ( "/usr/bin/firefox" );
     }
     else if ( g_file_test ( "/usr/bin/iceweasel", G_FILE_TEST_EXISTS ) )
     {
-	etat.browser_command = g_strdup ( "/usr/bin/iceweasel" );
+    etat.browser_command = g_strdup ( "/usr/bin/iceweasel" );
     }
     else if ( g_file_test ( "/usr/bin/opera", G_FILE_TEST_EXISTS ) )
     {
-	etat.browser_command = g_strdup ( "/usr/bin/opera" );
+    etat.browser_command = g_strdup ( "/usr/bin/opera" );
     }
     else if ( g_file_test ( "/usr/bin/mozilla", G_FILE_TEST_EXISTS ) )
     {
-	etat.browser_command = g_strdup ( "/usr/bin/mozilla" );
+    etat.browser_command = g_strdup ( "/usr/bin/mozilla" );
     }
     else
     {

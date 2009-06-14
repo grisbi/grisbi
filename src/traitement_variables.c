@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	    	  */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	    				  */
-/* 			http://www.grisbi.org				    						  */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -95,6 +95,7 @@ gchar *labels_titres_colonnes_liste_ope[] = {
 
 /** defaults colors in the transactions list */
 GdkColor default_couleur_fond[2];
+GdkColor default_couleur_jour;
 GdkColor default_couleur_grise;
 GdkColor default_archive_background_color;
 GdkColor default_couleur_selection;
@@ -104,6 +105,7 @@ GdkColor default_calendar_entry_color;
 
 /** colors in the transactions list */
 GdkColor couleur_fond[2];
+GdkColor couleur_jour;
 GdkColor couleur_grise;
 GdkColor archive_background_color;
 GdkColor couleur_selection;
@@ -185,11 +187,11 @@ void modification_fichier ( gboolean modif )
 
     if ( modif )
     {
-	if ( ! etat.modification_fichier )
-	{
-	    etat.modification_fichier = time ( NULL );
-	    gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, TRUE );
-	}
+    if ( ! etat.modification_fichier )
+    {
+        etat.modification_fichier = time ( NULL );
+        gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, TRUE );
+    }
     }
     else
     {
@@ -297,13 +299,14 @@ void init_variables ( void )
     /* 	on initialise la liste des labels des titres de colonnes */
     if ( !liste_labels_titres_colonnes_liste_ope )
     {
-	i=0;
-	while ( labels_titres_colonnes_liste_ope[i] )
-	{
-	    liste_labels_titres_colonnes_liste_ope = g_slist_append ( liste_labels_titres_colonnes_liste_ope,
-								      labels_titres_colonnes_liste_ope[i] );
-	    i++;
-	}
+    i=0;
+    while ( labels_titres_colonnes_liste_ope[i] )
+    {
+        liste_labels_titres_colonnes_liste_ope = g_slist_append (
+                                    liste_labels_titres_colonnes_liste_ope,
+                                    labels_titres_colonnes_liste_ope[i] );
+        i++;
+    }
     }
 
     /* init default combofix values */
@@ -320,9 +323,9 @@ void init_variables ( void )
 
     /* defaut value for width of columns */
     for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
-	transaction_col_width[i] = transaction_col_width_init[i];
+    transaction_col_width[i] = transaction_col_width_init[i];
      for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
-	scheduler_col_width[i] = scheduler_col_width_init[i];
+    scheduler_col_width[i] = scheduler_col_width_init[i];
     
 
     navigation_tree_view = NULL;
@@ -334,6 +337,7 @@ void init_variables ( void )
     /* set colors to default */
     couleur_fond[0] = default_couleur_fond[0];
     couleur_fond[1] = default_couleur_fond[1];
+    couleur_jour = default_couleur_jour;
     couleur_grise = default_couleur_grise;
     archive_background_color = default_archive_background_color;
     couleur_selection = default_couleur_selection;
@@ -345,8 +349,8 @@ void init_variables ( void )
     /* remove the timeout if necessary */
     if (id_timeout)
     {
-	g_source_remove (id_timeout);
-	id_timeout = 0;
+    g_source_remove (id_timeout);
+    id_timeout = 0;
     }
 
 }
@@ -374,6 +378,11 @@ void initialisation_couleurs_listes ( void )
     default_couleur_fond[1].red = BG_COLOR_2_RED;
     default_couleur_fond[1].green = BG_COLOR_2_GREEN;
     default_couleur_fond[1].blue = BG_COLOR_2_BLUE;
+
+    /* color of today */
+    default_couleur_jour.red = BG_COLOR_TODAY_RED;
+    default_couleur_jour.green = BG_COLOR_TODAY_GREEN;
+    default_couleur_jour.blue = BG_COLOR_TODAY_BLUE;
 
     /* colors of the text */
     default_text_color[0].red = TEXT_COLOR_1_RED;
@@ -479,33 +488,33 @@ void initialisation_couleurs_listes ( void )
 void menus_sensitifs ( gboolean sensitif )
 {
     gchar * items[] = {
-	menu_name ( "FileMenu",		"Save",			NULL ),
-	menu_name ( "FileMenu",		"SaveAs",		NULL ),
-	menu_name ( "FileMenu",		"DebugFile",		NULL ),
-	menu_name ( "FileMenu",		"Obfuscate",		NULL ),
-	menu_name ( "FileMenu",		"DebugMode",		NULL ),
-	menu_name ( "FileMenu",		"ExportFile",		NULL ),
-	menu_name ( "FileMenu",		"CreateArchive",	NULL ),
-	menu_name ( "FileMenu",		"ExportArchive",	NULL ),
-	menu_name ( "FileMenu",		"Close",		NULL ),
-	menu_name ( "EditMenu",		"NewTransaction",	NULL ),
-	menu_name ( "EditMenu",		"RemoveTransaction",	NULL ),
-	menu_name ( "EditMenu",		"CloneTransaction",	NULL ),
-	menu_name ( "EditMenu",		"EditTransaction",	NULL ),
-	menu_name ( "EditMenu",		"ConvertToScheduled",	NULL ),
-	menu_name ( "EditMenu",		"MoveToAnotherAccount",	NULL ),
-	menu_name ( "EditMenu",		"Preferences",		NULL ),
-	menu_name ( "EditMenu",		"RemoveAccount",	NULL ),
-	menu_name ( "EditMenu",		"NewAccount",		NULL ),
-	menu_name ( "ViewMenu",		"ShowTransactionForm",	NULL ),
-	menu_name ( "ViewMenu",		"ShowGrid",		NULL ),
-	menu_name ( "ViewMenu",		"ShowReconciled",	NULL ),
-	menu_name ( "ViewMenu",		"ShowClosed",		NULL ),
-	menu_name ( "ViewMenu",		"ShowOneLine",		NULL ),
-	menu_name ( "ViewMenu",		"ShowTwoLines",		NULL ),
-	menu_name ( "ViewMenu",		"ShowThreeLines",	NULL ),
-	menu_name ( "ViewMenu",		"ShowFourLines",	NULL ),
-	NULL,
+    menu_name ( "FileMenu",     "Save",                 NULL ),
+    menu_name ( "FileMenu",     "SaveAs",               NULL ),
+    menu_name ( "FileMenu",     "DebugFile",            NULL ),
+    menu_name ( "FileMenu",     "Obfuscate",            NULL ),
+    menu_name ( "FileMenu",     "DebugMode",            NULL ),
+    menu_name ( "FileMenu",     "ExportFile",           NULL ),
+    menu_name ( "FileMenu",     "CreateArchive",        NULL ),
+    menu_name ( "FileMenu",     "ExportArchive",        NULL ),
+    menu_name ( "FileMenu",     "Close",                NULL ),
+    menu_name ( "EditMenu",     "NewTransaction",       NULL ),
+    menu_name ( "EditMenu",     "RemoveTransaction",    NULL ),
+    menu_name ( "EditMenu",     "CloneTransaction",     NULL ),
+    menu_name ( "EditMenu",     "EditTransaction",      NULL ),
+    menu_name ( "EditMenu",     "ConvertToScheduled",   NULL ),
+    menu_name ( "EditMenu",     "MoveToAnotherAccount", NULL ),
+    menu_name ( "EditMenu",     "Preferences",          NULL ),
+    menu_name ( "EditMenu",     "RemoveAccount",        NULL ),
+    menu_name ( "EditMenu",     "NewAccount",           NULL ),
+    menu_name ( "ViewMenu",     "ShowTransactionForm",  NULL ),
+    menu_name ( "ViewMenu",     "ShowGrid",             NULL ),
+    menu_name ( "ViewMenu",     "ShowReconciled",       NULL ),
+    menu_name ( "ViewMenu",     "ShowClosed",           NULL ),
+    menu_name ( "ViewMenu",     "ShowOneLine",          NULL ),
+    menu_name ( "ViewMenu",     "ShowTwoLines",         NULL ),
+    menu_name ( "ViewMenu",     "ShowThreeLines",       NULL ),
+    menu_name ( "ViewMenu",     "ShowFourLines",        NULL ),
+    NULL,
     };
     gchar ** tmp = items;
 
@@ -513,8 +522,8 @@ void menus_sensitifs ( gboolean sensitif )
 
     while ( *tmp )
     {
-	gsb_gui_sensitive_menu_item_from_string ( *tmp, sensitif );
-	tmp++;
+    gsb_gui_sensitive_menu_item_from_string ( *tmp, sensitif );
+    tmp++;
     }
 
     /* As this function may only be called when a new account is
@@ -532,27 +541,24 @@ void menus_sensitifs ( gboolean sensitif )
 void initialise_tab_affichage_ope ( void )
 {
     gint tab[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS] = {
-	{ ELEMENT_CHQ, ELEMENT_DATE, ELEMENT_PARTY, ELEMENT_MARK, ELEMENT_DEBIT, ELEMENT_CREDIT, ELEMENT_BALANCE },
-	{0, 0, ELEMENT_CATEGORY, 0, ELEMENT_TYPE, ELEMENT_AMOUNT, 0 },
-	{0, 0, ELEMENT_NOTES, 0, 0, 0, 0 },
-	{0, 0, 0, 0, 0, 0, 0 }
+    { ELEMENT_CHQ, ELEMENT_DATE, ELEMENT_PARTY, ELEMENT_MARK, ELEMENT_DEBIT, ELEMENT_CREDIT, ELEMENT_BALANCE },
+    {0, 0, ELEMENT_CATEGORY, 0, ELEMENT_TYPE, ELEMENT_AMOUNT, 0 },
+    {0, 0, ELEMENT_NOTES, 0, 0, 0, 0 },
+    {0, 0, 0, 0, 0, 0, 0 }
     };
     gint i, j;
 
     devel_debug (NULL);
 
     for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
-	for ( j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-	    tab_affichage_ope[i][j] = tab[i][j];
+    for ( j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+        tab_affichage_ope[i][j] = tab[i][j];
 
     /* by default, the display of lines is 1, 1-2, 1-2-4 */
     display_one_line = 0;
     display_two_lines = 0;
     display_three_lines = 1;
 }
-
-
-  
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
