@@ -1260,6 +1260,11 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 		gsb_transactions_list_switch_R_mark (gsb_data_account_get_current_transaction_number (account_number));
 	    break;
 
+    case GDK_t:			/* touche t */
+    case GDK_T:			/* touche T */
+        transaction_list_select ( -1 );
+        break;
+
 	case GDK_space:
 	    transaction_number = gsb_data_account_get_current_transaction_number (account_number);
 	    if ( transaction_number > 0)
