@@ -123,6 +123,7 @@ static gulong gsb_file_save_transaction_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content,
                         gint archive_number );
+static const gchar *my_safe_null_str ( const gchar *string );
 /*END_STATIC*/
 
 
@@ -135,8 +136,8 @@ extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern gchar *copy_old_filename;
 extern GdkColor couleur_fond[2];
-extern GdkColor couleur_jour;
 extern GdkColor couleur_grise;
+extern GdkColor couleur_jour;
 extern GdkColor couleur_selection;
 extern gint display_one_line;
 extern gint display_three_lines;

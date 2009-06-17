@@ -2236,7 +2236,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gint payee_number = 0;
     gint fyear = 0;
     gint last_transaction_number;
-    gint category_number;
+    gint div_number;
 
     /* we create the new transaction */
     transaction_number = gsb_data_transaction_new_transaction ( account_number );
@@ -2356,26 +2356,24 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
         last_transaction_number = gsb_form_transactions_look_for_last_party (
                                     payee_number, transaction_number,
                                     account_number );
-        category_number = gsb_data_transaction_get_category_number (
+        div_number = gsb_data_transaction_get_category_number (
                                     last_transaction_number );
-        if ( category_number != -1 )
-            gsb_data_transaction_set_category_number ( transaction_number,
-                                category_number );
-        category_number = gsb_data_transaction_get_sub_category_number (
+        if ( div_number != -1 )
+            gsb_data_transaction_set_category_number ( transaction_number, div_number );
+
+        div_number = gsb_data_transaction_get_sub_category_number (
                                 last_transaction_number );
-        if ( category_number != -1 )
-            gsb_data_transaction_set_sub_category_number ( transaction_number,
-                                category_number );
-        category_number = gsb_data_transaction_get_budgetary_number (
-                                    last_transaction_number );
-        if ( category_number != -1 )
-            gsb_data_transaction_set_budgetary_number ( transaction_number,
-                                category_number );
-        category_number = gsb_data_transaction_get_sub_budgetary_number (
+        if ( div_number != -1 )
+            gsb_data_transaction_set_sub_category_number ( transaction_number, div_number );
+
+        div_number = gsb_data_transaction_get_budgetary_number ( last_transaction_number );
+        if ( div_number != -1 )
+            gsb_data_transaction_set_budgetary_number ( transaction_number, div_number );
+
+        div_number = gsb_data_transaction_get_sub_budgetary_number (
                                 last_transaction_number );
-        if ( category_number != -1 )
-            gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
-                                category_number );
+        if ( div_number != -1 )
+            gsb_data_transaction_set_sub_budgetary_number ( transaction_number, div_number );
     }
 	else
 	{

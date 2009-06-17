@@ -50,10 +50,10 @@
 static gchar *gsb_config_get_old_conf_name ( void );
 static void gsb_file_config_clean_config ( void );
 static void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
-					     const gchar *text,
-					     gsize text_len,  
-					     gpointer user_data,
-					     GError **error);
+                        const gchar *text,
+                        gsize text_len,  
+                        gpointer user_data,
+                        GError **error);
 static gboolean gsb_file_config_load_last_xml_config ( gchar *filename );
 static  void gsb_file_config_remove_old_config_file ( gchar *filename );
 /*END_STATIC*/
@@ -95,6 +95,8 @@ gboolean gsb_file_config_load_config ( void )
     gboolean result;
     gchar *filename;
     gint i;
+    gint int_ret;
+    GError* err = NULL;
     
     gsb_file_config_clean_config ();
 
@@ -323,6 +325,16 @@ gboolean gsb_file_config_load_config ( void )
                         "Display",
                         "Show automatic financial year",
                         NULL );
+    
+    int_ret = g_key_file_get_integer ( config,
+                        "Display",
+                        "Automatic completion payee",
+                        &err );
+    if ( err == NULL )
+        etat.automatic_completion_payee = int_ret;
+    else
+        err = NULL;
+        
 
     etat.limit_completion_to_current_account = g_key_file_get_integer ( config,
                         "Display",
@@ -636,6 +648,11 @@ gboolean gsb_file_config_save_config ( void )
                         "Display",
                         "Show automatic financial year",
                         etat.affichage_exercice_automatique );
+
+    g_key_file_set_integer ( config,
+                        "Display",
+                        "Automatic completion payee",
+                        etat.automatic_completion_payee );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -1174,6 +1191,7 @@ void gsb_file_config_clean_config ( void )
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
     etat.get_fyear_by_value_date = 0;        /* By default use transaction-date */
+    etat.automatic_completion_payee = 1;        /* by default automatic completion */
     etat.limit_completion_to_current_account = 0;        /* By default, do full search */
 
     etat.display_grisbi_title = GSB_ACCOUNTS_FILE;  /* show Accounts file title par défaut */

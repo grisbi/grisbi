@@ -72,7 +72,7 @@ extern GtkWidget *form_button_recover_split;
 gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
 {
     gint payee_number;
-    gint transaction_number;
+    gint transaction_number = 0;
     gint account_number;
     GSList *tmp_list;
 
@@ -117,6 +117,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
 	return TRUE;
 
     /* find the last transaction with that payee */
+    if ( etat.automatic_completion_payee )
     transaction_number = gsb_form_transactions_look_for_last_party ( payee_number,
 								     0,
 								     account_number );

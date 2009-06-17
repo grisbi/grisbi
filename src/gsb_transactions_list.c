@@ -44,7 +44,6 @@
 #include "./gsb_form.h"
 #include "./gsb_form_transaction.h"
 #include "./utils_dates.h"
-#include "./fenetre_principale.h"
 #include "./navigation.h"
 #include "./barre_outils.h"
 #include "./menu.h"
@@ -89,6 +88,8 @@ static gint gsb_transactions_list_clone_transaction ( gint transaction_number,
 static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model );
 static void gsb_transactions_list_create_tree_view_columns ( void );
 static gboolean gsb_transactions_list_fill_model ( void );
+static gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
+                        GdkEventKey *ev );
 static gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
                         gint target_account );
 static void gsb_transactions_list_set_tree_view (GtkWidget *tree_view);

@@ -59,6 +59,7 @@ struct {
     gint show_transaction_selected_in_form; /* TRUE will show the selected transaction in the form */
     gint show_transaction_gives_balance;    /* TRUE si on visualise l'opération qui donne le solde du jour */
     gint affichage_exercice_automatique;    /* automatic fyear :0 to set according to the date, 2 according to value date */
+    gint automatic_completion_payee;        /* 1 pour autoriser la completion automatique des opérations */
     gboolean limit_completion_to_current_account;   /** Limit payee *
                             completion to
                             current account,

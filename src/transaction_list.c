@@ -2044,22 +2044,19 @@ gboolean transaction_list_remove_archive_transaction ( gint transaction_number )
  * */
 void transaction_list_set_color_jour ( gint account_number )
 {
-    gint i;
-    gint number_jour;
+    GDate *date_jour = g_date_new ( );
+    gint i, j;
+    gint res;
     gint transaction_number;
     CustomList *custom_list;
-
     devel_debug (NULL);
-
-    number_jour = gsb_data_transaction_get_last_transaction_before_today_day (
-                        account_number );
-    if ( number_jour <= 1 )
-        return;
 
     custom_list = transaction_model_get_model ();
     g_return_if_fail ( custom_list != NULL );
 
-    for (i=0 ; i < custom_list -> num_visibles_rows ; i++)
+    g_date_set_time_t (date_jour, time (NULL));
+
+    for (i= custom_list -> num_visibles_rows -1; i >= 0  ; i--)
     {
         CustomRecord *record;
 
@@ -2069,11 +2066,24 @@ void transaction_list_set_color_jour ( gint account_number )
         {
             transaction_number = gsb_data_transaction_get_transaction_number (
                         record -> transaction_pointer);
-            if ( number_jour == transaction_number )
+            if ( transaction_number > 0 )
             {
-                /* set the color of the row */
-                record -> row_bg = &couleur_jour;
-            }            
+                res = g_date_compare ( date_jour,
+                        gsb_data_transaction_get_date ( transaction_number ) );
+                if ( res >= 0 )
+                {
+                    /* colorize the record */
+                    for (j=0 ; j < custom_list -> nb_rows_by_transaction ; j++)
+                    {
+                        record -> row_bg = &couleur_jour;
+                        i--;
+                        record = custom_list -> visibles_rows[i];
+                    }
+                    /* on se positionne sur la première ligne */
+                    record = custom_list -> visibles_rows[0];
+                    break;
+                }
+            }
         }
     }
 }

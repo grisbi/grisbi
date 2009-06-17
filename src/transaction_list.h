@@ -21,9 +21,9 @@ void transaction_list_set_balances ( void );
 void transaction_list_set_color_jour ( gint account_number );
 gboolean transaction_list_show_toggle_mark ( gboolean show );
 gboolean transaction_list_update_cell ( gint cell_col,
-					gint cell_line );
+                        gint cell_line );
 gboolean transaction_list_update_column ( gint column,
-					  GValue *value );
+                        GValue *value );
 gboolean transaction_list_update_element ( gint element_number );
 gboolean transaction_list_update_transaction ( gint transaction_number );
 /* END_DECLARATION */

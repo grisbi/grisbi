@@ -11,9 +11,9 @@
 #define BG_COLOR_2_BLUE     65535
 
 /* couleur du jour */
-#define BG_COLOR_TODAY_RED      0
-#define BG_COLOR_TODAY_GREEN    65535
-#define BG_COLOR_TODAY_BLUE     15000
+#define BG_COLOR_TODAY_RED      55512
+#define BG_COLOR_TODAY_GREEN    55512
+#define BG_COLOR_TODAY_BLUE     55512
 
 /* text color */
 #define TEXT_COLOR_1_RED    0

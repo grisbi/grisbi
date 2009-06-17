@@ -98,13 +98,10 @@ typedef struct
 
 
 /*START_STATIC*/
-static gint classement_sliste_transaction_par_date ( struct_transaction *transaction_1,
-                        struct_transaction *transaction_2 );
 static void gsb_data_transaction_delete_all_transactions ( void );
 static  void gsb_data_transaction_free ( struct_transaction *transaction);
-static gint gsb_data_transaction_get_last_white_number ( void );
-static struct_transaction *gsb_data_transaction_get_transaction_by_no (
-                        gint transaction_number );
+static gint gsb_data_transaction_get_last_white_number (void);
+static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number );
 static gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction );
 /*END_STATIC*/
 
@@ -2542,66 +2539,6 @@ gint gsb_data_transaction_check_content_payment ( gint payment_number,
     }
     return FALSE;
 }
-
-
-
-/**
- * retourne la dernière opération à ou immédiatement avant la date du jour
- *
- * \param 
- *
- * \return transaction_number;
- * */
-gint gsb_data_transaction_get_last_transaction_before_today_day ( gint no_account )
-{
-    gint transaction_number = 0;
-    gint res;
-    GDate *date_jour = g_date_new ( );
-    GSList *tmp_list;
-    struct_transaction *transaction;
-
-    g_date_set_time_t (date_jour, time (NULL));
-
-    tmp_list = g_slist_sort ( transactions_list,
-                    ( GCompareFunc ) classement_sliste_transaction_par_date ) ;
-    while (tmp_list)
-    {
-        transaction = tmp_list -> data;
-
-        if ( transaction -> account_number == no_account )
-        {
-            res = g_date_compare ( transaction -> date, date_jour );
-            if ( res == 0 )
-                return transaction -> transaction_number;
-            else if ( res == 1 )
-                return transaction_number;
-            else
-                transaction_number = transaction -> transaction_number;
-        }
-        tmp_list = tmp_list -> next;
-    }
-    
-    return transaction_number;
-}
-
-/**
- * Fonction de comparaison de deux opérations par date puis par numéro
- *
- * */
-gint classement_sliste_transaction_par_date ( struct_transaction *transaction_1,
-                        struct_transaction *transaction_2 )
-{
-    gint transaction_number_1;
-    gint transaction_number_2;
-    gint res;
-
-    transaction_number_1 = transaction_1 -> transaction_number;
-    transaction_number_2 = transaction_2 -> transaction_number;
-
-    res = g_date_compare ( gsb_data_transaction_get_date ( transaction_number_1 ),
-                        gsb_data_transaction_get_date ( transaction_number_2 ) );
-    if ( res == 0 )
-        return ( transaction_number_1 < transaction_number_2 ? -1: 1 );
-    else
-        return res;
-}
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
