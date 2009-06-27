@@ -50,6 +50,8 @@ static  gboolean display_mode_button_changed ( GtkWidget *button,
 static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
                         gpointer null );
 static void gsb_transactions_list_display_show_gives_balance ( void );
+static gboolean gsb_transactions_list_display_update_auto_completion ( GtkWidget *button,
+                        GtkWidget *checkbutton );
 static gboolean gsb_transactions_list_display_update_combofix ( void );
 /*END_STATIC*/
 
@@ -444,21 +446,25 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 GtkWidget *onglet_form_completion ( void )
 {
     GtkWidget *vbox_pref, *hbox, *label, *entry;
+    GtkWidget *button;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "form.png" );
 
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-                        gsb_automem_checkbutton_new (_("Automatic completion of the payees"),
-                        &etat.automatic_completion_payee,
-                        NULL, NULL),
-                        FALSE, FALSE, 0 );
+    button = gsb_automem_checkbutton_new (
+                        _("Limit the filling with payees belonging to the current account"),
+                        &etat.limit_completion_to_current_account,
+                        NULL, NULL);
+    gtk_widget_set_sensitive ( button, etat.automatic_completion_payee );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
                         gsb_automem_checkbutton_new (
-                        _("Limit the filling with payees belonging to the current account"),
-                        &etat.limit_completion_to_current_account,
-                        NULL, NULL),
+                        _("Automatic filling transactions from payee"),
+                        &etat.automatic_completion_payee,
+                        G_CALLBACK ( gsb_transactions_list_display_update_auto_completion ),
+                        button ),
                         FALSE, FALSE, 0 );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),button, FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Mix credit/debit categories"),
@@ -598,7 +604,11 @@ gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
 }
 
 
-
+/**
+ * Appellée lorsqu'on coche la case afficher le solde à aujourd'hui
+ *
+ *
+ * */
 void gsb_transactions_list_display_show_gives_balance ( void )
 {
     gint account_number;
@@ -607,6 +617,27 @@ void gsb_transactions_list_display_show_gives_balance ( void )
     devel_debug_int ( account_number);
     if ( account_number != -1 )
         gsb_transactions_list_update_tree_view ( account_number, TRUE );
+}
+
+
+/**
+ * Appellée lorsqu'on coche la case 
+ * "Automatic filling transactions from payee"
+ *
+ * \param 
+ * \param 
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_display_update_auto_completion ( GtkWidget *checkbutton,
+                        GtkWidget *button )
+{
+    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( checkbutton ) ) )
+        gtk_widget_set_sensitive ( button, TRUE );
+    else
+        gtk_widget_set_sensitive ( button, FALSE );
+ 
+    return FALSE;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */

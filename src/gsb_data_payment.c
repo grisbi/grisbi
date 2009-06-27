@@ -35,6 +35,7 @@
 #include "./utils_str.h"
 #include "./gsb_data_account.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 
@@ -645,12 +646,12 @@ gint gsb_data_payment_get_transfer_payment_number ( gint account_number )
 gint gsb_data_payment_get_last_number ( gint payment_number )
 {
     struct_payment *payment;
-
+devel_debug (NULL);
     payment = gsb_data_payment_get_structure ( payment_number );
 
     if (!payment)
 	return -1;
-
+printf ("last_number = %d\n", payment -> last_number);
     return payment -> last_number;
 }
 
@@ -667,7 +668,8 @@ gboolean gsb_data_payment_set_last_number ( gint payment_number,
 					    gint last_number )
 {
     struct_payment *payment;
-
+devel_debug_int (last_number);
+    printf ("last_number = %d\n", last_number);
     payment = gsb_data_payment_get_structure ( payment_number );
 
     if (!payment)

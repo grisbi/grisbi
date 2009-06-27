@@ -842,6 +842,9 @@ void gsb_form_fill_element ( gint element_number,
                         gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE) ),
                         gsb_data_transaction_get_method_of_payment_content (
                         transaction_number) );
+                printf ("method_of_payment_content = %s\n",
+                        gsb_data_transaction_get_method_of_payment_content (
+                        transaction_number) );
                 gtk_widget_show (gsb_form_widget_get_widget (
                         TRANSACTION_FORM_CHEQUE) );
             }
@@ -1232,8 +1235,10 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 	     * and contra, they know themselves if they have to be shown or not,
 	     * so just let them */
 	    if (element != TRANSACTION_FORM_TYPE
-		&&
-		element != TRANSACTION_FORM_CONTRA )
+		 &&
+		 element != TRANSACTION_FORM_CONTRA
+         &&
+         element != TRANSACTION_FORM_CHEQUE )
 		gtk_widget_show (widget);
 	}
     gsb_form_clean (account_number);
@@ -1930,7 +1935,7 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
     GtkWidget *widget;
 
     element_number = GPOINTER_TO_INT (ptr_origin);
-
+printf ("passage par button_press_event element_number = %d\n", element_number);
     /* we do the first part only if we click on the form directly, without double click or
      * entry in the transaction list,
      * in that case, transaction_number_in_form is 0 and set to -1, as a white line */
