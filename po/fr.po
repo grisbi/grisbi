@@ -6,6 +6,7 @@
 # Alain PORTAL <aportal@univ-montp2.fr>, 2003-2005.
 # Benjamin Drieu <benj@atlin>, 2006.
 # Jonathan Ernst <jonathan@ernstfamily.ch>, 2006-2007.
+# Pierre Biava <grisbi@pierre.biava.name>, 2008-2009.
 #
 # Please follow the guidelines you'll find here: http://wiki.traduc.org/gnomefr/
 #

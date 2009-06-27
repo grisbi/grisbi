@@ -1,6 +1,14 @@
+# Esperanto translation of Grisbi
+# Copyright (C) 2003-2007 Free Software Foundation, Inc.
+#
+#
+# Please follow the guidelines you'll find here: http://wiki.traduc.org/gnomefr/
+#
+
+
 #: src/accueil.c:196
 msgid "Closed liabilities accounts"
-msgstr ""
+msgstr "Clôture des comptes de passifs"
 
 #: src/accueil.c:209
 msgid "Run out manual scheduled transactions"
