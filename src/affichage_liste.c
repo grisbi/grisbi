@@ -50,8 +50,8 @@ static  gboolean display_mode_button_changed ( GtkWidget *button,
 static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
                         gpointer null );
 static void gsb_transactions_list_display_show_gives_balance ( void );
-static gboolean gsb_transactions_list_display_update_auto_completion ( GtkWidget *button,
-                        GtkWidget *checkbutton );
+static gboolean gsb_transactions_list_display_update_auto_completion ( GtkWidget *checkbutton,
+                        GtkWidget *button );
 static gboolean gsb_transactions_list_display_update_combofix ( void );
 /*END_STATIC*/
 

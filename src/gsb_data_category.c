@@ -91,12 +91,12 @@ static gint gsb_data_category_get_pointer_from_name_in_glist ( struct_category *
 static gint gsb_data_category_get_pointer_from_sub_name_in_glist ( struct_sub_category *sub_category,
 							    const gchar *name );
 static gpointer gsb_data_category_get_structure_in_list ( gint no_category,
-						   GSList *list );
+                        GSList *list );
 static gint gsb_data_category_max_number ( void );
 static gint gsb_data_category_max_sub_category_number ( gint category_number );
 static gint gsb_data_category_new ( const gchar *name );
 static gint gsb_data_category_new_sub_category ( gint category_number,
-					  const gchar *name );
+                        const gchar *name );
 static void gsb_data_category_reset_counters ( void );
 static gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_category * b );
 /*END_STATIC*/

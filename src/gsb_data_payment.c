@@ -651,7 +651,7 @@ devel_debug (NULL);
 
     if (!payment)
 	return -1;
-printf ("last_number = %d\n", payment -> last_number);
+
     return payment -> last_number;
 }
 
@@ -668,8 +668,7 @@ gboolean gsb_data_payment_set_last_number ( gint payment_number,
 					    gint last_number )
 {
     struct_payment *payment;
-devel_debug_int (last_number);
-    printf ("last_number = %d\n", last_number);
+
     payment = gsb_data_payment_get_structure ( payment_number );
 
     if (!payment)

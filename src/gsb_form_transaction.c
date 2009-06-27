@@ -47,6 +47,7 @@
 #include "./gsb_transactions_list.h"
 #include "./gtk_combofix.h"
 #include "./etats_calculs.h"
+#include "./gsb_data_payment.h"
 #include "./gtk_combofix.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
