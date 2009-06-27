@@ -34,6 +34,8 @@
 #include "./gsb_data_account.h"
 #include "./gsb_data_transaction.h"
 #include "./navigation.h"
+#include "./barre_outils.h"
+#include "./menu.h"
 #include "./gsb_transactions_list.h"
 #include "./utils.h"
 #include "./transaction_list.h"
@@ -309,8 +311,13 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
 	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
 	if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE 
 	     &&
-	     !gsb_data_account_get_r (account_number))
-	    mise_a_jour_affichage_r (TRUE);
+	     !gsb_data_account_get_r ( account_number ) )
+    {
+        gsb_data_account_set_r ( account_number, TRUE );
+        gsb_gui_update_bouton_affiche_ope_r ( TRUE );
+        gsb_menu_update_view_menu ( account_number );
+        mise_a_jour_affichage_r ( TRUE );
+    }
 	
 	/* if it's a child, open the mother */
 	mother_transaction = gsb_data_transaction_get_mother_transaction_number (transaction_number);
