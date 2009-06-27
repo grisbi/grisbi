@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # autogen.sh glue for Grisbi
-# $Id: autogen.sh,v 1.13 2008/01/19 19:52:23 mpupat Exp $
+# $Id: autogen.sh,v 1.14 2009/06/27 15:19:58 gilles_morel Exp $
 #
 # Requires: automake, autoconf, dpkg-dev
 
@@ -115,6 +115,7 @@ echo "The configure script was successfully created."
 echo "To compile Grisbi, please run :"
 echo "        ./configure"
 echo "        make"
+echo "	      make install"
 echo
 
 exit 0
