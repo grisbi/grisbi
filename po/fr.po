@@ -7690,7 +7690,7 @@ msgstr "Écart"
 
 #: src/gsb_reconcile.c:230
 msgid "Sort by method of payment"
-msgstr "Trier les opérations par mode de règlement"
+msgstr "Tri par mode de règlement"
 
 #. set the title
 #: src/gsb_reconcile.c:412

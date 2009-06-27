@@ -71,6 +71,7 @@ extern GtkWidget *window;
 
 gint largeur_window;
 gint hauteur_window;
+gint mini_paned_width = 250;
 
 /* contient le nb de derniers fichiers ouverts */
 gsize nb_derniers_fichiers_ouverts = 0;
@@ -232,6 +233,8 @@ gboolean gsb_file_config_load_config ( void )
                         "General",
                         "Panel width",
                         NULL );
+    if ( etat.largeur_colonne_comptes_operation < mini_paned_width )
+        etat.largeur_colonne_comptes_operation = mini_paned_width;
 
     /* get input/output */
     etat.dernier_fichier_auto = g_key_file_get_integer ( config,
@@ -1178,6 +1181,7 @@ void gsb_file_config_clean_config ( void )
 
     largeur_window = 0;
     hauteur_window = 0;
+    etat.largeur_colonne_comptes_operation = mini_paned_width;
 
     etat.force_enregistrement = 1;
     etat.utilise_logo = 1;

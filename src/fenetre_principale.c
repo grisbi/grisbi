@@ -1,9 +1,9 @@
 /* ************************************************************************** */
 /*  Fichier qui s'occupe de former les différentes fenêtres de travail        */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)            */
-/*			2005-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/* 			http://www.grisbi.org				                              */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2005-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -46,15 +46,19 @@
 static GtkWidget *create_main_notebook (void );
 static gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook );
 static void gsb_gui_headings_private_update_label_markup ( GtkLabel *label, const gchar *text, gboolean escape_text );
+static gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
+                        GtkAllocation *allocation,
+                        gpointer null );
 static gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
-					  GtkNotebookPage *page,
-					  guint page_number,
-					  gpointer null );
+                        GtkNotebookPage *page,
+                        guint page_number,
+                        gpointer null );
 static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
-				    GCallback cb );
+                        GCallback cb );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gint mini_paned_width;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -141,8 +145,12 @@ GtkWidget * create_main_widget ( void )
 
     /* Then create and fill the main hpaned. */
     main_hpaned = gtk_hpaned_new ();
-    g_signal_connect ( G_OBJECT (main_hpaned ), "destroy",
+    g_signal_connect ( G_OBJECT ( main_hpaned ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &main_hpaned );
+    g_signal_connect ( G_OBJECT ( main_hpaned ),
+		       "size_allocate",
+		       G_CALLBACK ( gsb_gui_hpaned_size_allocate ),
+		       NULL );
     gtk_box_pack_start ( GTK_BOX(main_vbox), main_hpaned, TRUE, TRUE, 0 );
     gtk_paned_add1 ( GTK_PANED( main_hpaned ), create_navigation_pane ( ) );
     gtk_paned_add2 ( GTK_PANED( main_hpaned ), create_main_notebook ( ) );
@@ -156,6 +164,8 @@ GtkWidget * create_main_widget ( void )
 	gint width, height;
 
 	gtk_window_get_size ( GTK_WINDOW ( window ), &width, &height );
+    if ( height < mini_paned_width )
+        height = mini_paned_width;
 	gtk_paned_set_position ( GTK_PANED ( main_hpaned ), (gint) width / 4 );
     }
     gtk_widget_show ( main_hpaned );
@@ -307,9 +317,9 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
  * \return		FALSE
  */
 gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
-					  GtkNotebookPage *page,
-					  guint page_number,
-					  gpointer null )
+                        GtkNotebookPage *page,
+                        guint page_number,
+                        gpointer null )
 {
     switch ( page_number )
     {
@@ -335,7 +345,9 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
  * \param text	String to display in headings bar.
  *
  */
-void gsb_gui_headings_private_update_label_markup ( GtkLabel *label, const gchar *text, gboolean escape_text )
+void gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
+                        const gchar *text,
+                        gboolean escape_text )
 {
     const gchar* escstr = escape_text ? g_markup_escape_text ( text, -1 ) : text;
     gchar* tmpstr = g_strconcat ( "<b>", escstr, "</b>", NULL );
@@ -421,7 +433,7 @@ void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page )
  *
  */
 gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
-				    GCallback cb )
+                        GCallback cb )
 {
     if ( button_event -> type == GDK_BUTTON_PRESS )
     {
@@ -432,7 +444,19 @@ gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
 }
 
 
+gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
+                        GtkAllocation *allocation,
+                        gpointer null )
+{
+    gint paned_width;
 
+    paned_width = gtk_paned_get_position ( GTK_PANED ( hpaned ) );
+    
+    if ( paned_width  < mini_paned_width )
+        gtk_paned_set_position ( GTK_PANED ( hpaned ), mini_paned_width );
+
+    return FALSE;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

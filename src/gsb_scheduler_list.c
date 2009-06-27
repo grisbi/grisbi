@@ -1,9 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      	  */
-/*			2004-2008 Benjamin Drieu (bdrieu@april.org)  	      			  */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*      2009 Thomas Peel (thomas.peel@live.fr)                                */
-/* 			http://www.grisbi.org   			      						  */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -59,24 +59,24 @@
 
 /*START_STATIC*/
 static gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
-					   GdkEventButton *ev );
+                        GdkEventButton *ev );
 static void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view );
 static GtkTreeModel *gsb_scheduler_list_create_model ( void );
 static GtkWidget *gsb_scheduler_list_create_tree_view (void);
 static gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
-						GtkTreeIter *iter_1,
-						GtkTreeIter *iter_2,
-						gpointer null );
+                        GtkTreeIter *iter_1,
+                        GtkTreeIter *iter_2,
+                        gpointer null );
 static gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
-						   GtkTreeIter *iter,
-						   const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] );
+                        GtkTreeIter *iter,
+                        const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] );
 static gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
-						    const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS]  );
+                        const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS]  );
 static GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_number );
 static GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_number );
 static GtkTreeModel *gsb_scheduler_list_get_model ( void );
 static gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
-					GdkEventKey *ev );
+                        GdkEventKey *ev );
 static gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void);
 static gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
                         gpointer null );
@@ -84,8 +84,8 @@ static void gsb_scheduler_list_set_model ( GtkTreeModel *model );
 static void gsb_scheduler_list_set_sorted_model ( GtkTreeModelSort *tree_model_sort );
 static void gsb_scheduler_list_set_tree_view ( GtkWidget *tree_view );
 static gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
-					    GtkAllocation *allocation,
-					    gpointer null );
+                        GtkAllocation *allocation,
+                        gpointer null );
 static gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number );
 /*END_STATIC*/
 
@@ -421,9 +421,9 @@ GtkTreeModel *gsb_scheduler_list_create_model ( void )
  * perhaps later sort by different columns ??
  * */
 gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
-						GtkTreeIter *iter_1,
-						GtkTreeIter *iter_2,
-						gpointer null )
+                        GtkTreeIter *iter_1,
+                        GtkTreeIter *iter_2,
+                        gpointer null )
 {
     GDate *date_1;
     GDate *date_2;
@@ -694,7 +694,7 @@ gboolean gsb_scheduler_list_redraw ( void )
  * \return TRUE : scheduled added, FALSE : not added (usually for children who didn't find their mother)
  * */
 gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
-						   GDate *end_date )
+                        GDate *end_date )
 {
     GDate *pGDateCurrent;
     gint virtual_transaction = 0;
@@ -1034,8 +1034,8 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
-						   GtkTreeIter *iter,
-						   const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] )
+                        GtkTreeIter *iter,
+                        const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] )
 {
     gint i;
 
@@ -1460,7 +1460,7 @@ gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
-					GdkEventKey *ev )
+                        GdkEventKey *ev )
 {
     gint scheduled_number;
 
@@ -1504,7 +1504,7 @@ gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
-					   GdkEventButton *ev )
+                        GdkEventButton *ev )
 {
 
     /* if double-click => edit the scheduled transaction */
@@ -1594,7 +1594,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_delete_scheduled_transaction_by_menu ( GtkWidget *button,
-								   gpointer null )
+                        gpointer null )
 {
     gsb_scheduler_list_delete_scheduled_transaction (0, TRUE);
     return FALSE;
@@ -1613,7 +1613,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction_by_menu ( GtkWidget *bu
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number,
-							   gboolean show_warning )
+                        gboolean show_warning )
 {
     gint result;
 
@@ -1747,7 +1747,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity,
-						    gpointer item )
+                        gpointer item )
 {
     gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"),
 			_("Two months view"), _("Quarter view"),
@@ -1891,11 +1891,11 @@ gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number )
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
-					    GtkAllocation *allocation,
-					    gpointer null )
+                        GtkAllocation *allocation,
+                        gpointer null )
 {
     gint i;
-    devel_debug (NULL);
+
     if (allocation -> width == scheduler_current_tree_view_width)
     {
         /* size of the tree view didn't change, but we received an allocated signal
