@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-27 16:33+0200\n"
-"PO-Revision-Date: 2009-06-11 13:27+0200\n"
+"PO-Revision-Date: 2009-06-28 12:02+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -247,7 +247,7 @@ msgstr "Fondo 2 de la lista de transacciones"
 
 #: src/affichage.c:781
 msgid "Color for the operation that gives the balance today"
-msgstr ""
+msgstr "Color de la operación que da el balance diario"
 
 #: src/affichage.c:782
 msgid "Color of transaction's text"
@@ -309,7 +309,7 @@ msgstr "Usar un solo click para seleccionar las transacciones"
 
 #: src/affichage_liste.c:185
 msgid "Highlights the transaction that gives the balance today"
-msgstr ""
+msgstr "Resaltar la transacción que da el balance diario"
 
 #: src/affichage_liste.c:192
 msgid "Account differentiation"
@@ -362,14 +362,12 @@ msgid "Form completion"
 msgstr "Autocompletado de formulario"
 
 #: src/affichage_liste.c:454
-#, fuzzy
 msgid "Limit the filling with payees belonging to the current account"
-msgstr "Limitar el autocompletado de terceros a la cuenta actual"
+msgstr "Limitar el autocompletado con terceros de la cuenta actual"
 
 #: src/affichage_liste.c:461
-#, fuzzy
 msgid "Automatic filling transactions from payee"
-msgstr "Transacciones automáticas programadas introducidas"
+msgstr "Completado automático de las transacciones a partir del tercero"
 
 #: src/affichage_liste.c:470
 msgid "Mix credit/debit categories"
