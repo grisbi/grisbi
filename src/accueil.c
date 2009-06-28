@@ -1382,7 +1382,8 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	gtk_container_add ( GTK_CONTAINER ( frame_etat_echeances_auto_accueil ), vbox);
 	gtk_widget_show ( vbox);
 
-	pointeur_liste = scheduled_transactions_taken;
+	pointeur_liste = g_slist_sort( scheduled_transactions_taken,
+				      (GCompareFunc) classement_sliste_transactions_par_date );
 
 	while ( pointeur_liste )
 	{

@@ -166,6 +166,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
     }
     else if ( element -> element_number == TRANSACTION_FORM_TYPE )
     {
+        GtkWidget *widget;
         gint number;
 
         number = gsb_data_mix_get_mother_transaction_number (transaction_number, TRUE);
@@ -175,7 +176,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
 
         /* ok, now number contains either the transaction_number, either the mother transaction number,
          * we can check the sign with it */
-        GtkWidget *widget = gsb_form_widget_get_widget (element -> element_number);
+        widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
         if ( gsb_data_mix_get_amount ( number, TRUE ).mantissa < 0 )
             gsb_payment_method_create_combo_list ( widget,
                                    GSB_PAYMENT_DEBIT,
@@ -202,7 +203,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
                 }
         }
         else
-            gtk_widget_hide ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
+            gtk_widget_hide ( gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE ) );
     }
 
     tmp_list = tmp_list -> next;

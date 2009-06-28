@@ -4,6 +4,7 @@
 /*     Copyright (C)    2000-2003 CÃ©dric Auger (cedric@grisbi.org)           */
 /*          2003-2004 Benjamin Drieu (bdrieu@april.org)                       */
 /*          2003-2004 Alain Portal (aportal@univ-montp2.fr)                   */
+/*          2008-2009 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -28,6 +29,7 @@
 /*START_INCLUDE*/
 #include "classement_echeances.h"
 #include "./gsb_data_scheduled.h"
+#include "./gsb_data_transaction.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -44,13 +46,22 @@
 /* Classement de deux échéances d'opérations par date                        */
 /* ************************************************************************* */
 gint classement_sliste_echeance_par_date ( gint scheduled_number_1, 
-					   gint scheduled_number_2 )
+                        gint scheduled_number_2 )
 {
     return ( g_date_compare ( gsb_data_scheduled_get_date (scheduled_number_1),
-			      gsb_data_scheduled_get_date (scheduled_number_2) ));
+                        gsb_data_scheduled_get_date (scheduled_number_2) ));
 }
 
 
+/* ************************************************************************* */
+/* Classement de deux opérations par date                                    */
+/* ************************************************************************* */
+gint classement_sliste_transactions_par_date ( gint transaction_number_1, 
+                        gint transaction_number_2 )
+{
+    return ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_1),
+                        gsb_data_transaction_get_date (transaction_number_2) ));
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
