@@ -2191,7 +2191,17 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
 			   G_CALLBACK(gsb_gui_change_cell_content), GINT_TO_POINTER (i+1));
 	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
     }
+    /* set a menu to clear the cell except for the first line */
+    if ( y > 0 )
+    {
+    item = gtk_menu_item_new_with_label ( _("Clear cell") );
 
+	g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
+	g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
+	g_signal_connect ( G_OBJECT(item), "activate",
+			   G_CALLBACK(gsb_gui_change_cell_content), GINT_TO_POINTER (i+1));
+	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
+    }
     return menu;
 }
 
@@ -3395,8 +3405,9 @@ gboolean gsb_transactions_list_size_allocate ( GtkWidget *tree_view,
 	gint width;
 
 	width = (transaction_col_width[i] * (allocation -> width))/ 100;
+    if ( width > 0 )
 	gtk_tree_view_column_set_fixed_width ( transactions_tree_view_columns[i],
-					       width );
+                        width );
     }
     return FALSE;
 }

@@ -766,10 +766,9 @@ void transaction_list_colorize (void)
     gint i;
     CustomList *custom_list;
 
-    custom_list = transaction_model_get_model ();
-
     devel_debug (NULL);
 
+    custom_list = transaction_model_get_model ();
     g_return_if_fail ( custom_list != NULL );
 
     /* we erase the selection */

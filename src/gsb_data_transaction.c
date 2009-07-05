@@ -45,6 +45,7 @@
 #include "./transaction_list.h"
 #include "./include.h"
 #include "./gsb_real.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 
@@ -1518,7 +1519,7 @@ gboolean gsb_data_transaction_set_archive_number ( gint transaction_number,
          * if we transform it as an archive, we remove it from the transactions_list */
         if (archive_number)
         {
-        transaction_list_remove_archive_transaction ( transaction_number );
+        //~ transaction_list_remove_archive_transaction ( transaction_number );
         transactions_list = g_slist_remove ( transactions_list, transaction );
         }
     }

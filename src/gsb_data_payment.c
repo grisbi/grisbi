@@ -35,7 +35,6 @@
 #include "./utils_str.h"
 #include "./gsb_data_account.h"
 #include "./include.h"
-#include "./erreur.h"
 /*END_INCLUDE*/
 
 
@@ -646,7 +645,7 @@ gint gsb_data_payment_get_transfer_payment_number ( gint account_number )
 gint gsb_data_payment_get_last_number ( gint payment_number )
 {
     struct_payment *payment;
-devel_debug (NULL);
+
     payment = gsb_data_payment_get_structure ( payment_number );
 
     if (!payment)

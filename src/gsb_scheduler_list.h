@@ -56,14 +56,14 @@ enum periodicity_units {
 
 /* START_DECLARATION */
 gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
-						   GDate *end_date );
+                        GDate *end_date );
 gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity,
-						    gpointer item );
+                        gpointer item );
 GtkWidget *gsb_scheduler_list_create_list ( void );
 gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number,
-							   gboolean show_warning );
+                        gboolean show_warning );
 gboolean gsb_scheduler_list_delete_scheduled_transaction_by_menu ( GtkWidget *button,
-								   gpointer null );
+                        gpointer null );
 gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number );
 gboolean gsb_scheduler_list_execute_transaction ( gint scheduled_number );
 gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view );

@@ -71,7 +71,7 @@ static gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
                         GtkTreeIter *iter,
                         const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] );
 static gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
-                        const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS]  );
+						    const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS]  );
 static GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_number );
 static GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_number );
 static GtkTreeModel *gsb_scheduler_list_get_model ( void );
