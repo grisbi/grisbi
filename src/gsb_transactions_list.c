@@ -221,7 +221,7 @@ void gsb_transactions_list_update_tree_view ( gint account_number,
                         gboolean keep_selected_transaction )
 {
     gint selected_transaction = 0;
-
+devel_debug ("\n");
     /* called sometimes with gsb_gui_navigation_get_current_account, so check we are 
      * on an account */
     if ( account_number == -1 )
@@ -609,8 +609,6 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
                         gboolean update_tree_view )
 {
     gint account_number;
-
-    devel_debug_int (transaction_number);
 
     account_number = gsb_data_transaction_get_account_number (transaction_number);
 
@@ -2246,7 +2244,8 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr )
 
     /* now we can update the element */
     transaction_list_update_element (element);
-    update_titres_tree_view ();
+    recuperation_noms_colonnes_et_tips ( );
+    update_titres_tree_view ( );
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
     return FALSE;
