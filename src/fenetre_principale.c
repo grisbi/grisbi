@@ -45,7 +45,9 @@
 /*START_STATIC*/
 static GtkWidget *create_main_notebook (void );
 static gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook );
-static void gsb_gui_headings_private_update_label_markup ( GtkLabel *label, const gchar *text, gboolean escape_text );
+static void gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
+                        const gchar *text,
+                        gboolean escape_text );
 static gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
                         GtkAllocation *allocation,
                         gpointer null );

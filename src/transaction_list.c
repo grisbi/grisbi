@@ -2035,7 +2035,7 @@ gboolean transaction_list_remove_archive_transaction ( gint transaction_number )
 
 
 /**
- * colorise avec un fond vert la ligne qui correspond à la date du jour
+ * colorise avec un fond gris la ligne qui correspond à la date du jour
  *
  * \param 
  *
@@ -2048,6 +2048,7 @@ void transaction_list_set_color_jour ( gint account_number )
     gint res;
     gint transaction_number;
     CustomList *custom_list;
+
     devel_debug (NULL);
 
     custom_list = transaction_model_get_model ();

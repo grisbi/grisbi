@@ -7982,7 +7982,6 @@ void gsb_file_load_copy_old_file ( gchar *filename, gchar *file_content)
         if ( ! g_file_set_contents ( copy_old_filename, file_content,-1, &error ) )
             dialogue_error (error -> message );
 #endif
-        g_free ( copy_old_filename );
     }
 }
 /* Local Variables: */

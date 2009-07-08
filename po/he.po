@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-05 10:50+0200\n"
+"POT-Creation-Date: 2009-07-06 22:17+0200\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team:  <en@li.org>\n"
@@ -324,82 +324,82 @@ msgid "Enter a scheduled transaction"
 msgstr "נא להכניס העברה מתוזמנת מראש"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur solde.
-#: src/accueil.c:436
+#: src/accueil.c:445
 #, fuzzy, c-format
 msgid "Account balances in %s"
 msgstr "מאזני החשבון ב %s"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:502
+#: src/accueil.c:511
 #, c-format
 msgid "Liabilities accounts balances in %s"
 msgstr "מאזני חשבונות של התחייבויות ב %s"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:565
+#: src/accueil.c:574
 #, c-format
 msgid "Assets accounts balances in %s"
 msgstr "מאזני חשבונות של נכסים ב %s"
 
-#: src/accueil.c:693
+#: src/accueil.c:702
 msgid "Reconciled balance"
 msgstr "מאזן מתואם"
 
-#: src/accueil.c:697
+#: src/accueil.c:706
 msgid "Current balance"
 msgstr "מאזן נוכחי"
 
-#: src/accueil.c:882
+#: src/accueil.c:900
 #, fuzzy
 msgid "Global balance"
 msgstr "מאזנים כלליים"
 
-#: src/accueil.c:884
+#: src/accueil.c:902
 msgid "Global balances"
 msgstr "מאזנים כלליים"
 
-#: src/accueil.c:1039 src/accueil.c:1161 src/accueil.c:1615
+#: src/accueil.c:1057 src/accueil.c:1179 src/accueil.c:1633
 #, fuzzy, c-format
 msgid "%s credited on %s"
 msgstr "%4.2f %s זכות ב %s"
 
-#: src/accueil.c:1049 src/accueil.c:1171 src/accueil.c:1624
+#: src/accueil.c:1067 src/accueil.c:1189 src/accueil.c:1642
 #, fuzzy, c-format
 msgid "%s debited on %s"
 msgstr "%4.2f %s חובה ב %s"
 
-#: src/accueil.c:1390
+#: src/accueil.c:1408
 #, fuzzy, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr "מאזן חשבון %s הוא מתחת למינימום הרצוי והמותר!"
 
-#: src/accueil.c:1394
+#: src/accueil.c:1412
 #, fuzzy
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
 msgstr "מאזן חשבון %s הוא מתחת למינימום הרצוי והמותר!"
 
-#: src/accueil.c:1423
+#: src/accueil.c:1441
 #, fuzzy, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr "מאזן חשבון %s הוא מתחת למינימום המותר!"
 
-#: src/accueil.c:1433
+#: src/accueil.c:1451
 #, fuzzy
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
 msgstr "מאזן חשבון %s הוא מתחת למינימום הרצוי והמותר!"
 
-#: src/accueil.c:1465
+#: src/accueil.c:1483
 #, fuzzy, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "מאזן חשבון %s הוא מתחת למינימום הרצוי!"
 
-#: src/accueil.c:1475
+#: src/accueil.c:1493
 #, fuzzy
 msgid ""
 "accounts with the balance under desired minimal :\n"
@@ -1027,7 +1027,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
 #: src/categories_onglet.c:374 src/etats_onglet.c:1256
-#: src/file_obfuscate_qif.c:105 src/gsb_file.c:236 src/import.c:725
+#: src/file_obfuscate_qif.c:105 src/gsb_file.c:238 src/import.c:725
 #: src/imputation_budgetaire.c:409
 #, fuzzy
 msgid "All files"
@@ -1107,7 +1107,7 @@ msgid "Delete selected category"
 msgstr "נא להזין קטגוריה!"
 
 #: src/categories_onglet.c:512 src/etats_onglet.c:184
-#: src/fenetre_principale.c:261 src/imputation_budgetaire.c:546
+#: src/fenetre_principale.c:263 src/imputation_budgetaire.c:546
 #: src/tiers_onglet.c:319
 #, fuzzy
 msgid "Properties"
@@ -1744,7 +1744,7 @@ msgstr "שנת הכספים"
 #. mise en place de la paddingbox des tiers
 #: src/etats_affiche.c:2419 src/etats_config.c:519 src/etats_config.c:522
 #: src/etats_config.c:687 src/etats_config.c:7193 src/export_csv.c:762
-#: src/fenetre_principale.c:276 src/gsb_assistant_reconcile_config.c:612
+#: src/fenetre_principale.c:278 src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_form.c:1310 src/gsb_form_widget.c:417 src/gsb_scheduler_list.c:333
 #: src/gsb_transactions_list.c:145 src/import.c:2990 src/import_csv.c:80
 #: src/meta_payee.c:76 src/traitement_variables.c:76
@@ -1893,14 +1893,14 @@ msgstr "העברות"
 
 #. mise en place de la paddingbox des comptes
 #: src/etats_config.c:510 src/etats_config.c:513 src/etats_config.c:7159
-#: src/fenetre_principale.c:254 src/navigation.c:251
+#: src/fenetre_principale.c:256 src/navigation.c:251
 msgid "Accounts"
 msgstr "חשבונות"
 
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
 #: src/etats_config.c:528 src/etats_config.c:531 src/etats_config.c:3039
-#: src/etats_config.c:7231 src/fenetre_principale.c:289 src/navigation.c:323
+#: src/etats_config.c:7231 src/fenetre_principale.c:291 src/navigation.c:323
 #: src/navigation.c:1242
 msgid "Categories"
 msgstr "קטגוריות"
@@ -1908,7 +1908,7 @@ msgstr "קטגוריות"
 #. mise en place de la paddingbox des ib
 #. set the title
 #: src/etats_config.c:537 src/etats_config.c:540 src/etats_config.c:3851
-#: src/etats_config.c:7318 src/export_csv.c:786 src/fenetre_principale.c:294
+#: src/etats_config.c:7318 src/export_csv.c:786 src/fenetre_principale.c:296
 #: src/navigation.c:340 src/navigation.c:1253 src/traitement_variables.c:77
 msgid "Budgetary lines"
 msgstr "קווי תקציב"
@@ -1955,7 +1955,7 @@ msgid "Generalities"
 msgstr "כללי"
 
 #: src/etats_config.c:635 src/etats_config.c:638 src/export_csv.c:738
-#: src/fenetre_principale.c:258 src/parametres.c:374
+#: src/fenetre_principale.c:260 src/parametres.c:374
 msgid "Transactions"
 msgstr "עיסקאות"
 
@@ -2793,7 +2793,7 @@ msgstr "סגירת חלון החשבונות"
 msgid "Clone selected report"
 msgstr "שכפול דו\"ח"
 
-#: src/etats_onglet.c:237 src/fenetre_principale.c:299 src/navigation.c:357
+#: src/etats_onglet.c:237 src/fenetre_principale.c:301 src/navigation.c:357
 #: src/navigation.c:1269
 msgid "Reports"
 msgstr "דו\"חות"
@@ -2969,8 +2969,8 @@ msgstr "קובץ LaTeX"
 msgid "Exporting report ..."
 msgstr "ייצוא הדו\"ח בתור CSV ..."
 
-#: src/etats_onglet.c:1218 src/gsb_debug.c:245 src/gsb_file.c:470
-#: src/gsb_file.c:586 src/gsb_file.c:643
+#: src/etats_onglet.c:1218 src/gsb_debug.c:245 src/gsb_file.c:472
+#: src/gsb_file.c:596 src/gsb_file.c:653
 #, fuzzy
 msgid "Done"
 msgstr "ללא"
@@ -3168,17 +3168,17 @@ msgstr "תתי-קוי תקציב"
 msgid "Reconciliation number"
 msgstr "מספר תיאום"
 
-#: src/fenetre_principale.c:242
+#: src/fenetre_principale.c:244
 msgid "Main page"
 msgstr "עמוד ראשי"
 
-#: src/fenetre_principale.c:271 src/navigation.c:269 src/parametres.c:310
+#: src/fenetre_principale.c:273 src/navigation.c:269 src/parametres.c:310
 #: src/parametres.c:904
 msgid "Scheduler"
 msgstr "תיזמון עיסקאות"
 
 #. set the title
-#: src/fenetre_principale.c:283 src/navigation.c:304 src/navigation.c:1230
+#: src/fenetre_principale.c:285 src/navigation.c:304 src/navigation.c:1230
 #, fuzzy
 msgid "Balance estimate"
 msgstr "יתרות"
@@ -6865,42 +6865,42 @@ msgid "Transaction %d has invalid payee %d.\n"
 msgstr "לעיסקה #%d צריכה להיות #%d נגדית, אך זו אינה קיימת.\n"
 
 #. Create main widget.
-#: src/gsb_file.c:172
+#: src/gsb_file.c:174
 msgid "Creating main window"
 msgstr ""
 
-#: src/gsb_file.c:179
+#: src/gsb_file.c:181
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
 msgstr ""
 
-#: src/gsb_file.c:219
+#: src/gsb_file.c:221
 msgid "Open an accounts file"
 msgstr "פתיחת קובץ חשבונות"
 
-#: src/gsb_file.c:230
+#: src/gsb_file.c:232
 msgid "Grisbi files (*.gsb)"
 msgstr ""
 
-#: src/gsb_file.c:365
+#: src/gsb_file.c:367
 #, fuzzy
 msgid "Loading accounts"
 msgstr "טעינת קובץ חשבונות"
 
 #. Loading failed.
-#: src/gsb_file.c:382
+#: src/gsb_file.c:384
 #, fuzzy
 msgid "Failed to load accounts"
 msgstr "בחירת חשבונות בנק"
 
-#: src/gsb_file.c:386 src/gsb_file.c:403 src/gsb_file_load.c:290
+#: src/gsb_file.c:388 src/gsb_file.c:405 src/gsb_file_load.c:290
 #: src/gsb_file_load.c:304 src/gsb_file_load.c:405
 #, fuzzy, c-format
 msgid "Error loading file '%s'"
 msgstr "שגיאה בפתיחת הקובץ '%s'."
 
-#: src/gsb_file.c:388
+#: src/gsb_file.c:390
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -6910,7 +6910,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: src/gsb_file.c:408
+#: src/gsb_file.c:410
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -6921,7 +6921,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: src/gsb_file.c:415
+#: src/gsb_file.c:417
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -6930,17 +6930,17 @@ msgid ""
 msgstr ""
 
 #. ok, here the file or backup is loaded
-#: src/gsb_file.c:430
+#: src/gsb_file.c:432
 msgid "Checking schedulers"
 msgstr ""
 
 #. check the amounts of all the accounts
-#: src/gsb_file.c:443
+#: src/gsb_file.c:445
 #, fuzzy
 msgid "Checking amounts"
 msgstr "בדיקה"
 
-#: src/gsb_file.c:546
+#: src/gsb_file.c:548
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -6951,79 +6951,93 @@ msgstr ""
 "s\" אשר נמצאת מתחת."
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:547 src/gsb_file.c:788 src/parametres.c:674
+#: src/gsb_file.c:549 src/gsb_file.c:798 src/parametres.c:674
 msgid "Force saving of locked files"
 msgstr "שמירה בכוח של קבצים נעולים"
 
-#: src/gsb_file.c:548
+#: src/gsb_file.c:550
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "לא ניתן לשמור את הקובץ \"%s\""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: src/gsb_file.c:563
+#: src/gsb_file.c:573
 #, fuzzy
 msgid "Saving file"
 msgstr "שמירת קובץ"
 
-#: src/gsb_file.c:612
+#: src/gsb_file.c:622
 msgid "Saving backup"
 msgstr "שמירת גיבוי"
 
-#: src/gsb_file.c:785
+#: src/gsb_file.c:795
 #, fuzzy
 msgid "Save locked files?"
 msgstr "שמירת קובץ"
 
-#: src/gsb_file.c:786
+#: src/gsb_file.c:796
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: src/gsb_file.c:787 src/gsb_file.c:798 src/gsb_file.c:983
+#: src/gsb_file.c:797 src/gsb_file.c:808 src/gsb_file.c:993
 msgid "unnamed"
 msgstr "ללא שם"
 
-#: src/gsb_file.c:790 src/gsb_file.c:801
+#: src/gsb_file.c:800 src/gsb_file.c:811
 msgid "Close without saving"
 msgstr "סגירה ללא שמירה"
 
-#: src/gsb_file.c:797
+#: src/gsb_file.c:807
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "העם לשמור את השינויים במסמך '%s' לפני הסגירה?"
 
-#: src/gsb_file.c:810
+#: src/gsb_file.c:820
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr ""
 
-#: src/gsb_file.c:815
+#: src/gsb_file.c:825
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr ""
 
-#: src/gsb_file.c:820
+#: src/gsb_file.c:830
 #, fuzzy, c-format
 msgid "%d seconds"
 msgstr "%d חודשים"
 
-#: src/gsb_file.c:823
+#: src/gsb_file.c:833
 #, fuzzy, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr "במקרה של סגירה ללא שמירה, כל השינויים שנעשו - ייעלמו."
 
-#: src/gsb_file.c:859
+#: src/gsb_file.c:869
 msgid "Name the accounts file"
 msgstr "שם קובץ החשבונות"
 
-#: src/gsb_file.c:986
+#: src/gsb_file.c:996
 msgid "Grisbi"
 msgstr "גריסבי"
+
+#: src/gsb_file.c:1147
+msgid "Delete a copy of file of the old version of grisbi"
+msgstr ""
+
+#: src/gsb_file.c:1167
+#, c-format
+msgid ""
+"Careful, you are about to deleting the copy of file\n"
+"of the old version of grisbi.\n"
+"\n"
+"<b>Do you want to delete this file :\n"
+"%s ?</b>"
+msgstr ""
 
 #: src/gsb_file_config.c:769
 #, fuzzy, c-format
@@ -7094,7 +7108,7 @@ msgstr ""
 "נראה כי%s אינו קובץ רגיל.\n"
 "נא לבדוק זאת ולנסות שנית."
 
-#: src/gsb_file_load.c:343 src/gsb_file_save.c:378
+#: src/gsb_file_load.c:343 src/gsb_file_save.c:375
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7102,7 +7116,7 @@ msgid ""
 "installed) and try again."
 msgstr ""
 
-#: src/gsb_file_load.c:348 src/gsb_file_save.c:383
+#: src/gsb_file_load.c:348 src/gsb_file_save.c:380
 #, fuzzy
 msgid "Encryption plugin not found."
 msgstr "חשבון %s אינו נמצא.\n"
@@ -7141,7 +7155,7 @@ msgid "Grisbi archive opened"
 msgstr ""
 
 #: src/gsb_file_others.c:138 src/gsb_file_others.c:220
-#: src/gsb_file_others.c:303 src/gsb_file_save.c:403 src/gsb_file_save.c:421
+#: src/gsb_file_others.c:303 src/gsb_file_save.c:400 src/gsb_file_save.c:418
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "לא ניתן לשמור את הקובץ '%s': %s"
@@ -7183,18 +7197,6 @@ msgstr ""
 
 #: src/gsb_file_others.c:630
 msgid "This is not a report file, loading canceled..."
-msgstr ""
-
-#: src/gsb_file_save.c:2517
-msgid "Delete a copy of file of the old version of grisbi"
-msgstr ""
-
-#: src/gsb_file_save.c:2537
-msgid ""
-"Careful, you are about to deleting the copy of file\n"
-"of the old version of grisbi.\n"
-"\n"
-"<b>Do you want to continue ?</b>"
 msgstr ""
 
 #: src/gsb_file_util.c:63

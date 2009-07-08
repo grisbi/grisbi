@@ -68,6 +68,7 @@ static  gchar *gsb_file_dialog_ask_name ( void );
 static  gint gsb_file_dialog_save ( void );
 static gboolean gsb_file_save_backup ( void );
 static gboolean gsb_file_save_file ( gint origine );
+static void gsb_file_save_remove_old_file ( gchar *filename );
 /*END_STATIC*/
 
 
@@ -83,6 +84,7 @@ gint id_timeout = 0;
 
 
 /*START_EXTERN*/
+extern gchar *copy_old_filename;
 extern GtkWidget *main_hpaned;
 extern GtkWidget *main_vbox;
 extern gint max;
@@ -552,6 +554,14 @@ gboolean gsb_file_save_file ( gint origine )
 	g_free ( tmpstr1 );
 	g_free ( tmpstr2 );
 	return ( FALSE );
+    }
+
+        /* Si le fichier est un d'une version précédente de grisbi on demande si on l'efface */
+    if ( copy_old_filename && strlen ( copy_old_filename ) > 0 )
+    {
+        gsb_file_save_remove_old_file ( copy_old_filename );
+        g_free ( copy_old_filename );
+        copy_old_filename = NULL;
     }
 
     /* make backup before saving if asked */
@@ -1118,7 +1128,60 @@ void gsb_file_remove_name_from_opened_list ( gchar *filename )
 }
 
 
+/**
+ * efface la copie du fichier de comptes ancienne version
+ *
+ * \param filename  le chemein du fichier à effacer
+ *
+ * */
+void gsb_file_save_remove_old_file ( gchar *filename )
+{
+    GtkWidget *dialog;
+    GtkWidget *content_area;
+    GtkWidget *hbox;
+    GtkWidget *image;
+    GtkWidget *label;
+    gint resultat;
 
+    dialog = gtk_dialog_new_with_buttons ( 
+                        _("Delete a copy of file of the old version of grisbi"),
+                        GTK_WINDOW ( window ),
+                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                        GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
+                        GTK_STOCK_YES, GTK_RESPONSE_OK,
+                        NULL );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
+
+    content_area = GTK_DIALOG(dialog) -> vbox;
+    hbox = gtk_hbox_new ( FALSE, 5);
+    gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( content_area ), hbox, FALSE, FALSE, 5 );
+
+    image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, 
+                        GTK_ICON_SIZE_DIALOG );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
+
+    gchar *tmpstr = g_strdup_printf ( 
+                        _("Careful, you are about to deleting the copy of file\n"
+                        "of the old version of grisbi.\n"
+                        "\n<b>Do you want to delete this file :\n%s ?</b>"),
+                        filename );
+
+    label = gtk_label_new ( tmpstr );
+    gtk_label_set_use_markup ( GTK_LABEL( label ), TRUE );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
+    g_free ( tmpstr );
+
+    gtk_widget_show_all ( dialog );
+
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+
+    if ( resultat == GTK_RESPONSE_OK )
+        g_unlink ( filename );
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -221,7 +221,7 @@ void gsb_transactions_list_update_tree_view ( gint account_number,
                         gboolean keep_selected_transaction )
 {
     gint selected_transaction = 0;
-devel_debug ("\n");
+
     /* called sometimes with gsb_gui_navigation_get_current_account, so check we are 
      * on an account */
     if ( account_number == -1 )
@@ -1894,6 +1894,8 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
 
     /* update the tree view */
     transaction_list_colorize ();
+    if ( etat.show_transaction_gives_balance )
+        transaction_list_set_color_jour ( account_number );
     transaction_list_set_balances ();
     transaction_list_select (gsb_data_account_get_current_transaction_number (account_number));
 
@@ -3021,6 +3023,8 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
 				       sort_type );
     transaction_list_sort ();
     transaction_list_colorize ();
+    if ( etat.show_transaction_gives_balance )
+        transaction_list_set_color_jour ( account_number );
     transaction_list_set_balances ();
     transaction_list_select (selected_transaction);
 
