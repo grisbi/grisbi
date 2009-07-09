@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-06 22:17+0200\n"
+"POT-Creation-Date: 2009-07-09 00:27+0200\n"
 "PO-Revision-Date: 2009-06-28 12:02+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -458,7 +458,7 @@ msgstr "Fecha"
 
 #. Description entry
 #: src/balance_estimate_tab.c:300 src/etats_onglet.c:287
-#: src/tiers_onglet.c:594
+#: src/tiers_onglet.c:600
 msgid "Description"
 msgstr "Descripción"
 
@@ -496,7 +496,7 @@ msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Balance estimado de la cuenta \"%s\" desde %s hasta %s"
 
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_transactions_list.c:2076
+#: src/barre_outils.c:95 src/gsb_transactions_list.c:2078
 msgid "New transaction"
 msgstr "Nueva transacción"
 
@@ -570,7 +570,7 @@ msgid "Three lines view"
 msgstr "Vista de tres líneas"
 
 #: src/barre_outils.c:237 src/categories_onglet.c:566
-#: src/imputation_budgetaire.c:601 src/tiers_onglet.c:420
+#: src/imputation_budgetaire.c:601 src/tiers_onglet.c:426
 msgid "Complete view"
 msgstr "Vista completa"
 
@@ -673,7 +673,7 @@ msgstr "Categoría"
 
 #: src/categories_onglet.c:162 src/export_csv.c:774 src/gsb_reconcile.c:147
 #: src/gsb_scheduler_list.c:334 src/gsb_transactions_list.c:149
-#: src/gsb_transactions_list.c:2853 src/import_csv.c:86
+#: src/gsb_transactions_list.c:2855 src/import_csv.c:86
 #: src/imputation_budgetaire.c:175 src/tiers_onglet.c:238
 #: src/traitement_variables.c:80
 msgid "Balance"
@@ -801,7 +801,7 @@ msgstr "Vista de subcategorías"
 
 #: src/categories_onglet.c:611 src/categories_onglet.c:615
 #: src/imputation_budgetaire.c:644 src/imputation_budgetaire.c:649
-#: src/tiers_onglet.c:556
+#: src/tiers_onglet.c:562
 #, c-format
 msgid "Properties for %s"
 msgstr "Propiedades para %s"
@@ -829,7 +829,7 @@ msgstr "Sin categoría definida"
 #: src/gsb_bank.c:855 src/gsb_currency_config.c:355 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:239
 #: src/gsb_reconcile_config.c:179 src/gsb_transactions_list.c:1701
-#: src/imputation_budgetaire.c:677 src/tiers_onglet.c:581
+#: src/imputation_budgetaire.c:677 src/tiers_onglet.c:587
 msgid "Name"
 msgstr "Nombre"
 
@@ -1326,13 +1326,13 @@ msgid "Result without financial year"
 msgstr "Resultado sin el año financiero"
 
 #: src/etats_affiche.c:1392 src/gsb_scheduler_list.c:951
-#: src/gsb_transactions_list.c:3226
+#: src/gsb_transactions_list.c:3230
 #, c-format
 msgid "Transfer to %s"
 msgstr "Transferido a %s"
 
 #: src/etats_affiche.c:1394 src/gsb_scheduler_list.c:954
-#: src/gsb_transactions_list.c:3229
+#: src/gsb_transactions_list.c:3233
 #, c-format
 msgid "Transfer from %s"
 msgstr "Transferido desde %s"
@@ -1387,7 +1387,7 @@ msgstr "Transferencia"
 
 #: src/etats_affiche.c:1846 src/export_csv.c:561 src/gsb_data_category.c:1039
 #: src/gsb_form.c:740 src/gsb_form.c:2588 src/gsb_form.c:2960
-#: src/gsb_form_scheduler.c:327 src/gsb_transactions_list.c:3204
+#: src/gsb_form_scheduler.c:327 src/gsb_transactions_list.c:3208
 msgid "Split of transaction"
 msgstr "Anotación en la transacción"
 
@@ -1772,14 +1772,14 @@ msgstr "Seleccionar las cuentas incluidas en el informe"
 
 #: src/etats_config.c:2581 src/etats_config.c:2848 src/etats_config.c:3138
 #: src/etats_config.c:3951 src/etats_config.c:4147 src/etats_config.c:7512
-#: src/tiers_onglet.c:1353 src/tiers_onglet.c:1373
+#: src/tiers_onglet.c:1359 src/tiers_onglet.c:1379
 msgid "Select all"
 msgstr "Seleccionar todo"
 
 #. ajoute le bouton (dÃ©)sÃ©lectionne tout
 #: src/etats_config.c:2596 src/etats_config.c:2863 src/etats_config.c:3153
 #: src/etats_config.c:3966 src/etats_config.c:4162 src/etats_config.c:7527
-#: src/tiers_onglet.c:1144 src/tiers_onglet.c:1355
+#: src/tiers_onglet.c:1150 src/tiers_onglet.c:1361
 msgid "Unselect all"
 msgstr "Deseleccionar todo"
 
@@ -6408,8 +6408,8 @@ msgstr "Tarjeta de crédito"
 msgid "Direct debit"
 msgstr "Cargo a cuenta"
 
-#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1988
-#: src/gsb_data_transaction.c:2050
+#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1989
+#: src/gsb_data_transaction.c:2051
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "No puedo reservar memoria, algo terrible ocurrirá pronto"
 
@@ -7969,7 +7969,7 @@ msgstr "Elegir directorio de iconos"
 msgid "Cheque number"
 msgstr "Número de cheque"
 
-#: src/gsb_transactions_list.c:533 src/gsb_transactions_list.c:3331
+#: src/gsb_transactions_list.c:533 src/gsb_transactions_list.c:3335
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8118,63 +8118,63 @@ msgstr ""
 "¿ Está seguro de que quiere borrar la transacción con la tercera parte '%s' ?"
 
 #. Edit transaction
-#: src/gsb_transactions_list.c:2061
+#: src/gsb_transactions_list.c:2063
 msgid "Edit transaction"
 msgstr "Editar la transacción"
 
 #. Delete transaction
-#: src/gsb_transactions_list.c:2084
+#: src/gsb_transactions_list.c:2086
 msgid "Delete transaction"
 msgstr "Borrar transacción"
 
 #. use transaction as template
-#: src/gsb_transactions_list.c:2098
+#: src/gsb_transactions_list.c:2100
 msgid "Use selected transaction as a template"
 msgstr "Usar las transacciones seleccionadas como una plantilla"
 
 #. Clone transaction
-#: src/gsb_transactions_list.c:2108
+#: src/gsb_transactions_list.c:2110
 msgid "Clone transaction"
 msgstr "Clonar la transacción"
 
 #. Convert to scheduled transaction
-#: src/gsb_transactions_list.c:2121
+#: src/gsb_transactions_list.c:2123
 msgid "Convert transaction to scheduled transaction"
 msgstr "Convertir la transacción en un transacción programada"
 
 #. Move to another account
-#: src/gsb_transactions_list.c:2130
+#: src/gsb_transactions_list.c:2132
 msgid "Move transaction to another account"
 msgstr "Mover la transacción a otra cuenta"
 
 #. Change cell content.
-#: src/gsb_transactions_list.c:2153
+#: src/gsb_transactions_list.c:2155
 msgid "Change cell content"
 msgstr "Cambiar el contenido de la celda"
 
-#: src/gsb_transactions_list.c:2197
+#: src/gsb_transactions_list.c:2199
 #, fuzzy
 msgid "Clear cell"
 msgstr "Cancelar"
 
-#: src/gsb_transactions_list.c:2528
+#: src/gsb_transactions_list.c:2530
 msgid "Cannot move a transfer on his contra-account"
 msgstr "No se puedo mover una transferencia en su contracuenta"
 
 #. sort by line
-#: src/gsb_transactions_list.c:2807
+#: src/gsb_transactions_list.c:2809
 msgid "Sort list by :"
 msgstr "Ordenar la lista por :"
 
-#: src/gsb_transactions_list.c:3213
+#: src/gsb_transactions_list.c:3217
 msgid "Transfer to a deleted account"
 msgstr "Transferir a una cuenta borrada"
 
-#: src/gsb_transactions_list.c:3215
+#: src/gsb_transactions_list.c:3219
 msgid "Transfer from a deleted account"
 msgstr "Transferir desde una cuenta borrada"
 
-#: src/gsb_transactions_list.c:3359
+#: src/gsb_transactions_list.c:3363
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -8598,7 +8598,7 @@ msgstr "Unir las transacciones importadas con las transacciones planeadas"
 msgid "automatically associate the category of the payee if it is possible"
 msgstr "Asociar automáticamente la categoría del tercero si es posible"
 
-#: src/import.c:3255 src/tiers_onglet.c:991
+#: src/import.c:3255 src/tiers_onglet.c:997
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 "Extrayendo un número y guardándolo en el campo Sin Cheque/Transferencia"
@@ -8634,7 +8634,7 @@ msgstr ""
 "asociarse con un tercero específico que represente a su casero."
 
 #. Create entry liste des tiers
-#: src/import.c:3373 src/import.c:3405 src/tiers_onglet.c:1094
+#: src/import.c:3373 src/import.c:3405 src/tiers_onglet.c:1100
 msgid "Payee name"
 msgstr "Nombre de la tercera parte"
 
@@ -9833,7 +9833,7 @@ msgstr "Eliminar terceros huérfanos"
 msgid "Manage payees"
 msgstr "Administrar terceras partes"
 
-#: src/tiers_onglet.c:349 src/tiers_onglet.c:732
+#: src/tiers_onglet.c:349 src/tiers_onglet.c:738
 msgid "Manage the payees"
 msgstr "Administrar los terceros"
 
@@ -9851,17 +9851,21 @@ msgstr ""
 "\n"
 "¿ Está seguro de que quiere hacer esto?"
 
-#: src/tiers_onglet.c:388
+#: src/tiers_onglet.c:390
 #, c-format
 msgid "Removed %d payees."
 msgstr "%d Terceros eliminados"
 
+#: src/tiers_onglet.c:396
+msgid "There is no payee to remove."
+msgstr ""
+
 #. Edit transaction
-#: src/tiers_onglet.c:414
+#: src/tiers_onglet.c:420
 msgid "Payee view"
 msgstr "Vista de terceros"
 
-#: src/tiers_onglet.c:636
+#: src/tiers_onglet.c:642
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
@@ -9870,11 +9874,11 @@ msgstr ""
 "Intenta renombrar el tercero actual a '%s' pero este tercero ya existe.  Por "
 "favor elija otro nombre."
 
-#: src/tiers_onglet.c:640
+#: src/tiers_onglet.c:646
 msgid "Payee already exists"
 msgstr "El tercero ya existe"
 
-#: src/tiers_onglet.c:733
+#: src/tiers_onglet.c:739
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -9889,20 +9893,20 @@ msgstr ""
 "Es mejor que haga una copia de seguridad de su fichero Grisbi si aun no "
 "tiene una. "
 
-#: src/tiers_onglet.c:888
+#: src/tiers_onglet.c:894
 msgid "One payee was replaced with a new one."
 msgstr "Se ha reemplazado una tercera parte con otra."
 
-#: src/tiers_onglet.c:892
+#: src/tiers_onglet.c:898
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr "%d terceras partes se reemplazaron con una nueva."
 
-#: src/tiers_onglet.c:949
+#: src/tiers_onglet.c:955
 msgid "Choose a payee"
 msgstr "Elija una tercera parte"
 
-#: src/tiers_onglet.c:951
+#: src/tiers_onglet.c:957
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -9916,54 +9920,54 @@ msgstr ""
 "   %string, string%\n"
 "   %string%, string_1%string_2"
 
-#: src/tiers_onglet.c:972
+#: src/tiers_onglet.c:978
 msgid "Enter the new payee"
 msgstr "Introduzca la nueva tercera parte"
 
-#: src/tiers_onglet.c:974
+#: src/tiers_onglet.c:980
 msgid "Enter the name of the new payee"
 msgstr "Introduzca el nombre de la nueva tercera parte"
 
-#: src/tiers_onglet.c:989
+#: src/tiers_onglet.c:995
 msgid "Options"
 msgstr "Opciones"
 
-#: src/tiers_onglet.c:997
+#: src/tiers_onglet.c:1003
 msgid "Save the payees in the notes"
 msgstr "Guardar las terceras partes en las notas"
 
-#: src/tiers_onglet.c:1030
+#: src/tiers_onglet.c:1036
 msgid "List of payees who will be modified"
 msgstr "Lista de terceras partes que serán modificadas"
 
-#: src/tiers_onglet.c:1076
+#: src/tiers_onglet.c:1082
 msgid "Select"
 msgstr "Seleccionar"
 
-#: src/tiers_onglet.c:1084
+#: src/tiers_onglet.c:1090
 msgid "Payee number"
 msgstr "Número de tercero"
 
-#: src/tiers_onglet.c:1110
+#: src/tiers_onglet.c:1116
 msgid "Total number of payees :"
 msgstr "Número total de terceras partes :"
 
 #. ajoute le nombre de tiers sÃ©lectionnÃ©s
-#: src/tiers_onglet.c:1127
+#: src/tiers_onglet.c:1133
 msgid "Number of selected payees :"
 msgstr "Número de terceros seleccionados :"
 
-#: src/tiers_onglet.c:1230
+#: src/tiers_onglet.c:1236
 #, c-format
 msgid "Payee sought : %s"
 msgstr "Tercera parte buscada : %s"
 
-#: src/tiers_onglet.c:1236
+#: src/tiers_onglet.c:1242
 #, c-format
 msgid "New payee : %s"
 msgstr "Nuevo tercero : %s"
 
-#: src/tiers_onglet.c:1311
+#: src/tiers_onglet.c:1317
 #, c-format
 msgid ""
 "You are about to replace one payee which name contain %s by %s\n"
@@ -9974,7 +9978,7 @@ msgstr ""
 "\n"
 "¿Está seguro?"
 
-#: src/tiers_onglet.c:1319
+#: src/tiers_onglet.c:1325
 #, c-format
 msgid ""
 "You are about to replace %d payees whose names contain %s by %s\n"
@@ -9986,11 +9990,11 @@ msgstr ""
 "\n"
 "¿Está seguro?"
 
-#: src/tiers_onglet.c:1483
+#: src/tiers_onglet.c:1489
 msgid "You must choose a payee for searching."
 msgstr "Debe elegir un tercero para la búsqueda."
 
-#: src/tiers_onglet.c:1487
+#: src/tiers_onglet.c:1493
 msgid "Beware you don't use one of models for the research."
 msgstr "Tenga cuidado y no use uno de los modelos para la búsqueda."
 

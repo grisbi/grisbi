@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-06 22:17+0200\n"
+"POT-Creation-Date: 2009-07-09 00:27+0200\n"
 "PO-Revision-Date: 2009-06-28 20:04+0200\n"
 "Last-Translator: Cyril Castelbou <cyril.castelbou@free.fr>\n"
 "Language-Team: esperanto <eo@li.org>\n"
@@ -443,7 +443,7 @@ msgstr ""
 
 #. Description entry
 #: src/balance_estimate_tab.c:300 src/etats_onglet.c:287
-#: src/tiers_onglet.c:594
+#: src/tiers_onglet.c:600
 msgid "Description"
 msgstr ""
 
@@ -481,7 +481,7 @@ msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_transactions_list.c:2076
+#: src/barre_outils.c:95 src/gsb_transactions_list.c:2078
 msgid "New transaction"
 msgstr ""
 
@@ -555,7 +555,7 @@ msgid "Three lines view"
 msgstr ""
 
 #: src/barre_outils.c:237 src/categories_onglet.c:566
-#: src/imputation_budgetaire.c:601 src/tiers_onglet.c:420
+#: src/imputation_budgetaire.c:601 src/tiers_onglet.c:426
 msgid "Complete view"
 msgstr ""
 
@@ -657,7 +657,7 @@ msgstr ""
 
 #: src/categories_onglet.c:162 src/export_csv.c:774 src/gsb_reconcile.c:147
 #: src/gsb_scheduler_list.c:334 src/gsb_transactions_list.c:149
-#: src/gsb_transactions_list.c:2853 src/import_csv.c:86
+#: src/gsb_transactions_list.c:2855 src/import_csv.c:86
 #: src/imputation_budgetaire.c:175 src/tiers_onglet.c:238
 #: src/traitement_variables.c:80
 msgid "Balance"
@@ -774,7 +774,7 @@ msgstr ""
 
 #: src/categories_onglet.c:611 src/categories_onglet.c:615
 #: src/imputation_budgetaire.c:644 src/imputation_budgetaire.c:649
-#: src/tiers_onglet.c:556
+#: src/tiers_onglet.c:562
 #, c-format
 msgid "Properties for %s"
 msgstr ""
@@ -802,7 +802,7 @@ msgstr ""
 #: src/gsb_bank.c:855 src/gsb_currency_config.c:355 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:239
 #: src/gsb_reconcile_config.c:179 src/gsb_transactions_list.c:1701
-#: src/imputation_budgetaire.c:677 src/tiers_onglet.c:581
+#: src/imputation_budgetaire.c:677 src/tiers_onglet.c:587
 msgid "Name"
 msgstr ""
 
@@ -1248,13 +1248,13 @@ msgid "Result without financial year"
 msgstr ""
 
 #: src/etats_affiche.c:1392 src/gsb_scheduler_list.c:951
-#: src/gsb_transactions_list.c:3226
+#: src/gsb_transactions_list.c:3230
 #, c-format
 msgid "Transfer to %s"
 msgstr ""
 
 #: src/etats_affiche.c:1394 src/gsb_scheduler_list.c:954
-#: src/gsb_transactions_list.c:3229
+#: src/gsb_transactions_list.c:3233
 #, c-format
 msgid "Transfer from %s"
 msgstr ""
@@ -1309,7 +1309,7 @@ msgstr ""
 
 #: src/etats_affiche.c:1846 src/export_csv.c:561 src/gsb_data_category.c:1039
 #: src/gsb_form.c:740 src/gsb_form.c:2588 src/gsb_form.c:2960
-#: src/gsb_form_scheduler.c:327 src/gsb_transactions_list.c:3204
+#: src/gsb_form_scheduler.c:327 src/gsb_transactions_list.c:3208
 msgid "Split of transaction"
 msgstr ""
 
@@ -1683,14 +1683,14 @@ msgstr ""
 
 #: src/etats_config.c:2581 src/etats_config.c:2848 src/etats_config.c:3138
 #: src/etats_config.c:3951 src/etats_config.c:4147 src/etats_config.c:7512
-#: src/tiers_onglet.c:1353 src/tiers_onglet.c:1373
+#: src/tiers_onglet.c:1359 src/tiers_onglet.c:1379
 msgid "Select all"
 msgstr ""
 
 #. ajoute le bouton (dÃ©)sÃ©lectionne tout
 #: src/etats_config.c:2596 src/etats_config.c:2863 src/etats_config.c:3153
 #: src/etats_config.c:3966 src/etats_config.c:4162 src/etats_config.c:7527
-#: src/tiers_onglet.c:1144 src/tiers_onglet.c:1355
+#: src/tiers_onglet.c:1150 src/tiers_onglet.c:1361
 msgid "Unselect all"
 msgstr ""
 
@@ -5978,8 +5978,8 @@ msgstr ""
 msgid "Direct debit"
 msgstr ""
 
-#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1988
-#: src/gsb_data_transaction.c:2050
+#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1989
+#: src/gsb_data_transaction.c:2051
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr ""
 
@@ -7332,7 +7332,7 @@ msgstr ""
 msgid "Cheque number"
 msgstr ""
 
-#: src/gsb_transactions_list.c:533 src/gsb_transactions_list.c:3331
+#: src/gsb_transactions_list.c:533 src/gsb_transactions_list.c:3335
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -7446,62 +7446,62 @@ msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
 #. Edit transaction
-#: src/gsb_transactions_list.c:2061
+#: src/gsb_transactions_list.c:2063
 msgid "Edit transaction"
 msgstr ""
 
 #. Delete transaction
-#: src/gsb_transactions_list.c:2084
+#: src/gsb_transactions_list.c:2086
 msgid "Delete transaction"
 msgstr ""
 
 #. use transaction as template
-#: src/gsb_transactions_list.c:2098
+#: src/gsb_transactions_list.c:2100
 msgid "Use selected transaction as a template"
 msgstr ""
 
 #. Clone transaction
-#: src/gsb_transactions_list.c:2108
+#: src/gsb_transactions_list.c:2110
 msgid "Clone transaction"
 msgstr ""
 
 #. Convert to scheduled transaction
-#: src/gsb_transactions_list.c:2121
+#: src/gsb_transactions_list.c:2123
 msgid "Convert transaction to scheduled transaction"
 msgstr ""
 
 #. Move to another account
-#: src/gsb_transactions_list.c:2130
+#: src/gsb_transactions_list.c:2132
 msgid "Move transaction to another account"
 msgstr ""
 
 #. Change cell content.
-#: src/gsb_transactions_list.c:2153
+#: src/gsb_transactions_list.c:2155
 msgid "Change cell content"
 msgstr ""
 
-#: src/gsb_transactions_list.c:2197
+#: src/gsb_transactions_list.c:2199
 msgid "Clear cell"
 msgstr ""
 
-#: src/gsb_transactions_list.c:2528
+#: src/gsb_transactions_list.c:2530
 msgid "Cannot move a transfer on his contra-account"
 msgstr ""
 
 #. sort by line
-#: src/gsb_transactions_list.c:2807
+#: src/gsb_transactions_list.c:2809
 msgid "Sort list by :"
 msgstr ""
 
-#: src/gsb_transactions_list.c:3213
+#: src/gsb_transactions_list.c:3217
 msgid "Transfer to a deleted account"
 msgstr ""
 
-#: src/gsb_transactions_list.c:3215
+#: src/gsb_transactions_list.c:3219
 msgid "Transfer from a deleted account"
 msgstr ""
 
-#: src/gsb_transactions_list.c:3359
+#: src/gsb_transactions_list.c:3363
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -7866,7 +7866,7 @@ msgstr ""
 msgid "automatically associate the category of the payee if it is possible"
 msgstr ""
 
-#: src/import.c:3255 src/tiers_onglet.c:991
+#: src/import.c:3255 src/tiers_onglet.c:997
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
@@ -7898,7 +7898,7 @@ msgid ""
 msgstr ""
 
 #. Create entry liste des tiers
-#: src/import.c:3373 src/import.c:3405 src/tiers_onglet.c:1094
+#: src/import.c:3373 src/import.c:3405 src/tiers_onglet.c:1100
 msgid "Payee name"
 msgstr ""
 
@@ -9025,7 +9025,7 @@ msgstr ""
 msgid "Manage payees"
 msgstr ""
 
-#: src/tiers_onglet.c:349 src/tiers_onglet.c:732
+#: src/tiers_onglet.c:349 src/tiers_onglet.c:738
 msgid "Manage the payees"
 msgstr ""
 
@@ -9038,28 +9038,32 @@ msgid ""
 "Are you sure you want to do that?"
 msgstr ""
 
-#: src/tiers_onglet.c:388
+#: src/tiers_onglet.c:390
 #, c-format
 msgid "Removed %d payees."
 msgstr ""
 
+#: src/tiers_onglet.c:396
+msgid "There is no payee to remove."
+msgstr ""
+
 #. Edit transaction
-#: src/tiers_onglet.c:414
+#: src/tiers_onglet.c:420
 msgid "Payee view"
 msgstr ""
 
-#: src/tiers_onglet.c:636
+#: src/tiers_onglet.c:642
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
 "Please choose another name."
 msgstr ""
 
-#: src/tiers_onglet.c:640
+#: src/tiers_onglet.c:646
 msgid "Payee already exists"
 msgstr ""
 
-#: src/tiers_onglet.c:733
+#: src/tiers_onglet.c:739
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -9068,20 +9072,20 @@ msgid ""
 "It is better to make a backup of your Grisbi file if you have not yet done. "
 msgstr ""
 
-#: src/tiers_onglet.c:888
+#: src/tiers_onglet.c:894
 msgid "One payee was replaced with a new one."
 msgstr ""
 
-#: src/tiers_onglet.c:892
+#: src/tiers_onglet.c:898
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr ""
 
-#: src/tiers_onglet.c:949
+#: src/tiers_onglet.c:955
 msgid "Choose a payee"
 msgstr ""
 
-#: src/tiers_onglet.c:951
+#: src/tiers_onglet.c:957
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -9090,54 +9094,54 @@ msgid ""
 "   %string%, string_1%string_2"
 msgstr ""
 
-#: src/tiers_onglet.c:972
+#: src/tiers_onglet.c:978
 msgid "Enter the new payee"
 msgstr ""
 
-#: src/tiers_onglet.c:974
+#: src/tiers_onglet.c:980
 msgid "Enter the name of the new payee"
 msgstr ""
 
-#: src/tiers_onglet.c:989
+#: src/tiers_onglet.c:995
 msgid "Options"
 msgstr ""
 
-#: src/tiers_onglet.c:997
+#: src/tiers_onglet.c:1003
 msgid "Save the payees in the notes"
 msgstr ""
 
-#: src/tiers_onglet.c:1030
+#: src/tiers_onglet.c:1036
 msgid "List of payees who will be modified"
 msgstr ""
 
-#: src/tiers_onglet.c:1076
+#: src/tiers_onglet.c:1082
 msgid "Select"
 msgstr ""
 
-#: src/tiers_onglet.c:1084
+#: src/tiers_onglet.c:1090
 msgid "Payee number"
 msgstr ""
 
-#: src/tiers_onglet.c:1110
+#: src/tiers_onglet.c:1116
 msgid "Total number of payees :"
 msgstr ""
 
 #. ajoute le nombre de tiers sÃ©lectionnÃ©s
-#: src/tiers_onglet.c:1127
+#: src/tiers_onglet.c:1133
 msgid "Number of selected payees :"
-msgstr ""
-
-#: src/tiers_onglet.c:1230
-#, c-format
-msgid "Payee sought : %s"
 msgstr ""
 
 #: src/tiers_onglet.c:1236
 #, c-format
+msgid "Payee sought : %s"
+msgstr ""
+
+#: src/tiers_onglet.c:1242
+#, c-format
 msgid "New payee : %s"
 msgstr ""
 
-#: src/tiers_onglet.c:1311
+#: src/tiers_onglet.c:1317
 #, c-format
 msgid ""
 "You are about to replace one payee which name contain %s by %s\n"
@@ -9145,7 +9149,7 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: src/tiers_onglet.c:1319
+#: src/tiers_onglet.c:1325
 #, c-format
 msgid ""
 "You are about to replace %d payees whose names contain %s by %s\n"
@@ -9153,11 +9157,11 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: src/tiers_onglet.c:1483
+#: src/tiers_onglet.c:1489
 msgid "You must choose a payee for searching."
 msgstr ""
 
-#: src/tiers_onglet.c:1487
+#: src/tiers_onglet.c:1493
 msgid "Beware you don't use one of models for the research."
 msgstr ""
 

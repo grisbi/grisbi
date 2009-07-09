@@ -895,7 +895,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 {
     devel_debug (NULL);
 
-    GtkTreeIter iter, * it;
+    GtkTreeIter iter, *parent_iter, * it;
     GtkTreePath *path;
 
     if ( find_associated_transactions ( iface, division, 
@@ -958,16 +958,26 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	}
 
 	/* Fill sub division */
-	it = get_iter_from_div ( model, nouveau_no_division, nouveau_no_sub_division );
+    if ( nouveau_no_division && nouveau_no_sub_division == 0 )
+    {
+        parent_iter = get_iter_from_div ( model, nouveau_no_division, 0 );
+        it = get_iter_from_sub_div_zero ( model, iface, parent_iter, 0 );
+    }
+    else
+        it = get_iter_from_div ( model, nouveau_no_division, nouveau_no_sub_division );
+
 	if ( it )
     {
         GtkTreeIter child_iter;
         gint transaction_number;
-        
-	    fill_sub_division_row ( model, iface, it,
-                        nouveau_no_division,
-                        nouveau_no_sub_division );
-        
+
+        if ( nouveau_no_division && nouveau_no_sub_division == 0 )
+            fill_sub_division_zero ( model, iface, it,nouveau_no_division );
+        else
+            fill_sub_division_row ( model, iface, it,
+                            nouveau_no_division,
+                            nouveau_no_sub_division );
+
         path = gtk_tree_model_get_path ( model, it );
         if ( gtk_tree_view_row_expanded ( tree_view, path ) )
         {

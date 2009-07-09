@@ -380,17 +380,23 @@ gboolean payee_remove_unused ( GtkWidget *button,
 
     if (result == TRUE)
     {
-	gint nb_removed;
-	gchar *tmpstr;
+        gint nb_removed;
+        gchar *tmpstr;
 
-	nb_removed = gsb_data_payee_remove_unused ();
-	payee_fill_tree ();
-	tmpstr = g_strdup_printf ( _("Removed %d payees."),
-				   nb_removed);
-	dialogue (tmpstr);
-	g_free (tmpstr);
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        nb_removed = gsb_data_payee_remove_unused ();
+        if ( nb_removed > 0 )
+        {
+            payee_fill_tree ();
+            tmpstr = g_strdup_printf ( _("Removed %d payees."), nb_removed);
+            if ( etat.modification_fichier == 0 )
+                modification_fichier ( TRUE );
+        }
+        else
+        {
+            tmpstr = g_strdup ( _("There is no payee to remove.") );
+        }
+        dialogue (tmpstr);
+        g_free (tmpstr);
     }
     return FALSE;
 }
