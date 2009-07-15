@@ -1184,6 +1184,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 	  (( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )))
     {
 	gsb_transactions_list_switch_mark (transaction_number);
+    transaction_list_set_balances ( );
 	return TRUE;
     }
 
@@ -1248,6 +1249,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
         if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
         gsb_transactions_list_switch_mark (
                         gsb_data_account_get_current_transaction_number ( account_number ) );
+        transaction_list_set_balances ( );
         break;
 
     case GDK_r:         /* touche r */
@@ -1256,6 +1258,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
         if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
         gsb_transactions_list_switch_R_mark (
                         gsb_data_account_get_current_transaction_number ( account_number ) );
+        transaction_list_set_balances ( );
         break;
 
     case GDK_t:         /* touche t */
