@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-07-09 00:27+0200\n"
-"PO-Revision-Date: 2009-06-28 12:02+0200\n"
+"PO-Revision-Date: 2009-07-22 18:48+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -74,9 +74,8 @@ msgid "Current balance"
 msgstr "Balance actual"
 
 #: src/accueil.c:900
-#, fuzzy
 msgid "Global balance"
-msgstr "Balances globales"
+msgstr "Balance global"
 
 #: src/accueil.c:902
 msgid "Global balances"
@@ -6888,7 +6887,7 @@ msgid "Delete a copy of file of the old version of grisbi"
 msgstr "Borrar una copia del fichero de la versión antigua de Grisbi"
 
 #: src/gsb_file.c:1167
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Careful, you are about to deleting the copy of file\n"
 "of the old version of grisbi.\n"
@@ -6899,7 +6898,7 @@ msgstr ""
 "Cuidado, está a punto de borrar la copia de el fichero\n"
 "de configuración de la versión antigua de Grisbi.\n"
 "\n"
-"<b>¿ Quiere continuar ?</b>"
+"<b>¿ Quiere borrar este fichero ?</b>"
 
 #: src/gsb_file_config.c:769
 #, c-format
@@ -8153,9 +8152,8 @@ msgid "Change cell content"
 msgstr "Cambiar el contenido de la celda"
 
 #: src/gsb_transactions_list.c:2199
-#, fuzzy
 msgid "Clear cell"
-msgstr "Cancelar"
+msgstr "Borrar celda"
 
 #: src/gsb_transactions_list.c:2530
 msgid "Cannot move a transfer on his contra-account"
@@ -9858,7 +9856,7 @@ msgstr "%d Terceros eliminados"
 
 #: src/tiers_onglet.c:396
 msgid "There is no payee to remove."
-msgstr ""
+msgstr "No hay un tercero que borrar"
 
 #. Edit transaction
 #: src/tiers_onglet.c:420
