@@ -31,6 +31,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_transaction.h"
+#include "./classement_echeances.h"
 #include "./dialog.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_budget.h"
@@ -45,7 +46,6 @@
 #include "./transaction_list.h"
 #include "./include.h"
 #include "./gsb_real.h"
-#include "./erreur.h"
 /*END_INCLUDE*/
 
 
@@ -2540,6 +2540,27 @@ gint gsb_data_transaction_check_content_payment ( gint payment_number,
     }
     return FALSE;
 }
+
+
+/** 
+ * return a copy of the g_slist of transactions structure
+ * sorted by date
+ *  * THIS IS THE LIST WITHOUT THE ARCHIVED TRANSACTIONS
+ *
+ * \param none
+ *
+ * \return the slist of transactions structures
+ * */
+GSList *gsb_data_transaction_get_transactions_list_by_date ( void )
+{
+    GSList *list_tmp;
+
+    list_tmp = g_slist_copy ( transactions_list );
+    list_tmp = g_slist_sort (list_tmp, 
+                        (GCompareFunc) classement_sliste_transactions_par_date );
+    return list_tmp;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

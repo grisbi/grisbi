@@ -41,6 +41,7 @@
 #include "./gsb_data_form.h"
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_import_rule.h"
+#include "./gsb_data_partial_balance.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_print_config.h"
@@ -100,6 +101,9 @@ static gulong gsb_file_save_import_rule_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
 static gulong gsb_file_save_logo_part ( gulong iterator,
+                        gulong *length_calculated,
+                        gchar **file_content );
+static gulong gsb_file_save_partial_balance_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
 static gulong gsb_file_save_party_part ( gulong iterator,
@@ -194,6 +198,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint reconcile_part;
     gint report_part;
     gint import_rule_part;
+    gint partial_balance_part;
     gint logo_part;
 
     struct stat buf;
@@ -239,6 +244,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     reconcile_part = 50;
     report_part = 2500;
     import_rule_part = 50;
+    partial_balance_part = 50;
     logo_part = 65536;
     
     length_calculated = general_part
@@ -255,6 +261,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 	+ reconcile_part * g_list_length (gsb_data_reconcile_get_reconcile_list ())
 	+ report_part * g_slist_length ( gsb_data_report_get_report_list ())
 	+ import_rule_part * g_slist_length ( gsb_data_import_rule_get_list ())
+    + partial_balance_part * g_slist_length ( gsb_data_partial_balance_get_list ())
     + logo_part;
 
     iterator = 0;
@@ -339,6 +346,10 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					      &file_content );
 
     iterator = gsb_file_save_import_rule_part ( iterator,
+						&length_calculated,
+						&file_content );
+
+    iterator = gsb_file_save_partial_balance_part ( iterator,
 						&length_calculated,
 						&file_content );
 
@@ -663,7 +674,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tCombofix_force_category=\"%d\"\n"
 					   "\t\tAutomatic_amount_separator=\"%d\"\n"
 					   "\t\tCSV_separator=\"%s\"\n"
-					   "\t\tCSV_skipped_lines=\"%s\" />\n",
+					   "\t\tCSV_skipped_lines=\"%s\"\n"
+					   "\t\tMetatree_sort_transactions=\"%d\" />\n",
 	my_safe_null_str(VERSION_FICHIER),
 	my_safe_null_str(VERSION),
 	etat.crypt_file,
@@ -699,7 +711,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.combofix_force_category,
 	etat.automatic_separator,
 	my_safe_null_str(etat.csv_separator),
-	my_safe_null_str(skipped_lines_string) );
+	my_safe_null_str(skipped_lines_string),
+    etat.metatree_sort_transactions );
 
     g_free (transactions_view);
     g_free (scheduler_column_width_write);
@@ -1867,6 +1880,48 @@ gulong gsb_file_save_import_rule_part ( gulong iterator,
     return iterator;
 }
 
+
+/**
+ * save the partial_balance structures
+ *
+ * \param iterator the current iterator
+ * \param length_calculated a pointer to the variable lengh_calculated
+ * \param file_content a pointer to the variable file_content
+ *
+ * \return the new iterator
+ * */
+gulong gsb_file_save_partial_balance_part ( gulong iterator,
+                        gulong *length_calculated,
+                        gchar **file_content )
+{
+    GSList *list_tmp;
+
+    list_tmp = gsb_data_partial_balance_get_list ();
+
+    while ( list_tmp )
+    {
+	gchar *new_string;
+	gint partial_balance_number;
+
+	partial_balance_number = gsb_data_partial_balance_get_number ( list_tmp -> data );
+
+	new_string = g_markup_printf_escaped ( "\t<Partial_balance Nb=\"%d\" Na=\"%s\" Acc=\"%s\" kind=\"%d\" Currency=\"%d\" />\n",
+					       partial_balance_number,
+					       my_safe_null_str(gsb_data_partial_balance_get_name ( partial_balance_number )),
+					       my_safe_null_str(gsb_data_partial_balance_get_liste_cptes ( partial_balance_number )),
+					       gsb_data_partial_balance_get_kind (partial_balance_number),
+					       gsb_data_partial_balance_get_currency (partial_balance_number) );
+
+	/* append the new string to the file content
+	 * and take the new iterator */
+	iterator = gsb_file_save_append_part ( iterator,
+					       length_calculated,
+					       file_content,
+					       new_string );
+	list_tmp = list_tmp -> next;
+    }
+    return iterator;
+}
 
 
 /**

@@ -811,10 +811,11 @@ gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection,
  */
 GtkWidget *gsb_currency_config_create_totals_page ( void )
 {
-    GtkWidget *vbox_pref, *table, *label;
+    //~ GtkWidget *vbox_pref, *table, *label;
+        GtkWidget *table, *label;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Totals currencies"),
-					       "currencies.png" );
+    //~ vbox_pref = new_vbox_with_title_and_icon ( _("Totals currencies"),
+					       //~ "currencies.png" );
 
     table = gtk_table_new ( 2, 2, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
@@ -850,9 +851,9 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_ib,
 		       1, 2, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), table, TRUE, TRUE, 0);
+    //~ gtk_box_pack_start ( GTK_BOX ( vbox_pref ), table, TRUE, TRUE, 0);
 
-    return ( vbox_pref );
+    return ( table );
 }
 
 /**

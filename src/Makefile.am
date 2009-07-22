@@ -70,6 +70,7 @@ sources = \
 	gsb_data_fyear.c	\
 	gsb_data_import_rule.c	\
 	gsb_data_mix.c		\
+    gsb_data_partial_balance.c   \
 	gsb_data_payee.c	\
 	gsb_data_payment.c		\
 	gsb_data_print_config.c		\
@@ -198,6 +199,7 @@ grisbi_INCLUDES =		\
 	gsb_data_fyear.h	\
 	gsb_data_import_rule.h	\
 	gsb_data_mix.h		\
+    gsb_data_partial_balance.h   \
 	gsb_data_payee.h	\
 	gsb_data_payment.h		\
 	gsb_data_print_config.h		\
@@ -257,11 +259,11 @@ grisbi_INCLUDES =		\
 	main.h			\
 	main_cunit.h			\
 	menu.h			\
-        meta_budgetary.h        \
-        meta_categories.h       \
-        meta_payee.h            \
-        metatree.h              \
-        mouse.h                 \
+    meta_budgetary.h        \
+    meta_categories.h       \
+    meta_payee.h            \
+    metatree.h              \
+    mouse.h                 \
 	navigation.h		\
 	parametres.h		\
 	parse_cmdline.h		\

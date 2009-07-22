@@ -141,6 +141,9 @@ struct {
                             * skipped lines
                             * in CSV
                             * preview. */
+
+    /* variables pour les metatree */
+    gint metatree_sort_transactions;
 } etat;
 
 

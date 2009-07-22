@@ -66,6 +66,9 @@ gint no_devise_totaux_categ;
 /* variable for the management of the cancelled edition */
 static gboolean sortie_edit_category = FALSE;
 
+/* structure pour la sauvegarde de la position */
+struct metatree_hold_position *category_hold_position;
+
 /*START_EXTERN*/
 extern MetatreeInterface * category_interface;
 extern GtkWidget *window;
@@ -196,6 +199,10 @@ GtkWidget *onglet_categories ( void )
     g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(arbre_categ)),
 		       "changed", G_CALLBACK(metatree_selection_changed),
 		       categ_tree_model );
+
+    /* création de la structure de sauvegarde de la position */
+    category_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
+
     return ( vbox );
 }
 
@@ -208,6 +215,7 @@ void remplit_arbre_categ ( void )
 {
     GSList *category_list;
     GtkTreeIter iter_categ, iter_sous_categ;
+    GtkTreeSelection *selection;
 
     devel_debug (NULL);
 
@@ -272,6 +280,24 @@ void remplit_arbre_categ ( void )
 	}
 
 	category_list = category_list -> next;
+    }
+
+    if ( category_hold_position -> path )
+    {
+        if ( category_hold_position -> expand )
+        {
+            GtkTreePath *ancestor;
+
+            ancestor = gtk_tree_path_copy ( category_hold_position -> path );
+            gtk_tree_path_up ( ancestor );
+            gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( arbre_categ ), ancestor );
+            gtk_tree_path_free (ancestor );
+        }
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( arbre_categ ) );
+        gtk_tree_selection_select_path ( selection, category_hold_position -> path );
+        gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( arbre_categ ),
+                        category_hold_position -> path,
+                        NULL, TRUE, 0.5, 0.5 );
     }
 }
 
@@ -842,6 +868,31 @@ void selectionne_sub_category ( GtkTreeModel * model )
     gtk_tree_path_free ( path );
     g_free ( name );
 }
+
+
+/**
+ * sauvegarde le chemin de la dernière categorie sélectionnée.
+ *
+ * \param path
+ */
+gboolean category_hold_position_set_path ( GtkTreePath *path )
+{
+    category_hold_position -> path = gtk_tree_path_copy ( path );
+
+    return TRUE;
+}
+/**
+ * sauvegarde l'attribut expand.
+ *
+ * \param expand
+ */
+gboolean category_hold_position_set_expand ( gboolean expand )
+{
+    category_hold_position -> expand = expand;
+
+    return TRUE;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

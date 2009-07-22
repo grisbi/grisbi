@@ -51,7 +51,20 @@ typedef struct metatree_interface {
     void (* remove_transaction_from_div) (int);
     void (* remove_transaction_from_sub_div) (int);
 
+    /* sauvegarde dernière sélection */
+    gboolean (* hold_position_set_path) ( GtkTreePath *);
+    gboolean (* hold_position_set_expand) ( gboolean );
+
 } MetatreeInterface;
+
+
+/* structure permettant de mémoriser la dernière sélection dans un metatree */
+struct metatree_hold_position
+{
+    GtkTreePath *path;
+    gboolean expand;
+};
+
 
 enum meta_tree_columns {
     META_TREE_TEXT_COLUMN,

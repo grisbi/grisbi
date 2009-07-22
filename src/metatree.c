@@ -1123,12 +1123,16 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 			     META_TREE_NO_DIV_COLUMN, &no_division,
 			     META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
 			     -1 );
-	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+    if ( etat.metatree_sort_transactions )
+        list_tmp_transactions = gsb_data_transaction_get_transactions_list_by_date ();
+    else
+        list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 	while ( list_tmp_transactions )
 	{
 	    gint transaction_number_tmp;
-	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (
+                        list_tmp_transactions -> data);
 
 	    /* set the transaction if the same div/sub-div
 	     * or if no categ (must check if no transfer or split) */
@@ -2232,6 +2236,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
     MetatreeInterface * iface;
     GtkTreeView * tree_view;
     GtkTreeIter iter;
+    GtkTreePath *path;
     gboolean selection_is_set = FALSE;
     gint div_id, sub_div_id, current_number;
 
@@ -2253,6 +2258,11 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 			     META_TREE_POINTER_COLUMN, &current_number,
 			     -1);
 
+    /* save the new_position */
+    path = gtk_tree_model_get_path ( model, &iter );
+    gtk_tree_path_to_string ( path);
+    iface -> hold_position_set_path ( path );
+
 	/* if we are on a transaction, get the div_id of the transaction */
 	if (!div_id
 	    &&
@@ -2261,9 +2271,14 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 	    div_id = iface -> transaction_div_id (current_number);
 	    sub_div_id = iface -> transaction_sub_div_id (current_number);
         metatree_set_linked_widgets_sensitive ( model, FALSE, "selection" );
+        /* save the new expand */
+        iface -> hold_position_set_expand ( TRUE );
 	}
     else
+    {
         metatree_set_linked_widgets_sensitive ( model, TRUE, "selection" );
+        iface -> hold_position_set_expand ( FALSE );
+    }
 	text = g_strconcat ( _(iface -> meta_name),  " : ", 
 			     (div_id ? iface -> div_name ( div_id ) : _(iface->no_div_label) ),
 			     NULL );

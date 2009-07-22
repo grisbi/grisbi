@@ -63,6 +63,7 @@ gint gsb_data_transaction_get_sub_category_number ( gint transaction_number );
 const gchar *gsb_data_transaction_get_transaction_id ( gint transaction_number );
 gint gsb_data_transaction_get_transaction_number ( gpointer transaction_pointer );
 GSList *gsb_data_transaction_get_transactions_list ( void );
+GSList *gsb_data_transaction_get_transactions_list_by_date ( void );
 const GDate *gsb_data_transaction_get_value_date ( gint transaction_number );
 const gchar *gsb_data_transaction_get_voucher ( gint transaction_number );
 gint gsb_data_transaction_get_white_line ( gint transaction_number );

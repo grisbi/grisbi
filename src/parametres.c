@@ -42,26 +42,35 @@
 #include "./gsb_file.h"
 #include "./gsb_form_config.h"
 #include "./gsb_fyear_config.h"
+#include "./navigation.h"
 #include "./import.h"
 #include "./gsb_payment_method_config.h"
 #include "./gsb_reconcile_config.h"
 #include "./gsb_reconcile_sort_config.h"
 #include "./traitement_variables.h"
 #include "./utils_files.h"
+#include "./accueil.h"
 #include "./affichage_liste.h"
 #include "./affichage.h"
+#include "./tiers_onglet.h"
+#include "./categories_onglet.h"
+#include "./imputation_budgetaire.h"
 #include "./structures.h"
+#include "./fenetre_principale.h"
 #include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static GtkWidget * create_preferences_tree ( );
+static gboolean gsb_config_metatree_sort_transactions ( GtkWidget *checkbutton,
+                        gpointer null );
 static  GtkWidget *gsb_config_scheduler_page ( void );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
 static GtkWidget *onglet_fichier ( void );
 static GtkWidget *onglet_messages_and_warnings ( void );
+static GtkWidget *onglet_metatree ( void );
 static GtkWidget *onglet_programmes (void);
 static gboolean preference_selectable_func (GtkTreeSelection *selection,
                         GtkTreeModel *model,
@@ -313,6 +322,15 @@ gboolean preferences ( gint page )
                         -1);
     gtk_notebook_append_page (preference_frame, gsb_config_scheduler_page (), NULL);
 
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        &iter2,
+                        0, _("Main page"),
+                        1, MAIN_PAGE,
+                        2, 400,
+                        -1);
+    gtk_notebook_append_page (preference_frame, onglet_accueil (), NULL);
+
     /* Display subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -352,11 +370,12 @@ gboolean preferences ( gint page )
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
                         &iter2,
-                        0, _("Totals currencies"),
+                        0, _("Payees, categories and budgetaries"),
                         1, TOTALS_PAGE,
                         2, 400,
                         -1);
-    gtk_notebook_append_page (preference_frame, gsb_currency_config_create_totals_page(), NULL);
+    //~ gtk_notebook_append_page (preference_frame, gsb_currency_config_create_totals_page(), NULL);
+    gtk_notebook_append_page ( preference_frame, onglet_metatree (), NULL );
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -926,6 +945,67 @@ static GtkWidget *gsb_config_scheduler_page ( void )
 }
 
 
+/**
+ * create the metatree config page
+ *
+ * \param
+ *
+ * \return a GtkWidget containing the page of scheduler config
+ * */
+GtkWidget *onglet_metatree ( void )
+{
+    GtkWidget *vbox_pref, *paddingbox, *total_currencies;
+
+    vbox_pref = new_vbox_with_title_and_icon ( 
+                        _("Payees, categories and budgetaries"),
+                        "sort.png" );
+
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Totals currencies") );
+    total_currencies = gsb_currency_config_create_totals_page ( );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), total_currencies, FALSE, FALSE, 0 );
+
+    /* tri des opérations */
+    gsb_automem_radiobutton_new_with_title ( vbox_pref,
+                        _("Sort option for transactions"),
+                        _("by number"),
+                        _("by date"),
+                        &etat.metatree_sort_transactions,
+                        G_CALLBACK (gsb_config_metatree_sort_transactions), NULL );
+
+    return vbox_pref;
+}
+
+
+gboolean gsb_config_metatree_sort_transactions ( GtkWidget *checkbutton,
+                        gpointer null )
+{
+    gint page_number;
+
+    devel_debug_int (etat.metatree_sort_transactions);
+
+    page_number = gsb_gui_navigation_get_current_page ( );
+    devel_debug_int ( page_number );
+    switch ( page_number )
+    {
+	case GSB_PAYEES_PAGE:
+		payee_fill_tree ();
+	    break;
+
+	case GSB_CATEGORIES_PAGE:
+        remplit_arbre_categ ();
+	    break;
+
+	case GSB_BUDGETARY_LINES_PAGE:
+		remplit_arbre_imputation ();
+	    break;
+
+	default:
+	    notice_debug ("B0rk page selected");
+	    break;
+    }
+
+    return FALSE;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

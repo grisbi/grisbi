@@ -74,6 +74,9 @@ gint no_devise_totaux_ib;
 /* variable for the management of the cancelled edition */
 gboolean sortie_edit_budgetary_line = FALSE;
 
+/* structure pour la sauvegarde de la position */
+struct metatree_hold_position *budgetary_hold_position;
+
 /*START_EXTERN*/
 extern MetatreeInterface * budgetary_interface;
 extern GtkWidget *window;
@@ -209,6 +212,10 @@ GtkWidget *onglet_imputations ( void )
     g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(budgetary_line_tree)),
 		       "changed", G_CALLBACK(metatree_selection_changed),
 		       budgetary_line_tree_model );
+
+    /* création de la structure de sauvegarde de la position */
+    budgetary_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
+
     return ( vbox );
 }
 /* **************************************************************************************************** */
@@ -225,6 +232,7 @@ void remplit_arbre_imputation ( void )
 {
     GSList *budget_list;
     GtkTreeIter iter_budgetary_line, iter_sub_budgetary_line;
+    GtkTreeSelection *selection;
 
     devel_debug (NULL);
 
@@ -284,6 +292,24 @@ void remplit_arbre_imputation ( void )
 				    &iter_sub_budgetary_line, budget_number, 0 );
 	}
 	budget_list = budget_list -> next;
+    }
+        /* replace le curseur sur la division, sub_division ou opération initiale */
+    if ( budgetary_hold_position -> path )
+    {
+        if ( budgetary_hold_position -> expand )
+        {
+            GtkTreePath *ancestor;
+
+            ancestor = gtk_tree_path_copy ( budgetary_hold_position -> path );
+            gtk_tree_path_up ( ancestor );
+            gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( budgetary_line_tree ), ancestor );
+            gtk_tree_path_free (ancestor );
+        }
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( budgetary_line_tree ) );
+        gtk_tree_selection_select_path ( selection, budgetary_hold_position -> path );
+        gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( budgetary_line_tree ),
+                        budgetary_hold_position -> path,
+                        NULL, TRUE, 0.5, 0.5 );
     }
 }
 
@@ -878,6 +904,31 @@ void selectionne_sub_budgetary ( GtkTreeModel * model )
     gtk_tree_path_free ( path );
     g_free ( name );
 }
+
+
+/**
+ * sauvegarde le chemin de la dernière imputation sélectionnée.
+ *
+ * \param path
+ */
+gboolean budgetary_hold_position_set_path ( GtkTreePath *path )
+{
+    budgetary_hold_position -> path = gtk_tree_path_copy ( path );
+
+    return TRUE;
+}
+/**
+ * sauvegarde l'attribut expand.
+ *
+ * \param expand
+ */
+gboolean budgetary_hold_position_set_expand ( gboolean expand )
+{
+    budgetary_hold_position -> expand = expand;
+
+    return TRUE;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

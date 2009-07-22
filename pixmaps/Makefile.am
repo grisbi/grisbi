@@ -50,6 +50,7 @@ grisbi_pixmaps_DATA = \
 	reports.png \
 	scheduler.png \
 	show_r.png \
+    sort.png \
 	text.png \
 	title.png \
 	toolbar.png \

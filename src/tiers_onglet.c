@@ -95,8 +95,6 @@ static void payee_tree_update_transactions ( GtkTreeModel * model,
 static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
-//~ GtkWidget *arbre_tiers = NULL;
-
 gint no_devise_totaux_tiers;
 
 GtkWidget *payee_tree = NULL;
@@ -104,6 +102,9 @@ GtkTreeStore *payee_tree_model = NULL;
 
 /* variable for the management of the cancelled edition */
 gboolean sortie_edit_payee = FALSE;
+
+/* structure pour la sauvegarde de la position */
+struct metatree_hold_position *payee_hold_position;
 
 /*START_EXTERN*/
 extern GSList *liste_associations_tiers;
@@ -272,6 +273,9 @@ GtkWidget *onglet_tiers ( void )
     g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(payee_tree)),
 		       "changed", G_CALLBACK(metatree_selection_changed),
 		       payee_tree_model );
+
+    /* création de la structure de sauvegarde de la position */
+    payee_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
 
     return ( onglet );
 }
@@ -450,6 +454,7 @@ void payee_fill_tree ( void )
 {
     GSList *payee_list_tmp;
     GtkTreeIter iter_payee;
+    GtkTreeSelection *selection;
 
     devel_debug (NULL);
 
@@ -485,7 +490,26 @@ void payee_fill_tree ( void )
     /* Reattach the model */
     gtk_tree_view_set_model (GTK_TREE_VIEW (payee_tree),
 			     GTK_TREE_MODEL (payee_tree_model));
-    g_object_unref ( G_OBJECT(payee_tree_model) );
+
+    /* replace le curseur sur la division, sub_division ou opération initiale */
+    if ( payee_hold_position -> path )
+    {
+        if ( payee_hold_position -> expand )
+        {
+            GtkTreePath *ancestor;
+
+            ancestor = gtk_tree_path_copy ( payee_hold_position -> path );
+            gtk_tree_path_up ( ancestor );
+            gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), ancestor );
+            gtk_tree_path_free (ancestor );
+        }
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) );
+        gtk_tree_selection_select_path ( selection, payee_hold_position -> path );
+        gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( payee_tree ),
+                        payee_hold_position -> path,
+                        NULL, TRUE, 0.5, 0.5 );
+    }
+    g_object_unref ( G_OBJECT ( payee_tree_model ) );
 
     gsb_status_stop_wait ( FALSE );
 }
@@ -717,6 +741,28 @@ void appui_sur_ajout_payee ( GtkTreeModel * model )
 }
 
 
+/**
+ * fonction pour sauvegarder le chemin du dernier tiers sélectionné.
+ *
+ * \param path
+ */
+gboolean payee_hold_position_set_path ( GtkTreePath *path )
+{
+    payee_hold_position -> path = gtk_tree_path_copy ( path );
+
+    return TRUE;
+}
+/**
+ * sauvegarde l'attribut expand.
+ *
+ * \param expand
+ */
+gboolean payee_hold_position_set_expand ( gboolean expand )
+{
+    payee_hold_position -> expand = expand;
+
+    return TRUE;
+}
 /* ******************************************************************************/
 /* assistant de gestion des tiers :                                             */
 /* permet de modifier en masse le nom d'un tiers contenant une chaine           */

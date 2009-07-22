@@ -40,6 +40,7 @@
 #include "./gsb_data_currency_link.h"
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_import_rule.h"
+#include "./gsb_data_partial_balance.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_print_config.h"
@@ -244,6 +245,7 @@ void init_variables ( void )
     gsb_data_archive_init_variables ();
     gsb_data_archive_store_init_variables ();
     gsb_data_import_rule_init_variables ();
+    gsb_data_partial_balance_init_variables ( );
 
     gsb_currency_init_variables ();
     gsb_fyear_init_variables ();

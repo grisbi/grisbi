@@ -94,6 +94,8 @@ static MetatreeInterface _budgetary_interface = {
     gsb_data_budget_add_transaction_to_budget,
     gsb_data_budget_remove_transaction_from_budget,
     gsb_data_budget_remove_transaction_from_budget,
+    budgetary_hold_position_set_path,
+    budgetary_hold_position_set_expand,
 };
 
 MetatreeInterface * budgetary_interface = &_budgetary_interface;

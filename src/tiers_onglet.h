@@ -11,5 +11,7 @@ gint classement_alphabetique_tree ( GtkWidget *tree,
 gboolean gsb_payee_update_combofix ( void );
 GtkWidget *onglet_tiers ( void );
 void payee_fill_tree ( void );
+gboolean payee_hold_position_set_expand ( gboolean expand );
+gboolean payee_hold_position_set_path ( GtkTreePath *path );
 /* END_DECLARATION */
 #endif

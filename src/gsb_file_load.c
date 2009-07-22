@@ -41,6 +41,7 @@
 #include "./gsb_data_form.h"
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_import_rule.h"
+#include "./gsb_data_partial_balance.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_print_config.h"
@@ -107,6 +108,8 @@ static gint gsb_file_load_get_new_payment_number ( gint account_number,
 static void gsb_file_load_import_rule ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_logo_accueil ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_partial_balance ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_party ( const gchar **attribute_names,
                         const gchar **attribute_values );
@@ -604,6 +607,14 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     }
 
     if ( !strcmp ( element_name,
+                        "Partial_balance" ))
+    {
+    gsb_file_load_partial_balance ( attribute_names,
+                        attribute_values );
+    return;
+    }
+
+    if ( !strcmp ( element_name,
                         "Report" ))
     {
     gsb_file_load_report ( attribute_names,
@@ -971,7 +982,11 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         g_strfreev ( pointeur_char );
         }
     }
-
+    else if ( !strcmp ( attribute_names[i],
+                        "Metatree_sort_transactions" ))
+    {
+        etat.metatree_sort_transactions = utils_str_atoi( attribute_values[i]);
+    }
 
     i++;
     }
@@ -3403,6 +3418,89 @@ void gsb_file_load_import_rule ( const gchar **attribute_names,
     }
     while ( attribute_names[i] );
 }
+
+
+/**
+ * load the partial balance structure in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_partial_balance ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    gint i=0;
+    gint partial_balance_number = 0;
+
+    partial_balance_number = gsb_data_partial_balance_new ( NULL );
+
+    if ( !attribute_names[i] )
+    return;
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+    if ( !strcmp (attribute_values[i],
+         "(null)"))
+    {
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Nb" ))
+    {
+        partial_balance_number = gsb_data_partial_balance_set_new_number (
+                        partial_balance_number,
+                        utils_str_atoi ( attribute_values[i] ) );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Na" ))
+    {
+        gsb_data_partial_balance_set_name ( partial_balance_number,
+                        attribute_values[i]);
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Acc" ))
+    {
+        gsb_data_partial_balance_set_liste_cptes ( partial_balance_number,
+                           attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+                        "Kind" ))
+    {
+        gsb_data_partial_balance_set_kind ( partial_balance_number,
+                        utils_str_atoi ( attribute_values[i] ) );
+        i++;
+        continue;
+    }
+
+        if ( !strcmp ( attribute_names[i],
+                        "Currency" ))
+    {
+        gsb_data_partial_balance_set_currency ( partial_balance_number,
+                        utils_str_atoi ( attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    /* normally, shouldn't come here */
+    i++;
+    }
+    while ( attribute_names[i] );
+}
+
 
 /**
  * load the report structure in the grisbi file
