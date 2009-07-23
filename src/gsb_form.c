@@ -2951,10 +2951,11 @@ gboolean gsb_form_get_categories ( gint transaction_number,
     }
     else
     {
-	const gchar *string;
+	gchar *string;
 	gint contra_transaction_number;
 
-	string = gtk_combofix_get_text ( GTK_COMBOFIX (category_combofix));
+    /* On protège la chaine pendant toute l'opération */
+	string = g_strdup ( gtk_combofix_get_text ( GTK_COMBOFIX ( category_combofix ) ) );
 
 	if ( strcmp ( string,
 		      _("Split of transaction") ))
@@ -3112,6 +3113,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 	    gsb_data_mix_set_financial_year_number (transaction_number, 0, is_transaction);
 	    gsb_data_mix_set_voucher (transaction_number, NULL, is_transaction);
 	}
+        g_free ( string );
     }
 
     return FALSE;
