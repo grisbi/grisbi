@@ -1747,7 +1747,7 @@ GtkWidget *onglet_accueil (void)
     GtkWidget *vbox_pref, *paddingbox;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Configuration of the main page"),
-                        "grisbi.png" );
+                        "title.png" );
 
     /* Data import settings */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 

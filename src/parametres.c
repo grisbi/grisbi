@@ -958,7 +958,7 @@ GtkWidget *onglet_metatree ( void )
 
     vbox_pref = new_vbox_with_title_and_icon ( 
                         _("Payees, categories and budgetaries"),
-                        "sort.png" );
+                        "organization.png" );
 
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Totals currencies") );
     total_currencies = gsb_currency_config_create_totals_page ( );
