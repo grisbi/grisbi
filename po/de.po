@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-07-24 08:53+0200\n"
-"PO-Revision-Date: 2009-07-24 09:01+0200\n"
+"PO-Revision-Date: 2009-07-26 13:47+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -9225,7 +9225,7 @@ msgstr "Meldungen & Warnungen"
 
 #: src/parametres.c:373 src/parametres.c:960
 msgid "Payees, categories and budgetaries"
-msgstr "Empfänger, Kategorien und Budgeteinträge"
+msgstr "Währungen & Sortierung"
 
 #: src/parametres.c:401
 msgid "List behavior"
