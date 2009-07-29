@@ -959,6 +959,7 @@ gboolean gsb_data_account_set_balances_are_dirty ( gint account_number )
 gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number )
 {
     struct_account *account;
+    GDate *date_jour = g_date_new ( );
     GSList *tmp_list;
     gsb_real current_balance;
     gsb_real marked_balance;
@@ -979,17 +980,23 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
     gsb_real current_balance_later = null_real;
     gsb_real marked_balance_later = null_real;
 
+    g_date_set_time_t (date_jour, time (NULL));
+
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
 
     while (tmp_list)
     {
 	gint transaction_number;
+    gint res = 0;
 
 	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-
+    /* on calcule le solde à la date du jour */
+    res = g_date_compare ( date_jour,
+                        gsb_data_transaction_get_date ( transaction_number ) );
 	if ( gsb_data_transaction_get_account_number (transaction_number) == account_number
 	     &&
-	     !gsb_data_transaction_get_mother_transaction_number (transaction_number))
+	     !gsb_data_transaction_get_mother_transaction_number (transaction_number)
+         && res >= 0 )
 	{
         gsb_real adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
 
@@ -1011,6 +1018,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 	tmp_list = tmp_list -> next;
     }
 
+    g_date_free ( date_jour ); 
     account -> current_balance = gsb_real_add ( current_balance, current_balance_later );
     account -> marked_balance = gsb_real_add ( marked_balance, marked_balance_later );
 
