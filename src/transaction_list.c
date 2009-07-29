@@ -2086,4 +2086,5 @@ void transaction_list_set_color_jour ( gint account_number )
             }
         }
     }
+    g_date_free ( date_jour ); 
 }
