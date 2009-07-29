@@ -1202,7 +1202,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	gtk_widget_show ( vbox);
 
 	pointeur_liste = g_slist_sort( scheduled_transactions_taken,
-				      (GCompareFunc) classement_sliste_transactions_par_date );
+				      (GCompareFunc) classement_sliste_echeance_par_date );
 
 	while ( pointeur_liste )
 	{
