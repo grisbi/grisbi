@@ -1528,7 +1528,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
 	}
 
 	tab_char = g_strsplit ( string,
-				":",
+				" : ",
 				2 );
 
 	/* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
@@ -1553,7 +1553,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
 	}
 
 	tab_char = g_strsplit ( string,
-				":",
+				" : ",
 				2 );
 
 	/* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
