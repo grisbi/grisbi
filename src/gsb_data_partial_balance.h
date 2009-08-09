@@ -27,5 +27,13 @@ gboolean gsb_data_partial_balance_set_name ( gint partial_balance_number,
                         const gchar *name );
 gint gsb_data_partial_balance_set_new_number ( gint partial_balance_number,
                         gint new_no_partial_balance );
+void gsb_partial_balance_add ( GtkWidget *button, GtkWidget *main_widget );
+void gsb_partial_balance_delete ( GtkWidget *button, GtkWidget *main_widget );
+void gsb_partial_balance_fill_model ( GtkListStore *list_store, kind_account kind );
+gboolean gsb_partial_balance_select_func ( GtkTreeSelection *selection,
+                        GtkTreeModel *model,
+                        GtkTreePath *path,
+                        gboolean path_currently_selected,
+                        GObject *main_widget );
 /* END_DECLARATION */
 #endif

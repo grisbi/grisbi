@@ -47,9 +47,9 @@
 #include "./gsb_payment_method_config.h"
 #include "./gsb_reconcile_config.h"
 #include "./gsb_reconcile_sort_config.h"
+#include "./accueil.h"
 #include "./traitement_variables.h"
 #include "./utils_files.h"
-#include "./accueil.h"
 #include "./affichage_liste.h"
 #include "./affichage.h"
 #include "./tiers_onglet.h"
@@ -66,6 +66,7 @@ static GtkWidget * create_preferences_tree ( );
 static gboolean gsb_config_metatree_sort_transactions ( GtkWidget *checkbutton,
                         gpointer null );
 static  GtkWidget *gsb_config_scheduler_page ( void );
+static gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
 static GtkWidget *onglet_fichier ( void );
@@ -92,8 +93,10 @@ static GtkNotebook * preference_frame = NULL;
 
 
 /*START_EXTERN*/
+extern gboolean balances_with_scheduled;
 extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
+extern gint mise_a_jour_liste_comptes_accueil;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern GtkWidget *window;
@@ -673,7 +676,7 @@ GtkWidget *onglet_fichier ( void )
     GtkWidget *label;
     GtkWidget *button;
     GtkWidget *dialog;
-devel_debug (NULL);
+
     vbox_pref = new_vbox_with_title_and_icon ( _("Files"), "files.png" );
 
     /* Account file handling */
@@ -914,7 +917,7 @@ GtkWidget *onglet_programmes (void)
  * */
 static GtkWidget *gsb_config_scheduler_page ( void )
 {
-    GtkWidget *vbox_pref;
+    GtkWidget *vbox_pref, *paddingbox;
     GtkWidget *hbox;
     GtkWidget *label;
     GtkWidget *entry;
@@ -932,7 +935,7 @@ static GtkWidget *gsb_config_scheduler_page ( void )
                         NULL, NULL );
 
     hbox = gtk_hbox_new ( FALSE, 0);
-    gtk_box_pack_start ( GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( SPACIFY ( COLON (
                         _("Number of days before the warning or the execution"))) );
@@ -941,7 +944,48 @@ static GtkWidget *gsb_config_scheduler_page ( void )
     entry = gsb_automem_spin_button_new ( &nb_days_before_scheduled, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );
 
+    /* Take into account the planned operations in the calculation of balances */
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Calculation of balances") );
+
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
+    button = gsb_automem_checkbutton_new (
+                        _("Take into account the scheduled operations "
+                          "in the calculation of balances"),
+                        &balances_with_scheduled,
+                        G_CALLBACK ( gsb_config_scheduler_switch_balances_with_scheduled ),
+                        NULL );
+
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
     return vbox_pref;
+}
+
+
+gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void )
+{
+    GSList *list_tmp;
+
+    devel_debug ( NULL );
+
+    list_tmp = gsb_data_account_get_list_accounts ();
+
+    while ( list_tmp )
+    {
+        gint account_number;
+
+        account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+        gsb_data_account_set_balances_are_dirty ( account_number );
+
+        if ( gsb_gui_navigation_get_current_page ( ) == GSB_HOME_PAGE )
+            mise_a_jour_accueil ( TRUE );
+        else
+            mise_a_jour_liste_comptes_accueil = ( TRUE );
+
+        list_tmp = list_tmp -> next;
+    }
+    return FALSE;
 }
 
 
@@ -981,10 +1025,8 @@ gboolean gsb_config_metatree_sort_transactions ( GtkWidget *checkbutton,
 {
     gint page_number;
 
-    devel_debug_int (etat.metatree_sort_transactions);
-
     page_number = gsb_gui_navigation_get_current_page ( );
-    devel_debug_int ( page_number );
+
     switch ( page_number )
     {
 	case GSB_PAYEES_PAGE:

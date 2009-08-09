@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-24 08:53+0200\n"
+"POT-Creation-Date: 2009-08-09 19:49+0200\n"
 "PO-Revision-Date: 2009-07-26 13:47+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -18,95 +18,96 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: src/accueil.c:216
+#: src/accueil.c:218
 msgid "Closed liabilities accounts"
 msgstr "Geschlossene Kreditkonten"
 
-#: src/accueil.c:229
+#: src/accueil.c:231
 msgid "Run out manual scheduled transactions"
 msgstr "Geplante Buchung manuell ausführen"
 
-#: src/accueil.c:245
+#: src/accueil.c:247
 msgid "Automatic scheduled transactions entered"
 msgstr "Geplante Buchung automatisch ausgeführt"
 
-#: src/accueil.c:256
+#: src/accueil.c:258
 msgid "Closed scheduled transactions"
 msgstr "Geschlossene geplante Buchungen"
 
-#: src/accueil.c:267
+#: src/accueil.c:269
 msgid "Accounts under authorized balance"
 msgstr "Konten unter dem zulässigen Saldo"
 
-#: src/accueil.c:278
+#: src/accueil.c:280
 msgid "Accounts under desired balance"
 msgstr "Konten unter dem festgelegten Saldo"
 
 #. crÃ©e la boite de dialogue
-#: src/accueil.c:325
+#: src/accueil.c:327
 msgid "Enter a scheduled transaction"
 msgstr "Geplante Buchung ausführen - Grisbi"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur solde.
-#: src/accueil.c:449
+#: src/accueil.c:451
 #, c-format
 msgid "Account balances in %s"
 msgstr "Salden der Konten in %s"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:524
+#: src/accueil.c:525
 #, c-format
 msgid "Liabilities accounts balances in %s"
 msgstr "Salden der Kreditkonten in %s"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:587
+#: src/accueil.c:588
 #, c-format
 msgid "Assets accounts balances in %s"
 msgstr "Salden der Anlagekonten in %s"
 
-#: src/accueil.c:715 src/accueil.c:909
+#: src/accueil.c:716 src/accueil.c:910
 msgid "Reconciled balance"
 msgstr "abgestimmter Saldo"
 
-#: src/accueil.c:719 src/accueil.c:913
+#: src/accueil.c:720 src/accueil.c:914
 msgid "Current balance"
 msgstr "aktueller Saldo"
 
-#: src/accueil.c:902
+#: src/accueil.c:903 src/accueil.c:1828
 msgid "Partial balance"
 msgstr "Partieller Saldo"
 
-#: src/accueil.c:904
+#: src/accueil.c:905
 msgid "Partial balances"
 msgstr "Partielle Salden"
 
-#: src/accueil.c:981
+#: src/accueil.c:982
 msgid "Global balance"
 msgstr "Alle Salden"
 
-#: src/accueil.c:983
+#: src/accueil.c:984
 msgid "Global balances"
 msgstr "Alle Salden"
 
-#: src/accueil.c:1135 src/accueil.c:1257 src/accueil.c:1708
+#: src/accueil.c:1136 src/accueil.c:1258 src/accueil.c:1709
 #, c-format
 msgid "%s credited on %s"
 msgstr "%s Einnahme in %s"
 
-#: src/accueil.c:1145 src/accueil.c:1267 src/accueil.c:1717
+#: src/accueil.c:1146 src/accueil.c:1268 src/accueil.c:1718
 #, c-format
 msgid "%s debited on %s"
 msgstr "%s Ausgabe in %s"
 
-#: src/accueil.c:1486
+#: src/accueil.c:1487
 #, c-format
 msgid "balance of account %s is under desired and authorised minima!"
-msgstr "Der Saldo vom Konto %s ist unter dem festgelegten und zulässigen Minimum!"
+msgstr ""
+"Der Saldo vom Konto %s ist unter dem festgelegten und zulässigen Minimum!"
 
-#: src/accueil.c:1490
+#: src/accueil.c:1491
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
@@ -114,12 +115,12 @@ msgstr ""
 "Konten mit Salden unter dem festgelegten und zulässigen Minimum:\n"
 "\n"
 
-#: src/accueil.c:1519
+#: src/accueil.c:1520
 #, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr "Der Saldo vom Konto %s ist unter dem zulässigen Minimum!"
 
-#: src/accueil.c:1529
+#: src/accueil.c:1530
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
@@ -127,12 +128,12 @@ msgstr ""
 "Konten mit Salden unter dem zulässigen Minimum:\n"
 "\n"
 
-#: src/accueil.c:1561
+#: src/accueil.c:1562
 #, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "Der Saldo vom Konto %s ist unter dem festegelegten Minimum!"
 
-#: src/accueil.c:1571
+#: src/accueil.c:1572
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
@@ -140,15 +141,35 @@ msgstr ""
 "Konten mit Salden unter dem festgelegten Minimum:\n"
 "\n"
 
-#: src/accueil.c:1749
+#. ~ gchar *texte;
+#: src/accueil.c:1758
 msgid "Configuration of the main page"
 msgstr "Konfiguration Startseite"
 
-#: src/accueil.c:1754
+#: src/accueil.c:1767
 msgid "Balances partial of the list of bank accounts"
 msgstr "Partielle Salden der Konten"
 
-#: src/affichage.c:133 src/parametres.c:346
+#. ~ g_signal_connect ( cell,
+#. ~ "edited",
+#. ~ G_CALLBACK (gsb_import_associations_cell_edited),
+#. ~ vbox_main );
+#. List of the accounts
+#: src/accueil.c:1842 src/gsb_data_partial_balance.c:639
+#, fuzzy
+msgid "Accounts list"
+msgstr "Konten"
+
+#: src/accueil.c:1851
+#, fuzzy
+msgid "Account kind"
+msgstr "Kontoname"
+
+#: src/accueil.c:1860 src/gsb_form_widget.c:445 src/import_csv.c:77
+msgid "Currency"
+msgstr "Währung"
+
+#: src/affichage.c:133 src/parametres.c:349
 msgid "Fonts & logo"
 msgstr "Logo & Schriften"
 
@@ -188,7 +209,7 @@ msgstr "Farbe auswählen - Grisbi"
 msgid "Back to default"
 msgstr "Voreinstellung"
 
-#: src/affichage.c:361 src/parametres.c:364
+#: src/affichage.c:361 src/parametres.c:367
 msgid "Addresses & titles"
 msgstr "Adressen & Bezeichnungen"
 
@@ -230,7 +251,7 @@ msgstr "Zusatzadresse"
 msgid "Select a new logo"
 msgstr "Logo auswählen - Grisbi"
 
-#: src/affichage.c:686 src/parametres.c:383
+#: src/affichage.c:686 src/parametres.c:386
 msgid "Toolbars"
 msgstr "Werkzeugleisten"
 
@@ -378,7 +399,8 @@ msgstr "Eingabe Vervollständigung"
 
 #: src/affichage_liste.c:454
 msgid "Limit the filling with payees belonging to the current account"
-msgstr "Die Vervollständigung von Empfängern auf das aktuelle Konto beschränken"
+msgstr ""
+"Die Vervollständigung von Empfängern auf das aktuelle Konto beschränken"
 
 #: src/affichage_liste.c:461
 msgid "Automatic filling transactions from payee"
@@ -464,7 +486,7 @@ msgstr "Prognose Daten"
 #: src/export_csv.c:747 src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_form.c:1283 src/gsb_form_widget.c:397 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:333 src/gsb_transactions_list.c:143
-#: src/import.c:2983 src/import_csv.c:78 src/traitement_variables.c:75
+#: src/import.c:2976 src/import_csv.c:78 src/traitement_variables.c:75
 msgid "Date"
 msgstr "Datum"
 
@@ -707,7 +729,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr "Grisbi Kategorien (*.cgsb)"
 
 #: src/categories_onglet.c:400 src/etats_onglet.c:1256
-#: src/file_obfuscate_qif.c:105 src/gsb_file.c:238 src/import.c:725
+#: src/file_obfuscate_qif.c:105 src/gsb_file.c:238 src/import.c:718
 #: src/imputation_budgetaire.c:435
 msgid "All files"
 msgstr "Alle Dateien"
@@ -766,8 +788,8 @@ msgstr ""
 msgid "Create a new sub-category"
 msgstr "Eine neue Unterkategorie erstellen"
 
-#: src/categories_onglet.c:510 src/etats_onglet.c:130 src/import.c:373
-#: src/import.c:3203 src/imputation_budgetaire.c:543 src/parametres.c:291
+#: src/categories_onglet.c:510 src/etats_onglet.c:130 src/import.c:366
+#: src/import.c:3196 src/imputation_budgetaire.c:543 src/parametres.c:294
 msgid "Import"
 msgstr "Import"
 
@@ -831,6 +853,7 @@ msgstr "Keine Kategorie definiert"
 #. Bank name item
 #. Name
 #. Create currency name entry
+#. Partial balance name
 #. Financial year name
 #. set the name
 #. Name entry
@@ -838,7 +861,8 @@ msgstr "Keine Kategorie definiert"
 #: src/gsb_archive_config.c:188 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:388
 #: src/gsb_assistant_reconcile_config.c:1243 src/gsb_bank.c:732
-#: src/gsb_bank.c:855 src/gsb_currency_config.c:355 src/gsb_fyear_config.c:191
+#: src/gsb_bank.c:855 src/gsb_currency_config.c:355
+#: src/gsb_data_partial_balance.c:628 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:239
 #: src/gsb_reconcile_config.c:179 src/gsb_transactions_list.c:1704
 #: src/imputation_budgetaire.c:703 src/tiers_onglet.c:611
@@ -849,7 +873,7 @@ msgstr "Name"
 #. Payment method method_ptr
 #. Description entry
 #: src/categories_onglet.c:694 src/gsb_payment_method_config.c:292
-#: src/import.c:406 src/imputation_budgetaire.c:728
+#: src/import.c:399 src/imputation_budgetaire.c:728
 msgid "Type"
 msgstr "Art"
 
@@ -887,7 +911,8 @@ msgid "No tip of the day available"
 msgstr "Kein Tipp des Tages verfügbar"
 
 #: src/dialog.c:52
-msgid "Make sure that grisbi was correctly installed and that tips file is readable."
+msgid ""
+"Make sure that grisbi was correctly installed and that tips file is readable."
 msgstr "Bitte die Installation von Grisbi überprüfen."
 
 #: src/dialog.c:55
@@ -1072,8 +1097,10 @@ msgid "Grisbi made a backup file at '%s'."
 msgstr "Grisbi hat eine Sicherung im Verzeichnis '%s' erstellt."
 
 #: src/erreur.c:134
-msgid "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
-msgstr "Bitte den Fehler unter <tt>http://www.grisbi.org/bugtracking/</tt> melden.  "
+msgid ""
+"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+msgstr ""
+"Bitte den Fehler unter <tt>http://www.grisbi.org/bugtracking/</tt> melden.  "
 
 #: src/erreur.c:140
 msgid "Copy and paste the following backtrace with your bug report."
@@ -1383,7 +1410,7 @@ msgstr "Gesamtsumme"
 
 #. Transfer = Virement
 #. Direct deposit remplacÃ© par Transfert = Virement
-#: src/etats_affiche.c:1837 src/import.c:2440 src/import.c:2458
+#: src/etats_affiche.c:1837 src/import.c:2433 src/import.c:2451
 msgid "Transfert"
 msgstr "Umbuchung"
 
@@ -1444,7 +1471,7 @@ msgstr "Geschäftsjahr"
 #: src/etats_config.c:687 src/etats_config.c:7193 src/export_csv.c:762
 #: src/fenetre_principale.c:278 src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_form.c:1310 src/gsb_form_widget.c:417 src/gsb_scheduler_list.c:333
-#: src/gsb_transactions_list.c:145 src/import.c:2990 src/import_csv.c:80
+#: src/gsb_transactions_list.c:145 src/import.c:2983 src/import_csv.c:80
 #: src/meta_payee.c:77 src/traitement_variables.c:77
 msgid "Payee"
 msgstr "Empfänger"
@@ -1466,7 +1493,7 @@ msgstr "Notizen"
 #. Now we have a model, create view
 #: src/etats_affiche.c:2447 src/etats_config.c:564 src/etats_config.c:567
 #: src/etats_config.c:7415 src/gsb_payment_method_config.c:117
-#: src/parametres.c:510
+#: src/parametres.c:513
 msgid "Payment methods"
 msgstr "Zahlungsweisen"
 
@@ -1648,12 +1675,12 @@ msgid "Generalities"
 msgstr "Allgemein"
 
 #: src/etats_config.c:635 src/etats_config.c:638 src/export_csv.c:738
-#: src/fenetre_principale.c:260 src/parametres.c:393
+#: src/fenetre_principale.c:260 src/parametres.c:396
 msgid "Transactions"
 msgstr "Buchungen"
 
 #: src/etats_config.c:644 src/etats_config.c:647 src/gsb_currency_config.c:296
-#: src/parametres.c:474
+#: src/parametres.c:477
 msgid "Currencies"
 msgstr "Währungen"
 
@@ -1761,7 +1788,7 @@ msgstr "Datum Ende"
 msgid "Account selection"
 msgstr "Konten Auswahl"
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã
+#. on met dans la partie de gauche une liste contenant les comptes Ã 
 #. sÃ©lectionner
 #: src/etats_config.c:2490
 msgid "Select transactions only for given accounts"
@@ -1999,7 +2026,7 @@ msgstr "ist nicht leer"
 
 #: src/etats_config.c:5310 src/export_csv.c:771
 #: src/gsb_assistant_reconcile_config.c:612 src/gsb_scheduler_list.c:334
-#: src/gsb_transactions_list.c:150 src/import.c:2998
+#: src/gsb_transactions_list.c:150 src/import.c:2991
 #: src/traitement_variables.c:82
 msgid "Amount"
 msgstr "Betrag"
@@ -2258,7 +2285,7 @@ msgstr "Buchungen Aufruf"
 msgid "Make transactions clickable"
 msgstr "Buchungen sind aufrufbar"
 
-#: src/etats_config.c:6985 src/parametres.c:963
+#: src/etats_config.c:6985 src/parametres.c:1007
 msgid "Totals currencies"
 msgstr "Währungen"
 
@@ -2351,7 +2378,7 @@ msgstr "Eine Zwischensumme für jeden Teil-Budgeteintrag anzeigen"
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr " \"Keinen Teil-Budgeteintrag\" anzeigen wenn keiner vorhanden ist"
 
-#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
 #. sÃ©lectionner
 #: src/etats_config.c:7421
 msgid "Select the transactions by method of payment"
@@ -2713,7 +2740,7 @@ msgid "Select accounts to export"
 msgstr "Die Konten für den Export auswählen"
 
 #: src/export.c:169 src/export_csv.c:741 src/gsb_account_property.c:229
-#: src/import.c:1143 src/import.c:1180
+#: src/import.c:1136 src/import.c:1173
 msgid "Account name"
 msgstr "Kontoname"
 
@@ -2816,12 +2843,12 @@ msgstr "Teil-Budgeteinträge"
 msgid "Reconciliation number"
 msgstr "Abstimmung Nr."
 
-#: src/fenetre_principale.c:244 src/parametres.c:328
+#: src/fenetre_principale.c:244 src/parametres.c:331
 msgid "Main page"
 msgstr "Startseite"
 
-#: src/fenetre_principale.c:273 src/navigation.c:269 src/parametres.c:319
-#: src/parametres.c:923
+#: src/fenetre_principale.c:273 src/navigation.c:269 src/parametres.c:322
+#: src/parametres.c:926
 msgid "Scheduler"
 msgstr "Planer"
 
@@ -3488,11 +3515,11 @@ msgstr ""
 msgid "Account details"
 msgstr "Konto Details"
 
-#: src/gsb_account_property.c:249 src/import.c:1094
+#: src/gsb_account_property.c:249 src/import.c:1087
 msgid "Account type"
 msgstr "Kontoart"
 
-#: src/gsb_account_property.c:271 src/import.c:1199
+#: src/gsb_account_property.c:271 src/import.c:1192
 msgid "Account currency"
 msgstr "Kontowährung"
 
@@ -3558,18 +3585,21 @@ msgid "Minimum desired balance"
 msgstr "Mindestsaldo festgelegt"
 
 #: src/gsb_account_property.c:753 src/gsb_assistant_account.c:434
+#: src/gsb_data_partial_balance.c:569
 msgid "Bank account"
 msgstr "Bankkonto"
 
-#: src/gsb_account_property.c:753
+#: src/gsb_account_property.c:753 src/gsb_data_partial_balance.c:557
 msgid "Cash account"
 msgstr "Bargeldkonto"
 
 #: src/gsb_account_property.c:753 src/gsb_assistant_account.c:447
+#: src/gsb_data_partial_balance.c:561
 msgid "Liabilities account"
 msgstr "Kreditkonto"
 
 #: src/gsb_account_property.c:753 src/gsb_assistant_account.c:443
+#: src/gsb_data_partial_balance.c:565
 msgid "Assets account"
 msgstr "Anlagekonto"
 
@@ -3600,7 +3630,7 @@ msgid "Your IBAN number is not correct. Please check your entry."
 msgstr "Die IBAN Nummer ist ungültig. Bitte Dateneingabe prüfen."
 
 #. create the page
-#: src/gsb_archive_config.c:111 src/parametres.c:282
+#: src/gsb_archive_config.c:111 src/parametres.c:285
 msgid "Archives"
 msgstr "Archive"
 
@@ -3689,7 +3719,7 @@ msgid "Deleting an archive and its transactions"
 msgstr "Ein Archiv und die zugeordneten Buchungen löschen"
 
 #. New account
-#: src/gsb_assistant_account.c:96 src/import.c:1086
+#: src/gsb_assistant_account.c:96 src/import.c:1079
 msgid "Create a new account"
 msgstr "Ein neues Konto anlegen"
 
@@ -3907,7 +3937,7 @@ msgstr "Bericht"
 msgid "Please choose a name for archive"
 msgstr "Name für das Archiv"
 
-#: src/gsb_assistant_archive.c:486 src/import.c:827
+#: src/gsb_assistant_archive.c:486 src/import.c:820
 msgid "Congratulations !"
 msgstr "Gratulation!"
 
@@ -3985,8 +4015,10 @@ msgid "<span foreground=\"red\">Please fill the final date</span>"
 msgstr "<span foreground=\"red\">Bitte das Enddatum eingeben</span>"
 
 #: src/gsb_assistant_archive.c:853
-msgid "<span foreground=\"red\">The initial date is after the final date</span>"
-msgstr "<span foreground=\"red\">Das Beginndatum liegt nach dem Enddatum</span>"
+msgid ""
+"<span foreground=\"red\">The initial date is after the final date</span>"
+msgstr ""
+"<span foreground=\"red\">Das Beginndatum liegt nach dem Enddatum</span>"
 
 #: src/gsb_assistant_archive.c:857
 msgid "<span foreground=\"red\">The initial date is not valid.</span>"
@@ -4005,7 +4037,8 @@ msgstr ""
 "</span>"
 
 #: src/gsb_assistant_archive.c:869
-msgid "<span foreground=\"red\">The final date belongs already to an archive.</span>"
+msgid ""
+"<span foreground=\"red\">The final date belongs already to an archive.</span>"
 msgstr ""
 "<span foreground=\"red\">Das Enddatum ist bereits einem Archiv zugeordnet.</"
 "span>"
@@ -4182,7 +4215,7 @@ msgstr "Bezeichnungen und Dateinamen"
 #. will we crypt the file ?
 #. crypt the grisbi file
 #: src/gsb_assistant_file.c:323 src/gsb_assistant_first.c:249
-#: src/parametres.c:698
+#: src/parametres.c:701
 msgid "Encrypt Grisbi file"
 msgstr "Datei verschlüsseln"
 
@@ -4230,7 +4263,8 @@ msgstr "Ein neues Konto manuell erstellen"
 
 #: src/gsb_assistant_file.c:492
 msgid "Import data from online bank services or from accounting software"
-msgstr "Konten und Daten von anderen Finanzprogrammen oder Ihrer Bank importieren"
+msgstr ""
+"Konten und Daten von anderen Finanzprogrammen oder Ihrer Bank importieren"
 
 #: src/gsb_assistant_file.c:591
 msgid "Create filename"
@@ -4294,56 +4328,56 @@ msgid "General configuration of Grisbi"
 msgstr "Allgemeine Einstellungen"
 
 #. configure the browser
-#: src/gsb_assistant_first.c:208 src/parametres.c:846
+#: src/gsb_assistant_first.c:208 src/parametres.c:849
 msgid "Web"
 msgstr "Internet"
 
-#: src/gsb_assistant_first.c:215 src/parametres.c:853
+#: src/gsb_assistant_first.c:215 src/parametres.c:856
 msgid "Web browser command"
 msgstr "Webbrowser"
 
-#: src/gsb_assistant_first.c:224 src/parametres.c:862
+#: src/gsb_assistant_first.c:224 src/parametres.c:865
 #, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr "Mit %s die URL übergeben - z.B.: 'firefox -remote %s' "
 
-#: src/gsb_assistant_first.c:234 src/parametres.c:681
+#: src/gsb_assistant_first.c:234 src/parametres.c:684
 msgid "Account files handling"
 msgstr "Dateien"
 
 #. Automatically load last file on startup?
-#: src/gsb_assistant_first.c:237 src/parametres.c:684
+#: src/gsb_assistant_first.c:237 src/parametres.c:687
 msgid "Automatically load last file on startup"
 msgstr "Die letzte Datei automatisch öffnen"
 
 #. automatically save file at closing
-#: src/gsb_assistant_first.c:243 src/parametres.c:688
+#: src/gsb_assistant_first.c:243 src/parametres.c:691
 msgid "Automatically save on exit"
 msgstr "Beim Beenden automatisch speichern"
 
 #. Automatic backup ?
-#: src/gsb_assistant_first.c:257 src/parametres.c:732
+#: src/gsb_assistant_first.c:257 src/parametres.c:735
 msgid "Make a backup copy before saving files"
 msgstr "Vor dem Speichern der Datei eine Sicherung erstellen"
 
-#: src/gsb_assistant_first.c:267 src/parametres.c:740
+#: src/gsb_assistant_first.c:267 src/parametres.c:743
 msgid "Make a backup copy every "
 msgstr "Eine Sicherung alle "
 
-#: src/gsb_assistant_first.c:278 src/parametres.c:749
+#: src/gsb_assistant_first.c:278 src/parametres.c:752
 msgid " minutes"
 msgstr " Minuten"
 
-#: src/gsb_assistant_first.c:287 src/parametres.c:756
+#: src/gsb_assistant_first.c:287 src/parametres.c:759
 msgid "Backup directory"
 msgstr "Verzeichnis für Sicherungen"
 
-#: src/gsb_assistant_first.c:292 src/parametres.c:763
+#: src/gsb_assistant_first.c:292 src/parametres.c:766
 msgid "Select/Create backup directory"
 msgstr "Verzeichnis für Sicherungen - Grisbi"
 
 #: src/gsb_assistant_first.c:335 src/gsb_reconcile_config.c:102
-#: src/parametres.c:411
+#: src/parametres.c:414
 msgid "Reconciliation"
 msgstr "Abstimmung"
 
@@ -4554,12 +4588,14 @@ msgid ""
 msgstr "<span foreground=\"red\">Das Beginndatum ist nicht gültig</span>"
 
 #: src/gsb_assistant_reconcile_config.c:797
-msgid "<span foreground=\"red\">The final date is not valid, please check it</span>"
+msgid ""
+"<span foreground=\"red\">The final date is not valid, please check it</span>"
 msgstr "<span foreground=\"red\">Das Enddatum ist nicht gültig</span>"
 
 #: src/gsb_assistant_reconcile_config.c:806
 msgid "<span foreground=\"red\">Please give a name to the new reconcile</span>"
-msgstr "<span foreground=\"red\">Bitte einen Namen für die Abstimmung eingeben</span>"
+msgstr ""
+"<span foreground=\"red\">Bitte einen Namen für die Abstimmung eingeben</span>"
 
 #: src/gsb_assistant_reconcile_config.c:815
 msgid ""
@@ -4573,12 +4609,15 @@ msgstr ""
 msgid ""
 "<span foreground=\"red\">Cannot allocate memory : Bad things will happen "
 "soon.</span>"
-msgstr "<span foreground=\"red\">Der Speicher kann nicht zugeordnet werden.</span>"
+msgstr ""
+"<span foreground=\"red\">Der Speicher kann nicht zugeordnet werden.</span>"
 
 #: src/gsb_assistant_reconcile_config.c:853
 #, c-format
-msgid "<span foreground=\"blue\">Reconciliation %s successfully appended !</span>"
-msgstr "<span foreground=\"blue\">Abstimmung %s erfolgreich abgeschlossen !</span>"
+msgid ""
+"<span foreground=\"blue\">Reconciliation %s successfully appended !</span>"
+msgstr ""
+"<span foreground=\"blue\">Abstimmung %s erfolgreich abgeschlossen !</span>"
 
 #: src/gsb_assistant_reconcile_config.c:959
 #, c-format
@@ -4615,7 +4654,8 @@ msgstr "Abstimmung für die Zuordnung von Buchungen auswählen"
 
 #: src/gsb_assistant_reconcile_config.c:1316
 msgid "No selection found, the transactions are not modified."
-msgstr "Es wurde keine Auswahl getroffen, die Buchungen werden nicht zugeordnet."
+msgstr ""
+"Es wurde keine Auswahl getroffen, die Buchungen werden nicht zugeordnet."
 
 #: src/gsb_bank.c:386 src/gsb_reconcile.c:391
 msgid "None"
@@ -4629,7 +4669,7 @@ msgstr "Eine neue Bank hinzufügen"
 msgid "Contact name"
 msgstr "Ansprechperson"
 
-#: src/gsb_bank.c:519 src/parametres.c:492
+#: src/gsb_bank.c:519 src/parametres.c:495
 msgid "Banks"
 msgstr "Banken"
 
@@ -6180,7 +6220,8 @@ msgstr "Die Währung '%s' kann nicht entfernt werden"
 #: src/gsb_currency_config.c:641
 #, c-format
 msgid "Currency '%s' is used in current file. Grisbi can't delete it."
-msgstr "Die Währung '%s' ist in Verwendung und kann daher nicht gelöscht werden."
+msgstr ""
+"Die Währung '%s' ist in Verwendung und kann daher nicht gelöscht werden."
 
 #: src/gsb_currency_config.c:824
 msgid "Currency for payees tree"
@@ -6224,9 +6265,10 @@ msgstr "Währungssymbol"
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
-msgstr "Es muss entweder der Währungsname oder der 'ISO-Code' eingegeben werden."
+msgstr ""
+"Es muss entweder der Währungsname oder der 'ISO-Code' eingegeben werden."
 
-#: src/gsb_currency_config.c:1077
+#: src/gsb_currency_config.c:1077 src/gsb_data_partial_balance.c:717
 msgid "All fields are not filled in"
 msgstr "Es wurden nicht alle Eingabefelder befüllt"
 
@@ -6273,18 +6315,20 @@ msgstr "Zweite Währung"
 msgid "Invalid"
 msgstr "Ungültig"
 
-#: src/gsb_data_account.c:219
+#: src/gsb_data_account.c:221
 #, c-format
 msgid "No name %d"
 msgstr "Kein Name %d"
 
-#: src/gsb_data_account.c:531
+#: src/gsb_data_account.c:533
 #, c-format
-msgid "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
-msgstr "Bad nb rows nach gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
+msgid ""
+"Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
+msgstr ""
+"Bad nb rows nach gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
 
 #. TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?
-#: src/gsb_data_account.c:1135
+#: src/gsb_data_account.c:1148
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
@@ -6294,7 +6338,7 @@ msgstr ""
 "no_column = %d\n"
 
 #. TODO dOm : the value of g_strdup_printf was not used. I add the devel_debug function to print it. Is it OK ?
-#: src/gsb_data_account.c:1173
+#: src/gsb_data_account.c:1186
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
@@ -6334,7 +6378,8 @@ msgstr ""
 msgid ""
 "<span foreground=\"red\">Warning : the two currencies of the link are "
 "identicals</span>"
-msgstr "<span foreground=\"red\">Warnung : Die zwei Währungen sind identisch</span>"
+msgstr ""
+"<span foreground=\"red\">Warnung : Die zwei Währungen sind identisch</span>"
 
 #: src/gsb_data_currency_link.c:477
 msgid "<span foreground=\"red\">Warning : that link is already defined</span>"
@@ -6343,7 +6388,8 @@ msgstr ""
 "span>"
 
 #: src/gsb_data_fyear.c:574
-msgid "<span foreground=\"red\">Warning : the dates are not in good order</span>"
+msgid ""
+"<span foreground=\"red\">Warning : the dates are not in good order</span>"
 msgstr "<span foreground=\"red\">Warnung : Die Daten sind inkonsistent</span>"
 
 #: src/gsb_data_fyear.c:577
@@ -6358,6 +6404,26 @@ msgstr ""
 msgid "<span foreground=\"red\">Warning : Invalid date</span>"
 msgstr "<span foreground=\"red\">Warnung : Ungültiges Datum</span>"
 
+#: src/gsb_data_partial_balance.c:604 src/gsb_data_partial_balance.c:612
+#, fuzzy
+msgid "Add a partial balance"
+msgstr "Partieller Saldo"
+
+#: src/gsb_data_partial_balance.c:619 src/gsb_debug.c:292
+msgid "Details"
+msgstr "Details"
+
+#. create the position
+#: src/gsb_data_partial_balance.c:649
+#, fuzzy
+msgid "Position in the list of accounts"
+msgstr "Partielle Salden der Konten"
+
+#: src/gsb_data_partial_balance.c:715
+msgid ""
+"The name of the partial balance and the list of accounts must be completed."
+msgstr ""
+
 #: src/gsb_data_payee.c:402
 msgid "No payee defined"
 msgstr "Kein Empfänger definiert"
@@ -6370,19 +6436,19 @@ msgstr ""
 "vorhanden."
 
 #. Deposit = DÃ©pÃ´t
-#: src/gsb_data_payment.c:714 src/import.c:2422 src/plugins/ofx/ofx.c:451
+#: src/gsb_data_payment.c:714 src/import.c:2415 src/plugins/ofx/ofx.c:451
 msgid "Deposit"
 msgstr "Einzahlung"
 
 #. pas trouvÃ© de dÃ©finition remplacÃ© par carte de crÃ©dit
 #. Point of sale = Point de vente remplacÃ© par carte de crÃ©dit
-#: src/gsb_data_payment.c:723 src/import.c:2428 src/import.c:2434
+#: src/gsb_data_payment.c:723 src/import.c:2421 src/import.c:2427
 msgid "Credit card"
 msgstr "Kreditkarte"
 
 #. Electronic payment remplacÃ© par Direct debit = PrÃ©lÃ¨vement
 #. Merchant initiated debit remplacÃ© par Direct debit = PrÃ©lÃ¨vement
-#: src/gsb_data_payment.c:732 src/import.c:2446 src/import.c:2464
+#: src/gsb_data_payment.c:732 src/import.c:2439 src/import.c:2457
 msgid "Direct debit"
 msgstr "Barzahlung"
 
@@ -6591,10 +6657,6 @@ msgstr ""
 msgid "Congratulations, your account file is in good shape!\n"
 msgstr "Die Grisbi-Datei ist in einem konsistenten Zustand!\n"
 
-#: src/gsb_debug.c:292
-msgid "Details"
-msgstr "Details"
-
 #: src/gsb_debug.c:306
 msgid "Try to fix this inconsistency."
 msgstr "Die Inkonsistenz beheben."
@@ -6652,7 +6714,8 @@ msgstr ""
 #: src/gsb_debug.c:598
 #, c-format
 msgid "Transaction %d has category %d but invalid sub-category %d.\n"
-msgstr "Die Buchung %d hat als Kategorie %d und eine ungültige Unterkategorie %d.\n"
+msgstr ""
+"Die Buchung %d hat als Kategorie %d und eine ungültige Unterkategorie %d.\n"
 
 #. category not found
 #: src/gsb_debug.c:612
@@ -6780,7 +6843,7 @@ msgstr ""
 "Option \"%s\" in den Einstellungen."
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:549 src/gsb_file.c:798 src/parametres.c:693
+#: src/gsb_file.c:549 src/gsb_file.c:798 src/parametres.c:696
 msgid "Force saving of locked files"
 msgstr "Das Speichern von gesperrten Dateien erzwingen"
 
@@ -6843,8 +6906,10 @@ msgstr "%d Sekunden"
 
 #: src/gsb_file.c:833
 #, c-format
-msgid "If you close without saving, all of your changes since %s will be discarded."
-msgstr "Beim Schließen ohne Speichern werden alle Änderungen seit %s verworfen."
+msgid ""
+"If you close without saving, all of your changes since %s will be discarded."
+msgstr ""
+"Beim Schließen ohne Speichern werden alle Änderungen seit %s verworfen."
 
 #: src/gsb_file.c:869
 msgid "Name the accounts file"
@@ -6873,12 +6938,12 @@ msgstr ""
 "<b>>Soll diese Datei gelöscht werden:\n"
 "%s ?</b>"
 
-#: src/gsb_file_config.c:769
+#: src/gsb_file_config.c:783
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Die Konfiguration kann nicht gespeichert werden '%s': %s"
 
-#: src/gsb_file_config.c:809
+#: src/gsb_file_config.c:823
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -6887,20 +6952,20 @@ msgstr ""
 "%s scheint keine gültige Konfigurationsdatei zu sein,\n"
 "bitte prüfen."
 
-#: src/gsb_file_config.c:846
+#: src/gsb_file_config.c:860
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Die Konfiguration kann nicht geöffnet werden '%s': %s"
 
-#: src/gsb_file_config.c:1276 src/print_config.c:51
+#: src/gsb_file_config.c:1291 src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: src/gsb_file_config.c:1294
+#: src/gsb_file_config.c:1309
 msgid "Delete an old config file"
 msgstr "Alte Konfigurationsdatei löschen"
 
-#: src/gsb_file_config.c:1314
+#: src/gsb_file_config.c:1329
 msgid ""
 "Careful, you are about to deleting the file\n"
 "of configuration of an old version of Grisbi.\n"
@@ -6912,11 +6977,11 @@ msgstr ""
 "\n"
 "<b>Wollen Sie die Löschung ausführen?</b>"
 
-#: src/gsb_file_config.c:1377
+#: src/gsb_file_config.c:1392
 msgid "Choose a file"
 msgstr "Eine Datei auswählen"
 
-#: src/gsb_file_config.c:1400
+#: src/gsb_file_config.c:1415
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -7165,7 +7230,8 @@ msgstr ""
 "erstellt werden."
 
 #: src/gsb_form.c:2623
-msgid "Cannot associate a transfer to a deleted account in a scheduled transaction."
+msgid ""
+"Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "Das Konto für die zeitlich geplante Umbuchung ist gelöscht."
 
 #: src/gsb_form.c:2630
@@ -7205,11 +7271,13 @@ msgstr ""
 
 #: src/gsb_form.c:2703
 msgid "A transaction with a multiple payee must be a new one."
-msgstr "Für Buchungen an mehrere Empfänger muss eine neue Buchung erfasst werden."
+msgstr ""
+"Für Buchungen an mehrere Empfänger muss eine neue Buchung erfasst werden."
 
 #: src/gsb_form.c:2708
 msgid "A transaction with a multiple payee cannot be a split child."
-msgstr "Eine Buchung an mehrere Empfänger darf kein Teil einer Splitt-Buchung sein."
+msgstr ""
+"Eine Buchung an mehrere Empfänger darf kein Teil einer Splitt-Buchung sein."
 
 #: src/gsb_form.c:2719
 msgid "The word \"Report\" is reserved. Please use another one."
@@ -7240,7 +7308,7 @@ msgstr ""
 msgid "Configure the form"
 msgstr "Buchungsformular Einstellungen"
 
-#: src/gsb_form_config.c:120 src/parametres.c:430
+#: src/gsb_form_config.c:120 src/parametres.c:433
 msgid "Transaction form"
 msgstr "Buchungsformular"
 
@@ -7462,10 +7530,6 @@ msgstr "Frei"
 msgid "Method of payment"
 msgstr "Zahlungsweise"
 
-#: src/gsb_form_widget.c:445 src/import_csv.c:77
-msgid "Currency"
-msgstr "Währung"
-
 #: src/gsb_form_widget.c:465 src/gsb_transactions_list.c:159
 #: src/traitement_variables.c:91
 msgid "Transaction number"
@@ -7475,7 +7539,7 @@ msgstr "Buchungsnummer"
 msgid "Automatic/Manual"
 msgstr "Automatisch/Manuell"
 
-#: src/gsb_fyear_config.c:99 src/parametres.c:501
+#: src/gsb_fyear_config.c:99 src/parametres.c:504
 msgid "Financial years"
 msgstr "Geschäftsjahre"
 
@@ -7762,7 +7826,7 @@ msgstr ""
 msgid "Deleting a reconcile"
 msgstr "Abstimmung löschen"
 
-#: src/gsb_reconcile_sort_config.c:86 src/parametres.c:420
+#: src/gsb_reconcile_sort_config.c:86 src/parametres.c:423
 msgid "Sort for reconciliation"
 msgstr "Abstimmung sortieren"
 
@@ -7862,7 +7926,8 @@ msgstr "Eine Buchung löschen"
 
 #: src/gsb_scheduler_list.c:1657
 #, c-format
-msgid "Do you really want to delete the scheduled transaction with party '%s' ?"
+msgid ""
+"Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Soll die geplante Buchung mit dem Empfänger '%s' gelöscht werden?"
 
 #: src/gsb_scheduler_list.c:1690
@@ -8063,7 +8128,8 @@ msgstr "Abstimmung für die Zuordnung der Buchung auswählen"
 
 #: src/gsb_transactions_list.c:1789
 msgid "Grisbi couldn't get the selection, operation canceled..."
-msgstr "Grisbi konnte die Auswahl nicht übernehmen, der Vorgang wurde abgebrochen..."
+msgstr ""
+"Grisbi konnte die Auswahl nicht übernehmen, der Vorgang wurde abgebrochen..."
 
 #: src/gsb_transactions_list.c:1831
 msgid "Impossible to delete an archived transaction."
@@ -8083,7 +8149,8 @@ msgstr ""
 
 #: src/gsb_transactions_list.c:1850
 #, c-format
-msgid "Do you really want to delete the child of the transaction with party '%s' ?"
+msgid ""
+"Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr "Soll die Teil-Buchung mit dem Empfänger '%s' gelöscht werden?"
 
 #: src/gsb_transactions_list.c:1865
@@ -8221,20 +8288,20 @@ msgstr ""
 msgid "Personal finance manager for everyone\n"
 msgstr "Finanzprogramm für Privatpersonen\n"
 
-#: src/import.c:180
+#: src/import.c:173
 msgid "Comma Separated Values"
 msgstr "Kommagetrennte Werte"
 
-#: src/import.c:181
+#: src/import.c:174
 msgid "Quicken Interchange Format"
 msgstr "Quicken Interchange Format"
 
-#: src/import.c:243
+#: src/import.c:236
 #, c-format
 msgid "Adding '%s' as an import format"
 msgstr "'%s' als ein Format für den Import hinzufügen"
 
-#: src/import.c:287
+#: src/import.c:280
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -8251,50 +8318,50 @@ msgstr ""
 "unterstützt:\n"
 "\n"
 
-#: src/import.c:295
+#: src/import.c:288
 msgid "Importing transactions into Grisbi"
 msgstr "Daten importieren"
 
-#: src/import.c:344
+#: src/import.c:337
 msgid "Choose file to import"
 msgstr "Dateien für den Import auswählen"
 
-#: src/import.c:346
+#: src/import.c:339
 msgid "Add file to import..."
 msgstr "Dateien für den Import hinzufügen"
 
-#: src/import.c:413
+#: src/import.c:406
 msgid "File name"
 msgstr "Dateiname"
 
-#: src/import.c:549 src/import.c:631 src/import.c:3850 src/import.c:3873
+#: src/import.c:542 src/import.c:624 src/import.c:3843 src/import.c:3866
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: src/import.c:591 src/import.c:3954 src/import_csv.c:1045
+#: src/import.c:584 src/import.c:3947 src/import_csv.c:1045
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Die Datei kann nicht gelesen werden: %s\n"
 
-#: src/import.c:664
+#: src/import.c:657
 msgid "Choose files to import."
 msgstr "Dateien auswählen - Grisbi"
 
-#: src/import.c:690
+#: src/import.c:683
 #, c-format
 msgid "Known files (%s)"
 msgstr "Bekannte Dateien (%s)"
 
-#: src/import.c:702
+#: src/import.c:695
 #, c-format
 msgid "%s files (*.%s)"
 msgstr "%s Dateien (*.%s)"
 
-#: src/import.c:732
+#: src/import.c:725
 msgid "Encoding"
 msgstr "Kodierung"
 
-#: src/import.c:832
+#: src/import.c:825
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
@@ -8303,29 +8370,29 @@ msgstr ""
 "In den nächsten Dialogen werden die Importierten Daten von den aufgelisteten "
 "Einträgen weiterverarbeitet"
 
-#: src/import.c:847
+#: src/import.c:840
 msgid "Unnamed Imported account"
 msgstr "Importiertes Konto ohne Namen"
 
-#: src/import.c:873
+#: src/import.c:866
 msgid "Error !"
 msgstr "Fehler!"
 
-#: src/import.c:878
+#: src/import.c:871
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
 msgstr "Es wurden keine Daten importiert. Bitte die Import-Dateien prüfen."
 
-#: src/import.c:892
+#: src/import.c:885
 msgid "The following files are in error:"
 msgstr "Folgende Dateien sind fehlerhaft:"
 
-#: src/import.c:945
+#: src/import.c:938
 msgid "Import terminated"
 msgstr "Import beendet"
 
-#: src/import.c:949
+#: src/import.c:942
 msgid ""
 "You have successfully set up transactions import into Grisbi. Press the "
 "'Close' button to terminate import."
@@ -8333,11 +8400,11 @@ msgstr ""
 "Der Import und die Datenzuordnung sind abgeschlossen.\n"
 "Bitte 'Schließen' auswählen um den Import zu beenden."
 
-#: src/import.c:1070
+#: src/import.c:1063
 msgid "file"
 msgstr "Datei"
 
-#: src/import.c:1076
+#: src/import.c:1069
 #, c-format
 msgid ""
 "<span size=\"x-large\">%s</span>\n"
@@ -8350,15 +8417,15 @@ msgstr ""
 "Wie sollen die Daten aus der Datei <span foreground=\"blue\">%s</span> "
 "weiterverarbeitet werden?\n"
 
-#: src/import.c:1136
+#: src/import.c:1129
 msgid "Add transactions to an account"
 msgstr "Buchungen einem Konto zuordnen"
 
-#: src/import.c:1174
+#: src/import.c:1167
 msgid "Mark transactions of an account"
 msgstr "Buchungen für ein Konto auswählen"
 
-#: src/import.c:1226
+#: src/import.c:1219
 #, c-format
 msgid ""
 "Currency of imported account '%s' is %s.  Either this currency doesn't exist "
@@ -8371,21 +8438,21 @@ msgstr ""
 "Wenn die Währung bereits vorhanden ist, aber der ISO Code falsch ist müssen "
 "Sie den ISO Code in der Konfiguration festlegen."
 
-#: src/import.c:1233
+#: src/import.c:1226
 #, c-format
 msgid "Can't associate ISO 4217 code for currency '%s'."
 msgstr "ISO 4217 kann der Währung %s nicht zugeordnet werden."
 
 #. invert amount of transactions
-#: src/import.c:1244
+#: src/import.c:1237
 msgid "Invert the amount of the imported transactions"
 msgstr "Den Betrag der importierten Buchungen invertieren"
 
-#: src/import.c:1252
+#: src/import.c:1245
 msgid "Create a rule for this import. Name of the rule : "
 msgstr "Eine Regel für diesen Import erstellen - Name der Regel : "
 
-#: src/import.c:1343
+#: src/import.c:1336
 #, c-format
 msgid ""
 "An error occured while creating the new account %s,\n"
@@ -8395,7 +8462,7 @@ msgstr ""
 "Es wird versucht den Import fortzusetzen, jedoch kann es wegen des Fehlers "
 "zu inkonsistenten Zuständen kommen..."
 
-#: src/import.c:1395
+#: src/import.c:1388
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
@@ -8405,15 +8472,15 @@ msgstr ""
 "wurde kein Name für die Regel angegeben. Bitte einen Namen für die Regel "
 "eingeben oder die Erstellung der Regel mit Abbrechen verlassen."
 
-#: src/import.c:1399
+#: src/import.c:1392
 msgid "No name for the import rule"
 msgstr "Kein Name für die Import Regel"
 
-#: src/import.c:1400
+#: src/import.c:1393
 msgid "Name of the rule :"
 msgstr "Name der Regel :"
 
-#: src/import.c:1426
+#: src/import.c:1419
 msgid ""
 "No account in memory now, this is bad...\n"
 "Better to leave the import before a crash.\n"
@@ -8427,11 +8494,11 @@ msgstr ""
 "Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
 "Ursache für den Fehler zu finden."
 
-#: src/import.c:1436
+#: src/import.c:1429
 msgid "Please wait"
 msgstr "Bitte warten"
 
-#: src/import.c:1461
+#: src/import.c:1454
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
@@ -8443,13 +8510,13 @@ msgstr ""
 "Abstimmungsreferenzen zuzuordnen.\n"
 "Die Anlage und Zuordnung kann im Dialog 'Einstellungen' durchgeführt werden."
 
-#: src/import.c:1715
+#: src/import.c:1708
 msgid "Imported account"
 msgstr "Importiertes Konto"
 
 #. there is a difference between the imported account id and grisbi account id,
 #. * ask to be sure
-#: src/import.c:1764
+#: src/import.c:1757
 #, c-format
 msgid ""
 "The Grisbi's id account is %s, but the imported id account is %s.\n"
@@ -8466,25 +8533,26 @@ msgstr ""
 
 #. l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents
 #. on propose encore d'arrÃªter...
-#: src/import.c:1767 src/import.c:2611
+#: src/import.c:1760 src/import.c:2604
 msgid "The id of the imported and chosen accounts are different"
-msgstr "Die ID's des importieren und des selektierten Kontos sind unterschiedlich"
+msgstr ""
+"Die ID's des importieren und des selektierten Kontos sind unterschiedlich"
 
-#: src/import.c:1993
+#: src/import.c:1986
 msgid "Confirmation of transactions to be merged"
 msgstr "Zusammenführung von Buchungen bestätigen - Grisbi"
 
-#: src/import.c:1996
+#: src/import.c:1989
 msgid "Confirmation of importation of transactions"
 msgstr "Import von Buchungen bestätigen - Grisbi"
 
-#: src/import.c:2012
+#: src/import.c:2005
 msgid "Please select the transactions to be merged"
 msgstr ""
 "Die aufgelisteten Buchungen sind bereits vorhanden - bitte treffen Sie eine "
 "Auswahl welche Buchungen zusammengeführt werden sollen."
 
-#: src/import.c:2015
+#: src/import.c:2008
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
 "transactions to import."
@@ -8492,37 +8560,37 @@ msgstr ""
 "Die aufgelisteten Buchungen sind bereits vorhanden - bitte treffen Sie eine "
 "Auswahl welche Buchungen importiert werden sollen."
 
-#: src/import.c:2095
+#: src/import.c:2088
 #, c-format
 msgid "Transactions to be merged : %s ; %s ; %s"
 msgstr "Buchung für Zusammenführung : %s ; %s ; %s"
 
-#: src/import.c:2100
+#: src/import.c:2093
 #, c-format
 msgid "Transactions to import : %s ; %s ; %s"
 msgstr "Buchung für Import : %s ; %s ; %s"
 
-#: src/import.c:2139
+#: src/import.c:2132
 #, c-format
 msgid "Transaction found : %s ; %s ; %s ; %s"
 msgstr "Buchung gefunden : %s ; %s ; %s ; %s"
 
-#: src/import.c:2152
+#: src/import.c:2145
 #, c-format
 msgid "Transaction found : %s ; %s ; %s"
 msgstr "Buchung gefunden : %s ; %s ; %s"
 
 #. Check = ChÃ¨que
-#: src/import.c:2399 src/plugins/ofx/ofx.c:431
+#: src/import.c:2392 src/plugins/ofx/ofx.c:431
 msgid "Check"
 msgstr "Überprüfen"
 
 #. Cash withdrawal = retrait en liquide
-#: src/import.c:2452
+#: src/import.c:2445
 msgid "Cash withdrawal"
 msgstr "Barzahlung"
 
-#: src/import.c:2542
+#: src/import.c:2535
 #, c-format
 msgid ""
 "Warning : the cheque number %ld is already used.\n"
@@ -8531,7 +8599,7 @@ msgstr ""
 "Achtung: Diese Schecknummer %ld wird bereit benützt.\n"
 "Die Auswahl wird verworfen"
 
-#: src/import.c:2612
+#: src/import.c:2605
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
@@ -8540,68 +8608,68 @@ msgstr ""
 "entscheiden den Vorgang fortzusetzen wird die ID des Kontos geändert. Soll "
 "der Vorgang fortgesetzt werden?"
 
-#: src/import.c:2892
+#: src/import.c:2885
 msgid "Orphaned transactions"
 msgstr "Buchungen auswählen - Grisbi"
 
-#: src/import.c:2904
+#: src/import.c:2897
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 "Die Buchungen für den Import auswählen - mit 'Anwenden' werden die Buchungen "
 "importiert."
 
-#: src/import.c:2975
+#: src/import.c:2968
 msgid "Mark"
 msgstr "Markieren"
 
-#: src/import.c:3179
+#: src/import.c:3172
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: src/import.c:3208
+#: src/import.c:3201
 msgid "Import settings"
 msgstr "Import Einstellungen"
 
-#: src/import.c:3215
+#: src/import.c:3208
 msgid "Threshold while matching transaction date during import (in days)"
 msgstr "Datumsbereich in Tagen für den Import von Buchungen : "
 
-#: src/import.c:3234
+#: src/import.c:3227
 msgid "merge transactions imported with planned transactions"
 msgstr "Importierte Buchungen mit geplanten Buchungen zusammenführen"
 
-#: src/import.c:3244
+#: src/import.c:3237
 msgid "automatically associate the category of the payee if it is possible"
 msgstr "Importierte Empfänger durch bestehende Empfänger ersetzen"
 
-#: src/import.c:3255 src/tiers_onglet.c:1043
+#: src/import.c:3248 src/tiers_onglet.c:1043
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 "Die Nummer vom Empfänger ermitteln und in das Feld für die Schecknummer "
 "einfügen"
 
-#: src/import.c:3263
+#: src/import.c:3256
 msgid "Set the financial year"
 msgstr "Geschäftsjahr Zuordnung"
 
-#: src/import.c:3264
+#: src/import.c:3257
 msgid "According to the date"
 msgstr "entsprechend Datum der Buchung"
 
-#: src/import.c:3265
+#: src/import.c:3258
 msgid "According to the value date (if fail, try with the date)"
 msgstr "entsprechend Datum der Durchführung"
 
-#: src/import.c:3294
+#: src/import.c:3287
 msgid "Manage import associations"
 msgstr "Zuordnungen verwalten"
 
-#: src/import.c:3301 src/parametres.c:300
+#: src/import.c:3294 src/parametres.c:303
 msgid "Import associations"
 msgstr "Zuordnungen"
 
-#: src/import.c:3303
+#: src/import.c:3296
 msgid ""
 "This will associate a search string to a payee every time you import a file. "
 "For instance, all QIF labels containing 'Rent' could be associated with  a "
@@ -8612,24 +8680,24 @@ msgstr ""
 "werden"
 
 #. Create entry liste des tiers
-#: src/import.c:3373 src/import.c:3405 src/tiers_onglet.c:1146
+#: src/import.c:3366 src/import.c:3398 src/tiers_onglet.c:1146
 msgid "Payee name"
 msgstr "Empfänger Name"
 
 #. Create entry search string
-#: src/import.c:3387 src/import.c:3430
+#: src/import.c:3380 src/import.c:3423
 msgid "Search string"
 msgstr "Suchkriterium"
 
-#: src/import.c:3396
+#: src/import.c:3389
 msgid "Details of associations"
 msgstr "Zuordnung Details"
 
-#: src/import.c:3703
+#: src/import.c:3696
 msgid "You cannot choose this payee because it already has an association"
 msgstr "Der ausgewählte Empfänger ist bereits einem Suchbegriff zugeordnet"
 
-#: src/import.c:3939
+#: src/import.c:3932
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
@@ -8638,7 +8706,7 @@ msgstr ""
 "%s ist keine Ofx oder Qif Datei, es werden keine Daten aus dieser Datei "
 "importiert."
 
-#: src/import.c:3997
+#: src/import.c:3990
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
@@ -8647,42 +8715,42 @@ msgstr ""
 "%s konnte nicht erfolgreich importiert werden. Es ist ein Fehler beim "
 "Ermitteln der Buchungen aufgetreten."
 
-#: src/import.c:4073
+#: src/import.c:4066
 msgid "Import a file with a rule"
 msgstr "Regelbasierender Import - Grisbi"
 
 #. text for paddingbox
-#: src/import.c:4084
+#: src/import.c:4077
 #, c-format
 msgid "Properties of the rule : %s\n"
 msgstr "Eigenschaften der Importregel : %s\n"
 
-#: src/import.c:4103
+#: src/import.c:4096
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Die importierten Buchungen werden dem Konto %s zugeordnet.\n"
 
-#: src/import.c:4106
+#: src/import.c:4099
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "Die importierten Buchungen erhalten eine Markierung im Konto %s.\n"
 
 #. textstring 2
-#: src/import.c:4111
+#: src/import.c:4104
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "Die Währung für den Import ist %s.\n"
 
-#: src/import.c:4118
+#: src/import.c:4111
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Die Beträge der Buchungen werden invertiert.\n"
 
 #. label filename
-#: src/import.c:4129
+#: src/import.c:4122
 msgid "Name of the file to import "
 msgstr "Importdatei"
 
-#: src/import.c:4230
+#: src/import.c:4223
 #, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr "Die temporäre Datei kann nicht erstellt werden: %s\n"
@@ -9199,139 +9267,151 @@ msgid "closed"
 msgstr "Geschlossen"
 
 #. Create dialog
-#: src/parametres.c:230
+#: src/parametres.c:233
 msgid "Grisbi preferences"
 msgstr "Einstellungen - Grisbi"
 
-#: src/parametres.c:263
+#: src/parametres.c:266
 msgid "Main"
 msgstr "Allgemein"
 
-#: src/parametres.c:272 src/parametres.c:677
+#: src/parametres.c:275 src/parametres.c:680
 msgid "Files"
 msgstr "Dateien"
 
-#: src/parametres.c:310 src/parametres.c:844
+#: src/parametres.c:313 src/parametres.c:847
 msgid "Programs"
 msgstr "Programme"
 
-#: src/parametres.c:338
+#: src/parametres.c:341
 msgid "Display"
 msgstr "Anzeigeoptionen"
 
-#: src/parametres.c:355 src/parametres.c:576
+#: src/parametres.c:358 src/parametres.c:579
 msgid "Messages & warnings"
 msgstr "Meldungen & Warnungen"
 
-#: src/parametres.c:373 src/parametres.c:960
+#: src/parametres.c:376 src/parametres.c:1004
 msgid "Payees, categories and budgetaries"
 msgstr "Währungen & Sortierung"
 
-#: src/parametres.c:401
+#: src/parametres.c:404
 msgid "List behavior"
 msgstr "Einstellungen"
 
-#: src/parametres.c:438
+#: src/parametres.c:441
 msgid "Content"
 msgstr "Darstellung"
 
-#: src/parametres.c:447
+#: src/parametres.c:450
 msgid "Behavior"
 msgstr "Einstellungen"
 
-#: src/parametres.c:456
+#: src/parametres.c:459
 msgid "Completion"
 msgstr "Vervollständigung"
 
-#: src/parametres.c:466
+#: src/parametres.c:469
 msgid "Resources"
 msgstr "Finanzdaten"
 
-#: src/parametres.c:483
+#: src/parametres.c:486
 msgid "Currencies links"
 msgstr "Währungsvergleich"
 
 #. Tip of the day
-#: src/parametres.c:579
+#: src/parametres.c:582
 msgid "Tip of the day"
 msgstr "Tipp des Tages"
 
 #. Display or not tips
-#: src/parametres.c:582
+#: src/parametres.c:585
 msgid "Display tip of the day"
 msgstr "Den Tipp des Tages anzeigen"
 
-#: src/parametres.c:589
+#: src/parametres.c:592
 msgid "Display following warnings messages"
 msgstr "Folgende Warnungen anzeigen"
 
-#: src/parametres.c:610
+#: src/parametres.c:613
 msgid "Message"
 msgstr "Meldung"
 
 #. Compression level of files
-#: src/parametres.c:703
+#: src/parametres.c:706
 msgid "Compress Grisbi file"
 msgstr "Datei komprimieren"
 
-#: src/parametres.c:711
+#: src/parametres.c:714
 msgid "Memorise last opened files"
 msgstr "Dateihistorie Anzahl"
 
 #. Backups
-#: src/parametres.c:719
+#: src/parametres.c:722
 msgid "Backups"
 msgstr "Sicherungen"
 
 #. Compression level of backups
-#: src/parametres.c:722
+#: src/parametres.c:725
 msgid "Compress Grisbi backup"
 msgstr "Sicherung komprimieren"
 
 #. Backup at each opening?
-#: src/parametres.c:727
+#: src/parametres.c:730
 msgid "Make a backup copy after opening files"
 msgstr "Nach dem Öffnen der Datei eine Sicherung erstellen"
 
-#: src/parametres.c:873
+#: src/parametres.c:876
 msgid "LaTeX support (old print system)"
 msgstr "Druck mit LaTeX"
 
-#: src/parametres.c:880
+#: src/parametres.c:883
 msgid "LaTeX command"
 msgstr "LaTeX Befehl"
 
-#: src/parametres.c:888
+#: src/parametres.c:891
 msgid "dvips command"
 msgstr "Dvips Befehl"
 
-#: src/parametres.c:928
+#: src/parametres.c:931
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Planer Meldungen"
 
-#: src/parametres.c:929
+#: src/parametres.c:932
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
-msgstr "Am Fälligkeitsdatum einen Hinweis anzeigen und die geplante Buchung ausführen"
+msgstr ""
+"Am Fälligkeitsdatum einen Hinweis anzeigen und die geplante Buchung ausführen"
 
-#: src/parametres.c:930
+#: src/parametres.c:933
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr ""
 "Für geplante Buchungen vom Monat einen Hinweis anzeigen und die Buchungen "
 "ausführen"
 
-#: src/parametres.c:938
+#: src/parametres.c:941
 msgid "Number of days before the warning or the execution"
 msgstr "Hinweis für eine geplante Buchung in Tagen davor anzeigen"
 
-#: src/parametres.c:969
+#. Take into account the planned operations in the calculation of balances
+#: src/parametres.c:948
+#, fuzzy
+msgid "Calculation of balances"
+msgstr "Partielle Salden"
+
+#: src/parametres.c:954
+msgid ""
+"Take into account the scheduled operations in the calculation of balances"
+msgstr ""
+
+#: src/parametres.c:1013
 msgid "Sort option for transactions"
 msgstr "Sortierung"
 
-#: src/parametres.c:970
+#: src/parametres.c:1014
 msgid "by number"
 msgstr "nach Nummer"
 
-#: src/parametres.c:971
+#: src/parametres.c:1015
 msgid "by date"
 msgstr "nach Datum"
 
@@ -9465,7 +9545,8 @@ msgstr "Ungültige Ofx-Datei"
 
 #: src/plugins/ofx/ofx.c:212
 msgid "OFX processing returned following message:\n"
-msgstr "Bei der Verarbeitung der Ofx-Datei wurde folgende Warnung zurückgegeben:\n"
+msgstr ""
+"Bei der Verarbeitung der Ofx-Datei wurde folgende Warnung zurückgegeben:\n"
 
 #: src/plugins/ofx/ofx.c:218
 msgid "OFX processing ended in a warning message which is not valid."
@@ -9473,7 +9554,8 @@ msgstr "Die Datei ist keine gültige Ofx-Datei."
 
 #: src/plugins/ofx/ofx.c:224
 msgid "OFX processing returned following error message:\n"
-msgstr "Bei der Verarbeitung der Ofx-Datei wurde folgender Fehler zurückgegeben:\n"
+msgstr ""
+"Bei der Verarbeitung der Ofx-Datei wurde folgender Fehler zurückgegeben:\n"
 
 #: src/plugins/ofx/ofx.c:230
 msgid "OFX processing returned an error message which is not valid."
@@ -9998,7 +10080,8 @@ msgstr "Es muss der Name von einem Empfänger für die Suche eingegeben werden."
 
 #: src/tiers_onglet.c:1539
 msgid "Beware you don't use one of models for the research."
-msgstr "Einen Empfänger auswählen oder bei der Eingabe das '%' Zeichen verwenden."
+msgstr ""
+"Einen Empfänger auswählen oder bei der Eingabe das '%' Zeichen verwenden."
 
 #: src/tip.c:78 src/tip.c:109 src/tip.c:116
 msgid "Did you know that..."
@@ -10047,7 +10130,8 @@ msgstr ""
 
 #: src/transaction_list_sort.c:136
 #, c-format
-msgid "Asked to sort by column %d, wich is bigger than the visible columns (%d)"
+msgid ""
+"Asked to sort by column %d, wich is bigger than the visible columns (%d)"
 msgstr ""
 "Es wurde ein Sortierung nach Spalte %d aufgerufen, dieses Spalte ist breiter "
 "als die sichtbaren Spalten (%d)"
@@ -10088,4 +10172,3 @@ msgstr "Speicherzugriffsverletzung"
 #: src/utils_font.c:199
 msgid "No font defined"
 msgstr "Keine Schrift definiert"
-

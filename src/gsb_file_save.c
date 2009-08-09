@@ -1905,7 +1905,7 @@ gulong gsb_file_save_partial_balance_part ( gulong iterator,
 
 	partial_balance_number = gsb_data_partial_balance_get_number ( list_tmp -> data );
 
-	new_string = g_markup_printf_escaped ( "\t<Partial_balance Nb=\"%d\" Na=\"%s\" Acc=\"%s\" kind=\"%d\" Currency=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Partial_balance Nb=\"%d\" Na=\"%s\" Acc=\"%s\" Kind=\"%d\" Currency=\"%d\" />\n",
 					       partial_balance_number,
 					       my_safe_null_str(gsb_data_partial_balance_get_name ( partial_balance_number )),
 					       my_safe_null_str(gsb_data_partial_balance_get_liste_cptes ( partial_balance_number )),

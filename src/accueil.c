@@ -91,6 +91,7 @@ extern GdkColor couleur_solde_alarme_verte_normal;
 extern GdkColor couleur_solde_alarme_verte_prelight;
 extern GtkWidget *form_transaction_part;
 extern gsb_real null_real;
+extern GSList *partial_balance_list;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 extern gchar *titre_fichier;
@@ -472,8 +473,7 @@ void update_liste_comptes_accueil ( gboolean force )
 
             if ( !gsb_data_account_get_closed_account (account_number) &&
              gsb_data_account_get_currency (account_number) == currency_number
-             && gsb_data_account_get_kind (account_number) != GSB_TYPE_LIABILITIES
-             && gsb_data_account_get_kind (account_number) != GSB_TYPE_ASSET )
+             && gsb_data_account_get_kind (account_number) < GSB_TYPE_LIABILITIES )
             {
                 /* on affiche la ligne du compte avec les soldes pointé et courant */
                 gsb_main_page_affiche_ligne_du_compte  ( pTable, account_number, i );
@@ -1744,14 +1744,124 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
 /* *******************************************************************************/
 GtkWidget *onglet_accueil (void)
 {
-    GtkWidget *vbox_pref, *paddingbox;
+    GtkWidget *vbox_pref, *vbox, *paddingbox, *button;
+    GtkWidget *hbox, *vbox2, *sw, *treeview ;
+    //~ GtkWidget *table, *label, *entry;
+    GtkListStore *list_store;
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *cell;
+    GtkTreeSelection *selection;
+    //~ gchar *texte;
+
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Configuration of the main page"),
                         "title.png" );
 
+    vbox = gtk_vbox_new ( FALSE, 12 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, TRUE, TRUE, 0 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+
     /* Data import settings */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
+    paddingbox = new_paddingbox_with_title (vbox, FALSE, 
                         _("Balances partial of the list of bank accounts") );
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 0);
+
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
+                        GTK_SHADOW_ETCHED_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+                        GTK_POLICY_NEVER,
+                        GTK_POLICY_ALWAYS);
+    gtk_box_pack_start ( GTK_BOX (hbox), sw, TRUE,TRUE, 0 );
+
+    /* Create Add/Remove buttons */
+    vbox2 = gtk_vbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox2, FALSE, FALSE, 0 );
+
+    /* Button "Add" */
+    button = gtk_button_new_from_stock (GTK_STOCK_ADD);
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK  ( gsb_partial_balance_add ),
+                        vbox_pref );
+    gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
+    g_object_set_data ( G_OBJECT (vbox_pref), "add_button", button );
+
+    /* Button "Remove" */
+    button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( gsb_partial_balance_delete ),
+                        vbox_pref );
+    gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
+    gtk_widget_set_sensitive ( button, FALSE );
+    g_object_set_data ( G_OBJECT (vbox_pref), "remove_button", button );
+
+    /* create the model */
+    list_store = gtk_list_store_new ( 5, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
+                        G_TYPE_STRING, G_TYPE_INT );
+
+    /* remplit le modèle si nécessaire */
+    if ( g_slist_length ( partial_balance_list ) > 0 )
+        gsb_partial_balance_fill_model ( list_store, 0 );
+
+    /* create the treeview */
+    treeview = gtk_tree_view_new_with_model (
+                        GTK_TREE_MODEL (list_store) );
+    g_object_unref (list_store);
+
+    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
+    gtk_widget_set_size_request ( treeview, -1, 230 );
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (treeview) );
+    gtk_tree_selection_set_select_function ( selection,
+                        (GtkTreeSelectionFunc) gsb_partial_balance_select_func,
+                        vbox_pref, NULL );
+    gtk_container_add (GTK_CONTAINER (sw), treeview);
+    gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
+    g_object_set_data ( G_OBJECT (vbox_pref), "treeview", treeview );
+
+    /* Nom du solde partiel */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( _("Partial balance"),
+                        cell, "text", 0, NULL);
+    gtk_tree_view_column_set_expand ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
+    gtk_tree_view_column_set_sort_column_id (column, 0);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column);
+
+    /* Liste des comptes */
+    cell = gtk_cell_renderer_text_new ( );
+    g_object_set (cell, "editable", TRUE, NULL);
+    //~ g_signal_connect ( cell,
+                        //~ "edited",
+                        //~ G_CALLBACK (gsb_import_associations_cell_edited),
+                        //~ vbox_main );
+    column = gtk_tree_view_column_new_with_attributes ( _("Accounts list"),
+                        cell, "text", 1, NULL);
+    gtk_tree_view_column_set_expand ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
+    gtk_tree_view_column_set_sort_column_id (column, 1);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column);
+
+    /* Type de compte */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( _("Account kind"),
+                        cell, "text", 2, NULL);
+    gtk_tree_view_column_set_expand ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
+    gtk_tree_view_column_set_sort_column_id (column, 2);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column);
+
+    /* Devise */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( _("Currency"),
+                        cell, "text", 3, NULL);
+    gtk_tree_view_column_set_expand ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
+    gtk_tree_view_column_set_sort_column_id (column, 3);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column);
 
     gtk_widget_show_all ( vbox_pref );
 

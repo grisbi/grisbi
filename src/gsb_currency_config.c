@@ -1412,10 +1412,10 @@ gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTree
 	return TRUE;
     }
 
-    gchar* tmpstr = g_strdup_printf ( "failed to find '%s' in '%s'",
-				    conv -> int_curr_symbol, country );
-    warning_debug (tmpstr);
-    g_free ( tmpstr );
+    //~ gchar* tmpstr = g_strdup_printf ( "failed to find '%s' in '%s'",
+				    //~ conv -> int_curr_symbol, country );
+    //~ warning_debug (tmpstr);
+    //~ g_free ( tmpstr );
 
     return FALSE;
 }

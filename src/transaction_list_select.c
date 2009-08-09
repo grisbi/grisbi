@@ -31,7 +31,10 @@
 
 /*START_INCLUDE*/
 #include "transaction_list_select.h"
+#include "./gsb_data_account.h"
 #include "./gsb_data_transaction.h"
+#include "./barre_outils.h"
+#include "./menu.h"
 #include "./gsb_transactions_list.h"
 #include "./transaction_model.h"
 #include "./custom_list.h"
@@ -92,6 +95,20 @@ gboolean transaction_list_select ( gint transaction_number )
 						      0 ))
 	    return FALSE;
 	record = iter.user_data;
+    }
+
+    /* si l'opération n'est pas visible on la rend visible */
+    if ( ( record -> mother_row && record -> mother_row -> filtered_pos == -1 )
+     ||
+     record -> filtered_pos == -1 )
+    {
+        gint account_number;
+
+        account_number = gsb_data_transaction_get_account_number ( transaction_number );
+        gsb_data_account_set_r ( account_number, TRUE );
+        gsb_gui_update_bouton_affiche_ope_r ( TRUE );
+        gsb_menu_update_view_menu ( account_number );
+        mise_a_jour_affichage_r ( TRUE );
     }
 
     return_value = transaction_list_select_record (record);
@@ -408,32 +425,41 @@ void transaction_list_select_unselect (void)
 
     if (record)
     {
-	/* get the path of the row */
-	path = gtk_tree_path_new ();
-	if (record -> mother_row)
-	    /* it's a child, need to get the path of the mother */
-	    gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
+        /* si l'opération n'est pas visible on sort */
+        if ( ( record -> mother_row && record -> mother_row -> filtered_pos == -1 )
+         ||
+         record -> filtered_pos == -1 )
+        {
+            custom_list -> selected_row = NULL;
+            return;
+        }
 
-	gtk_tree_path_append_index (path, record -> filtered_pos);
+        /* get the path of the row */
+        path = gtk_tree_path_new ();
+        if (record -> mother_row)
+            /* it's a child, need to get the path of the mother */
+            gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
 
-	for (i=0 ; i < custom_list -> nb_rows_by_transaction ; i++)
-	{
-	    record -> row_bg = record -> row_bg_save;
-	    record -> row_bg_save = NULL;
+        gtk_tree_path_append_index (path, record -> filtered_pos);
 
-	    /* inform the world that the row has changed */
-	    iter.user_data = record;
-	    gtk_tree_model_row_changed(GTK_TREE_MODEL(custom_list), path, &iter);
+        for (i=0 ; i < custom_list -> nb_rows_by_transaction ; i++)
+        {
+            record -> row_bg = record -> row_bg_save;
+            record -> row_bg_save = NULL;
 
-	    /* if the selection was a child, we stop now, only 1 line */
-	    if (record -> mother_row)
-		break;
+            /* inform the world that the row has changed */
+            iter.user_data = record;
+            gtk_tree_model_row_changed(GTK_TREE_MODEL(custom_list), path, &iter);
 
-	    /* go to the next row of the transaction */
-	    record = custom_list -> visibles_rows [record -> filtered_pos + 1];
-	    gtk_tree_path_next (path);
-	}
-	gtk_tree_path_free (path);
+            /* if the selection was a child, we stop now, only 1 line */
+            if (record -> mother_row)
+            break;
+
+            /* go to the next row of the transaction */
+            record = custom_list -> visibles_rows [record -> filtered_pos + 1];
+            gtk_tree_path_next (path);
+        }
+        gtk_tree_path_free (path);
     }
     custom_list -> selected_row = NULL;
 }
@@ -468,9 +494,10 @@ static gboolean transaction_list_select_record ( CustomRecord *record )
 
     /* get the path of the row we want to select */
     path = gtk_tree_path_new ();
-    if (record -> mother_row)
-	/* it's a child, need to get the path of the mother */
-	gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
+    if ( record -> mother_row )
+        /* it's a child, need to get the path of the mother */
+        gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
+
     gtk_tree_path_append_index (path, record -> filtered_pos);
 
     /* colorize the record */

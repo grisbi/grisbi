@@ -367,8 +367,8 @@ void utils_files_file_chooser_cancel ( GtkWidget *bouton, GtkWidget *chooser)
  */
 gboolean utils_files_create_XDG_dir (void)
 {
-    if ( g_mkdir_with_parents ( C_PATH_CONFIG, 450 ) == 0 &&
-         g_mkdir_with_parents ( C_PATH_DATA_FILES, 450 ) == 0 )
+    if ( g_mkdir_with_parents ( C_PATH_CONFIG, S_IRUSR | S_IWUSR | S_IXUSR ) == 0 &&
+         g_mkdir_with_parents ( C_PATH_DATA_FILES, S_IRUSR | S_IWUSR | S_IXUSR ) == 0 )
         return TRUE;
     else
         return FALSE;

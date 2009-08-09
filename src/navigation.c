@@ -1405,7 +1405,8 @@ gboolean gsb_gui_navigation_select_prev ()
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     g_return_val_if_fail ( selection, FALSE );
     
-    gtk_tree_selection_get_selected ( selection, &model, &iter );
+    if ( !gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+        return TRUE;
     path = gtk_tree_model_get_path ( model, &iter );
     g_return_val_if_fail ( path, TRUE );
 
@@ -1448,7 +1449,8 @@ gboolean gsb_gui_navigation_select_next ()
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     g_return_val_if_fail ( selection, FALSE );
     
-    gtk_tree_selection_get_selected ( selection, &model, &iter );
+    if ( !gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+        return TRUE;
     path = gtk_tree_model_get_path ( model, &iter );
     g_return_val_if_fail ( path, TRUE );
 

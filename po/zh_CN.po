@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-22 21:35+0200\n"
+"POT-Creation-Date: 2009-08-09 19:49+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -16,140 +16,160 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/accueil.c:216
+#: src/accueil.c:218
 msgid "Closed liabilities accounts"
 msgstr "已结清负债账户"
 
-#: src/accueil.c:229
+#: src/accueil.c:231
 #, fuzzy
 msgid "Run out manual scheduled transactions"
 msgstr "自动/手动安排交易"
 
-#: src/accueil.c:245
+#: src/accueil.c:247
 msgid "Automatic scheduled transactions entered"
 msgstr "录入自动预定的交易"
 
-#: src/accueil.c:256
+#: src/accueil.c:258
 msgid "Closed scheduled transactions"
 msgstr "已结清预定交易"
 
-#: src/accueil.c:267
+#: src/accueil.c:269
 msgid "Accounts under authorized balance"
 msgstr "账户审核不平衡"
 
-#: src/accueil.c:278
+#: src/accueil.c:280
 #, fuzzy
 msgid "Accounts under desired balance"
 msgstr "账户预期不平衡"
 
 #. crÃ©e la boite de dialogue
-#: src/accueil.c:325
+#: src/accueil.c:327
 msgid "Enter a scheduled transaction"
 msgstr "录入预定交易"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur solde.
-#: src/accueil.c:449
+#: src/accueil.c:451
 #, c-format
 msgid "Account balances in %s"
 msgstr "账户余额 %s"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:524
+#: src/accueil.c:525
 #, c-format
 msgid "Liabilities accounts balances in %s"
 msgstr "负债账户余额 %s"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:587
+#: src/accueil.c:588
 #, c-format
 msgid "Assets accounts balances in %s"
 msgstr "资产账户余额"
 
-#: src/accueil.c:715 src/accueil.c:909
+#: src/accueil.c:716 src/accueil.c:910
 msgid "Reconciled balance"
 msgstr "余额调整"
 
-#: src/accueil.c:719 src/accueil.c:913
+#: src/accueil.c:720 src/accueil.c:914
 msgid "Current balance"
 msgstr "当前余额"
 
-#: src/accueil.c:902
+#: src/accueil.c:903 src/accueil.c:1828
 #, fuzzy
 msgid "Partial balance"
 msgstr "初始余额"
 
-#: src/accueil.c:904
+#: src/accueil.c:905
 #, fuzzy
 msgid "Partial balances"
 msgstr "初始余额"
 
-#: src/accueil.c:981
+#: src/accueil.c:982
 #, fuzzy
 msgid "Global balance"
 msgstr "总余额"
 
-#: src/accueil.c:983
+#: src/accueil.c:984
 msgid "Global balances"
 msgstr "总余额"
 
-#: src/accueil.c:1135 src/accueil.c:1257 src/accueil.c:1708
+#: src/accueil.c:1136 src/accueil.c:1258 src/accueil.c:1709
 #, fuzzy, c-format
 msgid "%s credited on %s"
 msgstr "%4.2f %s 记入贷方 %s"
 
-#: src/accueil.c:1145 src/accueil.c:1267 src/accueil.c:1717
+#: src/accueil.c:1146 src/accueil.c:1268 src/accueil.c:1718
 #, fuzzy, c-format
 msgid "%s debited on %s"
 msgstr "%4.2f %s 记入借方 %s"
 
-#: src/accueil.c:1486
+#: src/accueil.c:1487
 #, fuzzy, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr "账户 %s 的余额小于预期和审核的最小值"
 
-#: src/accueil.c:1490
+#: src/accueil.c:1491
 #, fuzzy
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
 msgstr "账户 %s 的余额小于预期和审核的最小值"
 
-#: src/accueil.c:1519
+#: src/accueil.c:1520
 #, fuzzy, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr "账户 %s 的余额小于审核的最小值"
 
-#: src/accueil.c:1529
+#: src/accueil.c:1530
 #, fuzzy
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
 msgstr "账户 %s 的余额小于预期和审核的最小值"
 
-#: src/accueil.c:1561
+#: src/accueil.c:1562
 #, fuzzy, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "账户 %s 的余额小于预期值"
 
-#: src/accueil.c:1571
+#: src/accueil.c:1572
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
 msgstr ""
 
-#: src/accueil.c:1749
+#. ~ gchar *texte;
+#: src/accueil.c:1758
 #, fuzzy
 msgid "Configuration of the main page"
 msgstr "确认删除银行"
 
-#: src/accueil.c:1754
+#: src/accueil.c:1767
 #, fuzzy
 msgid "Balances partial of the list of bank accounts"
 msgstr "移动交易到另一个账户"
 
-#: src/affichage.c:133 src/parametres.c:346
+#. ~ g_signal_connect ( cell,
+#. ~ "edited",
+#. ~ G_CALLBACK (gsb_import_associations_cell_edited),
+#. ~ vbox_main );
+#. List of the accounts
+#: src/accueil.c:1842 src/gsb_data_partial_balance.c:639
+#, fuzzy
+msgid "Accounts list"
+msgstr "账户"
+
+#: src/accueil.c:1851
+#, fuzzy
+msgid "Account kind"
+msgstr "账户名称"
+
+#: src/accueil.c:1860 src/gsb_form_widget.c:445 src/import_csv.c:77
+msgid "Currency"
+msgstr "货币"
+
+#: src/affichage.c:133 src/parametres.c:349
 msgid "Fonts & logo"
 msgstr "字体和标志"
 
@@ -193,7 +213,7 @@ msgstr ""
 msgid "Back to default"
 msgstr "恢复默认值"
 
-#: src/affichage.c:361 src/parametres.c:364
+#: src/affichage.c:361 src/parametres.c:367
 msgid "Addresses & titles"
 msgstr "地址和名称抬头"
 
@@ -237,7 +257,7 @@ msgstr "备用地址"
 msgid "Select a new logo"
 msgstr "选择一个新标志图"
 
-#: src/affichage.c:686 src/parametres.c:383
+#: src/affichage.c:686 src/parametres.c:386
 msgid "Toolbars"
 msgstr ""
 
@@ -498,7 +518,7 @@ msgstr ""
 #: src/export_csv.c:747 src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_form.c:1283 src/gsb_form_widget.c:397 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:333 src/gsb_transactions_list.c:143
-#: src/import.c:2983 src/import_csv.c:78 src/traitement_variables.c:75
+#: src/import.c:2976 src/import_csv.c:78 src/traitement_variables.c:75
 msgid "Date"
 msgstr "日期"
 
@@ -769,7 +789,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
 #: src/categories_onglet.c:400 src/etats_onglet.c:1256
-#: src/file_obfuscate_qif.c:105 src/gsb_file.c:238 src/import.c:725
+#: src/file_obfuscate_qif.c:105 src/gsb_file.c:238 src/import.c:718
 #: src/imputation_budgetaire.c:435
 #, fuzzy
 msgid "All files"
@@ -823,8 +843,8 @@ msgstr "新增子类"
 msgid "Create a new sub-category"
 msgstr "请输入新增子类的名称"
 
-#: src/categories_onglet.c:510 src/etats_onglet.c:130 src/import.c:373
-#: src/import.c:3203 src/imputation_budgetaire.c:543 src/parametres.c:291
+#: src/categories_onglet.c:510 src/etats_onglet.c:130 src/import.c:366
+#: src/import.c:3196 src/imputation_budgetaire.c:543 src/parametres.c:294
 msgid "Import"
 msgstr "导入"
 
@@ -898,6 +918,7 @@ msgstr "类别 (%d) 不存在"
 #. Bank name item
 #. Name
 #. Create currency name entry
+#. Partial balance name
 #. Financial year name
 #. set the name
 #. Name entry
@@ -905,7 +926,8 @@ msgstr "类别 (%d) 不存在"
 #: src/gsb_archive_config.c:188 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:388
 #: src/gsb_assistant_reconcile_config.c:1243 src/gsb_bank.c:732
-#: src/gsb_bank.c:855 src/gsb_currency_config.c:355 src/gsb_fyear_config.c:191
+#: src/gsb_bank.c:855 src/gsb_currency_config.c:355
+#: src/gsb_data_partial_balance.c:628 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:239
 #: src/gsb_reconcile_config.c:179 src/gsb_transactions_list.c:1704
 #: src/imputation_budgetaire.c:703 src/tiers_onglet.c:611
@@ -916,7 +938,7 @@ msgstr "名称"
 #. Payment method method_ptr
 #. Description entry
 #: src/categories_onglet.c:694 src/gsb_payment_method_config.c:292
-#: src/import.c:406 src/imputation_budgetaire.c:728
+#: src/import.c:399 src/imputation_budgetaire.c:728
 msgid "Type"
 msgstr "类型"
 
@@ -1422,12 +1444,12 @@ msgstr "一般总计"
 
 #. Transfer = Virement
 #. Direct deposit remplacÃ© par Transfert = Virement
-#: src/etats_affiche.c:1837 src/import.c:2440 src/import.c:2458
+#: src/etats_affiche.c:1837 src/import.c:2433 src/import.c:2451
 msgid "Transfert"
 msgstr "转帐"
 
 #: src/etats_affiche.c:1846 src/export_csv.c:561 src/gsb_data_category.c:1039
-#: src/gsb_form.c:740 src/gsb_form.c:2588 src/gsb_form.c:2960
+#: src/gsb_form.c:740 src/gsb_form.c:2588 src/gsb_form.c:2961
 #: src/gsb_form_scheduler.c:327 src/gsb_transactions_list.c:3211
 #, fuzzy
 msgid "Split of transaction"
@@ -1485,7 +1507,7 @@ msgstr "财年"
 #: src/etats_config.c:687 src/etats_config.c:7193 src/export_csv.c:762
 #: src/fenetre_principale.c:278 src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_form.c:1310 src/gsb_form_widget.c:417 src/gsb_scheduler_list.c:333
-#: src/gsb_transactions_list.c:145 src/import.c:2990 src/import_csv.c:80
+#: src/gsb_transactions_list.c:145 src/import.c:2983 src/import_csv.c:80
 #: src/meta_payee.c:77 src/traitement_variables.c:77
 #, fuzzy
 msgid "Payee"
@@ -1508,7 +1530,7 @@ msgstr "备注"
 #. Now we have a model, create view
 #: src/etats_affiche.c:2447 src/etats_config.c:564 src/etats_config.c:567
 #: src/etats_config.c:7415 src/gsb_payment_method_config.c:117
-#: src/parametres.c:510
+#: src/parametres.c:513
 msgid "Payment methods"
 msgstr "支付方式"
 
@@ -1694,12 +1716,12 @@ msgid "Generalities"
 msgstr "普遍性"
 
 #: src/etats_config.c:635 src/etats_config.c:638 src/export_csv.c:738
-#: src/fenetre_principale.c:260 src/parametres.c:393
+#: src/fenetre_principale.c:260 src/parametres.c:396
 msgid "Transactions"
 msgstr "交易"
 
 #: src/etats_config.c:644 src/etats_config.c:647 src/gsb_currency_config.c:296
-#: src/parametres.c:474
+#: src/parametres.c:477
 msgid "Currencies"
 msgstr "货币"
 
@@ -2064,7 +2086,7 @@ msgstr "不是空的"
 
 #: src/etats_config.c:5310 src/export_csv.c:771
 #: src/gsb_assistant_reconcile_config.c:612 src/gsb_scheduler_list.c:334
-#: src/gsb_transactions_list.c:150 src/import.c:2998
+#: src/gsb_transactions_list.c:150 src/import.c:2991
 #: src/traitement_variables.c:82
 msgid "Amount"
 msgstr "总计"
@@ -2342,7 +2364,7 @@ msgstr "所有的交易"
 msgid "Make transactions clickable"
 msgstr "使交易可点击"
 
-#: src/etats_config.c:6985 src/parametres.c:963
+#: src/etats_config.c:6985 src/parametres.c:1007
 msgid "Totals currencies"
 msgstr "所有货币"
 
@@ -2796,7 +2818,7 @@ msgid "Select accounts to export"
 msgstr "选择要导出的账户"
 
 #: src/export.c:169 src/export_csv.c:741 src/gsb_account_property.c:229
-#: src/import.c:1143 src/import.c:1180
+#: src/import.c:1136 src/import.c:1173
 msgid "Account name"
 msgstr "账户名称"
 
@@ -2900,12 +2922,12 @@ msgstr "子类别行"
 msgid "Reconciliation number"
 msgstr "调整数量"
 
-#: src/fenetre_principale.c:244 src/parametres.c:328
+#: src/fenetre_principale.c:244 src/parametres.c:331
 msgid "Main page"
 msgstr "首页"
 
-#: src/fenetre_principale.c:273 src/navigation.c:269 src/parametres.c:319
-#: src/parametres.c:923
+#: src/fenetre_principale.c:273 src/navigation.c:269 src/parametres.c:322
+#: src/parametres.c:926
 msgid "Scheduler"
 msgstr "日程"
 
@@ -3553,11 +3575,11 @@ msgstr "删除本账户是无法恢复的，包括之前所有的操作。"
 msgid "Account details"
 msgstr "账户明细"
 
-#: src/gsb_account_property.c:249 src/import.c:1094
+#: src/gsb_account_property.c:249 src/import.c:1087
 msgid "Account type"
 msgstr "账户类型"
 
-#: src/gsb_account_property.c:271 src/import.c:1199
+#: src/gsb_account_property.c:271 src/import.c:1192
 msgid "Account currency"
 msgstr "账户货币"
 
@@ -3627,18 +3649,21 @@ msgid "Minimum desired balance"
 msgstr "最小期望余额"
 
 #: src/gsb_account_property.c:753 src/gsb_assistant_account.c:434
+#: src/gsb_data_partial_balance.c:569
 msgid "Bank account"
 msgstr "银行账户"
 
-#: src/gsb_account_property.c:753
+#: src/gsb_account_property.c:753 src/gsb_data_partial_balance.c:557
 msgid "Cash account"
 msgstr "现金账户"
 
 #: src/gsb_account_property.c:753 src/gsb_assistant_account.c:447
+#: src/gsb_data_partial_balance.c:561
 msgid "Liabilities account"
 msgstr "负债账户"
 
 #: src/gsb_account_property.c:753 src/gsb_assistant_account.c:443
+#: src/gsb_data_partial_balance.c:565
 msgid "Assets account"
 msgstr "资产账户"
 
@@ -3664,7 +3689,7 @@ msgid "Your IBAN number is not correct. Please check your entry."
 msgstr ""
 
 #. create the page
-#: src/gsb_archive_config.c:111 src/parametres.c:282
+#: src/gsb_archive_config.c:111 src/parametres.c:285
 #, fuzzy
 msgid "Archives"
 msgstr "活动"
@@ -3746,7 +3771,7 @@ msgid "Deleting an archive and its transactions"
 msgstr "删除一条定期交易"
 
 #. New account
-#: src/gsb_assistant_account.c:96 src/import.c:1086
+#: src/gsb_assistant_account.c:96 src/import.c:1079
 msgid "Create a new account"
 msgstr "新增账户"
 
@@ -3937,7 +3962,7 @@ msgstr "报表"
 msgid "Please choose a name for archive"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:486 src/import.c:827
+#: src/gsb_assistant_archive.c:486 src/import.c:820
 msgid "Congratulations !"
 msgstr ""
 
@@ -4158,7 +4183,7 @@ msgstr ""
 #. will we crypt the file ?
 #. crypt the grisbi file
 #: src/gsb_assistant_file.c:323 src/gsb_assistant_first.c:249
-#: src/parametres.c:698
+#: src/parametres.c:701
 msgid "Encrypt Grisbi file"
 msgstr ""
 
@@ -4243,60 +4268,60 @@ msgid "General configuration of Grisbi"
 msgstr ""
 
 #. configure the browser
-#: src/gsb_assistant_first.c:208 src/parametres.c:846
+#: src/gsb_assistant_first.c:208 src/parametres.c:849
 #, fuzzy
 msgid "Web"
 msgstr "网站"
 
-#: src/gsb_assistant_first.c:215 src/parametres.c:853
+#: src/gsb_assistant_first.c:215 src/parametres.c:856
 #, fuzzy
 msgid "Web browser command"
 msgstr "Web浏览器"
 
-#: src/gsb_assistant_first.c:224 src/parametres.c:862
+#: src/gsb_assistant_first.c:224 src/parametres.c:865
 #, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr ""
 
-#: src/gsb_assistant_first.c:234 src/parametres.c:681
+#: src/gsb_assistant_first.c:234 src/parametres.c:684
 msgid "Account files handling"
 msgstr "账户文件处理选项"
 
 #. Automatically load last file on startup?
-#: src/gsb_assistant_first.c:237 src/parametres.c:684
+#: src/gsb_assistant_first.c:237 src/parametres.c:687
 msgid "Automatically load last file on startup"
 msgstr "启动时自动载入最后一次使用的文件"
 
 #. automatically save file at closing
-#: src/gsb_assistant_first.c:243 src/parametres.c:688
+#: src/gsb_assistant_first.c:243 src/parametres.c:691
 msgid "Automatically save on exit"
 msgstr "退出时自动保存"
 
 #. Automatic backup ?
-#: src/gsb_assistant_first.c:257 src/parametres.c:732
+#: src/gsb_assistant_first.c:257 src/parametres.c:735
 msgid "Make a backup copy before saving files"
 msgstr "保存文件时制作一份备份"
 
-#: src/gsb_assistant_first.c:267 src/parametres.c:740
+#: src/gsb_assistant_first.c:267 src/parametres.c:743
 #, fuzzy
 msgid "Make a backup copy every "
 msgstr "打开文件时保存一份备份文件"
 
-#: src/gsb_assistant_first.c:278 src/parametres.c:749
+#: src/gsb_assistant_first.c:278 src/parametres.c:752
 msgid " minutes"
 msgstr ""
 
-#: src/gsb_assistant_first.c:287 src/parametres.c:756
+#: src/gsb_assistant_first.c:287 src/parametres.c:759
 #, fuzzy
 msgid "Backup directory"
 msgstr "备份文件"
 
-#: src/gsb_assistant_first.c:292 src/parametres.c:763
+#: src/gsb_assistant_first.c:292 src/parametres.c:766
 msgid "Select/Create backup directory"
 msgstr ""
 
 #: src/gsb_assistant_first.c:335 src/gsb_reconcile_config.c:102
-#: src/parametres.c:411
+#: src/parametres.c:414
 msgid "Reconciliation"
 msgstr "调整"
 
@@ -4547,7 +4572,7 @@ msgstr "新增银行"
 msgid "Contact name"
 msgstr "联系人"
 
-#: src/gsb_bank.c:519 src/parametres.c:492
+#: src/gsb_bank.c:519 src/parametres.c:495
 msgid "Banks"
 msgstr "银行"
 
@@ -6156,7 +6181,7 @@ msgid ""
 "should be set."
 msgstr ""
 
-#: src/gsb_currency_config.c:1077
+#: src/gsb_currency_config.c:1077 src/gsb_data_partial_balance.c:717
 #, fuzzy
 msgid "All fields are not filled in"
 msgstr "所有的栏位都没有填！"
@@ -6211,19 +6236,19 @@ msgstr "账户货币"
 msgid "Invalid"
 msgstr "非法日期"
 
-#: src/gsb_data_account.c:219
+#: src/gsb_data_account.c:221
 #, c-format
 msgid "No name %d"
 msgstr "未命名 %d"
 
-#: src/gsb_data_account.c:531
+#: src/gsb_data_account.c:533
 #, c-format
 msgid ""
 "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
 msgstr ""
 
 #. TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?
-#: src/gsb_data_account.c:1135
+#: src/gsb_data_account.c:1148
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
@@ -6231,7 +6256,7 @@ msgid ""
 msgstr ""
 
 #. TODO dOm : the value of g_strdup_printf was not used. I add the devel_debug function to print it. Is it OK ?
-#: src/gsb_data_account.c:1173
+#: src/gsb_data_account.c:1186
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
@@ -6286,6 +6311,26 @@ msgstr ""
 msgid "<span foreground=\"red\">Warning : Invalid date</span>"
 msgstr ""
 
+#: src/gsb_data_partial_balance.c:604 src/gsb_data_partial_balance.c:612
+#, fuzzy
+msgid "Add a partial balance"
+msgstr "初始余额"
+
+#: src/gsb_data_partial_balance.c:619 src/gsb_debug.c:292
+msgid "Details"
+msgstr "明细"
+
+#. create the position
+#: src/gsb_data_partial_balance.c:649
+#, fuzzy
+msgid "Position in the list of accounts"
+msgstr "移动交易到另一个账户"
+
+#: src/gsb_data_partial_balance.c:715
+msgid ""
+"The name of the partial balance and the list of accounts must be completed."
+msgstr ""
+
 #: src/gsb_data_payee.c:402
 #, fuzzy
 msgid "No payee defined"
@@ -6297,19 +6342,19 @@ msgid "The transaction %d has a payee n°%d but it doesn't exist."
 msgstr "交易 #%d 应当反 #%d，但本条没有。\n"
 
 #. Deposit = DÃ©pÃ´t
-#: src/gsb_data_payment.c:714 src/import.c:2422 src/plugins/ofx/ofx.c:451
+#: src/gsb_data_payment.c:714 src/import.c:2415 src/plugins/ofx/ofx.c:451
 msgid "Deposit"
 msgstr "存款"
 
 #. pas trouvÃ© de dÃ©finition remplacÃ© par carte de crÃ©dit
 #. Point of sale = Point de vente remplacÃ© par carte de crÃ©dit
-#: src/gsb_data_payment.c:723 src/import.c:2428 src/import.c:2434
+#: src/gsb_data_payment.c:723 src/import.c:2421 src/import.c:2427
 msgid "Credit card"
 msgstr "信用卡"
 
 #. Electronic payment remplacÃ© par Direct debit = PrÃ©lÃ¨vement
 #. Merchant initiated debit remplacÃ© par Direct debit = PrÃ©lÃ¨vement
-#: src/gsb_data_payment.c:732 src/import.c:2446 src/import.c:2464
+#: src/gsb_data_payment.c:732 src/import.c:2439 src/import.c:2457
 msgid "Direct debit"
 msgstr "直接借记"
 
@@ -6491,10 +6536,6 @@ msgstr "没有发现矛盾"
 msgid "Congratulations, your account file is in good shape!\n"
 msgstr ""
 
-#: src/gsb_debug.c:292
-msgid "Details"
-msgstr "明细"
-
 #: src/gsb_debug.c:306
 #, fuzzy
 msgid "Try to fix this inconsistency."
@@ -6660,7 +6701,7 @@ msgstr ""
 "或者选择下面的 \"%s\" 选项。"
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:549 src/gsb_file.c:798 src/parametres.c:693
+#: src/gsb_file.c:549 src/gsb_file.c:798 src/parametres.c:696
 msgid "Force saving of locked files"
 msgstr "强制保存加锁的文件"
 
@@ -6748,12 +6789,12 @@ msgid ""
 "%s ?</b>"
 msgstr ""
 
-#: src/gsb_file_config.c:769
+#: src/gsb_file_config.c:783
 #, fuzzy, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "不能保存文件 '%s': %s"
 
-#: src/gsb_file_config.c:809
+#: src/gsb_file_config.c:823
 #, fuzzy, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -6762,21 +6803,21 @@ msgstr ""
 "%s 似乎不时一个有效文件，\n"
 "请重新检查。"
 
-#: src/gsb_file_config.c:846
+#: src/gsb_file_config.c:860
 #, fuzzy, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "不能打开文件 '%s': %s"
 
-#: src/gsb_file_config.c:1276 src/print_config.c:51
+#: src/gsb_file_config.c:1291 src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: src/gsb_file_config.c:1294
+#: src/gsb_file_config.c:1309
 #, fuzzy
 msgid "Delete an old config file"
 msgstr "删除交易"
 
-#: src/gsb_file_config.c:1314
+#: src/gsb_file_config.c:1329
 msgid ""
 "Careful, you are about to deleting the file\n"
 "of configuration of an old version of Grisbi.\n"
@@ -6784,12 +6825,12 @@ msgid ""
 "<b>Do you want to continue ?</b>"
 msgstr ""
 
-#: src/gsb_file_config.c:1377
+#: src/gsb_file_config.c:1392
 #, fuzzy
 msgid "Choose a file"
 msgstr "选择导入的文件"
 
-#: src/gsb_file_config.c:1400
+#: src/gsb_file_config.c:1415
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -7069,12 +7110,12 @@ msgstr ""
 msgid "Invalid multiple payee."
 msgstr "无效的多第三方。"
 
-#: src/gsb_form.c:2983
+#: src/gsb_form.c:2984
 #, fuzzy
 msgid "Modifying a transaction"
 msgstr "更改交易"
 
-#: src/gsb_form.c:2984
+#: src/gsb_form.c:2985
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7084,11 +7125,11 @@ msgid ""
 msgstr ""
 
 #. propose to configure the form
-#: src/gsb_form.c:3284
+#: src/gsb_form.c:3286
 msgid "Configure the form"
 msgstr ""
 
-#: src/gsb_form_config.c:120 src/parametres.c:430
+#: src/gsb_form_config.c:120 src/parametres.c:433
 msgid "Transaction form"
 msgstr "交易表格"
 
@@ -7313,10 +7354,6 @@ msgstr "费用"
 msgid "Method of payment"
 msgstr "支付方式"
 
-#: src/gsb_form_widget.c:445 src/import_csv.c:77
-msgid "Currency"
-msgstr "货币"
-
 #: src/gsb_form_widget.c:465 src/gsb_transactions_list.c:159
 #: src/traitement_variables.c:91
 msgid "Transaction number"
@@ -7327,7 +7364,7 @@ msgstr "交易编号"
 msgid "Automatic/Manual"
 msgstr "自动"
 
-#: src/gsb_fyear_config.c:99 src/parametres.c:501
+#: src/gsb_fyear_config.c:99 src/parametres.c:504
 msgid "Financial years"
 msgstr "财年"
 
@@ -7609,7 +7646,7 @@ msgstr ""
 msgid "Deleting a reconcile"
 msgstr "删除预算行"
 
-#: src/gsb_reconcile_sort_config.c:86 src/parametres.c:420
+#: src/gsb_reconcile_sort_config.c:86 src/parametres.c:423
 #, fuzzy
 msgid "Sort for reconciliation"
 msgstr "调整"
@@ -8037,21 +8074,21 @@ msgstr ""
 msgid "Personal finance manager for everyone\n"
 msgstr ""
 
-#: src/import.c:180
+#: src/import.c:173
 msgid "Comma Separated Values"
 msgstr ""
 
-#: src/import.c:181
+#: src/import.c:174
 #, fuzzy
 msgid "Quicken Interchange Format"
 msgstr "输入汇率"
 
-#: src/import.c:243
+#: src/import.c:236
 #, c-format
 msgid "Adding '%s' as an import format"
 msgstr ""
 
-#: src/import.c:287
+#: src/import.c:280
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -8061,96 +8098,96 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/import.c:295
+#: src/import.c:288
 #, fuzzy
 msgid "Importing transactions into Grisbi"
 msgstr "交易格式化"
 
-#: src/import.c:344
+#: src/import.c:337
 #, fuzzy
 msgid "Choose file to import"
 msgstr "选择导入的文件"
 
-#: src/import.c:346
+#: src/import.c:339
 #, fuzzy
 msgid "Add file to import..."
 msgstr "选择导入的文件"
 
-#: src/import.c:413
+#: src/import.c:406
 #, fuzzy
 msgid "File name"
 msgstr "所有者名称"
 
-#: src/import.c:549 src/import.c:631 src/import.c:3850 src/import.c:3873
+#: src/import.c:542 src/import.c:624 src/import.c:3843 src/import.c:3866
 msgid "Unknown"
 msgstr "为止"
 
-#: src/import.c:591 src/import.c:3954 src/import_csv.c:1045
+#: src/import.c:584 src/import.c:3947 src/import_csv.c:1045
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr ""
 
-#: src/import.c:664
+#: src/import.c:657
 #, fuzzy
 msgid "Choose files to import."
 msgstr "选择导入的文件"
 
-#: src/import.c:690
+#: src/import.c:683
 #, c-format
 msgid "Known files (%s)"
 msgstr ""
 
-#: src/import.c:702
+#: src/import.c:695
 #, c-format
 msgid "%s files (*.%s)"
 msgstr ""
 
-#: src/import.c:732
+#: src/import.c:725
 msgid "Encoding"
 msgstr ""
 
-#: src/import.c:832
+#: src/import.c:825
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
 msgstr ""
 
-#: src/import.c:847
+#: src/import.c:840
 #, fuzzy
 msgid "Unnamed Imported account"
 msgstr "已导入的账户"
 
-#: src/import.c:873
+#: src/import.c:866
 msgid "Error !"
 msgstr ""
 
-#: src/import.c:878
+#: src/import.c:871
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
 msgstr ""
 
-#: src/import.c:892
+#: src/import.c:885
 msgid "The following files are in error:"
 msgstr ""
 
-#: src/import.c:945
+#: src/import.c:938
 #, fuzzy
 msgid "Import terminated"
 msgstr "导入报表文件"
 
-#: src/import.c:949
+#: src/import.c:942
 msgid ""
 "You have successfully set up transactions import into Grisbi. Press the "
 "'Close' button to terminate import."
 msgstr ""
 
-#: src/import.c:1070
+#: src/import.c:1063
 #, fuzzy
 msgid "file"
 msgstr "文件"
 
-#: src/import.c:1076
+#: src/import.c:1069
 #, c-format
 msgid ""
 "<span size=\"x-large\">%s</span>\n"
@@ -8159,17 +8196,17 @@ msgid ""
 "span> ?\n"
 msgstr ""
 
-#: src/import.c:1136
+#: src/import.c:1129
 #, fuzzy
 msgid "Add transactions to an account"
 msgstr "移动交易到另一个账户"
 
-#: src/import.c:1174
+#: src/import.c:1167
 #, fuzzy
 msgid "Mark transactions of an account"
 msgstr "移动交易到另一个账户"
 
-#: src/import.c:1226
+#: src/import.c:1219
 #, fuzzy, c-format
 msgid ""
 "Currency of imported account '%s' is %s.  Either this currency doesn't exist "
@@ -8181,45 +8218,45 @@ msgstr ""
 "该货币已存在，但它的 ISO 编码错误。\n"
 "想让本消息不在出现，请设定对应的ISO编码。"
 
-#: src/import.c:1233
+#: src/import.c:1226
 #, c-format
 msgid "Can't associate ISO 4217 code for currency '%s'."
 msgstr "不能将货币 '%s' 关联到 ISO 4217。"
 
 #. invert amount of transactions
-#: src/import.c:1244
+#: src/import.c:1237
 #, fuzzy
 msgid "Invert the amount of the imported transactions"
 msgstr "导入交易包含的日期"
 
-#: src/import.c:1252
+#: src/import.c:1245
 msgid "Create a rule for this import. Name of the rule : "
 msgstr ""
 
-#: src/import.c:1343
+#: src/import.c:1336
 #, c-format
 msgid ""
 "An error occured while creating the new account %s,\n"
 "We try to continue to import but bad things can happen..."
 msgstr ""
 
-#: src/import.c:1395
+#: src/import.c:1388
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
 "to that rule. Please set a name or let it empty to cancel the rule creation."
 msgstr ""
 
-#: src/import.c:1399
+#: src/import.c:1392
 msgid "No name for the import rule"
 msgstr ""
 
-#: src/import.c:1400
+#: src/import.c:1393
 #, fuzzy
 msgid "Name of the rule :"
 msgstr "命名账户文件"
 
-#: src/import.c:1426
+#: src/import.c:1419
 msgid ""
 "No account in memory now, this is bad...\n"
 "Better to leave the import before a crash.\n"
@@ -8227,24 +8264,24 @@ msgid ""
 "Please contact the grisbi team to find the problem."
 msgstr ""
 
-#: src/import.c:1436
+#: src/import.c:1429
 msgid "Please wait"
 msgstr "请稍等"
 
-#: src/import.c:1461
+#: src/import.c:1454
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
 "via the preferences windows."
 msgstr ""
 
-#: src/import.c:1715
+#: src/import.c:1708
 msgid "Imported account"
 msgstr "已导入的账户"
 
 #. there is a difference between the imported account id and grisbi account id,
 #. * ask to be sure
-#: src/import.c:1764
+#: src/import.c:1757
 #, fuzzy, c-format
 msgid ""
 "The Grisbi's id account is %s, but the imported id account is %s.\n"
@@ -8257,62 +8294,62 @@ msgstr ""
 
 #. l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents
 #. on propose encore d'arrÃªter...
-#: src/import.c:1767 src/import.c:2611
+#: src/import.c:1760 src/import.c:2604
 msgid "The id of the imported and chosen accounts are different"
 msgstr "导入和选择账户的ID不同"
 
-#: src/import.c:1993
+#: src/import.c:1986
 #, fuzzy
 msgid "Confirmation of transactions to be merged"
 msgstr "导入交易确认"
 
-#: src/import.c:1996
+#: src/import.c:1989
 msgid "Confirmation of importation of transactions"
 msgstr "导入交易确认"
 
-#: src/import.c:2012
+#: src/import.c:2005
 #, fuzzy
 msgid "Please select the transactions to be merged"
 msgstr "使用选中交易做模板"
 
-#: src/import.c:2015
+#: src/import.c:2008
 #, fuzzy
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
 "transactions to import."
 msgstr "一些导入的交易似乎已经被保存过了。请选择导入的交易。"
 
-#: src/import.c:2095
+#: src/import.c:2088
 #, fuzzy, c-format
 msgid "Transactions to be merged : %s ; %s ; %s"
 msgstr "导入的交易：%02d/%02d/%04d ; %s ; %4.2f"
 
-#: src/import.c:2100
+#: src/import.c:2093
 #, fuzzy, c-format
 msgid "Transactions to import : %s ; %s ; %s"
 msgstr "导入的交易：%02d/%02d/%04d ; %s ; %4.2f"
 
-#: src/import.c:2139
+#: src/import.c:2132
 #, fuzzy, c-format
 msgid "Transaction found : %s ; %s ; %s ; %s"
 msgstr "找到交易：%02d/%02d/%04d ; %s ; %4.2f ; %s"
 
-#: src/import.c:2152
+#: src/import.c:2145
 #, fuzzy, c-format
 msgid "Transaction found : %s ; %s ; %s"
 msgstr "找到交易：%02d/%02d/%04d ; %s ; %4.2f"
 
 #. Check = ChÃ¨que
-#: src/import.c:2399 src/plugins/ofx/ofx.c:431
+#: src/import.c:2392 src/plugins/ofx/ofx.c:431
 msgid "Check"
 msgstr "支票"
 
 #. Cash withdrawal = retrait en liquide
-#: src/import.c:2452
+#: src/import.c:2445
 msgid "Cash withdrawal"
 msgstr ""
 
-#: src/import.c:2542
+#: src/import.c:2535
 #, fuzzy, c-format
 msgid ""
 "Warning : the cheque number %ld is already used.\n"
@@ -8321,78 +8358,78 @@ msgstr ""
 "警告：该支票的编号已经使用过了。\n"
 "仍然继续？"
 
-#: src/import.c:2612
+#: src/import.c:2605
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
 msgstr ""
 "也许您选择了错误的账户？如果您选择继续，本账户的ID将被改变。您确定要继续吗？"
 
-#: src/import.c:2892
+#: src/import.c:2885
 msgid "Orphaned transactions"
 msgstr "孤儿交易"
 
-#: src/import.c:2904
+#: src/import.c:2897
 #, fuzzy
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr "标记您想增加到清单的交易，点击增加按钮"
 
-#: src/import.c:2975
+#: src/import.c:2968
 msgid "Mark"
 msgstr "标记"
 
-#: src/import.c:3179
+#: src/import.c:3172
 #, fuzzy, c-format
 msgid "%s #%d"
 msgstr "%s %d"
 
-#: src/import.c:3208
+#: src/import.c:3201
 #, fuzzy
 msgid "Import settings"
 msgstr "导入"
 
-#: src/import.c:3215
+#: src/import.c:3208
 msgid "Threshold while matching transaction date during import (in days)"
 msgstr ""
 
-#: src/import.c:3234
+#: src/import.c:3227
 #, fuzzy
 msgid "merge transactions imported with planned transactions"
 msgstr "转换交易为计划交易"
 
-#: src/import.c:3244
+#: src/import.c:3237
 msgid "automatically associate the category of the payee if it is possible"
 msgstr ""
 
-#: src/import.c:3255 src/tiers_onglet.c:1043
+#: src/import.c:3248 src/tiers_onglet.c:1043
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
-#: src/import.c:3263
+#: src/import.c:3256
 #, fuzzy
 msgid "Set the financial year"
 msgstr "财年"
 
-#: src/import.c:3264
+#: src/import.c:3257
 #, fuzzy
 msgid "According to the date"
 msgstr "根据交易日期"
 
-#: src/import.c:3265
+#: src/import.c:3258
 msgid "According to the value date (if fail, try with the date)"
 msgstr ""
 
-#: src/import.c:3294
+#: src/import.c:3287
 #, fuzzy
 msgid "Manage import associations"
 msgstr "类别详情"
 
-#: src/import.c:3301 src/parametres.c:300
+#: src/import.c:3294 src/parametres.c:303
 #, fuzzy
 msgid "Import associations"
 msgstr "动作"
 
-#: src/import.c:3303
+#: src/import.c:3296
 msgid ""
 "This will associate a search string to a payee every time you import a file. "
 "For instance, all QIF labels containing 'Rent' could be associated with  a "
@@ -8400,80 +8437,80 @@ msgid ""
 msgstr ""
 
 #. Create entry liste des tiers
-#: src/import.c:3373 src/import.c:3405 src/tiers_onglet.c:1146
+#: src/import.c:3366 src/import.c:3398 src/tiers_onglet.c:1146
 #, fuzzy
 msgid "Payee name"
 msgstr "一般总计"
 
 #. Create entry search string
-#: src/import.c:3387 src/import.c:3430
+#: src/import.c:3380 src/import.c:3423
 #, fuzzy
 msgid "Search string"
 msgstr "查找"
 
-#: src/import.c:3396
+#: src/import.c:3389
 #, fuzzy
 msgid "Details of associations"
 msgstr "不要详列调整交易"
 
-#: src/import.c:3703
+#: src/import.c:3696
 msgid "You cannot choose this payee because it already has an association"
 msgstr ""
 
-#: src/import.c:3939
+#: src/import.c:3932
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
 
-#: src/import.c:3997
+#: src/import.c:3990
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
 "transactions."
 msgstr ""
 
-#: src/import.c:4073
+#: src/import.c:4066
 msgid "Import a file with a rule"
 msgstr ""
 
 #. text for paddingbox
-#: src/import.c:4084
+#: src/import.c:4077
 #, fuzzy, c-format
 msgid "Properties of the rule : %s\n"
 msgstr ""
 "文件 \"%s\" 发现错误：\n"
 "%s"
 
-#: src/import.c:4103
+#: src/import.c:4096
 #, fuzzy, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "所有交易将被转化为它们账户的货币。"
 
-#: src/import.c:4106
+#: src/import.c:4099
 #, fuzzy, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "交易的细目分类是本账户的转帐。\n"
 
 #. textstring 2
-#: src/import.c:4111
+#: src/import.c:4104
 #, fuzzy, c-format
 msgid "Currency to import is %s.\n"
 msgstr "货币属性"
 
-#: src/import.c:4118
+#: src/import.c:4111
 #, fuzzy
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "录入自动预定的交易"
 
 #. label filename
-#: src/import.c:4129
+#: src/import.c:4122
 #, fuzzy
 msgid "Name of the file to import "
 msgstr "选择导入的文件"
 
-#: src/import.c:4230
+#: src/import.c:4223
 #, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr ""
@@ -9043,150 +9080,161 @@ msgid "closed"
 msgstr "关闭"
 
 #. Create dialog
-#: src/parametres.c:230
+#: src/parametres.c:233
 #, fuzzy
 msgid "Grisbi preferences"
 msgstr "选项"
 
-#: src/parametres.c:263
+#: src/parametres.c:266
 #, fuzzy
 msgid "Main"
 msgstr "Spain"
 
-#: src/parametres.c:272 src/parametres.c:677
+#: src/parametres.c:275 src/parametres.c:680
 msgid "Files"
 msgstr "文件"
 
-#: src/parametres.c:310 src/parametres.c:844
+#: src/parametres.c:313 src/parametres.c:847
 msgid "Programs"
 msgstr "程序"
 
-#: src/parametres.c:338
+#: src/parametres.c:341
 msgid "Display"
 msgstr "显示"
 
-#: src/parametres.c:355 src/parametres.c:576
+#: src/parametres.c:358 src/parametres.c:579
 msgid "Messages & warnings"
 msgstr "消息和警告"
 
-#: src/parametres.c:373 src/parametres.c:960
+#: src/parametres.c:376 src/parametres.c:1004
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "请输入一个预算行！"
 
-#: src/parametres.c:401
+#: src/parametres.c:404
 msgid "List behavior"
 msgstr ""
 
-#: src/parametres.c:438
+#: src/parametres.c:441
 #, fuzzy
 msgid "Content"
 msgstr "联系方式"
 
-#: src/parametres.c:447
+#: src/parametres.c:450
 msgid "Behavior"
 msgstr ""
 
-#: src/parametres.c:456
+#: src/parametres.c:459
 msgid "Completion"
 msgstr ""
 
-#: src/parametres.c:466
+#: src/parametres.c:469
 msgid "Resources"
 msgstr "资源"
 
-#: src/parametres.c:483
+#: src/parametres.c:486
 #, fuzzy
 msgid "Currencies links"
 msgstr "货币"
 
 #. Tip of the day
-#: src/parametres.c:579
+#: src/parametres.c:582
 msgid "Tip of the day"
 msgstr ""
 
 #. Display or not tips
-#: src/parametres.c:582
+#: src/parametres.c:585
 msgid "Display tip of the day"
 msgstr ""
 
-#: src/parametres.c:589
+#: src/parametres.c:592
 #, fuzzy
 msgid "Display following warnings messages"
 msgstr "警告信息"
 
-#: src/parametres.c:610
+#: src/parametres.c:613
 #, fuzzy
 msgid "Message"
 msgstr "消息日志"
 
 #. Compression level of files
-#: src/parametres.c:703
+#: src/parametres.c:706
 msgid "Compress Grisbi file"
 msgstr ""
 
-#: src/parametres.c:711
+#: src/parametres.c:714
 msgid "Memorise last opened files"
 msgstr "记住上次打开的文件"
 
 #. Backups
-#: src/parametres.c:719
+#: src/parametres.c:722
 msgid "Backups"
 msgstr "备份"
 
 #. Compression level of backups
-#: src/parametres.c:722
+#: src/parametres.c:725
 msgid "Compress Grisbi backup"
 msgstr ""
 
 #. Backup at each opening?
-#: src/parametres.c:727
+#: src/parametres.c:730
 msgid "Make a backup copy after opening files"
 msgstr "打开文件时保存一份备份文件"
 
-#: src/parametres.c:873
+#: src/parametres.c:876
 msgid "LaTeX support (old print system)"
 msgstr ""
 
-#: src/parametres.c:880
+#: src/parametres.c:883
 msgid "LaTeX command"
 msgstr "LaTex指令"
 
-#: src/parametres.c:888
+#: src/parametres.c:891
 msgid "dvips command"
 msgstr "dvips指令"
 
-#: src/parametres.c:928
+#: src/parametres.c:931
 #, fuzzy
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "计划调度器警告"
 
-#: src/parametres.c:929
+#: src/parametres.c:932
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr "手动预定的到期日交易"
 
-#: src/parametres.c:930
+#: src/parametres.c:933
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "录入自动预定的交易"
 
-#: src/parametres.c:938
+#: src/parametres.c:941
 #, fuzzy
 msgid "Number of days before the warning or the execution"
 msgstr "计划交易的提醒将提前的天数"
 
-#: src/parametres.c:969
+#. Take into account the planned operations in the calculation of balances
+#: src/parametres.c:948
+#, fuzzy
+msgid "Calculation of balances"
+msgstr "初始余额"
+
+#: src/parametres.c:954
+msgid ""
+"Take into account the scheduled operations in the calculation of balances"
+msgstr ""
+
+#: src/parametres.c:1013
 #, fuzzy
 msgid "Sort option for transactions"
 msgstr "导入交易确认"
 
-#: src/parametres.c:970
+#: src/parametres.c:1014
 #, fuzzy
 msgid "by number"
 msgstr "支票编号"
 
-#: src/parametres.c:971
+#: src/parametres.c:1015
 msgid "by date"
 msgstr "按日期"
 

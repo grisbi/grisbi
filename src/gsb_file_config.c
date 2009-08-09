@@ -60,6 +60,7 @@ static  void gsb_file_config_remove_old_config_file ( gchar *filename );
 
 
 /*START_EXTERN*/
+extern gboolean balances_with_scheduled;
 extern gboolean execute_scheduled_of_month;
 extern GtkWidget *main_hpaned;
 extern gint max;
@@ -302,6 +303,15 @@ gboolean gsb_file_config_load_config ( void )
                         "Scheduled",
                         "Execute scheduled of month",
                         NULL );
+
+    int_ret = g_key_file_get_integer ( config,
+                        "Scheduled",
+                        "Balances with scheduled",
+                        &err );
+    if ( err == NULL )
+        balances_with_scheduled = int_ret;
+    else
+        err = NULL;
 
     /* get shown section */
     etat.formulaire_toujours_affiche = g_key_file_get_integer ( config,
@@ -630,6 +640,10 @@ gboolean gsb_file_config_save_config ( void )
                         "Scheduled",
                         "Execute scheduled of month",
                         execute_scheduled_of_month );
+    g_key_file_set_integer ( config,
+                        "Scheduled",
+                        "Balances with scheduled",
+                        balances_with_scheduled );
 
     /* save shown section */
     g_key_file_set_integer ( config,
@@ -1192,6 +1206,7 @@ void gsb_file_config_clean_config ( void )
     etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
     execute_scheduled_of_month = FALSE;
+    balances_with_scheduled = TRUE;
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
     etat.get_fyear_by_value_date = 0;        /* By default use transaction-date */
