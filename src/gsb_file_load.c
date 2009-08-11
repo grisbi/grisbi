@@ -7484,7 +7484,8 @@ gboolean gsb_file_load_update_previous_version ( void )
         }
 
         /* if t's a child, fix the values to be the same as for mother */
-        mother_number = gsb_data_scheduled_get_mother_scheduled_number (transaction_number);
+        //~ mother_number = gsb_data_scheduled_get_mother_scheduled_number (transaction_number);
+        mother_number = gsb_data_transaction_get_mother_transaction_number ( transaction_number );
         if (mother_number)
         {
             /* set the value date */
