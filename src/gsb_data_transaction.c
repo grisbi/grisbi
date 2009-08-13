@@ -43,7 +43,6 @@
 #include "./utils_dates.h"
 #include "./gsb_real.h"
 #include "./utils_str.h"
-#include "./transaction_list.h"
 #include "./include.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
@@ -1518,10 +1517,7 @@ gboolean gsb_data_transaction_set_archive_number ( gint transaction_number,
         /* the transaction was not an archive, so it's into the 2 lists,
          * if we transform it as an archive, we remove it from the transactions_list */
         if (archive_number)
-        {
-        //~ transaction_list_remove_archive_transaction ( transaction_number );
-        transactions_list = g_slist_remove ( transactions_list, transaction );
-        }
+            transactions_list = g_slist_remove ( transactions_list, transaction );
     }
 
     transaction -> archive_number = archive_number;

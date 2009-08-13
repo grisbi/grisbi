@@ -38,12 +38,12 @@
 #include "./dialog.h"
 #include "./affichage_liste.h"
 #include "./gsb_transactions_list.h"
+#include "./utils_dates.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
 #include "./gsb_data_archive_store.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_transaction.h"
-#include "./utils_dates.h"
 #include "./navigation.h"
 #include "./gsb_real.h"
 #include "./transaction_list_select.h"
@@ -387,7 +387,9 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
 
     /* if there are some children, remove them first */
     while (record -> number_of_children)
-	transaction_list_remove_transaction ( gsb_data_transaction_get_transaction_number (record -> children_rows[0] -> transaction_pointer));
+        transaction_list_remove_transaction (
+                        gsb_data_transaction_get_transaction_number (
+                        record -> children_rows[0] -> transaction_pointer ) );
 
     /* now we can delete the rows */
     for (i=0 ; i<CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++)
@@ -501,7 +503,9 @@ gboolean transaction_list_remove_archive ( gint archive_number )
 {
     gint i;
     CustomList *custom_list;
+    gboolean return_val = FALSE;
 
+    devel_debug_int (archive_number);
     custom_list = transaction_model_get_model ();
 
     g_return_val_if_fail ( custom_list != NULL, FALSE);
@@ -509,61 +513,64 @@ gboolean transaction_list_remove_archive ( gint archive_number )
     /* there is several archive store records which correspond to the archive */
     for (i=0 ; i < custom_list -> num_rows ; i++)
     {
-	CustomRecord *record;
-	gulong newsize;
-	GtkTreePath *path;
-	gint j;
+        CustomRecord *record;
+        gulong newsize;
+        GtkTreePath *path;
+        gint j;
 
-	record = custom_list -> rows[i];
-	if ( record -> what_is_line != IS_ARCHIVE
-	     ||
-	     gsb_data_archive_store_get_archive_number (gsb_data_archive_store_get_number (
-											   record -> transaction_pointer )) != archive_number )
-	    continue;
+        record = custom_list -> rows[i];
+        if ( record -> what_is_line != IS_ARCHIVE
+             ||
+             gsb_data_archive_store_get_archive_number (gsb_data_archive_store_get_number (
+                        record -> transaction_pointer )) != archive_number )
+        {
+            continue;
+        }
 
-	/* we are on a good archive store, delete it */
+        /* we are on a good archive store, delete it */
 
-	/* delete the rows */
-	for (j=0 ; j<CUSTOM_MODEL_N_VISIBLES_COLUMN ; j++)
-	    if (record -> visible_col[j])
-		g_free (record -> visible_col[j]);
+        /* delete the rows */
+        for (j=0 ; j<CUSTOM_MODEL_N_VISIBLES_COLUMN ; j++)
+            if (record -> visible_col[j])
+            g_free (record -> visible_col[j]);
 
-	/* remove the row */
-	custom_list -> num_rows--;
+        /* remove the row */
+        custom_list -> num_rows--;
 
-	for (j=record -> pos ; j < custom_list -> num_rows ; j++)
-	{
-	    custom_list -> rows[j] = custom_list -> rows[j+1];
-	    custom_list -> rows[j] -> pos = j;
-	}
+        for (j=record -> pos ; j < custom_list -> num_rows ; j++)
+        {
+            custom_list -> rows[j] = custom_list -> rows[j+1];
+            custom_list -> rows[j] -> pos = j;
+        }
 
-	/* if the archive was showed, modify the visible transactions */
-	if ( record -> filtered_pos != -1  && custom_list -> num_visibles_rows > 0 )
-	{
-	    custom_list -> num_visibles_rows--;
+        /* if the archive was showed, modify the visible transactions */
+        if ( record -> filtered_pos != -1  && custom_list -> num_visibles_rows > 0 )
+        {
+            custom_list -> num_visibles_rows--;
 
-	    for (j=record -> filtered_pos ; j < custom_list -> num_visibles_rows ; j++)
-	    {
-		custom_list -> visibles_rows[j] = custom_list -> visibles_rows[j + 1];
-		custom_list -> visibles_rows[j] -> filtered_pos = j;
-	    }
+            for (j=record -> filtered_pos ; j < custom_list -> num_visibles_rows ; j++)
+            {
+            custom_list -> visibles_rows[j] = custom_list -> visibles_rows[j + 1];
+            custom_list -> visibles_rows[j] -> filtered_pos = j;
+            }
 
-	    path = gtk_tree_path_new ();
-	    gtk_tree_path_append_index(path, record -> filtered_pos);
-	    gtk_tree_model_row_deleted (GTK_TREE_MODEL(custom_list), path);
-	    gtk_tree_path_free(path);
-	}
+            path = gtk_tree_path_new ();
+            gtk_tree_path_append_index(path, record -> filtered_pos);
+            gtk_tree_model_row_deleted (GTK_TREE_MODEL(custom_list), path);
+            gtk_tree_path_free(path);
+        }
 
-	/* resize the array */
-	newsize = custom_list->num_rows * sizeof(CustomRecord*);
-	custom_list->rows = g_realloc(custom_list->rows, newsize);
-	custom_list->visibles_rows = g_realloc(custom_list->visibles_rows, newsize);
+        /* resize the array */
+        newsize = custom_list->num_rows * sizeof(CustomRecord*);
+        custom_list->rows = g_realloc(custom_list->rows, newsize);
+        custom_list->visibles_rows = g_realloc(custom_list->visibles_rows, newsize);
 
-	/* free the record */
-	g_free (record);
+        /* free the record */
+        g_free (record);
+        return_val = TRUE;
     }
 
-    return TRUE;
+    return return_val;
 }
 
 
@@ -1649,7 +1656,7 @@ static void transaction_list_append_child ( gint transaction_number )
 
     /* find 1 of the mother row (the others are into the structure of the mother)
      * usually, it's the last record appended */
-    mother_record =last_mother_appended;
+    mother_record = last_mother_appended;
 
     if ( !mother_record
 	 ||
@@ -1657,28 +1664,32 @@ static void transaction_list_append_child ( gint transaction_number )
 	  !=
 	  gsb_data_transaction_get_mother_transaction_number (transaction_number)))
     {
-	/* the last record appended was not the mother, need to search into the entire list */
-	if (transaction_model_get_transaction_iter ( &mother_iter,
-						     gsb_data_transaction_get_mother_transaction_number (transaction_number),
-						     0 ))
-	    mother_record = (CustomRecord *) mother_iter.user_data;
-	else
-	{
-	    /* we didn't find the mother of the child, we append the child number to
-	     * orphan_child_transactions and the function wich called here has to play
-	     * with it
-	     * (it happens in the versions before 0.6 when the children could have a number
-	     * before the mother */
-
-	    orphan_child_transactions = g_slist_append ( orphan_child_transactions,
-							 GINT_TO_POINTER (transaction_number));
-	    return;
-	}
+        /* the last record appended was not the mother, need to search into the entire list */
+        if ( transaction_model_get_transaction_iter ( &mother_iter,
+                        gsb_data_transaction_get_mother_transaction_number (
+                        transaction_number),
+                        0 ) )
+            mother_record = (CustomRecord *) mother_iter.user_data;
+        else
+        {
+            /* we didn't find the mother of the child, we append the child number to
+             * orphan_child_transactions and the function wich called here has to play
+             * with it
+             * (it happens in the versions before 0.6 when the children could have a number
+             * before the mother */
+            orphan_child_transactions = g_slist_append ( orphan_child_transactions,
+                                 GINT_TO_POINTER (transaction_number));
+            return;
+        }
     }
 
     /* ok, at this level, mother_record is ok and is one of the row of the mother transaction
      * we go on the first mother */
     mother_record = mother_record -> transaction_records[0];
+
+    /* set by default the mother row of the child. avoids a crash when creating 
+     * an archive directly on the home page */
+    newrecord -> mother_row = mother_record;
 
     /* get the new number of the row into the mother */
     pos = mother_record -> number_of_children;
@@ -1688,8 +1699,12 @@ static void transaction_list_append_child ( gint transaction_number )
     if (!pos)
     {
 	gchar *tmpstr;
-	tmpstr = g_strdup_printf (_("Trying to append the child number %d to the mother %d in the model, but no white line was created before... Better to stop here, please contact the Grisbi team to fix that issue."),
-				  transaction_number, gsb_data_transaction_get_mother_transaction_number (transaction_number));
+	tmpstr = g_strdup_printf (
+                        _("Trying to append the child number %d to the mother %d "
+                        "in the model, but no white line was created before... "
+                        "Better to stop here, please contact the Grisbi team to "
+                        "fix that issue."),
+                        transaction_number, gsb_data_transaction_get_mother_transaction_number (transaction_number));
 	dialogue_error (tmpstr);
 	g_free (tmpstr);
 	g_free (newrecord);
@@ -1952,89 +1967,6 @@ gint transaction_list_get_last_line ( gint nb_rows )
 
 
 /**
- * remove a transaction from the tree model but not its children
- *
- * \param transaction_number    the transaction to remove
- *
- * \return TRUE : transaction removed, FALSE : problem, nothing done
- * */
-gboolean transaction_list_remove_archive_transaction ( gint transaction_number )
-{
-    CustomRecord *record;
-    gint i;
-    GtkTreeIter iter;
-    gint record_filtered_pos;
-    gulong newsize;
-    GtkTreePath *path;
-    CustomList *custom_list;
-
-    custom_list = transaction_model_get_model ();
-
-    g_return_val_if_fail ( custom_list != NULL, FALSE);
-
-    /* get the record */
-    if (!transaction_model_get_transaction_iter (&iter, transaction_number, 0))
-	return FALSE;
-
-    record = iter.user_data;
-    if (!record)
-	return FALSE;
-
-    /* if selected transaction, remove it */
-    if (record == custom_list -> selected_row)
-	custom_list -> selected_row = NULL;
-
-    /* on ne s'occupe pas des sous opérations car elles seront aussi supprimées */
-    for (i=0 ; i<CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++)
-	if (record -> visible_col[i])
-	    g_free (record -> visible_col[i]);
-
-    record_filtered_pos = record -> filtered_pos;
-
-    /* we are on a mother transaction, remove the row */
-    custom_list -> num_rows = custom_list -> num_rows - TRANSACTION_LIST_ROWS_NB;
-
-    for (i=record -> pos ; i < custom_list -> num_rows ; i++)
-    {
-	custom_list -> rows[i] = custom_list -> rows[i+TRANSACTION_LIST_ROWS_NB];
-	custom_list -> rows[i] -> pos = i;
-    }
-
-    /* if the transaction was showed, modify the visible transactions */
-    if (record -> filtered_pos != -1)
-    {
-	custom_list -> num_visibles_rows = custom_list -> num_visibles_rows - custom_list -> nb_rows_by_transaction;
-
-	for (i=record -> filtered_pos ; i < custom_list -> num_visibles_rows ; i++)
-	{
-	    custom_list -> visibles_rows[i] = custom_list -> visibles_rows[i + custom_list -> nb_rows_by_transaction];
-	    custom_list -> visibles_rows[i] -> filtered_pos = i;
-	}
-    }
-
-    /* resize the array */
-    newsize = custom_list->num_rows * sizeof(CustomRecord*);
-    custom_list->rows = g_realloc(custom_list->rows, newsize);
-    custom_list->visibles_rows = g_realloc(custom_list->visibles_rows, newsize);
-
-    /* free the records */
-    for (i=TRANSACTION_LIST_ROWS_NB ; i ; i--)
-    {
-	if (record -> transaction_records[i-1] -> filtered_pos != -1)
-	{
-	    path = gtk_tree_path_new ();
-	    gtk_tree_path_append_index(path, record -> transaction_records[i-1] -> filtered_pos);
-	    gtk_tree_model_row_deleted (GTK_TREE_MODEL(custom_list), path);
-	    gtk_tree_path_free(path);
-	}
-	g_free (record -> transaction_records[i-1]);
-    }
-
-    return TRUE;
-}
-
-
-/**
  * colorise avec un fond gris la ligne qui correspond à la date du jour
  *
  * \param 
@@ -2043,7 +1975,7 @@ gboolean transaction_list_remove_archive_transaction ( gint transaction_number )
  * */
 void transaction_list_set_color_jour ( gint account_number )
 {
-    GDate *date_jour = g_date_new ( );
+    GDate *date_jour;
     gint i, j;
     gint res;
     gint transaction_number;
@@ -2054,7 +1986,7 @@ void transaction_list_set_color_jour ( gint account_number )
     custom_list = transaction_model_get_model ();
     g_return_if_fail ( custom_list != NULL );
 
-    g_date_set_time_t (date_jour, time (NULL));
+    date_jour = gdate_today ( );
 
     for (i= custom_list -> num_visibles_rows -1; i >= 0  ; i--)
     {

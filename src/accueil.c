@@ -32,8 +32,8 @@
 #include "./gsb_data_payee.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
-#include "./gsb_form.h"
 #include "./utils_dates.h"
+#include "./gsb_form.h"
 #include "./navigation.h"
 #include "./gsb_real.h"
 #include "./gsb_scheduler.h"
@@ -79,6 +79,7 @@ static void update_soldes_minimaux ( gboolean force );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gboolean balances_with_scheduled;
 extern GdkColor couleur_bleue;
 extern GdkColor couleur_jaune;
 extern GdkColor couleur_nom_compte_normal;
@@ -449,6 +450,9 @@ void update_liste_comptes_accueil ( gboolean force )
         /* Création du tableau dans lequel seront stockés les comptes avec leur solde. */
         tmpstr = g_strdup_printf ( _("Account balances in %s"),
                         gsb_data_currency_get_name ( currency_number ) );
+        if ( balances_with_scheduled == FALSE )
+            tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
+
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
 
@@ -523,6 +527,9 @@ void update_liste_comptes_accueil ( gboolean force )
         /* solde.                                                                   */
         gchar* tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s"),
                          gsb_data_currency_get_name (currency_number) );
+        if ( balances_with_scheduled == FALSE )
+            tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
+
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
 
@@ -586,6 +593,9 @@ void update_liste_comptes_accueil ( gboolean force )
         /* solde.                                                                   */
         gchar* tmpstr = g_strdup_printf (_("Assets accounts balances in %s"),
                          gsb_data_currency_get_name (currency_number));
+        if ( balances_with_scheduled == FALSE )
+            tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
+
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
 

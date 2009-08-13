@@ -1137,8 +1137,9 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 	    if (name)
 	    {
 	        gchar* tmpstr = g_strdup_printf (
-		         _("Do you want to load the transaction of the archive %s into the list ?"),
-                         name );
+                        _("Do you want to add the transactions of the archive %s "
+                        "into the list ?"),
+                        name );
 		if (question_yes_no ( tmpstr , GTK_RESPONSE_CANCEL ))
 		    gsb_transactions_list_restore_archive (archive_number, TRUE);
 		g_free(tmpstr);
@@ -1146,9 +1147,13 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 	    else
 	    {
 		if (archive_number)
-		    warning_debug (_("An archive was clicked but Grisbi is unable to get the name. It seems like a bug.\nPlease try to reproduce and contact the Grisbi team."));
+		    warning_debug ( _("An archive was clicked but Grisbi is unable to get the name. "
+                        "It seems like a bug.\nPlease try to reproduce and contact the "
+                        "Grisbi team.") );
 		else
-		    warning_debug (_("An archive was clicked but it seems to have the number 0, wich should not happen.\nPlease try to reproduce and contact the Grisbi team."));
+		    warning_debug ( _("An archive was clicked but it seems to have the number 0, "
+                        "wich should not happen.\nPlease try to reproduce and contact "
+                        "the Grisbi team.") );
 	    }
 	}
 	return FALSE;
@@ -1999,7 +2004,7 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transact
 {
     gint contra_transaction_number;
 
-    devel_debug_int (transaction_number);
+    //~ devel_debug_int (transaction_number);
 
     if ( transaction_number == -1 )
 	return FALSE;
@@ -3286,84 +3291,96 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
     GSList *tmp_list;
     gint account_number;
     gint transaction_number;
+    gboolean exist = FALSE;
+
+    devel_debug_int (archive_number);
 
     /* remove the lines of the archive in the model */
-    transaction_list_remove_archive (archive_number);
+    exist = transaction_list_remove_archive (archive_number);
     /* remove the structures of archive_model */
     gsb_data_archive_store_remove_by_archive (archive_number);
 
-    orphan_child_transactions = NULL;
-
-    /* second step, we add all the archived transactions of that archive into the
-     * transactions_list and into the store */
-    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
-    while (tmp_list)
+    /* si l'archive existait bien on ajoute les transactions dans la liste et dans le 
+     * tree_view. Evite de charger deux fois les données si on supprime l'archive
+     * après avoir ajouté les lignes */
+    if (exist )
     {
-	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+        orphan_child_transactions = NULL;
 
-	if ( gsb_data_transaction_get_archive_number (transaction_number) == archive_number)
-	{
-	    /* append the transaction to the list of non archived transactions */
-	    gsb_data_transaction_add_archived_to_list (transaction_number);
+        /* second step, we add all the archived transactions of that archive into the
+         * transactions_list and into the store */
+        tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+        while (tmp_list)
+        {
+        transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
 
-	    /* the transaction belongs to the archive we want to show, so append it to the list store */
-	    transaction_list_append_transaction ( transaction_number);
-	}
-	tmp_list = tmp_list -> next;
-    }
+        if ( gsb_data_transaction_get_archive_number (transaction_number) == archive_number)
+        {
+            /* append the transaction to the list of non archived transactions */
+            gsb_data_transaction_add_archived_to_list (transaction_number);
 
-    /* if orphan_child_transactions if filled, there are some children wich didn't find their
-     * mother, we try again now that all the mothers are in the model */
-    if (orphan_child_transactions)
-    {
-	GSList *orphan_list_copy;
+            /* the transaction belongs to the archive we want to show, so append it to the list store */
+            transaction_list_append_transaction ( transaction_number);
+        }
+        tmp_list = tmp_list -> next;
+        }
 
-	orphan_list_copy = g_slist_copy (orphan_child_transactions);
-	g_slist_free (orphan_child_transactions);
-	orphan_child_transactions = NULL;
+        /* if orphan_child_transactions if filled, there are some children wich didn't find their
+         * mother, we try again now that all the mothers are in the model */
+        if (orphan_child_transactions)
+        {
+        GSList *orphan_list_copy;
 
-	tmp_list = orphan_list_copy;
-	while (tmp_list)
-	{
-	    transaction_number = GPOINTER_TO_INT (tmp_list -> data);
-	    transaction_list_append_transaction (transaction_number);
-	    tmp_list = tmp_list -> next;
-	}
-	g_slist_free (orphan_list_copy);
+        orphan_list_copy = g_slist_copy (orphan_child_transactions);
+        g_slist_free (orphan_child_transactions);
+        orphan_child_transactions = NULL;
 
-	/* if orphan_child_transactions is not null, there is still some children
-	 * wich didn't find their mother. show them now */
-	if (orphan_child_transactions)
-	{
-	    gchar *message = _("Some children didn't find their mother in the list, this shouldn't happen and there is probably a bug behind that. Please contact the Grisbi team.\n\nThe concerned children number are :\n");
-	    gchar *string_1;
-	    gchar *string_2;
+        tmp_list = orphan_list_copy;
+        while (tmp_list)
+        {
+            transaction_number = GPOINTER_TO_INT (tmp_list -> data);
+            transaction_list_append_transaction (transaction_number);
+            tmp_list = tmp_list -> next;
+        }
+        g_slist_free (orphan_list_copy);
 
-	    string_1 = g_strconcat (message, NULL);
-	    tmp_list = orphan_child_transactions;
-	    while (tmp_list)
-	    {
-		string_2 = g_strconcat ( string_1,
-					 utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data)),
-					 " - ",
-					 NULL);
-		g_free (string_1);
-		string_1 = string_2;
-		tmp_list = tmp_list -> next;
-	    }
-	    dialogue_warning (string_1);
-	    g_free (string_1);
-	}
+        /* if orphan_child_transactions is not null, there is still some children
+         * wich didn't find their mother. show them now */
+        if (orphan_child_transactions)
+        {
+            gchar *message = _("Some children didn't find their mother in the list, this shouldn't happen and there is probably a bug behind that. Please contact the Grisbi team.\n\nThe concerned children number are :\n");
+            gchar *string_1;
+            gchar *string_2;
+
+            string_1 = g_strconcat (message, NULL);
+            tmp_list = orphan_child_transactions;
+            while (tmp_list)
+            {
+            string_2 = g_strconcat ( string_1,
+                         utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data)),
+                         " - ",
+                         NULL);
+            g_free (string_1);
+            string_1 = string_2;
+            tmp_list = tmp_list -> next;
+            }
+            dialogue_warning (string_1);
+            g_free (string_1);
+        }
+        }
     }
 
     /* all the transactions of the archive have been added, we just need to clean the list,
      * but don't touch to the main page and to the current balances... we didn't change anything */
     account_number = gsb_gui_navigation_get_current_account ();
     if (account_number != -1)
-	gsb_transactions_list_update_tree_view (account_number, TRUE);
+        gsb_transactions_list_update_tree_view (account_number, TRUE);
 
     if (!gsb_data_account_get_r (account_number) && show_warning)
-	dialogue (_("You have just recovered an archive, if you don't see any new transaction, remember that the R transactions are not showed so the archived transactions are certainly hidden...\n\nSow the R transactions to make them visible."));
+        dialogue ( _("You have just recovered an archive, if you don't see any new "
+                        "transaction, remember that the R transactions are not showed "
+                        "so the archived transactions are certainly hidden...\n\n"
+                        "Show the R transactions to make them visible.") );
 
     return FALSE;
 }

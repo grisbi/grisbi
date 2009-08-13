@@ -117,8 +117,7 @@ GDate *gdate_today ( void )
     GDate *date;
 
     date = g_date_new ();
-    g_date_set_time (  date,
-                        time (NULL));
+    g_date_set_time_t (  date, time (NULL));
     return ( date );
 }
 

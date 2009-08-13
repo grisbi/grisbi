@@ -14,7 +14,6 @@ void transaction_list_filter ( gint account_number );
 gint transaction_list_get_n_children ( gint transaction_number );
 gboolean transaction_list_redraw ( void );
 gboolean transaction_list_remove_archive ( gint archive_number );
-gboolean transaction_list_remove_archive_transaction ( gint transaction_number );
 gboolean transaction_list_remove_transaction ( gint transaction_number );
 void transaction_list_set ( GtkTreeIter *iter, ... );
 void transaction_list_set_balances ( void );
