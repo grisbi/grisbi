@@ -47,9 +47,9 @@
 #include "./gsb_payment_method_config.h"
 #include "./gsb_reconcile_config.h"
 #include "./gsb_reconcile_sort_config.h"
-#include "./accueil.h"
 #include "./traitement_variables.h"
 #include "./utils_files.h"
+#include "./accueil.h"
 #include "./affichage_liste.h"
 #include "./affichage.h"
 #include "./tiers_onglet.h"
@@ -96,7 +96,6 @@ static GtkNotebook * preference_frame = NULL;
 extern gboolean balances_with_scheduled;
 extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
-extern gint mise_a_jour_liste_comptes_accueil;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern GtkWidget *window;
@@ -978,10 +977,8 @@ gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void )
         account_number = gsb_data_account_get_no_account ( list_tmp -> data );
         gsb_data_account_set_balances_are_dirty ( account_number );
 
-        if ( gsb_gui_navigation_get_current_page ( ) == GSB_HOME_PAGE )
-            mise_a_jour_accueil ( TRUE );
-        else
-            mise_a_jour_liste_comptes_accueil = ( TRUE );
+        /* MAJ HOME_PAGE */
+        gsb_gui_navigation_update_home_page ( );
 
         list_tmp = list_tmp -> next;
     }

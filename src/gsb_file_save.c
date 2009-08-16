@@ -1905,12 +1905,13 @@ gulong gsb_file_save_partial_balance_part ( gulong iterator,
 
 	partial_balance_number = gsb_data_partial_balance_get_number ( list_tmp -> data );
 
-	new_string = g_markup_printf_escaped ( "\t<Partial_balance Nb=\"%d\" Na=\"%s\" Acc=\"%s\" Kind=\"%d\" Currency=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Partial_balance Nb=\"%d\" Na=\"%s\" Acc=\"%s\" Kind=\"%d\" Currency=\"%d\" Colorise=\"%d\" />\n",
 					       partial_balance_number,
 					       my_safe_null_str(gsb_data_partial_balance_get_name ( partial_balance_number )),
 					       my_safe_null_str(gsb_data_partial_balance_get_liste_cptes ( partial_balance_number )),
 					       gsb_data_partial_balance_get_kind (partial_balance_number),
-					       gsb_data_partial_balance_get_currency (partial_balance_number) );
+					       gsb_data_partial_balance_get_currency (partial_balance_number),
+					       gsb_data_partial_balance_get_colorise (partial_balance_number) );
 
 	/* append the new string to the file content
 	 * and take the new iterator */

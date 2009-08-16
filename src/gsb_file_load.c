@@ -3433,8 +3433,6 @@ void gsb_file_load_partial_balance ( const gchar **attribute_names,
     gint i=0;
     gint partial_balance_number = 0;
 
-    partial_balance_number = gsb_data_partial_balance_new ( NULL );
-
     if ( !attribute_names[i] )
     return;
 
@@ -3442,34 +3440,34 @@ void gsb_file_load_partial_balance ( const gchar **attribute_names,
     {
     /*     we test at the beginning if the attribute_value is NULL, if yes, */
     /*        go to the next */
-    if ( !strcmp (attribute_values[i],
-         "(null)"))
+    if ( !strcmp ( attribute_values[i],
+         "(null)") )
     {
         i++;
         continue;
     }
 
     if ( !strcmp ( attribute_names[i],
-               "Nb" ))
+               "Nb" ) )
     {
-        partial_balance_number = gsb_data_partial_balance_set_new_number (
-                        partial_balance_number,
+        partial_balance_number = gsb_partial_balance_new_at_position  (
+                        NULL,
                         utils_str_atoi ( attribute_values[i] ) );
         i++;
         continue;
     }
 
     if ( !strcmp ( attribute_names[i],
-               "Na" ))
+               "Na" ) )
     {
         gsb_data_partial_balance_set_name ( partial_balance_number,
-                        attribute_values[i]);
+                        attribute_values[i] );
         i++;
         continue;
     }
 
     if ( !strcmp ( attribute_names[i],
-               "Acc" ))
+               "Acc" ) )
     {
         gsb_data_partial_balance_set_liste_cptes ( partial_balance_number,
                            attribute_values[i] );
@@ -3478,7 +3476,7 @@ void gsb_file_load_partial_balance ( const gchar **attribute_names,
     }
 
     if ( !strcmp ( attribute_names[i],
-                        "Kind" ))
+                        "Kind" ) )
     {
         gsb_data_partial_balance_set_kind ( partial_balance_number,
                         utils_str_atoi ( attribute_values[i] ) );
@@ -3486,11 +3484,20 @@ void gsb_file_load_partial_balance ( const gchar **attribute_names,
         continue;
     }
 
-        if ( !strcmp ( attribute_names[i],
-                        "Currency" ))
+    if ( !strcmp ( attribute_names[i],
+                        "Currency" ) )
     {
         gsb_data_partial_balance_set_currency ( partial_balance_number,
-                        utils_str_atoi ( attribute_values[i]));
+                        utils_str_atoi ( attribute_values[i] ) );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+                        "Colorise" ) )
+    {
+        gsb_data_partial_balance_set_colorise ( partial_balance_number,
+                        utils_str_atoi ( attribute_values[i] ) );
         i++;
         continue;
     }

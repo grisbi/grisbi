@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-13 20:31+0200\n"
+"POT-Creation-Date: 2009-08-16 22:51+0200\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team:  <bucuresti@free.fr>\n"
@@ -47,165 +47,165 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9\n"
 
-#: src/accueil.c:218
+#: src/accueil.c:220
 msgid "Closed liabilities accounts"
 msgstr "Conturi pasive terminate"
 
-#: src/accueil.c:231
+#: src/accueil.c:233
 #, fuzzy
 msgid "Run out manual scheduled transactions"
 msgstr "Operaţie planificată automatic  /  manual"
 
-#: src/accueil.c:247
+#: src/accueil.c:249
 msgid "Automatic scheduled transactions entered"
 msgstr "Înscrierea inventarului automatic de tranzacţiuni "
 
-#: src/accueil.c:258
+#: src/accueil.c:260
 msgid "Closed scheduled transactions"
 msgstr "Închidera inventarului automatic"
 
-#: src/accueil.c:269
+#: src/accueil.c:271
 msgid "Accounts under authorized balance"
 msgstr "Conturi sub sold autorizate"
 
-#: src/accueil.c:280
+#: src/accueil.c:282
 #, fuzzy
 msgid "Accounts under desired balance"
 msgstr "Conturi sub sold minimum vrut"
 
 #. crÃ©e la boite de dialogue
-#: src/accueil.c:327
+#: src/accueil.c:329
 msgid "Enter a scheduled transaction"
 msgstr "Intrarea une operaţii planificate"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur solde.
-#: src/accueil.c:451
+#: src/accueil.c:492
 #, fuzzy, c-format
 msgid "Account balances in %s"
 msgstr "Soldul conturilor în %s"
 
-#: src/accueil.c:454 src/accueil.c:531 src/accueil.c:597
+#: src/accueil.c:495 src/accueil.c:572 src/accueil.c:648
 msgid " at "
 msgstr ""
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:528
+#: src/accueil.c:569
 #, c-format
 msgid "Liabilities accounts balances in %s"
 msgstr "Soldul conturilor de pasiv în %s"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:594
+#: src/accueil.c:645
 #, c-format
 msgid "Assets accounts balances in %s"
 msgstr "Soldul conturilor de activ în %s"
 
-#: src/accueil.c:725 src/accueil.c:919
+#: src/accueil.c:785 src/accueil.c:983
 msgid "Reconciled balance"
 msgstr "Acceptarea soldului"
 
-#: src/accueil.c:729 src/accueil.c:923
+#: src/accueil.c:789 src/accueil.c:987
 msgid "Current balance"
 msgstr "Sold curent"
 
-#: src/accueil.c:912 src/accueil.c:1837
+#: src/accueil.c:976 src/accueil.c:1947
 #, fuzzy
 msgid "Partial balance"
 msgstr "Sold iniţial"
 
-#: src/accueil.c:914
+#: src/accueil.c:978
 #, fuzzy
 msgid "Partial balances"
 msgstr "Sold iniţial"
 
-#: src/accueil.c:991
+#: src/accueil.c:1069
 #, fuzzy
 msgid "Global balance"
 msgstr "Solduri finale"
 
-#: src/accueil.c:993
+#: src/accueil.c:1071
 msgid "Global balances"
 msgstr "Solduri finale"
 
-#: src/accueil.c:1145 src/accueil.c:1267 src/accueil.c:1718
+#: src/accueil.c:1223 src/accueil.c:1345 src/accueil.c:1796
 #, fuzzy, c-format
 msgid "%s credited on %s"
 msgstr "%4.2f%s%s%4.2f credit pe %s"
 
-#: src/accueil.c:1155 src/accueil.c:1277 src/accueil.c:1727
+#: src/accueil.c:1233 src/accueil.c:1355 src/accueil.c:1805
 #, fuzzy, c-format
 msgid "%s debited on %s"
 msgstr "%4.4f % debit pe %s"
 
-#: src/accueil.c:1496
+#: src/accueil.c:1574
 #, fuzzy, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr "Soldul contului %s a trecut sub pragurile minimum autorizate şi vrute"
 
-#: src/accueil.c:1500
+#: src/accueil.c:1578
 #, fuzzy
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
 msgstr "Soldul contului %s a trecut sub pragurile minimum autorizate şi vrute"
 
-#: src/accueil.c:1529
+#: src/accueil.c:1607
 #, fuzzy, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr "Soldul contului %s a trecut sub pragul minimum autorizat şi vrut"
 
-#: src/accueil.c:1539
+#: src/accueil.c:1617
 #, fuzzy
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
 msgstr "Soldul contului %s a trecut sub pragurile minimum autorizate şi vrute"
 
-#: src/accueil.c:1571
+#: src/accueil.c:1649
 #, fuzzy, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "Soldul contului a trecut sub pragul minimum vrut"
 
-#: src/accueil.c:1581
+#: src/accueil.c:1659
 #, fuzzy
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
 msgstr "Soldul contului a trecut sub pragul minimum vrut"
 
-#. ~ gchar *texte;
-#: src/accueil.c:1767
+#: src/accueil.c:1848
 #, fuzzy
 msgid "Configuration of the main page"
 msgstr "Confirmarea supresiunei băncii"
 
-#: src/accueil.c:1776
+#: src/accueil.c:1857
 #, fuzzy
-msgid "Balances partial of the list of bank accounts"
+msgid "Balances partials of the list of accounts"
 msgstr "Deplasaţi operaţiunea spre un alt cont"
 
-#. ~ g_signal_connect ( cell,
-#. ~ "edited",
-#. ~ G_CALLBACK (gsb_import_associations_cell_edited),
-#. ~ vbox_main );
 #. List of the accounts
-#: src/accueil.c:1851 src/gsb_data_partial_balance.c:613
+#: src/accueil.c:1956 src/gsb_data_partial_balance.c:1422
 #, fuzzy
 msgid "Accounts list"
 msgstr "Ventilaţia contului"
 
-#: src/accueil.c:1860
+#: src/accueil.c:1965
 #, fuzzy
 msgid "Account kind"
 msgstr "Numele contului"
 
-#: src/accueil.c:1869 src/gsb_form_widget.c:445 src/import_csv.c:77
+#: src/accueil.c:1974 src/gsb_form_widget.c:445 src/import_csv.c:77
 msgid "Currency"
 msgstr "Deviză"
 
-#: src/affichage.c:133 src/parametres.c:349
+#: src/accueil.c:1990
+#, fuzzy
+msgid "Colorize"
+msgstr "Comores"
+
+#: src/affichage.c:133 src/parametres.c:348
 msgid "Fonts & logo"
 msgstr "Poliţă & logo"
 
@@ -251,7 +251,7 @@ msgstr "Pontare"
 msgid "Back to default"
 msgstr "Restabilirea reglajelor de origine"
 
-#: src/affichage.c:361 src/parametres.c:367
+#: src/affichage.c:361 src/parametres.c:366
 msgid "Addresses & titles"
 msgstr "Adrese şi titluri"
 
@@ -295,7 +295,7 @@ msgstr "Adrese secundare"
 msgid "Select a new logo"
 msgstr "Selectarea uni nou logo"
 
-#: src/affichage.c:686 src/parametres.c:386
+#: src/affichage.c:686 src/parametres.c:385
 msgid "Toolbars"
 msgstr ""
 
@@ -885,7 +885,7 @@ msgid "Create a new sub-category"
 msgstr "Intraţi numele noii sub-categorii."
 
 #: src/categories_onglet.c:510 src/etats_onglet.c:130 src/import.c:373
-#: src/import.c:3203 src/imputation_budgetaire.c:543 src/parametres.c:294
+#: src/import.c:3203 src/imputation_budgetaire.c:543 src/parametres.c:293
 msgid "Import"
 msgstr "Importare"
 
@@ -968,7 +968,7 @@ msgstr "Nici o categorie (%d)"
 #: src/gsb_assistant_reconcile_config.c:388
 #: src/gsb_assistant_reconcile_config.c:1243 src/gsb_bank.c:732
 #: src/gsb_bank.c:855 src/gsb_currency_config.c:355
-#: src/gsb_data_partial_balance.c:602 src/gsb_fyear_config.c:191
+#: src/gsb_data_partial_balance.c:1411 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:239
 #: src/gsb_reconcile_config.c:179 src/gsb_transactions_list.c:1709
 #: src/imputation_budgetaire.c:703 src/tiers_onglet.c:611
@@ -1573,7 +1573,7 @@ msgstr "Observaţii"
 #. Now we have a model, create view
 #: src/etats_affiche.c:2447 src/etats_config.c:564 src/etats_config.c:567
 #: src/etats_config.c:7415 src/gsb_payment_method_config.c:117
-#: src/parametres.c:513
+#: src/parametres.c:512
 msgid "Payment methods"
 msgstr "Moduri de plată"
 
@@ -1759,12 +1759,12 @@ msgid "Generalities"
 msgstr "Generalităţi"
 
 #: src/etats_config.c:635 src/etats_config.c:638 src/export_csv.c:738
-#: src/fenetre_principale.c:260 src/parametres.c:396
+#: src/fenetre_principale.c:260 src/parametres.c:395
 msgid "Transactions"
 msgstr "Tranzacţiuni"
 
 #: src/etats_config.c:644 src/etats_config.c:647 src/gsb_currency_config.c:296
-#: src/parametres.c:477
+#: src/parametres.c:476
 msgid "Currencies"
 msgstr "Devize"
 
@@ -2411,7 +2411,7 @@ msgstr "Toate operaţiile"
 msgid "Make transactions clickable"
 msgstr "A face operaţiunile interactive"
 
-#: src/etats_config.c:6985 src/parametres.c:1007
+#: src/etats_config.c:6985 src/parametres.c:1004
 msgid "Totals currencies"
 msgstr "Devize de totaluri"
 
@@ -2880,7 +2880,7 @@ msgid "Select accounts to export"
 msgstr "Selecţionaţi conturile a exporta"
 
 #: src/export.c:169 src/export_csv.c:741 src/gsb_account_property.c:229
-#: src/import.c:1143 src/import.c:1180
+#: src/gsb_data_partial_balance.c:1363 src/import.c:1143 src/import.c:1180
 msgid "Account name"
 msgstr "Numele contului"
 
@@ -2983,12 +2983,12 @@ msgstr "Sub-imputaţii bugetare"
 msgid "Reconciliation number"
 msgstr "Număr de apropiere"
 
-#: src/fenetre_principale.c:244 src/parametres.c:331
+#: src/fenetre_principale.c:244 src/parametres.c:330
 msgid "Main page"
 msgstr "Pagina de primire"
 
-#: src/fenetre_principale.c:273 src/navigation.c:269 src/parametres.c:322
-#: src/parametres.c:926
+#: src/fenetre_principale.c:273 src/navigation.c:269 src/parametres.c:321
+#: src/parametres.c:925
 msgid "Scheduler"
 msgstr "Scadenţă"
 
@@ -3715,21 +3715,21 @@ msgid "Minimum desired balance"
 msgstr "Sold minim vrut"
 
 #: src/gsb_account_property.c:753 src/gsb_assistant_account.c:434
-#: src/gsb_data_partial_balance.c:543
+#: src/gsb_data_partial_balance.c:216
 msgid "Bank account"
 msgstr "Cont bancar"
 
-#: src/gsb_account_property.c:753 src/gsb_data_partial_balance.c:531
+#: src/gsb_account_property.c:753 src/gsb_data_partial_balance.c:204
 msgid "Cash account"
 msgstr "Cont de casă"
 
 #: src/gsb_account_property.c:753 src/gsb_assistant_account.c:447
-#: src/gsb_data_partial_balance.c:535
+#: src/gsb_data_partial_balance.c:208
 msgid "Liabilities account"
 msgstr "Cont de pasiv"
 
 #: src/gsb_account_property.c:753 src/gsb_assistant_account.c:443
-#: src/gsb_data_partial_balance.c:539
+#: src/gsb_data_partial_balance.c:212
 msgid "Assets account"
 msgstr "Cont de activ"
 
@@ -3755,7 +3755,7 @@ msgid "Your IBAN number is not correct. Please check your entry."
 msgstr ""
 
 #. create the page
-#: src/gsb_archive_config.c:111 src/parametres.c:285
+#: src/gsb_archive_config.c:111 src/parametres.c:284
 #, fuzzy
 msgid "Archives"
 msgstr "A activa"
@@ -4080,54 +4080,54 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:851
+#: src/gsb_assistant_archive.c:852
 msgid "<span foreground=\"red\">Please fill the initial date</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:855
+#: src/gsb_assistant_archive.c:856
 msgid "<span foreground=\"red\">Please fill the final date</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:863
+#: src/gsb_assistant_archive.c:864
 msgid ""
 "<span foreground=\"red\">The initial date is after the final date</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:867
+#: src/gsb_assistant_archive.c:868
 msgid "<span foreground=\"red\">The initial date is not valid.</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:871
+#: src/gsb_assistant_archive.c:872
 msgid "<span foreground=\"red\">The final date is not valid</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:875
+#: src/gsb_assistant_archive.c:876
 msgid ""
 "<span foreground=\"red\">The initial date belongs already to an archive.</"
 "span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:879
+#: src/gsb_assistant_archive.c:880
 msgid ""
 "<span foreground=\"red\">The final date belongs already to an archive.</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:922
+#: src/gsb_assistant_archive.c:923
 msgid "<span foreground=\"red\">Please choose a financial year</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:927
+#: src/gsb_assistant_archive.c:928
 msgid ""
 "<span foreground=\"red\">There is already an archive for that financial year."
 "</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:967
+#: src/gsb_assistant_archive.c:968
 msgid "<span foreground=\"red\">Please choose a report</span>"
 msgstr ""
 
 #. there is some transactions to archive
-#: src/gsb_assistant_archive.c:998
+#: src/gsb_assistant_archive.c:999
 #, c-format
 msgid "%d transactions out of %d will be archived."
 msgstr ""
@@ -4249,7 +4249,7 @@ msgstr ""
 #. will we crypt the file ?
 #. crypt the grisbi file
 #: src/gsb_assistant_file.c:323 src/gsb_assistant_first.c:249
-#: src/parametres.c:701
+#: src/parametres.c:700
 msgid "Encrypt Grisbi file"
 msgstr ""
 
@@ -4335,61 +4335,61 @@ msgid "General configuration of Grisbi"
 msgstr ""
 
 #. configure the browser
-#: src/gsb_assistant_first.c:208 src/parametres.c:849
+#: src/gsb_assistant_first.c:208 src/parametres.c:848
 #, fuzzy
 msgid "Web"
 msgstr "Situl Web"
 
-#: src/gsb_assistant_first.c:215 src/parametres.c:856
+#: src/gsb_assistant_first.c:215 src/parametres.c:855
 #, fuzzy
 msgid "Web browser command"
 msgstr "Navigator web"
 
-#: src/gsb_assistant_first.c:224 src/parametres.c:865
+#: src/gsb_assistant_first.c:224 src/parametres.c:864
 #, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr ""
 
-#: src/gsb_assistant_first.c:234 src/parametres.c:684
+#: src/gsb_assistant_first.c:234 src/parametres.c:683
 msgid "Account files handling"
 msgstr "Gestiunea fişierelor de conturi"
 
 #. Automatically load last file on startup?
-#: src/gsb_assistant_first.c:237 src/parametres.c:687
+#: src/gsb_assistant_first.c:237 src/parametres.c:686
 msgid "Automatically load last file on startup"
 msgstr "Încăcarea automatică a ultimului fişier consultat"
 
 #. automatically save file at closing
-#: src/gsb_assistant_first.c:243 src/parametres.c:691
+#: src/gsb_assistant_first.c:243 src/parametres.c:690
 msgid "Automatically save on exit"
 msgstr "Înregistra automatic închizând"
 
 #. Automatic backup ?
-#: src/gsb_assistant_first.c:257 src/parametres.c:735
+#: src/gsb_assistant_first.c:257 src/parametres.c:734
 msgid "Make a backup copy before saving files"
 msgstr "Efectua o copie de salvare înainte de a înregistra fişierele"
 
-#: src/gsb_assistant_first.c:267 src/parametres.c:743
+#: src/gsb_assistant_first.c:267 src/parametres.c:742
 #, fuzzy
 msgid "Make a backup copy every "
 msgstr "Efectua o copie de salvare înainte de a înregistra fişierele"
 
-#: src/gsb_assistant_first.c:278 src/parametres.c:752
+#: src/gsb_assistant_first.c:278 src/parametres.c:751
 #, fuzzy
 msgid " minutes"
 msgstr "notă"
 
-#: src/gsb_assistant_first.c:287 src/parametres.c:759
+#: src/gsb_assistant_first.c:287 src/parametres.c:758
 #, fuzzy
 msgid "Backup directory"
 msgstr "Fişier de salvare"
 
-#: src/gsb_assistant_first.c:292 src/parametres.c:766
+#: src/gsb_assistant_first.c:292 src/parametres.c:765
 msgid "Select/Create backup directory"
 msgstr ""
 
 #: src/gsb_assistant_first.c:335 src/gsb_reconcile_config.c:102
-#: src/parametres.c:414
+#: src/parametres.c:413
 msgid "Reconciliation"
 msgstr "Apropiere"
 
@@ -4643,7 +4643,7 @@ msgstr "O nouă bancă"
 msgid "Contact name"
 msgstr "Corespondent"
 
-#: src/gsb_bank.c:519 src/parametres.c:495
+#: src/gsb_bank.c:519 src/parametres.c:494
 msgid "Banks"
 msgstr "Bănci"
 
@@ -6257,7 +6257,8 @@ msgid ""
 "should be set."
 msgstr ""
 
-#: src/gsb_currency_config.c:1077 src/gsb_data_partial_balance.c:691
+#: src/gsb_currency_config.c:1077 src/gsb_data_partial_balance.c:308
+#: src/gsb_data_partial_balance.c:415
 #, fuzzy
 msgid "All fields are not filled in"
 msgstr "Toate câmpurile nu sunt pline"
@@ -6391,24 +6392,39 @@ msgstr ""
 msgid "<span foreground=\"red\">Warning : Invalid date</span>"
 msgstr ""
 
-#: src/gsb_data_partial_balance.c:578 src/gsb_data_partial_balance.c:586
+#: src/gsb_data_partial_balance.c:300 src/gsb_data_partial_balance.c:407
+#, fuzzy
+msgid "You must select at least two accounts."
+msgstr "Selecţionaţi conturile de activ"
+
+#: src/gsb_data_partial_balance.c:301 src/gsb_data_partial_balance.c:408
+#, fuzzy
+msgid "Only one account is selected."
+msgstr "Deschiderea unui fişier de conturi"
+
+#: src/gsb_data_partial_balance.c:306 src/gsb_data_partial_balance.c:413
+msgid ""
+"The name of the partial balance and the list of accounts must be completed."
+msgstr ""
+
+#: src/gsb_data_partial_balance.c:1387 src/gsb_data_partial_balance.c:1395
 #, fuzzy
 msgid "Add a partial balance"
 msgstr "Sold iniţial"
 
-#: src/gsb_data_partial_balance.c:593 src/gsb_debug.c:292
+#: src/gsb_data_partial_balance.c:1402 src/gsb_debug.c:292
 msgid "Details"
 msgstr "Detalii"
 
 #. create the position
-#: src/gsb_data_partial_balance.c:623
+#: src/gsb_data_partial_balance.c:1437
 #, fuzzy
 msgid "Position in the list of accounts"
 msgstr "Deplasaţi operaţiunea spre un alt cont"
 
-#: src/gsb_data_partial_balance.c:689
-msgid ""
-"The name of the partial balance and the list of accounts must be completed."
+#. create the colorized button
+#: src/gsb_data_partial_balance.c:1450
+msgid "Colorized in red if the balance is negative"
 msgstr ""
 
 #: src/gsb_data_payee.c:402
@@ -6440,8 +6456,8 @@ msgstr "Cartă de credit"
 msgid "Direct debit"
 msgstr "Prelevare"
 
-#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1986
-#: src/gsb_data_transaction.c:2048
+#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1985
+#: src/gsb_data_transaction.c:2047
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "Eroare în alocarea memoriei se va termina foarte rău"
 
@@ -6803,7 +6819,7 @@ msgstr ""
 "Alternativ, alegeţi opţiunea \"%s\"dedesupt. "
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:549 src/gsb_file.c:798 src/parametres.c:696
+#: src/gsb_file.c:549 src/gsb_file.c:798 src/parametres.c:695
 msgid "Force saving of locked files"
 msgstr "Forţaţi înregistrarea fişierilor zăvorite"
 
@@ -6971,7 +6987,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "Cont %s ne găsit.\n"
 
-#: src/gsb_file_load.c:448 src/gsb_file_load.c:4585
+#: src/gsb_file_load.c:448 src/gsb_file_load.c:4592
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Acest fişier nu este o stare Grisbi"
@@ -6985,14 +7001,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7901
+#: src/gsb_file_load.c:7908
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "Vă trebuie versiunea %s de Grisbi pentru a deschide acest fişier"
 
-#: src/gsb_file_load.c:7940
+#: src/gsb_file_load.c:7947
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7000,7 +7016,7 @@ msgid ""
 "transactions or important informations."
 msgstr ""
 
-#: src/gsb_file_load.c:7941
+#: src/gsb_file_load.c:7948
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -7233,7 +7249,7 @@ msgstr ""
 msgid "Configure the form"
 msgstr ""
 
-#: src/gsb_form_config.c:120 src/parametres.c:433
+#: src/gsb_form_config.c:120 src/parametres.c:432
 msgid "Transaction form"
 msgstr "Formular de tranzacţie"
 
@@ -7468,7 +7484,7 @@ msgstr "Numărul tranzacţiei"
 msgid "Automatic/Manual"
 msgstr "Automatic"
 
-#: src/gsb_fyear_config.c:99 src/parametres.c:504
+#: src/gsb_fyear_config.c:99 src/parametres.c:503
 msgid "Financial years"
 msgstr "Exerciţiu"
 
@@ -7754,7 +7770,7 @@ msgstr ""
 msgid "Deleting a reconcile"
 msgstr "Suprimarea unei sub-imputaţii"
 
-#: src/gsb_reconcile_sort_config.c:86 src/parametres.c:423
+#: src/gsb_reconcile_sort_config.c:86 src/parametres.c:422
 #, fuzzy
 msgid "Sort for reconciliation"
 msgstr "Apropiere"
@@ -7940,7 +7956,7 @@ msgstr "Selecţionaţi totul"
 msgid "Cheque number"
 msgstr "numărul de cec"
 
-#: src/gsb_transactions_list.c:533 src/gsb_transactions_list.c:3346
+#: src/gsb_transactions_list.c:533 src/gsb_transactions_list.c:3351
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8122,7 +8138,7 @@ msgstr "Virament spre un cont suprimat"
 msgid "Transfer from a deleted account"
 msgstr "Virament de un cont suprimat"
 
-#: src/gsb_transactions_list.c:3375
+#: src/gsb_transactions_list.c:3380
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -8551,7 +8567,7 @@ msgstr ""
 msgid "Manage import associations"
 msgstr "Detailaţi categoriile utilizate"
 
-#: src/import.c:3301 src/parametres.c:303
+#: src/import.c:3301 src/parametres.c:302
 #, fuzzy
 msgid "Import associations"
 msgstr "Acţiune"
@@ -9208,161 +9224,161 @@ msgid "closed"
 msgstr "Închide"
 
 #. Create dialog
-#: src/parametres.c:233
+#: src/parametres.c:232
 #, fuzzy
 msgid "Grisbi preferences"
 msgstr "Preferinţe"
 
-#: src/parametres.c:266
+#: src/parametres.c:265
 #, fuzzy
 msgid "Main"
 msgstr "Spania"
 
-#: src/parametres.c:275 src/parametres.c:680
+#: src/parametres.c:274 src/parametres.c:679
 msgid "Files"
 msgstr "Fişiere"
 
-#: src/parametres.c:313 src/parametres.c:847
+#: src/parametres.c:312 src/parametres.c:846
 msgid "Programs"
 msgstr "Programe"
 
-#: src/parametres.c:341
+#: src/parametres.c:340
 msgid "Display"
 msgstr "Afişare"
 
-#: src/parametres.c:358 src/parametres.c:579
+#: src/parametres.c:357 src/parametres.c:578
 msgid "Messages & warnings"
 msgstr "Mesaje şi alarme"
 
-#: src/parametres.c:376 src/parametres.c:1004
+#: src/parametres.c:375 src/parametres.c:1001
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "Vă rugăm intraţi o imputaţie"
 
-#: src/parametres.c:404
+#: src/parametres.c:403
 msgid "List behavior"
 msgstr ""
 
-#: src/parametres.c:441
+#: src/parametres.c:440
 #, fuzzy
 msgid "Content"
 msgstr "Corespondent"
 
-#: src/parametres.c:450
+#: src/parametres.c:449
 msgid "Behavior"
 msgstr ""
 
-#: src/parametres.c:459
+#: src/parametres.c:458
 msgid "Completion"
 msgstr ""
 
-#: src/parametres.c:469
+#: src/parametres.c:468
 msgid "Resources"
 msgstr "Resurse"
 
-#: src/parametres.c:486
+#: src/parametres.c:485
 #, fuzzy
 msgid "Currencies links"
 msgstr "Devize"
 
 #. Tip of the day
-#: src/parametres.c:582
+#: src/parametres.c:581
 msgid "Tip of the day"
 msgstr ""
 
 #. Display or not tips
-#: src/parametres.c:585
+#: src/parametres.c:584
 msgid "Display tip of the day"
 msgstr ""
 
-#: src/parametres.c:592
+#: src/parametres.c:591
 #, fuzzy
 msgid "Display following warnings messages"
 msgstr "Mesaj de alarmă"
 
-#: src/parametres.c:613
+#: src/parametres.c:612
 #, fuzzy
 msgid "Message"
 msgstr "Mesaj de log"
 
 #. Compression level of files
-#: src/parametres.c:706
+#: src/parametres.c:705
 msgid "Compress Grisbi file"
 msgstr ""
 
-#: src/parametres.c:714
+#: src/parametres.c:713
 msgid "Memorise last opened files"
 msgstr "Memorizarea ultimielor fişiere deschise"
 
 #. Backups
-#: src/parametres.c:722
+#: src/parametres.c:721
 msgid "Backups"
 msgstr "Salvări"
 
 #. Compression level of backups
-#: src/parametres.c:725
+#: src/parametres.c:724
 msgid "Compress Grisbi backup"
 msgstr ""
 
 #. Backup at each opening?
-#: src/parametres.c:730
+#: src/parametres.c:729
 msgid "Make a backup copy after opening files"
 msgstr "A efectua o copie de salvare după ce fişierele au fost deschise"
 
-#: src/parametres.c:876
+#: src/parametres.c:875
 msgid "LaTeX support (old print system)"
 msgstr ""
 
-#: src/parametres.c:883
+#: src/parametres.c:882
 msgid "LaTeX command"
 msgstr "Comandă LaTeX"
 
-#: src/parametres.c:891
+#: src/parametres.c:890
 msgid "dvips command"
 msgstr "Comandă dvips"
 
-#: src/parametres.c:931
+#: src/parametres.c:930
 #, fuzzy
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Alarmă a scadenţei"
 
-#: src/parametres.c:932
+#: src/parametres.c:931
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr "Operaţiunele planificate manual au ajuns la termen"
 
-#: src/parametres.c:933
+#: src/parametres.c:932
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Operaţiunele planificate manual au ajuns la termen"
 
-#: src/parametres.c:941
+#: src/parametres.c:940
 #, fuzzy
 msgid "Number of days before the warning or the execution"
 msgstr "Numărul de zile precedând rapelul unei operaţiuni planificate"
 
 #. Take into account the planned operations in the calculation of balances
-#: src/parametres.c:948
+#: src/parametres.c:947
 #, fuzzy
 msgid "Calculation of balances"
 msgstr "Sold iniţial"
 
-#: src/parametres.c:954
+#: src/parametres.c:953
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
 msgstr ""
 
-#: src/parametres.c:1013
+#: src/parametres.c:1010
 #, fuzzy
 msgid "Sort option for transactions"
 msgstr "Punerea în formă de operaţiuni"
 
-#: src/parametres.c:1014
+#: src/parametres.c:1011
 #, fuzzy
 msgid "by number"
 msgstr "numărul de cec"
 
-#: src/parametres.c:1015
+#: src/parametres.c:1012
 msgid "by date"
 msgstr "A clasa dupa dată"
 
@@ -10023,8 +10039,8 @@ msgstr "Afişarea tranzacţiilor"
 msgid "Reconciliation ref."
 msgstr "Referenţă de apropiere"
 
-#: src/transaction_list.c:166 src/transaction_list.c:978
-#: src/transaction_list.c:1874
+#: src/transaction_list.c:166 src/transaction_list.c:979
+#: src/transaction_list.c:1875
 #, fuzzy, c-format
 msgid "Total : %s (variance : %s)"
 msgstr "Total %s : %s (%d operaţiuni)"
@@ -10036,13 +10052,13 @@ msgstr "Total %s (%d operaţii)"
 
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
-#: src/transaction_list.c:1507
+#: src/transaction_list.c:1508
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't append ! "
 "Check that."
 msgstr ""
 
-#: src/transaction_list.c:1702
+#: src/transaction_list.c:1703
 #, c-format
 msgid ""
 "Trying to append the child number %d to the mother %d in the model, but no "

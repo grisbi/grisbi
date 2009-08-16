@@ -32,6 +32,7 @@ gboolean gsb_gui_navigation_select_next ();
 gboolean gsb_gui_navigation_select_prev ();
 gboolean gsb_gui_navigation_set_selection ( gint page, gint account_number, gpointer report );
 void gsb_gui_navigation_update_account ( gint account_number );
+void gsb_gui_navigation_update_home_page ( void );
 void gsb_gui_navigation_update_report ( gint report_number ) ;
 void gsb_navigation_update_account_label ( gint account_number );
 void gsb_navigation_update_statement_label ( gint account_number );

@@ -1689,6 +1689,19 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 }
 
 
+/**
+ * Met à jour la page d'accueil immédiatement si elle est affichée sinon plus tard
+ *
+ */
+void gsb_gui_navigation_update_home_page ( void )
+{
+    if ( gsb_gui_navigation_get_current_page ( ) == GSB_HOME_PAGE )
+        mise_a_jour_accueil ( TRUE );
+    else
+        mise_a_jour_liste_comptes_accueil = ( TRUE );
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
