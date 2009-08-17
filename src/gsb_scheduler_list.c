@@ -3,6 +3,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*      2009 Thomas Peel (thomas.peel@live.fr)                                */
+/*          2008-2009 Pierre Biava (grisbi@pierre.biava.name                  */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -52,6 +53,7 @@
 #include "./utils_str.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
+#include "./mouse.h"
 #include "./include.h"
 #include "./gsb_calendar.h"
 #include "./erreur.h"
@@ -67,6 +69,7 @@ static gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
                         GtkTreeIter *iter_1,
                         GtkTreeIter *iter_2,
                         gpointer null );
+static gboolean gsb_scheduler_list_edit_transaction_by_pointer ( gint *scheduled_number );
 static gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
                         GtkTreeIter *iter,
                         const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] );
@@ -87,6 +90,7 @@ static gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
                         GtkAllocation *allocation,
                         gpointer null );
 static gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number );
+static void popup_scheduled_context_menu ( void );
 /*END_STATIC*/
 
 
@@ -1506,17 +1510,18 @@ gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev )
 {
-
-    /* if double-click => edit the scheduled transaction */
-
-    if ( ev -> type == GDK_2BUTTON_PRESS )
+	/* show the popup */
+	if ( ev -> button == RIGHT_BUTTON )
+        popup_scheduled_context_menu ( );
+    else if ( ev -> type == GDK_2BUTTON_PRESS )
     {
-	gint current_scheduled_number;
+         /* if double-click => edit the scheduled transaction */
+        gint current_scheduled_number;
 
-	current_scheduled_number = gsb_scheduler_list_get_current_scheduled_number ();
+        current_scheduled_number = gsb_scheduler_list_get_current_scheduled_number ();
 
-	if ( current_scheduled_number )
-	    gsb_scheduler_list_edit_transaction (current_scheduled_number);
+        if ( current_scheduled_number )
+            gsb_scheduler_list_edit_transaction (current_scheduled_number);
     }
     return FALSE;
 }
@@ -1931,6 +1936,106 @@ gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
             gtk_tree_view_column_set_fixed_width ( scheduler_list_column[i],
                                width );
     }
+    return FALSE;
+}
+
+
+/**
+ * Pop up a menu with several actions to apply to current scheduled.
+ *
+ * \param
+ *
+ */
+void popup_scheduled_context_menu ( void )
+{
+    GtkWidget *menu, *menu_item;
+    gint scheduled_number;
+
+    menu = gtk_menu_new ();
+
+    /* Edit transaction */
+    scheduled_number = gsb_scheduler_list_get_current_scheduled_number ( );
+
+    menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
+                        GTK_ICON_SIZE_MENU ) );
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_scheduler_list_edit_transaction_by_pointer ),
+                        GINT_TO_POINTER ( scheduled_number ) );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+    /* Separator */
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
+
+    /* New transaction */
+    menu_item = gtk_image_menu_item_new_with_label ( _("New transaction") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_NEW,
+                        GTK_ICON_SIZE_MENU ) );
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_scheduler_list_edit_transaction_by_pointer ),
+                        GINT_TO_POINTER ( -1 ) );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+    /* Delete transaction */
+    menu_item = gtk_image_menu_item_new_with_label ( _("Delete transaction") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_DELETE,
+						GTK_ICON_SIZE_MENU ) );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
+                        NULL );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+    /* Separator */
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
+
+    /* Display/hide comments */
+    menu_item = gtk_image_menu_item_new_with_label ( _("Displays/Cache comments") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_file ( g_build_filename ( PIXMAPS_DIR,
+                        "comments.png", NULL ) ) );
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_scheduler_list_show_notes ),
+                        NULL );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+    /* Separator */
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
+
+    /* Execute transaction */
+    menu_item = gtk_image_menu_item_new_with_label ( _("Execute transaction") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_EXECUTE,
+                        GTK_ICON_SIZE_MENU ) );
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
+                        NULL );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+    /* Finish all. */
+    gtk_widget_show_all (menu);
+    gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
+}
+
+/**
+ * Called to edit a specific transaction but the number of transaction
+ * is passed via a pointer (by g_signal_connect)
+ *
+ * \param scheduled_number a pointer wich is the number of the transaction
+ *
+ * \return FALSE
+ * */
+gboolean gsb_scheduler_list_edit_transaction_by_pointer ( gint *scheduled_number )
+{
+    devel_debug_int (GPOINTER_TO_INT ( scheduled_number ) );
+    gsb_scheduler_list_edit_transaction ( GPOINTER_TO_INT (scheduled_number));
     return FALSE;
 }
 

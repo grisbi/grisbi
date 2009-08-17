@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-16 22:51+0200\n"
+"POT-Creation-Date: 2009-08-17 20:57+0200\n"
 "PO-Revision-Date: 2006-05-15 12:44+0200\n"
 "Last-Translator: Ryszard Jeziorski <r.jeziorski@dart.kielce.pl>\n"
 "Language-Team: Polish\n"
@@ -53,123 +53,123 @@ msgstr "Podaj zaplanowaną transakcję"
 msgid "Account balances in %s"
 msgstr "Stan kont : %s"
 
-#: src/accueil.c:495 src/accueil.c:572 src/accueil.c:648
+#: src/accueil.c:495 src/accueil.c:573 src/accueil.c:650
 msgid " at "
 msgstr ""
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:569
+#: src/accueil.c:570
 #, c-format
 msgid "Liabilities accounts balances in %s"
 msgstr "Stan kont pasywów w %s"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:645
+#: src/accueil.c:647
 #, c-format
 msgid "Assets accounts balances in %s"
 msgstr "Stan kont kont aktywów w %s "
 
-#: src/accueil.c:785 src/accueil.c:983
+#: src/accueil.c:788 src/accueil.c:986
 msgid "Reconciled balance"
 msgstr "Salda potwierdzone"
 
-#: src/accueil.c:789 src/accueil.c:987
+#: src/accueil.c:792 src/accueil.c:990
 msgid "Current balance"
 msgstr "Dostępne środki"
 
-#: src/accueil.c:976 src/accueil.c:1947
+#: src/accueil.c:979 src/accueil.c:1950
 #, fuzzy
 msgid "Partial balance"
 msgstr "Saldo początkowe"
 
-#: src/accueil.c:978
+#: src/accueil.c:981
 #, fuzzy
 msgid "Partial balances"
 msgstr "Saldo początkowe"
 
-#: src/accueil.c:1069
+#: src/accueil.c:1072
 #, fuzzy
 msgid "Global balance"
 msgstr "Razem"
 
-#: src/accueil.c:1071
+#: src/accueil.c:1074
 msgid "Global balances"
 msgstr "Razem"
 
-#: src/accueil.c:1223 src/accueil.c:1345 src/accueil.c:1796
+#: src/accueil.c:1226 src/accueil.c:1348 src/accueil.c:1799
 #, fuzzy, c-format
 msgid "%s credited on %s"
 msgstr "%4.2f %s kredyt na %s"
 
-#: src/accueil.c:1233 src/accueil.c:1355 src/accueil.c:1805
+#: src/accueil.c:1236 src/accueil.c:1358 src/accueil.c:1808
 #, fuzzy, c-format
 msgid "%s debited on %s"
 msgstr "%4.2f %s debet na %s"
 
-#: src/accueil.c:1574
+#: src/accueil.c:1577
 #, fuzzy, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr "Stan konta %s jest poniżej stanu wymaganego i nominalnego!"
 
-#: src/accueil.c:1578
+#: src/accueil.c:1581
 #, fuzzy
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
 msgstr "Stan konta %s jest poniżej stanu wymaganego i nominalnego!"
 
-#: src/accueil.c:1607
+#: src/accueil.c:1610
 #, fuzzy, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr "Stan konta %s jest poniżej stanu nominalnego!"
 
-#: src/accueil.c:1617
+#: src/accueil.c:1620
 #, fuzzy
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
 msgstr "Stan konta %s jest poniżej stanu wymaganego i nominalnego!"
 
-#: src/accueil.c:1649
+#: src/accueil.c:1652
 #, fuzzy, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "Stan konta %s jest poniżej stanu wymaganego!"
 
-#: src/accueil.c:1659
+#: src/accueil.c:1662
 #, fuzzy
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
 msgstr "Stan konta %s jest poniżej stanu wymaganego!"
 
-#: src/accueil.c:1848
+#: src/accueil.c:1851
 #, fuzzy
 msgid "Configuration of the main page"
 msgstr "Potwierdzenie usunięcia banku"
 
-#: src/accueil.c:1857
+#: src/accueil.c:1860
 #, fuzzy
 msgid "Balances partials of the list of accounts"
 msgstr "Przenieś transakcję do innego konta"
 
 #. List of the accounts
-#: src/accueil.c:1956 src/gsb_data_partial_balance.c:1422
+#: src/accueil.c:1959 src/gsb_data_partial_balance.c:1422
 #, fuzzy
 msgid "Accounts list"
 msgstr "Transakcja zbiorcza konta"
 
-#: src/accueil.c:1965
+#: src/accueil.c:1968
 #, fuzzy
 msgid "Account kind"
 msgstr "Nazwa konta"
 
-#: src/accueil.c:1974 src/gsb_form_widget.c:445 src/import_csv.c:77
+#: src/accueil.c:1977 src/gsb_form_widget.c:445 src/import_csv.c:77
 msgid "Currency"
 msgstr "Waluta"
 
-#: src/accueil.c:1990
+#: src/accueil.c:1993
 #, fuzzy
 msgid "Colorize"
 msgstr "Komory"
@@ -511,7 +511,7 @@ msgstr ""
 #: src/etats_config.c:683 src/gsb_assistant_reconcile_config.c:401
 #: src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_payment_method_config.c:159 src/gsb_reconcile_config.c:96
-#: src/gsb_scheduler_list.c:333 src/imputation_budgetaire.c:169
+#: src/gsb_scheduler_list.c:337 src/imputation_budgetaire.c:169
 #: src/navigation.c:1166 src/tiers_onglet.c:230
 msgid "Account"
 msgstr "Konto"
@@ -524,7 +524,7 @@ msgstr ""
 #: src/balance_estimate_tab.c:290 src/etats_affiche.c:2398
 #: src/export_csv.c:747 src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_form.c:1283 src/gsb_form_widget.c:397 src/gsb_reconcile.c:144
-#: src/gsb_scheduler_list.c:333 src/gsb_transactions_list.c:143
+#: src/gsb_scheduler_list.c:337 src/gsb_transactions_list.c:143
 #: src/import.c:2983 src/import_csv.c:78 src/traitement_variables.c:75
 msgid "Date"
 msgstr "Data"
@@ -569,7 +569,8 @@ msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_transactions_list.c:2086
+#: src/barre_outils.c:95 src/gsb_scheduler_list.c:1994
+#: src/gsb_transactions_list.c:2086
 msgid "New transaction"
 msgstr "Nowa transakcja"
 
@@ -667,34 +668,34 @@ msgstr "Wyświetl potwierdzone transakcje"
 msgid "Remove the rule"
 msgstr "Nazwa pliku kont"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1752
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1778
 msgid "Unique view"
 msgstr ""
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1752
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1778
 #, fuzzy
 msgid "Week view"
 msgstr "Tydzień"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1752
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1778
 #, fuzzy
 msgid "Month view"
 msgstr "Miesiące"
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1753
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1779
 msgid "Two months view"
 msgstr ""
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1753
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1779
 msgid "Quarter view"
 msgstr ""
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1754
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1780
 #, fuzzy
 msgid "Year view"
 msgstr "Rok"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1754
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1780
 #, fuzzy
 msgid "Custom view"
 msgstr "Dowolny zakres"
@@ -721,7 +722,7 @@ msgstr "Usuń transakcję"
 
 #. comments line
 #: src/barre_outils.c:489 src/gsb_account_property.c:624
-#: src/gsb_scheduler_list.c:334
+#: src/gsb_scheduler_list.c:338
 msgid "Comments"
 msgstr "Komentarz"
 
@@ -770,7 +771,7 @@ msgid "Category"
 msgstr "Kategoria"
 
 #: src/categories_onglet.c:165 src/export_csv.c:774 src/gsb_reconcile.c:147
-#: src/gsb_scheduler_list.c:334 src/gsb_transactions_list.c:149
+#: src/gsb_scheduler_list.c:338 src/gsb_transactions_list.c:149
 #: src/gsb_transactions_list.c:2863 src/import_csv.c:86
 #: src/imputation_budgetaire.c:178 src/tiers_onglet.c:239
 #: src/traitement_variables.c:81
@@ -1399,13 +1400,13 @@ msgstr "Wynik bez roku finansowego (%d transakcje)"
 msgid "Result without financial year"
 msgstr "Wynik bez roku finansowego"
 
-#: src/etats_affiche.c:1392 src/gsb_scheduler_list.c:951
+#: src/etats_affiche.c:1392 src/gsb_scheduler_list.c:955
 #: src/gsb_transactions_list.c:3238
 #, c-format
 msgid "Transfer to %s"
 msgstr "Transfer do %s"
 
-#: src/etats_affiche.c:1394 src/gsb_scheduler_list.c:954
+#: src/etats_affiche.c:1394 src/gsb_scheduler_list.c:958
 #: src/gsb_transactions_list.c:3241
 #, c-format
 msgid "Transfer from %s"
@@ -1516,7 +1517,7 @@ msgstr "Rok finansowy"
 #: src/etats_affiche.c:2419 src/etats_config.c:519 src/etats_config.c:522
 #: src/etats_config.c:687 src/etats_config.c:7193 src/export_csv.c:762
 #: src/fenetre_principale.c:278 src/gsb_assistant_reconcile_config.c:612
-#: src/gsb_form.c:1310 src/gsb_form_widget.c:417 src/gsb_scheduler_list.c:333
+#: src/gsb_form.c:1310 src/gsb_form_widget.c:417 src/gsb_scheduler_list.c:337
 #: src/gsb_transactions_list.c:145 src/import.c:2990 src/import_csv.c:80
 #: src/meta_payee.c:77 src/traitement_variables.c:77
 #, fuzzy
@@ -2096,7 +2097,7 @@ msgid "isn't empty"
 msgstr "nie jest pusty"
 
 #: src/etats_config.c:5310 src/export_csv.c:771
-#: src/gsb_assistant_reconcile_config.c:612 src/gsb_scheduler_list.c:334
+#: src/gsb_assistant_reconcile_config.c:612 src/gsb_scheduler_list.c:338
 #: src/gsb_transactions_list.c:150 src/import.c:2998
 #: src/traitement_variables.c:82
 msgid "Amount"
@@ -7067,7 +7068,7 @@ msgid "Auto"
 msgstr "Automatyczny"
 
 #: src/gsb_form.c:916 src/gsb_form_scheduler.c:169
-#: src/gsb_scheduler_list.c:1005
+#: src/gsb_scheduler_list.c:1009
 msgid "Manual"
 msgstr "Ręczny"
 
@@ -7282,16 +7283,16 @@ msgid ""
 msgstr ""
 
 #: src/gsb_form_scheduler.c:169 src/gsb_fyear.c:271
-#: src/gsb_scheduler_list.c:1003
+#: src/gsb_scheduler_list.c:1007
 msgid "Automatic"
 msgstr "Automatyczny"
 
 #: src/gsb_form_scheduler.c:170 src/gsb_form_scheduler.c:906
-#: src/gsb_scheduler_list.c:994
+#: src/gsb_scheduler_list.c:998
 msgid "Once"
 msgstr "Pojedynczo"
 
-#: src/gsb_form_scheduler.c:170 src/gsb_scheduler_list.c:994
+#: src/gsb_form_scheduler.c:170 src/gsb_scheduler_list.c:998
 msgid "Weekly"
 msgstr "Co tydzień"
 
@@ -7309,7 +7310,7 @@ msgstr "%d miesięcy"
 msgid "trimester"
 msgstr "Drukarka"
 
-#: src/gsb_form_scheduler.c:171 src/gsb_scheduler_list.c:995
+#: src/gsb_form_scheduler.c:171 src/gsb_scheduler_list.c:999
 msgid "Yearly"
 msgstr "Rocznie"
 
@@ -7339,7 +7340,7 @@ msgid "Automatic/manual scheduled transaction"
 msgstr "Automatyczna/ręczna zaplanowana transakcja "
 
 #: src/gsb_form_scheduler.c:193 src/gsb_form_scheduler.c:210
-#: src/gsb_scheduler_list.c:333
+#: src/gsb_scheduler_list.c:337
 msgid "Frequency"
 msgstr "Częstotliwość"
 
@@ -7725,11 +7726,11 @@ msgstr "Kasuj metodę zapłaty"
 msgid "Split neutral payment methods"
 msgstr "Rozdziel neutralne metody płatności"
 
-#: src/gsb_scheduler_list.c:334
+#: src/gsb_scheduler_list.c:338
 msgid "Mode"
 msgstr "Tryb"
 
-#: src/gsb_scheduler_list.c:601
+#: src/gsb_scheduler_list.c:605
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that. Please contact the Grisbi "
@@ -7738,7 +7739,7 @@ msgid ""
 "The concerned children number are :\n"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:831
+#: src/gsb_scheduler_list.c:835
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -7747,60 +7748,60 @@ msgid ""
 "It's normal if appending a new scheduled transaction, but abnormal else..."
 msgstr ""
 
-#: src/gsb_scheduler_list.c:975
+#: src/gsb_scheduler_list.c:979
 #, c-format
 msgid "%d days"
 msgstr "%d dni"
 
-#: src/gsb_scheduler_list.c:980
+#: src/gsb_scheduler_list.c:984
 #, c-format
 msgid "%d months"
 msgstr "%d miesięcy"
 
-#: src/gsb_scheduler_list.c:985
+#: src/gsb_scheduler_list.c:989
 #, c-format
 msgid "%d years"
 msgstr "%d lat"
 
-#: src/gsb_scheduler_list.c:994
+#: src/gsb_scheduler_list.c:998
 #, fuzzy
 msgid "Montly"
 msgstr "Miesięcznie"
 
-#: src/gsb_scheduler_list.c:995
+#: src/gsb_scheduler_list.c:999
 #, fuzzy
 msgid "Bimonthly"
 msgstr "Miesięcznie"
 
-#: src/gsb_scheduler_list.c:995
+#: src/gsb_scheduler_list.c:999
 msgid "Quarterly"
 msgstr ""
 
 #. ask all the time for a child
-#: src/gsb_scheduler_list.c:1638
+#: src/gsb_scheduler_list.c:1664
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr "Chcesz usunąć tylko tą pozycję, czy całą zaplanowaną transakcję?"
 
-#: src/gsb_scheduler_list.c:1641
+#: src/gsb_scheduler_list.c:1667
 msgid "Delete a scheduled transaction"
 msgstr "Kasowanie zaplanowanej transakcji"
 
-#: src/gsb_scheduler_list.c:1656 src/gsb_transactions_list.c:1858
+#: src/gsb_scheduler_list.c:1682 src/gsb_transactions_list.c:1858
 #: src/gsb_transactions_list.c:1873
 #, fuzzy
 msgid "Delete a transaction"
 msgstr "Usuń transakcję"
 
-#: src/gsb_scheduler_list.c:1657
+#: src/gsb_scheduler_list.c:1683
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Chcesz usunąć tylko tą pozycję, czy całą zaplanowaną transakcję?"
 
-#: src/gsb_scheduler_list.c:1690
+#: src/gsb_scheduler_list.c:1716
 #, fuzzy, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -7809,59 +7810,81 @@ msgid ""
 "%s : %s [%s %s]"
 msgstr "Chcesz usunąć tylko tą pozycję, czy całą zaplanowaną transakcję?"
 
-#: src/gsb_scheduler_list.c:1698
+#: src/gsb_scheduler_list.c:1724
 #, fuzzy
 msgid "Delete this scheduled transaction?"
 msgstr "Kasowanie zaplanowanej transakcji"
 
-#: src/gsb_scheduler_list.c:1703
+#: src/gsb_scheduler_list.c:1729
 msgid "All the occurences"
 msgstr "Wszystkie pozycje"
 
-#: src/gsb_scheduler_list.c:1704
+#: src/gsb_scheduler_list.c:1730
 msgid "Only this one"
 msgstr "Tylko tą pozycję"
 
 #. set the title
-#: src/gsb_scheduler_list.c:1762 src/navigation.c:1194
+#: src/gsb_scheduler_list.c:1788 src/navigation.c:1194
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "Zamknięte zaplanowane transakcje"
 
-#: src/gsb_scheduler_list.c:1790
+#: src/gsb_scheduler_list.c:1816
 #, fuzzy
 msgid "days"
 msgstr "dzień"
 
-#: src/gsb_scheduler_list.c:1790
+#: src/gsb_scheduler_list.c:1816
 #, fuzzy
 msgid "weeks"
 msgstr "Tydzień"
 
-#: src/gsb_scheduler_list.c:1790
+#: src/gsb_scheduler_list.c:1816
 #, fuzzy
 msgid "months"
 msgstr "Miesiące"
 
-#: src/gsb_scheduler_list.c:1790
+#: src/gsb_scheduler_list.c:1816
 #, fuzzy
 msgid "years"
 msgstr "Lata"
 
-#: src/gsb_scheduler_list.c:1793
+#: src/gsb_scheduler_list.c:1819
 #, fuzzy
 msgid "Show scheduled transactions"
 msgstr "Zamknięte zaplanowane transakcje"
 
-#: src/gsb_scheduler_list.c:1806
+#: src/gsb_scheduler_list.c:1832
 #, fuzzy
 msgid "Scheduler frequency"
 msgstr "Ostrzeżenia terminarza"
 
-#: src/gsb_scheduler_list.c:1813
+#: src/gsb_scheduler_list.c:1839
 #, fuzzy
 msgid "Show transactions for the next"
 msgstr "Wybierz transakcje pasujące do formuły"
+
+#. Edit transaction
+#: src/gsb_scheduler_list.c:1980 src/gsb_transactions_list.c:2071
+msgid "Edit transaction"
+msgstr "Edytuj transakcję"
+
+#. Delete transaction
+#: src/gsb_scheduler_list.c:2005 src/gsb_transactions_list.c:2094
+msgid "Delete transaction"
+msgstr "Usuń transakcję"
+
+#. Display/hide comments
+#: src/gsb_scheduler_list.c:2019
+#, fuzzy
+msgid "Displays/Cache comments"
+msgstr "Pokaż/ukryj komentarze"
+
+#. Execute transaction
+#: src/gsb_scheduler_list.c:2033
+#, fuzzy
+msgid "Execute transaction"
+msgstr "Usuń transakcję"
 
 #: src/gsb_select_icon.c:89
 #, fuzzy
@@ -8008,16 +8031,6 @@ msgstr ""
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
-
-#. Edit transaction
-#: src/gsb_transactions_list.c:2071
-msgid "Edit transaction"
-msgstr "Edytuj transakcję"
-
-#. Delete transaction
-#: src/gsb_transactions_list.c:2094
-msgid "Delete transaction"
-msgstr "Usuń transakcję"
 
 #. use transaction as template
 #: src/gsb_transactions_list.c:2108
@@ -10704,9 +10717,6 @@ msgstr "Nieokreślona linia budżetowa"
 
 #~ msgid "Display/hide form"
 #~ msgstr "Pokaż/ukryj formularz"
-
-#~ msgid "Display/hide comments"
-#~ msgstr "Pokaż/ukryj komentarze"
 
 #~ msgid "Close tree"
 #~ msgstr "Zamknij gałąź"

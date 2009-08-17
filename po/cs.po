@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-16 22:51+0200\n"
+"POT-Creation-Date: 2009-08-17 20:57+0200\n"
 "PO-Revision-Date: 2006-02-20 18:30+0100\n"
 "Last-Translator: Marek Donar <mdonar@post.cz>\n"
 "Language-Team: \n"
@@ -54,123 +54,123 @@ msgstr "Vložte plánovanou transakci"
 msgid "Account balances in %s"
 msgstr "Zůstatky účtů v měně: %s"
 
-#: src/accueil.c:495 src/accueil.c:572 src/accueil.c:648
+#: src/accueil.c:495 src/accueil.c:573 src/accueil.c:650
 msgid " at "
 msgstr ""
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:569
+#: src/accueil.c:570
 #, c-format
 msgid "Liabilities accounts balances in %s"
 msgstr "Zůstatky účtů závazků jsou v měně %s"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:645
+#: src/accueil.c:647
 #, c-format
 msgid "Assets accounts balances in %s"
 msgstr "Zůstatky účtů pohledávek jsou v měně %s"
 
-#: src/accueil.c:785 src/accueil.c:983
+#: src/accueil.c:788 src/accueil.c:986
 msgid "Reconciled balance"
 msgstr "Odsouhlasený zůstatek"
 
-#: src/accueil.c:789 src/accueil.c:987
+#: src/accueil.c:792 src/accueil.c:990
 msgid "Current balance"
 msgstr "Aktuální zůstatek"
 
-#: src/accueil.c:976 src/accueil.c:1947
+#: src/accueil.c:979 src/accueil.c:1950
 #, fuzzy
 msgid "Partial balance"
 msgstr "Počáteční zůstatek"
 
-#: src/accueil.c:978
+#: src/accueil.c:981
 #, fuzzy
 msgid "Partial balances"
 msgstr "Počáteční zůstatek"
 
-#: src/accueil.c:1069
+#: src/accueil.c:1072
 #, fuzzy
 msgid "Global balance"
 msgstr "Celkem"
 
-#: src/accueil.c:1071
+#: src/accueil.c:1074
 msgid "Global balances"
 msgstr "Celkem"
 
-#: src/accueil.c:1223 src/accueil.c:1345 src/accueil.c:1796
+#: src/accueil.c:1226 src/accueil.c:1348 src/accueil.c:1799
 #, fuzzy, c-format
 msgid "%s credited on %s"
 msgstr "%4.2f %s kredit na účtu %s"
 
-#: src/accueil.c:1233 src/accueil.c:1355 src/accueil.c:1805
+#: src/accueil.c:1236 src/accueil.c:1358 src/accueil.c:1808
 #, fuzzy, c-format
 msgid "%s debited on %s"
 msgstr "%4.2f %s debet na účtu %s"
 
-#: src/accueil.c:1574
+#: src/accueil.c:1577
 #, fuzzy, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr "Zůstatek účtu '%s' je pod povoleným a požadovaným minimem!"
 
-#: src/accueil.c:1578
+#: src/accueil.c:1581
 #, fuzzy
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
 msgstr "Zůstatek účtu '%s' je pod povoleným a požadovaným minimem!"
 
-#: src/accueil.c:1607
+#: src/accueil.c:1610
 #, fuzzy, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr "Zůstatek účtu '%s' je pod povoleným a minimem!"
 
-#: src/accueil.c:1617
+#: src/accueil.c:1620
 #, fuzzy
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
 msgstr "Zůstatek účtu '%s' je pod povoleným a požadovaným minimem!"
 
-#: src/accueil.c:1649
+#: src/accueil.c:1652
 #, fuzzy, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "Zůstatek účtu '%s' je pod požadovaným minimem!"
 
-#: src/accueil.c:1659
+#: src/accueil.c:1662
 #, fuzzy
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
 msgstr "Zůstatek účtu '%s' je pod požadovaným minimem!"
 
-#: src/accueil.c:1848
+#: src/accueil.c:1851
 #, fuzzy
 msgid "Configuration of the main page"
 msgstr "Potvdit odstranění banky"
 
-#: src/accueil.c:1857
+#: src/accueil.c:1860
 #, fuzzy
 msgid "Balances partials of the list of accounts"
 msgstr "Přesunout transakci na jiný účet"
 
 #. List of the accounts
-#: src/accueil.c:1956 src/gsb_data_partial_balance.c:1422
+#: src/accueil.c:1959 src/gsb_data_partial_balance.c:1422
 #, fuzzy
 msgid "Accounts list"
 msgstr "Rozdělení účtu"
 
-#: src/accueil.c:1965
+#: src/accueil.c:1968
 #, fuzzy
 msgid "Account kind"
 msgstr "Jméno účtu"
 
-#: src/accueil.c:1974 src/gsb_form_widget.c:445 src/import_csv.c:77
+#: src/accueil.c:1977 src/gsb_form_widget.c:445 src/import_csv.c:77
 msgid "Currency"
 msgstr "Měna"
 
-#: src/accueil.c:1990
+#: src/accueil.c:1993
 #, fuzzy
 msgid "Colorize"
 msgstr "Comoros"
@@ -512,7 +512,7 @@ msgstr ""
 #: src/etats_config.c:683 src/gsb_assistant_reconcile_config.c:401
 #: src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_payment_method_config.c:159 src/gsb_reconcile_config.c:96
-#: src/gsb_scheduler_list.c:333 src/imputation_budgetaire.c:169
+#: src/gsb_scheduler_list.c:337 src/imputation_budgetaire.c:169
 #: src/navigation.c:1166 src/tiers_onglet.c:230
 msgid "Account"
 msgstr "Účet"
@@ -525,7 +525,7 @@ msgstr ""
 #: src/balance_estimate_tab.c:290 src/etats_affiche.c:2398
 #: src/export_csv.c:747 src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_form.c:1283 src/gsb_form_widget.c:397 src/gsb_reconcile.c:144
-#: src/gsb_scheduler_list.c:333 src/gsb_transactions_list.c:143
+#: src/gsb_scheduler_list.c:337 src/gsb_transactions_list.c:143
 #: src/import.c:2983 src/import_csv.c:78 src/traitement_variables.c:75
 msgid "Date"
 msgstr "Datum"
@@ -570,7 +570,8 @@ msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_transactions_list.c:2086
+#: src/barre_outils.c:95 src/gsb_scheduler_list.c:1994
+#: src/gsb_transactions_list.c:2086
 msgid "New transaction"
 msgstr "Nová transakce"
 
@@ -668,34 +669,34 @@ msgstr "Zobrazit odsouhlasené transakce"
 msgid "Remove the rule"
 msgstr "Pojmenujte soubor účtů"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1752
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1778
 msgid "Unique view"
 msgstr ""
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1752
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1778
 #, fuzzy
 msgid "Week view"
 msgstr "Týden"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1752
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1778
 #, fuzzy
 msgid "Month view"
 msgstr "Měsíce"
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1753
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1779
 msgid "Two months view"
 msgstr ""
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1753
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1779
 msgid "Quarter view"
 msgstr ""
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1754
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1780
 #, fuzzy
 msgid "Year view"
 msgstr "Rok"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1754
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1780
 #, fuzzy
 msgid "Custom view"
 msgstr "Volitelně"
@@ -722,7 +723,7 @@ msgstr "Odstranit transakci"
 
 #. comments line
 #: src/barre_outils.c:489 src/gsb_account_property.c:624
-#: src/gsb_scheduler_list.c:334
+#: src/gsb_scheduler_list.c:338
 msgid "Comments"
 msgstr "Komentář"
 
@@ -771,7 +772,7 @@ msgid "Category"
 msgstr "Kategorie"
 
 #: src/categories_onglet.c:165 src/export_csv.c:774 src/gsb_reconcile.c:147
-#: src/gsb_scheduler_list.c:334 src/gsb_transactions_list.c:149
+#: src/gsb_scheduler_list.c:338 src/gsb_transactions_list.c:149
 #: src/gsb_transactions_list.c:2863 src/import_csv.c:86
 #: src/imputation_budgetaire.c:178 src/tiers_onglet.c:239
 #: src/traitement_variables.c:81
@@ -1399,13 +1400,13 @@ msgstr "Celkem bez fiskálního roku (transakcí: %d)"
 msgid "Result without financial year"
 msgstr "Celkem bez fiskálního roku"
 
-#: src/etats_affiche.c:1392 src/gsb_scheduler_list.c:951
+#: src/etats_affiche.c:1392 src/gsb_scheduler_list.c:955
 #: src/gsb_transactions_list.c:3238
 #, c-format
 msgid "Transfer to %s"
 msgstr "Převod na %s"
 
-#: src/etats_affiche.c:1394 src/gsb_scheduler_list.c:954
+#: src/etats_affiche.c:1394 src/gsb_scheduler_list.c:958
 #: src/gsb_transactions_list.c:3241
 #, c-format
 msgid "Transfer from %s"
@@ -1516,7 +1517,7 @@ msgstr "Fiskální rok"
 #: src/etats_affiche.c:2419 src/etats_config.c:519 src/etats_config.c:522
 #: src/etats_config.c:687 src/etats_config.c:7193 src/export_csv.c:762
 #: src/fenetre_principale.c:278 src/gsb_assistant_reconcile_config.c:612
-#: src/gsb_form.c:1310 src/gsb_form_widget.c:417 src/gsb_scheduler_list.c:333
+#: src/gsb_form.c:1310 src/gsb_form_widget.c:417 src/gsb_scheduler_list.c:337
 #: src/gsb_transactions_list.c:145 src/import.c:2990 src/import_csv.c:80
 #: src/meta_payee.c:77 src/traitement_variables.c:77
 #, fuzzy
@@ -2096,7 +2097,7 @@ msgid "isn't empty"
 msgstr "není prázdný"
 
 #: src/etats_config.c:5310 src/export_csv.c:771
-#: src/gsb_assistant_reconcile_config.c:612 src/gsb_scheduler_list.c:334
+#: src/gsb_assistant_reconcile_config.c:612 src/gsb_scheduler_list.c:338
 #: src/gsb_transactions_list.c:150 src/import.c:2998
 #: src/traitement_variables.c:82
 msgid "Amount"
@@ -7074,7 +7075,7 @@ msgid "Auto"
 msgstr "Automaticky"
 
 #: src/gsb_form.c:916 src/gsb_form_scheduler.c:169
-#: src/gsb_scheduler_list.c:1005
+#: src/gsb_scheduler_list.c:1009
 msgid "Manual"
 msgstr "Ručně"
 
@@ -7289,16 +7290,16 @@ msgid ""
 msgstr ""
 
 #: src/gsb_form_scheduler.c:169 src/gsb_fyear.c:271
-#: src/gsb_scheduler_list.c:1003
+#: src/gsb_scheduler_list.c:1007
 msgid "Automatic"
 msgstr "Automaticky"
 
 #: src/gsb_form_scheduler.c:170 src/gsb_form_scheduler.c:906
-#: src/gsb_scheduler_list.c:994
+#: src/gsb_scheduler_list.c:998
 msgid "Once"
 msgstr "Jednou"
 
-#: src/gsb_form_scheduler.c:170 src/gsb_scheduler_list.c:994
+#: src/gsb_form_scheduler.c:170 src/gsb_scheduler_list.c:998
 msgid "Weekly"
 msgstr "Týdně"
 
@@ -7316,7 +7317,7 @@ msgstr "%d měsíců"
 msgid "trimester"
 msgstr "Tiskárna"
 
-#: src/gsb_form_scheduler.c:171 src/gsb_scheduler_list.c:995
+#: src/gsb_form_scheduler.c:171 src/gsb_scheduler_list.c:999
 msgid "Yearly"
 msgstr "Ročně"
 
@@ -7346,7 +7347,7 @@ msgid "Automatic/manual scheduled transaction"
 msgstr "Automatická / ruční plánovaná transakce"
 
 #: src/gsb_form_scheduler.c:193 src/gsb_form_scheduler.c:210
-#: src/gsb_scheduler_list.c:333
+#: src/gsb_scheduler_list.c:337
 msgid "Frequency"
 msgstr "Frekvence"
 
@@ -7730,11 +7731,11 @@ msgstr "Odstranit metodu platby"
 msgid "Split neutral payment methods"
 msgstr "Rozdělit neutrální metody platby"
 
-#: src/gsb_scheduler_list.c:334
+#: src/gsb_scheduler_list.c:338
 msgid "Mode"
 msgstr "Mód"
 
-#: src/gsb_scheduler_list.c:601
+#: src/gsb_scheduler_list.c:605
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that. Please contact the Grisbi "
@@ -7743,7 +7744,7 @@ msgid ""
 "The concerned children number are :\n"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:831
+#: src/gsb_scheduler_list.c:835
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -7752,60 +7753,60 @@ msgid ""
 "It's normal if appending a new scheduled transaction, but abnormal else..."
 msgstr ""
 
-#: src/gsb_scheduler_list.c:975
+#: src/gsb_scheduler_list.c:979
 #, c-format
 msgid "%d days"
 msgstr "%d dní"
 
-#: src/gsb_scheduler_list.c:980
+#: src/gsb_scheduler_list.c:984
 #, c-format
 msgid "%d months"
 msgstr "%d měsíců"
 
-#: src/gsb_scheduler_list.c:985
+#: src/gsb_scheduler_list.c:989
 #, c-format
 msgid "%d years"
 msgstr "%d roků"
 
-#: src/gsb_scheduler_list.c:994
+#: src/gsb_scheduler_list.c:998
 #, fuzzy
 msgid "Montly"
 msgstr "Měsíčně"
 
-#: src/gsb_scheduler_list.c:995
+#: src/gsb_scheduler_list.c:999
 #, fuzzy
 msgid "Bimonthly"
 msgstr "Měsíčně"
 
-#: src/gsb_scheduler_list.c:995
+#: src/gsb_scheduler_list.c:999
 msgid "Quarterly"
 msgstr ""
 
 #. ask all the time for a child
-#: src/gsb_scheduler_list.c:1638
+#: src/gsb_scheduler_list.c:1664
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr "Chcete odstranit pouze tento výskyt, nebo celou plánovanou transakci?"
 
-#: src/gsb_scheduler_list.c:1641
+#: src/gsb_scheduler_list.c:1667
 msgid "Delete a scheduled transaction"
 msgstr "Odstranit plánovanou transakci"
 
-#: src/gsb_scheduler_list.c:1656 src/gsb_transactions_list.c:1858
+#: src/gsb_scheduler_list.c:1682 src/gsb_transactions_list.c:1858
 #: src/gsb_transactions_list.c:1873
 #, fuzzy
 msgid "Delete a transaction"
 msgstr "Odstranit transakci"
 
-#: src/gsb_scheduler_list.c:1657
+#: src/gsb_scheduler_list.c:1683
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Chcete odstranit pouze tento výskyt, nebo celou plánovanou transakci?"
 
-#: src/gsb_scheduler_list.c:1690
+#: src/gsb_scheduler_list.c:1716
 #, fuzzy, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -7814,59 +7815,81 @@ msgid ""
 "%s : %s [%s %s]"
 msgstr "Chcete odstranit pouze tento výskyt, nebo celou plánovanou transakci?"
 
-#: src/gsb_scheduler_list.c:1698
+#: src/gsb_scheduler_list.c:1724
 #, fuzzy
 msgid "Delete this scheduled transaction?"
 msgstr "Odstranit plánovanou transakci"
 
-#: src/gsb_scheduler_list.c:1703
+#: src/gsb_scheduler_list.c:1729
 msgid "All the occurences"
 msgstr "Všechny výskyty"
 
-#: src/gsb_scheduler_list.c:1704
+#: src/gsb_scheduler_list.c:1730
 msgid "Only this one"
 msgstr "Pouze tento"
 
 #. set the title
-#: src/gsb_scheduler_list.c:1762 src/navigation.c:1194
+#: src/gsb_scheduler_list.c:1788 src/navigation.c:1194
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "Uzavřené plánované transakce"
 
-#: src/gsb_scheduler_list.c:1790
+#: src/gsb_scheduler_list.c:1816
 #, fuzzy
 msgid "days"
 msgstr "den"
 
-#: src/gsb_scheduler_list.c:1790
+#: src/gsb_scheduler_list.c:1816
 #, fuzzy
 msgid "weeks"
 msgstr "Týden"
 
-#: src/gsb_scheduler_list.c:1790
+#: src/gsb_scheduler_list.c:1816
 #, fuzzy
 msgid "months"
 msgstr "Měsíce"
 
-#: src/gsb_scheduler_list.c:1790
+#: src/gsb_scheduler_list.c:1816
 #, fuzzy
 msgid "years"
 msgstr "Roky"
 
-#: src/gsb_scheduler_list.c:1793
+#: src/gsb_scheduler_list.c:1819
 #, fuzzy
 msgid "Show scheduled transactions"
 msgstr "Uzavřené plánované transakce"
 
-#: src/gsb_scheduler_list.c:1806
+#: src/gsb_scheduler_list.c:1832
 #, fuzzy
 msgid "Scheduler frequency"
 msgstr "Varování plánovače"
 
-#: src/gsb_scheduler_list.c:1813
+#: src/gsb_scheduler_list.c:1839
 #, fuzzy
 msgid "Show transactions for the next"
 msgstr "Označte transakce podle textu"
+
+#. Edit transaction
+#: src/gsb_scheduler_list.c:1980 src/gsb_transactions_list.c:2071
+msgid "Edit transaction"
+msgstr "Upravit transakci"
+
+#. Delete transaction
+#: src/gsb_scheduler_list.c:2005 src/gsb_transactions_list.c:2094
+msgid "Delete transaction"
+msgstr "Odstranit transakci"
+
+#. Display/hide comments
+#: src/gsb_scheduler_list.c:2019
+#, fuzzy
+msgid "Displays/Cache comments"
+msgstr "Zobrazit/skrýt komentář"
+
+#. Execute transaction
+#: src/gsb_scheduler_list.c:2033
+#, fuzzy
+msgid "Execute transaction"
+msgstr "Odstranit transakci"
 
 #: src/gsb_select_icon.c:89
 #, fuzzy
@@ -8013,16 +8036,6 @@ msgstr ""
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
-
-#. Edit transaction
-#: src/gsb_transactions_list.c:2071
-msgid "Edit transaction"
-msgstr "Upravit transakci"
-
-#. Delete transaction
-#: src/gsb_transactions_list.c:2094
-msgid "Delete transaction"
-msgstr "Odstranit transakci"
 
 #. use transaction as template
 #: src/gsb_transactions_list.c:2108
@@ -10695,9 +10708,6 @@ msgstr "Žádné rozpočty"
 
 #~ msgid "Display/hide form"
 #~ msgstr "Zobrazit/skrýt formulář"
-
-#~ msgid "Display/hide comments"
-#~ msgstr "Zobrazit/skrýt komentář"
 
 #~ msgid "Close tree"
 #~ msgstr "Zavřít strom"

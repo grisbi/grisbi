@@ -468,11 +468,11 @@ void update_liste_comptes_accueil ( gboolean force )
 
          /* on ajoute les lignes pour les soldes partiels */
         if ( new_comptes_bancaires > 0 )
-        nb_comptes_bancaires += new_comptes_bancaires + 2;
+            new_comptes_bancaires += new_comptes_bancaires + 2;
         if ( new_comptes_actif > 0 )
-            nb_comptes_actif += new_comptes_actif + 2;
+            new_comptes_actif += new_comptes_actif + 2;
         if ( new_comptes_passif > 0 )
-            nb_comptes_passif = new_comptes_passif + 2;
+            new_comptes_passif = new_comptes_passif + 2;
     }
 
     /* Affichage des comptes bancaires et de caisse */
@@ -497,7 +497,8 @@ void update_liste_comptes_accueil ( gboolean force )
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
 
-        pTable = gsb_main_page_get_table_for_accounts ( nb_comptes_bancaires, 3 );
+        pTable = gsb_main_page_get_table_for_accounts (
+                        nb_comptes_bancaires + new_comptes_bancaires, 3 );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
         /* Affichage des comptes et de leur solde */
@@ -574,7 +575,8 @@ void update_liste_comptes_accueil ( gboolean force )
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
 
-        pTable = gsb_main_page_get_table_for_accounts ( nb_comptes_passif, 3 );
+        pTable = gsb_main_page_get_table_for_accounts (
+                        nb_comptes_passif + new_comptes_passif, 3 );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
         /* Affichage des comptes et de leur solde */
@@ -650,7 +652,8 @@ void update_liste_comptes_accueil ( gboolean force )
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
 
-        pTable = gsb_main_page_get_table_for_accounts ( nb_comptes_actif, 3 );
+        pTable = gsb_main_page_get_table_for_accounts (
+                        nb_comptes_actif + new_comptes_passif, 3 );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
         /* Affichage des comptes et de leur solde */
