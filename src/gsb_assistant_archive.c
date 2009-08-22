@@ -691,7 +691,7 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
 {
     /* if we come here, we are sure that :
      * there is a own name to the archive
-     * there is some transasctions to be archived
+     * there is some transactions to be archived
      * all the necessary stuff is filled */
     GSList *tmp_list;
     gint archive_number;
@@ -754,14 +754,14 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
     tmp_list = list_transaction_to_archive;
     while (tmp_list)
     {
-    gint transaction_number;
+        gint transaction_number;
 
-    transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
-    gsb_data_transaction_set_archive_number ( transaction_number, archive_number );
-    /* On supprime l'opération dans le tree_view */
-    if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number ) == 0 )
-        gsb_transactions_list_delete_transaction_from_tree_view ( transaction_number );
-    tmp_list = tmp_list -> next;
+        transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+        gsb_data_transaction_set_archive_number ( transaction_number, archive_number );
+        /* On supprime l'opération dans le tree_view */
+        if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number ) == 0 )
+            gsb_transactions_list_delete_transaction_from_tree_view ( transaction_number );
+        tmp_list = tmp_list -> next;
     }
 
     /* on recrée la liste des archives par compte */
@@ -805,7 +805,7 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
 
     /* On met à jour l'affichage de la liste si nécessaire */
     if ( ( account_nb = gsb_gui_navigation_get_current_account ( ) ) != -1 )
-        gsb_transactions_list_update_tree_view ( account_nb, FALSE );
+        gsb_transactions_list_update_tree_view ( account_nb, TRUE );
 
         
     return FALSE;

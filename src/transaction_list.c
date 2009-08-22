@@ -300,7 +300,6 @@ void transaction_list_append_archive (gint archive_store_number)
 
     /* get the new number of the first row in the complete list of row */
     pos = custom_list->num_rows;
-
     /* increase the table of pointer of struct CustomRecord,
      * 1 for the archive */
     custom_list->num_rows = custom_list -> num_rows + 1;
@@ -317,23 +316,24 @@ void transaction_list_append_archive (gint archive_store_number)
     archive_number = gsb_data_archive_store_get_archive_number (archive_store_number);
 
     newrecord -> visible_col[find_element_col (ELEMENT_DATE)] = gsb_format_gdate (
-										  gsb_data_archive_get_beginning_date (archive_number) );
+                        gsb_data_archive_get_beginning_date ( archive_number ) );
     newrecord -> visible_col[find_element_col (ELEMENT_PARTY)] = g_strdup_printf ( 
-										  _("archive %s (%d transactions)"),
-										  gsb_data_archive_get_name (archive_number),
-										  gsb_data_archive_store_get_transactions_number (archive_store_number) );
+                        _("archive %s (%d transactions)"),
+                        gsb_data_archive_get_name (archive_number),
+                        gsb_data_archive_store_get_transactions_number (
+                        archive_store_number ) );
     if ((gsb_data_archive_store_get_balance (archive_store_number)).mantissa < 0)
 	amount_col = find_element_col (ELEMENT_DEBIT);
     else
 	amount_col = find_element_col (ELEMENT_CREDIT);
 
     newrecord -> visible_col[amount_col] = gsb_real_get_string_with_currency (
-									      gsb_data_archive_store_get_balance (archive_store_number),
-									      gsb_data_account_get_currency (
-													     gsb_data_archive_store_get_account_number (archive_store_number)),
-									      TRUE);
+                        gsb_data_archive_store_get_balance (archive_store_number),
+                        gsb_data_account_get_currency (
+                        gsb_data_archive_store_get_account_number ( archive_store_number ) ),
+                        TRUE);
     newrecord -> transaction_pointer = gsb_data_archive_store_get_structure (
-									     archive_store_number);
+                        archive_store_number);
     newrecord -> what_is_line = IS_ARCHIVE;
     newrecord -> row_bg = &archive_background_color;
 
@@ -341,7 +341,6 @@ void transaction_list_append_archive (gint archive_store_number)
     custom_list->rows[pos] = newrecord;
     /* and the pos (number) of the row */
     newrecord->pos = pos;
-    pos++;
 }
 
 
@@ -530,12 +529,14 @@ gboolean transaction_list_remove_archive ( gint archive_number )
         /* we are on a good archive store, delete it */
 
         /* delete the rows */
-        for (j=0 ; j<CUSTOM_MODEL_N_VISIBLES_COLUMN ; j++)
+        for ( j=0 ; j<CUSTOM_MODEL_N_VISIBLES_COLUMN ; j++ )
             if (record -> visible_col[j])
-            g_free (record -> visible_col[j]);
-
-        /* remove the row */
+                g_free (record -> visible_col[j]);
+        
+        /* remove the row. I decrement "i" because the next line of model is shifted
+         * and has  "i" for index. Otherwise we do not test. */
         custom_list -> num_rows--;
+        i--;
 
         for (j=record -> pos ; j < custom_list -> num_rows ; j++)
         {
@@ -850,11 +851,11 @@ void transaction_list_set_balances ( void )
     /* begin to fill the iter for later */
     iter.stamp = custom_list->stamp;
 
-    floating_point = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_number));
+    floating_point = gsb_data_currency_get_floating_point (
+                        gsb_data_account_get_currency ( account_number ) );
 
     /* get the beginning balance */
-    current_total = solde_debut_affichage ( account_number,
-					    floating_point);
+    current_total = solde_debut_affichage ( account_number, floating_point);
 
     for (i=0 ; i < custom_list -> num_visibles_rows ; i++)
     {
@@ -874,12 +875,15 @@ void transaction_list_set_balances ( void )
 	switch (record -> what_is_line)
 	{
 	    case IS_ARCHIVE:
-		amount = gsb_data_archive_store_get_balance (gsb_data_archive_store_get_number (record -> transaction_pointer));
+		amount = gsb_data_archive_store_get_balance (
+                        gsb_data_archive_store_get_number (record -> transaction_pointer));
 		break;
 
 	    case IS_TRANSACTION:
-		amount = gsb_data_transaction_get_adjusted_amount (gsb_data_transaction_get_transaction_number (record -> transaction_pointer),
-								   floating_point);
+		amount = gsb_data_transaction_get_adjusted_amount (
+                        gsb_data_transaction_get_transaction_number (
+                        record -> transaction_pointer),
+                        floating_point);
 		/* go on the good row to set the amount */
 		record = record -> transaction_records[line_balance];
 		break;

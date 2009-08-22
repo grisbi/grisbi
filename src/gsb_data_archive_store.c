@@ -41,6 +41,7 @@
 #include "./gsb_data_currency.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_real.h"
+#include "./transaction_list.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
 
@@ -101,10 +102,15 @@ gboolean gsb_data_archive_store_init_variables ( void )
         GSList* tmp_list = archive_store_list;
         while ( tmp_list )
         {
-        struct_store_archive *archive;
-        archive = tmp_list -> data;
-        tmp_list = tmp_list -> next;
-        _gsb_data_archive_store_free ( archive );
+            struct_store_archive *archive;
+            gint archive_number;
+
+            archive = tmp_list -> data;
+            archive_number = gsb_data_archive_store_get_archive_number (
+                        archive -> archive_store_number );
+            transaction_list_remove_archive ( archive_number );
+            tmp_list = tmp_list -> next;
+            _gsb_data_archive_store_free ( archive );
         }
         g_slist_free ( archive_store_list );
     }
@@ -184,33 +190,34 @@ void gsb_data_archive_store_create_list ( void )
         struct_store_archive *archive;
         gint floating_point;
         gint account_number;
+
         account_number = gsb_data_transaction_get_account_number (transaction_number);
         floating_point = gsb_data_currency_get_floating_point (
                             gsb_data_account_get_currency (account_number) );
         archive = gsb_data_archive_store_find_struct ( archive_number, account_number);
         if (archive)
         {
-        /* there is already a struct_store_archive for the same archive and the same account,
-         * we increase the balance */
-        archive -> balance = gsb_real_add ( archive -> balance,
-                                gsb_data_transaction_get_adjusted_amount (transaction_number,
-                                floating_point));
-        archive -> nb_transactions++;
+            /* there is already a struct_store_archive for the same archive and the same account,
+             * we increase the balance */
+            archive -> balance = gsb_real_add ( archive -> balance,
+                                    gsb_data_transaction_get_adjusted_amount (transaction_number,
+                                    floating_point));
+            archive -> nb_transactions++;
         }
         else
         {
-        /* there is no struct_store_archive for that transaction, we make a new one 
-         * with the balance of the transaction as balance */
-        gint archive_store_number;
+            /* there is no struct_store_archive for that transaction, we make a new one 
+             * with the balance of the transaction as balance */
+            gint archive_store_number;
 
-        archive_store_number = gsb_data_archive_store_new ();
-        archive = gsb_data_archive_store_get_structure (archive_store_number);
+            archive_store_number = gsb_data_archive_store_new ();
+            archive = gsb_data_archive_store_get_structure (archive_store_number);
 
-        archive -> archive_number = archive_number;
-        archive -> account_number = account_number;
-        archive -> balance = gsb_data_transaction_get_adjusted_amount (
-                        transaction_number, floating_point);
-        archive -> nb_transactions = 1;
+            archive -> archive_number = archive_number;
+            archive -> account_number = account_number;
+            archive -> balance = gsb_data_transaction_get_adjusted_amount (
+                            transaction_number, floating_point);
+            archive -> nb_transactions = 1;
         }
     }
     tmp_list = tmp_list -> next;

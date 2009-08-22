@@ -32,7 +32,7 @@
 /*START_INCLUDE*/
 #include "gsb_transactions_list_sort.h"
 #include "./gsb_data_account.h"
-#include "./gsb_data_archive.h"
+#include "./gsb_data_archive_store.h"
 #include "./gsb_data_budget.h"
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_payee.h"
@@ -186,32 +186,34 @@ gint gsb_transactions_list_sort_check_archive (  CustomRecord *record_1,
     if (record_1 -> what_is_line != IS_ARCHIVE
 	&&
 	record_2 -> what_is_line != IS_ARCHIVE)
-	return 0;
+        return 0;
 
     /* ok, there is at least 1 archive */
     if (record_1 -> what_is_line == IS_ARCHIVE)
     {
-	if (record_2 -> what_is_line == IS_ARCHIVE)
+        if (record_2 -> what_is_line == IS_ARCHIVE)
 	    /* the first and second line are archives, we return a comparison by number of archive
 	     * we can do better, by date or by financial year, but more complex because no check for now
 	     * that the date must be different, and problem when created by report
 	     * so we assume the user created the archive in the good order, if some complains about that
 	     * can change here later */
-	    return_value = gsb_data_archive_get_no_archive (record_1->transaction_pointer) -
-		gsb_data_archive_get_no_archive (record_2->transaction_pointer);
-	else
-	    /* the first line is an archive and not the second, so first line before */
-	    return_value = -1;
+            return_value = gsb_data_archive_store_get_archive_number (
+                        gsb_data_archive_store_get_number ( record_1->transaction_pointer ) )-
+            gsb_data_archive_store_get_archive_number (
+                        gsb_data_archive_store_get_number ( record_2->transaction_pointer ) );
+        else
+            /* the first line is an archive and not the second, so first line before */
+            return_value = -1;
     }
     else
     {
-	if (record_2 -> what_is_line == IS_ARCHIVE)
-	    /* the first line is not an archive but the second one is, so second line before */
-	    return_value = 1;
-	else
-	    /* we have 2 transactions, just return 0 here to make tests later
-	     * shouldn't come here */
-	    return 0;
+        if (record_2 -> what_is_line == IS_ARCHIVE)
+            /* the first line is not an archive but the second one is, so second line before */
+            return_value = 1;
+        else
+            /* we have 2 transactions, just return 0 here to make tests later
+             * shouldn't come here */
+            return 0;
     }
     return return_value;
 }
