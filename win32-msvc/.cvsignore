@@ -3,9 +3,11 @@ CMakeCache.txt
 CMakeFiles
 Debug
 grisbi.dir
+gtk+
 Release
 *.ncb
 *.sln
 *.suo
 *.user
 *.vcproj
+*.zip

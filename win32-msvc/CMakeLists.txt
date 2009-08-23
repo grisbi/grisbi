@@ -6,16 +6,17 @@ ADD_DEFINITIONS(-DNOSSL)
 ADD_DEFINITIONS(-D__PRETTY_FUNCTION__="")
 
 INCLUDE_DIRECTORIES(
+	../win32-msvc/gtk+/include/atk-1.0
+	../win32-msvc/gtk+/include/cairo
+	../win32-msvc/gtk+/include/glib-2.0
+	../win32-msvc/gtk+/include/gtk-2.0
+	../win32-msvc/gtk+/include/pango-1.0
+	../win32-msvc/gtk+/include
+	../win32-msvc/gtk+/lib/glib-2.0/include
+	../win32-msvc/gtk+/lib/gtk-2.0/include
 	../win32-msvc/src
+	../win32-msvc
 	../win32
-	../gtk+/include/atk-1.0
-	../gtk+/include/cairo
-	../gtk+/include/glib-2.0
-	../gtk+/include/gtk-2.0
-	../gtk+/include/pango-1.0
-	../gtk+/include
-	../gtk+/lib/glib-2.0/include
-	../gtk+/lib/gtk-2.0/include
 	../src
 )
 
