@@ -3298,7 +3298,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( )
     gtk_box_pack_start ( GTK_BOX ( vbox_main ), vbox, TRUE, TRUE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
-    paddingbox = new_paddingbox_with_title ( vbox, TRUE, _("Import associations") );
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Import associations") );
 
     texte = g_strdup ( _("This will associate a search string to a payee every time you "
                          "import a file. For instance, all QIF labels containing 'Rent' "
@@ -3318,7 +3318,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( )
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
                         GTK_SHADOW_ETCHED_IN);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-                        GTK_POLICY_NEVER,
+                        GTK_POLICY_AUTOMATIC,
                         GTK_POLICY_ALWAYS);
     gtk_box_pack_start ( GTK_BOX (hbox), sw, TRUE,TRUE, 0 );
 

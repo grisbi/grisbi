@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-17 20:57+0200\n"
+"POT-Creation-Date: 2009-08-23 17:23+0200\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -79,7 +79,7 @@ msgstr ""
 msgid "Current balance"
 msgstr ""
 
-#: src/accueil.c:979 src/accueil.c:1950
+#: src/accueil.c:979
 msgid "Partial balance"
 msgstr ""
 
@@ -147,25 +147,46 @@ msgstr "جستجوی تراکنش"
 msgid "Balances partials of the list of accounts"
 msgstr ""
 
+#. Name entry
+#. set the name
+#. Bank name item
+#. Name
+#. Create currency name entry
+#. Partial balance name
+#. Financial year name
+#. set the name
+#. Name entry
+#: src/accueil.c:1950 src/categories_onglet.c:669 src/gsb_archive_config.c:98
+#: src/gsb_archive_config.c:188 src/gsb_assistant_archive_export.c:150
+#: src/gsb_assistant_reconcile_config.c:388
+#: src/gsb_assistant_reconcile_config.c:1243 src/gsb_bank.c:732
+#: src/gsb_bank.c:855 src/gsb_currency_config.c:355
+#: src/gsb_data_partial_balance.c:1411 src/gsb_fyear_config.c:191
+#: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:240
+#: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1709
+#: src/imputation_budgetaire.c:703 src/tiers_onglet.c:611
+msgid "Name"
+msgstr ""
+
 #. List of the accounts
 #: src/accueil.c:1959 src/gsb_data_partial_balance.c:1422
 #, fuzzy
 msgid "Accounts list"
 msgstr "حسابها"
 
-#: src/accueil.c:1968
+#: src/accueil.c:1975
+#, fuzzy
+msgid "Colorize"
+msgstr "بستن"
+
+#: src/accueil.c:1983
 #, fuzzy
 msgid "Account kind"
 msgstr "حساب ها"
 
-#: src/accueil.c:1977 src/gsb_form_widget.c:445 src/import_csv.c:77
+#: src/accueil.c:1992 src/gsb_form_widget.c:445 src/import_csv.c:77
 msgid "Currency"
 msgstr "واحد"
-
-#: src/accueil.c:1993
-#, fuzzy
-msgid "Colorize"
-msgstr "بستن"
 
 #: src/affichage.c:133 src/parametres.c:348
 msgid "Fonts & logo"
@@ -202,132 +223,132 @@ msgstr ""
 msgid "Colors"
 msgstr "بستن"
 
-#: src/affichage.c:238
+#: src/affichage.c:241
 msgid "Choosing color"
 msgstr ""
 
-#: src/affichage.c:253
+#: src/affichage.c:256
 msgid "Back to default"
 msgstr ""
 
-#: src/affichage.c:361 src/parametres.c:366
+#: src/affichage.c:364 src/parametres.c:366
 msgid "Addresses & titles"
 msgstr "آدرس و عنوان"
 
-#: src/affichage.c:366 src/etats_config.c:626 src/etats_config.c:629
+#: src/affichage.c:369 src/etats_config.c:626 src/etats_config.c:629
 #: src/etats_config.c:7155
 msgid "Titles"
 msgstr "عناوین"
 
 #. label account name
-#: src/affichage.c:376 src/affichage.c:421 src/gsb_assistant_file.c:283
+#: src/affichage.c:379 src/affichage.c:424 src/gsb_assistant_file.c:283
 msgid "Accounts file title"
 msgstr ""
 
-#: src/affichage.c:392
+#: src/affichage.c:395
 #, fuzzy
 msgid "Account owner name"
 msgstr "نام کشور"
 
 #. filename
-#: src/affichage.c:406 src/gsb_assistant_file.c:305
+#: src/affichage.c:409 src/gsb_assistant_file.c:305
 #, fuzzy
 msgid "Filename"
 msgstr "نام فایل"
 
-#: src/affichage.c:434
+#: src/affichage.c:437
 msgid "Addresses"
 msgstr "آدرس ها"
 
 #. Common address
-#: src/affichage.c:437
+#: src/affichage.c:440
 msgid "Common address"
 msgstr ""
 
 #. Secondary address
 #. * \note This is not implemented yet
-#: src/affichage.c:456
+#: src/affichage.c:459
 msgid "Secondary address"
 msgstr "آدرس دوم"
 
-#: src/affichage.c:557
+#: src/affichage.c:560
 msgid "Select a new logo"
 msgstr ""
 
-#: src/affichage.c:686 src/parametres.c:385
+#: src/affichage.c:689 src/parametres.c:384
 msgid "Toolbars"
 msgstr ""
 
-#: src/affichage.c:689
+#: src/affichage.c:692
 msgid "Display toolbar buttons as"
 msgstr ""
 
-#: src/affichage.c:691
+#: src/affichage.c:694
 msgid "Text"
 msgstr "متن"
 
-#: src/affichage.c:700
+#: src/affichage.c:703
 msgid "Icons"
 msgstr "آیکون"
 
-#: src/affichage.c:709
+#: src/affichage.c:712
 msgid "Both"
 msgstr "هردو"
 
-#: src/affichage.c:731
+#: src/affichage.c:734
 #, fuzzy
 msgid "Display headings bar"
 msgstr "نمایش نام حساب"
 
-#: src/affichage.c:779
+#: src/affichage.c:782
 #, fuzzy
 msgid "Transaction list background 1"
 msgstr "تراکنش"
 
-#: src/affichage.c:780
+#: src/affichage.c:783
 #, fuzzy
 msgid "Transaction list background 2"
 msgstr "تراکنش"
 
-#: src/affichage.c:781
+#: src/affichage.c:784
 msgid "Color for the operation that gives the balance today"
 msgstr ""
 
-#: src/affichage.c:782
+#: src/affichage.c:785
 #, fuzzy
 msgid "Color of transaction's text"
 msgstr "جستجوی تراکنش"
 
-#: src/affichage.c:783
+#: src/affichage.c:786
 #, fuzzy
 msgid "Text of unfinished splitted transaction"
 msgstr "جستجوی تراکنش"
 
-#: src/affichage.c:784
+#: src/affichage.c:787
 #, fuzzy
 msgid "Children of splitted transaction"
 msgstr "جستجوی تراکنش"
 
-#: src/affichage.c:785
+#: src/affichage.c:788
 #, fuzzy
 msgid "Selection color"
 msgstr "حساب حذف شده"
 
-#: src/affichage.c:786
+#: src/affichage.c:789
 #, fuzzy
 msgid "Background of non selectable scheduled transactions"
 msgstr "جستجوی تراکنش"
 
-#: src/affichage.c:787
+#: src/affichage.c:790
 #, fuzzy
 msgid "Archive color"
 msgstr "فعال سازی"
 
-#: src/affichage.c:788
+#: src/affichage.c:791
 msgid "Background of invalid date entry"
 msgstr ""
 
-#: src/affichage.c:980 src/gsb_assistant_file.c:564 src/navigation.c:1145
+#: src/affichage.c:983 src/gsb_assistant_file.c:564 src/navigation.c:1145
 #: src/navigation.c:1146 src/traitement_variables.c:288
 msgid "My accounts"
 msgstr ""
@@ -490,7 +511,7 @@ msgstr ""
 #: src/balance_estimate_tab.c:205 src/categories_onglet.c:156
 #: src/etats_config.c:683 src/gsb_assistant_reconcile_config.c:401
 #: src/gsb_assistant_reconcile_config.c:612
-#: src/gsb_payment_method_config.c:159 src/gsb_reconcile_config.c:96
+#: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
 #: src/gsb_scheduler_list.c:337 src/imputation_budgetaire.c:169
 #: src/navigation.c:1166 src/tiers_onglet.c:230
 msgid "Account"
@@ -518,8 +539,8 @@ msgstr "توضیحات"
 #. Debit method_ptr
 #: src/balance_estimate_tab.c:311 src/categories_onglet.c:699
 #: src/export_csv.c:768 src/gsb_form.c:1317 src/gsb_form_widget.c:401
-#: src/gsb_payment_method_config.c:311 src/gsb_payment_method_config.c:382
-#: src/gsb_payment_method_config.c:1071 src/gsb_transactions_list.c:147
+#: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
+#: src/gsb_payment_method_config.c:1075 src/gsb_transactions_list.c:147
 #: src/import_csv.c:89 src/imputation_budgetaire.c:733
 #: src/traitement_variables.c:79
 msgid "Debit"
@@ -528,8 +549,8 @@ msgstr ""
 #. Credit method_ptr
 #: src/balance_estimate_tab.c:325 src/categories_onglet.c:699
 #: src/export_csv.c:765 src/gsb_form.c:1324 src/gsb_form_widget.c:405
-#: src/gsb_payment_method_config.c:318 src/gsb_payment_method_config.c:395
-#: src/gsb_payment_method_config.c:1067 src/gsb_transactions_list.c:148
+#: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
+#: src/gsb_payment_method_config.c:1071 src/gsb_transactions_list.c:148
 #: src/imputation_budgetaire.c:733 src/traitement_variables.c:80
 msgid "Credit"
 msgstr ""
@@ -549,7 +570,7 @@ msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_scheduler_list.c:1994
+#: src/barre_outils.c:95 src/gsb_scheduler_list.c:1973
 #: src/gsb_transactions_list.c:2086
 msgid "New transaction"
 msgstr ""
@@ -641,31 +662,31 @@ msgstr "حذف تراکنش"
 msgid "Remove the rule"
 msgstr "حذف گزارش"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1778
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1757
 msgid "Unique view"
 msgstr ""
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1778
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1757
 msgid "Week view"
 msgstr ""
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1778
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1757
 msgid "Month view"
 msgstr ""
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1779
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1758
 msgid "Two months view"
 msgstr ""
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1779
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1758
 msgid "Quarter view"
 msgstr ""
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1780
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1759
 msgid "Year view"
 msgstr ""
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1780
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1759
 msgid "Custom view"
 msgstr ""
 
@@ -869,31 +890,10 @@ msgstr ""
 msgid "No category defined"
 msgstr ""
 
-#. Name entry
-#. set the name
-#. Bank name item
-#. Name
-#. Create currency name entry
-#. Partial balance name
-#. Financial year name
-#. set the name
-#. Name entry
-#: src/categories_onglet.c:669 src/gsb_archive_config.c:98
-#: src/gsb_archive_config.c:188 src/gsb_assistant_archive_export.c:150
-#: src/gsb_assistant_reconcile_config.c:388
-#: src/gsb_assistant_reconcile_config.c:1243 src/gsb_bank.c:732
-#: src/gsb_bank.c:855 src/gsb_currency_config.c:355
-#: src/gsb_data_partial_balance.c:1411 src/gsb_fyear_config.c:191
-#: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:239
-#: src/gsb_reconcile_config.c:179 src/gsb_transactions_list.c:1709
-#: src/imputation_budgetaire.c:703 src/tiers_onglet.c:611
-msgid "Name"
-msgstr ""
-
 #. Description entry
 #. Payment method method_ptr
 #. Description entry
-#: src/categories_onglet.c:694 src/gsb_payment_method_config.c:292
+#: src/categories_onglet.c:694 src/gsb_payment_method_config.c:296
 #: src/import.c:406 src/imputation_budgetaire.c:728
 msgid "Type"
 msgstr ""
@@ -1179,6 +1179,7 @@ msgstr "تراکنش"
 
 #: src/etats_affiche.c:224 src/etats_affiche.c:343 src/etats_affiche.c:455
 #: src/etats_affiche.c:571 src/etats_affiche.c:679 src/etats_affiche.c:786
+#: src/transaction_list.c:321
 #, fuzzy, c-format
 msgid "%s (%d transactions)"
 msgstr "تراکنش"
@@ -1470,8 +1471,8 @@ msgstr ""
 
 #. Now we have a model, create view
 #: src/etats_affiche.c:2447 src/etats_config.c:564 src/etats_config.c:567
-#: src/etats_config.c:7415 src/gsb_payment_method_config.c:117
-#: src/parametres.c:512
+#: src/etats_config.c:7415 src/gsb_payment_method_config.c:118
+#: src/parametres.c:511
 msgid "Payment methods"
 msgstr ""
 
@@ -1653,12 +1654,12 @@ msgid "Generalities"
 msgstr ""
 
 #: src/etats_config.c:635 src/etats_config.c:638 src/export_csv.c:738
-#: src/fenetre_principale.c:260 src/parametres.c:395
+#: src/fenetre_principale.c:260 src/parametres.c:394
 msgid "Transactions"
 msgstr ""
 
 #: src/etats_config.c:644 src/etats_config.c:647 src/gsb_currency_config.c:296
-#: src/parametres.c:476
+#: src/parametres.c:475
 msgid "Currencies"
 msgstr ""
 
@@ -1740,7 +1741,7 @@ msgstr ""
 #: src/etats_config.c:2323 src/gsb_archive_config.c:98
 #: src/gsb_assistant_archive.c:243 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:415
-#: src/gsb_assistant_reconcile_config.c:1243 src/gsb_reconcile_config.c:192
+#: src/gsb_assistant_reconcile_config.c:1243 src/gsb_reconcile_config.c:194
 msgid "Initial date"
 msgstr ""
 
@@ -1749,7 +1750,7 @@ msgstr ""
 #: src/gsb_assistant_archive.c:261 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:428
 #: src/gsb_assistant_reconcile_config.c:1243 src/gsb_reconcile_config.c:96
-#: src/gsb_reconcile_config.c:205 src/gsb_transactions_list.c:1709
+#: src/gsb_reconcile_config.c:208 src/gsb_transactions_list.c:1709
 msgid "Final date"
 msgstr ""
 
@@ -2267,7 +2268,7 @@ msgstr "حذف تراکنش"
 msgid "Make transactions clickable"
 msgstr ""
 
-#: src/etats_config.c:6985 src/parametres.c:1004
+#: src/etats_config.c:6985 src/parametres.c:1007
 msgid "Totals currencies"
 msgstr ""
 
@@ -2744,7 +2745,7 @@ msgstr ""
 #. set the initial balance
 #: src/export_csv.c:274 src/gsb_account_property.c:574
 #: src/gsb_assistant_reconcile_config.c:441 src/gsb_reconcile.c:188
-#: src/gsb_reconcile_config.c:228
+#: src/gsb_reconcile_config.c:232
 msgid "Initial balance"
 msgstr ""
 
@@ -2803,7 +2804,7 @@ msgid "Main page"
 msgstr ""
 
 #: src/fenetre_principale.c:273 src/navigation.c:269 src/parametres.c:321
-#: src/parametres.c:925
+#: src/parametres.c:926
 msgid "Scheduler"
 msgstr ""
 
@@ -3842,7 +3843,7 @@ msgid "Archive of report %s"
 msgstr ""
 
 #. set the message
-#: src/gsb_assistant_archive.c:773
+#: src/gsb_assistant_archive.c:774
 #, c-format
 msgid ""
 "Archive '%s' was successfully created and %d transactions out of %d were "
@@ -3850,54 +3851,54 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:852
+#: src/gsb_assistant_archive.c:853
 msgid "<span foreground=\"red\">Please fill the initial date</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:856
+#: src/gsb_assistant_archive.c:857
 msgid "<span foreground=\"red\">Please fill the final date</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:864
+#: src/gsb_assistant_archive.c:865
 msgid ""
 "<span foreground=\"red\">The initial date is after the final date</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:868
+#: src/gsb_assistant_archive.c:869
 msgid "<span foreground=\"red\">The initial date is not valid.</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:872
+#: src/gsb_assistant_archive.c:873
 msgid "<span foreground=\"red\">The final date is not valid</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:876
+#: src/gsb_assistant_archive.c:877
 msgid ""
 "<span foreground=\"red\">The initial date belongs already to an archive.</"
 "span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:880
+#: src/gsb_assistant_archive.c:881
 msgid ""
 "<span foreground=\"red\">The final date belongs already to an archive.</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:923
+#: src/gsb_assistant_archive.c:924
 msgid "<span foreground=\"red\">Please choose a financial year</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:928
+#: src/gsb_assistant_archive.c:929
 msgid ""
 "<span foreground=\"red\">There is already an archive for that financial year."
 "</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:968
+#: src/gsb_assistant_archive.c:969
 msgid "<span foreground=\"red\">Please choose a report</span>"
 msgstr ""
 
 #. there is some transactions to archive
-#: src/gsb_assistant_archive.c:999
+#: src/gsb_assistant_archive.c:1000
 #, c-format
 msgid "%d transactions out of %d will be archived."
 msgstr ""
@@ -4016,7 +4017,7 @@ msgstr ""
 #. will we crypt the file ?
 #. crypt the grisbi file
 #: src/gsb_assistant_file.c:323 src/gsb_assistant_first.c:249
-#: src/parametres.c:700
+#: src/parametres.c:699
 msgid "Encrypt Grisbi file"
 msgstr ""
 
@@ -4099,32 +4100,32 @@ msgid "General configuration of Grisbi"
 msgstr ""
 
 #. configure the browser
-#: src/gsb_assistant_first.c:208 src/parametres.c:848
+#: src/gsb_assistant_first.c:208 src/parametres.c:849
 #, fuzzy
 msgid "Web"
 msgstr "وب سایت"
 
-#: src/gsb_assistant_first.c:215 src/parametres.c:855
+#: src/gsb_assistant_first.c:215 src/parametres.c:856
 #, fuzzy
 msgid "Web browser command"
 msgstr "مرورگر"
 
-#: src/gsb_assistant_first.c:224 src/parametres.c:864
+#: src/gsb_assistant_first.c:224
 #, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr ""
 
-#: src/gsb_assistant_first.c:234 src/parametres.c:683
+#: src/gsb_assistant_first.c:234 src/parametres.c:682
 msgid "Account files handling"
 msgstr ""
 
 #. Automatically load last file on startup?
-#: src/gsb_assistant_first.c:237 src/parametres.c:686
+#: src/gsb_assistant_first.c:237 src/parametres.c:685
 msgid "Automatically load last file on startup"
 msgstr ""
 
 #. automatically save file at closing
-#: src/gsb_assistant_first.c:243 src/parametres.c:690
+#: src/gsb_assistant_first.c:243 src/parametres.c:689
 msgid "Automatically save on exit"
 msgstr ""
 
@@ -4137,22 +4138,22 @@ msgstr ""
 msgid "Make a backup copy every "
 msgstr ""
 
-#: src/gsb_assistant_first.c:278 src/parametres.c:751
+#: src/gsb_assistant_first.c:278 src/parametres.c:752
 #, fuzzy
 msgid " minutes"
 msgstr "درآمد ها"
 
-#: src/gsb_assistant_first.c:287 src/parametres.c:758
+#: src/gsb_assistant_first.c:287 src/parametres.c:759
 #, fuzzy
 msgid "Backup directory"
 msgstr "فایل پشتیبان"
 
-#: src/gsb_assistant_first.c:292 src/parametres.c:765
+#: src/gsb_assistant_first.c:292 src/parametres.c:766
 msgid "Select/Create backup directory"
 msgstr ""
 
-#: src/gsb_assistant_first.c:335 src/gsb_reconcile_config.c:102
-#: src/parametres.c:413
+#: src/gsb_assistant_first.c:335 src/gsb_reconcile_config.c:103
+#: src/parametres.c:412
 msgid "Reconciliation"
 msgstr ""
 
@@ -4272,7 +4273,7 @@ msgstr ""
 
 #. set the final balance
 #: src/gsb_assistant_reconcile_config.c:454 src/gsb_reconcile.c:196
-#: src/gsb_reconcile_config.c:97 src/gsb_reconcile_config.c:241
+#: src/gsb_reconcile_config.c:97 src/gsb_reconcile_config.c:246
 msgid "Final balance"
 msgstr ""
 
@@ -4391,7 +4392,7 @@ msgstr ""
 msgid "Contact name"
 msgstr "نام"
 
-#: src/gsb_bank.c:519 src/parametres.c:494
+#: src/gsb_bank.c:519 src/parametres.c:493
 msgid "Banks"
 msgstr "بانک ها"
 
@@ -6020,45 +6021,45 @@ msgstr ""
 msgid "Include obsolete currencies"
 msgstr ""
 
-#: src/gsb_currency_link_config.c:89
+#: src/gsb_currency_link_config.c:90
 msgid "Links between currencies"
 msgstr ""
 
-#: src/gsb_currency_link_config.c:90
+#: src/gsb_currency_link_config.c:91
 msgid "Known links"
 msgstr ""
 
 #. Input form for currencies
-#: src/gsb_currency_link_config.c:137
+#: src/gsb_currency_link_config.c:138
 msgid "Link properties"
 msgstr ""
 
 #. Create first currency link entry
-#: src/gsb_currency_link_config.c:153
+#: src/gsb_currency_link_config.c:150
 msgid "1 "
 msgstr ""
 
 #. create the exchange rate between the 2 currencies
-#: src/gsb_currency_link_config.c:169
+#: src/gsb_currency_link_config.c:166
 msgid " = "
 msgstr ""
 
-#: src/gsb_currency_link_config.c:224
+#: src/gsb_currency_link_config.c:220
 #, fuzzy
 msgid "First currency"
 msgstr "انتخاب واحد"
 
-#: src/gsb_currency_link_config.c:226
+#: src/gsb_currency_link_config.c:222
 #, fuzzy
 msgid "Exchange"
 msgstr "تغییر"
 
-#: src/gsb_currency_link_config.c:227
+#: src/gsb_currency_link_config.c:223
 #, fuzzy
 msgid "Second currency"
 msgstr "انتخاب واحد"
 
-#: src/gsb_currency_link_config.c:228 src/gsb_fyear_config.c:281
+#: src/gsb_currency_link_config.c:224 src/gsb_fyear_config.c:281
 msgid "Invalid"
 msgstr ""
 
@@ -6511,7 +6512,7 @@ msgid ""
 msgstr ""
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:549 src/gsb_file.c:798 src/parametres.c:695
+#: src/gsb_file.c:549 src/gsb_file.c:798 src/parametres.c:694
 msgid "Force saving of locked files"
 msgstr ""
 
@@ -6629,7 +6630,7 @@ msgid ""
 "Careful, you are about to deleting the file\n"
 "of configuration of an old version of Grisbi.\n"
 "\n"
-"<b>Do you want to continue ?</b>"
+"<b>Do you want to delete this file ?</b>"
 msgstr ""
 
 #: src/gsb_file_config.c:1392
@@ -6915,7 +6916,7 @@ msgstr ""
 msgid "Configure the form"
 msgstr ""
 
-#: src/gsb_form_config.c:120 src/parametres.c:432
+#: src/gsb_form_config.c:120 src/parametres.c:431
 msgid "Transaction form"
 msgstr ""
 
@@ -7140,7 +7141,7 @@ msgstr ""
 msgid "Automatic/Manual"
 msgstr ""
 
-#: src/gsb_fyear_config.c:99 src/parametres.c:503
+#: src/gsb_fyear_config.c:99 src/parametres.c:502
 msgid "Financial years"
 msgstr ""
 
@@ -7215,77 +7216,77 @@ msgstr ""
 msgid "no transaction to associate"
 msgstr ""
 
-#: src/gsb_payment_method_config.c:122
+#: src/gsb_payment_method_config.c:123
 msgid "Known payment methods"
 msgstr ""
 
-#: src/gsb_payment_method_config.c:173
+#: src/gsb_payment_method_config.c:174
 msgid "Default"
 msgstr "ویش فرض"
 
-#: src/gsb_payment_method_config.c:185
+#: src/gsb_payment_method_config.c:186
 msgid "Numbering"
 msgstr ""
 
-#: src/gsb_payment_method_config.c:229
+#: src/gsb_payment_method_config.c:230
 msgid "Payment method details"
 msgstr ""
 
 #. button show entry, automatic numbering button will be shown only if entry is showed
-#: src/gsb_payment_method_config.c:255
+#: src/gsb_payment_method_config.c:258
 msgid "Need entry field"
 msgstr ""
 
 #. Automatic numbering
-#: src/gsb_payment_method_config.c:266
+#: src/gsb_payment_method_config.c:269
 msgid "Automatic numbering"
 msgstr ""
 
 #. button automatic numbering, activate it sensitive the automatic numbering entry
-#: src/gsb_payment_method_config.c:282
+#: src/gsb_payment_method_config.c:286
 msgid "Activate"
 msgstr "فعال سازی"
 
 #. Neutral method_ptr
-#: src/gsb_payment_method_config.c:304
+#: src/gsb_payment_method_config.c:308
 msgid "Neutral"
 msgstr "طبیعی"
 
 #. create the new method of payment
-#: src/gsb_payment_method_config.c:1111
+#: src/gsb_payment_method_config.c:1115
 msgid "New payment method"
 msgstr ""
 
-#: src/gsb_payment_method_config.c:1259
+#: src/gsb_payment_method_config.c:1263
 msgid "Delete a payment method"
 msgstr "حذف روش پرداخت"
 
-#: src/gsb_payment_method_config.c:1272
+#: src/gsb_payment_method_config.c:1276
 #, fuzzy
 msgid "Payment method is used by transactions"
 msgstr "جستجوی تراکنش"
 
-#: src/gsb_payment_method_config.c:1286
+#: src/gsb_payment_method_config.c:1290
 msgid ""
 "Problem while filling the target method of payment to delete it.\n"
 "This is not normal, please contact the grisbi team."
 msgstr ""
 
-#: src/gsb_payment_method_config.c:1291
+#: src/gsb_payment_method_config.c:1295
 msgid ""
 "Some transactions still use that payment method.  As deletion of this method "
 "is irreversible, these transactions are to be associated with another "
 "payment method."
 msgstr ""
 
-#: src/gsb_payment_method_config.c:1293
+#: src/gsb_payment_method_config.c:1297
 msgid ""
 "No target method of payment to switch the transactions to another method of "
 "payment. If you continue, the transactions with this method of payment will "
 "have no new one."
 msgstr ""
 
-#: src/gsb_payment_method_config.c:1303
+#: src/gsb_payment_method_config.c:1307
 msgid "Associate transactions with"
 msgstr ""
 
@@ -7366,28 +7367,27 @@ msgstr "به وسیله تاریخ"
 msgid "Init balance"
 msgstr ""
 
-#: src/gsb_reconcile_config.c:105
+#: src/gsb_reconcile_config.c:106
 msgid "List of reconciliations"
 msgstr ""
 
-#: src/gsb_reconcile_config.c:172
+#: src/gsb_reconcile_config.c:173
 #, fuzzy
 msgid "Selected reconcile"
 msgstr "حساب حذف شده"
 
 #. set the delete button
-#: src/gsb_reconcile_config.c:218
+#: src/gsb_reconcile_config.c:222
 msgid "Delete the reconcile"
 msgstr ""
 
-#. set the button to find non-associated transactions
-#: src/gsb_reconcile_config.c:257
+#: src/gsb_reconcile_config.c:264
 msgid "Find all marked transactions not associated with a reconcile number"
 msgstr ""
 
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
-#: src/gsb_reconcile_config.c:510
+#: src/gsb_reconcile_config.c:517
 #, c-format
 msgid ""
 "Careful, you are about to deleting a reconcile.\n"
@@ -7396,11 +7396,11 @@ msgid ""
 "Are you sure you want to continue ?"
 msgstr ""
 
-#: src/gsb_reconcile_config.c:512
+#: src/gsb_reconcile_config.c:519
 msgid "Deleting a reconcile"
 msgstr ""
 
-#: src/gsb_reconcile_sort_config.c:86 src/parametres.c:422
+#: src/gsb_reconcile_sort_config.c:86 src/parametres.c:421
 msgid "Sort for reconciliation"
 msgstr ""
 
@@ -7471,30 +7471,30 @@ msgid "Quarterly"
 msgstr ""
 
 #. ask all the time for a child
-#: src/gsb_scheduler_list.c:1664
+#: src/gsb_scheduler_list.c:1643
 #, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1667
+#: src/gsb_scheduler_list.c:1646
 #, fuzzy
 msgid "Delete a scheduled transaction"
 msgstr "جستجوی تراکنش"
 
-#: src/gsb_scheduler_list.c:1682 src/gsb_transactions_list.c:1858
+#: src/gsb_scheduler_list.c:1661 src/gsb_transactions_list.c:1858
 #: src/gsb_transactions_list.c:1873
 msgid "Delete a transaction"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1683
+#: src/gsb_scheduler_list.c:1662
 #, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1716
+#: src/gsb_scheduler_list.c:1695
 #, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -7503,71 +7503,71 @@ msgid ""
 "%s : %s [%s %s]"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1724
+#: src/gsb_scheduler_list.c:1703
 msgid "Delete this scheduled transaction?"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1729
+#: src/gsb_scheduler_list.c:1708
 msgid "All the occurences"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1730
+#: src/gsb_scheduler_list.c:1709
 msgid "Only this one"
 msgstr ""
 
 #. set the title
-#: src/gsb_scheduler_list.c:1788 src/navigation.c:1194
+#: src/gsb_scheduler_list.c:1767 src/navigation.c:1194
 msgid "Scheduled transactions"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1816
+#: src/gsb_scheduler_list.c:1795
 msgid "days"
 msgstr "روز ها"
 
-#: src/gsb_scheduler_list.c:1816
+#: src/gsb_scheduler_list.c:1795
 msgid "weeks"
 msgstr "هفته ها"
 
-#: src/gsb_scheduler_list.c:1816
+#: src/gsb_scheduler_list.c:1795
 msgid "months"
 msgstr "ماه ها"
 
-#: src/gsb_scheduler_list.c:1816
+#: src/gsb_scheduler_list.c:1795
 msgid "years"
 msgstr "سال ها"
 
-#: src/gsb_scheduler_list.c:1819
+#: src/gsb_scheduler_list.c:1798
 #, fuzzy
 msgid "Show scheduled transactions"
 msgstr "جستجوی تراکنش"
 
-#: src/gsb_scheduler_list.c:1832
+#: src/gsb_scheduler_list.c:1811
 msgid "Scheduler frequency"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1839
+#: src/gsb_scheduler_list.c:1818
 #, fuzzy
 msgid "Show transactions for the next"
 msgstr "تراکنش"
 
 #. Edit transaction
-#: src/gsb_scheduler_list.c:1980 src/gsb_transactions_list.c:2071
+#: src/gsb_scheduler_list.c:1959 src/gsb_transactions_list.c:2071
 msgid "Edit transaction"
 msgstr ""
 
 #. Delete transaction
-#: src/gsb_scheduler_list.c:2005 src/gsb_transactions_list.c:2094
+#: src/gsb_scheduler_list.c:1984 src/gsb_transactions_list.c:2094
 msgid "Delete transaction"
 msgstr ""
 
 #. Display/hide comments
-#: src/gsb_scheduler_list.c:2019
+#: src/gsb_scheduler_list.c:1998
 #, fuzzy
 msgid "Displays/Cache comments"
 msgstr "نمایش نام حساب"
 
 #. Execute transaction
-#: src/gsb_scheduler_list.c:2033
+#: src/gsb_scheduler_list.c:2012
 #, fuzzy
 msgid "Execute transaction"
 msgstr "جستجوی تراکنش"
@@ -7763,7 +7763,7 @@ msgid ""
 "Show the R transactions to make them visible."
 msgstr ""
 
-#: src/gsb_transactions_list_sort.c:348
+#: src/gsb_transactions_list_sort.c:350
 #, c-format
 msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
@@ -8741,11 +8741,11 @@ msgstr ""
 msgid "Main"
 msgstr "ایمیل"
 
-#: src/parametres.c:274 src/parametres.c:679
+#: src/parametres.c:274 src/parametres.c:678
 msgid "Files"
 msgstr "فایل ها"
 
-#: src/parametres.c:312 src/parametres.c:846
+#: src/parametres.c:312 src/parametres.c:847
 msgid "Programs"
 msgstr ""
 
@@ -8753,66 +8753,66 @@ msgstr ""
 msgid "Display"
 msgstr "نمایش"
 
-#: src/parametres.c:357 src/parametres.c:578
+#: src/parametres.c:357 src/parametres.c:577
 msgid "Messages & warnings"
 msgstr ""
 
-#: src/parametres.c:375 src/parametres.c:1001
+#: src/parametres.c:375 src/parametres.c:1004
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "بخش های درآمد"
 
-#: src/parametres.c:403
+#: src/parametres.c:402
 msgid "List behavior"
 msgstr ""
 
-#: src/parametres.c:440
+#: src/parametres.c:439
 #, fuzzy
 msgid "Content"
 msgstr "ارتباط"
 
-#: src/parametres.c:449
+#: src/parametres.c:448
 msgid "Behavior"
 msgstr ""
 
-#: src/parametres.c:458
+#: src/parametres.c:457
 msgid "Completion"
 msgstr ""
 
-#: src/parametres.c:468
+#: src/parametres.c:467
 msgid "Resources"
 msgstr ""
 
-#: src/parametres.c:485
+#: src/parametres.c:484
 #, fuzzy
 msgid "Currencies links"
 msgstr "نام واحد"
 
 #. Tip of the day
-#: src/parametres.c:581
+#: src/parametres.c:580
 msgid "Tip of the day"
 msgstr ""
 
 #. Display or not tips
-#: src/parametres.c:584
+#: src/parametres.c:583
 msgid "Display tip of the day"
 msgstr ""
 
-#: src/parametres.c:591
+#: src/parametres.c:590
 #, fuzzy
 msgid "Display following warnings messages"
 msgstr "پیغام هشدار"
 
-#: src/parametres.c:612
+#: src/parametres.c:611
 msgid "Message"
 msgstr ""
 
 #. Compression level of files
-#: src/parametres.c:705
+#: src/parametres.c:704
 msgid "Compress Grisbi file"
 msgstr ""
 
-#: src/parametres.c:713
+#: src/parametres.c:712
 msgid "Memorise last opened files"
 msgstr ""
 
@@ -8831,55 +8831,62 @@ msgstr ""
 msgid "Make a backup copy after opening files"
 msgstr ""
 
-#: src/parametres.c:875
+#: src/parametres.c:865
+#, c-format
+msgid ""
+"You may use %s to expand the URL I.e:\n"
+"'firefox -remote %s'"
+msgstr ""
+
+#: src/parametres.c:876
 msgid "LaTeX support (old print system)"
 msgstr ""
 
-#: src/parametres.c:882
+#: src/parametres.c:883
 msgid "LaTeX command"
 msgstr ""
 
-#: src/parametres.c:890
+#: src/parametres.c:891
 msgid "dvips command"
 msgstr ""
 
-#: src/parametres.c:930
+#: src/parametres.c:931
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr ""
 
-#: src/parametres.c:931
+#: src/parametres.c:932
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
 
-#: src/parametres.c:932
+#: src/parametres.c:933
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "جستجوی تراکنش"
 
-#: src/parametres.c:940
+#: src/parametres.c:941
 msgid "Number of days before the warning or the execution"
 msgstr ""
 
 #. Take into account the planned operations in the calculation of balances
-#: src/parametres.c:947
+#: src/parametres.c:950
 msgid "Calculation of balances"
 msgstr ""
 
-#: src/parametres.c:953
+#: src/parametres.c:956
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
 msgstr ""
 
-#: src/parametres.c:1010
+#: src/parametres.c:1013
 #, fuzzy
 msgid "Sort option for transactions"
 msgstr "حذف تراکنش"
 
-#: src/parametres.c:1011
+#: src/parametres.c:1014
 msgid "by number"
 msgstr ""
 
-#: src/parametres.c:1012
+#: src/parametres.c:1015
 #, fuzzy
 msgid "by date"
 msgstr "تاریخ"
@@ -9500,26 +9507,21 @@ msgstr ""
 msgid "Reconciliation ref."
 msgstr ""
 
-#: src/transaction_list.c:166 src/transaction_list.c:979
-#: src/transaction_list.c:1875
+#: src/transaction_list.c:166 src/transaction_list.c:983
+#: src/transaction_list.c:1879
 #, c-format
 msgid "Total : %s (variance : %s)"
 msgstr ""
 
-#: src/transaction_list.c:322
-#, fuzzy, c-format
-msgid "archive %s (%d transactions)"
-msgstr "جستجوی تراکنش"
-
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
-#: src/transaction_list.c:1508
+#: src/transaction_list.c:1512
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't append ! "
 "Check that."
 msgstr ""
 
-#: src/transaction_list.c:1703
+#: src/transaction_list.c:1707
 #, c-format
 msgid ""
 "Trying to append the child number %d to the mother %d in the model, but no "
@@ -9564,6 +9566,10 @@ msgstr ""
 #: src/utils_font.c:199
 msgid "No font defined"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Archive %s (%d transactions)"
+#~ msgstr "جستجوی تراکنش"
 
 #, fuzzy
 #~ msgid "Sort option for categories"

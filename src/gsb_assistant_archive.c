@@ -758,13 +758,14 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
 
         transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
         gsb_data_transaction_set_archive_number ( transaction_number, archive_number );
-        /* On supprime l'opération dans le tree_view */
+
+        /* Delete transaction in the tree_view */
         if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number ) == 0 )
             gsb_transactions_list_delete_transaction_from_tree_view ( transaction_number );
         tmp_list = tmp_list -> next;
     }
 
-    /* on recrée la liste des archives par compte */
+    /* create again the list of archives by account */
     gsb_data_archive_store_init_variables ();
     gsb_data_archive_store_create_list ( );
     gsb_transactions_list_fill_archive_store ( );
@@ -803,7 +804,7 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
-    /* On met à jour l'affichage de la liste si nécessaire */
+    /* update the display of tree_view if necessary */
     if ( ( account_nb = gsb_gui_navigation_get_current_account ( ) ) != -1 )
         gsb_transactions_list_update_tree_view ( account_nb, TRUE );
 

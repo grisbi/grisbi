@@ -1328,7 +1328,7 @@ static void gsb_file_config_remove_old_config_file ( gchar *filename )
     gchar *tmpstr = g_strconcat ( 
                         _("Careful, you are about to deleting the file\n"
                         "of configuration of an old version of Grisbi.\n"
-                        "\n<b>Do you want to continue ?</b>"),
+                        "\n<b>Do you want to delete this file ?</b>"),
                         NULL );
 
     label = gtk_label_new ( tmpstr );

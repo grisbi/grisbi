@@ -89,7 +89,7 @@ GtkWidget *fenetre_preferences = NULL;
 static GtkTreeStore *preference_tree_model = NULL;
 static GtkNotebook * preference_frame = NULL;
 
-
+static gint width_spin_button = 50;
 
 
 /*START_EXTERN*/
@@ -235,7 +235,7 @@ gboolean preferences ( gint page )
                         GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
                         NULL );
 
-    gtk_window_set_default_size ( GTK_WINDOW ( fenetre_preferences ), -1, 500 );
+    gtk_window_set_default_size ( GTK_WINDOW ( fenetre_preferences ), 600, -1 );
     gtk_window_set_position ( GTK_WINDOW ( fenetre_preferences ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( fenetre_preferences ), TRUE );
 
@@ -376,7 +376,6 @@ gboolean preferences ( gint page )
                         1, TOTALS_PAGE,
                         2, 400,
                         -1);
-    //~ gtk_notebook_append_page (preference_frame, gsb_currency_config_create_totals_page(), NULL);
     gtk_notebook_append_page ( preference_frame, onglet_metatree (), NULL );
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
@@ -715,6 +714,7 @@ GtkWidget *onglet_fichier ( void )
 
     button = gsb_automem_spin_button_new ( &(nb_max_derniers_fichiers_ouverts),
                         G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
+    gtk_widget_set_size_request ( button, width_spin_button, -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* Backups */
@@ -746,6 +746,7 @@ GtkWidget *onglet_fichier ( void )
 
     button = gsb_automem_spin_button_new ( &etat.make_backup_nb_minutes,
                         G_CALLBACK (gsb_file_automatic_backup_change_time), NULL );
+    gtk_widget_set_size_request ( button, width_spin_button, -1 );
     gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
 
     label = gtk_label_new (_(" minutes"));
@@ -861,7 +862,7 @@ GtkWidget *onglet_programmes (void)
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     text = g_strconcat ( "<span foreground=\"blue\">",
-                        _("You may use %s to expand the URL - I.e: 'firefox -remote %s' "),
+                        _("You may use %s to expand the URL I.e:\n'firefox -remote %s'"),
                         "</span>", NULL );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
@@ -941,6 +942,8 @@ static GtkWidget *gsb_config_scheduler_page ( void )
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     entry = gsb_automem_spin_button_new ( &nb_days_before_scheduled, NULL, NULL );
+    gtk_widget_set_size_request ( entry, width_spin_button, -1 );
+
     gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );
 
     /* Take into account the planned operations in the calculation of balances */

@@ -318,7 +318,7 @@ void transaction_list_append_archive (gint archive_store_number)
     newrecord -> visible_col[find_element_col (ELEMENT_DATE)] = gsb_format_gdate (
                         gsb_data_archive_get_beginning_date ( archive_number ) );
     newrecord -> visible_col[find_element_col (ELEMENT_PARTY)] = g_strdup_printf ( 
-                        _("archive %s (%d transactions)"),
+                        _("%s (%d transactions)"),
                         gsb_data_archive_get_name (archive_number),
                         gsb_data_archive_store_get_transactions_number (
                         archive_store_number ) );
@@ -504,10 +504,10 @@ gboolean transaction_list_remove_archive ( gint archive_number )
     CustomList *custom_list;
     gboolean return_val = FALSE;
 
-    devel_debug_int (archive_number);
     custom_list = transaction_model_get_model ();
 
-    g_return_val_if_fail ( custom_list != NULL, FALSE);
+    if ( custom_list == NULL )
+        return FALSE;
 
     /* there is several archive store records which correspond to the archive */
     for (i=0 ; i < custom_list -> num_rows ; i++)

@@ -226,8 +226,11 @@ GtkWidget * onglet_display_fonts ( void )
     /* change colors */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Colors") );
 
+    vbox = gtk_vbox_new ( FALSE, 10 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), vbox, FALSE, FALSE, 10 );
+
     hbox = gtk_hbox_new ( FALSE, 10 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 10 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 10 );
 
     color_combobox = preferences_view_create_color_combobox ();
     gtk_box_pack_start ( GTK_BOX (hbox),
@@ -255,7 +258,7 @@ GtkWidget * onglet_display_fonts ( void )
 		       "clicked",
 		       G_CALLBACK (preferences_view_color_default),
 		       G_OBJECT (color_combobox));
-    gtk_box_pack_start ( GTK_BOX (hbox),
+    gtk_box_pack_start ( GTK_BOX (vbox),
 			 button,
 			 FALSE, FALSE, 0);
 

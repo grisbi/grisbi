@@ -142,103 +142,69 @@ GtkWidget *gsb_form_config_create_page ( void )
  * */
 void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 {
+    GtkWidget *sw;
     GtkWidget *hbox;
     GtkWidget *button;
     GtkWidget *paddingbox;
     GtkWidget *label;
 
     /* create the paddingbox into the parent */
-    paddingbox = new_paddingbox_with_title ( vbox_parent,
-					     TRUE,
-					     _("Form structure preview"));
+    paddingbox = new_paddingbox_with_title ( vbox_parent, TRUE, _("Form structure preview"));
 
     /* we can organize the form
      * either the same for all the accounts
      * either each account has its own configuration */
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX (paddingbox),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0 );
 
     /* the button to choose the configuration for all/one account */
     button = gsb_automem_checkbutton_new ( _("Each account has his own form"),
-					   &etat.formulaire_distinct_par_compte,
-					   G_CALLBACK ( gsb_form_config_switch_general_to_several_form ), NULL);
-    gtk_box_pack_start ( GTK_BOX (hbox ),
-			 button,
-			 FALSE,
-			 FALSE,
-			 0 );
+                        &etat.formulaire_distinct_par_compte,
+                        G_CALLBACK ( gsb_form_config_switch_general_to_several_form ),
+                        NULL);
+    gtk_box_pack_start ( GTK_BOX (hbox ), button, FALSE, FALSE, 0 );
 
     /* the accounts option_menu */
     accounts_combobox = gsb_account_create_combo_list ((GtkSignalFunc) gsb_form_config_change_account_choice, NULL, FALSE );
-    gtk_widget_set_sensitive ( accounts_combobox,
-			       etat.formulaire_distinct_par_compte );
-    gtk_box_pack_start ( GTK_BOX (hbox ),
-			 accounts_combobox,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_widget_set_sensitive ( accounts_combobox, etat.formulaire_distinct_par_compte );
+    gtk_box_pack_start ( GTK_BOX (hbox ), accounts_combobox, FALSE, FALSE, 0 );
 
     /* add the update-form button */
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX (paddingbox),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0 );
 
     update_button = gtk_button_new_with_label (_("Update"));
-    gtk_widget_set_sensitive ( update_button,
-			       etat.formulaire_distinct_par_compte );
+    gtk_widget_set_sensitive ( update_button, etat.formulaire_distinct_par_compte );
     g_signal_connect ( G_OBJECT (update_button),
-		       "clicked",
-		       G_CALLBACK (gsb_form_config_update_accounts),
-		       accounts_combobox );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 update_button,
-			 FALSE,
-			 FALSE,
-			 0 );
+                        "clicked",
+                        G_CALLBACK (gsb_form_config_update_accounts),
+                        accounts_combobox );
+    gtk_box_pack_start ( GTK_BOX (hbox), update_button, FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_(" : Update all the accounts forms according to the selected account"));
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
+    label = gtk_label_new ( _(" : Duplicate the selected form for all accounts") );
+    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
+
+    /*create the scolled window for tree_view */
+    sw = gtk_scrolled_window_new ( NULL, NULL);
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( sw ),
+                        GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox), sw, TRUE, TRUE, 0 );
 
     /* create the tree_view */
     GtkListStore* list_store = gsb_form_config_create_store ();
     form_config_tree_view = gsb_form_config_create_tree_view (list_store);
     g_object_unref (G_OBJECT(list_store));
-    gtk_box_pack_start ( GTK_BOX ( paddingbox),
-			 form_config_tree_view,
-			 FALSE,
-			 FALSE,
-			 0 );
-
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( sw ),
+                        form_config_tree_view );
 
     /* set the buttons line to increase/decrease the form */
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 gsb_form_config_create_sizing_buttons_line (),
-			 FALSE,
-			 FALSE,
-			 0 );
+                        gsb_form_config_create_sizing_buttons_line (), FALSE, FALSE, 0 );
 
     /* set the box with the buttons */
-    paddingbox = new_paddingbox_with_title ( vbox_parent,
-					     FALSE,
-					     _("Form structure content"));
+    paddingbox = new_paddingbox_with_title ( vbox_parent, FALSE, _("Form structure content") );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 gsb_form_config_create_buttons_table (),
-			 FALSE, 
-			 FALSE, 
-			 0 );
+                        gsb_form_config_create_buttons_table (), FALSE, FALSE, 0 );
 
     gtk_widget_show_all (paddingbox);
 }

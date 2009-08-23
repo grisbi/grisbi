@@ -85,6 +85,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     GtkTreeModel *tree_model;
     GtkWidget *entry;
     GtkWidget *combobox;
+    gint width_entry = 170;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Links between currencies"), "currencies.png" ); 
     paddingbox = new_paddingbox_with_title (vbox_pref, TRUE, _("Known links"));
@@ -95,7 +96,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     /* links list */
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
     /* Create it. */
     tree_view = GTK_TREE_VIEW ( gsb_currency_link_config_create_list () );
@@ -137,17 +138,13 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Link properties"));
 
     /* Create hbox line */
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
+    hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 hbox,
 			 TRUE, TRUE, 0 );
 
-    gtk_widget_set_sensitive ( hbox,
-			       FALSE );
-    g_object_set_data ( G_OBJECT (tree_model),
-			"hbox_line",
-			hbox );
+    gtk_widget_set_sensitive ( hbox, FALSE );
+    g_object_set_data ( G_OBJECT (tree_model), "hbox_line", hbox );
 
     /* Create first currency link entry */
     label = gtk_label_new (_("1 "));
@@ -155,8 +152,8 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
 			 label,
 			 FALSE, FALSE, 0 );
     combobox = gsb_currency_make_combobox (TRUE);
-    g_object_set_data ( G_OBJECT (tree_model),
-			"combobox_1", combobox );
+    gtk_widget_set_size_request ( combobox, width_entry, -1 );
+    g_object_set_data ( G_OBJECT (tree_model), "combobox_1", combobox );
     g_signal_connect_swapped ( G_OBJECT (combobox),
 			       "changed",
 			       G_CALLBACK (gsb_currency_link_config_modify_link),
@@ -171,6 +168,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
 			 label,
 			 FALSE, FALSE, 0 );
     entry = gtk_entry_new ();
+    gtk_widget_set_size_request ( entry, width_entry/2, -1 );
     g_object_set_data ( G_OBJECT (tree_model),
 			"exchange_entry", entry );
     g_signal_connect_swapped ( G_OBJECT (entry),
@@ -183,8 +181,8 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
 
     /* Create second currency link entry */
     combobox = gsb_currency_make_combobox (TRUE);
-    g_object_set_data ( G_OBJECT (tree_model),
-			"combobox_2", combobox );
+    gtk_widget_set_size_request ( combobox, width_entry, -1 );
+    g_object_set_data ( G_OBJECT (tree_model), "combobox_2", combobox );
     g_signal_connect_swapped ( G_OBJECT (combobox),
 			       "changed",
 			       G_CALLBACK (gsb_currency_link_config_modify_link),
@@ -195,15 +193,13 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
 
     /* Create warning label */
     label = gtk_label_new (NULL);
-    g_object_set_data ( G_OBJECT (tree_model),
-			"warning_label", label );
+    g_object_set_data ( G_OBJECT (tree_model), "warning_label", label );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 label,
 			 FALSE, FALSE, 0 );
 
     return ( vbox_pref );
 }
-
 
 
 /**
@@ -262,7 +258,7 @@ GtkWidget *gsb_currency_link_config_create_list ()
 
     for (i=0 ; i< LINK_NUMBER_COLUMN; i++ )
     {
-	GtkTreeViewColumn *column;
+	GtkTreeViewColumn *column = NULL;
 
 	if ( i == LINK_INVALID_COLUMN )
 	{
@@ -270,6 +266,7 @@ GtkWidget *gsb_currency_link_config_create_list ()
 								gtk_cell_renderer_pixbuf_new (),
 								"stock-id", i,
 								NULL );
+        ;
 	}
 	else
 	{

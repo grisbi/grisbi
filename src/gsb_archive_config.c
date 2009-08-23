@@ -241,7 +241,7 @@ GtkWidget *gsb_archive_config_create ( void )
     /* check part at the opening of the file */
     check_paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 						    _("Automatic check"));
-    
+
     button = gsb_automem_checkbutton_new ( _("Check at opening if creating archive is needed."),
 					   &etat.check_for_archival,
 					   NULL, NULL );

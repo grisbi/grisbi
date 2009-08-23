@@ -29,6 +29,7 @@ enum preference_page  {
     METHODS_OF_PAYMENT_PAGE,
     NUM_PREFERENCES_PAGES
 };
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

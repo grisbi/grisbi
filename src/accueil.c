@@ -1866,7 +1866,7 @@ GtkWidget *onglet_accueil (void)
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
                         GTK_SHADOW_ETCHED_IN);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-                        GTK_POLICY_NEVER,
+                        GTK_POLICY_AUTOMATIC,
                         GTK_POLICY_ALWAYS);
     gtk_box_pack_start ( GTK_BOX (hbox), sw, TRUE,TRUE, 0 );
 
@@ -1915,7 +1915,7 @@ GtkWidget *onglet_accueil (void)
     g_object_unref ( list_store );
 
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
-    gtk_widget_set_size_request ( treeview, -1, 230 );
+    gtk_widget_set_size_request ( treeview, -1, 150 );
 
     /* check the keys on the list */
     g_signal_connect ( G_OBJECT ( treeview ),
@@ -1947,7 +1947,7 @@ GtkWidget *onglet_accueil (void)
 
     /* Nom du solde partiel */
     cell = gtk_cell_renderer_text_new ( );
-    column = gtk_tree_view_column_new_with_attributes ( _("Partial balance"),
+    column = gtk_tree_view_column_new_with_attributes ( _("Name"),
                         cell, "text", 0, NULL);
     gtk_tree_view_column_set_expand ( column, TRUE );
     gtk_tree_view_column_set_alignment ( column, 0.5 );
@@ -1962,6 +1962,21 @@ GtkWidget *onglet_accueil (void)
     gtk_tree_view_column_set_alignment ( column, 0.5 );
     gtk_tree_view_column_set_sort_column_id (column, 1);
     gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column);
+
+    /* Colorize */
+    cell = gtk_cell_renderer_toggle_new ( );
+    g_signal_connect ( cell,
+                        "toggled",
+                        G_CALLBACK ( gsb_partial_balance_colorise_toggled ),
+                        treeview );
+    gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), FALSE );
+    g_object_set (cell, "xalign", 0.5, NULL);
+
+    column = gtk_tree_view_column_new_with_attributes ( _("Colorize"),
+						     cell,
+						     "active", 5,
+						     NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
 
     /* Type de compte */
     cell = gtk_cell_renderer_text_new ( );
@@ -1980,21 +1995,6 @@ GtkWidget *onglet_accueil (void)
     gtk_tree_view_column_set_alignment ( column, 0.5 );
     gtk_tree_view_column_set_sort_column_id (column, 3);
     gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column);
-
-    /* Colorize */
-    cell = gtk_cell_renderer_toggle_new ( );
-    g_signal_connect ( cell,
-                        "toggled",
-                        G_CALLBACK ( gsb_partial_balance_colorise_toggled ),
-                        treeview );
-    gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), FALSE );
-    g_object_set (cell, "xalign", 0.5, NULL);
-
-    column = gtk_tree_view_column_new_with_attributes ( _("Colorize"),
-						     cell,
-						     "active", 5,
-						     NULL);
-    gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
 
     dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE ( list_store );
     if ( dst_iface )

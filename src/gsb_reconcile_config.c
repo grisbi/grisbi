@@ -98,6 +98,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
     };
     GtkWidget *table_selection;
     GtkWidget *button;
+    gint width_entry = 80;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
 					       "reconciliationlg.png" );
@@ -185,6 +186,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 	reconcile_name_entry = gsb_autofunc_entry_new ( NULL,
 			G_CALLBACK (gsb_reconcile_config_update_line), reconcile_treeview,
 			G_CALLBACK (gsb_data_reconcile_set_name), 0 );
+    gtk_widget_set_size_request ( reconcile_name_entry, width_entry, -1 );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), reconcile_name_entry, 1, 2, 0, 1,
 			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
 
@@ -198,6 +200,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 	reconcile_init_date_entry = gsb_autofunc_date_new ( NULL,
 			G_CALLBACK (gsb_reconcile_config_update_line), reconcile_treeview,
 			G_CALLBACK (gsb_data_reconcile_set_init_date), 0 );
+    gtk_widget_set_size_request ( reconcile_init_date_entry, width_entry, -1 );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), reconcile_init_date_entry, 1, 2, 1, 2,
 			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
 
@@ -211,6 +214,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 	reconcile_final_date_entry = gsb_autofunc_date_new ( NULL,
 			G_CALLBACK (gsb_reconcile_config_update_line), reconcile_treeview,
 			G_CALLBACK (gsb_data_reconcile_set_final_date), 0 );
+    gtk_widget_set_size_request ( reconcile_final_date_entry, width_entry, -1 );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), reconcile_final_date_entry, 1, 2, 2, 3,
 			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
 
@@ -221,7 +225,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 	g_signal_connect ( G_OBJECT (delete_reconcile_button), "clicked",
 			G_CALLBACK (gsb_reconcile_config_delete),
 			reconcile_treeview );
-	gtk_table_attach ( GTK_TABLE ( table_selection ), delete_reconcile_button, 3, 4, 0, 1,
+	gtk_table_attach ( GTK_TABLE ( table_selection ), delete_reconcile_button, 2, 4, 0, 1,
 			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
 	/* set the initial balance */
@@ -234,6 +238,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 	reconcile_init_balance_entry = gsb_autofunc_real_new ( null_real,
 			G_CALLBACK (gsb_reconcile_config_update_line), reconcile_treeview,
 			G_CALLBACK (gsb_data_reconcile_set_init_balance), 0 );
+    gtk_widget_set_size_request ( reconcile_init_balance_entry, width_entry, -1 );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), reconcile_init_balance_entry, 3, 4, 1, 2,
 			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
@@ -247,6 +252,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 	reconcile_final_balance_entry = gsb_autofunc_real_new ( null_real,
 			G_CALLBACK (gsb_reconcile_config_update_line), reconcile_treeview,
 			G_CALLBACK (gsb_data_reconcile_set_final_balance), 0 );
+    gtk_widget_set_size_request ( reconcile_final_balance_entry, width_entry, -1 );
     gtk_table_attach ( GTK_TABLE ( table_selection ), reconcile_final_balance_entry, 3, 4, 2, 3,
 			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
@@ -254,7 +260,8 @@ GtkWidget *gsb_reconcile_config_create ( void )
 	gtk_widget_set_sensitive ( table_selection, FALSE );
 
     /* set the button to find non-associated transactions */
-	button = gtk_button_new_with_label ( _("Find all marked transactions not associated with a reconcile number"));
+	button = gtk_button_new_with_label ( 
+                        _("Find all marked transactions not associated with a reconcile number"));
 	gtk_button_set_relief ( GTK_BUTTON (button),
 			GTK_RELIEF_NONE );
 	g_signal_connect ( G_OBJECT (button), "clicked",

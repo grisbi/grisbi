@@ -29,7 +29,6 @@
 
 #define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
 
-
 /* variables contenant juste 0 ou 1 */
 /* FIXME : scinder cette structure en 3 parties : */
 /* la partie configurée par le fichier */

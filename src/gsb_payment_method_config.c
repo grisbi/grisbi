@@ -112,6 +112,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
     GtkCellRenderer *cell;
     GtkWidget *bouton_ajouter_type;
     GtkTreeStore *payment_method_model;
+    gint width_entry = 80;
 
     /* Now we have a model, create view */
     vbox_pref = new_vbox_with_title_and_icon ( _("Payment methods"),
@@ -244,8 +245,10 @@ GtkWidget *gsb_payment_method_config_create ( void )
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
     payment_name_entry = gsb_autofunc_entry_new ( NULL,
-					       G_CALLBACK (gsb_payment_method_config_name_changed), payment_method_treeview,
-					       G_CALLBACK (gsb_data_payment_set_name), 0 );
+                        G_CALLBACK (gsb_payment_method_config_name_changed),
+                        payment_method_treeview,
+                        G_CALLBACK (gsb_data_payment_set_name), 0 );
+    gtk_widget_set_size_request ( payment_name_entry, width_entry, -1 );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       payment_name_entry, 1, 2, 0, 1,
 		       GTK_EXPAND | GTK_FILL, 0,
@@ -273,6 +276,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
     payment_last_number_entry = gsb_autofunc_spin_new ( 0,
 						     G_CALLBACK (gsb_payment_method_config_auto_entry_changed), payment_method_treeview,
 						     G_CALLBACK (gsb_data_payment_set_last_number), 0 );
+    gtk_widget_set_size_request ( payment_last_number_entry, width_entry, -1 );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       payment_last_number_entry, 1, 2, 1, 2,
 		       GTK_EXPAND | GTK_FILL, 0,
