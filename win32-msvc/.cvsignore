@@ -1,0 +1,11 @@
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles
+Debug
+grisbi.dir
+Release
+*.ncb
+*.sln
+*.suo
+*.user
+*.vcproj
