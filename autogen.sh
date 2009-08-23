@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # autogen.sh glue for Grisbi
-# $Id: autogen.sh,v 1.14 2009/06/27 15:19:58 gilles_morel Exp $
+# $Id: autogen.sh,v 1.15 2009/08/23 07:27:46 pbiava Exp $
 #
 # Requires: automake, autoconf, dpkg-dev
 
@@ -20,33 +20,13 @@ if [ $? -ne 0 ] ; then
 fi
 echo "automake and autoconf are installed"
 
-
-PATH_AUTOMAKE=/usr/share/automake
-
 # test for some distribution...
-# Y'a pas plus simple ?
 
-if test -x /usr/share/automake-1.10
+PATH_AUTOMAKE=$(ls -1d /usr/share/automake* 2>/dev/null | sort -gbu | tail -1)
+
+if ! test -x $PATH_AUTOMAKE
 then
-	PATH_AUTOMAKE=/usr/share/automake-1.10
-elif test -x /usr/share/automake-1.9
-then
-	PATH_AUTOMAKE=/usr/share/automake-1.9
-elif test -x /usr/share/automake-1.8
-then
-	PATH_AUTOMAKE=/usr/share/automake-1.8
-elif test -x /usr/share/automake-1.7
-then
-	PATH_AUTOMAKE=/usr/share/automake-1.7
-elif test -x /usr/share/automake-1.6
-then
-	PATH_AUTOMAKE=/usr/share/automake-1.6
-elif test -x /usr/share/automake-1.5
-then
-	PATH_AUTOMAKE=/usr/share/automake-1.4
-elif test -x /usr/share/automake-1.4
-then
-	PATH_AUTOMAKE=/usr/share/automake-1.4
+	echo "Error: directory $PATH_AUTOMAKE does not exist"
 fi
 
 # Refresh GNU autotools toolchain.
@@ -59,8 +39,6 @@ for i in config.guess config.sub missing install-sh mkinstalldirs ; do
 	    chmod 755 ${i}
 	fi
 done
-
-
 
 #
 # Apple's Developer Tools have a "libtool" that has nothing to do with
