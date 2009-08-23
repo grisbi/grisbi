@@ -282,14 +282,17 @@ gchar* win32_app_subdir_folder_path(gchar * app_subdir) /* {{{ */
 win_version    win32_get_windows_version(void)                        /* {{{ */
 {
     win_version current_version = WIN_UNKNOWN;
+	DWORD dwPlatormId;
+	DWORD dwMajorVers;
+	DWORD dwMinorVers;
 
     OSVERSIONINFO VersInfos;
     VersInfos.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
     GetVersionEx(&VersInfos);
 
-    DWORD dwPlatormId = VersInfos.dwPlatformId;
-    DWORD dwMajorVers = VersInfos.dwMajorVersion;
-    DWORD dwMinorVers = VersInfos.dwMinorVersion;
+    dwPlatormId = VersInfos.dwPlatformId;
+    dwMajorVers = VersInfos.dwMajorVersion;
+    dwMinorVers = VersInfos.dwMinorVersion;
 
     switch (dwPlatormId)
     {
@@ -369,6 +372,7 @@ BOOL win32_create_process(gchar* application_path,gchar* arg_line,gchar* utf8_wo
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
     TCHAR arg[2*MAX_PATH];
+	HANDLE hStdError;
 
     gchar* syslocale_working_directory = NULL; 
       
@@ -387,7 +391,7 @@ BOOL win32_create_process(gchar* application_path,gchar* arg_line,gchar* utf8_wo
         TCHAR stderr_path[MAX_PATH];
         strcpy(stderr_path,application_path);
         strcat(stderr_path,".err");
-        HANDLE hStdError = CreateFile(stderr_path,     // file to create
+        hStdError = CreateFile(stderr_path,     // file to create
                    GENERIC_WRITE,          // open for writing
                    0,                      // do not share
                    NULL,                   // default security
