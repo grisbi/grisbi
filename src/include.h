@@ -18,7 +18,9 @@
 #include <sys/timeb.h>
 #include <time.h>
 #include <sys/stat.h>
-#include <unistd.h>
+#ifndef _MSC_VER
+#	include <unistd.h>
+#endif//_MSC_VER
 #include <fcntl.h>
 #include <pwd.h>
 #include <signal.h>
@@ -32,10 +34,6 @@
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
-
-#ifndef NOSSL
-#  include <openssl/des.h>
-#endif
 
 /* Define gettext functions */
 #ifdef ENABLE_NLS
