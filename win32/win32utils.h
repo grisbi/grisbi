@@ -112,15 +112,18 @@ BOOL win32_create_process(gchar* application_path,gchar* arg_line,gchar* utf8_wo
 typedef HRESULT (__stdcall * PFNSHGETGETLONGPATHNAMEA)(LPCTSTR, LPTSTR, DWORD);  // "GetLongPathNameA"
 typedef HRESULT (__stdcall * PFNSHGETGETLONGPATHNAMEW)(LPCTSTR, LPTSTR, DWORD); // "GetLongPathNameW"
 
+#ifndef _MSC_VER
 #ifdef UNICODE
 #define GetLongPathName     GetLongPathNameA
 #define SZ_GETLONGPATHNAME  "GetLongPathNameA"
 #define PFNGETLONGPATHNAME  PFNSHGETGETLONGPATHNAMEA
-#else
+#else//UNICODE
 #define GetLongPathName     GetLongPathNameW
 #define SZ_GETLONGPATHNAME  "GetLongPathNameW"
 #define PFNGETLONGPATHNAME  PFNSHGETGETLONGPATHNAMEW
-#endif
+#endif//UNICODE
+#endif//_MSC_VER
+
 //DWORD win32_get_long_path_name(LPCTSTR lpszShortPath, LPTSTR lpszLongPath, DWORD ccBuffer);
 gchar* win32_long_name(gchar*);
 gchar* win32_full_path(gchar*);
