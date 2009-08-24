@@ -109,7 +109,7 @@ msgstr "Soldes finals"
 #: src/accueil.c:1145
 #, c-format
 msgid " in %s"
-msgstr "en %s"
+msgstr " en %s"
 
 #: src/accueil.c:1312 src/accueil.c:1435 src/accueil.c:1887
 #, c-format
