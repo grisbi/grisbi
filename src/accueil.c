@@ -156,6 +156,7 @@ GtkWidget *creation_onglet_accueil ( void )
     {
 	GtkWidget * eb;
 	GtkStyle * style;
+	gchar* tmpstr;
 
 	hbox_title = gtk_hbox_new ( FALSE, 0 );
 	g_signal_connect ( G_OBJECT ( hbox_title ), "destroy",
@@ -168,7 +169,7 @@ GtkWidget *creation_onglet_accueil ( void )
 	label_titre_fichier = gtk_label_new ( titre_fichier );
 	g_signal_connect ( G_OBJECT ( label_titre_fichier ), "destroy",
 	    			G_CALLBACK( gtk_widget_destroyed ), &label_titre_fichier );
-	gchar* tmpstr = g_strconcat ("<span size=\"x-large\">",
+	tmpstr = g_strconcat ("<span size=\"x-large\">",
 					    titre_fichier, "</span>", NULL );
 	gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr);
 	g_free ( tmpstr );
@@ -559,6 +560,7 @@ void update_liste_comptes_accueil ( gboolean force )
     {
         GSList *list_tmp;
         gint currency_number;
+        gchar* tmpstr;
 
         currency_number = gsb_data_currency_get_no_currency (devise -> data);
 
@@ -567,7 +569,7 @@ void update_liste_comptes_accueil ( gboolean force )
 
         /* Création du tableau dans lequel seront stockés les comptes avec leur     */
         /* solde.                                                                   */
-        gchar* tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s"),
+		tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s"),
                          gsb_data_currency_get_name (currency_number) );
         if ( balances_with_scheduled == FALSE )
             tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
@@ -636,6 +638,7 @@ void update_liste_comptes_accueil ( gboolean force )
     {
         GSList *list_tmp;
         gint currency_number;
+		gchar* tmpstr;
 
         currency_number = gsb_data_currency_get_no_currency (devise -> data);
 
@@ -644,7 +647,7 @@ void update_liste_comptes_accueil ( gboolean force )
 
         /* Création du tableau dans lequel seront stockés les comptes avec leur     */
         /* solde.                                                                   */
-        gchar* tmpstr = g_strdup_printf (_("Assets accounts balances in %s"),
+        tmpstr = g_strdup_printf (_("Assets accounts balances in %s"),
                          gsb_data_currency_get_name (currency_number));
         if ( balances_with_scheduled == FALSE )
             tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
@@ -813,12 +816,13 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
     GtkWidget *pEventBox, *pLabel;
     GtkStyle *pStyleLabelNomCompte, *pStyleLabelSoldeCourant,
 	     *pStyleLabelSoldePointe;
+	gchar* tmpstr;
 
     /* Initialisation du style « Nom du compte » */
     pStyleLabelNomCompte = gsb_main_page_get_default_label_style ( );
 
     /* Première colonne : elle contient le nom du compte */
-    gchar* tmpstr = g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL );
+    tmpstr = g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL );
     pLabel = gtk_label_new ( tmpstr );
     g_free ( tmpstr );
     gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
@@ -1178,6 +1182,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    gint scheduled_number;
 	    gint account_number;
 	    gint currency_number;
+		gchar* tmpstr;
 
 	    scheduled_number = GPOINTER_TO_INT (pointeur_liste -> data);
 	    account_number = gsb_data_scheduled_get_account_number (scheduled_number);
@@ -1205,7 +1210,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), event_box, TRUE, TRUE, 5 );
 	    gtk_widget_show ( event_box  );
 
-            gchar* tmpstr = g_strconcat ( gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number)),
+            tmpstr = g_strconcat ( gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number)),
 				  " : ",
 				  gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number),
 								       FALSE ),
@@ -1300,6 +1305,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    gint transaction_number;
 	    gint account_number;
 	    gint currency_number;
+		gchar* tmpstr;
 
 	    transaction_number = GPOINTER_TO_INT ( pointeur_liste -> data );
 	    account_number = gsb_data_transaction_get_account_number (transaction_number);
@@ -1326,7 +1332,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    gtk_widget_show ( event_box );
 
 	    /* label à gauche */
-            gchar* tmpstr = g_strconcat ( gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number)),
+            tmpstr = g_strconcat ( gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number)),
 					  " : ",
 					  gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number), FALSE),
 					  NULL );
@@ -1757,6 +1763,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     GtkWidget * label, * hbox, * page;
     gint account_number;
     gint currency_number;
+	gchar* tmpstr;
 
     account_number = gsb_data_scheduled_get_account_number (scheduled_number);
     currency_number = gsb_data_scheduled_get_currency_number (scheduled_number);
@@ -1779,7 +1786,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
 
     /* label à gauche */
 
-    gchar* tmpstr = g_strconcat ( gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
+    tmpstr = g_strconcat ( gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
 					  " : ",
 					  gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number), FALSE),
 					  NULL );

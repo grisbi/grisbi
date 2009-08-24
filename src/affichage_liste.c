@@ -447,6 +447,7 @@ GtkWidget *onglet_form_completion ( void )
 {
     GtkWidget *vbox_pref, *hbox, *label, *entry;
     GtkWidget *button;
+	gchar* tmpstr;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "form.png" );
 
@@ -505,7 +506,7 @@ GtkWidget *onglet_form_completion ( void )
 
     entry = gtk_entry_new ();
     gtk_widget_set_size_request ( entry, 30, -1 );
-    gchar* tmpstr = utils_str_itoa (etat.combofix_max_item);
+    tmpstr = utils_str_itoa (etat.combofix_max_item);
     gtk_entry_set_text ( GTK_ENTRY (entry), tmpstr);
     g_free ( tmpstr );
     g_signal_connect ( G_OBJECT (entry),

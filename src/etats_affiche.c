@@ -142,6 +142,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 {
     char * text;
     gint current_report_number;
+	gchar* tmpstr;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -223,7 +224,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 		else
 		    fmtstr = _("%s (%d transactions)");
 
-		gchar* tmpstr = gsb_real_get_string_with_currency ( montant_categ_etat,
+		tmpstr = gsb_real_get_string_with_currency ( montant_categ_etat,
 										 devise_categ_etat, TRUE  );
 	        text = g_strdup_printf ( fmtstr , tmpstr, nb_ope_categ_etat );
 		g_free ( tmpstr );
@@ -260,6 +261,7 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 {
     gchar * text;
     gint current_report_number;
+	gchar* tmpstr;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -341,7 +343,7 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 		    fmtstr = _("%s (%d transaction)"); 
 		else
 		    fmtstr = _("%s (%d transactions)");
-		gchar* tmpstr = gsb_real_get_string_with_currency ( montant_sous_categ_etat, devise_categ_etat, TRUE  );
+		tmpstr = gsb_real_get_string_with_currency ( montant_sous_categ_etat, devise_categ_etat, TRUE  );
 	        text = g_strdup_printf ( fmtstr, tmpstr, 
 				nb_ope_sous_categ_etat );
 	        g_free ( tmpstr );
@@ -376,6 +378,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 {
     gchar * text;
     gint current_report_number;
+	gchar* tmpstr2;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -453,7 +456,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 		    fmtstr = _("%s (%d transaction)"); 
 		else
 		    fmtstr = _("%s (%d transactions)"); 
-		gchar* tmpstr2 = gsb_real_get_string_with_currency (montant_ib_etat, devise_ib_etat, TRUE  );
+		tmpstr2 = gsb_real_get_string_with_currency (montant_ib_etat, devise_ib_etat, TRUE  );
 		text = g_strdup_printf ( fmtstr, tmpstr2 , nb_ope_ib_etat );
 		g_free (tmpstr2);
 	    }
@@ -604,6 +607,7 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 {
     gchar * text;
     gint current_report_number;
+	gchar* tmpstr;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -677,7 +681,7 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 		    fmtstr = _("%s (%d transaction)"); 
 		else
 		    fmtstr = _("%s (%d transactions)"); 
-		gchar* tmpstr = gsb_real_get_string_with_currency ( montant_compte_etat,
+		tmpstr = gsb_real_get_string_with_currency ( montant_compte_etat,
 				devise_compte_en_cours_etat, TRUE  );
 		text = g_strdup_printf ( fmtstr, tmpstr, 
 					     nb_ope_compte_etat );
@@ -712,6 +716,7 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 {
     gchar * text;
     gint current_report_number;
+	gchar* tmpstr;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -784,7 +789,7 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 		    fmtstr = _("%s (%d transaction)"); 
 		else
 		    fmtstr = _("%s (%d transactions)"); 
-		gchar* tmpstr = gsb_real_get_string_with_currency (montant_tiers_etat,
+		tmpstr = gsb_real_get_string_with_currency (montant_tiers_etat,
 										devise_tiers_etat, TRUE  );
 		text = g_strdup_printf ( fmtstr, tmpstr, nb_ope_tiers_etat );
 	        g_free ( tmpstr );
@@ -823,6 +828,8 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 					  gint force )
 {
     gint current_report_number;
+	gchar* dtstr1;
+	gchar* dtstr2;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -981,8 +988,8 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 		    fmtstr = _("Result from %s to %s (%d transaction):");
 		else
 		    fmtstr = _("Result from %s to %s (%d transactions):");
-		gchar* dtstr1 = gsb_format_gdate ( date_debut_periode );
-		gchar* dtstr2 = gsb_format_gdate ( date_tmp );
+		dtstr1 = gsb_format_gdate ( date_debut_periode );
+		dtstr2 = gsb_format_gdate ( date_tmp );
 		text = g_strdup_printf ( fmtstr, dtstr1, dtstr2, nb_ope_periode_etat );
 	        g_free ( dtstr1 );
 	        g_free ( dtstr2 );

@@ -261,6 +261,7 @@ gboolean gsb_csv_export_account ( const gchar *filename, gint account_nb )
     FILE *csv_file;
     GSList *pTransactionList;
     GSList *tmp_list;
+	gchar* tmpstr;
 
     csv_file = gsb_csv_export_open_file (filename);
 
@@ -271,7 +272,7 @@ gboolean gsb_csv_export_account ( const gchar *filename, gint account_nb )
 	gsb_csv_export_title_line (csv_file, TRUE);
 
     /* set the initial balance */
-    gchar* tmpstr = g_strconcat (_("Initial balance") , " [", 
+    tmpstr = g_strconcat (_("Initial balance") , " [", 
 						     gsb_data_account_get_name(account_nb),
 						     "]", NULL );
     if ( csv_field_tiers )
@@ -418,6 +419,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
     gsb_real amount;
     gint return_exponent;
     gint account_number;
+	gchar* tmpstr;
 
     account_number = gsb_data_transaction_get_account_number (transaction_number);
     return_exponent = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_number));
@@ -586,7 +588,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 			CSV_CLEAR_FIELD (csv_field_categ);
 			csv_field_categ = my_strdup (_("Transfer"));
 
-			gchar* tmpstr = g_strconcat ( "[", gsb_data_account_get_name ( gsb_data_transaction_get_contra_transaction_account ( pSplitTransaction ) ), "]", NULL );
+			tmpstr = g_strconcat ( "[", gsb_data_account_get_name ( gsb_data_transaction_get_contra_transaction_account ( pSplitTransaction ) ), "]", NULL );
 			/* TODO dOm : is it necessary to duplicate memory with my_strdup since it was already newly allocated memory ? */
 			CSV_CLEAR_FIELD (csv_field_sous_categ);
 			csv_field_sous_categ = my_strdup (tmpstr);

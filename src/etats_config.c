@@ -4302,6 +4302,7 @@ void remplit_liste_comparaisons_textes_etat ( void )
 {
     GSList *list_tmp;
     gint current_report_number;
+	gchar* tmpstr;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -4380,7 +4381,7 @@ void remplit_liste_comparaisons_textes_etat ( void )
 	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_second_comparison (text_comparison_number)),
 				      gsb_data_report_text_comparison_get_second_comparison (text_comparison_number));
 
-	gchar* tmpstr = utils_str_itoa (gsb_data_report_text_comparison_get_first_amount (text_comparison_number));
+	tmpstr = utils_str_itoa (gsb_data_report_text_comparison_get_first_amount (text_comparison_number));
 	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number)), tmpstr);
 	g_free ( tmpstr );
 
@@ -5402,6 +5403,7 @@ void remplit_liste_comparaisons_montants_etat ( void )
 {
     GSList *list_tmp;
     gint current_report_number;
+	gchar* tmpstr;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -5471,7 +5473,6 @@ void remplit_liste_comparaisons_montants_etat ( void )
 	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_second_comparison (amount_comparison_number)),
 				      gsb_data_report_amount_comparison_get_second_comparison (amount_comparison_number));
 
-	gchar* tmpstr;
 	tmpstr = gsb_real_get_string (gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number));
 	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number)), tmpstr);
 	g_free ( tmpstr );
