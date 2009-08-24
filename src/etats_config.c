@@ -6677,7 +6677,8 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    bouton_afficher_nb_opes = gtk_check_button_new_with_label ( _("Diplay the number of transactions with the totals") );
+    bouton_afficher_nb_opes = gtk_check_button_new_with_label ( 
+                        _("Display the number of transactions with the totals") );
     g_signal_connect ( G_OBJECT (bouton_afficher_nb_opes ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_nb_opes );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -7212,7 +7213,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* permet d'afficher un ss total lors de chgt de tiers */
     /* activé uniquement si on utilise les tiers */
 
-    bouton_affiche_sous_total_tiers = gtk_check_button_new_with_label ( _("Dsplay a sub-total for each payee") );
+    bouton_affiche_sous_total_tiers = gtk_check_button_new_with_label ( 
+                        _("Display a sub-total for each payee") );
     g_signal_connect ( G_OBJECT (bouton_affiche_sous_total_tiers ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_affiche_sous_total_tiers );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-24 22:13+0200\n"
+"POT-Creation-Date: 2009-08-24 22:34+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -259,7 +259,7 @@ msgid "Addresses & titles"
 msgstr "Διευθύνσεις & τίτλοι"
 
 #: src/affichage.c:369 src/etats_config.c:626 src/etats_config.c:629
-#: src/etats_config.c:7156
+#: src/etats_config.c:7157
 msgid "Titles"
 msgstr "Τίτλοι"
 
@@ -337,11 +337,13 @@ msgid "Color of transaction's text"
 msgstr "Χρώμα του κειμένου της συναλλαγής"
 
 #: src/affichage.c:786
-msgid "Text of unfinished splitted transaction"
+#, fuzzy
+msgid "Text of unfinished split transaction"
 msgstr " κείμενο ατελούς  συναλλαγής"
 
 #: src/affichage.c:787
-msgid "Children of splitted transaction"
+#, fuzzy
+msgid "Children of split transaction"
 msgstr "Αποτελέσματα διασπασμένης συναλλαγής"
 
 #: src/affichage.c:788
@@ -780,7 +782,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr "Αρχεία κατηγορίας Grisbi (*.cgsb)"
 
 #: src/categories_onglet.c:400 src/etats_onglet.c:1256
-#: src/file_obfuscate_qif.c:105 src/gsb_file.c:238 src/import.c:729
+#: src/file_obfuscate_qif.c:105 src/gsb_file.c:242 src/import.c:729
 #: src/imputation_budgetaire.c:435
 msgid "All files"
 msgstr "Όλα τα αρχεία"
@@ -1504,7 +1506,7 @@ msgstr "Οικονομικό έτος"
 
 #. mise en place de la paddingbox des tiers
 #: src/etats_affiche.c:2426 src/etats_config.c:519 src/etats_config.c:522
-#: src/etats_config.c:687 src/etats_config.c:7194 src/export_csv.c:764
+#: src/etats_config.c:687 src/etats_config.c:7195 src/export_csv.c:764
 #: src/fenetre_principale.c:279 src/gsb_assistant_reconcile_config.c:614
 #: src/gsb_form.c:1311 src/gsb_form_widget.c:417 src/gsb_scheduler_list.c:338
 #: src/gsb_transactions_list.c:145 src/import.c:2998 src/import_csv.c:80
@@ -1528,7 +1530,7 @@ msgstr "Σημειώσεις"
 
 #. Now we have a model, create view
 #: src/etats_affiche.c:2454 src/etats_config.c:564 src/etats_config.c:567
-#: src/etats_config.c:7416 src/gsb_payment_method_config.c:118
+#: src/etats_config.c:7418 src/gsb_payment_method_config.c:118
 #: src/parametres.c:513
 msgid "Payment methods"
 msgstr "Μέθοδοι πληρωμής"
@@ -1651,7 +1653,7 @@ msgid "Transfers"
 msgstr "Μεταφορές"
 
 #. mise en place de la paddingbox des comptes
-#: src/etats_config.c:510 src/etats_config.c:513 src/etats_config.c:7160
+#: src/etats_config.c:510 src/etats_config.c:513 src/etats_config.c:7161
 #: src/fenetre_principale.c:257 src/navigation.c:252
 msgid "Accounts"
 msgstr "Λογαριασμοί"
@@ -1659,7 +1661,7 @@ msgstr "Λογαριασμοί"
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
 #: src/etats_config.c:528 src/etats_config.c:531 src/etats_config.c:3039
-#: src/etats_config.c:7232 src/fenetre_principale.c:292 src/navigation.c:324
+#: src/etats_config.c:7234 src/fenetre_principale.c:292 src/navigation.c:324
 #: src/navigation.c:1243
 msgid "Categories"
 msgstr "Κατηγορίες"
@@ -1667,7 +1669,7 @@ msgstr "Κατηγορίες"
 #. mise en place de la paddingbox des ib
 #. set the title
 #: src/etats_config.c:537 src/etats_config.c:540 src/etats_config.c:3851
-#: src/etats_config.c:7319 src/export_csv.c:788 src/fenetre_principale.c:297
+#: src/etats_config.c:7321 src/export_csv.c:788 src/fenetre_principale.c:297
 #: src/navigation.c:341 src/navigation.c:1254 src/traitement_variables.c:78
 msgid "Budgetary lines"
 msgstr "Δημοσιονομικές γραμμές"
@@ -1838,14 +1840,14 @@ msgid "Select the accounts included in the report"
 msgstr "Επιλέξτε τους λογαριασμούς που περιλαμβάνονται στην έκθεση"
 
 #: src/etats_config.c:2581 src/etats_config.c:2848 src/etats_config.c:3138
-#: src/etats_config.c:3951 src/etats_config.c:4147 src/etats_config.c:7513
+#: src/etats_config.c:3951 src/etats_config.c:4147 src/etats_config.c:7515
 #: src/tiers_onglet.c:1405 src/tiers_onglet.c:1425
 msgid "Select all"
 msgstr "Επιλογή όλων"
 
 #. ajoute le bouton (dÃ©)sÃ©lectionne tout
 #: src/etats_config.c:2596 src/etats_config.c:2863 src/etats_config.c:3153
-#: src/etats_config.c:3966 src/etats_config.c:4162 src/etats_config.c:7528
+#: src/etats_config.c:3966 src/etats_config.c:4162 src/etats_config.c:7530
 #: src/tiers_onglet.c:1196 src/tiers_onglet.c:1407
 msgid "Unselect all"
 msgstr "Αποεπιλογή όλων"
@@ -1999,7 +2001,7 @@ msgstr "Προσθέστε"
 msgid "Remove"
 msgstr "Αφαιρέστε"
 
-#: src/etats_config.c:4903 src/etats_config.c:6766 src/etats_config.c:6878
+#: src/etats_config.c:4903 src/etats_config.c:6767 src/etats_config.c:6879
 msgid "payee"
 msgstr "δικαιούχος πληρωμής"
 
@@ -2007,31 +2009,31 @@ msgstr "δικαιούχος πληρωμής"
 msgid "payee information"
 msgstr "πληροφορίες δικαιούχου πληρωμής"
 
-#: src/etats_config.c:4959 src/etats_config.c:6771 src/etats_config.c:6885
+#: src/etats_config.c:4959 src/etats_config.c:6772 src/etats_config.c:6886
 msgid "category"
 msgstr "κατηγορία"
 
-#: src/etats_config.c:4987 src/etats_config.c:6776
+#: src/etats_config.c:4987 src/etats_config.c:6777
 msgid "sub-category"
 msgstr "υποκατηγορία"
 
-#: src/etats_config.c:5015 src/etats_config.c:6781 src/etats_config.c:6892
+#: src/etats_config.c:5015 src/etats_config.c:6782 src/etats_config.c:6893
 msgid "budgetary line"
 msgstr "δημοσιονομική γραμμή"
 
-#: src/etats_config.c:5043 src/etats_config.c:6786
+#: src/etats_config.c:5043 src/etats_config.c:6787
 msgid "sub-budgetary line"
 msgstr "υπο--δημοσιονομική γραμμή"
 
-#: src/etats_config.c:5071 src/etats_config.c:6899
+#: src/etats_config.c:5071 src/etats_config.c:6900
 msgid "note"
 msgstr "σημείωση"
 
-#: src/etats_config.c:5099 src/etats_config.c:6816 src/etats_config.c:6927
+#: src/etats_config.c:5099 src/etats_config.c:6817 src/etats_config.c:6928
 msgid "bank reference"
 msgstr "αναφορά τραπεζών"
 
-#: src/etats_config.c:5127 src/etats_config.c:6806 src/etats_config.c:6920
+#: src/etats_config.c:5127 src/etats_config.c:6807 src/etats_config.c:6921
 msgid "voucher"
 msgstr "απόδειξη"
 
@@ -2039,7 +2041,7 @@ msgstr "απόδειξη"
 msgid "cheque number"
 msgstr "αριθμός επιταγών"
 
-#: src/etats_config.c:5168 src/etats_config.c:6821 src/etats_config.c:6934
+#: src/etats_config.c:5168 src/etats_config.c:6822 src/etats_config.c:6935
 msgid "reconciliation reference"
 msgstr "αναφορά συμφωνίας"
 
@@ -2247,189 +2249,189 @@ msgstr "Αρχή της εβδομάδας"
 msgid "Report name"
 msgstr "Όνομα εκθέσεων"
 
-#: src/etats_config.c:6680
-msgid "Diplay the number of transactions with the totals"
+#: src/etats_config.c:6681
+#, fuzzy
+msgid "Display the number of transactions with the totals"
 msgstr "Εμφανίστε τον αριθμό συναλλαγών με τα σύνολα"
 
-#: src/etats_config.c:6701
+#: src/etats_config.c:6702
 msgid "Consider the payees of this report as a multiple payee."
 msgstr ""
 "Θεωρήστε τους δικαιούχους πληρωμής αυτής της έκθεσης ως πολλαπλό δικαιούχο "
 "πληρωμής"
 
-#: src/etats_config.c:6726
+#: src/etats_config.c:6727
 msgid "Transactions display"
 msgstr "Εμφάνιση συναλλαγών"
 
 #. afficher ou non les opÃ©s
-#: src/etats_config.c:6731
+#: src/etats_config.c:6732
 msgid "Display transactions"
 msgstr "Εμφάνιση συναλλαγών"
 
 #. demande les dÃ©tails affichÃ©s dans les opÃ©rations
-#: src/etats_config.c:6746
+#: src/etats_config.c:6747
 msgid "Include following informations"
 msgstr "Περιλάβετε τις ακόλουθες πληροφορίες"
 
-#: src/etats_config.c:6751 src/etats_config.c:6871
+#: src/etats_config.c:6752 src/etats_config.c:6872
 msgid "transaction number"
 msgstr "αριθμός συναλλαγής"
 
-#: src/etats_config.c:6756 src/etats_config.c:6857
+#: src/etats_config.c:6757 src/etats_config.c:6858
 msgid "date"
 msgstr "ημερομηνία"
 
-#: src/etats_config.c:6761 src/etats_config.c:6864
+#: src/etats_config.c:6762 src/etats_config.c:6865
 msgid "value date"
 msgstr "τοκοφόρος ημερομηνία"
 
-#: src/etats_config.c:6791
+#: src/etats_config.c:6792
 msgid "notes"
 msgstr "σημειώσεις"
 
-#: src/etats_config.c:6796 src/etats_config.c:6906
+#: src/etats_config.c:6797 src/etats_config.c:6907
 msgid "method of payment"
 msgstr "μέθοδος πληρωμής"
 
-#: src/etats_config.c:6801 src/etats_config.c:6913
+#: src/etats_config.c:6802 src/etats_config.c:6914
 msgid "cheque/transfer number"
 msgstr "επιταγή/αριθμός μεταφοράς"
 
-#: src/etats_config.c:6811 src/etats_support.c:138
+#: src/etats_config.c:6812 src/etats_support.c:138
 msgid "financial year"
 msgstr "οικονομικό έτος"
 
 #. on propose d'afficher le titre des colonnes
-#: src/etats_config.c:6828
+#: src/etats_config.c:6829
 msgid "Columns"
 msgstr "Στήλες"
 
-#: src/etats_config.c:6830
+#: src/etats_config.c:6831
 msgid "Display column titles"
 msgstr "Εμφάνιση τίτλων στηλών"
 
-#: src/etats_config.c:6835
+#: src/etats_config.c:6836
 msgid "every section"
 msgstr "κάθε τμήμα"
 
-#: src/etats_config.c:6841
+#: src/etats_config.c:6842
 msgid "at the top of the report"
 msgstr "στην κορυφή της έκθεσης"
 
 #. mise en place du type de classement des opÃ©s
-#: src/etats_config.c:6848
+#: src/etats_config.c:6849
 msgid "Sort transactions by"
 msgstr "Συναλλαγές είδους  κατά"
 
 #. on propose de rendre clickable le dÃ©tails des opÃ©rations
-#: src/etats_config.c:6946
+#: src/etats_config.c:6947
 msgid "Clickable transactions"
 msgstr "Συναλλαγές με ένα κλικ"
 
-#: src/etats_config.c:6948
+#: src/etats_config.c:6949
 msgid "Make transactions clickable"
 msgstr "Κάνετε τις συναλλαγές με ένα κλικ"
 
-#: src/etats_config.c:6986 src/parametres.c:1010
+#: src/etats_config.c:6987 src/parametres.c:1010
 msgid "Totals currencies"
 msgstr "Σύνολα νομισμάτων"
 
-#: src/etats_config.c:6999
+#: src/etats_config.c:7000
 msgid "General totals currency"
 msgstr "Γενικό νόμισμα συνόλων"
 
-#: src/etats_config.c:7030
+#: src/etats_config.c:7031
 msgid "Payees currency"
 msgstr "Νόμισμα δικαιούχων πληρωμής"
 
-#: src/etats_config.c:7061
+#: src/etats_config.c:7062
 msgid "Categories currency"
 msgstr "Κατηγορίες νομισμάτων"
 
-#: src/etats_config.c:7093
+#: src/etats_config.c:7094
 msgid "Budgetary lines currency"
 msgstr "Νόμισμα προυπολογιστικών γραμμών"
 
-#: src/etats_config.c:7124
+#: src/etats_config.c:7125
 msgid "Amount comparison currency"
 msgstr "Νόμισμα σύγκρισης ποσού"
 
 #. on permet d'afficher le name du compte
-#: src/etats_config.c:7163
+#: src/etats_config.c:7164
 msgid "Display account name"
 msgstr "Εμφάνιση ονόματος λογαριασμού"
 
 #. on permet d'afficher un ss total lors de chgt de compte
 #. activÃ© uniquement si on a regroupÃ© les opÃ©s par compte
-#: src/etats_config.c:7177
+#: src/etats_config.c:7178
 msgid "Display a sub-total for each account"
 msgstr "Επιδείξτε ένα υποσύνολο για κάθε λογαριασμό"
 
 #. permet d'afficher le name du tiers, activÃ© uniquement si on utilise les tiers
-#: src/etats_config.c:7197
+#: src/etats_config.c:7198
 msgid "Display payee's name"
 msgstr "Εμφάνιση του ονόματος του δικαιούχου πληρωμής "
 
-#. permet d'afficher un ss total lors de chgt de tiers
-#. activÃ© uniquement si on utilise les tiers
-#: src/etats_config.c:7215
-msgid "Dsplay a sub-total for each payee"
+#: src/etats_config.c:7217
+#, fuzzy
+msgid "Display a sub-total for each payee"
 msgstr "Εμφανίστε ένα υποσύνολο για κάθε δικαιούχο πληρωμής"
 
 #. affichage possible du name de la categ
-#: src/etats_config.c:7235
+#: src/etats_config.c:7237
 msgid "Display the (sub)category's name"
 msgstr "Εμφανίστε το (υπο-) όνομα της κατηγορίας"
 
 #. permet d'afficher un sous total lors de chgt de categ
 #. activÃ© uniquement si on utilise les categ
-#: src/etats_config.c:7253
+#: src/etats_config.c:7255
 msgid "Display a sub-total for each category"
 msgstr "Εμφανίστε ένα υποσύνολο για κάθε κατηγορία"
 
 #. mise en place du bouton pour afficher les sous categ
-#: src/etats_config.c:7270
+#: src/etats_config.c:7272
 msgid "Display sub-categories"
 msgstr "Εμφάνιση υποκατηγοριών"
 
-#: src/etats_config.c:7286
+#: src/etats_config.c:7288
 msgid "Display a sub-total for each sub-category"
 msgstr "Εμφάνιση ενός υποσυνόλου για κάθε υποκατηγορία"
 
-#: src/etats_config.c:7302
+#: src/etats_config.c:7304
 msgid "Display \" No sub-category\" if none"
 msgstr "Εμφάνιση \"Kαμία υποκατηγορία\" εάν δεν υπάρχει καμιά"
 
-#: src/etats_config.c:7321
+#: src/etats_config.c:7323
 msgid "Display the (sub-)budget line name"
 msgstr "Εμφάνιση της γραμμής ονόματος του (υπο-)προϋπολογισμού"
 
 #. permet d'afficher un sous total lors de chgt d'ib
 #. activÃ© uniquement si on utilise les ib
-#: src/etats_config.c:7339
+#: src/etats_config.c:7341
 msgid "Display a sub-total for each budgetary line"
 msgstr "Εμφανίστε ένα υποσύνολο για κάθε δημοσιονομική γραμμή"
 
 #. mise en place du bouton pour afficher les sous categ
-#: src/etats_config.c:7356
+#: src/etats_config.c:7358
 msgid "Display sub-budget lines"
 msgstr "Εμφανίστε τις γραμμές υπο--προϋπολογισμών "
 
-#: src/etats_config.c:7371
+#: src/etats_config.c:7373
 msgid "Display a sub-total for each sub-budget line"
 msgstr "Εμφάνιση ενός υποσυνόλου για κάθε γραμμή υπο--προϋπολογισμών"
 
-#: src/etats_config.c:7387
+#: src/etats_config.c:7389
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Εμφάνιση \"Καμία υπο--δημοσιονομική γραμμή\" εάν δεν υπάρχει"
 
 #. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
 #. sÃ©lectionner
-#: src/etats_config.c:7422
+#: src/etats_config.c:7424
 msgid "Select the transactions by method of payment"
 msgstr "Επιλέξτε τις συναλλαγές με τη μέθοδο πληρωμής"
 
-#: src/etats_config.c:7452
+#: src/etats_config.c:7454
 msgid "Select methods of payment to include"
 msgstr "Επιλέξτε τις μεθόδους πληρωμής που θα περιλάβετε"
 
@@ -2686,8 +2688,8 @@ msgstr "Aρχείο Latex"
 msgid "Exporting report ..."
 msgstr "Εξαγωγή αναφοράς..."
 
-#: src/etats_onglet.c:1218 src/gsb_debug.c:246 src/gsb_file.c:472
-#: src/gsb_file.c:596 src/gsb_file.c:653
+#: src/etats_onglet.c:1218 src/gsb_debug.c:246 src/gsb_file.c:476
+#: src/gsb_file.c:600 src/gsb_file.c:657
 msgid "Done"
 msgstr "Έτοιμο"
 
@@ -6824,11 +6826,11 @@ msgid "Transaction %d has invalid payee %d.\n"
 msgstr "Η συναλλαγή %d έχει τον άκυρο δικαιούχο πληρωμής %d.\n"
 
 #. Create main widget.
-#: src/gsb_file.c:174
+#: src/gsb_file.c:178
 msgid "Creating main window"
 msgstr "Δημιουργία του κύριου παραθύρου"
 
-#: src/gsb_file.c:181
+#: src/gsb_file.c:185
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
@@ -6836,30 +6838,30 @@ msgstr ""
 "Το πρότυπο του καταλόγου δεν μπόρεσε να δημιουργηθεί… Ανεπιθύμητα πράγματα "
 "θα συμβούν πολύ σύντομα…"
 
-#: src/gsb_file.c:221
+#: src/gsb_file.c:225
 msgid "Open an accounts file"
 msgstr "Άνοιγμα αρχείου λογαριασμού"
 
-#: src/gsb_file.c:232
+#: src/gsb_file.c:236
 msgid "Grisbi files (*.gsb)"
 msgstr "Αρχεία Grisbi (*.gsb)"
 
-#: src/gsb_file.c:367
+#: src/gsb_file.c:371
 msgid "Loading accounts"
 msgstr "Φόρτωση λογαριασμών"
 
 #. Loading failed.
-#: src/gsb_file.c:384
+#: src/gsb_file.c:388
 msgid "Failed to load accounts"
 msgstr "Αδυναμία φόρτωσης λογαριασμών"
 
-#: src/gsb_file.c:388 src/gsb_file.c:405 src/gsb_file_load.c:296
+#: src/gsb_file.c:392 src/gsb_file.c:409 src/gsb_file_load.c:296
 #: src/gsb_file_load.c:310 src/gsb_file_load.c:411
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Λάθος φόρτωσης αρχείου '%s'"
 
-#: src/gsb_file.c:390
+#: src/gsb_file.c:394
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -6874,7 +6876,7 @@ msgstr ""
 "Παρακαλώ ελάτε σε επαφή με την ομάδα του Grisbi στο devel@listes.grisbi.org "
 "για να βρείτε τι συνέβη στο τρέχον αρχείο."
 
-#: src/gsb_file.c:410
+#: src/gsb_file.c:414
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -6891,7 +6893,7 @@ msgstr ""
 "Παρακαλώ ελάτε σε επαφή με την ομάδα του Grisbi στο devel@listes.grisbi.org "
 "για να βρείτε τι συνέβη στο τρέχον αρχείο."
 
-#: src/gsb_file.c:417
+#: src/gsb_file.c:421
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -6904,16 +6906,16 @@ msgstr ""
 "για να βρεί τι συνέβη στο τρέχον αρχείο."
 
 #. ok, here the file or backup is loaded
-#: src/gsb_file.c:432
+#: src/gsb_file.c:436
 msgid "Checking schedulers"
 msgstr "Έλεγχος χρονοδιαγραμμάτων"
 
 #. check the amounts of all the accounts
-#: src/gsb_file.c:445
+#: src/gsb_file.c:449
 msgid "Checking amounts"
 msgstr "Έλεγχος ποσών"
 
-#: src/gsb_file.c:548
+#: src/gsb_file.c:552
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -6924,30 +6926,30 @@ msgstr ""
 "προτιμήσεις."
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:549 src/gsb_file.c:800 src/parametres.c:697
+#: src/gsb_file.c:553 src/gsb_file.c:804 src/parametres.c:697
 msgid "Force saving of locked files"
 msgstr "Αναγκαστική αποθήκευση κλειδωμένων αρχείων"
 
-#: src/gsb_file.c:550
+#: src/gsb_file.c:554
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "Αδύνατη η αποθήκευση του αρχείου \"%s\""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: src/gsb_file.c:573
+#: src/gsb_file.c:577
 msgid "Saving file"
 msgstr "Σώζοντας το αρχείο"
 
-#: src/gsb_file.c:622
+#: src/gsb_file.c:626
 msgid "Saving backup"
 msgstr "Δημιουργία backup"
 
-#: src/gsb_file.c:797
+#: src/gsb_file.c:801
 msgid "Save locked files?"
 msgstr "Αποθήκευση κλειδωμένων αρχείων;"
 
-#: src/gsb_file.c:798
+#: src/gsb_file.c:802
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
@@ -6957,54 +6959,54 @@ msgstr ""
 "πρέπει να το ακυρώσετε και το σώζετε με ένα άλλο όνομα ή ενεργοποιείτε την "
 "επιλογή \"%s\" στην οργάνωση."
 
-#: src/gsb_file.c:799 src/gsb_file.c:810 src/gsb_file.c:995
+#: src/gsb_file.c:803 src/gsb_file.c:814 src/gsb_file.c:999
 msgid "unnamed"
 msgstr "απροσδιόριστος"
 
-#: src/gsb_file.c:802 src/gsb_file.c:813
+#: src/gsb_file.c:806 src/gsb_file.c:817
 msgid "Close without saving"
 msgstr "Κλείσιμο χωρίς αποθήκευση"
 
-#: src/gsb_file.c:809
+#: src/gsb_file.c:813
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "Αποθήκευση αλλαγών του εγγράφου '%s' πριν κλείσει;"
 
-#: src/gsb_file.c:822
+#: src/gsb_file.c:826
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr "%d λεπτά και %d δευτερόλεπτα"
 
-#: src/gsb_file.c:827
+#: src/gsb_file.c:831
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr "1 λεπτό και %d δευτερόλεπτα"
 
-#: src/gsb_file.c:832
+#: src/gsb_file.c:836
 #, c-format
 msgid "%d seconds"
 msgstr "%d δευτερόλεπτα"
 
-#: src/gsb_file.c:835
+#: src/gsb_file.c:839
 #, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr ""
 "Εάν κλείσετε χωρίς αποθήκευση, όλες οι αλλαγές σας από %s θα απορριφθούν."
 
-#: src/gsb_file.c:871
+#: src/gsb_file.c:875
 msgid "Name the accounts file"
 msgstr "Ονομάστε το αρχείο λογαριασμών"
 
-#: src/gsb_file.c:998
+#: src/gsb_file.c:1002
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: src/gsb_file.c:1150
+#: src/gsb_file.c:1154
 msgid "Delete a copy of file of the old version of grisbi"
 msgstr ""
 
-#: src/gsb_file.c:1170
+#: src/gsb_file.c:1174
 #, fuzzy, c-format
 msgid ""
 "Careful, you are about to deleting the copy of file\n"
