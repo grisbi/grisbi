@@ -60,6 +60,7 @@ static void affiche_solde_des_comptes ( GtkWidget *table,
                         gsb_real solde_global_pointe );
 static gint affiche_soldes_partiels ( GtkWidget *table,
                         gint i,
+                        gint nb_comptes,
                         GSList *liste,
                         gint currency_number,
                         gint type_compte );
@@ -78,6 +79,7 @@ static void update_liste_comptes_accueil ( gboolean force );
 static void update_liste_echeances_auto_accueil ( gboolean force );
 static void update_liste_echeances_manuelles_accueil ( gboolean force );
 static void update_soldes_minimaux ( gboolean force );
+static gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -381,9 +383,10 @@ void update_liste_comptes_accueil ( gboolean force )
     GSList *list_tmp;
     gsb_real solde_global_courant, solde_global_pointe;
     gchar* tmpstr;
-    gint i;
+    gint i = 0;
     gint nb_comptes_bancaires=0, nb_comptes_passif=0, nb_comptes_actif=0;
     gint new_comptes_bancaires=0, new_comptes_passif=0, new_comptes_actif=0;
+    gint soldes_mixtes = 0;
     
     if ( !force
 	 &&
@@ -434,14 +437,6 @@ void update_liste_comptes_accueil ( gboolean force )
         }
         list_tmp = list_tmp -> next;
     }
-
-    /* on ajoute les lignes pour le solde */
-    if ( nb_comptes_bancaires > 0 )
-        nb_comptes_bancaires = nb_comptes_bancaires + 3;
-    if ( nb_comptes_actif > 0 )
-        nb_comptes_actif = nb_comptes_actif + 3;
-    if ( nb_comptes_passif > 0 )
-        nb_comptes_passif = nb_comptes_passif + 3;
     
     list_tmp = gsb_data_partial_balance_get_list ( );
     if ( list_tmp )
@@ -460,21 +455,17 @@ void update_liste_comptes_accueil ( gboolean force )
             {
                 new_comptes_passif++;
             }
+            else if ( gsb_data_partial_balance_get_kind ( i ) == -1 )
+            {
+                soldes_mixtes++;
+            }
             else
             {
                 new_comptes_bancaires++;
             }
             list_tmp = list_tmp -> next;
         }
-
-         /* on ajoute les lignes pour les soldes partiels */
-        if ( new_comptes_bancaires > 0 )
-            new_comptes_bancaires += new_comptes_bancaires + 2;
-        if ( new_comptes_actif > 0 )
-            new_comptes_actif += new_comptes_actif + 2;
-        if ( new_comptes_passif > 0 )
-            new_comptes_passif = new_comptes_passif + 2;
-    }
+   }
 
     /* Affichage des comptes bancaires et de caisse */
     for ( devise = gsb_data_currency_get_currency_list (); devise ; devise = devise->next )
@@ -489,7 +480,7 @@ void update_liste_comptes_accueil ( gboolean force )
             continue;
 
 
-        /* Création du tableau dans lequel seront stockés les comptes avec leur solde. */
+        /* Creating the table which will store accounts with their balances. */
         tmpstr = g_strdup_printf ( _("Account balances in %s"),
                         gsb_data_currency_get_name ( currency_number ) );
         if ( balances_with_scheduled == FALSE )
@@ -499,7 +490,7 @@ void update_liste_comptes_accueil ( gboolean force )
         g_free ( tmpstr );
 
         pTable = gsb_main_page_get_table_for_accounts (
-                        nb_comptes_bancaires + new_comptes_bancaires, 3 );
+                        nb_comptes_bancaires + 3 + new_comptes_bancaires + 2, 3 );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
         /* Affichage des comptes et de leur solde */
@@ -541,7 +532,7 @@ void update_liste_comptes_accueil ( gboolean force )
         {
             list_tmp = gsb_data_partial_balance_get_list ( );
             if ( list_tmp )
-                i += affiche_soldes_partiels ( pTable, i, list_tmp,
+                i += affiche_soldes_partiels ( pTable, i, new_comptes_bancaires, list_tmp,
                         currency_number, GSB_TYPE_BANK | GSB_TYPE_CASH );
         }
 
@@ -567,8 +558,7 @@ void update_liste_comptes_accueil ( gboolean force )
         if ( !gsb_main_page_get_devise_is_used ( currency_number, GSB_TYPE_LIABILITIES ) )
             continue;
 
-        /* Création du tableau dans lequel seront stockés les comptes avec leur     */
-        /* solde.                                                                   */
+        /* Creating the table which will store accounts with their balances   */
 		tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s"),
                          gsb_data_currency_get_name (currency_number) );
         if ( balances_with_scheduled == FALSE )
@@ -578,7 +568,7 @@ void update_liste_comptes_accueil ( gboolean force )
         g_free ( tmpstr );
 
         pTable = gsb_main_page_get_table_for_accounts (
-                        nb_comptes_passif + new_comptes_passif, 3 );
+                        nb_comptes_passif + 3 + new_comptes_passif + 2, 3 );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
         /* Affichage des comptes et de leur solde */
@@ -619,7 +609,7 @@ void update_liste_comptes_accueil ( gboolean force )
         {
             list_tmp = gsb_data_partial_balance_get_list ( );
             if ( list_tmp )
-                i += affiche_soldes_partiels ( pTable, i, list_tmp,
+                i += affiche_soldes_partiels ( pTable, i, new_comptes_passif, list_tmp,
                         currency_number, GSB_TYPE_LIABILITIES );
         }
 
@@ -645,8 +635,7 @@ void update_liste_comptes_accueil ( gboolean force )
        if ( !gsb_main_page_get_devise_is_used ( currency_number, GSB_TYPE_ASSET ) )
             continue;
 
-        /* Création du tableau dans lequel seront stockés les comptes avec leur     */
-        /* solde.                                                                   */
+        /* Creating the table which will store accounts with their balances    */
         tmpstr = g_strdup_printf (_("Assets accounts balances in %s"),
                          gsb_data_currency_get_name (currency_number));
         if ( balances_with_scheduled == FALSE )
@@ -656,7 +645,7 @@ void update_liste_comptes_accueil ( gboolean force )
         g_free ( tmpstr );
 
         pTable = gsb_main_page_get_table_for_accounts (
-                        nb_comptes_actif + new_comptes_passif, 3 );
+                        nb_comptes_actif + 3 + new_comptes_passif  + 2, 3 );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
         /* Affichage des comptes et de leur solde */
@@ -699,7 +688,7 @@ void update_liste_comptes_accueil ( gboolean force )
         {
             list_tmp = gsb_data_partial_balance_get_list ( );
             if ( list_tmp )
-                i += affiche_soldes_partiels ( pTable, i, list_tmp,
+                i += affiche_soldes_partiels ( pTable, i, new_comptes_actif, list_tmp,
                         currency_number, GSB_TYPE_ASSET );
         }
 
@@ -711,6 +700,27 @@ void update_liste_comptes_accueil ( gboolean force )
         gtk_widget_show_all ( pTable );
     }
 
+    /* Affichage des soldes mixtes */
+    if ( soldes_mixtes > 0 )
+    {
+        if ( soldes_mixtes == 1 )
+            tmpstr = g_strdup ( _("Additional balance") );
+        else
+            tmpstr = g_strdup ( _("Additional balances") );
+        if ( balances_with_scheduled == FALSE )
+            tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
+
+        paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
+        g_free ( tmpstr );
+
+        pTable = gsb_main_page_get_table_for_accounts ( (3 * soldes_mixtes) , 3 );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
+
+        list_tmp = gsb_data_partial_balance_get_list ( );
+
+        if ( list_tmp )
+            i += affiche_soldes_additionnels ( pTable, i, list_tmp );
+    }
     gtk_widget_show_all (vbox);
 }
 
@@ -961,6 +971,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
  * */
 gint affiche_soldes_partiels ( GtkWidget *table,
                         gint i,
+                        gint nb_comptes,
                         GSList *liste,
                         gint currency_number,
                         gint type_compte )
@@ -979,7 +990,7 @@ gint affiche_soldes_partiels ( GtkWidget *table,
     nbre_lignes ++;
 
     /* On met les titres du sous ensemble solde(s) partiel(s) */
-    if ( g_slist_length ( liste ) == 1 )
+    if ( nb_comptes == 1 )
         label = gtk_label_new ( COLON(_("Partial balance")));
     else
         label = gtk_label_new ( COLON(_("Partial balances")));
@@ -1097,6 +1108,76 @@ void affiche_solde_des_comptes ( GtkWidget *table,
 	gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
 	gtk_widget_show ( label );
+}
+
+/**
+ * Création de ou des lignes de solde additionnel
+ *
+ * */
+gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste )
+{
+    GtkWidget *label;
+    gchar *tmpstr;
+    gint nbre_lignes = 0;
+    gint currency_number;
+
+    /* on commence par une ligne vide */
+    label = gtk_label_new ( chaine_espace );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+	gtk_widget_show ( label );
+    i ++;
+    nbre_lignes ++;
+
+    while ( liste )
+    {
+        gint partial_number;
+        kind_account kind;
+
+        partial_number = gsb_data_partial_balance_get_number ( liste -> data );
+        kind = gsb_data_partial_balance_get_kind ( partial_number );
+
+        if ( kind == - 1 )
+        {
+            /* Première colonne : elle contient le nom du solde partiel */
+            currency_number = gsb_data_partial_balance_get_currency ( partial_number );
+            tmpstr = g_strdup_printf (_(" in %s"), gsb_data_currency_get_name (
+                        currency_number ) );
+            tmpstr = g_strconcat ( gsb_data_partial_balance_get_name ( partial_number ),
+                            tmpstr,
+                            " : ", NULL );
+            label = gtk_label_new ( tmpstr );
+            g_free ( tmpstr );
+            gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+            gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+            gtk_widget_show ( label );
+
+            /* Deuxième colonne : elle contient le solde pointé du solde partiel */
+            tmpstr = gsb_data_partial_balance_get_marked_balance ( partial_number );
+            label = gtk_label_new ( tmpstr );
+            g_free ( tmpstr );
+            gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
+            gtk_widget_show ( label );
+
+            /* Troisième colonne : elle contient le solde courant du solde partiel */
+            tmpstr = gsb_data_partial_balance_get_current_balance ( partial_number );
+            label = gtk_label_new ( NULL );
+            gtk_label_set_markup ( GTK_LABEL ( label ), tmpstr );
+            g_free ( tmpstr );
+            gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+            gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
+            gtk_widget_show ( label );
+
+            i++;
+            nbre_lignes ++;
+        }
+        liste = liste -> next;
+    }
+
+    return nbre_lignes;
 }
 /* ************************************************************************* */
 

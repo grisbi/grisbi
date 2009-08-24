@@ -199,6 +199,10 @@ void gsb_partial_balance_fill_model ( GtkListStore *list_store )
 
         switch ( partial_balance -> kind )
         {
+        case -1:
+            kind_str = g_strdup ( _("Additional balance") );
+            break;
+
         case GSB_TYPE_CASH:
             kind_str = g_strdup ( _("Cash account") );
             break;
@@ -269,7 +273,8 @@ dialog_return:
         name = gtk_entry_get_text ( GTK_ENTRY ( entry_name ) );
         liste_cptes = gtk_entry_get_text ( GTK_ENTRY ( entry_list ) );
 
-        if ( strlen ( name ) && strlen ( liste_cptes ) && 
+        if ( strlen ( name ) && strlen ( liste_cptes ) 
+         && 
          g_utf8_strchr  ( liste_cptes, -1, ';' ) )
         {
             position = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_bouton ) );
@@ -1193,7 +1198,10 @@ gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_n
         }
     }
     gsb_data_partial_balance_set_currency ( partial_balance_number, currency_nb );
-    gsb_data_partial_balance_set_kind ( partial_balance_number, kind );
+    if ( return_val == FALSE )
+        gsb_data_partial_balance_set_kind ( partial_balance_number, -1 );
+    else
+        gsb_data_partial_balance_set_kind ( partial_balance_number, kind );
 
     return return_val;
 }

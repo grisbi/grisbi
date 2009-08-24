@@ -44,7 +44,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-23 17:23+0200\n"
+"POT-Creation-Date: 2009-08-24 22:13+0200\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
@@ -53,140 +53,153 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 
-#: src/accueil.c:220
+#: src/accueil.c:223
 msgid "Closed liabilities accounts"
 msgstr "Contas de responsabilidade fechadas"
 
-#: src/accueil.c:233
+#: src/accueil.c:236
 #, fuzzy
 msgid "Run out manual scheduled transactions"
 msgstr "Agenda de lançamentos automática/manual"
 
-#: src/accueil.c:249
+#: src/accueil.c:252
 msgid "Automatic scheduled transactions entered"
 msgstr "Lançamentos automáticos agendados encerrados"
 
-#: src/accueil.c:260
+#: src/accueil.c:263
 msgid "Closed scheduled transactions"
 msgstr "Lançamentos agendados fechados"
 
-#: src/accueil.c:271
+#: src/accueil.c:274
 msgid "Accounts under authorized balance"
 msgstr "Contas abaixo do saldo autorizado"
 
-#: src/accueil.c:282
+#: src/accueil.c:285
 #, fuzzy
 msgid "Accounts under desired balance"
 msgstr "Contas abaixo do saldo crítico"
 
 #. crÃ©e la boite de dialogue
-#: src/accueil.c:329
+#: src/accueil.c:332
 msgid "Enter a scheduled transaction"
 msgstr "Informe um lançamento agendado"
 
-#. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur solde.
-#: src/accueil.c:492
+#. Creating the table which will store accounts with their balances.
+#: src/accueil.c:484
 #, fuzzy, c-format
 msgid "Account balances in %s"
 msgstr "Saldo da conta em %s"
 
-#: src/accueil.c:495 src/accueil.c:573 src/accueil.c:650
+#: src/accueil.c:487 src/accueil.c:565 src/accueil.c:642 src/accueil.c:711
 msgid " at "
 msgstr ""
 
-#. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
-#. solde.
-#: src/accueil.c:570
+#. Creating the table which will store accounts with their balances
+#: src/accueil.c:562
 #, c-format
 msgid "Liabilities accounts balances in %s"
 msgstr "Saldo das contas de responsabilidade em %s"
 
-#. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
-#. solde.
-#: src/accueil.c:647
+#. Creating the table which will store accounts with their balances
+#: src/accueil.c:639
 #, c-format
 msgid "Assets accounts balances in %s"
 msgstr "Saldo das contas de bens em %s"
 
-#: src/accueil.c:788 src/accueil.c:986
+#: src/accueil.c:707 src/gsb_data_partial_balance.c:203
+#, fuzzy
+msgid "Additional balance"
+msgstr "Saldo inicial"
+
+#: src/accueil.c:709
+#, fuzzy
+msgid "Additional balances"
+msgstr "Saldo inicial"
+
+#: src/accueil.c:801 src/accueil.c:1001
 msgid "Reconciled balance"
 msgstr "Saldo reconciliado"
 
-#: src/accueil.c:792 src/accueil.c:990
+#: src/accueil.c:805 src/accueil.c:1005
 msgid "Current balance"
 msgstr "Saldo atual"
 
-#: src/accueil.c:979
+#: src/accueil.c:994
 #, fuzzy
 msgid "Partial balance"
 msgstr "Saldo inicial"
 
-#: src/accueil.c:981
+#: src/accueil.c:996
 #, fuzzy
 msgid "Partial balances"
 msgstr "Saldo inicial"
 
-#: src/accueil.c:1072
+#: src/accueil.c:1087
 #, fuzzy
 msgid "Global balance"
 msgstr "Saldo Geral"
 
-#: src/accueil.c:1074
+#: src/accueil.c:1089
 msgid "Global balances"
 msgstr "Saldo Geral"
 
-#: src/accueil.c:1226 src/accueil.c:1348 src/accueil.c:1799
+#: src/accueil.c:1145
+#, c-format
+msgid " in %s"
+msgstr ""
+
+#: src/accueil.c:1312 src/accueil.c:1435 src/accueil.c:1887
 #, fuzzy, c-format
 msgid "%s credited on %s"
 msgstr "%4.2f %s créditos em %s"
 
-#: src/accueil.c:1236 src/accueil.c:1358 src/accueil.c:1808
+#: src/accueil.c:1322 src/accueil.c:1445 src/accueil.c:1896
 #, fuzzy, c-format
 msgid "%s debited on %s"
 msgstr "%4.2f %s débitos em %s"
 
-#: src/accueil.c:1577
+#: src/accueil.c:1664
 #, fuzzy, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr "Saldo da conta %s está crítico e abaixo do mínimo autorizado!"
 
-#: src/accueil.c:1581
+#: src/accueil.c:1668
 #, fuzzy
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
 msgstr "Saldo da conta %s está crítico e abaixo do mínimo autorizado!"
 
-#: src/accueil.c:1610
+#: src/accueil.c:1697
 #, fuzzy, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr "Saldo da conta %s está abaixo do mínimo autorizado!"
 
-#: src/accueil.c:1620
+#: src/accueil.c:1707
 #, fuzzy
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
 msgstr "Saldo da conta %s está crítico e abaixo do mínimo autorizado!"
 
-#: src/accueil.c:1652
+#: src/accueil.c:1739
 #, fuzzy, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "Saldo da conta %s está abaixo do mínimo crítico!"
 
-#: src/accueil.c:1662
+#: src/accueil.c:1749
 #, fuzzy
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
 msgstr "Saldo da conta %s está abaixo do mínimo crítico!"
 
-#: src/accueil.c:1851
+#: src/accueil.c:1939
 #, fuzzy
 msgid "Configuration of the main page"
 msgstr "Confirmação da remoção do banco"
 
-#: src/accueil.c:1860
+#: src/accueil.c:1948
 #, fuzzy
 msgid "Balances partials of the list of accounts"
 msgstr "Mover lançamento para outra conta"
@@ -200,12 +213,12 @@ msgstr "Mover lançamento para outra conta"
 #. Financial year name
 #. set the name
 #. Name entry
-#: src/accueil.c:1950 src/categories_onglet.c:669 src/gsb_archive_config.c:98
+#: src/accueil.c:2038 src/categories_onglet.c:669 src/gsb_archive_config.c:98
 #: src/gsb_archive_config.c:188 src/gsb_assistant_archive_export.c:150
-#: src/gsb_assistant_reconcile_config.c:388
-#: src/gsb_assistant_reconcile_config.c:1243 src/gsb_bank.c:732
+#: src/gsb_assistant_reconcile_config.c:390
+#: src/gsb_assistant_reconcile_config.c:1245 src/gsb_bank.c:732
 #: src/gsb_bank.c:855 src/gsb_currency_config.c:355
-#: src/gsb_data_partial_balance.c:1411 src/gsb_fyear_config.c:191
+#: src/gsb_data_partial_balance.c:1418 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:240
 #: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1709
 #: src/imputation_budgetaire.c:703 src/tiers_onglet.c:611
@@ -213,26 +226,26 @@ msgid "Name"
 msgstr "Nome"
 
 #. List of the accounts
-#: src/accueil.c:1959 src/gsb_data_partial_balance.c:1422
+#: src/accueil.c:2047 src/gsb_data_partial_balance.c:1429
 #, fuzzy
 msgid "Accounts list"
 msgstr "Contas"
 
-#: src/accueil.c:1975
+#: src/accueil.c:2063
 #, fuzzy
 msgid "Colorize"
 msgstr "Comoros"
 
-#: src/accueil.c:1983
+#: src/accueil.c:2071
 #, fuzzy
 msgid "Account kind"
 msgstr "Nome da conta"
 
-#: src/accueil.c:1992 src/gsb_form_widget.c:445 src/import_csv.c:77
+#: src/accueil.c:2080 src/gsb_form_widget.c:445 src/import_csv.c:77
 msgid "Currency"
 msgstr "Moeda"
 
-#: src/affichage.c:133 src/parametres.c:348
+#: src/affichage.c:133 src/parametres.c:350
 msgid "Fonts & logo"
 msgstr "Fontes & Logotipo"
 
@@ -277,12 +290,12 @@ msgstr "Verificando"
 msgid "Back to default"
 msgstr "Voltar para padrões"
 
-#: src/affichage.c:364 src/parametres.c:366
+#: src/affichage.c:364 src/parametres.c:368
 msgid "Addresses & titles"
 msgstr "Endereços & Títulos"
 
 #: src/affichage.c:369 src/etats_config.c:626 src/etats_config.c:629
-#: src/etats_config.c:7155
+#: src/etats_config.c:7156
 msgid "Titles"
 msgstr "Títulos"
 
@@ -321,7 +334,7 @@ msgstr "Endereço alternativo"
 msgid "Select a new logo"
 msgstr "Selecione um novo logotipo"
 
-#: src/affichage.c:689 src/parametres.c:384
+#: src/affichage.c:689 src/parametres.c:386
 msgid "Toolbars"
 msgstr ""
 
@@ -400,8 +413,8 @@ msgstr "Ativado"
 msgid "Background of invalid date entry"
 msgstr ""
 
-#: src/affichage.c:983 src/gsb_assistant_file.c:564 src/navigation.c:1145
-#: src/navigation.c:1146 src/traitement_variables.c:288
+#: src/affichage.c:983 src/gsb_assistant_file.c:564 src/navigation.c:1146
+#: src/navigation.c:1147 src/traitement_variables.c:288
 #, fuzzy
 msgid "My accounts"
 msgstr "Exibir contas"
@@ -485,41 +498,41 @@ msgstr "Salvar automaticamente ao sair"
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr ""
 
-#: src/affichage_liste.c:451
+#: src/affichage_liste.c:452
 msgid "Form completion"
 msgstr ""
 
-#: src/affichage_liste.c:454
+#: src/affichage_liste.c:455
 msgid "Limit the filling with payees belonging to the current account"
 msgstr ""
 
-#: src/affichage_liste.c:461
+#: src/affichage_liste.c:462
 #, fuzzy
 msgid "Automatic filling transactions from payee"
 msgstr "Lançamentos automáticos agendados encerrados"
 
-#: src/affichage_liste.c:470
+#: src/affichage_liste.c:471
 #, fuzzy
 msgid "Mix credit/debit categories"
 msgstr "Mesclar categorias"
 
-#: src/affichage_liste.c:476
+#: src/affichage_liste.c:477
 msgid "Case sensitive completion"
 msgstr ""
 
-#: src/affichage_liste.c:482
+#: src/affichage_liste.c:483
 msgid "Enter keeps current completion"
 msgstr ""
 
-#: src/affichage_liste.c:488
+#: src/affichage_liste.c:489
 msgid "Don't allow new payee creation"
 msgstr ""
 
-#: src/affichage_liste.c:494
+#: src/affichage_liste.c:495
 msgid "Don't allow new category/budget creation"
 msgstr ""
 
-#: src/affichage_liste.c:503
+#: src/affichage_liste.c:504
 msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr ""
 
@@ -566,11 +579,11 @@ msgstr ""
 
 #. set the choice of account
 #: src/balance_estimate_tab.c:205 src/categories_onglet.c:156
-#: src/etats_config.c:683 src/gsb_assistant_reconcile_config.c:401
-#: src/gsb_assistant_reconcile_config.c:612
+#: src/etats_config.c:683 src/gsb_assistant_reconcile_config.c:403
+#: src/gsb_assistant_reconcile_config.c:614
 #: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
-#: src/gsb_scheduler_list.c:337 src/imputation_budgetaire.c:169
-#: src/navigation.c:1166 src/tiers_onglet.c:230
+#: src/gsb_scheduler_list.c:338 src/imputation_budgetaire.c:169
+#: src/navigation.c:1167 src/tiers_onglet.c:230
 msgid "Account"
 msgstr "Conta"
 
@@ -579,11 +592,11 @@ msgstr "Conta"
 msgid "Estimate array"
 msgstr ""
 
-#: src/balance_estimate_tab.c:290 src/etats_affiche.c:2398
-#: src/export_csv.c:747 src/gsb_assistant_reconcile_config.c:612
-#: src/gsb_form.c:1283 src/gsb_form_widget.c:397 src/gsb_reconcile.c:144
-#: src/gsb_scheduler_list.c:337 src/gsb_transactions_list.c:143
-#: src/import.c:2983 src/import_csv.c:78 src/traitement_variables.c:75
+#: src/balance_estimate_tab.c:290 src/etats_affiche.c:2405
+#: src/export_csv.c:749 src/gsb_assistant_reconcile_config.c:614
+#: src/gsb_form.c:1284 src/gsb_form_widget.c:397 src/gsb_reconcile.c:144
+#: src/gsb_scheduler_list.c:338 src/gsb_transactions_list.c:143
+#: src/import.c:2991 src/import_csv.c:78 src/traitement_variables.c:75
 msgid "Date"
 msgstr "Data"
 
@@ -595,7 +608,7 @@ msgstr "Descrição"
 
 #. Debit method_ptr
 #: src/balance_estimate_tab.c:311 src/categories_onglet.c:699
-#: src/export_csv.c:768 src/gsb_form.c:1317 src/gsb_form_widget.c:401
+#: src/export_csv.c:770 src/gsb_form.c:1318 src/gsb_form_widget.c:401
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1075 src/gsb_transactions_list.c:147
 #: src/import_csv.c:89 src/imputation_budgetaire.c:733
@@ -605,7 +618,7 @@ msgstr "Débito"
 
 #. Credit method_ptr
 #: src/balance_estimate_tab.c:325 src/categories_onglet.c:699
-#: src/export_csv.c:765 src/gsb_form.c:1324 src/gsb_form_widget.c:405
+#: src/export_csv.c:767 src/gsb_form.c:1325 src/gsb_form_widget.c:405
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
 #: src/gsb_payment_method_config.c:1071 src/gsb_transactions_list.c:148
 #: src/imputation_budgetaire.c:733 src/traitement_variables.c:80
@@ -627,7 +640,7 @@ msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_scheduler_list.c:1973
+#: src/barre_outils.c:95 src/gsb_scheduler_list.c:1975
 #: src/gsb_transactions_list.c:2086
 msgid "New transaction"
 msgstr "Novo lançamento"
@@ -726,34 +739,34 @@ msgstr "Exibir lançamentos reconciliados"
 msgid "Remove the rule"
 msgstr "Nome do arquivo de contas"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1757
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1758
 msgid "Unique view"
 msgstr ""
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1757
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1758
 #, fuzzy
 msgid "Week view"
 msgstr "Semana"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1757
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1758
 #, fuzzy
 msgid "Month view"
 msgstr "Meses"
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1758
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1759
 msgid "Two months view"
 msgstr ""
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1758
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1759
 msgid "Quarter view"
 msgstr ""
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1759
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1760
 #, fuzzy
 msgid "Year view"
 msgstr "Ano"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1759
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1760
 #, fuzzy
 msgid "Custom view"
 msgstr "Padrão"
@@ -782,7 +795,7 @@ msgstr "Apagar lançamento"
 
 #. comments line
 #: src/barre_outils.c:489 src/gsb_account_property.c:624
-#: src/gsb_scheduler_list.c:338
+#: src/gsb_scheduler_list.c:339
 msgid "Comments"
 msgstr "Comentários"
 
@@ -823,14 +836,14 @@ msgstr "Mostrar títulos das colunas"
 msgid "Display reconciled transactions"
 msgstr "Exibir lançamentos reconciliados"
 
-#: src/categories_onglet.c:144 src/etats_affiche.c:2426 src/etats_config.c:675
-#: src/export_csv.c:777 src/gsb_transactions_list.c:154 src/import_csv.c:84
+#: src/categories_onglet.c:144 src/etats_affiche.c:2433 src/etats_config.c:675
+#: src/export_csv.c:779 src/gsb_transactions_list.c:154 src/import_csv.c:84
 #: src/meta_categories.c:65 src/traitement_variables.c:86
 msgid "Category"
 msgstr "Categoria"
 
-#: src/categories_onglet.c:165 src/export_csv.c:774 src/gsb_reconcile.c:147
-#: src/gsb_scheduler_list.c:338 src/gsb_transactions_list.c:149
+#: src/categories_onglet.c:165 src/export_csv.c:776 src/gsb_reconcile.c:147
+#: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:149
 #: src/gsb_transactions_list.c:2863 src/import_csv.c:86
 #: src/imputation_budgetaire.c:178 src/tiers_onglet.c:239
 #: src/traitement_variables.c:81
@@ -856,7 +869,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
 #: src/categories_onglet.c:400 src/etats_onglet.c:1256
-#: src/file_obfuscate_qif.c:105 src/gsb_file.c:238 src/import.c:725
+#: src/file_obfuscate_qif.c:105 src/gsb_file.c:238 src/import.c:729
 #: src/imputation_budgetaire.c:435
 #, fuzzy
 msgid "All files"
@@ -911,8 +924,8 @@ msgstr "Nova sub-categoria"
 msgid "Create a new sub-category"
 msgstr "Informe um nome para a nova sub-categoria"
 
-#: src/categories_onglet.c:510 src/etats_onglet.c:130 src/import.c:373
-#: src/import.c:3203 src/imputation_budgetaire.c:543 src/parametres.c:293
+#: src/categories_onglet.c:510 src/etats_onglet.c:130 src/import.c:375
+#: src/import.c:3211 src/imputation_budgetaire.c:543 src/parametres.c:295
 msgid "Import"
 msgstr "Importar"
 
@@ -937,7 +950,7 @@ msgid "Delete selected category"
 msgstr "Por favor,informe uma categoria!"
 
 #: src/categories_onglet.c:538 src/etats_onglet.c:184
-#: src/fenetre_principale.c:263 src/imputation_budgetaire.c:572
+#: src/fenetre_principale.c:264 src/imputation_budgetaire.c:572
 #: src/tiers_onglet.c:323
 #, fuzzy
 msgid "Properties"
@@ -976,7 +989,7 @@ msgstr "Resultado para %s"
 msgid "No sub-category defined"
 msgstr "Nenhuma sub-categoria(%d)"
 
-#: src/categories_onglet.c:643 src/qif.c:1125 src/qif.c:1132
+#: src/categories_onglet.c:643 src/qif.c:1126 src/qif.c:1133
 #, fuzzy
 msgid "No category defined"
 msgstr "Nenhuma categoria(%d)"
@@ -985,7 +998,7 @@ msgstr "Nenhuma categoria(%d)"
 #. Payment method method_ptr
 #. Description entry
 #: src/categories_onglet.c:694 src/gsb_payment_method_config.c:296
-#: src/import.c:406 src/imputation_budgetaire.c:728
+#: src/import.c:408 src/imputation_budgetaire.c:728
 msgid "Type"
 msgstr "Tipo"
 
@@ -1009,7 +1022,7 @@ msgid "Category already exists"
 msgstr "Categoria %s já existe."
 
 #. * Find a unique name for category
-#: src/categories_onglet.c:847 src/meta_categories.c:307
+#: src/categories_onglet.c:848 src/meta_categories.c:307
 msgid "New sub-category"
 msgstr "Nova sub-categoria"
 
@@ -1169,440 +1182,440 @@ msgstr ""
 msgid "Cannot allocate memory"
 msgstr "Não posso alocar memória, alguns dados serão perdidos"
 
-#: src/erreur.c:87
+#: src/erreur.c:88
 msgid "File is corrupted."
 msgstr "Arquivo está corrompido."
 
-#: src/erreur.c:94
+#: src/erreur.c:95
 msgid "Error occured saving file."
 msgstr "Ocorreu um erro salvando o arquivo."
 
-#: src/erreur.c:115
+#: src/erreur.c:116
 msgid "Save file"
 msgstr "Salvar arquivo"
 
-#: src/erreur.c:125
+#: src/erreur.c:126
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
 msgstr "Grisbi criou um arquivo de backup para %s ."
 
-#: src/erreur.c:134
+#: src/erreur.c:135
 #, fuzzy
 msgid ""
 "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
 msgstr ""
 "Por favor, reporte este problema para http://www.grisbi.org/bugtracking/"
 
-#: src/erreur.c:140
+#: src/erreur.c:141
 msgid "Copy and paste the following backtrace with your bug report."
 msgstr ""
 
-#: src/erreur.c:146
+#: src/erreur.c:147
 msgid "Grisbi terminated due to a segmentation fault."
 msgstr "Grisbi terminou devido a uma falha de segmentação."
 
-#: src/erreur.c:151
+#: src/erreur.c:152
 #, fuzzy
 msgid "Backtrace"
 msgstr "Saldo"
 
 #. on affiche un message de debug pour indiquer que le debug est actif
-#: src/erreur.c:200 src/erreur.c:212
+#: src/erreur.c:203 src/erreur.c:215
 #, c-format
 msgid "GRISBI %s Debug"
 msgstr ""
 
-#: src/erreur.c:201
+#: src/erreur.c:204
 #, c-format
 msgid "Debug enabled, level is '%s'"
 msgstr ""
 
-#: src/erreur.c:215
+#: src/erreur.c:218
 msgid "Wrong debug level, please check DEBUG_GRISBI environnement variable"
 msgstr ""
 
-#: src/erreur.c:275
+#: src/erreur.c:278
 #, c-format
 msgid "%s : %s - %s:%d:%s - %s\n"
 msgstr ""
 
-#: src/erreur.c:279
+#: src/erreur.c:282
 #, c-format
 msgid "%s : %s - %s:%d:%s\n"
 msgstr ""
 
 #. on affiche dans la console le message
-#: src/erreur.c:317
+#: src/erreur.c:320
 #, c-format
 msgid "%s : %s - %s:%d:%s - %d\n"
 msgstr ""
 
-#: src/erreur.c:403
+#: src/erreur.c:406
 #, c-format
 msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
 "that file with the obfuscated file into the bug report."
 msgstr ""
 
-#: src/erreur.c:421
+#: src/erreur.c:424
 msgid "Grisbi failed to create the log file..."
 msgstr ""
 
-#: src/etats_affiche.c:178 src/etats_affiche.c:411 src/etats_affiche.c:635
-#: src/etats_affiche.c:742
+#: src/etats_affiche.c:179 src/etats_affiche.c:414 src/etats_affiche.c:639
+#: src/etats_affiche.c:747
 #, c-format
 msgid "Total %s (%d transaction)"
 msgstr "Saldo %s (%d lançamento)"
 
-#: src/etats_affiche.c:180 src/etats_affiche.c:413 src/etats_affiche.c:637
-#: src/etats_affiche.c:744
+#: src/etats_affiche.c:181 src/etats_affiche.c:416 src/etats_affiche.c:641
+#: src/etats_affiche.c:749
 #, c-format
 msgid "Total %s (%d transactions)"
 msgstr "Total %s (%d lançamentos)"
 
-#: src/etats_affiche.c:184 src/etats_affiche.c:417 src/etats_affiche.c:641
+#: src/etats_affiche.c:185 src/etats_affiche.c:420 src/etats_affiche.c:645
 msgid "Total"
 msgstr "Total"
 
-#: src/etats_affiche.c:192
+#: src/etats_affiche.c:193
 #, c-format
 msgid "Category total (%d transaction)"
 msgstr "Total da Categoria (%d lançamentos)"
 
-#: src/etats_affiche.c:194
+#: src/etats_affiche.c:195
 #, c-format
 msgid "Category total (%d transactions)"
 msgstr "Total da Categoria (%d lançamentos)"
 
-#: src/etats_affiche.c:198
+#: src/etats_affiche.c:199
 msgid "Category total"
 msgstr "Total da Categoria"
 
-#: src/etats_affiche.c:222 src/etats_affiche.c:341 src/etats_affiche.c:453
-#: src/etats_affiche.c:569 src/etats_affiche.c:677 src/etats_affiche.c:784
+#: src/etats_affiche.c:223 src/etats_affiche.c:343 src/etats_affiche.c:456
+#: src/etats_affiche.c:572 src/etats_affiche.c:681 src/etats_affiche.c:789
 #, fuzzy, c-format
 msgid "%s (%d transaction)"
 msgstr "Saldo %s (%d lançamento)"
 
-#: src/etats_affiche.c:224 src/etats_affiche.c:343 src/etats_affiche.c:455
-#: src/etats_affiche.c:571 src/etats_affiche.c:679 src/etats_affiche.c:786
+#: src/etats_affiche.c:225 src/etats_affiche.c:345 src/etats_affiche.c:458
+#: src/etats_affiche.c:574 src/etats_affiche.c:683 src/etats_affiche.c:791
 #: src/transaction_list.c:321
 #, fuzzy, c-format
 msgid "%s (%d transactions)"
 msgstr "Total %s (%d lançamentos)"
 
-#: src/etats_affiche.c:299 src/etats_affiche.c:524
+#: src/etats_affiche.c:301 src/etats_affiche.c:527
 #, c-format
 msgid "Total %s: %s (%d transaction)"
 msgstr "Total %s: %s (%d lançamento)"
 
-#: src/etats_affiche.c:301 src/etats_affiche.c:526
+#: src/etats_affiche.c:303 src/etats_affiche.c:529
 #, c-format
 msgid "Total %s: %s (%d transactions)"
 msgstr "Total %s: %s (%d lançamentos)"
 
-#: src/etats_affiche.c:306 src/etats_affiche.c:531
+#: src/etats_affiche.c:308 src/etats_affiche.c:534
 #, c-format
 msgid "Total %s: %s"
 msgstr "Total %s: %s"
 
-#: src/etats_affiche.c:314
+#: src/etats_affiche.c:316
 #, c-format
 msgid "Sub-categories total (%d transaction)"
 msgstr "Total sub-categorias (%d lançamento)"
 
-#: src/etats_affiche.c:316
+#: src/etats_affiche.c:318
 #, c-format
 msgid "Sub-categories total (%d transactions)"
 msgstr "Total sub-categorias (%d lançamentos)"
 
-#: src/etats_affiche.c:320
+#: src/etats_affiche.c:322
 msgid "Sub-categories total"
 msgstr "Total sub-categorias"
 
-#: src/etats_affiche.c:425
+#: src/etats_affiche.c:428
 #, c-format
 msgid "Budgetary lines total: (%d transaction)"
 msgstr "Total do orçamento: (%d lançamento)"
 
-#: src/etats_affiche.c:427
+#: src/etats_affiche.c:430
 #, c-format
 msgid "Budgetary lines total: (%d transactions)"
 msgstr "Total do orçamento: (%d lançamentos)"
 
-#: src/etats_affiche.c:431
+#: src/etats_affiche.c:434
 msgid "Budgetary lines total"
 msgstr "Total do orçamento"
 
-#: src/etats_affiche.c:539
+#: src/etats_affiche.c:542
 #, c-format
 msgid "Sub-budgetary lines total: (%d transaction)"
 msgstr "Total do sub-orçamento: (%d lançamento)"
 
-#: src/etats_affiche.c:541
+#: src/etats_affiche.c:544
 #, c-format
 msgid "Sub-budgetary lines total: (%d transactions)"
 msgstr "Total do sub-orçamento: (%d lançamentos)"
 
-#: src/etats_affiche.c:545
+#: src/etats_affiche.c:548
 msgid "Sub-budgetary lines total"
 msgstr "Total do sub-orçamento"
 
-#: src/etats_affiche.c:649
+#: src/etats_affiche.c:653
 #, c-format
 msgid "Account total: (%d transaction)"
 msgstr "Total da conta: (%d lançamento)"
 
-#: src/etats_affiche.c:651
+#: src/etats_affiche.c:655
 #, c-format
 msgid "Account total: (%d transactions)"
 msgstr "Total da conta: (%d lançamentos)"
 
-#: src/etats_affiche.c:655
+#: src/etats_affiche.c:659
 msgid "Account total"
 msgstr "Total da Conta"
 
-#: src/etats_affiche.c:748
+#: src/etats_affiche.c:753
 #, c-format
 msgid "Total %s"
 msgstr "Total %s"
 
-#: src/etats_affiche.c:756
+#: src/etats_affiche.c:761
 #, fuzzy, c-format
 msgid "Payee total: (%d transaction)"
 msgstr "Total geral (%d lançamento)"
 
-#: src/etats_affiche.c:758
+#: src/etats_affiche.c:763
 #, fuzzy, c-format
 msgid "Payee total: (%d transactions)"
 msgstr "Total geral (%d lançamentos)"
 
-#: src/etats_affiche.c:762
+#: src/etats_affiche.c:767
 #, fuzzy
 msgid "Payee total"
 msgstr "Total geral"
 
-#: src/etats_affiche.c:919 src/etats_affiche.c:1018 src/etats_affiche.c:1181
+#: src/etats_affiche.c:926 src/etats_affiche.c:1025 src/etats_affiche.c:1188
 #, c-format
 msgid "Result of %s (%d transaction)"
 msgstr "Resultado de %s (%d lançamento)"
 
-#: src/etats_affiche.c:921 src/etats_affiche.c:1020 src/etats_affiche.c:1183
+#: src/etats_affiche.c:928 src/etats_affiche.c:1027 src/etats_affiche.c:1190
 #, c-format
 msgid "Result of %s (%d transactions)"
 msgstr "Resultado de %s (%d lançamentos)"
 
-#: src/etats_affiche.c:925 src/etats_affiche.c:1024 src/etats_affiche.c:1189
+#: src/etats_affiche.c:932 src/etats_affiche.c:1031 src/etats_affiche.c:1196
 #, c-format
 msgid "Result of %s"
 msgstr "Resultado de %s"
 
-#: src/etats_affiche.c:981
+#: src/etats_affiche.c:988
 #, fuzzy, c-format
 msgid "Result from %s to %s (%d transaction):"
 msgstr "Resultado para %s (%d lançamento)"
 
-#: src/etats_affiche.c:983
+#: src/etats_affiche.c:990
 #, fuzzy, c-format
 msgid "Result from %s to %s (%d transactions):"
 msgstr "Resultado para %s (%d lançamentos)"
 
-#: src/etats_affiche.c:994
+#: src/etats_affiche.c:1001
 #, fuzzy, c-format
 msgid "Result from %s to %s:"
 msgstr "Resultado para %s"
 
-#: src/etats_affiche.c:1046
+#: src/etats_affiche.c:1053
 #, c-format
 msgid "Result for %s (%d transaction)"
 msgstr "Resultado para %s (%d lançamento)"
 
-#: src/etats_affiche.c:1048
+#: src/etats_affiche.c:1055
 #, c-format
 msgid "Result for %s (%d transactions)"
 msgstr "Resultado para %s (%d lançamentos)"
 
-#: src/etats_affiche.c:1052
+#: src/etats_affiche.c:1059
 #, c-format
 msgid "Result for %s"
 msgstr "Resultado para %s"
 
-#: src/etats_affiche.c:1199
+#: src/etats_affiche.c:1206
 #, c-format
 msgid "Result without financial year (%d transaction)"
 msgstr "Resultado sem ano contábil (%d lançamento)"
 
-#: src/etats_affiche.c:1201
+#: src/etats_affiche.c:1208
 #, c-format
 msgid "Result without financial year (%d transactions)"
 msgstr "Resultado sem ano contábil (%d lançamentos)"
 
-#: src/etats_affiche.c:1205
+#: src/etats_affiche.c:1212
 msgid "Result without financial year"
 msgstr "Resultado sem ano contábil"
 
-#: src/etats_affiche.c:1392 src/gsb_scheduler_list.c:955
+#: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:956
 #: src/gsb_transactions_list.c:3238
 #, c-format
 msgid "Transfer to %s"
 msgstr "Transferir para %s"
 
-#: src/etats_affiche.c:1394 src/gsb_scheduler_list.c:958
+#: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:959
 #: src/gsb_transactions_list.c:3241
 #, c-format
 msgid "Transfer from %s"
 msgstr "Transferir para %s"
 
-#: src/etats_affiche.c:1667
+#: src/etats_affiche.c:1674
 #, c-format
 msgid "Total expenses (%d transaction)"
 msgstr "Total das despesas (%d lançamento)"
 
-#: src/etats_affiche.c:1669
+#: src/etats_affiche.c:1676
 #, c-format
 msgid "Total expenses (%d transactions)"
 msgstr "Total das despesas (%d lançamentos)"
 
-#: src/etats_affiche.c:1673
+#: src/etats_affiche.c:1680
 msgid "Total expenses"
 msgstr "Total das despesas"
 
-#: src/etats_affiche.c:1681
+#: src/etats_affiche.c:1688
 #, c-format
 msgid "Total income (%d transaction)"
 msgstr "Total da receitas (%d lançamento)"
 
-#: src/etats_affiche.c:1683
+#: src/etats_affiche.c:1690
 #, c-format
 msgid "Total income (%d transactions)"
 msgstr "Total da receitas (%d lançamentos)"
 
-#: src/etats_affiche.c:1687
+#: src/etats_affiche.c:1694
 msgid "Total income"
 msgstr "Total da receita"
 
-#: src/etats_affiche.c:1736
+#: src/etats_affiche.c:1743
 #, c-format
 msgid "General total (%d transaction)"
 msgstr "Total geral (%d lançamento)"
 
-#: src/etats_affiche.c:1738
+#: src/etats_affiche.c:1745
 #, c-format
 msgid "General total (%d transactions)"
 msgstr "Total geral (%d lançamentos)"
 
-#: src/etats_affiche.c:1742
+#: src/etats_affiche.c:1749
 msgid "General total"
 msgstr "Total geral"
 
 #. Transfer = Virement
 #. Direct deposit remplacÃ© par Transfert = Virement
-#: src/etats_affiche.c:1837 src/import.c:2440 src/import.c:2458
+#: src/etats_affiche.c:1844 src/import.c:2448 src/import.c:2466
 msgid "Transfert"
 msgstr "Transferir"
 
-#: src/etats_affiche.c:1846 src/export_csv.c:561 src/gsb_data_category.c:1039
-#: src/gsb_form.c:740 src/gsb_form.c:2588 src/gsb_form.c:2961
+#: src/etats_affiche.c:1853 src/export_csv.c:563 src/gsb_data_category.c:1039
+#: src/gsb_form.c:741 src/gsb_form.c:2589 src/gsb_form.c:2962
 #: src/gsb_form_scheduler.c:327 src/gsb_transactions_list.c:3216
 msgid "Split of transaction"
 msgstr "Divisão do lançamento"
 
-#: src/etats_affiche.c:1853 src/gsb_data_category.c:154
+#: src/etats_affiche.c:1860 src/gsb_data_category.c:154
 #: src/meta_categories.c:66
 msgid "No category"
 msgstr "Nenhuma categoria"
 
-#: src/etats_affiche.c:1939
+#: src/etats_affiche.c:1946
 msgid "No subcategory"
 msgstr "Sem sub-categoria"
 
-#: src/etats_affiche.c:2023 src/meta_budgetary.c:63
+#: src/etats_affiche.c:2030 src/meta_budgetary.c:63
 msgid "No budgetary line"
 msgstr "Nenhum orçamento"
 
-#: src/etats_affiche.c:2108 src/meta_budgetary.c:64
+#: src/etats_affiche.c:2115 src/meta_budgetary.c:64
 msgid "No sub-budgetary line"
 msgstr "Nenhum sub-orçamento"
 
-#: src/etats_affiche.c:2259 src/gsb_data_payee.c:117 src/meta_payee.c:78
+#: src/etats_affiche.c:2266 src/gsb_data_payee.c:117 src/meta_payee.c:78
 #, fuzzy
 msgid "No payee"
 msgstr "Não exibido"
 
-#: src/etats_affiche.c:2288
+#: src/etats_affiche.c:2295
 msgid "Incomes"
 msgstr "Receitas"
 
-#: src/etats_affiche.c:2308
+#: src/etats_affiche.c:2315
 msgid "Outgoings"
 msgstr "Despesas"
 
-#: src/etats_affiche.c:2391 src/traitement_variables.c:92
+#: src/etats_affiche.c:2398 src/traitement_variables.c:92
 msgid "Number"
 msgstr "Número"
 
-#: src/etats_affiche.c:2405 src/export_csv.c:750 src/gsb_form.c:1290
-#: src/gsb_form.c:2090 src/gsb_form.c:2113 src/gsb_form_widget.c:409
+#: src/etats_affiche.c:2412 src/export_csv.c:752 src/gsb_form.c:1291
+#: src/gsb_form.c:2091 src/gsb_form.c:2114 src/gsb_form_widget.c:409
 #: src/gsb_transactions_list.c:144 src/import_csv.c:79
 #: src/traitement_variables.c:76
 msgid "Value date"
 msgstr "Data"
 
-#: src/etats_affiche.c:2412 src/export_csv.c:756 src/gsb_archive_config.c:98
+#: src/etats_affiche.c:2419 src/export_csv.c:758 src/gsb_archive_config.c:98
 #: src/gsb_assistant_archive_export.c:150 src/gsb_form_widget.c:413
 #: src/gsb_transactions_list.c:153 src/traitement_variables.c:85
 msgid "Financial year"
 msgstr "Ano Contábil"
 
 #. mise en place de la paddingbox des tiers
-#: src/etats_affiche.c:2419 src/etats_config.c:519 src/etats_config.c:522
-#: src/etats_config.c:687 src/etats_config.c:7193 src/export_csv.c:762
-#: src/fenetre_principale.c:278 src/gsb_assistant_reconcile_config.c:612
-#: src/gsb_form.c:1310 src/gsb_form_widget.c:417 src/gsb_scheduler_list.c:337
-#: src/gsb_transactions_list.c:145 src/import.c:2990 src/import_csv.c:80
+#: src/etats_affiche.c:2426 src/etats_config.c:519 src/etats_config.c:522
+#: src/etats_config.c:687 src/etats_config.c:7194 src/export_csv.c:764
+#: src/fenetre_principale.c:279 src/gsb_assistant_reconcile_config.c:614
+#: src/gsb_form.c:1311 src/gsb_form_widget.c:417 src/gsb_scheduler_list.c:338
+#: src/gsb_transactions_list.c:145 src/import.c:2998 src/import_csv.c:80
 #: src/meta_payee.c:77 src/traitement_variables.c:77
 #, fuzzy
 msgid "Payee"
 msgstr "Pagar/pago"
 
-#: src/etats_affiche.c:2433 src/etats_config.c:679 src/gsb_form.c:1341
+#: src/etats_affiche.c:2440 src/etats_config.c:679 src/gsb_form.c:1342
 #: src/gsb_form_widget.c:429 src/gsb_transactions_list.c:146
 #: src/imputation_budgetaire.c:157 src/meta_budgetary.c:62
 msgid "Budgetary line"
 msgstr "Orçamento"
 
 #. Notes
-#: src/etats_affiche.c:2440 src/export_csv.c:783 src/gsb_bank.c:915
-#: src/gsb_form.c:1348 src/gsb_form_widget.c:433
+#: src/etats_affiche.c:2447 src/export_csv.c:785 src/gsb_bank.c:915
+#: src/gsb_form.c:1349 src/gsb_form_widget.c:433
 #: src/gsb_transactions_list.c:157 src/import_csv.c:82
 #: src/traitement_variables.c:89
 msgid "Notes"
 msgstr "Notas"
 
 #. Now we have a model, create view
-#: src/etats_affiche.c:2447 src/etats_config.c:564 src/etats_config.c:567
-#: src/etats_config.c:7415 src/gsb_payment_method_config.c:118
-#: src/parametres.c:511
+#: src/etats_affiche.c:2454 src/etats_config.c:564 src/etats_config.c:567
+#: src/etats_config.c:7416 src/gsb_payment_method_config.c:118
+#: src/parametres.c:513
 msgid "Payment methods"
 msgstr "Formas de pagamento"
 
-#: src/etats_affiche.c:2454 src/gsb_data_payment.c:737
+#: src/etats_affiche.c:2461 src/gsb_data_payment.c:737
 msgid "Cheque"
 msgstr "Cheque"
 
-#: src/etats_affiche.c:2461 src/export_csv.c:792 src/gsb_form.c:1392
+#: src/etats_affiche.c:2468 src/export_csv.c:794 src/gsb_form.c:1393
 #: src/gsb_form_widget.c:453 src/gsb_transactions_list.c:156
 #: src/traitement_variables.c:88
 msgid "Voucher"
 msgstr "Comprovante"
 
-#: src/etats_affiche.c:2468 src/export_csv.c:798 src/gsb_form.c:1385
+#: src/etats_affiche.c:2475 src/export_csv.c:800 src/gsb_form.c:1386
 #: src/gsb_form_widget.c:457 src/gsb_transactions_list.c:158
 #: src/traitement_variables.c:90
 msgid "Bank references"
 msgstr "Referências bancárias"
 
-#: src/etats_affiche.c:2475
+#: src/etats_affiche.c:2482
 msgid "Statement"
 msgstr "Indicação"
 
@@ -1705,24 +1718,24 @@ msgid "Transfers"
 msgstr "Transferências"
 
 #. mise en place de la paddingbox des comptes
-#: src/etats_config.c:510 src/etats_config.c:513 src/etats_config.c:7159
-#: src/fenetre_principale.c:256 src/navigation.c:251
+#: src/etats_config.c:510 src/etats_config.c:513 src/etats_config.c:7160
+#: src/fenetre_principale.c:257 src/navigation.c:252
 msgid "Accounts"
 msgstr "Contas"
 
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
 #: src/etats_config.c:528 src/etats_config.c:531 src/etats_config.c:3039
-#: src/etats_config.c:7231 src/fenetre_principale.c:291 src/navigation.c:323
-#: src/navigation.c:1242
+#: src/etats_config.c:7232 src/fenetre_principale.c:292 src/navigation.c:324
+#: src/navigation.c:1243
 msgid "Categories"
 msgstr "Categorias"
 
 #. mise en place de la paddingbox des ib
 #. set the title
 #: src/etats_config.c:537 src/etats_config.c:540 src/etats_config.c:3851
-#: src/etats_config.c:7318 src/export_csv.c:786 src/fenetre_principale.c:296
-#: src/navigation.c:340 src/navigation.c:1253 src/traitement_variables.c:78
+#: src/etats_config.c:7319 src/export_csv.c:788 src/fenetre_principale.c:297
+#: src/navigation.c:341 src/navigation.c:1254 src/traitement_variables.c:78
 msgid "Budgetary lines"
 msgstr "Orçamentos"
 
@@ -1738,7 +1751,7 @@ msgstr "Valores"
 msgid "Misc."
 msgstr "Dvs."
 
-#: src/etats_config.c:576 src/etats_config.c:6217
+#: src/etats_config.c:576 src/etats_config.c:6218
 #, fuzzy
 msgid "Miscellaneous"
 msgstr "Diversos : Presentes"
@@ -1748,13 +1761,13 @@ msgstr "Diversos : Presentes"
 msgid "Data organization"
 msgstr "Organizado por data"
 
-#: src/etats_config.c:591 src/etats_config.c:596 src/etats_config.c:6296
+#: src/etats_config.c:591 src/etats_config.c:596 src/etats_config.c:6297
 msgid "Data grouping"
 msgstr ""
 
 #. choix de ce qu'on utilise dans le classement
-#: src/etats_config.c:601 src/etats_config.c:606 src/etats_config.c:6414
-#: src/etats_config.c:6418
+#: src/etats_config.c:601 src/etats_config.c:606 src/etats_config.c:6415
+#: src/etats_config.c:6419
 #, fuzzy
 msgid "Data separation"
 msgstr "Seleção por data"
@@ -1763,17 +1776,17 @@ msgstr "Seleção por data"
 msgid "Data display"
 msgstr "Exibição de Dados"
 
-#: src/etats_config.c:617 src/etats_config.c:620 src/etats_config.c:6635
+#: src/etats_config.c:617 src/etats_config.c:620 src/etats_config.c:6636
 msgid "Generalities"
 msgstr "Gerais"
 
-#: src/etats_config.c:635 src/etats_config.c:638 src/export_csv.c:738
-#: src/fenetre_principale.c:260 src/parametres.c:394
+#: src/etats_config.c:635 src/etats_config.c:638 src/export_csv.c:740
+#: src/fenetre_principale.c:261 src/parametres.c:396
 msgid "Transactions"
 msgstr "Lançamentos"
 
 #: src/etats_config.c:644 src/etats_config.c:647 src/gsb_currency_config.c:296
-#: src/parametres.c:475
+#: src/parametres.c:477
 msgid "Currencies"
 msgstr "Moedas"
 
@@ -1869,16 +1882,16 @@ msgstr "Detalhes do ano contábil"
 #. set the initial date
 #: src/etats_config.c:2323 src/gsb_archive_config.c:98
 #: src/gsb_assistant_archive.c:243 src/gsb_assistant_archive_export.c:150
-#: src/gsb_assistant_reconcile_config.c:415
-#: src/gsb_assistant_reconcile_config.c:1243 src/gsb_reconcile_config.c:194
+#: src/gsb_assistant_reconcile_config.c:417
+#: src/gsb_assistant_reconcile_config.c:1245 src/gsb_reconcile_config.c:194
 msgid "Initial date"
 msgstr "Data inicial"
 
 #. set the final date
 #: src/etats_config.c:2355 src/gsb_archive_config.c:98
 #: src/gsb_assistant_archive.c:261 src/gsb_assistant_archive_export.c:150
-#: src/gsb_assistant_reconcile_config.c:428
-#: src/gsb_assistant_reconcile_config.c:1243 src/gsb_reconcile_config.c:96
+#: src/gsb_assistant_reconcile_config.c:430
+#: src/gsb_assistant_reconcile_config.c:1245 src/gsb_reconcile_config.c:96
 #: src/gsb_reconcile_config.c:208 src/gsb_transactions_list.c:1709
 msgid "Final date"
 msgstr "Data final"
@@ -1899,14 +1912,14 @@ msgid "Select the accounts included in the report"
 msgstr "Selecione as contas a serem incluídas no relatório"
 
 #: src/etats_config.c:2581 src/etats_config.c:2848 src/etats_config.c:3138
-#: src/etats_config.c:3951 src/etats_config.c:4147 src/etats_config.c:7512
+#: src/etats_config.c:3951 src/etats_config.c:4147 src/etats_config.c:7513
 #: src/tiers_onglet.c:1405 src/tiers_onglet.c:1425
 msgid "Select all"
 msgstr "Selecionar todas"
 
 #. ajoute le bouton (dÃ©)sÃ©lectionne tout
 #: src/etats_config.c:2596 src/etats_config.c:2863 src/etats_config.c:3153
-#: src/etats_config.c:3966 src/etats_config.c:4162 src/etats_config.c:7527
+#: src/etats_config.c:3966 src/etats_config.c:4162 src/etats_config.c:7528
 #: src/tiers_onglet.c:1196 src/tiers_onglet.c:1407
 msgid "Unselect all"
 msgstr "Desselecionar todas"
@@ -2024,7 +2037,7 @@ msgid "Outgoing budget lines"
 msgstr "Orçamento de despesas"
 
 #. set the title
-#: src/etats_config.c:4041 src/navigation.c:286 src/navigation.c:1218
+#: src/etats_config.c:4041 src/navigation.c:287 src/navigation.c:1219
 #: src/tiers_onglet.c:218
 #, fuzzy
 msgid "Payees"
@@ -2050,484 +2063,484 @@ msgstr "Conteúdo da lista de lançamentos"
 msgid "Select transactions according to content"
 msgstr "Selecione os lançamentos de acordo com texto"
 
-#: src/etats_config.c:4567
+#: src/etats_config.c:4568
 msgid "Transactions whose"
 msgstr "Lançamentos cujo"
 
-#: src/etats_config.c:4715
+#: src/etats_config.c:4716
 msgid "is"
 msgstr "é"
 
-#: src/etats_config.c:4731 src/etats_config.c:4788 src/etats_config.c:5627
-#: src/etats_config.c:5688
+#: src/etats_config.c:4732 src/etats_config.c:4789 src/etats_config.c:5628
+#: src/etats_config.c:5689
 msgid "to"
 msgstr "para"
 
 #. on met les bouton ajouter et supprimer
-#: src/etats_config.c:4810 src/etats_config.c:5711
+#: src/etats_config.c:4811 src/etats_config.c:5712
 msgid "Add"
 msgstr "Adicionar"
 
-#: src/etats_config.c:4824 src/etats_config.c:5725
+#: src/etats_config.c:4825 src/etats_config.c:5726
 msgid "Remove"
 msgstr "Remover"
 
-#: src/etats_config.c:4902 src/etats_config.c:6765 src/etats_config.c:6877
+#: src/etats_config.c:4903 src/etats_config.c:6766 src/etats_config.c:6878
 #, fuzzy
 msgid "payee"
 msgstr "Pagar/pago"
 
-#: src/etats_config.c:4930
+#: src/etats_config.c:4931
 #, fuzzy
 msgid "payee information"
 msgstr "Informações orçamentárias"
 
-#: src/etats_config.c:4958 src/etats_config.c:6770 src/etats_config.c:6884
+#: src/etats_config.c:4959 src/etats_config.c:6771 src/etats_config.c:6885
 msgid "category"
 msgstr "categoria"
 
-#: src/etats_config.c:4986 src/etats_config.c:6775
+#: src/etats_config.c:4987 src/etats_config.c:6776
 #, fuzzy
 msgid "sub-category"
 msgstr "Nenhuma sub-categoria"
 
-#: src/etats_config.c:5014 src/etats_config.c:6780 src/etats_config.c:6891
+#: src/etats_config.c:5015 src/etats_config.c:6781 src/etats_config.c:6892
 msgid "budgetary line"
 msgstr "orçamento"
 
-#: src/etats_config.c:5042 src/etats_config.c:6785
+#: src/etats_config.c:5043 src/etats_config.c:6786
 #, fuzzy
 msgid "sub-budgetary line"
 msgstr "Nenhum sub-orçamento"
 
-#: src/etats_config.c:5070 src/etats_config.c:6898
+#: src/etats_config.c:5071 src/etats_config.c:6899
 msgid "note"
 msgstr "nota"
 
-#: src/etats_config.c:5098 src/etats_config.c:6815 src/etats_config.c:6926
+#: src/etats_config.c:5099 src/etats_config.c:6816 src/etats_config.c:6927
 msgid "bank reference"
 msgstr "referência bancária"
 
-#: src/etats_config.c:5126 src/etats_config.c:6805 src/etats_config.c:6919
+#: src/etats_config.c:5127 src/etats_config.c:6806 src/etats_config.c:6920
 msgid "voucher"
 msgstr "comprovante"
 
-#: src/etats_config.c:5147
+#: src/etats_config.c:5148
 #, fuzzy
 msgid "cheque number"
 msgstr "o cheque número"
 
-#: src/etats_config.c:5167 src/etats_config.c:6820 src/etats_config.c:6933
+#: src/etats_config.c:5168 src/etats_config.c:6821 src/etats_config.c:6934
 msgid "reconciliation reference"
 msgstr "reconciliação referente"
 
-#: src/etats_config.c:5222
+#: src/etats_config.c:5223
 msgid "contains"
 msgstr "contém"
 
-#: src/etats_config.c:5234
+#: src/etats_config.c:5235
 msgid "doesn't contain"
 msgstr "não contém"
 
-#: src/etats_config.c:5246
+#: src/etats_config.c:5247
 msgid "begins with"
 msgstr "iniciar com"
 
-#: src/etats_config.c:5258
+#: src/etats_config.c:5259
 msgid "ends with"
 msgstr "encerrar com"
 
-#: src/etats_config.c:5270
+#: src/etats_config.c:5271
 msgid "is empty"
 msgstr "está vazio"
 
-#: src/etats_config.c:5282
+#: src/etats_config.c:5283
 msgid "isn't empty"
 msgstr "não está vazio"
 
-#: src/etats_config.c:5310 src/export_csv.c:771
-#: src/gsb_assistant_reconcile_config.c:612 src/gsb_scheduler_list.c:338
-#: src/gsb_transactions_list.c:150 src/import.c:2998
+#: src/etats_config.c:5311 src/export_csv.c:773
+#: src/gsb_assistant_reconcile_config.c:614 src/gsb_scheduler_list.c:339
+#: src/gsb_transactions_list.c:150 src/import.c:3006
 #: src/traitement_variables.c:82
 msgid "Amount"
 msgstr "Valor"
 
-#: src/etats_config.c:5325
+#: src/etats_config.c:5326
 msgid "Select the transactions by amount"
 msgstr "Selecionar os lançamentos por valor"
 
 #. on rajoute le bouton exclure les opÃ© dont le montant est nul
-#: src/etats_config.c:5381
+#: src/etats_config.c:5382
 msgid "Exclude the transactions with a null amount"
 msgstr "Excluir os lançamentos com valor nulo"
 
-#: src/etats_config.c:5610
+#: src/etats_config.c:5611
 msgid "Transactions with an amount of"
 msgstr "Lançamentos com um valor de"
 
-#: src/etats_config.c:5757 src/etats_config.c:6114
+#: src/etats_config.c:5758 src/etats_config.c:6115
 msgid "and"
 msgstr "e"
 
-#: src/etats_config.c:5765 src/etats_config.c:6126
+#: src/etats_config.c:5766 src/etats_config.c:6127
 msgid "or"
 msgstr "ou"
 
-#: src/etats_config.c:5773 src/etats_config.c:6138
+#: src/etats_config.c:5774 src/etats_config.c:6139
 msgid "except"
 msgstr "exceto"
 
-#: src/etats_config.c:5803 src/etats_config.c:5981
+#: src/etats_config.c:5804 src/etats_config.c:5982
 msgid "equal"
 msgstr "igual"
 
-#: src/etats_config.c:5815 src/etats_config.c:5993
+#: src/etats_config.c:5816 src/etats_config.c:5994
 msgid "less than"
 msgstr "menor que"
 
-#: src/etats_config.c:5827 src/etats_config.c:6005
+#: src/etats_config.c:5828 src/etats_config.c:6006
 msgid "less than or equal"
 msgstr "menor que ou igual"
 
-#: src/etats_config.c:5839 src/etats_config.c:6017
+#: src/etats_config.c:5840 src/etats_config.c:6018
 msgid "greater than"
 msgstr "maior que"
 
-#: src/etats_config.c:5851 src/etats_config.c:6029
+#: src/etats_config.c:5852 src/etats_config.c:6030
 msgid "greater than or equal"
 msgstr "maior que ou igual"
 
-#: src/etats_config.c:5863 src/etats_config.c:6041
+#: src/etats_config.c:5864 src/etats_config.c:6042
 msgid "different from"
 msgstr "diferente de"
 
-#: src/etats_config.c:5875
+#: src/etats_config.c:5876
 msgid "null"
 msgstr "nulo"
 
-#: src/etats_config.c:5887
+#: src/etats_config.c:5888
 msgid "not null"
 msgstr "não nulo"
 
-#: src/etats_config.c:5899
+#: src/etats_config.c:5900
 msgid "positive"
 msgstr "positivo"
 
-#: src/etats_config.c:5911
+#: src/etats_config.c:5912
 msgid "negative"
 msgstr "negativo"
 
-#: src/etats_config.c:6053
+#: src/etats_config.c:6054
 msgid "the biggest"
 msgstr "o maior"
 
-#: src/etats_config.c:6150
+#: src/etats_config.c:6151
 msgid "stop"
 msgstr "parar"
 
 #. on peut sÃ©lectionner les opÃ© R ou non R
-#: src/etats_config.c:6223
+#: src/etats_config.c:6224
 msgid "Reconciled transactions"
 msgstr "Lançamentos reconciliados"
 
-#: src/etats_config.c:6226
+#: src/etats_config.c:6227
 #, fuzzy
 msgid "Select all transactions"
 msgstr "Apagar lançamento"
 
-#: src/etats_config.c:6237
+#: src/etats_config.c:6238
 #, fuzzy
 msgid "Select unreconciled transactions"
 msgstr "Os lançamentos reconciliados"
 
-#: src/etats_config.c:6252
+#: src/etats_config.c:6253
 #, fuzzy
 msgid "Select reconciled transactions"
 msgstr "Os lançamentos reconciliados"
 
-#: src/etats_config.c:6266
+#: src/etats_config.c:6267
 #, fuzzy
 msgid "Split of transactions detail"
 msgstr "Divisão do lançamento"
 
-#: src/etats_config.c:6268
+#: src/etats_config.c:6269
 #, fuzzy
 msgid "Do not detail split of transactions"
 msgstr "Não detalhar lançamentos reconciliados"
 
 #. choix de ce qu'on utilise dans le classement
-#: src/etats_config.c:6301
+#: src/etats_config.c:6302
 #, fuzzy
 msgid "Group transactions"
 msgstr "Marcar lançamentos"
 
-#: src/etats_config.c:6303
+#: src/etats_config.c:6304
 msgid "Group transactions by account"
 msgstr "Agrupar lançamentos por conta"
 
-#: src/etats_config.c:6308
+#: src/etats_config.c:6309
 #, fuzzy
 msgid "Group transactions by payee"
 msgstr "Agrupar lançamentos por categoria"
 
-#: src/etats_config.c:6313
+#: src/etats_config.c:6314
 msgid "Group transactions by category"
 msgstr "Agrupar lançamentos por categoria"
 
-#: src/etats_config.c:6318
+#: src/etats_config.c:6319
 msgid "Group transactions by budgetary line"
 msgstr "Agrupar lançamentos por orçamento"
 
 #. choix du type de classement
-#: src/etats_config.c:6325
+#: src/etats_config.c:6326
 msgid "Group level organisation"
 msgstr "Organização nivelada por grupo"
 
 #. on permet la sÃ©paration des revenus et des dÃ©penses
-#: src/etats_config.c:6421
+#: src/etats_config.c:6422
 msgid "Split incomes and outgoings"
 msgstr "Dividir receitas e despesas"
 
 #. on permet la sÃ©paration par exercice
-#: src/etats_config.c:6427
+#: src/etats_config.c:6428
 msgid "Split by financial year"
 msgstr "Dividir por ano contábil"
 
-#: src/etats_config.c:6436
+#: src/etats_config.c:6437
 msgid "Split by period"
 msgstr "Dividir por período"
 
 #. on permet ensuite la sÃ©paration des rÃ©sultats par pÃ©riode
-#: src/etats_config.c:6442
+#: src/etats_config.c:6443
 #, fuzzy
 msgid "Separation by period"
 msgstr "Dividir por período"
 
-#: src/etats_config.c:6449
+#: src/etats_config.c:6450
 #, fuzzy
 msgid "Separation by time period"
 msgstr "Dividir por período"
 
-#: src/etats_config.c:6470
+#: src/etats_config.c:6471
 #, fuzzy
 msgid "Day"
 msgstr "Dias"
 
-#: src/etats_config.c:6474
+#: src/etats_config.c:6475
 msgid "Week"
 msgstr "Semana"
 
-#: src/etats_config.c:6478
+#: src/etats_config.c:6479
 #, fuzzy
 msgid "Month"
 msgstr "Meses"
 
-#: src/etats_config.c:6482
+#: src/etats_config.c:6483
 msgid "Year"
 msgstr "Ano"
 
 #. add beginning day of the week
-#: src/etats_config.c:6489
+#: src/etats_config.c:6490
 msgid "Beginning of week"
 msgstr ""
 
-#: src/etats_config.c:6649 src/gsb_archive_config.c:98
+#: src/etats_config.c:6650 src/gsb_archive_config.c:98
 #: src/gsb_assistant_archive_export.c:150
 msgid "Report name"
 msgstr "Nome do relatório"
 
-#: src/etats_config.c:6679
+#: src/etats_config.c:6680
 msgid "Diplay the number of transactions with the totals"
 msgstr "Mostrar o número de lançamentos com o total"
 
-#: src/etats_config.c:6700
+#: src/etats_config.c:6701
 #, fuzzy
 msgid "Consider the payees of this report as a multiple payee."
 msgstr "Considerar os terceiros para este relatório como um terceiro múltiplo."
 
-#: src/etats_config.c:6725
+#: src/etats_config.c:6726
 #, fuzzy
 msgid "Transactions display"
 msgstr "Lista de lançamentos"
 
 #. afficher ou non les opÃ©s
-#: src/etats_config.c:6730
+#: src/etats_config.c:6731
 msgid "Display transactions"
 msgstr "Exibir lançamentos"
 
 #. demande les dÃ©tails affichÃ©s dans les opÃ©rations
-#: src/etats_config.c:6745
+#: src/etats_config.c:6746
 msgid "Include following informations"
 msgstr ""
 
-#: src/etats_config.c:6750 src/etats_config.c:6870
+#: src/etats_config.c:6751 src/etats_config.c:6871
 msgid "transaction number"
 msgstr "numero do lançamento"
 
-#: src/etats_config.c:6755 src/etats_config.c:6856
+#: src/etats_config.c:6756 src/etats_config.c:6857
 msgid "date"
 msgstr "data"
 
-#: src/etats_config.c:6760 src/etats_config.c:6863
+#: src/etats_config.c:6761 src/etats_config.c:6864
 #, fuzzy
 msgid "value date"
 msgstr "Data"
 
-#: src/etats_config.c:6790
+#: src/etats_config.c:6791
 #, fuzzy
 msgid "notes"
 msgstr "nota"
 
-#: src/etats_config.c:6795 src/etats_config.c:6905
+#: src/etats_config.c:6796 src/etats_config.c:6906
 msgid "method of payment"
 msgstr "forma de pagamento"
 
-#: src/etats_config.c:6800 src/etats_config.c:6912
+#: src/etats_config.c:6801 src/etats_config.c:6913
 msgid "cheque/transfer number"
 msgstr "cheque/transferência número"
 
-#: src/etats_config.c:6810 src/etats_support.c:138
+#: src/etats_config.c:6811 src/etats_support.c:138
 msgid "financial year"
 msgstr "ano contábil"
 
 #. on propose d'afficher le titre des colonnes
-#: src/etats_config.c:6827
+#: src/etats_config.c:6828
 #, fuzzy
 msgid "Columns"
 msgstr "Contas"
 
-#: src/etats_config.c:6829
+#: src/etats_config.c:6830
 #, fuzzy
 msgid "Display column titles"
 msgstr "Mostrar títulos das colunas"
 
-#: src/etats_config.c:6834
+#: src/etats_config.c:6835
 msgid "every section"
 msgstr "cada seção"
 
-#: src/etats_config.c:6840
+#: src/etats_config.c:6841
 msgid "at the top of the report"
 msgstr " no topo do relatório"
 
 #. mise en place du type de classement des opÃ©s
-#: src/etats_config.c:6847
+#: src/etats_config.c:6848
 #, fuzzy
 msgid "Sort transactions by"
 msgstr "Organizar os lançamentos por"
 
 #. on propose de rendre clickable le dÃ©tails des opÃ©rations
-#: src/etats_config.c:6945
+#: src/etats_config.c:6946
 #, fuzzy
 msgid "Clickable transactions"
 msgstr "Todas os lançamentos"
 
-#: src/etats_config.c:6947
+#: src/etats_config.c:6948
 msgid "Make transactions clickable"
 msgstr "Fazer lançamento clicáveis"
 
-#: src/etats_config.c:6985 src/parametres.c:1007
+#: src/etats_config.c:6986 src/parametres.c:1010
 msgid "Totals currencies"
 msgstr "Total das moedas"
 
-#: src/etats_config.c:6998
+#: src/etats_config.c:6999
 msgid "General totals currency"
 msgstr "Total geral da moeda"
 
-#: src/etats_config.c:7029
+#: src/etats_config.c:7030
 #, fuzzy
 msgid "Payees currency"
 msgstr "Moeda das categorias"
 
-#: src/etats_config.c:7060
+#: src/etats_config.c:7061
 msgid "Categories currency"
 msgstr "Moeda das categorias"
 
-#: src/etats_config.c:7092
+#: src/etats_config.c:7093
 msgid "Budgetary lines currency"
 msgstr "Moeda dos orçamentos"
 
-#: src/etats_config.c:7123
+#: src/etats_config.c:7124
 msgid "Amount comparison currency"
 msgstr "Moeda da comparação dos totais"
 
 #. on permet d'afficher le name du compte
-#: src/etats_config.c:7162
+#: src/etats_config.c:7163
 msgid "Display account name"
 msgstr "Exibir nome da conta"
 
 #. on permet d'afficher un ss total lors de chgt de compte
 #. activÃ© uniquement si on a regroupÃ© les opÃ©s par compte
-#: src/etats_config.c:7176
+#: src/etats_config.c:7177
 msgid "Display a sub-total for each account"
 msgstr "Mostrar o sub-total para cada conta"
 
 #. permet d'afficher le name du tiers, activÃ© uniquement si on utilise les tiers
-#: src/etats_config.c:7196
+#: src/etats_config.c:7197
 #, fuzzy
 msgid "Display payee's name"
 msgstr "Exibir nome de terceiros"
 
 #. permet d'afficher un ss total lors de chgt de tiers
 #. activÃ© uniquement si on utilise les tiers
-#: src/etats_config.c:7214
+#: src/etats_config.c:7215
 #, fuzzy
 msgid "Dsplay a sub-total for each payee"
 msgstr "Exibir um sub-total para cada terceiro"
 
 #. affichage possible du name de la categ
-#: src/etats_config.c:7234
+#: src/etats_config.c:7235
 msgid "Display the (sub)category's name"
 msgstr "Exibir o nome das (sub)categorias"
 
 #. permet d'afficher un sous total lors de chgt de categ
 #. activÃ© uniquement si on utilise les categ
-#: src/etats_config.c:7252
+#: src/etats_config.c:7253
 msgid "Display a sub-total for each category"
 msgstr "Mostrar um sub-total para cada categoria"
 
 #. mise en place du bouton pour afficher les sous categ
-#: src/etats_config.c:7269
+#: src/etats_config.c:7270
 msgid "Display sub-categories"
 msgstr "Exibir sub-categorias"
 
-#: src/etats_config.c:7285
+#: src/etats_config.c:7286
 msgid "Display a sub-total for each sub-category"
 msgstr "Exibir um sub-total por cada sub-categoria"
 
-#: src/etats_config.c:7301
+#: src/etats_config.c:7302
 msgid "Display \" No sub-category\" if none"
 msgstr "Exibir \"Sem sub-categorias\" se não existirem"
 
-#: src/etats_config.c:7320
+#: src/etats_config.c:7321
 msgid "Display the (sub-)budget line name"
 msgstr "Exibir nome do (sub-)orçamento"
 
 #. permet d'afficher un sous total lors de chgt d'ib
 #. activÃ© uniquement si on utilise les ib
-#: src/etats_config.c:7338
+#: src/etats_config.c:7339
 msgid "Display a sub-total for each budgetary line"
 msgstr "Exibir um sub-total para cada orçamento"
 
 #. mise en place du bouton pour afficher les sous categ
-#: src/etats_config.c:7355
+#: src/etats_config.c:7356
 msgid "Display sub-budget lines"
 msgstr "Exibir sub-orçamentos"
 
-#: src/etats_config.c:7370
+#: src/etats_config.c:7371
 msgid "Display a sub-total for each sub-budget line"
 msgstr "Exibir um sub-total para cada sub-orçamento"
 
-#: src/etats_config.c:7386
+#: src/etats_config.c:7387
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Exibir \"Nenhum sub-orçamento\" se não existir"
 
 #. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
 #. sÃ©lectionner
-#: src/etats_config.c:7421
+#: src/etats_config.c:7422
 msgid "Select the transactions by method of payment"
 msgstr "Selecionar os lançamentos por forma de pagamento"
 
-#: src/etats_config.c:7451
+#: src/etats_config.c:7452
 msgid "Select methods of payment to include"
 msgstr "Selecionar a forma de pagamento para incluir"
 
@@ -2614,8 +2627,8 @@ msgstr "Fechar"
 msgid "Clone selected report"
 msgstr "Clonar relatório"
 
-#: src/etats_onglet.c:237 src/fenetre_principale.c:301 src/navigation.c:357
-#: src/navigation.c:1269
+#: src/etats_onglet.c:237 src/fenetre_principale.c:302 src/navigation.c:358
+#: src/navigation.c:1270
 msgid "Reports"
 msgstr "Relatórios"
 
@@ -2796,7 +2809,7 @@ msgstr "Arquivo LaTeX"
 msgid "Exporting report ..."
 msgstr "Exportar relatório para CSV"
 
-#: src/etats_onglet.c:1218 src/gsb_debug.c:245 src/gsb_file.c:472
+#: src/etats_onglet.c:1218 src/gsb_debug.c:246 src/gsb_file.c:472
 #: src/gsb_file.c:596 src/gsb_file.c:653
 #, fuzzy
 msgid "Done"
@@ -2891,8 +2904,8 @@ msgstr ""
 msgid "Select accounts to export"
 msgstr "Selecionar contas para exportar"
 
-#: src/export.c:169 src/export_csv.c:741 src/gsb_account_property.c:229
-#: src/gsb_data_partial_balance.c:1363 src/import.c:1143 src/import.c:1180
+#: src/export.c:169 src/export_csv.c:743 src/gsb_account_property.c:229
+#: src/gsb_data_partial_balance.c:1370 src/import.c:1149 src/import.c:1186
 msgid "Account name"
 msgstr "Nome da conta"
 
@@ -2938,13 +2951,13 @@ msgid "CSV format"
 msgstr ""
 
 #. set the initial balance
-#: src/export_csv.c:274 src/gsb_account_property.c:574
-#: src/gsb_assistant_reconcile_config.c:441 src/gsb_reconcile.c:188
+#: src/export_csv.c:275 src/gsb_account_property.c:574
+#: src/gsb_assistant_reconcile_config.c:443 src/gsb_reconcile.c:188
 #: src/gsb_reconcile_config.c:232
 msgid "Initial balance"
 msgstr "Saldo inicial"
 
-#: src/export_csv.c:393
+#: src/export_csv.c:394
 #, fuzzy, c-format
 msgid ""
 "Error opening file \"%s\" :\n"
@@ -2953,59 +2966,59 @@ msgstr ""
 "Erro para o arquivo \"%s\" :\n"
 "%s"
 
-#: src/export_csv.c:578
+#: src/export_csv.c:580
 msgid "B"
 msgstr "B"
 
 #. create the method of payment for a bank account
 #. create the method of payment for a liabilities account
-#: src/export_csv.c:587 src/export_csv.c:699 src/export_csv.c:711
+#: src/export_csv.c:589 src/export_csv.c:701 src/export_csv.c:713
 #: src/gsb_data_category.c:1041 src/gsb_data_payment.c:627
 #: src/gsb_data_payment.c:709 src/gsb_data_payment.c:748
 #: src/plugins/ofx/ofx.c:463
 msgid "Transfer"
 msgstr "Transferir"
 
-#: src/export_csv.c:701 src/gsb_form.c:1907
+#: src/export_csv.c:703 src/gsb_form.c:1908
 msgid "Deleted account"
 msgstr "Apagar conta"
 
-#: src/export_csv.c:744 src/import_csv.c:92
+#: src/export_csv.c:746 src/import_csv.c:92
 msgid "Split"
 msgstr "Dividir"
 
-#: src/export_csv.c:753
+#: src/export_csv.c:755
 msgid "Cheques"
 msgstr "Cheques"
 
-#: src/export_csv.c:759 src/gsb_transactions_list.c:155 src/import_csv.c:91
+#: src/export_csv.c:761 src/gsb_transactions_list.c:155 src/import_csv.c:91
 #: src/traitement_variables.c:87
 msgid "C/R"
 msgstr "C/R"
 
-#: src/export_csv.c:780
+#: src/export_csv.c:782
 msgid "Sub-categories"
 msgstr "Sub-categorias"
 
-#: src/export_csv.c:789
+#: src/export_csv.c:791
 msgid "Sub-budgetary lines"
 msgstr "Sub-orçamentos"
 
-#: src/export_csv.c:795
+#: src/export_csv.c:797
 msgid "Reconciliation number"
 msgstr "Reconciliação número"
 
-#: src/fenetre_principale.c:244 src/parametres.c:330
+#: src/fenetre_principale.c:245 src/parametres.c:332
 msgid "Main page"
 msgstr "Página inicial"
 
-#: src/fenetre_principale.c:273 src/navigation.c:269 src/parametres.c:321
-#: src/parametres.c:926
+#: src/fenetre_principale.c:274 src/navigation.c:270 src/parametres.c:323
+#: src/parametres.c:929
 msgid "Scheduler"
 msgstr "Agenda"
 
 #. set the title
-#: src/fenetre_principale.c:285 src/navigation.c:304 src/navigation.c:1230
+#: src/fenetre_principale.c:286 src/navigation.c:305 src/navigation.c:1231
 #, fuzzy
 msgid "Balance estimate"
 msgstr "Saldos"
@@ -3635,12 +3648,12 @@ msgstr ""
 msgid "Spacing around indicator"
 msgstr ""
 
-#: src/gsb_account.c:167
+#: src/gsb_account.c:168
 #, c-format
 msgid "Delete account \"%s\"?"
 msgstr "Apagar conta \"%s\" ?"
 
-#: src/gsb_account.c:170
+#: src/gsb_account.c:171
 #, fuzzy
 msgid ""
 "This will irreversibly remove this account and all operations that were "
@@ -3655,11 +3668,11 @@ msgstr ""
 msgid "Account details"
 msgstr "Detalhes da conta"
 
-#: src/gsb_account_property.c:249 src/import.c:1094
+#: src/gsb_account_property.c:249 src/import.c:1100
 msgid "Account type"
 msgstr "Tipo da conta"
 
-#: src/gsb_account_property.c:271 src/import.c:1199
+#: src/gsb_account_property.c:271 src/import.c:1205
 msgid "Account currency"
 msgstr "Moeda da conta"
 
@@ -3729,26 +3742,26 @@ msgid "Minimum desired balance"
 msgstr "Saldo mínimo desejado"
 
 #: src/gsb_account_property.c:753 src/gsb_assistant_account.c:434
-#: src/gsb_data_partial_balance.c:216
+#: src/gsb_data_partial_balance.c:219
 msgid "Bank account"
 msgstr "Conta bancária"
 
-#: src/gsb_account_property.c:753 src/gsb_data_partial_balance.c:204
+#: src/gsb_account_property.c:753 src/gsb_data_partial_balance.c:207
 msgid "Cash account"
 msgstr "Conta de caixa"
 
 #: src/gsb_account_property.c:753 src/gsb_assistant_account.c:447
-#: src/gsb_data_partial_balance.c:208
+#: src/gsb_data_partial_balance.c:211
 msgid "Liabilities account"
 msgstr "Conta de responsabilidades"
 
 #: src/gsb_account_property.c:753 src/gsb_assistant_account.c:443
-#: src/gsb_data_partial_balance.c:212
+#: src/gsb_data_partial_balance.c:215
 msgid "Assets account"
 msgstr "Conta de bens"
 
 #. ask for the currency of the transactions
-#: src/gsb_account_property.c:876
+#: src/gsb_account_property.c:877
 #, c-format
 msgid ""
 "You are changing the currency of the account, do you want to change the "
@@ -3759,17 +3772,17 @@ msgid ""
 "Archived and reconcilied transactions will be left unmodified."
 msgstr ""
 
-#: src/gsb_account_property.c:879
+#: src/gsb_account_property.c:880
 #, fuzzy
 msgid "Change the transactions currency"
 msgstr "Transferir os lançamentos para"
 
-#: src/gsb_account_property.c:1094
+#: src/gsb_account_property.c:1095
 msgid "Your IBAN number is not correct. Please check your entry."
 msgstr ""
 
 #. create the page
-#: src/gsb_archive_config.c:111 src/parametres.c:284
+#: src/gsb_archive_config.c:111 src/parametres.c:286
 #, fuzzy
 msgid "Archives"
 msgstr "Ativado"
@@ -3814,7 +3827,7 @@ msgstr ""
 msgid " transactions are not archived."
 msgstr "Excluir os lançamentos que não são de transferência"
 
-#: src/gsb_archive_config.c:461
+#: src/gsb_archive_config.c:462
 #, c-format
 msgid ""
 "Warning, you are about the delete the archive \"%s\".\n"
@@ -3826,12 +3839,12 @@ msgid ""
 "Do you want to continue ?"
 msgstr ""
 
-#: src/gsb_archive_config.c:467
+#: src/gsb_archive_config.c:468
 #, fuzzy
 msgid "Deleting an archive"
 msgstr "Apagando um orçamento"
 
-#: src/gsb_archive_config.c:525
+#: src/gsb_archive_config.c:527
 #, c-format
 msgid ""
 "Warning, you are about the delete the archive \"%s\" and its associated "
@@ -3845,17 +3858,17 @@ msgid ""
 "Are you sure you want to continue ?"
 msgstr ""
 
-#: src/gsb_archive_config.c:533
+#: src/gsb_archive_config.c:535
 #, fuzzy
 msgid "Deleting an archive and its transactions"
 msgstr "Apagar lançamento"
 
 #. New account
-#: src/gsb_assistant_account.c:96 src/import.c:1086
+#: src/gsb_assistant_account.c:97 src/import.c:1092
 msgid "Create a new account"
 msgstr "Criar uma nova conta"
 
-#: src/gsb_assistant_account.c:97
+#: src/gsb_assistant_account.c:98
 msgid ""
 "This assistant will help you to create a new account.\n"
 "All that you do here can be changed later in the account configuration page."
@@ -4033,7 +4046,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
 #: src/gsb_assistant_archive.c:358 src/gsb_data_payee.c:515
-#: src/gsb_form.c:2695 src/gsb_form.c:2696 src/navigation.c:1267
+#: src/gsb_form.c:2696 src/gsb_form.c:2697 src/navigation.c:1268
 msgid "Report"
 msgstr "Relatório"
 
@@ -4042,7 +4055,7 @@ msgstr "Relatório"
 msgid "Please choose a name for archive"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:487 src/import.c:827
+#: src/gsb_assistant_archive.c:487 src/import.c:832
 msgid "Congratulations !"
 msgstr ""
 
@@ -4094,43 +4107,43 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:853
+#: src/gsb_assistant_archive.c:854
 msgid "<span foreground=\"red\">Please fill the initial date</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:857
+#: src/gsb_assistant_archive.c:858
 msgid "<span foreground=\"red\">Please fill the final date</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:865
+#: src/gsb_assistant_archive.c:866
 msgid ""
 "<span foreground=\"red\">The initial date is after the final date</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:869
+#: src/gsb_assistant_archive.c:870
 msgid "<span foreground=\"red\">The initial date is not valid.</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:873
+#: src/gsb_assistant_archive.c:874
 msgid "<span foreground=\"red\">The final date is not valid</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:877
+#: src/gsb_assistant_archive.c:878
 msgid ""
 "<span foreground=\"red\">The initial date belongs already to an archive.</"
 "span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:881
+#: src/gsb_assistant_archive.c:882
 msgid ""
 "<span foreground=\"red\">The final date belongs already to an archive.</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:924
+#: src/gsb_assistant_archive.c:925
 msgid "<span foreground=\"red\">Please choose a financial year</span>"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:929
+#: src/gsb_assistant_archive.c:930
 msgid ""
 "<span foreground=\"red\">There is already an archive for that financial year."
 "</span>"
@@ -4193,7 +4206,7 @@ msgid ""
 "or the close button to cancel the action."
 msgstr ""
 
-#: src/gsb_assistant.c:221
+#: src/gsb_assistant.c:222
 #, c-format
 msgid "%s (%d of %d)"
 msgstr ""
@@ -4263,7 +4276,7 @@ msgstr ""
 #. will we crypt the file ?
 #. crypt the grisbi file
 #: src/gsb_assistant_file.c:323 src/gsb_assistant_first.c:249
-#: src/parametres.c:699
+#: src/parametres.c:702
 msgid "Encrypt Grisbi file"
 msgstr ""
 
@@ -4349,12 +4362,12 @@ msgid "General configuration of Grisbi"
 msgstr ""
 
 #. configure the browser
-#: src/gsb_assistant_first.c:208 src/parametres.c:849
+#: src/gsb_assistant_first.c:208 src/parametres.c:852
 #, fuzzy
 msgid "Web"
 msgstr "Website"
 
-#: src/gsb_assistant_first.c:215 src/parametres.c:856
+#: src/gsb_assistant_first.c:215 src/parametres.c:859
 #, fuzzy
 msgid "Web browser command"
 msgstr "Navegador Internet"
@@ -4364,46 +4377,46 @@ msgstr "Navegador Internet"
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr ""
 
-#: src/gsb_assistant_first.c:234 src/parametres.c:682
+#: src/gsb_assistant_first.c:234 src/parametres.c:685
 msgid "Account files handling"
 msgstr "Manipulação dos arquivos de contas"
 
 #. Automatically load last file on startup?
-#: src/gsb_assistant_first.c:237 src/parametres.c:685
+#: src/gsb_assistant_first.c:237 src/parametres.c:688
 msgid "Automatically load last file on startup"
 msgstr "Abrir último arquivo automaticamente ao iniciar"
 
 #. automatically save file at closing
-#: src/gsb_assistant_first.c:243 src/parametres.c:689
+#: src/gsb_assistant_first.c:243 src/parametres.c:692
 msgid "Automatically save on exit"
 msgstr "Salvar automaticamente ao sair"
 
 #. Automatic backup ?
-#: src/gsb_assistant_first.c:257 src/parametres.c:734
+#: src/gsb_assistant_first.c:257 src/parametres.c:737
 msgid "Make a backup copy before saving files"
 msgstr "Fazer uma cópia de backup antes de salvar os arquivos"
 
-#: src/gsb_assistant_first.c:267 src/parametres.c:742
+#: src/gsb_assistant_first.c:267 src/parametres.c:745
 #, fuzzy
 msgid "Make a backup copy every "
 msgstr "Fazer uma cópia de backup antes de salvar os arquivos"
 
-#: src/gsb_assistant_first.c:278 src/parametres.c:752
+#: src/gsb_assistant_first.c:278 src/parametres.c:755
 #, fuzzy
 msgid " minutes"
 msgstr "nota"
 
-#: src/gsb_assistant_first.c:287 src/parametres.c:759
+#: src/gsb_assistant_first.c:287 src/parametres.c:762
 #, fuzzy
 msgid "Backup directory"
 msgstr "Arquivo de backup"
 
-#: src/gsb_assistant_first.c:292 src/parametres.c:766
+#: src/gsb_assistant_first.c:292 src/parametres.c:769
 msgid "Select/Create backup directory"
 msgstr ""
 
 #: src/gsb_assistant_first.c:335 src/gsb_reconcile_config.c:103
-#: src/parametres.c:412
+#: src/parametres.c:414
 msgid "Reconciliation"
 msgstr "Reconciliação"
 
@@ -4424,7 +4437,7 @@ msgid ""
 "Check in the \"Preferences\" for more information."
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:165
+#: src/gsb_assistant_reconcile_config.c:166
 msgid "No marked transactions without reconciliation found !"
 msgstr ""
 
@@ -4444,7 +4457,7 @@ msgstr ""
 #. * 		and set the good date for all the reconciles (because grisbi set them automaticaly
 #. * 		at the first update to grisbi 0.6.0 )
 #. first, create the assistant
-#: src/gsb_assistant_reconcile_config.c:189
+#: src/gsb_assistant_reconcile_config.c:190
 #, c-format
 msgid ""
 "Grisbi found %d marked transactions not associated with a reconciliation "
@@ -4460,7 +4473,7 @@ msgid ""
 "Previous reconciliations will be available too."
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:197
+#: src/gsb_assistant_reconcile_config.c:198
 #, fuzzy
 msgid "Associate orphan transactions to a reconciliation"
 msgstr "Associar lançamentos com"
@@ -4469,73 +4482,73 @@ msgstr "Associar lançamentos com"
 #. update the labels
 #. update the string containing the number of transactions to link
 #. update the labels
-#: src/gsb_assistant_reconcile_config.c:261
-#: src/gsb_assistant_reconcile_config.c:900
-#: src/gsb_assistant_reconcile_config.c:1019
-#: src/gsb_assistant_reconcile_config.c:1062
-#: src/gsb_assistant_reconcile_config.c:1365
+#: src/gsb_assistant_reconcile_config.c:263
+#: src/gsb_assistant_reconcile_config.c:902
+#: src/gsb_assistant_reconcile_config.c:1021
+#: src/gsb_assistant_reconcile_config.c:1064
+#: src/gsb_assistant_reconcile_config.c:1367
 #, c-format
 msgid "Still %d transactions to link with a reconciliation."
 msgstr ""
 
 #. set up the menu
-#: src/gsb_assistant_reconcile_config.c:280
+#: src/gsb_assistant_reconcile_config.c:282
 #, fuzzy
 msgid "Choose the next operation to do :"
 msgstr "Alterar a forma de pagamento"
 
-#: src/gsb_assistant_reconcile_config.c:289
+#: src/gsb_assistant_reconcile_config.c:291
 msgid "Manually create a new reconciliation"
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:300
+#: src/gsb_assistant_reconcile_config.c:302
 msgid ""
 "\tAfter a long use, some transactions may be before the first known "
 "reconciliation.\n"
 "\tYou can create all the previous needed reconciliations here."
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:310
+#: src/gsb_assistant_reconcile_config.c:312
 msgid ""
 "Automaticaly associate transactions without reconciliation number with the "
 "known reconciliations"
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:321
+#: src/gsb_assistant_reconcile_config.c:323
 msgid ""
 "\tThis will make all the work for you if you create previously all the "
 "needed reconciles\n"
 "\tand adjust the date of the known reconciles."
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:331
+#: src/gsb_assistant_reconcile_config.c:333
 msgid ""
 "Associate by hands the transactions without reconciliation number with the "
 "known reconciles"
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:342
+#: src/gsb_assistant_reconcile_config.c:344
 msgid ""
 "\tYou control all and have a lot of time to spend on your computer !\n"
 "\t(you will be able to choose a reconciliation for each orphan transaction)."
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:378
+#: src/gsb_assistant_reconcile_config.c:380
 msgid "Fill the fields and click the button \"Create the new reconcile\""
 msgstr ""
 
 #. set the final balance
-#: src/gsb_assistant_reconcile_config.c:454 src/gsb_reconcile.c:196
+#: src/gsb_assistant_reconcile_config.c:456 src/gsb_reconcile.c:196
 #: src/gsb_reconcile_config.c:97 src/gsb_reconcile_config.c:246
 msgid "Final balance"
 msgstr "Saldo final"
 
-#: src/gsb_assistant_reconcile_config.c:473
+#: src/gsb_assistant_reconcile_config.c:475
 #, fuzzy
 msgid "Create the new reconciliation"
 msgstr "Criar uma nova conta"
 
-#: src/gsb_assistant_reconcile_config.c:550
+#: src/gsb_assistant_reconcile_config.c:552
 msgid ""
 "This assistant try to find a reconciliation to each orphan transaction,\n"
 "according to the date of the transaction and the dates of the reconcile.\n"
@@ -4545,24 +4558,24 @@ msgid ""
 "menu page) or check the transactions themselves."
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:575
+#: src/gsb_assistant_reconcile_config.c:577
 msgid "Launch automatic association"
 msgstr ""
 
 #. now we can show the list of orphans transactions
-#: src/gsb_assistant_reconcile_config.c:636
+#: src/gsb_assistant_reconcile_config.c:638
 #, fuzzy
 msgid "Select the transaction(s) you want to associate with a reconciliation :"
 msgstr ""
 "Selecione os lançamentos que você quer adicionar a lista e clique no botão "
 "[Adicionar] "
 
-#: src/gsb_assistant_reconcile_config.c:700
+#: src/gsb_assistant_reconcile_config.c:702
 #, fuzzy
 msgid "Link the selection to a reconcile..."
 msgstr "Lista de seleção de contas:"
 
-#: src/gsb_assistant_reconcile_config.c:729
+#: src/gsb_assistant_reconcile_config.c:731
 msgid ""
 "Congratulation !\n"
 "\n"
@@ -4572,77 +4585,77 @@ msgid ""
 "\tto have some transactions without reconciliation number."
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:789
+#: src/gsb_assistant_reconcile_config.c:791
 msgid ""
 "<span foreground=\"red\">The initial date is not valid, please check it</"
 "span>"
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:797
+#: src/gsb_assistant_reconcile_config.c:799
 msgid ""
 "<span foreground=\"red\">The final date is not valid, please check it</span>"
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:806
+#: src/gsb_assistant_reconcile_config.c:808
 msgid "<span foreground=\"red\">Please give a name to the new reconcile</span>"
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:815
+#: src/gsb_assistant_reconcile_config.c:817
 msgid ""
 "<span foreground=\"red\">That name already exists, please find another one.</"
 "span>"
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:826
+#: src/gsb_assistant_reconcile_config.c:828
 #, fuzzy
 msgid ""
 "<span foreground=\"red\">Cannot allocate memory : Bad things will happen "
 "soon.</span>"
 msgstr "Não posso alocar memória, alguns dados serão perdidos"
 
-#: src/gsb_assistant_reconcile_config.c:853
+#: src/gsb_assistant_reconcile_config.c:855
 #, c-format
 msgid ""
 "<span foreground=\"blue\">Reconciliation %s successfully appended !</span>"
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:959
+#: src/gsb_assistant_reconcile_config.c:961
 #, c-format
 msgid ""
 "Grisbi can associate %d transactions to a reconcile.\n"
 "Please click on the launch button to create the links"
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:967
-#: src/gsb_assistant_reconcile_config.c:1028
+#: src/gsb_assistant_reconcile_config.c:969
+#: src/gsb_assistant_reconcile_config.c:1030
 msgid ""
 "There is no transaction that grisbi can link.\n"
 "Check if you created all the necesssary reconciles."
 msgstr ""
 
-#: src/gsb_assistant_reconcile_config.c:1176
+#: src/gsb_assistant_reconcile_config.c:1178
 #, fuzzy
 msgid "All the selected transactions have to belong to the same account !"
 msgstr "Selecione os lançamentos de acordo com texto"
 
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
-#: src/gsb_assistant_reconcile_config.c:1197 src/gsb_transactions_list.c:1660
+#: src/gsb_assistant_reconcile_config.c:1199 src/gsb_transactions_list.c:1660
 #, fuzzy
 msgid "Selection of a reconciliation"
 msgstr "Confirmação da reconciliação manual"
 
-#: src/gsb_assistant_reconcile_config.c:1209
+#: src/gsb_assistant_reconcile_config.c:1211
 #, fuzzy
 msgid "Select the reconciliation to associate to the selected transactions"
 msgstr "Nenhum lançamento reconciliado, nenhum lançamento marcado"
 
-#: src/gsb_assistant_reconcile_config.c:1316
+#: src/gsb_assistant_reconcile_config.c:1318
 #, fuzzy
 msgid "No selection found, the transactions are not modified."
 msgstr "Excluir os lançamentos que não são de transferência"
 
-#: src/gsb_bank.c:386 src/gsb_reconcile.c:391
+#: src/gsb_bank.c:386 src/gsb_reconcile.c:393
 msgid "None"
 msgstr "Nenhum"
 
@@ -4655,7 +4668,7 @@ msgstr "Novo banco"
 msgid "Contact name"
 msgstr "Pessoa de contato"
 
-#: src/gsb_bank.c:519 src/parametres.c:493
+#: src/gsb_bank.c:519 src/parametres.c:495
 msgid "Banks"
 msgstr "Bancos"
 
@@ -4806,28 +4819,28 @@ msgstr ""
 msgid "Don't ask password again for this session."
 msgstr ""
 
-#: src/gsb_currency.c:463
+#: src/gsb_currency.c:464
 msgid "Enter exchange rate"
 msgstr "Informe a taxa do câmbio"
 
 #. text for paddingbox
-#: src/gsb_currency.c:473
+#: src/gsb_currency.c:474
 #, c-format
 msgid "Please enter exchange rate for %s"
 msgstr "Por favor informe a taxa de câmbio para %s"
 
 #. echange line label
-#: src/gsb_currency.c:491
+#: src/gsb_currency.c:492
 msgid "1"
 msgstr ""
 
 #. echange line compare sign
-#: src/gsb_currency.c:506
+#: src/gsb_currency.c:507
 msgid "="
 msgstr ""
 
 #. exchange fees line label
-#: src/gsb_currency.c:537
+#: src/gsb_currency.c:538
 msgid "Exchange fees"
 msgstr "Taxas de câmbio"
 
@@ -5944,7 +5957,7 @@ msgstr "Trinidad and Tobago"
 msgid "United States Dollar"
 msgstr "United States Dollar"
 
-#: src/gsb_currency_config.c:238 src/gsb_currency_config.c:1398
+#: src/gsb_currency_config.c:238 src/gsb_currency_config.c:1399
 msgid "United States"
 msgstr "United States"
 
@@ -6267,8 +6280,8 @@ msgid ""
 "should be set."
 msgstr ""
 
-#: src/gsb_currency_config.c:1077 src/gsb_data_partial_balance.c:308
-#: src/gsb_data_partial_balance.c:415
+#: src/gsb_currency_config.c:1077 src/gsb_data_partial_balance.c:312
+#: src/gsb_data_partial_balance.c:419
 #, fuzzy
 msgid "All fields are not filled in"
 msgstr "Nenhum campo foi preenchido!"
@@ -6400,38 +6413,38 @@ msgstr ""
 msgid "<span foreground=\"red\">Warning : Invalid date</span>"
 msgstr ""
 
-#: src/gsb_data_partial_balance.c:300 src/gsb_data_partial_balance.c:407
+#: src/gsb_data_partial_balance.c:304 src/gsb_data_partial_balance.c:411
 #, fuzzy
 msgid "You must select at least two accounts."
 msgstr "Selecionar contas de bens"
 
-#: src/gsb_data_partial_balance.c:301 src/gsb_data_partial_balance.c:408
+#: src/gsb_data_partial_balance.c:305 src/gsb_data_partial_balance.c:412
 #, fuzzy
 msgid "Only one account is selected."
 msgstr "Abrir um arquivo de contas"
 
-#: src/gsb_data_partial_balance.c:306 src/gsb_data_partial_balance.c:413
+#: src/gsb_data_partial_balance.c:310 src/gsb_data_partial_balance.c:417
 msgid ""
 "The name of the partial balance and the list of accounts must be completed."
 msgstr ""
 
-#: src/gsb_data_partial_balance.c:1387 src/gsb_data_partial_balance.c:1395
+#: src/gsb_data_partial_balance.c:1394 src/gsb_data_partial_balance.c:1402
 #, fuzzy
 msgid "Add a partial balance"
 msgstr "Saldo inicial"
 
-#: src/gsb_data_partial_balance.c:1402 src/gsb_debug.c:292
+#: src/gsb_data_partial_balance.c:1409 src/gsb_debug.c:293
 msgid "Details"
 msgstr "Detalhes"
 
 #. create the position
-#: src/gsb_data_partial_balance.c:1437
+#: src/gsb_data_partial_balance.c:1444
 #, fuzzy
 msgid "Position in the list of accounts"
 msgstr "Mover lançamento para outra conta"
 
 #. create the colorized button
-#: src/gsb_data_partial_balance.c:1450
+#: src/gsb_data_partial_balance.c:1457
 msgid "Colorized in red if the balance is negative"
 msgstr ""
 
@@ -6447,19 +6460,19 @@ msgstr ""
 "Lançamento #%d deveria ter uma contra-lançamento #%d, mas esta não existe.\n"
 
 #. Deposit = DÃ©pÃ´t
-#: src/gsb_data_payment.c:714 src/import.c:2422 src/plugins/ofx/ofx.c:451
+#: src/gsb_data_payment.c:714 src/import.c:2430 src/plugins/ofx/ofx.c:451
 msgid "Deposit"
 msgstr "Depósito"
 
 #. pas trouvÃ© de dÃ©finition remplacÃ© par carte de crÃ©dit
 #. Point of sale = Point de vente remplacÃ© par carte de crÃ©dit
-#: src/gsb_data_payment.c:723 src/import.c:2428 src/import.c:2434
+#: src/gsb_data_payment.c:723 src/import.c:2436 src/import.c:2442
 msgid "Credit card"
 msgstr "Cartão de crédito"
 
 #. Electronic payment remplacÃ© par Direct debit = PrÃ©lÃ¨vement
 #. Merchant initiated debit remplacÃ© par Direct debit = PrÃ©lÃ¨vement
-#: src/gsb_data_payment.c:732 src/import.c:2446 src/import.c:2464
+#: src/gsb_data_payment.c:732 src/import.c:2454 src/import.c:2472
 msgid "Direct debit"
 msgstr "Débito direto"
 
@@ -6630,57 +6643,57 @@ msgid ""
 "manipulation."
 msgstr ""
 
-#: src/gsb_debug.c:225
+#: src/gsb_debug.c:226
 #, fuzzy
 msgid ""
 "Inconsistencies found\n"
 "\n"
 msgstr "Nenhuma inconsistência encontrada."
 
-#: src/gsb_debug.c:228
+#: src/gsb_debug.c:229
 msgid ""
 "The following debug tests found inconsistencies in this accounts file:\n"
 "\n"
 msgstr ""
 
-#: src/gsb_debug.c:250
+#: src/gsb_debug.c:251
 #, fuzzy
 msgid ""
 "No inconsistency found\n"
 "\n"
 msgstr "Nenhuma inconsistência encontrada."
 
-#: src/gsb_debug.c:253
+#: src/gsb_debug.c:254
 msgid "Congratulations, your account file is in good shape!\n"
 msgstr ""
 
-#: src/gsb_debug.c:306
+#: src/gsb_debug.c:307
 #, fuzzy
 msgid "Try to fix this inconsistency."
 msgstr "Uma conta está inconsistente."
 
-#: src/gsb_debug.c:334
+#: src/gsb_debug.c:335
 msgid ""
 "Grisbi successfully repaired this account file.  You may now save your "
 "modifications."
 msgstr ""
 
-#: src/gsb_debug.c:336
+#: src/gsb_debug.c:337
 msgid "Fix completed"
 msgstr ""
 
-#: src/gsb_debug.c:340
+#: src/gsb_debug.c:341
 msgid ""
 "Grisbi was unable to repair this account file.  No modification has been "
 "done."
 msgstr ""
 
-#: src/gsb_debug.c:342
+#: src/gsb_debug.c:343
 #, fuzzy
 msgid "Unable to fix account"
 msgstr "Tipo de conta"
 
-#: src/gsb_debug.c:434
+#: src/gsb_debug.c:439
 #, fuzzy, c-format
 msgid ""
 "<span weight=\"bold\">%s</span>\n"
@@ -6691,12 +6704,12 @@ msgstr ""
 "  Valor da última reconciliação : %4.2f%s\n"
 "  Valor computado da reconciliação : %4.2f%s\n"
 
-#: src/gsb_debug.c:513
+#: src/gsb_debug.c:520
 #, c-format
 msgid "Transaction #%d is linked to non existent transaction #%d.\n"
 msgstr ""
 
-#: src/gsb_debug.c:536
+#: src/gsb_debug.c:543
 #, fuzzy, c-format
 msgid ""
 "Transaction #%d is linked to transaction #%d, which is linked to transaction "
@@ -6706,34 +6719,34 @@ msgstr ""
 "contra-lançamento #%d em vez disso #%d.\n"
 
 #. sub-category not found
-#: src/gsb_debug.c:598
+#: src/gsb_debug.c:605
 #, fuzzy, c-format
 msgid "Transaction %d has category %d but invalid sub-category %d.\n"
 msgstr ""
 "Lançamento #%d deveria ter uma contra-lançamento #%d, mas esta não existe.\n"
 
 #. category not found
-#: src/gsb_debug.c:612
+#: src/gsb_debug.c:619
 #, fuzzy, c-format
 msgid "Transaction %d has invalid category %d.\n"
 msgstr "Agrupar lançamentos por categoria"
 
 #. sub-budget not found
-#: src/gsb_debug.c:702
+#: src/gsb_debug.c:709
 #, fuzzy, c-format
 msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
 msgstr ""
 "Lançamento #%d deveria ter uma contra-lançamento #%d, mas esta não existe.\n"
 
 #. budget not found
-#: src/gsb_debug.c:716
+#: src/gsb_debug.c:723
 #, fuzzy, c-format
 msgid "Transaction %d has invalid budget %d.\n"
 msgstr ""
 "Lançamento #%d deveria ter uma contra-lançamento #%d, mas esta não existe.\n"
 
 #. payee not found
-#: src/gsb_debug.c:801
+#: src/gsb_debug.c:808
 #, fuzzy, c-format
 msgid "Transaction %d has invalid payee %d.\n"
 msgstr ""
@@ -6769,8 +6782,8 @@ msgstr "Carregar um arquivo de contas"
 msgid "Failed to load accounts"
 msgstr "Selecionar contas bancárias"
 
-#: src/gsb_file.c:388 src/gsb_file.c:405 src/gsb_file_load.c:293
-#: src/gsb_file_load.c:307 src/gsb_file_load.c:408
+#: src/gsb_file.c:388 src/gsb_file.c:405 src/gsb_file_load.c:296
+#: src/gsb_file_load.c:310 src/gsb_file_load.c:411
 #, fuzzy, c-format
 msgid "Error loading file '%s'"
 msgstr "Erro abrindo arquivo '%s'."
@@ -6826,7 +6839,7 @@ msgstr ""
 "Posteriormente mude  \"%s\" opção abaixo."
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:549 src/gsb_file.c:798 src/parametres.c:694
+#: src/gsb_file.c:549 src/gsb_file.c:800 src/parametres.c:697
 msgid "Force saving of locked files"
 msgstr "Forçar salvando arquivos bloqueados"
 
@@ -6846,65 +6859,65 @@ msgstr "Salvar arquivo"
 msgid "Saving backup"
 msgstr "Salvando backup"
 
-#: src/gsb_file.c:795
+#: src/gsb_file.c:797
 #, fuzzy
 msgid "Save locked files?"
 msgstr "Salvar arquivo"
 
-#: src/gsb_file.c:796
+#: src/gsb_file.c:798
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: src/gsb_file.c:797 src/gsb_file.c:808 src/gsb_file.c:993
+#: src/gsb_file.c:799 src/gsb_file.c:810 src/gsb_file.c:995
 msgid "unnamed"
 msgstr "sem nome"
 
-#: src/gsb_file.c:800 src/gsb_file.c:811
+#: src/gsb_file.c:802 src/gsb_file.c:813
 msgid "Close without saving"
 msgstr "Fechar sem salvar"
 
-#: src/gsb_file.c:807
+#: src/gsb_file.c:809
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "Salvar mudanças para documento %s antes de fechar ?"
 
-#: src/gsb_file.c:820
+#: src/gsb_file.c:822
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr ""
 
-#: src/gsb_file.c:825
+#: src/gsb_file.c:827
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr ""
 
-#: src/gsb_file.c:830
+#: src/gsb_file.c:832
 #, fuzzy, c-format
 msgid "%d seconds"
 msgstr "%d meses"
 
-#: src/gsb_file.c:833
+#: src/gsb_file.c:835
 #, fuzzy, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr "Se você fechar sem salvar, todos as sua alterações serão perdidas."
 
-#: src/gsb_file.c:869
+#: src/gsb_file.c:871
 msgid "Name the accounts file"
 msgstr "Nome do arquivo de contas"
 
-#: src/gsb_file.c:996
+#: src/gsb_file.c:998
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: src/gsb_file.c:1147
+#: src/gsb_file.c:1150
 msgid "Delete a copy of file of the old version of grisbi"
 msgstr ""
 
-#: src/gsb_file.c:1167
+#: src/gsb_file.c:1170
 #, c-format
 msgid ""
 "Careful, you are about to deleting the copy of file\n"
@@ -6914,12 +6927,12 @@ msgid ""
 "%s ?</b>"
 msgstr ""
 
-#: src/gsb_file_config.c:783
+#: src/gsb_file_config.c:788
 #, fuzzy, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Não posso salvar arquivo '%s': %s"
 
-#: src/gsb_file_config.c:823
+#: src/gsb_file_config.c:828
 #, fuzzy, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -6928,12 +6941,12 @@ msgstr ""
 "%s não parece ser um arquivo regular,\n"
 "por favor, verifique e tente novamente."
 
-#: src/gsb_file_config.c:860
+#: src/gsb_file_config.c:865
 #, fuzzy, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Não posso abrir arquivo '%s': %s"
 
-#: src/gsb_file_config.c:1291 src/print_config.c:51
+#: src/gsb_file_config.c:1290 src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
@@ -6950,12 +6963,12 @@ msgid ""
 "<b>Do you want to delete this file ?</b>"
 msgstr ""
 
-#: src/gsb_file_config.c:1392
+#: src/gsb_file_config.c:1393
 #, fuzzy
 msgid "Choose a file"
 msgstr "Selecionar  arquivo para importar"
 
-#: src/gsb_file_config.c:1415
+#: src/gsb_file_config.c:1416
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -6963,18 +6976,18 @@ msgid ""
 "and press the 'OK' button."
 msgstr ""
 
-#: src/gsb_file_load.c:290 src/gsb_file_load.c:405 src/gsb_file_others.c:419
-#: src/gsb_file_others.c:551
+#: src/gsb_file_load.c:293 src/gsb_file_load.c:408 src/gsb_file_others.c:420
+#: src/gsb_file_others.c:552
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Não posso abrir arquivo '%s': %s"
 
-#: src/gsb_file_load.c:292
+#: src/gsb_file_load.c:295
 #, fuzzy
 msgid "File does not exist"
 msgstr "Arquivo já existe"
 
-#: src/gsb_file_load.c:305 src/gsb_file_others.c:432
+#: src/gsb_file_load.c:308 src/gsb_file_others.c:433
 #, fuzzy, c-format
 msgid ""
 "%s doesn't seem to be a regular file,\n"
@@ -6983,7 +6996,7 @@ msgstr ""
 "%s não parece ser um arquivo regular,\n"
 "por favor, verifique e tente novamente."
 
-#: src/gsb_file_load.c:346 src/gsb_file_save.c:386
+#: src/gsb_file_load.c:349 src/gsb_file_save.c:389
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -6991,17 +7004,17 @@ msgid ""
 "installed) and try again."
 msgstr ""
 
-#: src/gsb_file_load.c:351 src/gsb_file_save.c:391
+#: src/gsb_file_load.c:354 src/gsb_file_save.c:394
 #, fuzzy
 msgid "Encryption plugin not found."
 msgstr "Conta %s não encontrada.\n"
 
-#: src/gsb_file_load.c:448 src/gsb_file_load.c:4592
+#: src/gsb_file_load.c:451 src/gsb_file_load.c:4595
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Este arquivo não é um relatório do Grisbi"
 
-#: src/gsb_file_load.c:660
+#: src/gsb_file_load.c:663
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7010,14 +7023,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7908
+#: src/gsb_file_load.c:7911
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "Grisbi versão %s é necessário para abrir este arquivo"
 
-#: src/gsb_file_load.c:7947
+#: src/gsb_file_load.c:7950
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7025,19 +7038,19 @@ msgid ""
 "transactions or important informations."
 msgstr ""
 
-#: src/gsb_file_load.c:7948
+#: src/gsb_file_load.c:7951
 #, fuzzy
 msgid "Grisbi archive opened"
 msgstr "Preferências"
 
 #: src/gsb_file_others.c:138 src/gsb_file_others.c:220
-#: src/gsb_file_others.c:303 src/gsb_file_save.c:411 src/gsb_file_save.c:429
+#: src/gsb_file_others.c:303 src/gsb_file_save.c:414 src/gsb_file_save.c:432
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Não posso salvar arquivo '%s': %s"
 
 #. inform the user of that
-#: src/gsb_file_others.c:536
+#: src/gsb_file_others.c:537
 msgid ""
 "Some things in a report cannot be imported :\n"
 "The selected lists of financial years, accounts, transfer accounts, "
@@ -7047,159 +7060,159 @@ msgid ""
 "You should check and modify that in the property box of that account."
 msgstr ""
 
-#: src/gsb_file_others.c:537
+#: src/gsb_file_others.c:538
 #, fuzzy
 msgid "Importing a report"
 msgstr "Importar um relatório"
 
-#: src/gsb_file_others.c:577
+#: src/gsb_file_others.c:578
 #, fuzzy
 msgid "This is not a grisbi file, loading canceled..."
 msgstr "Este não é um arquivo de orçamentos do Grisbi."
 
-#: src/gsb_file_others.c:594 src/gsb_file_others.c:605
-#: src/gsb_file_others.c:622
+#: src/gsb_file_others.c:595 src/gsb_file_others.c:606
+#: src/gsb_file_others.c:623
 msgid "The file version is below 0.6.0, Grisbi cannot import it."
 msgstr ""
 
-#: src/gsb_file_others.c:597
+#: src/gsb_file_others.c:598
 #, fuzzy
 msgid "This is not a category file, loading canceled..."
 msgstr "Este arquivo não é um arquivo de categorias do Grisbi."
 
-#: src/gsb_file_others.c:613
+#: src/gsb_file_others.c:614
 msgid "This is not a budget file, loading canceled..."
 msgstr ""
 
-#: src/gsb_file_others.c:630
+#: src/gsb_file_others.c:631
 msgid "This is not a report file, loading canceled..."
 msgstr ""
 
-#: src/gsb_file_util.c:63
+#: src/gsb_file_util.c:66
 #, fuzzy
 msgid "No name to the file !"
 msgstr "Nome do arquivo de contas"
 
-#: src/gsb_file_util.c:74
+#: src/gsb_file_util.c:77
 #, c-format
 msgid ""
 "%s is a directory...\n"
 "Please choose another name."
 msgstr ""
 
-#: src/gsb_file_util.c:81
+#: src/gsb_file_util.c:84
 #, c-format
 msgid "Do you want to overwrite file \"%s\"?"
 msgstr "Você quer sobrescrever o arquivo \"%s\"?"
 
-#: src/gsb_file_util.c:82
+#: src/gsb_file_util.c:85
 msgid "File already exists"
 msgstr "Arquivo já existe"
 
-#: src/gsb_file_util.c:122
+#: src/gsb_file_util.c:125
 #, c-format
 msgid "Grisbi cannot stat file %s, please check the file."
 msgstr ""
 
-#: src/gsb_file_util.c:164
+#: src/gsb_file_util.c:167
 #, fuzzy, c-format
 msgid "Failed to read from file '%s': %s"
 msgstr "Não posso bloquear o arquivo '%s': %s"
 
-#: src/gsb_file_util.c:334
+#: src/gsb_file_util.c:337
 #, fuzzy, c-format
 msgid "Cannot write lock file :'%s': %s"
 msgstr "Não posso bloquear o arquivo '%s': %s"
 
-#: src/gsb_file_util.c:361
+#: src/gsb_file_util.c:364
 #, fuzzy, c-format
 msgid "Cannot erase lock file :'%s': %s"
 msgstr "Não posso bloquear o arquivo '%s': %s"
 
-#: src/gsb_form.c:226
+#: src/gsb_form.c:227
 #, fuzzy
 msgid "Transaction/Scheduled _form"
 msgstr "Formulário de lançamentos"
 
 #. create the check button to recover the children of splits
-#: src/gsb_form.c:328
+#: src/gsb_form.c:329
 msgid "Recover the children"
 msgstr ""
 
-#: src/gsb_form.c:751
+#: src/gsb_form.c:752
 #, fuzzy
 msgid "Transfer : Deleted account"
 msgstr "Transferir: conta apagada."
 
-#: src/gsb_form.c:770 src/gsb_form.c:1896 src/gsb_form.c:1897
+#: src/gsb_form.c:771 src/gsb_form.c:1897 src/gsb_form.c:1898
 #, fuzzy
 msgid "Transfer : "
 msgstr "Transferir"
 
-#: src/gsb_form.c:913
+#: src/gsb_form.c:914
 msgid "Auto"
 msgstr "Auto"
 
-#: src/gsb_form.c:916 src/gsb_form_scheduler.c:169
-#: src/gsb_scheduler_list.c:1009
+#: src/gsb_form.c:917 src/gsb_form_scheduler.c:169
+#: src/gsb_scheduler_list.c:1010
 msgid "Manual"
 msgstr "Manual"
 
-#: src/gsb_form.c:1331
+#: src/gsb_form.c:1332
 msgid "Categories : Sub-categories"
 msgstr "Categorias : sub-categorias"
 
-#: src/gsb_form.c:1366 src/gsb_form_widget.c:441
+#: src/gsb_form.c:1367 src/gsb_form_widget.c:441
 msgid "Cheque/Transfer number"
 msgstr "Número do Cheque/Ordem de Pagamento"
 
-#: src/gsb_form.c:2277
+#: src/gsb_form.c:2278
 #, fuzzy
 msgid "No payee selected for this report."
 msgstr "Nenhum terceiro selecionado para este relatório."
 
-#: src/gsb_form.c:2538
+#: src/gsb_form.c:2539
 msgid "You must enter a date."
 msgstr "Você deve informar uma data."
 
-#: src/gsb_form.c:2545
+#: src/gsb_form.c:2546
 #, fuzzy, c-format
 msgid "Invalid date %s"
 msgstr "Data inválida"
 
-#: src/gsb_form.c:2564
+#: src/gsb_form.c:2565
 #, fuzzy, c-format
 msgid "Invalid value date %s"
 msgstr "Data inválida."
 
-#: src/gsb_form.c:2590
+#: src/gsb_form.c:2591
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
 msgstr ""
 
-#: src/gsb_form.c:2623
+#: src/gsb_form.c:2624
 #, fuzzy
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "Converter lançamento para lançamentos agendados"
 
-#: src/gsb_form.c:2630
+#: src/gsb_form.c:2631
 #, fuzzy
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "A conta associadas para esta transferência é inválida"
 
-#: src/gsb_form.c:2638
+#: src/gsb_form.c:2639
 msgid "Can't issue a transfer its own account."
 msgstr "Não é possível fazer uma transferência para a própria conta."
 
-#: src/gsb_form.c:2643
+#: src/gsb_form.c:2644
 msgid "Can't issue a transfer on a closed account."
 msgstr "Não é possível efetuar uma transferência em uma conta fechada."
 
-#: src/gsb_form.c:2669
+#: src/gsb_form.c:2670
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7209,7 +7222,7 @@ msgstr ""
 "não contém nenhum número.\n"
 "Continuar mesmo assim ?"
 
-#: src/gsb_form.c:2683
+#: src/gsb_form.c:2684
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7217,31 +7230,31 @@ msgstr ""
 "Atenção: este número de cheque já foi usado.\n"
 "Continuar mesmo assim ?"
 
-#: src/gsb_form.c:2703
+#: src/gsb_form.c:2704
 #, fuzzy
 msgid "A transaction with a multiple payee must be a new one."
 msgstr "Cada lançamento com vários terceiros deverá ser única."
 
-#: src/gsb_form.c:2708
+#: src/gsb_form.c:2709
 #, fuzzy
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "Cada lançamento com vários terceiros deverá ser única."
 
-#: src/gsb_form.c:2719
+#: src/gsb_form.c:2720
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 
-#: src/gsb_form.c:2726
+#: src/gsb_form.c:2727
 #, fuzzy
 msgid "Invalid multiple payee."
 msgstr "Vários terceiros inválido"
 
-#: src/gsb_form.c:2984
+#: src/gsb_form.c:2985
 #, fuzzy
 msgid "Modifying a transaction"
 msgstr "Editar lançamento"
 
-#: src/gsb_form.c:2985
+#: src/gsb_form.c:2986
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7251,77 +7264,79 @@ msgid ""
 msgstr ""
 
 #. propose to configure the form
-#: src/gsb_form.c:3286
+#: src/gsb_form.c:3287
 msgid "Configure the form"
 msgstr ""
 
-#: src/gsb_form_config.c:120 src/parametres.c:431
+#: src/gsb_form_config.c:120 src/parametres.c:433
 msgid "Transaction form"
 msgstr "Formulário de lançamentos"
 
+#. create the paddingbox into the parent
 #: src/gsb_form_config.c:153
 msgid "Form structure preview"
 msgstr "Prévia da estrutura do formulário"
 
 #. the button to choose the configuration for all/one account
-#: src/gsb_form_config.c:167
+#: src/gsb_form_config.c:162
 msgid "Each account has his own form"
 msgstr ""
 
-#: src/gsb_form_config.c:195
+#: src/gsb_form_config.c:177
 #, fuzzy
 msgid "Update"
 msgstr "data"
 
-#: src/gsb_form_config.c:208
-msgid " : Update all the accounts forms according to the selected account"
+#: src/gsb_form_config.c:185
+msgid " : Duplicate the selected form for all accounts"
 msgstr ""
 
-#: src/gsb_form_config.c:236
+#. set the box with the buttons
+#: src/gsb_form_config.c:206
 msgid "Form structure content"
 msgstr ""
 
-#: src/gsb_form_config.c:286
+#: src/gsb_form_config.c:253
 #, fuzzy
 msgid "Col 1"
 msgstr "Col 1"
 
-#: src/gsb_form_config.c:287
+#: src/gsb_form_config.c:254
 #, fuzzy
 msgid "Col 2"
 msgstr "Col 2"
 
-#: src/gsb_form_config.c:288
+#: src/gsb_form_config.c:255
 #, fuzzy
 msgid "Col 3"
 msgstr "Col 3"
 
-#: src/gsb_form_config.c:289
+#: src/gsb_form_config.c:256
 #, fuzzy
 msgid "Col 4"
 msgstr "Col 4"
 
-#: src/gsb_form_config.c:290
+#: src/gsb_form_config.c:257
 #, fuzzy
 msgid "Col 5"
 msgstr "Col 5"
 
-#: src/gsb_form_config.c:291
+#: src/gsb_form_config.c:258
 #, fuzzy
 msgid "Col 6"
 msgstr "Col 6"
 
-#: src/gsb_form_config.c:403
+#: src/gsb_form_config.c:370
 #, fuzzy
 msgid "rows"
 msgstr "Navegador"
 
-#: src/gsb_form_config.c:450
+#: src/gsb_form_config.c:417
 #, fuzzy
 msgid "columns"
 msgstr "Contas"
 
-#: src/gsb_form_config.c:651
+#: src/gsb_form_config.c:618
 msgid ""
 "Warning : all the form of the accounts will be updated according to the "
 "selected account. All the changes in the other accounts will be "
@@ -7330,7 +7345,7 @@ msgid ""
 "Are you sure to do that ?"
 msgstr ""
 
-#: src/gsb_form_config.c:789
+#: src/gsb_form_config.c:756
 msgid ""
 "There is no place enough to put the element. You need to increase the number "
 "of rows or columns to add an element."
@@ -7338,11 +7353,11 @@ msgstr ""
 "Não é possível colocar um elemento aqui. Você precisa informar um número de "
 "linhas ou colunas para adicionar um elemento."
 
-#: src/gsb_form_config.c:790 src/gsb_form_config.c:793
+#: src/gsb_form_config.c:757 src/gsb_form_config.c:760
 msgid "The table is full"
 msgstr "A tabela está cheia"
 
-#: src/gsb_form_config.c:792
+#: src/gsb_form_config.c:759
 msgid ""
 "There is no place enough to put the two elements (you have clicked on an "
 "element which contains two). You need to increase the number of rows or "
@@ -7358,16 +7373,16 @@ msgid ""
 msgstr ""
 
 #: src/gsb_form_scheduler.c:169 src/gsb_fyear.c:271
-#: src/gsb_scheduler_list.c:1007
+#: src/gsb_scheduler_list.c:1008
 msgid "Automatic"
 msgstr "Automática"
 
 #: src/gsb_form_scheduler.c:170 src/gsb_form_scheduler.c:906
-#: src/gsb_scheduler_list.c:998
+#: src/gsb_scheduler_list.c:999
 msgid "Once"
 msgstr "Uma vez"
 
-#: src/gsb_form_scheduler.c:170 src/gsb_scheduler_list.c:998
+#: src/gsb_form_scheduler.c:170 src/gsb_scheduler_list.c:999
 msgid "Weekly"
 msgstr "Semanal"
 
@@ -7385,7 +7400,7 @@ msgstr "%d meses"
 msgid "trimester"
 msgstr "Impressora"
 
-#: src/gsb_form_scheduler.c:171 src/gsb_scheduler_list.c:999
+#: src/gsb_form_scheduler.c:171 src/gsb_scheduler_list.c:1000
 msgid "Yearly"
 msgstr "Anual"
 
@@ -7415,7 +7430,7 @@ msgid "Automatic/manual scheduled transaction"
 msgstr "Agenda de lançamentos automática/manual"
 
 #: src/gsb_form_scheduler.c:193 src/gsb_form_scheduler.c:210
-#: src/gsb_scheduler_list.c:337
+#: src/gsb_scheduler_list.c:338
 msgid "Frequency"
 msgstr "Frequência"
 
@@ -7492,7 +7507,7 @@ msgstr "Número da lançamento"
 msgid "Automatic/Manual"
 msgstr "Automática"
 
-#: src/gsb_fyear_config.c:99 src/parametres.c:502
+#: src/gsb_fyear_config.c:99 src/parametres.c:504
 msgid "Financial years"
 msgstr "Anos contábeis"
 
@@ -7687,24 +7702,24 @@ msgid "Sort by method of payment"
 msgstr "a forma de pagamento"
 
 #. set the title
-#: src/gsb_reconcile.c:412
+#: src/gsb_reconcile.c:414
 #, fuzzy, c-format
 msgid " <b>%s reconciliation</b> "
 msgstr "Reconciliação"
 
-#: src/gsb_reconcile.c:484
+#: src/gsb_reconcile.c:487
 msgid ""
 "There is a variance in balances, check that both final balance and initial "
 "balance minus marked transactions are equal."
 msgstr ""
 
-#: src/gsb_reconcile.c:485 src/gsb_reconcile.c:494 src/gsb_reconcile.c:506
-#: src/gsb_reconcile.c:514
+#: src/gsb_reconcile.c:488 src/gsb_reconcile.c:497 src/gsb_reconcile.c:509
+#: src/gsb_reconcile.c:517
 #, fuzzy
 msgid "Reconciliation can't be completed."
 msgstr "Reconciliação número"
 
-#: src/gsb_reconcile.c:493
+#: src/gsb_reconcile.c:496
 msgid ""
 "There is already a reconcile with that name, you must use another name or "
 "let it free.\n"
@@ -7712,18 +7727,18 @@ msgid ""
 "it will be automatically incremented."
 msgstr ""
 
-#: src/gsb_reconcile.c:503
+#: src/gsb_reconcile.c:506
 #, fuzzy, c-format
 msgid "Invalid date: '%s'"
 msgstr "Data inválida"
 
-#: src/gsb_reconcile.c:513
+#: src/gsb_reconcile.c:516
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automaticaly incremented later"
 msgstr ""
 
-#: src/gsb_reconcile.c:526 src/navigation.c:1046
+#: src/gsb_reconcile.c:529 src/navigation.c:1047
 #, fuzzy, c-format
 msgid "Last statement: %s"
 msgstr "Última atualização"
@@ -7777,7 +7792,7 @@ msgstr ""
 msgid "Deleting a reconcile"
 msgstr "Apagando um orçamento"
 
-#: src/gsb_reconcile_sort_config.c:86 src/parametres.c:421
+#: src/gsb_reconcile_sort_config.c:86 src/parametres.c:423
 #, fuzzy
 msgid "Sort for reconciliation"
 msgstr "Reconciliação"
@@ -7799,11 +7814,11 @@ msgstr "Apagar uma forma de pagamento"
 msgid "Split neutral payment methods"
 msgstr "Dividir formas de pagamento neutras"
 
-#: src/gsb_scheduler_list.c:338
+#: src/gsb_scheduler_list.c:339
 msgid "Mode"
 msgstr "Modo"
 
-#: src/gsb_scheduler_list.c:605
+#: src/gsb_scheduler_list.c:606
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that. Please contact the Grisbi "
@@ -7812,7 +7827,7 @@ msgid ""
 "The concerned children number are :\n"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:835
+#: src/gsb_scheduler_list.c:836
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -7821,37 +7836,37 @@ msgid ""
 "It's normal if appending a new scheduled transaction, but abnormal else..."
 msgstr ""
 
-#: src/gsb_scheduler_list.c:979
+#: src/gsb_scheduler_list.c:980
 #, c-format
 msgid "%d days"
 msgstr "%d dias"
 
-#: src/gsb_scheduler_list.c:984
+#: src/gsb_scheduler_list.c:985
 #, c-format
 msgid "%d months"
 msgstr "%d meses"
 
-#: src/gsb_scheduler_list.c:989
+#: src/gsb_scheduler_list.c:990
 #, c-format
 msgid "%d years"
 msgstr "%d anos"
 
-#: src/gsb_scheduler_list.c:998
+#: src/gsb_scheduler_list.c:999
 #, fuzzy
 msgid "Montly"
 msgstr "Mensal"
 
-#: src/gsb_scheduler_list.c:999
+#: src/gsb_scheduler_list.c:1000
 #, fuzzy
 msgid "Bimonthly"
 msgstr "Mensal"
 
-#: src/gsb_scheduler_list.c:999
+#: src/gsb_scheduler_list.c:1000
 msgid "Quarterly"
 msgstr ""
 
 #. ask all the time for a child
-#: src/gsb_scheduler_list.c:1643
+#: src/gsb_scheduler_list.c:1644
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
@@ -7860,18 +7875,18 @@ msgstr ""
 "Você quer apagar somente esta ocorrência ou todo o agendamento "
 "destelançamento ?"
 
-#: src/gsb_scheduler_list.c:1646
+#: src/gsb_scheduler_list.c:1647
 #, fuzzy
 msgid "Delete a scheduled transaction"
 msgstr "Informe um lançamento agendado"
 
-#: src/gsb_scheduler_list.c:1661 src/gsb_transactions_list.c:1858
+#: src/gsb_scheduler_list.c:1662 src/gsb_transactions_list.c:1858
 #: src/gsb_transactions_list.c:1873
 #, fuzzy
 msgid "Delete a transaction"
 msgstr "Apagar lançamento"
 
-#: src/gsb_scheduler_list.c:1662
+#: src/gsb_scheduler_list.c:1663
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
@@ -7879,7 +7894,7 @@ msgstr ""
 "Você quer apagar somente esta ocorrência ou todo o agendamento "
 "destelançamento ?"
 
-#: src/gsb_scheduler_list.c:1695
+#: src/gsb_scheduler_list.c:1696
 #, fuzzy, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -7890,93 +7905,93 @@ msgstr ""
 "Você quer apagar somente esta ocorrência ou todo o agendamento "
 "destelançamento ?"
 
-#: src/gsb_scheduler_list.c:1703
+#: src/gsb_scheduler_list.c:1704
 #, fuzzy
 msgid "Delete this scheduled transaction?"
 msgstr "Apaga um lançamento agendado"
 
-#: src/gsb_scheduler_list.c:1708
+#: src/gsb_scheduler_list.c:1709
 msgid "All the occurences"
 msgstr "Todas as ocorrências"
 
-#: src/gsb_scheduler_list.c:1709
+#: src/gsb_scheduler_list.c:1710
 msgid "Only this one"
 msgstr "Somente esta"
 
 #. set the title
-#: src/gsb_scheduler_list.c:1767 src/navigation.c:1194
+#: src/gsb_scheduler_list.c:1769 src/navigation.c:1195
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "Lançamentos agendados fechados"
 
-#: src/gsb_scheduler_list.c:1795
+#: src/gsb_scheduler_list.c:1797
 #, fuzzy
 msgid "days"
 msgstr "dia"
 
-#: src/gsb_scheduler_list.c:1795
+#: src/gsb_scheduler_list.c:1797
 #, fuzzy
 msgid "weeks"
 msgstr "Semana"
 
-#: src/gsb_scheduler_list.c:1795
+#: src/gsb_scheduler_list.c:1797
 #, fuzzy
 msgid "months"
 msgstr "Meses"
 
-#: src/gsb_scheduler_list.c:1795
+#: src/gsb_scheduler_list.c:1797
 #, fuzzy
 msgid "years"
 msgstr "Anos"
 
-#: src/gsb_scheduler_list.c:1798
+#: src/gsb_scheduler_list.c:1800
 #, fuzzy
 msgid "Show scheduled transactions"
 msgstr "Lançamentos agendados fechados"
 
-#: src/gsb_scheduler_list.c:1811
+#: src/gsb_scheduler_list.c:1813
 #, fuzzy
 msgid "Scheduler frequency"
 msgstr "Mensagens da agenda"
 
-#: src/gsb_scheduler_list.c:1818
+#: src/gsb_scheduler_list.c:1820
 #, fuzzy
 msgid "Show transactions for the next"
 msgstr "Formulário de lançamentos"
 
 #. Edit transaction
-#: src/gsb_scheduler_list.c:1959 src/gsb_transactions_list.c:2071
+#: src/gsb_scheduler_list.c:1961 src/gsb_transactions_list.c:2071
 msgid "Edit transaction"
 msgstr "Editar lançamento"
 
 #. Delete transaction
-#: src/gsb_scheduler_list.c:1984 src/gsb_transactions_list.c:2094
+#: src/gsb_scheduler_list.c:1986 src/gsb_transactions_list.c:2094
 msgid "Delete transaction"
 msgstr "Apagar lançamento"
 
 #. Display/hide comments
-#: src/gsb_scheduler_list.c:1998
+#: src/gsb_scheduler_list.c:2000
 #, fuzzy
 msgid "Displays/Cache comments"
 msgstr "Exibit/Ocultar comentários"
 
 #. Execute transaction
-#: src/gsb_scheduler_list.c:2012
+#: src/gsb_scheduler_list.c:2014
 #, fuzzy
 msgid "Execute transaction"
 msgstr "Apagar lançamento"
 
-#: src/gsb_select_icon.c:89
+#: src/gsb_select_icon.c:90
 #, fuzzy
 msgid "Browse icons"
 msgstr "Navegador"
 
 #. crÃ©ation du bouton de sÃ©lection des rÃ©pertoires
-#: src/gsb_select_icon.c:115 src/utils_files.c:254
+#: src/gsb_select_icon.c:116 src/utils_files.c:254
 msgid "Browse"
 msgstr "Navegador"
 
-#: src/gsb_select_icon.c:324
+#: src/gsb_select_icon.c:325
 #, fuzzy
 msgid "Select icon directory"
 msgstr "Selecionar todas"
@@ -8244,7 +8259,7 @@ msgstr "Informe a taxa do câmbio"
 msgid "Adding '%s' as an import format"
 msgstr ""
 
-#: src/import.c:287
+#: src/import.c:288
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -8254,96 +8269,96 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/import.c:295
+#: src/import.c:296
 #, fuzzy
 msgid "Importing transactions into Grisbi"
 msgstr "Organizar os lançamentos por"
 
-#: src/import.c:344
+#: src/import.c:346
 #, fuzzy
 msgid "Choose file to import"
 msgstr "Selecionar  arquivo para importar"
 
-#: src/import.c:346
+#: src/import.c:348
 #, fuzzy
 msgid "Add file to import..."
 msgstr "Selecionar  arquivo para importar"
 
-#: src/import.c:413
+#: src/import.c:415
 #, fuzzy
 msgid "File name"
 msgstr "Nome do titular"
 
-#: src/import.c:549 src/import.c:631 src/import.c:3850 src/import.c:3873
+#: src/import.c:551 src/import.c:633 src/import.c:3858 src/import.c:3881
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/import.c:591 src/import.c:3954 src/import_csv.c:1045
+#: src/import.c:593 src/import.c:3962 src/import_csv.c:1045
 #, fuzzy, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Não posso abrir arquivo '%s': %s"
 
-#: src/import.c:664
+#: src/import.c:668
 #, fuzzy
 msgid "Choose files to import."
 msgstr "Selecionar  arquivo para importar"
 
-#: src/import.c:690
+#: src/import.c:694
 #, c-format
 msgid "Known files (%s)"
 msgstr ""
 
-#: src/import.c:702
+#: src/import.c:706
 #, c-format
 msgid "%s files (*.%s)"
 msgstr ""
 
-#: src/import.c:732
+#: src/import.c:736
 msgid "Encoding"
 msgstr ""
 
-#: src/import.c:832
+#: src/import.c:837
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
 msgstr ""
 
-#: src/import.c:847
+#: src/import.c:852
 #, fuzzy
 msgid "Unnamed Imported account"
 msgstr "Importar conta"
 
-#: src/import.c:873
+#: src/import.c:878
 msgid "Error !"
 msgstr ""
 
-#: src/import.c:878
+#: src/import.c:883
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
 msgstr ""
 
-#: src/import.c:892
+#: src/import.c:897
 msgid "The following files are in error:"
 msgstr ""
 
-#: src/import.c:945
+#: src/import.c:950
 #, fuzzy
 msgid "Import terminated"
 msgstr "Importar um relatório"
 
-#: src/import.c:949
+#: src/import.c:954
 msgid ""
 "You have successfully set up transactions import into Grisbi. Press the "
 "'Close' button to terminate import."
 msgstr ""
 
-#: src/import.c:1070
+#: src/import.c:1076
 #, fuzzy
 msgid "file"
 msgstr "Arquivo"
 
-#: src/import.c:1076
+#: src/import.c:1082
 #, c-format
 msgid ""
 "<span size=\"x-large\">%s</span>\n"
@@ -8352,17 +8367,17 @@ msgid ""
 "span> ?\n"
 msgstr ""
 
-#: src/import.c:1136
+#: src/import.c:1142
 #, fuzzy
 msgid "Add transactions to an account"
 msgstr "Mover lançamento para outra conta"
 
-#: src/import.c:1174
+#: src/import.c:1180
 #, fuzzy
 msgid "Mark transactions of an account"
 msgstr "Mover lançamento para outra conta"
 
-#: src/import.c:1226
+#: src/import.c:1232
 #, fuzzy, c-format
 msgid ""
 "Currency of imported account '%s' is %s.  Either this currency doesn't exist "
@@ -8374,46 +8389,46 @@ msgstr ""
 "crie, ou esta moeda já existe mas o código ISO é inválido.\n"
 "Para omitir esta mensagem, corrija o código ISO nas configurações."
 
-#: src/import.c:1233
+#: src/import.c:1239
 #, c-format
 msgid "Can't associate ISO 4217 code for currency '%s'."
 msgstr "Não posso associar o código ISO 4217  para a moeda %s ."
 
 #. invert amount of transactions
-#: src/import.c:1244
+#: src/import.c:1250
 #, fuzzy
 msgid "Invert the amount of the imported transactions"
 msgstr "dias em torno da data no lançamento importada"
 
-#: src/import.c:1252
+#: src/import.c:1258
 msgid "Create a rule for this import. Name of the rule : "
 msgstr ""
 
-#: src/import.c:1343
+#: src/import.c:1349
 #, c-format
 msgid ""
 "An error occured while creating the new account %s,\n"
 "We try to continue to import but bad things can happen..."
 msgstr ""
 
-#: src/import.c:1395
+#: src/import.c:1401
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
 "to that rule. Please set a name or let it empty to cancel the rule creation."
 msgstr ""
 
-#: src/import.c:1399
+#: src/import.c:1405
 #, fuzzy
 msgid "No name for the import rule"
 msgstr "Nome do arquivo de contas"
 
-#: src/import.c:1400
+#: src/import.c:1406
 #, fuzzy
 msgid "Name of the rule :"
 msgstr "Nome do arquivo de contas"
 
-#: src/import.c:1426
+#: src/import.c:1432
 msgid ""
 "No account in memory now, this is bad...\n"
 "Better to leave the import before a crash.\n"
@@ -8421,24 +8436,24 @@ msgid ""
 "Please contact the grisbi team to find the problem."
 msgstr ""
 
-#: src/import.c:1436
+#: src/import.c:1442
 msgid "Please wait"
 msgstr "Por favor aguarde"
 
-#: src/import.c:1461
+#: src/import.c:1467
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
 "via the preferences windows."
 msgstr ""
 
-#: src/import.c:1715
+#: src/import.c:1721
 msgid "Imported account"
 msgstr "Importar conta"
 
 #. there is a difference between the imported account id and grisbi account id,
 #. * ask to be sure
-#: src/import.c:1764
+#: src/import.c:1771
 #, fuzzy, c-format
 msgid ""
 "The Grisbi's id account is %s, but the imported id account is %s.\n"
@@ -8452,25 +8467,25 @@ msgstr ""
 
 #. l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents
 #. on propose encore d'arrÃªter...
-#: src/import.c:1767 src/import.c:2611
+#: src/import.c:1774 src/import.c:2619
 msgid "The id of the imported and chosen accounts are different"
 msgstr "Os códigos da conta importada e da alterada são diferentes"
 
-#: src/import.c:1993
+#: src/import.c:2000
 #, fuzzy
 msgid "Confirmation of transactions to be merged"
 msgstr "Confirmação da importação dos lançamentos"
 
-#: src/import.c:1996
+#: src/import.c:2003
 msgid "Confirmation of importation of transactions"
 msgstr "Confirmação da importação dos lançamentos"
 
-#: src/import.c:2012
+#: src/import.c:2019
 #, fuzzy
 msgid "Please select the transactions to be merged"
 msgstr "Use os lançamentos como modelo"
 
-#: src/import.c:2015
+#: src/import.c:2022
 #, fuzzy
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
@@ -8479,37 +8494,37 @@ msgstr ""
 "Alguns lançamentos importados parecem já ter sido salvos. Por favor, "
 "selecione os lançamentos para importar."
 
-#: src/import.c:2095
+#: src/import.c:2102
 #, fuzzy, c-format
 msgid "Transactions to be merged : %s ; %s ; %s"
 msgstr "Lançamentos a importar : %02d/%02d/%04d ; %s ; %4.2f"
 
-#: src/import.c:2100
+#: src/import.c:2107
 #, fuzzy, c-format
 msgid "Transactions to import : %s ; %s ; %s"
 msgstr "Lançamentos a importar : %02d/%02d/%04d ; %s ; %4.2f"
 
-#: src/import.c:2139
+#: src/import.c:2146
 #, fuzzy, c-format
 msgid "Transaction found : %s ; %s ; %s ; %s"
 msgstr "Lançamento não encontrado : %02d/%02d/%04d ; %s ; %4.2f ; %s"
 
-#: src/import.c:2152
+#: src/import.c:2159
 #, fuzzy, c-format
 msgid "Transaction found : %s ; %s ; %s"
 msgstr "Lançamento encontrado : %02d/%02d/%04d ; %s ; %4.2f"
 
 #. Check = ChÃ¨que
-#: src/import.c:2399 src/plugins/ofx/ofx.c:431
+#: src/import.c:2407 src/plugins/ofx/ofx.c:431
 msgid "Check"
 msgstr "Checar"
 
 #. Cash withdrawal = retrait en liquide
-#: src/import.c:2452
+#: src/import.c:2460
 msgid "Cash withdrawal"
 msgstr ""
 
-#: src/import.c:2542
+#: src/import.c:2550
 #, fuzzy, c-format
 msgid ""
 "Warning : the cheque number %ld is already used.\n"
@@ -8518,7 +8533,7 @@ msgstr ""
 "Atenção: este número de cheque já foi usado.\n"
 "Continuar mesmo assim ?"
 
-#: src/import.c:2612
+#: src/import.c:2620
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
@@ -8526,73 +8541,73 @@ msgstr ""
 "Talvez você escolheu a conta errada. Se você escolher continuar o código da "
 "conta será alterado. Você tem certeza que quer continuar ?"
 
-#: src/import.c:2892
+#: src/import.c:2900
 msgid "Orphaned transactions"
 msgstr "Lançamentos órfãs"
 
-#: src/import.c:2904
+#: src/import.c:2912
 #, fuzzy
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 "Selecione os lançamentos que você quer adicionar a lista e clique no botão "
 "[Adicionar] "
 
-#: src/import.c:2975
+#: src/import.c:2983
 msgid "Mark"
 msgstr "Marcar"
 
-#: src/import.c:3179
+#: src/import.c:3187
 #, fuzzy, c-format
 msgid "%s #%d"
 msgstr "%s %d"
 
-#: src/import.c:3208
+#: src/import.c:3216
 #, fuzzy
 msgid "Import settings"
 msgstr "Exportar categorias"
 
-#: src/import.c:3215
+#: src/import.c:3223
 msgid "Threshold while matching transaction date during import (in days)"
 msgstr ""
 
-#: src/import.c:3234
+#: src/import.c:3242
 #, fuzzy
 msgid "merge transactions imported with planned transactions"
 msgstr "Converter lançamento para lançamentos agendados"
 
-#: src/import.c:3244
+#: src/import.c:3252
 msgid "automatically associate the category of the payee if it is possible"
 msgstr ""
 
-#: src/import.c:3255 src/tiers_onglet.c:1043
+#: src/import.c:3263 src/tiers_onglet.c:1043
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
-#: src/import.c:3263
+#: src/import.c:3271
 #, fuzzy
 msgid "Set the financial year"
 msgstr "Alterar o ano contábil"
 
-#: src/import.c:3264
+#: src/import.c:3272
 #, fuzzy
 msgid "According to the date"
 msgstr "de acordo com a data da lançamento"
 
-#: src/import.c:3265
+#: src/import.c:3273
 msgid "According to the value date (if fail, try with the date)"
 msgstr ""
 
-#: src/import.c:3294
+#: src/import.c:3302
 #, fuzzy
 msgid "Manage import associations"
 msgstr "Detalhes das categorias"
 
-#: src/import.c:3301 src/parametres.c:302
+#: src/import.c:3309 src/parametres.c:304
 #, fuzzy
 msgid "Import associations"
 msgstr "Ação"
 
-#: src/import.c:3303
+#: src/import.c:3311
 msgid ""
 "This will associate a search string to a payee every time you import a file. "
 "For instance, all QIF labels containing 'Rent' could be associated with  a "
@@ -8600,78 +8615,78 @@ msgid ""
 msgstr ""
 
 #. Create entry liste des tiers
-#: src/import.c:3373 src/import.c:3405 src/tiers_onglet.c:1146
+#: src/import.c:3381 src/import.c:3413 src/tiers_onglet.c:1146
 #, fuzzy
 msgid "Payee name"
 msgstr "Total geral"
 
 #. Create entry search string
-#: src/import.c:3387 src/import.c:3430
+#: src/import.c:3395 src/import.c:3438
 #, fuzzy
 msgid "Search string"
 msgstr "Procurar"
 
-#: src/import.c:3396
+#: src/import.c:3404
 #, fuzzy
 msgid "Details of associations"
 msgstr "Não detalhar lançamentos reconciliados"
 
-#: src/import.c:3703
+#: src/import.c:3711
 msgid "You cannot choose this payee because it already has an association"
 msgstr ""
 
-#: src/import.c:3939
+#: src/import.c:3947
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
 
-#: src/import.c:3997
+#: src/import.c:4005
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
 "transactions."
 msgstr ""
 
-#: src/import.c:4073
+#: src/import.c:4081
 msgid "Import a file with a rule"
 msgstr ""
 
 #. text for paddingbox
-#: src/import.c:4084
+#: src/import.c:4092
 #, fuzzy, c-format
 msgid "Properties of the rule : %s\n"
 msgstr "Resultado para %s"
 
-#: src/import.c:4103
+#: src/import.c:4111
 #, fuzzy, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Todas os lançamentos serão convertidas para a moeda desta conta."
 
-#: src/import.c:4106
+#: src/import.c:4114
 #, fuzzy, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "A divisão do lançamento é uma transferência para esta conta.\n"
 
 #. textstring 2
-#: src/import.c:4111
+#: src/import.c:4119
 #, fuzzy, c-format
 msgid "Currency to import is %s.\n"
 msgstr "Características da moeda"
 
-#: src/import.c:4118
+#: src/import.c:4126
 #, fuzzy
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Lançamentos automáticos agendados encerrados"
 
 #. label filename
-#: src/import.c:4129
+#: src/import.c:4137
 #, fuzzy
 msgid "Name of the file to import "
 msgstr "Nome do arquivo de contas"
 
-#: src/import.c:4230
+#: src/import.c:4238
 #, fuzzy, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr "Não posso abrir arquivo '%s': %s"
@@ -8895,12 +8910,12 @@ msgid "Budgetary line already exists"
 msgstr "Orçamento %s já existe"
 
 #. * Find a unique name for budget
-#: src/imputation_budgetaire.c:883 src/meta_budgetary.c:246
+#: src/imputation_budgetaire.c:884 src/meta_budgetary.c:246
 #, fuzzy
 msgid "New sub-budget"
 msgstr "Novo sub-orçamento"
 
-#: src/main.c:149
+#: src/main.c:147
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erro em sigaction: SIGSEGV não será prendido\n"
 
@@ -9181,21 +9196,21 @@ msgid "split"
 msgstr "Dividir"
 
 #. FIXME: tell the truth ;-)
-#: src/metatree.c:709
+#: src/metatree.c:710
 msgid "This should not theorically happen."
 msgstr ""
 
-#: src/metatree.c:710
+#: src/metatree.c:711
 msgid "Can't remove selected division."
 msgstr ""
 
 #. create the box to move change the division and sub-div of the transactions
-#: src/metatree.c:1723
+#: src/metatree.c:1724
 #, fuzzy, c-format
 msgid "'%s' still contains transactions or archived transactions."
 msgstr "Converter lançamento para lançamentos agendados"
 
-#: src/metatree.c:1727
+#: src/metatree.c:1728
 #, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
@@ -9203,43 +9218,43 @@ msgid ""
 "along with their division."
 msgstr ""
 
-#: src/metatree.c:1739
+#: src/metatree.c:1740
 #, fuzzy, c-format
 msgid "Transfer transactions to %s"
 msgstr "Transferir os lançamentos para"
 
-#: src/metatree.c:1836
+#: src/metatree.c:1837
 #, fuzzy, c-format
 msgid "Just remove this %s."
 msgstr "Apagar somente esta categoria."
 
-#: src/metatree.c:1838
+#: src/metatree.c:1839
 #, fuzzy, c-format
 msgid "Just remove this sub-%s."
 msgstr "Apagar somente esta sub-categoria."
 
-#: src/metatree.c:1862
+#: src/metatree.c:1863
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
 "was entered."
 msgstr ""
 
-#: src/metatree.c:1865
+#: src/metatree.c:1866
 #, fuzzy, c-format
 msgid "Please enter a %s!"
 msgstr "Por favor,informe uma categoria!"
 
-#: src/navigation.c:1053
+#: src/navigation.c:1054
 msgid "Last statement: none"
 msgstr "Última atualização: nenhuma"
 
 #. set the title
-#: src/navigation.c:1069
+#: src/navigation.c:1070
 msgid "Account transactions"
 msgstr "Lançamentos da conta"
 
-#: src/navigation.c:1075
+#: src/navigation.c:1076
 #, fuzzy
 msgid "closed"
 msgstr "Fechar"
@@ -9250,163 +9265,163 @@ msgstr "Fechar"
 msgid "Grisbi preferences"
 msgstr "Preferências"
 
-#: src/parametres.c:265
+#: src/parametres.c:267
 #, fuzzy
 msgid "Main"
 msgstr "Spain"
 
-#: src/parametres.c:274 src/parametres.c:678
+#: src/parametres.c:276 src/parametres.c:681
 msgid "Files"
 msgstr "Arquivos"
 
-#: src/parametres.c:312 src/parametres.c:847
+#: src/parametres.c:314 src/parametres.c:850
 msgid "Programs"
 msgstr "Programas"
 
-#: src/parametres.c:340
+#: src/parametres.c:342
 msgid "Display"
 msgstr "Exibir"
 
-#: src/parametres.c:357 src/parametres.c:577
+#: src/parametres.c:359 src/parametres.c:580
 msgid "Messages & warnings"
 msgstr "Mensagens & Avisos"
 
-#: src/parametres.c:375 src/parametres.c:1004
+#: src/parametres.c:377 src/parametres.c:1007
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "Por favor, informe um orçamento!"
 
-#: src/parametres.c:402
+#: src/parametres.c:404
 msgid "List behavior"
 msgstr ""
 
-#: src/parametres.c:439
+#: src/parametres.c:441
 #, fuzzy
 msgid "Content"
 msgstr "Contato"
 
-#: src/parametres.c:448
+#: src/parametres.c:450
 msgid "Behavior"
 msgstr ""
 
-#: src/parametres.c:457
+#: src/parametres.c:459
 msgid "Completion"
 msgstr ""
 
-#: src/parametres.c:467
+#: src/parametres.c:469
 msgid "Resources"
 msgstr "Recursos"
 
-#: src/parametres.c:484
+#: src/parametres.c:486
 #, fuzzy
 msgid "Currencies links"
 msgstr "Moedas"
 
 #. Tip of the day
-#: src/parametres.c:580
+#: src/parametres.c:583
 msgid "Tip of the day"
 msgstr ""
 
 #. Display or not tips
-#: src/parametres.c:583
+#: src/parametres.c:586
 msgid "Display tip of the day"
 msgstr ""
 
-#: src/parametres.c:590
+#: src/parametres.c:593
 #, fuzzy
 msgid "Display following warnings messages"
 msgstr "Mensagens de atenção"
 
-#: src/parametres.c:611
+#: src/parametres.c:614
 #, fuzzy
 msgid "Message"
 msgstr "Histórico da menssagens"
 
 #. Compression level of files
-#: src/parametres.c:704
+#: src/parametres.c:707
 msgid "Compress Grisbi file"
 msgstr ""
 
-#: src/parametres.c:712
+#: src/parametres.c:715
 msgid "Memorise last opened files"
 msgstr "Memorizar últimos arquivos abertos"
 
 #. Backups
-#: src/parametres.c:721
+#: src/parametres.c:724
 msgid "Backups"
 msgstr "Backups"
 
 #. Compression level of backups
-#: src/parametres.c:724
+#: src/parametres.c:727
 msgid "Compress Grisbi backup"
 msgstr ""
 
 #. Backup at each opening?
-#: src/parametres.c:729
+#: src/parametres.c:732
 msgid "Make a backup copy after opening files"
 msgstr "Fazer uma cópia de backup após abrir arquivos"
 
-#: src/parametres.c:865
+#: src/parametres.c:868
 #, c-format
 msgid ""
 "You may use %s to expand the URL I.e:\n"
 "'firefox -remote %s'"
 msgstr ""
 
-#: src/parametres.c:876
+#: src/parametres.c:879
 msgid "LaTeX support (old print system)"
 msgstr ""
 
-#: src/parametres.c:883
+#: src/parametres.c:886
 msgid "LaTeX command"
 msgstr "Comando LaTeX"
 
-#: src/parametres.c:891
+#: src/parametres.c:894
 msgid "dvips command"
 msgstr "Comando dvips"
 
-#: src/parametres.c:931
+#: src/parametres.c:934
 #, fuzzy
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Mensagens da agenda"
 
-#: src/parametres.c:932
+#: src/parametres.c:935
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr "Lançamentos manuais agendados até a data atual"
 
-#: src/parametres.c:933
+#: src/parametres.c:936
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Lançamentos manuais agendados até a data atual"
 
-#: src/parametres.c:941
+#: src/parametres.c:944
 #, fuzzy
 msgid "Number of days before the warning or the execution"
 msgstr "Número de dias antes de exibir mensagens de lançamentos agendados"
 
 #. Take into account the planned operations in the calculation of balances
-#: src/parametres.c:950
+#: src/parametres.c:953
 #, fuzzy
 msgid "Calculation of balances"
 msgstr "Saldo inicial"
 
-#: src/parametres.c:956
+#: src/parametres.c:959
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
 msgstr ""
 
-#: src/parametres.c:1013
+#: src/parametres.c:1016
 #, fuzzy
 msgid "Sort option for transactions"
 msgstr "Formatando lançamentos"
 
-#: src/parametres.c:1014
+#: src/parametres.c:1017
 #, fuzzy
 msgid "by number"
 msgstr "o cheque número"
 
-#: src/parametres.c:1015
+#: src/parametres.c:1018
 msgid "by date"
 msgstr "por data"
 
@@ -9869,7 +9884,7 @@ msgid ""
 "so Grisbi created %d files, one per account :\n"
 msgstr ""
 
-#: src/qif.c:946
+#: src/qif.c:947
 #, fuzzy, c-format
 msgid "Error opening file '%s'"
 msgstr "Erro abrindo arquivo '%s'."

@@ -24,7 +24,10 @@
 
 #include "include.h"
 #include <glib/gstdio.h>
+#if GLIB_CHECK_VERSION (2,18,0)
 #include <gio/gio.h>
+#endif//GLIB_CHECK_VERSION (2,18,0)
+
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"

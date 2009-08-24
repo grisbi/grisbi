@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*     Copyright (C)    2000-2008 CÃ©dric Auger (cedric@grisbi.org)            */
 /*          2005-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
@@ -69,14 +69,12 @@ extern gchar *nom_fichier_comptes;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
-gint largeur_window;
-gint hauteur_window;
 gint mini_paned_width = 250;
 
 /* contient le nb de derniers fichiers ouverts */
 gsize nb_derniers_fichiers_ouverts = 0;
 
-/* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
+/* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( rÃ©glÃ© dans les paramÃ¨tres ) */
 gint nb_max_derniers_fichiers_ouverts = 0;
 gchar **tab_noms_derniers_fichiers_ouverts = NULL;
 
@@ -145,24 +143,35 @@ gboolean gsb_file_config_load_config ( void )
 
     /* get the geometry */
 
-    largeur_window = g_key_file_get_integer ( config,
+    conf.main_width = g_key_file_get_integer ( config,
                         "Geometry",
                         "Width",
                         NULL );
 
-    hauteur_window = g_key_file_get_integer ( config,
+    conf.main_height = g_key_file_get_integer ( config,
                         "Geometry",
                         "Height",
                         NULL );
 
-    etat.full_screen = g_key_file_get_integer ( config,
+    conf.full_screen = g_key_file_get_integer ( config,
                         "Geometry",
                         "Full screen",
                         NULL );
 
+    conf.largeur_colonne_comptes_operation = g_key_file_get_integer ( config,
+                        "Geometry",
+                        "Panel width",
+                        NULL );
+    if ( conf.largeur_colonne_comptes_operation < mini_paned_width )
+        conf.largeur_colonne_comptes_operation = mini_paned_width;
+
+    conf.prefs_width = g_key_file_get_integer ( config,
+                        "Geometry",
+                        "Prefs width",
+                        NULL );
 
     /* get general */
-    etat.r_modifiable = g_key_file_get_integer ( config,
+    conf.r_modifiable = g_key_file_get_integer ( config,
                         "General",
                         "Can modify R",
                         NULL );
@@ -199,7 +208,7 @@ gboolean gsb_file_config_load_config ( void )
 
     etat.entree = g_key_file_get_integer ( config,
                         "General",
-                        "Function of entry",
+                        "Function of enter",
                         NULL );
 
     etat.alerte_mini = g_key_file_get_integer ( config,
@@ -228,13 +237,6 @@ gboolean gsb_file_config_load_config ( void )
                         "General",
                         "Web",
                         NULL );
-
-    etat.largeur_colonne_comptes_operation = g_key_file_get_integer ( config,
-                        "General",
-                        "Panel width",
-                        NULL );
-    if ( etat.largeur_colonne_comptes_operation < mini_paned_width )
-        etat.largeur_colonne_comptes_operation = mini_paned_width;
 
     /* get input/output */
     etat.dernier_fichier_auto = g_key_file_get_integer ( config,
@@ -474,34 +476,46 @@ gboolean gsb_file_config_save_config ( void )
     
     /* get the geometry */
     if ( GTK_WIDGET ( window) -> window ) 
-        gtk_window_get_size (GTK_WINDOW ( window ),
-                        &largeur_window,&hauteur_window);
+        gtk_window_get_size ( GTK_WINDOW ( window ),
+                        &conf.main_width, &conf.main_height);
     else 
     {
-        largeur_window = 0;
-        hauteur_window = 0;
+        conf.main_width = 0;
+        conf.main_height = 0;
     }
 
     g_key_file_set_integer ( config,
                         "Geometry",
                         "Width",
-                        largeur_window );
+                        conf.main_width );
     g_key_file_set_integer ( config,
                         "Geometry",
                         "Height",
-                        hauteur_window );
+                        conf.main_height );
     g_key_file_set_integer ( config,
                         "Geometry",
                         "Full screen",
-                        etat.full_screen );
+                        conf.full_screen );
 
+    g_key_file_set_integer ( config,
+                        "Geometry",
+                        "Prefs width",
+                        conf.prefs_width );
 
+    /* Remember size of main panel */
+    if (main_hpaned && GTK_IS_WIDGET (main_hpaned))
+        conf.largeur_colonne_comptes_operation = gtk_paned_get_position (
+                        GTK_PANED ( main_hpaned ) );
+    g_key_file_set_integer ( config,
+                        "Geometry",
+                        "Panel width",
+                        conf.largeur_colonne_comptes_operation );
 
     /* save general */
     g_key_file_set_integer ( config,
                         "General",
                         "Can modify R",
-                        etat.r_modifiable );
+                        conf.r_modifiable );
     g_key_file_set_string ( config,
                         "General",
                         "Path",
@@ -529,7 +543,7 @@ gboolean gsb_file_config_save_config ( void )
                         etat.alerte_permission );
     g_key_file_set_integer ( config,
                         "General",
-                        "Function of entry",
+                        "Function of enter",
                         etat.entree );
     g_key_file_set_integer ( config,
                         "General",
@@ -565,14 +579,6 @@ gboolean gsb_file_config_save_config ( void )
                         string );
         g_free (string);
     }
-
-    /* Remember size of main panel */
-    if (main_hpaned && GTK_IS_WIDGET (main_hpaned))
-    etat.largeur_colonne_comptes_operation = gtk_paned_get_position ( GTK_PANED ( main_hpaned ) );
-    g_key_file_set_integer ( config,
-                        "General",
-                        "Panel width",
-                        etat.largeur_colonne_comptes_operation );
 
     /* save input/output */
     g_key_file_set_integer ( config,
@@ -894,21 +900,21 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Width" ))
     {
-	largeur_window = utils_str_atoi (text);
+	conf.main_width = utils_str_atoi (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Height" ))
     {
-	hauteur_window = utils_str_atoi (text);
+	conf.main_height = utils_str_atoi (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Modification_operations_rapprochees" ))
     {
-	etat.r_modifiable = utils_str_atoi (text);
+	conf.r_modifiable = utils_str_atoi (text);
 	return;
     }
 
@@ -991,7 +997,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Largeur_colonne_comptes_operation" ))
     {
-	etat.largeur_colonne_comptes_operation = utils_str_atoi (text);
+	conf.largeur_colonne_comptes_operation = utils_str_atoi (text);
 	return;
     }
 
@@ -1013,13 +1019,6 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 		   "Largeur_colonne_etats" ))
     {
 	etat.largeur_colonne_etat = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Largeur_colonne_comptes_operation" ))
-    {
-	etat.largeur_colonne_comptes_operation = utils_str_atoi (text);
 	return;
     }
 
@@ -1192,27 +1191,28 @@ void gsb_file_config_clean_config ( void )
 {
     devel_debug (NULL);
 
-    largeur_window = 0;
-    hauteur_window = 0;
-    etat.largeur_colonne_comptes_operation = mini_paned_width;
+    conf.main_width = 0;
+    conf.main_height = 0;
+    conf.largeur_colonne_comptes_operation = mini_paned_width;
+    conf.prefs_width = 600;
 
     etat.force_enregistrement = 1;
     etat.utilise_logo = 1;
 
-    etat.r_modifiable = 0;       /* on ne peux modifier les opé relevées */
+    conf.r_modifiable = 0;       /* we can not change the reconciled transaction */
     etat.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
-    etat.sauvegarde_auto = 0;    /* on NE sauvegarde PAS * automatiquement par défaut */
-    etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
-    nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
+    etat.sauvegarde_auto = 0;    /* on NE sauvegarde PAS * automatiquement par dÃ©faut */
+    etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opÃ©ration */
+    nb_days_before_scheduled = 0;     /* nb de jours avant l'Ã©chÃ©ance pour prÃ©venir */
     execute_scheduled_of_month = FALSE;
     balances_with_scheduled = TRUE;
-    etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
+    etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opÃ© */
     etat.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
     etat.get_fyear_by_value_date = 0;        /* By default use transaction-date */
     etat.automatic_completion_payee = 1;        /* by default automatic completion */
     etat.limit_completion_to_current_account = 0;        /* By default, do full search */
 
-    etat.display_grisbi_title = GSB_ACCOUNTS_FILE;  /* show Accounts file title par défaut */
+    etat.display_grisbi_title = GSB_ACCOUNTS_FILE;  /* show Accounts file title par dÃ©faut */
     etat.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
     etat.show_toolbar = TRUE;                       /* Show toolbar or not. */
     etat.show_headings_bar = TRUE;                  /* Show toolbar or not. */
@@ -1226,7 +1226,7 @@ void gsb_file_config_clean_config ( void )
     etat.font_string = NULL;
     }
     
-    etat.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
+    etat.force_enregistrement = 1;     /* par dÃ©faut, on force l'enregistrement */
     gsb_file_update_last_path (g_get_home_dir ());
     gsb_file_set_backup_path (my_get_XDG_grisbi_data_dir ());
     etat.make_backup = 1;       /* on force aussi le backup pbiava le 24/01/2009*/

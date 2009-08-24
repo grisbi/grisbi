@@ -77,8 +77,6 @@ GtkWidget *window_vbox_principale = NULL;
 
 /*START_EXTERN*/
 extern FILE *debug_file;
-extern gint hauteur_window;
-extern gint largeur_window;
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
@@ -227,12 +225,11 @@ int main (int argc, char **argv)
     affiche_derniers_fichiers_ouverts ();
 
     /* set the size of the window */
-    if ( largeur_window && hauteur_window )
+    if ( conf.main_width && conf.main_height )
 	gtk_window_set_default_size ( GTK_WINDOW ( window ),
-				      largeur_window, hauteur_window );
+				      conf.main_width, conf.main_height );
     else
-	gtk_window_set_default_size ( GTK_WINDOW ( window ),
-				      900, 600 );
+	gtk_window_set_default_size ( GTK_WINDOW ( window ), 900, 600 );
 
     /* display window centered */
     gtk_window_set_position ( GTK_WINDOW (window), GTK_WIN_POS_CENTER );
@@ -272,8 +269,8 @@ int main (int argc, char **argv)
     }
 
     /* set the full screen if necessary */
-    if (etat.full_screen)
-	gtk_window_maximize (GTK_WINDOW (window));
+    if ( conf.full_screen )
+        gtk_window_maximize (GTK_WINDOW (window));
 
     gtk_main ();
 
@@ -312,9 +309,9 @@ gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
     if (event -> changed_mask == GDK_WINDOW_STATE_FULLSCREEN)
     {
 	if (event -> new_window_state)
-	    etat.full_screen = TRUE;
+	    conf.full_screen = TRUE;
 	else
-	    etat.full_screen = FALSE;
+	    conf.full_screen = FALSE;
     }
     return FALSE;
 }

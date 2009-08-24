@@ -38,7 +38,6 @@ struct {
     time_t modification_fichier;
     gint is_archive;                /** TRUE if the file is an archive, FALSE else */
     gint equilibrage;
-    gint r_modifiable;
 
     /* files and backup part */
     gint dernier_fichier_auto;
@@ -67,7 +66,6 @@ struct {
     gint crypt_file;        /* TRUE if we want to crypt the file */
     gint compress_file;     /* TRUE if we want to compress the grisbi file */
     gint compress_backup;   /* TRUE if we want to compress the backup */
-    gint full_screen;       /* 1 to full screen, 0 else */
 
     /* archive stuff */
     gint check_for_archival; /* TRUE if we want to check the number of non archived transactions at the opening */
@@ -122,7 +120,6 @@ struct {
     struct print_config print_config;
     
     /*     largeur des panned */
-    gint largeur_colonne_comptes_operation;
     gint largeur_colonne_echeancier;
     gint largeur_colonne_comptes_comptes;
     gint largeur_colonne_etat;
@@ -145,6 +142,19 @@ struct {
     gint metatree_sort_transactions;
 } etat;
 
+struct {
+
+    /* geometry */
+    gint main_width;                                /* main_window width */
+    gint main_height;                               /* main_window height */
+    gint full_screen;                               /* 1 to full screen, 0 else */
+    gint largeur_colonne_comptes_operation;
+    gint prefs_width;                               /* preferences width */
+
+    /* general part */
+    gint r_modifiable;                              /* Changes in reconciled transactions */
+
+} conf;
 
 /* structure définissant une association entre un tiers
  * et une chaine de recherche contenant un ou des jokers (%)

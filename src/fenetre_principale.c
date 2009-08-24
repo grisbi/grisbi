@@ -157,9 +157,10 @@ GtkWidget * create_main_widget ( void )
     gtk_paned_add1 ( GTK_PANED( main_hpaned ), create_navigation_pane ( ) );
     gtk_paned_add2 ( GTK_PANED( main_hpaned ), create_main_notebook ( ) );
     gtk_container_set_border_width ( GTK_CONTAINER ( main_hpaned ), 6 );
-    if ( etat.largeur_colonne_comptes_operation )
+    if ( conf.largeur_colonne_comptes_operation )
     {
-	gtk_paned_set_position ( GTK_PANED ( main_hpaned ), etat.largeur_colonne_comptes_operation );
+	gtk_paned_set_position ( GTK_PANED ( main_hpaned ),
+                        conf.largeur_colonne_comptes_operation );
     }
     else
     {
