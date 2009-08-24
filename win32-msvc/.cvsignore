@@ -5,6 +5,7 @@ Debug
 grisbi.dir
 gtk+
 Release
+ZERO_CHECK.dir
 *.ncb
 *.sln
 *.suo
