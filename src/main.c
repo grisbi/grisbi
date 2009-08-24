@@ -93,23 +93,23 @@ extern gchar *nom_fichier_comptes;
  */
 int main (int argc, char **argv)
 {
-    gsb_cunit_run_tests();
-
     GtkWidget * statusbar;
     gboolean first_use = FALSE;
     gchar *string;
     gchar *path;
+
+#ifndef _WIN32
+    struct sigaction sig_sev;
+#endif
+    cmdline_options  opt;
+
+    gsb_cunit_run_tests();
 
 #if GSB_GMEMPROFILE
     g_mem_set_vtable(glib_mem_profiler_table);
 #endif
 
     initialize_debugging();
-
-#ifndef _WIN32
-    struct sigaction sig_sev;
-#endif
-    cmdline_options  opt;
 
 
 #ifdef _WIN32

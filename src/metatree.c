@@ -603,12 +603,13 @@ void metatree_fill_new_sub_division ( MetatreeInterface * iface,
 {
     GtkTreeIter iter, * parent_iter;
     GtkTreeView * tree_view;
+	gchar* strtmp;
 
     g_return_if_fail ( iface );
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
 
-    gchar* strtmp = g_strdup_printf ("div : %d - sub-div : %d", div_id, sub_div_id);
+    strtmp = g_strdup_printf ("div : %d - sub-div : %d", div_id, sub_div_id);
     devel_debug ( strtmp  );
     g_free ( strtmp );
 
@@ -893,10 +894,10 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
                         MetatreeInterface * iface, 
                         gint sub_division, gint division )
 {
-    devel_debug (NULL);
-
     GtkTreeIter iter, *parent_iter, * it;
     GtkTreePath *path;
+
+    devel_debug (NULL);
 
     if ( find_associated_transactions ( iface, division, 
                         sub_division ) )
@@ -2404,7 +2405,7 @@ void metatree_set_linked_widgets_sensitive ( GtkTreeModel * model,
  *
  * \return		Same as a > b
  */
-inline gboolean metatree_sort_column  ( GtkTreeModel * model,
+gboolean metatree_sort_column  ( GtkTreeModel * model,
                         GtkTreeIter * a, GtkTreeIter * b,
                         gpointer user_data )
 {

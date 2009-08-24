@@ -219,6 +219,7 @@ gboolean lance_navigateur_web ( const gchar *url )
 GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title)
 {
     GtkWidget *vbox, *hbox, *paddingbox, *label;
+	gchar* tmp_str;
 
     vbox = gtk_vbox_new ( FALSE, 0 );
     if ( GTK_IS_BOX(parent) )
@@ -230,7 +231,7 @@ GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar *
     /* Creating label */
     label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
-    gchar* tmp_str = g_strconcat ("<span weight=\"bold\">",
+    tmp_str = g_strconcat ("<span weight=\"bold\">",
 					title, "</span>", NULL );
     gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
     g_free(tmp_str);
@@ -283,6 +284,8 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 {
     GtkWidget *vbox_pref, *hbox, *label, *image, *eb;
     GtkStyle * style;
+	gchar* tmpstr1;
+	gchar* tmpstr2;
 
     vbox_pref = gtk_vbox_new ( FALSE, 6 );
     gtk_widget_show ( vbox_pref );
@@ -312,8 +315,8 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 
     /* Nice huge title */
     label = gtk_label_new ( title );
-    gchar* tmpstr1 = g_markup_escape_text (title, strlen(title));
-    gchar* tmpstr2 = g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
+    tmpstr1 = g_markup_escape_text (title, strlen(title));
+    tmpstr2 = g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
 					tmpstr1,
 					"</span>",
 					NULL );

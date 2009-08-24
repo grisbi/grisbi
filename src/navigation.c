@@ -142,6 +142,7 @@ GtkWidget * create_navigation_pane ( void )
     GtkTreeDragDestIface * navigation_dst_iface;
     GtkTreeDragSourceIface * navigation_src_iface;
     GtkTreeViewColumn * column;
+	gchar* tmpstr;
     static GtkTargetEntry row_targets[] = {
 	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
@@ -241,7 +242,7 @@ GtkWidget * create_navigation_pane ( void )
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ), 
 				  GTK_TREE_VIEW_COLUMN ( column ) );
     /* Account list */
-    gchar* tmpstr = g_build_filename ( PIXMAPS_DIR,
+    tmpstr = g_build_filename ( PIXMAPS_DIR,
 				       "ac_home.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
