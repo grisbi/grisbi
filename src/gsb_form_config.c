@@ -147,6 +147,7 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     GtkWidget *button;
     GtkWidget *paddingbox;
     GtkWidget *label;
+	GtkListStore* list_store;
 
     /* create the paddingbox into the parent */
     paddingbox = new_paddingbox_with_title ( vbox_parent, TRUE, _("Form structure preview"));
@@ -191,7 +192,7 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     gtk_box_pack_start ( GTK_BOX ( paddingbox), sw, TRUE, TRUE, 0 );
 
     /* create the tree_view */
-    GtkListStore* list_store = gsb_form_config_create_store ();
+    list_store = gsb_form_config_create_store ();
     form_config_tree_view = gsb_form_config_create_tree_view (list_store);
     g_object_unref (G_OBJECT(list_store));
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( sw ),

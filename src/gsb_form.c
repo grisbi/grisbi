@@ -207,6 +207,7 @@ void gsb_form_create_widgets ( void )
     GtkWidget * hbox, * label, * separator, * hbox_buttons, * hbox_buttons_inner;
     GtkWidget * child = gtk_bin_get_child ( GTK_BIN(form_expander) );
     GtkWidget *event_box;
+	gchar* tmpstr;
 
     devel_debug (NULL);
 
@@ -222,7 +223,7 @@ void gsb_form_create_widgets ( void )
 
     /* set the label transaction form */
     label = gtk_label_new ( NULL );
-    gchar* tmpstr = g_strconcat ( "<span weight=\"bold\">", 
+    tmpstr = g_strconcat ( "<span weight=\"bold\">", 
                                 _("Transaction/Scheduled _form"),
                                 "</span>", NULL );
     gtk_label_set_markup_with_mnemonic ( GTK_LABEL ( label ), tmpstr );

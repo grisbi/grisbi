@@ -56,6 +56,9 @@ extern gchar *nom_fichier_comptes;
  * */
 gboolean gsb_file_util_test_overwrite ( const gchar *filename )
 {
+	gchar* tmpstr;
+	gboolean response;
+
     if (!filename
 	||
 	!strlen (filename))
@@ -78,8 +81,8 @@ gboolean gsb_file_util_test_overwrite ( const gchar *filename )
 	    return FALSE;
 	}
 	
-	gchar* tmpstr = g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename);
-	gboolean response = question_yes_no_hint (_("File already exists"),
+	tmpstr = g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename);
+	response = question_yes_no_hint (_("File already exists"),
 				       tmpstr,
 				       GTK_RESPONSE_NO );
 	g_free ( tmpstr );

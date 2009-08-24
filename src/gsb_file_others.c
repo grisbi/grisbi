@@ -332,6 +332,7 @@ gulong gsb_file_others_save_general_part ( gulong iterator,
 					   gchar **file_content,
 					   gchar *version )
 {
+	gulong result;
     gchar *new_string;
 
     /* save the general informations */
@@ -345,7 +346,7 @@ gulong gsb_file_others_save_general_part ( gulong iterator,
     /* append the new string to the file content
      * and return the new iterator */
 
-    gulong result = gsb_file_save_append_part ( iterator,
+    result = gsb_file_save_append_part ( iterator,
 						length_calculated,
 						file_content,
 						new_string );

@@ -8066,6 +8066,10 @@ void gsb_file_load_copy_old_file ( gchar *filename, gchar *file_content)
 {
     if ( g_str_has_suffix (filename, ".gsb" ) )
     {
+#if GLIB_CHECK_VERSION (2,18,0)
+        GFile * file_ori;
+        GFile * file_copy;
+#endif//GLIB_CHECK_VERSION (2,18,0)
         GError * error = NULL;
 
         copy_old_filename = g_path_get_basename ( filename );
@@ -8076,9 +8080,6 @@ void gsb_file_load_copy_old_file ( gchar *filename, gchar *file_content)
                         copy_old_filename, NULL );
 
 #if GLIB_CHECK_VERSION (2,18,0)
-        GFile * file_ori;
-        GFile * file_copy;
-
         file_ori = g_file_new_for_path ( filename );
         file_copy = g_file_new_for_path ( copy_old_filename );
         if ( !g_file_copy ( file_ori, file_copy, G_FILE_COPY_OVERWRITE, 
