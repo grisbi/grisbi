@@ -275,6 +275,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     gint reconcile_number;
     gchar *last_name;
     gchar *string;
+	gchar* tmpstr;
 
     account_number = gsb_gui_navigation_get_current_account ();
 
@@ -305,6 +306,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 	    gint new_digit_size;
 	    gchar *new_string;
 	    gchar *digit_string;
+		gchar* oldstr;
 
 	    /* tmp_pointer is on the first non digit from the end of the last_name,
 	     * so go to the first digit */
@@ -315,7 +317,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 
 	    /* increase the number */
 	    digit_size = strlen ( digit_string );
-	    gchar* oldstr =  digit_string;
+	    oldstr =  digit_string;
 	    digit_string = utils_str_itoa ( utils_str_atoi ( digit_string ) + 1 );
 	    g_free ( oldstr );
 	    new_digit_size = strlen ( digit_string );
@@ -380,7 +382,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 	    g_date_free (today);
 
 	/* it's not the first reconciliation, set the old balance and unsensitive the old balance entry */
-	gchar* tmpstr = gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+	tmpstr = gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
 	gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
 	g_free ( tmpstr );
 	gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ),
@@ -394,7 +396,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 
 	/* it's the first reconciliation, set the initial balance and make sensitive the old balance to change
 	 * it if necessary */
-	gchar* tmpstr = gsb_real_get_string ( gsb_data_account_get_init_balance (account_number, -1));
+	tmpstr = gsb_real_get_string ( gsb_data_account_get_init_balance (account_number, -1));
 	gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
 	g_free ( tmpstr );
 	gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ),
@@ -409,7 +411,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     gtk_entry_set_text ( GTK_ENTRY ( reconcile_final_balance_entry ), "" );
 
     /* set the title */
-    gchar* tmpstr = g_strdup_printf ( _(" <b>%s reconciliation</b> "),
+    tmpstr = g_strdup_printf ( _(" <b>%s reconciliation</b> "),
 					     gsb_data_account_get_name (account_number));
     gtk_label_set_markup ( GTK_LABEL (gtk_frame_get_label_widget (GTK_FRAME (reconcile_panel))),
 			   tmpstr );
@@ -474,6 +476,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     gint account_number;
     gint reconcile_number;
     gsb_real real;
+	gchar* tmpstr;
 
     account_number = gsb_gui_navigation_get_current_account ();
 
@@ -523,7 +526,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 	gsb_reconcile_list_button_clicked (reconcile_sort_list_button, NULL);
     }
 
-    gchar* tmpstr = g_strdup_printf ( _("Last statement: %s"), gsb_format_gdate (date));
+    tmpstr = g_strdup_printf ( _("Last statement: %s"), gsb_format_gdate (date));
     gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
 			 tmpstr);
     g_free ( tmpstr );
@@ -681,6 +684,7 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
     const gchar *initial_balance;
     const gchar *final_balance;
     gchar *tmp_string;
+	gchar* tmpstr;
 
     /* first get the current account number */
     account_number = gsb_gui_navigation_get_current_account ();
@@ -704,7 +708,7 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
     amount = gsb_real_sub ( gsb_real_add ( gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_initial_balance_entry ))),
 					   gsb_data_account_calculate_waiting_marked_balance (account_number)),
 			    gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_final_balance_entry ))));
-    gchar* tmpstr = gsb_real_get_string (amount);
+    tmpstr = gsb_real_get_string (amount);
     gtk_label_set_text ( GTK_LABEL ( reconcile_variation_balance_label ), tmpstr);
     g_free ( tmpstr );
     if ( amount.mantissa )

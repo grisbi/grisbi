@@ -859,6 +859,7 @@ void selectionne_sub_budgetary ( GtkTreeModel * model )
     GtkTreeSelection * selection;
     GtkTreeIter parent;
     GtkTreeIter iter;
+	GtkTreePath * path;
     gchar * name;
     gint budget_number = -1, sub_budget_number = -1;
     gint i = 0,j = 0;
@@ -895,7 +896,7 @@ void selectionne_sub_budgetary ( GtkTreeModel * model )
         if ( numero == sub_budget_number )
             break;
     }
-    GtkTreePath * path = gtk_tree_model_get_path ( model, &iter );
+    path = gtk_tree_model_get_path ( model, &iter );
     gtk_tree_view_expand_to_path ( GTK_TREE_VIEW (budgetary_line_tree), path );
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (budgetary_line_tree) );
     gtk_tree_selection_select_path ( selection, path );

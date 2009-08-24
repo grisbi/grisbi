@@ -258,6 +258,7 @@ void importer_fichier ( void )
     GSList * tmp = import_formats;
     gchar * formats = g_strdup("");
     GtkWidget * assistant;
+	gchar* tmpstr;
 
     /* if nothing opened, we need to create a new file to set up all the variables */
     if (!gsb_data_currency_get_currency_list ())
@@ -284,7 +285,7 @@ void importer_fichier ( void )
     tmp = tmp -> next;
     }
 
-    gchar* tmpstr = g_strconcat ( _("This assistant will help you import one or several "
+    tmpstr = g_strconcat ( _("This assistant will help you import one or several "
                     "files into Grisbi."
                     "\n\n"
                     "Grisbi will try to do its best to guess which format are imported, "
@@ -337,6 +338,7 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     GtkCellRenderer *renderer;
     GtkTreeModel * model, * list_acc;
     GSList * tmp;
+	gchar* tmpstr;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -344,7 +346,7 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, _("Choose file to import"));
 
     chooser = gtk_button_new_with_label ( _("Add file to import..." ));
-    gchar* tmpstr = g_build_filename ( PIXMAPS_DIR, "import.png", NULL );
+    tmpstr = g_build_filename ( PIXMAPS_DIR, "import.png", NULL );
     gtk_button_set_image ( GTK_BUTTON(chooser),
                         gtk_image_new_from_file ( tmpstr ) );
     g_free ( tmpstr );
@@ -660,6 +662,8 @@ GSList *gsb_import_create_file_chooser (const char *enc)
     GSList * tmp;
     struct import_format * format;
     GSList *filenames = NULL;
+	gchar* old_str;
+	gchar* tmpstr;
 
     dialog = gtk_file_chooser_dialog_new ( _("Choose files to import."),
                         GTK_WINDOW ( window ),
@@ -680,14 +684,14 @@ GSList *gsb_import_create_file_chooser (const char *enc)
     while ( tmp )
     {
     format = (struct import_format *) tmp -> data;
-    gchar* old_str = files;
+    old_str = files;
     files = g_strconcat ( files, ", *.", format -> extension, NULL );
     g_free ( old_str );
     tmp = tmp -> next;
     }
 
     default_filter = gtk_file_filter_new ();
-    gchar* tmpstr = g_strdup_printf ( _("Known files (%s)"), files );
+    tmpstr = g_strdup_printf ( _("Known files (%s)"), files );
     gtk_file_filter_set_name ( default_filter, tmpstr );
     g_free ( tmpstr );
 
@@ -699,7 +703,7 @@ GSList *gsb_import_create_file_chooser (const char *enc)
     format = (struct import_format *) tmp -> data;
 
     format_filter = gtk_file_filter_new ();
-    gchar* tmpstr = g_strdup_printf ( _("%s files (*.%s)"),
+    tmpstr = g_strdup_printf ( _("%s files (*.%s)"),
                         format -> name,
                         format -> extension );
     gtk_file_filter_set_name ( format_filter, tmpstr );
@@ -791,6 +795,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
     GtkTextBuffer * buffer;
     GtkTextIter iter;
     gchar * error_message = "";
+	gchar* tmpstr;
 
     liste_comptes_importes_error = NULL;
     liste_comptes_importes = NULL;
@@ -847,7 +852,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
         compte -> nom_de_compte = _("Unnamed Imported account");
         }
 
-        gchar* tmpstr = g_strconcat ( "• ", compte -> nom_de_compte,
+        tmpstr = g_strconcat ( "• ", compte -> nom_de_compte,
                         " (",
                         compte -> origine,
                         ")\n\n",
@@ -898,7 +903,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
         struct struct_compte_importation * compte;
         compte = list -> data;
 
-        gchar* tmpstr = g_strconcat ( "• ", compte -> nom_de_compte,
+        tmpstr = g_strconcat ( "• ", compte -> nom_de_compte,
                         " (",
                         compte -> origine,
                         ")\n\n",
@@ -1056,6 +1061,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     gint size = 0, spacing = 0;
     gint account_number;
     GtkWidget *button;
+	gchar* tmpstr;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -1073,7 +1079,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gchar* tmpstr = g_strdup_printf ( _("<span size=\"x-large\">%s</span>\n\n"
+    tmpstr = g_strdup_printf ( _("<span size=\"x-large\">%s</span>\n\n"
                         "What do you want to do with contents from <span "
                         "foreground=\"blue\">%s</span> ?\n"),
                         compte -> nom_de_compte, short_filename );
@@ -1750,6 +1756,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     const GDate *last_date_import;
     gint demande_confirmation;
     GSList *list_tmp_transactions;
+	gchar* tmpstr;
 
     /* check the imported account id, and set it in the grisbi account if it doesn't exist or if it's wrong */
     if ( imported_account -> id_compte )
@@ -1848,7 +1855,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
         imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
 
 	    /* if no id, check the cheque */
-	    gchar* tmpstr = utils_str_itoa (imported_transaction -> cheque);
+	    tmpstr = utils_str_itoa (imported_transaction -> cheque);
 	    if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION
 		 &&
 		 imported_transaction -> cheque
@@ -2237,6 +2244,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gint fyear = 0;
     gint last_transaction_number;
     gint div_number;
+	gchar* tmpstr;
 
     /* we create the new transaction */
     transaction_number = gsb_data_transaction_new_transaction ( account_number );
@@ -2528,7 +2536,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 							    payment_number );
 
-	gchar* tmpstr = utils_str_itoa ( imported_transaction -> cheque );
+	tmpstr = utils_str_itoa ( imported_transaction -> cheque );
 	if ( gsb_data_payment_get_automatic_numbering (payment_number))
 	    /* we are on the default payment_number, save just the cheque number */
 	    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
@@ -3836,7 +3844,7 @@ const gchar * autodetect_file_type ( gchar * filename,
     {
         struct import_format * format = (struct import_format *) tmp -> data;
 
-        if ( !strcasecmp ( extension + 1, format -> extension ) )
+        if ( !g_strcasecmp ( extension + 1, format -> extension ) )
         {
         return format -> name;
         }

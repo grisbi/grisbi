@@ -294,11 +294,11 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str,
 			 GtkTreeView * tree_preview )
 {
-    GtkTreePath * path = gtk_tree_path_new_from_string (path_str);
-    GtkTreeModel * tree_model = gtk_tree_view_get_model ( tree_preview );;
     GtkTreeIter iter;
     gboolean toggle_item;
     gint * indices;
+    GtkTreePath * path = gtk_tree_path_new_from_string (path_str);
+    GtkTreeModel * tree_model = gtk_tree_view_get_model ( tree_preview );;
 
     /* Get toggled iter */
     gtk_tree_model_get_iter ( GTK_TREE_MODEL ( tree_model ), &iter, path );

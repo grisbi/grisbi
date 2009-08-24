@@ -158,6 +158,7 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
 {
     GtkWidget *vbox, *scrolled_window;
     GtkWidget *tree_view;
+	GtkTreeModel *tree_model;
 
     devel_debug (NULL);
 
@@ -198,7 +199,7 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     gsb_scheduler_list_show_notes ();
 
     /* create the store and set it in the tree_view */
-    GtkTreeModel *tree_model = gsb_scheduler_list_create_model ();
+    tree_model = gsb_scheduler_list_create_model ();
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), tree_model);
     g_object_unref (G_OBJECT(tree_model));
 
@@ -1757,6 +1758,7 @@ gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity p
     gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"),
 			_("Two months view"), _("Quarter view"),
 			_("Year view"), _("Custom view"), NULL };
+	gchar* tmpstr;
 
     if ( periodicity == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
     {
@@ -1764,7 +1766,7 @@ gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity p
 	    return FALSE;
     }
 
-    gchar* tmpstr = g_strconcat ( _("Scheduled transactions"), " : ",
+    tmpstr = g_strconcat ( _("Scheduled transactions"), " : ",
 					    names[periodicity], NULL);
     gsb_gui_headings_update_title ( tmpstr );
     gsb_gui_headings_update_suffix ( "" );

@@ -363,9 +363,10 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
             /* pbiava the 03/15/09 fix the bug 493 */
             if ( gsb_form_widget_check_empty (cheque_entry) )
             {
+				gchar* tmpstr;
                 gsb_form_entry_get_focus (cheque_entry);
                 /* pbiava the 03/15/09 incremente le futur n° de Cheque */
-                gchar* tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (
+                tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (
                             payment_number) + 1);
                 gtk_entry_set_text ( GTK_ENTRY (cheque_entry), tmpstr);
                 g_free ( tmpstr );

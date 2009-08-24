@@ -83,6 +83,7 @@ gchar * gsb_select_icon_create_window ( gchar * name_icon )
     GtkWidget *chooser_button;
     GtkWidget *scroll;
     GtkWidget *icon_view;
+	gint result;
 
     devel_debug ( name_icon );
     path_icon = g_path_get_dirname ( name_icon );
@@ -142,7 +143,7 @@ gchar * gsb_select_icon_create_window ( gchar * name_icon )
 
     gtk_widget_show_all ( dialog );
 
-    gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+    result = gtk_dialog_run (GTK_DIALOG (dialog));
     switch (result)
     {
       case GTK_RESPONSE_ACCEPT:

@@ -712,6 +712,7 @@ static gboolean gtk_combofix_fill_store ( GtkComboFix *combofix,
     while (tmp_list)
     {
 	gchar *string;
+	gchar* tmpstr;
 
 	string = tmp_list -> data;
 
@@ -724,7 +725,7 @@ static gboolean gtk_combofix_fill_store ( GtkComboFix *combofix,
 		gtk_tree_store_append ( combofix -> store,
 					&iter_child,
 					&iter_parent );
-		gchar* tmpstr = g_strconcat ( last_parent, " : ", string + 1, NULL );
+		tmpstr = g_strconcat ( last_parent, " : ", string + 1, NULL );
 		gtk_tree_store_set ( combofix -> store,
 				     &iter_child,
 				     COMBOFIX_COL_VISIBLE_STRING, string + 1,
