@@ -329,6 +329,7 @@ gint my_strcmp ( gchar *string_1, gchar *string_2 )
 gint gsb_strcasecmp ( gchar *string_1,
                         gchar *string_2 )
 {
+	gint result;
     string_1 = my_strdup ( string_1 );
     string_1 = g_strdelimit ( string_1, "éÉèÈêÊ", 'e' );
     string_1 = g_strdelimit ( string_1, "çÇ", 'c' );
@@ -345,7 +346,7 @@ gint gsb_strcasecmp ( gchar *string_1,
     string_2 = g_strdelimit ( string_2, "ôÔ", 'o' );
     string_2 = g_strdelimit ( string_2, "îÎ", 'i' );
 
-    gint result = g_strcasecmp ( string_1, string_2 );
+    result = g_strcasecmp ( string_1, string_2 );
     g_free(string_1);
     g_free(string_2);
     return result; 
@@ -425,7 +426,7 @@ gint my_strncasecmp ( gchar *string_1,
 					 longueur );
 	    new_2 = g_utf8_collate_key ( g_utf8_casefold (  string_2,longueur ),
 					 longueur );
-	    retour = strcasecmp ( new_1, new_2);
+	    retour = g_strcasecmp ( new_1, new_2);
 	    g_free ( new_1 );
 	    g_free ( new_2 );
 	    return ( retour );
@@ -704,6 +705,7 @@ gchar * gsb_string_truncate ( gchar * string )
  */
 gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
 {
+	gchar* result;
     gchar * tmp = string, * trunc;
 
     if ( ! string )
@@ -725,7 +727,7 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
 	    tmp++;
 
 	trunc = g_strndup ( string, ( tmp - string ) );
-	gchar* result = g_strconcat ( trunc, "...", NULL );
+	result = g_strconcat ( trunc, "...", NULL );
 	g_free(trunc);
 	return result;
     }
