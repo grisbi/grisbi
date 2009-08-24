@@ -105,7 +105,7 @@ GtkWidget *gsb_archive_config_create ( void )
     GtkWidget *check_paddingbox;
     GtkWidget *button;
     GtkWidget *entry;
-
+	gchar* tmpstr;
 
     /* create the page */
     vbox_pref = new_vbox_with_title_and_icon ( _("Archives"),
@@ -209,7 +209,7 @@ GtkWidget *gsb_archive_config_create ( void )
 		       "clicked",
 		       G_CALLBACK (gsb_archive_config_delete_archive),
 		       archive_treeview );
-    gchar* tmpstr = g_build_filename ( PIXMAPS_DIR, "import.png", NULL );
+    tmpstr = g_build_filename ( PIXMAPS_DIR, "import.png", NULL );
     gtk_button_set_image ( GTK_BUTTON(button), 
 			   gtk_image_new_from_file ( tmpstr ) );
     g_free ( tmpstr );
@@ -440,6 +440,7 @@ static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
     GtkTreeSelection *selection;
     GtkTreeIter iter;
     gboolean good;
+	gchar* tmpstr;
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
@@ -457,7 +458,7 @@ static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
     if (!archive_number)
         return FALSE;
 
-    gchar* tmpstr = g_strdup_printf (
+    tmpstr = g_strdup_printf (
                         _("Warning, you are about the delete the archive \"%s\".\n\n"
                           "If you continue, all the transactions linked to that archive "
                           "will loose the link and will begin again not archived.\n"
@@ -512,6 +513,7 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 	gint archive_number;
 	GSList *tmp_list;
 	gint account_number;
+	gchar* tmpstr;
 
 	model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
 	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
@@ -521,7 +523,7 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 	if (!archive_number)
 	    return FALSE;
 
-	gchar* tmpstr = g_strdup_printf (
+	tmpstr = g_strdup_printf (
                         _("Warning, you are about the delete the archive \"%s\" and its "
                           "associated transactions.\n\nIf you continue, all the transactions "
                           "linked to that archive will be deleted and the initials amounts "

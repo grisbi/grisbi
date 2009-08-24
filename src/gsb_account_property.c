@@ -858,6 +858,7 @@ gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
     gint account_currency_number;
     gint result;
     GSList *list_tmp;
+	gchar* tmpstr;
 
     account_number = gsb_gui_navigation_get_current_account ();
 
@@ -873,7 +874,7 @@ gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
 				    new_currency_number );
 
     /* ask for the currency of the transactions */
-    gchar* tmpstr = g_strdup_printf ( _("You are changing the currency of the account, do you want to change the currency of the transactions too ?\n(yes will change all the transactions currency from %s to %s, all the transactions with another currency will stay the same).\n\nArchived and reconcilied transactions will be left unmodified."),
+    tmpstr = g_strdup_printf ( _("You are changing the currency of the account, do you want to change the currency of the transactions too ?\n(yes will change all the transactions currency from %s to %s, all the transactions with another currency will stay the same).\n\nArchived and reconcilied transactions will be left unmodified."),
 				      gsb_data_currency_get_name (account_currency_number),
 				      gsb_data_currency_get_name (new_currency_number));
     result = question_yes_no_hint ( _("Change the transactions currency"),

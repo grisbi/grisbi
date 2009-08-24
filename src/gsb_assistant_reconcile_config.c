@@ -146,6 +146,7 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
     GSList *tmp_list;
     gint transaction_number;
     GtkWidget *assistant;
+	gchar* tmpstr;
 
     tmp_list = gsb_data_transaction_get_transactions_list ();
     while (tmp_list)
@@ -186,7 +187,7 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
      * 		at the first update to grisbi 0.6.0 )*/
 
     /* first, create the assistant */
-    gchar* tmpstr = g_strdup_printf (_("Grisbi found %d marked transactions not associated with a reconciliation number, "
+    tmpstr = g_strdup_printf (_("Grisbi found %d marked transactions not associated with a reconciliation number, "
 						       "this can happen for old users of grisbi or from a misuse of the Ctrl-R shortcut.\n\n"
 						       "This assistant will help you make the link between such transactions and a reconciliation.\n\n"
 						       "Before continuing, you should first check if all the dates of the existing reconciliations are good "
@@ -254,11 +255,12 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
     GtkWidget *separator;
     GtkWidget *label;
     GtkWidget *button;
+	gchar* tmpstr;
 
     page = gtk_vbox_new (FALSE, 5);
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
-    gchar* tmpstr = g_strdup_printf (_("Still %d transactions to link with a reconciliation."),
+    tmpstr = g_strdup_printf (_("Still %d transactions to link with a reconciliation."),
 								   transactions_to_link);
     label_transactions_to_link_1 = gtk_label_new (tmpstr );
     g_signal_connect ( G_OBJECT (label_transactions_to_link_1 ), "destroy",

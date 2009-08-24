@@ -963,7 +963,9 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
     GDate *date_jour = g_date_new ( );
     GSList *tmp_list;
     gsb_real current_balance;
+	gsb_real current_balance_later = null_real;
     gsb_real marked_balance;
+	gsb_real marked_balance_later = null_real;
     gint floating_point;
 
     //~ devel_debug_int ( account_number );
@@ -978,8 +980,6 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 						 floating_point );
     marked_balance = gsb_real_adjust_exponent ( account -> init_balance,
 						floating_point );
-    gsb_real current_balance_later = null_real;
-    gsb_real marked_balance_later = null_real;
 
     g_date_set_time_t (date_jour, time (NULL));
 

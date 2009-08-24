@@ -827,6 +827,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
     gchar *string;
     GSList *tmp_list;
     GtkWidget * notebook;
+	GSList *report_transactions_list;
 
     notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
     
@@ -961,7 +962,6 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
     {
 	gint report_number;
 	string = NULL;
-	GSList *report_transactions_list;
 
 	report_number = gsb_report_get_report_from_combobox (report_button);
 

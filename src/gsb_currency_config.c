@@ -1318,6 +1318,7 @@ gboolean gsb_currency_config_select_currency_popup ( GtkTreeSelection *selection
     gint currency_floating;
     GtkWidget * entry_name, * entry_iso_code, * entry_code, * entry_floating_point;
     GtkTreeIter iter;
+	gchar* tmpstr;
 
     if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
 	return(FALSE);
@@ -1345,7 +1346,7 @@ gboolean gsb_currency_config_select_currency_popup ( GtkTreeSelection *selection
     gtk_entry_set_text ( GTK_ENTRY ( entry_name ), currency_name );
     gtk_entry_set_text ( GTK_ENTRY ( entry_iso_code ), currency_iso_code );
     gtk_entry_set_text ( GTK_ENTRY ( entry_code ), currency_nickname );
-    gchar* tmpstr = utils_str_itoa (currency_floating);
+    tmpstr = utils_str_itoa (currency_floating);
     gtk_entry_set_text ( GTK_ENTRY ( entry_floating_point ), tmpstr);
     g_free ( tmpstr );
     return ( FALSE );

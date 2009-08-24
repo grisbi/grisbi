@@ -88,6 +88,7 @@ static GtkWidget *account_entry_name = NULL;
  */
 GtkResponseType gsb_assistant_account_run ( void )
 {
+	gboolean result = FALSE;
     GtkResponseType return_value;
     GtkWidget *assistant;
 
@@ -119,7 +120,6 @@ GtkResponseType gsb_assistant_account_run ( void )
 
     return_value = gsb_assistant_run (assistant);
 
-    gboolean result = FALSE;
     if (return_value == GTK_RESPONSE_APPLY)
     {
 	/* Ok, we create the new account */

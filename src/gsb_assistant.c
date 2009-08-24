@@ -67,6 +67,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     GtkWidget * button_cancel, * button_prev, * button_next;
     GtkStyle * style;
     GtkTextBuffer * buffer;
+	gchar* tmpstr;
 
     assistant = gtk_dialog_new_with_buttons ( title,
 					   GTK_WINDOW ( window ),
@@ -99,7 +100,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
 
     label = gtk_label_new ( NULL );
-    gchar* tmpstr = g_strconcat ( "<b><span size=\"x-large\">", title, "</span></b>", NULL );
+    tmpstr = g_strconcat ( "<b><span size=\"x-large\">", title, "</span></b>", NULL );
     gtk_label_set_markup ( GTK_LABEL(label), tmpstr );
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 0 );
