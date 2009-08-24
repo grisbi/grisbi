@@ -26,6 +26,9 @@
  */
 
 #include "include.h"
+#ifdef _MSC_VER
+#	include <io.h> // for _chmod()
+#endif//_MSC_VER
 #include <zlib.h>
 
 /*START_INCLUDE*/
@@ -439,18 +442,32 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 
     /* if it's a new file, we set the permission */
     if ( do_chmod )
+	{
 	/* it's a new file or stat couldn't find the permissions,
 	 * so set only user can see the file by default */
-	chmod ( filename,
-		S_IRUSR | S_IWUSR );
+#ifdef _MSC_VER
+	_chmod ( filename, _S_IREAD | _S_IWRITE );
+#else
+	chmod ( filename, S_IRUSR | S_IWUSR );
+#endif//_MSC_VER
+	}
     else
     {
 	/* it's not a new file but gtk overwrite the permissions
 	 * so need to re-set the good permissions saved before */
-	if (chmod (filename, buf.st_mode) == -1)
+#ifdef _MSC_VER
+	if (_chmod (filename, buf.st_mode) == -1)
+	{
 	    /* we couldn't set the chmod, set the default permission */
-	    chmod ( filename,
-		    S_IRUSR | S_IWUSR );
+		_chmod ( filename, _S_IREAD | _S_IWRITE );
+	}
+#else
+	if (chmod (filename, buf.st_mode) == -1)
+	{
+	    /* we couldn't set the chmod, set the default permission */
+		chmod ( filename, S_IRUSR | S_IWUSR );
+	}
+#endif//_MSC_VER
     }
 
     etat.en_train_de_sauvegarder = 0;
