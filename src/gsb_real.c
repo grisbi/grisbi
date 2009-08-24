@@ -47,6 +47,24 @@ glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
 
 #define sizeofarray(x) (sizeof(x)/sizeof(*x))
 
+#ifdef _MSC_VER
+typedef struct _lldiv_t
+{
+	long long 	quot;
+	long long 	rem;
+} lldiv_t;
+lldiv_t lldiv(long long numerator, long long denominator)
+{
+	//TODO find a standard/efficient impl for this
+	lldiv_t result;
+	result.quot = numerator / denominator;
+	result.rem = numerator % denominator;
+	return result;
+}
+#define lrint(x) (floor(x + ((x >= 0) ? 0.5 : -0.5)))
+#define rint(x) (floor(x + ((x >= 0) ? 0.5 : -0.5)))
+#endif//_MSC_VER
+
 /*START_STATIC*/
 static gchar *gsb_real_format_string ( gsb_real number,
                         gint currency_number,
@@ -119,21 +137,29 @@ gchar *gsb_real_raw_format_string (gsb_real number,
                         struct lconv *conv,
                         const gchar *currency_symbol )
 {
-    if ( (number.exponent < 0)
+    gchar format[40];
+    gchar *result = NULL;
+	const gchar *cs_start;
+    const gchar *cs_start_space;
+    const gchar *sign;
+    const gchar *mon_decimal_point;
+    const gchar *cs_end_space;
+    const gchar *cs_end;
+	ldiv_t units;
+
+	if ( (number.exponent < 0)
     || (number.exponent >= sizeofarray (gsb_real_power_10))
     || (number.mantissa == error_real.mantissa) )
         return g_strdup("###ERR###");
 
-    gchar format[40];
-    gchar *result = NULL;
-    const gchar *cs_start = (currency_symbol && conv->p_cs_precedes) ? currency_symbol : "";
-    const gchar *cs_start_space = (currency_symbol && conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
-    const gchar *sign = (number.mantissa < 0) ? conv->negative_sign : conv->positive_sign;
-    const gchar *mon_decimal_point = conv->mon_decimal_point && *conv->mon_decimal_point ? conv->mon_decimal_point : ".";
-    const gchar *cs_end_space = (currency_symbol && !conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
-    const gchar *cs_end = (currency_symbol && !conv->p_cs_precedes) ? currency_symbol : "";
+    cs_start = (currency_symbol && conv->p_cs_precedes) ? currency_symbol : "";
+    cs_start_space = (currency_symbol && conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
+    sign = (number.mantissa < 0) ? conv->negative_sign : conv->positive_sign;
+    mon_decimal_point = conv->mon_decimal_point && *conv->mon_decimal_point ? conv->mon_decimal_point : ".";
+    cs_end_space = (currency_symbol && !conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
+    cs_end = (currency_symbol && !conv->p_cs_precedes) ? currency_symbol : "";
 
-    ldiv_t units = ldiv ( labs (number.mantissa), gsb_real_power_10[number.exponent] );
+    units = ldiv ( labs (number.mantissa), gsb_real_power_10[number.exponent] );
     if ( units.quot < 1000 )
     {
         g_snprintf (format, sizeof(format), "%s%d%s",
@@ -325,27 +351,30 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
                                         const gchar *mon_thousands_sep,
                                         const gchar *mon_decimal_point )
 {
+    static const gchar *space_chars = " ";
+    static const gchar *decimal_chars = ".,";
+    static const gchar *positive_chars = "+";
+    static const gchar *negative_chars = "-";
+
+	unsigned mts_len;
+	unsigned mdp_len;
+    unsigned nb_digits = 0;
+    gint64 mantissa = 0;
+    gint8 sign = 0;
+    gint8 dot_position = -1;
+    const gchar *p = string;
+
     assert ( !mon_thousands_sep || ( g_utf8_strlen ( mon_thousands_sep, -1 ) <= 1 ) );
     assert ( !mon_decimal_point || ( g_utf8_strlen ( mon_decimal_point, -1 ) <= 1 ) );
 
     if ( !string)
         return error_real;
 
-    unsigned mts_len = mon_thousands_sep
+    mts_len = mon_thousands_sep
                        ? strlen ( mon_thousands_sep )
                        : 0;
-    unsigned mdp_len = mon_decimal_point ? strlen ( mon_decimal_point ) : 0;
+    mdp_len = mon_decimal_point ? strlen ( mon_decimal_point ) : 0;
 
-    static const gchar *space_chars = " ";
-    static const gchar *decimal_chars = ".,";
-    static const gchar *positive_chars = "+";
-    static const gchar *negative_chars = "-";
-
-    unsigned nb_digits = 0;
-    gint64 mantissa = 0;
-    gint8 sign = 0;
-    gint8 dot_position = -1;
-    const gchar *p = string;
     for ( ; ; )
     {
         if ( g_ascii_isdigit ( *p ) )
@@ -360,10 +389,11 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
         }
         else if ( *p == 0 ) // terminal zero
         {
-            gint exponent = ( dot_position >= 0 )
+			gsb_real result;
+			result.mantissa = sign * mantissa;
+            result.exponent = ( dot_position >= 0 )
                               ? nb_digits - dot_position
                               : 0;
-            gsb_real result = { sign * mantissa, exponent };
             return result;
         }
         else if ( strchr ( space_chars, *p )
@@ -492,9 +522,9 @@ void gsb_real_minimize_exponent ( gsb_real *num )
  **/
 void gsb_real_grow_exponent( gsb_real *num, guint target_exponent )
 {
-    assert ( target_exponent > num->exponent );
     gint64 mantissa = num->mantissa;
     gint exponent = num->exponent;
+    assert ( target_exponent > num->exponent );
     while ( exponent < target_exponent )
     {
         gint64 new_mantissa = mantissa * 10;
@@ -596,11 +626,12 @@ gsb_real gsb_real_adjust_exponent ( gsb_real number,
 gsb_real gsb_real_add ( gsb_real number_1,
                         gsb_real number_2 )
 {
+    gint64 mantissa;
     if ( ( number_1.mantissa == error_real.mantissa )
       || ( number_2.mantissa == error_real.mantissa )
       || !gsb_real_normalize ( &number_1, &number_2 ) )
         return error_real;
-    gint64 mantissa = (gint64)number_1.mantissa + number_2.mantissa;
+	mantissa = (gint64)number_1.mantissa + number_2.mantissa;
     if ( ( mantissa > G_MAXLONG ) || ( mantissa < G_MINLONG ) )
         return error_real;
     number_1.mantissa = mantissa;
