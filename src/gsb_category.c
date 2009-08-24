@@ -396,16 +396,16 @@ void gsb_category_assistant_start_element ( GMarkupParseContext *context, const 
 {
     gchar * title = NULL, * description = NULL;
 
-    if ( ! strcasecmp ( element_name, "general" ) )
+    if ( ! g_strcasecmp ( element_name, "general" ) )
     {
 	
 	while ( *attribute_names )
 	{
-	    if ( ! strcasecmp ( *attribute_names, "title" ) )
+	    if ( ! g_strcasecmp ( *attribute_names, "title" ) )
 	    {
 		title = (gchar *) *attribute_values;
 	    }
-	    if ( ! strcasecmp ( *attribute_names, "description" ) )
+	    if ( ! g_strcasecmp ( *attribute_names, "description" ) )
 	    {
 		description = (gchar *) *attribute_values;
 	    }
