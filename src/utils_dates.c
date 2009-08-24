@@ -22,7 +22,9 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include <langinfo.h>
+#ifndef _WIN32
+#	include <langinfo.h>
+#endif//_WIN32
 
 /*START_INCLUDE*/
 #include "utils_dates.h"
@@ -179,12 +181,13 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
     if ( strlen (string))
     {
         GDate *date;
+		gchar* tmpstr;
 
         date = gsb_date_get_last_entry_date ( string );
         if (!date)
             return FALSE;
 
-        gchar* tmpstr = gsb_format_gdate (date);
+        tmpstr = gsb_format_gdate (date);
         gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr);
         if ( buffer_entry_date == NULL )
             buffer_entry_date = g_malloc0 ( sizeof (struct struct_last_entry_date) );
