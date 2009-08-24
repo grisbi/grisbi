@@ -769,6 +769,8 @@ static gint gsb_file_dialog_save ( void )
     GtkWidget *dialog;
     gint difference = (gint) difftime ( now, etat.modification_fichier );
     gchar* message;
+	gchar* tmpstr1;
+	gchar* tmpstr2;
 
     /*     si le fichier n'est pas modifié on renvoie qu'on ne veut pas enregistrer */
 
@@ -829,8 +831,8 @@ static gint gsb_file_dialog_save ( void )
     {
 	time_elapsed = g_strdup_printf ( _( "%d seconds" ), difference );
     }
-    gchar* tmpstr1 = message;
-    gchar* tmpstr2 = g_strdup_printf ( _("If you close without saving, all of your changes "
+    tmpstr1 = message;
+    tmpstr2 = g_strdup_printf ( _("If you close without saving, all of your changes "
 						"since %s will be discarded."),
 					      time_elapsed );
     message = g_strconcat ( tmpstr1, tmpstr2 , NULL );
@@ -1142,6 +1144,7 @@ void gsb_file_save_remove_old_file ( gchar *filename )
     GtkWidget *image;
     GtkWidget *label;
     gint resultat;
+	gchar *tmpstr;
 
     dialog = gtk_dialog_new_with_buttons ( 
                         _("Delete a copy of file of the old version of grisbi"),
@@ -1163,7 +1166,7 @@ void gsb_file_save_remove_old_file ( gchar *filename )
                         GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
 
-    gchar *tmpstr = g_strdup_printf ( 
+    tmpstr = g_strdup_printf ( 
                         _("Careful, you are about to deleting the copy of file\n"
                         "of the old version of grisbi.\n"
                         "\n<b>Do you want to delete this file :\n%s ?</b>"),
