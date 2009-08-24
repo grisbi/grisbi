@@ -132,7 +132,7 @@ gboolean lance_navigateur_web ( const gchar *url )
 /*     sous Windows si la commande est vide ou egale a la valeur par defaut on lance le butineur par defaut (open) */
 
     gchar **split;
-    gchar *chaine;
+    gchar *chaine = NULL;
 #ifdef _WIN32
     gboolean use_default_browser = TRUE;
 
