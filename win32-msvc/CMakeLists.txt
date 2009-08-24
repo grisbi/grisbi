@@ -310,6 +310,8 @@ ADD_EXECUTABLE(grisbi
 	../win32-msvc/src/getopt.c
 	../win32-msvc/src/getopt.h
 	../win32-msvc/src/getopt1.c
+	../win32-msvc/src/realpath.c
+	../win32-msvc/src/realpath.h
 	../win32/win32gtkutils.c
 	../win32/win32gtkutils.h
 	../win32/win32utils.c

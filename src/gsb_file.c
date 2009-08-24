@@ -25,9 +25,13 @@
 
 #include <time.h>
 
-#if _WIN32
-#include <stdlibx.h> // For realpath()
-#endif
+#ifdef _WIN32
+#	ifdef _MSC_VER
+#		include <realpath.h>
+#	else
+#		include <stdlibx.h> // For realpath()
+#	endif//_MSC_VER
+#endif//_WIN32
 
 /*START_INCLUDE*/
 #include "gsb_file.h"
