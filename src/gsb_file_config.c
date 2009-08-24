@@ -28,7 +28,6 @@
 
 
 #include "include.h"
-#include <strings.h> // for memset
 
 /*START_INCLUDE*/
 #include "gsb_file_config.h"
@@ -1305,6 +1304,7 @@ static void gsb_file_config_remove_old_config_file ( gchar *filename )
     GtkWidget *image;
     GtkWidget *label;
     gint resultat;
+	gchar *tmpstr;
 
     dialog = gtk_dialog_new_with_buttons ( _("Delete an old config file"),
                         GTK_WINDOW ( window ),
@@ -1325,7 +1325,7 @@ static void gsb_file_config_remove_old_config_file ( gchar *filename )
                         GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
 
-    gchar *tmpstr = g_strconcat ( 
+    tmpstr = g_strconcat ( 
                         _("Careful, you are about to deleting the file\n"
                         "of configuration of an old version of Grisbi.\n"
                         "\n<b>Do you want to delete this file ?</b>"),
@@ -1364,6 +1364,7 @@ gchar *gsb_config_get_old_conf_name ( void )
     GError *error = NULL;
     gint resultat;
     gint i = 0, j = 0;
+	gchar *tmpstr;
     
     dir = g_dir_open ( my_get_grisbirc_dir ( ), 0, &error );
     if ( dir )
@@ -1411,7 +1412,7 @@ gchar *gsb_config_get_old_conf_name ( void )
                         GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
 
-    gchar *tmpstr = g_strconcat ( 
+    tmpstr = g_strconcat ( 
                         _("Please Choose the name of file\n"
                         "of configuration.\n\n"
                         "and press the 'OK' button."),
