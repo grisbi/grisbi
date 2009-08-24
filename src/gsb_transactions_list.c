@@ -741,7 +741,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 
 	    /* mise en forme du moyen de paiement */
 
-	case ELEMENT_TYPE:
+	case ELEMENT_PAYMENT_TYPE:
 	    return ( my_strdup (gsb_data_payment_get_name ( gsb_data_transaction_get_method_of_payment_number ( transaction_number))));
 
 	    /* mise en forme du no de rapprochement */

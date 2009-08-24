@@ -1567,7 +1567,7 @@ void cree_liens_virements_ope_import ( void )
      * and the transfer was not written, we need to update the categories values
      * in the lists */
     transaction_list_update_element (ELEMENT_CATEGORY);
-    transaction_list_update_element (ELEMENT_TYPE);
+    transaction_list_update_element (ELEMENT_PAYMENT_TYPE);
 }
 
 

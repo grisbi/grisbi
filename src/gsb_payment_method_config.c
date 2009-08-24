@@ -743,7 +743,7 @@ gboolean gsb_payment_method_config_name_changed ( GtkWidget *entry,
 		}
 	    }
 	    /* update the transactions list */
-	    transaction_list_update_element (ELEMENT_TYPE);
+	    transaction_list_update_element (ELEMENT_PAYMENT_TYPE);
 	}
     }
     return FALSE;
@@ -1353,7 +1353,7 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
     }
 
     /* change for the transactions tree_view */
-    transaction_list_update_element (ELEMENT_TYPE);
+    transaction_list_update_element (ELEMENT_PAYMENT_TYPE);
 
     gtk_widget_destroy ( GTK_WIDGET(dialog) );
     return TRUE;

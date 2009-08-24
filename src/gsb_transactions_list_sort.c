@@ -306,7 +306,7 @@ gint gsb_transactions_list_sort_by_no_sort (  gint transaction_number_1,
 	    return ( gsb_transactions_list_sort_by_amount ( transaction_number_1,
 							    transaction_number_2));
 	    break;
-	case ELEMENT_TYPE:
+	case ELEMENT_PAYMENT_TYPE:
 	    return ( gsb_transactions_list_sort_by_type ( transaction_number_1,
 							  transaction_number_2));
 	    break;
