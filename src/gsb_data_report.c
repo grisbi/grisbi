@@ -369,11 +369,13 @@ gint gsb_data_report_new_with_number ( gint number )
  */
 static void _gsb_data_report_free ( struct_report *report )
 {
+	GSList* list_tmp;
+
     if ( ! report )
         return ;
     
     /* remove first the comparison */
-    GSList* list_tmp = report -> text_comparison_list;
+    list_tmp = report -> text_comparison_list;
     while ( list_tmp )
     {
 	gsb_data_report_text_comparison_remove ( GPOINTER_TO_INT (list_tmp -> data));

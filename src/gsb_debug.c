@@ -199,6 +199,7 @@ gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
     GtkTextIter text_iter;
     gboolean inconsistency = FALSE;
     gint i, page = 2;
+	gchar* tmpstr;
 
     text_buffer = g_object_get_data ( G_OBJECT(assistant), "text-buffer" );
 
@@ -230,7 +231,7 @@ gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
 					 -1 );
 	    }
 
-	    gchar* tmpstr = g_strconcat ( "• ", _( debug_tests[i] . name ), "\n", NULL );
+	    tmpstr = g_strconcat ( "• ", _( debug_tests[i] . name ), "\n", NULL );
 	    gtk_text_buffer_insert_with_tags_by_name ( text_buffer, &text_iter,
 						       tmpstr,
 						       -1, "indented", NULL );
@@ -360,6 +361,10 @@ gchar * gsb_debug_reconcile_test ( void )
     gint tested_account = 0;
     GSList *pUserAccountsList = NULL;
     gchar *pText = g_strdup("");
+	gchar* tmprealstr1;
+	gchar* tmprealstr2;
+	gchar* tmpstr1;
+	gchar* tmpstr2;
 
     /* S'il n'y a pas de compte, on quitte */
     if ( ! gsb_data_account_get_accounts_amount ( ) )
@@ -426,18 +431,18 @@ gchar * gsb_debug_reconcile_test ( void )
         {
             affected_accounts ++;
 
-            gchar* tmprealstr1 = gsb_real_get_string_with_currency (
+            tmprealstr1 = gsb_real_get_string_with_currency (
 	                                gsb_data_reconcile_get_final_balance (reconcile_number),
 	                                gsb_data_account_get_currency ( account_nb ), TRUE  );
-            gchar* tmprealstr2 = gsb_real_get_string_with_currency (reconcilied_amount,
+            tmprealstr2 = gsb_real_get_string_with_currency (reconcilied_amount,
 					gsb_data_account_get_currency ( account_nb ), TRUE  );
-            gchar* tmpstr1 = g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
+            tmpstr1 = g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
 					"  Last reconciliation amount : %s\n"
 					"  Computed reconciliation amount : %s\n"),
 					gsb_data_account_get_name ( account_nb ), 
 					tmprealstr1,
 					tmprealstr2 );
-            gchar* tmpstr2 = pText;
+            tmpstr2 = pText;
             pText = g_strconcat ( tmpstr2, tmpstr1, NULL );
             g_free ( tmpstr2 );
             g_free ( tmpstr1 );
@@ -474,6 +479,8 @@ gchar * gsb_debug_transfer_test ( void )
     gboolean corrupted_file = FALSE;
     GSList * pUserAccountsList;
     gchar * pText = g_strdup("");
+	gchar* tmpstr;
+	gchar* oldstr;
 
     pUserAccountsList = gsb_data_account_get_list_accounts ();
 
@@ -510,9 +517,9 @@ gchar * gsb_debug_transfer_test ( void )
 		    g_free ( oldstr );
 		    g_free ( tmpstr );
 		}
-		gchar* tmpstr = g_strdup_printf ( _("Transaction #%d is linked to non existent transaction #%d.\n"),
+		tmpstr = g_strdup_printf ( _("Transaction #%d is linked to non existent transaction #%d.\n"),
 							transaction, transfer_transaction );
-		gchar* oldstr = pText;
+		oldstr = pText;
 		pText = g_strconcat ( pText , tmpstr, NULL );
 		g_free ( oldstr );
 		g_free ( tmpstr );
@@ -532,8 +539,8 @@ gchar * gsb_debug_transfer_test ( void )
 		        g_free ( oldstr );
 		        g_free ( tmpstr );
 		    }
-		    gchar* oldstr = pText;
-		    gchar* tmpstr = g_strdup_printf ( _("Transaction #%d is linked to transaction #%d, "
+		    oldstr = pText;
+		    tmpstr = g_strdup_printf ( _("Transaction #%d is linked to transaction #%d, "
 							      "which is linked to transaction #%d.\n"),
 							    transaction,
 							    transfer_transaction,

@@ -192,11 +192,10 @@ void gsb_partial_balance_fill_model ( GtkListStore *list_store )
     while ( list_tmp )
     {
         struct_partial_balance *partial_balance;
-
-        partial_balance = list_tmp -> data;
-
         gchar *kind_str = "";
         gchar *currency_str = "";
+
+        partial_balance = list_tmp -> data;
 
         switch ( partial_balance -> kind )
         {

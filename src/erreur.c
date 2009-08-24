@@ -66,6 +66,7 @@ FILE *debug_file = NULL;
 void traitement_sigsegv ( gint signal_nb )
 {
     gchar * gsb_file_default_dir, * errmsg = g_strdup("");
+	gchar* old_errmsg;
     GtkWidget * dialog;
 #ifdef HAVE_BACKTRACE
     GtkWidget * expander;
@@ -120,7 +121,7 @@ void traitement_sigsegv ( gint signal_nb )
 
 	gsb_status_clear();
 
-        gchar* old_errmsg = errmsg;
+        old_errmsg = errmsg;
 	errmsg = g_strconcat ( errmsg, 
 			       g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
 						 nom_fichier_comptes ),
@@ -128,7 +129,7 @@ void traitement_sigsegv ( gint signal_nb )
 	g_free ( old_errmsg );
     }
 
-    gchar* old_errmsg = errmsg;
+    old_errmsg = errmsg;
     errmsg = g_strconcat ( errmsg, 
 			   "\n\n",
 			   _("Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "),
@@ -176,6 +177,8 @@ void initialize_debugging ( void )
     /* un int pour stocker le level de debug et une chaine qui contient sa version texte */
     gint debug_variable=0;
     gchar *debug_level="";
+	gchar* tmpstr1;
+	gchar* tmpstr2;
 
     if (getenv ("DEBUG_GRISBI"))
     {
@@ -197,8 +200,8 @@ void initialize_debugging ( void )
 	    }
 
 	    /* on affiche un message de debug pour indiquer que le debug est actif */
-	    gchar* tmpstr1 = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
-	    gchar* tmpstr2 = g_strdup_printf(_("Debug enabled, level is '%s'"),debug_level);
+	    tmpstr1 = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
+	    tmpstr2 = g_strdup_printf(_("Debug enabled, level is '%s'"),debug_level);
 	    debug_message_string ( tmpstr1 , 
 				   __FILE__, __LINE__, __PRETTY_FUNCTION__,
 				   tmpstr2,
