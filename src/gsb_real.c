@@ -61,8 +61,8 @@ lldiv_t lldiv(long long numerator, long long denominator)
 	result.rem = numerator % denominator;
 	return result;
 }
-#define lrint(x) (floor(x + ((x >= 0) ? 0.5 : -0.5)))
-#define rint(x) (floor(x + ((x >= 0) ? 0.5 : -0.5)))
+#define lrint(x) (floor(x + 0.5))
+#define rint(x) (floor(x + 0.5))
 #endif//_MSC_VER
 
 /*START_STATIC*/
