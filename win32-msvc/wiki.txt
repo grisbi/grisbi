@@ -1,0 +1,21 @@
+====== Compiler Grisbi pour Windows avec Visual C++ 2008 Express Edition ======
+
+==== Pré Requis ====
+
+* Visual C++ 2008 Express Edition (http://msdn.microsoft.com/fr-fr/express/default.aspx)
+* UnxUtils (http://unxutils.sourceforge.net/)
+* cmake (http://www.cmake.org/)
+
+==== Préparation ====
+
+Lancer le script %GRISBISRC%\win32-msvc\prepare.cmd qui va effectuer les opération suivantes :
+* télécharger le kit de développement de gtk+ et le décompresser
+* générer les fichiers projets/solutions pour Visual C++
+
+==== Compilation ====
+
+Lancer le script %GRISBISRC%\win32-msvc\build.cmd qui va compiler les versions Debug et Release.
+
+==== Packaging ====
+
+Lancer le script %GRISBISRC%\win32-msvc\package.cmd qui va générer un zip contenant grisbi et les fichiers nécessaires (incomplet).
