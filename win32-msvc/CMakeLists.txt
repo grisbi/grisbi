@@ -2,11 +2,58 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 SET(EXECUTABLE_OUTPUT_PATH target)
 
+
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
-ADD_DEFINITIONS(-DHAVE_STRING_H)
-ADD_DEFINITIONS(-DNOSSL)
 ADD_DEFINITIONS(-D__PRETTY_FUNCTION__="")
 ADD_DEFINITIONS(-D_WIN32)
+
+# Define to 1 if translation of program messages to the user's native language is requested.
+ADD_DEFINITIONS(-DENABLE_NLS=1)
+
+# Define if you have the iconv() function.
+ADD_DEFINITIONS(-DHAVE_ICONV=1)
+
+# Define if you have <langinfo.h> and nl_langinfo(CODESET).
+ADD_DEFINITIONS(-DHAVE_LANGINFO_CODESET=1)
+
+# Define if your <locale.h> file defines LC_MESSAGES.
+ADD_DEFINITIONS(-DHAVE_LC_MESSAGES=1)
+
+# Define to 1 if you have the `intl' library (-lintl).
+ADD_DEFINITIONS(-DHAVE_LIBINTL=1)
+
+# Define to 1 if you have the <limits.h> header file.
+ADD_DEFINITIONS(-DHAVE_LIMITS_H=1)
+
+# Define to 1 if you have the <locale.h> header file.
+ADD_DEFINITIONS(-DHAVE_LOCALE_H=1)
+
+# Define to 1 if you have the <malloc.h> header file.
+ADD_DEFINITIONS(-DHAVE_MALLOC_H=1)
+
+# Define to 1 if you have the <memory.h> header file.
+ADD_DEFINITIONS(-DHAVE_MEMORY_H=1)
+
+# Define to 1 if you have the `mempcpy' function.
+ADD_DEFINITIONS(-DHAVE_MEMPCPY=1)
+
+# Define to 1 to have grisbi plugins management system activated
+ADD_DEFINITIONS(-DHAVE_PLUGINS=1)
+
+# Define to 1 if you have the `setlocale' function.
+ADD_DEFINITIONS(-DHAVE_SETLOCALE=1)
+
+# Define to 1 if you have the <string.h> header file.
+ADD_DEFINITIONS(-DHAVE_STRING_H=1)
+
+# Define to 1 to have OFX support disabled
+ADD_DEFINITIONS(-DNOOFX=1)
+# Define to 1 if you want to have OFX support using libofx 0.7.0
+ADD_DEFINITIONS(-DOFX_0_7=1)
+
+# Define to 1 when you do not want to use SSL as crypt algorithm (NOT RECOMMANDED)
+#ADD_DEFINITIONS(-DNOSSL=1)
+
 
 INCLUDE_DIRECTORIES(
 	target/gtk-dev/include/atk-1.0
@@ -314,6 +361,7 @@ ADD_EXECUTABLE(grisbi
 	../win32-msvc/src/getopt1.c
 	../win32-msvc/src/realpath.c
 	../win32-msvc/src/realpath.h
+	../win32-msvc/config.h
 	../win32/win32gtkutils.c
 	../win32/win32gtkutils.h
 	../win32/win32utils.c
