@@ -323,6 +323,12 @@ ADD_EXECUTABLE(grisbi
 ADD_CUSTOM_COMMAND(TARGET grisbi
 	PRE_BUILD
 	COMMAND xcopy
+	/Y /C target\\gtk-dev\\bin\\*.dll $(TargetDir)
+)
+
+ADD_CUSTOM_COMMAND(TARGET grisbi
+	PRE_BUILD
+	COMMAND xcopy
 	/S /Y ..\\pixmaps\\*.png $(TargetDir)\\pixmaps\\
 )
 
