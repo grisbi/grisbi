@@ -2,7 +2,6 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 SET(EXECUTABLE_OUTPUT_PATH target)
 
-
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
 ADD_DEFINITIONS(-D__PRETTY_FUNCTION__="")
 ADD_DEFINITIONS(-D_WIN32)
@@ -53,7 +52,6 @@ ADD_DEFINITIONS(-DOFX_0_7=1)
 
 # Define to 1 when you do not want to use SSL as crypt algorithm (NOT RECOMMANDED)
 #ADD_DEFINITIONS(-DNOSSL=1)
-
 
 INCLUDE_DIRECTORIES(
 	target/gtk-dev/include/atk-1.0
@@ -372,6 +370,18 @@ ADD_CUSTOM_COMMAND(TARGET grisbi
 	PRE_BUILD
 	COMMAND xcopy
 	/Y /C target\\gtk-dev\\bin\\*.dll $(TargetDir)
+)
+
+ADD_CUSTOM_COMMAND(TARGET grisbi
+	PRE_BUILD
+	COMMAND xcopy
+	/S /Y target\\gtk-dev\\etc $(TargetDir)\\etc\\
+)
+
+ADD_CUSTOM_COMMAND(TARGET grisbi
+	PRE_BUILD
+	COMMAND xcopy
+	/S /Y target\\gtk-dev\\lib\\gtk-2.0\\2.10.0 $(TargetDir)\\lib\\gtk-2.0\\2.10.0\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET grisbi
