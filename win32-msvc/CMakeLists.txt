@@ -1,5 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+SET(EXECUTABLE_OUTPUT_PATH target)
+
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
 ADD_DEFINITIONS(-DHAVE_STRING_H)
 ADD_DEFINITIONS(-DNOSSL)
@@ -7,14 +9,14 @@ ADD_DEFINITIONS(-D__PRETTY_FUNCTION__="")
 ADD_DEFINITIONS(-D_WIN32)
 
 INCLUDE_DIRECTORIES(
-	../win32-msvc/gtk+/include/atk-1.0
-	../win32-msvc/gtk+/include/cairo
-	../win32-msvc/gtk+/include/glib-2.0
-	../win32-msvc/gtk+/include/gtk-2.0
-	../win32-msvc/gtk+/include/pango-1.0
-	../win32-msvc/gtk+/include
-	../win32-msvc/gtk+/lib/glib-2.0/include
-	../win32-msvc/gtk+/lib/gtk-2.0/include
+	target/gtk-dev/include/atk-1.0
+	target/gtk-dev/include/cairo
+	target/gtk-dev/include/glib-2.0
+	target/gtk-dev/include/gtk-2.0
+	target/gtk-dev/include/pango-1.0
+	target/gtk-dev/include
+	target/gtk-dev/lib/glib-2.0/include
+	target/gtk-dev/lib/gtk-2.0/include
 	../win32-msvc/src
 	../win32-msvc
 	../win32
@@ -22,7 +24,7 @@ INCLUDE_DIRECTORIES(
 )
 
 LINK_DIRECTORIES(
-	../win32-msvc/gtk+/lib
+	target/gtk-dev/lib
 )
 
 LINK_LIBRARIES(
@@ -316,4 +318,22 @@ ADD_EXECUTABLE(grisbi
 	../win32/win32gtkutils.h
 	../win32/win32utils.c
 	../win32/win32utils.h
+)
+
+ADD_CUSTOM_COMMAND(TARGET grisbi
+	PRE_BUILD
+	COMMAND xcopy
+	/S /Y ..\\pixmaps\\*.png $(TargetDir)\\pixmaps\\
+)
+
+ADD_CUSTOM_COMMAND(TARGET grisbi
+	PRE_BUILD
+	COMMAND xcopy
+	/S /Y ..\\help $(TargetDir)\\help\\
+)
+
+ADD_CUSTOM_COMMAND(TARGET grisbi
+	PRE_BUILD
+	COMMAND $(ProjectDir)\\tools\\dos2unix.cmd
+	..\\help\\tips\\tips.txt $(TargetDir)\\help\\tips\\tips.txt
 )

@@ -1,14 +1,12 @@
 cmake_install.cmake
 CMakeCache.txt
 CMakeFiles
-Debug
 grisbi.dir
-gtk+
-Release
+target
 ZERO_CHECK.dir
+*.cache
 *.ncb
 *.sln
 *.suo
 *.user
 *.vcproj
-*.zip
