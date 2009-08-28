@@ -3874,7 +3874,7 @@ msgstr ""
 "Il y a de nombreuses transactions dans votre fichier (%d) et il est "
 "conseillé de ne pas garder plus de %d transactions non archivées.\n"
 "Pour augmenter la vitesse, vous devez les archiver (la limite actuelle et le "
-"contrôle à l'ouverture peuvent être modifiés dans les préférences)\n"
+"contrôle à l'ouverture peuvent être modifiés dans les préférences).\n"
 "\n"
 "Cet assistant va vous guider dans le processus d'archivage des transactions. "
 "Par défaut, Grisbi n'exporte aucune archive dans des fichiers séparés, il "
@@ -3883,7 +3883,7 @@ msgstr ""
 "Vous pourrez toujours les exporter dans un fichier archive séparé si "
 "nécessaire.\n"
 "\n"
-"Appuyez sur Annuler si vous ne souhaitez pas créer une archive maintenant\n"
+"Appuyez sur Annuler si vous ne souhaitez pas créer une archive maintenant.\n"
 
 #. come by menu action
 #: src/gsb_assistant_archive.c:139
@@ -3922,7 +3922,7 @@ msgstr "Tri par date"
 #: src/gsb_assistant_archive.c:225
 msgid "Grisbi will archive all transactions between initial and final dates."
 msgstr ""
-"Grisbi archivera les transactions dont les dates sont comprises entrela date "
+"Grisbi archivera les transactions dont les dates sont comprises entre la date "
 "initiale et la date finale"
 
 #: src/gsb_assistant_archive.c:281
@@ -3939,7 +3939,7 @@ msgstr "Exercice"
 
 #: src/gsb_assistant_archive.c:330
 msgid "Archive by report"
-msgstr "Archiver les opérations appartenantà l'état"
+msgstr "Archiver les opérations appartenant à l'état"
 
 #: src/gsb_assistant_archive.c:340
 msgid "Grisbi will archive transactions selected by a report."
@@ -4321,7 +4321,7 @@ msgstr ""
 "Vous utilisez Grisbi 0.6 pour la première fois. Vous allez trouver beaucoup "
 "d'améliorations alors que la plupart des fonctionnalités n'a pas changé. "
 "N'hésitez pas à lire le conseil du jour pour en apprendre plus sur les "
-"nouvelles caractéristques.\n"
+"nouvelles caractéristiques.\n"
 "\n"
 "Une des améliorations les plus notables est la réécriture de la fonction de "
 "sauvegarde. Grisbi sauvegardera automatiquement les fichiers de sauvegarde "
@@ -9431,7 +9431,7 @@ msgstr " Calcul des soldes"
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
 msgstr ""
-"Prendre en compte les transactions plannifiées dans le calcul des soldes"
+"Prendre en compte les transactions planifiées dans le calcul des soldes"
 
 #: src/parametres.c:1016
 msgid "Sort option for transactions"

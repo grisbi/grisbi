@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      	  */
-/*			2003-2009 Benjamin Drieu (bdrieu@april.org)	      				  */
-/* 			http://www.grisbi.org				      						  */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2009 Benjamin Drieu (bdrieu@april.org)	                      */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -44,9 +44,9 @@
 
 /*START_STATIC*/
 static  gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
-						   gint new_page );
+                        gint new_page );
 static  gboolean gsb_assistant_first_enter_page_3 ( GtkWidget *assistant,
-						   gint new_page );
+                        gint new_page );
 static  GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant );
 /*END_STATIC*/
@@ -102,7 +102,7 @@ GtkResponseType gsb_assistant_first_run ( void )
 
     /* now we launch the assistant */
     return_value = gsb_assistant_run (assistant);
-    gtk_widget_destroy (assistant);
+    gtk_widget_hide (assistant);
 
     if (return_value == GTK_RESPONSE_CANCEL)
     {
@@ -368,7 +368,7 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
  * \return FALSE
  * */
 static gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
-						   gint new_page )
+                        gint new_page )
 {
     if ( result_reconcile == TRUE )
         gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, 
@@ -387,7 +387,7 @@ static gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
  * \return FALSE
  * */
 static gboolean gsb_assistant_first_enter_page_3 ( GtkWidget *assistant,
-						   gint new_page )
+                        gint new_page )
 {
     gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, 
 				       GTK_RESPONSE_APPLY );

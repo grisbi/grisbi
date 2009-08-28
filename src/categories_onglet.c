@@ -232,6 +232,8 @@ void remplit_arbre_categ ( void )
 
     /** Then, populate tree with categories. */
     category_list = gsb_data_category_get_categories_list ();
+    if ( category_list == NULL )
+        return;
 
     /* add first the empty category */
     category_list = g_slist_prepend ( category_list, gsb_data_category_get_empty_category ());
