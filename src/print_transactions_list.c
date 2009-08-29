@@ -38,6 +38,7 @@
 #include "./transaction_model.h"
 #include "./custom_list.h"
 #include "./include.h"
+#include "./structures.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
 

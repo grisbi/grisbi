@@ -156,8 +156,6 @@ GtkWidget * create_navigation_pane ( void )
 
     /* Create the view */
     navigation_tree_view = gtk_tree_view_new ();
-    g_signal_connect ( G_OBJECT (navigation_tree_view ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &navigation_tree_view );
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
     gtk_container_add ( GTK_CONTAINER(sw), navigation_tree_view );
 
@@ -371,14 +369,10 @@ GtkWidget * create_navigation_pane ( void )
 
     /* Create calendar (hidden for now). */
     scheduler_calendar = gsb_calendar_new ();
-    g_signal_connect ( G_OBJECT (scheduler_calendar ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &scheduler_calendar );
     gtk_box_pack_end ( GTK_BOX(vbox), scheduler_calendar, FALSE, FALSE, 0 );
 
     /* Create reconcile stuff (hidden for now). */
     reconcile_panel = gsb_reconcile_create_box ();
-    g_signal_connect ( G_OBJECT (reconcile_panel ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_panel );
     gtk_box_pack_end ( GTK_BOX(vbox), reconcile_panel, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( vbox );

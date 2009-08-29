@@ -1,9 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Alain Portal (aportal@univ-montp2.fr) 	      */
-/*			2004-2007 Benjamin Drieu (bdrieu@april.org)  	      */
-/* 			http://www.grisbi.org   			      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2004 Alain Portal (aportal@univ-montp2.fr)                        */
+/*          2004-2007 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -68,8 +68,6 @@ GtkWidget *gsb_calendar_new ( void )
     time ( &temps );
 
     scheduled_calendar = gtk_calendar_new ();
-    g_signal_connect ( G_OBJECT (scheduled_calendar ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &scheduled_calendar );
     gtk_calendar_select_month ( GTK_CALENDAR ( scheduled_calendar ),
 				localtime ( &temps ) -> tm_mon,
 				localtime ( &temps ) -> tm_year + 1900 );

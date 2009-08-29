@@ -78,8 +78,8 @@
 #include "./gsb_data_form.h"
 #include "./parametres.h"
 #include "./include.h"
-#include "./erreur.h"
 #include "./structures.h"
+#include "./erreur.h"
 #include "./gsb_form_widget.h"
 /*END_INCLUDE*/
 
@@ -169,8 +169,6 @@ GtkWidget *gsb_form_new ( void )
 {
     /* Create the expander */
     form_expander = gtk_expander_new ( "" );
-    g_signal_connect ( G_OBJECT (form_expander ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &form_expander );
     gtk_expander_set_expanded ( GTK_EXPANDER ( form_expander ),
 				etat.formulaire_toujours_affiche );
     g_signal_connect_after( G_OBJECT(form_expander),
@@ -234,8 +232,6 @@ void gsb_form_create_widgets ( void )
 
     /* set the last statement label */
     label_last_statement = gtk_label_new ( NULL );
-    g_signal_connect ( G_OBJECT (label_last_statement ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &label_last_statement );
     gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       label_last_statement,
 		       FALSE, FALSE, 0 );
@@ -246,8 +242,6 @@ void gsb_form_create_widgets ( void )
      * middle : the values for transactions and scheduled transactions
      * bottom : the buttons valid/cancel */
     transaction_form = gtk_vbox_new ( FALSE, 5 );
-    g_signal_connect ( G_OBJECT (transaction_form ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &transaction_form );
     gtk_container_add ( GTK_CONTAINER ( form_expander ),
 			transaction_form );
 
@@ -262,8 +256,6 @@ void gsb_form_create_widgets ( void )
     form_scheduled_part = gtk_table_new ( SCHEDULED_HEIGHT, 
                       SCHEDULED_WIDTH,
                       FALSE );
-    g_signal_connect ( G_OBJECT (form_scheduled_part ), "destroy",
-                    G_CALLBACK ( gtk_widget_destroyed), &form_scheduled_part );
     gtk_table_set_col_spacings ( GTK_TABLE (form_scheduled_part),
                     6 );
     gtk_box_pack_start ( GTK_BOX (transaction_form),
@@ -297,8 +289,6 @@ void gsb_form_create_widgets ( void )
 		       NULL );
 
     form_transaction_part = gtk_table_new ( 1, 1, FALSE );
-    g_signal_connect ( G_OBJECT (form_transaction_part ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &form_transaction_part );
     gtk_table_set_col_spacings ( GTK_TABLE (form_transaction_part), 6 );
     g_signal_connect ( G_OBJECT (form_transaction_part),
 		       "size-allocate",
@@ -310,8 +300,6 @@ void gsb_form_create_widgets ( void )
     /* the buttons part is a hbox, with the recuperate child split
      * on the left and valid/cancel on the right */
     form_button_part = gtk_vbox_new ( FALSE, 0 );
-    g_signal_connect ( G_OBJECT (form_button_part ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &form_button_part );
     gtk_box_pack_start ( GTK_BOX (transaction_form), form_button_part, FALSE, FALSE, 0 );
 
     /* add a separator between the transaction and button part */
@@ -327,8 +315,6 @@ void gsb_form_create_widgets ( void )
 
     /* create the check button to recover the children of splits */
     form_button_recover_split = gtk_check_button_new_with_label ( _("Recover the children"));
-    g_signal_connect ( G_OBJECT (form_button_recover_split ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &form_button_recover_split );
     gtk_box_pack_start ( GTK_BOX (hbox_buttons_inner),
 			 form_button_recover_split,
 			 FALSE, FALSE,
@@ -336,16 +322,12 @@ void gsb_form_create_widgets ( void )
 
     /* create the valid/cancel buttons */
     form_button_valid = gtk_button_new_from_stock (GTK_STOCK_OK);
-    g_signal_connect ( G_OBJECT (form_button_valid ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &form_button_valid );
     gtk_button_set_relief ( GTK_BUTTON (form_button_valid), GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT (form_button_valid), "clicked",
 		       G_CALLBACK (gsb_form_finish_edition), NULL );
     gtk_box_pack_end ( GTK_BOX (hbox_buttons_inner), form_button_valid, FALSE, FALSE, 0 );
 
     form_button_cancel = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-    g_signal_connect ( G_OBJECT (form_button_cancel ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &form_button_cancel );
     gtk_button_set_relief ( GTK_BUTTON (form_button_cancel), GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT (form_button_cancel), "clicked",
 		       G_CALLBACK (gsb_form_escape_form), NULL );

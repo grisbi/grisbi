@@ -58,6 +58,7 @@ static void affiche_solde_des_comptes ( GtkWidget *table,
                         gint currency_number,
                         gsb_real solde_global_courant,
                         gsb_real solde_global_pointe );
+static gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste );
 static gint affiche_soldes_partiels ( GtkWidget *table,
                         gint i,
                         gint nb_comptes,
@@ -79,7 +80,6 @@ static void update_liste_comptes_accueil ( gboolean force );
 static void update_liste_echeances_auto_accueil ( gboolean force );
 static void update_liste_echeances_manuelles_accueil ( gboolean force );
 static void update_soldes_minimaux ( gboolean force );
-static gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -161,16 +161,12 @@ GtkWidget *creation_onglet_accueil ( void )
 	gchar* tmpstr;
 
 	hbox_title = gtk_hbox_new ( FALSE, 0 );
-	g_signal_connect ( G_OBJECT ( hbox_title ), "destroy",
-	    			G_CALLBACK( gtk_widget_destroyed ), &hbox_title);
 
 	eb = gtk_event_box_new ();
 	style = gtk_widget_get_style ( eb );
 	gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
 
 	label_titre_fichier = gtk_label_new ( titre_fichier );
-	g_signal_connect ( G_OBJECT ( label_titre_fichier ), "destroy",
-	    			G_CALLBACK( gtk_widget_destroyed ), &label_titre_fichier );
 	tmpstr = g_strconcat ("<span size=\"x-large\">",
 					    titre_fichier, "</span>", NULL );
 	gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr);
@@ -183,8 +179,6 @@ GtkWidget *creation_onglet_accueil ( void )
         if ( ! logo_accueil )
             logo_accueil =  gtk_image_new_from_pixbuf ( 
                     gsb_select_icon_get_default_logo_pixbuf ( ) );
-	    g_signal_connect ( G_OBJECT ( logo_accueil ), "destroy",
-	    			G_CALLBACK( gtk_widget_destroyed ), &logo_accueil);
 	    gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 20 );
         gtk_widget_set_size_request ( hbox_title, -1, LOGO_HEIGHT + 20 );
 	}
@@ -206,8 +200,6 @@ GtkWidget *creation_onglet_accueil ( void )
 
     /* on crée la première frame dans laquelle on met les états des comptes */
     frame_etat_comptes_accueil = gtk_notebook_new ();
-    g_signal_connect ( G_OBJECT ( frame_etat_comptes_accueil ), "destroy",
-	    			G_CALLBACK( gtk_widget_destroyed ), &frame_etat_comptes_accueil);
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_comptes_accueil), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_comptes_accueil), FALSE );
     gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_comptes_accueil), 0 );
@@ -222,8 +214,6 @@ GtkWidget *creation_onglet_accueil ( void )
     paddingbox = new_paddingbox_with_title ( base, FALSE,
 					     _("Closed liabilities accounts") );
     frame_etat_fin_compte_passif = gtk_notebook_new ();
-    g_signal_connect ( G_OBJECT ( frame_etat_fin_compte_passif ), "destroy",
-	    			G_CALLBACK( gtk_widget_destroyed ), &frame_etat_fin_compte_passif );
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), FALSE );
     gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_fin_compte_passif, FALSE, FALSE, 0 );

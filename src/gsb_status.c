@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2005-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2005-2008 Benjamin Drieu (bdrieu@april.org)           */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -37,7 +37,6 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint max;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -74,8 +73,6 @@ static GdkWindow * tracked_window;
 GtkWidget * gsb_new_statusbar ()
 {
     main_statusbar = gtk_statusbar_new ();
-    g_signal_connect ( G_OBJECT (main_statusbar ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &main_statusbar );
     context_id = gtk_statusbar_get_context_id ( GTK_STATUSBAR (main_statusbar), "Grisbi" );
     message_id = -1;
 
@@ -126,122 +123,6 @@ void gsb_status_clear (  )
      * immediately without waiting to return to gtk_main().  */
     while ( gtk_events_pending () ) gtk_main_iteration ( );
 }
-
-
-
-/**
- * Display a progress bar in the status bar.  Does not set any value.
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-void gsb_status_show_progress ()
-{
-    if ( progress_bar )
-    {
-	return;
-    }
-
-    progress_bar = gtk_progress_bar_new();
-    g_signal_connect ( G_OBJECT (progress_bar ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &progress_bar );
-    gtk_box_pack_start ( GTK_BOX ( main_statusbar ), progress_bar, FALSE, FALSE, 6 );
-    gtk_widget_show ( progress_bar );
-}
-*/
-
-
-
-/**
- * Set value of the progress bar in status bar.  If no progress bar
- * has been shown precedently (via gsb_status_show_progress()), do
- * nothing.
- *
- * \param ratio		Fraction value to set.
- * \param max		Maximum possible value.
- * 
- * To set the progress bar to half of its size, simply use something
- * like gsb_status_set_progress ( 0.5, 1.0 ).
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-void gsb_status_set_progress ( gdouble ratio, gdouble max )
-{
-    if ( ! progress_bar )
-    {
-	return;
-    }
-
-    gtk_progress_bar_set_fraction ( GTK_PROGRESS_BAR (progress_bar), ratio / max );
-}
-*/
-
-
-
-/**
- * Remove progress bar from status bar.
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-void gsb_status_remove_progress (  )
-{
-    if ( ! progress_bar )
-    {
-	return;
-    }
-
-    gtk_widget_destroy ( progress_bar );
-    progress_bar = NULL;
-}
-*/
-
-
-
-/**
- * Increment the status bar.  This should be called as a timeout
- * function.
- *
- * \return TRUE
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-gboolean gsb_status_pulse (  )
-{
-    if ( ! progress_bar )
-    {
-	return TRUE;
-    }
-
-    gtk_progress_bar_pulse ( GTK_PROGRESS_BAR (progress_bar));
-    while ( gtk_events_pending () ) gtk_main_iteration ( );
-
-    !* As this is a timeout function, return TRUE so that it
-     * continues to get called *!
-    return TRUE;
-}
-*/
-
-
-
-/**
- * Display the progress bar and add a timeout function to update it
- * continuously.
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-void gsb_status_start_activity (  )
-{
-    gsb_status_show_progress ();
-    timer_id = g_timeout_add ( 100, gsb_status_pulse, NULL );
-}
-*/
-
-
-
-/**
- * Remove the progress bar and associated timeout.
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-void gsb_status_stop_activity (  )
-{
-    g_source_remove ( timer_id );
-    gsb_status_remove_progress ();
-}
-*/
 
 
 /**

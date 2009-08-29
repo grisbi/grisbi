@@ -237,10 +237,6 @@ GtkWidget *gsb_account_property_create_page ( void )
                         G_CALLBACK (gsb_data_account_set_name),
                         0 );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_nom_compte, TRUE, TRUE, 0);
-    g_signal_connect ( G_OBJECT (detail_nom_compte),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &detail_nom_compte );
 
     /* create the box of kind of account */
     hbox = gtk_hbox_new ( FALSE, 6 );
@@ -258,10 +254,6 @@ GtkWidget *gsb_account_property_create_page ( void )
                         GINT_TO_POINTER (PROPERTY_KIND),
                         G_CALLBACK (gsb_data_account_set_kind),
                         0 );
-    g_signal_connect ( G_OBJECT (detail_type_compte),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &detail_type_compte );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_type_compte, TRUE, TRUE, 0);
 
     /* create the currency line */
@@ -279,10 +271,6 @@ GtkWidget *gsb_account_property_create_page ( void )
                         GINT_TO_POINTER (PROPERTY_CURRENCY),
                         NULL,
                         0 );
-    g_signal_connect ( G_OBJECT (detail_devise_compte ),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &detail_devise_compte );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_devise_compte, TRUE, TRUE, 0);
 
     /* create closed account line */
@@ -292,17 +280,9 @@ GtkWidget *gsb_account_property_create_page ( void )
                         GINT_TO_POINTER (PROPERTY_CLOSED_ACCOUNT),
                         G_CALLBACK (gsb_data_account_set_closed_account),
                         0 );
-    g_signal_connect ( G_OBJECT (detail_compte_cloture ),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &detail_compte_cloture );
     gtk_box_pack_start ( GTK_BOX(paddingbox), detail_compte_cloture, FALSE, FALSE, 0 );
 
     /* set the callback for the button_icon */
-    g_signal_connect ( G_OBJECT (bouton_icon ),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &bouton_icon );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NONE );
 
     g_signal_connect ( G_OBJECT( bouton_icon ),
@@ -325,10 +305,6 @@ GtkWidget *gsb_account_property_create_page ( void )
                         NULL,
                         G_CALLBACK (gsb_data_account_set_holder_name),
                         0);
-    g_signal_connect ( G_OBJECT (detail_titulaire_compte ),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &detail_titulaire_compte );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_titulaire_compte, TRUE, TRUE, 0);
 
     /* address of the holder line */
@@ -354,10 +330,6 @@ GtkWidget *gsb_account_property_create_page ( void )
                         0 );
     gtk_button_set_alignment ( GTK_BUTTON (button_holder_address), 0.0, 0.0 );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), button_holder_address );
-    g_signal_connect ( G_OBJECT (button_holder_address),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &button_holder_address );
     gtk_box_pack_start ( GTK_BOX(vbox2), button_holder_address, FALSE, FALSE, 0);
 
     /* if un-select the holder's button address, we need to erase the tree_view,
@@ -377,10 +349,6 @@ GtkWidget *gsb_account_property_create_page ( void )
 
 
     /* text view created before */
-    g_signal_connect ( G_OBJECT (detail_adresse_titulaire ),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &detail_adresse_titulaire );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window_text ), detail_adresse_titulaire );
     gtk_widget_set_sensitive (detail_adresse_titulaire, FALSE);
 
@@ -404,17 +372,9 @@ GtkWidget *gsb_account_property_create_page ( void )
                         "changed",
                         G_CALLBACK (gsb_account_property_changed_bank_label),
                         NULL );
-    g_signal_connect ( G_OBJECT (bank_list_combobox ),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &bank_list_combobox );
     gtk_box_pack_start ( GTK_BOX(hbox), bank_list_combobox, TRUE, TRUE, 0);
 
     edit_bank_button = gtk_button_new_from_stock ( GTK_STOCK_EDIT );
-    g_signal_connect ( G_OBJECT (edit_bank_button ),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &edit_bank_button );
     gtk_button_set_relief ( GTK_BUTTON ( edit_bank_button ), GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT ( edit_bank_button ),
                         "clicked",
@@ -432,10 +392,6 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     label_code_bic = gtk_label_new ( NULL );
-    g_signal_connect ( G_OBJECT (label_code_bic ),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &label_code_bic );
     gtk_misc_set_alignment ( GTK_MISC(label_code_bic), MISC_LEFT, MISC_VERT_CENTER );
     gtk_label_set_justify ( GTK_LABEL(label_code_bic), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX(hbox), label_code_bic, TRUE, TRUE, 0 );
@@ -465,8 +421,6 @@ GtkWidget *gsb_account_property_create_page ( void )
     g_signal_connect ( G_OBJECT ( detail_IBAN ), "focus-out-event",
                         G_CALLBACK ( gsb_account_property_iban_focus_out_event ),
                         NULL );
-    g_signal_connect ( G_OBJECT (detail_IBAN ), "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed), &detail_IBAN );
 
     gtk_widget_set_size_request ( detail_IBAN, 350, -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_IBAN, FALSE, FALSE, 0 );
@@ -481,10 +435,6 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     label_code_banque = gtk_label_new ( NULL );
-    g_signal_connect ( G_OBJECT (label_code_banque ),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &label_code_banque );
     gtk_misc_set_alignment ( GTK_MISC(label_code_banque), MISC_LEFT, MISC_VERT_CENTER );
     gtk_label_set_justify ( GTK_LABEL(label_code_banque), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX(hbox), label_code_banque, TRUE, TRUE, 0 );
@@ -503,17 +453,9 @@ GtkWidget *gsb_account_property_create_page ( void )
                         NULL,
                         G_CALLBACK (gsb_data_account_set_bank_branch_code),
                         0);
-    g_signal_connect ( G_OBJECT (detail_guichet ),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &detail_guichet );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_guichet, TRUE, TRUE, 0);
 
     label_guichet = gtk_label_new ( NULL );
-    g_signal_connect ( G_OBJECT (label_guichet ),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &label_guichet );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX(hbox), label_guichet, FALSE, FALSE, 0 );
@@ -532,17 +474,9 @@ GtkWidget *gsb_account_property_create_page ( void )
                         NULL,
                         G_CALLBACK (gsb_data_account_set_bank_account_number),
                         0 );
-    g_signal_connect ( G_OBJECT (detail_no_compte ),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &detail_no_compte );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_no_compte, TRUE, TRUE, 0 );
 
     label_no_compte = gtk_label_new ( NULL );
-    g_signal_connect ( G_OBJECT (label_no_compte ),
-                        "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed),
-                        &label_no_compte );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX(hbox), label_no_compte, FALSE, FALSE, 0 );
@@ -552,14 +486,10 @@ GtkWidget *gsb_account_property_create_page ( void )
                         NULL,
                         G_CALLBACK (gsb_data_account_set_bank_account_key),
                         0);
-    g_signal_connect ( G_OBJECT (detail_cle_compte ), "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed), &detail_cle_compte );
     gtk_widget_set_size_request ( detail_cle_compte, 30, -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_cle_compte, FALSE, FALSE, 0 );
 
     label_cle_compte = gtk_label_new ( NULL );
-    g_signal_connect ( G_OBJECT (label_cle_compte ), "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed), &label_cle_compte );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX(hbox), label_cle_compte, FALSE, FALSE, 0 );
@@ -580,8 +510,6 @@ GtkWidget *gsb_account_property_create_page ( void )
                         G_CALLBACK (gsb_account_property_changed), 
                         GINT_TO_POINTER (PROPERTY_INIT_BALANCE),
                         G_CALLBACK (gsb_data_account_set_init_balance), 0);
-    g_signal_connect ( G_OBJECT (detail_solde_init ), "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed), &detail_solde_init );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_solde_init, TRUE, TRUE, 0 );
 
 
@@ -599,8 +527,6 @@ GtkWidget *gsb_account_property_create_page ( void )
                         GINT_TO_POINTER (PROPERTY_WANTED_BALANCE),
                         G_CALLBACK (gsb_data_account_set_mini_balance_authorized),
                         0);
-    g_signal_connect ( G_OBJECT (detail_solde_mini_autorise ), "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed), &detail_solde_mini_autorise );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_solde_mini_autorise, TRUE, TRUE, 0 );
 
 
@@ -616,8 +542,6 @@ GtkWidget *gsb_account_property_create_page ( void )
     detail_solde_mini_voulu = gsb_autofunc_real_new (null_real,
                         G_CALLBACK (gsb_account_property_changed), GINT_TO_POINTER (PROPERTY_WANTED_BALANCE),
                         G_CALLBACK (gsb_data_account_set_mini_balance_wanted), 0);
-    g_signal_connect ( G_OBJECT (detail_solde_mini_voulu ), "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed), &detail_solde_mini_voulu );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_solde_mini_voulu, TRUE, TRUE, 0 );
 
     /* comments line */
@@ -635,8 +559,6 @@ GtkWidget *gsb_account_property_create_page ( void )
                         NULL,
                         G_CALLBACK (gsb_data_account_set_comment),
                         0);
-    g_signal_connect ( G_OBJECT (detail_commentaire ), "destroy",
-                        G_CALLBACK ( gtk_widget_destroyed), &detail_commentaire );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window_text ), detail_commentaire );
 
     gtk_widget_show_all ( onglet );

@@ -81,7 +81,6 @@ static GtkWidget * headings_title = NULL;
 static GtkWidget * headings_suffix = NULL;
 
 
-
 /**
  * Create the main widget that holds all the user interface save the
  * menus.
@@ -96,12 +95,8 @@ GtkWidget * create_main_widget ( void )
     /* All stuff will be put in a huge vbox, with an hbox containing
      * quick summary. */
     main_vbox = gtk_vbox_new ( FALSE, 0 );
-    g_signal_connect ( G_OBJECT (main_vbox ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &main_vbox );
 
     headings_eb = gtk_event_box_new ();
-    g_signal_connect ( G_OBJECT (headings_eb ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &headings_eb );
     style = gtk_widget_get_style ( headings_eb );
 
     hbox = gtk_hbox_new ( FALSE, 0 );
@@ -127,14 +122,10 @@ GtkWidget * create_main_widget ( void )
 
     /* Define labels. */
     headings_title = gtk_label_new ( NULL );
-    g_signal_connect ( G_OBJECT (headings_title ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &headings_title );
     gtk_label_set_justify ( GTK_LABEL(headings_title), GTK_JUSTIFY_LEFT );
     gtk_misc_set_alignment (GTK_MISC (headings_title), 0.0, 0.5);
     gtk_box_pack_start ( GTK_BOX(hbox), headings_title, TRUE, TRUE, 3 );
     headings_suffix = gtk_label_new (NULL);
-    g_signal_connect ( G_OBJECT (headings_suffix ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &headings_suffix );
     gtk_box_pack_start ( GTK_BOX(hbox), headings_suffix, FALSE, FALSE, 0 );
 
     /* Change color with an event box trick. */
@@ -147,8 +138,6 @@ GtkWidget * create_main_widget ( void )
 
     /* Then create and fill the main hpaned. */
     main_hpaned = gtk_hpaned_new ();
-    g_signal_connect ( G_OBJECT ( main_hpaned ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &main_hpaned );
     g_signal_connect ( G_OBJECT ( main_hpaned ),
 		       "size_allocate",
 		       G_CALLBACK ( gsb_gui_hpaned_size_allocate ),
@@ -202,8 +191,6 @@ GtkWidget *create_main_notebook (void )
 
     /* append the notebook */
     notebook_general = gtk_notebook_new();
-    g_signal_connect ( G_OBJECT (notebook_general ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &notebook_general );
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(notebook_general), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(notebook_general), FALSE );
     gtk_box_pack_start ( GTK_BOX (vbox),
@@ -247,8 +234,6 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     /* append the account page : a notebook with the account configuration
      * and the transactions page */
     account_page = gtk_notebook_new ();
-    g_signal_connect ( G_OBJECT (account_page ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &account_page );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(account_page), FALSE );
     gtk_widget_show ( account_page );
 

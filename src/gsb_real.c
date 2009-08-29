@@ -53,6 +53,7 @@ typedef struct _lldiv_t
 	long long 	quot;
 	long long 	rem;
 } lldiv_t;
+
 lldiv_t lldiv(long long numerator, long long denominator)
 {
 	//TODO find a standard/efficient impl for this

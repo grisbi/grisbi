@@ -8,10 +8,6 @@
 /*                      http://www.grisbi.org                                    */
 /*      Version : 0.6.0                                                          */
 /*                                                                               */
-/* *******************************************************************************/
-
-/* *******************************************************************************/
-/*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
 /*     the Free Software Foundation; either version 2 of the License, or         */
@@ -53,8 +49,8 @@
 #include "./parse_cmdline.h"
 #include "./gsb_file_config.h"
 #include "./include.h"
-#include "./erreur.h"
 #include "./structures.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 

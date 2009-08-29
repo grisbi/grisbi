@@ -102,7 +102,7 @@ GtkResponseType gsb_assistant_first_run ( void )
 
     /* now we launch the assistant */
     return_value = gsb_assistant_run (assistant);
-    gtk_widget_hide (assistant);
+    gtk_widget_destroy (assistant);
 
     if (return_value == GTK_RESPONSE_CANCEL)
     {
@@ -248,8 +248,6 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     /* crypt the grisbi file */
     button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
 					   &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-    g_signal_connect ( G_OBJECT (button ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
@@ -318,12 +316,8 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
     GtkWidget *page;
     GtkWidget *vbox;
     GtkWidget *label;
-    //~ GtkWidget *entry;
-    //~ GtkWidget *button;
     GtkWidget *paddingbox;
-    //~ GtkWidget *table;
     GtkSizeGroup *size_group;
-    //~ gchar *text;
     GtkWidget *hbox;
     GtkWidget *image;
 

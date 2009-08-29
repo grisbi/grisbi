@@ -47,6 +47,7 @@
 #include "./gsb_data_account.h"
 #include "./navigation.h"
 #include "./gsb_data_transaction.h"
+#include "./structures.h"
 #include "./erreur.h"
 #include "./gsb_real.h"
 #include "./print_config.h"

@@ -241,11 +241,6 @@ gboolean preferences ( gint page )
     gtk_window_set_position ( GTK_WINDOW ( fenetre_preferences ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( fenetre_preferences ), TRUE );
 
-    g_signal_connect ( G_OBJECT (fenetre_preferences ),
-                        "destroy",
-                        G_CALLBACK (gtk_widget_destroyed),
-                        &fenetre_preferences );
-
     /* Create List & Tree for topics */
     tree = create_preferences_tree();
     hpaned = gtk_hpaned_new();

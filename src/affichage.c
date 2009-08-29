@@ -53,8 +53,6 @@
 /*START_STATIC*/
 static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
                         GtkWidget *vbox );
-static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
-                        GtkWidget *hbox );
 static gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry );
 static void change_logo_accueil ( GtkWidget * file_selector );
 static gboolean change_toolbar_display_mode ( GtkRadioButton *button );
@@ -149,12 +147,8 @@ GtkWidget * onglet_display_fonts ( void )
 
     /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */
     gtk_widget_set_sensitive ( hbox, etat.utilise_logo );
-    g_signal_connect ( G_OBJECT ( check_button ), "toggled",
-		       G_CALLBACK ( change_choix_utilise_logo ), hbox );
 
     logo_button = gtk_button_new ();
-    g_signal_connect ( G_OBJECT (logo_button ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &logo_button );
     gtk_button_set_relief ( GTK_BUTTON ( logo_button ), GTK_RELIEF_NONE );
 
 	pixbuf = gsb_select_icon_get_logo_pixbuf ( );
@@ -181,8 +175,6 @@ GtkWidget * onglet_display_fonts ( void )
         }
         preview = gtk_image_new_from_pixbuf (pixbuf);
     }
-    g_signal_connect ( G_OBJECT (preview ), "destroy",
-			G_CALLBACK ( gtk_widget_destroyed), &preview );
 
     gtk_container_add (GTK_CONTAINER(logo_button), preview);
     g_signal_connect_swapped ( G_OBJECT ( logo_button ), "clicked",
@@ -271,7 +263,7 @@ GtkWidget * onglet_display_fonts ( void )
 
 
 /* ********************************************************************** */
-gboolean change_choix_utilise_logo ( GtkWidget *check_button,
+/*gboolean change_choix_utilise_logo ( GtkWidget *check_button,
                         GtkWidget *hbox )
 {
 
@@ -281,13 +273,13 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 
     if ( etat.utilise_logo )
     {
-        /* 	on recharge l'ancien logo */
+        /! 	on recharge l'ancien logo !/
 
         if ( GTK_IS_WIDGET ( logo_accueil ) )
             gtk_widget_hide ( logo_accueil );
         else
         {
-            /* Update homepage logo */
+            /! Update homepage logo !/
             logo_accueil =  gtk_image_new_from_pixbuf ( 
                             gsb_select_icon_get_logo_pixbuf ( ) );
             gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
@@ -302,7 +294,7 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
         modification_fichier ( TRUE );
 
     return ( FALSE );
-}
+}*/
 /* ********************************************************************** */
 
 

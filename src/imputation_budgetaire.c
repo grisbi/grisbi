@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/*			http://www.grisbi.org   			      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -106,8 +106,6 @@ GtkWidget *onglet_imputations ( void )
 
     /* We create the gtktreeview and model early so that they can be referenced. */
     budgetary_line_tree = gtk_tree_view_new();
-    g_signal_connect ( G_OBJECT (budgetary_line_tree ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &budgetary_line_tree );
     budgetary_line_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS,
 						     META_TREE_COLUMN_TYPES );
 

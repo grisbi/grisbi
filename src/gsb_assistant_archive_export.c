@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -183,8 +183,6 @@ static GtkWidget *gsb_assistant_archive_export_page_choose ( GtkWidget *assistan
 					G_TYPE_STRING,
 					G_TYPE_INT );
     archive_export_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (archive_model) );
-    g_signal_connect ( G_OBJECT (archive_export_treeview ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &archive_export_treeview );
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (archive_export_treeview), TRUE);
     gtk_container_add ( GTK_CONTAINER (scrolled_window),
 			archive_export_treeview );
@@ -289,8 +287,6 @@ static GtkWidget *gsb_assistant_archive_export_page_name ( GtkWidget *assistant 
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     archive_export_label = gtk_label_new ( NULL );
-    g_signal_connect ( G_OBJECT (archive_export_label ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &archive_export_label );
     gtk_misc_set_alignment ( GTK_MISC ( archive_export_label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( archive_export_label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), archive_export_label, FALSE, FALSE, 0 );
@@ -303,16 +299,12 @@ static GtkWidget *gsb_assistant_archive_export_page_name ( GtkWidget *assistant 
 
     /* Combo box */
     archive_export_combobox = gtk_combo_box_new_text();
-    g_signal_connect ( G_OBJECT (archive_export_combobox ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &archive_export_combobox );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(archive_export_combobox), _("Grisbi (GSB) format" ) );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(archive_export_combobox), _("QIF format" ) );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(archive_export_combobox), _("CSV format" ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), archive_export_combobox, TRUE, TRUE, 0 );
 
     archive_export_filechooser = gtk_file_chooser_widget_new ( GTK_FILE_CHOOSER_ACTION_SAVE );
-    g_signal_connect ( G_OBJECT (archive_export_filechooser ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &archive_export_filechooser );
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER(archive_export_filechooser), hbox );
     gtk_box_pack_start ( GTK_BOX ( vbox ), archive_export_filechooser, TRUE, TRUE, 0 );
 
@@ -338,8 +330,6 @@ static GtkWidget *gsb_assistant_archive_export_page_succes ( GtkWidget *assistan
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     archive_export_label_success = gtk_label_new ( NULL );
-    g_signal_connect ( G_OBJECT (archive_export_label_success ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &archive_export_label_success );
     gtk_misc_set_alignment ( GTK_MISC (archive_export_label_success), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL (archive_export_label_success), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), archive_export_label_success, FALSE, FALSE, 0 );

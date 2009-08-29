@@ -168,8 +168,6 @@ GtkWidget *onglet_tiers ( void )
 
     /* We create the gtktreeview and model early so that they can be referenced. */
     payee_tree = gtk_tree_view_new();
-    g_signal_connect ( G_OBJECT (payee_tree ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &payee_tree );
     payee_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, META_TREE_COLUMN_TYPES );
 
     /* on y ajoute la barre d'outils */

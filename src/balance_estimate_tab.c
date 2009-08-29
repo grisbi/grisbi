@@ -1,21 +1,24 @@
-/*     Copyright (C) 2007 Dominique Parisot
- * 			zionly@free.org
- * 			http://www.grisbi.org
- *
- *     This program is free software; you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation; either version 2 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with this program; if not, write to the Free Software
- *     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
+/* ************************************************************************** */
+/*                                                                            */
+/*     Copyright (C) 2007 Dominique Parisot                                   */
+/*          zionly@free.org                                                   */
+/*          http://www.grisbi.org                                             */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 /* Ajout du 18/12/2008 Pierre Biava option de compilation :
  * ./configure --with-balance-estimate */
@@ -150,8 +153,6 @@ GtkWidget *bet_create_balance_estimate_tab(void)
     GtkWidget* notebook = gtk_notebook_new();
     gtk_widget_show(notebook);
     bet_container = notebook;
-    g_signal_connect ( G_OBJECT (bet_container ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &bet_container );
 
     /****** Parameter page ******/
     GtkWidget *widget = gtk_label_new(_("Estimate parameters"));

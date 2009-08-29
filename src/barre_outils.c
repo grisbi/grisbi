@@ -459,10 +459,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 							    _("Delete"),
 							    G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
 							    NULL );
-    g_signal_connect ( G_OBJECT (scheduler_button_delete ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &scheduler_button_delete );
-    gtk_widget_set_sensitive ( scheduler_button_delete,
-			       FALSE );
+    gtk_widget_set_sensitive ( scheduler_button_delete, FALSE );
 #if GTK_CHECK_VERSION(2,12,0)
     gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_delete),
 				  SPACIFY(_("Delete selected scheduled transaction")));
@@ -474,10 +471,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 							  _("Edit"),
 							  G_CALLBACK ( gsb_scheduler_list_edit_transaction ),
 							  0 );
-    g_signal_connect ( G_OBJECT (scheduler_button_edit ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &scheduler_button_edit );
-    gtk_widget_set_sensitive ( scheduler_button_edit,
-			       FALSE );
+    gtk_widget_set_sensitive ( scheduler_button_edit, FALSE );
 #if GTK_CHECK_VERSION(2,12,0)
     gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_edit),
 				SPACIFY(_("Edit selected transaction")));
@@ -490,8 +484,6 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 									"comments.png",
 									G_CALLBACK ( gsb_scheduler_list_show_notes ),
 									0 );
-    g_signal_connect ( G_OBJECT (scheduler_display_hide_comments ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &scheduler_display_hide_comments );
 #if GTK_CHECK_VERSION(2,12,0)
     gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_display_hide_comments),
 				  SPACIFY(_("Display scheduled transactions comments")));
@@ -505,10 +497,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 							     _("Execute"),
 							     G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
 							     NULL ); 
-    g_signal_connect ( G_OBJECT (scheduler_button_execute ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &scheduler_button_execute );
-    gtk_widget_set_sensitive ( scheduler_button_execute,
-			       FALSE );
+    gtk_widget_set_sensitive ( scheduler_button_execute, FALSE );
 #if GTK_CHECK_VERSION(2,12,0)
     gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_execute),
 				  SPACIFY(_("Execute current scheduled transaction")));

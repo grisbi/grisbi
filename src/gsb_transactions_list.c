@@ -255,15 +255,11 @@ GtkWidget *creation_fenetre_operations ( void )
 
     /* création de la barre d'outils */
     barre_outils = gtk_handle_box_new ();
-    g_signal_connect ( G_OBJECT (barre_outils ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &barre_outils );
     gsb_gui_update_transaction_toolbar ();
     gtk_box_pack_start ( GTK_BOX ( win_operations ), barre_outils, FALSE, FALSE, 0);
 
     /* tree_view_vbox will contain the tree_view, we will see later to set it directly */
     tree_view_vbox = gtk_vbox_new ( FALSE, 0 );
-    g_signal_connect ( G_OBJECT (tree_view_vbox ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &tree_view_vbox );
 
 
     gtk_box_pack_start ( GTK_BOX ( win_operations ),

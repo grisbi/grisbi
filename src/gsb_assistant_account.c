@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -254,8 +254,6 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 
     /* create the currency combobox */
     account_combobox_currency = gsb_currency_make_combobox (TRUE);
-    g_signal_connect ( G_OBJECT (account_combobox_currency ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &account_combobox_currency );
     gtk_table_attach ( GTK_TABLE ( table ), account_combobox_currency, 
 		       1, 2, 0, 1,
 		       GTK_SHRINK | GTK_FILL,
@@ -284,8 +282,6 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 		       0, 0 );
     
     account_combobox_bank = gsb_bank_create_combobox (0, NULL, NULL, NULL, 0);
-    g_signal_connect ( G_OBJECT (account_combobox_bank ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &account_combobox_bank );
 
     if ( gsb_data_bank_max_number() != 0 )
     {
@@ -311,8 +307,6 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 		       0, 0 );
     
     account_entry_initial_amount = gtk_entry_new ();
-    g_signal_connect ( G_OBJECT (account_entry_initial_amount ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &account_entry_initial_amount );
     gtk_table_attach ( GTK_TABLE ( table ), account_entry_initial_amount, 
 		       1, 2, 2, 3,
 		       GTK_SHRINK | GTK_FILL,
@@ -394,8 +388,6 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
 
     account_entry_name = gtk_entry_new ();
     g_object_set_data ( G_OBJECT (assistant), "account_entry_name", account_entry_name );
-    g_signal_connect ( G_OBJECT (account_entry_name ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &account_entry_name );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 account_entry_name,
 			 FALSE, FALSE, 0 );
