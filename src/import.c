@@ -39,6 +39,7 @@
 #include "./utils_buttons.h"
 #include "./gsb_combo_box.h"
 #include "./gsb_currency.h"
+#include "gsb_currency_config.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_category.h"
 #include "./gsb_data_currency.h"
@@ -93,6 +94,7 @@ static gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *rendere
 static void confirmation_enregistrement_ope_import ( struct struct_compte_importation *imported_account );
 static void cree_liens_virements_ope_import ( void );
 static GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte );
+static gint gsb_import_add_currency ( struct struct_compte_importation * compte );
 static void gsb_import_add_imported_transactions ( struct struct_compte_importation *imported_account,
                         gint account_number );
 static void gsb_import_associations_add_assoc ( GtkWidget *button, GtkWidget *main_widget );
@@ -142,6 +144,9 @@ static void traitement_operations_importees ( void );
 extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
+extern gint no_devise_totaux_categ;
+extern gint no_devise_totaux_ib;
+extern gint no_devise_totaux_tiers;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -190,7 +195,7 @@ GSList *liste_comptes_importes;
 GSList *liste_comptes_importes_error;
 static gint virements_a_chercher;
 
-gchar   * charmap_imported;
+gchar   *charmap_imported;
 
 /* gestion des associations entre un tiers et sa chaine de recherche */
 GSList *liste_associations_tiers = NULL;
@@ -331,7 +336,7 @@ void importer_fichier ( void )
  *
  *
  */
-GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
+GtkWidget *import_create_file_selection_page ( GtkWidget * assistant )
 {
     GtkWidget * vbox, * paddingbox, * chooser, * tree_view, * sw;
     GtkTreeViewColumn *column;
@@ -756,7 +761,7 @@ GSList *gsb_import_create_file_chooser (const char *enc)
  *
  *
  */
-GtkWidget * import_create_resume_page ( GtkWidget * assistant )
+GtkWidget *import_create_resume_page ( GtkWidget * assistant )
 {
     GtkWidget * view;
     GtkTextBuffer * buffer;
@@ -921,12 +926,11 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 }
 
 
-
 /**
  *
  *
  */
-GtkWidget * import_create_final_page ( GtkWidget * assistant )
+GtkWidget *import_create_final_page ( GtkWidget * assistant )
 {
     GtkWidget * view;
     GtkTextBuffer * buffer;
@@ -960,13 +964,12 @@ GtkWidget * import_create_final_page ( GtkWidget * assistant )
 }
 
 
-
 /**
  *
  *
  *
  */
-GSList * import_selected_files ( GtkWidget * assistant )
+GSList *import_selected_files ( GtkWidget * assistant )
 {
     GSList * list = NULL;
     GtkTreeModel * model;
@@ -999,7 +1002,6 @@ GSList * import_selected_files ( GtkWidget * assistant )
 
     return list;
 }
-
 
 
 /**
@@ -1053,7 +1055,7 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
  *
  *
  */
-GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte )
+GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte )
 {
     GtkWidget * vbox, * hbox, * label, * radio, * radiogroup;
     GtkWidget * alignement;
@@ -1061,7 +1063,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     gint size = 0, spacing = 0;
     gint account_number;
     GtkWidget *button;
-	gchar* tmpstr;
+    gchar* tmpstr;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -1130,12 +1132,10 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
                         GSB_TYPE_BANK );
     }
 
-
     g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox1 );
     g_object_set_data ( G_OBJECT ( radio ), "account", compte );
     g_signal_connect ( G_OBJECT ( radio ), "toggled",
                         G_CALLBACK ( import_account_action_activated ), IMPORT_CREATE_ACCOUNT );
-
 
     /* Add to account */
     radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ),
@@ -1211,37 +1211,23 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     /* create the currency if doesn't exist */
     if ( compte -> devise )
     {
-    gint currency_number;
+        gint currency_number;
 
-    /* First, we search currency from ISO4217 code for existing currencies */
-    currency_number = gsb_data_currency_get_number_by_code_iso4217 ( compte -> devise );
-    /* Then, by nickname for existing currencies */
-    if ( !currency_number )
-        currency_number = gsb_data_currency_get_number_by_name ( compte -> devise );
+        /* First, we search currency from ISO4217 code for existing currencies */
+        currency_number = gsb_data_currency_get_number_by_code_iso4217 ( compte -> devise );
+        /* Then, by nickname for existing currencies */
+        if ( !currency_number )
+        {
+            currency_number = gsb_import_add_currency ( compte );
+            if ( currency_number == 0 )
+                currency_number = gsb_data_currency_get_number_by_name ( compte -> devise );
+        }
 
-    if (currency_number)
-        gsb_currency_set_combobox_history ( compte -> bouton_devise,
-                        currency_number);
-    else
-    {
-        /* la devise avait un nom mais n'a pas été retrouvée; 2 possibilités :
-         *      - soit elle n'est pas cree (l'utilisateur
-         *           la créera une fois la fenetre affichée)
-         *      - soit elle est créé mais pas avec le bon code */
-        gchar* tmpstr1 = g_strdup_printf ( 
-                        _( "Currency of imported account '%s' is %s.  Either this currency "
-                          "doesn't exist so you have to create it in next window, or this "
-                          "currency already exists but the ISO code is wrong.\nTo avoid this "
-                          "message, please set its ISO code in configuration."),
-                        compte -> nom_de_compte,
-                        compte -> devise );
-        gchar* tmpstr2 = g_strdup_printf ( 
-                        _("Can't associate ISO 4217 code for currency '%s'."),
-                        compte -> devise );
-        dialogue_warning_hint ( tmpstr1, tmpstr2);
-        g_free ( tmpstr1 );
-        g_free ( tmpstr2 );
-    }
+        if ( currency_number )
+            gsb_currency_set_combobox_history ( compte -> bouton_devise,
+                        currency_number );
+        else
+            currency_number = gsb_import_add_currency ( compte );
     }
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), compte -> bouton_devise, FALSE, FALSE, 0 );
@@ -1272,6 +1258,73 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     return vbox;
 }
 
+
+/**
+ *
+ *
+ *
+ */
+gint gsb_import_add_currency ( struct struct_compte_importation * compte )
+{
+    GtkWidget *vbox, *checkbox, *dialog;
+    gint response;
+    gchar *tmpstr;
+    gchar *tmpstr2;
+    gchar *text;
+    gint currency_number = 0;
+
+    tmpstr = g_strdup_printf ( 
+                        _("The account currency imported %s is %s.\nThis currency "
+                        "doesn't exist so you have to create it by selecting OK.\n"
+                        "\n"
+                        "Do you create it ?"),
+                        compte -> nom_de_compte,
+                        compte -> devise );
+    tmpstr2 = g_strdup_printf ( 
+                        _("Can't associate ISO 4217 code for currency '%s'."),
+                        compte -> devise );
+    text = make_hint ( tmpstr2, tmpstr );
+    g_free ( tmpstr );
+    g_free ( tmpstr2 );
+
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( window ),
+                        GTK_DIALOG_DESTROY_WITH_PARENT,
+                        GTK_MESSAGE_QUESTION,
+                        GTK_BUTTONS_YES_NO,
+                        text );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG ( dialog ) ->label ), text );
+
+    vbox = GTK_DIALOG(dialog) -> vbox;
+
+    checkbox = gtk_check_button_new_with_label ( 
+                        _("Use this currency for totals for the payees categories\n"
+                        "and budgetary lines") );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
+
+    gtk_widget_show_all ( checkbox );
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+
+    response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+    if ( response == GTK_RESPONSE_YES
+     &&
+     gsb_currency_config_add_currency ( NULL, NULL ) )
+    {
+        currency_number = gsb_data_currency_get_number_by_code_iso4217 (
+                        compte -> devise );
+        if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( checkbox ) ) )
+        {
+            no_devise_totaux_tiers = currency_number;
+            no_devise_totaux_categ = currency_number;
+            no_devise_totaux_ib = currency_number;
+        }
+    }
+    gtk_widget_destroy ( dialog );
+
+    return currency_number;
+}
+
+
 /**
  *
  *
@@ -1296,7 +1349,6 @@ gboolean import_account_action_activated ( GtkWidget * radio, gint action )
         gtk_widget_set_sensitive ( account -> hbox_rule, action != IMPORT_CREATE_ACCOUNT );
     return FALSE;
 }
-
 
 
 /**
