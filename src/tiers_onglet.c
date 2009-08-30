@@ -31,9 +31,6 @@
 #include "include.h"
 #include "dialog.h"
 
-
-
-
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
 #include "./dialog.h"
@@ -326,14 +323,6 @@ GtkWidget *creation_barre_outils_tiers ( void )
 				  SPACIFY(_("Edit selected payee")));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
-					   GTK_STOCK_DELETE, _("Remove unused payees"),
-					   G_CALLBACK(payee_remove_unused),
-					   NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  SPACIFY(_("Remove orphan payees")));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
-
     button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 						GTK_STOCK_SELECT_COLOR,
 						_("View"),
@@ -349,6 +338,14 @@ GtkWidget *creation_barre_outils_tiers ( void )
 						NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  SPACIFY(_("Manage the payees")));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_DELETE, _("Remove unused payees"),
+					   G_CALLBACK(payee_remove_unused),
+					   NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  SPACIFY(_("Remove orphan payees")));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     gtk_widget_show_all ( handlebox );
@@ -477,15 +474,18 @@ void payee_fill_tree ( void )
 
     while ( payee_list_tmp )
     {
-	gint payee_number;
+        gint payee_number;
 
-	payee_number = gsb_data_payee_get_no_payee (payee_list_tmp -> data);
+        payee_number = gsb_data_payee_get_no_payee (payee_list_tmp -> data);
 
-	gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
-	fill_division_row ( GTK_TREE_MODEL(payee_tree_model), payee_interface,
-			    &iter_payee, payee_number );
-
-	payee_list_tmp = payee_list_tmp -> next;
+        /* no display the payee without transactions (archived) */
+        if ( gsb_data_payee_get_nb_transactions ( payee_number ) )
+        {
+            gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
+            fill_division_row ( GTK_TREE_MODEL(payee_tree_model), payee_interface,
+                        &iter_payee, payee_number );
+        }
+        payee_list_tmp = payee_list_tmp -> next;
     }
 
     /* Reattach the model */

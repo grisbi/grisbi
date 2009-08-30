@@ -133,7 +133,7 @@ GtkResponseType gsb_assistant_archive_run ( gboolean origin )
 				     "You can still export them into a separate archive file if necessary.\n\n" 
 				     "Press Cancel if you don't want make an archive now\n"),
 				   g_slist_length (gsb_data_transaction_get_transactions_list ()),
-				   etat.max_non_archived_transactions_for_check );
+				   conf.max_non_archived_transactions_for_check );
     else
 	/* come by menu action */
 	tmpstr = my_strdup (_("This assistant will guide you through the process of archiving transactions "

@@ -38,8 +38,8 @@
 #include "./gsb_automem.h"
 #include "./utils_buttons.h"
 #include "./gsb_combo_box.h"
+#include "./gsb_currency_config.h"
 #include "./gsb_currency.h"
-#include "gsb_currency_config.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_category.h"
 #include "./gsb_data_currency.h"
@@ -93,7 +93,7 @@ static gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *rendere
                         GtkTreeModel *store );
 static void confirmation_enregistrement_ope_import ( struct struct_compte_importation *imported_account );
 static void cree_liens_virements_ope_import ( void );
-static GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte );
+static GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte );
 static gint gsb_import_add_currency ( struct struct_compte_importation * compte );
 static void gsb_import_add_imported_transactions ( struct struct_compte_importation *imported_account,
                         gint account_number );
@@ -127,9 +127,9 @@ static gboolean gsb_import_set_tmp_file ( gchar * filename,
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
 static gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
                         gpointer model );
-static GtkWidget * import_create_file_selection_page ( GtkWidget * assistant );
-static GtkWidget * import_create_final_page ( GtkWidget * assistant );
-static GtkWidget * import_create_resume_page ( GtkWidget * assistant );
+static GtkWidget *import_create_file_selection_page ( GtkWidget * assistant );
+static GtkWidget *import_create_final_page ( GtkWidget * assistant );
+static GtkWidget *import_create_resume_page ( GtkWidget * assistant );
 static gboolean import_enter_file_selection_page ( GtkWidget * assistant );
 static gboolean import_enter_resume_page ( GtkWidget * assistant );
 static void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel * model );

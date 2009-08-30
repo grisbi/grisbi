@@ -67,10 +67,6 @@ struct {
     gint compress_file;     /* TRUE if we want to compress the grisbi file */
     gint compress_backup;   /* TRUE if we want to compress the backup */
 
-    /* archive stuff */
-    gint check_for_archival; /* TRUE if we want to check the number of non archived transactions at the opening */
-    gint max_non_archived_transactions_for_check; /* the max number of transaction before grisbi warm at the opening */
-
     gint formulaire_distinct_par_compte;  /* à 1 si le formulaire est différent pour chaque compte */
     gint affiche_nb_ecritures_listes;
     gint largeur_auto_colonnes;
@@ -139,7 +135,8 @@ struct {
                             * preview. */
 
     /* variables pour les metatree */
-    gint metatree_sort_transactions;
+    gint metatree_sort_transactions;        /* TRUE = sort transactions by date */
+    gint add_archive_in_total_balance;      /* Add transactions archived in the totals */
 } etat;
 
 struct {
@@ -153,6 +150,10 @@ struct {
 
     /* general part */
     gint r_modifiable;                              /* Changes in reconciled transactions */
+
+    /* archive stuff */
+    gint check_for_archival; /* TRUE if we want to check the number of non archived transactions at the opening */
+    gint max_non_archived_transactions_for_check; /* the max number of transaction before grisbi warm at the opening */
 
 } conf;
 

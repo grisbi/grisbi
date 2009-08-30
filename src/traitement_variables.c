@@ -319,10 +319,6 @@ void init_variables ( void )
     etat.combofix_force_payee = FALSE;
     etat.combofix_force_category = FALSE;
     
-    /* archive stuff */
-    etat.check_for_archival = TRUE;
-    etat.max_non_archived_transactions_for_check = 3000;
-
     /* defaut value for width of columns */
     for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
     transaction_col_width[i] = transaction_col_width_init[i];
@@ -347,6 +343,8 @@ void init_variables ( void )
     text_color[0] = default_text_color[0];
     text_color[1] = default_text_color[1];
     calendar_entry_color = default_calendar_entry_color;
+
+    etat.add_archive_in_total_balance = TRUE;   /* add the archived transactions by default */
 
     /* remove the timeout if necessary */
     if (id_timeout)

@@ -31,6 +31,8 @@
 #include "gsb_currency_config.h"
 #include "./dialog.h"
 #include "./gsb_autofunc.h"
+#include "./gsb_automem.h"
+#include "./parametres.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_currency.h"
@@ -51,24 +53,24 @@
 
 /*START_STATIC*/
 static void gsb_currency_append_currency_to_list ( GtkListStore *model,
-					    gint currency_number );
+                        gint currency_number );
 static GtkWidget *gsb_currency_config_create_list ();
 static gboolean gsb_currency_config_entry_changed ( GtkWidget *entry,
-					     GtkWidget *tree_view );
+                        GtkWidget *tree_view );
 static void gsb_currency_config_fill_popup_list ( GtkTreeView * tree_view,
-					   gboolean include_obsolete );
+                        gboolean include_obsolete );
 static gboolean gsb_currency_config_fill_tree ( GtkTreeModel *model );
 static gint gsb_currency_config_get_selected ( GtkTreeView *tree_view );
 static GtkWidget * gsb_currency_config_new_combobox ( gint * value, GCallback hook );
 static void gsb_currency_config_remove_currency ( GtkWidget *button,
-					   GtkWidget *tree_view );
+                        GtkWidget *tree_view );
 static void gsb_currency_config_remove_selected_from_view ( GtkTreeView * tree_view );
 static gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection,
-					       gpointer null );
+                        gpointer null );
 static gboolean gsb_currency_config_select_currency_popup ( GtkTreeSelection *selection, GtkTreeModel *model );
 static gboolean gsb_currency_config_set_int_from_combobox ( GtkWidget *combobox, gint * dummy);
 static gboolean gsb_currency_config_update_list ( GtkWidget * checkbox,
-					   GtkTreeView * tree_view );
+                        GtkTreeView * tree_view );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -809,9 +811,9 @@ gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection,
  */
 GtkWidget *gsb_currency_config_create_totals_page ( void )
 {
-        GtkWidget *table, *label;
+    GtkWidget *table, *label, *check_button;
 
-    table = gtk_table_new ( 2, 2, FALSE );
+    table = gtk_table_new ( 4, 2, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
 
@@ -819,31 +821,38 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label,
-		       0, 1, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        0, 1, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     combo_devise_totaux_tiers = gsb_currency_config_new_combobox ( &no_devise_totaux_tiers,
-						   payee_fill_tree );
+                        payee_fill_tree );
     gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_tiers,
-		       1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     label = gtk_label_new (COLON(_("Currency for categories tree")));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label,
-		       0, 1, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        0, 1, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     combo_devise_totaux_categ = gsb_currency_config_new_combobox ( &no_devise_totaux_categ,
-					       remplit_arbre_categ );
+                        remplit_arbre_categ );
     gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_categ,
-		       1, 2, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        1, 2, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     label = gtk_label_new (COLON(_("Currency for budgetary lines tree")));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label,
-		       0, 1, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        0, 1, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     combo_devise_totaux_ib = gsb_currency_config_new_combobox ( &no_devise_totaux_ib,
-					       remplit_arbre_imputation );
+                        remplit_arbre_imputation );
     gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_ib,
-		       1, 2, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        1, 2, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+
+    check_button = gsb_automem_checkbutton_new (
+                        _("Add transactions archived in the totals"),
+                        &(etat.add_archive_in_total_balance),
+                        G_CALLBACK ( gsb_config_metatree_sort_transactions ), NULL);
+    gtk_table_attach ( GTK_TABLE ( table ), check_button,
+                        0, 1, 3, 4, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     return ( table );
 }

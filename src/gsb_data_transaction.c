@@ -44,6 +44,7 @@
 #include "./gsb_real.h"
 #include "./utils_str.h"
 #include "./include.h"
+#include "./structures.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
 
@@ -2551,7 +2552,11 @@ GSList *gsb_data_transaction_get_transactions_list_by_date ( void )
 {
     GSList *list_tmp;
 
-    list_tmp = g_slist_copy ( transactions_list );
+    if ( etat.add_archive_in_total_balance )
+        list_tmp = g_slist_copy ( complete_transactions_list );
+    else
+        list_tmp = g_slist_copy ( transactions_list );
+
     list_tmp = g_slist_sort (list_tmp, 
                         (GCompareFunc) classement_sliste_transactions_par_date );
     return list_tmp;

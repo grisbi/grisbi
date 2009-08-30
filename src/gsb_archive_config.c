@@ -241,7 +241,7 @@ GtkWidget *gsb_archive_config_create ( void )
 						    _("Automatic check"));
 
     button = gsb_automem_checkbutton_new ( _("Check at opening if creating archive is needed."),
-					   &etat.check_for_archival,
+					   &conf.check_for_archival,
 					   NULL, NULL );
     gtk_box_pack_start ( GTK_BOX (check_paddingbox),
 			 button,
@@ -259,7 +259,7 @@ GtkWidget *gsb_archive_config_create ( void )
 			 label,
 			 FALSE, FALSE,
 			 0 );
-    entry = gsb_automem_spin_button_new (&etat.max_non_archived_transactions_for_check,
+    entry = gsb_automem_spin_button_new (&conf.max_non_archived_transactions_for_check,
 					 NULL, NULL );
     gtk_widget_set_size_request ( entry,
 			   100, -1 );

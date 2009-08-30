@@ -37,6 +37,7 @@
 #include "./gsb_real.h"
 #include "./utils_str.h"
 #include "./include.h"
+#include "./structures.h"
 #include "./gsb_real.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -1248,7 +1249,10 @@ void gsb_data_budget_update_counters ( void )
 
     gsb_data_budget_reset_counters ();
 
-    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+    if ( etat.add_archive_in_total_balance )
+        list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
+    else
+        list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp_transactions )
     {

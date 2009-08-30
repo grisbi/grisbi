@@ -1104,8 +1104,6 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
     gint no_division, no_sub_division;
     MetatreeInterface * iface;
 
-    devel_debug (NULL);
-
     /* Get model and metatree interface */
     model = gtk_tree_view_get_model(treeview);
 
@@ -1126,6 +1124,8 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 			     -1 );
     if ( etat.metatree_sort_transactions )
         list_tmp_transactions = gsb_data_transaction_get_transactions_list_by_date ();
+    else if ( etat.add_archive_in_total_balance )
+        list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
     else
         list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 

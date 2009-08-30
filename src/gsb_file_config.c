@@ -284,12 +284,12 @@ gboolean gsb_file_config_load_config ( void )
     else
         nom_fichier_comptes = NULL;
 
-    etat.check_for_archival = g_key_file_get_integer ( config, 
+    conf.check_for_archival = g_key_file_get_integer ( config, 
                         "IO",
                         "Check_archival_at_opening",
                         NULL );
 
-    etat.max_non_archived_transactions_for_check = g_key_file_get_integer ( config, 
+    conf.max_non_archived_transactions_for_check = g_key_file_get_integer ( config, 
                         "IO",
                         "Max_transactions_before_warn_archival",
                         NULL );
@@ -628,12 +628,12 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config, 
                         "IO",
                         "Check_archival_at_opening",
-                        etat.check_for_archival );
+                        conf.check_for_archival );
 
     g_key_file_set_integer ( config, 
                         "IO",
                         "Max_transactions_before_warn_archival",
-                        etat.max_non_archived_transactions_for_check );
+                        conf.max_non_archived_transactions_for_check );
 
     /* save scheduled section */
     g_key_file_set_integer ( config,
@@ -1240,6 +1240,10 @@ void gsb_file_config_clean_config ( void )
     /* no compress by default */
     etat.compress_file = 0;
     etat.compress_backup = 0;
+
+    /* archive data */
+    conf.check_for_archival = TRUE;
+    conf.max_non_archived_transactions_for_check = 3000;
 
     etat.largeur_auto_colonnes = 0;
     etat.retient_affichage_par_compte = 0;

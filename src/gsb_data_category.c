@@ -38,6 +38,7 @@
 #include "./utils_str.h"
 #include "./include.h"
 #include "./erreur.h"
+#include "./structures.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
 
@@ -670,8 +671,8 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
     if (tab_char[0])
     {
 	category_number = gsb_data_category_get_number_by_name ( tab_char[0],
-								 TRUE,
-								 gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa <0 );
+                        TRUE,
+                        gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa <0 );
 	gsb_data_mix_set_category_number ( transaction_number,
 					   category_number,
 					   is_transaction );
@@ -1340,18 +1341,23 @@ void gsb_data_category_update_counters ( void )
     devel_debug ( NULL );
     gsb_data_category_reset_counters ();
 
-    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+    if ( etat.add_archive_in_total_balance )
+        list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
+    else
+        list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp_transactions )
     {
-	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+    gint transaction_number_tmp;
+    transaction_number_tmp = gsb_data_transaction_get_transaction_number (
+                        list_tmp_transactions -> data );
 
-	gsb_data_category_add_transaction_to_category ( transaction_number_tmp,
-							gsb_data_transaction_get_category_number ( transaction_number_tmp ),
-							gsb_data_transaction_get_sub_category_number ( transaction_number_tmp ) );
+    gsb_data_category_add_transaction_to_category ( transaction_number_tmp,
+                        gsb_data_transaction_get_category_number ( transaction_number_tmp ),
+                        gsb_data_transaction_get_sub_category_number (
+                        transaction_number_tmp ) );
 
-	list_tmp_transactions = list_tmp_transactions -> next;
+    list_tmp_transactions = list_tmp_transactions -> next;
     }
 }
 

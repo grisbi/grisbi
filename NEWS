@@ -36,6 +36,9 @@ New in version 0.6 :
  - Custom mathematics engine that do not rely on float anymore
  - Plugin system
  - New english file format
+ - Tool management for the payees
+ - Automatic association of third parties and categories for import files
+ - Ability to create a partial balance in the main view
  - And more!
 
 New in version 0.5.9 :

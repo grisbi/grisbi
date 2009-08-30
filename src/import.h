@@ -120,7 +120,7 @@ gint gsb_import_associations_list_append_assoc ( gint payee_number,
 gboolean gsb_import_by_rule ( gint rule );
 void gsb_import_register_account ( struct struct_compte_importation * account );
 void gsb_import_register_account_error ( struct struct_compte_importation * account );
-GSList * import_selected_files ( GtkWidget * assistant );
+GSList *import_selected_files ( GtkWidget * assistant );
 void importer_fichier ( void );
 GtkWidget *onglet_importation (void);
 void register_import_format ( struct import_format * format );

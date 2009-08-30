@@ -71,8 +71,8 @@
 #include "./gsb_scheduler_list.h"
 #include "./include.h"
 #include "./gsb_calendar.h"
-#include "./erreur.h"
 #include "./structures.h"
+#include "./erreur.h"
 #include "./gsb_plugins.h"
 #include "./gsb_real.h"
 #include "./gsb_currency_config.h"
@@ -989,6 +989,11 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                         "Metatree_sort_transactions" ))
     {
         etat.metatree_sort_transactions = utils_str_atoi( attribute_values[i]);
+    }
+    else if ( !strcmp ( attribute_names[i],
+                        "Add_archive_in_total_balance" ))
+    {
+        etat.add_archive_in_total_balance = utils_str_atoi( attribute_values[i]);
     }
 
     i++;
@@ -7875,8 +7880,8 @@ gboolean gsb_file_load_update_previous_version ( void )
         /*
          * untill 0.6, no archive, so by default we let grisbi check at opening and set
          * the transactions limit to 3000 */
-        etat.check_for_archival = TRUE;
-        etat.max_non_archived_transactions_for_check = 3000;
+        conf.check_for_archival = TRUE;
+        conf.max_non_archived_transactions_for_check = 3000;
 
         /**
          * new in 0.6, there is no name for saving file but a directory
@@ -7939,10 +7944,10 @@ gboolean gsb_file_load_update_previous_version ( void )
     /* check now if a lot of transactions,
      * if yes, we propose to file the transactions
      * by default take the 3000 transactions as limit */
-    if ( etat.check_for_archival
+    if ( conf.check_for_archival
      &&
      g_slist_length (gsb_data_transaction_get_transactions_list ()) > 
-     etat.max_non_archived_transactions_for_check )
+     conf.max_non_archived_transactions_for_check )
     gsb_assistant_archive_run (TRUE);
 
     /* if we opened an archive, we say it here */
