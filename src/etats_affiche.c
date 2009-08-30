@@ -1209,7 +1209,7 @@ gint etat_affiche_affiche_total_exercice ( gint transaction_number,
 		text = g_strdup_printf ( COLON(fmtstr), nb_ope_periode_etat );
 	    }
 	    else
-		text = g_strdup_printf ( COLON(_("Result without financial year")));
+		text = g_strdup_printf ( "%s", COLON( _("Result without financial year") ) );
 	}
 
 

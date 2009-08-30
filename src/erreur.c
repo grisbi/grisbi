@@ -289,7 +289,7 @@ extern void debug_message_string ( gchar *prefixe, gchar * file, gint line, cons
 	    fflush (debug_file);
 	}
 
-	g_print( tmpstr );
+	g_print( "%s", tmpstr );
 	g_free ( tmpstr );
     }
 }
@@ -326,7 +326,7 @@ extern void debug_message_int ( gchar *prefixe, gchar * file, gint line, const c
 	    fwrite ( tmpstr, sizeof (gchar), strlen (tmpstr), debug_file);
 	    fflush (debug_file);
 	}
-	g_print( tmpstr );
+	g_print( "%s", tmpstr );
 	g_free ( tmpstr );
     }
 }

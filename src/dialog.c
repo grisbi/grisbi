@@ -176,7 +176,7 @@ void dialogue_warning ( gchar *text )
  */
 void dialogue_warning_hint ( gchar *text, gchar * hint )
 {
-    dialogue_special ( GTK_MESSAGE_WARNING, make_hint(hint, text) );
+    dialogue_special ( GTK_MESSAGE_WARNING, make_hint (hint, text) );
 }
 
 
@@ -192,8 +192,9 @@ void dialogue_special ( GtkMessageType param, gchar * text )
     GtkWidget *dialog;
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
-				      GTK_DIALOG_DESTROY_WITH_PARENT,
-				      param, GTK_BUTTONS_CLOSE, text );
+                        GTK_DIALOG_DESTROY_WITH_PARENT,
+                        param, GTK_BUTTONS_CLOSE,
+                        "%s", text );
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
 
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
@@ -210,13 +211,14 @@ void dialogue_special ( GtkMessageType param, gchar * text )
  * \param text Text to display in window
  */
 GtkWidget * dialogue_special_no_run ( GtkMessageType param, GtkButtonsType buttons,
-				      gchar * text )
+				      gchar *text )
 {
     GtkWidget *dialog;
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
-				      GTK_DIALOG_DESTROY_WITH_PARENT,
-				      param, buttons, text );
+                        GTK_DIALOG_DESTROY_WITH_PARENT,
+                        param, buttons,
+                        "%s", text );
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
 
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
@@ -276,8 +278,10 @@ GtkDialog * dialogue_conditional_new ( gchar *text, gchar * var, GtkMessageType 
 	}
     }
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW (window), GTK_DIALOG_DESTROY_WITH_PARENT,
-				      type, buttons, text );
+    dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
+                        GTK_DIALOG_DESTROY_WITH_PARENT,
+                        type, buttons,
+                        "%s", text );
     gtk_dialog_set_default_response ( GTK_DIALOG( dialog ), GTK_RESPONSE_CLOSE );
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
 
@@ -313,26 +317,6 @@ void dialogue_conditional_hint ( gchar *hint, gchar * text, gchar * var )
     dialogue_conditional ( make_hint(hint, text), var );
 }
 
-
-
-/**
- * This function pop ups a dialog with a hint (first sentence, in
- * bold), an informal text and a checkbox that allow this message not
- * to be displayed again thanks to preferences.  It calls
- * dialogue_conditional to achieve display.
- *
- * \param text text to be displayed
- * \param hint hint to be displayed
- * \param var variable that both controls whether the dialog will
- * appear or not and that indicates which variable could be modified
- * so that this message won't appear again.
- */
-/*TODO dOm : function seems not to be used 
-void dialogue_conditional_info_hint ( gchar *hint, gchar * text, gchar * var )
-{
-    dialogue_conditional_special ( make_hint(hint, text), var, GTK_MESSAGE_INFO );
-}
-*/
 
 
 /**
@@ -429,7 +413,7 @@ gboolean question_yes_no ( gchar *texte,
 				      GTK_DIALOG_DESTROY_WITH_PARENT,
 				      GTK_MESSAGE_QUESTION,
 				      GTK_BUTTONS_YES_NO,
-				      texte );
+				      "%s", texte );
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), texte );
 
     gtk_dialog_set_default_response (GTK_DIALOG (dialog),
@@ -475,10 +459,10 @@ gboolean question_conditional_yes_no ( gchar * var )
     }
 
     dialog = dialogue_conditional_new ( make_hint ( _(messages[i].hint),
-						    _(messages[i].message)),
-					var,
-					GTK_MESSAGE_WARNING,
-					GTK_BUTTONS_YES_NO );
+                        _(messages[i].message)),
+                        var,
+                        GTK_MESSAGE_WARNING,
+                        GTK_BUTTONS_YES_NO );
 
     response = gtk_dialog_run (GTK_DIALOG (dialog));
 					
@@ -629,8 +613,10 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
     format_text = make_hint (hint, text);
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
-				      GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, format_text );
+                        GTK_DIALOG_DESTROY_WITH_PARENT,
+                        GTK_MESSAGE_INFO, 
+                        GTK_BUTTONS_CLOSE,
+                        "%s", format_text );
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), format_text );
 
     hbox = gtk_hbox_new (FALSE, 5);

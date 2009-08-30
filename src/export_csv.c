@@ -278,7 +278,7 @@ gboolean gsb_csv_export_account ( const gchar *filename, gint account_nb )
     if ( csv_field_tiers )
         g_free ( csv_field_tiers );
     /* TODO dOm : is it necessary to duplicate memory with g_strdup_printf since it was already newly allocated memory ? */
-    csv_field_tiers = g_strdup_printf ( tmpstr );
+    csv_field_tiers = g_strdup_printf ( "%s", tmpstr );
     g_free ( tmpstr );
 
     /* set the initial current_balance,

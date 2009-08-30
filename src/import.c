@@ -1291,7 +1291,7 @@ gint gsb_import_add_currency ( struct struct_compte_importation * compte )
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_QUESTION,
                         GTK_BUTTONS_YES_NO,
-                        text );
+                        "%s", text );
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG ( dialog ) ->label ), text );
 
     vbox = GTK_DIALOG(dialog) -> vbox;

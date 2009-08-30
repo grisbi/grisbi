@@ -1151,15 +1151,15 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
 		    {
 			if ( ! field -> parse ( ope, list -> data ) )
 			{
-			    g_print ("(failed)");
+			    g_print ("%s", "(failed)");
 			}
 		    }
 		    else
 		    {
-			g_print ("(invalid)");
+			g_print ("%s", "(invalid)");
 		    }
 		}
-		g_print ("\n");
+		g_print ("%s", "\n");
 	    }
 	    list = list -> next;
 	}
