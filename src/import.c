@@ -23,6 +23,7 @@
 
 
 #include "include.h"
+#include <zlib.h>
 
 /*START_INCLUDE*/
 #include "import.h"
@@ -50,6 +51,7 @@
 #include "./gsb_data_payment.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_file.h"
+#include "./gsb_file_util.h"
 #include "./gsb_form_scheduler.h"
 #include "./gsb_form_transaction.h"
 #include "./utils_dates.h"
@@ -122,7 +124,8 @@ static GSList *gsb_import_create_file_chooser (const char *enc);
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
                         gint account_number, gchar * origine );
-static gboolean gsb_import_set_tmp_file ( gchar * filename,
+static gboolean gsb_import_gunzip_file ( gchar *filename );
+static gboolean gsb_import_set_tmp_file ( gchar *filename,
                         gchar * pointeur_char );
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
 static gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
@@ -195,7 +198,7 @@ GSList *liste_comptes_importes;
 GSList *liste_comptes_importes_error;
 static gint virements_a_chercher;
 
-gchar   *charmap_imported;
+gchar *charmap_imported;
 
 /* gestion des associations entre un tiers et sa chaine de recherche */
 GSList *liste_associations_tiers = NULL;
@@ -591,8 +594,14 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     gchar * nom_fichier;
     gchar * pointeur_char;
     GError * error = NULL;
+    gchar * extension;
 
     /* Open file */
+    extension = strrchr ( iterator -> data, '.' );
+    /* unzip Gnucash file if necessary */
+    if ( strcmp ( extension, ".gnc" ) == 0 )
+        gsb_import_gunzip_file ( iterator -> data );
+
     if ( ! g_file_get_contents ( iterator -> data, &pointeur_char, NULL, &error ) )
     {
         g_print ( _("Unable to read file: %s\n"), error -> message);
@@ -1880,103 +1889,112 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
     while ( list_tmp )
     {
-    struct struct_ope_importation *imported_transaction;
-    imported_transaction = list_tmp -> data;
+        struct struct_ope_importation *imported_transaction;
+        imported_transaction = list_tmp -> data;
 
-    /* on remplace ici le caractère utilisé pour contourner le bug de la libofx "&"
-       par le bon caractère "°"
-       regarder si on ne pourrait pas utiliser imported_account -> type_de_compte */
-    if ( g_ascii_strcasecmp (imported_account -> origine, "OFX") == 0 && imported_transaction -> cheque )
-    imported_transaction -> tiers = my_strdelimit (imported_transaction -> tiers, "&", "°");
+        /* on remplace ici le caractère utilisé pour contourner le bug de la libofx "&"
+           par le bon caractère "°"
+           regarder si on ne pourrait pas utiliser imported_account -> type_de_compte */
+        if ( g_ascii_strcasecmp (imported_account -> origine, "OFX") == 0 
+         && imported_transaction -> cheque )
+            imported_transaction -> tiers = my_strdelimit (
+                        imported_transaction -> tiers, "&", "°" );
 
-    /* on ne fait le tour de la liste des opés que si la date de l'opé importée est inférieure à la dernière date */
-    /* de la liste */
+        /* on ne fait le tour de la liste des opés que si la date de l'opé importée est 
+         * inférieure à la dernière date de la liste ou si on va fusionner avec des  
+         * opérations planifiées automatiques */
 
-    if ( (last_date_import && g_date_compare ( last_date_import,
-                        imported_transaction -> date ) >= 0) ||
-                        etat.get_fusion_import_planed_transactions )
-    {
-        /* that transaction is before the last transaction in the account,
-         * so check if the transaction already exists */
+        if ( (last_date_import && g_date_compare ( last_date_import,
+                            imported_transaction -> date ) >= 0) ||
+                            etat.get_fusion_import_planed_transactions )
+        {
+            gint transaction_no;
+            /* that transaction is before the last transaction in the account,
+             * so check if the transaction already exists */
 
-        /* first check the id */
-        if ( imported_transaction -> id_operation
-         &&
-         gsb_data_transaction_find_by_id (imported_transaction -> id_operation) )
-        /* the id exists so the transaction is already in grisbi, we will forget that transaction */
-        imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
+            /* first check the id */
+            if ( imported_transaction -> id_operation
+             &&
+             ( transaction_no = gsb_data_transaction_find_by_id (
+                            imported_transaction -> id_operation) ) )
+            {
+                if ( account_number == gsb_data_transaction_get_account_number (
+                            transaction_no ) )
+                /* the id exists with the same account_nb, so the transaction is already
+                 * in grisbi we will forget that transaction */
+                    imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
+            }
+            /* if no id, check the cheque */
+            tmpstr = utils_str_itoa (imported_transaction -> cheque);
+            if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION
+             &&
+             imported_transaction -> cheque
+             &&
+             gsb_data_transaction_find_by_payment_content ( tmpstr,
+                                    account_number ))
+            /* found the cheque, forget that transaction */
+            imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
 
-	    /* if no id, check the cheque */
-	    tmpstr = utils_str_itoa (imported_transaction -> cheque);
-	    if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION
-		 &&
-		 imported_transaction -> cheque
-		 &&
-		 gsb_data_transaction_find_by_payment_content ( tmpstr,
-								account_number ))
-		/* found the cheque, forget that transaction */
-		imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
+            g_free ( tmpstr );
 
-	    g_free ( tmpstr );
+            /* no id, no cheque, try to find the transaction */
+            if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION )
+            {
+            GDate *date_debut_comparaison;
+            GDate *date_fin_comparaison;
 
-	    /* no id, no cheque, try to find the transaction */
-	    if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION )
-	    {
-		GDate *date_debut_comparaison;
-		GDate *date_fin_comparaison;
+            date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( imported_transaction -> date ),
+                                  g_date_get_month ( imported_transaction -> date ),
+                                  g_date_get_year ( imported_transaction -> date ));
+            g_date_subtract_days ( date_debut_comparaison,
+                           valeur_echelle_recherche_date_import );
 
-		date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( imported_transaction -> date ),
-							  g_date_get_month ( imported_transaction -> date ),
-							  g_date_get_year ( imported_transaction -> date ));
-		g_date_subtract_days ( date_debut_comparaison,
-				       valeur_echelle_recherche_date_import );
+            date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( imported_transaction -> date ),
+                                g_date_get_month ( imported_transaction -> date ),
+                                g_date_get_year ( imported_transaction -> date ));
+            g_date_add_days ( date_fin_comparaison,
+                      valeur_echelle_recherche_date_import );
 
-		date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( imported_transaction -> date ),
-							g_date_get_month ( imported_transaction -> date ),
-							g_date_get_year ( imported_transaction -> date ));
-		g_date_add_days ( date_fin_comparaison,
-				  valeur_echelle_recherche_date_import );
+            list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
-		list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+            while ( list_tmp_transactions )
+            {
+                gint transaction_number_tmp;
+                transaction_number_tmp = gsb_data_transaction_get_transaction_number (
+                        list_tmp_transactions -> data);
 
-		while ( list_tmp_transactions )
-		{
-		    gint transaction_number_tmp;
-		    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-
-		    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
-		    {
-			if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (transaction_number_tmp),
-					     imported_transaction -> montant )
-			     &&
-			     ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
-						date_debut_comparaison ) >= 0 )
-			     &&
-			     ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
-						date_fin_comparaison ) <= 0 )
-
-			     &&
-			     !imported_transaction -> ope_de_ventilation
-                 &&
-                gsb_data_transaction_get_automatic_transaction (
-                        transaction_number_tmp) > 0 )
-			{
-			    /* the imported transaction has the same date and same amount, will ask the user */
-			    imported_transaction -> action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION;
-			    imported_transaction -> ope_correspondante = transaction_number_tmp;
-			    demande_confirmation = 1;
-			}
-		    }
-		    list_tmp_transactions = list_tmp_transactions -> next;
-		}
-	    }
-	}
-	list_tmp = list_tmp -> next;
+                if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
+                {
+                    if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (transaction_number_tmp),
+                                imported_transaction -> montant )
+                         &&
+                         ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
+                                date_debut_comparaison ) >= 0 )
+                         &&
+                         ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
+                                date_fin_comparaison ) <= 0 )
+                         &&
+                         !imported_transaction -> ope_de_ventilation
+                         &&
+                         gsb_data_transaction_get_automatic_transaction (
+                                transaction_number_tmp) > 0 )
+                    {
+                        /* the imported transaction has the same date and same amount, will ask the user */
+                        imported_transaction -> action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION;
+                        imported_transaction -> ope_correspondante = transaction_number_tmp;
+                        demande_confirmation = 1;
+                    }
+                }
+                list_tmp_transactions = list_tmp_transactions -> next;
+            }
+            }
+        }
+        list_tmp = list_tmp -> next;
     }
 
     /* if we are not sure about some transactions, ask now */
     if ( demande_confirmation )
-	confirmation_enregistrement_ope_import ( imported_account );
+        confirmation_enregistrement_ope_import ( imported_account );
 
     /* ok, now we know what to do for each transactions, can import to the account */
     mother_transaction_number = 0;
@@ -4275,7 +4293,7 @@ gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
  *
  * \return TRUE si OK FALSE autrement
  * */
-gboolean gsb_import_set_tmp_file ( gchar * filename,
+gboolean gsb_import_set_tmp_file ( gchar *filename,
                         gchar * pointeur_char )
 {
     gchar * contenu_fichier;
@@ -4294,6 +4312,42 @@ gboolean gsb_import_set_tmp_file ( gchar * filename,
     g_free (contenu_fichier);
     return TRUE;
 }
+
+
+/**
+ * décompresse le fichier et le sauvegarde à la place du fichier original
+ *
+ * \param filename          nom du fichier provisoire
+ *
+ * \return TRUE si OK FALSE autrement
+ * */
+gboolean gsb_import_gunzip_file ( gchar *filename )
+{
+    gchar *file_content;
+    gulong length;
+
+    if ( gsb_file_util_get_contents ( filename, &file_content, &length ) )
+    {
+        GError *error = NULL;
+
+        g_unlink ( filename );
+        if ( !g_file_set_contents ( filename, file_content, length, &error ) )
+        {
+            gchar* tmpstr = g_strdup_printf ( _("cannot unzip file '%s': %s"),
+                              filename,
+                              error -> message);
+            dialogue_error ( tmpstr );
+            g_free ( file_content);
+            g_error_free (error);
+
+            return FALSE;
+        }
+        else
+            return TRUE;
+    }
+    return FALSE;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
