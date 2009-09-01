@@ -1446,6 +1446,40 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
 
     return result;
 }
+
+
+/**
+ * required to avoid warnings change file.
+ *
+ *
+ *
+ * */
+void gsb_account_property_clear_config ( void )
+{
+    edit_bank_button = NULL;
+    detail_nom_compte = NULL;
+    detail_type_compte = NULL;
+    detail_titulaire_compte = NULL;
+    detail_adresse_titulaire = NULL;
+    bank_list_combobox = NULL;
+    label_code_banque = NULL;
+    detail_guichet = NULL;
+    detail_no_compte = NULL;
+    detail_cle_compte = NULL;
+    detail_devise_compte = NULL;
+    detail_compte_cloture = NULL;
+    detail_solde_init = NULL;
+    detail_solde_mini_autorise = NULL;
+    detail_solde_mini_voulu = NULL;
+    detail_commentaire = NULL;
+    button_holder_address = NULL;
+    bouton_icon = NULL;
+    detail_IBAN = NULL;
+    label_code_bic = NULL;
+    label_guichet = NULL;
+    label_no_compte = NULL;
+    label_cle_compte = NULL;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

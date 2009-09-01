@@ -40,6 +40,7 @@
 #include "./fenetre_principale.h"
 #include "./dialog.h"
 #include "./utils_file_selection.h"
+#include "./gsb_account_property.h"
 #include "./gsb_assistant_account.h"
 #include "./gsb_assistant_file.h"
 #include "./gsb_data_account.h"
@@ -84,8 +85,6 @@ static gchar *backup_path;
 
 /** the timeout used to save a backup every x minutes */
 gint id_timeout = 0;
-
-
 
 /*START_EXTERN*/
 extern gchar *copy_old_filename;
@@ -960,6 +959,7 @@ gboolean gsb_file_close ( void )
 
 	    /* free all the variables */
  	    init_variables ();
+        gsb_account_property_clear_config ( );
 
 	    gsb_file_update_window_title();
 

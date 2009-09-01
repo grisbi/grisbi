@@ -11,6 +11,7 @@ struct iso_13616_iban
 };
 
 /* START_DECLARATION */
+void gsb_account_property_clear_config ( void );
 GSList *gsb_account_property_create_combobox_list ( void );
 GtkWidget *gsb_account_property_create_page ( void );
 void gsb_account_property_fill_page ( void );
