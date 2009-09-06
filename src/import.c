@@ -23,7 +23,6 @@
 
 
 #include "include.h"
-#include <zlib.h>
 
 /*START_INCLUDE*/
 #include "import.h"
@@ -3574,7 +3573,7 @@ void gsb_import_associations_add_assoc ( GtkWidget *button, GtkWidget *main_widg
                         assoc,
                         (GCompareFunc) gsb_import_associations_cmp_assoc) )
         {
-            /* on remet à zero les entry */
+            /* clear the entry */
             gtk_combofix_set_text ( GTK_COMBOFIX (combo), "" );
             gtk_entry_set_text ( GTK_ENTRY (entry), "" );
         }
@@ -3589,6 +3588,11 @@ void gsb_import_associations_add_assoc ( GtkWidget *button, GtkWidget *main_widg
     }
     if (g_slist_length ( liste_associations_tiers ) > 0 )
         gsb_import_associations_fill_model ( GTK_LIST_STORE (list_store) );
+
+    /* clear the entry */
+    gtk_combofix_set_text ( GTK_COMBOFIX (combo), "" );
+    gtk_entry_set_text ( GTK_ENTRY (entry), "" );
+
 }
 
 

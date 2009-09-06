@@ -6,7 +6,7 @@
 /* END_INCLUDE_H */
 
 
-#define ETAT_WWW_BROWSER "firefox"
+#define ETAT_WWW_BROWSER "xdg-open"
 
 /* mise en conformité avec les recommandations FreeDesktop. */
 #ifndef _WIN32

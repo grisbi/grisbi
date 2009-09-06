@@ -1256,7 +1256,7 @@ void gsb_file_config_clean_config ( void )
     etat.latex_command = "latex";
     etat.dvips_command = "dvips";
 
-
+/* mise en conformité avec les recommandations FreeDesktop. */
 #ifndef _WIN32
     if ( g_file_test ( "/usr/bin/firefox", G_FILE_TEST_EXISTS ) )
     {

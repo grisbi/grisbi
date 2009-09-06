@@ -378,7 +378,6 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 }
 
 
-
 /**
  * update the titles of the tree view
  *
