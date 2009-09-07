@@ -160,7 +160,30 @@ extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
-
+gchar *gsb_file_save_real_to_string(gsb_real number)
+{
+	static struct lconv conv = {
+		NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        "",		// mon_thousands_sep
+        NULL,
+        "",		// positive_sign
+        "-",	// negative_sign
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+	};
+	return gsb_real_raw_format_string(number, &conv, NULL);
+}
 
 
 /** 
@@ -1005,9 +1028,9 @@ gulong gsb_file_save_account_part ( gulong iterator,
 										       k ));
 
 	/* set the reals */
-	init_balance = gsb_real_get_string (gsb_data_account_get_init_balance (account_number, -1));
-	mini_wanted = gsb_real_get_string (gsb_data_account_get_mini_balance_wanted (account_number));
-	mini_auto = gsb_real_get_string (gsb_data_account_get_mini_balance_authorized (account_number));
+	init_balance = gsb_file_save_real_to_string (gsb_data_account_get_init_balance (account_number, -1));
+	mini_wanted = gsb_file_save_real_to_string (gsb_data_account_get_mini_balance_wanted (account_number));
+	mini_auto = gsb_file_save_real_to_string (gsb_data_account_get_mini_balance_authorized (account_number));
 
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Account\n"
@@ -1193,12 +1216,9 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 
 	/* set the reals. On met en forme le résultat pour avoir une cohérence dans les montants
      * enregistrés dans le fichier à valider */
-	amount = gsb_real_get_string_with_currency ( gsb_data_transaction_get_amount (
-                        transaction_number),
-                        gsb_data_transaction_get_currency_number (transaction_number),
-                        FALSE );
-	exchange_rate = gsb_real_get_string (gsb_data_transaction_get_exchange_rate (transaction_number ));
-	exchange_fees = gsb_real_get_string (gsb_data_transaction_get_exchange_fees ( transaction_number));
+	amount = gsb_file_save_real_to_string ( gsb_data_transaction_get_amount (transaction_number) );
+	exchange_rate = gsb_file_save_real_to_string (gsb_data_transaction_get_exchange_rate (transaction_number ));
+	exchange_fees = gsb_file_save_real_to_string (gsb_data_transaction_get_exchange_fees ( transaction_number));
 	
 	/* set the dates */
 	date = gsb_format_gdate_safe ( gsb_data_transaction_get_date ( transaction_number ));
@@ -1282,7 +1302,7 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 	scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
 
 	/* set the real */
-	amount = gsb_real_get_string (gsb_data_scheduled_get_amount ( scheduled_number));
+	amount = gsb_file_save_real_to_string (gsb_data_scheduled_get_amount ( scheduled_number));
 
 	/* set the dates */
 	date = gsb_format_gdate_safe (gsb_data_scheduled_get_date ( scheduled_number));
@@ -1601,7 +1621,7 @@ gulong gsb_file_save_currency_link_part ( gulong iterator,
 	link_number = gsb_data_currency_link_get_no_currency_link (list_tmp -> data);
 
 	/* set the number */
-	change_rate = gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
+	change_rate = gsb_file_save_real_to_string (gsb_data_currency_link_get_change_rate (link_number));
 
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Currency_link Nb=\"%d\" Cu1=\"%d\" Cu2=\"%d\" Ex=\"%s\" />\n",
@@ -1825,8 +1845,8 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
 	    final_date = my_strdup ("");
 
 	/* set the balances strings */
-	init_balance = gsb_real_get_string (gsb_data_reconcile_get_init_balance (reconcile_number));
-	final_balance = gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+	init_balance = gsb_file_save_real_to_string (gsb_data_reconcile_get_init_balance (reconcile_number));
+	final_balance = gsb_file_save_real_to_string (gsb_data_reconcile_get_final_balance (reconcile_number));
 
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" Acc=\"%d\" Idate=\"%s\" Fdate=\"%s\" Ibal=\"%s\" Fbal=\"%s\" />\n",
@@ -2485,8 +2505,8 @@ gulong gsb_file_save_report_part ( gulong iterator,
 		amount_comparison_number_to_write = amount_comparison_number;
 
 	    /* set the numbers */
-	    first_amount = gsb_real_get_string (gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number));
-	    second_amount = gsb_real_get_string (gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number));
+	    first_amount = gsb_file_save_real_to_string (gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number));
+	    second_amount = gsb_file_save_real_to_string (gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number));
 
 	    /* now we can fill the file content */
 	    new_string = g_markup_printf_escaped ( "\t<Amount_comparison\n"
