@@ -1325,6 +1325,7 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
                         GTK_POLICY_NEVER,
                         GTK_POLICY_ALWAYS);
+	gtk_widget_set_size_request( sw, 600, 200 );
 
     /* create the model */
     list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
@@ -1391,7 +1392,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint spin_value)
 
     devel_debug ( NULL);
 
-    dialog = gtk_dialog_new_with_buttons ( _("Add a partial balance"),
+    dialog = gtk_dialog_new_with_buttons ( _("Partial balance"),
                         GTK_WINDOW ( window ),
                         GTK_DIALOG_MODAL,
                         GTK_STOCK_CANCEL, 0,
@@ -1399,7 +1400,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint spin_value)
                         NULL );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
-    main_vbox = new_vbox_with_title_and_icon ( _("Add a partial balance"), NULL );
+    main_vbox = new_vbox_with_title_and_icon ( _("Partial balance details"), "payment.png" );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), main_vbox, TRUE, TRUE, 0 );
 
     vbox = gtk_vbox_new ( FALSE, 12 );
