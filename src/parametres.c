@@ -96,6 +96,7 @@ extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
+extern gchar *titre_fichier;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -568,6 +569,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     GtkTreeModel * model;
     GtkCellRenderer * cell;
     GtkTreeViewColumn * column;
+    gchar *tmpstr;
     int i;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"), "warnings.png" );
@@ -611,12 +613,21 @@ GtkWidget *onglet_messages_and_warnings ( void )
     {
         GtkTreeIter iter;
 
+        if ( g_utf8_collate ( messages[i].name, "account-already-opened" ) == 0 )
+            tmpstr = g_strdup_printf ( _(messages[i] . hint), titre_fichier );
+        else if ( g_utf8_collate ( messages[i].name, "development-version" ) == 0 )
+            tmpstr = g_strdup_printf ( _(messages[i] . hint), VERSION );
+        else
+            tmpstr = g_strdup ( _(messages[i] . hint) );
+
         gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
         gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
                         0, !messages[i] . hidden,
-                        1, _(messages[i] . hint),
+                        1, tmpstr,
                         2, i,
                         -1);
+
+        g_free ( tmpstr );
     }
 
     /* Show everything */
