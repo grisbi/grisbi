@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-06 20:56+0200\n"
+"POT-Creation-Date: 2009-09-08 14:48+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -87,7 +87,7 @@ msgstr "余额调整"
 msgid "Current balance"
 msgstr "当前余额"
 
-#: src/accueil.c:984
+#: src/accueil.c:984 src/gsb_data_partial_balance.c:1395
 #, fuzzy
 msgid "Partial balance"
 msgstr "初始余额"
@@ -180,15 +180,15 @@ msgstr "移动交易到另一个账户"
 #: src/gsb_assistant_reconcile_config.c:388
 #: src/gsb_assistant_reconcile_config.c:1221 src/gsb_bank.c:732
 #: src/gsb_bank.c:855 src/gsb_currency_config.c:355
-#: src/gsb_data_partial_balance.c:1418 src/gsb_fyear_config.c:191
+#: src/gsb_data_partial_balance.c:1419 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:240
-#: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1705
+#: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1704
 #: src/imputation_budgetaire.c:703 src/tiers_onglet.c:612
 msgid "Name"
 msgstr "名称"
 
 #. List of the accounts
-#: src/accueil.c:2037 src/gsb_data_partial_balance.c:1429
+#: src/accueil.c:2037 src/gsb_data_partial_balance.c:1430
 #, fuzzy
 msgid "Accounts list"
 msgstr "账户"
@@ -601,7 +601,7 @@ msgstr ""
 
 #. New transaction
 #: src/barre_outils.c:95 src/gsb_scheduler_list.c:1975
-#: src/gsb_transactions_list.c:2082
+#: src/gsb_transactions_list.c:2081
 msgid "New transaction"
 msgstr "新交易"
 
@@ -803,7 +803,7 @@ msgstr "种类"
 
 #: src/categories_onglet.c:163 src/export_csv.c:776 src/gsb_reconcile.c:147
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:149
-#: src/gsb_transactions_list.c:2859 src/import_csv.c:86
+#: src/gsb_transactions_list.c:2858 src/import_csv.c:86
 #: src/imputation_budgetaire.c:176 src/tiers_onglet.c:234
 #: src/traitement_variables.c:81
 msgid "Balance"
@@ -1408,13 +1408,13 @@ msgid "Result without financial year"
 msgstr "没有财年的结果"
 
 #: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:956
-#: src/gsb_transactions_list.c:3234
+#: src/gsb_transactions_list.c:3233
 #, c-format
 msgid "Transfer to %s"
 msgstr "转帐到 %s"
 
 #: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:959
-#: src/gsb_transactions_list.c:3237
+#: src/gsb_transactions_list.c:3236
 #, c-format
 msgid "Transfer from %s"
 msgstr "从 %s 转帐"
@@ -1469,7 +1469,7 @@ msgstr "转帐"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:563 src/gsb_data_category.c:1040
 #: src/gsb_form.c:723 src/gsb_form.c:2571 src/gsb_form.c:2944
-#: src/gsb_form_scheduler.c:327 src/gsb_transactions_list.c:3212
+#: src/gsb_form_scheduler.c:327 src/gsb_transactions_list.c:3211
 #, fuzzy
 msgid "Split of transaction"
 msgstr "更改交易"
@@ -1843,7 +1843,7 @@ msgstr "初始日期"
 #: src/gsb_assistant_archive.c:259 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:422
 #: src/gsb_assistant_reconcile_config.c:1221 src/gsb_reconcile_config.c:96
-#: src/gsb_reconcile_config.c:208 src/gsb_transactions_list.c:1705
+#: src/gsb_reconcile_config.c:208 src/gsb_transactions_list.c:1704
 msgid "Final date"
 msgstr "结束日期"
 
@@ -2836,7 +2836,7 @@ msgid "Select accounts to export"
 msgstr "选择要导出的账户"
 
 #: src/export.c:169 src/export_csv.c:743 src/gsb_account_property.c:229
-#: src/gsb_data_partial_balance.c:1370 src/import.c:1157 src/import.c:1194
+#: src/gsb_data_partial_balance.c:1371 src/import.c:1157 src/import.c:1194
 msgid "Account name"
 msgstr "账户名称"
 
@@ -4562,7 +4562,7 @@ msgstr "根据文字选择交易"
 
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
-#: src/gsb_assistant_reconcile_config.c:1175 src/gsb_transactions_list.c:1656
+#: src/gsb_assistant_reconcile_config.c:1175 src/gsb_transactions_list.c:1655
 #, fuzzy
 msgid "Selection of a reconciliation"
 msgstr "手工对账（取消对账）确认"
@@ -6350,23 +6350,23 @@ msgid ""
 "The name of the partial balance and the list of accounts must be completed."
 msgstr ""
 
-#: src/gsb_data_partial_balance.c:1394 src/gsb_data_partial_balance.c:1402
+#: src/gsb_data_partial_balance.c:1403
 #, fuzzy
-msgid "Add a partial balance"
+msgid "Partial balance details"
 msgstr "初始余额"
 
-#: src/gsb_data_partial_balance.c:1409 src/gsb_debug.c:293
+#: src/gsb_data_partial_balance.c:1410 src/gsb_debug.c:293
 msgid "Details"
 msgstr "明细"
 
 #. create the position
-#: src/gsb_data_partial_balance.c:1444
+#: src/gsb_data_partial_balance.c:1445
 #, fuzzy
 msgid "Position in the list of accounts"
 msgstr "移动交易到另一个账户"
 
 #. create the colorized button
-#: src/gsb_data_partial_balance.c:1457
+#: src/gsb_data_partial_balance.c:1458
 msgid "Colorized in red if the balance is negative"
 msgstr ""
 
@@ -6897,7 +6897,7 @@ msgstr ""
 "%s 似乎不时一个有效文件，\n"
 "请重新检查。"
 
-#: src/gsb_file_load.c:349 src/gsb_file_save.c:389
+#: src/gsb_file_load.c:349 src/gsb_file_save.c:412
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -6905,7 +6905,7 @@ msgid ""
 "installed) and try again."
 msgstr ""
 
-#: src/gsb_file_load.c:354 src/gsb_file_save.c:394
+#: src/gsb_file_load.c:354 src/gsb_file_save.c:417
 #, fuzzy
 msgid "Encryption plugin not found."
 msgstr "账户 %s 未找到\n"
@@ -6944,7 +6944,7 @@ msgid "Grisbi archive opened"
 msgstr ""
 
 #: src/gsb_file_others.c:138 src/gsb_file_others.c:220
-#: src/gsb_file_others.c:303 src/gsb_file_save.c:414 src/gsb_file_save.c:432
+#: src/gsb_file_others.c:303 src/gsb_file_save.c:437 src/gsb_file_save.c:455
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "不能保存文件 '%s': %s"
@@ -7640,7 +7640,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "最后声明"
 
-#: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1705
+#: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1704
 #, fuzzy
 msgid "Init date"
 msgstr "初始日期"
@@ -7771,8 +7771,8 @@ msgstr "您想单删除本次事件还是整个定期交易？"
 msgid "Delete a scheduled transaction"
 msgstr "删除一条定期交易"
 
-#: src/gsb_scheduler_list.c:1662 src/gsb_transactions_list.c:1854
-#: src/gsb_transactions_list.c:1869
+#: src/gsb_scheduler_list.c:1662 src/gsb_transactions_list.c:1853
+#: src/gsb_transactions_list.c:1868
 #, fuzzy
 msgid "Delete a transaction"
 msgstr "删除交易"
@@ -7847,12 +7847,12 @@ msgid "Show transactions for the next"
 msgstr "根据文字选择交易"
 
 #. Edit transaction
-#: src/gsb_scheduler_list.c:1961 src/gsb_transactions_list.c:2067
+#: src/gsb_scheduler_list.c:1961 src/gsb_transactions_list.c:2066
 msgid "Edit transaction"
 msgstr "更改交易"
 
 #. Delete transaction
-#: src/gsb_scheduler_list.c:1986 src/gsb_transactions_list.c:2090
+#: src/gsb_scheduler_list.c:1986 src/gsb_transactions_list.c:2089
 msgid "Delete transaction"
 msgstr "删除交易"
 
@@ -7888,7 +7888,7 @@ msgstr "选择所有"
 msgid "Cheque number"
 msgstr "支票编号"
 
-#: src/gsb_transactions_list.c:529 src/gsb_transactions_list.c:3347
+#: src/gsb_transactions_list.c:528 src/gsb_transactions_list.c:3346
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -7896,49 +7896,49 @@ msgid ""
 "The concerned children number are :\n"
 msgstr ""
 
-#: src/gsb_transactions_list.c:763
+#: src/gsb_transactions_list.c:762
 msgid "P"
 msgstr "P"
 
-#: src/gsb_transactions_list.c:767
+#: src/gsb_transactions_list.c:766
 msgid "T"
 msgstr "T"
 
-#: src/gsb_transactions_list.c:771 src/gsb_transactions_list.c:1575
+#: src/gsb_transactions_list.c:770 src/gsb_transactions_list.c:1574
 msgid "R"
 msgstr "R"
 
-#: src/gsb_transactions_list.c:1136
+#: src/gsb_transactions_list.c:1135
 #, fuzzy, c-format
 msgid "Do you want to add the transactions of the archive %s into the list ?"
 msgstr "您想恢复最后一个细目分类的所有行吗？"
 
-#: src/gsb_transactions_list.c:1146
+#: src/gsb_transactions_list.c:1145
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1150
+#: src/gsb_transactions_list.c:1149
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1510
+#: src/gsb_transactions_list.c:1509
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
 
 #. it's a normal transaction, ask to be sure
-#: src/gsb_transactions_list.c:1517 src/gsb_transactions_list.c:1532
+#: src/gsb_transactions_list.c:1516 src/gsb_transactions_list.c:1531
 msgid "Confirmation of manual (un)reconciliation"
 msgstr "手工对账（取消对账）确认"
 
-#: src/gsb_transactions_list.c:1518
+#: src/gsb_transactions_list.c:1517
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
 "not a recommended action. Are you really sure you know what you are doing?"
@@ -7950,7 +7950,7 @@ msgid ""
 "Are you really sure to know what you do?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1533
+#: src/gsb_transactions_list.c:1532
 #, fuzzy
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -7962,7 +7962,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: src/gsb_transactions_list.c:1588
+#: src/gsb_transactions_list.c:1587
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -7970,26 +7970,26 @@ msgid ""
 "did."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1589
+#: src/gsb_transactions_list.c:1588
 #, fuzzy
 msgid "Marking a transaction as R"
 msgstr "标记交易"
 
-#: src/gsb_transactions_list.c:1668
+#: src/gsb_transactions_list.c:1667
 #, fuzzy
 msgid "Select the reconciliation to associate to the selected transaction"
 msgstr "既没有调整也没有检查的交易"
 
-#: src/gsb_transactions_list.c:1790
+#: src/gsb_transactions_list.c:1789
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1832
+#: src/gsb_transactions_list.c:1831
 #, fuzzy
 msgid "Impossible to delete an archived transaction."
 msgstr "不能删除一笔对账交易。"
 
-#: src/gsb_transactions_list.c:1841
+#: src/gsb_transactions_list.c:1840
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -7997,66 +7997,66 @@ msgid ""
 "necessary."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1851
+#: src/gsb_transactions_list.c:1850
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1866
+#: src/gsb_transactions_list.c:1865
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
 #. use transaction as template
-#: src/gsb_transactions_list.c:2104
+#: src/gsb_transactions_list.c:2103
 msgid "Use selected transaction as a template"
 msgstr "使用选中交易做模板"
 
 #. Clone transaction
-#: src/gsb_transactions_list.c:2114
+#: src/gsb_transactions_list.c:2113
 msgid "Clone transaction"
 msgstr "复制交易"
 
 #. Convert to scheduled transaction
-#: src/gsb_transactions_list.c:2127
+#: src/gsb_transactions_list.c:2126
 msgid "Convert transaction to scheduled transaction"
 msgstr "转换交易为计划交易"
 
 #. Move to another account
-#: src/gsb_transactions_list.c:2136
+#: src/gsb_transactions_list.c:2135
 msgid "Move transaction to another account"
 msgstr "移动交易到另一个账户"
 
 #. Change cell content.
-#: src/gsb_transactions_list.c:2159
+#: src/gsb_transactions_list.c:2158
 msgid "Change cell content"
 msgstr ""
 
-#: src/gsb_transactions_list.c:2203
+#: src/gsb_transactions_list.c:2202
 #, fuzzy
 msgid "Clear cell"
 msgstr "取消"
 
-#: src/gsb_transactions_list.c:2534
+#: src/gsb_transactions_list.c:2533
 msgid "Cannot move a transfer on his contra-account"
 msgstr "不能移动交易到它的反账户"
 
 #. sort by line
-#: src/gsb_transactions_list.c:2813
+#: src/gsb_transactions_list.c:2812
 #, fuzzy
 msgid "Sort list by :"
 msgstr "按日期排序"
 
-#: src/gsb_transactions_list.c:3221
+#: src/gsb_transactions_list.c:3220
 msgid "Transfer to a deleted account"
 msgstr "转帐到一个删除的账户"
 
-#: src/gsb_transactions_list.c:3223
+#: src/gsb_transactions_list.c:3222
 msgid "Transfer from a deleted account"
 msgstr "来自已删除的账户转帐"
 
-#: src/gsb_transactions_list.c:3376
+#: src/gsb_transactions_list.c:3375
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -10020,6 +10020,10 @@ msgstr "应用程序不能获得足够的内存"
 #, fuzzy
 msgid "No font defined"
 msgstr "没有定义汇率"
+
+#, fuzzy
+#~ msgid "Add a partial balance"
+#~ msgstr "初始余额"
 
 #, fuzzy
 #~ msgid ""
