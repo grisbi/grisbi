@@ -6445,7 +6445,7 @@ msgstr "Le nom du solde partiel et la liste des comptes doivent être remplis."
 #: src/gsb_data_partial_balance.c:1403
 #, fuzzy
 msgid "Partial balance details"
-msgstr "Soldes partiels"
+msgstr "Détails des soldes partiels"
 
 #: src/gsb_data_partial_balance.c:1410 src/gsb_debug.c:293
 msgid "Details"
