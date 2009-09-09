@@ -1117,7 +1117,8 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
     if ( page_number != GSB_ACCOUNT_PAGE )
     {
-	gsb_gui_sensitive_menu_item ( "EditMenu", "RemoveAccount", NULL, FALSE );
+        gsb_gui_sensitive_menu_item ( "EditMenu", "NewTransaction", NULL, FALSE );
+        gsb_gui_sensitive_menu_item ( "EditMenu", "RemoveAccount", NULL, FALSE );
     }
 
     if ( page_number != GSB_SCHEDULER_PAGE ) 
