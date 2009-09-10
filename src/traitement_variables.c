@@ -54,6 +54,7 @@
 #include "./gsb_form_widget.h"
 #include "./gsb_fyear.h"
 #include "./menu.h"
+#include "./import.h"
 #include "./gsb_report.h"
 #include "./gsb_scheduler_list.h"
 #include "./main.h"
@@ -245,6 +246,7 @@ void init_variables ( void )
     gsb_data_archive_init_variables ();
     gsb_data_archive_store_init_variables ();
     gsb_data_import_rule_init_variables ();
+    gsb_import_associations_init_variables ( );
     gsb_data_partial_balance_init_variables ( );
 
     gsb_currency_init_variables ();
