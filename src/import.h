@@ -115,6 +115,7 @@ struct import_format {
 gint gsb_import_associations_cmp_assoc (struct struct_payee_asso *assoc_1,
                                         struct struct_payee_asso *assoc_2);
 GtkWidget * gsb_import_associations_gere_tiers ( );
+void gsb_import_associations_init_variables ( void );
 gint gsb_import_associations_list_append_assoc ( gint payee_number,
                         const gchar *search_str );
 gboolean gsb_import_by_rule ( gint rule );

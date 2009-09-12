@@ -46,6 +46,7 @@
 #include "./custom_list.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
+#include "./gsb_real.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
 
@@ -81,6 +82,8 @@ static gint gsb_transactions_list_sort_by_party ( gint transaction_number_1,
 					   gint transaction_number_2 );
 static gint gsb_transactions_list_sort_by_reconcile_nb ( gint transaction_number_1,
 						  gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_transaction_date_and_amount ( gint transaction_number_1,
+							     gint transaction_number_2 );
 static gint gsb_transactions_list_sort_by_transaction_date_and_no ( gint transaction_number_1,
 							     gint transaction_number_2 );
 static gint gsb_transactions_list_sort_by_type ( gint transaction_number_1,
@@ -92,10 +95,8 @@ static gint gsb_transactions_list_sort_by_voucher ( gint transaction_number_1,
 /*END_STATIC*/
 
 
-
 /*START_EXTERN*/
 /*END_EXTERN*/
-
 
 
 /**
@@ -396,6 +397,43 @@ gint gsb_transactions_list_sort_by_transaction_date_and_no ( gint transaction_nu
 
 
 /**
+ * compared by date and by amount
+ * 
+ * \param none but the local variables transaction_number_1 and transaction_number_2 MUST be set
+ * 
+ * \return -1 if amount_2 is above amount_number_1
+ * */
+gint gsb_transactions_list_sort_by_transaction_date_and_amount ( gint transaction_number_1,
+							     gint transaction_number_2 )
+{
+    gint return_value;
+    gsb_real amount_1;
+    gsb_real amount_2;
+
+    if ( !gsb_data_transaction_get_date (transaction_number_1) )
+    {
+        return 1;
+    }
+    if ( !gsb_data_transaction_get_date (transaction_number_2) )
+    {
+        return -1;
+    }
+
+    return_value = g_date_compare ( gsb_data_transaction_get_date (transaction_number_1),
+				    gsb_data_transaction_get_date (transaction_number_2));
+
+    /* no difference in the dates, sort by amount of transaction */
+    amount_1 = gsb_data_transaction_get_amount ( transaction_number_1 );
+    amount_2 = gsb_data_transaction_get_amount ( transaction_number_2 );
+
+    if ( !return_value )
+        return_value = amount_2.mantissa - amount_1.mantissa;
+
+    return return_value;
+}
+
+
+/**
  * used to compare 2 iters and sort the by no of transaction
  * always put the white line below
  * 
@@ -424,14 +462,13 @@ gint gsb_transactions_list_sort_by_no ( gint transaction_number_1,
 gint gsb_transactions_list_sort_by_date ( gint transaction_number_1,
 					  gint transaction_number_2 )
 {
-    return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
+    return gsb_transactions_list_sort_by_transaction_date_and_no (
+                        transaction_number_1, transaction_number_2 );
 }
 
 
-
 /**
- * used to compare 2 iters and sort the by value date first, and date 
- * and no transaction after
+ * used to compare 2 iters and sort the by value date or date if not exist
  * always put the white line below
  * 
  * \param model the GtkTreeModel
@@ -449,29 +486,29 @@ gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
 
     /* need to work a little more here because value date is not obligatory filled,
      * if we compare 2 transactions and 1 has no value date, set the value date before */
-    value_date_1 = gsb_data_transaction_get_value_date (transaction_number_1);
-    value_date_2 = gsb_data_transaction_get_value_date (transaction_number_2);
+    value_date_1 = gsb_data_transaction_get_value_date ( transaction_number_1 );
+    if ( ! value_date_1 )
+        value_date_1 = gsb_data_transaction_get_date ( transaction_number_1 );
 
-    if (value_date_1)
+    value_date_2 = gsb_data_transaction_get_value_date ( transaction_number_2 );
+    if ( ! value_date_2 )
+        value_date_2 = gsb_data_transaction_get_value_date ( transaction_number_2 );
+
+    if ( value_date_1 )
     {
-	if (value_date_2)
-	    return_value = g_date_compare ( value_date_1,
-					    value_date_2);
-	else
-	    return_value = -1;
+        if (value_date_2)
+            return_value = g_date_compare ( value_date_1, value_date_2);
+        else
+            return_value = -1;
     }
-    else
-    {
-	if (value_date_2)
-	    return_value = 1;
-	else
-	    return_value = 0;
-    }
+    else if (value_date_2)
+        return_value = 1;
 
     if ( return_value )
-	return return_value;
+        return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
+        return gsb_transactions_list_sort_by_transaction_date_and_no (
+                        transaction_number_1, transaction_number_2 );
 }
 
 

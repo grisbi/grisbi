@@ -2436,26 +2436,29 @@ gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
  *
  * \return the number of transaction or 0 if none found
  * */
-gint gsb_data_transaction_find_by_id ( gchar *id )
+gint gsb_data_transaction_find_by_id ( gchar *id, gint account_number )
 {
     GSList *tmp_list;
 
-    if (!id)
-	return 0;
+    if ( !id )
+        return 0;
 
     tmp_list = transactions_list;
     while (tmp_list)
     {
-	struct_transaction *transaction;
+        struct_transaction *transaction;
 
-	transaction = tmp_list -> data;
+        transaction = tmp_list -> data;
 
-	if ( transaction -> transaction_id
-	     &&
-	     !strcmp ( id,
-		       transaction -> transaction_id ))
-	    return transaction -> transaction_number;
-	tmp_list = tmp_list -> next;
+        if ( transaction -> transaction_id
+         &&
+         !strcmp ( id, transaction -> transaction_id )
+         &&
+         account_number == gsb_data_transaction_get_account_number (
+         transaction -> transaction_number ) )
+            return transaction -> transaction_number;
+
+        tmp_list = tmp_list -> next;
     }
     return 0;
 }

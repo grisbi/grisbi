@@ -1915,13 +1915,13 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
             if ( imported_transaction -> id_operation
              &&
              ( transaction_no = gsb_data_transaction_find_by_id (
-                            imported_transaction -> id_operation) ) )
+                            imported_transaction -> id_operation, account_number ) ) )
             {
-                if ( account_number == gsb_data_transaction_get_account_number (
-                            transaction_no ) )
+                printf ("transaction_no = %d id = %s\n",transaction_no,
+                        imported_transaction -> id_operation );
                 /* the id exists with the same account_nb, so the transaction is already
                  * in grisbi we will forget that transaction */
-                    imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
+                imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
             }
             /* if no id, check the cheque */
             tmpstr = utils_str_itoa (imported_transaction -> cheque);
@@ -2427,9 +2427,14 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 														   TRUE ));
 	    }
 	}
-    else if ( etat.get_categorie_for_payee && !imported_transaction -> cheque)
+    else if ( etat.get_categorie_for_payee && 
+     ( !imported_transaction -> cheque 
+     ||
+     ( etat.get_fusion_import_planed_transactions &&
+     imported_transaction -> ope_correspondante > 0 ) ) )
     {
-        /* associate category and bugetary to the tiers except for checks */
+        /* associate the class and the budgetary line to the payee except checks 
+         * unless it is a merged transaction */
         last_transaction_number = gsb_form_transactions_look_for_last_party (
                                     payee_number, transaction_number,
                                     account_number );
@@ -2477,14 +2482,13 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                         account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, 
                         payment_number);
-        if ( etat.get_extract_number_for_check )
-        {
-            gchar *nombre = gsb_string_extract_int (
-                gsb_data_transaction_get_notes (transaction_number) );
-            gsb_data_transaction_set_method_of_payment_content (
-                transaction_number, nombre );
-            g_free ( nombre );
-        }
+        /* we get the check number */
+        gchar *buffer = g_malloc0 ( 12*sizeof (gchar) );
+        g_ascii_formatd ( buffer,12,"%.0f", imported_transaction -> cheque);
+        gsb_data_transaction_set_method_of_payment_content (
+                transaction_number, buffer );
+        g_free ( buffer );
+
 		break;
 	    //~ case OFX_INT:
 		//~ break;
@@ -2723,7 +2727,8 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 	   une id comparable */
 	if ( ope_import -> id_operation
 	     &&
-	     (transaction_number = gsb_data_transaction_find_by_id (ope_import -> id_operation)))
+	     (transaction_number = gsb_data_transaction_find_by_id (
+                        ope_import -> id_operation, account_number )))
 	    ope_trouvees = g_slist_append ( ope_trouvees,
 					    GINT_TO_POINTER (transaction_number));
 
@@ -3523,6 +3528,23 @@ GtkWidget * gsb_import_associations_gere_tiers ( )
     gsb_import_associations_check_add_button ( G_OBJECT (vbox_main) );
 
     return vbox_main;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ */
+void gsb_import_associations_init_variables ( void )
+{
+    if ( liste_associations_tiers )
+    {
+        g_slist_free ( liste_associations_tiers );
+        liste_associations_tiers = NULL;
+    }
+
 }
 
 

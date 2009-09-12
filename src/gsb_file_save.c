@@ -70,6 +70,7 @@
 #include "./gsb_calendar.h"
 #include "./erreur.h"
 #include "./gsb_plugins.h"
+#include "./gsb_real.h"
 #include "./gsb_data_report.h"
 /*END_INCLUDE*/
 
@@ -119,6 +120,7 @@ static gulong gsb_file_save_print_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content,
                         gint archive_number );
+static gchar *gsb_file_save_real_to_string ( gsb_real number );
 static gulong gsb_file_save_reconcile_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
@@ -160,7 +162,7 @@ extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
-gchar *gsb_file_save_real_to_string(gsb_real number)
+gchar *gsb_file_save_real_to_string ( gsb_real number )
 {
 	static struct lconv conv = {
 		NULL,

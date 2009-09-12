@@ -22,7 +22,7 @@ gint gsb_data_transaction_check_content_payment ( gint payment_number,
                         gint number );
 gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
                         gint target_transaction_number );
-gint gsb_data_transaction_find_by_id ( gchar *id );
+gint gsb_data_transaction_find_by_id ( gchar *id, gint account_number );
 gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
                         gint account_number );
 gint gsb_data_transaction_get_account_number ( gint transaction_number );

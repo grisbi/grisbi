@@ -133,7 +133,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 {
     gint row, column;
     scheduled_element *element;
-
+    devel_debug (NULL);
     if (!table)
 	return FALSE;
 

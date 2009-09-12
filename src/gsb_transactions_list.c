@@ -3037,7 +3037,6 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
 }
 
 
-
 /**
  * switch the view between show the reconciled transactions or not
  *
