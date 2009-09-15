@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Grisbi
+Comment=Personnal finances manager
+Comment[fr]=Logiciel de comptabilité Grisbi
+Exec=grisbi
+Icon=grisbi.png
+Terminal=false
+Type=Application
+Categories=Office;Finance;
+

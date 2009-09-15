@@ -58,4 +58,8 @@ grisbi_pixmaps_DATA = \
 	transfer.png \
 	warnings.png
 
-EXTRA_DIST = $(grisbi_pixmaps_DATA)
+grisbi_iconsdir = $(datadir)/icons/hicolor/48x48/apps
+grisbi_icons_DATA = grisbi.png
+
+EXTRA_DIST = $(grisbi_pixmaps_DATA) $(grisbi_icons_DATA)
+
