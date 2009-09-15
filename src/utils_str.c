@@ -745,6 +745,9 @@ gchar * gsb_string_remplace_string ( gchar * str, gchar *old_str, gchar *new_str
     gchar *chaine;
 
     ptr_debut = g_strstr_len ( str, -1, old_str);
+    if ( ptr_debut == NULL )
+        g_strdup ( str );
+
     long_old = g_utf8_strlen ( old_str, -1 );
     chaine = g_strndup ( str, (ptr_debut - str) );
     chaine = g_strconcat ( chaine, new_str, ( ptr_debut + long_old ), NULL );
