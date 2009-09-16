@@ -2472,6 +2472,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 
     if (origine && g_ascii_strcasecmp (origine, "OFX") == 0 )
     {
+	gchar *buffer;
     gint payment_number = 0;
 
     switch ( imported_transaction -> type_de_transaction )
@@ -2483,7 +2484,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
         gsb_data_transaction_set_method_of_payment_number (transaction_number, 
                         payment_number);
         /* we get the check number */
-        gchar *buffer = g_malloc0 ( 12*sizeof (gchar) );
+        buffer = g_malloc0 ( 12*sizeof (gchar) );
         g_ascii_formatd ( buffer,12,"%.0f", imported_transaction -> cheque);
         gsb_data_transaction_set_method_of_payment_content (
                 transaction_number, buffer );
