@@ -9,6 +9,8 @@ xcopy /S /Y target\Release\lib %DIR%\lib\
 
 xcopy /S /Y ..\help %DIR%\help\
 call tools\dos2unix.cmd ..\help\tips\tips.txt %DIR%\help\tips\tips.txt
+rmdir /S /Q %DIR%\help\cvs
+for %%f in (c de en fr tips) do rmdir /S /Q %DIR%\help\%%f\cvs
 
 xcopy /S /Y ..\pixmaps\*.png %DIR%\pixmaps\
 
