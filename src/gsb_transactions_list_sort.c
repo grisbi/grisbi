@@ -492,7 +492,7 @@ gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
 
     value_date_2 = gsb_data_transaction_get_value_date ( transaction_number_2 );
     if ( ! value_date_2 )
-        value_date_2 = gsb_data_transaction_get_value_date ( transaction_number_2 );
+        value_date_2 = gsb_data_transaction_get_date ( transaction_number_2 );
 
     if ( value_date_1 )
     {
@@ -501,13 +501,18 @@ gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
         else
             return_value = -1;
     }
-    else if (value_date_2)
-        return_value = 1;
+    else 
+    {
+        if (value_date_2)
+            return_value = 1;
+        else
+            return 0;
+    }
 
     if ( return_value )
         return return_value;
     else
-        return gsb_transactions_list_sort_by_transaction_date_and_no (
+        return gsb_transactions_list_sort_by_date (
                         transaction_number_1, transaction_number_2 );
 }
 
