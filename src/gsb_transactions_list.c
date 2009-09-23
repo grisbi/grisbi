@@ -232,7 +232,7 @@ void gsb_transactions_list_update_tree_view ( gint account_number,
     transaction_list_filter ( account_number );
     transaction_list_sort ();
     transaction_list_colorize ();
-    if ( etat.show_transaction_gives_balance )
+    if ( conf.show_transaction_gives_balance )
         transaction_list_set_color_jour ( account_number );
     transaction_list_set_balances ( );
     if ( keep_selected_transaction )
@@ -1324,7 +1324,7 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
 
     /* show the content of the transaction in the form,
      * only if the form is shown */
-    if ( etat.show_transaction_selected_in_form
+    if ( conf.show_transaction_selected_in_form
     &&
     gsb_form_is_visible () )
         gsb_form_fill_by_transaction (new_selected_transaction, TRUE, FALSE);
@@ -1897,7 +1897,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
 
     /* update the tree view */
     transaction_list_colorize ();
-    if ( etat.show_transaction_gives_balance )
+    if ( conf.show_transaction_gives_balance )
         transaction_list_set_color_jour ( account_number );
     transaction_list_set_balances ();
     transaction_list_select (gsb_data_account_get_current_transaction_number (account_number));
@@ -3026,7 +3026,7 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
 				       sort_type );
     transaction_list_sort ();
     transaction_list_colorize ();
-    if ( etat.show_transaction_gives_balance )
+    if ( conf.show_transaction_gives_balance )
         transaction_list_set_color_jour ( account_number );
     transaction_list_set_balances ();
     transaction_list_select (selected_transaction);

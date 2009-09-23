@@ -157,15 +157,15 @@ grisbi_INCLUDES =		\
 	categories_onglet.h	\
 	classement_echeances.h	\
 	comptes_onglet.h	\
-        csv_parse.h             \
+    csv_parse.h             \
 	custom_list.h		\
-        etats_affiche.h         \
-        etats_csv.h             \
-        etats_html.h            \
-        export.h                \
-        export_csv.h            \
-        go-charmap-sel.h        \
-        go-optionmenu.h         \
+    etats_affiche.h         \
+    etats_csv.h             \
+    etats_html.h            \
+    export.h                \
+    export_csv.h            \
+    go-charmap-sel.h        \
+    go-optionmenu.h         \
 	gsb_account.h		\
 	gsb_account_property.h	\
 	gsb_archive_config.h	\
@@ -183,8 +183,7 @@ grisbi_INCLUDES =		\
 	gsb_combo_box.h		\
 	gsb_calendar.h		\
 	gsb_calendar_entry.h	\
-        gsb_crypt.h             \
-	gsb_currency.h		\
+    gsb_currency.h		\
 	gsb_currency_config.h	\
 	gsb_currency_link_config.h	\
 	gsb_data_account.h	\
@@ -225,14 +224,14 @@ grisbi_INCLUDES =		\
 	gsb_fyear_config.h	\
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
-        gsb_plugins.h           \
+    gsb_plugins.h           \
 	gsb_real.h		\
 	gsb_reconcile.h		\
 	gsb_reconcile_config.h	\
 	gsb_reconcile_list.h	\
 	gsb_reconcile_sort_config.h	\
 	gsb_report.h		\
-        gsb_status.h            \
+    gsb_status.h            \
 	gsb_select_icon.h 	\
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\

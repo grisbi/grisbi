@@ -1426,8 +1426,8 @@ gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
     if (tmp_number)
         last_scheduled_number = tmp_number;
 
-    /* if etat.show_transaction_selected_in_form => edit the scheduled transaction */
-    if ( tmp_number != 0 && etat.show_transaction_selected_in_form )
+    /* if conf.show_transaction_selected_in_form => edit the scheduled transaction */
+    if ( tmp_number != 0 && conf.show_transaction_selected_in_form )
             gsb_scheduler_list_edit_transaction (tmp_number);
     else if ( tmp_number == 0 )
     {

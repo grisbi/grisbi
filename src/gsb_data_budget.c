@@ -1524,7 +1524,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
      * but the 2 parts are exactly the same, exept the call to the functions */
     if (is_transaction)
     {
-	if (!string)
+	if (!string || strlen ( string ) == 0 )
 	{
 	    gsb_data_transaction_set_budgetary_number ( transaction_number, 0 );
 	    gsb_data_transaction_set_sub_budgetary_number ( transaction_number, 0 );

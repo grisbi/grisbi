@@ -320,14 +320,19 @@ gboolean gsb_file_config_load_config ( void )
                         "Show transaction form",
                         NULL );
 
-    etat.show_transaction_selected_in_form = g_key_file_get_integer ( config,
+    conf.show_transaction_selected_in_form = g_key_file_get_integer ( config,
                         "Display",
                         "Show selected transaction in form",
                         NULL );
 
-    etat.show_transaction_gives_balance = g_key_file_get_integer ( config,
+    conf.show_transaction_gives_balance = g_key_file_get_integer ( config,
                         "Display",
                         "Show transaction gives balance",
+                        NULL );
+
+    conf.transactions_list_sort_by_value_date = g_key_file_get_integer ( config,
+                        "Display",
+                        "Transactions list sort by value date",
                         NULL );
 
     etat.largeur_auto_colonnes = g_key_file_get_integer ( config,
@@ -659,12 +664,17 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Display",
                         "Show selected transaction in form",
-                        etat.show_transaction_selected_in_form );
+                        conf.show_transaction_selected_in_form );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Show transaction gives balance",
-                        etat.show_transaction_gives_balance );
+                        conf.show_transaction_gives_balance );
+
+    g_key_file_set_integer ( config,
+                        "Display",
+                        "Transactions list sort by value date",
+                        conf.transactions_list_sort_by_value_date );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -1216,8 +1226,9 @@ void gsb_file_config_clean_config ( void )
     etat.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
     etat.show_toolbar = TRUE;                       /* Show toolbar or not. */
     etat.show_headings_bar = TRUE;                  /* Show toolbar or not. */
-    etat.show_transaction_selected_in_form = 1;     /* show selected transaction in form */
-    etat.show_transaction_gives_balance = 1;         /* show transaction that gives the balance of the day */
+    conf.show_transaction_selected_in_form = 1;     /* show selected transaction in form */
+    conf.show_transaction_gives_balance = 1;        /* show transaction that gives the balance of the day */
+    conf.transactions_list_sort_by_value_date = 1;  /* Options for sorting by value date */  
     etat.show_closed_accounts = FALSE;
 
     if (etat.font_string)

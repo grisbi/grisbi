@@ -46,6 +46,7 @@
 #include "./custom_list.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
+#include "./structures.h"
 #include "./gsb_real.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -487,11 +488,11 @@ gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
     /* need to work a little more here because value date is not obligatory filled,
      * if we compare 2 transactions and 1 has no value date, set the value date before */
     value_date_1 = gsb_data_transaction_get_value_date ( transaction_number_1 );
-    if ( ! value_date_1 )
+    if ( ! value_date_1 && !conf.transactions_list_sort_by_value_date )
         value_date_1 = gsb_data_transaction_get_date ( transaction_number_1 );
 
     value_date_2 = gsb_data_transaction_get_value_date ( transaction_number_2 );
-    if ( ! value_date_2 )
+    if ( ! value_date_2 && !conf.transactions_list_sort_by_value_date )
         value_date_2 = gsb_data_transaction_get_date ( transaction_number_2 );
 
     if ( value_date_1 )
@@ -501,12 +502,12 @@ gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
         else
             return_value = -1;
     }
-    else 
+    else
     {
         if (value_date_2)
             return_value = 1;
         else
-            return 0;
+            return_value = 0;
     }
 
     if ( return_value )
@@ -515,7 +516,6 @@ gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
         return gsb_transactions_list_sort_by_date (
                         transaction_number_1, transaction_number_2 );
 }
-
 
 
 /** used to compare 2 iters and sort the by party first, and 

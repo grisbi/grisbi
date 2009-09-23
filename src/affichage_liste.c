@@ -38,6 +38,7 @@
 #include "./utils_str.h"
 #include "./structures.h"
 #include "./custom_list.h"
+#include "./fenetre_principale.h"
 #include "./gtk_combofix.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
@@ -50,6 +51,8 @@ static  gboolean display_mode_button_changed ( GtkWidget *button,
 static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
                         gpointer null );
 static void gsb_transactions_list_display_show_gives_balance ( void );
+static gboolean gsb_transactions_list_display_sort_by_value_date ( GtkWidget *checkbutton,
+                        gpointer null );
 static gboolean gsb_transactions_list_display_update_auto_completion ( GtkWidget *checkbutton,
                         GtkWidget *button );
 static gboolean gsb_transactions_list_display_update_combofix ( void );
@@ -176,16 +179,25 @@ GtkWidget *onglet_affichage_operations ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
                         gsb_automem_checkbutton_new (
                         _("Use simple click to select transactions"),
-                        &etat.show_transaction_selected_in_form,
+                        &conf.show_transaction_selected_in_form,
                         NULL, NULL ),
                         FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
                         gsb_automem_checkbutton_new (
                         _("Highlights the transaction that gives the balance today"),
-                        &etat.show_transaction_gives_balance,
+                        &conf.show_transaction_gives_balance,
                         G_CALLBACK ( gsb_transactions_list_display_show_gives_balance ), NULL ),
                         FALSE, FALSE, 0 );
+
+    /* Sorting the transactions by value date */
+    gsb_automem_radiobutton_new_with_title ( vbox_pref,
+                        _("Options for sorting by value date"),
+                        _("Sort by value date (if fail, try with the date)"),
+                        _("Sort by value date and then by date"),
+                        &conf.transactions_list_sort_by_value_date,
+                        G_CALLBACK ( gsb_transactions_list_display_sort_by_value_date ),
+                        NULL );
 
     /* Account distinction */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
@@ -204,6 +216,31 @@ GtkWidget *onglet_affichage_operations ( void )
     }
 
     return ( vbox_pref );
+}
+
+
+/**
+ *
+ *
+ * */
+gboolean gsb_transactions_list_display_sort_by_value_date ( GtkWidget *checkbutton,
+                        gpointer null )
+{
+    gint page_number;
+    gint account_nb;
+
+    page_number = gsb_gui_navigation_get_current_page ( );
+
+    switch ( page_number )
+    {
+	case GSB_ACCOUNT_PAGE:
+        account_nb = gsb_gui_navigation_get_current_account ();
+        if (account_nb != -1)
+            gsb_transactions_list_update_tree_view (account_nb, TRUE);
+	    break;
+    }
+
+    return FALSE;
 }
 
 

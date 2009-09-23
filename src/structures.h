@@ -54,8 +54,6 @@ struct {
     gint alerte_permission;                 /* à un si le message d'alerte s'affiche */
     gint fichier_deja_ouvert;               /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
     gint force_enregistrement;              /* à un si on force l'enregistrement */
-    gint show_transaction_selected_in_form; /* TRUE will show the selected transaction in the form */
-    gint show_transaction_gives_balance;    /* TRUE si on visualise l'opération qui donne le solde du jour */
     gint affichage_exercice_automatique;    /* automatic fyear :0 to set according to the date, 2 according to value date */
     gint automatic_completion_payee;        /* 1 pour autoriser la completion automatique des opérations */
     gboolean limit_completion_to_current_account;   /** Limit payee *
@@ -139,6 +137,12 @@ struct {
     gint add_archive_in_total_balance;      /* Add transactions archived in the totals */
 } etat;
 
+
+/**
+ * variables containing just 0 or 1
+ * configured by the file grisbi.conf
+ *
+ */
 struct {
 
     /* geometry */
@@ -150,6 +154,11 @@ struct {
 
     /* general part */
     gint r_modifiable;                              /* Changes in reconciled transactions */
+
+    /* variables pour la liste des opérations */
+    gint show_transaction_selected_in_form;         /* TRUE will show the selected transaction in the form */
+    gint show_transaction_gives_balance;            /* TRUE si on visualise l'opération qui donne le solde du jour */
+    gboolean transactions_list_sort_by_value_date;  /* Options for sorting by value date */
 
     /* archive stuff */
     gint check_for_archival; /* TRUE if we want to check the number of non archived transactions at the opening */
