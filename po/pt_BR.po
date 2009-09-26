@@ -44,7 +44,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-23 22:12+0200\n"
+"POT-Creation-Date: 2009-09-26 09:28+0200\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
@@ -4773,62 +4773,6 @@ msgstr "Mesclar categorias"
 #, fuzzy
 msgid "Unnamed category list"
 msgstr "Categorias de receitas"
-
-#: src/gsb_crypt.c:174
-msgid "The password was incorrect ! Please try again..."
-msgstr ""
-
-#: src/gsb_crypt.c:185 src/plugins/openssl/openssl.c:183
-#, fuzzy, c-format
-msgid "Cannot open encrypted file '%s'"
-msgstr "Não posso abrir arquivo '%s': %s"
-
-#. FIXME: import symbols to be sure we can call this kind of stuff.
-#: src/gsb_crypt.c:187 src/plugins/openssl/openssl.c:181
-#, fuzzy
-msgid ""
-"This build of Grisbi does not support encryption.\n"
-"Please recompile Grisbi with OpenSSL encryption enabled."
-msgstr ""
-"Esta compilação do Grisbi não suporta OFX, por favor recompile o Grisbi com "
-"suporte a OFX"
-
-#: src/gsb_crypt.c:212 src/plugins/openssl/openssl.c:208
-#, fuzzy
-msgid "Grisbi password"
-msgstr "Logotipo do Grisbi"
-
-#: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:212
-#, fuzzy
-msgid "Crypt file"
-msgstr "Arquivo postscript"
-
-#: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:212
-#, fuzzy
-msgid "Decrypt file"
-msgstr "Arquivo postscript"
-
-#: src/gsb_crypt.c:243
-#, c-format
-msgid ""
-"Please enter password to encrypt file\n"
-"'<tt>%s</tt>'"
-msgstr ""
-
-#: src/gsb_crypt.c:250
-#, c-format
-msgid ""
-"Please enter password to decrypt file\n"
-"'<tt>%s</tt>'"
-msgstr ""
-
-#: src/gsb_crypt.c:260 src/plugins/openssl/openssl.c:250
-msgid "Password"
-msgstr ""
-
-#: src/gsb_crypt.c:268 src/plugins/openssl/openssl.c:258
-msgid "Don't ask password again for this session."
-msgstr ""
 
 #: src/gsb_currency.c:464
 msgid "Enter exchange rate"
@@ -9625,24 +9569,62 @@ msgstr "Débito comercial iniciado"
 msgid "Repeating payment/standing order"
 msgstr "Repetindo a ordem de pagamento"
 
-#: src/plugins/openssl/openssl.c:170
+#: src/plugins/openssl/openssl.c:169
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
 msgstr ""
 
-#: src/plugins/openssl/openssl.c:239
+#. FIXME: import symbols to be sure we can call this kind of stuff.
+#: src/plugins/openssl/openssl.c:180
+#, fuzzy
+msgid ""
+"This build of Grisbi does not support encryption.\n"
+"Please recompile Grisbi with OpenSSL encryption enabled."
+msgstr ""
+"Esta compilação do Grisbi não suporta OFX, por favor recompile o Grisbi com "
+"suporte a OFX"
+
+#: src/plugins/openssl/openssl.c:182
+#, fuzzy, c-format
+msgid "Cannot open encrypted file '%s'"
+msgstr "Não posso abrir arquivo '%s': %s"
+
+#: src/plugins/openssl/openssl.c:207
+#, fuzzy
+msgid "Grisbi password"
+msgstr "Logotipo do Grisbi"
+
+#: src/plugins/openssl/openssl.c:211
+#, fuzzy
+msgid "Crypt file"
+msgstr "Arquivo postscript"
+
+#: src/plugins/openssl/openssl.c:211
+#, fuzzy
+msgid "Decrypt file"
+msgstr "Arquivo postscript"
+
+#: src/plugins/openssl/openssl.c:238
 #, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
 "'<span foreground=\"blue\">%s</span>'"
 msgstr ""
 
-#: src/plugins/openssl/openssl.c:243
+#: src/plugins/openssl/openssl.c:242
 #, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
 "'<span foreground=\"blue\">%s</span>'"
+msgstr ""
+
+#: src/plugins/openssl/openssl.c:249
+msgid "Password"
+msgstr ""
+
+#: src/plugins/openssl/openssl.c:257
+msgid "Don't ask password again for this session."
 msgstr ""
 
 #: src/print_config.c:50

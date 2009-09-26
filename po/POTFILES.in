@@ -43,7 +43,6 @@ src/gsb_calendar.c
 src/gsb_calendar_entry.c
 src/gsb_category.c
 src/gsb_combo_box.c
-src/gsb_crypt.c
 src/gsb_currency.c
 src/gsb_currency_config.c
 src/gsb_currency_link_config.c

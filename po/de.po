@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-23 22:12+0200\n"
+"POT-Creation-Date: 2009-09-26 09:28+0200\n"
 "PO-Revision-Date: 2009-09-07 22:41+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -4784,62 +4784,6 @@ msgstr "Die Kategoriendatei konnte nicht geöffnet werden."
 #: src/gsb_category.c:377
 msgid "Unnamed category list"
 msgstr "Kategorienliste ohne Namen"
-
-#: src/gsb_crypt.c:174
-msgid "The password was incorrect ! Please try again..."
-msgstr "Das Passwort ist nicht korrekt! Bitte erneut eingeben..."
-
-#: src/gsb_crypt.c:185 src/plugins/openssl/openssl.c:183
-#, c-format
-msgid "Cannot open encrypted file '%s'"
-msgstr "Die verschlüsselte Datei kann nicht geöffnet werden '%s'"
-
-#. FIXME: import symbols to be sure we can call this kind of stuff.
-#: src/gsb_crypt.c:187 src/plugins/openssl/openssl.c:181
-msgid ""
-"This build of Grisbi does not support encryption.\n"
-"Please recompile Grisbi with OpenSSL encryption enabled."
-msgstr ""
-"Diese Version von Grisbi unterstützt keine Verschlüsselung.\n"
-"Bitte rekompilieren Sie Grisbi mit OpenSSL Unterstützung."
-
-#: src/gsb_crypt.c:212 src/plugins/openssl/openssl.c:208
-msgid "Grisbi password"
-msgstr "Grisbi Passwort"
-
-#: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:212
-msgid "Crypt file"
-msgstr "Datei verschlüsseln"
-
-#: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:212
-msgid "Decrypt file"
-msgstr "Datei entschlüsseln"
-
-#: src/gsb_crypt.c:243
-#, c-format
-msgid ""
-"Please enter password to encrypt file\n"
-"'<tt>%s</tt>'"
-msgstr ""
-"Bitte das Passwort zum Verschlüsseln der Datei eingeben\n"
-"'<tt>%s</tt>'"
-
-#: src/gsb_crypt.c:250
-#, c-format
-msgid ""
-"Please enter password to decrypt file\n"
-"'<tt>%s</tt>'"
-msgstr ""
-"Bitte das Passwort zum Entschlüsseln der Datei eingeben\n"
-"'<tt>%s</tt>'"
-
-#: src/gsb_crypt.c:260 src/plugins/openssl/openssl.c:250
-msgid "Password"
-msgstr "Passwort"
-
-#: src/gsb_crypt.c:268 src/plugins/openssl/openssl.c:258
-msgid "Don't ask password again for this session."
-msgstr "Solange das Programm geöffnet ist nicht mehr nach dem Passwort fragen."
 
 #: src/gsb_currency.c:464
 msgid "Enter exchange rate"
@@ -9685,7 +9629,7 @@ msgstr "Handelsbedingte Zahlung"
 msgid "Repeating payment/standing order"
 msgstr "Wiederkehrende Zahlung/Auftragbestellung"
 
-#: src/plugins/openssl/openssl.c:170
+#: src/plugins/openssl/openssl.c:169
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
@@ -9694,7 +9638,33 @@ msgstr ""
 "span>\n"
 "\n"
 
-#: src/plugins/openssl/openssl.c:239
+#. FIXME: import symbols to be sure we can call this kind of stuff.
+#: src/plugins/openssl/openssl.c:180
+msgid ""
+"This build of Grisbi does not support encryption.\n"
+"Please recompile Grisbi with OpenSSL encryption enabled."
+msgstr ""
+"Diese Version von Grisbi unterstützt keine Verschlüsselung.\n"
+"Bitte rekompilieren Sie Grisbi mit OpenSSL Unterstützung."
+
+#: src/plugins/openssl/openssl.c:182
+#, c-format
+msgid "Cannot open encrypted file '%s'"
+msgstr "Die verschlüsselte Datei kann nicht geöffnet werden '%s'"
+
+#: src/plugins/openssl/openssl.c:207
+msgid "Grisbi password"
+msgstr "Grisbi Passwort"
+
+#: src/plugins/openssl/openssl.c:211
+msgid "Crypt file"
+msgstr "Datei verschlüsseln"
+
+#: src/plugins/openssl/openssl.c:211
+msgid "Decrypt file"
+msgstr "Datei entschlüsseln"
+
+#: src/plugins/openssl/openssl.c:238
 #, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
@@ -9703,7 +9673,7 @@ msgstr ""
 "%sBitte das Passwort zum Verschlüsseln der Datei\n"
 "'<span foreground=\"blue\">%s</span>' eingeben."
 
-#: src/plugins/openssl/openssl.c:243
+#: src/plugins/openssl/openssl.c:242
 #, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
@@ -9711,6 +9681,14 @@ msgid ""
 msgstr ""
 "%sBitte das Passwort zum Entschlüsseln der Datei\n"
 "'<span foreground=\"blue\">%s</span>' eingeben."
+
+#: src/plugins/openssl/openssl.c:249
+msgid "Password"
+msgstr "Passwort"
+
+#: src/plugins/openssl/openssl.c:257
+msgid "Don't ask password again for this session."
+msgstr "Solange das Programm geöffnet ist nicht mehr nach dem Passwort fragen."
 
 #: src/print_config.c:50
 msgid "A3"
@@ -10241,3 +10219,20 @@ msgstr "Speicherzugriffsverletzung"
 #: src/utils_font.c:199
 msgid "No font defined"
 msgstr "Keine Schrift definiert"
+
+#~ msgid "The password was incorrect ! Please try again..."
+#~ msgstr "Das Passwort ist nicht korrekt! Bitte erneut eingeben..."
+
+#~ msgid ""
+#~ "Please enter password to encrypt file\n"
+#~ "'<tt>%s</tt>'"
+#~ msgstr ""
+#~ "Bitte das Passwort zum Verschlüsseln der Datei eingeben\n"
+#~ "'<tt>%s</tt>'"
+
+#~ msgid ""
+#~ "Please enter password to decrypt file\n"
+#~ "'<tt>%s</tt>'"
+#~ msgstr ""
+#~ "Bitte das Passwort zum Entschlüsseln der Datei eingeben\n"
+#~ "'<tt>%s</tt>'"

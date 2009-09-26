@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in.
 
-EXTRA_DIST = tips.txt fr.gmo de.gmo 
+EXTRA_DIST = tips.txt fr.po de.po es.po fr.gmo de.gmo es.gmo
 grisbi_helpdir = $(datadir)/$(PACKAGE)
 grisbi_help_DATA = tips.txt
 
@@ -8,7 +8,7 @@ grisbi_help_DATA = tips.txt
 #grisbi_pot_DATA = fr.gmo
 
 CC = gcc
-GMOFILES=fr.gmo de.gmo
+GMOFILES=fr.gmo de.gmo es.gmo
 localedir = ${datadir}/locale
 
 all:	$(GMOFILES)

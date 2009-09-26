@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-23 22:12+0200\n"
+"POT-Creation-Date: 2009-09-26 09:28+0200\n"
 "PO-Revision-Date: 2009-04-04 23:10+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -396,7 +396,7 @@ msgstr "Trier par date de valeur ou par date de l'opération si non présente"
 
 #: src/affichage_liste.c:197
 msgid "Sort by value date and then by date"
-msgstr "Trier par date de valeur puis par date"
+msgstr "Trier par date de valeur puis par date de l'opération"
 
 #: src/affichage_liste.c:204
 msgid "Account differentiation"
@@ -4784,62 +4784,6 @@ msgstr "Impossible d'ouvrir le fichier des catégories."
 #: src/gsb_category.c:377
 msgid "Unnamed category list"
 msgstr "Liste des catégories anonymes"
-
-#: src/gsb_crypt.c:174
-msgid "The password was incorrect ! Please try again..."
-msgstr "Le mot de passe est incorrect ! Veuillez essayer à nouveau..."
-
-#: src/gsb_crypt.c:185 src/plugins/openssl/openssl.c:183
-#, c-format
-msgid "Cannot open encrypted file '%s'"
-msgstr "Impossible d'ouvrir le fichier crypté '%s'"
-
-#. FIXME: import symbols to be sure we can call this kind of stuff.
-#: src/gsb_crypt.c:187 src/plugins/openssl/openssl.c:181
-msgid ""
-"This build of Grisbi does not support encryption.\n"
-"Please recompile Grisbi with OpenSSL encryption enabled."
-msgstr ""
-"Cette version compilée de Grisbi ne gère pas le cryptage.\n"
-"Veuillez recompiler Grisbi avec le cryptage OpenSSL d'activé."
-
-#: src/gsb_crypt.c:212 src/plugins/openssl/openssl.c:208
-msgid "Grisbi password"
-msgstr "Mot de passe Grisbi"
-
-#: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:212
-msgid "Crypt file"
-msgstr "Crypter le fichier"
-
-#: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:212
-msgid "Decrypt file"
-msgstr "Décrypter le fichier"
-
-#: src/gsb_crypt.c:243
-#, c-format
-msgid ""
-"Please enter password to encrypt file\n"
-"'<tt>%s</tt>'"
-msgstr ""
-"Veuillez entrer le mot de passe pour crypter le fichier\n"
-"« <tt>%s</tt> »"
-
-#: src/gsb_crypt.c:250
-#, c-format
-msgid ""
-"Please enter password to decrypt file\n"
-"'<tt>%s</tt>'"
-msgstr ""
-"Veuillez entrer le mot de passe pour décrypter le fichier\n"
-"« <tt>%s</tt> »"
-
-#: src/gsb_crypt.c:260 src/plugins/openssl/openssl.c:250
-msgid "Password"
-msgstr "Mot de passe"
-
-#: src/gsb_crypt.c:268 src/plugins/openssl/openssl.c:258
-msgid "Don't ask password again for this session."
-msgstr "Ne pas redemander le mot de passe pour cette session."
 
 #: src/gsb_currency.c:464
 msgid "Enter exchange rate"
@@ -9659,7 +9603,7 @@ msgstr "Prélèvement"
 msgid "Repeating payment/standing order"
 msgstr "Paiement répété"
 
-#: src/plugins/openssl/openssl.c:170
+#: src/plugins/openssl/openssl.c:169
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
@@ -9667,7 +9611,33 @@ msgstr ""
 "<span weight=\"bold\" foreground=\"red\">Mot de passe incorrect !</span>\n"
 "\n"
 
-#: src/plugins/openssl/openssl.c:239
+#. FIXME: import symbols to be sure we can call this kind of stuff.
+#: src/plugins/openssl/openssl.c:180
+msgid ""
+"This build of Grisbi does not support encryption.\n"
+"Please recompile Grisbi with OpenSSL encryption enabled."
+msgstr ""
+"Cette version compilée de Grisbi ne gère pas le cryptage.\n"
+"Veuillez recompiler Grisbi avec le cryptage OpenSSL d'activé."
+
+#: src/plugins/openssl/openssl.c:182
+#, c-format
+msgid "Cannot open encrypted file '%s'"
+msgstr "Impossible d'ouvrir le fichier crypté '%s'"
+
+#: src/plugins/openssl/openssl.c:207
+msgid "Grisbi password"
+msgstr "Mot de passe Grisbi"
+
+#: src/plugins/openssl/openssl.c:211
+msgid "Crypt file"
+msgstr "Crypter le fichier"
+
+#: src/plugins/openssl/openssl.c:211
+msgid "Decrypt file"
+msgstr "Décrypter le fichier"
+
+#: src/plugins/openssl/openssl.c:238
 #, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
@@ -9676,7 +9646,7 @@ msgstr ""
 "%sEntrer le mot de passe pour crypter le fichier\n"
 "« <tt>%s</tt> »"
 
-#: src/plugins/openssl/openssl.c:243
+#: src/plugins/openssl/openssl.c:242
 #, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
@@ -9684,6 +9654,14 @@ msgid ""
 msgstr ""
 "%sEntrer le mot de passe pour décrypter le fichier\n"
 "« <tt>%s</tt> »"
+
+#: src/plugins/openssl/openssl.c:249
+msgid "Password"
+msgstr "Mot de passe"
+
+#: src/plugins/openssl/openssl.c:257
+msgid "Don't ask password again for this session."
+msgstr "Ne pas redemander le mot de passe pour cette session."
 
 #: src/print_config.c:50
 msgid "A3"
@@ -10208,6 +10186,23 @@ msgstr "Erreur d'allocation mémoire"
 #: src/utils_font.c:199
 msgid "No font defined"
 msgstr "Aucune police définie"
+
+#~ msgid "The password was incorrect ! Please try again..."
+#~ msgstr "Le mot de passe est incorrect ! Veuillez essayer à nouveau..."
+
+#~ msgid ""
+#~ "Please enter password to encrypt file\n"
+#~ "'<tt>%s</tt>'"
+#~ msgstr ""
+#~ "Veuillez entrer le mot de passe pour crypter le fichier\n"
+#~ "« <tt>%s</tt> »"
+
+#~ msgid ""
+#~ "Please enter password to decrypt file\n"
+#~ "'<tt>%s</tt>'"
+#~ msgstr ""
+#~ "Veuillez entrer le mot de passe pour décrypter le fichier\n"
+#~ "« <tt>%s</tt> »"
 
 #~ msgid "Add a partial balance"
 #~ msgstr "Ajoute un solde partiel"
