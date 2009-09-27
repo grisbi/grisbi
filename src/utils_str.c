@@ -750,7 +750,7 @@ gchar * gsb_string_remplace_string ( gchar * str, gchar *old_str, gchar *new_str
 
     long_old = g_utf8_strlen ( old_str, -1 );
     chaine = g_strndup ( str, (ptr_debut - str) );
-    chaine = g_strconcat ( chaine, new_str, ( ptr_debut + long_old ), NULL );
+    chaine = g_strconcat ( chaine, new_str, ( ptr_debut + long_old + 1 ), NULL );
     return g_strdup ( chaine );
 }
 

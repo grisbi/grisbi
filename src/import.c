@@ -2313,42 +2313,41 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gint fyear = 0;
     gint last_transaction_number;
     gint div_number;
-	gchar* tmpstr;
+    gchar* tmpstr;
 
     /* we create the new transaction */
     transaction_number = gsb_data_transaction_new_transaction ( account_number );
 
     /* get the id if exists */
     if ( imported_transaction -> id_operation )
-	gsb_data_transaction_set_transaction_id ( transaction_number,
-						  imported_transaction -> id_operation );
+    gsb_data_transaction_set_transaction_id ( transaction_number,
+                        imported_transaction -> id_operation );
 
     /* get the date */
     gsb_data_transaction_set_date ( transaction_number,
-				    imported_transaction -> date );
+                        imported_transaction -> date );
 
     /* récupération de la date de valeur */
     gsb_data_transaction_set_value_date ( transaction_number,
-					  imported_transaction -> date_de_valeur );
+                        imported_transaction -> date_de_valeur );
 
     /* set the financial year according to the date or value date */
     if (etat.get_fyear_by_value_date && imported_transaction -> date_de_valeur)
-	fyear = gsb_data_fyear_get_from_date (imported_transaction -> date_de_valeur );
+    fyear = gsb_data_fyear_get_from_date (imported_transaction -> date_de_valeur );
 
     /* if no fyear found, get from the date */
     if (fyear <= 0)
-	fyear = gsb_data_fyear_get_from_date (imported_transaction -> date );
+    fyear = gsb_data_fyear_get_from_date (imported_transaction -> date );
     if (fyear > 0)
-	gsb_data_transaction_set_financial_year_number ( transaction_number,
-							 fyear );
+    gsb_data_transaction_set_financial_year_number ( transaction_number, fyear );
 
     /* récupération du montant */
     gsb_data_transaction_set_amount ( transaction_number,
-				      imported_transaction -> montant );
+                        imported_transaction -> montant );
 
     /* récupération de la devise */
     gsb_data_transaction_set_currency_number ( transaction_number,
-					       imported_transaction -> devise );
+                        imported_transaction -> devise );
 
     /* récupération du tiers */
     /* pbiava on 03/22/2009 utilisation des remplacements de tiers.
@@ -2372,61 +2371,69 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                 gsb_data_transaction_set_notes ( transaction_number,
                         imported_transaction -> tiers );
         }
+        if ( etat.get_extract_number_for_check )
+        {
+            tmpstr = gsb_string_extract_int ( imported_transaction -> tiers );
+            if ( tmpstr && strlen ( tmpstr ) > 0 )
+            {
+                gsb_data_transaction_set_method_of_payment_content (
+                        transaction_number, tmpstr );
+                g_free ( tmpstr );
+            }
+        }
         gsb_data_transaction_set_party_number ( transaction_number, payee_number );
     }
 
     /* vérification si c'est ventilé, sinon récupération des catégories */
     if ( imported_transaction -> operation_ventilee )
     {
-	/* l'opération est ventilée */
-	gsb_data_transaction_set_split_of_transaction ( transaction_number,
-							1 );
+    /* l'opération est ventilée */
+    gsb_data_transaction_set_split_of_transaction ( transaction_number, 1 );
     }
     else
     {
-	if ( imported_transaction -> categ
-	     &&
-	     strlen (imported_transaction -> categ))
-	{
-	    if ( imported_transaction -> categ[0] == '[' )
-	    {
-		/* it's a transfer,
-		 * we will try to make the link later, for now, we keep the name of the contra account into
-		 * the bank references (never used for import)
-		 * and set contra_transaction_number to -1 to search the link later */
+    if ( imported_transaction -> categ
+        &&
+        strlen (imported_transaction -> categ))
+    {
+        if ( imported_transaction -> categ[0] == '[' )
+        {
+        /* it's a transfer,
+         * we will try to make the link later, for now, we keep the name of the contra account into
+         * the bank references (never used for import)
+         * and set contra_transaction_number to -1 to search the link later */
 
-		gsb_data_transaction_set_bank_references ( transaction_number,
-							   imported_transaction -> categ);
-		gsb_data_transaction_set_contra_transaction_number ( transaction_number,
-								     -1);
-		virements_a_chercher = 1;
-	    }
-	    else
-	    {
-		/* it's a normal category */
+        gsb_data_transaction_set_bank_references ( transaction_number,
+                        imported_transaction -> categ);
+        gsb_data_transaction_set_contra_transaction_number ( transaction_number, -1);
+        virements_a_chercher = 1;
+        }
+        else
+        {
+        /* it's a normal category */
 
-		gint category_number;
+        gint category_number;
 
-		tab_str = g_strsplit ( imported_transaction -> categ,
-				       ":",
-				       2 );
+        tab_str = g_strsplit ( imported_transaction -> categ,
+                        ":",
+                        2 );
 
-		/* get the category and create it if doesn't exist */
-		if (tab_str[0])
-		    tab_str[0] = g_strstrip (tab_str[0]);
-		category_number = gsb_data_category_get_number_by_name ( tab_str[0],
-									 TRUE,
-									 imported_transaction -> montant.mantissa < 0 );
-		gsb_data_transaction_set_category_number ( transaction_number,
-							   category_number );
-		if (tab_str[1])
-		    tab_str[1] = g_strstrip (tab_str[1]);
-		gsb_data_transaction_set_sub_category_number ( transaction_number,
-							       gsb_data_category_get_sub_category_number_by_name ( category_number,
-														   tab_str[1],
-														   TRUE ));
-	    }
-	}
+        /* get the category and create it if doesn't exist */
+        if (tab_str[0])
+            tab_str[0] = g_strstrip (tab_str[0]);
+        category_number = gsb_data_category_get_number_by_name ( tab_str[0],
+                        TRUE,
+                        imported_transaction -> montant.mantissa < 0 );
+        gsb_data_transaction_set_category_number ( transaction_number,
+                        category_number );
+        if (tab_str[1])
+            tab_str[1] = g_strstrip (tab_str[1]);
+        gsb_data_transaction_set_sub_category_number ( transaction_number,
+                        gsb_data_category_get_sub_category_number_by_name ( category_number,
+                        tab_str[1],
+                        TRUE ));
+        }
+    }
     else if ( etat.get_categorie_for_payee && 
      ( !imported_transaction -> cheque 
      ||
@@ -2457,27 +2464,27 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
         if ( div_number != -1 )
             gsb_data_transaction_set_sub_budgetary_number ( transaction_number, div_number );
     }
-	else
-	{
-	    gsb_data_transaction_set_category_number ( transaction_number, 0 );
-	    gsb_data_transaction_set_sub_category_number ( transaction_number, 0 );
-	}
+    else
+    {
+        gsb_data_transaction_set_category_number ( transaction_number, 0 );
+        gsb_data_transaction_set_sub_category_number ( transaction_number, 0 );
+    }
     }
 
     /* récupération des notes */
     if ( imported_transaction -> notes &&
                         strlen (imported_transaction -> notes) )
         gsb_data_transaction_set_notes ( transaction_number,
-				     imported_transaction -> notes );
+                        imported_transaction -> notes );
 
     if (origine && g_ascii_strcasecmp (origine, "OFX") == 0 )
     {
-	gchar *buffer;
+    gchar *buffer;
     gint payment_number = 0;
 
     switch ( imported_transaction -> type_de_transaction )
-	{
-	    case OFX_CHECK:
+    {
+        case OFX_CHECK:
         /* Check = Chèque */
         payment_number = gsb_data_payment_get_number_by_name ( _("Check"),
                         account_number );
@@ -2490,172 +2497,172 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                 transaction_number, buffer );
         g_free ( buffer );
 
-		break;
-	    //~ case OFX_INT:
-		//~ break;
-	    //~ case OFX_DIV:
-		//~ break;
-	    //~ case OFX_SRVCHG:
-		//~ break;
-	    //~ case OFX_FEE:
-		//~ break;
-	    case OFX_DEP:
+        break;
+        //~ case OFX_INT:
+        //~ break;
+        //~ case OFX_DIV:
+        //~ break;
+        //~ case OFX_SRVCHG:
+        //~ break;
+        //~ case OFX_FEE:
+        //~ break;
+        case OFX_DEP:
         /* Deposit = Dépôt */
         payment_number = gsb_data_payment_get_number_by_name ( _("Deposit"),
-						    account_number );
+                        account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
-		break;
-	    case OFX_ATM:
+        break;
+        case OFX_ATM:
         /* pas trouvé de définition remplacé par carte de crédit */
         payment_number = gsb_data_payment_get_number_by_name ( _("Credit card"),
-						    account_number );
+                        account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
-		break;
-	    case OFX_POS:
+        break;
+        case OFX_POS:
         /* Point of sale = Point de vente remplacé par carte de crédit */
         payment_number = gsb_data_payment_get_number_by_name ( _("Credit card"),
-						    account_number );
+                        account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
-		break;
-	    case OFX_XFER:
+        break;
+        case OFX_XFER:
         /* Transfer = Virement */
-		payment_number = gsb_data_payment_get_number_by_name ( _("Transfert"),
-						    account_number );
+        payment_number = gsb_data_payment_get_number_by_name ( _("Transfert"),
+                        account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
-		break;
-	    case OFX_PAYMENT:
+        break;
+        case OFX_PAYMENT:
         /* Electronic payment remplacé par Direct debit = Prélèvement */
         payment_number = gsb_data_payment_get_number_by_name ( _("Direct debit"),
-						    account_number );
+                        account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
-		break;
-	    case OFX_CASH:
+        break;
+        case OFX_CASH:
         /* Cash withdrawal = retrait en liquide */
         payment_number = gsb_data_payment_get_number_by_name ( _("Cash withdrawal"),
-						    account_number );
+                        account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
-		break;
-	    case OFX_DIRECTDEP:
+        break;
+        case OFX_DIRECTDEP:
         /* Direct deposit remplacé par Transfert = Virement */
-		payment_number = gsb_data_payment_get_number_by_name ( _("Transfert"),
-						    account_number );
+        payment_number = gsb_data_payment_get_number_by_name ( _("Transfert"),
+                        account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
-		break;
-	    case OFX_DIRECTDEBIT:
+        break;
+        case OFX_DIRECTDEBIT:
         /* Merchant initiated debit remplacé par Direct debit = Prélèvement */
         payment_number = gsb_data_payment_get_number_by_name ( _("Direct debit"),
-						    account_number );
+                        account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
 
-		break;
-	    //~ case OFX_REPEATPMT:
-		//~ break;
+        break;
+        //~ case OFX_REPEATPMT:
+        //~ break;
 
-	    case OFX_DEBIT:
-	    case OFX_CREDIT:
-	    case OFX_OTHER:
-		break;
-	}
+        case OFX_DEBIT:
+        case OFX_CREDIT:
+        case OFX_OTHER:
+        break;
+    }
     }
     else
     {
     /* récupération du chèque et mise en forme du type d'opération */
     if ( imported_transaction -> cheque )
     {
-	/* it's a cheque, try to find a method of payment with automatic increment, if don't find
-	 * set in default method of payment */
-	gint payment_number;
-	gint sign;
+    /* it's a cheque, try to find a method of payment with automatic increment, if don't find
+     * set in default method of payment */
+    gint payment_number;
+    gint sign;
 
-	if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
-	{
-	    sign = GSB_PAYMENT_DEBIT;
-	    payment_number = gsb_data_account_get_default_debit (account_number);
-	   }
-	else
-	{
-	    sign = GSB_PAYMENT_CREDIT;
-	    payment_number = gsb_data_account_get_default_credit (account_number);
-	}
-
-	if ( !gsb_data_payment_get_automatic_numbering (payment_number))
-	{
-	    /* the default method is not an automatic numbering, try to find one in the method of payment of this account */
-	    GSList *list_tmp;
-
-	    list_tmp = gsb_data_payment_get_payments_list ();
-	    while (list_tmp)
-	    {
-		gint payment_number_tmp;
-
-		payment_number_tmp = gsb_data_payment_get_number (list_tmp -> data);
-
-		if ( gsb_data_payment_get_account_number (payment_number_tmp) == account_number
-		     &&
-		     gsb_data_payment_get_automatic_numbering (payment_number_tmp)
-		     &&
-		     ( gsb_data_payment_get_sign (payment_number_tmp) == sign
-		       ||
-		       gsb_data_payment_get_sign (payment_number_tmp) == GSB_PAYMENT_NEUTRAL ))
-		{
-		    payment_number = payment_number_tmp;
-		    break;
-		}
-		list_tmp = list_tmp -> next;
-	    }
-	}
-	/* now, either payment_number is an automatic numbering method of payment,
-	 * either it's the default method of payment,
-	 * first save it */
-	gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-							    payment_number );
-
-	tmpstr = utils_str_itoa ( imported_transaction -> cheque );
-	if ( gsb_data_payment_get_automatic_numbering (payment_number))
-	    /* we are on the default payment_number, save just the cheque number */
-	    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-								 tmpstr );
-	else
-	{
-	    /* we are on a automatic numbering payment, we will save the cheque only
-	     * if it's not used before, else we show an warning message */
-	    if (gsb_data_transaction_check_content_payment (payment_number, imported_transaction -> cheque))
-	    {
-		gchar* tmpstr = g_strdup_printf ( _("Warning : the cheque number %ld is already used.\nWe skip it"),
-						     imported_transaction -> cheque );
-		dialogue_warning ( tmpstr );
-		g_free ( tmpstr );
-	    }
-	    else
-		gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-								     utils_str_itoa ( imported_transaction -> cheque ) );
-	}
-	g_free ( tmpstr );
+    if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
+    {
+        sign = GSB_PAYMENT_DEBIT;
+        payment_number = gsb_data_account_get_default_debit (account_number);
     }
     else
     {
-	/* comme ce n'est pas un chèque, on met sur le type par défaut */
-	if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
-	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-								gsb_data_account_get_default_debit (account_number));
-	else
-	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-								gsb_data_account_get_default_credit (account_number));
+        sign = GSB_PAYMENT_CREDIT;
+        payment_number = gsb_data_account_get_default_credit (account_number);
+    }
+
+    if ( !gsb_data_payment_get_automatic_numbering (payment_number))
+    {
+        /* the default method is not an automatic numbering, try to find one in the method of payment of this account */
+        GSList *list_tmp;
+
+        list_tmp = gsb_data_payment_get_payments_list ();
+        while (list_tmp)
+        {
+        gint payment_number_tmp;
+
+        payment_number_tmp = gsb_data_payment_get_number (list_tmp -> data);
+
+        if ( gsb_data_payment_get_account_number (payment_number_tmp) == account_number
+             &&
+             gsb_data_payment_get_automatic_numbering (payment_number_tmp)
+             &&
+             ( gsb_data_payment_get_sign (payment_number_tmp) == sign
+               ||
+               gsb_data_payment_get_sign (payment_number_tmp) == GSB_PAYMENT_NEUTRAL ))
+        {
+            payment_number = payment_number_tmp;
+            break;
+        }
+        list_tmp = list_tmp -> next;
+        }
+    }
+    /* now, either payment_number is an automatic numbering method of payment,
+     * either it's the default method of payment,
+     * first save it */
+    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+                        payment_number );
+
+    tmpstr = utils_str_itoa ( imported_transaction -> cheque );
+    if ( gsb_data_payment_get_automatic_numbering (payment_number))
+        /* we are on the default payment_number, save just the cheque number */
+        gsb_data_transaction_set_method_of_payment_content ( transaction_number,
+                        tmpstr );
+    else
+    {
+        /* we are on a automatic numbering payment, we will save the cheque only
+         * if it's not used before, else we show an warning message */
+        if (gsb_data_transaction_check_content_payment (payment_number, imported_transaction -> cheque))
+        {
+        gchar* tmpstr = g_strdup_printf ( _("Warning : the cheque number %ld is already used.\nWe skip it"),
+                        imported_transaction -> cheque );
+        dialogue_warning ( tmpstr );
+        g_free ( tmpstr );
+        }
+        else
+        gsb_data_transaction_set_method_of_payment_content ( transaction_number,
+                        utils_str_itoa ( imported_transaction -> cheque ) );
+    }
+    g_free ( tmpstr );
+    }
+    else
+    {
+    /* comme ce n'est pas un chèque, on met sur le type par défaut */
+    if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
+        gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+                        gsb_data_account_get_default_debit (account_number));
+    else
+        gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+                        gsb_data_account_get_default_credit (account_number));
     }
     }
     /* récupération du pointé */
     gsb_data_transaction_set_marked_transaction ( transaction_number,
-						  imported_transaction -> p_r );
+                        imported_transaction -> p_r );
     if (imported_transaction -> p_r == OPERATION_RAPPROCHEE)
-	marked_r_transactions_imported = TRUE;
+    marked_r_transactions_imported = TRUE;
 
 
     /* si c'est une ope de ventilation, lui ajoute le no de l'opération précédente */
     if ( imported_transaction -> ope_de_ventilation )
-	gsb_data_transaction_set_mother_transaction_number ( transaction_number,
-							     mother_transaction_number );
+    gsb_data_transaction_set_mother_transaction_number ( transaction_number,
+                        mother_transaction_number );
     else
-	mother_transaction_number  = transaction_number;
+    mother_transaction_number  = transaction_number;
 
     /* pbiava the 03/17/2009 delete the found transaction */
     if ( etat.get_fusion_import_planed_transactions &&

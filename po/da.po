@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-26 09:28+0200\n"
+"POT-Creation-Date: 2009-09-27 16:45+0200\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -16,150 +16,150 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.1\n"
 
-#: src/accueil.c:215
+#: src/accueil.c:214
 msgid "Closed liabilities accounts"
 msgstr "Lukkede passiver-konti"
 
-#: src/accueil.c:226
+#: src/accueil.c:225
 #, fuzzy
 msgid "Run out manual scheduled transactions"
 msgstr "Opret en planlagt transaktion"
 
-#: src/accueil.c:242
+#: src/accueil.c:241
 msgid "Automatic scheduled transactions entered"
 msgstr ""
 
-#: src/accueil.c:253
+#: src/accueil.c:252
 msgid "Closed scheduled transactions"
 msgstr "Lukkede planlagte transaktioner"
 
-#: src/accueil.c:264
+#: src/accueil.c:263
 msgid "Accounts under authorized balance"
 msgstr "Konti under det tilladte beløb"
 
-#: src/accueil.c:275
+#: src/accueil.c:274
 #, fuzzy
 msgid "Accounts under desired balance"
 msgstr "Konti under det ønskede minimumsbeløb"
 
 #. crÃ©e la boite de dialogue
-#: src/accueil.c:322
+#: src/accueil.c:321
 msgid "Enter a scheduled transaction"
 msgstr "Opret en planlagt transaktion"
 
 #. Creating the table which will store accounts with their balances.
-#: src/accueil.c:474
+#: src/accueil.c:473
 #, fuzzy, c-format
 msgid "Account balances in %s"
 msgstr "Kontotransaktioner"
 
-#: src/accueil.c:477 src/accueil.c:555 src/accueil.c:632 src/accueil.c:701
+#: src/accueil.c:476 src/accueil.c:554 src/accueil.c:631 src/accueil.c:700
 msgid " at "
 msgstr ""
 
 #. Creating the table which will store accounts with their balances
-#: src/accueil.c:552
+#: src/accueil.c:551
 #, fuzzy, c-format
 msgid "Liabilities accounts balances in %s"
 msgstr "Passiver"
 
 #. Creating the table which will store accounts with their balances
-#: src/accueil.c:629
+#: src/accueil.c:628
 #, fuzzy, c-format
 msgid "Assets accounts balances in %s"
 msgstr "Aktiver"
 
-#: src/accueil.c:697 src/gsb_data_partial_balance.c:203
+#: src/accueil.c:696 src/gsb_data_partial_balance.c:210
 #, fuzzy
 msgid "Additional balance"
 msgstr "Balancer"
 
-#: src/accueil.c:699
+#: src/accueil.c:698
 #, fuzzy
 msgid "Additional balances"
 msgstr "Balancer"
 
-#: src/accueil.c:791 src/accueil.c:991
+#: src/accueil.c:790 src/accueil.c:1006
 msgid "Reconciled balance"
 msgstr "Afstemt balance"
 
-#: src/accueil.c:795 src/accueil.c:995
+#: src/accueil.c:794 src/accueil.c:1010
 msgid "Current balance"
 msgstr "Betalingsbalance"
 
-#: src/accueil.c:984 src/gsb_data_partial_balance.c:1395
+#: src/accueil.c:999
 #, fuzzy
 msgid "Partial balance"
 msgstr "Balancer"
 
-#: src/accueil.c:986
+#: src/accueil.c:1001
 #, fuzzy
 msgid "Partial balances"
 msgstr "Balancer"
 
-#: src/accueil.c:1077
+#: src/accueil.c:1079
 #, fuzzy
 msgid "Global balance"
 msgstr "Balancer"
 
-#: src/accueil.c:1079
+#: src/accueil.c:1081
 msgid "Global balances"
 msgstr "Balancer"
 
-#: src/accueil.c:1135
+#: src/accueil.c:1137
 #, c-format
 msgid " in %s"
 msgstr ""
 
-#: src/accueil.c:1302 src/accueil.c:1425 src/accueil.c:1877
+#: src/accueil.c:1304 src/accueil.c:1427 src/accueil.c:1879
 #, c-format
 msgid "%s credited on %s"
 msgstr ""
 
-#: src/accueil.c:1312 src/accueil.c:1435 src/accueil.c:1886
+#: src/accueil.c:1314 src/accueil.c:1437 src/accueil.c:1888
 #, c-format
 msgid "%s debited on %s"
 msgstr ""
 
-#: src/accueil.c:1654
+#: src/accueil.c:1656
 #, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr ""
 
-#: src/accueil.c:1658
+#: src/accueil.c:1660
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
 msgstr ""
 
-#: src/accueil.c:1687
+#: src/accueil.c:1689
 #, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr ""
 
-#: src/accueil.c:1697
+#: src/accueil.c:1699
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
 msgstr ""
 
-#: src/accueil.c:1729
+#: src/accueil.c:1731
 #, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr ""
 
-#: src/accueil.c:1739
+#: src/accueil.c:1741
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
 msgstr ""
 
-#: src/accueil.c:1929
+#: src/accueil.c:1930
 #, fuzzy
 msgid "Configuration of the main page"
 msgstr "Lukkede planlagte transaktioner"
 
-#: src/accueil.c:1938
+#: src/accueil.c:1939
 #, fuzzy
 msgid "Balances partials of the list of accounts"
 msgstr "Fly transaktioner til kategori"
@@ -173,12 +173,12 @@ msgstr "Fly transaktioner til kategori"
 #. Financial year name
 #. set the name
 #. Name entry
-#: src/accueil.c:2028 src/categories_onglet.c:669 src/gsb_archive_config.c:98
+#: src/accueil.c:2030 src/categories_onglet.c:669 src/gsb_archive_config.c:98
 #: src/gsb_archive_config.c:186 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:388
 #: src/gsb_assistant_reconcile_config.c:1221 src/gsb_bank.c:732
-#: src/gsb_bank.c:855 src/gsb_currency_config.c:355
-#: src/gsb_data_partial_balance.c:1419 src/gsb_fyear_config.c:191
+#: src/gsb_bank.c:855 src/gsb_currency_config.c:354
+#: src/gsb_data_partial_balance.c:1495 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:240
 #: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1704
 #: src/imputation_budgetaire.c:703 src/tiers_onglet.c:612
@@ -186,22 +186,22 @@ msgid "Name"
 msgstr "Navn"
 
 #. List of the accounts
-#: src/accueil.c:2037 src/gsb_data_partial_balance.c:1430
+#: src/accueil.c:2039 src/gsb_data_partial_balance.c:1506
 #, fuzzy
 msgid "Accounts list"
 msgstr "Kontooverskrift"
 
-#: src/accueil.c:2053
+#: src/accueil.c:2055
 #, fuzzy
 msgid "Colorize"
 msgstr "Luk"
 
-#: src/accueil.c:2061
+#: src/accueil.c:2063
 #, fuzzy
 msgid "Account kind"
 msgstr "Kontonavn"
 
-#: src/accueil.c:2070 src/gsb_form_widget.c:445 src/import_csv.c:77
+#: src/accueil.c:2072 src/gsb_form_widget.c:445 src/import_csv.c:77
 msgid "Currency"
 msgstr "Valuta"
 
@@ -368,7 +368,7 @@ msgid "Background of invalid date entry"
 msgstr ""
 
 #: src/affichage.c:975 src/gsb_assistant_file.c:564 src/navigation.c:1141
-#: src/navigation.c:1142 src/traitement_variables.c:290
+#: src/navigation.c:1142 src/traitement_variables.c:286
 #, fuzzy
 msgid "My accounts"
 msgstr "Vis konti"
@@ -560,7 +560,7 @@ msgstr ""
 #: src/export_csv.c:749 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1266 src/gsb_form_widget.c:397 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:338 src/gsb_transactions_list.c:143
-#: src/import.c:3066 src/import_csv.c:78 src/traitement_variables.c:76
+#: src/import.c:3073 src/import_csv.c:78 src/traitement_variables.c:76
 msgid "Date"
 msgstr "Dato"
 
@@ -880,7 +880,7 @@ msgid "Create a new sub-category"
 msgstr "Giv den nye underkategori et navn"
 
 #: src/categories_onglet.c:510 src/etats_onglet.c:130 src/import.c:382
-#: src/import.c:3286 src/imputation_budgetaire.c:543 src/parametres.c:289
+#: src/import.c:3293 src/imputation_budgetaire.c:543 src/parametres.c:289
 msgid "Import"
 msgstr "Importér"
 
@@ -1452,7 +1452,7 @@ msgstr ""
 
 #. Transfer = Virement
 #. Direct deposit remplacÃ© par Transfert = Virement
-#: src/etats_affiche.c:1844 src/import.c:2522 src/import.c:2540
+#: src/etats_affiche.c:1844 src/import.c:2529 src/import.c:2547
 #, fuzzy
 msgid "Transfert"
 msgstr "Overførsel"
@@ -1515,7 +1515,7 @@ msgstr "Regnskabsår"
 #: src/etats_config.c:685 src/etats_config.c:7021 src/export_csv.c:764
 #: src/fenetre_principale.c:264 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1293 src/gsb_form_widget.c:417 src/gsb_scheduler_list.c:338
-#: src/gsb_transactions_list.c:145 src/import.c:3073 src/import_csv.c:80
+#: src/gsb_transactions_list.c:145 src/import.c:3080 src/import_csv.c:80
 #: src/meta_payee.c:77 src/traitement_variables.c:78
 #, fuzzy
 msgid "Payee"
@@ -1729,7 +1729,7 @@ msgstr ""
 msgid "Transactions"
 msgstr ""
 
-#: src/etats_config.c:642 src/etats_config.c:645 src/gsb_currency_config.c:296
+#: src/etats_config.c:642 src/etats_config.c:645 src/gsb_currency_config.c:295
 #: src/parametres.c:471
 msgid "Currencies"
 msgstr "Valutaer"
@@ -2075,7 +2075,7 @@ msgstr ""
 
 #: src/etats_config.c:5239 src/export_csv.c:773
 #: src/gsb_assistant_reconcile_config.c:594 src/gsb_scheduler_list.c:339
-#: src/gsb_transactions_list.c:150 src/import.c:3081
+#: src/gsb_transactions_list.c:150 src/import.c:3088
 #: src/traitement_variables.c:83
 msgid "Amount"
 msgstr "Beløb"
@@ -2781,7 +2781,7 @@ msgid "Select accounts to export"
 msgstr ""
 
 #: src/export.c:169 src/export_csv.c:743 src/gsb_account_property.c:229
-#: src/gsb_data_partial_balance.c:1371 src/import.c:1157 src/import.c:1194
+#: src/gsb_data_partial_balance.c:1439 src/import.c:1157 src/import.c:1194
 msgid "Account name"
 msgstr "Kontonavn"
 
@@ -3599,21 +3599,21 @@ msgid "Minimum desired balance"
 msgstr ""
 
 #: src/gsb_account_property.c:675 src/gsb_assistant_account.c:426
-#: src/gsb_data_partial_balance.c:219
+#: src/gsb_data_partial_balance.c:226
 msgid "Bank account"
 msgstr "Bankkonto"
 
-#: src/gsb_account_property.c:675 src/gsb_data_partial_balance.c:207
+#: src/gsb_account_property.c:675 src/gsb_data_partial_balance.c:214
 msgid "Cash account"
 msgstr "Kontanter"
 
 #: src/gsb_account_property.c:675 src/gsb_assistant_account.c:439
-#: src/gsb_data_partial_balance.c:211
+#: src/gsb_data_partial_balance.c:218
 msgid "Liabilities account"
 msgstr "Passiver"
 
 #: src/gsb_account_property.c:675 src/gsb_assistant_account.c:435
-#: src/gsb_data_partial_balance.c:215
+#: src/gsb_data_partial_balance.c:222
 msgid "Assets account"
 msgstr "Aktiver"
 
@@ -4620,1470 +4620,1470 @@ msgstr ""
 msgid "Exchange fees"
 msgstr ""
 
-#: src/gsb_currency_config.c:90 src/gsb_currency_config.c:91
-#: src/gsb_currency_config.c:92 src/gsb_currency_config.c:93
-#: src/gsb_currency_config.c:94 src/gsb_currency_config.c:95
-#: src/gsb_currency_config.c:96 src/gsb_currency_config.c:97
-#: src/gsb_currency_config.c:98 src/gsb_currency_config.c:99
-#: src/gsb_currency_config.c:100 src/gsb_currency_config.c:101
-#: src/gsb_currency_config.c:102 src/gsb_currency_config.c:103
-#: src/gsb_currency_config.c:104 src/gsb_currency_config.c:105
-#: src/gsb_currency_config.c:106 src/gsb_currency_config.c:107
-#: src/gsb_currency_config.c:108 src/gsb_currency_config.c:109
-#: src/gsb_currency_config.c:110 src/gsb_currency_config.c:111
-#: src/gsb_currency_config.c:112 src/gsb_currency_config.c:113
-#: src/gsb_currency_config.c:114 src/gsb_currency_config.c:115
-#: src/gsb_currency_config.c:116 src/gsb_currency_config.c:117
-#: src/gsb_currency_config.c:118 src/gsb_currency_config.c:119
-#: src/gsb_currency_config.c:120 src/gsb_currency_config.c:121
-#: src/gsb_currency_config.c:122 src/gsb_currency_config.c:123
-#: src/gsb_currency_config.c:124 src/gsb_currency_config.c:125
+#: src/gsb_currency_config.c:89 src/gsb_currency_config.c:90
+#: src/gsb_currency_config.c:91 src/gsb_currency_config.c:92
+#: src/gsb_currency_config.c:93 src/gsb_currency_config.c:94
+#: src/gsb_currency_config.c:95 src/gsb_currency_config.c:96
+#: src/gsb_currency_config.c:97 src/gsb_currency_config.c:98
+#: src/gsb_currency_config.c:99 src/gsb_currency_config.c:100
+#: src/gsb_currency_config.c:101 src/gsb_currency_config.c:102
+#: src/gsb_currency_config.c:103 src/gsb_currency_config.c:104
+#: src/gsb_currency_config.c:105 src/gsb_currency_config.c:106
+#: src/gsb_currency_config.c:107 src/gsb_currency_config.c:108
+#: src/gsb_currency_config.c:109 src/gsb_currency_config.c:110
+#: src/gsb_currency_config.c:111 src/gsb_currency_config.c:112
+#: src/gsb_currency_config.c:113 src/gsb_currency_config.c:114
+#: src/gsb_currency_config.c:115 src/gsb_currency_config.c:116
+#: src/gsb_currency_config.c:117 src/gsb_currency_config.c:118
+#: src/gsb_currency_config.c:119 src/gsb_currency_config.c:120
+#: src/gsb_currency_config.c:121 src/gsb_currency_config.c:122
+#: src/gsb_currency_config.c:123 src/gsb_currency_config.c:124
 msgid "Africa"
 msgstr "Africa"
 
-#: src/gsb_currency_config.c:90
+#: src/gsb_currency_config.c:89
 msgid "Algerian Dinar"
 msgstr ""
 
-#: src/gsb_currency_config.c:90
+#: src/gsb_currency_config.c:89
 #, fuzzy
 msgid "Algeria"
 msgstr "Africa"
 
-#: src/gsb_currency_config.c:91
+#: src/gsb_currency_config.c:90
 msgid "Botswana Pula"
 msgstr ""
 
-#: src/gsb_currency_config.c:91
+#: src/gsb_currency_config.c:90
 msgid "Botswana"
 msgstr ""
 
-#: src/gsb_currency_config.c:92
+#: src/gsb_currency_config.c:91
 msgid "Burundi Franc"
 msgstr ""
 
-#: src/gsb_currency_config.c:92
+#: src/gsb_currency_config.c:91
 msgid "Burundi"
 msgstr ""
 
-#: src/gsb_currency_config.c:93 src/gsb_currency_config.c:94
+#: src/gsb_currency_config.c:92 src/gsb_currency_config.c:93
 msgid "CFA Franc BCEAO"
 msgstr ""
 
-#: src/gsb_currency_config.c:93
+#: src/gsb_currency_config.c:92
 msgid "Niger"
 msgstr ""
 
-#: src/gsb_currency_config.c:94
+#: src/gsb_currency_config.c:93
 #, fuzzy
 msgid "Senegal"
 msgstr "Generelt"
 
-#: src/gsb_currency_config.c:95 src/gsb_currency_config.c:96
-#: src/gsb_currency_config.c:97
+#: src/gsb_currency_config.c:94 src/gsb_currency_config.c:95
+#: src/gsb_currency_config.c:96
 msgid "CFA Franc BEAC"
 msgstr ""
 
-#: src/gsb_currency_config.c:95
+#: src/gsb_currency_config.c:94
 msgid "Cameroon"
 msgstr ""
 
-#: src/gsb_currency_config.c:96
+#: src/gsb_currency_config.c:95
 msgid "Chad"
 msgstr ""
 
-#: src/gsb_currency_config.c:97
+#: src/gsb_currency_config.c:96
 msgid "Congo"
 msgstr ""
 
-#: src/gsb_currency_config.c:98
+#: src/gsb_currency_config.c:97
 msgid "Comoro Franc"
 msgstr ""
 
-#: src/gsb_currency_config.c:98
+#: src/gsb_currency_config.c:97
 msgid "Comoros"
 msgstr ""
 
-#: src/gsb_currency_config.c:99
+#: src/gsb_currency_config.c:98
 msgid "Egyptian Pound"
 msgstr ""
 
-#: src/gsb_currency_config.c:99
+#: src/gsb_currency_config.c:98
 msgid "Egypt"
 msgstr ""
 
-#: src/gsb_currency_config.c:100
+#: src/gsb_currency_config.c:99
 msgid "Ethiopian Birr"
 msgstr ""
 
-#: src/gsb_currency_config.c:100
+#: src/gsb_currency_config.c:99
 msgid "Ethiopia"
 msgstr ""
 
-#: src/gsb_currency_config.c:101
+#: src/gsb_currency_config.c:100
 msgid "Gambian Dalasi"
 msgstr ""
 
-#: src/gsb_currency_config.c:101
+#: src/gsb_currency_config.c:100
 msgid "Gambia"
 msgstr ""
 
-#: src/gsb_currency_config.c:102
+#: src/gsb_currency_config.c:101
 msgid "Ghana Cedi"
 msgstr ""
 
-#: src/gsb_currency_config.c:102
+#: src/gsb_currency_config.c:101
 msgid "Ghana"
 msgstr ""
 
-#: src/gsb_currency_config.c:103
+#: src/gsb_currency_config.c:102
 msgid "Guinea-Bissau Peso"
 msgstr ""
 
-#: src/gsb_currency_config.c:103
+#: src/gsb_currency_config.c:102
 msgid "Guinea-Bissau"
 msgstr ""
 
-#: src/gsb_currency_config.c:104
+#: src/gsb_currency_config.c:103
 msgid "Kenyan Shilling"
 msgstr ""
 
-#: src/gsb_currency_config.c:104
+#: src/gsb_currency_config.c:103
 msgid "Kenya"
 msgstr ""
 
-#: src/gsb_currency_config.c:105
+#: src/gsb_currency_config.c:104
 msgid "Liberian Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:105
+#: src/gsb_currency_config.c:104
 msgid "Liberia"
 msgstr ""
 
-#: src/gsb_currency_config.c:106
+#: src/gsb_currency_config.c:105
 msgid "Libyan Dinar"
 msgstr ""
 
-#: src/gsb_currency_config.c:106
+#: src/gsb_currency_config.c:105
 msgid "Libyan Arab Jamahiriya"
 msgstr ""
 
-#: src/gsb_currency_config.c:107
+#: src/gsb_currency_config.c:106
 msgid "Malagasy Franc"
 msgstr ""
 
-#: src/gsb_currency_config.c:107
+#: src/gsb_currency_config.c:106
 msgid "Madagascar"
 msgstr ""
 
-#: src/gsb_currency_config.c:108
+#: src/gsb_currency_config.c:107
 msgid "Malawi Kwacha"
 msgstr ""
 
-#: src/gsb_currency_config.c:108
+#: src/gsb_currency_config.c:107
 msgid "Malawi"
 msgstr ""
 
-#: src/gsb_currency_config.c:109
+#: src/gsb_currency_config.c:108
 msgid "Mauritania Ouguiya"
 msgstr ""
 
-#: src/gsb_currency_config.c:109
+#: src/gsb_currency_config.c:108
 msgid "Mauritania"
 msgstr ""
 
-#: src/gsb_currency_config.c:110
+#: src/gsb_currency_config.c:109
 msgid "Moazambique Metical"
 msgstr ""
 
-#: src/gsb_currency_config.c:110
+#: src/gsb_currency_config.c:109
 msgid "Mozambique"
 msgstr ""
 
-#: src/gsb_currency_config.c:111
+#: src/gsb_currency_config.c:110
 msgid "Moroccan Dirham"
 msgstr ""
 
-#: src/gsb_currency_config.c:111
+#: src/gsb_currency_config.c:110
 msgid "Morocco"
 msgstr ""
 
-#: src/gsb_currency_config.c:112
+#: src/gsb_currency_config.c:111
 msgid "Nigerian Naira"
 msgstr ""
 
-#: src/gsb_currency_config.c:112
+#: src/gsb_currency_config.c:111
 msgid "Nigeria"
 msgstr ""
 
-#: src/gsb_currency_config.c:113
+#: src/gsb_currency_config.c:112
 msgid "Rwanda Franc"
 msgstr ""
 
-#: src/gsb_currency_config.c:113
+#: src/gsb_currency_config.c:112
 msgid "Rwanda"
 msgstr ""
 
-#: src/gsb_currency_config.c:114
+#: src/gsb_currency_config.c:113
 msgid "Sao Tome and Principe Dobra"
 msgstr ""
 
-#: src/gsb_currency_config.c:114
+#: src/gsb_currency_config.c:113
 msgid "Sao Tome and Principe"
 msgstr ""
 
-#: src/gsb_currency_config.c:115
+#: src/gsb_currency_config.c:114
 msgid "Seychelles Rupee"
 msgstr ""
 
-#: src/gsb_currency_config.c:115
+#: src/gsb_currency_config.c:114
 msgid "Seychelles"
 msgstr ""
 
-#: src/gsb_currency_config.c:116
+#: src/gsb_currency_config.c:115
 msgid "Sierra Leonean Leone"
 msgstr ""
 
-#: src/gsb_currency_config.c:116
+#: src/gsb_currency_config.c:115
 msgid "Sierra Leone"
 msgstr ""
 
-#: src/gsb_currency_config.c:117
+#: src/gsb_currency_config.c:116
 msgid "Somali Shilling"
 msgstr ""
 
-#: src/gsb_currency_config.c:117
+#: src/gsb_currency_config.c:116
 msgid "Somalia"
 msgstr ""
 
-#: src/gsb_currency_config.c:118 src/gsb_currency_config.c:119
-#: src/gsb_currency_config.c:120
+#: src/gsb_currency_config.c:117 src/gsb_currency_config.c:118
+#: src/gsb_currency_config.c:119
 #, fuzzy
 msgid "South African Rand"
 msgstr "Sydamerika"
 
-#: src/gsb_currency_config.c:118
+#: src/gsb_currency_config.c:117
 msgid "Lesotho"
 msgstr ""
 
-#: src/gsb_currency_config.c:119
+#: src/gsb_currency_config.c:118
 msgid "Namibia"
 msgstr ""
 
-#: src/gsb_currency_config.c:120
+#: src/gsb_currency_config.c:119
 #, fuzzy
 msgid "South Africa"
 msgstr "Sydamerika"
 
-#: src/gsb_currency_config.c:121
+#: src/gsb_currency_config.c:120
 msgid "Swaziland Lilangeni"
 msgstr ""
 
-#: src/gsb_currency_config.c:121
+#: src/gsb_currency_config.c:120
 msgid "Swaziland"
 msgstr ""
 
-#: src/gsb_currency_config.c:122
+#: src/gsb_currency_config.c:121
 msgid "Tanzanian Shilling"
 msgstr ""
 
-#: src/gsb_currency_config.c:122
+#: src/gsb_currency_config.c:121
 msgid "United Republic of Tanzania"
 msgstr ""
 
-#: src/gsb_currency_config.c:123
+#: src/gsb_currency_config.c:122
 msgid "Tunisian Dinar"
 msgstr ""
 
-#: src/gsb_currency_config.c:123
+#: src/gsb_currency_config.c:122
 msgid "Tunisia"
 msgstr ""
 
-#: src/gsb_currency_config.c:124
+#: src/gsb_currency_config.c:123
 msgid "Zambian Kwacha"
 msgstr ""
 
-#: src/gsb_currency_config.c:124
+#: src/gsb_currency_config.c:123
 msgid "Zambia"
 msgstr ""
 
-#: src/gsb_currency_config.c:125
+#: src/gsb_currency_config.c:124
 msgid "Zimbabwe Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:125
+#: src/gsb_currency_config.c:124
 msgid "Zimbabwe"
 msgstr ""
 
-#: src/gsb_currency_config.c:126 src/gsb_currency_config.c:127
-#: src/gsb_currency_config.c:128 src/gsb_currency_config.c:129
-#: src/gsb_currency_config.c:130 src/gsb_currency_config.c:131
-#: src/gsb_currency_config.c:132 src/gsb_currency_config.c:133
-#: src/gsb_currency_config.c:134 src/gsb_currency_config.c:135
-#: src/gsb_currency_config.c:136 src/gsb_currency_config.c:137
-#: src/gsb_currency_config.c:138 src/gsb_currency_config.c:139
-#: src/gsb_currency_config.c:140 src/gsb_currency_config.c:141
-#: src/gsb_currency_config.c:142 src/gsb_currency_config.c:143
-#: src/gsb_currency_config.c:144 src/gsb_currency_config.c:145
-#: src/gsb_currency_config.c:146 src/gsb_currency_config.c:147
-#: src/gsb_currency_config.c:148 src/gsb_currency_config.c:149
-#: src/gsb_currency_config.c:150 src/gsb_currency_config.c:151
-#: src/gsb_currency_config.c:152 src/gsb_currency_config.c:153
-#: src/gsb_currency_config.c:154 src/gsb_currency_config.c:155
-#: src/gsb_currency_config.c:156 src/gsb_currency_config.c:157
-#: src/gsb_currency_config.c:158 src/gsb_currency_config.c:159
-#: src/gsb_currency_config.c:160 src/gsb_currency_config.c:161
-#: src/gsb_currency_config.c:162 src/gsb_currency_config.c:163
-#: src/gsb_currency_config.c:164 src/gsb_currency_config.c:165
+#: src/gsb_currency_config.c:125 src/gsb_currency_config.c:126
+#: src/gsb_currency_config.c:127 src/gsb_currency_config.c:128
+#: src/gsb_currency_config.c:129 src/gsb_currency_config.c:130
+#: src/gsb_currency_config.c:131 src/gsb_currency_config.c:132
+#: src/gsb_currency_config.c:133 src/gsb_currency_config.c:134
+#: src/gsb_currency_config.c:135 src/gsb_currency_config.c:136
+#: src/gsb_currency_config.c:137 src/gsb_currency_config.c:138
+#: src/gsb_currency_config.c:139 src/gsb_currency_config.c:140
+#: src/gsb_currency_config.c:141 src/gsb_currency_config.c:142
+#: src/gsb_currency_config.c:143 src/gsb_currency_config.c:144
+#: src/gsb_currency_config.c:145 src/gsb_currency_config.c:146
+#: src/gsb_currency_config.c:147 src/gsb_currency_config.c:148
+#: src/gsb_currency_config.c:149 src/gsb_currency_config.c:150
+#: src/gsb_currency_config.c:151 src/gsb_currency_config.c:152
+#: src/gsb_currency_config.c:153 src/gsb_currency_config.c:154
+#: src/gsb_currency_config.c:155 src/gsb_currency_config.c:156
+#: src/gsb_currency_config.c:157 src/gsb_currency_config.c:158
+#: src/gsb_currency_config.c:159 src/gsb_currency_config.c:160
+#: src/gsb_currency_config.c:161 src/gsb_currency_config.c:162
+#: src/gsb_currency_config.c:163 src/gsb_currency_config.c:164
 msgid "Asia"
 msgstr "Asien"
 
-#: src/gsb_currency_config.c:126
+#: src/gsb_currency_config.c:125
 msgid "Afghani"
 msgstr ""
 
-#: src/gsb_currency_config.c:126
+#: src/gsb_currency_config.c:125
 msgid "Afghanistan"
 msgstr ""
 
-#: src/gsb_currency_config.c:127
+#: src/gsb_currency_config.c:126
 msgid "Bahraini Dinar"
 msgstr ""
 
-#: src/gsb_currency_config.c:127
+#: src/gsb_currency_config.c:126
 msgid "Bahrain"
 msgstr ""
 
-#: src/gsb_currency_config.c:128
+#: src/gsb_currency_config.c:127
 msgid "Bangladesh Taka"
 msgstr ""
 
-#: src/gsb_currency_config.c:128
+#: src/gsb_currency_config.c:127
 msgid "Bangladesh"
 msgstr ""
 
-#: src/gsb_currency_config.c:129
+#: src/gsb_currency_config.c:128
 msgid "Brunei Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:129
+#: src/gsb_currency_config.c:128
 msgid "Brunei Darussalam"
 msgstr ""
 
-#: src/gsb_currency_config.c:130
+#: src/gsb_currency_config.c:129
 msgid "Cambodian Riel"
 msgstr ""
 
-#: src/gsb_currency_config.c:130
+#: src/gsb_currency_config.c:129
 msgid "Cambodia"
 msgstr ""
 
-#: src/gsb_currency_config.c:131
+#: src/gsb_currency_config.c:130
 msgid "Cyprus Pound"
 msgstr ""
 
-#: src/gsb_currency_config.c:131 src/gsb_currency_config.c:176
+#: src/gsb_currency_config.c:130 src/gsb_currency_config.c:175
 msgid "Cyprus"
 msgstr ""
 
-#: src/gsb_currency_config.c:132
+#: src/gsb_currency_config.c:131
 msgid "Hong Kong Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:132
+#: src/gsb_currency_config.c:131
 msgid "Hong Kong"
 msgstr ""
 
-#: src/gsb_currency_config.c:133 src/gsb_currency_config.c:134
+#: src/gsb_currency_config.c:132 src/gsb_currency_config.c:133
 msgid "Indian Rupee"
 msgstr ""
 
-#: src/gsb_currency_config.c:133
+#: src/gsb_currency_config.c:132
 #, fuzzy
 msgid "Bhutan"
 msgstr "Bank"
 
-#: src/gsb_currency_config.c:134
+#: src/gsb_currency_config.c:133
 msgid "India"
 msgstr ""
 
-#: src/gsb_currency_config.c:135
+#: src/gsb_currency_config.c:134
 msgid "Indonesian Rupiah"
 msgstr ""
 
-#: src/gsb_currency_config.c:135
+#: src/gsb_currency_config.c:134
 msgid "Indonesia"
 msgstr ""
 
-#: src/gsb_currency_config.c:136
+#: src/gsb_currency_config.c:135
 msgid "Iranian Rial"
 msgstr ""
 
-#: src/gsb_currency_config.c:136
+#: src/gsb_currency_config.c:135
 msgid "Iran"
 msgstr ""
 
-#: src/gsb_currency_config.c:137
+#: src/gsb_currency_config.c:136
 msgid "Iraqi Dinar"
 msgstr ""
 
-#: src/gsb_currency_config.c:137
+#: src/gsb_currency_config.c:136
 msgid "Iraq"
 msgstr ""
 
-#: src/gsb_currency_config.c:138
+#: src/gsb_currency_config.c:137
 msgid "Japanese Yen"
 msgstr ""
 
-#: src/gsb_currency_config.c:138
+#: src/gsb_currency_config.c:137
 msgid "Japan"
 msgstr ""
 
-#: src/gsb_currency_config.c:139
+#: src/gsb_currency_config.c:138
 msgid "Jordanian Dinar"
 msgstr ""
 
-#: src/gsb_currency_config.c:139
+#: src/gsb_currency_config.c:138
 msgid "Jordan"
 msgstr ""
 
-#: src/gsb_currency_config.c:140
+#: src/gsb_currency_config.c:139
 msgid "Kuwaiti Dinar"
 msgstr ""
 
-#: src/gsb_currency_config.c:140
+#: src/gsb_currency_config.c:139
 msgid "Kuwait"
 msgstr ""
 
-#: src/gsb_currency_config.c:141
+#: src/gsb_currency_config.c:140
 msgid "Lao Kip"
 msgstr ""
 
-#: src/gsb_currency_config.c:141
+#: src/gsb_currency_config.c:140
 msgid "Lao People's Democratic Republic"
 msgstr ""
 
-#: src/gsb_currency_config.c:142
+#: src/gsb_currency_config.c:141
 msgid "Lebanese Pound"
 msgstr ""
 
-#: src/gsb_currency_config.c:142
+#: src/gsb_currency_config.c:141
 msgid "Lebanon"
 msgstr ""
 
-#: src/gsb_currency_config.c:143
+#: src/gsb_currency_config.c:142
 msgid "Macau Pataca"
 msgstr ""
 
-#: src/gsb_currency_config.c:143
+#: src/gsb_currency_config.c:142
 msgid "Macao"
 msgstr ""
 
-#: src/gsb_currency_config.c:144
+#: src/gsb_currency_config.c:143
 msgid "Malaysian Ringgit"
 msgstr ""
 
-#: src/gsb_currency_config.c:144
+#: src/gsb_currency_config.c:143
 msgid "Malaysia"
 msgstr ""
 
-#: src/gsb_currency_config.c:145
+#: src/gsb_currency_config.c:144
 msgid "Mongolian Tugrik"
 msgstr ""
 
-#: src/gsb_currency_config.c:145
+#: src/gsb_currency_config.c:144
 msgid "Mongolia"
 msgstr ""
 
-#: src/gsb_currency_config.c:146
+#: src/gsb_currency_config.c:145
 msgid "Nepalese Rupee"
 msgstr ""
 
-#: src/gsb_currency_config.c:146
+#: src/gsb_currency_config.c:145
 msgid "Nepal"
 msgstr ""
 
-#: src/gsb_currency_config.c:147
+#: src/gsb_currency_config.c:146
 msgid "New Israeli Shekel"
 msgstr ""
 
-#: src/gsb_currency_config.c:147
+#: src/gsb_currency_config.c:146
 msgid "Israel"
 msgstr ""
 
-#: src/gsb_currency_config.c:148
+#: src/gsb_currency_config.c:147
 msgid "New Taiwan Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:148
+#: src/gsb_currency_config.c:147
 msgid "Taiwan, Province of China"
 msgstr ""
 
-#: src/gsb_currency_config.c:149
+#: src/gsb_currency_config.c:148
 msgid "North Korean Won"
 msgstr ""
 
-#: src/gsb_currency_config.c:149
+#: src/gsb_currency_config.c:148
 msgid "Democratic People's Republic of Korea"
 msgstr ""
 
-#: src/gsb_currency_config.c:150
+#: src/gsb_currency_config.c:149
 msgid "Pakistan Rupee"
 msgstr ""
 
-#: src/gsb_currency_config.c:150
+#: src/gsb_currency_config.c:149
 msgid "Pakistan"
 msgstr ""
 
-#: src/gsb_currency_config.c:151
+#: src/gsb_currency_config.c:150
 msgid "Philippine peso"
 msgstr ""
 
-#: src/gsb_currency_config.c:151
+#: src/gsb_currency_config.c:150
 msgid "Philippines"
 msgstr ""
 
-#: src/gsb_currency_config.c:152
+#: src/gsb_currency_config.c:151
 msgid "Qatari Rial"
 msgstr ""
 
-#: src/gsb_currency_config.c:152
+#: src/gsb_currency_config.c:151
 #, fuzzy
 msgid "Qatar"
 msgstr "Start"
 
-#: src/gsb_currency_config.c:153
+#: src/gsb_currency_config.c:152
 msgid "Rial Omani"
 msgstr ""
 
-#: src/gsb_currency_config.c:153
+#: src/gsb_currency_config.c:152
 msgid "Oman"
 msgstr ""
 
-#: src/gsb_currency_config.c:154
+#: src/gsb_currency_config.c:153
 msgid "Russian Ruble"
 msgstr ""
 
-#: src/gsb_currency_config.c:154
+#: src/gsb_currency_config.c:153
 #, fuzzy
 msgid "Russia"
 msgstr "Asien"
 
-#: src/gsb_currency_config.c:155
+#: src/gsb_currency_config.c:154
 msgid "Saudi Riyal"
 msgstr ""
 
-#: src/gsb_currency_config.c:155
+#: src/gsb_currency_config.c:154
 msgid "Saudi Arabia"
 msgstr ""
 
-#: src/gsb_currency_config.c:156
+#: src/gsb_currency_config.c:155
 msgid "Singapore Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:156
+#: src/gsb_currency_config.c:155
 msgid "Singapore"
 msgstr ""
 
-#: src/gsb_currency_config.c:157
+#: src/gsb_currency_config.c:156
 msgid "South Korean Won"
 msgstr ""
 
-#: src/gsb_currency_config.c:157
+#: src/gsb_currency_config.c:156
 msgid "Republic of Korea"
 msgstr ""
 
-#: src/gsb_currency_config.c:158
+#: src/gsb_currency_config.c:157
 msgid "Sri Lanka Rupee"
 msgstr ""
 
-#: src/gsb_currency_config.c:158
+#: src/gsb_currency_config.c:157
 msgid "Sri Lanka"
 msgstr ""
 
-#: src/gsb_currency_config.c:159
+#: src/gsb_currency_config.c:158
 msgid "Syrian Pound"
 msgstr ""
 
-#: src/gsb_currency_config.c:159
+#: src/gsb_currency_config.c:158
 msgid "Syrian Arab Republic"
 msgstr ""
 
-#: src/gsb_currency_config.c:160
+#: src/gsb_currency_config.c:159
 #, fuzzy
 msgid "Thai Baht"
 msgstr "Tredjepart"
 
-#: src/gsb_currency_config.c:160
+#: src/gsb_currency_config.c:159
 msgid "Thailand"
 msgstr ""
 
-#: src/gsb_currency_config.c:161
+#: src/gsb_currency_config.c:160
 msgid "Turkish Lira"
 msgstr ""
 
-#: src/gsb_currency_config.c:161
+#: src/gsb_currency_config.c:160
 msgid "Turkey"
 msgstr ""
 
-#: src/gsb_currency_config.c:162
+#: src/gsb_currency_config.c:161
 msgid "United Arab Emirates Dirham"
 msgstr ""
 
-#: src/gsb_currency_config.c:162
+#: src/gsb_currency_config.c:161
 msgid "United Arab Emirates"
 msgstr ""
 
-#: src/gsb_currency_config.c:163
+#: src/gsb_currency_config.c:162
 msgid "Viet Nam Dong"
 msgstr ""
 
-#: src/gsb_currency_config.c:163
+#: src/gsb_currency_config.c:162
 msgid "Viet Nam"
 msgstr ""
 
-#: src/gsb_currency_config.c:164
+#: src/gsb_currency_config.c:163
 msgid "Yemeni Rial"
 msgstr ""
 
-#: src/gsb_currency_config.c:164
+#: src/gsb_currency_config.c:163
 msgid "Yemen"
 msgstr ""
 
-#: src/gsb_currency_config.c:165
+#: src/gsb_currency_config.c:164
 msgid "Yuan Renminbi"
 msgstr ""
 
-#: src/gsb_currency_config.c:165
+#: src/gsb_currency_config.c:164
 msgid "China"
 msgstr ""
 
-#: src/gsb_currency_config.c:166 src/gsb_currency_config.c:167
-#: src/gsb_currency_config.c:168 src/gsb_currency_config.c:169
-#: src/gsb_currency_config.c:170 src/gsb_currency_config.c:171
+#: src/gsb_currency_config.c:165 src/gsb_currency_config.c:166
+#: src/gsb_currency_config.c:167 src/gsb_currency_config.c:168
+#: src/gsb_currency_config.c:169 src/gsb_currency_config.c:170
 msgid "Central America"
 msgstr "Centralamerika"
 
-#: src/gsb_currency_config.c:166
+#: src/gsb_currency_config.c:165
 msgid "Belize Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:166
+#: src/gsb_currency_config.c:165
 #, fuzzy
 msgid "Belize"
 msgstr "Størrelse"
 
-#: src/gsb_currency_config.c:167
+#: src/gsb_currency_config.c:166
 msgid "Costa Rican Colon"
 msgstr ""
 
-#: src/gsb_currency_config.c:167
+#: src/gsb_currency_config.c:166
 msgid "Costa Rica"
 msgstr ""
 
-#: src/gsb_currency_config.c:168
+#: src/gsb_currency_config.c:167
 msgid "Guatemalan Quetzal"
 msgstr ""
 
-#: src/gsb_currency_config.c:168
+#: src/gsb_currency_config.c:167
 msgid "Guatemala"
 msgstr ""
 
-#: src/gsb_currency_config.c:169
+#: src/gsb_currency_config.c:168
 msgid "Honduran Lempira"
 msgstr ""
 
-#: src/gsb_currency_config.c:169
+#: src/gsb_currency_config.c:168
 msgid "Honduras"
 msgstr ""
 
-#: src/gsb_currency_config.c:170
+#: src/gsb_currency_config.c:169
 msgid "Mexican Peso"
 msgstr ""
 
-#: src/gsb_currency_config.c:170
+#: src/gsb_currency_config.c:169
 #, fuzzy
 msgid "Mexico"
 msgstr "Andet"
 
-#: src/gsb_currency_config.c:171
+#: src/gsb_currency_config.c:170
 msgid "Panama Balboa"
 msgstr ""
 
-#: src/gsb_currency_config.c:171 src/gsb_currency_config.c:254
+#: src/gsb_currency_config.c:170 src/gsb_currency_config.c:253
 msgid "Panama"
 msgstr ""
 
-#: src/gsb_currency_config.c:173 src/gsb_currency_config.c:174
-#: src/gsb_currency_config.c:175 src/gsb_currency_config.c:176
-#: src/gsb_currency_config.c:177 src/gsb_currency_config.c:178
-#: src/gsb_currency_config.c:179 src/gsb_currency_config.c:180
-#: src/gsb_currency_config.c:181 src/gsb_currency_config.c:182
-#: src/gsb_currency_config.c:183 src/gsb_currency_config.c:184
-#: src/gsb_currency_config.c:185 src/gsb_currency_config.c:186
-#: src/gsb_currency_config.c:188 src/gsb_currency_config.c:189
-#: src/gsb_currency_config.c:190 src/gsb_currency_config.c:191
-#: src/gsb_currency_config.c:192 src/gsb_currency_config.c:193
-#: src/gsb_currency_config.c:194 src/gsb_currency_config.c:195
-#: src/gsb_currency_config.c:196 src/gsb_currency_config.c:197
-#: src/gsb_currency_config.c:198 src/gsb_currency_config.c:199
-#: src/gsb_currency_config.c:200 src/gsb_currency_config.c:201
-#: src/gsb_currency_config.c:202 src/gsb_currency_config.c:203
-#: src/gsb_currency_config.c:204 src/gsb_currency_config.c:205
-#: src/gsb_currency_config.c:206 src/gsb_currency_config.c:207
-#: src/gsb_currency_config.c:208 src/gsb_currency_config.c:209
-#: src/gsb_currency_config.c:210 src/gsb_currency_config.c:211
-#: src/gsb_currency_config.c:212 src/gsb_currency_config.c:213
-#: src/gsb_currency_config.c:214 src/gsb_currency_config.c:215
-#: src/gsb_currency_config.c:216 src/gsb_currency_config.c:217
-#: src/gsb_currency_config.c:218 src/gsb_currency_config.c:219
-#: src/gsb_currency_config.c:220 src/gsb_currency_config.c:221
-#: src/gsb_currency_config.c:222 src/gsb_currency_config.c:223
-#: src/gsb_currency_config.c:224
+#: src/gsb_currency_config.c:172 src/gsb_currency_config.c:173
+#: src/gsb_currency_config.c:174 src/gsb_currency_config.c:175
+#: src/gsb_currency_config.c:176 src/gsb_currency_config.c:177
+#: src/gsb_currency_config.c:178 src/gsb_currency_config.c:179
+#: src/gsb_currency_config.c:180 src/gsb_currency_config.c:181
+#: src/gsb_currency_config.c:182 src/gsb_currency_config.c:183
+#: src/gsb_currency_config.c:184 src/gsb_currency_config.c:185
+#: src/gsb_currency_config.c:187 src/gsb_currency_config.c:188
+#: src/gsb_currency_config.c:189 src/gsb_currency_config.c:190
+#: src/gsb_currency_config.c:191 src/gsb_currency_config.c:192
+#: src/gsb_currency_config.c:193 src/gsb_currency_config.c:194
+#: src/gsb_currency_config.c:195 src/gsb_currency_config.c:196
+#: src/gsb_currency_config.c:197 src/gsb_currency_config.c:198
+#: src/gsb_currency_config.c:199 src/gsb_currency_config.c:200
+#: src/gsb_currency_config.c:201 src/gsb_currency_config.c:202
+#: src/gsb_currency_config.c:203 src/gsb_currency_config.c:204
+#: src/gsb_currency_config.c:205 src/gsb_currency_config.c:206
+#: src/gsb_currency_config.c:207 src/gsb_currency_config.c:208
+#: src/gsb_currency_config.c:209 src/gsb_currency_config.c:210
+#: src/gsb_currency_config.c:211 src/gsb_currency_config.c:212
+#: src/gsb_currency_config.c:213 src/gsb_currency_config.c:214
+#: src/gsb_currency_config.c:215 src/gsb_currency_config.c:216
+#: src/gsb_currency_config.c:217 src/gsb_currency_config.c:218
+#: src/gsb_currency_config.c:219 src/gsb_currency_config.c:220
+#: src/gsb_currency_config.c:221 src/gsb_currency_config.c:222
+#: src/gsb_currency_config.c:223
 msgid "Europe"
 msgstr "Europa"
 
-#: src/gsb_currency_config.c:173 src/gsb_currency_config.c:174
-#: src/gsb_currency_config.c:175 src/gsb_currency_config.c:176
-#: src/gsb_currency_config.c:177 src/gsb_currency_config.c:178
-#: src/gsb_currency_config.c:179 src/gsb_currency_config.c:180
-#: src/gsb_currency_config.c:181 src/gsb_currency_config.c:182
-#: src/gsb_currency_config.c:183 src/gsb_currency_config.c:184
-#: src/gsb_currency_config.c:185 src/gsb_currency_config.c:186
-#: src/gsb_currency_config.c:196 src/gsb_currency_config.c:197
+#: src/gsb_currency_config.c:172 src/gsb_currency_config.c:173
+#: src/gsb_currency_config.c:174 src/gsb_currency_config.c:175
+#: src/gsb_currency_config.c:176 src/gsb_currency_config.c:177
+#: src/gsb_currency_config.c:178 src/gsb_currency_config.c:179
+#: src/gsb_currency_config.c:180 src/gsb_currency_config.c:181
+#: src/gsb_currency_config.c:182 src/gsb_currency_config.c:183
+#: src/gsb_currency_config.c:184 src/gsb_currency_config.c:185
+#: src/gsb_currency_config.c:195 src/gsb_currency_config.c:196
 msgid "Euro"
 msgstr "Euro"
 
-#: src/gsb_currency_config.c:173 src/gsb_currency_config.c:194
+#: src/gsb_currency_config.c:172 src/gsb_currency_config.c:193
 msgid "Germany"
 msgstr ""
 
-#: src/gsb_currency_config.c:174 src/gsb_currency_config.c:189
+#: src/gsb_currency_config.c:173 src/gsb_currency_config.c:188
 #, fuzzy
 msgid "Austria"
 msgstr "Asien"
 
-#: src/gsb_currency_config.c:175 src/gsb_currency_config.c:190
+#: src/gsb_currency_config.c:174 src/gsb_currency_config.c:189
 msgid "Belgium"
 msgstr ""
 
-#: src/gsb_currency_config.c:177 src/gsb_currency_config.c:220
+#: src/gsb_currency_config.c:176 src/gsb_currency_config.c:219
 #, fuzzy
 msgid "Spain"
 msgstr "Symbol"
 
-#: src/gsb_currency_config.c:178 src/gsb_currency_config.c:198
+#: src/gsb_currency_config.c:177 src/gsb_currency_config.c:197
 msgid "Finland"
 msgstr ""
 
-#: src/gsb_currency_config.c:179 src/gsb_currency_config.c:199
+#: src/gsb_currency_config.c:178 src/gsb_currency_config.c:198
 #, fuzzy
 msgid "France"
 msgstr "Annulér"
 
-#: src/gsb_currency_config.c:180 src/gsb_currency_config.c:201
+#: src/gsb_currency_config.c:179 src/gsb_currency_config.c:200
 msgid "Greece"
 msgstr ""
 
-#: src/gsb_currency_config.c:181 src/gsb_currency_config.c:204
+#: src/gsb_currency_config.c:180 src/gsb_currency_config.c:203
 msgid "Ireland"
 msgstr ""
 
-#: src/gsb_currency_config.c:182 src/gsb_currency_config.c:206
+#: src/gsb_currency_config.c:181 src/gsb_currency_config.c:205
 #, fuzzy
 msgid "Italy"
 msgstr "Ialt"
 
-#: src/gsb_currency_config.c:183 src/gsb_currency_config.c:210
+#: src/gsb_currency_config.c:182 src/gsb_currency_config.c:209
 msgid "Luxembourg"
 msgstr ""
 
-#: src/gsb_currency_config.c:184 src/gsb_currency_config.c:211
+#: src/gsb_currency_config.c:183 src/gsb_currency_config.c:210
 msgid "Netherlands"
 msgstr ""
 
-#: src/gsb_currency_config.c:185 src/gsb_currency_config.c:215
+#: src/gsb_currency_config.c:184 src/gsb_currency_config.c:214
 #, fuzzy
 msgid "Portugal"
 msgstr "Ialt"
 
-#: src/gsb_currency_config.c:186 src/gsb_currency_config.c:219
+#: src/gsb_currency_config.c:185 src/gsb_currency_config.c:218
 msgid "Slovenia"
 msgstr ""
 
-#: src/gsb_currency_config.c:188
+#: src/gsb_currency_config.c:187
 msgid "Albanian Lek"
 msgstr ""
 
-#: src/gsb_currency_config.c:188
+#: src/gsb_currency_config.c:187
 msgid "Albania"
 msgstr ""
 
-#: src/gsb_currency_config.c:189
+#: src/gsb_currency_config.c:188
 msgid "Austrian Schilling"
 msgstr ""
 
-#: src/gsb_currency_config.c:190
+#: src/gsb_currency_config.c:189
 msgid "Belgian Franc"
 msgstr ""
 
-#: src/gsb_currency_config.c:191
+#: src/gsb_currency_config.c:190
 msgid "Bulgarian Lev"
 msgstr ""
 
-#: src/gsb_currency_config.c:191
+#: src/gsb_currency_config.c:190
 msgid "Bulgaria"
 msgstr ""
 
-#: src/gsb_currency_config.c:192
+#: src/gsb_currency_config.c:191
 msgid "Czech Koruna"
 msgstr ""
 
-#: src/gsb_currency_config.c:192
+#: src/gsb_currency_config.c:191
 msgid "Czech Republic"
 msgstr ""
 
-#: src/gsb_currency_config.c:193
+#: src/gsb_currency_config.c:192
 msgid "Danish Krone"
 msgstr ""
 
-#: src/gsb_currency_config.c:193
+#: src/gsb_currency_config.c:192
 msgid "Denmark"
 msgstr ""
 
-#: src/gsb_currency_config.c:194
+#: src/gsb_currency_config.c:193
 msgid "Deutsche Mark"
 msgstr ""
 
-#: src/gsb_currency_config.c:195
+#: src/gsb_currency_config.c:194
 msgid "Estonian Kroon"
 msgstr ""
 
-#: src/gsb_currency_config.c:195
+#: src/gsb_currency_config.c:194
 msgid "Estonia"
 msgstr ""
 
-#: src/gsb_currency_config.c:197
+#: src/gsb_currency_config.c:196
 #, fuzzy
 msgid "UE (Europe)"
 msgstr "Europa"
 
-#: src/gsb_currency_config.c:198
+#: src/gsb_currency_config.c:197
 msgid "Finnish Markka"
 msgstr ""
 
-#: src/gsb_currency_config.c:199
+#: src/gsb_currency_config.c:198
 msgid "French Franc"
 msgstr ""
 
-#: src/gsb_currency_config.c:200
+#: src/gsb_currency_config.c:199
 msgid "Gibraltar Pound"
 msgstr ""
 
-#: src/gsb_currency_config.c:200
+#: src/gsb_currency_config.c:199
 msgid "Gibraltar"
 msgstr ""
 
-#: src/gsb_currency_config.c:201
+#: src/gsb_currency_config.c:200
 msgid "Greek Drachma"
 msgstr ""
 
-#: src/gsb_currency_config.c:202
+#: src/gsb_currency_config.c:201
 msgid "Hungarian Forint"
 msgstr ""
 
-#: src/gsb_currency_config.c:202
+#: src/gsb_currency_config.c:201
 msgid "Hungary"
 msgstr ""
 
-#: src/gsb_currency_config.c:203
+#: src/gsb_currency_config.c:202
 msgid "Iceland Krona"
 msgstr ""
 
-#: src/gsb_currency_config.c:203
+#: src/gsb_currency_config.c:202
 msgid "Iceland"
 msgstr ""
 
-#: src/gsb_currency_config.c:204
+#: src/gsb_currency_config.c:203
 msgid "Irish Pound"
 msgstr ""
 
-#: src/gsb_currency_config.c:205 src/gsb_currency_config.c:206
-#: src/gsb_currency_config.c:207
+#: src/gsb_currency_config.c:204 src/gsb_currency_config.c:205
+#: src/gsb_currency_config.c:206
 msgid "Italian Lira"
 msgstr ""
 
-#: src/gsb_currency_config.c:205
+#: src/gsb_currency_config.c:204
 msgid "Holy See"
 msgstr ""
 
-#: src/gsb_currency_config.c:207
+#: src/gsb_currency_config.c:206
 msgid "San Marino"
 msgstr ""
 
-#: src/gsb_currency_config.c:208
+#: src/gsb_currency_config.c:207
 #, fuzzy
 msgid "Latvian Lat"
 msgstr "Sidste dato"
 
-#: src/gsb_currency_config.c:208
+#: src/gsb_currency_config.c:207
 msgid "Latvia"
 msgstr ""
 
-#: src/gsb_currency_config.c:209
+#: src/gsb_currency_config.c:208
 msgid "Lithuanian Litas"
 msgstr ""
 
-#: src/gsb_currency_config.c:209
+#: src/gsb_currency_config.c:208
 msgid "Lietuva"
 msgstr ""
 
-#: src/gsb_currency_config.c:210
+#: src/gsb_currency_config.c:209
 msgid "Luxembourg Franc"
 msgstr ""
 
-#: src/gsb_currency_config.c:211
+#: src/gsb_currency_config.c:210
 msgid "Netherlands Guilder"
 msgstr ""
 
-#: src/gsb_currency_config.c:212
+#: src/gsb_currency_config.c:211
 msgid "New Yugoslavian Dinar"
 msgstr ""
 
-#: src/gsb_currency_config.c:212
+#: src/gsb_currency_config.c:211
 msgid "Serbia and Montenegro"
 msgstr ""
 
-#: src/gsb_currency_config.c:213
+#: src/gsb_currency_config.c:212
 msgid "Norwegian Krone"
 msgstr ""
 
-#: src/gsb_currency_config.c:213
+#: src/gsb_currency_config.c:212
 msgid "Norway"
 msgstr ""
 
-#: src/gsb_currency_config.c:214
+#: src/gsb_currency_config.c:213
 msgid "Polish Zloty"
 msgstr ""
 
-#: src/gsb_currency_config.c:214
+#: src/gsb_currency_config.c:213
 msgid "Poland"
 msgstr ""
 
-#: src/gsb_currency_config.c:215
+#: src/gsb_currency_config.c:214
 msgid "Portuguese Escudo"
 msgstr ""
 
-#: src/gsb_currency_config.c:216
+#: src/gsb_currency_config.c:215
 msgid "Pound Sterling"
 msgstr ""
 
-#: src/gsb_currency_config.c:216
+#: src/gsb_currency_config.c:215
 msgid "United Kingdom"
 msgstr ""
 
-#: src/gsb_currency_config.c:217
+#: src/gsb_currency_config.c:216
 msgid "Romanian Leu"
 msgstr ""
 
-#: src/gsb_currency_config.c:217
+#: src/gsb_currency_config.c:216
 msgid "Romania"
 msgstr ""
 
-#: src/gsb_currency_config.c:218
+#: src/gsb_currency_config.c:217
 msgid "Slovak Koruna"
 msgstr ""
 
-#: src/gsb_currency_config.c:218
+#: src/gsb_currency_config.c:217
 msgid "Slovakia"
 msgstr ""
 
-#: src/gsb_currency_config.c:219
+#: src/gsb_currency_config.c:218
 msgid "Slovene Tolar"
 msgstr ""
 
-#: src/gsb_currency_config.c:220
+#: src/gsb_currency_config.c:219
 msgid "Spanish Peseta"
 msgstr ""
 
-#: src/gsb_currency_config.c:221
+#: src/gsb_currency_config.c:220
 msgid "Swedish Krona"
 msgstr ""
 
-#: src/gsb_currency_config.c:221
+#: src/gsb_currency_config.c:220
 msgid "Sweden"
 msgstr ""
 
-#: src/gsb_currency_config.c:222 src/gsb_currency_config.c:223
+#: src/gsb_currency_config.c:221 src/gsb_currency_config.c:222
 msgid "Swiss Franc"
 msgstr ""
 
-#: src/gsb_currency_config.c:222
+#: src/gsb_currency_config.c:221
 msgid "Liechtenstein"
 msgstr ""
 
-#: src/gsb_currency_config.c:223
+#: src/gsb_currency_config.c:222
 msgid "Switzerland"
 msgstr ""
 
-#: src/gsb_currency_config.c:224
+#: src/gsb_currency_config.c:223
 msgid "Hryvnia"
 msgstr ""
 
-#: src/gsb_currency_config.c:224
+#: src/gsb_currency_config.c:223
 msgid "Ukraine"
 msgstr ""
 
-#: src/gsb_currency_config.c:225 src/gsb_currency_config.c:226
-#: src/gsb_currency_config.c:227 src/gsb_currency_config.c:228
-#: src/gsb_currency_config.c:229 src/gsb_currency_config.c:230
-#: src/gsb_currency_config.c:231 src/gsb_currency_config.c:232
-#: src/gsb_currency_config.c:233 src/gsb_currency_config.c:234
-#: src/gsb_currency_config.c:235 src/gsb_currency_config.c:236
-#: src/gsb_currency_config.c:237 src/gsb_currency_config.c:238
+#: src/gsb_currency_config.c:224 src/gsb_currency_config.c:225
+#: src/gsb_currency_config.c:226 src/gsb_currency_config.c:227
+#: src/gsb_currency_config.c:228 src/gsb_currency_config.c:229
+#: src/gsb_currency_config.c:230 src/gsb_currency_config.c:231
+#: src/gsb_currency_config.c:232 src/gsb_currency_config.c:233
+#: src/gsb_currency_config.c:234 src/gsb_currency_config.c:235
+#: src/gsb_currency_config.c:236 src/gsb_currency_config.c:237
 msgid "Northern America"
 msgstr "Nordamerika"
 
-#: src/gsb_currency_config.c:225
+#: src/gsb_currency_config.c:224
 msgid "Bahamian Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:225
+#: src/gsb_currency_config.c:224
 msgid "Bahamas"
 msgstr ""
 
-#: src/gsb_currency_config.c:226
+#: src/gsb_currency_config.c:225
 msgid "Barbados Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:226
+#: src/gsb_currency_config.c:225
 msgid "Barbados"
 msgstr ""
 
-#: src/gsb_currency_config.c:227
+#: src/gsb_currency_config.c:226
 msgid "Bermuda Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:227
+#: src/gsb_currency_config.c:226
 msgid "Bermuda"
 msgstr ""
 
-#: src/gsb_currency_config.c:228
+#: src/gsb_currency_config.c:227
 msgid "Canadian Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:228
+#: src/gsb_currency_config.c:227
 #, fuzzy
 msgid "Canada"
 msgstr "Kalender"
 
-#: src/gsb_currency_config.c:229
+#: src/gsb_currency_config.c:228
 msgid "Cayman Islands Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:229
+#: src/gsb_currency_config.c:228
 msgid "Cayman Islands"
 msgstr ""
 
-#: src/gsb_currency_config.c:230
+#: src/gsb_currency_config.c:229
 msgid "Cuban Peso"
 msgstr ""
 
-#: src/gsb_currency_config.c:230
+#: src/gsb_currency_config.c:229
 msgid "Cuba"
 msgstr ""
 
-#: src/gsb_currency_config.c:231
+#: src/gsb_currency_config.c:230
 msgid "Dominican Peso"
 msgstr ""
 
-#: src/gsb_currency_config.c:231
+#: src/gsb_currency_config.c:230
 msgid "Dominican Republic"
 msgstr ""
 
-#: src/gsb_currency_config.c:232 src/gsb_currency_config.c:233
+#: src/gsb_currency_config.c:231 src/gsb_currency_config.c:232
 msgid "East Caribbean Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:232
+#: src/gsb_currency_config.c:231
 msgid "Grenada"
 msgstr ""
 
-#: src/gsb_currency_config.c:233
+#: src/gsb_currency_config.c:232
 msgid "Saint Lucia"
 msgstr ""
 
-#: src/gsb_currency_config.c:234
+#: src/gsb_currency_config.c:233
 msgid "Haitian Gourde"
 msgstr ""
 
-#: src/gsb_currency_config.c:234
+#: src/gsb_currency_config.c:233
 msgid "Haiti"
 msgstr ""
 
-#: src/gsb_currency_config.c:235
+#: src/gsb_currency_config.c:234
 msgid "Jamaican Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:235
+#: src/gsb_currency_config.c:234
 msgid "Jamaica"
 msgstr ""
 
-#: src/gsb_currency_config.c:236
+#: src/gsb_currency_config.c:235
 msgid "Netherlands Antillian Guilder"
 msgstr ""
 
-#: src/gsb_currency_config.c:236
+#: src/gsb_currency_config.c:235
 msgid "Netherlands Antilles"
 msgstr ""
 
-#: src/gsb_currency_config.c:237
+#: src/gsb_currency_config.c:236
 msgid "Trinidad and Tobago Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:237
+#: src/gsb_currency_config.c:236
 msgid "Trinidad and Tobago"
 msgstr ""
 
-#: src/gsb_currency_config.c:238 src/gsb_currency_config.c:254
+#: src/gsb_currency_config.c:237 src/gsb_currency_config.c:253
 msgid "United States Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:238 src/gsb_currency_config.c:1400
+#: src/gsb_currency_config.c:237 src/gsb_currency_config.c:1401
 msgid "United States"
 msgstr ""
 
-#: src/gsb_currency_config.c:239 src/gsb_currency_config.c:240
-#: src/gsb_currency_config.c:241 src/gsb_currency_config.c:242
-#: src/gsb_currency_config.c:243 src/gsb_currency_config.c:244
-#: src/gsb_currency_config.c:245 src/gsb_currency_config.c:246
-#: src/gsb_currency_config.c:247 src/gsb_currency_config.c:248
-#: src/gsb_currency_config.c:249 src/gsb_currency_config.c:250
-#: src/gsb_currency_config.c:251 src/gsb_currency_config.c:252
-#: src/gsb_currency_config.c:253 src/gsb_currency_config.c:254
-#: src/gsb_currency_config.c:255
+#: src/gsb_currency_config.c:238 src/gsb_currency_config.c:239
+#: src/gsb_currency_config.c:240 src/gsb_currency_config.c:241
+#: src/gsb_currency_config.c:242 src/gsb_currency_config.c:243
+#: src/gsb_currency_config.c:244 src/gsb_currency_config.c:245
+#: src/gsb_currency_config.c:246 src/gsb_currency_config.c:247
+#: src/gsb_currency_config.c:248 src/gsb_currency_config.c:249
+#: src/gsb_currency_config.c:250 src/gsb_currency_config.c:251
+#: src/gsb_currency_config.c:252 src/gsb_currency_config.c:253
+#: src/gsb_currency_config.c:254
 msgid "Pacific Ocean"
 msgstr "Stillehavet"
 
-#: src/gsb_currency_config.c:239 src/gsb_currency_config.c:240
-#: src/gsb_currency_config.c:241 src/gsb_currency_config.c:242
+#: src/gsb_currency_config.c:238 src/gsb_currency_config.c:239
+#: src/gsb_currency_config.c:240 src/gsb_currency_config.c:241
 msgid "Australian Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:239
+#: src/gsb_currency_config.c:238
 #, fuzzy
 msgid "Australia"
 msgstr "Asien"
 
-#: src/gsb_currency_config.c:240
+#: src/gsb_currency_config.c:239
 msgid "Kiribati"
 msgstr ""
 
-#: src/gsb_currency_config.c:241
+#: src/gsb_currency_config.c:240
 msgid "Nauru"
 msgstr ""
 
-#: src/gsb_currency_config.c:242
+#: src/gsb_currency_config.c:241
 msgid "Tuvalu"
 msgstr ""
 
-#: src/gsb_currency_config.c:243 src/gsb_currency_config.c:244
-#: src/gsb_currency_config.c:245
+#: src/gsb_currency_config.c:242 src/gsb_currency_config.c:243
+#: src/gsb_currency_config.c:244
 msgid "CFP Franc"
 msgstr ""
 
-#: src/gsb_currency_config.c:243
+#: src/gsb_currency_config.c:242
 msgid "French Polynesia"
 msgstr ""
 
-#: src/gsb_currency_config.c:244
+#: src/gsb_currency_config.c:243
 msgid "New Caledonia"
 msgstr ""
 
-#: src/gsb_currency_config.c:245
+#: src/gsb_currency_config.c:244
 msgid "Wallis and Futuna"
 msgstr ""
 
-#: src/gsb_currency_config.c:246
+#: src/gsb_currency_config.c:245
 msgid "Fiji Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:246
+#: src/gsb_currency_config.c:245
 msgid "Fiji"
 msgstr ""
 
-#: src/gsb_currency_config.c:247 src/gsb_currency_config.c:248
+#: src/gsb_currency_config.c:246 src/gsb_currency_config.c:247
 msgid "New Zealand Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:247
+#: src/gsb_currency_config.c:246
 msgid "Cook Islands"
 msgstr ""
 
-#: src/gsb_currency_config.c:248
+#: src/gsb_currency_config.c:247
 #, fuzzy
 msgid "New Zealand"
 msgstr "Ny bank"
 
-#: src/gsb_currency_config.c:249
+#: src/gsb_currency_config.c:248
 msgid "Papua New Guinea Kina"
 msgstr ""
 
-#: src/gsb_currency_config.c:249
+#: src/gsb_currency_config.c:248
 msgid "Papua New Guinea"
 msgstr ""
 
-#: src/gsb_currency_config.c:250
+#: src/gsb_currency_config.c:249
 msgid "Samoa Tala"
 msgstr ""
 
-#: src/gsb_currency_config.c:250
+#: src/gsb_currency_config.c:249
 msgid "Samoa"
 msgstr ""
 
-#: src/gsb_currency_config.c:251
+#: src/gsb_currency_config.c:250
 msgid "Solomon Islands Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:251
+#: src/gsb_currency_config.c:250
 msgid "Solomon Islands"
 msgstr ""
 
-#: src/gsb_currency_config.c:252
+#: src/gsb_currency_config.c:251
 msgid "Timor Escudo"
 msgstr ""
 
-#: src/gsb_currency_config.c:252
+#: src/gsb_currency_config.c:251
 msgid "Timor"
 msgstr ""
 
-#: src/gsb_currency_config.c:253
+#: src/gsb_currency_config.c:252
 msgid "Tongan Pa'anga"
 msgstr ""
 
-#: src/gsb_currency_config.c:253
+#: src/gsb_currency_config.c:252
 #, fuzzy
 msgid "Tonga"
 msgstr "Ialt"
 
-#: src/gsb_currency_config.c:255
+#: src/gsb_currency_config.c:254
 msgid "Vanuatu Vatu"
 msgstr ""
 
-#: src/gsb_currency_config.c:255
+#: src/gsb_currency_config.c:254
 #, fuzzy
 msgid "Vanuatu"
 msgstr "Manuel"
 
-#: src/gsb_currency_config.c:256 src/gsb_currency_config.c:257
-#: src/gsb_currency_config.c:258 src/gsb_currency_config.c:259
-#: src/gsb_currency_config.c:260 src/gsb_currency_config.c:261
-#: src/gsb_currency_config.c:262 src/gsb_currency_config.c:263
-#: src/gsb_currency_config.c:264 src/gsb_currency_config.c:265
-#: src/gsb_currency_config.c:266 src/gsb_currency_config.c:267
+#: src/gsb_currency_config.c:255 src/gsb_currency_config.c:256
+#: src/gsb_currency_config.c:257 src/gsb_currency_config.c:258
+#: src/gsb_currency_config.c:259 src/gsb_currency_config.c:260
+#: src/gsb_currency_config.c:261 src/gsb_currency_config.c:262
+#: src/gsb_currency_config.c:263 src/gsb_currency_config.c:264
+#: src/gsb_currency_config.c:265 src/gsb_currency_config.c:266
 msgid "Southern America"
 msgstr "Sydamerika"
 
-#: src/gsb_currency_config.c:256 src/gsb_currency_config.c:258
-#: src/gsb_currency_config.c:259 src/gsb_currency_config.c:266
+#: src/gsb_currency_config.c:255 src/gsb_currency_config.c:257
+#: src/gsb_currency_config.c:258 src/gsb_currency_config.c:265
 msgid "Peso"
 msgstr ""
 
-#: src/gsb_currency_config.c:256
+#: src/gsb_currency_config.c:255
 msgid "Argentina"
 msgstr ""
 
-#: src/gsb_currency_config.c:257
+#: src/gsb_currency_config.c:256
 msgid "Boliviano"
 msgstr ""
 
-#: src/gsb_currency_config.c:257
+#: src/gsb_currency_config.c:256
 msgid "Bolivia"
 msgstr ""
 
-#: src/gsb_currency_config.c:258
+#: src/gsb_currency_config.c:257
 #, fuzzy
 msgid "Chile"
 msgstr "Fil"
 
-#: src/gsb_currency_config.c:259
+#: src/gsb_currency_config.c:258
 msgid "Colombia"
 msgstr ""
 
-#: src/gsb_currency_config.c:260
+#: src/gsb_currency_config.c:259
 msgid "Ecuador Sucre"
 msgstr ""
 
-#: src/gsb_currency_config.c:260
+#: src/gsb_currency_config.c:259
 msgid "Ecuador"
 msgstr ""
 
-#: src/gsb_currency_config.c:261
+#: src/gsb_currency_config.c:260
 msgid "Guyana Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:261
+#: src/gsb_currency_config.c:260
 msgid "Guyana"
 msgstr ""
 
-#: src/gsb_currency_config.c:262
+#: src/gsb_currency_config.c:261
 msgid "Paraguay Guarani"
 msgstr ""
 
-#: src/gsb_currency_config.c:262
+#: src/gsb_currency_config.c:261
 msgid "Paraguay"
 msgstr ""
 
-#: src/gsb_currency_config.c:263
+#: src/gsb_currency_config.c:262
 msgid "Nuevos Soles"
 msgstr ""
 
-#: src/gsb_currency_config.c:263
+#: src/gsb_currency_config.c:262
 #, fuzzy
 msgid "Peru"
 msgstr "Papir"
 
-#: src/gsb_currency_config.c:264
+#: src/gsb_currency_config.c:263
 #, fuzzy
 msgid "Real"
 msgstr "Hvert år"
 
-#: src/gsb_currency_config.c:264
+#: src/gsb_currency_config.c:263
 msgid "Brazil"
 msgstr ""
 
-#: src/gsb_currency_config.c:265
+#: src/gsb_currency_config.c:264
 msgid "Suriname Guilder"
 msgstr ""
 
-#: src/gsb_currency_config.c:265
+#: src/gsb_currency_config.c:264
 #, fuzzy
 msgid "Suriname"
 msgstr "unavngivet"
 
-#: src/gsb_currency_config.c:266
+#: src/gsb_currency_config.c:265
 msgid "Uruguay"
 msgstr ""
 
-#: src/gsb_currency_config.c:267
+#: src/gsb_currency_config.c:266
 msgid "Venezuelan Bolivar"
 msgstr ""
 
-#: src/gsb_currency_config.c:267
+#: src/gsb_currency_config.c:266
 msgid "Venezuela"
 msgstr ""
 
-#: src/gsb_currency_config.c:297
+#: src/gsb_currency_config.c:296
 msgid "Known currencies"
 msgstr "Kendte valutaer"
 
 #. Input form for currencies
-#: src/gsb_currency_config.c:346
+#: src/gsb_currency_config.c:345
 msgid "Currency properties"
 msgstr ""
 
 #. Create Sign entry
-#: src/gsb_currency_config.c:368 src/gsb_currency_config.c:500
+#: src/gsb_currency_config.c:367 src/gsb_currency_config.c:499
 msgid "Sign"
 msgstr "Symbol"
 
 #. Create ISO code entry
-#: src/gsb_currency_config.c:381
+#: src/gsb_currency_config.c:380
 msgid "ISO code"
 msgstr "ISO-kode"
 
 #. Create floating point entry
-#: src/gsb_currency_config.c:394 src/gsb_currency_config.c:1010
+#: src/gsb_currency_config.c:393 src/gsb_currency_config.c:1011
 msgid "Floating point"
 msgstr ""
 
-#: src/gsb_currency_config.c:454
+#: src/gsb_currency_config.c:453
 msgid "Country name"
 msgstr "Land"
 
 #. Currency name
-#: src/gsb_currency_config.c:477 src/gsb_currency_config.c:976
+#: src/gsb_currency_config.c:476 src/gsb_currency_config.c:977
 msgid "Currency name"
 msgstr "Valutanavn"
 
-#: src/gsb_currency_config.c:488
+#: src/gsb_currency_config.c:487
 msgid "ISO Code"
 msgstr "ISO-kode"
 
-#: src/gsb_currency_config.c:617
+#: src/gsb_currency_config.c:616
 #, c-format
 msgid "Currency '%s' is used in current file.  Grisbi can't delete it."
 msgstr ""
 
-#: src/gsb_currency_config.c:620 src/gsb_currency_config.c:644
+#: src/gsb_currency_config.c:619 src/gsb_currency_config.c:643
 #, c-format
 msgid "Impossible to remove currency '%s'"
 msgstr ""
 
-#: src/gsb_currency_config.c:641
+#: src/gsb_currency_config.c:640
 #, c-format
 msgid "Currency '%s' is used in current file. Grisbi can't delete it."
 msgstr ""
 
-#: src/gsb_currency_config.c:820
+#: src/gsb_currency_config.c:819
 #, fuzzy
 msgid "Currency for payees tree"
 msgstr "Valutaen findes allerede."
 
-#: src/gsb_currency_config.c:830
+#: src/gsb_currency_config.c:829
 msgid "Currency for categories tree"
 msgstr ""
 
-#: src/gsb_currency_config.c:840
+#: src/gsb_currency_config.c:839
 msgid "Currency for budgetary lines tree"
 msgstr ""
 
-#: src/gsb_currency_config.c:851
+#: src/gsb_currency_config.c:850
 #, fuzzy
 msgid "Add transactions archived in the totals"
 msgstr "Skrifttype i liste over transaktioner"
 
-#: src/gsb_currency_config.c:940
+#: src/gsb_currency_config.c:941
 msgid "Add a currency"
 msgstr "Tilføj valuta"
 
-#: src/gsb_currency_config.c:949
+#: src/gsb_currency_config.c:950
 msgid "Select base currency for your account"
 msgstr ""
 
-#: src/gsb_currency_config.c:958
+#: src/gsb_currency_config.c:959
 #, fuzzy
 msgid "World currencies"
 msgstr "Kendte valutaer"
 
-#: src/gsb_currency_config.c:967
+#: src/gsb_currency_config.c:968
 msgid "Currency details"
 msgstr ""
 
 #. Currency ISO code
-#: src/gsb_currency_config.c:988
+#: src/gsb_currency_config.c:989
 #, fuzzy
 msgid "Currency international code"
 msgstr "Valutanavn"
 
 #. Currency usual sign
-#: src/gsb_currency_config.c:999
+#: src/gsb_currency_config.c:1000
 msgid "Currency sign"
 msgstr "Valutasymbol"
 
-#: src/gsb_currency_config.c:1076
+#: src/gsb_currency_config.c:1077
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
 msgstr ""
 
-#: src/gsb_currency_config.c:1078 src/gsb_data_partial_balance.c:312
-#: src/gsb_data_partial_balance.c:419
+#: src/gsb_currency_config.c:1079 src/gsb_data_partial_balance.c:320
+#: src/gsb_data_partial_balance.c:428
 #, fuzzy
 msgid "All fields are not filled in"
 msgstr "Alle felter skal være udfyldt!"
 
-#: src/gsb_currency_config.c:1206
+#: src/gsb_currency_config.c:1207
 msgid "Include obsolete currencies"
 msgstr ""
 
@@ -6206,38 +6206,66 @@ msgstr ""
 msgid "<span foreground=\"red\">Warning : Invalid date</span>"
 msgstr ""
 
-#: src/gsb_data_partial_balance.c:304 src/gsb_data_partial_balance.c:411
+#: src/gsb_data_partial_balance.c:312 src/gsb_data_partial_balance.c:420
 #, fuzzy
 msgid "You must select at least two accounts."
 msgstr "Fly transaktioner til kategori"
 
-#: src/gsb_data_partial_balance.c:305 src/gsb_data_partial_balance.c:412
+#: src/gsb_data_partial_balance.c:313 src/gsb_data_partial_balance.c:421
 msgid "Only one account is selected."
 msgstr ""
 
-#: src/gsb_data_partial_balance.c:310 src/gsb_data_partial_balance.c:417
+#: src/gsb_data_partial_balance.c:318 src/gsb_data_partial_balance.c:426
 msgid ""
 "The name of the partial balance and the list of accounts must be completed."
 msgstr ""
 
-#: src/gsb_data_partial_balance.c:1403
+#: src/gsb_data_partial_balance.c:1234
+#, c-format
+msgid "You need to create a link between currency %s and %s."
+msgstr ""
+
+#: src/gsb_data_partial_balance.c:1238
+#, fuzzy
+msgid "Attention missing link between currencies"
+msgstr "Kendte valutaer"
+
+#: src/gsb_data_partial_balance.c:1464
+#, fuzzy
+msgid "Add a partial balance"
+msgstr "Balancer"
+
+#: src/gsb_data_partial_balance.c:1471
+#, fuzzy
+msgid "Modify a partial balance"
+msgstr "Balancer"
+
+#: src/gsb_data_partial_balance.c:1479
 #, fuzzy
 msgid "Partial balance details"
 msgstr "Balancer"
 
-#: src/gsb_data_partial_balance.c:1410 src/gsb_debug.c:293
+#: src/gsb_data_partial_balance.c:1486 src/gsb_debug.c:293
 msgid "Details"
 msgstr "Yderligere info"
 
 #. create the position
-#: src/gsb_data_partial_balance.c:1445
+#: src/gsb_data_partial_balance.c:1521
 #, fuzzy
 msgid "Position in the list of accounts"
 msgstr "Fly transaktioner til kategori"
 
 #. create the colorized button
-#: src/gsb_data_partial_balance.c:1458
+#: src/gsb_data_partial_balance.c:1534
 msgid "Colorized in red if the balance is negative"
+msgstr ""
+
+#: src/gsb_data_partial_balance.c:1557
+msgid "Enter the currency of the balance part "
+msgstr ""
+
+#: src/gsb_data_partial_balance.c:1569
+msgid "Select the currency of the partial balance"
 msgstr ""
 
 #: src/gsb_data_payee.c:403
@@ -6250,19 +6278,19 @@ msgid "The transaction %d has a payee n°%d but it doesn't exist."
 msgstr ""
 
 #. Deposit = DÃ©pÃ´t
-#: src/gsb_data_payment.c:714 src/import.c:2504 src/plugins/ofx/ofx.c:451
+#: src/gsb_data_payment.c:714 src/import.c:2511 src/plugins/ofx/ofx.c:451
 msgid "Deposit"
 msgstr ""
 
 #. pas trouvÃ© de dÃ©finition remplacÃ© par carte de crÃ©dit
 #. Point of sale = Point de vente remplacÃ© par carte de crÃ©dit
-#: src/gsb_data_payment.c:723 src/import.c:2510 src/import.c:2516
+#: src/gsb_data_payment.c:723 src/import.c:2517 src/import.c:2523
 msgid "Credit card"
 msgstr "Kreditkort"
 
 #. Electronic payment remplacÃ© par Direct debit = PrÃ©lÃ¨vement
 #. Merchant initiated debit remplacÃ© par Direct debit = PrÃ©lÃ¨vement
-#: src/gsb_data_payment.c:732 src/import.c:2528 src/import.c:2546
+#: src/gsb_data_payment.c:732 src/import.c:2535 src/import.c:2553
 msgid "Direct debit"
 msgstr ""
 
@@ -6530,8 +6558,8 @@ msgstr "Bankkonto"
 msgid "Failed to load accounts"
 msgstr "Slet konto"
 
-#: src/gsb_file.c:391 src/gsb_file.c:408 src/gsb_file_load.c:296
-#: src/gsb_file_load.c:310 src/gsb_file_load.c:411
+#: src/gsb_file.c:391 src/gsb_file.c:408 src/gsb_file_load.c:295
+#: src/gsb_file_load.c:309 src/gsb_file_load.c:410
 #, c-format
 msgid "Error loading file '%s'"
 msgstr ""
@@ -6717,24 +6745,24 @@ msgid ""
 "and press the 'OK' button."
 msgstr ""
 
-#: src/gsb_file_load.c:293 src/gsb_file_load.c:408 src/gsb_file_others.c:420
+#: src/gsb_file_load.c:292 src/gsb_file_load.c:407 src/gsb_file_others.c:420
 #: src/gsb_file_others.c:552
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr ""
 
-#: src/gsb_file_load.c:295
+#: src/gsb_file_load.c:294
 msgid "File does not exist"
 msgstr ""
 
-#: src/gsb_file_load.c:308 src/gsb_file_others.c:433
+#: src/gsb_file_load.c:307 src/gsb_file_others.c:433
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular file,\n"
 "please check it and try again."
 msgstr ""
 
-#: src/gsb_file_load.c:349 src/gsb_file_save.c:414
+#: src/gsb_file_load.c:348 src/gsb_file_save.c:415
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -6742,17 +6770,17 @@ msgid ""
 "installed) and try again."
 msgstr ""
 
-#: src/gsb_file_load.c:354 src/gsb_file_save.c:419
+#: src/gsb_file_load.c:353 src/gsb_file_save.c:420
 #, fuzzy
 msgid "Encryption plugin not found."
 msgstr "Konto %s blev ikke fundet.\n"
 
-#: src/gsb_file_load.c:451 src/gsb_file_load.c:4600
+#: src/gsb_file_load.c:450 src/gsb_file_load.c:4593
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Denne fil er ikke en Grisbi-rapport"
 
-#: src/gsb_file_load.c:663
+#: src/gsb_file_load.c:662
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -6761,14 +6789,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7916
+#: src/gsb_file_load.c:7909
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr ""
 
-#: src/gsb_file_load.c:7955
+#: src/gsb_file_load.c:7948
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -6776,12 +6804,12 @@ msgid ""
 "transactions or important informations."
 msgstr ""
 
-#: src/gsb_file_load.c:7956
+#: src/gsb_file_load.c:7949
 msgid "Grisbi archive opened"
 msgstr ""
 
 #: src/gsb_file_others.c:138 src/gsb_file_others.c:220
-#: src/gsb_file_others.c:303 src/gsb_file_save.c:439 src/gsb_file_save.c:457
+#: src/gsb_file_others.c:303 src/gsb_file_save.c:440 src/gsb_file_save.c:458
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr ""
@@ -7956,11 +7984,11 @@ msgstr ""
 msgid "File name"
 msgstr "Indehaver"
 
-#: src/import.c:558 src/import.c:646 src/import.c:3955 src/import.c:3978
+#: src/import.c:558 src/import.c:646 src/import.c:3962 src/import.c:3985
 msgid "Unknown"
 msgstr "Ukendt"
 
-#: src/import.c:606 src/import.c:4059 src/import_csv.c:1045
+#: src/import.c:606 src/import.c:4066 src/import_csv.c:1045
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr ""
@@ -8132,7 +8160,7 @@ msgstr ""
 
 #. l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents
 #. on propose encore d'arrÃªter...
-#: src/import.c:1834 src/import.c:2693
+#: src/import.c:1834 src/import.c:2700
 msgid "The id of the imported and chosen accounts are different"
 msgstr ""
 
@@ -8177,92 +8205,92 @@ msgid "Transaction found : %s ; %s ; %s"
 msgstr ""
 
 #. Check = ChÃ¨que
-#: src/import.c:2482 src/plugins/ofx/ofx.c:431
+#: src/import.c:2489 src/plugins/ofx/ofx.c:431
 #, fuzzy
 msgid "Check"
 msgstr "Fil"
 
 #. Cash withdrawal = retrait en liquide
-#: src/import.c:2534
+#: src/import.c:2541
 msgid "Cash withdrawal"
 msgstr ""
 
-#: src/import.c:2624
+#: src/import.c:2631
 #, c-format
 msgid ""
 "Warning : the cheque number %ld is already used.\n"
 "We skip it"
 msgstr ""
 
-#: src/import.c:2694
+#: src/import.c:2701
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
 msgstr ""
 
-#: src/import.c:2975
+#: src/import.c:2982
 msgid "Orphaned transactions"
 msgstr ""
 
-#: src/import.c:2987
+#: src/import.c:2994
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 
-#: src/import.c:3058
+#: src/import.c:3065
 msgid "Mark"
 msgstr ""
 
-#: src/import.c:3262
+#: src/import.c:3269
 #, c-format
 msgid "%s #%d"
 msgstr ""
 
-#: src/import.c:3291
+#: src/import.c:3298
 #, fuzzy
 msgid "Import settings"
 msgstr "Eksportér kategorier"
 
-#: src/import.c:3298
+#: src/import.c:3305
 msgid "Threshold while matching transaction date during import (in days)"
 msgstr ""
 
-#: src/import.c:3317
+#: src/import.c:3324
 #, fuzzy
 msgid "merge transactions imported with planned transactions"
 msgstr "Opret en planlagt transaktion"
 
-#: src/import.c:3327
+#: src/import.c:3334
 msgid "automatically associate the category of the payee if it is possible"
 msgstr ""
 
-#: src/import.c:3338 src/tiers_onglet.c:1044
+#: src/import.c:3345 src/tiers_onglet.c:1044
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
-#: src/import.c:3346
+#: src/import.c:3353
 #, fuzzy
 msgid "Set the financial year"
 msgstr "Vælg regnskabsår"
 
-#: src/import.c:3347
+#: src/import.c:3354
 msgid "According to the date"
 msgstr ""
 
-#: src/import.c:3348
+#: src/import.c:3355
 msgid "According to the value date (if fail, try with the date)"
 msgstr ""
 
-#: src/import.c:3377
+#: src/import.c:3384
 #, fuzzy
 msgid "Manage import associations"
 msgstr "Yderligere info"
 
-#: src/import.c:3384 src/parametres.c:298
+#: src/import.c:3391 src/parametres.c:298
 #, fuzzy
 msgid "Import associations"
 msgstr "Eksportér kategorier"
 
-#: src/import.c:3386
+#: src/import.c:3393
 msgid ""
 "This will associate a search string to a payee every time you import a file. "
 "For instance, all QIF labels containing 'Rent' could be associated with  a "
@@ -8270,81 +8298,81 @@ msgid ""
 msgstr ""
 
 #. Create entry liste des tiers
-#: src/import.c:3456 src/import.c:3488 src/tiers_onglet.c:1147
+#: src/import.c:3463 src/import.c:3495 src/tiers_onglet.c:1147
 #, fuzzy
 msgid "Payee name"
 msgstr "Kategori ialt"
 
 #. Create entry search string
-#: src/import.c:3470 src/import.c:3513
+#: src/import.c:3477 src/import.c:3520
 msgid "Search string"
 msgstr ""
 
-#: src/import.c:3479
+#: src/import.c:3486
 #, fuzzy
 msgid "Details of associations"
 msgstr "Skjul afstemte transaktioner"
 
-#: src/import.c:3808
+#: src/import.c:3815
 msgid "You cannot choose this payee because it already has an association"
 msgstr ""
 
-#: src/import.c:4044
+#: src/import.c:4051
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
 
-#: src/import.c:4102
+#: src/import.c:4109
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
 "transactions."
 msgstr ""
 
-#: src/import.c:4178
+#: src/import.c:4185
 msgid "Import a file with a rule"
 msgstr ""
 
 #. text for paddingbox
-#: src/import.c:4189
+#: src/import.c:4196
 #, c-format
 msgid "Properties of the rule : %s\n"
 msgstr ""
 
-#: src/import.c:4208
+#: src/import.c:4215
 #, fuzzy, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Fly transaktioner til kategori"
 
-#: src/import.c:4211
+#: src/import.c:4218
 #, fuzzy, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "Fly transaktioner til kategori"
 
 #. textstring 2
-#: src/import.c:4216
+#: src/import.c:4223
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr ""
 
-#: src/import.c:4223
+#: src/import.c:4230
 #, fuzzy
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Fly transaktioner til kategori"
 
 #. label filename
-#: src/import.c:4234
+#: src/import.c:4241
 msgid "Name of the file to import "
 msgstr ""
 
-#: src/import.c:4335
+#: src/import.c:4342
 #, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr ""
 
-#: src/import.c:4363
+#: src/import.c:4370
 #, fuzzy, c-format
 msgid "cannot unzip file '%s': %s"
 msgstr "Kan ikke importerer fil."
@@ -8768,17 +8796,17 @@ msgstr "Overførselsformular"
 msgid "Show _reconciled"
 msgstr "Vis afstemte transaktioner"
 
-#: src/menu.c:300
+#: src/menu.c:299
 #, fuzzy
 msgid "Show _closed accounts"
 msgstr "Lukket konto"
 
-#: src/menu.c:409 src/menu.c:441 src/menu.c:461
+#: src/menu.c:408 src/menu.c:440 src/menu.c:460
 #, fuzzy
 msgid "en"
 msgstr "Manuel"
 
-#: src/menu.c:752
+#: src/menu.c:751
 #, fuzzy
 msgid "Unnamed account"
 msgstr "Ny konto"
@@ -9236,58 +9264,58 @@ msgstr ""
 msgid "Repeating payment/standing order"
 msgstr ""
 
-#: src/plugins/openssl/openssl.c:169
+#: src/plugins/openssl/openssl.c:170
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
 msgstr ""
 
 #. FIXME: import symbols to be sure we can call this kind of stuff.
-#: src/plugins/openssl/openssl.c:180
+#: src/plugins/openssl/openssl.c:181
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
 msgstr ""
 
-#: src/plugins/openssl/openssl.c:182
+#: src/plugins/openssl/openssl.c:183
 #, fuzzy, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Kan ikke importerer fil."
 
-#: src/plugins/openssl/openssl.c:207
+#: src/plugins/openssl/openssl.c:208
 #, fuzzy
 msgid "Grisbi password"
 msgstr "Grisbi logo"
 
-#: src/plugins/openssl/openssl.c:211
+#: src/plugins/openssl/openssl.c:212
 #, fuzzy
 msgid "Crypt file"
 msgstr "Postscript-fil"
 
-#: src/plugins/openssl/openssl.c:211
+#: src/plugins/openssl/openssl.c:212
 #, fuzzy
 msgid "Decrypt file"
 msgstr "Postscript-fil"
 
-#: src/plugins/openssl/openssl.c:238
+#: src/plugins/openssl/openssl.c:239
 #, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
 "'<span foreground=\"blue\">%s</span>'"
 msgstr ""
 
-#: src/plugins/openssl/openssl.c:242
+#: src/plugins/openssl/openssl.c:243
 #, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
 "'<span foreground=\"blue\">%s</span>'"
 msgstr ""
 
-#: src/plugins/openssl/openssl.c:249
+#: src/plugins/openssl/openssl.c:250
 msgid "Password"
 msgstr ""
 
-#: src/plugins/openssl/openssl.c:257
+#: src/plugins/openssl/openssl.c:258
 msgid "Don't ask password again for this session."
 msgstr ""
 
@@ -9787,10 +9815,6 @@ msgstr ""
 #, fuzzy
 msgid "No font defined"
 msgstr "Ingen kategori  (%d)"
-
-#, fuzzy
-#~ msgid "Add a partial balance"
-#~ msgstr "Balancer"
 
 #, fuzzy
 #~ msgid "Archive %s (%d transactions)"

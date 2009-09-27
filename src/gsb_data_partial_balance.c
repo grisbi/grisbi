@@ -30,8 +30,11 @@
 /*START_INCLUDE*/
 #include "gsb_data_partial_balance.h"
 #include "./dialog.h"
+#include "./gsb_currency_config.h"
+#include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_currency.h"
+#include "./gsb_data_currency_link.h"
 #include "./navigation.h"
 #include "./gsb_real.h"
 #include "./utils_str.h"
@@ -60,12 +63,14 @@ typedef struct
 /*START_STATIC*/
 static  void _gsb_data_partial_balance_free ( struct_partial_balance *partial_balance);
 static gpointer gsb_data_partial_balance_get_structure ( gint partial_balance_number );
-static gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_number );
+static gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_number,
+                        GtkWidget *parent );
 static gboolean gsb_data_partial_balance_move ( gint orig_partial_number, gint dest_pos );
-static GtkWidget *gsb_partial_balance_create_dialog ( gint spin_value);
+static GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value );
 static GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry );
 static gint gsb_partial_balance_new ( const gchar *name );
 static void gsb_partial_balance_renumerote ( void );
+static gint gsb_partial_balance_request_currency ( GtkWidget *parent );
 static gboolean gsb_partial_balance_select_account ( GtkTreeSelection *selection,
                         GtkTreeModel *model,
                         GtkTreePath *path,
@@ -81,13 +86,16 @@ extern gsb_real null_real;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
+/* devise de base des soldes partiels de comptes ayant des devises différentes */
+gint no_devise_solde_partiels;
+
 /** contains the g_slist of struct_partial_balance */
-GSList *partial_balance_list = NULL;
+static GSList *partial_balance_list = NULL;
 
 /** a pointer to the last partial_balance used (to increase the speed) */
 static struct_partial_balance *partial_balance_buffer;
 
-GtkListStore *model_accueil;
+static GtkListStore *model_accueil;
 
 /*********************************************************************************************/
 /*              Fonctions générales                                                          */
@@ -245,11 +253,12 @@ void gsb_partial_balance_add ( GtkWidget *button, GtkWidget *main_widget )
     GtkWidget *entry_list;
     GtkWidget *spin_bouton;
     GtkWidget *colorise_bouton;
+    gint action = 1; /* 1 create 2 modify */
     gint result;
 
     devel_debug ( NULL);
 
-    dialog = gsb_partial_balance_create_dialog (
+    dialog = gsb_partial_balance_create_dialog ( action,
                         g_slist_length ( partial_balance_list ) + 1 );
 
     entry_name = g_object_get_data ( G_OBJECT ( dialog ), "entry_name" );
@@ -260,7 +269,7 @@ void gsb_partial_balance_add ( GtkWidget *button, GtkWidget *main_widget )
     gtk_widget_show_all ( GTK_WIDGET ( dialog ) );
 
 dialog_return:
-    result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+    result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     if ( result == 1)
     {
@@ -286,7 +295,8 @@ dialog_return:
 
             gsb_data_partial_balance_set_liste_cptes ( partial_balance_number,
                         liste_cptes );
-            gsb_data_partial_balance_init_from_liste_cptes ( partial_balance_number );
+            gsb_data_partial_balance_init_from_liste_cptes ( partial_balance_number,
+                        dialog );
             gsb_data_partial_balance_set_colorise ( partial_balance_number,
                         gtk_toggle_button_get_active (
                         GTK_TOGGLE_BUTTON ( colorise_bouton ) ) );
@@ -313,7 +323,7 @@ dialog_return:
             goto dialog_return;
         }
     }
-    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 }
 
 
@@ -337,11 +347,12 @@ void gsb_partial_balance_edit ( GtkWidget *button, GtkWidget *main_widget )
     gchar *balance_name;
     gchar *liste_cptes;
     gint partial_balance_number;
+    gint action = 2; /* 1 create 2 modify */
     gint result;
 
     devel_debug ( NULL);
 
-    dialog = gsb_partial_balance_create_dialog (
+    dialog = gsb_partial_balance_create_dialog ( action,
                         g_slist_length ( partial_balance_list ) + 1 );
 
     entry_name = g_object_get_data ( G_OBJECT ( dialog ), "entry_name" );
@@ -391,7 +402,8 @@ dialog_return:
         {
             gsb_data_partial_balance_set_name ( partial_balance_number, name );
             gsb_data_partial_balance_set_liste_cptes ( partial_balance_number, liste_cptes );
-            gsb_data_partial_balance_init_from_liste_cptes ( partial_balance_number );
+            gsb_data_partial_balance_init_from_liste_cptes ( partial_balance_number,
+                        dialog );
             gsb_data_partial_balance_set_colorise ( partial_balance_number,
                         gtk_toggle_button_get_active (
                         GTK_TOGGLE_BUTTON ( colorise_bouton ) ) );
@@ -456,7 +468,7 @@ void gsb_partial_balance_delete ( GtkWidget *button, GtkWidget *main_widget )
 
             if ( partial_balance -> partial_balance_number == partial_balance_number )
             {
-                GtkWidget *del_button;
+                GtkWidget *edit_button;
 
                 partial_balance_list = g_slist_remove (
                         partial_balance_list, partial_balance );
@@ -466,7 +478,8 @@ void gsb_partial_balance_delete ( GtkWidget *button, GtkWidget *main_widget )
                 /* MAJ HOME_PAGE */
                 gsb_gui_navigation_update_home_page ( );
 
-                del_button = g_object_get_data ( G_OBJECT (main_widget), "remove_button" );
+                edit_button = g_object_get_data ( G_OBJECT (main_widget), "edit_button" );
+                gtk_widget_set_sensitive ( edit_button, FALSE );
                 gtk_widget_set_sensitive ( button, FALSE );
                 break;
             }
@@ -510,6 +523,8 @@ gboolean gsb_partial_balance_select_func ( GtkTreeSelection *selection,
 {
     GtkWidget *button;
 
+    button = g_object_get_data ( G_OBJECT (main_widget), "edit_button" );
+    gtk_widget_set_sensitive ( button, TRUE );
     button = g_object_get_data ( G_OBJECT (main_widget), "remove_button" );
     gtk_widget_set_sensitive ( button, TRUE );
 
@@ -608,10 +623,14 @@ gboolean gsb_partial_balance_button_press ( GtkWidget *tree_view,
         return TRUE;
     }
 
-	return FALSE;
+    return FALSE;
 }
 
 
+/**
+ * 
+ *
+**/
 void gsb_partial_balance_colorise_toggled ( GtkCellRendererToggle *cell,
                         gchar *path_str,
                         GtkWidget *tree_view )
@@ -628,8 +647,7 @@ void gsb_partial_balance_colorise_toggled ( GtkCellRendererToggle *cell,
 
     /* invert the toggle */
     treepath = gtk_tree_path_new_from_string ( path_str );
-    gtk_tree_model_get_iter ( GTK_TREE_MODEL (model),
-			      &iter, treepath );
+    gtk_tree_model_get_iter ( GTK_TREE_MODEL (model), &iter, treepath );
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 
                         4, &partial_number,
@@ -644,6 +662,8 @@ void gsb_partial_balance_colorise_toggled ( GtkCellRendererToggle *cell,
     /* MAJ HOME_PAGE */
     gsb_gui_navigation_update_home_page ( );
 }
+
+
 /*********************************************************************************************/
 /*              Données                                                                      */
 /*********************************************************************************************/
@@ -720,6 +740,7 @@ gpointer gsb_data_partial_balance_get_structure ( gint partial_balance_number )
 /**
  * give the g_slist of partial_balance structure
  * usefull when want to check all partial_balance
+ * carrefull : it's not a copy, so we must not free or change it
  *
  * \param none
  *
@@ -982,8 +1003,6 @@ gboolean gsb_data_partial_balance_get_colorise ( gint partial_balance_number )
 
 
 /** 
- * 
- *
  * \param partial_balance_number no of the partial_balance
  * \param colorise
  *
@@ -1005,6 +1024,10 @@ gboolean gsb_data_partial_balance_set_colorise ( gint partial_balance_number,
 }
 
 
+/**
+ * 
+ *
+ * */
 gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number )
 {
     struct_partial_balance *partial_balance;
@@ -1024,14 +1047,40 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
     tab = g_strsplit ( partial_balance -> liste_cptes, ";", 0 );
     for ( i = 0; tab[i]; i++ )
     {
-        solde = gsb_real_add ( solde,
-                        gsb_data_account_get_marked_balance (
-                        utils_str_atoi ( tab[i] ) ) );
+        gsb_real tmp_real;
+        gint account_nb;
+        gint account_currency;
+        gint link_number;
+
+        account_nb = utils_str_atoi ( tab[i] );
+        account_currency = gsb_data_account_get_currency ( account_nb );
+        tmp_real = gsb_data_account_get_marked_balance ( account_nb );
+        if ( partial_balance -> currency == account_currency )
+            solde = gsb_real_add ( solde, tmp_real );
+        else
+        {
+            if ( ( link_number = gsb_data_currency_link_search ( account_currency,
+                        partial_balance -> currency ) ) )
+            {
+                if ( gsb_data_currency_link_get_first_currency (
+                        link_number) == account_currency )
+                    tmp_real = gsb_real_mul ( tmp_real,
+                                gsb_data_currency_link_get_change_rate ( link_number ) );
+                else
+                    tmp_real = gsb_real_div ( tmp_real,
+                                gsb_data_currency_link_get_change_rate ( link_number ) );
+            }
+            solde = gsb_real_add ( solde, tmp_real );
+        }
     }
     return gsb_real_get_string_with_currency (solde, partial_balance -> currency, TRUE);
 }
 
 
+/**
+ * 
+ *
+ * */
 gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_number )
 {
     struct_partial_balance *partial_balance;
@@ -1052,9 +1101,31 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
     tab = g_strsplit ( partial_balance -> liste_cptes, ";", 0 );
     for ( i = 0; tab[i]; i++ )
     {
-        solde = gsb_real_add ( solde,
-                        gsb_data_account_get_current_balance (
-                        utils_str_atoi ( tab[i] ) ) );
+        gsb_real tmp_real;
+        gint account_nb;
+        gint account_currency;
+        gint link_number;
+
+        account_nb = utils_str_atoi ( tab[i] );
+        account_currency = gsb_data_account_get_currency ( account_nb );
+        tmp_real = gsb_data_account_get_current_balance ( account_nb );
+        if ( partial_balance -> currency == account_currency )
+            solde = gsb_real_add ( solde, tmp_real );
+        else
+        {
+            if ( ( link_number = gsb_data_currency_link_search ( account_currency,
+                        partial_balance -> currency ) ) )
+            {
+                if ( gsb_data_currency_link_get_first_currency (
+                        link_number) == account_currency )
+                    tmp_real = gsb_real_mul ( tmp_real,
+                                gsb_data_currency_link_get_change_rate ( link_number ) );
+                else
+                    tmp_real = gsb_real_div ( tmp_real,
+                                gsb_data_currency_link_get_change_rate ( link_number ) );
+            }
+            solde = gsb_real_add ( solde, tmp_real );
+        }
     }
 
     if ( partial_balance -> colorise && solde.mantissa < 0 )
@@ -1146,7 +1217,8 @@ gboolean gsb_partial_balance_select_account ( GtkTreeSelection *selection,
  *
  * \return FALSE si tous les comptes n'ont pas les mêmes données sinon TRUE
  * */
-gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_number )
+gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_number,
+                        GtkWidget *parent )
 {
     struct_partial_balance *partial_balance;
     gchar **tab;
@@ -1155,7 +1227,9 @@ gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_n
     gint currency_nb = 0;
     kind_account kind = -1;
     kind_account kind_nb = -1;
+    gchar *tmp_str;
     gboolean return_val = TRUE;
+    gboolean currency_mixte = FALSE;
 
     partial_balance = gsb_data_partial_balance_get_structure ( partial_balance_number );
 
@@ -1169,12 +1243,30 @@ gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_n
     tab = g_strsplit ( partial_balance -> liste_cptes, ";", 0 );
     for ( i = 0; tab[i]; i++ )
     {
-        account_nb = utils_str_atoi ( tab[i] );
-        if ( currency_nb == 0 )
-            currency_nb = gsb_data_account_get_currency ( account_nb );
-        else if ( currency_nb != gsb_data_account_get_currency ( account_nb ) )
-            return_val = FALSE;
+        gint account_currency;
 
+        account_nb = utils_str_atoi ( tab[i] );
+        account_currency = gsb_data_account_get_currency ( account_nb );
+        if ( currency_nb == 0 )
+            currency_nb = account_currency;
+        else if ( currency_nb != account_currency )
+        {
+            if ( currency_mixte == FALSE )
+            {
+                no_devise_solde_partiels = gsb_partial_balance_request_currency ( parent );
+                if ( gsb_data_currency_link_search ( currency_nb, account_currency ) == 0 )
+                {
+                    tmp_str = g_strdup_printf (
+                            _("You need to create a link between currency %s and %s."),
+                            gsb_data_currency_get_name ( currency_nb ),
+                            gsb_data_currency_get_name ( account_currency ) );
+                    dialogue_warning_hint ( tmp_str,
+                            _("Attention missing link between currencies") );
+                }
+            }
+            currency_mixte = TRUE;
+            return_val = FALSE;
+        }
         if ( kind == -1 )
             kind = gsb_data_account_get_kind ( account_nb );
         else if ( ( kind_nb = gsb_data_account_get_kind ( account_nb ) ) != kind )
@@ -1197,7 +1289,11 @@ gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_n
             }
         }
     }
-    gsb_data_partial_balance_set_currency ( partial_balance_number, currency_nb );
+    if ( currency_mixte )
+        gsb_data_partial_balance_set_currency ( partial_balance_number,
+                        no_devise_solde_partiels );
+    else
+        gsb_data_partial_balance_set_currency ( partial_balance_number, currency_nb );
     if ( return_val == FALSE )
         gsb_data_partial_balance_set_kind ( partial_balance_number, -1 );
     else
@@ -1325,7 +1421,7 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
                         GTK_POLICY_NEVER,
                         GTK_POLICY_ALWAYS);
-	gtk_widget_set_size_request( sw, 600, 200 );
+    gtk_widget_set_size_request( sw, 600, 200 );
 
     /* create the model */
     list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
@@ -1369,10 +1465,10 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
      /* account name */
     cell = gtk_cell_renderer_text_new ( );
     column = gtk_tree_view_column_new_with_attributes ( _("Account name"),
-						     cell,
-						     "text",
-						     0,
-						     NULL );
+                        cell,
+                        "text",
+                        0,
+                        NULL );
     gtk_tree_view_column_set_expand ( column, TRUE );
     gtk_tree_view_column_set_sort_column_id ( column, 0 );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( treeview ), column );
@@ -1385,19 +1481,27 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
  * 
  *
  * */
-GtkWidget *gsb_partial_balance_create_dialog ( gint spin_value)
+GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 {
     GtkWidget *dialog, *label, *table, *paddingbox, * main_vbox, * vbox;
     GtkWidget *entry_name, *entry_list, *account_list, *bouton;
 
     devel_debug ( NULL);
 
-    dialog = gtk_dialog_new_with_buttons ( _("Partial balance"),
-                        GTK_WINDOW ( window ),
-                        GTK_DIALOG_MODAL,
-                        GTK_STOCK_CANCEL, 0,
-                        GTK_STOCK_OK, 1,
-                        NULL );
+    if ( action == 1 )
+        dialog = gtk_dialog_new_with_buttons ( _("Add a partial balance"),
+                            GTK_WINDOW ( window ),
+                            GTK_DIALOG_MODAL,
+                            GTK_STOCK_CANCEL, 0,
+                            GTK_STOCK_OK, 1,
+                            NULL );
+    else
+        dialog = gtk_dialog_new_with_buttons ( _("Modify a partial balance"),
+                            GTK_WINDOW ( window ),
+                            GTK_DIALOG_MODAL,
+                            GTK_STOCK_CANCEL, 0,
+                            GTK_STOCK_OK, 1,
+                            NULL );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     main_vbox = new_vbox_with_title_and_icon ( _("Partial balance details"), "payment.png" );
@@ -1420,44 +1524,44 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint spin_value)
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     entry_name = gtk_entry_new ( );
     gtk_entry_set_activates_default ( GTK_ENTRY ( entry_name ), TRUE );
     gtk_table_attach ( GTK_TABLE ( table ), entry_name, 1, 2, 0, 1,
-		       GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+                        GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     /* List of the accounts */
     label = gtk_label_new ( COLON ( _("Accounts list") ) );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     entry_list = gtk_entry_new ( );
     gtk_editable_set_editable ( GTK_EDITABLE ( entry_list ), FALSE );
     gtk_widget_set_sensitive ( entry_list, FALSE );
     gtk_table_attach ( GTK_TABLE ( table ), entry_list, 1, 2, 1, 2,
-		       GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+                        GTK_EXPAND|GTK_FILL, 0, 0, 0 );
     account_list = gsb_partial_balance_create_list_accounts ( entry_list );
     gtk_table_attach ( GTK_TABLE ( table ), account_list, 0, 2, 2, 4,
-		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+                        GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
     /* create the position */
     label = gtk_label_new ( COLON ( _("Position in the list of accounts") ) );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 4, 5,
-		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     bouton = gtk_spin_button_new_with_range ( 1.0, spin_value, 1.0);
     gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( bouton ),
                         g_slist_length ( partial_balance_list ) + 1 );
     gtk_table_attach ( GTK_TABLE ( table ), bouton, 1, 2, 4, 5,
-		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+                        GTK_EXPAND | GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT ( dialog ), "spin_bouton", bouton );
 
     /* create the colorized button */
     bouton = gtk_check_button_new_with_label ( _("Colorized in red if the balance is negative") );
     gtk_table_attach ( GTK_TABLE ( table ), bouton, 0, 2, 5, 6,
-		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT ( dialog ), "colorise_bouton", bouton );
     
     g_object_set_data ( G_OBJECT ( dialog ), "entry_name", entry_name );
@@ -1465,6 +1569,48 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint spin_value)
     g_object_set_data ( G_OBJECT ( dialog ), "account_list", account_list );
 
     return dialog;
+}
+
+
+/**
+ * 
+ *
+ * */
+gint gsb_partial_balance_request_currency ( GtkWidget *parent )
+{
+    GtkWidget *dialog, *hbox, *label, *combo_devise;
+    gint currency_nb;
+    gint result;
+
+    dialog = gtk_dialog_new_with_buttons ( _("Enter the currency of the balance part"),
+                            GTK_WINDOW ( parent ),
+                            GTK_DIALOG_MODAL,
+                            GTK_STOCK_CANCEL, 0,
+                            GTK_STOCK_OK, 1,
+                            NULL );
+    gtk_widget_set_size_request ( dialog, -1, 150 );
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox, TRUE, FALSE, 0 );
+
+    label = gtk_label_new ( COLON ( _("Select the currency of the partial balance") ) );
+    gtk_misc_set_alignment ( GTK_MISC  ( label ), 0, 1 );
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
+
+    combo_devise = gsb_currency_config_new_combobox ( &currency_nb, NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), combo_devise, FALSE, FALSE, 10 );
+
+    gtk_widget_show_all ( GTK_WIDGET ( dialog ) );
+
+    gsb_currency_set_combobox_history ( combo_devise, 2 );
+    gsb_currency_set_combobox_history ( combo_devise, 1 );
+    result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+
+    return currency_nb;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */

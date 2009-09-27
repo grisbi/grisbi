@@ -96,7 +96,6 @@ extern GdkColor couleur_solde_alarme_verte_normal;
 extern GdkColor couleur_solde_alarme_verte_prelight;
 extern GtkWidget *form_transaction_part;
 extern gsb_real null_real;
-extern GSList *partial_balance_list;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 extern gchar *titre_fichier;
@@ -969,36 +968,8 @@ gint affiche_soldes_partiels ( GtkWidget *table,
     GtkWidget *label;
     gchar *tmpstr;
     gint nbre_lignes = 0;
+    gboolean concerne = FALSE;
 
-    /* on commence par une ligne vide */
-    label = gtk_label_new ( chaine_espace );
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
-	gtk_widget_show ( label );
-    i ++;
-    nbre_lignes ++;
-
-    /* On met les titres du sous ensemble solde(s) partiel(s) */
-    if ( nb_comptes == 1 )
-        label = gtk_label_new ( COLON(_("Partial balance")));
-    else
-        label = gtk_label_new ( COLON(_("Partial balances")));
-	gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
-	gtk_widget_show ( label );
-    	label = gtk_label_new (_("Reconciled balance"));
-	gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
-	gtk_widget_show ( label );
-	label = gtk_label_new (_("Current balance"));
-	gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 4, i, i+1 );
-	gtk_widget_show ( label );
-    i ++;
-    nbre_lignes ++;
-    
     while ( liste )
     {
         gint partial_number;
@@ -1012,7 +983,38 @@ gint affiche_soldes_partiels ( GtkWidget *table,
          &&
          gsb_data_partial_balance_get_currency ( partial_number ) == currency_number )
         {
+            if ( concerne == FALSE )
+            {
+                    /* on commence par une ligne vide */
+                label = gtk_label_new ( chaine_espace );
+                gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+                gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+                gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+                gtk_widget_show ( label );
+                i ++;
+                nbre_lignes ++;
 
+                /* On met les titres du sous ensemble solde(s) partiel(s) */
+                if ( nb_comptes == 1 )
+                    label = gtk_label_new ( COLON(_("Partial balance")));
+                else
+                    label = gtk_label_new ( COLON(_("Partial balances")));
+                gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+                gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+                gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+                gtk_widget_show ( label );
+                    label = gtk_label_new (_("Reconciled balance"));
+                gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+                gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
+                gtk_widget_show ( label );
+                label = gtk_label_new (_("Current balance"));
+                gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+                gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 4, i, i+1 );
+                gtk_widget_show ( label );
+                i ++;
+                nbre_lignes ++;
+                concerne = TRUE;
+            }
             /* Première colonne : elle contient le nom du solde partiel */
             tmpstr = g_strconcat ( gsb_data_partial_balance_get_name ( partial_number ),
                             " : ", NULL );
@@ -1115,8 +1117,8 @@ gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste )
     label = gtk_label_new ( chaine_espace );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
-	gtk_widget_show ( label );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+    gtk_widget_show ( label );
     i ++;
     nbre_lignes ++;
 
@@ -1914,7 +1916,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
 GtkWidget *onglet_accueil (void)
 {
     GtkWidget *vbox_pref, *vbox, *paddingbox, *button;
-    GtkWidget *hbox, *vbox2, *sw, *treeview ;
+    GtkWidget *hbox, *vbox2, *sw, *treeview;
     GtkListStore *list_store;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
@@ -1922,9 +1924,8 @@ GtkWidget *onglet_accueil (void)
     GtkTreeDragDestIface * dst_iface;
     GtkTreeDragSourceIface * src_iface;
     static GtkTargetEntry row_targets[] = {
-	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
+    { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
-
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Configuration of the main page"),
                         "title.png" );
@@ -1933,12 +1934,12 @@ GtkWidget *onglet_accueil (void)
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, TRUE, TRUE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
-    /* Data import settings */
+    /* Data partial balance settings */
     paddingbox = new_paddingbox_with_title (vbox, FALSE, 
                         _("Balances partials of the list of accounts") );
 
     hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 0);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 5);
 
     sw = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
@@ -1968,6 +1969,7 @@ GtkWidget *onglet_accueil (void)
                         G_CALLBACK  ( gsb_partial_balance_edit ),
                         vbox_pref );
     gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
+    gtk_widget_set_sensitive ( button, FALSE );
     g_object_set_data ( G_OBJECT (vbox_pref), "edit_button", button );
 
     /* Button "Remove" */
@@ -1984,7 +1986,7 @@ GtkWidget *onglet_accueil (void)
     list_store = gsb_partial_balance_create_model ( );
 
     /* remplit le modèle si nécessaire */
-    if ( g_slist_length ( partial_balance_list ) > 0 )
+    if ( g_slist_length ( gsb_data_partial_balance_get_list ( ) ) > 0 )
         gsb_partial_balance_fill_model ( list_store );
 
     /* create the treeview */
@@ -1997,22 +1999,22 @@ GtkWidget *onglet_accueil (void)
 
     /* check the keys on the list */
     g_signal_connect ( G_OBJECT ( treeview ),
-		       "key_press_event",
-		       G_CALLBACK ( gsb_partial_balance_key_press ),
-		       NULL );
+                        "key_press_event",
+                        G_CALLBACK ( gsb_partial_balance_key_press ),
+                        NULL );
 
     /* check the buttons on the list */
     g_signal_connect ( G_OBJECT ( treeview ),
-		       "button_press_event",
-		       G_CALLBACK ( gsb_partial_balance_button_press ),
-		       NULL );
+                        "button_press_event",
+                        G_CALLBACK ( gsb_partial_balance_button_press ),
+                        NULL );
 
     /* Enable drag & drop */
     gtk_tree_view_enable_model_drag_source ( GTK_TREE_VIEW (treeview),
-					     GDK_BUTTON1_MASK, row_targets, 1,
-					     GDK_ACTION_MOVE );
+                        GDK_BUTTON1_MASK, row_targets, 1,
+                        GDK_ACTION_MOVE );
     gtk_tree_view_enable_model_drag_dest ( GTK_TREE_VIEW (treeview), row_targets,
-					   1, GDK_ACTION_MOVE );
+                        1, GDK_ACTION_MOVE );
     gtk_tree_view_set_reorderable ( GTK_TREE_VIEW (treeview), TRUE );
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (treeview) );
@@ -2051,9 +2053,9 @@ GtkWidget *onglet_accueil (void)
     g_object_set (cell, "xalign", 0.5, NULL);
 
     column = gtk_tree_view_column_new_with_attributes ( _("Colorize"),
-						     cell,
-						     "active", 5,
-						     NULL);
+                        cell,
+                        "active", 5,
+                        NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
 
     /* Type de compte */

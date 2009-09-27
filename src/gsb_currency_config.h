@@ -64,6 +64,7 @@ gint gsb_currency_config_create_currency ( const gchar *currency_name,
 gint gsb_currency_config_create_currency_from_iso4217list ( gchar *currency_name );
 GtkWidget *gsb_currency_config_create_page ( void );
 GtkWidget *gsb_currency_config_create_totals_page ( void );
+GtkWidget * gsb_currency_config_new_combobox ( gint * value, GCallback hook );
 gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTreePath * path,
                         GtkTreeIter * iter, GtkTreeView * tree_view );
 /* END_DECLARATION */

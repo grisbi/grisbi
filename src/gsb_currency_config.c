@@ -61,7 +61,6 @@ static void gsb_currency_config_fill_popup_list ( GtkTreeView * tree_view,
                         gboolean include_obsolete );
 static gboolean gsb_currency_config_fill_tree ( GtkTreeModel *model );
 static gint gsb_currency_config_get_selected ( GtkTreeView *tree_view );
-static GtkWidget * gsb_currency_config_new_combobox ( gint * value, GCallback hook );
 static void gsb_currency_config_remove_currency ( GtkWidget *button,
                         GtkWidget *tree_view );
 static void gsb_currency_config_remove_selected_from_view ( GtkTreeView * tree_view );
@@ -873,17 +872,18 @@ GtkWidget * gsb_currency_config_new_combobox ( gint * value, GCallback hook )
     combo_box = gsb_currency_make_combobox (FALSE);
 
     if (value && *value)
-	gsb_currency_set_combobox_history ( combo_box,
-					    *value );
+    gsb_currency_set_combobox_history ( combo_box, *value );
 
-    g_signal_connect ( G_OBJECT (combo_box), "changed", (GCallback) 
-                        gsb_currency_config_set_int_from_combobox, value );
-    //~ g_signal_connect ( G_OBJECT (combo_box), "changed", (GCallback) hook, value );
+    g_signal_connect ( G_OBJECT (combo_box),
+                        "changed",
+                        (GCallback) gsb_currency_config_set_int_from_combobox,
+                        value );
     g_object_set_data ( G_OBJECT ( combo_box ), "pointer", value);
 
-	g_object_set_data ( G_OBJECT (combo_box), "changed-hook", 
-			    (gpointer) g_signal_connect_after (G_OBJECT(combo_box), "changed",
-							       G_CALLBACK (hook), value ));
+    if ( hook )
+    g_object_set_data ( G_OBJECT (combo_box), "changed-hook", 
+                        (gpointer) g_signal_connect_after (G_OBJECT(combo_box), "changed",
+                        G_CALLBACK (hook), value ));
 
     return combo_box;
 }
@@ -904,12 +904,13 @@ gboolean gsb_currency_config_set_int_from_combobox ( GtkWidget *combobox, gint *
 
     if ( data )
     {
-	*data = gsb_currency_get_currency_from_combobox (combobox);
+    *data = gsb_currency_get_currency_from_combobox (combobox);
     }
 
     /* Mark file as modified */
-    //~ if ( etat.modification_fichier == 0 )
+    if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
+
     return (FALSE);
 }
 
