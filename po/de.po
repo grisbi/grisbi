@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-09-26 09:28+0200\n"
-"PO-Revision-Date: 2009-09-07 22:41+0200\n"
+"PO-Revision-Date: 2009-09-24 19:58+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -384,16 +384,15 @@ msgstr "Aktuellen Saldo hervorheben"
 
 #: src/affichage_liste.c:195
 msgid "Options for sorting by value date"
-msgstr ""
+msgstr "Buchungen Sortierung"
 
 #: src/affichage_liste.c:196
-#, fuzzy
 msgid "Sort by value date (if fail, try with the date)"
-msgstr "entsprechend Datum der Durchführung"
+msgstr "nach Buchungsdatum - im Fehlerfall nach Datum"
 
 #: src/affichage_liste.c:197
 msgid "Sort by value date and then by date"
-msgstr ""
+msgstr "zuerst nach Buchungsdatum - danach nach Datum"
 
 #: src/affichage_liste.c:204
 msgid "Account differentiation"
