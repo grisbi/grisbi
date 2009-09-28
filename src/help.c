@@ -74,51 +74,53 @@ void a_propos ( GtkWidget *bouton,
 
     const gchar *auteurs[] = {
 _("Programming"),
-"Benjamin Drieu (bdrieu[at]april.org)",
-"Cedric Auger (cedric[at]grisbi.org)",
-"Francois Terrot (grisbi[at]terrot.net)",
-"Pierre Biava (pierre.biava[at]nerim.net)",
+"Benjamin Drieu (bdrieu@april.org)",
+"Cedric Auger (cedric@grisbi.org)",
+"Francois Terrot (grisbi@terrot.net)",
+"Pierre Biava (pierre.biava@nerim.net)",
+"Mickaël Remars (grisbi@remars.com)",
 "",
 
 _("Packaging"),
-"Alain Pichon (aph[at]grisbi.org)",
-"Baluchiterium  (baluchiterium[at]users.sf.net)",
-"Francois Terrot (grisbi[at]terrot.net)",
-"Gerald Niel (gerald.niel[at]grisbi.org)",
-"Gilles Morel (g.morel[at]gmail.com)",
-"PMF (ugly.duck[at]gmx.de)",
-"Pascal Bleser (guru[at]linuxbe.org)",
-"Sylvain Glaize (mokona[at]puupuu.org)",
-"Thierry Thomas (thierry[at]pompo.net)",
-"Vincent Marqueton (vincent[at]marqueton.com)",
+"Alain Pichon (aph@grisbi.org)",
+"Baluchiterium  (baluchiterium@users.sf.net)",
+"Francois Terrot (grisbi@terrot.net)",
+"Gerald Niel (gerald.niel@grisbi.org)",
+"Gilles Morel (g.morel@gmail.com)",
+"PMF (ugly.duck@gmx.de)",
+"Pascal Bleser (guru@linuxbe.org)",
+"Sylvain Glaize (mokona@puupuu.org)",
+"Thierry Thomas (thierry@pompo.net)",
+"Vincent Marqueton (vincent@marqueton.com)",
 "\n",
 
 _("Other"),
-"Axel Rousseau (axel584[at]axel584.org) ",
-"Dominique Parisot (parisot[at]villey-le-sec.com) ",
-"Gerald Niel (gerald.niel[at]grisbi.org) ",
+"Axel Rousseau (axel584@axel584.org) ",
+"Dominique Parisot (parisot@villey-le-sec.com) ",
+"Gerald Niel (gerald.niel@grisbi.org) ",
 NULL };
 
   gchar * translators = g_strconcat(
-"Alain Portal (dionysos[at]grisbi.org): ", _("English"), CSUFFIX,
-"Benjamin Drieu (bdrieu[at]april.org): ", _("English"), CSUFFIX,
-"Carlos M. Cámara Mora (carcam_moceu[at]yahoo.es): ", _("Spanish"), CSUFFIX,
-"Daniel Cartron (cartron[at]grisbi.org): ", _("English"), CSUFFIX,
-"Edwin Huijsing (e.huijsing[at]fiberworld.nl): ", _("Dutch"), CSUFFIX,
-"Fabio Erculiani (fabio.erculiani[at]tiscali.it): ", _("Italian"), CSUFFIX,
-"Flavio Henrique Somensi (flavio[at]opens.com.br): ", _("Brazilian Portuguese"), CSUFFIX,
-"Giorgio Mandolfo (giorgio[at]pollycoke.org): ", _("Italian"), CSUFFIX,
-"Martin Stromberger (Fabiolla[at]aon.at): ", _("German"), CSUFFIX,
-"Ryszard Jeziorski (rjeziorski[at]eagle): ", _("Polish"), CSUFFIX,
+"Alain Portal (dionysos@grisbi.org): ", _("English"), CSUFFIX,
+"Benjamin Drieu (bdrieu@april.org): ", _("English"), CSUFFIX,
+"Carlos M. Cámara Mora (carcam_moceu@yahoo.es): ", _("Spanish"), CSUFFIX,
+"Daniel Cartron (cartron@grisbi.org): ", _("English"), CSUFFIX,
+"Edwin Huijsing (e.huijsing@fiberworld.nl): ", _("Dutch"), CSUFFIX,
+"Fabio Erculiani (fabio.erculiani@tiscali.it): ", _("Italian"), CSUFFIX,
+"Flavio Henrique Somensi (flavio@opens.com.br): ", _("Brazilian Portuguese"), CSUFFIX,
+"Giorgio Mandolfo (giorgio@pollycoke.org): ", _("Italian"), CSUFFIX,
+"Martin Stromberger (Fabiolla@aon.at): ", _("German"), CSUFFIX,
+"Ryszard Jeziorski (rjeziorski@eagle): ", _("Polish"), CSUFFIX,
+"Achilleas Kaskamanidis (alterna55@users.sourceforge.net): ", _("Greek"), CSUFFIX,
 NULL);
 
   const gchar *documenters [] = {
-"Alain Portal (aportal[at]univ-monpt2.fr)",
-"Daniel Cartron (doc[at]grisbi.org)",
+"Alain Portal (aportal@univ-monpt2.fr)",
+"Daniel Cartron (doc@grisbi.org)",
 NULL};
 
   const gchar *artists [] = {
-"Andre Pascual (andre[at]linuxgraphic.org)",
+"Andre Pascual (andre@linuxgraphic.org)",
 NULL};
 
   const gchar *license = "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n\n"
