@@ -155,43 +155,39 @@ GtkWidget *creation_onglet_accueil ( void )
     /* en dessous, on met le titre du fichier s'il existe */
     if ( titre_fichier )
     {
-	GtkWidget * eb;
-	GtkStyle * style;
-	gchar* tmpstr;
+        GtkWidget * eb;
+        GtkStyle * style;
 
-	hbox_title = gtk_hbox_new ( FALSE, 0 );
+        hbox_title = gtk_hbox_new ( FALSE, 0 );
 
-	eb = gtk_event_box_new ();
-	style = gtk_widget_get_style ( eb );
-	gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
+        eb = gtk_event_box_new ();
+        style = gtk_widget_get_style ( eb );
+        gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
 
-	label_titre_fichier = gtk_label_new ( titre_fichier );
-	tmpstr = g_strconcat ("<span size=\"x-large\">",
-					    titre_fichier, "</span>", NULL );
-	gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr);
-	g_free ( tmpstr );
+        label_titre_fichier = gtk_label_new ( titre_fichier );
+        gsb_main_page_update_homepage_title ( titre_fichier );
 
-	if ( etat.utilise_logo )
-	{
-	    logo_accueil =  gtk_image_new_from_pixbuf ( 
-                    gsb_select_icon_get_logo_pixbuf ( ) );
-        if ( ! logo_accueil )
+        if ( etat.utilise_logo )
+        {
             logo_accueil =  gtk_image_new_from_pixbuf ( 
-                    gsb_select_icon_get_default_logo_pixbuf ( ) );
-	    gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 20 );
-        gtk_widget_set_size_request ( hbox_title, -1, LOGO_HEIGHT + 20 );
-	}
+                        gsb_select_icon_get_logo_pixbuf ( ) );
+            if ( ! logo_accueil )
+                logo_accueil =  gtk_image_new_from_pixbuf ( 
+                        gsb_select_icon_get_default_logo_pixbuf ( ) );
+            gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 20 );
+            gtk_widget_set_size_request ( hbox_title, -1, LOGO_HEIGHT + 20 );
+        }
 
-	gtk_box_pack_end ( GTK_BOX ( hbox_title ), label_titre_fichier, TRUE, TRUE, 20 );
-	gtk_container_set_border_width ( GTK_CONTAINER ( hbox_title ), 6 );
-	gtk_container_add ( GTK_CONTAINER(eb), hbox_title );
-	gtk_box_pack_start ( GTK_BOX ( base ), eb, FALSE, FALSE, 0 );
-	gtk_widget_show_all ( eb );
+        gtk_box_pack_end ( GTK_BOX ( hbox_title ), label_titre_fichier, TRUE, TRUE, 20 );
+        gtk_container_set_border_width ( GTK_CONTAINER ( hbox_title ), 6 );
+        gtk_container_add ( GTK_CONTAINER(eb), hbox_title );
+        gtk_box_pack_start ( GTK_BOX ( base ), eb, FALSE, FALSE, 0 );
+        gtk_widget_show_all ( eb );
     }
     else
     {
-	label_titre_fichier = gtk_label_new ( NULL );
-	gtk_box_pack_start ( GTK_BOX ( base ), label_titre_fichier, FALSE, FALSE, 0 );
+        label_titre_fichier = gtk_label_new ( NULL );
+        gtk_box_pack_start ( GTK_BOX ( base ), label_titre_fichier, FALSE, FALSE, 0 );
     }
 
     /* on crée le size_group pour l'alignement des tableaux */
@@ -2096,6 +2092,27 @@ GtkWidget *onglet_accueil (void)
 }
 
 
+/**
+ * update the title of the main page
+ *
+ * */
+void gsb_main_page_update_homepage_title ( gchar *title )
+{
+    gchar * tmpstr;
+
+    /* at the first use of grisbi,label_titre_fichier doesn't still exist */
+    if ( !label_titre_fichier )
+        return;
+
+    if ( title && strlen ( title ) > 0 )
+        tmpstr = g_strconcat ("<span size=\"x-large\">", title, "</span>", NULL );
+    else
+        tmpstr = g_strconcat ("<span size=\"x-large\">", _("My accounts"), "</span>", NULL );
+
+    gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr );
+    g_free ( tmpstr );
+
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

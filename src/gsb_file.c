@@ -49,17 +49,18 @@
 #include "./gsb_file_save.h"
 #include "./gsb_file_util.h"
 #include "./navigation.h"
+#include "./accueil.h"
 #include "./gsb_real.h"
 #include "./gsb_status.h"
 #include "./gsb_transactions_list.h"
 #include "./traitement_variables.h"
 #include "./main.h"
-#include "./accueil.h"
 #include "./utils_str.h"
 #include "./parametres.h"
 #include "./affichage_liste.h"
 #include "./transaction_list.h"
 #include "./utils_files.h"
+#include "./utils_str.h"
 #include "./fenetre_principale.h"
 #include "./include.h"
 #include "./erreur.h"
@@ -88,6 +89,8 @@ gint id_timeout = 0;
 
 /*START_EXTERN*/
 extern gchar *copy_old_filename;
+extern gchar *initial_file_title;
+extern gchar *initial_holder_title;
 extern GtkWidget *main_hpaned;
 extern GtkWidget *main_vbox;
 extern gint max;
@@ -181,7 +184,8 @@ void gsb_file_new_gui ( void )
     /* create the model */
     if (!transaction_list_create ())
     {
-    dialogue_error (_("The model of the list couldn't be created... Bad things will happen very soon..."));
+    dialogue_error (_("The model of the list couldn't be created... "
+                        "Bad things will happen very soon..."));
     return;
     }
 
@@ -194,14 +198,38 @@ void gsb_file_new_gui ( void )
                 0 );
     gtk_widget_show ( tree_view_widget );
 
-
     navigation_change_account ( GINT_TO_POINTER ( gsb_gui_navigation_get_current_account () ) );
 
     /* Display accounts in menus */
     gsb_menu_update_accounts_in_menus ();
 
+    /* Initialisation du titre pour grisbi */
+    if (titre_fichier && strlen (titre_fichier) )
+        g_free (titre_fichier);
+
+    switch ( etat.display_grisbi_title )
+    {
+        case GSB_ACCOUNTS_TITLE:
+            titre_fichier = my_strdup ( initial_file_title );
+        break;
+        case GSB_ACCOUNT_HOLDER:
+            if ( initial_holder_title && strlen ( initial_holder_title ) )
+                titre_fichier = my_strdup ( initial_holder_title );
+            else
+            {
+                etat.display_grisbi_title = GSB_ACCOUNTS_TITLE;
+                titre_fichier = my_strdup ( initial_file_title );
+            }
+        break;
+        case GSB_ACCOUNTS_FILE:
+            titre_fichier = my_strdup ( nom_fichier_comptes );
+        break;
+    }
+
     /* Affiche le nom du fichier de comptes dans le titre de la fenetre */
     gsb_file_update_window_title();
+    gsb_main_page_update_homepage_title ( titre_fichier );
+
     gtk_notebook_set_current_page ( GTK_NOTEBOOK( notebook_general ), GSB_HOME_PAGE );
 
     gtk_widget_show ( notebook_general );
@@ -989,12 +1017,12 @@ void gsb_file_update_window_title ( void )
 
     devel_debug ( "gsb_file_update_window_title" );
 
-    if ( titre_fichier && strlen(titre_fichier) )
-        titre = g_strdup(titre_fichier);
+    if ( titre_fichier && strlen ( titre_fichier ) )
+        titre = g_strdup ( titre_fichier );
     else
     {
         if ( nom_fichier_comptes )
-            titre = g_path_get_basename (nom_fichier_comptes);
+            titre = g_path_get_basename ( nom_fichier_comptes );
         else
             titre = g_strconcat ( "<", _("unnamed"), ">", NULL );
     }

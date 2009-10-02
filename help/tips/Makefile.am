@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in.
 
-EXTRA_DIST = tips.txt fr.po de.po es.po fr.gmo de.gmo es.gmo
+EXTRA_DIST = tips.txt fr.po de.po es.po
 grisbi_helpdir = $(datadir)/$(PACKAGE)
 grisbi_help_DATA = tips.txt
 

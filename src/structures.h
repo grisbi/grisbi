@@ -158,6 +158,7 @@ struct {
     /* variables pour la liste des opérations */
     gint show_transaction_selected_in_form;         /* TRUE will show the selected transaction in the form */
     gint show_transaction_gives_balance;            /* TRUE si on visualise l'opération qui donne le solde du jour */
+    gboolean transactions_list_sort_by_date;        /* Options for sorting by date */
     gboolean transactions_list_sort_by_value_date;  /* Options for sorting by value date */
 
     /* archive stuff */

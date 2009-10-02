@@ -147,6 +147,8 @@ extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
 extern gint id_timeout;
+extern gchar *initial_file_title;
+extern gchar *initial_holder_title;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
@@ -287,7 +289,16 @@ void init_variables ( void )
     no_devise_totaux_categ = 1;
     no_devise_totaux_ib = 1;
 
-    titre_fichier = g_strdup(_("My accounts"));
+    /* initialization of titles */
+    titre_fichier = g_strdup( _("My accounts") );
+    if ( initial_file_title && strlen ( initial_file_title ) )
+        g_free ( initial_file_title );
+    initial_file_title = NULL;
+
+    if ( initial_holder_title && strlen ( initial_holder_title ) )
+        g_free ( initial_holder_title );
+    initial_holder_title = NULL;
+
     adresse_commune = NULL;
     adresse_secondaire = NULL;
 

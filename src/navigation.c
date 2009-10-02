@@ -39,11 +39,11 @@
 #include "./fenetre_principale.h"
 #include "./menu.h"
 #include "./etats_onglet.h"
+#include "./accueil.h"
 #include "./gsb_reconcile.h"
 #include "./gsb_scheduler_list.h"
 #include "./gsb_transactions_list.h"
 #include "./main.h"
-#include "./accueil.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./tiers_onglet.h"
@@ -100,8 +100,8 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 
 
 /*START_EXTERN*/
+extern gchar *initial_holder_title;
 extern GtkWidget *label_last_statement;
-extern GtkWidget *label_titre_fichier;
 extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget *notebook_general;
@@ -961,20 +961,20 @@ gboolean navigation_change_account ( gint *no_account )
 
     /* save the row_align of the last account */
     gsb_data_account_set_row_align ( current_account,
-				     gsb_transactions_list_get_row_align ());
+				     gsb_transactions_list_get_row_align ( ) );
 
     /* set the appearance of the list according to the new account */
-    transaction_list_sort_set_column (gsb_data_account_get_sort_column (new_account),
-				      gsb_data_account_get_sort_type (new_account));
+    transaction_list_sort_set_column ( gsb_data_account_get_sort_column (new_account ),
+				      gsb_data_account_get_sort_type ( new_account ) );
     gsb_transactions_list_update_tree_view ( new_account, FALSE );
-    transaction_list_select ( gsb_data_account_get_current_transaction_number (new_account));
-    gsb_transactions_list_set_row_align (gsb_data_account_get_row_align (new_account));
+    transaction_list_select ( gsb_data_account_get_current_transaction_number ( new_account ) );
+    gsb_transactions_list_set_row_align ( gsb_data_account_get_row_align ( new_account ) );
 
     /*     mise en place de la date du dernier relevé */
-    gsb_navigation_update_statement_label (new_account);
+    gsb_navigation_update_statement_label ( new_account );
 
     gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", 
-				  gsb_data_account_get_name (new_account),
+				  gsb_data_account_get_name ( new_account ),
 				  FALSE );
 
     /* Sensitive menu items if something is selected. */
@@ -988,31 +988,30 @@ gboolean navigation_change_account ( gint *no_account )
     }
 
     /* show or hide the rules button in toolbar */
-    if (gsb_data_import_rule_account_has_rule (new_account))
-	gtk_widget_show (menu_import_rules);
+    if ( gsb_data_import_rule_account_has_rule ( new_account ) )
+	gtk_widget_show ( menu_import_rules );
     else
-	gtk_widget_hide (menu_import_rules);
+	gtk_widget_hide ( menu_import_rules );
 
     /* Update the title of the file if needed */
-    if ( etat.display_grisbi_title == GSB_ACCOUNT_OWNER )
+    if ( etat.display_grisbi_title == GSB_ACCOUNT_HOLDER )
     {
         gchar * tmpstr;
 
-        tmpstr = my_strdup ( gsb_data_account_get_owner (new_account) );
+        if (titre_fichier && strlen (titre_fichier) )
+            g_free (titre_fichier);
+
+        tmpstr = my_strdup ( gsb_data_account_get_holder_name ( new_account ) );
         if ( tmpstr && strlen (tmpstr) > 0 )
         {
-            if (titre_fichier && strlen (titre_fichier) )
-                g_free (titre_fichier);
             titre_fichier = g_strdup ( tmpstr );
-        }
-        gsb_file_update_window_title ( );
-        if (label_titre_fichier)
-        {
-            gchar* tmpstr = g_strconcat ("<span size=\"x-large\">",
-                        titre_fichier, "</span>", NULL );
-            gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr );
             g_free ( tmpstr );
         }
+        else
+            titre_fichier = g_strdup ( initial_holder_title );
+
+        gsb_main_page_update_homepage_title ( titre_fichier );
+        gsb_file_update_window_title ( );
     }
 
     /* unset the last date written */
@@ -1694,7 +1693,7 @@ void gsb_gui_navigation_update_home_page ( void )
     if ( gsb_gui_navigation_get_current_page ( ) == GSB_HOME_PAGE )
         mise_a_jour_accueil ( TRUE );
     else
-        mise_a_jour_liste_comptes_accueil = ( TRUE );
+        mise_a_jour_liste_comptes_accueil = TRUE;
 }
 
 

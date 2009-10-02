@@ -46,9 +46,11 @@
 #include "./gsb_data_currency.h"
 #include "./gsb_data_transaction.h"
 #include "./utils_editables.h"
+#include "./gsb_file.h"
 #include "./gsb_form.h"
 #include "./gsb_form_scheduler.h"
 #include "./navigation.h"
+#include "./accueil.h"
 #include "./menu.h"
 #include "./gsb_scheduler_list.h"
 #include "./main.h"
@@ -75,6 +77,9 @@ static gboolean gsb_account_property_changed ( GtkWidget *widget,
                         gint *p_origin  );
 static gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
                         gpointer null );
+static gboolean gsb_account_property_focus_out ( GtkWidget *widget,
+                        GdkEventFocus *event,
+                        gint *p_origin );
 static void gsb_account_property_iban_clear_label_data ( void );
 static gint gsb_account_property_iban_control_iban ( gchar *iban );
 static void gsb_account_property_iban_delete_text ( GtkEditable *entry,
@@ -165,6 +170,7 @@ enum origin
     PROPERTY_CLOSED_ACCOUNT,
     PROPERTY_INIT_BALANCE,
     PROPERTY_WANTED_BALANCE,
+    PROPERTY_HOLDER_NAME,
 };
 
 /*START_EXTERN*/
@@ -173,6 +179,7 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gsb_real null_real;
+extern gchar *titre_fichier;
 /*END_EXTERN*/
 
 
@@ -232,15 +239,20 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     detail_nom_compte = gsb_autofunc_entry_new ( NULL,
-                        G_CALLBACK (gsb_account_property_changed),
-                        GINT_TO_POINTER (PROPERTY_NAME),
-                        G_CALLBACK (gsb_data_account_set_name),
+                        G_CALLBACK ( gsb_account_property_changed ),
+                        GINT_TO_POINTER ( PROPERTY_NAME ),
+                        G_CALLBACK ( gsb_data_account_set_name ),
                         0 );
-    gtk_box_pack_start ( GTK_BOX(hbox), detail_nom_compte, TRUE, TRUE, 0);
+    g_signal_connect ( G_OBJECT ( detail_nom_compte ),
+			       "focus-out-event",
+			       G_CALLBACK ( gsb_account_property_focus_out ),
+			       GINT_TO_POINTER ( PROPERTY_NAME ) );
+
+    gtk_box_pack_start ( GTK_BOX ( hbox ), detail_nom_compte, TRUE, TRUE, 0 );
 
     /* create the box of kind of account */
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( COLON(_("Account type")) );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
@@ -300,11 +312,15 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    detail_titulaire_compte = gsb_autofunc_entry_new (NULL,
+    detail_titulaire_compte = gsb_autofunc_entry_new ( NULL,
                         NULL,
                         NULL,
-                        G_CALLBACK (gsb_data_account_set_holder_name),
+                        G_CALLBACK ( gsb_data_account_set_holder_name ),
                         0);
+    g_signal_connect ( G_OBJECT ( detail_titulaire_compte ),
+			       "focus-out-event",
+			       G_CALLBACK ( gsb_account_property_focus_out ),
+			       GINT_TO_POINTER ( PROPERTY_HOLDER_NAME ) );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_titulaire_compte, TRUE, TRUE, 0);
 
     /* address of the holder line */
@@ -522,7 +538,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-    detail_solde_mini_autorise = gsb_autofunc_real_new (null_real,
+    detail_solde_mini_autorise = gsb_autofunc_real_new ( null_real,
                         G_CALLBACK (gsb_account_property_changed), 
                         GINT_TO_POINTER (PROPERTY_WANTED_BALANCE),
                         G_CALLBACK (gsb_data_account_set_mini_balance_authorized),
@@ -701,6 +717,7 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
     gint origin = GPOINTER_TO_INT (p_origin);
     gint account_number;
     GtkWidget *image;
+    const gchar *tmpstr;
 
     account_number = gsb_gui_navigation_get_current_account ();
     if ( account_number == -1)
@@ -709,13 +726,8 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
     switch (origin)
     {
     case PROPERTY_NAME:
-        /* update the scheduler list */
-        gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
-
-        /*update the the view menu */
-        gsb_navigation_update_account_label (account_number);
-        /* no break here !! need to do the same to PROPERTY_CLOSED_ACCOUNT too */
-
+        gsb_gui_navigation_update_account ( account_number );
+        break;
     case PROPERTY_CLOSED_ACCOUNT:
         gsb_gui_navigation_update_account ( account_number );
         gsb_menu_update_accounts_in_menus ();
@@ -1479,6 +1491,54 @@ void gsb_account_property_clear_config ( void )
     label_guichet = NULL;
     label_no_compte = NULL;
     label_cle_compte = NULL;
+}
+
+gboolean gsb_account_property_focus_out ( GtkWidget *widget,
+                        GdkEventFocus *event,
+                        gint *p_origin )
+{
+    gint origin = GPOINTER_TO_INT (p_origin);
+    gint account_number;
+    const gchar *tmpstr;
+
+    account_number = gsb_gui_navigation_get_current_account ();
+    if ( account_number == -1)
+        return FALSE;
+
+    switch (origin)
+    {
+    case PROPERTY_NAME:
+        /* update the scheduler list */
+        gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+
+        /*update the the view menu */
+        gsb_navigation_update_account_label (account_number);
+        gsb_menu_update_accounts_in_menus ();
+
+        /* update the name of accounts in form */
+        gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (
+                        SCHEDULED_FORM_ACCOUNT), FALSE );
+
+        /* Replace trees contents. */
+        remplit_arbre_categ ();
+        remplit_arbre_imputation ();
+        payee_fill_tree ();
+        break;
+    case PROPERTY_HOLDER_NAME:
+        tmpstr = gtk_entry_get_text ( GTK_ENTRY ( widget ) );
+        titre_fichier = my_strdup ( tmpstr );
+        gsb_main_page_update_homepage_title ( titre_fichier );
+        gsb_file_update_window_title ( );
+        break;
+    }
+
+    /* update main page */
+    mise_a_jour_liste_comptes_accueil = 1;
+    mise_a_jour_liste_echeances_manuelles_accueil = 1;
+    mise_a_jour_soldes_minimaux = 1;
+    mise_a_jour_fin_comptes_passifs = 1;
+
+    return FALSE;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */

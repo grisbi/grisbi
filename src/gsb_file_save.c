@@ -63,7 +63,6 @@
 #include "./utils_str.h"
 #include "./structures.h"
 #include "./custom_list.h"
-#include "./utils_str.h"
 #include "./gsb_data_form.h"
 #include "./gsb_scheduler_list.h"
 #include "./include.h"
@@ -157,7 +156,6 @@ extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];
-extern gchar *titre_fichier;
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
@@ -659,25 +657,10 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	is_archive = TRUE;
 
     /* save the file_title or the initial_file_title */
-    if ( etat.display_grisbi_title == GSB_ACCOUNTS_FILE )
-    {
-        if ( titre_fichier && strlen (titre_fichier) )
-        {
-            if ( initial_file_title && strlen ( initial_file_title ) )
-                g_free ( initial_file_title );
-            initial_file_title = g_strdup ( titre_fichier );
-            tmpstr = titre_fichier;
-        }
-        else
-            tmpstr = "";
-    }
+    if ( initial_file_title && strlen (initial_file_title) )
+        tmpstr = initial_file_title;
     else
-    {
-        if ( initial_file_title && strlen (initial_file_title) )
-            tmpstr = initial_file_title;
-        else
-            tmpstr = "";
-    }
+        tmpstr = "";
 
     /* save the general informations */
     new_string = g_markup_printf_escaped ( "\t<General\n"

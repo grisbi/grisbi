@@ -189,6 +189,14 @@ GtkWidget *onglet_affichage_operations ( void )
                         &conf.show_transaction_gives_balance,
                         G_CALLBACK ( gsb_transactions_list_display_show_gives_balance ), NULL ),
                         FALSE, FALSE, 0 );
+    /* Sorting the transactions by date */
+    gsb_automem_radiobutton_new_with_title ( vbox_pref,
+                        _("Options for sorting by date"),
+                        _("Sort by date and transaction number"),
+                        _("Sort by date and transaction amount"),
+                        &conf.transactions_list_sort_by_date,
+                        G_CALLBACK ( gsb_transactions_list_display_sort_by_value_date ),
+                        NULL );
 
     /* Sorting the transactions by value date */
     gsb_automem_radiobutton_new_with_title ( vbox_pref,

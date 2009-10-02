@@ -40,6 +40,10 @@ extern GtkWidget *window;
 
 #ifndef NOSSL
 /*START_STATIC*/
+static gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_message,
+					 gboolean encrypt );
+static gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
+				  gboolean crypt, gulong length );
 /*END_STATIC*/
 #endif
 

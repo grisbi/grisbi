@@ -207,10 +207,11 @@ static gint last_sub_budget_number = 0;
 /* to import older file than 0.6, makes the link between report and comparison structures */
 static gint last_report_number;
 
-/* initial_file_title sert à garder le bon nom du fichier de compte */
-gchar *initial_file_title;
+/* initialization of titles for grisbi */
+gchar *initial_file_title = NULL;
+gchar *initial_holder_title = NULL;
 
-/** filled only when loading a version before 0.6, contains the order of the accounts
+/* filled only when loading a version before 0.6, contains the order of the accounts
  * in the 0.6, the accounts are saved directly in the good order
  * this is a list of the accounts number, in the good order */
 static GSList *sort_accounts = NULL;
@@ -226,7 +227,7 @@ struct payment_conversion_struct
 };
 static GSList *payment_conversion_list = NULL;
 
-/** temporary structure to set the final date and the final balance of a reconcile
+/* temporary structure to set the final date and the final balance of a reconcile
  * in the reconcile itself, and not in the account as before 0.6.0 */
 struct reconcile_conversion_struct
 {
@@ -419,7 +420,8 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 }
 
 
-/** check if the xml file is the last structure (before 0.6) or
+/**
+ *  check if the xml file is the last structure (before 0.6) or
  * the new structure (after 0.6)
  *
  * \param file_content the grisbi file
@@ -726,9 +728,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     else if ( !strcmp ( attribute_names[i],
                         "File_title" ) && strlen (attribute_values[i]))
     {
-        if ( titre_fichier )
-            g_free ( titre_fichier );
-        titre_fichier = my_strdup (attribute_values[i]);
         initial_file_title = my_strdup (attribute_values[i]);
     }
 
@@ -1388,6 +1387,10 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
     {
         gsb_data_account_set_holder_name ( account_number,
                         attribute_values[i]);
+
+        if ( initial_holder_title == NULL 
+         && attribute_values[i] && strlen ( attribute_values[i] ) )
+            initial_holder_title = g_strdup ( attribute_values[i] );
         i++;
         continue;
     }
@@ -5786,6 +5789,7 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( titre_fichier )
         g_free ( titre_fichier );
     titre_fichier = my_strdup (text);
+    initial_file_title = my_strdup (text);
     return;
     }
 

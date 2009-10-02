@@ -96,7 +96,7 @@ gboolean gsb_file_config_load_config ( void )
     gint i;
     gint int_ret;
     GError* err = NULL;
-    
+
     gsb_file_config_clean_config ();
 
     filename = g_strconcat ( my_get_XDG_grisbirc_dir(), C_GRISBIRC, NULL );
@@ -328,6 +328,10 @@ gboolean gsb_file_config_load_config ( void )
     conf.show_transaction_gives_balance = g_key_file_get_integer ( config,
                         "Display",
                         "Show transaction gives balance",
+                        NULL );
+    conf.transactions_list_sort_by_date = g_key_file_get_integer ( config,
+                        "Display",
+                        "Transactions list sort by date",
                         NULL );
 
     conf.transactions_list_sort_by_value_date = g_key_file_get_integer ( config,
@@ -670,6 +674,11 @@ gboolean gsb_file_config_save_config ( void )
                         "Display",
                         "Show transaction gives balance",
                         conf.show_transaction_gives_balance );
+
+    g_key_file_set_integer ( config,
+                        "Display",
+                        "Transactions list sort by date",
+                        conf.transactions_list_sort_by_date );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -1222,12 +1231,13 @@ void gsb_file_config_clean_config ( void )
     etat.automatic_completion_payee = 1;        /* by default automatic completion */
     etat.limit_completion_to_current_account = 0;        /* By default, do full search */
 
-    etat.display_grisbi_title = GSB_ACCOUNTS_FILE;  /* show Accounts file title par défaut */
+    etat.display_grisbi_title = GSB_ACCOUNTS_TITLE;  /* show Accounts file title par défaut */
     etat.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
     etat.show_toolbar = TRUE;                       /* Show toolbar or not. */
     etat.show_headings_bar = TRUE;                  /* Show toolbar or not. */
     conf.show_transaction_selected_in_form = 1;     /* show selected transaction in form */
     conf.show_transaction_gives_balance = 1;        /* show transaction that gives the balance of the day */
+    conf.transactions_list_sort_by_date = 0;        /* Options for sorting by date */  
     conf.transactions_list_sort_by_value_date = 1;  /* Options for sorting by value date */  
     etat.show_closed_accounts = FALSE;
 

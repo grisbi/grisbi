@@ -1985,8 +1985,6 @@ void transaction_list_set_color_jour ( gint account_number )
     gint transaction_number;
     CustomList *custom_list;
 
-    devel_debug (NULL);
-
     custom_list = transaction_model_get_model ();
     g_return_if_fail ( custom_list != NULL );
 
