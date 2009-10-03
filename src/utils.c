@@ -231,8 +231,7 @@ GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar *
     /* Creating label */
     label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
-    tmp_str = g_strconcat ("<span weight=\"bold\">",
-					title, "</span>", NULL );
+    tmp_str = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", title );
     gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
     g_free(tmp_str);
     gtk_box_pack_start ( GTK_BOX ( vbox ), label,

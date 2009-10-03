@@ -467,8 +467,6 @@ void payee_fill_tree ( void )
 
     /** Then, populate tree with payee. */
     payee_list_tmp = gsb_data_payee_get_payees_list ();
-    if ( payee_list_tmp == NULL )
-        return;
 
     payee_list_tmp = g_slist_prepend ( payee_list_tmp, gsb_data_payee_get_empty_payee ());
 
@@ -479,7 +477,9 @@ void payee_fill_tree ( void )
         payee_number = gsb_data_payee_get_no_payee (payee_list_tmp -> data);
 
         /* no display the payee without transactions (archived) */
-        if ( gsb_data_payee_get_nb_transactions ( payee_number ) )
+        if ( payee_number == 0
+         ||
+         gsb_data_payee_get_nb_transactions ( payee_number ) )
         {
             gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
             fill_division_row ( GTK_TREE_MODEL(payee_tree_model), payee_interface,
@@ -1368,7 +1368,7 @@ static gboolean gsb_assistant_payees_enter_page_finish ( GtkWidget *assistant )
 	}
 	else
 	{
-    tmpstr = g_strdup_printf (
+    tmpstr = g_markup_printf_escaped (
                         _("You are about to replace %d payees whose names contain %s by %s\n\n"
                         "Are you sure?"),
                         g_slist_length (sup_payees),

@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -32,27 +32,11 @@
 #include "gsb_data_fyear.h"
 #include "./utils_dates.h"
 #include "./gsb_fyear.h"
+#include "./dialog.h"
 #include "./utils_str.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
-
-/**
- * \struct 
- * Describe a fyear 
- */
-typedef struct
-{
-    guint fyear_number;
-    gchar *fyear_name;
-    GDate *beginning_date;
-    GDate *end_date;
-    gboolean showed_in_form;
-
-    /* 0 if the fyear is valid, >0 if invalid (the number
-     * contains why it's invalid) */
-    gint invalid_fyear;
-} struct_fyear;
 
 /**
  * describe the invalid numbers
@@ -119,30 +103,30 @@ gpointer gsb_data_fyear_get_structure ( gint fyear_number )
     GSList *tmp;
 
     if (!fyear_number)
-	return NULL;
+	    return NULL;
 
     /* before checking all the fyears, we check the buffer */
 
     if ( fyear_buffer
 	 &&
 	 fyear_buffer -> fyear_number == fyear_number )
-	return fyear_buffer;
+	    return fyear_buffer;
 
     tmp = fyear_list;
-    
+
     while ( tmp )
     {
-	struct_fyear *fyear;
+        struct_fyear *fyear;
 
-	fyear = tmp -> data;
+	    fyear = tmp -> data;
 
-	if ( fyear -> fyear_number == fyear_number )
-	{
-	    fyear_buffer = fyear;
-	    return fyear;
-	}
+	    if ( fyear -> fyear_number == fyear_number )
+	    {
+	        fyear_buffer = fyear;
+	        return fyear;
+	    }
 
-	tmp = tmp -> next;
+	    tmp = tmp -> next;
     }
     return NULL;
 }
@@ -292,7 +276,7 @@ gboolean gsb_data_fyear_remove ( gint fyear_number )
  * \return the new number or 0 if the fyear doen't exist
  * */
 gint gsb_data_fyear_set_new_number ( gint fyear_number,
-				     gint new_no_fyear )
+                        gint new_no_fyear )
 {
     struct_fyear *fyear;
 
@@ -339,7 +323,7 @@ const gchar *gsb_data_fyear_get_name ( gint fyear_number )
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
     if (!fyear)
-	return NULL;
+        return NULL;
 
     return fyear -> fyear_name;
 }
@@ -563,22 +547,20 @@ const gchar *gsb_data_fyear_get_invalid_message ( gint fyear_number )
 
     fyear = gsb_data_fyear_get_structure ( fyear_number );
 
-    if (!fyear
-	||
-	!fyear -> invalid_fyear)
-	return NULL;
+    if ( !fyear || !fyear -> invalid_fyear )
+        return NULL;
 
-    switch (fyear -> invalid_fyear)
+    switch ( fyear -> invalid_fyear )
     {
-	case FYEAR_INVALID_DATE_ORDER:
-	    string = _("<span foreground=\"red\">Warning : the dates are not in good order</span>");
-	    break;
-	case FYEAR_INVALID_CROSS:
-	    string = _("<span foreground=\"red\">Warning : that financial year cross with another one</span>");
-	    break;
-	case FYEAR_INVALID_DATE:
-	    string = _("<span foreground=\"red\">Warning : Invalid date</span>");
-	    break;
+    case FYEAR_INVALID_DATE_ORDER:
+        string = make_red ( _("Warning : the dates are not in good order.") );
+        break;
+    case FYEAR_INVALID_CROSS:
+        string = make_red ( _("Warning : that financial year cross with another one.") );
+        break;
+    case FYEAR_INVALID_DATE:
+        string = make_red ( _("Warning : Invalid date.") );
+        break;
     }
 
     return string;
@@ -711,8 +693,7 @@ gint gsb_data_fyear_get_from_date ( const GDate *date )
  *
  * \return -1 if fyear 1 is before 2 ; +1 if fyear 1 is after 2 ; 0 if problem
  * */
-gint gsb_data_fyear_compare ( gint fyear_number_1,
-			      gint fyear_number_2 )
+gint gsb_data_fyear_compare ( gint fyear_number_1, gint fyear_number_2 )
 {
     struct_fyear *fyear_1;
     struct_fyear *fyear_2;
@@ -720,17 +701,28 @@ gint gsb_data_fyear_compare ( gint fyear_number_1,
     fyear_1 = gsb_data_fyear_get_structure (fyear_number_1);
     fyear_2 = gsb_data_fyear_get_structure (fyear_number_2);
 
-    if (!fyear_1
-	||
-	!fyear_2)
-	return 0;
+    return gsb_data_fyear_compare_from_struct ( fyear_1, fyear_2 );
+
+ }
+
+
+/**
+ * compare 2 financial years bye struct_fyear *fyear
+ *
+ * \param struct_fyear *fyear_1
+ * \param struct_fyear *fyear_2
+ *
+ * \return -1 if fyear 1 is before 2 ; +1 if fyear 1 is after 2 ; 0 if problem
+ * */
+gint gsb_data_fyear_compare_from_struct ( struct_fyear *fyear_1,
+                        struct_fyear *fyear_2 )
+{
+    if ( !fyear_1 || !fyear_2 )
+        return 0;
 
     if (g_date_compare (fyear_1 -> beginning_date, fyear_2 -> end_date) >= 0)
-	return 1;
+        return 1;
     if (g_date_compare (fyear_2 -> beginning_date, fyear_1 -> end_date) >= 0)
-	return -1;
+        return -1;
     return 0;
 }
-
-
-

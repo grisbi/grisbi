@@ -909,8 +909,9 @@ void csv_import_update_validity_check ( GtkWidget * assistant )
     if ( label )
     {
 	gtk_label_set_markup ( g_object_get_data ( G_OBJECT(assistant), "validity_label" ),
-			       g_strdup_printf ( _("<b>Following fields are missing:</b> %s"),
-						 label ) );
+                        g_markup_printf_escaped (
+                        _("<b>Following fields are missing:</b> %s"),
+                        label ) );
 	gtk_widget_show ( g_object_get_data ( G_OBJECT(assistant), "validity_icon" ) );
 	gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant),
 						       "button_next" ), FALSE );

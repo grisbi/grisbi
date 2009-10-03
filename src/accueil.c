@@ -2105,7 +2105,7 @@ void gsb_main_page_update_homepage_title ( gchar *title )
         return;
 
     if ( title && strlen ( title ) > 0 )
-        tmpstr = g_strconcat ("<span size=\"x-large\">", title, "</span>", NULL );
+        tmpstr = g_markup_printf_escaped ("<span size=\"x-large\">%s</span>", title );
     else
         tmpstr = g_strconcat ("<span size=\"x-large\">", _("My accounts"), "</span>", NULL );
 

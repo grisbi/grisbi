@@ -44,6 +44,7 @@
 #include "./navigation.h"
 #include "./gsb_report.h"
 #include "./gsb_transactions_list.h"
+#include "./dialog.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./etats_calculs.h"
@@ -195,182 +196,137 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     GtkWidget *hbox;
 
     page = gtk_hbox_new (FALSE, 15);
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
 
     vbox = gtk_vbox_new (FALSE, 5);
-    gtk_box_pack_start ( GTK_BOX (page),
-			 vbox,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (page), vbox, FALSE, FALSE, 0 );
 
     /* set up the menu */
     label = gtk_label_new (_("Please select a way to select transactions for this archive"));
-    gtk_misc_set_alignment ( GTK_MISC (label),
-			     0, 0.5 );
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 label,
-			 FALSE, FALSE, 0 );
+    gtk_misc_set_alignment ( GTK_MISC (label), 0, 0.5 );
+    gtk_box_pack_start ( GTK_BOX (vbox), label,  FALSE, FALSE, 0 );
 
     /* archive by date */
     button = gtk_radio_button_new_with_label ( NULL, _("Archive by date"));
     g_signal_connect_object ( G_OBJECT (button),
-			       "toggled",
-			       G_CALLBACK (gsb_assistant_archive_update_labels),
-			       G_OBJECT (assistant),
-			       G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 button,
-			 FALSE, FALSE, 0 );
+                        "toggled",
+                        G_CALLBACK (gsb_assistant_archive_update_labels),
+                        G_OBJECT (assistant),
+                        G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+    gtk_box_pack_start ( GTK_BOX (vbox), button, FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_("Grisbi will archive all transactions between initial and final dates."));
-    gtk_misc_set_alignment ( GTK_MISC (label),
-			     0, 0.5 );
-    gtk_misc_set_padding ( GTK_MISC (label), 
-			   24, 0 );
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 label,
-			 FALSE, FALSE, 0 );
+    label = gtk_label_new ( _("Grisbi will archive all transactions between initial and "
+                        "final dates.") );
+    gtk_misc_set_alignment ( GTK_MISC (label), 0, 0.5 );
+    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
     hbox = gtk_hbox_new ( FALSE, 6 );
     g_signal_connect ( G_OBJECT (button),
-		       "toggled",
-		       G_CALLBACK  (sens_desensitive_pointeur),
-		       G_OBJECT (hbox));
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 hbox,
-			 FALSE, FALSE, 0 );
+                        "toggled",
+                        G_CALLBACK  (sens_desensitive_pointeur),
+                        G_OBJECT (hbox));
+    gtk_box_pack_start ( GTK_BOX (vbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( COLON ( _("Initial date" ) ) );
-    gtk_misc_set_padding ( GTK_MISC (label), 
-			   24, 0 );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 label,
- 			 FALSE, FALSE, 0 );
+    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
+
     initial_date = gsb_calendar_entry_new (FALSE);
     g_signal_connect_object ( G_OBJECT (initial_date),
-			      "changed",
-			      G_CALLBACK (gsb_assistant_archive_update_labels),
-			      G_OBJECT (assistant),
-			      G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 initial_date,
-			 FALSE, FALSE, 0 );
+                        "changed",
+                        G_CALLBACK (gsb_assistant_archive_update_labels),
+                        G_OBJECT (assistant),
+                        G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+    gtk_box_pack_start ( GTK_BOX (hbox), initial_date, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( COLON ( _("Final date")) );
-    gtk_misc_set_padding ( GTK_MISC (label), 
-			   24, 0 );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 label,
-			 FALSE, FALSE, 0 );
+    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
+
     final_date = gsb_calendar_entry_new (FALSE);
     g_signal_connect_object ( G_OBJECT (final_date),
-			      "changed",
-			      G_CALLBACK (gsb_assistant_archive_update_labels),
-			      G_OBJECT (assistant),
-			      G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 final_date,
-			 FALSE, FALSE, 0 );
+                        "changed",
+                        G_CALLBACK (gsb_assistant_archive_update_labels),
+                        G_OBJECT (assistant),
+                        G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+    gtk_box_pack_start ( GTK_BOX (hbox), final_date, FALSE, FALSE, 0 );
 
     /* archive by financial year */
-    button = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (GTK_RADIO_BUTTON (button)),
-					       _("Archive by financial year"));
+    button = gtk_radio_button_new_with_label ( 
+                        gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( button ) ),
+                        _("Archive by financial year") );
     g_signal_connect_object ( G_OBJECT (button),
-			       "toggled",
-			       G_CALLBACK (gsb_assistant_archive_update_labels),
-			       G_OBJECT (assistant),
-			       G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 button,
-			 FALSE, FALSE, 0 );
+                        "toggled",
+                        G_CALLBACK (gsb_assistant_archive_update_labels),
+                        G_OBJECT (assistant),
+                        G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+    gtk_box_pack_start ( GTK_BOX (vbox), button, FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_("Grisbi will archive all transactions belonging to a financial year." ));
-    gtk_misc_set_padding ( GTK_MISC (label), 
-			   24, 0 );
-    gtk_misc_set_alignment ( GTK_MISC (label),
-			     0, 0.5 );
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 label,
-			 FALSE, FALSE, 0 );
+    label = gtk_label_new ( _("Grisbi will archive all transactions belonging to a "
+                        "financial year." ) );
+    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    gtk_misc_set_alignment ( GTK_MISC (label), 0, 0.5 );
+    gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
     hbox = gtk_hbox_new ( FALSE, 10 );
     g_signal_connect ( G_OBJECT (button),
-		       "toggled",
-		       G_CALLBACK  (sens_desensitive_pointeur),
-		       G_OBJECT (hbox));
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 hbox,
-			 FALSE, FALSE, 0 );
+                        "toggled",
+                        G_CALLBACK  ( sens_desensitive_pointeur ),
+                        G_OBJECT (hbox));
+    gtk_box_pack_start ( GTK_BOX (vbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_("Financial year :"));
-    gtk_misc_set_padding ( GTK_MISC (label), 
-			   24, 0 );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 label,
-			 FALSE, FALSE, 0 );
+    label = gtk_label_new ( _("Financial year :") );
+    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
+
     financial_year_button = gsb_fyear_make_combobox (FALSE);
     g_signal_connect_object ( G_OBJECT (financial_year_button),
-			      "changed",
-			      G_CALLBACK (gsb_assistant_archive_update_labels),
-			      G_OBJECT (assistant),
-			      G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 financial_year_button,
-			 FALSE, FALSE, 0 );
+                        "changed",
+                        G_CALLBACK (gsb_assistant_archive_update_labels),
+                        G_OBJECT (assistant),
+                        G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+    gtk_box_pack_start ( GTK_BOX (hbox), financial_year_button, FALSE, FALSE, 0 );
     gtk_widget_set_sensitive ( hbox, FALSE );
 
     /* archive by budget */
-    button = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (GTK_RADIO_BUTTON (button)),
-					       _("Archive by report"));
+    button = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (
+                        GTK_RADIO_BUTTON ( button ) ),
+                        _("Archive by report"));
     g_signal_connect_object ( G_OBJECT (button),
-			       "toggled",
-			       G_CALLBACK (gsb_assistant_archive_update_labels),
-			       G_OBJECT (assistant),
-			       G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 button,
-			 FALSE, FALSE, 0 );
+                        "toggled",
+                        G_CALLBACK (gsb_assistant_archive_update_labels),
+                        G_OBJECT (assistant),
+                        G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+    gtk_box_pack_start ( GTK_BOX (vbox), button, FALSE, FALSE, 0 );
 
     label = gtk_label_new (_("Grisbi will archive transactions selected by a report." ));
-    gtk_misc_set_padding ( GTK_MISC (label), 
-			   24, 0 );
-    gtk_misc_set_alignment ( GTK_MISC (label),
-			     0, 0.5 );
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 label,
-			 FALSE, FALSE, 0 );
+    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    gtk_misc_set_alignment ( GTK_MISC (label), 0, 0.5 );
+    gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
     hbox = gtk_hbox_new ( FALSE, 10 );
     g_signal_connect ( G_OBJECT (button),
-		       "toggled",
-		       G_CALLBACK  (sens_desensitive_pointeur),
-		       G_OBJECT (hbox));
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 hbox,
-			 FALSE, FALSE, 0 );
+                        "toggled",
+                        G_CALLBACK  (sens_desensitive_pointeur),
+                        G_OBJECT (hbox));
+    gtk_box_pack_start ( GTK_BOX (vbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( COLON ( _("Report") ) );
-    gtk_misc_set_padding ( GTK_MISC (label), 
-			   24, 0 );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 label,
-			 FALSE, FALSE, 0 );
+    gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
+    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
     report_button = gsb_report_make_combobox ();
     g_signal_connect_object ( G_OBJECT (report_button),
-			      "changed",
-			      G_CALLBACK (gsb_assistant_archive_update_labels),
-			      G_OBJECT (assistant),
-			      G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 report_button,
-			 FALSE, FALSE, 0 );
+                        "changed",
+                        G_CALLBACK (gsb_assistant_archive_update_labels),
+                        G_OBJECT (assistant),
+                        G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+    gtk_box_pack_start ( GTK_BOX (hbox), report_button, FALSE, FALSE, 0 );
     gtk_widget_set_sensitive ( hbox, FALSE );
 
     label_archived = gtk_label_new (NULL);
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 label_archived,
-			 FALSE, FALSE, 0 );
     gtk_misc_set_alignment ( GTK_MISC (label_archived), 0, 0 );
+    gtk_box_pack_start ( GTK_BOX (vbox), label_archived, FALSE, FALSE, 0 );
 
     gsb_assistant_sensitive_button_next ( assistant, FALSE );
 
@@ -622,32 +578,34 @@ static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assist
 
     if ( GTK_WIDGET_IS_SENSITIVE (initial_date) )
     {
-    gchar * sdate, * fdate;
-    sdate = gsb_format_gdate ( gsb_calendar_entry_get_date (initial_date));
-    fdate = gsb_format_gdate (gsb_calendar_entry_get_date (final_date));
-    string = g_strdup_printf ( _("Archive from %s to %s"), sdate, fdate );
-    g_free ( sdate );
-    g_free ( fdate );
+        gchar * sdate, * fdate;
+
+        sdate = gsb_format_gdate ( gsb_calendar_entry_get_date (initial_date));
+        fdate = gsb_format_gdate (gsb_calendar_entry_get_date (final_date));
+        string = g_strdup_printf ( _("Archive from %s to %s"), sdate, fdate );
+        g_free ( sdate );
+        g_free ( fdate );
     }
     else if ( GTK_WIDGET_IS_SENSITIVE (financial_year_button) )
     {
-    gint fyear;
-    fyear = gsb_fyear_get_fyear_from_combobox ( financial_year_button, NULL );
-    string = g_strdup_printf ( _("Archive of financial year %s"), 
-                        gsb_data_fyear_get_name ( fyear ) );
+        gint fyear;
+
+        fyear = gsb_fyear_get_fyear_from_combobox ( financial_year_button, NULL );
+        string = g_strdup_printf ( _("Archive of financial year %s"), 
+                            gsb_data_fyear_get_name ( fyear ) );
     }
     else if ( GTK_WIDGET_IS_SENSITIVE (report_button) )
     {
-    gint report_number;
-    report_number = gsb_report_get_report_from_combobox (report_button);
-    string = g_strdup_printf ( _("Archive of report %s"), 
-                        gsb_data_report_get_report_name ( report_number ) );
+        gint report_number;
+        report_number = gsb_report_get_report_from_combobox (report_button);
+        string = g_strdup_printf ( _("Archive of report %s"), 
+                            gsb_data_report_get_report_name ( report_number ) );
     }
 
     if ( string )
     {
-    gtk_entry_set_text ( GTK_ENTRY ( name_entry ), string );
-    g_free ( string );
+        gtk_entry_set_text ( GTK_ENTRY ( name_entry ), string );
+        g_free ( string );
     }
 
     gsb_assistant_sensitive_button_next ( assistant, TRUE );
@@ -807,7 +765,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
     gchar *string;
     GSList *tmp_list;
     GtkWidget * notebook;
-	GSList *report_transactions_list;
+    GSList *report_transactions_list;
 
     notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
     
@@ -830,12 +788,12 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
     final_gdate = gsb_calendar_entry_get_date (final_date);
     string = NULL;
 
-    if (!strlen ( gtk_entry_get_text (GTK_ENTRY (initial_date))))
-        string = my_strdup (_("<span foreground=\"red\">Please fill the initial date</span>"));
-    if (!string
+    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( initial_date ) ) ) )
+        string = make_red ( _("Please fill the initial date."));
+    if ( !string
         &&
-        !strlen ( gtk_entry_get_text (GTK_ENTRY (final_date))))
-        string = my_strdup (_("<span foreground=\"red\">Please fill the final date</span>"));
+        !strlen ( gtk_entry_get_text ( GTK_ENTRY ( final_date ) ) ) )
+        string = make_red ( _("Please fill the final date.") );
     if ( !string
          &&
          init_gdate
@@ -843,23 +801,23 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
          final_gdate
          &&
          g_date_compare (init_gdate, final_gdate) > 0 )
-        string = my_strdup (_("<span foreground=\"red\">The initial date is after the final date</span>"));
+        string = make_red (_("The initial date is after the final date."));
     if ( !string
          &&
          !init_gdate)
-        string = my_strdup (_("<span foreground=\"red\">The initial date is not valid.</span>"));
+        string = make_red (_("The initial date is not valid."));
     if ( !string
          &&
          !final_gdate )
-        string = my_strdup (_("<span foreground=\"red\">The final date is not valid</span>"));
+        string = make_red (_("The final date is not valid."));
     if ( !string
          &&
          gsb_data_archive_get_from_date (init_gdate) )
-        string = my_strdup (_("<span foreground=\"red\">The initial date belongs already to an archive.</span>"));
+        string = make_red (_("The initial date belongs already to an archive."));
     if ( !string
          &&
          gsb_data_archive_get_from_date (final_gdate) )
-        string = my_strdup (_("<span foreground=\"red\">The final date belongs already to an archive.</span>"));
+        string = make_red (_("The final date belongs already to an archive."));
 
     if (string)
     {
@@ -894,114 +852,111 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 
     /* ok for now the choice is on fyear */
     if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU &&
-	 GTK_WIDGET_IS_SENSITIVE (financial_year_button))
+    GTK_WIDGET_IS_SENSITIVE (financial_year_button))
     {
-	gint fyear_number;
-	string = NULL;
+    gint fyear_number;
+    string = NULL;
 
-	fyear_number = gsb_fyear_get_fyear_from_combobox (financial_year_button,NULL);
+    fyear_number = gsb_fyear_get_fyear_from_combobox ( financial_year_button, NULL );
 
-	if (!fyear_number)
-	    string = my_strdup (_("<span foreground=\"red\">Please choose a financial year</span>"));
+    if (!fyear_number)
+        string = make_red (_("Please choose a financial year."));
 
-	if ( !string
-	     &&
-	     gsb_data_archive_get_from_fyear (fyear_number))
-	    string = my_strdup (_("<span foreground=\"red\">There is already an archive for that financial year.</span>"));
+    if ( !string
+     &&
+     gsb_data_archive_get_from_fyear ( fyear_number ) )
+        string = make_red (_("There is already an archive for that financial year."));
 
-	if (string)
-	{
-	    gtk_label_set_markup ( GTK_LABEL (label_archived),
-				   string );
-	    g_free (string);
-	    gsb_assistant_sensitive_button_next ( assistant, FALSE );
-	    return FALSE;
-	}
+    if (string)
+    {
+        gtk_label_set_markup ( GTK_LABEL (label_archived), string );
+        g_free (string);
+        gsb_assistant_sensitive_button_next ( assistant, FALSE );
+        return FALSE;
+    }
 
-	/* the fyear is ok */
-	tmp_list = gsb_data_transaction_get_transactions_list ();
-	while (tmp_list)
-	{
-	    gint transaction_number;
+    /* the fyear is ok */
+    tmp_list = gsb_data_transaction_get_transactions_list ();
+    while (tmp_list)
+    {
+        gint transaction_number;
 
-	    transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+        transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
 
-	    if (gsb_data_transaction_get_financial_year_number (transaction_number) == fyear_number)
-	    {
-		/* the transaction belongs to the fyear, we append its address to the list to archive
-		 * all the linked transactions will be taken */
-		gsb_assistant_archive_add_transaction_to_list (tmp_list -> data);
-	    }
-	    tmp_list = tmp_list -> next;
-	}
+        if (gsb_data_transaction_get_financial_year_number (transaction_number) == fyear_number)
+        {
+        /* the transaction belongs to the fyear, we append its address to the list to archive
+         * all the linked transactions will be taken */
+        gsb_assistant_archive_add_transaction_to_list (tmp_list -> data);
+        }
+        tmp_list = tmp_list -> next;
+    }
     }
 
     /* ok for now the choice is on report */
     if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU &&
-	 GTK_WIDGET_IS_SENSITIVE (report_button))
+     GTK_WIDGET_IS_SENSITIVE (report_button))
     {
-	gint report_number;
-	string = NULL;
+    gint report_number;
+    string = NULL;
 
-	report_number = gsb_report_get_report_from_combobox (report_button);
+    report_number = gsb_report_get_report_from_combobox (report_button);
 
-	if (!report_number)
-	    string = my_strdup (_("<span foreground=\"red\">Please choose a report</span>"));
+    if (!report_number)
+        string = make_red (_("Please choose a report."));
 
-	if (string)
-	{
-	    gtk_label_set_markup ( GTK_LABEL (label_archived),
-				   string );
-	    g_free (string);
-	    gsb_assistant_sensitive_button_next ( assistant, FALSE );
-	    return FALSE;
-	}
+    if (string)
+    {
+        gtk_label_set_markup ( GTK_LABEL (label_archived), string );
+        g_free (string);
+        gsb_assistant_sensitive_button_next ( assistant, FALSE );
+        return FALSE;
+    }
 
-	/* the report is ok */
-	report_transactions_list = recupere_opes_etat (report_number);
+    /* the report is ok */
+    report_transactions_list = recupere_opes_etat (report_number);
 
-	/* the list from report doesn't contain contra-transaction and mother/children split,
-	 * so for each transaction of that list, we need to check the contra-transaction, the mother and children
-	 * and add them to the list */
-	tmp_list = report_transactions_list;
-	while (tmp_list)
-	{
-	    /* just call add_transaction_to_list, all the linked transactions will be taken */
-	    gsb_assistant_archive_add_transaction_to_list (tmp_list -> data);
-	    tmp_list = tmp_list -> next;
-	}
-	g_slist_free (report_transactions_list);
+    /* the list from report doesn't contain contra-transaction and mother/children split,
+     * so for each transaction of that list, we need to check the contra-transaction, the mother and children
+     * and add them to the list */
+    tmp_list = report_transactions_list;
+    while (tmp_list)
+    {
+        /* just call add_transaction_to_list, all the linked transactions will be taken */
+        gsb_assistant_archive_add_transaction_to_list (tmp_list -> data);
+        tmp_list = tmp_list -> next;
+    }
+    g_slist_free (report_transactions_list);
     }
 
     /* update the labels */
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU )
     {
-	/* there is some transactions to archive */
-	string = g_strdup_printf (_("%d transactions out of %d will be archived."),
-				  g_slist_length (list_transaction_to_archive),
-				  g_slist_length (gsb_data_transaction_get_transactions_list () ) );
-	gtk_label_set_text ( GTK_LABEL (label_archived),
-			     string);
-	g_free (string);
+    /* there is some transactions to archive */
+    string = g_strdup_printf (_("%d transactions out of %d will be archived."),
+                        g_slist_length (list_transaction_to_archive),
+                        g_slist_length (gsb_data_transaction_get_transactions_list () ) );
+    gtk_label_set_text ( GTK_LABEL (label_archived), string);
+    g_free (string);
 
-	if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) != 
-	     ARCHIVE_ASSISTANT_ARCHIVE_NAME )
-	{
-	    gsb_assistant_sensitive_button_next ( assistant, TRUE );
-	}
+    if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) != 
+        ARCHIVE_ASSISTANT_ARCHIVE_NAME )
+    {
+        gsb_assistant_sensitive_button_next ( assistant, TRUE );
+    }
     }
 
     if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == 
-	 ARCHIVE_ASSISTANT_ARCHIVE_NAME )
+     ARCHIVE_ASSISTANT_ARCHIVE_NAME )
     {
-	if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( name_entry ) ) ) )
-	{
-	    gsb_assistant_sensitive_button_next ( assistant, TRUE );
-	}
-	else
-	{
-	    gsb_assistant_sensitive_button_next ( assistant, FALSE );
-	}
+    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( name_entry ) ) ) )
+    {
+        gsb_assistant_sensitive_button_next ( assistant, TRUE );
+    }
+    else
+    {
+        gsb_assistant_sensitive_button_next ( assistant, FALSE );
+    }
     }
     
     return FALSE;

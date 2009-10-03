@@ -239,12 +239,16 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
 
     if ( encrypt )
 	gtk_label_set_markup ( GTK_LABEL (label),
-			       g_strdup_printf ( _( "%sPlease enter password to encrypt file\n'<span foreground=\"blue\">%s</span>'" ),
-						 additional_message, file_name ) );
+			       g_markup_printf_escaped (
+                    _( "%sPlease enter password to encrypt file\n'<span "
+                    "foreground=\"blue\">%s</span>'" ),
+                    additional_message, file_name ) );
     else
 	gtk_label_set_markup ( GTK_LABEL (label),
-			       g_strdup_printf ( _( "%sPlease enter password to decrypt file\n'<span foreground=\"blue\">%s</span>'" ),
-						 additional_message, file_name ) );
+			       g_markup_printf_escaped (
+                    _( "%sPlease enter password to decrypt file\n'<span "
+                    "foreground=\"blue\">%s</span>'" ),
+                    additional_message, file_name ) );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 6 );
 
     hbox2 = gtk_hbox_new ( FALSE, 6 );

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
-/*          2003-2009 Benjamin Drieu (bdrieu@april.org)	                      */
+/*          2003-2009 Benjamin Drieu (bdrieu@april.org)                       */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -36,6 +36,7 @@
 #include "./parametres.h"
 #include "./gsb_file.h"
 #include "./traitement_variables.h"
+#include "./dialog.h"
 #include "./utils_files.h"
 #include "./utils.h"
 #include "./structures.h"
@@ -220,13 +221,12 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     entry = gsb_automem_entry_new ( &etat.browser_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
-    text = g_strconcat ( "<span foreground=\"blue\">",
-            _("You may use %s to expand the URL - I.e: 'firefox -remote %s' "), "</span>", NULL );
+    text = make_blue ( _("You may use %s to expand the URL - I.e: 'firefox -remote %s' ") );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 1, 2, 2, 3,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
     g_free ( text );
 
     /* Account file handling */

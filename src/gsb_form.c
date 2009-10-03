@@ -221,9 +221,7 @@ void gsb_form_create_widgets ( void )
 
     /* set the label transaction form */
     label = gtk_label_new ( NULL );
-    tmpstr = g_strconcat ( "<span weight=\"bold\">", 
-                                _("Transaction/Scheduled _form"),
-                                "</span>", NULL );
+    tmpstr = make_pango_attribut ( "weight=\"bold\"", _("Transaction/Scheduled _form") );
     gtk_label_set_markup_with_mnemonic ( GTK_LABEL ( label ), tmpstr );
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( hbox ),

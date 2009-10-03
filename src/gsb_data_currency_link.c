@@ -29,6 +29,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_currency_link.h"
+#include "./dialog.h"
 #include "./include.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
@@ -466,15 +467,15 @@ const gchar *gsb_data_currency_link_get_invalid_message ( gint currency_link_num
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
     if (!currency_link)
-	return 0;
+        return 0;
 
     if (!currency_link -> invalid_link)
-	return NULL;
+        return NULL;
 
     if ( currency_link -> first_currency == currency_link -> second_currency)
-	return _("<span foreground=\"red\">Warning : the two currencies of the link are identicals</span>");
+        return make_red ( _("Warning : the two currencies of the link are identicals.") );
 
-    return _("<span foreground=\"red\">Warning : that link is already defined</span>");
+    return make_red ( _("Warning : that link is already defined.") );
 }
 
 

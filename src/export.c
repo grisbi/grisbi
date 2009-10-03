@@ -30,6 +30,7 @@
 #include "./export_csv.h"
 #include "./gsb_data_account.h"
 #include "./gsb_file.h"
+#include "./dialog.h"
 #include "./utils.h"
 #include "./qif.h"
 #include "./structures.h"
@@ -343,16 +344,20 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
 GtkWidget * create_export_account_resume_page ( struct exported_account * account )
 {
     GtkWidget * vbox, * hbox, * label, * combo;
+    gchar *tmpstr;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
+    tmpstr = make_pango_attribut ( "size=\"x-large\"",
+                        g_strdup_printf ( "Export of : %s",
+                        gsb_data_account_get_name ( account -> account_nb ) ) );
+                        
     label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_label_set_markup ( GTK_LABEL ( label ),
-			   g_strdup_printf ( _("<span size=\"x-large\">Export of : %s</span>"),
-					     gsb_data_account_get_name ( account -> account_nb ) ) );
+    gtk_label_set_markup ( GTK_LABEL ( label ), tmpstr );
+    g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
 
     /* Layout */

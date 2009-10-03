@@ -242,9 +242,7 @@ void remplit_arbre_imputation ( void )
 
     /** Then, populate tree with budgetary lines. */
     budget_list = gsb_data_budget_get_budgets_list ();
-    if ( budget_list == NULL )
-        return;
-
+    
     /* add first the empty budget */
     budget_list = g_slist_prepend ( budget_list,
 				    gsb_data_budget_get_empty_budget ());

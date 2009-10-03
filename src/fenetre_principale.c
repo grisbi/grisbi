@@ -337,12 +337,15 @@ void gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
                         const gchar *text,
                         gboolean escape_text )
 {
-    const gchar* escstr = escape_text ? g_markup_escape_text ( text, -1 ) : text;
-    gchar* tmpstr = g_strconcat ( "<b>", escstr, "</b>", NULL );
-    gtk_label_set_markup ( label, tmpstr );
-    g_free ( tmpstr );
+    gchar* tmpstr;
+
     if ( escape_text )
-        g_free ( (gchar*)escstr );
+        tmpstr = g_markup_printf_escaped ("<b>%s</b>", text );
+    else
+        tmpstr = g_strconcat ( "<b>", text, "</b>", NULL );
+    gtk_label_set_markup ( label, tmpstr );
+
+    g_free ( tmpstr );
 }
 
 /**

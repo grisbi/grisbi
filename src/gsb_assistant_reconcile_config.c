@@ -51,24 +51,24 @@
 
 /*START_STATIC*/
 static  gboolean gsb_assistant_reconcile_config_hide_label_error ( GtkWidget *editable,
-								  GtkWidget *label );
+                        GtkWidget *label );
 static  gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *button,
-								 GtkWidget *assistant );
+                        GtkWidget *assistant );
 static  gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *button,
-								 GtkWidget *assistant );
+                        GtkWidget *assistant );
 static  gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidget *button,
-									GtkWidget *label );
+                        GtkWidget *label );
 static  GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistant );
 static  gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *button,
-								   GtkWidget *assistant );
+                        GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void );
 static  GtkWidget *gsb_assistant_reconcile_config_page_success ( void );
 static gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
-							   gint new_page );
+                        gint new_page );
 static gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant,
-							   gint new_page );
+                        gint new_page );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -730,7 +730,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_success ( void )
  * \return FALSE
  * */
 static gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *button,
-								   GtkWidget *assistant )
+                        GtkWidget *assistant )
 {
     gint new_next_page;
 
@@ -755,89 +755,95 @@ static gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *bu
  * \return FALSE
  * */
 static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidget *button,
-									GtkWidget *label )
+                        GtkWidget *label )
 {
     gint reconcile_number;
     gchar *string;
 
     /* first, we check the date are valid */
-    if (!gsb_date_check_entry (reconcile_init_date_entry))
+    if ( !gsb_date_check_entry ( reconcile_init_date_entry ) )
     {
-	gtk_label_set_markup (GTK_LABEL (label),
-			    _("<span foreground=\"red\">The initial date is not valid, please check it</span>"));
-	gtk_widget_grab_focus (reconcile_init_date_entry);
-	return FALSE;
+        string = make_red ( _("The initial date is not valid, please check it.") );
+        gtk_label_set_markup ( GTK_LABEL ( label) , string );
+        gtk_widget_grab_focus (reconcile_init_date_entry);
+        g_free ( string );
+        return FALSE;
     }
 
-    if (!gsb_date_check_entry (reconcile_final_date_entry))
+    if ( !gsb_date_check_entry ( reconcile_final_date_entry ) )
     {
-	gtk_label_set_markup (GTK_LABEL (label),
-			    _("<span foreground=\"red\">The final date is not valid, please check it</span>"));
-	gtk_widget_grab_focus (reconcile_final_date_entry);
-	return FALSE;
+        string = make_red ( _("The final date is not valid, please check it.") );
+        gtk_label_set_markup ( GTK_LABEL ( label) , string );
+        gtk_widget_grab_focus ( reconcile_final_date_entry );
+        g_free ( string );
+    return FALSE;
     }
 
     /* check there is a name */
-    if (!strlen (gtk_entry_get_text (GTK_ENTRY (reconcile_name_entry))))
+    if ( !strlen (gtk_entry_get_text ( GTK_ENTRY ( reconcile_name_entry ) ) ) )
     {
-	gtk_label_set_markup (GTK_LABEL (label),
-			    _("<span foreground=\"red\">Please give a name to the new reconcile</span>"));
-	gtk_widget_grab_focus (reconcile_name_entry);
-	return FALSE;
+        string = make_red ( _("Please give a name to the new reconcile.") );
+        gtk_label_set_markup ( GTK_LABEL ( label) , string );
+        gtk_widget_grab_focus ( reconcile_name_entry );
+        g_free ( string );
+        return FALSE;
     }
 
     /* check if already exist the name */
-    if (gsb_data_reconcile_get_number_by_name (gtk_entry_get_text (GTK_ENTRY (reconcile_name_entry))))
+    if ( gsb_data_reconcile_get_number_by_name (
+     gtk_entry_get_text (GTK_ENTRY (reconcile_name_entry) ) ) )
     {
-	gtk_label_set_markup (GTK_LABEL (label),
-			    _("<span foreground=\"red\">That name already exists, please find another one.</span>"));
-	gtk_widget_grab_focus (reconcile_name_entry);
-	return FALSE;
+        string = make_red ( _("That name already exists, please find another one.") );
+        gtk_label_set_markup ( GTK_LABEL ( label) , string );
+        gtk_widget_grab_focus ( reconcile_name_entry );
+        g_free ( string );
+        return FALSE;
     }
 
     /* ok, now we can create the reconcile */
-    reconcile_number = gsb_data_reconcile_new (gtk_entry_get_text (GTK_ENTRY (reconcile_name_entry)));
-    if (!reconcile_number)
-    if (gsb_data_reconcile_get_number_by_name (gtk_entry_get_text (GTK_ENTRY (reconcile_name_entry))))
+    reconcile_number = gsb_data_reconcile_new (
+                        gtk_entry_get_text ( GTK_ENTRY ( reconcile_name_entry ) ) );
+    if ( !reconcile_number )
+    if (gsb_data_reconcile_get_number_by_name ( gtk_entry_get_text (
+     GTK_ENTRY ( reconcile_name_entry ) ) ) )
     {
-	gtk_label_set_markup (GTK_LABEL (label),
-			    _("<span foreground=\"red\">Cannot allocate memory : Bad things will happen soon.</span>"));
-	gtk_widget_grab_focus (reconcile_name_entry);
-	return FALSE;
+        string = make_red ( _("Cannot allocate memory : Bad things will happen soon.") );
+        gtk_label_set_markup ( GTK_LABEL ( label) , string );
+        gtk_widget_grab_focus ( reconcile_name_entry );
+        g_free ( string );
+        return FALSE;
     }
 
     gsb_data_reconcile_set_init_date ( reconcile_number,
-				       gsb_calendar_entry_get_date (reconcile_init_date_entry));
+                        gsb_calendar_entry_get_date ( reconcile_init_date_entry ) );
     gsb_data_reconcile_set_final_date ( reconcile_number,
-					gsb_calendar_entry_get_date (reconcile_final_date_entry));
+                        gsb_calendar_entry_get_date ( reconcile_final_date_entry ) );
     gsb_data_reconcile_set_init_balance ( reconcile_number,
-					  gsb_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (reconcile_init_balance_entry))));
+                        gsb_real_get_from_string ( gtk_entry_get_text (
+                        GTK_ENTRY (reconcile_init_balance_entry ) ) ) );
     gsb_data_reconcile_set_final_balance ( reconcile_number,
-					   gsb_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (reconcile_final_balance_entry))));
+                        gsb_real_get_from_string ( gtk_entry_get_text (
+                        GTK_ENTRY ( reconcile_final_balance_entry ) ) ) );
     gsb_data_reconcile_set_account ( reconcile_number,
-				     gsb_account_get_combo_account_number (reconcile_account_button));
+                        gsb_account_get_combo_account_number ( reconcile_account_button ) );
 
     /* erase the entries but not the account wich can be used again */
-    gtk_entry_set_text ( GTK_ENTRY (reconcile_name_entry),
-			 "" );
-    gtk_entry_set_text ( GTK_ENTRY (reconcile_init_date_entry),
-			 "" );
-    gtk_entry_set_text ( GTK_ENTRY (reconcile_final_date_entry),
-			 "" );
-    gtk_entry_set_text ( GTK_ENTRY (reconcile_init_balance_entry),
-			 "" );
-    gtk_entry_set_text ( GTK_ENTRY (reconcile_final_balance_entry),
-			 "" );
-    string = g_strdup_printf ( _("<span foreground=\"blue\">Reconciliation %s successfully appended !</span>"),
-			       gsb_data_reconcile_get_name (reconcile_number));
-    gtk_label_set_markup ( GTK_LABEL (label),
-			   string );
-    g_free (string);
+    gtk_entry_set_text ( GTK_ENTRY (reconcile_name_entry), "" );
+    gtk_entry_set_text ( GTK_ENTRY (reconcile_init_date_entry), "" );
+    gtk_entry_set_text ( GTK_ENTRY (reconcile_final_date_entry), "" );
+    gtk_entry_set_text ( GTK_ENTRY (reconcile_init_balance_entry), "" );
+    gtk_entry_set_text ( GTK_ENTRY (reconcile_final_balance_entry), "" );
+
+    string = make_blue ( g_strdup_printf ( _("Reconciliation %s successfully appended !"),
+                        gsb_data_reconcile_get_name ( reconcile_number ) ) );
+    gtk_label_set_markup ( GTK_LABEL ( label ), string );
+    g_free ( string );
 
     /* update the list of reconcile in the configuration list */
-    gsb_reconcile_config_fill ();
+    gsb_reconcile_config_fill ( );
 
-    gtk_widget_grab_focus (reconcile_name_entry);
+    gtk_widget_grab_focus ( reconcile_name_entry );
+
     return FALSE;
 }
 
@@ -850,7 +856,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
  * \return FALSE
  * */
 static gboolean gsb_assistant_reconcile_config_hide_label_error ( GtkWidget *editable,
-								  GtkWidget *label )
+                        GtkWidget *label )
 {
     gtk_label_set_text ( GTK_LABEL (label),
 			 NULL );
@@ -868,7 +874,7 @@ static gboolean gsb_assistant_reconcile_config_hide_label_error ( GtkWidget *edi
  * \return FALSE
  * */
 gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
-							   gint new_page )
+                        gint new_page )
 {
     gchar *string;
     GSList *tmp_list;
@@ -965,7 +971,7 @@ gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
  * \return FALSE
  * */
 static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *button,
-								 GtkWidget *assistant )
+                        GtkWidget *assistant )
 {
     GSList *tmp_list;
 
@@ -1029,7 +1035,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *butt
  * \return FALSE
  * */
 gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant,
-							   gint new_page )
+                        gint new_page )
 {
     gchar *string;
     GSList *tmp_list;
@@ -1094,7 +1100,7 @@ gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant,
  * \return FALSE
  * */
 static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *button,
-								 GtkWidget *assistant )
+                        GtkWidget *assistant )
 {
     GList *tmp_list;
     GtkTreeIter iter;

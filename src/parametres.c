@@ -868,9 +868,9 @@ GtkWidget *onglet_programmes (void)
     entry = gsb_automem_entry_new ( &etat.browser_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
-    text = g_strconcat ( "<span foreground=\"blue\">",
+    text = make_blue ( g_strconcat ( 
                         _("You may use %s to expand the URL I.e:\n'firefox -remote %s'"),
-                        "</span>", NULL );
+                        NULL ) );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
@@ -879,8 +879,8 @@ GtkWidget *onglet_programmes (void)
     g_free ( text );
 
 
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-                        _("LaTeX support (old print system)"));
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+                        _("LaTeX support (old print system)") );
 
     table = gtk_table_new ( 0, 2, FALSE );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );

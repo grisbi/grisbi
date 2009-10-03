@@ -411,7 +411,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     gtk_entry_set_text ( GTK_ENTRY ( reconcile_final_balance_entry ), "" );
 
     /* set the title */
-    tmpstr = g_strdup_printf ( _(" <b>%s reconciliation</b> "),
+    tmpstr = g_markup_printf_escaped ( _(" <b>%s reconciliation</b> "),
 					     gsb_data_account_get_name (account_number));
     gtk_label_set_markup ( GTK_LABEL (gtk_frame_get_label_widget (GTK_FRAME (reconcile_panel))),
 			   tmpstr );

@@ -717,7 +717,6 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
     gint origin = GPOINTER_TO_INT (p_origin);
     gint account_number;
     GtkWidget *image;
-    const gchar *tmpstr;
 
     account_number = gsb_gui_navigation_get_current_account ();
     if ( account_number == -1)
