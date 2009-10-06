@@ -185,7 +185,7 @@ HRESULT win32_get_folder_path(gchar* folder_path,const int csidl)        /* {{{ 
 gchar* win32_get_my_documents_folder_path()            /* {{{ */
 {
     SetLastError(win32_get_folder_path(my_documents_path,CSIDL_PERSONAL|CSIDL_FLAG_CREATE));
-    g_strlcat(my_documents_path,"\\",MAX_PATH+1);
+    // g_strlcat(my_documents_path,"\\",MAX_PATH+1);
     return my_documents_path;
 } /* }}}  */
 
