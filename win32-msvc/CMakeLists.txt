@@ -398,6 +398,12 @@ ADD_CUSTOM_COMMAND(TARGET grisbi
 
 ADD_CUSTOM_COMMAND(TARGET grisbi
 	PRE_BUILD
+	COMMAND xcopy
+	/S /Y ..\\share\\categories $(TargetDir)\\help\\tips\\categories\\
+)
+
+ADD_CUSTOM_COMMAND(TARGET grisbi
+	PRE_BUILD
 	COMMAND $(ProjectDir)\\tools\\dos2unix.cmd
 	..\\help\\tips\\tips.txt $(TargetDir)\\help\\tips\\tips.txt
 )
