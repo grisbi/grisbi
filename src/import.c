@@ -3362,14 +3362,10 @@ GtkWidget *onglet_importation (void)
 }
 
 
-/**
- * callback quand on appuie sur le bouton gestion des associations des tiers
- *
- * \param button
- * \param data
- *
- * */
-GtkWidget * gsb_import_associations_gere_tiers ( )
+/* *******************************************************************************/
+/* page de configuration pour la gestion des associations des tiers              */
+/* *******************************************************************************/
+GtkWidget * gsb_import_associations_gere_tiers ( void )
 {
     GtkWidget *vbox_main, *vbox, *paddingbox, *button;
     GtkWidget *hbox, *vbox2, *sw, *treeview ;
@@ -3440,8 +3436,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( )
                         3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT );
 
     /* remplit le modèle si nécessaire */
-    if (g_slist_length ( liste_associations_tiers ) > 0 )
-        gsb_import_associations_fill_model ( list_store );
+    gsb_import_associations_fill_model ( list_store );
 
     /* create the treeview */
     treeview = gtk_tree_view_new_with_model (
@@ -3540,8 +3535,6 @@ GtkWidget * gsb_import_associations_gere_tiers ( )
 
 
 /**
- *
- *
  *
  *
  */
@@ -3852,6 +3845,7 @@ gint gsb_import_associations_find_payee ( gchar *imported_tiers)
     return 0;
 }
 
+
 gint gsb_import_associations_list_append_assoc ( gint payee_number,
                         const gchar *search_str )
 {
@@ -3875,8 +3869,6 @@ gint gsb_import_associations_list_append_assoc ( gint payee_number,
 
 
 /**
- *
- *
  *
  *
  */
@@ -3907,6 +3899,7 @@ gboolean gsb_import_associations_check_add_button ( GObject * main_widget )
 
     return FALSE;
 }
+
 
 /* *******************************************************************************/
 

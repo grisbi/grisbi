@@ -17,6 +17,7 @@ gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle );
 gchar * gsb_string_remplace_joker ( const gchar *chaine, gchar *new_str );
 gchar * gsb_string_remplace_string ( gchar * str, gchar *old_str, gchar *new_str );
 gchar * gsb_string_truncate ( gchar * string );
+gchar *gsb_string_uniform_new_line ( const gchar *chaine, gint nbre_char );
 gchar * latin2utf8 ( const gchar * inchar);
 gchar *limit_string ( gchar *string,
                         gint length );

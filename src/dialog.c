@@ -32,12 +32,15 @@
 /*START_STATIC*/
 static void dialogue_conditional ( gchar *text, gchar *var );
 static void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var );
-static GtkDialog *dialogue_conditional_new ( gchar *text, gchar * var, GtkMessageType type,
+static GtkDialog *dialogue_conditional_new ( gchar *text,
+                        gchar *var,
+                        GtkMessageType type,
                         GtkButtonsType buttons );
 static void dialogue_conditional_special ( gchar *text, gchar *var, GtkMessageType type );
+static gboolean dialogue_update_struct_message ( GtkWidget *checkbox,
+                        struct conditional_message *message );
 static gboolean dialogue_update_var ( GtkWidget *checkbox, gint message );
 /*END_STATIC*/
-
 
 
 /*START_EXTERN*/
@@ -90,8 +93,8 @@ struct conditional_message messages[] =
 
     { "development-version", N_("You are running Grisbi version %s"), 
       N_("Warning, please be aware that the version you run is a DEVELOPMENT version. "
-	 "In any case do not work with this version on your original accounting files. "
-	 "(File format may change and render files incompatible with previous versions)."),
+     "In any case do not work with this version on your original accounting files. "
+     "(File format may change and render files incompatible with previous versions)."),
       FALSE, FALSE },
 
 /*
@@ -101,8 +104,6 @@ struct conditional_message messages[] =
 */
     { NULL },
 };
-
-
 
 
 /**
@@ -118,7 +119,6 @@ void dialogue_hint ( gchar *text, gchar *hint )
 }
 
 
-
 /**
  * Display an info dialog window.
  *
@@ -130,7 +130,6 @@ void dialogue ( gchar *texte_dialogue )
 }
 
 
-
 /**
  * Display an error dialog window
  *
@@ -140,7 +139,6 @@ void dialogue_error ( gchar *text )
 {
     dialogue_special ( GTK_MESSAGE_ERROR, text );
 }
-
 
 
 /**
@@ -155,7 +153,6 @@ void dialogue_error_hint ( gchar *text, gchar *hint )
 }
 
 
-
 /**
  * Display a warning dialog window
  *
@@ -165,7 +162,6 @@ void dialogue_warning ( gchar *text )
 {
     dialogue_special ( GTK_MESSAGE_WARNING, text );
 }
-
 
 
 /**
@@ -178,7 +174,6 @@ void dialogue_warning_hint ( gchar *text, gchar *hint )
 {
     dialogue_special ( GTK_MESSAGE_WARNING, make_hint (hint, text) );
 }
-
 
 
 /**
@@ -203,7 +198,6 @@ void dialogue_special ( GtkMessageType param, gchar *text )
     gtk_dialog_run (GTK_DIALOG (dialog));
     gtk_widget_destroy ( dialog );
 }
-
 
 
 /**
@@ -232,16 +226,34 @@ GtkWidget *dialogue_special_no_run ( GtkMessageType param,
 }
 
 
+/**
+ * Update the value of a message in memory according to the state of a
+ * checkbox button.  These messages are conditional dialogs (see
+ * dialogue_conditional_new()).  Normally called as an event.
+ *
+ * \param checbox   GtkCheckbox that triggered this event.
+ * \param message   struct conditional_message Message
+ *
+ * \return      FALSE.
+ */
+gboolean dialogue_update_struct_message ( GtkWidget *checkbox,
+                        struct conditional_message *message )
+{
+    message -> hidden = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( checkbox ) );
+
+    return FALSE;
+}
+
 
 /**
  * Update the value of a message in memory according to the state of a
  * checkbox button.  These messages are conditional dialogs (see
  * dialogue_conditional_new()).  Normally called as an event.
  *
- * \param checbox	GtkCheckbox that triggered this event.
- * \param message	Message ID.
+ * \param checbox   GtkCheckbox that triggered this event.
+ * \param message   Message ID.
  *
- * \return		FALSE.
+ * \return      FALSE.
  */
 gboolean dialogue_update_var ( GtkWidget *checkbox, gint message )
 {
@@ -264,7 +276,9 @@ gboolean dialogue_update_var ( GtkWidget *checkbox, gint message )
  *
  * \return  A newly-created GtkDialog.
  */
-GtkDialog *dialogue_conditional_new ( gchar *text, gchar * var, GtkMessageType type,
+GtkDialog *dialogue_conditional_new ( gchar *text,
+                        gchar *var,
+                        GtkMessageType type,
                         GtkButtonsType buttons )
 {
     GtkWidget * vbox, * checkbox, *dialog;
@@ -306,7 +320,6 @@ GtkDialog *dialogue_conditional_new ( gchar *text, gchar * var, GtkMessageType t
 }
 
 
-
 /**
  * This function pop ups a dialog with a hint (first sentence, in
  * bold), an informal text and a checkbox that allow this message not
@@ -325,7 +338,6 @@ void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var )
 }
 
 
-
 /**
  * This function pop ups a dialog with an informal text and a checkbox
  * that allow this message not to be displayed again thanks to
@@ -342,16 +354,15 @@ void dialogue_conditional ( gchar *text, gchar *var )
 }
 
 
-
 /**
  * This function pop ups a dialog with an informal text and a checkbox
  * that allow this message not to be displayed again thanks to
  * preferences.
  *
- * \param text	Text to be displayed
- * \param var	Variable that both controls whether the dialog will
- *		appear or not and that indicates which variable could
- *		be modified so that this message won't appear again.
+ * \param text  Text to be displayed
+ * \param var   Variable that both controls whether the dialog will
+ *      appear or not and that indicates which variable could
+ *      be modified so that this message won't appear again.
  */
 void dialogue_conditional_special ( gchar *text, gchar *var, GtkMessageType type )
 {
@@ -359,26 +370,11 @@ void dialogue_conditional_special ( gchar *text, gchar *var, GtkMessageType type
 
     dialog = dialogue_conditional_new ( text, var, type, GTK_BUTTONS_CLOSE );
     if ( ! dialog )
-	return;
+    return;
 
     gtk_dialog_run ( GTK_DIALOG (dialog) );
     gtk_widget_destroy ( GTK_WIDGET (dialog));
 }
-
-
-
-/**
- * Alias for question_yes_no().
- *
- * \deprecated This should not be used in newly written code.  Use
- * question_yes_no() instead.
- */
-gboolean question ( gchar *texte )
-{
-    return question_yes_no ( texte,
-			     GTK_RESPONSE_NO  );
-}
-
 
 
 /**
@@ -400,17 +396,16 @@ gboolean question_yes_no_hint ( gchar *hint,
 }
 
 
-
 /**
  * Pop up a warning dialog window with a question and wait for user to
- * press 'OK' or 'Cancel'.
+ * press 'YES' or 'NO'.
   * WARNING you may need to escape text with g_markup_escape_text() 
  * or g_markup_printf_escaped():
  *
  * \param texte  Text to be displayed
  * \param default_answer GTK_RESPONSE_OK or GTK_RESPONSE_CANCEL, will give the focus to the button
  *
- * \return TRUE if user pressed 'OK'.  FALSE otherwise.
+ * \return TRUE if user pressed 'YES'.  FALSE otherwise.
  */
 gboolean question_yes_no ( gchar *text, gint default_answer )
 {
@@ -440,13 +435,13 @@ gboolean question_yes_no ( gchar *text, gint default_answer )
 /**
  * Pop up a warning dialog window with a question and a checkbox that allow
  * this message not to be displayed again thanks to preferences and wait
- * for user to press 'OK' or 'Cancel'.
+ * for user to press 'YES' or 'NO'.
  *
  * \param var variable that both controls whether the dialog will
  * appear or not and that indicates which variable could be modified
  * so that this message won't appear again.
  *
- * \return TRUE if user pressed 'OK'.  FALSE otherwise.
+ * \return TRUE if user pressed 'YES'.  FALSE otherwise.
  */
 gboolean question_conditional_yes_no ( gchar *var )
 {
@@ -479,48 +474,48 @@ gboolean question_conditional_yes_no ( gchar *var )
         messages[i].default_answer = FALSE;
 
     gtk_widget_destroy (GTK_WIDGET (dialog));
-    return messages[i].default_answer;	
+    return messages[i].default_answer;
 }
 
 
-
-/**
- * Pop up a warning dialog window with a question and a checkbox that
- * allow this message not to be displayed again thanks to preferences
- * and wait for user to press 'OK' or 'Cancel'.
- *
- * \param hint	Hint to be displayed.
- * \param texte Text to be displayed.
- * \param var	Variable that both controls whether the dialog will
- *		appear or not and that indicates which variable could
- *		be modified so that this message won't appear again.
- *
- * \return	TRUE if user pressed 'OK'.  FALSE otherwise.
- */
-/*gboolean question_conditional_yes_no_special ( gchar * hint, gchar * message, gchar * var )
+gboolean question_conditional_yes_no_with_struct ( struct conditional_message *message )
 {
-    GtkDialog *dialog;
+    GtkWidget *dialog, *vbox, *checkbox;
+    gchar *text;
     gint response;
 
-    dialog = dialogue_conditional_new ( make_hint ( hint, message ), var, GTK_MESSAGE_INFO,
-					GTK_BUTTONS_YES_NO );
-    if ( ! dialog )
-	return FALSE;
+    if ( message -> hidden )
+        return message -> default_answer;
 
-    response = gtk_dialog_run ( GTK_DIALOG (dialog) );
-    gtk_widget_destroy ( GTK_WIDGET (dialog));
-    
-    if ( response == GTK_RESPONSE_YES ) 
-    {
-	*var = 1;
-	return TRUE;
-    }
+    text = make_hint ( message -> hint, message -> message );
+    dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
+                        GTK_DIALOG_DESTROY_WITH_PARENT,
+                        GTK_MESSAGE_WARNING,
+                        GTK_BUTTONS_YES_NO,
+                        "%s", text );
+    gtk_dialog_set_default_response ( GTK_DIALOG( dialog ), GTK_RESPONSE_NO );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG ( dialog )->label ), text );
+
+    vbox = GTK_DIALOG ( dialog ) -> vbox;
+
+    checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
+    g_signal_connect ( G_OBJECT ( checkbox ),
+                        "toggled", 
+                        G_CALLBACK ( dialogue_update_struct_message ),
+                        message );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
+    gtk_widget_show_all ( checkbox );
+
+    response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+    if ( response == GTK_RESPONSE_YES )
+        message -> default_answer = TRUE;
     else
-    {
-	*var = 0;
-	return FALSE;
-    }
-}*/
+        message -> default_answer = FALSE;
+
+    gtk_widget_destroy (GTK_WIDGET (dialog));
+    return message -> default_answer;
+}
 
 
 /**
@@ -561,6 +556,15 @@ gchar *make_red ( gchar *text )
 }
 
 
+/**
+ * use pango layout to produce a string that will contain a text.
+ *
+ * \param attribut  exemple foreground=\"red\", size=\"x-large\"
+ * \param text      Text 
+ *
+ * \return a pango formated string It returns a newly allocated string which must 
+ *         be freed when no more used.
+ */
 gchar *make_pango_attribut ( gchar *attribut, gchar *text )
 {
     gchar *tmpstr;
@@ -570,6 +574,8 @@ gchar *make_pango_attribut ( gchar *attribut, gchar *text )
 
     return tmpstr;
 }
+
+
 /**
  * use pango layout to produce a string that will contain a text.
  *
@@ -595,8 +601,9 @@ gchar *make_blue ( gchar *text )
  */
 void dialogue_error_brain_damage ()
 {
-    dialogue_error_hint ( _("Hi, you are in the middle of nowhere, between two lines of code.  Grisbi is expected to crash very soon.  Have a nice day."), 
-			  _("Serious brain damage expected.") );
+    dialogue_error_hint ( _("Hi, you are in the middle of nowhere, between two lines of code."
+                        " Grisbi is expected to crash very soon. Have a nice day."), 
+                        _("Serious brain damage expected.") );
 }
 
 
@@ -607,11 +614,11 @@ void dialogue_error_brain_damage ()
  */
 void dialogue_error_memory ()
 {
-    dialogue_error_hint ( _("Bad things will happen soon.  Be sure to save any modification in a separate file in case Grisbi would corrupt files."),
-			  _("Cannot allocate memory") );
+    dialogue_error_hint ( _("Bad things will happen soon.  Be sure to save any modification "
+                        "in a separate file in case Grisbi would corrupt files."),
+                        _("Cannot allocate memory") );
 
 }
-
 
 
 /**
@@ -643,7 +650,6 @@ void dialog_message ( gchar *label, ... )
 	i ++;
     }
 }
-
 
 
 /**
@@ -693,9 +699,6 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
 
     return string;
 }
-
-
-
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

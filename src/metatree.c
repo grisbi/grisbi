@@ -2239,7 +2239,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
     GtkTreeIter iter;
     GtkTreePath *path;
     gboolean selection_is_set = FALSE;
-    gint div_id, sub_div_id, current_number;
+    gint div_id = 0, sub_div_id = 0, current_number = 0;
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
     tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );

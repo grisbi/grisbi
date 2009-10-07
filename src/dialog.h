@@ -4,6 +4,16 @@
 /* END_INCLUDE_H */
 
 
+struct conditional_message
+{
+    gchar * name;
+    gchar * hint;
+    gchar * message;
+    gboolean hidden;
+    gboolean default_answer;	/** Useful for yes/no questions. */
+};
+
+
 /* START_DECLARATION */
 void dialog_message ( gchar *label, ... );
 void dialogue ( gchar *texte_dialogue );
@@ -23,21 +33,11 @@ gchar *make_blue ( gchar *text );
 gchar *make_hint ( gchar *hint, gchar *text );
 gchar *make_pango_attribut ( gchar *attribut, gchar *text );
 gchar *make_red ( gchar *text );
-gboolean question ( gchar *texte );
 gboolean question_conditional_yes_no ( gchar *var );
+gboolean question_conditional_yes_no_with_struct ( struct conditional_message *message );
 gboolean question_yes_no ( gchar *text, gint default_answer );
 gboolean question_yes_no_hint ( gchar *hint,
                         gchar *texte,
                         gint default_answer );
 /* END_DECLARATION */
-
-struct conditional_message
-{
-    gchar * name;
-    gchar * hint;
-    gchar * message;
-    gboolean hidden;
-    gboolean default_answer;	/** Useful for yes/no questions. */
-};
-
 #endif

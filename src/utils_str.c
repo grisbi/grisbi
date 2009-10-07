@@ -892,6 +892,34 @@ gchar *gsb_string_extract_int ( const gchar *chaine )
 
 
 /**
+ * uniformisation des CR+LF dans les fichiers importés
+ *
+ * \param chaine
+ *
+ * \return chaine au format unix
+ */
+gchar *gsb_string_uniform_new_line ( const gchar *chaine, gint nbre_char )
+{
+    gchar **tab_str;
+
+    if ( g_strstr_len ( chaine, nbre_char, "\r\n" ) )
+    {
+        tab_str = g_strsplit_set ( chaine, "\r", 0 );
+        return g_strjoinv ( "", tab_str );
+    }
+    else if ( g_strstr_len ( chaine, nbre_char, "\r" ) 
+     && 
+     !g_strstr_len ( chaine, nbre_char, "\n" ) )
+    {
+        tab_str = g_strsplit_set ( chaine, "\r", 0 );
+        return g_strjoinv ( "\n", tab_str );
+    }
+    else if ( g_strstr_len ( chaine, nbre_char, "\n" ) )
+        return g_strdup ( chaine );
+    else
+        return NULL;
+}
+/**
  * all the gtk_entry_set_text in grisbi should be my_gtk_entry_set_text which just
  * check if the text is not NULL, and if NULL, erase the entry
  * the original gtk function returns a warning in that case and do nothing

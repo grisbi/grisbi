@@ -4,7 +4,7 @@ grisbi_pixmaps_flags_DATA = ADP.png AED.png AFN.png ALL.png AMD.png	\
 ANG.png ARS.png ATS.png AUD.png AWG.png AZM.png BAM.png BBD.png		\
 BDT.png BEF.png BGN.png BHD.png BHU.png BIF.png BMD.png BND.png		\
 BOB.png BRL.png BSD.png BTN.png BWP.png BYB.png BZD.png CAD.png		\
-CAM.png CDF.png CHA.png CHF.png CLP.png CNY.png CON.png COO.png		\
+CAM.png CDF.png CHA.png CHF.png CLP.png CNY.png CO_.png COO.png		\
 COP.png CRC.png CUP.png CVE.png CYP.png CZK.png DEM.png DJF.png		\
 DKK.png DOP.png DZD.png ECS.png EEK.png EGP.png ERN.png ESP.png		\
 ETB.png EUR.png FIM.png FJD.png FKP.png FRF.png GBP.png GEL.png		\

@@ -42,7 +42,6 @@
 #include "./gsb_fyear.h"
 #include "./gsb_payment_method.h"
 #include "./gtk_combofix.h"
-#include "./dialog.h"
 #include "./traitement_variables.h"
 #include "./gsb_form.h"
 #include "./gsb_data_payment.h"

@@ -36,7 +36,6 @@
 /*START_INCLUDE*/
 #include "custom_list.h"
 #include "./gsb_data_transaction.h"
-#include "./dialog.h"
 #include "./transaction_list.h"
 #include "./transaction_model.h"
 #include "./erreur.h"

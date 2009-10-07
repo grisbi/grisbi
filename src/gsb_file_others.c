@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)    2000-2005 Cédric Auger (cedric@grisbi.org)            */
+/*     Copyright (C)    2000-2005 CÃ©dric Auger (cedric@grisbi.org)            */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -579,23 +579,19 @@ gboolean gsb_file_others_check_file ( gchar *file_content,
 	return FALSE;
     }
 
+    file_content = gsb_string_uniform_new_line ( file_content, 37 );
+
     switch ( origin )
     {
 	case 0:
 	    if ( !strncmp ( file_content,
 			    "<?xml version=\"1.0\"?>\n<Grisbi_categ>",
-			    36 ) ||
-			 !strncmp ( file_content,
-			    "<?xml version=\"1.0\"?>\r\n<Grisbi_categ>",
-			    37 ) )
+			    36 ) )
 	    {
 		/* check if not before 0.6 */
 		if ( !strncmp ( file_content,
 				"<?xml version=\"1.0\"?>\n<Grisbi_categ>\n	<General\n",
-				47 ) ||
-			 !strncmp ( file_content,
-				"<?xml version=\"1.0\"?>\r\n<Grisbi_categ>\r\n	<General\r\n",
-				50 ))
+				47 ) )
 		    return TRUE;
 		else
 		    dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
@@ -608,19 +604,13 @@ gboolean gsb_file_others_check_file ( gchar *file_content,
 	    /* check first if it's not below 0.6 */
 	    if ( !strncmp ( file_content,
 			    "<?xml version=\"1.0\"?>\n<Grisbi_ib>",
-			    33 ) ||
-			 !strncmp ( file_content,
-			    "<?xml version=\"1.0\"?>\r\n<Grisbi_ib>",
-			    34 ))
+			    33 ) )
 		    dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
 	    else
 	    {
 		if ( !strncmp ( file_content,
 				"<?xml version=\"1.0\"?>\n<Grisbi_budget>",
-				37 ) ||
-			 !strncmp ( file_content,
-				"<?xml version=\"1.0\"?>\r\n<Grisbi_budget>",
-				38 ))
+				37 ) )
 		    return TRUE;
 		else
 		    dialogue_error ( _("This is not a budget file, loading canceled..."));
@@ -631,19 +621,13 @@ gboolean gsb_file_others_check_file ( gchar *file_content,
 	    /* check first if it's not below 0.6 */
 	    if ( !strncmp ( file_content,
 			    "<?xml version=\"1.0\"?>\n<Grisbi_etat>",
-			    35 ) ||
-			 !strncmp ( file_content,
-			    "<?xml version=\"1.0\"?>\r\n<Grisbi_etat>",
-			    36 ))
+			    35 ) )
 		dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
 	    else
 	    {
 		if ( !strncmp ( file_content,
 				"<?xml version=\"1.0\"?>\n<Grisbi_report>",
-				37 ) ||
-			 !strncmp ( file_content,
-				"<?xml version=\"1.0\"?>\r\n<Grisbi_report>",
-				38 ))
+				37 ) )
 		    return TRUE;
 		else
 		    dialogue_error ( _("This is not a report file, loading canceled..."));
