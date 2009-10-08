@@ -114,28 +114,28 @@
 	<Sub_category Nbc="18" Nb="1" Na="Housing" />
 	<Sub_category Nbc="18" Nb="2" Na="Visits" />
 	<Sub_category Nbc="18" Nb="3" Na="Travels" />
-	<Category Nb="19" Na="Autres revenus" Kd="1" />
+	<Category Nb="19" Na="Autres revenus" Kd="0" />
 	<Sub_category Nbc="19" Nb="1" Na="Allocation chômage" />
 	<Sub_category Nbc="19" Nb="2" Na="Allocation familiales" />
 	<Sub_category Nbc="19" Nb="3" Na="Crédit d&apos;impôt" />
 	<Sub_category Nbc="19" Nb="4" Na="Jeu" />
 	<Sub_category Nbc="19" Nb="5" Na="Mutuelle santé" />
 	<Sub_category Nbc="19" Nb="6" Na="Sécurité sociale" />
-	<Category Nb="20" Na="Retraite" Kd="1" />
+	<Category Nb="20" Na="Retraite" Kd="0" />
 	<Sub_category Nbc="20" Nb="1" Na="Pensions" />
 	<Sub_category Nbc="20" Nb="2" Na="Régime général" />
 	<Sub_category Nbc="20" Nb="3" Na="Retraite complémentaire" />
-	<Category Nb="21" Na="Revenus de placement" Kd="1" />
+	<Category Nb="21" Na="Revenus de placement" Kd="0" />
 	<Sub_category Nbc="21" Nb="1" Na="Dividendes" />
 	<Sub_category Nbc="21" Nb="2" Na="Intérêts" />
 	<Sub_category Nbc="21" Nb="3" Na="Plus-values" />
-	<Category Nb="22" Na="Salaire" Kd="1" />
+	<Category Nb="22" Na="Salaire" Kd="0" />
 	<Sub_category Nbc="22" Nb="1" Na="Heures supplémentaires" />
 	<Sub_category Nbc="22" Nb="2" Na="Primes congés" />
 	<Sub_category Nbc="22" Nb="3" Na="Primes diverses" />
 	<Sub_category Nbc="22" Nb="4" Na="Primes résultats" />
 	<Sub_category Nbc="22" Nb="5" Na="Salaire net" />
-	<Category Nb="23" Na="Revenus divers" Kd="1" />
+	<Category Nb="23" Na="Revenus divers" Kd="0" />
 	<Sub_category Nbc="23" Nb="1" Na="Cadeaux" />
 	<Sub_category Nbc="23" Nb="2" Na="Remboursement" />
 	<Sub_category Nbc="23" Nb="3" Na="Vente occasion" />
