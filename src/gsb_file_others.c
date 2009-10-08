@@ -580,6 +580,11 @@ gboolean gsb_file_others_check_file ( gchar *file_content,
     }
 
     file_content = gsb_string_uniform_new_line ( file_content, 37 );
+    if ( !file_content )
+    {
+        dialogue_error ( _("This is not a grisbi file, loading canceled..."));
+        return FALSE;
+    }
 
     switch ( origin )
     {
