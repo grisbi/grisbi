@@ -192,7 +192,6 @@ struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Europe"), N_("Danish Krone"), N_("Denmark"), "DKK", NULL, TRUE, "DKK.png", 2, 1 },
     { N_("Europe"), N_("Deutsche Mark"), N_("Germany"), "DEM", NULL, FALSE, "DEM.png", 2, 1 },
     { N_("Europe"), N_("Estonian Kroon"), N_("Estonia"), "EEK", NULL, TRUE, "EEK.png", 2, 1 },
-    { N_("Europe"), N_("Euro"), N_("Europe"), "EUR", "€", TRUE, "EUR.png", 2, 1 },
     { N_("Europe"), N_("Euro"), N_("UE (Europe)"), "EUR", "€", TRUE, "EUR.png", 2, 1 },
     { N_("Europe"), N_("Finnish Markka"), N_("Finland"), "FIM", NULL, FALSE, "FIM.png", 2, 1 },
     { N_("Europe"), N_("French Franc"), N_("France"), "FRF", "₣", FALSE, "FRF.png", 2, 1 },
