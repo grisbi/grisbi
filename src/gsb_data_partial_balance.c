@@ -1033,6 +1033,7 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
     struct_partial_balance *partial_balance;
     gsb_real solde = null_real;
     gchar **tab;
+    gchar *string;
     gint i;
 
     partial_balance = gsb_data_partial_balance_get_structure ( partial_balance_number );
@@ -1073,7 +1074,14 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
             solde = gsb_real_add ( solde, tmp_real );
         }
     }
-    return gsb_real_get_string_with_currency (solde, partial_balance -> currency, TRUE);
+    if ( partial_balance -> colorise && solde.mantissa < 0 )
+        string = g_strdup_printf ( "<span color=\"red\">%s</span>",
+                        gsb_real_get_string_with_currency (
+                        solde, partial_balance -> currency, TRUE) );
+    else
+        string = gsb_real_get_string_with_currency (solde, partial_balance -> currency, TRUE);
+
+    return string;
 }
 
 
