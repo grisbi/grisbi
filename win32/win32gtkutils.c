@@ -187,41 +187,41 @@ gboolean win32_make_sure_the_gtk2_dlls_path_is_in_PATH()
 static gchar* win32_lcid_to_lang(LCID lcid) 
 { /* {{{ */
     switch(lcid) {
-        CASE_LCID_RETURN_LANG(1026,"bg"); /* bulgarian */
-        CASE_LCID_RETURN_LANG(1027,"ca"); /* catalan */
-        CASE_LCID_RETURN_LANG(1050,"hr"); /* croation */
-        CASE_LCID_RETURN_LANG(1029,"cs"); /* czech */
-        CASE_LCID_RETURN_LANG(1030,"da"); /* danish */
-        CASE_LCID_RETURN_LANG(1043,"nl"); /* dutch - netherlands */
-        CASE_LCID_RETURN_LANG(1033,"en"); /* english - us */
-        CASE_LCID_RETURN_LANG(1035,"fi"); /* finnish */
-        CASE_LCID_RETURN_LANG(1036,"fr"); /* french - france */
-        CASE_LCID_RETURN_LANG(1031,"de"); /* german - germany */
-        CASE_LCID_RETURN_LANG(1032,"el"); /* greek */
-        CASE_LCID_RETURN_LANG(1037,"he"); /* hebrew */
-        CASE_LCID_RETURN_LANG(1038,"hu"); /* hungarian */
-        CASE_LCID_RETURN_LANG(1040,"it"); /* italian - italy */
-        CASE_LCID_RETURN_LANG(1041,"ja"); /* japanese */
-        CASE_LCID_RETURN_LANG(1042,"ko"); /* korean */
-        CASE_LCID_RETURN_LANG(1063,"lt"); /* lithuanian */
-        CASE_LCID_RETURN_LANG(1071,"mk"); /* macedonian */
-        CASE_LCID_RETURN_LANG(1045,"pl"); /* polish */
-        CASE_LCID_RETURN_LANG(2070,"pt"); /* portuguese - portugal */
-        CASE_LCID_RETURN_LANG(1046,"pt_BR"); /* portuguese - brazil */
-        CASE_LCID_RETURN_LANG(1048,"ro"); /* romanian - romania */
-        CASE_LCID_RETURN_LANG(1049,"ru"); /* russian - russia */
-        CASE_LCID_RETURN_LANG(2074,"sr@Latn"); /* serbian - latin */
-        CASE_LCID_RETURN_LANG(3098,"sr"); /* serbian - cyrillic */
-        CASE_LCID_RETURN_LANG(2052,"zh_CN"); /* chinese - china (simple) */
-        CASE_LCID_RETURN_LANG(1051,"sk"); /* slovak */
-        CASE_LCID_RETURN_LANG(1060,"sl"); /* slovenian */
-        CASE_LCID_RETURN_LANG(1034,"es"); /* spanish */
-        CASE_LCID_RETURN_LANG(1052,"sq"); /* albanian */
-        CASE_LCID_RETURN_LANG(1053,"sv"); /* swedish */
-        CASE_LCID_RETURN_LANG(1054,"th"); /* thai */
-        CASE_LCID_RETURN_LANG(1028,"zh_TW"); /* chinese - taiwan (traditional) */
-        CASE_LCID_RETURN_LANG(1055,"tr"); /* turkish */
-        CASE_LCID_RETURN_LANG(1058,"uk"); /* ukrainian */
+        CASE_LCID_RETURN_LANG(1026,"bgr"); /* bulgarian */
+        CASE_LCID_RETURN_LANG(1027,"cat"); /* catalan */
+        CASE_LCID_RETURN_LANG(1050,"hrv"); /* croatian - croatia */
+        CASE_LCID_RETURN_LANG(1029,"csy"); /* czech */
+        CASE_LCID_RETURN_LANG(1030,"dan"); /* danish */
+        CASE_LCID_RETURN_LANG(1043,"nld"); /* dutch - netherlands */
+        CASE_LCID_RETURN_LANG(1033,"enu"); /* english - us */
+        CASE_LCID_RETURN_LANG(1035,"fin"); /* finnish */
+        CASE_LCID_RETURN_LANG(1036,"fra"); /* french - france */
+        CASE_LCID_RETURN_LANG(1031,"deu"); /* german - germany */
+        CASE_LCID_RETURN_LANG(1032,"ell"); /* greek */
+        CASE_LCID_RETURN_LANG(1037,"heb"); /* hebrew */
+        CASE_LCID_RETURN_LANG(1038,"hun"); /* hungarian */
+        CASE_LCID_RETURN_LANG(1040,"ita"); /* italian - italy */
+        CASE_LCID_RETURN_LANG(1041,"jpn"); /* japanese */
+        CASE_LCID_RETURN_LANG(1042,"kor"); /* korean */
+        CASE_LCID_RETURN_LANG(1063,"lth"); /* lithuanian */
+        CASE_LCID_RETURN_LANG(1071,"mki"); /* macedonian */
+        CASE_LCID_RETURN_LANG(1045,"plk"); /* polish */
+        CASE_LCID_RETURN_LANG(2070,"ptg"); /* portuguese - portugal */
+        CASE_LCID_RETURN_LANG(1046,"ptb"); /* portuguese - brazil */
+        CASE_LCID_RETURN_LANG(1048,"rom"); /* romanian - romania */
+        CASE_LCID_RETURN_LANG(1049,"rus"); /* russian - russia */
+        CASE_LCID_RETURN_LANG(2074,"srl"); /* serbian - latin - serbia*/
+        CASE_LCID_RETURN_LANG(3098,"srb"); /* serbian - cyrillic - serbia*/
+        CASE_LCID_RETURN_LANG(2052,"chs"); /* chinese - simplified - Poeple's Republic of China*/
+        CASE_LCID_RETURN_LANG(1051,"sky"); /* slovak */
+        CASE_LCID_RETURN_LANG(1060,"slv"); /* slovenian */
+        CASE_LCID_RETURN_LANG(1034,"esp"); /* spanish */
+        CASE_LCID_RETURN_LANG(1052,"sqi"); /* albanian */
+        CASE_LCID_RETURN_LANG(1053,"sve"); /* swedish - sweden*/
+        CASE_LCID_RETURN_LANG(1054,"tha"); /* thai */
+        CASE_LCID_RETURN_LANG(1028,"cht"); /* chinese - taiwan (traditional) */
+        CASE_LCID_RETURN_LANG(1055,"trk"); /* turkish */
+        CASE_LCID_RETURN_LANG(1058,"ukr"); /* ukrainian */
         default:
                 return (gchar*)NULL;
         }
@@ -315,7 +315,8 @@ gboolean win32_set_locale()
     // ---------------------------------------------------------------------
     if(!bFound)
     {
-        gzLocale = g_strdup((char*)getenv("LANG"));
+		g_unsetenv("LANG");
+        gzLocale = g_getenv("LANG");
         bFound   = (BOOL)(gzLocale && (*gzLocale));
         if (bFound)
         {
@@ -351,6 +352,16 @@ gboolean win32_set_locale()
     return bFound;
 } /* }}} */
 
+gchar * win32_gtk_run_version(void)
+{
+	gchar * version = NULL; 
+
+	version = g_strconcat( "GTK ",
+		utils_str_itoa ( (guint) gtk_major_version ), ".",
+		utils_str_itoa ( (guint) gtk_minor_version ), ".", 
+		utils_str_itoa ( (guint) gtk_micro_version ));
+	return version;
+}
 
 #ifdef __cplusplus
 }
