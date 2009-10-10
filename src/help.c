@@ -156,7 +156,7 @@ NULL};
     gtk_about_dialog_set_website ( GTK_ABOUT_DIALOG (about), "http://www.grisbi.org/");
     gtk_about_dialog_set_license ( GTK_ABOUT_DIALOG (about), license );
     gtk_about_dialog_set_wrap_license ( GTK_ABOUT_DIALOG (about), TRUE );
-	gtk_about_dialog_set_version ( GTK_ABOUT_DIALOG (about), g_strconcat(VERSION, " (",win32_gtk_run_version(), ")") );
+	gtk_about_dialog_set_version ( GTK_ABOUT_DIALOG (about), g_strconcat(VERSION, " (",get_gtk_run_version(), ")") );
     gtk_about_dialog_set_artists ( GTK_ABOUT_DIALOG (about), artists );
     gtk_about_dialog_set_documenters ( GTK_ABOUT_DIALOG (about), documenters );
     gtk_about_dialog_set_authors ( GTK_ABOUT_DIALOG (about), auteurs );

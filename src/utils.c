@@ -26,6 +26,7 @@
 
 /*START_INCLUDE*/
 #include "utils.h"
+#include "./utils_str.h"
 #include "./dialog.h"
 #include "./gsb_data_account.h"
 #include "./gsb_file_config.h"
@@ -394,6 +395,19 @@ gboolean radio_set_active_linked_widgets ( GtkWidget * widget )
     return FALSE;
 }
 
+/**
+ *  Cette fonction renvoie une string de la version de GTK
+ */
+gchar * get_gtk_run_version(void)
+{
+	gchar * version = NULL; 
+
+	version = g_strconcat( "GTK ",
+		utils_str_itoa ( (guint) gtk_major_version ), ".",
+		utils_str_itoa ( (guint) gtk_minor_version ), ".", 
+		utils_str_itoa ( (guint) gtk_micro_version ));
+	return version;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

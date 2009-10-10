@@ -25,5 +25,6 @@ gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
 gboolean sensitive_widget ( gpointer object,
 			    GtkWidget *widget );
 void update_ecran ( void );
+gchar * get_gtk_run_version(void);
 /* END_DECLARATION */
 #endif

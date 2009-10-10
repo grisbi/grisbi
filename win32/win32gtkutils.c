@@ -352,16 +352,6 @@ gboolean win32_set_locale()
     return bFound;
 } /* }}} */
 
-gchar * win32_gtk_run_version(void)
-{
-	gchar * version = NULL; 
-
-	version = g_strconcat( "GTK ",
-		utils_str_itoa ( (guint) gtk_major_version ), ".",
-		utils_str_itoa ( (guint) gtk_minor_version ), ".", 
-		utils_str_itoa ( (guint) gtk_micro_version ));
-	return version;
-}
 
 #ifdef __cplusplus
 }
