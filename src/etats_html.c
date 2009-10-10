@@ -33,6 +33,11 @@
 #include "./etats_affiche.h"
 /*END_INCLUDE*/
 
+/* FOLLOWING LINES REVERTS BACK TO THE ORIGINAL FPRINTF (LIBINTL_FPRINTF IS BUGGY) */
+#ifdef _WIN32
+	#undef fprintf
+#endif
+
 /*START_STATIC*/
 static void html_attach_hsep ( int x, int x2, int y, int y2);
 static void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
