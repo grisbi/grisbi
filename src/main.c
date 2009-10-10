@@ -91,6 +91,7 @@ int main (int argc, char **argv)
     gboolean first_use = FALSE;
     gchar *string;
     gchar *path;
+	const gchar *monetary = NULL, *lang = NULL, *res = NULL;
 
 #ifndef _WIN32
     struct sigaction sig_sev;
@@ -124,10 +125,17 @@ int main (int argc, char **argv)
     bind_textdomain_codeset (PACKAGE, "UTF-8");
     textdomain (PACKAGE);
 
-    if ( setlocale ( LC_MONETARY, getenv ( "LC_MONETARY" ) ) == NULL )
-    {
-    setlocale ( LC_MONETARY, getenv ( "LANG" ) );
-    }
+#ifdef _WIN32
+	win32_set_locale();
+#endif
+
+	monetary = g_getenv("LC_MONETARY");
+	lang = g_getenv("LANG");
+
+	if ( monetary == NULL )
+    	res = setlocale ( LC_MONETARY, lang );
+	else
+		setlocale ( LC_MONETARY, monetary);
 
     gtk_init(&argc, &argv);
 
