@@ -1307,7 +1307,7 @@ msgstr "Total"
 #: src/etats_affiche.c:193
 #, c-format
 msgid "Category total (%d transaction)"
-msgstr "Total categorie (%s operaţie)"
+msgstr "Total categorie (%d operaţie)"
 
 #: src/etats_affiche.c:195
 #, c-format
@@ -4731,8 +4731,8 @@ msgid ""
 "Bank \"%s\" is used by one or several accounts.\n"
 "Do you really want to remove it?"
 msgstr ""
-"Banca este utilizată pentru unul s'au mai multe conturi. Vreţi cu adevărat "
-"să o suprimaţi ?"
+"Banca \"%s\" este utilizată pentru unul s'au mai multe conturi.\n"
+"Vreţi cu adevărat să o suprimaţi ?"
 
 #: src/gsb_bank.c:1197 src/gsb_bank.c:1206
 msgid "Confirmation of bank removal"

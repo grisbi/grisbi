@@ -4046,7 +4046,7 @@ msgid ""
 "archived.\n"
 "\n"
 msgstr ""
-"El fichero '$s' se ha creado correctamente y %d transacciones fuera de %d "
+"El fichero '%s' se ha creado correctamente y %d transacciones fuera de %d "
 "han sido archivadas.\n"
 "\n"
 
@@ -6329,13 +6329,13 @@ msgid ""
 "The transaction %d has a budget n°%d and sub-budget n°%d but they don't "
 "exist."
 msgstr ""
-"La transacción %d tiene una línea y una sublínea presupuestaria nº%d, pero "
+"La transacción %d tiene una línea n°%d y una sublínea presupuestaria nº%d, pero "
 "no existen."
 
 #: src/gsb_data_budget.c:1440 src/gsb_data_category.c:1542
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
-msgstr "ln <i>%s</i>, <i> es un duplicado de <i>%s</i>.\n"
+msgstr "En <i>%s</i>, <i>%s</i> es un duplicado de <i>%s</i>.\n"
 
 #: src/gsb_data_category.c:1396
 #, c-format
@@ -10119,7 +10119,7 @@ msgid ""
 "\n"
 "Are you sure?"
 msgstr ""
-"Está a punto de reemplazar las terceras partes cuyos nombres contienen %s "
+"Está a punto de reemplazar %d terceras partes cuyos nombres contienen %s "
 "por %s\n"
 "\n"
 "¿Está seguro?"
