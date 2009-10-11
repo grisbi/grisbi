@@ -36,6 +36,7 @@
 #include "./menu.h"
 #include "./dialog.h"
 #include "./tip.h"
+#include "./utils.h"
 #include "./gsb_assistant_first.h"
 #include "./main_cunit.h"
 #include "./gsb_file.h"
@@ -160,6 +161,19 @@ int main (int argc, char **argv)
         }
     }
 
+    /* test version of GTK */
+    if ( gtk_check_version ( VERSION_GTK_MAJOR, VERSION_GTK_MINOR, VERSION_GTK_MICRO ) )
+    {
+        string = g_strdup_printf (  _("You are running Grisbi with GTK version %s"),
+                        get_gtk_run_version ( ) );
+        dialogue_conditional_hint ( string,
+                        _("The version of GTK you are using do not benefit from its "
+                        "latest features.\n"
+                        "\n"
+                        "You should upgrade GTK."),
+                        "gtk_obsolete" );
+        g_free ( string );
+    }
 
 #ifdef HAVE_PLUGINS
     gsb_plugins_scan_dir ( PLUGINS_DIR );

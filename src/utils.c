@@ -1,9 +1,9 @@
 /* ************************************************************************** */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
-/*			2003-2004 Francois Terrot (francois.terrot@grisbi.org)*/
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2003 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          2003-2004 Alain Portal (aportal@univ-montp2.fr)                   */
+/*          2003-2004 Francois Terrot (francois.terrot@grisbi.org)            */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -26,9 +26,9 @@
 
 /*START_INCLUDE*/
 #include "utils.h"
-#include "./utils_str.h"
 #include "./dialog.h"
 #include "./gsb_data_account.h"
+#include "./utils_str.h"
 #include "./gsb_file_config.h"
 #include "./include.h"
 #include "./erreur.h"
@@ -48,8 +48,8 @@ extern GtkWidget *window;
 
 /* ************************************************************************* */
 gboolean met_en_prelight ( GtkWidget *event_box,
-			   GdkEventMotion *event,
-			   gpointer pointeur )
+                        GdkEventMotion *event,
+                        gpointer pointeur )
 {
     gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ), GTK_STATE_PRELIGHT );
     return FALSE;
@@ -58,8 +58,8 @@ gboolean met_en_prelight ( GtkWidget *event_box,
 
 /* ************************************************************************* */
 gboolean met_en_normal ( GtkWidget *event_box,
-			 GdkEventMotion *event,
-			 gpointer pointeur )
+                        GdkEventMotion *event,
+                        gpointer pointeur )
 {
     gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ), GTK_STATE_NORMAL );
     return FALSE;
@@ -80,10 +80,10 @@ gboolean met_en_normal ( GtkWidget *event_box,
  * \return FALSE
  * */
 gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
-				     GtkWidget *widget )
+                        GtkWidget *widget )
 {
     gtk_widget_set_sensitive ( widget,
-			       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton )));
 
     return FALSE;
 }
@@ -99,10 +99,9 @@ gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
  * \return FALSE
  * */
 gboolean sensitive_widget ( gpointer object,
-			    GtkWidget *widget )
+                        GtkWidget *widget )
 {
-    gtk_widget_set_sensitive ( widget,
-			       TRUE );
+    gtk_widget_set_sensitive ( widget, TRUE );
     return FALSE;
 }
 
@@ -115,11 +114,9 @@ gboolean sensitive_widget ( gpointer object,
  *
  * \return FALSE
  * */
-gboolean desensitive_widget ( gpointer object,
-			      GtkWidget *widget )
+gboolean desensitive_widget ( gpointer object, GtkWidget *widget )
 {
-    gtk_widget_set_sensitive ( widget,
-			       FALSE );
+    gtk_widget_set_sensitive ( widget, FALSE );
     return FALSE;
 }
 
@@ -144,13 +141,15 @@ gboolean lance_navigateur_web ( const gchar *url )
     
 #else // !_WIN32
     if ( !(etat.browser_command
-	   &&
-	   strlen ( etat.browser_command )))
+     &&
+     strlen ( etat.browser_command )))
     {
     
-	gchar* tmpstr = g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  Please adjust your settings to a valid executable."), url );
-	dialogue_error_hint ( tmpstr, _("Cannot execute web browser") );
-	g_free (tmpstr);
+    gchar* tmpstr = g_strdup_printf ( _("Grisbi was unable to execute a web browser to "
+                        "browse url <tt>%s</tt>.  Please adjust your settings to a valid "
+                        "executable."), url );
+    dialogue_error_hint ( tmpstr, _("Cannot execute web browser") );
+    g_free (tmpstr);
     }
 #endif // _WIN32
 
@@ -162,9 +161,7 @@ gboolean lance_navigateur_web ( const gchar *url )
 
     /* search if the sequence `%s' is in the string
      * and split the string before and after this delimiter */
-    split = g_strsplit ( etat.browser_command,
-			 "%s",
-			 0 );
+    split = g_strsplit ( etat.browser_command, "%s", 0 );
 
     if ( split[1] )
     {
@@ -280,7 +277,7 @@ GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar *
  * widgets and user defined widgets
  */
 GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
-					  gchar * image_filename)
+                        gchar * image_filename)
 {
     GtkWidget *vbox_pref, *hbox, *label, *image, *eb;
     GtkStyle * style;
@@ -398,14 +395,14 @@ gboolean radio_set_active_linked_widgets ( GtkWidget * widget )
 /**
  *  Cette fonction renvoie une string de la version de GTK
  */
-gchar * get_gtk_run_version(void)
+gchar *get_gtk_run_version ( void )
 {
-	gchar * version = NULL; 
+	gchar *version = NULL;
 
-	version = g_strconcat( "GTK ",
-		utils_str_itoa ( (guint) gtk_major_version ), ".",
-		utils_str_itoa ( (guint) gtk_minor_version ), ".", 
-		utils_str_itoa ( (guint) gtk_micro_version ));
+   	version = g_strconcat( utils_str_itoa ( (guint) gtk_major_version ), ".",
+                        utils_str_itoa ( (guint) gtk_minor_version ), ".", 
+                        utils_str_itoa ( (guint) gtk_micro_version ),
+                        NULL);
 	return version;
 }
 

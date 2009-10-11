@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-07 23:35+0200\n"
+"POT-Creation-Date: 2009-10-11 17:49+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -110,24 +110,24 @@ msgstr "Σφαιρικές ισορροπίες"
 msgid " in %s"
 msgstr ""
 
-#: src/accueil.c:1300 src/accueil.c:1423 src/accueil.c:1875
+#: src/accueil.c:1301 src/accueil.c:1424 src/accueil.c:1876
 #, c-format
 msgid "%s credited on %s"
 msgstr "%s πιστωμένος %s"
 
-#: src/accueil.c:1310 src/accueil.c:1433 src/accueil.c:1884
+#: src/accueil.c:1311 src/accueil.c:1434 src/accueil.c:1885
 #, c-format
 msgid "%s debited on %s"
 msgstr "%s χρεωμένος %s"
 
-#: src/accueil.c:1652
+#: src/accueil.c:1653
 #, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr ""
 "η ισορροπία του απολογισμού %s είναι κάτω από τα επιθυμητά και "
 "εξουσιοδοτημένα ελάχιστα!"
 
-#: src/accueil.c:1656
+#: src/accueil.c:1657
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
@@ -136,13 +136,13 @@ msgstr ""
 "ελάχιστο :\n"
 "\n"
 
-#: src/accueil.c:1685
+#: src/accueil.c:1686
 #, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr ""
 "η ισορροπία του λογαριασμού %s είναι κάτω από το εξουσιοδοτημένο ελάχιστο!"
 
-#: src/accueil.c:1695
+#: src/accueil.c:1696
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
@@ -150,12 +150,12 @@ msgstr ""
 "Λογαριασμοί με την ισορροπία κάτω από εξουσιοδοτημένο ελάχιστο: :\n"
 "\n"
 
-#: src/accueil.c:1727
+#: src/accueil.c:1728
 #, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "η ισορροπία του λογαριασμού %s είναι κάτω από το επιθυμητό ελάχιστο!"
 
-#: src/accueil.c:1737
+#: src/accueil.c:1738
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
@@ -163,12 +163,12 @@ msgstr ""
 "Λογαριασμοί με την ισορροπία κάτω από επιθυμητό ελάχιστο: \n"
 "\n"
 
-#: src/accueil.c:1926
+#: src/accueil.c:1927
 #, fuzzy
 msgid "Configuration of the main page"
 msgstr "Η διαμόρφωση ολοκληρώθηκε!"
 
-#: src/accueil.c:1935
+#: src/accueil.c:1936
 #, fuzzy
 msgid "Balances partials of the list of accounts"
 msgstr "Επιλέξτε συναλλαγές ενός λογαριασμού."
@@ -182,12 +182,12 @@ msgstr "Επιλέξτε συναλλαγές ενός λογαριασμού."
 #. Financial year name
 #. set the name
 #. Name entry
-#: src/accueil.c:2026 src/categories_onglet.c:667 src/gsb_archive_config.c:98
+#: src/accueil.c:2027 src/categories_onglet.c:667 src/gsb_archive_config.c:98
 #: src/gsb_archive_config.c:186 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:388
 #: src/gsb_assistant_reconcile_config.c:1227 src/gsb_bank.c:732
-#: src/gsb_bank.c:855 src/gsb_currency_config.c:354
-#: src/gsb_data_partial_balance.c:1523 src/gsb_fyear_config.c:191
+#: src/gsb_bank.c:855 src/gsb_currency_config.c:353
+#: src/gsb_data_partial_balance.c:1531 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:240
 #: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1704
 #: src/imputation_budgetaire.c:701 src/tiers_onglet.c:628
@@ -195,27 +195,27 @@ msgid "Name"
 msgstr "Όνομα"
 
 #. List of the accounts
-#: src/accueil.c:2035 src/gsb_data_partial_balance.c:1534
+#: src/accueil.c:2036 src/gsb_data_partial_balance.c:1542
 #, fuzzy
 msgid "Accounts list"
 msgstr "Λογαριασμοί"
 
-#: src/accueil.c:2051
+#: src/accueil.c:2052
 #, fuzzy
 msgid "Colorize"
 msgstr "Χρώματα"
 
-#: src/accueil.c:2059
+#: src/accueil.c:2060
 #, fuzzy
 msgid "Account kind"
 msgstr "Όνομα λογαριασμού"
 
-#: src/accueil.c:2068 src/gsb_form_widget.c:444 src/import_csv.c:77
+#: src/accueil.c:2069 src/gsb_form_widget.c:444 src/import_csv.c:77
 msgid "Currency"
 msgstr "Νόμισμα"
 
 #. initialization of titles
-#: src/accueil.c:2110 src/affichage.c:977 src/affichage.c:978
+#: src/accueil.c:2111 src/affichage.c:977 src/affichage.c:978
 #: src/gsb_assistant_file.c:564 src/navigation.c:1140 src/navigation.c:1141
 #: src/traitement_variables.c:293
 msgid "My accounts"
@@ -967,22 +967,22 @@ msgstr "Η κατηγορία υπάρχει ήδη"
 msgid "New sub-category"
 msgstr "Νέα υποκατηγορία"
 
-#: src/dialog.c:54
+#: src/dialog.c:53
 msgid "No tip of the day available"
 msgstr "Δεν υπάρχει διαθέσιμη συμβουλή της ημέρας"
 
-#: src/dialog.c:55
+#: src/dialog.c:54
 msgid ""
 "Make sure that grisbi was correctly installed and that tips file is readable."
 msgstr ""
 "Σιγουρευτείτε ότι το grisbi εγκαταστάθηκε σωστά και ότι το αρχείο συμβουλών "
 "είναι αναγνώσιμο"
 
-#: src/dialog.c:58
+#: src/dialog.c:57
 msgid "Security feature not implemented"
 msgstr "Ανεφάρμοστη ιδιότητα ασφάλειας."
 
-#: src/dialog.c:59
+#: src/dialog.c:58
 msgid ""
 "This file contains security informations, which processing is not "
 "implemented at this moment."
@@ -990,11 +990,11 @@ msgstr ""
 "Αυτό το αρχείο περιέχει  πληροφορίες ασφάλειας, των οποίων η επεξεργασία δεν "
 "εφαρμόζεται αυτήν τη στιγμή."
 
-#: src/dialog.c:62
+#: src/dialog.c:61
 msgid "Encryption is irreversible."
 msgstr "Η κρυπτογράφηση είναι αμετάκλητη."
 
-#: src/dialog.c:63
+#: src/dialog.c:62
 msgid ""
 "Grisbi encrypts files in a very secure way that does not allow recovery "
 "without original password.  It means that if you forget your password, you "
@@ -1010,11 +1010,11 @@ msgstr ""
 "Επαναλαμβάνω: εάν ξεχάσετε  τον κωδικό πρόσβασής σας, δεν υπάρχει καμία "
 "επιστροφή, δεν μπορούμε να σας βοηθήσουμε."
 
-#: src/dialog.c:66
+#: src/dialog.c:65
 msgid "Account file is world readable."
 msgstr "Το αρχείο λογαριασμού είναι αναγνώσιμο."
 
-#: src/dialog.c:67
+#: src/dialog.c:66
 msgid ""
 "Your account file should not be readable by anybody else, but it is. You "
 "should change its permissions.\n"
@@ -1024,12 +1024,12 @@ msgstr ""
 "αλλά είναι. Πρέπει\n"
 "να αλλάξετε τις άδειες. Θέλετε να γίνει αυτό τώρα;"
 
-#: src/dialog.c:70
+#: src/dialog.c:69
 #, c-format
 msgid "File \"%s\" is already opened"
 msgstr "Το αρχείο \"%s\" είναι ήδη ανοικτό"
 
-#: src/dialog.c:71
+#: src/dialog.c:70
 msgid ""
 "Either this file is already opened by another user or it wasn't closed "
 "correctly (maybe Grisbi crashed?).\n"
@@ -1042,22 +1042,22 @@ msgstr ""
 "\"αναγκαστική αποθήκευση κλειδωμένων\n"
 "αρχείων\" κατά την εγκατάσταση."
 
-#: src/dialog.c:74
+#: src/dialog.c:73
 msgid "Account under desired balance."
 msgstr "Λογαριασμός κάτω από την επιθυμητή ισορροπία."
 
-#: src/dialog.c:75
+#: src/dialog.c:74
 #, c-format
 msgid "Grisbi detected that an account is under a desired balance: %s"
 msgstr ""
 "Το Grisbi ανίχνευσε ότι ένας λογαριασμός είναι κάτω από μια επιθυμητή "
 "ισορροπία: %s"
 
-#: src/dialog.c:78
+#: src/dialog.c:77
 msgid "No budgetary line was entered"
 msgstr "Καμία δημοσιονομική γραμμή δεν εισήχθη"
 
-#: src/dialog.c:79
+#: src/dialog.c:78
 msgid ""
 "This transaction has no budgetary line entered.  You should use them to "
 "easily produce budgets and make reports on them."
@@ -1066,11 +1066,11 @@ msgstr ""
 "χρησιμοποιήσετε για να παραγάγετε εύκολα τους προϋπολογισμούς και να κάνετε "
 "τις εκθέσεις σχετικά με αυτούς."
 
-#: src/dialog.c:82
+#: src/dialog.c:81
 msgid "Recover split?"
 msgstr "Ανάκτηση τη διάσπασης;"
 
-#: src/dialog.c:83
+#: src/dialog.c:82
 msgid ""
 "This is a split of transaction, associated transactions can be recovered as "
 "in last transaction with this payee.  Do you want to recover them?"
@@ -1079,19 +1079,19 @@ msgstr ""
 "ανακτηθούν όπως στην τελευταία συναλλαγή με αυτόν τον δικαιούχο πληρωμής. "
 "Θέλετε να τους ανακτήσετε;"
 
-#: src/dialog.c:86
+#: src/dialog.c:85
 msgid "No inconsistency found."
 msgstr "Δεν βρέθηκε καμία ασυμφωνία"
 
-#: src/dialog.c:87
+#: src/dialog.c:86
 msgid "Grisbi found no known inconsistency in accounts processed."
 msgstr "Το Grisbi δεν βρήκε καμία γνωστή ασυνέπεια στους λογαριασμούς. "
 
-#: src/dialog.c:90
+#: src/dialog.c:89
 msgid "Reconcile start and end dates."
 msgstr "Συμφωνήστε τις ημερομηνίες έναρξης και λήξης."
 
-#: src/dialog.c:91
+#: src/dialog.c:90
 msgid ""
 "In previous versions, Grisbi did not save start date, end date and balance "
 "for reconciliation.  This is now done, so Grisbi will try to guess values "
@@ -1105,12 +1105,12 @@ msgstr ""
 "τιμές μπορούν να προβλεφθούν. Παρακαλώ ελέγξτε στο παράθυρο προτιμήσεων για "
 "περισσότερες πληροφορίες."
 
-#: src/dialog.c:94
+#: src/dialog.c:93
 #, c-format
 msgid "You are running Grisbi version %s"
 msgstr "Τρέχετε  την έκδοση Grisbi %s"
 
-#: src/dialog.c:95
+#: src/dialog.c:94 src/dialog.c:100
 msgid ""
 "Warning, please be aware that the version you run is a DEVELOPMENT version. "
 "In any case do not work with this version on your original accounting files. "
@@ -1122,11 +1122,16 @@ msgstr ""
 "αρχεία λογιστικής σας. (Η μορφή αρχείου μπορεί να αλλάξει και να καταστήσει "
 "τα αρχεία ασύμβατα με τις προηγούμενες εκδόσεις)."
 
-#: src/dialog.c:311 src/dialog.c:501
+#: src/dialog.c:99 src/main.c:168
+#, fuzzy, c-format
+msgid "You are running Grisbi with GTK version %s"
+msgstr "Τρέχετε  την έκδοση Grisbi %s"
+
+#: src/dialog.c:316 src/dialog.c:508
 msgid "Do not show this message again"
 msgstr "Μην παρουσιάστε αυτό το μήνυμα πάλι"
 
-#: src/dialog.c:604
+#: src/dialog.c:611
 #, fuzzy
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
@@ -1135,11 +1140,11 @@ msgstr ""
 "Γεια, είστε στη μέση του πουθενά, μεταξύ δύο γραμμών κώδικα.  Το Grisbi "
 "αναμένεται να κλείσει πολύ σύντομα.  Να έχετε μια συμπαθητική ημέρα."
 
-#: src/dialog.c:606
+#: src/dialog.c:613
 msgid "Serious brain damage expected."
 msgstr "Σοβαρή ζημία εγκεφάλου αναμενόμενη."
 
-#: src/dialog.c:617
+#: src/dialog.c:624
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
@@ -1148,7 +1153,7 @@ msgstr ""
 "τροποποίηση σε ένα χωριστό αρχείο σε περίπτωση που Grisbi θα αλλοίωνε τα "
 "αρχεία"
 
-#: src/dialog.c:619
+#: src/dialog.c:626
 msgid "Cannot allocate memory"
 msgstr "Αδύνατη η διάθεση μνήμης"
 
@@ -1750,7 +1755,7 @@ msgstr "Γενικότητες"
 msgid "Transactions"
 msgstr "Συναλλαγές"
 
-#: src/etats_config.c:642 src/etats_config.c:645 src/gsb_currency_config.c:295
+#: src/etats_config.c:642 src/etats_config.c:645 src/gsb_currency_config.c:294
 #: src/parametres.c:471
 msgid "Currencies"
 msgstr "Νομίσματα"
@@ -2366,7 +2371,7 @@ msgstr "Συναλλαγές με ένα κλικ"
 msgid "Make transactions clickable"
 msgstr "Κάνετε τις συναλλαγές με ένα κλικ"
 
-#: src/etats_config.c:6827 src/parametres.c:1014
+#: src/etats_config.c:6827 src/parametres.c:1016
 msgid "Totals currencies"
 msgstr "Σύνολα νομισμάτων"
 
@@ -2473,21 +2478,21 @@ msgstr "Επιλέξτε τις μεθόδους πληρωμής που θα π
 msgid "Unable to open file '%s'"
 msgstr "Αδύνατο το άνοιγμα του αρχείου '%s'"
 
-#: src/etats_html.c:287
+#: src/etats_html.c:292
 msgid "Make sure file exists and is writable."
 msgstr "Σιγουρευτείτε ότι το αρχείο υπάρχει και είναι εγγράψιμο."
 
-#: src/etats_html.c:288
+#: src/etats_html.c:293
 #, c-format
 msgid "Cannot open file '%s' for writing"
 msgstr "Αδύνατο το άνοιγμα του αρχείου '%s' για εγγραφή"
 
-#: src/etats_latex.c:272
+#: src/etats_latex.c:277
 #, c-format
 msgid "Cannot open file '%s': %s."
 msgstr "Αδύνατο το άνοιγμα του αρχείου '%s': %s."
 
-#: src/etats_latex.c:361
+#: src/etats_latex.c:366
 msgid ""
 "See console output for details.  Be sure you have installed LaTeX properly "
 "with unicode support."
@@ -2495,15 +2500,15 @@ msgstr ""
 "Δείτε την  κονσόλα για τις λεπτομέρειες. Να είστε βέβαιος ότι έχετε "
 "εγκαταστήσει το  LaTeX  κατάλληλα με την υποστήριξη unicode."
 
-#: src/etats_latex.c:362
+#: src/etats_latex.c:367
 msgid "LaTeX run was unable to complete."
 msgstr "Το LaTeX είναι αδύνατο να ολοκληρωθεί."
 
-#: src/etats_latex.c:382
+#: src/etats_latex.c:387
 msgid "Cannot send job to printer"
 msgstr "Αδύνατη η αποστολή της εργασίας στον εκτυπωτή"
 
-#: src/etats_latex.c:388
+#: src/etats_latex.c:393
 msgid "dvips was unable to complete, see console output for details."
 msgstr "Το dvips δεν ολοκληρώθηκε ,κοιτάξτε την κονσόλα για λεπτομέρειες."
 
@@ -2821,7 +2826,7 @@ msgid "Select accounts to export"
 msgstr "Επιλέξτε τους λογαριασμούς για να εξαγάγετε"
 
 #: src/export.c:170 src/export_csv.c:743 src/gsb_account_property.c:236
-#: src/gsb_data_partial_balance.c:1467 src/import.c:1157 src/import.c:1194
+#: src/gsb_data_partial_balance.c:1475 src/import.c:1157 src/import.c:1194
 msgid "Account name"
 msgstr "Όνομα λογαριασμού"
 
@@ -2924,7 +2929,7 @@ msgid "Main page"
 msgstr "Κύρια σελίδα"
 
 #: src/fenetre_principale.c:259 src/navigation.c:268 src/parametres.c:317
-#: src/parametres.c:933
+#: src/parametres.c:935
 msgid "Scheduler"
 msgstr "Χρονοπρογραμματιστής"
 
@@ -4301,7 +4306,7 @@ msgstr "Τίτλοι και ονόματα αρχείου"
 #. will we crypt the file ?
 #. crypt the grisbi file
 #: src/gsb_assistant_file.c:323 src/gsb_assistant_first.c:249
-#: src/parametres.c:706
+#: src/parametres.c:708
 msgid "Encrypt Grisbi file"
 msgstr "Κρυπτογραφήστε το αρχείο Grisbi"
 
@@ -4412,11 +4417,11 @@ msgid "General configuration of Grisbi"
 msgstr "Γενική διαμόρφωση Grisbi"
 
 #. configure the browser
-#: src/gsb_assistant_first.c:209 src/parametres.c:856
+#: src/gsb_assistant_first.c:209 src/parametres.c:858
 msgid "Web"
 msgstr "Ιστός"
 
-#: src/gsb_assistant_first.c:216 src/parametres.c:863
+#: src/gsb_assistant_first.c:216 src/parametres.c:865
 msgid "Web browser command"
 msgstr "Εντολή μηχανών αναζήτησης Ιστού"
 
@@ -4427,38 +4432,38 @@ msgstr ""
 "Μπορείτε να χρησιμοποιήσετε το %s για να επεκτείνετε το URL - I.e: 'firefox -"
 "remote %s' "
 
-#: src/gsb_assistant_first.c:234 src/parametres.c:689
+#: src/gsb_assistant_first.c:234 src/parametres.c:691
 msgid "Account files handling"
 msgstr "Χειρισμός αρχείων λογαριασμού"
 
 #. Automatically load last file on startup?
-#: src/gsb_assistant_first.c:237 src/parametres.c:692
+#: src/gsb_assistant_first.c:237 src/parametres.c:694
 msgid "Automatically load last file on startup"
 msgstr "Αυτόματη φόρτωση τελευταίου αρχείου στο ξεκίνημα"
 
 #. automatically save file at closing
-#: src/gsb_assistant_first.c:243 src/parametres.c:696
+#: src/gsb_assistant_first.c:243 src/parametres.c:698
 msgid "Automatically save on exit"
 msgstr "Αυτόματη αποθήκευση κατά την έξοδο"
 
 #. Automatic backup ?
-#: src/gsb_assistant_first.c:255 src/parametres.c:741
+#: src/gsb_assistant_first.c:255 src/parametres.c:743
 msgid "Make a backup copy before saving files"
 msgstr "Κάντε ένα εφεδρικό αντίγραφο πρίν αποθηκεύσετε τα αρχεία"
 
-#: src/gsb_assistant_first.c:265 src/parametres.c:749
+#: src/gsb_assistant_first.c:265 src/parametres.c:751
 msgid "Make a backup copy every "
 msgstr "Κάντε ένα εφεδρικό αντίγραφο κάθε"
 
-#: src/gsb_assistant_first.c:276 src/parametres.c:759
+#: src/gsb_assistant_first.c:276 src/parametres.c:761
 msgid " minutes"
 msgstr "Λεπτά"
 
-#: src/gsb_assistant_first.c:285 src/parametres.c:766
+#: src/gsb_assistant_first.c:285 src/parametres.c:768
 msgid "Backup directory"
 msgstr "Εφεδρικός κατάλογος"
 
-#: src/gsb_assistant_first.c:290 src/parametres.c:773
+#: src/gsb_assistant_first.c:290 src/parametres.c:775
 msgid "Select/Create backup directory"
 msgstr "Επιλογή/Δημιουργία εφεδρικού καταλόγου"
 
@@ -5543,7 +5548,7 @@ msgstr "Μεξικό "
 msgid "Panama Balboa"
 msgstr "Παναμάς Balboa"
 
-#: src/gsb_currency_config.c:170 src/gsb_currency_config.c:253
+#: src/gsb_currency_config.c:170 src/gsb_currency_config.c:252
 msgid "Panama"
 msgstr "Παναμάς"
 
@@ -5572,7 +5577,6 @@ msgstr "Παναμάς"
 #: src/gsb_currency_config.c:217 src/gsb_currency_config.c:218
 #: src/gsb_currency_config.c:219 src/gsb_currency_config.c:220
 #: src/gsb_currency_config.c:221 src/gsb_currency_config.c:222
-#: src/gsb_currency_config.c:223
 msgid "Europe"
 msgstr "Ευρώπη"
 
@@ -5583,7 +5587,7 @@ msgstr "Ευρώπη"
 #: src/gsb_currency_config.c:180 src/gsb_currency_config.c:181
 #: src/gsb_currency_config.c:182 src/gsb_currency_config.c:183
 #: src/gsb_currency_config.c:184 src/gsb_currency_config.c:185
-#: src/gsb_currency_config.c:195 src/gsb_currency_config.c:196
+#: src/gsb_currency_config.c:195
 msgid "Euro"
 msgstr "Ευρώ"
 
@@ -5599,43 +5603,43 @@ msgstr "Αυστρία"
 msgid "Belgium"
 msgstr "Βέλγιο"
 
-#: src/gsb_currency_config.c:176 src/gsb_currency_config.c:219
+#: src/gsb_currency_config.c:176 src/gsb_currency_config.c:218
 msgid "Spain"
 msgstr "Ισπανία"
 
-#: src/gsb_currency_config.c:177 src/gsb_currency_config.c:197
+#: src/gsb_currency_config.c:177 src/gsb_currency_config.c:196
 msgid "Finland"
 msgstr "Φινλανδία"
 
-#: src/gsb_currency_config.c:178 src/gsb_currency_config.c:198
+#: src/gsb_currency_config.c:178 src/gsb_currency_config.c:197
 msgid "France"
 msgstr "Γαλλία"
 
-#: src/gsb_currency_config.c:179 src/gsb_currency_config.c:200
+#: src/gsb_currency_config.c:179 src/gsb_currency_config.c:199
 msgid "Greece"
 msgstr "Ελλάδα"
 
-#: src/gsb_currency_config.c:180 src/gsb_currency_config.c:203
+#: src/gsb_currency_config.c:180 src/gsb_currency_config.c:202
 msgid "Ireland"
 msgstr "Ιρλανδία"
 
-#: src/gsb_currency_config.c:181 src/gsb_currency_config.c:205
+#: src/gsb_currency_config.c:181 src/gsb_currency_config.c:204
 msgid "Italy"
 msgstr "Ιταλία"
 
-#: src/gsb_currency_config.c:182 src/gsb_currency_config.c:209
+#: src/gsb_currency_config.c:182 src/gsb_currency_config.c:208
 msgid "Luxembourg"
 msgstr "Λουξεμβούργο"
 
-#: src/gsb_currency_config.c:183 src/gsb_currency_config.c:210
+#: src/gsb_currency_config.c:183 src/gsb_currency_config.c:209
 msgid "Netherlands"
 msgstr "Ολλανδία"
 
-#: src/gsb_currency_config.c:184 src/gsb_currency_config.c:214
+#: src/gsb_currency_config.c:184 src/gsb_currency_config.c:213
 msgid "Portugal"
 msgstr " Πορτογαλία "
 
-#: src/gsb_currency_config.c:185 src/gsb_currency_config.c:218
+#: src/gsb_currency_config.c:185 src/gsb_currency_config.c:217
 msgid "Slovenia"
 msgstr "Σλοβενία"
 
@@ -5691,605 +5695,605 @@ msgstr "Κορόνα Εσθονίας"
 msgid "Estonia"
 msgstr "Εσθονία"
 
-#: src/gsb_currency_config.c:196
+#: src/gsb_currency_config.c:195
 msgid "UE (Europe)"
 msgstr "UE (Ευρώπη)"
 
-#: src/gsb_currency_config.c:197
+#: src/gsb_currency_config.c:196
 msgid "Finnish Markka"
 msgstr "Μάρκο Φινλανδίας"
 
-#: src/gsb_currency_config.c:198
+#: src/gsb_currency_config.c:197
 msgid "French Franc"
 msgstr "Φράγκο Γαλλίας"
 
-#: src/gsb_currency_config.c:199
+#: src/gsb_currency_config.c:198
 msgid "Gibraltar Pound"
 msgstr "Λίρα Γιβραλτάρ"
 
-#: src/gsb_currency_config.c:199
+#: src/gsb_currency_config.c:198
 msgid "Gibraltar"
 msgstr "Γιβραλτάρ"
 
-#: src/gsb_currency_config.c:200
+#: src/gsb_currency_config.c:199
 msgid "Greek Drachma"
 msgstr "Δραχμή Ελλάδας"
 
-#: src/gsb_currency_config.c:201
+#: src/gsb_currency_config.c:200
 msgid "Hungarian Forint"
 msgstr "Φιορίνι Ουγγαρίας"
 
-#: src/gsb_currency_config.c:201
+#: src/gsb_currency_config.c:200
 msgid "Hungary"
 msgstr " Ουγγαρία "
 
-#: src/gsb_currency_config.c:202
+#: src/gsb_currency_config.c:201
 msgid "Iceland Krona"
 msgstr "Ισλανδική κορόνα"
 
-#: src/gsb_currency_config.c:202
+#: src/gsb_currency_config.c:201
 msgid "Iceland"
 msgstr "Ισλανδία"
 
-#: src/gsb_currency_config.c:203
+#: src/gsb_currency_config.c:202
 msgid "Irish Pound"
 msgstr "Λίρα Ιρλανδίας"
 
-#: src/gsb_currency_config.c:204 src/gsb_currency_config.c:205
-#: src/gsb_currency_config.c:206
+#: src/gsb_currency_config.c:203 src/gsb_currency_config.c:204
+#: src/gsb_currency_config.c:205
 msgid "Italian Lira"
 msgstr "Λιρέτα Ιταλίας"
 
-#: src/gsb_currency_config.c:204
+#: src/gsb_currency_config.c:203
 msgid "Holy See"
 msgstr "Βατικανό"
 
-#: src/gsb_currency_config.c:206
+#: src/gsb_currency_config.c:205
 msgid "San Marino"
 msgstr "Άγιος Μαρίνος"
 
-#: src/gsb_currency_config.c:207
+#: src/gsb_currency_config.c:206
 msgid "Latvian Lat"
 msgstr "Λετονικά Lat"
 
-#: src/gsb_currency_config.c:207
+#: src/gsb_currency_config.c:206
 msgid "Latvia"
 msgstr "Λετονία"
 
-#: src/gsb_currency_config.c:208
+#: src/gsb_currency_config.c:207
 msgid "Lithuanian Litas"
 msgstr "Λιθουανικό λίτας"
 
-#: src/gsb_currency_config.c:208
+#: src/gsb_currency_config.c:207
 msgid "Lietuva"
 msgstr "Lietuva"
 
-#: src/gsb_currency_config.c:209
+#: src/gsb_currency_config.c:208
 msgid "Luxembourg Franc"
 msgstr "Φράγκο Λουξεμβούργου"
 
-#: src/gsb_currency_config.c:210
+#: src/gsb_currency_config.c:209
 msgid "Netherlands Guilder"
 msgstr "Γκίλντα Ολλανδίας"
 
-#: src/gsb_currency_config.c:211
+#: src/gsb_currency_config.c:210
 msgid "New Yugoslavian Dinar"
 msgstr "Νέα γιουγκοσλαβικό δηνάριο"
 
-#: src/gsb_currency_config.c:211
+#: src/gsb_currency_config.c:210
 msgid "Serbia and Montenegro"
 msgstr "Σερβία και Μαυροβούνιο"
 
-#: src/gsb_currency_config.c:212
+#: src/gsb_currency_config.c:211
 msgid "Norwegian Krone"
 msgstr "Κορόνα Νορβηγίας"
 
-#: src/gsb_currency_config.c:212
+#: src/gsb_currency_config.c:211
 msgid "Norway"
 msgstr "Νορβηγία"
 
-#: src/gsb_currency_config.c:213
+#: src/gsb_currency_config.c:212
 msgid "Polish Zloty"
 msgstr "Ζλότυ Πολωνίας"
 
-#: src/gsb_currency_config.c:213
+#: src/gsb_currency_config.c:212
 msgid "Poland"
 msgstr "Πολωνία"
 
-#: src/gsb_currency_config.c:214
+#: src/gsb_currency_config.c:213
 msgid "Portuguese Escudo"
 msgstr "Εσκούδο πορτογαλίας"
 
-#: src/gsb_currency_config.c:215
+#: src/gsb_currency_config.c:214
 msgid "Pound Sterling"
 msgstr "Λίρα στερλίνα"
 
-#: src/gsb_currency_config.c:215
+#: src/gsb_currency_config.c:214
 msgid "United Kingdom"
 msgstr "Ηνωμένο Βασίλειο"
 
-#: src/gsb_currency_config.c:216
+#: src/gsb_currency_config.c:215
 msgid "Romanian Leu"
 msgstr "Λεβ Ρουμανίας"
 
-#: src/gsb_currency_config.c:216
+#: src/gsb_currency_config.c:215
 msgid "Romania"
 msgstr "Ρουμανία"
 
-#: src/gsb_currency_config.c:217
+#: src/gsb_currency_config.c:216
 msgid "Slovak Koruna"
 msgstr "Κορόνα Σλοβενίας"
 
-#: src/gsb_currency_config.c:217
+#: src/gsb_currency_config.c:216
 msgid "Slovakia"
 msgstr "Σλοβακία"
 
-#: src/gsb_currency_config.c:218
+#: src/gsb_currency_config.c:217
 msgid "Slovene Tolar"
 msgstr "Σλοβενικά τόλαρ"
 
-#: src/gsb_currency_config.c:219
+#: src/gsb_currency_config.c:218
 msgid "Spanish Peseta"
 msgstr "Πεσέτα Ισπανίας"
 
-#: src/gsb_currency_config.c:220
+#: src/gsb_currency_config.c:219
 msgid "Swedish Krona"
 msgstr "Κορόνα Σουηδίας"
 
-#: src/gsb_currency_config.c:220
+#: src/gsb_currency_config.c:219
 msgid "Sweden"
 msgstr " Σουηδία "
 
-#: src/gsb_currency_config.c:221 src/gsb_currency_config.c:222
+#: src/gsb_currency_config.c:220 src/gsb_currency_config.c:221
 msgid "Swiss Franc"
 msgstr "Φράγκο Ελβετίας"
 
-#: src/gsb_currency_config.c:221
+#: src/gsb_currency_config.c:220
 msgid "Liechtenstein"
 msgstr "Λιχτενστάιν"
 
-#: src/gsb_currency_config.c:222
+#: src/gsb_currency_config.c:221
 msgid "Switzerland"
 msgstr "Ελβετία"
 
-#: src/gsb_currency_config.c:223
+#: src/gsb_currency_config.c:222
 msgid "Hryvnia"
 msgstr "Γρίβνα"
 
-#: src/gsb_currency_config.c:223
+#: src/gsb_currency_config.c:222
 msgid "Ukraine"
 msgstr "Ουκρανία"
 
-#: src/gsb_currency_config.c:224 src/gsb_currency_config.c:225
-#: src/gsb_currency_config.c:226 src/gsb_currency_config.c:227
-#: src/gsb_currency_config.c:228 src/gsb_currency_config.c:229
-#: src/gsb_currency_config.c:230 src/gsb_currency_config.c:231
-#: src/gsb_currency_config.c:232 src/gsb_currency_config.c:233
-#: src/gsb_currency_config.c:234 src/gsb_currency_config.c:235
-#: src/gsb_currency_config.c:236 src/gsb_currency_config.c:237
+#: src/gsb_currency_config.c:223 src/gsb_currency_config.c:224
+#: src/gsb_currency_config.c:225 src/gsb_currency_config.c:226
+#: src/gsb_currency_config.c:227 src/gsb_currency_config.c:228
+#: src/gsb_currency_config.c:229 src/gsb_currency_config.c:230
+#: src/gsb_currency_config.c:231 src/gsb_currency_config.c:232
+#: src/gsb_currency_config.c:233 src/gsb_currency_config.c:234
+#: src/gsb_currency_config.c:235 src/gsb_currency_config.c:236
 msgid "Northern America"
 msgstr "Βόρειος Αμερική"
 
-#: src/gsb_currency_config.c:224
+#: src/gsb_currency_config.c:223
 msgid "Bahamian Dollar"
 msgstr "Δολάριο Μπαχάμες"
 
-#: src/gsb_currency_config.c:224
+#: src/gsb_currency_config.c:223
 msgid "Bahamas"
 msgstr "Μπαχάμες"
 
-#: src/gsb_currency_config.c:225
+#: src/gsb_currency_config.c:224
 msgid "Barbados Dollar"
 msgstr "Δολάριο Μπαρμπάντος"
 
-#: src/gsb_currency_config.c:225
+#: src/gsb_currency_config.c:224
 msgid "Barbados"
 msgstr "Μπαρμπάντος"
 
-#: src/gsb_currency_config.c:226
+#: src/gsb_currency_config.c:225
 msgid "Bermuda Dollar"
 msgstr "Δολάριο Βερμούδων"
 
-#: src/gsb_currency_config.c:226
+#: src/gsb_currency_config.c:225
 msgid "Bermuda"
 msgstr "Βερμούδες"
 
-#: src/gsb_currency_config.c:227
+#: src/gsb_currency_config.c:226
 msgid "Canadian Dollar"
 msgstr "Δολάριο Καναδά"
 
-#: src/gsb_currency_config.c:227
+#: src/gsb_currency_config.c:226
 msgid "Canada"
 msgstr "Καναδάς"
 
-#: src/gsb_currency_config.c:228
+#: src/gsb_currency_config.c:227
 msgid "Cayman Islands Dollar"
 msgstr "Δολάριο Νήσων Κάιμαν"
 
-#: src/gsb_currency_config.c:228
+#: src/gsb_currency_config.c:227
 msgid "Cayman Islands"
 msgstr "Νησιά Καϊμάν"
 
-#: src/gsb_currency_config.c:229
+#: src/gsb_currency_config.c:228
 msgid "Cuban Peso"
 msgstr "Πέσο Κούβας"
 
-#: src/gsb_currency_config.c:229
+#: src/gsb_currency_config.c:228
 msgid "Cuba"
 msgstr "Κούβα"
 
-#: src/gsb_currency_config.c:230
+#: src/gsb_currency_config.c:229
 msgid "Dominican Peso"
 msgstr "Πέσο Δομίνικου "
 
-#: src/gsb_currency_config.c:230
+#: src/gsb_currency_config.c:229
 msgid "Dominican Republic"
 msgstr "Δομινικανή Δημοκρατία"
 
-#: src/gsb_currency_config.c:231 src/gsb_currency_config.c:232
+#: src/gsb_currency_config.c:230 src/gsb_currency_config.c:231
 msgid "East Caribbean Dollar"
 msgstr "Δολάριο Ανατολικής Καραϊβικής"
 
-#: src/gsb_currency_config.c:231
+#: src/gsb_currency_config.c:230
 msgid "Grenada"
 msgstr "Γρενάδα"
 
-#: src/gsb_currency_config.c:232
+#: src/gsb_currency_config.c:231
 msgid "Saint Lucia"
 msgstr "Αγία Λουκία"
 
-#: src/gsb_currency_config.c:233
+#: src/gsb_currency_config.c:232
 msgid "Haitian Gourde"
 msgstr "Γκουρντ Αϊτής"
 
-#: src/gsb_currency_config.c:233
+#: src/gsb_currency_config.c:232
 msgid "Haiti"
 msgstr "Αϊτή"
 
-#: src/gsb_currency_config.c:234
+#: src/gsb_currency_config.c:233
 msgid "Jamaican Dollar"
 msgstr "Δολάριο Τζαμάικας"
 
-#: src/gsb_currency_config.c:234
+#: src/gsb_currency_config.c:233
 msgid "Jamaica"
 msgstr "Τζαμάικα"
 
-#: src/gsb_currency_config.c:235
+#: src/gsb_currency_config.c:234
 msgid "Netherlands Antillian Guilder"
 msgstr "Ολλανδία Antillian φιορίνι"
 
-#: src/gsb_currency_config.c:235
+#: src/gsb_currency_config.c:234
 msgid "Netherlands Antilles"
 msgstr "Ολλανδικές Αντίλλες"
 
-#: src/gsb_currency_config.c:236
+#: src/gsb_currency_config.c:235
 msgid "Trinidad and Tobago Dollar"
 msgstr "Δολάριο Τρινιδάδ και Τομπάγκο"
 
-#: src/gsb_currency_config.c:236
+#: src/gsb_currency_config.c:235
 msgid "Trinidad and Tobago"
 msgstr "Τρινιντάντ και Τομπάγκο"
 
-#: src/gsb_currency_config.c:237 src/gsb_currency_config.c:253
+#: src/gsb_currency_config.c:236 src/gsb_currency_config.c:252
 msgid "United States Dollar"
 msgstr "Δολάριο Ηνωμένων Πολιτειών"
 
-#: src/gsb_currency_config.c:237 src/gsb_currency_config.c:1401
+#: src/gsb_currency_config.c:236 src/gsb_currency_config.c:1400
 msgid "United States"
 msgstr "Ηνωμένες Πολιτείες"
 
-#: src/gsb_currency_config.c:238 src/gsb_currency_config.c:239
-#: src/gsb_currency_config.c:240 src/gsb_currency_config.c:241
-#: src/gsb_currency_config.c:242 src/gsb_currency_config.c:243
-#: src/gsb_currency_config.c:244 src/gsb_currency_config.c:245
-#: src/gsb_currency_config.c:246 src/gsb_currency_config.c:247
-#: src/gsb_currency_config.c:248 src/gsb_currency_config.c:249
-#: src/gsb_currency_config.c:250 src/gsb_currency_config.c:251
-#: src/gsb_currency_config.c:252 src/gsb_currency_config.c:253
-#: src/gsb_currency_config.c:254
+#: src/gsb_currency_config.c:237 src/gsb_currency_config.c:238
+#: src/gsb_currency_config.c:239 src/gsb_currency_config.c:240
+#: src/gsb_currency_config.c:241 src/gsb_currency_config.c:242
+#: src/gsb_currency_config.c:243 src/gsb_currency_config.c:244
+#: src/gsb_currency_config.c:245 src/gsb_currency_config.c:246
+#: src/gsb_currency_config.c:247 src/gsb_currency_config.c:248
+#: src/gsb_currency_config.c:249 src/gsb_currency_config.c:250
+#: src/gsb_currency_config.c:251 src/gsb_currency_config.c:252
+#: src/gsb_currency_config.c:253
 msgid "Pacific Ocean"
 msgstr "Ειρηνικός Ωκεανός"
 
-#: src/gsb_currency_config.c:238 src/gsb_currency_config.c:239
-#: src/gsb_currency_config.c:240 src/gsb_currency_config.c:241
+#: src/gsb_currency_config.c:237 src/gsb_currency_config.c:238
+#: src/gsb_currency_config.c:239 src/gsb_currency_config.c:240
 msgid "Australian Dollar"
 msgstr "Δολάριο Αυστραλίας"
 
-#: src/gsb_currency_config.c:238
+#: src/gsb_currency_config.c:237
 msgid "Australia"
 msgstr "Αυστραλία"
 
-#: src/gsb_currency_config.c:239
+#: src/gsb_currency_config.c:238
 msgid "Kiribati"
 msgstr "Κιριμπάτι"
 
-#: src/gsb_currency_config.c:240
+#: src/gsb_currency_config.c:239
 msgid "Nauru"
 msgstr "Ναούρου"
 
-#: src/gsb_currency_config.c:241
+#: src/gsb_currency_config.c:240
 msgid "Tuvalu"
 msgstr "Τουβαλού"
 
-#: src/gsb_currency_config.c:242 src/gsb_currency_config.c:243
-#: src/gsb_currency_config.c:244
+#: src/gsb_currency_config.c:241 src/gsb_currency_config.c:242
+#: src/gsb_currency_config.c:243
 msgid "CFP Franc"
 msgstr "Φράγκο CFP"
 
-#: src/gsb_currency_config.c:242
+#: src/gsb_currency_config.c:241
 msgid "French Polynesia"
 msgstr "Γαλλική Πολυνησία"
 
-#: src/gsb_currency_config.c:243
+#: src/gsb_currency_config.c:242
 msgid "New Caledonia"
 msgstr "Νέα Καληδονία"
 
-#: src/gsb_currency_config.c:244
+#: src/gsb_currency_config.c:243
 msgid "Wallis and Futuna"
 msgstr "Ουόλις και Φουτούνα"
 
-#: src/gsb_currency_config.c:245
+#: src/gsb_currency_config.c:244
 msgid "Fiji Dollar"
 msgstr "Δολάριο Φίτζι"
 
-#: src/gsb_currency_config.c:245
+#: src/gsb_currency_config.c:244
 msgid "Fiji"
 msgstr "Φίτζι "
 
-#: src/gsb_currency_config.c:246 src/gsb_currency_config.c:247
+#: src/gsb_currency_config.c:245 src/gsb_currency_config.c:246
 msgid "New Zealand Dollar"
 msgstr "Δολάριο Νέας Ζηλανδίας"
 
-#: src/gsb_currency_config.c:246
+#: src/gsb_currency_config.c:245
 msgid "Cook Islands"
 msgstr "Νήσοι Κουκ"
 
-#: src/gsb_currency_config.c:247
+#: src/gsb_currency_config.c:246
 msgid "New Zealand"
 msgstr "Νέα Ζηλανδία"
 
-#: src/gsb_currency_config.c:248
+#: src/gsb_currency_config.c:247
 msgid "Papua New Guinea Kina"
 msgstr "Kina Παπούα Νέα Γουινέα"
 
-#: src/gsb_currency_config.c:248
+#: src/gsb_currency_config.c:247
 msgid "Papua New Guinea"
 msgstr "Παπούα Νέα Γουινέα"
 
-#: src/gsb_currency_config.c:249
+#: src/gsb_currency_config.c:248
 msgid "Samoa Tala"
 msgstr "Τάλα Σαμόα "
 
-#: src/gsb_currency_config.c:249
+#: src/gsb_currency_config.c:248
 msgid "Samoa"
 msgstr "Σαμόα"
 
-#: src/gsb_currency_config.c:250
+#: src/gsb_currency_config.c:249
 msgid "Solomon Islands Dollar"
 msgstr "Δολάριο Νήσων Σολομώντος"
 
-#: src/gsb_currency_config.c:250
+#: src/gsb_currency_config.c:249
 msgid "Solomon Islands"
 msgstr "Νήσοι Σολομώντος"
 
-#: src/gsb_currency_config.c:251
+#: src/gsb_currency_config.c:250
 msgid "Timor Escudo"
 msgstr " Εσκούδο τιμόρ "
 
-#: src/gsb_currency_config.c:251
+#: src/gsb_currency_config.c:250
 msgid "Timor"
 msgstr "Τιμόρ"
 
-#: src/gsb_currency_config.c:252
+#: src/gsb_currency_config.c:251
 msgid "Tongan Pa'anga"
 msgstr "Tongan Pa'anga"
 
-#: src/gsb_currency_config.c:252
+#: src/gsb_currency_config.c:251
 msgid "Tonga"
 msgstr "Τόνγκα"
 
-#: src/gsb_currency_config.c:254
+#: src/gsb_currency_config.c:253
 msgid "Vanuatu Vatu"
 msgstr "Βανουάτου Vatu"
 
-#: src/gsb_currency_config.c:254
+#: src/gsb_currency_config.c:253
 msgid "Vanuatu"
 msgstr "Βανουάτου"
 
-#: src/gsb_currency_config.c:255 src/gsb_currency_config.c:256
-#: src/gsb_currency_config.c:257 src/gsb_currency_config.c:258
-#: src/gsb_currency_config.c:259 src/gsb_currency_config.c:260
-#: src/gsb_currency_config.c:261 src/gsb_currency_config.c:262
-#: src/gsb_currency_config.c:263 src/gsb_currency_config.c:264
-#: src/gsb_currency_config.c:265 src/gsb_currency_config.c:266
+#: src/gsb_currency_config.c:254 src/gsb_currency_config.c:255
+#: src/gsb_currency_config.c:256 src/gsb_currency_config.c:257
+#: src/gsb_currency_config.c:258 src/gsb_currency_config.c:259
+#: src/gsb_currency_config.c:260 src/gsb_currency_config.c:261
+#: src/gsb_currency_config.c:262 src/gsb_currency_config.c:263
+#: src/gsb_currency_config.c:264 src/gsb_currency_config.c:265
 msgid "Southern America"
 msgstr "Νότια Αμερική"
 
-#: src/gsb_currency_config.c:255 src/gsb_currency_config.c:257
-#: src/gsb_currency_config.c:258 src/gsb_currency_config.c:265
+#: src/gsb_currency_config.c:254 src/gsb_currency_config.c:256
+#: src/gsb_currency_config.c:257 src/gsb_currency_config.c:264
 msgid "Peso"
 msgstr "Πέσο"
 
-#: src/gsb_currency_config.c:255
+#: src/gsb_currency_config.c:254
 msgid "Argentina"
 msgstr "Αργεντινή"
 
-#: src/gsb_currency_config.c:256
+#: src/gsb_currency_config.c:255
 msgid "Boliviano"
 msgstr "Μπολιβιάνο Βολιβίας"
 
-#: src/gsb_currency_config.c:256
+#: src/gsb_currency_config.c:255
 msgid "Bolivia"
 msgstr "Βολιβία"
 
-#: src/gsb_currency_config.c:257
+#: src/gsb_currency_config.c:256
 msgid "Chile"
 msgstr "Χιλή"
 
-#: src/gsb_currency_config.c:258
+#: src/gsb_currency_config.c:257
 msgid "Colombia"
 msgstr "Κολομβία"
 
-#: src/gsb_currency_config.c:259
+#: src/gsb_currency_config.c:258
 msgid "Ecuador Sucre"
 msgstr "Σούκρε Εκουαδόρ"
 
-#: src/gsb_currency_config.c:259
+#: src/gsb_currency_config.c:258
 msgid "Ecuador"
 msgstr "Ισημερινός"
 
-#: src/gsb_currency_config.c:260
+#: src/gsb_currency_config.c:259
 msgid "Guyana Dollar"
 msgstr "Δολάριο Γουιάνας"
 
-#: src/gsb_currency_config.c:260
+#: src/gsb_currency_config.c:259
 msgid "Guyana"
 msgstr "Γουιάνα "
 
-#: src/gsb_currency_config.c:261
+#: src/gsb_currency_config.c:260
 msgid "Paraguay Guarani"
 msgstr "Γκουαρανί Παραγουάης"
 
-#: src/gsb_currency_config.c:261
+#: src/gsb_currency_config.c:260
 msgid "Paraguay"
 msgstr "Παραγουάη"
 
-#: src/gsb_currency_config.c:262
+#: src/gsb_currency_config.c:261
 msgid "Nuevos Soles"
 msgstr "Nuevos Σόλες"
 
-#: src/gsb_currency_config.c:262
+#: src/gsb_currency_config.c:261
 msgid "Peru"
 msgstr "Περού"
 
-#: src/gsb_currency_config.c:263
+#: src/gsb_currency_config.c:262
 msgid "Real"
 msgstr "Real"
 
-#: src/gsb_currency_config.c:263
+#: src/gsb_currency_config.c:262
 msgid "Brazil"
 msgstr "Βραζιλία"
 
-#: src/gsb_currency_config.c:264
+#: src/gsb_currency_config.c:263
 msgid "Suriname Guilder"
 msgstr "Γκίλντα Σουρινάμ"
 
-#: src/gsb_currency_config.c:264
+#: src/gsb_currency_config.c:263
 msgid "Suriname"
 msgstr "Σουρινάμ"
 
-#: src/gsb_currency_config.c:265
+#: src/gsb_currency_config.c:264
 msgid "Uruguay"
 msgstr "Ουρουγουάη"
 
-#: src/gsb_currency_config.c:266
+#: src/gsb_currency_config.c:265
 msgid "Venezuelan Bolivar"
 msgstr "Μπολιβάρ Βενεζουέλας"
 
-#: src/gsb_currency_config.c:266
+#: src/gsb_currency_config.c:265
 msgid "Venezuela"
 msgstr "Βενεζουέλα"
 
-#: src/gsb_currency_config.c:296
+#: src/gsb_currency_config.c:295
 msgid "Known currencies"
 msgstr "Γνωστά νομίσματα"
 
 #. Input form for currencies
-#: src/gsb_currency_config.c:345
+#: src/gsb_currency_config.c:344
 msgid "Currency properties"
 msgstr "Ιδιότητες νομίσματος"
 
 #. Create Sign entry
-#: src/gsb_currency_config.c:367 src/gsb_currency_config.c:499
+#: src/gsb_currency_config.c:366 src/gsb_currency_config.c:498
 msgid "Sign"
 msgstr "Σημάδι"
 
 #. Create ISO code entry
-#: src/gsb_currency_config.c:380
+#: src/gsb_currency_config.c:379
 msgid "ISO code"
 msgstr "Κωδικός ISO"
 
 #. Create floating point entry
-#: src/gsb_currency_config.c:393 src/gsb_currency_config.c:1011
+#: src/gsb_currency_config.c:392 src/gsb_currency_config.c:1010
 msgid "Floating point"
 msgstr "Κινητή υποδιαστολή"
 
-#: src/gsb_currency_config.c:453
+#: src/gsb_currency_config.c:452
 msgid "Country name"
 msgstr "Όνομα χώρας"
 
 #. Currency name
-#: src/gsb_currency_config.c:476 src/gsb_currency_config.c:977
+#: src/gsb_currency_config.c:475 src/gsb_currency_config.c:976
 msgid "Currency name"
 msgstr "Όνομα νομίσματος"
 
-#: src/gsb_currency_config.c:487
+#: src/gsb_currency_config.c:486
 msgid "ISO Code"
 msgstr "Κωδικός ISO"
 
-#: src/gsb_currency_config.c:616
+#: src/gsb_currency_config.c:615
 #, c-format
 msgid "Currency '%s' is used in current file.  Grisbi can't delete it."
 msgstr ""
 "Το νόμισμα '%s' χρησιμοποιείται στο τρέχον αρχείο. Το Grisbi δεν μπορεί να "
 "το διαγράψει."
 
-#: src/gsb_currency_config.c:619 src/gsb_currency_config.c:643
+#: src/gsb_currency_config.c:618 src/gsb_currency_config.c:642
 #, c-format
 msgid "Impossible to remove currency '%s'"
 msgstr "Αδύνατο να αφαιρέσει το νόμισμα '%s'"
 
-#: src/gsb_currency_config.c:640
+#: src/gsb_currency_config.c:639
 #, c-format
 msgid "Currency '%s' is used in current file. Grisbi can't delete it."
 msgstr ""
 "Το νόμισμα '%s' χρησιμοποιείται στο τρέχον αρχείο. Το Grisbi δεν μπορεί να "
 "το διαγράψει."
 
-#: src/gsb_currency_config.c:819
+#: src/gsb_currency_config.c:818
 msgid "Currency for payees tree"
 msgstr "Νόμισμα για το δέντρο δικαιούχων πληρωμής"
 
-#: src/gsb_currency_config.c:829
+#: src/gsb_currency_config.c:828
 msgid "Currency for categories tree"
 msgstr "Νόμισμα για το δέντρο κατηγοριών"
 
-#: src/gsb_currency_config.c:839
+#: src/gsb_currency_config.c:838
 msgid "Currency for budgetary lines tree"
 msgstr "Νόμισμα για το δημοσιονομικό δέντρο γραμμών"
 
-#: src/gsb_currency_config.c:850
+#: src/gsb_currency_config.c:849
 #, fuzzy
 msgid "Add transactions archived in the totals"
 msgstr "Προσθέστε τις συναλλαγές σε έναν λογαριασμό."
 
-#: src/gsb_currency_config.c:941
+#: src/gsb_currency_config.c:940
 msgid "Add a currency"
 msgstr "Προσθέστε ένα νόμισμα"
 
-#: src/gsb_currency_config.c:950
+#: src/gsb_currency_config.c:949
 msgid "Select base currency for your account"
 msgstr "Επιλέξτε το νόμισμα βάσεων για τον λογαριασμό σας"
 
-#: src/gsb_currency_config.c:959
+#: src/gsb_currency_config.c:958
 msgid "World currencies"
 msgstr "Παγκόσμια νομίσματα"
 
-#: src/gsb_currency_config.c:968
+#: src/gsb_currency_config.c:967
 msgid "Currency details"
 msgstr "Λεπτομέρειες νομίσματος"
 
 #. Currency ISO code
-#: src/gsb_currency_config.c:989
+#: src/gsb_currency_config.c:988
 msgid "Currency international code"
 msgstr "Διεθνής κώδικας νομισμάτων"
 
 #. Currency usual sign
-#: src/gsb_currency_config.c:1000
+#: src/gsb_currency_config.c:999
 msgid "Currency sign"
 msgstr "Σημάδι νομίσματος"
 
-#: src/gsb_currency_config.c:1077
+#: src/gsb_currency_config.c:1076
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
@@ -6297,12 +6301,12 @@ msgstr ""
 "Το όνομα νομίσματος και είτε ο διεθνής κώδικας νομίσματος είτε παρωνύμιο "
 "νομίσματος πρέπει να τεθεί."
 
-#: src/gsb_currency_config.c:1079 src/gsb_data_partial_balance.c:322
+#: src/gsb_currency_config.c:1078 src/gsb_data_partial_balance.c:322
 #: src/gsb_data_partial_balance.c:431
 msgid "All fields are not filled in"
 msgstr "Δεν έχουν συμπληρωθεί όλοι οι τομείς"
 
-#: src/gsb_currency_config.c:1207
+#: src/gsb_currency_config.c:1206
 msgid "Include obsolete currencies"
 msgstr "Περιλάβετε τα ξεπερασμένα νομίσματα"
 
@@ -6452,52 +6456,52 @@ msgid ""
 "The name of the partial balance and the list of accounts must be completed."
 msgstr ""
 
-#: src/gsb_data_partial_balance.c:1260
+#: src/gsb_data_partial_balance.c:1268
 #, c-format
 msgid "You need to create a link between currency %s and %s."
 msgstr ""
 
-#: src/gsb_data_partial_balance.c:1264
+#: src/gsb_data_partial_balance.c:1272
 #, fuzzy
 msgid "Attention missing link between currencies"
 msgstr "Συνδέσεις μεταξύ των νομισμάτων"
 
-#: src/gsb_data_partial_balance.c:1492
+#: src/gsb_data_partial_balance.c:1500
 #, fuzzy
 msgid "Add a partial balance"
 msgstr "Αρχική ισορροπία"
 
-#: src/gsb_data_partial_balance.c:1499
+#: src/gsb_data_partial_balance.c:1507
 #, fuzzy
 msgid "Modify a partial balance"
 msgstr "Αρχική ισορροπία"
 
-#: src/gsb_data_partial_balance.c:1507
+#: src/gsb_data_partial_balance.c:1515
 #, fuzzy
 msgid "Partial balance details"
 msgstr "Αρχική ισορροπία"
 
-#: src/gsb_data_partial_balance.c:1514 src/gsb_debug.c:293
+#: src/gsb_data_partial_balance.c:1522 src/gsb_debug.c:293
 msgid "Details"
 msgstr "Λεπτομέρειες"
 
 #. create the position
-#: src/gsb_data_partial_balance.c:1549
+#: src/gsb_data_partial_balance.c:1557
 #, fuzzy
 msgid "Position in the list of accounts"
 msgstr "Επιλέξτε συναλλαγές ενός λογαριασμού."
 
 #. create the colorized button
-#: src/gsb_data_partial_balance.c:1562
+#: src/gsb_data_partial_balance.c:1570
 msgid "Colorized in red if the balance is negative"
 msgstr ""
 
-#: src/gsb_data_partial_balance.c:1585
+#: src/gsb_data_partial_balance.c:1593
 #, fuzzy
 msgid "Enter the currency of the balance part"
 msgstr "Εισάγετε το όνομα του νέου δικαιούχου πληρωμής"
 
-#: src/gsb_data_partial_balance.c:1597
+#: src/gsb_data_partial_balance.c:1605
 #, fuzzy
 msgid "Select the currency of the partial balance"
 msgstr "Επιλέξτε το νόμισμα βάσεων για τον λογαριασμό σας"
@@ -6927,7 +6931,7 @@ msgstr ""
 "προτιμήσεις."
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:580 src/gsb_file.c:831 src/parametres.c:701
+#: src/gsb_file.c:580 src/gsb_file.c:831 src/parametres.c:703
 msgid "Force saving of locked files"
 msgstr "Αναγκαστική αποθήκευση κλειδωμένων αρχείων"
 
@@ -7183,25 +7187,25 @@ msgstr ""
 msgid "Importing a report"
 msgstr "Εισαγωγή μιας έκθεσης"
 
-#: src/gsb_file_others.c:578
+#: src/gsb_file_others.c:578 src/gsb_file_others.c:585
 msgid "This is not a grisbi file, loading canceled..."
 msgstr "Αυτό δεν είναι ένα αρχείο grisbi, η φόρτωση  ακυρώνεται…"
 
-#: src/gsb_file_others.c:603 src/gsb_file_others.c:617
-#: src/gsb_file_others.c:640
+#: src/gsb_file_others.c:602 src/gsb_file_others.c:613
+#: src/gsb_file_others.c:630
 msgid "The file version is below 0.6.0, Grisbi cannot import it."
 msgstr ""
 "Η έκδοση αρχείων είναι κάτω από 0.6.0, το Grisbi δεν μπορεί να το εισαγάγει."
 
-#: src/gsb_file_others.c:606
+#: src/gsb_file_others.c:605
 msgid "This is not a category file, loading canceled..."
 msgstr "Αυτό δεν είναι ένα αρχείο κατηγορίας,η φόρτωση  ακυρώνεται…"
 
-#: src/gsb_file_others.c:628
+#: src/gsb_file_others.c:621
 msgid "This is not a budget file, loading canceled..."
 msgstr "Αυτό δεν είναι ένα αρχείο προϋπολογισμών, η φόρτωση  ακυρώνεται…"
 
-#: src/gsb_file_others.c:651
+#: src/gsb_file_others.c:638
 msgid "This is not a report file, loading canceled..."
 msgstr "Αυτό δεν είναι ένα αρχείο εκθέσεων, η φόρτωση  ακυρώνεται…"
 
@@ -9071,9 +9075,16 @@ msgstr "Η δημοσιονομική γραμμή υπάρχει ήδη"
 msgid "New sub-budget"
 msgstr "Νέος υπο--προϋπολογισμός"
 
-#: src/main.c:143
+#: src/main.c:153
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμένο\n"
+
+#: src/main.c:171
+msgid ""
+"The version of GTK you are using do not benefit from its latest features.\n"
+"\n"
+"You should upgrade GTK."
+msgstr ""
 
 #: src/menu.c:170
 msgid "_File"
@@ -9383,11 +9394,11 @@ msgstr "Προτιμήσεις Grisbi"
 msgid "Main"
 msgstr "Κύριος"
 
-#: src/parametres.c:270 src/parametres.c:685
+#: src/parametres.c:270 src/parametres.c:687
 msgid "Files"
 msgstr "Αρχεία"
 
-#: src/parametres.c:308 src/parametres.c:854
+#: src/parametres.c:308 src/parametres.c:856
 msgid "Programs"
 msgstr "Προγράμματα"
 
@@ -9399,7 +9410,7 @@ msgstr "Εμφάνιση"
 msgid "Messages & warnings"
 msgstr "Μηνύματα & προειδοποιήσεις"
 
-#: src/parametres.c:371 src/parametres.c:1011
+#: src/parametres.c:371 src/parametres.c:1013
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "Απόκρυψη ονομάτων κατηγοριών"
@@ -9447,30 +9458,30 @@ msgid "Message"
 msgstr "Μήνυμα"
 
 #. Compression level of files
-#: src/parametres.c:711
+#: src/parametres.c:713
 msgid "Compress Grisbi file"
 msgstr "Συμπίεση αρχείου Grisbi"
 
-#: src/parametres.c:719
+#: src/parametres.c:721
 msgid "Memorise last opened files"
 msgstr "Απομνημονεύστε τα τελευταία ανοιγμένα αρχεία"
 
 #. Backups
-#: src/parametres.c:728
+#: src/parametres.c:730
 msgid "Backups"
 msgstr "Αντίγραφα"
 
 #. Compression level of backups
-#: src/parametres.c:731
+#: src/parametres.c:733
 msgid "Compress Grisbi backup"
 msgstr "Συμπίεση αντιγράφων Grisbi"
 
 #. Backup at each opening?
-#: src/parametres.c:736
+#: src/parametres.c:738
 msgid "Make a backup copy after opening files"
 msgstr "Κάνετε ένα εφεδρικό αντίγραφο μετά το άνοιγμα των αρχείων"
 
-#: src/parametres.c:872
+#: src/parametres.c:874
 #, fuzzy, c-format
 msgid ""
 "You may use %s to expand the URL I.e:\n"
@@ -9479,58 +9490,58 @@ msgstr ""
 "Μπορείτε να χρησιμοποιήσετε το %s για να επεκτείνετε το URL - I.e: 'firefox -"
 "remote %s' "
 
-#: src/parametres.c:883
+#: src/parametres.c:885
 msgid "LaTeX support (old print system)"
 msgstr "Υποστήριξη LaTeX  (παλαιό σύστημα εκτύπωσης)"
 
-#: src/parametres.c:890
+#: src/parametres.c:892
 msgid "LaTeX command"
 msgstr "Εντολή LaTeX "
 
-#: src/parametres.c:898
+#: src/parametres.c:900
 msgid "dvips command"
 msgstr "Εντολή dvips "
 
-#: src/parametres.c:938
+#: src/parametres.c:940
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Προειδοποιήσεις χρονοπρογραμματιστών στο άνοιγμα Grisbi"
 
-#: src/parametres.c:939
+#: src/parametres.c:941
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
 "Προειδοποιείστε/εκτελέστε τις σχεδιασμένες συναλλαγές φθάνοντας στην "
 "ημερομηνία λήξης"
 
-#: src/parametres.c:940
+#: src/parametres.c:942
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Προειδοποιήστε/εκτελέστε τις σχεδιασμένες συναλλαγές του μήνα"
 
-#: src/parametres.c:948
+#: src/parametres.c:950
 msgid "Number of days before the warning or the execution"
 msgstr "Αριθμός ημερών πριν από την προειδοποίηση ή την εκτέλεση"
 
 #. Take into account the planned operations in the calculation of balances
-#: src/parametres.c:957
+#: src/parametres.c:959
 #, fuzzy
 msgid "Calculation of balances"
 msgstr "Αρχική ισορροπία"
 
-#: src/parametres.c:963
+#: src/parametres.c:965
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
 msgstr ""
 
-#: src/parametres.c:1020
+#: src/parametres.c:1022
 #, fuzzy
 msgid "Sort option for transactions"
 msgstr "Επιβεβαίωση της εισαγωγής των συναλλαγών"
 
-#: src/parametres.c:1021
+#: src/parametres.c:1023
 #, fuzzy
 msgid "by number"
 msgstr "Αριθμός δικαιούχων πληρωμής"
 
-#: src/parametres.c:1022
+#: src/parametres.c:1024
 #, fuzzy
 msgid "by date"
 msgstr "ημερομηνία"
@@ -10299,7 +10310,7 @@ msgstr ""
 "Ζήτησε να ταξινομήσει κατά τη στήλη %d, η οποία είναι μεγαλύτερη από τις "
 "ορατές στήλες (%d)"
 
-#: src/utils.c:150
+#: src/utils.c:151
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  "
@@ -10309,11 +10320,11 @@ msgstr ""
 "url <tt>%s</tt>. Παρακαλώ ρυθμίστε τις τοποθετήσεις σας  σε ένα έγκυρο  "
 "εκτελέσιμο."
 
-#: src/utils.c:151 src/utils.c:189
+#: src/utils.c:152 src/utils.c:190
 msgid "Cannot execute web browser"
 msgstr "Αδυναμία εκτέλεσης μηχανής αναζήτησης Ιστού"
 
-#: src/utils.c:188
+#: src/utils.c:189
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"

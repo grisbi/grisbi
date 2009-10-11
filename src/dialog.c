@@ -31,7 +31,6 @@
 
 /*START_STATIC*/
 static void dialogue_conditional ( gchar *text, gchar *var );
-static void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var );
 static GtkDialog *dialogue_conditional_new ( gchar *text,
                         gchar *var,
                         GtkMessageType type,
@@ -92,6 +91,12 @@ struct conditional_message messages[] =
       FALSE, FALSE, },
 
     { "development-version", N_("You are running Grisbi version %s"), 
+      N_("Warning, please be aware that the version you run is a DEVELOPMENT version. "
+     "In any case do not work with this version on your original accounting files. "
+     "(File format may change and render files incompatible with previous versions)."),
+      FALSE, FALSE },
+
+    { "gtk_obsolete", N_("You are running Grisbi with GTK version %s"), 
       N_("Warning, please be aware that the version you run is a DEVELOPMENT version. "
      "In any case do not work with this version on your original accounting files. "
      "(File format may change and render files incompatible with previous versions)."),
@@ -281,9 +286,9 @@ GtkDialog *dialogue_conditional_new ( gchar *text,
                         GtkMessageType type,
                         GtkButtonsType buttons )
 {
-    GtkWidget * vbox, * checkbox, *dialog;
+    GtkWidget * vbox, * checkbox, *dialog = NULL;
     int i;
-
+printf ( "dialogue_conditional_new : %s\n", var);
     if ( !var || !strlen ( var ) )
         return NULL;
 
@@ -334,6 +339,7 @@ GtkDialog *dialogue_conditional_new ( gchar *text,
  */
 void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var )
 {
+    printf ( "dialogue_conditional_hint : %s\n", var);
     dialogue_conditional ( make_hint(hint, text), var );
 }
 
@@ -350,6 +356,7 @@ void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var )
  */
 void dialogue_conditional ( gchar *text, gchar *var )
 {
+    printf ( "dialogue_conditional : %s\n", var);
     dialogue_conditional_special ( text, var, GTK_MESSAGE_WARNING );
 }
 

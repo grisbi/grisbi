@@ -24,9 +24,9 @@
 
 /*START_INCLUDE*/
 #include "help.h"
+#include "./utils.h"
 #include "./gsb_plugins.h"
 #include "./gsb_select_icon.h"
-#include "./utils.h"
 #include "./utils_str.h"
 #include "./include.h"
 /*END_INCLUDE*/
@@ -136,6 +136,9 @@ NULL};
     /* Plugins list */
     gchar* comments = g_strconcat ( _("Personal finance manager for everyone\n"),
 				    gsb_plugin_get_list(),
+                    "\n Version de GTK : (",
+                    get_gtk_run_version ( ),
+                    ") \n",
 				    warn_print,
 				    NULL );
 
@@ -156,7 +159,7 @@ NULL};
     gtk_about_dialog_set_website ( GTK_ABOUT_DIALOG (about), "http://www.grisbi.org/");
     gtk_about_dialog_set_license ( GTK_ABOUT_DIALOG (about), license );
     gtk_about_dialog_set_wrap_license ( GTK_ABOUT_DIALOG (about), TRUE );
-	gtk_about_dialog_set_version ( GTK_ABOUT_DIALOG (about), g_strconcat(VERSION, " (",get_gtk_run_version(), ")") );
+	gtk_about_dialog_set_version ( GTK_ABOUT_DIALOG (about), VERSION );
     gtk_about_dialog_set_artists ( GTK_ABOUT_DIALOG (about), artists );
     gtk_about_dialog_set_documenters ( GTK_ABOUT_DIALOG (about), documenters );
     gtk_about_dialog_set_authors ( GTK_ABOUT_DIALOG (about), auteurs );

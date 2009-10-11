@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-07 23:35+0200\n"
+"POT-Creation-Date: 2009-10-11 17:49+0200\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team:  <en@li.org>\n"
@@ -387,58 +387,58 @@ msgstr "מאזנים כלליים"
 msgid " in %s"
 msgstr ""
 
-#: src/accueil.c:1300 src/accueil.c:1423 src/accueil.c:1875
+#: src/accueil.c:1301 src/accueil.c:1424 src/accueil.c:1876
 #, fuzzy, c-format
 msgid "%s credited on %s"
 msgstr "%4.2f %s זכות ב %s"
 
-#: src/accueil.c:1310 src/accueil.c:1433 src/accueil.c:1884
+#: src/accueil.c:1311 src/accueil.c:1434 src/accueil.c:1885
 #, fuzzy, c-format
 msgid "%s debited on %s"
 msgstr "%4.2f %s חובה ב %s"
 
-#: src/accueil.c:1652
+#: src/accueil.c:1653
 #, fuzzy, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr "מאזן חשבון %s הוא מתחת למינימום הרצוי והמותר!"
 
-#: src/accueil.c:1656
+#: src/accueil.c:1657
 #, fuzzy
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
 msgstr "מאזן חשבון %s הוא מתחת למינימום הרצוי והמותר!"
 
-#: src/accueil.c:1685
+#: src/accueil.c:1686
 #, fuzzy, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr "מאזן חשבון %s הוא מתחת למינימום המותר!"
 
-#: src/accueil.c:1695
+#: src/accueil.c:1696
 #, fuzzy
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
 msgstr "מאזן חשבון %s הוא מתחת למינימום הרצוי והמותר!"
 
-#: src/accueil.c:1727
+#: src/accueil.c:1728
 #, fuzzy, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "מאזן חשבון %s הוא מתחת למינימום הרצוי!"
 
-#: src/accueil.c:1737
+#: src/accueil.c:1738
 #, fuzzy
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
 msgstr "מאזן חשבון %s הוא מתחת למינימום הרצוי!"
 
-#: src/accueil.c:1926
+#: src/accueil.c:1927
 #, fuzzy
 msgid "Configuration of the main page"
 msgstr "אישור הסרת בנק"
 
-#: src/accueil.c:1935
+#: src/accueil.c:1936
 #, fuzzy
 msgid "Balances partials of the list of accounts"
 msgstr "העברת העיסקה לחשבון אחר"
@@ -452,12 +452,12 @@ msgstr "העברת העיסקה לחשבון אחר"
 #. Financial year name
 #. set the name
 #. Name entry
-#: src/accueil.c:2026 src/categories_onglet.c:667 src/gsb_archive_config.c:98
+#: src/accueil.c:2027 src/categories_onglet.c:667 src/gsb_archive_config.c:98
 #: src/gsb_archive_config.c:186 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:388
 #: src/gsb_assistant_reconcile_config.c:1227 src/gsb_bank.c:732
-#: src/gsb_bank.c:855 src/gsb_currency_config.c:354
-#: src/gsb_data_partial_balance.c:1523 src/gsb_fyear_config.c:191
+#: src/gsb_bank.c:855 src/gsb_currency_config.c:353
+#: src/gsb_data_partial_balance.c:1531 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:240
 #: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1704
 #: src/imputation_budgetaire.c:701 src/tiers_onglet.c:628
@@ -465,27 +465,27 @@ msgid "Name"
 msgstr "שם"
 
 #. List of the accounts
-#: src/accueil.c:2035 src/gsb_data_partial_balance.c:1534
+#: src/accueil.c:2036 src/gsb_data_partial_balance.c:1542
 #, fuzzy
 msgid "Accounts list"
 msgstr "חשבונות"
 
-#: src/accueil.c:2051
+#: src/accueil.c:2052
 #, fuzzy
 msgid "Colorize"
 msgstr "האיים הקומוריים"
 
-#: src/accueil.c:2059
+#: src/accueil.c:2060
 #, fuzzy
 msgid "Account kind"
 msgstr "שם חשבון"
 
-#: src/accueil.c:2068 src/gsb_form_widget.c:444 src/import_csv.c:77
+#: src/accueil.c:2069 src/gsb_form_widget.c:444 src/import_csv.c:77
 msgid "Currency"
 msgstr "מטבע"
 
 #. initialization of titles
-#: src/accueil.c:2110 src/affichage.c:977 src/affichage.c:978
+#: src/accueil.c:2111 src/affichage.c:977 src/affichage.c:978
 #: src/gsb_assistant_file.c:564 src/navigation.c:1140 src/navigation.c:1141
 #: src/traitement_variables.c:293
 #, fuzzy
@@ -1291,30 +1291,30 @@ msgstr "קטגוריה '%s' כבר קיימת."
 msgid "New sub-category"
 msgstr "תת-קטגוריה חדשה"
 
-#: src/dialog.c:54
+#: src/dialog.c:53
 msgid "No tip of the day available"
 msgstr ""
 
-#: src/dialog.c:55
+#: src/dialog.c:54
 msgid ""
 "Make sure that grisbi was correctly installed and that tips file is readable."
 msgstr ""
 
-#: src/dialog.c:58
+#: src/dialog.c:57
 msgid "Security feature not implemented"
 msgstr ""
 
-#: src/dialog.c:59
+#: src/dialog.c:58
 msgid ""
 "This file contains security informations, which processing is not "
 "implemented at this moment."
 msgstr ""
 
-#: src/dialog.c:62
+#: src/dialog.c:61
 msgid "Encryption is irreversible."
 msgstr ""
 
-#: src/dialog.c:63
+#: src/dialog.c:62
 msgid ""
 "Grisbi encrypts files in a very secure way that does not allow recovery "
 "without original password.  It means that if you forget your password, you "
@@ -1324,12 +1324,12 @@ msgid ""
 "cannot help you."
 msgstr ""
 
-#: src/dialog.c:66
+#: src/dialog.c:65
 #, fuzzy
 msgid "Account file is world readable."
 msgstr "טיפול בקבצי חשבונות"
 
-#: src/dialog.c:67
+#: src/dialog.c:66
 msgid ""
 "Your account file should not be readable by anybody else, but it is. You "
 "should change its permissions.\n"
@@ -1339,12 +1339,12 @@ msgstr ""
 "יש לשנות את ההרשאות.\n"
 "האם לתקן זאת כעת?"
 
-#: src/dialog.c:70
+#: src/dialog.c:69
 #, c-format
 msgid "File \"%s\" is already opened"
 msgstr "הקובץ \"%s\" כבר פתוח"
 
-#: src/dialog.c:71
+#: src/dialog.c:70
 msgid ""
 "Either this file is already opened by another user or it wasn't closed "
 "correctly (maybe Grisbi crashed?).\n"
@@ -1356,52 +1356,52 @@ msgstr ""
 "גריסבי לא ישמור את הקובץ, אלא אם תופעל האפשרות של \"לאפשר שמירת קבצים נעולים"
 "\" בהגדרות התוכנה."
 
-#: src/dialog.c:74
+#: src/dialog.c:73
 #, fuzzy
 msgid "Account under desired balance."
 msgstr "חשבונות תחת מאזן רצוי"
 
-#: src/dialog.c:75
+#: src/dialog.c:74
 #, fuzzy, c-format
 msgid "Grisbi detected that an account is under a desired balance: %s"
 msgstr "חשבונות תחת מאזן רצוי"
 
-#: src/dialog.c:78
+#: src/dialog.c:77
 #, fuzzy
 msgid "No budgetary line was entered"
 msgstr "ללא קו תקציב"
 
-#: src/dialog.c:79
+#: src/dialog.c:78
 msgid ""
 "This transaction has no budgetary line entered.  You should use them to "
 "easily produce budgets and make reports on them."
 msgstr ""
 
-#: src/dialog.c:82
+#: src/dialog.c:81
 #, fuzzy
 msgid "Recover split?"
 msgstr "שבירת החשבון"
 
-#: src/dialog.c:83
+#: src/dialog.c:82
 msgid ""
 "This is a split of transaction, associated transactions can be recovered as "
 "in last transaction with this payee.  Do you want to recover them?"
 msgstr ""
 
-#: src/dialog.c:86
+#: src/dialog.c:85
 msgid "No inconsistency found."
 msgstr "לא נמצאה כל בעיית חוסר תיאום."
 
-#: src/dialog.c:87
+#: src/dialog.c:86
 msgid "Grisbi found no known inconsistency in accounts processed."
 msgstr "גריסבי לא מצא כל בעיית חוסר תיאום ידועה בחשבונות שעובדו."
 
-#: src/dialog.c:90
+#: src/dialog.c:89
 #, fuzzy
 msgid "Reconcile start and end dates."
 msgstr "עיסקאות מתואמות"
 
-#: src/dialog.c:91
+#: src/dialog.c:90
 msgid ""
 "In previous versions, Grisbi did not save start date, end date and balance "
 "for reconciliation.  This is now done, so Grisbi will try to guess values "
@@ -1409,12 +1409,12 @@ msgid ""
 "can be guessed.  Please check in the Preferences window for more information."
 msgstr ""
 
-#: src/dialog.c:94
+#: src/dialog.c:93
 #, c-format
 msgid "You are running Grisbi version %s"
 msgstr ""
 
-#: src/dialog.c:95
+#: src/dialog.c:94 src/dialog.c:100
 msgid ""
 "Warning, please be aware that the version you run is a DEVELOPMENT version. "
 "In any case do not work with this version on your original accounting files. "
@@ -1422,27 +1422,32 @@ msgid ""
 "versions)."
 msgstr ""
 
-#: src/dialog.c:311 src/dialog.c:501
+#: src/dialog.c:99 src/main.c:168
+#, c-format
+msgid "You are running Grisbi with GTK version %s"
+msgstr ""
+
+#: src/dialog.c:316 src/dialog.c:508
 msgid "Do not show this message again"
 msgstr "נא לא להציג הודעה זו שוב"
 
-#: src/dialog.c:604
+#: src/dialog.c:611
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
 msgstr ""
 
-#: src/dialog.c:606
+#: src/dialog.c:613
 msgid "Serious brain damage expected."
 msgstr "טוב... זה לא היה אמור לקרות... אח, כאב הראש שמחכה לנו..."
 
-#: src/dialog.c:617
+#: src/dialog.c:624
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
 msgstr ""
 
-#: src/dialog.c:619
+#: src/dialog.c:626
 #, fuzzy
 msgid "Cannot allocate memory"
 msgstr "לא ניתן להקציב זכרון; מעכשיו, היכונו לדברים רעים..."
@@ -2049,7 +2054,7 @@ msgstr "כללי"
 msgid "Transactions"
 msgstr "עיסקאות"
 
-#: src/etats_config.c:642 src/etats_config.c:645 src/gsb_currency_config.c:295
+#: src/etats_config.c:642 src/etats_config.c:645 src/gsb_currency_config.c:294
 #: src/parametres.c:471
 msgid "Currencies"
 msgstr "מטבעות"
@@ -2695,7 +2700,7 @@ msgstr "כל העיסקאות"
 msgid "Make transactions clickable"
 msgstr "לאפשר לחיצה על עיסקאות"
 
-#: src/etats_config.c:6827 src/parametres.c:1014
+#: src/etats_config.c:6827 src/parametres.c:1016
 msgid "Totals currencies"
 msgstr "סך כל המטבעות"
 
@@ -2804,37 +2809,37 @@ msgstr "בחירת דרכי התשלום שיש לכלול"
 msgid "Unable to open file '%s'"
 msgstr "לא ניתן לפתוח את הקובץ '%s': %s"
 
-#: src/etats_html.c:287
+#: src/etats_html.c:292
 msgid "Make sure file exists and is writable."
 msgstr "נא לוודא שקובץ זה אכן ניתן לכתיבה, גם מבחינת הרשאות."
 
-#: src/etats_html.c:288
+#: src/etats_html.c:293
 #, c-format
 msgid "Cannot open file '%s' for writing"
 msgstr "לא ניתן לפתוח את הקובץ '%s' לכתיבה"
 
-#: src/etats_latex.c:272
+#: src/etats_latex.c:277
 #, fuzzy, c-format
 msgid "Cannot open file '%s': %s."
 msgstr "לא ניתן לפתוח את הקובץ '%s': %s"
 
-#: src/etats_latex.c:361
+#: src/etats_latex.c:366
 msgid ""
 "See console output for details.  Be sure you have installed LaTeX properly "
 "with unicode support."
 msgstr ""
 
-#: src/etats_latex.c:362
+#: src/etats_latex.c:367
 #, fuzzy
 msgid "LaTeX run was unable to complete."
 msgstr ""
 "לא ניתן היה להשלים את הרצת LaTeX. לפרטים, נא לפנות לפלט בחלון הקונסולה."
 
-#: src/etats_latex.c:382
+#: src/etats_latex.c:387
 msgid "Cannot send job to printer"
 msgstr "לא ניתן לשלוח את העבודה למדפסת"
 
-#: src/etats_latex.c:388
+#: src/etats_latex.c:393
 msgid "dvips was unable to complete, see console output for details."
 msgstr ""
 "לא ניתן היה להשלים את הרצת dvips. לפרטים, נא לפנות לפלט בחלון הקונסולה."
@@ -3154,7 +3159,7 @@ msgid "Select accounts to export"
 msgstr "בחירת החשבונות לייצוא"
 
 #: src/export.c:170 src/export_csv.c:743 src/gsb_account_property.c:236
-#: src/gsb_data_partial_balance.c:1467 src/import.c:1157 src/import.c:1194
+#: src/gsb_data_partial_balance.c:1475 src/import.c:1157 src/import.c:1194
 msgid "Account name"
 msgstr "שם חשבון"
 
@@ -3257,7 +3262,7 @@ msgid "Main page"
 msgstr "עמוד ראשי"
 
 #: src/fenetre_principale.c:259 src/navigation.c:268 src/parametres.c:317
-#: src/parametres.c:933
+#: src/parametres.c:935
 msgid "Scheduler"
 msgstr "תיזמון עיסקאות"
 
@@ -4515,7 +4520,7 @@ msgstr ""
 #. will we crypt the file ?
 #. crypt the grisbi file
 #: src/gsb_assistant_file.c:323 src/gsb_assistant_first.c:249
-#: src/parametres.c:706
+#: src/parametres.c:708
 msgid "Encrypt Grisbi file"
 msgstr ""
 
@@ -4601,12 +4606,12 @@ msgid "General configuration of Grisbi"
 msgstr ""
 
 #. configure the browser
-#: src/gsb_assistant_first.c:209 src/parametres.c:856
+#: src/gsb_assistant_first.c:209 src/parametres.c:858
 #, fuzzy
 msgid "Web"
 msgstr "אתר אינטרנט"
 
-#: src/gsb_assistant_first.c:216 src/parametres.c:863
+#: src/gsb_assistant_first.c:216 src/parametres.c:865
 #, fuzzy
 msgid "Web browser command"
 msgstr "דפדפן"
@@ -4616,41 +4621,41 @@ msgstr "דפדפן"
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr ""
 
-#: src/gsb_assistant_first.c:234 src/parametres.c:689
+#: src/gsb_assistant_first.c:234 src/parametres.c:691
 msgid "Account files handling"
 msgstr "טיפול בקבצי חשבונות"
 
 #. Automatically load last file on startup?
-#: src/gsb_assistant_first.c:237 src/parametres.c:692
+#: src/gsb_assistant_first.c:237 src/parametres.c:694
 msgid "Automatically load last file on startup"
 msgstr "לטעון את הקובץ האחרון שהיה בעבודה עם עליית התוכנה"
 
 #. automatically save file at closing
-#: src/gsb_assistant_first.c:243 src/parametres.c:696
+#: src/gsb_assistant_first.c:243 src/parametres.c:698
 msgid "Automatically save on exit"
 msgstr "שמירת הקובץ אוטומטית עם היציאה"
 
 #. Automatic backup ?
-#: src/gsb_assistant_first.c:255 src/parametres.c:741
+#: src/gsb_assistant_first.c:255 src/parametres.c:743
 msgid "Make a backup copy before saving files"
 msgstr "יצירת עותק גיבוי לפני שמירת קבצים"
 
-#: src/gsb_assistant_first.c:265 src/parametres.c:749
+#: src/gsb_assistant_first.c:265 src/parametres.c:751
 #, fuzzy
 msgid "Make a backup copy every "
 msgstr "יצירת עותק גיבוי לפני שמירת קבצים"
 
-#: src/gsb_assistant_first.c:276 src/parametres.c:759
+#: src/gsb_assistant_first.c:276 src/parametres.c:761
 #, fuzzy
 msgid " minutes"
 msgstr "הערה"
 
-#: src/gsb_assistant_first.c:285 src/parametres.c:766
+#: src/gsb_assistant_first.c:285 src/parametres.c:768
 #, fuzzy
 msgid "Backup directory"
 msgstr "קובץ גיבוי"
 
-#: src/gsb_assistant_first.c:290 src/parametres.c:773
+#: src/gsb_assistant_first.c:290 src/parametres.c:775
 msgid "Select/Create backup directory"
 msgstr ""
 
@@ -5699,7 +5704,7 @@ msgstr "מקסיקו"
 msgid "Panama Balboa"
 msgstr "בלבואה פנמית"
 
-#: src/gsb_currency_config.c:170 src/gsb_currency_config.c:253
+#: src/gsb_currency_config.c:170 src/gsb_currency_config.c:252
 msgid "Panama"
 msgstr "פנמה"
 
@@ -5728,7 +5733,6 @@ msgstr "פנמה"
 #: src/gsb_currency_config.c:217 src/gsb_currency_config.c:218
 #: src/gsb_currency_config.c:219 src/gsb_currency_config.c:220
 #: src/gsb_currency_config.c:221 src/gsb_currency_config.c:222
-#: src/gsb_currency_config.c:223
 msgid "Europe"
 msgstr "אירופה"
 
@@ -5739,7 +5743,7 @@ msgstr "אירופה"
 #: src/gsb_currency_config.c:180 src/gsb_currency_config.c:181
 #: src/gsb_currency_config.c:182 src/gsb_currency_config.c:183
 #: src/gsb_currency_config.c:184 src/gsb_currency_config.c:185
-#: src/gsb_currency_config.c:195 src/gsb_currency_config.c:196
+#: src/gsb_currency_config.c:195
 msgid "Euro"
 msgstr "יורו"
 
@@ -5755,43 +5759,43 @@ msgstr "אוסטריה"
 msgid "Belgium"
 msgstr "בלגיה"
 
-#: src/gsb_currency_config.c:176 src/gsb_currency_config.c:219
+#: src/gsb_currency_config.c:176 src/gsb_currency_config.c:218
 msgid "Spain"
 msgstr "ספרד"
 
-#: src/gsb_currency_config.c:177 src/gsb_currency_config.c:197
+#: src/gsb_currency_config.c:177 src/gsb_currency_config.c:196
 msgid "Finland"
 msgstr "פינלנד"
 
-#: src/gsb_currency_config.c:178 src/gsb_currency_config.c:198
+#: src/gsb_currency_config.c:178 src/gsb_currency_config.c:197
 msgid "France"
 msgstr "צרפת"
 
-#: src/gsb_currency_config.c:179 src/gsb_currency_config.c:200
+#: src/gsb_currency_config.c:179 src/gsb_currency_config.c:199
 msgid "Greece"
 msgstr "יוון"
 
-#: src/gsb_currency_config.c:180 src/gsb_currency_config.c:203
+#: src/gsb_currency_config.c:180 src/gsb_currency_config.c:202
 msgid "Ireland"
 msgstr "אירלנד"
 
-#: src/gsb_currency_config.c:181 src/gsb_currency_config.c:205
+#: src/gsb_currency_config.c:181 src/gsb_currency_config.c:204
 msgid "Italy"
 msgstr "איטליה"
 
-#: src/gsb_currency_config.c:182 src/gsb_currency_config.c:209
+#: src/gsb_currency_config.c:182 src/gsb_currency_config.c:208
 msgid "Luxembourg"
 msgstr "לוקסמבורג"
 
-#: src/gsb_currency_config.c:183 src/gsb_currency_config.c:210
+#: src/gsb_currency_config.c:183 src/gsb_currency_config.c:209
 msgid "Netherlands"
 msgstr "הולנד"
 
-#: src/gsb_currency_config.c:184 src/gsb_currency_config.c:214
+#: src/gsb_currency_config.c:184 src/gsb_currency_config.c:213
 msgid "Portugal"
 msgstr "פורטוגל"
 
-#: src/gsb_currency_config.c:185 src/gsb_currency_config.c:218
+#: src/gsb_currency_config.c:185 src/gsb_currency_config.c:217
 msgid "Slovenia"
 msgstr "סלובניה"
 
@@ -5847,625 +5851,625 @@ msgstr "קרון אסטוני"
 msgid "Estonia"
 msgstr "אסטוניה"
 
-#: src/gsb_currency_config.c:196
+#: src/gsb_currency_config.c:195
 #, fuzzy
 msgid "UE (Europe)"
 msgstr "אירופה"
 
-#: src/gsb_currency_config.c:197
+#: src/gsb_currency_config.c:196
 msgid "Finnish Markka"
 msgstr "מרקה פינית"
 
-#: src/gsb_currency_config.c:198
+#: src/gsb_currency_config.c:197
 msgid "French Franc"
 msgstr "פרנק צרפתי"
 
-#: src/gsb_currency_config.c:199
+#: src/gsb_currency_config.c:198
 msgid "Gibraltar Pound"
 msgstr "לירה גיברלטרית"
 
-#: src/gsb_currency_config.c:199
+#: src/gsb_currency_config.c:198
 msgid "Gibraltar"
 msgstr "גיברלטר"
 
-#: src/gsb_currency_config.c:200
+#: src/gsb_currency_config.c:199
 msgid "Greek Drachma"
 msgstr "דרכמה יוונית"
 
-#: src/gsb_currency_config.c:201
+#: src/gsb_currency_config.c:200
 msgid "Hungarian Forint"
 msgstr "פורינט הונגרי"
 
-#: src/gsb_currency_config.c:201
+#: src/gsb_currency_config.c:200
 msgid "Hungary"
 msgstr "הונגריה"
 
-#: src/gsb_currency_config.c:202
+#: src/gsb_currency_config.c:201
 msgid "Iceland Krona"
 msgstr "קרונה איסלנדית"
 
-#: src/gsb_currency_config.c:202
+#: src/gsb_currency_config.c:201
 msgid "Iceland"
 msgstr "איסלנד"
 
-#: src/gsb_currency_config.c:203
+#: src/gsb_currency_config.c:202
 msgid "Irish Pound"
 msgstr "לירה אירית"
 
-#: src/gsb_currency_config.c:204 src/gsb_currency_config.c:205
-#: src/gsb_currency_config.c:206
+#: src/gsb_currency_config.c:203 src/gsb_currency_config.c:204
+#: src/gsb_currency_config.c:205
 msgid "Italian Lira"
 msgstr "לירטה איטלקית"
 
-#: src/gsb_currency_config.c:204
+#: src/gsb_currency_config.c:203
 msgid "Holy See"
 msgstr "ותיקן"
 
-#: src/gsb_currency_config.c:206
+#: src/gsb_currency_config.c:205
 msgid "San Marino"
 msgstr "סן-מרינו"
 
-#: src/gsb_currency_config.c:207
+#: src/gsb_currency_config.c:206
 msgid "Latvian Lat"
 msgstr "לט לטבי"
 
-#: src/gsb_currency_config.c:207
+#: src/gsb_currency_config.c:206
 msgid "Latvia"
 msgstr "לטביה"
 
-#: src/gsb_currency_config.c:208
+#: src/gsb_currency_config.c:207
 msgid "Lithuanian Litas"
 msgstr "ליטאס ליטאי"
 
-#: src/gsb_currency_config.c:208
+#: src/gsb_currency_config.c:207
 msgid "Lietuva"
 msgstr "ליטא"
 
-#: src/gsb_currency_config.c:209
+#: src/gsb_currency_config.c:208
 msgid "Luxembourg Franc"
 msgstr "פרנק לוקסמבורגי"
 
-#: src/gsb_currency_config.c:210
+#: src/gsb_currency_config.c:209
 msgid "Netherlands Guilder"
 msgstr "גילדר הולנדי"
 
-#: src/gsb_currency_config.c:211
+#: src/gsb_currency_config.c:210
 msgid "New Yugoslavian Dinar"
 msgstr "דינר יוגוסלבי חדש"
 
-#: src/gsb_currency_config.c:211
+#: src/gsb_currency_config.c:210
 msgid "Serbia and Montenegro"
 msgstr "סרביה ומונטנגרו"
 
-#: src/gsb_currency_config.c:212
+#: src/gsb_currency_config.c:211
 msgid "Norwegian Krone"
 msgstr "קרונה נורבגית"
 
-#: src/gsb_currency_config.c:212
+#: src/gsb_currency_config.c:211
 msgid "Norway"
 msgstr "נורבגיה"
 
-#: src/gsb_currency_config.c:213
+#: src/gsb_currency_config.c:212
 msgid "Polish Zloty"
 msgstr "זלוטי פולני"
 
-#: src/gsb_currency_config.c:213
+#: src/gsb_currency_config.c:212
 msgid "Poland"
 msgstr "פולין"
 
-#: src/gsb_currency_config.c:214
+#: src/gsb_currency_config.c:213
 msgid "Portuguese Escudo"
 msgstr "אסקודו פורטוגזי"
 
-#: src/gsb_currency_config.c:215
+#: src/gsb_currency_config.c:214
 msgid "Pound Sterling"
 msgstr "לירה שטרלינג"
 
-#: src/gsb_currency_config.c:215
+#: src/gsb_currency_config.c:214
 msgid "United Kingdom"
 msgstr "בריטניה- הממלכה המאוחדת"
 
-#: src/gsb_currency_config.c:216
+#: src/gsb_currency_config.c:215
 msgid "Romanian Leu"
 msgstr "ליו רומני"
 
-#: src/gsb_currency_config.c:216
+#: src/gsb_currency_config.c:215
 msgid "Romania"
 msgstr "רומניה"
 
-#: src/gsb_currency_config.c:217
+#: src/gsb_currency_config.c:216
 msgid "Slovak Koruna"
 msgstr "קורונה סלובקית"
 
-#: src/gsb_currency_config.c:217
+#: src/gsb_currency_config.c:216
 msgid "Slovakia"
 msgstr "סלובקיה"
 
-#: src/gsb_currency_config.c:218
+#: src/gsb_currency_config.c:217
 msgid "Slovene Tolar"
 msgstr "טולר סלובני"
 
-#: src/gsb_currency_config.c:219
+#: src/gsb_currency_config.c:218
 msgid "Spanish Peseta"
 msgstr "פזטה ספרדית"
 
-#: src/gsb_currency_config.c:220
+#: src/gsb_currency_config.c:219
 msgid "Swedish Krona"
 msgstr "קרונה שבדית"
 
-#: src/gsb_currency_config.c:220
+#: src/gsb_currency_config.c:219
 msgid "Sweden"
 msgstr "שבדיה"
 
-#: src/gsb_currency_config.c:221 src/gsb_currency_config.c:222
+#: src/gsb_currency_config.c:220 src/gsb_currency_config.c:221
 msgid "Swiss Franc"
 msgstr "פרנק שווייצרי"
 
-#: src/gsb_currency_config.c:221
+#: src/gsb_currency_config.c:220
 msgid "Liechtenstein"
 msgstr "ליכטנשטיין"
 
-#: src/gsb_currency_config.c:222
+#: src/gsb_currency_config.c:221
 msgid "Switzerland"
 msgstr "שווייץ"
 
-#: src/gsb_currency_config.c:223
+#: src/gsb_currency_config.c:222
 msgid "Hryvnia"
 msgstr "ריבניה אוקראינית"
 
-#: src/gsb_currency_config.c:223
+#: src/gsb_currency_config.c:222
 msgid "Ukraine"
 msgstr "אוקראינה"
 
-#: src/gsb_currency_config.c:224 src/gsb_currency_config.c:225
-#: src/gsb_currency_config.c:226 src/gsb_currency_config.c:227
-#: src/gsb_currency_config.c:228 src/gsb_currency_config.c:229
-#: src/gsb_currency_config.c:230 src/gsb_currency_config.c:231
-#: src/gsb_currency_config.c:232 src/gsb_currency_config.c:233
-#: src/gsb_currency_config.c:234 src/gsb_currency_config.c:235
-#: src/gsb_currency_config.c:236 src/gsb_currency_config.c:237
+#: src/gsb_currency_config.c:223 src/gsb_currency_config.c:224
+#: src/gsb_currency_config.c:225 src/gsb_currency_config.c:226
+#: src/gsb_currency_config.c:227 src/gsb_currency_config.c:228
+#: src/gsb_currency_config.c:229 src/gsb_currency_config.c:230
+#: src/gsb_currency_config.c:231 src/gsb_currency_config.c:232
+#: src/gsb_currency_config.c:233 src/gsb_currency_config.c:234
+#: src/gsb_currency_config.c:235 src/gsb_currency_config.c:236
 msgid "Northern America"
 msgstr "צפון אמריקה"
 
-#: src/gsb_currency_config.c:224
+#: src/gsb_currency_config.c:223
 msgid "Bahamian Dollar"
 msgstr "דולר בהאמי"
 
-#: src/gsb_currency_config.c:224
+#: src/gsb_currency_config.c:223
 msgid "Bahamas"
 msgstr "איי הבהאמה"
 
-#: src/gsb_currency_config.c:225
+#: src/gsb_currency_config.c:224
 msgid "Barbados Dollar"
 msgstr "דולר ברבדי"
 
-#: src/gsb_currency_config.c:225
+#: src/gsb_currency_config.c:224
 msgid "Barbados"
 msgstr "איי ברבדוס"
 
-#: src/gsb_currency_config.c:226
+#: src/gsb_currency_config.c:225
 msgid "Bermuda Dollar"
 msgstr "דולר ברמודי"
 
-#: src/gsb_currency_config.c:226
+#: src/gsb_currency_config.c:225
 msgid "Bermuda"
 msgstr "איי ברמודה"
 
-#: src/gsb_currency_config.c:227
+#: src/gsb_currency_config.c:226
 msgid "Canadian Dollar"
 msgstr "דולר קנדי"
 
-#: src/gsb_currency_config.c:227
+#: src/gsb_currency_config.c:226
 msgid "Canada"
 msgstr "קנדה"
 
-#: src/gsb_currency_config.c:228
+#: src/gsb_currency_config.c:227
 msgid "Cayman Islands Dollar"
 msgstr "דולר קיימני"
 
-#: src/gsb_currency_config.c:228
+#: src/gsb_currency_config.c:227
 msgid "Cayman Islands"
 msgstr "איי קיימן"
 
-#: src/gsb_currency_config.c:229
+#: src/gsb_currency_config.c:228
 msgid "Cuban Peso"
 msgstr "פזו קובני"
 
-#: src/gsb_currency_config.c:229
+#: src/gsb_currency_config.c:228
 msgid "Cuba"
 msgstr "קובה"
 
-#: src/gsb_currency_config.c:230
+#: src/gsb_currency_config.c:229
 msgid "Dominican Peso"
 msgstr "פזו דומיניקני"
 
-#: src/gsb_currency_config.c:230
+#: src/gsb_currency_config.c:229
 msgid "Dominican Republic"
 msgstr "הרפובליקה הדומיניקנית"
 
-#: src/gsb_currency_config.c:231 src/gsb_currency_config.c:232
+#: src/gsb_currency_config.c:230 src/gsb_currency_config.c:231
 msgid "East Caribbean Dollar"
 msgstr "דולר מזרח קריבי"
 
-#: src/gsb_currency_config.c:231
+#: src/gsb_currency_config.c:230
 msgid "Grenada"
 msgstr "גרנדה"
 
-#: src/gsb_currency_config.c:232
+#: src/gsb_currency_config.c:231
 msgid "Saint Lucia"
 msgstr "סנטה לוצ'יה"
 
-#: src/gsb_currency_config.c:233
+#: src/gsb_currency_config.c:232
 msgid "Haitian Gourde"
 msgstr "גואורד של האיטי"
 
-#: src/gsb_currency_config.c:233
+#: src/gsb_currency_config.c:232
 msgid "Haiti"
 msgstr "האיטי"
 
-#: src/gsb_currency_config.c:234
+#: src/gsb_currency_config.c:233
 msgid "Jamaican Dollar"
 msgstr "דולר ג'מאיקני"
 
-#: src/gsb_currency_config.c:234
+#: src/gsb_currency_config.c:233
 msgid "Jamaica"
 msgstr "ג'מאיקה"
 
-#: src/gsb_currency_config.c:235
+#: src/gsb_currency_config.c:234
 msgid "Netherlands Antillian Guilder"
 msgstr "גילדר של האניטילים ההולנדים"
 
-#: src/gsb_currency_config.c:235
+#: src/gsb_currency_config.c:234
 msgid "Netherlands Antilles"
 msgstr "האנטילים ההולנדים"
 
-#: src/gsb_currency_config.c:236
+#: src/gsb_currency_config.c:235
 msgid "Trinidad and Tobago Dollar"
 msgstr "דולר של טרינידד וטובגו"
 
-#: src/gsb_currency_config.c:236
+#: src/gsb_currency_config.c:235
 msgid "Trinidad and Tobago"
 msgstr "טרינידד וטובגו"
 
-#: src/gsb_currency_config.c:237 src/gsb_currency_config.c:253
+#: src/gsb_currency_config.c:236 src/gsb_currency_config.c:252
 msgid "United States Dollar"
 msgstr "דולר ארצות-הברית"
 
-#: src/gsb_currency_config.c:237 src/gsb_currency_config.c:1401
+#: src/gsb_currency_config.c:236 src/gsb_currency_config.c:1400
 msgid "United States"
 msgstr "ארצות-הברית"
 
-#: src/gsb_currency_config.c:238 src/gsb_currency_config.c:239
-#: src/gsb_currency_config.c:240 src/gsb_currency_config.c:241
-#: src/gsb_currency_config.c:242 src/gsb_currency_config.c:243
-#: src/gsb_currency_config.c:244 src/gsb_currency_config.c:245
-#: src/gsb_currency_config.c:246 src/gsb_currency_config.c:247
-#: src/gsb_currency_config.c:248 src/gsb_currency_config.c:249
-#: src/gsb_currency_config.c:250 src/gsb_currency_config.c:251
-#: src/gsb_currency_config.c:252 src/gsb_currency_config.c:253
-#: src/gsb_currency_config.c:254
+#: src/gsb_currency_config.c:237 src/gsb_currency_config.c:238
+#: src/gsb_currency_config.c:239 src/gsb_currency_config.c:240
+#: src/gsb_currency_config.c:241 src/gsb_currency_config.c:242
+#: src/gsb_currency_config.c:243 src/gsb_currency_config.c:244
+#: src/gsb_currency_config.c:245 src/gsb_currency_config.c:246
+#: src/gsb_currency_config.c:247 src/gsb_currency_config.c:248
+#: src/gsb_currency_config.c:249 src/gsb_currency_config.c:250
+#: src/gsb_currency_config.c:251 src/gsb_currency_config.c:252
+#: src/gsb_currency_config.c:253
 msgid "Pacific Ocean"
 msgstr "האוקיאנוס הפסיפי"
 
-#: src/gsb_currency_config.c:238 src/gsb_currency_config.c:239
-#: src/gsb_currency_config.c:240 src/gsb_currency_config.c:241
+#: src/gsb_currency_config.c:237 src/gsb_currency_config.c:238
+#: src/gsb_currency_config.c:239 src/gsb_currency_config.c:240
 msgid "Australian Dollar"
 msgstr "דולר אוסטרלי"
 
-#: src/gsb_currency_config.c:238
+#: src/gsb_currency_config.c:237
 msgid "Australia"
 msgstr "אוסטרליה"
 
-#: src/gsb_currency_config.c:239
+#: src/gsb_currency_config.c:238
 msgid "Kiribati"
 msgstr "קיריבטי"
 
-#: src/gsb_currency_config.c:240
+#: src/gsb_currency_config.c:239
 msgid "Nauru"
 msgstr "נאורו"
 
-#: src/gsb_currency_config.c:241
+#: src/gsb_currency_config.c:240
 msgid "Tuvalu"
 msgstr "טובאלו"
 
-#: src/gsb_currency_config.c:242 src/gsb_currency_config.c:243
-#: src/gsb_currency_config.c:244
+#: src/gsb_currency_config.c:241 src/gsb_currency_config.c:242
+#: src/gsb_currency_config.c:243
 msgid "CFP Franc"
 msgstr "CFP Franc"
 
-#: src/gsb_currency_config.c:242
+#: src/gsb_currency_config.c:241
 msgid "French Polynesia"
 msgstr "פולינזיה הצרפתית"
 
-#: src/gsb_currency_config.c:243
+#: src/gsb_currency_config.c:242
 msgid "New Caledonia"
 msgstr "קלדוניה החדשה"
 
-#: src/gsb_currency_config.c:244
+#: src/gsb_currency_config.c:243
 msgid "Wallis and Futuna"
 msgstr "וואליס ופוטונה"
 
-#: src/gsb_currency_config.c:245
+#: src/gsb_currency_config.c:244
 msgid "Fiji Dollar"
 msgstr "דולר פיג'י"
 
-#: src/gsb_currency_config.c:245
+#: src/gsb_currency_config.c:244
 msgid "Fiji"
 msgstr "פיג'י"
 
-#: src/gsb_currency_config.c:246 src/gsb_currency_config.c:247
+#: src/gsb_currency_config.c:245 src/gsb_currency_config.c:246
 msgid "New Zealand Dollar"
 msgstr "דולר ניו-זילנדי"
 
-#: src/gsb_currency_config.c:246
+#: src/gsb_currency_config.c:245
 msgid "Cook Islands"
 msgstr "איי קוק"
 
-#: src/gsb_currency_config.c:247
+#: src/gsb_currency_config.c:246
 msgid "New Zealand"
 msgstr "ניו-זילנד"
 
-#: src/gsb_currency_config.c:248
+#: src/gsb_currency_config.c:247
 msgid "Papua New Guinea Kina"
 msgstr "קינא של פפואה ניו-גינאה"
 
-#: src/gsb_currency_config.c:248
+#: src/gsb_currency_config.c:247
 msgid "Papua New Guinea"
 msgstr "פפואה ניו-גינאה"
 
-#: src/gsb_currency_config.c:249
+#: src/gsb_currency_config.c:248
 msgid "Samoa Tala"
 msgstr "טאלה סמואית"
 
-#: src/gsb_currency_config.c:249
+#: src/gsb_currency_config.c:248
 msgid "Samoa"
 msgstr "סמואה"
 
-#: src/gsb_currency_config.c:250
+#: src/gsb_currency_config.c:249
 msgid "Solomon Islands Dollar"
 msgstr "דולר של איי שלמה"
 
-#: src/gsb_currency_config.c:250
+#: src/gsb_currency_config.c:249
 msgid "Solomon Islands"
 msgstr "איי שלמה"
 
-#: src/gsb_currency_config.c:251
+#: src/gsb_currency_config.c:250
 msgid "Timor Escudo"
 msgstr "אסקודו טימוריאני"
 
-#: src/gsb_currency_config.c:251
+#: src/gsb_currency_config.c:250
 msgid "Timor"
 msgstr "טימור"
 
-#: src/gsb_currency_config.c:252
+#: src/gsb_currency_config.c:251
 msgid "Tongan Pa'anga"
 msgstr "פאאנגה טונגנית"
 
-#: src/gsb_currency_config.c:252
+#: src/gsb_currency_config.c:251
 msgid "Tonga"
 msgstr "טונגה"
 
-#: src/gsb_currency_config.c:254
+#: src/gsb_currency_config.c:253
 msgid "Vanuatu Vatu"
 msgstr "ואטו של ונאוטו"
 
-#: src/gsb_currency_config.c:254
+#: src/gsb_currency_config.c:253
 msgid "Vanuatu"
 msgstr "ונאוטו"
 
-#: src/gsb_currency_config.c:255 src/gsb_currency_config.c:256
-#: src/gsb_currency_config.c:257 src/gsb_currency_config.c:258
-#: src/gsb_currency_config.c:259 src/gsb_currency_config.c:260
-#: src/gsb_currency_config.c:261 src/gsb_currency_config.c:262
-#: src/gsb_currency_config.c:263 src/gsb_currency_config.c:264
-#: src/gsb_currency_config.c:265 src/gsb_currency_config.c:266
+#: src/gsb_currency_config.c:254 src/gsb_currency_config.c:255
+#: src/gsb_currency_config.c:256 src/gsb_currency_config.c:257
+#: src/gsb_currency_config.c:258 src/gsb_currency_config.c:259
+#: src/gsb_currency_config.c:260 src/gsb_currency_config.c:261
+#: src/gsb_currency_config.c:262 src/gsb_currency_config.c:263
+#: src/gsb_currency_config.c:264 src/gsb_currency_config.c:265
 msgid "Southern America"
 msgstr "דרום אמריקה"
 
-#: src/gsb_currency_config.c:255 src/gsb_currency_config.c:257
-#: src/gsb_currency_config.c:258 src/gsb_currency_config.c:265
+#: src/gsb_currency_config.c:254 src/gsb_currency_config.c:256
+#: src/gsb_currency_config.c:257 src/gsb_currency_config.c:264
 msgid "Peso"
 msgstr ""
 
-#: src/gsb_currency_config.c:255
+#: src/gsb_currency_config.c:254
 #, fuzzy
 msgid "Argentina"
 msgstr "אלג'יריה"
 
-#: src/gsb_currency_config.c:256
+#: src/gsb_currency_config.c:255
 msgid "Boliviano"
 msgstr ""
 
-#: src/gsb_currency_config.c:256
+#: src/gsb_currency_config.c:255
 msgid "Bolivia"
 msgstr ""
 
-#: src/gsb_currency_config.c:257
+#: src/gsb_currency_config.c:256
 msgid "Chile"
 msgstr "צ'ילה"
 
-#: src/gsb_currency_config.c:258
+#: src/gsb_currency_config.c:257
 msgid "Colombia"
 msgstr "קולומביה"
 
-#: src/gsb_currency_config.c:259
+#: src/gsb_currency_config.c:258
 msgid "Ecuador Sucre"
 msgstr "סוקרה אקוודורית"
 
-#: src/gsb_currency_config.c:259
+#: src/gsb_currency_config.c:258
 msgid "Ecuador"
 msgstr "אקוודור"
 
-#: src/gsb_currency_config.c:260
+#: src/gsb_currency_config.c:259
 msgid "Guyana Dollar"
 msgstr "דולר גויאני"
 
-#: src/gsb_currency_config.c:260
+#: src/gsb_currency_config.c:259
 msgid "Guyana"
 msgstr "גויאנה"
 
-#: src/gsb_currency_config.c:261
+#: src/gsb_currency_config.c:260
 msgid "Paraguay Guarani"
 msgstr "גוארני פרגוואי"
 
-#: src/gsb_currency_config.c:261
+#: src/gsb_currency_config.c:260
 msgid "Paraguay"
 msgstr "פרגוואי"
 
-#: src/gsb_currency_config.c:262
+#: src/gsb_currency_config.c:261
 msgid "Nuevos Soles"
 msgstr ""
 
-#: src/gsb_currency_config.c:262
+#: src/gsb_currency_config.c:261
 #, fuzzy
 msgid "Peru"
 msgstr "נייר"
 
-#: src/gsb_currency_config.c:263
+#: src/gsb_currency_config.c:262
 msgid "Real"
 msgstr "ריאל"
 
-#: src/gsb_currency_config.c:263
+#: src/gsb_currency_config.c:262
 msgid "Brazil"
 msgstr "ברזיל"
 
-#: src/gsb_currency_config.c:264
+#: src/gsb_currency_config.c:263
 msgid "Suriname Guilder"
 msgstr "גילדר סורינאמי"
 
-#: src/gsb_currency_config.c:264
+#: src/gsb_currency_config.c:263
 msgid "Suriname"
 msgstr "סורינאם"
 
-#: src/gsb_currency_config.c:265
+#: src/gsb_currency_config.c:264
 #, fuzzy
 msgid "Uruguay"
 msgstr "פרגוואי"
 
-#: src/gsb_currency_config.c:266
+#: src/gsb_currency_config.c:265
 msgid "Venezuelan Bolivar"
 msgstr "בוליבר ונצואליאני"
 
-#: src/gsb_currency_config.c:266
+#: src/gsb_currency_config.c:265
 msgid "Venezuela"
 msgstr "ונצואלה"
 
-#: src/gsb_currency_config.c:296
+#: src/gsb_currency_config.c:295
 msgid "Known currencies"
 msgstr "מטבעות ידועים"
 
 #. Input form for currencies
-#: src/gsb_currency_config.c:345
+#: src/gsb_currency_config.c:344
 msgid "Currency properties"
 msgstr "מאפייני המטבע"
 
 #. Create Sign entry
-#: src/gsb_currency_config.c:367 src/gsb_currency_config.c:499
+#: src/gsb_currency_config.c:366 src/gsb_currency_config.c:498
 msgid "Sign"
 msgstr "סמל המטבע"
 
 #. Create ISO code entry
-#: src/gsb_currency_config.c:380
+#: src/gsb_currency_config.c:379
 msgid "ISO code"
 msgstr "קוד ISO"
 
 #. Create floating point entry
-#: src/gsb_currency_config.c:393 src/gsb_currency_config.c:1011
+#: src/gsb_currency_config.c:392 src/gsb_currency_config.c:1010
 msgid "Floating point"
 msgstr ""
 
-#: src/gsb_currency_config.c:453
+#: src/gsb_currency_config.c:452
 msgid "Country name"
 msgstr "שם המדינה"
 
 #. Currency name
-#: src/gsb_currency_config.c:476 src/gsb_currency_config.c:977
+#: src/gsb_currency_config.c:475 src/gsb_currency_config.c:976
 msgid "Currency name"
 msgstr "שם המטבע"
 
-#: src/gsb_currency_config.c:487
+#: src/gsb_currency_config.c:486
 msgid "ISO Code"
 msgstr "קוד ISO"
 
-#: src/gsb_currency_config.c:616
+#: src/gsb_currency_config.c:615
 #, fuzzy, c-format
 msgid "Currency '%s' is used in current file.  Grisbi can't delete it."
 msgstr ""
 "המטבע %s נמצא בשימוש בחשבון זה.\n"
 "לא ניתן למחוק אותו."
 
-#: src/gsb_currency_config.c:619 src/gsb_currency_config.c:643
+#: src/gsb_currency_config.c:618 src/gsb_currency_config.c:642
 #, c-format
 msgid "Impossible to remove currency '%s'"
 msgstr ""
 
-#: src/gsb_currency_config.c:640
+#: src/gsb_currency_config.c:639
 #, fuzzy, c-format
 msgid "Currency '%s' is used in current file. Grisbi can't delete it."
 msgstr ""
 "המטבע %s נמצא בשימוש בחשבון זה.\n"
 "לא ניתן למחוק אותו."
 
-#: src/gsb_currency_config.c:819
+#: src/gsb_currency_config.c:818
 #, fuzzy
 msgid "Currency for payees tree"
 msgstr "מטבע עבור עץ הקטגוריות"
 
-#: src/gsb_currency_config.c:829
+#: src/gsb_currency_config.c:828
 msgid "Currency for categories tree"
 msgstr "מטבע עבור עץ הקטגוריות"
 
-#: src/gsb_currency_config.c:839
+#: src/gsb_currency_config.c:838
 msgid "Currency for budgetary lines tree"
 msgstr "מטבע עבור עץ קווי התקציב"
 
-#: src/gsb_currency_config.c:850
+#: src/gsb_currency_config.c:849
 #, fuzzy
 msgid "Add transactions archived in the totals"
 msgstr "העברת העיסקה לחשבון אחר"
 
-#: src/gsb_currency_config.c:941
+#: src/gsb_currency_config.c:940
 msgid "Add a currency"
 msgstr "הוספת מטבע"
 
-#: src/gsb_currency_config.c:950
+#: src/gsb_currency_config.c:949
 #, fuzzy
 msgid "Select base currency for your account"
 msgstr "בחירת חשבונות בנק"
 
-#: src/gsb_currency_config.c:959
+#: src/gsb_currency_config.c:958
 #, fuzzy
 msgid "World currencies"
 msgstr "סך כל המטבעות"
 
-#: src/gsb_currency_config.c:968
+#: src/gsb_currency_config.c:967
 msgid "Currency details"
 msgstr "פרטי מטבע"
 
 #. Currency ISO code
-#: src/gsb_currency_config.c:989
+#: src/gsb_currency_config.c:988
 #, fuzzy
 msgid "Currency international code"
 msgstr "שנת הכספים הנוכחית"
 
 #. Currency usual sign
-#: src/gsb_currency_config.c:1000
+#: src/gsb_currency_config.c:999
 msgid "Currency sign"
 msgstr "סמל המטבע"
 
-#: src/gsb_currency_config.c:1077
+#: src/gsb_currency_config.c:1076
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
 msgstr ""
 
-#: src/gsb_currency_config.c:1079 src/gsb_data_partial_balance.c:322
+#: src/gsb_currency_config.c:1078 src/gsb_data_partial_balance.c:322
 #: src/gsb_data_partial_balance.c:431
 #, fuzzy
 msgid "All fields are not filled in"
 msgstr "כל השדות אינם ממולאים!"
 
-#: src/gsb_currency_config.c:1207
+#: src/gsb_currency_config.c:1206
 msgid "Include obsolete currencies"
 msgstr "לכלול מטבעות מיושנים"
 
@@ -6601,52 +6605,52 @@ msgid ""
 "The name of the partial balance and the list of accounts must be completed."
 msgstr ""
 
-#: src/gsb_data_partial_balance.c:1260
+#: src/gsb_data_partial_balance.c:1268
 #, c-format
 msgid "You need to create a link between currency %s and %s."
 msgstr ""
 
-#: src/gsb_data_partial_balance.c:1264
+#: src/gsb_data_partial_balance.c:1272
 #, fuzzy
 msgid "Attention missing link between currencies"
 msgstr "מטבעות ידועים"
 
-#: src/gsb_data_partial_balance.c:1492
+#: src/gsb_data_partial_balance.c:1500
 #, fuzzy
 msgid "Add a partial balance"
 msgstr "יתרת פתיחה"
 
-#: src/gsb_data_partial_balance.c:1499
+#: src/gsb_data_partial_balance.c:1507
 #, fuzzy
 msgid "Modify a partial balance"
 msgstr "יתרת פתיחה"
 
-#: src/gsb_data_partial_balance.c:1507
+#: src/gsb_data_partial_balance.c:1515
 #, fuzzy
 msgid "Partial balance details"
 msgstr "יתרת פתיחה"
 
-#: src/gsb_data_partial_balance.c:1514 src/gsb_debug.c:293
+#: src/gsb_data_partial_balance.c:1522 src/gsb_debug.c:293
 msgid "Details"
 msgstr "פרטים"
 
 #. create the position
-#: src/gsb_data_partial_balance.c:1549
+#: src/gsb_data_partial_balance.c:1557
 #, fuzzy
 msgid "Position in the list of accounts"
 msgstr "העברת העיסקה לחשבון אחר"
 
 #. create the colorized button
-#: src/gsb_data_partial_balance.c:1562
+#: src/gsb_data_partial_balance.c:1570
 msgid "Colorized in red if the balance is negative"
 msgstr ""
 
-#: src/gsb_data_partial_balance.c:1585
+#: src/gsb_data_partial_balance.c:1593
 #, fuzzy
 msgid "Enter the currency of the balance part"
 msgstr "נא להזין שם עבור תת-קו התקציב החדש"
 
-#: src/gsb_data_partial_balance.c:1597
+#: src/gsb_data_partial_balance.c:1605
 #, fuzzy
 msgid "Select the currency of the partial balance"
 msgstr "בחירת חשבונות בנק"
@@ -7032,7 +7036,7 @@ msgstr ""
 "s\" אשר נמצאת מתחת."
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:580 src/gsb_file.c:831 src/parametres.c:701
+#: src/gsb_file.c:580 src/gsb_file.c:831 src/parametres.c:703
 msgid "Force saving of locked files"
 msgstr "שמירה בכוח של קבצים נעולים"
 
@@ -7257,26 +7261,26 @@ msgstr ""
 msgid "Importing a report"
 msgstr "ייבוא דו\"ח"
 
-#: src/gsb_file_others.c:578
+#: src/gsb_file_others.c:578 src/gsb_file_others.c:585
 #, fuzzy
 msgid "This is not a grisbi file, loading canceled..."
 msgstr "זהו אינו קובץ קווי תקציב של גריסבי"
 
-#: src/gsb_file_others.c:603 src/gsb_file_others.c:617
-#: src/gsb_file_others.c:640
+#: src/gsb_file_others.c:602 src/gsb_file_others.c:613
+#: src/gsb_file_others.c:630
 msgid "The file version is below 0.6.0, Grisbi cannot import it."
 msgstr ""
 
-#: src/gsb_file_others.c:606
+#: src/gsb_file_others.c:605
 #, fuzzy
 msgid "This is not a category file, loading canceled..."
 msgstr "זהו אינו קובץ רשימת קטגוריות של גריסבי"
 
-#: src/gsb_file_others.c:628
+#: src/gsb_file_others.c:621
 msgid "This is not a budget file, loading canceled..."
 msgstr ""
 
-#: src/gsb_file_others.c:651
+#: src/gsb_file_others.c:638
 msgid "This is not a report file, loading canceled..."
 msgstr ""
 
@@ -9097,9 +9101,16 @@ msgstr "קו התקציב '%s' כבר קיים."
 msgid "New sub-budget"
 msgstr "תת-קו תקציב חדש"
 
-#: src/main.c:143
+#: src/main.c:153
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Error on sigaction: SIGSEGV won't be trapped\n"
+
+#: src/main.c:171
+msgid ""
+"The version of GTK you are using do not benefit from its latest features.\n"
+"\n"
+"You should upgrade GTK."
+msgstr ""
 
 #: src/menu.c:170
 #, fuzzy
@@ -9450,11 +9461,11 @@ msgstr "העדפות"
 msgid "Main"
 msgstr "ספרד"
 
-#: src/parametres.c:270 src/parametres.c:685
+#: src/parametres.c:270 src/parametres.c:687
 msgid "Files"
 msgstr "קבצים"
 
-#: src/parametres.c:308 src/parametres.c:854
+#: src/parametres.c:308 src/parametres.c:856
 msgid "Programs"
 msgstr "תוכנות"
 
@@ -9466,7 +9477,7 @@ msgstr "תצוגה"
 msgid "Messages & warnings"
 msgstr "הודעות ואזהרות"
 
-#: src/parametres.c:371 src/parametres.c:1011
+#: src/parametres.c:371 src/parametres.c:1013
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "נא להזין קו תקציב!"
@@ -9518,90 +9529,90 @@ msgid "Message"
 msgstr "רישום ההודעה ליומן"
 
 #. Compression level of files
-#: src/parametres.c:711
+#: src/parametres.c:713
 msgid "Compress Grisbi file"
 msgstr ""
 
-#: src/parametres.c:719
+#: src/parametres.c:721
 msgid "Memorise last opened files"
 msgstr "זכירת הקבצים האחרונים שנפתחו"
 
 #. Backups
-#: src/parametres.c:728
+#: src/parametres.c:730
 msgid "Backups"
 msgstr "גיבויים"
 
 #. Compression level of backups
-#: src/parametres.c:731
+#: src/parametres.c:733
 msgid "Compress Grisbi backup"
 msgstr ""
 
 #. Backup at each opening?
-#: src/parametres.c:736
+#: src/parametres.c:738
 msgid "Make a backup copy after opening files"
 msgstr "יצירת עותק גיבוי לאחר פתיחת קבצים"
 
-#: src/parametres.c:872
+#: src/parametres.c:874
 #, c-format
 msgid ""
 "You may use %s to expand the URL I.e:\n"
 "'firefox -remote %s'"
 msgstr ""
 
-#: src/parametres.c:883
+#: src/parametres.c:885
 msgid "LaTeX support (old print system)"
 msgstr ""
 
-#: src/parametres.c:890
+#: src/parametres.c:892
 msgid "LaTeX command"
 msgstr "פקודת LaTeX"
 
-#: src/parametres.c:898
+#: src/parametres.c:900
 msgid "dvips command"
 msgstr "פקודת dvips"
 
-#: src/parametres.c:938
+#: src/parametres.c:940
 #, fuzzy
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "התראות המתזמן"
 
-#: src/parametres.c:939
+#: src/parametres.c:941
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr "העברות שנקבעו ידנית בתאריך יעד"
 
-#: src/parametres.c:940
+#: src/parametres.c:942
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "העברות שנקבעו ידנית בתאריך יעד"
 
-#: src/parametres.c:948
+#: src/parametres.c:950
 #, fuzzy
 msgid "Number of days before the warning or the execution"
 msgstr "מספר הימים להודיע לפני עיסקה מתוזמנת"
 
 #. Take into account the planned operations in the calculation of balances
-#: src/parametres.c:957
+#: src/parametres.c:959
 #, fuzzy
 msgid "Calculation of balances"
 msgstr "יתרת פתיחה"
 
-#: src/parametres.c:963
+#: src/parametres.c:965
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
 msgstr ""
 
-#: src/parametres.c:1020
+#: src/parametres.c:1022
 #, fuzzy
 msgid "Sort option for transactions"
 msgstr "פורמט עיסקאות"
 
-#: src/parametres.c:1021
+#: src/parametres.c:1023
 #, fuzzy
 msgid "by number"
 msgstr "מספר ההמחאה"
 
-#: src/parametres.c:1022
+#: src/parametres.c:1024
 msgid "by date"
 msgstr "בהתאם לתאריך"
 
@@ -10334,7 +10345,7 @@ msgid ""
 "Asked to sort by column %d, wich is bigger than the visible columns (%d)"
 msgstr ""
 
-#: src/utils.c:150
+#: src/utils.c:151
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  "
@@ -10343,12 +10354,12 @@ msgstr ""
 "גריסבי לא הצליח להפעיל דפדפן, כדי לגלוש לכתובת <tt>%s</tt>.  נא לשנות את "
 "ההגדרות, כך שיופיע שם המיקום הנכון של הדפדפן."
 
-#: src/utils.c:151 src/utils.c:189
+#: src/utils.c:152 src/utils.c:190
 #, fuzzy
 msgid "Cannot execute web browser"
 msgstr "לא ניתן להריץ דפדפן אינטרנט"
 
-#: src/utils.c:188
+#: src/utils.c:189
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"

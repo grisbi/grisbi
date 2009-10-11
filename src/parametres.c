@@ -617,6 +617,8 @@ GtkWidget *onglet_messages_and_warnings ( void )
             tmpstr = g_strdup_printf ( _(messages[i] . hint), titre_fichier );
         else if ( g_utf8_collate ( messages[i].name, "development-version" ) == 0 )
             tmpstr = g_strdup_printf ( _(messages[i] . hint), VERSION );
+        else if ( g_utf8_collate ( messages[i].name, "gtk_obsolete" ) == 0 )
+            tmpstr = g_strdup_printf ( _(messages[i] . hint), get_gtk_run_version ( ) );
         else
             tmpstr = g_strdup ( _(messages[i] . hint) );
 

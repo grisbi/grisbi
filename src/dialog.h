@@ -17,6 +17,7 @@ struct conditional_message
 /* START_DECLARATION */
 void dialog_message ( gchar *label, ... );
 void dialogue ( gchar *texte_dialogue );
+void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var );
 void dialogue_error ( gchar *text );
 void dialogue_error_brain_damage ();
 void dialogue_error_hint ( gchar *text, gchar *hint );
