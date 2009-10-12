@@ -10,3 +10,5 @@ ZERO_CHECK.dir
 *.suo
 *.user
 *.vcproj
+prepare_env.dir
+prepare_mo.dir

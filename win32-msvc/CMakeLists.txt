@@ -1,6 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 SET(EXECUTABLE_OUTPUT_PATH target)
+SET(PACKAGE_NAME grisbi)
 
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
 ADD_DEFINITIONS(-D__PRETTY_FUNCTION__="")
@@ -366,44 +367,113 @@ ADD_EXECUTABLE(grisbi
 	../win32/win32utils.h
 )
 
-ADD_CUSTOM_COMMAND(TARGET grisbi
-	PRE_BUILD
-	COMMAND xcopy
-	/Y /C target\\gtk-dev\\bin\\*.dll $(TargetDir)
+ADD_DEPENDENCIES (grisbi prepare_env)
+
+ADD_CUSTOM_TARGET (prepare_env ALL)
+
+ADD_CUSTOM_COMMAND(TARGET prepare_env
+	POST_BUILD
+	COMMAND IF NOT EXIST target\\Debug mkdir target\\Debug
+	COMMAND IF NOT EXIST target\\Release mkdir target\\Release
+)
+	
+
+ADD_CUSTOM_COMMAND(TARGET prepare_env
+	POST_BUILD
+	COMMAND xcopy /Y /C target\\gtk-dev\\bin\\*.dll target\\Debug
+	COMMAND xcopy /Y /C target\\gtk-dev\\bin\\*.dll target\\Release
 )
 
-ADD_CUSTOM_COMMAND(TARGET grisbi
-	PRE_BUILD
-	COMMAND xcopy
-	/S /Y target\\gtk-dev\\etc $(TargetDir)\\etc\\
+ADD_CUSTOM_COMMAND(TARGET prepare_env
+	POST_BUILD
+	COMMAND xcopy /S /Y target\\gtk-dev\\etc target\\Debug\\etc\\
+	COMMAND xcopy /S /Y target\\gtk-dev\\etc target\\Release\\etc\\
 )
 
-ADD_CUSTOM_COMMAND(TARGET grisbi
-	PRE_BUILD
-	COMMAND xcopy
-	/S /Y target\\gtk-dev\\lib\\gtk-2.0\\2.10.0 $(TargetDir)\\lib\\gtk-2.0\\2.10.0\\
+ADD_CUSTOM_COMMAND(TARGET prepare_env
+	POST_BUILD
+	COMMAND xcopy /S /Y target\\gtk-dev\\lib\\gtk-2.0\\2.10.0 target\\Debug\\lib\\gtk-2.0\\2.10.0\\
+	COMMAND xcopy /S /Y target\\gtk-dev\\lib\\gtk-2.0\\2.10.0 target\\Release\\lib\\gtk-2.0\\2.10.0\\
 )
 
-ADD_CUSTOM_COMMAND(TARGET grisbi
-	PRE_BUILD
-	COMMAND xcopy
-	/S /Y ..\\pixmaps\\*.png $(TargetDir)\\pixmaps\\
+ADD_CUSTOM_COMMAND(TARGET prepare_env
+	POST_BUILD
+	COMMAND xcopy /S /Y ..\\pixmaps\\*.png target\\Debug\\pixmaps\\
+	COMMAND xcopy /S /Y ..\\pixmaps\\*.png target\\Release\\pixmaps\\
 )
 
-ADD_CUSTOM_COMMAND(TARGET grisbi
-	PRE_BUILD
-	COMMAND xcopy
-	/S /Y ..\\help $(TargetDir)\\help\\
+ADD_CUSTOM_COMMAND(TARGET prepare_env
+	POST_BUILD
+	COMMAND xcopy /S /Y ..\\help target\\Debug\\help\\
+	COMMAND xcopy /S /Y ..\\help target\\Release\\help\\
 )
 
-ADD_CUSTOM_COMMAND(TARGET grisbi
-	PRE_BUILD
-	COMMAND xcopy
-	/S /Y ..\\share\\categories $(TargetDir)\\help\\tips\\categories\\
+ADD_CUSTOM_COMMAND(TARGET prepare_env
+	POST_BUILD
+	COMMAND xcopy /S /Y ..\\share\\categories target\\Debug\\help\\tips\\categories\\
+	COMMAND xcopy /S /Y ..\\share\\categories target\\Release\\help\\tips\\categories\\
 )
 
-ADD_CUSTOM_COMMAND(TARGET grisbi
-	PRE_BUILD
-	COMMAND $(ProjectDir)\\tools\\dos2unix.cmd
-	..\\help\\tips\\tips.txt $(TargetDir)\\help\\tips\\tips.txt
+ADD_CUSTOM_COMMAND(TARGET prepare_env
+	POST_BUILD
+	COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\Debug\\help\\tips\\tips.txt
+	COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\Release\\help\\tips\\tips.txt
+)
+
+set(
+  po_files
+  ../po/cs.po
+  ../po/da.po
+  ../po/de.po
+  ../po/el.po
+  ../po/eo.po
+  ../po/es.po
+  ../po/fa.po
+  ../po/fr.po
+  ../po/he.po
+  ../po/it.po
+  ../po/nl.po
+  ../po/pl.po
+  ../po/pt_BR.po
+  ../po/ro.po
+  ../po/ru.po
+  ../po/zh_CN.po
+) 
+
+set (msgfmt target\\gtk-dev\\bin\\msgfmt.exe)
+
+ADD_CUSTOM_TARGET(prepare_mo ALL DEPENDS prepare_env
+	COMMAND IF NOT EXIST target\\lib mkdir target\\lib
+	COMMAND IF NOT EXIST target\\lib\\locale mkdir target\\lib\\locale
+)
+
+foreach (current_po ${po_files})
+  get_filename_component(
+    lang
+    ${current_po}
+    NAME_WE
+  )
+  
+  set(mo_file target\\lib\\locale\\${lang}\\LC_MESSAGES\\${PACKAGE_NAME}.mo)
+  
+  add_custom_command(TARGET prepare_mo
+    POST_BUILD
+	COMMAND IF NOT EXIST target\\lib\\locale\\${lang} mkdir target\\lib\\locale\\${lang}
+	COMMAND IF NOT EXIST target\\lib\\locale\\${lang}\\LC_MESSAGES mkdir target\\lib\\locale\\${lang}\\LC_MESSAGES
+  )
+	
+  add_custom_command(TARGET prepare_mo
+	POST_BUILD
+    # OUTPUT ${mo_file}
+    COMMAND ${msgfmt} -c ${current_po} -o ${mo_file}
+    DEPENDS ${current_po}
+  )
+ endforeach (current_po)
+ 
+ add_custom_command(TARGET prepare_mo
+	POST_BUILD
+	COMMAND IF NOT EXIST target\\Debug\\lib mkdir target\\Debug\\lib
+	COMMAND xcopy /S /Y /I target\\lib\\locale target\\Debug\\lib\\locale
+	COMMAND IF NOT EXIST target\\Release\\lib mkdir target\\Release\\lib
+	COMMAND xcopy /S /Y /I target\\lib\\locale target\\Release\\lib\\locale
 )
