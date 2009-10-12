@@ -1024,6 +1024,7 @@ gint affiche_soldes_partiels ( GtkWidget *table,
             /* Deuxième colonne : elle contient le solde pointé du solde partiel */
             tmpstr = gsb_data_partial_balance_get_marked_balance ( partial_number );
             label = gtk_label_new ( tmpstr );
+            gtk_label_set_markup ( GTK_LABEL ( label ), tmpstr );
             g_free ( tmpstr );
             gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
             gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
