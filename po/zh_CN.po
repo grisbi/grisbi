@@ -3,10 +3,10 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <jianyunet@gmail.com>, 2005.
 #
-#, fuzzy
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-11 17:49+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
@@ -67,7 +67,7 @@ msgstr "负债账户余额 %s"
 #: src/accueil.c:624
 #, c-format
 msgid "Assets accounts balances in %s"
-msgstr "资产账户余额"
+msgstr "资产账户余额 %s"
 
 #: src/accueil.c:692 src/gsb_data_partial_balance.c:211
 #, fuzzy

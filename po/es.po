@@ -6935,7 +6935,8 @@ msgstr ""
 "Cuidado, está a punto de borrar la copia de el fichero\n"
 "de configuración de la versión antigua de Grisbi.\n"
 "\n"
-"<b>¿ Quiere borrar este fichero ?</b>"
+"<b>¿ Quiere borrar el fichero\n"
+"%s ?</b>"
 
 #: src/gsb_file_config.c:807
 #, c-format
