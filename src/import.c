@@ -2761,6 +2761,10 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 	    g_date_add_days ( date_fin_comparaison,
 			      valeur_echelle_recherche_date_import );
 
+		ope_import -> montant = (imported_account -> invert_transaction_amount ? 
+				gsb_real_opposite(ope_import -> montant) :
+				ope_import -> montant);
+
 	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 	    while ( list_tmp_transactions )
