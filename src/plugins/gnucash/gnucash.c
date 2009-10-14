@@ -84,7 +84,7 @@ G_MODULE_EXPORT const gchar plugin_name[] = "gnucash";
 
 
 /** Initialization function. */
-extern void gnucash_plugin_register ()
+G_MODULE_EXPORT extern void gnucash_plugin_register ()
 {
     devel_debug ("Initializating gnucash plugin");
 
@@ -94,7 +94,7 @@ extern void gnucash_plugin_register ()
 
 
 /** Main function of module. */
-extern gint gnucash_plugin_run ( gchar * file_name, gchar **file_content,
+G_MODULE_EXPORT extern gint gnucash_plugin_run ( gchar * file_name, gchar **file_content,
 					  gboolean crypt, gulong length )
 {
     return FALSE;
@@ -103,7 +103,7 @@ extern gint gnucash_plugin_run ( gchar * file_name, gchar **file_content,
 
 
 /** Release plugin  */
-extern gboolean gnucash_plugin_release ( )
+G_MODULE_EXPORT extern gboolean gnucash_plugin_release ( )
 {
     return TRUE;
 }

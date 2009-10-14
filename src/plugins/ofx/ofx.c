@@ -61,7 +61,7 @@ G_MODULE_EXPORT const gchar plugin_name[] = "ofx";
 
 
 /** Initialization function. */
-extern void ofx_plugin_register ()
+G_MODULE_EXPORT extern void ofx_plugin_register ()
 {
     devel_debug ("Initializating ofx plugin");
     register_import_format ( &ofx_format );
@@ -70,7 +70,7 @@ extern void ofx_plugin_register ()
 
 
 /** Main function of module. */
-extern GSList * ofx_plugin_run ( GtkWidget * assistant, 
+G_MODULE_EXPORT extern GSList * ofx_plugin_run ( GtkWidget * assistant, 
 				    struct imported_file * imported )
 {
     return recuperation_donnees_ofx ( assistant, imported );
@@ -79,7 +79,7 @@ extern GSList * ofx_plugin_run ( GtkWidget * assistant,
 
 
 /** Release plugin  */
-extern gboolean ofx_plugin_release ( )
+G_MODULE_EXPORT extern gboolean ofx_plugin_release ( )
 {
 }
 

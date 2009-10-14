@@ -301,7 +301,7 @@ G_MODULE_EXPORT const gchar plugin_name[] = "openssl";
 
 
 /** Initialization function. */
-extern void openssl_plugin_register ()
+G_MODULE_EXPORT extern void openssl_plugin_register ()
 {
     devel_debug ("Initializating openssl plugin");
     crypt_key = NULL;
@@ -310,7 +310,7 @@ extern void openssl_plugin_register ()
 
 
 /** Main function of module. */
-extern gint openssl_plugin_run ( gchar * file_name, gchar **file_content,
+G_MODULE_EXPORT extern gint openssl_plugin_run ( gchar * file_name, gchar **file_content,
 					  gboolean crypt, gulong length )
 {
     return gsb_file_util_crypt_file ( file_name, file_content, crypt, length );
@@ -319,7 +319,7 @@ extern gint openssl_plugin_run ( gchar * file_name, gchar **file_content,
 
 
 /** Release plugin  */
-extern gboolean openssl_plugin_release ( )
+G_MODULE_EXPORT extern gboolean openssl_plugin_release ( )
 {
     return TRUE;
 }
