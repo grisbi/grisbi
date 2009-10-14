@@ -6,8 +6,7 @@
 
 /* START_DECLARATION */
 gboolean assert_account_loaded ();
-gboolean desensitive_widget ( gpointer object,
-                        GtkWidget *widget );
+gboolean desensitive_widget ( gpointer object, GtkWidget *widget );
 gchar *get_gtk_run_version ( void );
 gboolean lance_navigateur_web ( const gchar *url );
 gboolean met_en_normal ( GtkWidget *event_box,

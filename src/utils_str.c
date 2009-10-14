@@ -346,7 +346,7 @@ gint gsb_strcasecmp ( gchar *string_1,
     string_2 = g_strdelimit ( string_2, "ôÔ", 'o' );
     string_2 = g_strdelimit ( string_2, "îÎ", 'i' );
 
-    result = g_strcasecmp ( string_1, string_2 );
+    result = g_ascii_strcasecmp ( string_1, string_2 );
     g_free(string_1);
     g_free(string_2);
     return result; 
@@ -422,11 +422,10 @@ gint my_strncasecmp ( gchar *string_1,
 	    gint retour;
  	    gchar *new_1, *new_2;
 	    
-	    new_1 = g_utf8_collate_key ( g_utf8_casefold ( string_1,longueur ),
-					 longueur );
-	    new_2 = g_utf8_collate_key ( g_utf8_casefold (  string_2,longueur ),
-					 longueur );
-	    retour = g_strcasecmp ( new_1, new_2);
+	    new_1 = g_utf8_casefold ( string_1,longueur );
+	    new_2 = g_utf8_casefold (  string_2,longueur );
+	    retour = g_utf8_collate ( new_1, new_2);
+
 	    g_free ( new_1 );
 	    g_free ( new_2 );
 	    return ( retour );

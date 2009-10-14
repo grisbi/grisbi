@@ -49,8 +49,8 @@
 #include "./import.h"
 #include "./parse_cmdline.h"
 #include "./gsb_file_config.h"
-#include "./include.h"
 #include "./structures.h"
+#include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
 

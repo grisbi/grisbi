@@ -485,9 +485,9 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 	imported_transaction = imported_account -> operations_importees -> data;
 	if (imported_transaction -> tiers
 	    &&
-	    (!g_strcasecmp (imported_transaction -> tiers, "Opening Balance")
+	    (!g_ascii_strcasecmp (imported_transaction -> tiers, "Opening Balance")
 	     ||
-	     !g_strcasecmp (imported_transaction -> tiers, _("Opening Balance"))))
+	     !g_ascii_strcasecmp (imported_transaction -> tiers, _("Opening Balance"))))
 	{
 	    /* ok, we are on an opening balance, we transfer the first transaction
 	     * to the initial datas of the account */

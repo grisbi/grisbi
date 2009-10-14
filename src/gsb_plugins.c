@@ -40,12 +40,6 @@ extern G_MODULE_EXPORT const gchar plugin_name[];
 /** List of registered plugins.  It should contain gsb_plugin structures. */
 static GSList * plugins = NULL;
 
-/* filled when we ask to keep the password in memory
- * need to declare here instead of gsb_crypt.c to load the plugin openssl.so */
-gchar *crypt_key;
-
-
-
 /**
  *
  *

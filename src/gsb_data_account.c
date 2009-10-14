@@ -655,9 +655,8 @@ gint gsb_data_account_get_account_by_id ( const gchar *account_id )
 	{
 	    gchar *account_id_save;
 	    account_id_save = account -> account_id;
-	    if(g_strcasecmp(account_id,
-			    account -> account_id) == 0)
-		return account -> account_number;
+	    if ( g_ascii_strcasecmp ( account_id, account -> account_id ) == 0 )
+            return account -> account_number;
 	}
 	list_tmp = list_tmp -> next;
     }

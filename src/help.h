@@ -5,7 +5,6 @@
 
 
 /* START_DECLARATION */
-void a_propos ( GtkWidget *bouton,
-		gint data );
+void a_propos ( GtkWidget *bouton, gint data );
 /* END_DECLARATION */
 #endif

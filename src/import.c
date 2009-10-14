@@ -138,7 +138,8 @@ static void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTree
 static gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant );
 static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
                         const gchar *value, GtkListStore * model );
-static void pointe_opes_importees ( struct struct_compte_importation *imported_account );
+static void pointe_opes_importees ( struct struct_compte_importation *imported_account,
+                        gint account_number );
 static void traitement_operations_importees ( void );
 /*END_STATIC*/
 
@@ -1440,8 +1441,8 @@ void traitement_operations_importees ( void )
 
         case IMPORT_MARK_TRANSACTIONS:
         account_number = gsb_account_get_combo_account_number ( compte -> bouton_compte_mark );
-        pointe_opes_importees ( compte );
-        transaction_list_update_element (ELEMENT_MARK); 
+        pointe_opes_importees ( compte, account_number );
+        transaction_list_update_element (ELEMENT_MARK);
         break;
     }
 
@@ -1502,15 +1503,15 @@ void traitement_operations_importees ( void )
     gsb_status_message ( _("Please wait") );
 
     /* update the name of accounts in scheduler form */
-    gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (
-                                            SCHEDULED_FORM_ACCOUNT),
-                    FALSE );
+    gsb_account_update_combo_list (
+                        gsb_form_scheduler_get_element_widget ( SCHEDULED_FORM_ACCOUNT ),
+                        FALSE );
 
     /* set the rule button if necessary */
-    if (gsb_data_import_rule_account_has_rule (gsb_gui_navigation_get_current_account ()))
-    gtk_widget_show (menu_import_rules);
+    if ( gsb_data_import_rule_account_has_rule (gsb_gui_navigation_get_current_account ()))
+        gtk_widget_show (menu_import_rules);
     else
-    gtk_widget_hide (menu_import_rules);
+        gtk_widget_hide (menu_import_rules);
 
     /* show the account list */
     gsb_menu_update_accounts_in_menus();
@@ -1823,7 +1824,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     {
     if ( gsb_data_account_get_id (account_number) )
     {
-        if ( g_strcasecmp ( gsb_data_account_get_id (account_number),
+        if ( g_ascii_strcasecmp ( gsb_data_account_get_id (account_number),
 				imported_account -> id_compte ))
 	    {
 		/* there is a difference between the imported account id and grisbi account id,
@@ -1917,8 +1918,6 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
              ( transaction_no = gsb_data_transaction_find_by_id (
                             imported_transaction -> id_operation, account_number ) ) )
             {
-                printf ("transaction_no = %d id = %s\n",transaction_no,
-                        imported_transaction -> id_operation );
                 /* the id exists with the same account_nb, so the transaction is already
                  * in grisbi we will forget that transaction */
                 imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
@@ -2675,15 +2674,15 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 
 
 
-/* *******************************************************************************/
-void pointe_opes_importees ( struct struct_compte_importation *imported_account )
+/**
+ *
+ *
+ * */
+void pointe_opes_importees ( struct struct_compte_importation *imported_account,
+                        gint account_number )
 {
     GSList *list_tmp;
     GSList *liste_opes_import_celibataires;
-    gint account_number;
-
-    /* on se place sur le compte dans lequel on va pointer les opés */
-    account_number = gsb_account_get_combo_account_number ( imported_account -> bouton_compte_mark );
 
     /* si le compte importé a une id, on la vérifie ici */
     /*     si elle est absente, on met celle importée */
@@ -2692,7 +2691,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
     {
 	if ( gsb_data_account_get_id (account_number) )
 	{
-	    if ( g_strcasecmp ( gsb_data_account_get_id (account_number),
+	    if ( g_ascii_strcasecmp ( gsb_data_account_get_id (account_number),
 				imported_account -> id_compte ))
 	    {
 		/* 		l'id du compte choisi et l'id du compte importé sont différents */
@@ -2736,7 +2735,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 	if ( ope_import -> id_operation
 	     &&
 	     (transaction_number = gsb_data_transaction_find_by_id (
-                        ope_import -> id_operation, account_number )))
+                        ope_import -> id_operation, account_number ) ) )
 	    ope_trouvees = g_slist_append ( ope_trouvees,
 					    GINT_TO_POINTER (transaction_number));
 
@@ -2761,20 +2760,19 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 	    g_date_add_days ( date_fin_comparaison,
 			      valeur_echelle_recherche_date_import );
 
-		ope_import -> montant = (imported_account -> invert_transaction_amount ? 
-				gsb_real_opposite(ope_import -> montant) :
-				ope_import -> montant);
-
+        if ( imported_account -> invert_transaction_amount )
+            ope_import -> montant =  gsb_real_opposite ( ope_import -> montant );
+ 
 	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 	    while ( list_tmp_transactions )
 	    {
-		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-
+		transaction_number = gsb_data_transaction_get_transaction_number (
+                        list_tmp_transactions -> data);
 		if ( gsb_data_transaction_get_account_number (transaction_number) == account_number )
 		{
 		    if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (transaction_number),
-					 ope_import -> montant )
+                        ope_import -> montant )
 			 &&
 			 ( g_date_compare ( gsb_data_transaction_get_date (transaction_number),
 					    date_debut_comparaison ) >= 0 )
@@ -2820,9 +2818,9 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		/* si elle est déjà pointée ou relevée, on ne fait rien */
 		/* si l'opé d'import a une id et pas l'opé, on marque l'id dans l'opé */
 
-		transaction_number = GPOINTER_TO_INT (ope_trouvees -> data);
+        transaction_number = GPOINTER_TO_INT ( ope_trouvees -> data );
 
-		if ( !gsb_data_transaction_get_transaction_id (transaction_number)
+		if ( strlen ( gsb_data_transaction_get_transaction_id ( transaction_number ) ) == 0
 		     &&
 		     ope_import -> id_operation )
 		    gsb_data_transaction_set_transaction_id ( transaction_number,
@@ -2921,7 +2919,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 			transaction_number = GPOINTER_TO_INT (list_tmp_2 -> data);
 
-			if ( !gsb_data_transaction_get_transaction_id (transaction_number)
+			if ( strlen ( gsb_data_transaction_get_transaction_id ( transaction_number ) ) == 0
 			     &&
 			     ope_import -> id_operation )
 			    gsb_data_transaction_set_transaction_id ( transaction_number,
@@ -2962,9 +2960,10 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		    /* on a trouvé un nombre différent d'opés d'import et d'opés semblables dans 
              * la liste d'opés on marque donc cette opé d'import comme seule */
 
-		    ope_import -> devise = gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise);
-		    liste_opes_import_celibataires = g_slist_append ( liste_opes_import_celibataires,
-								      ope_import );
+		    ope_import -> devise = gsb_currency_get_currency_from_combobox (
+                        imported_account -> bouton_devise);
+		    liste_opes_import_celibataires = g_slist_append (
+                        liste_opes_import_celibataires, ope_import );
 
 		}
 	}
@@ -3945,7 +3944,7 @@ const gchar * autodetect_file_type ( gchar * filename,
     {
         struct import_format * format = (struct import_format *) tmp -> data;
 
-        if ( !g_strcasecmp ( extension + 1, format -> extension ) )
+        if ( !g_ascii_strcasecmp ( extension + 1, format -> extension ) )
         {
         return format -> name;
         }
@@ -4045,7 +4044,8 @@ gboolean gsb_import_by_rule ( gint rule )
     if (strcmp (type, "OFX") && strcmp (type, "QIF"))
     {
         gchar *tmpstr = g_path_get_basename (filename);
-        gchar *tmpstr2 = g_strdup_printf (_("%s is neither an OFX file, neither a QIF file. Nothing will be done for that file."),
+        gchar *tmpstr2 = g_strdup_printf (_("%s is neither an OFX file, neither a QIF file. "
+                        "Nothing will be done for that file."),
                         tmpstr );
         dialogue_error (tmpstr2);
         g_free (tmpstr);
@@ -4123,7 +4123,8 @@ gboolean gsb_import_by_rule ( gint rule )
         break;
 
         case IMPORT_MARK_TRANSACTIONS:
-        pointe_opes_importees (account);
+        pointe_opes_importees ( account, account_number );
+        transaction_list_update_element (ELEMENT_MARK);
         break;
     }
 

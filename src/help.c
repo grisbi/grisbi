@@ -1,22 +1,25 @@
-/* Fichier help.c */
-
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2008 Benjamin Drieu (bdrieu@april.org) */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/*                                                                            */
+/*     copyright (c)    2000-2003 Cédric Auger (cedric@grisbi.org)            */
+/*          2008 Benjamin Drieu (bdrieu@april.org)                            */
+/*          2008-2009 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          http://www.grisbi.org                                             */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 #include "include.h"
@@ -64,8 +67,7 @@ void launch_url (GtkAboutDialog *about, const gchar * link, gpointer data)
  * \param bouton	Widget that triggered this handler (not used).
  * \param data		Not used.
  */
-void a_propos ( GtkWidget *bouton,
-		gint data )
+void a_propos ( GtkWidget *bouton, gint data )
 {
     GdkPixbuf * logo;
     gchar *chemin_logo ;
@@ -135,12 +137,12 @@ NULL};
 
     /* Plugins list */
     gchar* comments = g_strconcat ( _("Personal finance manager for everyone\n"),
-				    gsb_plugin_get_list(),
-                    "\n Version de GTK : (",
-                    get_gtk_run_version ( ),
-                    ") \n",
-				    warn_print,
-				    NULL );
+                        gsb_plugin_get_list(),
+                        "\n Version de GTK : (",
+                        get_gtk_run_version ( ),
+                        ") \n",
+                        warn_print,
+                        NULL );
 
     GtkWidget * about;
 
@@ -159,7 +161,7 @@ NULL};
     gtk_about_dialog_set_website ( GTK_ABOUT_DIALOG (about), "http://www.grisbi.org/");
     gtk_about_dialog_set_license ( GTK_ABOUT_DIALOG (about), license );
     gtk_about_dialog_set_wrap_license ( GTK_ABOUT_DIALOG (about), TRUE );
-	gtk_about_dialog_set_version ( GTK_ABOUT_DIALOG (about), VERSION );
+    gtk_about_dialog_set_version ( GTK_ABOUT_DIALOG (about), VERSION );
     gtk_about_dialog_set_artists ( GTK_ABOUT_DIALOG (about), artists );
     gtk_about_dialog_set_documenters ( GTK_ABOUT_DIALOG (about), documenters );
     gtk_about_dialog_set_authors ( GTK_ABOUT_DIALOG (about), auteurs );
@@ -175,7 +177,7 @@ NULL};
     gtk_widget_destroy (about);
 
     if (logo)
-	g_object_unref (logo);
+    g_object_unref (logo);
 
     return;
 }

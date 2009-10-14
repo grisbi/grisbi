@@ -34,7 +34,6 @@
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
-extern gchar *crypt_key;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -47,6 +46,7 @@ static gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content
 /*END_STATIC*/
 #endif
 
+gchar *crypt_key;
 
 /**
  * Crypt or decrypt string given in the param
