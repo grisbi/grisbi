@@ -2875,6 +2875,14 @@ void gsb_file_load_currency_link ( const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "Modified_date" ) )
+    {
+        gsb_data_currency_link_set_modified_date ( link_number,
+                        gsb_parse_date_string_safe (attribute_values[i] ) );
+        i++;
+        continue;
+    }
+
     /* normally, shouldn't come here */
     i++;
     }
@@ -5237,6 +5245,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
         gint contra_currency;
         gsb_real exchange;
         } tmp_currency_link;
+        GDate *modified_date = NULL;
         
         tmp_currency_link.one_c1_equal_x_c2 = 0;
         tmp_currency_link.contra_currency = 0;
@@ -5303,6 +5312,17 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
         if ( !strcmp ( attribute_names[i],
                    "Change" ))
             tmp_currency_link.exchange = gsb_real_get_from_string (attribute_values[i]);
+        if ( !strcmp ( attribute_names[i], "Date_dernier_change" ) 
+         &&
+         strlen ( attribute_values[i] ) )
+        {
+            /* cannot use gsb_parse_date_string here because before, all date were dd/mm/yyyy */
+            pointeur_char = g_strsplit ( attribute_values[i], "/", 0 );
+            modified_date = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
+                        utils_str_atoi ( pointeur_char[1] ),
+                        utils_str_atoi ( pointeur_char[2] ) );
+            g_strfreev ( pointeur_char );
+        }
         i++;
         }
         while ( attribute_names[i] );
@@ -5312,25 +5332,30 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
          * else we will become very rich in grisbi !!! */
         if (tmp_currency_link.contra_currency && tmp_currency_link.exchange.mantissa != 0)
         {
-        gint  link_number;
+            gint  link_number;
 
-        link_number = gsb_data_currency_link_new (0);
-        if (tmp_currency_link.one_c1_equal_x_c2)
-        {
-            gsb_data_currency_link_set_first_currency ( link_number,
+            link_number = gsb_data_currency_link_new ( 0 );
+            if (tmp_currency_link.one_c1_equal_x_c2)
+            {
+                gsb_data_currency_link_set_first_currency ( link_number,
                                     currency_number );
-            gsb_data_currency_link_set_second_currency ( link_number,
+                gsb_data_currency_link_set_second_currency ( link_number,
                                      tmp_currency_link.contra_currency);
-        }
-        else
-        {
-            gsb_data_currency_link_set_first_currency ( link_number,
+            }
+            else
+            {
+                gsb_data_currency_link_set_first_currency ( link_number,
                                     tmp_currency_link.contra_currency );
-            gsb_data_currency_link_set_second_currency ( link_number,
+                gsb_data_currency_link_set_second_currency ( link_number,
                                      currency_number);
-        }
-        gsb_data_currency_link_set_change_rate ( link_number,
+            }
+            gsb_data_currency_link_set_change_rate ( link_number,
                                  tmp_currency_link.exchange );
+            if ( modified_date )
+            {
+                gsb_data_currency_link_set_modified_date ( link_number, modified_date );
+                g_date_free ( modified_date );
+            }
         }
     }
     }

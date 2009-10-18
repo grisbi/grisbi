@@ -250,6 +250,10 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 					  SPACIFY(_("Choose currency")));
 	    gsb_currency_set_combobox_history ( widget,
 						gsb_data_account_get_currency (account_number));
+        g_signal_connect ( G_OBJECT (  widget ),
+			       "changed",
+			       G_CALLBACK (gsb_form_transaction_currency_changed),
+			       NULL );
 	    break;
 
 	case TRANSACTION_FORM_CHANGE:

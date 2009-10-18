@@ -591,6 +591,24 @@ gboolean gsb_form_transaction_change_clicked ( GtkWidget *button,
 }
 
 
+void gsb_form_transaction_currency_changed ( GtkWidget *widget, gpointer null )
+{
+    gint account_number;
+    gint currency_number;
+    gint account_currency_number;
+
+    devel_debug ("gsb_form_transaction_currency_changed");
+    account_number = gsb_form_get_account_number ();
+    gtk_widget_grab_focus ( gsb_form_widget_get_widget (TRANSACTION_FORM_DATE));
+
+    account_currency_number = gsb_data_account_get_currency (account_number);
+    currency_number = gsb_currency_get_currency_from_combobox ( widget );
+
+    if ( account_currency_number == currency_number )
+        gtk_widget_hide ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHANGE));
+    else
+        gtk_widget_show ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHANGE));
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -29,6 +29,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_currency_link_config.h"
+#include "./utils_dates.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_currency.h"
@@ -64,6 +65,7 @@ enum link_list_column {
     LINK_EQUAL_COLUMN,
     LINK_EXCHANGE_COLUMN,
     LINK_CURRENCY2_COLUMN,
+    LINK_DATE_COLUMN,
     LINK_INVALID_COLUMN,
     LINK_NUMBER_COLUMN,
     NUM_LINKS_COLUMNS,
@@ -221,6 +223,7 @@ GtkWidget *gsb_currency_link_config_create_list ()
 	"",
 	_("Exchange"),
 	_("Second currency"),
+    _("Modified date"),
 	_("Invalid"),
     };
     GtkCellRenderer *cell_renderer;
@@ -231,8 +234,10 @@ GtkWidget *gsb_currency_link_config_create_list ()
 	   LINK_EQUAL_COLUMN,
 	   LINK_EXCHANGE_COLUMN,
 	   LINK_CURRENCY2_COLUMN,
+       LINK_DATE_COLUMN,
 	   LINK_NUMBER_COLUMN */
     model = gtk_list_store_new ( NUM_LINKS_COLUMNS,
+				 G_TYPE_STRING,
 				 G_TYPE_STRING,
 				 G_TYPE_STRING,
 				 G_TYPE_STRING,
@@ -334,12 +339,15 @@ void gsb_currency_link_config_append_line ( GtkTreeModel *model,
     gchar *invalid;
     GtkTreeIter local_iter;
     GtkTreeIter *iter_ptr;
-	gchar* tmpstr;
+	gchar *tmpstr;
+    gchar *strdate;
 
     if (iter_to_fill)
 	iter_ptr = iter_to_fill;
     else
 	iter_ptr = &local_iter;
+
+    strdate = gsb_format_gdate ( gsb_data_currency_link_get_modified_date ( link_number ) );
 
     if ( gsb_data_currency_link_get_invalid_link (link_number))
 	invalid = GTK_STOCK_DIALOG_WARNING;
@@ -347,19 +355,20 @@ void gsb_currency_link_config_append_line ( GtkTreeModel *model,
 	invalid = NULL;
 
     tmpstr = gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
-    gtk_list_store_append ( GTK_LIST_STORE (model),
-			    iter_ptr );
-    gtk_list_store_set ( GTK_LIST_STORE (model),
+    gtk_list_store_append ( GTK_LIST_STORE ( model ), iter_ptr );
+    gtk_list_store_set ( GTK_LIST_STORE ( model ),
 			 iter_ptr,
 			 LINK_1_COLUMN, "1",
 			 LINK_CURRENCY1_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_first_currency(link_number)),
 			 LINK_EQUAL_COLUMN, "=",
 			 LINK_EXCHANGE_COLUMN, tmpstr,
 			 LINK_CURRENCY2_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_second_currency(link_number)),
+             LINK_DATE_COLUMN, strdate,
 			 LINK_INVALID_COLUMN, invalid,
 			 LINK_NUMBER_COLUMN, link_number,
 			 -1 );
     g_free ( tmpstr );
+    g_free ( strdate );
 }
 
 
@@ -472,10 +481,12 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     gchar *invalid;
     GtkWidget *label;
 	gchar* tmpstr;
+    gchar *strdate;
 
-    if ( !gtk_tree_selection_get_selected ( gtk_tree_view_get_selection ( GTK_TREE_VIEW (tree_view)),
+    if ( !gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (
+                        GTK_TREE_VIEW ( tree_view ) ),
 					    &model,
-					    &iter ))
+					    &iter ) )
 	return FALSE;
 
     gtk_tree_model_get ( GTK_TREE_MODEL (model),
@@ -500,6 +511,9 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
 						 gsb_currency_get_currency_from_combobox (combobox_2));
     gsb_data_currency_link_set_change_rate ( link_number,
 					     gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (exchange_entry))));
+    gsb_data_currency_link_set_modified_date ( link_number, gdate_today ( ) );
+
+    strdate = gsb_format_gdate ( gsb_data_currency_link_get_modified_date ( link_number ) );
 
     if ( gsb_data_currency_link_get_invalid_link (link_number))
 	invalid = GTK_STOCK_DIALOG_WARNING;
@@ -512,9 +526,11 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
 			 LINK_CURRENCY1_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_first_currency(link_number)),
 			 LINK_EXCHANGE_COLUMN, tmpstr,
 			 LINK_CURRENCY2_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_second_currency(link_number)),
+             LINK_DATE_COLUMN, strdate,
 			 LINK_INVALID_COLUMN, invalid,
 			 -1 );
     g_free ( tmpstr );
+    g_free ( strdate );
 
     /* set or hide the warning label */
     label = g_object_get_data (G_OBJECT (model),
@@ -591,7 +607,9 @@ gboolean gsb_currency_link_config_remove_link ( GtkWidget *tree_view )
 					   &model,
 					   &iter ))
     {
+    GtkWidget *label;
 	gint link_number;
+
 	gtk_tree_model_get ( GTK_TREE_MODEL (model),
 			     &iter,
 			     LINK_NUMBER_COLUMN, &link_number,
@@ -602,6 +620,13 @@ gboolean gsb_currency_link_config_remove_link ( GtkWidget *tree_view )
 	gtk_widget_set_sensitive ( GTK_WIDGET ( g_object_get_data ( G_OBJECT (model),
 								    "hbox_line")),
 				   FALSE );
+
+    /* hide the warning label */
+    label = g_object_get_data (G_OBJECT (model),
+			       "warning_label");
+    if ( GTK_WIDGET_VISIBLE ( label ) )
+        gtk_widget_hide (label);
+
 	if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
     }

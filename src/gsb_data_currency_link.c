@@ -1,7 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2006 Cédric Auger (cedric@grisbi.org)            */
+/*          http://www.grisbi.org                                             */
+/*                      2009 Pierre Biava (grisbi@pierre.biava.name)          */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -29,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_currency_link.h"
+#include "./utils_dates.h"
 #include "./dialog.h"
 #include "./include.h"
 #include "./gsb_real.h"
@@ -46,6 +48,7 @@ typedef struct
     gint first_currency;
     gint second_currency;
     gsb_real change_rate;
+    GDate *modified_date;
 
     /* a link is invalid when :
      * - it's a comparison between 2 same currencies
@@ -223,6 +226,8 @@ gint gsb_data_currency_link_new ( gint currency_link_number )
     else
 	currency_link -> currency_link_number = gsb_data_currency_link_max_number () + 1;
 
+    currency_link -> modified_date = gdate_today ( );
+
     currency_link_list = g_slist_append ( currency_link_list, currency_link );
 
     return currency_link -> currency_link_number;
@@ -236,6 +241,8 @@ static void _g_data_currency_link_free ( struct_currency_link *currency_link )
 {
     if ( ! currency_link )
         return ;
+    if ( currency_link -> modified_date )
+        g_date_free ( currency_link -> modified_date );
     g_free (currency_link);
     if ( currency_link_buffer == currency_link )
 	currency_link_buffer = NULL;
@@ -279,7 +286,7 @@ gboolean gsb_data_currency_link_remove ( gint currency_link_number )
  * \return the new number or 0 if the currency_link doen't exist
  * */
 gint gsb_data_currency_link_set_new_number ( gint currency_link_number,
-					     gint new_no_currency_link )
+                        gint new_no_currency_link )
 {
     struct_currency_link *currency_link;
 
@@ -324,7 +331,7 @@ gint gsb_data_currency_link_get_first_currency ( gint currency_link_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_currency_link_set_first_currency ( gint currency_link_number,
-						     gint first_currency )
+                        gint first_currency )
 {
     struct_currency_link *currency_link;
 
@@ -370,7 +377,7 @@ gint gsb_data_currency_link_get_second_currency ( gint currency_link_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_currency_link_set_second_currency ( gint currency_link_number,
-						      gint second_currency )
+                        gint second_currency )
 {
     struct_currency_link *currency_link;
 
@@ -414,7 +421,7 @@ gsb_real gsb_data_currency_link_get_change_rate ( gint currency_link_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_currency_link_set_change_rate ( gint currency_link_number,
-						  gsb_real change_rate)
+                        gsb_real change_rate)
 {
     struct_currency_link *currency_link;
 
@@ -551,7 +558,7 @@ gboolean gsb_data_currency_link_check_for_invalid ( gint currency_link_number )
  * \return the number of the link, 0 if not found, -1 if they are the same currencies
  * */
 gint gsb_data_currency_link_search ( gint currency_1,
-				     gint currency_2 )
+                        gint currency_2 )
 {
     GSList *tmp_list;
 
@@ -588,4 +595,51 @@ gint gsb_data_currency_link_search ( gint currency_1,
 }
 
 
+/**
+ * get the GDate of the currency link 
+ * 
+ * \param currency_link_number
+ * 
+ * \return the GDate of the currency link
+ * */
+GDate *gsb_data_currency_link_get_modified_date ( gint currency_link_number )
+{
+    struct_currency_link *currency_link;
 
+    currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
+
+    if (!currency_link)
+        return NULL;
+
+    return currency_link -> modified_date;
+}
+
+
+/**
+ * set the GDate of the currency link
+ * 
+ * \param currency_link_number
+ * \param date
+ * 
+ * \return TRUE if ok
+ * */
+gboolean gsb_data_currency_link_set_modified_date ( gint currency_link_number,
+                        GDate *date )
+{
+    struct_currency_link *currency_link;
+
+    currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
+
+    if ( !currency_link )
+        return FALSE;
+
+    if ( !date )
+        return FALSE;
+
+    if ( currency_link -> modified_date )
+        g_date_free ( currency_link -> modified_date );
+
+    currency_link -> modified_date = gsb_date_copy ( date );
+
+    return TRUE;
+}

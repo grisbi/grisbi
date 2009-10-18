@@ -119,7 +119,7 @@ static gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
                         GtkWidget *entry );
 static gboolean gsb_import_check_transaction_link ( gint transaction_number,
                         gint tested_transaction );
-static GSList *gsb_import_create_file_chooser (const char *enc);
+static GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent );
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
                         gint account_number, gchar * origine );
@@ -579,7 +579,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     GSList * filenames, * iterator;
     GtkTreeModel * model;
 
-    filenames = gsb_import_create_file_chooser (NULL);
+    filenames = gsb_import_create_file_chooser ( NULL, assistant );
     if (!filenames)
     return FALSE;
 
@@ -668,7 +668,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
  *
  * \return a GtkFileChooser
  * */
-GSList *gsb_import_create_file_chooser (const char *enc)
+GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
 {
     GtkWidget * dialog, * hbox, * go_charmap_sel;
     GtkFileFilter * filter, * default_filter;
@@ -680,7 +680,7 @@ GSList *gsb_import_create_file_chooser (const char *enc)
 	gchar* tmpstr;
 
     dialog = gtk_file_chooser_dialog_new ( _("Choose files to import."),
-                        GTK_WINDOW ( window ),
+                        GTK_WINDOW ( parent ),
                         GTK_FILE_CHOOSER_ACTION_OPEN,
                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                         GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
@@ -4291,7 +4291,7 @@ gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
 
     rule = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (entry), "rule"));
     enc = gsb_data_import_rule_get_charmap ( rule );
-    filenames = gsb_import_create_file_chooser (enc);
+    filenames = gsb_import_create_file_chooser ( enc, window );
     if (!filenames)
     return FALSE;
 
