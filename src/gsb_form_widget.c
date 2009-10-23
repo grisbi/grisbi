@@ -762,6 +762,13 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
 
     switch ( element_number )
     {
+    case TRANSACTION_FORM_DATE:
+    case TRANSACTION_FORM_VALUE_DATE:
+        /* set the financial year on automatic by default */
+        fyear_button = gsb_form_widget_get_widget (TRANSACTION_FORM_EXERCICE);
+        if (fyear_button)
+            gsb_fyear_set_combobox_history ( fyear_button, 0 );
+        break;
     case TRANSACTION_FORM_DEBIT :
         /* on met old_debit = NULl car avec g_free plantage */
         if ( old_debit && strlen ( old_debit ) > 0 )
@@ -857,11 +864,6 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
     /* sensitive the valid and cancel buttons */
     gtk_widget_set_sensitive (GTK_WIDGET (form_button_valid), TRUE);
     gtk_widget_set_sensitive (GTK_WIDGET (form_button_cancel), TRUE);
-
-    /* set the financial year on automatic by default */
-    fyear_button = gsb_form_widget_get_widget (TRANSACTION_FORM_EXERCICE);
-    if (fyear_button)
-        gsb_fyear_set_combobox_history ( fyear_button, 0 );
 
     return FALSE;
 }

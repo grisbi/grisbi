@@ -1437,7 +1437,7 @@ gint gsb_form_get_element_expandable ( gint element_number )
  * */
 gboolean gsb_form_entry_get_focus ( GtkWidget *entry )
 {
-    GtkWidget *fyear_button;
+    //~ GtkWidget *fyear_button;
 
     /* the entry can be a combofix or a real entry */
     if (GTK_IS_COMBOFIX ( entry ))
@@ -1463,9 +1463,9 @@ gboolean gsb_form_entry_get_focus ( GtkWidget *entry )
     gtk_widget_set_sensitive (GTK_WIDGET (form_button_cancel), TRUE);
 
     /* set the financial year on automatic by default */
-    fyear_button = gsb_form_widget_get_widget (TRANSACTION_FORM_EXERCICE);
-    if (fyear_button)
-        gsb_fyear_set_combobox_history ( fyear_button, 0 );
+    //~ fyear_button = gsb_form_widget_get_widget (TRANSACTION_FORM_EXERCICE);
+    //~ if (fyear_button)
+        //~ gsb_fyear_set_combobox_history ( fyear_button, 0 );
 
     return FALSE;
 }
@@ -2769,11 +2769,21 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 
 	    case TRANSACTION_FORM_EXERCICE:
 		if (etat.affichage_exercice_automatique && value_date)
-		    gsb_data_mix_set_financial_year_number ( transaction_number,
-							     gsb_fyear_get_fyear_from_combobox ( element -> element_widget, value_date ), is_transaction);
+        {
+            if ( gsb_form_widget_check_empty ( gsb_form_widget_get_widget (
+             TRANSACTION_FORM_VALUE_DATE) ) )
+                gsb_data_mix_set_financial_year_number ( transaction_number,
+                        gsb_fyear_get_fyear_from_combobox (
+                        element -> element_widget, date ), is_transaction );
+            else
+                gsb_data_mix_set_financial_year_number ( transaction_number,
+                        gsb_fyear_get_fyear_from_combobox (
+                        element -> element_widget, value_date ), is_transaction );
+        }
 		else
 		    gsb_data_mix_set_financial_year_number ( transaction_number,
-							     gsb_fyear_get_fyear_from_combobox ( element -> element_widget, date ), is_transaction);
+                        gsb_fyear_get_fyear_from_combobox (
+                        element -> element_widget, date ), is_transaction);
 		break;
 
 	    case TRANSACTION_FORM_PARTY:
