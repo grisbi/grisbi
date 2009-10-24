@@ -34,7 +34,7 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
 gsb_real gsb_real_mul ( gsb_real number_1,
                         gsb_real number_2 );
 gsb_real gsb_real_new ( gint mantissa, gint exponent );
-gboolean gsb_real_normalize ( gsb_real *a, gsb_real *b );
+gboolean gsb_real_normalize ( gsb_real *number_1, gsb_real *number_2 );
 gsb_real gsb_real_opposite ( gsb_real number );
 gchar *gsb_real_raw_format_string (gsb_real number,
                         struct lconv *conv,

@@ -34,11 +34,13 @@
 #include "./gsb_data_account.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_currency_link.h"
+#include "./navigation.h"
 #include "./gsb_real.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
 #include "./include.h"
 #include "./structures.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -482,6 +484,7 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     GtkWidget *label;
 	gchar* tmpstr;
     gchar *strdate;
+    gsb_real number;
 
     if ( !gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (
                         GTK_TREE_VIEW ( tree_view ) ),
@@ -505,12 +508,16 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     exchange_entry = g_object_get_data ( G_OBJECT (model),
 					 "exchange_entry" );
 
+    number = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY (exchange_entry) ) );
+    if ( number.exponent > 8 )
+        gtk_entry_set_max_length (GTK_ENTRY (exchange_entry),
+                        gtk_entry_get_text_length ( GTK_ENTRY ( exchange_entry ) ) - 1);
+
     gsb_data_currency_link_set_first_currency ( link_number,
 						gsb_currency_get_currency_from_combobox (combobox_1));
     gsb_data_currency_link_set_second_currency ( link_number,
 						 gsb_currency_get_currency_from_combobox (combobox_2));
-    gsb_data_currency_link_set_change_rate ( link_number,
-					     gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (exchange_entry))));
+    gsb_data_currency_link_set_change_rate ( link_number, number );
     gsb_data_currency_link_set_modified_date ( link_number, gdate_today ( ) );
 
     strdate = gsb_format_gdate ( gsb_data_currency_link_get_modified_date ( link_number ) );
@@ -520,7 +527,7 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     else
 	invalid = NULL;
 
-    tmpstr = gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
+    tmpstr = gsb_real_get_string ( gsb_data_currency_link_get_change_rate ( link_number ) );
     gtk_list_store_set ( GTK_LIST_STORE (model),
 			 &iter,
 			 LINK_CURRENCY1_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_first_currency(link_number)),
@@ -533,8 +540,7 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     g_free ( strdate );
 
     /* set or hide the warning label */
-    label = g_object_get_data (G_OBJECT (model),
-			       "warning_label");
+    label = g_object_get_data (G_OBJECT (model), "warning_label");
 
     if ( gsb_data_currency_link_get_invalid_link (link_number))
     {
@@ -547,6 +553,8 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
+    gsb_gui_navigation_update_home_page ( );
+
     return FALSE;
 }
 

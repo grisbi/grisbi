@@ -1056,24 +1056,25 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
         account_nb = utils_str_atoi ( tab[i] );
         account_currency = gsb_data_account_get_currency ( account_nb );
         tmp_real = gsb_data_account_get_marked_balance ( account_nb );
-        if ( partial_balance -> currency == account_currency )
-            solde = gsb_real_add ( solde, tmp_real );
-        else
+
+        if ( partial_balance -> currency != account_currency )
         {
             if ( ( link_number = gsb_data_currency_link_search ( account_currency,
                         partial_balance -> currency ) ) )
             {
                 if ( gsb_data_currency_link_get_first_currency (
-                        link_number) == account_currency )
+                 link_number) == account_currency )
                     tmp_real = gsb_real_mul ( tmp_real,
                                 gsb_data_currency_link_get_change_rate ( link_number ) );
                 else
                     tmp_real = gsb_real_div ( tmp_real,
                                 gsb_data_currency_link_get_change_rate ( link_number ) );
             }
-            solde = gsb_real_add ( solde, tmp_real );
+            
         }
+        solde = gsb_real_add ( solde, tmp_real );
     }
+
     if ( partial_balance -> colorise && solde.mantissa < 0 )
         string = g_strdup_printf ( "<span color=\"red\">%s</span>",
                         gsb_real_get_string_with_currency (
@@ -1117,9 +1118,8 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
         account_nb = utils_str_atoi ( tab[i] );
         account_currency = gsb_data_account_get_currency ( account_nb );
         tmp_real = gsb_data_account_get_current_balance ( account_nb );
-        if ( partial_balance -> currency == account_currency )
-            solde = gsb_real_add ( solde, tmp_real );
-        else
+
+        if ( partial_balance -> currency != account_currency )
         {
             if ( ( link_number = gsb_data_currency_link_search ( account_currency,
                         partial_balance -> currency ) ) )
@@ -1132,8 +1132,8 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
                     tmp_real = gsb_real_div ( tmp_real,
                                 gsb_data_currency_link_get_change_rate ( link_number ) );
             }
-            solde = gsb_real_add ( solde, tmp_real );
         }
+        solde = gsb_real_add ( solde, tmp_real );
     }
 
     if ( partial_balance -> colorise && solde.mantissa < 0 )

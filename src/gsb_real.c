@@ -71,9 +71,10 @@ static gchar *gsb_real_format_string ( gsb_real number,
                         gint currency_number,
                         gboolean show_symbol );
 static gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_exponent );
-static void gsb_real_grow_exponent( gsb_real *num, guint target_exponent );
+static gboolean gsb_real_grow_exponent( gsb_real *num, guint target_exponent );
 static void gsb_real_minimize_exponent ( gsb_real *num );
 static void gsb_real_raw_minimize_exponent ( gint64 *mantissa, gint *exponent );
+static gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent );
 static gdouble gsb_real_real_to_double ( gsb_real number );
 /*END_STATIC*/
 
@@ -149,9 +150,9 @@ gchar *gsb_real_raw_format_string (gsb_real number,
 	ldiv_t units;
 
 	if ( (number.exponent < 0)
-    || (number.exponent >= sizeofarray (gsb_real_power_10))
+    || (number.exponent >= sizeofarray ( gsb_real_power_10 ) )
     || (number.mantissa == error_real.mantissa) )
-        return g_strdup("###ERR###");
+      return g_strdup ( "###ERR###" );
 
     cs_start = (currency_symbol && conv->p_cs_precedes) ? currency_symbol : "";
     cs_start_space = (currency_symbol && conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
@@ -510,6 +511,7 @@ void gsb_real_raw_minimize_exponent ( gint64 *mantissa, gint *exponent )
 void gsb_real_minimize_exponent ( gsb_real *num )
 {
     gint64 mantissa = num->mantissa;
+
     gsb_real_raw_minimize_exponent ( &mantissa, &num->exponent);
     num->mantissa = mantissa;
 }
@@ -521,21 +523,27 @@ void gsb_real_minimize_exponent ( gsb_real *num )
  * \param num a pointer to the number
  * \param target_exponent the desired exponent
  **/
-void gsb_real_grow_exponent( gsb_real *num, guint target_exponent )
+gboolean gsb_real_grow_exponent( gsb_real *num, guint target_exponent )
 {
     gint64 mantissa = num->mantissa;
     gint exponent = num->exponent;
-    assert ( target_exponent > num->exponent );
+    gboolean succes = TRUE;
+
     while ( exponent < target_exponent )
     {
         gint64 new_mantissa = mantissa * 10;
         if ( ( new_mantissa > G_MAXLONG ) || ( new_mantissa < G_MINLONG ) )
+        {
+            succes = FALSE;
             break;
+        }
         mantissa = new_mantissa;
         ++exponent;
     }
     num->mantissa = mantissa;
     num->exponent = exponent;
+
+    return succes;
 }
 
 /**
@@ -549,20 +557,37 @@ void gsb_real_grow_exponent( gsb_real *num, guint target_exponent )
  * \return TRUE if normalization occured
  * FALSE if exponents can't be the same without loss of precision
  * */
-gboolean gsb_real_normalize ( gsb_real *a, gsb_real *b )
+gboolean gsb_real_normalize ( gsb_real *number_1, gsb_real *number_2 )
 {
-    gsb_real_minimize_exponent ( a );
-    gsb_real_minimize_exponent ( b );
-    if ( a->exponent < b->exponent )
+    gsb_real_minimize_exponent ( number_1 );
+    gsb_real_minimize_exponent ( number_2 );
+
+    if ( number_1->exponent < number_2->exponent )
     {
-        gsb_real_grow_exponent ( a, b->exponent );
+        if ( !gsb_real_grow_exponent ( number_1, number_2->exponent ) )
+		{
+			while ( number_2 -> exponent > number_1 -> exponent )
+            {
+                number_2 -> exponent--;
+                number_2 -> mantissa = number_2 -> mantissa / 10;
+            }
+		}
     }
-    else if ( b->exponent < a->exponent )
+    else if ( number_2->exponent < number_1->exponent )
     {
-        gsb_real_grow_exponent ( b, a->exponent );
+        if ( !gsb_real_grow_exponent ( number_2, number_1->exponent ) )
+		{
+            while ( number_1 -> exponent > number_2 -> exponent )
+            {
+                number_1 -> exponent--;
+                number_1 -> mantissa = number_1 -> mantissa / 10;
+            }
+		}
     }
-    return ( a->exponent == b->exponent );
+
+    return ( number_1->exponent == number_2->exponent );
 }
+
 
 /**
  * give the absolute value of the number
@@ -628,14 +653,20 @@ gsb_real gsb_real_add ( gsb_real number_1,
                         gsb_real number_2 )
 {
     gint64 mantissa;
+
     if ( ( number_1.mantissa == error_real.mantissa )
       || ( number_2.mantissa == error_real.mantissa )
       || !gsb_real_normalize ( &number_1, &number_2 ) )
         return error_real;
-	mantissa = (gint64)number_1.mantissa + number_2.mantissa;
+
+	mantissa = ( gint64 ) number_1.mantissa + number_2.mantissa;
     if ( ( mantissa > G_MAXLONG ) || ( mantissa < G_MINLONG ) )
-        return error_real;
+    {
+        if ( ! gsb_real_raw_truncate_number (&mantissa, &number_1.exponent ) )
+            return error_real;
+    }
     number_1.mantissa = mantissa;
+
     return number_1;
 }
 
@@ -671,22 +702,30 @@ gsb_real gsb_real_opposite ( gsb_real number )
 
 
 /**
- * multiply 2 gsb_reals
+ * multiply 2 gsb_reals. no overflow possible
  *
  * \param number_1
  * \param number_2
  *
- * \return the multiplication between the 2, or error_real if an overflow occured
+ * \return the multiplication between the 2
  * */
 gsb_real gsb_real_mul ( gsb_real number_1,
                         gsb_real number_2 )
 {
-    gint64 mantissa = (gint64)number_1.mantissa * number_2.mantissa;
+    gint64 mantissa;
+
+    mantissa = ( gint64 ) number_1.mantissa * number_2.mantissa;
     number_1.exponent += number_2.exponent;
+
     gsb_real_raw_minimize_exponent ( &mantissa, &number_1.exponent );
+
     if ( ( mantissa > G_MAXLONG ) || ( mantissa < G_MINLONG ) )
-        return error_real;
+    {
+        if ( ! gsb_real_raw_truncate_number (&mantissa, &number_1.exponent ) )
+            return error_real;
+    }
     number_1.mantissa = mantissa;
+
     return number_1;
 }
 
@@ -759,5 +798,33 @@ gsb_real gsb_real_double_to_real ( gdouble number )
 }
 
 
+/**
+ * truncate the number. WARNING there loss of accuracy
+ *
+ * \param mantissa a pointer to the 64 bits mantissa to be truncate
+ * \param exponent a pointer to the exponent to be truncate
+ **/
+gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent )
+{
+    if ( *mantissa > G_MAXLONG )
+    {
+        do
+        {
+            --*exponent;
+            *mantissa = *mantissa / 10;
+        } while ( *mantissa > G_MAXLONG );
+        return TRUE;
+    }
+    else if ( *mantissa < G_MINLONG )
+    {
+        do
+        {
+            --*exponent;
+            *mantissa = *mantissa / 10;
+        } while ( *mantissa < G_MINLONG );
+        return TRUE;
+    }
 
+    return FALSE;
+}
 
