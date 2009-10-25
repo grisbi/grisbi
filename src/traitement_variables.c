@@ -142,6 +142,7 @@ gchar *adresse_secondaire = NULL;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GtkTreeModel *bank_list_model;
+extern GtkTreeStore *categ_tree_model;
 extern gint current_tree_view_width;
 extern gint display_one_line;
 extern gint display_three_lines;
@@ -366,10 +367,13 @@ void init_variables ( void )
     id_timeout = 0;
     }
 
+    /* initialise la liste des catégories */
+    if ( categ_tree_model != NULL && GTK_IS_TREE_STORE ( categ_tree_model ) )
+    {
+        gtk_tree_store_clear ( GTK_TREE_STORE (categ_tree_model) );
+        categ_tree_model = NULL;
+    }
 }
-
-
-
 
 
 /**
@@ -546,8 +550,6 @@ void menus_sensitifs ( gboolean sensitif )
     gsb_menu_transaction_operations_set_sensitive ( FALSE );
 }
 /*****************************************************************************************************/
-
-
 
 
 /*****************************************************************************************************/
