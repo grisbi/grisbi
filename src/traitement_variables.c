@@ -368,11 +368,7 @@ void init_variables ( void )
     }
 
     /* initialise la liste des catégories */
-    if ( categ_tree_model != NULL && GTK_IS_TREE_STORE ( categ_tree_model ) )
-    {
-        gtk_tree_store_clear ( GTK_TREE_STORE (categ_tree_model) );
-        categ_tree_model = NULL;
-    }
+    categ_tree_model = NULL;
 }
 
 
