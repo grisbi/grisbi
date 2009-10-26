@@ -89,8 +89,6 @@ static gsb_real current_exchange;
 static gsb_real current_exchange_fees;
 
 
-
-
 /*START_EXTERN*/
 extern GtkWidget *combo_devise_totaux_categ;
 extern GtkWidget *combo_devise_totaux_ib;
@@ -162,13 +160,13 @@ GtkWidget *gsb_currency_make_combobox ( gboolean set_name )
 {
     GtkCellRenderer *text_renderer, *flag_renderer;
     GtkWidget *combo_box;
-
+devel_debug ("gsb_currency_make_combobox");
     if (!combobox_currency_store)
-	gsb_currency_create_combobox_store ();
-
+        gsb_currency_create_combobox_store ();
+printf ("phase 1\n");
     combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL 
                         (combobox_currency_store));
-
+printf ("phase 2\n");
     /* Flag renderer */
     flag_renderer = gtk_cell_renderer_pixbuf_new ();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), flag_renderer, FALSE);
@@ -176,10 +174,10 @@ GtkWidget *gsb_currency_make_combobox ( gboolean set_name )
 				    "pixbuf", CURRENCY_COL_FLAG, NULL );
 
     GTK_CELL_RENDERER(flag_renderer) -> xpad = 3; /* Ugly but how to set it otherwise ?*/
-
+printf ("phase 3\n");
     text_renderer = gtk_cell_renderer_text_new ();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), text_renderer, FALSE);
-
+printf ("phase 4\n");
     if (set_name)
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), text_renderer,
 					"text", CURRENCY_COL_NAME,
@@ -188,12 +186,12 @@ GtkWidget *gsb_currency_make_combobox ( gboolean set_name )
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), text_renderer,
 					"text", CURRENCY_COL_CODE,
 					NULL);
-
+printf ("phase 5\n");
     gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box),
 			       0 );
+printf ("phase 6\n");
     return (combo_box);
 }
-
 
 
 /**
@@ -709,10 +707,11 @@ gboolean gsb_currency_select_change_currency ( GtkWidget *combobox_1,
  * */
 gboolean gsb_currency_create_combobox_store ( void )
 {
-    /* the currency list store, contains 3 columns :
+    /* the currency list store, contains 4 columns :
      * CURRENCY_COL_CODE : the code of the currency
      * CURRENCY_COL_NAME : the name(code) of the currency
-     * CURRENCY_COL_NUMBER : the number of the currency */
+     * CURRENCY_COL_NUMBER : the number of the currency 
+     * CURRENCY_COL_FLAG :  */
 
     combobox_currency_store = gtk_list_store_new ( CURRENCY_NUM_COL,
 						   G_TYPE_STRING,

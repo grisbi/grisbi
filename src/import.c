@@ -123,7 +123,12 @@ static GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *pare
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
                         gint account_number, gchar * origine );
+static gboolean gsb_import_define_action ( struct struct_compte_importation *imported_account,
+                        gint account_number,
+                        GDate *first_date_import );
+static GDate *gsb_import_get_first_date ( GSList *import_list );
 static gboolean gsb_import_gunzip_file ( gchar *filename );
+static gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id );
 static gboolean gsb_import_set_tmp_file ( gchar *filename,
                         gchar * pointeur_char );
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
@@ -1814,181 +1819,35 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
                         gint account_number )
 {
     GSList *list_tmp;
-    const GDate *last_date_import;
+    GDate *first_date_import = NULL;
     gint demande_confirmation;
-    GSList *list_tmp_transactions;
-	gchar* tmpstr;
 
-    /* check the imported account id, and set it in the grisbi account if it doesn't exist or if it's wrong */
+    /* check the imported account id, and set it in the grisbi account if it doesn't 
+     * exist or if it's wrong */
     if ( imported_account -> id_compte )
     {
-    if ( gsb_data_account_get_id (account_number) )
-    {
-        if ( g_ascii_strcasecmp ( gsb_data_account_get_id (account_number),
-				imported_account -> id_compte ))
-	    {
-		/* there is a difference between the imported account id and grisbi account id,
-		 * ask to be sure */
-		gchar* tmpstr = g_strdup_printf ( _("The Grisbi's id account is %s, but the imported id account is %s.\n\nPerhaps you choose a wrong account ?\nIf you choose to continue, the id of the Grisbi's account will be changed.  Do you want to continue ?"),
-							      gsb_data_account_get_id (account_number),
-							      imported_account -> id_compte );
-		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
-					    tmpstr,
-					    GTK_RESPONSE_NO ))
-		{
-		    g_free ( tmpstr );
-		    gsb_data_account_set_id ( account_number,
-					      imported_account -> id_compte );
-		}
-		else
-		{
-		    g_free ( tmpstr );
-		    return;
-		}
-	    }
-	}
-	else
-	    gsb_data_account_set_id (account_number,
-				     imported_account -> id_compte );
+        if ( ! gsb_import_set_id_compte ( account_number, imported_account -> id_compte ) )
+            return;
     }
 
-    /* on fait un premier tour de la liste des opés pour repérer celles qui sont déjà entrées */
-    /*   si on n'importe que du ofx, c'est facile, chaque opé est repérée par une id */
-    /*     donc si l'opé importée a une id, il suffit de rechercher l'id dans le compte, si elle */
-    /*     n'y est pas l'opé est à enregistrer */
-    /*     si on importe du qif, il n'y a pas d'id. donc soit on retrouve une opé semblable */
-    /*     (cad même montant et même date, on ne fait pas joujou avec le tiers car l'utilisateur */
-    /* a pu le changer), et on demande à l'utilisateur quoi faire, sinon on enregistre l'opé */
+    /* on fait un premier tour de la liste des opés pour repérer celles qui sont déjà entrées
+     * si on n'importe que du ofx, c'est facile, chaque opé est repérée par une id 
+     * donc si l'opé importée a une id, il suffit de rechercher l'id dans le compte, si elle 
+     * n'y est pas l'opé est à enregistrer 
+     * si on importe du qif, il n'y a pas d'id. donc soit on retrouve une opé semblable 
+     * (cad même montant et même date, on ne fait pas joujou avec le tiers car l'utilisateur  
+     * a pu le changer), et on demande à l'utilisateur quoi faire, sinon on enregistre l'opé
+     */
 
+    /* pour gagner en rapidité, on va récupérer la date de la première opération qui pourrait 
+     * être dans le fichier importé */
+    first_date_import = gsb_import_get_first_date ( imported_account -> operations_importees );
 
-    /* pour gagner en rapidité, on va récupérer la dernière date du compte, toutes les opés importées */
-    /* qui ont une date supérieure sont automatiquement acceptées */
-    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
-    last_date_import = NULL;
-
-    while ( list_tmp_transactions )
-    {
-	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-
-	if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
-	{
-	    if ( !last_date_import
-		 ||
-		 g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
-				  last_date_import ) > 0 )
-		last_date_import = gsb_data_transaction_get_date (transaction_number_tmp);
-	}
-	list_tmp_transactions = list_tmp_transactions -> next;
-    }
-
-    /* ok, now last_date_import contains the last transaction date used in that account,
+    /* ok, now firt_date_import contains the firt transaction date used in that account,
      * can check the imported transactions */
-    list_tmp = imported_account -> operations_importees;
-    demande_confirmation = 0;
-
-    while ( list_tmp )
-    {
-        struct struct_ope_importation *imported_transaction;
-        imported_transaction = list_tmp -> data;
-
-        /* on remplace ici le caractère utilisé pour contourner le bug de la libofx "&"
-           par le bon caractère "°"
-           regarder si on ne pourrait pas utiliser imported_account -> type_de_compte */
-        if ( g_ascii_strcasecmp (imported_account -> origine, "OFX") == 0 
-         && imported_transaction -> cheque )
-            imported_transaction -> tiers = my_strdelimit (
-                        imported_transaction -> tiers, "&", "°" );
-
-        /* on ne fait le tour de la liste des opés que si la date de l'opé importée est 
-         * inférieure à la dernière date de la liste ou si on va fusionner avec des  
-         * opérations planifiées automatiques */
-
-        if ( (last_date_import && g_date_compare ( last_date_import,
-                            imported_transaction -> date ) >= 0) ||
-                            etat.get_fusion_import_planed_transactions )
-        {
-            gint transaction_no;
-            /* that transaction is before the last transaction in the account,
-             * so check if the transaction already exists */
-
-            /* first check the id */
-            if ( imported_transaction -> id_operation
-             &&
-             ( transaction_no = gsb_data_transaction_find_by_id (
-                            imported_transaction -> id_operation, account_number ) ) )
-            {
-                /* the id exists with the same account_nb, so the transaction is already
-                 * in grisbi we will forget that transaction */
-                imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
-            }
-            /* if no id, check the cheque */
-            tmpstr = utils_str_itoa (imported_transaction -> cheque);
-            if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION
-             &&
-             imported_transaction -> cheque
-             &&
-             gsb_data_transaction_find_by_payment_content ( tmpstr,
-                                    account_number ))
-            /* found the cheque, forget that transaction */
-            imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
-
-            g_free ( tmpstr );
-
-            /* no id, no cheque, try to find the transaction */
-            if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION )
-            {
-            GDate *date_debut_comparaison;
-            GDate *date_fin_comparaison;
-
-            date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( imported_transaction -> date ),
-                                  g_date_get_month ( imported_transaction -> date ),
-                                  g_date_get_year ( imported_transaction -> date ));
-            g_date_subtract_days ( date_debut_comparaison,
-                           valeur_echelle_recherche_date_import );
-
-            date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( imported_transaction -> date ),
-                                g_date_get_month ( imported_transaction -> date ),
-                                g_date_get_year ( imported_transaction -> date ));
-            g_date_add_days ( date_fin_comparaison,
-                      valeur_echelle_recherche_date_import );
-
-            list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
-
-            while ( list_tmp_transactions )
-            {
-                gint transaction_number_tmp;
-                transaction_number_tmp = gsb_data_transaction_get_transaction_number (
-                        list_tmp_transactions -> data);
-
-                if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
-                {
-                    if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (transaction_number_tmp),
-                                imported_transaction -> montant )
-                         &&
-                         ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
-                                date_debut_comparaison ) >= 0 )
-                         &&
-                         ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
-                                date_fin_comparaison ) <= 0 )
-                         &&
-                         !imported_transaction -> ope_de_ventilation
-                         &&
-                         gsb_data_transaction_get_automatic_transaction (
-                                transaction_number_tmp) > 0 )
-                    {
-                        /* the imported transaction has the same date and same amount, will ask the user */
-                        imported_transaction -> action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION;
-                        imported_transaction -> ope_correspondante = transaction_number_tmp;
-                        demande_confirmation = 1;
-                    }
-                }
-                list_tmp_transactions = list_tmp_transactions -> next;
-            }
-            }
-        }
-        list_tmp = list_tmp -> next;
-    }
+    demande_confirmation = gsb_import_define_action ( imported_account,
+                        account_number,
+                        first_date_import );
 
     /* if we are not sure about some transactions, ask now */
     if ( demande_confirmation )
@@ -2011,21 +1870,24 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
 	    /* set the account currency to the transaction and create the transaction */
 	    if (imported_account -> bouton_devise)
-		imported_transaction -> devise = gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise);
+            imported_transaction -> devise = gsb_currency_get_currency_from_combobox (
+                        imported_account -> bouton_devise);
 	    else
-		imported_transaction -> devise = gsb_data_currency_get_number_by_code_iso4217 (imported_account -> devise);
+            imported_transaction -> devise = gsb_data_currency_get_number_by_code_iso4217 (
+                        imported_account -> devise);
 
 	    transaction_number = gsb_import_create_transaction ( imported_transaction,
-								 account_number, imported_account -> origine );
+                        account_number, imported_account -> origine );
 
 	    /* invert the amount of the transaction if asked */
 	    if (imported_account -> invert_transaction_amount)
-		gsb_data_transaction_set_amount ( transaction_number,
-						  gsb_real_opposite (gsb_data_transaction_get_amount (transaction_number)));
+            gsb_data_transaction_set_amount ( transaction_number,
+                        gsb_real_opposite (gsb_data_transaction_get_amount (
+                        transaction_number ) ) );
 
 	    /* we need to add the transaction now to the tree model here
 	     * to avoid to write again all the account */
-	    gsb_transactions_list_append_new_transaction (transaction_number, FALSE);
+	    gsb_transactions_list_append_new_transaction ( transaction_number, FALSE );
 	}
 	list_tmp = list_tmp -> next;
     }
@@ -2036,11 +1898,131 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     /* if we are on the current account, we need to update the tree_view */
     if (gsb_gui_navigation_get_current_account () == account_number)
     {
-	gsb_transactions_list_update_tree_view (account_number, TRUE);
-    gsb_data_account_colorize_current_balance ( account_number );
+        gsb_transactions_list_update_tree_view (account_number, TRUE);
+        gsb_data_account_colorize_current_balance ( account_number );
     }
 }
 
+
+/**
+ * 
+ * 
+ *
+ * \param 
+ *
+ * return 
+ */
+gboolean gsb_import_define_action ( struct struct_compte_importation *imported_account,
+                        gint account_number,
+                        GDate *first_date_import )
+{
+    GSList *list_tmp;
+    gint demande_confirmation = FALSE;
+    GSList *list_tmp_transactions;
+	gchar* tmpstr;
+
+    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+
+    while ( list_tmp_transactions )
+    {
+        gint transaction_number;
+        const gchar *transaction_id;
+        const gchar *content;
+
+        transaction_number = gsb_data_transaction_get_transaction_number (
+                list_tmp_transactions -> data);
+
+        if ( gsb_data_transaction_get_account_number ( transaction_number ) != account_number
+         ||
+         g_date_compare ( gsb_data_transaction_get_date ( transaction_number ),
+                        first_date_import ) < 0 )
+        {
+            list_tmp_transactions = list_tmp_transactions -> next;
+            continue;
+        }
+
+        transaction_id = gsb_data_transaction_get_id ( transaction_number );
+        content = gsb_data_transaction_get_method_of_payment_content ( transaction_number );
+
+        list_tmp = imported_account -> operations_importees;
+
+        while ( list_tmp )
+        {
+            struct struct_ope_importation *imported_transaction;
+
+            imported_transaction = list_tmp -> data;
+
+            /* on corrige le bug de la libofx */
+            if ( g_ascii_strcasecmp (imported_account -> origine, "OFX") == 0 
+             && imported_transaction -> cheque )
+                imported_transaction -> tiers = my_strdelimit (
+                        imported_transaction -> tiers, "&", "°" );
+
+            /* on compare les id s'ils existent */
+            if ( imported_transaction -> id_operation
+             &&
+             transaction_id
+             &&
+             !g_utf8_collate ( imported_transaction -> id_operation, transaction_id ) )
+                imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
+
+            /* found the cheque, forget that transaction */
+            tmpstr = utils_str_itoa (imported_transaction -> cheque);
+            if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION
+             &&
+             imported_transaction -> cheque
+             &&
+             !g_utf8_collate ( tmpstr, content ) )
+                imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
+            g_free ( tmpstr );
+
+            /* no id, no cheque, try to find the transaction */
+            if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION )
+            {
+                GDate *date_debut_comparaison;
+                GDate *date_fin_comparaison;
+
+                date_debut_comparaison = g_date_new_dmy ( g_date_get_day (
+                        imported_transaction -> date ),
+                        g_date_get_month ( imported_transaction -> date ),
+                        g_date_get_year ( imported_transaction -> date ));
+                        g_date_subtract_days ( date_debut_comparaison,
+                        valeur_echelle_recherche_date_import );
+
+                date_fin_comparaison = g_date_new_dmy ( g_date_get_day (
+                        imported_transaction -> date ),
+                        g_date_get_month ( imported_transaction -> date ),
+                        g_date_get_year ( imported_transaction -> date ));
+                        g_date_add_days ( date_fin_comparaison,
+                        valeur_echelle_recherche_date_import );
+                if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (
+                        transaction_number ),
+                        imported_transaction -> montant )
+                 &&
+                 ( g_date_compare ( gsb_data_transaction_get_date ( transaction_number ),
+                        date_debut_comparaison ) >= 0 )
+                 &&
+                 ( g_date_compare ( gsb_data_transaction_get_date ( transaction_number ),
+                        date_fin_comparaison ) <= 0 )
+                 &&
+                 !imported_transaction -> ope_de_ventilation
+                 &&
+                 gsb_data_transaction_get_automatic_transaction ( transaction_number ) > 0 )
+                {
+                    /* the imported transaction has the same date and same amount, 
+                     * will ask the user */
+                    imported_transaction -> action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION;
+                    imported_transaction -> ope_correspondante = transaction_number;
+                    demande_confirmation = TRUE;
+                }
+            }
+            list_tmp = list_tmp -> next;
+        }
+        list_tmp_transactions = list_tmp_transactions -> next;
+    }
+
+    return demande_confirmation;
+}
 /**
  * called if we are not sure about some transactions to import
  * ask here to the user
@@ -2689,26 +2671,8 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
     /*     si elle est différente, on demande si on la remplace */
     if ( imported_account -> id_compte )
     {
-	if ( gsb_data_account_get_id (account_number) )
-	{
-	    if ( g_ascii_strcasecmp ( gsb_data_account_get_id (account_number),
-				imported_account -> id_compte ))
-	    {
-		/* 		l'id du compte choisi et l'id du compte importé sont différents */
-		/* 		    on propose encore d'arrêter... */
-		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
-					    _("Perhaps you choose a wrong account ?  If you choose to continue, "
-                          "the id of the account will be changed.  Do you want to continue ?"),
-					    GTK_RESPONSE_NO ))
-		    gsb_data_account_set_id (account_number,
-					     my_strdup ( imported_account -> id_compte ));
-		else
-		    return;
-	    }
-	}
-	else
-	    gsb_data_account_set_id (account_number,
-				     my_strdup ( imported_account -> id_compte ));
+        if ( ! gsb_import_set_id_compte ( account_number, imported_account -> id_compte ) )
+            return;
     }
 
     /* on fait le tour des opés importées et recherche dans la liste d'opé s'il y a la 
@@ -3102,6 +3066,77 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 	gtk_widget_show ( dialog );
     }
 }
+
+
+/**
+ * 
+ * 
+ *
+ * \param 
+ *
+ * return 
+ */
+gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id )
+{
+    gchar *account_id;
+
+    account_id = gsb_data_account_get_id ( account_nb );
+    if ( account_id )
+	{
+	    if ( g_ascii_strcasecmp ( account_id, imported_id ) )
+	    {
+		/* 		l'id du compte choisi et l'id du compte importé sont différents */
+		/* 		    on propose encore d'arrêter... */
+            if ( question_yes_no_hint (
+                        _("The id of the imported and chosen accounts are different"),
+					    _("Perhaps you choose a wrong account ?  If you choose to continue, "
+                        "the id of the account will be changed.  Do you want to continue ?"),
+					    GTK_RESPONSE_NO ) )
+                gsb_data_account_set_id ( account_nb, my_strdup ( imported_id ) );
+            else
+                return FALSE;
+	    }
+	}
+	else
+	    gsb_data_account_set_id ( account_nb, my_strdup ( imported_id ) );
+
+    return TRUE;
+}
+
+
+/**
+ * 
+ * 
+ *
+ * \param 
+ *
+ * return 
+ */
+GDate *gsb_import_get_first_date ( GSList *import_list )
+{
+    GSList *list_tmp;
+    GDate *first_date = NULL;
+
+    list_tmp = import_list;
+
+    while ( list_tmp )
+    {
+        struct struct_ope_importation *imported_transaction;
+
+        imported_transaction = list_tmp -> data;
+
+        if ( !first_date
+         ||
+         g_date_compare ( imported_transaction -> date, first_date ) < 0 )
+            first_date = imported_transaction -> date;
+
+        list_tmp = list_tmp -> next;
+    }
+    g_date_subtract_days ( first_date, valeur_echelle_recherche_date_import );
+
+    return first_date;
+}
+
 /* *******************************************************************************/
 
 

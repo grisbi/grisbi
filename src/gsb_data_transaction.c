@@ -100,6 +100,8 @@ typedef struct
 
 /*START_STATIC*/
 static void gsb_data_transaction_delete_all_transactions ( void );
+static gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
+                        gint account_number );
 static  void gsb_data_transaction_free ( struct_transaction *transaction);
 static gint gsb_data_transaction_get_last_white_number (void);
 static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number );
@@ -2564,6 +2566,27 @@ GSList *gsb_data_transaction_get_transactions_list_by_date ( void )
                         (GCompareFunc) classement_sliste_transactions_par_date );
     return list_tmp;
 }
+
+
+/**
+ * get the id of the transaction
+ *
+ * \param transaction_number the number of the transaction
+ * 
+ * \return the id of the transaction
+ * */
+const gchar *gsb_data_transaction_get_id ( gint transaction_number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
+
+    if ( !transaction )
+        return NULL;
+
+    return transaction -> transaction_id;
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

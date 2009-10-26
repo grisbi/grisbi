@@ -2103,7 +2103,7 @@ void gsb_main_page_update_homepage_title ( gchar *title )
     gchar * tmpstr;
 
     /* at the first use of grisbi,label_titre_fichier doesn't still exist */
-    if ( !label_titre_fichier )
+    if ( !label_titre_fichier || !GTK_IS_LABEL ( label_titre_fichier ) )
         return;
 
     if ( title && strlen ( title ) > 0 )

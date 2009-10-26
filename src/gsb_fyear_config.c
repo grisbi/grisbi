@@ -797,7 +797,8 @@ gboolean gsb_fyear_config_associate_transactions ( void )
 	dialogue (  tmpstr );
 	g_free ( tmpstr );
 	transaction_list_update_element (ELEMENT_EXERCICE);
-	modification_fichier ( TRUE );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
     }
     else
 	dialogue ( _("no transaction to associate"));

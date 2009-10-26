@@ -23,8 +23,6 @@ gint gsb_data_transaction_check_content_payment ( gint payment_number,
 gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
                         gint target_transaction_number );
 gint gsb_data_transaction_find_by_id ( gchar *id, gint account_number );
-gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
-                        gint account_number );
 gint gsb_data_transaction_get_account_number ( gint transaction_number );
 gsb_real gsb_data_transaction_get_adjusted_amount ( gint transaction_number,
                         gint return_exponent );
@@ -48,6 +46,7 @@ const GDate *gsb_data_transaction_get_date ( gint transaction_number );
 gsb_real gsb_data_transaction_get_exchange_fees ( gint transaction_number );
 gsb_real gsb_data_transaction_get_exchange_rate ( gint transaction_number );
 gint gsb_data_transaction_get_financial_year_number ( gint transaction_number );
+const gchar *gsb_data_transaction_get_id ( gint transaction_number );
 gint gsb_data_transaction_get_last_number (void);
 gint gsb_data_transaction_get_marked_transaction ( gint transaction_number );
 const gchar *gsb_data_transaction_get_method_of_payment_content ( gint transaction_number );

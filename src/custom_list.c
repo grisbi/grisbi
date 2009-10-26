@@ -103,7 +103,8 @@ CustomList *custom_list_new (void)
 
     custom_list = (CustomList*) g_object_new (CUSTOM_TYPE_LIST, NULL);
 
-    g_assert( custom_list != NULL );
+    if ( custom_list == NULL )
+        return NULL;
 
     /* increase the table of CustomRecord */
     custom_list->num_rows = TRANSACTION_LIST_ROWS_NB;

@@ -621,6 +621,7 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
 {
     if ( initial_file_title && strlen ( initial_file_title ) )
         g_free ( initial_file_title );
+
     initial_file_title = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
 
     if ( initial_file_title && strlen ( initial_file_title ) > 0 )
@@ -634,7 +635,7 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
             titre_fichier = my_strdup ( initial_file_title );
         }
     }
-    else
+    else if ( GTK_IS_LABEL ( label_titre_fichier ) )
         gtk_label_set_text ( GTK_LABEL ( label_titre_fichier ), "" );
 
     /* Update window title */

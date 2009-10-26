@@ -27,7 +27,6 @@
 /*START_INCLUDE*/
 #include "utils_str.h"
 #include "./include.h"
-#include "./erreur.h"
 #include "./gsb_data_report.h"
 /*END_INCLUDE*/
 
@@ -871,8 +870,6 @@ gchar *gsb_string_extract_int ( const gchar *chaine )
     gunichar ch;
     gint i = 0;
 
-    devel_debug ( chaine );
-    
     tmpstr = g_malloc0 ( 11*sizeof (gchar) );
     ptr = g_strdup ( chaine );
     while ( g_utf8_strlen (ptr, -1) > 0 )
