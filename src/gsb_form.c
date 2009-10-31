@@ -834,11 +834,14 @@ void gsb_form_fill_element ( gint element_number,
 	case TRANSACTION_FORM_DEVISE:
 	    number = gsb_data_mix_get_currency_number (transaction_number, is_transaction);
 
-	    gsb_currency_set_combobox_history ( widget,
-						number);
+	    gsb_currency_set_combobox_history ( widget, number);
 	    if (is_transaction)
-		gsb_form_transaction_check_change_button ( number,
-							   account_number );
+        {
+            if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == 3 )
+                gtk_widget_set_sensitive ( widget, FALSE );
+            else
+                gsb_form_transaction_check_change_button ( number, account_number );
+        }
 	    break;
 
 	case TRANSACTION_FORM_BANK:
@@ -1437,8 +1440,6 @@ gint gsb_form_get_element_expandable ( gint element_number )
  * */
 gboolean gsb_form_entry_get_focus ( GtkWidget *entry )
 {
-    //~ GtkWidget *fyear_button;
-
     /* the entry can be a combofix or a real entry */
     if (GTK_IS_COMBOFIX ( entry ))
     {
@@ -1461,11 +1462,6 @@ gboolean gsb_form_entry_get_focus ( GtkWidget *entry )
     /* sensitive the valid and cancel buttons */
     gtk_widget_set_sensitive (GTK_WIDGET (form_button_valid), TRUE);
     gtk_widget_set_sensitive (GTK_WIDGET (form_button_cancel), TRUE);
-
-    /* set the financial year on automatic by default */
-    //~ fyear_button = gsb_form_widget_get_widget (TRANSACTION_FORM_EXERCICE);
-    //~ if (fyear_button)
-        //~ gsb_fyear_set_combobox_history ( fyear_button, 0 );
 
     return FALSE;
 }
@@ -2797,13 +2793,23 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_DEBIT:
-		if (!gsb_form_widget_check_empty (element -> element_widget)) 
-		    gsb_data_mix_set_amount ( transaction_number, gsb_real_opposite (gsb_utils_edit_calculate_entry ( element -> element_widget )), is_transaction);
+		if (!gsb_form_widget_check_empty (element -> element_widget))
+        {
+            gsb_form_check_auto_separator (element -> element_widget);
+		    gsb_data_mix_set_amount ( transaction_number, gsb_real_opposite (
+                        gsb_utils_edit_calculate_entry ( element -> element_widget )),
+                        is_transaction);
+        }
 		break;
 
 	    case TRANSACTION_FORM_CREDIT:
 		if (!gsb_form_widget_check_empty (element -> element_widget)) 
-		    gsb_data_mix_set_amount ( transaction_number, gsb_utils_edit_calculate_entry ( element -> element_widget ), is_transaction);
+        {
+            gsb_form_check_auto_separator (element -> element_widget);
+		    gsb_data_mix_set_amount ( transaction_number,
+                        gsb_utils_edit_calculate_entry ( element -> element_widget ),
+                        is_transaction);
+        }
 		break;
 
 	    case TRANSACTION_FORM_BUDGET:
@@ -2873,7 +2879,9 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_DEVISE:
-		gsb_data_mix_set_currency_number ( transaction_number, gsb_currency_get_currency_from_combobox (element -> element_widget), is_transaction);
+		gsb_data_mix_set_currency_number ( transaction_number, 
+                        gsb_currency_get_currency_from_combobox (
+                        element -> element_widget), is_transaction );
 		if (is_transaction)
 		    gsb_currency_check_for_change ( transaction_number );
 
