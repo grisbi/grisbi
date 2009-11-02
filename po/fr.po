@@ -10128,7 +10128,7 @@ msgstr "N° de rapprochement"
 #: src/transaction_list.c:1879
 #, c-format
 msgid "Total : %s (variance : %s)"
-msgstr "Total : %s (variance : %s)"
+msgstr "Total : %s (écart : %s)"
 
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
