@@ -100,8 +100,6 @@ typedef struct
 
 /*START_STATIC*/
 static void gsb_data_transaction_delete_all_transactions ( void );
-static gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
-                        gint account_number );
 static  void gsb_data_transaction_free ( struct_transaction *transaction);
 static gint gsb_data_transaction_get_last_white_number (void);
 static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number );
@@ -736,17 +734,14 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
 
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
-    if ( ! (transaction
-	    &&
-	    return_currency_number ))
-	return gsb_real_adjust_exponent  ( null_real,
-					   return_exponent );
+    if ( ! (transaction && return_currency_number ) )
+        return gsb_real_adjust_exponent  ( null_real, return_exponent );
 
     /* if the transaction currency is the same of the account's one,
      * we just return the transaction's amount */
 
     if ( transaction -> currency_number == return_currency_number )
-	return gsb_real_adjust_exponent  ( transaction -> transaction_amount,
+        return gsb_real_adjust_exponent  ( transaction -> transaction_amount,
 					   return_exponent );
 
     /* now we can adjust the amount */
@@ -2390,44 +2385,6 @@ GSList *gsb_data_transaction_get_children ( gint transaction_number,
     }
 
     return children_list;
-}
-
-
-
-
-/**
- * find a transaction by the method of payment content in a given account
- *
- * \param string
- * \param account_number
- *
- * \return the number of the transaction or 0 if not found
- * */
-gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
-                        gint account_number )
-{
-    GSList *tmp_list;
-
-    if (!string)
-	return 0;
-
-    tmp_list = transactions_list;
-    while (tmp_list)
-    {
-	struct_transaction *transaction;
-
-	transaction = tmp_list -> data;
-
-	if ( transaction -> method_of_payment_content
-	     &&
-	     transaction -> account_number == account_number
-	     &&
-	     !strcmp ( string,
-		       transaction -> method_of_payment_content ))
-	    return transaction -> transaction_number;
-	tmp_list = tmp_list -> next;
-    }
-    return 0;
 }
 
 

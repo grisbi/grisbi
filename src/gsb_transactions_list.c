@@ -717,21 +717,27 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 
 	case ELEMENT_AMOUNT:
 	    /* give the amount of the transaction in the currency of the account */
-	    account_currency = gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number));
-	    if ( account_currency != gsb_data_transaction_get_currency_number (transaction_number))
+	    account_currency = gsb_data_account_get_currency (
+                        gsb_data_transaction_get_account_number ( transaction_number ) );
+	    if ( account_currency != gsb_data_transaction_get_currency_number (
+         transaction_number ) )
 	    {
-		gchar* tmpstr = gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number,
-											       gsb_data_currency_get_floating_point (account_currency)));
-		gchar* result = g_strconcat ( "(",
-					      tmpstr,
-					      gsb_data_currency_get_code (account_currency),
-					      ")",
-					      NULL );
-		g_free ( tmpstr );
-		return result;
+            gchar* tmpstr;
+            gchar* result;
+
+            tmpstr = gsb_real_get_string ( gsb_data_transaction_get_adjusted_amount (
+                        transaction_number,
+                        gsb_data_currency_get_floating_point ( account_currency ) ) );
+            result = g_strconcat ( "(",
+                        tmpstr,
+                        gsb_data_currency_get_code_or_isocode ( account_currency ),
+					    ")",
+					    NULL );
+            g_free ( tmpstr );
+            return result;
 	    }
 	    else
-		return NULL;
+            return NULL;
 	    break;
 
 	    /* mise en forme du moyen de paiement */

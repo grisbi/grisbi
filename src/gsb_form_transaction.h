@@ -9,8 +9,6 @@
 /* START_DECLARATION */
 gboolean gsb_form_transaction_change_clicked ( GtkWidget *button,
                         gpointer null );
-void gsb_form_transaction_check_change_button ( gint currency_number,
-                        gint account_number );
 gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name );
 void gsb_form_transaction_currency_changed ( GtkWidget *widget, gpointer null );
 GSList *gsb_form_transaction_get_parties_list_from_report ( void );

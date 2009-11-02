@@ -49,7 +49,7 @@ extern GtkWidget *arbre_categ;
 extern MetatreeInterface * budgetary_interface;
 extern GtkWidget *budgetary_line_tree;
 extern GtkTreeStore *budgetary_line_tree_model;
-extern GtkTreeStore * categ_tree_model;
+extern GtkTreeStore *categ_tree_model;
 extern MetatreeInterface * category_interface;
 extern MetatreeInterface * payee_interface;
 extern GtkWidget *payee_tree;

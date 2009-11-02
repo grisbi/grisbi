@@ -131,6 +131,7 @@ static gboolean gsb_import_gunzip_file ( gchar *filename );
 static gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id );
 static gboolean gsb_import_set_tmp_file ( gchar *filename,
                         gchar * pointeur_char );
+static void gsb_import_show_orphan_transactions ( GSList *orphan_list );
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
 static gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
                         gpointer model );
@@ -1979,15 +1980,7 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
             /* no id, no cheque, try to find the transaction */
             if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION )
             {
-                GDate *date_debut_comparaison;
                 GDate *date_fin_comparaison;
-
-                date_debut_comparaison = g_date_new_dmy ( g_date_get_day (
-                        imported_transaction -> date ),
-                        g_date_get_month ( imported_transaction -> date ),
-                        g_date_get_year ( imported_transaction -> date ));
-                        g_date_subtract_days ( date_debut_comparaison,
-                        valeur_echelle_recherche_date_import );
 
                 date_fin_comparaison = g_date_new_dmy ( g_date_get_day (
                         imported_transaction -> date ),
@@ -1998,9 +1991,6 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
                 if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (
                         transaction_number ),
                         imported_transaction -> montant )
-                 &&
-                 ( g_date_compare ( gsb_data_transaction_get_date ( transaction_number ),
-                        date_debut_comparaison ) >= 0 )
                  &&
                  ( g_date_compare ( gsb_data_transaction_get_date ( transaction_number ),
                         date_fin_comparaison ) <= 0 )
@@ -2939,19 +2929,33 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
      * on les affiche dans une liste en proposant de les ajouter à la liste */
 
     if ( liste_opes_import_celibataires )
-    {
+        gsb_import_show_orphan_transactions ( liste_opes_import_celibataires );
+}
+
+
+/**
+ * 
+ * 
+ *
+ * \param 
+ *
+ * return 
+ */
+void gsb_import_show_orphan_transactions ( GSList *orphan_list )
+{
 	GtkWidget *liste_ope_celibataires, *dialog, *label, *scrolled_window;
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
-
+    GSList *list_tmp;
 
     dialog = gtk_dialog_new_with_buttons ( _("Orphaned transactions"),
-					   GTK_WINDOW ( window ),
-					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OK, GTK_RESPONSE_OK,
-					   NULL );
+                        GTK_WINDOW ( window ),
+                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                        GTK_STOCK_SELECT_ALL, GTK_RESPONSE_ACCEPT,
+                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                        GTK_STOCK_OK, GTK_RESPONSE_OK,
+                        NULL );
 
     gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
@@ -2962,21 +2966,22 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
                               "OK button"));
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     10 );
+                        label,
+                        FALSE,
+                        FALSE,
+                        10 );
 	gtk_widget_show ( label );
 
+    /* on crée le model et on y associe le dialogue */
 	store = gtk_list_store_new ( 4,
-				     G_TYPE_BOOLEAN,
-				     G_TYPE_STRING,
-				     G_TYPE_STRING,
-				     G_TYPE_STRING );
+                        G_TYPE_BOOLEAN,
+                        G_TYPE_STRING,
+                        G_TYPE_STRING,
+                        G_TYPE_STRING );
+    g_object_set_data ( G_OBJECT ( store ), "dialog", dialog );
 
 	/* on remplit la liste */
-
-	list_tmp = liste_opes_import_celibataires;
+	list_tmp = orphan_list;
 
 	while ( list_tmp )
 	{
@@ -2985,89 +2990,78 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 
 	    ope_import = list_tmp -> data;
 
-	    gtk_list_store_append ( store,
-				    &iter );
-
+	    gtk_list_store_append ( store, &iter );
 	    gtk_list_store_set ( store,
-				 &iter,
-				 0, FALSE,
-				 1, gsb_format_gdate ( ope_import -> date ),
-				 2, ope_import -> tiers,
-				 3, gsb_real_get_string_with_currency ( ope_import -> montant,
-                                    ope_import -> devise, TRUE ),
-				 -1 );
+                        &iter,
+                        0, FALSE,
+                        1, gsb_format_gdate ( ope_import -> date ),
+                        2, ope_import -> tiers,
+                        3, gsb_real_get_string_with_currency ( ope_import -> montant,
+                        ope_import -> devise, TRUE ),
+                        -1 );
 
 	    list_tmp = list_tmp -> next;
 	}
 
-	/* on crée la liste des opés célibataires
-	   et on y associe la gslist */
-
+	/* on crée la liste des opés célibataires et on y associe la gslist */
 	liste_ope_celibataires = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (store));
-	g_object_set_data ( G_OBJECT ( liste_ope_celibataires ),
-			    "liste_ope",
-			    liste_opes_import_celibataires );
+	g_object_set_data ( G_OBJECT ( liste_ope_celibataires ), "liste_ope", orphan_list );
+
 	scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
 	gtk_widget_set_size_request ( scrolled_window, -1, 300 );
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     scrolled_window,
-			     TRUE,
-			     TRUE,
-			     0 );
+                        scrolled_window,
+                        TRUE,
+                        TRUE,
+                        0 );
 	gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					 GTK_POLICY_AUTOMATIC,
-					 GTK_POLICY_AUTOMATIC );
+                        GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_AUTOMATIC );
 	gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 						liste_ope_celibataires );
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (liste_ope_celibataires), TRUE);
 	gtk_widget_show_all ( scrolled_window );
 
 	/* on affiche les colonnes */
-
 	renderer = gtk_cell_renderer_toggle_new ();
 	g_signal_connect ( renderer,
-			   "toggled",
-			   G_CALLBACK (click_sur_liste_opes_orphelines ),
-			   store );
+                        "toggled",
+                        G_CALLBACK (click_sur_liste_opes_orphelines ),
+                        store );
 	column = gtk_tree_view_column_new_with_attributes ( _("Mark"),
-							    renderer,
-							    "active", 0,
-
-							    NULL);
+                        renderer,
+                        "active", 0,
+                        NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (liste_ope_celibataires), column);
 
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes ( _("Date"),
-							    renderer,
-							    "text", 1,
-							    NULL);
+                        renderer,
+                        "text", 1,
+                        NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (liste_ope_celibataires), column);
 
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes ( _("Payee"),
-							    renderer,
-							    "text", 2,
-							    NULL);
+                        renderer,
+                        "text", 2,
+                        NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (liste_ope_celibataires), column);
-
 
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes ( _("Amount"),
-							    renderer,
-							    "text", 3,
-							    NULL);
+                        renderer,
+                        "text", 3,
+                        NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (liste_ope_celibataires), column);
 
 	g_signal_connect ( G_OBJECT ( dialog ),
-			   "response",
-			   G_CALLBACK ( click_dialog_ope_orphelines ),
-			   liste_ope_celibataires );
+                        "response",
+                        G_CALLBACK ( click_dialog_ope_orphelines ),
+                        liste_ope_celibataires );
 
 	gtk_widget_show ( dialog );
-    }
 }
-
-
 /**
  * 
  * 
@@ -3132,6 +3126,8 @@ GDate *gsb_import_get_first_date ( GSList *import_list )
 
         list_tmp = list_tmp -> next;
     }
+
+    first_date = gsb_date_copy ( first_date );
     g_date_subtract_days ( first_date, valeur_echelle_recherche_date_import );
 
     return first_date;
@@ -3152,6 +3148,22 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
     switch ( result )
     {
+        case GTK_RESPONSE_ACCEPT:
+        /* on coche toutes les cases des opérations */
+        liste_opes_import_celibataires = g_object_get_data (
+                        G_OBJECT ( liste_ope_celibataires ),
+                        "liste_ope" );
+	    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( liste_ope_celibataires ));
+	    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
+        {
+            do
+            {
+                gtk_list_store_set ( GTK_LIST_STORE ( model ), &iter, 0, TRUE, -1 );
+            }
+            while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+        }
+        gtk_dialog_set_response_sensitive ( GTK_DIALOG ( dialog ),GTK_RESPONSE_ACCEPT, FALSE );
+        break;
 	case GTK_RESPONSE_OK:
 	    /* on ajoute la ou les opés marquées à la liste d'opés en les pointant d'un T
 	       puis on les retire de la liste des orphelines
@@ -3239,7 +3251,6 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 		 &&
 		 g_slist_length ( liste_opes_import_celibataires ))
 		break;
-
 	default:
 	    gtk_widget_destroy ( dialog );
 	    break;
@@ -3256,21 +3267,31 @@ gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer,
                         GtkTreeModel *store )
 {
     GtkTreeIter iter;
+    gboolean valeur;
 
-    if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( store ),
-					       &iter,
-					       ligne ))
+    if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( store ), &iter, ligne ) )
     {
-	gboolean valeur;
+        gtk_tree_model_get ( GTK_TREE_MODEL ( store ), &iter, 0, &valeur, -1 );
+        gtk_list_store_set ( GTK_LIST_STORE ( store ), &iter, 0, 1 - valeur, -1 );
+    }
+    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( store ), &iter ) )
+    {
+        gboolean all_true = TRUE;
+        GtkDialog *dialog;
 
-	gtk_tree_model_get ( GTK_TREE_MODEL ( store ),
-			     &iter,
-			     0, &valeur,
-			     -1 );
-	gtk_list_store_set ( GTK_LIST_STORE ( store ),
-			     &iter,
-			     0, 1 - valeur,
-			     -1 );
+        dialog = g_object_get_data ( G_OBJECT ( store ), "dialog" );
+        do
+        {
+            gtk_tree_model_get ( GTK_TREE_MODEL ( store ), &iter, 0, &valeur, -1 );
+            if ( valeur == FALSE )
+                all_true = FALSE;
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( store ), &iter ) );
+
+        if ( all_true == TRUE )
+            gtk_dialog_set_response_sensitive ( dialog,GTK_RESPONSE_ACCEPT, FALSE );
+        else
+            gtk_dialog_set_response_sensitive ( dialog,GTK_RESPONSE_ACCEPT, TRUE );
     }
     return ( FALSE );
 }

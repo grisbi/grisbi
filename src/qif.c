@@ -193,6 +193,8 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 				      _("oth l)")))
 					  returned_value = -2;
 	    }
+        else  
+            break;
 	}
 	while ( returned_value != EOF
 		&&

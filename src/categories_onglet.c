@@ -59,7 +59,7 @@ static void selectionne_sub_category ( GtkTreeModel * model );
 
 
 /* Category tree model & view */
-GtkTreeStore * categ_tree_model = NULL;
+GtkTreeStore *categ_tree_model = NULL;
 GtkWidget *arbre_categ = NULL;
 gint no_devise_totaux_categ;
 

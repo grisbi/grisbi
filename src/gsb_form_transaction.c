@@ -62,6 +62,7 @@
 
 /*START_EXTERN*/
 extern GtkWidget *form_button_recover_split;
+extern gsb_real null_real;
 /*END_EXTERN*/
 
 
@@ -265,32 +266,6 @@ gint gsb_form_transactions_look_for_last_party ( gint no_party,
 
     return last_transaction_with_party_not_in_account;
 }
-
-
-/**
- * check if the currency given in param is the same of the account currency
- * or if there is a link between them
- * if not, show the change button
- *
- * \param currency_number the currency of the transaction
- * \param account_number 
- *
- * \return
- * */
-void gsb_form_transaction_check_change_button ( gint currency_number,
-                        gint account_number )
-{
-    gint account_currency_number;
-
-    account_currency_number = gsb_data_account_get_currency (account_number);
-
-    if ( gsb_data_currency_link_search ( account_currency_number,
-					 currency_number ))
-	gtk_widget_hide ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHANGE));
-    else
-	gtk_widget_show ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHANGE));
-}
-
 
 
 /**
@@ -553,40 +528,49 @@ gboolean gsb_form_transaction_change_clicked ( GtkWidget *button,
     gint account_number;
     gint currency_number;
     gint account_currency_number;
-    gsb_real exchange, exchange_fees;
 
-    account_number = gsb_form_get_account_number ();
-    gtk_widget_grab_focus ( gsb_form_widget_get_widget (TRANSACTION_FORM_DATE));
+    account_number = gsb_form_get_account_number ( );
+    account_currency_number = gsb_data_account_get_currency ( account_number );
+    gtk_widget_grab_focus ( gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE ));
 
-    transaction_number = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( gsb_form_get_form_widget () ),
-								"transaction_number_in_form" ));
+    transaction_number = GPOINTER_TO_INT (g_object_get_data (
+                        G_OBJECT ( gsb_form_get_form_widget ( ) ),
+                        "transaction_number_in_form" ));
 
-    account_currency_number = gsb_data_account_get_currency (account_number);
-    currency_number = gsb_data_transaction_get_currency_number (transaction_number);
-
-    gsb_currency_exchange_dialog ( account_currency_number, currency_number,
-				   gsb_data_transaction_get_change_between (transaction_number),
-				   gsb_data_transaction_get_exchange_rate (transaction_number),
-				   gsb_data_transaction_get_exchange_fees (transaction_number), 
-				   TRUE );
-
-    exchange = gsb_currency_get_current_exchange ();
-    exchange_fees = gsb_currency_get_current_exchange_fees ();
-
-    if ( exchange.mantissa || exchange_fees.mantissa )
+    if ( transaction_number == -1 )
     {
-	gsb_data_transaction_set_exchange_rate (transaction_number,
-						 gsb_real_abs (exchange));
-	gsb_data_transaction_set_exchange_fees (transaction_number,
-						exchange_fees );
+        gint link_number;
 
-	if ( exchange.mantissa < 0 )
-	    gsb_data_transaction_set_change_between (transaction_number,
-						     1 );
-	else
-	    gsb_data_transaction_set_change_between (transaction_number,
-						     0 );
+        currency_number = gsb_currency_get_currency_from_combobox (
+                        gsb_form_widget_get_widget ( TRANSACTION_FORM_DEVISE ) );
+        link_number = gsb_data_currency_link_search ( account_currency_number,
+                        currency_number );
+        if ( link_number 
+         && 
+         gsb_data_currency_link_get_first_currency ( link_number )
+         == account_currency_number )
+            gsb_currency_exchange_dialog ( account_currency_number, currency_number,
+                        1,
+                        gsb_data_currency_link_get_change_rate ( link_number ),
+                        null_real, 
+                        TRUE );
+        else
+            gsb_currency_exchange_dialog ( account_currency_number, currency_number,
+                        0,
+                        gsb_data_currency_link_get_change_rate ( link_number ),
+                        null_real, 
+                        TRUE );
     }
+    else
+    {
+        currency_number = gsb_data_transaction_get_currency_number ( transaction_number );
+        gsb_currency_exchange_dialog ( account_currency_number, currency_number,
+                        gsb_data_transaction_get_change_between ( transaction_number ),
+                        gsb_data_transaction_get_exchange_rate ( transaction_number ),
+                        gsb_data_transaction_get_exchange_fees ( transaction_number ), 
+                        TRUE );
+    }
+
     return FALSE;
 }
 
@@ -597,17 +581,16 @@ void gsb_form_transaction_currency_changed ( GtkWidget *widget, gpointer null )
     gint currency_number;
     gint account_currency_number;
 
-    devel_debug ("gsb_form_transaction_currency_changed");
-    account_number = gsb_form_get_account_number ();
-    gtk_widget_grab_focus ( gsb_form_widget_get_widget (TRANSACTION_FORM_DATE));
+    account_number = gsb_form_get_account_number ( );
+    gtk_widget_grab_focus ( gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE ) );
 
-    account_currency_number = gsb_data_account_get_currency (account_number);
+    account_currency_number = gsb_data_account_get_currency ( account_number );
+
     currency_number = gsb_currency_get_currency_from_combobox ( widget );
-
     if ( account_currency_number == currency_number )
-        gtk_widget_hide ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHANGE));
+        gtk_widget_hide ( gsb_form_widget_get_widget ( TRANSACTION_FORM_CHANGE ) );
     else
-        gtk_widget_show ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHANGE));
+        gtk_widget_show ( gsb_form_widget_get_widget ( TRANSACTION_FORM_CHANGE ) );
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */

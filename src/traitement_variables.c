@@ -144,6 +144,7 @@ extern gint affichage_echeances_perso_nb_libre;
 extern GtkTreeModel *bank_list_model;
 extern GtkTreeStore *categ_tree_model;
 extern gint current_tree_view_width;
+extern GtkWidget *detail_devise_compte;
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
@@ -332,7 +333,11 @@ void init_variables ( void )
     etat.combofix_enter_select_completion = FALSE;
     etat.combofix_force_payee = FALSE;
     etat.combofix_force_category = FALSE;
-    
+
+    /* mis à NULL prévient un plantage aléatoire dans 
+     * gsb_currency_update_combobox_currency_list */
+    detail_devise_compte = NULL;
+
     /* defaut value for width of columns */
     for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
     transaction_col_width[i] = transaction_col_width_init[i];

@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     copyright (c)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*                      2009 Pierre Biava (grisbi@pierre.biava.name)          */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -835,12 +836,11 @@ void gsb_form_fill_element ( gint element_number,
 	    number = gsb_data_mix_get_currency_number (transaction_number, is_transaction);
 
 	    gsb_currency_set_combobox_history ( widget, number);
+        gsb_currency_init_exchanges ( );
 	    if (is_transaction)
         {
             if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == 3 )
                 gtk_widget_set_sensitive ( widget, FALSE );
-            else
-                gsb_form_transaction_check_change_button ( number, account_number );
         }
 	    break;
 

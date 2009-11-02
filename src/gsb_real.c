@@ -274,7 +274,7 @@ gchar *gsb_real_format_string ( gsb_real number,
     gint floating_point;
 
     const gchar *currency_symbol = (currency_number && show_symbol)
-                                   ? gsb_data_currency_get_code (currency_number)
+                                   ? gsb_data_currency_get_code_or_isocode (currency_number)
                                    : NULL;
 
     /* First of all if number = 0 I return 0 with the symbol of the currency if necessary */
@@ -736,7 +736,7 @@ gsb_real gsb_real_mul ( gsb_real number_1,
  * \param number_1
  * \param number_2
  *
- * \return the multiplication between the 2
+ * \return the div between the 2
  * */
 gsb_real gsb_real_div ( gsb_real number_1,
                         gsb_real number_2 )
@@ -827,4 +827,9 @@ gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent )
 
     return FALSE;
 }
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
 
