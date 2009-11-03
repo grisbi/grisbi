@@ -68,7 +68,7 @@ static  void main_window_destroy_event( GObject* obj, gpointer data);
 
 /* vbox ajoutée dans la fenetre de base, contient le menu et la fenetre d'utilisation */
 
-GtkWidget *window = NULL;
+G_MODULE_EXPORT GtkWidget *window = NULL;
 GtkWidget *window_vbox_principale = NULL;
 
 
@@ -76,6 +76,19 @@ GtkWidget *window_vbox_principale = NULL;
 extern FILE *debug_file;
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
+
+#ifdef _MSC_VER
+int APIENTRY wWinMain(HINSTANCE hInstance,
+                     HINSTANCE hPrevInstance,
+                     LPTSTR    lpCmdLine,
+                     int       nCmdShow)
+{
+	int argc;
+	char ** argv;
+	argv = CommandLineToArgvW(GetCommandLineW(), &(argc));
+	return main(argc, argv);
+}
+#endif
 
 
 /**
@@ -92,7 +105,7 @@ int main (int argc, char **argv)
     gboolean first_use = FALSE;
     gchar *string;
     gchar *path;
-	const gchar *monetary = NULL, *lang = NULL, *res = NULL;
+	const gchar *monetary = NULL, *lang = NULL;
 
 #ifndef _WIN32
     struct sigaction sig_sev;
@@ -134,7 +147,7 @@ int main (int argc, char **argv)
 	lang = g_getenv("LANG");
 
 	if ( monetary == NULL )
-    	res = setlocale ( LC_MONETARY, lang );
+    	setlocale ( LC_MONETARY, lang );
 	else
 		setlocale ( LC_MONETARY, monetary);
 
