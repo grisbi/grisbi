@@ -138,9 +138,13 @@ NULL};
     /* Plugins list */
     gchar* comments = g_strconcat ( _("Personal finance manager for everyone\n"),
                         gsb_plugin_get_list(),
-                        "\n Version de GTK : (",
+                        "\nVersion de GTK : ",
                         get_gtk_run_version ( ),
-                        ") \n",
+                        "\nThis instance of Grisbi was compiled on ",
+						__DATE__ ,
+						" at ",
+						__TIME__,
+						"\n",
                         warn_print,
                         NULL );
 
