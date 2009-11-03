@@ -81,6 +81,7 @@ G_MODULE_EXPORT extern GSList * ofx_plugin_run ( GtkWidget * assistant,
 /** Release plugin  */
 G_MODULE_EXPORT extern gboolean ofx_plugin_release ( )
 {
+	return TRUE;
 }
 
 
