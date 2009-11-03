@@ -30,6 +30,7 @@
 #include "./utils.h"
 #include "./gsb_plugins.h"
 #include "./gsb_select_icon.h"
+#include "./utils_dates.h"
 #include "./utils_str.h"
 #include "./include.h"
 /*END_INCLUDE*/
@@ -140,9 +141,12 @@ NULL};
                         gsb_plugin_get_list(),
                         "\nVersion de GTK : ",
                         get_gtk_run_version ( ),
-                        "\nThis instance of Grisbi was compiled on ",
-						__DATE__ ,
-						" at ",
+                        "\n",
+                        _("This instance of Grisbi was compiled on\n"),
+						gsb_date_today ( ) ,
+                        " ",
+						_("at"),
+                        " ",
 						__TIME__,
 						"\n",
                         warn_print,
