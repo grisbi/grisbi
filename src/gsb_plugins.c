@@ -57,9 +57,15 @@ void gsb_plugins_scan_dir ( const char *dirname )
     while ( ( filename = g_dir_read_name ( plugin_dir ) ) != NULL )
     {
 	gchar * complete_filename, * tmp;
+	gchar ** split_filename;
 	gsb_plugin * plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
 
-	if ( strncmp ( filename + ( strlen ( filename ) - 3 ), ".so", 3 ) )
+	split_filename = g_strsplit(filename, ".", 2);
+
+	if (!split_filename[1])
+		continue;
+
+	if ( strncmp ( split_filename[1], G_MODULE_SUFFIX, strlen(G_MODULE_SUFFIX) ) )
 	    continue;
 
 	complete_filename = g_build_filename ( PLUGINS_DIR,
