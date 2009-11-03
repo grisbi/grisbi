@@ -119,14 +119,14 @@ void gsb_import_associations_init_variables ( void );
 gint gsb_import_associations_list_append_assoc ( gint payee_number,
                         const gchar *search_str );
 gboolean gsb_import_by_rule ( gint rule );
-void gsb_import_register_account ( struct struct_compte_importation * account );
-void gsb_import_register_account_error ( struct struct_compte_importation * account );
+G_MODULE_EXPORT void gsb_import_register_account ( struct struct_compte_importation * account );
+G_MODULE_EXPORT void gsb_import_register_account_error ( struct struct_compte_importation * account );
 GSList *import_selected_files ( GtkWidget * assistant );
 void importer_fichier ( void );
 GtkWidget *onglet_importation (void);
-void register_import_format ( struct import_format * format );
+G_MODULE_EXPORT void register_import_format ( struct import_format * format );
 void register_import_formats ();
-gchar * unique_imported_name ( gchar * account_name );
+G_MODULE_EXPORT gchar * unique_imported_name ( gchar * account_name );
 /* END_DECLARATION */
 
 

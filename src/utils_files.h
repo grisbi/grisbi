@@ -28,7 +28,7 @@ gchar* my_get_XDG_grisbirc_dir(void);
 gchar* my_get_grisbirc_dir(void);
 gchar* my_get_gsb_file_default_dir ( void );
 gchar * safe_file_name ( gchar* filename );
-FILE* utf8_fopen(const gchar* utf8filename,gchar* mode);
+G_MODULE_EXPORT FILE* utf8_fopen(const gchar* utf8filename,gchar* mode);
 gint utf8_remove(const gchar* utf8filename);
 gboolean utils_files_create_XDG_dir (void);
 GtkWidget *utils_files_create_file_chooser ( GtkWidget *parent, gchar * titre );

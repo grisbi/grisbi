@@ -18,9 +18,9 @@ struct conditional_message
 void dialog_message ( gchar *label, ... );
 void dialogue ( gchar *texte_dialogue );
 void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var );
-void dialogue_error ( gchar *text );
+G_MODULE_EXPORT void dialogue_error ( gchar *text );
 void dialogue_error_brain_damage ();
-void dialogue_error_hint ( gchar *text, gchar *hint );
+G_MODULE_EXPORT void dialogue_error_hint ( gchar *text, gchar *hint );
 void dialogue_error_memory ();
 void dialogue_hint ( gchar *text, gchar *hint );
 const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_description );
@@ -28,7 +28,7 @@ void dialogue_special ( GtkMessageType param, gchar *text );
 GtkWidget *dialogue_special_no_run ( GtkMessageType param,
                         GtkButtonsType buttons,
                         gchar *text );
-void dialogue_warning ( gchar *text );
+G_MODULE_EXPORT void dialogue_warning ( gchar *text );
 void dialogue_warning_hint ( gchar *text, gchar *hint );
 gchar *make_blue ( gchar *text );
 gchar *make_hint ( gchar *hint, gchar *text );

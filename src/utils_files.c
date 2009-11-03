@@ -278,7 +278,7 @@ GtkWidget * my_file_chooser ()
  *
  * \return file descriptor returned by fopen
  */
-FILE* utf8_fopen(const gchar* utf8filename,gchar* mode)
+G_MODULE_EXPORT FILE* utf8_fopen(const gchar* utf8filename,gchar* mode)
 {
     return fopen(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),mode);
 }

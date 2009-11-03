@@ -265,7 +265,7 @@ gchar *get_debug_time ( void )
  *
  * \return
  * */
-extern void debug_message_string ( gchar *prefixe, gchar * file, gint line, const char * function, 
+G_MODULE_EXPORT extern void debug_message_string ( gchar *prefixe, gchar * file, gint line, const char * function, 
 				   const gchar *message, gint level, gboolean force_debug_display)
 {
     /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */

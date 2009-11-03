@@ -252,7 +252,7 @@ void register_import_formats ()
  *                      this import format.
  *
  */
-void register_import_format ( struct import_format * format )
+G_MODULE_EXPORT void register_import_format ( struct import_format * format )
 {
     gchar* tmpstr = g_strdup_printf ( _("Adding '%s' as an import format"), format -> name );
     devel_debug ( tmpstr );
@@ -3306,7 +3306,7 @@ gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer,
  *
  * return a newly allocated string or NULL
  */
-gchar * unique_imported_name ( gchar * account_name )
+G_MODULE_EXPORT gchar * unique_imported_name ( gchar * account_name )
 {
     GSList * tmp_list = liste_comptes_importes;
     gchar * basename = my_strdup (account_name);
@@ -4048,7 +4048,7 @@ const gchar * autodetect_file_type ( gchar * filename,
  *
  * \param account   Account to register.
  */
-void gsb_import_register_account ( struct struct_compte_importation * account )
+G_MODULE_EXPORT void gsb_import_register_account ( struct struct_compte_importation * account )
 {
     liste_comptes_importes = g_slist_append ( liste_comptes_importes, account );
 }
@@ -4060,7 +4060,7 @@ void gsb_import_register_account ( struct struct_compte_importation * account )
  *
  * \param account   Account to register.
  */
-void gsb_import_register_account_error ( struct struct_compte_importation * account )
+G_MODULE_EXPORT void gsb_import_register_account_error ( struct struct_compte_importation * account )
 {
     liste_comptes_importes_error = g_slist_append ( liste_comptes_importes, account );
 }

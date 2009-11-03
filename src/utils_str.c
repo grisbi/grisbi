@@ -148,7 +148,7 @@ gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
  * @retval  0 when the pointer is NULL or the string empty.
  * 
  */
-gint utils_str_atoi ( const gchar *chaine )
+G_MODULE_EXPORT gint utils_str_atoi ( const gchar *chaine )
 {
     if ((chaine )&&(*chaine))
     {
@@ -235,7 +235,7 @@ double my_strtod ( const char *nptr, const char **endptr )
 
 
 
-gchar * latin2utf8 ( const gchar * inchar)
+G_MODULE_EXPORT gchar * latin2utf8 ( const gchar * inchar)
 {
     return g_locale_from_utf8 ( inchar, -1, NULL, NULL, NULL );
 }
@@ -451,7 +451,7 @@ gint my_strncasecmp ( gchar *string_1,
  * \return a newly allocated string (which is a copy of that string) 
  * or NULL if the parameter is NULL or an empty string. 
  * */
-gchar *my_strdup ( const gchar *string )
+G_MODULE_EXPORT gchar *my_strdup ( const gchar *string )
 {
     if ( string && strlen (string) )
 	return g_strdup (string);
