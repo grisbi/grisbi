@@ -547,6 +547,46 @@ GDate *gsb_date_get_last_entry_date ( const gchar *string )
     else
         return gsb_parse_date_string ( string );
 }
+
+
+/**
+ * retourne la date de compilation conforme à la locale
+ * 
+ * */
+gchar *gsb_date_get_compiled_time ( void )
+{
+    GDate *date;
+    gchar **tab;
+    gchar *str;
+    const gchar *months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
+                            "Sep", "Oct", "Nov", "Dec"};
+    gint mois = 0;
+    gint i;
+
+    str = g_strdup ( __DATE__ );
+    if ( g_strstr_len ( str, -1, "  " ) )
+    {
+        tab = g_strsplit ( str, "  ", -1 );
+        str = g_strjoinv  (" ", tab);
+        g_strfreev (tab);
+    }
+    tab = g_strsplit ( str, " ", -1 );
+    g_free ( str );
+
+    for (i = 0; i < 12; i++)
+    {
+        if ( !strcmp ( tab[0], months[i] ) )
+        {
+          mois = i + 1;
+          break;
+        }
+    }
+
+    date = g_date_new_dmy ( atoi ( tab[1] ), mois, atoi ( tab[2] ) );
+    g_strfreev (tab);
+
+    return gsb_format_gdate ( date );
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

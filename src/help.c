@@ -143,7 +143,7 @@ NULL};
                         get_gtk_run_version ( ),
                         "\n",
                         _("This instance of Grisbi was compiled on\n"),
-						gsb_date_today ( ) ,
+						gsb_date_get_compiled_time ( ) ,
                         " ",
 						_("at"),
                         " ",

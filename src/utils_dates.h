@@ -11,6 +11,7 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
 gboolean gsb_date_check_entry ( GtkWidget *entry );
 GDate *gsb_date_copy ( const GDate *date );
 void gsb_date_free_last_date ( void );
+gchar *gsb_date_get_compiled_time ( void );
 GDate *gsb_date_get_last_entry_date ( const gchar *string );
 void gsb_date_set_last_date ( const gchar *date );
 gchar *gsb_date_today ( void );
