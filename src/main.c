@@ -139,17 +139,7 @@ int main (int argc, char **argv)
     bind_textdomain_codeset (PACKAGE, "UTF-8");
     textdomain (PACKAGE);
 
-#ifdef _WIN32
-	win32_set_locale();
-#endif
-
-	monetary = g_getenv("LC_MONETARY");
-	lang = g_getenv("LANG");
-
-	if ( monetary == NULL )
-    	setlocale ( LC_MONETARY, lang );
-	else
-		setlocale ( LC_MONETARY, monetary);
+	setlocale (LC_ALL, "");
 
     gtk_init(&argc, &argv);
 
