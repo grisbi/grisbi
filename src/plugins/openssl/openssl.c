@@ -169,7 +169,7 @@ return_bad_password:
 	{
 	    /* it seems that it was not the correct password */
 
-	    free ( decrypted_file );
+	    g_free ( decrypted_file );
 
 	    message = _( "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n\n");
 	    crypt_key = NULL;
