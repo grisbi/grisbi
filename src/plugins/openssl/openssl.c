@@ -31,6 +31,10 @@
 #include "./../../structures.h"
 #include "./../../include.h"
 #include "./../../erreur.h"
+/*FIX FOR THE LINKING ERROR WITH WINDOWS MSVC*/
+#ifdef _MSC_VER
+#include "./../../main.h"
+#endif
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
