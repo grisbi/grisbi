@@ -16,8 +16,6 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
                         gsb_real exchange_fees,
                         gboolean force );
 gint gsb_currency_get_currency_from_combobox ( GtkWidget *combo_box );
-gsb_real gsb_currency_get_current_exchange (void);
-gsb_real gsb_currency_get_current_exchange_fees (void);
 void gsb_currency_init_exchanges ( void );
 void gsb_currency_init_variables ( void );
 GtkWidget *gsb_currency_make_combobox ( gboolean set_name );

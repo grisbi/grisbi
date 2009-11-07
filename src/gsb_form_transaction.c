@@ -53,7 +53,6 @@
 #include "./include.h"
 #include "./erreur.h"
 #include "./structures.h"
-#include "./gsb_real.h"
 #include "./gsb_form_widget.h"
 /*END_INCLUDE*/
 

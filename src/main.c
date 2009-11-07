@@ -105,7 +105,6 @@ int main (int argc, char **argv)
     gboolean first_use = FALSE;
     gchar *string;
     gchar *path;
-	const gchar *monetary = NULL, *lang = NULL;
 
 #ifndef _WIN32
     struct sigaction sig_sev;

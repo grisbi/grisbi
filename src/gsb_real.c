@@ -829,6 +829,21 @@ gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent )
 }
 
 
+/**
+ * div 1 by number
+ *
+ * \param number
+ *
+ * \return reverse of number
+ * */
+gsb_real gsb_real_inverse ( gsb_real number )
+{
+    gsb_real number_tmp;
+
+    number_tmp = gsb_real_double_to_real ( 1.00 / gsb_real_real_to_double ( number ) );
+
+    return number_tmp;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

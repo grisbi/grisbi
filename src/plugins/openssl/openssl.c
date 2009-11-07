@@ -27,7 +27,6 @@
 
 /*START_INCLUDE*/
 #include "openssl.h"
-#include "./../../main.h"
 #include "./../../dialog.h"
 #include "./../../structures.h"
 #include "./../../include.h"

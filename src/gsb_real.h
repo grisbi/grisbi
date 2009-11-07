@@ -31,6 +31,7 @@ gchar *gsb_real_get_string ( gsb_real number );
 gchar *gsb_real_get_string_with_currency ( gsb_real number,
                         gint currency_number,
                         gboolean show_symbol );
+gsb_real gsb_real_inverse ( gsb_real number );
 gsb_real gsb_real_mul ( gsb_real number_1,
                         gsb_real number_2 );
 gsb_real gsb_real_new ( gint mantissa, gint exponent );
