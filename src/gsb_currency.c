@@ -32,6 +32,7 @@
 /*START_INCLUDE*/
 #include "gsb_currency.h"
 #include "./gsb_autofunc.h"
+#include "./dialog.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_currency_link.h"
@@ -491,12 +492,12 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     hbox = gtk_hbox_new ( FALSE, 0 );
     tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
                     "flags", C_DIRECTORY_SEPARATOR,
-                    gsb_data_currency_get_code_iso4217 (transaction_currency_number),
+                    gsb_data_currency_get_code_iso4217 ( transaction_currency_number ),
                     ".png", NULL );
     pixbuf = gtk_image_new_from_file ( tmpstr );
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( hbox ), pixbuf, FALSE, FALSE, 5 );
-    label = gtk_label_new (gsb_data_currency_get_name (transaction_currency_number));
+    label = gtk_label_new (gsb_data_currency_get_name ( transaction_currency_number ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
     alignement = gtk_alignment_new ( 0.5, 0, 0, 0 );
     gtk_container_add ( GTK_CONTAINER ( alignement ), hbox );    
@@ -512,12 +513,12 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     hbox = gtk_hbox_new ( FALSE, 0 );
     tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
                     "flags", C_DIRECTORY_SEPARATOR,
-                    gsb_data_currency_get_code_iso4217 (account_currency_number),
+                    gsb_data_currency_get_code_iso4217 ( account_currency_number ),
                     ".png", NULL );
     pixbuf = gtk_image_new_from_file ( tmpstr );
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( hbox ), pixbuf, FALSE, FALSE, 5 );
-    label = gtk_label_new (gsb_data_currency_get_name (account_currency_number));
+    label = gtk_label_new (gsb_data_currency_get_name ( account_currency_number ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
     alignement = gtk_alignment_new ( 0.5, 0, 0, 0 );
     gtk_container_add ( GTK_CONTAINER ( alignement ), hbox );
@@ -571,7 +572,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* exchange fees currency for fees */
-    label = gtk_label_new (gsb_data_currency_get_name (account_currency_number));
+    label = gtk_label_new (gsb_data_currency_get_name ( account_currency_number ) );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 2, 3, 2, 3,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -593,20 +594,21 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
             tmpstr = gsb_real_get_string ( gsb_real_inverse ( exchange_rate ) );
         else
             tmpstr = gsb_real_get_string (exchange_rate );
-        gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr);
+        gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr );
         g_free ( tmpstr );
     }
 
     if ( exchange_fees.mantissa )
     {
         tmpstr = gsb_real_get_string (gsb_real_abs (exchange_fees));
-        gtk_entry_set_text ( GTK_ENTRY ( fees_entry ), tmpstr);
+        gtk_entry_set_text ( GTK_ENTRY ( fees_entry ), tmpstr );
         g_free ( tmpstr );
     }
 
     gtk_widget_show_all ( dialog );
 
     /* show the dialog */
+dialog_return:
     result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     if ( result == GTK_RESPONSE_OK )
@@ -622,7 +624,15 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
                         gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
         current_exchange_fees = gsb_real_get_from_string (
                         gtk_entry_get_text ( GTK_ENTRY ( fees_entry ) ) );
+        if ( current_exchange.mantissa == 0 )
+        {
+            tmpstr = g_strdup_printf ( _("The exchange rate or the transaction amount in "
+                        "%s must be filled."),
+                        gsb_data_currency_get_name ( account_currency_number ) );
+            dialogue_warning_hint ( tmpstr, _("One field is not filled in") );
 
+            goto dialog_return;
+        }
         gsb_currency_config_set_cached_exchange ( account_currency_number,
                         transaction_currency_number,
                         current_exchange, current_exchange_fees );

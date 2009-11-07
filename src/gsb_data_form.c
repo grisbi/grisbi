@@ -488,7 +488,7 @@ gboolean gsb_form_config_update_from_account (gint account_number)
 	return FALSE;
 
     form = gsb_data_account_get_form_organization ( account_number );
-    
+
     if ( !form)
 	return FALSE;
 

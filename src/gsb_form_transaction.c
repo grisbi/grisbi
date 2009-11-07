@@ -579,6 +579,7 @@ void gsb_form_transaction_currency_changed ( GtkWidget *widget, gpointer null )
     gint account_number;
     gint currency_number;
     gint account_currency_number;
+    gint link_number;
 
     account_number = gsb_form_get_account_number ( );
     gtk_widget_grab_focus ( gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE ) );
@@ -590,6 +591,16 @@ void gsb_form_transaction_currency_changed ( GtkWidget *widget, gpointer null )
         gtk_widget_hide ( gsb_form_widget_get_widget ( TRANSACTION_FORM_CHANGE ) );
     else
         gtk_widget_show ( gsb_form_widget_get_widget ( TRANSACTION_FORM_CHANGE ) );
+
+    link_number = gsb_data_currency_link_search ( account_currency_number,
+                        currency_number );
+    if ( link_number == 0 )
+        gsb_currency_exchange_dialog ( account_currency_number,
+                        currency_number,
+                        0,
+                        null_real,
+                        null_real,
+                        TRUE );
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */

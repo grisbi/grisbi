@@ -322,6 +322,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 					   NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_widget_set_size_request ( dialog, 700, -1 );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
     gtk_dialog_set_default_response ( GTK_DIALOG (dialog), GTK_RESPONSE_OK );
 

@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	          */
 /*			2003 Benjamin Drieu (bdrieu@april.org)		                      */
+/*                      2009 Pierre Biava (grisbi@pierre.biava.name)          */
 /* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -50,6 +51,7 @@ static void gsb_currency_link_config_append_line ( GtkTreeModel *model,
 					    GtkTreeIter *iter_to_fill );
 static GtkWidget *gsb_currency_link_config_create_list ();
 static void gsb_currency_link_config_fill_list ( GtkTreeModel *model );
+static gboolean gsb_currency_link_config_key_press ( GtkWidget *tree_view, GdkEventKey *ev );
 static gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view );
 static gboolean gsb_currency_link_config_remove_link ( GtkWidget *tree_view );
 static gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tree_selection,
@@ -111,6 +113,11 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
 		       "changed",
 		       G_CALLBACK ( gsb_currency_link_config_select_currency ), 
 		       tree_model );
+    /* check the keys on the list */
+    g_signal_connect ( G_OBJECT ( tree_view ),
+                        "key_press_event",
+                        G_CALLBACK ( gsb_currency_link_config_key_press ),
+                        NULL );
 
     /* if nothing opened, all is unsensitive */
     if ( !gsb_data_account_get_accounts_amount () )
@@ -642,4 +649,22 @@ gboolean gsb_currency_link_config_remove_link ( GtkWidget *tree_view )
 }
 
 
+/**
+ * gère le clavier sur la liste des liens
+ *
+**/
+gboolean gsb_currency_link_config_key_press ( GtkWidget *tree_view, GdkEventKey *ev )
+{
+    switch ( ev -> keyval )
+    {
+    case GDK_Delete:    /*  del  */
+        gsb_currency_link_config_remove_link ( tree_view );
+        return TRUE;
+        break;
+    }
 
+    return FALSE;
+}
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
