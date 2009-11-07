@@ -6,11 +6,26 @@
 * UnxUtils (http://unxutils.sourceforge.net/)
 * cmake (http://www.cmake.org/)
 
+==== Pré-requis optionnels ====
+
+Pour générer un installateur de grisbi, installez ceci :
+* NSIS (http://nsis.sourceforge.net) (ajoutez NSIS au PATH durant l'installation)
+
 ==== Préparation ====
 
-Lancer le script %GRISBISRC%\win32-msvc\prepare.cmd qui va effectuer les opération suivantes :
+Lancer le script %GRISBISRC%\win32-msvc\prepare.cmd qui va effectuer les opérations suivantes :
 * télécharger le kit de développement de gtk+ et le décompresser
+* télécharger et installer le runtime de gtk+ en mode natif pour l'exécution
 * générer les fichiers projets/solutions pour Visual C++
+
+Il n'est pas nécessaire de refaire cette opération tant que les fichiers téléchargés ne sont pas supprimés.
+
+==== Génération ====
+
+Lancer le script %GRISIBRC%\win32-msvc\generate.cmd qui va effectuer l'opération suivante :
+* générer les fichiers projets/solutions pour Visual C++
+
+Cette étape n'est nécéssaire que si vous modifiez le fichier CMakeList.txt pour répondre à vos besoins.
 
 ==== Compilation ====
 
@@ -19,3 +34,5 @@ Lancer le script %GRISBISRC%\win32-msvc\build.cmd qui va compiler les versions D
 ==== Packaging ====
 
 Lancer le script %GRISBISRC%\win32-msvc\package.cmd qui va générer un zip contenant grisbi et les fichiers nécessaires (incomplet).
+OU BIEN
+Compiler le script %GRISBISRC%\windows_installer.nsi pour générer un installateur de grisbi.
