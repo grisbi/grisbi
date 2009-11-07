@@ -52,6 +52,10 @@
 #include "./structures.h"
 #include "./include.h"
 #include "./erreur.h"
+// including resources so that the exe generated with MSVC has the right icon.
+#ifdef _MSC_VER
+#include "resource.h"
+#endif
 /*END_INCLUDE*/
 
 
