@@ -1,6 +1,9 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+PROJECT (Grisbi C)
+
 SET(EXECUTABLE_OUTPUT_PATH target)
+SET(LIBRARY_OUTPUT_PATH target/$(OutDir)/plugins)
 SET(PACKAGE_NAME grisbi)
 
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
@@ -47,7 +50,7 @@ ADD_DEFINITIONS(-DHAVE_SETLOCALE=1)
 ADD_DEFINITIONS(-DHAVE_STRING_H=1)
 
 # Define to 1 to have OFX support disabled
-ADD_DEFINITIONS(-DNOOFX=1)
+#ADD_DEFINITIONS(-DNOOFX=1)
 # Define to 1 if you want to have OFX support using libofx 0.7.0
 ADD_DEFINITIONS(-DOFX_0_7=1)
 
@@ -63,17 +66,30 @@ INCLUDE_DIRECTORIES(
 	target/gtk-dev/include
 	target/gtk-dev/lib/glib-2.0/include
 	target/gtk-dev/lib/gtk-2.0/include
+	target/plugins-dev/libofx/include
+	target/plugins-dev/libxml/include/libxml2
+#	target/plugins-dev/libxml/include/libxml2/libxml
+	target/plugins-dev/openssl/include
 	../win32-msvc/src
 	../win32-msvc
 	../win32
 	../src
+	../src/plugins/gnucash
+	../src/plugins/ofx
+	../src/plugins/openssl
 )
 
 LINK_DIRECTORIES(
 	target/gtk-dev/lib
+	target/plugins-dev/libofx/lib
+	target/plugins-dev/libxml/lib
+	target/plugins-dev/openssl/lib
+	target/plugins-dev/openssl/lib/VC
+	target
 )
 
 LINK_LIBRARIES(
+	grisbi
 	cairo
 	gdk_pixbuf-2.0
 	gdk-win32-2.0
@@ -86,9 +102,13 @@ LINK_LIBRARIES(
 	pango-1.0
 	pangocairo-1.0
 	zdll
+	libofx
+	libxml2
+	libeay32
+	ssleay32
 )
 
-ADD_EXECUTABLE(grisbi
+SET (grisbi_source
 	../src/accueil.c
 	../src/accueil.h
 	../src/affichage.c
@@ -360,16 +380,69 @@ ADD_EXECUTABLE(grisbi
 	../win32-msvc/src/getopt1.c
 	../win32-msvc/src/realpath.c
 	../win32-msvc/src/realpath.h
+	../win32-msvc/src/resource.h
+	../win32-msvc/src/grisbi.rc
 	../win32-msvc/config.h
 	../win32/win32gtkutils.c
 	../win32/win32gtkutils.h
 	../win32/win32utils.c
 	../win32/win32utils.h
+	../win32/grisbi.ico
+)
+
+ADD_EXECUTABLE(grisbi
+	WIN32
+	${grisbi_source}
 )
 
 ADD_DEPENDENCIES (grisbi prepare_env)
 
-ADD_CUSTOM_TARGET (prepare_env ALL)
+ADD_LIBRARY ( ofx
+	MODULE
+	../src/plugins/ofx/ofx.c
+	../src/plugins/ofx/ofx.h
+	# ../src/dialog.h
+	# ../src/import.h
+	# ../src/gsb_real.h
+	# ../src/utils_str.h
+	# ../src/include.h
+	# ../src/erreur.h
+	# ../src/import.h
+)
+
+ADD_CUSTOM_COMMAND ( TARGET ofx
+	POST_BUILD
+	COMMAND xcopy /D /Y $(TargetDir)ofx.dll target\\$(OutDir)\\plugins
+)
+
+ADD_LIBRARY ( gnucash
+	MODULE
+	../src/plugins/gnucash/gnucash.c
+	../src/plugins/gnucash/gnucash.h
+)
+
+ADD_CUSTOM_COMMAND ( TARGET gnucash
+	POST_BUILD
+	COMMAND xcopy /D /Y $(TargetDir)gnucash.dll target\\$(OutDir)\\plugins
+)
+
+ADD_LIBRARY ( openssl
+	MODULE
+	../src/plugins/openssl/openssl.c
+	../src/plugins/openssl/openssl.h
+)
+
+ADD_CUSTOM_COMMAND ( TARGET openssl
+	POST_BUILD
+	COMMAND xcopy /D /Y $(TargetDir)openssl.dll target\\$(OutDir)\\plugins
+)
+
+
+ADD_DEPENDENCIES (ofx grisbi)
+ADD_DEPENDENCIES (gnucash grisbi)
+ADD_DEPENDENCIES (openssl grisbi)
+
+ADD_CUSTOM_TARGET (prepare_env)
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
@@ -380,38 +453,38 @@ ADD_CUSTOM_COMMAND(TARGET prepare_env
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /Y /C target\\gtk-dev\\bin\\*.dll target\\Debug
-	COMMAND xcopy /Y /C target\\gtk-dev\\bin\\*.dll target\\Release
+	COMMAND xcopy /Y /C /D target\\gtk-dev\\bin\\*.dll target\\Debug
+	COMMAND xcopy /Y /C /D target\\gtk-dev\\bin\\*.dll target\\Release
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y target\\gtk-dev\\etc target\\Debug\\etc\\
-	COMMAND xcopy /S /Y target\\gtk-dev\\etc target\\Release\\etc\\
+	COMMAND xcopy /S /Y /D target\\gtk-dev\\etc target\\Debug\\etc\\
+	COMMAND xcopy /S /Y /D target\\gtk-dev\\etc target\\Release\\etc\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y target\\gtk-dev\\lib\\gtk-2.0\\2.10.0 target\\Debug\\lib\\gtk-2.0\\2.10.0\\
-	COMMAND xcopy /S /Y target\\gtk-dev\\lib\\gtk-2.0\\2.10.0 target\\Release\\lib\\gtk-2.0\\2.10.0\\
+	COMMAND xcopy /S /Y /D target\\gtk-dev\\lib\\gtk-2.0\\2.10.0 target\\Debug\\lib\\gtk-2.0\\2.10.0\\
+	COMMAND xcopy /S /Y /D target\\gtk-dev\\lib\\gtk-2.0\\2.10.0 target\\Release\\lib\\gtk-2.0\\2.10.0\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y ..\\pixmaps\\*.png target\\Debug\\pixmaps\\
-	COMMAND xcopy /S /Y ..\\pixmaps\\*.png target\\Release\\pixmaps\\
+	COMMAND xcopy /S /Y /D ..\\pixmaps\\*.png target\\Debug\\pixmaps\\
+	COMMAND xcopy /S /Y /D ..\\pixmaps\\*.png target\\Release\\pixmaps\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y ..\\help target\\Debug\\help\\
-	COMMAND xcopy /S /Y ..\\help target\\Release\\help\\
+	COMMAND xcopy /S /Y /D ..\\help target\\Debug\\help\\
+	COMMAND xcopy /S /Y /D ..\\help target\\Release\\help\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y ..\\share\\categories target\\Debug\\help\\tips\\categories\\
-	COMMAND xcopy /S /Y ..\\share\\categories target\\Release\\help\\tips\\categories\\
+	COMMAND xcopy /S /Y /D ..\\share\\categories target\\Debug\\help\\tips\\categories\\
+	COMMAND xcopy /S /Y /D ..\\share\\categories target\\Release\\help\\tips\\categories\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
@@ -442,7 +515,7 @@ set(
 
 set (msgfmt target\\gtk-dev\\bin\\msgfmt.exe)
 
-ADD_CUSTOM_TARGET(prepare_mo ALL DEPENDS prepare_env
+ADD_CUSTOM_TARGET(prepare_mo DEPENDS grisbi
 	COMMAND IF NOT EXIST target\\lib mkdir target\\lib
 	COMMAND IF NOT EXIST target\\lib\\locale mkdir target\\lib\\locale
 )
@@ -473,7 +546,7 @@ foreach (current_po ${po_files})
  add_custom_command(TARGET prepare_mo
 	POST_BUILD
 	COMMAND IF NOT EXIST target\\Debug\\lib mkdir target\\Debug\\lib
-	COMMAND xcopy /S /Y /I target\\lib\\locale target\\Debug\\lib\\locale
+	COMMAND xcopy /S /Y /I /D target\\lib\\locale target\\Debug\\lib\\locale
 	COMMAND IF NOT EXIST target\\Release\\lib mkdir target\\Release\\lib
-	COMMAND xcopy /S /Y /I target\\lib\\locale target\\Release\\lib\\locale
+	COMMAND xcopy /S /Y /I /D target\\lib\\locale target\\Release\\lib\\locale
 )
