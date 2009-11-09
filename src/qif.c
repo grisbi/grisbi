@@ -44,11 +44,6 @@
 #include "./import.h"
 /*END_INCLUDE*/
 
-/* The following lines revert back to FPRINTF on Windows Systems(LIBINTL_FPRINTF seems BUGGY) */
-#ifdef _WIN32
-	#undef fprintf
-#endif
-
 /*START_STATIC*/
 static  GDate *gsb_qif_get_date ( gchar *date_string,
 				 gint order );
