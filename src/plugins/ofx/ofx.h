@@ -13,12 +13,12 @@ G_MODULE_EXPORT extern GSList * ofx_plugin_run ( GtkWidget * assistant,
 /* END_DECLARATION */
 
 
-
-#ifndef _WIN32
+//It seems the following applies to everyone, otherwise OFX_* are not defined
+//#ifdef _WIN32
 /* On Windows, the Ofx Severity enumerate values are already used in wingdi.h, DELETE is used in winnt.h
  * This is a work around to this issues :
- *  INFO, WARN, ERROR, DELETE and REPLACE are defined in standard libofx.h;
- *  on windows there should be prefixed by OFX_ 
+ *  INFO, WARN, ERROR, DELETE and REPLACE are used in standard libofx.h;
+ *  on windows they should be prefixed by OFX_ 
  */
 
 #ifndef OFX_INFO
@@ -41,6 +41,6 @@ G_MODULE_EXPORT extern GSList * ofx_plugin_run ( GtkWidget * assistant,
 #define OFX_REPLACE REPLACE
 #endif
 
-#endif /* _WIN32 */
+// #endif /* _WIN32 */
 
 #endif /* GSB_OFX_H */
