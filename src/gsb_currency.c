@@ -776,8 +776,11 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
     if ( gtk_entry_get_text_length  ( GTK_ENTRY ( entry_1 ) ) > 0 )
     {
         if ( gtk_entry_get_text_length  ( GTK_ENTRY ( entry_2 ) ) == 0 )
+		{
             gtk_entry_set_text ( GTK_ENTRY ( entry ), "");
-        else
+			gtk_widget_set_sensitive ( GTK_WIDGET ( entry ), TRUE );
+		}
+		else
         {
             gtk_widget_set_sensitive ( GTK_WIDGET ( entry ), FALSE );
             amount_1 = gsb_real_get_from_string (
