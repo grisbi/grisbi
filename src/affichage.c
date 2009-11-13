@@ -488,9 +488,8 @@ void change_logo_accueil ( GtkWidget * file_selector )
         gchar * chemin_logo;
 
         gtk_container_remove (GTK_CONTAINER(logo_button), preview);
-        chemin_logo = my_strdup ( (gchar *) selected_filename );
-        if ( !chemin_logo ||
-             !strlen ( g_strstrip ( chemin_logo )) )
+        chemin_logo = g_strstrip ( g_strdup ( selected_filename ) );
+        if ( !strlen ( chemin_logo ) )
         {
             if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
                 gtk_widget_hide ( logo_accueil );
@@ -501,6 +500,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
         {
             /* Update preview */
             pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
+			g_free(chemin_logo);
             if (!pixbuf)
             {
                 if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
