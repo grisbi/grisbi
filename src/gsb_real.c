@@ -150,7 +150,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
 	ldiv_t units;
 
 	if ( (number.exponent < 0)
-    || (number.exponent >= sizeofarray ( gsb_real_power_10 ) )
+    || (number.exponent > sizeofarray ( gsb_real_power_10 ) )
     || (number.mantissa == error_real.mantissa) )
       return g_strdup ( "###ERR###" );
 
@@ -881,19 +881,23 @@ gsb_real gsb_real_inverse ( gsb_real number )
 /* Function to transform string into gsb_real */
 gsb_real gsb_str_to_real ( const gchar * str )
 {
-	gchar **numb, **ff, **ss, *err;
-	gchar *sss, *ttt, *f, *s, *a, *b, *new_str;
+	gchar *str2, **numb, **ff, **ss, *err;
+	gchar *sss, *ttt, *f, *s, *a, *b;
 	int decimals;
 	glong nombre;
 	gsb_real resu;
 	gsb_real null_real = { 0 , 0 };
 	gsb_real error_real = { 0x80000000, 0 };
 
-	//new_str = g_convert ( str, -1, "ASCII", "UTF8", NULL, NULL, NULL);
+	if ( !g_utf8_validate ( str, -1, NULL ) )
+		str2 = g_locale_to_utf8 ( str, -1, NULL, NULL, NULL );
+	else
+		str2 = g_strdup ( str ) ;
 
-	if(!str || !g_utf8_strlen( str , -1 ))
+	if(!str2 || !g_utf8_strlen( str2 , -1 ))
 		return null_real;
-	numb = g_strsplit_set(str, ",.",2);
+	numb = g_strsplit_set(str2, ",.",2);
+	g_free(str2);
 	if( !numb[0] || !g_utf8_strlen( numb[0] , -1 ))
 		a = g_strdup ( "0" );
 	else
@@ -913,9 +917,7 @@ gsb_real gsb_str_to_real ( const gchar * str )
 	g_strfreev ( ss );
 	decimals = strlen(s);
 	sss = g_strconcat(f, s, NULL);
-	puts(sss);
 	ttt = g_convert(sss, -1, "ASCII", "UTF8", NULL, NULL, NULL);
-	puts(ttt);
 	g_free(f);
 	g_free(s);
 	errno = 0;
@@ -927,13 +929,14 @@ gsb_real gsb_str_to_real ( const gchar * str )
 		return error_real;
 	}
 	g_free(sss);
-	if( *err != '\0' ){
-		puts(err);
+	if( *err != '\0' )
+	{
 		return error_real;
 	}
 	if( !nombre )
 	return null_real;
-	while( (! (nombre % 10)) ){
+	while( (! (nombre % 10)) )
+	{
 		nombre /= 10;
 		decimals --;
 	}
