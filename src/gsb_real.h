@@ -16,6 +16,7 @@ typedef struct
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
+gsb_real gsb_str_to_real ( const gchar * str );
 gsb_real gsb_real_abs ( gsb_real number );
 G_MODULE_EXPORT gsb_real gsb_real_add ( gsb_real number_1,
                         gsb_real number_2 );
@@ -26,6 +27,7 @@ G_MODULE_EXPORT gint gsb_real_cmp ( gsb_real number_1,
 gsb_real gsb_real_div ( gsb_real number_1,
                         gsb_real number_2 );
 G_MODULE_EXPORT gsb_real gsb_real_double_to_real ( gdouble number );
+gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add );
 gsb_real gsb_real_get_from_string ( const gchar *string );
 gchar *gsb_real_get_string ( gsb_real number );
 gchar *gsb_real_get_string_with_currency ( gsb_real number,

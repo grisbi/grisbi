@@ -742,11 +742,31 @@ gsb_real gsb_real_div ( gsb_real number_1,
                         gsb_real number_2 )
 {
     gsb_real number;
+	glong reste;
+	
+	if ( number_1.mantissa == error_real.mantissa ||
+	     number_2.mantissa == error_real.mantissa ||
+	     !number_2.mantissa )
+		return error_real;
+	
+	reste = number_1.mantissa % number_2.mantissa;
 
-    number = gsb_real_double_to_real ( gsb_real_real_to_double (number_1)
-				       /
-				       gsb_real_real_to_double (number_2));
-
+	if( ( number_1.mantissa >= number_2.mantissa ) && !reste )
+	{
+		number.mantissa = number_1.mantissa / number_2.mantissa;
+		number.exponent = number_1.exponent - number_2.exponent;
+		while (number.exponent < 0)
+		{
+			number.mantissa *= 10;
+			number.exponent ++ ;
+		}
+	}
+	else
+	{
+		number = gsb_real_double_to_real_add_exponent (
+		                      (gdouble) number_1.mantissa / number_2.mantissa,
+		                       number_1.exponent - number_2.exponent);
+	}
     return number;
 }
 
@@ -779,13 +799,21 @@ gdouble gsb_real_real_to_double ( gsb_real number )
  * */
 G_MODULE_EXPORT gsb_real gsb_real_double_to_real ( gdouble number )
 {
-    gdouble tmp_double;
+	return gsb_real_double_to_real_add_exponent(number, 0);
+}
+
+gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
+{
+    gdouble tmp_double, decimal;
     gdouble maxlong;
 
     gsb_real real_number = null_real;
     maxlong = G_MAXLONG / 10;
 
-    while (modf (number, &tmp_double))
+	if(exp_add >=9)
+		return null_real;
+
+    while (modf (number, &tmp_double) && real_number.exponent < (9-exp_add) )
     {
 	number = number * 10;
 	real_number.exponent++;
@@ -793,7 +821,12 @@ G_MODULE_EXPORT gsb_real gsb_real_double_to_real ( gdouble number )
 	if (fabs (number) > maxlong)
 	    number = rint (number);
     }
-    real_number.mantissa = number;
+	decimal = modf ( number, &tmp_double );
+	if ( ( (real_number.exponent == (9-exp_add)) ) && (decimal >= 0.5) )
+		real_number.mantissa = ((glong) number ) + 1;
+	
+    real_number.mantissa = (glong) (number);
+	real_number.exponent += exp_add;
     return real_number;
 }
 
@@ -844,6 +877,71 @@ gsb_real gsb_real_inverse ( gsb_real number )
 
     return number_tmp;
 }
+
+/* Function to transform string into gsb_real */
+gsb_real gsb_str_to_real ( const gchar * str )
+{
+	gchar **numb, **ff, **ss, *err;
+	gchar *sss, *ttt, *f, *s, *a, *b, *new_str;
+	int decimals;
+	glong nombre;
+	gsb_real resu;
+	gsb_real null_real = { 0 , 0 };
+	gsb_real error_real = { 0x80000000, 0 };
+
+	//new_str = g_convert ( str, -1, "ASCII", "UTF8", NULL, NULL, NULL);
+
+	if(!str || !g_utf8_strlen( str , -1 ))
+		return null_real;
+	numb = g_strsplit_set(str, ",.",2);
+	if( !numb[0] || !g_utf8_strlen( numb[0] , -1 ))
+		a = g_strdup ( "0" );
+	else
+		a = g_strdup(numb[0]);
+	if( !numb[1] || !g_utf8_strlen( numb[1], -1 ))
+		b = g_strdup ( "0" );
+	else
+		b = g_strdup(numb[1]);
+	g_strfreev(numb);
+	ff = g_strsplit ( a , " ", -1);
+	ss = g_strsplit ( b , " ", -1);
+	g_free(a);
+	g_free(b);
+	f = g_strjoinv ("", ff);
+	s = g_strjoinv ("", ss);
+	g_strfreev ( ff );
+	g_strfreev ( ss );
+	decimals = strlen(s);
+	sss = g_strconcat(f, s, NULL);
+	puts(sss);
+	ttt = g_convert(sss, -1, "ASCII", "UTF8", NULL, NULL, NULL);
+	puts(ttt);
+	g_free(f);
+	g_free(s);
+	errno = 0;
+	nombre = strtol(ttt, &err, 10);
+	if(errno == ERANGE)
+	{
+		g_free(err);
+		g_free(sss);
+		return error_real;
+	}
+	g_free(sss);
+	if( *err != '\0' ){
+		puts(err);
+		return error_real;
+	}
+	if( !nombre )
+	return null_real;
+	while( (! (nombre % 10)) ){
+		nombre /= 10;
+		decimals --;
+	}
+	resu.mantissa = nombre;
+	resu.exponent = decimals;
+	return resu;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
