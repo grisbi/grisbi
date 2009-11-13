@@ -308,8 +308,8 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     return NULL;
 
     /* Keep the const gchar in that function */
-    string = my_strdup (date_string);
-    if ( ! string )
+    string = g_strdup (date_string);
+    if ( ! strlen ( string ) )
         return NULL;
     g_strstrip ( string );
 
@@ -353,6 +353,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     string = g_strjoinv ( ".", tab_date );
     /* split the parts of the date */
     tab_date = g_strsplit_set ( string, ".", 0 );
+	g_free(string);
 
     num_fields = g_strv_length ( tab_date );
 

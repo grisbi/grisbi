@@ -3613,22 +3613,23 @@ void gsb_import_associations_add_assoc ( GtkWidget *button, GtkWidget *main_widg
     GtkWidget *combo, *entry;
     GtkTreeView *treeview;
     GtkTreeModel *list_store;
-    const gchar *payee, *search_str;
+    gchar *payee, *search_str;
     gint payee_number;
 
     combo = g_object_get_data ( G_OBJECT (main_widget), "payee" );
-    payee = g_strstrip ( (gchar *) gtk_combofix_get_text ( GTK_COMBOFIX (combo) ) );
+    payee = g_strstrip ( g_strdup ( gtk_combofix_get_text ( GTK_COMBOFIX (combo) ) ) );
     if ( strlen ( payee ) == 0 )
         return;
 
     entry = g_object_get_data ( G_OBJECT (main_widget), "Search_string" );
-    search_str = g_strstrip ( (gchar *)  gtk_entry_get_text ( GTK_ENTRY (entry) ) );
+    search_str = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY (entry) ) ) );
     if ( strlen ( search_str ) == 0 )
         return;
     devel_debug (payee);
     devel_debug (search_str);
 
     payee_number = gsb_data_payee_get_number_by_name  ( payee, TRUE );
+	g_free(payee);
     treeview = g_object_get_data ( G_OBJECT (main_widget), "treeview" );
     list_store = gtk_tree_view_get_model ( GTK_TREE_VIEW (treeview) );
 
@@ -3639,7 +3640,7 @@ void gsb_import_associations_add_assoc ( GtkWidget *button, GtkWidget *main_widg
 
         assoc = g_malloc ( sizeof (struct struct_payee_asso) );
         assoc -> payee_number = payee_number;
-        assoc -> search_str = g_strdup ( search_str );
+        assoc -> search_str = search_str;
         liste_associations_tiers = g_slist_append ( liste_associations_tiers,
                         assoc );
         gsb_data_payee_set_search_string ( payee_number, search_str );
@@ -3650,7 +3651,7 @@ void gsb_import_associations_add_assoc ( GtkWidget *button, GtkWidget *main_widg
 
         assoc = g_malloc ( sizeof (struct struct_payee_asso) );
         assoc -> payee_number = payee_number;
-        assoc -> search_str = g_strdup ( search_str );
+        assoc -> search_str = search_str;
         if ( g_slist_find_custom (liste_associations_tiers,
                         assoc,
                         (GCompareFunc) gsb_import_associations_cmp_assoc) )
