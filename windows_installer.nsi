@@ -117,7 +117,7 @@
   !insertmacro MUI_RESERVEFILE_LANGDLL
   
   
-  !include "langstrings.nsh"
+  !include "installer_strings.nsh"
 
 ;--------------------------------
 ;Installer Sections
