@@ -1973,6 +1973,10 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
              &&
              imported_transaction -> cheque
              &&
+             tmpstr
+             &&
+             content
+             &&
              !g_utf8_collate ( tmpstr, content ) )
                 imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
             g_free ( tmpstr );
