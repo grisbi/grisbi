@@ -54,6 +54,8 @@
 /*START_STATIC*/
 static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
                         GtkWidget *vbox );
+static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
+                        GtkWidget *hbox );
 static gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry );
 static void change_logo_accueil ( GtkWidget * file_selector );
 static gboolean change_toolbar_display_mode ( GtkRadioButton *button );
@@ -149,6 +151,10 @@ GtkWidget * onglet_display_fonts ( void )
 
     /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */
     gtk_widget_set_sensitive ( hbox, etat.utilise_logo );
+    g_signal_connect ( G_OBJECT ( check_button ),
+                        "toggled",
+                        G_CALLBACK ( change_choix_utilise_logo ),
+                        hbox );
 
     logo_button = gtk_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( logo_button ), GTK_RELIEF_NONE );
@@ -265,7 +271,7 @@ GtkWidget * onglet_display_fonts ( void )
 
 
 /* ********************************************************************** */
-/*gboolean change_choix_utilise_logo ( GtkWidget *check_button,
+gboolean change_choix_utilise_logo ( GtkWidget *check_button,
                         GtkWidget *hbox )
 {
 
@@ -275,13 +281,13 @@ GtkWidget * onglet_display_fonts ( void )
 
     if ( etat.utilise_logo )
     {
-        /! 	on recharge l'ancien logo !/
+        /* 	on recharge l'ancien logo */
 
         if ( GTK_IS_WIDGET ( logo_accueil ) )
             gtk_widget_hide ( logo_accueil );
         else
         {
-            /! Update homepage logo !/
+            /* Update homepage logo */
             logo_accueil =  gtk_image_new_from_pixbuf ( 
                             gsb_select_icon_get_logo_pixbuf ( ) );
             gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
@@ -296,7 +302,7 @@ GtkWidget * onglet_display_fonts ( void )
         modification_fichier ( TRUE );
 
     return ( FALSE );
-}*/
+}
 /* ********************************************************************** */
 
 
