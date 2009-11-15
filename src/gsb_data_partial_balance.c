@@ -1057,7 +1057,7 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
         account_currency = gsb_data_account_get_currency ( account_nb );
         tmp_real = gsb_data_account_get_marked_balance ( account_nb );
 
-        if ( partial_balance -> currency != account_currency )
+        if ( tmp_real.mantissa != 0 && partial_balance -> currency != account_currency )
         {
             if ( ( link_number = gsb_data_currency_link_search ( account_currency,
                         partial_balance -> currency ) ) )
@@ -1119,7 +1119,7 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
         account_currency = gsb_data_account_get_currency ( account_nb );
         tmp_real = gsb_data_account_get_current_balance ( account_nb );
 
-        if ( partial_balance -> currency != account_currency )
+        if ( tmp_real.mantissa != 0 && partial_balance -> currency != account_currency )
         {
             if ( ( link_number = gsb_data_currency_link_search ( account_currency,
                         partial_balance -> currency ) ) )
