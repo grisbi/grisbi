@@ -773,9 +773,9 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
 
     entry = g_object_get_data ( G_OBJECT ( entry_1 ), "exchange_rate" );
 
-    if ( gtk_entry_get_text_length  ( GTK_ENTRY ( entry_1 ) ) > 0 )
+    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry_1 ) ) ) > 0 )
     {
-        if ( gtk_entry_get_text_length  ( GTK_ENTRY ( entry_2 ) ) == 0 )
+        if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry_2 ) ) ) )
 		{
             gtk_entry_set_text ( GTK_ENTRY ( entry ), "");
 			gtk_widget_set_sensitive ( GTK_WIDGET ( entry ), TRUE );
