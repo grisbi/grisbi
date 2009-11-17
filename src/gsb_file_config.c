@@ -69,7 +69,7 @@ extern gchar *nom_fichier_comptes;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
-gint mini_paned_width = 250;
+gint mini_paned_width = 0;
 
 /* contient le nb de derniers fichiers ouverts */
 gsize nb_derniers_fichiers_ouverts = 0;
