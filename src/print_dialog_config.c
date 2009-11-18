@@ -61,6 +61,7 @@ void print_dialog_config ( GCallback begin_callback,
     GtkPrintOperationResult res;
 
     print = gtk_print_operation_new ();
+	gtk_print_operation_set_unit ( print, GTK_UNIT_POINTS );
 
     if (settings != NULL) 
 	gtk_print_operation_set_print_settings (print, settings);
