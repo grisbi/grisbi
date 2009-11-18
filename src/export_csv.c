@@ -501,7 +501,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	else
 	    csv_field_debit  = gsb_real_get_string (gsb_real_abs (amount));
 
-	/* met le cheque si c'est un type a numerotation automatique */
+	/* met le cheque si c'est un type a?numerotation automatique */
 	payment_method = gsb_data_transaction_get_method_of_payment_number ( transaction_number );
 	CSV_CLEAR_FIELD (csv_field_cheque);
 	if (gsb_data_payment_get_automatic_numbering (payment_method))
@@ -599,12 +599,12 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 			if ( gsb_data_transaction_get_category_number ( pSplitTransaction ) != -1 )
 			{
 			    CSV_CLEAR_FIELD (csv_field_categ);
-			    csv_field_categ = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_category_number ( pSplitTransaction ), 0, "" ) );
+			    csv_field_categ = my_strdup ( gsb_data_category_get_name ( gsb_data_transaction_get_category_number ( pSplitTransaction ), 0, "" ) );
 
 			    if ( gsb_data_transaction_get_sub_category_number ( pSplitTransaction ) != -1 )
 			    {
 				CSV_CLEAR_FIELD (csv_field_sous_categ);
-				csv_field_sous_categ = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_category_number ( pSplitTransaction ),
+				csv_field_sous_categ = my_strdup ( gsb_data_category_get_sub_category_name ( gsb_data_transaction_get_category_number ( pSplitTransaction ),
 													 gsb_data_transaction_get_sub_category_number ( pSplitTransaction ),
 													 NULL ) );
 			    }
@@ -631,7 +631,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 			csv_field_rappro = my_strdup ( gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( pSplitTransaction ) ) );
 		    }
 
-		    /* met le chã¨que si c'est un type ã  numã©rotation automatique */
+		    /* met le chã¨±ue si c'est un type ã  numã©²otation automatique */
 		    payment_method = gsb_data_transaction_get_method_of_payment_number ( pSplitTransaction );
 		    if (gsb_data_payment_get_automatic_numbering (payment_method))
 		    {
@@ -684,12 +684,12 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 		    if ( gsb_data_transaction_get_category_number ( transaction_number ) != -1 )
 		    {
 			CSV_CLEAR_FIELD (csv_field_categ);
-			csv_field_categ = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_category_number ( transaction_number ), 0, "" ) );
+			csv_field_categ = my_strdup ( gsb_data_category_get_name ( gsb_data_transaction_get_category_number ( transaction_number ), 0, "" ) );
 
 			if ( gsb_data_transaction_get_sub_category_number ( transaction_number ) != -1 )
 			{
 			    CSV_CLEAR_FIELD (csv_field_sous_categ);
-			    csv_field_sous_categ = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_category_number ( transaction_number ),
+			    csv_field_sous_categ = my_strdup ( gsb_data_category_get_sub_category_name ( gsb_data_transaction_get_category_number ( transaction_number ),
 												     gsb_data_transaction_get_sub_category_number ( transaction_number ),
 												     NULL ) );
 			}
