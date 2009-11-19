@@ -34,6 +34,7 @@
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive_store.h"
 #include "./gsb_data_budget.h"
+#include "./gsb_data_category.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_payee.h"
@@ -631,7 +632,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 			csv_field_rappro = my_strdup ( gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( pSplitTransaction ) ) );
 		    }
 
-		    /* met le ch㨱ue si c'est un type 㠠num㩲otation automatique */
+		    /* met le chèque si c'est un type à numéotation automatique */
 		    payment_method = gsb_data_transaction_get_method_of_payment_number ( pSplitTransaction );
 		    if (gsb_data_payment_get_automatic_numbering (payment_method))
 		    {
