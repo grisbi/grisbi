@@ -67,8 +67,7 @@ INCLUDE_DIRECTORIES(
 	target/gtk-dev/lib/glib-2.0/include
 	target/gtk-dev/lib/gtk-2.0/include
 	target/plugins-dev/libofx/include
-	target/plugins-dev/libxml/include/libxml2
-#	target/plugins-dev/libxml/include/libxml2/libxml
+	target/plugins-dev/libxml/include
 	target/plugins-dev/openssl/include
 	../win32-msvc/src
 	../win32-msvc
@@ -115,6 +114,8 @@ SET (grisbi_source
 	../src/affichage.h
 	../src/affichage_liste.c
 	../src/affichage_liste.h
+	../src/balance_estimate_tab.c
+	../src/balance_estimate_tab.h
 	../src/barre_outils.c
 	../src/barre_outils.h
 	../src/categories_onglet.c
@@ -131,12 +132,15 @@ SET (grisbi_source
 	../src/dialog.h
 	../src/erreur.c
 	../src/erreur.h
+	../src/etats.h
 	../src/etats_affiche.c
 	../src/etats_affiche.h
 	../src/etats_calculs.c
 	../src/etats_calculs.h
 	../src/etats_config.c
 	../src/etats_config.h
+	../src/etats_csv.c
+	../src/etats_csv.h
 	../src/etats_gtktable.c
 	../src/etats_gtktable.h
 	../src/etats_html.c
@@ -313,6 +317,7 @@ SET (grisbi_source
 	../src/import_csv.h
 	../src/imputation_budgetaire.c
 	../src/imputation_budgetaire.h
+	../src/include.h
 	../src/main.c
 	../src/main.h
 	../src/main_cunit.c
@@ -401,13 +406,6 @@ ADD_LIBRARY ( ofx
 	MODULE
 	../src/plugins/ofx/ofx.c
 	../src/plugins/ofx/ofx.h
-	# ../src/dialog.h
-	# ../src/import.h
-	# ../src/gsb_real.h
-	# ../src/utils_str.h
-	# ../src/include.h
-	# ../src/erreur.h
-	# ../src/import.h
 )
 
 ADD_CUSTOM_COMMAND ( TARGET ofx
@@ -446,51 +444,51 @@ ADD_CUSTOM_TARGET (prepare_env)
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND IF NOT EXIST target\\Debug mkdir target\\Debug
-	COMMAND IF NOT EXIST target\\Release mkdir target\\Release
+	COMMAND IF NOT EXIST target\\$(ConfigurationName) mkdir target\\$(ConfigurationName)
+	# COMMAND IF NOT EXIST target\\Release mkdir target\\Release
 )
 	
 
+# ADD_CUSTOM_COMMAND(TARGET prepare_env
+	# POST_BUILD
+	# COMMAND xcopy /Y /C /D target\\gtk-dev\\bin\\*.dll target\\Debug
+	# COMMAND xcopy /Y /C /D target\\gtk-dev\\bin\\*.dll target\\Release
+# )
+
+# ADD_CUSTOM_COMMAND(TARGET prepare_env
+	# POST_BUILD
+	# COMMAND xcopy /S /Y /D target\\gtk-dev\\etc target\\Debug\\etc\\
+	# COMMAND xcopy /S /Y /D target\\gtk-dev\\etc target\\Release\\etc\\
+# )
+
+# ADD_CUSTOM_COMMAND(TARGET prepare_env
+	# POST_BUILD
+	# COMMAND xcopy /S /Y /D target\\gtk-dev\\lib\\gtk-2.0\\2.10.0 target\\Debug\\lib\\gtk-2.0\\2.10.0\\
+	# COMMAND xcopy /S /Y /D target\\gtk-dev\\lib\\gtk-2.0\\2.10.0 target\\Release\\lib\\gtk-2.0\\2.10.0\\
+# )
+
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /Y /C /D target\\gtk-dev\\bin\\*.dll target\\Debug
-	COMMAND xcopy /Y /C /D target\\gtk-dev\\bin\\*.dll target\\Release
+	COMMAND xcopy /S /Y /D ..\\pixmaps\\*.png target\\$(ConfigurationName)\\pixmaps\\
+	# COMMAND xcopy /S /Y /D ..\\pixmaps\\*.png target\\Release\\pixmaps\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y /D target\\gtk-dev\\etc target\\Debug\\etc\\
-	COMMAND xcopy /S /Y /D target\\gtk-dev\\etc target\\Release\\etc\\
+	COMMAND xcopy /S /Y /D ..\\help target\\$(ConfigurationName)\\help\\
+	# COMMAND xcopy /S /Y /D ..\\help target\\Release\\help\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y /D target\\gtk-dev\\lib\\gtk-2.0\\2.10.0 target\\Debug\\lib\\gtk-2.0\\2.10.0\\
-	COMMAND xcopy /S /Y /D target\\gtk-dev\\lib\\gtk-2.0\\2.10.0 target\\Release\\lib\\gtk-2.0\\2.10.0\\
+	COMMAND xcopy /S /Y /D ..\\share\\categories target\\$(ConfigurationName)\\help\\tips\\categories\\
+	# COMMAND xcopy /S /Y /D ..\\share\\categories target\\Release\\help\\tips\\categories\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y /D ..\\pixmaps\\*.png target\\Debug\\pixmaps\\
-	COMMAND xcopy /S /Y /D ..\\pixmaps\\*.png target\\Release\\pixmaps\\
-)
-
-ADD_CUSTOM_COMMAND(TARGET prepare_env
-	POST_BUILD
-	COMMAND xcopy /S /Y /D ..\\help target\\Debug\\help\\
-	COMMAND xcopy /S /Y /D ..\\help target\\Release\\help\\
-)
-
-ADD_CUSTOM_COMMAND(TARGET prepare_env
-	POST_BUILD
-	COMMAND xcopy /S /Y /D ..\\share\\categories target\\Debug\\help\\tips\\categories\\
-	COMMAND xcopy /S /Y /D ..\\share\\categories target\\Release\\help\\tips\\categories\\
-)
-
-ADD_CUSTOM_COMMAND(TARGET prepare_env
-	POST_BUILD
-	COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\Debug\\help\\tips\\tips.txt
-	COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\Release\\help\\tips\\tips.txt
+	COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\$(ConfigurationName)\\help\\tips\\tips.txt
+	# COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\Release\\help\\tips\\tips.txt
 )
 
 set(
@@ -545,8 +543,8 @@ foreach (current_po ${po_files})
  
  add_custom_command(TARGET prepare_mo
 	POST_BUILD
-	COMMAND IF NOT EXIST target\\Debug\\lib mkdir target\\Debug\\lib
-	COMMAND xcopy /S /Y /I /D target\\lib\\locale target\\Debug\\lib\\locale
-	COMMAND IF NOT EXIST target\\Release\\lib mkdir target\\Release\\lib
-	COMMAND xcopy /S /Y /I /D target\\lib\\locale target\\Release\\lib\\locale
+	COMMAND IF NOT EXIST target\\$(ConfigurationName)\\lib mkdir target\\$(ConfigurationName)\\lib
+	COMMAND xcopy /S /Y /I /D target\\lib\\locale target\\$(ConfigurationName)\\lib\\locale
+	# COMMAND IF NOT EXIST target\\Release\\lib mkdir target\\Release\\lib
+	# COMMAND xcopy /S /Y /I /D target\\lib\\locale target\\Release\\lib\\locale
 )
