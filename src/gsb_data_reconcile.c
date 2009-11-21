@@ -754,13 +754,19 @@ GList *gsb_data_reconcile_get_sort_reconcile_list ( gint account_number )
 gint gsb_data_reconcile_cmp_int (struct_reconcile *reconcile_1,
                         struct_reconcile *reconcile_2)
 {
+    gint result;
+
     if ( ! reconcile_1 -> reconcile_final_date )
         return -1;
     else if ( ! reconcile_2 -> reconcile_final_date )
         return 1;
     else
-        return g_date_compare ( reconcile_1 -> reconcile_final_date,
+        result = g_date_compare ( reconcile_1 -> reconcile_final_date,
                            reconcile_2 -> reconcile_final_date );
+    if (result == 0 )
+        return reconcile_1 -> reconcile_number - reconcile_2 -> reconcile_number;
+    else
+        return result;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */
