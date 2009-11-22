@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-19 20:53+0100\n"
+"POT-Creation-Date: 2009-11-22 09:24+0100\n"
 "PO-Revision-Date: 2009-11-03 21:54+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -765,13 +765,13 @@ msgstr "Abgestimmte Buchungen anzeigen"
 msgid "Category"
 msgstr "Kategorie"
 
-#: src/categories_onglet.c:163 src/export_csv.c:777 src/gsb_reconcile.c:147
-#: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:149
-#: src/gsb_transactions_list.c:2865 src/import_csv.c:86
+#: src/categories_onglet.c:163 src/etats_config.c:5239 src/export_csv.c:774
+#: src/gsb_assistant_reconcile_config.c:594 src/gsb_scheduler_list.c:339
+#: src/gsb_transactions_list.c:150 src/import.c:3056
 #: src/imputation_budgetaire.c:176 src/tiers_onglet.c:243
-#: src/traitement_variables.c:82
-msgid "Balance"
-msgstr "Saldo"
+#: src/traitement_variables.c:83
+msgid "Amount"
+msgstr "Betrag"
 
 #: src/categories_onglet.c:338
 msgid "Export categories"
@@ -2071,13 +2071,6 @@ msgstr "ist leer"
 msgid "isn't empty"
 msgstr "ist nicht leer"
 
-#: src/etats_config.c:5239 src/export_csv.c:774
-#: src/gsb_assistant_reconcile_config.c:594 src/gsb_scheduler_list.c:339
-#: src/gsb_transactions_list.c:150 src/import.c:3056
-#: src/traitement_variables.c:83
-msgid "Amount"
-msgstr "Betrag"
-
 #: src/etats_config.c:5254
 msgid "Select the transactions by amount"
 msgstr "Buchungen nach Beträgen auswählen"
@@ -2870,6 +2863,12 @@ msgstr "Schecks"
 #: src/traitement_variables.c:88
 msgid "C/R"
 msgstr "V/A"
+
+#: src/export_csv.c:777 src/gsb_reconcile.c:147 src/gsb_scheduler_list.c:339
+#: src/gsb_transactions_list.c:149 src/gsb_transactions_list.c:2865
+#: src/import_csv.c:86 src/traitement_variables.c:82
+msgid "Balance"
+msgstr "Saldo"
 
 #: src/export_csv.c:783
 msgid "Sub-categories"
@@ -6454,8 +6453,8 @@ msgstr "Kreditkarte"
 msgid "Direct debit"
 msgstr "Barzahlung"
 
-#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1983
-#: src/gsb_data_transaction.c:2045
+#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1981
+#: src/gsb_data_transaction.c:2043
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "Der Speicher kann nicht zugeteilt werden"
 
@@ -8247,13 +8246,13 @@ msgstr ""
 "Es ist ein Problem in der Liste für Transaktionen aufgetreten: die Nummer %d "
 "für die Sortierung existiert nicht ... es wird nach Datum sortiert"
 
-#: src/gtk_combofix.c:757
+#: src/gtk_combofix.c:740
 msgid ""
 "You cannot create new payee or category and subcategory without changing the "
 "options in preferences"
 msgstr ""
 
-#: src/gtk_combofix.c:760
+#: src/gtk_combofix.c:743
 msgid "Warning you cannot create payee or category"
 msgstr ""
 

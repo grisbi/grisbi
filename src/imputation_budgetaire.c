@@ -171,9 +171,9 @@ GtkWidget *onglet_imputations ( void )
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( budgetary_line_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
 
-    /* Make balance column */
+    /* Make amount column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (_("Balance"), cell,
+    column = gtk_tree_view_column_new_with_attributes (_("Amount"), cell,
 						       "text", META_TREE_BALANCE_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,

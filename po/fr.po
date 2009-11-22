@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-19 20:53+0100\n"
+"POT-Creation-Date: 2009-11-22 09:24+0100\n"
 "PO-Revision-Date: 2009-04-04 23:10+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -769,13 +769,13 @@ msgstr "Montrer les opérations rapprochées (Alt+R)"
 msgid "Category"
 msgstr "Catégorie"
 
-#: src/categories_onglet.c:163 src/export_csv.c:777 src/gsb_reconcile.c:147
-#: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:149
-#: src/gsb_transactions_list.c:2865 src/import_csv.c:86
+#: src/categories_onglet.c:163 src/etats_config.c:5239 src/export_csv.c:774
+#: src/gsb_assistant_reconcile_config.c:594 src/gsb_scheduler_list.c:339
+#: src/gsb_transactions_list.c:150 src/import.c:3056
 #: src/imputation_budgetaire.c:176 src/tiers_onglet.c:243
-#: src/traitement_variables.c:82
-msgid "Balance"
-msgstr "Solde"
+#: src/traitement_variables.c:83
+msgid "Amount"
+msgstr "Montant"
 
 #: src/categories_onglet.c:338
 msgid "Export categories"
@@ -2077,13 +2077,6 @@ msgstr "est vide"
 msgid "isn't empty"
 msgstr "est non vide"
 
-#: src/etats_config.c:5239 src/export_csv.c:774
-#: src/gsb_assistant_reconcile_config.c:594 src/gsb_scheduler_list.c:339
-#: src/gsb_transactions_list.c:150 src/import.c:3056
-#: src/traitement_variables.c:83
-msgid "Amount"
-msgstr "Montant"
-
 #: src/etats_config.c:5254
 msgid "Select the transactions by amount"
 msgstr "Sélectionner les opérations d'après les montants"
@@ -2878,6 +2871,12 @@ msgstr "Chèques"
 #: src/traitement_variables.c:88
 msgid "C/R"
 msgstr "P/R"
+
+#: src/export_csv.c:777 src/gsb_reconcile.c:147 src/gsb_scheduler_list.c:339
+#: src/gsb_transactions_list.c:149 src/gsb_transactions_list.c:2865
+#: src/import_csv.c:86 src/traitement_variables.c:82
+msgid "Balance"
+msgstr "Solde"
 
 #: src/export_csv.c:783
 msgid "Sub-categories"
@@ -6449,8 +6448,8 @@ msgstr "Carte de crédit"
 msgid "Direct debit"
 msgstr "Prélèvement"
 
-#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1983
-#: src/gsb_data_transaction.c:2045
+#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1981
+#: src/gsb_data_transaction.c:2043
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
 
@@ -8234,7 +8233,7 @@ msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
 "Demande pour un numéro de tri : %d qui n'existe pas... retour au tri par date"
 
-#: src/gtk_combofix.c:757
+#: src/gtk_combofix.c:740
 msgid ""
 "You cannot create new payee or category and subcategory without changing the "
 "options in preferences"
@@ -8242,7 +8241,7 @@ msgstr ""
 "Vous ne pouvez pas créer de nouveau tiers ou catégorie sous-catégorie sans "
 "modifier l'option correspondante dans les préférences"
 
-#: src/gtk_combofix.c:760
+#: src/gtk_combofix.c:743
 msgid "Warning you cannot create payee or category"
 msgstr "Attention vous ne pouvez pas créer de tiers ou de catégorie"
 

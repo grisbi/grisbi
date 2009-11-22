@@ -749,35 +749,33 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
 							return_currency_number )))
     {
 	/* there is a hard link between the transaction currency and the return currency */
-	if ( gsb_data_currency_link_get_first_currency (link_number) == transaction -> currency_number)
-	    amount = gsb_real_mul ( transaction -> transaction_amount,
-				    gsb_data_currency_link_get_change_rate (link_number));
-	else
-	    amount = gsb_real_div ( transaction -> transaction_amount,
-				    gsb_data_currency_link_get_change_rate (link_number));
+        if ( gsb_data_currency_link_get_first_currency (link_number) == transaction -> currency_number)
+            amount = gsb_real_mul ( transaction -> transaction_amount,
+                        gsb_data_currency_link_get_change_rate (link_number));
+        else
+            amount = gsb_real_div ( transaction -> transaction_amount,
+                        gsb_data_currency_link_get_change_rate (link_number));
+
+        /* The costs are still deducted from the transaction. In case of internal transfer there is no charge. */
+        amount = gsb_real_sub (amount, transaction -> exchange_fees);
     }
     else
     {
-	/* no hard link between the 2 currencies, the exchange must have been saved in the transaction itself */
-	if ( transaction -> exchange_rate.mantissa )
-	{
-	    if ( transaction -> change_between_account_and_transaction )
-		amount = gsb_real_div ( transaction -> transaction_amount,
-					transaction -> exchange_rate );
-	    else
-		amount = gsb_real_mul ( transaction -> transaction_amount,
-					transaction -> exchange_rate );
+	    /* no hard link between the 2 currencies, the exchange must have been saved in the transaction itself */
+        if ( transaction -> exchange_rate.mantissa )
+        {
+            if ( transaction -> change_between_account_and_transaction )
+            amount = gsb_real_div ( transaction -> transaction_amount,
+                        transaction -> exchange_rate );
+            else
+            amount = gsb_real_mul ( transaction -> transaction_amount,
+                        transaction -> exchange_rate );
 
-	    /* i assume we cannot have some fees if we received some money,
-	     * only when we give ; perhaps change that if we have some
-	     * cases like that but it becomes complex, because for a simple
-	     * transfer for example, we will have a false amout */
-	    if ((transaction -> transaction_amount).mantissa < 0)
-		amount = gsb_real_sub (amount, transaction -> exchange_fees);
-	}
+            /* The costs are still deducted from the transaction. In case of internal transfer there is no charge. */
+            amount = gsb_real_sub (amount, transaction -> exchange_fees);
+        }
     }
-    return gsb_real_adjust_exponent  ( amount,
-				       return_exponent );
+    return gsb_real_adjust_exponent  ( amount, return_exponent );
 }
 
 

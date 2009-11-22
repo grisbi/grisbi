@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-19 20:53+0100\n"
+"POT-Creation-Date: 2009-11-22 09:24+0100\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -819,13 +819,13 @@ msgstr "Удалить транзакцию"
 msgid "Category"
 msgstr "Категория"
 
-#: src/categories_onglet.c:163 src/export_csv.c:777 src/gsb_reconcile.c:147
-#: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:149
-#: src/gsb_transactions_list.c:2865 src/import_csv.c:86
+#: src/categories_onglet.c:163 src/etats_config.c:5239 src/export_csv.c:774
+#: src/gsb_assistant_reconcile_config.c:594 src/gsb_scheduler_list.c:339
+#: src/gsb_transactions_list.c:150 src/import.c:3056
 #: src/imputation_budgetaire.c:176 src/tiers_onglet.c:243
-#: src/traitement_variables.c:82
-msgid "Balance"
-msgstr "Баланс"
+#: src/traitement_variables.c:83
+msgid "Amount"
+msgstr "Кол-во"
 
 #: src/categories_onglet.c:338
 msgid "Export categories"
@@ -2089,13 +2089,6 @@ msgstr ""
 msgid "isn't empty"
 msgstr ""
 
-#: src/etats_config.c:5239 src/export_csv.c:774
-#: src/gsb_assistant_reconcile_config.c:594 src/gsb_scheduler_list.c:339
-#: src/gsb_transactions_list.c:150 src/import.c:3056
-#: src/traitement_variables.c:83
-msgid "Amount"
-msgstr "Кол-во"
-
 #: src/etats_config.c:5254
 msgid "Select the transactions by amount"
 msgstr ""
@@ -2884,6 +2877,12 @@ msgstr ""
 #: src/traitement_variables.c:88
 msgid "C/R"
 msgstr ""
+
+#: src/export_csv.c:777 src/gsb_reconcile.c:147 src/gsb_scheduler_list.c:339
+#: src/gsb_transactions_list.c:149 src/gsb_transactions_list.c:2865
+#: src/import_csv.c:86 src/traitement_variables.c:82
+msgid "Balance"
+msgstr "Баланс"
 
 #: src/export_csv.c:783
 msgid "Sub-categories"
@@ -6279,8 +6278,8 @@ msgstr "Кредитная карта"
 msgid "Direct debit"
 msgstr ""
 
-#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1983
-#: src/gsb_data_transaction.c:2045
+#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1981
+#: src/gsb_data_transaction.c:2043
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr ""
 
@@ -7875,13 +7874,13 @@ msgstr ""
 msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
 
-#: src/gtk_combofix.c:757
+#: src/gtk_combofix.c:740
 msgid ""
 "You cannot create new payee or category and subcategory without changing the "
 "options in preferences"
 msgstr ""
 
-#: src/gtk_combofix.c:760
+#: src/gtk_combofix.c:743
 msgid "Warning you cannot create payee or category"
 msgstr ""
 

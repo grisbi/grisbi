@@ -271,12 +271,12 @@ gint gsb_transactions_list_sort_general_test ( CustomRecord *record_1,
 gint gsb_transactions_list_sort_by_no_sort (  gint transaction_number_1,
                         gint transaction_number_2,
                         gint element_number )
-
 {
     gchar* tmpstr;
+
     switch (element_number)
     {
-	case ELEMENT_DATE:
+	case ELEMENT_DATE:  /* = 1 */
 	    return ( gsb_transactions_list_sort_by_date ( transaction_number_1,
 							  transaction_number_2));
 	    break;
