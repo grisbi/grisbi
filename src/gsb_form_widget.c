@@ -183,7 +183,8 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_PARTY:
-	    widget = gtk_combofix_new_complex ( gsb_data_payee_get_name_and_report_list());
+	    widget = gtk_combofix_new_complex (
+                        gsb_data_payee_get_name_and_report_list ( ) );
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
 					  etat.combofix_force_payee );
 	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
@@ -199,7 +200,8 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_CATEGORY:
-	    widget = gtk_combofix_new_complex ( gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE));
+	    widget = gtk_combofix_new_complex (
+                         gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, TRUE ) );
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
 					  etat.combofix_force_category );
 	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
@@ -217,7 +219,8 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_BUDGET:
-	    widget = gtk_combofix_new_complex ( gsb_data_budget_get_name_list (TRUE, TRUE));
+	    widget = gtk_combofix_new_complex (
+                        gsb_data_budget_get_name_list (TRUE, TRUE));
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
 					  etat.combofix_force_category );
 	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
@@ -421,7 +424,7 @@ gchar *gsb_form_widget_get_name ( gint element_number )
 	    break;
 
 	case TRANSACTION_FORM_CATEGORY:
-	    return (N_("Category line"));
+	    return (N_("Categories : Sub-categories"));
 	    break;
 
 	case TRANSACTION_FORM_FREE:

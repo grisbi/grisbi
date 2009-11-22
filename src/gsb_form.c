@@ -1760,7 +1760,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 		/* need to work with the combofix to avoid some signals if we work
 		 * directly on the entry */
 		gtk_combofix_set_text ( GTK_COMBOFIX ( gsb_form_widget_get_widget (element_number) ),
-					string );
+					_(string) );
 		break;
 
 	    default:

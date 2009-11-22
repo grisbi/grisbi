@@ -84,7 +84,8 @@ static gboolean gtk_combofix_separator_func ( GtkTreeModel *model,
 static gboolean gtk_combofix_popup_key_press_event ( GtkWidget *popup,
 						     GdkEventKey *ev,
 						     GtkComboFix *combofix );
-static void gtk_combofix_print_visibles_rows ( GtkComboFix *combofix );
+
+
 
 /* globals variables */
 static gint block_expose_event;
@@ -221,7 +222,11 @@ void gtk_combofix_set_text ( GtkComboFix *combofix,
     if ( text && strlen ( text ) > 0 )
         gtk_entry_set_text ( GTK_ENTRY ( combofix -> entry ), text );
     else
-        gtk_entry_set_text ( GTK_ENTRY ( combofix -> entry ), "" );
+    {
+        gsb_form_widget_set_empty ( GTK_WIDGET ( combofix -> entry ), TRUE );
+        gtk_entry_set_text ( GTK_ENTRY ( combofix -> entry ),
+					    _("Categories : Sub-categories") );
+    }
     g_signal_handlers_unblock_by_func ( G_OBJECT (combofix -> entry),
 					G_CALLBACK (gtk_combofix_entry_insert),
 					combofix );
@@ -554,26 +559,31 @@ gtk_tree_view_column_set_sizing ( tree_view_column,
 				  GTK_TREE_VIEW_COLUMN_FIXED );
 
 /* set the sorting model in the tree view */
-combofix -> tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (combofix -> model_sort));
-gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(combofix -> tree_view))),
-			      GTK_SELECTION_SINGLE );
+combofix -> tree_view = gtk_tree_view_new_with_model (
+                        GTK_TREE_MODEL (combofix -> model_sort ) );
+
+gtk_tree_selection_set_mode ( GTK_TREE_SELECTION (
+                        gtk_tree_view_get_selection (
+                        GTK_TREE_VIEW(combofix -> tree_view))),
+			            GTK_SELECTION_SINGLE );
 gtk_tree_view_set_hover_selection ( GTK_TREE_VIEW (combofix -> tree_view),
-				    TRUE );
+				        TRUE );
 gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW (combofix -> tree_view),
-				    FALSE );
+				        FALSE );
 gtk_tree_view_append_column ( GTK_TREE_VIEW (combofix -> tree_view),
-			      tree_view_column );
+			            tree_view_column );
 gtk_tree_view_set_fixed_height_mode ( GTK_TREE_VIEW(combofix -> tree_view),
-				      TRUE );
+				        TRUE );
 gtk_tree_view_set_row_separator_func ( GTK_TREE_VIEW(combofix -> tree_view),
 				       (GtkTreeViewRowSeparatorFunc) gtk_combofix_separator_func,
 				       combofix, NULL );
+
 g_signal_connect ( G_OBJECT (combofix -> tree_view),
-		   "button-press-event",
-		   G_CALLBACK (gtk_combofix_button_press_event),
-		   combofix );
-gtk_container_add ( GTK_CONTAINER (scrolled_window),
-		    combofix -> tree_view);
+		                "button-press-event",
+		                G_CALLBACK (gtk_combofix_button_press_event),
+		                combofix );
+gtk_container_add ( GTK_CONTAINER (scrolled_window), combofix -> tree_view);
+
 gtk_widget_show (combofix -> tree_view);
 }
 
@@ -714,7 +724,7 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
     const gchar *entry_string;
 
     entry_string = gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) );
-    //~ printf ("etape 0 entry_string = %s\n", entry_string );
+
     if ( combofix -> force && !strlen ( entry_string ) )
         gtk_combofix_show_popup ( combofix);
 
@@ -735,7 +745,7 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
 	    gchar *new_string = NULL;
 
         new_string = my_strdup ( entry_string );
-        //~ printf ("etape 1 entry_string = %s\n", entry_string );
+
         if ( strlen ( entry_string) )
             dialogue_warning_hint ( _("You cannot create new payee or category "
                             "and subcategory without changing the options "
@@ -765,8 +775,8 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
              * be set, so show all the list and erase the entry */
             gtk_combofix_set_text ( combofix, "" );
             gtk_combofix_set_all_visible_rows (combofix);
+	    return FALSE;
         }
-        return FALSE;
     }
 
     if ( insert_text
@@ -786,19 +796,15 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
     }
 
     /* show the popup */
-    if (combofix -> visible_items
-	&&
-	(!combofix -> max_items
-	 ||
-	 combofix -> visible_items < combofix -> max_items))
+    if ( combofix -> visible_items )
+    /* bug : n'affiche plus les éléments visibles de la liste */
+	//~ &&
+	//~ (!combofix -> max_items
+	 //~ ||
+	 //~ combofix -> visible_items < combofix -> max_items))
     {
-        //~ printf ("show the popup completed_string = %s\n", completed_string );
-        gtk_combofix_print_visibles_rows ( combofix );
-
-        //~ gtk_combofix_set_all_visible_rows ( combofix );
         gtk_combofix_set_popup_position ( combofix );
         gtk_widget_show ( combofix -> popup );
-        gtk_widget_grab_focus ( GTK_WIDGET ( combofix -> entry ));
         gtk_window_set_modal (GTK_WINDOW (combofix -> popup), TRUE);
     }
     else
@@ -851,7 +857,7 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     gint path_ok;
     gint length;
     gboolean text_written = FALSE;
-    gint separator;
+    gboolean separator = FALSE;
 
     devel_debug ( string);
     if (!combofix
@@ -871,7 +877,7 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     while (path_ok)
     {
         gchar *model_string;
-        gint show_row;
+        gint show_row = 0;
         gint model_string_length;
 
         gtk_tree_model_get ( model,
@@ -879,19 +885,9 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
                      COMBOFIX_COL_REAL_STRING, &model_string,
                      COMBOFIX_COL_SEPARATOR, &separator,
                      -1 );
-        //~ printf ("model_string = %s\n", model_string );
-        /* this avoid to have 2 separators following,
-         * or a separator at the begining */
+        /* The separators are never showed */
         if (separator)
-        {
-            if (text_written)
-            {
-                show_row = 1;
-                text_written = FALSE;
-            }
-            else
-                show_row = 0;
-        }
+            show_row = 0;
         else
         {
             model_string_length = strlen (model_string);
@@ -909,7 +905,6 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
 
             if (show_row)
             {
-                //~ printf ("show_row model_string = %s complete_string = %s\n", model_string, complete_string );
                 /* if the current checked string is exactly the same as the wanted string,
                  * we keep it for completion, else we keep only the first approximation */
                 if ( model_string_length == length )
@@ -926,7 +921,6 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
                 text_written = TRUE;
             }
         }
-        //~ printf ("show_row = %d complete_string = %s\n", show_row, complete_string );
         gtk_tree_store_set ( GTK_TREE_STORE (model),
                      &iter,
                      COMBOFIX_COL_VISIBLE, show_row,
@@ -1054,7 +1048,7 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
     gint height;
     GdkRectangle rectangle;
     gint horizontal_separator;
-devel_debug (NULL);
+
     if (!combofix)
 	return FALSE;
 
@@ -1203,10 +1197,9 @@ static gboolean gtk_combofix_hide_popup ( GtkComboFix *combofix )
  * */
 static gboolean gtk_combofix_show_popup ( GtkComboFix *combofix )
 {
-    devel_debug (NULL);
     if ( GTK_WIDGET_VISIBLE (combofix -> popup))
 	return FALSE;
-devel_debug (NULL);
+
     gtk_combofix_set_all_visible_rows (combofix);
     gtk_combofix_set_popup_position (combofix);
     gtk_widget_show ( combofix -> popup );
@@ -1735,8 +1728,8 @@ static gint gtk_combofix_default_sort_func ( GtkTreeModel *model_sort,
 			 COMBOFIX_COL_SEPARATOR, &separator_2,
 			 -1 );
 
-    if (!combofix -> mixed_sort)
-	return_value = list_number_1 - list_number_2;
+    if ( combofix -> mixed_sort == FALSE )
+	    return_value = list_number_1 - list_number_2;
 
     if (!return_value)
     {
@@ -1744,23 +1737,24 @@ static gint gtk_combofix_default_sort_func ( GtkTreeModel *model_sort,
 	    return_value = 1;
 	else
 	    if (separator_2)
-		return_value = -1;
+		    return_value = -1;
 	    else
 	    {
-		gchar *cmp_string_1;
-		gchar *cmp_string_2;
+            gchar *cmp_string_1;
+            gchar *cmp_string_2;
 
-		cmp_string_1 = g_utf8_collate_key (string_1, -1);
-		cmp_string_2 = g_utf8_collate_key (string_2, -1);
-		return_value = g_ascii_strcasecmp ( cmp_string_1,
-						    cmp_string_2 );
-		g_free (cmp_string_1);
-		g_free (cmp_string_2);
+            cmp_string_1 = g_utf8_collate_key (string_1, -1);
+            cmp_string_2 = g_utf8_collate_key (string_2, -1);
+            return_value = g_ascii_strcasecmp ( cmp_string_1,
+                                cmp_string_2 );
+            g_free (cmp_string_1);
+            g_free (cmp_string_2);
 	    }
     }
 
     g_free (string_1);
     g_free (string_2);
+
     return return_value;
 }
 
@@ -1779,7 +1773,7 @@ static gboolean gtk_combofix_separator_func ( GtkTreeModel *model,
 					      GtkTreeIter *iter,
 					      GtkComboFix *combofix )
 {
-    gint value;
+    gboolean value;
 
     gtk_tree_model_get ( GTK_TREE_MODEL (model),
 			 iter,
@@ -1787,63 +1781,11 @@ static gboolean gtk_combofix_separator_func ( GtkTreeModel *model,
 			 -1 );
 
     if (value)
-	return TRUE;
+	    return TRUE;
     return FALSE;
 }
 
-void gtk_combofix_print_visibles_rows ( GtkComboFix *combofix )
-{
-    GtkTreeModel *model;
-    GtkTreePath *path;
-    GtkTreeIter iter;
-    gint path_ok;
-    gint separator;
 
-    devel_debug ( NULL );
-
-    model = GTK_TREE_MODEL (combofix -> store);
-    path = gtk_tree_path_new_first ();
-    path_ok = gtk_tree_model_get_iter ( model, &iter, path );
-
-    while (path_ok)
-    {
-        gchar *model_string;
-        gint show_row;
-
-        gtk_tree_model_get ( model,
-                     &iter,
-                     COMBOFIX_COL_REAL_STRING, &model_string,
-                     COMBOFIX_COL_VISIBLE, &show_row,
-                     COMBOFIX_COL_SEPARATOR, &separator,
-                     -1 );
-        if ( show_row && !separator )
-            printf ("string = %s\n", model_string);
-        /* increment the path :
-         * 	go to see the children only if the mother is showed */
-        if ( gtk_tree_model_iter_has_child ( model, &iter )
-             &&
-             show_row )
-            gtk_tree_path_down (path);
-        else
-            gtk_tree_path_next (path);
-
-        path_ok = gtk_tree_model_get_iter ( model, &iter, path );
-
-        /* if path_ok is FALSE, perhaps we are on the end of the children list... */
-        if (!path_ok
-            &&
-            gtk_tree_path_get_depth (path) > 1)
-        {
-            gtk_tree_path_up (path);
-            gtk_tree_path_next (path);
-            path_ok = gtk_tree_model_get_iter ( model, &iter, path );
-        }
-    }
-
-    gtk_tree_path_free (path);
-
-
-}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -178,6 +178,7 @@ GtkWidget *onglet_imputations ( void )
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,
 						       NULL);
+    gtk_tree_view_column_set_alignment ( column, 1.0 );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( budgetary_line_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
 

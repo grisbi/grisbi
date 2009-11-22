@@ -328,7 +328,7 @@ void init_variables ( void )
 
     /* init default combofix values */
     etat.combofix_mixed_sort = FALSE;
-    etat.combofix_max_item = FALSE;
+    etat.combofix_max_item = 0;
     etat.combofix_case_sensitive = FALSE;
     etat.combofix_enter_select_completion = FALSE;
     etat.combofix_force_payee = FALSE;

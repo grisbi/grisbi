@@ -165,6 +165,7 @@ GtkWidget *onglet_categories ( void )
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,
 						       NULL);
+    gtk_tree_view_column_set_alignment ( column, 1.0 );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( arbre_categ ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
 

@@ -247,7 +247,7 @@ GtkWidget *onglet_tiers ( void )
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
-
+    gtk_tree_view_column_set_alignment ( column, 1.0 );
     gtk_container_add ( GTK_CONTAINER ( scroll_window ), payee_tree );
     gtk_widget_show ( payee_tree );
 

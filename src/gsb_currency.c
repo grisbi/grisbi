@@ -423,6 +423,9 @@ void gsb_currency_check_for_change ( gint transaction_number )
         if ( current_exchange_fees.mantissa )
             gsb_data_transaction_set_exchange_fees ( transaction_number,
                         current_exchange_fees );
+        else
+            gsb_data_transaction_set_exchange_fees ( transaction_number,
+                        null_real );
 
         if ( current_exchange.mantissa == 0 )
             gsb_data_transaction_set_exchange_rate ( transaction_number,
@@ -455,6 +458,10 @@ void gsb_currency_check_for_change ( gint transaction_number )
     if ( current_exchange_fees.mantissa )
         gsb_data_transaction_set_exchange_fees ( transaction_number,
                         current_exchange_fees );
+    else
+        gsb_data_transaction_set_exchange_fees ( transaction_number,
+                        null_real );
+
     gsb_data_transaction_set_change_between (transaction_number, 0 );
 }
 
@@ -661,8 +668,17 @@ dialog_return:
         else
             current_exchange = gsb_real_get_from_string (
                         gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
-        current_exchange_fees = gsb_real_get_from_string (
+
+        if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( fees_entry ) ) ) > 0
+         ||
+         strcmp ( gtk_entry_get_text ( GTK_ENTRY ( fees_entry ) ), "0" ) != 0 )
+        {
+            current_exchange_fees = gsb_real_get_from_string (
                         gtk_entry_get_text ( GTK_ENTRY ( fees_entry ) ) );
+        }
+        else
+            current_exchange_fees = null_real ;
+
         if ( current_exchange.mantissa == 0 )
         {
             tmpstr = g_strdup_printf ( _("The exchange rate or the transaction amount in "

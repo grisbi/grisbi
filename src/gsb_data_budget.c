@@ -930,7 +930,6 @@ GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
     return_list = NULL;
 
     /* fill debit_list and/or credit_list and them sub-budgets */
-
     tmp_list = budget_list;
 
     while ( tmp_list )
