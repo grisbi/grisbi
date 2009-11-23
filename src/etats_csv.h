@@ -3,11 +3,7 @@
 
 #include "structures.h"
 
-#ifdef _MSC_VER
-#define EXTERN extern
-#endif
-
-EXTERN struct struct_etat_affichage csv_affichage;
+extern struct struct_etat_affichage csv_affichage;
 
 
 /* START_INCLUDE_H */
