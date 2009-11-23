@@ -72,7 +72,7 @@ static void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str,
 static gint * csv_fields_config = NULL;
 
 /** Contain configuration of CSV fields.  */
-struct csv_field csv_fields[16] = {
+struct csv_field csv_fields[18] = {
     { N_("Unknown field"),  0.0, NULL,			     NULL		     , "" },
     { N_("Currency"),	    0.0, csv_import_validate_string, csv_import_parse_currency, "" },
     { N_("Date"),	    0.0, csv_import_validate_date,   csv_import_parse_date, "" },
@@ -83,6 +83,8 @@ struct csv_field csv_fields[16] = {
     { N_("Voucher number"), 0.0, csv_import_validate_number, csv_import_parse_voucher, "" },
     { N_("Category"),	    0.0, csv_import_validate_string, csv_import_parse_category, "" },
     { N_("Sub-Category"),   0.0, csv_import_validate_string, csv_import_parse_sub_category, "" },
+	{ N_("Imputation"),	    0.0, csv_import_validate_string, csv_import_parse_budget, "" },
+	{ N_("Sub-Imputation"),	    0.0, csv_import_validate_string, csv_import_parse_sub_budget, "" },
     { N_("Balance"),	    0.0, csv_import_validate_amount, csv_import_parse_balance, "" },
     { N_("Credit (amount)"),0.0, csv_import_validate_amount, csv_import_parse_credit, "" },
     { N_("Debit (absolute)"),0.0, csv_import_validate_amount, csv_import_parse_debit,

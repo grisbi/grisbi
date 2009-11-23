@@ -42,6 +42,7 @@
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_category.h"
+#include "./gsb_data_budget.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_form.h"
 #include "./gsb_data_fyear.h"
@@ -147,6 +148,8 @@ static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *pat
 static void pointe_opes_importees ( struct struct_compte_importation *imported_account,
                         gint account_number );
 static void traitement_operations_importees ( void );
+static void gsb_import_lookup_budget ( struct struct_ope_importation *imported_transaction,
+									  gint transaction_number);
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -2371,6 +2374,14 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
         &&
         strlen (imported_transaction -> categ))
     {
+		// Fill budget if existing
+		if ( imported_transaction -> budget
+			&&
+			strlen (imported_transaction -> budget))
+		{
+			gsb_import_lookup_budget(imported_transaction, transaction_number);
+		}
+
         if ( imported_transaction -> categ[0] == '[' )
         {
         /* it's a transfer,
@@ -2407,6 +2418,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                         gsb_data_category_get_sub_category_number_by_name ( category_number,
                         tab_str[1],
                         TRUE ));
+		g_strfreev(tab_str);
         }
     }
     else if ( etat.get_categorie_for_payee && 
@@ -2443,6 +2455,15 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     {
         gsb_data_transaction_set_category_number ( transaction_number, 0 );
         gsb_data_transaction_set_sub_category_number ( transaction_number, 0 );
+
+		// Fill budget if existing
+		if ( imported_transaction -> budget
+			&&
+			strlen (imported_transaction -> budget))
+		{
+			gsb_import_lookup_budget(imported_transaction, transaction_number);
+		}
+
     }
     }
 
@@ -4439,6 +4460,40 @@ gboolean gsb_import_gunzip_file ( gchar *filename )
             return TRUE;
     }
     return FALSE;
+}
+
+
+/**
+ * Lookup the budget and create it if necessary
+ *
+ * \param budget_str          nom du budget à rechercher
+ *
+ * \return void
+ * */
+void gsb_import_lookup_budget ( struct struct_ope_importation *imported_transaction, gint transaction_number)
+{
+	gint budget_number;
+	gchar ** tab_str;
+
+	tab_str = g_strsplit ( imported_transaction -> budget,
+					":",
+					2 );
+
+	/* get the budget and create it if doesn't exist */
+	if (tab_str[0])
+		tab_str[0] = g_strstrip (tab_str[0]);
+	budget_number = gsb_data_budget_get_number_by_name ( tab_str[0],
+					TRUE,
+					imported_transaction -> montant.mantissa < 0 );
+	gsb_data_transaction_set_budgetary_number ( transaction_number,
+					budget_number );
+	if (tab_str[1])
+		tab_str[1] = g_strstrip (tab_str[1]);
+	gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
+					gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
+					tab_str[1],
+					TRUE ));
+	g_strfreev(tab_str);
 }
 
 /* Local Variables: */

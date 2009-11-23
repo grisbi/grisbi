@@ -370,12 +370,42 @@ gboolean csv_import_parse_category ( struct struct_ope_importation * ope, gchar 
  *
  *
  */
+gboolean csv_import_parse_budget ( struct struct_ope_importation * ope, gchar * string )
+{
+    g_return_val_if_fail ( string, FALSE );
+    if ( ope -> budget )
+        g_free ( ope -> budget );
+    ope -> budget = my_strdup ( string );
+    return TRUE;
+}
+
+
+
+/**
+ *
+ *
+ */
 gboolean csv_import_parse_sub_category ( struct struct_ope_importation * ope, gchar * string )
 {
     g_return_val_if_fail ( string, FALSE );
     if ( ! ope -> categ || ! strlen ( string ) )
 	return FALSE;
     ope -> categ = g_strconcat ( ope -> categ, " : ", string, NULL );
+    return TRUE;
+}
+
+
+
+/**
+ *
+ *
+ */
+gboolean csv_import_parse_sub_budget ( struct struct_ope_importation * ope, gchar * string )
+{
+    g_return_val_if_fail ( string, FALSE );
+    if ( ! ope -> budget || ! strlen ( string ) )
+	return FALSE;
+    ope -> budget = g_strconcat ( ope -> budget, " : ", string, NULL );
     return TRUE;
 }
 

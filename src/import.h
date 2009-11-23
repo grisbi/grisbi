@@ -76,6 +76,7 @@ struct struct_ope_importation
     gulong cheque;
 
     gchar *categ;
+	gchar *budget;
 
     gsb_real montant;
 
