@@ -828,7 +828,6 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
 		real_number.mantissa = ((glong) number ) + 1;
 	
     real_number.mantissa = (glong) (number);
-	real_number.exponent;
     return real_number;
 }
 
