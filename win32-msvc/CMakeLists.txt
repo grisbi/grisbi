@@ -2,8 +2,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 PROJECT (Grisbi C)
 
-SET(EXECUTABLE_OUTPUT_PATH target)
-SET(LIBRARY_OUTPUT_PATH target/$(OutDir)/plugins)
+SET(EXECUTABLE_OUTPUT_PATH target/$(PlatformName))
+SET(LIBRARY_OUTPUT_PATH target/$(PlatformName)/$(OutDir)/plugins)
 SET(PACKAGE_NAME grisbi)
 
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
@@ -410,7 +410,8 @@ ADD_LIBRARY ( ofx
 
 ADD_CUSTOM_COMMAND ( TARGET ofx
 	POST_BUILD
-	COMMAND xcopy /D /Y $(TargetDir)ofx.dll target\\$(OutDir)\\plugins
+	COMMAND xcopy /D /Y $(TargetDir)ofx.dll target\\$(PlatformName)\\$(OutDir)\\plugins
+	COMMAND XCOPY /D /Y target\\plugins-dev\\libofx\\bin\\* target\\$(PlatformName)\\$(OutDir)
 )
 
 ADD_LIBRARY ( gnucash
@@ -421,7 +422,7 @@ ADD_LIBRARY ( gnucash
 
 ADD_CUSTOM_COMMAND ( TARGET gnucash
 	POST_BUILD
-	COMMAND xcopy /D /Y $(TargetDir)gnucash.dll target\\$(OutDir)\\plugins
+	COMMAND xcopy /D /Y $(TargetDir)gnucash.dll target\\$(PlatformName)\\$(OutDir)\\plugins
 )
 
 ADD_LIBRARY ( openssl
@@ -432,7 +433,7 @@ ADD_LIBRARY ( openssl
 
 ADD_CUSTOM_COMMAND ( TARGET openssl
 	POST_BUILD
-	COMMAND xcopy /D /Y $(TargetDir)openssl.dll target\\$(OutDir)\\plugins
+	COMMAND xcopy /D /Y $(TargetDir)openssl.dll target\\$(PlatformName)\\$(ConfigurationName)\\plugins
 )
 
 
@@ -444,8 +445,7 @@ ADD_CUSTOM_TARGET (prepare_env)
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND IF NOT EXIST target\\$(ConfigurationName) mkdir target\\$(ConfigurationName)
-	# COMMAND IF NOT EXIST target\\Release mkdir target\\Release
+	COMMAND IF NOT EXIST target\\$(PlatformName)\\$(ConfigurationName) mkdir target\\$(PlatformName)\\$(ConfigurationName)
 )
 	
 
@@ -469,25 +469,25 @@ ADD_CUSTOM_COMMAND(TARGET prepare_env
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y /D ..\\pixmaps\\*.png target\\$(ConfigurationName)\\pixmaps\\
+	COMMAND xcopy /S /Y /D ..\\pixmaps\\*.png target\\$(PlatformName)\\$(ConfigurationName)\\pixmaps\\
 	# COMMAND xcopy /S /Y /D ..\\pixmaps\\*.png target\\Release\\pixmaps\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y /D ..\\help target\\$(ConfigurationName)\\help\\
+	COMMAND xcopy /S /Y /D ..\\help target\\$(PlatformName)\\$(ConfigurationName)\\help\\
 	# COMMAND xcopy /S /Y /D ..\\help target\\Release\\help\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y /D ..\\share\\categories target\\$(ConfigurationName)\\help\\tips\\categories\\
+	COMMAND xcopy /S /Y /D ..\\share\\categories target\\$(PlatformName)\\$(ConfigurationName)\\help\\tips\\categories\\
 	# COMMAND xcopy /S /Y /D ..\\share\\categories target\\Release\\help\\tips\\categories\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\$(ConfigurationName)\\help\\tips\\tips.txt
+	COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\$(PlatformName)\\$(ConfigurationName)\\help\\tips\\tips.txt
 	# COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\Release\\help\\tips\\tips.txt
 )
 
@@ -543,8 +543,8 @@ foreach (current_po ${po_files})
  
  add_custom_command(TARGET prepare_mo
 	POST_BUILD
-	COMMAND IF NOT EXIST target\\$(ConfigurationName)\\lib mkdir target\\$(ConfigurationName)\\lib
-	COMMAND xcopy /S /Y /I /D target\\lib\\locale target\\$(ConfigurationName)\\lib\\locale
+	COMMAND IF NOT EXIST target\\$(PlatformName)\\$(ConfigurationName)\\lib mkdir target\\$(PlatformName)\\$(ConfigurationName)\\lib
+	COMMAND xcopy /S /Y /I /D target\\lib\\locale target\\$(PlatformName)\\$(ConfigurationName)\\lib\\locale
 	# COMMAND IF NOT EXIST target\\Release\\lib mkdir target\\Release\\lib
 	# COMMAND xcopy /S /Y /I /D target\\lib\\locale target\\Release\\lib\\locale
 )
