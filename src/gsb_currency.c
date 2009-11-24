@@ -56,8 +56,14 @@ static void gsb_currency_config_set_cached_exchange ( gint currency1_number,
                         gint currency2_number,
                         gsb_real change, gsb_real fees );
 static gboolean gsb_currency_create_combobox_store ( void );
+static GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint account_currency_number,
+                        gint transaction_currency_number,
+                        gint set_index );
+static gboolean gsb_currency_select_change_currency ( GtkWidget *combobox_1,
+                        GtkWidget *combobox_2 );
 static gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
                         GtkWidget *entry_2 );
+
 /*END_STATIC*/
 
 /**
@@ -491,10 +497,12 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 {
     GtkWidget *dialog, *label, *entry, *hbox, *fees_entry, *paddingbox, *table;
     GtkWidget *amount_1_entry, *amount_2_entry, *widget;
-    GtkWidget * pixbuf, *alignement;
     struct cached_exchange_rate *cache;
     gint result;
+    GtkWidget *combobox_1;
+    GtkWidget *combobox_2;
     gchar* tmpstr;
+    gint row = 0;
 
     if ( !force
      &&
@@ -533,68 +541,68 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
     gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
 
-    /* labels line */
-    /* devise 1 */
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-                    "flags", C_DIRECTORY_SEPARATOR,
-                    gsb_data_currency_get_code_iso4217 ( transaction_currency_number ),
-                    ".png", NULL );
-    pixbuf = gtk_image_new_from_file ( tmpstr );
-    g_free ( tmpstr );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), pixbuf, FALSE, FALSE, 5 );
-    label = gtk_label_new (gsb_data_currency_get_name ( transaction_currency_number ) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
-    alignement = gtk_alignment_new ( 0.5, 0, 0, 0 );
-    gtk_container_add ( GTK_CONTAINER ( alignement ), hbox );    
-    gtk_table_attach ( GTK_TABLE(table), alignement, 1, 2, 0, 1,
-               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    /* echange line label */
+    label = gtk_label_new ( _("Currencies") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, row, row+1,
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
+    /* echange line currency 1 */
+    combobox_1 = gsb_currency_make_combobox_exchange_dialog (
+                        account_currency_number,
+                        transaction_currency_number,
+                        1 );
+    gtk_table_attach ( GTK_TABLE(table), combobox_1, 1, 2, row, row+1,
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+
+    /* echange line label */
     label = gtk_label_new ( _("Exchange rate") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.5, 0.0 );
-    gtk_table_attach ( GTK_TABLE(table), label, 2, 3, 0, 1,
+    gtk_table_attach ( GTK_TABLE(table), label, 2, 3, row, row+1,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-    /* devise 2 */
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-                    "flags", C_DIRECTORY_SEPARATOR,
-                    gsb_data_currency_get_code_iso4217 ( account_currency_number ),
-                    ".png", NULL );
-    pixbuf = gtk_image_new_from_file ( tmpstr );
-    g_free ( tmpstr );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), pixbuf, FALSE, FALSE, 5 );
-    label = gtk_label_new (gsb_data_currency_get_name ( account_currency_number ) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
-    alignement = gtk_alignment_new ( 0.5, 0, 0, 0 );
-    gtk_container_add ( GTK_CONTAINER ( alignement ), hbox );
-    gtk_table_attach ( GTK_TABLE(table), alignement, 3, 4, 0, 1,
+    /* echange line currency 2 */
+    combobox_2 = gsb_currency_make_combobox_exchange_dialog (
+                        account_currency_number,
+                        transaction_currency_number,
+                        0 );
+    gtk_table_attach ( GTK_TABLE(table), combobox_2, 3, 4, row, row+1,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    row++;
 
-    /* data line */
+    /* amount line */
     label = gtk_label_new ( COLON(_("Amounts")) );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, row, row+1,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     amount_1_entry = gtk_entry_new ();
     gtk_entry_set_activates_default ( GTK_ENTRY ( amount_1_entry ), TRUE );
-    gtk_table_attach ( GTK_TABLE(table), amount_1_entry, 1, 2, 1, 2,
+    gtk_table_attach ( GTK_TABLE(table), amount_1_entry, 1, 2, row, row+1,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* echange line input field */
     entry = gtk_entry_new ();
     gtk_widget_set_size_request ( entry, 100, -1 );
     gtk_entry_set_activates_default ( GTK_ENTRY ( entry ), TRUE );
-    gtk_table_attach ( GTK_TABLE(table), entry, 2, 3, 1, 2,
+    gtk_table_attach ( GTK_TABLE(table), entry, 2, 3, row, row+1,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     amount_2_entry = gtk_entry_new ();
     gtk_entry_set_activates_default ( GTK_ENTRY ( amount_2_entry ), TRUE );
-    gtk_table_attach ( GTK_TABLE(table), amount_2_entry, 3, 4, 1, 2,
+    gtk_table_attach ( GTK_TABLE(table), amount_2_entry, 3, 4, row, row+1,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* set the connections */
+    g_signal_connect ( G_OBJECT (combobox_1),
+                        "changed",
+                        G_CALLBACK ( gsb_currency_select_change_currency ),
+                        combobox_2 );
+    g_signal_connect ( G_OBJECT (combobox_2),
+                        "changed",
+                        G_CALLBACK ( gsb_currency_select_change_currency ),
+                        combobox_1);
+
     g_signal_connect ( G_OBJECT ( amount_1_entry ),
                         "changed",
                         G_CALLBACK ( gsb_currency_select_double_amount ),
@@ -604,23 +612,24 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
                         G_CALLBACK ( gsb_currency_select_double_amount ),
                         amount_1_entry );
     g_object_set_data ( G_OBJECT ( amount_1_entry ), "exchange_rate", entry );
+    row++;
 
     /* exchange fees line label */
     label = gtk_label_new ( COLON(_("Exchange fees")) );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 2, 3,
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, row, row+1,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* exchange fees line input field */
     fees_entry = gtk_entry_new ();
     gtk_entry_set_activates_default ( GTK_ENTRY ( fees_entry ), TRUE );
-    gtk_table_attach ( GTK_TABLE(table), fees_entry, 1, 2, 2, 3,
+    gtk_table_attach ( GTK_TABLE(table), fees_entry, 1, 2, row, row+1,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* exchange fees currency for fees */
     label = gtk_label_new (gsb_data_currency_get_name ( account_currency_number ) );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
-    gtk_table_attach ( GTK_TABLE(table), label, 2, 3, 2, 3,
+    gtk_table_attach ( GTK_TABLE(table), label, 2, 3, row, row+1,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* if amount exist already, fill them here */
@@ -813,6 +822,26 @@ gboolean gsb_currency_create_combobox_store ( void )
 }
 
 
+/*
+ * Handler that change the second combobox of a window that ask for
+ * change.
+ *
+ * \param combobox_1 the combobox wich receive the signal
+ * \param combobox_2 the combobox we want to change
+ *
+ * \return FALSE
+ */
+gboolean gsb_currency_select_change_currency ( GtkWidget *combobox_1,
+                        GtkWidget *combobox_2 )
+{
+    /* we just need to set the same active menu on the second combobox */
+    gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_2),
+			       !gtk_combo_box_get_active ( GTK_COMBO_BOX (combobox_1)));
+
+    return FALSE;
+}
+
+
 void gsb_currency_init_exchanges ( void )
 {
     current_exchange = null_real;
@@ -846,6 +875,73 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
     }
     return FALSE;
 }
+
+
+GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint account_currency_number,
+                        gint transaction_currency_number,
+                        gint set_index )
+{
+    GtkWidget *combo_box = NULL;
+    GtkListStore *combobox_store;
+    GtkCellRenderer *text_renderer, *flag_renderer;
+    GtkTreeIter iter;
+    GdkPixbuf *pixbuf;
+    gchar *string;
+
+    combobox_store = gtk_list_store_new ( 2, GDK_TYPE_PIXBUF,
+						G_TYPE_STRING);
+
+    string = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+                        "flags", C_DIRECTORY_SEPARATOR,
+                        gsb_data_currency_get_code_iso4217 (
+                        account_currency_number ),
+                        ".png", NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( string, NULL );
+    g_free (string);
+
+    gtk_list_store_append ( GTK_LIST_STORE ( combobox_store ), &iter );
+    gtk_list_store_set ( combobox_store, &iter,
+                    0, pixbuf,
+                    1, gsb_data_currency_get_name ( account_currency_number ),
+                    -1 );
+
+    string = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+                        "flags", C_DIRECTORY_SEPARATOR,
+                        gsb_data_currency_get_code_iso4217 (
+                        transaction_currency_number ),
+                        ".png", NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( string, NULL );
+    g_free (string);
+
+    gtk_list_store_append ( GTK_LIST_STORE ( combobox_store ), &iter );
+    gtk_list_store_set ( combobox_store, &iter,
+                    0, pixbuf,
+                    1, gsb_data_currency_get_name ( transaction_currency_number ),
+                    -1 );
+
+    combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL 
+                        (combobox_store));
+
+    /* Flag renderer */
+    flag_renderer = gtk_cell_renderer_pixbuf_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), flag_renderer, FALSE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), flag_renderer,
+				    "pixbuf", 0, NULL );
+
+    GTK_CELL_RENDERER(flag_renderer) -> xpad = 3; /* Ugly but how to set it otherwise ?*/
+
+    text_renderer = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), text_renderer, FALSE);
+
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), text_renderer,
+					"text", 1, NULL);
+
+    gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box), set_index );
+
+    return (combo_box);
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

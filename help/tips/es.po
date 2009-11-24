@@ -3,27 +3,25 @@
 # This file is distributed under the same license as the Grisbi package.
 # <>, 2008.
 # , fuzzy
-# 
-# 
+#
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-12 11:39+0200\n"
+"POT-Creation-Date: 2008-11-14 22:04+0100\n"
 "PO-Revision-Date: 2008-10-13 15:30+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=\n"
-"Content-Transfer-Encoding: "
+"Content-Transfer-Encoding: \n"
 
-#: tips.txt:43
+#: tips.txt:41
 msgid ""
 "By double cliking on a date field, you can pop up a calendar to select a "
 "date."
-msgstr ""
-"Pinchando dos veces en un campo de fecha, aparecerá un calendario "
-"para seleccionar el día."
+msgstr "Pinchando dos veces en un campo de fecha, aparecerá un calendario para seleccionar el día."
 
 #: tips.txt:3
 msgid ""
@@ -34,27 +32,28 @@ msgid ""
 msgstr ""
 "Grisbi guarda automáticamene una copia de su trabajo por si se cierra inesperadamente.\n"
 "\n"
-"Así es poco probable que pierda sus datos en caso de que haya un error de "
-"programación en Grisbi."
+"Así es poco probable que pierda sus datos en caso de que haya un error de programación en Grisbi."
 
 #: tips.txt:7
 msgid ""
 "Grisbi can import Gnucash files natively, then you don't loose your work "
 "when you switch from Gnucash to Grisbi."
-msgstr ""
-"Grisbi puede importar ficheros de Gnucash de forma nativa por lo que si decide "
-"usar Grisbi en lugar de Gnucash no tendrá que perder sus datos."
+msgstr "Grisbi puede importar ficheros de Gnucash de forma nativa por lo que si decide usar Grisbi en lugar de Gnucash no tendrá que perder sus datos."
 
-#: tips.txt:53
+#: tips.txt:49
+msgid ""
+"If unused payees have accumulated in the course of time due to bank imports, "
+"you can remove all of them in one click!  Just go to the <i>Payees</i> page "
+"and click on the 'Remove unused payees' button."
+msgstr ""
+
+#: tips.txt:57
 msgid ""
 "No more tip available !  Please send any tips you know to grisbi-devel@lists."
 "sourceforge.net so that we can include them in next version for all users."
-msgstr ""
-"¡ No hay más consejos disponibles !  Por favor envíe los consejos que se le ocurran a "
-"grisbi-devel@lists.sourceforge.net para que podamos incluirlos en la siguiente versión "
-"para todos los usuarios."
+msgstr "¡ No hay más consejos disponibles !  Por favor envíe los consejos que se le ocurran a grisbi-devel@lists.sourceforge.net para que podamos incluirlos en la siguiente versión para todos los usuarios."
 
-#: tips.txt:45
+#: tips.txt:43
 msgid ""
 "There are shortcuts in date fields, to avoid typing date or selecting it "
 "with mouse.\n"
@@ -63,22 +62,19 @@ msgid ""
 "i> and <i>Page Down</i> increment and decrement date of one month ... and "
 "there are more, check out the manual."
 msgstr ""
-"Hay atajos de teclado en los campos de fecha, para que no tenga que escribir la fecha completa "
-"o seleccionarla con el ratón.\n"
+"Hay atajos de teclado en los campos de fecha, para que no tenga que escribir la fecha completa o seleccionarla con el ratón.\n"
 "\n"
-"<i>+</i> y <i>-</i> mueven la fecha día arriba y día abajo, <i>Avpág</i> y <i>Repág</i> "
-"mueven la fecha un mes arriba y abajo ... y hay más atajos, consulte el manual."
-""
+"<i>+</i> y <i>-</i> mueven la fecha día arriba y día abajo, <i>Avpág</i> y <i>Repág</i> mueven la fecha un mes arriba y abajo ... y hay más atajos, consulte el manual."
 
-#: tips.txt:49
+#: tips.txt:47
+#, fuzzy
 msgid ""
 "You can archive previous financial years to speed up Grisbi and possibily "
-"put old transactions into separate files for archival."
-msgstr ""
-"Puede archivar años financieros previos para hacer que Grisbi funcione más rápido y "
-"también puede archivar viejas transacciones en ficheros separados."
+"put old transactions into separate files for archival.  Use 'File/Archive "
+"transaction' menu to achieve this."
+msgstr "Puede archivar años financieros previos para hacer que Grisbi funcione más rápido y también puede archivar viejas transacciones en ficheros separados."
 
-#: tips.txt:35
+#: tips.txt:33
 msgid ""
 "You can configure fields displayed in the transaction form.\n"
 "\n"
@@ -86,12 +82,12 @@ msgid ""
 "option.  Then you can click on fields to be displayed and drag them through "
 "the form to adjust their position."
 msgstr ""
-"Puede configurar los campos que se muestran en el formulario de transacciones.\n"
+"Puede configurar los campos que se muestran en el formulario de "
+"transacciones.\n"
 "\n"
-"Vaya al diálogo de <i>Preferencias</i> y elija la opción de <i>Contenido del formulario</i>.  "
-"Después podrá seleccionar los campos para mostrar y cambiar su posición en el formulario."
+"Vaya al diálogo de <i>Preferencias</i> y elija la opción de <i>Contenido del formulario</i>.  Después podrá seleccionar los campos para mostrar y cambiar su posición en el formulario."
 
-#: tips.txt:31
+#: tips.txt:29
 msgid ""
 "You can configure the contents of the transaction list.\n"
 "\n"
@@ -101,9 +97,7 @@ msgid ""
 msgstr ""
 "Puede configurar los contenidos de la lista de transacciones.\n"
 "\n"
-"Haga click con el botón derecho del ratón en una celda de la lista de transacciones y "
-"seleccione la opción <i>Cambiar contenido de la celda</i>.  Después elija el contenido que "
-"desee y configure la lista de transacciones a sus necesidades."
+"Haga click con el botón derecho del ratón en una celda de la lista de transacciones y seleccione la opción <i>Cambiar contenido de la celda</i>.  Después elija el contenido que desee y configure la lista de transacciones a sus necesidades."
 
 #: tips.txt:13
 msgid ""
@@ -113,27 +107,9 @@ msgid ""
 "If you write a category or a budgetary line which name contains a ':', a sub-"
 "category or sub-budgetary line will be created as well."
 msgstr ""
-"Puede crear categorías o líneas presupuestarias directamente escribiéndolas en "
-"el formulario de transacciones.\n"
+"Puede crear categorías o líneas presupuestarias directamente escribiéndolas en el formulario de transacciones.\n"
 "\n"
-"Si escribe una categoría o una línea presupuestaria con un nombre que contenga ':', "
-"una subcategoría o sublínea presupuestaria se creará también."
-
-#: tips.txt:51
-msgid ""
-"You can customize the transaction form layout via the 'Preferences' window "
-"and define whatever layout suits your needs."
-msgstr ""
-"Puede modificar la presentación del formulario de transacción a través de la "
-"ventana de 'Preferencias' y definir el formato que mejor se ajuste a sus necesidades."
-
-#: tips.txt:27
-msgid ""
-"You can double-click on any date entry to pop up a calendar in order to "
-"enter a date more easily."
-msgstr ""
-"Puede hacer doble click en una entrada de fecha para que aparezca un calendario "
-"que le permita introducir el día más cómodamente."
+"Si escribe una categoría o una línea presupuestaria con un nombre que contenga ':', una subcategoría o sublínea presupuestaria se creará también."
 
 #: tips.txt:21
 msgid ""
@@ -141,21 +117,17 @@ msgid ""
 "\n"
 "Create a <i>Professional expenses</i> budgetary line and put all "
 "professional expenses there.  When you are paid, split your salary as a "
-"split of transaction, with both a <i>Salary</i> part and a "
-"<i>Profesionnal expenses</i> part.  \n"
+"split of transaction, with both a <i>Salary</i> part and a <i>Profesionnal "
+"expenses</i> part.  \n"
 "\n"
 "Then, you can create a new report that sums up transactions from the "
 "<i>Profesionnal expenses</i> budgetary line and see the balance."
 msgstr ""
 "Puede manejar eficientemente sus gastos profesionales con Grisbi.\n"
 "\n"
-"Cree una línea presupuestaria de <i>Gastos profesionales</i> y ponga "
-"todos sus gastos profesionales ahí.  Cuando le paguen, divida su salario "
-"como una nota de transacción con ambas partes: <i>Salario</i> y "
-"<i>Gastos profesionales</i>.  \n"
+"Cree una línea presupuestaria de <i>Gastos profesionales</i> y ponga todos sus gastos profesionales ahí.  Cuando le paguen, divida su salario como una nota de transacción con ambas partes: <i>Salario</i> y <i>Gastos profesionales</i>.  \n"
 "\n"
-"Después, puede crear un nuevo informe que agrupe las transacciones de la "
-"línea presupuestaria de <i>Gastos profesionales</i> y vea el balance."
+"Después, puede crear un nuevo informe que agrupe las transacciones de la línea presupuestaria de <i>Gastos profesionales</i> y vea el balance."
 
 #: tips.txt:17
 msgid ""
@@ -166,14 +138,16 @@ msgid ""
 "Encryption is irreversible, if you loose your password, there is NO WAY to "
 "restore your Grisbi accounts.  Use with caution !"
 msgstr ""
-"Puede encriptar sus ficheros de Grisbi para aumentar su privacidad.  Tan sólo seleccione "
-"'Encriptar fichero Grisbi' en la ventana de preferencias e introduzca una contraseña "
-"la próxima vez que guarde su fichero.\n"
+"Puede encriptar sus ficheros de Grisbi para aumentar su privacidad.  Tan sólo seleccione 'Encriptar fichero Grisbi' en la ventana de preferencias e introduzca una contraseña la próxima vez que guarde su fichero.\n"
 "\n"
-"El encriptado es irreversible, si pierde su contraseña, no hay NINGUNA FORMA de "
-"recuperar sus cuentas de Grisbi  ¡ Úselo con precaución !"
+"El encriptado es irreversible, si pierde su contraseña, no hay NINGUNA FORMA de recuperar sus cuentas de Grisbi  ¡ Úselo con precaución !"
 
-#: tips.txt:39
+#: tips.txt:55
+msgid ""
+"You can have future scheduled transactions 'executed' before their date, "
+msgstr ""
+
+#: tips.txt:37
 msgid ""
 "You can hide annoying dialogs like this one, by clicking the <i>'Do not show "
 "this message again'</i> checkbox in this dialog.  \n"
@@ -181,11 +155,9 @@ msgid ""
 "You can then activate them again by going to the <i>Preferences</i> window "
 "and then to the <i>Dialog and messages</i> option."
 msgstr ""
-"Puede ocultar los diálogos molestos como este, activando la opción <i>'No mostrar "
-"estos mensajes de nuevo'</i> en este diálogo.  \n"
+"Puede ocultar los diálogos molestos como este, activando la opción <i>'No mostrar estos mensajes de nuevo'</i> en este diálogo.  \n"
 "\n"
-"Puede activarlos de nuevo yendo a la ventana de <i>Preferencias</i> y después "
-"a la opción de <i>Diálogo y mensajes</i>."
+"Puede activarlos de nuevo yendo a la ventana de <i>Preferencias</i> y después a la opción de <i>Diálogo y mensajes</i>."
 
 #: tips.txt:9
 msgid ""
@@ -195,12 +167,9 @@ msgid ""
 "Combined with categories (how money is spend), budgetary lines are a "
 "powerful way to analyse budget and to make reports."
 msgstr ""
-"Puede organizar sus transacciones en líneas presupuestarias que son elementos "
-"presupuestarios (por qué se gasta el dinero) que pueden ayudarle a clasificar "
-"sus gastos.\n"
+"Puede organizar sus transacciones en líneas presupuestarias que son elementos presupuestarios (por qué se gasta el dinero) que pueden ayudarle a clasificar sus gastos.\n"
 "\n"
-"Combinados con las categorías (Cómo se gasta el dinero), las líneas presupuestarias "
-"son una forma muy potente de analizar los presupuestos y hacer informes."
+"Combinados con las categorías (Cómo se gasta el dinero), las líneas presupuestarias son una forma muy potente de analizar los presupuestos y hacer informes."
 
 #: tips.txt:1
 msgid ""
@@ -208,16 +177,31 @@ msgid ""
 "your bank receipts.  If you just spend 15mn each month reconciling Grisbi "
 "transactions with your bank receipts, you are guaranteed that your accounts "
 "are in perfect shape."
-msgstr ""
-"Puede reconciliar transacciones para cuadrar su estado financiero real tal y como aparece en "
-"sus extractos del banco.  Si emplea 15 minutos cada més conciliando sus transacciones en "
-"Grisbi con los extractos de su banco, se asegurará que sus cuentas están siempre bien ajustadas."
+msgstr "Puede reconciliar transacciones para cuadrar su estado financiero real tal y como aparece en sus extractos del banco.  Si emplea 15 minutos cada més conciliando sus transacciones en Grisbi con los extractos de su banco, se asegurará que sus cuentas están siempre bien ajustadas."
 
-#: tips.txt:29
+#: tips.txt:53
+msgid "You can reorder accounts in the navigation list using drag &amp; drop."
+msgstr ""
+
+#: tips.txt:51
+msgid ""
+"You can sort the transaction list according to any criteria.  Click on the "
+"column titles to sort transactions differently.  For example, you can sort "
+"transactions by payee or category name."
+msgstr ""
+
+#: tips.txt:27
 msgid ""
 "You can use the import facility to automatically reconcile transactions "
 "against a QIF or OFX file from your online bank."
-msgstr ""
-"Puede usar la opción de importaciones para automáticamente conciliar las "
-"transacciones contra un fichero QIF u OFX de su banca online."
+msgstr "Puede usar la opción de importaciones para automáticamente conciliar las transacciones contra un fichero QIF u OFX de su banca online."
 
+#~ msgid ""
+#~ "You can customize the transaction form layout via the 'Preferences' "
+#~ "window and define whatever layout suits your needs."
+#~ msgstr "Puede modificar la presentación del formulario de transacción a través de la ventana de 'Preferencias' y definir el formato que mejor se ajuste a sus necesidades."
+
+#~ msgid ""
+#~ "You can double-click on any date entry to pop up a calendar in order to "
+#~ "enter a date more easily."
+#~ msgstr "Puede hacer doble click en una entrada de fecha para que aparezca un calendario que le permita introducir el día más cómodamente."

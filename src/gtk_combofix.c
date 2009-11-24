@@ -740,7 +740,8 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
      * from the end to have again a completed string */
     if ( combofix -> force
 	 &&
-	 !completed_string )
+	 !completed_string 
+     && !gsb_form_widget_check_empty ( GTK_WIDGET ( combofix -> entry ) ) )
     {
 	    gchar *new_string = NULL;
 

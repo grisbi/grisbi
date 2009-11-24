@@ -56,7 +56,8 @@ msgid ""
 msgstr ""
 "... nicht mehr verwendete Empfänger entfernt werden können?\n"
 "\n"
-"Rufen Sie dazu in der <i>Empfängerübersicht</i> den Menüpunkt 'Verwaiste Empfänger löschen' auf."
+"Rufen Sie dazu in der <i>Empfängerübersicht</i> den Menüpunkt 'Verwaiste "
+"Empfänger löschen' auf."
 
 #: tips.txt:57
 msgid ""
@@ -183,11 +184,14 @@ msgstr ""
 "in der Grisbi-Datei möglich."
 
 #: tips.txt:55
-msgid "You can have future scheduled transactions 'executed' before their date, "
+msgid ""
+"You can have future scheduled transactions 'executed' before their date, "
 msgstr ""
 "... geplante Buchungen auch manuell ausgeführt werden können?\n"
 "\n"
-"In der Übersicht von den geplanten Buchungen kann mit dem Menüpunkt 'Die selektierte Buchung ausführen' eine geplante Buchung - unabhängig vom geplanten Datum - manuell ausgeführt werden."
+"In der Übersicht von den geplanten Buchungen kann mit dem Menüpunkt 'Die "
+"selektierte Buchung ausführen' eine geplante Buchung - unabhängig vom "
+"geplanten Datum - manuell ausgeführt werden."
 
 #: tips.txt:37
 msgid ""
@@ -231,7 +235,9 @@ msgstr ""
 
 #: tips.txt:53
 msgid "You can reorder accounts in the navigation list using drag &amp; drop."
-msgstr "... das im Navigationsbereich Konten und Berichte mit 'Drag &amp; Drop' angeordnet werden können?"
+msgstr ""
+"... das im Navigationsbereich Konten und Berichte mit 'Drag &amp; Drop' "
+"angeordnet werden können?"
 
 #: tips.txt:51
 msgid ""
@@ -241,7 +247,9 @@ msgid ""
 msgstr ""
 "... die Buchungsübersicht eine konfigurierbare Sortierung hat?\n"
 "\n"
-"Mit Klick auf einen Spaltentitel erfolgt eine auf/absteigende Sortierung. Die Spaltentitel haben desweiteren ein Kontextmenü mit welchen die Sortierkriterien konfiguriert werden können."
+"Mit Klick auf einen Spaltentitel erfolgt eine auf/absteigende Sortierung. "
+"Die Spaltentitel haben desweiteren ein Kontextmenü mit welchen die "
+"Sortierkriterien konfiguriert werden können."
 
 #: tips.txt:27
 msgid ""
@@ -252,4 +260,3 @@ msgstr ""
 "\n"
 "Sie können mit dem Import von QIF oder OFX Dateien von Ihrem Bankkonto die "
 "erfassten Buchungen in der Grisbi-Datei abstimmen."
-

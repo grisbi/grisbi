@@ -490,9 +490,10 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 /* ************************************************************************************************************** */
 GtkWidget *onglet_form_completion ( void )
 {
-    GtkWidget *vbox_pref, *hbox, *label, *entry;
+    GtkWidget *vbox_pref;
+    //~ GtkWidget *hbox, *label, *entry;
     GtkWidget *button;
-	gchar* tmpstr;
+	//~ gchar* tmpstr;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "form.png" );
 
@@ -542,23 +543,23 @@ GtkWidget *onglet_form_completion ( void )
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0 );
+    //~ hbox = gtk_hbox_new ( FALSE, 5 );
+    //~ gtk_box_pack_start ( GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new (
-                        COLON (_("Maximum items showed in drop down lists (0 for no limit)") ) );
-    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
+    //~ label = gtk_label_new (
+                        //~ COLON (_("Maximum items showed in drop down lists (0 for no limit)") ) );
+    //~ gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
-    entry = gtk_entry_new ();
-    gtk_widget_set_size_request ( entry, 30, -1 );
-    tmpstr = utils_str_itoa (etat.combofix_max_item);
-    gtk_entry_set_text ( GTK_ENTRY (entry), tmpstr);
-    g_free ( tmpstr );
-    g_signal_connect ( G_OBJECT (entry),
-                        "changed",
-                        G_CALLBACK (gsb_transactions_list_display_change_max_items),
-                        NULL );
-    gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );
+    //~ entry = gtk_entry_new ();
+    //~ gtk_widget_set_size_request ( entry, 30, -1 );
+    //~ tmpstr = utils_str_itoa (etat.combofix_max_item);
+    //~ gtk_entry_set_text ( GTK_ENTRY (entry), tmpstr);
+    //~ g_free ( tmpstr );
+    //~ g_signal_connect ( G_OBJECT (entry),
+                        //~ "changed",
+                        //~ G_CALLBACK (gsb_transactions_list_display_change_max_items),
+                        //~ NULL );
+    //~ gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );
     
     if ( !gsb_data_account_get_accounts_amount () )
     {
