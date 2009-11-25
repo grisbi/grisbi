@@ -1,8 +1,9 @@
 /* ************************************************************************** */
-/* Ce fichier s'occupe des astuces					      */
+/* Ce fichier s'occupe des astuces                                            */
 /*                                                                            */
-/*     Copyright (C)	2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2004-2008 Benjamin Drieu (bdrieu@april.org)           */
+/*          2009 Pierre Biava (grisbi@pierre.biava.name)                      */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -61,9 +62,10 @@ void display_tip ( gboolean force )
     GtkWidget * checkbox;
     GtkWidget * dialog = NULL;
     gchar * tip;
+    gchar *tmpstr;
 
     if ( !force && !etat.show_tip )
-	return;
+        return;
 
     etat.last_tip ++;
     tip = get_next_tip ();
@@ -71,57 +73,71 @@ void display_tip ( gboolean force )
     // If no tips found ... no dialog will be displayed...
     if (!tip)
     {
-	dialog_message ( "no-tip-available" );
-	return;
+        dialog_message ( "no-tip-available" );
+        return;
     }
     dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
-				       make_hint ( _("Did you know that..."),
-						   /* We use the grisbi-tips catalog */
-						   dgettext("grisbi-tips", (tip) ) ) );
+                        make_hint ( _("Did you know that..."),
+                        /* We use the grisbi-tips catalog */
+                        dgettext("grisbi-tips", (tip) ) ) );
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
 
     checkbox = gsb_automem_checkbutton_new ( _("Display tips at next start"), 
-					     &(etat.show_tip), NULL, NULL );
+                        &(etat.show_tip), NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), checkbox, FALSE, FALSE, 6 );
     gtk_widget_show ( checkbox );
 
     gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-			     GTK_STOCK_GO_BACK, 1,
-			     GTK_STOCK_GO_FORWARD, 2,
-			     GTK_STOCK_CLOSE, 3,
-			     NULL );
+                        GTK_STOCK_GO_BACK, 1,
+                        GTK_STOCK_GO_FORWARD, 2,
+                        GTK_STOCK_CLOSE, 3,
+                        NULL );
  
     /* We iterate as user can select several tips. */
     while ( TRUE )
     {
-	if ( max == etat.last_tip )
-	    change_button_sensitiveness ( dialog, 1, FALSE );
-	if ( etat.last_tip == 1 )
-	    change_button_sensitiveness ( dialog, 0, FALSE );
+    if ( max == etat.last_tip )
+        change_button_sensitiveness ( dialog, 1, FALSE );
+    if ( etat.last_tip == 1 )
+        change_button_sensitiveness ( dialog, 0, FALSE );
 
-	switch ( gtk_dialog_run ( GTK_DIALOG(dialog) ) )
-	{
-	    case 1:
-		if ( etat.last_tip > 1 )
-		    etat.last_tip --;
-		change_button_sensitiveness ( dialog, 1, TRUE ); 
-		gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ), 
-				       make_hint ( _("Did you know that..."),
-						   dgettext("grisbi-tips", get_next_tip ()) ) );
-		break;
+    switch ( gtk_dialog_run ( GTK_DIALOG(dialog) ) )
+    {
+        case 1:
+        if ( etat.last_tip > 1 )
+            etat.last_tip --;
+        change_button_sensitiveness ( dialog, 1, TRUE ); 
+                tmpstr = g_markup_printf_escaped (
+                        g_strconcat ( "<span size=\"larger\" weight=\"bold\">",
+                        _("Did you know that..."),
+                        "</span>\n\n",
+                        dgettext ("grisbi-tips",
+                        get_next_tip () ),
+                        NULL ) );
+        gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ),
+                        tmpstr );
+        g_free ( tmpstr );
+        break;
 
-	    case 2:
-		etat.last_tip ++;
-		gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ), 
-				       make_hint ( _("Did you know that..."),
-						   dgettext("grisbi-tips", get_next_tip () ) ) );
-		change_button_sensitiveness ( dialog, 0, TRUE );
-		break;
+        case 2:
+        etat.last_tip ++;
+        tmpstr = g_markup_printf_escaped (
+                        g_strconcat ( "<span size=\"larger\" weight=\"bold\">",
+                        _("Did you know that..."),
+                        "</span>\n\n",
+                        dgettext ("grisbi-tips",
+                        get_next_tip () ),
+                        NULL ) );
+        gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ),
+                        tmpstr );
+        g_free ( tmpstr );
+        change_button_sensitiveness ( dialog, 0, TRUE );
+        break;
 
-	    default:
-		gtk_widget_destroy ( dialog );
-		return;
-	}
+        default:
+        gtk_widget_destroy ( dialog );
+        return;
+    }
     }
 }
 
