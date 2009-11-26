@@ -353,8 +353,8 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
                                         const gchar *mon_thousands_sep,
                                         const gchar *mon_decimal_point )
 {
-    static const gchar *space_chars = " ";
-    static const gchar *decimal_chars = ".,";
+    static gchar *space_chars;
+    static gchar *decimal_chars;
     static const gchar *positive_chars = "+";
     static const gchar *negative_chars = "-";
 
@@ -376,6 +376,8 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
                        ? strlen ( mon_thousands_sep )
                        : 0;
     mdp_len = mon_decimal_point ? strlen ( mon_decimal_point ) : 0;
+	decimal_chars = g_strconcat(".", mon_decimal_point, NULL);
+	space_chars = g_strconcat(" ", mon_thousands_sep, NULL);
 
     for ( ; ; )
     {
@@ -398,14 +400,12 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
                               : 0;
             return result;
         }
-        else if ( strchr ( space_chars, *p )
-             || ( mts_len && ( strncmp ( p, mon_thousands_sep, mts_len ) == 0 ) ) )
+        else if ( strchr ( space_chars, *p ) )
         {
             // just skip spaces and thousands separators
             p = g_utf8_find_next_char ( p, NULL );
         }
-        else if ( strchr ( decimal_chars, *p )
-             || ( mdp_len && ( strncmp ( p, mon_decimal_point, mdp_len ) == 0 ) ) )
+        else if ( strchr ( decimal_chars, *p ) )
         {
             if ( dot_position >= 0 ) // already found a decimal separator
                 return error_real;
@@ -884,11 +884,18 @@ gsb_real gsb_str_to_real ( const gchar * str )
 {
 	gchar *str2, **numb, **ff, **ss, *err;
 	gchar *sss, *ttt, *f, *s, *a, *b;
+	static gchar *space_chars;
+    static gchar *decimal_chars;
 	int decimals;
 	glong nombre;
 	gsb_real resu;
 	gsb_real null_real = { 0 , 0 };
 	gsb_real error_real = { 0x80000000, 0 };
+	struct lconv *loc;
+
+	loc = localeconv();
+	decimal_chars = g_locale_to_utf8 ( g_strconcat ( ".", loc->mon_decimal_point, NULL ), -1, NULL, NULL, NULL );
+	space_chars =  g_locale_to_utf8 ( g_strconcat ( " ", loc->mon_thousands_sep, NULL ), -1, NULL, NULL, NULL );
 
 	if ( !g_utf8_validate ( str, -1, NULL ) )
 		str2 = g_locale_to_utf8 ( str, -1, NULL, NULL, NULL );
@@ -897,8 +904,9 @@ gsb_real gsb_str_to_real ( const gchar * str )
 
 	if(!str2 || !g_utf8_strlen( str2 , -1 ))
 		return null_real;
-	numb = g_strsplit_set(str2, ",.",2);
+	numb = g_strsplit_set(str2, decimal_chars, 2);
 	g_free(str2);
+	g_free(decimal_chars);
 	if( !numb[0] || !g_utf8_strlen( numb[0] , -1 ))
 		a = g_strdup ( "0" );
 	else
@@ -908,10 +916,11 @@ gsb_real gsb_str_to_real ( const gchar * str )
 	else
 		b = g_strdup(numb[1]);
 	g_strfreev(numb);
-	ff = g_strsplit ( a , " ", -1);
-	ss = g_strsplit ( b , " ", -1);
+	ff = g_strsplit_set ( a , space_chars, -1);
+	ss = g_strsplit_set ( b , space_chars, -1);
 	g_free(a);
 	g_free(b);
+	g_free(space_chars);
 	f = g_strjoinv ("", ff);
 	s = g_strjoinv ("", ss);
 	g_strfreev ( ff );
