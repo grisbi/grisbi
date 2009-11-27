@@ -3579,10 +3579,6 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
 
     entry = gtk_combofix_new_complex (
                         gsb_data_payee_get_name_and_report_list());
-    g_signal_connect ( G_OBJECT (GTK_COMBOFIX (entry) -> entry),
-                        "changed",
-                        G_CALLBACK (gsb_import_associations_combo_changed),
-                        vbox_main );
     gtk_combofix_set_text ( GTK_COMBOFIX (entry), "" );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (entry),FALSE );
     gtk_combofix_set_max_items ( GTK_COMBOFIX (entry),
@@ -3594,6 +3590,10 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 0, 1,
                         GTK_EXPAND|GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT (vbox_main), "payee", entry );
+    g_signal_connect ( G_OBJECT (GTK_COMBOFIX (entry) -> entry),
+                        "changed",
+                        G_CALLBACK (gsb_import_associations_combo_changed),
+                        vbox_main );
 
     /* Create entry search string */
     label = gtk_label_new (COLON(_("Search string")));

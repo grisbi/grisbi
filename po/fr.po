@@ -9023,7 +9023,7 @@ msgstr "Créer une archive"
 
 #: src/menu.c:197
 msgid "_Export an archive as GSB/QIF/CSV file..."
-msgstr "_Exporter une archive vers un fichier GSB/QIF/CSV..."
+    msgstr "_Exporter une archive vers un fichier GSB/QIF/CSV..."
 
 #: src/menu.c:200
 msgid "_Debug account file..."
