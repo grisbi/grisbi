@@ -665,6 +665,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    case ELEMENT_CATEGORY:
 	    case ELEMENT_DEBIT:
 	    case ELEMENT_CREDIT:
+        case ELEMENT_EXERCICE:
 		break;
 
 	    default:
@@ -744,17 +745,27 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* mise en forme du moyen de paiement */
 
 	case ELEMENT_PAYMENT_TYPE:
-	    return ( my_strdup (gsb_data_payment_get_name ( gsb_data_transaction_get_method_of_payment_number ( transaction_number))));
+	    return ( my_strdup (gsb_data_payment_get_name (
+                        gsb_data_transaction_get_method_of_payment_number (
+                        transaction_number ) ) ) );
 
 	    /* mise en forme du no de rapprochement */
 
 	case ELEMENT_RECONCILE_NB:
-	    return ( my_strdup (gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( transaction_number))));
+	    return ( my_strdup (gsb_data_reconcile_get_name (
+                        gsb_data_transaction_get_reconcile_number (
+                        transaction_number ) ) ) );
 
 	    /* mise en place de l'exo */
 
 	case ELEMENT_EXERCICE:
-	    return ( my_strdup (gsb_data_fyear_get_name (gsb_data_transaction_get_financial_year_number ( transaction_number))));
+
+        if ( gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
+            return g_strdup ( "" );
+        else
+	        return ( my_strdup ( gsb_data_fyear_get_name (
+                        gsb_data_transaction_get_financial_year_number (
+                        transaction_number ) ) ) );
 
 	    /* mise en place des catégories */
 
