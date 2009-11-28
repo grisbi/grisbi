@@ -1983,12 +1983,15 @@ void transaction_list_set_color_jour ( gint account_number )
     gint i, j;
     gint res;
     gint transaction_number;
+    gint element_sort;
     CustomList *custom_list;
 
     custom_list = transaction_model_get_model ();
     g_return_if_fail ( custom_list != NULL );
 
     date_jour = gdate_today ( );
+    element_sort = gsb_data_account_get_element_sort ( account_number,
+							     custom_list -> sort_col);
 
     for (i= custom_list -> num_visibles_rows -1; i >= 0  ; i--)
     {
@@ -2002,8 +2005,14 @@ void transaction_list_set_color_jour ( gint account_number )
                         record -> transaction_pointer);
             if ( transaction_number > 0 )
             {
-                res = g_date_compare ( date_jour,
+                if ( element_sort == 2 )
+                    res = g_date_compare ( date_jour,
+                        gsb_data_transaction_get_value_date_or_date (
+                         transaction_number ) );
+                else
+                    res = g_date_compare ( date_jour,
                         gsb_data_transaction_get_date ( transaction_number ) );
+
                 if ( res >= 0 )
                 {
                     /* colorize the record */

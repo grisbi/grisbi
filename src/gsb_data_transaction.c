@@ -630,7 +630,27 @@ gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
 }
 
 
+/**
+ * get the value GDate of the transaction or the date if not exist
+ *
+ * \param transaction_number the number of the transaction
+ *
+ * \return the GDate of the transaction
+ * */
+const GDate *gsb_data_transaction_get_value_date_or_date ( gint transaction_number )
+{
+    struct_transaction *transaction;
 
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
+
+    if ( !transaction )
+	return NULL;
+
+    if ( transaction -> value_date )
+        return transaction -> value_date;
+    else
+        return transaction -> date;
+}
 
 
 /**
