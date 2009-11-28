@@ -1541,7 +1541,7 @@ msgstr "Remarques"
 #: src/etats_config.c:7220 src/gsb_payment_method_config.c:118
 #: src/parametres.c:507
 msgid "Payment methods"
-msgstr "Modes de règlements"
+msgstr "Modes de règlement"
 
 #: src/etats_affiche.c:2461 src/gsb_data_payment.c:737
 msgid "Cheque"
