@@ -634,6 +634,11 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     g_object_set_data ( G_OBJECT ( combobox_1 ),
                         "amount_2_entry", amount_2_entry );
 
+    g_object_set_data ( G_OBJECT ( combobox_2 ),
+                        "amount_1_entry", amount_1_entry );
+    g_object_set_data ( G_OBJECT ( combobox_2 ),
+                        "amount_2_entry", amount_2_entry );
+
     g_signal_connect ( G_OBJECT ( amount_1_entry ),
                         "changed",
                         G_CALLBACK ( gsb_currency_select_double_amount ),
