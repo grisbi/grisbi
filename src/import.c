@@ -2255,7 +2255,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    /* si c'était une ventil on met l'action de la dernière ventil à 0 */
 
 	    if ( ope_import -> operation_ventilee )
-		action_derniere_ventilation = 0;
+            action_derniere_ventilation = 0;
 	}
     /* pbiava the 03/17/2009 sélection des opérations non cochées */
     else if ( etat.get_fusion_import_planed_transactions &&
@@ -2263,7 +2263,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     {
         ope_import -> action = 0;
         if ( ope_import -> operation_ventilee )
-		action_derniere_ventilation = 0;
+            action_derniere_ventilation = 0;
         ope_import -> ope_correspondante = 0;
     }
 
@@ -2291,6 +2291,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gint fyear = 0;
     gint last_transaction_number;
     gint div_number;
+    gint payment_number = 0;
     gchar* tmpstr;
 
     /* we create the new transaction */
@@ -2354,6 +2355,10 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
             tmpstr = gsb_string_extract_int ( imported_transaction -> tiers );
             if ( tmpstr && strlen ( tmpstr ) > 0 )
             {
+                payment_number = gsb_data_payment_get_number_by_name ( _("Check"),
+                        account_number );
+                gsb_data_transaction_set_method_of_payment_number (transaction_number, 
+                        payment_number);
                 gsb_data_transaction_set_method_of_payment_content (
                         transaction_number, tmpstr );
                 g_free ( tmpstr );
@@ -2421,14 +2426,33 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 		g_strfreev(tab_str);
         }
     }
-    else if ( etat.get_categorie_for_payee && 
-     ( !imported_transaction -> cheque 
-     ||
-     ( etat.get_fusion_import_planed_transactions &&
-     imported_transaction -> ope_correspondante > 0 ) ) )
+    else if ( etat.get_fusion_import_planed_transactions &&
+     imported_transaction -> ope_correspondante > 0 )
     {
-        /* associate the class and the budgetary line to the payee except checks 
-         * unless it is a merged transaction */
+        /* merge the class and the budgetary line of the transactions */
+        div_number = gsb_data_transaction_get_category_number (
+                        imported_transaction -> ope_correspondante );
+        if ( div_number != -1 )
+            gsb_data_transaction_set_category_number ( transaction_number, div_number );
+
+        div_number = gsb_data_transaction_get_sub_category_number (
+                        imported_transaction -> ope_correspondante );
+        if ( div_number != -1 )
+            gsb_data_transaction_set_sub_category_number ( transaction_number, div_number );
+
+        div_number = gsb_data_transaction_get_budgetary_number (
+                        imported_transaction -> ope_correspondante );
+        if ( div_number != -1 )
+            gsb_data_transaction_set_budgetary_number ( transaction_number, div_number );
+
+        div_number = gsb_data_transaction_get_sub_budgetary_number (
+                        imported_transaction -> ope_correspondante );
+        if ( div_number != -1 )
+            gsb_data_transaction_set_sub_budgetary_number ( transaction_number, div_number );
+    }
+    else if ( etat.get_categorie_for_payee &&  !imported_transaction -> cheque )
+    {
+        /* associate the class and the budgetary line to the payee except checks */
         last_transaction_number = gsb_form_transactions_look_for_last_party (
                                     payee_number, transaction_number,
                                     account_number );
@@ -2463,7 +2487,6 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 		{
 			gsb_import_lookup_budget(imported_transaction, transaction_number);
 		}
-
     }
     }
 
@@ -2476,8 +2499,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     if (origine && g_ascii_strcasecmp (origine, "OFX") == 0 )
     {
     gchar *buffer;
-    gint payment_number = 0;
-
+    
     switch ( imported_transaction -> type_de_transaction )
     {
         case OFX_CHECK:
