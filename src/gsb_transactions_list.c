@@ -568,15 +568,20 @@ gboolean gsb_transactions_list_fill_archive_store ( void )
     devel_debug (NULL);
 
     tmp_list = gsb_data_archive_store_get_archives_list ();
+printf ("nbre d'archives = %d\n", g_slist_length ( tmp_list ));
     while (tmp_list)
     {
     gint archive_store_number;
 
     /* get the store archive struct */
     archive_store_number = gsb_data_archive_store_get_number (tmp_list -> data);
+    printf ("archive_store_number = %d account_nb = %d\n",
+                        archive_store_number ,
+                        gsb_data_archive_store_get_account_number ( archive_store_number ));
     transaction_list_append_archive (archive_store_number);
     tmp_list = tmp_list -> next;
     }
+    printf ("sortie de gsb_transactions_list_fill_archive_store\n");
     return FALSE;
 }
 

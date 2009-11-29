@@ -293,7 +293,7 @@ void transaction_list_append_archive (gint archive_store_number)
     CustomRecord *newrecord;
     gint amount_col;
     CustomList *custom_list;
-
+devel_debug_int ( archive_store_number);
     custom_list = transaction_model_get_model ();
 
     g_return_if_fail ( custom_list != NULL );
@@ -304,11 +304,24 @@ void transaction_list_append_archive (gint archive_store_number)
      * 1 for the archive */
     custom_list->num_rows = custom_list -> num_rows + 1;
     newsize = custom_list->num_rows * sizeof(CustomRecord*);
-    custom_list->rows = g_realloc(custom_list->rows, newsize);
-
+    //~ printf ("pos = %d custom_list->num_rows = %d newsize = %ld\n", pos,
+            //~ custom_list->num_rows, newsize );
+    custom_list->rows = g_try_realloc ( custom_list->rows, newsize );
+    if ( custom_list->rows == NULL )
+    {
+        printf ("realloc Non OK\n");
+        return;
+    }
+//~ printf ("realloc custom_list->rows OK\n");
     /* increase too the size of visibles rows, either if that row is not visible,
      * it's the only way to be sure to never go throw the end while filtering */
-    custom_list->visibles_rows = g_realloc(custom_list->visibles_rows, newsize);
+    custom_list->visibles_rows = g_try_realloc (custom_list->visibles_rows, newsize);
+    if ( custom_list->visibles_rows == NULL )
+    {
+        printf ("realloc Non OK\n");
+        return;
+    }
+//~ printf ("realloc custom_list->visibles_rows OK\n");
 
     /* create and fill the record */
     newrecord = g_malloc0 (sizeof (CustomRecord));
@@ -322,6 +335,7 @@ void transaction_list_append_archive (gint archive_store_number)
                         gsb_data_archive_get_name (archive_number),
                         gsb_data_archive_store_get_transactions_number (
                         archive_store_number ) );
+    printf ("texte archive = %s\n", newrecord -> visible_col[find_element_col (ELEMENT_PARTY)] );
     if ((gsb_data_archive_store_get_balance (archive_store_number)).mantissa < 0)
 	amount_col = find_element_col (ELEMENT_DEBIT);
     else

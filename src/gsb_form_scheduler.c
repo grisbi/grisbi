@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -56,16 +56,16 @@
 
 /*START_STATIC*/
 static gboolean gsb_form_scheduler_button_press_event ( GtkWidget *entry,
-						 GdkEventButton *ev,
-						 gint *ptr_origin );
+                        GdkEventButton *ev,
+                        gint *ptr_origin );
 static gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
-					     gpointer null );
+                        gpointer null );
 static gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
-					       GdkEventFocus *ev,
-					       gint *ptr_origin );
+                        GdkEventFocus *ev,
+                        gint *ptr_origin );
 static void gsb_form_scheduler_free_content_list ( GSList *content_list );
 static gboolean gsb_form_scheduler_frequency_button_changed ( GtkWidget *combo_box,
-						       gpointer null );
+                       gpointer null );
 static gint gsb_form_scheduler_get_auto ( void );
 static GSList *gsb_form_scheduler_get_content_list ( void );
 static gint gsb_form_scheduler_get_frequency ( void );
@@ -135,7 +135,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
     scheduled_element *element;
     devel_debug (NULL);
     if (!table)
-	return FALSE;
+        return FALSE;
 
     /* just in case... be sure that not created */
     if (scheduled_element_list)
@@ -193,22 +193,22 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 		    tooltip_text = SPACIFY(_("Frequency"));
 		    break;
 
-		case SCHEDULED_FORM_LIMIT_DATE:
-		    widget = gsb_calendar_entry_new (FALSE);
-		    g_signal_connect ( G_OBJECT (widget),
+        case SCHEDULED_FORM_LIMIT_DATE:
+            widget = gsb_calendar_entry_new (FALSE);
+            g_signal_connect ( G_OBJECT (widget),
                         "button-press-event",
                         G_CALLBACK (gsb_form_scheduler_button_press_event),
                         GINT_TO_POINTER (element_number));
-		    g_signal_connect ( G_OBJECT (widget),
+            g_signal_connect ( G_OBJECT (widget),
                         "focus-in-event",
                         G_CALLBACK (gsb_form_entry_get_focus),
                         GINT_TO_POINTER (element_number));
-		    g_signal_connect_after ( G_OBJECT (widget),
+            g_signal_connect_after ( G_OBJECT (widget),
                         "focus-out-event",
-					    G_CALLBACK (gsb_form_scheduler_entry_lose_focus),
-					    GINT_TO_POINTER (element_number));
-		    tooltip_text = SPACIFY(_("Frequency"));
-		    break;
+                        G_CALLBACK (gsb_form_scheduler_entry_lose_focus),
+                        GINT_TO_POINTER (element_number));
+            tooltip_text = SPACIFY(_("Frequency"));
+            break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
 		    widget = gtk_entry_new ();
@@ -235,12 +235,6 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 	    element -> element_widget = widget;
 	    scheduled_element_list = g_slist_append ( scheduled_element_list,
                         element );
-
-	    /* set the key signal */
-	    g_signal_connect ( G_OBJECT (widget),
-                        "key-press-event",
-                        G_CALLBACK (gsb_form_key_press_event),
-                        GINT_TO_POINTER (SCHEDULED_FORM_ACCOUNT));
 
 	    /* set in the form */
 	    gtk_table_attach ( GTK_TABLE (table),
@@ -305,7 +299,7 @@ gboolean gsb_form_scheduler_free_list ( void )
  * \return FALSE
  * */
 gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
-					     gpointer null )
+                        gpointer null )
 {
     gint save_transaction;
     gint save_execute;
@@ -642,28 +636,22 @@ gboolean gsb_form_scheduler_clean ( void )
 		case SCHEDULED_FORM_AUTO:
 		case SCHEDULED_FORM_FREQUENCY_BUTTON:
 		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
-		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget),
-					       0 );
-		    gtk_widget_set_sensitive ( widget,
-					       FALSE );
+		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
+		    gtk_widget_set_sensitive ( widget, FALSE );
 		    break;
 
 		case SCHEDULED_FORM_LIMIT_DATE:
-		    gsb_form_widget_set_empty ( widget,
-						TRUE );
+		    gsb_form_widget_set_empty ( widget, TRUE );
 		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					 _("Limit date") );
-		    gtk_widget_set_sensitive ( widget,
-					       TRUE );
+		    gtk_widget_set_sensitive ( widget, TRUE );
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
-		    gsb_form_widget_set_empty ( widget,
-						TRUE );
+		    gsb_form_widget_set_empty ( widget, TRUE );
 		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					 _("User frequency") );
-		    gtk_widget_set_sensitive ( widget,
-					       TRUE );
+		    gtk_widget_set_sensitive ( widget, TRUE );
 		    break;
 	    }
 	}
@@ -806,8 +794,8 @@ GtkWidget *gsb_form_scheduler_get_element_widget ( gint element_number )
  * \return FALSE
  * */
 gboolean gsb_form_scheduler_button_press_event ( GtkWidget *entry,
-						 GdkEventButton *ev,
-						 gint *ptr_origin )
+                        GdkEventButton *ev,
+                        gint *ptr_origin )
 {
     gint element_number;
     GtkWidget *date_entry;
@@ -821,10 +809,9 @@ gboolean gsb_form_scheduler_button_press_event ( GtkWidget *entry,
     date_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_DATE);
     if ( gsb_form_widget_check_empty (date_entry))
     {
-	gtk_entry_set_text ( GTK_ENTRY (date_entry),
-			     gsb_date_today ());
-	gsb_form_widget_set_empty ( date_entry,
-				    FALSE );
+        gtk_entry_set_text ( GTK_ENTRY (date_entry),
+                     gsb_date_today ( ) );
+        gsb_form_widget_set_empty ( date_entry, FALSE );
     }
     return FALSE;
 }
@@ -840,8 +827,8 @@ gboolean gsb_form_scheduler_button_press_event ( GtkWidget *entry,
  * \return FALSE
  * */
 gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
-					       GdkEventFocus *ev,
-					       gint *ptr_origin )
+                        GdkEventFocus *ev,
+                        gint *ptr_origin )
 {
     gchar *string;
     gint element_number;
@@ -849,10 +836,8 @@ gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
 
     /* remove the selection */
 
-    gtk_editable_select_region ( GTK_EDITABLE ( entry ),
-				 0,
-				 0 );
-    element_number = GPOINTER_TO_INT (ptr_origin);
+    gtk_editable_select_region ( GTK_EDITABLE ( entry ), 0, 0 );
+    element_number = GPOINTER_TO_INT ( ptr_origin );
     account_number = gsb_form_get_account_number ();
 
     /* string will be filled only if the field is empty */
@@ -861,13 +846,13 @@ gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
     switch ( element_number )
     {
 	case  SCHEDULED_FORM_LIMIT_DATE:
-	    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
-		string = _("Limit date");
+	    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) )
+            string = _("Limit date");
 	    break;
 
 	case  SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
-	    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
-		string = _("Own frequency");
+	    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) )
+            string = _("Own frequency");
 	    break;
 
 	default :
@@ -878,9 +863,8 @@ gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
 
     if ( string )
     {
-	gtk_entry_set_text ( GTK_ENTRY ( entry ), string );
-	gsb_form_widget_set_empty ( entry,
-				    TRUE );
+        gtk_entry_set_text ( GTK_ENTRY ( entry ), string );
+        gsb_form_widget_set_empty ( entry, TRUE );
     }
     return FALSE;
 }
@@ -1115,18 +1099,22 @@ gboolean gsb_form_scheduler_set_limit_date ( GDate *date )
 {
     GtkWidget *entry;
 
-    if (!date)
-	return FALSE;
+    entry = gsb_form_scheduler_get_element_widget ( SCHEDULED_FORM_LIMIT_DATE );
 
-    entry = gsb_form_scheduler_get_element_widget(SCHEDULED_FORM_LIMIT_DATE);
     /* if no entry, go away... */
-    if (!entry
-	||
-	!GTK_WIDGET_VISIBLE (entry))
-	return FALSE;
+    if (!entry || !GTK_WIDGET_VISIBLE ( entry ) )
+        return FALSE;
 
-    if (!gsb_calendar_entry_set_date ( entry, date ))
-	gsb_form_widget_set_empty (entry, FALSE);
+    if ( !date )
+    {
+        gsb_form_widget_set_empty ( entry, TRUE );
+        gtk_entry_set_text ( GTK_ENTRY ( entry ), _("Limit date") );
+    }
+    else
+    {
+        gsb_calendar_entry_set_date ( entry, date );
+        gsb_form_widget_set_empty (entry, FALSE);
+    }
 
     return TRUE;
 }

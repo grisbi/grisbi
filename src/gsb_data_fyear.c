@@ -720,6 +720,11 @@ gint gsb_data_fyear_compare_from_struct ( struct_fyear *fyear_1,
     if ( !fyear_1 || !fyear_2 )
         return 0;
 
+    if ( ! fyear_1 -> beginning_date )
+        return -1;
+    if ( ! fyear_2 -> beginning_date )
+        return -1;
+
     if (g_date_compare (fyear_1 -> beginning_date, fyear_2 -> end_date) >= 0)
         return 1;
     if (g_date_compare (fyear_2 -> beginning_date, fyear_1 -> end_date) >= 0)

@@ -445,11 +445,14 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     GtkWidget *popup, *pVBox, *pCalendar, *button, *frame;
     GtkRequisition *popup_size;
     gint x, y;
+    gint screen_width = gdk_screen_width ( );
     GDate * date;
 
     /* make the popup */
     popup = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
     gtk_window_set_modal ( GTK_WINDOW ( popup ), TRUE );
+    gtk_window_set_transient_for ( GTK_WINDOW ( popup ),
+                        GTK_WINDOW ( window ) );
     gtk_window_set_decorated ( GTK_WINDOW ( popup ), FALSE );
     g_signal_connect_swapped ( G_OBJECT ( popup ),
 				"destroy",
@@ -518,6 +521,10 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     /* pour la soustraire à la position de l'entrée date */
     y -= popup_size -> height;
 
+    /* on décale le popup si on est trop près de bord droit de l'écran */
+    if ( x > ( screen_width - popup_size -> width ) )
+        x = screen_width - popup_size -> width - 10;
+
     /* si une des coordonnées est négative, alors la fonction
        gtk_window_move échoue et affiche la popup en 0,0 */
     if ( x < 0 )
@@ -555,8 +562,10 @@ gboolean gsb_calendar_entry_select_date ( GtkCalendar *pCalendar,
 
     gtk_entry_set_text ( GTK_ENTRY ( entry ),
 			 gsb_format_date ( day, month + 1, year ));
+    gsb_form_widget_set_empty ( entry, FALSE );
     if ( GTK_WIDGET_TOPLEVEL ( pTopLevelWidget ) )
-	gtk_widget_destroy ( pTopLevelWidget );
+        gtk_widget_destroy ( pTopLevelWidget );
+
     return FALSE;
 }
 

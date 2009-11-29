@@ -1847,7 +1847,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
      * être dans le fichier importé */
     first_date_import = gsb_import_get_first_date ( imported_account -> operations_importees );
 
-    /* ok, now firt_date_import contains the firt transaction date used in that account,
+    /* ok, now first_date_import contains the firt transaction date used in that account,
      * can check the imported transactions */
     demande_confirmation = gsb_import_define_action ( imported_account,
                         account_number,
