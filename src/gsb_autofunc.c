@@ -73,7 +73,6 @@ static  gboolean gsb_autofunc_textview_changed ( GtkTextBuffer *buffer,
 
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 

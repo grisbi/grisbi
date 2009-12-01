@@ -952,7 +952,7 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
 		scheduled_number > 0)
 	    {
 		/* it's a transfer */
-		if (gsb_data_scheduled_get_amount (scheduled_number).mantissa < 0)
+		if (GSB_REAL_SIGN(gsb_data_scheduled_get_amount (scheduled_number)) < 0)
 		    line[COL_NB_PARTY] = g_strdup_printf ( _("Transfer to %s"),
 							   gsb_data_account_get_name (gsb_data_scheduled_get_account_number_transfer (scheduled_number)));
 		else

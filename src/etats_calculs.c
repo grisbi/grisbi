@@ -133,7 +133,6 @@ extern const gchar *nom_ss_categ_en_cours;
 extern const gchar *nom_ss_ib_en_cours;
 extern const gchar *nom_tiers_en_cours;
 extern GtkWidget *notebook_general;
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 
@@ -486,7 +485,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 		    if ( gsb_data_report_get_amount_comparison_only_report_non_null (report_number)
 			 &&
-			 !gsb_data_transaction_get_amount (transaction_number_tmp).mantissa )
+			 GSB_REAL_NULL ( gsb_data_transaction_get_amount (transaction_number_tmp) ) )
 			goto operation_refusee;
 
 
@@ -1367,28 +1366,28 @@ gint compare_montants_etat ( gsb_real montant_ope,
 	case 6:
 	    /* nul  */
 
-	    if ( !montant_ope.mantissa )
+	    if ( GSB_REAL_NULL ( montant_ope ) )
 		return_value = 1;
 	    break;
 
 	case 7:
 	    /* non nul  */
 
-	    if ( montant_ope.mantissa )
+	    if ( ! GSB_REAL_NULL ( montant_ope ) )
 		return_value = 1;
 	    break;
 
 	case 8:
 	    /* positif  */
 
-	    if ( montant_ope.mantissa > 0 )
+	    if ( GSB_REAL_SIGN(montant_ope) > 0 )
 		return_value = 1;
 	    break;
 
 	case 9:
 	    /* négatif  */
 
-	    if ( montant_ope.mantissa < 0 )
+	    if ( GSB_REAL_SIGN(montant_ope) < 0 )
 		return_value = 1;
 	    break;
     }
@@ -2016,7 +2015,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		}
 		else
 		{
-		    if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
+		    if ( GSB_REAL_SIGN ( gsb_data_transaction_get_amount (transaction_number) ) < 0 )
 			liste_ope_depenses = g_slist_append ( liste_ope_depenses,
 							      gsb_data_transaction_get_pointer_of_transaction (transaction_number));
 		    else
@@ -2028,7 +2027,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	    {
 		/* le classement racine n'est pas la catég, on sépare en fonction du montant */
 
-		if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
+		if ( GSB_REAL_SIGN ( gsb_data_transaction_get_amount (transaction_number) ) < 0 )
 		    liste_ope_depenses = g_slist_append ( liste_ope_depenses,
 							  gsb_data_transaction_get_pointer_of_transaction (transaction_number) );
 		else

@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*     Copyright (C)    2000-2008 CÃ©dric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
@@ -92,7 +92,6 @@ static gboolean gsb_data_scheduled_save_scheduled_pointer ( gpointer scheduled )
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 

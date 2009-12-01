@@ -706,11 +706,11 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* give the amount of the transaction on the transaction currency */
 	    if ( (cell_content_number == ELEMENT_DEBIT
 		  &&
-		  gsb_data_transaction_get_amount ( transaction_number).mantissa < 0 )
+		  GSB_REAL_SIGN(gsb_data_transaction_get_amount ( transaction_number)) < 0 )
 		 ||
 		 (cell_content_number == ELEMENT_CREDIT
 		  &&
-		  gsb_data_transaction_get_amount ( transaction_number).mantissa >= 0 ))
+		  GSB_REAL_SIGN(gsb_data_transaction_get_amount ( transaction_number)) >= 0 ))
 		return gsb_real_get_string_with_currency ( gsb_real_abs (gsb_data_transaction_get_amount ( transaction_number )),
 							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	    else
@@ -3227,7 +3227,7 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 	{
 	    case -1:
 		/* transfer to deleted account */
-		if ( gsb_data_transaction_get_amount ( transaction_number).mantissa < 0 )
+		if ( GSB_REAL_SIGN(gsb_data_transaction_get_amount ( transaction_number)) < 0 )
 		    tmp = g_strdup(_("Transfer to a deleted account"));
 		else
 		    tmp = g_strdup(_("Transfer from a deleted account"));
@@ -3240,7 +3240,7 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 		break;
 	    default:
 		/* transfer */
-		if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
+		if ( GSB_REAL_SIGN(gsb_data_transaction_get_amount (transaction_number)) < 0 )
 		    tmp = g_strdup_printf ( _("Transfer to %s"),
 					    gsb_data_account_get_name ( gsb_data_transaction_get_account_number (contra_transaction_number)));
 		else

@@ -480,9 +480,9 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 
     account_number = gsb_gui_navigation_get_current_account ();
 
-    if ( gsb_real_sub ( gsb_real_add ( gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_initial_balance_entry ))),
+    if ( !GSB_REAL_NULL(gsb_real_sub ( gsb_real_add ( gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_initial_balance_entry ))),
 				       gsb_data_account_calculate_waiting_marked_balance (account_number)),
-			gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_final_balance_entry )))).mantissa != 0 )
+			gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_final_balance_entry ))))))
     {
 	dialogue_warning_hint ( _("There is a variance in balances, check that both final balance and initial balance minus marked transactions are equal."),
 				_("Reconciliation can't be completed.") );
@@ -711,7 +711,7 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
     tmpstr = gsb_real_get_string (amount);
     gtk_label_set_text ( GTK_LABEL ( reconcile_variation_balance_label ), tmpstr);
     g_free ( tmpstr );
-    if ( amount.mantissa )
+    if ( !GSB_REAL_NULL(amount) )
 	gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_ok_button ),
 				   FALSE );
     else

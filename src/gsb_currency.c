@@ -107,7 +107,6 @@ extern GtkWidget *detail_devise_compte;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gsb_real null_real;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -426,14 +425,14 @@ void gsb_currency_check_for_change ( gint transaction_number )
 
     if ( link_number )
     {
-        if ( current_exchange_fees.mantissa )
+        if ( !GSB_REAL_NULL ( current_exchange_fees ) )
             gsb_data_transaction_set_exchange_fees ( transaction_number,
                         current_exchange_fees );
         else
             gsb_data_transaction_set_exchange_fees ( transaction_number,
                         null_real );
 
-        if ( current_exchange.mantissa == 0 )
+        if ( GSB_REAL_NULL(current_exchange) )
             gsb_data_transaction_set_exchange_rate ( transaction_number,
                     gsb_real_abs (
                     gsb_data_currency_link_get_change_rate (
@@ -451,7 +450,7 @@ void gsb_currency_check_for_change ( gint transaction_number )
         return;
     }
 
-    if ( current_exchange.mantissa == 0 )
+    if ( GSB_REAL_NULL(current_exchange) )
         gsb_currency_exchange_dialog ( account_currency_number,
                         transaction_currency_number,
                         0,
@@ -461,7 +460,7 @@ void gsb_currency_check_for_change ( gint transaction_number )
 
     gsb_data_transaction_set_exchange_rate ( transaction_number,
                         gsb_real_abs (current_exchange));
-    if ( current_exchange_fees.mantissa )
+    if ( !GSB_REAL_NULL(current_exchange_fees) )
         gsb_data_transaction_set_exchange_fees ( transaction_number,
                         current_exchange_fees );
     else
@@ -671,14 +670,14 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* if the rate or fees exist already, fill them here */
-    if ( exchange_rate.mantissa )
+    if ( !GSB_REAL_NULL(exchange_rate) )
     {
         tmpstr = gsb_real_get_string ( exchange_rate );
         gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr );
         g_free ( tmpstr );
     }
 
-    if ( exchange_fees.mantissa )
+    if ( !GSB_REAL_NULL(exchange_fees) )
     {
         tmpstr = gsb_real_get_string (gsb_real_abs (exchange_fees));
         gtk_entry_set_text ( GTK_ENTRY ( fees_entry ), tmpstr );
@@ -709,7 +708,7 @@ dialog_return:
         else
             current_exchange_fees = null_real ;
 
-        if ( current_exchange.mantissa == 0 )
+        if ( GSB_REAL_NULL(current_exchange) )
         {
             tmpstr = g_strdup_printf ( _("The exchange rate or the transaction amount in "
                         "%s must be filled."),
@@ -968,8 +967,8 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
 		else
         {
             gtk_widget_set_sensitive ( GTK_WIDGET ( entry ), FALSE );
-            amount_1 = gsb_str_to_real ( gtk_entry_get_text ( GTK_ENTRY ( entry_1 ) ) );
-            amount_2 = gsb_str_to_real ( gtk_entry_get_text ( GTK_ENTRY ( entry_2 ) ) );
+            amount_1 = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( entry_1 ) ) );
+            amount_2 = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( entry_2 ) ) );
             taux = gsb_real_div ( amount_2, amount_1 );
             gtk_entry_set_text ( GTK_ENTRY ( entry ), gsb_real_get_string ( taux ) );
         }

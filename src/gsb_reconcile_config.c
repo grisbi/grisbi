@@ -57,7 +57,6 @@ static gboolean gsb_reconcile_config_update_line ( GtkWidget *entry,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 /* the tree view used to modify the reconciles */

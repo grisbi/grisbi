@@ -302,7 +302,7 @@ gboolean gsb_csv_export_account ( const gchar *filename, gint account_nb )
     /* ok the balance is now good, can write it */
     CSV_CLEAR_FIELD (csv_field_solde);
     csv_field_solde = gsb_real_get_string (current_balance);
-    if ( current_balance.mantissa >= 0 )
+    if ( GSB_REAL_SIGN ( current_balance ) >= 0 )
     {
 	CSV_CLEAR_FIELD (csv_field_credit);
 	csv_field_credit = gsb_real_get_string (current_balance);
@@ -497,7 +497,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	amount = gsb_data_transaction_get_adjusted_amount ( transaction_number,
 							    return_exponent);
 	CSV_CLEAR_FIELD (csv_field_credit);
-	if (amount.mantissa >= 0 )
+	if (GSB_REAL_SIGN ( amount ) >= 0 )
 	    csv_field_credit = gsb_real_get_string (amount);
 	else
 	    csv_field_debit  = gsb_real_get_string (gsb_real_abs (amount));

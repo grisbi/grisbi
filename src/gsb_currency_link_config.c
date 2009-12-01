@@ -516,9 +516,9 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
 					 "exchange_entry" );
 
     number = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY (exchange_entry) ) );
-    if ( number.exponent > 8 )
+    /*if ( number.exponent > 8 )
         gtk_entry_set_max_length (GTK_ENTRY (exchange_entry),
-                        strlen( gtk_entry_get_text ( GTK_ENTRY ( exchange_entry ) ) - 1) );
+                        strlen( gtk_entry_get_text ( GTK_ENTRY ( exchange_entry ) ) - 1) );*/
 
     gsb_data_currency_link_set_first_currency ( link_number,
 						gsb_currency_get_currency_from_combobox (combobox_1));

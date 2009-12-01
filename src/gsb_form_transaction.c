@@ -61,7 +61,6 @@
 
 /*START_EXTERN*/
 extern GtkWidget *form_button_recover_split;
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 
@@ -177,7 +176,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
         /* ok, now number contains either the transaction_number, either the mother transaction number,
          * we can check the sign with it */
         widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
-        if ( gsb_data_mix_get_amount ( number, TRUE ).mantissa < 0 )
+        if ( GSB_REAL_SIGN(gsb_data_mix_get_amount ( number, TRUE )) < 0 )
             gsb_payment_method_create_combo_list ( widget,
                                    GSB_PAYMENT_DEBIT,
                                    account_number, 0 );

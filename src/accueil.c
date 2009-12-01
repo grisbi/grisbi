@@ -95,7 +95,6 @@ extern GdkColor couleur_solde_alarme_rouge_prelight;
 extern GdkColor couleur_solde_alarme_verte_normal;
 extern GdkColor couleur_solde_alarme_verte_prelight;
 extern GtkWidget *form_transaction_part;
-extern gsb_real null_real;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 extern gchar *titre_fichier;
@@ -1296,7 +1295,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    gtk_widget_show ( label  );
 
 	    /* label à droite */
-	    if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0 )
+	    if ( GSB_REAL_SIGN (gsb_data_scheduled_get_amount (scheduled_number)) >= 0 )
 	    {
 		gchar* tmpstr2 = gsb_real_get_string_with_currency (
 			gsb_data_scheduled_get_amount (scheduled_number), currency_number, TRUE);
@@ -1419,7 +1418,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 
 	    /* label à droite */
 
-	    if ( gsb_data_transaction_get_amount (transaction_number).mantissa >= 0 )
+	    if ( GSB_REAL_SIGN( gsb_data_transaction_get_amount (transaction_number)) >= 0 )
 	    {
 		gchar* tmpstr2 = gsb_real_get_string_with_currency (
 			gsb_data_transaction_get_amount (transaction_number), currency_number, TRUE);
@@ -1791,7 +1790,7 @@ void update_fin_comptes_passifs ( gboolean force )
 
 	if ( gsb_data_account_get_kind (i) == GSB_TYPE_LIABILITIES
 	     &&
-	     gsb_data_account_get_current_balance (i).mantissa >= 0 )
+	     GSB_REAL_SIGN ( gsb_data_account_get_current_balance (i) ) >= 0 )
 	    liste_tmp = g_slist_append ( liste_tmp, gsb_data_account_get_name (i) );
 
 	list_tmp = list_tmp -> next;
@@ -1871,7 +1870,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
 
     /* label à droite */
 
-    if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0 )
+    if ( GSB_REAL_SIGN ( gsb_data_scheduled_get_amount (scheduled_number)) >= 0 )
     {
 	gchar* tmpstr2 = gsb_real_get_string_with_currency ( gsb_data_scheduled_get_amount (
 		scheduled_number), currency_number, TRUE );

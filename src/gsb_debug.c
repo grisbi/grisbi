@@ -58,7 +58,6 @@ static gboolean gsb_debug_try_fix ( gboolean (* fix) () );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 
@@ -426,8 +425,8 @@ gchar * gsb_debug_reconcile_test ( void )
             pTransactionList = pTransactionList -> next;
         }
 
-        if ( gsb_real_abs ( gsb_real_sub ( reconcilied_amount,
-					     gsb_data_reconcile_get_final_balance (reconcile_number))).mantissa > 0 )
+        if ( GSB_REAL_SIGN(gsb_real_abs ( gsb_real_sub ( reconcilied_amount,
+					     gsb_data_reconcile_get_final_balance (reconcile_number)))) > 0 )
         {
             affected_accounts ++;
 

@@ -2414,7 +2414,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
             tab_str[0] = g_strstrip (tab_str[0]);
         category_number = gsb_data_category_get_number_by_name ( tab_str[0],
                         TRUE,
-                        imported_transaction -> montant.mantissa < 0 );
+                        GSB_REAL_SIGN(imported_transaction -> montant) < 0 );
         gsb_data_transaction_set_category_number ( transaction_number,
                         category_number );
         if (tab_str[1])
@@ -2592,7 +2592,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gint payment_number;
     gint sign;
 
-    if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
+    if ( GSB_REAL_SIGN(gsb_data_transaction_get_amount (transaction_number)) < 0 )
     {
         sign = GSB_PAYMENT_DEBIT;
         payment_number = gsb_data_account_get_default_debit (account_number);
@@ -2660,7 +2660,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     else
     {
     /* comme ce n'est pas un chèque, on met sur le type par défaut */
-    if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
+    if ( GSB_REAL_SIGN(gsb_data_transaction_get_amount (transaction_number)) < 0 )
         gsb_data_transaction_set_method_of_payment_number ( transaction_number,
                         gsb_data_account_get_default_debit (account_number));
     else
@@ -4506,7 +4506,7 @@ void gsb_import_lookup_budget ( struct struct_ope_importation *imported_transact
 		tab_str[0] = g_strstrip (tab_str[0]);
 	budget_number = gsb_data_budget_get_number_by_name ( tab_str[0],
 					TRUE,
-					imported_transaction -> montant.mantissa < 0 );
+					GSB_REAL_SIGN(imported_transaction -> montant) < 0 );
 	gsb_data_transaction_set_budgetary_number ( transaction_number,
 					budget_number );
 	if (tab_str[1])

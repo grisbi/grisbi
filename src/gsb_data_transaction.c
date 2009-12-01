@@ -107,7 +107,6 @@ static gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transac
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 
@@ -782,7 +781,7 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
     else
     {
 	    /* no hard link between the 2 currencies, the exchange must have been saved in the transaction itself */
-        if ( transaction -> exchange_rate.mantissa )
+        if ( !GSB_REAL_NULL(transaction -> exchange_rate) )
         {
             if ( transaction -> change_between_account_and_transaction )
             amount = gsb_real_div ( transaction -> transaction_amount,

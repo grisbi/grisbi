@@ -63,7 +63,6 @@ static  gboolean bet_update_graph (GtkTreeModel *model, GtkTreePath *path, GtkTr
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -628,7 +627,7 @@ static void bet_estimate_refresh()
 	gchar* str_value = gsb_real_get_string (amount);
 	gchar* str_debit = NULL;
 	gchar* str_credit = NULL;
-	if (amount.mantissa < 0)
+	if (GSB_REAL_SIGN(amount) < 0)
 	    str_debit = gsb_real_get_string_with_currency (gsb_real_abs (amount),
 							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	else
@@ -696,7 +695,7 @@ static void bet_estimate_refresh()
 	gchar* str_value = gsb_real_get_string (amount);
 	gchar* str_debit = NULL;
 	gchar* str_credit = NULL;
-	if (amount.mantissa < 0)
+	if (GSB_REAL_SIGN(amount) < 0)
 	    str_debit = gsb_real_get_string_with_currency (gsb_real_abs (amount),
 							   gsb_data_scheduled_get_currency_number (scheduled_number), TRUE);
 	else

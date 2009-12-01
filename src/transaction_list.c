@@ -73,7 +73,6 @@ extern GdkColor couleur_jour;
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
-extern gsb_real null_real;
 extern GSList *orphan_child_transactions;
 extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -336,7 +335,7 @@ devel_debug_int ( archive_store_number);
                         gsb_data_archive_store_get_transactions_number (
                         archive_store_number ) );
     printf ("texte archive = %s\n", newrecord -> visible_col[find_element_col (ELEMENT_PARTY)] );
-    if ((gsb_data_archive_store_get_balance (archive_store_number)).mantissa < 0)
+    if (GSB_REAL_SIGN(gsb_data_archive_store_get_balance (archive_store_number)) < 0)
 	amount_col = find_element_col (ELEMENT_DEBIT);
     else
 	amount_col = find_element_col (ELEMENT_CREDIT);
@@ -908,7 +907,7 @@ void transaction_list_set_balances ( void )
 				       amount);
 	record -> visible_col[column_balance] = gsb_real_get_string_with_currency ( current_total,
 										    gsb_data_account_get_currency (account_number), TRUE);
-	if (current_total.mantissa >= 0)
+	if (GSB_REAL_SIGN(current_total) >= 0)
 	    record -> amount_color = NULL;
 	else
 	    record -> amount_color = "red";
@@ -1888,7 +1887,7 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
 							 gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 
     /* show the variance and sub-total only if different of the transaction */
-    if (variance.mantissa)
+    if (GSB_REAL_SIGN(variance))
     {
 	white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
 							   amount_string,

@@ -103,7 +103,6 @@ static gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 
@@ -672,7 +671,7 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
     {
 	category_number = gsb_data_category_get_number_by_name ( tab_char[0],
                         TRUE,
-                        gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa <0 );
+                        GSB_REAL_SIGN(gsb_data_mix_get_amount (transaction_number, is_transaction)) <0 );
 	gsb_data_mix_set_category_number ( transaction_number,
 					   category_number,
 					   is_transaction );

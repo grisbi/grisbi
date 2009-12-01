@@ -128,8 +128,6 @@ static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 
 /*START_EXTERN*/
 extern gboolean balances_with_scheduled;
-extern gsb_real error_real;
-extern gsb_real null_real;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
@@ -1004,7 +1002,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
         gsb_real adjusted_amout = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
 
         gsb_real tmp_balance = gsb_real_add ( current_balance, adjusted_amout );
-	    if( tmp_balance.mantissa != error_real.mantissa )
+	    if( GSB_REAL_VALID(tmp_balance) )
 	        current_balance = tmp_balance;
         else
             current_balance_later = gsb_real_add ( current_balance_later, adjusted_amout);
@@ -1012,7 +1010,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 	    if ( gsb_data_transaction_get_marked_transaction (transaction_number))
 	    {
             tmp_balance = gsb_real_add ( marked_balance, adjusted_amout );
-    	    if( tmp_balance.mantissa != error_real.mantissa )
+    	    if( GSB_REAL_VALID(tmp_balance) )
 	            marked_balance = tmp_balance;
             else
                 marked_balance_later = gsb_real_add ( marked_balance_later, adjusted_amout);
@@ -2666,7 +2664,7 @@ void gsb_data_account_colorize_current_balance ( gint account_number )
 {
     gchar *string;
 
-	if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
+	if (GSB_REAL_SIGN (gsb_data_account_get_current_balance (account_number)) < 0)
 	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
                         gsb_real_get_string_with_currency (
                         gsb_data_account_get_current_balance (account_number),

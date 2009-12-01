@@ -108,12 +108,12 @@ gboolean gsb_account_new ( kind_account account_type,
     gsb_data_account_set_currency ( account_number, currency_number);
     gsb_data_account_set_bank (account_number, bank_number);
     gsb_data_account_set_init_balance (account_number, init_amount);
-    gsb_data_account_set_mini_balance_wanted ( account_number, 
-					       gsb_real_new ( 0, 
-							      gsb_data_currency_get_floating_point (currency_number) ) );
-    gsb_data_account_set_mini_balance_authorized (account_number, 
-						  gsb_real_new ( 0, 
-								 gsb_data_currency_get_floating_point (currency_number) ) );
+    gsb_data_account_set_mini_balance_wanted ( account_number, null_real);
+					       //gsb_real_new ( 0, 
+							      //gsb_data_currency_get_floating_point (currency_number) ) );
+    gsb_data_account_set_mini_balance_authorized (account_number, null_real);
+						  //gsb_real_new ( 0, 
+								 //gsb_data_currency_get_floating_point (currency_number) ) );
     gsb_data_account_set_name (account_number, name);
 
     /* update the combofix for categ */ 

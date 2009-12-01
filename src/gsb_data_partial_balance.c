@@ -82,7 +82,6 @@ static void gsb_partial_balance_selectionne_cptes ( GtkWidget *tree_view,
 
 /*START_EXTERN*/
 extern GtkWidget *main_vbox;
-extern gsb_real null_real;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -1057,7 +1056,7 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
         account_currency = gsb_data_account_get_currency ( account_nb );
         tmp_real = gsb_data_account_get_marked_balance ( account_nb );
 
-        if ( tmp_real.mantissa != 0 && partial_balance -> currency != account_currency )
+        if ( GSB_REAL_SIGN(tmp_real) != 0 && partial_balance -> currency != account_currency )
         {
             if ( ( link_number = gsb_data_currency_link_search ( account_currency,
                         partial_balance -> currency ) ) )
@@ -1075,7 +1074,7 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
         solde = gsb_real_add ( solde, tmp_real );
     }
 
-    if ( partial_balance -> colorise && solde.mantissa < 0 )
+    if ( partial_balance -> colorise && GSB_REAL_SIGN(solde) < 0 )
         string = g_strdup_printf ( "<span color=\"red\">%s</span>",
                         gsb_real_get_string_with_currency (
                         solde, partial_balance -> currency, TRUE) );
@@ -1119,7 +1118,7 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
         account_currency = gsb_data_account_get_currency ( account_nb );
         tmp_real = gsb_data_account_get_current_balance ( account_nb );
 
-        if ( tmp_real.mantissa != 0 && partial_balance -> currency != account_currency )
+        if ( GSB_REAL_SIGN(tmp_real) != 0 && partial_balance -> currency != account_currency )
         {
             if ( ( link_number = gsb_data_currency_link_search ( account_currency,
                         partial_balance -> currency ) ) )
@@ -1136,7 +1135,7 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
         solde = gsb_real_add ( solde, tmp_real );
     }
 
-    if ( partial_balance -> colorise && solde.mantissa < 0 )
+    if ( partial_balance -> colorise && GSB_REAL_SIGN(solde) < 0 )
         string = g_strdup_printf ( "<span color=\"red\">%s</span>",
                         gsb_real_get_string_with_currency (
                         solde, partial_balance -> currency, TRUE) );

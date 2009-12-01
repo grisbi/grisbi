@@ -143,7 +143,7 @@ gint gsb_reconcile_list_sort_func (CustomRecord **a,
 	 &&
 	 gsb_data_payment_get_sign (payment_number_1) == GSB_PAYMENT_NEUTRAL
 	 &&
-	 gsb_data_transaction_get_amount (transaction_number_1).mantissa < 0 )
+	 GSB_REAL_SIGN(gsb_data_transaction_get_amount (transaction_number_1)) < 0 )
 	payment_number_1 = -payment_number_1;
     position_1 = g_slist_index ( gsb_data_account_get_sort_list (account_number),
 				 GINT_TO_POINTER (payment_number_1));
@@ -153,7 +153,7 @@ gint gsb_reconcile_list_sort_func (CustomRecord **a,
 	 &&
 	 gsb_data_payment_get_sign (payment_number_2) == GSB_PAYMENT_NEUTRAL
 	 &&
-	 gsb_data_transaction_get_amount (transaction_number_2).mantissa < 0 )
+	 GSB_REAL_SIGN(gsb_data_transaction_get_amount (transaction_number_2)) < 0 )
 	payment_number_2 = -payment_number_2;
     position_2 = g_slist_index ( gsb_data_account_get_sort_list (account_number),
 				 GINT_TO_POINTER (payment_number_2));

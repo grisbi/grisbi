@@ -103,7 +103,6 @@ static gint gsb_data_sub_budget_compare ( struct_sub_budget * a, struct_sub_budg
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_budget */
@@ -1537,7 +1536,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
 	/* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
 	budget_number = gsb_data_budget_get_number_by_name ( g_strstrip (tab_char[0]),
 							     TRUE,
-							     gsb_data_transaction_get_amount (transaction_number).mantissa <0 );
+							     GSB_REAL_SIGN (gsb_data_transaction_get_amount (transaction_number)) <0 );
 	gsb_data_transaction_set_budgetary_number ( transaction_number,
 						    budget_number );
     if ( tab_char[1] )
@@ -1562,7 +1561,7 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
 	/* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
 	budget_number = gsb_data_budget_get_number_by_name ( tab_char[0],
 							     TRUE,
-							     gsb_data_scheduled_get_amount (transaction_number).mantissa <0 );
+							     GSB_REAL_SIGN(gsb_data_scheduled_get_amount (transaction_number)) <0 );
 	gsb_data_scheduled_set_budgetary_number ( transaction_number,
 						    budget_number );
     if ( tab_char[1] )

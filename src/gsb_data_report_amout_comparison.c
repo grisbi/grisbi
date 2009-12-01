@@ -3,7 +3,7 @@
 /*                                                                            */
 /*                                  gsb_data_report_amount_comparison         */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2007 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -73,7 +73,6 @@ static gint gsb_data_report_amount_comparison_max_number ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 

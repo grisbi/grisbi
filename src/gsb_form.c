@@ -686,7 +686,7 @@ void gsb_form_fill_element ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_DEBIT:
-	    if (gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa < 0)
+	    if (GSB_REAL_SIGN(gsb_data_mix_get_amount (transaction_number, is_transaction)) < 0)
 	    {
 		char_tmp = gsb_real_get_string_with_currency (gsb_real_abs (gsb_data_mix_get_amount (transaction_number, is_transaction)),
 							      gsb_data_mix_get_currency_number (transaction_number, is_transaction),
@@ -700,7 +700,7 @@ void gsb_form_fill_element ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_CREDIT:
-	    if (gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa >= 0)
+	    if (GSB_REAL_SIGN(gsb_data_mix_get_amount (transaction_number, is_transaction)) >= 0)
 	    {
 		char_tmp = gsb_real_get_string_with_currency (gsb_data_mix_get_amount (transaction_number, is_transaction),
 							      gsb_data_mix_get_currency_number (transaction_number, is_transaction),
@@ -792,7 +792,7 @@ void gsb_form_fill_element ( gint element_number,
 
 	    /* ok, now number contains either the transaction_number, either the mother transaction number,
 	     * we can check the sign with it */
-	    if (gsb_data_mix_get_amount (number, is_transaction).mantissa < 0)
+	    if (GSB_REAL_SIGN(gsb_data_mix_get_amount (number, is_transaction)) < 0)
 		gsb_payment_method_create_combo_list ( widget,
 						       GSB_PAYMENT_DEBIT,
 						       account_number, 0 );
@@ -867,7 +867,7 @@ void gsb_form_fill_element ( gint element_number,
 	    {
 		number = gsb_data_mix_get_account_number_transfer (transaction_number, is_transaction);
 
-		if ( gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa < 0 )
+		if ( GSB_REAL_SIGN(gsb_data_mix_get_amount (transaction_number, is_transaction)) < 0 )
 		    gsb_payment_method_create_combo_list ( widget,
 							   GSB_PAYMENT_CREDIT,
 							   number, 0);

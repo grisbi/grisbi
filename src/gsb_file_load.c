@@ -171,7 +171,6 @@ extern GtkWidget *logo_accueil;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern gsb_real null_real;
 extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -5330,7 +5329,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
         /* create now the link between currencies if necessary
          * don't create if the exchange is null event if the link was created before,
          * else we will become very rich in grisbi !!! */
-        if (tmp_currency_link.contra_currency && tmp_currency_link.exchange.mantissa != 0)
+        if (tmp_currency_link.contra_currency && GSB_REAL_SIGN(tmp_currency_link.exchange) != 0)
         {
             gint  link_number;
 

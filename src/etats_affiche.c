@@ -104,7 +104,6 @@ extern const gchar *nom_ib_en_cours;
 extern const gchar *nom_ss_categ_en_cours;
 extern const gchar *nom_ss_ib_en_cours;
 extern const gchar *nom_tiers_en_cours;
-extern gsb_real null_real;
 extern gint titres_affiches;
 /*END_EXTERN*/
 
@@ -1395,7 +1394,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		    /* c'est un virement */
 
 		    gchar* fmtstr;
-		    if ( gsb_data_transaction_get_amount ( transaction_number).mantissa < 0 )
+		    if ( GSB_REAL_SIGN(gsb_data_transaction_get_amount ( transaction_number) ) < 0 )
 			fmtstr = _("Transfer to %s");
 		    else
 			fmtstr =  _("Transfer from %s");

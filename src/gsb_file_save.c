@@ -182,7 +182,7 @@ gchar *gsb_file_save_real_to_string ( gsb_real number )
         0,
         0,
 	};
-	return gsb_real_raw_format_string(number, &conv, NULL);
+	return gsb_real_raw_format_string(number, &conv, NULL,9);
 }
 
 
