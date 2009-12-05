@@ -354,7 +354,10 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 	g_free (last_name);
     }
     else
-	gtk_entry_set_text ( GTK_ENTRY ( reconcile_number_entry ), "1" );
+    {
+        tmpstr = utils_str_itoa ( gsb_data_reconcile_max_number ( ) + 1 );
+        gtk_entry_set_text ( GTK_ENTRY ( reconcile_number_entry ), tmpstr );
+    }
 
     /* increase the last date of 1 month */
     date = gsb_date_copy (gsb_data_reconcile_get_final_date (reconcile_number));
