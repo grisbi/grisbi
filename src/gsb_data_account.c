@@ -647,18 +647,19 @@ gint gsb_data_account_get_account_by_id ( const gchar *account_id )
     list_tmp = gsb_data_account_get_list_accounts ();
     while ( list_tmp )
     {
-	struct_account *account;
+        struct_account *account;
 
-	account = list_tmp -> data;
+        account = list_tmp -> data;
 
-	if ( account -> account_number >= 0 && !account -> closed_account)
-	{
-	    gchar *account_id_save;
-	    account_id_save = account -> account_id;
-	    if ( g_ascii_strcasecmp ( account_id, account -> account_id ) == 0 )
-            return account -> account_number;
-	}
-	list_tmp = list_tmp -> next;
+        if ( account -> account_number >= 0
+         && !account -> closed_account
+         && account -> account_id
+         && strlen ( account -> account_id ) > 0 )
+        {
+            if ( g_ascii_strcasecmp ( account_id, account -> account_id ) == 0 )
+                return account -> account_number;
+        }
+        list_tmp = list_tmp -> next;
     }
     return -1;
 }
