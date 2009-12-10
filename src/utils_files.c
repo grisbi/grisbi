@@ -299,7 +299,11 @@ G_MODULE_EXPORT FILE* utf8_fopen(const gchar* utf8filename,gchar* mode)
  */
 gint utf8_remove(const gchar* utf8filename)
 {
+#ifdef _MSC_VER
+    return remove(g_locale_from_utf8(utf8filename, -1, NULL, NULL, NULL));
+#else
     return remove(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
+#endif
 }
 
 /** 

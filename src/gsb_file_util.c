@@ -114,16 +114,23 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
     gulong iterator = 0;
     gulong bytes_read;
     gboolean eof = 0;
+	gchar *os_filename;
 
-    file = gzopen (filename, "rb");
+#ifdef _MSC_VER
+	os_filename = g_locale_from_utf8(filename, -1, NULL, NULL, NULL);
+#else
+	os_filename = g_strdup(filename);
+#endif
+
+    file = gzopen (os_filename, "rb");
     if (!file)
 	return FALSE;
 
     /* use stat to get the size of the file, windows ? */
-    if (stat (filename, &stat_buf))
+    if (stat (os_filename, &stat_buf))
     {
 	gchar *tmpstr = g_strdup_printf ( _("Grisbi cannot stat file %s, please check the file."),
-					  filename);
+					  os_filename);
 	dialogue_error (tmpstr);
 	g_free (tmpstr);
 	return FALSE;
@@ -165,7 +172,7 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
 
 	g_free (content);
 	tmpstr = g_strdup_printf ( _("Failed to read from file '%s': %s"),
-				   filename, g_strerror (save_errno));
+				   os_filename, g_strerror (save_errno));
 	dialogue_error (tmpstr);
 	g_free (tmpstr);
 	return FALSE;
@@ -209,6 +216,7 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
     *file_content = content;
 
     gzclose (file);
+	g_free(os_filename);
     return TRUE;
 }
 
