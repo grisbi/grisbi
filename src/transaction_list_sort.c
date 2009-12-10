@@ -95,6 +95,17 @@ void transaction_list_sort (void)
 
     for (i = 0; i < custom_list->num_visibles_rows; ++i)
     {
+        //~ CustomRecord *record;
+        //~ gint transaction_number;
+
+        //~ record = custom_list -> visibles_rows[i];
+        //~ transaction_number = gsb_data_transaction_get_transaction_number (
+                        //~ record -> transaction_pointer);
+        //~ printf ("pos = %d date = %s transaction_number = %d\n",
+                        //~ i,
+                        //~ gsb_format_gdate ( gsb_data_transaction_get_date (
+                        //~ transaction_number ) ),
+                        //~ transaction_number);
 	neworder[i] = (custom_list->visibles_rows[i])->filtered_pos;
 	(custom_list->visibles_rows[i])->filtered_pos = i;
     }

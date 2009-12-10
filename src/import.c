@@ -126,8 +126,10 @@ static gint gsb_import_create_transaction ( struct struct_ope_importation *impor
                         gint account_number, gchar * origine );
 static gboolean gsb_import_define_action ( struct struct_compte_importation *imported_account,
                         gint account_number,
-                        GDate *first_date_import );
+                        GDate *first_date_import,
+                        GDate *last_date_import );
 static GDate *gsb_import_get_first_date ( GSList *import_list );
+static GDate *gsb_import_get_last_date ( GSList *import_list );
 static gboolean gsb_import_gunzip_file ( gchar *filename );
 static gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id );
 static gboolean gsb_import_set_tmp_file ( gchar *filename,
@@ -149,7 +151,10 @@ static void pointe_opes_importees ( struct struct_compte_importation *imported_a
                         gint account_number );
 static void traitement_operations_importees ( void );
 static void gsb_import_lookup_budget ( struct struct_ope_importation *imported_transaction,
-									  gint transaction_number);
+                        gint transaction_number );
+static void gsb_import_check_ope_import ( GtkWidget *widget, gpointer data );
+static void gsb_import_ope_import_toggled ( GtkWidget *button, GtkWidget *vbox );
+static gboolean gsb_import_ope_import_test_toggled ( GtkWidget *vbox , gboolean test );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -1824,6 +1829,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 {
     GSList *list_tmp;
     GDate *first_date_import = NULL;
+    GDate *last_date_import = NULL;
     gint demande_confirmation;
 
     /* check the imported account id, and set it in the grisbi account if it doesn't 
@@ -1843,15 +1849,17 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
      * a pu le changer), et on demande à l'utilisateur quoi faire, sinon on enregistre l'opé
      */
 
-    /* pour gagner en rapidité, on va récupérer la date de la première opération qui pourrait 
-     * être dans le fichier importé */
+    /* pour gagner en rapidité, on va récupérer les dates de la première et de la dernière
+     * opération qui sont dans le fichier importé */
     first_date_import = gsb_import_get_first_date ( imported_account -> operations_importees );
+    last_date_import = gsb_import_get_last_date ( imported_account -> operations_importees );
 
     /* ok, now first_date_import contains the firt transaction date used in that account,
      * can check the imported transactions */
     demande_confirmation = gsb_import_define_action ( imported_account,
                         account_number,
-                        first_date_import );
+                        first_date_import,
+                        last_date_import );
 
     /* if we are not sure about some transactions, ask now */
     if ( demande_confirmation )
@@ -1882,6 +1890,13 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
 	    transaction_number = gsb_import_create_transaction ( imported_transaction,
                         account_number, imported_account -> origine );
+
+        if ( etat.get_fusion_import_transactions &&
+                        imported_transaction -> ope_correspondante > 0 )
+        {
+            list_tmp = list_tmp -> next;
+            continue;
+        }
 
 	    /* invert the amount of the transaction if asked */
 	    if (imported_account -> invert_transaction_amount)
@@ -1918,104 +1933,91 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
  */
 gboolean gsb_import_define_action ( struct struct_compte_importation *imported_account,
                         gint account_number,
-                        GDate *first_date_import )
+                        GDate *first_date_import,
+                        GDate *last_date_import )
 {
     GSList *list_tmp;
     gint demande_confirmation = FALSE;
     GSList *list_tmp_transactions;
 	gchar* tmpstr;
 
-    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+    list_tmp = imported_account -> operations_importees;
 
-    while ( list_tmp_transactions )
+    while ( list_tmp )
     {
-        gint transaction_number;
-        const gchar *transaction_id;
-        const gchar *content;
+        struct struct_ope_importation *imported_transaction;
+        gint transaction_no;
 
-        transaction_number = gsb_data_transaction_get_transaction_number (
-                list_tmp_transactions -> data);
+        imported_transaction = list_tmp -> data;
 
-        if ( gsb_data_transaction_get_account_number ( transaction_number ) != account_number
-         ||
-         g_date_compare ( gsb_data_transaction_get_date ( transaction_number ),
-                        first_date_import ) < 0 )
+        /* on corrige le bug de la libofx */
+        if ( g_ascii_strcasecmp (imported_account -> origine, "OFX") == 0 
+         && imported_transaction -> cheque )
+            imported_transaction -> tiers = my_strdelimit (
+                    imported_transaction -> tiers, "&", "°" );
+
+        /* first check the id */
+        if ( imported_transaction -> id_operation
+         &&
+         ( transaction_no = gsb_data_transaction_find_by_id (
+                        imported_transaction -> id_operation, account_number ) ) )
         {
-            list_tmp_transactions = list_tmp_transactions -> next;
-            continue;
+            /* the id exists with the same account_nb, so the transaction is already
+             * in grisbi we will forget that transaction */
+            imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
         }
 
-        transaction_id = gsb_data_transaction_get_id ( transaction_number );
-        content = gsb_data_transaction_get_method_of_payment_content ( transaction_number );
-
-        list_tmp = imported_account -> operations_importees;
-
-        while ( list_tmp )
+        /* if no id, check the cheque */
+        tmpstr = utils_str_itoa (imported_transaction -> cheque);
+        if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION
+         &&
+         imported_transaction -> cheque
+         &&
+         gsb_data_transaction_find_by_payment_content ( tmpstr,
+                                account_number ) )
         {
-            struct struct_ope_importation *imported_transaction;
-
-            imported_transaction = list_tmp -> data;
-
-            /* on corrige le bug de la libofx */
-            if ( g_ascii_strcasecmp (imported_account -> origine, "OFX") == 0 
-             && imported_transaction -> cheque )
-                imported_transaction -> tiers = my_strdelimit (
-                        imported_transaction -> tiers, "&", "°" );
-
-            /* on compare les id s'ils existent */
-            if ( imported_transaction -> id_operation
-             &&
-             transaction_id
-             &&
-             !g_utf8_collate ( imported_transaction -> id_operation, transaction_id ) )
-                imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
-
             /* found the cheque, forget that transaction */
-            tmpstr = utils_str_itoa (imported_transaction -> cheque);
-            if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION
-             &&
-             imported_transaction -> cheque
-             &&
-             tmpstr
-             &&
-             content
-             &&
-             !g_utf8_collate ( tmpstr, content ) )
-                imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
-            g_free ( tmpstr );
-
-            /* no id, no cheque, try to find the transaction */
-            if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION )
-            {
-                GDate *date_fin_comparaison;
-
-                date_fin_comparaison = g_date_new_dmy ( g_date_get_day (
-                        imported_transaction -> date ),
-                        g_date_get_month ( imported_transaction -> date ),
-                        g_date_get_year ( imported_transaction -> date ));
-                        g_date_add_days ( date_fin_comparaison,
-                        valeur_echelle_recherche_date_import );
-                if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (
-                        transaction_number ),
-                        imported_transaction -> montant )
-                 &&
-                 ( g_date_compare ( gsb_data_transaction_get_date ( transaction_number ),
-                        date_fin_comparaison ) <= 0 )
-                 &&
-                 !imported_transaction -> ope_de_ventilation
-                 &&
-                 gsb_data_transaction_get_automatic_transaction ( transaction_number ) > 0 )
-                {
-                    /* the imported transaction has the same date and same amount, 
-                     * will ask the user */
-                    imported_transaction -> action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION;
-                    imported_transaction -> ope_correspondante = transaction_number;
-                    demande_confirmation = TRUE;
-                }
-            }
-            list_tmp = list_tmp -> next;
+            imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
         }
-        list_tmp_transactions = list_tmp_transactions -> next;
+        g_free ( tmpstr );
+
+        /* no id, no cheque, try to find the transaction */
+        if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION )
+        {
+             list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+
+            while ( list_tmp_transactions )
+            {
+                gint transaction_number;
+
+                transaction_number = gsb_data_transaction_get_transaction_number (
+                        list_tmp_transactions -> data);
+
+                if ( gsb_data_transaction_get_account_number (
+                 transaction_number ) == account_number
+                 &&
+                 g_date_compare ( gsb_data_transaction_get_date ( transaction_number ),
+                        first_date_import ) > 0 )
+                {
+                    if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (
+                     transaction_number), imported_transaction -> montant )
+                     &&
+                     g_date_compare ( gsb_data_transaction_get_date (
+                     transaction_number), last_date_import ) <= 0
+                     &&
+                     !imported_transaction -> ope_de_ventilation )
+                    {
+                        /* the imported transaction has the same date and same amount,
+                         * will ask the user */
+                        imported_transaction -> action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION;
+                        imported_transaction -> ope_correspondante = transaction_number;
+                        demande_confirmation = TRUE;
+                    }
+                }
+                list_tmp_transactions = list_tmp_transactions -> next;
+            }
+        }
+        list_tmp = list_tmp -> next;
     }
 
     return demande_confirmation;
@@ -2040,34 +2042,42 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     gchar* tmpstr;
     gchar* tmpstr2;
     gint action_derniere_ventilation;
+    gint result;
 
     /* pbiava the 03/17/2009 modifications pour la fusion des opérations */
-    if ( etat.get_fusion_import_planed_transactions )
+    if ( etat.get_fusion_import_transactions )
         tmpstr = g_strdup (
                         _("Confirmation of transactions to be merged") );
     else
         tmpstr = g_strdup (
                         _("Confirmation of importation of transactions") );
     dialog = gtk_dialog_new_with_buttons ( tmpstr,
-					   GTK_WINDOW ( window ),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_OK,
-					   GTK_RESPONSE_OK,
-					   NULL );
+                        GTK_WINDOW ( window ),
+                        GTK_DIALOG_MODAL,
+                        GTK_STOCK_SELECT_ALL, -12,
+                        _("Unselect all"), -13,
+                        GTK_STOCK_OK,
+                        GTK_RESPONSE_OK,
+                        NULL );
     g_free ( tmpstr );
-
     gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
     gtk_container_set_border_width ( GTK_CONTAINER(dialog), 12 );
 
-    if ( etat.get_fusion_import_planed_transactions )
+    if ( etat.get_fusion_import_transactions )
+    {
+        gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ), -12, FALSE );
         tmpstr = g_strdup (
                         _("Please select the transactions to be merged") );
+    }
     else
+    {
+        gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ), -13, FALSE );
         tmpstr = g_strdup (
                         _("Some imported transactions seem to be already saved."
                         "Please select the transactions to import.") );
+    }
     label = gtk_label_new ( tmpstr );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog )-> vbox ),
@@ -2087,24 +2097,16 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     gtk_container_add ( GTK_CONTAINER ( frame ), vbox);
     gtk_widget_show ( vbox );
 
-    scrolled_window = gtk_scrolled_window_new ( FALSE,
-						FALSE );
+    scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX ( vbox),
-			 scrolled_window,
-			 TRUE,
-			 TRUE,
-			 0 );
+                        GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_AUTOMATIC );
+    gtk_box_pack_start ( GTK_BOX ( vbox), scrolled_window, TRUE, TRUE, 0 );
     gtk_widget_show ( scrolled_window );
 
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					    vbox );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     10 );
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ), vbox );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
     gtk_widget_show ( vbox );
 
     /*   on fait maintenant le tour des opés importées et affichent celles à problème */
@@ -2117,157 +2119,136 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
 	ope_import = list_tmp -> data;
 
-	/* on n'affiche pas si c'est des opés de ventil, si la mère est cochée, les filles seront alors cochées */
-	/* on ne teste pas ici car ça a été testé avant */
-
-	if ( ope_import -> action == 1
+	/* on n'affiche pas si c'est des opés de ventil, si la mère est cochée, les filles 
+     * seront alors cochées on ne teste pas ici car ça a été testé avant */
+	if ( ope_import -> action == IMPORT_TRANSACTION_ASK_FOR_TRANSACTION
 	     &&
 	     !ope_import -> ope_de_ventilation )
 	{
 	    const gchar *tiers;
 
-	    hbox = gtk_hbox_new ( FALSE,
-				  5 );
-	    gtk_box_pack_start ( GTK_BOX ( vbox ),
-				 hbox,
-				 FALSE,
-				 FALSE,
-				 0 );
+	    hbox = gtk_hbox_new ( FALSE, 5 );
+	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	    gtk_widget_show ( hbox );
 
-
 	    ope_import -> bouton = gtk_check_button_new ();
-	    gtk_box_pack_start ( GTK_BOX ( hbox ),
-				 ope_import -> bouton,
-				 FALSE,
-				 FALSE,
-				 0 );
+        if ( etat.get_fusion_import_transactions )
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( ope_import -> bouton ), TRUE );
+        g_object_set_data ( G_OBJECT ( ope_import -> bouton ), "dialog", dialog );
+        g_signal_connect ( ope_import -> bouton,
+                        "toggled",
+                        G_CALLBACK (gsb_import_ope_import_toggled),
+                        vbox );
+	    gtk_box_pack_start ( GTK_BOX ( hbox ), ope_import -> bouton, FALSE, FALSE, 0 );
 	    gtk_widget_show ( ope_import -> bouton );
 
 	    tmpstr2 = gsb_real_get_string (ope_import -> montant);
-        if ( etat.get_fusion_import_planed_transactions )
+        if ( etat.get_fusion_import_transactions )
             tmpstr = g_strdup_printf ( _("Transactions to be merged : %s ; %s ; %s"),
-						      gsb_format_gdate ( ope_import -> date ),
-						      ope_import -> tiers,
-						      tmpstr2);
+                        gsb_format_gdate ( ope_import -> date ),
+                        ope_import -> tiers,
+                        tmpstr2);
         else
             tmpstr = g_strdup_printf ( _("Transactions to import : %s ; %s ; %s"),
-						      gsb_format_gdate ( ope_import -> date ),
-						      ope_import -> tiers,
-						      tmpstr2);
+                        gsb_format_gdate ( ope_import -> date ),
+                        ope_import -> tiers,
+                        tmpstr2);
 	    g_free ( tmpstr2 );
 	    label = gtk_label_new ( tmpstr );
 	    g_free ( tmpstr );
-	    gtk_box_pack_start ( GTK_BOX ( hbox ),
-				 label,
-				 FALSE,
-				 FALSE,
-				 0 );
+	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 	    gtk_widget_show ( label );
 
 
-	    hbox = gtk_hbox_new ( FALSE,
-				  5 );
-	    gtk_box_pack_start ( GTK_BOX ( vbox ),
-				 hbox,
-				 FALSE,
-				 FALSE,
-				 0 );
+	    hbox = gtk_hbox_new ( FALSE, 5 );
+	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	    gtk_widget_show ( hbox );
 
-
 	    label = gtk_label_new ( "       " );
-	    gtk_box_pack_start ( GTK_BOX ( hbox ),
-				 label,
-				 FALSE,
-				 FALSE,
-				 0 );
+	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 	    gtk_widget_show ( label );
 
-	    tiers = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number (ope_import -> ope_correspondante), FALSE );
+	    tiers = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number (
+                        ope_import -> ope_correspondante), FALSE );
 
 	    if ( gsb_data_transaction_get_notes (ope_import -> ope_correspondante))
 	    {
-		tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
-							ope_import -> ope_correspondante));
-		tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s ; %s"),
-					gsb_format_gdate ( gsb_data_transaction_get_date (ope_import -> ope_correspondante)),
-					tiers,
-					tmpstr2,
-					gsb_data_transaction_get_notes (ope_import -> ope_correspondante));
-		g_free ( tmpstr2 );
-		label = gtk_label_new ( tmpstr);
-		g_free ( tmpstr );
+            tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
+                                ope_import -> ope_correspondante));
+            tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s ; %s"),
+                        gsb_format_gdate ( gsb_data_transaction_get_date (
+                        ope_import -> ope_correspondante ) ),
+                        tiers,
+                        tmpstr2,
+                        gsb_data_transaction_get_notes (ope_import -> ope_correspondante));
+            g_free ( tmpstr2 );
+            label = gtk_label_new ( tmpstr);
+            g_free ( tmpstr );
 	    }
 	    else
 	    {
-		tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
-							ope_import -> ope_correspondante));
-		tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s"),
-							  gsb_format_gdate ( gsb_data_transaction_get_date (ope_import -> ope_correspondante)),
-							  tiers,
-							  tmpstr2);
-		g_free ( tmpstr2 );
-		label = gtk_label_new ( tmpstr );
-		g_free ( tmpstr );
+            tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
+                                ope_import -> ope_correspondante));
+            tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s"),
+                        gsb_format_gdate ( gsb_data_transaction_get_date (
+                        ope_import -> ope_correspondante ) ),
+                        tiers,
+                        tmpstr2);
+            g_free ( tmpstr2 );
+            label = gtk_label_new ( tmpstr );
+            g_free ( tmpstr );
 	    }
 
-	    gtk_box_pack_start ( GTK_BOX ( hbox ),
-				 label,
-				 FALSE,
-				 FALSE,
-				 0 );
+	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 	    gtk_widget_show ( label );
 	}
 	list_tmp = list_tmp -> next;
     }
 
-    gtk_dialog_run ( GTK_DIALOG ( dialog ));
+dialog_return:
+    result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
+    if ( result <= -12 )
+    {
+        gtk_container_foreach ( GTK_CONTAINER ( vbox ),
+                        (GtkCallback) gsb_import_check_ope_import,
+                        GINT_TO_POINTER ( result ) );
+        goto dialog_return;
+    }
+    
     /* on fait maintenant le tour des check buttons pour voir ce qu'on importe */
-
     list_tmp = imported_account -> operations_importees;
     action_derniere_ventilation = 1;
 
     while ( list_tmp )
     {
-	struct struct_ope_importation *ope_import;
+        struct struct_ope_importation *ope_import;
 
-	ope_import = list_tmp -> data;
+        ope_import = list_tmp -> data;
 
-	/* si c'est une opé de ventil, elle n'était pas affichée, dans ce cas si l'action de la
-	   dernière ventil était 0, on fait de même pour les filles */
+        /* si c'est une opé de ventil, elle n'était pas affichée, dans ce cas si l'action de la
+           dernière ventil était 0, on fait de même pour les filles */
 
-	if ( ope_import -> ope_de_ventilation )
-	{
-	    if ( ope_import -> action )
-		ope_import -> action = action_derniere_ventilation;
-	}
-	else
-	    action_derniere_ventilation = 1;
+        if ( ope_import -> ope_de_ventilation )
+        {
+            if ( ope_import -> action )
+            ope_import -> action = action_derniere_ventilation;
+        }
+        else
+            action_derniere_ventilation = 1;
 
-	if ( ope_import -> bouton
-	     &&
-	     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( ope_import -> bouton )))
-	{
-	    ope_import -> action = 0;
+        if ( ope_import -> bouton
+             &&
+             gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( ope_import -> bouton )))
+        {
+            ope_import -> action = 0;
 
-	    /* si c'était une ventil on met l'action de la dernière ventil à 0 */
+            /* si c'était une ventil on met l'action de la dernière ventil à 0 */
 
-	    if ( ope_import -> operation_ventilee )
-            action_derniere_ventilation = 0;
-	}
-    /* pbiava the 03/17/2009 sélection des opérations non cochées */
-    else if ( etat.get_fusion_import_planed_transactions &&
-                        ope_import -> ope_correspondante > 0 )
-    {
-        ope_import -> action = 0;
-        if ( ope_import -> operation_ventilee )
-            action_derniere_ventilation = 0;
-        ope_import -> ope_correspondante = 0;
-    }
-
-	list_tmp = list_tmp -> next;
+            if ( ope_import -> operation_ventilee )
+                action_derniere_ventilation = 0;
+        }
+        list_tmp = list_tmp -> next;
     }
 
     gtk_widget_destroy ( dialog );
@@ -2294,31 +2275,46 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gint payment_number = 0;
     gchar* tmpstr;
 
-    /* we create the new transaction */
-    transaction_number = gsb_data_transaction_new_transaction ( account_number );
+    if ( etat.get_fusion_import_transactions
+     &&
+     imported_transaction -> ope_correspondante > 0 )
+        transaction_number = imported_transaction -> ope_correspondante;
+    else
+        /* we create the new transaction */
+        transaction_number = gsb_data_transaction_new_transaction ( account_number );
 
     /* get the id if exists */
     if ( imported_transaction -> id_operation )
-    gsb_data_transaction_set_transaction_id ( transaction_number,
+        gsb_data_transaction_set_transaction_id ( transaction_number,
                         imported_transaction -> id_operation );
 
     /* get the date */
     gsb_data_transaction_set_date ( transaction_number,
                         imported_transaction -> date );
 
-    /* récupération de la date de valeur */
-    gsb_data_transaction_set_value_date ( transaction_number,
-                        imported_transaction -> date_de_valeur );
+    /* récupération de la date de valeur */    
+    if ( imported_transaction -> date_de_valeur )
+    {
+        gsb_data_transaction_set_value_date ( transaction_number,
+                            imported_transaction -> date_de_valeur );
 
-    /* set the financial year according to the date or value date */
-    if (etat.get_fyear_by_value_date && imported_transaction -> date_de_valeur)
-    fyear = gsb_data_fyear_get_from_date (imported_transaction -> date_de_valeur );
+        /* set the financial year according to the date or value date */
+        if ( etat.get_fyear_by_value_date )
+            fyear = gsb_data_fyear_get_from_date (
+                    imported_transaction -> date_de_valeur );
+    }
 
     /* if no fyear found, get from the date */
     if (fyear <= 0)
-    fyear = gsb_data_fyear_get_from_date (imported_transaction -> date );
+        fyear = gsb_data_fyear_get_from_date (imported_transaction -> date );
     if (fyear > 0)
-    gsb_data_transaction_set_financial_year_number ( transaction_number, fyear );
+        gsb_data_transaction_set_financial_year_number ( transaction_number, fyear );
+
+    /* on sort de la fonction si on a fusionné des opérations */
+    if ( etat.get_fusion_import_transactions
+     &&
+     imported_transaction -> ope_correspondante > 0 )
+        return transaction_number;
 
     /* récupération du montant */
     gsb_data_transaction_set_amount ( transaction_number,
@@ -2370,124 +2366,100 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     /* vérification si c'est ventilé, sinon récupération des catégories */
     if ( imported_transaction -> operation_ventilee )
     {
-    /* l'opération est ventilée */
-    gsb_data_transaction_set_split_of_transaction ( transaction_number, 1 );
+        /* l'opération est ventilée */
+        gsb_data_transaction_set_split_of_transaction ( transaction_number, 1 );
     }
     else
     {
-    if ( imported_transaction -> categ
-        &&
-        strlen (imported_transaction -> categ))
-    {
-		// Fill budget if existing
-		if ( imported_transaction -> budget
-			&&
-			strlen (imported_transaction -> budget))
-		{
-			gsb_import_lookup_budget(imported_transaction, transaction_number);
-		}
-
-        if ( imported_transaction -> categ[0] == '[' )
+        if ( imported_transaction -> categ
+            &&
+            strlen (imported_transaction -> categ))
         {
-        /* it's a transfer,
-         * we will try to make the link later, for now, we keep the name of the contra account into
-         * the bank references (never used for import)
-         * and set contra_transaction_number to -1 to search the link later */
+            // Fill budget if existing
+            if ( imported_transaction -> budget
+                &&
+                strlen (imported_transaction -> budget))
+            {
+                gsb_import_lookup_budget(imported_transaction, transaction_number);
+            }
 
-        gsb_data_transaction_set_bank_references ( transaction_number,
-                        imported_transaction -> categ);
-        gsb_data_transaction_set_contra_transaction_number ( transaction_number, -1);
-        virements_a_chercher = 1;
+            if ( imported_transaction -> categ[0] == '[' )
+            {
+            /* it's a transfer,
+             * we will try to make the link later, for now, we keep the name of the contra account into
+             * the bank references (never used for import)
+             * and set contra_transaction_number to -1 to search the link later */
+
+            gsb_data_transaction_set_bank_references ( transaction_number,
+                            imported_transaction -> categ);
+            gsb_data_transaction_set_contra_transaction_number ( transaction_number, -1);
+            virements_a_chercher = 1;
+            }
+            else
+            {
+            /* it's a normal category */
+
+            gint category_number;
+
+            tab_str = g_strsplit ( imported_transaction -> categ,
+                            ":",
+                            2 );
+
+            /* get the category and create it if doesn't exist */
+            if (tab_str[0])
+                tab_str[0] = g_strstrip (tab_str[0]);
+            category_number = gsb_data_category_get_number_by_name ( tab_str[0],
+                            TRUE,
+                            imported_transaction -> montant.mantissa < 0 );
+            gsb_data_transaction_set_category_number ( transaction_number,
+                            category_number );
+            if (tab_str[1])
+                tab_str[1] = g_strstrip (tab_str[1]);
+            gsb_data_transaction_set_sub_category_number ( transaction_number,
+                            gsb_data_category_get_sub_category_number_by_name ( category_number,
+                            tab_str[1],
+                            TRUE ));
+            g_strfreev(tab_str);
+            }
+        }
+        else if ( etat.get_categorie_for_payee &&  !imported_transaction -> cheque )
+        {
+            /* associate the class and the budgetary line to the payee except checks */
+            last_transaction_number = gsb_form_transactions_look_for_last_party (
+                                        payee_number, transaction_number,
+                                        account_number );
+            div_number = gsb_data_transaction_get_category_number (
+                                        last_transaction_number );
+            if ( div_number != -1 )
+                gsb_data_transaction_set_category_number ( transaction_number, div_number );
+
+            div_number = gsb_data_transaction_get_sub_category_number (
+                                    last_transaction_number );
+            if ( div_number != -1 )
+                gsb_data_transaction_set_sub_category_number ( transaction_number, div_number );
+
+            div_number = gsb_data_transaction_get_budgetary_number ( last_transaction_number );
+            if ( div_number != -1 )
+                gsb_data_transaction_set_budgetary_number ( transaction_number, div_number );
+
+            div_number = gsb_data_transaction_get_sub_budgetary_number (
+                                    last_transaction_number );
+            if ( div_number != -1 )
+                gsb_data_transaction_set_sub_budgetary_number ( transaction_number, div_number );
         }
         else
         {
-        /* it's a normal category */
+            gsb_data_transaction_set_category_number ( transaction_number, 0 );
+            gsb_data_transaction_set_sub_category_number ( transaction_number, 0 );
 
-        gint category_number;
-
-        tab_str = g_strsplit ( imported_transaction -> categ,
-                        ":",
-                        2 );
-
-        /* get the category and create it if doesn't exist */
-        if (tab_str[0])
-            tab_str[0] = g_strstrip (tab_str[0]);
-        category_number = gsb_data_category_get_number_by_name ( tab_str[0],
-                        TRUE,
-                        imported_transaction -> montant.mantissa < 0 );
-        gsb_data_transaction_set_category_number ( transaction_number,
-                        category_number );
-        if (tab_str[1])
-            tab_str[1] = g_strstrip (tab_str[1]);
-        gsb_data_transaction_set_sub_category_number ( transaction_number,
-                        gsb_data_category_get_sub_category_number_by_name ( category_number,
-                        tab_str[1],
-                        TRUE ));
-		g_strfreev(tab_str);
+            // Fill budget if existing
+            if ( imported_transaction -> budget
+                &&
+                strlen (imported_transaction -> budget))
+            {
+                gsb_import_lookup_budget(imported_transaction, transaction_number);
+            }
         }
-    }
-    else if ( etat.get_fusion_import_planed_transactions &&
-     imported_transaction -> ope_correspondante > 0 )
-    {
-        /* merge the class and the budgetary line of the transactions */
-        div_number = gsb_data_transaction_get_category_number (
-                        imported_transaction -> ope_correspondante );
-        if ( div_number != -1 )
-            gsb_data_transaction_set_category_number ( transaction_number, div_number );
-
-        div_number = gsb_data_transaction_get_sub_category_number (
-                        imported_transaction -> ope_correspondante );
-        if ( div_number != -1 )
-            gsb_data_transaction_set_sub_category_number ( transaction_number, div_number );
-
-        div_number = gsb_data_transaction_get_budgetary_number (
-                        imported_transaction -> ope_correspondante );
-        if ( div_number != -1 )
-            gsb_data_transaction_set_budgetary_number ( transaction_number, div_number );
-
-        div_number = gsb_data_transaction_get_sub_budgetary_number (
-                        imported_transaction -> ope_correspondante );
-        if ( div_number != -1 )
-            gsb_data_transaction_set_sub_budgetary_number ( transaction_number, div_number );
-    }
-    else if ( etat.get_categorie_for_payee &&  !imported_transaction -> cheque )
-    {
-        /* associate the class and the budgetary line to the payee except checks */
-        last_transaction_number = gsb_form_transactions_look_for_last_party (
-                                    payee_number, transaction_number,
-                                    account_number );
-        div_number = gsb_data_transaction_get_category_number (
-                                    last_transaction_number );
-        if ( div_number != -1 )
-            gsb_data_transaction_set_category_number ( transaction_number, div_number );
-
-        div_number = gsb_data_transaction_get_sub_category_number (
-                                last_transaction_number );
-        if ( div_number != -1 )
-            gsb_data_transaction_set_sub_category_number ( transaction_number, div_number );
-
-        div_number = gsb_data_transaction_get_budgetary_number ( last_transaction_number );
-        if ( div_number != -1 )
-            gsb_data_transaction_set_budgetary_number ( transaction_number, div_number );
-
-        div_number = gsb_data_transaction_get_sub_budgetary_number (
-                                last_transaction_number );
-        if ( div_number != -1 )
-            gsb_data_transaction_set_sub_budgetary_number ( transaction_number, div_number );
-    }
-    else
-    {
-        gsb_data_transaction_set_category_number ( transaction_number, 0 );
-        gsb_data_transaction_set_sub_category_number ( transaction_number, 0 );
-
-		// Fill budget if existing
-		if ( imported_transaction -> budget
-			&&
-			strlen (imported_transaction -> budget))
-		{
-			gsb_import_lookup_budget(imported_transaction, transaction_number);
-		}
-    }
     }
 
     /* récupération des notes */
@@ -2681,12 +2653,6 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                         mother_transaction_number );
     else
     mother_transaction_number  = transaction_number;
-
-    /* pbiava the 03/17/2009 delete the found transaction */
-    if ( etat.get_fusion_import_planed_transactions &&
-                        imported_transaction -> ope_correspondante > 0 )
-        gsb_data_transaction_remove_transaction (
-                        imported_transaction -> ope_correspondante );
 
     return (transaction_number);
 }
@@ -3146,7 +3112,7 @@ gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id )
 
 
 /**
- * 
+ * get first date of the imported file
  * 
  *
  * \param 
@@ -3179,6 +3145,43 @@ GDate *gsb_import_get_first_date ( GSList *import_list )
 
     return first_date;
 }
+
+
+/**
+ * get last date of the imported file
+ * 
+ *
+ * \param 
+ *
+ * return 
+ */
+GDate *gsb_import_get_last_date ( GSList *import_list )
+{
+    GSList *list_tmp;
+    GDate *last_date = NULL;
+
+    list_tmp = import_list;
+
+    while ( list_tmp )
+    {
+        struct struct_ope_importation *imported_transaction;
+
+        imported_transaction = list_tmp -> data;
+
+        if ( !last_date
+         ||
+         g_date_compare ( imported_transaction -> date, last_date ) > 0 )
+            last_date = imported_transaction -> date;
+
+        list_tmp = list_tmp -> next;
+    }
+
+    last_date = gsb_date_copy ( last_date );
+    g_date_add_days ( last_date, valeur_echelle_recherche_date_import );
+
+    return last_date;
+}
+
 
 /* *******************************************************************************/
 
@@ -3427,8 +3430,8 @@ GtkWidget *onglet_importation (void)
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
-                        _("merge transactions imported with planned transactions"),
-                        &etat.get_fusion_import_planed_transactions, NULL, NULL );
+                        _("Merge the imported transactions with the transactions found"),
+                        &etat.get_fusion_import_transactions, NULL, NULL );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
@@ -3437,7 +3440,7 @@ GtkWidget *onglet_importation (void)
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
-                        _("automatically associate the category of the payee if it is possible"),
+                        _("Automatically associate the category of the payee if it is possible"),
                         &etat.get_categorie_for_payee,
                         NULL, NULL );
 
@@ -4136,118 +4139,124 @@ gboolean gsb_import_by_rule ( gint rule )
 
     while (array[i])
     {
-    gchar *filename = array[i];
-    const gchar *type;
-    gchar * nom_fichier;
-    struct imported_file imported;
-    GSList * tmp = import_formats;
-    struct struct_compte_importation *account;
+        gchar *filename = array[i];
+        const gchar *type;
+        gchar * nom_fichier;
+        struct imported_file imported;
+        GSList *tmp = import_formats;
 
-    /* check if we are on ofx or qif file */
-    type = autodetect_file_type (filename, NULL);
-    if (strcmp (type, "OFX") && strcmp (type, "QIF"))
-    {
-        gchar *tmpstr = g_path_get_basename (filename);
-        gchar *tmpstr2 = g_strdup_printf (_("%s is neither an OFX file, neither a QIF file. "
-                        "Nothing will be done for that file."),
-                        tmpstr );
-        dialogue_error (tmpstr2);
-        g_free (tmpstr);
-        g_free (tmpstr2);
-        i++;
-        continue;
-    }
-    else if ( ! strcmp ( type, "OFX" ) )
-    {
-        gchar * pointeur_char;
-        GError * error = NULL;
-
-        if ( ! g_file_get_contents ( filename, &pointeur_char, NULL, &error ) )
+        /* check if we are on ofx or qif file */
+        type = autodetect_file_type (filename, NULL);
+        if (strcmp (type, "OFX") && strcmp (type, "QIF"))
         {
-            g_print ( _("Unable to read file: %s\n"), error -> message);
+            gchar *tmpstr = g_path_get_basename (filename);
+            gchar *tmpstr2 = g_strdup_printf (_("%s is neither an OFX file, neither a QIF file. "
+                            "Nothing will be done for that file."),
+                            tmpstr );
+            dialogue_error (tmpstr2);
+            g_free (tmpstr);
+            g_free (tmpstr2);
             i++;
             continue;
         }
-        nom_fichier = g_strconcat (g_get_tmp_dir (),G_DIR_SEPARATOR_S,
-                                   g_path_get_basename ( filename ), NULL);
-        if (! gsb_import_set_tmp_file (nom_fichier, pointeur_char ) )
+        else if ( ! strcmp ( type, "OFX" ) )
         {
+            gchar * pointeur_char;
+            GError * error = NULL;
+
+            if ( ! g_file_get_contents ( filename, &pointeur_char, NULL, &error ) )
+            {
+                g_print ( _("Unable to read file: %s\n"), error -> message);
+                i++;
+                continue;
+            }
+            nom_fichier = g_strconcat (g_get_tmp_dir (),G_DIR_SEPARATOR_S,
+                                       g_path_get_basename ( filename ), NULL);
+            if (! gsb_import_set_tmp_file (nom_fichier, pointeur_char ) )
+            {
+                g_free (pointeur_char);
+                g_free (nom_fichier);
+                i++;
+                continue;
+            }
             g_free (pointeur_char);
-            g_free (nom_fichier);
+        }
+        else
+            nom_fichier = my_strdup (filename);
+
+        /* get the transactions */
+        imported.name = nom_fichier;
+        imported.coding_system =  charmap_imported;
+        imported.type = type;
+
+        liste_comptes_importes_error = NULL;
+        liste_comptes_importes = NULL;
+
+        while ( tmp )
+        {
+            struct import_format * format = (struct import_format *) tmp -> data;
+
+            if ( !strcmp ( imported.type, format -> name ) )
+            {
+            format -> import ( NULL, &imported );
+            tmp = tmp -> next;
+                continue;
+            }
+            tmp = tmp -> next;
+        }
+
+        /* now liste_comptes_importes contains the account structure of imported transactions */
+        if (liste_comptes_importes_error)
+        {
+            gchar *tmpstr = g_path_get_basename (filename);
+            gchar *tmpstr2 = g_strdup_printf (_("%s was not imported successfully. An error occured while getting the transactions."),
+                            tmpstr );
+            dialogue_error (tmpstr2);
+            g_free (tmpstr);
+            g_free (tmpstr2);
             i++;
             continue;
         }
-        g_free (pointeur_char);
-    }
-    else
-        nom_fichier = my_strdup (filename);
-
-    /* get the transactions */
-    imported.name = nom_fichier;
-    imported.coding_system =  charmap_imported;
-    imported.type = type;
-
-    liste_comptes_importes_error = NULL;
-    liste_comptes_importes = NULL;
-
-    while ( tmp )
-    {
-        struct import_format * format = (struct import_format *) tmp -> data;
-
-        if ( !strcmp ( imported.type, format -> name ) )
+        
+        while ( liste_comptes_importes )
         {
-        format -> import ( NULL, &imported );
-        tmp = tmp -> next;
-            continue;
+            struct struct_compte_importation *account;
+
+            account = liste_comptes_importes -> data;
+            account -> invert_transaction_amount = gsb_data_import_rule_get_invert ( rule );
+
+            switch (gsb_data_import_rule_get_action (rule))
+            {
+                case IMPORT_ADD_TRANSACTIONS:
+                gsb_import_add_imported_transactions ( account, account_number);
+
+                break;
+
+                case IMPORT_MARK_TRANSACTIONS:
+                pointe_opes_importees ( account, account_number );
+                transaction_list_update_element (ELEMENT_MARK);
+                break;
+            }
+            g_slist_free (account -> operations_importees);
+            g_free (account);
+
+            liste_comptes_importes = liste_comptes_importes -> next;
         }
-        tmp = tmp -> next;
-    }
 
-    /* now liste_comptes_importes contains the account structure of imported transactions */
-    if (liste_comptes_importes_error)
-    {
-        gchar *tmpstr = g_path_get_basename (filename);
-        gchar *tmpstr2 = g_strdup_printf (_("%s was not imported successfully. An error occured while getting the transactions."),
-                        tmpstr );
-        dialogue_error (tmpstr2);
-        g_free (tmpstr);
-        g_free (tmpstr2);
+        /* save the charmap for the last file used */
+        gsb_data_import_rule_set_charmap (rule, charmap_imported);
+
+        /* save the last file used */
+        gsb_data_import_rule_set_last_file_name (rule, filename);
+
+        if ( ! strcmp ( type, "OFX" ) )
+        {
+            g_remove ( nom_fichier );
+        }
+
+        g_slist_free (liste_comptes_importes);
+        g_free (nom_fichier);
         i++;
-        continue;
-    }
-
-    account = liste_comptes_importes -> data;
-    account -> invert_transaction_amount = gsb_data_import_rule_get_invert ( rule );
-
-    switch (gsb_data_import_rule_get_action (rule))
-    {
-        case IMPORT_ADD_TRANSACTIONS:
-        gsb_import_add_imported_transactions ( account, account_number);
-
-        break;
-
-        case IMPORT_MARK_TRANSACTIONS:
-        pointe_opes_importees ( account, account_number );
-        transaction_list_update_element (ELEMENT_MARK);
-        break;
-    }
-
-    /* save the charmap for the last file used */
-    gsb_data_import_rule_set_charmap (rule, charmap_imported);
-
-    /* save the last file used */
-    gsb_data_import_rule_set_last_file_name (rule, filename);
-
-    if ( ! strcmp ( type, "OFX" ) )
-    {
-        g_remove (account -> real_filename);
-    }
-
-    g_slist_free (account -> operations_importees);
-    g_free (account);
-    g_slist_free (liste_comptes_importes);
-    g_free (nom_fichier);
-    i++;
     }
     g_strfreev (array);
 
@@ -4492,7 +4501,8 @@ gboolean gsb_import_gunzip_file ( gchar *filename )
  *
  * \return void
  * */
-void gsb_import_lookup_budget ( struct struct_ope_importation *imported_transaction, gint transaction_number)
+void gsb_import_lookup_budget ( struct struct_ope_importation *imported_transaction,
+                        gint transaction_number)
 {
 	gint budget_number;
 	gchar ** tab_str;
@@ -4518,6 +4528,126 @@ void gsb_import_lookup_budget ( struct struct_ope_importation *imported_transact
 	g_strfreev(tab_str);
 }
 
+
+/**
+ * check or uncheck the operation found
+ * 
+ * \param widget to test
+ * \param data for check or uncheck 
+ *
+ * \return void
+ * */
+void gsb_import_check_ope_import ( GtkWidget *widget, gpointer data )
+{
+    gint result = GPOINTER_TO_INT ( data );
+    
+    if ( GTK_IS_HBOX ( widget ) )
+    {
+        gtk_container_foreach ( GTK_CONTAINER (widget ),
+                        (GtkCallback) gsb_import_check_ope_import,
+                        data );
+    }
+    
+    if ( GTK_IS_TOGGLE_BUTTON ( widget ) )
+    {
+        GtkDialog *dialog;
+
+        dialog = g_object_get_data ( G_OBJECT ( widget ), "dialog" );
+        if ( result == -12 )
+        {
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
+            gtk_dialog_set_response_sensitive   (dialog, -12, FALSE );
+            gtk_dialog_set_response_sensitive   (dialog, -13, TRUE );
+        }
+        else
+        {
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), FALSE );
+            gtk_dialog_set_response_sensitive   (dialog, -12, TRUE );
+            gtk_dialog_set_response_sensitive   (dialog, -13, FALSE );
+        }
+    }
+}
+
+
+/**
+ * select or unselect buttons of the dialog
+ * 
+ * \param toggle_button
+ * \param dialog 
+ *
+ * \return void
+ * */
+void gsb_import_ope_import_toggled ( GtkWidget *button, GtkWidget *vbox )
+{
+    gboolean toggle;
+
+    toggle = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button ) );
+
+    if ( gsb_import_ope_import_test_toggled ( vbox, toggle ) )
+    {
+        GtkDialog *dialog;
+
+        dialog = g_object_get_data ( G_OBJECT ( button ), "dialog" );
+        if ( toggle == 1 )
+        {
+            gtk_dialog_set_response_sensitive   (dialog, -12, FALSE );
+            gtk_dialog_set_response_sensitive   (dialog, -13, TRUE );
+        }
+        else
+        {
+            gtk_dialog_set_response_sensitive   (dialog, -12, TRUE );
+            gtk_dialog_set_response_sensitive   (dialog, -13, FALSE );
+        }
+    }
+}
+
+
+/**
+ * returns false if at least 1 check_button is different of test
+ * 
+ * \param
+ * \param
+ *
+ * \return
+ * */
+gboolean gsb_import_ope_import_test_toggled ( GtkWidget *vbox , gboolean test )
+{
+    GList *children;
+
+    children = gtk_container_get_children ( GTK_CONTAINER ( vbox ) );
+
+    while ( children )
+    {
+        GtkWidget *widget;
+
+        widget = children -> data;
+        if ( GTK_IS_HBOX ( widget ) )
+        {
+            GList *list;
+            
+            list = gtk_container_get_children ( GTK_CONTAINER ( widget ) );
+            while ( list )
+            {
+                widget = list -> data;
+                if ( GTK_IS_TOGGLE_BUTTON ( widget ) )
+                {
+                    g_list_free ( list );
+                    break;
+                }
+                list = list -> next;
+            }
+        }
+        if ( GTK_IS_TOGGLE_BUTTON ( widget ) )
+        {
+            if ( test != gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( widget ) ) )
+                return FALSE;
+        }
+        children = children -> next;
+    }
+    g_list_free ( children );
+
+    return TRUE;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
