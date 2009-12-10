@@ -373,10 +373,10 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
                        ? strlen ( mon_thousands_sep )
                        : 0;
     mdp_len = mon_decimal_point ? strlen ( mon_decimal_point ) : 0;
-	if ( !strchr ( mon_thousands_sep, '.' ))
-		decimal_chars = g_strconcat(".", mon_decimal_point, NULL);
-	else
-		decimal_chars = g_strdup(mon_decimal_point);
+    if ( !strchr ( mon_thousands_sep, '.' ))
+        decimal_chars = g_strconcat(".", mon_decimal_point, NULL);
+    else
+        decimal_chars = g_strdup(mon_decimal_point);
 	space_chars = g_strconcat(" ", mon_thousands_sep, NULL);
 
     for ( ; ; )
