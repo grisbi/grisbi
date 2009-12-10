@@ -151,6 +151,9 @@ static void gsb_file_load_transactions ( const gchar **attribute_names,
 static gboolean gsb_file_load_update_previous_version ( void );
 /*END_STATIC*/
 
+/*BEGIN SPECIAL FUNCTION DECLARATION*/
+gsb_real gsb_real_import_from_string ( const gchar *string );
+/*END SPECIAL FUNCTION DECLARATION*/
 
 /*START_EXTERN*/
 extern gchar *adresse_commune;
@@ -1471,7 +1474,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
                         "Initial_balance" ))
     {
         gsb_data_account_set_init_balance ( account_number,
-                        gsb_real_get_from_string (attribute_values[i]));
+                        gsb_real_import_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -1480,7 +1483,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
                         "Minimum_wanted_balance" ))
     {
         gsb_data_account_set_mini_balance_wanted ( account_number, 
-                        gsb_real_get_from_string (attribute_values[i]));
+                        gsb_real_import_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -1489,7 +1492,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
                         "Minimum_authorised_balance" ))
     {
         gsb_data_account_set_mini_balance_authorized ( account_number, 
-                        gsb_real_get_from_string (attribute_values[i]));
+                        gsb_real_import_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -1901,7 +1904,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
     {
         /* get the entire real, even if the floating point of the currency is less deep */
         gsb_data_transaction_set_amount ( transaction_number,
-                          gsb_real_get_from_string (attribute_values[i]));
+                          gsb_real_import_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -1921,7 +1924,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
                "Exr" ))
     {
         gsb_data_transaction_set_exchange_rate ( transaction_number,
-                             gsb_real_get_from_string (attribute_values[i]));
+                             gsb_real_import_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -1931,7 +1934,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
                "Exf" ))
     {
         gsb_data_transaction_set_exchange_fees ( transaction_number,
-                             gsb_real_get_from_string (attribute_values[i]));
+                             gsb_real_import_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -2182,7 +2185,7 @@ void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
                "Am" ))
     {
         gsb_data_scheduled_set_amount ( scheduled_number,
-                        gsb_real_get_from_string (attribute_values[i]));
+                        gsb_real_import_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -2870,7 +2873,7 @@ void gsb_file_load_currency_link ( const gchar **attribute_names,
                                    "Ex" ))
     {
         gsb_data_currency_link_set_change_rate ( link_number,
-                                 gsb_real_get_from_string (attribute_values[i]));
+                                 gsb_real_import_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -3311,7 +3314,7 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
                "Ibal" ))
     {
         gsb_data_reconcile_set_init_balance ( reconcile_number,
-                              gsb_real_get_from_string (attribute_values[i]));
+                              gsb_real_import_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -3320,7 +3323,7 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
                "Fbal" ))
     {
         gsb_data_reconcile_set_final_balance ( reconcile_number,
-                               gsb_real_get_from_string (attribute_values[i]));
+                               gsb_real_import_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -4530,7 +4533,7 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
                "Amount_1" ))
     {
         gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
-                                     gsb_real_get_from_string (attribute_values[i]));
+                                     gsb_real_import_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -4539,7 +4542,7 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
                "Amount_2" ))
     {
         gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
-                                     gsb_real_get_from_string (attribute_values[i]));
+                                     gsb_real_import_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -4783,7 +4786,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i],
                                          2 );
             gsb_data_transaction_set_amount ( transaction_number,
-                                  gsb_real_get_from_string (tmp_string));
+                                  gsb_real_import_from_string (tmp_string));
             if (tmp_string) g_free (tmp_string);
         }
 
@@ -4800,12 +4803,12 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
         if ( !strcmp ( attribute_names[i],
                    "Tc" ))
             gsb_data_transaction_set_exchange_rate ( transaction_number,
-                                     gsb_real_get_from_string (attribute_values[i]));
+                                     gsb_real_import_from_string (attribute_values[i]));
 
         if ( !strcmp ( attribute_names[i],
                    "Fc" ))
             gsb_data_transaction_set_exchange_fees ( transaction_number,
-                                     gsb_real_get_from_string (attribute_values[i]));
+                                     gsb_real_import_from_string (attribute_values[i]));
 
         if ( !strcmp ( attribute_names[i],
                    "T" ))
@@ -4955,7 +4958,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i],
                                          2 );
             gsb_data_scheduled_set_amount ( scheduled_number,
-                                gsb_real_get_from_string (tmp_string));
+                                gsb_real_import_from_string (tmp_string));
             if (tmp_string) g_free (tmp_string);
         }
 
@@ -5311,7 +5314,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
         if ( !strcmp ( attribute_names[i],
                    "Change" ))
-            tmp_currency_link.exchange = gsb_real_get_from_string (attribute_values[i]);
+            tmp_currency_link.exchange = gsb_real_import_from_string (attribute_values[i]);
         if ( !strcmp ( attribute_names[i], "Date_dernier_change" ) 
          &&
          strlen ( attribute_values[i] ) )
@@ -5679,7 +5682,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i],
                                          2 );
             gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
-                                         gsb_real_get_from_string (tmp_string));
+                                         gsb_real_import_from_string (tmp_string));
             if (tmp_string) g_free (tmp_string);
         }
 
@@ -5693,7 +5696,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i],
                                          2 );
             gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
-                                          gsb_real_get_from_string (tmp_string));
+                                          gsb_real_import_from_string (tmp_string));
             if (tmp_string) g_free (tmp_string);
         }
 
@@ -6117,7 +6120,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     tmp_string = utils_str_reduce_exponant_from_string ( text,
                                      2 );
     gsb_data_account_set_init_balance ( account_number,
-                        gsb_real_get_from_string (tmp_string));
+                        gsb_real_import_from_string (tmp_string));
     if (tmp_string) g_free (tmp_string);
     return;
     }
@@ -6132,7 +6135,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     tmp_string = utils_str_reduce_exponant_from_string ( text,
                                      2 );
     gsb_data_account_set_mini_balance_wanted ( account_number,
-                               gsb_real_get_from_string (tmp_string));
+                               gsb_real_import_from_string (tmp_string));
     if (tmp_string) g_free (tmp_string);
     return;
     }
@@ -6147,7 +6150,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     tmp_string = utils_str_reduce_exponant_from_string ( text,
                                      2 );
     gsb_data_account_set_mini_balance_authorized ( account_number,
-                                   gsb_real_get_from_string (tmp_string));
+                                   gsb_real_import_from_string (tmp_string));
     if (tmp_string) g_free (tmp_string);
     return;
     }
@@ -6182,7 +6185,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     tmp_string = utils_str_reduce_exponant_from_string ( text,
                                      2 );
     if (buffer_reconcile_conversion)
-        buffer_reconcile_conversion -> final_balance = gsb_real_get_from_string (tmp_string);
+        buffer_reconcile_conversion -> final_balance = gsb_real_import_from_string (tmp_string);
     if (tmp_string) g_free (tmp_string);
     return;
     }

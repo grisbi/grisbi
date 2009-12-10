@@ -366,9 +366,6 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
     gint8 dot_position = -1;
     const gchar *p = string;
 
-    assert ( !mon_thousands_sep || ( g_utf8_strlen ( mon_thousands_sep, -1 ) <= 1 ) );
-    assert ( !mon_decimal_point || ( g_utf8_strlen ( mon_decimal_point, -1 ) <= 1 ) );
-
     if ( !string)
         return error_real;
 
@@ -376,7 +373,10 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
                        ? strlen ( mon_thousands_sep )
                        : 0;
     mdp_len = mon_decimal_point ? strlen ( mon_decimal_point ) : 0;
-	decimal_chars = g_strconcat(".", mon_decimal_point, NULL);
+	if ( !strchr ( mon_thousands_sep, '.' ))
+		decimal_chars = g_strconcat(".", mon_decimal_point, NULL);
+	else
+		decimal_chars = g_strdup(mon_decimal_point);
 	space_chars = g_strconcat(" ", mon_thousands_sep, NULL);
 
     for ( ; ; )
@@ -400,16 +400,16 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
                               : 0;
             return result;
         }
-        else if ( strchr ( space_chars, *p ) )
-        {
-            // just skip spaces and thousands separators
-            p = g_utf8_find_next_char ( p, NULL );
-        }
         else if ( strchr ( decimal_chars, *p ) )
         {
             if ( dot_position >= 0 ) // already found a decimal separator
                 return error_real;
             dot_position = nb_digits;
+            p = g_utf8_find_next_char ( p, NULL );
+        }
+        else if ( strchr ( space_chars, *p ) )
+        {
+            // just skip spaces and thousands separators
             p = g_utf8_find_next_char ( p, NULL );
         }
         else if ( strchr ( negative_chars, *p ) )
@@ -424,6 +424,73 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
             if ( sign != 0 ) // sign already set
                 return error_real;
             sign = 1;
+            ++p;
+        }
+        else // unknown char ==> error
+        {
+            return error_real;
+        }
+    }
+}
+
+
+/**
+ * get a gsb_real number from a string, during file load
+ * the string can be formatted :
+ * - spaces and the given utf8-encoded thousands separators are ignored
+ * - handle only "." as a decimal separator
+ * - another character makes a error_real return
+ *
+ * \param string
+ * \param mon_thousands_sep, can be NULL or empty, but only one utf8 sequence
+ * \param mon_decimal_point, can be NULL or empty, but only one utf8 sequence
+ *
+ * \return the number in the string transformed to gsb_real
+ */
+gsb_real gsb_real_import_from_string ( const gchar *string )
+{
+    unsigned nb_digits = 0;
+    gint64 mantissa = 0;
+    gint8 sign = 0;
+    gint8 dot_position = -1;
+    const gchar *p = string;
+
+    if ( !string)
+        return error_real;
+
+    for ( ; ; )
+    {
+        if ( g_ascii_isdigit ( *p ) )
+        {
+            mantissa *= 10;
+            mantissa += ( *p - '0' );
+            if ( mantissa > G_MAXLONG )
+                return error_real;
+            if ( sign == 0 ) sign = 1; // no sign found yet ==> positive
+            ++nb_digits;
+            ++p;
+        }
+        else if ( *p == 0 ) // terminal zero
+        {
+			gsb_real result;
+			result.mantissa = sign * mantissa;
+            result.exponent = ( dot_position >= 0 )
+                              ? nb_digits - dot_position
+                              : 0;
+            return result;
+        }
+        else if ( strchr ( ".", *p ) )
+        {
+            if ( dot_position >= 0 ) // already found a decimal separator
+                return error_real;
+            dot_position = nb_digits;
+            p = g_utf8_find_next_char ( p, NULL );
+        }
+        else if ( strchr ( "-", *p ) )
+        {
+            if ( sign != 0 ) // sign already set
+                return error_real;
+            sign = -1;
             ++p;
         }
         else // unknown char ==> error
