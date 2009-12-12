@@ -568,20 +568,15 @@ gboolean gsb_transactions_list_fill_archive_store ( void )
     devel_debug (NULL);
 
     tmp_list = gsb_data_archive_store_get_archives_list ();
-printf ("nbre d'archives = %d\n", g_slist_length ( tmp_list ));
     while (tmp_list)
     {
     gint archive_store_number;
 
     /* get the store archive struct */
     archive_store_number = gsb_data_archive_store_get_number (tmp_list -> data);
-    printf ("archive_store_number = %d account_nb = %d\n",
-                        archive_store_number ,
-                        gsb_data_archive_store_get_account_number ( archive_store_number ));
     transaction_list_append_archive (archive_store_number);
     tmp_list = tmp_list -> next;
     }
-    printf ("sortie de gsb_transactions_list_fill_archive_store\n");
     return FALSE;
 }
 
@@ -3442,6 +3437,29 @@ gboolean gsb_transactions_list_size_allocate ( GtkWidget *tree_view,
     return FALSE;
 }
 
+
+/**
+ * find column number for the archive texte
+ *
+ * \param element_number the element we look for
+ *
+ * \return column number or an other element
+ * */
+gint find_element_col_for_archive ( void )
+{
+    gint retour;
+
+    if ( (retour = find_element_col ( ELEMENT_PARTY )) >= 0 )
+        return retour;
+    if ( (retour = find_element_col ( ELEMENT_CATEGORY )) >= 0 )
+        return retour;
+    if ( (retour = find_element_col ( ELEMENT_BUDGET )) >= 0 )
+        return retour;
+    if ( (retour = find_element_col ( ELEMENT_NOTES )) >= 0 )
+        return retour;
+
+    return -1;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

@@ -178,7 +178,6 @@ GtkResponseType gsb_assistant_archive_run ( gboolean origin )
 }
 
 
-
 /**
  * create the page 2 of the assistant
  * show the menu to choose between archive by date, financial year or budget
@@ -194,7 +193,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     GtkWidget *label;
     GtkWidget *button;
     GtkWidget *hbox;
-printf ("gsb_assistant_archive_page_menu\n");
+
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
 
@@ -348,7 +347,7 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
     GtkWidget *page;
     GtkWidget *vbox;
     GtkWidget *label;
-printf ("gsb_assistant_archive_page_archive_name\n");
+
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
@@ -397,7 +396,7 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
     GtkWidget * page;
     GtkTextBuffer * buffer;
     GtkTextIter iter;
-printf ("gsb_assistant_archive_page_success\n");
+
     page = gtk_vbox_new ( FALSE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     0 );
@@ -500,7 +499,7 @@ printf ("gsb_assistant_archive_page_success\n");
 static gboolean gsb_assistant_archive_switch_to_intro ( GtkWidget *assistant,
                         gint new_page )
 {
-printf ("gsb_assistant_archive_switch_to_intro\n");
+
     /* enter into the intro page */
     gsb_assistant_change_button_next ( assistant,
 				       GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
@@ -524,7 +523,7 @@ static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
 {
     GSList *tmp_list;
     const GDate *date = NULL;
-printf ("gsb_assistant_archive_switch_to_menu\n");
+
     /* enter into the menu page */
     gtk_label_set_text ( GTK_LABEL (label_archived), NULL );
     gsb_assistant_change_button_next ( assistant,
@@ -560,7 +559,6 @@ printf ("gsb_assistant_archive_switch_to_menu\n");
 }
 
 
-
 /**
  * Switch to the "name archive" page.
  *
@@ -573,7 +571,7 @@ static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assist
                         gint new_page )
 {
     gchar * string = NULL;
-printf ("gsb_assistant_archive_switch_to_archive_name\n");
+
     gsb_assistant_change_button_next ( assistant,
                     GTK_STOCK_APPLY, GTK_RESPONSE_YES );
 
@@ -638,27 +636,25 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
     GtkTextBuffer * buffer;
     GtkTextIter     iter;
     gint account_nb;
-printf ("gsb_assistant_archive_switch_to_succes\n");
+
     /* This would typically happen if user selected a time period
      * with no transactions related. */
-printf ("nbre de transactions dans l'archive = %d\n",
-                        g_slist_length ( list_transaction_to_archive ) );
     if (!list_transaction_to_archive)
     {
-    gtk_widget_hide (vbox_congratulation);
-    gtk_widget_show (vbox_failed);
-    gsb_assistant_sensitive_button_prev ( assistant, TRUE );
-    gsb_assistant_sensitive_button_next ( assistant, FALSE );
-    return FALSE;
+        gtk_widget_hide (vbox_congratulation);
+        gtk_widget_show (vbox_failed);
+        gsb_assistant_sensitive_button_prev ( assistant, TRUE );
+        gsb_assistant_sensitive_button_next ( assistant, FALSE );
+        return FALSE;
     }
 
     /* first, create the archive */
     archive_number = gsb_data_archive_new (gtk_entry_get_text (GTK_ENTRY (name_entry)));
     if (!archive_number)
     {
-    gtk_widget_hide (vbox_congratulation);
-    gtk_widget_show (vbox_failed);
-    return FALSE;
+        gtk_widget_hide (vbox_congratulation);
+        gtk_widget_show (vbox_failed);
+        return FALSE;
     }
 
     gsb_assistant_change_button_next ( assistant,
@@ -667,27 +663,27 @@ printf ("nbre de transactions dans l'archive = %d\n",
     /* fill the archive */
     if (GTK_WIDGET_IS_SENSITIVE (initial_date))
     {
-    GDate *init_gdate;
-    GDate *final_gdate;
-    init_gdate = gsb_calendar_entry_get_date (initial_date);
-    final_gdate = gsb_calendar_entry_get_date (final_date);
+        GDate *init_gdate;
+        GDate *final_gdate;
 
-    gsb_data_archive_set_beginning_date ( archive_number, init_gdate );
-    gsb_data_archive_set_end_date ( archive_number, final_gdate );
-    g_date_free (init_gdate);
-    g_date_free (final_gdate);
+        init_gdate = gsb_calendar_entry_get_date (initial_date);
+        final_gdate = gsb_calendar_entry_get_date (final_date);
+
+        gsb_data_archive_set_beginning_date ( archive_number, init_gdate );
+        gsb_data_archive_set_end_date ( archive_number, final_gdate );
+        g_date_free (init_gdate);
+        g_date_free (final_gdate);
     }
-    if (GTK_WIDGET_IS_SENSITIVE (financial_year_button))
-    gsb_data_archive_set_fyear ( archive_number,
-                        gsb_fyear_get_fyear_from_combobox (financial_year_button,NULL));
-
-    if (GTK_WIDGET_IS_SENSITIVE (report_button))
+    else if (GTK_WIDGET_IS_SENSITIVE (financial_year_button))
+        gsb_data_archive_set_fyear ( archive_number,
+                        gsb_fyear_get_fyear_from_combobox ( financial_year_button,NULL ) );
+    else if (GTK_WIDGET_IS_SENSITIVE (report_button) )
     {
-    gint report_number;
+        gint report_number;
 
-    report_number = gsb_report_get_report_from_combobox (report_button);
+        report_number = gsb_report_get_report_from_combobox (report_button);
 
-    gsb_data_archive_set_report_title ( archive_number,
+        gsb_data_archive_set_report_title ( archive_number,
                         etats_titre (report_number));
     }
 
@@ -710,7 +706,7 @@ printf ("nbre de transactions dans l'archive = %d\n",
     gsb_data_archive_store_init_variables ();
     gsb_data_archive_store_create_list ( );
     gsb_transactions_list_fill_archive_store ( );
-printf ("retour de gsb_transactions_list_fill_archive_store\n");
+
     /* set the message */
     string = g_strdup_printf ( _("Archive '%s' was successfully created and %d transactions "
                                  "out of %d were archived.\n\n"),
@@ -723,16 +719,14 @@ printf ("retour de gsb_transactions_list_fill_archive_store\n");
     gtk_text_buffer_get_iter_at_mark ( buffer, &iter, 
                         gtk_text_buffer_get_mark ( buffer, "status" ) );
     gtk_text_buffer_insert ( buffer, &iter, string, strlen(string) );
-printf ("avant g_free (string);\n");
+
     g_free (string);
-printf ("après g_free (string);\n");
+
     gtk_widget_hide (vbox_failed);
     gtk_widget_show (vbox_congratulation);
 
     /* free the transactions list to archive */
-printf ("avant g_slist_free (list_transaction_to_archive);\n");
     g_slist_free (list_transaction_to_archive);
-printf ("après g_slist_free (list_transaction_to_archive);\n");
     list_transaction_to_archive = NULL;
 
     /* erase all the previous entries */
@@ -789,15 +783,14 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
     GSList *tmp_list;
     GtkWidget * notebook;
     GSList *report_transactions_list;
-printf ("gsb_assistant_archive_update_labels\n");
+
     notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
     
     /* erase the last list of transactions to archive */
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU
      &&
-     list_transaction_to_archive)
+     list_transaction_to_archive )
     {
-        printf ("current_page = ARCHIVE_ASSISTANT_MENU\n");
         g_slist_free (list_transaction_to_archive);
         list_transaction_to_archive = NULL;
         gsb_assistant_sensitive_button_next ( assistant, TRUE );
@@ -861,19 +854,21 @@ printf ("gsb_assistant_archive_update_labels\n");
             {
                 gint transaction_number;
 
-                transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+                transaction_number = gsb_data_transaction_get_transaction_number (
+                        tmp_list -> data);
 
                 if ( g_date_compare ( init_gdate,
-                                gsb_data_transaction_get_date (transaction_number)) <= 0
+                        gsb_data_transaction_get_date (transaction_number)) <= 0
                  &&
                  g_date_compare ( final_gdate,
-                                gsb_data_transaction_get_date (transaction_number)) >= 0 )
-                /* the transaction is into the dates, we append its address to the list to archive
-                 * we could use gsb_assistant_archive_add_transaction_to_list but it's a lost of time
-                 * because all the linked transactions will be taken because we work with dates,
-                 * so don't use that function and add the transaction directly */
-                list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
+                        gsb_data_transaction_get_date (transaction_number)) >= 0 )
+                    /* the transaction is into the dates, we append its address to the list to archive
+                     * we could use gsb_assistant_archive_add_transaction_to_list but it's a lost of time
+                     * because all the linked transactions will be taken because we work with dates,
+                     * so don't use that function and add the transaction directly */
+                    list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
                                 tmp_list -> data );
+
                 tmp_list = tmp_list -> next;
             }
             printf ("nbre de transactions dans l'archive = %d\n",
@@ -969,7 +964,6 @@ printf ("gsb_assistant_archive_update_labels\n");
     else if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == 
      ARCHIVE_ASSISTANT_ARCHIVE_NAME )
     {
-        printf ("current_page = ARCHIVE_ASSISTANT_ARCHIVE_NAME\n");
         if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( name_entry ) ) ) )
             gsb_assistant_sensitive_button_next ( assistant, TRUE );
         else

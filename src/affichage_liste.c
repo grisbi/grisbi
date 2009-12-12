@@ -48,8 +48,8 @@
 /*START_STATIC*/
 static  gboolean display_mode_button_changed ( GtkWidget *button,
                         gint *line_ptr );
-static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
-                        gpointer null );
+//~ static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
+                        //~ gpointer null );
 static void gsb_transactions_list_display_show_gives_balance ( void );
 static gboolean gsb_transactions_list_display_sort_by_value_date ( GtkWidget *checkbutton,
                         gpointer null );
@@ -641,14 +641,14 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
+/*gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
                         gpointer null )
 {
     etat.combofix_max_item = utils_str_atoi ( gtk_entry_get_text (GTK_ENTRY (entry)));
     gsb_transactions_list_display_update_combofix ();
 
     return FALSE;
-}
+}*/
 
 
 /**

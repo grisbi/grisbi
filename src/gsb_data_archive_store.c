@@ -176,33 +176,28 @@ void gsb_data_archive_store_create_list ( void )
 
     transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
 
-    /* we are not interested on children transactions */
-    if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
-    {
-        tmp_list = tmp_list -> next;
-        continue;
-    }
-
     archive_number = gsb_data_transaction_get_archive_number (transaction_number);
 
     if (archive_number)
     {
-        struct_store_archive *archive;
+        struct_store_archive *archive_store;
         gint floating_point;
         gint account_number;
 
         account_number = gsb_data_transaction_get_account_number (transaction_number);
         floating_point = gsb_data_currency_get_floating_point (
                             gsb_data_account_get_currency (account_number) );
-        archive = gsb_data_archive_store_find_struct ( archive_number, account_number);
-        if (archive)
+        archive_store = gsb_data_archive_store_find_struct ( archive_number, account_number);
+        if (archive_store)
         {
             /* there is already a struct_store_archive for the same archive and the same account,
-             * we increase the balance */
-            archive -> balance = gsb_real_add ( archive -> balance,
-                                    gsb_data_transaction_get_adjusted_amount (transaction_number,
+             * we increase the balance except for operations */
+            if ( !gsb_data_transaction_get_mother_transaction_number ( transaction_number ) )
+                archive_store -> balance = gsb_real_add ( archive_store -> balance,
+                                    gsb_data_transaction_get_adjusted_amount (
+                                    transaction_number,
                                     floating_point));
-            archive -> nb_transactions++;
+            archive_store -> nb_transactions++;
         }
         else
         {
@@ -211,13 +206,14 @@ void gsb_data_archive_store_create_list ( void )
             gint archive_store_number;
 
             archive_store_number = gsb_data_archive_store_new ();
-            archive = gsb_data_archive_store_get_structure (archive_store_number);
+            archive_store = gsb_data_archive_store_get_structure (archive_store_number);
 
-            archive -> archive_number = archive_number;
-            archive -> account_number = account_number;
-            archive -> balance = gsb_data_transaction_get_adjusted_amount (
+            archive_store -> archive_number = archive_number;
+            archive_store -> account_number = account_number;
+            archive_store -> balance = gsb_data_transaction_get_adjusted_amount (
                             transaction_number, floating_point);
-            archive -> nb_transactions = 1;
+            if ( ! gsb_data_transaction_get_mother_transaction_number ( transaction_number ) )
+                archive_store -> nb_transactions = 1;
         }
     }
     tmp_list = tmp_list -> next;

@@ -81,5 +81,6 @@ void remove_transaction ();
 void schedule_selected_transaction ();
 gsb_real solde_debut_affichage ( gint account_number,
                         gint floating_point);
+gint find_element_col_for_archive ( void );
 /* END_DECLARATION */
 #endif

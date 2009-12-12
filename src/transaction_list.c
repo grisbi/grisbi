@@ -293,7 +293,8 @@ void transaction_list_append_archive (gint archive_store_number)
     CustomRecord *newrecord;
     gint amount_col;
     CustomList *custom_list;
-devel_debug_int ( archive_store_number);
+    gint col_archive;
+
     custom_list = transaction_model_get_model ();
 
     g_return_if_fail ( custom_list != NULL );
@@ -304,24 +305,11 @@ devel_debug_int ( archive_store_number);
      * 1 for the archive */
     custom_list->num_rows = custom_list -> num_rows + 1;
     newsize = custom_list->num_rows * sizeof(CustomRecord*);
-    //~ printf ("pos = %d custom_list->num_rows = %d newsize = %ld\n", pos,
-            //~ custom_list->num_rows, newsize );
-    custom_list->rows = g_try_realloc ( custom_list->rows, newsize );
-    if ( custom_list->rows == NULL )
-    {
-        printf ("realloc Non OK\n");
-        return;
-    }
-//~ printf ("realloc custom_list->rows OK\n");
+    custom_list->rows = g_realloc(custom_list->rows, newsize);
+
     /* increase too the size of visibles rows, either if that row is not visible,
      * it's the only way to be sure to never go throw the end while filtering */
-    custom_list->visibles_rows = g_try_realloc (custom_list->visibles_rows, newsize);
-    if ( custom_list->visibles_rows == NULL )
-    {
-        printf ("realloc Non OK\n");
-        return;
-    }
-//~ printf ("realloc custom_list->visibles_rows OK\n");
+    custom_list->visibles_rows = g_realloc(custom_list->visibles_rows, newsize);
 
     /* create and fill the record */
     newrecord = g_malloc0 (sizeof (CustomRecord));
@@ -330,16 +318,18 @@ devel_debug_int ( archive_store_number);
 
     newrecord -> visible_col[find_element_col (ELEMENT_DATE)] = gsb_format_gdate (
                         gsb_data_archive_get_beginning_date ( archive_number ) );
-    newrecord -> visible_col[find_element_col (ELEMENT_PARTY)] = g_strdup_printf ( 
+
+    if ( ( col_archive = find_element_col_for_archive ( ) ) >= 0 )
+        newrecord -> visible_col[col_archive] = g_strdup_printf (
                         _("%s (%d transactions)"),
                         gsb_data_archive_get_name (archive_number),
                         gsb_data_archive_store_get_transactions_number (
                         archive_store_number ) );
-    printf ("texte archive = %s\n", newrecord -> visible_col[find_element_col (ELEMENT_PARTY)] );
+
     if ((gsb_data_archive_store_get_balance (archive_store_number)).mantissa < 0)
-	amount_col = find_element_col (ELEMENT_DEBIT);
+        amount_col = find_element_col (ELEMENT_DEBIT);
     else
-	amount_col = find_element_col (ELEMENT_CREDIT);
+        amount_col = find_element_col (ELEMENT_CREDIT);
 
     newrecord -> visible_col[amount_col] = gsb_real_get_string_with_currency (
                         gsb_data_archive_store_get_balance (archive_store_number),
