@@ -2248,6 +2248,14 @@ dialog_return:
             if ( ope_import -> operation_ventilee )
                 action_derniere_ventilation = 0;
         }
+        else if ( etat.get_fusion_import_transactions &&
+                        ope_import -> ope_correspondante > 0 )
+        {
+            ope_import -> action = 0;
+            if ( ope_import -> operation_ventilee )
+                action_derniere_ventilation = 0;
+            ope_import -> ope_correspondante = 0;
+        }
         list_tmp = list_tmp -> next;
     }
 
