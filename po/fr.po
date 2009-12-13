@@ -8297,7 +8297,7 @@ msgstr "Gestionnaire de finances personnelles\n"
 
 #: src/help.c:145
 msgid "This instance of Grisbi was compiled on\n"
-msgstr "Cette version de Gisbi a été compilée le\n"
+msgstr "Cette version de Grisbi a été compilée le\n"
 
 #: src/help.c:148
 msgid "at"
