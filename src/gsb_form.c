@@ -2017,7 +2017,8 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
     gint element_number;
     gint account_number;
     gint element_suivant;
-
+    GtkWidget *widget_prov;
+    
     element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
 
@@ -2031,6 +2032,38 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
     switch ( ev -> keyval )
     {
+    case GDK_1:
+    case GDK_2:
+    case GDK_3:
+    case GDK_4:
+    case GDK_5:
+    case GDK_6:
+    case GDK_7:
+    case GDK_8:
+    case GDK_9:
+    case GDK_0:
+        switch ( element_number )
+        {
+        case TRANSACTION_FORM_DEBIT:
+            widget_prov = gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
+            if ( !gsb_form_widget_check_empty ( widget_prov ) )
+            {
+                gtk_entry_set_text ( GTK_ENTRY ( widget_prov ),
+                         gsb_form_widget_get_name ( TRANSACTION_FORM_CREDIT ) );
+                gsb_form_widget_set_empty ( widget_prov, TRUE );
+            }
+            break;
+        case TRANSACTION_FORM_CREDIT:
+            widget_prov = gsb_form_widget_get_widget ( TRANSACTION_FORM_DEBIT );
+            if ( !gsb_form_widget_check_empty ( widget_prov ) )
+            {
+                gtk_entry_set_text ( GTK_ENTRY (widget_prov),
+                            gsb_form_widget_get_name (TRANSACTION_FORM_DEBIT));
+                gsb_form_widget_set_empty ( widget_prov, TRUE );
+            }
+            break;
+        }
+        break;
 	case GDK_Escape :
 	    gsb_form_escape_form ();
 	    break;
@@ -2058,7 +2091,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
         if ( element_number == TRANSACTION_FORM_VALUE_DATE )
         {
-            GtkWidget * widget_prov = gsb_form_widget_get_widget (
+            widget_prov = gsb_form_widget_get_widget (
                         TRANSACTION_FORM_VALUE_DATE);
 
             if (strlen (gtk_entry_get_text (GTK_ENTRY (widget_prov))) == 0 )
@@ -2081,7 +2114,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
         /* si élément = date de valeur fix the bug 578 */
         if ( element_number == TRANSACTION_FORM_VALUE_DATE )
         {
-            GtkWidget * widget_prov = gsb_form_widget_get_widget (
+            widget_prov = gsb_form_widget_get_widget (
                         TRANSACTION_FORM_VALUE_DATE);
 
             if (strlen (gtk_entry_get_text ( GTK_ENTRY ( widget_prov ) ) ) == 0 )
@@ -2155,6 +2188,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    }
 	    break;
     }
+
     return FALSE;
 }
 

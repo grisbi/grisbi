@@ -782,11 +782,10 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
         widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
         if ( !gsb_form_widget_check_empty ( widget ) )
         {
-            old_credit = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (
-                        gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT ) ) ) );
-            gtk_entry_set_text ( GTK_ENTRY ( widget ),
-                     gsb_form_widget_get_name ( TRANSACTION_FORM_CREDIT ) );
-            gsb_form_widget_set_empty ( widget, TRUE );
+            old_credit = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
+            //~ gtk_entry_set_text ( GTK_ENTRY ( widget ),
+                     //~ gsb_form_widget_get_name ( TRANSACTION_FORM_CREDIT ) );
+            //~ gsb_form_widget_set_empty ( widget, TRUE );
         }
 
         widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE);
@@ -828,11 +827,10 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
         widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_DEBIT );
         if ( !gsb_form_widget_check_empty ( widget ) )
         {
-            old_debit = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (
-                        gsb_form_widget_get_widget ( TRANSACTION_FORM_DEBIT ) ) ) );
-            gtk_entry_set_text ( GTK_ENTRY (widget),
-                        gsb_form_widget_get_name (TRANSACTION_FORM_DEBIT));
-            gsb_form_widget_set_empty ( widget, TRUE );
+            old_debit = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
+            //~ gtk_entry_set_text ( GTK_ENTRY (widget),
+                        //~ gsb_form_widget_get_name (TRANSACTION_FORM_DEBIT));
+            //~ gsb_form_widget_set_empty ( widget, TRUE );
         }
         widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE);
 
