@@ -840,7 +840,11 @@ void gsb_form_fill_element ( gint element_number,
 	    if (is_transaction)
         {
             if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == 3 )
+            {
                 gtk_widget_set_sensitive ( widget, FALSE );
+                gtk_widget_hide ( gsb_form_widget_get_widget (
+                            TRANSACTION_FORM_CHANGE ) );
+            }
         }
 	    break;
 
