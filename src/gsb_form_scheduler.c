@@ -212,6 +212,14 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 
 		case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
 		    widget = gtk_entry_new ();
+            g_signal_connect ( G_OBJECT (widget),
+                        "focus-in-event",
+                        G_CALLBACK (gsb_form_entry_get_focus),
+                        GINT_TO_POINTER (element_number));
+            g_signal_connect_after ( G_OBJECT (widget),
+                        "focus-out-event",
+                        G_CALLBACK (gsb_form_scheduler_entry_lose_focus),
+                        GINT_TO_POINTER (element_number));
 		    tooltip_text = SPACIFY(_("Custom frequency"));
 		    break;
 
