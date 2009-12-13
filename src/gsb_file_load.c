@@ -6165,6 +6165,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
         if (buffer_reconcile_conversion)
         {
             gchar **pointeur_char;
+
             pointeur_char = g_strsplit ( text, "/", 0 );
 
             buffer_reconcile_conversion -> final_date = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
@@ -6184,9 +6185,11 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 
     tmp_string = utils_str_reduce_exponant_from_string ( text,
                                      2 );
+
     if (buffer_reconcile_conversion)
         buffer_reconcile_conversion -> final_balance = gsb_real_import_from_string (tmp_string);
-    if (tmp_string) g_free (tmp_string);
+    if (tmp_string) 
+        g_free (tmp_string);
     return;
     }
 
@@ -6197,7 +6200,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     {
         buffer_reconcile_conversion -> reconcile_number = utils_str_atoi ( text);
         buffer_reconcile_conversion -> account_number = account_number;
-        reconcile_conversion_list = g_slist_append ( reconcile_conversion_list,
+        if ( utils_str_atoi ( text) > 0 )
+            reconcile_conversion_list = g_slist_append ( reconcile_conversion_list,
                                  buffer_reconcile_conversion );
         buffer_reconcile_conversion = NULL;
     }
@@ -7861,6 +7865,7 @@ gboolean gsb_file_load_update_previous_version ( void )
                                             reconcile -> account_number );
                     final_date = gsb_data_reconcile_get_final_date ( reconcile_number );
                     ecart_date = g_date_days_between ( final_date, reconcile -> final_date );
+
                     if ( abs (ecart_date) < 10 )
                     {
                         gsb_data_reconcile_set_final_date ( reconcile_number,
