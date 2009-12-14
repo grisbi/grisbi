@@ -126,6 +126,7 @@ void transaction_list_append_transaction ( gint transaction_number )
     CustomList *custom_list;
     CustomRecord **children_rows = NULL;
     CustomRecord *white_record = NULL;
+    GdkColor *mother_text_color;
 
     custom_list = transaction_model_get_model ();
 
@@ -199,6 +200,7 @@ void transaction_list_append_transaction ( gint transaction_number )
 	/* set the white line if necessary */
 	if (children_rows)
 	{
+
 	    newrecord[i] -> number_of_children = 1;
 	    newrecord[i] -> children_rows = children_rows;
 	}
@@ -239,6 +241,9 @@ void transaction_list_append_transaction ( gint transaction_number )
 	    {
 		newrecord[i] -> has_expander = TRUE;
 		white_record -> mother_row = newrecord[i];
+        /* set the color of the mother */
+        mother_text_color = &text_color[1];
+        newrecord[i] -> text_color = mother_text_color;
 	    }
 
 	    /* inform the tree view */
@@ -795,6 +800,18 @@ void transaction_list_colorize (void)
 
 	if (record -> what_is_line == IS_TRANSACTION)
 	{
+        gint transaction_number;
+
+        /* update the color of the mother if necessary */
+        transaction_number = gsb_data_transaction_get_transaction_number (
+                        record -> transaction_pointer);
+        if (gsb_data_transaction_get_split_of_transaction (transaction_number))
+        {
+            CustomRecord *white_record = NULL;
+            
+            white_record = record -> children_rows[record -> number_of_children -1];
+            transaction_list_update_white_child ( white_record );
+        }
 	    /* if we changed of transaction, change the color */
 	    if (record -> transaction_pointer != current_transaction_pointer)
 	    {
