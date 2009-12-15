@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/*                      2009 Pierre Biava (grisbi@pierre.biava.name)          */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -643,10 +644,6 @@ void gsb_form_widget_set_focus ( gint element_number )
 {
     GtkWidget *widget;
 
-    gchar* tmpstr = g_strdup_printf ( "gsb_form_widget_set_focus %d", element_number );
-
-    g_free ( tmpstr );
-
     widget = gsb_form_widget_get_widget (element_number);
 
     if ( !widget )
@@ -781,12 +778,7 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
         /* empty the credit */
         widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
         if ( !gsb_form_widget_check_empty ( widget ) )
-        {
             old_credit = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
-            //~ gtk_entry_set_text ( GTK_ENTRY ( widget ),
-                     //~ gsb_form_widget_get_name ( TRANSACTION_FORM_CREDIT ) );
-            //~ gsb_form_widget_set_empty ( widget, TRUE );
-        }
 
         widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE);
 
@@ -826,12 +818,8 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
         /* empty the credit */
         widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_DEBIT );
         if ( !gsb_form_widget_check_empty ( widget ) )
-        {
             old_debit = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
-            //~ gtk_entry_set_text ( GTK_ENTRY (widget),
-                        //~ gsb_form_widget_get_name (TRANSACTION_FORM_DEBIT));
-            //~ gsb_form_widget_set_empty ( widget, TRUE );
-        }
+
         widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE);
 
         /* change the method of payment if necessary

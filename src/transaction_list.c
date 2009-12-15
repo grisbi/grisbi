@@ -200,7 +200,6 @@ void transaction_list_append_transaction ( gint transaction_number )
 	/* set the white line if necessary */
 	if (children_rows)
 	{
-
 	    newrecord[i] -> number_of_children = 1;
 	    newrecord[i] -> children_rows = children_rows;
 	}

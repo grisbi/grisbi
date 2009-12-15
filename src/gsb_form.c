@@ -147,6 +147,7 @@ static GtkWidget *transaction_form;
 /** to avoid recursive allocate size */
 gint saved_allocation_size;
 
+static GDate *save_form_date;
 
 /**
  * the value transaction_form is static,
@@ -968,9 +969,19 @@ gboolean gsb_form_activate_expander ( GtkWidget *expander,
 
     if ( gtk_expander_get_expanded (GTK_EXPANDER (expander)))
     {
-	gsb_form_widget_free_list ();
-	gsb_form_show ( TRUE );
-	etat.formulaire_toujours_affiche = TRUE;
+        GtkWidget *date_entry;
+
+        gsb_form_widget_free_list ();
+        gsb_form_show ( TRUE );
+        etat.formulaire_toujours_affiche = TRUE;
+        gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
+        date_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE );
+        gsb_form_widget_set_empty ( date_entry, TRUE );
+        gsb_form_button_press_event ( date_entry,
+                        NULL,
+                        GINT_TO_POINTER ( TRANSACTION_FORM_DATE ) );
+        gtk_widget_grab_focus ( GTK_WIDGET ( date_entry ) );
+        gtk_editable_set_position (GTK_EDITABLE ( date_entry ), -1 );
     }
     else
     {
@@ -1930,10 +1941,13 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 	date_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_DATE);
 	if ( gsb_form_widget_check_empty (date_entry))
 	{
-	    gtk_entry_set_text ( GTK_ENTRY (date_entry),
-				 gsb_date_today ());
-	    gsb_form_widget_set_empty ( date_entry,
-					FALSE );
+        if ( save_form_date )
+            gtk_entry_set_text ( GTK_ENTRY ( date_entry ),
+                        gsb_format_gdate ( save_form_date ) );
+        else
+            gtk_entry_set_text ( GTK_ENTRY ( date_entry ),
+                         gsb_date_today ( ) );
+	    gsb_form_widget_set_empty ( date_entry, FALSE );
 	}
 
 	/* set the form sensitive */
@@ -2561,11 +2575,15 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 					   gtk_entry_get_text (GTK_ENTRY (widget)));
 	dialogue_error ( tmpstr );
 	g_free(tmpstr);
-	gtk_editable_select_region ( GTK_EDITABLE (widget),
-				  0,
-				  -1);
+	gtk_editable_select_region ( GTK_EDITABLE (widget), 0, -1);
 	gtk_widget_grab_focus (widget);
 	return (FALSE);
+    }
+    else
+    {
+        if ( save_form_date )
+            g_date_free ( save_form_date );
+        save_form_date = gsb_date_copy ( gsb_calendar_entry_get_date ( widget ) );
     }
 
     /* work with value date */
