@@ -681,9 +681,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 
 	for ( i=0 ; i < gsb_data_form_get_nb_rows (account_number) ; i++)
 	    for ( j=0 ; j < gsb_data_form_get_nb_columns (account_number) ; j++ )
-		if ( !gsb_data_form_get_value (account_number,
-					       j,
-					       i ))
+		if ( !gsb_data_form_get_value ( account_number, j, i ) )
 		{
 		    /* if only 1 element, end here, else continue to look after the second one */
 		    if ( no_second_element == -1 )
@@ -806,6 +804,8 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
     gsb_form_config_fill_store (account_number);
     gsb_form_fill_from_account (account_number);
 
+    gsb_form_config_update_from_account (
+                        gsb_account_get_combo_account_number ( accounts_combobox ) );
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
     return FALSE;

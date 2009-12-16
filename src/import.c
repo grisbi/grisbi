@@ -2005,7 +2005,9 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
                      g_date_compare ( gsb_data_transaction_get_date (
                      transaction_number), last_date_import ) <= 0
                      &&
-                     !imported_transaction -> ope_de_ventilation )
+                     !imported_transaction -> ope_de_ventilation
+                     &&
+                     !gsb_data_transaction_get_id ( transaction_number ) )
                     {
                         /* the imported transaction has the same date and same amount,
                          * will ask the user */
