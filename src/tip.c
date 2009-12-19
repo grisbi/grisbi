@@ -107,7 +107,7 @@ void display_tip ( gboolean force )
         if ( etat.last_tip > 1 )
             etat.last_tip --;
         change_button_sensitiveness ( dialog, 1, TRUE ); 
-                tmpstr = g_markup_printf_escaped (
+                tmpstr = g_markup_printf_escaped ("%s",
                         g_strconcat ( "<span size=\"larger\" weight=\"bold\">",
                         _("Did you know that..."),
                         "</span>\n\n",
@@ -121,7 +121,7 @@ void display_tip ( gboolean force )
 
         case 2:
         etat.last_tip ++;
-        tmpstr = g_markup_printf_escaped (
+        tmpstr = g_markup_printf_escaped ("%s",
                         g_strconcat ( "<span size=\"larger\" weight=\"bold\">",
                         _("Did you know that..."),
                         "</span>\n\n",
