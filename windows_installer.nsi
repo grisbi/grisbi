@@ -21,8 +21,8 @@
 !define MAJOR "0"        ;Major version number
 !define MINOR "6"        ;Minor version number
 !define PATCH "0"        ;Patch version number
-!define STAGE "Beta 3"   ;Developement stage id (RC, beta, alpha)
-!define SMALL_STAGE "b3" ;Small dev stage id without spaces
+!define STAGE "RC 1"     ;Developement stage id (RC, beta, alpha)
+!define SMALL_STAGE "rc1" ;Small dev stage id without spaces
 !define EXE_PATH "win32-msvc\target\Release" ;Path to the exe file you want to pack
 !define GNUWIN32_PATH "C:\Program Files\GnuWin32\bin" ;Path to the GnuWin32 root (must have libxml and openssl)
 !define GTK_INSTALL_PATH "." ; Path to the GTK installer file to pack

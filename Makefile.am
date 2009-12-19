@@ -7,5 +7,6 @@ EXTRA_DIST = \
     grisbi.spec \
     win32 \
     win32-msvc\
+    windows_installer.nsi\
     $(man_MANS)
 
