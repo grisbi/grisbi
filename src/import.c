@@ -1992,7 +1992,6 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
 
                 transaction_number = gsb_data_transaction_get_transaction_number (
                         list_tmp_transactions -> data);
-
                 if ( gsb_data_transaction_get_account_number (
                  transaction_number ) == account_number
                  &&
@@ -2007,13 +2006,15 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
                      &&
                      !imported_transaction -> ope_de_ventilation
                      &&
-                     !gsb_data_transaction_get_id ( transaction_number ) )
+                     ( !etat.get_fusion_import_transactions
+                     ||
+                     !gsb_data_transaction_get_id ( transaction_number ) ) )
                     {
-                        /* the imported transaction has the same date and same amount,
-                         * will ask the user */
-                        imported_transaction -> action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION;
-                        imported_transaction -> ope_correspondante = transaction_number;
-                        demande_confirmation = TRUE;
+                    /* the imported transaction has the same date and same amount,
+                     * will ask the user */
+                    imported_transaction -> action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION;
+                    imported_transaction -> ope_correspondante = transaction_number;
+                    demande_confirmation = TRUE;
                     }
                 }
                 list_tmp_transactions = list_tmp_transactions -> next;
