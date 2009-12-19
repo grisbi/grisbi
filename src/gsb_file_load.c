@@ -6194,8 +6194,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     {
         buffer_reconcile_conversion -> reconcile_number = utils_str_atoi ( text);
         buffer_reconcile_conversion -> account_number = account_number;
-        if ( utils_str_atoi ( text) > 0 )
-            reconcile_conversion_list = g_slist_append ( reconcile_conversion_list,
+        reconcile_conversion_list = g_slist_append ( reconcile_conversion_list,
                                  buffer_reconcile_conversion );
         buffer_reconcile_conversion = NULL;
     }
@@ -7726,7 +7725,8 @@ gboolean gsb_file_load_update_previous_version ( void )
                         transaction_number);
                 if ( reconcile_number == 0 )
                 {
-                    if ( gsb_data_reconcile_get_account_last_number ( account_number ) == 0 )
+                    if ( ( reconcile_number = gsb_data_reconcile_get_account_last_number (
+                     account_number ) ) == 0 )
                     {
                         reconcile_number = gsb_data_reconcile_new (NULL);
                         gsb_data_reconcile_set_account ( reconcile_number, -1 );
