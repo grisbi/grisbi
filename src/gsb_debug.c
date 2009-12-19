@@ -269,6 +269,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 {
     GtkWidget * vbox, * label, * button;
     GtkWidget *scrolled_window;
+    gchar *tmp_str;
 
     scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
@@ -279,10 +280,14 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 					    vbox );
 
     label = gtk_label_new ( NULL );
-    gtk_label_set_markup ( GTK_LABEL(label), make_hint ( _( test -> name ), summary ) );
+    tmp_str = g_strconcat ( make_pango_attribut (
+                        "size=\"larger\" weight=\"bold\"",_( test -> name ) ),
+                        "\n\n", summary, NULL );
+    gtk_label_set_markup ( GTK_LABEL(label), tmp_str );
     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_LEFT );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    g_free ( tmp_str );
 
     gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );

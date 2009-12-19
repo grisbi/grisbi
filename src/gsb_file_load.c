@@ -7711,9 +7711,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 
             /* ok first we work only with reconciled transactions */
             if ( gsb_data_transaction_get_marked_transaction (
-                            transaction_number) == OPERATION_RAPPROCHEE &&
-                (reconcile_number = gsb_data_transaction_get_reconcile_number (
-                        transaction_number)) > 0 )
+                            transaction_number) == OPERATION_RAPPROCHEE )
             {
                 gint account_number;
                 gint reconcile_account;
@@ -7721,10 +7719,27 @@ gboolean gsb_file_load_update_previous_version ( void )
                 const GDate *date_transaction;
                 gboolean trouve = FALSE;
 
-                reconcile_account = gsb_data_reconcile_get_account ( reconcile_number );
-
                 account_number = gsb_data_transaction_get_account_number (
-                                    transaction_number );
+                        transaction_number );
+
+                reconcile_number = gsb_data_transaction_get_reconcile_number (
+                        transaction_number);
+                if ( reconcile_number == 0 )
+                {
+                    if ( gsb_data_reconcile_get_account_last_number ( account_number ) == 0 )
+                    {
+                        reconcile_number = gsb_data_reconcile_new (NULL);
+                        gsb_data_reconcile_set_account ( reconcile_number, -1 );
+                        gsb_data_reconcile_set_name ( reconcile_number,
+                                  gsb_data_account_get_name ( account_number ) );
+                        gsb_data_reconcile_set_init_balance ( reconcile_number,
+                                              null_real );
+                        gsb_data_reconcile_set_final_balance ( reconcile_number,
+                                               null_real );
+                    }
+                }
+
+                reconcile_account = gsb_data_reconcile_get_account ( reconcile_number );
 
                 /* ok, we set the account number (faster to not check and directly
                  * write it... even if already done) */
