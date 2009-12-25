@@ -321,7 +321,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 
     /* Credit column */
     cell = gtk_cell_renderer_text_new ();
-    g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1, NULL );
+    g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1.0, NULL );
     column = gtk_tree_view_column_new_with_attributes (
 						       _("Credit"), cell,
 						       "text", SPP_ESTIMATE_TREE_CREDIT_COLUMN,
