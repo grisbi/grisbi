@@ -357,7 +357,9 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 
     num_fields = g_strv_length ( tab_date );
 
-    if ( num_fields == 1 )
+    if ( num_fields == 0 )
+        return NULL;
+    else if ( num_fields == 1 )
     {
         /* there is only 1 field in the date, try to split the number (ie 01042000 gives 01/04/2000) */
         gchar ** new_tab_date = split_unique_datefield ( tab_date [ 0 ], date_tokens );

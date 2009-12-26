@@ -609,7 +609,6 @@ gboolean gsb_form_set_sensitive ( gboolean split,
 		case TRANSACTION_FORM_TYPE:
 		case TRANSACTION_FORM_CHEQUE:
 		case TRANSACTION_FORM_BANK:
-        case TRANSACTION_FORM_EXERCICE:
 		    gtk_widget_set_sensitive ( element -> element_widget,
 					       FALSE );
 		    break;
@@ -2529,8 +2528,8 @@ gboolean gsb_form_finish_edition ( void )
     /* as we modify or create a transaction, we invalidate the current report */
     gsb_report_set_current (0);
 
-    /* give the focus to the navigation_tree_view pbiava 02/08/2009 */
-    gtk_widget_grab_focus (navigation_tree_view);
+    /* give the focus to the date widget */
+        gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );

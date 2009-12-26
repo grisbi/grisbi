@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2005-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*                      2008-2009 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -60,6 +61,7 @@ static  void gsb_file_config_remove_old_config_file ( gchar *filename );
 
 /*START_EXTERN*/
 extern gboolean balances_with_scheduled;
+extern struct conditional_message delete_msg[];
 extern gboolean execute_scheduled_of_month;
 extern GtkWidget *main_hpaned;
 extern gint max;
@@ -93,6 +95,7 @@ gboolean gsb_file_config_load_config ( void )
     GKeyFile *config;
     gboolean result;
     gchar *filename;
+    gchar *name;
     gint i;
     gint int_ret;
     GError* err = NULL;
@@ -357,7 +360,6 @@ gboolean gsb_file_config_load_config ( void )
         etat.automatic_completion_payee = int_ret;
     else
         err = NULL;
-        
 
     etat.limit_completion_to_current_account = g_key_file_get_integer ( config,
                         "Display",
@@ -392,11 +394,21 @@ gboolean gsb_file_config_load_config ( void )
     /* get messages */
     for ( i = 0; messages[i].name; i ++ )
     {
-        gchar * name = g_strconcat ( messages[i].name , "-answer", NULL );
+        name = g_strconcat ( messages[i].name , "-answer", NULL );
         messages[i].hidden = g_key_file_get_integer ( config, "Messages",
                         messages[i].name, NULL );
         messages[i].default_answer = g_key_file_get_integer ( config, "Messages",
                         name, NULL );
+        g_free ( name );
+    }
+
+    for ( i = 0; delete_msg[i].name; i ++ )
+    {
+        name = g_strconcat ( delete_msg[i].name , "-answer", NULL );
+        delete_msg[i].hidden = g_key_file_get_integer ( config, "Messages",
+                        delete_msg[i].name, NULL );
+        if ( delete_msg[i].hidden == 1 )
+            delete_msg[i].default_answer = 1;
         g_free ( name );
     }
 
@@ -474,6 +486,7 @@ gboolean gsb_file_config_save_config ( void )
     GKeyFile *config;
     gchar *filename;
     gchar *file_content;
+    gchar *name;
     gsize length;
     FILE *conf_file;
     gint i;
@@ -726,15 +739,21 @@ gboolean gsb_file_config_save_config ( void )
                         etat.display_grisbi_title );
 
     /* save messages */
-
     for ( i = 0; messages[i].name; i ++ )
     {
-        gchar * name = g_strconcat ( messages[i].name , "-answer", NULL );
+        name = g_strconcat ( messages[i].name , "-answer", NULL );
 
         g_key_file_set_integer ( config, "Messages", messages[i].name, messages[i].hidden );
         g_key_file_set_integer ( config, "Messages", name, messages[i].default_answer );
         g_free ( name );
     }
+
+    for ( i = 0; delete_msg[i].name; i ++ )
+    {
+        g_key_file_set_integer ( config, "Messages", delete_msg[i].name,
+                        delete_msg[i].hidden );
+    }
+
 
     g_key_file_set_integer ( config,
                         "Messages",

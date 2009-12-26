@@ -25,6 +25,8 @@ enum scheduled_form_widget {
 
 
 /* START_DECLARATION */
+gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
+                        gpointer null );
 gboolean gsb_form_scheduler_clean ( void );
 gboolean gsb_form_scheduler_create ( GtkWidget *table );
 gboolean gsb_form_scheduler_free_list ( void );

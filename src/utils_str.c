@@ -869,15 +869,18 @@ gchar *gsb_string_extract_int ( const gchar *chaine )
     gchar *tmpstr;
     gunichar ch;
     gint i = 0;
+    gint long_nbre = 64;
 
-    tmpstr = g_malloc0 ( 11*sizeof (gchar) );
+    tmpstr = g_malloc0 ( long_nbre * sizeof (gchar) );
     ptr = g_strdup ( chaine );
     while ( g_utf8_strlen (ptr, -1) > 0 )
     {
         ptr = g_utf8_next_char (ptr);
-        ch = g_utf8_get_char (ptr);
-        if ( g_ascii_isdigit ( ch ) )
+        ch = g_utf8_get_char_validated (ptr, -1);
+        if ( ch != (gunichar )-2 && g_ascii_isdigit ( ch ) )
         {
+            if ( i == long_nbre )
+                break;
             tmpstr[i] = ptr[0];
             i++;
         }

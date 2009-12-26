@@ -3,7 +3,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*      2009 Thomas Peel (thomas.peel@live.fr)                                */
-/*          2008-2009 Pierre Biava (grisbi@pierre.biava.name                  */
+/*          2008-2009 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -99,6 +99,7 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
+extern struct conditional_message delete_msg[];
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern GtkWidget * navigation_tree_view;
 extern GtkWidget *scheduler_button_delete;
@@ -1621,7 +1622,9 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction_by_menu ( GtkWidget *bu
 gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number,
                         gboolean show_warning )
 {
+    gchar *tmpstr;
     gint result;
+    gint msg_no = 0;
 
     devel_debug_int (scheduled_number);
 
@@ -1638,38 +1641,45 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
     /* show a warning */
     if (show_warning)
     {
-	if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
-	{
-	    /* ask all the time for a child */
-	    gchar* tmpstr = g_strdup_printf ( _("Do you really want to delete the child of the scheduled transaction with party '%s' ?"),
-							   gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number),
-										     FALSE ));
-	    if ( !question_yes_no_hint ( _("Delete a scheduled transaction"),
-					 tmpstr,
-					 GTK_RESPONSE_NO ))
-	    {
-	        g_free ( tmpstr );
-		return FALSE;
-	    }
-	    g_free ( tmpstr );
-	}
-	else
-	{
-	    /* for a normal scheduled, ask only if no frequency, else, it will have another dialog to delete the occurence or the transaction */
-	    gchar* str_to_free = NULL;
-	    if ( !gsb_data_scheduled_get_frequency (scheduled_number)
-		 &&
-		 !question_yes_no_hint ( _("Delete a transaction"),
-					 str_to_free = g_strdup_printf ( _("Do you really want to delete the scheduled transaction with party '%s' ?"),
-							   gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number),
-										     FALSE )),
-					 GTK_RESPONSE_NO ))
-	    {
-	        if (str_to_free) g_free (str_to_free);
-		return FALSE;
-	    }
-	    if (str_to_free) g_free (str_to_free);
-	}
+        if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
+        {
+            /* ask all the time for a child */
+            msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
+                        "delete-child-scheduled" );
+            tmpstr = g_strdup_printf ( _("Do you really want to delete the child of the "
+                        "scheduled transaction with party '%s' ?"),
+                        gsb_data_payee_get_name (
+                        gsb_data_scheduled_get_party_number (scheduled_number),
+                        FALSE ) );
+            delete_msg[msg_no].message = tmpstr;
+            if ( !question_conditional_yes_no_with_struct ( &delete_msg[msg_no] ) )
+            {
+                g_free ( tmpstr );
+                return FALSE;
+            }
+            g_free ( tmpstr );
+        }
+        else
+        {
+            /* for a normal scheduled, ask only if no frequency, else, it will 
+             * have another dialog to delete the occurence or the transaction */
+            msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
+                        "delete-scheduled" );
+            tmpstr = g_strdup_printf ( _("Do you really want to delete the scheduled "
+                        "transaction with party '%s' ?"),
+                        gsb_data_payee_get_name (
+                        gsb_data_scheduled_get_party_number ( scheduled_number ),
+                                                 FALSE ) );
+            delete_msg[msg_no].message = tmpstr;
+            if ( !gsb_data_scheduled_get_frequency (scheduled_number)
+             &&
+             !question_conditional_yes_no_with_struct ( &delete_msg[msg_no] ) )
+            {
+                g_free ( tmpstr );
+                return FALSE;
+            }
+            g_free ( tmpstr );
+        }
     }
 
     /* split with child of split or normal scheduled,
@@ -1689,30 +1699,53 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 
 	if ( gsb_data_scheduled_get_frequency (scheduled_number))
 	{
-	    GtkWidget *dialog;
+	    GtkWidget * vbox, * checkbox, *dialog = NULL;
 	    gchar *occurences;
 
-	    gchar* tmpstr = gsb_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
-	    occurences = g_strdup_printf ( _("Do you want to delete just this occurrence or the whole scheduled transaction?\n\n%s : %s [%s %s]"),
-					   gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
-					   gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number), FALSE ),
-					   tmpstr,
-					   gsb_data_currency_get_name (gsb_data_scheduled_get_currency_number (scheduled_number)));
+        msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
+                        "delete-scheduled-occurences" );
+        
+        if ( delete_msg[msg_no].hidden )
+            result = delete_msg[msg_no].default_answer;
+        else
+        {
+	    tmpstr = gsb_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
+	    occurences = g_strdup_printf ( _("Do you want to delete just this occurrence or "
+                        "the whole scheduled transaction?\n\n%s : %s [%s %s]"),
+                        gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
+                        gsb_data_payee_get_name (
+                        gsb_data_scheduled_get_party_number (scheduled_number), FALSE ),
+                        tmpstr,
+                        gsb_data_currency_get_name (
+                        gsb_data_scheduled_get_currency_number (scheduled_number)));
 	    g_free ( tmpstr );
 
 	    dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-					       make_hint ( _("Delete this scheduled transaction?"),
-							   occurences ));
+                        make_hint ( _("Delete this scheduled transaction?"),
+                        occurences ));
 
 	    gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-				     GTK_STOCK_CANCEL, 2,
-				     _("All the occurences"), 1,
-				     _("Only this one"), 0,
-				     NULL );
+                         GTK_STOCK_CANCEL, 2,
+                         _("All the occurences"), 1,
+                         _("Only this one"), 0,
+                         NULL );
+
+        vbox = GTK_DIALOG(dialog) -> vbox;
+
+        checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
+        g_signal_connect ( G_OBJECT ( checkbox ),
+                        "toggled", 
+                        G_CALLBACK ( dialogue_update_struct_message ),
+                        &delete_msg[msg_no] );
+        gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
+        gtk_widget_show_all ( checkbox );
 
 	    result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+
+        delete_msg[msg_no].default_answer = result;
 	    g_free (occurences);
 	    gtk_widget_destroy ( dialog );
+        }
 	}
 	else
 	    result = 1;

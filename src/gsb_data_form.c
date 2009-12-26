@@ -501,6 +501,8 @@ gboolean gsb_form_config_update_from_account (gint account_number)
 	    continue;
 
 	tmp_form = gsb_data_account_get_form_organization (no_account);
+    if ( tmp_form == NULL )
+        continue;
 
 	for (col = 0 ; col<MAX_WIDTH ; col++)
 	{

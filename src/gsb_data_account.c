@@ -651,7 +651,8 @@ gint gsb_data_account_get_account_by_id ( const gchar *account_id )
 
         account = list_tmp -> data;
 
-        if ( account -> account_number >= 0
+        if ( account_id
+         && account -> account_number >= 0
          && !account -> closed_account
          && account -> account_id
          && strlen ( account -> account_id ) > 0 )

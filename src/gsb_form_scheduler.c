@@ -58,8 +58,6 @@
 static gboolean gsb_form_scheduler_button_press_event ( GtkWidget *entry,
                         GdkEventButton *ev,
                         gint *ptr_origin );
-static gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
-                        gpointer null );
 static gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
                         GdkEventFocus *ev,
                         gint *ptr_origin );

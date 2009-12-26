@@ -48,8 +48,14 @@
 gint classement_sliste_echeance_par_date ( gint scheduled_number_1, 
                         gint scheduled_number_2 )
 {
-    return ( g_date_compare ( gsb_data_scheduled_get_date (scheduled_number_1),
-                        gsb_data_scheduled_get_date (scheduled_number_2) ));
+    const GDate *date;
+
+    date = gsb_data_transaction_get_date ( scheduled_number_1 );
+    if ( date )
+        return ( g_date_compare ( date,
+                        gsb_data_transaction_get_date (scheduled_number_2) ));
+    else
+        return -1;
 }
 
 

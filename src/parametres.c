@@ -65,8 +65,11 @@
 static GtkWidget * create_preferences_tree ( );
 static  GtkWidget *gsb_config_scheduler_page ( void );
 static gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void );
+static gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
+                        GtkTreeModel * model );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
+static GtkWidget *onglet_delete_messages ( void );
 static GtkWidget *onglet_fichier ( void );
 static GtkWidget *onglet_messages_and_warnings ( void );
 static GtkWidget *onglet_metatree ( void );
@@ -81,7 +84,6 @@ static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 /*END_STATIC*/
 
 
-
 GtkWidget *fenetre_preferences = NULL;
 
 static GtkTreeStore *preference_tree_model = NULL;
@@ -92,6 +94,7 @@ static gint width_spin_button = 50;
 
 /*START_EXTERN*/
 extern gboolean balances_with_scheduled;
+extern struct conditional_message delete_msg[];
 extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
 extern gint nb_days_before_scheduled;
@@ -99,7 +102,6 @@ extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *titre_fichier;
 extern GtkWidget *window;
 /*END_EXTERN*/
-
 
 
 /**
@@ -405,6 +407,15 @@ gboolean preferences ( gint page )
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
                         &iter2,
+                        0, _("Messages before deleting"),
+                        1, DELETE_MESSAGES_PAGE,
+                        2, 400,
+                        -1);
+    gtk_notebook_append_page (preference_frame, onglet_delete_messages(), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        &iter2,
                         0, _("Reconciliation"),
                         1, RECONCILIATION_PAGE,
                         2, 400,
@@ -557,7 +568,6 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 }
 
 
-
 /**
  * Creates the "Warning & Messages" tab.
  *
@@ -644,6 +654,78 @@ GtkWidget *onglet_messages_and_warnings ( void )
 }
 
 
+/**
+ * Creates the "Delete messages" tab.
+ *
+ * \returns A newly allocated vbox
+ */
+GtkWidget *onglet_delete_messages ( void )
+{
+    GtkWidget *vbox_pref, *paddingbox, *tree_view, *sw;
+    GtkTreeModel * model;
+    GtkCellRenderer * cell;
+    GtkTreeViewColumn * column;
+    gchar *tmpstr;
+    int i;
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Messages before deleting"), "delete.png" );
+
+    /* Delete messages */
+    paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE, 
+                        _("Display following messages") );
+
+    model = GTK_TREE_MODEL(gtk_tree_store_new ( 3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ) );
+
+    sw = gtk_scrolled_window_new ( NULL, NULL );
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+                        GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+
+    tree_view = gtk_tree_view_new();
+    gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model) );
+    g_object_unref (G_OBJECT(model));
+    gtk_container_add (GTK_CONTAINER (sw), tree_view);
+    gtk_box_pack_start ( GTK_BOX(paddingbox), sw, TRUE, TRUE, 0 );
+
+    cell = gtk_cell_renderer_toggle_new ();
+    column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, NULL);
+    gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
+    g_signal_connect (cell,
+                        "toggled",
+                        G_CALLBACK (gsb_gui_delete_msg_toggled),
+                        model);
+
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes (_("Message"), cell, "text", 1, NULL);
+    gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
+
+    for  ( i = 0; delete_msg[i].name; i++ )
+    {
+        GtkTreeIter iter;
+
+        tmpstr = g_strdup ( _(delete_msg[i] . hint) );
+
+        gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
+        gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
+                        0, !delete_msg[i] . hidden,
+                        1, tmpstr,
+                        2, i,
+                        -1);
+
+        g_free ( tmpstr );
+    }
+
+    /* Show everything */
+    gtk_widget_show_all ( vbox_pref );
+
+    if ( !gsb_data_account_get_accounts_amount () )
+    {
+        gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    }
+
+    return ( vbox_pref );
+}
+
 
 /**
  *
@@ -669,6 +751,30 @@ gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str
 }
 
 
+/**
+ *
+ *
+ */
+gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
+                        GtkTreeModel * model )
+{
+    GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
+    GtkTreeIter iter;
+    gint position;
+
+    /* Get toggled iter */
+    gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
+    gtk_tree_model_get (GTK_TREE_MODEL(model), &iter, 2, &position, -1);
+
+    delete_msg[position].hidden = !delete_msg[position].hidden;
+    if ( delete_msg[position].hidden == 1 )
+        delete_msg[position].default_answer = 1;
+
+    /* Set new value */
+    gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, !delete_msg[position].hidden, -1);
+
+    return TRUE;
+}
 
 
 /**

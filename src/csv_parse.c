@@ -1,7 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2005-2006 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2005-2006 Benjamin Drieu (bdrieu@april.org)           */
+/*          2008-2009 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -18,7 +19,6 @@
 /*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 
 #include "include.h"
@@ -39,7 +39,6 @@
 /*START_STATIC*/
 static gchar * sanitize_field ( gchar * begin, gchar * end  );
 /*END_STATIC*/
-
 
 
 /**
@@ -188,17 +187,17 @@ gboolean csv_import_validate_date ( gchar * string )
 {
     GDate * date;
     g_return_val_if_fail ( string, FALSE );
-    
+
     date = gsb_parse_date_string ( string );
     if ( date && g_date_valid ( date ) && 
 	 ! csv_import_validate_number ( string ) )
     {
-	g_date_free ( date );
-	return TRUE;
+        g_date_free ( date );
+        return TRUE;
     }
     
-    if ( date );
-	g_date_free ( date );
+    if ( date )
+        g_date_free ( date );
     return FALSE;
 }
 
@@ -419,16 +418,14 @@ gboolean csv_import_parse_balance ( struct struct_ope_importation * ope, gchar *
 {
     g_return_val_if_fail ( string, FALSE );
 
-    /** FIXME: how to handle balance ?  */
+    if ( strlen ( string ) > 0 )
+    {
+        ope -> montant = gsb_real_get_from_string ( string );
+        return TRUE;
+    }
 
-/*     if ( strlen ( string ) > 0 ) */
-/*     { */
-/* 	ope -> montant = my_strtod ( string, NULL ); */
-/*     } */
-    return TRUE;
+    return FALSE;
 }
-
-
 
 /**
  *
@@ -508,12 +505,12 @@ gboolean csv_import_parse_split ( struct struct_ope_importation * ope, gchar * s
 
     if ( ! strcmp ( string, "V" ) )
     {
-	ope -> operation_ventilee = 1;
+        ope -> ope_de_ventilation = 1;
+        return TRUE;
     }
 
-    return TRUE;
+    return FALSE;
 }
-
 
 
 /* Local Variables: */

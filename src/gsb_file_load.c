@@ -169,6 +169,7 @@ extern GdkColor couleur_selection;
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
+extern gsb_real error_real;
 extern struct iso_4217_currency iso_4217_currencies[];
 extern GtkWidget *logo_accueil;
 extern gint no_devise_totaux_categ;
@@ -6112,10 +6113,14 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     /* to go to the 0.6.0 we need to change the amount string
      * from 12.340000 to 12.34 before doing the conversion */
     gchar *tmp_string;
-
+    gsb_real number;
+    
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
-    gsb_data_account_set_init_balance ( account_number,
-                        gsb_real_get_from_string ( tmp_string ));
+    number = gsb_real_get_from_string ( tmp_string );
+    if ( number.mantissa == error_real.mantissa )
+        gsb_data_account_set_init_balance ( account_number, null_real );
+    else
+        gsb_data_account_set_init_balance ( account_number, number );
 
     if (tmp_string) 
         g_free (tmp_string);
@@ -6128,10 +6133,15 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     /* to go to the 0.6.0 we need to change the amount string
      * from 12.340000 to 12.34 before doing the conversion */
     gchar *tmp_string;
-
+    gsb_real number;
+    
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
-    gsb_data_account_set_mini_balance_wanted ( account_number,
-                               gsb_real_get_from_string (tmp_string));
+    number = gsb_real_get_from_string ( tmp_string );
+    if ( number.mantissa == error_real.mantissa )
+        gsb_data_account_set_init_balance ( account_number, null_real );
+    else
+        gsb_data_account_set_init_balance ( account_number, number );
+
     if (tmp_string) 
         g_free (tmp_string);
     return;
@@ -6143,11 +6153,16 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     /* to go to the 0.6.0 we need to change the amount string
      * from 12.340000 to 12.34 before doing the conversion */
     gchar *tmp_string;
-
+    gsb_real number;
+    
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
-    gsb_data_account_set_mini_balance_authorized ( account_number,
-                                   gsb_real_get_from_string (tmp_string));
-    if (tmp_string) g_free (tmp_string);
+    number = gsb_real_get_from_string ( tmp_string );
+    if ( number.mantissa == error_real.mantissa )
+        gsb_data_account_set_init_balance ( account_number, null_real );
+    else
+        gsb_data_account_set_init_balance ( account_number, number );
+
+        if (tmp_string) g_free (tmp_string);
     return;
     }
 

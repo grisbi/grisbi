@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*                      2008-2009 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -36,8 +37,6 @@ static GtkDialog *dialogue_conditional_new ( gchar *text,
                         GtkMessageType type,
                         GtkButtonsType buttons );
 static void dialogue_conditional_special ( gchar *text, gchar *var, GtkMessageType type );
-static gboolean dialogue_update_struct_message ( GtkWidget *checkbox,
-                        struct conditional_message *message );
 static gboolean dialogue_update_var ( GtkWidget *checkbox, gint message );
 /*END_STATIC*/
 
@@ -55,19 +54,26 @@ struct conditional_message messages[] =
       FALSE, FALSE, },
 
     { "ofx-security-not-implemented", N_("Security feature not implemented"),
-      N_("This file contains security informations, which processing is not implemented at this moment."),
+      N_("This file contains security informations, which processing is not implemented at "
+      "this moment."),
       FALSE, FALSE, },
 
     { "encryption-is-irreversible", N_("Encryption is irreversible."),
-      N_("Grisbi encrypts files in a very secure way that does not allow recovery without original password.  It means that if you forget your password, you will loose all your data.  Use with caution.\n\nI repeat: if you ever forget your password, there is no coming back, we cannot help you."), 
+      N_("Grisbi encrypts files in a very secure way that does not allow recovery without "
+      "original password.  It means that if you forget your password, you will loose all "
+      "your data.  Use with caution.\n\nI repeat: if you ever forget your password, there "
+      "is no coming back, we cannot help you."), 
       FALSE, FALSE, },
 
     { "account-file-readable",  N_("Account file is world readable."),
-      N_("Your account file should not be readable by anybody else, but it is. You should change its permissions.\nShould this be fixed now?"),
+      N_("Your account file should not be readable by anybody else, but it is. You should "
+      "change its permissions.\nShould this be fixed now?"),
       FALSE, FALSE, },
 
     { "account-already-opened", N_("File \"%s\" is already opened"),
-      N_("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."),
+      N_("Either this file is already opened by another user or it wasn't closed correctly "
+      "(maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the "
+      "\"Force saving locked files\" option in setup."),
       FALSE, FALSE, },
      
     { "minimum-balance-alert", N_("Account under desired balance."),
@@ -75,11 +81,13 @@ struct conditional_message messages[] =
       FALSE, FALSE, },
     
     { "no-budgetary-line", N_("No budgetary line was entered"),
-      N_("This transaction has no budgetary line entered.  You should use them to easily produce budgets and make reports on them."),
+      N_("This transaction has no budgetary line entered.  You should use them to "
+      "easily produce budgets and make reports on them."),
       FALSE, FALSE, },
 
     { "recover-split", N_("Recover split?"),
-      N_("This is a split of transaction, associated transactions can be recovered as in last transaction with this payee.  Do you want to recover them?"),
+      N_("This is a split of transaction, associated transactions can be recovered as "
+      "in last transaction with this payee.  Do you want to recover them?"),
       FALSE, FALSE, },
 
     { "no-inconsistency-found", N_("No inconsistency found."),
@@ -87,7 +95,10 @@ struct conditional_message messages[] =
       FALSE, FALSE, },
 
     { "reconcile-start-end-dates", N_("Reconcile start and end dates."),
-      N_("In previous versions, Grisbi did not save start date, end date and balance for reconciliation.  This is now done, so Grisbi will try to guess values from your accounts.  Thought this can not harm data coherence, false values can be guessed.  Please check in the Preferences window for more information."), 
+      N_("In previous versions, Grisbi did not save start date, end date and balance for "
+      "reconciliation.  This is now done, so Grisbi will try to guess values from your "
+      "accounts.  Thought this can not harm data coherence, false values can be guessed. "
+      "Please check in the Preferences window for more information."), 
       FALSE, FALSE, },
 
     { "development-version", N_("You are running Grisbi version %s"), 
@@ -288,7 +299,7 @@ GtkDialog *dialogue_conditional_new ( gchar *text,
 {
     GtkWidget * vbox, * checkbox, *dialog = NULL;
     int i;
-printf ( "dialogue_conditional_new : %s\n", var);
+
     if ( !var || !strlen ( var ) )
         return NULL;
 
@@ -339,7 +350,6 @@ printf ( "dialogue_conditional_new : %s\n", var);
  */
 void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var )
 {
-    printf ( "dialogue_conditional_hint : %s\n", var);
     dialogue_conditional ( make_hint(hint, text), var );
 }
 
@@ -356,7 +366,6 @@ void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var )
  */
 void dialogue_conditional ( gchar *text, gchar *var )
 {
-    printf ( "dialogue_conditional : %s\n", var);
     dialogue_conditional_special ( text, var, GTK_MESSAGE_WARNING );
 }
 
@@ -485,6 +494,15 @@ gboolean question_conditional_yes_no ( gchar *var )
 }
 
 
+/**
+ * Pop up a warning dialog window with a question and a checkbox that allow
+ * this message not to be displayed again thanks to preferences and wait
+ * for user to press 'YES' or 'NO'.
+ *
+ * \param struct conditional_message
+ *
+ * \return TRUE if user pressed 'YES'.  FALSE otherwise.
+ */
 gboolean question_conditional_yes_no_with_struct ( struct conditional_message *message )
 {
     GtkWidget *dialog, *vbox, *checkbox;
@@ -494,7 +512,7 @@ gboolean question_conditional_yes_no_with_struct ( struct conditional_message *m
     if ( message -> hidden )
         return message -> default_answer;
 
-    text = make_hint ( message -> hint, message -> message );
+    text = make_hint ( _(message -> hint), message -> message );
     dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_WARNING,
@@ -522,6 +540,28 @@ gboolean question_conditional_yes_no_with_struct ( struct conditional_message *m
 
     gtk_widget_destroy (GTK_WIDGET (dialog));
     return message -> default_answer;
+}
+
+
+/**
+ * return the number of message
+ *
+ * \param struct conditional_message
+ * \param name of message
+ *
+ * \return message number or -1 is not present.
+ */
+gint question_conditional_yes_no_get_no_struct ( struct conditional_message *msg,
+                        gchar *name )
+{
+    gint i;
+
+    for  ( i = 0; msg[i].name; i++ )
+    {
+        if ( strcmp ( msg[i].name, name ) == 0 )
+            return i;
+    }
+    return -1;
 }
 
 

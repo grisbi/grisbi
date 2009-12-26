@@ -1,8 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger	(cedric@grisbi.org)	      */
-/*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2003 Cédric Auger  (cedric@grisbi.org)           */
+/*          2004-2006 Benjamin Drieu (bdrieu@april.org)                       */
+/*                      2008-2009 Pierre Biava (grisbi@pierre.biava.name)     */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -77,8 +78,7 @@ struct csv_field csv_fields[18] = {
     { N_("Currency"),	    0.0, csv_import_validate_string, csv_import_parse_currency, "" },
     { N_("Date"),	    0.0, csv_import_validate_date,   csv_import_parse_date, "" },
     { N_("Value date"),	    0.0, csv_import_validate_date,   csv_import_parse_value_date, "" },
-    { N_("Payee"),	    0.0, csv_import_validate_string, csv_import_parse_payee,
-      N_("Wording") },
+    { N_("Payee"),	    0.0, csv_import_validate_string, csv_import_parse_payee, N_("Wording") },
     { N_("Notes"),	    0.0, csv_import_validate_string, csv_import_parse_notes, "" },
     { N_("Voucher number"), 0.0, csv_import_validate_number, csv_import_parse_voucher, "" },
     { N_("Category"),	    0.0, csv_import_validate_string, csv_import_parse_category, "" },
@@ -87,16 +87,12 @@ struct csv_field csv_fields[18] = {
 	{ N_("Sub-budget"),	    0.0, csv_import_validate_string, csv_import_parse_sub_budget, "" },
     { N_("Balance"),	    0.0, csv_import_validate_amount, csv_import_parse_balance, "" },
     { N_("Credit (amount)"),0.0, csv_import_validate_amount, csv_import_parse_credit, "" },
-    { N_("Debit (absolute)"),0.0, csv_import_validate_amount, csv_import_parse_debit,
-      N_("Debit") },
+    { N_("Debit (absolute)"),0.0, csv_import_validate_amount, csv_import_parse_debit, N_("Debit") },
     { N_("Debit (negative)"),0.0, csv_import_validate_amount, csv_import_parse_credit, "" },
     { N_("C/R"),	    0.0, csv_import_validate_string, csv_import_parse_p_r, "" },
     { N_("Split"),	    0.0, csv_import_validate_string, csv_import_parse_split, "" },
     { NULL },
 };
-
-
-
 
 
 /** Contain pre-defined CSV separators */
@@ -211,7 +207,7 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
     GSList * list;
 
     size = csv_import_count_columns ( contents, separator );
-    g_print (">> SIZE is %d\n", size );
+    //~ g_print (">> SIZE is %d\n", size );
     if ( ! size || ! contents)
     {
 	return NULL;
@@ -280,7 +276,6 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 
     return (GtkTreeModel *) model;
 }
-
 
 
 /**
@@ -500,7 +495,7 @@ gint csv_skip_lines ( gchar ** contents, gint num_lines, gchar * separator )
     GSList * list;
     int i;
 
-    g_print ("Skipping %d lines\n", num_lines );
+    //~ g_print ("Skipping %d lines\n", num_lines );
 
     for ( i = 0; i < num_lines; i ++ )
     {
@@ -576,9 +571,10 @@ gboolean safe_contains ( gchar * original, gchar * substring )
     g_return_val_if_fail ( original, FALSE );
     g_return_val_if_fail ( substring, FALSE );
 
-    return GPOINTER_TO_INT( g_strstr_len ( g_ascii_strdown ( original, -1 ),
-				     strlen ( original ),
-				     g_ascii_strdown ( substring, -1 ) ) );
+    return GPOINTER_TO_INT( g_strstr_len (
+                        g_utf8_strdown ( original, -1 ),
+                        strlen ( original ),
+                        g_utf8_strdown ( substring, -1 ) ) );
 }
 
 
@@ -617,15 +613,32 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
 	for ( field = 0 ; csv_fields [ field ] . name != NULL ; field ++ )
 	{
 	    if ( strlen ( value ) > 1 &&
-		 strlen ( csv_fields [ field ] . name ) > 1 &&
-		 ( safe_contains ( csv_fields [ field ] . name, value ) ||
-		   safe_contains ( _( csv_fields [ field ] . name ), value ) ||
-		   safe_contains ( csv_fields [ field ] . alias, value ) ||
-		   safe_contains ( _( csv_fields [ field ] . alias ), value ) ) )
-	    {
-		default_config [ i ] = field;
-		etat.csv_skipped_lines [ 0 ] = 1;
-	    }
+		 strlen ( csv_fields [ field ] . name ) > 1 )
+        {
+            if ( strlen ( csv_fields [ field ] . alias ) > 1 
+             &&
+             ( safe_contains ( csv_fields [ field ] . name, value ) ||
+               safe_contains ( _( csv_fields [ field ] . name ), value ) ||
+               safe_contains ( csv_fields [ field ] . alias, value ) ||
+               safe_contains ( _( csv_fields [ field ] . alias ), value ) ) )
+            {
+                if ( !default_config [ i ] )
+                {
+                    default_config [ i ] = field;
+                    etat.csv_skipped_lines [ 0 ] = 1;
+                }
+
+            }
+            else if ( safe_contains ( csv_fields [ field ] . name, value ) ||
+             safe_contains ( _( csv_fields [ field ] . name ), value ) )
+            {
+                if ( !default_config [ i ] )
+                {
+                    default_config [ i ] = field;
+                    etat.csv_skipped_lines [ 0 ] = 1;
+               }
+            }
+        }
 	}
 
 	list = list -> next;
@@ -665,25 +678,25 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
 		{
 		    if ( g_strrstr ( string, "-" ) ) /* This is negative */
 		    {
-			if ( ! default_config [ i ] )
-			{
-			    default_config [ i ] = 12; /* Negative debit */
-			}
-			else if ( default_config [ i ] == 10 )
-			{
-			    default_config [ i ] = 9; /* Neutral amount */
-			}
+                if ( ! default_config [ i ] )
+                {
+                    default_config [ i ] = 14; /* Negative debit */
+                }
+                else if ( default_config [ i ] == 12 )
+                {
+                    default_config [ i ] = 11; /* Neutral amount */
+                }
 		    }
 		    else
 		    {
-			if ( ! default_config [ i ] )
-			{
-			    default_config [ i ] = 10; /* Negative debit */
-			}
-			else if ( default_config [ i ] == 12 )
-			{
-			    default_config [ i ] = 9; /* Neutral amount */
-			}
+                if ( ! default_config [ i ] )
+                {
+                    default_config [ i ] = 12; /* Negative debit */
+                }
+                else if ( default_config [ i ] == 14 )
+                {
+                    default_config [ i ] = 11; /* Neutral amount */
+                }
 		    }
 		}
 	    }
@@ -893,17 +906,17 @@ void csv_import_update_validity_check ( GtkWidget * assistant )
 
     /** After checking all required fields, check the conformity of
      * transaction amount, which is somewhat complicated. */
-    if ( ! csv_find_field_config ( 10 ) ||
-	 ( csv_find_field_config ( 11 ) && csv_find_field_config ( 12 ) ) )
+    if ( ! csv_find_field_config ( 11 ) ||
+	 ( csv_find_field_config ( 12 ) && !csv_find_field_config ( 13 ) ) )
     {
-	if ( label )
-	{
-	    label = g_strconcat ( label, ", ", _("transaction amount"), NULL );
-	}
-	else
-	{
-	    label = my_strdup ( _("transaction amount") );
-	}
+        if ( label )
+        {
+            label = g_strconcat ( label, ", ", _("transaction amount"), NULL );
+        }
+        else
+        {
+            label = my_strdup ( _("transaction amount") );
+        }
     }
 
     /** Then, fill in a GtkLabel containing diagnostic message and
@@ -1074,7 +1087,6 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
 }
 
 
-
 /**
  * Actually do the grunt work, that is, parse the CSV file and create
  * importation structures in memory.
@@ -1112,84 +1124,99 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
 			   NULL );
     if ( ! contents )
     {
-	g_print ("> convert failed\n");
-	return FALSE;
+        //~ g_print ("> convert failed\n");
+        return FALSE;
     }
 
     list = csv_get_next_line ( &contents, separator );
 
     do
     {
-	struct struct_ope_importation * ope;
-	int i;
+        struct struct_ope_importation * ope;
+        gint i;
 
-	/* Check if this line was specified as to be skipped
-	 * earlier. */
-	if ( index < CSV_MAX_TOP_LINES && etat.csv_skipped_lines [ index ] )
-	{
-	    g_print ("Skipping line %d\n", index );
-	    list = csv_get_next_line ( &contents, separator );
-	    index++;
-	    continue;
-	}
-	index++;
+        /* Check if this line was specified as to be skipped
+         * earlier. */
+        if ( index < CSV_MAX_TOP_LINES && etat.csv_skipped_lines [ index ] )
+        {
+            //~ g_print ("Skipping line %d\n", index );
+            list = csv_get_next_line ( &contents, separator );
+            index++;
+            continue;
+        }
+        index++;
 
-	ope = g_malloc0 ( sizeof ( struct struct_ope_importation ) );
-	ope -> date = gdate_today ();
-	ope -> date_tmp = my_strdup ( "" );
-	ope -> tiers = my_strdup ( "" );
-	ope -> notes = my_strdup ( "" );
-	ope -> categ = my_strdup ( "" );
-	ope -> guid = my_strdup ( "" );
+        ope = g_malloc0 ( sizeof ( struct struct_ope_importation ) );
+        ope -> date = gdate_today ();
+        ope -> date_tmp = my_strdup ( "" );
+        ope -> tiers = my_strdup ( "" );
+        ope -> notes = my_strdup ( "" );
+        ope -> categ = my_strdup ( "" );
+        ope -> guid = my_strdup ( "" );
 
-	for ( i = 0; csv_fields_config[i] != -1 && list ; i++)
-	{
-	    struct csv_field * field = & csv_fields [ csv_fields_config[i] ];
-	    if ( field -> parse )
-	    {
-		g_print ("> Parsing %s as %s ... ",  (gchar *) list -> data, field -> name );
-		if ( field -> validate )
-		{
-		    if ( field -> validate ( list -> data ) )
-		    {
-			if ( ! field -> parse ( ope, list -> data ) )
-			{
-			    g_print ("%s", "(failed)");
-			}
-		    }
-		    else
-		    {
-			g_print ("%s", "(invalid)");
-		    }
-		}
-		g_print ("%s", "\n");
-	    }
-	    list = list -> next;
-	}
+        for ( i = 0; csv_fields_config[i] != -1 && list ; i++)
+        {
+            struct csv_field * field = & csv_fields [ csv_fields_config[i] ];
 
-	g_print (">> Appending new transaction %p\n", ope );
-	compte -> operations_importees = g_slist_append ( compte -> operations_importees,
-							  ope );
+            if ( field -> parse )
+            {
+            if ( field -> validate )
+            {
+                if ( field -> validate ( list -> data ) )
+                {
+                    if ( csv_fields_config[i] == 16 )
+                    {
+                        if ( field -> parse ( ope, list -> data ) )
+                        {
+                            gint nbre_element = g_slist_length (
+                                compte -> operations_importees );
+                            struct struct_ope_importation *ope_tmp;
 
-	list = csv_get_next_line ( &contents, separator );
+                            ope_tmp = (struct struct_ope_importation *)
+                                g_slist_nth_data  ( compte -> operations_importees,
+                                                         nbre_element -1 );
+                            if ( ope_tmp -> operation_ventilee == 0 &&
+                             ope_tmp -> ope_de_ventilation == 0 )
+                                ope_tmp -> operation_ventilee = 1;
+                            ope -> ope_de_ventilation = 1;
+                        }
+                    }
+                    else if ( ! field -> parse ( ope, list -> data ) )
+                    {
+                        //~ g_print ("%s", "(failed)");
+                    }
+                }
+                else
+                    {
+                    //~ g_print ("%s", "(invalid)");
+                    }
+            }
+            }
+            list = list -> next;
+        }
+
+        //~ g_print (">> Appending new transaction %p\n", ope );
+        compte -> operations_importees = g_slist_append ( compte -> operations_importees,
+                                  ope );
+
+        list = csv_get_next_line ( &contents, separator );
     }
     while ( list );
 
     if ( compte -> operations_importees )
     {
-	/* Finally, we register it. */
-	liste_comptes_importes = g_slist_append ( liste_comptes_importes, compte );
+        /* Finally, we register it. */
+        liste_comptes_importes = g_slist_append ( liste_comptes_importes, compte );
     }
     else
     {
-	/* ... or not, if no transaction was imported (implement sanitizing). */
-	liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
-							compte );
+        /* ... or not, if no transaction was imported (implement sanitizing). */
+        liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
+                                compte );
     }
 
     return FALSE;
 }
-
 
 
 /* Local Variables: */

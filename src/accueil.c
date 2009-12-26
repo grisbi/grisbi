@@ -34,6 +34,7 @@
 #include "./gsb_data_transaction.h"
 #include "./utils_dates.h"
 #include "./gsb_form.h"
+#include "./gsb_form_scheduler.h"
 #include "./navigation.h"
 #include "./gsb_real.h"
 #include "./gsb_scheduler.h"
@@ -309,6 +310,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
                         gint scheduled_number )
 {
     GtkWidget *parent_save, *dialog, *hbox;
+    GtkWidget *button;
     gint result;
 
     parent_save = form_transaction_part -> parent;
@@ -334,14 +336,21 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
     /* next we fill the form,
      * don't use gsb_form_show because we are neither on transactions list, neither scheduled list */
-    gsb_form_fill_from_account (gsb_data_scheduled_get_account_number (scheduled_number));
+    button = gsb_form_scheduler_get_element_widget( SCHEDULED_FORM_ACCOUNT );
+    g_signal_handlers_block_by_func ( G_OBJECT ( button ),
+                        G_CALLBACK (gsb_form_scheduler_change_account),
+                        NULL );
 
+    gsb_form_fill_from_account (gsb_data_scheduled_get_account_number (scheduled_number));
     /* fill the form with the scheduled transaction */
     gsb_scheduler_list_execute_transaction(scheduled_number);
 
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( button ),
+                        G_CALLBACK (gsb_form_scheduler_change_account),
+                        NULL );
+
 	gtk_widget_show_all ( hbox );
 	result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
-
 
     if ( result == GTK_RESPONSE_OK )
 	 gsb_form_finish_edition ();

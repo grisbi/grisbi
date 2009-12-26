@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     copyright (c)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2009 Benjamin Drieu (bdrieu@april.org)                       */
+/*                      2008-2009 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -175,6 +176,37 @@ extern GtkWidget *window;
 /*END_EXTERN*/
 
 
+/** All delete messages */
+struct conditional_message delete_msg[] =
+{
+    { "delete-child-transaction", N_("Delete a child transaction."),
+      N_(""), 
+      FALSE, FALSE, },
+
+    { "delete-transaction",  N_("Delete a transaction."),
+      N_(""),
+      FALSE, FALSE, },
+
+    { "delete-child-scheduled", N_("Delete a child of scheduled transaction."),
+      N_(""),
+      FALSE, FALSE, },
+
+    { "delete-scheduled", N_("Delete a scheduled transaction."),
+      N_(""),
+      FALSE, FALSE, },
+
+    { "delete-scheduled-occurences", N_("Delete one or all occurences of scheduled "
+      "transaction."),
+      N_(""),
+      FALSE, FALSE, },
+
+/*
+    { "", N_(),
+      N_(), 
+      FALSE, FALSE, },
+*/
+    { NULL },
+};
 
 
 /**
@@ -1814,7 +1846,9 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
                         gint show_warning )
 {
+    gchar *tmpstr;
     gint account_number;
+    gint msg_no = 0;
 
     devel_debug_int (transaction_number);
 
@@ -1844,43 +1878,45 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     /* check if the transaction is not reconciled */
     if ( gsb_transactions_list_check_mark (transaction_number))
     {
-	dialogue_error ( _("Impossible to delete a reconciled transaction.\nThe transaction, the contra-transaction or the children if it is a split are reconciled. You can remove the reconciliation with Ctrl R if it is really necessary.") );
+	dialogue_error ( _("Impossible to delete a reconciled transaction.\nThe transaction, "
+                        "the contra-transaction or the children if it is a split are "
+                        "reconciled. You can remove the reconciliation with Ctrl R if "
+                        "it is really necessary.") );
 	return FALSE;
     }
 
     /* show a warning */
     if (show_warning)
     {
-	if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
-	{
-	    gchar* tmpstr = g_strdup_printf (
-	              _("Do you really want to delete the child of the transaction with party '%s' ?"),
- 	              gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number),
-										     FALSE ));
-	    if ( !question_yes_no_hint ( _("Delete a transaction"),
-					 tmpstr,
-					 GTK_RESPONSE_NO ))
-            {
-	        g_free(tmpstr);
-		return FALSE;
-            }
-	    g_free(tmpstr);
-	}
-	else
-	{
-	    gchar *tmpstr = g_strdup_printf (
+        if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
+        {
+            msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
+                        "delete-child-transaction" );
+            tmpstr = g_strdup_printf (
+                        _("Do you really want to delete the child of the transaction "
+                        "with party '%s' ?"),
+                        gsb_data_payee_get_name (
+                        gsb_data_transaction_get_party_number ( transaction_number ),
+                        FALSE ) );
+            delete_msg[msg_no].message = tmpstr;
+        }
+        else
+        {
+            msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
+                        "delete-transaction" );
+            tmpstr = g_strdup_printf (
                          _("Do you really want to delete transaction with party '%s' ?"),
-                         gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number),
-										     FALSE ));
-	    if ( !question_yes_no_hint ( _("Delete a transaction"),
-					 tmpstr ,
-					 GTK_RESPONSE_NO ))
-	    {
-	        g_free(tmpstr);
-		return FALSE;
-	    }
-	    g_free(tmpstr);
-	}
+                         gsb_data_payee_get_name (
+                         gsb_data_transaction_get_party_number ( transaction_number),
+                                             FALSE ) );
+            delete_msg[msg_no].message = tmpstr;
+        }
+        if ( !question_conditional_yes_no_with_struct ( &delete_msg[msg_no] ) )
+        {
+            g_free(tmpstr);
+            return FALSE;
+        }
+        g_free(tmpstr);
     }
 
     /* move the selection */

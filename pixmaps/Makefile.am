@@ -19,6 +19,7 @@ grisbi_pixmaps_DATA = \
 	categories.png \
 	comments.png \
 	currencies.png \
+	delete.png \
 	exec.png \
 	files.png \
 	financial-years.png \
@@ -56,7 +57,8 @@ grisbi_pixmaps_DATA = \
 	transaction-list.png \
 	transdisplay.png \
 	transfer.png \
-	warnings.png
+	warnings.png \
+	delete.png
 
 grisbi_iconsdir = $(datadir)/icons/hicolor/48x48/apps
 grisbi_icons_DATA = grisbi.png
