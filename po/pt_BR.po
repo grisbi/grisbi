@@ -47,7 +47,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-26 10:28+0100\n"
+"POT-Creation-Date: 2009-12-27 20:14+0100\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
@@ -244,7 +244,7 @@ msgstr "Comoros"
 msgid "Account kind"
 msgstr "Nome da conta"
 
-#: src/accueil.c:2080 src/gsb_form_widget.c:452 src/import_csv.c:78
+#: src/accueil.c:2080 src/gsb_form_widget.c:452 src/import_csv.c:79
 msgid "Currency"
 msgstr "Moeda"
 
@@ -625,7 +625,7 @@ msgstr ""
 #: src/export_csv.c:750 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1281 src/gsb_form_widget.c:404 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
-#: src/import.c:3062 src/import_csv.c:79 src/traitement_variables.c:76
+#: src/import.c:3062 src/import_csv.c:80 src/traitement_variables.c:76
 msgid "Date"
 msgstr "Data"
 
@@ -640,7 +640,7 @@ msgstr "Descrição"
 #: src/export_csv.c:771 src/gsb_form.c:1315 src/gsb_form_widget.c:408
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1075 src/gsb_transactions_list.c:148
-#: src/import_csv.c:90 src/imputation_budgetaire.c:732
+#: src/import_csv.c:91 src/imputation_budgetaire.c:732
 #: src/traitement_variables.c:80
 msgid "Debit"
 msgstr "Débito"
@@ -866,7 +866,7 @@ msgid "Display reconciled transactions"
 msgstr "Exibir lançamentos reconciliados"
 
 #: src/categories_onglet.c:142 src/etats_affiche.c:2433 src/etats_config.c:673
-#: src/export_csv.c:780 src/gsb_transactions_list.c:155 src/import_csv.c:84
+#: src/export_csv.c:780 src/gsb_transactions_list.c:155 src/import_csv.c:85
 #: src/meta_categories.c:65 src/traitement_variables.c:87
 msgid "Category"
 msgstr "Categoria"
@@ -1590,7 +1590,7 @@ msgstr "Número"
 
 #: src/etats_affiche.c:2412 src/export_csv.c:753 src/gsb_form.c:1288
 #: src/gsb_form.c:2117 src/gsb_form.c:2140 src/gsb_form_widget.c:416
-#: src/gsb_transactions_list.c:145 src/import_csv.c:80
+#: src/gsb_transactions_list.c:145 src/import_csv.c:81
 #: src/traitement_variables.c:77
 msgid "Value date"
 msgstr "Data"
@@ -1606,7 +1606,7 @@ msgstr "Ano Contábil"
 #: src/etats_config.c:685 src/etats_config.c:7021 src/export_csv.c:765
 #: src/fenetre_principale.c:264 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1308 src/gsb_form_widget.c:424 src/gsb_scheduler_list.c:339
-#: src/gsb_transactions_list.c:146 src/import.c:3069 src/import_csv.c:81
+#: src/gsb_transactions_list.c:146 src/import.c:3069 src/import_csv.c:82
 #: src/meta_payee.c:77 src/traitement_variables.c:78
 #, fuzzy
 msgid "Payee"
@@ -1621,7 +1621,7 @@ msgstr "Orçamento"
 #. Notes
 #: src/etats_affiche.c:2447 src/export_csv.c:786 src/gsb_bank.c:915
 #: src/gsb_form.c:1346 src/gsb_form_widget.c:440
-#: src/gsb_transactions_list.c:158 src/import_csv.c:82
+#: src/gsb_transactions_list.c:158 src/import_csv.c:83
 #: src/traitement_variables.c:90
 msgid "Notes"
 msgstr "Notas"
@@ -3006,7 +3006,7 @@ msgstr "Transferir"
 msgid "Deleted account"
 msgstr "Apagar conta"
 
-#: src/export_csv.c:747 src/import_csv.c:93
+#: src/export_csv.c:747 src/import_csv.c:94
 msgid "Split"
 msgstr "Dividir"
 
@@ -3014,14 +3014,14 @@ msgstr "Dividir"
 msgid "Cheques"
 msgstr "Cheques"
 
-#: src/export_csv.c:762 src/gsb_transactions_list.c:156 src/import_csv.c:92
+#: src/export_csv.c:762 src/gsb_transactions_list.c:156 src/import_csv.c:93
 #: src/traitement_variables.c:88
 msgid "C/R"
 msgstr "C/R"
 
 #: src/export_csv.c:777 src/gsb_reconcile.c:147 src/gsb_scheduler_list.c:340
 #: src/gsb_transactions_list.c:150 src/gsb_transactions_list.c:2901
-#: src/import_csv.c:88 src/traitement_variables.c:82
+#: src/import_csv.c:89 src/traitement_variables.c:82
 msgid "Balance"
 msgstr "Saldo"
 
@@ -3306,7 +3306,7 @@ msgstr "Viet Nam"
 msgid "Western"
 msgstr "Website"
 
-#: src/go-charmap-sel.c:194 src/help.c:100 src/import_csv.c:108
+#: src/go-charmap-sel.c:194 src/help.c:100 src/import_csv.c:109
 msgid "Other"
 msgstr ""
 
@@ -6323,7 +6323,7 @@ msgid ""
 msgstr ""
 
 #. TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?
-#: src/gsb_data_account.c:1147
+#: src/gsb_data_account.c:1148
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
@@ -6331,7 +6331,7 @@ msgid ""
 msgstr ""
 
 #. TODO dOm : the value of g_strdup_printf was not used. I add the devel_debug function to print it. Is it OK ?
-#: src/gsb_data_account.c:1185
+#: src/gsb_data_account.c:1186
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
@@ -8324,7 +8324,8 @@ msgstr "Nome do titular"
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/import.c:621 src/import.c:4180 src/import_csv.c:1061
+#: src/import.c:621 src/import.c:4180 src/import_csv.c:1063
+#: src/import_csv.c:1087
 #, fuzzy, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Não posso abrir arquivo '%s': %s"
@@ -8714,97 +8715,107 @@ msgstr "Não posso abrir arquivo '%s': %s"
 msgid "cannot unzip file '%s': %s"
 msgstr "Não posso abrir arquivo '%s': %s"
 
-#: src/import_csv.c:77
+#: src/import_csv.c:78
 #, fuzzy
 msgid "Unknown field"
 msgstr "Desconhecido"
 
-#: src/import_csv.c:81
+#: src/import_csv.c:82
 #, fuzzy
 msgid "Wording"
 msgstr "Organizando"
 
-#: src/import_csv.c:83
+#: src/import_csv.c:84
 msgid "Voucher number"
 msgstr "Comprovante no."
 
-#: src/import_csv.c:85
+#: src/import_csv.c:86
 #, fuzzy
 msgid "Sub-Category"
 msgstr "Categoria"
 
-#: src/import_csv.c:86
+#: src/import_csv.c:87
 #, fuzzy
 msgid "Budget"
 msgstr "Novo orçamento"
 
-#: src/import_csv.c:87
+#: src/import_csv.c:88
 #, fuzzy
 msgid "Sub-budget"
 msgstr "Novo sub-orçamento"
 
-#: src/import_csv.c:89
+#: src/import_csv.c:90
 #, fuzzy
 msgid "Credit (amount)"
 msgstr "Verificando"
 
-#: src/import_csv.c:90
+#: src/import_csv.c:91
 msgid "Debit (absolute)"
 msgstr ""
 
-#: src/import_csv.c:91
+#: src/import_csv.c:92
 #, fuzzy
 msgid "Debit (negative)"
 msgstr "negativo"
 
-#: src/import_csv.c:104
+#: src/import_csv.c:105
 #, fuzzy
 msgid "Comma"
 msgstr "Comentários"
 
-#: src/import_csv.c:105
+#: src/import_csv.c:106
 msgid "Semi-colon"
 msgstr ""
 
-#: src/import_csv.c:106
+#: src/import_csv.c:107
 #, fuzzy
 msgid "Colon"
 msgstr "Fechar"
 
-#: src/import_csv.c:107
+#: src/import_csv.c:108
 #, fuzzy
 msgid "Tabulation"
 msgstr "Tradução"
 
-#: src/import_csv.c:129
+#: src/import_csv.c:130
 msgid "Choose CSV separator"
 msgstr ""
 
-#: src/import_csv.c:158
+#: src/import_csv.c:159
 #, fuzzy
 msgid "Select CSV fields"
 msgstr "vai para o próximo campo"
 
-#: src/import_csv.c:232
+#: src/import_csv.c:233
 msgid "Skip"
 msgstr ""
 
-#: src/import_csv.c:914 src/import_csv.c:918
+#: src/import_csv.c:915 src/import_csv.c:919
 #, fuzzy
 msgid "transaction amount"
 msgstr "Agrupar lançamentos por conta"
 
-#: src/import_csv.c:928
+#: src/import_csv.c:929
 #, c-format
 msgid "<b>Following fields are missing:</b> %s"
 msgstr ""
 
-#: src/import_csv.c:937
+#: src/import_csv.c:938
 #, fuzzy
 msgid "All mandatory fields are filed in."
 msgstr "Nenhum campo foi preenchido!"
 
-#: src/import_csv.c:1109
+#: src/import_csv.c:1079
+msgid "The conversion to utf8 went wrong."
+msgstr ""
+
+#: src/import_csv.c:1080
+msgid ""
+"If the result does not suit you, try again by selecting the correct "
+"character set in the window for selecting files."
+msgstr ""
+
+#: src/import_csv.c:1133
 #, fuzzy
 msgid "Imported CSV account"
 msgstr "Importar conta"

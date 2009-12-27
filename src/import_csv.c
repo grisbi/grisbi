@@ -26,6 +26,7 @@
 /*START_INCLUDE*/
 #include "import_csv.h"
 #include "./csv_parse.h"
+#include "./dialog.h"
 #include "./utils_dates.h"
 #include "./gsb_automem.h"
 #include "./utils_str.h"
@@ -1035,8 +1036,9 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
 {
     GtkWidget * entry;
     GSList * files;
-    gchar * contents, * filename = NULL;
+    gchar *contents, *tmp_str, *filename = NULL;
     gsize size;
+    gsize bytes_written;
     GError * error;
     struct imported_file * imported = NULL;
 
@@ -1044,28 +1046,50 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     files = import_selected_files ( assistant );
     while ( files )
     {
-	imported = files -> data;
+        imported = files -> data;
 
-	if ( !strcmp ( imported -> type, "CSV" ) )
-	{
-	    filename = imported -> name;
-	    break;
-	}
-	files = files -> next;
+        if ( !strcmp ( imported -> type, "CSV" ) )
+        {
+            filename = imported -> name;
+            break;
+        }
+        files = files -> next;
     }
     g_return_val_if_fail ( filename, FALSE );
 
     /* Open file */
-    if ( ! g_file_get_contents ( filename, &contents, &size, &error ) )
+    if ( ! g_file_get_contents ( filename, &tmp_str, &size, &error ) )
     {
-	g_print ( _("Unable to read file: %s\n"), error -> message);
-	return FALSE;
+        g_print ( _("Unable to read file: %s\n"), error -> message);
+        return FALSE;
     }
 
-    /* FIXME: what in case of an error? */
-    contents = g_convert ( contents, -1, "UTF-8", imported -> coding_system, NULL, NULL,
-			   NULL );
+    /* Convert in UTF8 */
+    error = NULL;
+    contents = g_convert_with_fallback ( tmp_str, -1, "UTF-8", imported -> coding_system,
+                        "?", &size, &bytes_written, &error );
 
+    if ( bytes_written == 0 )
+    {
+        error = NULL;
+        size = 0;
+        bytes_written = 0;
+
+        dialogue_special ( GTK_MESSAGE_WARNING, make_hint (
+                            _("The conversion to utf8 went wrong."),
+                            _("If the result does not suit you, try again by selecting the "
+                            "correct character set in the window for selecting files.") ) );
+
+        contents = g_convert_with_fallback ( tmp_str, -1, "UTF-8", "ISO-8859-1",
+                        "?", &size, &bytes_written, &error );
+        if ( bytes_written == 0 )
+        {
+            g_print ( _("Unable to read file: %s\n"), error -> message);
+            return FALSE;
+        }
+    }
+
+    g_free ( tmp_str );
     g_object_set_data ( G_OBJECT(assistant), "contents", contents );
 
     entry = g_object_get_data ( G_OBJECT(assistant), "entry" );
@@ -1120,13 +1144,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
 	return FALSE;
     }
 
-    contents = g_convert ( contents, -1, "UTF-8", imported -> coding_system, NULL, NULL,
-			   NULL );
-    if ( ! contents )
-    {
-        //~ g_print ("> convert failed\n");
-        return FALSE;
-    }
+    contents = g_object_get_data ( G_OBJECT(assistant), "contents" );
 
     list = csv_get_next_line ( &contents, separator );
 
