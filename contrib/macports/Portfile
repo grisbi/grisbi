@@ -1,6 +1,6 @@
 PortSystem 1.0
 
-name		grisbi-devel
+name		grisbi
 set betaversion 0.6.0rc1
 set cvsversion  20091227
 version		${betaversion}.${cvsversion}
