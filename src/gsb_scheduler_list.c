@@ -564,68 +564,62 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
 
     while ( tmp_list )
     {
-	gint scheduled_number;
+        gint scheduled_number;
 
-	scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
+        scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
 
-	if (!end_date || g_date_compare ( gsb_data_scheduled_get_date (scheduled_number), end_date) <= 0)
-	{
-	    if (!gsb_scheduler_list_append_new_scheduled ( scheduled_number,
-							   end_date ))
-		/* the scheduled transaction was not added, add to orphan scheduledlist */
-		orphan_scheduled = g_slist_append (orphan_scheduled, tmp_list -> data);
-	}
-
-	tmp_list = tmp_list -> next;
+        if ( !end_date || 
+         g_date_compare ( gsb_data_scheduled_get_date (scheduled_number), end_date) <= 0 )
+        {
+            if ( !gsb_scheduler_list_append_new_scheduled ( scheduled_number,
+                                   end_date ) )
+                /* the scheduled transaction was not added, add to orphan scheduledlist */
+                orphan_scheduled = g_slist_append (orphan_scheduled, tmp_list -> data);
+        }
+        tmp_list = tmp_list -> next;
     }
 
     /* if there are some orphan sheduler (children of breakdonw wich didn't find their mother */
     if (orphan_scheduled)
     {
-	GSList *real_orphan = NULL;
+        gchar *string = NULL;
 
-	tmp_list = orphan_scheduled;
+        tmp_list = orphan_scheduled;
+        while (tmp_list)
+        {
+            gint scheduled_number;
 
-	while (tmp_list)
-	{
-	    gint scheduled_number;
+            scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
 
-	    scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
+            if (!gsb_scheduler_list_append_new_scheduled ( scheduled_number,
+                                   end_date ))
+            {
+                if ( string == NULL )
+                    string = utils_str_itoa ( scheduled_number );
+                else
+                    string = g_strconcat ( string, " - ",
+                        utils_str_itoa ( scheduled_number ), NULL );
+            }
 
-	    if (!gsb_scheduler_list_append_new_scheduled ( scheduled_number,
-							   end_date ))
-		/* the scheduled transaction was not added, add to orphan scheduledlist */
-		real_orphan = g_slist_append (real_orphan, tmp_list -> data);
+            tmp_list = tmp_list -> next;
+        }
 
-	    tmp_list = tmp_list -> next;
-	}
+        /* if orphan_scheduled is not null, there is still some children
+         * wich didn't find their mother. show them now */
+        if ( string )
+        {
+            gchar *message;
 
-	/* if orphan_scheduled is not null, there is still some children
-	 * wich didn't find their mother. show them now */
-	if (real_orphan)
-	{
-	    gchar *message = _("Some scheduled children didn't find their mother in the list, this shouldn't happen and there is probably a bug behind that. Please contact the Grisbi team.\n\nThe concerned children number are :\n");
-	    gchar *string_1;
-	    gchar *string_2;
+            message = _("Some scheduled children didn't find their mother in the list, "
+            "this shouldn't happen and there is probably a bug behind that. Please contact "
+            "the Grisbi team.\n\nThe concerned children number are :\n");
 
-	    string_1 = g_strconcat (message, NULL);
-	    tmp_list = real_orphan;
-	    while (tmp_list)
-	    {
-		string_2 = g_strconcat ( string_1,
-					 utils_str_itoa (gsb_data_scheduled_get_scheduled_number (tmp_list -> data)),
-					 " - ",
-					 NULL);
-		g_free (string_1);
-		string_1 = string_2;
-		tmp_list = tmp_list -> next;
-	    }
-	    dialogue_warning (string_1);
-	    g_free (string_1);
-
-	    g_slist_free (real_orphan);
-	}
-	g_slist_free (orphan_scheduled);
+            message = g_strconcat (message, string, NULL);
+            dialogue_warning ( message );
+            g_free ( message );
+            g_free ( string );
+        }
+        g_slist_free (orphan_scheduled);
     }
 
     /* create and append the white line */

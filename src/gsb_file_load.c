@@ -7671,6 +7671,41 @@ gboolean gsb_file_load_update_previous_version ( void )
         }
         }
 
+        /* on procède de même pour les opérations planifiées */
+        list_tmp = gsb_data_scheduled_get_scheduled_list ();
+        tmpstr = NULL;
+
+        while ( list_tmp )
+        {
+            gint scheduled_number;
+            gint mother_scheduled_number;
+
+            scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
+            list_tmp = list_tmp -> next;
+            
+            mother_scheduled_number = gsb_data_scheduled_get_mother_scheduled_number (
+                        scheduled_number );
+            if ( mother_scheduled_number )
+            {
+                if ( gsb_data_scheduled_get_automatic_scheduled (
+                 mother_scheduled_number ) == -1 )
+                {
+                    /* it's a child but didn't find the mother, it can happen in old files 
+                     * previous to 0.6 where the children wer saved before the mother */
+                    /*we erase the child */
+                    gsb_data_scheduled_remove_scheduled ( scheduled_number );
+                    if ( tmpstr == NULL )
+                        tmpstr = utils_str_itoa ( scheduled_number );
+                    else
+                        tmpstr = g_strconcat ( tmpstr, " - ",
+                            utils_str_itoa ( scheduled_number ), NULL );
+                }
+            }
+        }
+        if ( tmpstr != NULL )
+            g_printf ( "the scheduled transactions have been deleted :\n%s\n",
+                        tmpstr );
+
         /* a bug before 0.6 (and perhaps after ? still not found for now) set
          * a negative number for certain banks, so change that here */
         list_tmp = gsb_data_bank_get_bank_list ();
