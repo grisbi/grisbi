@@ -6162,7 +6162,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     else
         gsb_data_account_set_init_balance ( account_number, number );
 
-        if (tmp_string) g_free (tmp_string);
+    if (tmp_string)
+        g_free (tmp_string);
     return;
     }
 
@@ -7543,7 +7544,6 @@ gboolean gsb_file_load_update_previous_version ( void )
         }
 
         /* if t's a child, fix the values to be the same as for mother */
-        //~ mother_number = gsb_data_scheduled_get_mother_scheduled_number (transaction_number);
         mother_number = gsb_data_transaction_get_mother_transaction_number ( transaction_number );
         if (mother_number)
         {
@@ -7671,7 +7671,7 @@ gboolean gsb_file_load_update_previous_version ( void )
         }
         }
 
-        /* on procède de même pour les opérations planifiées */
+        /* we shall do so for the planned operations */
         list_tmp = gsb_data_scheduled_get_scheduled_list ();
         tmpstr = NULL;
 

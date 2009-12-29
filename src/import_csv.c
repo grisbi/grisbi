@@ -907,8 +907,12 @@ void csv_import_update_validity_check ( GtkWidget * assistant )
 
     /** After checking all required fields, check the conformity of
      * transaction amount, which is somewhat complicated. */
-    if ( ! csv_find_field_config ( 11 ) ||
-	 ( csv_find_field_config ( 12 ) && !csv_find_field_config ( 13 ) ) )
+    if ( !( ( csv_find_field_config ( 11 ) && !csv_find_field_config ( 12 ) &&
+           !csv_find_field_config ( 13 ) && !csv_find_field_config ( 14 ) )
+     ||
+     ( !csv_find_field_config ( 11 ) &&  csv_find_field_config ( 12 ) && 
+       ( csv_find_field_config ( 13 ) || csv_find_field_config ( 14 ) ) &&
+       !( csv_find_field_config ( 13 ) && csv_find_field_config ( 14 ) ) ) ) )
     {
         if ( label )
         {
@@ -926,7 +930,7 @@ void csv_import_update_validity_check ( GtkWidget * assistant )
     {
 	gtk_label_set_markup ( g_object_get_data ( G_OBJECT(assistant), "validity_label" ),
                         g_markup_printf_escaped (
-                        _("<b>Following fields are missing:</b> %s"),
+                        _("<b>The following fields are missing or inconsistent:</b> %s"),
                         label ) );
 	gtk_widget_show ( g_object_get_data ( G_OBJECT(assistant), "validity_icon" ) );
 	gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant),
@@ -1134,7 +1138,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
     compte -> origine = my_strdup ( "CSV" );
     compte -> filename = my_strdup ( imported -> name );
 
-    g_file_get_contents ( compte -> filename, &contents, NULL, NULL );
+    contents = g_object_get_data ( G_OBJECT(assistant), "contents" );
     separator = g_object_get_data ( G_OBJECT(assistant), "separator" );
 
     if ( ! csv_fields_config || ! contents )
@@ -1143,8 +1147,6 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
 							compte );
 	return FALSE;
     }
-
-    contents = g_object_get_data ( G_OBJECT(assistant), "contents" );
 
     list = csv_get_next_line ( &contents, separator );
 

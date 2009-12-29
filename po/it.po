@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-27 20:14+0100\n"
+"POT-Creation-Date: 2009-12-29 22:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -629,7 +629,7 @@ msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_scheduler_list.c:2008
+#: src/barre_outils.c:95 src/gsb_scheduler_list.c:2002
 #: src/gsb_transactions_list.c:2124
 msgid "New transaction"
 msgstr "Nuova transazione"
@@ -728,34 +728,34 @@ msgstr "Mostra le reigstrazioni riconciliate"
 msgid "Remove the rule"
 msgstr "Nome del documento dei conti"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1785
 msgid "Unique view"
 msgstr ""
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1785
 #, fuzzy
 msgid "Week view"
 msgstr "Settimana"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1785
 #, fuzzy
 msgid "Month view"
 msgstr "Mesi"
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1792
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1786
 msgid "Two months view"
 msgstr ""
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1792
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1786
 msgid "Quarter view"
 msgstr ""
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1793
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1787
 #, fuzzy
 msgid "Year view"
 msgstr "Anno"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1793
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1787
 #, fuzzy
 msgid "Custom view"
 msgstr "Personalizzata"
@@ -1147,7 +1147,7 @@ msgstr ""
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
 
-#: src/dialog.c:327 src/dialog.c:526 src/gsb_scheduler_list.c:1735
+#: src/dialog.c:327 src/dialog.c:526 src/gsb_scheduler_list.c:1729
 msgid "Do not show this message again"
 msgstr "Non visualizzare più questo messaggio"
 
@@ -1449,13 +1449,13 @@ msgstr "Risultato senza l'anno finanziario (%d transazioni)"
 msgid "Result without financial year"
 msgstr "Risultato senza anno finanziario"
 
-#: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:957
+#: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:951
 #: src/gsb_transactions_list.c:3275
 #, c-format
 msgid "Transfer to %s"
 msgstr "Trasferimento a %s"
 
-#: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:960
+#: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:954
 #: src/gsb_transactions_list.c:3278
 #, c-format
 msgid "Transfer from %s"
@@ -6962,14 +6962,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7977
+#: src/gsb_file_load.c:8012
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "Grisbi versione %s è richiesta per aprire il file"
 
-#: src/gsb_file_load.c:8016
+#: src/gsb_file_load.c:8051
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -6977,7 +6977,7 @@ msgid ""
 "transactions or important informations."
 msgstr ""
 
-#: src/gsb_file_load.c:8017
+#: src/gsb_file_load.c:8052
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -7092,7 +7092,7 @@ msgid "Auto"
 msgstr ""
 
 #: src/gsb_form.c:904 src/gsb_form_scheduler.c:167
-#: src/gsb_scheduler_list.c:1011
+#: src/gsb_scheduler_list.c:1005
 msgid "Manual"
 msgstr "Manuale"
 
@@ -7311,16 +7311,16 @@ msgid ""
 msgstr ""
 
 #: src/gsb_form_scheduler.c:167 src/gsb_fyear.c:270
-#: src/gsb_scheduler_list.c:1009
+#: src/gsb_scheduler_list.c:1003
 msgid "Automatic"
 msgstr "Automatico"
 
 #: src/gsb_form_scheduler.c:168 src/gsb_form_scheduler.c:896
-#: src/gsb_scheduler_list.c:1000
+#: src/gsb_scheduler_list.c:994
 msgid "Once"
 msgstr "Singola"
 
-#: src/gsb_form_scheduler.c:168 src/gsb_scheduler_list.c:1000
+#: src/gsb_form_scheduler.c:168 src/gsb_scheduler_list.c:994
 msgid "Weekly"
 msgstr "Settimanale"
 
@@ -7338,7 +7338,7 @@ msgstr "%d mesi"
 msgid "trimester"
 msgstr "Stampante"
 
-#: src/gsb_form_scheduler.c:169 src/gsb_scheduler_list.c:1001
+#: src/gsb_form_scheduler.c:169 src/gsb_scheduler_list.c:995
 msgid "Yearly"
 msgstr "Annuale"
 
@@ -7754,7 +7754,7 @@ msgstr "Dividi metodi di pagamento neutrali"
 msgid "Mode"
 msgstr "Modalità"
 
-#: src/gsb_scheduler_list.c:607
+#: src/gsb_scheduler_list.c:613
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that. Please contact the Grisbi "
@@ -7763,7 +7763,7 @@ msgid ""
 "The concerned children number are :\n"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:837
+#: src/gsb_scheduler_list.c:831
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -7772,49 +7772,49 @@ msgid ""
 "It's normal if appending a new scheduled transaction, but abnormal else..."
 msgstr ""
 
-#: src/gsb_scheduler_list.c:981
+#: src/gsb_scheduler_list.c:975
 #, c-format
 msgid "%d days"
 msgstr "%d giorni"
 
-#: src/gsb_scheduler_list.c:986
+#: src/gsb_scheduler_list.c:980
 #, c-format
 msgid "%d months"
 msgstr "%d mesi"
 
-#: src/gsb_scheduler_list.c:991
+#: src/gsb_scheduler_list.c:985
 #, c-format
 msgid "%d years"
 msgstr "%d anni"
 
-#: src/gsb_scheduler_list.c:1000
+#: src/gsb_scheduler_list.c:994
 #, fuzzy
 msgid "Montly"
 msgstr "Mensile"
 
-#: src/gsb_scheduler_list.c:1001
+#: src/gsb_scheduler_list.c:995
 #, fuzzy
 msgid "Bimonthly"
 msgstr "Mensile"
 
-#: src/gsb_scheduler_list.c:1001
+#: src/gsb_scheduler_list.c:995
 msgid "Quarterly"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1649
+#: src/gsb_scheduler_list.c:1643
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr "Vuoi cancellare solo questa correnza o tutta la sua schedulazione?"
 
-#: src/gsb_scheduler_list.c:1668
+#: src/gsb_scheduler_list.c:1662
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Vuoi cancellare solo questa correnza o tutta la sua schedulazione?"
 
-#: src/gsb_scheduler_list.c:1713
+#: src/gsb_scheduler_list.c:1707
 #, fuzzy, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -7823,78 +7823,78 @@ msgid ""
 "%s : %s [%s %s]"
 msgstr "Vuoi cancellare solo questa correnza o tutta la sua schedulazione?"
 
-#: src/gsb_scheduler_list.c:1724
+#: src/gsb_scheduler_list.c:1718
 #, fuzzy
 msgid "Delete this scheduled transaction?"
 msgstr "Inserisci una transazione pianificata"
 
-#: src/gsb_scheduler_list.c:1729
+#: src/gsb_scheduler_list.c:1723
 msgid "All the occurences"
 msgstr "Tutta la schedulazione"
 
-#: src/gsb_scheduler_list.c:1730
+#: src/gsb_scheduler_list.c:1724
 msgid "Only this one"
 msgstr "Solo questa correnza"
 
 #. set the title
-#: src/gsb_scheduler_list.c:1802 src/navigation.c:1189
+#: src/gsb_scheduler_list.c:1796 src/navigation.c:1189
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "Transazioni pianificate chiuse"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 #, fuzzy
 msgid "days"
 msgstr "giorno"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 #, fuzzy
 msgid "weeks"
 msgstr "Settimana"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 #, fuzzy
 msgid "months"
 msgstr "Mesi"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 #, fuzzy
 msgid "years"
 msgstr "Anni"
 
-#: src/gsb_scheduler_list.c:1833
+#: src/gsb_scheduler_list.c:1827
 #, fuzzy
 msgid "Show scheduled transactions"
 msgstr "Transazioni pianificate chiuse"
 
-#: src/gsb_scheduler_list.c:1846
+#: src/gsb_scheduler_list.c:1840
 #, fuzzy
 msgid "Scheduler frequency"
 msgstr "Avvisi Schedulatore"
 
-#: src/gsb_scheduler_list.c:1853
+#: src/gsb_scheduler_list.c:1847
 #, fuzzy
 msgid "Show transactions for the next"
 msgstr "Seleziona le transazione in accordo al testo"
 
 #. Edit transaction
-#: src/gsb_scheduler_list.c:1994 src/gsb_transactions_list.c:2109
+#: src/gsb_scheduler_list.c:1988 src/gsb_transactions_list.c:2109
 msgid "Edit transaction"
 msgstr "Modifica transazione"
 
 #. Delete transaction
-#: src/gsb_scheduler_list.c:2019 src/gsb_transactions_list.c:2132
+#: src/gsb_scheduler_list.c:2013 src/gsb_transactions_list.c:2132
 msgid "Delete transaction"
 msgstr "Elimina transazione"
 
 #. Display/hide comments
-#: src/gsb_scheduler_list.c:2033
+#: src/gsb_scheduler_list.c:2027
 #, fuzzy
 msgid "Displays/Cache comments"
 msgstr "Mostra/Nasconti commenti"
 
 #. Execute transaction
-#: src/gsb_scheduler_list.c:2047
+#: src/gsb_scheduler_list.c:2041
 #, fuzzy
 msgid "Execute transaction"
 msgstr "Elimina transazione"
@@ -8247,8 +8247,8 @@ msgstr "Nome possessore"
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: src/import.c:621 src/import.c:4180 src/import_csv.c:1063
-#: src/import_csv.c:1087
+#: src/import.c:621 src/import.c:4180 src/import_csv.c:1067
+#: src/import_csv.c:1091
 #, fuzzy, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Impossibile aprire il file '%s': %s"
@@ -8717,32 +8717,32 @@ msgstr "seleziona la prossima registrazione"
 msgid "Skip"
 msgstr ""
 
-#: src/import_csv.c:915 src/import_csv.c:919
+#: src/import_csv.c:919 src/import_csv.c:923
 #, fuzzy
 msgid "transaction amount"
 msgstr "Raggruppamento transazioni per conto"
 
-#: src/import_csv.c:929
-#, c-format
-msgid "<b>Following fields are missing:</b> %s"
-msgstr ""
+#: src/import_csv.c:933
+#, fuzzy, c-format
+msgid "<b>The following fields are missing or inconsistent:</b> %s"
+msgstr "Il seguente conto è chiuso"
 
-#: src/import_csv.c:938
+#: src/import_csv.c:942
 #, fuzzy
 msgid "All mandatory fields are filed in."
 msgstr "Sono presenti dei campi vuoti!"
 
-#: src/import_csv.c:1079
+#: src/import_csv.c:1083
 msgid "The conversion to utf8 went wrong."
 msgstr ""
 
-#: src/import_csv.c:1080
+#: src/import_csv.c:1084
 msgid ""
 "If the result does not suit you, try again by selecting the correct "
 "character set in the window for selecting files."
 msgstr ""
 
-#: src/import_csv.c:1133
+#: src/import_csv.c:1140
 #, fuzzy
 msgid "Imported CSV account"
 msgstr "Conti importati"

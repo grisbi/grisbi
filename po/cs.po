@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-27 20:14+0100\n"
+"POT-Creation-Date: 2009-12-29 22:13+0100\n"
 "PO-Revision-Date: 2006-02-20 18:30+0100\n"
 "Last-Translator: Marek Donar <mdonar@post.cz>\n"
 "Language-Team: \n"
@@ -633,7 +633,7 @@ msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_scheduler_list.c:2008
+#: src/barre_outils.c:95 src/gsb_scheduler_list.c:2002
 #: src/gsb_transactions_list.c:2124
 msgid "New transaction"
 msgstr "Nová transakce"
@@ -732,34 +732,34 @@ msgstr "Zobrazit odsouhlasené transakce"
 msgid "Remove the rule"
 msgstr "Pojmenujte soubor účtů"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1785
 msgid "Unique view"
 msgstr ""
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1785
 #, fuzzy
 msgid "Week view"
 msgstr "Týden"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1785
 #, fuzzy
 msgid "Month view"
 msgstr "Měsíce"
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1792
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1786
 msgid "Two months view"
 msgstr ""
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1792
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1786
 msgid "Quarter view"
 msgstr ""
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1793
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1787
 #, fuzzy
 msgid "Year view"
 msgstr "Rok"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1793
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1787
 #, fuzzy
 msgid "Custom view"
 msgstr "Volitelně"
@@ -1152,7 +1152,7 @@ msgstr ""
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
 
-#: src/dialog.c:327 src/dialog.c:526 src/gsb_scheduler_list.c:1735
+#: src/dialog.c:327 src/dialog.c:526 src/gsb_scheduler_list.c:1729
 msgid "Do not show this message again"
 msgstr "Příště tuto zprávu nezobrazovat"
 
@@ -1448,13 +1448,13 @@ msgstr "Celkem bez fiskálního roku (transakcí: %d)"
 msgid "Result without financial year"
 msgstr "Celkem bez fiskálního roku"
 
-#: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:957
+#: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:951
 #: src/gsb_transactions_list.c:3275
 #, c-format
 msgid "Transfer to %s"
 msgstr "Převod na %s"
 
-#: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:960
+#: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:954
 #: src/gsb_transactions_list.c:3278
 #, c-format
 msgid "Transfer from %s"
@@ -6960,14 +6960,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7977
+#: src/gsb_file_load.c:8012
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "Pro otevření tohoto souboru potřebujete Grisbi verze %s"
 
-#: src/gsb_file_load.c:8016
+#: src/gsb_file_load.c:8051
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -6975,7 +6975,7 @@ msgid ""
 "transactions or important informations."
 msgstr ""
 
-#: src/gsb_file_load.c:8017
+#: src/gsb_file_load.c:8052
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -7090,7 +7090,7 @@ msgid "Auto"
 msgstr "Automaticky"
 
 #: src/gsb_form.c:904 src/gsb_form_scheduler.c:167
-#: src/gsb_scheduler_list.c:1011
+#: src/gsb_scheduler_list.c:1005
 msgid "Manual"
 msgstr "Ručně"
 
@@ -7307,16 +7307,16 @@ msgid ""
 msgstr ""
 
 #: src/gsb_form_scheduler.c:167 src/gsb_fyear.c:270
-#: src/gsb_scheduler_list.c:1009
+#: src/gsb_scheduler_list.c:1003
 msgid "Automatic"
 msgstr "Automaticky"
 
 #: src/gsb_form_scheduler.c:168 src/gsb_form_scheduler.c:896
-#: src/gsb_scheduler_list.c:1000
+#: src/gsb_scheduler_list.c:994
 msgid "Once"
 msgstr "Jednou"
 
-#: src/gsb_form_scheduler.c:168 src/gsb_scheduler_list.c:1000
+#: src/gsb_form_scheduler.c:168 src/gsb_scheduler_list.c:994
 msgid "Weekly"
 msgstr "Týdně"
 
@@ -7334,7 +7334,7 @@ msgstr "%d měsíců"
 msgid "trimester"
 msgstr "Tiskárna"
 
-#: src/gsb_form_scheduler.c:169 src/gsb_scheduler_list.c:1001
+#: src/gsb_form_scheduler.c:169 src/gsb_scheduler_list.c:995
 msgid "Yearly"
 msgstr "Ročně"
 
@@ -7747,7 +7747,7 @@ msgstr "Rozdělit neutrální metody platby"
 msgid "Mode"
 msgstr "Mód"
 
-#: src/gsb_scheduler_list.c:607
+#: src/gsb_scheduler_list.c:613
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that. Please contact the Grisbi "
@@ -7756,7 +7756,7 @@ msgid ""
 "The concerned children number are :\n"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:837
+#: src/gsb_scheduler_list.c:831
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -7765,49 +7765,49 @@ msgid ""
 "It's normal if appending a new scheduled transaction, but abnormal else..."
 msgstr ""
 
-#: src/gsb_scheduler_list.c:981
+#: src/gsb_scheduler_list.c:975
 #, c-format
 msgid "%d days"
 msgstr "%d dní"
 
-#: src/gsb_scheduler_list.c:986
+#: src/gsb_scheduler_list.c:980
 #, c-format
 msgid "%d months"
 msgstr "%d měsíců"
 
-#: src/gsb_scheduler_list.c:991
+#: src/gsb_scheduler_list.c:985
 #, c-format
 msgid "%d years"
 msgstr "%d roků"
 
-#: src/gsb_scheduler_list.c:1000
+#: src/gsb_scheduler_list.c:994
 #, fuzzy
 msgid "Montly"
 msgstr "Měsíčně"
 
-#: src/gsb_scheduler_list.c:1001
+#: src/gsb_scheduler_list.c:995
 #, fuzzy
 msgid "Bimonthly"
 msgstr "Měsíčně"
 
-#: src/gsb_scheduler_list.c:1001
+#: src/gsb_scheduler_list.c:995
 msgid "Quarterly"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1649
+#: src/gsb_scheduler_list.c:1643
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr "Chcete odstranit pouze tento výskyt, nebo celou plánovanou transakci?"
 
-#: src/gsb_scheduler_list.c:1668
+#: src/gsb_scheduler_list.c:1662
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Chcete odstranit pouze tento výskyt, nebo celou plánovanou transakci?"
 
-#: src/gsb_scheduler_list.c:1713
+#: src/gsb_scheduler_list.c:1707
 #, fuzzy, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -7816,78 +7816,78 @@ msgid ""
 "%s : %s [%s %s]"
 msgstr "Chcete odstranit pouze tento výskyt, nebo celou plánovanou transakci?"
 
-#: src/gsb_scheduler_list.c:1724
+#: src/gsb_scheduler_list.c:1718
 #, fuzzy
 msgid "Delete this scheduled transaction?"
 msgstr "Odstranit plánovanou transakci"
 
-#: src/gsb_scheduler_list.c:1729
+#: src/gsb_scheduler_list.c:1723
 msgid "All the occurences"
 msgstr "Všechny výskyty"
 
-#: src/gsb_scheduler_list.c:1730
+#: src/gsb_scheduler_list.c:1724
 msgid "Only this one"
 msgstr "Pouze tento"
 
 #. set the title
-#: src/gsb_scheduler_list.c:1802 src/navigation.c:1189
+#: src/gsb_scheduler_list.c:1796 src/navigation.c:1189
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "Uzavřené plánované transakce"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 #, fuzzy
 msgid "days"
 msgstr "den"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 #, fuzzy
 msgid "weeks"
 msgstr "Týden"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 #, fuzzy
 msgid "months"
 msgstr "Měsíce"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 #, fuzzy
 msgid "years"
 msgstr "Roky"
 
-#: src/gsb_scheduler_list.c:1833
+#: src/gsb_scheduler_list.c:1827
 #, fuzzy
 msgid "Show scheduled transactions"
 msgstr "Uzavřené plánované transakce"
 
-#: src/gsb_scheduler_list.c:1846
+#: src/gsb_scheduler_list.c:1840
 #, fuzzy
 msgid "Scheduler frequency"
 msgstr "Varování plánovače"
 
-#: src/gsb_scheduler_list.c:1853
+#: src/gsb_scheduler_list.c:1847
 #, fuzzy
 msgid "Show transactions for the next"
 msgstr "Označte transakce podle textu"
 
 #. Edit transaction
-#: src/gsb_scheduler_list.c:1994 src/gsb_transactions_list.c:2109
+#: src/gsb_scheduler_list.c:1988 src/gsb_transactions_list.c:2109
 msgid "Edit transaction"
 msgstr "Upravit transakci"
 
 #. Delete transaction
-#: src/gsb_scheduler_list.c:2019 src/gsb_transactions_list.c:2132
+#: src/gsb_scheduler_list.c:2013 src/gsb_transactions_list.c:2132
 msgid "Delete transaction"
 msgstr "Odstranit transakci"
 
 #. Display/hide comments
-#: src/gsb_scheduler_list.c:2033
+#: src/gsb_scheduler_list.c:2027
 #, fuzzy
 msgid "Displays/Cache comments"
 msgstr "Zobrazit/skrýt komentář"
 
 #. Execute transaction
-#: src/gsb_scheduler_list.c:2047
+#: src/gsb_scheduler_list.c:2041
 #, fuzzy
 msgid "Execute transaction"
 msgstr "Odstranit transakci"
@@ -8248,8 +8248,8 @@ msgstr "Jméno majitele"
 msgid "Unknown"
 msgstr "Neznámý"
 
-#: src/import.c:621 src/import.c:4180 src/import_csv.c:1063
-#: src/import_csv.c:1087
+#: src/import.c:621 src/import.c:4180 src/import_csv.c:1067
+#: src/import_csv.c:1091
 #, fuzzy, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Nelze otevřít soubor '%s': %s"
@@ -8713,32 +8713,32 @@ msgstr "přesune na následující pole"
 msgid "Skip"
 msgstr ""
 
-#: src/import_csv.c:915 src/import_csv.c:919
+#: src/import_csv.c:919 src/import_csv.c:923
 #, fuzzy
 msgid "transaction amount"
 msgstr "Sdružit transakce podle účtu"
 
-#: src/import_csv.c:929
+#: src/import_csv.c:933
 #, c-format
-msgid "<b>Following fields are missing:</b> %s"
+msgid "<b>The following fields are missing or inconsistent:</b> %s"
 msgstr ""
 
-#: src/import_csv.c:938
+#: src/import_csv.c:942
 #, fuzzy
 msgid "All mandatory fields are filed in."
 msgstr "Nejsou vyplněna všechna pole!"
 
-#: src/import_csv.c:1079
+#: src/import_csv.c:1083
 msgid "The conversion to utf8 went wrong."
 msgstr ""
 
-#: src/import_csv.c:1080
+#: src/import_csv.c:1084
 msgid ""
 "If the result does not suit you, try again by selecting the correct "
 "character set in the window for selecting files."
 msgstr ""
 
-#: src/import_csv.c:1133
+#: src/import_csv.c:1140
 #, fuzzy
 msgid "Imported CSV account"
 msgstr "Importovaný účet"

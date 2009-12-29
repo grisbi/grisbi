@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-27 20:14+0100\n"
+"POT-Creation-Date: 2009-12-29 22:13+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -611,7 +611,7 @@ msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Εκτίμηση ισορροπίας του λογαριασμού  \"%s\" από %s %s"
 
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_scheduler_list.c:2008
+#: src/barre_outils.c:95 src/gsb_scheduler_list.c:2002
 #: src/gsb_transactions_list.c:2124
 msgid "New transaction"
 msgstr "Νέα συναλλαγή"
@@ -698,31 +698,31 @@ msgstr "Εμφάνιση συμφωνημένων συναλλαγών (Alt+R)"
 msgid "Remove the rule"
 msgstr "Διαγράψτε τον κανόνα"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1785
 msgid "Unique view"
 msgstr "Μοναδική άποψη"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1785
 msgid "Week view"
 msgstr "Άποψη εβδομάδας"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1785
 msgid "Month view"
 msgstr "Άποψη μήνα"
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1792
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1786
 msgid "Two months view"
 msgstr "Άποψη  δύο μηνών"
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1792
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1786
 msgid "Quarter view"
 msgstr "Άποψη τετάρτων"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1793
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1787
 msgid "Year view"
 msgstr "Άποψη έτους"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1793
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1787
 msgid "Custom view"
 msgstr "Άποψη συνήθειας"
 
@@ -1126,7 +1126,7 @@ msgstr ""
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Τρέχετε  την έκδοση Grisbi %s"
 
-#: src/dialog.c:327 src/dialog.c:526 src/gsb_scheduler_list.c:1735
+#: src/dialog.c:327 src/dialog.c:526 src/gsb_scheduler_list.c:1729
 msgid "Do not show this message again"
 msgstr "Μην παρουσιάστε αυτό το μήνυμα πάλι"
 
@@ -1429,13 +1429,13 @@ msgstr "Αποτέλεσμα χωρίς δημοσιονομικό έτος (%d 
 msgid "Result without financial year"
 msgstr "Αποτέλεσμα χωρίς δημοσιονομικό έτος"
 
-#: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:957
+#: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:951
 #: src/gsb_transactions_list.c:3275
 #, c-format
 msgid "Transfer to %s"
 msgstr "Μεταφορά σε %s"
 
-#: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:960
+#: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:954
 #: src/gsb_transactions_list.c:3278
 #, c-format
 msgid "Transfer from %s"
@@ -7144,7 +7144,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7977
+#: src/gsb_file_load.c:8012
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7153,7 +7153,7 @@ msgstr ""
 "Η έκδοση Grisbi %s απαιτείται για να ανοίξει αυτό το αρχείο.\n"
 "Eσείς χρησιμοποιείται την έκδοση %s."
 
-#: src/gsb_file_load.c:8016
+#: src/gsb_file_load.c:8051
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7165,7 +7165,7 @@ msgstr ""
 "θέλετε και σώζετε αργότερα (νέες εκθέσεις…) αλλά θυμηθείτε ότι είναι ένα "
 "αρχείο πριν τροποποιηθούν  μερικές συναλλαγές ή σημαντικές πληροφορίες."
 
-#: src/gsb_file_load.c:8017
+#: src/gsb_file_load.c:8052
 msgid "Grisbi archive opened"
 msgstr "Αρχείο Grisbi που ανοίγουν"
 
@@ -7285,7 +7285,7 @@ msgid "Auto"
 msgstr "Αυτόματο"
 
 #: src/gsb_form.c:904 src/gsb_form_scheduler.c:167
-#: src/gsb_scheduler_list.c:1011
+#: src/gsb_scheduler_list.c:1005
 msgid "Manual"
 msgstr "Εγχειρίδιο"
 
@@ -7515,16 +7515,16 @@ msgstr ""
 "ελέγξετε εκείνη την προειδοποίηση."
 
 #: src/gsb_form_scheduler.c:167 src/gsb_fyear.c:270
-#: src/gsb_scheduler_list.c:1009
+#: src/gsb_scheduler_list.c:1003
 msgid "Automatic"
 msgstr "Αυτόματος"
 
 #: src/gsb_form_scheduler.c:168 src/gsb_form_scheduler.c:896
-#: src/gsb_scheduler_list.c:1000
+#: src/gsb_scheduler_list.c:994
 msgid "Once"
 msgstr "Μόλις"
 
-#: src/gsb_form_scheduler.c:168 src/gsb_scheduler_list.c:1000
+#: src/gsb_form_scheduler.c:168 src/gsb_scheduler_list.c:994
 msgid "Weekly"
 msgstr "Εβδομαδιαίος"
 
@@ -7540,7 +7540,7 @@ msgstr "δύο μήνες"
 msgid "trimester"
 msgstr "τρίμηνο"
 
-#: src/gsb_form_scheduler.c:169 src/gsb_scheduler_list.c:1001
+#: src/gsb_form_scheduler.c:169 src/gsb_scheduler_list.c:995
 msgid "Yearly"
 msgstr "Ετήσια"
 
@@ -7947,7 +7947,7 @@ msgstr "Διασπασμένες ουδέτερες μέθοδοι πληρωμ�
 msgid "Mode"
 msgstr "Τρόπος"
 
-#: src/gsb_scheduler_list.c:607
+#: src/gsb_scheduler_list.c:613
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that. Please contact the Grisbi "
@@ -7961,7 +7961,7 @@ msgstr ""
 "\n"
 "Ο ενδιαφερόμενος αριθμός απογόνων είναι:\n"
 
-#: src/gsb_scheduler_list.c:837
+#: src/gsb_scheduler_list.c:831
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -7974,34 +7974,34 @@ msgstr ""
 "αλλά δεν βρήκε την επανάληψη στον κατάλογο… \n"
 "Είναι κανονικό εάν επισυνάψετε μια νέα σχεδιασμένη συναλλαγή."
 
-#: src/gsb_scheduler_list.c:981
+#: src/gsb_scheduler_list.c:975
 #, c-format
 msgid "%d days"
 msgstr "%d ημέρες"
 
-#: src/gsb_scheduler_list.c:986
+#: src/gsb_scheduler_list.c:980
 #, c-format
 msgid "%d months"
 msgstr "%d μήνες"
 
-#: src/gsb_scheduler_list.c:991
+#: src/gsb_scheduler_list.c:985
 #, c-format
 msgid "%d years"
 msgstr "%d έτη"
 
-#: src/gsb_scheduler_list.c:1000
+#: src/gsb_scheduler_list.c:994
 msgid "Montly"
 msgstr "Μηνιαία "
 
-#: src/gsb_scheduler_list.c:1001
+#: src/gsb_scheduler_list.c:995
 msgid "Bimonthly"
 msgstr "Διμηνιαία"
 
-#: src/gsb_scheduler_list.c:1001
+#: src/gsb_scheduler_list.c:995
 msgid "Quarterly"
 msgstr "Τριμηνιαία"
 
-#: src/gsb_scheduler_list.c:1649
+#: src/gsb_scheduler_list.c:1643
 #, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
@@ -8010,7 +8010,7 @@ msgstr ""
 "Θέλετε πραγματικά να διαγράψετε το παιδί της σχεδιασμένης συναλλαγής με το "
 "συμβαλλόμενο μέρος '%s' ;"
 
-#: src/gsb_scheduler_list.c:1668
+#: src/gsb_scheduler_list.c:1662
 #, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
@@ -8018,7 +8018,7 @@ msgstr ""
 "Θέλετε πραγματικά να διαγράψετε τη σχεδιασμένη συναλλαγή με το συμβαλλόμενο "
 "μέρος '%s' ;"
 
-#: src/gsb_scheduler_list.c:1713
+#: src/gsb_scheduler_list.c:1707
 #, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -8031,69 +8031,69 @@ msgstr ""
 "\n"
 "%s : %s [%s %s]"
 
-#: src/gsb_scheduler_list.c:1724
+#: src/gsb_scheduler_list.c:1718
 msgid "Delete this scheduled transaction?"
 msgstr "Διαγράψτε αυτήν την σχεδιασμένη συναλλαγή;"
 
-#: src/gsb_scheduler_list.c:1729
+#: src/gsb_scheduler_list.c:1723
 msgid "All the occurences"
 msgstr "Όλα τα νομίσματα"
 
-#: src/gsb_scheduler_list.c:1730
+#: src/gsb_scheduler_list.c:1724
 msgid "Only this one"
 msgstr "Μόνο αυτό"
 
 #. set the title
-#: src/gsb_scheduler_list.c:1802 src/navigation.c:1189
+#: src/gsb_scheduler_list.c:1796 src/navigation.c:1189
 msgid "Scheduled transactions"
 msgstr "Προγραμματισμένες μεταφορές"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 msgid "days"
 msgstr "Ημέρες"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 msgid "weeks"
 msgstr "Εβδομάδες"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 msgid "months"
 msgstr "Μήνες"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 msgid "years"
 msgstr "Χρόνια"
 
-#: src/gsb_scheduler_list.c:1833
+#: src/gsb_scheduler_list.c:1827
 msgid "Show scheduled transactions"
 msgstr "Εμφάνιση προγραμματισμένων μεταφορών"
 
-#: src/gsb_scheduler_list.c:1846
+#: src/gsb_scheduler_list.c:1840
 msgid "Scheduler frequency"
 msgstr "Συχνότητα χρονοπρογραμματιστών"
 
-#: src/gsb_scheduler_list.c:1853
+#: src/gsb_scheduler_list.c:1847
 msgid "Show transactions for the next"
 msgstr "Παρουσιάστε συναλλαγές για τον επόμενο"
 
 #. Edit transaction
-#: src/gsb_scheduler_list.c:1994 src/gsb_transactions_list.c:2109
+#: src/gsb_scheduler_list.c:1988 src/gsb_transactions_list.c:2109
 msgid "Edit transaction"
 msgstr "Επεξεργασία της συναλλαγής"
 
 #. Delete transaction
-#: src/gsb_scheduler_list.c:2019 src/gsb_transactions_list.c:2132
+#: src/gsb_scheduler_list.c:2013 src/gsb_transactions_list.c:2132
 msgid "Delete transaction"
 msgstr "Διαγραφή της συναλλαγής"
 
 #. Display/hide comments
-#: src/gsb_scheduler_list.c:2033
+#: src/gsb_scheduler_list.c:2027
 #, fuzzy
 msgid "Displays/Cache comments"
 msgstr "Εμφάνιση σχολίων προγραμματισμένων συναλλαγών"
 
 #. Execute transaction
-#: src/gsb_scheduler_list.c:2047
+#: src/gsb_scheduler_list.c:2041
 #, fuzzy
 msgid "Execute transaction"
 msgstr "Διαγραφή της συναλλαγής"
@@ -8482,8 +8482,8 @@ msgstr "Όνομα αρχείου"
 msgid "Unknown"
 msgstr "Άγνωστο"
 
-#: src/import.c:621 src/import.c:4180 src/import_csv.c:1063
-#: src/import_csv.c:1087
+#: src/import.c:621 src/import.c:4180 src/import_csv.c:1067
+#: src/import_csv.c:1091
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Αδύνατο το άνοιγμα του αρχείου: %s\n"
@@ -8958,30 +8958,30 @@ msgstr "Επιλέξτε τους τομείς CSV"
 msgid "Skip"
 msgstr "Προσπέραση"
 
-#: src/import_csv.c:915 src/import_csv.c:919
+#: src/import_csv.c:919 src/import_csv.c:923
 msgid "transaction amount"
 msgstr "ποσό συναλλαγής"
 
-#: src/import_csv.c:929
-#, c-format
-msgid "<b>Following fields are missing:</b> %s"
+#: src/import_csv.c:933
+#, fuzzy, c-format
+msgid "<b>The following fields are missing or inconsistent:</b> %s"
 msgstr "<b>Τα ακόλουθα πεδία λείπουν:</b> %s"
 
-#: src/import_csv.c:938
+#: src/import_csv.c:942
 msgid "All mandatory fields are filed in."
 msgstr "Όλοι οι υποχρεωτικοί τομείς αρχειοθετούνται μέσα."
 
-#: src/import_csv.c:1079
+#: src/import_csv.c:1083
 msgid "The conversion to utf8 went wrong."
 msgstr ""
 
-#: src/import_csv.c:1080
+#: src/import_csv.c:1084
 msgid ""
 "If the result does not suit you, try again by selecting the correct "
 "character set in the window for selecting files."
 msgstr ""
 
-#: src/import_csv.c:1133
+#: src/import_csv.c:1140
 msgid "Imported CSV account"
 msgstr "Εισαγόμενος απολογισμός CSV"
 

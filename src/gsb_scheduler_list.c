@@ -604,7 +604,7 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
             tmp_list = tmp_list -> next;
         }
 
-        /* if orphan_scheduled is not null, there is still some children
+        /* if string is not null, there is still some children
          * wich didn't find their mother. show them now */
         if ( string )
         {

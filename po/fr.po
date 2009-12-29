@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-27 20:14+0100\n"
+"POT-Creation-Date: 2009-12-29 22:13+0100\n"
 "PO-Revision-Date: 2009-04-04 23:10+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -594,7 +594,7 @@ msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Balance d'estimation du compte \"%s\" de %s à %s"
 
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_scheduler_list.c:2008
+#: src/barre_outils.c:95 src/gsb_scheduler_list.c:2002
 #: src/gsb_transactions_list.c:2124
 msgid "New transaction"
 msgstr "Nouvelle opération"
@@ -681,31 +681,31 @@ msgstr "Montrer les opérations rapprochées (Alt+R)"
 msgid "Remove the rule"
 msgstr "Efface la règle"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1785
 msgid "Unique view"
 msgstr "Vue unique"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1785
 msgid "Week view"
 msgstr "Vue hebdomadaire"
 
-#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:402 src/gsb_scheduler_list.c:1785
 msgid "Month view"
 msgstr "Vue mensuelle"
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1792
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1786
 msgid "Two months view"
 msgstr "Vue bimestrielle"
 
-#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1792
+#: src/barre_outils.c:403 src/gsb_scheduler_list.c:1786
 msgid "Quarter view"
 msgstr "Vue trimestrielle"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1793
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1787
 msgid "Year view"
 msgstr "Vue annuelle"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1793
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1787
 msgid "Custom view"
 msgstr "Vue personnalisée"
 
@@ -1100,7 +1100,7 @@ msgstr ""
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Vous utilisez Grisbi avec GTK version %s"
 
-#: src/dialog.c:327 src/dialog.c:526 src/gsb_scheduler_list.c:1735
+#: src/dialog.c:327 src/dialog.c:526 src/gsb_scheduler_list.c:1729
 msgid "Do not show this message again"
 msgstr "Ne plus montrer ce message"
 
@@ -1403,13 +1403,13 @@ msgstr "Résultat sans exercice (%d opérations)"
 msgid "Result without financial year"
 msgstr "Resultat sans exercice"
 
-#: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:957
+#: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:951
 #: src/gsb_transactions_list.c:3275
 #, c-format
 msgid "Transfer to %s"
 msgstr "Virement vers %s"
 
-#: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:960
+#: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:954
 #: src/gsb_transactions_list.c:3278
 #, c-format
 msgid "Transfer from %s"
@@ -7046,7 +7046,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7977
+#: src/gsb_file_load.c:8012
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7055,7 +7055,7 @@ msgstr ""
 "Pour ouvrir ce fichier, il vous faut la version %s de Grisbi.\n"
 "Vous utilisez la version %s."
 
-#: src/gsb_file_load.c:8016
+#: src/gsb_file_load.c:8051
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7068,7 +7068,7 @@ msgstr ""
 "c'est une archive avant de modifier certaines transactions ou informations "
 "importantes."
 
-#: src/gsb_file_load.c:8017
+#: src/gsb_file_load.c:8052
 msgid "Grisbi archive opened"
 msgstr "Archive grisbi ouverte"
 
@@ -7194,7 +7194,7 @@ msgid "Auto"
 msgstr "Auto"
 
 #: src/gsb_form.c:904 src/gsb_form_scheduler.c:167
-#: src/gsb_scheduler_list.c:1011
+#: src/gsb_scheduler_list.c:1005
 msgid "Manual"
 msgstr "Manuel"
 
@@ -7421,16 +7421,16 @@ msgstr ""
 "le résultat."
 
 #: src/gsb_form_scheduler.c:167 src/gsb_fyear.c:270
-#: src/gsb_scheduler_list.c:1009
+#: src/gsb_scheduler_list.c:1003
 msgid "Automatic"
 msgstr "Automatique"
 
 #: src/gsb_form_scheduler.c:168 src/gsb_form_scheduler.c:896
-#: src/gsb_scheduler_list.c:1000
+#: src/gsb_scheduler_list.c:994
 msgid "Once"
 msgstr "Une fois"
 
-#: src/gsb_form_scheduler.c:168 src/gsb_scheduler_list.c:1000
+#: src/gsb_form_scheduler.c:168 src/gsb_scheduler_list.c:994
 msgid "Weekly"
 msgstr "Hebdomadaire"
 
@@ -7446,7 +7446,7 @@ msgstr "deux mois"
 msgid "trimester"
 msgstr "trimestre"
 
-#: src/gsb_form_scheduler.c:169 src/gsb_scheduler_list.c:1001
+#: src/gsb_form_scheduler.c:169 src/gsb_scheduler_list.c:995
 msgid "Yearly"
 msgstr "Annuel"
 
@@ -7851,7 +7851,7 @@ msgstr "Séparer les modes neutres"
 msgid "Mode"
 msgstr "Mode"
 
-#: src/gsb_scheduler_list.c:607
+#: src/gsb_scheduler_list.c:613
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that. Please contact the Grisbi "
@@ -7864,7 +7864,7 @@ msgstr ""
 "vous plaît contactez les développeurs de Grisbi.\n"
 "Les numéros des sous-opérations concernées sont :\n"
 
-#: src/gsb_scheduler_list.c:837
+#: src/gsb_scheduler_list.c:831
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -7877,47 +7877,47 @@ msgstr ""
 "mais elle n'a pas trouvé l'item dans la liste ...\n"
 "C'est normal si c'est une nouvelle opération, anormal autrement..."
 
-#: src/gsb_scheduler_list.c:981
+#: src/gsb_scheduler_list.c:975
 #, c-format
 msgid "%d days"
 msgstr "%d jours"
 
-#: src/gsb_scheduler_list.c:986
+#: src/gsb_scheduler_list.c:980
 #, c-format
 msgid "%d months"
 msgstr "%d mois"
 
-#: src/gsb_scheduler_list.c:991
+#: src/gsb_scheduler_list.c:985
 #, c-format
 msgid "%d years"
 msgstr "%d ans"
 
-#: src/gsb_scheduler_list.c:1000
+#: src/gsb_scheduler_list.c:994
 msgid "Montly"
 msgstr "Mensuel"
 
-#: src/gsb_scheduler_list.c:1001
+#: src/gsb_scheduler_list.c:995
 msgid "Bimonthly"
 msgstr "Bimensuel"
 
-#: src/gsb_scheduler_list.c:1001
+#: src/gsb_scheduler_list.c:995
 msgid "Quarterly"
 msgstr "Trimestriel"
 
-#: src/gsb_scheduler_list.c:1649
+#: src/gsb_scheduler_list.c:1643
 #, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr "Voulez vous vraiment supprimer la sous-opération avec le tiers « %s » ?"
 
-#: src/gsb_scheduler_list.c:1668
+#: src/gsb_scheduler_list.c:1662
 #, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
 
-#: src/gsb_scheduler_list.c:1713
+#: src/gsb_scheduler_list.c:1707
 #, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -7930,68 +7930,68 @@ msgstr ""
 "\n"
 "%s : %s [%s %s]"
 
-#: src/gsb_scheduler_list.c:1724
+#: src/gsb_scheduler_list.c:1718
 msgid "Delete this scheduled transaction?"
 msgstr "Supprimer cette opération planifiée ?"
 
-#: src/gsb_scheduler_list.c:1729
+#: src/gsb_scheduler_list.c:1723
 msgid "All the occurences"
 msgstr "Toutes les occurences"
 
-#: src/gsb_scheduler_list.c:1730
+#: src/gsb_scheduler_list.c:1724
 msgid "Only this one"
 msgstr "Juste celle-ci"
 
 #. set the title
-#: src/gsb_scheduler_list.c:1802 src/navigation.c:1189
+#: src/gsb_scheduler_list.c:1796 src/navigation.c:1189
 msgid "Scheduled transactions"
 msgstr "Opérations planifiées"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 msgid "days"
 msgstr "jours"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 msgid "weeks"
 msgstr "semaines"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 msgid "months"
 msgstr "mois"
 
-#: src/gsb_scheduler_list.c:1830
+#: src/gsb_scheduler_list.c:1824
 msgid "years"
 msgstr "années"
 
-#: src/gsb_scheduler_list.c:1833
+#: src/gsb_scheduler_list.c:1827
 msgid "Show scheduled transactions"
 msgstr "Montrer les Opérations planifiées"
 
-#: src/gsb_scheduler_list.c:1846
+#: src/gsb_scheduler_list.c:1840
 msgid "Scheduler frequency"
 msgstr "Fréquence de l'échéancier"
 
-#: src/gsb_scheduler_list.c:1853
+#: src/gsb_scheduler_list.c:1847
 msgid "Show transactions for the next"
 msgstr "Montrer les opérations pour le"
 
 #. Edit transaction
-#: src/gsb_scheduler_list.c:1994 src/gsb_transactions_list.c:2109
+#: src/gsb_scheduler_list.c:1988 src/gsb_transactions_list.c:2109
 msgid "Edit transaction"
 msgstr "Éditer l'opération"
 
 #. Delete transaction
-#: src/gsb_scheduler_list.c:2019 src/gsb_transactions_list.c:2132
+#: src/gsb_scheduler_list.c:2013 src/gsb_transactions_list.c:2132
 msgid "Delete transaction"
 msgstr "Supprimer l'opération"
 
 #. Display/hide comments
-#: src/gsb_scheduler_list.c:2033
+#: src/gsb_scheduler_list.c:2027
 msgid "Displays/Cache comments"
 msgstr "Afficher/Cacher les commentaires"
 
 #. Execute transaction
-#: src/gsb_scheduler_list.c:2047
+#: src/gsb_scheduler_list.c:2041
 msgid "Execute transaction"
 msgstr "Exécuter l'opération"
 
@@ -8366,8 +8366,8 @@ msgstr "Nom de fichier"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: src/import.c:621 src/import.c:4180 src/import_csv.c:1063
-#: src/import_csv.c:1087
+#: src/import.c:621 src/import.c:4180 src/import_csv.c:1067
+#: src/import_csv.c:1091
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Impossible d'ouvrir le fichier '%s'.\n"
@@ -8834,24 +8834,24 @@ msgstr "sélectionnez les champs"
 msgid "Skip"
 msgstr "Sauter"
 
-#: src/import_csv.c:915 src/import_csv.c:919
+#: src/import_csv.c:919 src/import_csv.c:923
 msgid "transaction amount"
 msgstr "Montant de l'opération"
 
-#: src/import_csv.c:929
+#: src/import_csv.c:933
 #, c-format
-msgid "<b>Following fields are missing:</b> %s"
-msgstr "<b>Les champs suivants manquent :</b> %s"
+msgid "<b>The following fields are missing or inconsistent:</b> %s"
+msgstr "<b>Les champs suivants manquent ou sont incompatibles :</b> %s"
 
-#: src/import_csv.c:938
+#: src/import_csv.c:942
 msgid "All mandatory fields are filed in."
 msgstr "Tous les champs obligatoires sont remplis."
 
-#: src/import_csv.c:1079
+#: src/import_csv.c:1083
 msgid "The conversion to utf8 went wrong."
 msgstr "La conversion en utf8 s'est mal passée."
 
-#: src/import_csv.c:1080
+#: src/import_csv.c:1084
 msgid ""
 "If the result does not suit you, try again by selecting the correct "
 "character set in the window for selecting files."
@@ -8859,7 +8859,7 @@ msgstr ""
 "Si le résultat ne vous convient pas, essayez de nouveau en sélectionnant le "
 "jeu de caractères dans la fenêtre de sélection des fichiers"
 
-#: src/import_csv.c:1133
+#: src/import_csv.c:1140
 msgid "Imported CSV account"
 msgstr "Compte CSV importé"
 
