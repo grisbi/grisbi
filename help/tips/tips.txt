@@ -42,7 +42,7 @@ You can then activate them again by going to the <i>Preferences</i> window and t
 
 13 _ "There are shortcuts in date fields, to avoid typing date or selecting it with mouse.
 
-<i>+</i> and <i>-</i> increment and decrement date of one day, <i>Page Up</i> and <i>Page Down</i> increment and decrement date of one month ... and there are more, check out the manual."
+<b>+</b> and <b>-</b> increment and decrement date of one day, <i>Page Up</i> and <i>Page Down</i> increment and decrement date of one month ... and there are more, check out the manual."
 
 14 _ "You can archive previous financial years to speed up Grisbi and possibily put old transactions into separate files for archival.  Use 'File/Archive transaction' menu to achieve this."
 

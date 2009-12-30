@@ -93,6 +93,7 @@ void display_tip ( gboolean force )
                         GTK_STOCK_CLOSE, 3,
                         NULL );
  
+    gtk_widget_set_size_request ( dialog, 450, -1 );
     /* We iterate as user can select several tips. */
     while ( TRUE )
     {
@@ -107,13 +108,12 @@ void display_tip ( gboolean force )
         if ( etat.last_tip > 1 )
             etat.last_tip --;
         change_button_sensitiveness ( dialog, 1, TRUE ); 
-                tmpstr = g_markup_printf_escaped ("%s",
-                        g_strconcat ( "<span size=\"larger\" weight=\"bold\">",
-                        _("Did you know that..."),
-                        "</span>\n\n",
-                        dgettext ("grisbi-tips",
-                        get_next_tip () ),
-                        NULL ) );
+        tmpstr = g_strconcat ( make_pango_attribut (
+                        "size=\"larger\" weight=\"bold\"", _("Did you know that...") ),
+                        "\n\n",
+                        g_markup_printf_escaped ( dgettext ("grisbi-tips", get_next_tip () ) ),
+                        NULL );
+
         gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ),
                         tmpstr );
         g_free ( tmpstr );
@@ -121,13 +121,12 @@ void display_tip ( gboolean force )
 
         case 2:
         etat.last_tip ++;
-        tmpstr = g_markup_printf_escaped ("%s",
-                        g_strconcat ( "<span size=\"larger\" weight=\"bold\">",
-                        _("Did you know that..."),
-                        "</span>\n\n",
-                        dgettext ("grisbi-tips",
-                        get_next_tip () ),
-                        NULL ) );
+        tmpstr = g_strconcat ( make_pango_attribut (
+                        "size=\"larger\" weight=\"bold\"", _("Did you know that...") ),
+                        "\n\n",
+                        g_markup_printf_escaped ( dgettext ("grisbi-tips", get_next_tip () ) ),
+                        NULL );
+
         gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ),
                         tmpstr );
         g_free ( tmpstr );
