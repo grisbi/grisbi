@@ -2368,10 +2368,13 @@ gboolean clone_selected_transaction ( GtkWidget *menu_item,
 {
     gint new_transaction_number;
 
-    if (! assert_selected_transaction()) return FALSE;
+    if (! assert_selected_transaction())
+        return FALSE;
 
-    new_transaction_number = gsb_transactions_list_clone_transaction (gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()),
-								      0 );
+    new_transaction_number = gsb_transactions_list_clone_transaction (
+                        gsb_data_account_get_current_transaction_number (
+                        gsb_gui_navigation_get_current_account ()),
+                        0 );
 
     update_transaction_in_trees (new_transaction_number);
 
@@ -2470,6 +2473,9 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number,
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
     }
+    if ( etat.equilibrage )
+        transaction_list_show_toggle_mark (TRUE);
+
     return new_transaction_number;
 }
 
