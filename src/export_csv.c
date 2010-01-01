@@ -458,15 +458,19 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
         CSV_CLEAR_FIELD (csv_field_pointage);
 	switch ( gsb_data_transaction_get_marked_transaction ( transaction_number ) )
 	{
-	    case 0: /* CHECKED_TRANSACTION */
-		csv_field_pointage = my_strdup ("C");
+	    case OPERATION_NORMALE:
+            csv_field_pointage = my_strdup ("");
 		break;
-	    case 1: /* RECONCILED_TRANSACTION */
-		csv_field_pointage = my_strdup ("R");
+	    case OPERATION_POINTEE:
+            csv_field_pointage = my_strdup ("P");
 		break;
-	    case 2: /* TELECHECKED_TRANSACTION */
-		csv_field_pointage = my_strdup ("T");
+	    case OPERATION_TELERAPPROCHEE:
+            csv_field_pointage = my_strdup ("T");
 		break;
+	    case OPERATION_RAPPROCHEE:
+            csv_field_pointage = my_strdup ("R");
+		break;
+
 	}
 
 	/* met les notes */
