@@ -111,7 +111,7 @@ void display_tip ( gboolean force )
         tmpstr = g_strconcat ( make_pango_attribut (
                         "size=\"larger\" weight=\"bold\"", _("Did you know that...") ),
                         "\n\n",
-                        g_markup_printf_escaped ( dgettext ("grisbi-tips", get_next_tip () ) ),
+                        dgettext ("grisbi-tips", get_next_tip ( ) ),
                         NULL );
 
         gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ),
@@ -124,7 +124,7 @@ void display_tip ( gboolean force )
         tmpstr = g_strconcat ( make_pango_attribut (
                         "size=\"larger\" weight=\"bold\"", _("Did you know that...") ),
                         "\n\n",
-                        g_markup_printf_escaped ( dgettext ("grisbi-tips", get_next_tip () ) ),
+                        dgettext ("grisbi-tips", get_next_tip ( ) ),
                         NULL );
 
         gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ),
@@ -139,7 +139,6 @@ void display_tip ( gboolean force )
     }
     }
 }
-
 
 
 /**

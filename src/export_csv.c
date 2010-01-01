@@ -1,10 +1,11 @@
 /* ************************************************************************** */
 /* This file manage cvs export format                                         */
 /*                                                                            */
-/*     Copyright (C)	2004 François Terrot (francois.terrot at grisbi.org) */
-/*			2005 Alain Portal (aportal@univ-montp2.fr)	      */
-/*			2009 Benjamin Drieu (bdrieu@april.org)		      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2004 François Terrot (francois.terrot at grisbi.org)  */
+/*          2005 Alain Portal (aportal@univ-montp2.fr)                        */
+/*          2009 Benjamin Drieu (bdrieu@april.org)                            */
+/*          2010 Pierre Biava (grisbi@pierre.biava.name)                      */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -421,17 +422,19 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
     gint return_exponent;
     gint account_number;
 	gchar* tmpstr;
+	const GDate *value_date, *date;
+	gint payment_method;
 
     account_number = gsb_data_transaction_get_account_number (transaction_number);
-    return_exponent = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_number));
 
     /* Si c'est une ventilation d'opération (càd une opération fille),
-       elle n'est pas traitée à la base du "if" mais plus loin, quand
-       son opé ventilée sera exportée */
-    if ( ! gsb_data_transaction_get_mother_transaction_number (transaction_number) )
-    {
-	const GDate * value_date, * date;
-	gint payment_method;
+    elle n'est pas traitée à la base du "if" mais plus loin, quand
+    son opé ventilée sera exportée */
+    if ( gsb_data_transaction_get_mother_transaction_number (transaction_number) )
+        return TRUE;
+
+    return_exponent = gsb_data_currency_get_floating_point (
+                        gsb_data_account_get_currency (account_number));
 
 	/* met la date */
 	date = gsb_data_transaction_get_date ( transaction_number );
@@ -506,7 +509,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	else
 	    csv_field_debit  = gsb_real_get_string (gsb_real_abs (amount));
 
-	/* met le cheque si c'est un type a?numerotation automatique */
+	/* met le cheque si c'est un type à numerotation automatique */
 	payment_method = gsb_data_transaction_get_method_of_payment_number ( transaction_number );
 	CSV_CLEAR_FIELD (csv_field_cheque);
 	if (gsb_data_payment_get_automatic_numbering (payment_method))
@@ -566,6 +569,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 
 	    CSV_CLEAR_FIELD (csv_field_categ);
 	    csv_field_categ = my_strdup (_("Split of transaction"));
+        
 	    csv_add_record(csv_file,FALSE, print_balance);
 
 	    pSplitTransactionList = gsb_data_transaction_get_transactions_list ();
@@ -574,11 +578,14 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	    {
 		gint pSplitTransaction;
 
-		pSplitTransaction = GPOINTER_TO_INT(pSplitTransactionList -> data);
+		pSplitTransaction = gsb_data_transaction_get_transaction_number (
+                        pSplitTransactionList -> data );
 
-		if ( gsb_data_transaction_get_account_number ( pSplitTransaction ) == gsb_data_transaction_get_account_number (transaction_number)
-		     &&
-		     gsb_data_transaction_get_mother_transaction_number ( pSplitTransaction ) == transaction_number )
+		if ( gsb_data_transaction_get_account_number (
+         pSplitTransaction ) == gsb_data_transaction_get_account_number (transaction_number)
+         &&
+         gsb_data_transaction_get_mother_transaction_number (
+         pSplitTransaction ) == transaction_number )
 		{
 		    /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
 		    CSV_CLEAR_FIELD (csv_field_ventil);
@@ -725,7 +732,6 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	    }
 	    csv_add_record(csv_file,TRUE, print_balance);
 	}
-    }
     return TRUE;
 }
 

@@ -322,14 +322,22 @@ void importer_fichier ( void )
     g_free (formats);
     g_free (tmpstr);
 
-    gsb_assistant_add_page ( assistant, import_create_file_selection_page ( assistant ),
-                        IMPORT_FILESEL_PAGE, IMPORT_STARTUP_PAGE, IMPORT_RESUME_PAGE,
+    gsb_assistant_add_page ( assistant,
+                        import_create_file_selection_page ( assistant ),
+                        IMPORT_FILESEL_PAGE,
+                        IMPORT_STARTUP_PAGE,
+                        IMPORT_RESUME_PAGE,
                         G_CALLBACK ( import_enter_file_selection_page ) );
-    gsb_assistant_add_page ( assistant, import_create_csv_preview_page ( assistant ),
-                        IMPORT_CSV_PAGE, IMPORT_FILESEL_PAGE, IMPORT_RESUME_PAGE,
+    gsb_assistant_add_page ( assistant,
+                        import_create_csv_preview_page ( assistant ),
+                        IMPORT_CSV_PAGE,
+                        IMPORT_FILESEL_PAGE,
+                        IMPORT_RESUME_PAGE,
                         G_CALLBACK ( import_enter_csv_preview_page ) );
-    gsb_assistant_add_page ( assistant, import_create_resume_page ( assistant ),
-                        IMPORT_RESUME_PAGE, IMPORT_FILESEL_PAGE,
+    gsb_assistant_add_page ( assistant,
+                        import_create_resume_page ( assistant ),
+                        IMPORT_RESUME_PAGE,
+                        IMPORT_FILESEL_PAGE,
                         IMPORT_FIRST_ACCOUNT_PAGE,
                         G_CALLBACK ( import_enter_resume_page ) );
 
@@ -455,10 +463,10 @@ GtkWidget *import_create_file_selection_page ( GtkWidget * assistant )
 gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
                         const gchar *value, GtkListStore * model )
 {
-     GtkTreeIter iter;
-     GtkWidget * assistant;
+    GtkTreeIter iter;
+    GtkWidget * assistant;
 
-     assistant = g_object_get_data ( G_OBJECT (model), "assistant" );
+    assistant = g_object_get_data ( G_OBJECT (model), "assistant" );
 
     if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( model ), &iter, path ))
     {
