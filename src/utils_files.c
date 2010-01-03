@@ -4,6 +4,7 @@
 /*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2007 Benjamin Drieu (bdrieu@april.org)                       */
 /*          2003-2004 Alain Portal (aportal@univ-montp2.fr)                   */
+/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -31,7 +32,9 @@
 #include "./utils_file_selection.h"
 #include "./utils_dates.h"
 #include "./gsb_file.h"
+#include "./utils.h"
 #include "./utils_str.h"
+#include "./go-charmap-sel.h"
 #include "./gsb_file_config.h"
 #include "./utils_file_selection.h"
 #include "./include.h"
@@ -41,12 +44,44 @@
 /*START_STATIC*/
 static void browse_file ( GtkButton *button, gpointer data );
 static void utils_files_file_chooser_cancel ( GtkWidget *bouton, GtkWidget *chooser);
+static gboolean utils_files_charmap_active_toggled ( GtkCellRendererToggle *cell,
+                        gchar *path_str,
+                        gpointer model );
+static void utils_files_go_charmap_sel_changed ( GtkWidget *go_charmap_sel,
+                        const gchar *encoding,
+                        GtkWidget *dialog );
+static GSList *utils_files_check_UTF8_validity ( const gchar *contents,
+                        const gchar *coding_system );
+
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
 extern GtkWidget *window;
 /*END_EXTERN*/
+
+
+struct struc_check_encoding
+{
+    gchar *charset;
+    gchar *result;
+};
+
+
+/* liste des colonnes charmap */
+enum {
+    IMPORT_CHARMAP_SELECTED = 0,
+    IMPORT_CHARMAP_ENCODING,
+    IMPORT_CHARMAP_RESULT,
+    IMPORT_CHARMAP_NB,
+};
+
+
+static gchar *charset_array[] = {
+"ISO-8859-1",
+"ISO-8859-15",
+"windows-1252",
+"IBM850"};
 
 
 /**
@@ -241,8 +276,6 @@ gint get_utf8_line_from_file ( FILE *fichier,
 }
 
 
-
-
 /**
  * Make a GtkEntry that will contain a file name, a GtkButton that
  * will pop up a file selector, pack them in a GtkHbox and return it.
@@ -396,72 +429,334 @@ gboolean utils_files_create_XDG_dir (void)
 }
 
 
-/* comment by pbiava 24/01/2009 */
 /**
- * create a full path backup name from the filename
- * using the backup repertory and add the date and .bak
+ * Test if converting a string to UTF8 is correct with different character sets
+ * 
+ * \param contents
+ * \param coding_system
  *
- * \param filename
- *
- * \return a newly allocated string
+ * \return a GSList of correct string
  * */
-/*gchar *utils_files_create_backup_name ( const gchar *filename )
+GSList *utils_files_check_UTF8_validity ( const gchar *contents,
+                        const gchar *coding_system )
 {
-    gchar *string;
-    gchar *tmp_name;
-    GDate *today;
-    gchar **split;
-    gchar *inserted_string;
+    GSList *list = NULL;
+    struct struc_check_encoding *result;
+    gchar *string = NULL;
+    gint long_str = 0;
+    gsize size = 0;
+    gsize bytes_written = 0;
+    GError * error = NULL;
+    gint i = 0;
+    gchar *ptr;
 
-    !* get the filename *!
-    tmp_name = g_path_get_basename (filename);
-
-    !* create the string to insert into the backup name *!
-    today = gdate_today ();
-    inserted_string = g_strdup_printf ( "-%d_%d_%d-backup",
-					g_date_year (today),
-					g_date_month (today),
-					g_date_day (today));
-    g_date_free (today);
-
-    !* insert the date and backup before .gsb if it exists *!
-    split = g_strsplit ( tmp_name,
-			 ".",
-			 0 );
-    g_free (tmp_name);
-
-    if (split[1])
+    ptr = (gchar *) contents;
+    
+    while ( strlen ( ptr ) > 0 )
     {
-	!* have extension *!
-	gchar *tmpstr, *tmp_end;
+        gchar *ptr_tmp;
 
-	tmp_end = g_strconcat ( inserted_string,
-				".",
-				split[g_strv_length (split) - 1],
-				NULL );
-	split[g_strv_length (split) - 1] = NULL;
+        ptr_tmp = g_strstr_len ( ptr, strlen ( ptr ), "\n" );
+        if ( ptr_tmp )
+        {
+            gchar *ptr_r;
 
-	tmpstr = g_strjoinv ( ".",
-			      split );
-	tmp_name = g_strconcat ( tmpstr,
-				 tmp_end,
-				 NULL );
-	g_free (tmpstr);
-	g_free (tmp_end);
+            string = g_strndup ( ptr, ( ( ptr_tmp - 1 ) - ptr ) );
+            if ( ( ptr_r = g_strrstr ( string, "\r" ) ) )
+                ptr_r = '\0';
+
+            if ( g_convert ( string, -1, "UTF-8", coding_system, NULL, NULL, NULL ) == NULL )
+            {
+                gchar *tmp_str;
+
+                long_str = strlen ( string );
+                result = g_malloc0 ( sizeof ( struct struc_check_encoding ) );
+                result -> charset = "";
+                result -> result = string;
+                list = g_slist_append ( list, result );
+                do
+                {
+                     tmp_str = g_convert ( string, long_str, "UTF-8", charset_array[i],
+                                &size, &bytes_written, &error );
+                    if ( tmp_str )
+                    {
+                        result = g_malloc0 ( sizeof ( struct struc_check_encoding ) );
+                        result -> charset = charset_array[i];
+                        result -> result = tmp_str;
+                        list = g_slist_append ( list, result );
+                    }
+                    i++;
+                } while ( charset_array[i] );
+
+                return list;
+            }
+            g_free ( string );
+            ptr = ptr_tmp + 1;
+        }
+        else
+            break;
+    }
+
+    return NULL;
+}
+
+
+/**
+ * creates a box for selecting a character sets
+ *
+ * \param assistant	GsbAssistant
+ * \param content of file
+ * \param charmap_imported
+ *
+ * \return		A charmap.
+ */
+gchar * utils_files_create_sel_charset ( GtkWidget *assistant,
+                        const gchar *tmp_str,
+                        const gchar *charmap_imported,
+                        gchar *filename )
+{
+    GtkWidget *dialog, *vbox, *sw, *tree_view;
+    GtkWidget *hbox, *warn, *label;
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *renderer;
+    GtkTreeModel *model;
+    GSList *list;
+    GtkTreeIter iter;
+    gchar* tmpstr;
+    GtkWidget *go_charmap_sel;
+    gint result;
+
+    dialog = gtk_dialog_new_with_buttons ( _("Select a charmap"),
+                            GTK_WINDOW ( assistant ),
+                            GTK_DIALOG_MODAL,
+                            GTK_STOCK_CANCEL, 0,
+                            GTK_STOCK_OK, GTK_RESPONSE_OK,
+                            NULL );
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_widget_set_size_request ( dialog, 600, -1 );
+    gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK, FALSE );
+
+    vbox = gtk_vbox_new ( FALSE, 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    gtk_container_add ( GTK_CONTAINER ( GTK_DIALOG ( dialog ) -> vbox ), vbox );
+
+    /* Warning label */
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
+
+    warn = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_BUTTON );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), warn, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( NULL );
+    tmpstr = g_strdup_printf ( _("You are here because your file"
+                        " can't be imported directly into grisbi.\n%s"),
+                        filename );
+    gtk_label_set_markup ( GTK_LABEL ( label ),
+                        make_pango_attribut ( "weight=\"bold\"",tmpstr ) );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
+    g_free ( tmpstr );
+
+    /*scrolled windows */
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_widget_set_size_request ( sw, 480, 150 );
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_AUTOMATIC);
+    gtk_box_pack_start ( GTK_BOX ( vbox ), sw, TRUE, TRUE, 6 );
+
+    /* Tree view and model. */
+    model = GTK_TREE_MODEL ( gtk_list_store_new ( IMPORT_CHARMAP_NB, G_TYPE_BOOLEAN,
+                        G_TYPE_STRING, G_TYPE_STRING ) );
+    tree_view = gtk_tree_view_new_with_model ( model );
+    gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
+    g_object_set_data ( G_OBJECT ( model ), "dialog", dialog );
+    g_object_set_data ( G_OBJECT ( dialog ), "charset_model", model );
+    g_object_set_data ( G_OBJECT ( dialog ), "charset_tree_view", tree_view );
+
+    /* Toggle column. */
+    renderer = gtk_cell_renderer_toggle_new ( );
+    g_signal_connect ( renderer,
+                        "toggled",
+                        G_CALLBACK (utils_files_charmap_active_toggled),
+                        model );
+    column = gtk_tree_view_column_new_with_attributes ( _("Import"), renderer,
+                        "active", IMPORT_CHARMAP_SELECTED,
+                        NULL);
+    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), column );
+
+    /* Codage column. */
+    renderer = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( _("Encoding"), renderer,
+                        "text", IMPORT_CHARMAP_ENCODING,
+                        NULL);
+    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), column );
+
+    /* Result column. */
+    renderer = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes ( _("Result"), renderer,
+                        "text", IMPORT_CHARMAP_RESULT,
+                        NULL);
+    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), column );
+
+    /* select an other encoding */
+    label = gtk_label_new ( _("If no proposals above are correct you can choose a "
+                        "different charset") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
+
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
+
+    go_charmap_sel = go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8);
+    g_signal_connect ( go_charmap_sel,
+                        "charmap_changed",
+                        G_CALLBACK (utils_files_go_charmap_sel_changed),
+                        dialog );
+    g_object_set_data ( G_OBJECT ( dialog ), "charset_cs", go_charmap_sel );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), go_charmap_sel, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( _("Select a charset") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
+    g_object_set_data ( G_OBJECT ( dialog ), "charset_label", label );
+
+    /* on remplit le model */
+    list = utils_files_check_UTF8_validity (tmp_str, charmap_imported );
+    if ( list )
+    {
+        GSList *tmp_list;
+        struct struc_check_encoding *result;
+            
+        tmp_list = list;
+        result = tmp_list -> data;
+        g_object_set_data_full ( G_OBJECT ( dialog ), "charset_str",
+                        g_strdup ( result -> result ), g_free );
+        tmp_list = tmp_list -> next;
+        while ( tmp_list )
+        {
+            struct struc_check_encoding *result;
+            
+            result = tmp_list -> data;
+            
+            gtk_list_store_append ( GTK_LIST_STORE ( model ), &iter );
+            gtk_list_store_set ( GTK_LIST_STORE ( model ), &iter,
+                        IMPORT_CHARMAP_ENCODING, result -> charset,
+                        IMPORT_CHARMAP_RESULT, result -> result,
+                        -1);
+            tmp_list = tmp_list -> next;
+        }
+    }
+
+    gtk_widget_show_all ( dialog );
+
+    result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+
+    if ( result == GTK_RESPONSE_OK )
+    {
+        gchar *charset;
+
+        charset = g_strdup ( g_object_get_data ( G_OBJECT ( dialog ), "charset") );
+        gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+        return charset;
     }
     else
-	tmp_name = g_strconcat ( split[0],
-				 inserted_string,
-				 NULL );
+    {
+        gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+        return g_strdup ( "UTF8" );
+    }
+}
 
-    g_strfreev (split);
+/**
+ *
+ *
+ *
+ */
+gboolean utils_files_charmap_active_toggled ( GtkCellRendererToggle *cell,
+                        gchar *path_str,
+                        gpointer model )
+{
+    GtkWidget *dialog;
+    GtkTreePath *path = gtk_tree_path_new_from_string ( path_str );
+    GtkTreePath *tmp_path;
+    GtkTreeIter iter;
+    gchar *enc;
+    gboolean toggle_item;
 
-    string = g_build_filename ( gsb_file_get_backup_path (),
-				tmp_name,
-				NULL );
-    g_free (tmp_name);
-    return string;
-}*/
+    /* on commence par initialiser les données */
+    dialog = g_object_get_data ( G_OBJECT ( model ), "dialog" );
+
+    gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK, FALSE );
+    tmp_path = gtk_tree_path_new_first ( );
+    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter );
+    do
+    {
+        gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
+                        IMPORT_CHARMAP_SELECTED, &toggle_item,
+                        IMPORT_CHARMAP_ENCODING, &enc, -1 );
+
+        tmp_path = gtk_tree_model_get_path ( GTK_TREE_MODEL ( model ), &iter );
+        if ( gtk_tree_path_compare ( path, tmp_path ) == 0 )
+        {
+            gtk_list_store_set ( GTK_LIST_STORE ( model ), &iter,
+                        IMPORT_CHARMAP_SELECTED, !toggle_item, -1 );
+            if ( toggle_item  == 0 )
+            {
+                GOCharmapSel *cs;
+
+                cs = g_object_get_data ( G_OBJECT ( dialog ), "charset_cs" );
+                go_charmap_sel_set_encoding (cs, enc);
+                g_object_set_data ( G_OBJECT ( dialog ), "charset", enc );
+                gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ),
+                        GTK_RESPONSE_OK, TRUE );
+            }
+        }
+        else
+            gtk_list_store_set ( GTK_LIST_STORE ( model ), &iter,
+                        IMPORT_CHARMAP_SELECTED, FALSE, -1 );
+    }
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+
+    return FALSE;
+}
+
+
+void utils_files_go_charmap_sel_changed ( GtkWidget *go_charmap_sel,
+                        const gchar *encoding,
+                        GtkWidget *dialog )
+{
+    GtkWidget *label;
+    gchar *contents;
+    gchar *string;
+
+    label = g_object_get_data ( G_OBJECT ( dialog ), "charset_label" );
+
+    if ( strcmp ( encoding, "UTF-8" ) == 0 )
+    {
+        gtk_label_set_text ( GTK_LABEL ( label ), _("Select a charset") );
+        return;
+    }
+    
+    contents = g_object_get_data ( G_OBJECT ( dialog ), "charset_str" );
+    string = g_convert ( contents, -1, "UTF-8", encoding, NULL, NULL, NULL );
+    if ( string )
+    {
+        gtk_label_set_text ( GTK_LABEL ( label ), "");
+        gtk_label_set_markup ( GTK_LABEL ( label ), make_blue ( string ) );
+        g_object_set_data ( G_OBJECT ( dialog ), "charset", (gchar *) encoding );
+        gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK, TRUE );
+    }
+    else
+    {
+        gtk_label_set_text ( GTK_LABEL ( label ), "");
+        gtk_label_set_markup ( GTK_LABEL ( label ),
+                        make_red ( _("The conversion failed try another set of characters") ) );
+        gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK, FALSE );
+    }
+}
 
 
 /* Local Variables: */

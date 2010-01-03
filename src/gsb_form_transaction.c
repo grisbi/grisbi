@@ -97,6 +97,8 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
 
         if ( element -> element_number
              &&
+             element -> element_number < TRANSACTION_FORM_MAX_WIDGETS
+             &&
              element -> element_number != TRANSACTION_FORM_DATE
              &&
              element -> element_number != TRANSACTION_FORM_PARTY
@@ -114,6 +116,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
 
     /* get the payee_number */
     payee_number = gsb_data_payee_get_number_by_name ( payee_name, FALSE );
+
     /* if it's a new payee, go away */
     if ( !payee_number )
         return TRUE;

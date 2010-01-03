@@ -32,6 +32,10 @@ G_MODULE_EXPORT FILE* utf8_fopen(const gchar* utf8filename,gchar* mode);
 gint utf8_remove(const gchar* utf8filename);
 gboolean utils_files_create_XDG_dir (void);
 GtkWidget *utils_files_create_file_chooser ( GtkWidget *parent, gchar * titre );
+gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
+                        const gchar *tmp_str,
+                        const gchar *charmap_imported,
+                        gchar *filename );
 /*END_DECLARATION*/
 
 #endif

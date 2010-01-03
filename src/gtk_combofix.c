@@ -29,6 +29,7 @@
 #include "gtk_combofix.h"
 #include "./dialog.h"
 #include "./gsb_form_widget.h"
+#include "./structures.h"
 #include "./utils_str.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -1254,33 +1255,32 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
 	case GDK_Return :
 	    if (combofix -> enter_function)
 	    {
-		/* we keep the current completion */
-		gtk_combofix_hide_popup (combofix);
-		gtk_editable_select_region ( GTK_EDITABLE (combofix -> entry),
-					     0,
-					     0 );
-		return TRUE;
+            if ( strlen ( gtk_combofix_get_text ( combofix ) ) == 0 )
+                gtk_combofix_choose_selection ( combofix );
+            else
+            {
+                /* we keep the current completion */
+                gtk_combofix_hide_popup (combofix);
+                gtk_editable_select_region ( GTK_EDITABLE (combofix -> entry), 0, 0 );
+            }
 	    }
 	    else
 	    {
-		/* we get the current selection */
-		if ( GTK_WIDGET_VISIBLE ( combofix -> popup ))
-		{
-		    if (gtk_combofix_choose_selection (combofix))
-			return TRUE;
-		    else
-		    {
-			/* here we did entry key, but no selection... so
-			 * keep the current completion */
-			gtk_combofix_hide_popup (combofix);
-			gtk_editable_select_region ( GTK_EDITABLE (combofix -> entry),
-						     0,
-						     0 );
-			/* important to return TRUE else grisbi will finish the transaction */
-			return TRUE;
-		    }
-		}
+            /* we get the current selection */
+            if ( GTK_WIDGET_VISIBLE ( combofix -> popup ))
+            {
+               if ( ! gtk_combofix_choose_selection ( combofix ) )
+                {
+                    /* here we did entry key, but no selection... so
+                     * keep the current completion */
+                    gtk_combofix_hide_popup ( combofix );
+                    gtk_editable_select_region ( GTK_EDITABLE (combofix -> entry), 0, 0 );
+                }
+             }
 	    }
+        /* le traitement de ENTER est fait dans le formulaire */
+        return FALSE;
+	    break;
 
 	case GDK_Escape:
 	    if ( GTK_WIDGET_VISIBLE ( combofix -> popup ))

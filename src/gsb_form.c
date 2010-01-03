@@ -3164,7 +3164,6 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 	     * in reports... so, erase here budget and financial year, if ever they are defined */
 	    gsb_data_mix_set_budgetary_number (transaction_number, 0, is_transaction);
 	    gsb_data_mix_set_sub_budgetary_number (transaction_number, 0, is_transaction);
-	    gsb_data_mix_set_financial_year_number (transaction_number, 0, is_transaction);
 	    gsb_data_mix_set_voucher (transaction_number, NULL, is_transaction);
 	}
         g_free ( string );

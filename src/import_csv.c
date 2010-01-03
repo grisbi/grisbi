@@ -197,7 +197,7 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
  *
  */
 GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents,
-					 gchar * separator )
+                        gchar * separator )
 {
     GtkWidget * assistant;
     GtkTreeStore * model;
@@ -290,7 +290,7 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
  * \param tree_preview	GtkTreeView triggering event.
  */
 void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str,
-			 GtkTreeView * tree_preview )
+                        GtkTreeView * tree_preview )
 {
     GtkTreeIter iter;
     gboolean toggle_item;
@@ -320,7 +320,7 @@ void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str,
  * \return		FALSE
  */
 gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev,
-				      gint *no_column )
+                        gint *no_column )
 {
     GtkWidget * menu, * col;
 
@@ -751,7 +751,7 @@ gboolean csv_import_combo_changed ( GtkComboBox * combo, GtkEntry * entry )
  * \return		FALSE
  */
 gboolean csv_import_change_separator ( GtkEntry * entry,
-				       GtkWidget *assistant )
+                        GtkWidget *assistant )
 {
     gchar * separator = (gchar *) gtk_entry_get_text ( GTK_ENTRY (entry) );
 /*     GtkWidget * assistant = g_object_get_data ( G_OBJECT(entry), "assistant" ); */
@@ -959,7 +959,7 @@ void csv_import_update_validity_check ( GtkWidget * assistant )
  * \return		A newly-created GtkMenu.
  */
 GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field,
-				     GtkWidget * assistant )
+                        GtkWidget * assistant )
 {
     GtkWidget * menu, * item;
     int i;
@@ -1073,7 +1073,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     contents = g_convert_with_fallback ( tmp_str, -1, "UTF-8", imported -> coding_system,
                         "?", &size, &bytes_written, &error );
 
-    if ( bytes_written == 0 )
+    if ( contents == NULL )
     {
         error = NULL;
         size = 0;

@@ -60,6 +60,7 @@
 #include "./tiers_onglet.h"
 #include "./gsb_real.h"
 #include "./gsb_status.h"
+#include "./utils_files.h"
 #include "./utils_str.h"
 #include "./gsb_transactions_list.h"
 #include "./gtk_combofix.h"
@@ -447,7 +448,7 @@ GtkWidget *import_create_file_selection_page ( GtkWidget * assistant )
                         NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), column );
 
-    g_object_set_data ( G_OBJECT(assistant), "tree_view", model );
+    g_object_set_data ( G_OBJECT(assistant), "tree_view", tree_view );
     g_object_set_data ( G_OBJECT(assistant), "model", model );
     g_object_set_data ( G_OBJECT(model), "assistant", assistant );
 
@@ -474,8 +475,13 @@ gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 
     while ( tmp )
     {
-        struct import_format * format = (struct import_format *) tmp -> data;
+        gchar *contents;
+        gchar *nom_fichier;
+        gchar *tmp_str;
+        GError *error = NULL;
+        struct import_format * format;
 
+        format = (struct import_format *) tmp -> data;
         if ( ! strcmp ( value, format -> name ) )
         {
         gtk_tree_store_set ( GTK_TREE_STORE (model), &iter,
@@ -493,6 +499,31 @@ gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
                         IMPORT_CSV_PAGE );
         }
 
+        gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
+                    IMPORT_FILESEL_REALNAME, &nom_fichier,
+                    -1 );
+        /* get contents of file */
+        if ( ! g_file_get_contents ( nom_fichier, &tmp_str, NULL, &error ) )
+        {
+            g_print ( _("Unable to read file: %s\n"), error -> message);
+            return FALSE;
+        }
+
+        /* Convert in UTF8 */
+        contents = g_convert ( tmp_str, -1, "UTF-8", charmap_imported, NULL, NULL, NULL );
+
+        if ( contents == NULL )
+        {
+            charmap_imported = utils_files_create_sel_charset ( assistant, tmp_str,
+                        charmap_imported,
+                g_path_get_basename ( nom_fichier ) );
+            gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
+                        IMPORT_FILESEL_CODING, charmap_imported,
+                        -1 );
+            g_free ( contents );
+        }
+        g_free ( tmp_str );
+
         import_preview_maybe_sensitive_next ( assistant, GTK_TREE_MODEL ( model ));
         }
 
@@ -502,8 +533,6 @@ gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 
      return FALSE;
 }
-
-
 
 
 /**
@@ -612,41 +641,62 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     while ( iterator && model )
     {
     GtkTreeIter iter;
-    const gchar * type;
-    gchar * nom_fichier;
-    gchar * pointeur_char;
-    GError * error = NULL;
+    const gchar *type;
+    gchar *nom_fichier;
+    gchar *tmp_str;
+    gchar *contents;
+    GError *error = NULL;
     gchar * extension;
 
     /* Open file */
     extension = strrchr ( iterator -> data, '.' );
+
     /* unzip Gnucash file if necessary */
     if ( strcmp ( extension, ".gnc" ) == 0 )
         gsb_import_gunzip_file ( iterator -> data );
 
-    if ( ! g_file_get_contents ( iterator -> data, &pointeur_char, NULL, &error ) )
+    /* get contents of file */
+    if ( ! g_file_get_contents ( iterator -> data, &tmp_str, NULL, &error ) )
     {
         g_print ( _("Unable to read file: %s\n"), error -> message);
         return FALSE;
     }
 
-    type = autodetect_file_type ( iterator -> data, pointeur_char );
+    type = autodetect_file_type ( iterator -> data, tmp_str );
 
     /* passe par un fichier temporaire pour bipasser le bug libofx */
     if ( ! strcmp ( type, "OFX" ) )
     {
         nom_fichier = g_strconcat (g_get_tmp_dir (),G_DIR_SEPARATOR_S,
                                    g_path_get_basename ( iterator -> data ), NULL);
-        if (! gsb_import_set_tmp_file (nom_fichier, pointeur_char ) )
+        if (! gsb_import_set_tmp_file (nom_fichier, tmp_str ) )
         {
-            g_free (pointeur_char);
+            g_free ( tmp_str );
             return FALSE;
         }
     }
     else
         nom_fichier = my_strdup (iterator -> data);
 
-    g_free (pointeur_char);
+    /* CSV is special because it needs configuration, so we
+     * add a conditional jump there. */
+    if ( ! strcmp ( type, "CSV" ) )
+    {
+        gsb_assistant_set_next ( assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE );
+        gsb_assistant_set_prev ( assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE );
+    }
+
+    /* test conversion to UTF8 */
+    /* Convert in UTF8 */
+    contents = g_convert ( tmp_str, -1, "UTF-8", charmap_imported, NULL, NULL, NULL );
+
+    if ( contents == NULL )
+        charmap_imported = utils_files_create_sel_charset ( assistant, tmp_str,
+                    charmap_imported,
+                    g_path_get_basename ( iterator -> data ) );
+    else
+        g_free ( contents );
+
     gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
     gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
                         IMPORT_FILESEL_SELECTED, TRUE,
@@ -656,15 +706,8 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
                         IMPORT_FILESEL_TYPE, type,
                         IMPORT_FILESEL_CODING, charmap_imported,
                         -1 );
-    g_free (nom_fichier);
-
-    /* CSV is special because it needs configuration, so we
-     * add a conditional jump there. */
-    if ( ! strcmp ( type, "CSV" ) )
-    {
-        gsb_assistant_set_next ( assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE );
-        gsb_assistant_set_prev ( assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE );
-    }
+    g_free ( nom_fichier );
+    g_free ( tmp_str );
 
     if ( strcmp ( type, _("Unknown") ) )
     {
@@ -677,7 +720,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     }
 
     if ( filenames )
-    g_slist_free ( filenames );
+        g_slist_free ( filenames );
     return FALSE;
 }
 

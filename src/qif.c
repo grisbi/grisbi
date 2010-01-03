@@ -1,8 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger	(cedric@grisbi.org)	      */
-/*			2005-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger  (cedric@grisbi.org)           */
+/*          2005-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -45,8 +46,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  GDate *gsb_qif_get_date ( gchar *date_string,
-				 gint order );
+static  GDate *gsb_qif_get_date ( gchar *date_string, gint order );
 static  gchar **gsb_qif_get_date_content ( gchar *date_string );
 static  gint gsb_qif_get_date_order ( GSList *transactions_list );
 /*END_STATIC*/
@@ -55,6 +55,7 @@ static  gint gsb_qif_get_date_order ( GSList *transactions_list );
 extern GSList *liste_comptes_importes;
 extern GSList *liste_comptes_importes_error;
 /*END_EXTERN*/
+
 
 enum
 {
@@ -67,6 +68,8 @@ enum
 
     ORDER_MAX,
 };
+
+
 static gchar *order_names[] = {
     "day-month-year",
     "day-year-month",
@@ -88,7 +91,7 @@ static gchar *order_names[] = {
  *
  * \return		TRUE on success.
  */
-gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file * imported )
+gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *imported )
 {
     gchar *tmp_str;
     struct struct_compte_importation *imported_account;
@@ -98,7 +101,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 
     if ( ! qif_file )
     {
-	return FALSE;
+        return FALSE;
     }
 
     /* qif_file pointe sur le qif_file qui a été reconnu comme qif */
@@ -346,7 +349,29 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 		    }
 
 		    if ( tmp_str[0] == 'T' )
-			imported_transaction -> montant = gsb_real_get_from_string (tmp_str + 1);
+            {
+                gchar *ptr_1, *ptr_2;
+                gchar *locale = gtk_set_locale ();
+                
+                if ( g_strrstr ( locale, "en" ) == NULL
+                 &&
+                 g_strrstr ( locale, "US" ) == NULL
+                 &&
+                 ( ptr_1 = g_strstr_len ( tmp_str, -1, "," ) )
+                 &&
+                 ( ptr_2 = g_strrstr ( tmp_str, "." ) )
+                 && ( ptr_2 - tmp_str ) > ( ptr_1 - tmp_str ) )
+                {
+                    gchar **tab;
+
+                    tab = g_strsplit ( tmp_str + 1, ",", 0 );
+                    imported_transaction -> montant = gsb_real_get_from_string (
+                        g_strjoinv ( "", tab ) );
+                    g_strfreev ( tab );
+                }
+                else
+                    imported_transaction -> montant = gsb_real_get_from_string (tmp_str + 1);
+            }
 
 		    /* récupération du chèque */
 		    if ( tmp_str[0] == 'N' )
@@ -756,8 +781,7 @@ static gchar **gsb_qif_get_date_content ( gchar *date_string )
  *
  * \return a newly allocated GDate
  * */
-static GDate *gsb_qif_get_date ( gchar *date_string,
-				 gint order )
+static GDate *gsb_qif_get_date ( gchar *date_string, gint order )
 {
     gchar **array;
     GDate *date;
@@ -840,7 +864,7 @@ static GDate *gsb_qif_get_date ( gchar *date_string,
  * \return TRUE ok, FALSE pb
  * */
 gboolean gsb_qif_export_archive ( const gchar *filename,
-				  gint archive_number )
+                        gint archive_number )
 {
     GSList *tmp_list;
     GSList *name_list = NULL;
@@ -931,8 +955,8 @@ gboolean gsb_qif_export_archive ( const gchar *filename,
  * \return TRUE ok, FALSE pb
  */
 gboolean qif_export ( const gchar *filename,
-		      gint account_nb,
-		      gint archive_number )
+                        gint account_nb,
+                        gint archive_number )
 {
     FILE * fichier_qif;
     GSList *list_tmp_transactions;
@@ -1213,7 +1237,6 @@ gboolean qif_export ( const gchar *filename,
     fclose ( fichier_qif );
     return TRUE;
 }
-
 
 
 /* Local Variables: */

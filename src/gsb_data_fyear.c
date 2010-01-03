@@ -712,7 +712,7 @@ gint gsb_data_fyear_compare ( gint fyear_number_1, gint fyear_number_2 )
  * \param struct_fyear *fyear_1
  * \param struct_fyear *fyear_2
  *
- * \return -1 if fyear 1 is before 2 ; +1 if fyear 1 is after 2 ; 0 if problem
+ * \return -1 if fyear 2 is before 1 ; +1 if fyear 2 is after 1 ; 0 if problem
  * */
 gint gsb_data_fyear_compare_from_struct ( struct_fyear *fyear_1,
                         struct_fyear *fyear_2 )
@@ -726,8 +726,8 @@ gint gsb_data_fyear_compare_from_struct ( struct_fyear *fyear_1,
         return -1;
 
     if (g_date_compare (fyear_1 -> beginning_date, fyear_2 -> end_date) >= 0)
-        return 1;
-    if (g_date_compare (fyear_2 -> beginning_date, fyear_1 -> end_date) >= 0)
         return -1;
+    if (g_date_compare (fyear_2 -> beginning_date, fyear_1 -> end_date) >= 0)
+        return 1;
     return 0;
 }
