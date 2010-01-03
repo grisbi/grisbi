@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Martin Stromberger <fabiolla@aon.at>, 2007.
-# Martin Stromberger <mstromberger@aon.at>, 2008.
+# Martin Stromberger <mstromberger@aon.at>, 2008, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-30 21:05+0100\n"
-"PO-Revision-Date: 2008-11-14 22:21+0100\n"
+"PO-Revision-Date: 2010-01-03 21:07+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -72,7 +72,6 @@ msgstr ""
 "zur Verfügung."
 
 #: tips.txt:43
-#, fuzzy
 msgid ""
 "There are shortcuts in date fields, to avoid typing date or selecting it "
 "with mouse.\n"
@@ -84,7 +83,7 @@ msgstr ""
 "... es in den Datumsfeldern Tastenkombinationen für eine schnellere "
 "Datumseingabe gibt?\n"
 "\n"
-"Mit den Tasten <i>+</i> und <i>-</i> erhöhen bzw. reduzieren das Datum um "
+"Mit den Tasten <b>+</b> und <b>-</b> erhöhen bzw. reduzieren das Datum um "
 "einen Tag. <i>Bild auf</i> und <i>Bild ab</i> erhöhen bzw. reduzieren das "
 "Datum um ein Monat. Weitere Tastenkombinationen sind im Benutzerhandbuch "
 "beschrieben."
@@ -185,8 +184,7 @@ msgstr ""
 "in der Grisbi-Datei möglich."
 
 #: tips.txt:55
-msgid ""
-"You can have future scheduled transactions 'executed' before their date, "
+msgid "You can have future scheduled transactions 'executed' before their date, "
 msgstr ""
 "... geplante Buchungen auch manuell ausgeführt werden können?\n"
 "\n"
@@ -261,3 +259,4 @@ msgstr ""
 "\n"
 "Sie können mit dem Import von QIF oder OFX Dateien von Ihrem Bankkonto die "
 "erfassten Buchungen in der Grisbi-Datei abstimmen."
+
