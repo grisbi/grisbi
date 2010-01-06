@@ -71,10 +71,10 @@ static gboolean gsb_form_config_realized ( GtkWidget *tree_view,
 				    gpointer null );
 static gboolean gsb_form_config_remove_column ( void );
 static gboolean gsb_form_config_remove_line ( void );
-static gboolean gsb_form_config_switch_general_to_several_form ( void );
+//~ static gboolean gsb_form_config_switch_general_to_several_form ( void );
 static gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button );
-static  gboolean gsb_form_config_update_accounts ( GtkWidget *button,
-						  GtkWidget *combobox );
+//~ static  gboolean gsb_form_config_update_accounts ( GtkWidget *button,
+						  //~ GtkWidget *combobox );
 static gboolean gsb_form_config_update_form_config ( gint account_number );
 /*END_STATIC*/
 
@@ -98,7 +98,7 @@ static GtkWidget *form_config_buttons[TRANSACTION_FORM_WIDGET_NB-3];
 static GtkWidget *accounts_combobox;
 
 /** the button to update all the accounts forms */
-static GtkWidget *update_button;
+//~ static GtkWidget *update_button;
 
 /** the tree view */
 static GtkWidget *form_config_tree_view;
@@ -144,9 +144,9 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 {
     GtkWidget *sw;
     GtkWidget *hbox;
-    GtkWidget *button;
+    //~ GtkWidget *button;
     GtkWidget *paddingbox;
-    GtkWidget *label;
+    //~ GtkWidget *label;
 	GtkListStore* list_store;
 
     /* create the paddingbox into the parent */
@@ -159,31 +159,31 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     gtk_box_pack_start ( GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0 );
 
     /* the button to choose the configuration for all/one account */
-    button = gsb_automem_checkbutton_new ( _("Each account has his own form"),
-                        &etat.formulaire_distinct_par_compte,
-                        G_CALLBACK ( gsb_form_config_switch_general_to_several_form ),
-                        NULL);
-    gtk_box_pack_start ( GTK_BOX (hbox ), button, FALSE, FALSE, 0 );
+    //~ button = gsb_automem_checkbutton_new ( _("Each account has his own form"),
+                        //~ &etat.formulaire_distinct_par_compte,
+                        //~ G_CALLBACK ( gsb_form_config_switch_general_to_several_form ),
+                        //~ NULL);
+    //~ gtk_box_pack_start ( GTK_BOX (hbox ), button, FALSE, FALSE, 0 );
 
     /* the accounts option_menu */
     accounts_combobox = gsb_account_create_combo_list ((GtkSignalFunc) gsb_form_config_change_account_choice, NULL, FALSE );
-    gtk_widget_set_sensitive ( accounts_combobox, etat.formulaire_distinct_par_compte );
-    gtk_box_pack_start ( GTK_BOX (hbox ), accounts_combobox, FALSE, FALSE, 0 );
+    //~ gtk_widget_set_sensitive ( accounts_combobox, etat.formulaire_distinct_par_compte );
+    //~ gtk_box_pack_start ( GTK_BOX (hbox ), accounts_combobox, FALSE, FALSE, 0 );
 
     /* add the update-form button */
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0 );
+    //~ hbox = gtk_hbox_new ( FALSE, 5 );
+    //~ gtk_box_pack_start ( GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0 );
 
-    update_button = gtk_button_new_with_label (_("Update"));
-    gtk_widget_set_sensitive ( update_button, etat.formulaire_distinct_par_compte );
-    g_signal_connect ( G_OBJECT (update_button),
-                        "clicked",
-                        G_CALLBACK (gsb_form_config_update_accounts),
-                        accounts_combobox );
-    gtk_box_pack_start ( GTK_BOX (hbox), update_button, FALSE, FALSE, 0 );
+    //~ update_button = gtk_button_new_with_label (_("Update"));
+    //~ gtk_widget_set_sensitive ( update_button, etat.formulaire_distinct_par_compte );
+    //~ g_signal_connect ( G_OBJECT (update_button),
+                        //~ "clicked",
+                        //~ G_CALLBACK (gsb_form_config_update_accounts),
+                        //~ accounts_combobox );
+    //~ gtk_box_pack_start ( GTK_BOX (hbox), update_button, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( _(" : Duplicate the selected form for all accounts") );
-    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
+    //~ label = gtk_label_new ( _(" : Duplicate the selected form for all accounts") );
+    //~ gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     /*create the scolled window for tree_view */
     sw = gtk_scrolled_window_new ( NULL, NULL);
@@ -559,29 +559,29 @@ gboolean gsb_form_config_update_form_config ( gint account_number )
  * \param
  *
  * \return FALSE*/
-gboolean gsb_form_config_switch_general_to_several_form ( void )
-{
-    if ( etat.formulaire_distinct_par_compte )
-    {
-	gtk_widget_set_sensitive ( accounts_combobox,
-				   TRUE );
-	gtk_widget_set_sensitive ( update_button,
-				   TRUE );
-    }
-    else
-    {
-	gtk_combo_box_set_active ( GTK_COMBO_BOX (accounts_combobox),
-				   0 );
-	/* just in case we were already on the first choice */
-	gsb_form_config_change_account_choice (accounts_combobox, NULL);
+//~ gboolean gsb_form_config_switch_general_to_several_form ( void )
+//~ {
+    //~ if ( etat.formulaire_distinct_par_compte )
+    //~ {
+	//~ gtk_widget_set_sensitive ( accounts_combobox,
+				   //~ TRUE );
+	//~ gtk_widget_set_sensitive ( update_button,
+				   //~ TRUE );
+    //~ }
+    //~ else
+    //~ {
+	//~ gtk_combo_box_set_active ( GTK_COMBO_BOX (accounts_combobox),
+				   //~ 0 );
+	//~ /* just in case we were already on the first choice */
+	//~ gsb_form_config_change_account_choice (accounts_combobox, NULL);
 
-	gtk_widget_set_sensitive ( accounts_combobox,
-				   FALSE );
-	gtk_widget_set_sensitive ( update_button,
-				   FALSE );
-    }
-    return FALSE;
-}
+	//~ gtk_widget_set_sensitive ( accounts_combobox,
+				   //~ FALSE );
+	//~ gtk_widget_set_sensitive ( update_button,
+				   //~ FALSE );
+    //~ }
+    //~ return FALSE;
+//~ }
 
 						       
 /**
@@ -612,17 +612,17 @@ gboolean gsb_form_config_change_account_choice ( GtkWidget *combobox,
  *
  * \return FALSE
  * */
-static gboolean gsb_form_config_update_accounts ( GtkWidget *button,
-						  GtkWidget *combobox )
-{
-    if (!question_yes_no (_("Warning : all the form of the accounts will be updated according to the selected account. All the changes in the other accounts will be overwritten.\n\nAre you sure to do that ?"), GTK_RESPONSE_CANCEL))
-	return FALSE;
+//~ static gboolean gsb_form_config_update_accounts ( GtkWidget *button,
+						  //~ GtkWidget *combobox )
+//~ {
+    //~ if (!question_yes_no (_("Warning : all the form of the accounts will be updated according to the selected account. All the changes in the other accounts will be overwritten.\n\nAre you sure to do that ?"), GTK_RESPONSE_CANCEL))
+	//~ return FALSE;
 
-    /* update all the accounts */
-    gsb_form_config_update_from_account (gsb_account_get_combo_account_number (combobox));
+    //~ /* update all the accounts */
+    //~ gsb_form_config_update_from_account (gsb_account_get_combo_account_number (combobox));
 
-    return FALSE;
-}
+    //~ return FALSE;
+//~ }
 
 /**
  * called when toggle a button of the form configuration, append or remove

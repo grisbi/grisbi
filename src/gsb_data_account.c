@@ -2683,3 +2683,68 @@ void gsb_data_account_colorize_current_balance ( gint account_number )
 	gsb_gui_headings_update_suffix ( string );
 	g_free ( string );
 }
+
+
+/**
+ * calcule le solde du compte à la date à aujourd'hui.
+ * exclut les transactions futures.
+ *
+ *
+ * */
+gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number )
+{
+    struct_account *account;
+    GDate *date_jour = g_date_new ( );
+    GSList *tmp_list;
+    gsb_real current_balance;
+	gsb_real current_balance_later = null_real;
+    gint floating_point;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+        return null_real;
+
+    floating_point = gsb_data_currency_get_floating_point ( account -> currency );
+
+    current_balance = gsb_real_adjust_exponent ( account -> init_balance,
+						 floating_point );
+
+    g_date_set_time_t (date_jour, time (NULL));
+
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+
+    while (tmp_list)
+    {
+        gint transaction_number;
+        gint res = 0;
+        gsb_real adjusted_amout;
+        gsb_real tmp_balance;
+
+        transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
+
+        /* on ne tient pas compte des échéances futures pour le solde */
+        res = g_date_compare ( date_jour,
+                            gsb_data_transaction_get_date ( transaction_number ) );
+        if ( gsb_data_transaction_get_account_number (transaction_number) == account_number
+             &&
+             !gsb_data_transaction_get_mother_transaction_number (transaction_number)
+             && res >= 0 )
+        {
+            adjusted_amout = gsb_data_transaction_get_adjusted_amount (
+                        transaction_number, floating_point );
+
+            tmp_balance = gsb_real_add ( current_balance, adjusted_amout );
+
+            if( tmp_balance.mantissa != error_real.mantissa )
+                current_balance = tmp_balance;
+            else
+                current_balance_later = gsb_real_add ( current_balance_later, adjusted_amout);
+        }
+        tmp_list = tmp_list -> next;
+    }
+
+    g_date_free ( date_jour ); 
+
+    return gsb_real_add ( current_balance, current_balance_later );
+}

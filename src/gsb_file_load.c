@@ -885,7 +885,9 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     else if ( !strcmp ( attribute_names[i],
                         "Remind_form_per_account" ))
     {
-        etat.formulaire_distinct_par_compte = utils_str_atoi( attribute_values[i]);
+        //~ etat.formulaire_distinct_par_compte = utils_str_atoi( attribute_values[i]);
+        etat.formulaire_distinct_par_compte = 0;
+
     }
 
     else if ( !strcmp ( attribute_names[i],
@@ -5955,7 +5957,8 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Formulaire_distinct_par_compte" ))
     {
-    etat.formulaire_distinct_par_compte = utils_str_atoi( text);
+    //~ etat.formulaire_distinct_par_compte = utils_str_atoi( text);
+    etat.formulaire_distinct_par_compte = 0;
     return;
     }
 

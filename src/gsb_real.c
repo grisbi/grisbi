@@ -457,7 +457,7 @@ gsb_real gsb_real_import_from_string ( const gchar *string )
 
     if ( !string)
         return error_real;
-
+//~ printf ("string  = %s\n", string);
     for ( ; ; )
     {
         if ( g_ascii_isdigit ( *p ) )
@@ -469,14 +469,19 @@ gsb_real gsb_real_import_from_string ( const gchar *string )
             if ( sign == 0 ) sign = 1; // no sign found yet ==> positive
             ++nb_digits;
             ++p;
+            //~ printf ("mantissa = %lld nb_digits = %d\n", mantissa, nb_digits);
         }
         else if ( *p == 0 ) // terminal zero
         {
 			gsb_real result;
 			result.mantissa = sign * mantissa;
-            result.exponent = ( dot_position >= 0 )
+            if ( mantissa == 0 )
+                result.exponent = 0;
+            else
+                result.exponent = ( dot_position >= 0 )
                               ? nb_digits - dot_position
                               : 0;
+            //~ printf ("result.mantissa = %ld result.exponent = %d\n", result.mantissa, result.exponent);
             return result;
         }
         else if ( strchr ( ".", *p ) )
