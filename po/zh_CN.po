@@ -4,14 +4,11 @@
 # FIRST AUTHOR <jianyunet@gmail.com>, 2005.
 #
 #
-#: src/gsb_transactions_list.c:183 src/gsb_transactions_list.c:187
-#: src/gsb_transactions_list.c:191 src/gsb_transactions_list.c:195
-#: src/gsb_transactions_list.c:200
 msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-05 06:23+0100\n"
+"POT-Creation-Date: 2010-01-07 21:59+0100\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -521,49 +518,49 @@ msgstr ""
 msgid "Don't allow new category/budget creation"
 msgstr ""
 
-#: src/balance_estimate_tab.c:99
+#: src/balance_estimate_tab.c:100
 #, fuzzy
 msgid "One month"
 msgstr "月"
 
-#: src/balance_estimate_tab.c:100
+#: src/balance_estimate_tab.c:101
 #, fuzzy
 msgid "Two months"
 msgstr "%d 月"
 
-#: src/balance_estimate_tab.c:101
+#: src/balance_estimate_tab.c:102
 #, fuzzy
 msgid "Three months"
 msgstr "%d 月"
 
-#: src/balance_estimate_tab.c:102
+#: src/balance_estimate_tab.c:103
 #, fuzzy
 msgid "Six months"
 msgstr "%d 月"
 
-#: src/balance_estimate_tab.c:103
+#: src/balance_estimate_tab.c:104
 #, fuzzy
 msgid "One year"
 msgstr "年"
 
-#: src/balance_estimate_tab.c:104
+#: src/balance_estimate_tab.c:105
 #, fuzzy
 msgid "Two years"
 msgstr "%d 年"
 
 #. ***** Parameter page *****
-#: src/balance_estimate_tab.c:175
+#: src/balance_estimate_tab.c:177
 msgid "Choice the prevision"
 msgstr ""
 
-#: src/balance_estimate_tab.c:194
+#: src/balance_estimate_tab.c:196
 msgid ""
 "Please select an account and a duration\n"
 "and select the estimate array tab."
 msgstr ""
 
 #. set the choice of account
-#: src/balance_estimate_tab.c:229 src/categories_onglet.c:154
+#: src/balance_estimate_tab.c:231 src/categories_onglet.c:154
 #: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
 #: src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
@@ -573,11 +570,11 @@ msgid "Account"
 msgstr "账户"
 
 #. ***** Estimation array page *****
-#: src/balance_estimate_tab.c:265
+#: src/balance_estimate_tab.c:267
 msgid "Array"
 msgstr ""
 
-#: src/balance_estimate_tab.c:315 src/etats_affiche.c:2405
+#: src/balance_estimate_tab.c:317 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1281 src/gsb_form_widget.c:404 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
@@ -586,13 +583,13 @@ msgid "Date"
 msgstr "日期"
 
 #. Description entry
-#: src/balance_estimate_tab.c:325 src/etats_onglet.c:269
+#: src/balance_estimate_tab.c:327 src/etats_onglet.c:269
 #: src/tiers_onglet.c:641
 msgid "Description"
 msgstr "描述"
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:336 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:338 src/categories_onglet.c:698
 #: src/export_csv.c:781 src/gsb_form.c:1315 src/gsb_form_widget.c:408
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1075 src/gsb_transactions_list.c:148
@@ -602,7 +599,7 @@ msgid "Debit"
 msgstr "借方"
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:350 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:352 src/categories_onglet.c:698
 #: src/export_csv.c:778 src/gsb_form.c:1322 src/gsb_form_widget.c:412
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
 #: src/gsb_payment_method_config.c:1071 src/gsb_transactions_list.c:149
@@ -610,7 +607,7 @@ msgstr "借方"
 msgid "Credit"
 msgstr "贷方"
 
-#: src/balance_estimate_tab.c:363 src/export_csv.c:787 src/gsb_reconcile.c:147
+#: src/balance_estimate_tab.c:365 src/export_csv.c:787 src/gsb_reconcile.c:147
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
 #: src/gsb_transactions_list.c:2907 src/import_csv.c:89
 #: src/traitement_variables.c:82
@@ -618,16 +615,25 @@ msgid "Balance"
 msgstr "余额"
 
 #. ***** Estimation graph page *****
-#: src/balance_estimate_tab.c:374
+#: src/balance_estimate_tab.c:376
 msgid "Graph"
 msgstr ""
 
-#: src/balance_estimate_tab.c:649
+#: src/balance_estimate_tab.c:681
 #, c-format
-msgid ""
-"Balance estimate of the account \"%s\" from %s to %s balance beginning of "
-"period = %s"
+msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
+
+#: src/balance_estimate_tab.c:707
+msgid "balance beginning of period"
+msgstr ""
+
+#: src/balance_estimate_tab.c:774
+#, fuzzy, c-format
+msgid ""
+"Transfer between account: %s\n"
+"and account: %s"
+msgstr "转帐到一个删除的账户"
 
 #. New transaction
 #: src/barre_outils.c:95 src/gsb_scheduler_list.c:2002
@@ -6906,7 +6912,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "账户 %s 未找到\n"
 
-#: src/gsb_file_load.c:457 src/gsb_file_load.c:4615
+#: src/gsb_file_load.c:457 src/gsb_file_load.c:4617
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "该文件不是Grisbi报表"
@@ -6920,14 +6926,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:8012
+#: src/gsb_file_load.c:8015
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "打开此文件需要Grisbi版本 %s "
 
-#: src/gsb_file_load.c:8051
+#: src/gsb_file_load.c:8054
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -6935,7 +6941,7 @@ msgid ""
 "transactions or important informations."
 msgstr ""
 
-#: src/gsb_file_load.c:8052
+#: src/gsb_file_load.c:8055
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -7173,20 +7179,6 @@ msgstr "交易表格"
 msgid "Form structure preview"
 msgstr ""
 
-#. the button to choose the configuration for all/one account
-#: src/gsb_form_config.c:162
-msgid "Each account has his own form"
-msgstr ""
-
-#: src/gsb_form_config.c:177
-#, fuzzy
-msgid "Update"
-msgstr "日期"
-
-#: src/gsb_form_config.c:185
-msgid " : Duplicate the selected form for all accounts"
-msgstr ""
-
 #. set the box with the buttons
 #: src/gsb_form_config.c:206
 msgid "Form structure content"
@@ -7231,15 +7223,6 @@ msgstr "浏览"
 #, fuzzy
 msgid "columns"
 msgstr "账户"
-
-#: src/gsb_form_config.c:618
-msgid ""
-"Warning : all the form of the accounts will be updated according to the "
-"selected account. All the changes in the other accounts will be "
-"overwritten.\n"
-"\n"
-"Are you sure to do that ?"
-msgstr ""
 
 #: src/gsb_form_config.c:754
 msgid ""
@@ -10142,6 +10125,10 @@ msgstr ""
 #, fuzzy
 msgid "No font defined"
 msgstr "没有定义汇率"
+
+#, fuzzy
+#~ msgid "Update"
+#~ msgstr "日期"
 
 #, fuzzy
 #~ msgid "Solde"

@@ -2686,8 +2686,8 @@ void gsb_data_account_colorize_current_balance ( gint account_number )
 
 
 /**
- * calcule le solde du compte à la date à aujourd'hui.
- * exclut les transactions futures.
+ * Calculates the balance at the date today.
+ * Excludes future transactions.
  *
  *
  * */

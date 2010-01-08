@@ -10,14 +10,11 @@
 #
 # Please follow the guidelines you'll find here: http://wiki.traduc.org/gnomefr/
 #
-#: src/gsb_transactions_list.c:183 src/gsb_transactions_list.c:187
-#: src/gsb_transactions_list.c:191 src/gsb_transactions_list.c:195
-#: src/gsb_transactions_list.c:200
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-05 06:23+0100\n"
+"POT-Creation-Date: 2010-01-07 21:59+0100\n"
 "PO-Revision-Date: 2010-01-02 22:34+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -490,36 +487,36 @@ msgstr "Ne pas permettre la création de nouveaux tiers"
 msgid "Don't allow new category/budget creation"
 msgstr "Ne pas autoriser la création de nouvelles catégories/Imputations B."
 
-#: src/balance_estimate_tab.c:99
+#: src/balance_estimate_tab.c:100
 msgid "One month"
 msgstr "Un mois"
 
-#: src/balance_estimate_tab.c:100
+#: src/balance_estimate_tab.c:101
 msgid "Two months"
 msgstr "Deux mois"
 
-#: src/balance_estimate_tab.c:101
+#: src/balance_estimate_tab.c:102
 msgid "Three months"
 msgstr "Trois mois"
 
-#: src/balance_estimate_tab.c:102
+#: src/balance_estimate_tab.c:103
 msgid "Six months"
 msgstr "Six mois"
 
-#: src/balance_estimate_tab.c:103
+#: src/balance_estimate_tab.c:104
 msgid "One year"
 msgstr "Un an"
 
-#: src/balance_estimate_tab.c:104
+#: src/balance_estimate_tab.c:105
 msgid "Two years"
 msgstr "Deux ans"
 
 #. ***** Parameter page *****
-#: src/balance_estimate_tab.c:175
+#: src/balance_estimate_tab.c:177
 msgid "Choice the prevision"
 msgstr "Choix de la prévision"
 
-#: src/balance_estimate_tab.c:194
+#: src/balance_estimate_tab.c:196
 msgid ""
 "Please select an account and a duration\n"
 "and select the estimate array tab."
@@ -528,7 +525,7 @@ msgstr ""
 "et choisissez le tableau d'estimation. "
 
 #. set the choice of account
-#: src/balance_estimate_tab.c:229 src/categories_onglet.c:154
+#: src/balance_estimate_tab.c:231 src/categories_onglet.c:154
 #: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
 #: src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
@@ -538,11 +535,11 @@ msgid "Account"
 msgstr "Compte"
 
 #. ***** Estimation array page *****
-#: src/balance_estimate_tab.c:265
+#: src/balance_estimate_tab.c:267
 msgid "Array"
 msgstr "Tableau"
 
-#: src/balance_estimate_tab.c:315 src/etats_affiche.c:2405
+#: src/balance_estimate_tab.c:317 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1281 src/gsb_form_widget.c:404 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
@@ -551,13 +548,13 @@ msgid "Date"
 msgstr "Date"
 
 #. Description entry
-#: src/balance_estimate_tab.c:325 src/etats_onglet.c:269
+#: src/balance_estimate_tab.c:327 src/etats_onglet.c:269
 #: src/tiers_onglet.c:641
 msgid "Description"
 msgstr "Description"
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:336 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:338 src/categories_onglet.c:698
 #: src/export_csv.c:781 src/gsb_form.c:1315 src/gsb_form_widget.c:408
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1075 src/gsb_transactions_list.c:148
@@ -567,7 +564,7 @@ msgid "Debit"
 msgstr "Débit"
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:350 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:352 src/categories_onglet.c:698
 #: src/export_csv.c:778 src/gsb_form.c:1322 src/gsb_form_widget.c:412
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
 #: src/gsb_payment_method_config.c:1071 src/gsb_transactions_list.c:149
@@ -575,7 +572,7 @@ msgstr "Débit"
 msgid "Credit"
 msgstr "Crédit"
 
-#: src/balance_estimate_tab.c:363 src/export_csv.c:787 src/gsb_reconcile.c:147
+#: src/balance_estimate_tab.c:365 src/export_csv.c:787 src/gsb_reconcile.c:147
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
 #: src/gsb_transactions_list.c:2907 src/import_csv.c:89
 #: src/traitement_variables.c:82
@@ -583,17 +580,27 @@ msgid "Balance"
 msgstr "Solde"
 
 #. ***** Estimation graph page *****
-#: src/balance_estimate_tab.c:374
+#: src/balance_estimate_tab.c:376
 msgid "Graph"
 msgstr "Graphique"
 
-#: src/balance_estimate_tab.c:649
+#: src/balance_estimate_tab.c:681
+#, c-format
+msgid "Balance estimate of the account \"%s\" from %s to %s"
+msgstr "Solde estimé du compte \"%s\" du %s au %s"
+
+#: src/balance_estimate_tab.c:707
+msgid "balance beginning of period"
+msgstr "Solde initial de la période"
+
+#: src/balance_estimate_tab.c:774
 #, c-format
 msgid ""
-"Balance estimate of the account \"%s\" from %s to %s balance beginning of "
-"period = %s"
-msgstr "Solde estimé du compte \"%s\" du %s au %s. Solde initial de "
-"la période = %s"
+"Transfer between account: %s\n"
+"and account: %s"
+msgstr ""
+"Virement entre le compte : %s\n"
+"et le compte : %s"
 
 #. New transaction
 #: src/barre_outils.c:95 src/gsb_scheduler_list.c:2002
@@ -7028,7 +7035,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "Plugin de cryptage non trouvé"
 
-#: src/gsb_file_load.c:457 src/gsb_file_load.c:4615
+#: src/gsb_file_load.c:457 src/gsb_file_load.c:4617
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Ce n'est pas un fichier Grisbi...chargement interrompu"
 
@@ -7044,7 +7051,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:8012
+#: src/gsb_file_load.c:8015
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7053,7 +7060,7 @@ msgstr ""
 "Pour ouvrir ce fichier, il vous faut la version %s de Grisbi.\n"
 "Vous utilisez la version %s."
 
-#: src/gsb_file_load.c:8051
+#: src/gsb_file_load.c:8054
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7066,7 +7073,7 @@ msgstr ""
 "c'est une archive avant de modifier certaines transactions ou informations "
 "importantes."
 
-#: src/gsb_file_load.c:8052
+#: src/gsb_file_load.c:8055
 msgid "Grisbi archive opened"
 msgstr "Archive grisbi ouverte"
 
@@ -7320,19 +7327,6 @@ msgstr "Formulaire des opérations"
 msgid "Form structure preview"
 msgstr "Prévisualisation de la structure du formulaire"
 
-#. the button to choose the configuration for all/one account
-#: src/gsb_form_config.c:162
-msgid "Each account has his own form"
-msgstr "Chaque compte a son propre formulaire"
-
-#: src/gsb_form_config.c:177
-msgid "Update"
-msgstr "Mettre à jour"
-
-#: src/gsb_form_config.c:185
-msgid " : Duplicate the selected form for all accounts"
-msgstr " : Dupliquer le formulaire sélectionné pour tous les comptes"
-
 #. set the box with the buttons
 #: src/gsb_form_config.c:206
 msgid "Form structure content"
@@ -7369,20 +7363,6 @@ msgstr "lignes"
 #: src/gsb_form_config.c:417
 msgid "columns"
 msgstr "colonnes"
-
-#: src/gsb_form_config.c:618
-msgid ""
-"Warning : all the form of the accounts will be updated according to the "
-"selected account. All the changes in the other accounts will be "
-"overwritten.\n"
-"\n"
-"Are you sure to do that ?"
-msgstr ""
-"Attention: les formulaires des autres comptes seront mis à jour selon le "
-"modèle du compte sélectionné. Toutes les différences seront effacées pour "
-"les autres comptes.\n"
-"\n"
-"Êtes-vous certain de vouloir le faire ?"
 
 #: src/gsb_form_config.c:754
 msgid ""
@@ -10287,6 +10267,28 @@ msgstr "La conversion à échoué essayez un autre jeu de caractères"
 #: src/utils_font.c:199
 msgid "No font defined"
 msgstr "Aucune police définie"
+
+#~ msgid "Each account has his own form"
+#~ msgstr "Chaque compte a son propre formulaire"
+
+#~ msgid "Update"
+#~ msgstr "Mettre à jour"
+
+#~ msgid " : Duplicate the selected form for all accounts"
+#~ msgstr " : Dupliquer le formulaire sélectionné pour tous les comptes"
+
+#~ msgid ""
+#~ "Warning : all the form of the accounts will be updated according to the "
+#~ "selected account. All the changes in the other accounts will be "
+#~ "overwritten.\n"
+#~ "\n"
+#~ "Are you sure to do that ?"
+#~ msgstr ""
+#~ "Attention: les formulaires des autres comptes seront mis à jour selon le "
+#~ "modèle du compte sélectionné. Toutes les différences seront effacées pour "
+#~ "les autres comptes.\n"
+#~ "\n"
+#~ "Êtes-vous certain de vouloir le faire ?"
 
 #~ msgid "Estimate array"
 #~ msgstr "Tableau d'estimation"

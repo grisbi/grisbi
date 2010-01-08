@@ -181,21 +181,21 @@ int main (int argc, char **argv)
     init_variables ();
     register_import_formats ();
 
-    //~ /* test locale pour les nombres */
-    //~ struct lconv *conv = localeconv ( );
+    /* test locale pour les nombres */
+    struct lconv *conv = localeconv ( );
     
-    //~ printf ("currency_symbol = %s\n"
-            //~ "mon_thousands_sep = \"%s\"\n"
-            //~ "mon_decimal_point = %s\n"
-            //~ "positive_sign = \"%s\"\n"
-            //~ "negative_sign = \"%s\"\n"
-            //~ "frac_digits = \"%d\"\n",
-            //~ conv->currency_symbol,
-            //~ g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL ),
-            //~ g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL ),
-            //~ g_locale_to_utf8 ( conv->positive_sign, -1, NULL, NULL, NULL ),
-            //~ g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL ),
-            //~ conv->frac_digits );
+    printf ("currency_symbol = %s\n"
+            "mon_thousands_sep = \"%s\"\n"
+            "mon_decimal_point = %s\n"
+            "positive_sign = \"%s\"\n"
+            "negative_sign = \"%s\"\n"
+            "frac_digits = \"%d\"\n",
+            conv->currency_symbol,
+            g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL ),
+            g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL ),
+            g_locale_to_utf8 ( conv->positive_sign, -1, NULL, NULL, NULL ),
+            g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL ),
+            conv->frac_digits );
 
     /* firt use ? */
     if ( ! gsb_file_config_load_config () )

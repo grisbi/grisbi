@@ -3,14 +3,11 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 #
 # Cyril Castelbou <cyril.castelbou@free.fr>, 2009.
-#: src/gsb_transactions_list.c:183 src/gsb_transactions_list.c:187
-#: src/gsb_transactions_list.c:191 src/gsb_transactions_list.c:195
-#: src/gsb_transactions_list.c:200
 msgid ""
 msgstr ""
 "Project-Id-Version: eo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-05 06:23+0100\n"
+"POT-Creation-Date: 2010-01-07 21:59+0100\n"
 "PO-Revision-Date: 2009-06-28 20:04+0200\n"
 "Last-Translator: Cyril Castelbou <cyril.castelbou@free.fr>\n"
 "Language-Team: esperanto <eo@li.org>\n"
@@ -475,43 +472,43 @@ msgstr ""
 msgid "Don't allow new category/budget creation"
 msgstr ""
 
-#: src/balance_estimate_tab.c:99
+#: src/balance_estimate_tab.c:100
 msgid "One month"
 msgstr ""
 
-#: src/balance_estimate_tab.c:100
+#: src/balance_estimate_tab.c:101
 msgid "Two months"
 msgstr ""
 
-#: src/balance_estimate_tab.c:101
+#: src/balance_estimate_tab.c:102
 msgid "Three months"
 msgstr ""
 
-#: src/balance_estimate_tab.c:102
+#: src/balance_estimate_tab.c:103
 msgid "Six months"
 msgstr ""
 
-#: src/balance_estimate_tab.c:103
+#: src/balance_estimate_tab.c:104
 msgid "One year"
 msgstr ""
 
-#: src/balance_estimate_tab.c:104
+#: src/balance_estimate_tab.c:105
 msgid "Two years"
 msgstr ""
 
 #. ***** Parameter page *****
-#: src/balance_estimate_tab.c:175
+#: src/balance_estimate_tab.c:177
 msgid "Choice the prevision"
 msgstr ""
 
-#: src/balance_estimate_tab.c:194
+#: src/balance_estimate_tab.c:196
 msgid ""
 "Please select an account and a duration\n"
 "and select the estimate array tab."
 msgstr ""
 
 #. set the choice of account
-#: src/balance_estimate_tab.c:229 src/categories_onglet.c:154
+#: src/balance_estimate_tab.c:231 src/categories_onglet.c:154
 #: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
 #: src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
@@ -521,11 +518,11 @@ msgid "Account"
 msgstr ""
 
 #. ***** Estimation array page *****
-#: src/balance_estimate_tab.c:265
+#: src/balance_estimate_tab.c:267
 msgid "Array"
 msgstr ""
 
-#: src/balance_estimate_tab.c:315 src/etats_affiche.c:2405
+#: src/balance_estimate_tab.c:317 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1281 src/gsb_form_widget.c:404 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
@@ -534,13 +531,13 @@ msgid "Date"
 msgstr ""
 
 #. Description entry
-#: src/balance_estimate_tab.c:325 src/etats_onglet.c:269
+#: src/balance_estimate_tab.c:327 src/etats_onglet.c:269
 #: src/tiers_onglet.c:641
 msgid "Description"
 msgstr ""
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:336 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:338 src/categories_onglet.c:698
 #: src/export_csv.c:781 src/gsb_form.c:1315 src/gsb_form_widget.c:408
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1075 src/gsb_transactions_list.c:148
@@ -550,7 +547,7 @@ msgid "Debit"
 msgstr ""
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:350 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:352 src/categories_onglet.c:698
 #: src/export_csv.c:778 src/gsb_form.c:1322 src/gsb_form_widget.c:412
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
 #: src/gsb_payment_method_config.c:1071 src/gsb_transactions_list.c:149
@@ -558,7 +555,7 @@ msgstr ""
 msgid "Credit"
 msgstr ""
 
-#: src/balance_estimate_tab.c:363 src/export_csv.c:787 src/gsb_reconcile.c:147
+#: src/balance_estimate_tab.c:365 src/export_csv.c:787 src/gsb_reconcile.c:147
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
 #: src/gsb_transactions_list.c:2907 src/import_csv.c:89
 #: src/traitement_variables.c:82
@@ -566,15 +563,24 @@ msgid "Balance"
 msgstr ""
 
 #. ***** Estimation graph page *****
-#: src/balance_estimate_tab.c:374
+#: src/balance_estimate_tab.c:376
 msgid "Graph"
 msgstr ""
 
-#: src/balance_estimate_tab.c:649
+#: src/balance_estimate_tab.c:681
+#, c-format
+msgid "Balance estimate of the account \"%s\" from %s to %s"
+msgstr ""
+
+#: src/balance_estimate_tab.c:707
+msgid "balance beginning of period"
+msgstr ""
+
+#: src/balance_estimate_tab.c:774
 #, c-format
 msgid ""
-"Balance estimate of the account \"%s\" from %s to %s balance beginning of "
-"period = %s"
+"Transfer between account: %s\n"
+"and account: %s"
 msgstr ""
 
 #. New transaction
@@ -6525,7 +6531,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr ""
 
-#: src/gsb_file_load.c:457 src/gsb_file_load.c:4615
+#: src/gsb_file_load.c:457 src/gsb_file_load.c:4617
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr ""
 
@@ -6538,14 +6544,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:8012
+#: src/gsb_file_load.c:8015
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr ""
 
-#: src/gsb_file_load.c:8051
+#: src/gsb_file_load.c:8054
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -6553,7 +6559,7 @@ msgid ""
 "transactions or important informations."
 msgstr ""
 
-#: src/gsb_file_load.c:8052
+#: src/gsb_file_load.c:8055
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -6772,19 +6778,6 @@ msgstr ""
 msgid "Form structure preview"
 msgstr ""
 
-#. the button to choose the configuration for all/one account
-#: src/gsb_form_config.c:162
-msgid "Each account has his own form"
-msgstr ""
-
-#: src/gsb_form_config.c:177
-msgid "Update"
-msgstr ""
-
-#: src/gsb_form_config.c:185
-msgid " : Duplicate the selected form for all accounts"
-msgstr ""
-
 #. set the box with the buttons
 #: src/gsb_form_config.c:206
 msgid "Form structure content"
@@ -6820,15 +6813,6 @@ msgstr ""
 
 #: src/gsb_form_config.c:417
 msgid "columns"
-msgstr ""
-
-#: src/gsb_form_config.c:618
-msgid ""
-"Warning : all the form of the accounts will be updated according to the "
-"selected account. All the changes in the other accounts will be "
-"overwritten.\n"
-"\n"
-"Are you sure to do that ?"
 msgstr ""
 
 #: src/gsb_form_config.c:754

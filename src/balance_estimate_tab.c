@@ -110,6 +110,7 @@ static gint bet_months_array[] = {
 };
 struct bet_range
 {
+    gboolean first_pass;
     GDate min_date;
     GDate max_date;
     gsb_real min_balance;
@@ -502,52 +503,70 @@ static gboolean bet_update_average_column ( GtkTreeModel *model,
                         GtkTreeIter *iter,
                         gpointer data )
 {
-    /* find the selected account */
+    GtkWidget* dialog;
+    GtkWidget *tree_view;
+    GtkTreeModel *tree_model;
     GtkTreeIter iter_account;
-    GtkWidget *tree_view = g_object_get_data (G_OBJECT(bet_container), "bet_account_treeview");
-    GtkTreeModel *tree_model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view));
-    GtkTreeSelection* tree_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
-    if (!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(tree_selection), &tree_model, &iter_account))
-    {
-	GtkWidget* dialog = gtk_message_dialog_new (GTK_WINDOW(window),
-						    GTK_DIALOG_DESTROY_WITH_PARENT,
-						    GTK_MESSAGE_ERROR,
-						    GTK_BUTTONS_CLOSE,
-						    "Please, select an account in the list !\n");
-	gtk_dialog_run(GTK_DIALOG(dialog));
-	gtk_widget_destroy(GTK_WIDGET(dialog));
-	return FALSE;
-    }
-
-    gchar* account_name = NULL;
-    gtk_tree_model_get (tree_model, &iter_account, 0, &account_name, -1);
-    gint selected_account = gsb_data_account_get_no_account_by_name(account_name);
-    g_assert(selected_account != -1);
-
-    struct bet_range* tmp_range = (struct bet_range*)data;
-
-    gchar* date = NULL;
-    gtk_tree_model_get(model, iter, SPP_ESTIMATE_TREE_DATE_COLUMN,
-		       &date, -1);
-
-    gchar* str = NULL;
+    GtkTreeSelection* tree_selection;
+    gchar *account_name;
+    gchar *date = NULL;
+    gchar *str_balance = NULL;
+    gchar *tmp_str;
+    gint selected_account;
+    struct bet_range *tmp_range = (struct bet_range*) data;
     gsb_real amount;
 
-    gtk_tree_model_get ( model, iter, SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &str, -1);
-    amount = gsb_real_get_from_string(str);
+    /* jump the line of the initial balance */
+    if ( tmp_range -> first_pass )
+    {
+        tmp_range -> first_pass = FALSE;
+        return FALSE;
+    }
 
-    tmp_range->current_balance = gsb_real_add(tmp_range->current_balance, amount);
-    gchar* str_balance = gsb_real_get_string_with_currency (tmp_range->current_balance, 
-							    gsb_data_account_get_currency (selected_account), TRUE);
-    gtk_tree_store_set(GTK_TREE_STORE(model), iter,
-		       SPP_ESTIMATE_TREE_BALANCE_COLUMN, str_balance,
-		       -1);
-    g_free(str_balance);
+    /* find the selected account */
+    tree_view = g_object_get_data ( G_OBJECT ( bet_container ), "bet_account_treeview" );
+    tree_model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+    tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
+     &tree_model, &iter_account ) )
+    {
+        dialog = gtk_message_dialog_new ( GTK_WINDOW ( window ),
+                        GTK_DIALOG_DESTROY_WITH_PARENT,
+                        GTK_MESSAGE_ERROR,
+                        GTK_BUTTONS_CLOSE,
+                        "Please, select an account in the list !\n" );
+        gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+        gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+        return FALSE;
+    }
+ 
+    account_name = NULL;
+    gtk_tree_model_get ( tree_model, &iter_account, 0, &account_name, -1 );
+    selected_account = gsb_data_account_get_no_account_by_name ( account_name );
+    if ( selected_account == -1 )
+        return FALSE;
 
-    if (gsb_real_cmp(tmp_range->min_balance, tmp_range->current_balance) > 0)
-	tmp_range->min_balance = tmp_range->current_balance;
-    if (gsb_real_cmp(tmp_range->max_balance, tmp_range->current_balance) < 0)
-	tmp_range->max_balance = tmp_range->current_balance;
+    gtk_tree_model_get ( model, iter, SPP_ESTIMATE_TREE_DATE_COLUMN, &date, -1);
+
+    gtk_tree_model_get ( model, iter, SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &tmp_str, -1 );
+
+    amount = gsb_real_get_from_string ( tmp_str );
+    
+    tmp_range->current_balance = gsb_real_add ( tmp_range->current_balance, amount );
+    str_balance = gsb_real_get_string_with_currency ( tmp_range->current_balance, 
+                                gsb_data_account_get_currency ( selected_account ), TRUE );
+
+    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                        iter,
+                        SPP_ESTIMATE_TREE_BALANCE_COLUMN,
+                        str_balance,
+                        -1 );
+    g_free ( str_balance );
+
+    if ( gsb_real_cmp ( tmp_range->min_balance, tmp_range->current_balance ) > 0 )
+        tmp_range->min_balance = tmp_range->current_balance;
+    if ( gsb_real_cmp ( tmp_range->max_balance, tmp_range->current_balance ) < 0 )
+        tmp_range->max_balance = tmp_range->current_balance;
 
     return FALSE;
 }
@@ -605,6 +624,7 @@ static void bet_estimate_refresh ( void )
     gchar *str_date_max;
     gchar *str_current_balance;
     gchar *title;
+    gchar *tmp_str;
     gint selected_account;
     gint months;
     GDate *date_min;
@@ -612,34 +632,40 @@ static void bet_estimate_refresh ( void )
     gsb_real current_balance;
     GSList* tmp_list;
     struct bet_range tmp_range;
+    GValue date_value = {0, };
 
-    tree_view = g_object_get_data (G_OBJECT(bet_container), "bet_account_treeview");
-    tree_model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view));
-    tree_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
+    tree_view = g_object_get_data ( G_OBJECT ( bet_container ), "bet_account_treeview" );
+    tree_model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+    tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
 
-    if (!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(tree_selection), &tree_model, &iter))
+    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
+     &tree_model, &iter ) )
     {
         /* no selection, select the first account
          * (no warning here because cause a conflict with the tree of navigation */
-        gtk_notebook_set_current_page ( GTK_NOTEBOOK (bet_container), 0 );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( bet_container ), 0 );
         return;
     }
 
-    gtk_tree_model_get (tree_model, &iter, 0, &account_name, -1);
+    gtk_tree_model_get ( tree_model, &iter, 0, &account_name, -1 );
     selected_account = gsb_data_account_get_no_account_by_name ( account_name );
     if ( selected_account == -1 )
         return;;
 
     /* calculatextern gboolean balances_with_scheduled;e date_max with user choice */
-    data = g_object_get_data(G_OBJECT(bet_container), "bet_months");
-    months = ( data ) ? GPOINTER_TO_INT(data): 1;
+    data = g_object_get_data ( G_OBJECT ( bet_container ), "bet_months" );
+    months = ( data ) ? GPOINTER_TO_INT ( data ): 1;
     date_min = gdate_today ();
     date_max = gdate_today ();
     g_date_add_months (date_max, months );
 
     /* set the graph title and the array title */
-    str_date_min = gsb_format_gdate (date_min);
+    str_date_min = gsb_format_gdate ( date_min );
+    g_value_init ( &date_value, G_TYPE_DATE );
+    g_value_set_boxed ( &date_value, date_min );
+
     str_date_max = gsb_format_gdate (date_max);
+    
     /* current balance may be in the future if there are transactions
      * in the future in the account. So we need to calculate the balance
      * of today */
@@ -652,11 +678,8 @@ static void bet_estimate_refresh ( void )
                         gsb_data_account_get_currency ( selected_account ), TRUE );
 
     title = g_strdup_printf (
-                    _("Balance estimate of the account \"%s\" from %s to %s "
-                    "balance beginning of period = %s"),
-				   account_name, str_date_min, str_date_max, str_current_balance );
-    g_free(str_date_min);
-    g_free(str_date_max);
+                    _("Balance estimate of the account \"%s\" from %s to %s"),
+				   account_name, str_date_min, str_date_max );
 
     widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( bet_container ), "bet_array_title") );
     gtk_label_set_label ( GTK_LABEL ( widget ), title );
@@ -670,6 +693,32 @@ static void bet_estimate_refresh ( void )
     tree_model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_store_clear(GTK_TREE_STORE ( tree_model ) );
 
+    /* current balance may be in the future if there are transactions
+     * in the future in the account. So we need to calculate the balance
+     * of today */
+    if ( balances_with_scheduled )
+        current_balance = gsb_data_account_calculate_current_day_balance ( selected_account );
+    else
+        current_balance = gsb_data_account_get_current_balance ( selected_account );
+
+    str_current_balance = gsb_real_get_string_with_currency ( current_balance,
+                        gsb_data_account_get_currency ( selected_account ), TRUE );
+
+    tmp_str = g_strdup ( _("balance beginning of period") );
+    gtk_tree_store_append ( GTK_TREE_STORE ( tree_model ), &iter, NULL );
+    gtk_tree_store_set_value (GTK_TREE_STORE ( tree_model ), &iter,
+                     SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
+                     &date_value);
+    gtk_tree_store_set(GTK_TREE_STORE(tree_model), &iter,
+                   SPP_ESTIMATE_TREE_DATE_COLUMN, str_date_min,
+                   SPP_ESTIMATE_TREE_DESC_COLUMN, tmp_str,
+                   SPP_ESTIMATE_TREE_BALANCE_COLUMN, str_current_balance,
+                   -1);
+
+    g_value_unset ( &date_value );
+    g_free(str_date_min);
+    g_free(str_date_max);
+
     /* search transactions of the account which are in the future */
     tmp_list = gsb_data_transaction_get_complete_transactions_list ( );
 
@@ -681,9 +730,10 @@ static void bet_estimate_refresh ( void )
         const gchar* str_description;
         gchar* str_date;
         gint transaction_number;
+        gint transfer_number;
         gint account_number;
+        gint transfer_account_number;
         const GDate *date;
-        GValue date_value = {0, };
         gsb_real amount;
 
         transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
@@ -693,14 +743,16 @@ static void bet_estimate_refresh ( void )
         if ( account_number != selected_account )
             continue;
 
-        /* ignore transaction which are before date_min (today) */
         date = gsb_data_transaction_get_date ( transaction_number );
+        /* ignore transaction which are before date_min (today) */
         if ( g_date_compare ( date, date_min ) <= 0 )
             continue;
-
         /* ignore transaction which are after date_max */
         if ( g_date_compare (date, date_max ) > 0 )
             continue;
+        str_date = gsb_format_gdate ( date );
+        g_value_init ( &date_value, G_TYPE_DATE );
+        g_value_set_boxed ( &date_value, date );
 
         amount = gsb_data_transaction_get_amount ( transaction_number );
         str_amount = gsb_real_get_string ( amount );
@@ -710,18 +762,28 @@ static void bet_estimate_refresh ( void )
                         gsb_data_transaction_get_currency_number ( transaction_number), TRUE );
         else
             str_credit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
-                                    gsb_data_transaction_get_currency_number (transaction_number), TRUE);
+                        gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 
-        /* TODO add something else if description is empty ( payee by example ) */
-        str_description = gsb_data_transaction_get_notes ( transaction_number );
-        str_date = gsb_format_gdate ( date );
+        transfer_number =
+                        gsb_data_transaction_get_contra_transaction_number (
+                        transaction_number );
+        if ( transfer_number > 0 )
+        {
+            transfer_account_number = gsb_data_transaction_get_account_number (
+                        transfer_number );
+            str_description = g_strdup_printf ( _("Transfer between account: %s\n"
+                        "and account: %s"),
+                        gsb_data_account_get_name ( account_number ),
+                        gsb_data_account_get_name ( transfer_account_number ) );
+        }
+        else
+        {
+            str_description = gsb_data_transaction_get_notes ( transaction_number );
 
-        if (!str_description || !strlen (str_description))
-            str_description = gsb_data_payee_get_name (
-                        gsb_data_transaction_get_party_number ( transaction_number ), TRUE );
-
-        g_value_init ( &date_value, G_TYPE_DATE );
-        g_value_set_boxed ( &date_value, date );
+            if (!str_description || !strlen (str_description))
+                str_description = gsb_data_payee_get_name (
+                            gsb_data_transaction_get_party_number ( transaction_number ), TRUE );
+        }
 
         /* add a line in the estimate array */
         gtk_tree_store_append ( GTK_TREE_STORE ( tree_model ), &iter, NULL );
@@ -756,8 +818,9 @@ static void bet_estimate_refresh ( void )
         const gchar *str_description;
         gchar *str_date;
         gint scheduled_number;
+        //~ gint transfer_number;
         gint account_number;
-        //~ gint transfer_account_number;
+        gint transfer_account_number;
         GDate *date;
         GValue date_value = {0, };
         gsb_real amount;
@@ -771,13 +834,14 @@ static void bet_estimate_refresh ( void )
 
         /* ignore scheduled operations of other account */
         account_number = gsb_data_scheduled_get_account_number ( scheduled_number );
-       //~ transfer_account_number =
-            //~ gsb_data_scheduled_get_account_number_transfer( scheduled_number );
+        if ( account_number != selected_account )
+            continue;
+
+        transfer_account_number =
+            gsb_data_scheduled_get_account_number_transfer ( scheduled_number );
         //~ if ( account_number != selected_account &&
             //~ transfer_account_number != selected_account)
             //~ continue;
-        if ( account_number != selected_account )
-            continue;
 
         str_description = gsb_data_scheduled_get_notes ( scheduled_number );
         amount = gsb_data_scheduled_get_amount ( scheduled_number );
@@ -854,6 +918,7 @@ static void bet_estimate_refresh ( void )
     g_free ( date_max );
 
     /* Calculate the balance column */
+    tmp_range.first_pass = TRUE;
     tmp_range.min_date = *date_min;
     tmp_range.max_date = *date_max;
     tmp_range.min_balance = null_real;

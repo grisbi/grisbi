@@ -2,14 +2,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/gsb_transactions_list.c:183 src/gsb_transactions_list.c:187
-#: src/gsb_transactions_list.c:191 src/gsb_transactions_list.c:195
-#: src/gsb_transactions_list.c:200
 msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-05 06:23+0100\n"
+"POT-Creation-Date: 2010-01-07 21:59+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -507,36 +504,36 @@ msgstr "Μην επιτρέψτε τη νέα δημιουργία δικαιο�
 msgid "Don't allow new category/budget creation"
 msgstr "Μην επιτρέψτε τη νέα δημιουργία κατηγορίας/προϋπολογισμών"
 
-#: src/balance_estimate_tab.c:99
+#: src/balance_estimate_tab.c:100
 msgid "One month"
 msgstr "Ένας μήνας"
 
-#: src/balance_estimate_tab.c:100
+#: src/balance_estimate_tab.c:101
 msgid "Two months"
 msgstr "Δύο μήνες"
 
-#: src/balance_estimate_tab.c:101
+#: src/balance_estimate_tab.c:102
 msgid "Three months"
 msgstr "Τρεις μήνες"
 
-#: src/balance_estimate_tab.c:102
+#: src/balance_estimate_tab.c:103
 msgid "Six months"
 msgstr "Έξι μήνες"
 
-#: src/balance_estimate_tab.c:103
+#: src/balance_estimate_tab.c:104
 msgid "One year"
 msgstr "Ένα έτος"
 
-#: src/balance_estimate_tab.c:104
+#: src/balance_estimate_tab.c:105
 msgid "Two years"
 msgstr "Δύο έτη"
 
 #. ***** Parameter page *****
-#: src/balance_estimate_tab.c:175
+#: src/balance_estimate_tab.c:177
 msgid "Choice the prevision"
 msgstr ""
 
-#: src/balance_estimate_tab.c:194
+#: src/balance_estimate_tab.c:196
 msgid ""
 "Please select an account and a duration\n"
 "and select the estimate array tab."
@@ -545,7 +542,7 @@ msgstr ""
 " και επιλέξτε τη σειρά πίν. εκτίμησης."
 
 #. set the choice of account
-#: src/balance_estimate_tab.c:229 src/categories_onglet.c:154
+#: src/balance_estimate_tab.c:231 src/categories_onglet.c:154
 #: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
 #: src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
@@ -555,11 +552,11 @@ msgid "Account"
 msgstr "Λογαριασμός"
 
 #. ***** Estimation array page *****
-#: src/balance_estimate_tab.c:265
+#: src/balance_estimate_tab.c:267
 msgid "Array"
 msgstr ""
 
-#: src/balance_estimate_tab.c:315 src/etats_affiche.c:2405
+#: src/balance_estimate_tab.c:317 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1281 src/gsb_form_widget.c:404 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
@@ -568,13 +565,13 @@ msgid "Date"
 msgstr "Ημερομηνία"
 
 #. Description entry
-#: src/balance_estimate_tab.c:325 src/etats_onglet.c:269
+#: src/balance_estimate_tab.c:327 src/etats_onglet.c:269
 #: src/tiers_onglet.c:641
 msgid "Description"
 msgstr "Περιγραφή"
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:336 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:338 src/categories_onglet.c:698
 #: src/export_csv.c:781 src/gsb_form.c:1315 src/gsb_form_widget.c:408
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1075 src/gsb_transactions_list.c:148
@@ -584,7 +581,7 @@ msgid "Debit"
 msgstr "Χρέωση"
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:350 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:352 src/categories_onglet.c:698
 #: src/export_csv.c:778 src/gsb_form.c:1322 src/gsb_form_widget.c:412
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
 #: src/gsb_payment_method_config.c:1071 src/gsb_transactions_list.c:149
@@ -592,7 +589,7 @@ msgstr "Χρέωση"
 msgid "Credit"
 msgstr "Πίστωση"
 
-#: src/balance_estimate_tab.c:363 src/export_csv.c:787 src/gsb_reconcile.c:147
+#: src/balance_estimate_tab.c:365 src/export_csv.c:787 src/gsb_reconcile.c:147
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
 #: src/gsb_transactions_list.c:2907 src/import_csv.c:89
 #: src/traitement_variables.c:82
@@ -600,16 +597,25 @@ msgid "Balance"
 msgstr "Ισορροπία"
 
 #. ***** Estimation graph page *****
-#: src/balance_estimate_tab.c:374
+#: src/balance_estimate_tab.c:376
 msgid "Graph"
 msgstr ""
 
-#: src/balance_estimate_tab.c:649
+#: src/balance_estimate_tab.c:681
+#, fuzzy, c-format
+msgid "Balance estimate of the account \"%s\" from %s to %s"
+msgstr "Εκτίμηση ισορροπίας του λογαριασμού  \"%s\" από %s %s"
+
+#: src/balance_estimate_tab.c:707
+msgid "balance beginning of period"
+msgstr ""
+
+#: src/balance_estimate_tab.c:774
 #, fuzzy, c-format
 msgid ""
-"Balance estimate of the account \"%s\" from %s to %s balance beginning of "
-"period = %s"
-msgstr "Εκτίμηση ισορροπίας του λογαριασμού  \"%s\" από %s %s"
+"Transfer between account: %s\n"
+"and account: %s"
+msgstr "Μεταφορά σε έναν διαγραμμένο λογαριασμό."
 
 #. New transaction
 #: src/barre_outils.c:95 src/gsb_scheduler_list.c:2002
@@ -7125,7 +7131,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "Το plugin της κρυπτογράφησης δεν βρέθηκε."
 
-#: src/gsb_file_load.c:457 src/gsb_file_load.c:4615
+#: src/gsb_file_load.c:457 src/gsb_file_load.c:4617
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Αυτό δεν είναι ένα αρχείο Grisbi… Η φόρτωση αναβάλλεται."
 
@@ -7141,7 +7147,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:8012
+#: src/gsb_file_load.c:8015
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7150,7 +7156,7 @@ msgstr ""
 "Η έκδοση Grisbi %s απαιτείται για να ανοίξει αυτό το αρχείο.\n"
 "Eσείς χρησιμοποιείται την έκδοση %s."
 
-#: src/gsb_file_load.c:8051
+#: src/gsb_file_load.c:8054
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7162,7 +7168,7 @@ msgstr ""
 "θέλετε και σώζετε αργότερα (νέες εκθέσεις…) αλλά θυμηθείτε ότι είναι ένα "
 "αρχείο πριν τροποποιηθούν  μερικές συναλλαγές ή σημαντικές πληροφορίες."
 
-#: src/gsb_file_load.c:8052
+#: src/gsb_file_load.c:8055
 msgid "Grisbi archive opened"
 msgstr "Αρχείο Grisbi που ανοίγουν"
 
@@ -7413,19 +7419,6 @@ msgstr "Μορφή συναλλαγής"
 msgid "Form structure preview"
 msgstr "Πρόβλεψη δομών μορφής"
 
-#. the button to choose the configuration for all/one account
-#: src/gsb_form_config.c:162
-msgid "Each account has his own form"
-msgstr "Κάθε λογαριασμός έχει τη μορφή του"
-
-#: src/gsb_form_config.c:177
-msgid "Update"
-msgstr "Ανανέωση"
-
-#: src/gsb_form_config.c:185
-msgid " : Duplicate the selected form for all accounts"
-msgstr ""
-
 #. set the box with the buttons
 #: src/gsb_form_config.c:206
 msgid "Form structure content"
@@ -7462,20 +7455,6 @@ msgstr "σειρές"
 #: src/gsb_form_config.c:417
 msgid "columns"
 msgstr "στήλες"
-
-#: src/gsb_form_config.c:618
-msgid ""
-"Warning : all the form of the accounts will be updated according to the "
-"selected account. All the changes in the other accounts will be "
-"overwritten.\n"
-"\n"
-"Are you sure to do that ?"
-msgstr ""
-"Προειδοποίηση: όλη η μορφή των λογαριασμών θα ενημερωθεί σύμφωνα με τον "
-"επιλεγμένο λογαριασμό. Όλες οι αλλαγές στους άλλους λογαριασμούς θα "
-"επικαλυφθούν.\n"
-"\n"
-"Είστε βέβαιοι?"
 
 #: src/gsb_form_config.c:754
 msgid ""
@@ -10427,6 +10406,25 @@ msgstr ""
 #: src/utils_font.c:199
 msgid "No font defined"
 msgstr "Δεν καθορίστηκε γραμματοσειρά"
+
+#~ msgid "Each account has his own form"
+#~ msgstr "Κάθε λογαριασμός έχει τη μορφή του"
+
+#~ msgid "Update"
+#~ msgstr "Ανανέωση"
+
+#~ msgid ""
+#~ "Warning : all the form of the accounts will be updated according to the "
+#~ "selected account. All the changes in the other accounts will be "
+#~ "overwritten.\n"
+#~ "\n"
+#~ "Are you sure to do that ?"
+#~ msgstr ""
+#~ "Προειδοποίηση: όλη η μορφή των λογαριασμών θα ενημερωθεί σύμφωνα με τον "
+#~ "επιλεγμένο λογαριασμό. Όλες οι αλλαγές στους άλλους λογαριασμούς θα "
+#~ "επικαλυφθούν.\n"
+#~ "\n"
+#~ "Είστε βέβαιοι?"
 
 #~ msgid "Estimate array"
 #~ msgstr "Σειρά εκτίμησης"

@@ -180,24 +180,24 @@ extern GtkWidget *window;
 struct conditional_message delete_msg[] =
 {
     { "delete-child-transaction", N_("Delete a child transaction."),
-      N_(""), 
+      NULL, 
       FALSE, FALSE, },
 
     { "delete-transaction",  N_("Delete a transaction."),
-      N_(""),
+      NULL,
       FALSE, FALSE, },
 
     { "delete-child-scheduled", N_("Delete a child of scheduled transaction."),
-      N_(""),
+      NULL,
       FALSE, FALSE, },
 
     { "delete-scheduled", N_("Delete a scheduled transaction."),
-      N_(""),
+      NULL,
       FALSE, FALSE, },
 
     { "delete-scheduled-occurences", N_("Delete one or all occurences of scheduled "
       "transaction."),
-      N_(""),
+      NULL,
       FALSE, FALSE, },
 
 /*
