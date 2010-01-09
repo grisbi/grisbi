@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-09 15:21+0100\n"
-"PO-Revision-Date: 2010-01-09 15:36+0100\n"
+"PO-Revision-Date: 2010-01-09 20:30+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -210,7 +210,7 @@ msgstr "Meine Konten"
 
 #: src/affichage.c:135 src/parametres.c:346
 msgid "Fonts & logo"
-msgstr "Logo & Schriften"
+msgstr "Schrift & Farben"
 
 #. Change Grisbi Logo
 #: src/affichage.c:138
@@ -250,7 +250,7 @@ msgstr "Voreinstellung"
 
 #: src/affichage.c:364 src/parametres.c:364
 msgid "Addresses & titles"
-msgstr "Adressen & Bezeichnungen"
+msgstr "Bezeichnung & Adressen"
 
 #. Account file title
 #: src/affichage.c:368 src/etats_config.c:624 src/etats_config.c:627
@@ -508,7 +508,7 @@ msgstr "2 Jahre"
 #. ***** Parameter page *****
 #: src/balance_estimate_tab.c:177
 msgid "Choice the prevision"
-msgstr "Prognose auswählen"
+msgstr "Prognose Parameter"
 
 #: src/balance_estimate_tab.c:196
 msgid ""
@@ -531,7 +531,7 @@ msgstr "Konto"
 #. ***** Estimation array page *****
 #: src/balance_estimate_tab.c:267
 msgid "Array"
-msgstr "Anordnung"
+msgstr "Prognose Daten"
 
 #: src/balance_estimate_tab.c:317 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
@@ -576,7 +576,7 @@ msgstr "Saldo"
 #. ***** Estimation graph page *****
 #: src/balance_estimate_tab.c:376
 msgid "Graph"
-msgstr "Graph"
+msgstr "Prognose Graph"
 
 #: src/balance_estimate_tab.c:681
 #, c-format
@@ -7310,27 +7310,27 @@ msgstr "Inhalt Buchungsformular"
 
 #: src/gsb_form_config.c:253
 msgid "Col 1"
-msgstr "Col 1"
+msgstr "Spalte 1"
 
 #: src/gsb_form_config.c:254
 msgid "Col 2"
-msgstr "Col 2"
+msgstr "Spalte 2"
 
 #: src/gsb_form_config.c:255
 msgid "Col 3"
-msgstr "Col 3"
+msgstr "Spalte 3"
 
 #: src/gsb_form_config.c:256
 msgid "Col 4"
-msgstr "Col 4"
+msgstr "Spalte 4"
 
 #: src/gsb_form_config.c:257
 msgid "Col 5"
-msgstr "Col 5"
+msgstr "Spalte 5"
 
 #: src/gsb_form_config.c:258
 msgid "Col 6"
-msgstr "Col 6"
+msgstr "Spalte 6"
 
 #: src/gsb_form_config.c:370
 msgid "rows"
@@ -7973,23 +7973,23 @@ msgstr "Schecknummer"
 
 #: src/gsb_transactions_list.c:182
 msgid "Delete a child transaction."
-msgstr "Eine Teilbuchung löschen."
+msgstr "Eine Teilbuchung löschen"
 
 #: src/gsb_transactions_list.c:186
 msgid "Delete a transaction."
-msgstr "Eine Buchung löschen."
+msgstr "Eine Buchung löschen"
 
 #: src/gsb_transactions_list.c:190
 msgid "Delete a child of scheduled transaction."
-msgstr "Eine Teilbuchung von einer geplanten Buchung löschen."
+msgstr "Eine Teilbuchung von einer geplanten Buchung löschen"
 
 #: src/gsb_transactions_list.c:194
 msgid "Delete a scheduled transaction."
-msgstr "Eine geplante Buchung löschen."
+msgstr "Eine geplante Buchung löschen"
 
 #: src/gsb_transactions_list.c:198
 msgid "Delete one or all occurences of scheduled transaction."
-msgstr "Ein oder alle Vorkommen von einer geplanten Buchung löschen."
+msgstr "Ein oder alle Vorkommen von einer geplanten Buchung löschen"
 
 #: src/gsb_transactions_list.c:560 src/gsb_transactions_list.c:3394
 msgid ""
@@ -9298,7 +9298,7 @@ msgstr "Anzeigeoptionen"
 
 #: src/parametres.c:355 src/parametres.c:585
 msgid "Messages & warnings"
-msgstr "Meldungen & Warnungen"
+msgstr "Tipps & Warnungen"
 
 #: src/parametres.c:373 src/parametres.c:1119
 msgid "Payees, categories and budgetaries"
@@ -9310,7 +9310,7 @@ msgstr "Einstellungen"
 
 #: src/parametres.c:410 src/parametres.c:671
 msgid "Messages before deleting"
-msgstr "Meldungen & Löschungen"
+msgstr "Löschrückfragen"
 
 #: src/parametres.c:446
 msgid "Content"
