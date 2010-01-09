@@ -87,7 +87,7 @@ static GObjectClass *parent_class = NULL;  /* GObject stuff - nothing to worry a
 
 /**
  * create the new custom list
- * add automaticaly the white line
+ * add automatically the white line
  *
  * \param
  *

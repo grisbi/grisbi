@@ -342,7 +342,7 @@ gboolean gsb_data_payment_remove ( gint payment_number )
 /**
  * set a new number for the payment
  * normally used only while loading the file because
- * the number are given automaticaly
+ * the number are given automatically
  *
  * \param payment_number the number of the payment
  * \param new_no_payment the new number of the payment
@@ -555,7 +555,7 @@ gboolean gsb_data_payment_set_show_entry ( gint payment_number,
  * return the automatic_numbering of the method of payment
  * if automatic_numbering is set and if show_entry is set,
  * 	when choosing the method of payment in the form, an entry
- * 	is showed and the content contains automaticaly the
+ * 	is showed and the content contains automatically the
  * 	last_number for that method of payment + 1
  *
  * \param payment_number the number of the method of payment
@@ -634,7 +634,7 @@ gint gsb_data_payment_get_transfer_payment_number ( gint account_number )
 
 /**
  * return the last_number of the method of payment
- * this is the last number to set automaticaly that number + 1
+ * this is the last number to set automatically that number + 1
  * 	in the cheque entry ; nothing to deal with gsb_data_payment_max_number
  * 	wich give the last payment_number, internal number to count the method of payment
  *

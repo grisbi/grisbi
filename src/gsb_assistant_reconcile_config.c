@@ -58,7 +58,7 @@ static  gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *but
                         GtkWidget *assistant );
 static  gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidget *button,
                         GtkWidget *label );
-static  GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( GtkWidget *assistant );
+static  GtkWidget *gsb_assistant_reconcile_config_page_automatically_associate ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistant );
 static  gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *button,
@@ -79,7 +79,7 @@ enum reconcile_assistant_page
     RECONCILE_ASSISTANT_INTRO= 0,
     RECONCILE_ASSISTANT_MENU,
     RECONCILE_ASSISTANT_NEW_RECONCILE,
-    RECONCILE_ASSISTANT_AUTOMATICALY_ASSOCIATE,
+    RECONCILE_ASSISTANT_AUTOMATICALLY_ASSOCIATE,
     RECONCILE_ASSISTANT_MANUALLY_ASSOCIATE,
     RECONCILE_ASSISTANT_SUCCESS
 };
@@ -103,13 +103,13 @@ static gint transactions_to_link;
 
 
 
-/* variables for the page to automaticaly associate */
+/* variables for the page to automatically associate */
 static GtkWidget *label_transactions_to_link_2 = NULL;
 static GtkWidget *label_possible_association = NULL;
 static GtkWidget *button_run_association = NULL;
 
 /* structure making the link between a transaction and the corresponding reconcile,
- * used for automaticaly association */
+ * used for automatically association */
 struct association_transaction_reconcile
 {
     gint transaction_number;
@@ -183,7 +183,7 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
      * 	-permit to choose a reconcile number for each transactions without reconcile
      * 	- do an automatic find for reconcile, usefull in the first item, when very much
      * 		transactions without reconcile, but we need to make the old reconciles before,
-     * 		and set the good date for all the reconciles (because grisbi set them automaticaly
+     * 		and set the good date for all the reconciles (because grisbi set them automatically
      * 		at the first update to grisbi 0.6.0 )*/
 
     /* first, create the assistant */
@@ -214,8 +214,8 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
 			     RECONCILE_ASSISTANT_MENU,
 			     NULL );
     gsb_assistant_add_page ( assistant,
-			     gsb_assistant_reconcile_config_page_automaticaly_associate (assistant),
-			     RECONCILE_ASSISTANT_AUTOMATICALY_ASSOCIATE,
+			     gsb_assistant_reconcile_config_page_automatically_associate (assistant),
+			     RECONCILE_ASSISTANT_AUTOMATICALLY_ASSOCIATE,
 			     RECONCILE_ASSISTANT_MENU,
 			     RECONCILE_ASSISTANT_MENU,
 			     G_CALLBACK (gsb_assistant_reconcile_config_update_auto_asso));
@@ -241,7 +241,7 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
  * create the page 2 of the assistant to make the link between marked transactions and reconciles
  * that page propose to :
  * 	create new reconciles
- * 	automaticaly associate transactions to known reconciles
+ * 	automatically associate transactions to known reconciles
  * 	associate transactions to a reconcile, by hand
  * a change to that menu will change the next page, according to it
  *
@@ -305,11 +305,11 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
 			 label,
 			 FALSE, FALSE, 0 );
 
-    /* automaticaly associate the transactions without reconcile number */
+    /* automatically associate the transactions without reconcile number */
     button = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (GTK_RADIO_BUTTON (button)),
-					       _("Automaticaly associate transactions without reconciliation number with the known reconciliations"));
+					       _("Automatically associate transactions without reconciliation number with the known reconciliations"));
     g_object_set_data ( G_OBJECT (button),
-			"next_page", GINT_TO_POINTER (RECONCILE_ASSISTANT_AUTOMATICALY_ASSOCIATE));
+			"next_page", GINT_TO_POINTER (RECONCILE_ASSISTANT_AUTOMATICALLY_ASSOCIATE));
     g_signal_connect ( G_OBJECT (button),
 		       "toggled",
 		       G_CALLBACK (gsb_assistant_reconcile_config_page_menu_toggled),
@@ -504,13 +504,13 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 
 
 /**
- * create the page to automaticaly associate the transactions to the reconciles
+ * create the page to automatically associate the transactions to the reconciles
  *
  * \param assistant
  *
  * \return a GtkWidget, the page to the assistant
  * */
-static GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( GtkWidget *assistant )
+static GtkWidget *gsb_assistant_reconcile_config_page_automatically_associate ( GtkWidget *assistant )
 {
     GtkWidget *page;
     GtkWidget *separator;
@@ -865,7 +865,7 @@ static gboolean gsb_assistant_reconcile_config_hide_label_error ( GtkWidget *edi
 
 
 /**
- * function called when the user come to the automaticaly association page
+ * function called when the user come to the automatically association page
  * fill the label and show the button if possible
  *
  * \param assistant
@@ -890,7 +890,7 @@ gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
     gtk_misc_set_alignment ( GTK_MISC (label_transactions_to_link_2),
 			     0, 0.5 );
 
-    /* calculate how many transactions can be associated automaticaly,
+    /* calculate how many transactions can be associated automatically,
      * to avoid to do that 2 times, we set each transactions in a structure with
      * the associated number of reconcile */
     if (list_association)
@@ -1018,7 +1018,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *butt
     {
 	/* go to the success page */
 	gsb_assistant_set_next ( assistant,
-				 RECONCILE_ASSISTANT_AUTOMATICALY_ASSOCIATE,
+				 RECONCILE_ASSISTANT_AUTOMATICALLY_ASSOCIATE,
 				 RECONCILE_ASSISTANT_SUCCESS );
 	gsb_assistant_next_page (assistant);
     }

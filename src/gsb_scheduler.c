@@ -511,7 +511,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 		/* this is an automatic scheduled, we get it */
 		gint transaction_number;
 
-		/* take automaticaly the scheduled transaction untill today */
+		/* take automatically the scheduled transaction untill today */
 		transaction_number = gsb_scheduler_create_transaction_from_scheduled_transaction (scheduled_number,
 												  0 );
 		if ( gsb_data_scheduled_get_split_of_scheduled (scheduled_number))

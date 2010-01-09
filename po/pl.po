@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-07 21:59+0100\n"
+"POT-Creation-Date: 2010-01-09 21:30+0100\n"
 "PO-Revision-Date: 2006-05-15 12:44+0200\n"
 "Last-Translator: Ryszard Jeziorski <r.jeziorski@dart.kielce.pl>\n"
 "Language-Team: Polish\n"
@@ -521,63 +521,32 @@ msgstr ""
 msgid "Don't allow new category/budget creation"
 msgstr ""
 
-#: src/balance_estimate_tab.c:100
+#: src/balance_estimate_tab.c:101 src/etats_config.c:6371
 #, fuzzy
-msgid "One month"
-msgstr "Na miesiąc"
-
-#: src/balance_estimate_tab.c:101
-#, fuzzy
-msgid "Two months"
-msgstr "%d miesięcy"
-
-#: src/balance_estimate_tab.c:102
-#, fuzzy
-msgid "Three months"
-msgstr "%d miesięcy"
-
-#: src/balance_estimate_tab.c:103
-#, fuzzy
-msgid "Six months"
+msgid "Month"
 msgstr "Miesiące"
 
-#: src/balance_estimate_tab.c:104
-#, fuzzy
-msgid "One year"
-msgstr "Na rok"
-
-#: src/balance_estimate_tab.c:105
-#, fuzzy
-msgid "Two years"
-msgstr "Lata"
+#: src/balance_estimate_tab.c:102 src/etats_config.c:6375
+msgid "Year"
+msgstr "Rok"
 
 #. ***** Parameter page *****
-#: src/balance_estimate_tab.c:177
+#: src/balance_estimate_tab.c:147
 msgid "Choice the prevision"
 msgstr ""
 
-#: src/balance_estimate_tab.c:196
+#: src/balance_estimate_tab.c:167
 msgid ""
 "Please select an account and a duration\n"
 "and select the estimate array tab."
 msgstr ""
 
-#. set the choice of account
-#: src/balance_estimate_tab.c:231 src/categories_onglet.c:154
-#: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
-#: src/gsb_assistant_reconcile_config.c:594
-#: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
-#: src/gsb_scheduler_list.c:339 src/imputation_budgetaire.c:167
-#: src/navigation.c:1161 src/tiers_onglet.c:234
-msgid "Account"
-msgstr "Konto"
-
 #. ***** Estimation array page *****
-#: src/balance_estimate_tab.c:267
+#: src/balance_estimate_tab.c:185
 msgid "Array"
 msgstr ""
 
-#: src/balance_estimate_tab.c:317 src/etats_affiche.c:2405
+#: src/balance_estimate_tab.c:235 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1281 src/gsb_form_widget.c:404 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
@@ -586,13 +555,13 @@ msgid "Date"
 msgstr "Data"
 
 #. Description entry
-#: src/balance_estimate_tab.c:327 src/etats_onglet.c:269
+#: src/balance_estimate_tab.c:245 src/etats_onglet.c:269
 #: src/tiers_onglet.c:641
 msgid "Description"
 msgstr "Opis"
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:338 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:256 src/categories_onglet.c:698
 #: src/export_csv.c:781 src/gsb_form.c:1315 src/gsb_form_widget.c:408
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1075 src/gsb_transactions_list.c:148
@@ -602,7 +571,7 @@ msgid "Debit"
 msgstr "Wydatki"
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:352 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:270 src/categories_onglet.c:698
 #: src/export_csv.c:778 src/gsb_form.c:1322 src/gsb_form_widget.c:412
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
 #: src/gsb_payment_method_config.c:1071 src/gsb_transactions_list.c:149
@@ -610,7 +579,7 @@ msgstr "Wydatki"
 msgid "Credit"
 msgstr "Wpływy"
 
-#: src/balance_estimate_tab.c:365 src/export_csv.c:787 src/gsb_reconcile.c:147
+#: src/balance_estimate_tab.c:283 src/export_csv.c:787 src/gsb_reconcile.c:147
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
 #: src/gsb_transactions_list.c:2907 src/import_csv.c:89
 #: src/traitement_variables.c:82
@@ -618,25 +587,55 @@ msgid "Balance"
 msgstr "Saldo"
 
 #. ***** Estimation graph page *****
-#: src/balance_estimate_tab.c:376
+#: src/balance_estimate_tab.c:294
 msgid "Graph"
 msgstr ""
 
-#: src/balance_estimate_tab.c:681
+#: src/balance_estimate_tab.c:613
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
-#: src/balance_estimate_tab.c:707
+#: src/balance_estimate_tab.c:639
 msgid "balance beginning of period"
 msgstr ""
 
-#: src/balance_estimate_tab.c:774
+#: src/balance_estimate_tab.c:706 src/balance_estimate_tab.c:776
+#: src/balance_estimate_tab.c:786
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Transfer do usuniętego konta"
+
+#. set the choice of account
+#: src/balance_estimate_tab.c:1025 src/categories_onglet.c:154
+#: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
+#: src/gsb_assistant_reconcile_config.c:594
+#: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
+#: src/gsb_scheduler_list.c:339 src/imputation_budgetaire.c:167
+#: src/navigation.c:1161 src/tiers_onglet.c:234
+msgid "Account"
+msgstr "Konto"
+
+#: src/balance_estimate_tab.c:1057
+#, fuzzy
+msgid "Calculation of period"
+msgstr "Saldo początkowe"
+
+#: src/balance_estimate_tab.c:1064
+msgid "1st day of month to last day of the month concerned"
+msgstr ""
+
+#: src/balance_estimate_tab.c:1074
+msgid "From date to date"
+msgstr ""
+
+#. partie mensuelle
+#: src/balance_estimate_tab.c:1085
+#, fuzzy
+msgid "Duration estimation"
+msgstr "Czcionka listy transakcji"
 
 #. New transaction
 #: src/barre_outils.c:95 src/gsb_scheduler_list.c:2002
@@ -2319,15 +2318,6 @@ msgstr "Dni"
 #: src/etats_config.c:6367
 msgid "Week"
 msgstr "Tydzień"
-
-#: src/etats_config.c:6371
-#, fuzzy
-msgid "Month"
-msgstr "Miesiące"
-
-#: src/etats_config.c:6375
-msgid "Year"
-msgstr "Rok"
 
 #. add beginning day of the week
 #: src/etats_config.c:6382
@@ -4425,7 +4415,7 @@ msgstr ""
 #. * 	-permit to choose a reconcile number for each transactions without reconcile
 #. * 	- do an automatic find for reconcile, usefull in the first item, when very much
 #. * 		transactions without reconcile, but we need to make the old reconciles before,
-#. * 		and set the good date for all the reconciles (because grisbi set them automaticaly
+#. * 		and set the good date for all the reconciles (because grisbi set them automatically
 #. * 		at the first update to grisbi 0.6.0 )
 #. first, create the assistant
 #: src/gsb_assistant_reconcile_config.c:190
@@ -4481,7 +4471,7 @@ msgstr ""
 
 #: src/gsb_assistant_reconcile_config.c:310
 msgid ""
-"Automaticaly associate transactions without reconciliation number with the "
+"Automatically associate transactions without reconciliation number with the "
 "known reconciliations"
 msgstr ""
 
@@ -7640,7 +7630,7 @@ msgstr "Błędna data"
 #: src/gsb_reconcile.c:519
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
-"it will be automaticaly incremented later"
+"it will be automatically incremented later"
 msgstr ""
 
 #: src/gsb_reconcile.c:532 src/navigation.c:1040
@@ -10188,6 +10178,30 @@ msgid "No font defined"
 msgstr "Nieokreślona linia budżetowa"
 
 #, fuzzy
+#~ msgid "One month"
+#~ msgstr "Na miesiąc"
+
+#, fuzzy
+#~ msgid "Two months"
+#~ msgstr "%d miesięcy"
+
+#, fuzzy
+#~ msgid "Three months"
+#~ msgstr "%d miesięcy"
+
+#, fuzzy
+#~ msgid "Six months"
+#~ msgstr "Miesiące"
+
+#, fuzzy
+#~ msgid "One year"
+#~ msgstr "Na rok"
+
+#, fuzzy
+#~ msgid "Two years"
+#~ msgstr "Lata"
+
+#, fuzzy
 #~ msgid "Update"
 #~ msgstr "dacie"
 
@@ -10350,10 +10364,6 @@ msgstr "Nieokreślona linia budżetowa"
 
 #~ msgid "last selected financial year"
 #~ msgstr "ostatnio wybranego roku finansowego"
-
-#, fuzzy
-#~ msgid "Transaction separation"
-#~ msgstr "Czcionka listy transakcji"
 
 #, fuzzy
 #~ msgid ""

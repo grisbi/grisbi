@@ -590,6 +590,22 @@ gchar *gsb_date_get_compiled_time ( void )
 
     return gsb_format_gdate ( date );
 }
+
+
+/**
+ * returns a date with the last day of the month.
+ * 
+ * */
+GDate *gsb_date_get_last_day_of_month ( const GDate *date )
+{
+    GDate *tmp_date;
+
+    tmp_date = gsb_date_copy ( date );
+    g_date_set_day ( tmp_date, 1 );
+    g_date_subtract_days ( tmp_date, 1 );
+
+    return tmp_date;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

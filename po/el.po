@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-07 21:59+0100\n"
+"POT-Creation-Date: 2010-01-09 21:30+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -504,36 +504,20 @@ msgstr "Μην επιτρέψτε τη νέα δημιουργία δικαιο�
 msgid "Don't allow new category/budget creation"
 msgstr "Μην επιτρέψτε τη νέα δημιουργία κατηγορίας/προϋπολογισμών"
 
-#: src/balance_estimate_tab.c:100
-msgid "One month"
-msgstr "Ένας μήνας"
+#: src/balance_estimate_tab.c:101 src/etats_config.c:6371
+msgid "Month"
+msgstr "Μήνας"
 
-#: src/balance_estimate_tab.c:101
-msgid "Two months"
-msgstr "Δύο μήνες"
-
-#: src/balance_estimate_tab.c:102
-msgid "Three months"
-msgstr "Τρεις μήνες"
-
-#: src/balance_estimate_tab.c:103
-msgid "Six months"
-msgstr "Έξι μήνες"
-
-#: src/balance_estimate_tab.c:104
-msgid "One year"
-msgstr "Ένα έτος"
-
-#: src/balance_estimate_tab.c:105
-msgid "Two years"
-msgstr "Δύο έτη"
+#: src/balance_estimate_tab.c:102 src/etats_config.c:6375
+msgid "Year"
+msgstr "Χρόνος"
 
 #. ***** Parameter page *****
-#: src/balance_estimate_tab.c:177
+#: src/balance_estimate_tab.c:147
 msgid "Choice the prevision"
 msgstr ""
 
-#: src/balance_estimate_tab.c:196
+#: src/balance_estimate_tab.c:167
 msgid ""
 "Please select an account and a duration\n"
 "and select the estimate array tab."
@@ -541,22 +525,12 @@ msgstr ""
 "Παρακαλώ επιλέξτε έναν απολογισμό και μια διάρκεια\n"
 " και επιλέξτε τη σειρά πίν. εκτίμησης."
 
-#. set the choice of account
-#: src/balance_estimate_tab.c:231 src/categories_onglet.c:154
-#: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
-#: src/gsb_assistant_reconcile_config.c:594
-#: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
-#: src/gsb_scheduler_list.c:339 src/imputation_budgetaire.c:167
-#: src/navigation.c:1161 src/tiers_onglet.c:234
-msgid "Account"
-msgstr "Λογαριασμός"
-
 #. ***** Estimation array page *****
-#: src/balance_estimate_tab.c:267
+#: src/balance_estimate_tab.c:185
 msgid "Array"
 msgstr ""
 
-#: src/balance_estimate_tab.c:317 src/etats_affiche.c:2405
+#: src/balance_estimate_tab.c:235 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1281 src/gsb_form_widget.c:404 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
@@ -565,13 +539,13 @@ msgid "Date"
 msgstr "Ημερομηνία"
 
 #. Description entry
-#: src/balance_estimate_tab.c:327 src/etats_onglet.c:269
+#: src/balance_estimate_tab.c:245 src/etats_onglet.c:269
 #: src/tiers_onglet.c:641
 msgid "Description"
 msgstr "Περιγραφή"
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:338 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:256 src/categories_onglet.c:698
 #: src/export_csv.c:781 src/gsb_form.c:1315 src/gsb_form_widget.c:408
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1075 src/gsb_transactions_list.c:148
@@ -581,7 +555,7 @@ msgid "Debit"
 msgstr "Χρέωση"
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:352 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:270 src/categories_onglet.c:698
 #: src/export_csv.c:778 src/gsb_form.c:1322 src/gsb_form_widget.c:412
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
 #: src/gsb_payment_method_config.c:1071 src/gsb_transactions_list.c:149
@@ -589,7 +563,7 @@ msgstr "Χρέωση"
 msgid "Credit"
 msgstr "Πίστωση"
 
-#: src/balance_estimate_tab.c:365 src/export_csv.c:787 src/gsb_reconcile.c:147
+#: src/balance_estimate_tab.c:283 src/export_csv.c:787 src/gsb_reconcile.c:147
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
 #: src/gsb_transactions_list.c:2907 src/import_csv.c:89
 #: src/traitement_variables.c:82
@@ -597,25 +571,55 @@ msgid "Balance"
 msgstr "Ισορροπία"
 
 #. ***** Estimation graph page *****
-#: src/balance_estimate_tab.c:376
+#: src/balance_estimate_tab.c:294
 msgid "Graph"
 msgstr ""
 
-#: src/balance_estimate_tab.c:681
+#: src/balance_estimate_tab.c:613
 #, fuzzy, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Εκτίμηση ισορροπίας του λογαριασμού  \"%s\" από %s %s"
 
-#: src/balance_estimate_tab.c:707
+#: src/balance_estimate_tab.c:639
 msgid "balance beginning of period"
 msgstr ""
 
-#: src/balance_estimate_tab.c:774
+#: src/balance_estimate_tab.c:706 src/balance_estimate_tab.c:776
+#: src/balance_estimate_tab.c:786
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Μεταφορά σε έναν διαγραμμένο λογαριασμό."
+
+#. set the choice of account
+#: src/balance_estimate_tab.c:1025 src/categories_onglet.c:154
+#: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
+#: src/gsb_assistant_reconcile_config.c:594
+#: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
+#: src/gsb_scheduler_list.c:339 src/imputation_budgetaire.c:167
+#: src/navigation.c:1161 src/tiers_onglet.c:234
+msgid "Account"
+msgstr "Λογαριασμός"
+
+#: src/balance_estimate_tab.c:1057
+#, fuzzy
+msgid "Calculation of period"
+msgstr "Αρχική ισορροπία"
+
+#: src/balance_estimate_tab.c:1064
+msgid "1st day of month to last day of the month concerned"
+msgstr ""
+
+#: src/balance_estimate_tab.c:1074
+msgid "From date to date"
+msgstr ""
+
+#. partie mensuelle
+#: src/balance_estimate_tab.c:1085
+#, fuzzy
+msgid "Duration estimation"
+msgstr "Οργάνωση στοιχείων"
 
 #. New transaction
 #: src/barre_outils.c:95 src/gsb_scheduler_list.c:2002
@@ -2271,14 +2275,6 @@ msgstr "Ημέρα"
 #: src/etats_config.c:6367
 msgid "Week"
 msgstr "Εβδομάδα"
-
-#: src/etats_config.c:6371
-msgid "Month"
-msgstr "Μήνας"
-
-#: src/etats_config.c:6375
-msgid "Year"
-msgstr "Χρόνος"
 
 #. add beginning day of the week
 #: src/etats_config.c:6382
@@ -4509,7 +4505,7 @@ msgstr "Καμία χαρακτηρισμένη συναλλαγή χωρίς σ
 #. * 	-permit to choose a reconcile number for each transactions without reconcile
 #. * 	- do an automatic find for reconcile, usefull in the first item, when very much
 #. * 		transactions without reconcile, but we need to make the old reconciles before,
-#. * 		and set the good date for all the reconciles (because grisbi set them automaticaly
+#. * 		and set the good date for all the reconciles (because grisbi set them automatically
 #. * 		at the first update to grisbi 0.6.0 )
 #. first, create the assistant
 #: src/gsb_assistant_reconcile_config.c:190
@@ -4577,8 +4573,9 @@ msgstr ""
 "\tΜπορείτε να δημιουργήσετε όλες τις προηγούμενες αναγκαίες συμφωνίες εδώ."
 
 #: src/gsb_assistant_reconcile_config.c:310
+#, fuzzy
 msgid ""
-"Automaticaly associate transactions without reconciliation number with the "
+"Automatically associate transactions without reconciliation number with the "
 "known reconciliations"
 msgstr ""
 "Αυτόματα συνδυαζόμενες συναλλαγές χωρίς αριθμό συμφωνίας με τις γνωστές "
@@ -7841,9 +7838,10 @@ msgid "Invalid date: '%s'"
 msgstr "Άκυρη ημερομηνία: '%s'"
 
 #: src/gsb_reconcile.c:519
+#, fuzzy
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
-"it will be automaticaly incremented later"
+"it will be automatically incremented later"
 msgstr ""
 "Πρέπει να θέσετε ένα όνομα στη συμφωνία, τουλάχιστον, θέστε έναν αριθμό,\n"
 "που θα αυξηθεί αυτόματα αργότερα."
@@ -10406,6 +10404,24 @@ msgstr ""
 #: src/utils_font.c:199
 msgid "No font defined"
 msgstr "Δεν καθορίστηκε γραμματοσειρά"
+
+#~ msgid "One month"
+#~ msgstr "Ένας μήνας"
+
+#~ msgid "Two months"
+#~ msgstr "Δύο μήνες"
+
+#~ msgid "Three months"
+#~ msgstr "Τρεις μήνες"
+
+#~ msgid "Six months"
+#~ msgstr "Έξι μήνες"
+
+#~ msgid "One year"
+#~ msgstr "Ένα έτος"
+
+#~ msgid "Two years"
+#~ msgstr "Δύο έτη"
 
 #~ msgid "Each account has his own form"
 #~ msgstr "Κάθε λογαριασμός έχει τη μορφή του"

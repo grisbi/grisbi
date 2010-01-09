@@ -522,7 +522,7 @@ static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
     update_homepage_title (GTK_ENTRY (title_entry), NULL, 0, 0);
 
     /* first get the last content of the title to see if the filename
-     * was automaticaly created, and in that case, we continue the automatic mode,
+     * was automatically created, and in that case, we continue the automatic mode,
      * else we don't touch the filename entry */
     last_title = g_object_get_data ( G_OBJECT (title_entry),
 				     "last_title");

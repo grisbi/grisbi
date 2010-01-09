@@ -516,7 +516,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 
     if (!strlen (gtk_entry_get_text ( GTK_ENTRY ( reconcile_number_entry ))))
     {
-	dialogue_warning_hint ( _("You need to set a name to the reconciliation ; at least, set a number,\nit will be automaticaly incremented later"),
+	dialogue_warning_hint ( _("You need to set a name to the reconciliation ; at least, set a number,\nit will be automatically incremented later"),
 				_("Reconciliation can't be completed.") );
 	return FALSE;
     }

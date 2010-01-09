@@ -2514,7 +2514,7 @@ gboolean gsb_form_finish_edition ( void )
         gsb_form_hide ();
 
     /* if it was a modification of transaction, we need to update the sort and colors
-     * (done automaticaly for new transaction) */
+     * (done automatically for new transaction) */
     if (!new_transaction && !execute_scheduled)
         gsb_transactions_list_update_tree_view (account_number, TRUE);
 

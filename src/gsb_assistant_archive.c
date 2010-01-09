@@ -113,7 +113,7 @@ GtkResponseType gsb_assistant_archive_run_by_menu (void)
 /**
  * this function is called to launch the assistant to make archives
  *
- * \param origin : FALSE by menu, TRUE automaticaly after a file opening
+ * \param origin : FALSE by menu, TRUE automatically after a file opening
  *
  * \return a GtkResponseType containing the return value at the end of the assistant
  * */

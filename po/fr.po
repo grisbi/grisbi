@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-07 21:59+0100\n"
+"POT-Creation-Date: 2010-01-09 21:30+0100\n"
 "PO-Revision-Date: 2010-01-02 22:34+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -487,36 +487,20 @@ msgstr "Ne pas permettre la création de nouveaux tiers"
 msgid "Don't allow new category/budget creation"
 msgstr "Ne pas autoriser la création de nouvelles catégories/Imputations B."
 
-#: src/balance_estimate_tab.c:100
-msgid "One month"
-msgstr "Un mois"
+#: src/balance_estimate_tab.c:101 src/etats_config.c:6371
+msgid "Month"
+msgstr "Mois"
 
-#: src/balance_estimate_tab.c:101
-msgid "Two months"
-msgstr "Deux mois"
-
-#: src/balance_estimate_tab.c:102
-msgid "Three months"
-msgstr "Trois mois"
-
-#: src/balance_estimate_tab.c:103
-msgid "Six months"
-msgstr "Six mois"
-
-#: src/balance_estimate_tab.c:104
-msgid "One year"
-msgstr "Un an"
-
-#: src/balance_estimate_tab.c:105
-msgid "Two years"
-msgstr "Deux ans"
+#: src/balance_estimate_tab.c:102 src/etats_config.c:6375
+msgid "Year"
+msgstr "Année"
 
 #. ***** Parameter page *****
-#: src/balance_estimate_tab.c:177
+#: src/balance_estimate_tab.c:147
 msgid "Choice the prevision"
 msgstr "Choix de la prévision"
 
-#: src/balance_estimate_tab.c:196
+#: src/balance_estimate_tab.c:167
 msgid ""
 "Please select an account and a duration\n"
 "and select the estimate array tab."
@@ -524,22 +508,12 @@ msgstr ""
 "Veuillez sélectionner un compte et une durée\n"
 "et choisissez le tableau d'estimation. "
 
-#. set the choice of account
-#: src/balance_estimate_tab.c:231 src/categories_onglet.c:154
-#: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
-#: src/gsb_assistant_reconcile_config.c:594
-#: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
-#: src/gsb_scheduler_list.c:339 src/imputation_budgetaire.c:167
-#: src/navigation.c:1161 src/tiers_onglet.c:234
-msgid "Account"
-msgstr "Compte"
-
 #. ***** Estimation array page *****
-#: src/balance_estimate_tab.c:267
+#: src/balance_estimate_tab.c:185
 msgid "Array"
 msgstr "Tableau"
 
-#: src/balance_estimate_tab.c:317 src/etats_affiche.c:2405
+#: src/balance_estimate_tab.c:235 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1281 src/gsb_form_widget.c:404 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
@@ -548,13 +522,13 @@ msgid "Date"
 msgstr "Date"
 
 #. Description entry
-#: src/balance_estimate_tab.c:327 src/etats_onglet.c:269
+#: src/balance_estimate_tab.c:245 src/etats_onglet.c:269
 #: src/tiers_onglet.c:641
 msgid "Description"
 msgstr "Description"
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:338 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:256 src/categories_onglet.c:698
 #: src/export_csv.c:781 src/gsb_form.c:1315 src/gsb_form_widget.c:408
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1075 src/gsb_transactions_list.c:148
@@ -564,7 +538,7 @@ msgid "Debit"
 msgstr "Débit"
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:352 src/categories_onglet.c:698
+#: src/balance_estimate_tab.c:270 src/categories_onglet.c:698
 #: src/export_csv.c:778 src/gsb_form.c:1322 src/gsb_form_widget.c:412
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
 #: src/gsb_payment_method_config.c:1071 src/gsb_transactions_list.c:149
@@ -572,7 +546,7 @@ msgstr "Débit"
 msgid "Credit"
 msgstr "Crédit"
 
-#: src/balance_estimate_tab.c:365 src/export_csv.c:787 src/gsb_reconcile.c:147
+#: src/balance_estimate_tab.c:283 src/export_csv.c:787 src/gsb_reconcile.c:147
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
 #: src/gsb_transactions_list.c:2907 src/import_csv.c:89
 #: src/traitement_variables.c:82
@@ -580,20 +554,21 @@ msgid "Balance"
 msgstr "Solde"
 
 #. ***** Estimation graph page *****
-#: src/balance_estimate_tab.c:376
+#: src/balance_estimate_tab.c:294
 msgid "Graph"
 msgstr "Graphique"
 
-#: src/balance_estimate_tab.c:681
+#: src/balance_estimate_tab.c:613
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Solde estimé du compte \"%s\" du %s au %s"
 
-#: src/balance_estimate_tab.c:707
+#: src/balance_estimate_tab.c:639
 msgid "balance beginning of period"
 msgstr "Solde initial de la période"
 
-#: src/balance_estimate_tab.c:774
+#: src/balance_estimate_tab.c:706 src/balance_estimate_tab.c:776
+#: src/balance_estimate_tab.c:786
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
@@ -601,6 +576,35 @@ msgid ""
 msgstr ""
 "Virement entre le compte : %s\n"
 "et le compte : %s"
+
+#. set the choice of account
+#: src/balance_estimate_tab.c:1025 src/categories_onglet.c:154
+#: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
+#: src/gsb_assistant_reconcile_config.c:594
+#: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
+#: src/gsb_scheduler_list.c:339 src/imputation_budgetaire.c:167
+#: src/navigation.c:1161 src/tiers_onglet.c:234
+msgid "Account"
+msgstr "Compte"
+
+#: src/balance_estimate_tab.c:1057
+msgid "Calculation of period"
+msgstr "Calcul de la période"
+
+#: src/balance_estimate_tab.c:1064
+msgid "1st day of month to last day of the month concerned"
+msgstr ""
+"Du 1er jour du mois en cours au dernier jour\n"
+"du mois considéré"
+
+#: src/balance_estimate_tab.c:1074
+msgid "From date to date"
+msgstr "De date à date"
+
+#. partie mensuelle
+#: src/balance_estimate_tab.c:1085
+msgid "Duration estimation"
+msgstr "Durée d'estimation"
 
 #. New transaction
 #: src/barre_outils.c:95 src/gsb_scheduler_list.c:2002
@@ -2243,14 +2247,6 @@ msgstr "Journée"
 #: src/etats_config.c:6367
 msgid "Week"
 msgstr "Semaine"
-
-#: src/etats_config.c:6371
-msgid "Month"
-msgstr "Mois"
-
-#: src/etats_config.c:6375
-msgid "Year"
-msgstr "Année"
 
 #. add beginning day of the week
 #: src/etats_config.c:6382
@@ -4451,7 +4447,7 @@ msgstr ""
 #. * 	-permit to choose a reconcile number for each transactions without reconcile
 #. * 	- do an automatic find for reconcile, usefull in the first item, when very much
 #. * 		transactions without reconcile, but we need to make the old reconciles before,
-#. * 		and set the good date for all the reconciles (because grisbi set them automaticaly
+#. * 		and set the good date for all the reconciles (because grisbi set them automatically
 #. * 		at the first update to grisbi 0.6.0 )
 #. first, create the assistant
 #: src/gsb_assistant_reconcile_config.c:190
@@ -4518,7 +4514,7 @@ msgstr ""
 
 #: src/gsb_assistant_reconcile_config.c:310
 msgid ""
-"Automaticaly associate transactions without reconciliation number with the "
+"Automatically associate transactions without reconciliation number with the "
 "known reconciliations"
 msgstr ""
 "Associer automatiquement chaque transaction orpheline avec un rapprochement "
@@ -7751,7 +7747,7 @@ msgstr "Date invalide: '%s'"
 #: src/gsb_reconcile.c:519
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
-"it will be automaticaly incremented later"
+"it will be automatically incremented later"
 msgstr ""
 "Vous devez définir un nom pour le rapprochement ou au moins, un numéro,\n"
 "il sera automatiquement incrémenté plus tard"
@@ -10253,8 +10249,8 @@ msgstr "Résultat"
 #: src/utils_files.c:604
 msgid "If no proposals above are correct you can choose a different charset"
 msgstr ""
-"Si aucune des propositions ci-dessus ne sont correctes, vous pouvez choisir "
-"un jeu de caractères différent"
+"Si aucune des propositions ci-dessus ne sont correctes,\n"
+"vous pouvez choisir un jeu de caractères différent"
 
 #: src/utils_files.c:621 src/utils_files.c:739
 msgid "Select a charset"
@@ -10267,6 +10263,24 @@ msgstr "La conversion à échoué essayez un autre jeu de caractères"
 #: src/utils_font.c:199
 msgid "No font defined"
 msgstr "Aucune police définie"
+
+#~ msgid "One month"
+#~ msgstr "Un mois"
+
+#~ msgid "Two months"
+#~ msgstr "Deux mois"
+
+#~ msgid "Three months"
+#~ msgstr "Trois mois"
+
+#~ msgid "Six months"
+#~ msgstr "Six mois"
+
+#~ msgid "One year"
+#~ msgstr "Un an"
+
+#~ msgid "Two years"
+#~ msgstr "Deux ans"
 
 #~ msgid "Each account has his own form"
 #~ msgstr "Chaque compte a son propre formulaire"
