@@ -4,13 +4,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 #
 # Martin Stromberger <fabiolla@aon.at>, 2007, 2008.
-# Martin Stromberger <mstromberger@aon.at>, 2008, 2009.
+# Martin Stromberger <mstromberger@aon.at>, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-07 21:59+0100\n"
-"PO-Revision-Date: 2009-12-25 15:37+0100\n"
+"POT-Creation-Date: 2010-01-09 15:21+0100\n"
+"PO-Revision-Date: 2010-01-09 15:36+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -119,8 +119,7 @@ msgstr "%s Ausgabe in %s"
 #: src/accueil.c:1664
 #, c-format
 msgid "balance of account %s is under desired and authorised minima!"
-msgstr ""
-"Der Saldo vom Konto %s ist unter dem festgelegten und zulässigen Minimum!"
+msgstr "Der Saldo vom Konto %s ist unter dem festgelegten und zulässigen Minimum!"
 
 #: src/accueil.c:1668
 msgid ""
@@ -460,8 +459,7 @@ msgstr "Eingabe Vervollständigung"
 
 #: src/affichage_liste.c:501
 msgid "Limit the filling with payees belonging to the current account"
-msgstr ""
-"Die Vervollständigung von Empfängern auf das aktuelle Konto beschränken"
+msgstr "Die Vervollständigung von Empfängern auf das aktuelle Konto beschränken"
 
 #: src/affichage_liste.c:508
 msgid "Automatic filling transactions from payee"
@@ -510,7 +508,7 @@ msgstr "2 Jahre"
 #. ***** Parameter page *****
 #: src/balance_estimate_tab.c:177
 msgid "Choice the prevision"
-msgstr ""
+msgstr "Prognose auswählen"
 
 #: src/balance_estimate_tab.c:196
 msgid ""
@@ -533,7 +531,7 @@ msgstr "Konto"
 #. ***** Estimation array page *****
 #: src/balance_estimate_tab.c:267
 msgid "Array"
-msgstr ""
+msgstr "Anordnung"
 
 #: src/balance_estimate_tab.c:317 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
@@ -578,23 +576,25 @@ msgstr "Saldo"
 #. ***** Estimation graph page *****
 #: src/balance_estimate_tab.c:376
 msgid "Graph"
-msgstr ""
+msgstr "Graph"
 
 #: src/balance_estimate_tab.c:681
-#, fuzzy, c-format
+#, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Voraussichtlicher Saldo für das Konto \"%s\" von %s bis %s"
 
 #: src/balance_estimate_tab.c:707
 msgid "balance beginning of period"
-msgstr ""
+msgstr "Saldo Anfangsperiode"
 
 #: src/balance_estimate_tab.c:774
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
-msgstr "Die Buchung zu einem gelöschten Konto ausführen"
+msgstr ""
+"Buchung zwischen Konto :%s\n"
+"und Konto: %s"
 
 #. New transaction
 #: src/barre_outils.c:95 src/gsb_scheduler_list.c:2002
@@ -959,8 +959,7 @@ msgid "No tip of the day available"
 msgstr "Kein Tipp des Tages verfügbar"
 
 #: src/dialog.c:53
-msgid ""
-"Make sure that grisbi was correctly installed and that tips file is readable."
+msgid "Make sure that grisbi was correctly installed and that tips file is readable."
 msgstr "Bitte die Installation von Grisbi überprüfen."
 
 #: src/dialog.c:56
@@ -1072,7 +1071,6 @@ msgid "Reconcile start and end dates."
 msgstr "Abstimmung Beginn und Enddatum"
 
 #: src/dialog.c:98
-#, fuzzy
 msgid ""
 "In previous versions, Grisbi did not save start date, end date and balance "
 "for reconciliation.  This is now done, so Grisbi will try to guess values "
@@ -1151,10 +1149,8 @@ msgid "Grisbi made a backup file at '%s'."
 msgstr "Grisbi hat eine Sicherung im Verzeichnis '%s' erstellt."
 
 #: src/erreur.c:135
-msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
-msgstr ""
-"Bitte den Fehler unter <tt>http://www.grisbi.org/bugtracking/</tt> melden.  "
+msgid "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+msgstr "Bitte den Fehler unter <tt>http://www.grisbi.org/bugtracking/</tt> melden.  "
 
 #: src/erreur.c:141
 msgid "Copy and paste the following backtrace with your bug report."
@@ -1846,7 +1842,7 @@ msgstr "Datum Ende"
 msgid "Account selection"
 msgstr "Konten Auswahl"
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã 
+#. on met dans la partie de gauche une liste contenant les comptes Ã
 #. sÃ©lectionner
 #: src/etats_config.c:2462
 msgid "Select transactions only for given accounts"
@@ -2427,7 +2423,7 @@ msgstr "Eine Zwischensumme für jeden Teil-Budgeteintrag anzeigen"
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr " \"Keinen Teil-Budgeteintrag\" anzeigen wenn keiner vorhanden ist"
 
-#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
 #. sÃ©lectionner
 #: src/etats_config.c:7226
 msgid "Select the transactions by method of payment"
@@ -4292,8 +4288,7 @@ msgstr "Ein neues Konto manuell erstellen"
 
 #: src/gsb_assistant_file.c:492
 msgid "Import data from online bank services or from accounting software"
-msgstr ""
-"Konten und Daten von anderen Finanzprogrammen oder Ihrer Bank importieren"
+msgstr "Konten und Daten von anderen Finanzprogrammen oder Ihrer Bank importieren"
 
 #: src/gsb_assistant_file.c:591
 msgid "Create filename"
@@ -4672,8 +4667,7 @@ msgstr "Abstimmung für die Zuordnung von Buchungen auswählen"
 
 #: src/gsb_assistant_reconcile_config.c:1300
 msgid "No selection found, the transactions are not modified."
-msgstr ""
-"Es wurde keine Auswahl getroffen, die Buchungen werden nicht zugeordnet."
+msgstr "Es wurde keine Auswahl getroffen, die Buchungen werden nicht zugeordnet."
 
 #: src/gsb_bank.c:386 src/gsb_reconcile.c:396
 msgid "None"
@@ -4800,8 +4794,7 @@ msgstr "Wechselgebühren"
 #: src/gsb_currency.c:714
 #, c-format
 msgid "The exchange rate or the transaction amount in %s must be filled."
-msgstr ""
-"Es müssen entweder der Wechselkurs oder der Betrag in %s eingegeben werden."
+msgstr "Es müssen entweder der Wechselkurs oder der Betrag in %s eingegeben werden."
 
 #: src/gsb_currency.c:717
 msgid "One field is not filled in"
@@ -6185,8 +6178,7 @@ msgstr "Die Währung '%s' kann nicht entfernt werden"
 #: src/gsb_currency_config.c:639
 #, c-format
 msgid "Currency '%s' is used in current file. Grisbi can't delete it."
-msgstr ""
-"Die Währung '%s' ist in Verwendung und kann daher nicht gelöscht werden."
+msgstr "Die Währung '%s' ist in Verwendung und kann daher nicht gelöscht werden."
 
 #: src/gsb_currency_config.c:818
 msgid "Currency for payees tree"
@@ -6234,8 +6226,7 @@ msgstr "Währungssymbol"
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
-msgstr ""
-"Es muss entweder der Währungsname oder der 'ISO-Code' eingegeben werden."
+msgstr "Es muss entweder der Währungsname oder der 'ISO-Code' eingegeben werden."
 
 #: src/gsb_currency_config.c:1078 src/gsb_data_partial_balance.c:322
 #: src/gsb_data_partial_balance.c:431
@@ -6296,10 +6287,8 @@ msgstr "Kein Name %d"
 
 #: src/gsb_data_account.c:532
 #, c-format
-msgid ""
-"Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
-msgstr ""
-"Bad nb rows nach gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
+msgid "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
+msgstr "Bad nb rows nach gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
 
 #. TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?
 #: src/gsb_data_account.c:1148
@@ -6379,8 +6368,7 @@ msgid "Only one account is selected."
 msgstr "Es wurde nur ein Konto ausgewählt"
 
 #: src/gsb_data_partial_balance.c:320 src/gsb_data_partial_balance.c:429
-msgid ""
-"The name of the partial balance and the list of accounts must be completed."
+msgid "The name of the partial balance and the list of accounts must be completed."
 msgstr ""
 "Der Name des partiellen Saldo und die Liste der Konten müssen vollständig "
 "eingegeben werden."
@@ -6388,8 +6376,7 @@ msgstr ""
 #: src/gsb_data_partial_balance.c:1268
 #, c-format
 msgid "You need to create a link between currency %s and %s."
-msgstr ""
-"Es muss eine Verknüpfung zwischen den Währungen %s und %s hergestellt werden."
+msgstr "Es muss eine Verknüpfung zwischen den Währungen %s und %s hergestellt werden."
 
 #: src/gsb_data_partial_balance.c:1272
 msgid "Attention missing link between currencies"
@@ -6719,8 +6706,7 @@ msgstr ""
 #: src/gsb_debug.c:610
 #, c-format
 msgid "Transaction %d has category %d but invalid sub-category %d.\n"
-msgstr ""
-"Die Buchung %d hat als Kategorie %d und eine ungültige Unterkategorie %d.\n"
+msgstr "Die Buchung %d hat als Kategorie %d und eine ungültige Unterkategorie %d.\n"
 
 #. category not found
 #: src/gsb_debug.c:624
@@ -6911,10 +6897,8 @@ msgstr "%d Sekunden"
 
 #: src/gsb_file.c:866
 #, c-format
-msgid ""
-"If you close without saving, all of your changes since %s will be discarded."
-msgstr ""
-"Beim Schließen ohne Speichern werden alle Änderungen seit %s verworfen."
+msgid "If you close without saving, all of your changes since %s will be discarded."
+msgstr "Beim Schließen ohne Speichern werden alle Änderungen seit %s verworfen."
 
 #: src/gsb_file.c:902
 msgid "Name the accounts file"
@@ -7235,8 +7219,7 @@ msgstr ""
 "erstellt werden."
 
 #: src/gsb_form.c:2655
-msgid ""
-"Cannot associate a transfer to a deleted account in a scheduled transaction."
+msgid "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "Das Konto für die zeitlich geplante Umbuchung ist gelöscht."
 
 #: src/gsb_form.c:2662
@@ -7276,13 +7259,11 @@ msgstr ""
 
 #: src/gsb_form.c:2735
 msgid "A transaction with a multiple payee must be a new one."
-msgstr ""
-"Für Buchungen an mehrere Empfänger muss eine neue Buchung erfasst werden."
+msgstr "Für Buchungen an mehrere Empfänger muss eine neue Buchung erfasst werden."
 
 #: src/gsb_form.c:2740
 msgid "A transaction with a multiple payee cannot be a split child."
-msgstr ""
-"Eine Buchung an mehrere Empfänger darf kein Teil einer Splitt-Buchung sein."
+msgstr "Eine Buchung an mehrere Empfänger darf kein Teil einer Splitt-Buchung sein."
 
 #: src/gsb_form.c:2751
 msgid "The word \"Report\" is reserved. Please use another one."
@@ -7893,8 +7874,7 @@ msgstr "Soll die geplante Teil-Buchung mit dem Empfänger '%s' gelöscht werden?
 
 #: src/gsb_scheduler_list.c:1662
 #, c-format
-msgid ""
-"Do you really want to delete the scheduled transaction with party '%s' ?"
+msgid "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Soll die geplante Buchung mit dem Empfänger '%s' gelöscht werden?"
 
 #: src/gsb_scheduler_list.c:1707
@@ -7992,29 +7972,24 @@ msgid "Cheque number"
 msgstr "Schecknummer"
 
 #: src/gsb_transactions_list.c:182
-#, fuzzy
 msgid "Delete a child transaction."
-msgstr "Eine geplante Buchung löschen"
+msgstr "Eine Teilbuchung löschen."
 
 #: src/gsb_transactions_list.c:186
-#, fuzzy
 msgid "Delete a transaction."
-msgstr "Eine Buchung löschen"
+msgstr "Eine Buchung löschen."
 
 #: src/gsb_transactions_list.c:190
-#, fuzzy
 msgid "Delete a child of scheduled transaction."
-msgstr "Eine geplante Buchung löschen"
+msgstr "Eine Teilbuchung von einer geplanten Buchung löschen."
 
 #: src/gsb_transactions_list.c:194
-#, fuzzy
 msgid "Delete a scheduled transaction."
-msgstr "Eine geplante Buchung löschen"
+msgstr "Eine geplante Buchung löschen."
 
 #: src/gsb_transactions_list.c:198
-#, fuzzy
 msgid "Delete one or all occurences of scheduled transaction."
-msgstr "Die selektiere Buchung löschen"
+msgstr "Ein oder alle Vorkommen von einer geplanten Buchung löschen."
 
 #: src/gsb_transactions_list.c:560 src/gsb_transactions_list.c:3394
 msgid ""
@@ -8140,8 +8115,7 @@ msgstr "Abstimmung für die Zuordnung der Buchung auswählen"
 
 #: src/gsb_transactions_list.c:1828
 msgid "Grisbi couldn't get the selection, operation canceled..."
-msgstr ""
-"Grisbi konnte die Auswahl nicht übernehmen, der Vorgang wurde abgebrochen..."
+msgstr "Grisbi konnte die Auswahl nicht übernehmen, der Vorgang wurde abgebrochen..."
 
 #: src/gsb_transactions_list.c:1872
 msgid "Impossible to delete an archived transaction."
@@ -8161,8 +8135,7 @@ msgstr ""
 
 #: src/gsb_transactions_list.c:1896
 #, c-format
-msgid ""
-"Do you really want to delete the child of the transaction with party '%s' ?"
+msgid "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr "Soll die Teil-Buchung mit dem Empfänger '%s' gelöscht werden?"
 
 #: src/gsb_transactions_list.c:1908
@@ -8382,7 +8355,7 @@ msgstr "%s Dateien (*.%s)"
 
 #: src/import.c:815 src/utils_files.c:591
 msgid "Encoding"
-msgstr "Kodierung"
+msgstr "Zeichensatz"
 
 #: src/import.c:916
 msgid ""
@@ -8623,8 +8596,7 @@ msgstr "Markieren"
 
 #: src/import.c:3160
 msgid "The id of the imported and chosen accounts are different"
-msgstr ""
-"Die ID's des importieren und des selektierten Kontos sind unterschiedlich"
+msgstr "Die ID's des importieren und des selektierten Kontos sind unterschiedlich"
 
 #: src/import.c:3161
 msgid ""
@@ -8830,9 +8802,9 @@ msgid "transaction amount"
 msgstr "Buchungsbetrag"
 
 #: src/import_csv.c:933
-#, fuzzy, c-format
+#, c-format
 msgid "<b>The following fields are missing or inconsistent:</b> %s"
-msgstr "<b>Folgende Felder fehlen:</b> %s"
+msgstr "<b>Folgende Felder fehlen oder sind nicht vollständig befüllt:</b> %s"
 
 #: src/import_csv.c:942
 msgid "All mandatory fields are filed in."
@@ -8840,15 +8812,14 @@ msgstr "Es sind alle Pflichtfelder befüllt."
 
 #: src/import_csv.c:1083
 msgid "The conversion to utf8 went wrong."
-msgstr ""
+msgstr "Die Konvertierung nach \"UTF-8\" ist fehlgeschlagen."
 
 #: src/import_csv.c:1084
-#, fuzzy
 msgid ""
 "If the result does not suit you, try again by selecting the correct "
 "character set in the window for selecting files."
 msgstr ""
-"Wenn das Ergebnis nicht korrekt ist bitte eine andere Kodierung im "
+"Wenn das Ergebnis nicht korrekt ist bitte einen anderen Zeichensatz im "
 "Auswahldialog für Dateien einstellen."
 
 #: src/import_csv.c:1137
@@ -9338,9 +9309,8 @@ msgid "List behavior"
 msgstr "Einstellungen"
 
 #: src/parametres.c:410 src/parametres.c:671
-#, fuzzy
 msgid "Messages before deleting"
-msgstr "Meldungen & Warnungen"
+msgstr "Meldungen & Löschungen"
 
 #: src/parametres.c:446
 msgid "Content"
@@ -9381,9 +9351,8 @@ msgid "Message"
 msgstr "Meldung"
 
 #: src/parametres.c:675
-#, fuzzy
 msgid "Display following messages"
-msgstr "Folgende Warnungen anzeigen"
+msgstr "Folgende Meldungen anzeigen"
 
 #. Compression level of files
 #: src/parametres.c:819
@@ -9434,8 +9403,7 @@ msgstr "Planer Meldungen"
 
 #: src/parametres.c:1047
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
-msgstr ""
-"Am Fälligkeitsdatum einen Hinweis anzeigen und die geplante Buchung ausführen"
+msgstr "Am Fälligkeitsdatum einen Hinweis anzeigen und die geplante Buchung ausführen"
 
 #: src/parametres.c:1048
 msgid "Warn/Execute the scheduled transactions of the month"
@@ -9453,8 +9421,7 @@ msgid "Calculation of balances"
 msgstr "Berechnung der Salden"
 
 #: src/parametres.c:1071
-msgid ""
-"Take into account the scheduled operations in the calculation of balances"
+msgid "Take into account the scheduled operations in the calculation of balances"
 msgstr "Die geplanten Buchungen vom Konto in die Berechnung miteinbeziehen"
 
 #: src/parametres.c:1128
@@ -9599,8 +9566,7 @@ msgstr "Ungültige Ofx-Datei"
 
 #: src/plugins/ofx/ofx.c:213
 msgid "OFX processing returned following message:\n"
-msgstr ""
-"Bei der Verarbeitung der Ofx-Datei wurde folgende Warnung zurückgegeben:\n"
+msgstr "Bei der Verarbeitung der Ofx-Datei wurde folgende Warnung zurückgegeben:\n"
 
 #: src/plugins/ofx/ofx.c:219
 msgid "OFX processing ended in a warning message which is not valid."
@@ -9608,8 +9574,7 @@ msgstr "Die Datei ist keine gültige Ofx-Datei."
 
 #: src/plugins/ofx/ofx.c:225
 msgid "OFX processing returned following error message:\n"
-msgstr ""
-"Bei der Verarbeitung der Ofx-Datei wurde folgender Fehler zurückgegeben:\n"
+msgstr "Bei der Verarbeitung der Ofx-Datei wurde folgender Fehler zurückgegeben:\n"
 
 #: src/plugins/ofx/ofx.c:231
 msgid "OFX processing returned an error message which is not valid."
@@ -10172,8 +10137,7 @@ msgstr "Es muss der Name von einem Empfänger für die Suche eingegeben werden."
 
 #: src/tiers_onglet.c:1527
 msgid "Beware you don't use one of models for the research."
-msgstr ""
-"Einen Empfänger auswählen oder bei der Eingabe das '%' Zeichen verwenden."
+msgstr "Einen Empfänger auswählen oder bei der Eingabe das '%' Zeichen verwenden."
 
 #: src/tiers_onglet.c:1625
 #, c-format
@@ -10228,8 +10192,7 @@ msgstr ""
 
 #: src/transaction_list_sort.c:147
 #, c-format
-msgid ""
-"Asked to sort by column %d, wich is bigger than the visible columns (%d)"
+msgid "Asked to sort by column %d, wich is bigger than the visible columns (%d)"
 msgstr ""
 "Es wurde ein Sortierung nach Spalte %d aufgerufen, dieses Spalte ist breiter "
 "als die sichtbaren Spalten (%d)"
@@ -10276,13 +10239,12 @@ msgid ""
 "If the result is not correct, try again by selecting the correct character "
 "set in the window for selecting files."
 msgstr ""
-"Wenn das Ergebnis nicht korrekt ist bitte eine andere Kodierung im "
+"Wenn das Ergebnis nicht korrekt ist bitte einen anderen Zeichensatz im "
 "Auswahldialog für Dateien einstellen."
 
 #: src/utils_files.c:529
-#, fuzzy
 msgid "Select a charmap"
-msgstr "Basiswährung auswählen"
+msgstr "Einen Zeichensatz auswählen"
 
 #: src/utils_files.c:551
 #, c-format
@@ -10290,75 +10252,27 @@ msgid ""
 "You are here because your file can't be imported directly into grisbi.\n"
 "%s"
 msgstr ""
+"Die Datei kann nicht \"direkt\" Importiert werden.\n"
+"%s"
 
 #: src/utils_files.c:598
-#, fuzzy
 msgid "Result"
-msgstr "Ergebnis von %s"
+msgstr "Ergebnis"
 
 #. select an other encoding
 #: src/utils_files.c:604
 msgid "If no proposals above are correct you can choose a different charset"
-msgstr ""
+msgstr "Wenn kein Vorschlag zutrifft bitte einen anderen Zeichensatz manuell auswählen"
 
 #: src/utils_files.c:621 src/utils_files.c:739
-#, fuzzy
 msgid "Select a charset"
-msgstr "Basiswährung auswählen"
+msgstr "Zeichensatz auswählen"
 
 #: src/utils_files.c:756
 msgid "The conversion failed try another set of characters"
-msgstr ""
+msgstr "Die Konvertierung ist fehlgeschlagen, bitte einen anderen Zeichensatz auswählen"
 
 #: src/utils_font.c:199
 msgid "No font defined"
 msgstr "Keine Schrift definiert"
 
-#~ msgid "Each account has his own form"
-#~ msgstr "Jedes Konto hat ein eigenes Buchungsformular"
-
-#~ msgid "Update"
-#~ msgstr "Aktualisieren"
-
-#~ msgid " : Duplicate the selected form for all accounts"
-#~ msgstr " : die gewählten Einstellungen bei allen Konten anwenden"
-
-#~ msgid ""
-#~ "Warning : all the form of the accounts will be updated according to the "
-#~ "selected account. All the changes in the other accounts will be "
-#~ "overwritten.\n"
-#~ "\n"
-#~ "Are you sure to do that ?"
-#~ msgstr ""
-#~ "Achtung: alle individuellen Einstellungen werden mit den Einstellungen "
-#~ "vom aktuellen Konto überschrieben.\n"
-#~ "\n"
-#~ "Soll der Vorgang fortgesetzt werden?"
-
-#~ msgid "Estimate parameters"
-#~ msgstr "Prognose Parameter"
-
-#~ msgid "Estimate array"
-#~ msgstr "Prognose Daten"
-
-#~ msgid "Average"
-#~ msgstr "Mittelwert"
-
-#~ msgid "Estimation graph"
-#~ msgstr "Prognose Graph"
-
-#~ msgid "Enter keeps current completion"
-#~ msgstr "Eingabetaste behält die aktuelle Vervollständigung"
-
-#~ msgid "Sub-Category"
-#~ msgstr "Unterkategorie"
-
-#~ msgid "Budget"
-#~ msgstr "Budgeteintrag"
-
-#~ msgid "Sub-budget"
-#~ msgstr "Teil-Budgeteintrag"
-
-#, fuzzy
-#~ msgid "Delete messages"
-#~ msgstr "Archiv löschen"
