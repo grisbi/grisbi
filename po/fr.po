@@ -104,7 +104,7 @@ msgstr "Solde final"
 
 #: src/accueil.c:1088
 msgid "Global balances"
-msgstr "Soldes finals"
+msgstr "Soldes finaux"
 
 #: src/accueil.c:1144
 #, c-format
