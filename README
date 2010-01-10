@@ -11,7 +11,7 @@ Grisbi is an application written by French developpers, so it
 perfectly respects French accounting rules. Grisbi can manage multiple
 accounts, currencies and users. It manages third party, expenditure
 and receipt categories, and also budgetary lines, financial years, and
-other informations that make Grisbi adapted for associations (except
+other information that make Grisbi adapted for associations (except
 those that require double entry accounting). 
 
 The complete manuel is avaliable on line. The version that comes with

@@ -6624,7 +6624,8 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		       vbox_show_transactions );
 
     /* demande les détails affichés dans les opérations */
-    paddingbox = new_paddingbox_with_title ( vbox_show_transactions, FALSE, _("Include following informations") );
+    paddingbox = new_paddingbox_with_title ( vbox_show_transactions, FALSE,
+                        _("Include following information") );
     /* connection pour rendre sensitif la frame */
     table = gtk_table_new ( 12, 3, FALSE );
     gtk_box_pack_start ( GTK_BOX (paddingbox), table, FALSE, FALSE, 0 );

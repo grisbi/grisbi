@@ -5,7 +5,7 @@
 /* END_INCLUDE_H */
 
 
-/** Structure used to hold exported account informations.  */
+/** Structure used to hold exported account information.  */
 struct exported_account {
     gint account_nb;		/** Account number, to use with
 				 * gsb_data_account_get...() functions */

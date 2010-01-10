@@ -930,7 +930,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 
 
 /**
- * fill the form containing the informations of the bank
+ * fill the form containing the information of the bank
  *
  * \param bank_number the number to fill or -1 to erase the form
  * \param frame the widget containing the form

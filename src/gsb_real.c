@@ -1027,6 +1027,100 @@ gsb_real gsb_str_to_real ( const gchar * str )
 	return resu;
 }
 
+
+gchar *gsb_real_save_real_to_string ( gsb_real number, gint default_exponent )
+{
+    gchar format[40];
+    gchar *result = NULL;
+    const gchar *sign;
+    const gchar *mon_decimal_point;
+	ldiv_t units;
+
+	if ( (number.exponent < 0)
+    || (number.exponent > sizeofarray ( gsb_real_power_10 ) )
+    || (number.mantissa == error_real.mantissa) )
+      return g_strdup ( "###ERR###" );
+
+    if (number.mantissa == 0)
+        return g_strdup ("0.00");
+
+    if ( default_exponent != -1 )
+        gsb_real_adjust_exponent ( number, default_exponent );
+
+    sign = (number.mantissa < 0) ? "-" : "";
+    mon_decimal_point = ".";
+
+    units = ldiv ( labs (number.mantissa), gsb_real_power_10[number.exponent] );
+    if ( units.quot < 1000 )
+    {
+        g_snprintf (format, sizeof(format), "%s%d%s",
+                                           "%s%d%s%0",
+                                           number.exponent,
+                                           "d" );
+        result = g_strdup_printf ( format, 
+                        sign,
+                        units.quot,
+                        mon_decimal_point,
+                        units.rem );
+    }
+    else
+    {
+        div_t thousands = div ( units.quot, 1000 );
+        if ( thousands.quot < 1000 )
+        {
+            g_snprintf ( format, sizeof (format), "%s%d%s",
+                                                "%s%d%03d%s%0",
+                                                number.exponent,
+                                                "d");
+            result = g_strdup_printf ( format, 
+                            sign,
+                            thousands.quot,
+                            thousands.rem,
+                            mon_decimal_point,
+                            units.rem );
+        }
+        else
+        {
+            div_t millions = div ( thousands.quot, 1000 );
+            if ( millions.quot < 1000 )
+            {
+                g_snprintf ( format, sizeof (format), "%s%d%s",
+                                                    "%s%d%03d%03d%s%0",
+                                                    number.exponent,
+                                                    "d");
+                result = g_strdup_printf ( format, 
+                                sign,
+                                millions.quot,
+                                millions.rem,
+                                thousands.rem,
+                                mon_decimal_point,
+                                units.rem );
+            }
+            else
+            {
+                div_t billions = div ( millions.quot, 1000 );
+                g_snprintf ( format, sizeof (format), "%s%d%s",
+                                                    "%s%d%03d%03d%03d%s%0",
+                                                    number.exponent,
+                                                    "d" );
+                result = g_strdup_printf ( format, 
+                                sign,
+                                billions.quot,
+                                billions.rem,
+                                millions.rem,
+                                thousands.rem,
+                                mon_decimal_point,
+                                units.rem );
+            }
+        }
+    }
+    //~ printf ("number.mantissa = %ld number.exponent = %d résultat = %s\n",
+                        //~ number.mantissa, number.exponent, result );
+
+    return result;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

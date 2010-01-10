@@ -54,7 +54,7 @@ struct conditional_message messages[] =
       FALSE, FALSE, },
 
     { "ofx-security-not-implemented", N_("Security feature not implemented"),
-      N_("This file contains security informations, which processing is not implemented at "
+      N_("This file contains security information, which processing is not implemented at "
       "this moment."),
       FALSE, FALSE, },
 

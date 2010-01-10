@@ -624,7 +624,7 @@ void gsb_account_property_fill_page ( void )
     gsb_autofunc_textview_set_value ( detail_adresse_titulaire,
                         gsb_data_account_get_holder_address (current_account), current_account );
 
-    /* fill bank informations */
+    /* fill bank information */
     bank_number = gsb_data_account_get_bank (current_account);
 
     gsb_account_property_iban_set_iban (

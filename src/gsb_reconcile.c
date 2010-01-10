@@ -93,7 +93,7 @@ static gint reconcile_save_account_display;
 
 /**
  * Create a vbox that contains all controls used to display
- * informations related to current reconciliation.
+ * information related to current reconciliation.
  *
  * \return A newly-allocated frame containing the reconcile widget
  */

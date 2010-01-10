@@ -460,7 +460,7 @@ static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
                         _("Warning, you are about the delete the archive \"%s\".\n\n"
                           "If you continue, all the transactions linked to that archive "
                           "will loose the link and will begin again not archived.\n"
-                          "All the informations about that archive will be destroyed.\n\n"
+                          "All the information about that archive will be destroyed.\n\n"
                           "Do you want to continue ?"),
                         gsb_data_archive_get_name (archive_number) );
     if (!question_yes_no_hint (_("Deleting an archive"), tmpstr , GTK_RESPONSE_CANCEL ))
@@ -525,7 +525,7 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
                         _("Warning, you are about the delete the archive \"%s\" and its "
                           "associated transactions.\n\nIf you continue, all the transactions "
                           "linked to that archive will be deleted and the initials amounts "
-                          "of the accounts will be adjusted.\nAll the informations about "
+                          "of the accounts will be adjusted.\nAll the information about "
                           "that archive will be destroyed.\nYou should have at least exported "
                           "that archive into another file...\n\nAre you sure you want to "
                           "continue ?"),

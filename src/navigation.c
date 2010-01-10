@@ -718,7 +718,7 @@ static gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree_
 
 
 /**
- * Update informations for an report in navigation pane.
+ * Update information for an report in navigation pane.
  *
  * \param report_nb	Number of the report that has to be updated.
  */
@@ -828,7 +828,7 @@ void gsb_gui_navigation_remove_report ( gint report_number )
 
 
 /**
- * Update informations for an account in navigation pane.
+ * Update information for an account in navigation pane.
  *
  * \param account_number	Number of the account that has to be updated.
  */

@@ -6,7 +6,7 @@
 #include "././gsb_real.h"
 /* END_INCLUDE_H */
 
-/** This structure holds informations needed for exchange rates
+/** This structure holds information needed for exchange rates
   cache. */
 struct cached_exchange_rate {
     gint currency1_number;	/** First currency */

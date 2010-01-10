@@ -119,7 +119,7 @@ static gulong gsb_file_save_print_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content,
                         gint archive_number );
-static gchar *gsb_file_save_real_to_string ( gsb_real number );
+//~ static gchar *gsb_file_save_real_to_string ( gsb_real number );
 static gulong gsb_file_save_reconcile_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
@@ -160,30 +160,30 @@ extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
-gchar *gsb_file_save_real_to_string ( gsb_real number )
-{
-	static struct lconv conv = {
-		NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        "",		// mon_thousands_sep
-        NULL,
-        "",		// positive_sign
-        "-",	// negative_sign
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-	};
-	return gsb_real_raw_format_string(number, &conv, NULL);
-}
+//~ gchar *gsb_file_save_real_to_string ( gsb_real number )
+//~ {
+	//~ static struct lconv conv = {
+		//~ NULL,
+        //~ NULL,
+        //~ NULL,
+        //~ NULL,
+        //~ NULL,
+        //~ NULL,
+        //~ "",		// mon_thousands_sep
+        //~ NULL,
+        //~ "",		// positive_sign
+        //~ "-",	// negative_sign
+        //~ 0,
+        //~ 0,
+        //~ 0,
+        //~ 0,
+        //~ 0,
+        //~ 0,
+        //~ 0,
+        //~ 0,
+	//~ };
+	//~ return gsb_real_raw_format_string(number, &conv, NULL);
+//~ }
 
 
 /** 
@@ -239,7 +239,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 	/* the file exists, we need to get the chmod values
 	 * because gtk will overwrite it */
 	if (stat (filename, &buf) == -1)
-	    /* stat couldn't get the informations, so do as a new file
+	    /* stat couldn't get the information, so do as a new file
 	     * and we will set the good chmod */
 	    do_chmod = TRUE;
 	else
@@ -586,7 +586,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *skipped_lines_string;
     gboolean is_archive = FALSE;
 
-    /* prepare stuff to save generals informations */
+    /* prepare stuff to save general information */
 
     /* prepare transactions_view */
     transactions_view = NULL;
@@ -662,7 +662,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     else
         tmpstr = "";
 
-    /* save the general informations */
+    /* save the general information */
     new_string = g_markup_printf_escaped ( "\t<General\n"
 					   "\t\tFile_version=\"%s\"\n"
 					   "\t\tGrisbi_version=\"%s\"\n"
@@ -861,7 +861,7 @@ gulong gsb_file_save_print_part ( gulong iterator,
 {
     gchar *new_string;
 
-    /* save the print config informations */
+    /* save the print config information */
     new_string = g_markup_printf_escaped ( "\t<Print\n"
 					   "\t\tDraw_lines=\"%d\"\n"
 					   "\t\tDraw_column=\"%d\"\n"
@@ -1014,9 +1014,12 @@ gulong gsb_file_save_account_part ( gulong iterator,
 										       k ));
 
 	/* set the reals */
-	init_balance = gsb_file_save_real_to_string (gsb_data_account_get_init_balance (account_number, -1));
-	mini_wanted = gsb_file_save_real_to_string (gsb_data_account_get_mini_balance_wanted (account_number));
-	mini_auto = gsb_file_save_real_to_string (gsb_data_account_get_mini_balance_authorized (account_number));
+	init_balance = gsb_real_save_real_to_string (
+                        gsb_data_account_get_init_balance ( account_number, -1 ), 2 );
+	mini_wanted = gsb_real_save_real_to_string (
+                        gsb_data_account_get_mini_balance_wanted ( account_number ), 2 );
+	mini_auto = gsb_real_save_real_to_string (
+                        gsb_data_account_get_mini_balance_authorized ( account_number ), 2 );
 
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Account\n"
@@ -1202,9 +1205,12 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 
 	/* set the reals. On met en forme le résultat pour avoir une cohérence dans les montants
      * enregistrés dans le fichier à valider */
-	amount = gsb_file_save_real_to_string ( gsb_data_transaction_get_amount (transaction_number) );
-	exchange_rate = gsb_file_save_real_to_string (gsb_data_transaction_get_exchange_rate (transaction_number ));
-	exchange_fees = gsb_file_save_real_to_string (gsb_data_transaction_get_exchange_fees ( transaction_number));
+	amount = gsb_real_save_real_to_string (
+                        gsb_data_transaction_get_amount ( transaction_number ), 2 );
+	exchange_rate = gsb_real_save_real_to_string (
+                        gsb_data_transaction_get_exchange_rate ( transaction_number ), -1 );
+	exchange_fees = gsb_real_save_real_to_string (
+                        gsb_data_transaction_get_exchange_fees ( transaction_number ), 2 );
 	
 	/* set the dates */
 	date = gsb_format_gdate_safe ( gsb_data_transaction_get_date ( transaction_number ));
@@ -1288,7 +1294,8 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 	scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
 
 	/* set the real */
-	amount = gsb_file_save_real_to_string (gsb_data_scheduled_get_amount ( scheduled_number));
+	amount = gsb_real_save_real_to_string (
+                        gsb_data_scheduled_get_amount ( scheduled_number ), 2 );
 
 	/* set the dates */
 	date = gsb_format_gdate_safe (gsb_data_scheduled_get_date ( scheduled_number));
@@ -1608,7 +1615,8 @@ gulong gsb_file_save_currency_link_part ( gulong iterator,
     link_number = gsb_data_currency_link_get_no_currency_link (list_tmp -> data);
 
     /* set the number */
-    change_rate = gsb_file_save_real_to_string (gsb_data_currency_link_get_change_rate (link_number));
+    change_rate = gsb_real_save_real_to_string (
+                        gsb_data_currency_link_get_change_rate ( link_number ), -1 );
 
     /* set the date of modification */
     strdate = gsb_format_gdate_safe ( gsb_data_currency_link_get_modified_date ( link_number ) );
@@ -1840,8 +1848,10 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
 	    final_date = my_strdup ("");
 
 	/* set the balances strings */
-	init_balance = gsb_file_save_real_to_string (gsb_data_reconcile_get_init_balance (reconcile_number));
-	final_balance = gsb_file_save_real_to_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+	init_balance = gsb_real_save_real_to_string (
+                        gsb_data_reconcile_get_init_balance ( reconcile_number ), 2 );
+	final_balance = gsb_real_save_real_to_string (
+                        gsb_data_reconcile_get_final_balance ( reconcile_number ), 2 );
 
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" Acc=\"%d\" Idate=\"%s\" Fdate=\"%s\" Ibal=\"%s\" Fbal=\"%s\" />\n",
@@ -2500,27 +2510,35 @@ gulong gsb_file_save_report_part ( gulong iterator,
 		amount_comparison_number_to_write = amount_comparison_number;
 
 	    /* set the numbers */
-	    first_amount = gsb_file_save_real_to_string (gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number));
-	    second_amount = gsb_file_save_real_to_string (gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number));
+	    first_amount = gsb_real_save_real_to_string (
+                        gsb_data_report_amount_comparison_get_first_amount (
+                        amount_comparison_number ), 2 );
+	    second_amount = gsb_real_save_real_to_string (
+                        gsb_data_report_amount_comparison_get_second_amount (
+                        amount_comparison_number ), 2 );
 
 	    /* now we can fill the file content */
 	    new_string = g_markup_printf_escaped ( "\t<Amount_comparison\n"
-						   "\t\tComparison_number=\"%d\"\n"
-						   "\t\tReport_nb=\"%d\"\n"
-						   "\t\tLast_comparison=\"%d\"\n"
-						   "\t\tComparison_1=\"%d\"\n"
-						   "\t\tLink_1_2=\"%d\"\n"
-						   "\t\tComparison_2=\"%d\"\n"
-						   "\t\tAmount_1=\"%s\"\n"
-						   "\t\tAmount_2=\"%s\" />\n",
-						   amount_comparison_number_to_write,
-						   report_number_to_write,
-						   gsb_data_report_amount_comparison_get_link_to_last_amount_comparison (amount_comparison_number),
-						   gsb_data_report_amount_comparison_get_first_comparison (amount_comparison_number),
-						   gsb_data_report_amount_comparison_get_link_first_to_second_part (amount_comparison_number),
-						   gsb_data_report_amount_comparison_get_second_comparison (amount_comparison_number),
-						   my_safe_null_str(first_amount),
-						   my_safe_null_str(second_amount));
+                        "\t\tComparison_number=\"%d\"\n"
+                        "\t\tReport_nb=\"%d\"\n"
+                        "\t\tLast_comparison=\"%d\"\n"
+                        "\t\tComparison_1=\"%d\"\n"
+                        "\t\tLink_1_2=\"%d\"\n"
+                        "\t\tComparison_2=\"%d\"\n"
+                        "\t\tAmount_1=\"%s\"\n"
+                        "\t\tAmount_2=\"%s\" />\n",
+                        amount_comparison_number_to_write,
+                        report_number_to_write,
+                        gsb_data_report_amount_comparison_get_link_to_last_amount_comparison (
+                        amount_comparison_number ),
+                        gsb_data_report_amount_comparison_get_first_comparison (
+                        amount_comparison_number ),
+                        gsb_data_report_amount_comparison_get_link_first_to_second_part (
+                        amount_comparison_number ),
+                        gsb_data_report_amount_comparison_get_second_comparison (
+                        amount_comparison_number ),
+                        my_safe_null_str(first_amount ),
+                        my_safe_null_str(second_amount ) );
 
 	    g_free (first_amount);
 	    g_free (second_amount);

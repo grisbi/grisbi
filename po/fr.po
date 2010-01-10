@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-09 21:30+0100\n"
+"POT-Creation-Date: 2010-01-10 20:38+0100\n"
 "PO-Revision-Date: 2010-01-02 22:34+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -259,7 +259,7 @@ msgstr "Adresses et titres"
 
 #. Account file title
 #: src/affichage.c:368 src/etats_config.c:624 src/etats_config.c:627
-#: src/etats_config.c:6987
+#: src/etats_config.c:6988
 msgid "Titles"
 msgstr "Titres"
 
@@ -974,8 +974,8 @@ msgstr "Option de sécurité non implémentée"
 
 #: src/dialog.c:57
 msgid ""
-"This file contains security informations, which processing is not "
-"implemented at this moment."
+"This file contains security information, which processing is not implemented "
+"at this moment."
 msgstr ""
 "Ce fichier contient des informations sur la sécurité mais leur traitement "
 "n'est pas encore implémenté."
@@ -1211,7 +1211,13 @@ msgstr "%s : %s - %s:%d:%s\n"
 msgid "%s : %s - %s:%d:%s - %d\n"
 msgstr "%s : %s - %s:%d:%s - %d\n"
 
-#: src/erreur.c:406
+#. on affiche dans la console le message
+#: src/erreur.c:358
+#, c-format
+msgid "%s : %s - %s:%d:%s - %d E %d\n"
+msgstr "%s : %s - %s:%d:%s - %d\n"
+
+#: src/erreur.c:444
 #, c-format
 msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
@@ -1221,7 +1227,7 @@ msgstr ""
 "Grisbi va créer le fichier de log %s. Merci d'envoyer ce fichier avec votre "
 "fichier de compte et/ou QIF rendu anonyme."
 
-#: src/erreur.c:424
+#: src/erreur.c:462
 msgid "Grisbi failed to create the log file..."
 msgstr "Grisbi n'a pas pu créer le fichier de log"
 
@@ -1531,7 +1537,7 @@ msgstr "Exercice"
 
 #. mise en place de la paddingbox des tiers
 #: src/etats_affiche.c:2426 src/etats_config.c:517 src/etats_config.c:520
-#: src/etats_config.c:685 src/etats_config.c:7021 src/export_csv.c:775
+#: src/etats_config.c:685 src/etats_config.c:7022 src/export_csv.c:775
 #: src/fenetre_principale.c:264 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1308 src/gsb_form_widget.c:424 src/gsb_scheduler_list.c:339
 #: src/gsb_transactions_list.c:146 src/import.c:3120 src/import_csv.c:82
@@ -1555,7 +1561,7 @@ msgstr "Remarques"
 
 #. Now we have a model, create view
 #: src/etats_affiche.c:2454 src/etats_config.c:562 src/etats_config.c:565
-#: src/etats_config.c:7220 src/gsb_payment_method_config.c:118
+#: src/etats_config.c:7221 src/gsb_payment_method_config.c:118
 #: src/parametres.c:518
 msgid "Payment methods"
 msgstr "Modes de règlement"
@@ -1678,7 +1684,7 @@ msgid "Transfers"
 msgstr "Virements"
 
 #. mise en place de la paddingbox des comptes
-#: src/etats_config.c:508 src/etats_config.c:511 src/etats_config.c:6991
+#: src/etats_config.c:508 src/etats_config.c:511 src/etats_config.c:6992
 #: src/fenetre_principale.c:242 src/navigation.c:250
 msgid "Accounts"
 msgstr "Comptes"
@@ -1686,7 +1692,7 @@ msgstr "Comptes"
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
 #: src/etats_config.c:526 src/etats_config.c:529 src/etats_config.c:2991
-#: src/etats_config.c:7056 src/fenetre_principale.c:277 src/navigation.c:322
+#: src/etats_config.c:7057 src/fenetre_principale.c:277 src/navigation.c:322
 #: src/navigation.c:1237
 msgid "Categories"
 msgstr "Catégories"
@@ -1694,7 +1700,7 @@ msgstr "Catégories"
 #. mise en place de la paddingbox des ib
 #. set the title
 #: src/etats_config.c:535 src/etats_config.c:538 src/etats_config.c:3797
-#: src/etats_config.c:7133 src/export_csv.c:799 src/fenetre_principale.c:282
+#: src/etats_config.c:7134 src/export_csv.c:799 src/fenetre_principale.c:282
 #: src/import_csv.c:87 src/navigation.c:339 src/navigation.c:1248
 #: src/traitement_variables.c:79
 msgid "Budgetary lines"
@@ -1866,14 +1872,14 @@ msgid "Select the accounts included in the report"
 msgstr "Sélectionner les comptes à inclure dans l'état"
 
 #: src/etats_config.c:2547 src/etats_config.c:2802 src/etats_config.c:3084
-#: src/etats_config.c:3891 src/etats_config.c:4081 src/etats_config.c:7311
+#: src/etats_config.c:3891 src/etats_config.c:4081 src/etats_config.c:7312
 #: src/tiers_onglet.c:1393 src/tiers_onglet.c:1413
 msgid "Select all"
 msgstr "Sélectionner tout"
 
 #. ajoute le bouton (dÃ©)sÃ©lectionne tout
 #: src/etats_config.c:2562 src/etats_config.c:2817 src/etats_config.c:3099
-#: src/etats_config.c:3906 src/etats_config.c:4096 src/etats_config.c:7326
+#: src/etats_config.c:3906 src/etats_config.c:4096 src/etats_config.c:7327
 #: src/import.c:2112 src/tiers_onglet.c:1184 src/tiers_onglet.c:1395
 msgid "Unselect all"
 msgstr "Désélectionner tout"
@@ -2025,7 +2031,7 @@ msgstr "Ajouter"
 msgid "Remove"
 msgstr "Retirer"
 
-#: src/etats_config.c:4831 src/etats_config.c:6641 src/etats_config.c:6721
+#: src/etats_config.c:4831 src/etats_config.c:6642 src/etats_config.c:6722
 msgid "payee"
 msgstr "tiers"
 
@@ -2033,31 +2039,31 @@ msgstr "tiers"
 msgid "payee information"
 msgstr "information du tiers"
 
-#: src/etats_config.c:4887 src/etats_config.c:6644 src/etats_config.c:6728
+#: src/etats_config.c:4887 src/etats_config.c:6645 src/etats_config.c:6729
 msgid "category"
 msgstr "catégorie"
 
-#: src/etats_config.c:4915 src/etats_config.c:6647
+#: src/etats_config.c:4915 src/etats_config.c:6648
 msgid "sub-category"
 msgstr "sous-catégorie"
 
-#: src/etats_config.c:4943 src/etats_config.c:6650 src/etats_config.c:6735
+#: src/etats_config.c:4943 src/etats_config.c:6651 src/etats_config.c:6736
 msgid "budgetary line"
 msgstr "imputation budgétaire"
 
-#: src/etats_config.c:4971 src/etats_config.c:6653
+#: src/etats_config.c:4971 src/etats_config.c:6654
 msgid "sub-budgetary line"
 msgstr "sous-imputation"
 
-#: src/etats_config.c:4999 src/etats_config.c:6742
+#: src/etats_config.c:4999 src/etats_config.c:6743
 msgid "note"
 msgstr "note"
 
-#: src/etats_config.c:5027 src/etats_config.c:6671 src/etats_config.c:6770
+#: src/etats_config.c:5027 src/etats_config.c:6672 src/etats_config.c:6771
 msgid "bank reference"
 msgstr "information bancaire"
 
-#: src/etats_config.c:5055 src/etats_config.c:6665 src/etats_config.c:6763
+#: src/etats_config.c:5055 src/etats_config.c:6666 src/etats_config.c:6764
 msgid "voucher"
 msgstr "pièce comptable"
 
@@ -2065,7 +2071,7 @@ msgstr "pièce comptable"
 msgid "cheque number"
 msgstr "numéro de chèque"
 
-#: src/etats_config.c:5096 src/etats_config.c:6674 src/etats_config.c:6777
+#: src/etats_config.c:5096 src/etats_config.c:6675 src/etats_config.c:6778
 msgid "reconciliation reference"
 msgstr "n° de rapprochement"
 
@@ -2275,168 +2281,167 @@ msgstr "Afficher les opérations"
 msgid "Display transactions"
 msgstr "Afficher les opérations"
 
-#. demande les dÃ©tails affichÃ©s dans les opÃ©rations
-#: src/etats_config.c:6627
-msgid "Include following informations"
+#: src/etats_config.c:6628
+msgid "Include following information"
 msgstr "Inclure les renseignements suivants"
 
-#: src/etats_config.c:6632 src/etats_config.c:6714
+#: src/etats_config.c:6633 src/etats_config.c:6715
 msgid "transaction number"
 msgstr "n° d'opérations"
 
-#: src/etats_config.c:6635 src/etats_config.c:6700
+#: src/etats_config.c:6636 src/etats_config.c:6701
 msgid "date"
 msgstr "date"
 
-#: src/etats_config.c:6638 src/etats_config.c:6707
+#: src/etats_config.c:6639 src/etats_config.c:6708
 msgid "value date"
 msgstr "date de valeur"
 
-#: src/etats_config.c:6656
+#: src/etats_config.c:6657
 msgid "notes"
 msgstr "note"
 
-#: src/etats_config.c:6659 src/etats_config.c:6749
+#: src/etats_config.c:6660 src/etats_config.c:6750
 msgid "method of payment"
 msgstr "mode de règlement"
 
-#: src/etats_config.c:6662 src/etats_config.c:6756
+#: src/etats_config.c:6663 src/etats_config.c:6757
 msgid "cheque/transfer number"
 msgstr "n° de chèque/virement"
 
-#: src/etats_config.c:6668 src/etats_support.c:138
+#: src/etats_config.c:6669 src/etats_support.c:138
 msgid "financial year"
 msgstr "exercice"
 
 #. on propose d'afficher le titre des colonnes
-#: src/etats_config.c:6679
+#: src/etats_config.c:6680
 msgid "Columns"
 msgstr "Colonnes"
 
-#: src/etats_config.c:6681
+#: src/etats_config.c:6682
 msgid "Display column titles"
 msgstr "Afficher les titres des colonnes"
 
-#: src/etats_config.c:6684
+#: src/etats_config.c:6685
 msgid "every section"
 msgstr "à chaque changement de section"
 
-#: src/etats_config.c:6688
+#: src/etats_config.c:6689
 msgid "at the top of the report"
 msgstr "en haut de l'état"
 
 #. mise en place du type de classement des opÃ©s
-#: src/etats_config.c:6693
+#: src/etats_config.c:6694
 msgid "Sort transactions by"
 msgstr "Classement des opérations par"
 
 #. on propose de rendre clickable le dÃ©tails des opÃ©rations
-#: src/etats_config.c:6789
+#: src/etats_config.c:6790
 msgid "Clickable transactions"
 msgstr "Opérations clickables"
 
-#: src/etats_config.c:6791
+#: src/etats_config.c:6792
 msgid "Make transactions clickable"
 msgstr "Rendre les opérations interactives"
 
-#: src/etats_config.c:6827 src/parametres.c:1122
+#: src/etats_config.c:6828 src/parametres.c:1122
 msgid "Totals currencies"
 msgstr "Devises des totaux"
 
-#: src/etats_config.c:6840
+#: src/etats_config.c:6841
 msgid "General totals currency"
 msgstr "Devise utilisée pour les totaux généraux"
 
-#: src/etats_config.c:6869
+#: src/etats_config.c:6870
 msgid "Payees currency"
 msgstr "Devise utilisée pour les tiers"
 
-#: src/etats_config.c:6898
+#: src/etats_config.c:6899
 msgid "Categories currency"
 msgstr "Devise utilisée pour les catégories"
 
-#: src/etats_config.c:6928
+#: src/etats_config.c:6929
 msgid "Budgetary lines currency"
 msgstr "Devise utilisée pour les imputations budgétaires"
 
-#: src/etats_config.c:6957
+#: src/etats_config.c:6958
 msgid "Amount comparison currency"
 msgstr "Devise utilisée pour les comparaisons de montant"
 
 #. on permet d'afficher le name du compte
-#: src/etats_config.c:6994
+#: src/etats_config.c:6995
 msgid "Display account name"
 msgstr "Afficher le nom du compte"
 
 #. on permet d'afficher un ss total lors de chgt de compte
 #. activÃ© uniquement si on a regroupÃ© les opÃ©s par compte
-#: src/etats_config.c:7006
+#: src/etats_config.c:7007
 msgid "Display a sub-total for each account"
 msgstr "Afficher un sous-total lors d'un changement de compte"
 
 #. permet d'afficher le name du tiers, activÃ© uniquement si on utilise les tiers
-#: src/etats_config.c:7024
+#: src/etats_config.c:7025
 msgid "Display payee's name"
 msgstr "Afficher le nom du tiers"
 
-#: src/etats_config.c:7041
+#: src/etats_config.c:7042
 msgid "Display a sub-total for each payee"
 msgstr "Afficher un sous-total lors du changement de tiers"
 
 #. affichage possible du name de la categ
-#: src/etats_config.c:7059
+#: src/etats_config.c:7060
 msgid "Display the (sub)category's name"
 msgstr "Afficher le nom de la (sous-)catégorie"
 
 #. permet d'afficher un sous total lors de chgt de categ
 #. activÃ© uniquement si on utilise les categ
-#: src/etats_config.c:7075
+#: src/etats_config.c:7076
 msgid "Display a sub-total for each category"
 msgstr "Afficher un sous-total lors du changement de catégorie"
 
 #. mise en place du bouton pour afficher les sous categ
-#: src/etats_config.c:7090
+#: src/etats_config.c:7091
 msgid "Display sub-categories"
 msgstr "Afficher les sous-catégories"
 
-#: src/etats_config.c:7104
+#: src/etats_config.c:7105
 msgid "Display a sub-total for each sub-category"
 msgstr "Afficher un sous-total lors du changement de sous-catégorie"
 
-#: src/etats_config.c:7118
+#: src/etats_config.c:7119
 msgid "Display \" No sub-category\" if none"
 msgstr "Afficher « Pas de sous-catégorie » si absente"
 
-#: src/etats_config.c:7135
+#: src/etats_config.c:7136
 msgid "Display the (sub-)budget line name"
 msgstr "Afficher le nom de la (sous-)imputation"
 
 #. permet d'afficher un sous total lors de chgt d'ib
 #. activÃ© uniquement si on utilise les ib
-#: src/etats_config.c:7151
+#: src/etats_config.c:7152
 msgid "Display a sub-total for each budgetary line"
 msgstr "Afficher un sous-total lors du changement d'imputation"
 
 #. mise en place du bouton pour afficher les sous categ
-#: src/etats_config.c:7166
+#: src/etats_config.c:7167
 msgid "Display sub-budget lines"
 msgstr "Afficher les sous-imputations"
 
-#: src/etats_config.c:7179
+#: src/etats_config.c:7180
 msgid "Display a sub-total for each sub-budget line"
 msgstr "Afficher un sous-total lors du changement de sous-imputation"
 
-#: src/etats_config.c:7193
+#: src/etats_config.c:7194
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Afficher « Pas de sous-imputation » si absente"
 
 #. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
 #. sÃ©lectionner
-#: src/etats_config.c:7226
+#: src/etats_config.c:7227
 msgid "Select the transactions by method of payment"
 msgstr "Sélectionner les opérations en fonction des modes de règlement"
 
-#: src/etats_config.c:7252
+#: src/etats_config.c:7253
 msgid "Select methods of payment to include"
 msgstr "Sélectionner les modes de règlement à inclure dans l'état"
 
@@ -3724,7 +3729,7 @@ msgid ""
 "\n"
 "If you continue, all the transactions linked to that archive will loose the "
 "link and will begin again not archived.\n"
-"All the informations about that archive will be destroyed.\n"
+"All the information about that archive will be destroyed.\n"
 "\n"
 "Do you want to continue ?"
 msgstr ""
@@ -3748,7 +3753,7 @@ msgid ""
 "\n"
 "If you continue, all the transactions linked to that archive will be deleted "
 "and the initials amounts of the accounts will be adjusted.\n"
-"All the informations about that archive will be destroyed.\n"
+"All the information about that archive will be destroyed.\n"
 "You should have at least exported that archive into another file...\n"
 "\n"
 "Are you sure you want to continue ?"
@@ -6774,8 +6779,8 @@ msgstr "Chargement des comptes"
 msgid "Failed to load accounts"
 msgstr "Échec du chargement des comptes"
 
-#: src/gsb_file.c:419 src/gsb_file.c:436 src/gsb_file_load.c:301
-#: src/gsb_file_load.c:315 src/gsb_file_load.c:416
+#: src/gsb_file.c:419 src/gsb_file.c:436 src/gsb_file_load.c:297
+#: src/gsb_file_load.c:311 src/gsb_file_load.c:412
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Erreur lors de l'ouverture du fichier « %s »."
@@ -6923,16 +6928,16 @@ msgid "Grisbi"
 msgstr "Grisbi"
 
 #: src/gsb_file.c:1182
-msgid "Delete a copy of file of the old version of grisbi"
-msgstr "Supprimer la copie du fichier de l'ancienne version de grisbi"
+msgid "Delete file copy from a previous version of grisbi"
+msgstr "Supprimer la copie du fichier de la version précédente de grisbi"
 
 #: src/gsb_file.c:1202
 #, c-format
 msgid ""
-"Careful, you are about to deleting the copy of file\n"
-"of the old version of grisbi.\n"
+"Caution, you are about to delete a file copy\n"
+"from a previous version of grisbi.\n"
 "\n"
-"<b>Do you want to delete this file :\n"
+"<b>Do you want to delete this file:\n"
 "%s ?</b>"
 msgstr ""
 "Attention vous allez supprimer la copie du fichier\n"
@@ -6965,18 +6970,18 @@ msgid "A4"
 msgstr "A4"
 
 #: src/gsb_file_config.c:1353
-msgid "Delete an old config file"
-msgstr "Supprimer l'ancien fichier de configuration"
+msgid "Delete config file from a previous version"
+msgstr "Supprimer la copie du fichier de la version précédente de grisbi"
 
 #: src/gsb_file_config.c:1373
 msgid ""
-"Careful, you are about to deleting the file\n"
-"of configuration of an old version of Grisbi.\n"
+"Caution, you are about to delete the\n"
+"configuration file of a previous version of Grisbi.\n"
 "\n"
-"<b>Do you want to delete this file ?</b>"
+"<b>Do you want to delete this file?</b>"
 msgstr ""
 "Attention vous allez supprimer le fichier\n"
-"de configuration d'une ancienne version de grisbi.\n"
+"de configuration d'une précédente version de grisbi.\n"
 "\n"
 "<b>Voulez-vous le supprimer ?</b>"
 
@@ -6995,17 +7000,17 @@ msgstr ""
 "\n"
 "puis appuyez le bouton Valider"
 
-#: src/gsb_file_load.c:298 src/gsb_file_load.c:413 src/gsb_file_others.c:420
+#: src/gsb_file_load.c:294 src/gsb_file_load.c:409 src/gsb_file_others.c:420
 #: src/gsb_file_others.c:552
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Impossible d'ouvrir le fichier « %s » : %s"
 
-#: src/gsb_file_load.c:300
+#: src/gsb_file_load.c:296
 msgid "File does not exist"
 msgstr "Le fichier n'existe pas"
 
-#: src/gsb_file_load.c:313 src/gsb_file_others.c:433
+#: src/gsb_file_load.c:309 src/gsb_file_others.c:433
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular file,\n"
@@ -7014,7 +7019,7 @@ msgstr ""
 "%s ne semble pas être un fichier normal,\n"
 "veuillez vérifier et réessayer."
 
-#: src/gsb_file_load.c:354 src/gsb_file_save.c:412
+#: src/gsb_file_load.c:350 src/gsb_file_save.c:412
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7027,15 +7032,15 @@ msgstr ""
 "Vérifiez qu'il soit bien installé (i.e. vérifiez que le paquet 'grisbi-ssl' "
 "est installé) et essayez à nouveau."
 
-#: src/gsb_file_load.c:359 src/gsb_file_save.c:417
+#: src/gsb_file_load.c:355 src/gsb_file_save.c:417
 msgid "Encryption plugin not found."
 msgstr "Plugin de cryptage non trouvé"
 
-#: src/gsb_file_load.c:457 src/gsb_file_load.c:4617
+#: src/gsb_file_load.c:453 src/gsb_file_load.c:4613
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Ce n'est pas un fichier Grisbi...chargement interrompu"
 
-#: src/gsb_file_load.c:669
+#: src/gsb_file_load.c:665
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7047,7 +7052,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:8015
+#: src/gsb_file_load.c:8019
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7056,12 +7061,12 @@ msgstr ""
 "Pour ouvrir ce fichier, il vous faut la version %s de Grisbi.\n"
 "Vous utilisez la version %s."
 
-#: src/gsb_file_load.c:8054
+#: src/gsb_file_load.c:8058
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
 "(new reports...) but remember it's an archive before modifying some "
-"transactions or important informations."
+"transactions or important information."
 msgstr ""
 "Vous avez ouvert une archive.\n"
 "Il n'ya pas de limite dans Grisbi, vous pouvez faire ce que vous voulez  et "
@@ -7069,7 +7074,7 @@ msgstr ""
 "c'est une archive avant de modifier certaines transactions ou informations "
 "importantes."
 
-#: src/gsb_file_load.c:8055
+#: src/gsb_file_load.c:8062
 msgid "Grisbi archive opened"
 msgstr "Archive grisbi ouverte"
 
@@ -7787,10 +7792,11 @@ msgstr "Trouver les opérations marquées et non associées à un rapprochement"
 #: src/gsb_reconcile_config.c:517
 #, c-format
 msgid ""
-"Careful, you are about to deleting a reconcile.\n"
-"If you continue, the reconcile %s will be erased and all the transactions "
-"marked by this reconcile will be un-reconciled and marked P.\n"
-"Are you sure you want to continue ?"
+"Caution, you are about to delete a reconciliation.\n"
+"If you continue, the reconciliation %s will be erased and all the "
+"transactions marked by this reconciliation will be un-reconciled and marked "
+"P.\n"
+"Are you sure you want to continue?"
 msgstr ""
 "Attention vous êtes sur le point de supprimer un rapprochement.\n"
 "Si vous continuez, le rapprochement «%s» sera supprimé et toutes les "
@@ -7798,7 +7804,7 @@ msgstr ""
 "Voulez-vous continuer ?"
 
 #: src/gsb_reconcile_config.c:519
-msgid "Deleting a reconcile"
+msgid "Delete reconciliation"
 msgstr "Supprimer un rapprochement"
 
 #: src/gsb_reconcile_sort_config.c:86 src/parametres.c:428
@@ -10263,6 +10269,12 @@ msgstr "La conversion à échoué essayez un autre jeu de caractères"
 #: src/utils_font.c:199
 msgid "No font defined"
 msgstr "Aucune police définie"
+
+#~ msgid "Delete an old config file"
+#~ msgstr "Supprimer l'ancien fichier de configuration"
+
+#~ msgid "Deleting a reconcile"
+#~ msgstr "Supprimer un rapprochement"
 
 #~ msgid "One month"
 #~ msgstr "Un mois"

@@ -381,23 +381,22 @@ gint gsb_data_reconcile_get_number_by_name ( const gchar *name )
 {
     GList *list_tmp;
 
-    if (!name
-	||
-	!strlen (name))
-	return FALSE;
+    if ( !name || strlen ( name ) == 0 )
+	    return FALSE;
 
     list_tmp = reconcile_list;
 
     while (list_tmp)
     {
-	struct_reconcile *reconcile;
+        struct_reconcile *reconcile;
 
-	reconcile = list_tmp -> data;
+        reconcile = list_tmp -> data;
+        if ( reconcile -> reconcile_name
+         && strlen ( reconcile -> reconcile_name ) == 0
+         && strcmp ( reconcile -> reconcile_name, name ) == 0 )
+            return (reconcile -> reconcile_number);
 
-	if (!strcmp (reconcile -> reconcile_name,
-		     name ))
-	    return (reconcile -> reconcile_number);
-	list_tmp = list_tmp -> next;
+        list_tmp = list_tmp -> next;
     }
 
     return FALSE;

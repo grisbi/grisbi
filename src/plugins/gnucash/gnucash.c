@@ -711,7 +711,7 @@ struct gnucash_split * find_split ( GSList * split_list, gsb_real amount,
 
 
 /**
- * Update a split with arbitrary informations according to their
+ * Update a split with arbitrary information according to their
  * correctness.  If an account is specified and split already has an
  * account, this means it is the second split of the pair and first
  * split was an account split, so this is transfer split and we set

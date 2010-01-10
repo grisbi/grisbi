@@ -485,7 +485,7 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
 
 
 /**
- * change the showed informations on the list :
+ * change the showed information on the list :
  * either show the frequency and mode of the scheduled
  * either show the notes
  *

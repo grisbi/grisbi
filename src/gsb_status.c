@@ -66,7 +66,7 @@ static GdkWindow * tracked_window;
 
 /**
  * Create and return a new GtkStatusBar to hold various status
- * informations.
+ * information.
  *
  * \return	A newly allocated GtkStatusBar.
  */

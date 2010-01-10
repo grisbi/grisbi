@@ -335,7 +335,7 @@ gulong gsb_file_others_save_general_part ( gulong iterator,
 	gulong result;
     gchar *new_string;
 
-    /* save the general informations */
+    /* save the general information */
 
     new_string = g_strdup_printf ( "\t<General\n"
 				   "\t\tFile_version=\"%s\"\n"

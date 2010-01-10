@@ -151,10 +151,6 @@ static void gsb_file_load_transactions ( const gchar **attribute_names,
 static gboolean gsb_file_load_update_previous_version ( void );
 /*END_STATIC*/
 
-/*BEGIN SPECIAL FUNCTION DECLARATION*/
-gsb_real gsb_real_import_from_string ( const gchar *string );
-/*END SPECIAL FUNCTION DECLARATION*/
-
 /*START_EXTERN*/
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
@@ -4785,8 +4781,12 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
             /* to go to the 0.6.0 we need to change the amount string
              * from 12.340000 to 12.34 before doing the conversion */
             gchar *tmp_string;
+            gsb_real number;
 
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i], 2 );
+            number = gsb_real_get_from_string (tmp_string);
+            //~ printf ("tmp_string = %s number.mantissa = %ld number.exponent = %d\n", tmp_string,
+                        //~ number.mantissa, number.exponent);
             gsb_data_transaction_set_amount ( transaction_number,
                                   gsb_real_get_from_string (tmp_string));
             if (tmp_string) g_free (tmp_string);
@@ -6119,11 +6119,15 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     gsb_real number;
     
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
+    printf ("solde_initial = %s\n", tmp_string );
     number = gsb_real_get_from_string ( tmp_string );
     if ( number.mantissa == error_real.mantissa )
         gsb_data_account_set_init_balance ( account_number, null_real );
     else
         gsb_data_account_set_init_balance ( account_number, number );
+    printf ("tmp_string = %s number.mantissa = %ld number.exponent = %d initial_balance = %s\n", tmp_string,
+                        number.mantissa, number.exponent,
+                        gsb_real_get_string ( gsb_data_account_get_init_balance ( account_number, 2)));
 
     if (tmp_string) 
         g_free (tmp_string);
@@ -6141,9 +6145,9 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
     number = gsb_real_get_from_string ( tmp_string );
     if ( number.mantissa == error_real.mantissa )
-        gsb_data_account_set_init_balance ( account_number, null_real );
+        gsb_data_account_set_mini_balance_wanted ( account_number, null_real );
     else
-        gsb_data_account_set_init_balance ( account_number, number );
+        gsb_data_account_set_mini_balance_wanted ( account_number, number );
 
     if (tmp_string) 
         g_free (tmp_string);
@@ -6161,9 +6165,9 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
     number = gsb_real_get_from_string ( tmp_string );
     if ( number.mantissa == error_real.mantissa )
-        gsb_data_account_set_init_balance ( account_number, null_real );
+        gsb_data_account_set_mini_balance_authorized ( account_number, null_real );
     else
-        gsb_data_account_set_init_balance ( account_number, number );
+        gsb_data_account_set_mini_balance_authorized ( account_number, number );
 
     if (tmp_string)
         g_free (tmp_string);
@@ -7744,7 +7748,7 @@ gboolean gsb_file_load_update_previous_version ( void )
         /* new to 0.6.0 : struct of reconcile has changed,
          * it contains now an account number, init and final dates and
          * init and final balances
-         * and now there is no more informations on reconcile in the account
+         * and now there is no more information on reconcile in the account
          * so here we try to fill that fields, and especially set the last
          * final date and last final balance in the last reconciles
          * hopefully, we can do that because each reconciled transaction has 
@@ -8051,8 +8055,11 @@ gboolean gsb_file_load_update_previous_version ( void )
 
     /* if we opened an archive, we say it here */
     if (etat.is_archive)
-    dialogue_hint (_("You have opened an archive.\nThere is no limit in Grisbi, you can do whatever you want and save it later (new reports...) but remember it's an archive before modifying some transactions or important informations."),
-               _("Grisbi archive opened"));
+    dialogue_hint (_("You have opened an archive.\nThere is no limit in Grisbi, "
+                        "you can do whatever you want and save it later (new reports...) "
+                        "but remember it's an archive before modifying some transactions "
+                        "or important information."),
+                        _("Grisbi archive opened"));
     return TRUE;
 }
 
