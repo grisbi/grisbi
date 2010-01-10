@@ -332,6 +332,44 @@ extern void debug_message_int ( gchar *prefixe, gchar * file, gint line, const c
 }
 
 
+/**
+ * show a debug message in the terminal
+ * only if debug mode is on
+ * not called directly so need to force the extern 
+ * the param to chow is a number
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param message a number to display with the message
+ * \param
+ * \param
+ *
+ * \return
+ * */
+extern void debug_message_real ( gchar *prefixe, gchar * file, gint line, const char * function, 
+				gsb_real message, gint level, gboolean force_debug_display)
+{
+    /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode) 
+    {
+	/* on affiche dans la console le message */
+	gchar* tmpstr = g_strdup_printf(_("%s : %s - %s:%d:%s - %d E %d\n"),
+					get_debug_time (), prefixe,
+					file, line, function, message.mantissa, message.exponent);
+
+	if (etat.debug_mode)
+	{
+	    fwrite ( tmpstr, sizeof (gchar), strlen (tmpstr), debug_file);
+	    fflush (debug_file);
+	}
+	g_print( "%s", tmpstr );
+	g_free ( tmpstr );
+    }
+}
+
+
 
 
 /**
