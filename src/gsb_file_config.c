@@ -1350,7 +1350,7 @@ static void gsb_file_config_remove_old_config_file ( gchar *filename )
     gint resultat;
 	gchar *tmpstr;
 
-    dialog = gtk_dialog_new_with_buttons ( _("Delete an old config file"),
+    dialog = gtk_dialog_new_with_buttons ( _("Delete config file from a previous version"),
                         GTK_WINDOW ( window ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
@@ -1370,9 +1370,9 @@ static void gsb_file_config_remove_old_config_file ( gchar *filename )
     gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
 
     tmpstr = g_strconcat ( 
-                        _("Careful, you are about to deleting the file\n"
-                        "of configuration of an old version of Grisbi.\n"
-                        "\n<b>Do you want to delete this file ?</b>"),
+                        _("Caution, you are about to delete the\n"
+                        "configuration file of a previous version of Grisbi.\n"
+                        "\n<b>Do you want to delete this file?</b>"),
                         NULL );
 
     label = gtk_label_new ( tmpstr );
