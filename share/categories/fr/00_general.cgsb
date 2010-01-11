@@ -110,10 +110,10 @@
 	<Sub_category Nbc="17" Nb="4" Na="Train" />
 	<Sub_category Nbc="17" Nb="5" Na="Tramway" />
 	<Sub_category Nbc="17" Nb="6" Na="Voyage" />
-	<Category Nb="18" Na="Holiday" Kd="1" />
-	<Sub_category Nbc="18" Nb="1" Na="Housing" />
-	<Sub_category Nbc="18" Nb="2" Na="Visits" />
-	<Sub_category Nbc="18" Nb="3" Na="Travels" />
+	<Category Nb="18" Na="Vacances" Kd="1" />
+	<Sub_category Nbc="18" Nb="1" Na="Logement" />
+	<Sub_category Nbc="18" Nb="2" Na="Visites" />
+	<Sub_category Nbc="18" Nb="3" Na="Voyages" />
 	<Category Nb="19" Na="Autres revenus" Kd="0" />
 	<Sub_category Nbc="19" Nb="1" Na="Allocation chômage" />
 	<Sub_category Nbc="19" Nb="2" Na="Allocation familiales" />
