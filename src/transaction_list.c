@@ -406,7 +406,8 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
     if (record -> mother_row)
     {
 	/* we are deleting a child, update the mother
-	 * the child can never be the last one of the mother because there is always a white line at the end */
+	 * the child can never be the last one of the mother because there is 
+     * always a white line at the end */
 	gint new_number_of_children;
 	CustomRecord **new_children_rows;
 
@@ -779,7 +780,7 @@ void transaction_list_colorize (void)
 {
     gpointer current_transaction_pointer = NULL;
     gint current_color = 0;
-    gint i;
+    gint i, j;
     CustomList *custom_list;
 
     devel_debug (NULL);
@@ -807,9 +808,19 @@ void transaction_list_colorize (void)
         if (gsb_data_transaction_get_split_of_transaction (transaction_number))
         {
             CustomRecord *white_record = NULL;
-            
-            white_record = record -> children_rows[record -> number_of_children -1];
-            transaction_list_update_white_child ( white_record );
+
+            if ( record -> number_of_children )
+            {
+                white_record = record -> children_rows[record -> number_of_children -1];
+                transaction_list_update_white_child ( white_record );
+            }
+            else
+            {
+                /* set the color of the mother */
+                for (j=0 ; j<TRANSACTION_LIST_ROWS_NB ; j++)
+                    record -> transaction_records[j] -> text_color = &text_color[0];
+            }
+
         }
 	    /* if we changed of transaction, change the color */
 	    if (record -> transaction_pointer != current_transaction_pointer)

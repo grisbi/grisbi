@@ -2376,7 +2376,32 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     if ( etat.get_fusion_import_transactions
      &&
      imported_transaction -> ope_correspondante > 0 )
+    {
+        if ( imported_transaction -> tiers
+         &&
+         strlen (imported_transaction -> tiers) )
+        {
+            /* Before leaving, we retrieve the data from payee */
+            gsb_data_transaction_set_notes ( transaction_number,
+                        imported_transaction -> tiers );
+            if ( etat.get_extract_number_for_check )
+            {
+                tmpstr = gsb_string_extract_int ( imported_transaction -> tiers );
+                if ( tmpstr && strlen ( tmpstr ) > 0 )
+                {
+                    payment_number = gsb_data_payment_get_number_by_name ( _("Check"),
+                            account_number );
+                    gsb_data_transaction_set_method_of_payment_number (transaction_number, 
+                            payment_number);
+                    gsb_data_transaction_set_method_of_payment_content (
+                            transaction_number, tmpstr );
+                    g_free ( tmpstr );
+                }
+            }
+        }
+
         return transaction_number;
+    }
 
     /* récupération du montant */
     gsb_data_transaction_set_amount ( transaction_number,
@@ -2386,11 +2411,9 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gsb_data_transaction_set_currency_number ( transaction_number,
                         imported_transaction -> devise );
 
-    /* récupération du tiers */
-    /* pbiava on 03/22/2009 utilisation des remplacements de tiers.
-     * on sauvegarde systématiquement le tiers importé. Peut-être
-     * remplacé plus loin si des notes sont attachées aux
-     * transactions importées */
+    /* Recovery of payee.
+     * we routinely backup imported payee. May be replaced later if 
+     * notes exist to transactions imported */
     if ( imported_transaction -> tiers
      &&
      strlen (imported_transaction -> tiers))
@@ -2425,10 +2448,10 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
         gsb_data_transaction_set_party_number ( transaction_number, payee_number );
     }
 
-    /* vérification si c'est ventilé, sinon récupération des catégories */
+    /* checking if split, otherwise recovery categories */
     if ( imported_transaction -> operation_ventilee )
     {
-        /* l'opération est ventilée */
+        /* transaction is splitted */
         gsb_data_transaction_set_split_of_transaction ( transaction_number, 1 );
     }
     else

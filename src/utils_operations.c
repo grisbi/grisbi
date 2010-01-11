@@ -84,6 +84,9 @@ void delete_transaction_in_trees ( gint transaction_number )
 {
     devel_debug_int (transaction_number);
 
+    if ( transaction_number < 0 )
+        return;
+
     delete_transaction_in_categ_tree ( transaction_number );
     delete_transaction_in_payee_tree ( transaction_number );
     delete_transaction_in_budgetary_line_tree ( transaction_number );

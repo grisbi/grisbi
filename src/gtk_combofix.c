@@ -861,7 +861,7 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     gboolean text_written = FALSE;
     gboolean separator = FALSE;
 
-    devel_debug ( string);
+    //~ devel_debug ( string);
     if (!combofix
 	||
 	!string )
