@@ -106,28 +106,57 @@ gchar *utils_str_itoa ( gint integer )
 gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
                         gint exponent )
 {
-    gint i=0;
     gchar *return_string;
+    gchar *p;
+    gchar *mon_decimal_point;
+    gunichar decimal_point = -1;
+    struct lconv *conv = localeconv ( );
 
-    if (!amount_string)
-	return NULL;
+    if ( !amount_string )
+	    return NULL;
 
-    return_string = my_strdup (amount_string);
+    mon_decimal_point = g_locale_to_utf8 ( conv->mon_decimal_point,
+                        -1, NULL, NULL, NULL );
+    if ( mon_decimal_point )
+        decimal_point = g_utf8_get_char_validated ( mon_decimal_point, -1 );
 
-    while (i != -1
-	   &&
-	   return_string[i])
+    return_string = my_strdup ( amount_string );
+
+    if ( ( p = g_utf8_strrchr ( (const gchar *) return_string, -1, '.' ) ) )
     {
-	if ( return_string[i] == '.'
-	     ||
-	     return_string[i] == ',' )
-	{
-	    return_string[i+exponent+1] = 0;
-	    i = -1;
-	}
-	else
-	    i++;
+        if ( g_unichar_isdefined ( decimal_point )
+         &&
+         g_utf8_strchr ( p, 1, decimal_point ) == NULL )
+        {
+            gchar **tab;
+
+            tab = g_strsplit ( return_string, ".", 2 );
+            return_string = g_strjoinv ( mon_decimal_point, tab );
+            g_strfreev ( tab );
+            p = g_utf8_strrchr ( (const gchar *) return_string, -1,
+                        decimal_point );
+        }
     }
+    else if ( ( p = g_utf8_strrchr ( (const gchar *) return_string, -1, ',' ) ) )
+    {
+        if ( g_unichar_isdefined ( decimal_point )
+         &&
+         g_utf8_strchr ( p, 1, decimal_point ) == NULL )
+        {
+            gchar **tab;
+
+            tab = g_strsplit ( return_string, ",", 2 );
+            return_string = g_strjoinv ( mon_decimal_point, tab );
+            g_strfreev ( tab );
+            p = g_utf8_strrchr ( (const gchar *) return_string, -1,
+                        decimal_point );
+        }
+    }
+    else
+        return NULL;
+
+    p[exponent + 1] = '\0';
+
     return return_string;
 }
 
@@ -877,7 +906,7 @@ gchar *gsb_string_extract_int ( const gchar *chaine )
     {
         ptr = g_utf8_next_char (ptr);
         ch = g_utf8_get_char_validated (ptr, -1);
-        if ( ch != (gunichar )-2 && g_ascii_isdigit ( ch ) )
+        if ( g_unichar_isdefined ( ch ) && g_ascii_isdigit ( ch ) )
         {
             if ( i == long_nbre )
                 break;
