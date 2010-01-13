@@ -22,5 +22,7 @@ GtkWidget *gsb_currency_make_combobox ( gboolean set_name );
 gboolean gsb_currency_set_combobox_history ( GtkWidget *combo_box,
                         gint currency_number );
 gboolean gsb_currency_update_combobox_currency_list ( void );
+gsb_real gsb_currency_get_current_exchange ( void );
+gsb_real gsb_currency_get_current_exchange_fees ( void );
 /* END_DECLARATION */
 #endif

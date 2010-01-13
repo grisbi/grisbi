@@ -151,7 +151,9 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
          &&
          element -> element_number != TRANSACTION_FORM_MODE
          && 
-         element -> element_number != TRANSACTION_FORM_TYPE )
+         element -> element_number != TRANSACTION_FORM_TYPE 
+         &&
+         element -> element_number != TRANSACTION_FORM_DEVISE )
     {
         gsb_form_fill_element ( element -> element_number,
                         account_number,

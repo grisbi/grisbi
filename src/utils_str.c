@@ -109,7 +109,7 @@ gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
     gchar *return_string;
     gchar *p;
     gchar *mon_decimal_point;
-    gunichar decimal_point = -1;
+    gunichar decimal_point = (gunichar )-2;
     struct lconv *conv = localeconv ( );
 
     if ( !amount_string )

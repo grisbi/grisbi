@@ -1049,6 +1049,17 @@ GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint transaction_currenc
 }
 
 
+gsb_real gsb_currency_get_current_exchange ( void )
+{
+    return current_exchange;
+}
+
+
+gsb_real gsb_currency_get_current_exchange_fees ( void )
+{
+    return current_exchange_fees;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

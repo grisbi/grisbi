@@ -798,6 +798,12 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
                  * to hide the cheque element too */
                 if ( ! GTK_WIDGET_VISIBLE (widget) )
                     gtk_widget_hide (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
+                //~ else if ( gsb_data_payment_get_show_entry ( 0 ) )
+                //~ {
+                    //~ gtk_widget_show (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
+                //~ }
+                //~ else
+                    //~ gsb_payment_method_changed_callback ( widget, NULL );
 
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA );
                 if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
@@ -838,6 +844,10 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
                  * to hide the cheque element too */
                 if ( !GTK_WIDGET_VISIBLE (widget))
                     gtk_widget_hide (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
+                //~ else if ( gsb_data_payment_get_show_entry ( 0 ) )
+                //~ {
+                    //~ gtk_widget_show (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
+                //~ }
 
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA);
                 if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
