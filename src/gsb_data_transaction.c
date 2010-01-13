@@ -760,7 +760,6 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
 
     /* if the transaction currency is the same of the account's one,
      * we just return the transaction's amount */
-
     if ( transaction -> currency_number == return_currency_number )
         return gsb_real_adjust_exponent  ( transaction -> transaction_amount,
 					   return_exponent );
