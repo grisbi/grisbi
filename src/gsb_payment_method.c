@@ -73,7 +73,7 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
     GtkListStore *store;
     GSList *tmp_list;
     gint store_filled = 0;
-devel_debug_int (sign);
+
     if (!combo_box)
 	return FALSE;
 
@@ -148,7 +148,7 @@ devel_debug_int (sign);
             payment_number = gsb_data_account_get_default_credit ( account_number );
 
             gsb_payment_method_set_combobox_history ( combo_box, payment_number );
-//~ printf ("payment_number = %d\n", payment_number);            
+
         gtk_widget_show (combo_box);
 
         cheque_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
@@ -156,7 +156,6 @@ devel_debug_int (sign);
         if ( gsb_data_payment_get_show_entry ( payment_number) )
         {
             /* set the next number if needed */
-            printf ("show_entry payment_number = %d\n", payment_number);
             if ( cheque_entry
              &&
              gsb_data_payment_get_automatic_numbering ( payment_number ) )
@@ -407,15 +406,13 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
     if ( gsb_data_payment_get_show_entry ( payment_number) )
     {
         /* set the next number if needed */
-        printf ("show_entry payment_number = %d\n", payment_number);
         if (gsb_data_payment_get_automatic_numbering (payment_number) )
         {
-            /* pbiava the 03/15/09 fix the bug 493 */
             if ( gsb_form_widget_check_empty (cheque_entry) )
             {
 				gchar* tmpstr;
+
                 gsb_form_entry_get_focus (cheque_entry);
-                /* pbiava the 03/15/09 incremente le futur n° de Cheque */
                 tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (
                             payment_number) + 1);
                 gtk_entry_set_text ( GTK_ENTRY (cheque_entry), tmpstr);
