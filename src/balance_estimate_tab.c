@@ -578,18 +578,21 @@ static void bet_estimate_refresh ( void )
     /* calculatextern gboolean balances_with_scheduled;e date_max with user choice */
     data = g_object_get_data ( G_OBJECT ( bet_container ), "bet_months" );
     months = ( data ) ? GPOINTER_TO_INT ( data ): 1;
-    data = g_object_get_data ( G_OBJECT ( bet_container ), "bet_period" );
+    data = g_object_get_data ( G_OBJECT ( bet_container ), "bet_deb_period" );
     period = ( data ) ? GPOINTER_TO_INT ( data ): 2;
 
     date_min = gdate_today ();
+    if ( period == 1 )
+        g_date_set_day ( date_min, 1 );
+
+    data = g_object_get_data ( G_OBJECT ( bet_container ), "bet_end_period" );
+    period = ( data ) ? GPOINTER_TO_INT ( data ): 2;
+
     date_max = gdate_today ();
     g_date_add_months (date_max, months );
 
     if ( period == 1 )
-    {
-        g_date_set_day ( date_min, 1 );
         date_max = gsb_date_get_last_day_of_month ( date_max );
-    }
 
     /* set the graph title and the array title */
     str_date_min = gsb_format_gdate ( date_min );
@@ -890,17 +893,22 @@ static void bet_estimate_refresh ( void )
  */
 static void bet_duration_period_clicked ( GtkWidget *togglebutton, gpointer data )
 {
-    gint period = 0;
     const gchar *name;
     
     name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
     if ( g_strcmp0 ( name, "button_1" ) == 0 )
-        period = 1;
-    else
-        period = 2;
+        g_object_set_data ( G_OBJECT ( bet_container ), "bet_deb_period",
+                        GINT_TO_POINTER ( 1 ) );
+    else if ( g_strcmp0 ( name, "button_2" ) == 0 )
+        g_object_set_data ( G_OBJECT ( bet_container ), "bet_deb_period",
+                        GINT_TO_POINTER ( 2 ) );
+    else if ( g_strcmp0 ( name, "button_3" ) == 0 )
+        g_object_set_data ( G_OBJECT ( bet_container ), "bet_end_period",
+                        GINT_TO_POINTER ( 1 ) );
 
-    g_object_set_data ( G_OBJECT ( bet_container ), "bet_period",
-                        GINT_TO_POINTER ( period ) );
+    else if ( g_strcmp0 ( name, "button_4" ) == 0 )
+        g_object_set_data ( G_OBJECT ( bet_container ), "bet_end_period",
+                        GINT_TO_POINTER ( 2 ) );
 
     bet_estimate_refresh ( );
 }
@@ -1044,12 +1052,15 @@ GtkWidget *bet_estimate_get_duration_widget ( GtkWidget *container )
 {
     GtkWidget* main_vbox;
     GtkWidget *label;
-    GtkWidget *spin_button, *button_1, *button_2;
+    GtkWidget *spin_button, *button_1, *button_2, *button_3, *button_4;
     GtkWidget *widget;
     GtkWidget *vbox;
     GtkWidget *hbox;
     GtkWidget *previous = NULL;
+    GtkSizeGroup * size_group;
     gint iduration;
+
+    size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
     main_vbox = gtk_vbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( container ), main_vbox, FALSE, FALSE, 5) ;
@@ -1057,29 +1068,69 @@ GtkWidget *bet_estimate_get_duration_widget ( GtkWidget *container )
     label = gtk_label_new ( _("Calculation of period") );
     gtk_box_pack_start ( GTK_BOX ( main_vbox ), label, FALSE, FALSE, 5) ;
 
-    vbox = gtk_vbox_new ( FALSE, 5 );
+    label = gtk_label_new ( _("Beginning of period") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+    gtk_box_pack_start ( GTK_BOX ( main_vbox ), label, FALSE, FALSE, 5) ;
+
+    vbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( main_vbox ), vbox, FALSE, FALSE, 5) ;
 
     button_1 = gtk_radio_button_new_with_label ( NULL,
-                        _("1st day of month to last day of the month concerned") );
+                        _("1st day of month") );
     gtk_widget_set_name ( button_1, "button_1" );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), button_1 );
     
     g_signal_connect (G_OBJECT ( button_1 ),
                         "released",
                         G_CALLBACK ( bet_duration_period_clicked ),
                         NULL );
-    g_object_set_data ( G_OBJECT ( bet_container ), "bet_period", GINT_TO_POINTER ( 1 ) );
+    g_object_set_data ( G_OBJECT ( bet_container ), "bet_deb_period",
+                        GINT_TO_POINTER ( 1 ) );
     button_2 = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( button_1 ),
-                        _("From date to date") );
+                        _("date today") );
     gtk_widget_set_name ( button_2, "button_2" );
+
     g_signal_connect (G_OBJECT ( button_2 ),
                         "released",
                         G_CALLBACK ( bet_duration_period_clicked ),
                         NULL );
 
-                        gtk_box_pack_start ( GTK_BOX ( vbox ), button_1, FALSE, FALSE, 5) ;
+    gtk_box_pack_start ( GTK_BOX ( vbox ), button_1, FALSE, FALSE, 5) ;
     gtk_box_pack_start ( GTK_BOX ( vbox ), button_2, FALSE, FALSE, 5) ;
+
+    label = gtk_label_new ( _("End of period") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+    gtk_box_pack_start ( GTK_BOX ( main_vbox ), label, FALSE, FALSE, 5) ;
+
+    vbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( main_vbox ), vbox, FALSE, FALSE, 5) ;
+
+    button_3 = gtk_radio_button_new_with_label ( NULL,
+                        _("last day of the month") );
+    gtk_widget_set_name ( button_3, "button_3" );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), button_3 );
+    
+    g_signal_connect (G_OBJECT ( button_3 ),
+                        "released",
+                        G_CALLBACK ( bet_duration_period_clicked ),
+                        NULL );
+    g_object_set_data ( G_OBJECT ( bet_container ), "bet_end_period",
+                        GINT_TO_POINTER ( 1 ) );
+    button_4 = gtk_radio_button_new_with_label_from_widget (
+                        GTK_RADIO_BUTTON ( button_3 ),
+                        _("From date to date") );
+    gtk_widget_set_name ( button_4, "button_4" );
+    g_signal_connect (G_OBJECT ( button_4 ),
+                        "released",
+                        G_CALLBACK ( bet_duration_period_clicked ),
+                        NULL );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox ), button_3, FALSE, FALSE, 5) ;
+    gtk_box_pack_start ( GTK_BOX ( vbox ), button_4, FALSE, FALSE, 5) ;
+
     
     /* partie mensuelle */
     label = gtk_label_new ( _("Duration estimation") );
