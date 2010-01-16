@@ -2857,8 +2857,13 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 		{
 		    /* on met le no de compte et la devise de l'opération si plus tard on l'enregistre */
 
-		    ope_import -> devise = gsb_currency_get_currency_from_combobox (
-                                    imported_account -> bouton_devise);
+            if (imported_account -> bouton_devise)
+                ope_import -> devise = gsb_currency_get_currency_from_combobox (
+                            imported_account -> bouton_devise);
+            else
+                ope_import -> devise = gsb_data_currency_get_number_by_code_iso4217 (
+                            imported_account -> devise);
+
 		    liste_opes_import_celibataires = g_slist_append ( liste_opes_import_celibataires,
                                     ope_import );
 		}
