@@ -55,10 +55,16 @@
 
 /*START_STATIC*/
 static gboolean gsb_form_widget_can_focus ( gint element_number );
-static gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, gint *ptr_origin );
+static gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
+                        GdkEventFocus *ev,
+                        gint *ptr_origin );
+static gboolean gsb_form_widget_amount_entry_changed ( GtkWidget *entry,
+				        gpointer null );
+gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GdkColor calendar_entry_color;
 extern GtkWidget *form_button_cancel;
 extern GtkWidget *form_button_valid;
 /*END_EXTERN*/
@@ -169,7 +175,24 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_DEBIT:
+        widget = gtk_entry_new ( );
+        g_object_set_data ( G_OBJECT ( widget ), "element_number",
+                        GINT_TO_POINTER ( TRANSACTION_FORM_DEBIT ) );
+        g_signal_connect ( G_OBJECT ( widget ),
+		                "changed",
+		                G_CALLBACK ( gsb_form_widget_amount_entry_changed ),
+		                NULL );
+        break;
 	case TRANSACTION_FORM_CREDIT:
+        widget = gtk_entry_new ( );
+        g_object_set_data ( G_OBJECT ( widget ), "element_number",
+                        GINT_TO_POINTER ( TRANSACTION_FORM_CREDIT ) );
+        g_signal_connect ( G_OBJECT ( widget ),
+		                "changed",
+		                G_CALLBACK ( gsb_form_widget_amount_entry_changed ),
+		                NULL );
+        break;
+
 	case TRANSACTION_FORM_NOTES:
 	case TRANSACTION_FORM_CHEQUE:
 	case TRANSACTION_FORM_VOUCHER:
@@ -735,7 +758,9 @@ void gsb_form_widget_set_empty ( GtkWidget *entry,
  *
  * \return FALSE
  * */
-gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, gint *ptr_origin )
+gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
+                        GdkEventFocus *ev,
+                        gint *ptr_origin )
 {
     GtkWidget *fyear_button;
     GtkWidget *widget;
@@ -798,12 +823,6 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
                  * to hide the cheque element too */
                 if ( ! GTK_WIDGET_VISIBLE (widget) )
                     gtk_widget_hide (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
-                //~ else if ( gsb_data_payment_get_show_entry ( 0 ) )
-                //~ {
-                    //~ gtk_widget_show (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
-                //~ }
-                //~ else
-                    //~ gsb_payment_method_changed_callback ( widget, NULL );
 
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA );
                 if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
@@ -844,10 +863,6 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
                  * to hide the cheque element too */
                 if ( !GTK_WIDGET_VISIBLE (widget))
                     gtk_widget_hide (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
-                //~ else if ( gsb_data_payment_get_show_entry ( 0 ) )
-                //~ {
-                    //~ gtk_widget_show (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
-                //~ }
 
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA);
                 if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
@@ -883,4 +898,98 @@ gchar *gsb_form_widget_get_old_debit ( void )
         return g_strdup ( old_debit );
     else
         return NULL;
+}
+
+
+/**
+ * called when entry changed
+ * check the entry and set the entry red/invalid if not a good number
+ *
+ * \param entry
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_widget_amount_entry_changed ( GtkWidget *entry,
+				        gpointer null )
+{
+    gboolean valide;
+    gint element_number;
+
+    /* if we are in the form and the entry is empty, do nothing
+     * because it's a special style too */
+    element_number = GPOINTER_TO_INT ( g_object_get_data (
+                        G_OBJECT ( entry ), "element_number" ) );
+    if ( g_strcmp0 ( gsb_form_widget_get_name ( element_number ),
+     gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) == 0 )
+        return FALSE;
+
+    if ( gsb_form_widget_check_empty ( entry ) )
+	    return FALSE;
+
+    /* if nothing in the entry, keep the normal style */
+    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) )
+    {
+		gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+	    return FALSE;
+    }
+
+    valide = gsb_form_widget_get_valide_amout_entry (
+        gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+    if ( valide )
+    {
+        /* the entry is valid, make it normal */
+	    gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+    }
+    else
+    {
+	    /* the entry is not valid, make it red */
+		gtk_widget_modify_base ( entry, GTK_STATE_NORMAL,
+                        &calendar_entry_color );
+    }
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
+{
+    struct lconv *conv = localeconv ( );
+    gchar *mon_thousands_sep;
+    gunichar thousands_sep;
+    const gchar *ptr;
+
+    ptr = string;
+    mon_thousands_sep = g_locale_to_utf8 ( conv->mon_thousands_sep,
+                        -1, NULL, NULL, NULL );
+    thousands_sep = g_utf8_get_char_validated ( mon_thousands_sep, -1 );
+    
+    while ( g_utf8_strlen (ptr, -1) > 0 )
+    {
+        gunichar ch;
+
+        ch = g_utf8_get_char_validated (ptr, -1);
+        if ( !g_unichar_isdefined ( ch ) )
+            return FALSE;
+        if ( !g_ascii_isdigit ( ch ) )
+        {
+            if ( g_unichar_isdefined ( thousands_sep ) )
+            {
+                if ( ch != '.' && ch != ',' && ch != thousands_sep )
+                    return FALSE;
+            }
+            else if ( ch != '.' && ch != ',' )
+                    return FALSE;
+        }
+
+        ptr = g_utf8_next_char (ptr);
+    }
+
+    return TRUE;
 }

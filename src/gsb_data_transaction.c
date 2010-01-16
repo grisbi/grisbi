@@ -763,7 +763,8 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
     if ( transaction -> currency_number == return_currency_number )
         return gsb_real_adjust_exponent  ( transaction -> transaction_amount,
 					   return_exponent );
-
+//~ printf ("get_adjusted_amount transaction_number = %d transaction -> currency_number = %d return_currency_number = %d\n",
+    //~ transaction_number, transaction -> currency_number, return_currency_number);
     /* now we can adjust the amount */
 	/* the exchange is saved in the transaction itself */
     if ( transaction -> exchange_rate.mantissa )
@@ -792,7 +793,7 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
         /* The costs are still deducted from the transaction. In case of internal transfer there is no charge. */
         amount = gsb_real_sub (amount, transaction -> exchange_fees);
     }
-    else
+    else if ( return_currency_number > 0 && transaction -> currency_number > 0 )
     {
         gsb_real current_exchange;
         gsb_real current_exchange_fees;

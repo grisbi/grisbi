@@ -904,7 +904,6 @@ gchar *gsb_string_extract_int ( const gchar *chaine )
     ptr = g_strdup ( chaine );
     while ( g_utf8_strlen (ptr, -1) > 0 )
     {
-        ptr = g_utf8_next_char (ptr);
         ch = g_utf8_get_char_validated (ptr, -1);
         if ( g_unichar_isdefined ( ch ) && g_ascii_isdigit ( ch ) )
         {
@@ -913,6 +912,7 @@ gchar *gsb_string_extract_int ( const gchar *chaine )
             tmpstr[i] = ptr[0];
             i++;
         }
+        ptr = g_utf8_next_char (ptr);
     }
 
     return tmpstr;
