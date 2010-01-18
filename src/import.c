@@ -1131,7 +1131,7 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
  */
 GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte )
 {
-    GtkWidget * vbox, * hbox, * label, * radio, * radiogroup;
+    GtkWidget * vbox, * hbox, * label, * radio, * radio_add_account,* radiogroup;
     GtkWidget * alignement;
     gchar * short_filename;
     gint size = 0, spacing = 0;
@@ -1212,11 +1212,11 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
                         G_CALLBACK ( import_account_action_activated ), IMPORT_CREATE_ACCOUNT );
 
     /* Add to account */
-    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ),
+    radio_add_account = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ),
                         _("Add transactions to an account") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), radio, FALSE, FALSE, 0 );
-    if (radio && GTK_WIDGET_VISIBLE (radio))
-        gtk_widget_set_sensitive  ( radio, assert_account_loaded ( ) );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), radio_add_account, FALSE, FALSE, 0 );
+    if (radio_add_account && GTK_WIDGET_VISIBLE (radio_add_account))
+        gtk_widget_set_sensitive  ( radio_add_account, assert_account_loaded ( ) );
 
     compte -> hbox2 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox2, FALSE, FALSE, 0 );
@@ -1231,23 +1231,11 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     gtk_box_pack_start ( GTK_BOX ( compte -> hbox2 ), compte -> bouton_compte_add, TRUE, TRUE, 0 );
     gtk_widget_set_sensitive ( compte -> hbox2, FALSE );
 
-    g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox2 );
-    g_object_set_data ( G_OBJECT ( radio ), "account", compte );
-    g_signal_connect ( G_OBJECT ( radio ), "toggled",
+    g_object_set_data ( G_OBJECT ( radio_add_account ), "associated", compte -> hbox2 );
+    g_object_set_data ( G_OBJECT ( radio_add_account ), "account", compte );
+    g_signal_connect ( G_OBJECT ( radio_add_account ), "toggled",
                         G_CALLBACK ( import_account_action_activated ), 
                         GINT_TO_POINTER (IMPORT_ADD_TRANSACTIONS));
-
-    /* set on the right account, (Yoann) */
-    account_number = gsb_data_account_get_account_by_id (compte->id_compte);
-    if(account_number >= 0)
-    {
-    g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox2 );
-    g_object_set_data ( G_OBJECT ( radio ), "account", compte );
-    import_account_action_activated(radio,IMPORT_ADD_TRANSACTIONS);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
-    gsb_account_set_combo_account_number (compte -> bouton_compte_add, account_number);
-    gsb_account_set_combo_account_number (compte -> bouton_compte_mark, account_number);
-    }
 
     /* Mark account */
     radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ),
@@ -1273,6 +1261,17 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     g_signal_connect ( G_OBJECT ( radio ), "toggled",
                         G_CALLBACK ( import_account_action_activated ), 
                         GINT_TO_POINTER (IMPORT_MARK_TRANSACTIONS));
+
+	/* set on the right account */
+    account_number = gsb_data_account_get_account_by_id (compte->id_compte);
+    if(account_number >= 0)
+    {
+    	import_account_action_activated(radio_add_account,IMPORT_ADD_TRANSACTIONS);
+    	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_add_account), TRUE);
+
+		gsb_account_set_combo_account_number (compte -> bouton_compte_add, account_number);
+    	gsb_account_set_combo_account_number (compte -> bouton_compte_mark, account_number);
+    }
 
     /* Currency */
     hbox = gtk_hbox_new ( FALSE, 6 );
