@@ -2002,7 +2002,8 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
         imported_transaction = list_tmp -> data;
 
         /* on corrige le bug de la libofx */
-        if ( g_ascii_strcasecmp (imported_account -> origine, "OFX") == 0 
+        if ( imported_account -> origine
+         && g_ascii_strcasecmp (imported_account -> origine, "OFX") == 0 
          && imported_transaction -> cheque )
             imported_transaction -> tiers = my_strdelimit (
                     imported_transaction -> tiers, "&", "°" );
@@ -2909,6 +2910,22 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 			}
 		    }
 		}
+
+        /* récupération de la date de valeur */    
+        if ( ope_import -> date_de_valeur )
+        {
+            gint fyear = 0;
+
+            gsb_data_transaction_set_value_date ( transaction_number,
+                        ope_import -> date_de_valeur );
+        /* set the financial year according to the date or value date */
+            if ( etat.get_fyear_by_value_date )
+                fyear = gsb_data_fyear_get_from_date ( ope_import -> date_de_valeur );
+            if (fyear > 0)
+                gsb_data_transaction_set_financial_year_number ( transaction_number, fyear );
+
+        }
+
 		break;
 
 	    default:

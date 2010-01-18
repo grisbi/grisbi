@@ -881,7 +881,7 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
 
 	gsb_real real_number = {0, exp_add};
     maxlong = G_MAXLONG / 10;
-    
+
 	if(exp_add >=9)
 		return null_real;
 

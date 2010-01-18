@@ -24,8 +24,11 @@
 #include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
+#include "./gsb_real.h"
 /* END_INCLUDE_H */
 
+typedef struct _bet_range           SBR;
+typedef struct _historical          SH;
 
 /* START_DECLARATION */
 GtkWidget *bet_create_balance_estimate_tab(void);

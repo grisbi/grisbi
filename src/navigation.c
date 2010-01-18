@@ -54,7 +54,6 @@
 #include "./utils_str.h"
 #include "./fenetre_principale.h"
 #include "./include.h"
-#include "./balance_estimate_tab.h"
 #include "./erreur.h"
 #include "./structures.h"
 /*END_INCLUDE*/

@@ -355,7 +355,7 @@ extern void debug_message_real ( gchar *prefixe, gchar * file, gint line, const 
     if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode) 
     {
 	/* on affiche dans la console le message */
-	gchar* tmpstr = g_strdup_printf(_("%s : %s - %s:%d:%s - %d E %d\n"),
+	gchar* tmpstr = g_strdup_printf(_("%s : %s - %s:%d:%s - %ld E %d\n"),
 					get_debug_time (), prefixe,
 					file, line, function, message.mantissa, message.exponent);
 

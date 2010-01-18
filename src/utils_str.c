@@ -3,6 +3,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cedric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -41,8 +42,7 @@ extern gint max;
 /*END_EXTERN*/
 
 
-
-/*!
+/**
  * @brief convert an integer into a gchar based string
  * 
  * 
@@ -54,7 +54,7 @@ extern gint max;
  *
  * @todo: check usage of this function which a cause of memory leak
  * 
- */
+ * */
 gchar *utils_str_itoa ( gint integer )
 {
     div_t result_div;
@@ -161,12 +161,7 @@ gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
 }
 
 
-
-
-/***********************************************************************************************************/
-/* cette fonction protège atoi qui plante quand on lui envoie un null */
-/***********************************************************************************************************/
-/*!
+/**
  * @brief Secured version of atoi
  * 
  * Encapsulated call of atoi which may crash when it is call with a NULL pointer.
@@ -176,7 +171,7 @@ gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
  * @return  the converted string as interger
  * @retval  0 when the pointer is NULL or the string empty.
  * 
- */
+ * */
 G_MODULE_EXPORT gint utils_str_atoi ( const gchar *chaine )
 {
     if ((chaine )&&(*chaine))
@@ -188,24 +183,22 @@ G_MODULE_EXPORT gint utils_str_atoi ( const gchar *chaine )
         return ( 0 );
     }
 }
-/***********************************************************************************************************/
 
 
-
-/******************************************************************************/
-/* Fonction my_strtod (string to decimal)                                     */
-/* Convertie une chaine de caractères en un nombre                            */
-/* Paramètres d'entrée :                                                      */
-/*   - nptr : pointeur sur la chaine de caractères à convertir                */
-/*   - endptr : n'est pas utilisé, alors à quoi peut-il bien servir ?         */
-/* Valeur de retour :                                                         */
-/*   - resultat : le résultat de la conversion                                */
-/* Variables locales :                                                        */
-/*   - entier : la partie entière du résultat                                 */
-/*   - mantisse : la partie décimale du résultat                              */
-/*   - invert : le signe du résultat (0 -> positif, 1 -> négatif)             */
-/*   - p, m : pointeurs locaux sur la chaine de caractères à convertir        */
-/******************************************************************************/
+/**
+ * Fonction my_strtod (string to decimal)
+ * Convertie une chaine de caractères en un nombre
+ * Paramètres d'entrée :
+ *   - nptr : pointeur sur la chaine de caractères à convertir
+ *   - endptr : n'est pas utilisé, alors à quoi peut-il bien servir ?
+ * Valeur de retour :
+ *   - resultat : le résultat de la conversion
+ * Variables locales :
+ *   - entier : la partie entière du résultat
+ *   - mantisse : la partie décimale du résultat
+ *   - invert : le signe du résultat (0 -> positif, 1 -> négatif)
+ *   - p, m : pointeurs locaux sur la chaine de caractères à convertir
+ * */
 double my_strtod ( const char *nptr, const char **endptr )
 {
     double entier=0, mantisse=0, resultat=0;
@@ -263,15 +256,19 @@ double my_strtod ( const char *nptr, const char **endptr )
 }
 
 
-
+/**
+ *
+ *
+ *
+ *
+ * */
 G_MODULE_EXPORT gchar * latin2utf8 ( const gchar * inchar)
 {
     return g_locale_from_utf8 ( inchar, -1, NULL, NULL, NULL );
 }
 
 
-
-/* 
+/**
  * do the same as g_strdelimit but new_delimiters can containes several characters or none
  * ex	my_strdelimit ("a-b", "-", "123") returns a123b
  * 	my_strdelimit ("a-b", "-", "") returns ab
@@ -307,10 +304,12 @@ gchar *my_strdelimit ( const gchar *string,
 }
 
 
-/* ******************************************************************************* */
-/* my_strcasecmp : compare 2 chaines sensitive que ce soit utf8 ou ascii */
-/* ******************************************************************************* */
-/* uncomment by pbiava the 03/08/2009 */
+/**
+ * compare 2 chaines sensitive que ce soit utf8 ou ascii
+ *
+ *
+ *
+ * */
 gint my_strcmp ( gchar *string_1, gchar *string_2 )
 {
     if ( string_1
@@ -341,9 +340,6 @@ gint my_strcmp ( gchar *string_1, gchar *string_2 )
 
     return 0;
 }
-/* ******************************************************************************* */
-
-
 
 
 /**
@@ -358,6 +354,12 @@ gint gsb_strcasecmp ( gchar *string_1,
                         gchar *string_2 )
 {
 	gint result;
+
+    if (!string_1 && string_2)
+	    return -1;
+    if (string_1 && !string_2)
+	    return 1;
+
     string_1 = my_strdup ( string_1 );
     string_1 = g_strdelimit ( string_1, "éÉèÈêÊ", 'e' );
     string_1 = g_strdelimit ( string_1, "çÇ", 'c' );
@@ -377,10 +379,9 @@ gint gsb_strcasecmp ( gchar *string_1,
     result = g_ascii_strcasecmp ( string_1, string_2 );
     g_free(string_1);
     g_free(string_2);
+
     return result; 
 }
-/* ************************************************************************** */
-
 
 
 /**
@@ -427,14 +428,14 @@ gint my_strcasecmp ( const gchar *string_1,
 
     return 0;
 }
-/* ******************************************************************************* */
 
 
-
-
-/* ******************************************************************************* */
-/* my_strncasecmp : compare 2 chaines case-insensitive que ce soit utf8 ou ascii */
-/* ******************************************************************************* */
+/**
+ * compare 2 chaines case-insensitive que ce soit utf8 ou ascii
+ *
+ *
+ *
+ * */
 gint my_strncasecmp ( gchar *string_1,
                         gchar *string_2,
                         gint longueur )
@@ -466,7 +467,7 @@ gint my_strncasecmp ( gchar *string_1,
 
     return 0;
 }
-/* ******************************************************************************* */
+
 
 /**
  * Protect the my_strdup function if the string is NULL
@@ -487,7 +488,6 @@ G_MODULE_EXPORT gchar *my_strdup ( const gchar *string )
     else
 	return NULL;
 }
-
 
 
 /**
@@ -527,8 +527,6 @@ gchar *limit_string ( gchar *string,
 
     return string_return;
 }
-
-
 
 
 /**
@@ -573,6 +571,7 @@ GSList *gsb_string_get_int_list_from_string ( const gchar *string,
 
     return list_tmp;
 }
+
 
 /**
  * return a gslist of strings from a string which the elements are separated
@@ -676,35 +675,6 @@ GSList *gsb_string_get_categ_budget_struct_list_from_string ( const gchar *strin
 }
 
 
-
-/**
- * Create and return a string where underscores are escaped
- *
- * \param orig		Original string.
- *
- * \return		A newly-allocated and escaped string.
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-gchar * gsb_string_escape_underscores ( gchar * orig )
-{
-    gchar new[1024], *iter;
-
-    for ( iter = new; *orig; orig++ )
-    {
-	if ( *orig == '_' )
-	{
-	    *iter++ = '_';
-	}
-	*iter++ = *orig;
-    }
-    *iter = 0;
-
-    return my_strdup (new);
-}
-*/
-
-
-
 /**
  * Return a newly created strings, truncating original.  It should be
  * truncated at the end of the word containing the 20th letter.
@@ -717,7 +687,6 @@ gchar * gsb_string_truncate ( gchar * string )
 {
     return gsb_string_truncate_n ( string, 20, FALSE );
 }
-
 
 
 /**
@@ -762,10 +731,10 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
 
 
 /**
- *
+ * remplace la chaine old_str par new_str dans str
  *
  */
-gchar * gsb_string_remplace_string ( gchar * str, gchar *old_str, gchar *new_str )
+gchar * gsb_string_remplace_string ( gchar *str, gchar *old_str, gchar *new_str )
 {
     gchar *ptr_debut;
     gint long_old;
@@ -947,25 +916,6 @@ gchar *gsb_string_uniform_new_line ( const gchar *chaine, gint nbre_char )
     else
         return NULL;
 }
-/**
- * all the gtk_entry_set_text in grisbi should be my_gtk_entry_set_text which just
- * check if the text is not NULL, and if NULL, erase the entry
- * the original gtk function returns a warning in that case and do nothing
- *
- * \param entry a GtkEntry
- * \param string the text to set in the entry (it can be NULL)
- *
- * \return
- * */
-/*void my_gtk_entry_set_text ( GtkEntry *entry,
-			     const gchar *string )
-{
-    if (string)
-	gtk_entry_set_text (entry, string);
-    else
-	gtk_entry_set_text (entry, "");
-    return;
-}*/
 
 
 /* Local Variables: */

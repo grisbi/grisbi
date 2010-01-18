@@ -48,6 +48,7 @@
 #include "./structures.h"
 #include "./erreur.h"
 #include "./gsb_real.h"
+#include "./utils_dates.h"
 /*END_INCLUDE*/
 
 /** \struct
@@ -2691,7 +2692,8 @@ void gsb_data_account_colorize_current_balance ( gint account_number )
  *
  *
  * */
-gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number )
+gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number,
+                        GDate *day )
 {
     struct_account *account;
     GDate *date_jour = g_date_new ( );
@@ -2710,7 +2712,10 @@ gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number )
     current_balance = gsb_real_adjust_exponent ( account -> init_balance,
 						 floating_point );
 
-    g_date_set_time_t (date_jour, time (NULL));
+    if ( day == NULL )
+        date_jour = gdate_today ( );
+    else
+        date_jour = gsb_date_copy ( day );
 
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
 
