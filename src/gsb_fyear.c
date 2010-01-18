@@ -48,13 +48,6 @@ static GtkTreeModel *fyear_model;
 static GtkTreeModel *fyear_model_filter;
 
 
-enum fyear_list_columns {
-    FYEAR_COL_NAME = 0,
-    FYEAR_COL_NUMBER,
-    FYEAR_COL_VIEW,
-};
-
-
 /*START_STATIC*/
 static gboolean gsb_fyear_create_combobox_store ( void );
 /*END_STATIC*/
@@ -92,13 +85,32 @@ void gsb_fyear_init_variables ( void )
  * */
 GtkWidget *gsb_fyear_make_combobox ( gboolean set_automatic )
 {
-    GtkCellRenderer *renderer;
     GtkWidget *combo_box;
 
     if (!fyear_model_filter)
         gsb_fyear_create_combobox_store ();
 
-    combo_box = gtk_combo_box_new_with_model ( GTK_TREE_MODEL ( fyear_model_filter ) );
+    combo_box = gsb_fyear_make_combobox_new ( fyear_model_filter, set_automatic );
+
+    return (combo_box);
+}
+
+
+/**
+ * create and return a combobox with the financial years
+ *
+ * \param model for the combobox
+ * \param set_automatic if TRUE, will show the choice "Automatic"
+ *
+ * \return a widget combobox or NULL
+ * */
+GtkWidget *gsb_fyear_make_combobox_new ( GtkTreeModel *model,
+                        gboolean set_automatic )
+{
+    GtkCellRenderer *renderer;
+    GtkWidget *combo_box;
+
+    combo_box = gtk_combo_box_new_with_model ( GTK_TREE_MODEL ( model ) );
 
     renderer = gtk_cell_renderer_text_new ();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
@@ -107,13 +119,12 @@ GtkWidget *gsb_fyear_make_combobox ( gboolean set_automatic )
                         "text", FYEAR_COL_NAME,
                         NULL);
 
-    gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box), 0 );
     /* show or hide the automatic line */
     gsb_fyear_set_automatic ( set_automatic );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box), 0 );
 
     return (combo_box);
 }
-
 
 
 /**
@@ -252,22 +263,43 @@ gboolean gsb_fyear_set_automatic ( gboolean set_automatic )
  */
 gboolean gsb_fyear_update_fyear_list ( void )
 {
+    gsb_fyear_update_fyear_list_new ( fyear_model, fyear_model_filter, "Automatic" );
+
+    return FALSE;
+}
+
+
+/**
+ * update the list of the financial years, wich change all
+ * the current combobox content
+ * set the first row with title with 0 as number
+ *
+ * \param model
+ * \param model_filter
+ * \param title
+ *
+ * \return FALSE
+ */
+gboolean gsb_fyear_update_fyear_list_new ( GtkTreeModel *model,
+                        GtkTreeModel *model_filter,
+                        gchar *title )
+{
     GSList *list_tmp;
     GtkTreeIter iter;
 
     /* if no filter, thats because not created, but don't create here
      * because we can come here without needed of fyear button */
-    if ( !fyear_model_filter )
+    if ( !model_filter )
         return FALSE;
 
-    gtk_list_store_clear (GTK_LIST_STORE ( fyear_model ) );
+    gtk_list_store_clear (GTK_LIST_STORE ( model ) );
 
     /* put at the beginning 'Automatic' wich mean at the validation of
      * the transaction, the fyear will take the value of the date */
-    gtk_list_store_append ( GTK_LIST_STORE (fyear_model), &iter );
-    gtk_list_store_set ( GTK_LIST_STORE (fyear_model),
+    gtk_list_store_append ( GTK_LIST_STORE ( model ), &iter );
+    gtk_list_store_set ( GTK_LIST_STORE ( model ),
                         &iter,
-                        FYEAR_COL_NAME, _("Automatic"),
+                        FYEAR_COL_NAME, _(title),
                         FYEAR_COL_NUMBER, 0,
                         FYEAR_COL_VIEW, TRUE,
                         -1 );
@@ -282,12 +314,12 @@ gboolean gsb_fyear_update_fyear_list ( void )
 
         fyear_number = gsb_data_fyear_get_no_fyear (list_tmp -> data);
 
-        gtk_list_store_append ( GTK_LIST_STORE (fyear_model), &iter );
-        gtk_list_store_set ( GTK_LIST_STORE (fyear_model),
+        gtk_list_store_append ( GTK_LIST_STORE ( model ), &iter );
+        gtk_list_store_set ( GTK_LIST_STORE ( model ),
                             &iter,
                             FYEAR_COL_NAME, gsb_data_fyear_get_name ( fyear_number ),
                             FYEAR_COL_NUMBER, fyear_number,
-                            FYEAR_COL_VIEW, gsb_data_fyear_get_form_show (fyear_number),
+                            FYEAR_COL_VIEW, gsb_data_fyear_get_form_show ( fyear_number ),
                             -1 );
         list_tmp = list_tmp -> next;
     }
@@ -322,6 +354,47 @@ gboolean gsb_fyear_create_combobox_store ( void )
 
     return TRUE;
 }
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_fyear_hide_iter_by_name ( GtkTreeModel *model, gchar *name )
+{
+    GtkTreeIter iter;
+    gint result;
+
+    result = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ),
+					     &iter );
+    while (result)
+    {
+        gchar *value;
+        gboolean show;
+
+        gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
+                        &iter,
+                        FYEAR_COL_NAME, &value,
+                        FYEAR_COL_VIEW, &show,
+                        -1 );
+
+        if ( g_utf8_collate ( value, name ) == 0 )
+        {
+            if ( show )
+                gtk_list_store_set ( GTK_LIST_STORE ( model ),
+                        &iter,
+                        FYEAR_COL_VIEW, FALSE,
+                        -1 );
+            return TRUE;
+        }
+        result = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),
+                            &iter );
+    }
+    return FALSE;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

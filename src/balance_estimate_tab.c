@@ -44,9 +44,11 @@
 #include "./gsb_data_account.h"
 #include "./gsb_data_budget.h"
 #include "./gsb_data_category.h"
+#include "./gsb_data_fyear.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
+#include "./gsb_fyear.h"
 #include "./gsb_real.h"
 #include "./gsb_scheduler.h"
 #include "./gsb_transactions_list_sort.h"
@@ -105,6 +107,8 @@ static gboolean bet_estimate_affiche_div ( GHashTable  *list_div, GtkWidget *tre
 static void bet_estimate_populate_div_model ( gpointer key,
                         gpointer value,
                         gpointer user_data);
+static gboolean bet_fyear_create_combobox_store ( void );
+static gint bet_fyear_get_fyear_from_combobox ( GtkWidget *combo_box );
 static SBR *initialise_struct_bet_range ( void );
 static SH *initialise_struct_historical ( void );
 static void free_struct_bet_range ( SBR *sbr );
@@ -160,8 +164,22 @@ static gchar* bet_duration_array[] = {
 };
 
 
-/* the notebook of the bet */
+/**
+ * the notebook of the bet 
+ * */
 static GtkWidget *bet_container = NULL;
+
+/**
+ * this is a tree model filter with 3 columns :
+ * the name, the number and a boolean to show it or not
+ * */
+static GtkTreeModel *bet_fyear_model;
+
+/**
+ * this is a tree model filter from fyear_model_filter wich
+ * show only the financial years wich must be showed
+ * */
+static GtkTreeModel *bet_fyear_model_filter;
 
 
 /*
@@ -893,34 +911,6 @@ void bet_historical_data_clicked ( GtkWidget *togglebutton, gpointer data )
  * */
 void bet_historical_fyear_clicked ( GtkWidget *combo, gpointer data )
 {
-    //~ GtkTreeViewColumn *column;
-    //~ const gchar *name;
-    //~ gchar *title;
-
-    //~ name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
-
-    //~ if ( g_strcmp0 ( name, "button_1" ) == 0 )
-    //~ {
-        //~ ptr_div = &gsb_data_transaction_get_category_number;
-        //~ ptr_sub_div = &gsb_data_transaction_get_sub_category_number;
-        //~ ptr_div_name = &gsb_data_category_get_name;
-        //~ title = g_strdup ( _("Category") );
-    //~ }
-    //~ else
-    //~ {
-        //~ ptr_div = &gsb_data_transaction_get_budgetary_number;
-        //~ ptr_sub_div = &gsb_data_transaction_get_sub_budgetary_number;
-        //~ ptr_div_name = gsb_data_budget_get_name;
-        //~ title = g_strdup ( _("Budgetary line") );
-    //~ }
-
-    //~ column = g_object_get_data ( G_OBJECT ( bet_container ),
-                        //~ "historical_column_source" );
-    //~ gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN ( column ), title );
-
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
-
     bet_estimate_populate_historical_data ( );
 }
 
@@ -1192,6 +1182,8 @@ void bet_create_historical_data_page ( GtkWidget *notebook )
     GtkWidget *hbox;
     GtkWidget *button_1, *button_2;
     GtkWidget *tree_view;
+    gchar *str_year;
+    gint year;
 
     widget = gtk_label_new(_("Historical data"));
     page = gtk_vbox_new ( FALSE, 5 );
@@ -1241,21 +1233,28 @@ void bet_create_historical_data_page ( GtkWidget *notebook )
     ptr_sub_div = &gsb_data_transaction_get_sub_category_number;
     ptr_div_name = &gsb_data_category_get_name;
 
-    /* vréation du sélecteur de périod */
-    widget = gsb_fyear_make_combobox ( TRUE );
-	gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
-					  SPACIFY(_("Choose the financial year or 12 months rolling") ) );
-    g_signal_connect ( G_OBJECT ( widget ),
-                        "changed",
-                        G_CALLBACK (bet_historical_fyear_clicked),
-                        NULL );
-    g_object_set_data ( G_OBJECT ( notebook ), "bet_historical_fyear", widget );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5) ;
+    /* création du sélecteur de périod */
+    if ( bet_fyear_create_combobox_store ( ) )
+    {
+        widget = gsb_fyear_make_combobox_new ( bet_fyear_model_filter, TRUE );
+        gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
+                          SPACIFY(_("Choose the financial year or 12 months rolling") ) );
+        g_signal_connect ( G_OBJECT ( widget ),
+                            "changed",
+                            G_CALLBACK (bet_historical_fyear_clicked),
+                            NULL );
+        g_object_set_data ( G_OBJECT ( notebook ), "bet_historical_fyear", widget );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5);
 
+        /* hide the present financial year */
+        year = g_date_get_year ( gdate_today ( ) );
+        str_year = utils_str_itoa ( year );
+        gsb_fyear_hide_iter_by_name ( bet_fyear_model, str_year );
+        g_free ( str_year );
+    }
     /* création de la liste des données */
     tree_view = bet_estimate_get_historical_data ( page );
     g_object_set_data ( G_OBJECT ( notebook ), "bet_historical_treeview", tree_view );
-    bet_estimate_populate_historical_data ( );
 
     gtk_widget_show_all ( page );
 }
@@ -1519,6 +1518,8 @@ GtkWidget *bet_estimate_get_historical_data ( GtkWidget *container )
                         _("Period"), cell,
                         "text", SPP_HISTORICAL_PERIOD_COLUMN,
                         NULL);
+    g_object_set (cell, "xalign", 0.5, NULL);
+
     gtk_tree_view_column_set_alignment ( column, 0.5 );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -1590,11 +1591,13 @@ GtkWidget *bet_estimate_get_historical_data ( GtkWidget *container )
 void bet_estimate_populate_historical_data ( void )
 {
     GtkWidget *tree_view;
+    GtkWidget *combo;
     GtkTreeIter iter;
     GtkTreeModel *model;
     GtkTreeSelection *tree_selection;
     gchar *account_name = NULL;
     gint selected_account;
+    gint fyear_number;
     GDate *date_min;
     GDate *date_max;
     GSList* tmp_list;
@@ -1623,11 +1626,24 @@ void bet_estimate_populate_historical_data ( void )
     gtk_tree_store_clear ( GTK_TREE_STORE ( model ) );
 
     /* calculate date_min and date_max */
-    date_min = gdate_today ( );
-    g_date_subtract_years ( date_min, 1 );
-    date_max = gdate_today ( );
-    g_date_subtract_days ( date_max, 1 );
-
+    combo = g_object_get_data ( G_OBJECT ( bet_container ), "bet_historical_fyear" );
+    fyear_number = bet_fyear_get_fyear_from_combobox ( combo );
+    if ( fyear_number == 0 )
+    {
+        date_min = gdate_today ( );
+        g_date_subtract_years ( date_min, 1 );
+        date_max = gdate_today ( );
+        g_date_subtract_days ( date_max, 1 );
+        g_object_set_data ( G_OBJECT ( bet_container ), "bet_historical_period",
+                g_strdup ( _("12 months rolling") ) );
+    }
+    else
+    {
+        date_min = gsb_data_fyear_get_beginning_date ( fyear_number );
+        date_max = gsb_data_fyear_get_end_date ( fyear_number );
+        g_object_set_data ( G_OBJECT ( bet_container ), "bet_historical_period",
+                g_strdup ( gsb_data_fyear_get_name ( fyear_number ) ) );
+    }
     list_div = g_hash_table_new_full ( g_int_hash,
                         g_int_equal,
                         NULL,
@@ -1778,11 +1794,13 @@ void bet_estimate_populate_div_model ( gpointer key,
     gchar *div_name = NULL;
     gchar *str_balance;
     gchar *str_average;
+    gchar *titre;
     gsb_real period = { 12, 0 };
 
     div = sh -> div;
     div_name = ptr_div_name ( div, 0, FALSE );
 
+    titre = g_object_get_data ( G_OBJECT ( bet_container ), "bet_historical_period" );
     str_balance = gsb_real_get_string_with_currency ( sbr -> current_balance, 
                         gsb_data_account_get_currency ( sh -> account_nb ), TRUE );
     str_average = gsb_real_get_string_with_currency (
@@ -1793,7 +1811,7 @@ void bet_estimate_populate_div_model ( gpointer key,
     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &parent,
                         SPP_HISTORICAL_DESC_COLUMN, div_name,
-                        SPP_HISTORICAL_PERIOD_COLUMN, "12 months rolling",
+                        SPP_HISTORICAL_PERIOD_COLUMN, titre,
                         SPP_HISTORICAL_BALANCE_COLUMN, str_balance,
                         SPP_HISTORICAL_AVERAGE_COLUMN, str_average,
                         -1);
@@ -1832,7 +1850,7 @@ void bet_estimate_populate_div_model ( gpointer key,
         gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &fils,
                         SPP_HISTORICAL_DESC_COLUMN, div_name,
-                        SPP_HISTORICAL_PERIOD_COLUMN, "12 months rolling",
+                        SPP_HISTORICAL_PERIOD_COLUMN, titre,
                         SPP_HISTORICAL_BALANCE_COLUMN, str_balance,
                         SPP_HISTORICAL_AVERAGE_COLUMN, str_average,
                         -1);
@@ -1911,9 +1929,67 @@ void free_struct_historical (SH *sh)
 
 
 /**
+ * create and fill the list store of the fyear
+ * come here mean that fyear_model_filter is NULL
+ *
+ * \param
+ *
+ * \return TRUE ok, FALSE problem
+ * */
+gboolean bet_fyear_create_combobox_store ( void )
+{
+    gchar *titre;
+
+    /* the fyear list store, contains 3 columns :
+     * FYEAR_COL_NAME : the name of the fyear
+     * FYEAR_COL_NUMBER : the number of the fyear
+     * FYEAR_COL_VIEW : it tha fyear should be showed */
+
+    titre = g_strdup ( _("12 months rolling") );
+    bet_fyear_model = GTK_TREE_MODEL ( gtk_list_store_new ( 3,
+                        G_TYPE_STRING,
+                        G_TYPE_INT,
+                        G_TYPE_BOOLEAN ));
+    bet_fyear_model_filter = gtk_tree_model_filter_new ( bet_fyear_model, NULL );
+    gtk_tree_model_filter_set_visible_column ( GTK_TREE_MODEL_FILTER (
+                        bet_fyear_model_filter ),
+                        FYEAR_COL_VIEW );
+    gsb_fyear_update_fyear_list_new ( bet_fyear_model,
+                        bet_fyear_model_filter,
+                        titre );
+    g_free ( titre );
+
+    return TRUE;
+}
+
+
+/**
  *
  *
  *
  *
  * */
+gint bet_fyear_get_fyear_from_combobox ( GtkWidget *combo_box )
+{
+    gint fyear_number = 0;
+    GtkTreeIter iter;
+
+    if ( gtk_combo_box_get_active_iter ( GTK_COMBO_BOX ( combo_box ), &iter ) )
+    {
+
+        gtk_tree_model_get ( GTK_TREE_MODEL ( bet_fyear_model_filter ),
+                        &iter,
+                        FYEAR_COL_NUMBER, &fyear_number,
+                        -1 );
+    }
+
+    return fyear_number;
+}
+/**
+ *
+ *
+ *
+ *
+ * */
+
 #endif /* ENABLE_BALANCE_ESTIMATE */
