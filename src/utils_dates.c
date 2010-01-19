@@ -22,9 +22,11 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#ifndef _WIN32
-#	include <langinfo.h>
-#endif//_WIN32
+#ifdef _MSC_VER
+#include <winnls.h>
+#else
+#include <langinfo.h>
+#endif//_MSC_VER
 
 /*START_INCLUDE*/
 #include "utils_dates.h"
@@ -297,10 +299,10 @@ gchar **split_unique_datefield ( gchar * string, gchar date_tokens [] )
 GDate *gsb_parse_date_string ( const gchar *date_string )
 {
     GDate *date;
-    gchar * string, * format;
-    gchar ** tab_date;
+    gchar * string, * format, *sreturn;
+    gchar ** tab_date, ** tab_format;
     gchar date_tokens [ 4 ] = { 0, 0, 0, 0 };
-    int num_tokens = 0, num_fields = 0, i, j;
+    int num_tokens = 0, num_fields = 0, i, j, k;
 
     if ( !date_string
     ||
@@ -314,8 +316,26 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     g_strstrip ( string );
 
     /* Obtain date format tokens to compute order. */
-#ifdef _WIN32
-    format = "%d%m%Y";
+#ifdef _MSC_VER
+	sreturn = g_strnfill(81,'\0');
+	GetLocaleInfo(GetThreadLocale(), LOCALE_SSHORTDATE, sreturn, 80);
+	g_strcanon (sreturn, "dMy", '.');
+	tab_format = g_strsplit(sreturn, ".", 3);
+	g_free(sreturn);
+	format = "";
+	while (k < 3)
+	{
+		if(!strncmp(tab_format[k], "dd", 2) || !strncmp(tab_format[k], "d", 1))
+			format = g_strconcat(format, "%d", NULL);
+		else if(!strncmp(tab_format[k], "MM", 2) || !strncmp(tab_format[k], "M", 1))
+			format = g_strconcat(format, "%m", NULL);
+		else if(!strncmp(tab_format[k], "yyyy", 4))
+			format = g_strconcat(format, "%Y", NULL);
+		else if(!strncmp(tab_format[k], "yy", 2))
+			format = g_strconcat(format, "%y", NULL);
+		k++;
+	}
+	g_strfreev(tab_format);
 #else
     format = nl_langinfo ( D_FMT );
 #endif
