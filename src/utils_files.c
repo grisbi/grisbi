@@ -314,6 +314,8 @@ GtkWidget * my_file_chooser ()
 G_MODULE_EXPORT FILE* utf8_fopen(const gchar* utf8filename,gchar* mode)
 {
 #ifdef _MSC_VER
+	if(!strncmp(mode, "w+x", 3))
+		mode = "w+";
     return fopen(g_locale_from_utf8(utf8filename, -1, NULL, NULL, NULL),mode);
 #else
 	return fopen(g_filename_from_utf8(utf8filename, -1, NULL, NULL, NULL),mode);
