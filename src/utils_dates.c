@@ -299,10 +299,10 @@ gchar **split_unique_datefield ( gchar * string, gchar date_tokens [] )
 GDate *gsb_parse_date_string ( const gchar *date_string )
 {
     GDate *date;
-    gchar * string, * format, *sreturn;
-    gchar ** tab_date, ** tab_format;
+    gchar *string, *format;
+    gchar **tab_date;
     gchar date_tokens [ 4 ] = { 0, 0, 0, 0 };
-    int num_tokens = 0, num_fields = 0, i, j, k;
+    int num_tokens = 0, num_fields = 0, i, j;
 
     if ( !date_string
     ||
@@ -317,6 +317,10 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 
     /* Obtain date format tokens to compute order. */
 #ifdef _MSC_VER
+    gchar *sreturn;
+    gchar **tab_format;
+    int k;
+
 	sreturn = g_strnfill(81,'\0');
 	GetLocaleInfo(GetThreadLocale(), LOCALE_SSHORTDATE, sreturn, 80);
 	g_strcanon (sreturn, "dMy", '.');

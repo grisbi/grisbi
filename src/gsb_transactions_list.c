@@ -3300,21 +3300,25 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 gboolean gsb_transactions_list_switch_expander ( gint transaction_number )
 {
     GtkTreePath *path;
+    gint last_line;
 
     devel_debug_int (transaction_number);
 
-    if ( !gsb_data_transaction_get_split_of_transaction (transaction_number))
-	return FALSE;
+    if ( !gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
+	    return FALSE;
 
-    path = transaction_model_get_path ( transaction_number,
-					gsb_data_account_get_nb_rows (gsb_gui_navigation_get_current_account ()) -1);
+    last_line = transaction_list_get_last_line (
+                    gsb_data_account_get_nb_rows (
+                    gsb_gui_navigation_get_current_account ( ) ) );
+    path = transaction_model_get_path ( transaction_number, last_line );
 
-    if (gtk_tree_view_row_expanded (GTK_TREE_VIEW (transactions_tree_view), path))
-	gtk_tree_view_collapse_row (GTK_TREE_VIEW (transactions_tree_view), path);
+    if ( gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( transactions_tree_view ), path ) )
+	    gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( transactions_tree_view ), path );
     else
-	gtk_tree_view_expand_row (GTK_TREE_VIEW (transactions_tree_view), path, FALSE);
+	    gtk_tree_view_expand_row ( GTK_TREE_VIEW ( transactions_tree_view ), path, FALSE );
 
-    gtk_tree_path_free (path);
+    gtk_tree_path_free ( path );
+
     return FALSE;
 }
 

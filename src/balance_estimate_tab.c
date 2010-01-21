@@ -151,6 +151,7 @@ enum bet_historical_data_columns {
     SPP_HISTORICAL_PERIOD_COLUMN,
     SPP_HISTORICAL_BALANCE_COLUMN,
     SPP_HISTORICAL_AVERAGE_COLUMN,
+    SPP_HISTORICAL_RETAINED_COLUMN,
     SPP_HISTORICAL_AMOUNT_COLUMN, /* average column without currency */
     SPP_HISTORICAL_BALANCE_COLOR,
     SPP_HISTORICAL_NUM_COLUMNS
@@ -915,6 +916,101 @@ void bet_historical_fyear_clicked ( GtkWidget *combo, gpointer data )
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
+                        gchar *path_string,
+                        GtkTreeModel *store )
+{
+    GtkTreeIter iter;
+    gboolean valeur;
+    gint nbre_fils;
+
+    if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( store ), &iter, path_string ) )
+    {
+        gtk_tree_model_get ( GTK_TREE_MODEL ( store ), &iter, 0, &valeur, -1 );
+        valeur = 1 - valeur;
+        gtk_tree_store_set ( GTK_TREE_STORE ( store ), &iter, 0, valeur, -1 );
+
+        nbre_fils = gtk_tree_model_iter_n_children ( GTK_TREE_MODEL ( store ),
+                        &iter );
+        if ( nbre_fils > 0 )
+        {
+            gint i = 0;
+            GtkTreeIter fils_iter;
+
+            while ( gtk_tree_model_iter_nth_child ( GTK_TREE_MODEL ( store ),
+                        &fils_iter, &iter, i ) )
+            {
+                gtk_tree_store_set ( GTK_TREE_STORE ( store ), &fils_iter, 0, valeur, -1 );
+                i++;
+            }
+        }
+        else
+        {
+            GtkTreeIter parent;
+            gboolean fils_val;
+            gboolean test = TRUE;
+            gint i = 0;
+
+            if ( gtk_tree_model_iter_parent ( GTK_TREE_MODEL ( store ),
+                        &parent, &iter ) )
+            {
+                while ( gtk_tree_model_iter_nth_child ( GTK_TREE_MODEL ( store ),
+                        &iter, &parent, i ) )
+                {
+                    gtk_tree_model_get ( GTK_TREE_MODEL ( store ), &iter,
+                        0, &fils_val, -1 );
+                    if ( fils_val != valeur )
+                    {
+                        test = FALSE;
+                        break;
+                    }
+                    i++;
+                }
+                if ( test == TRUE )
+                    gtk_tree_store_set ( GTK_TREE_STORE ( store ), &parent, 0, valeur, -1 );
+                else
+                    gtk_tree_store_set ( GTK_TREE_STORE ( store ), &parent, 0, 0, -1 );
+            }
+        }
+    }
+
+    return ( FALSE );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_historical_div_cell_edited (GtkCellRendererText *cell,
+                        const gchar *path_string,
+                        const gchar *new_text,
+                        GtkWidget *tree_view )
+{
+    //~ GtkWidget *entry;
+    //~ GtkTreeView *treeview;
+    GtkTreeModel *model;
+    GtkTreePath *path = gtk_tree_path_new_from_string ( path_string );
+    GtkTreeIter iter;
+    //~ GSList *list_tmp;
+    //~ gchar *search_str;
+    //~ gint payee_number;
+
+    printf ("bet_historical_div_cell_edited\n");
+    model = gtk_tree_view_get_model ( tree_view );
+    gtk_tree_model_get_iter (model, &iter, path);
+    //~ gtk_tree_model_get ( model, &iter, SPP_HISTORICAL_RETAINED_COLUMN, &search_str, -1 );
+}
+
+
 /*
  * bet_duration_button changed
  * This function is called when a spin button is changed.
@@ -1464,7 +1560,7 @@ GtkWidget *bet_estimate_get_historical_data ( GtkWidget *container )
                         G_TYPE_BOOLEAN,G_TYPE_STRING,
                         G_TYPE_STRING, G_TYPE_STRING,
                         G_TYPE_STRING, G_TYPE_STRING,
-                        G_TYPE_STRING );
+                        G_TYPE_STRING, G_TYPE_STRING );
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL ( tree_model ) );
     g_object_unref ( G_OBJECT ( tree_model ) );
 
@@ -1473,10 +1569,6 @@ GtkWidget *bet_estimate_get_historical_data ( GtkWidget *container )
 
     tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_selection_set_mode ( tree_selection, GTK_SELECTION_SINGLE );
-    //~ g_signal_connect ( G_OBJECT ( tree_selection ),
-                        //~ "changed",
-                        //~ G_CALLBACK (bet_account_selection_changed),
-                        //~ NULL );
 
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
@@ -1491,6 +1583,10 @@ GtkWidget *bet_estimate_get_historical_data ( GtkWidget *container )
     gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE ( cell ),
                         FALSE );
     g_object_set (cell, "xalign", 0.5, NULL);
+	g_signal_connect ( cell,
+                        "toggled",
+                        G_CALLBACK (bet_historical_div_toggle_clicked),
+                        tree_model );
 
     column = gtk_tree_view_column_new_with_attributes ( _("Select"),
                         cell,
@@ -1559,13 +1655,13 @@ GtkWidget *bet_estimate_get_historical_data ( GtkWidget *container )
     /* amount retained column */
     cell = gtk_cell_renderer_text_new ( );
     g_object_set (cell, "editable", TRUE, NULL);
-    //~ g_signal_connect ( cell,
-                        //~ "edited",
-                        //~ G_CALLBACK (gsb_import_associations_cell_edited),
-                        //~ vbox_main );
+    g_signal_connect ( cell,
+                        "edited",
+                        G_CALLBACK (bet_historical_div_cell_edited),
+                        tree_view );
     column = gtk_tree_view_column_new_with_attributes (
                         _("Amount retained"), cell,
-                        "text", SPP_HISTORICAL_AVERAGE_COLUMN,
+                        "text", SPP_HISTORICAL_RETAINED_COLUMN,
                         "foreground", SPP_HISTORICAL_BALANCE_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
@@ -1814,6 +1910,7 @@ void bet_estimate_populate_div_model ( gpointer key,
                         SPP_HISTORICAL_PERIOD_COLUMN, titre,
                         SPP_HISTORICAL_BALANCE_COLUMN, str_balance,
                         SPP_HISTORICAL_AVERAGE_COLUMN, str_average,
+                        SPP_HISTORICAL_RETAINED_COLUMN, str_average,
                         -1);
     g_free ( div_name );
     g_free ( str_balance );

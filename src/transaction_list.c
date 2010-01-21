@@ -62,7 +62,6 @@
 static  void transaction_list_append_child ( gint transaction_number );
 static  CustomRecord *transaction_list_create_record ( gint transaction_number,
                         gint line_in_transaction );
-static gint transaction_list_get_last_line ( gint nb_rows );
 static  gboolean transaction_list_update_white_child ( CustomRecord *white_record );
 /*END_STATIC*/
 
@@ -174,7 +173,8 @@ void transaction_list_append_transaction ( gint transaction_number )
     }
 
     /* get the P position if the transaction is marked */
-    marked_transaction = gsb_data_transaction_get_marked_transaction (transaction_number) != OPERATION_NORMALE;
+    marked_transaction = gsb_data_transaction_get_marked_transaction (
+                        transaction_number) != OPERATION_NORMALE;
     line_p = find_element_line (ELEMENT_MARK);
 
     /* get the new number of the first row in the complete list of row */
@@ -226,23 +226,25 @@ void transaction_list_append_transaction ( gint transaction_number )
 	    /* the row need to be shown */
 	    GtkTreePath *path;
 	    GtkTreeIter iter;
+        gint last_line_visible;
 
 	    newrecord[i] -> line_visible = TRUE;
+
+        last_line_visible = transaction_list_get_last_line (
+			            custom_list -> nb_rows_by_transaction );
 
 	    newrecord[i] -> filtered_pos = custom_list -> num_visibles_rows;
 	    custom_list -> visibles_rows[newrecord[i] -> filtered_pos] = newrecord[i];
 	    custom_list -> num_visibles_rows++;
 
-	    /* if we are the last line visible and are mother, we set the expander */
-	    if (children_rows
-		&&
-		i == (custom_list -> nb_rows_by_transaction - 1))
+        /* if we are the last line visible and are mother, we set the expander */
+	    if ( children_rows && i == last_line_visible )
 	    {
-		newrecord[i] -> has_expander = TRUE;
-		white_record -> mother_row = newrecord[i];
-        /* set the color of the mother */
-        mother_text_color = &text_color[1];
-        newrecord[i] -> text_color = mother_text_color;
+            newrecord[i] -> has_expander = TRUE;
+            white_record -> mother_row = newrecord[i];
+            /* set the color of the mother */
+            mother_text_color = &text_color[1];
+            newrecord[i] -> text_color = mother_text_color;
 	    }
 
 	    /* inform the tree view */
@@ -254,10 +256,10 @@ void transaction_list_append_transaction ( gint transaction_number )
 
 	    gtk_tree_model_row_inserted (GTK_TREE_MODEL(custom_list), path, &iter);
 	    /* if there is a child (white line), set the expander */
-	    if (newrecord[i] -> has_expander)
-		gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list),
-						      path, &iter);
-	    gtk_tree_path_free(path);
+	    if ( newrecord[i] -> has_expander )
+		    gtk_tree_model_row_has_child_toggled ( GTK_TREE_MODEL ( custom_list ),
+						      path, &iter );
+	    gtk_tree_path_free ( path );
 	}
 	else
 	    newrecord[i] -> filtered_pos = -1;
@@ -1788,9 +1790,11 @@ static void transaction_list_append_child ( gint transaction_number )
 	/* the mother is visible, inform the tree view we append a child */
 	GtkTreePath *path;
 	GtkTreeIter iter;
+    gint last_line;
 
 	/* we go on the last mother record, wich contains the expander */
-	mother_record = mother_record -> transaction_records[custom_list -> nb_rows_by_transaction - 1];
+    last_line = transaction_list_get_last_line ( custom_list -> nb_rows_by_transaction );
+	mother_record = mother_record -> transaction_records[last_line];
 
 	newrecord -> mother_row = mother_record;
 	/* this is very important to keep to compatibility with the normal transactions */

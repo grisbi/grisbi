@@ -981,10 +981,12 @@ gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
         {
             if ( g_unichar_isdefined ( thousands_sep ) )
             {
-                if ( ch != '.' && ch != ',' && ch != thousands_sep )
+                if ( ch != '.' && ch != ',' && ch != '+' && ch != '-'
+                 && ch != thousands_sep
+                  )
                     return FALSE;
             }
-            else if ( ch != '.' && ch != ',' )
+            else if ( ch != '.' && ch != ',' && ch != '+' && ch != '-' )
                     return FALSE;
         }
 

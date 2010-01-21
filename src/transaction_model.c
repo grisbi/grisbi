@@ -149,22 +149,30 @@ GtkTreePath *transaction_model_get_path ( gint transaction_number,
     GtkTreeIter iter;
 
     g_return_val_if_fail ( custom_list != NULL, NULL );
-
+printf ("transaction_number = %d line_in_transaction = %d\n", transaction_number, line_in_transaction);
     if (!transaction_model_get_transaction_iter ( &iter,
 						  transaction_number, line_in_transaction ))
+    {
+        printf ("iter == NULL\n");
 	return NULL;
+    }
 
     record = iter.user_data;
     if (!record)
+    {
+        printf ("record == NULL\n");
 	return NULL;
-
+    }
     record = record -> transaction_records[line_in_transaction];
 
     path = gtk_tree_path_new ();
     if (record -> mother_row)
+    {
+        printf ("record -> mother_row -> filtered_pos = %d\n", record -> mother_row -> filtered_pos);
 	/* it's a child, need to get the path of the mother */
 	gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
-
+    }
+    printf ("record -> filtered_pos = %d\n", record -> filtered_pos);
     gtk_tree_path_append_index (path, record -> filtered_pos);
 
     return path;

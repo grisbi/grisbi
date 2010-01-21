@@ -25,5 +25,6 @@ gboolean transaction_list_update_column ( gint column,
                         GValue *value );
 gboolean transaction_list_update_element ( gint element_number );
 gboolean transaction_list_update_transaction ( gint transaction_number );
+gint transaction_list_get_last_line ( gint nb_rows );
 /* END_DECLARATION */
 #endif

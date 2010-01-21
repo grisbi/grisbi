@@ -1263,14 +1263,14 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
                         GINT_TO_POINTER (IMPORT_MARK_TRANSACTIONS));
 
 	/* set on the right account */
-    account_number = gsb_data_account_get_account_by_id (compte->id_compte);
-    if(account_number >= 0)
+    account_number = gsb_data_account_get_account_by_id ( compte->id_compte );
+    if ( account_number >= 0 )
     {
-    	import_account_action_activated(radio_add_account,IMPORT_ADD_TRANSACTIONS);
-    	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_add_account), TRUE);
+    	import_account_action_activated ( radio_add_account,IMPORT_ADD_TRANSACTIONS );
+    	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio_add_account ), TRUE );
 
-		gsb_account_set_combo_account_number (compte -> bouton_compte_add, account_number);
-    	gsb_account_set_combo_account_number (compte -> bouton_compte_mark, account_number);
+		gsb_account_set_combo_account_number ( compte -> bouton_compte_add, account_number );
+    	gsb_account_set_combo_account_number ( compte -> bouton_compte_mark, account_number );
     }
 
     /* Currency */
