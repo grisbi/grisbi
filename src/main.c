@@ -109,6 +109,7 @@ int main (int argc, char **argv)
     gboolean first_use = FALSE;
     gchar *string;
     gchar *path;
+	struct lconv *conv;
 
 #ifndef _WIN32
     struct sigaction sig_sev;
@@ -182,7 +183,7 @@ int main (int argc, char **argv)
     register_import_formats ();
 
     /* test locale pour les nombres */
-    struct lconv *conv = localeconv ( );
+	conv = localeconv();
     
     printf ("currency_symbol = %s\n"
             "mon_thousands_sep = \"%s\"\n"
