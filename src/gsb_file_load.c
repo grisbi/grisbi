@@ -6149,15 +6149,15 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     gsb_real number;
     
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
-    printf ("solde_initial = %s\n", tmp_string );
+    //~ printf ("solde_initial = %s\n", tmp_string );
     number = gsb_real_get_from_string ( tmp_string );
     if ( number.mantissa == error_real.mantissa )
         gsb_data_account_set_init_balance ( account_number, null_real );
     else
         gsb_data_account_set_init_balance ( account_number, number );
-    printf ("tmp_string = %s number.mantissa = %ld number.exponent = %d initial_balance = %s\n", tmp_string,
-                        number.mantissa, number.exponent,
-                        gsb_real_get_string ( gsb_data_account_get_init_balance ( account_number, 2)));
+    //~ printf ("tmp_string = %s number.mantissa = %ld number.exponent = %d initial_balance = %s\n", tmp_string,
+                        //~ number.mantissa, number.exponent,
+                        //~ gsb_real_get_string ( gsb_data_account_get_init_balance ( account_number, 2)));
 
     if (tmp_string) 
         g_free (tmp_string);

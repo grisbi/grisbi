@@ -32,5 +32,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 void gsb_form_widget_set_empty ( GtkWidget *entry,
                     gboolean empty );
 void gsb_form_widget_set_focus ( gint element_number );
+gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string );
+
 /* END_DECLARATION */
 #endif

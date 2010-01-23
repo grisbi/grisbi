@@ -60,7 +60,6 @@ static gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
                         gint *ptr_origin );
 static gboolean gsb_form_widget_amount_entry_changed ( GtkWidget *entry,
 				        gpointer null );
-gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string );
 /*END_STATIC*/
 
 /*START_EXTERN*/

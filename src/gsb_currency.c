@@ -100,6 +100,7 @@ static gsb_real current_exchange_fees;
 
 
 /*START_EXTERN*/
+extern GdkColor calendar_entry_color;
 extern GtkWidget *combo_devise_totaux_categ;
 extern GtkWidget *combo_devise_totaux_ib;
 extern GtkWidget *combo_devise_totaux_tiers;
@@ -942,6 +943,7 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
     GtkWidget *entry, *entry_3, *entry_4;
     gsb_real amount_1, amount_2, taux;
     gboolean link_currency;
+    gboolean valide;
 
     entry = g_object_get_data ( G_OBJECT ( entry_1 ), "exchange_rate" );
     link_currency = GPOINTER_TO_INT ( g_object_get_data (
@@ -956,6 +958,35 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
     {
         entry_3 = entry_1;
         entry_4 = entry_2;
+    }
+
+    valide = gsb_form_widget_get_valide_amout_entry (
+                gtk_entry_get_text ( GTK_ENTRY ( entry_1 ) ) );
+    if ( valide )
+    {
+        /* the entry is valid, make it normal */
+        gtk_widget_modify_base ( entry_1, GTK_STATE_NORMAL, NULL );
+    }
+    else
+    {
+        /* the entry is not valid, make it red */
+        gtk_widget_modify_base ( entry_1, GTK_STATE_NORMAL,
+                        &calendar_entry_color );
+        return FALSE;
+    }
+    valide = gsb_form_widget_get_valide_amout_entry (
+                gtk_entry_get_text ( GTK_ENTRY ( entry_2 ) ) );
+    if ( valide )
+    {
+        /* the entry is valid, make it normal */
+        gtk_widget_modify_base ( entry_2, GTK_STATE_NORMAL, NULL );
+    }
+    else
+    {
+        /* the entry is not valid, make it red */
+        gtk_widget_modify_base ( entry_2, GTK_STATE_NORMAL,
+                        &calendar_entry_color );
+        return FALSE;
     }
 
     if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry_3 ) ) ) > 0 )

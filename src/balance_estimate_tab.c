@@ -40,6 +40,7 @@
 
 /*START_INCLUDE*/
 #include "balance_estimate_tab.h"
+//~ #include "balance_estimate_config.h"
 #include "./utils_dates.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_budget.h"
@@ -510,7 +511,8 @@ static void bet_estimate_refresh ( void )
 
     title = g_strdup_printf (
                         _("Balance estimate of the account \"%s\" from %s to %s"),
-                        account_name, str_date_min, str_date_max );
+                        gsb_data_account_get_name ( selected_account ),
+                        str_date_min, str_date_max );
 
     widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( bet_container ), "bet_array_title") );
     gtk_label_set_label ( GTK_LABEL ( widget ), title );
