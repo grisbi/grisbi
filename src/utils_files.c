@@ -78,11 +78,93 @@ enum {
 
 
 static gchar *charset_array[] = {
-"ISO-8859-1",
-"ISO-8859-15",
-"windows-1252",
-"IBM850"};
+    "ISO-8859-1",
+    "ISO-8859-15",
+    "windows-1252",
+    "IBM850"};
 
+static gchar *all_charset_array[] = {
+    "IBM864",
+    "IBM864i",
+    "ISO-8859-6",
+    "ISO-8859-6-E",
+    "ISO-8859-6-I",
+    "x-mac-arabic",
+    "windows-1256",
+    "armscii-8",
+    "ISO-8859-13",
+    "ISO-8859-4",
+    "windows-1257",
+    "ISO-8859-14",
+    "IBM852",
+    "ISO-8859-2",
+    "x-mac-ce",
+    "windows-1250",
+    "gb18030",
+    "GB2312",
+    "x-gbk",
+    "HZ-GB-2312",
+    "windows-936",
+    "Big5",
+    "Big5-HKSCS",
+    "x-euc-tw",
+    "x-mac-croatian",
+    "IBM855",
+    "ISO-8859-5",
+    "ISO-IR-111",
+    "KOI8-R",
+    "x-mac-cyrillic",
+    "windows-1251",
+    "IBM866",
+    "KOI8-U",
+    "x-mac-ukrainian",
+    "ANSI_X3.4-1968#ASCII",
+    "x-mac-farsi",
+    "geostd8",
+    "ISO-8859-7",
+    "x-mac-greek",
+    "windows-1253",
+    "x-mac-gujarati",
+    "x-mac-gurmukhi",
+    "IBM862",
+    "ISO-8859-8-E",
+    "ISO-8859-8-I",
+    "x-mac-hebrew",
+    "windows-1255",
+    "x-mac-devanagari",
+    "x-mac-icelandic",
+    "EUC-JP",
+    "ISO-2022-JP",
+    "Shift_JIS",
+    "EUC-KR",
+    "ISO-2022-KR",
+    "x-johab",
+    "x-windows-949",
+    "ISO-8859-10",
+    "x-mac-romanian",
+    "ISO-8859-16",
+    "ISO-8859-3",
+    "TIS-620",
+    "IBM857",
+    "ISO-8859-9",
+    "x-mac-turkish",
+    "windows-1254",
+    "UTF-7",
+    "UTF-8",
+    "UTF-16BE",
+    "UTF-16LE",
+    "UTF-32BE",
+    "UTF-32LE",
+    "x-viet-tcvn5712",
+    "VISCII",
+    "x-viet-vps",
+    "windows-1258",
+    "ISO-8859-8",
+    "IBM850",
+    "ISO-8859-1",
+    "ISO-8859-15",
+    "x-mac-roman",
+    "windows-1252"};
 
 /**
  * Handler triggered by clicking on the button of a "print to file"
@@ -463,7 +545,7 @@ GSList *utils_files_check_UTF8_validity ( const gchar *contents,
         {
             gchar *ptr_r;
 
-            string = g_strndup ( ptr, ( ( ptr_tmp - 1 ) - ptr ) );
+            string = g_strndup ( ptr, ( ( ptr_tmp ) - ptr ) );
             if ( ( ptr_r = g_strrstr ( string, "\r" ) ) )
                 ptr_r = '\0';
 
@@ -512,7 +594,7 @@ GSList *utils_files_check_UTF8_validity ( const gchar *contents,
  *
  * \return		A charmap.
  */
-gchar * utils_files_create_sel_charset ( GtkWidget *assistant,
+gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
                         const gchar *tmp_str,
                         const gchar *charmap_imported,
                         gchar *filename )
@@ -761,6 +843,55 @@ void utils_files_go_charmap_sel_changed ( GtkWidget *go_charmap_sel,
 }
 
 
+/**
+ *
+ *
+ *
+ */
+gchar *utils_files_get_ofx_charset ( gchar *contents )
+{
+    gchar *tmp_str;
+    gchar *string;
+    gchar *ptr;
+    gint i = 0;
+
+    ptr = (gchar *) contents;
+    
+    while ( strlen ( ptr ) > 0 )
+    {
+        gchar *ptr_tmp;
+
+        ptr_tmp = g_strstr_len ( ptr, strlen ( ptr ), "\n" );
+        if ( ptr_tmp )
+        {
+            gchar *ptr_r;
+
+            string = g_strndup ( ptr, ( ( ptr_tmp ) - ptr ) );
+            if ( ( ptr_r = g_strrstr ( string, "\r" ) ) )
+                ptr_r = '\0';
+
+            if ( ( tmp_str = g_strrstr ( string, "CHARSET:" ) ) )
+            {
+                do
+                {
+                    if ( g_strrstr ( all_charset_array[i], ( tmp_str + 8 ) ) )
+                    {
+                        g_free ( string );
+                        return g_strdup ( all_charset_array[i] );
+                    }
+                    i++;
+                } while ( all_charset_array[i] );
+            }
+
+            g_free ( string );
+            ptr = ptr_tmp + 1;
+        }
+        else
+            break;
+    }
+
+      return NULL;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

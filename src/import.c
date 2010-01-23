@@ -645,6 +645,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     gchar *nom_fichier;
     gchar *tmp_str;
     gchar *contents;
+    gchar *charmap;
     GError *error = NULL;
     gchar * extension;
 
@@ -665,7 +666,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     type = autodetect_file_type ( iterator -> data, tmp_str );
 
     /* passe par un fichier temporaire pour bipasser le bug libofx */
-    if ( ! strcmp ( type, "OFX" ) )
+    if ( strcmp ( type, "OFX" ) == 0 )
     {
         nom_fichier = g_strconcat (g_get_tmp_dir (),G_DIR_SEPARATOR_S,
                                    g_path_get_basename ( iterator -> data ), NULL);
@@ -673,6 +674,12 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
         {
             g_free ( tmp_str );
             return FALSE;
+        }
+        if ( ( charmap = utils_files_get_ofx_charset ( tmp_str ) ) != NULL )
+        {
+            if ( charmap_imported )
+                g_free ( charmap_imported );
+            charmap_imported = charmap;
         }
     }
     else
@@ -686,8 +693,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
         gsb_assistant_set_prev ( assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE );
     }
 
-    /* test conversion to UTF8 */
-    /* Convert in UTF8 */
+    /* Convert to UTF8 */
     contents = g_convert ( tmp_str, -1, "UTF-8", charmap_imported, NULL, NULL, NULL );
 
     if ( contents == NULL )

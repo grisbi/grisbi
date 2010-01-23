@@ -314,7 +314,7 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
     GtkWidget *category_entry;
     gint new_account_number;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
 
     new_account_number = gsb_form_get_account_number ();
 

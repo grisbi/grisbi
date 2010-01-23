@@ -36,6 +36,7 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
                         const gchar *tmp_str,
                         const gchar *charmap_imported,
                         gchar *filename );
+gchar *utils_files_get_ofx_charset ( gchar *contents );
 /*END_DECLARATION*/
 
 #endif

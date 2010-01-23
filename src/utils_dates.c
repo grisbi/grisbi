@@ -626,6 +626,7 @@ GDate *gsb_date_get_last_day_of_month ( const GDate *date )
 
     tmp_date = gsb_date_copy ( date );
     g_date_set_day ( tmp_date, 1 );
+    g_date_add_months ( tmp_date, 1 );
     g_date_subtract_days ( tmp_date, 1 );
 
     return tmp_date;
