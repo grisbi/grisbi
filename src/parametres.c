@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "parametres.h"
+#include "./balance_estimate_config.h"
 #include "./menu.h"
 #include "./utils.h"
 #include "./dialog.h"
@@ -525,6 +526,26 @@ gboolean preferences ( gint page )
     gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(fenetre_preferences) -> vbox ),
                         hpaned, TRUE, TRUE, 0);
+
+#ifdef ENABLE_BALANCE_ESTIMATE 
+    /* balance estimate subtree */
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        &iter,
+                        0, _("Balance estimate"),
+                        1, NOT_A_PAGE,
+                        2, 800,
+                        -1);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        &iter2,
+                        0, _("General options"),
+                        1, BET_GENERAL_PAGE,
+                        2, 400,
+                        -1);
+    gtk_notebook_append_page (preference_frame, bet_estimate_config_create_page(), NULL);
+#endif
 
     /* select the page */
     if ( page >= 0 && page < NUM_PREFERENCES_PAGES )

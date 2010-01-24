@@ -91,6 +91,14 @@ static void bet_estimate_refresh ( void );
 static void bet_estimate_refresh_historical_data ( GtkTreeModel *tab_model,
                         GDate *date_min,
                         GDate *date_max );
+static void bet_estimate_refresh_scheduled_data ( GtkTreeModel *tab_model,
+                        gint selected_account,
+                        GDate *date_min,
+                        GDate *date_max );
+static void bet_estimate_refresh_transactions_data ( GtkTreeModel *tab_model,
+                        gint selected_account,
+                        GDate *date_min,
+                        GDate *date_max );
 static gboolean bet_update_average_column (GtkTreeModel *model,
                         GtkTreePath *path,
                         GtkTreeIter *iter,
@@ -108,7 +116,7 @@ static void bet_create_array_page ( GtkWidget *notebook );
 static void bet_create_graph_page ( GtkWidget *notebook );
 static void bet_create_historical_data_page ( GtkWidget *notebook );
 static GtkWidget *bet_estimate_get_list_accounts ( GtkWidget *container );
-static GtkWidget *bet_estimate_get_duration_widget ( GtkWidget *container );
+//~ static GtkWidget *bet_estimate_get_duration_widget ( GtkWidget *container );
 static gboolean bet_duration_number_changed ( GtkWidget *spin_button, GtkWidget *togglebutton );
 static void bet_duration_period_clicked ( GtkWidget *togglebutton, GtkWidget *button );
 static GtkWidget *bet_estimate_get_historical_data ( GtkWidget *container );
@@ -120,7 +128,7 @@ static gboolean bet_estimate_affiche_div ( GHashTable  *list_div, GtkWidget *tre
 static void bet_estimate_populate_div_model ( gpointer key,
                         gpointer value,
                         gpointer user_data);
-static gboolean bet_fyear_create_combobox_store ( void );
+//~ static gboolean bet_fyear_create_combobox_store ( void );
 static gint bet_fyear_get_fyear_from_combobox ( GtkWidget *combo_box );
 static gint bet_estimate_get_account_selected ( void );
 static void bet_estimate_tab_add_new_line ( GtkTreeModel *tab_model,
@@ -204,13 +212,13 @@ static GtkWidget *bet_container = NULL;
  * this is a tree model filter with 3 columns :
  * the name, the number and a boolean to show it or not
  * */
-static GtkTreeModel *bet_fyear_model;
+GtkTreeModel *bet_fyear_model;
 
 /**
  * this is a tree model filter from fyear_model_filter wich
  * show only the financial years wich must be showed
  * */
-static GtkTreeModel *bet_fyear_model_filter;
+GtkTreeModel *bet_fyear_model_filter;
 
 
 /*
@@ -460,7 +468,6 @@ static void bet_estimate_refresh ( void )
     GDate *date_min;
     GDate *date_max;
     gsb_real current_balance;
-    GSList* tmp_list;
     SBR *tmp_range;
     GValue date_value = {0, };
 
@@ -547,227 +554,23 @@ static void bet_estimate_refresh ( void )
                    -1);
 
     g_value_unset ( &date_value );
-    g_free(str_date_min);
-    g_free(str_date_max);
-
-    /* search transactions of the account which are in the future */
-    tmp_list = gsb_data_transaction_get_transactions_list ( );
-
-    while ( tmp_list )
-    {
-        gchar* str_amount;
-        gchar* str_debit = NULL;
-        gchar* str_credit = NULL;
-        const gchar* str_description;
-        gchar* str_date;
-        gint transaction_number;
-        gint transfer_number;
-        gint account_number;
-        gint transfer_account_number;
-        const GDate *date;
-        gsb_real amount;
-
-        transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
-        tmp_list = tmp_list -> next;
-
-        account_number =  gsb_data_transaction_get_account_number ( transaction_number );
-        if ( account_number != selected_account )
-            continue;
-
-        date = gsb_data_transaction_get_date ( transaction_number );
-        /* ignore transaction which are before date_min (today) */
-        if ( g_date_compare ( date, date_min ) <= 0 )
-            continue;
-        /* ignore transaction which are after date_max */
-        if ( g_date_compare (date, date_max ) > 0 )
-            continue;
-
-        /* ignore splitted transactions */
-        if ( gsb_data_transaction_get_mother_transaction_number (
-         transaction_number ) != 0 )
-            continue;
-
-        str_date = gsb_format_gdate ( date );
-        g_value_init ( &date_value, G_TYPE_DATE );
-        g_value_set_boxed ( &date_value, date );
-
-        amount = gsb_data_transaction_get_amount ( transaction_number );
-        str_amount = gsb_real_get_string ( amount );
-
-        if (amount.mantissa < 0)
-            str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
-                        gsb_data_transaction_get_currency_number ( transaction_number), TRUE );
-        else
-            str_credit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
-                        gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-
-        transfer_number =
-                        gsb_data_transaction_get_contra_transaction_number (
-                        transaction_number );
-        if ( transfer_number > 0 )
-        {
-            transfer_account_number = gsb_data_transaction_get_account_number (
-                        transfer_number );
-            str_description = g_strdup_printf ( _("Transfer between account: %s\n"
-                        "and account: %s"),
-                        gsb_data_account_get_name ( account_number ),
-                        gsb_data_account_get_name ( transfer_account_number ) );
-        }
-        else
-        {
-            str_description = gsb_data_transaction_get_notes ( transaction_number );
-
-            if (!str_description || !strlen (str_description))
-                str_description = gsb_data_payee_get_name (
-                            gsb_data_transaction_get_party_number ( transaction_number ), TRUE );
-        }
-
-        /* add a line in the estimate array */
-        gtk_tree_store_append ( GTK_TREE_STORE ( tree_model ), &iter, NULL );
-        gtk_tree_store_set_value (GTK_TREE_STORE ( tree_model ), &iter,
-                     SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
-                     &date_value);
-        gtk_tree_store_set(GTK_TREE_STORE(tree_model), &iter,
-                   SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
-                   SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
-                   SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
-                   SPP_ESTIMATE_TREE_CREDIT_COLUMN, str_credit,
-                   SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
-                   -1);
-
-        g_value_unset ( &date_value );
-        g_free ( str_date );
-        g_free ( str_amount );
-        if ( str_debit )
-            g_free ( str_debit );
-        if ( str_credit )
-            g_free ( str_credit );
-    }
-
-    /* for each schedulded operation */
-    tmp_list = gsb_data_scheduled_get_scheduled_list();
-
-    while (tmp_list)
-    {
-        gchar *str_value;
-        gchar *str_debit = NULL;
-        gchar *str_credit = NULL;
-        const gchar *str_description = NULL;
-        gchar *str_date;
-        gint scheduled_number;
-        gint account_number;
-        gint transfer_account_number;
-        GDate *date;
-        GValue date_value = {0, };
-        gsb_real amount;
-
-        scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list->data );
-
-        tmp_list = tmp_list->next;
-
-        /* ignore children scheduled operations */
-        if (gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number ) )
-            continue;
-
-        /* ignore scheduled operations of other account */
-        account_number = gsb_data_scheduled_get_account_number ( scheduled_number );
-
-        if ( gsb_data_scheduled_is_transfer ( scheduled_number ) )
-        {
-            transfer_account_number = gsb_data_scheduled_get_account_number_transfer (
-                        scheduled_number );
-            if ( transfer_account_number == selected_account )
-            {
-                str_description = g_strdup_printf ( _("Transfer between account: %s\n"
-                        "and account: %s"),
-                        gsb_data_account_get_name ( transfer_account_number ),
-                        gsb_data_account_get_name ( account_number ) );
-            
-                amount = gsb_real_opposite ( gsb_data_scheduled_get_amount (
-                        scheduled_number ) );
-            }
-            else if ( account_number == selected_account )
-            {
-                str_description = g_strdup_printf ( _("Transfer between account: %s\n"
-                        "and account: %s"),
-                        gsb_data_account_get_name ( account_number ),
-                        gsb_data_account_get_name ( transfer_account_number ) );
-
-                amount = gsb_data_scheduled_get_amount ( scheduled_number );
-            }
-            else
-                continue;
-        }
-        else if ( account_number == selected_account )
-        {
-            str_description = gsb_data_scheduled_get_notes ( scheduled_number );
-
-            if ( !str_description || !strlen ( str_description ) )
-                str_description = gsb_data_payee_get_name (
-                            gsb_data_scheduled_get_party_number ( scheduled_number ), TRUE );
-
-            amount = gsb_data_scheduled_get_amount ( scheduled_number );
-        }
-        else
-            continue;
-
-        str_value = gsb_real_get_string ( amount );
-        if (amount.mantissa < 0)
-            str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
-                        gsb_data_scheduled_get_currency_number ( scheduled_number ), TRUE );
-        else
-            str_credit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
-                        gsb_data_scheduled_get_currency_number ( scheduled_number ), TRUE );
-
-        /* calculate each instance of the scheduled operation
-         * in the range from date_min (today) to date_max */
-        date = gsb_data_scheduled_get_date ( scheduled_number );
-
-        while (date != NULL && g_date_valid ( date ) )
-        {
-            if ( g_date_compare ( date, date_max ) > 0 )
-                break;
-            if ( g_date_compare ( date, date_min ) < 0 )
-            {
-                date = gsb_scheduler_get_next_date ( scheduled_number, date );
-                continue;
-            }
-            if ( g_date_valid ( date ) == FALSE )
-                return;
-            str_date = gsb_format_gdate ( date );
-
-            g_value_init ( &date_value, G_TYPE_DATE );
-            if ( date == NULL )
-                return;
-            g_value_set_boxed ( &date_value, date ); 
-
-            /* add a line in the estimate array */
-            gtk_tree_store_append (GTK_TREE_STORE(tree_model), &iter, NULL);
-            gtk_tree_store_set_value(GTK_TREE_STORE(tree_model), &iter,
-                         SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
-                         &date_value);
-            gtk_tree_store_set(GTK_TREE_STORE(tree_model), &iter,
-                       SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
-                       SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
-                       SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
-                       SPP_ESTIMATE_TREE_CREDIT_COLUMN, str_credit,
-                       SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_value,
-                       -1);
-
-            g_value_unset ( &date_value );
-            g_free ( str_date );
-            date = gsb_scheduler_get_next_date ( scheduled_number, date );
-        }
-
-        g_free ( str_value );
-        if ( str_credit )
-            g_free ( str_credit );
-        if ( str_debit )
-            g_free ( str_debit );
-    }
+    g_free ( str_date_min );
+    g_free ( str_date_max );
 
     /* search data from the past */
     bet_estimate_refresh_historical_data ( tree_model, date_min, date_max );
+    
+    /* search transactions of the account which are in the future */
+    bet_estimate_refresh_transactions_data ( tree_model,
+                        selected_account,
+                        date_min,
+                        date_max );
+
+    /* for each schedulded operation */
+    bet_estimate_refresh_scheduled_data ( tree_model,
+                        selected_account,
+                        date_min,
+                        date_max );
 
     g_free ( date_min );
     g_free ( date_max );
@@ -1153,7 +956,7 @@ void bet_create_parameter_page ( GtkWidget *notebook )
     g_object_set_data (G_OBJECT(notebook), "bet_account_treeview", tree_view);
 
     /* create duration selection */
-    vbox = bet_estimate_get_duration_widget ( vbox );
+    bet_estimate_get_duration_widget ( vbox );
 }
 
 
@@ -1401,6 +1204,7 @@ void bet_create_historical_data_page ( GtkWidget *notebook )
         gsb_fyear_hide_iter_by_name ( bet_fyear_model, str_year );
         g_free ( str_year );
     }
+
     /* création de la liste des données */
     tree_view = bet_estimate_get_historical_data ( page );
     g_object_set_data ( G_OBJECT ( notebook ), "bet_historical_treeview", tree_view );
@@ -1470,7 +1274,7 @@ GtkWidget *bet_estimate_get_duration_widget ( GtkWidget *container )
     GtkWidget* main_vbox;
     GtkWidget *label;
     GtkWidget *spin_button, *button_1, *button_2, *button_3, *button_4;
-    GtkWidget *widget;
+    GtkWidget *widget = NULL;
     GtkWidget *hbox;
     GtkWidget *previous = NULL;
     GtkSizeGroup *size_group;
@@ -1548,7 +1352,6 @@ GtkWidget *bet_estimate_get_duration_widget ( GtkWidget *container )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_3, FALSE, FALSE, 5) ;
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_4, FALSE, FALSE, 5) ;
 
-    
     /* partie mensuelle */
     label = gtk_label_new ( _("Duration estimation") );
     gtk_box_pack_start ( GTK_BOX ( main_vbox ), label, FALSE, FALSE, 5) ;
@@ -2223,6 +2026,256 @@ void bet_estimate_refresh_historical_data ( GtkTreeModel *tab_model,
         } while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
     }
 }
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_estimate_refresh_scheduled_data ( GtkTreeModel *tab_model,
+                        gint selected_account,
+                        GDate *date_min,
+                        GDate *date_max )
+{
+    GtkTreeIter iter;
+    GSList* tmp_list;
+
+    tmp_list = gsb_data_scheduled_get_scheduled_list();
+
+    while (tmp_list)
+    {
+        gchar *str_amount;
+        gchar *str_debit = NULL;
+        gchar *str_credit = NULL;
+        const gchar *str_description = NULL;
+        gchar *str_date;
+        gint scheduled_number;
+        gint account_number;
+        gint transfer_account_number;
+        GDate *date;
+        GValue date_value = {0, };
+        gsb_real amount;
+
+        scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list->data );
+
+        tmp_list = tmp_list->next;
+
+        /* ignore children scheduled operations */
+        if (gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number ) )
+            continue;
+
+        /* ignore scheduled operations of other account */
+        account_number = gsb_data_scheduled_get_account_number ( scheduled_number );
+
+        if ( gsb_data_scheduled_is_transfer ( scheduled_number ) )
+        {
+            transfer_account_number = gsb_data_scheduled_get_account_number_transfer (
+                        scheduled_number );
+            if ( transfer_account_number == selected_account )
+            {
+                str_description = g_strdup_printf ( _("Transfer between account: %s\n"
+                        "and account: %s"),
+                        gsb_data_account_get_name ( transfer_account_number ),
+                        gsb_data_account_get_name ( account_number ) );
+            
+                amount = gsb_real_opposite ( gsb_data_scheduled_get_amount (
+                        scheduled_number ) );
+            }
+            else if ( account_number == selected_account )
+            {
+                str_description = g_strdup_printf ( _("Transfer between account: %s\n"
+                        "and account: %s"),
+                        gsb_data_account_get_name ( account_number ),
+                        gsb_data_account_get_name ( transfer_account_number ) );
+
+                amount = gsb_data_scheduled_get_amount ( scheduled_number );
+            }
+            else
+                continue;
+        }
+        else if ( account_number == selected_account )
+        {
+            str_description = gsb_data_scheduled_get_notes ( scheduled_number );
+
+            if ( !str_description || !strlen ( str_description ) )
+                str_description = gsb_data_payee_get_name (
+                            gsb_data_scheduled_get_party_number ( scheduled_number ), TRUE );
+
+            amount = gsb_data_scheduled_get_amount ( scheduled_number );
+        }
+        else
+            continue;
+
+        str_amount = gsb_real_get_string ( amount );
+        if (amount.mantissa < 0)
+            str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
+                        gsb_data_scheduled_get_currency_number ( scheduled_number ), TRUE );
+        else
+            str_credit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
+                        gsb_data_scheduled_get_currency_number ( scheduled_number ), TRUE );
+
+        /* calculate each instance of the scheduled operation
+         * in the range from date_min (today) to date_max */
+        date = gsb_data_scheduled_get_date ( scheduled_number );
+
+        while (date != NULL && g_date_valid ( date ) )
+        {
+            if ( g_date_compare ( date, date_max ) > 0 )
+                break;
+            if ( g_date_compare ( date, date_min ) < 0 )
+            {
+                date = gsb_scheduler_get_next_date ( scheduled_number, date );
+                continue;
+            }
+            if ( g_date_valid ( date ) == FALSE )
+                return;
+            str_date = gsb_format_gdate ( date );
+
+            g_value_init ( &date_value, G_TYPE_DATE );
+            if ( date == NULL )
+                return;
+            g_value_set_boxed ( &date_value, date ); 
+
+            /* add a line in the estimate array */
+            gtk_tree_store_append ( GTK_TREE_STORE ( tab_model ), &iter, NULL );
+            gtk_tree_store_set_value ( GTK_TREE_STORE ( tab_model ), &iter,
+                        SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
+                        &date_value );
+            gtk_tree_store_set ( GTK_TREE_STORE ( tab_model ), &iter,
+                        SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
+                        SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
+                        SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
+                        SPP_ESTIMATE_TREE_CREDIT_COLUMN, str_credit,
+                        SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
+                        -1 );
+
+            g_value_unset ( &date_value );
+            g_free ( str_date );
+            date = gsb_scheduler_get_next_date ( scheduled_number, date );
+        }
+
+        g_free ( str_amount );
+        if ( str_credit )
+            g_free ( str_credit );
+        if ( str_debit )
+            g_free ( str_debit );
+    }
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_estimate_refresh_transactions_data ( GtkTreeModel *tab_model,
+                        gint selected_account,
+                        GDate *date_min,
+                        GDate *date_max )
+{
+    GtkTreeIter iter;
+    GSList* tmp_list;
+
+    /* search transactions of the account which are in the future */
+    tmp_list = gsb_data_transaction_get_transactions_list ( );
+
+    while ( tmp_list )
+    {
+        gchar* str_amount;
+        gchar* str_debit = NULL;
+        gchar* str_credit = NULL;
+        const gchar* str_description;
+        gchar* str_date;
+        gint transaction_number;
+        gint transfer_number;
+        gint account_number;
+        gint transfer_account_number;
+        const GDate *date;
+        GValue date_value = {0, };
+        gsb_real amount;
+
+        transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
+        tmp_list = tmp_list -> next;
+
+        account_number =  gsb_data_transaction_get_account_number ( transaction_number );
+        if ( account_number != selected_account )
+            continue;
+
+        date = gsb_data_transaction_get_date ( transaction_number );
+        /* ignore transaction which are before date_min (today) */
+        if ( g_date_compare ( date, date_min ) <= 0 )
+            continue;
+        /* ignore transaction which are after date_max */
+        if ( g_date_compare (date, date_max ) > 0 )
+            continue;
+
+        /* ignore splitted transactions */
+        if ( gsb_data_transaction_get_mother_transaction_number (
+         transaction_number ) != 0 )
+            continue;
+
+        str_date = gsb_format_gdate ( date );
+        g_value_init ( &date_value, G_TYPE_DATE );
+        g_value_set_boxed ( &date_value, date );
+
+        amount = gsb_data_transaction_get_amount ( transaction_number );
+        str_amount = gsb_real_get_string ( amount );
+
+        if (amount.mantissa < 0)
+            str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
+                        gsb_data_transaction_get_currency_number ( transaction_number), TRUE );
+        else
+            str_credit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
+                        gsb_data_transaction_get_currency_number (transaction_number), TRUE);
+
+        transfer_number =
+                        gsb_data_transaction_get_contra_transaction_number (
+                        transaction_number );
+        if ( transfer_number > 0 )
+        {
+            transfer_account_number = gsb_data_transaction_get_account_number (
+                        transfer_number );
+            str_description = g_strdup_printf ( _("Transfer between account: %s\n"
+                        "and account: %s"),
+                        gsb_data_account_get_name ( account_number ),
+                        gsb_data_account_get_name ( transfer_account_number ) );
+        }
+        else
+        {
+            str_description = gsb_data_transaction_get_notes ( transaction_number );
+
+            if (!str_description || !strlen (str_description))
+                str_description = gsb_data_payee_get_name (
+                            gsb_data_transaction_get_party_number ( transaction_number ), TRUE );
+        }
+
+        /* add a line in the estimate array */
+        gtk_tree_store_append ( GTK_TREE_STORE ( tab_model ), &iter, NULL );
+        gtk_tree_store_set_value ( GTK_TREE_STORE ( tab_model ), &iter,
+                        SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
+                        &date_value );
+        gtk_tree_store_set ( GTK_TREE_STORE ( tab_model ), &iter,
+                        SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
+                        SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
+                        SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
+                        SPP_ESTIMATE_TREE_CREDIT_COLUMN, str_credit,
+                        SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
+                        -1 );
+
+        g_value_unset ( &date_value );
+        g_free ( str_date );
+        g_free ( str_amount );
+        if ( str_debit )
+            g_free ( str_debit );
+        if ( str_credit )
+            g_free ( str_credit );
+    }
+}
+
+
 /**
  *
  *
@@ -2286,15 +2339,15 @@ void bet_estimate_tab_add_new_line ( GtkTreeModel *tab_model,
         /* add a line in the estimate array */
         gtk_tree_store_append ( GTK_TREE_STORE ( tab_model ), &tab_iter, NULL );
         gtk_tree_store_set_value ( GTK_TREE_STORE ( tab_model ), &tab_iter,
-                     SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
-                     &date_value );
+                        SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
+                        &date_value );
         gtk_tree_store_set ( GTK_TREE_STORE ( tab_model ), &tab_iter,
-                   SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
-                   SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
-                   SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
-                   SPP_ESTIMATE_TREE_CREDIT_COLUMN, str_credit,
-                   SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
-                   -1);
+                        SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
+                        SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
+                        SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
+                        SPP_ESTIMATE_TREE_CREDIT_COLUMN, str_credit,
+                        SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
+                        -1);
 
         g_value_unset ( &date_value );
         g_free ( str_date );
@@ -2312,4 +2365,7 @@ void bet_estimate_tab_add_new_line ( GtkTreeModel *tab_model,
  *
  *
  * */
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
 #endif /* ENABLE_BALANCE_ESTIMATE */

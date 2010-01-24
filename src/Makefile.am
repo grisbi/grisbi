@@ -145,6 +145,7 @@ sources = \
 	utils_font.c		\
 	utils_operations.c	\
 	utils_str.c		\
+	balance_estimate_config.c\
 	balance_estimate_tab.c
 
 grisbi_INCLUDES =		\
@@ -153,6 +154,7 @@ grisbi_INCLUDES =		\
 	affichage.h		\
 	affichage_liste.h	\
 	barre_outils.h		\
+        balance_estimate_config.h  \
         balance_estimate_tab.h  \
 	categories_onglet.h	\
 	classement_echeances.h	\

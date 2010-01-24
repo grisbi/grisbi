@@ -404,7 +404,6 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
 }
 
 
-
 /**
  * Check if a transaction need an exchange rate and fees with its
  * account
@@ -505,6 +504,9 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     gchar* tmpstr;
     gint row = 0;
     gint link_number;
+
+    if ( account_currency_number == 0 || transaction_currency_number == 0 )
+        return;
 
     if ( !force
      &&

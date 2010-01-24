@@ -20,22 +20,20 @@
 #ifndef _BALANCE_ESTIMATE_TAB_H
 #define _BALANCE_ESTIMATE_TAB_H
 
-#ifdef ENABLE_BALANCE_ESTIMATE 
 #include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
-#include "./gsb_real.h"
 /* END_INCLUDE_H */
 
 typedef struct _bet_range           SBR;
 typedef struct _historical          SH;
 
 /* START_DECLARATION */
-GtkWidget *bet_create_balance_estimate_tab(void);
-void bet_update_balance_estimate_tab(void);
+GtkWidget *bet_create_balance_estimate_tab ( void );
+GtkWidget *bet_estimate_get_duration_widget ( GtkWidget *container );
+gboolean bet_fyear_create_combobox_store ( void );
+void bet_update_balance_estimate_tab ( void );
 /* END_DECLARATION */
-
-#endif /* ENABLE_BALANCE_ESTIMATE */
 
 #endif /*_BALANCE_ESTIMATE_TAB_H*/
 

@@ -24,6 +24,8 @@
 #include "include.h"
 #include <config.h>
 
+#ifdef ENABLE_BALANCE_ESTIMATE
+
 /*START_INCLUDE*/
 #include "balance_estimate_config.h"
 #include "./balance_estimate_tab.h"
@@ -155,3 +157,4 @@ GtkWidget *bet_config_select_historical_data ( GtkWidget *container )
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
+#endif /* ENABLE_BALANCE_ESTIMATE */
