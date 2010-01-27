@@ -484,7 +484,7 @@ gsb_real gsb_real_import_from_string ( const gchar *string )
             //~ printf ("result.mantissa = %ld result.exponent = %d\n", result.mantissa, result.exponent);
             return result;
         }
-        else if ( strchr ( ".", *p ) || strchr (",", *p ) )
+        else if ( strchr ( ".", *p ) )
         {
             if ( dot_position >= 0 ) // already found a decimal separator
                 return error_real;
