@@ -84,16 +84,16 @@ extern gchar *nom_fichier_comptes;
 #ifdef _MSC_VER
 int APIENTRY wWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
-                     LPTSTR    lpCmdLine,
+                     LPWSTR    lpCmdLine,
                      int       nCmdShow)
 {
 	int argc, nLen;
 	LPWSTR * argvP;
 	char ** argv = malloc(sizeof(char**));
 	argvP = CommandLineToArgvW(GetCommandLineW(), &(argc));
-	nLen = WideCharToMultiByte(CP_UTF8, 0,argvP[0], -1, NULL, NULL, NULL, NULL);
+	nLen = WideCharToMultiByte(CP_UTF8, 0,argvP[0], -1, NULL, 0, NULL, NULL);
 	*argv = malloc((nLen + 1) * sizeof(char));
-	WideCharToMultiByte(CP_UTF8, NULL, argvP[0], -1, *argv, nLen, NULL, NULL);
+	WideCharToMultiByte(CP_UTF8, 0, argvP[0], -1, *argv, nLen, NULL, NULL);
 	return main(argc, argv);
 }
 #endif
