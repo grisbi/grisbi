@@ -149,11 +149,6 @@ gchar *gsb_real_raw_format_string (gsb_real number,
     const gchar *cs_end;
 	ldiv_t units;
 
-	if ( (number.exponent < 0)
-    || (number.exponent > sizeofarray ( gsb_real_power_10 ) )
-    || (number.mantissa == error_real.mantissa) )
-      return g_strdup ( "###ERR###" );
-
     cs_start = (currency_symbol && conv->p_cs_precedes) ? currency_symbol : "";
     cs_start_space = (currency_symbol && conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
     sign = (number.mantissa < 0) ? conv->negative_sign : conv->positive_sign;
@@ -287,6 +282,10 @@ gchar *gsb_real_format_string ( gsb_real number,
         else
             return g_strdup ("0");
     }
+    else if ( (number.exponent < 0)
+    || (number.exponent > sizeofarray ( gsb_real_power_10 ) )
+    || (number.mantissa == error_real.mantissa) )
+        return g_strdup ( "###ERR###" );
 
     /* first we need to adapt the exponent to the currency */
     /* if the exponent of the real is not the same of the currency, need to adapt it */
@@ -457,7 +456,9 @@ gsb_real gsb_real_import_from_string ( const gchar *string )
 
     if ( !string)
         return error_real;
-//~ printf ("string  = %s\n", string);
+    if ( g_strstr_len ( string, -1, "###ERR###" ) )
+        return error_real;
+
     for ( ; ; )
     {
         if ( g_ascii_isdigit ( *p ) )
