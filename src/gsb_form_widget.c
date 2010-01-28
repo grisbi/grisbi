@@ -60,6 +60,8 @@ static gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
                         gint *ptr_origin );
 static gboolean gsb_form_widget_amount_entry_changed ( GtkWidget *entry,
 				        gpointer null );
+static gboolean gsb_form_combo_selection_changed ( GtkTreeSelection *tree_selection,
+						gint *ptr_origin );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -160,6 +162,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
                         gint account_number )
 {
     GtkWidget *widget;
+    GtkTreeSelection *tree_selection;
 
     if (!element_number)
 	return NULL;
@@ -341,22 +344,30 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	{
 	    if ( GTK_IS_COMBOFIX ( widget ))
 	    {
-		g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( widget ) -> entry ),
-				   "focus-in-event",
-				   G_CALLBACK ( gsb_form_entry_get_focus ),
-				   GINT_TO_POINTER ( element_number ));
-		g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
-				   "focus-out-event",
-				   G_CALLBACK ( gsb_form_entry_lose_focus ),
-				   GINT_TO_POINTER ( element_number ));
-		g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
-				   "button-press-event",
-				   G_CALLBACK ( gsb_form_button_press_event ),
-				   GINT_TO_POINTER ( element_number ));
-		g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
-				   "key-press-event",
-				   G_CALLBACK ( gsb_form_key_press_event ),
-				   GINT_TO_POINTER ( element_number ));
+            tree_selection = gtk_tree_view_get_selection (
+                        GTK_TREE_VIEW ( GTK_COMBOFIX ( widget ) -> tree_view ) );
+
+		    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( widget ) -> entry ),
+                       "focus-in-event",
+                       G_CALLBACK ( gsb_form_entry_get_focus ),
+                       GINT_TO_POINTER ( element_number ));
+		    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
+                       "focus-out-event",
+                       G_CALLBACK ( gsb_form_entry_lose_focus ),
+                       GINT_TO_POINTER ( element_number ));
+		    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
+                       "button-press-event",
+                       G_CALLBACK ( gsb_form_button_press_event ),
+                       GINT_TO_POINTER ( element_number ));
+            g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
+                       "key-press-event",
+                       G_CALLBACK ( gsb_form_key_press_event ),
+                       GINT_TO_POINTER ( element_number ));
+            g_signal_connect ( G_OBJECT ( tree_selection ),
+                       "changed",
+                       G_CALLBACK ( gsb_form_combo_selection_changed ),
+                       GINT_TO_POINTER ( element_number ) );
+
 	    }
 	    else
 		/* neither an entry, neither a combofix */
@@ -365,7 +376,8 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 				   G_CALLBACK ( gsb_form_key_press_event ),
 				   GINT_TO_POINTER ( element_number ));
 	}
-    } else {
+    }
+    else {
     	alert_debug ( "Widget should not be NULL" );
     }
     
@@ -993,4 +1005,69 @@ gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
     }
 
     return TRUE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_form_combo_selection_changed ( GtkTreeSelection *tree_selection,
+						  gint *ptr_origin )
+{
+    GtkWidget *widget;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gchar *tmp_str;
+    gint element_number;
+    gint account_nb;
+
+    element_number = GPOINTER_TO_INT (ptr_origin);
+
+    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
+     &model, &iter ) )
+        return FALSE;
+
+    gtk_tree_model_get ( model, &iter, 1, &tmp_str, -1 );
+    if ( tmp_str && strlen ( tmp_str ) )
+    {
+        widget = gsb_form_widget_get_widget ( element_number );
+        g_object_set_data_full ( G_OBJECT ( widget ), "combo_text", tmp_str, g_free );
+
+        switch ( element_number )
+        {
+        case TRANSACTION_FORM_CATEGORY:
+            widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_DEVISE );
+            if ( widget != NULL 
+             && 
+             GTK_WIDGET_VISIBLE (
+             gsb_form_widget_get_widget ( TRANSACTION_FORM_DEVISE) ) )
+            {
+                if ( g_str_has_prefix ( tmp_str, _("Transfer : ") ) )
+                {
+                    account_nb = gsb_form_get_account_number ( );
+                    if ( g_str_has_suffix ( tmp_str,
+                     gsb_data_account_get_name ( account_nb ) ) )
+                        gtk_widget_hide ( gsb_form_widget_get_widget (
+                            TRANSACTION_FORM_CHANGE ) );
+                    else
+                        gtk_widget_show ( gsb_form_widget_get_widget (
+                            TRANSACTION_FORM_CHANGE ) );
+                }
+                else
+                    gtk_widget_hide ( gsb_form_widget_get_widget (
+                        TRANSACTION_FORM_CHANGE ) );
+            }
+            else
+            {
+                widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHANGE );
+                if ( widget != NULL )
+                    gtk_widget_hide ( widget );
+            }
+            break;
+        }
+    }
+    return FALSE;
 }
