@@ -27,18 +27,21 @@
 #define PRESPACIFY(s) (g_strconcat ( " ", s, NULL ))
 #define POSTSPACIFY(s) (g_strconcat ( s, " ", NULL ))
 
-
 #define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
 
-/* variables contenant juste 0 ou 1 */
-/* FIXME : scinder cette structure en 3 parties : */
-/* la partie configurée par le fichier */
-/* la partie configurée par la conf */
-/* la partie configurée pendant le fonctionnement de grisbi */
+/** structure etat
+ * variables contenant juste 0 ou 1
+ * FIXME : scinder cette structure en 3 parties :
+ * la partie configurée par le fichier
+ * la partie configurée par la conf
+ * la partie configurée pendant le fonctionnement de grisbi
+ * */
 struct {
     time_t modification_fichier;
     gint is_archive;                /** TRUE if the file is an archive, FALSE else */
     gint equilibrage;
+
+    gboolean debug_mode;            /* TRUE in debug mode, FALSE for normale mode */
 
     /* files and backup part */
     gint dernier_fichier_auto;
@@ -47,29 +50,24 @@ struct {
     gint make_backup;               /* TRUE for create a backup when save file */
     gint make_backup_every_minutes; /* TRUE to make backup every x mn */
     gint make_backup_nb_minutes;    /* the number of minutes we want to make a backup */
+    gint crypt_file;                /* TRUE if we want to crypt the file */
+    gint compress_file;             /* TRUE if we want to compress the grisbi file */
+    gint compress_backup;           /* TRUE if we want to compress the backup */
+    gint alerte_permission;         /* à un si le message d'alerte s'affiche */
+    gint fichier_deja_ouvert;       /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
+    gint force_enregistrement;      /* à un si on force l'enregistrement */
 
-    gboolean debug_mode;            /* TRUE in debug mode, FALSE for normale mode */
+    /* formulaire */
     gint entree;                    /* si etat.entree = 1, la touche entrée finit l'opération */ 
     gint alerte_mini;
     gint formulaire_toujours_affiche;
-    gint alerte_permission;                 /* à un si le message d'alerte s'affiche */
-    gint fichier_deja_ouvert;               /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
-    gint force_enregistrement;              /* à un si on force l'enregistrement */
-    gint affichage_exercice_automatique;    /* automatic fyear :0 to set according to the date, 2 according to value date */
-    gint automatic_completion_payee;        /* 1 pour autoriser la completion automatique des opérations */
-    gboolean limit_completion_to_current_account;   /** Limit payee *
-                            completion to
-                            current account,
-                            or do a full
-                            search. */
-    gint crypt_file;        /* TRUE if we want to crypt the file */
-    gint compress_file;     /* TRUE if we want to compress the grisbi file */
-    gint compress_backup;   /* TRUE if we want to compress the backup */
-
-    gint formulaire_distinct_par_compte;  /* à 1 si le formulaire est différent pour chaque compte */
+    gint affichage_exercice_automatique;            /* automatic fyear :0 to set according to the date, 2 according to value date */
+    gint automatic_completion_payee;                /* 1 pour autoriser la completion automatique des opérations */
+    gboolean limit_completion_to_current_account;   /* Limit payee completion to current account or do a full search. */
+    gint formulaire_distinct_par_compte;            /* à 1 si le formulaire est différent pour chaque compte */
     gint affiche_nb_ecritures_listes;
     gint largeur_auto_colonnes;
-    gint retient_affichage_par_compte;   /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
+    gint retient_affichage_par_compte;      /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
     gint en_train_de_sauvegarder;
     gint en_train_de_charger;
     gint utilise_logo;
@@ -82,9 +80,9 @@ struct {
     gboolean show_toolbar;          /** Show toolbar or not.  */
     gboolean show_headings_bar;     /** Show headings bar or not. */
     gboolean show_closed_accounts;
+    gboolean automatic_separator;   /* TRUE if do automatic separator */
 
-    gboolean automatic_separator; /* TRUE if do automatic separator */
-    /* Various display message stuff  */
+    /* Various display message stuff    */
     gint display_message_lock_active;
     gint display_message_file_readable;
     gint display_message_minimum_alert;
@@ -93,13 +91,13 @@ struct {
     gint display_message_ofx_security;
 
     /* import rules */
-    gint get_extract_number_for_check;          /* TRUE if Extracting a number and save it in the field No Cheque/Virement */
-    gint get_fusion_import_transactions; /* TRUE if merge transactions imported with transactions found*/
-    gint get_categorie_for_payee;               /* TRUE to automatically retrieve the category of the payee if it exists */
-    gint get_fyear_by_value_date;               /* TRUE to get the fyear by value date, FALSE by date */
+    gint get_extract_number_for_check;      /* TRUE if Extracting a number and save it in the field No Cheque/Virement */
+    gint get_fusion_import_transactions;    /* TRUE if merge transactions imported with transactions found*/
+    gint get_categorie_for_payee;           /* TRUE to automatically retrieve the category of the payee if it exists */
+    gint get_fyear_by_value_date;           /* TRUE to get the fyear by value date, FALSE by date */
 
     /* combofix configuration */
-    gint combofix_mixed_sort;                /* TRUE for no separation between the categories */
+    gint combofix_mixed_sort;               /* TRUE for no separation between the categories */
     gint combofix_max_item;                 /* maximum number of items we want before showing the popup */
     gint combofix_case_sensitive;           /* TRUE if case sensitive */
     gint combofix_enter_select_completion;  /* TRUE if enter close the popup and keep what is in the entry (else, select the current item in the list) */
@@ -114,7 +112,7 @@ struct {
     /* Print stuff */
     struct print_config print_config;
     
-    /*     largeur des panned */
+    /* width panned */
     gint largeur_colonne_echeancier;
     gint largeur_colonne_comptes_comptes;
     gint largeur_colonne_etat;
@@ -126,20 +124,26 @@ struct {
     gint last_tip; 
     gint show_tip; 
 
-    gchar * csv_separator;          /** CSV separator to use while parsing a CSV file. */
-    gboolean csv_skipped_lines [ CSV_MAX_TOP_LINES ]; /** Contains a
-                            * pointer to
-                            * skipped lines
-                            * in CSV
-                            * preview. */
+    gchar * csv_separator;                              /** CSV separator to use while parsing a CSV file. */
+    gboolean csv_skipped_lines [ CSV_MAX_TOP_LINES ];   /* Contains a pointer to skipped lines in CSV preview. */
 
     /* variables pour les metatree */
     gint metatree_sort_transactions;        /* TRUE = sort transactions by date */
     gint add_archive_in_total_balance;      /* Add transactions archived in the totals */
+
+    /* variables for the module estimate balance */
+    gint bet_last_account;
+    gint bet_deb_period;
+    gint bet_end_period;
+    gint bet_spin_range;
+    gint bet_months;
+    gint bet_hist_data;
+    gint bet_hist_fyear;
+    
 } etat;
 
 
-/**
+/** structure conf
  * variables containing just 0 or 1
  * configured by the file grisbi.conf
  *

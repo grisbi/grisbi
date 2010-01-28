@@ -140,53 +140,10 @@ GtkWidget *gsb_fyear_make_combobox_new ( GtkTreeModel *model,
 gboolean gsb_fyear_set_combobox_history ( GtkWidget *combo_box,
                         gint fyear_number )
 {
-    GtkTreeIter iter;
-    gint result;
-
-    if (!combo_box)
-	return FALSE;
-
-    if (!fyear_model)
-	return FALSE;
-
-    /* we look for the fyear in the model and not in the filter
-     * because of if the fyear is not showed */
-    result = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (fyear_model),
-					     &iter );
-    while (result)
-    {
-	gint value;
-	gboolean show;
-
-	gtk_tree_model_get ( GTK_TREE_MODEL (fyear_model),
-			     &iter,
-			     FYEAR_COL_NUMBER, &value,
-			     FYEAR_COL_VIEW, &show,
-			     -1 );
-
-	if (value == fyear_number)
-	{
-	    GtkTreeIter child_iter;
-
-	    /* if normally not showed, we show it now and later
-	     * it will be back to show */
-	    if (!show)
-		gtk_list_store_set ( GTK_LIST_STORE (fyear_model),
-				     &iter,
-				     FYEAR_COL_VIEW, TRUE,
-				     -1 );
-	    /* as we were in the model and not the filter, we need to change the iter */
-	    gtk_tree_model_filter_convert_child_iter_to_iter ( GTK_TREE_MODEL_FILTER (fyear_model_filter),
-							       &child_iter,
-							       &iter );
-	    gtk_combo_box_set_active_iter ( GTK_COMBO_BOX (combo_box),
-					    &child_iter );
-	    return TRUE;
-	}
-	result = gtk_tree_model_iter_next ( GTK_TREE_MODEL (fyear_model),
-					    &iter );
-    }
-    return FALSE;
+    return gsb_fyear_select_iter_by_number ( combo_box,
+                        fyear_model,
+                        fyear_model_filter,
+                        fyear_number );
 }
 
 
@@ -294,8 +251,7 @@ gboolean gsb_fyear_update_fyear_list_new ( GtkTreeModel *model,
 
     gtk_list_store_clear (GTK_LIST_STORE ( model ) );
 
-    /* put at the beginning 'Automatic' wich mean at the validation of
-     * the transaction, the fyear will take the value of the date */
+    /* put at the beginning title */
     gtk_list_store_append ( GTK_LIST_STORE ( model ), &iter );
     gtk_list_store_set ( GTK_LIST_STORE ( model ),
                         &iter,
@@ -394,6 +350,77 @@ gboolean gsb_fyear_hide_iter_by_name ( GtkTreeModel *model, gchar *name )
     }
     return FALSE;
 }
+
+
+/**
+ * set the combobox on the fyear given in param
+ * if the fyear exists but is not showed normally, we show it because it's for
+ * a modification of a transaction (when the form will be freed, that fyear won't be showed again)
+ *
+ * \combo_box the combo-box to set
+ * \tree_model
+ * \tree_model_filter
+ * \fyear_number the fyear we want to set on the combo-box, if 0, will be set on "Automatic"
+ *
+ * \return TRUE fyear found, FALSE fyear not found, nothing change
+ * */
+gboolean gsb_fyear_select_iter_by_number ( GtkWidget *combo_box,
+                        GtkTreeModel *model,
+                        GtkTreeModel *model_filter,
+                        gint fyear_number )
+{
+    GtkTreeIter iter;
+    gint result;
+
+    if ( !combo_box )
+	    return FALSE;
+
+    if ( !model )
+	    return FALSE;
+
+    /* we look for the fyear in the model and not in the filter
+     * because the fyear may not be visible */
+    result = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ),
+					     &iter );
+    while (result)
+    {
+        gint value;
+        gboolean show;
+
+        gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
+                        &iter,
+                        FYEAR_COL_NUMBER, &value,
+                        FYEAR_COL_VIEW, &show,
+                        -1 );
+
+        if ( value == fyear_number )
+        {
+            GtkTreeIter child_iter;
+
+            /* if normally not showed, we show it now and later
+             * it will be back to show */
+            if ( !show )
+                gtk_list_store_set ( GTK_LIST_STORE ( model ),
+                        &iter,
+                        FYEAR_COL_VIEW, TRUE,
+                        -1 );
+
+            /* as we were in the model and not the filter, we need to change the iter */
+            gtk_tree_model_filter_convert_child_iter_to_iter (
+                        GTK_TREE_MODEL_FILTER ( model_filter ),
+                        &child_iter,
+                        &iter );
+            gtk_combo_box_set_active_iter ( GTK_COMBO_BOX ( combo_box ),
+                        &child_iter );
+
+            return TRUE;
+        }
+        result = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),
+                            &iter );
+    }
+    return FALSE;
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

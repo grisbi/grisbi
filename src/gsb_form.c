@@ -723,7 +723,9 @@ void gsb_form_fill_element ( gint element_number,
 	    }
 	    else
 	    {
-		gint contra_transaction_number = gsb_data_mix_get_transaction_number_transfer (transaction_number, is_transaction);
+        gint contra_transaction_number;
+
+		contra_transaction_number = gsb_data_mix_get_transaction_number_transfer (transaction_number, is_transaction);
 		switch (contra_transaction_number)
 		{
 		    case -1:

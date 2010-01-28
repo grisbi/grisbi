@@ -93,7 +93,7 @@ GtkWidget *bet_estimate_config_create_page ( void )
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
                         _("Calculation of period") );
 
-    bet_estimate_get_duration_widget ( paddingbox );
+    bet_estimate_get_duration_widget ( paddingbox, TRUE );
 
     /* Sources of historical data */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,

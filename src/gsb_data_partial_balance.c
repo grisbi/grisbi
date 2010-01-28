@@ -377,7 +377,8 @@ void gsb_partial_balance_edit ( GtkWidget *button, GtkWidget *main_widget )
 
     gtk_entry_set_text ( GTK_ENTRY ( entry_name ), balance_name );
     gtk_entry_set_text ( GTK_ENTRY ( entry_list ), liste_cptes );
-    gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_bouton ), partial_balance_number );
+    gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_bouton ),
+                        (gdouble) partial_balance_number );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( colorise_bouton ),
                         gsb_data_partial_balance_get_colorise (
                         partial_balance_number ) );

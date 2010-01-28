@@ -559,7 +559,7 @@ GtkWidget *gsb_autofunc_spin_new ( gint value,
     spin_button = gtk_spin_button_new_with_range ( 0.0, G_MAXDOUBLE, 1.0 );
 
     gtk_spin_button_set_value ( GTK_SPIN_BUTTON (spin_button),
-				value );
+				(gdouble) value );
 
     /* set the default func :
      * the func will be send to gsb_editable_set_text by the data,
@@ -606,7 +606,7 @@ void gsb_autofunc_spin_set_value ( GtkWidget *spin_button,
 
     /* Fill in value */
     gtk_spin_button_set_value ( GTK_SPIN_BUTTON (spin_button),
-				value );
+				(gdouble) value );
 
     g_object_set_data ( G_OBJECT (spin_button),
 			"number_for_func", GINT_TO_POINTER (number_for_func));

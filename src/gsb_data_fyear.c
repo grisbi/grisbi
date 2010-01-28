@@ -731,3 +731,8 @@ gint gsb_data_fyear_compare_from_struct ( struct_fyear *fyear_1,
         return 1;
     return 0;
 }
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

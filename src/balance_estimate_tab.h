@@ -30,7 +30,7 @@ typedef struct _historical          SH;
 
 /* START_DECLARATION */
 GtkWidget *bet_create_balance_estimate_tab ( void );
-GtkWidget *bet_estimate_get_duration_widget ( GtkWidget *container );
+GtkWidget *bet_estimate_get_duration_widget ( GtkWidget *container, gboolean config );
 gboolean bet_fyear_create_combobox_store ( void );
 void bet_update_balance_estimate_tab ( void );
 /* END_DECLARATION */

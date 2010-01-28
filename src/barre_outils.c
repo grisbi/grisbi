@@ -296,6 +296,8 @@ gboolean popup_transaction_rules_menu ( GtkWidget * button,
 
 	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
+    i++;
+
 	tmp_list = tmp_list -> next;
     }
 

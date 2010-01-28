@@ -374,6 +374,14 @@ void init_variables ( void )
 
     /* initialise la liste des catégories */
     categ_tree_model = NULL;
+
+    /* initializes the variables for the estimate balance module */
+     etat.bet_deb_period = 1;
+    etat.bet_end_period = 1;
+    etat.bet_spin_range = 1;
+    etat.bet_months = 1;
+    etat.bet_hist_data = 0;
+    etat.bet_hist_fyear = 0;
 }
 
 

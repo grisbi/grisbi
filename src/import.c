@@ -3530,7 +3530,7 @@ GtkWidget *onglet_importation (void)
                         100.0,
                         1.0);
     gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ),
-                        valeur_echelle_recherche_date_import );
+                        (gdouble) valeur_echelle_recherche_date_import );
     g_signal_connect ( G_OBJECT ( button ),
                         "value-changed",
                         G_CALLBACK ( changement_valeur_echelle_recherche_date_import ),
