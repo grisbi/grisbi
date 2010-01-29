@@ -160,32 +160,6 @@ extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
-//~ gchar *gsb_file_save_real_to_string ( gsb_real number )
-//~ {
-	//~ static struct lconv conv = {
-		//~ NULL,
-        //~ NULL,
-        //~ NULL,
-        //~ NULL,
-        //~ NULL,
-        //~ NULL,
-        //~ "",		// mon_thousands_sep
-        //~ NULL,
-        //~ "",		// positive_sign
-        //~ "-",	// negative_sign
-        //~ 0,
-        //~ 0,
-        //~ 0,
-        //~ 0,
-        //~ 0,
-        //~ 0,
-        //~ 0,
-        //~ 0,
-	//~ };
-	//~ return gsb_real_raw_format_string(number, &conv, NULL);
-//~ }
-
-
 /** 
  * save the grisbi file or an archive
  * we don't check anything here, all must be done before, here we just write

@@ -219,13 +219,13 @@ static GtkWidget *bet_container = NULL;
  * this is a tree model filter with 3 columns :
  * the name, the number and a boolean to show it or not
  * */
-GtkTreeModel *bet_fyear_model;
+GtkTreeModel *bet_fyear_model = NULL;
 
 /**
  * this is a tree model filter from fyear_model_filter wich
  * show only the financial years wich must be showed
  * */
-GtkTreeModel *bet_fyear_model_filter;
+GtkTreeModel *bet_fyear_model_filter = NULL;
 
 
 /*
@@ -237,7 +237,7 @@ GtkTreeModel *bet_fyear_model_filter;
 GtkWidget *bet_create_balance_estimate_tab ( void )
 {
     GtkWidget* notebook;
-
+devel_debug (NULL);
     /* initialise structures */
     
     /* create a notebook for array and graph */
@@ -272,7 +272,7 @@ void bet_update_balance_estimate_tab ( void )
     GtkTreeModel *tree_model;
     GtkTreeSelection* tree_selection;
     GtkTreeIter iter;
-
+devel_debug (NULL);
     /* find the selected account */
     tree_view = g_object_get_data ( G_OBJECT ( bet_container ), "bet_account_treeview" );
     tree_model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
@@ -405,18 +405,19 @@ static gboolean bet_update_graph ( GtkTreeModel *model,
                         GtkTreeIter *iter,
                         gpointer data )
 {
-    /* get balance */
     gsb_real balance;
     gchar* balance_str = NULL;
-    gtk_tree_model_get(model, iter, SPP_ESTIMATE_TREE_BALANCE_COLUMN, &balance_str, -1);
-    balance = gsb_real_get_from_string(balance_str);
-    g_free(balance_str);
+    GValue date_value = {0,};
+
+    /* get balance */
+    gtk_tree_model_get ( model, iter, SPP_ESTIMATE_TREE_BALANCE_COLUMN, &balance_str, -1 );
+    balance = gsb_real_get_from_string ( balance_str );
+    g_free ( balance_str );
 
     /* get date */
-    GValue date_value = {0,};
-    gtk_tree_model_get_value(GTK_TREE_MODEL(model), iter,
-			     SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
-			     &date_value);
+    gtk_tree_model_get_value ( model, iter,
+			            SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
+			            &date_value);
     /*
        GDate* date = g_value_get_boxed(&date_value);
        guint32 dt = g_date_get_julian(date);
@@ -452,7 +453,7 @@ static void bet_estimate_refresh ( void )
     gsb_real current_balance;
     SBR *tmp_range;
     GValue date_value = {0, };
-
+devel_debug (NULL);
     tmp_range = initialise_struct_bet_range ( );
 
     /* find the selected account */
@@ -573,7 +574,7 @@ static void bet_estimate_refresh ( void )
 static void bet_duration_period_clicked ( GtkWidget *togglebutton, GtkWidget *button )
 {
     const gchar *name;
-
+devel_debug (NULL);
     g_signal_handlers_block_by_func ( G_OBJECT ( button ),
                         G_CALLBACK (bet_duration_period_clicked),
                         button );
@@ -614,7 +615,7 @@ static void bet_duration_period_clicked ( GtkWidget *togglebutton, GtkWidget *bu
 static void bet_duration_button_clicked ( GtkWidget *togglebutton, GtkWidget *spin_button )
 {
     const gchar *name;
-    
+devel_debug (NULL);
     name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
     etat.bet_months = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ) );
 
@@ -654,7 +655,7 @@ void bet_historical_data_clicked ( GtkWidget *togglebutton, gpointer data )
     GtkTreeViewColumn *column;
     const gchar *name;
     gchar *title;
-
+devel_debug (NULL);
     name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
 
     if ( g_strcmp0 ( name, "button_1" ) == 0 )
@@ -694,7 +695,7 @@ void bet_historical_data_clicked ( GtkWidget *togglebutton, gpointer data )
 void bet_historical_fyear_clicked ( GtkWidget *combo, gpointer data )
 {
     etat.bet_hist_fyear = bet_fyear_get_fyear_from_combobox ( combo );
-
+devel_debug (NULL);
     bet_estimate_populate_historical_data ( );
 }
 
@@ -713,7 +714,7 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
     gboolean valeur;
     gchar *tmp_str;
     gint nbre_fils;
-
+devel_debug (NULL);
     if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( store ), &iter, path_string ) )
     {
         gtk_tree_model_get ( GTK_TREE_MODEL ( store ), &iter,
@@ -793,6 +794,7 @@ void bet_historical_div_cell_editing_started (GtkCellRenderer *cell,
                         const gchar     *path,
                         gpointer         data)
 {
+devel_debug (NULL);
     if ( GTK_IS_ENTRY ( editable ) ) 
     {
         gtk_editable_delete_text ( GTK_EDITABLE ( editable ), 0, -1 );
@@ -818,7 +820,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
     GtkTreeIter iter;
     gchar *tmp_str;
     gsb_real number;
-
+devel_debug (NULL);
     number = gsb_real_get_from_string ( new_text );
 
     /* find the selected account */
@@ -848,7 +850,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
 gboolean bet_duration_number_changed ( GtkWidget *spin_button, GtkWidget *togglebutton )
 {
     gboolean toggled;
-
+devel_debug (NULL);
     etat.bet_months = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ) );
 
     toggled = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( togglebutton ) );
@@ -875,7 +877,7 @@ void bet_account_selection_changed ( GtkTreeSelection *tree_selection,
     GtkTreeModel *model;
     GtkTreeIter iter;
     gint account_nb;
-
+devel_debug (NULL);
     if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
      &model, &iter ) )
     {
@@ -958,7 +960,7 @@ void bet_create_array_page ( GtkWidget *notebook )
     GtkTreeStore *tree_model;
     GtkCellRenderer *cell;
     GtkTreeViewColumn *column;
-
+devel_debug (NULL);
     widget = gtk_label_new(_("Array"));
     gtk_widget_show(widget);
     vbox = gtk_vbox_new(FALSE, 5);
@@ -1081,7 +1083,7 @@ void bet_create_graph_page ( GtkWidget *notebook )
 {
     GtkWidget *widget;
     GtkWidget *vbox;
-
+devel_debug (NULL);
     widget = gtk_label_new(_("Graph"));
     gtk_widget_show(widget);
     vbox = gtk_vbox_new(FALSE, 5);
@@ -1119,7 +1121,7 @@ void bet_create_historical_data_page ( GtkWidget *notebook )
     GtkWidget *tree_view;
     gchar *str_year;
     gint year;
-
+devel_debug (NULL);
     widget = gtk_label_new(_("Historical data"));
     page = gtk_vbox_new ( FALSE, 5 );
 
@@ -1232,7 +1234,7 @@ GtkWidget *bet_parameter_get_list_accounts ( GtkWidget *container )
     GtkTreeSelection *tree_selection;
     GtkCellRenderer *cell;
     GtkTreeViewColumn *column;
-
+devel_debug (NULL);
     tree_view = gtk_tree_view_new();
 
     tree_model = gtk_tree_store_new (SPP_ACCOUNT_TREE_NUM_COLUMNS,
@@ -1283,7 +1285,7 @@ gboolean bet_parameter_update_list_accounts ( GtkWidget *tree_view,
     GtkTreeSelection *tree_selection;
     GtkTreeIter iter;
     GSList *tmp_list;
-
+devel_debug (NULL);
     tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_store_clear ( GTK_TREE_STORE ( tree_model ) );
 
@@ -1333,7 +1335,7 @@ GtkWidget *bet_estimate_get_duration_widget ( GtkWidget *container, gboolean con
     GtkWidget *previous = NULL;
     GtkSizeGroup *size_group;
     gint iduration;
-
+devel_debug (NULL);
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
     main_vbox = gtk_vbox_new ( FALSE, 5 );
@@ -1484,7 +1486,7 @@ GtkWidget *bet_estimate_get_historical_data ( GtkWidget *container )
     GtkCellRenderer *cell;
     GtkTreeViewColumn *column;
     gchar *title;
-
+devel_debug (NULL);
     tree_view = gtk_tree_view_new ( );
     gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW (tree_view), TRUE);
 
@@ -1634,7 +1636,7 @@ void bet_estimate_populate_historical_data ( void )
     GDate *date_max;
     GSList* tmp_list;
     GHashTable  *list_div;
-
+devel_debug (NULL);
     /* récuperation du n° de compte à utiliser */
     selected_account = bet_estimate_get_account_selected ( );
     if ( selected_account == -1 )
@@ -1725,8 +1727,8 @@ gboolean bet_estimate_populate_div ( gint transaction_number,
         sub_div = ptr_sub_div ( transaction_number );
     else
         return FALSE;
-if (div == 26)
-printf ("div = %d sub_div = %d\n", div, sub_div );
+//~ if (div == 26)
+//~ printf ("div = %d sub_div = %d\n", div, sub_div );
     if ( g_hash_table_lookup_extended ( list_div, &div, NULL, (gpointer) &sh ) )
         bet_estimate_update_div ( sh, transaction_number, sub_div );
     else
@@ -1753,8 +1755,8 @@ gboolean bet_estimate_update_div ( SH *sh, gint transaction_number, gint sub_div
     SBR *sbr = ( SBR*) sh -> sbr;
     gsb_real amount;
     SH *tmp_sh = NULL;
-if (sh -> div == 26)
-        printf ("div = %d sub_div = %d\n", sh -> div, sub_div );
+//~ if (sh -> div == 26)
+        //~ printf ("div = %d sub_div = %d\n", sh -> div, sub_div );
     amount = gsb_data_transaction_get_amount ( transaction_number );
     sbr-> current_balance = gsb_real_add ( sbr -> current_balance, amount );
 
@@ -1786,7 +1788,7 @@ if (sh -> div == 26)
 gboolean bet_estimate_affiche_div ( GHashTable  *list_div, GtkWidget *tree_view )
 {
     GtkTreeModel *model;
-
+devel_debug (NULL);
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
     g_hash_table_foreach ( list_div, bet_estimate_populate_div_model, model );
@@ -1971,11 +1973,14 @@ void free_struct_historical (SH *sh)
 gboolean bet_fyear_create_combobox_store ( void )
 {
     gchar *titre;
-
+devel_debug (NULL);
     /* the fyear list store, contains 3 columns :
      * FYEAR_COL_NAME : the name of the fyear
      * FYEAR_COL_NUMBER : the number of the fyear
      * FYEAR_COL_VIEW : it tha fyear should be showed */
+
+    if ( bet_fyear_model )
+        return TRUE;
 
     titre = g_strdup ( _("12 months rolling") );
     bet_fyear_model = GTK_TREE_MODEL ( gtk_list_store_new ( 3,
@@ -2005,10 +2010,9 @@ gint bet_fyear_get_fyear_from_combobox ( GtkWidget *combo_box )
 {
     gint fyear_number = 0;
     GtkTreeIter iter;
-
+devel_debug (NULL);
     if ( gtk_combo_box_get_active_iter ( GTK_COMBO_BOX ( combo_box ), &iter ) )
     {
-
         gtk_tree_model_get ( GTK_TREE_MODEL ( bet_fyear_model_filter ),
                         &iter,
                         FYEAR_COL_NUMBER, &fyear_number,
@@ -2060,7 +2064,7 @@ void bet_estimate_refresh_historical_data ( GtkTreeModel *tab_model,
     GtkTreeModel *model;
     GtkTreeIter iter;
     GtkTreeIter fils_iter;
-
+devel_debug (NULL);
     tree_view = g_object_get_data ( G_OBJECT ( bet_container ), "bet_historical_treeview" );
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
@@ -2119,7 +2123,7 @@ void bet_estimate_refresh_scheduled_data ( GtkTreeModel *tab_model,
 {
     GtkTreeIter iter;
     GSList* tmp_list;
-
+devel_debug (NULL);
     tmp_list = gsb_data_scheduled_get_scheduled_list();
 
     while (tmp_list)
@@ -2256,7 +2260,7 @@ void bet_estimate_refresh_transactions_data ( GtkTreeModel *tab_model,
 {
     GtkTreeIter iter;
     GSList* tmp_list;
-
+devel_debug (NULL);
     /* search transactions of the account which are in the future */
     tmp_list = gsb_data_transaction_get_transactions_list ( );
 
@@ -2376,7 +2380,7 @@ void bet_estimate_tab_add_new_line ( GtkTreeModel *tab_model,
     gchar *str_credit = NULL;
     gchar *str_amount;
     gsb_real amount;
-
+devel_debug (NULL);
     date = gsb_date_get_last_day_of_month ( date_min );
 
     /* initialise les données de la ligne insérée */
