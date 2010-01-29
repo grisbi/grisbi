@@ -60,9 +60,10 @@ extern HRESULT win32_get_app_data_folder_path     (gchar*, int);
 extern gchar*  win32_get_my_documents_folder_path (void);
 extern gchar*  win32_get_windows_folder_path      (void);
 extern gchar*  win32_get_grisbirc_folder_path     (void);
-extern void    win32_set_app_path(gchar*);
+extern void    win32_set_app_path                 (gchar*);
 extern gchar*  win32_app_subdir_folder_path       (gchar*);
-extern gchar* win32_get_tmp_dir();
+extern gchar*  win32_get_tmp_dir                  ();
+extern void    win32_parse_gtkrc                  (const gchar* basename);
 
 #define PIXMAPS_DIR win32_app_subdir_folder_path("pixmaps")  /* pixmaps */
 #define HELP_PATH   win32_app_subdir_folder_path("help")     /* help */

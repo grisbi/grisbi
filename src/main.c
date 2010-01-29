@@ -118,6 +118,10 @@ int main (int argc, char **argv)
 #ifndef _WIN32
     struct sigaction sig_sev;
 #endif
+#ifdef _MSC_VER
+	gchar * gtkrc_file;
+#endif
+
     cmdline_options  opt;
 
     gsb_cunit_run_tests();
@@ -150,6 +154,9 @@ int main (int argc, char **argv)
 	setlocale (LC_ALL, "");
 
     gtk_init(&argc, &argv);
+#ifdef _WIN32
+	win32_parse_gtkrc("gtkrc");
+#endif
 
     /* on commence par détourner le signal SIGSEGV */
 #ifndef _WIN32

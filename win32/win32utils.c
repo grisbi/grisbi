@@ -28,6 +28,7 @@
 #include <shlobj.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <gtk/gtk.h>
 
 #include "win32utils.h"
 
@@ -795,6 +796,15 @@ void win32_set_current_directory(gchar* utf8_dir) /* {{{ */
     SetCurrentDirectory(syslocale_dir);
     g_free(syslocale_dir);
 } /* }}}  */
+
+void win32_parse_gtkrc (const gchar * basename){
+	gchar * gtkrc_file = g_strdelimit(g_strconcat(g_path_get_dirname ( grisbi_exe_path  ),"\\",basename,NULL),
+                        "\\",
+                        '/');
+	gtk_rc_parse(gtkrc_file);
+	g_free ( gtkrc_file );
+}
+
 
 // -------------------------------------------------------------------------
 // End of WinUtils
