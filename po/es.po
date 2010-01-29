@@ -1305,7 +1305,7 @@ msgstr "%s : %s - %s:%d:%s - %d\n"
 #: src/erreur.c:358
 #, c-format
 msgid "%s : %s - %s:%d:%s - %ld E %d\n"
-msgstr "%s : %s - %s:%d:%s - %d E %d\n"
+msgstr "%s : %s - %s:%d:%s - %ld E %d\n"
 
 #: src/erreur.c:444
 #, c-format
