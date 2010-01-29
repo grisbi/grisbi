@@ -2037,10 +2037,11 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
     gint account_number;
     gint element_suivant;
     GtkWidget *widget_prov;
+    gchar *tmp_str;
     
     element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
-
+printf ("element_number = %d \n", element_number);
     /* if etat.entree = 1, entry finish the transaction, else does as tab */
     if ( !etat.entree
 	 &&
@@ -2104,6 +2105,11 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    break;
 
 	case GDK_ISO_Left_Tab:
+        widget_prov = gsb_form_widget_get_widget ( element_number );
+        tmp_str = g_object_get_data ( G_OBJECT ( widget_prov ), "combo_text" );
+        if ( tmp_str && strlen ( tmp_str ) > 0 )
+            gtk_combofix_set_text ( GTK_COMBOFIX ( widget_prov ), tmp_str );
+
         element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_LEFT );
@@ -2126,6 +2132,11 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    break;
 
 	case GDK_Tab :
+        widget_prov = gsb_form_widget_get_widget ( element_number );
+        tmp_str = g_object_get_data ( G_OBJECT ( widget_prov ), "combo_text" );
+        if ( tmp_str && strlen ( tmp_str ) > 0 )
+            gtk_combofix_set_text ( GTK_COMBOFIX ( widget_prov ), tmp_str );
+
 	    element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_RIGHT );
