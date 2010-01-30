@@ -84,7 +84,7 @@ LINK_DIRECTORIES(
 	target/plugins-dev/libxml/lib
 	target/plugins-dev/openssl/lib
 	target/plugins-dev/openssl/lib/VC
-	target
+	target/$(PlatformName)/$(OutDir)
 )
 
 LINK_LIBRARIES(
