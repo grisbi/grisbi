@@ -57,8 +57,7 @@ static GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field,
 				     GtkWidget * assistant );
 static gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * separator );
 static gchar * csv_import_guess_separator ( gchar * contents );
-static gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev,
-				      gint *no_column );
+static gboolean csv_import_header_on_click ( GtkWidget * button, gint *no_column );
 static gint csv_import_try_separator ( gchar * contents, gchar * separator );
 static gint * csv_import_update_fields_config ( gchar * contents, gint size, gchar * separator );
 static gboolean csv_import_update_preview ( GtkWidget * assistant );
@@ -147,14 +146,18 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
 
     gtk_box_pack_start ( GTK_BOX(hbox), combobox, TRUE, TRUE, 0 );
 
-    entry = gsb_automem_entry_new ( NULL, G_CALLBACK ( csv_import_change_separator ), assistant );
+    entry = gsb_automem_entry_new ( NULL,
+                        G_CALLBACK ( csv_import_change_separator ),
+                        assistant );
     g_object_set_data ( G_OBJECT(entry), "assistant", assistant );
     g_object_set_data ( G_OBJECT(entry), "combobox", combobox );
     g_object_set_data ( G_OBJECT(assistant), "entry", entry );
     gtk_box_pack_start ( GTK_BOX(hbox), entry, FALSE, FALSE, 0 );
 
-    g_signal_connect ( G_OBJECT ( combobox ), "changed",
-		       G_CALLBACK ( csv_import_combo_changed ), entry );
+    g_signal_connect ( G_OBJECT ( combobox ),
+                        "changed",
+		                G_CALLBACK ( csv_import_combo_changed ),
+                        entry );
 
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, _("Select CSV fields") );
 
@@ -200,77 +203,84 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
                         gchar * separator )
 {
     GtkWidget * assistant;
-    GtkTreeStore * model;
+    GtkTreeStore *model;
     GtkTreeViewColumn * col;
     GtkCellRenderer * cell;
-    GType * types;
+    GType *types;
     gint size, i;
-    GSList * list;
+    GList *list;
 
     size = csv_import_count_columns ( contents, separator );
-    //~ g_print (">> SIZE is %d\n", size );
     if ( ! size || ! contents)
-    {
-	return NULL;
-    }
+	    return NULL;
 
     csv_fields_config = csv_import_update_fields_config ( contents, size, separator );
 
     assistant = g_object_get_data ( G_OBJECT(tree_preview), "assistant" );
 
     /* Remove previous columns if any. */
-    list = (GSList *) gtk_tree_view_get_columns ( GTK_TREE_VIEW(tree_preview) );
+    list = gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_preview ) );
+
     while ( list )
     {
-	gtk_tree_view_remove_column ( tree_preview, list -> data );
-	list = list -> next;
+        gtk_tree_view_remove_column ( tree_preview, list -> data );
+        list = list -> next;
     }
 
-    types = (GType *) g_malloc0 ( ( size + 1 ) * sizeof ( int ) );
+    types = (GType *) g_malloc0 ( ( size + 2 ) * sizeof ( GType * ) );
 
     types[0] = G_TYPE_BOOLEAN;
     cell = gtk_cell_renderer_toggle_new ();
     col = gtk_tree_view_column_new_with_attributes ( _("Skip"),
-						     cell, "active", 0,
-						     NULL);
+					    cell,
+                        "active", 0,
+					    NULL);
     gtk_tree_view_append_column ( tree_preview, col );
     g_object_set_data ( G_OBJECT ( col ), "assistant", assistant );
-    g_signal_connect ( cell, "toggled", G_CALLBACK ( skip_line_toggled ), tree_preview );
+    g_signal_connect ( cell,
+                        "toggled",
+                        G_CALLBACK ( skip_line_toggled ),
+                        tree_preview );
 
     for ( i = 0 ; i < size ; i ++ )
     {
-	GtkWidget * label;
-	gchar * name;
+        GtkWidget *label;
+        gchar *name;
 
-	types[i+1] = G_TYPE_STRING;
-	cell = gtk_cell_renderer_text_new ();
-	col = gtk_tree_view_column_new_with_attributes ( _( csv_fields [ csv_fields_config[i] ] . name ),
-							 cell, "text", i + 1,
-							 "strikethrough", 0,
-							 NULL);
-	if ( csv_fields_config[i] > 0 )
-	{
-	    name = g_strconcat ( "<b><u>", _( csv_fields [ csv_fields_config[i] ] . name ),
-				 "</u></b>", NULL );
-	}
-	else
-	{
-	    name = my_strdup (_( csv_fields [ csv_fields_config[i] ] . name ));
-	}
-	label = gtk_label_new ( name );
-	gtk_label_set_markup ( GTK_LABEL(label), name );
-	g_free ( name );
-	gtk_widget_show ( label );
-	gtk_tree_view_column_set_widget ( col, label );
-	gtk_tree_view_append_column ( tree_preview, col );
+        types[i+1] = G_TYPE_STRING;
 
-	gtk_tree_view_column_set_clickable ( col, TRUE );
-	g_object_set_data ( G_OBJECT ( col -> button ), "column", col );
-	g_object_set_data ( G_OBJECT ( col ), "assistant", assistant );
-	g_signal_connect ( G_OBJECT ( col -> button ),
-			   "button-press-event",
-			   G_CALLBACK ( csv_import_header_on_click ),
-			   GINT_TO_POINTER ( i + 1 ) );
+        cell = gtk_cell_renderer_text_new ();
+        col = gtk_tree_view_column_new_with_attributes ( 
+                        NULL,
+                        cell,
+                        "text", i + 1,
+                        "strikethrough", 0,
+                        NULL);
+
+        if ( csv_fields_config[i] > 0 )
+        {
+            name = g_strconcat ( "<b><u>", _( csv_fields [ csv_fields_config[i] ] . name ),
+                     "</u></b>", NULL );
+        }
+        else
+        {
+            name = my_strdup (_( csv_fields [ csv_fields_config[i] ] . name ));
+        }
+
+        label = gtk_label_new ( NULL );
+        gtk_label_set_markup ( GTK_LABEL(label), name );
+        gtk_widget_show ( label );
+        g_free ( name );
+
+        gtk_tree_view_column_set_widget ( col, label );
+        gtk_tree_view_append_column ( tree_preview, col );
+        gtk_tree_view_column_set_clickable ( col, TRUE );
+        g_object_set_data ( G_OBJECT ( col ), "column", col );
+        g_object_set_data ( G_OBJECT ( col ), "assistant", assistant );
+        g_signal_connect ( G_OBJECT ( col ),
+                   "clicked",
+                   G_CALLBACK ( csv_import_header_on_click ),
+                   GINT_TO_POINTER ( i + 1 ) );
     }
 
     model =  gtk_tree_store_newv ( size + 1, types );
@@ -319,8 +329,7 @@ void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str,
  *
  * \return		FALSE
  */
-gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev,
-                        gint *no_column )
+gboolean csv_import_header_on_click ( GtkWidget * button, gint *no_column )
 {
     GtkWidget * menu, * col;
 
@@ -753,31 +762,39 @@ gboolean csv_import_combo_changed ( GtkComboBox * combo, GtkEntry * entry )
 gboolean csv_import_change_separator ( GtkEntry * entry,
                         GtkWidget *assistant )
 {
-    gchar * separator = (gchar *) gtk_entry_get_text ( GTK_ENTRY (entry) );
-/*     GtkWidget * assistant = g_object_get_data ( G_OBJECT(entry), "assistant" ); */
-    GtkWidget * combobox = g_object_get_data ( G_OBJECT(entry), "combobox" );
+    GtkWidget *combobox;
+    gchar *separator;
     int i = 0;
 
-    g_object_set_data ( G_OBJECT(assistant), "separator", separator );
-
-    if ( strlen ( separator ) )
+    combobox = g_object_get_data ( G_OBJECT(entry), "combobox" );
+    separator = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (entry) ) );
+    if ( strlen ( separator ) > 0 )
     {
-	csv_import_update_preview ( assistant );
-	etat.csv_separator = my_strdup ( separator );
+        g_object_set_data ( G_OBJECT(assistant), "separator", separator );
+        csv_import_update_preview ( assistant );
+        etat.csv_separator = my_strdup ( separator );
+    }
+    else
+    {
+        etat.csv_separator = "";
+        g_object_set_data ( G_OBJECT(assistant), "separator", NULL );
     }
 
     /* Update combobox if we can. */
     while ( csv_separators [ i ] . value )
     {
-	if ( ! strcmp ( csv_separators [ i ] . value, separator ) )
-	{
-	    break;
-	}
-	i ++ ;
+        if ( strcmp ( csv_separators [ i ] . value, separator ) == 0 )
+        {
+            break;
+        }
+        i ++ ;
     }
     g_signal_handlers_block_by_func ( combobox, csv_import_combo_changed, entry );
     gtk_combo_box_set_active ( GTK_COMBO_BOX(combobox), i );
     g_signal_handlers_unblock_by_func ( combobox, csv_import_combo_changed, entry );
+
+    if ( separator )
+        g_free ( separator );
 
     return FALSE;
 }
@@ -810,37 +827,37 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
     model = csv_import_create_model ( tree_preview, contents, separator );
     if ( model )
     {
-	gtk_tree_view_set_model ( GTK_TREE_VIEW(tree_preview), model );
-	g_object_unref (G_OBJECT(model));
+        gtk_tree_view_set_model ( GTK_TREE_VIEW(tree_preview), model );
+        g_object_unref (G_OBJECT(model));
     }
 
     while ( line < CSV_MAX_TOP_LINES )
     {
-	GtkTreeIter iter;
-	gint i = 1;
+        GtkTreeIter iter;
+        gint i = 1;
 
-	list = csv_get_next_line ( &contents, separator );
+        list = csv_get_next_line ( &contents, separator );
 
-	if ( ! list )
-	{
-	    return FALSE;
-	}
+        if ( ! list )
+        {
+            return FALSE;
+        }
 
-	gtk_tree_store_append (GTK_TREE_STORE(model), &iter, NULL);
-	while ( list )
-	{
-	    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, i,
-				 gsb_string_truncate ( list -> data ), -1 );
-	    i++;
-	    list = list -> next;
-	}
+        gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL);
+        while ( list )
+        {
+            gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, i,
+                     gsb_string_truncate ( list -> data ), -1 );
+            i++;
+            list = list -> next;
+        }
 
-	if ( etat.csv_skipped_lines [ line ] )
-	{
-	    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 0, TRUE, -1 );
-	}
+        if ( etat.csv_skipped_lines [ line ] )
+        {
+            gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 0, TRUE, -1 );
+        }
 
-	line++;
+        line++;
     }
 
     csv_import_update_validity_check ( assistant );

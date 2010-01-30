@@ -2041,7 +2041,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
     
     element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
-printf ("element_number = %d \n", element_number);
+
     /* if etat.entree = 1, entry finish the transaction, else does as tab */
     if ( !etat.entree
 	 &&
