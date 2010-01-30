@@ -312,6 +312,7 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
     GSList *content_list;
     gboolean is_split;
     GtkWidget *category_entry;
+    const gchar *tmp_str;
     gint new_account_number;
 
     //~ devel_debug (NULL);
@@ -320,11 +321,15 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
 
     /* need to check first if split (see later) */
     category_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
+    tmp_str = gtk_combofix_get_text ( GTK_COMBOFIX ( category_entry) );
     if (category_entry
 	&&
 	gsb_form_widget_check_empty (GTK_COMBOFIX (category_entry) -> entry)
 	&&
-	!strcmp (gtk_combofix_get_text (GTK_COMBOFIX (category_entry)), _("Split of transaction")))
+    tmp_str
+    && strlen ( tmp_str ) > 0
+    &&
+	!strcmp ( tmp_str, _("Split of transaction") ) )
 	/* ok it's a split */
 	is_split = TRUE;
     else
