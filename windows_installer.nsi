@@ -21,12 +21,12 @@
 !define MAJOR "0"        ;Major version number
 !define MINOR "6"        ;Minor version number
 !define PATCH "0"        ;Patch version number
-!define STAGE "RC 1"     ;Developement stage id (RC, beta, alpha)
-!define SMALL_STAGE "rc1" ;Small dev stage id without spaces
-!define EXE_PATH "win32-msvc\target\Release" ;Path to the exe file you want to pack
-!define GNUWIN32_PATH "C:\Program Files\GnuWin32\bin" ;Path to the GnuWin32 root (must have libxml and openssl)
+!define STAGE "RC 2"     ;Developement stage id (RC, beta, alpha)
+!define SMALL_STAGE "rc2" ;Small dev stage id without spaces
+!define EXE_PATH "win32-msvc\target\Win32\Release" ;Path to the exe file you want to pack
+!define GNUWIN32_PATH "C:\Program Files (x86)\GnuWin32\bin" ;Path to the GnuWin32 root (must have libxml and openssl)
 !define GTK_INSTALL_PATH "." ; Path to the GTK installer file to pack
-!define GTK_INSTALL_FILE "gtk2-runtime-2.16.6-2009-09-12-ash.exe" ;Filename of the GTK installer
+!define GTK_INSTALL_FILE "gtk2-runtime-2.16.5-2009-08-06-ash.exe" ;Filename of the GTK installer
 
 ;Automatically defined parameters
 !define BRANCH "${MAJOR}.${MINOR}.${PATCH}"
@@ -44,6 +44,8 @@
   !define MUI_UNICON "win32/grisbi.ico"
   !define MUI_COMPONENTSPAGE_NODESC "true"
   OutFile "${SHORTNAME}.exe"
+  
+  SetCompressor /SOLID lzma
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\${FULLNAME}"
@@ -128,7 +130,7 @@ Section $(ProgFiles)
 
   SetOutPath "$INSTDIR"
   
-  File /r /x "plugin" /x "dtd" /x "*.dll" /x "Makefile.am" /x ".cvsignore" /x "CVS" /x "*.exp" /x "*.idb" /x "*.lib" "${EXE_PATH}\*.*"
+  File /r /x "plugin" /x "dtd" /x "*.dll" /x "Makefile.am" /x ".cvsignore" /x "CVS" /x "*.exp" /x "*.idb" /x "*.lib" /x "Release" "${EXE_PATH}\*.*"
   File "win32\grisbi.ico"
   
   ;Store installation folder
@@ -152,10 +154,29 @@ Section $(GTK)
 
   SectionIn 1
   
-  SetOutPath "$TEMP"
-  File "${GTK_INSTALL_PATH}\${GTK_INSTALL_FILE}"
-
-  ExecWait '"$TEMP\${GTK_INSTALL_FILE}"' $0
+  SetOutPath "$INSTDIR"
+  File /r "win32-msvc\target\gtk-dev\bin\*.dll" ;"${GTK_INSTALL_PATH}\${GTK_INSTALL_FILE}"
+  
+  SetOutPath "$INSTDIR\lib\gtk-2.0\2.10.0\engines"
+  File "win32-msvc\target\gtk-dev\lib\gtk-2.0\2.10.0\engines\libwimp.dll"
+  
+  SetOutPath "$INSTDIR\share\locale"
+  File /r "win32-msvc\target\gtk-dev\share\locale\cs"
+  File /r "win32-msvc\target\gtk-dev\share\locale\da"
+  File /r "win32-msvc\target\gtk-dev\share\locale\de"
+  File /r "win32-msvc\target\gtk-dev\share\locale\el"
+  File /r "win32-msvc\target\gtk-dev\share\locale\eo"
+  File /r "win32-msvc\target\gtk-dev\share\locale\es"
+  File /r "win32-msvc\target\gtk-dev\share\locale\fa"
+  File /r "win32-msvc\target\gtk-dev\share\locale\fr"
+  File /r "win32-msvc\target\gtk-dev\share\locale\he"
+  File /r "win32-msvc\target\gtk-dev\share\locale\it"
+  File /r "win32-msvc\target\gtk-dev\share\locale\nl"
+  File /r "win32-msvc\target\gtk-dev\share\locale\pl"
+  File /r "win32-msvc\target\gtk-dev\share\locale\pt_BR"
+  File /r "win32-msvc\target\gtk-dev\share\locale\ro"
+  File /r "win32-msvc\target\gtk-dev\share\locale\ru"
+  File /r "win32-msvc\target\gtk-dev\share\locale\zh_CN"
 
 SectionEnd
 
@@ -183,6 +204,7 @@ Section $(GnuCashPlugin)
   
   SetOutPath "$INSTDIR"
   File "${GNUWIN32_PATH}\libxml2.dll"
+  File "${GNUWIN32_PATH}\iconv.dll"
 
 SectionEnd
 
