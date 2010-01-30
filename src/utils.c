@@ -3,6 +3,7 @@
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*          2003-2004 Alain Portal (aportal@univ-montp2.fr)                   */
 /*          2003-2004 Francois Terrot (francois.terrot@grisbi.org)            */
+/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -458,6 +459,50 @@ gchar *get_gtk_run_version ( void )
                         utils_str_itoa ( (guint) gtk_micro_version ),
                         NULL);
 	return version;
+}
+
+/**
+ *  This function returns a child widget whose name is passed as parameter
+ *
+ * /parameter ancestor
+ * /parameter name of the child
+ *
+ * /return the child or NULL
+ */
+GtkWidget *utils_get_child_widget_by_name ( GtkWidget *ancestor, const gchar *name )
+{
+    GtkWidget *widget;
+    GList *list;
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( ancestor ) );
+    if ( list == NULL )
+        return NULL;
+
+    do
+    {
+        const gchar *tmp_str;
+
+        widget = list -> data;
+
+        tmp_str = gtk_widget_get_name ( GTK_WIDGET ( widget ) );
+        if ( tmp_str && g_strcmp0 ( name, tmp_str ) == 0 )
+            return widget;
+
+        if ( GTK_IS_CONTAINER ( widget ) )
+        {
+            widget = utils_get_child_widget_by_name ( widget, name );
+            if ( widget )
+            {
+                tmp_str = gtk_widget_get_name ( GTK_WIDGET ( widget ) );
+                if ( tmp_str && g_strcmp0 ( name, tmp_str ) == 0 )
+                    return widget;
+            }
+        }
+
+        list = g_list_next ( list );
+    } while ( list );
+
+    return NULL;
 }
 
 /* Local Variables: */

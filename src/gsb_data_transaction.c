@@ -2125,11 +2125,13 @@ gint gsb_data_transaction_new_white_line ( gint mother_transaction_number)
  * 
  * \param source_transaction_number the transaction we want to copy
  * \param target_transaction_number the trnasaction we want to fill with the content of the first one
+ * \param reset transaction_id, marked, reconcile number and archive number
  * 
  * \return TRUE if ok, FALSE else
  * */
 gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
-                        gint target_transaction_number )
+                        gint target_transaction_number,
+                        gboolean reset_mark )
 {
     struct_transaction *source_transaction;
     struct_transaction *target_transaction;
@@ -2150,10 +2152,13 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
 	     sizeof ( struct_transaction ));
     target_transaction -> transaction_number = target_transaction_number;
     target_transaction -> account_number = target_transaction_account_number;
-    target_transaction -> reconcile_number = 0;
-    target_transaction -> marked_transaction = 0;
-    target_transaction -> transaction_id = NULL;
-    target_transaction -> archive_number = 0;
+    if ( reset_mark )
+    {
+        target_transaction -> reconcile_number = 0;
+        target_transaction -> marked_transaction = 0;
+        target_transaction -> transaction_id = NULL;
+        target_transaction -> archive_number = 0;
+    }
 
     /* make a new copy of all the pointers */
     if ( target_transaction -> notes)
@@ -2172,8 +2177,8 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
 	target_transaction -> value_date = gsb_date_copy (source_transaction -> value_date);
 
     if ( target_transaction -> method_of_payment_content)
-	target_transaction -> method_of_payment_content = my_strdup ( source_transaction -> method_of_payment_content );
-
+	target_transaction -> method_of_payment_content = my_strdup (
+                        source_transaction -> method_of_payment_content );
     return TRUE;
 }
 

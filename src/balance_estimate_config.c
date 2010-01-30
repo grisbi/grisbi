@@ -74,6 +74,7 @@ extern GtkTreeModel *bet_fyear_model;
 extern GtkTreeModel *bet_fyear_model_filter;
 /*END_EXTERN*/
 
+
 /**
  *
  *

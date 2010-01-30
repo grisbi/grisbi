@@ -300,7 +300,7 @@ gboolean gsb_form_transaction_recover_splits_of_transaction ( gint new_transacti
 
 	    new_child_number = gsb_data_transaction_new_transaction ( gsb_data_transaction_get_account_number (new_transaction_number));
 	    gsb_data_transaction_copy_transaction ( transaction_number_tmp,
-						    new_child_number );
+						    new_child_number, TRUE );
 	    gsb_data_transaction_set_mother_transaction_number ( new_child_number,
 								 new_transaction_number);
 	    gsb_data_transaction_set_date ( new_child_number,
@@ -430,30 +430,31 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 	/* it's a modification of a transaction */
 
 	/* as we will do a transfer, the category number is null */
-	gsb_data_transaction_set_category_number ( transaction_number,
-						   0 );
-	gsb_data_transaction_set_sub_category_number ( transaction_number,
-						       0 );
-	contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+	gsb_data_transaction_set_category_number ( transaction_number, 0 );
+	gsb_data_transaction_set_sub_category_number ( transaction_number, 0 );
+	contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (
+                        transaction_number);
 
 	if (contra_transaction_number > 0)
 	{
 	    /* the transaction is a transfer */
 
-	    /* if the contra transaction was a child of split, copying/deleting it will remove the information
-	     * of the mother, so we get it here */
-	    contra_mother_number = gsb_data_transaction_get_mother_transaction_number (contra_transaction_number);
+	    /* if the contra transaction was a child of split, copying/deleting it
+	     * will remove the information of the mother, so we get it here */
+	    contra_mother_number = gsb_data_transaction_get_mother_transaction_number (
+                        contra_transaction_number);
 
 	    /* check if we change the account targe */
-	    if ( gsb_data_transaction_get_contra_transaction_account (transaction_number) != account_transfer )
+	    if ( gsb_data_transaction_get_contra_transaction_account (
+                        transaction_number) != account_transfer )
 	    {
-		/* it was a transfer and the user changed the target account so we delete the last contra transaction
-		 * contra_transaction_transfer has just been set */
+            /* it was a transfer and the user changed the target account so we delete
+             * the last contra transaction contra_transaction_transfer has just been set */
 
-		gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number,
-								       0);
-		gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE);
-		new_transaction = 1;
+            gsb_data_transaction_set_contra_transaction_number (
+                            contra_transaction_number, 0);
+            gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE);
+            new_transaction = 1;
 	    }
 	}
 	else
@@ -469,10 +470,10 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
      * already set */
 
     if ( new_transaction )
-	contra_transaction_number = gsb_data_transaction_new_transaction (account_transfer);
+        contra_transaction_number = gsb_data_transaction_new_transaction (account_transfer);
 
     gsb_data_transaction_copy_transaction ( transaction_number,
-					    contra_transaction_number );
+					    contra_transaction_number, new_transaction );
 
     /* contra_mother_number contains the mother number of the contra transaction if it was a modification
      * and that contra-transaction was a child of split, and if not it is 0, and it's a good thing because

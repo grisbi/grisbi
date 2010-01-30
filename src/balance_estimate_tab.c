@@ -58,6 +58,7 @@
 #include "./structures.h"
 #include "./traitement_variables.h"
 #include "./erreur.h"
+#include "./utils.h"
 /*END_INCLUDE*/
 
 
@@ -573,32 +574,73 @@ devel_debug (NULL);
  */
 static void bet_duration_period_clicked ( GtkWidget *togglebutton, GtkWidget *button )
 {
+    GtkWidget *ancestor;
+    GtkWidget *widget;
     const gchar *name;
+
 devel_debug (NULL);
-    g_signal_handlers_block_by_func ( G_OBJECT ( button ),
+    if ( button )
+        g_signal_handlers_block_by_func ( G_OBJECT ( button ),
                         G_CALLBACK (bet_duration_period_clicked),
                         button );
 
+    ancestor = g_object_get_data ( G_OBJECT ( bet_container ), "bet_account_duration" );
+    
     name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
     if ( g_strcmp0 ( name, "button_1" ) == 0 )
     {
         etat.bet_deb_period = 1;
         etat.bet_end_period = 1;
+        if ( gtk_widget_is_ancestor ( togglebutton, ancestor ) == FALSE )
+        {
+            widget = utils_get_child_widget_by_name ( ancestor, name );
+            if ( widget )
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
+            widget = utils_get_child_widget_by_name ( ancestor, "button_3" );
+            if ( widget )
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE ); 
+        }
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
     }
     else if ( g_strcmp0 ( name, "button_2" ) == 0 )
     {
         etat.bet_deb_period = 2;
         etat.bet_end_period = 2;
+        if ( gtk_widget_is_ancestor ( togglebutton, ancestor ) == FALSE )
+        {
+            widget = utils_get_child_widget_by_name ( ancestor, name );
+            if ( widget )
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
+            widget = utils_get_child_widget_by_name ( ancestor, "button_4" );
+            if ( widget )
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE ); 
+        }
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
     }
     else if ( g_strcmp0 ( name, "button_3" ) == 0 )
+    {
         etat.bet_end_period = 1;
+        if ( gtk_widget_is_ancestor ( togglebutton, ancestor ) == FALSE )
+        {
+            widget = utils_get_child_widget_by_name ( ancestor, name );
+            if ( widget )
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
+        }
+    }
 
     else if ( g_strcmp0 ( name, "button_4" ) == 0 )
+    {
         etat.bet_end_period = 2;
+        if ( gtk_widget_is_ancestor ( togglebutton, ancestor ) == FALSE )
+        {
+            widget = utils_get_child_widget_by_name ( ancestor, name );
+            if ( widget )
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
+        }
+    }
 
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( button ),
+    if ( button )
+        g_signal_handlers_unblock_by_func ( G_OBJECT ( button ),
                         G_CALLBACK (bet_duration_period_clicked),
                         button );
 
@@ -905,6 +947,8 @@ void bet_parameter_create_page ( GtkWidget *notebook )
     GtkWidget *vbox;
     GtkWidget *hbox;
     GtkWidget *tree_view;
+    GtkWidget *duration;
+
 devel_debug (NULL);
     widget = gtk_label_new ( _("Choice the prevision") );
     gtk_widget_show ( GTK_WIDGET ( widget ) );
@@ -941,7 +985,8 @@ devel_debug (NULL);
     g_object_set_data ( G_OBJECT ( notebook ), "bet_account_treeview", tree_view );
 
     /* create duration selection */
-    bet_estimate_get_duration_widget ( vbox, FALSE );
+    duration = bet_estimate_get_duration_widget ( vbox, FALSE );
+    g_object_set_data ( G_OBJECT ( notebook ), "bet_account_duration", duration );
 }
 
 

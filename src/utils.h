@@ -16,15 +16,13 @@ gboolean met_en_prelight ( GtkWidget *event_box,
                         GdkEventMotion *event,
                         gpointer pointeur );
 GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title);
-GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
-                        gchar * image_filename);
+GtkWidget *new_vbox_with_title_and_icon ( gchar * title, gchar * image_filename);
 GtkWidget *new_vbox_with_title_and_image ( gchar * title, GtkWidget *image );
 gboolean radio_set_active_linked_widgets ( GtkWidget * widget );
 void register_button_as_linked ( GtkWidget * widget, GtkWidget * linked );
-gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
-                        GtkWidget *widget );
-gboolean sensitive_widget ( gpointer object,
-                        GtkWidget *widget );
+gboolean sens_desensitive_pointeur ( GtkWidget *bouton, GtkWidget *widget );
+gboolean sensitive_widget ( gpointer object, GtkWidget *widget );
+GtkWidget *utils_get_child_widget_by_name ( GtkWidget *ancestor, const gchar *name );
 void update_ecran ( void );
 /* END_DECLARATION */
 #endif

@@ -1031,11 +1031,12 @@ gboolean gsb_form_combo_selection_changed ( GtkTreeSelection *tree_selection,
         return FALSE;
 
     gtk_tree_model_get ( model, &iter, 1, &tmp_str, -1 );
+
+    widget = gsb_form_widget_get_widget ( element_number );
+    g_object_set_data_full ( G_OBJECT ( widget ), "combo_text", tmp_str, g_free );
+
     if ( tmp_str && strlen ( tmp_str ) )
     {
-        widget = gsb_form_widget_get_widget ( element_number );
-        g_object_set_data_full ( G_OBJECT ( widget ), "combo_text", tmp_str, g_free );
-
         switch ( element_number )
         {
         case TRANSACTION_FORM_CATEGORY:

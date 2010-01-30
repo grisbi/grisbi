@@ -2432,7 +2432,7 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number,
     /* dupplicate the transaction */
     new_transaction_number = gsb_data_transaction_new_transaction ( gsb_data_transaction_get_account_number (transaction_number));
     gsb_data_transaction_copy_transaction ( transaction_number,
-					    new_transaction_number );
+					    new_transaction_number, TRUE );
 
     if (gsb_data_transaction_get_mother_transaction_number (transaction_number)
 	&&
