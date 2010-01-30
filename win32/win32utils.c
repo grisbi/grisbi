@@ -798,9 +798,14 @@ void win32_set_current_directory(gchar* utf8_dir) /* {{{ */
 } /* }}}  */
 
 void win32_parse_gtkrc (const gchar * basename){
+	gchar * out;
 	gchar * gtkrc_file = g_strdelimit(g_strconcat(g_path_get_dirname ( grisbi_exe_path  ),"\\",basename,NULL),
                         "\\",
                         '/');
+	out = g_locale_to_utf8(gtkrc_file, -1, NULL, NULL, NULL);
+	g_free ( gtkrc_file);
+	gtkrc_file = g_filename_from_utf8(out, -1, NULL, NULL, NULL);
+	g_free (out);
 	gtk_rc_parse(gtkrc_file);
 	g_free ( gtkrc_file );
 }
