@@ -25,13 +25,12 @@
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
-typedef struct _bet_range           SBR;
-typedef struct _historical          SH;
-
 /* START_DECLARATION */
 GtkWidget *bet_create_balance_estimate_tab ( void );
-GtkWidget *bet_estimate_get_duration_widget ( GtkWidget *container, gboolean config );
+void bet_historical_fyear_clicked ( GtkWidget *combo, gpointer data );
 gboolean bet_fyear_create_combobox_store ( void );
+void bet_historical_data_clicked ( GtkWidget *togglebutton, gpointer data );
+GtkWidget *bet_parameter_get_duration_widget ( GtkWidget *container, gboolean config );
 void bet_update_balance_estimate_tab ( void );
 /* END_DECLARATION */
 

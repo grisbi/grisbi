@@ -70,7 +70,7 @@ sources = \
 	gsb_data_fyear.c	\
 	gsb_data_import_rule.c	\
 	gsb_data_mix.c		\
-    gsb_data_partial_balance.c   \
+        gsb_data_partial_balance.c   \
 	gsb_data_payee.c	\
 	gsb_data_payment.c		\
 	gsb_data_print_config.c		\
@@ -145,7 +145,8 @@ sources = \
 	utils_font.c		\
 	utils_operations.c	\
 	utils_str.c		\
-	balance_estimate_config.c\
+	balance_estimate_config.c \
+        balance_estimate_data.c \
 	balance_estimate_tab.c
 
 grisbi_INCLUDES =		\
@@ -154,30 +155,31 @@ grisbi_INCLUDES =		\
 	affichage.h		\
 	affichage_liste.h	\
 	barre_outils.h		\
-        balance_estimate_config.h  \
+        balance_estimate_config.h \
+        balance_estimate_data.h \
         balance_estimate_tab.h  \
 	categories_onglet.h	\
 	classement_echeances.h	\
 	comptes_onglet.h	\
-    csv_parse.h             \
+        csv_parse.h             \
 	custom_list.h		\
-    etats_affiche.h         \
-    etats_csv.h             \
-    etats_html.h            \
-    export.h                \
-    export_csv.h            \
-    go-charmap-sel.h        \
-    go-optionmenu.h         \
+        etats_affiche.h         \
+        etats_csv.h             \
+        etats_html.h            \
+        export.h                \
+        export_csv.h            \
+        go-charmap-sel.h        \
+        go-optionmenu.h         \
 	gsb_account.h		\
 	gsb_account_property.h	\
 	gsb_archive_config.h	\
 	gsb_assistant.h		\
 	gsb_assistant_account.h		\
 	gsb_assistant_archive.h		\
-	gsb_assistant_archive_export.h		\
+	gsb_assistant_archive_export.h \
 	gsb_assistant_file.h		\
 	gsb_assistant_first.h		\
-	gsb_assistant_reconcile_config.h		\
+	gsb_assistant_reconcile_config.h \
 	gsb_autofunc.h		\
 	gsb_automem.h		\
 	gsb_bank.h		\
@@ -185,7 +187,7 @@ grisbi_INCLUDES =		\
 	gsb_combo_box.h		\
 	gsb_calendar.h		\
 	gsb_calendar_entry.h	\
-    gsb_currency.h		\
+        gsb_currency.h		\
 	gsb_currency_config.h	\
 	gsb_currency_link_config.h	\
 	gsb_data_account.h	\
@@ -200,7 +202,7 @@ grisbi_INCLUDES =		\
 	gsb_data_fyear.h	\
 	gsb_data_import_rule.h	\
 	gsb_data_mix.h		\
-    gsb_data_partial_balance.h   \
+        gsb_data_partial_balance.h   \
 	gsb_data_payee.h	\
 	gsb_data_payment.h		\
 	gsb_data_print_config.h		\
@@ -226,14 +228,14 @@ grisbi_INCLUDES =		\
 	gsb_fyear_config.h	\
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
-    gsb_plugins.h           \
+        gsb_plugins.h           \
 	gsb_real.h		\
 	gsb_reconcile.h		\
 	gsb_reconcile_config.h	\
 	gsb_reconcile_list.h	\
 	gsb_reconcile_sort_config.h	\
 	gsb_report.h		\
-    gsb_status.h            \
+        gsb_status.h            \
 	gsb_select_icon.h 	\
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\
@@ -260,11 +262,11 @@ grisbi_INCLUDES =		\
 	main.h			\
 	main_cunit.h			\
 	menu.h			\
-    meta_budgetary.h        \
-    meta_categories.h       \
-    meta_payee.h            \
-    metatree.h              \
-    mouse.h                 \
+        meta_budgetary.h        \
+        meta_categories.h       \
+        meta_payee.h            \
+        metatree.h              \
+        mouse.h                 \
 	navigation.h		\
 	parametres.h		\
 	parse_cmdline.h		\

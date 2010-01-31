@@ -83,6 +83,9 @@ static gulong gsb_file_save_archive_part ( gulong iterator,
 static gulong gsb_file_save_bank_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
+static gulong gsb_file_save_bet_part ( gulong iterator,
+                        gulong *length_calculated,
+                        gchar **file_content );
 static gulong gsb_file_save_color_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content,
@@ -119,7 +122,6 @@ static gulong gsb_file_save_print_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content,
                         gint archive_number );
-//~ static gchar *gsb_file_save_real_to_string ( gsb_real number );
 static gulong gsb_file_save_reconcile_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
@@ -200,6 +202,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint import_rule_part;
     gint partial_balance_part;
     gint logo_part;
+    gint bet_part;
 
     struct stat buf;
 
@@ -246,6 +249,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     import_rule_part = 50;
     partial_balance_part = 50;
     logo_part = 65536;
+    bet_part = 250;
     
     length_calculated = general_part
 	+ account_part * gsb_data_account_get_accounts_amount ()
@@ -263,6 +267,10 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 	+ import_rule_part * g_slist_length ( gsb_data_import_rule_get_list ())
     + partial_balance_part * g_slist_length ( gsb_data_partial_balance_get_list ())
     + logo_part;
+
+#ifdef ENABLE_BALANCE_ESTIMATE
+    length_calculated += bet_part;
+#endif /* ENABLE_BALANCE_ESTIMATE */
 
     iterator = 0;
     file_content = g_malloc0 ( length_calculated );
@@ -352,6 +360,12 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     iterator = gsb_file_save_partial_balance_part ( iterator,
 						&length_calculated,
 						&file_content );
+
+#ifdef ENABLE_BALANCE_ESTIMATE
+    iterator = gsb_file_save_bet_part ( iterator,
+                        &length_calculated,
+                        &file_content );
+#endif /* ENABLE_BALANCE_ESTIMATE */
 
     iterator = gsb_file_save_report_part ( iterator,
 					   &length_calculated,
@@ -2568,6 +2582,48 @@ gulong gsb_file_save_logo_part ( gulong iterator,
 					       new_string );
 
     return iterator;
+}
+
+
+/**
+ * save the balance estimate part
+ *
+ * \param iterator the current iterator
+ * \param length_calculated a pointer to the variable lengh_calculated
+ * \param file_content a pointer to the variable file_content
+ *
+ * \return the new iterator
+ * */
+gulong gsb_file_save_bet_part ( gulong iterator,
+                        gulong *length_calculated,
+                        gchar **file_content )
+{
+    gchar *new_string;
+
+    /* save the general informations */
+    new_string = g_markup_printf_escaped ( "\t<Bet\n"
+                        "\t\tAc=\"%d\"\n"
+                        "\t\tBdte=\"%d\"\n"
+                        "\t\tEdte=\"%d\"\n"
+                        "\t\tNbre=\"%d\"\n"
+                        "\t\tUT=\"%d\"\n"
+                        "\t\tSD=\"%d\"\n"
+                        "\t\tFi=\"%d\" />\n",
+    etat.bet_last_account,
+    etat.bet_deb_period,
+    etat.bet_end_period,
+    etat.bet_months,
+    etat.bet_spin_range,
+    etat.bet_hist_data,
+    etat.bet_hist_fyear );
+
+    /* append the new string to the file content
+     * and return the new iterator */
+
+    return gsb_file_save_append_part ( iterator,
+				       length_calculated,
+				       file_content,
+				       new_string );
 }
 
 

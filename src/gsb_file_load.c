@@ -88,6 +88,8 @@ static void gsb_file_load_archive ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_bank ( const gchar **attribute_names,
                         const gchar **attribute_values );
+static void gsb_file_load_bet_part ( const gchar **attribute_names,
+                        const gchar **attribute_values );
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
 static void gsb_file_load_color_part ( const gchar **attribute_names,
                         const gchar **attribute_values );
@@ -618,6 +620,14 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
                         attribute_values );
     return;
     }
+
+#ifdef ENABLE_BALANCE_ESTIMATE
+    if ( !strcmp ( element_name, "Bet" ) )
+    {
+        gsb_file_load_bet_part ( attribute_names, attribute_values );
+        return;
+    }
+#endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( !strcmp ( element_name,
                         "Report" ))
@@ -3556,6 +3566,88 @@ void gsb_file_load_partial_balance ( const gchar **attribute_names,
     /* normally, shouldn't come here */
     i++;
     }
+    while ( attribute_names[i] );
+}
+
+
+/**
+ * load the balance estimate part in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_bet_part ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    gint i=0;
+
+    if ( !attribute_names[i] )
+    return;
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+    if ( !strcmp ( attribute_values[i], "(null)") )
+    {
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Ac" ) )
+    {
+        etat.bet_last_account = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Bdte" ) )
+    {
+        etat.bet_deb_period = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Edte" ) )
+    {
+        etat.bet_end_period = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Nbre" ) )
+    {
+        etat.bet_months = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "UT" ) )
+    {
+        etat.bet_spin_range = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "SD" ) )
+    {
+        etat.bet_hist_data = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Fi" ) )
+    {
+        etat.bet_hist_fyear = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    /* normally, shouldn't come here */
+    i++;
+    }
+
     while ( attribute_names[i] );
 }
 

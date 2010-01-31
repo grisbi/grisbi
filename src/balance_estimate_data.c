@@ -37,7 +37,6 @@
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_fyear.h"
-#include "./gsb_real.h"
 #include "./gsb_scheduler.h"
 #include "./gsb_transactions_list_sort.h"
 #include "./main.h"
@@ -49,30 +48,9 @@
 /*END_INCLUDE*/
 
 
-struct _bet_range
-{
-    gboolean first_pass;
-    GDate *min_date;
-    GDate *max_date;
-    gsb_real min_balance;
-    gsb_real max_balance;
-    gsb_real current_balance;
-};
-
-struct _historical
-{
-    gint div;
-	gint account_nb;
-    SBR	*sbr;
-	GHashTable *list_sub_div;
-};
-
-
 /*START_STATIC*/
-static SBR *initialise_struct_bet_range ( void );
-static SH *initialise_struct_historical ( void );
-static void free_struct_bet_range ( SBR *sbr );
-static void free_struct_historical ( SH *sh );
+static gboolean bet_data_update_div ( SH *sh, gint transaction_number,
+                        gint sub_div );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -80,6 +58,116 @@ extern gboolean balances_with_scheduled;
 extern gsb_real null_real;
 extern GtkWidget *window;
 /*END_EXTERN*/
+
+
+/* pointeurs définis en fonction du type de données catégories ou IB */
+gint (*ptr_div) ( gint transaction_num );
+gint (*ptr_sub_div) ( gint transaction_num );
+gchar* (*ptr_div_name) ( gint div_num, gint sub_div, const gchar *return_value_error );
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_data_set_div_ptr ( gint type_div )
+{
+    if ( type_div == 0 )
+    {
+        ptr_div = &gsb_data_transaction_get_category_number;
+        ptr_sub_div = &gsb_data_transaction_get_sub_category_number;
+        ptr_div_name = &gsb_data_category_get_name;
+    }
+    else
+    {
+        ptr_div = &gsb_data_transaction_get_budgetary_number;
+        ptr_sub_div = &gsb_data_transaction_get_sub_budgetary_number;
+        ptr_div_name = &gsb_data_budget_get_name;
+    }
+
+    return FALSE;
+}
+/**
+ *
+ *
+ *
+ *
+ * */
+gchar *bet_data_get_div_name (gint div_num,
+                        gint sub_div,
+                        const gchar *return_value_error )
+{
+    return g_strdup ( ptr_div_name ( div_num, sub_div, FALSE ) );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_data_populate_div ( gint transaction_number,
+                        GHashTable  *list_div )
+{
+    gint div = 0;
+    gint sub_div = 0;
+    SH *sh = NULL;
+
+    div = ptr_div ( transaction_number );
+    if ( div > 0 )
+        sub_div = ptr_sub_div ( transaction_number );
+    else
+        return FALSE;
+    
+    if ( (sh = g_hash_table_lookup ( list_div, utils_str_itoa ( div ) ) ) )
+        bet_data_update_div ( sh, transaction_number, sub_div );
+    else
+    {
+        sh = initialise_struct_historical ( );
+        sh -> div = div;
+        sh -> account_nb = gsb_data_transaction_get_account_number ( transaction_number );
+        bet_data_update_div ( sh, transaction_number, sub_div );
+        g_hash_table_insert ( list_div, utils_str_itoa ( div ), sh );
+    }
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_data_update_div ( SH *sh, gint transaction_number, gint sub_div )
+{
+    SBR *sbr = ( SBR*) sh -> sbr;
+    gsb_real amount;
+    SH *tmp_sh = NULL;
+
+    amount = gsb_data_transaction_get_amount ( transaction_number );
+    sbr-> current_balance = gsb_real_add ( sbr -> current_balance, amount );
+
+    if ( sub_div == -1 )
+        return FALSE;
+
+    if ( ( tmp_sh = g_hash_table_lookup ( sh -> list_sub_div, utils_str_itoa ( sub_div ) ) ) )
+        bet_data_update_div ( tmp_sh, transaction_number, -1 );
+    else
+    {
+        tmp_sh = initialise_struct_historical ( );
+        tmp_sh -> div = sub_div;
+        tmp_sh -> account_nb = gsb_data_transaction_get_account_number ( transaction_number );
+        bet_data_update_div ( tmp_sh, transaction_number, -1 );
+        g_hash_table_insert ( sh -> list_sub_div, utils_str_itoa ( sub_div ), tmp_sh );
+    }
+
+    return FALSE;
+}
 
 
 /**
@@ -128,7 +216,7 @@ SH *initialise_struct_historical ( void )
 	sh = g_malloc ( sizeof ( SH ) );
     sh -> sbr = initialise_struct_bet_range ( );
     sh -> list_sub_div = g_hash_table_new_full ( g_int_hash,
-                        g_int_equal,
+                        g_str_equal,
                         NULL,
                         (GDestroyNotify) free_struct_historical );
 	return sh;

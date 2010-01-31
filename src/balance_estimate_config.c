@@ -28,6 +28,7 @@
 
 /*START_INCLUDE*/
 #include "balance_estimate_config.h"
+#include "./balance_estimate_data.h"
 #include "./balance_estimate_tab.h"
 #include "./parametres.h"
 #include "./menu.h"
@@ -94,7 +95,7 @@ GtkWidget *bet_estimate_config_create_page ( void )
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
                         _("Calculation of period") );
 
-    bet_estimate_get_duration_widget ( paddingbox, TRUE );
+    bet_parameter_get_duration_widget ( paddingbox, TRUE );
 
     /* Sources of historical data */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
@@ -115,11 +116,11 @@ GtkWidget *bet_estimate_config_create_page ( void )
  * */
 GtkWidget *bet_config_select_historical_data ( GtkWidget *container )
 {
-    GtkWidget *widget;
+    //~ GtkWidget *widget;
     GtkWidget *hbox;
     GtkWidget *button_1, *button_2;
-    gchar *str_year;
-    gint year;
+    //~ gchar *str_year;
+    //~ gint year;
 
     /* Choix des données sources */
     hbox = gtk_hbox_new ( FALSE, 5 );
@@ -133,24 +134,44 @@ GtkWidget *bet_config_select_historical_data ( GtkWidget *container )
                         GTK_RADIO_BUTTON ( button_1 ),
                         _("Budgetary lines") );
     gtk_widget_set_name ( button_2, "button_2" );
+    g_signal_connect (G_OBJECT ( button_2 ),
+                        "released",
+                        G_CALLBACK ( bet_historical_data_clicked ),
+                        NULL );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 5) ;
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 5) ;
 
     /* création du sélecteur de périod */
-    if ( bet_fyear_create_combobox_store ( ) )
-    {
-        widget = gsb_fyear_make_combobox_new ( bet_fyear_model_filter, TRUE );
-        gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
-                          SPACIFY(_("Choose the financial year or 12 months rolling") ) );
-        gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5);
+    //~ if ( bet_fyear_create_combobox_store ( ) )
+    //~ {
+        //~ widget = gsb_fyear_make_combobox_new ( bet_fyear_model_filter, TRUE );
+        //~ gtk_widget_set_name ( GTK_WIDGET ( widget ), "fyear_combo" );
+        //~ gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
+                          //~ SPACIFY(_("Choose the financial year or 12 months rolling") ) );
+        //~ g_signal_connect ( G_OBJECT ( widget ),
+                        //~ "changed",
+                        //~ G_CALLBACK (bet_historical_fyear_clicked),
+                        //~ NULL );
 
-        /* hide the present financial year */
-        year = g_date_get_year ( gdate_today ( ) );
-        str_year = utils_str_itoa ( year );
-        gsb_fyear_hide_iter_by_name ( bet_fyear_model, str_year );
-        g_free ( str_year );
-    }
+        //~ gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5);
+
+        //~ /* hide the present financial year */
+        //~ year = g_date_get_year ( gdate_today ( ) );
+        //~ str_year = utils_str_itoa ( year );
+        //~ gsb_fyear_hide_iter_by_name ( bet_fyear_model, str_year );
+        //~ g_free ( str_year );
+
+        //~ /* show the old choice */
+        //~ if ( etat.bet_hist_fyear > 0 )
+        //~ {
+            //~ gsb_fyear_select_iter_by_number ( widget,
+                        //~ bet_fyear_model,
+                        //~ bet_fyear_model_filter,
+                        //~ etat.bet_hist_fyear );
+        //~ }
+
+    //~ }
     return hbox;
 }
 
