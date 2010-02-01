@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-31 21:43+0100\n"
-"PO-Revision-Date: 2010-01-02 22:34+0100\n"
+"PO-Revision-Date: 2010-02-01 20:55+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -104,7 +104,7 @@ msgstr "Solde final"
 
 #: src/accueil.c:1088
 msgid "Global balances"
-msgstr "Soldes finaux"
+msgstr "Soldes finals"
 
 #: src/accueil.c:1144
 #, c-format
