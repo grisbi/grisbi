@@ -1501,6 +1501,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
     GtkWidget *widget;
     gint account_number;
     gint transaction_number;
+    gint payement_number;
 
     /* still not found, if change the content of the form, something come in entry
      * wich is nothing, so protect here */
@@ -1604,8 +1605,10 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                     /* change the signe of the method of payment and the contra */
                     if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_DEBIT )
                     {
-                    gint payement_number =  
-                        gsb_data_transaction_get_method_of_payment_number (
+                    if ( transaction_number == -1 )
+                        payement_number =  gsb_form_widget_get_old_credit_payement ( );
+                    else
+                        payement_number = gsb_data_transaction_get_method_of_payment_number (
                         transaction_number );
 
                     gsb_payment_method_create_combo_list ( widget,
@@ -1692,8 +1695,10 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                     /* change the signe of the method of payment and the contra */
                     if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_CREDIT )
                     {
-                    gint payement_number =
-                        gsb_data_transaction_get_method_of_payment_number (
+                    if ( transaction_number == -1 )
+                        payement_number =  gsb_form_widget_get_old_debit_payement ( );
+                    else
+                        payement_number = gsb_data_transaction_get_method_of_payment_number (
                         transaction_number );
 
                     gsb_payment_method_create_combo_list ( widget,
@@ -2141,7 +2146,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 							     element_number,
 							     GSB_RIGHT );
 
-        /* si élément = date de valeur fix the bug 578 */
+        /* if element = value_date fix the bug 578 */
         if ( element_number == TRANSACTION_FORM_VALUE_DATE )
         {
             widget_prov = gsb_form_widget_get_widget (

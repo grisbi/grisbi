@@ -75,6 +75,8 @@ static GSList *form_list_widgets = NULL;
 
 static gchar *old_debit = NULL;
 static gchar *old_credit = NULL;
+static gint old_credit_payement_number = 0;
+static gint old_debit_payement_number = 0;
 
 /**
  * return the list wich contains the widgets of the form
@@ -778,7 +780,6 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
     gint element_number;
     gint account_number;
 
-    devel_debug (NULL);
     /* still not found, if change the content of the form, something come in entry
      * wich is nothing, so protect here */
     if ( !GTK_IS_WIDGET (entry)
@@ -795,6 +796,7 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
     }
     element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
+    devel_debug_int (element_number);
 
     switch ( element_number )
     {
@@ -827,6 +829,9 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
             /* change the signe of the method of payment and the contra */
             if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_CREDIT )
             {
+                old_credit_payement_number = gsb_payment_method_get_selected_number (
+                        widget );
+
                 gsb_payment_method_create_combo_list ( widget,
                                         GSB_PAYMENT_DEBIT,
                                         account_number, 0 );
@@ -867,6 +872,9 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
             /* change the signe of the method of payment and the contra */
             if ( gsb_payment_method_get_combo_sign (widget) == GSB_PAYMENT_DEBIT)
             {
+                old_debit_payement_number = gsb_payment_method_get_selected_number (
+                        widget );
+
                 gsb_payment_method_create_combo_list ( widget,
                                         GSB_PAYMENT_CREDIT,
                                         account_number, 0 );
@@ -1071,4 +1079,28 @@ gboolean gsb_form_combo_selection_changed ( GtkTreeSelection *tree_selection,
         }
     }
     return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gint gsb_form_widget_get_old_credit_payement ( void )
+{
+    return old_credit_payement_number;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gint gsb_form_widget_get_old_debit_payement ( void )
+{
+    return old_debit_payement_number;
 }

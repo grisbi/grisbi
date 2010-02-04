@@ -751,7 +751,7 @@ void bet_historical_fyear_clicked ( GtkWidget *combo, gpointer data )
     GtkWidget *ancestor;
     GtkWidget *widget;
     const gchar *name;
-
+devel_debug (NULL);
     etat.bet_hist_fyear = bet_fyear_get_fyear_from_combobox ( combo );
 
     name = gtk_widget_get_name ( GTK_WIDGET ( combo ) );
@@ -1167,10 +1167,7 @@ void bet_create_historical_data_page ( GtkWidget *notebook )
         gtk_widget_set_name ( GTK_WIDGET ( widget ), "fyear_combo" );
         gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
                         SPACIFY(_("Choose the financial year or 12 months rolling") ) );
-        g_signal_connect ( G_OBJECT ( widget ),
-                        "changed",
-                        G_CALLBACK (bet_historical_fyear_clicked),
-                        NULL );
+
         g_object_set_data ( G_OBJECT ( notebook ), "bet_historical_fyear", widget );
 
         gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5);
@@ -1189,6 +1186,12 @@ void bet_create_historical_data_page ( GtkWidget *notebook )
                         bet_fyear_model_filter,
                         etat.bet_hist_fyear );
         }
+
+        /* set the signal */
+        g_signal_connect ( G_OBJECT ( widget ),
+                        "changed",
+                        G_CALLBACK (bet_historical_fyear_clicked),
+                        NULL );
     }
 
     /* création de la liste des données */

@@ -208,7 +208,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
     /* mise en place de la partie fin des comptes passif */
     paddingbox = new_paddingbox_with_title ( base, FALSE,
-					     _("Closed liabilities accounts") );
+                         _("Closed liabilities accounts") );
     frame_etat_fin_compte_passif = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), FALSE );
@@ -1779,7 +1779,7 @@ void update_fin_comptes_passifs ( gboolean force )
 
     if ( !force
 	 &&
-	 !mise_a_jour_fin_comptes_passifs  )
+	 !mise_a_jour_fin_comptes_passifs )
 	return;
 
     devel_debug (NULL);
@@ -1788,6 +1788,9 @@ void update_fin_comptes_passifs ( gboolean force )
 
     gtk_notebook_remove_page ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), 0 );
     hide_paddingbox ( frame_etat_fin_compte_passif );
+
+    if ( !etat.show_closed_accounts )
+        return;
 
     list_tmp = gsb_data_account_get_list_accounts ();
     liste_tmp = NULL;

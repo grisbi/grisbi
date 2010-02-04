@@ -149,11 +149,6 @@ GtkWidget *bet_config_select_historical_data ( GtkWidget *container )
         //~ gtk_widget_set_name ( GTK_WIDGET ( widget ), "fyear_combo" );
         //~ gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
                           //~ SPACIFY(_("Choose the financial year or 12 months rolling") ) );
-        //~ g_signal_connect ( G_OBJECT ( widget ),
-                        //~ "changed",
-                        //~ G_CALLBACK (bet_historical_fyear_clicked),
-                        //~ NULL );
-
         //~ gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5);
 
         //~ /* hide the present financial year */
@@ -171,6 +166,11 @@ GtkWidget *bet_config_select_historical_data ( GtkWidget *container )
                         //~ etat.bet_hist_fyear );
         //~ }
 
+        //~ /* set the signal */
+        //~ g_signal_connect ( G_OBJECT ( widget ),
+                        //~ "changed",
+                        //~ G_CALLBACK (bet_historical_fyear_clicked),
+                        //~ NULL );
     //~ }
     return hbox;
 }

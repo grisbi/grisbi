@@ -1342,22 +1342,23 @@ GtkWidget *gsb_autofunc_currency_new ( gboolean set_name,
     /* create and fill the combobox */
     combobox = gsb_currency_make_combobox (set_name);
 
-    gsb_currency_set_combobox_history (combobox, currency_number);
+    if ( combobox && currency_number )
+        gsb_currency_set_combobox_history (combobox, currency_number);
 
     /* set the default func :
      * the func will be sent to gsb_autofunc_currency_changed by the data,
      * the number_for_func will be set as data for object */
     g_object_set_data ( G_OBJECT (combobox),
-			"number_for_func", GINT_TO_POINTER (number_for_func));
+            "number_for_func", GINT_TO_POINTER (number_for_func));
 
     if (default_func)
-	g_object_set_data ( G_OBJECT (combobox), "changed", 
-			    (gpointer) g_signal_connect_after (G_OBJECT(combobox), "changed",
-							       G_CALLBACK (gsb_autofunc_currency_changed), default_func ));
+    g_object_set_data ( G_OBJECT (combobox), "changed", 
+                    (gpointer) g_signal_connect_after (G_OBJECT(combobox), "changed",
+                    G_CALLBACK (gsb_autofunc_currency_changed), default_func ));
     if ( hook )
-	g_object_set_data ( G_OBJECT (combobox), "changed-hook", 
-			    (gpointer) g_signal_connect_after (G_OBJECT(combobox), "changed",
-							       G_CALLBACK (hook), data ));
+    g_object_set_data ( G_OBJECT (combobox), "changed-hook", 
+                    (gpointer) g_signal_connect_after (G_OBJECT(combobox), "changed",
+                    G_CALLBACK (hook), data ));
      return combobox;
 }
 

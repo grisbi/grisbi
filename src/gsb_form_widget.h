@@ -25,6 +25,8 @@ GSList *gsb_form_widget_get_list ( void );
 gchar *gsb_form_widget_get_name ( gint element_number );
 gchar *gsb_form_widget_get_old_credit ( void );
 gchar *gsb_form_widget_get_old_debit ( void );
+gint gsb_form_widget_get_old_credit_payement ( void );
+gint gsb_form_widget_get_old_debit_payement ( void );
 GtkWidget *gsb_form_widget_get_widget ( gint element_number );
 gint gsb_form_widget_next_element ( gint account_number,
                         gint element_number,
