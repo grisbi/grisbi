@@ -243,6 +243,7 @@ void gtk_combofix_set_text ( GtkComboFix *combofix,
         gsb_form_widget_set_empty ( GTK_WIDGET ( combofix -> entry ), TRUE );
         gtk_entry_set_text ( GTK_ENTRY ( combofix -> entry ),
 					    _("Categories : Sub-categories") );
+        gtk_editable_select_region ( GTK_EDITABLE (combofix -> entry), 0, -1 );
     }
     g_signal_handlers_unblock_by_func ( G_OBJECT (combofix -> entry),
 					G_CALLBACK (gtk_combofix_entry_insert),
@@ -719,8 +720,7 @@ static gboolean gtk_combofix_entry_insert ( GtkComboFix *combofix )
  * */
 static gboolean gtk_combofix_entry_delete ( GtkComboFix *combofix )
 {
-    return gtk_combofix_entry_changed ( combofix,
-					FALSE );
+    return gtk_combofix_entry_changed ( combofix, FALSE );
 }
 
 
@@ -748,8 +748,11 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
     gtk_editable_delete_selection ( GTK_EDITABLE (combofix -> entry));
 
     if ( strlen ( entry_string ) )
+    {
+        gsb_form_widget_set_empty ( combofix -> entry, FALSE );
 	    completed_string = gtk_combofix_update_visible_rows ( combofix,
 							      entry_string);
+    }
     else
 	    gtk_combofix_set_all_visible_rows (combofix);
 
