@@ -49,11 +49,6 @@ static  gboolean gsb_automem_checkbutton_changed ( GtkWidget *checkbutton,
 						  gpointer null );
 static  gboolean gsb_automem_entry_changed (GtkWidget *entry,
 					   gpointer null );
-static GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,
-					 const gchar *choice2,
-					 gboolean *value,
-					 GCallback hook,
-					 gpointer data );
 static  gboolean gsb_automem_spin_button_changed ( GtkWidget *spin,
 						  gpointer null);
 static GtkWidget *gsb_automem_spin_button_new_full ( gint *value, 

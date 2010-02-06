@@ -65,6 +65,9 @@ gint (*ptr_div) ( gint transaction_num );
 gint (*ptr_sub_div) ( gint transaction_num );
 gchar* (*ptr_div_name) ( gint div_num, gint sub_div, const gchar *return_value_error );
 
+/* liste des div et sub_div cochées dans la vue des divisions */
+static GSList *list_div_hist;
+
 
 /**
  *

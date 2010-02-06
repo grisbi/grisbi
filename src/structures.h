@@ -160,7 +160,10 @@ struct {
     /* general part */
     gint r_modifiable;                              /* Changes in reconciled transactions */
 
-    /* variables pour la liste des opérations */
+    /* pluriel pour final */
+    gint pluriel_final;                             /* 0 = finals 1 = finaux */
+
+    /* variables for the list of transactions */
     gint show_transaction_selected_in_form;         /* TRUE will show the selected transaction in the form */
     gint show_transaction_gives_balance;            /* TRUE si on visualise l'opération qui donne le solde du jour */
     gboolean transactions_list_sort_by_date;        /* Options for sorting by date */
