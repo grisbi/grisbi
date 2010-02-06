@@ -864,12 +864,7 @@ gchar *utils_files_get_ofx_charset ( gchar *contents )
         ptr_tmp = g_strstr_len ( ptr, strlen ( ptr ), "\n" );
         if ( ptr_tmp )
         {
-            gchar *ptr_r;
-
             string = g_strndup ( ptr, ( ( ptr_tmp ) - ptr ) );
-            if ( ( ptr_r = g_strrstr ( string, "\r" ) ) )
-                ptr_r[0] = '\0';
-
             if ( ( tmp_str = g_strrstr ( string, "CHARSET:" ) ) )
             {
                 do
@@ -882,7 +877,6 @@ gchar *utils_files_get_ofx_charset ( gchar *contents )
                     i++;
                 } while ( all_charset_array[i] );
             }
-
             g_free ( string );
             ptr = ptr_tmp + 1;
         }

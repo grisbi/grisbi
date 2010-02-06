@@ -677,7 +677,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
         }
         if ( ( charmap = utils_files_get_ofx_charset ( tmp_str ) ) != NULL )
         {
-            if ( charmap_imported )
+            if ( charmap_imported && strlen ( charmap_imported ) > 0 )
                 g_free ( charmap_imported );
             charmap_imported = charmap;
         }
