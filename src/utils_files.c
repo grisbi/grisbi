@@ -84,6 +84,11 @@ static gchar *charset_array[] = {
     "IBM850"};
 
 static gchar *all_charset_array[] = {
+    "IBM850",
+    "ISO-8859-1",
+    "ISO-8859-15",
+    "x-mac-roman",
+    "windows-1252",
     "IBM864",
     "IBM864i",
     "ISO-8859-6",
@@ -159,12 +164,7 @@ static gchar *all_charset_array[] = {
     "VISCII",
     "x-viet-vps",
     "windows-1258",
-    "ISO-8859-8",
-    "IBM850",
-    "ISO-8859-1",
-    "ISO-8859-15",
-    "x-mac-roman",
-    "windows-1252"};
+    "ISO-8859-8"};
 
 /**
  * Handler triggered by clicking on the button of a "print to file"
@@ -547,7 +547,7 @@ GSList *utils_files_check_UTF8_validity ( const gchar *contents,
 
             string = g_strndup ( ptr, ( ( ptr_tmp ) - ptr ) );
             if ( ( ptr_r = g_strrstr ( string, "\r" ) ) )
-                ptr_r = '\0';
+                ptr_r[0] = '\0';
 
             if ( g_convert ( string, -1, "UTF-8", coding_system, NULL, NULL, NULL ) == NULL )
             {
@@ -868,7 +868,7 @@ gchar *utils_files_get_ofx_charset ( gchar *contents )
 
             string = g_strndup ( ptr, ( ( ptr_tmp ) - ptr ) );
             if ( ( ptr_r = g_strrstr ( string, "\r" ) ) )
-                ptr_r = '\0';
+                ptr_r[0] = '\0';
 
             if ( ( tmp_str = g_strrstr ( string, "CHARSET:" ) ) )
             {
