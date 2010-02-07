@@ -149,7 +149,7 @@ GtkTreePath *transaction_model_get_path ( gint transaction_number,
     GtkTreeIter iter;
 
     g_return_val_if_fail ( custom_list != NULL, NULL );
-printf ("transaction_number = %d line_in_transaction = %d\n", transaction_number, line_in_transaction);
+//~ printf ("transaction_number = %d line_in_transaction = %d\n", transaction_number, line_in_transaction);
     if (!transaction_model_get_transaction_iter ( &iter,
 						  transaction_number, line_in_transaction ))
     {
@@ -172,7 +172,7 @@ printf ("transaction_number = %d line_in_transaction = %d\n", transaction_number
 	/* it's a child, need to get the path of the mother */
 	gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
     }
-    printf ("record -> filtered_pos = %d\n", record -> filtered_pos);
+    //~ printf ("record -> filtered_pos = %d\n", record -> filtered_pos);
     gtk_tree_path_append_index (path, record -> filtered_pos);
 
     return path;

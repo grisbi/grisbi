@@ -1748,7 +1748,7 @@ gint etat_affiche_affiche_total_general ( gsb_real total_general,
     else
 	text = g_strdup(COLON(_("General total")));
 
-    etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 2, ligne, ligne + 1, LEFT, 0 );
+    etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
     g_free ( text );
 
     text = gsb_real_get_string_with_currency (total_general, devise_generale_etat, TRUE );

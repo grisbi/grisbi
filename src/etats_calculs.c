@@ -2198,7 +2198,6 @@ pas_decalage:
 	nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_financial_year (current_report_number);
 
 	/* on ajoute les séparations */
-
 	nb_colonnes = 2 * nb_colonnes - 1;
     }
 
@@ -2571,7 +2570,7 @@ pas_decalage:
 	}
 
 	/* on affiche le total de la partie en cours */
-	/* si les revenus et dépenses ne sont pas mÃ©langés */
+	/* si les revenus et dépenses ne sont pas mélangés */
 
 	if ( gsb_data_report_get_split_credit_debit (current_report_number))
 	    ligne = etat_affiche_affiche_total_partiel ( total_partie,
@@ -2580,7 +2579,7 @@ pas_decalage:
 
     }
 
-    /* on affiche maintenant le total génÃ©ral */
+    /* on affiche maintenant le total général */
 
     ligne = etat_affiche_affiche_total_general ( total_general,
 						 ligne );

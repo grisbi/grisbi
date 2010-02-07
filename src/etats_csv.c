@@ -1,7 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	     2005 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)         2005 Benjamin Drieu (bdrieu@april.org)           */
+/*          2009 Pierre Biava (grisbi@pierre.biava.name)                      */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -32,13 +33,14 @@
 #include "./include.h"
 #include "./structures.h"
 #include "./etats_affiche.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void csv_attach_hsep ( int x, int x2, int y, int y2);
-static void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			enum alignement align, gint transaction_number );
-static void csv_attach_vsep ( int x, int x2, int y, int y2);
+static void csv_attach_hsep ( gint x, gint x2, gint y, gint y2);
+static void csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint y, gint y2, 
+                        enum alignement align, gint transaction_number );
+static void csv_attach_vsep ( gint x, gint x2, gint y, gint y2);
 static gint csv_finish ();
 static gint csv_initialise (GSList * opes_selectionnees, gchar * filename );
 static void csv_safe ( const gchar * text ) ;
@@ -63,7 +65,6 @@ extern gint nb_colonnes;
 /*END_EXTERN*/
 
 
-
 /**
  * Backend function that is responsible for printing a label at a
  * specific place of the report, using text attibutes.
@@ -83,49 +84,34 @@ extern gint nb_colonnes;
  * \param transaction_number the number a transaction to link to (not used as csv
  *            backend is not interactive)
  */
-void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			enum alignement align, gint transaction_number )
+void csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint y, gint y2, 
+                        enum alignement align, gint transaction_number )
 {
-    int pad, realsize, realcolumns;
-    gint current_report_number;
-
-    current_report_number = gsb_gui_navigation_get_current_report ();
+    gint pad;
 
     if ( !text )
 	text = "";
 
     if ( y >= csv_lastline )
     {
-	csv_lastcol = 0;
-	csv_lastline = y2;
-	fprintf ( csv_out, "\n" );
+        csv_lastcol = 0;
+        csv_lastline = y2;
+        fprintf ( csv_out, "\n" );
     }
 
     for ( pad = csv_lastcol ; pad < x ; pad ++ )
-	fprintf ( csv_out, ";" );
-
-    realsize = (x2 - x);
-    if ( realsize > 1 )
     {
-	if ( gsb_data_report_get_show_report_transactions (current_report_number))
-	{
-	    realsize /= 2;
-	    if ( x == 0 )
-		realsize ++;
-	}
+	    fprintf ( csv_out, ";" );
     }
-    if ( gsb_data_report_get_show_report_transactions (current_report_number))
-	realcolumns = (float)((nb_colonnes / 2) + 1);
-    else 
-	realcolumns = nb_colonnes;
 
     fprintf ( csv_out, "\"" );
     csv_safe (text);
     fprintf ( csv_out, "\"" );
 
-    for ( x++; x < x2 ; x ++ )
-	fprintf ( csv_out, ";" );
-
+    for ( x++; x <= x2 ; x++ )
+    {
+        fprintf ( csv_out, ";" );
+    }
     csv_lastcol = x2;
 }
 
@@ -140,7 +126,7 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
  * \param x2 right position of the separator
  * \param y2 bottom position of the separator
  */
-void csv_attach_vsep ( int x, int x2, int y, int y2)
+void csv_attach_vsep ( gint x, gint x2, gint y, gint y2)
 {
 }
 
@@ -155,7 +141,7 @@ void csv_attach_vsep ( int x, int x2, int y, int y2)
  * \param x2 right position of the separator
  * \param y2 bottom position of the separator
  */
-void csv_attach_hsep ( int x, int x2, int y, int y2)
+void csv_attach_hsep ( gint x, gint x2, gint y, gint y2)
 {
 }
 
@@ -169,8 +155,7 @@ void csv_attach_hsep ( int x, int x2, int y, int y2)
 gint csv_initialise (GSList * opes_selectionnees, gchar * filename )
 {
     g_return_val_if_fail ( filename, FALSE );
-
-    /* initialise values */
+   /* initialise values */
     csv_lastcol = 0;
     csv_lastline = 1;
 
