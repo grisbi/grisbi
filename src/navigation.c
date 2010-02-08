@@ -1030,16 +1030,25 @@ gboolean navigation_change_account ( gint *no_account )
 void gsb_navigation_update_statement_label ( gint account_number )
 {
     gint reconcile_number;
+    gchar* tmp_str;
+    gchar* tmp_str1;
+    gchar* tmp_str2;
 
-    reconcile_number = gsb_data_reconcile_get_account_last_number (account_number);
-    if (reconcile_number)
+    reconcile_number = gsb_data_reconcile_get_account_last_number ( account_number );
+    if ( reconcile_number )
     {
-        gchar* tmpstr2 = gsb_format_gdate (gsb_data_reconcile_get_final_date (
-                                            reconcile_number));
-        gchar* tmpstr = g_strdup_printf ( _("Last statement: %s"), tmpstr2);
-        gtk_label_set_text ( GTK_LABEL ( label_last_statement ), tmpstr);
-        g_free ( tmpstr );
-        g_free ( tmpstr2 );
+        tmp_str1 = gsb_format_gdate ( gsb_data_reconcile_get_final_date (
+                                            reconcile_number ) );
+        tmp_str2 = gsb_real_get_string_with_currency (
+                        gsb_data_reconcile_get_final_balance ( reconcile_number ),
+                        gsb_data_account_get_currency ( account_number ), TRUE );
+        
+        tmp_str = g_strconcat ( _("Last statement: "), tmp_str1, " - ",
+                               _("Reconciled balance: "), tmp_str2, NULL );
+        gtk_label_set_text ( GTK_LABEL ( label_last_statement ), tmp_str);
+        g_free ( tmp_str );
+        g_free ( tmp_str1 );
+        g_free ( tmp_str2 );
     }
     else
         gtk_label_set_text ( GTK_LABEL ( label_last_statement ),

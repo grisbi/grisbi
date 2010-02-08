@@ -820,7 +820,21 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
             while ( gtk_tree_model_iter_nth_child ( GTK_TREE_MODEL ( store ),
                         &fils_iter, &iter, i ) )
             {
-                gtk_tree_store_set ( GTK_TREE_STORE ( store ), &fils_iter, 0, valeur, -1 );
+                if ( valeur == 1 )
+                {
+                    gtk_tree_model_get ( GTK_TREE_MODEL ( store ), &fils_iter,
+                                SPP_HISTORICAL_AVERAGE_COLUMN, &tmp_str,
+                                -1 );
+                    gtk_tree_store_set ( GTK_TREE_STORE ( store ), &fils_iter, 0, valeur,
+                                SPP_HISTORICAL_RETAINED_COLUMN, tmp_str,
+                                -1 );
+                }
+                else
+                {
+                    gtk_tree_store_set ( GTK_TREE_STORE ( store ), &fils_iter, 0, valeur,
+                                SPP_HISTORICAL_RETAINED_COLUMN, "",
+                                -1 );
+                }
                 i++;
             }
         }
@@ -2344,7 +2358,9 @@ void bet_estimate_tab_add_new_line ( GtkTreeModel *tab_model,
     amount = gsb_real_get_from_string ( str_amount );
 
     if (amount.mantissa < 0)
-        str_debit = str_value;
+        str_debit = gsb_real_get_string_with_currency ( gsb_real_opposite ( amount ),
+                        gsb_data_account_get_currency (
+                        bet_estimate_get_account_selected ( ) ), TRUE );
     else
         str_credit = str_value;
 
@@ -2389,6 +2405,8 @@ void bet_estimate_tab_add_new_line ( GtkTreeModel *tab_model,
     }
 
     g_free ( str_description );
+    if ( str_debit )
+        g_free ( str_debit );
     g_free ( str_value );
     g_free ( str_amount );
 }
