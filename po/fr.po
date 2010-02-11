@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-08 21:46+0100\n"
+"POT-Creation-Date: 2010-02-09 23:12+0100\n"
 "PO-Revision-Date: 2010-02-01 20:55+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -1582,7 +1582,7 @@ msgid "Transfert"
 msgstr "Virement"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1040
-#: src/gsb_form.c:722 src/gsb_form.c:2638 src/gsb_form.c:3033
+#: src/gsb_form.c:722 src/gsb_form.c:2648 src/gsb_form.c:3043
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3259
 msgid "Split of transaction"
 msgstr "Opération ventilée"
@@ -1621,7 +1621,7 @@ msgid "Number"
 msgstr "N°"
 
 #: src/etats_affiche.c:2412 src/export_csv.c:763 src/gsb_form.c:1290
-#: src/gsb_form.c:2130 src/gsb_form.c:2158 src/gsb_form_widget.c:452
+#: src/gsb_form.c:2131 src/gsb_form.c:2161 src/gsb_form_widget.c:452
 #: src/gsb_transactions_list.c:145 src/import_csv.c:80
 #: src/traitement_variables.c:77
 msgid "Value date"
@@ -4051,7 +4051,7 @@ msgstr ""
 "Grisbi archivera toutes les transactions appartenant à l'état sélectionné"
 
 #: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:516
-#: src/gsb_form.c:2745 src/gsb_form.c:2746 src/navigation.c:1270
+#: src/gsb_form.c:2755 src/gsb_form.c:2756 src/navigation.c:1270
 msgid "Report"
 msgstr "État"
 
@@ -7283,25 +7283,25 @@ msgstr "Catégories : Sous-catégories"
 msgid "Cheque/Transfer number"
 msgstr "N° Chèque/Virement"
 
-#: src/gsb_form.c:2323
+#: src/gsb_form.c:2333
 msgid "No payee selected for this report."
 msgstr "Cet état ne comporte pas de tiers sélectionnés."
 
-#: src/gsb_form.c:2584
+#: src/gsb_form.c:2594
 msgid "You must enter a date."
 msgstr "Une date est obligatoire."
 
-#: src/gsb_form.c:2591
+#: src/gsb_form.c:2601
 #, c-format
 msgid "Invalid date %s"
 msgstr "Date invalide %s"
 
-#: src/gsb_form.c:2614
+#: src/gsb_form.c:2624
 #, c-format
 msgid "Invalid value date %s"
 msgstr "La date est invalide %s"
 
-#: src/gsb_form.c:2640
+#: src/gsb_form.c:2650
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
@@ -7309,28 +7309,28 @@ msgstr ""
 "Vous ne pouvez pas choisir la catégorie « opération ventilée » pour une "
 "opération fille"
 
-#: src/gsb_form.c:2673
+#: src/gsb_form.c:2683
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 "Vous ne pouvez pas associer un virement pour un compte supprimé dans une "
 "opération programmée."
 
-#: src/gsb_form.c:2680
+#: src/gsb_form.c:2690
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "Il n'y a pas de compte associé à ce virement où il est invalide"
 
-#: src/gsb_form.c:2688
+#: src/gsb_form.c:2698
 msgid "Can't issue a transfer its own account."
 msgstr "Impossible d'effectuer un virement sur son propre compte"
 
-#: src/gsb_form.c:2693
+#: src/gsb_form.c:2703
 msgid "Can't issue a transfer on a closed account."
 msgstr "Impossible d'effectuer un virement sur un compte clos"
 
-#: src/gsb_form.c:2719
+#: src/gsb_form.c:2729
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7340,7 +7340,7 @@ msgstr ""
 "aucun numéro.\n"
 "Souhaitez-vous continuer ?"
 
-#: src/gsb_form.c:2733
+#: src/gsb_form.c:2743
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7348,30 +7348,30 @@ msgstr ""
 "Attention, le numéro du chèque est déjà utilisé.\n"
 "Souhaitez-vous continuer ?"
 
-#: src/gsb_form.c:2753
+#: src/gsb_form.c:2763
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 "Une opération dont le tiers est un état doit forcément être une nouvelle "
 "opération."
 
-#: src/gsb_form.c:2758
+#: src/gsb_form.c:2768
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "Une opération dont le tiers est un état ne peut pas être une sous-opération."
 
-#: src/gsb_form.c:2769
+#: src/gsb_form.c:2779
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr "Le mot « État » est réservé.  Veuillez en utiliser un autre."
 
-#: src/gsb_form.c:2776
+#: src/gsb_form.c:2786
 msgid "Invalid multiple payee."
 msgstr "Nom de tiers déjà utilisé."
 
-#: src/gsb_form.c:3056
+#: src/gsb_form.c:3066
 msgid "Modifying a transaction"
 msgstr "Modifier une opération"
 
-#: src/gsb_form.c:3057
+#: src/gsb_form.c:3067
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7386,7 +7386,7 @@ msgstr ""
 "Etes vous certain ?"
 
 #. propose to configure the form
-#: src/gsb_form.c:3357
+#: src/gsb_form.c:3367
 msgid "Configure the form"
 msgstr "Configurer le formulaire"
 
@@ -7948,7 +7948,7 @@ msgstr "Mensuel"
 
 #: src/gsb_scheduler_list.c:995
 msgid "Bimonthly"
-msgstr "Bimensuel"
+msgstr "Bimestriel"
 
 #: src/gsb_scheduler_list.c:995
 msgid "Quarterly"
@@ -9306,22 +9306,30 @@ msgstr ""
 "vous pouvez les transferer vers une autre (sous-)%s. Sinon, les transactions "
 "peuvent être simplement supprimées."
 
-#: src/metatree.c:1740
+#: src/metatree.c:1741
+msgid "Transfer transactions to payee"
+msgstr "Transférer les opérations sur le tiers"
+
+#: src/metatree.c:1743
 #, c-format
 msgid "Transfer transactions to %s"
-msgstr "Transférer les opérations sur %s"
+msgstr "Transférer les opérations sur la %s"
 
-#: src/metatree.c:1837
+#: src/metatree.c:1841
+msgid "Just remove this payee."
+msgstr "Supprimer simplement ce tiers."
+
+#: src/metatree.c:1843
 #, c-format
 msgid "Just remove this %s."
 msgstr "Supprimer simplement cette %s."
 
-#: src/metatree.c:1839
+#: src/metatree.c:1845
 #, c-format
 msgid "Just remove this sub-%s."
 msgstr "Supprimer simplement cette sous-%s."
 
-#: src/metatree.c:1863
+#: src/metatree.c:1870
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
@@ -9330,7 +9338,7 @@ msgstr ""
 "Il est nécessaire de spécifier une %s de destination pour déplacer les "
 "opérations, mais aucune %s n'a été entrée."
 
-#: src/metatree.c:1866
+#: src/metatree.c:1873
 #, c-format
 msgid "Please enter a %s!"
 msgstr "Veuillez entrer une %s !"
