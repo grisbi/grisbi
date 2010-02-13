@@ -298,6 +298,7 @@ share/categories/fr/Makefile
 share/categories/fr_FR/Makefile
 share/categories/de_DE/Makefile
 share/categories/de_AT/Makefile
+share/categories/ru/Makefile
 src/Makefile
 src/plugins/gnucash/Makefile
 src/plugins/ofx/Makefile
