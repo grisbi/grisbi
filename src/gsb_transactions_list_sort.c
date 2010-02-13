@@ -896,13 +896,17 @@ gint gsb_transactions_list_sort_by_mark ( gint transaction_number_1,
 {
     gint return_value;
 
-    return_value = gsb_data_transaction_get_marked_transaction ( transaction_number_1)- gsb_data_transaction_get_marked_transaction ( transaction_number_2);
+    return_value = gsb_data_transaction_get_marked_transaction (
+                        transaction_number_1)-
+                        gsb_data_transaction_get_marked_transaction (
+                        transaction_number_2);
 
 
     if ( return_value )
-	return return_value;
+	    return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
+	return - gsb_transactions_list_sort_by_transaction_date_and_no (
+                        transaction_number_1, transaction_number_2 );
 }
 
 
