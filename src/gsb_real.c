@@ -70,7 +70,6 @@ lldiv_t lldiv(long long numerator, long long denominator)
 static gchar *gsb_real_format_string ( gsb_real number,
                         gint currency_number,
                         gboolean show_symbol );
-static gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_exponent );
 static gboolean gsb_real_grow_exponent( gsb_real *num, guint target_exponent );
 static void gsb_real_minimize_exponent ( gsb_real *num );
 static void gsb_real_raw_minimize_exponent ( gint64 *mantissa, gint *exponent );
@@ -313,9 +312,23 @@ gchar *gsb_real_format_string ( gsb_real number,
  * */
 gsb_real gsb_real_get_from_string ( const gchar *string )
 {
-    return gsb_real_get_from_string_normalized ( string, -1 );
-}
+    struct lconv *conv = localeconv ( );
+    gchar *mon_thousands_sep;
+    gchar *mon_decimal_point;
+    gsb_real result;
 
+    mon_thousands_sep = g_locale_to_utf8 (
+                             conv->mon_thousands_sep, -1, NULL, NULL, NULL );
+    mon_decimal_point = g_locale_to_utf8 (
+                             conv->mon_decimal_point, -1, NULL, NULL, NULL );
+
+    result =  gsb_real_raw_get_from_string ( string, mon_thousands_sep, mon_decimal_point );
+
+    g_free ( mon_thousands_sep );
+    g_free ( mon_decimal_point );
+
+    return result;
+}
 
 
 /**
@@ -504,34 +517,6 @@ gsb_real gsb_real_import_from_string ( const gchar *string )
             return error_real;
         }
     }
-}
-
-
-/**
- * get a real number from a string
- * the string can be formatted :
- * - handle , or . as separator
- * - spaces are ignored
- * - another character makes a 0 return
- *
- *   the gsb_real will have the exponent given in default_exponent, except if default_exponent = -1
- *
- * \param string
- * \param default_exponent -1 for no limit
- *
- * \return the number in the string transformed to gsb_real
- */
-gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_exponent )
-{
-    struct lconv *conv = localeconv ( );
-    gchar *mon_thousands_sep = g_locale_to_utf8 (
-                             conv->mon_thousands_sep, -1, NULL, NULL, NULL );
-    gchar *mon_decimal_point = g_locale_to_utf8 (
-                             conv->mon_decimal_point, -1, NULL, NULL, NULL );
-    gsb_real result =  gsb_real_raw_get_from_string ( string, mon_thousands_sep, mon_decimal_point );
-    g_free ( mon_thousands_sep );
-    g_free ( mon_decimal_point );
-    return result;
 }
 
 

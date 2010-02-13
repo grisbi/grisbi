@@ -350,27 +350,12 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
 
 		    if ( tmp_str[0] == 'T' )
             {
-                gchar *ptr_1, *ptr_2;
-                gchar *locale = gtk_set_locale ();
-                
-                if ( g_strrstr ( locale, "en" ) == NULL
-                 &&
-                 g_strrstr ( locale, "US" ) == NULL
-                 &&
-                 ( ptr_1 = g_strstr_len ( tmp_str, -1, "," ) )
-                 &&
-                 ( ptr_2 = g_strrstr ( tmp_str, "." ) )
-                 && ( ptr_2 - tmp_str ) > ( ptr_1 - tmp_str ) )
-                {
-                    gchar **tab;
+                gchar *new_str;
 
-                    tab = g_strsplit ( tmp_str + 1, ",", 0 );
-                    imported_transaction -> montant = gsb_real_get_from_string (
-                        g_strjoinv ( "", tab ) );
-                    g_strfreev ( tab );
-                }
-                else
-                    imported_transaction -> montant = gsb_real_get_from_string (tmp_str + 1);
+                new_str = utils_str_localise_decimal_point_from_string ( tmp_str + 1 );
+                imported_transaction -> montant = gsb_real_get_from_string ( new_str );
+
+                g_free ( new_str );
             }
 
 		    /* récupération du chèque */
@@ -451,7 +436,14 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
 		    if ( tmp_str[0] == '$'
 			 &&
 			 imported_splitted )
-			imported_splitted -> montant = gsb_real_get_from_string (tmp_str + 1);
+            {
+                gchar *new_str;
+
+                new_str = utils_str_localise_decimal_point_from_string ( tmp_str + 1 );
+                imported_splitted -> montant = gsb_real_get_from_string ( new_str );
+
+                g_free ( new_str );
+            }
 		}
 	    }
 	    while ( tmp_str[0] != '^'

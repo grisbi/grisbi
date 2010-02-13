@@ -162,6 +162,51 @@ gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
 
 
 /**
+ * locates the decimal dot 
+ *
+ *
+ *
+ * */
+gchar *utils_str_localise_decimal_point_from_string ( const gchar *string )
+{
+    struct lconv *conv = localeconv ( );
+    gchar *ptr_1, *ptr_2;
+    gchar *new_str;
+    gchar *mon_decimal_point;
+    gchar **tab;
+
+    mon_decimal_point = g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL );
+
+    if ( ( ptr_1 = g_strstr_len ( string, -1, "," ) )
+     &&
+     ( ptr_2 = g_strrstr ( string, "." ) ) )
+    {
+        if ( ( ptr_2 - string ) > ( ptr_1 - string ) )
+            tab = g_strsplit ( string, ",", 0 );
+        else
+            tab = g_strsplit ( string, ".", 0 );
+
+        new_str = g_strjoinv ( "", tab );
+        g_strfreev ( tab );
+    }
+    else
+        new_str = g_strdup ( string );
+
+    if ( g_strstr_len ( new_str, -1, mon_decimal_point ) == NULL )
+    {
+        tab = g_strsplit_set ( new_str, ".,", 0 );
+        g_free ( new_str );
+        new_str = g_strjoinv ( mon_decimal_point, tab );
+        g_strfreev ( tab );
+    }
+
+    g_free ( mon_decimal_point );
+
+    return new_str;
+}
+
+
+/**
  * @brief Secured version of atoi
  * 
  * Encapsulated call of atoi which may crash when it is call with a NULL pointer.

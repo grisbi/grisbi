@@ -36,6 +36,7 @@ G_MODULE_EXPORT gint utils_str_atoi ( const gchar *chaine );
 gchar *utils_str_itoa ( gint integer );
 gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
                         gint exponent );
+gchar *utils_str_localise_decimal_point_from_string ( const gchar *string );
 /* END_DECLARATION */
 
 typedef enum GSB_TITLE_NAME {
