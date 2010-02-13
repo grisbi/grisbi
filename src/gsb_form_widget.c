@@ -796,7 +796,6 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
     }
     element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
-    devel_debug_int (element_number);
 
     switch ( element_number )
     {
@@ -1039,9 +1038,6 @@ gboolean gsb_form_combo_selection_changed ( GtkTreeSelection *tree_selection,
         return FALSE;
 
     gtk_tree_model_get ( model, &iter, 1, &tmp_str, -1 );
-
-    widget = gsb_form_widget_get_widget ( element_number );
-    g_object_set_data_full ( G_OBJECT ( widget ), "combo_text", tmp_str, g_free );
 
     if ( tmp_str && strlen ( tmp_str ) )
     {

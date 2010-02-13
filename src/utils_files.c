@@ -81,7 +81,9 @@ static gchar *charset_array[] = {
     "ISO-8859-1",
     "ISO-8859-15",
     "windows-1252",
-    "IBM850"};
+    "IBM850",
+    NULL};
+
 
 static gchar *all_charset_array[] = {
     "IBM850",
@@ -164,7 +166,9 @@ static gchar *all_charset_array[] = {
     "VISCII",
     "x-viet-vps",
     "windows-1258",
-    "ISO-8859-8"};
+    "ISO-8859-8",
+    NULL};
+
 
 /**
  * Handler triggered by clicking on the button of a "print to file"

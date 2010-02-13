@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-08 21:46+0100\n"
+"POT-Creation-Date: 2010-02-13 17:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -444,7 +444,6 @@ msgstr ""
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr ""
 
-#. ~ gchar* tmpstr;
 #: src/affichage_liste.c:498
 msgid "Form completion"
 msgstr ""
@@ -471,6 +470,10 @@ msgstr ""
 
 #: src/affichage_liste.c:541
 msgid "Don't allow new category/budget creation"
+msgstr ""
+
+#: src/affichage_liste.c:550
+msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr ""
 
 #. set the title
@@ -559,7 +562,7 @@ msgstr ""
 #: src/balance_estimate_tab.c:1025 src/categories_onglet.c:698
 #: src/export_csv.c:781 src/gsb_form.c:1317 src/gsb_form_widget.c:444
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
-#: src/gsb_payment_method_config.c:1075 src/gsb_transactions_list.c:148
+#: src/gsb_payment_method_config.c:1084 src/gsb_transactions_list.c:148
 #: src/import_csv.c:90 src/imputation_budgetaire.c:732
 #: src/traitement_variables.c:80
 msgid "Debit"
@@ -569,7 +572,7 @@ msgstr ""
 #: src/balance_estimate_tab.c:1039 src/categories_onglet.c:698
 #: src/export_csv.c:778 src/gsb_form.c:1324 src/gsb_form_widget.c:448
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
-#: src/gsb_payment_method_config.c:1071 src/gsb_transactions_list.c:149
+#: src/gsb_payment_method_config.c:1080 src/gsb_transactions_list.c:149
 #: src/imputation_budgetaire.c:732 src/traitement_variables.c:81
 msgid "Credit"
 msgstr ""
@@ -936,7 +939,7 @@ msgstr ""
 
 #: src/categories_onglet.c:509 src/etats_onglet.c:130 src/import.c:406
 #: src/import.c:3514 src/imputation_budgetaire.c:542 src/parametres.c:292
-#: src/utils_files.c:668
+#: src/utils_files.c:672
 msgid "Import"
 msgstr ""
 
@@ -1509,7 +1512,7 @@ msgid "Transfert"
 msgstr ""
 
 #: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1040
-#: src/gsb_form.c:722 src/gsb_form.c:2638 src/gsb_form.c:3033
+#: src/gsb_form.c:722 src/gsb_form.c:2655 src/gsb_form.c:3054
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3259
 msgid "Split of transaction"
 msgstr ""
@@ -1548,7 +1551,7 @@ msgid "Number"
 msgstr ""
 
 #: src/etats_affiche.c:2412 src/export_csv.c:763 src/gsb_form.c:1290
-#: src/gsb_form.c:2130 src/gsb_form.c:2158 src/gsb_form_widget.c:452
+#: src/gsb_form.c:2124 src/gsb_form.c:2147 src/gsb_form_widget.c:452
 #: src/gsb_transactions_list.c:145 src/import_csv.c:80
 #: src/traitement_variables.c:77
 msgid "Value date"
@@ -3807,7 +3810,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
 #: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:516
-#: src/gsb_form.c:2745 src/gsb_form.c:2746 src/navigation.c:1270
+#: src/gsb_form.c:2762 src/gsb_form.c:2763 src/navigation.c:1270
 msgid "Report"
 msgstr ""
 
@@ -6731,7 +6734,7 @@ msgid "Transfer : Deleted account"
 msgstr ""
 
 #: src/gsb_form.c:754 src/gsb_form.c:1894 src/gsb_form.c:1895
-#: src/gsb_form_widget.c:1057
+#: src/gsb_form_widget.c:1053
 msgid "Transfer : "
 msgstr ""
 
@@ -6752,83 +6755,83 @@ msgstr ""
 msgid "Cheque/Transfer number"
 msgstr ""
 
-#: src/gsb_form.c:2323
+#: src/gsb_form.c:2314
 msgid "No payee selected for this report."
 msgstr ""
 
-#: src/gsb_form.c:2584
+#: src/gsb_form.c:2601
 msgid "You must enter a date."
 msgstr ""
 
-#: src/gsb_form.c:2591
+#: src/gsb_form.c:2608
 #, c-format
 msgid "Invalid date %s"
 msgstr ""
 
-#: src/gsb_form.c:2614
+#: src/gsb_form.c:2631
 #, c-format
 msgid "Invalid value date %s"
 msgstr ""
 
-#: src/gsb_form.c:2640
+#: src/gsb_form.c:2657
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
 msgstr ""
 
-#: src/gsb_form.c:2673
+#: src/gsb_form.c:2690
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 
-#: src/gsb_form.c:2680
+#: src/gsb_form.c:2697
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr ""
 
-#: src/gsb_form.c:2688
+#: src/gsb_form.c:2705
 msgid "Can't issue a transfer its own account."
 msgstr ""
 
-#: src/gsb_form.c:2693
+#: src/gsb_form.c:2710
 msgid "Can't issue a transfer on a closed account."
 msgstr ""
 
-#: src/gsb_form.c:2719
+#: src/gsb_form.c:2736
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
 "Continue anyway?"
 msgstr ""
 
-#: src/gsb_form.c:2733
+#: src/gsb_form.c:2750
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
 msgstr ""
 
-#: src/gsb_form.c:2753
+#: src/gsb_form.c:2770
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 
-#: src/gsb_form.c:2758
+#: src/gsb_form.c:2775
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 
-#: src/gsb_form.c:2769
+#: src/gsb_form.c:2786
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 
-#: src/gsb_form.c:2776
+#: src/gsb_form.c:2793
 msgid "Invalid multiple payee."
 msgstr ""
 
-#: src/gsb_form.c:3056
+#: src/gsb_form.c:3077
 msgid "Modifying a transaction"
 msgstr ""
 
-#: src/gsb_form.c:3057
+#: src/gsb_form.c:3078
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -6838,7 +6841,7 @@ msgid ""
 msgstr ""
 
 #. propose to configure the form
-#: src/gsb_form.c:3357
+#: src/gsb_form.c:3378
 msgid "Configure the form"
 msgstr ""
 
@@ -7145,39 +7148,39 @@ msgid "Neutral"
 msgstr ""
 
 #. create the new method of payment
-#: src/gsb_payment_method_config.c:1115
+#: src/gsb_payment_method_config.c:1124
 msgid "New payment method"
 msgstr ""
 
-#: src/gsb_payment_method_config.c:1263
+#: src/gsb_payment_method_config.c:1272
 msgid "Delete a payment method"
 msgstr ""
 
-#: src/gsb_payment_method_config.c:1276
+#: src/gsb_payment_method_config.c:1285
 msgid "Payment method is used by transactions"
 msgstr ""
 
-#: src/gsb_payment_method_config.c:1290
+#: src/gsb_payment_method_config.c:1299
 msgid ""
 "Problem while filling the target method of payment to delete it.\n"
 "This is not normal, please contact the grisbi team."
 msgstr ""
 
-#: src/gsb_payment_method_config.c:1295
+#: src/gsb_payment_method_config.c:1304
 msgid ""
 "Some transactions still use that payment method.  As deletion of this method "
 "is irreversible, these transactions are to be associated with another "
 "payment method."
 msgstr ""
 
-#: src/gsb_payment_method_config.c:1297
+#: src/gsb_payment_method_config.c:1306
 msgid ""
 "No target method of payment to switch the transactions to another method of "
 "payment. If you continue, the transactions with this method of payment will "
 "have no new one."
 msgstr ""
 
-#: src/gsb_payment_method_config.c:1307
+#: src/gsb_payment_method_config.c:1316
 msgid "Associate transactions with"
 msgstr ""
 
@@ -7451,7 +7454,7 @@ msgid "Browse icons"
 msgstr ""
 
 #. crÃ©ation du bouton de sÃ©lection des rÃ©pertoires
-#: src/gsb_select_icon.c:116 src/utils_files.c:377
+#: src/gsb_select_icon.c:116 src/utils_files.c:381
 msgid "Browse"
 msgstr ""
 
@@ -7656,13 +7659,13 @@ msgstr ""
 msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
 
-#: src/gtk_combofix.c:769
+#: src/gtk_combofix.c:742
 msgid ""
 "You cannot create new payee or category and subcategory without changing the "
 "options in preferences"
 msgstr ""
 
-#: src/gtk_combofix.c:772
+#: src/gtk_combofix.c:745
 msgid "Warning you cannot create payee or category"
 msgstr ""
 
@@ -7787,7 +7790,7 @@ msgstr ""
 msgid "%s files (*.%s)"
 msgstr ""
 
-#: src/import.c:821 src/utils_files.c:675
+#: src/import.c:821 src/utils_files.c:679
 msgid "Encoding"
 msgstr ""
 
@@ -8588,29 +8591,37 @@ msgid ""
 "along with their division."
 msgstr ""
 
-#: src/metatree.c:1740
+#: src/metatree.c:1741
+msgid "Transfer transactions to payee"
+msgstr ""
+
+#: src/metatree.c:1743
 #, c-format
 msgid "Transfer transactions to %s"
 msgstr ""
 
-#: src/metatree.c:1837
+#: src/metatree.c:1841
+msgid "Just remove this payee."
+msgstr ""
+
+#: src/metatree.c:1843
 #, c-format
 msgid "Just remove this %s."
 msgstr ""
 
-#: src/metatree.c:1839
+#: src/metatree.c:1845
 #, c-format
 msgid "Just remove this sub-%s."
 msgstr ""
 
-#: src/metatree.c:1863
+#: src/metatree.c:1870
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
 "was entered."
 msgstr ""
 
-#: src/metatree.c:1866
+#: src/metatree.c:1873
 #, c-format
 msgid "Please enter a %s!"
 msgstr ""
@@ -9488,50 +9499,50 @@ msgid ""
 "Please adjust your settings to a valid executable."
 msgstr ""
 
-#: src/utils_files.c:181
+#: src/utils_files.c:185
 msgid "Print to file"
 msgstr ""
 
 #. ouch, not enough memory
-#: src/utils_files.c:299 src/utils_files.c:316
+#: src/utils_files.c:303 src/utils_files.c:320
 msgid "Memory allocation error"
 msgstr ""
 
-#: src/utils_files.c:345
+#: src/utils_files.c:349
 msgid "Convert to utf8 failed."
 msgstr ""
 
-#: src/utils_files.c:346
+#: src/utils_files.c:350
 msgid ""
 "If the result is not correct, try again by selecting the correct character "
 "set in the window for selecting files."
 msgstr ""
 
-#: src/utils_files.c:613
+#: src/utils_files.c:617
 msgid "Select a charmap"
 msgstr ""
 
-#: src/utils_files.c:635
+#: src/utils_files.c:639
 #, c-format
 msgid ""
 "You are here because your file can't be imported directly into grisbi.\n"
 "%s"
 msgstr ""
 
-#: src/utils_files.c:682
+#: src/utils_files.c:686
 msgid "Result"
 msgstr ""
 
 #. select an other encoding
-#: src/utils_files.c:688
+#: src/utils_files.c:692
 msgid "If no proposals above are correct you can choose a different charset"
 msgstr ""
 
-#: src/utils_files.c:705 src/utils_files.c:823
+#: src/utils_files.c:709 src/utils_files.c:827
 msgid "Select a charset"
 msgstr ""
 
-#: src/utils_files.c:840
+#: src/utils_files.c:844
 msgid "The conversion failed try another set of characters"
 msgstr ""
 

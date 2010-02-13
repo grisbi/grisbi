@@ -6,7 +6,7 @@
 # Alain PORTAL <aportal@univ-montp2.fr>, 2003-2005.
 # Benjamin Drieu <benj@atlin>, 2006.
 # Jonathan Ernst <jonathan@ernstfamily.ch>, 2006-2007.
-# Pierre Biava <grisbi@pierre.biava.name>, 2008-2009.
+# Pierre Biava <grisbi@pierre.biava.name>, 2008-2010.
 #
 # Please follow the guidelines you'll find here: http://wiki.traduc.org/gnomefr/
 #
@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-09 23:12+0100\n"
+"POT-Creation-Date: 2010-02-13 17:29+0100\n"
 "PO-Revision-Date: 2010-02-01 20:55+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -458,7 +458,6 @@ msgid "Automagically add separator in amounts fields if unspecified"
 msgstr ""
 "Ajout automatique du séparateur dans les champs numériques s'il est omis"
 
-#. ~ gchar* tmpstr;
 #: src/affichage_liste.c:498
 msgid "Form completion"
 msgstr "Aide à la saisie du formulaire"
@@ -486,6 +485,10 @@ msgstr "Ne pas permettre la création de nouveaux tiers"
 #: src/affichage_liste.c:541
 msgid "Don't allow new category/budget creation"
 msgstr "Ne pas autoriser la création de nouvelles catégories/Imputations B."
+
+#: src/affichage_liste.c:550
+msgid "Maximum items showed in drop down lists (0 for no limit)"
+msgstr "Nombre maximum de lignes dans les menus déroulants (0 pas de limite)"
 
 #. set the title
 #: src/balance_estimate_config.c:91 src/fenetre_principale.c:271
@@ -573,7 +576,7 @@ msgstr "Description"
 #: src/balance_estimate_tab.c:1025 src/categories_onglet.c:698
 #: src/export_csv.c:781 src/gsb_form.c:1317 src/gsb_form_widget.c:444
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
-#: src/gsb_payment_method_config.c:1075 src/gsb_transactions_list.c:148
+#: src/gsb_payment_method_config.c:1084 src/gsb_transactions_list.c:148
 #: src/import_csv.c:90 src/imputation_budgetaire.c:732
 #: src/traitement_variables.c:80
 msgid "Debit"
@@ -583,7 +586,7 @@ msgstr "Débit"
 #: src/balance_estimate_tab.c:1039 src/categories_onglet.c:698
 #: src/export_csv.c:778 src/gsb_form.c:1324 src/gsb_form_widget.c:448
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
-#: src/gsb_payment_method_config.c:1071 src/gsb_transactions_list.c:149
+#: src/gsb_payment_method_config.c:1080 src/gsb_transactions_list.c:149
 #: src/imputation_budgetaire.c:732 src/traitement_variables.c:81
 msgid "Credit"
 msgstr "Crédit"
@@ -961,7 +964,7 @@ msgstr "Créer une nouvelle sous-catégorie"
 
 #: src/categories_onglet.c:509 src/etats_onglet.c:130 src/import.c:406
 #: src/import.c:3514 src/imputation_budgetaire.c:542 src/parametres.c:292
-#: src/utils_files.c:668
+#: src/utils_files.c:672
 msgid "Import"
 msgstr "Importer"
 
@@ -1582,7 +1585,7 @@ msgid "Transfert"
 msgstr "Virement"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1040
-#: src/gsb_form.c:722 src/gsb_form.c:2648 src/gsb_form.c:3043
+#: src/gsb_form.c:722 src/gsb_form.c:2655 src/gsb_form.c:3054
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3259
 msgid "Split of transaction"
 msgstr "Opération ventilée"
@@ -1621,7 +1624,7 @@ msgid "Number"
 msgstr "N°"
 
 #: src/etats_affiche.c:2412 src/export_csv.c:763 src/gsb_form.c:1290
-#: src/gsb_form.c:2131 src/gsb_form.c:2161 src/gsb_form_widget.c:452
+#: src/gsb_form.c:2124 src/gsb_form.c:2147 src/gsb_form_widget.c:452
 #: src/gsb_transactions_list.c:145 src/import_csv.c:80
 #: src/traitement_variables.c:77
 msgid "Value date"
@@ -4051,7 +4054,7 @@ msgstr ""
 "Grisbi archivera toutes les transactions appartenant à l'état sélectionné"
 
 #: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:516
-#: src/gsb_form.c:2755 src/gsb_form.c:2756 src/navigation.c:1270
+#: src/gsb_form.c:2762 src/gsb_form.c:2763 src/navigation.c:1270
 msgid "Report"
 msgstr "État"
 
@@ -7262,7 +7265,7 @@ msgid "Transfer : Deleted account"
 msgstr "Virement : Compte supprimé"
 
 #: src/gsb_form.c:754 src/gsb_form.c:1894 src/gsb_form.c:1895
-#: src/gsb_form_widget.c:1057
+#: src/gsb_form_widget.c:1053
 msgid "Transfer : "
 msgstr "Virement : "
 
@@ -7283,25 +7286,25 @@ msgstr "Catégories : Sous-catégories"
 msgid "Cheque/Transfer number"
 msgstr "N° Chèque/Virement"
 
-#: src/gsb_form.c:2333
+#: src/gsb_form.c:2314
 msgid "No payee selected for this report."
 msgstr "Cet état ne comporte pas de tiers sélectionnés."
 
-#: src/gsb_form.c:2594
+#: src/gsb_form.c:2601
 msgid "You must enter a date."
 msgstr "Une date est obligatoire."
 
-#: src/gsb_form.c:2601
+#: src/gsb_form.c:2608
 #, c-format
 msgid "Invalid date %s"
 msgstr "Date invalide %s"
 
-#: src/gsb_form.c:2624
+#: src/gsb_form.c:2631
 #, c-format
 msgid "Invalid value date %s"
 msgstr "La date est invalide %s"
 
-#: src/gsb_form.c:2650
+#: src/gsb_form.c:2657
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
@@ -7309,28 +7312,28 @@ msgstr ""
 "Vous ne pouvez pas choisir la catégorie « opération ventilée » pour une "
 "opération fille"
 
-#: src/gsb_form.c:2683
+#: src/gsb_form.c:2690
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 "Vous ne pouvez pas associer un virement pour un compte supprimé dans une "
 "opération programmée."
 
-#: src/gsb_form.c:2690
+#: src/gsb_form.c:2697
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "Il n'y a pas de compte associé à ce virement où il est invalide"
 
-#: src/gsb_form.c:2698
+#: src/gsb_form.c:2705
 msgid "Can't issue a transfer its own account."
 msgstr "Impossible d'effectuer un virement sur son propre compte"
 
-#: src/gsb_form.c:2703
+#: src/gsb_form.c:2710
 msgid "Can't issue a transfer on a closed account."
 msgstr "Impossible d'effectuer un virement sur un compte clos"
 
-#: src/gsb_form.c:2729
+#: src/gsb_form.c:2736
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7340,7 +7343,7 @@ msgstr ""
 "aucun numéro.\n"
 "Souhaitez-vous continuer ?"
 
-#: src/gsb_form.c:2743
+#: src/gsb_form.c:2750
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7348,30 +7351,30 @@ msgstr ""
 "Attention, le numéro du chèque est déjà utilisé.\n"
 "Souhaitez-vous continuer ?"
 
-#: src/gsb_form.c:2763
+#: src/gsb_form.c:2770
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 "Une opération dont le tiers est un état doit forcément être une nouvelle "
 "opération."
 
-#: src/gsb_form.c:2768
+#: src/gsb_form.c:2775
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "Une opération dont le tiers est un état ne peut pas être une sous-opération."
 
-#: src/gsb_form.c:2779
+#: src/gsb_form.c:2786
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr "Le mot « État » est réservé.  Veuillez en utiliser un autre."
 
-#: src/gsb_form.c:2786
+#: src/gsb_form.c:2793
 msgid "Invalid multiple payee."
 msgstr "Nom de tiers déjà utilisé."
 
-#: src/gsb_form.c:3066
+#: src/gsb_form.c:3077
 msgid "Modifying a transaction"
 msgstr "Modifier une opération"
 
-#: src/gsb_form.c:3067
+#: src/gsb_form.c:3078
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7386,7 +7389,7 @@ msgstr ""
 "Etes vous certain ?"
 
 #. propose to configure the form
-#: src/gsb_form.c:3367
+#: src/gsb_form.c:3378
 msgid "Configure the form"
 msgstr "Configurer le formulaire"
 
@@ -7708,19 +7711,19 @@ msgid "Neutral"
 msgstr "Neutre"
 
 #. create the new method of payment
-#: src/gsb_payment_method_config.c:1115
+#: src/gsb_payment_method_config.c:1124
 msgid "New payment method"
 msgstr "Nouveau mode de règlement"
 
-#: src/gsb_payment_method_config.c:1263
+#: src/gsb_payment_method_config.c:1272
 msgid "Delete a payment method"
 msgstr "Effacer un mode de règlement"
 
-#: src/gsb_payment_method_config.c:1276
+#: src/gsb_payment_method_config.c:1285
 msgid "Payment method is used by transactions"
 msgstr "Cette méthode de payement est utilisée pour les opérations"
 
-#: src/gsb_payment_method_config.c:1290
+#: src/gsb_payment_method_config.c:1299
 msgid ""
 "Problem while filling the target method of payment to delete it.\n"
 "This is not normal, please contact the grisbi team."
@@ -7729,7 +7732,7 @@ msgstr ""
 "supprimer un.\n"
 "Ce n'est pas normal, contactez les développeurs de Grisbi."
 
-#: src/gsb_payment_method_config.c:1295
+#: src/gsb_payment_method_config.c:1304
 msgid ""
 "Some transactions still use that payment method.  As deletion of this method "
 "is irreversible, these transactions are to be associated with another "
@@ -7739,7 +7742,7 @@ msgstr ""
 "suppression étant irréversible, ces opérations seront associées à un autre "
 "mode de règlement."
 
-#: src/gsb_payment_method_config.c:1297
+#: src/gsb_payment_method_config.c:1306
 msgid ""
 "No target method of payment to switch the transactions to another method of "
 "payment. If you continue, the transactions with this method of payment will "
@@ -7748,7 +7751,7 @@ msgstr ""
 "Il n'existe pas d'autre méthode de payement pour cette opération. Si vous "
 "continuez l'opération n'aura plus de méthode de payement."
 
-#: src/gsb_payment_method_config.c:1307
+#: src/gsb_payment_method_config.c:1316
 msgid "Associate transactions with"
 msgstr "Associer ces opérations avec"
 
@@ -8050,7 +8053,7 @@ msgid "Browse icons"
 msgstr "Parcourir les fichiers d'icônes"
 
 #. crÃ©ation du bouton de sÃ©lection des rÃ©pertoires
-#: src/gsb_select_icon.c:116 src/utils_files.c:377
+#: src/gsb_select_icon.c:116 src/utils_files.c:381
 msgid "Browse"
 msgstr "Parcourir"
 
@@ -8292,7 +8295,7 @@ msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
 "Demande pour un numéro de tri : %d qui n'existe pas... retour au tri par date"
 
-#: src/gtk_combofix.c:769
+#: src/gtk_combofix.c:742
 msgid ""
 "You cannot create new payee or category and subcategory without changing the "
 "options in preferences"
@@ -8300,7 +8303,7 @@ msgstr ""
 "Vous ne pouvez pas créer de nouveau tiers ou catégorie sous-catégorie sans "
 "modifier l'option correspondante dans les préférences"
 
-#: src/gtk_combofix.c:772
+#: src/gtk_combofix.c:745
 msgid "Warning you cannot create payee or category"
 msgstr "Attention vous ne pouvez pas créer de tiers ou de catégorie"
 
@@ -8436,7 +8439,7 @@ msgstr "Fichiers connus (%s)"
 msgid "%s files (*.%s)"
 msgstr "Fichiers %s (*.%s)"
 
-#: src/import.c:821 src/utils_files.c:675
+#: src/import.c:821 src/utils_files.c:679
 msgid "Encoding"
 msgstr "Codage"
 
@@ -10300,20 +10303,20 @@ msgstr ""
 "La commande était : %s.\n"
 "Veuillez modifier votre configuration pour un exécutable valide."
 
-#: src/utils_files.c:181
+#: src/utils_files.c:185
 msgid "Print to file"
 msgstr "Imprimer dans un fichier"
 
 #. ouch, not enough memory
-#: src/utils_files.c:299 src/utils_files.c:316
+#: src/utils_files.c:303 src/utils_files.c:320
 msgid "Memory allocation error"
 msgstr "Erreur d'allocation mémoire"
 
-#: src/utils_files.c:345
+#: src/utils_files.c:349
 msgid "Convert to utf8 failed."
 msgstr "La conversion en UTF8 a échoué"
 
-#: src/utils_files.c:346
+#: src/utils_files.c:350
 msgid ""
 "If the result is not correct, try again by selecting the correct character "
 "set in the window for selecting files."
@@ -10321,11 +10324,11 @@ msgstr ""
 "Si le résultat n'est pas correct, essayez de nouveau en sélectionnant le jeu "
 "de caractères dans la fenêtre de sélection des fichiers."
 
-#: src/utils_files.c:613
+#: src/utils_files.c:617
 msgid "Select a charmap"
 msgstr "Sélectionnez un jeu de caractères"
 
-#: src/utils_files.c:635
+#: src/utils_files.c:639
 #, c-format
 msgid ""
 "You are here because your file can't be imported directly into grisbi.\n"
@@ -10334,22 +10337,22 @@ msgstr ""
 "Vous êtes ici parce que votre fichier ne peut pas être importé directement.\n"
 "%s"
 
-#: src/utils_files.c:682
+#: src/utils_files.c:686
 msgid "Result"
 msgstr "Résultat"
 
 #. select an other encoding
-#: src/utils_files.c:688
+#: src/utils_files.c:692
 msgid "If no proposals above are correct you can choose a different charset"
 msgstr ""
 "Si aucune des propositions ci-dessus ne sont correctes,\n"
 "vous pouvez choisir un jeu de caractères différent"
 
-#: src/utils_files.c:705 src/utils_files.c:823
+#: src/utils_files.c:709 src/utils_files.c:827
 msgid "Select a charset"
 msgstr "Sélectionnez un jeu de caractères"
 
-#: src/utils_files.c:840
+#: src/utils_files.c:844
 msgid "The conversion failed try another set of characters"
 msgstr "La conversion à échoué essayez un autre jeu de caractères"
 
@@ -10439,10 +10442,6 @@ msgstr "Aucune police définie"
 #, fuzzy
 #~ msgid "Delete messages"
 #~ msgstr "Supprimer l'archive"
-
-#~ msgid "Maximum items showed in drop down lists (0 for no limit)"
-#~ msgstr ""
-#~ "Nombre maximum de lignes dans les menus déroulants (0 pas de limite)"
 
 #~ msgid "Category line"
 #~ msgstr "Catégorie"

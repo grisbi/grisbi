@@ -814,19 +814,26 @@ gboolean gsb_payment_method_config_auto_button_changed ( GtkWidget *button,
 	gint payment_number;
 
 	model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
-	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter,
-			     PAYMENT_METHODS_NUMBER_COLUMN, &payment_number,
-			     -1 );
+	gtk_tree_model_get ( GTK_TREE_MODEL(model),
+                    &iter,
+			        PAYMENT_METHODS_NUMBER_COLUMN,
+                    &payment_number,
+			        -1 );
 
 	if (payment_number)
 	{
 	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_auto_numbering )))
 	    {
-		gtk_widget_set_sensitive ( payment_last_number_entry, TRUE );
-		gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-				    PAYMENT_METHODS_NUMBERING_COLUMN,
-				    gsb_data_payment_get_last_number (payment_number),
-				    -1);
+            gchar* tmpstr;
+
+            gtk_widget_set_sensitive ( payment_last_number_entry, TRUE );
+            tmpstr = utils_str_itoa ( gsb_data_payment_get_last_number ( payment_number ) );
+            gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                            &iter,
+                            PAYMENT_METHODS_NUMBERING_COLUMN,
+                            tmpstr,
+                            -1);
+            g_free ( tmpstr );
 	    }
 	    else
 	    {
@@ -873,11 +880,13 @@ gboolean gsb_payment_method_config_auto_entry_changed ( GtkWidget *spin_button,
 			     -1 );
 	if (payment_number)
 	{
-	    gchar* tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (payment_number));
-	    gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
-				PAYMENT_METHODS_NUMBERING_COLUMN,
-				tmpstr,
-				-1);
+        gchar* tmpstr;
+
+        tmpstr = utils_str_itoa ( gsb_data_payment_get_last_number ( payment_number ) );
+        gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
+                        PAYMENT_METHODS_NUMBERING_COLUMN,
+                        tmpstr,
+                        -1);
 	    g_free ( tmpstr );
 	}
     }

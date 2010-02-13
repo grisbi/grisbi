@@ -97,20 +97,6 @@ guint gtk_combofix_get_type ( void );
 
 
 /**
- * create a normal combofix, ie just 1 list
- * by default, force is not set, auto_sort is TRUE, no max items
- * and case unsensitive
- *
- * \param list a g_slist of name (\t at the begining makes it as a child)
- * \param force TRUE and the text must be in the list
- * \param sort TRUE and the list will be sorted automatickly
- * \param min_length the minimum of characters to show the popup
- * 
- * \return the new widget
- * */
-GtkWidget *gtk_combofix_new ( GSList *list );
-
-/**
  * create a complex combofix, ie several list set one after the others
  * by default, force is not set, auto_sort is TRUE, no max items
  * and case unsensitive

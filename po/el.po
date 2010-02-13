@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-08 21:46+0100\n"
+"POT-Creation-Date: 2010-02-13 17:29+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -473,7 +473,6 @@ msgid "Automagically add separator in amounts fields if unspecified"
 msgstr ""
 "Αυτόματα προσθέτει το διαχωριστή στα πεδία των  ποσών εάν είναι απροσδιόριστο"
 
-#. ~ gchar* tmpstr;
 #: src/affichage_liste.c:498
 msgid "Form completion"
 msgstr "Ολοκλήρωση μορφής"
@@ -503,6 +502,12 @@ msgstr "Μην επιτρέψτε τη νέα δημιουργία δικαιο�
 #: src/affichage_liste.c:541
 msgid "Don't allow new category/budget creation"
 msgstr "Μην επιτρέψτε τη νέα δημιουργία κατηγορίας/προϋπολογισμών"
+
+#: src/affichage_liste.c:550
+msgid "Maximum items showed in drop down lists (0 for no limit)"
+msgstr ""
+"Τα μέγιστα στοιχεία παρουσιάζονται στην πτώση κάτω από τους καταλόγους (0 "
+"για κανένα όριο)"
 
 #. set the title
 #: src/balance_estimate_config.c:91 src/fenetre_principale.c:271
@@ -592,7 +597,7 @@ msgstr "Περιγραφή"
 #: src/balance_estimate_tab.c:1025 src/categories_onglet.c:698
 #: src/export_csv.c:781 src/gsb_form.c:1317 src/gsb_form_widget.c:444
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
-#: src/gsb_payment_method_config.c:1075 src/gsb_transactions_list.c:148
+#: src/gsb_payment_method_config.c:1084 src/gsb_transactions_list.c:148
 #: src/import_csv.c:90 src/imputation_budgetaire.c:732
 #: src/traitement_variables.c:80
 msgid "Debit"
@@ -602,7 +607,7 @@ msgstr "Χρέωση"
 #: src/balance_estimate_tab.c:1039 src/categories_onglet.c:698
 #: src/export_csv.c:778 src/gsb_form.c:1324 src/gsb_form_widget.c:448
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
-#: src/gsb_payment_method_config.c:1071 src/gsb_transactions_list.c:149
+#: src/gsb_payment_method_config.c:1080 src/gsb_transactions_list.c:149
 #: src/imputation_budgetaire.c:732 src/traitement_variables.c:81
 msgid "Credit"
 msgstr "Πίστωση"
@@ -994,7 +999,7 @@ msgstr "Δημιουργήστε μια νέα υποκατηγορία"
 
 #: src/categories_onglet.c:509 src/etats_onglet.c:130 src/import.c:406
 #: src/import.c:3514 src/imputation_budgetaire.c:542 src/parametres.c:292
-#: src/utils_files.c:668
+#: src/utils_files.c:672
 msgid "Import"
 msgstr "Εισαγωγή"
 
@@ -1620,7 +1625,7 @@ msgid "Transfert"
 msgstr "Μεταφορά"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1040
-#: src/gsb_form.c:722 src/gsb_form.c:2638 src/gsb_form.c:3033
+#: src/gsb_form.c:722 src/gsb_form.c:2655 src/gsb_form.c:3054
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3259
 msgid "Split of transaction"
 msgstr "Διάσπαση της συναλλαγής"
@@ -1659,7 +1664,7 @@ msgid "Number"
 msgstr "Αριθμός"
 
 #: src/etats_affiche.c:2412 src/export_csv.c:763 src/gsb_form.c:1290
-#: src/gsb_form.c:2130 src/gsb_form.c:2158 src/gsb_form_widget.c:452
+#: src/gsb_form.c:2124 src/gsb_form.c:2147 src/gsb_form_widget.c:452
 #: src/gsb_transactions_list.c:145 src/import_csv.c:80
 #: src/traitement_variables.c:77
 msgid "Value date"
@@ -4101,7 +4106,7 @@ msgstr ""
 "Το Grisbi θα αρχειοθετήσει τις συναλλαγές που επιλέγονται από μια έκθεση."
 
 #: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:516
-#: src/gsb_form.c:2745 src/gsb_form.c:2746 src/navigation.c:1270
+#: src/gsb_form.c:2762 src/gsb_form.c:2763 src/navigation.c:1270
 msgid "Report"
 msgstr "Αναφορά"
 
@@ -7368,7 +7373,7 @@ msgid "Transfer : Deleted account"
 msgstr "Μεταφορά: Διαγραμμένος λογαριασμός"
 
 #: src/gsb_form.c:754 src/gsb_form.c:1894 src/gsb_form.c:1895
-#: src/gsb_form_widget.c:1057
+#: src/gsb_form_widget.c:1053
 msgid "Transfer : "
 msgstr "Μεταφορά : "
 
@@ -7389,25 +7394,25 @@ msgstr "Κατηγορίες :Υποκατηγορίες"
 msgid "Cheque/Transfer number"
 msgstr "Επιταγή/αριθμός μεταφοράς"
 
-#: src/gsb_form.c:2323
+#: src/gsb_form.c:2314
 msgid "No payee selected for this report."
 msgstr "Δεν επιλέχτηκε κανένας δικαιούχος πληρωμής  σε αυτήν την έκθεση."
 
-#: src/gsb_form.c:2584
+#: src/gsb_form.c:2601
 msgid "You must enter a date."
 msgstr "Πρέπει να εισαγάγετε μια ημερομηνία."
 
-#: src/gsb_form.c:2591
+#: src/gsb_form.c:2608
 #, c-format
 msgid "Invalid date %s"
 msgstr "Άκυρη ημερομηνία %s"
 
-#: src/gsb_form.c:2614
+#: src/gsb_form.c:2631
 #, c-format
 msgid "Invalid value date %s"
 msgstr "Άκυρη τοκοφόρος ημερομηνία %s"
 
-#: src/gsb_form.c:2640
+#: src/gsb_form.c:2657
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
@@ -7415,14 +7420,14 @@ msgstr ""
 "Δεν μπορείτε να θέσετε τη διάσπαση της συναλλαγής στην κατηγορία για μια "
 "απόγονο μιας διάσπασης της συναλλαγής."
 
-#: src/gsb_form.c:2673
+#: src/gsb_form.c:2690
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 "Αδύνατη η σύνδεση μιας μεταφοράς σε έναν διαγραμμένο λογαριασμό σε μια "
 "σχεδιασμένη συναλλαγή."
 
-#: src/gsb_form.c:2680
+#: src/gsb_form.c:2697
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
@@ -7430,15 +7435,15 @@ msgstr ""
 "Δεν υπάρχει κανένας σχετικός λογαριασμός για αυτήν την μεταφορά ή ο σχετικός "
 "λογαριασμός είναι άκυρος."
 
-#: src/gsb_form.c:2688
+#: src/gsb_form.c:2705
 msgid "Can't issue a transfer its own account."
 msgstr "Αδύνατη η εκροή της μεταφοράς στον λογαριασμό"
 
-#: src/gsb_form.c:2693
+#: src/gsb_form.c:2710
 msgid "Can't issue a transfer on a closed account."
 msgstr "Αδύνατη η εκροή της μεταφοράς σε έναν κλειστό λογαριασμό"
 
-#: src/gsb_form.c:2719
+#: src/gsb_form.c:2736
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7448,7 +7453,7 @@ msgstr ""
 "αλλά δεν περιέχει οποιοδήποτε αριθμό.\n"
 "Θα συνεχίσετε παρόλα αυτά;"
 
-#: src/gsb_form.c:2733
+#: src/gsb_form.c:2750
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7456,31 +7461,31 @@ msgstr ""
 "Προειδοποίηση: αυτός ο αριθμός επιταγών χρησιμοποιείται ήδη.\n"
 "θα συνεχίσετε παρόλα αυτά;"
 
-#: src/gsb_form.c:2753
+#: src/gsb_form.c:2770
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 "Μια συναλλαγή με έναν πολλαπλάσιο δικαιούχο πληρωμής πρέπει να είναι νέα."
 
-#: src/gsb_form.c:2758
+#: src/gsb_form.c:2775
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "Μια συναλλαγή με έναν πολλαπλάσιο δικαιούχο πληρωμής δεν μπορεί να είναι "
 "διασπασμένος απόγονος."
 
-#: src/gsb_form.c:2769
+#: src/gsb_form.c:2786
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 "Η λέξη \"έκθεση \" είναι διατηρημένη. Παρακαλώ χρησιμοποιήστε μια άλλη."
 
-#: src/gsb_form.c:2776
+#: src/gsb_form.c:2793
 msgid "Invalid multiple payee."
 msgstr "Άκυρος πολλαπλάσιος δικαιούχος πληρωμής."
 
-#: src/gsb_form.c:3056
+#: src/gsb_form.c:3077
 msgid "Modifying a transaction"
 msgstr "Τροποποίηση μιας συναλλαγής"
 
-#: src/gsb_form.c:3057
+#: src/gsb_form.c:3078
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7495,7 +7500,7 @@ msgstr ""
 "Είστε βέβαιοι;"
 
 #. propose to configure the form
-#: src/gsb_form.c:3357
+#: src/gsb_form.c:3378
 msgid "Configure the form"
 msgstr "Διαμορφώστε τη μορφή"
 
@@ -7817,19 +7822,19 @@ msgid "Neutral"
 msgstr "Ουδέτερος"
 
 #. create the new method of payment
-#: src/gsb_payment_method_config.c:1115
+#: src/gsb_payment_method_config.c:1124
 msgid "New payment method"
 msgstr "Νέα μέθοδος πληρωμής"
 
-#: src/gsb_payment_method_config.c:1263
+#: src/gsb_payment_method_config.c:1272
 msgid "Delete a payment method"
 msgstr "Διαγράψτε μια μέθοδο πληρωμής"
 
-#: src/gsb_payment_method_config.c:1276
+#: src/gsb_payment_method_config.c:1285
 msgid "Payment method is used by transactions"
 msgstr "Η μέθοδος πληρωμής χρησιμοποιείται από τις συναλλαγές"
 
-#: src/gsb_payment_method_config.c:1290
+#: src/gsb_payment_method_config.c:1299
 msgid ""
 "Problem while filling the target method of payment to delete it.\n"
 "This is not normal, please contact the grisbi team."
@@ -7837,7 +7842,7 @@ msgstr ""
 "Πρόβλημα συμπληρώνοντας τη μέθοδο στόχων πληρωμής για να το διαγράψει.\n"
 "Αυτό δεν είναι κανονικό, παρακαλώ ελάτε σε επαφή με την ομάδα grisbi."
 
-#: src/gsb_payment_method_config.c:1295
+#: src/gsb_payment_method_config.c:1304
 msgid ""
 "Some transactions still use that payment method.  As deletion of this method "
 "is irreversible, these transactions are to be associated with another "
@@ -7847,7 +7852,7 @@ msgstr ""
 "Δεδομένου ότι η διαγραφή αυτής της μεθόδου είναι αμετάκλητη, αυτές οι "
 "συναλλαγές πρόκειται να συνδεθούν με μια άλλη μέθοδο πληρωμής."
 
-#: src/gsb_payment_method_config.c:1297
+#: src/gsb_payment_method_config.c:1306
 msgid ""
 "No target method of payment to switch the transactions to another method of "
 "payment. If you continue, the transactions with this method of payment will "
@@ -7857,7 +7862,7 @@ msgstr ""
 "μέθοδο πληρωμής. Εάν συνεχίσετε, οι συναλλαγές με αυτήν την μέθοδο πληρωμής "
 "δεν θα έχουν κανένα νέο."
 
-#: src/gsb_payment_method_config.c:1307
+#: src/gsb_payment_method_config.c:1316
 msgid "Associate transactions with"
 msgstr "Συνδυαζόμενες συναλλαγές με"
 
@@ -8170,7 +8175,7 @@ msgid "Browse icons"
 msgstr "Ψάξτε τα εικονίδια"
 
 #. crÃ©ation du bouton de sÃ©lection des rÃ©pertoires
-#: src/gsb_select_icon.c:116 src/utils_files.c:377
+#: src/gsb_select_icon.c:116 src/utils_files.c:381
 msgid "Browse"
 msgstr "Αναζήτηση"
 
@@ -8426,13 +8431,13 @@ msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
 "ζητήστε τον αριθμό είδους %d που δεν υπάρχει… επιστροφή κατά την ημερομηνία"
 
-#: src/gtk_combofix.c:769
+#: src/gtk_combofix.c:742
 msgid ""
 "You cannot create new payee or category and subcategory without changing the "
 "options in preferences"
 msgstr ""
 
-#: src/gtk_combofix.c:772
+#: src/gtk_combofix.c:745
 msgid "Warning you cannot create payee or category"
 msgstr ""
 
@@ -8569,7 +8574,7 @@ msgstr "Γνωστά αρχεία (%s)"
 msgid "%s files (*.%s)"
 msgstr "%s αρχεία (*.%s)"
 
-#: src/import.c:821 src/utils_files.c:675
+#: src/import.c:821 src/utils_files.c:679
 msgid "Encoding"
 msgstr "Κωδικοποίηση"
 
@@ -9442,22 +9447,32 @@ msgstr ""
 "μπορείτε να τις μεταφέρετε σε ένα άλλο (υπο-) %s.  Διαφορετικά, οι "
 "συναλλαγές μπορούν να διαγραφούν απλά μαζί με το τμήμα τους"
 
-#: src/metatree.c:1740
+#: src/metatree.c:1741
+#, fuzzy
+msgid "Transfer transactions to payee"
+msgstr "Συναλλαγές μεταφοράς %s"
+
+#: src/metatree.c:1743
 #, c-format
 msgid "Transfer transactions to %s"
 msgstr "Συναλλαγές μεταφοράς %s"
 
-#: src/metatree.c:1837
+#: src/metatree.c:1841
+#, fuzzy
+msgid "Just remove this payee."
+msgstr "Αφαιρέστε αυτό το %s."
+
+#: src/metatree.c:1843
 #, c-format
 msgid "Just remove this %s."
 msgstr "Αφαιρέστε αυτό το %s."
 
-#: src/metatree.c:1839
+#: src/metatree.c:1845
 #, c-format
 msgid "Just remove this sub-%s."
 msgstr "Ακριβώς αφαιρέστε αυτό το υπο-%s."
 
-#: src/metatree.c:1863
+#: src/metatree.c:1870
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
@@ -9466,7 +9481,7 @@ msgstr ""
 "Είναι υποχρεωτικό να διευκρινιστεί ένας προορισμός %s για να κινήσει τις "
 "συναλλαγές αλλά κανένα %s δεν εισήχθη."
 
-#: src/metatree.c:1866
+#: src/metatree.c:1873
 #, c-format
 msgid "Please enter a %s!"
 msgstr "Παρακαλώ εισάγετε %s!"
@@ -10456,53 +10471,53 @@ msgstr ""
 "Η εντολή ήταν: %s.\n"
 "Παρακαλώ ρυθμίστε τις τοποθετήσεις σας σε ένα έγκυρο  εκτελέσιμο."
 
-#: src/utils_files.c:181
+#: src/utils_files.c:185
 msgid "Print to file"
 msgstr "Εκτύπωση σε αρχείο"
 
 #. ouch, not enough memory
-#: src/utils_files.c:299 src/utils_files.c:316
+#: src/utils_files.c:303 src/utils_files.c:320
 msgid "Memory allocation error"
 msgstr "Λάθος κατανομής μνήμης"
 
-#: src/utils_files.c:345
+#: src/utils_files.c:349
 msgid "Convert to utf8 failed."
 msgstr ""
 
-#: src/utils_files.c:346
+#: src/utils_files.c:350
 msgid ""
 "If the result is not correct, try again by selecting the correct character "
 "set in the window for selecting files."
 msgstr ""
 
-#: src/utils_files.c:613
+#: src/utils_files.c:617
 #, fuzzy
 msgid "Select a charmap"
 msgstr "Επιλέξτε το βασικό νόμισμα"
 
-#: src/utils_files.c:635
+#: src/utils_files.c:639
 #, c-format
 msgid ""
 "You are here because your file can't be imported directly into grisbi.\n"
 "%s"
 msgstr ""
 
-#: src/utils_files.c:682
+#: src/utils_files.c:686
 #, fuzzy
 msgid "Result"
 msgstr "Αποτέλεσμα %s"
 
 #. select an other encoding
-#: src/utils_files.c:688
+#: src/utils_files.c:692
 msgid "If no proposals above are correct you can choose a different charset"
 msgstr ""
 
-#: src/utils_files.c:705 src/utils_files.c:823
+#: src/utils_files.c:709 src/utils_files.c:827
 #, fuzzy
 msgid "Select a charset"
 msgstr "Επιλέξτε το βασικό νόμισμα"
 
-#: src/utils_files.c:840
+#: src/utils_files.c:844
 msgid "The conversion failed try another set of characters"
 msgstr ""
 
@@ -10583,11 +10598,6 @@ msgstr "Δεν καθορίστηκε γραμματοσειρά"
 #, fuzzy
 #~ msgid "Delete messages"
 #~ msgstr "Διαγράψτε το αρχείο"
-
-#~ msgid "Maximum items showed in drop down lists (0 for no limit)"
-#~ msgstr ""
-#~ "Τα μέγιστα στοιχεία παρουσιάζονται στην πτώση κάτω από τους καταλόγους (0 "
-#~ "για κανένα όριο)"
 
 #~ msgid "Category line"
 #~ msgstr "Γραμμή κατηγορίας"

@@ -2042,7 +2042,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
     gint account_number;
     gint element_suivant;
     GtkWidget *widget_prov;
-    gchar *tmp_str;
     
     element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
@@ -2110,11 +2109,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    break;
 
 	case GDK_ISO_Left_Tab:
-        widget_prov = gsb_form_widget_get_widget ( element_number );
-        tmp_str = g_object_get_data ( G_OBJECT ( widget_prov ), "combo_text" );
-        if ( tmp_str && strlen ( tmp_str ) > 0 )
-            gtk_combofix_set_text ( GTK_COMBOFIX ( widget_prov ), tmp_str );
-
         element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_LEFT );
@@ -2137,11 +2131,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    break;
 
 	case GDK_Tab :
-        widget_prov = gsb_form_widget_get_widget ( element_number );
-        tmp_str = g_object_get_data ( G_OBJECT ( widget_prov ), "combo_text" );
-        if ( tmp_str && strlen ( tmp_str ) > 0 )
-            gtk_combofix_set_text ( GTK_COMBOFIX ( widget_prov ), tmp_str );
-
 	    element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_RIGHT );
@@ -2248,6 +2237,8 @@ gboolean gsb_form_finish_edition ( void )
     gboolean is_transaction;
     gboolean execute_scheduled = FALSE;
     gint saved_scheduled_number = 0;
+    gint source_transaction_number = -1;
+    gint nbre_passage = 0;
 
     devel_debug (NULL);
 
@@ -2310,150 +2301,176 @@ gboolean gsb_form_finish_edition ( void )
 
     while ( list_tmp )
     {
-	if ( GPOINTER_TO_INT (list_tmp -> data) == -1 )
-	    /* it's a normal party, we set the list_tmp to NULL */
-	    list_tmp = NULL;
-	else
-	{
-	    /* it's a report, so each time we come here we set the parti's combofix to the
-	     * party of the report */
+        if ( GPOINTER_TO_INT (list_tmp -> data) == -1 )
+            /* it's a normal party, we set the list_tmp to NULL */
+            list_tmp = NULL;
+        else
+        {
+            /* it's a report, so each time we come here we set the parti's combofix to the
+             * party of the report */
 
-	    if ( !list_tmp -> data )
-	    {
-		dialogue_error ( _("No payee selected for this report."));
-		return FALSE;
+            if ( !list_tmp -> data )
+            {
+                dialogue_error ( _("No payee selected for this report."));
+                return FALSE;
+            }
+            else
+            {
+                GtkWidget *widget;
+                gint payment_number;
+
+                if ( nbre_passage == 0 )
+                {
+                    widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+                    gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
+                                gsb_data_payee_get_name ( GPOINTER_TO_INT (
+                                list_tmp -> data ), TRUE ) );
+                    gsb_form_widget_set_empty ( GTK_WIDGET ( GTK_COMBOFIX ( widget ) -> entry ), FALSE );
+                }
+                else
+                {
+                    transaction_number = gsb_data_transaction_new_transaction ( account_number );
+
+                    gsb_data_transaction_copy_transaction ( source_transaction_number,
+                                    transaction_number, TRUE );
+                    gsb_data_transaction_set_party_number ( transaction_number,
+                                    GPOINTER_TO_INT ( list_tmp -> data ) );
+
+                    /* if it's not the first party and the method of payment has to change its number (cheque),
+                     * we increase the number. as we are in a party's list, it's always a new transactio, 
+                     * so we know that it's not the first if transaction_number is not 0 */
+
+                    payment_number = gsb_data_transaction_get_method_of_payment_number (
+                                    source_transaction_number);
+
+                    if ( gsb_data_payment_get_automatic_numbering ( payment_number ) )
+                    {
+                        gchar *tmpstr;
+
+                        tmpstr = utils_str_itoa ( gsb_data_payment_get_last_number (
+                                        payment_number ) + nbre_passage );
+                        gsb_data_transaction_set_method_of_payment_content (
+                                        transaction_number,
+                                        tmpstr );
+                        g_free ( tmpstr ) ;
+                    }
+                    gsb_transactions_list_append_new_transaction ( transaction_number, TRUE);
+                }
+                nbre_passage++;
+	        }
+
+            list_tmp = list_tmp -> next;
+            if ( list_tmp == NULL )
+                break;
+            else if ( nbre_passage > 1 )
+                continue;
 	    }
-	    else
-	    {
-		gtk_combofix_set_text ( GTK_COMBOFIX ( gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY)),
-					gsb_data_payee_get_name ( GPOINTER_TO_INT (list_tmp -> data), TRUE ));
 
-		/* if it's not the first party and the method of payment has to change its number (cheque),
-		 * we increase the number. as we are in a party's list, it's always a new transactio, 
-		 * so we know that it's not the first if transaction_number is not 0 */
-		if ( transaction_number )
-		{
-		    gint payment_number;
+	    /* now we create the transaction if necessary and set the mother in case of child of split */
+        if ( new_transaction )
+        {
+            /* it's a new transaction, we create it, and set the mother if necessary */
+            gint mother_transaction = 0;
 
-		    /* needn't to use mix here because can only be a transaction */
-		    payment_number = gsb_data_transaction_get_method_of_payment_number (transaction_number);
+            /* if we are on a white child (ie number < -1, -1 is only for the general white line),
+             * get the mother of transaction */
+            if ( transaction_number < -1 )
+                mother_transaction = gsb_data_mix_get_mother_transaction_number (
+                                            transaction_number, is_transaction);
+            transaction_number = gsb_data_mix_new_transaction (account_number, is_transaction);
+            if ( source_transaction_number == -1 )
+                source_transaction_number = transaction_number;
+            printf ("transaction_number = %d\n", transaction_number);
+            gsb_data_mix_set_mother_transaction_number ( transaction_number,
+                                 mother_transaction,
+                                 is_transaction );
+        }
 
-		    if ( gsb_data_payment_get_automatic_numbering (payment_number)
-			 &&
-			 gsb_data_form_check_for_value ( TRANSACTION_FORM_CHEQUE ))
-		    {
-			gchar* tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (payment_number) + 1);
-			gtk_entry_set_text ( GTK_ENTRY ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE)), tmpstr);
-			g_free ( tmpstr ) ;
-		    }
-		}
-		list_tmp = list_tmp -> next;
-	    }
-	}
+        /* take the datas in the form, except the category */
+        gsb_form_take_datas_from_form ( transaction_number, is_transaction );
 
-	/* now we create the transaction if necessary and set the mother in case of child of split */
-	if ( new_transaction )
-	{
-	    /* it's a new transaction, we create it, and set the mother if necessary */
-	    gint mother_transaction = 0;
+        /* perhaps the currency button is not shown
+         * in that case, we give the account currency to that transaction */
+        if ( new_transaction
+             &&
+             !gsb_form_widget_get_widget (TRANSACTION_FORM_DEVISE))
+            gsb_data_mix_set_currency_number ( transaction_number,
+                               gsb_data_account_get_currency (account_number),
+                               is_transaction );
 
-	    /* if we are on a white child (ie number < -1, -1 is only for the general white line),
-         * get the mother of transaction */
-	    if ( transaction_number < -1 )
-            mother_transaction = gsb_data_mix_get_mother_transaction_number (
-                                        transaction_number, is_transaction);
-	    transaction_number = gsb_data_mix_new_transaction (account_number, is_transaction);
+        /* get the category and do the stuff with that (contra-transaction...) */
+        gsb_form_get_categories ( transaction_number,
+                      new_transaction,
+                      is_transaction );
 
-	    gsb_data_mix_set_mother_transaction_number ( transaction_number,
-							 mother_transaction,
-							 is_transaction );
-	}
+        /* for the rest we need to split for transactions/scheduled */
+        if (is_transaction)
+        {
+            /* it's a transaction or an execution of scheduled transaction */
+            if ( new_transaction )
+            {
+            gint split_transaction_number;
 
-	/* take the datas in the form, except the category */
-	gsb_form_take_datas_from_form ( transaction_number, is_transaction );
+            gsb_transactions_list_append_new_transaction (transaction_number, TRUE);
 
-	/* perhaps the currency button is not shown
-	 * in that case, we give the account currency to that transaction */
-	if ( new_transaction
-	     &&
-	     !gsb_form_widget_get_widget (TRANSACTION_FORM_DEVISE))
-	    gsb_data_mix_set_currency_number ( transaction_number,
-					       gsb_data_account_get_currency (account_number),
-					       is_transaction );
+            /* if it's a real new transaction and if it's a split, we ask if the user wants
+             * to recover previous children */
+            if ( gsb_data_transaction_get_split_of_transaction (transaction_number)
+                 &&
+                 !execute_scheduled
+                 &&
+                 gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_split))
+                 &&
+                 (split_transaction_number = gsb_form_transactions_look_for_last_party ( gsb_data_transaction_get_party_number (transaction_number),
+                                                     transaction_number,
+                                                     gsb_data_transaction_get_account_number(transaction_number))))
+                gsb_form_transaction_recover_splits_of_transaction ( transaction_number,
+                                         split_transaction_number);
+            }
+            else
+            {
+            /* update a transaction */
+            gsb_transactions_list_update_transaction (transaction_number);
 
-	/* get the category and do the stuff with that (contra-transaction...) */
-	gsb_form_get_categories ( transaction_number,
-				  new_transaction,
-				  is_transaction );
+            /* we are on a modification of transaction, but if the modified transaction is a split
+             * and has no children (ie only white line), we assume the user wants now fill the children, so we will do the
+             * same as for a new transaction : open the expander and select the white line */
+            if (transaction_list_get_n_children (transaction_number) == 1)
+            {
+                new_transaction = TRUE;
+                gsb_transactions_list_switch_expander (transaction_number);
+            }
+            }
+        }
+        else
+        {
+            /* it's a scheduled transaction */
+            gsb_form_scheduler_get_scheduler_part (transaction_number);
 
-	/* for the rest we need to split for transactions/scheduled */
-	if (is_transaction)
-	{
-	    /* it's a transaction or an execution of scheduled transaction */
-	    if ( new_transaction )
-	    {
-		gint split_transaction_number;
+            if (new_transaction)
+            {
+            gint split_transaction_number;
 
-		gsb_transactions_list_append_new_transaction (transaction_number, TRUE);
+            gsb_scheduler_list_append_new_scheduled ( transaction_number,
+                                  gsb_scheduler_list_get_end_date_scheduled_showed ());
+            /* recover if necessary previous children */
+            if (gsb_data_scheduled_get_split_of_scheduled (transaction_number)
+                &&
+                gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_split))
+                &&
+                (split_transaction_number = gsb_form_transactions_look_for_last_party ( gsb_data_scheduled_get_party_number (transaction_number),
+                                                    0,
+                                                    gsb_data_scheduled_get_account_number(transaction_number))))
+                gsb_form_scheduler_recover_splits_of_transaction ( transaction_number,
+                                           split_transaction_number);
+            }
+            else
+            gsb_scheduler_list_update_transaction_in_list (transaction_number);
 
-		/* if it's a real new transaction and if it's a split, we ask if the user wants
-		 * to recover previous children */
-		if ( gsb_data_transaction_get_split_of_transaction (transaction_number)
-		     &&
-		     !execute_scheduled
-		     &&
-		     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_split))
-		     &&
-		     (split_transaction_number = gsb_form_transactions_look_for_last_party ( gsb_data_transaction_get_party_number (transaction_number),
-											     transaction_number,
-											     gsb_data_transaction_get_account_number(transaction_number))))
-		    gsb_form_transaction_recover_splits_of_transaction ( transaction_number,
-									 split_transaction_number);
-	    }
-	    else
-	    {
-		/* update a transaction */
-		gsb_transactions_list_update_transaction (transaction_number);
-
-		/* we are on a modification of transaction, but if the modified transaction is a split
-		 * and has no children (ie only white line), we assume the user wants now fill the children, so we will do the
-		 * same as for a new transaction : open the expander and select the white line */
-		if (transaction_list_get_n_children (transaction_number) == 1)
-		{
-		    new_transaction = TRUE;
-		    gsb_transactions_list_switch_expander (transaction_number);
-		}
-	    }
-	}
-	else
-	{
-	    /* it's a scheduled transaction */
-	    gsb_form_scheduler_get_scheduler_part (transaction_number);
-
-	    if (new_transaction)
-	    {
-		gint split_transaction_number;
-
-		gsb_scheduler_list_append_new_scheduled ( transaction_number,
-							  gsb_scheduler_list_get_end_date_scheduled_showed ());
-		/* recover if necessary previous children */
-		if (gsb_data_scheduled_get_split_of_scheduled (transaction_number)
-		    &&
-		    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_split))
-		    &&
-		    (split_transaction_number = gsb_form_transactions_look_for_last_party ( gsb_data_scheduled_get_party_number (transaction_number),
-											    0,
-											    gsb_data_scheduled_get_account_number(transaction_number))))
-		    gsb_form_scheduler_recover_splits_of_transaction ( transaction_number,
-								       split_transaction_number);
-	    }
-	    else
-		gsb_scheduler_list_update_transaction_in_list (transaction_number);
-
-	    /* needed for the two in case of we change the date */
-	    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
-	    gsb_calendar_update ();
-	}
+            /* needed for the two in case of we change the date */
+            gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
+            gsb_calendar_update ();
+        }
     }
     g_slist_free ( payee_list );
 
@@ -2753,7 +2770,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 		dialogue_error ( _("A transaction with a multiple payee must be a new one.") );
 		return (FALSE);
 	    }
-	    if (transaction_number < 0)
+	    if ( mother_number > 0 )
 	    {
 		dialogue_error ( _("A transaction with a multiple payee cannot be a split child.") );
 		return (FALSE);
@@ -2805,7 +2822,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
      * and perhaps a second time with the financial year
      * (cannot take it from the transaction if the fyear field is before the date field...) */
     /* get the date first, because the financial year will use it and it can set before the date in the form */
-    date = gsb_calendar_entry_get_date (gsb_form_widget_get_widget (TRANSACTION_FORM_DATE));
+    date = gsb_calendar_entry_get_date ( gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE ) );
 
     /* as financial year can be taken with value date, need to get the value date now too,
      * if TRANSACTION_FORM_VALUE_DATE doesn't exist, value_date will be NULL */
@@ -2853,14 +2870,18 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		    gsb_data_mix_set_financial_year_number ( transaction_number,
                         gsb_fyear_get_fyear_from_combobox (
                         element -> element_widget, date ), is_transaction);
-		break;
+
+            break;
 
 	    case TRANSACTION_FORM_PARTY:
 		if (gsb_form_widget_check_empty (element -> element_widget)) 
 		    gsb_data_mix_set_party_number ( transaction_number, 0, is_transaction );
 		else
 		{
-		    gsb_data_mix_set_party_number ( transaction_number, gsb_data_payee_get_number_by_name ( gtk_combofix_get_text ( GTK_COMBOFIX ( element -> element_widget )), TRUE ), is_transaction);
+		    gsb_data_mix_set_party_number ( transaction_number, 
+                        gsb_data_payee_get_number_by_name (
+                        gtk_combofix_get_text ( GTK_COMBOFIX ( element -> element_widget ) ),
+                        TRUE ), is_transaction );
 		    gsb_payee_update_combofix ();
 		}
 		break;

@@ -1737,7 +1737,11 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
 			 FALSE, FALSE, 0 );
 
-    tmpstr1 = g_strdup_printf (_("Transfer transactions to %s"), _(iface -> meta_name));
+    if ( iface -> content == 0 )
+        tmpstr1 = g_strdup_printf ( _("Transfer transactions to payee") );
+    else
+        tmpstr1 = g_strdup_printf (_("Transfer transactions to %s"), _(iface -> meta_name));
+
     button_move = gtk_radio_button_new_with_label ( NULL, tmpstr1);
     g_free ( tmpstr1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_move,
@@ -1833,10 +1837,13 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
 			 FALSE, FALSE, 0 );
 
-    if (!sub_division)
-	tmpstr = g_strdup_printf(_("Just remove this %s."), _(iface -> meta_name) );
+    if ( iface -> content == 0 )
+        tmpstr = g_strdup_printf( _("Just remove this payee.") );
+    else if ( !sub_division )
+	    tmpstr = g_strdup_printf(_("Just remove this %s."), _(iface -> meta_name) );
     else
 	tmpstr = g_strdup_printf(_("Just remove this sub-%s."), _(iface -> meta_name) );
+
     button_delete = gtk_radio_button_new_with_label ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( button_move )), tmpstr );
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_delete, FALSE, FALSE, 0 );
