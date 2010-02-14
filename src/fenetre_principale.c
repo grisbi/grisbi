@@ -267,13 +267,13 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     /* append the balance estimate page */
 #ifdef ENABLE_BALANCE_ESTIMATE 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       bet_create_balance_estimate_tab(),
+			       bet_balance_estimate_create_tab (),
 			       gtk_label_new (SPACIFY(_("Balance estimate"))) );
 #endif /* ENABLE_BALANCE_ESTIMATE */
 
     /* append the categories page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       onglet_categories(),
+			       onglet_categories (),
 			       gtk_label_new (SPACIFY(_("Categories"))) );
 
     /* append the budget page */

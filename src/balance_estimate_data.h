@@ -31,9 +31,19 @@ struct _historical
 
 
 /* START_DECLARATION */
+gint bet_data_add_div_hist ( gint account_nb,
+                        gint div_number,
+                        gint sub_div_nb,
+                        gsb_real moyenne );
+gint bet_data_add_div_hist_at_position ( gint account_nb,
+                        gint div_number,
+                        gint sub_div_nb,
+                        gsb_real moyenne,
+                        gint pos );
 gchar *bet_data_get_div_name (gint div_num,
                         gint sub_div,
                         const gchar *return_value_error );
+gboolean bet_data_init_variables ( void );
 gboolean bet_data_populate_div ( gint transaction_number,
                         GHashTable  *list_div );
 gboolean bet_data_set_div_ptr ( gint type_div );

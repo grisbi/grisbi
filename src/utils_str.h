@@ -5,8 +5,6 @@
 
 
 /* START_DECLARATION */
-gint gsb_strcasecmp ( gchar *string_1,
-                        gchar *string_2 );
 gchar *gsb_string_extract_int ( const gchar *chaine );
 GSList *gsb_string_get_categ_budget_struct_list_from_string ( const gchar *string );
 GSList *gsb_string_get_int_list_from_string ( const gchar *string,

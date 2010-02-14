@@ -794,8 +794,7 @@ gint gsb_data_category_get_sub_category_number_by_name ( gint category_number,
 gint gsb_data_category_get_pointer_from_name_in_glist ( struct_category *category,
 							const gchar *name )
 {
-    return ( g_strcasecmp ( category -> category_name,
-			    name ));
+    return ( my_strcasecmp ( category -> category_name, name ));
 }
 
 
@@ -815,8 +814,7 @@ gint gsb_data_category_get_pointer_from_sub_name_in_glist ( struct_sub_category 
 	 ||
 	 !name )
 	return 1;
-    return ( g_strcasecmp ( sub_category -> sub_category_name,
-			    name ));
+    return ( my_strcasecmp ( sub_category -> sub_category_name, name ) );
 }
 
 

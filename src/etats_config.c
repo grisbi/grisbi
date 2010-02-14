@@ -7376,8 +7376,7 @@ void remplissage_liste_modes_paiement_etats ( void )
     }
 
     /* sort and set that list in the clist and associate the name to the row */
-    liste_nom_types = g_slist_sort ( liste_nom_types,
-				     (GCompareFunc) gsb_strcasecmp );
+    liste_nom_types = g_slist_sort ( liste_nom_types, (GCompareFunc) my_strcasecmp );
 
     list_tmp = liste_nom_types;
 

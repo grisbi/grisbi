@@ -156,9 +156,6 @@ GtkWidget *onglet_imputations ( void )
 						       "text", META_TREE_TEXT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       NULL);
-#if GTK_CHECK_VERSION(2,4,0)
-    gtk_tree_view_column_set_expand ( column, TRUE );
-#endif
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( budgetary_line_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
 

@@ -232,7 +232,7 @@ gint gsb_data_payment_get_number_by_name ( const gchar *name,
 
 	if ( payment -> account_number == account_number )
     {
-        if ( (compare = gsb_strcasecmp (  (gchar *)name, payment -> payment_name ) ) == 0 )
+        if ( (compare = my_strcasecmp (  (gchar *)name, payment -> payment_name ) ) == 0 )
             return payment -> payment_number;
     }
 	tmp_list = tmp_list -> next;
@@ -623,8 +623,8 @@ gint gsb_data_payment_get_transfer_payment_number ( gint account_number )
 	struct_payment *payment;
 
 	payment = tmp_list -> data;
-	if (payment -> account_number == account_number)
-	    if (!g_strcasecmp (payment -> payment_name, _("Transfer")))
+	if ( payment -> account_number == account_number )
+	    if ( !my_strcasecmp (payment -> payment_name, _("Transfer") ) )
 		return payment -> payment_number;
 
 	tmp_list = tmp_list -> next;

@@ -266,7 +266,7 @@ GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon )
         {
             liste = g_slist_append ( liste, g_strdup ( name ) );
         }
-        liste = g_slist_sort ( liste, (GCompareFunc) gsb_strcasecmp );
+        liste = g_slist_sort ( liste, (GCompareFunc) my_strcasecmp );
         store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_POINTER);
         while ( liste )
         {

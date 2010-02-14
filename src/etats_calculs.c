@@ -1818,7 +1818,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 		 !gsb_data_transaction_get_party_number ( transaction_number_2))
 		return_value = gsb_data_transaction_get_party_number ( transaction_number_2)- gsb_data_transaction_get_party_number ( transaction_number_1);
 	    else
-		return_value = g_strcasecmp ( gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_1), TRUE ),
+		return_value = my_strcasecmp ( gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_1), TRUE ),
 					gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_2), TRUE ));
 	    break;
 
@@ -1838,7 +1838,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 		       !gsb_data_transaction_get_sub_category_number ( transaction_number_2)))
 		    return_value = gsb_data_transaction_get_sub_category_number ( transaction_number_2)- gsb_data_transaction_get_sub_category_number ( transaction_number_1);
 		else
-		    return_value = g_strcasecmp ( gsb_data_category_get_name ( gsb_data_transaction_get_category_number ( transaction_number_1),
+		    return_value = my_strcasecmp ( gsb_data_category_get_name ( gsb_data_transaction_get_category_number ( transaction_number_1),
 									 gsb_data_transaction_get_sub_category_number ( transaction_number_1),
 									 NULL ),
 					    gsb_data_category_get_name ( gsb_data_transaction_get_category_number ( transaction_number_2),
@@ -1863,7 +1863,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 		       !gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2)))
 		    return_value = gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2) - gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1);
 		else
-		    return_value = g_strcasecmp ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number_1),
+		    return_value = my_strcasecmp ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number_1),
 								       gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1),
 								       NULL ),
 					    gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number_2),
@@ -1878,7 +1878,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    if ( gsb_data_transaction_get_notes ( transaction_number_1)
 		 &&
 		 gsb_data_transaction_get_notes ( transaction_number_2))
-		return_value = g_strcasecmp ( gsb_data_transaction_get_notes ( transaction_number_1),
+		return_value = my_strcasecmp ( gsb_data_transaction_get_notes ( transaction_number_1),
 					gsb_data_transaction_get_notes ( transaction_number_2));
 	    else
 		return_value = GPOINTER_TO_INT ( gsb_data_transaction_get_notes ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_notes ( transaction_number_1));
@@ -1895,7 +1895,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    {
 		/* les opés peuvent provenir de 2 comptes différents, il faut donc trouver les 2 types dans les */
 		/* listes différentes */
-		return_value = g_strcasecmp ( gsb_data_payment_get_name (gsb_data_transaction_get_method_of_payment_number (transaction_number_1)),
+		return_value = my_strcasecmp ( gsb_data_payment_get_name (gsb_data_transaction_get_method_of_payment_number (transaction_number_1)),
 					      gsb_data_payment_get_name (gsb_data_transaction_get_method_of_payment_number (transaction_number_2)));
 	    }
 	    break;
@@ -1906,7 +1906,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    if ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1)
 		 &&
 		 gsb_data_transaction_get_method_of_payment_content ( transaction_number_2))
-		return_value = g_strcasecmp ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1),
+		return_value = my_strcasecmp ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1),
 					gsb_data_transaction_get_method_of_payment_content ( transaction_number_2));
 	    else
 		return_value = GPOINTER_TO_INT ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1));
@@ -1918,7 +1918,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    if ( gsb_data_transaction_get_voucher ( transaction_number_1)
 		 &&
 		 gsb_data_transaction_get_voucher ( transaction_number_2))
-		return_value = g_strcasecmp ( gsb_data_transaction_get_voucher ( transaction_number_1),
+		return_value = my_strcasecmp ( gsb_data_transaction_get_voucher ( transaction_number_1),
 					gsb_data_transaction_get_voucher ( transaction_number_2));
 	    else
 		return_value = GPOINTER_TO_INT ( gsb_data_transaction_get_voucher ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_voucher ( transaction_number_1));
@@ -1930,7 +1930,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    if ( gsb_data_transaction_get_bank_references ( transaction_number_1)
 		 &&
 		 gsb_data_transaction_get_bank_references ( transaction_number_2))
-		return_value = g_strcasecmp ( gsb_data_transaction_get_bank_references ( transaction_number_1),
+		return_value = my_strcasecmp ( gsb_data_transaction_get_bank_references ( transaction_number_1),
 					gsb_data_transaction_get_bank_references ( transaction_number_2));
 	    else
 		return_value = GPOINTER_TO_INT ( gsb_data_transaction_get_bank_references ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_bank_references ( transaction_number_1));
@@ -1944,7 +1944,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 		 !gsb_data_transaction_get_reconcile_number ( transaction_number_2))
 		return_value = gsb_data_transaction_get_reconcile_number ( transaction_number_2)- gsb_data_transaction_get_reconcile_number ( transaction_number_1);
 	    else
-		return_value = g_strcasecmp ( gsb_data_reconcile_get_name( gsb_data_transaction_get_reconcile_number ( transaction_number_1)),
+		return_value = my_strcasecmp ( gsb_data_reconcile_get_name( gsb_data_transaction_get_reconcile_number ( transaction_number_1)),
 					      gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( transaction_number_2)));
 	    break;
 

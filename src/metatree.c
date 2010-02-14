@@ -53,6 +53,7 @@
 
 
 /*START_STATIC*/
+static void button_delete_div_sub_div_clicked ( GtkWidget *togglebutton, GtkWidget *button );
 static gboolean division_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path, 
                         GtkTreeIter *iter, gpointer data );
 static void fill_division_zero ( GtkTreeModel * model,
@@ -122,6 +123,8 @@ static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * mod
 extern GtkTreeModel * navigation_model;
 /*END_EXTERN*/
 
+/* Save the choice for the deleting of division */
+gint button_move_selected = 0;
 
 /**
  * Determine whether a model is displayed.  That is, in metatree's
@@ -1844,9 +1847,25 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     else
 	tmpstr = g_strdup_printf(_("Just remove this sub-%s."), _(iface -> meta_name) );
 
-    button_delete = gtk_radio_button_new_with_label ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( button_move )), tmpstr );
+    button_delete = gtk_radio_button_new_with_label (
+                        gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( button_move ) ),
+                        tmpstr );
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_delete, FALSE, FALSE, 0 );
+
+    if ( button_move_selected == 1 )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_delete ), TRUE );
+
+    /* set the signals */
+    g_signal_connect ( G_OBJECT ( button_move ),
+                        "released",
+                        G_CALLBACK ( button_delete_div_sub_div_clicked ),
+                        NULL );
+
+    g_signal_connect ( G_OBJECT ( button_delete ),
+                        "released",
+                        G_CALLBACK ( button_delete_div_sub_div_clicked ),
+                        NULL );
 
     gtk_widget_show_all ( dialog );
 
@@ -1854,8 +1873,8 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 
     if ( resultat != GTK_RESPONSE_OK )
     {
-	gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
-	return FALSE;
+        gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+        return FALSE;
     }
 
     nouveau_no_division = 0;
@@ -1905,7 +1924,6 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 	*no_sub_div = nouveau_no_sub_division;
     return TRUE;
 }
-
 
 
 /** 
@@ -2720,6 +2738,22 @@ void move_transactions_to_division_payee (GtkTreeModel * model,
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 }
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+static void button_delete_div_sub_div_clicked ( GtkWidget *togglebutton, GtkWidget *button )
+{
+    button_move_selected = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( togglebutton ) );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( togglebutton ),
+                        button_move_selected );
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

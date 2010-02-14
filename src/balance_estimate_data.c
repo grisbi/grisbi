@@ -28,6 +28,7 @@
 
 /*START_INCLUDE*/
 #include "balance_estimate_data.h"
+#include "./dialog.h"
 #include "./utils_dates.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_budget.h"
@@ -47,11 +48,28 @@
 #include "./utils.h"
 /*END_INCLUDE*/
 
+typedef struct _hist_div struct_hist_div;
+
+
+struct _hist_div
+{
+    gint number;
+    gint account_nb;
+    gint div_number;
+    gint sub_div_nb;
+    gsb_real moyenne;
+    gsb_real new_amount;
+};
+
 
 /*START_STATIC*/
 static gboolean bet_data_update_div ( SH *sh, gint transaction_number,
                         gint sub_div );
+static void bet_data_hist_div_list_renumerote ( void );
+static struct_hist_div *initialise_struct_hist_div ( void );
+static void free_struct_hist_div ( struct_hist_div *bet_hist_div );
 /*END_STATIC*/
+
 
 /*START_EXTERN*/
 extern gboolean balances_with_scheduled;
@@ -65,8 +83,109 @@ gint (*ptr_div) ( gint transaction_num );
 gint (*ptr_sub_div) ( gint transaction_num );
 gchar* (*ptr_div_name) ( gint div_num, gint sub_div, const gchar *return_value_error );
 
+
 /* liste des div et sub_div cochées dans la vue des divisions */
-static GSList *list_div_hist;
+static GSList *bet_hist_div_list = NULL;
+
+static struct_hist_div *bet_hist_div_buffer;
+
+
+/**
+ * used when we init all the global variables
+ * 
+ * \param
+ * 
+ * \return FALSE
+ * */
+gboolean bet_data_init_variables ( void )
+{
+    if ( bet_hist_div_list )
+    {
+        GSList* tmp_list = bet_hist_div_list;
+        while ( tmp_list )
+        {
+            struct_hist_div *bet_hist_div;
+
+            bet_hist_div = tmp_list -> data;
+            tmp_list = tmp_list -> next;
+            free_struct_hist_div ( bet_hist_div ); 
+        }
+        g_slist_free ( bet_hist_div_list );
+    }
+    bet_hist_div_list = NULL;
+    bet_hist_div_buffer = NULL;
+
+    return FALSE;
+
+}
+
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gint bet_data_add_div_hist ( gint account_nb,
+                        gint div_number,
+                        gint sub_div_nb,
+                        gsb_real moyenne )
+{
+    struct_hist_div *bet_hist_div;
+
+    bet_hist_div = g_malloc0 ( sizeof ( struct_hist_div ) );
+    if ( ! bet_hist_div )
+    {
+        dialogue_error_memory ( );
+        return 0;
+    }
+    bet_hist_div -> number = g_slist_length ( bet_hist_div_list ) + 1;
+    bet_hist_div -> account_nb = account_nb;
+    bet_hist_div -> div_number = div_number;
+    bet_hist_div -> sub_div_nb = sub_div_nb;
+    bet_hist_div -> moyenne = moyenne;
+
+    bet_hist_div_list = g_slist_append ( bet_hist_div_list, bet_hist_div );
+
+    bet_hist_div_buffer = bet_hist_div;
+
+    return bet_hist_div -> number;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gint bet_data_add_div_hist_at_position ( gint account_nb,
+                        gint div_number,
+                        gint sub_div_nb,
+                        gsb_real moyenne,
+                        gint pos )
+{
+    struct_hist_div *bet_hist_div;
+
+    bet_hist_div = initialise_struct_hist_div ( );
+    if ( ! bet_hist_div )
+    {
+        dialogue_error_memory ( );
+        return 0;
+    }
+    bet_hist_div -> account_nb = account_nb;
+    bet_hist_div -> div_number = div_number;
+    bet_hist_div -> sub_div_nb = sub_div_nb;
+    bet_hist_div -> moyenne = moyenne;
+
+    bet_hist_div_list = g_slist_insert ( bet_hist_div_list, bet_hist_div, pos - 1 );
+    bet_data_hist_div_list_renumerote ( );
+
+    bet_hist_div_buffer = bet_hist_div;
+
+    return bet_hist_div -> number;
+}
 
 
 /**
@@ -174,6 +293,28 @@ gboolean bet_data_update_div ( SH *sh, gint transaction_number, gint sub_div )
 
 
 /**
+ * renumerote la liste des divisions cochées
+ *
+ * */
+void bet_data_hist_div_list_renumerote ( void )
+{
+    GSList *list_tmp;
+    gint i = 1;
+
+    list_tmp = bet_hist_div_list;
+    while ( list_tmp )
+    {
+        struct_hist_div *bet_hist_div;
+
+        bet_hist_div = list_tmp -> data;
+        bet_hist_div -> number = i;
+        i++;
+        list_tmp = list_tmp -> next;
+    }
+}
+
+
+/**
  *
  *
  *
@@ -232,7 +373,7 @@ SH *initialise_struct_historical ( void )
  *
  *
  * */
-void free_struct_historical (SH *sh)
+void free_struct_historical ( SH *sh )
 {
 
     if ( sh -> sbr )
@@ -249,6 +390,41 @@ void free_struct_historical (SH *sh)
  *
  *
  * */
+struct_hist_div *initialise_struct_hist_div ( void )
+{
+    struct_hist_div *bet_hist_div;
+
+    bet_hist_div = g_malloc ( sizeof ( struct_hist_div ) );
+    bet_hist_div -> number = 0;
+    bet_hist_div -> account_nb = 0;
+    bet_hist_div -> div_number = 0;
+    bet_hist_div -> sub_div_nb = 0;
+    bet_hist_div -> moyenne = null_real;
+    bet_hist_div -> new_amount = null_real;
+
+    return bet_hist_div;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void free_struct_hist_div ( struct_hist_div *bet_hist_div )
+{
+    g_free ( bet_hist_div );
+}
+
+/**
+ *
+ *
+ *
+ *
+ * */
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

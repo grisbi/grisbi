@@ -66,6 +66,7 @@
 #include "./gsb_calendar.h"
 #include "./erreur.h"
 #include "./structures.h"
+#include "./balance_estimate_data.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -136,8 +137,7 @@ gchar *titre_fichier = NULL;
 gchar *adresse_commune = NULL;
 gchar *adresse_secondaire = NULL;
 
-
-
+ 
 /*START_EXTERN*/
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
@@ -376,6 +376,7 @@ void init_variables ( void )
     categ_tree_model = NULL;
 
     /* initializes the variables for the estimate balance module */
+    bet_data_init_variables ( );
     etat.bet_deb_period = 1;
     etat.bet_end_period = 1;
     etat.bet_spin_range = 0;

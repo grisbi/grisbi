@@ -746,8 +746,7 @@ gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
 gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
 						      const gchar *name )
 {
-    return ( g_strcasecmp ( budget -> budget_name,
-			    name ));
+    return ( my_strcasecmp ( budget -> budget_name, name ) );
 }
 
 
@@ -763,8 +762,7 @@ gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
 gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub_budget,
 							  const gchar *name )
 {
-    return ( g_strcasecmp ( sub_budget -> sub_budget_name,
-			    name ));
+    return ( my_strcasecmp ( sub_budget -> sub_budget_name, name ));
 }
 
 

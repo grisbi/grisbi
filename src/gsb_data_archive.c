@@ -327,24 +327,6 @@ gint gsb_data_archive_set_new_number ( gint archive_number,
 
 
 /**
- * used with g_slist_find_custom to find a archive in the g_list
- * by his name
- *
- * \param archive the struct of the current archive checked
- * \param name the name we are looking for
- *
- * \return 0 if it's the same name
- * */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-gint gsb_data_archive_get_pointer_from_name_in_glist ( struct_archive *archive,
-						       const gchar *name )
-{
-    return ( g_strcasecmp ( archive -> archive_name,
-			    name ));
-}
-*/
-
-/**
  * return the name of the archive
  *
  * \param archive_number the number of the archive

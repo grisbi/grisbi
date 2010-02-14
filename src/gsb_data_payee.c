@@ -376,8 +376,7 @@ gint gsb_data_payee_get_number_by_name ( const gchar *name,
 gint gsb_data_payee_get_pointer_from_name_in_glist ( struct_payee *payee,
 						     const gchar *name )
 {
-    return ( g_strcasecmp ( payee -> payee_name,
-			    name ));
+    return ( my_strcasecmp ( payee -> payee_name, name ) );
 }
 
 /**

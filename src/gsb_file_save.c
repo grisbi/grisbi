@@ -543,7 +543,10 @@ gulong gsb_file_save_append_part ( gulong iterator,
  * */
 const gchar *my_safe_null_str ( const gchar *string )
 {
-    return string ? string : "(null)";
+    if ( string && strlen ( string ) )
+        return string;
+    else
+        return "(null)";
 }
 
 

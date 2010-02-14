@@ -147,6 +147,7 @@ sources = \
 	utils_str.c		\
 	balance_estimate_config.c \
         balance_estimate_data.c \
+        balance_estimate_hist.c \
 	balance_estimate_tab.c
 
 grisbi_INCLUDES =		\
@@ -157,6 +158,7 @@ grisbi_INCLUDES =		\
 	barre_outils.h		\
         balance_estimate_config.h \
         balance_estimate_data.h \
+        balance_estimate_hist.h \
         balance_estimate_tab.h  \
 	categories_onglet.h	\
 	classement_echeances.h	\
@@ -306,7 +308,7 @@ cunit_includes = \
 if HAVE_CUNIT
 grisbi_SOURCES = $(sources) $(sources_config) $(cunit_sources)
 else#HAVE_CUNIT
-grisbi_SOURCES = $(sources) $(sources_config)
+grisbi_SOURCES = $(sources) $(sources_config) 
 endif#HAVE_CUNIT
 
 EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime $(grisbi_INCLUDES) $(cunit_sources) $(cunit_includes)

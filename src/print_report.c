@@ -37,7 +37,7 @@
 #include "./erreur.h"
 /*END_INCLUDE*/
 
-#if GTK_CHECK_VERSION(2,10,0)
+#if GTK_CHECK_VERSION(2,12,0)
 
 
 /*START_STATIC*/
@@ -485,7 +485,7 @@ gboolean print_config_show_config_apply ( GtkPrintOperation * operation,
 
 
 
-#endif /* GTK_CHECK_VERSION(2,10,0) */
+#endif /* GTK_CHECK_VERSION(2,12,0) */
 
 
 

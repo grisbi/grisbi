@@ -290,25 +290,6 @@ gint gsb_data_fyear_set_new_number ( gint fyear_number,
 }
 
 
-
-/**
- * used with g_slist_find_custom to find a fyear in the g_list
- * by his name
- *
- * \param fyear the struct of the current fyear checked
- * \param name the name we are looking for
- *
- * \return 0 if it's the same name
- * */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-gint gsb_data_fyear_get_pointer_from_name_in_glist ( struct_fyear *fyear,
-						     const gchar *name )
-{
-    return ( g_strcasecmp ( fyear -> fyear_name,
-			    name ));
-}
-*/
-
 /**
  * return the name of the fyear
  *
