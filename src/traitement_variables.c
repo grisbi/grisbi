@@ -376,7 +376,9 @@ void init_variables ( void )
     categ_tree_model = NULL;
 
     /* initializes the variables for the estimate balance module */
+#ifdef ENABLE_BALANCE_ESTIMATE
     bet_data_init_variables ( );
+#endif /* ENABLE_BALANCE_ESTIMATE */
     etat.bet_deb_period = 1;
     etat.bet_end_period = 1;
     etat.bet_spin_range = 0;
