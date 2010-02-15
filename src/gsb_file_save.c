@@ -1360,6 +1360,12 @@ gulong gsb_file_save_party_part ( gulong iterator,
         payee_number = gsb_data_payee_get_no_payee (list_tmp -> data);
         /* now we can fill the file content */
 
+        if ( gsb_data_payee_get_name ( payee_number, TRUE ) == NULL )
+        {
+            list_tmp = list_tmp -> next;
+            continue;
+        }
+
         new_string = g_markup_printf_escaped ( 
                             "\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" Search=\"%s\" />\n",
                             payee_number,
