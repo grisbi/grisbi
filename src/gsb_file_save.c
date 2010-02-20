@@ -2629,7 +2629,10 @@ gulong gsb_file_save_bet_part ( gulong iterator,
     etat.bet_hist_fyear );
 
     lignes = bet_data_get_strings_to_save ( );
-    new_string = g_strconcat ( new_string, lignes -> str, "\t\t/>\n", NULL );
+    if ( lignes && lignes -> str )
+        new_string = g_strconcat ( new_string, lignes -> str, "\t\t/>\n", NULL );
+    else
+        new_string = g_strconcat ( new_string, "\t\t/>\n", NULL );
 
     /* append the new string to the file content
      * and return the new iterator */
