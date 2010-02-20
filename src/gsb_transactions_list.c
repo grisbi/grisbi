@@ -3157,7 +3157,7 @@ void gsb_transactions_list_set_visible_rows_number ( gint rows_number )
     devel_debug_int (rows_number);
 
     current_account = gsb_gui_navigation_get_current_account ();
-    if ( rows_number == gsb_data_account_get_nb_rows (current_account))
+    if ( rows_number == gsb_data_account_get_nb_rows (current_account) && rows_number > 1 )
 	return;
 
     /*     we check all the accounts */

@@ -653,8 +653,7 @@ gboolean gsb_reconcile_cancel ( GtkWidget *button,
     /* restore the saved data */
     etat.retient_affichage_par_compte = reconcile_save_account_display;
 
-    if (reconcile_save_rows_number != 1)
-        gsb_transactions_list_set_visible_rows_number ( reconcile_save_rows_number );
+    gsb_transactions_list_set_visible_rows_number ( reconcile_save_rows_number );
 
     if (reconcile_save_show_marked)
     {

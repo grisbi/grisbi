@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-13 17:29+0100\n"
+"POT-Creation-Date: 2010-02-19 20:40+0100\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -182,7 +182,7 @@ msgstr "Verplaats de transactie naar een andere rekening"
 #. Financial year name
 #. set the name
 #. Name entry
-#: src/accueil.c:2056 src/categories_onglet.c:668 src/gsb_archive_config.c:98
+#: src/accueil.c:2056 src/categories_onglet.c:665 src/gsb_archive_config.c:98
 #: src/gsb_archive_config.c:186 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:388
 #: src/gsb_assistant_reconcile_config.c:1227 src/gsb_bank.c:732
@@ -190,7 +190,7 @@ msgstr "Verplaats de transactie naar een andere rekening"
 #: src/gsb_data_partial_balance.c:1532 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:240
 #: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1743
-#: src/imputation_budgetaire.c:702 src/tiers_onglet.c:628
+#: src/imputation_budgetaire.c:699 src/tiers_onglet.c:625
 msgid "Name"
 msgstr "Naam"
 
@@ -537,25 +537,25 @@ msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr ""
 
 #. set the title
-#: src/balance_estimate_config.c:91 src/fenetre_principale.c:271
+#: src/balance_estimate_config.c:94 src/fenetre_principale.c:271
 #: src/navigation.c:302 src/navigation.c:1233 src/parametres.c:535
 #, fuzzy
 msgid "Balance estimate"
 msgstr "Saldo's"
 
-#: src/balance_estimate_config.c:96 src/balance_estimate_tab.c:1433
+#: src/balance_estimate_config.c:99 src/balance_estimate_tab.c:1025
 #, fuzzy
 msgid "Calculation of period"
 msgstr "Begin saldo"
 
-#: src/balance_estimate_config.c:102
+#: src/balance_estimate_config.c:105
 #, fuzzy
 msgid "Sources of historical data"
 msgstr "Start datum"
 
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
-#: src/balance_estimate_config.c:130 src/balance_estimate_tab.c:1148
+#: src/balance_estimate_config.c:133 src/balance_estimate_hist.c:150
 #: src/etats_config.c:526 src/etats_config.c:529 src/etats_config.c:2991
 #: src/etats_config.c:7057 src/fenetre_principale.c:277 src/navigation.c:321
 #: src/navigation.c:1245
@@ -565,186 +565,67 @@ msgstr "Categorieën"
 # tekst in tabbladnaam (zoals in exel)
 #. mise en place de la paddingbox des ib
 #. set the title
-#: src/balance_estimate_config.c:135 src/balance_estimate_tab.c:1156
+#: src/balance_estimate_config.c:138 src/balance_estimate_hist.c:158
 #: src/etats_config.c:535 src/etats_config.c:538 src/etats_config.c:3797
 #: src/etats_config.c:7134 src/export_csv.c:799 src/fenetre_principale.c:282
 #: src/import_csv.c:86 src/navigation.c:338 src/navigation.c:1256
-#: src/traitement_variables.c:79
+#: src/traitement_variables.c:80
 msgid "Budgetary lines"
 msgstr "Budgetregels"
 
-#: src/balance_estimate_tab.c:184 src/etats_config.c:6371
+#: src/balance_estimate_config.c:152 src/balance_estimate_hist.c:185
 #, fuzzy
-msgid "Month"
-msgstr "Maanden"
+msgid "Choose the financial year or 12 months rolling"
+msgstr "Kies een financieel jaar"
 
-#: src/balance_estimate_tab.c:185 src/etats_config.c:6375
-msgid "Year"
-msgstr "Jaar"
+#: src/balance_estimate_hist.c:122
+#, fuzzy
+msgid "Historical data"
+msgstr "Start datum"
 
-#: src/balance_estimate_tab.c:470
-#, c-format
-msgid "Balance estimate of the account \"%s\" from %s to %s"
-msgstr ""
+#: src/balance_estimate_hist.c:141
+#, fuzzy
+msgid "Please Select the data source"
+msgstr "Gebruik de gekozen transactie als sjabloon"
 
-#: src/balance_estimate_tab.c:486
-msgid "balance beginning of period"
-msgstr ""
-
-#: src/balance_estimate_tab.c:723 src/balance_estimate_tab.c:1627
+#: src/balance_estimate_hist.c:250 src/balance_estimate_hist.c:580
 #: src/categories_onglet.c:142 src/etats_affiche.c:2433 src/etats_config.c:673
 #: src/export_csv.c:790 src/gsb_transactions_list.c:155 src/import_csv.c:84
-#: src/meta_categories.c:65 src/traitement_variables.c:87
+#: src/meta_categories.c:65 src/traitement_variables.c:88
 msgid "Category"
 msgstr "Categorie"
 
-#: src/balance_estimate_tab.c:729 src/balance_estimate_tab.c:1629
+#: src/balance_estimate_hist.c:256 src/balance_estimate_hist.c:582
 #: src/etats_affiche.c:2440 src/etats_config.c:677 src/gsb_form.c:1341
 #: src/gsb_form_widget.c:472 src/gsb_transactions_list.c:147
 #: src/imputation_budgetaire.c:155 src/meta_budgetary.c:62
 msgid "Budgetary line"
 msgstr "Budgetregel"
 
-#: src/balance_estimate_tab.c:952
-msgid "Array"
-msgstr ""
-
-#: src/balance_estimate_tab.c:1004 src/etats_affiche.c:2405
-#: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
-#: src/gsb_form.c:1283 src/gsb_form_widget.c:440 src/gsb_reconcile.c:144
-#: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
-#: src/import.c:3163 src/import_csv.c:79 src/traitement_variables.c:76
-msgid "Date"
-msgstr "Datum"
-
-#. Description entry
-#: src/balance_estimate_tab.c:1014 src/etats_onglet.c:269
-#: src/tiers_onglet.c:641
-msgid "Description"
-msgstr "Omschrijving"
-
-#. Debit method_ptr
-#: src/balance_estimate_tab.c:1025 src/categories_onglet.c:698
-#: src/export_csv.c:781 src/gsb_form.c:1317 src/gsb_form_widget.c:444
-#: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
-#: src/gsb_payment_method_config.c:1084 src/gsb_transactions_list.c:148
-#: src/import_csv.c:90 src/imputation_budgetaire.c:732
-#: src/traitement_variables.c:80
-msgid "Debit"
-msgstr "Debet(af)"
-
-#. Credit method_ptr
-#: src/balance_estimate_tab.c:1039 src/categories_onglet.c:698
-#: src/export_csv.c:778 src/gsb_form.c:1324 src/gsb_form_widget.c:448
-#: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
-#: src/gsb_payment_method_config.c:1080 src/gsb_transactions_list.c:149
-#: src/imputation_budgetaire.c:732 src/traitement_variables.c:81
-msgid "Credit"
-msgstr "Credit(bij)"
-
-#: src/balance_estimate_tab.c:1052 src/export_csv.c:787
-#: src/gsb_reconcile.c:147 src/gsb_scheduler_list.c:340
-#: src/gsb_transactions_list.c:150 src/gsb_transactions_list.c:2907
-#: src/import_csv.c:88 src/traitement_variables.c:82
-msgid "Balance"
-msgstr "Saldo"
-
-#: src/balance_estimate_tab.c:1081
-msgid "Graph"
-msgstr ""
-
-#: src/balance_estimate_tab.c:1120
-#, fuzzy
-msgid "Historical data"
-msgstr "Start datum"
-
-#: src/balance_estimate_tab.c:1139
-#, fuzzy
-msgid "Please Select the data source"
-msgstr "Gebruik de gekozen transactie als sjabloon"
-
-#: src/balance_estimate_tab.c:1183
-#, fuzzy
-msgid "Choose the financial year or 12 months rolling"
-msgstr "Kies een financieel jaar"
-
-#: src/balance_estimate_tab.c:1235
-msgid "Choice the prevision"
-msgstr ""
-
-#: src/balance_estimate_tab.c:1255
-msgid ""
-"Please select an account and a duration\n"
-"and select the estimate array tab."
-msgstr ""
-
-#. set the choice of account
-#: src/balance_estimate_tab.c:1346 src/categories_onglet.c:154
-#: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
-#: src/gsb_assistant_reconcile_config.c:594
-#: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
-#: src/gsb_scheduler_list.c:339 src/imputation_budgetaire.c:167
-#: src/navigation.c:1169 src/tiers_onglet.c:234
-msgid "Account"
-msgstr "Rekening"
-
-#: src/balance_estimate_tab.c:1437
-#, fuzzy
-msgid "Beginning of period"
-msgstr "Begin saldo"
-
-#: src/balance_estimate_tab.c:1446
-#, fuzzy
-msgid "1st day of month"
-msgstr "Laatste 3 maanden"
-
-#: src/balance_estimate_tab.c:1452
-msgid "date today"
-msgstr ""
-
-#: src/balance_estimate_tab.c:1463
-#, fuzzy
-msgid "End of period"
-msgstr "Begin saldo"
-
-#: src/balance_estimate_tab.c:1472
-msgid "last day of the month"
-msgstr ""
-
-#: src/balance_estimate_tab.c:1478
-msgid "From date to date"
-msgstr ""
-
-#. partie mensuelle
-#: src/balance_estimate_tab.c:1508
-#, fuzzy
-msgid "Duration estimation"
-msgstr "Transactie lijst lettertype"
-
-#: src/balance_estimate_tab.c:1618 src/tiers_onglet.c:1116
+#: src/balance_estimate_hist.c:571 src/tiers_onglet.c:1113
 #, fuzzy
 msgid "Select"
 msgstr "Selecteer alles"
 
-#: src/balance_estimate_tab.c:1645
+#: src/balance_estimate_hist.c:598
 #, fuzzy
 msgid "Period"
 msgstr "Opmaak"
 
-#: src/balance_estimate_tab.c:1659 src/categories_onglet.c:163
+#: src/balance_estimate_hist.c:612 src/categories_onglet.c:160
 #: src/etats_config.c:5239 src/export_csv.c:784
 #: src/gsb_assistant_reconcile_config.c:594 src/gsb_scheduler_list.c:340
 #: src/gsb_transactions_list.c:151 src/import.c:3177
-#: src/imputation_budgetaire.c:176 src/tiers_onglet.c:243
-#: src/traitement_variables.c:83
+#: src/imputation_budgetaire.c:173 src/tiers_onglet.c:240
+#: src/traitement_variables.c:84
 msgid "Amount"
 msgstr "Bedrag"
 
-#: src/balance_estimate_tab.c:1674
+#: src/balance_estimate_hist.c:627
 msgid "Average"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1698
+#: src/balance_estimate_hist.c:651
 #, fuzzy
 msgid "Amount retained"
 msgstr "Bedrag per budgetregel"
@@ -753,29 +634,148 @@ msgstr "Bedrag per budgetregel"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it tha fyear should be showed
-#: src/balance_estimate_tab.c:1757 src/balance_estimate_tab.c:1942
+#: src/balance_estimate_hist.c:710 src/balance_estimate_hist.c:923
 msgid "12 months rolling"
 msgstr ""
 
-#: src/balance_estimate_tab.c:2123 src/balance_estimate_tab.c:2133
-#: src/balance_estimate_tab.c:2287
+#: src/balance_estimate_tab.c:137 src/etats_config.c:6371
+#, fuzzy
+msgid "Month"
+msgstr "Maanden"
+
+#: src/balance_estimate_tab.c:138 src/etats_config.c:6375
+msgid "Year"
+msgstr "Jaar"
+
+#: src/balance_estimate_tab.c:410
+#, c-format
+msgid "Balance estimate of the account \"%s\" from %s to %s"
+msgstr ""
+
+#: src/balance_estimate_tab.c:426
+msgid "balance beginning of period"
+msgstr ""
+
+#: src/balance_estimate_tab.c:656
+msgid "Array"
+msgstr ""
+
+#: src/balance_estimate_tab.c:708 src/etats_affiche.c:2405
+#: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
+#: src/gsb_form.c:1283 src/gsb_form_widget.c:440 src/gsb_reconcile.c:144
+#: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
+#: src/import.c:3163 src/import_csv.c:79 src/traitement_variables.c:77
+msgid "Date"
+msgstr "Datum"
+
+#. Description entry
+#: src/balance_estimate_tab.c:718 src/etats_onglet.c:261
+#: src/tiers_onglet.c:638
+msgid "Description"
+msgstr "Omschrijving"
+
+#. Debit method_ptr
+#: src/balance_estimate_tab.c:729 src/categories_onglet.c:695
+#: src/export_csv.c:781 src/gsb_form.c:1317 src/gsb_form_widget.c:444
+#: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
+#: src/gsb_payment_method_config.c:1084 src/gsb_transactions_list.c:148
+#: src/import_csv.c:90 src/imputation_budgetaire.c:729
+#: src/traitement_variables.c:81
+msgid "Debit"
+msgstr "Debet(af)"
+
+#. Credit method_ptr
+#: src/balance_estimate_tab.c:743 src/categories_onglet.c:695
+#: src/export_csv.c:778 src/gsb_form.c:1324 src/gsb_form_widget.c:448
+#: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
+#: src/gsb_payment_method_config.c:1080 src/gsb_transactions_list.c:149
+#: src/imputation_budgetaire.c:729 src/traitement_variables.c:82
+msgid "Credit"
+msgstr "Credit(bij)"
+
+#: src/balance_estimate_tab.c:756 src/export_csv.c:787 src/gsb_reconcile.c:147
+#: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
+#: src/gsb_transactions_list.c:2907 src/import_csv.c:88
+#: src/traitement_variables.c:83
+msgid "Balance"
+msgstr "Saldo"
+
+#: src/balance_estimate_tab.c:785
+msgid "Graph"
+msgstr ""
+
+#: src/balance_estimate_tab.c:822
+msgid "Choice the prevision"
+msgstr ""
+
+#: src/balance_estimate_tab.c:842
+msgid ""
+"Please select an account and a duration\n"
+"and select the estimate array tab."
+msgstr ""
+
+#. set the choice of account
+#: src/balance_estimate_tab.c:936 src/categories_onglet.c:151
+#: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
+#: src/gsb_assistant_reconcile_config.c:594
+#: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
+#: src/gsb_scheduler_list.c:339 src/imputation_budgetaire.c:164
+#: src/navigation.c:1169 src/tiers_onglet.c:231
+msgid "Account"
+msgstr "Rekening"
+
+#: src/balance_estimate_tab.c:1029
+#, fuzzy
+msgid "Beginning of period"
+msgstr "Begin saldo"
+
+#: src/balance_estimate_tab.c:1038
+#, fuzzy
+msgid "1st day of month"
+msgstr "Laatste 3 maanden"
+
+#: src/balance_estimate_tab.c:1044
+msgid "date today"
+msgstr ""
+
+#: src/balance_estimate_tab.c:1055
+#, fuzzy
+msgid "End of period"
+msgstr "Begin saldo"
+
+#: src/balance_estimate_tab.c:1064
+msgid "last day of the month"
+msgstr ""
+
+#: src/balance_estimate_tab.c:1070
+msgid "From date to date"
+msgstr ""
+
+#. partie mensuelle
+#: src/balance_estimate_tab.c:1100
+#, fuzzy
+msgid "Duration estimation"
+msgstr "Transactie lijst lettertype"
+
+#: src/balance_estimate_tab.c:1277 src/balance_estimate_tab.c:1287
+#: src/balance_estimate_tab.c:1448
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Overschrijving naar een verwijderde rekening"
 
-#: src/balance_estimate_tab.c:2460
+#: src/balance_estimate_tab.c:1621
 msgid "Subtract to the balance"
 msgstr ""
 
-#: src/balance_estimate_tab.c:2467
+#: src/balance_estimate_tab.c:1628
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Begin saldo"
 
 #. Delete item
-#: src/balance_estimate_tab.c:2484
+#: src/balance_estimate_tab.c:1645
 #, fuzzy
 msgid "Delete selection"
 msgstr "Selecteer data"
@@ -791,9 +791,9 @@ msgstr "Nieuwe transactie"
 msgid "Blank the form to create a new transaction"
 msgstr "Categorie totaal (%d transactie)"
 
-#: src/barre_outils.c:107 src/barre_outils.c:461 src/categories_onglet.c:528
-#: src/etats_onglet.c:167 src/imputation_budgetaire.c:561
-#: src/tiers_onglet.c:324
+#: src/barre_outils.c:107 src/barre_outils.c:461 src/categories_onglet.c:525
+#: src/etats_onglet.c:159 src/imputation_budgetaire.c:558
+#: src/tiers_onglet.c:321
 #, fuzzy
 msgid "Delete"
 msgstr "Kies"
@@ -822,8 +822,7 @@ msgid "Start account reconciliation"
 msgstr "Niet waarschuwen als er geen controle referentie is"
 
 #. Set up dialog
-#: src/barre_outils.c:142 src/etats_onglet.c:150 src/etats_onglet.c:159
-#: src/print_config.c:80
+#: src/barre_outils.c:142 src/etats_onglet.c:149 src/print_config.c:80
 msgid "Print"
 msgstr "Print"
 
@@ -832,8 +831,8 @@ msgstr "Print"
 msgid "Print the transactions list"
 msgstr "Sorteer transactielijst"
 
-#: src/barre_outils.c:153 src/barre_outils.c:510 src/categories_onglet.c:547
-#: src/imputation_budgetaire.c:582 src/tiers_onglet.c:343
+#: src/barre_outils.c:153 src/barre_outils.c:510 src/categories_onglet.c:544
+#: src/imputation_budgetaire.c:579 src/tiers_onglet.c:340
 msgid "View"
 msgstr ""
 
@@ -864,8 +863,8 @@ msgstr "Twee regels stand"
 msgid "Three lines view"
 msgstr "Drie regels stand"
 
-#: src/barre_outils.c:237 src/categories_onglet.c:591
-#: src/imputation_budgetaire.c:626 src/tiers_onglet.c:440
+#: src/barre_outils.c:237 src/categories_onglet.c:588
+#: src/imputation_budgetaire.c:623 src/tiers_onglet.c:437
 #, fuzzy
 msgid "Complete view"
 msgstr "Fout: opsplitsing niet compleet !"
@@ -976,37 +975,37 @@ msgstr "Toon de kolom-titels"
 msgid "Display reconciled transactions"
 msgstr "Toon gecontroleerde transacties"
 
-#: src/categories_onglet.c:339
+#: src/categories_onglet.c:336
 msgid "Export categories"
 msgstr "Exporteer categorieën"
 
-#: src/categories_onglet.c:346
+#: src/categories_onglet.c:343
 #, fuzzy
 msgid "Categories.cgsb"
 msgstr "Categorieën"
 
-#: src/categories_onglet.c:382
+#: src/categories_onglet.c:379
 #, fuzzy
 msgid "Import categories"
 msgstr "Exporteer categorieën"
 
-#: src/categories_onglet.c:393
+#: src/categories_onglet.c:390
 msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
-#: src/categories_onglet.c:399 src/etats_onglet.c:1238
+#: src/categories_onglet.c:396 src/etats_onglet.c:1230
 #: src/file_obfuscate_qif.c:105 src/gsb_file.c:269 src/import.c:814
-#: src/imputation_budgetaire.c:434
+#: src/imputation_budgetaire.c:431
 #, fuzzy
 msgid "All files"
 msgstr "Alle financiële jaren"
 
-#: src/categories_onglet.c:420
+#: src/categories_onglet.c:417
 #, fuzzy
 msgid "Merge imported categories with existing?"
 msgstr "De twee categorielijsten samenvoegen"
 
-#: src/categories_onglet.c:422
+#: src/categories_onglet.c:419
 #, fuzzy
 msgid ""
 "File already contains categories.  If you decide to continue, existing "
@@ -1015,7 +1014,7 @@ msgstr ""
 "Het bestand bevat al transacties, de twee categorielijsten zullen worden "
 "samengevoegd."
 
-#: src/categories_onglet.c:423
+#: src/categories_onglet.c:420
 msgid ""
 "File does not contain categories.  If you decide to continue, existing "
 "categories will be merged with imported ones.  Once performed, there is no "
@@ -1023,103 +1022,103 @@ msgid ""
 "You may also decide to replace existing categories with imported ones."
 msgstr ""
 
-#: src/categories_onglet.c:430 src/imputation_budgetaire.c:465
+#: src/categories_onglet.c:427 src/imputation_budgetaire.c:462
 msgid "Replace existing"
 msgstr ""
 
-#: src/categories_onglet.c:484
+#: src/categories_onglet.c:481
 #, fuzzy
 msgid ""
 "New\n"
 "category"
 msgstr "Nieuwe categorie"
 
-#: src/categories_onglet.c:489
+#: src/categories_onglet.c:486
 #, fuzzy
 msgid "Create a new category"
 msgstr "Nieuwe rekening maken"
 
-#: src/categories_onglet.c:495
+#: src/categories_onglet.c:492
 #, fuzzy
 msgid ""
 "New sub\n"
 "category"
 msgstr "Nieuwe sub-categorie"
 
-#: src/categories_onglet.c:502
+#: src/categories_onglet.c:499
 #, fuzzy
 msgid "Create a new sub-category"
 msgstr "Vul een naam in voor de sub-categorie"
 
-#: src/categories_onglet.c:509 src/etats_onglet.c:130 src/import.c:406
-#: src/import.c:3514 src/imputation_budgetaire.c:542 src/parametres.c:292
+#: src/categories_onglet.c:506 src/etats_onglet.c:130 src/import.c:406
+#: src/import.c:3514 src/imputation_budgetaire.c:539 src/parametres.c:292
 #: src/utils_files.c:672
 msgid "Import"
 msgstr "Importeren"
 
 # naam scherm tijdens het importeren van lijst
-#: src/categories_onglet.c:513
+#: src/categories_onglet.c:510
 #, fuzzy
 msgid "Import a Grisbi category file (.cgsb)"
 msgstr "Importeer een categorielijst"
 
 # knop in menu > bestand
-#: src/categories_onglet.c:519 src/etats_onglet.c:139 src/export.c:161
-#: src/imputation_budgetaire.c:552
+#: src/categories_onglet.c:516 src/etats_onglet.c:139 src/export.c:161
+#: src/imputation_budgetaire.c:549
 msgid "Export"
 msgstr "Exporteren"
 
-#: src/categories_onglet.c:523
+#: src/categories_onglet.c:520
 #, fuzzy
 msgid "Export a Grisbi category file (.cgsb)"
 msgstr "Exporteer categorieën"
 
-#: src/categories_onglet.c:532
+#: src/categories_onglet.c:529
 #, fuzzy
 msgid "Delete selected category"
 msgstr "Vul aub een categorie in!"
 
-#: src/categories_onglet.c:537 src/etats_onglet.c:176
-#: src/fenetre_principale.c:249 src/imputation_budgetaire.c:571
-#: src/tiers_onglet.c:333
+#: src/categories_onglet.c:534 src/etats_onglet.c:168
+#: src/fenetre_principale.c:249 src/imputation_budgetaire.c:568
+#: src/tiers_onglet.c:330
 #, fuzzy
 msgid "Properties"
 msgstr "Valuta eigenschappen"
 
-#: src/categories_onglet.c:541
+#: src/categories_onglet.c:538
 #, fuzzy
 msgid "Edit selected category"
 msgstr "de categorie"
 
-#: src/categories_onglet.c:551 src/tiers_onglet.c:347
+#: src/categories_onglet.c:548 src/tiers_onglet.c:344
 #, fuzzy
 msgid "Change view mode"
 msgstr "Een regel stand"
 
 #. Edit transaction
-#: src/categories_onglet.c:579
+#: src/categories_onglet.c:576
 #, fuzzy
 msgid "Category view"
 msgstr "Categorieën"
 
-#: src/categories_onglet.c:585
+#: src/categories_onglet.c:582
 #, fuzzy
 msgid "Subcategory view"
 msgstr "Sub-categorieën"
 
-#: src/categories_onglet.c:636 src/categories_onglet.c:640
-#: src/imputation_budgetaire.c:669 src/imputation_budgetaire.c:674
-#: src/tiers_onglet.c:603
+#: src/categories_onglet.c:633 src/categories_onglet.c:637
+#: src/imputation_budgetaire.c:666 src/imputation_budgetaire.c:671
+#: src/tiers_onglet.c:600
 #, fuzzy, c-format
 msgid "Properties for %s"
 msgstr "Resultaat van %s"
 
-#: src/categories_onglet.c:638
+#: src/categories_onglet.c:635
 #, fuzzy
 msgid "No sub-category defined"
 msgstr "Geen sub-categorie (%d)"
 
-#: src/categories_onglet.c:642 src/qif.c:1152 src/qif.c:1159
+#: src/categories_onglet.c:639 src/qif.c:1144 src/qif.c:1151
 #, fuzzy
 msgid "No category defined"
 msgstr "Geen categorie (%d)"
@@ -1127,32 +1126,32 @@ msgstr "Geen categorie (%d)"
 #. Description entry
 #. Payment method method_ptr
 #. Description entry
-#: src/categories_onglet.c:693 src/gsb_payment_method_config.c:296
-#: src/import.c:439 src/imputation_budgetaire.c:727
+#: src/categories_onglet.c:690 src/gsb_payment_method_config.c:296
+#: src/import.c:439 src/imputation_budgetaire.c:724
 msgid "Type"
 msgstr "Soort"
 
-#: src/categories_onglet.c:733
+#: src/categories_onglet.c:730
 #, c-format
 msgid ""
 "You tried to rename current sub-category to '%s' but this sub-category "
 "already exists.  Please choose another name."
 msgstr ""
 
-#: src/categories_onglet.c:740
+#: src/categories_onglet.c:737
 #, c-format
 msgid ""
 "You tried to rename current category to '%s' but this category already "
 "exists.  Please choose another name."
 msgstr ""
 
-#: src/categories_onglet.c:745
+#: src/categories_onglet.c:742
 #, fuzzy
 msgid "Category already exists"
 msgstr "Categorie '%s' bestaat reeds."
 
 #. * Find a unique name for category
-#: src/categories_onglet.c:847 src/meta_categories.c:307
+#: src/categories_onglet.c:844 src/meta_categories.c:307
 msgid "New sub-category"
 msgstr "Nieuwe sub-categorie"
 
@@ -1658,7 +1657,7 @@ msgstr "Totaal algemeen"
 msgid "Transfert"
 msgstr "Overgeschreven"
 
-#: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1040
+#: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1038
 #: src/gsb_form.c:722 src/gsb_form.c:2655 src/gsb_form.c:3054
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3259
 msgid "Split of transaction"
@@ -1694,20 +1693,20 @@ msgstr "Inkomsten"
 msgid "Outgoings"
 msgstr "Uitgaven"
 
-#: src/etats_affiche.c:2398 src/traitement_variables.c:93
+#: src/etats_affiche.c:2398 src/traitement_variables.c:94
 msgid "Number"
 msgstr "Nummer"
 
 #: src/etats_affiche.c:2412 src/export_csv.c:763 src/gsb_form.c:1290
 #: src/gsb_form.c:2124 src/gsb_form.c:2147 src/gsb_form_widget.c:452
 #: src/gsb_transactions_list.c:145 src/import_csv.c:80
-#: src/traitement_variables.c:77
+#: src/traitement_variables.c:78
 msgid "Value date"
 msgstr "Valuta datum"
 
 #: src/etats_affiche.c:2419 src/export_csv.c:769 src/gsb_archive_config.c:98
 #: src/gsb_assistant_archive_export.c:150 src/gsb_form_widget.c:456
-#: src/gsb_transactions_list.c:154 src/traitement_variables.c:86
+#: src/gsb_transactions_list.c:154 src/traitement_variables.c:87
 msgid "Financial year"
 msgstr "Financieel jaar"
 
@@ -1717,7 +1716,7 @@ msgstr "Financieel jaar"
 #: src/fenetre_principale.c:264 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1310 src/gsb_form_widget.c:460 src/gsb_scheduler_list.c:339
 #: src/gsb_transactions_list.c:146 src/import.c:3170 src/import_csv.c:81
-#: src/meta_payee.c:77 src/traitement_variables.c:78
+#: src/meta_payee.c:77 src/traitement_variables.c:79
 #, fuzzy
 msgid "Payee"
 msgstr "Betaler/begunstigde"
@@ -1726,7 +1725,7 @@ msgstr "Betaler/begunstigde"
 #: src/etats_affiche.c:2447 src/export_csv.c:796 src/gsb_bank.c:915
 #: src/gsb_form.c:1348 src/gsb_form_widget.c:476
 #: src/gsb_transactions_list.c:158 src/import_csv.c:82
-#: src/traitement_variables.c:90
+#: src/traitement_variables.c:91
 msgid "Notes"
 msgstr "Aantekeningen"
 
@@ -1743,13 +1742,13 @@ msgstr "Cheque"
 
 #: src/etats_affiche.c:2468 src/export_csv.c:805 src/gsb_form.c:1392
 #: src/gsb_form_widget.c:496 src/gsb_transactions_list.c:157
-#: src/traitement_variables.c:89
+#: src/traitement_variables.c:90
 msgid "Voucher"
 msgstr "Waardebon"
 
 #: src/etats_affiche.c:2475 src/export_csv.c:811 src/gsb_form.c:1385
 #: src/gsb_form_widget.c:500 src/gsb_transactions_list.c:159
-#: src/traitement_variables.c:91
+#: src/traitement_variables.c:92
 msgid "Bank references"
 msgstr "Bank referenties"
 
@@ -2036,14 +2035,14 @@ msgstr "Kies een of meer rekeningen voor in het rapport "
 
 #: src/etats_config.c:2547 src/etats_config.c:2802 src/etats_config.c:3084
 #: src/etats_config.c:3891 src/etats_config.c:4081 src/etats_config.c:7312
-#: src/tiers_onglet.c:1393 src/tiers_onglet.c:1413
+#: src/tiers_onglet.c:1390 src/tiers_onglet.c:1410
 msgid "Select all"
 msgstr "Selecteer alles"
 
 #. ajoute le bouton (dÃ©)sÃ©lectionne tout
 #: src/etats_config.c:2562 src/etats_config.c:2817 src/etats_config.c:3099
 #: src/etats_config.c:3906 src/etats_config.c:4096 src/etats_config.c:7327
-#: src/import.c:2118 src/tiers_onglet.c:1184 src/tiers_onglet.c:1395
+#: src/import.c:2118 src/tiers_onglet.c:1181 src/tiers_onglet.c:1392
 msgid "Unselect all"
 msgstr "Selectie opheffen"
 
@@ -2708,41 +2707,41 @@ msgstr "Importeer rapport bestand"
 msgid "Export selected report to egsb, HTML, Tex, CSV, PostScript"
 msgstr ""
 
-#: src/etats_onglet.c:154
+#: src/etats_onglet.c:153
 #, fuzzy
 msgid "Print selected report"
 msgstr "Print rapport"
 
-#: src/etats_onglet.c:171
+#: src/etats_onglet.c:163
 #, fuzzy
 msgid "Delete selected report"
 msgstr "Verwijder rapport"
 
-#: src/etats_onglet.c:180
+#: src/etats_onglet.c:172
 #, fuzzy
 msgid "Edit selected report"
 msgstr "Verwijder rapport"
 
-#: src/etats_onglet.c:185
+#: src/etats_onglet.c:177
 #, fuzzy
 msgid "Clone"
 msgstr "Sluiten"
 
-#: src/etats_onglet.c:189
+#: src/etats_onglet.c:181
 #, fuzzy
 msgid "Clone selected report"
 msgstr "Kloon rapport"
 
-#: src/etats_onglet.c:221 src/fenetre_principale.c:287 src/navigation.c:355
+#: src/etats_onglet.c:213 src/fenetre_principale.c:287 src/navigation.c:355
 #: src/navigation.c:1272
 msgid "Reports"
 msgstr "Rapporten"
 
-#: src/etats_onglet.c:257
+#: src/etats_onglet.c:249
 msgid "Choose template for new report"
 msgstr "Kies een sjabloon voor het rapport"
 
-#: src/etats_onglet.c:258
+#: src/etats_onglet.c:250
 msgid ""
 "You are about to create a new report.  For convenience, you can choose "
 "between the following templates.  Reports may be customized later."
@@ -2750,53 +2749,53 @@ msgstr ""
 "U staat op het punt een nieuw rapport te maken. Voor het gemak kunt u uit de "
 "volgende sjablonen kiezen. Rapporten zijn later nog te veranderen."
 
-#: src/etats_onglet.c:261
+#: src/etats_onglet.c:253
 msgid "Report type"
 msgstr "Rapportsoort"
 
 #. fill combobox
 #. Last month incomes and outgoings
-#: src/etats_onglet.c:288 src/etats_onglet.c:329
+#: src/etats_onglet.c:280 src/etats_onglet.c:321
 msgid "Last month incomes and outgoings"
 msgstr "Inkomsten en uitgaven van vorige maand"
 
 #. Current month incomes and outgoings
-#: src/etats_onglet.c:289 src/etats_onglet.c:389
+#: src/etats_onglet.c:281 src/etats_onglet.c:381
 msgid "Current month incomes and outgoings"
 msgstr "Inkomsten en uitgaven van de huidige maand"
 
 #. Annual budget
-#: src/etats_onglet.c:290 src/etats_onglet.c:454
+#: src/etats_onglet.c:282 src/etats_onglet.c:446
 msgid "Annual budget"
 msgstr "Dit jaar"
 
 #. Blank report
-#: src/etats_onglet.c:291 src/etats_onglet.c:520
+#: src/etats_onglet.c:283 src/etats_onglet.c:512
 msgid "Blank report"
 msgstr "Leeg rapport"
 
 #. Cheques deposit
-#: src/etats_onglet.c:292 src/etats_onglet.c:594
+#: src/etats_onglet.c:284 src/etats_onglet.c:586
 msgid "Cheques deposit"
 msgstr "Cheque storting"
 
 #. Monthly outgoings by payee
-#: src/etats_onglet.c:293 src/etats_onglet.c:670
+#: src/etats_onglet.c:285 src/etats_onglet.c:662
 #, fuzzy
 msgid "Monthly outgoings by payee"
 msgstr "Maandelijkse uitgaven van begunstigden"
 
 #. Search
-#: src/etats_onglet.c:294 src/etats_onglet.c:759
+#: src/etats_onglet.c:286 src/etats_onglet.c:751
 msgid "Search"
 msgstr "Zoeken"
 
-#: src/etats_onglet.c:844
+#: src/etats_onglet.c:836
 msgid "Unknown report type, creation cancelled"
 msgstr "Onbekend rapport type, aanmaken gestopt"
 
 #. Last month incomes and outgoings
-#: src/etats_onglet.c:878
+#: src/etats_onglet.c:870
 msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -2807,7 +2806,7 @@ msgstr ""
 "kiezen. Standaard zijn ze allemaal geselecteerd."
 
 #. Current month incomes and outgoings
-#: src/etats_onglet.c:884
+#: src/etats_onglet.c:876
 msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -2818,7 +2817,7 @@ msgstr ""
 "kiezen. Standaard zijn ze allemaal geselecteerd."
 
 #. Annual budget
-#: src/etats_onglet.c:890
+#: src/etats_onglet.c:882
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
@@ -2827,13 +2826,13 @@ msgstr ""
 "te kiezen Standaard zijn alle rekeningen geselecteerd."
 
 #. Blank report
-#: src/etats_onglet.c:896
+#: src/etats_onglet.c:888
 #, fuzzy
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr "Dit verslag is leeg. U zult zelf alles moeten kiezen."
 
 #. Cheques deposit
-#: src/etats_onglet.c:902
+#: src/etats_onglet.c:894
 msgid ""
 "This report displays the cheques deposit. You just need to select the account"
 "(s). By default all accounts are selected."
@@ -2842,7 +2841,7 @@ msgstr ""
 "te kiezen. Standaard zijn alle rekeningen geselecteerd."
 
 #. Monthly outgoings by payee
-#: src/etats_onglet.c:908
+#: src/etats_onglet.c:900
 #, fuzzy
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
@@ -2853,7 +2852,7 @@ msgstr ""
 "geselecteerd."
 
 #. Search
-#: src/etats_onglet.c:914
+#: src/etats_onglet.c:906
 #, fuzzy
 msgid ""
 "This report displays all the information for all transactions of all "
@@ -2864,67 +2863,67 @@ msgstr ""
 "rekeningen van dit jaar. U hoeft alleen een bedrag, datum, begunstigde etc "
 "in te vullen volgens uw wensen. Standaard zijn alle transacties klikbaar."
 
-#: src/etats_onglet.c:919
+#: src/etats_onglet.c:911
 msgid "No description available"
 msgstr ""
 
-#: src/etats_onglet.c:945
+#: src/etats_onglet.c:937
 #, c-format
 msgid "Delete report \"%s\"?"
 msgstr "Rapport \"%s\" verwijderen?"
 
-#: src/etats_onglet.c:947
+#: src/etats_onglet.c:939
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr ""
 "Het rapport zal definitief worden verwijderd. Dit kan niet ongedaan gemaakt "
 "worden."
 
-#: src/etats_onglet.c:1115
+#: src/etats_onglet.c:1107
 msgid "Export report"
 msgstr "Exporteer rapport"
 
-#: src/etats_onglet.c:1130
+#: src/etats_onglet.c:1122
 msgid "File format"
 msgstr ""
 
-#: src/etats_onglet.c:1135
+#: src/etats_onglet.c:1127
 msgid "Grisbi report file (egsb file)"
 msgstr ""
 
-#: src/etats_onglet.c:1136
+#: src/etats_onglet.c:1128
 msgid "HTML file"
 msgstr "HTML bestand"
 
-#: src/etats_onglet.c:1137
+#: src/etats_onglet.c:1129
 #, fuzzy
 msgid "CSV file"
 msgstr "Bestand opslaan"
 
-#: src/etats_onglet.c:1138 src/print_config.c:256
+#: src/etats_onglet.c:1130 src/print_config.c:256
 msgid "Postscript file"
 msgstr "Postscript bestand"
 
-#: src/etats_onglet.c:1139
+#: src/etats_onglet.c:1131
 #, fuzzy
 msgid "Latex file"
 msgstr "LaTeX bestand"
 
-#: src/etats_onglet.c:1156
+#: src/etats_onglet.c:1148
 #, fuzzy
 msgid "Exporting report ..."
 msgstr "Exporteer naar CSV ..."
 
-#: src/etats_onglet.c:1200 src/gsb_debug.c:246 src/gsb_file.c:503
+#: src/etats_onglet.c:1192 src/gsb_debug.c:246 src/gsb_file.c:503
 #: src/gsb_file.c:627 src/gsb_file.c:684
 #, fuzzy
 msgid "Done"
 msgstr "Geen"
 
-#: src/etats_onglet.c:1221
+#: src/etats_onglet.c:1213
 msgid "Import a report"
 msgstr "Importeer een rapport"
 
-#: src/etats_onglet.c:1232
+#: src/etats_onglet.c:1224
 msgid "Grisbi report files (*.egsb)"
 msgstr ""
 
@@ -3073,7 +3072,7 @@ msgstr "B"
 #. create the method of payment for a bank account
 #. create the method of payment for a liabilities account
 #: src/export_csv.c:601 src/export_csv.c:713 src/export_csv.c:725
-#: src/gsb_data_category.c:1042 src/gsb_data_payment.c:627
+#: src/gsb_data_category.c:1040 src/gsb_data_payment.c:627
 #: src/gsb_data_payment.c:709 src/gsb_data_payment.c:748
 #: src/plugins/ofx/ofx.c:464
 msgid "Transfer"
@@ -3093,7 +3092,7 @@ msgid "Cheques"
 msgstr "Cheques"
 
 #: src/export_csv.c:772 src/gsb_transactions_list.c:156 src/import_csv.c:92
-#: src/traitement_variables.c:88
+#: src/traitement_variables.c:89
 msgid "C/R"
 msgstr "C/R"
 
@@ -4143,7 +4142,7 @@ msgstr "Print rapport"
 msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:516
+#: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:515
 #: src/gsb_form.c:2762 src/gsb_form.c:2763 src/navigation.c:1270
 msgid "Report"
 msgstr "Rapport"
@@ -6419,7 +6418,7 @@ msgstr ""
 msgid "No budget line"
 msgstr "Geen budgetregel"
 
-#: src/gsb_data_budget.c:1293
+#: src/gsb_data_budget.c:1291
 #, fuzzy, c-format
 msgid ""
 "The transaction %d has a budget n°%d and sub-budget n°%d but they don't "
@@ -6427,12 +6426,12 @@ msgid ""
 msgstr ""
 "Transactie #%d  moet een tegenrekening hebben  #%d  maar deze bestaat niet.\n"
 
-#: src/gsb_data_budget.c:1439 src/gsb_data_category.c:1542
+#: src/gsb_data_budget.c:1437 src/gsb_data_category.c:1540
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "In <i>%s</i>, <i>%s</i> is een dubbele van <i>%s</i>.\n"
 
-#: src/gsb_data_category.c:1396
+#: src/gsb_data_category.c:1394
 #, fuzzy, c-format
 msgid ""
 "The transaction %d has a category n°%d and sub-category n°%d but they don't "
@@ -6448,15 +6447,15 @@ msgstr ""
 msgid "Warning : that link is already defined."
 msgstr ""
 
-#: src/gsb_data_fyear.c:556
+#: src/gsb_data_fyear.c:537
 msgid "Warning : the dates are not in good order."
 msgstr ""
 
-#: src/gsb_data_fyear.c:559
+#: src/gsb_data_fyear.c:540
 msgid "Warning : that financial year cross with another one."
 msgstr ""
 
-#: src/gsb_data_fyear.c:562
+#: src/gsb_data_fyear.c:543
 #, fuzzy
 msgid "Warning : Invalid date."
 msgstr "Onbekende datum."
@@ -6527,12 +6526,12 @@ msgstr "Geef een naam voor de nieuwe sub-budgetregel"
 msgid "Select the currency of the partial balance"
 msgstr "Selecteer bankrekeningen"
 
-#: src/gsb_data_payee.c:403
+#: src/gsb_data_payee.c:402
 #, fuzzy
 msgid "No payee defined"
 msgstr "Geen begunstigde gedefinieerd"
 
-#: src/gsb_data_payee.c:712
+#: src/gsb_data_payee.c:711
 #, fuzzy, c-format
 msgid "The transaction %d has a payee n°%d but it doesn't exist."
 msgstr ""
@@ -7547,12 +7546,12 @@ msgid "Free"
 msgstr "Kosten"
 
 #: src/gsb_form_widget.c:480 src/gsb_transactions_list.c:152
-#: src/traitement_variables.c:84
+#: src/traitement_variables.c:85
 msgid "Method of payment"
 msgstr "Methode van betaling"
 
 #: src/gsb_form_widget.c:508 src/gsb_transactions_list.c:160
-#: src/traitement_variables.c:92
+#: src/traitement_variables.c:93
 msgid "Transaction number"
 msgstr "Transactie nummer"
 
@@ -8265,13 +8264,13 @@ msgstr ""
 msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
 
-#: src/gtk_combofix.c:742
+#: src/gtk_combofix.c:745
 msgid ""
 "You cannot create new payee or category and subcategory without changing the "
 "options in preferences"
 msgstr ""
 
-#: src/gtk_combofix.c:745
+#: src/gtk_combofix.c:748
 msgid "Warning you cannot create payee or category"
 msgstr ""
 
@@ -8664,7 +8663,7 @@ msgstr "Transactie omzetten naar een geplande transactie"
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr ""
 
-#: src/import.c:3566 src/tiers_onglet.c:1031
+#: src/import.c:3566 src/tiers_onglet.c:1028
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
@@ -8701,7 +8700,7 @@ msgid ""
 msgstr ""
 
 #. Create entry liste des tiers
-#: src/import.c:3679 src/import.c:3711 src/tiers_onglet.c:1134
+#: src/import.c:3679 src/import.c:3711 src/tiers_onglet.c:1131
 #, fuzzy
 msgid "Payee name"
 msgstr "Totaal algemeen"
@@ -8876,36 +8875,36 @@ msgstr ""
 msgid "Imported CSV account"
 msgstr "Importeer rekening"
 
-#: src/imputation_budgetaire.c:368
+#: src/imputation_budgetaire.c:365
 msgid "Export the budgetary lines"
 msgstr "Exporteer de budgetregels"
 
 # tekst in tabbladnaam (zoals in exel)
-#: src/imputation_budgetaire.c:375
+#: src/imputation_budgetaire.c:372
 #, fuzzy
 msgid "Budgetary-lines.igsb"
 msgstr "Budgetregels"
 
-#: src/imputation_budgetaire.c:393
+#: src/imputation_budgetaire.c:390
 msgid "Cannot save file."
 msgstr "Kan het bestand niet opslaan."
 
-#: src/imputation_budgetaire.c:417
+#: src/imputation_budgetaire.c:414
 #, fuzzy
 msgid "Import budgetary lines"
 msgstr "Importeer de budgetregels"
 
-#: src/imputation_budgetaire.c:428
+#: src/imputation_budgetaire.c:425
 #, fuzzy
 msgid "Grisbi budgetary lines files (*.igsb)"
 msgstr "Ongeldige budgetregel bestand"
 
-#: src/imputation_budgetaire.c:455
+#: src/imputation_budgetaire.c:452
 #, fuzzy
 msgid "Merge imported budgetary lines with existing?"
 msgstr "Importeer de budgetregels"
 
-#: src/imputation_budgetaire.c:457
+#: src/imputation_budgetaire.c:454
 #, fuzzy
 msgid ""
 "File already contains budgetary lines.  If you decide to continue, existing "
@@ -8914,7 +8913,7 @@ msgstr ""
 "Het bestand bevat al transacties, de twee categorielijsten zullen worden "
 "samengevoegd."
 
-#: src/imputation_budgetaire.c:458
+#: src/imputation_budgetaire.c:455
 msgid ""
 "File does not contain budgetary lines.  If you decide to continue, existing "
 "budgetary lines will be merged with imported ones.  Once performed, there is "
@@ -8922,97 +8921,97 @@ msgid ""
 "You may also decide to replace existing budgetary lines with imported ones."
 msgstr ""
 
-#: src/imputation_budgetaire.c:518
+#: src/imputation_budgetaire.c:515
 #, fuzzy
 msgid ""
 "New\n"
 "budgetary line"
 msgstr "Nieuwe budgetregel"
 
-#: src/imputation_budgetaire.c:522
+#: src/imputation_budgetaire.c:519
 #, fuzzy
 msgid "Create a new budgetary line"
 msgstr "Verwijder een budgetregel"
 
-#: src/imputation_budgetaire.c:528
+#: src/imputation_budgetaire.c:525
 #, fuzzy
 msgid ""
 "New sub\n"
 "budgetary line"
 msgstr "Nieuwe sub-budgetregel"
 
-#: src/imputation_budgetaire.c:535
+#: src/imputation_budgetaire.c:532
 #, fuzzy
 msgid "Create a new sub-budgetary line"
 msgstr "Verwijder een budgetregel"
 
-#: src/imputation_budgetaire.c:546
+#: src/imputation_budgetaire.c:543
 #, fuzzy
 msgid "Import a Grisbi budgetary line file (.igsb)"
 msgstr "Dit bestand is geen Grisbi budgetregel bestand"
 
-#: src/imputation_budgetaire.c:556
+#: src/imputation_budgetaire.c:553
 #, fuzzy
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Dit bestand is geen Grisbi budgetregel bestand"
 
-#: src/imputation_budgetaire.c:566
+#: src/imputation_budgetaire.c:563
 #, fuzzy
 msgid "Delete selected budgetary line"
 msgstr "Verwijder een budgetregel"
 
-#: src/imputation_budgetaire.c:576
+#: src/imputation_budgetaire.c:573
 #, fuzzy
 msgid "Edit selected budgetary line"
 msgstr "Verwijder een budgetregel"
 
-#: src/imputation_budgetaire.c:586
+#: src/imputation_budgetaire.c:583
 #, fuzzy
 msgid "Change display mode"
 msgstr "Volgorde van weergave"
 
 #. Edit transaction
-#: src/imputation_budgetaire.c:614
+#: src/imputation_budgetaire.c:611
 #, fuzzy
 msgid "Budgetary line view"
 msgstr "Budgetregel"
 
-#: src/imputation_budgetaire.c:620
+#: src/imputation_budgetaire.c:617
 #, fuzzy
 msgid "Sub-budgetary line view"
 msgstr "Sub-budgetregel"
 
-#: src/imputation_budgetaire.c:672
+#: src/imputation_budgetaire.c:669
 #, fuzzy
 msgid "No sub-budget defined"
 msgstr "Geen sub-budgetregel"
 
-#: src/imputation_budgetaire.c:677
+#: src/imputation_budgetaire.c:674
 #, fuzzy
 msgid "No budget defined"
 msgstr "Geen budgetregel"
 
-#: src/imputation_budgetaire.c:768
+#: src/imputation_budgetaire.c:765
 #, c-format
 msgid ""
 "You tried to rename current sub-budgetary line to '%s' but this sub-"
 "budgetary line already exists.  Please choose another name."
 msgstr ""
 
-#: src/imputation_budgetaire.c:775
+#: src/imputation_budgetaire.c:772
 #, c-format
 msgid ""
 "You tried to rename current budgetary line to '%s' but this budgetary line "
 "already exists.  Please choose another name."
 msgstr ""
 
-#: src/imputation_budgetaire.c:780
+#: src/imputation_budgetaire.c:777
 #, fuzzy
 msgid "Budgetary line already exists"
 msgstr "Budgetregel '%s' bestaat al."
 
 #. * Find a unique name for budget
-#: src/imputation_budgetaire.c:883 src/meta_budgetary.c:246
+#: src/imputation_budgetaire.c:880 src/meta_budgetary.c:246
 #, fuzzy
 msgid "New sub-budget"
 msgstr "Nieuwe sub-budgetregel"
@@ -9287,7 +9286,7 @@ msgid "No sub-payee"
 msgstr "Geen sub-categorie"
 
 #. * Find a unique name for payee
-#: src/meta_payee.c:323 src/tiers_onglet.c:316
+#: src/meta_payee.c:323 src/tiers_onglet.c:313
 #, fuzzy
 msgid "New payee"
 msgstr "Nieuwe betalingsmethode"
@@ -9297,27 +9296,27 @@ msgstr "Nieuwe betalingsmethode"
 msgid "New payee #%d"
 msgstr "Nieuwe betalingsmethode"
 
-#: src/metatree.c:474
+#: src/metatree.c:476
 #, fuzzy
 msgid "split"
 msgstr "Opsplitsen"
 
 #. FIXME: tell the truth ;-)
-#: src/metatree.c:710
+#: src/metatree.c:712
 msgid "This should not theorically happen."
 msgstr ""
 
-#: src/metatree.c:711
+#: src/metatree.c:713
 msgid "Can't remove selected division."
 msgstr ""
 
 #. create the box to move change the division and sub-div of the transactions
-#: src/metatree.c:1724
+#: src/metatree.c:1726
 #, fuzzy, c-format
 msgid "'%s' still contains transactions or archived transactions."
 msgstr "Transactie omzetten naar een geplande transactie"
 
-#: src/metatree.c:1728
+#: src/metatree.c:1730
 #, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
@@ -9325,39 +9324,39 @@ msgid ""
 "along with their division."
 msgstr ""
 
-#: src/metatree.c:1741
+#: src/metatree.c:1743
 #, fuzzy
 msgid "Transfer transactions to payee"
 msgstr "Transacties overschrijven naar "
 
-#: src/metatree.c:1743
+#: src/metatree.c:1745
 #, fuzzy, c-format
 msgid "Transfer transactions to %s"
 msgstr "Transacties overschrijven naar "
 
-#: src/metatree.c:1841
+#: src/metatree.c:1843
 #, fuzzy
 msgid "Just remove this payee."
 msgstr "Deze categorie verwijderen."
 
-#: src/metatree.c:1843
+#: src/metatree.c:1845
 #, fuzzy, c-format
 msgid "Just remove this %s."
 msgstr "Deze categorie verwijderen."
 
-#: src/metatree.c:1845
+#: src/metatree.c:1847
 #, fuzzy, c-format
 msgid "Just remove this sub-%s."
 msgstr "Deze sub-categorie verwijderen."
 
-#: src/metatree.c:1870
+#: src/metatree.c:1888
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
 "was entered."
 msgstr ""
 
-#: src/metatree.c:1873
+#: src/metatree.c:1891
 #, fuzzy, c-format
 msgid "Please enter a %s!"
 msgstr "Vul aub een categorie in!"
@@ -10024,21 +10023,21 @@ msgstr ""
 "Grisbi heef een bestedingsaccount gevonden die nog niet gekoppeld is. Grisbi "
 "zal toch proberen om deze te importeren als een bankrekening."
 
-#: src/qif.c:491 src/qif.c:494
+#: src/qif.c:483 src/qif.c:486
 msgid " [Transaction imported without date]"
 msgstr " [Transactie geïmporteerd zonder datum]"
 
-#: src/qif.c:517
+#: src/qif.c:509
 #, fuzzy
 msgid "Opening Balance"
 msgstr "Begin saldo"
 
-#: src/qif.c:541
+#: src/qif.c:533
 #, fuzzy
 msgid "Imported QIF account"
 msgstr "Importeer rekening"
 
-#: src/qif.c:549
+#: src/qif.c:541
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10046,7 +10045,7 @@ msgid ""
 "For now, all the dates will be imported as 01.01.1970"
 msgstr ""
 
-#: src/qif.c:619
+#: src/qif.c:611
 #, c-format
 msgid ""
 "The date %s seems contains more than 2 separators.\n"
@@ -10054,17 +10053,17 @@ msgid ""
 "strange format into Grisbi"
 msgstr ""
 
-#: src/qif.c:690
+#: src/qif.c:682
 #, fuzzy
 msgid "The order cannot be determined,\n"
 msgstr "OFX support is niet geinstalleerd !"
 
-#: src/qif.c:695
+#: src/qif.c:687
 #, fuzzy
 msgid "Date wrong for the order "
 msgstr "aan de bovenkant van het rapport"
 
-#: src/qif.c:910
+#: src/qif.c:902
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10072,52 +10071,52 @@ msgid ""
 "so Grisbi created %d files, one per account :\n"
 msgstr ""
 
-#: src/qif.c:973
+#: src/qif.c:965
 #, fuzzy, c-format
 msgid "Error opening file '%s'"
 msgstr "Er is een fout opgetreden bij het openen van het bestand '%s'."
 
-#: src/tiers_onglet.c:287
+#: src/tiers_onglet.c:284
 msgid "Warning you will crush the existing note."
 msgstr ""
 
-#: src/tiers_onglet.c:320
+#: src/tiers_onglet.c:317
 #, fuzzy
 msgid "Create a new payee"
 msgstr "Nieuwe rekening maken"
 
-#: src/tiers_onglet.c:329
+#: src/tiers_onglet.c:326
 #, fuzzy
 msgid "Delete selected payee"
 msgstr "Verwijder begunstigde"
 
-#: src/tiers_onglet.c:338
+#: src/tiers_onglet.c:335
 msgid "Edit selected payee"
 msgstr ""
 
-#: src/tiers_onglet.c:351
+#: src/tiers_onglet.c:348
 #, fuzzy
 msgid "Manage payees"
 msgstr "Hoofdpagina"
 
-#: src/tiers_onglet.c:355 src/tiers_onglet.c:809
+#: src/tiers_onglet.c:352 src/tiers_onglet.c:806
 #, fuzzy
 msgid "Manage the payees"
 msgstr "Gebruik categorieën."
 
 # titel van scherm bij het opslaan met een nieuwe naam (dus ook bij de eerste keer)
-#: src/tiers_onglet.c:359
+#: src/tiers_onglet.c:356
 #, fuzzy
 msgid "Remove unused payees"
 msgstr "Bestand opslaan als"
 
 # titel van scherm bij het opslaan met een nieuwe naam (dus ook bij de eerste keer)
-#: src/tiers_onglet.c:363 src/tiers_onglet.c:389
+#: src/tiers_onglet.c:360 src/tiers_onglet.c:386
 #, fuzzy
 msgid "Remove orphan payees"
 msgstr "Bestand opslaan als"
 
-#: src/tiers_onglet.c:390
+#: src/tiers_onglet.c:387
 msgid ""
 "This will remove all the payees wich are not used in any transactions.  "
 "Payees linked to an archived transactions will not be removed, even if not "
@@ -10126,33 +10125,33 @@ msgid ""
 "Are you sure you want to do that?"
 msgstr ""
 
-#: src/tiers_onglet.c:404
+#: src/tiers_onglet.c:401
 #, c-format
 msgid "Removed %d payees."
 msgstr ""
 
-#: src/tiers_onglet.c:410
+#: src/tiers_onglet.c:407
 msgid "There is no payee to remove."
 msgstr ""
 
 #. Edit transaction
-#: src/tiers_onglet.c:434
+#: src/tiers_onglet.c:431
 msgid "Payee view"
 msgstr ""
 
-#: src/tiers_onglet.c:684
+#: src/tiers_onglet.c:681
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
 "Please choose another name."
 msgstr ""
 
-#: src/tiers_onglet.c:688
+#: src/tiers_onglet.c:685
 #, fuzzy
 msgid "Payee already exists"
 msgstr "Bestand bestaat reeds"
 
-#: src/tiers_onglet.c:810
+#: src/tiers_onglet.c:807
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -10161,21 +10160,21 @@ msgid ""
 "It is better to make a backup of your Grisbi file if you have not yet done. "
 msgstr ""
 
-#: src/tiers_onglet.c:932
+#: src/tiers_onglet.c:929
 msgid "One payee was replaced with a new one."
 msgstr ""
 
-#: src/tiers_onglet.c:936
+#: src/tiers_onglet.c:933
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr ""
 
-#: src/tiers_onglet.c:989
+#: src/tiers_onglet.c:986
 #, fuzzy
 msgid "Choose a payee"
 msgstr "Kies het te importeren bestand"
 
-#: src/tiers_onglet.c:991
+#: src/tiers_onglet.c:988
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -10185,55 +10184,55 @@ msgid ""
 msgstr ""
 
 # vraag in popup na klikken van nieuwe begunstigde
-#: src/tiers_onglet.c:1012
+#: src/tiers_onglet.c:1009
 #, fuzzy
 msgid "Enter the new payee"
 msgstr "Geef de naam van de begunstigde"
 
-#: src/tiers_onglet.c:1014
+#: src/tiers_onglet.c:1011
 #, fuzzy
 msgid "Enter the name of the new payee"
 msgstr "Geef een naam voor de nieuwe sub-budgetregel"
 
-#: src/tiers_onglet.c:1029
+#: src/tiers_onglet.c:1026
 #, fuzzy
 msgid "Options"
 msgstr "Uitgaven"
 
-#: src/tiers_onglet.c:1037
+#: src/tiers_onglet.c:1034
 msgid "Save the payees in the notes"
 msgstr ""
 
-#: src/tiers_onglet.c:1070
+#: src/tiers_onglet.c:1067
 msgid "List of payees who will be modified"
 msgstr ""
 
-#: src/tiers_onglet.c:1124
+#: src/tiers_onglet.c:1121
 #, fuzzy
 msgid "Payee number"
 msgstr "het cheque nummer"
 
-#: src/tiers_onglet.c:1150
+#: src/tiers_onglet.c:1147
 msgid "Total number of payees :"
 msgstr ""
 
 #. ajoute le nombre de tiers sÃ©lectionnÃ©s
-#: src/tiers_onglet.c:1167
+#: src/tiers_onglet.c:1164
 #, fuzzy
 msgid "Number of selected payees :"
 msgstr "Verwijder begunstigde"
 
-#: src/tiers_onglet.c:1270
+#: src/tiers_onglet.c:1267
 #, c-format
 msgid "Payee sought : %s"
 msgstr ""
 
-#: src/tiers_onglet.c:1276
+#: src/tiers_onglet.c:1273
 #, fuzzy, c-format
 msgid "New payee : %s"
 msgstr "Nieuwe betalingsmethode"
 
-#: src/tiers_onglet.c:1351
+#: src/tiers_onglet.c:1348
 #, c-format
 msgid ""
 "You are about to replace one payee which name contain %s by %s\n"
@@ -10241,7 +10240,7 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: src/tiers_onglet.c:1359
+#: src/tiers_onglet.c:1356
 #, c-format
 msgid ""
 "You are about to replace %d payees whose names contain %s by %s\n"
@@ -10249,15 +10248,15 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: src/tiers_onglet.c:1523
+#: src/tiers_onglet.c:1520
 msgid "You must choose a payee for searching."
 msgstr ""
 
-#: src/tiers_onglet.c:1527
+#: src/tiers_onglet.c:1524
 msgid "Beware you don't use one of models for the research."
 msgstr ""
 
-#: src/tiers_onglet.c:1625
+#: src/tiers_onglet.c:1622
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
@@ -10274,7 +10273,7 @@ msgstr ""
 msgid "Display tips at next start"
 msgstr "Toon transacties"
 
-#: src/traitement_variables.c:85
+#: src/traitement_variables.c:86
 msgid "Reconciliation ref."
 msgstr "Controle ref."
 

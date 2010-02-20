@@ -3,6 +3,7 @@ src/affichage.c
 src/affichage_liste.c
 src/balance_estimate_config.c
 src/balance_estimate_data.c
+src/balance_estimate_hist.c
 src/balance_estimate_tab.c
 src/barre_outils.c
 src/categories_onglet.c

@@ -544,7 +544,7 @@ gboolean preferences ( gint page )
                         1, BET_GENERAL_PAGE,
                         2, 400,
                         -1);
-    gtk_notebook_append_page (preference_frame, bet_estimate_config_create_page(), NULL);
+    gtk_notebook_append_page (preference_frame, bet_config_create_page (), NULL);
 #endif
 
     /* select the page */

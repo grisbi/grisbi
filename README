@@ -1,28 +1,28 @@
 			     GRISBI 0.6.0
 
-Grisbi is a personnal accounting application for Linux, written with
-Gtk and released under the GPL licence.
+Grisbi is a personal accounting application for Linux, written with
+Gtk and released under the GPL license.
 
 Our aim is to provide you with the most simple and intuitive software
 for basic use, although it can be very powerful if you spend a little
 time on the setup.
 
-Grisbi is an application written by French developpers, so it
+Grisbi is an application written by French developers, so it
 perfectly respects French accounting rules. Grisbi can manage multiple
 accounts, currencies and users. It manages third party, expenditure
 and receipt categories, and also budgetary lines, financial years, and
 other information that make Grisbi adapted for associations (except
 those that require double entry accounting). 
 
-The complete manuel is avaliable on line. The version that comes with
+The complete manual is available on line. The version that comes with
 the software is not illustrated, but you can replace it by the
-illustrated version at any time, which is availiable for download on
-this site.  The manuel will be soon completed with a Guide concerning
+illustrated version at any time, which is available for download on
+this site.  The manual will be soon completed with a Guide concerning
 accounting for associations.
 
 If you want to keep updated with Grisbi releases, you may subscribe to
 the mailing list infos@grisbi.org (see Contacts) and if you like to
-live dangerously you even can download the unstables sources from CVS
+live dangerously you even can download the unstable sources from CVS
 and compile them.
 
 Grisbi is free software, any contribution is welcome.
@@ -37,7 +37,7 @@ Bug reports : http://www.grisbi.org/bugtracking
 
 === Release history ===
 
-  Version 0.6.0 : xx/xx/2009
+  Version 0.6.0 : xx/xx/2010
   Version 0.5.9 : 10/07/2006
   Version 0.5.8 : 19/12/2005
   Version 0.5.7 : 02/06/2005
@@ -63,7 +63,7 @@ Bug reports : http://www.grisbi.org/bugtracking
 
 
 
-=== Licence ===
+=== License ===
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

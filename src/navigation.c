@@ -1234,7 +1234,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE, FALSE);
-            bet_update_balance_estimate_tab();
+        bet_array_update_estimate_tab ( );
 	    break;
 #endif /*_BALANCE_ESTIMATE_TAB_H*/
 

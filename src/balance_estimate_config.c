@@ -21,6 +21,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/* ./configure --with-balance-estimate */
+
 #include "include.h"
 #include <config.h>
 
@@ -84,7 +86,7 @@ extern GtkTreeModel *bet_fyear_model_filter;
  *
  * */
 
-GtkWidget *bet_estimate_config_create_page ( void )
+GtkWidget *bet_config_create_page ( void )
 {
     GtkWidget *vbox_pref, *paddingbox;
 

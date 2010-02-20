@@ -34,6 +34,7 @@
 #include "./gsb_data_budget.h"
 #include "./gsb_data_category.h"
 #include "./gsb_data_fyear.h"
+#include "./gsb_data_mix.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
@@ -53,19 +54,18 @@ typedef struct _hist_div struct_hist_div;
 
 struct _hist_div
 {
-    gint number;
     gint account_nb;
     gint div_number;
+    gboolean div_full;
     gint sub_div_nb;
-    gsb_real moyenne;
-    gsb_real new_amount;
+    GHashTable *sub_div_list;
+    gsb_real amount;
 };
 
 
 /*START_STATIC*/
 static gboolean bet_data_update_div ( SH *sh, gint transaction_number,
                         gint sub_div );
-static void bet_data_hist_div_list_renumerote ( void );
 static struct_hist_div *initialise_struct_hist_div ( void );
 static void free_struct_hist_div ( struct_hist_div *bet_hist_div );
 /*END_STATIC*/
@@ -79,15 +79,13 @@ extern GtkWidget *window;
 
 
 /* pointeurs définis en fonction du type de données catégories ou IB */
-gint (*ptr_div) ( gint transaction_num );
-gint (*ptr_sub_div) ( gint transaction_num );
+gint (*ptr_div) ( gint transaction_num, gboolean is_transaction );
+gint (*ptr_sub_div) ( gint transaction_num, gboolean is_transaction );
 gchar* (*ptr_div_name) ( gint div_num, gint sub_div, const gchar *return_value_error );
 
 
 /* liste des div et sub_div cochées dans la vue des divisions */
-static GSList *bet_hist_div_list = NULL;
-
-static struct_hist_div *bet_hist_div_buffer;
+static GHashTable *bet_hist_div_list;
 
 
 /**
@@ -99,58 +97,87 @@ static struct_hist_div *bet_hist_div_buffer;
  * */
 gboolean bet_data_init_variables ( void )
 {
-    if ( bet_hist_div_list )
-    {
-        GSList* tmp_list = bet_hist_div_list;
-        while ( tmp_list )
-        {
-            struct_hist_div *bet_hist_div;
-
-            bet_hist_div = tmp_list -> data;
-            tmp_list = tmp_list -> next;
-            free_struct_hist_div ( bet_hist_div ); 
-        }
-        g_slist_free ( bet_hist_div_list );
-    }
-    bet_hist_div_list = NULL;
-    bet_hist_div_buffer = NULL;
-
+    bet_hist_div_list = g_hash_table_new_full ( g_str_hash,
+                        g_str_equal,
+                        (GDestroyNotify) g_free,
+                        (GDestroyNotify) free_struct_hist_div );
     return FALSE;
 
 }
 
 
-
 /**
  *
  *
  *
  *
  * */
-gint bet_data_add_div_hist ( gint account_nb,
+gboolean bet_data_add_div_hist ( gint account_nb,
                         gint div_number,
                         gint sub_div_nb,
-                        gsb_real moyenne )
+                        gsb_real amount )
 {
-    struct_hist_div *bet_hist_div;
+    gchar *key;
+    gchar *sub_key;
+    struct_hist_div *shd;
+devel_debug_int (account_nb);
+    if ( account_nb == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+                        utils_str_itoa ( div_number ), NULL );
 
-    bet_hist_div = g_malloc0 ( sizeof ( struct_hist_div ) );
-    if ( ! bet_hist_div )
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
-        dialogue_error_memory ( );
-        return 0;
+        if ( sub_div_nb > 0 )
+        {
+            sub_key = utils_str_itoa ( sub_div_nb );
+            if (  !g_hash_table_lookup ( bet_hist_div_list, sub_key ) )
+            {
+                struct_hist_div *sub_shd;
+
+                sub_shd = initialise_struct_hist_div ( );
+                if ( !sub_shd )
+                {
+                    dialogue_error_memory ( );
+                    return FALSE;
+                }
+                sub_shd -> sub_div_nb = sub_div_nb;
+                sub_shd -> amount = amount;
+                g_hash_table_insert ( shd -> sub_div_list, sub_key, sub_shd );
+            }
+        }
     }
-    bet_hist_div -> number = g_slist_length ( bet_hist_div_list ) + 1;
-    bet_hist_div -> account_nb = account_nb;
-    bet_hist_div -> div_number = div_number;
-    bet_hist_div -> sub_div_nb = sub_div_nb;
-    bet_hist_div -> moyenne = moyenne;
+    else
+    {
+        shd = initialise_struct_hist_div ( );
+        if ( !shd )
+        {
+            dialogue_error_memory ( );
+            return 0;
+        }
+        shd -> account_nb = account_nb;
+        shd -> div_number = div_number;
+        shd -> sub_div_nb = sub_div_nb;
+        if ( sub_div_nb > 0 )
+        {
+            struct_hist_div *sub_shd;
 
-    bet_hist_div_list = g_slist_append ( bet_hist_div_list, bet_hist_div );
+            sub_shd = initialise_struct_hist_div ( );
+            if ( !sub_shd )
+            {
+                dialogue_error_memory ( );
+                return FALSE;
+            }
+            sub_key = utils_str_itoa ( sub_div_nb );
+            sub_shd -> sub_div_nb = sub_div_nb;
+            sub_shd -> amount = amount;
+            g_hash_table_insert ( shd -> sub_div_list, sub_key, sub_shd );
+        }
+        g_hash_table_insert ( bet_hist_div_list, key, shd );
+    }
 
-    bet_hist_div_buffer = bet_hist_div;
-
-    return bet_hist_div -> number;
+    return TRUE;
 }
 
 
@@ -160,34 +187,84 @@ gint bet_data_add_div_hist ( gint account_nb,
  *
  *
  * */
-gint bet_data_add_div_hist_at_position ( gint account_nb,
-                        gint div_number,
-                        gint sub_div_nb,
-                        gsb_real moyenne,
-                        gint pos )
+gboolean bet_data_remove_div_hist ( gint account_nb, gint div_number, gint sub_div_nb )
 {
-    struct_hist_div *bet_hist_div;
+    gchar *key;
+    char *sub_key;
+    struct_hist_div *shd;
+devel_debug_int (account_nb);
+    if ( account_nb == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+                        utils_str_itoa ( div_number ), NULL );
 
-    bet_hist_div = initialise_struct_hist_div ( );
-    if ( ! bet_hist_div )
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
-        dialogue_error_memory ( );
-        return 0;
+        if ( sub_div_nb > 0 )
+        {
+            sub_key = utils_str_itoa ( sub_div_nb );
+            g_hash_table_remove ( shd -> sub_div_list, sub_key );
+        }
+        if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
+            g_hash_table_remove ( bet_hist_div_list, key );
     }
-    bet_hist_div -> account_nb = account_nb;
-    bet_hist_div -> div_number = div_number;
-    bet_hist_div -> sub_div_nb = sub_div_nb;
-    bet_hist_div -> moyenne = moyenne;
+    else
+        return FALSE;
 
-    bet_hist_div_list = g_slist_insert ( bet_hist_div_list, bet_hist_div, pos - 1 );
-    bet_data_hist_div_list_renumerote ( );
-
-    bet_hist_div_buffer = bet_hist_div;
-
-    return bet_hist_div -> number;
+    return TRUE;
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_data_search_div_hist ( gint account_nb, gint div_number, gint sub_div_nb )
+{
+    gchar *key;
+    gchar *sub_key;
+    struct_hist_div *shd;
+    
+    if ( account_nb == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+                        utils_str_itoa ( div_number ), NULL );
+
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
+    {
+        if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
+        {
+            g_free ( key );
+            return TRUE;
+        }
+        else if ( sub_div_nb > 0 );
+        {
+            sub_key = utils_str_itoa ( sub_div_nb );
+            if (  g_hash_table_lookup ( shd -> sub_div_list, sub_key ) )
+            {
+                g_free ( key );
+                g_free ( sub_key );
+                return TRUE;
+            }
+            g_free ( sub_key );
+        }
+    }
+
+    g_free ( key );
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
 /**
  *
  *
@@ -198,14 +275,14 @@ gboolean bet_data_set_div_ptr ( gint type_div )
 {
     if ( type_div == 0 )
     {
-        ptr_div = &gsb_data_transaction_get_category_number;
-        ptr_sub_div = &gsb_data_transaction_get_sub_category_number;
+        ptr_div = &gsb_data_mix_get_category_number;
+        ptr_sub_div = &gsb_data_mix_get_sub_category_number;
         ptr_div_name = &gsb_data_category_get_name;
     }
     else
     {
-        ptr_div = &gsb_data_transaction_get_budgetary_number;
-        ptr_sub_div = &gsb_data_transaction_get_sub_budgetary_number;
+        ptr_div = &gsb_data_mix_get_budgetary_number;
+        ptr_sub_div = &gsb_data_mix_get_sub_budgetary_number;
         ptr_div_name = &gsb_data_budget_get_name;
     }
 
@@ -217,7 +294,31 @@ gboolean bet_data_set_div_ptr ( gint type_div )
  *
  *
  * */
-gchar *bet_data_get_div_name (gint div_num,
+gint bet_data_get_div_number ( gint transaction_number, gboolean is_transaction )
+{
+    return ptr_div ( transaction_number, is_transaction );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gint bet_data_get_sub_div_nb ( gint transaction_number, gboolean is_transaction )
+{
+    return ptr_sub_div ( transaction_number, is_transaction );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gchar *bet_data_get_div_name ( gint div_num,
                         gint sub_div,
                         const gchar *return_value_error )
 {
@@ -231,16 +332,151 @@ gchar *bet_data_get_div_name (gint div_num,
  *
  *
  * */
+gsb_real bet_data_get_div_amount ( gint account_nb, gint div_number, gint sub_div_nb )
+{
+    gchar *key;
+    struct_hist_div *shd;
+    gsb_real amount;
+
+    if ( account_nb == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+                        utils_str_itoa ( div_number ), NULL );
+
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
+    {
+        if ( sub_div_nb == 0 )
+            amount = shd -> amount;
+        else
+        {
+            gchar *sub_key;
+            struct_hist_div *sub_shd;
+
+            sub_key = utils_str_itoa ( sub_div_nb );
+            if ( ( sub_shd = g_hash_table_lookup ( shd -> sub_div_list, sub_key ) ) )
+                amount = sub_shd -> amount;
+            else
+                amount = null_real;
+            g_free ( sub_key );
+        }
+    }
+    else
+        amount = null_real;
+    g_free ( key );
+
+    return amount;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_data_set_div_amount ( gint account_nb,
+                        gint div_number,
+                        gint sub_div_nb,
+                        gsb_real amount )
+{
+    gchar *key;
+    struct_hist_div *shd;
+
+    if ( account_nb == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+                        utils_str_itoa ( div_number ), NULL );
+
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
+    {
+        if ( sub_div_nb == 0 )
+            shd -> amount = amount;
+        else
+        {
+            gchar *sub_key;
+            struct_hist_div *sub_shd;
+
+            sub_key = utils_str_itoa ( sub_div_nb );
+            if ( ( sub_shd = g_hash_table_lookup ( shd -> sub_div_list, sub_key ) ) )
+                sub_shd -> amount = amount;
+            g_free ( sub_key );
+        }
+    }
+
+    g_free ( key );
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_data_get_div_full ( gint account_nb, gint div_number )
+{
+    gchar *key;
+    struct_hist_div *shd;
+
+    if ( account_nb == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+                        utils_str_itoa ( div_number ), NULL );
+
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
+        return shd -> div_full;
+    else
+        return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_data_set_div_full ( gint account_nb, gint div_number, gboolean full )
+{
+    gchar *key;
+    struct_hist_div *shd;
+devel_debug_int (full);
+    if ( account_nb == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+                        utils_str_itoa ( div_number ), NULL );
+
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
+        shd -> div_full = full;
+
+    return FALSE;
+}
+
+
+
+/**
+ * Ajoute les données de la transaction à la division et la sous division
+ * création des nouvelles divisions et si existantes ajout des données
+ * par appel à bet_data_update_div ( )
+ *
+ * */
 gboolean bet_data_populate_div ( gint transaction_number,
+                        gboolean is_transaction,
                         GHashTable  *list_div )
 {
     gint div = 0;
     gint sub_div = 0;
     SH *sh = NULL;
 
-    div = ptr_div ( transaction_number );
+    div = ptr_div ( transaction_number, is_transaction );
     if ( div > 0 )
-        sub_div = ptr_sub_div ( transaction_number );
+        sub_div = ptr_sub_div ( transaction_number, is_transaction );
     else
         return FALSE;
     
@@ -260,8 +496,8 @@ gboolean bet_data_populate_div ( gint transaction_number,
 
 
 /**
- *
- *
+ * Ajout des données à la division et création de la sous division si elle 
+ * n'existe pas.
  *
  *
  * */
@@ -274,7 +510,7 @@ gboolean bet_data_update_div ( SH *sh, gint transaction_number, gint sub_div )
     amount = gsb_data_transaction_get_amount ( transaction_number );
     sbr-> current_balance = gsb_real_add ( sbr -> current_balance, amount );
 
-    if ( sub_div == -1 )
+    if ( sub_div < 1 )
         return FALSE;
 
     if ( ( tmp_sh = g_hash_table_lookup ( sh -> list_sub_div, utils_str_itoa ( sub_div ) ) ) )
@@ -289,28 +525,6 @@ gboolean bet_data_update_div ( SH *sh, gint transaction_number, gint sub_div )
     }
 
     return FALSE;
-}
-
-
-/**
- * renumerote la liste des divisions cochées
- *
- * */
-void bet_data_hist_div_list_renumerote ( void )
-{
-    GSList *list_tmp;
-    gint i = 1;
-
-    list_tmp = bet_hist_div_list;
-    while ( list_tmp )
-    {
-        struct_hist_div *bet_hist_div;
-
-        bet_hist_div = list_tmp -> data;
-        bet_hist_div -> number = i;
-        i++;
-        list_tmp = list_tmp -> next;
-    }
 }
 
 
@@ -359,7 +573,7 @@ SH *initialise_struct_historical ( void )
 
 	sh = g_malloc ( sizeof ( SH ) );
     sh -> sbr = initialise_struct_bet_range ( );
-    sh -> list_sub_div = g_hash_table_new_full ( g_int_hash,
+    sh -> list_sub_div = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         NULL,
                         (GDestroyNotify) free_struct_historical );
@@ -380,6 +594,7 @@ void free_struct_historical ( SH *sh )
         free_struct_bet_range ( sh -> sbr );
     if ( sh -> list_sub_div )
         g_hash_table_remove_all ( sh -> list_sub_div );
+
     g_free ( sh );
 }
 
@@ -392,17 +607,20 @@ void free_struct_historical ( SH *sh )
  * */
 struct_hist_div *initialise_struct_hist_div ( void )
 {
-    struct_hist_div *bet_hist_div;
+    struct_hist_div *shd;
 
-    bet_hist_div = g_malloc ( sizeof ( struct_hist_div ) );
-    bet_hist_div -> number = 0;
-    bet_hist_div -> account_nb = 0;
-    bet_hist_div -> div_number = 0;
-    bet_hist_div -> sub_div_nb = 0;
-    bet_hist_div -> moyenne = null_real;
-    bet_hist_div -> new_amount = null_real;
+    shd = g_malloc ( sizeof ( struct_hist_div ) );
+    shd -> account_nb = 0;
+    shd -> div_number = 0;
+    shd -> div_full = FALSE;
+    shd -> sub_div_nb = -1;
+    shd -> sub_div_list = g_hash_table_new_full ( g_str_hash,
+                        g_str_equal,
+                        (GDestroyNotify) g_free,
+                        (GDestroyNotify) free_struct_hist_div );
+    shd -> amount = null_real;
 
-    return bet_hist_div;
+    return shd;
 }
 
 
@@ -412,9 +630,12 @@ struct_hist_div *initialise_struct_hist_div ( void )
  *
  *
  * */
-void free_struct_hist_div ( struct_hist_div *bet_hist_div )
+void free_struct_hist_div ( struct_hist_div *shd )
 {
-    g_free ( bet_hist_div );
+    if ( shd -> sub_div_list )
+        g_hash_table_remove_all ( shd -> sub_div_list );
+
+    g_free ( shd );
 }
 
 /**

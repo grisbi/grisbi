@@ -377,6 +377,7 @@ void init_variables ( void )
 
     /* initializes the variables for the estimate balance module */
 #ifdef ENABLE_BALANCE_ESTIMATE
+    /* création de la liste des données à utiliser dans le tableau de résultats */
     bet_data_init_variables ( );
 #endif /* ENABLE_BALANCE_ESTIMATE */
     etat.bet_deb_period = 1;

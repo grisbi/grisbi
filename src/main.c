@@ -114,6 +114,7 @@ int main (int argc, char **argv)
     gchar *string;
     gchar *path;
 	struct lconv *conv;
+    cmdline_options  opt;
 
 #ifndef _WIN32
     struct sigaction sig_sev;
@@ -122,16 +123,14 @@ int main (int argc, char **argv)
 	gchar * gtkrc_file;
 #endif
 
-    cmdline_options  opt;
-
-    gsb_cunit_run_tests();
-
 #if GSB_GMEMPROFILE
     g_mem_set_vtable(glib_mem_profiler_table);
 #endif
 
+#if IS_DEVELOPMENT_VERSION
+    gsb_cunit_run_tests();
     initialize_debugging();
-
+#endif
 
 #ifdef _WIN32
     /* Retrieve exception information and store them under grisbi.rpt file!
@@ -182,6 +181,7 @@ int main (int argc, char **argv)
 #ifdef HAVE_PLUGINS
     gsb_plugins_scan_dir ( PLUGINS_DIR );
 #endif
+
     /* create the icon of grisbi (set in the panel of gnome or other) */
     string = g_build_filename ( PIXMAPS_DIR, "grisbi.png", NULL );
     if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
@@ -193,6 +193,7 @@ int main (int argc, char **argv)
     init_variables ();
     register_import_formats ();
 
+#ifdef IS_DEVELOPMENT_VERSION
     /* test locale pour les nombres */
 	conv = localeconv();
     
@@ -208,6 +209,7 @@ int main (int argc, char **argv)
             g_locale_to_utf8 ( conv->positive_sign, -1, NULL, NULL, NULL ),
             g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL ),
             conv->frac_digits );
+#endif
 
     /* firt use ? */
     if ( ! gsb_file_config_load_config () )

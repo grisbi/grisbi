@@ -7,7 +7,7 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkWidget *bet_estimate_config_create_page ( void );
+GtkWidget *bet_config_create_page ( void );
 /* END_DECLARATION */
 
 

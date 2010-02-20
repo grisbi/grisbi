@@ -1,5 +1,5 @@
 %define name    grisbi
-%define version 0.6.0rc2
+%define version 0.6.0
 %define release %mkrel 1
 
 %define _disable_ld_no_undefined 1
@@ -26,7 +26,7 @@ Grisbi helps you to manage your personal finances with Linux.
 %setup -q
 
 %build 
-%configure
+%configure --with-balance-estimate
 %make
 
 %install

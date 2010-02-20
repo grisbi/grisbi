@@ -26,18 +26,17 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkWidget *bet_balance_estimate_create_tab ( void );
-gboolean bet_fyear_create_combobox_store ( void );
-GtkWidget *bet_parameter_get_list_accounts ( GtkWidget *container );
-gint bet_estimate_get_account_selected ( void );
-GtkWidget *bet_parameter_get_duration_widget ( GtkWidget *container, gboolean config );
-void bet_update_balance_estimate_tab ( void );
-void bet_estimate_refresh ( void );
-void bet_estimate_tab_add_new_line ( GtkTreeModel *tab_model,
+GtkWidget *bet_array_create_estimate_page ( void );
+void bet_array_list_add_new_line ( GtkTreeModel *tab_model,
                         GtkTreeModel *model,
                         GtkTreeIter *iter,
                         GDate *date_min,
                         GDate *date_max );
+void bet_array_refresh_estimate_tab ( void );
+void bet_array_update_estimate_tab ( void );
+gint bet_parameter_get_account_selected ( void );
+GtkWidget *bet_parameter_get_duration_widget ( GtkWidget *container, gboolean config );
+GtkWidget *bet_parameter_get_list_accounts ( GtkWidget *container );
 /* END_DECLARATION */
 
 #endif /*_BALANCE_ESTIMATE_TAB_H*/
