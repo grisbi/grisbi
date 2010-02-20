@@ -34,6 +34,7 @@
 /*START_INCLUDE*/
 #include "gsb_file_save.h"
 #include "./dialog.h"
+#include "./balance_estimate_data.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
 #include "./gsb_data_bank.h"
@@ -2608,6 +2609,7 @@ gulong gsb_file_save_bet_part ( gulong iterator,
                         gchar **file_content )
 {
     gchar *new_string;
+    GString *lignes;
 
     /* save the general informations */
     new_string = g_markup_printf_escaped ( "\t<Bet\n"
@@ -2617,7 +2619,7 @@ gulong gsb_file_save_bet_part ( gulong iterator,
                         "\t\tNbre=\"%d\"\n"
                         "\t\tUT=\"%d\"\n"
                         "\t\tSD=\"%d\"\n"
-                        "\t\tFi=\"%d\" />\n",
+                        "\t\tFi=\"%d\"\n",
     etat.bet_last_account,
     etat.bet_deb_period,
     etat.bet_end_period,
@@ -2625,6 +2627,9 @@ gulong gsb_file_save_bet_part ( gulong iterator,
     etat.bet_spin_range,
     etat.bet_hist_data,
     etat.bet_hist_fyear );
+
+    lignes = bet_data_get_strings_to_save ( );
+    new_string = g_strconcat ( new_string, lignes -> str, "\t\t/>\n", NULL );
 
     /* append the new string to the file content
      * and return the new iterator */

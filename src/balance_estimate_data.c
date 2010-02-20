@@ -28,6 +28,7 @@
 
 /*START_INCLUDE*/
 #include "balance_estimate_data.h"
+#include "./balance_estimate_tab.h"
 #include "./dialog.h"
 #include "./utils_dates.h"
 #include "./gsb_data_account.h"
@@ -51,13 +52,12 @@
 
 typedef struct _hist_div struct_hist_div;
 
-
 struct _hist_div
 {
     gint account_nb;
     gint div_number;
     gboolean div_full;
-    gint sub_div_nb;
+    gboolean div_edited;
     GHashTable *sub_div_list;
     gsb_real amount;
 };
@@ -120,7 +120,7 @@ gboolean bet_data_add_div_hist ( gint account_nb,
     gchar *key;
     gchar *sub_key;
     struct_hist_div *shd;
-devel_debug_int (account_nb);
+
     if ( account_nb == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
     else
@@ -132,7 +132,7 @@ devel_debug_int (account_nb);
         if ( sub_div_nb > 0 )
         {
             sub_key = utils_str_itoa ( sub_div_nb );
-            if (  !g_hash_table_lookup ( bet_hist_div_list, sub_key ) )
+            if (  !g_hash_table_lookup ( shd -> sub_div_list, sub_key ) )
             {
                 struct_hist_div *sub_shd;
 
@@ -142,7 +142,7 @@ devel_debug_int (account_nb);
                     dialogue_error_memory ( );
                     return FALSE;
                 }
-                sub_shd -> sub_div_nb = sub_div_nb;
+                sub_shd -> div_number = sub_div_nb;
                 sub_shd -> amount = amount;
                 g_hash_table_insert ( shd -> sub_div_list, sub_key, sub_shd );
             }
@@ -158,7 +158,6 @@ devel_debug_int (account_nb);
         }
         shd -> account_nb = account_nb;
         shd -> div_number = div_number;
-        shd -> sub_div_nb = sub_div_nb;
         if ( sub_div_nb > 0 )
         {
             struct_hist_div *sub_shd;
@@ -170,7 +169,7 @@ devel_debug_int (account_nb);
                 return FALSE;
             }
             sub_key = utils_str_itoa ( sub_div_nb );
-            sub_shd -> sub_div_nb = sub_div_nb;
+            sub_shd -> div_number = sub_div_nb;
             sub_shd -> amount = amount;
             g_hash_table_insert ( shd -> sub_div_list, sub_key, sub_shd );
         }
@@ -192,7 +191,7 @@ gboolean bet_data_remove_div_hist ( gint account_nb, gint div_number, gint sub_d
     gchar *key;
     char *sub_key;
     struct_hist_div *shd;
-devel_debug_int (account_nb);
+
     if ( account_nb == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
     else
@@ -217,7 +216,7 @@ devel_debug_int (account_nb);
 
 
 /**
- *
+ * return TRUE si la division et sous division existe.
  *
  *
  *
@@ -259,12 +258,6 @@ gboolean bet_data_search_div_hist ( gint account_nb, gint div_number, gint sub_d
 }
 
 
-/**
- *
- *
- *
- *
- * */
 /**
  *
  *
@@ -323,6 +316,91 @@ gchar *bet_data_get_div_name ( gint div_num,
                         const gchar *return_value_error )
 {
     return g_strdup ( ptr_div_name ( div_num, sub_div, FALSE ) );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_data_get_div_edited ( gint account_nb, gint div_number, gint sub_div_nb )
+{
+    gchar *key;
+    struct_hist_div *shd;
+    gboolean edited;
+
+    if ( account_nb == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+                        utils_str_itoa ( div_number ), NULL );
+
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
+    {
+        if ( sub_div_nb == 0 )
+            edited = shd -> div_edited;
+        else
+        {
+            gchar *sub_key;
+            struct_hist_div *sub_shd;
+
+            sub_key = utils_str_itoa ( sub_div_nb );
+            if ( ( sub_shd = g_hash_table_lookup ( shd -> sub_div_list, sub_key ) ) )
+                edited = sub_shd -> div_edited;
+            else
+                edited = FALSE;
+            g_free ( sub_key );
+        }
+    }
+    else
+        edited = FALSE;
+    g_free ( key );
+
+    return edited;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_data_set_div_edited ( gint account_nb,
+                        gint div_number,
+                        gint sub_div_nb,
+                        gboolean edited )
+{
+    gchar *key;
+    struct_hist_div *shd;
+
+    if ( account_nb == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+                        utils_str_itoa ( div_number ), NULL );
+
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
+    {
+        if ( sub_div_nb == 0 )
+            shd -> div_edited = edited;
+        else
+        {
+            gchar *sub_key;
+            struct_hist_div *sub_shd;
+
+            sub_key = utils_str_itoa ( sub_div_nb );
+            if ( ( sub_shd = g_hash_table_lookup ( shd -> sub_div_list, sub_key ) ) )
+                sub_shd -> div_edited = edited;
+            g_free ( sub_key );
+        }
+    }
+
+    g_free ( key );
+
+    return FALSE;
 }
 
 
@@ -445,7 +523,7 @@ gboolean bet_data_set_div_full ( gint account_nb, gint div_number, gboolean full
 {
     gchar *key;
     struct_hist_div *shd;
-devel_debug_int (full);
+
     if ( account_nb == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
     else
@@ -458,6 +536,26 @@ devel_debug_int (full);
     return FALSE;
 }
 
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gint bet_data_get_selected_currency ( void )
+{
+    gint selected_account;
+    gint currency_number;
+
+    selected_account = bet_parameter_get_account_selected ( );
+    if ( selected_account == -1 )
+        return 0;
+
+    currency_number = gsb_data_account_get_currency ( selected_account );
+
+    return currency_number;
+}
 
 
 /**
@@ -534,6 +632,117 @@ gboolean bet_data_update_div ( SH *sh, gint transaction_number, gint sub_div )
  *
  *
  * */
+GString *bet_data_get_strings_to_save ( void )
+{
+    GString *string = NULL;
+    gchar *tmp_str = NULL;
+    GHashTableIter iter;
+    gpointer key, value;
+    gint i = 0;
+
+    g_hash_table_iter_init ( &iter, bet_hist_div_list );
+    while ( g_hash_table_iter_next ( &iter, &key, &value ) )
+    {
+        struct_hist_div *shd = ( struct_hist_div* ) value;
+
+        if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
+        {
+            tmp_str = g_markup_printf_escaped ( "\t\tHist=\"%d\" Ac=\"%d\" Div=\"%d\" Full=\"%d\""
+                        " Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" SEdit=\"%d\" SDamount=\"%s\"\n",
+                        i,
+                        shd -> account_nb,
+                        shd -> div_number,
+                        shd -> div_full,
+                        shd -> div_edited,
+                        gsb_real_get_string ( shd -> amount ),
+                        0, 0, "0.00" );
+            if ( string == NULL )
+                string = g_string_new ( tmp_str );
+            else
+                string = g_string_append ( string, tmp_str );
+
+        }
+        else
+        {
+            GHashTableIter new_iter;
+
+            g_hash_table_iter_init ( &new_iter, shd -> sub_div_list );
+            while ( g_hash_table_iter_next ( &new_iter, &key, &value ) )
+            {
+                struct_hist_div *sub_shd = ( struct_hist_div* ) value;
+
+                i++;
+                tmp_str = g_markup_printf_escaped ( "\t\tHist=\"%d\" Ac=\"%d\" Div=\"%d\" "
+                        "Full=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" SEdit=\"%d\" "
+                        "SDamount=\"%s\"\n",
+                        i,
+                        shd -> account_nb,
+                        shd -> div_number,
+                        shd -> div_full,
+                        shd -> div_edited,
+                        gsb_real_get_string ( shd -> amount ),
+                        sub_shd -> div_number,
+                        sub_shd -> div_edited,
+                        gsb_real_get_string ( sub_shd -> amount ) );
+
+                if ( string == NULL )
+                    string = g_string_new ( tmp_str );
+                else
+                    string = g_string_append ( string, tmp_str );
+            }
+        }
+    }
+printf ("string =\n%s\n", string -> str );
+    return string;
+}
+
+
+/**
+ * supprime de la liste bet_hist_div_list les divisions sous divisions
+ * inexistantes dans list_div.
+ *
+ *
+ * */
+void bet_data_synchronise_hist_div_list ( GHashTable  *list_div )
+{
+    GHashTableIter iter;
+    gpointer key, value;
+    SH *sh = NULL;
+
+    g_hash_table_iter_init ( &iter, bet_hist_div_list );
+    while ( g_hash_table_iter_next ( &iter, &key, &value ) ) 
+    {
+        struct_hist_div *shd = ( struct_hist_div* ) value;
+        GHashTableIter new_iter;
+
+        sh = g_hash_table_lookup ( list_div, utils_str_itoa ( shd -> div_number ) );
+        if ( sh == NULL )
+            bet_data_remove_div_hist ( shd -> account_nb, shd -> div_number, 0 );
+        else
+        {
+            g_hash_table_iter_init ( &new_iter, shd -> sub_div_list );
+            while ( g_hash_table_iter_next ( &new_iter, &key, &value ) )
+            {
+                struct_hist_div *sub_shd = ( struct_hist_div* ) value;
+
+                if ( !g_hash_table_lookup ( sh -> list_sub_div, utils_str_itoa (
+                 sub_shd -> div_number ) ) )
+                {
+                    bet_data_remove_div_hist ( shd -> account_nb,
+                                shd -> div_number,
+                                sub_shd -> div_number );
+                    g_hash_table_iter_init ( &new_iter, shd -> sub_div_list );
+                }
+            }
+        }
+    }
+}
+/**
+ *
+ *
+ *
+ *
+ * */
 SBR *initialise_struct_bet_range ( void )
 {
 	SBR	*sbr;
@@ -567,6 +776,12 @@ void free_struct_bet_range ( SBR *sbr )
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
 SH *initialise_struct_historical ( void )
 {
 	SH	*sh;
@@ -613,7 +828,7 @@ struct_hist_div *initialise_struct_hist_div ( void )
     shd -> account_nb = 0;
     shd -> div_number = 0;
     shd -> div_full = FALSE;
-    shd -> sub_div_nb = -1;
+    shd -> div_edited = FALSE;
     shd -> sub_div_list = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         (GDestroyNotify) g_free,

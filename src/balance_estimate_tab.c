@@ -192,7 +192,7 @@ void bet_array_update_estimate_tab ( void )
     GtkWidget *tree_view;
     GtkTreeModel *tree_model;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     /* find the selected account */
     tree_view = g_object_get_data ( G_OBJECT ( bet_container ), "bet_account_treeview" );
     tree_model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
@@ -487,7 +487,7 @@ static void bet_parameter_duration_period_clicked ( GtkWidget *togglebutton, Gtk
     GtkWidget *widget;
     const gchar *name;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     if ( button )
         g_signal_handlers_block_by_func ( G_OBJECT ( button ),
                         G_CALLBACK ( bet_parameter_duration_period_clicked ),
@@ -558,7 +558,7 @@ static void bet_parameter_duration_button_clicked ( GtkWidget *togglebutton,
     GtkWidget *widget;
     const gchar *name;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
 
     ancestor = g_object_get_data ( G_OBJECT ( bet_container ), "bet_account_duration" );
@@ -609,7 +609,7 @@ gboolean bet_parameter_duration_number_changed ( GtkWidget *spin_button,
     const gchar *name;
     gboolean toggled;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     etat.bet_months = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ) );
 
     toggled = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( togglebutton ) );
@@ -871,7 +871,7 @@ void bet_parameter_account_selection_changed ( GtkTreeSelection *tree_selection,
     GtkTreeIter iter;
     gint account_nb;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
      &model, &iter ) )
         return;
@@ -906,7 +906,7 @@ GtkWidget *bet_parameter_get_list_accounts ( GtkWidget *container )
     GtkCellRenderer *cell;
     GtkTreeViewColumn *column;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     tree_view = gtk_tree_view_new();
 
     tree_model = gtk_tree_store_new (SPP_ACCOUNT_TREE_NUM_COLUMNS,
@@ -961,7 +961,7 @@ gboolean bet_parameter_update_list_accounts ( GtkWidget *tree_view,
     GtkTreeIter iter;
     GSList *tmp_list;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_store_clear ( GTK_TREE_STORE ( tree_model ) );
 
@@ -1014,7 +1014,7 @@ GtkWidget *bet_parameter_get_duration_widget ( GtkWidget *container, gboolean co
     GtkSizeGroup *size_group;
     gint iduration;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
     main_vbox = gtk_vbox_new ( FALSE, 5 );
@@ -1240,7 +1240,7 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
     GtkTreeIter iter;
     GSList* tmp_list;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     tmp_list = gsb_data_scheduled_get_scheduled_list();
 
     while (tmp_list)
@@ -1385,7 +1385,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
     GtkTreeIter iter;
     GSList* tmp_list;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     /* search transactions of the account which are in the future */
     tmp_list = gsb_data_transaction_get_transactions_list ( );
 
@@ -1513,7 +1513,7 @@ void bet_array_list_add_new_line ( GtkTreeModel *tab_model,
     gchar *str_amount;
     gsb_real amount;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     date = gsb_date_get_last_day_of_month ( date_min );
 
     /* initialise les données de la ligne insérée */
@@ -1679,8 +1679,6 @@ void bet_array_list_add_substract_menu ( GtkWidget *menu_item,
     GtkTreeIter iter;
     gboolean select = FALSE;
 
-    devel_debug (NULL);
-
     if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
      &model, &iter ) )
         return;
@@ -1722,8 +1720,6 @@ void bet_array_list_delete_menu ( GtkWidget *menu_item,
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
-
-    devel_debug (NULL);
 
     if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
      &model, &iter ) )

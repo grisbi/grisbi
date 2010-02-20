@@ -39,8 +39,11 @@ gsb_real bet_data_get_div_amount ( gint account_nb, gint div_number, gint sub_di
 gchar *bet_data_get_div_name (gint div_num,
                         gint sub_div,
                         const gchar *return_value_error );
+gboolean bet_data_get_div_edited ( gint account_nb, gint div_number, gint sub_div_nb );
 gboolean bet_data_get_div_full ( gint account_nb, gint div_number );
 gint bet_data_get_div_number ( gint transaction_number, gboolean is_transaction );
+gint bet_data_get_selected_currency ( void );
+GString *bet_data_get_strings_to_save ( void );
 gint bet_data_get_sub_div_nb ( gint transaction_number, gboolean is_transaction );
 gboolean bet_data_init_variables ( void );
 gboolean bet_data_populate_div ( gint transaction_number,
@@ -52,9 +55,13 @@ gboolean bet_data_set_div_amount ( gint account_nb,
                         gint div_number,
                         gint sub_div_nb,
                         gsb_real amount );
+gboolean bet_data_set_div_edited ( gint account_nb,
+                        gint div_number,
+                        gint sub_div_nb,
+                        gboolean edited );
 gboolean bet_data_set_div_full ( gint account_nb, gint div_number, gboolean full );
 gboolean bet_data_set_div_ptr ( gint type_div );
-
+void bet_data_synchronise_hist_div_list ( GHashTable  *list_div );
 SBR *initialise_struct_bet_range ( void );
 SH *initialise_struct_historical ( void );
 void free_struct_bet_range ( SBR *sbr );
