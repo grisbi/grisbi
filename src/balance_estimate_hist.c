@@ -798,7 +798,7 @@ void bet_historical_populate_data ( void )
         bet_data_populate_div ( transaction_number, TRUE, list_div );
     }
     bet_historical_affiche_div ( list_div, tree_view );
-    bet_data_synchronise_hist_div_list ( list_div );
+    //~ bet_data_synchronise_hist_div_list ( list_div );
 
     g_hash_table_remove_all ( list_div );
 }
@@ -879,9 +879,8 @@ void bet_historical_populate_div_model ( gpointer key,
                         SPP_HISTORICAL_SUB_DIV_NUMBER, 0,
                         -1);
 
-    if ( g_hash_table_size ( sh -> list_sub_div ) == 1 )
+    if ( g_hash_table_size ( sh -> list_sub_div ) <= 1 )
     {
-
         if ( bet_data_search_div_hist ( account_nb, div, 0 ) )
         {
             if ( bet_data_get_div_edited ( account_nb, div, 0 ) )
@@ -1169,10 +1168,7 @@ gboolean bet_historical_get_full_div ( gint account_nb, gint div_number )
                         SPP_HISTORICAL_ACCOUNT_NUMBER, &account_number,
                         SPP_HISTORICAL_DIV_NUMBER, &div,
                         -1 );
-            if ( valeur == TRUE )
-                return TRUE;
-            
-            else if ( account_nb == account_number && div == div_number )
+            if ( account_nb == account_number && div == div_number )
             {
                 if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &fils_iter, &iter ) )
                 {

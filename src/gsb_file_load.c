@@ -77,6 +77,7 @@
 #include "./gsb_real.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_data_report.h"
+#include "./balance_estimate_data.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -89,6 +90,8 @@ static void gsb_file_load_archive ( const gchar **attribute_names,
 static void gsb_file_load_bank ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_bet_part ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_bet_historical ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
 static void gsb_file_load_color_part ( const gchar **attribute_names,
@@ -625,6 +628,11 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name, "Bet" ) )
     {
         gsb_file_load_bet_part ( attribute_names, attribute_values );
+        return;
+    }
+    if ( !strcmp ( element_name, "Bet_historical" ) )
+    {
+        gsb_file_load_bet_historical ( attribute_names, attribute_values );
         return;
     }
 #endif /* ENABLE_BALANCE_ESTIMATE */
@@ -3602,7 +3610,7 @@ void gsb_file_load_bet_part ( const gchar **attribute_names,
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i], "Bdte" ) )
+    if ( !strcmp ( attribute_names[i], "Ddte" ) )
     {
         etat.bet_deb_period = utils_str_atoi ( attribute_values[i] );
         i++;
@@ -3649,6 +3657,110 @@ void gsb_file_load_bet_part ( const gchar **attribute_names,
     }
 
     while ( attribute_names[i] );
+}
+
+
+/**
+ * load the historical balance part in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_bet_historical ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    struct_hist_div *shd;
+    struct_hist_div *sub_shd = NULL;
+    gint i=0;
+    gint sub_div_nb;
+
+    if ( !attribute_names[i] )
+    return;
+
+    /* create the structure */
+    shd = initialise_struct_hist_div ( );
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+    if ( !strcmp ( attribute_values[i], "(null)") )
+    {
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Ac" ) )
+    {
+        shd -> account_nb = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Div" ) )
+    {
+        shd -> div_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Full" ) )
+    {
+        shd -> div_full = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Edit" ) )
+    {
+        shd -> div_edited = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Damount" ) )
+    {
+        shd -> amount = gsb_real_import_from_string ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "SDiv" ) )
+    {
+        sub_div_nb = utils_str_atoi ( attribute_values[i] );
+        if ( sub_div_nb > 0 )
+        {
+            sub_shd = initialise_struct_hist_div ( );
+            sub_shd -> div_number = sub_div_nb;
+            i++;
+            continue;
+        }
+        else
+            break;
+    }
+
+    if ( !strcmp ( attribute_names[i], "SEdit" ) )
+    {
+        sub_shd -> div_edited = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "SDamount" ) )
+    {
+        sub_shd -> amount = gsb_real_import_from_string ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    /* normally, shouldn't come here */
+    i++;
+    }
+
+    while ( attribute_names[i] );
+
+    bet_data_insert_div_hist ( shd, sub_shd );
 }
 
 

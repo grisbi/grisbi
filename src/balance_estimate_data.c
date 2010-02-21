@@ -50,23 +50,10 @@
 #include "./utils.h"
 /*END_INCLUDE*/
 
-typedef struct _hist_div struct_hist_div;
-
-struct _hist_div
-{
-    gint account_nb;
-    gint div_number;
-    gboolean div_full;
-    gboolean div_edited;
-    GHashTable *sub_div_list;
-    gsb_real amount;
-};
-
 
 /*START_STATIC*/
 static gboolean bet_data_update_div ( SH *sh, gint transaction_number,
                         gint sub_div );
-static struct_hist_div *initialise_struct_hist_div ( void );
 static void free_struct_hist_div ( struct_hist_div *bet_hist_div );
 /*END_STATIC*/
 
@@ -186,6 +173,50 @@ gboolean bet_data_add_div_hist ( gint account_nb,
  *
  *
  * */
+void bet_data_insert_div_hist ( struct_hist_div *shd, struct_hist_div *sub_shd )
+{
+    gchar *key;
+    gchar *sub_key;
+    struct_hist_div *tmp_shd;
+
+    if ( shd -> account_nb == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( shd -> div_number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( shd -> account_nb ), ":",
+                        utils_str_itoa ( shd -> div_number ), NULL );
+
+    if ( ( tmp_shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
+    {
+        tmp_shd -> div_full = shd -> div_full;
+        tmp_shd -> div_edited = shd -> div_edited;
+        tmp_shd -> amount = shd -> amount;
+
+        if ( sub_shd )
+        {
+            sub_key = utils_str_itoa ( sub_shd -> div_number );
+            g_hash_table_insert ( tmp_shd -> sub_div_list, sub_key, sub_shd );
+        }
+    }
+    else
+    {
+        if ( sub_shd )
+        {
+            sub_key = utils_str_itoa ( sub_shd -> div_number );
+            g_hash_table_insert ( shd -> sub_div_list, sub_key, sub_shd );
+        }
+        g_hash_table_insert ( bet_hist_div_list, key, shd );
+    }
+    
+    //~ printf ("long bet_hist_div_list = %d\n", g_hash_table_size ( bet_hist_div_list ));
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
 gboolean bet_data_remove_div_hist ( gint account_nb, gint div_number, gint sub_div_nb )
 {
     gchar *key;
@@ -226,7 +257,7 @@ gboolean bet_data_search_div_hist ( gint account_nb, gint div_number, gint sub_d
     gchar *key;
     gchar *sub_key;
     struct_hist_div *shd;
-    
+
     if ( account_nb == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
     else
@@ -632,13 +663,18 @@ gboolean bet_data_update_div ( SH *sh, gint transaction_number, gint sub_div )
  *
  *
  * */
-GString *bet_data_get_strings_to_save ( void )
+GPtrArray *bet_data_get_strings_to_save ( void )
 {
-    GString *string = NULL;
+    GPtrArray *tab = NULL;
     gchar *tmp_str = NULL;
     GHashTableIter iter;
     gpointer key, value;
-    gint i = 0;
+
+    if ( g_hash_table_size ( bet_hist_div_list ) == 0 )
+        return NULL;
+
+    //~ printf ("long bet_hist_div_list = %d\n", g_hash_table_size ( bet_hist_div_list ));
+    tab = g_ptr_array_new ( );
 
     g_hash_table_iter_init ( &iter, bet_hist_div_list );
     while ( g_hash_table_iter_next ( &iter, &key, &value ) )
@@ -647,35 +683,33 @@ GString *bet_data_get_strings_to_save ( void )
 
         if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
         {
-            tmp_str = g_markup_printf_escaped ( "\t\tHist=\"%d\" Ac=\"%d\" Div=\"%d\" Full=\"%d\""
-                        " Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" SEdit=\"%d\" SDamount=\"%s\"\n",
-                        i,
+            tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
+                        "Div=\"%d\"  Full=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
+                        "SEdit=\"%d\" SDamount=\"%s\" />\n",
+                        tab -> len + 1,
                         shd -> account_nb,
                         shd -> div_number,
                         shd -> div_full,
                         shd -> div_edited,
-                        gsb_real_get_string ( shd -> amount ),
+                        gsb_real_save_real_to_string ( shd -> amount, 2 ),
                         0, 0, "0.00" );
-            if ( string == NULL )
-                string = g_string_new ( tmp_str );
-            else
-                string = g_string_append ( string, tmp_str );
 
+            g_ptr_array_add ( tab, tmp_str );
         }
         else
         {
             GHashTableIter new_iter;
 
+            //~ printf ("long shd -> sub_div_list = %d\n", g_hash_table_size ( shd -> sub_div_list ));
             g_hash_table_iter_init ( &new_iter, shd -> sub_div_list );
             while ( g_hash_table_iter_next ( &new_iter, &key, &value ) )
             {
                 struct_hist_div *sub_shd = ( struct_hist_div* ) value;
 
-                i++;
-                tmp_str = g_markup_printf_escaped ( "\t\tHist=\"%d\" Ac=\"%d\" Div=\"%d\" "
-                        "Full=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" SEdit=\"%d\" "
-                        "SDamount=\"%s\"\n",
-                        i,
+                tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
+                        "Div=\"%d\"  Full=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
+                        "SEdit=\"%d\" SDamount=\"%s\" />\n",
+                        tab -> len + 1,
                         shd -> account_nb,
                         shd -> div_number,
                         shd -> div_full,
@@ -683,17 +717,13 @@ GString *bet_data_get_strings_to_save ( void )
                         gsb_real_get_string ( shd -> amount ),
                         sub_shd -> div_number,
                         sub_shd -> div_edited,
-                        gsb_real_get_string ( sub_shd -> amount ) );
+                        gsb_real_save_real_to_string ( sub_shd -> amount, 2 ) );
 
-                if ( string == NULL )
-                    string = g_string_new ( tmp_str );
-                else
-                    string = g_string_append ( string, tmp_str );
+                g_ptr_array_add ( tab, tmp_str );
             }
         }
     }
-printf ("string =\n%s\n", string -> str );
-    return string;
+    return tab;
 }
 
 

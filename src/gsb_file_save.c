@@ -1947,7 +1947,8 @@ gulong gsb_file_save_partial_balance_part ( gulong iterator,
 
 	partial_balance_number = gsb_data_partial_balance_get_number ( list_tmp -> data );
 
-	new_string = g_markup_printf_escaped ( "\t<Partial_balance Nb=\"%d\" Na=\"%s\" Acc=\"%s\" Kind=\"%d\" Currency=\"%d\" Colorise=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Partial_balance Nb=\"%d\" Na=\"%s\" "
+                           "Acc=\"%s\" Kind=\"%d\" Currency=\"%d\" Colorise=\"%d\" />\n",
 					       partial_balance_number,
 					       my_safe_null_str(gsb_data_partial_balance_get_name ( partial_balance_number )),
 					       my_safe_null_str(gsb_data_partial_balance_get_liste_cptes ( partial_balance_number )),
@@ -2609,17 +2610,12 @@ gulong gsb_file_save_bet_part ( gulong iterator,
                         gchar **file_content )
 {
     gchar *new_string;
-    GString *lignes;
+    GPtrArray *tab;
+    gint i;
 
     /* save the general informations */
-    new_string = g_markup_printf_escaped ( "\t<Bet\n"
-                        "\t\tAc=\"%d\"\n"
-                        "\t\tBdte=\"%d\"\n"
-                        "\t\tEdte=\"%d\"\n"
-                        "\t\tNbre=\"%d\"\n"
-                        "\t\tUT=\"%d\"\n"
-                        "\t\tSD=\"%d\"\n"
-                        "\t\tFi=\"%d\"\n",
+    new_string = g_markup_printf_escaped ( "\t<Bet Ac=\"%d\" Ddte=\"%d\" Edte=\"%d\" "
+                        "Nbre=\"%d\" UT=\"%d\" SD=\"%d\" Fi=\"%d\" />\n",
     etat.bet_last_account,
     etat.bet_deb_period,
     etat.bet_end_period,
@@ -2628,19 +2624,29 @@ gulong gsb_file_save_bet_part ( gulong iterator,
     etat.bet_hist_data,
     etat.bet_hist_fyear );
 
-    lignes = bet_data_get_strings_to_save ( );
-    if ( lignes && lignes -> str )
-        new_string = g_strconcat ( new_string, lignes -> str, "\t\t/>\n", NULL );
-    else
-        new_string = g_strconcat ( new_string, "\t\t/>\n", NULL );
+    /* append the new string to the file content */
+    iterator = gsb_file_save_append_part ( iterator,
+				        length_calculated,
+				        file_content,
+				        new_string );
 
-    /* append the new string to the file content
-     * and return the new iterator */
+    tab = bet_data_get_strings_to_save ( );
+    //~ printf ("tab -> len = %d\n", tab -> len);
 
-    return gsb_file_save_append_part ( iterator,
-				       length_calculated,
-				       file_content,
-				       new_string );
+    if ( tab == NULL )
+        return iterator;
+
+    for ( i = 0; i < tab -> len; i++ )
+    {
+        new_string = g_ptr_array_index ( tab, i );
+        iterator =  gsb_file_save_append_part ( iterator,
+				        length_calculated,
+				        file_content,
+				        new_string );
+    }
+
+    /* and return the new iterator */
+    return iterator;
 }
 
 
