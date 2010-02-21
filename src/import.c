@@ -843,10 +843,15 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
  */
 GtkWidget *import_create_resume_page ( GtkWidget * assistant )
 {
-    GtkWidget * view;
-    GtkTextBuffer * buffer;
+    GtkWidget *sw;
+    GtkWidget *view;
+    GtkTextBuffer *buffer;
 
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( sw ),
+                        GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
     view = gtk_text_view_new ();
+    gtk_container_add (GTK_CONTAINER (sw), view);
     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
 
     gtk_text_view_set_editable ( GTK_TEXT_VIEW (view), FALSE );
@@ -864,7 +869,7 @@ GtkWidget *import_create_resume_page ( GtkWidget * assistant )
 
     g_object_set_data ( G_OBJECT ( assistant ), "text-buffer", buffer );
 
-    return view;
+    return sw;
 }
 
 
