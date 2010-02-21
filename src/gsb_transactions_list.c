@@ -1267,13 +1267,13 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
     case GDK_Up :       /* touches flèche haut */
     case GDK_KP_Up :
 
-        transaction_list_select_up (TRUE);
+        transaction_list_select_up (FALSE);
         break;
 
     case GDK_Down :     /* touches flèche bas */
     case GDK_KP_Down :
 
-        transaction_list_select_down (TRUE);
+        transaction_list_select_down (FALSE);
         break;
 
     case GDK_Delete:    /*  del  */

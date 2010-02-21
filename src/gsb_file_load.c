@@ -3705,13 +3705,6 @@ void gsb_file_load_bet_historical ( const gchar **attribute_names,
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i], "Full" ) )
-    {
-        shd -> div_full = utils_str_atoi ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
     if ( !strcmp ( attribute_names[i], "Edit" ) )
     {
         shd -> div_edited = utils_str_atoi ( attribute_values[i] );

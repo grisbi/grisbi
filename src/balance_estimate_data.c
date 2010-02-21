@@ -101,8 +101,7 @@ gboolean bet_data_init_variables ( void )
  * */
 gboolean bet_data_add_div_hist ( gint account_nb,
                         gint div_number,
-                        gint sub_div_nb,
-                        gsb_real amount )
+                        gint sub_div_nb )
 {
     gchar *key;
     gchar *sub_key;
@@ -116,6 +115,9 @@ gboolean bet_data_add_div_hist ( gint account_nb,
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
+        shd -> div_edited = FALSE;
+        shd -> amount = null_real;
+
         if ( sub_div_nb > 0 )
         {
             sub_key = utils_str_itoa ( sub_div_nb );
@@ -130,8 +132,12 @@ gboolean bet_data_add_div_hist ( gint account_nb,
                     return FALSE;
                 }
                 sub_shd -> div_number = sub_div_nb;
-                sub_shd -> amount = amount;
                 g_hash_table_insert ( shd -> sub_div_list, sub_key, sub_shd );
+            }
+            else
+            {
+                shd -> div_edited = FALSE;
+                shd -> amount = null_real;
             }
         }
     }
@@ -157,7 +163,6 @@ gboolean bet_data_add_div_hist ( gint account_nb,
             }
             sub_key = utils_str_itoa ( sub_div_nb );
             sub_shd -> div_number = sub_div_nb;
-            sub_shd -> amount = amount;
             g_hash_table_insert ( shd -> sub_div_list, sub_key, sub_shd );
         }
         g_hash_table_insert ( bet_hist_div_list, key, shd );
@@ -187,7 +192,6 @@ void bet_data_insert_div_hist ( struct_hist_div *shd, struct_hist_div *sub_shd )
 
     if ( ( tmp_shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
-        tmp_shd -> div_full = shd -> div_full;
         tmp_shd -> div_edited = shd -> div_edited;
         tmp_shd -> amount = shd -> amount;
 
@@ -526,54 +530,6 @@ gboolean bet_data_set_div_amount ( gint account_nb,
  *
  *
  * */
-gboolean bet_data_get_div_full ( gint account_nb, gint div_number )
-{
-    gchar *key;
-    struct_hist_div *shd;
-
-    if ( account_nb == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
-                        utils_str_itoa ( div_number ), NULL );
-
-    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
-        return shd -> div_full;
-    else
-        return FALSE;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-gboolean bet_data_set_div_full ( gint account_nb, gint div_number, gboolean full )
-{
-    gchar *key;
-    struct_hist_div *shd;
-
-    if ( account_nb == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
-                        utils_str_itoa ( div_number ), NULL );
-
-    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
-        shd -> div_full = full;
-
-    return FALSE;
-}
-
-
-/**
- *
- *
- *
- *
- * */
 gint bet_data_get_selected_currency ( void )
 {
     gint selected_account;
@@ -684,12 +640,11 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
         {
             tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
-                        "Div=\"%d\"  Full=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
+                        "Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
                         "SEdit=\"%d\" SDamount=\"%s\" />\n",
                         tab -> len + 1,
                         shd -> account_nb,
                         shd -> div_number,
-                        shd -> div_full,
                         shd -> div_edited,
                         gsb_real_save_real_to_string ( shd -> amount, 2 ),
                         0, 0, "0.00" );
@@ -707,12 +662,11 @@ GPtrArray *bet_data_get_strings_to_save ( void )
                 struct_hist_div *sub_shd = ( struct_hist_div* ) value;
 
                 tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
-                        "Div=\"%d\"  Full=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
+                        "Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
                         "SEdit=\"%d\" SDamount=\"%s\" />\n",
                         tab -> len + 1,
                         shd -> account_nb,
                         shd -> div_number,
-                        shd -> div_full,
                         shd -> div_edited,
                         gsb_real_get_string ( shd -> amount ),
                         sub_shd -> div_number,
@@ -857,13 +811,12 @@ struct_hist_div *initialise_struct_hist_div ( void )
     shd = g_malloc ( sizeof ( struct_hist_div ) );
     shd -> account_nb = 0;
     shd -> div_number = 0;
-    shd -> div_full = FALSE;
     shd -> div_edited = FALSE;
+    shd -> amount = null_real;
     shd -> sub_div_list = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         (GDestroyNotify) g_free,
                         (GDestroyNotify) free_struct_hist_div );
-    shd -> amount = null_real;
 
     return shd;
 }
