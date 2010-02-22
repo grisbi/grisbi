@@ -793,9 +793,6 @@ gboolean csv_import_change_separator ( GtkEntry * entry,
     gtk_combo_box_set_active ( GTK_COMBO_BOX(combobox), i );
     g_signal_handlers_unblock_by_func ( combobox, csv_import_combo_changed, entry );
 
-    if ( separator )
-        g_free ( separator );
-
     return FALSE;
 }
 

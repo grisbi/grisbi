@@ -118,6 +118,7 @@ void bet_historical_create_page ( GtkWidget *notebook )
     GtkWidget *button_1, *button_2;
     GtkWidget *tree_view;
     gchar *str_year;
+    gchar *title;
     gint year;
 
     devel_debug (NULL);
@@ -139,8 +140,12 @@ void bet_historical_create_page ( GtkWidget *notebook )
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 5) ;
 
     widget = gtk_label_new ( NULL );
-    gtk_label_set_markup ( GTK_LABEL ( widget ),
-                        _("Please Select the data source") );
+    title = g_strdup_printf (
+                        _("Please select the data source for the account: \"%s\""),
+                        gsb_data_account_get_name (
+                        bet_parameter_get_account_selected ( ) ) );
+    gtk_label_set_markup ( GTK_LABEL ( widget ), title );
+    g_free ( title );
     gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 5 );
 
     /* Choix des données sources */
@@ -830,7 +835,7 @@ void bet_historical_populate_div_model ( gpointer key,
 
     div = sh -> div;
     div_name = bet_data_get_div_name ( div, 0, FALSE );
-    account_nb = sh -> account_nb;
+    account_nb = bet_parameter_get_account_selected ( );
 
     titre = g_object_get_data ( G_OBJECT ( bet_container ), "bet_historical_period" );
 
