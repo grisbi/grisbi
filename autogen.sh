@@ -71,14 +71,9 @@ _EOF_
   ;;
 esac
 
-LTARGS=" --copy --force"
-$LIBTOOLIZE $LTARGS
+$LIBTOOLIZE --force --copy
 
-
-aclocal -I macros
-autoheader
-automake --verbose --foreign --add-missing
-autoconf
+autoreconf --verbose --force --install
 
 #
 # Check if the configure script is created
