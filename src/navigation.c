@@ -123,7 +123,7 @@ GtkWidget * reconcile_panel;
 /* contains the number of the last account
  * when switching between 2 accounts
  * at the end of the switch, contains the current account number */
-static gint buffer_last_account;
+static gint buffer_last_account = -1;
 
 
 /**

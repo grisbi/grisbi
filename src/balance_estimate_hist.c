@@ -81,6 +81,10 @@ static gboolean bet_historical_get_full_div ( GtkTreeModel *model, GtkTreeIter *
 static void bet_historical_populate_div_model ( gpointer key,
                         gpointer value,
                         gpointer user_data);
+static void bet_historical_row_expanded ( GtkTreeView *tree_view,
+                        GtkTreeIter *iter,
+                        GtkTreePath *path,
+                        GtkTreeModel *model );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -685,6 +689,11 @@ GtkWidget *bet_historical_get_data ( GtkWidget *container )
     gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
 
+    g_signal_connect ( G_OBJECT ( tree_view ),
+                        "row-expanded",
+                        G_CALLBACK ( bet_historical_row_expanded ),
+                        tree_model );
+
     gtk_widget_show_all ( scrolled_window );
 
     return tree_view;
@@ -942,7 +951,7 @@ void bet_historical_populate_div_model ( gpointer key,
                 if ( str_amount )
                     g_free ( str_amount );
                 str_amount = gsb_real_get_string ( average );
-                printf ("str_amount = %s\n", str_amount );
+                //~ printf ("str_amount = %s\n", str_amount );
                 if ( str_average )
                     g_free ( str_average );
                 str_average = gsb_real_get_string_with_currency ( average,
@@ -1174,6 +1183,23 @@ gsb_real bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *
  *
  *
  * */
+void bet_historical_row_expanded ( GtkTreeView *tree_view,
+                        GtkTreeIter *iter,
+                        GtkTreePath *path,
+                        GtkTreeModel *model )
+{
+    gboolean valeur;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL ( model ), iter,
+                        SPP_HISTORICAL_SELECT_COLUMN, &valeur,
+                        -1 );
+
+    if ( valeur == 1 )
+    {
+        gtk_tree_view_collapse_row ( tree_view, path );
+        gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( tree_view ), iter );
+    }
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

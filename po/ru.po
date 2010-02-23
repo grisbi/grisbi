@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-21 23:00+0100\n"
+"POT-Creation-Date: 2010-02-23 22:00+0100\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -485,7 +485,7 @@ msgstr ""
 msgid "Balance estimate"
 msgstr "Оценка баланса"
 
-#: src/balance_estimate_config.c:99 src/balance_estimate_tab.c:1025
+#: src/balance_estimate_config.c:99 src/balance_estimate_tab.c:1034
 msgid "Calculation of period"
 msgstr "Расчёт для периода"
 
@@ -495,7 +495,7 @@ msgstr ""
 
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
-#: src/balance_estimate_config.c:133 src/balance_estimate_hist.c:156
+#: src/balance_estimate_config.c:133 src/balance_estimate_hist.c:161
 #: src/etats_config.c:526 src/etats_config.c:529 src/etats_config.c:2991
 #: src/etats_config.c:7057 src/fenetre_principale.c:277 src/navigation.c:321
 #: src/navigation.c:1245
@@ -504,7 +504,7 @@ msgstr "Категории"
 
 #. mise en place de la paddingbox des ib
 #. set the title
-#: src/balance_estimate_config.c:138 src/balance_estimate_hist.c:164
+#: src/balance_estimate_config.c:138 src/balance_estimate_hist.c:169
 #: src/etats_config.c:535 src/etats_config.c:538 src/etats_config.c:3797
 #: src/etats_config.c:7134 src/export_csv.c:799 src/fenetre_principale.c:282
 #: src/import_csv.c:86 src/navigation.c:338 src/navigation.c:1256
@@ -512,44 +512,44 @@ msgstr "Категории"
 msgid "Budgetary lines"
 msgstr "Бюджетные линии"
 
-#: src/balance_estimate_config.c:152 src/balance_estimate_hist.c:191
+#: src/balance_estimate_config.c:152 src/balance_estimate_hist.c:196
 #, fuzzy
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Выбранный финансовый год используется в этом файле"
 
-#: src/balance_estimate_hist.c:125
+#: src/balance_estimate_hist.c:129
 #, fuzzy
 msgid "Historical data"
 msgstr "Дата начала"
 
-#: src/balance_estimate_hist.c:144
+#: src/balance_estimate_hist.c:148
 #, fuzzy, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr "Выберите объединяемые проводки"
 
-#: src/balance_estimate_hist.c:255 src/balance_estimate_hist.c:604
+#: src/balance_estimate_hist.c:260 src/balance_estimate_hist.c:609
 #: src/categories_onglet.c:142 src/etats_affiche.c:2433 src/etats_config.c:673
 #: src/export_csv.c:790 src/gsb_transactions_list.c:155 src/import_csv.c:84
 #: src/meta_categories.c:65 src/traitement_variables.c:88
 msgid "Category"
 msgstr "Категория"
 
-#: src/balance_estimate_hist.c:261 src/balance_estimate_hist.c:606
+#: src/balance_estimate_hist.c:266 src/balance_estimate_hist.c:611
 #: src/etats_affiche.c:2440 src/etats_config.c:677 src/gsb_form.c:1341
 #: src/gsb_form_widget.c:472 src/gsb_transactions_list.c:147
 #: src/imputation_budgetaire.c:155 src/meta_budgetary.c:62
 msgid "Budgetary line"
 msgstr "Бюджетная линия"
 
-#: src/balance_estimate_hist.c:595 src/tiers_onglet.c:1113
+#: src/balance_estimate_hist.c:600 src/tiers_onglet.c:1113
 msgid "Select"
 msgstr "Выбрать"
 
-#: src/balance_estimate_hist.c:622
+#: src/balance_estimate_hist.c:627
 msgid "Period"
 msgstr "Период"
 
-#: src/balance_estimate_hist.c:636 src/categories_onglet.c:160
+#: src/balance_estimate_hist.c:641 src/categories_onglet.c:160
 #: src/etats_config.c:5239 src/export_csv.c:784
 #: src/gsb_assistant_reconcile_config.c:594 src/gsb_scheduler_list.c:340
 #: src/gsb_transactions_list.c:151 src/import.c:3182
@@ -558,11 +558,11 @@ msgstr "Период"
 msgid "Amount"
 msgstr "Сумма"
 
-#: src/balance_estimate_hist.c:651
+#: src/balance_estimate_hist.c:656
 msgid "Average"
 msgstr ""
 
-#: src/balance_estimate_hist.c:675
+#: src/balance_estimate_hist.c:680
 #, fuzzy
 msgid "Amount retained"
 msgstr "Тип счёта"
@@ -572,32 +572,32 @@ msgstr "Тип счёта"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it tha fyear should be showed
-#: src/balance_estimate_hist.c:734 src/balance_estimate_hist.c:1005
+#: src/balance_estimate_hist.c:744 src/balance_estimate_hist.c:1015
 msgid "12 months rolling"
 msgstr ""
 
-#: src/balance_estimate_tab.c:137 src/etats_config.c:6371
+#: src/balance_estimate_tab.c:138 src/etats_config.c:6371
 msgid "Month"
 msgstr "Месяц"
 
-#: src/balance_estimate_tab.c:138 src/etats_config.c:6375
+#: src/balance_estimate_tab.c:139 src/etats_config.c:6375
 msgid "Year"
 msgstr "Год"
 
-#: src/balance_estimate_tab.c:410
+#: src/balance_estimate_tab.c:414
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
-#: src/balance_estimate_tab.c:426
+#: src/balance_estimate_tab.c:430
 msgid "balance beginning of period"
 msgstr ""
 
-#: src/balance_estimate_tab.c:656
+#: src/balance_estimate_tab.c:660
 msgid "Array"
 msgstr ""
 
-#: src/balance_estimate_tab.c:708 src/etats_affiche.c:2405
+#: src/balance_estimate_tab.c:712 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1283 src/gsb_form_widget.c:440 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
@@ -606,13 +606,13 @@ msgid "Date"
 msgstr "Дата"
 
 #. Description entry
-#: src/balance_estimate_tab.c:718 src/etats_onglet.c:261
+#: src/balance_estimate_tab.c:722 src/etats_onglet.c:261
 #: src/tiers_onglet.c:638
 msgid "Description"
 msgstr "Описание"
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:729 src/categories_onglet.c:695
+#: src/balance_estimate_tab.c:733 src/categories_onglet.c:695
 #: src/export_csv.c:781 src/gsb_form.c:1317 src/gsb_form_widget.c:444
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1084 src/gsb_transactions_list.c:148
@@ -622,7 +622,7 @@ msgid "Debit"
 msgstr "Расход"
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:743 src/categories_onglet.c:695
+#: src/balance_estimate_tab.c:747 src/categories_onglet.c:695
 #: src/export_csv.c:778 src/gsb_form.c:1324 src/gsb_form_widget.c:448
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
 #: src/gsb_payment_method_config.c:1080 src/gsb_transactions_list.c:149
@@ -630,29 +630,29 @@ msgstr "Расход"
 msgid "Credit"
 msgstr "Приход"
 
-#: src/balance_estimate_tab.c:756 src/export_csv.c:787 src/gsb_reconcile.c:147
+#: src/balance_estimate_tab.c:760 src/export_csv.c:787 src/gsb_reconcile.c:147
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
 #: src/gsb_transactions_list.c:2907 src/import_csv.c:88
 #: src/traitement_variables.c:83
 msgid "Balance"
 msgstr "Баланс"
 
-#: src/balance_estimate_tab.c:785
+#: src/balance_estimate_tab.c:789
 msgid "Graph"
 msgstr ""
 
-#: src/balance_estimate_tab.c:822
+#: src/balance_estimate_tab.c:826
 msgid "Choice the prevision"
 msgstr ""
 
-#: src/balance_estimate_tab.c:842
+#: src/balance_estimate_tab.c:846
 msgid ""
 "Please select an account and a duration\n"
 "and select the estimate array tab."
 msgstr ""
 
 #. set the choice of account
-#: src/balance_estimate_tab.c:936 src/categories_onglet.c:151
+#: src/balance_estimate_tab.c:940 src/categories_onglet.c:151
 #: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
 #: src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
@@ -661,54 +661,54 @@ msgstr ""
 msgid "Account"
 msgstr "Счёт"
 
-#: src/balance_estimate_tab.c:1029
+#: src/balance_estimate_tab.c:1038
 msgid "Beginning of period"
 msgstr "Начало периода"
 
-#: src/balance_estimate_tab.c:1038
+#: src/balance_estimate_tab.c:1047
 msgid "1st day of month"
 msgstr "Первый день месяца"
 
-#: src/balance_estimate_tab.c:1044
+#: src/balance_estimate_tab.c:1053
 msgid "date today"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1055
+#: src/balance_estimate_tab.c:1064
 msgid "End of period"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1064
+#: src/balance_estimate_tab.c:1073
 msgid "last day of the month"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1070
+#: src/balance_estimate_tab.c:1079
 msgid "From date to date"
 msgstr ""
 
 #. partie mensuelle
-#: src/balance_estimate_tab.c:1100
+#: src/balance_estimate_tab.c:1109
 msgid "Duration estimation"
 msgstr "Оценка длительности"
 
-#: src/balance_estimate_tab.c:1284 src/balance_estimate_tab.c:1294
-#: src/balance_estimate_tab.c:1455
+#: src/balance_estimate_tab.c:1293 src/balance_estimate_tab.c:1303
+#: src/balance_estimate_tab.c:1464
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Передача: счёт удалён"
 
-#: src/balance_estimate_tab.c:1628
+#: src/balance_estimate_tab.c:1637
 msgid "Subtract to the balance"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1635
+#: src/balance_estimate_tab.c:1644
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Дополнительный баланс"
 
 #. Delete item
-#: src/balance_estimate_tab.c:1652
+#: src/balance_estimate_tab.c:1661
 #, fuzzy
 msgid "Delete selection"
 msgstr "Выбор дат"
@@ -1528,7 +1528,7 @@ msgstr "Итого в целом"
 msgid "Transfert"
 msgstr ""
 
-#: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1038
+#: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1040
 #: src/gsb_form.c:722 src/gsb_form.c:2655 src/gsb_form.c:3054
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3259
 msgid "Split of transaction"
@@ -2853,7 +2853,7 @@ msgstr ""
 #. create the method of payment for a bank account
 #. create the method of payment for a liabilities account
 #: src/export_csv.c:601 src/export_csv.c:713 src/export_csv.c:725
-#: src/gsb_data_category.c:1040 src/gsb_data_payment.c:627
+#: src/gsb_data_category.c:1042 src/gsb_data_payment.c:627
 #: src/gsb_data_payment.c:709 src/gsb_data_payment.c:748
 #: src/plugins/ofx/ofx.c:464
 msgid "Transfer"
@@ -6143,12 +6143,12 @@ msgid ""
 "exist."
 msgstr ""
 
-#: src/gsb_data_budget.c:1437 src/gsb_data_category.c:1540
+#: src/gsb_data_budget.c:1437 src/gsb_data_category.c:1542
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr ""
 
-#: src/gsb_data_category.c:1394
+#: src/gsb_data_category.c:1396
 #, c-format
 msgid ""
 "The transaction %d has a category n°%d and sub-category n°%d but they don't "
@@ -7919,8 +7919,8 @@ msgstr "Добавить импортируемые файлы"
 msgid "File name"
 msgstr "Имя файла"
 
-#: src/import.c:508 src/import.c:662 src/import.c:4286 src/import_csv.c:1084
-#: src/import_csv.c:1108
+#: src/import.c:508 src/import.c:662 src/import.c:4286 src/import_csv.c:1081
+#: src/import_csv.c:1105
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Не удалось прочитать файл: %s\n"
@@ -8345,30 +8345,30 @@ msgstr "Выберите поля CSV"
 msgid "Skip"
 msgstr ""
 
-#: src/import_csv.c:936 src/import_csv.c:940
+#: src/import_csv.c:933 src/import_csv.c:937
 msgid "transaction amount"
 msgstr "сумма транзакции"
 
-#: src/import_csv.c:950
+#: src/import_csv.c:947
 #, c-format
 msgid "<b>The following fields are missing or inconsistent:</b> %s"
 msgstr ""
 
-#: src/import_csv.c:959
+#: src/import_csv.c:956
 msgid "All mandatory fields are filed in."
 msgstr "Все обязательные поля заполнены."
 
-#: src/import_csv.c:1100
+#: src/import_csv.c:1097
 msgid "The conversion to utf8 went wrong."
 msgstr "Преобразование в UTF-8 прошло неудачно."
 
-#: src/import_csv.c:1101
+#: src/import_csv.c:1098
 msgid ""
 "If the result does not suit you, try again by selecting the correct "
 "character set in the window for selecting files."
 msgstr ""
 
-#: src/import_csv.c:1154
+#: src/import_csv.c:1151
 #, fuzzy
 msgid "Imported CSV account"
 msgstr "Удалить счёт"

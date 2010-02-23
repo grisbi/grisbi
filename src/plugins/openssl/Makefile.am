@@ -1,6 +1,6 @@
 # OpenSSL plugin
 
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/src
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src
 
 plugindir = $(libdir)/@PACKAGE@
 

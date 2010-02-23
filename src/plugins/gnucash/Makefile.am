@@ -1,6 +1,6 @@
 # Gnucash plugin
 
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/src $(XML2_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(XML2_CFLAGS)
 
 plugindir = $(libdir)/@PACKAGE@
 

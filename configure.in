@@ -1,15 +1,10 @@
-AC_INIT(src/main.c)
+AC_INIT(grisbi,0.6.0)
+AC_CONFIG_SRCDIR(src/main.c)
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(grisbi,0.6.0)
-AM_ACLOCAL_INCLUDE(macros)
+AM_INIT_AUTOMAKE([-Wall foreign])
 AM_MAINTAINER_MODE
 
 AC_GNU_SOURCE
-
-PACKAGE=grisbi
-VERSION=0.6.0
-AC_SUBST(PACKAGE)
-AC_SUBST(VERSION)
 
 dnl Standard checks
 AC_ISC_POSIX
@@ -21,7 +16,7 @@ AC_SUBST(LIBTOOL_DEPS)
 AC_SUBST(lt_prog_compiler_wl)
 dnl Check if we have backtrace support
 AC_CHECK_FUNCS(backtrace)
-AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_MACRO_DIR([macros])
 
 dnl Check for NLS support.                                                      
 ALL_LINGUAS="cs da de el eo es fa fr he it nl pl pt_BR ro ru zh_CN"
@@ -32,7 +27,7 @@ AC_CHECK_LIB(intl,main)
 dnl
 dnl Standard GTK checks
 dnl
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2)
+PKG_CHECK_MODULES(GTK, [gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 gmodule-2.0 >= 2.2])
 LDFLAGS="${LDFLAGS} ${GTK_LIBS}"
 CFLAGS="${CFLAGS} ${GTK_CFLAGS}"
 
@@ -44,8 +39,8 @@ dnl
 AC_MSG_CHECKING(whether GLib supports loadable modules)
 ac_save_CFLAGS="$CFLAGS"
 ac_save_LIBS="$LIBS"
-CFLAGS="$CFLAGS $GLIB_CFLAGS"
-LIBS="$GLIB_LIBS $LIBS"
+CFLAGS="$CFLAGS $GTK_CFLAGS"
+LIBS="$GTK_LIBS $LIBS"
 AC_TRY_RUN([
 #include <glib.h>
 #include <gmodule.h>
@@ -77,7 +72,8 @@ dnl
 dnl balance estimate
 dnl
 AC_ARG_WITH(balance_estimate,
-[  --with-balance-estimate    add the support of balance estimate.],
+	AC_HELP_STRING([--with-balance-estimate],
+	[add the support of balance estimate.]),
 [
   AC_DEFINE(ENABLE_BALANCE_ESTIMATE, 1, [Define if balance estimate is enabled])
 ])
@@ -86,7 +82,8 @@ dnl
 dnl check whether plugins should be enabled and, if they should be,
 dnl
 AC_ARG_WITH(plugins,
-[  --with-plugins    support plugins.],
+	AC_HELP_STRING([--with-plugins],
+	[support plugins.]),
 [
   case "$withval" in
   "" | y | ye | yes )
@@ -147,7 +144,8 @@ dnl Check for cunit
 dnl
 AC_CHECK_HEADER(CUnit/Basic.h,,nocunit=true)
 AC_ARG_WITH(cunit,
-	[  --with-cunit         build grisbi with cunit tests [default=without]],
+	AC_HELP_STRING([--with-cunit],
+	[build grisbi with cunit tests [default=without]]),
 	[build_cunit=$withval],
 	[build_cunit=no]
 )
@@ -172,9 +170,10 @@ dnl Check for libofx
 dnl
 AC_CHECK_HEADER(libofx/libofx.h,,noofx=true)
 AC_ARG_WITH(ofx,
-    [  --without-ofx           build grisbi without ofx support [default=with]],
-    [build_ofx=$withval],
-    [build_ofx=yes]
+	AC_HELP_STRING([--without-ofx],
+	[build grisbi without ofx support [default=with]]),
+	[build_ofx=$withval],
+	[build_ofx=yes]
 )
 if test x$build_ofx != xno
 then

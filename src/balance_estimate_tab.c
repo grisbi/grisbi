@@ -56,6 +56,7 @@
 #include "./gsb_transactions_list_sort.h"
 #include "./main.h"
 #include "./mouse.h"
+#include "./navigation.h"
 #include "./include.h"
 #include "./structures.h"
 #include "./traitement_variables.h"
@@ -193,12 +194,15 @@ void bet_array_update_estimate_tab ( void )
     GtkTreeModel *tree_model;
 
     //~ devel_debug (NULL);
-    /* find the selected account */
+     /* fill the account list */
     tree_view = g_object_get_data ( G_OBJECT ( bet_container ), "bet_account_treeview" );
     tree_model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
-    /* fill the account list */
-    bet_parameter_update_list_accounts ( tree_view, GTK_TREE_MODEL ( tree_model ) );
+    if ( etat.modification_fichier == 1 )
+        bet_array_refresh_estimate_tab ( );
+    else
+        bet_parameter_update_list_accounts ( tree_view, GTK_TREE_MODEL ( tree_model ) );
+
 }
 
 
@@ -367,7 +371,7 @@ void bet_array_refresh_estimate_tab ( void )
     SBR *tmp_range;
     GValue date_value = {0, };
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     tmp_range = initialise_struct_bet_range ( );
 
     /* find the selected account */
@@ -960,8 +964,13 @@ gboolean bet_parameter_update_list_accounts ( GtkWidget *tree_view,
     GtkTreeSelection *tree_selection;
     GtkTreeIter iter;
     GSList *tmp_list;
+    gint last_account;
 
     //~ devel_debug (NULL);
+    last_account = gsb_gui_navigation_get_last_account ( );
+    if ( last_account == -1 )
+        last_account = etat.bet_last_account;
+
     tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_store_clear ( GTK_TREE_STORE ( tree_model ) );
 
@@ -985,7 +994,7 @@ gboolean bet_parameter_update_list_accounts ( GtkWidget *tree_view,
                         SPP_ACCOUNT_TREE_NUM_COLUMN, account_nb,
                         SPP_ACCOUNT_TREE_NAME_COLUMN, account_name,
                         -1);
-        if ( etat.bet_last_account == account_nb )
+        if ( last_account == account_nb )
             gtk_tree_selection_select_iter ( GTK_TREE_SELECTION ( tree_selection ),
                         &iter );
 

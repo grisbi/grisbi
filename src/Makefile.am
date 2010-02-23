@@ -1,7 +1,7 @@
 # Process this file with automake to produce Makefile.in
 
 localedir = $(datadir)/locale
-INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(prefix)/lib/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(datadir)/doc/@PACKAGE@\"" -Wall
+AM_CPPFLAGS = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(prefix)/lib/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(datadir)/doc/@PACKAGE@\"" -Wall
 bin_PROGRAMS = grisbi
 
 # TODO: This manual setting of -Wl is a hack, I cannot get it from
@@ -305,13 +305,13 @@ cunit_includes = \
 	gsb_real_cunit.h	\
 	utils_dates_cunit.h
 
-if HAVE_CUNIT
-grisbi_SOURCES = $(sources) $(sources_config) $(cunit_sources)
-else#HAVE_CUNIT
-grisbi_SOURCES = $(sources) $(sources_config) 
-endif#HAVE_CUNIT
+grisbi_SOURCES = $(sources) $(sources_config) $(grisbi_INCLUDES)
 
-EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime $(grisbi_INCLUDES) $(cunit_sources) $(cunit_includes)
+if HAVE_CUNIT
+grisbi_SOURCES += $(cunit_sources)
+endif
+
+EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime

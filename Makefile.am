@@ -11,3 +11,5 @@ EXTRA_DIST = \
     windows_installer.nsi\
     $(man_MANS)
 
+
+ACLOCAL_AMFLAGS = -I macros

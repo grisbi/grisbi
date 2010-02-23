@@ -2380,7 +2380,7 @@ gboolean gsb_form_finish_edition ( void )
             transaction_number = gsb_data_mix_new_transaction (account_number, is_transaction);
             if ( source_transaction_number == -1 )
                 source_transaction_number = transaction_number;
-            printf ("transaction_number = %d\n", transaction_number);
+
             gsb_data_mix_set_mother_transaction_number ( transaction_number,
                                  mother_transaction,
                                  is_transaction );
