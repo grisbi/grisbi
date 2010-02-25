@@ -47,10 +47,11 @@ gboolean bet_data_add_div_hist ( gint account_nb,
                         gint div_number,
                         gint sub_div_nb );
 gsb_real bet_data_get_div_amount ( gint account_nb, gint div_number, gint sub_div_nb );
+gint bet_data_get_div_children ( gint account_nb, gint div_number );
+gboolean bet_data_get_div_edited ( gint account_nb, gint div_number, gint sub_div_nb );
 gchar *bet_data_get_div_name (gint div_num,
                         gint sub_div,
                         const gchar *return_value_error );
-gboolean bet_data_get_div_edited ( gint account_nb, gint div_number, gint sub_div_nb );
 gint bet_data_get_div_number ( gint transaction_number, gboolean is_transaction );
 gint bet_data_get_selected_currency ( void );
 GPtrArray *bet_data_get_strings_to_save ( void );

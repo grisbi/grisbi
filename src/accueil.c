@@ -1229,6 +1229,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	GSList *pointeur_liste;
 	GtkWidget *event_box;
 	GtkWidget *hbox;
+    gint manual = 1;
 
 	/* s'il y avait déjà un fils dans la frame, le détruit */
 	gtk_notebook_remove_page ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil), 0 );
@@ -1258,8 +1259,9 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	style_label->fg[GTK_STATE_ACTIVE] = couleur_bleue;
 
 
-	pointeur_liste = g_slist_sort(scheduled_transactions_to_take,
-				      (GCompareFunc) classement_sliste_echeance_par_date );
+	pointeur_liste = g_slist_sort_with_data ( scheduled_transactions_to_take,
+				        (GCompareDataFunc) classement_sliste_echeance_par_date,
+                        GINT_TO_POINTER ( manual ) );
 
 	while ( pointeur_liste )
 	{
@@ -1361,6 +1363,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	GSList *pointeur_liste;
 	GtkStyle *style_selectable;
 	GdkColor gray_color;
+    gint manual = 0;
 
 	/* s'il y avait déjà un fils dans la frame, le détruit */
 	gtk_notebook_remove_page ( GTK_NOTEBOOK ( frame_etat_echeances_auto_accueil ), 0 );
@@ -1381,8 +1384,9 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	gtk_container_add ( GTK_CONTAINER ( frame_etat_echeances_auto_accueil ), vbox);
 	gtk_widget_show ( vbox);
 
-	pointeur_liste = g_slist_sort( scheduled_transactions_taken,
-				      (GCompareFunc) classement_sliste_echeance_par_date );
+	pointeur_liste = g_slist_sort_with_data ( scheduled_transactions_taken,
+				      (GCompareDataFunc) classement_sliste_echeance_par_date,
+                       GINT_TO_POINTER ( manual ) );
 
 	while ( pointeur_liste )
 	{

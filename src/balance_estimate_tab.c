@@ -406,7 +406,7 @@ void bet_array_refresh_estimate_tab ( void )
     current_balance = gsb_data_account_calculate_current_day_balance (
                         selected_account, date_min );
 
-    str_amount = gsb_real_get_string ( current_balance );
+    str_amount = gsb_real_save_real_to_string ( current_balance, 2 );
     str_current_balance = gsb_real_get_string_with_currency ( current_balance,
                         gsb_data_account_get_currency ( selected_account ), TRUE );
 
@@ -1323,7 +1323,7 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
         else
             continue;
 
-        str_amount = gsb_real_get_string ( amount );
+        str_amount = gsb_real_save_real_to_string ( amount, 2 );
         if (amount.mantissa < 0)
             str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
                         gsb_data_scheduled_get_currency_number ( scheduled_number ), TRUE );
@@ -1445,7 +1445,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         g_value_set_boxed ( &date_value, date );
 
         amount = gsb_data_transaction_get_amount ( transaction_number );
-        str_amount = gsb_real_get_string ( amount );
+        str_amount = gsb_real_save_real_to_string ( amount, 2 );
 
         if (amount.mantissa < 0)
             str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),

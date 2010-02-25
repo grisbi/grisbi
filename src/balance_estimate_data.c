@@ -226,7 +226,10 @@ gboolean bet_data_remove_div_hist ( gint account_nb, gint div_number, gint sub_d
     gchar *key;
     char *sub_key;
     struct_hist_div *shd;
-
+    
+    //~ devel_debug ( g_strdup_printf ("account_nb = %d div_number = %d sub_div_nb = %d",
+                                    //~ account_nb, div_number, sub_div_nb));
+    
     if ( account_nb == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
     else
@@ -270,7 +273,7 @@ gboolean bet_data_search_div_hist ( gint account_nb, gint div_number, gint sub_d
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
-        if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
+        if ( sub_div_nb == 0 )
         {
             g_free ( key );
             return TRUE;
@@ -436,6 +439,32 @@ gboolean bet_data_set_div_edited ( gint account_nb,
     g_free ( key );
 
     return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gint bet_data_get_div_children ( gint account_nb, gint div_number )
+{
+    gchar *key;
+    struct_hist_div *shd;
+
+    if ( account_nb == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+                        utils_str_itoa ( div_number ), NULL );
+
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
+    {
+        return g_hash_table_size ( shd -> sub_div_list );
+    }
+    else
+        return 0;
 }
 
 
@@ -668,7 +697,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
                         shd -> account_nb,
                         shd -> div_number,
                         shd -> div_edited,
-                        gsb_real_get_string ( shd -> amount ),
+                        gsb_real_save_real_to_string ( shd -> amount, 2 ),
                         sub_shd -> div_number,
                         sub_shd -> div_edited,
                         gsb_real_save_real_to_string ( sub_shd -> amount, 2 ) );

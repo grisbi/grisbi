@@ -46,16 +46,30 @@
 /* Classement de deux échéances d'opérations par date                        */
 /* ************************************************************************* */
 gint classement_sliste_echeance_par_date ( gint scheduled_number_1, 
-                        gint scheduled_number_2 )
+                        gint scheduled_number_2,
+                        gpointer manual )
 {
     const GDate *date;
 
-    date = gsb_data_transaction_get_date ( scheduled_number_1 );
-    if ( date )
-        return ( g_date_compare ( date,
-                        gsb_data_transaction_get_date (scheduled_number_2) ));
+    if ( manual )
+    {
+        date = gsb_data_scheduled_get_date ( scheduled_number_1 );
+        if ( date )
+            return ( g_date_compare ( date,
+                            gsb_data_scheduled_get_date (scheduled_number_2) ));
+        else
+            return -1;
+    }
     else
-        return -1;
+    {
+        date = gsb_data_transaction_get_date ( scheduled_number_1 );
+        if ( date )
+            return ( g_date_compare ( date,
+                            gsb_data_transaction_get_date (scheduled_number_2) ));
+        else
+            return -1;
+    }
+
 }
 
 

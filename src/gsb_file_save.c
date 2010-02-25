@@ -2631,7 +2631,6 @@ gulong gsb_file_save_bet_part ( gulong iterator,
 				        new_string );
 
     tab = bet_data_get_strings_to_save ( );
-    //~ printf ("tab -> len = %d\n", tab -> len);
 
     if ( tab == NULL )
         return iterator;
