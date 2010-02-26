@@ -822,6 +822,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
     GtkWidget *pEventBox, *pLabel;
     GtkStyle *pStyleLabelNomCompte, *pStyleLabelSoldeCourant,
 	     *pStyleLabelSoldePointe;
+    GSList *list = NULL;
 	gchar* tmpstr;
 
     /* Initialisation du style « Nom du compte » */
@@ -837,14 +838,15 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
 
     /* Création d'une boite à évènement qui sera rattachée au nom du compte */
     pEventBox = gtk_event_box_new ();
+    list = g_slist_append ( list, pEventBox );
     g_signal_connect ( G_OBJECT ( pEventBox ),
                  "enter-notify-event",
                  G_CALLBACK ( met_en_prelight ),
-                 NULL );
+                 list );
     g_signal_connect ( G_OBJECT ( pEventBox ),
                  "leave-notify-event",
                  G_CALLBACK ( met_en_normal ),
-                 NULL );
+                 list );
     g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
                     "button-press-event",
                     G_CALLBACK ( gsb_main_page_click_on_account ),
@@ -889,14 +891,15 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
 
     /* Création d'une boite à évènement qui sera rattachée au solde pointé du compte */
     pEventBox = gtk_event_box_new ();
+    list = g_slist_append ( list, pEventBox );
     g_signal_connect ( G_OBJECT ( pEventBox ),
                  "enter-notify-event",
                  G_CALLBACK ( met_en_prelight ),
-                 NULL );
+                 list );
     g_signal_connect ( G_OBJECT ( pEventBox ),
                  "leave-notify-event",
                  G_CALLBACK ( met_en_normal ),
-                 NULL );
+                 list );
     g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
                     "button-press-event",
                     G_CALLBACK ( gsb_main_page_click_on_account ),
@@ -941,14 +944,15 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
 
     /* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
     pEventBox = gtk_event_box_new ();
+    list = g_slist_append ( list, pEventBox );
     g_signal_connect ( G_OBJECT ( pEventBox ),
                  "enter-notify-event",
                  G_CALLBACK ( met_en_prelight ),
-                 NULL );
+                 list );
     g_signal_connect ( G_OBJECT ( pEventBox ),
                  "leave-notify-event",
                  G_CALLBACK ( met_en_normal ),
-                 NULL );
+                 list );
     g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
                     "button-press-event",
                     G_CALLBACK (gsb_main_page_click_on_account),
@@ -1515,57 +1519,63 @@ void update_soldes_minimaux ( gboolean force )
 
     while ( list_tmp )
     {
-	gint i;
+        gint i;
 
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
+        i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	if ( gsb_real_cmp ( gsb_data_account_get_current_balance (i),
-			    gsb_data_account_get_mini_balance_authorized (i)) == -1
-	     &&
-	     gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES )
-	{
-	    if ( !vbox_1 )
-	    {
-		vbox_1 = gtk_vbox_new ( TRUE, 5 );
-		gtk_container_add ( GTK_CONTAINER ( frame_etat_soldes_minimaux_autorises ), vbox_1 );
-		gtk_widget_show ( vbox_1 );
-		show_paddingbox ( frame_etat_soldes_minimaux_autorises );
-	    }
-	    label = gtk_label_new ( gsb_data_account_get_name (i) );
-	    gtk_box_pack_start ( GTK_BOX ( vbox_1 ), label, FALSE, FALSE, 0 );
-	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_TOP );
-	    gtk_widget_show ( label );
+        if ( gsb_data_account_get_closed_account ( i ) && !etat.show_closed_accounts )
+        {
+            list_tmp = list_tmp -> next;
+            continue;
+        }
 
-	    show_paddingbox ( frame_etat_soldes_minimaux_autorises );
-	}
+        if ( gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+                    gsb_data_account_get_mini_balance_authorized (i)) == -1
+             &&
+             gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES )
+        {
+            if ( !vbox_1 )
+            {
+            vbox_1 = gtk_vbox_new ( TRUE, 5 );
+            gtk_container_add ( GTK_CONTAINER ( frame_etat_soldes_minimaux_autorises ), vbox_1 );
+            gtk_widget_show ( vbox_1 );
+            show_paddingbox ( frame_etat_soldes_minimaux_autorises );
+            }
+            label = gtk_label_new ( gsb_data_account_get_name (i) );
+            gtk_box_pack_start ( GTK_BOX ( vbox_1 ), label, FALSE, FALSE, 0 );
+            gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_TOP );
+            gtk_widget_show ( label );
 
-	if ( gsb_real_cmp ( gsb_data_account_get_current_balance (i),
-			    gsb_data_account_get_mini_balance_wanted (i)) == -1
-	     &&
-	     gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
-	     &&
-	     gsb_real_cmp ( gsb_data_account_get_current_balance (i),
-			    gsb_data_account_get_mini_balance_authorized (i)) == -1
-	     &&
-	     gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES)
-	{
-	    if ( !vbox_2 )
-	    {
-		vbox_2 = gtk_vbox_new ( TRUE, 5 );
-		gtk_container_add ( GTK_CONTAINER ( frame_etat_soldes_minimaux_voulus ), vbox_2 );
-		gtk_widget_show ( vbox_2 );
-		show_paddingbox ( frame_etat_soldes_minimaux_voulus );
-	    }
+            show_paddingbox ( frame_etat_soldes_minimaux_autorises );
+        }
 
-	    label = gtk_label_new ( gsb_data_account_get_name (i) );
-	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
-	    gtk_box_pack_start ( GTK_BOX ( vbox_2 ), label, FALSE, FALSE, 0 );
-	    gtk_widget_show ( label );
+        if ( gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+                    gsb_data_account_get_mini_balance_wanted (i)) == -1
+             &&
+             gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
+             &&
+             gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+                    gsb_data_account_get_mini_balance_authorized (i)) == -1
+             &&
+             gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES)
+        {
+            if ( !vbox_2 )
+            {
+            vbox_2 = gtk_vbox_new ( TRUE, 5 );
+            gtk_container_add ( GTK_CONTAINER ( frame_etat_soldes_minimaux_voulus ), vbox_2 );
+            gtk_widget_show ( vbox_2 );
+            show_paddingbox ( frame_etat_soldes_minimaux_voulus );
+            }
 
-	    show_paddingbox ( frame_etat_soldes_minimaux_voulus );
-	}
+            label = gtk_label_new ( gsb_data_account_get_name (i) );
+            gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+            gtk_box_pack_start ( GTK_BOX ( vbox_2 ), label, FALSE, FALSE, 0 );
+            gtk_widget_show ( label );
 
-	list_tmp = list_tmp -> next;
+            show_paddingbox ( frame_etat_soldes_minimaux_voulus );
+        }
+
+	    list_tmp = list_tmp -> next;
     }
 
 

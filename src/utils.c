@@ -46,29 +46,53 @@ extern GtkWidget *window;
 
 
 
-
-/* ************************************************************************* */
+/**
+ *
+ *
+ *
+ */
 gboolean met_en_prelight ( GtkWidget *event_box,
                         GdkEventMotion *event,
                         gpointer pointeur )
 {
-    gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ), GTK_STATE_PRELIGHT );
+    GSList *list = ( GSList* ) pointeur;
+
+    while (list )
+    {
+        GtkWidget *widget;
+
+        widget = list -> data;
+        gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN ( widget )->child ), GTK_STATE_PRELIGHT );
+
+        list = list -> next;
+    }
     return FALSE;
 }
-/* ************************************************************************* */
 
-/* ************************************************************************* */
+
+/**
+ *
+ *
+ *
+ */
 gboolean met_en_normal ( GtkWidget *event_box,
                         GdkEventMotion *event,
                         gpointer pointeur )
 {
-    gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ), GTK_STATE_NORMAL );
+    GSList *list = ( GSList* ) pointeur;
+
+    while (list )
+    {
+        GtkWidget *widget;
+
+        widget = list -> data;
+
+        gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN ( widget )->child ), GTK_STATE_NORMAL );
+
+        list = list -> next;
+    }
     return FALSE;
 }
-/* ************************************************************************* */
-
-
-
 
 
 /**
@@ -122,14 +146,15 @@ gboolean desensitive_widget ( gpointer object, GtkWidget *widget )
 }
 
 
-
-/* **************************************************************************************************************************** */
+/**
+ * si la commande du navigateur contient %s, on le remplace par url,
+ * sinon on ajoute l'url à la fin et &
+ *
+ * sous Windows si la commande est vide ou egale a la valeur par defaut
+ * on lance le butineur par defaut (open)
+ */
 gboolean lance_navigateur_web ( const gchar *url )
 {
-/*     si la commande du navigateur contient %s, on le remplace par url, */
-/*     sinon on ajoute l'url à la fin et & */
-/*     sous Windows si la commande est vide ou egale a la valeur par defaut on lance le butineur par defaut (open) */
-
     gchar **split;
     gchar *chaine = NULL;
 #ifdef _WIN32
@@ -200,10 +225,6 @@ gboolean lance_navigateur_web ( const gchar *url )
 
     return FALSE;
 }
-/* **************************************************************************************************************************** */
-
-
-
 
 
 /**

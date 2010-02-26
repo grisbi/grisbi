@@ -9226,7 +9226,7 @@ msgstr "Montrer les comptes _clos"
 
 #: src/menu.c:409 src/menu.c:441 src/menu.c:461
 msgid "en"
-msgstr "en"
+msgstr "fr"
 
 #: src/menu.c:753
 msgid "Unnamed account"
