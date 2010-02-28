@@ -800,12 +800,10 @@ gchar *gsb_data_budget_get_name ( gint no_budget,
 
 	if (sub_budget)
 	{
-	    gchar* oldstr = return_value;
 	    return_value = g_strconcat ( return_value,
 					 " : ",
 					 sub_budget -> sub_budget_name,
 					 NULL );
-	    g_free ( oldstr );
 	}
     }
     return return_value;

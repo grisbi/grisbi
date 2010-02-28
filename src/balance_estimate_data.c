@@ -106,7 +106,7 @@ gboolean bet_data_add_div_hist ( gint account_nb,
     gchar *key;
     gchar *sub_key;
     struct_hist_div *shd;
-
+printf ("account_nb = %d, div_number = %d, sub_div_nb = %d\n", account_nb, div_number, sub_div_nb);
     if ( account_nb == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
     else
@@ -652,6 +652,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 {
     GPtrArray *tab = NULL;
     gchar *tmp_str = NULL;
+    //~ gchar *str_amount;
     GHashTableIter iter;
     gpointer key, value;
 
@@ -668,6 +669,9 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 
         if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
         {
+            //~ str_amount = gsb_real_save_real_to_string ( shd -> amount, 2 );
+            //~ printf ("amount.mantissa = %ld amount.exponent = %d str_amount = %s\n",
+                    //~ shd -> amount.mantissa, shd -> amount.exponent, str_amount );
             tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
                         "Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
                         "SEdit=\"%d\" SDamount=\"%s\" />\n",
@@ -706,6 +710,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
             }
         }
     }
+    //~ printf ("long_tab = %d\n", tab -> len);
     return tab;
 }
 

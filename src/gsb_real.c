@@ -1031,7 +1031,7 @@ gchar *gsb_real_save_real_to_string ( gsb_real number, gint default_exponent )
         return g_strdup ("0.00");
 
     if ( default_exponent != -1 )
-        gsb_real_adjust_exponent ( number, default_exponent );
+        number = gsb_real_adjust_exponent ( number, default_exponent );
 
     sign = (number.mantissa < 0) ? "-" : "";
     mon_decimal_point = ".";

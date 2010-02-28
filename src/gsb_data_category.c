@@ -854,12 +854,10 @@ gchar *gsb_data_category_get_name ( gint no_category,
 
 	if (sub_category)
 	{
-	    gchar* oldvalue = return_value;
 	    return_value = g_strconcat ( return_value,
 					 " : ",
 					 sub_category -> sub_category_name,
 					 NULL );
-	    g_free ( oldvalue );
 	}
     }
     return return_value;
