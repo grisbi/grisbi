@@ -33,6 +33,7 @@
 #include "gsb_form.h"
 #include "./accueil.h"
 #include "./dialog.h"
+#include "./balance_estimate_data.h"
 #include "./gsb_calendar_entry.h"
 #include "./gsb_calendar.h"
 #include "./gsb_currency.h"
@@ -2563,8 +2564,16 @@ gboolean gsb_form_finish_edition ( void )
     /* as we modify or create a transaction, we invalidate the current report */
     gsb_report_set_current (0);
 
+#ifdef ENABLE_BALANCE_ESTIMATE
+    /* force the update module budget */
+    bet_data_set_maj ( TRUE );
+#endif /* ENABLE_BALANCE_ESTIMATE */
+
     /* give the focus to the date widget */
+    if ( is_transaction )
         gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
+    else
+        gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );

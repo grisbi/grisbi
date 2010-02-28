@@ -165,8 +165,8 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 	    GtkWidget *widget = NULL;
 	    const gchar *tooltip_text = NULL;
 	    gchar *text_auto [] = { _("Manual"), _("Automatic"), NULL };
-	    gchar *text_frequency [] = { _("Once"), _("Weekly"), _("Monthly"), _("two months"),
-                        _("trimester"), _("Yearly"), _("Custom"), NULL };
+	    gchar *text_frequency [] = { _("Once"), _("Weekly"), _("Monthly"), _("Bimonthly"),
+                        _("Quarterly"), _("Yearly"), _("Custom"), NULL };
 	    gchar *text_frequency_user [] = { _("Days"), _("Weeks"), _("Months"), _("Years"), NULL };
 
 	    element_number = row*SCHEDULED_WIDTH + column;

@@ -74,6 +74,9 @@ gchar* (*ptr_div_name) ( gint div_num, gint sub_div, const gchar *return_value_e
 /* liste des div et sub_div cochées dans la vue des divisions */
 static GHashTable *bet_hist_div_list;
 
+/* force la mise à jour des données */
+static gboolean bet_maj = FALSE;
+
 
 /**
  * used when we init all the global variables
@@ -90,6 +93,30 @@ gboolean bet_data_init_variables ( void )
                         (GDestroyNotify) free_struct_hist_div );
     return FALSE;
 
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_data_get_maj ( void )
+{
+    return bet_maj;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_data_set_maj ( gboolean maj )
+{
+    bet_maj = maj;
 }
 
 

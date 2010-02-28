@@ -722,8 +722,7 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
     pGDateCurrent = gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number));
 
     /* fill the text line */
-    gsb_scheduler_list_fill_transaction_text ( scheduled_number,
-					       line );
+    gsb_scheduler_list_fill_transaction_text ( scheduled_number, line );
 
     do
     {
@@ -973,6 +972,11 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
 	    {
 		case PERIODICITY_DAYS:
 		    line[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d days"),
+								gsb_data_scheduled_get_user_entry (scheduled_number));
+		    break;
+
+		case PERIODICITY_WEEKS:
+		    line[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d weeks"),
 								gsb_data_scheduled_get_user_entry (scheduled_number));
 		    break;
 

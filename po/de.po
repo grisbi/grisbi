@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-23 22:00+0100\n"
+"POT-Creation-Date: 2010-02-28 22:55+0100\n"
 "PO-Revision-Date: 2010-02-21 23:30+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -77,52 +77,52 @@ msgstr "Zusätzlicher Saldo"
 msgid "Additional balances"
 msgstr "Zusätzliche Salden"
 
-#: src/accueil.c:797 src/accueil.c:1013
+#: src/accueil.c:797 src/accueil.c:1017
 msgid "Reconciled balance"
 msgstr "abgestimmter Saldo"
 
-#: src/accueil.c:801 src/accueil.c:1017
+#: src/accueil.c:801 src/accueil.c:1021
 msgid "Current balance"
 msgstr "aktueller Saldo"
 
-#: src/accueil.c:1006
+#: src/accueil.c:1010
 msgid "Partial balance"
 msgstr "Partieller Saldo"
 
-#: src/accueil.c:1008
+#: src/accueil.c:1012
 msgid "Partial balances"
 msgstr "Partielle Salden"
 
-#: src/accueil.c:1087
+#: src/accueil.c:1091
 msgid "Global balance"
 msgstr "Alle Salden"
 
-#: src/accueil.c:1091
+#: src/accueil.c:1095
 msgid "Global balances"
 msgstr "Alle Salden"
 
-#: src/accueil.c:1147
+#: src/accueil.c:1151
 #, c-format
 msgid " in %s"
 msgstr " in %s"
 
-#: src/accueil.c:1315 src/accueil.c:1438 src/accueil.c:1893
+#: src/accueil.c:1321 src/accueil.c:1446 src/accueil.c:1907
 #, c-format
 msgid "%s credited on %s"
 msgstr "%s Einnahme in %s"
 
-#: src/accueil.c:1325 src/accueil.c:1448 src/accueil.c:1902
+#: src/accueil.c:1331 src/accueil.c:1456 src/accueil.c:1916
 #, c-format
 msgid "%s debited on %s"
 msgstr "%s Ausgabe in %s"
 
-#: src/accueil.c:1667
+#: src/accueil.c:1681
 #, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr ""
 "Der Saldo vom Konto %s ist unter dem festgelegten und zulässigen Minimum!"
 
-#: src/accueil.c:1671
+#: src/accueil.c:1685
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
@@ -130,12 +130,12 @@ msgstr ""
 "Konten mit Salden unter dem festgelegten und zulässigen Minimum:\n"
 "\n"
 
-#: src/accueil.c:1700
+#: src/accueil.c:1714
 #, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr "Der Saldo vom Konto %s ist unter dem zulässigen Minimum!"
 
-#: src/accueil.c:1710
+#: src/accueil.c:1724
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
@@ -143,12 +143,12 @@ msgstr ""
 "Konten mit Salden unter dem zulässigen Minimum:\n"
 "\n"
 
-#: src/accueil.c:1742
+#: src/accueil.c:1756
 #, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "Der Saldo vom Konto %s ist unter dem festegelegten Minimum!"
 
-#: src/accueil.c:1752
+#: src/accueil.c:1766
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
@@ -156,11 +156,11 @@ msgstr ""
 "Konten mit Salden unter dem festgelegten Minimum:\n"
 "\n"
 
-#: src/accueil.c:1944
+#: src/accueil.c:1958
 msgid "Configuration of the main page"
 msgstr "Konfiguration Startseite"
 
-#: src/accueil.c:1965
+#: src/accueil.c:1979
 msgid "Balances partials of the list of accounts"
 msgstr "Partielle Salden der Konten"
 
@@ -173,7 +173,7 @@ msgstr "Partielle Salden der Konten"
 #. Financial year name
 #. set the name
 #. Name entry
-#: src/accueil.c:2056 src/categories_onglet.c:665 src/gsb_archive_config.c:98
+#: src/accueil.c:2070 src/categories_onglet.c:665 src/gsb_archive_config.c:98
 #: src/gsb_archive_config.c:186 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:388
 #: src/gsb_assistant_reconcile_config.c:1227 src/gsb_bank.c:732
@@ -186,24 +186,24 @@ msgid "Name"
 msgstr "Name"
 
 #. List of the accounts
-#: src/accueil.c:2065 src/gsb_data_partial_balance.c:1543
+#: src/accueil.c:2079 src/gsb_data_partial_balance.c:1543
 msgid "Accounts list"
 msgstr "Kontoliste"
 
-#: src/accueil.c:2081
+#: src/accueil.c:2095
 msgid "Colorize"
 msgstr "Farben"
 
-#: src/accueil.c:2089
+#: src/accueil.c:2103
 msgid "Account kind"
 msgstr "Kontoart"
 
-#: src/accueil.c:2098 src/gsb_form_widget.c:488 src/import_csv.c:78
+#: src/accueil.c:2112 src/gsb_form_widget.c:488 src/import_csv.c:78
 msgid "Currency"
 msgstr "Währung"
 
 #. initialization of titles
-#: src/accueil.c:2140 src/affichage.c:984 src/affichage.c:985
+#: src/accueil.c:2154 src/affichage.c:984 src/affichage.c:985
 #: src/gsb_assistant_file.c:564 src/navigation.c:1148 src/navigation.c:1149
 #: src/traitement_variables.c:295
 msgid "My accounts"
@@ -492,7 +492,7 @@ msgstr "Maximale Einträge in der Auswahlliste [0 für kein Limit]"
 msgid "Balance estimate"
 msgstr "Prognosen"
 
-#: src/balance_estimate_config.c:99 src/balance_estimate_tab.c:1034
+#: src/balance_estimate_config.c:99 src/balance_estimate_tab.c:1051
 msgid "Calculation of period"
 msgstr "Zeitspanne für Berechnung"
 
@@ -502,7 +502,7 @@ msgstr "Buchungen Auswahl"
 
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
-#: src/balance_estimate_config.c:133 src/balance_estimate_hist.c:161
+#: src/balance_estimate_config.c:133 src/balance_estimate_hist.c:168
 #: src/etats_config.c:526 src/etats_config.c:529 src/etats_config.c:2991
 #: src/etats_config.c:7057 src/fenetre_principale.c:277 src/navigation.c:321
 #: src/navigation.c:1245
@@ -511,7 +511,7 @@ msgstr "Kategorien"
 
 #. mise en place de la paddingbox des ib
 #. set the title
-#: src/balance_estimate_config.c:138 src/balance_estimate_hist.c:169
+#: src/balance_estimate_config.c:138 src/balance_estimate_hist.c:176
 #: src/etats_config.c:535 src/etats_config.c:538 src/etats_config.c:3797
 #: src/etats_config.c:7134 src/export_csv.c:799 src/fenetre_principale.c:282
 #: src/import_csv.c:86 src/navigation.c:338 src/navigation.c:1256
@@ -519,42 +519,42 @@ msgstr "Kategorien"
 msgid "Budgetary lines"
 msgstr "Budgeteinträge"
 
-#: src/balance_estimate_config.c:152 src/balance_estimate_hist.c:196
+#: src/balance_estimate_config.c:152 src/balance_estimate_hist.c:203
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Geschäftsjahr oder Zeitraum von 12 Monaten"
 
-#: src/balance_estimate_hist.c:129
+#: src/balance_estimate_hist.c:136
 msgid "Historical data"
 msgstr "Prognose Buchungen"
 
-#: src/balance_estimate_hist.c:148
+#: src/balance_estimate_hist.c:155
 #, fuzzy, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr "Buchungen auswählen"
 
-#: src/balance_estimate_hist.c:260 src/balance_estimate_hist.c:609
+#: src/balance_estimate_hist.c:267 src/balance_estimate_hist.c:628
 #: src/categories_onglet.c:142 src/etats_affiche.c:2433 src/etats_config.c:673
 #: src/export_csv.c:790 src/gsb_transactions_list.c:155 src/import_csv.c:84
 #: src/meta_categories.c:65 src/traitement_variables.c:88
 msgid "Category"
 msgstr "Kategorie"
 
-#: src/balance_estimate_hist.c:266 src/balance_estimate_hist.c:611
-#: src/etats_affiche.c:2440 src/etats_config.c:677 src/gsb_form.c:1341
+#: src/balance_estimate_hist.c:273 src/balance_estimate_hist.c:630
+#: src/etats_affiche.c:2440 src/etats_config.c:677 src/gsb_form.c:1342
 #: src/gsb_form_widget.c:472 src/gsb_transactions_list.c:147
 #: src/imputation_budgetaire.c:155 src/meta_budgetary.c:62
 msgid "Budgetary line"
 msgstr "Budgeteintrag"
 
-#: src/balance_estimate_hist.c:600 src/tiers_onglet.c:1113
+#: src/balance_estimate_hist.c:619 src/tiers_onglet.c:1113
 msgid "Select"
 msgstr "Auswählen"
 
-#: src/balance_estimate_hist.c:627
+#: src/balance_estimate_hist.c:646
 msgid "Period"
 msgstr "Zeitspanne"
 
-#: src/balance_estimate_hist.c:641 src/categories_onglet.c:160
+#: src/balance_estimate_hist.c:660 src/categories_onglet.c:160
 #: src/etats_config.c:5239 src/export_csv.c:784
 #: src/gsb_assistant_reconcile_config.c:594 src/gsb_scheduler_list.c:340
 #: src/gsb_transactions_list.c:151 src/import.c:3182
@@ -563,11 +563,11 @@ msgstr "Zeitspanne"
 msgid "Amount"
 msgstr "Betrag"
 
-#: src/balance_estimate_hist.c:656
+#: src/balance_estimate_hist.c:675
 msgid "Average"
 msgstr "Durchschnitt"
 
-#: src/balance_estimate_hist.c:680
+#: src/balance_estimate_hist.c:690
 msgid "Amount retained"
 msgstr "einbehaltener Betrag"
 
@@ -576,48 +576,48 @@ msgstr "einbehaltener Betrag"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it tha fyear should be showed
-#: src/balance_estimate_hist.c:744 src/balance_estimate_hist.c:1015
+#: src/balance_estimate_hist.c:764 src/balance_estimate_hist.c:1050
 msgid "12 months rolling"
 msgstr "Zeitraum von 12 Monaten"
 
-#: src/balance_estimate_tab.c:138 src/etats_config.c:6371
+#: src/balance_estimate_tab.c:143 src/etats_config.c:6371
 msgid "Month"
 msgstr "Monat"
 
-#: src/balance_estimate_tab.c:139 src/etats_config.c:6375
+#: src/balance_estimate_tab.c:144 src/etats_config.c:6375
 msgid "Year"
 msgstr "Jahr"
 
-#: src/balance_estimate_tab.c:414
+#: src/balance_estimate_tab.c:432
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Voraussichtlicher Saldo für das Konto \"%s\" von %s bis %s"
 
-#: src/balance_estimate_tab.c:430
+#: src/balance_estimate_tab.c:448
 msgid "balance beginning of period"
 msgstr "Saldo Anfangsperiode"
 
-#: src/balance_estimate_tab.c:660
+#: src/balance_estimate_tab.c:679
 msgid "Array"
 msgstr "Prognose Daten"
 
-#: src/balance_estimate_tab.c:712 src/etats_affiche.c:2405
+#: src/balance_estimate_tab.c:727 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
-#: src/gsb_form.c:1283 src/gsb_form_widget.c:440 src/gsb_reconcile.c:144
+#: src/gsb_form.c:1284 src/gsb_form_widget.c:440 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
 #: src/import.c:3168 src/import_csv.c:79 src/traitement_variables.c:77
 msgid "Date"
 msgstr "Datum"
 
 #. Description entry
-#: src/balance_estimate_tab.c:722 src/etats_onglet.c:261
+#: src/balance_estimate_tab.c:737 src/etats_onglet.c:261
 #: src/tiers_onglet.c:638
 msgid "Description"
 msgstr "Beschreibung"
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:733 src/categories_onglet.c:695
-#: src/export_csv.c:781 src/gsb_form.c:1317 src/gsb_form_widget.c:444
+#: src/balance_estimate_tab.c:748 src/categories_onglet.c:695
+#: src/export_csv.c:781 src/gsb_form.c:1318 src/gsb_form_widget.c:444
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1084 src/gsb_transactions_list.c:148
 #: src/import_csv.c:90 src/imputation_budgetaire.c:729
@@ -626,30 +626,30 @@ msgid "Debit"
 msgstr "Ausgaben"
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:747 src/categories_onglet.c:695
-#: src/export_csv.c:778 src/gsb_form.c:1324 src/gsb_form_widget.c:448
+#: src/balance_estimate_tab.c:762 src/categories_onglet.c:695
+#: src/export_csv.c:778 src/gsb_form.c:1325 src/gsb_form_widget.c:448
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
 #: src/gsb_payment_method_config.c:1080 src/gsb_transactions_list.c:149
 #: src/imputation_budgetaire.c:729 src/traitement_variables.c:82
 msgid "Credit"
 msgstr "Einnahmen"
 
-#: src/balance_estimate_tab.c:760 src/export_csv.c:787 src/gsb_reconcile.c:147
+#: src/balance_estimate_tab.c:775 src/export_csv.c:787 src/gsb_reconcile.c:147
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
 #: src/gsb_transactions_list.c:2907 src/import_csv.c:88
 #: src/traitement_variables.c:83
 msgid "Balance"
 msgstr "Saldo"
 
-#: src/balance_estimate_tab.c:789
+#: src/balance_estimate_tab.c:806
 msgid "Graph"
 msgstr "Prognose Graph"
 
-#: src/balance_estimate_tab.c:826
+#: src/balance_estimate_tab.c:843
 msgid "Choice the prevision"
 msgstr "Prognose Parameter"
 
-#: src/balance_estimate_tab.c:846
+#: src/balance_estimate_tab.c:863
 msgid ""
 "Please select an account and a duration\n"
 "and select the estimate array tab."
@@ -658,7 +658,7 @@ msgstr ""
 "danach die Details für die Prognose aufrufen."
 
 #. set the choice of account
-#: src/balance_estimate_tab.c:940 src/categories_onglet.c:151
+#: src/balance_estimate_tab.c:957 src/categories_onglet.c:151
 #: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
 #: src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
@@ -667,37 +667,37 @@ msgstr ""
 msgid "Account"
 msgstr "Konto"
 
-#: src/balance_estimate_tab.c:1038
+#: src/balance_estimate_tab.c:1055
 msgid "Beginning of period"
 msgstr "Zeitspanne Anfang"
 
-#: src/balance_estimate_tab.c:1047
+#: src/balance_estimate_tab.c:1064
 msgid "1st day of month"
 msgstr "erster Tag vom Monat"
 
-#: src/balance_estimate_tab.c:1053
+#: src/balance_estimate_tab.c:1070
 msgid "date today"
 msgstr "aktuelles Datum"
 
-#: src/balance_estimate_tab.c:1064
+#: src/balance_estimate_tab.c:1081
 msgid "End of period"
 msgstr "Zeitspanne Ende"
 
-#: src/balance_estimate_tab.c:1073
+#: src/balance_estimate_tab.c:1090
 msgid "last day of the month"
 msgstr "letzter Tag vom Monat"
 
-#: src/balance_estimate_tab.c:1079
+#: src/balance_estimate_tab.c:1096
 msgid "From date to date"
 msgstr "von - bis Datum"
 
 #. partie mensuelle
-#: src/balance_estimate_tab.c:1109
+#: src/balance_estimate_tab.c:1126
 msgid "Duration estimation"
 msgstr "Daten Zusammenstellung"
 
-#: src/balance_estimate_tab.c:1293 src/balance_estimate_tab.c:1303
-#: src/balance_estimate_tab.c:1464
+#: src/balance_estimate_tab.c:1310 src/balance_estimate_tab.c:1320
+#: src/balance_estimate_tab.c:1490
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
@@ -706,21 +706,26 @@ msgstr ""
 "Buchung zwischen Konto :%s\n"
 "und Konto: %s"
 
-#: src/balance_estimate_tab.c:1637
+#: src/balance_estimate_tab.c:1672
 msgid "Subtract to the balance"
 msgstr "Vom Saldo abziehen"
 
-#: src/balance_estimate_tab.c:1644
+#: src/balance_estimate_tab.c:1679
 msgid "Adding to the balance"
 msgstr "Zum Saldo hinzufügen"
 
 #. Delete item
-#: src/balance_estimate_tab.c:1661
+#: src/balance_estimate_tab.c:1696
 msgid "Delete selection"
 msgstr "Auswahl löschen"
 
+#: src/balance_estimate_tab.c:1835
+#, fuzzy
+msgid " (still available)"
+msgstr "Keine Beschreibung vorhanden"
+
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_scheduler_list.c:2002
+#: src/barre_outils.c:95 src/gsb_scheduler_list.c:2006
 #: src/gsb_transactions_list.c:2124
 msgid "New transaction"
 msgstr "Neue Buchung"
@@ -806,31 +811,31 @@ msgstr "Abgestimmte Buchungen anzeigen"
 msgid "Remove the rule"
 msgstr "Regel entfernen"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1785
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1789
 msgid "Unique view"
 msgstr "Einfache Ansicht"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1785
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1789
 msgid "Week view"
 msgstr "Ansicht nach Wochen"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1785
+#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1789
 msgid "Month view"
 msgstr "Ansicht nach Monaten"
 
-#: src/barre_outils.c:405 src/gsb_scheduler_list.c:1786
+#: src/barre_outils.c:405 src/gsb_scheduler_list.c:1790
 msgid "Two months view"
 msgstr "Ansicht nach 2 Monaten"
 
-#: src/barre_outils.c:405 src/gsb_scheduler_list.c:1786
+#: src/barre_outils.c:405 src/gsb_scheduler_list.c:1790
 msgid "Quarter view"
 msgstr "Ansicht Vierteljährlich"
 
-#: src/barre_outils.c:406 src/gsb_scheduler_list.c:1787
+#: src/barre_outils.c:406 src/gsb_scheduler_list.c:1791
 msgid "Year view"
 msgstr "Ansicht Jährlich"
 
-#: src/barre_outils.c:406 src/gsb_scheduler_list.c:1787
+#: src/barre_outils.c:406 src/gsb_scheduler_list.c:1791
 msgid "Custom view"
 msgstr "Ansicht benutzerdefiniert"
 
@@ -1214,7 +1219,7 @@ msgstr ""
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Sie führen Grisbi mit GTK-Version %s aus"
 
-#: src/dialog.c:327 src/dialog.c:526 src/gsb_scheduler_list.c:1729
+#: src/dialog.c:327 src/dialog.c:526 src/gsb_scheduler_list.c:1733
 msgid "Do not show this message again"
 msgstr "Diese Meldung nicht mehr anzeigen"
 
@@ -1522,13 +1527,13 @@ msgstr "Ergebnis ohne Geschäftsjahr (%d Buchungen)"
 msgid "Result without financial year"
 msgstr "Ergebnis ohne Geschäftsjahr"
 
-#: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:951
+#: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:950
 #: src/gsb_transactions_list.c:3281
 #, c-format
 msgid "Transfer to %s"
 msgstr "Umbuchen nach %s"
 
-#: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:954
+#: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:953
 #: src/gsb_transactions_list.c:3284
 #, c-format
 msgid "Transfer from %s"
@@ -1582,8 +1587,8 @@ msgstr "Gesamtsumme"
 msgid "Transfert"
 msgstr "Umbuchung"
 
-#: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1040
-#: src/gsb_form.c:722 src/gsb_form.c:2655 src/gsb_form.c:3054
+#: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1038
+#: src/gsb_form.c:723 src/gsb_form.c:2664 src/gsb_form.c:3063
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3259
 msgid "Split of transaction"
 msgstr "Buchung splitten"
@@ -1621,8 +1626,8 @@ msgstr "Ausgaben"
 msgid "Number"
 msgstr "Nr."
 
-#: src/etats_affiche.c:2412 src/export_csv.c:763 src/gsb_form.c:1290
-#: src/gsb_form.c:2124 src/gsb_form.c:2147 src/gsb_form_widget.c:452
+#: src/etats_affiche.c:2412 src/export_csv.c:763 src/gsb_form.c:1291
+#: src/gsb_form.c:2125 src/gsb_form.c:2148 src/gsb_form_widget.c:452
 #: src/gsb_transactions_list.c:145 src/import_csv.c:80
 #: src/traitement_variables.c:78
 msgid "Value date"
@@ -1638,7 +1643,7 @@ msgstr "Geschäftsjahr"
 #: src/etats_affiche.c:2426 src/etats_config.c:517 src/etats_config.c:520
 #: src/etats_config.c:685 src/etats_config.c:7022 src/export_csv.c:775
 #: src/fenetre_principale.c:264 src/gsb_assistant_reconcile_config.c:594
-#: src/gsb_form.c:1310 src/gsb_form_widget.c:460 src/gsb_scheduler_list.c:339
+#: src/gsb_form.c:1311 src/gsb_form_widget.c:460 src/gsb_scheduler_list.c:339
 #: src/gsb_transactions_list.c:146 src/import.c:3175 src/import_csv.c:81
 #: src/meta_payee.c:77 src/traitement_variables.c:79
 msgid "Payee"
@@ -1646,7 +1651,7 @@ msgstr "Empfänger"
 
 #. Notes
 #: src/etats_affiche.c:2447 src/export_csv.c:796 src/gsb_bank.c:915
-#: src/gsb_form.c:1348 src/gsb_form_widget.c:476
+#: src/gsb_form.c:1349 src/gsb_form_widget.c:476
 #: src/gsb_transactions_list.c:158 src/import_csv.c:82
 #: src/traitement_variables.c:91
 msgid "Notes"
@@ -1663,13 +1668,13 @@ msgstr "Zahlungsweisen"
 msgid "Cheque"
 msgstr "Scheck"
 
-#: src/etats_affiche.c:2468 src/export_csv.c:805 src/gsb_form.c:1392
+#: src/etats_affiche.c:2468 src/export_csv.c:805 src/gsb_form.c:1393
 #: src/gsb_form_widget.c:496 src/gsb_transactions_list.c:157
 #: src/traitement_variables.c:90
 msgid "Voucher"
 msgstr "Beleg"
 
-#: src/etats_affiche.c:2475 src/export_csv.c:811 src/gsb_form.c:1385
+#: src/etats_affiche.c:2475 src/export_csv.c:811 src/gsb_form.c:1386
 #: src/gsb_form_widget.c:500 src/gsb_transactions_list.c:159
 #: src/traitement_variables.c:92
 msgid "Bank references"
@@ -2933,13 +2938,13 @@ msgstr "B"
 #. create the method of payment for a bank account
 #. create the method of payment for a liabilities account
 #: src/export_csv.c:601 src/export_csv.c:713 src/export_csv.c:725
-#: src/gsb_data_category.c:1042 src/gsb_data_payment.c:627
+#: src/gsb_data_category.c:1040 src/gsb_data_payment.c:627
 #: src/gsb_data_payment.c:709 src/gsb_data_payment.c:748
 #: src/plugins/ofx/ofx.c:464
 msgid "Transfer"
 msgstr "Umbuchung"
 
-#: src/export_csv.c:715 src/gsb_form.c:1905
+#: src/export_csv.c:715 src/gsb_form.c:1906
 msgid "Deleted account"
 msgstr "Gelöschtes Konto"
 
@@ -4048,7 +4053,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr "Es werden alle Buchungen aus einem gewählten Bericht archiviert."
 
 #: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:515
-#: src/gsb_form.c:2762 src/gsb_form.c:2763 src/navigation.c:1270
+#: src/gsb_form.c:2771 src/gsb_form.c:2772 src/navigation.c:1270
 msgid "Report"
 msgstr "Bericht"
 
@@ -6401,7 +6406,7 @@ msgstr ""
 msgid "No budget line"
 msgstr "Kein Budgeteintrag"
 
-#: src/gsb_data_budget.c:1291
+#: src/gsb_data_budget.c:1289
 #, c-format
 msgid ""
 "The transaction %d has a budget n°%d and sub-budget n°%d but they don't "
@@ -6410,12 +6415,12 @@ msgstr ""
 "Die Buchung %d hat als Budgeteintrag n°%d und als Teil-Budgeteintrag n°%d, "
 "jedoch sind diese Budgeteinträge nicht vorhanden."
 
-#: src/gsb_data_budget.c:1437 src/gsb_data_category.c:1542
+#: src/gsb_data_budget.c:1435 src/gsb_data_category.c:1540
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "In <i>%s</i>, <i>%s</i> ist ein Duplikat von <i>%s</i>.\n"
 
-#: src/gsb_data_category.c:1396
+#: src/gsb_data_category.c:1394
 #, c-format
 msgid ""
 "The transaction %d has a category n°%d and sub-category n°%d but they don't "
@@ -7250,60 +7255,60 @@ msgstr "Die Datei kann nicht gesperrt werden '%s': %s"
 msgid "Cannot erase lock file :'%s': %s"
 msgstr "Die Datei kann nicht entsperrt werden '%s': %s"
 
-#: src/gsb_form.c:226
+#: src/gsb_form.c:227
 msgid "Transaction/Scheduled _form"
 msgstr "Buchungsformular"
 
 #. create the check button to recover the children of splits
-#: src/gsb_form.c:317
+#: src/gsb_form.c:318
 msgid "Recover the children"
 msgstr "Unterelemente anzeigen"
 
-#: src/gsb_form.c:735
+#: src/gsb_form.c:736
 msgid "Transfer : Deleted account"
 msgstr "Buchung: gelöschtes Konto"
 
-#: src/gsb_form.c:754 src/gsb_form.c:1894 src/gsb_form.c:1895
+#: src/gsb_form.c:755 src/gsb_form.c:1895 src/gsb_form.c:1896
 #: src/gsb_form_widget.c:1053
 msgid "Transfer : "
 msgstr "Umbuchung : "
 
-#: src/gsb_form.c:903
+#: src/gsb_form.c:904
 msgid "Auto"
 msgstr "Auto"
 
-#: src/gsb_form.c:906 src/gsb_form_scheduler.c:167
-#: src/gsb_scheduler_list.c:1005
+#: src/gsb_form.c:907 src/gsb_form_scheduler.c:167
+#: src/gsb_scheduler_list.c:1009
 msgid "Manual"
 msgstr "manuell"
 
-#: src/gsb_form.c:1331 src/gsb_form_widget.c:464
+#: src/gsb_form.c:1332 src/gsb_form_widget.c:464
 msgid "Categories : Sub-categories"
 msgstr "Kategorien : Unterkategorien"
 
-#: src/gsb_form.c:1366 src/gsb_form_widget.c:484
+#: src/gsb_form.c:1367 src/gsb_form_widget.c:484
 msgid "Cheque/Transfer number"
 msgstr "Nr"
 
-#: src/gsb_form.c:2314
+#: src/gsb_form.c:2315
 msgid "No payee selected for this report."
 msgstr "Für den Bericht wurden keine Empfänger ausgewählt."
 
-#: src/gsb_form.c:2601
+#: src/gsb_form.c:2610
 msgid "You must enter a date."
 msgstr "Sie müssen ein Datum eingeben."
 
-#: src/gsb_form.c:2608
+#: src/gsb_form.c:2617
 #, c-format
 msgid "Invalid date %s"
 msgstr "Ungültiges Datum %s"
 
-#: src/gsb_form.c:2631
+#: src/gsb_form.c:2640
 #, c-format
 msgid "Invalid value date %s"
 msgstr "Ungültiges Betragsdatum %s"
 
-#: src/gsb_form.c:2657
+#: src/gsb_form.c:2666
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
@@ -7311,12 +7316,12 @@ msgstr ""
 "Für eine Element einer Splitt-Buchung kann keine weitere Splitt-Buchung "
 "erstellt werden."
 
-#: src/gsb_form.c:2690
+#: src/gsb_form.c:2699
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "Das Konto für die zeitlich geplante Umbuchung ist gelöscht."
 
-#: src/gsb_form.c:2697
+#: src/gsb_form.c:2706
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
@@ -7324,15 +7329,15 @@ msgstr ""
 "Das zugeordnete Konto für diese Umbuchung ist nicht mehr vorhanden oder "
 "geschlossen."
 
-#: src/gsb_form.c:2705
+#: src/gsb_form.c:2714
 msgid "Can't issue a transfer its own account."
 msgstr "Eine Umbuchung auf das gleiche Konto ist nicht möglich."
 
-#: src/gsb_form.c:2710
+#: src/gsb_form.c:2719
 msgid "Can't issue a transfer on a closed account."
 msgstr "Eine Umbuchung auf ein geschlossenes Konto ist nicht möglich."
 
-#: src/gsb_form.c:2736
+#: src/gsb_form.c:2745
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7343,7 +7348,7 @@ msgstr ""
 "jedoch sind keine Nummern vorhanden.\n"
 "Soll der Vorgang fortgesetzt werden?"
 
-#: src/gsb_form.c:2750
+#: src/gsb_form.c:2759
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7351,29 +7356,29 @@ msgstr ""
 "Achtung: Diese Schecknummer wird bereit benützt.\n"
 "Soll der Vorgang fortgesetzt werden?"
 
-#: src/gsb_form.c:2770
+#: src/gsb_form.c:2779
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 "Für Buchungen an mehrere Empfänger muss eine neue Buchung erfasst werden."
 
-#: src/gsb_form.c:2775
+#: src/gsb_form.c:2784
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "Eine Buchung an mehrere Empfänger darf kein Teil einer Splitt-Buchung sein."
 
-#: src/gsb_form.c:2786
+#: src/gsb_form.c:2795
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr "Das Wort \"Report\" ist reserviert, bitte ein anderes Wort verwenden."
 
-#: src/gsb_form.c:2793
+#: src/gsb_form.c:2802
 msgid "Invalid multiple payee."
 msgstr "Ungültige Gruppe von Empfängern."
 
-#: src/gsb_form.c:3077
+#: src/gsb_form.c:3086
 msgid "Modifying a transaction"
 msgstr "Eine Buchung bearbeiten"
 
-#: src/gsb_form.c:3078
+#: src/gsb_form.c:3087
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7386,7 +7391,7 @@ msgstr ""
 "Soll der Vorgang fortgesetzt werden?"
 
 #. propose to configure the form
-#: src/gsb_form.c:3378
+#: src/gsb_form.c:3387
 msgid "Configure the form"
 msgstr "Buchungsformular Einstellungen"
 
@@ -7472,16 +7477,16 @@ msgstr ""
 "Diese Funktion wird die Tabelle automatisch anpassen, jedoch sollten Sie "
 "weitere Warnungen beachten."
 
-#: src/gsb_form_scheduler.c:167 src/gsb_scheduler_list.c:1003
+#: src/gsb_form_scheduler.c:167 src/gsb_scheduler_list.c:1007
 msgid "Automatic"
 msgstr "automatisch"
 
 #: src/gsb_form_scheduler.c:168 src/gsb_form_scheduler.c:901
-#: src/gsb_scheduler_list.c:994
+#: src/gsb_scheduler_list.c:998
 msgid "Once"
 msgstr "einmal"
 
-#: src/gsb_form_scheduler.c:168 src/gsb_scheduler_list.c:994
+#: src/gsb_form_scheduler.c:168 src/gsb_scheduler_list.c:998
 msgid "Weekly"
 msgstr "wöchentlich"
 
@@ -7489,15 +7494,15 @@ msgstr "wöchentlich"
 msgid "Monthly"
 msgstr "monatlich"
 
-#: src/gsb_form_scheduler.c:168
-msgid "two months"
-msgstr "zwei Monate"
+#: src/gsb_form_scheduler.c:168 src/gsb_scheduler_list.c:999
+msgid "Bimonthly"
+msgstr "zweimonatlich"
 
-#: src/gsb_form_scheduler.c:169
-msgid "trimester"
+#: src/gsb_form_scheduler.c:169 src/gsb_scheduler_list.c:999
+msgid "Quarterly"
 msgstr "vierteljährlich"
 
-#: src/gsb_form_scheduler.c:169 src/gsb_scheduler_list.c:995
+#: src/gsb_form_scheduler.c:169 src/gsb_scheduler_list.c:999
 msgid "Yearly"
 msgstr "jährlich"
 
@@ -7920,7 +7925,7 @@ msgstr ""
 "\n"
 "Die Nummern der betroffenen untergeordneten Einträge sind : \n"
 
-#: src/gsb_scheduler_list.c:831
+#: src/gsb_scheduler_list.c:830
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -7934,47 +7939,44 @@ msgstr ""
 "Es ist \"normal\" wenn eine neue zeitlich geplante Buchung erfasst wird, "
 "aber sonst \"anormal\"..."
 
-#: src/gsb_scheduler_list.c:975
+#: src/gsb_scheduler_list.c:974
 #, c-format
 msgid "%d days"
 msgstr "%d Tage"
 
-#: src/gsb_scheduler_list.c:980
+#: src/gsb_scheduler_list.c:979
+#, fuzzy, c-format
+msgid "%d weeks"
+msgstr "Wochen"
+
+#: src/gsb_scheduler_list.c:984
 #, c-format
 msgid "%d months"
 msgstr "%d Monate"
 
-#: src/gsb_scheduler_list.c:985
+#: src/gsb_scheduler_list.c:989
 #, c-format
 msgid "%d years"
 msgstr "%d Jahre"
 
-#: src/gsb_scheduler_list.c:994
+#: src/gsb_scheduler_list.c:998
 msgid "Montly"
 msgstr "monatlich"
 
-#: src/gsb_scheduler_list.c:995
-msgid "Bimonthly"
-msgstr "zweimonatlich"
-
-#: src/gsb_scheduler_list.c:995
-msgid "Quarterly"
-msgstr "vierteljährlich"
-
-#: src/gsb_scheduler_list.c:1643
+#: src/gsb_scheduler_list.c:1647
 #, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr "Soll die geplante Teil-Buchung mit dem Empfänger '%s' gelöscht werden?"
 
-#: src/gsb_scheduler_list.c:1662
+#: src/gsb_scheduler_list.c:1666
 #, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Soll die geplante Buchung mit dem Empfänger '%s' gelöscht werden?"
 
-#: src/gsb_scheduler_list.c:1707
+#: src/gsb_scheduler_list.c:1711
 #, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -7986,68 +7988,68 @@ msgstr ""
 "\n"
 "%s : %s [%s %s]"
 
-#: src/gsb_scheduler_list.c:1718
+#: src/gsb_scheduler_list.c:1722
 msgid "Delete this scheduled transaction?"
 msgstr "Diese geplante Buchung löschen?"
 
-#: src/gsb_scheduler_list.c:1723
+#: src/gsb_scheduler_list.c:1727
 msgid "All the occurences"
 msgstr "Alle Buchungen"
 
-#: src/gsb_scheduler_list.c:1724
+#: src/gsb_scheduler_list.c:1728
 msgid "Only this one"
 msgstr "Nur diese Buchung"
 
 #. set the title
-#: src/gsb_scheduler_list.c:1796 src/navigation.c:1197
+#: src/gsb_scheduler_list.c:1800 src/navigation.c:1197
 msgid "Scheduled transactions"
 msgstr "Geplante Buchungen"
 
-#: src/gsb_scheduler_list.c:1824
+#: src/gsb_scheduler_list.c:1828
 msgid "days"
 msgstr "Tage"
 
-#: src/gsb_scheduler_list.c:1824
+#: src/gsb_scheduler_list.c:1828
 msgid "weeks"
 msgstr "Wochen"
 
-#: src/gsb_scheduler_list.c:1824
+#: src/gsb_scheduler_list.c:1828
 msgid "months"
 msgstr "Monate"
 
-#: src/gsb_scheduler_list.c:1824
+#: src/gsb_scheduler_list.c:1828
 msgid "years"
 msgstr "Jahre"
 
-#: src/gsb_scheduler_list.c:1827
+#: src/gsb_scheduler_list.c:1831
 msgid "Show scheduled transactions"
 msgstr "Geplante Buchungen anzeigen - Grisbi"
 
-#: src/gsb_scheduler_list.c:1840
+#: src/gsb_scheduler_list.c:1844
 msgid "Scheduler frequency"
 msgstr "Geplante Buchungen"
 
-#: src/gsb_scheduler_list.c:1847
+#: src/gsb_scheduler_list.c:1851
 msgid "Show transactions for the next"
 msgstr "Geplante Buchungen anzeigen von"
 
 #. Edit transaction
-#: src/gsb_scheduler_list.c:1988 src/gsb_transactions_list.c:2109
+#: src/gsb_scheduler_list.c:1992 src/gsb_transactions_list.c:2109
 msgid "Edit transaction"
 msgstr "Buchung bearbeiten"
 
 #. Delete transaction
-#: src/gsb_scheduler_list.c:2013 src/gsb_transactions_list.c:2132
+#: src/gsb_scheduler_list.c:2017 src/gsb_transactions_list.c:2132
 msgid "Delete transaction"
 msgstr "Buchung löschen"
 
 #. Display/hide comments
-#: src/gsb_scheduler_list.c:2027
+#: src/gsb_scheduler_list.c:2031
 msgid "Displays/Cache comments"
 msgstr "Notizen in der Buchungsübersicht anzeigen"
 
 #. Execute transaction
-#: src/gsb_scheduler_list.c:2041
+#: src/gsb_scheduler_list.c:2045
 msgid "Execute transaction"
 msgstr "Buchung ausführen"
 
@@ -10320,7 +10322,7 @@ msgstr ""
 "Es wurde ein Sortierung nach Spalte %d aufgerufen, dieses Spalte ist breiter "
 "als die sichtbaren Spalten (%d)"
 
-#: src/utils.c:149
+#: src/utils.c:174
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  "
@@ -10329,11 +10331,11 @@ msgstr ""
 "Grisbi konnte den Browser für diese URL <tt>%s</tt>. nicht öffnen. Bitte "
 "korrigieren Sie die Einstellungen für den Browser."
 
-#: src/utils.c:152 src/utils.c:188
+#: src/utils.c:177 src/utils.c:213
 msgid "Cannot execute web browser"
 msgstr "Browser kann nicht gestartet werden"
 
-#: src/utils.c:187
+#: src/utils.c:212
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"
@@ -10402,3 +10404,9 @@ msgstr ""
 #: src/utils_font.c:199
 msgid "No font defined"
 msgstr "Keine Schrift definiert"
+
+#~ msgid "two months"
+#~ msgstr "zwei Monate"
+
+#~ msgid "trimester"
+#~ msgstr "vierteljährlich"

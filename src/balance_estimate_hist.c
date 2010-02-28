@@ -902,11 +902,10 @@ void bet_historical_populate_div_model ( gpointer key,
       ||
       g_hash_table_size ( sh -> list_sub_div ) <= 1 ) )
     {
-        printf ("division cochée = %d\n", div_number);
         retained = bet_data_get_div_amount ( account_nb, div_number, 0 );
         if ( str_amount )
             g_free ( str_amount );
-        str_amount = gsb_real_save_real_to_string ( average, 2 );
+        str_amount = gsb_real_save_real_to_string ( retained, 2 );
         str_retained = gsb_real_get_string_with_currency ( retained,
                         gsb_data_account_get_currency ( sh -> account_nb ), TRUE );
         gtk_tree_store_set ( GTK_TREE_STORE ( model ),
@@ -1108,7 +1107,7 @@ void bet_historical_refresh_data ( GtkTreeModel *tab_model,
     GtkTreeIter iter;
     GtkTreeIter fils_iter;
 
-    //~ devel_debug (NULL);
+    devel_debug (NULL);
     tree_view = g_object_get_data ( G_OBJECT ( bet_container ), "bet_historical_treeview" );
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
