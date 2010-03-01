@@ -2734,7 +2734,7 @@ gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number,
         if ( gsb_data_transaction_get_account_number (transaction_number) == account_number
              &&
              !gsb_data_transaction_get_mother_transaction_number (transaction_number)
-             && res >= 0 )
+             && res > 0 )
         {
             adjusted_amout = gsb_data_transaction_get_adjusted_amount (
                         transaction_number, floating_point );

@@ -825,7 +825,7 @@ gboolean bet_historical_affiche_div ( GHashTable  *list_div, GtkWidget *tree_vie
 {
     GtkTreeModel *model;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
     g_hash_table_foreach ( list_div, bet_historical_populate_div_model, tree_view );
@@ -1107,7 +1107,7 @@ void bet_historical_refresh_data ( GtkTreeModel *tab_model,
     GtkTreeIter iter;
     GtkTreeIter fils_iter;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     tree_view = g_object_get_data ( G_OBJECT ( bet_container ), "bet_historical_treeview" );
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 

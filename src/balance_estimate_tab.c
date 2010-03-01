@@ -159,7 +159,8 @@ GtkWidget *bet_container = NULL;
  */
 GtkWidget *bet_array_create_estimate_page ( void )
 {
-    GtkWidget* notebook;
+    GtkWidget   *notebook;
+    GtkWidget *tree_view = NULL;
 
     devel_debug (NULL);
     /* initialise structures */
@@ -171,6 +172,9 @@ GtkWidget *bet_array_create_estimate_page ( void )
 
     /****** Parameter page ******/
     bet_parameter_create_page ( notebook );
+    tree_view = g_object_get_data ( G_OBJECT ( notebook ), "bet_account_treeview");
+    if ( tree_view == NULL )
+        return NULL;
 
     /****** Estimation array page ******/
     bet_array_create_page ( notebook );
@@ -963,9 +967,11 @@ GtkWidget *bet_parameter_get_list_accounts ( GtkWidget *container )
     gtk_widget_show_all ( scrolled_window );
 
     /* fill the account list */
-    bet_parameter_update_list_accounts ( tree_view, GTK_TREE_MODEL ( tree_model ) );
+    if ( bet_parameter_update_list_accounts ( tree_view, GTK_TREE_MODEL ( tree_model ) ) )
 
-    return tree_view;
+        return tree_view;
+    else
+        return NULL;
 }
 
 
@@ -989,6 +995,9 @@ gboolean bet_parameter_update_list_accounts ( GtkWidget *tree_view,
         last_account = etat.bet_last_account;
 
     tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    if ( !tree_selection )
+        return FALSE;
+
     gtk_tree_store_clear ( GTK_TREE_STORE ( tree_model ) );
 
     tmp_list = gsb_data_account_get_list_accounts ();
@@ -1018,7 +1027,7 @@ gboolean bet_parameter_update_list_accounts ( GtkWidget *tree_view,
         tmp_list = tmp_list -> next;
     }
 
-    return FALSE;
+    return TRUE;
 }
 
 
@@ -1413,6 +1422,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
 
     //~ devel_debug (NULL);
     date_jour = gdate_today ( );
+
     /* search transactions of the account which are in the period */
     tmp_list = gsb_data_transaction_get_transactions_list ( );
 
@@ -1550,7 +1560,7 @@ void bet_array_list_add_new_line ( GtkTreeModel *tab_model,
     gint sub_div_nb;
     gsb_real amount;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     date = gsb_date_get_last_day_of_month ( date_min );
 
     /* initialise les données de la ligne insérée */
@@ -1778,6 +1788,8 @@ void bet_array_adjust_hist_data ( gint div_number,
         gchar* str_credit = NULL;
         gchar *str_amount;
         gchar *div_name;
+        GDate *date;
+        GDate *date_today;
         gsb_real number;
 
         do
@@ -1790,77 +1802,58 @@ void bet_array_adjust_hist_data ( gint div_number,
                         -1 );
 
             div_name = bet_data_get_div_name ( div_number, sub_div_nb, FALSE );
-            if ( g_utf8_collate ( str_desc, div_name ) == 0 )
-                break;
+            if ( g_strstr_len ( str_desc, -1, div_name ) )
+            {
+                date = gsb_parse_date_string ( str_date );
+                date_today = gdate_today ( );
+                if ( g_date_get_month ( date ) - g_date_get_month ( date_today ) == 0 )
+                {
+                    number = gsb_real_import_from_string ( str_amount );
+                    number = gsb_real_sub ( number, amount );
+                    if ( number.mantissa == 0 )
+                        gtk_tree_store_remove ( GTK_TREE_STORE ( model ), &iter );
+                    else
+                    {
+                        if ( str_amount )
+                            g_free ( str_amount );
+                        str_amount = gsb_real_save_real_to_string ( number, 2 );
+                        if ( number.mantissa < 0 )
+                            str_debit = gsb_real_get_string_with_currency (
+                                        gsb_real_abs ( number ),
+                                        bet_data_get_selected_currency ( ),
+                                        TRUE );
+                        else
+                            str_credit = gsb_real_get_string_with_currency (
+                                        gsb_real_abs ( number ),
+                                        bet_data_get_selected_currency ( ),
+                                        TRUE );
+                        if ( str_desc )
+                            g_free ( str_desc );
+                        str_desc = g_strconcat ( div_name, _(" (still available)"), NULL);
+                        
+                        gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
+                                        SPP_ESTIMATE_TREE_DESC_COLUMN, str_desc,
+                                        SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
+                                        SPP_ESTIMATE_TREE_CREDIT_COLUMN, str_credit,
+                                        SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
+                                        -1 );
 
+                        g_free ( str_desc );
+                        g_free ( str_credit );
+                        g_free ( str_debit );
+                        g_free ( str_amount );
+                    }
+                    g_free ( str_date );
+                    g_free ( div_name );
+                    break;
+                }
+            }
             g_free ( str_date );
             g_free ( str_desc );
             g_free ( str_amount );
             g_free ( div_name );
         }
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
-        
-        number = gsb_real_import_from_string ( str_amount );
-        number = gsb_real_sub ( number, amount );
-        printf ("str_desc = %s str_amount = %s number = %s\n", str_desc, str_amount, gsb_real_save_real_to_string ( number, 2 ));
-
-        gtk_tree_store_remove ( GTK_TREE_STORE ( model ), &iter );
-        if ( number.mantissa != 0 )
-        {
-            GDate *date;
-            GValue date_value = {0, };
-
-            date = gsb_parse_date_string ( str_date );
-            if ( g_date_valid ( date ) )
-            {
-                g_value_init ( &date_value, G_TYPE_DATE );
-                g_value_set_boxed ( &date_value, date );
-            }
-
-            if ( str_amount )
-                g_free ( str_amount );
-            str_amount = gsb_real_save_real_to_string ( number, 2 );
-            if ( number.mantissa < 0 )
-                str_debit = gsb_real_get_string_with_currency (
-                            gsb_real_abs ( number ),
-                            bet_data_get_selected_currency ( ),
-                            TRUE );
-            else
-                str_credit = gsb_real_get_string_with_currency (
-                            gsb_real_abs ( number ),
-                            bet_data_get_selected_currency ( ),
-                            TRUE );
-            if ( str_desc )
-                g_free ( str_desc );
-            str_desc = g_strconcat ( div_name, _(" (still available)"), NULL);
-            
-            /* add a line in the estimate array */
-            gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
-            gtk_tree_store_set_value ( GTK_TREE_STORE ( model ), &iter,
-                            SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
-                            &date_value );
-            gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
-                            SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
-                            SPP_ESTIMATE_TREE_DESC_COLUMN, str_desc,
-                            SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
-                            SPP_ESTIMATE_TREE_CREDIT_COLUMN, str_credit,
-                            SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
-                            -1 );
-
-            g_value_unset ( &date_value );
-            g_free ( str_credit );
-            g_free ( str_debit );
-
-            gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
-                        &iter,
-                        SPP_ESTIMATE_TREE_DESC_COLUMN, &str_desc,
-                        SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &str_amount,
-                        -1 );
-            printf ("str_desc = %s str_amount = %s\n", str_desc, str_amount);
-        }
-        g_free ( str_desc );
-        g_free ( str_amount );
-        g_free ( div_name );
     }
 }
 
