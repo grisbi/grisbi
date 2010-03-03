@@ -132,7 +132,6 @@ struct {
     gint add_archive_in_total_balance;      /* Add transactions archived in the totals */
 
     /* variables for the module estimate balance */
-    gint bet_last_account;
     gint bet_deb_period;
     gint bet_end_period;
     gint bet_spin_range;

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-28 22:55+0100\n"
+"POT-Creation-Date: 2010-03-02 22:21+0100\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -209,7 +209,7 @@ msgstr "货币"
 
 #. initialization of titles
 #: src/accueil.c:2154 src/affichage.c:984 src/affichage.c:985
-#: src/gsb_assistant_file.c:564 src/navigation.c:1148 src/navigation.c:1149
+#: src/gsb_assistant_file.c:564 src/navigation.c:1149 src/navigation.c:1150
 #: src/traitement_variables.c:295
 #, fuzzy
 msgid "My accounts"
@@ -521,14 +521,12 @@ msgstr ""
 msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr ""
 
-#. set the title
-#: src/balance_estimate_config.c:94 src/fenetre_principale.c:271
-#: src/navigation.c:302 src/navigation.c:1233 src/parametres.c:535
+#: src/balance_estimate_config.c:94 src/parametres.c:535
 #, fuzzy
 msgid "Balance estimate"
 msgstr "结余"
 
-#: src/balance_estimate_config.c:99 src/balance_estimate_tab.c:1051
+#: src/balance_estimate_config.c:99 src/balance_estimate_tab.c:995
 #, fuzzy
 msgid "Calculation of period"
 msgstr "初始余额"
@@ -540,34 +538,29 @@ msgstr "初始日期"
 
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
-#: src/balance_estimate_config.c:133 src/balance_estimate_hist.c:168
+#: src/balance_estimate_config.c:133 src/balance_estimate_hist.c:166
 #: src/etats_config.c:526 src/etats_config.c:529 src/etats_config.c:2991
-#: src/etats_config.c:7057 src/fenetre_principale.c:277 src/navigation.c:321
-#: src/navigation.c:1245
+#: src/etats_config.c:7057 src/fenetre_principale.c:290 src/navigation.c:322
+#: src/navigation.c:1246
 msgid "Categories"
 msgstr "类别"
 
 #. mise en place de la paddingbox des ib
 #. set the title
-#: src/balance_estimate_config.c:138 src/balance_estimate_hist.c:176
+#: src/balance_estimate_config.c:138 src/balance_estimate_hist.c:174
 #: src/etats_config.c:535 src/etats_config.c:538 src/etats_config.c:3797
-#: src/etats_config.c:7134 src/export_csv.c:799 src/fenetre_principale.c:282
-#: src/import_csv.c:86 src/navigation.c:338 src/navigation.c:1256
+#: src/etats_config.c:7134 src/export_csv.c:799 src/fenetre_principale.c:295
+#: src/import_csv.c:86 src/navigation.c:339 src/navigation.c:1257
 #: src/traitement_variables.c:80
 msgid "Budgetary lines"
 msgstr "预算行"
 
-#: src/balance_estimate_config.c:152 src/balance_estimate_hist.c:203
+#: src/balance_estimate_config.c:152 src/balance_estimate_hist.c:201
 #, fuzzy
 msgid "Choose the financial year or 12 months rolling"
 msgstr "选择财年"
 
-#: src/balance_estimate_hist.c:136
-#, fuzzy
-msgid "Historical data"
-msgstr "初始日期"
-
-#: src/balance_estimate_hist.c:155
+#: src/balance_estimate_hist.c:153
 #, fuzzy, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr "使用选中交易做模板"
@@ -632,20 +625,16 @@ msgstr "月"
 msgid "Year"
 msgstr "年"
 
-#: src/balance_estimate_tab.c:432
+#: src/balance_estimate_tab.c:369
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
-#: src/balance_estimate_tab.c:448
+#: src/balance_estimate_tab.c:385
 msgid "balance beginning of period"
 msgstr ""
 
-#: src/balance_estimate_tab.c:679
-msgid "Array"
-msgstr ""
-
-#: src/balance_estimate_tab.c:727 src/etats_affiche.c:2405
+#: src/balance_estimate_tab.c:664 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1284 src/gsb_form_widget.c:440 src/gsb_reconcile.c:144
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
@@ -654,13 +643,13 @@ msgid "Date"
 msgstr "日期"
 
 #. Description entry
-#: src/balance_estimate_tab.c:737 src/etats_onglet.c:261
+#: src/balance_estimate_tab.c:674 src/etats_onglet.c:261
 #: src/tiers_onglet.c:638
 msgid "Description"
 msgstr "描述"
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:748 src/categories_onglet.c:695
+#: src/balance_estimate_tab.c:685 src/categories_onglet.c:695
 #: src/export_csv.c:781 src/gsb_form.c:1318 src/gsb_form_widget.c:444
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1084 src/gsb_transactions_list.c:148
@@ -670,7 +659,7 @@ msgid "Debit"
 msgstr "借方"
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:762 src/categories_onglet.c:695
+#: src/balance_estimate_tab.c:699 src/categories_onglet.c:695
 #: src/export_csv.c:778 src/gsb_form.c:1325 src/gsb_form_widget.c:448
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
 #: src/gsb_payment_method_config.c:1080 src/gsb_transactions_list.c:149
@@ -678,94 +667,94 @@ msgstr "借方"
 msgid "Credit"
 msgstr "贷方"
 
-#: src/balance_estimate_tab.c:775 src/export_csv.c:787 src/gsb_reconcile.c:147
+#: src/balance_estimate_tab.c:712 src/export_csv.c:787 src/gsb_reconcile.c:147
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
 #: src/gsb_transactions_list.c:2907 src/import_csv.c:88
 #: src/traitement_variables.c:83
 msgid "Balance"
 msgstr "余额"
 
-#: src/balance_estimate_tab.c:806
+#: src/balance_estimate_tab.c:745
 msgid "Graph"
 msgstr ""
 
-#: src/balance_estimate_tab.c:843
+#: src/balance_estimate_tab.c:782
 msgid "Choice the prevision"
 msgstr ""
 
-#: src/balance_estimate_tab.c:863
+#: src/balance_estimate_tab.c:802
 msgid ""
 "Please select an account and a duration\n"
 "and select the estimate array tab."
 msgstr ""
 
 #. set the choice of account
-#: src/balance_estimate_tab.c:957 src/categories_onglet.c:151
+#: src/balance_estimate_tab.c:896 src/categories_onglet.c:151
 #: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
 #: src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:96
 #: src/gsb_scheduler_list.c:339 src/imputation_budgetaire.c:164
-#: src/navigation.c:1169 src/tiers_onglet.c:231
+#: src/navigation.c:1170 src/tiers_onglet.c:231
 msgid "Account"
 msgstr "账户"
 
-#: src/balance_estimate_tab.c:1055
+#: src/balance_estimate_tab.c:999
 #, fuzzy
 msgid "Beginning of period"
 msgstr "初始余额"
 
-#: src/balance_estimate_tab.c:1064
+#: src/balance_estimate_tab.c:1008
 #, fuzzy
 msgid "1st day of month"
 msgstr "过去3个月"
 
-#: src/balance_estimate_tab.c:1070
+#: src/balance_estimate_tab.c:1014
 msgid "date today"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1081
+#: src/balance_estimate_tab.c:1025
 #, fuzzy
 msgid "End of period"
 msgstr "初始余额"
 
-#: src/balance_estimate_tab.c:1090
+#: src/balance_estimate_tab.c:1034
 msgid "last day of the month"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1096
+#: src/balance_estimate_tab.c:1040
 msgid "From date to date"
 msgstr ""
 
 #. partie mensuelle
-#: src/balance_estimate_tab.c:1126
+#: src/balance_estimate_tab.c:1070
 #, fuzzy
 msgid "Duration estimation"
 msgstr "数据组织"
 
-#: src/balance_estimate_tab.c:1310 src/balance_estimate_tab.c:1320
-#: src/balance_estimate_tab.c:1490
+#: src/balance_estimate_tab.c:1254 src/balance_estimate_tab.c:1264
+#: src/balance_estimate_tab.c:1435
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "转帐到一个删除的账户"
 
-#: src/balance_estimate_tab.c:1672
+#: src/balance_estimate_tab.c:1617
 msgid "Subtract to the balance"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1679
+#: src/balance_estimate_tab.c:1624
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "初始余额"
 
 #. Delete item
-#: src/balance_estimate_tab.c:1696
+#: src/balance_estimate_tab.c:1641
 #, fuzzy
 msgid "Delete selection"
 msgstr "数据选择"
 
-#: src/balance_estimate_tab.c:1835
+#: src/balance_estimate_tab.c:1767
 msgid " (still available)"
 msgstr ""
 
@@ -1064,7 +1053,7 @@ msgid "Delete selected category"
 msgstr "请输入一个类别"
 
 #: src/categories_onglet.c:534 src/etats_onglet.c:168
-#: src/fenetre_principale.c:249 src/imputation_budgetaire.c:568
+#: src/fenetre_principale.c:251 src/imputation_budgetaire.c:568
 #: src/tiers_onglet.c:330
 #, fuzzy
 msgid "Properties"
@@ -1691,7 +1680,7 @@ msgstr "财年"
 #. mise en place de la paddingbox des tiers
 #: src/etats_affiche.c:2426 src/etats_config.c:517 src/etats_config.c:520
 #: src/etats_config.c:685 src/etats_config.c:7022 src/export_csv.c:775
-#: src/fenetre_principale.c:264 src/gsb_assistant_reconcile_config.c:594
+#: src/fenetre_principale.c:277 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1311 src/gsb_form_widget.c:460 src/gsb_scheduler_list.c:339
 #: src/gsb_transactions_list.c:146 src/import.c:3175 src/import_csv.c:81
 #: src/meta_payee.c:77 src/traitement_variables.c:79
@@ -1834,7 +1823,7 @@ msgstr "转帐"
 
 #. mise en place de la paddingbox des comptes
 #: src/etats_config.c:508 src/etats_config.c:511 src/etats_config.c:6992
-#: src/fenetre_principale.c:242 src/navigation.c:249
+#: src/fenetre_principale.c:244 src/navigation.c:250
 msgid "Accounts"
 msgstr "账户"
 
@@ -1881,7 +1870,7 @@ msgid "Generalities"
 msgstr "普遍性"
 
 #: src/etats_config.c:633 src/etats_config.c:636 src/export_csv.c:751
-#: src/fenetre_principale.c:246 src/parametres.c:393
+#: src/fenetre_principale.c:248 src/parametres.c:393
 msgid "Transactions"
 msgstr "交易"
 
@@ -2129,7 +2118,7 @@ msgid "Outgoing budget lines"
 msgstr "支出预算行"
 
 #. set the title
-#: src/etats_config.c:3981 src/navigation.c:284 src/navigation.c:1221
+#: src/etats_config.c:3981 src/navigation.c:285 src/navigation.c:1222
 #: src/tiers_onglet.c:222
 #, fuzzy
 msgid "Payees"
@@ -2699,8 +2688,8 @@ msgstr "关闭"
 msgid "Clone selected report"
 msgstr "复制报表"
 
-#: src/etats_onglet.c:213 src/fenetre_principale.c:287 src/navigation.c:355
-#: src/navigation.c:1272
+#: src/etats_onglet.c:213 src/fenetre_principale.c:300 src/navigation.c:356
+#: src/navigation.c:1273
 msgid "Reports"
 msgstr "报表"
 
@@ -3065,11 +3054,20 @@ msgstr "子类别行"
 msgid "Reconciliation number"
 msgstr "调整数量"
 
-#: src/fenetre_principale.c:232 src/parametres.c:329
+#: src/fenetre_principale.c:234 src/parametres.c:329
 msgid "Main page"
 msgstr "首页"
 
-#: src/fenetre_principale.c:259 src/navigation.c:267 src/parametres.c:320
+#: src/fenetre_principale.c:257
+msgid "Forecast"
+msgstr ""
+
+#: src/fenetre_principale.c:260
+#, fuzzy
+msgid "Historical data"
+msgstr "初始日期"
+
+#: src/fenetre_principale.c:272 src/navigation.c:268 src/parametres.c:320
 #: src/parametres.c:1062
 msgid "Scheduler"
 msgstr "日程"
@@ -4090,7 +4088,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
 #: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:515
-#: src/gsb_form.c:2771 src/gsb_form.c:2772 src/navigation.c:1270
+#: src/gsb_form.c:2771 src/gsb_form.c:2772 src/navigation.c:1271
 msgid "Report"
 msgstr "报表"
 
@@ -7851,7 +7849,7 @@ msgid "Only this one"
 msgstr "只有这个"
 
 #. set the title
-#: src/gsb_scheduler_list.c:1800 src/navigation.c:1197
+#: src/gsb_scheduler_list.c:1800 src/navigation.c:1198
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "已结清预定交易"
@@ -9223,26 +9221,26 @@ msgstr ""
 msgid "Please enter a %s!"
 msgstr "请输入一个类别"
 
-#: src/navigation.c:1046
+#: src/navigation.c:1047
 #, fuzzy
 msgid "Last statement: "
 msgstr "最后声明"
 
-#: src/navigation.c:1047
+#: src/navigation.c:1048
 #, fuzzy
 msgid "Reconciled balance: "
 msgstr "余额调整"
 
-#: src/navigation.c:1055
+#: src/navigation.c:1056
 msgid "Last statement: none"
 msgstr "最后声明：无"
 
 #. set the title
-#: src/navigation.c:1071
+#: src/navigation.c:1072
 msgid "Account transactions"
 msgstr "账户交易"
 
-#: src/navigation.c:1077
+#: src/navigation.c:1078
 #, fuzzy
 msgid "closed"
 msgstr "关闭"

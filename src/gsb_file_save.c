@@ -2614,9 +2614,8 @@ gulong gsb_file_save_bet_part ( gulong iterator,
     gint i;
 
     /* save the general informations */
-    new_string = g_markup_printf_escaped ( "\t<Bet Ac=\"%d\" Ddte=\"%d\" Edte=\"%d\" "
+    new_string = g_markup_printf_escaped ( "\t<Bet Ddte=\"%d\" Edte=\"%d\" "
                         "Nbre=\"%d\" UT=\"%d\" SD=\"%d\" Fi=\"%d\" />\n",
-    etat.bet_last_account,
     etat.bet_deb_period,
     etat.bet_end_period,
     etat.bet_months,

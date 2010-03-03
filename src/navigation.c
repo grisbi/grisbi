@@ -25,6 +25,7 @@
 
 /*START_INCLUDE*/
 #include "navigation.h"
+#include "./balance_estimate_data.h"
 #include "./balance_estimate_tab.h"
 #include "./gsb_account_property.h"
 #include "./gsb_calendar.h"
@@ -290,24 +291,24 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 
-#ifdef ENABLE_BALANCE_ESTIMATE 
-    /* Balance estimate */
-    tmpstr = g_build_filename( PIXMAPS_DIR,
-			       "balance_estimate.png", NULL );
-    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
-    g_free ( tmpstr );
-    gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
-    gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
-		       NAVIGATION_PIX, pixbuf,
-		       NAVIGATION_TEXT, _("Balance estimate"), 
-		       NAVIGATION_PIX_VISIBLE, TRUE, 
-		       NAVIGATION_FONT, 800,
-		       NAVIGATION_PAGE, GSB_BALANCE_ESTIMATE_PAGE,
-		       NAVIGATION_ACCOUNT, -1,
-		       NAVIGATION_REPORT, -1,
-		       NAVIGATION_SENSITIVE, 1,
-		       -1 );
-#endif /* ENABLE_BALANCE_ESTIMATE */
+//~ #ifdef ENABLE_BALANCE_ESTIMATE 
+    //~ /* Balance estimate */
+    //~ tmpstr = g_build_filename( PIXMAPS_DIR,
+			       //~ "balance_estimate.png", NULL );
+    //~ pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
+    //~ g_free ( tmpstr );
+    //~ gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
+    //~ gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
+		       //~ NAVIGATION_PIX, pixbuf,
+		       //~ NAVIGATION_TEXT, _("Balance estimate"), 
+		       //~ NAVIGATION_PIX_VISIBLE, TRUE, 
+		       //~ NAVIGATION_FONT, 800,
+		       //~ NAVIGATION_PAGE, GSB_BALANCE_ESTIMATE_PAGE,
+		       //~ NAVIGATION_ACCOUNT, -1,
+		       //~ NAVIGATION_REPORT, -1,
+		       //~ NAVIGATION_SENSITIVE, 1,
+		       //~ -1 );
+//~ #endif /* ENABLE_BALANCE_ESTIMATE */
 
 
     /* Categories */
@@ -969,7 +970,7 @@ gboolean navigation_change_account ( gint *no_account )
     transaction_list_select ( gsb_data_account_get_current_transaction_number ( new_account ) );
     gsb_transactions_list_set_row_align ( gsb_data_account_get_row_align ( new_account ) );
 
-    /*     mise en place de la date du dernier relevé */
+    /* mise en place de la date du dernier relevé */
     gsb_navigation_update_statement_label ( new_account );
 
     gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", 
@@ -1176,14 +1177,22 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 	    /* set the form */
 	    account_notebook = g_object_get_data ( G_OBJECT (notebook_general), "account_notebook" );
-	    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK (account_notebook )) == 1 )
-	    {
-		gsb_form_set_expander_visible ( FALSE, FALSE );
-	    }
-	    else
-	    {
-		gsb_form_set_expander_visible ( TRUE, TRUE );
-	    }
+        switch ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_notebook ) ) )
+        {
+        case 0:
+            gsb_form_set_expander_visible ( TRUE, TRUE );
+            break;
+
+        case 1:
+            gsb_form_set_expander_visible (FALSE, FALSE );
+            break;
+        case 2:
+        case 3:
+            gsb_form_set_expander_visible (FALSE, FALSE );
+            bet_array_update_estimate_tab ( );
+            break;
+
+        }
 	    gsb_form_show ( FALSE );
 
 	    buffer_last_account = account_number;
@@ -1225,18 +1234,18 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 		payee_fill_tree ();
 	    break;
 
-#ifdef ENABLE_BALANCE_ESTIMATE 
-	case GSB_BALANCE_ESTIMATE_PAGE:
-	    notice_debug ("Sold balance estimate page selected");
+//~ #ifdef ENABLE_BALANCE_ESTIMATE 
+	//~ case GSB_BALANCE_ESTIMATE_PAGE:
+	    //~ notice_debug ("Sold balance estimate page selected");
 
-	    /* set the title */
-	    title = g_strdup(_("Balance estimate"));
+	    //~ /* set the title */
+	    //~ title = g_strdup(_("Balance estimate"));
 
-	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE, FALSE);
-        bet_array_update_estimate_tab ( );
-	    break;
-#endif /*_BALANCE_ESTIMATE_TAB_H*/
+	    //~ /* what to be done if switch to that page */
+	    //~ gsb_form_set_expander_visible (FALSE, FALSE);
+        //~ bet_array_update_estimate_tab ( );
+	    //~ break;
+//~ #endif /*_BALANCE_ESTIMATE_TAB_H*/
 
 	case GSB_CATEGORIES_PAGE:
 	    notice_debug ("Category page selected");

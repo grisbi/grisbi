@@ -25,6 +25,8 @@
 
 /*START_INCLUDE*/
 #include "fenetre_principale.h"
+#include "./balance_estimate_data.h"
+#include "./balance_estimate_hist.h"
 #include "./balance_estimate_tab.h"
 #include "./navigation.h"
 #include "./gsb_transactions_list.h"
@@ -186,34 +188,26 @@ GtkWidget *create_main_notebook (void )
     /* the main right page is a vbox with a notebook on the top
      * and the form on the bottom */
 
-    vbox = gtk_vbox_new ( FALSE,
-			  0);
+    vbox = gtk_vbox_new ( FALSE, 0 );
 
     /* append the notebook */
-    notebook_general = gtk_notebook_new();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(notebook_general), FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(notebook_general), FALSE );
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 notebook_general,
-			 TRUE,
-			 TRUE,
-			 0 );
-    gtk_widget_show (notebook_general);
+    notebook_general = gtk_notebook_new ( );
+    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_general ), FALSE );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook_general ), FALSE );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), notebook_general, TRUE, TRUE, 0 );
+    gtk_widget_show ( notebook_general );
 
     /* append the form */
-    form = gsb_form_new ();
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 form,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_hide (form);
+    form = gsb_form_new ( );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), form, FALSE, FALSE, 0 );
+    gtk_widget_hide ( form );
 
     /* fill the notebook */
-    gsb_gui_fill_main_notebook(notebook_general);
+    gsb_gui_fill_main_notebook ( notebook_general );
 
-    gtk_widget_show (vbox);
-    return (vbox);
+    gtk_widget_show ( vbox );
+
+    return vbox;
 }
 
 
@@ -238,20 +232,31 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     gtk_widget_show ( account_page );
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       account_page,
-			       gtk_label_new (SPACIFY(_("Accounts"))) );
-
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
-			       creation_fenetre_operations (),
-			       gtk_label_new (SPACIFY(_("Transactions"))) );
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
-			       creation_onglet_comptes (),
-			       gtk_label_new (SPACIFY(_("Properties"))) );
-    g_signal_connect ( G_OBJECT (account_page),
-		       "switch_page",
-		       G_CALLBACK (gsb_gui_on_account_switch_page),
-		       NULL );
+                        account_page,
+                        gtk_label_new (SPACIFY(_("Accounts"))) );
     g_object_set_data ( G_OBJECT (notebook), "account_notebook", account_page );
+    
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
+                        creation_fenetre_operations (),
+                        gtk_label_new (SPACIFY(_("Transactions"))) );
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
+                        creation_onglet_comptes (),
+                        gtk_label_new (SPACIFY(_("Properties"))) );
+
+#ifdef ENABLE_BALANCE_ESTIMATE
+     /* append the balance estimate pages */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
+                        bet_array_create_page ( ),
+                        gtk_label_new (SPACIFY(_("Forecast"))) );
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
+                        bet_historical_create_page ( ),
+                        gtk_label_new (SPACIFY(_("Historical data"))) );
+
+#endif /* ENABLE_BALANCE_ESTIMATE */
+    g_signal_connect ( G_OBJECT (account_page),
+                        "switch_page",
+                        G_CALLBACK (gsb_gui_on_account_switch_page),
+                        NULL );
 
     /* append the scheduled transactions page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
@@ -262,14 +267,6 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 			       onglet_tiers(),
 			       gtk_label_new (SPACIFY(_("Payee"))) );
-
-
-    /* append the balance estimate page */
-#ifdef ENABLE_BALANCE_ESTIMATE 
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       bet_array_create_estimate_page (),
-			       gtk_label_new (SPACIFY(_("Balance estimate"))) );
-#endif /* ENABLE_BALANCE_ESTIMATE */
 
     /* append the categories page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
@@ -290,9 +287,6 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 }
 
 
-
-
-
 /**
  * called when the account notebook changed page between
  * transactions list and account description
@@ -311,15 +305,19 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 {
     switch ( page_number )
     {
-	case 0:
-	    gsb_form_set_expander_visible (TRUE,
-					   TRUE );
-	    break;
+    case 0:
+        gsb_form_set_expander_visible ( TRUE, TRUE );
+        break;
 
-	case 1:
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
-	    break;
+    case 1:
+        gsb_form_set_expander_visible (FALSE, FALSE );
+        break;
+    case 2:
+    case 3:
+        gsb_form_set_expander_visible (FALSE, FALSE );
+        bet_array_update_estimate_tab ( );
+        break;
+
     }
     return ( FALSE );
 }

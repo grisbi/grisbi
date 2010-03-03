@@ -69,14 +69,22 @@
 
 
 /*START_STATIC*/
+static GtkWidget *bet_config_get_duration_widget ( GtkWidget *container );
 static GtkWidget *bet_config_select_historical_data ( GtkWidget *container );
-
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern GtkTreeModel *bet_fyear_model;
 extern GtkTreeModel *bet_fyear_model_filter;
+extern GtkWidget *notebook_general;
 /*END_EXTERN*/
+
+gchar* bet_duration_array[] = {
+    N_("Month"),
+    N_("Year"),
+    NULL
+};
+
 
 
 /**
@@ -98,7 +106,7 @@ GtkWidget *bet_config_create_page ( void )
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
                         _("Calculation of period") );
 
-    bet_parameter_get_duration_widget ( paddingbox, TRUE );
+    bet_config_get_duration_widget ( paddingbox );
 
     /* Sources of historical data */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
@@ -108,6 +116,162 @@ GtkWidget *bet_config_create_page ( void )
     gtk_widget_show_all ( vbox_pref );
 
     return vbox_pref;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+GtkWidget *bet_config_get_duration_widget ( GtkWidget *container )
+{
+    GtkWidget* main_vbox;
+    GtkWidget *label;
+    GtkWidget *button_1, *button_2, *button_3, *button_4;
+    GtkWidget *spin_button = NULL;
+    GtkWidget *widget = NULL;
+    GtkWidget *hbox;
+    GtkWidget *previous = NULL;
+    GtkSizeGroup *size_group;
+    gint iduration;
+
+    //~ devel_debug (NULL);
+    size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
+
+    main_vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( container ), main_vbox, FALSE, FALSE, 5) ;
+
+    label = gtk_label_new ( _("Beginning of period") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+    gtk_box_pack_start ( GTK_BOX ( main_vbox ), label, FALSE, FALSE, 5) ;
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( main_vbox ), hbox, FALSE, FALSE, 5) ;
+
+    button_1 = gtk_radio_button_new_with_label ( NULL,
+                        _("1st day of month") );
+    gtk_widget_set_name ( button_1, "button_1" );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), button_1 );
+    
+    button_2 = gtk_radio_button_new_with_label_from_widget (
+                        GTK_RADIO_BUTTON ( button_1 ),
+                        _("date today") );
+    gtk_widget_set_name ( button_2, "button_2" );
+
+    if ( etat.bet_deb_period == 1 )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_1 ), TRUE );
+    else
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_2 ), TRUE );
+
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 5) ;
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 5) ;
+
+    label = gtk_label_new ( _("End of period") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+    gtk_box_pack_start ( GTK_BOX ( main_vbox ), label, FALSE, FALSE, 5) ;
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( main_vbox ), hbox, FALSE, FALSE, 5) ;
+
+    button_3 = gtk_radio_button_new_with_label ( NULL,
+                        _("last day of the month") );
+    gtk_widget_set_name ( button_3, "button_3" );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), button_3 );
+    
+    button_4 = gtk_radio_button_new_with_label_from_widget (
+                        GTK_RADIO_BUTTON ( button_3 ),
+                        _("From date to date") );
+    gtk_widget_set_name ( button_4, "button_4" );
+
+    if ( etat.bet_end_period == 1 )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_3 ), TRUE );
+    else
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_4 ), TRUE );
+
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button_3, FALSE, FALSE, 5) ;
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button_4, FALSE, FALSE, 5) ;
+
+    /*set the signals */
+    g_signal_connect (G_OBJECT ( button_1 ),
+                        "released",
+                        G_CALLBACK ( bet_config_duration_period_clicked ),
+                        button_3 );
+    g_signal_connect (G_OBJECT ( button_2 ),
+                        "released",
+                        G_CALLBACK ( bet_config_duration_period_clicked ),
+                        button_4 );
+    g_signal_connect (G_OBJECT ( button_3 ),
+                        "released",
+                        G_CALLBACK ( bet_config_duration_period_clicked ),
+                        NULL );
+    g_signal_connect (G_OBJECT ( button_4 ),
+                        "released",
+                        G_CALLBACK ( bet_config_duration_period_clicked ),
+                        NULL );
+
+    /* partie mensuelle */
+    label = gtk_label_new ( _("Duration estimation") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+    gtk_box_pack_start ( GTK_BOX ( main_vbox ), label, FALSE, FALSE, 5) ;
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( main_vbox ), hbox, FALSE, FALSE, 5) ;
+
+    if ( etat.bet_spin_range == 0 )
+    {
+        spin_button = gtk_spin_button_new_with_range ( 1.0, 240.0, 1.0);
+        gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ),
+                        (gdouble) etat.bet_months );
+    }
+    else
+    {
+        spin_button = gtk_spin_button_new_with_range ( 1.0, 20.0, 1.0 );
+        gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ),
+                        (gdouble) ( etat.bet_months / 12 ) );
+    }
+    gtk_widget_set_name ( spin_button, "spin_button" );
+
+    for (iduration = 0; bet_duration_array[iduration] != NULL; iduration++)
+    {
+        if (previous == NULL)
+        {
+            widget = gtk_radio_button_new_with_label ( NULL,
+                        _(bet_duration_array[iduration]) );
+            previous = widget;
+        }  
+        else 
+        {
+            widget = gtk_radio_button_new_with_label_from_widget (
+                        GTK_RADIO_BUTTON ( previous ),
+                        _(bet_duration_array[iduration]) );
+        }
+        gtk_widget_set_name ( widget, bet_duration_array[iduration] );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5 );
+        g_signal_connect (G_OBJECT ( widget ),
+                        "released",
+                        G_CALLBACK ( bet_config_duration_button_clicked ),
+                        spin_button );
+    }
+
+    if ( etat.bet_spin_range == 0 )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( previous ), TRUE );
+    else
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
+
+    g_signal_connect ( G_OBJECT ( spin_button ),
+                        "value-changed",
+                        G_CALLBACK ( bet_config_duration_number_changed ),
+                        widget );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button, FALSE, FALSE, 0 );
+    
+    gtk_widget_show_all ( main_vbox );
+
+    return main_vbox;
 }
 
 
@@ -132,6 +296,10 @@ GtkWidget *bet_config_select_historical_data ( GtkWidget *container )
     button_1 = gtk_radio_button_new_with_label ( NULL,
                         _("Categories") );
     gtk_widget_set_name ( button_1, "button_1" );
+    g_signal_connect (G_OBJECT ( button_1 ),
+                        "released",
+                        G_CALLBACK ( bet_historical_origin_data_clicked ),
+                        NULL );
 
     button_2 = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( button_1 ),
@@ -174,6 +342,148 @@ GtkWidget *bet_config_select_historical_data ( GtkWidget *container )
                     NULL );
 
     return hbox;
+}
+
+
+/*
+ * bet_config_duration_period_clicked
+ * This function is called when a radio button is called to change the inial period.
+ * It copies the new durations from the data parameter (of the radio button) into
+ * the bet_period property of the bet container
+ */
+void bet_config_duration_period_clicked ( GtkWidget *togglebutton, GtkWidget *button )
+{
+    const gchar *name;
+
+    //~ devel_debug (NULL);
+    if ( button )
+        g_signal_handlers_block_by_func ( G_OBJECT ( button ),
+                        G_CALLBACK ( bet_config_duration_period_clicked ),
+                        button );
+
+    name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
+
+    if ( g_strcmp0 ( name, "button_1" ) == 0 )
+    {
+        etat.bet_deb_period = 1;
+        etat.bet_end_period = 1;
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
+    }
+    else if ( g_strcmp0 ( name, "button_2" ) == 0 )
+    {
+        etat.bet_deb_period = 2;
+        etat.bet_end_period = 2;
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
+    }
+    else if ( g_strcmp0 ( name, "button_3" ) == 0 )
+        etat.bet_end_period = 1;
+
+    else if ( g_strcmp0 ( name, "button_4" ) == 0 )
+        etat.bet_end_period = 2;
+
+    if ( button )
+        g_signal_handlers_unblock_by_func ( G_OBJECT ( button ),
+                        G_CALLBACK ( bet_config_duration_period_clicked ),
+                        button );
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
+    bet_array_refresh_estimate_tab ( );
+}
+
+
+/*
+ * bet_config_duration_button_clicked
+ * This function is called when a radio button is called to change the estimate duration.
+ * It copies the new durations from the data parameter (of the radio button) into
+ * the bet_months property of the bet container
+ */
+void bet_config_duration_button_clicked ( GtkWidget *togglebutton,
+                        GtkWidget *spin_button )
+{
+    GtkWidget *notebook;
+    GtkWidget *ancestor;
+    GtkWidget *widget;
+    const gchar *name;
+
+    //~ devel_debug (NULL);
+    name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
+    ancestor = g_object_get_data ( G_OBJECT ( notebook ), "bet_account_duration" );
+    if ( gtk_widget_is_ancestor ( togglebutton, ancestor ) == FALSE )
+    {
+        widget = utils_get_child_widget_by_name ( ancestor, name );
+        if ( widget )
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
+    }
+
+    if ( g_strcmp0 ( name, "Year" ) == 0 )
+    {
+        etat.bet_spin_range = 1;
+        gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( spin_button ), 1.0, 20.0 );
+        if ( etat.bet_months > 20 )
+        {
+            gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ), 20.0 );
+            etat.bet_months = 240;
+        }
+        else
+            etat.bet_months *= 12;
+    }
+    else
+    {
+        etat.bet_spin_range = 0;
+        etat.bet_months = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ) );
+        gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( spin_button ), 1.0, 240.0 );
+    }
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
+    bet_array_refresh_estimate_tab ( );
+}
+
+
+/*
+ * bet_duration_button changed
+ * This function is called when a spin button is changed.
+ * It copies the new duration from the spin_button into the bet_months property of
+ * the bet container
+ */
+gboolean bet_config_duration_number_changed ( GtkWidget *spin_button,
+                        GtkWidget *togglebutton )
+{
+    GtkWidget *notebook;
+    GtkWidget *ancestor;
+    GtkWidget *widget;
+    const gchar *name;
+    gboolean toggled;
+
+    //~ devel_debug (NULL);
+    etat.bet_months = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ) );
+
+    toggled = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( togglebutton ) );
+    if ( toggled == 1 )
+        etat.bet_months *= 12;
+
+    name = gtk_widget_get_name ( GTK_WIDGET ( spin_button ) );
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
+    ancestor = g_object_get_data ( G_OBJECT ( notebook ), "bet_account_duration" );
+    if ( gtk_widget_is_ancestor ( togglebutton, ancestor ) == FALSE )
+    {
+        widget = utils_get_child_widget_by_name ( ancestor, name );
+        if ( widget )
+            gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( widget ),
+                        gtk_spin_button_get_value (
+                        GTK_SPIN_BUTTON ( spin_button ) ) );
+    }
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
+    bet_array_refresh_estimate_tab ( );
+
+    return ( FALSE );
 }
 
 

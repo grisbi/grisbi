@@ -26,7 +26,8 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkWidget *bet_array_create_estimate_page ( void );
+GtkWidget * bet_array_create_page ( void );
+//~ GtkWidget *bet_array_create_estimate_page ( void );
 void bet_array_list_add_new_line ( GtkTreeModel *tab_model,
                         GtkTreeModel *model,
                         GtkTreeIter *iter,
@@ -34,9 +35,6 @@ void bet_array_list_add_new_line ( GtkTreeModel *tab_model,
                         GDate *date_max );
 void bet_array_refresh_estimate_tab ( void );
 void bet_array_update_estimate_tab ( void );
-gint bet_parameter_get_account_selected ( void );
-GtkWidget *bet_parameter_get_duration_widget ( GtkWidget *container, gboolean config );
-GtkWidget *bet_parameter_get_list_accounts ( GtkWidget *container );
 /* END_DECLARATION */
 
 #endif /*_BALANCE_ESTIMATE_TAB_H*/

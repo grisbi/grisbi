@@ -43,6 +43,7 @@
 #include "./gsb_scheduler.h"
 #include "./gsb_transactions_list_sort.h"
 #include "./main.h"
+#include "./navigation.h"
 #include "./include.h"
 #include "./structures.h"
 #include "./traitement_variables.h"
@@ -133,7 +134,7 @@ gboolean bet_data_add_div_hist ( gint account_nb,
     gchar *key;
     gchar *sub_key;
     struct_hist_div *shd;
-printf ("account_nb = %d, div_number = %d, sub_div_nb = %d\n", account_nb, div_number, sub_div_nb);
+//~ printf ("account_nb = %d, div_number = %d, sub_div_nb = %d\n", account_nb, div_number, sub_div_nb);
     if ( account_nb == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
     else
@@ -591,7 +592,7 @@ gint bet_data_get_selected_currency ( void )
     gint selected_account;
     gint currency_number;
 
-    selected_account = bet_parameter_get_account_selected ( );
+    selected_account = gsb_gui_navigation_get_current_account ( );
     if ( selected_account == -1 )
         return 0;
 
@@ -679,14 +680,12 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 {
     GPtrArray *tab = NULL;
     gchar *tmp_str = NULL;
-    //~ gchar *str_amount;
     GHashTableIter iter;
     gpointer key, value;
 
     if ( g_hash_table_size ( bet_hist_div_list ) == 0 )
         return NULL;
 
-    //~ printf ("long bet_hist_div_list = %d\n", g_hash_table_size ( bet_hist_div_list ));
     tab = g_ptr_array_new ( );
 
     g_hash_table_iter_init ( &iter, bet_hist_div_list );
@@ -696,9 +695,6 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 
         if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
         {
-            //~ str_amount = gsb_real_save_real_to_string ( shd -> amount, 2 );
-            //~ printf ("amount.mantissa = %ld amount.exponent = %d str_amount = %s\n",
-                    //~ shd -> amount.mantissa, shd -> amount.exponent, str_amount );
             tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
                         "Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
                         "SEdit=\"%d\" SDamount=\"%s\" />\n",
@@ -715,7 +711,6 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         {
             GHashTableIter new_iter;
 
-            //~ printf ("long shd -> sub_div_list = %d\n", g_hash_table_size ( shd -> sub_div_list ));
             g_hash_table_iter_init ( &new_iter, shd -> sub_div_list );
             while ( g_hash_table_iter_next ( &new_iter, &key, &value ) )
             {
@@ -737,7 +732,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
             }
         }
     }
-    //~ printf ("long_tab = %d\n", tab -> len);
+
     return tab;
 }
 

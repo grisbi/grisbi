@@ -56,6 +56,7 @@
 #include "./gsb_transactions_list_sort.h"
 #include "./main.h"
 #include "./mouse.h"
+#include "./navigation.h"
 #include "./include.h"
 #include "./structures.h"
 #include "./traitement_variables.h"
@@ -96,7 +97,7 @@ static gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIt
 
 /*START_EXTERN*/
 extern gboolean balances_with_scheduled;
-extern GtkWidget *bet_container;
+extern GtkWidget *notebook_general;
 extern gsb_real null_real;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -120,8 +121,9 @@ GtkTreeModel *bet_fyear_model_filter = NULL;
  *
  *
  * */
-void bet_historical_create_page ( GtkWidget *notebook )
+GtkWidget * bet_historical_create_page ( void )
 {
+    GtkWidget *notebook;
     GtkWidget *widget;
     GtkWidget *page;
     GtkWidget *vbox;
@@ -133,11 +135,8 @@ void bet_historical_create_page ( GtkWidget *notebook )
     gint year;
 
     devel_debug (NULL);
-    widget = gtk_label_new( _("Historical data") );
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
     page = gtk_vbox_new ( FALSE, 5 );
-
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-                        GTK_WIDGET ( page ), GTK_WIDGET ( widget ) );
 
     /* titre de la page */
     hbox = gtk_hbox_new ( FALSE, 5 );
@@ -150,11 +149,12 @@ void bet_historical_create_page ( GtkWidget *notebook )
     vbox = gtk_vbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 5) ;
 
-    widget = gtk_label_new ( NULL );
+    widget = gtk_label_new ( "bet_hist_title" );
+    g_object_set_data ( G_OBJECT ( notebook ), "bet_hist_title", widget);
     title = g_strdup_printf (
                         _("Please select the data source for the account: \"%s\""),
                         gsb_data_account_get_name (
-                        bet_parameter_get_account_selected ( ) ) );
+                        gsb_gui_navigation_get_current_account ( ) ) );
     gtk_label_set_markup ( GTK_LABEL ( widget ), title );
     g_free ( title );
     gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 5 );
@@ -162,7 +162,7 @@ void bet_historical_create_page ( GtkWidget *notebook )
     /* Choix des données sources */
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 15 );
-    g_object_set_data ( G_OBJECT ( bet_container ), "bet_historical_data", hbox );
+    g_object_set_data ( G_OBJECT ( notebook ), "bet_historical_data", hbox );
 
     button_1 = gtk_radio_button_new_with_label ( NULL,
                         _("Categories") );
@@ -233,6 +233,8 @@ void bet_historical_create_page ( GtkWidget *notebook )
     g_object_set_data ( G_OBJECT ( notebook ), "bet_historical_treeview", tree_view );
 
     gtk_widget_show_all ( page );
+
+    return page;
 }
 
 
@@ -244,15 +246,17 @@ void bet_historical_create_page ( GtkWidget *notebook )
  * */
 void bet_historical_origin_data_clicked ( GtkWidget *togglebutton, gpointer data )
 {
+    GtkWidget *notebook;
     GtkWidget *ancestor;
     GtkWidget *widget;
     GtkTreeViewColumn *column;
     const gchar *name;
     gchar *title;
 
-    devel_debug (NULL);
     name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
-    ancestor = g_object_get_data ( G_OBJECT ( bet_container ), "bet_historical_data" );
+    //~ devel_debug (name);
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
+    ancestor = g_object_get_data ( G_OBJECT ( notebook ), "bet_historical_data" );
     if ( gtk_widget_is_ancestor ( togglebutton, ancestor ) == FALSE )
     {
         widget = utils_get_child_widget_by_name ( ancestor, name );
@@ -273,15 +277,14 @@ void bet_historical_origin_data_clicked ( GtkWidget *togglebutton, gpointer data
         title = g_strdup ( _("Budgetary line") );
     }
 
-    column = g_object_get_data ( G_OBJECT ( bet_container ),
+    column = g_object_get_data ( G_OBJECT ( notebook ),
                         "historical_column_source" );
     gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN ( column ), title );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
-    bet_historical_populate_data ( );
-    bet_array_refresh_estimate_tab ( );
+    bet_array_update_estimate_tab ( );
 }
 
 
@@ -293,15 +296,17 @@ void bet_historical_origin_data_clicked ( GtkWidget *togglebutton, gpointer data
  * */
 void bet_historical_fyear_clicked ( GtkWidget *combo, gpointer data )
 {
+    GtkWidget *notebook;
     GtkWidget *ancestor;
     GtkWidget *widget;
     const gchar *name;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     etat.bet_hist_fyear = bet_historical_get_fyear_from_combobox ( combo );
 
     name = gtk_widget_get_name ( GTK_WIDGET ( combo ) );
-    ancestor = g_object_get_data ( G_OBJECT ( bet_container ), "bet_historical_data" );
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
+    ancestor = g_object_get_data ( G_OBJECT ( notebook ), "bet_historical_data" );
     if ( gtk_widget_is_ancestor ( combo, ancestor ) == FALSE )
     {
         widget = utils_get_child_widget_by_name ( ancestor, name );
@@ -318,8 +323,7 @@ void bet_historical_fyear_clicked ( GtkWidget *combo, gpointer data )
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
-    bet_historical_populate_data ( );
-    bet_array_refresh_estimate_tab ( );
+    bet_array_update_estimate_tab ( );
 }
 
 
@@ -335,7 +339,7 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
 {
     GtkTreeIter iter;
 
-    devel_debug (path_string);
+    //~ devel_debug (path_string);
     if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( model ), &iter, path_string ) )
     {
         gchar *str_amount;
@@ -478,8 +482,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
     GtkTreeModel *model;
     GtkTreeIter iter;
 
-    devel_debug (new_text);
-    
+    //~ devel_debug (new_text);
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
     if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( model ), &iter, path_string ) )
     {
@@ -564,6 +567,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
  * */
 GtkWidget *bet_historical_get_data ( GtkWidget *container )
 {
+    GtkWidget *notebook;
     GtkWidget *scrolled_window;
     GtkWidget *tree_view;
     GtkTreeStore *tree_model;
@@ -573,6 +577,7 @@ GtkWidget *bet_historical_get_data ( GtkWidget *container )
     gchar *title;
 
     //~ devel_debug (NULL);
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
     tree_view = gtk_tree_view_new ( );
     gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW (tree_view), TRUE);
 
@@ -633,7 +638,7 @@ GtkWidget *bet_historical_get_data ( GtkWidget *container )
                         cell,
                         "text", SPP_HISTORICAL_DESC_COLUMN,
                         NULL);
-    g_object_set_data ( G_OBJECT ( bet_container ), "historical_column_source",
+    g_object_set_data ( G_OBJECT ( notebook ), "historical_column_source",
                         column );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
@@ -728,6 +733,7 @@ GtkWidget *bet_historical_get_data ( GtkWidget *container )
  * */
 void bet_historical_populate_data ( void )
 {
+    GtkWidget *notebook;
     GtkWidget *tree_view;
     GtkWidget *combo;
     GtkTreeModel *model;
@@ -740,11 +746,12 @@ void bet_historical_populate_data ( void )
 
     //~ devel_debug (NULL);
     /* récuperation du n° de compte à utiliser */
-    selected_account = bet_parameter_get_account_selected ( );
+    selected_account = gsb_gui_navigation_get_current_account ( );
     if ( selected_account == -1 )
         return;
 
-    tree_view = g_object_get_data (G_OBJECT ( bet_container ), "bet_historical_treeview" );
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
+    tree_view = g_object_get_data (G_OBJECT ( notebook ), "bet_historical_treeview" );
     if ( GTK_IS_TREE_VIEW ( tree_view ) == FALSE )
         return;
 
@@ -752,7 +759,7 @@ void bet_historical_populate_data ( void )
     gtk_tree_store_clear ( GTK_TREE_STORE ( model ) );
 
     /* calculate date_min and date_max */
-    combo = g_object_get_data ( G_OBJECT ( bet_container ), "bet_historical_fyear" );
+    combo = g_object_get_data ( G_OBJECT ( notebook ), "bet_historical_fyear" );
     fyear_number = bet_historical_get_fyear_from_combobox ( combo );
     if ( fyear_number == 0 )
     {
@@ -760,14 +767,14 @@ void bet_historical_populate_data ( void )
         g_date_subtract_years ( date_min, 1 );
         date_max = gdate_today ( );
         g_date_subtract_days ( date_max, 1 );
-        g_object_set_data ( G_OBJECT ( bet_container ), "bet_historical_period",
+        g_object_set_data ( G_OBJECT ( notebook ), "bet_historical_period",
                 g_strdup ( _("12 months rolling") ) );
     }
     else
     {
         date_min = gsb_data_fyear_get_beginning_date ( fyear_number );
         date_max = gsb_data_fyear_get_end_date ( fyear_number );
-        g_object_set_data ( G_OBJECT ( bet_container ), "bet_historical_period",
+        g_object_set_data ( G_OBJECT ( notebook ), "bet_historical_period",
                 g_strdup ( gsb_data_fyear_get_name ( fyear_number ) ) );
     }
     list_div = g_hash_table_new_full ( g_str_hash,
@@ -844,6 +851,7 @@ void bet_historical_populate_div_model ( gpointer key,
                         gpointer value,
                         gpointer user_data )
 {
+    GtkWidget *notebook;
     SH *sh = ( SH* ) value;
     SBR *sbr = sh -> sbr;
     GtkTreeView *tree_view = ( GtkTreeView * ) user_data;
@@ -870,7 +878,8 @@ void bet_historical_populate_div_model ( gpointer key,
     div_name = bet_data_get_div_name ( div_number, 0, FALSE );
     account_nb = sh -> account_nb;
 
-    titre = g_object_get_data ( G_OBJECT ( bet_container ), "bet_historical_period" );
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
+    titre = g_object_get_data ( G_OBJECT ( notebook ), "bet_historical_period" );
 
     model = gtk_tree_view_get_model ( tree_view );
 
@@ -1102,13 +1111,15 @@ void bet_historical_refresh_data ( GtkTreeModel *tab_model,
                         GDate *date_min,
                         GDate *date_max )
 {
+    GtkWidget *notebook;
     GtkWidget *tree_view;
     GtkTreeModel *model;
     GtkTreeIter iter;
     GtkTreeIter fils_iter;
 
     //~ devel_debug (NULL);
-    tree_view = g_object_get_data ( G_OBJECT ( bet_container ), "bet_historical_treeview" );
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
+    tree_view = g_object_get_data ( G_OBJECT ( notebook ), "bet_historical_treeview" );
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
     if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
@@ -1233,7 +1244,9 @@ gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIter *par
 
     if ( edited )
     {
-        tree_view = g_object_get_data ( G_OBJECT ( bet_container ),
+        tree_view = g_object_get_data ( G_OBJECT (
+                        g_object_get_data ( G_OBJECT ( notebook_general ),
+                        "account_notebook") ),
                         "bet_historical_treeview" );
         gtk_tree_view_collapse_row ( tree_view,
                         gtk_tree_model_get_path ( model, parent ) );
@@ -1375,7 +1388,8 @@ void bet_historical_row_collapse_all ( GtkTreeView *tree_view,
                         GtkTreeModel *model )
 {
     if ( tree_view == NULL )
-        tree_view = g_object_get_data ( G_OBJECT ( bet_container ),
+        tree_view = g_object_get_data ( G_OBJECT (
+                g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook") ),
                 "bet_historical_treeview" );
     gtk_tree_view_collapse_row ( tree_view,
                 gtk_tree_model_get_path ( model, iter ) );
