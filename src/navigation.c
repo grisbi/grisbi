@@ -291,26 +291,6 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 
-//~ #ifdef ENABLE_BALANCE_ESTIMATE 
-    //~ /* Balance estimate */
-    //~ tmpstr = g_build_filename( PIXMAPS_DIR,
-			       //~ "balance_estimate.png", NULL );
-    //~ pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
-    //~ g_free ( tmpstr );
-    //~ gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
-    //~ gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
-		       //~ NAVIGATION_PIX, pixbuf,
-		       //~ NAVIGATION_TEXT, _("Balance estimate"), 
-		       //~ NAVIGATION_PIX_VISIBLE, TRUE, 
-		       //~ NAVIGATION_FONT, 800,
-		       //~ NAVIGATION_PAGE, GSB_BALANCE_ESTIMATE_PAGE,
-		       //~ NAVIGATION_ACCOUNT, -1,
-		       //~ NAVIGATION_REPORT, -1,
-		       //~ NAVIGATION_SENSITIVE, 1,
-		       //~ -1 );
-//~ #endif /* ENABLE_BALANCE_ESTIMATE */
-
-
     /* Categories */
     tmpstr = g_build_filename( PIXMAPS_DIR,
 			       "categories.png", NULL );
@@ -1233,19 +1213,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gsb_form_set_expander_visible (FALSE, FALSE );
 		payee_fill_tree ();
 	    break;
-
-//~ #ifdef ENABLE_BALANCE_ESTIMATE 
-	//~ case GSB_BALANCE_ESTIMATE_PAGE:
-	    //~ notice_debug ("Sold balance estimate page selected");
-
-	    //~ /* set the title */
-	    //~ title = g_strdup(_("Balance estimate"));
-
-	    //~ /* what to be done if switch to that page */
-	    //~ gsb_form_set_expander_visible (FALSE, FALSE);
-        //~ bet_array_update_estimate_tab ( );
-	    //~ break;
-//~ #endif /*_BALANCE_ESTIMATE_TAB_H*/
 
 	case GSB_CATEGORIES_PAGE:
 	    notice_debug ("Category page selected");

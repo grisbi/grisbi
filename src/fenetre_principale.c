@@ -234,7 +234,7 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         account_page,
                         gtk_label_new (SPACIFY(_("Accounts"))) );
-    g_object_set_data ( G_OBJECT (notebook), "account_notebook", account_page );
+    
     
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         creation_fenetre_operations (),
@@ -242,6 +242,8 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         creation_onglet_comptes (),
                         gtk_label_new (SPACIFY(_("Properties"))) );
+
+g_object_set_data ( G_OBJECT (notebook), "account_notebook", account_page );
 
 #ifdef ENABLE_BALANCE_ESTIMATE
      /* append the balance estimate pages */
