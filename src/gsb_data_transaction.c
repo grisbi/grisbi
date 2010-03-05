@@ -2631,6 +2631,54 @@ const gchar *gsb_data_transaction_get_id ( gint transaction_number )
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
+gsb_real gsb_data_transaction_get_last_transaction_with_div_sub_div (
+                        gint account_number,
+                        gint div_number,
+                        gint sub_div_nb,
+                        gint type_div )
+{
+    GSList *tmp_list;
+
+    tmp_list = g_slist_copy ( transactions_list );
+    
+    tmp_list = g_slist_sort (tmp_list, 
+                        (GCompareFunc) classement_sliste_transactions_par_date_decroissante );
+
+    while ( tmp_list )
+    {
+        struct_transaction *transaction;
+
+        transaction = tmp_list -> data;
+
+        if ( type_div == 0
+         && transaction -> account_number == account_number
+         && transaction -> category_number == div_number
+         && transaction -> sub_category_number == sub_div_nb )
+            return transaction -> transaction_amount;
+        else if ( type_div == 1 
+         && transaction -> account_number == account_number
+         && transaction -> budgetary_number == div_number
+         && transaction -> sub_budgetary_number == sub_div_nb )
+            return transaction -> transaction_amount;
+
+        tmp_list = tmp_list -> next;
+    }
+    return null_real;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

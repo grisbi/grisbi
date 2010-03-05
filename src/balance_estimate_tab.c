@@ -81,7 +81,7 @@ static void bet_array_list_add_substract_menu ( GtkWidget *menu_item,
 static gboolean bet_array_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev );
 static void bet_array_list_context_menu ( GtkWidget *tree_view );
-static void bet_array_list_delete_menu ( GtkWidget *menu_item,
+static void bet_array_list_redo_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static void bet_array_list_update_balance ( GtkTreeModel *model );
 static void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
@@ -134,8 +134,8 @@ enum bet_estimation_tree_columns {
  */
 void bet_array_update_estimate_tab ( void )
 {
-        bet_historical_populate_data ( );
-        bet_array_refresh_estimate_tab ( );
+    bet_historical_populate_data ( );
+    bet_array_refresh_estimate_tab ( );
 }
 
 
@@ -260,6 +260,7 @@ void bet_array_refresh_estimate_tab ( void )
     GtkWidget *tree_view;
     GtkTreeIter iter;
     GtkTreeModel *tree_model;
+    gchar *color_str = NULL;
     gchar *str_date_init;
     gchar *str_date_min;
     gchar *str_date_max;
@@ -321,6 +322,12 @@ void bet_array_refresh_estimate_tab ( void )
     str_current_balance = gsb_real_get_string_with_currency ( current_balance,
                         gsb_data_account_get_currency ( selected_account ), TRUE );
 
+    if ( current_balance.mantissa < 0 )
+        color_str = "red";
+    else
+        color_str = NULL;
+
+
     /* set the titles of tabs module budget */
     title = g_strdup_printf (
                         _("Balance estimate of the account \"%s\" from %s to %s"),
@@ -355,7 +362,8 @@ void bet_array_refresh_estimate_tab ( void )
                         SPP_ESTIMATE_TREE_DESC_COLUMN, tmp_str,
                         SPP_ESTIMATE_TREE_BALANCE_COLUMN, str_current_balance,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
-                   -1);
+                        SPP_ESTIMATE_TREE_BALANCE_COLOR, color_str,
+                        -1);
 
     g_value_unset ( &date_value );
     g_free ( str_date_init );
@@ -1033,13 +1041,13 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
     gtk_widget_show ( menu_item );
 
     /* Delete item */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Delete selection") );
+    menu_item = gtk_image_menu_item_new_with_label ( _("Reset data") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_DELETE,
+                        gtk_image_new_from_stock ( GTK_STOCK_REFRESH,
 						GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-                        G_CALLBACK ( bet_array_list_delete_menu ),
+                        G_CALLBACK ( bet_array_list_redo_menu ),
                         tree_selection );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
@@ -1082,7 +1090,7 @@ void bet_array_list_add_substract_menu ( GtkWidget *menu_item,
  * /param row selected
  *
  * */
-void bet_array_list_delete_menu ( GtkWidget *menu_item,
+void bet_array_list_redo_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection )
 {
     GtkTreeModel *model;
@@ -1092,8 +1100,7 @@ void bet_array_list_delete_menu ( GtkWidget *menu_item,
      &model, &iter ) )
         return;
 
-    gtk_tree_store_remove ( GTK_TREE_STORE ( model ), &iter );
-    bet_array_list_update_balance ( model );
+    bet_array_update_estimate_tab ( );
 }
 
 

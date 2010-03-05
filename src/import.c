@@ -127,10 +127,8 @@ static gint gsb_import_create_transaction ( struct struct_ope_importation *impor
                         gint account_number, gchar * origine );
 static gboolean gsb_import_define_action ( struct struct_compte_importation *imported_account,
                         gint account_number,
-                        GDate *first_date_import,
-                        GDate *last_date_import );
+                        GDate *first_date_import );
 static GDate *gsb_import_get_first_date ( GSList *import_list );
-static GDate *gsb_import_get_last_date ( GSList *import_list );
 static gboolean gsb_import_gunzip_file ( gchar *filename );
 static gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id );
 static gboolean gsb_import_set_tmp_file ( gchar *filename,
@@ -1890,7 +1888,6 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 {
     GSList *list_tmp;
     GDate *first_date_import = NULL;
-    GDate *last_date_import = NULL;
     gint demande_confirmation;
 
     /* check the imported account id, and set it in the grisbi account if it doesn't 
@@ -1910,17 +1907,15 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
      * a pu le changer), et on demande à l'utilisateur quoi faire, sinon on enregistre l'opé
      */
 
-    /* pour gagner en rapidité, on va récupérer les dates de la première et de la dernière
-     * opération qui sont dans le fichier importé */
+    /* pour gagner en rapidité, on va récupérer la date de la première
+     * opération qui est dans le fichier importé */
     first_date_import = gsb_import_get_first_date ( imported_account -> operations_importees );
-    last_date_import = gsb_import_get_last_date ( imported_account -> operations_importees );
 
     /* ok, now first_date_import contains the firt transaction date used in that account,
      * can check the imported transactions */
     demande_confirmation = gsb_import_define_action ( imported_account,
                         account_number,
-                        first_date_import,
-                        last_date_import );
+                        first_date_import );
 
     /* if we are not sure about some transactions, ask now */
     if ( demande_confirmation )
@@ -1994,8 +1989,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
  */
 gboolean gsb_import_define_action ( struct struct_compte_importation *imported_account,
                         gint account_number,
-                        GDate *first_date_import,
-                        GDate *last_date_import )
+                        GDate *first_date_import )
 {
     GSList *list_tmp;
     gint demande_confirmation = FALSE;
@@ -2060,11 +2054,29 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
                  g_date_compare ( gsb_data_transaction_get_date ( transaction_number ),
                         first_date_import ) > 0 )
                 {
+                    GDate *date_debut_comparaison;
+		            GDate *date_fin_comparaison;
+
+                    date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( imported_transaction -> date ),
+                                g_date_get_month ( imported_transaction -> date ),
+                                g_date_get_year ( imported_transaction -> date ));
+                    g_date_subtract_days ( date_debut_comparaison,
+                                valeur_echelle_recherche_date_import );
+
+                    date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( imported_transaction -> date ),
+                                g_date_get_month ( imported_transaction -> date ),
+                                g_date_get_year ( imported_transaction -> date ));
+                    g_date_add_days ( date_fin_comparaison,
+				                valeur_echelle_recherche_date_import );
+
                     if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (
                      transaction_number), imported_transaction -> montant )
                      &&
-                     g_date_compare ( gsb_data_transaction_get_date (
-                     transaction_number), last_date_import ) <= 0
+                     ( g_date_compare ( gsb_data_transaction_get_date (
+                       transaction_number), date_debut_comparaison ) >= 0 )
+                     &&
+                     ( g_date_compare ( gsb_data_transaction_get_date (
+                       transaction_number ), date_fin_comparaison ) <= 0 )
                      &&
                      !imported_transaction -> ope_de_ventilation
                      &&
@@ -2078,6 +2090,8 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
                     imported_transaction -> ope_correspondante = transaction_number;
                     demande_confirmation = TRUE;
                     }
+                    g_date_free ( date_debut_comparaison );
+                    g_date_free ( date_fin_comparaison );
                 }
                 list_tmp_transactions = list_tmp_transactions -> next;
             }
@@ -3261,42 +3275,6 @@ GDate *gsb_import_get_first_date ( GSList *import_list )
     g_date_subtract_days ( first_date, valeur_echelle_recherche_date_import );
 
     return first_date;
-}
-
-
-/**
- * get last date of the imported file
- * 
- *
- * \param 
- *
- * return 
- */
-GDate *gsb_import_get_last_date ( GSList *import_list )
-{
-    GSList *list_tmp;
-    GDate *last_date = NULL;
-
-    list_tmp = import_list;
-
-    while ( list_tmp )
-    {
-        struct struct_ope_importation *imported_transaction;
-
-        imported_transaction = list_tmp -> data;
-
-        if ( !last_date
-         ||
-         g_date_compare ( imported_transaction -> date, last_date ) > 0 )
-            last_date = imported_transaction -> date;
-
-        list_tmp = list_tmp -> next;
-    }
-
-    last_date = gsb_date_copy ( last_date );
-    g_date_add_days ( last_date, valeur_echelle_recherche_date_import );
-
-    return last_date;
 }
 
 

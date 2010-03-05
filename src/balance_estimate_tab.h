@@ -27,7 +27,6 @@
 
 /* START_DECLARATION */
 GtkWidget * bet_array_create_page ( void );
-//~ GtkWidget *bet_array_create_estimate_page ( void );
 void bet_array_list_add_new_line ( GtkTreeModel *tab_model,
                         GtkTreeModel *model,
                         GtkTreeIter *iter,
