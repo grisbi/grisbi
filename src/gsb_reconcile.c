@@ -41,6 +41,7 @@
 #include "./gsb_real.h"
 #include "./gsb_reconcile_list.h"
 #include "./gsb_transactions_list.h"
+#include "./gsb_form_widget.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./transaction_list.h"
@@ -50,6 +51,8 @@
 #include "./gsb_data_transaction.h"
 #include "./include.h"
 #include "./gsb_real.h"
+#include "./utils_editables.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -61,6 +64,7 @@ static void gsb_reconcile_sensitive ( gboolean sensitive );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GdkColor calendar_entry_color;
 extern GtkWidget *label_last_statement;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget * navigation_tree_view;
@@ -155,9 +159,10 @@ GtkWidget *gsb_reconcile_create_box ( void )
      * an entry the first time, will be unsensitive after */
     reconcile_initial_balance_entry = gtk_entry_new ( );
     gtk_widget_set_size_request ( reconcile_initial_balance_entry, 50, -1 );
-    g_signal_connect ( G_OBJECT ( reconcile_initial_balance_entry ), "changed",
-		       G_CALLBACK (gsb_reconcile_update_amounts),
-		       NULL );
+    g_signal_connect ( G_OBJECT ( reconcile_initial_balance_entry ),
+                        "changed",
+		                G_CALLBACK (gsb_reconcile_update_amounts),
+		                NULL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_initial_balance_entry,
 				2, 3, 2, 3 );
 
@@ -170,9 +175,10 @@ GtkWidget *gsb_reconcile_create_box ( void )
     /* set the new balance */
     reconcile_final_balance_entry = gtk_entry_new ();
     gtk_widget_set_size_request ( reconcile_final_balance_entry, 50, -1 );
-    g_signal_connect ( G_OBJECT ( reconcile_final_balance_entry ), "changed",
-		       G_CALLBACK (gsb_reconcile_update_amounts),
-		       NULL );
+    g_signal_connect ( G_OBJECT ( reconcile_final_balance_entry ),
+                        "changed",
+		                G_CALLBACK (gsb_reconcile_update_amounts),
+		                NULL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_final_balance_entry,
 				2, 3, 4, 5 );
 
@@ -683,42 +689,67 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
 {
     gsb_real amount;
     gint account_number;
+    gint currency_number;
     const gchar *initial_balance;
     const gchar *final_balance;
     gchar *tmp_string;
 	gchar* tmpstr;
+    gboolean valide = FALSE;
 
     /* first get the current account number */
     account_number = gsb_gui_navigation_get_current_account ();
 
     /* fill the labels corresponding to the balances */
-    initial_balance = gtk_entry_get_text ( GTK_ENTRY (reconcile_initial_balance_entry));
-    gtk_label_set_text ( GTK_LABEL (reconcile_initial_balance_label),
-			 initial_balance );
-    final_balance = gtk_entry_get_text ( GTK_ENTRY (reconcile_final_balance_entry));
-    gtk_label_set_text ( GTK_LABEL ( reconcile_final_balance_label ),
-			 final_balance );
+    initial_balance = gtk_entry_get_text ( GTK_ENTRY (reconcile_initial_balance_entry) );
+    gtk_label_set_text ( GTK_LABEL ( reconcile_initial_balance_label ), initial_balance );
+
+    if ( entry )
+    {
+        valide = gsb_form_widget_get_valide_amout_entry (
+                        gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+        if ( valide )
+        {
+            /* the entry is valid, make it normal */
+            gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+        }
+        else
+        {
+            /* the entry is not valid, make it red */
+            gtk_widget_modify_base ( entry, GTK_STATE_NORMAL,
+                            &calendar_entry_color );
+            return FALSE;
+        }
+    }
+
+    currency_number = gsb_data_account_get_currency ( account_number );
+    amount = gsb_utils_edit_calculate_entry ( reconcile_final_balance_entry );
+    final_balance = gsb_real_get_string_with_currency ( amount, currency_number, FALSE );
+    gtk_label_set_text ( GTK_LABEL ( reconcile_final_balance_label ), final_balance );
 
     /* set the marked balance amount,
-     * this is what we mark as P while reconciling, so it's the total marked balance - the initial marked balance */
-    tmp_string = gsb_real_get_string (gsb_data_account_calculate_waiting_marked_balance (account_number));
-    gtk_label_set_text ( GTK_LABEL ( reconcile_marked_balance_label ),
-			 tmp_string );
+     * this is what we mark as P while reconciling, so it's the total marked balance 
+     * - the initial marked balance */
+    tmp_string = gsb_real_get_string_with_currency (
+                        gsb_data_account_calculate_waiting_marked_balance ( account_number ),
+                        currency_number,
+                        FALSE );
+    gtk_label_set_text ( GTK_LABEL ( reconcile_marked_balance_label ), tmp_string );
     g_free (tmp_string);
 
     /* calculate the variation balance and show it */
-    amount = gsb_real_sub ( gsb_real_add ( gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_initial_balance_entry ))),
-					   gsb_data_account_calculate_waiting_marked_balance (account_number)),
-			    gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_final_balance_entry ))));
-    tmpstr = gsb_real_get_string (amount);
+    amount = gsb_real_sub ( gsb_real_add (
+                        gsb_real_get_from_string ( initial_balance ),
+					    gsb_data_account_calculate_waiting_marked_balance ( account_number ) ),
+			            gsb_real_get_from_string ( final_balance ) );
+
+    tmpstr = gsb_real_get_string_with_currency ( amount, currency_number, FALSE );
     gtk_label_set_text ( GTK_LABEL ( reconcile_variation_balance_label ), tmpstr);
     g_free ( tmpstr );
+
     if ( amount.mantissa )
-	gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_ok_button ),
-				   FALSE );
+	    gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_ok_button ), FALSE );
     else
-	gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_ok_button ),
-				   TRUE );
+	    gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_ok_button ), TRUE );
     return FALSE;
 }
 
