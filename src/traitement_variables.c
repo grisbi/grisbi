@@ -128,6 +128,7 @@ GdkColor couleur_nom_compte_prelight;
 
 GdkColor couleur_bleue;
 GdkColor couleur_jaune;
+GdkColor couleur_division;
 
 GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 
@@ -503,10 +504,14 @@ void initialisation_couleurs_listes ( void )
     couleur_bleue.pixel = 1;
 
 
-    couleur_jaune.red =40000;
-    couleur_jaune.green =40000;
+    couleur_jaune.red = 50535;
+    couleur_jaune.green = 65535;
     couleur_jaune.blue = 0;
     couleur_jaune.pixel = 1;
+
+    couleur_division.red =64550;
+    couleur_division.green =65535;
+    couleur_division.blue = 33466;
 }
 /*****************************************************************************************************/
 

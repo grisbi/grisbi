@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-05 23:12+0100\n"
+"POT-Creation-Date: 2010-03-06 20:38+0100\n"
 "PO-Revision-Date: 2006-05-15 12:44+0200\n"
 "Last-Translator: Ryszard Jeziorski <r.jeziorski@dart.kielce.pl>\n"
 "Language-Team: Polish\n"
@@ -576,7 +576,7 @@ msgid "From date to date"
 msgstr ""
 
 #. partie mensuelle
-#: src/balance_estimate_config.c:217 src/balance_estimate_tab.c:444
+#: src/balance_estimate_config.c:217 src/balance_estimate_tab.c:470
 #, fuzzy
 msgid "Duration estimation"
 msgstr "Czcionka listy transakcji"
@@ -605,7 +605,7 @@ msgstr "Linie budżetowe"
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Wybierz rok finansowy"
 
-#: src/balance_estimate_hist.c:162 src/balance_estimate_tab.c:342
+#: src/balance_estimate_hist.c:162 src/balance_estimate_tab.c:352
 #, fuzzy, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr "Użyj zaznaczonej transakcji jako szablonu"
@@ -672,16 +672,21 @@ msgstr " dni przed i po dacie w importowanej transakcji."
 msgid "Copy the average amount"
 msgstr ""
 
-#: src/balance_estimate_tab.c:333
+#: src/balance_estimate_tab.c:343
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
-#: src/balance_estimate_tab.c:355
+#: src/balance_estimate_tab.c:363
 msgid "balance beginning of period"
 msgstr ""
 
-#: src/balance_estimate_tab.c:533 src/etats_affiche.c:2405
+#: src/balance_estimate_tab.c:454
+#, fuzzy
+msgid "Start date"
+msgstr "Początek"
+
+#: src/balance_estimate_tab.c:560 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1284 src/gsb_form_widget.c:440 src/gsb_reconcile.c:148
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
@@ -690,13 +695,13 @@ msgid "Date"
 msgstr "Data"
 
 #. Description entry
-#: src/balance_estimate_tab.c:543 src/etats_onglet.c:261
+#: src/balance_estimate_tab.c:570 src/etats_onglet.c:261
 #: src/tiers_onglet.c:638
 msgid "Description"
 msgstr "Opis"
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:554 src/categories_onglet.c:695
+#: src/balance_estimate_tab.c:581 src/categories_onglet.c:695
 #: src/export_csv.c:781 src/gsb_form.c:1318 src/gsb_form_widget.c:444
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1084 src/gsb_transactions_list.c:148
@@ -706,7 +711,7 @@ msgid "Debit"
 msgstr "Wydatki"
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:568 src/categories_onglet.c:695
+#: src/balance_estimate_tab.c:595 src/categories_onglet.c:695
 #: src/export_csv.c:778 src/gsb_form.c:1325 src/gsb_form_widget.c:448
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
 #: src/gsb_payment_method_config.c:1080 src/gsb_transactions_list.c:149
@@ -714,37 +719,37 @@ msgstr "Wydatki"
 msgid "Credit"
 msgstr "Wpływy"
 
-#: src/balance_estimate_tab.c:581 src/export_csv.c:787 src/gsb_reconcile.c:151
+#: src/balance_estimate_tab.c:608 src/export_csv.c:787 src/gsb_reconcile.c:151
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
 #: src/gsb_transactions_list.c:2907 src/import_csv.c:88
 #: src/traitement_variables.c:83
 msgid "Balance"
 msgstr "Saldo"
 
-#: src/balance_estimate_tab.c:657 src/balance_estimate_tab.c:667
-#: src/balance_estimate_tab.c:838
+#: src/balance_estimate_tab.c:684 src/balance_estimate_tab.c:694
+#: src/balance_estimate_tab.c:865
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Transfer do usuniętego konta"
 
-#: src/balance_estimate_tab.c:1020
+#: src/balance_estimate_tab.c:1051
 msgid "Subtract to the balance"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1027
+#: src/balance_estimate_tab.c:1058
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Saldo początkowe"
 
 #. Delete item
-#: src/balance_estimate_tab.c:1044
+#: src/balance_estimate_tab.c:1075
 #, fuzzy
 msgid "Reset data"
 msgstr "Data końcowa"
 
-#: src/balance_estimate_tab.c:1169
+#: src/balance_estimate_tab.c:1200
 msgid " (still available)"
 msgstr ""
 
@@ -4783,7 +4788,7 @@ msgid "Are you sure you want to remove bank \"%s\"?\n"
 msgstr "Czy jesteś pewien, że chcesz usunąć bank \"%s\"?\n"
 
 #. cancel button
-#: src/gsb_calendar_entry.c:500
+#: src/gsb_calendar_entry.c:498
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -6338,19 +6343,19 @@ msgstr "Data końcowa"
 msgid "Invalid"
 msgstr "Błędna data"
 
-#: src/gsb_data_account.c:221
+#: src/gsb_data_account.c:229
 #, c-format
 msgid "No name %d"
 msgstr "Brak nazwy %d"
 
-#: src/gsb_data_account.c:533
+#: src/gsb_data_account.c:541
 #, c-format
 msgid ""
 "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
 msgstr ""
 
 #. TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?
-#: src/gsb_data_account.c:1149
+#: src/gsb_data_account.c:1157
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
@@ -6358,7 +6363,7 @@ msgid ""
 msgstr ""
 
 #. TODO dOm : the value of g_strdup_printf was not used. I add the devel_debug function to print it. Is it OK ?
-#: src/gsb_data_account.c:1187
+#: src/gsb_data_account.c:1195
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
@@ -7022,7 +7027,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "Konto %s nie zostało znalezione.\n"
 
-#: src/gsb_file_load.c:458 src/gsb_file_load.c:4833
+#: src/gsb_file_load.c:458 src/gsb_file_load.c:4881
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Ten plik nie jest plikiem raportu Grisbi"
@@ -7036,14 +7041,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:8239
+#: src/gsb_file_load.c:8287
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "Do otwarcia tego pliku wymagane jest Grisby w wersji %s"
 
-#: src/gsb_file_load.c:8278
+#: src/gsb_file_load.c:8326
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7051,7 +7056,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: src/gsb_file_load.c:8282
+#: src/gsb_file_load.c:8330
 msgid "Grisbi archive opened"
 msgstr ""
 

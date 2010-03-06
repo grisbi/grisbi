@@ -122,21 +122,19 @@ gboolean gsb_calendar_entry_set_date ( GtkWidget *entry,
     if (!entry
 	||
 	!GTK_IS_ENTRY (entry))
-	return FALSE;
+        return FALSE;
 
     if (!date
 	||
 	!g_date_valid (date))
     {
-	gtk_entry_set_text ( GTK_ENTRY (entry),
-			     "" );
-	return FALSE;
+        gtk_entry_set_text ( GTK_ENTRY (entry), "" );
+        return FALSE;
     }
 
-    string = gsb_format_gdate (date);
-    gtk_entry_set_text ( GTK_ENTRY (entry),
-			 string );
-    g_free (string);
+    string = gsb_format_gdate ( date );
+    gtk_entry_set_text ( GTK_ENTRY ( entry ), string );
+    g_free ( string );
     return TRUE;
 }
 

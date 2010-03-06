@@ -1166,12 +1166,13 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
         case 1:
             gsb_form_set_expander_visible (FALSE, FALSE );
             break;
+#ifdef ENABLE_BALANCE_ESTIMATE
         case 2:
         case 3:
             gsb_form_set_expander_visible (FALSE, FALSE );
             bet_array_update_estimate_tab ( );
             break;
-
+#endif /* ENABLE_BALANCE_ESTIMATE */
         }
 	    gsb_form_show ( FALSE );
 

@@ -1013,7 +1013,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	mini_auto = gsb_real_save_real_to_string (
                         gsb_data_account_get_mini_balance_authorized ( account_number ), 2 );
 
-	/* now we can fill the file content */
+    /* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Account\n"
 					       "\t\tName=\"%s\"\n"
 					       "\t\tId=\"%s\"\n"
@@ -1046,7 +1046,13 @@ gulong gsb_file_save_account_part ( gulong iterator,
 					       "\t\tForm_columns_number=\"%d\"\n"
 					       "\t\tForm_lines_number=\"%d\"\n"
 					       "\t\tForm_organization=\"%s\"\n"
-					       "\t\tForm_columns_width=\"%s\" />\n",
+					       "\t\tForm_columns_width=\"%s\"\n"
+                           "\t\tBet_Ddte=\"%d\"\n"
+                           "\t\tBet_start_date=\"%s\"\n"
+                           "\t\tBet_Nbre=\"%d\"\n"
+                           "\t\tBet_UT=\"%d\"\n"
+                           "\t\tBet_SD=\"%d\"\n" 
+                           "\t\tBet_Fi=\"%d\" />\n",
 	    my_safe_null_str(gsb_data_account_get_name (account_number)),
 	    my_safe_null_str(gsb_data_account_get_id (account_number)),
 	    account_number,
@@ -1078,7 +1084,14 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    gsb_data_form_get_nb_columns (account_number),
 	    gsb_data_form_get_nb_rows (account_number),
 	    my_safe_null_str(form_organization),
-	    my_safe_null_str(form_columns_width) );
+	    my_safe_null_str(form_columns_width),
+        gsb_data_account_get_bet_deb_period ( account_number ),
+        my_safe_null_str ( gsb_format_gdate_safe (
+                        gsb_data_account_get_bet_start_date ( account_number ) ) ),
+        gsb_data_account_get_bet_months ( account_number ),
+        gsb_data_account_get_bet_spin_range ( account_number ),
+        gsb_data_account_get_bet_hist_data ( account_number ),
+        gsb_data_account_get_bet_hist_fyear ( account_number ) );
 
 	g_free (sort_list);
 	g_free (sort_kind_column);

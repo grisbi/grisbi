@@ -114,6 +114,14 @@ typedef struct
 
     /** @name struct of the form's organization */
     gpointer 	form_organization;
+
+    /** @name bet data */
+    GDate *bet_start_date;  /* date de début */
+    gint bet_deb_period;    /* définition de la période 1 = premier jour du mois, 2 date jour */
+    gint bet_spin_range;    /* echelle de la période 0 = mois 1 = années */
+    gint bet_months;        /* nombre de mois ou d'années */
+    gint bet_hist_data;     /* origine des données catégories ou IB */
+    gint bet_hist_fyear;    /* numéro d'exercice */
 } struct_account;
 
 
@@ -2687,7 +2695,7 @@ void gsb_data_account_colorize_current_balance ( gint account_number )
 
 
 /**
- * Calculates the balance at the date today.
+ * Calculates the balance at the date today for the bet module.
  * Excludes future transactions.
  *
  *
@@ -2753,3 +2761,257 @@ gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number,
 
     return gsb_real_add ( current_balance, current_balance_later );
 }
+
+
+/**
+ * 
+ *
+ *
+ * */
+GDate *gsb_data_account_get_bet_start_date ( gint account_number )
+{
+    GDate *date = NULL;
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return 0;
+
+    date = account -> bet_start_date;
+
+    if ( date && g_date_valid ( date ) )
+        return gsb_date_copy ( date );
+    else
+    {
+        date = gdate_today ( );
+        if ( etat.bet_deb_period == 1 )
+            g_date_set_day ( date, 1 );
+
+        return date;
+    }
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_start_date ( gint account_number, const GDate *date )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return FALSE;
+
+    if ( date && g_date_valid ( date ) )
+    {
+        account -> bet_start_date = gsb_date_copy ( date );
+        return TRUE;
+    }
+    else
+    {
+        GDate *date_new;
+
+        date_new = gdate_today ( );
+        if ( etat.bet_deb_period == 1 )
+            g_date_set_day ( date_new, 1 );
+        account -> bet_start_date = date_new;
+        return FALSE;
+    }
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gint gsb_data_account_get_bet_spin_range ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return 0;
+
+    return account -> bet_spin_range;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_spin_range ( gint account_number, gint spin_range )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return FALSE;
+
+    account -> bet_spin_range = spin_range;
+
+    return TRUE;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gint gsb_data_account_get_bet_months ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return 0;
+
+    return account -> bet_months;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_months ( gint account_number, gint months )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return FALSE;
+
+    account -> bet_months = months;
+
+    return TRUE;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gint gsb_data_account_get_bet_hist_data ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return 0;
+
+    return account -> bet_hist_data;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_hist_data ( gint account_number, gint hist_data )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return FALSE;
+
+    account -> bet_hist_data = hist_data;
+
+    return TRUE;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gint gsb_data_account_get_bet_hist_fyear ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return 0;
+
+    return account -> bet_hist_fyear;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_hist_fyear ( gint account_number, gint hist_fyear )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return FALSE;
+
+    account -> bet_hist_fyear = hist_fyear;
+
+    return TRUE;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gint gsb_data_account_get_bet_deb_period ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return 0;
+
+    return account -> bet_deb_period;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_deb_period ( gint account_number, gint deb_period )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return FALSE;
+
+    account -> bet_deb_period = deb_period;
+
+    return TRUE;
+}
+
+

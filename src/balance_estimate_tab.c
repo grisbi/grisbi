@@ -46,6 +46,7 @@
 #include "./utils_dates.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_budget.h"
+#include "./gsb_calendar_entry.h"
 #include "./gsb_data_category.h"
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_payee.h"
@@ -76,6 +77,9 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
                         GtkTreeIter *itera,
                         GtkTreeIter *iterb,
                         gpointer user_data );
+static gboolean  bet_array_entry_key_press ( GtkWidget *entry,
+                        GdkEventKey *ev,
+                        gpointer data );
 static void bet_array_list_add_substract_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static gboolean bet_array_list_button_press ( GtkWidget *tree_view,
@@ -83,6 +87,7 @@ static gboolean bet_array_list_button_press ( GtkWidget *tree_view,
 static void bet_array_list_context_menu ( GtkWidget *tree_view );
 static void bet_array_list_redo_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
+static gboolean bet_array_list_set_background_color ( GtkWidget *tree_view );
 static void bet_array_list_update_balance ( GtkTreeModel *model );
 static void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
                         gint selected_account,
@@ -92,6 +97,9 @@ static void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
                         gint selected_account,
                         GDate *date_min,
                         GDate *date_max );
+static gboolean  bet_array_start_date_focus_out ( GtkWidget *entry,
+                        GdkEventFocus *ev,
+                        gpointer data );
 static gboolean bet_array_update_average_column (GtkTreeModel *model,
                         GtkTreePath *path,
                         GtkTreeIter *iter,
@@ -101,19 +109,16 @@ static gboolean bet_array_update_average_column (GtkTreeModel *model,
 /*START_EXTERN*/
 extern gboolean balances_with_scheduled;
 extern gchar* bet_duration_array[];
+extern GdkColor couleur_fond[0];
+extern GdkColor couleur_division;
 extern GtkWidget *notebook_general;
 extern gsb_real null_real;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
-enum bet_account_tree_columns {
-    SPP_ACCOUNT_TREE_NUM_COLUMN,
-    SPP_ACCOUNT_TREE_NAME_COLUMN,
-    SPP_ACCOUNT_TREE_NUM_COLUMNS
-};
-
 enum bet_estimation_tree_columns {
     SPP_ESTIMATE_TREE_SELECT_COLUMN,  /* select column for the balance */
+    SPP_ESTIMATE_TREE_DIVISION_COLUMN,
     SPP_ESTIMATE_TREE_DATE_COLUMN,
     SPP_ESTIMATE_TREE_DESC_COLUMN,
     SPP_ESTIMATE_TREE_DEBIT_COLUMN,
@@ -122,6 +127,7 @@ enum bet_estimation_tree_columns {
     SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
     SPP_ESTIMATE_TREE_AMOUNT_COLUMN,	/* the amount without currency */
     SPP_ESTIMATE_TREE_BALANCE_COLOR,
+    SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
     SPP_ESTIMATE_TREE_NUM_COLUMNS
 };
 
@@ -268,7 +274,7 @@ void bet_array_refresh_estimate_tab ( void )
     gchar *str_amount;
     gchar *title;
     gchar *tmp_str;
-    gint selected_account;
+    gint account_nb;
     GDate *date_init;
     GDate *date_min;
     GDate *date_max;
@@ -281,28 +287,32 @@ void bet_array_refresh_estimate_tab ( void )
     tmp_range = initialise_struct_bet_range ( );
 
     /* find the selected account */
-    selected_account = gsb_gui_navigation_get_current_account ( );
+    account_nb = gsb_gui_navigation_get_current_account ( );
 
-    if ( selected_account == -1 )
+    if ( account_nb == -1 )
         return;
 
     /* calculate date_min and date_max with user choice */
-    date_min = gdate_today ();
-    if ( etat.bet_deb_period == 1 )
-        g_date_set_day ( date_min, 1 );
+    date_min = gsb_data_account_get_bet_start_date ( account_nb );
 
     date_init = gsb_date_copy ( date_min );
     g_date_subtract_days ( date_init, 1 );
 
-    date_max = gdate_today ();
+    date_max = gsb_date_copy ( date_min );
 
-    if ( etat.bet_end_period == 1 )
+    if ( g_date_get_day ( date_min ) == 1 )
     {
         g_date_add_months (date_max, etat.bet_months - 1 );
         date_max = gsb_date_get_last_day_of_month ( date_max );
     }
     else
+    {
         g_date_add_months (date_max, etat.bet_months );
+        g_date_subtract_days ( date_max, 1 );
+    }
+
+    widget = g_object_get_data ( G_OBJECT ( notebook ), "initial_date");
+    gsb_calendar_entry_set_date ( widget, date_min );
 
     str_date_init = gsb_format_gdate ( date_init );
     str_date_min = gsb_format_gdate ( date_min );
@@ -316,22 +326,21 @@ void bet_array_refresh_estimate_tab ( void )
      * in the future in the account. So we need to calculate the balance
      * of today */
     current_balance = gsb_data_account_calculate_current_day_balance (
-                        selected_account, date_min );
+                        account_nb, date_min );
 
     str_amount = gsb_real_save_real_to_string ( current_balance, 2 );
     str_current_balance = gsb_real_get_string_with_currency ( current_balance,
-                        gsb_data_account_get_currency ( selected_account ), TRUE );
+                        gsb_data_account_get_currency ( account_nb ), TRUE );
 
     if ( current_balance.mantissa < 0 )
         color_str = "red";
     else
         color_str = NULL;
 
-
     /* set the titles of tabs module budget */
     title = g_strdup_printf (
                         _("Balance estimate of the account \"%s\" from %s to %s"),
-                        gsb_data_account_get_name ( selected_account ),
+                        gsb_data_account_get_name ( account_nb ),
                         str_date_min, str_date_max );
 
     widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( notebook ), "bet_array_title") );
@@ -340,12 +349,10 @@ void bet_array_refresh_estimate_tab ( void )
 
     title = g_strdup_printf (
                         _("Please select the data source for the account: \"%s\""),
-                        gsb_data_account_get_name (
-                        gsb_gui_navigation_get_current_account ( ) ) );
+                        gsb_data_account_get_name ( account_nb ) );
     widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( notebook ), "bet_hist_title") );
     gtk_label_set_markup ( GTK_LABEL ( widget ), title );
     g_free ( title );
-
 
     /* clear the model */
     tree_view = g_object_get_data ( G_OBJECT ( notebook ), "bet_estimate_treeview" );
@@ -363,6 +370,7 @@ void bet_array_refresh_estimate_tab ( void )
                         SPP_ESTIMATE_TREE_BALANCE_COLUMN, str_current_balance,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
                         SPP_ESTIMATE_TREE_BALANCE_COLOR, color_str,
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_fond[0],
                         -1);
 
     g_value_unset ( &date_value );
@@ -378,17 +386,18 @@ void bet_array_refresh_estimate_tab ( void )
     
     /* search transactions of the account which are in the period */
     bet_array_refresh_transactions_data ( tree_model,
-                        selected_account,
+                        account_nb,
                         date_min,
                         date_max );
 
     /* for each schedulded operation */
     bet_array_refresh_scheduled_data ( tree_model,
-                        selected_account,
+                        account_nb,
                         date_min,
                         date_max );
 
     g_free ( date_min );
+    g_free ( date_init );
     g_free ( date_max );
 
     /* Calculate the balance column */
@@ -397,6 +406,8 @@ void bet_array_refresh_estimate_tab ( void )
 
     gtk_tree_model_foreach ( GTK_TREE_MODEL ( tree_model ),
                         bet_array_update_average_column, tmp_range );
+
+    bet_array_list_set_background_color ( tree_view );
 }
 
 
@@ -410,6 +421,7 @@ GtkWidget *bet_array_create_page ( void )
 {
     GtkWidget *notebook;
     GtkWidget *widget = NULL;
+    GtkWidget *initial_date = NULL;
     GtkWidget *vbox;
     GtkWidget *hbox;
     GtkWidget *align;
@@ -419,6 +431,7 @@ GtkWidget *bet_array_create_page ( void )
     GtkWidget *scrolled_window;
     GtkWidget *tree_view;
     GtkTreeStore *tree_model;
+    GtkTreeModel *sortable;
     GtkCellRenderer *cell;
     GtkTreeViewColumn *column;
     gint iduration;
@@ -442,6 +455,7 @@ GtkWidget *bet_array_create_page ( void )
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
 
     label = gtk_label_new ( _("Duration estimation") );
+    gtk_misc_set_padding ( GTK_MISC (label), 5, 0 );
     gtk_box_pack_start( GTK_BOX ( hbox ), label, FALSE, FALSE, 5);
 
     if ( etat.bet_spin_range == 0 )
@@ -449,12 +463,14 @@ GtkWidget *bet_array_create_page ( void )
         spin_button = gtk_spin_button_new_with_range ( 1.0, 240.0, 1.0);
         gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ),
                         (gdouble) etat.bet_months );
+        gtk_widget_grab_focus ( spin_button );
     }
     else
     {
         spin_button = gtk_spin_button_new_with_range ( 1.0, 20.0, 1.0 );
         gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ),
                         (gdouble) ( etat.bet_months / 12 ) );
+        gtk_widget_grab_focus ( spin_button );
     }
     gtk_widget_set_name ( spin_button, "spin_button" );
 
@@ -491,6 +507,22 @@ GtkWidget *bet_array_create_page ( void )
                         widget );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button, FALSE, FALSE, 0 );
 
+    label = gtk_label_new ( COLON ( _("Start date" ) ) );
+    gtk_misc_set_padding ( GTK_MISC (label), 5, 0 );
+    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
+
+    initial_date = gsb_calendar_entry_new ( FALSE );
+    g_signal_connect ( G_OBJECT ( initial_date ),
+                        "focus-out-event",
+                        G_CALLBACK ( bet_array_start_date_focus_out ),
+                        NULL );
+    g_signal_connect ( G_OBJECT ( initial_date ),
+			            "key-press-event",
+			            G_CALLBACK ( bet_array_entry_key_press ),
+			            NULL );
+    g_object_set_data ( G_OBJECT ( notebook ), "initial_date", initial_date );
+    gtk_box_pack_start ( GTK_BOX (hbox), initial_date, FALSE, FALSE, 0 );
+
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ( );
     gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
@@ -498,19 +530,23 @@ GtkWidget *bet_array_create_page ( void )
 
     /* create the model */
     tree_model = gtk_tree_store_new ( SPP_ESTIMATE_TREE_NUM_COLUMNS,
-                    G_TYPE_BOOLEAN, /*SPP_ESTIMATE_TREE_SELECT_COLUMN */
-				    G_TYPE_STRING,  /* SPP_ESTIMATE_TREE_DATE_COLUMN */
-				    G_TYPE_STRING,  /* SPP_ESTIMATE_TREE_DESC_COLUMN */
-				    G_TYPE_STRING,  /* SPP_ESTIMATE_TREE_DEBIT_COLUMN */
-				    G_TYPE_STRING,  /* SPP_ESTIMATE_TREE_CREDIT_COLUMN */
-				    G_TYPE_STRING,  /* SPP_ESTIMATE_TREE_BALANCE_COLUMN */
-				    G_TYPE_DATE,    /* SPP_ESTIMATE_TREE_SORT_DATE_COLUMN */
-				    G_TYPE_STRING,  /* SPP_ESTIMATE_TREE_AMOUNT_COLUMN */
-                    G_TYPE_STRING );/*SPP_ESTIMATE_TREE_BALANCE_COLOR */
+                    G_TYPE_BOOLEAN,     /* SPP_ESTIMATE_TREE_SELECT_COLUMN */
+                    G_TYPE_BOOLEAN,     /* SPP_ESTIMATE_TREE_DIVISION_COLUMN */
+				    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DATE_COLUMN */
+				    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DESC_COLUMN */
+				    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DEBIT_COLUMN */
+				    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_CREDIT_COLUMN */
+				    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_BALANCE_COLUMN */
+				    G_TYPE_DATE,        /* SPP_ESTIMATE_TREE_SORT_DATE_COLUMN */
+				    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_AMOUNT_COLUMN */
+                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_BALANCE_COLOR */
+                    GDK_TYPE_COLOR );   /* SPP_ESTIMATE_TREE_BACKGROUND_COLOR */
+
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( tree_model ) );
     g_object_unref ( G_OBJECT ( tree_model ) );
 
     /* sort by date */
+    sortable = gtk_tree_model_sort_new_with_model ( GTK_TREE_MODEL ( tree_model ) );
     gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model ),
 				      SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
 				      (GtkTreeIterCompareFunc) bet_array_date_sort_function,
@@ -532,7 +568,8 @@ GtkWidget *bet_array_create_page ( void )
     column = gtk_tree_view_column_new_with_attributes (
 					    _("Date"), cell,
 					    "text", SPP_ESTIMATE_TREE_DATE_COLUMN,
-					    NULL);
+                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+                        NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
 				GTK_TREE_VIEW_COLUMN(column));
     gtk_tree_view_column_set_min_width(GTK_TREE_VIEW_COLUMN(column), 150);
@@ -540,9 +577,10 @@ GtkWidget *bet_array_create_page ( void )
     /* Description column */
     cell = gtk_cell_renderer_text_new ();
     column = gtk_tree_view_column_new_with_attributes (
-						       _("Description"), cell,
-						       "text", SPP_ESTIMATE_TREE_DESC_COLUMN,
-						       NULL);
+					    _("Description"), cell,
+					    "text", SPP_ESTIMATE_TREE_DESC_COLUMN,
+                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+					    NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
 				GTK_TREE_VIEW_COLUMN(column));
     gtk_tree_view_column_set_min_width(column, 300);
@@ -551,9 +589,10 @@ GtkWidget *bet_array_create_page ( void )
     /* Debit column */
     cell = gtk_cell_renderer_text_new ();
     column = gtk_tree_view_column_new_with_attributes (
-						       _("Debit"), cell,
-						       "text", SPP_ESTIMATE_TREE_DEBIT_COLUMN,
-						       NULL);
+						_("Debit"), cell,
+					    "text", SPP_ESTIMATE_TREE_DEBIT_COLUMN,
+                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+					    NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
 				GTK_TREE_VIEW_COLUMN(column));
     gtk_tree_view_column_set_min_width(column, 140);
@@ -565,9 +604,10 @@ GtkWidget *bet_array_create_page ( void )
     cell = gtk_cell_renderer_text_new ();
     g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1.0, NULL );
     column = gtk_tree_view_column_new_with_attributes (
-						       _("Credit"), cell,
-						       "text", SPP_ESTIMATE_TREE_CREDIT_COLUMN,
-						       NULL);
+					    _("Credit"), cell,
+					    "text", SPP_ESTIMATE_TREE_CREDIT_COLUMN,
+                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+						NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
 				GTK_TREE_VIEW_COLUMN(column));
     gtk_tree_view_column_set_min_width(column, 140);
@@ -581,6 +621,7 @@ GtkWidget *bet_array_create_page ( void )
 					    _("Balance"), cell,
 					    "text", SPP_ESTIMATE_TREE_BALANCE_COLUMN,
                         "foreground", SPP_ESTIMATE_TREE_BALANCE_COLOR,
+                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
 					    NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
 				GTK_TREE_VIEW_COLUMN(column));
@@ -723,6 +764,7 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
                         SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
                         &date_value );
             gtk_tree_store_set ( GTK_TREE_STORE ( tab_model ), &iter,
+                        SPP_ESTIMATE_TREE_DIVISION_COLUMN, FALSE,
                         SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
                         SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
                         SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
@@ -811,7 +853,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         {
             if ( g_date_compare ( date, date_jour ) > 1 )
                 continue;
-            else
+            else if ( g_date_get_month ( date ) >= g_date_get_month ( date_jour ) )
                 bet_array_adjust_hist_data ( div_number, sub_div_nb, amount, tab_model );
         }
 
@@ -855,6 +897,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
                         SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
                         &date_value );
         gtk_tree_store_set ( GTK_TREE_STORE ( tab_model ), &iter,
+                        SPP_ESTIMATE_TREE_DIVISION_COLUMN, FALSE,
                         SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
                         SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
                         SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
@@ -887,6 +930,7 @@ void bet_array_list_add_new_line ( GtkTreeModel *tab_model,
 {
     GtkTreeIter tab_iter;
     GDate *date;
+    GDate *date_jour;
     GValue date_value = {0, };
     gchar *str_date;
     gchar *str_description;
@@ -899,8 +943,9 @@ void bet_array_list_add_new_line ( GtkTreeModel *tab_model,
     gsb_real amount;
 
     //~ devel_debug (NULL);
+    date_jour = gdate_today ( );
     date = gsb_date_get_last_day_of_month ( date_min );
-
+        
     /* initialise les données de la ligne insérée */
     gtk_tree_model_get ( GTK_TREE_MODEL ( model ), iter,
                         SPP_HISTORICAL_DESC_COLUMN, &str_description,
@@ -929,7 +974,9 @@ void bet_array_list_add_new_line ( GtkTreeModel *tab_model,
         if ( g_date_compare ( date, date_max ) > 0 )
             break;
 
-        if ( g_date_compare ( date, date_min ) < 0 )
+        if ( g_date_compare ( date, date_min ) < 0 
+         ||
+         g_date_get_month ( date ) < g_date_get_month ( date_jour ) )
         {
             g_date_add_months ( date, 1 );
             continue;
@@ -951,6 +998,7 @@ void bet_array_list_add_new_line ( GtkTreeModel *tab_model,
                         SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
                         &date_value );
         gtk_tree_store_set ( GTK_TREE_STORE ( tab_model ), &tab_iter,
+                        SPP_ESTIMATE_TREE_DIVISION_COLUMN, TRUE,
                         SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
                         SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
                         SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
@@ -1231,6 +1279,109 @@ void bet_array_list_update_balance ( GtkTreeModel *model )
  *
  *
  * */
+gboolean  bet_array_entry_key_press ( GtkWidget *entry,
+                        GdkEventKey *ev,
+                        gpointer data )
+{
+    gint account_nb;
+    GDate *date;
+
+    switch ( ev -> keyval )
+    {
+    case GDK_Escape :
+        account_nb = gsb_gui_navigation_get_current_account ( );
+	    date = gsb_data_account_get_bet_start_date ( account_nb );
+        gtk_entry_set_text ( GTK_ENTRY ( entry ),
+                        gsb_format_gdate ( date ) );
+	    break;
+    case GDK_KP_Enter :
+    case GDK_Return :
+        bet_array_start_date_focus_out ( entry, NULL, data );
+        break;
+    }
+
+    return FALSE;
+}
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean  bet_array_start_date_focus_out ( GtkWidget *entry,
+                        GdkEventFocus *ev,
+                        gpointer data )
+{
+    gint account_nb;
+    GDate *date;
+
+    gtk_editable_select_region ( GTK_EDITABLE ( entry ), 0, 0 );
+    account_nb = gsb_gui_navigation_get_current_account ( );
+    date = gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+    gsb_data_account_set_bet_start_date ( account_nb, date );
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
+    bet_array_refresh_estimate_tab ( );
+
+    return FALSE;
+}
+
+
+/**
+ * set the background colors of the list
+ *
+ * \param tree_view
+ *
+ * \return FALSE
+ * */
+gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+
+    devel_debug (NULL);
+
+    if ( !tree_view )
+	    return FALSE;
+
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ));
+
+    
+
+    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
+    {
+        gint div = 0;
+        gint current_color = 0;
+
+        do
+        {
+            gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
+			            &iter,
+			            SPP_ESTIMATE_TREE_DIVISION_COLUMN, &div,
+			            -1 );
+            if ( div == 0 )
+            {
+                gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                        &iter,
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_fond[current_color],
+                        -1 );
+                current_color = !current_color;
+            }
+            else
+                gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                        &iter,
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_division,
+                        -1 );
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+    }
+
+    return FALSE;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
