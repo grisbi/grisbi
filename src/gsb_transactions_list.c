@@ -164,6 +164,7 @@ gchar *cell_views[] = {
 
 /*START_EXTERN*/
 extern GSList *liste_labels_titres_colonnes_liste_ope;
+extern struct conditional_message messages[];
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
@@ -1533,6 +1534,8 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     GtkTreeIter iter;
     gint r_column;
     GtkTreeModel *model;
+    gint msg_no = 0;
+    gchar *tmp_str;
 
     r_column = find_element_col (ELEMENT_MARK);
     if ( r_column == -1 )
@@ -1545,33 +1548,37 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     /* if we are reconciling, cancel the action */
     if (etat.equilibrage)
     {
-	dialogue_error ( _("You cannot switch a transaction between R and non R while reconciling.\nPlease finish or cancel the reconciliation first."));
-	return FALSE;
+        dialogue_error ( _("You cannot switch a transaction between R and non R "
+                         "while reconciling.\nPlease finish or cancel the "
+                         "reconciliation first.") );
+        return FALSE;
     }
 
     /* if it's a child, we ask if we want to work with the mother */
     if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
-	if (question_yes_no_hint ( _("Confirmation of manual (un)reconciliation"),
+        msg_no = question_conditional_yes_no_get_no_struct ( &messages[0],
+                        "reconcile-transaction" );
+    	tmp_str = g_strdup_printf ( 
 				   _("You are trying to reconcile or unreconcile a transaction manually, "
-				     "which is not a recommended action. Are you really sure you know what you are doing?"
-				     "manually a transaction which isn't a regular way to do.\n\n"
+				     "which is not a recommended action.This is the wrong approach.\n\n"
 				     "And moreover the transaction you try to reconcile is a child of split, so "
 				     "the modification will be done on the mother and all its children.\n\n"
-				     "Are you really sure to know what you do?"),
-				   GTK_RESPONSE_NO ))
-	    /* he says ok, so transaction_number becomes the mother */
-	    transaction_number = gsb_data_transaction_get_mother_transaction_number (transaction_number);
-	else
-	    return FALSE;
+				     "Are you really sure to know what you do?") );
+        messages[msg_no].message = tmp_str;
+        if ( question_conditional_yes_no_with_struct ( &messages[msg_no] ) )
+        {
+            /* he says ok, so transaction_number becomes the mother */
+            transaction_number = gsb_data_transaction_get_mother_transaction_number (
+                        transaction_number );
+        }
+	    else
+	        return FALSE;
     }
     else
-	/* it's a normal transaction, ask to be sure */
-	if ( !question_yes_no_hint ( _("Confirmation of manual (un)reconciliation"),
-				     _("You are trying to reconcile or unreconcile a transaction manually, "
-				       "which is not a recommended action. Are you really sure you know what you are doing?"),
-				     GTK_RESPONSE_NO ))
-	    return FALSE;
+	    /* it's a normal transaction, ask to be sure */
+        if ( !question_conditional_yes_no ( "reconcile-transaction" ) )
+	        return FALSE;
 
     model = GTK_TREE_MODEL (transaction_model_get_model());
 
@@ -1587,9 +1594,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 	/* ok, this is a R transaction, we just un-R it but keep the reconcile_number into the transaction */
 	gsb_data_transaction_set_marked_transaction ( transaction_number,
 						      OPERATION_NORMALE );
-	transaction_list_set ( &iter,
-			       r_column, NULL,
-			       -1 );
+	transaction_list_set ( &iter, r_column, NULL, -1 );
     }
     else
     {
@@ -1599,7 +1604,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 	gint reconcile_number;
 
 	reconcile_number = gsb_transactions_list_choose_reconcile ( account_number,
-								    gsb_data_transaction_get_reconcile_number (transaction_number));
+						gsb_data_transaction_get_reconcile_number (transaction_number));
 	if (!reconcile_number)
 	    return FALSE;
 
@@ -1609,9 +1614,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 						    reconcile_number );
 
 	/* set the R on the transaction */
-	transaction_list_set ( &iter,
-			       r_column, g_strdup ( _("R") ),
-			       -1 );
+	transaction_list_set ( &iter, r_column, g_strdup ( _("R") ), -1 );
 
 	/* if we don't want to see the marked R transactions, we re-filter the model */
 	if ( !gsb_data_account_get_r (account_number) )
@@ -1650,6 +1653,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
+        transaction_list_update_element ( ELEMENT_MARK );
     }
     /* need to update the marked amount on the home page */
     mise_a_jour_liste_comptes_accueil = 1;

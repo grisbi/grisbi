@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-06 20:38+0100\n"
+"POT-Creation-Date: 2010-03-07 07:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -171,7 +171,7 @@ msgstr ""
 #: src/gsb_bank.c:855 src/gsb_currency_config.c:353
 #: src/gsb_data_partial_balance.c:1532 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:240
-#: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1743
+#: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1750
 #: src/imputation_budgetaire.c:699 src/tiers_onglet.c:625
 msgid "Name"
 msgstr ""
@@ -196,7 +196,7 @@ msgstr ""
 #. initialization of titles
 #: src/accueil.c:2154 src/affichage.c:984 src/affichage.c:985
 #: src/gsb_assistant_file.c:564 src/navigation.c:1129 src/navigation.c:1130
-#: src/traitement_variables.c:295
+#: src/traitement_variables.c:296
 msgid "My accounts"
 msgstr ""
 
@@ -521,7 +521,7 @@ msgid "From date to date"
 msgstr ""
 
 #. partie mensuelle
-#: src/balance_estimate_config.c:217 src/balance_estimate_tab.c:470
+#: src/balance_estimate_config.c:217 src/balance_estimate_tab.c:457
 msgid "Duration estimation"
 msgstr ""
 
@@ -530,7 +530,7 @@ msgstr ""
 #: src/balance_estimate_config.c:297 src/balance_estimate_hist.c:175
 #: src/etats_config.c:526 src/etats_config.c:529 src/etats_config.c:2991
 #: src/etats_config.c:7057 src/fenetre_principale.c:276 src/navigation.c:302
-#: src/navigation.c:1221
+#: src/navigation.c:1222
 msgid "Categories"
 msgstr ""
 
@@ -539,7 +539,7 @@ msgstr ""
 #: src/balance_estimate_config.c:306 src/balance_estimate_hist.c:183
 #: src/etats_config.c:535 src/etats_config.c:538 src/etats_config.c:3797
 #: src/etats_config.c:7134 src/export_csv.c:799 src/fenetre_principale.c:281
-#: src/import_csv.c:86 src/navigation.c:319 src/navigation.c:1232
+#: src/import_csv.c:86 src/navigation.c:319 src/navigation.c:1233
 #: src/traitement_variables.c:80
 msgid "Budgetary lines"
 msgstr ""
@@ -548,7 +548,7 @@ msgstr ""
 msgid "Choose the financial year or 12 months rolling"
 msgstr ""
 
-#: src/balance_estimate_hist.c:162 src/balance_estimate_tab.c:352
+#: src/balance_estimate_hist.c:162 src/balance_estimate_tab.c:351
 #, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr ""
@@ -611,20 +611,20 @@ msgstr ""
 msgid "Copy the average amount"
 msgstr ""
 
-#: src/balance_estimate_tab.c:343
+#: src/balance_estimate_tab.c:342
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
-#: src/balance_estimate_tab.c:363
+#: src/balance_estimate_tab.c:362
 msgid "balance beginning of period"
 msgstr ""
 
-#: src/balance_estimate_tab.c:454
+#: src/balance_estimate_tab.c:510
 msgid "Start date"
 msgstr ""
 
-#: src/balance_estimate_tab.c:560 src/etats_affiche.c:2405
+#: src/balance_estimate_tab.c:569 src/etats_affiche.c:2405
 #: src/export_csv.c:760 src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_form.c:1284 src/gsb_form_widget.c:440 src/gsb_reconcile.c:148
 #: src/gsb_scheduler_list.c:339 src/gsb_transactions_list.c:144
@@ -633,13 +633,13 @@ msgid "Date"
 msgstr ""
 
 #. Description entry
-#: src/balance_estimate_tab.c:570 src/etats_onglet.c:261
+#: src/balance_estimate_tab.c:580 src/etats_onglet.c:261
 #: src/tiers_onglet.c:638
 msgid "Description"
 msgstr ""
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:581 src/categories_onglet.c:695
+#: src/balance_estimate_tab.c:592 src/categories_onglet.c:695
 #: src/export_csv.c:781 src/gsb_form.c:1318 src/gsb_form_widget.c:444
 #: src/gsb_payment_method_config.c:315 src/gsb_payment_method_config.c:386
 #: src/gsb_payment_method_config.c:1084 src/gsb_transactions_list.c:148
@@ -649,7 +649,7 @@ msgid "Debit"
 msgstr ""
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:595 src/categories_onglet.c:695
+#: src/balance_estimate_tab.c:607 src/categories_onglet.c:695
 #: src/export_csv.c:778 src/gsb_form.c:1325 src/gsb_form_widget.c:448
 #: src/gsb_payment_method_config.c:322 src/gsb_payment_method_config.c:399
 #: src/gsb_payment_method_config.c:1080 src/gsb_transactions_list.c:149
@@ -657,41 +657,41 @@ msgstr ""
 msgid "Credit"
 msgstr ""
 
-#: src/balance_estimate_tab.c:608 src/export_csv.c:787 src/gsb_reconcile.c:151
+#: src/balance_estimate_tab.c:621 src/export_csv.c:787 src/gsb_reconcile.c:151
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
-#: src/gsb_transactions_list.c:2907 src/import_csv.c:88
+#: src/gsb_transactions_list.c:2914 src/import_csv.c:88
 #: src/traitement_variables.c:83
 msgid "Balance"
 msgstr ""
 
-#: src/balance_estimate_tab.c:684 src/balance_estimate_tab.c:694
-#: src/balance_estimate_tab.c:865
+#: src/balance_estimate_tab.c:698 src/balance_estimate_tab.c:708
+#: src/balance_estimate_tab.c:880
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1051
+#: src/balance_estimate_tab.c:1068
 msgid "Subtract to the balance"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1058
+#: src/balance_estimate_tab.c:1075
 msgid "Adding to the balance"
 msgstr ""
 
 #. Delete item
-#: src/balance_estimate_tab.c:1075
+#: src/balance_estimate_tab.c:1092
 msgid "Reset data"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1200
+#: src/balance_estimate_tab.c:1217
 msgid " (still available)"
 msgstr ""
 
 #. New transaction
 #: src/barre_outils.c:95 src/gsb_scheduler_list.c:2006
-#: src/gsb_transactions_list.c:2124
+#: src/gsb_transactions_list.c:2131
 msgid "New transaction"
 msgstr ""
 
@@ -1119,10 +1119,21 @@ msgid "Grisbi found no known inconsistency in accounts processed."
 msgstr ""
 
 #: src/dialog.c:97
-msgid "Reconcile start and end dates."
+msgid "Confirmation of manual (un)reconciliation"
 msgstr ""
 
 #: src/dialog.c:98
+msgid ""
+"You are trying to reconcile or unreconcile a transaction manually, which is "
+"not a recommended action.\n"
+"Are you really sure you know what you are doing?"
+msgstr ""
+
+#: src/dialog.c:103
+msgid "Reconcile start and end dates."
+msgstr ""
+
+#: src/dialog.c:104
 msgid ""
 "In previous versions, Grisbi did not save start date, end date and balance "
 "for reconciliation.  This is now done, so Grisbi will try to guess values "
@@ -1130,12 +1141,12 @@ msgid ""
 "can be guessed. Please check in the Preferences window for more information."
 msgstr ""
 
-#: src/dialog.c:104
+#: src/dialog.c:110
 #, c-format
 msgid "You are running Grisbi version %s"
 msgstr ""
 
-#: src/dialog.c:105 src/dialog.c:111
+#: src/dialog.c:111 src/dialog.c:117
 msgid ""
 "Warning, please be aware that the version you run is a DEVELOPMENT version. "
 "In any case do not work with this version on your original accounting files. "
@@ -1143,32 +1154,32 @@ msgid ""
 "versions)."
 msgstr ""
 
-#: src/dialog.c:110 src/main.c:221
+#: src/dialog.c:116 src/main.c:221
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
 
-#: src/dialog.c:327 src/dialog.c:526 src/gsb_scheduler_list.c:1733
+#: src/dialog.c:333 src/dialog.c:532 src/gsb_scheduler_list.c:1733
 msgid "Do not show this message again"
 msgstr ""
 
-#: src/dialog.c:651
+#: src/dialog.c:657
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
 msgstr ""
 
-#: src/dialog.c:653
+#: src/dialog.c:659
 msgid "Serious brain damage expected."
 msgstr ""
 
-#: src/dialog.c:664
+#: src/dialog.c:670
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
 msgstr ""
 
-#: src/dialog.c:666
+#: src/dialog.c:672
 msgid "Cannot allocate memory"
 msgstr ""
 
@@ -1447,13 +1458,13 @@ msgid "Result without financial year"
 msgstr ""
 
 #: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:950
-#: src/gsb_transactions_list.c:3281
+#: src/gsb_transactions_list.c:3288
 #, c-format
 msgid "Transfer to %s"
 msgstr ""
 
 #: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:953
-#: src/gsb_transactions_list.c:3284
+#: src/gsb_transactions_list.c:3291
 #, c-format
 msgid "Transfer from %s"
 msgstr ""
@@ -1508,7 +1519,7 @@ msgstr ""
 
 #: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1038
 #: src/gsb_form.c:723 src/gsb_form.c:2664 src/gsb_form.c:3063
-#: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3259
+#: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3266
 msgid "Split of transaction"
 msgstr ""
 
@@ -1842,7 +1853,7 @@ msgstr ""
 #: src/gsb_assistant_archive.c:242 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:422
 #: src/gsb_assistant_reconcile_config.c:1227 src/gsb_reconcile_config.c:96
-#: src/gsb_reconcile_config.c:208 src/gsb_transactions_list.c:1743
+#: src/gsb_reconcile_config.c:208 src/gsb_transactions_list.c:1750
 msgid "Final date"
 msgstr ""
 
@@ -1971,7 +1982,7 @@ msgid "Outgoing budget lines"
 msgstr ""
 
 #. set the title
-#: src/etats_config.c:3981 src/navigation.c:285 src/navigation.c:1210
+#: src/etats_config.c:3981 src/navigation.c:285 src/navigation.c:1211
 #: src/tiers_onglet.c:222
 msgid "Payees"
 msgstr ""
@@ -2502,7 +2513,7 @@ msgid "Clone selected report"
 msgstr ""
 
 #: src/etats_onglet.c:213 src/fenetre_principale.c:286 src/navigation.c:336
-#: src/navigation.c:1248
+#: src/navigation.c:1249
 msgid "Reports"
 msgstr ""
 
@@ -3813,7 +3824,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
 #: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:515
-#: src/gsb_form.c:2771 src/gsb_form.c:2772 src/navigation.c:1246
+#: src/gsb_form.c:2771 src/gsb_form.c:2772 src/navigation.c:1247
 msgid "Report"
 msgstr ""
 
@@ -4365,7 +4376,7 @@ msgstr ""
 
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
-#: src/gsb_assistant_reconcile_config.c:1181 src/gsb_transactions_list.c:1694
+#: src/gsb_assistant_reconcile_config.c:1181 src/gsb_transactions_list.c:1701
 msgid "Selection of a reconciliation"
 msgstr ""
 
@@ -7255,7 +7266,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr ""
 
-#: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1743
+#: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1750
 msgid "Init date"
 msgstr ""
 
@@ -7397,7 +7408,7 @@ msgid "Only this one"
 msgstr ""
 
 #. set the title
-#: src/gsb_scheduler_list.c:1800 src/navigation.c:1186
+#: src/gsb_scheduler_list.c:1800 src/navigation.c:1187
 msgid "Scheduled transactions"
 msgstr ""
 
@@ -7430,12 +7441,12 @@ msgid "Show transactions for the next"
 msgstr ""
 
 #. Edit transaction
-#: src/gsb_scheduler_list.c:1992 src/gsb_transactions_list.c:2109
+#: src/gsb_scheduler_list.c:1992 src/gsb_transactions_list.c:2116
 msgid "Edit transaction"
 msgstr ""
 
 #. Delete transaction
-#: src/gsb_scheduler_list.c:2017 src/gsb_transactions_list.c:2132
+#: src/gsb_scheduler_list.c:2017 src/gsb_transactions_list.c:2139
 msgid "Delete transaction"
 msgstr ""
 
@@ -7466,27 +7477,27 @@ msgstr ""
 msgid "Cheque number"
 msgstr ""
 
-#: src/gsb_transactions_list.c:182
+#: src/gsb_transactions_list.c:183
 msgid "Delete a child transaction."
 msgstr ""
 
-#: src/gsb_transactions_list.c:186
+#: src/gsb_transactions_list.c:187
 msgid "Delete a transaction."
 msgstr ""
 
-#: src/gsb_transactions_list.c:190
+#: src/gsb_transactions_list.c:191
 msgid "Delete a child of scheduled transaction."
 msgstr ""
 
-#: src/gsb_transactions_list.c:194
+#: src/gsb_transactions_list.c:195
 msgid "Delete a scheduled transaction."
 msgstr ""
 
-#: src/gsb_transactions_list.c:198
+#: src/gsb_transactions_list.c:199
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr ""
 
-#: src/gsb_transactions_list.c:560 src/gsb_transactions_list.c:3398
+#: src/gsb_transactions_list.c:561 src/gsb_transactions_list.c:3405
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -7494,53 +7505,47 @@ msgid ""
 "The concerned children number are :\n"
 msgstr ""
 
-#: src/gsb_transactions_list.c:801
+#: src/gsb_transactions_list.c:802
 msgid "P"
 msgstr ""
 
-#: src/gsb_transactions_list.c:805
+#: src/gsb_transactions_list.c:806
 msgid "T"
 msgstr ""
 
-#: src/gsb_transactions_list.c:809 src/gsb_transactions_list.c:1613
+#: src/gsb_transactions_list.c:810 src/gsb_transactions_list.c:1620
 msgid "R"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1174
+#: src/gsb_transactions_list.c:1175
 #, c-format
 msgid "Do you want to add the transactions of the archive %s into the list ?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1184
+#: src/gsb_transactions_list.c:1185
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1188
+#: src/gsb_transactions_list.c:1189
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1548
+#: src/gsb_transactions_list.c:1551
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
 
-#. it's a normal transaction, ask to be sure
-#: src/gsb_transactions_list.c:1555 src/gsb_transactions_list.c:1570
-msgid "Confirmation of manual (un)reconciliation"
-msgstr ""
-
-#: src/gsb_transactions_list.c:1556
+#: src/gsb_transactions_list.c:1563
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
-"not a recommended action. Are you really sure you know what you are doing?"
-"manually a transaction which isn't a regular way to do.\n"
+"not a recommended action.This is the wrong approach.\n"
 "\n"
 "And moreover the transaction you try to reconcile is a child of split, so "
 "the modification will be done on the mother and all its children.\n"
@@ -7548,15 +7553,9 @@ msgid ""
 "Are you really sure to know what you do?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1571
-msgid ""
-"You are trying to reconcile or unreconcile a transaction manually, which is "
-"not a recommended action. Are you really sure you know what you are doing?"
-msgstr ""
-
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: src/gsb_transactions_list.c:1626
+#: src/gsb_transactions_list.c:1633
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -7564,23 +7563,23 @@ msgid ""
 "did."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1627
+#: src/gsb_transactions_list.c:1634
 msgid "Marking a transaction as R"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1706
+#: src/gsb_transactions_list.c:1713
 msgid "Select the reconciliation to associate to the selected transaction"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1828
+#: src/gsb_transactions_list.c:1835
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1872
+#: src/gsb_transactions_list.c:1879
 msgid "Impossible to delete an archived transaction."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1881
+#: src/gsb_transactions_list.c:1888
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -7588,64 +7587,64 @@ msgid ""
 "necessary."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1896
+#: src/gsb_transactions_list.c:1903
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1908
+#: src/gsb_transactions_list.c:1915
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
 #. use transaction as template
-#: src/gsb_transactions_list.c:2146
+#: src/gsb_transactions_list.c:2153
 msgid "Use selected transaction as a template"
 msgstr ""
 
 #. Clone transaction
-#: src/gsb_transactions_list.c:2156
+#: src/gsb_transactions_list.c:2163
 msgid "Clone transaction"
 msgstr ""
 
 #. Convert to scheduled transaction
-#: src/gsb_transactions_list.c:2169
+#: src/gsb_transactions_list.c:2176
 msgid "Convert transaction to scheduled transaction"
 msgstr ""
 
 #. Move to another account
-#: src/gsb_transactions_list.c:2178
+#: src/gsb_transactions_list.c:2185
 msgid "Move transaction to another account"
 msgstr ""
 
 #. Change cell content.
-#: src/gsb_transactions_list.c:2201
+#: src/gsb_transactions_list.c:2208
 msgid "Change cell content"
 msgstr ""
 
-#: src/gsb_transactions_list.c:2245
+#: src/gsb_transactions_list.c:2252
 msgid "Clear cell"
 msgstr ""
 
-#: src/gsb_transactions_list.c:2582
+#: src/gsb_transactions_list.c:2589
 msgid "Cannot move a transfer on his contra-account"
 msgstr ""
 
 #. sort by line
-#: src/gsb_transactions_list.c:2861
+#: src/gsb_transactions_list.c:2868
 msgid "Sort list by :"
 msgstr ""
 
-#: src/gsb_transactions_list.c:3268
+#: src/gsb_transactions_list.c:3275
 msgid "Transfer to a deleted account"
 msgstr ""
 
-#: src/gsb_transactions_list.c:3270
+#: src/gsb_transactions_list.c:3277
 msgid "Transfer from a deleted account"
 msgstr ""
 
-#: src/gsb_transactions_list.c:3427
+#: src/gsb_transactions_list.c:3434
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "

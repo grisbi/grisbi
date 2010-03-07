@@ -94,6 +94,12 @@ struct conditional_message messages[] =
       N_("Grisbi found no known inconsistency in accounts processed."),
       FALSE, FALSE, },
 
+    { "reconcile-transaction", N_("Confirmation of manual (un)reconciliation"),
+      N_("You are trying to reconcile or unreconcile a transaction manually, "
+	  "which is not a recommended action.\n"
+      "Are you really sure you know what you are doing?"), 
+      FALSE, FALSE, },
+
     { "reconcile-start-end-dates", N_("Reconcile start and end dates."),
       N_("In previous versions, Grisbi did not save start date, end date and balance for "
       "reconciliation.  This is now done, so Grisbi will try to guess values from your "
