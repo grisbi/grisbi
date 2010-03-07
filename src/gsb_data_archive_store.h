@@ -10,6 +10,7 @@
 void gsb_data_archive_store_create_list ( void );
 gint gsb_data_archive_store_get_account_number ( gint archive_store_number );
 gint gsb_data_archive_store_get_archive_number ( gint archive_store_number );
+gsb_real gsb_data_archive_store_get_archives_balance ( gint account_number );
 GSList *gsb_data_archive_store_get_archives_list ( void );
 gsb_real gsb_data_archive_store_get_balance ( gint archive_store_number );
 gint gsb_data_archive_store_get_number ( gpointer archive_ptr );

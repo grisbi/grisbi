@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-07 07:45+0100\n"
+"POT-Creation-Date: 2010-03-07 16:14+0100\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -174,7 +174,7 @@ msgstr ""
 #: src/gsb_bank.c:855 src/gsb_currency_config.c:353
 #: src/gsb_data_partial_balance.c:1532 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:240
-#: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1750
+#: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1754
 #: src/imputation_budgetaire.c:699 src/tiers_onglet.c:625
 msgid "Name"
 msgstr ""
@@ -691,7 +691,7 @@ msgstr ""
 
 #: src/balance_estimate_tab.c:621 src/export_csv.c:787 src/gsb_reconcile.c:151
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
-#: src/gsb_transactions_list.c:2914 src/import_csv.c:88
+#: src/gsb_transactions_list.c:2918 src/import_csv.c:88
 #: src/traitement_variables.c:83
 msgid "Balance"
 msgstr ""
@@ -723,183 +723,169 @@ msgid " (still available)"
 msgstr ""
 
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_scheduler_list.c:2006
-#: src/gsb_transactions_list.c:2131
+#: src/barre_outils.c:96 src/gsb_scheduler_list.c:2006
+#: src/gsb_transactions_list.c:2135
 msgid "New transaction"
 msgstr ""
 
-#: src/barre_outils.c:101
+#: src/barre_outils.c:102
 msgid "Blank the form to create a new transaction"
 msgstr ""
 
-#: src/barre_outils.c:107 src/barre_outils.c:461 src/categories_onglet.c:525
+#: src/barre_outils.c:108 src/barre_outils.c:517 src/categories_onglet.c:525
 #: src/etats_onglet.c:159 src/imputation_budgetaire.c:558
 #: src/tiers_onglet.c:321
 msgid "Delete"
 msgstr "حذف"
 
-#: src/barre_outils.c:112
+#: src/barre_outils.c:113
 #, fuzzy
 msgid "Delete selected transaction"
 msgstr "جستجوی تراکنش"
 
-#: src/barre_outils.c:118 src/barre_outils.c:473
+#: src/barre_outils.c:119 src/barre_outils.c:529
 msgid "Edit"
 msgstr "ویرایش"
 
-#: src/barre_outils.c:123
+#: src/barre_outils.c:124
 #, fuzzy
 msgid "Edit current transaction"
 msgstr "حذف تراکنش"
 
-#: src/barre_outils.c:128
+#: src/barre_outils.c:129
 msgid "Reconcile"
 msgstr ""
 
-#: src/barre_outils.c:134
+#: src/barre_outils.c:135
 msgid "Start account reconciliation"
 msgstr ""
 
 #. Set up dialog
-#: src/barre_outils.c:142 src/etats_onglet.c:149 src/print_config.c:80
+#: src/barre_outils.c:143 src/etats_onglet.c:149 src/print_config.c:80
 msgid "Print"
 msgstr "پرینت"
 
-#: src/barre_outils.c:147
+#: src/barre_outils.c:148
 #, fuzzy
 msgid "Print the transactions list"
 msgstr "جستجوی تراکنش"
 
-#: src/barre_outils.c:153 src/barre_outils.c:510 src/categories_onglet.c:544
+#: src/barre_outils.c:154 src/barre_outils.c:566 src/categories_onglet.c:544
 #: src/imputation_budgetaire.c:579 src/tiers_onglet.c:340
 msgid "View"
 msgstr ""
 
-#: src/barre_outils.c:158
+#: src/barre_outils.c:159
 msgid "Change display mode of the list"
 msgstr ""
 
-#: src/barre_outils.c:168
+#: src/barre_outils.c:169
 msgid "Import rules"
 msgstr ""
 
-#: src/barre_outils.c:173
+#: src/barre_outils.c:174
 msgid "Quick file import by rules"
 msgstr ""
 
-#: src/barre_outils.c:222
+#: src/barre_outils.c:224
 msgid "Simple view"
 msgstr ""
 
-#: src/barre_outils.c:227
+#: src/barre_outils.c:229
 msgid "Two lines view"
 msgstr ""
 
-#: src/barre_outils.c:232
+#: src/barre_outils.c:234
 msgid "Three lines view"
 msgstr ""
 
-#: src/barre_outils.c:237 src/categories_onglet.c:588
+#: src/barre_outils.c:239 src/categories_onglet.c:588
 #: src/imputation_budgetaire.c:623 src/tiers_onglet.c:437
 msgid "Complete view"
 msgstr ""
 
-#: src/barre_outils.c:244
+#: src/barre_outils.c:248
 #, fuzzy
-msgid "Display reconciled transactions (Alt+R)"
-msgstr "حذف تراکنش"
+msgid "Show reconciled transactions"
+msgstr "جستجوی تراکنش"
 
-#: src/barre_outils.c:293
+#: src/barre_outils.c:259
+#, fuzzy
+msgid "Show lines archives"
+msgstr "نمایش نام حساب"
+
+#: src/barre_outils.c:310
 #, fuzzy
 msgid "Remove the rule"
 msgstr "حذف گزارش"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1789
+#: src/barre_outils.c:460 src/gsb_scheduler_list.c:1789
 msgid "Unique view"
 msgstr ""
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1789
+#: src/barre_outils.c:460 src/gsb_scheduler_list.c:1789
 msgid "Week view"
 msgstr ""
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1789
+#: src/barre_outils.c:460 src/gsb_scheduler_list.c:1789
 msgid "Month view"
 msgstr ""
 
-#: src/barre_outils.c:405 src/gsb_scheduler_list.c:1790
+#: src/barre_outils.c:461 src/gsb_scheduler_list.c:1790
 msgid "Two months view"
 msgstr ""
 
-#: src/barre_outils.c:405 src/gsb_scheduler_list.c:1790
+#: src/barre_outils.c:461 src/gsb_scheduler_list.c:1790
 msgid "Quarter view"
 msgstr ""
 
-#: src/barre_outils.c:406 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:462 src/gsb_scheduler_list.c:1791
 msgid "Year view"
 msgstr ""
 
-#: src/barre_outils.c:406 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:462 src/gsb_scheduler_list.c:1791
 msgid "Custom view"
 msgstr ""
 
-#: src/barre_outils.c:449
+#: src/barre_outils.c:505
 msgid "_New scheduled"
 msgstr ""
 
-#: src/barre_outils.c:455
+#: src/barre_outils.c:511
 msgid "Prepare form to create a new scheduled transaction"
 msgstr ""
 
-#: src/barre_outils.c:467
+#: src/barre_outils.c:523
 msgid "Delete selected scheduled transaction"
 msgstr ""
 
-#: src/barre_outils.c:479
+#: src/barre_outils.c:535
 #, fuzzy
 msgid "Edit selected transaction"
 msgstr "جستجوی تراکنش"
 
 #. comments line
-#: src/barre_outils.c:485 src/gsb_account_property.c:563
+#: src/barre_outils.c:541 src/gsb_account_property.c:563
 #: src/gsb_scheduler_list.c:340
 msgid "Comments"
 msgstr ""
 
-#: src/barre_outils.c:491
+#: src/barre_outils.c:547
 msgid "Display scheduled transactions comments"
 msgstr ""
 
-#: src/barre_outils.c:499
+#: src/barre_outils.c:555
 msgid "Execute"
 msgstr "اجرا"
 
-#: src/barre_outils.c:505
+#: src/barre_outils.c:561
 #, fuzzy
 msgid "Execute current scheduled transaction"
 msgstr "جستجوی تراکنش"
 
-#: src/barre_outils.c:515
+#: src/barre_outils.c:571
 msgid "Change display mode of scheduled transaction list"
 msgstr ""
-
-#: src/barre_outils.c:533
-msgid "Mask reconcile"
-msgstr ""
-
-#: src/barre_outils.c:539
-#, fuzzy
-msgid "Mask reconciled transactions"
-msgstr "حذف تراکنش"
-
-#: src/barre_outils.c:545
-#, fuzzy
-msgid "Display reconcile"
-msgstr "نمایش نام حساب"
-
-#: src/barre_outils.c:551
-#, fuzzy
-msgid "Display reconciled transactions"
-msgstr "حذف تراکنش"
 
 #. set the choice of account
 #: src/categories_onglet.c:151 src/etats_config.c:681
@@ -1505,13 +1491,13 @@ msgid "Result without financial year"
 msgstr ""
 
 #: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:950
-#: src/gsb_transactions_list.c:3288
+#: src/gsb_transactions_list.c:3347
 #, c-format
 msgid "Transfer to %s"
 msgstr ""
 
 #: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:953
-#: src/gsb_transactions_list.c:3291
+#: src/gsb_transactions_list.c:3350
 #, c-format
 msgid "Transfer from %s"
 msgstr ""
@@ -1566,7 +1552,7 @@ msgstr ""
 
 #: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1038
 #: src/gsb_form.c:723 src/gsb_form.c:2664 src/gsb_form.c:3063
-#: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3266
+#: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3325
 msgid "Split of transaction"
 msgstr ""
 
@@ -1901,7 +1887,7 @@ msgstr ""
 #: src/gsb_assistant_archive.c:242 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:422
 #: src/gsb_assistant_reconcile_config.c:1227 src/gsb_reconcile_config.c:96
-#: src/gsb_reconcile_config.c:208 src/gsb_transactions_list.c:1750
+#: src/gsb_reconcile_config.c:208 src/gsb_transactions_list.c:1754
 msgid "Final date"
 msgstr ""
 
@@ -4481,7 +4467,7 @@ msgstr ""
 
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
-#: src/gsb_assistant_reconcile_config.c:1181 src/gsb_transactions_list.c:1701
+#: src/gsb_assistant_reconcile_config.c:1181 src/gsb_transactions_list.c:1705
 msgid "Selection of a reconciliation"
 msgstr ""
 
@@ -6140,19 +6126,19 @@ msgstr ""
 msgid "Invalid"
 msgstr ""
 
-#: src/gsb_data_account.c:229
+#: src/gsb_data_account.c:230
 #, c-format
 msgid "No name %d"
 msgstr ""
 
-#: src/gsb_data_account.c:541
+#: src/gsb_data_account.c:542
 #, c-format
 msgid ""
 "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
 msgstr ""
 
 #. TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?
-#: src/gsb_data_account.c:1157
+#: src/gsb_data_account.c:1201
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
@@ -6160,7 +6146,7 @@ msgid ""
 msgstr ""
 
 #. TODO dOm : the value of g_strdup_printf was not used. I add the devel_debug function to print it. Is it OK ?
-#: src/gsb_data_account.c:1195
+#: src/gsb_data_account.c:1239
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
@@ -6775,7 +6761,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr ""
 
-#: src/gsb_file_load.c:458 src/gsb_file_load.c:4881
+#: src/gsb_file_load.c:458 src/gsb_file_load.c:4890
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr ""
 
@@ -6788,14 +6774,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:8287
+#: src/gsb_file_load.c:8296
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr ""
 
-#: src/gsb_file_load.c:8326
+#: src/gsb_file_load.c:8335
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -6803,7 +6789,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: src/gsb_file_load.c:8330
+#: src/gsb_file_load.c:8339
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -7430,7 +7416,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr ""
 
-#: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1750
+#: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1754
 #, fuzzy
 msgid "Init date"
 msgstr "به وسیله تاریخ"
@@ -7611,12 +7597,12 @@ msgid "Show transactions for the next"
 msgstr "تراکنش"
 
 #. Edit transaction
-#: src/gsb_scheduler_list.c:1992 src/gsb_transactions_list.c:2116
+#: src/gsb_scheduler_list.c:1992 src/gsb_transactions_list.c:2120
 msgid "Edit transaction"
 msgstr ""
 
 #. Delete transaction
-#: src/gsb_scheduler_list.c:2017 src/gsb_transactions_list.c:2139
+#: src/gsb_scheduler_list.c:2017 src/gsb_transactions_list.c:2143
 msgid "Delete transaction"
 msgstr ""
 
@@ -7676,7 +7662,7 @@ msgstr "جستجوی تراکنش"
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "جستجوی تراکنش"
 
-#: src/gsb_transactions_list.c:561 src/gsb_transactions_list.c:3405
+#: src/gsb_transactions_list.c:561 src/gsb_transactions_list.c:3464
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -7692,36 +7678,37 @@ msgstr "P"
 msgid "T"
 msgstr ""
 
-#: src/gsb_transactions_list.c:810 src/gsb_transactions_list.c:1620
+#. set the R on the transaction
+#: src/gsb_transactions_list.c:810 src/gsb_transactions_list.c:1624
 msgid "R"
 msgstr "R"
 
-#: src/gsb_transactions_list.c:1175
+#: src/gsb_transactions_list.c:1181
 #, c-format
 msgid "Do you want to add the transactions of the archive %s into the list ?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1185
+#: src/gsb_transactions_list.c:1191
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1189
+#: src/gsb_transactions_list.c:1195
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1551
+#: src/gsb_transactions_list.c:1557
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1563
+#: src/gsb_transactions_list.c:1569
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
 "not a recommended action.This is the wrong approach.\n"
@@ -7734,7 +7721,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: src/gsb_transactions_list.c:1633
+#: src/gsb_transactions_list.c:1636
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -7742,25 +7729,25 @@ msgid ""
 "did."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1634
+#: src/gsb_transactions_list.c:1637
 #, fuzzy
 msgid "Marking a transaction as R"
 msgstr "جستجوی تراکنش"
 
-#: src/gsb_transactions_list.c:1713
+#: src/gsb_transactions_list.c:1717
 #, fuzzy
 msgid "Select the reconciliation to associate to the selected transaction"
 msgstr "جستجوی تراکنش"
 
-#: src/gsb_transactions_list.c:1835
+#: src/gsb_transactions_list.c:1839
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1879
+#: src/gsb_transactions_list.c:1883
 msgid "Impossible to delete an archived transaction."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1888
+#: src/gsb_transactions_list.c:1892
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -7768,66 +7755,66 @@ msgid ""
 "necessary."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1903
+#: src/gsb_transactions_list.c:1907
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1915
+#: src/gsb_transactions_list.c:1919
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
 #. use transaction as template
-#: src/gsb_transactions_list.c:2153
+#: src/gsb_transactions_list.c:2157
 #, fuzzy
 msgid "Use selected transaction as a template"
 msgstr "جستجوی تراکنش"
 
 #. Clone transaction
-#: src/gsb_transactions_list.c:2163
+#: src/gsb_transactions_list.c:2167
 msgid "Clone transaction"
 msgstr ""
 
 #. Convert to scheduled transaction
-#: src/gsb_transactions_list.c:2176
+#: src/gsb_transactions_list.c:2180
 msgid "Convert transaction to scheduled transaction"
 msgstr ""
 
 #. Move to another account
-#: src/gsb_transactions_list.c:2185
+#: src/gsb_transactions_list.c:2189
 msgid "Move transaction to another account"
 msgstr ""
 
 #. Change cell content.
-#: src/gsb_transactions_list.c:2208
+#: src/gsb_transactions_list.c:2212
 msgid "Change cell content"
 msgstr "تغییر محتوای سلول ها"
 
-#: src/gsb_transactions_list.c:2252
+#: src/gsb_transactions_list.c:2256
 #, fuzzy
 msgid "Clear cell"
 msgstr "انصراف"
 
-#: src/gsb_transactions_list.c:2589
+#: src/gsb_transactions_list.c:2593
 msgid "Cannot move a transfer on his contra-account"
 msgstr ""
 
 #. sort by line
-#: src/gsb_transactions_list.c:2868
+#: src/gsb_transactions_list.c:2872
 msgid "Sort list by :"
 msgstr ""
 
-#: src/gsb_transactions_list.c:3275
+#: src/gsb_transactions_list.c:3334
 msgid "Transfer to a deleted account"
 msgstr ""
 
-#: src/gsb_transactions_list.c:3277
+#: src/gsb_transactions_list.c:3336
 msgid "Transfer from a deleted account"
 msgstr ""
 
-#: src/gsb_transactions_list.c:3434
+#: src/gsb_transactions_list.c:3493
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -8540,183 +8527,187 @@ msgid ""
 "You should upgrade GTK."
 msgstr ""
 
-#: src/menu.c:170
+#: src/menu.c:171
 msgid "_File"
 msgstr "فایل"
 
-#: src/menu.c:173
+#: src/menu.c:174
 msgid "_New account file..."
 msgstr ""
 
-#: src/menu.c:176
+#: src/menu.c:177
 msgid "_Open..."
 msgstr ""
 
-#: src/menu.c:179
+#: src/menu.c:180
 msgid "_Recently opened files"
 msgstr ""
 
-#: src/menu.c:182
+#: src/menu.c:183
 msgid "_Save"
 msgstr "ذخیره"
 
-#: src/menu.c:185
+#: src/menu.c:186
 msgid "_Save as..."
 msgstr ""
 
-#: src/menu.c:188
+#: src/menu.c:189
 msgid "_Import file..."
 msgstr ""
 
-#: src/menu.c:191
+#: src/menu.c:192
 msgid "_Export accounts as QIF/CSV file..."
 msgstr ""
 
-#: src/menu.c:194
+#: src/menu.c:195
 #, fuzzy
 msgid "Archive transactions..."
 msgstr "جستجوی تراکنش"
 
-#: src/menu.c:197
+#: src/menu.c:198
 msgid "_Export an archive as GSB/QIF/CSV file..."
 msgstr ""
 
-#: src/menu.c:200
+#: src/menu.c:201
 msgid "_Debug account file..."
 msgstr ""
 
-#: src/menu.c:203
+#: src/menu.c:204
 msgid "_Obfuscate account file..."
 msgstr ""
 
-#: src/menu.c:206
+#: src/menu.c:207
 msgid "_Obfuscate QIF file..."
 msgstr ""
 
-#: src/menu.c:209
+#: src/menu.c:210
 msgid "_Close"
 msgstr "بستن"
 
-#: src/menu.c:212
+#: src/menu.c:213
 msgid "_Quit"
 msgstr "خروج"
 
-#: src/menu.c:215
+#: src/menu.c:216
 msgid "_Edit"
 msgstr "ویرایش"
 
-#: src/menu.c:218
+#: src/menu.c:219
 msgid "_New transaction"
 msgstr ""
 
-#: src/menu.c:221
+#: src/menu.c:222
 msgid "_Remove transaction"
 msgstr "حذف تراکنش"
 
-#: src/menu.c:224
+#: src/menu.c:225
 msgid "_Clone transaction"
 msgstr ""
 
-#: src/menu.c:227
+#: src/menu.c:228
 msgid "_Edit transaction"
 msgstr ""
 
-#: src/menu.c:230
+#: src/menu.c:231
 msgid "Convert to _scheduled transaction"
 msgstr ""
 
-#: src/menu.c:233
+#: src/menu.c:234
 msgid "_Move transaction to another account"
 msgstr ""
 
-#: src/menu.c:236
+#: src/menu.c:237
 msgid "_Preferences"
 msgstr ""
 
 #. View menu
-#: src/menu.c:240
+#: src/menu.c:241
 msgid "_View"
 msgstr ""
 
-#: src/menu.c:243
+#: src/menu.c:244
 msgid "_New account"
 msgstr ""
 
-#: src/menu.c:246
+#: src/menu.c:247
 msgid "_Remove current account"
 msgstr "حذف حساب جاری"
 
 #. Help Menu
-#: src/menu.c:250
+#: src/menu.c:251
 msgid "_Help"
 msgstr ""
 
-#: src/menu.c:253
+#: src/menu.c:254
 msgid "_Manual"
 msgstr "دستی"
 
-#: src/menu.c:256
+#: src/menu.c:257
 msgid "_Quick start"
 msgstr ""
 
-#: src/menu.c:259
+#: src/menu.c:260
 msgid "_Translation"
 msgstr "ترجمه"
 
-#: src/menu.c:262
+#: src/menu.c:263
 msgid "_About Grisbi..."
 msgstr "در باره گریزبی"
 
-#: src/menu.c:265
+#: src/menu.c:266
 msgid "_Grisbi website"
 msgstr ""
 
-#: src/menu.c:268
+#: src/menu.c:269
 msgid "_Report a bug"
 msgstr ""
 
-#: src/menu.c:271
+#: src/menu.c:272
 msgid "_Tip of the day"
 msgstr ""
 
-#: src/menu.c:276
+#: src/menu.c:277
 msgid "Show _one line per transaction"
 msgstr ""
 
-#: src/menu.c:279
+#: src/menu.c:280
 msgid "Show _two lines per transaction"
 msgstr ""
 
-#: src/menu.c:282
+#: src/menu.c:283
 msgid "Show _three lines per transaction"
 msgstr ""
 
-#: src/menu.c:285
+#: src/menu.c:286
 msgid "Show _four lines per transaction"
 msgstr ""
 
-#: src/menu.c:289
+#: src/menu.c:290
 msgid "Debug mode"
 msgstr ""
 
-#: src/menu.c:293
+#: src/menu.c:294
 msgid "Show transaction _form"
 msgstr ""
 
-#: src/menu.c:296
+#: src/menu.c:297
 msgid "Show _reconciled"
 msgstr ""
 
-#: src/menu.c:300
+#: src/menu.c:301
+msgid "Show _lines archives"
+msgstr ""
+
+#: src/menu.c:305
 msgid "Show _closed accounts"
 msgstr ""
 
-#: src/menu.c:409 src/menu.c:441 src/menu.c:461
+#: src/menu.c:414 src/menu.c:446 src/menu.c:466
 #, fuzzy
 msgid "en"
 msgstr "دستی"
 
-#: src/menu.c:753
+#: src/menu.c:795
 #, fuzzy
 msgid "Unnamed account"
 msgstr "حساب بسته شده"
@@ -9783,6 +9774,22 @@ msgstr ""
 #: src/utils_font.c:199
 msgid "No font defined"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Display reconciled transactions"
+#~ msgstr "حذف تراکنش"
+
+#, fuzzy
+#~ msgid "Display reconciled transactions (Alt+R)"
+#~ msgstr "حذف تراکنش"
+
+#, fuzzy
+#~ msgid "Mask reconciled transactions"
+#~ msgstr "حذف تراکنش"
+
+#, fuzzy
+#~ msgid "Display reconcile"
+#~ msgstr "نمایش نام حساب"
 
 #, fuzzy
 #~ msgid "Delete selection"

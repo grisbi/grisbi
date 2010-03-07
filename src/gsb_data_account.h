@@ -64,6 +64,7 @@ gchar *gsb_data_account_get_id ( gint account_number );
 gsb_real gsb_data_account_get_init_balance ( gint account_number,
                         gint floating_point );
 kind_account gsb_data_account_get_kind ( gint account_number );
+gboolean gsb_data_account_get_l ( gint account_number );
 GSList *gsb_data_account_get_list_accounts ( void );
 gsb_real gsb_data_account_get_marked_balance ( gint account_number );
 gsb_real gsb_data_account_get_mini_balance_authorized ( gint account_number );
@@ -132,6 +133,8 @@ gboolean gsb_data_account_set_init_balance ( gint account_number,
 					     gsb_real balance );
 gboolean gsb_data_account_set_kind ( gint account_number,
                         kind_account account_kind );
+gboolean gsb_data_account_set_l ( gint account_number,
+                        gboolean show_l );
 gboolean gsb_data_account_set_mini_balance_authorized ( gint account_number,
                         gsb_real balance );
 gboolean gsb_data_account_set_mini_balance_authorized_message ( gint account_number,

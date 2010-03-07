@@ -44,6 +44,7 @@
 #include "./utils_buttons.h"
 #include "./structures.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -59,8 +60,8 @@ static  gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
 /** Used to display/hide comments in scheduler list */
 static GtkWidget *scheduler_display_hide_comments = NULL;
 
-/* display/hide marked transactions */
-static GtkWidget * bouton_affiche_ope_r = NULL;
+//~ /* display/hide marked transactions */
+//~ static GtkWidget * bouton_affiche_ope_r = NULL;
 
 /** here are the 3 buttons on the scheduler toolbar
  * which can been unsensitive or sensitive */
@@ -216,6 +217,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
 						   gpointer null )
 {
     GtkWidget *menu, *menu_item;
+    gint current_account;
 
     menu = gtk_menu_new ();
 
@@ -241,19 +243,34 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
 
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
 
-    menu_item = gtk_check_menu_item_new_with_label ( _("Display reconciled transactions (Alt+R)") );
+    current_account = gsb_gui_navigation_get_current_account ( );
+
+    menu_item = gtk_check_menu_item_new_with_label ( _("Show reconciled transactions") );
     gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
-				     gsb_data_account_get_r ( gsb_gui_navigation_get_current_account () ) );
+				        gsb_data_account_get_r ( current_account ) );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
-			       G_CALLBACK (gsb_gui_toggle_show_reconciled), GINT_TO_POINTER (4) );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate", 
+			            G_CALLBACK ( gsb_gui_toggle_show_reconciled ),
+                        NULL );
+
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
+
+    menu_item = gtk_check_menu_item_new_with_label ( _("Show lines archives") );
+    gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
+				        gsb_data_account_get_l ( current_account ) );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate", 
+			            G_CALLBACK ( gsb_gui_toggle_show_archived ),
+                        NULL );
 
     gtk_menu_set_active ( GTK_MENU(menu), 
 			  gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () ) );
 
     gtk_widget_show_all ( menu );
-    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
-		     gtk_get_current_event_time());
+    gtk_menu_popup ( GTK_MENU( menu ), NULL, button, set_popup_position, button, 1, 
+		     gtk_get_current_event_time ( ) );
 
     return FALSE;
 }
@@ -323,32 +340,36 @@ gboolean change_aspect_liste ( gint demande )
 	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
 
 	case 1 :
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
-											  menu_name ( "ViewMenu", "ShowOneLine", NULL ) ) ), 
-					   TRUE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager, 
+					    menu_name ( "ViewMenu", "ShowOneLine", NULL ) ) ), 
+					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
 	    if ( etat.modification_fichier == 0 )
             modification_fichier ( TRUE );
 	    break;
 	case 2 :
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
-											  menu_name ( "ViewMenu", "ShowTwoLines", NULL ) ) ), 
-					   TRUE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager, 
+					    menu_name ( "ViewMenu", "ShowTwoLines", NULL ) ) ), 
+					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
 	    if ( etat.modification_fichier == 0 )
             modification_fichier ( TRUE );
 	    break;
 	case 3 :
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
-											  menu_name ( "ViewMenu", "ShowThreeLines", NULL ) ) ), 
-					   TRUE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager, 
+					    menu_name ( "ViewMenu", "ShowThreeLines", NULL ) ) ), 
+					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
 	    if ( etat.modification_fichier == 0 )
             modification_fichier ( TRUE );
 	    break;
 	case 4 :
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
-											  menu_name ( "ViewMenu", "ShowFourLines", NULL ) ) ), 
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager, 
+					    menu_name ( "ViewMenu", "ShowFourLines", NULL ) ) ), 
 					   TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
 	    if ( etat.modification_fichier == 0 )
@@ -364,9 +385,10 @@ gboolean change_aspect_liste ( gint demande )
             modification_fichier ( TRUE );
 
 	    block_menu_cb = TRUE;
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
-											  menu_name ( "ViewMenu", "ShowReconciled", NULL ) ) ), 
-					   TRUE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager, 
+					    menu_name ( "ViewMenu", "ShowReconciled", NULL ) ) ), 
+					    TRUE );
 	    block_menu_cb = FALSE;
 
 	    break;
@@ -380,9 +402,43 @@ gboolean change_aspect_liste ( gint demande )
             modification_fichier ( TRUE );
 
 	    block_menu_cb = TRUE;
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
-											  menu_name ( "ViewMenu", "ShowReconciled", NULL ) ) ), 
-					   FALSE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager, 
+					    menu_name ( "ViewMenu", "ShowReconciled", NULL ) ) ), 
+					    FALSE );
+	    block_menu_cb = FALSE;
+
+	    break;
+	case 7 :
+
+	    /* show archive lines */
+
+	    gsb_transactions_list_show_archives_lines ( 1 );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+
+	    block_menu_cb = TRUE;
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager, 
+						menu_name ( "ViewMenu", "ShowArchived", NULL ) ) ), 
+					    TRUE );
+	    block_menu_cb = FALSE;
+
+	    break;
+
+	case 8 :
+
+	    /* hide archive lines */
+
+	    gsb_transactions_list_show_archives_lines ( 0 );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+
+	    block_menu_cb = TRUE;
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager, 
+					    menu_name ( "ViewMenu", "ShowArchived", NULL ) ) ), 
+					    FALSE );
 	    block_menu_cb = FALSE;
 
 	    break;
@@ -522,38 +578,6 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 }
 
 
-
-
-/* ajouté pour la gestion des boutons afficher/masquer les opérations rapprochées */
-void gsb_gui_update_bouton_affiche_ope_r ( gboolean show_r )
-{
-    if (show_r)
-    {
-	bouton_affiche_ope_r = gsb_automem_imagefile_button_new ( etat.display_toolbar,
-								  _("Mask reconcile"),
-								  "hide_r.png",
-								  G_CALLBACK (gsb_gui_toggle_show_reconciled),
-								  NULL );
-#if GTK_CHECK_VERSION(2,12,0)
-	gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_affiche_ope_r),
-				      SPACIFY(_("Mask reconciled transactions")));
-#endif
-    }
-    else
-    {
-	bouton_affiche_ope_r = gsb_automem_imagefile_button_new ( etat.display_toolbar,
-								  _("Display reconcile"),
-								  "show_r.png",
-								  G_CALLBACK (gsb_gui_toggle_show_reconciled),
-								  NULL );
-#if GTK_CHECK_VERSION(2,12,0)
-	gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_affiche_ope_r),
-				      SPACIFY(_("Display reconciled transactions")));
-#endif
-    }
-    gsb_gui_update_transaction_toolbar ( );
-
-}
 
 
 /* Local Variables: */

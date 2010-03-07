@@ -1032,6 +1032,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 					       "\t\tMinimum_authorised_balance=\"%s\"\n"
 					       "\t\tClosed_account=\"%d\"\n"
 					       "\t\tShow_marked=\"%d\"\n"
+					       "\t\tShow_archives_lines=\"%d\"\n"
 					       "\t\tLines_per_transaction=\"%d\"\n"
 					       "\t\tComment=\"%s\"\n"
 					       "\t\tOwner_address=\"%s\"\n"
@@ -1070,6 +1071,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    my_safe_null_str(mini_auto),
 	    gsb_data_account_get_closed_account (account_number),
 	    gsb_data_account_get_r (account_number),
+	    gsb_data_account_get_l ( account_number ),
 	    gsb_data_account_get_nb_rows (account_number),
 	    my_safe_null_str(gsb_data_account_get_comment (account_number)),
 	    my_safe_null_str(gsb_data_account_get_holder_address (account_number)),

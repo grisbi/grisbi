@@ -44,7 +44,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-07 07:45+0100\n"
+"POT-Creation-Date: 2010-03-07 16:14+0100\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
@@ -220,7 +220,7 @@ msgstr "Mover lançamento para outra conta"
 #: src/gsb_bank.c:855 src/gsb_currency_config.c:353
 #: src/gsb_data_partial_balance.c:1532 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:240
-#: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1750
+#: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1754
 #: src/imputation_budgetaire.c:699 src/tiers_onglet.c:625
 msgid "Name"
 msgstr "Nome"
@@ -758,7 +758,7 @@ msgstr "Crédito"
 
 #: src/balance_estimate_tab.c:621 src/export_csv.c:787 src/gsb_reconcile.c:151
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:150
-#: src/gsb_transactions_list.c:2914 src/import_csv.c:88
+#: src/gsb_transactions_list.c:2918 src/import_csv.c:88
 #: src/traitement_variables.c:83
 msgid "Balance"
 msgstr "Saldo"
@@ -791,200 +791,187 @@ msgid " (still available)"
 msgstr ""
 
 #. New transaction
-#: src/barre_outils.c:95 src/gsb_scheduler_list.c:2006
-#: src/gsb_transactions_list.c:2131
+#: src/barre_outils.c:96 src/gsb_scheduler_list.c:2006
+#: src/gsb_transactions_list.c:2135
 msgid "New transaction"
 msgstr "Novo lançamento"
 
-#: src/barre_outils.c:101
+#: src/barre_outils.c:102
 #, fuzzy
 msgid "Blank the form to create a new transaction"
 msgstr "Total da Categoria (%d lançamentos)"
 
-#: src/barre_outils.c:107 src/barre_outils.c:461 src/categories_onglet.c:525
+#: src/barre_outils.c:108 src/barre_outils.c:517 src/categories_onglet.c:525
 #: src/etats_onglet.c:159 src/imputation_budgetaire.c:558
 #: src/tiers_onglet.c:321
 #, fuzzy
 msgid "Delete"
 msgstr "Selecionar"
 
-#: src/barre_outils.c:112
+#: src/barre_outils.c:113
 #, fuzzy
 msgid "Delete selected transaction"
 msgstr "Apagar lançamento"
 
-#: src/barre_outils.c:118 src/barre_outils.c:473
+#: src/barre_outils.c:119 src/barre_outils.c:529
 msgid "Edit"
 msgstr "Editar"
 
-#: src/barre_outils.c:123
+#: src/barre_outils.c:124
 #, fuzzy
 msgid "Edit current transaction"
 msgstr "Editar lançamento"
 
-#: src/barre_outils.c:128
+#: src/barre_outils.c:129
 msgid "Reconcile"
 msgstr "Reconciliar"
 
-#: src/barre_outils.c:134
+#: src/barre_outils.c:135
 #, fuzzy
 msgid "Start account reconciliation"
 msgstr "Não avisar sobre reconciliações sem referência"
 
 #. Set up dialog
-#: src/barre_outils.c:142 src/etats_onglet.c:149 src/print_config.c:80
+#: src/barre_outils.c:143 src/etats_onglet.c:149 src/print_config.c:80
 msgid "Print"
 msgstr "Imprimir"
 
-#: src/barre_outils.c:147
+#: src/barre_outils.c:148
 #, fuzzy
 msgid "Print the transactions list"
 msgstr "Organizar lista de lançamentos"
 
-#: src/barre_outils.c:153 src/barre_outils.c:510 src/categories_onglet.c:544
+#: src/barre_outils.c:154 src/barre_outils.c:566 src/categories_onglet.c:544
 #: src/imputation_budgetaire.c:579 src/tiers_onglet.c:340
 msgid "View"
 msgstr "Visualizar"
 
-#: src/barre_outils.c:158
+#: src/barre_outils.c:159
 msgid "Change display mode of the list"
 msgstr ""
 
-#: src/barre_outils.c:168
+#: src/barre_outils.c:169
 #, fuzzy
 msgid "Import rules"
 msgstr "Exportar categorias"
 
-#: src/barre_outils.c:173
+#: src/barre_outils.c:174
 msgid "Quick file import by rules"
 msgstr ""
 
-#: src/barre_outils.c:222
+#: src/barre_outils.c:224
 msgid "Simple view"
 msgstr ""
 
-#: src/barre_outils.c:227
+#: src/barre_outils.c:229
 #, fuzzy
 msgid "Two lines view"
 msgstr "Modo duas linhas"
 
-#: src/barre_outils.c:232
+#: src/barre_outils.c:234
 #, fuzzy
 msgid "Three lines view"
 msgstr "Modo três linhas"
 
-#: src/barre_outils.c:237 src/categories_onglet.c:588
+#: src/barre_outils.c:239 src/categories_onglet.c:588
 #: src/imputation_budgetaire.c:623 src/tiers_onglet.c:437
 #, fuzzy
 msgid "Complete view"
 msgstr "Divisão incompleta"
 
-#: src/barre_outils.c:244
+#: src/barre_outils.c:248
 #, fuzzy
-msgid "Display reconciled transactions (Alt+R)"
-msgstr "Exibir lançamentos reconciliados"
+msgid "Show reconciled transactions"
+msgstr "Lançamentos reconciliados"
 
-#: src/barre_outils.c:293
+#: src/barre_outils.c:259
+#, fuzzy
+msgid "Show lines archives"
+msgstr "Moedas atuais"
+
+#: src/barre_outils.c:310
 #, fuzzy
 msgid "Remove the rule"
 msgstr "Nome do arquivo de contas"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1789
+#: src/barre_outils.c:460 src/gsb_scheduler_list.c:1789
 msgid "Unique view"
 msgstr ""
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1789
+#: src/barre_outils.c:460 src/gsb_scheduler_list.c:1789
 #, fuzzy
 msgid "Week view"
 msgstr "Semana"
 
-#: src/barre_outils.c:404 src/gsb_scheduler_list.c:1789
+#: src/barre_outils.c:460 src/gsb_scheduler_list.c:1789
 #, fuzzy
 msgid "Month view"
 msgstr "Meses"
 
-#: src/barre_outils.c:405 src/gsb_scheduler_list.c:1790
+#: src/barre_outils.c:461 src/gsb_scheduler_list.c:1790
 msgid "Two months view"
 msgstr ""
 
-#: src/barre_outils.c:405 src/gsb_scheduler_list.c:1790
+#: src/barre_outils.c:461 src/gsb_scheduler_list.c:1790
 msgid "Quarter view"
 msgstr ""
 
-#: src/barre_outils.c:406 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:462 src/gsb_scheduler_list.c:1791
 #, fuzzy
 msgid "Year view"
 msgstr "Ano"
 
-#: src/barre_outils.c:406 src/gsb_scheduler_list.c:1791
+#: src/barre_outils.c:462 src/gsb_scheduler_list.c:1791
 #, fuzzy
 msgid "Custom view"
 msgstr "Padrão"
 
-#: src/barre_outils.c:449
+#: src/barre_outils.c:505
 #, fuzzy
 msgid "_New scheduled"
 msgstr "Agenda"
 
-#: src/barre_outils.c:455
+#: src/barre_outils.c:511
 #, fuzzy
 msgid "Prepare form to create a new scheduled transaction"
 msgstr "Informe um lançamento agendado"
 
-#: src/barre_outils.c:467
+#: src/barre_outils.c:523
 #, fuzzy
 msgid "Delete selected scheduled transaction"
 msgstr ""
 "Apagar lançamento\n"
 "selecionado da agenda"
 
-#: src/barre_outils.c:479
+#: src/barre_outils.c:535
 #, fuzzy
 msgid "Edit selected transaction"
 msgstr "Apagar lançamento"
 
 #. comments line
-#: src/barre_outils.c:485 src/gsb_account_property.c:563
+#: src/barre_outils.c:541 src/gsb_account_property.c:563
 #: src/gsb_scheduler_list.c:340
 msgid "Comments"
 msgstr "Comentários"
 
-#: src/barre_outils.c:491
+#: src/barre_outils.c:547
 #, fuzzy
 msgid "Display scheduled transactions comments"
 msgstr "Exibir lançamentos agendados"
 
-#: src/barre_outils.c:499
+#: src/barre_outils.c:555
 msgid "Execute"
 msgstr ""
 
-#: src/barre_outils.c:505
+#: src/barre_outils.c:561
 #, fuzzy
 msgid "Execute current scheduled transaction"
 msgstr "Informe um lançamento agendado"
 
-#: src/barre_outils.c:515
+#: src/barre_outils.c:571
 #, fuzzy
 msgid "Change display mode of scheduled transaction list"
 msgstr "Exibir lançamentos agendados"
-
-#: src/barre_outils.c:533
-#, fuzzy
-msgid "Mask reconcile"
-msgstr "Reconciliar"
-
-#: src/barre_outils.c:539
-msgid "Mask reconciled transactions"
-msgstr "Marcar lançamentos reconciliados"
-
-#: src/barre_outils.c:545
-#, fuzzy
-msgid "Display reconcile"
-msgstr "Mostrar títulos das colunas"
-
-#: src/barre_outils.c:551
-msgid "Display reconciled transactions"
-msgstr "Exibir lançamentos reconciliados"
 
 #. set the choice of account
 #: src/categories_onglet.c:151 src/etats_config.c:681
@@ -1628,13 +1615,13 @@ msgid "Result without financial year"
 msgstr "Resultado sem ano contábil"
 
 #: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:950
-#: src/gsb_transactions_list.c:3288
+#: src/gsb_transactions_list.c:3347
 #, c-format
 msgid "Transfer to %s"
 msgstr "Transferir para %s"
 
 #: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:953
-#: src/gsb_transactions_list.c:3291
+#: src/gsb_transactions_list.c:3350
 #, c-format
 msgid "Transfer from %s"
 msgstr "Transferir para %s"
@@ -1689,7 +1676,7 @@ msgstr "Transferir"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1038
 #: src/gsb_form.c:723 src/gsb_form.c:2664 src/gsb_form.c:3063
-#: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3266
+#: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3325
 msgid "Split of transaction"
 msgstr "Divisão do lançamento"
 
@@ -2045,7 +2032,7 @@ msgstr "Data inicial"
 #: src/gsb_assistant_archive.c:242 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:422
 #: src/gsb_assistant_reconcile_config.c:1227 src/gsb_reconcile_config.c:96
-#: src/gsb_reconcile_config.c:208 src/gsb_transactions_list.c:1750
+#: src/gsb_reconcile_config.c:208 src/gsb_transactions_list.c:1754
 msgid "Final date"
 msgstr "Data final"
 
@@ -4760,7 +4747,7 @@ msgstr "Selecione os lançamentos de acordo com texto"
 
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
-#: src/gsb_assistant_reconcile_config.c:1181 src/gsb_transactions_list.c:1701
+#: src/gsb_assistant_reconcile_config.c:1181 src/gsb_transactions_list.c:1705
 #, fuzzy
 msgid "Selection of a reconciliation"
 msgstr "Confirmação da reconciliação manual"
@@ -6415,19 +6402,19 @@ msgstr "Data limite"
 msgid "Invalid"
 msgstr "Data inválida"
 
-#: src/gsb_data_account.c:229
+#: src/gsb_data_account.c:230
 #, c-format
 msgid "No name %d"
 msgstr "Nenhum nome %d"
 
-#: src/gsb_data_account.c:541
+#: src/gsb_data_account.c:542
 #, c-format
 msgid ""
 "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
 msgstr ""
 
 #. TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?
-#: src/gsb_data_account.c:1157
+#: src/gsb_data_account.c:1201
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
@@ -6435,7 +6422,7 @@ msgid ""
 msgstr ""
 
 #. TODO dOm : the value of g_strdup_printf was not used. I add the devel_debug function to print it. Is it OK ?
-#: src/gsb_data_account.c:1195
+#: src/gsb_data_account.c:1239
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
@@ -7113,7 +7100,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "Conta %s não encontrada.\n"
 
-#: src/gsb_file_load.c:458 src/gsb_file_load.c:4881
+#: src/gsb_file_load.c:458 src/gsb_file_load.c:4890
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Este arquivo não é um relatório do Grisbi"
@@ -7127,14 +7114,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:8287
+#: src/gsb_file_load.c:8296
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "Grisbi versão %s é necessário para abrir este arquivo"
 
-#: src/gsb_file_load.c:8326
+#: src/gsb_file_load.c:8335
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7142,7 +7129,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: src/gsb_file_load.c:8330
+#: src/gsb_file_load.c:8339
 #, fuzzy
 msgid "Grisbi archive opened"
 msgstr "Preferências"
@@ -7819,7 +7806,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "Última atualização"
 
-#: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1750
+#: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1754
 #, fuzzy
 msgid "Init date"
 msgstr "Data inicial"
@@ -8021,12 +8008,12 @@ msgid "Show transactions for the next"
 msgstr "Formulário de lançamentos"
 
 #. Edit transaction
-#: src/gsb_scheduler_list.c:1992 src/gsb_transactions_list.c:2116
+#: src/gsb_scheduler_list.c:1992 src/gsb_transactions_list.c:2120
 msgid "Edit transaction"
 msgstr "Editar lançamento"
 
 #. Delete transaction
-#: src/gsb_scheduler_list.c:2017 src/gsb_transactions_list.c:2139
+#: src/gsb_scheduler_list.c:2017 src/gsb_transactions_list.c:2143
 msgid "Delete transaction"
 msgstr "Apagar lançamento"
 
@@ -8089,7 +8076,7 @@ msgstr ""
 "Apagar lançamento\n"
 "selecionado da agenda"
 
-#: src/gsb_transactions_list.c:561 src/gsb_transactions_list.c:3405
+#: src/gsb_transactions_list.c:561 src/gsb_transactions_list.c:3464
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8105,38 +8092,39 @@ msgstr "P"
 msgid "T"
 msgstr "T"
 
-#: src/gsb_transactions_list.c:810 src/gsb_transactions_list.c:1620
+#. set the R on the transaction
+#: src/gsb_transactions_list.c:810 src/gsb_transactions_list.c:1624
 msgid "R"
 msgstr "R"
 
-#: src/gsb_transactions_list.c:1175
+#: src/gsb_transactions_list.c:1181
 #, fuzzy, c-format
 msgid "Do you want to add the transactions of the archive %s into the list ?"
 msgstr ""
 "Você quer apagar somente esta ocorrência ou todo o agendamento "
 "destelançamento ?"
 
-#: src/gsb_transactions_list.c:1185
+#: src/gsb_transactions_list.c:1191
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1189
+#: src/gsb_transactions_list.c:1195
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1551
+#: src/gsb_transactions_list.c:1557
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1563
+#: src/gsb_transactions_list.c:1569
 #, fuzzy
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -8153,7 +8141,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: src/gsb_transactions_list.c:1633
+#: src/gsb_transactions_list.c:1636
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -8161,26 +8149,26 @@ msgid ""
 "did."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1634
+#: src/gsb_transactions_list.c:1637
 #, fuzzy
 msgid "Marking a transaction as R"
 msgstr "Marcar lançamentos"
 
-#: src/gsb_transactions_list.c:1713
+#: src/gsb_transactions_list.c:1717
 #, fuzzy
 msgid "Select the reconciliation to associate to the selected transaction"
 msgstr "Nenhum lançamento reconciliado, nenhum lançamento marcado"
 
-#: src/gsb_transactions_list.c:1835
+#: src/gsb_transactions_list.c:1839
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1879
+#: src/gsb_transactions_list.c:1883
 #, fuzzy
 msgid "Impossible to delete an archived transaction."
 msgstr "Impossível apagar um lançamento reconciliado"
 
-#: src/gsb_transactions_list.c:1888
+#: src/gsb_transactions_list.c:1892
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -8188,66 +8176,66 @@ msgid ""
 "necessary."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1903
+#: src/gsb_transactions_list.c:1907
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1915
+#: src/gsb_transactions_list.c:1919
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
 #. use transaction as template
-#: src/gsb_transactions_list.c:2153
+#: src/gsb_transactions_list.c:2157
 msgid "Use selected transaction as a template"
 msgstr "Use os lançamentos como modelo"
 
 #. Clone transaction
-#: src/gsb_transactions_list.c:2163
+#: src/gsb_transactions_list.c:2167
 msgid "Clone transaction"
 msgstr "Clonar lançamento"
 
 #. Convert to scheduled transaction
-#: src/gsb_transactions_list.c:2176
+#: src/gsb_transactions_list.c:2180
 msgid "Convert transaction to scheduled transaction"
 msgstr "Converter lançamento para lançamentos agendados"
 
 #. Move to another account
-#: src/gsb_transactions_list.c:2185
+#: src/gsb_transactions_list.c:2189
 msgid "Move transaction to another account"
 msgstr "Mover lançamento para outra conta"
 
 #. Change cell content.
-#: src/gsb_transactions_list.c:2208
+#: src/gsb_transactions_list.c:2212
 msgid "Change cell content"
 msgstr ""
 
-#: src/gsb_transactions_list.c:2252
+#: src/gsb_transactions_list.c:2256
 #, fuzzy
 msgid "Clear cell"
 msgstr "Cancelar"
 
-#: src/gsb_transactions_list.c:2589
+#: src/gsb_transactions_list.c:2593
 msgid "Cannot move a transfer on his contra-account"
 msgstr "Não posso mover uma transferência para esta contra-conta"
 
 #. sort by line
-#: src/gsb_transactions_list.c:2868
+#: src/gsb_transactions_list.c:2872
 #, fuzzy
 msgid "Sort list by :"
 msgstr "Organizar por data"
 
-#: src/gsb_transactions_list.c:3275
+#: src/gsb_transactions_list.c:3334
 msgid "Transfer to a deleted account"
 msgstr "Transferir para uma conta apagada."
 
-#: src/gsb_transactions_list.c:3277
+#: src/gsb_transactions_list.c:3336
 msgid "Transfer from a deleted account"
 msgstr "Transferir a partir de uma conta deletada"
 
-#: src/gsb_transactions_list.c:3434
+#: src/gsb_transactions_list.c:3493
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -9016,222 +9004,227 @@ msgid ""
 "You should upgrade GTK."
 msgstr ""
 
-#: src/menu.c:170
+#: src/menu.c:171
 #, fuzzy
 msgid "_File"
 msgstr "Arquivo"
 
-#: src/menu.c:173
+#: src/menu.c:174
 #, fuzzy
 msgid "_New account file..."
 msgstr "Novo arquivo de conta"
 
-#: src/menu.c:176
+#: src/menu.c:177
 #, fuzzy
 msgid "_Open..."
 msgstr "_Abrir"
 
-#: src/menu.c:179
+#: src/menu.c:180
 #, fuzzy
 msgid "_Recently opened files"
 msgstr "Arquivos abertos recentemente"
 
-#: src/menu.c:182
+#: src/menu.c:183
 #, fuzzy
 msgid "_Save"
 msgstr "Salvar"
 
-#: src/menu.c:185
+#: src/menu.c:186
 #, fuzzy
 msgid "_Save as..."
 msgstr "Salvar como"
 
-#: src/menu.c:188
+#: src/menu.c:189
 #, fuzzy
 msgid "_Import file..."
 msgstr "Exportar para arquivos QIF"
 
-#: src/menu.c:191
+#: src/menu.c:192
 #, fuzzy
 msgid "_Export accounts as QIF/CSV file..."
 msgstr "Contas para arquivo QIF..."
 
-#: src/menu.c:194
+#: src/menu.c:195
 #, fuzzy
 msgid "Archive transactions..."
 msgstr "Adicionar lançamentos"
 
-#: src/menu.c:197
+#: src/menu.c:198
 #, fuzzy
 msgid "_Export an archive as GSB/QIF/CSV file..."
 msgstr "Exportar para arquivos QIF"
 
-#: src/menu.c:200
+#: src/menu.c:201
 #, fuzzy
 msgid "_Debug account file..."
 msgstr "Novo arquivo de conta"
 
-#: src/menu.c:203
+#: src/menu.c:204
 #, fuzzy
 msgid "_Obfuscate account file..."
 msgstr "Novo arquivo de conta"
 
-#: src/menu.c:206
+#: src/menu.c:207
 #, fuzzy
 msgid "_Obfuscate QIF file..."
 msgstr "Novo arquivo de conta"
 
-#: src/menu.c:209
+#: src/menu.c:210
 #, fuzzy
 msgid "_Close"
 msgstr "Fechar"
 
-#: src/menu.c:212
+#: src/menu.c:213
 msgid "_Quit"
 msgstr ""
 
-#: src/menu.c:215
+#: src/menu.c:216
 #, fuzzy
 msgid "_Edit"
 msgstr "Editar"
 
-#: src/menu.c:218
+#: src/menu.c:219
 #, fuzzy
 msgid "_New transaction"
 msgstr "Novo lançamento"
 
-#: src/menu.c:221
+#: src/menu.c:222
 #, fuzzy
 msgid "_Remove transaction"
 msgstr "Apagar lançamento"
 
-#: src/menu.c:224
+#: src/menu.c:225
 #, fuzzy
 msgid "_Clone transaction"
 msgstr "Clonar lançamento"
 
-#: src/menu.c:227
+#: src/menu.c:228
 #, fuzzy
 msgid "_Edit transaction"
 msgstr "Editar lançamento"
 
-#: src/menu.c:230
+#: src/menu.c:231
 #, fuzzy
 msgid "Convert to _scheduled transaction"
 msgstr "Informe um lançamento agendado"
 
-#: src/menu.c:233
+#: src/menu.c:234
 #, fuzzy
 msgid "_Move transaction to another account"
 msgstr "Mover lançamento para outra conta"
 
-#: src/menu.c:236
+#: src/menu.c:237
 #, fuzzy
 msgid "_Preferences"
 msgstr "Preferências"
 
 #. View menu
-#: src/menu.c:240
+#: src/menu.c:241
 #, fuzzy
 msgid "_View"
 msgstr "Visualizar"
 
-#: src/menu.c:243
+#: src/menu.c:244
 #, fuzzy
 msgid "_New account"
 msgstr "Nova conta"
 
-#: src/menu.c:246
+#: src/menu.c:247
 #, fuzzy
 msgid "_Remove current account"
 msgstr "Apagar uma conta"
 
 #. Help Menu
-#: src/menu.c:250
+#: src/menu.c:251
 #, fuzzy
 msgid "_Help"
 msgstr "Ajuda"
 
-#: src/menu.c:253
+#: src/menu.c:254
 #, fuzzy
 msgid "_Manual"
 msgstr "Manual"
 
-#: src/menu.c:256
+#: src/menu.c:257
 #, fuzzy
 msgid "_Quick start"
 msgstr "Início rápido"
 
-#: src/menu.c:259
+#: src/menu.c:260
 #, fuzzy
 msgid "_Translation"
 msgstr "Tradução"
 
-#: src/menu.c:262
+#: src/menu.c:263
 #, fuzzy
 msgid "_About Grisbi..."
 msgstr "Sobre o grisbi"
 
-#: src/menu.c:265
+#: src/menu.c:266
 #, fuzzy
 msgid "_Grisbi website"
 msgstr "Grisbi website"
 
-#: src/menu.c:268
+#: src/menu.c:269
 #, fuzzy
 msgid "_Report a bug"
 msgstr "informar um bug"
 
-#: src/menu.c:271
+#: src/menu.c:272
 msgid "_Tip of the day"
 msgstr ""
 
-#: src/menu.c:276
+#: src/menu.c:277
 #, fuzzy
 msgid "Show _one line per transaction"
 msgstr "Uma linha por lançamento"
 
-#: src/menu.c:279
+#: src/menu.c:280
 #, fuzzy
 msgid "Show _two lines per transaction"
 msgstr "Duas linhas por lançamento"
 
-#: src/menu.c:282
+#: src/menu.c:283
 #, fuzzy
 msgid "Show _three lines per transaction"
 msgstr "Três linhas por lançamento"
 
-#: src/menu.c:285
+#: src/menu.c:286
 #, fuzzy
 msgid "Show _four lines per transaction"
 msgstr "Quatro linhas por lançamento"
 
-#: src/menu.c:289
+#: src/menu.c:290
 #, fuzzy
 msgid "Debug mode"
 msgstr "Depurar arquivo"
 
-#: src/menu.c:293
+#: src/menu.c:294
 #, fuzzy
 msgid "Show transaction _form"
 msgstr "Formulário de lançamentos"
 
-#: src/menu.c:296
+#: src/menu.c:297
 #, fuzzy
 msgid "Show _reconciled"
 msgstr "Lançamentos não reconciliadas"
 
-#: src/menu.c:300
+#: src/menu.c:301
+#, fuzzy
+msgid "Show _lines archives"
+msgstr "Moedas atuais"
+
+#: src/menu.c:305
 #, fuzzy
 msgid "Show _closed accounts"
 msgstr "Contas fechadas"
 
-#: src/menu.c:409 src/menu.c:441 src/menu.c:461
+#: src/menu.c:414 src/menu.c:446 src/menu.c:466
 #, fuzzy
 msgid "en"
 msgstr "Manual"
 
-#: src/menu.c:753
+#: src/menu.c:795
 #, fuzzy
 msgid "Unnamed account"
 msgstr "Importar conta"
@@ -10363,6 +10356,28 @@ msgstr ""
 #, fuzzy
 msgid "No font defined"
 msgstr "Nenhum orçamento"
+
+#~ msgid "Display reconciled transactions"
+#~ msgstr "Exibir lançamentos reconciliados"
+
+#, fuzzy
+#~ msgid "Display lines archives"
+#~ msgstr "Exibir"
+
+#, fuzzy
+#~ msgid "Display reconciled transactions (Alt+R)"
+#~ msgstr "Exibir lançamentos reconciliados"
+
+#, fuzzy
+#~ msgid "Mask reconcile"
+#~ msgstr "Reconciliar"
+
+#~ msgid "Mask reconciled transactions"
+#~ msgstr "Marcar lançamentos reconciliados"
+
+#, fuzzy
+#~ msgid "Display reconcile"
+#~ msgstr "Mostrar títulos das colunas"
 
 #, fuzzy
 #~ msgid "Assign the last known amount"

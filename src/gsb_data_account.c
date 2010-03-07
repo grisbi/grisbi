@@ -75,6 +75,7 @@ typedef struct
     /** @name showed list stuff */
     gint 	show_r;                      /**< 1 : reconciled transactions are showed */
     gint 	nb_rows_by_transaction;      /**< 1, 2, 3, 4  */
+    gint    show_l;                     /** 1 archived lines are showed */
 
     /** @name remaining of the balances */
     gsb_real 	init_balance;
@@ -555,6 +556,48 @@ gboolean gsb_data_account_set_nb_rows ( gint account_number,
 
 
 /**
+ * return if archives Lines are displayed in the account asked
+ * 
+ * \param account_number no of the account
+ * 
+ * \return boolean show/not show L
+ * */
+gboolean gsb_data_account_get_l ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+	    return 0;
+
+    return account -> show_l;
+}
+
+/**
+ * set if archives lines are displayed in the account asked
+ * 
+ * \param account_number no of the account
+ * \param show_l boolean
+ * 
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_data_account_set_l ( gint account_number,
+                        gboolean show_l )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+	    return FALSE;
+
+    account -> show_l = show_l;
+    return TRUE;
+}
+
+
+/**
  * return if R are displayed in the account asked
  * 
  * \param account_number no of the account
@@ -592,6 +635,7 @@ gboolean gsb_data_account_set_r ( gint account_number,
 	return FALSE;
 
     account -> show_r = show_r;
+
     return TRUE;
 }
 
@@ -3013,5 +3057,6 @@ gboolean gsb_data_account_set_bet_deb_period ( gint account_number, gint deb_per
 
     return TRUE;
 }
-
-
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

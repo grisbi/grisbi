@@ -106,7 +106,6 @@ gboolean transaction_list_select ( gint transaction_number )
 
         account_number = gsb_data_transaction_get_account_number ( transaction_number );
         gsb_data_account_set_r ( account_number, TRUE );
-        gsb_gui_update_bouton_affiche_ope_r ( TRUE );
         gsb_menu_update_view_menu ( account_number );
         mise_a_jour_affichage_r ( TRUE );
     }

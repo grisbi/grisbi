@@ -271,20 +271,17 @@ static void _gsb_data_import_rule_free ( struct_import_rule* import_rule)
 gboolean gsb_data_import_rule_remove ( gint import_rule_number )
 {
     struct_import_rule *import_rule;
-    gint account;
 
     import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
 
     if (!import_rule)
-	return FALSE;
+	    return FALSE;
     
     /* remove the import_rule from the list */
     import_rule_list = g_slist_remove ( import_rule_list,
 					import_rule );
 
     _gsb_data_import_rule_free (import_rule);
-    account = gsb_data_import_rule_get_account (import_rule_number);
-    gsb_gui_update_bouton_affiche_ope_r ( gsb_data_account_get_r (account) );
 
     return TRUE;
 }

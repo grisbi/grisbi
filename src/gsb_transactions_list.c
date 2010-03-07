@@ -1071,32 +1071,38 @@ gsb_real solde_debut_affichage ( gint account_number,
     gsb_real solde;
     GSList *list_tmp_transactions;
 
-    solde = gsb_data_account_get_init_balance (account_number,
-					       floating_point );
+    solde = gsb_data_account_get_init_balance ( account_number, floating_point );
 
-    if ( gsb_data_account_get_r (account_number) )
-	return solde;
+    if ( gsb_data_account_get_l ( account_number ) == 0 )
+        solde = gsb_real_add ( solde,
+                        gsb_data_archive_store_get_archives_balance ( account_number ) );
+
+    if ( gsb_data_account_get_r ( account_number ) )
+	    return solde;
 
     /* the marked R transactions are not showed, add their balance to the initial balance */
     list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp_transactions )
     {
-	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+        gint transaction_number_tmp;
+        transaction_number_tmp = gsb_data_transaction_get_transaction_number (
+                        list_tmp_transactions -> data);
 
-	/* 	si l'opé est ventilée ou non relevée, on saute */
+        /* 	si l'opé est ventilée ou non relevée, on saute */
 
-	if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number
-	     &&
-	     !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp)
-	     &&
-	     gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_RAPPROCHEE )
-	    solde = gsb_real_add ( solde,
-				   gsb_data_transaction_get_adjusted_amount (transaction_number_tmp,
-									     floating_point ));
-	list_tmp_transactions = list_tmp_transactions -> next;
+        if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number
+             &&
+             !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp)
+             &&
+             gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_RAPPROCHEE )
+            solde = gsb_real_add ( solde,
+                        gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp,
+                        floating_point ) );
+
+        list_tmp_transactions = list_tmp_transactions -> next;
     }
+
     return ( solde );
 }
 /******************************************************************************/
@@ -1574,6 +1580,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
         }
 	    else
 	        return FALSE;
+        g_free ( tmp_str );
     }
     else
 	    /* it's a normal transaction, ask to be sure */
@@ -3109,9 +3116,10 @@ void mise_a_jour_affichage_r ( gboolean show_r )
     /* 	if etat.retient_affichage_par_compte is set, only gsb_gui_navigation_get_current_account () will change */
     /* 	else, all the accounts change */
 
-    if ( show_r == gsb_data_account_get_r (current_account))
+    if ( show_r == gsb_data_account_get_r ( current_account ) )
     {
         gsb_transactions_list_update_tree_view ( current_account, show_r );
+        gsb_menu_update_view_menu ( current_account );
         return;
     }
 
@@ -3128,19 +3136,67 @@ void mise_a_jour_affichage_r ( gboolean show_r )
 	    gint i;
 
 	    i = gsb_data_account_get_no_account ( list_tmp -> data );
-	    gsb_data_account_set_r ( i,
-				     show_r );
+	    gsb_data_account_set_r ( i, show_r );
 
 	    list_tmp = list_tmp -> next;
 	}
     }
     gsb_transactions_list_update_tree_view ( current_account, show_r );
+    gsb_menu_update_view_menu ( current_account );
 
-    /* update the button in toolbar */
-    gsb_gui_update_bouton_affiche_ope_r ( show_r );
     return;
 }
 
+
+/**
+ * switch the view between show the reconciled transactions or not
+ *
+ * \param show_r	TRUE or FALSE
+ *
+ * \return
+ * */
+void gsb_transactions_list_show_archives_lines ( gboolean show_l )
+{
+    gint current_account;
+
+    devel_debug_int ( show_l );
+
+    current_account = gsb_gui_navigation_get_current_account ( );
+
+    /*  we check all the accounts */
+    /* 	if etat.retient_affichage_par_compte is set, only gsb_gui_navigation_get_current_account () will change */
+    /* 	else, all the accounts change */
+
+    if ( show_l == gsb_data_account_get_l ( current_account ) )
+    {
+        gsb_transactions_list_update_tree_view ( current_account, show_l );
+            return;
+    }
+
+    gsb_data_account_set_l ( current_account, show_l );
+
+    if ( !etat.retient_affichage_par_compte )
+    {
+        GSList *list_tmp;
+
+        list_tmp = gsb_data_account_get_list_accounts ( );
+
+        while ( list_tmp )
+        {
+            gint i;
+
+            i = gsb_data_account_get_no_account ( list_tmp -> data );
+            gsb_data_account_set_l ( i, show_l );
+
+            list_tmp = list_tmp -> next;
+        }
+    }
+    gsb_transactions_list_update_tree_view ( current_account, show_l );
+
+    /* update the menu */
+    //~ gsb_gui_update_bouton_affiche_ope_l ( show_l );
+    return;
+}
 
 
 /**
@@ -3217,7 +3273,13 @@ gboolean gsb_transactions_list_transaction_visible ( gpointer transaction_ptr,
 
     /* first check if it's an archive, if yes and good account, always show it */
     if (what_is_line == IS_ARCHIVE)
-	return ( gsb_data_archive_store_get_account_number (gsb_data_archive_store_get_number (transaction_ptr)) == account_number);
+    {
+        if ( gsb_data_account_get_l ( account_number ) )
+	        return ( gsb_data_archive_store_get_account_number (
+                        gsb_data_archive_store_get_number (transaction_ptr)) == account_number);
+        else
+            return FALSE;
+    }
 
     /* we don't check now for the separator, because it won't be shown if the transaction
      * is not shown, so check the basics for the transaction, and show or not after the separator */

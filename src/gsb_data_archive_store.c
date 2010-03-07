@@ -490,3 +490,27 @@ static gint gsb_data_archive_store_new ( void )
 }
 
 
+gsb_real gsb_data_archive_store_get_archives_balance ( gint account_number )
+{
+    GSList *tmp_list;
+    gsb_real balance = null_real;
+
+    tmp_list = gsb_data_archive_store_get_archives_list ( );
+
+    while (tmp_list)
+    {
+        struct_store_archive *archive_store;
+
+        archive_store = tmp_list -> data;
+
+        if ( archive_store -> account_number == account_number )
+            balance = gsb_real_add ( balance, archive_store -> balance );
+
+        tmp_list = tmp_list -> next;
+    }
+
+    return balance;
+}
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

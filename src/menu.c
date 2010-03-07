@@ -58,13 +58,13 @@
 /*START_STATIC*/
 static void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
 				     gpointer user_data );
-static gboolean gsb_gui_toggle_show_closed_accounts ();
-static gboolean gsb_gui_toggle_show_form ();
-static gboolean help_bugreport ();
-static gboolean help_manual ();
-static gboolean help_quick_start ();
-static gboolean help_translation ();
-static gboolean help_website ();
+static gboolean gsb_gui_toggle_show_closed_accounts ( void );
+static gboolean gsb_gui_toggle_show_form ( void );
+static gboolean help_bugreport ( void );
+static gboolean help_manual ( void );
+static gboolean help_quick_start ( void );
+static gboolean help_translation ( void );
+static gboolean help_website ( void );
 static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
 			     GtkContainer * p_box) ;
 /*END_STATIC*/
@@ -128,6 +128,7 @@ static gchar * buffer =
 "    <menu action='ViewMenu'>"
 "      <menuitem action='ShowTransactionForm'/>"
 "      <menuitem action='ShowReconciled'/>"
+"      <menuitem action='ShowArchived'/>"
 "      <menuitem action='ShowClosed'/>"
 "      <separator/>"
 "      <menuitem action='ShowOneLine'/>"
@@ -295,7 +296,11 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	  etat.formulaire_toujours_affiche },
 	{ "ShowReconciled",	NULL,			_("Show _reconciled"),
 	  "<Alt>R", 
-	  NULL,			G_CALLBACK ( gsb_gui_toggle_show_reconciled),
+	  NULL,			G_CALLBACK ( gsb_gui_toggle_show_reconciled ),
+	  0 },
+	{ "ShowArchived",	NULL,			_("Show _lines archives"),
+	  "<Alt>L", 
+	  NULL,			G_CALLBACK ( gsb_gui_toggle_show_archived ),
 	  0 },
 	{ "ShowClosed",		NULL,			_("Show _closed accounts"),
 	  NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_show_closed_accounts ),
@@ -404,7 +409,7 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
  *
  * \return FALSE
  */
-gboolean help_manual ()
+gboolean help_manual ( void )
 {
     gchar *lang = _("en");
     gchar *string;
@@ -436,7 +441,7 @@ gboolean help_manual ()
  *
  * \return FALSE
  */
-gboolean help_quick_start ()
+gboolean help_quick_start ( void )
 {
     gchar *lang = _("en");
 
@@ -456,7 +461,7 @@ gboolean help_quick_start ()
  *
  * \return FALSE
  */
-gboolean help_translation ()
+gboolean help_translation ( void )
 {
     gchar *lang = _("en");
 
@@ -475,7 +480,7 @@ gboolean help_translation ()
  *
  * \return FALSE
  */
-gboolean help_website ()
+gboolean help_website ( void )
 {
     lance_navigateur_web ( "http://www.grisbi.org/" );
 
@@ -489,7 +494,7 @@ gboolean help_website ()
  *
  * \return FALSE
  */
-gboolean help_bugreport ()
+gboolean help_bugreport ( void )
 {
     lance_navigateur_web ( "http://www.grisbi.org/bugtracking/" );
 
@@ -601,7 +606,7 @@ void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *cu
  *
  * \return FALSE
  */
-gboolean gsb_gui_toggle_show_form ()
+gboolean gsb_gui_toggle_show_form ( void )
 {
     devel_debug (NULL);
 
@@ -620,19 +625,49 @@ gboolean gsb_gui_toggle_show_form ()
  *
  * \return FALSE
  */
-gboolean gsb_gui_toggle_show_reconciled ()
+gboolean gsb_gui_toggle_show_reconciled ( void )
 {
-    if ( block_menu_cb )
-	return FALSE;
+    gint current_account;
 
-    if ( gsb_data_account_get_r ( gsb_gui_navigation_get_current_account () ) )
-	change_aspect_liste(6);
+    if ( block_menu_cb )
+	    return FALSE;
+
+    current_account = gsb_gui_navigation_get_current_account ( );
+    if ( current_account == -1 )
+        return FALSE;
+
+    if ( gsb_data_account_get_r ( current_account ) )
+	    change_aspect_liste ( 6 );
     else
-	change_aspect_liste(5);
+	    change_aspect_liste ( 5 );
 
     return FALSE;
 }
 
+
+/**
+ * Show or hide display of lines archives.
+ *
+ * \return FALSE
+ */
+gboolean gsb_gui_toggle_show_archived ( void )
+{
+    gint current_account;
+
+    if ( block_menu_cb )
+	    return FALSE;
+
+    current_account = gsb_gui_navigation_get_current_account ( );
+    if ( current_account == -1 )
+        return FALSE;
+
+    if ( gsb_data_account_get_l ( current_account ) )
+	    change_aspect_liste ( 8 );
+    else
+	    change_aspect_liste ( 7 );
+
+    return FALSE;
+}
 
 
 /**
@@ -640,7 +675,7 @@ gboolean gsb_gui_toggle_show_reconciled ()
  *
  * \return FALSE
  */
-gboolean gsb_gui_toggle_show_closed_accounts ()
+gboolean gsb_gui_toggle_show_closed_accounts ( void )
 {
     etat.show_closed_accounts = ! etat.show_closed_accounts;
 
@@ -673,17 +708,23 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 
     /* update the showing of reconciled transactions */
     tmpstr = menu_name ( "ViewMenu", "ShowReconciled", NULL );
-    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, tmpstr)), 
-				   gsb_data_account_get_r (account_number) );
+    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager, tmpstr) ), 
+				        gsb_data_account_get_r ( account_number ) );
     g_free ( tmpstr );
 
     tmpstr = menu_name ( "ViewMenu", "ShowTransactionForm", NULL );
-    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, tmpstr)), 
-				   gsb_form_is_visible () );
+    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager, tmpstr) ), 
+				        gsb_form_is_visible ( ) );
     g_free ( tmpstr );
 
-    /* update the toggle button to show marked transactions */
-    gsb_gui_update_bouton_affiche_ope_r ( gsb_data_account_get_r (account_number) );
+    /* update the showing of reconciled transactions */
+    tmpstr = menu_name ( "ViewMenu", "ShowArchived", NULL );
+    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager, tmpstr) ), 
+				        gsb_data_account_get_l ( account_number ) );
+    g_free ( tmpstr );
 
     /* update the number of line showed */
     switch ( gsb_data_account_get_nb_rows (account_number))
@@ -703,8 +744,9 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 	    break;
     }
 
-    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, item_name )),
-				   TRUE );
+    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager, item_name ) ),
+				        TRUE );
     g_free ( item_name );
 
     block_menu_cb = FALSE;

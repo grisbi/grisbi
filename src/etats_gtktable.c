@@ -312,7 +312,6 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
 	     !gsb_data_account_get_r ( account_number ) )
     {
         gsb_data_account_set_r ( account_number, TRUE );
-        gsb_gui_update_bouton_affiche_ope_r ( TRUE );
         gsb_menu_update_view_menu ( account_number );
         mise_a_jour_affichage_r ( TRUE );
     }

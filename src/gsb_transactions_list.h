@@ -64,6 +64,7 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
 void gsb_transactions_list_selection_changed ( gint new_selected_transaction );
 gboolean gsb_transactions_list_set_row_align ( gfloat row_align );
 void gsb_transactions_list_set_visible_rows_number ( gint rows_number );
+void gsb_transactions_list_show_archives_lines ( gboolean show_l );
 void gsb_transactions_list_splitted_to_scheduled ( gint transaction_number,
                         gint scheduled_number );
 gboolean gsb_transactions_list_switch_expander ( gint transaction_number );

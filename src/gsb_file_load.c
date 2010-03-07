@@ -1533,6 +1533,15 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
     }
 
     if ( !strcmp ( attribute_names[i],
+                        "Show_archives_lines" ))
+    {
+        gsb_data_account_set_l ( account_number,
+                        utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
                         "Lines_per_transaction" ))
     {
         gsb_data_account_set_nb_rows ( account_number, 
