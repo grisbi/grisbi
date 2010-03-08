@@ -218,7 +218,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entry = gsb_automem_entry_new ( &etat.browser_command, NULL, NULL );
+    entry = gsb_automem_entry_new ( &conf.browser_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     text = make_blue ( _("You may use %s to expand the URL - I.e: 'firefox -remote %s' ") );
@@ -235,13 +235,13 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 
     /* Automatically load last file on startup? */
     button = gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
-					  &(etat.dernier_fichier_auto), NULL, NULL );
+					  &conf.dernier_fichier_auto, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, 
 			 FALSE, FALSE, 0 );
 
     /* automatically save file at closing */
     button = gsb_automem_checkbutton_new (_("Automatically save on exit"),
-					  &(etat.sauvegarde_auto), NULL, NULL);
+					  &conf.sauvegarde_auto, NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, 
 			 FALSE, FALSE, 0 );
 
@@ -253,7 +253,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 
     /* Automatic backup ? */
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
-					  &etat.make_backup, NULL, NULL);
+					  &conf.make_backup, NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
@@ -263,12 +263,12 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0);
 
     button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
-					  &etat.make_backup_every_minutes,
+					  &conf.make_backup_every_minutes,
 					  G_CALLBACK (gsb_file_automatic_backup_start), NULL);
     gtk_box_pack_start ( GTK_BOX (hbox), button,
 			 FALSE, FALSE, 0 );
 
-    button = gsb_automem_spin_button_new ( &etat.make_backup_nb_minutes,
+    button = gsb_automem_spin_button_new ( &conf.make_backup_nb_minutes,
 					   G_CALLBACK (gsb_file_automatic_backup_change_time), NULL );
     gtk_box_pack_start ( GTK_BOX (hbox), button,
 			 FALSE, FALSE, 0 );

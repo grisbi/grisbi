@@ -60,9 +60,6 @@ static  gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
 /** Used to display/hide comments in scheduler list */
 static GtkWidget *scheduler_display_hide_comments = NULL;
 
-//~ /* display/hide marked transactions */
-//~ static GtkWidget * bouton_affiche_ope_r = NULL;
-
 /** here are the 3 buttons on the scheduler toolbar
  * which can been unsensitive or sensitive */
 GtkWidget *scheduler_button_execute = NULL;

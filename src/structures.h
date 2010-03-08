@@ -44,22 +44,10 @@ struct {
     gboolean debug_mode;            /* TRUE in debug mode, FALSE for normale mode */
 
     /* files and backup part */
-    gint dernier_fichier_auto;
-    gint sauvegarde_auto;           /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
-    gint sauvegarde_demarrage;      /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
-    gint make_backup;               /* TRUE for create a backup when save file */
-    gint make_backup_every_minutes; /* TRUE to make backup every x mn */
-    gint make_backup_nb_minutes;    /* the number of minutes we want to make a backup */
     gint crypt_file;                /* TRUE if we want to crypt the file */
-    gint compress_file;             /* TRUE if we want to compress the grisbi file */
-    gint compress_backup;           /* TRUE if we want to compress the backup */
-    gint alerte_permission;         /* à un si le message d'alerte s'affiche */
     gint fichier_deja_ouvert;       /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
-    gint force_enregistrement;      /* à un si on force l'enregistrement */
 
     /* formulaire */
-    gint entree;                    /* si etat.entree = 1, la touche entrée finit l'opération */ 
-    gint alerte_mini;
     gint formulaire_toujours_affiche;
     gint affichage_exercice_automatique;            /* automatic fyear :0 to set according to the date, 2 according to value date */
     gint automatic_completion_payee;                /* 1 pour autoriser la completion automatique des opérations */
@@ -72,9 +60,6 @@ struct {
     gint en_train_de_charger;
     gint utilise_logo;
     gint display_grisbi_title;      /* selection du titre principal de grisbi */
-
-    gint utilise_fonte_listes;      /* TRUE to use a custom font for the lists */
-    gchar *font_string;             /* contain the description of the font, or NULL */
     
     gint display_toolbar;           /** Display mode of toolbar. */
     gboolean show_toolbar;          /** Show toolbar or not.  */
@@ -104,11 +89,6 @@ struct {
     gint combofix_force_payee;              /* TRUE if no new item can be appended in the payee combofix */
     gint combofix_force_category;           /* TRUE if no new item can be appended in the category and budget combofix */
     
-    /* Various commands */
-    gchar * browser_command;
-    gchar * latex_command;
-    gchar * dvips_command;
-
     /* Print stuff */
     struct print_config print_config;
     
@@ -133,7 +113,6 @@ struct {
 
     /* variables for the module estimate balance */
     gint bet_deb_period;
-    gint bet_end_period;
     gint bet_spin_range;
     gint bet_months;
     gint bet_hist_data;
@@ -158,9 +137,29 @@ struct {
 
     /* general part */
     gint r_modifiable;                              /* Changes in reconciled transactions */
-
-    /* pluriel pour final */
+    gint entree;                                    /* si etat.entree = 1, la touche entrée finit l'opération */ 
+    gint alerte_mini;
+    gint utilise_fonte_listes;                      /* TRUE to use a custom font for the lists */
+    gchar *font_string;                             /* contain the description of the font, or NULL */
+    gchar *browser_command;
+    gchar *latex_command;
+    gchar *dvips_command;
     gint pluriel_final;                             /* 0 = finals 1 = finaux */
+
+    /* files part */
+    gint sauvegarde_demarrage;                      /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
+    gint sauvegarde_auto;                           /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
+    gint dernier_fichier_auto;
+    gint compress_file;                             /* TRUE if we want to compress the grisbi file */
+    gint alerte_permission;                         /* à un si le message d'alerte s'affiche */
+    gint force_enregistrement;                      /* à un si on force l'enregistrement */
+
+    /* backup part */
+    gint make_backup;                               /* TRUE for create a backup when save file */
+    gint make_backup_every_minutes;                 /* TRUE to make backup every x mn */
+    gint make_backup_nb_minutes;                    /* the number of minutes we want to make a backup */
+    gint make_bakup_single_file;                    /* TRUE if a single backup file */
+    gint compress_backup;                           /* TRUE if we want to compress the backup */
 
     /* variables for the list of transactions */
     gint show_transaction_selected_in_form;         /* TRUE will show the selected transaction in the form */
@@ -169,8 +168,8 @@ struct {
     gboolean transactions_list_sort_by_value_date;  /* Options for sorting by value date */
 
     /* archive stuff */
-    gint check_for_archival; /* TRUE if we want to check the number of non archived transactions at the opening */
-    gint max_non_archived_transactions_for_check; /* the max number of transaction before grisbi warm at the opening */
+    gint check_for_archival;                        /* TRUE if we want to check the number of non archived transactions at the opening */
+    gint max_non_archived_transactions_for_check;   /* the max number of transaction before grisbi warm at the opening */
 
 } conf;
 

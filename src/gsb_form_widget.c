@@ -575,7 +575,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 		{
 		    /* we are on the bottom right, we finish the edition or
 		     * go to the upper left */
-		    if ( !etat.entree )
+		    if ( !conf.entree )
 		    {
 			return_value_number = -2;
 			continue;

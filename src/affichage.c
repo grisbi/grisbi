@@ -81,11 +81,13 @@ extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
+extern GdkColor couleur_bet_division;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_jour;
 extern GdkColor couleur_selection;
 extern GdkColor default_archive_background_color;
+extern GdkColor default_couleur_bet_division;
 extern GdkColor default_calendar_entry_color;
 extern GdkColor default_couleur_fond[2];
 extern GdkColor default_couleur_grise;
@@ -202,19 +204,19 @@ GtkWidget * onglet_display_fonts ( void )
                         _("Use a custom font for the transactions"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), check_button, FALSE, FALSE, 0 );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
-				   etat.utilise_fonte_listes );
+				        conf.utilise_fonte_listes );
 
     /*     on crée la vbox qui contiendra la font button et le raz */
     vbox = gtk_vbox_new ( FALSE, 10 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
-    gtk_widget_set_sensitive ( vbox, etat.utilise_fonte_listes );
+    gtk_widget_set_sensitive ( vbox, conf.utilise_fonte_listes );
     g_signal_connect ( G_OBJECT ( check_button ), "toggled",
 		       G_CALLBACK ( change_choix_utilise_fonte_liste ), vbox );
 
 
     /* Create font button */
-    font_button = utils_font_create_button (&etat.font_string,
+    font_button = utils_font_create_button ( &conf.font_string,
 					    G_CALLBACK (update_fonte_listes), NULL);
     gtk_box_pack_start ( GTK_BOX (vbox), font_button, FALSE, FALSE, 0 );
 
@@ -310,11 +312,11 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
                         GtkWidget *vbox )
 {
-    etat.utilise_fonte_listes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ));
+    conf.utilise_fonte_listes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ));
     gtk_widget_set_sensitive ( vbox,
-			       etat.utilise_fonte_listes );
+			       conf.utilise_fonte_listes );
 
-    update_fonte_listes (etat.font_string, NULL);
+    update_fonte_listes ( conf.font_string, NULL );
 
     return ( FALSE );
 }
@@ -336,7 +338,7 @@ void update_fonte_listes ( gchar *fontname,
 
     devel_debug (NULL);
 
-    if ( etat.utilise_fonte_listes )
+    if ( conf.utilise_fonte_listes )
 	font = fontname;
     else
 	font = NULL;
@@ -791,6 +793,7 @@ static GtkWidget *preferences_view_create_color_combobox (void)
     { N_("Background of non selectable scheduled transactions"), &couleur_grise, &default_couleur_grise},
     { N_("Archive color"), &archive_background_color, &default_archive_background_color},
     { N_("Background of invalid date entry"), &calendar_entry_color, &default_calendar_entry_color },
+    { N_("Background of bet division"), &couleur_bet_division, &default_couleur_bet_division },
     { NULL, 0, 0},
     };
 

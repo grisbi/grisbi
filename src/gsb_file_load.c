@@ -163,6 +163,7 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
+extern GdkColor couleur_bet_division;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_jour;
@@ -1224,6 +1225,24 @@ void gsb_file_load_color_part ( const gchar **attribute_names,
                         "Calendar_entry_blue" ))
     {
         calendar_entry_color.blue = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_bet_division_red" ))
+    {
+        couleur_bet_division.red = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_bet_division_green" ))
+    {
+        couleur_bet_division.green = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_bet_division_blue" ))
+    {
+        couleur_bet_division.blue = utils_str_atoi (attribute_values[i]);
     }
 
     i++;
@@ -3663,13 +3682,6 @@ void gsb_file_load_bet_part ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i], "Ddte" ) )
     {
         etat.bet_deb_period = utils_str_atoi ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Edte" ) )
-    {
-        etat.bet_end_period = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }

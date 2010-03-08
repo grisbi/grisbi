@@ -302,7 +302,7 @@ int main (int argc, char **argv)
     else
     {
 	/* open the last file if needed, nom_fichier_comptes was filled while loading the configuration */
-	if ( etat.dernier_fichier_auto
+	if ( conf.dernier_fichier_auto
 	     &&
 	     nom_fichier_comptes )
 	    if (!gsb_file_open_file(nom_fichier_comptes))

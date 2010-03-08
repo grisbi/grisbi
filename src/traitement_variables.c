@@ -128,8 +128,9 @@ GdkColor couleur_nom_compte_prelight;
 
 GdkColor couleur_bleue;
 GdkColor couleur_jaune;
-GdkColor couleur_division;
-
+GdkColor couleur_bet_division;
+GdkColor default_couleur_bet_division;
+ 
 GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 
 gchar *nom_fichier_comptes = NULL;
@@ -382,7 +383,6 @@ void init_variables ( void )
     bet_data_init_variables ( );
 #endif /* ENABLE_BALANCE_ESTIMATE */
     etat.bet_deb_period = 1;
-    etat.bet_end_period = 1;
     etat.bet_spin_range = 0;
     etat.bet_months = 1;
     etat.bet_hist_data = 0;
@@ -509,9 +509,16 @@ void initialisation_couleurs_listes ( void )
     couleur_jaune.blue = 0;
     couleur_jaune.pixel = 1;
 
-    couleur_division.red =64550;
-    couleur_division.green =65535;
-    couleur_division.blue = 33466;
+    /* colors of the background bet divisions */
+    couleur_bet_division.red =64550;
+    couleur_bet_division.green =65535;
+    couleur_bet_division.blue = 33466;
+
+    default_couleur_bet_division.red =64550;
+    default_couleur_bet_division.green =65535;
+    default_couleur_bet_division.blue = 33466;
+
+    
 }
 /*****************************************************************************************************/
 

@@ -409,7 +409,7 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
             }
 		    success = gsb_file_util_test_overwrite (export_name)
 			&&
-			gsb_file_save_save_file ( export_name, etat.compress_backup, archive_number);
+			gsb_file_save_save_file ( export_name, conf.compress_backup, archive_number);
 		    break;
 
 		case 1:

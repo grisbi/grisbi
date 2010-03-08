@@ -1577,10 +1577,13 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
             /* he says ok, so transaction_number becomes the mother */
             transaction_number = gsb_data_transaction_get_mother_transaction_number (
                         transaction_number );
+            g_free ( tmp_str );
         }
 	    else
+        {
+            g_free ( tmp_str );
 	        return FALSE;
-        g_free ( tmp_str );
+        }
     }
     else
 	    /* it's a normal transaction, ask to be sure */
@@ -3193,8 +3196,6 @@ void gsb_transactions_list_show_archives_lines ( gboolean show_l )
     }
     gsb_transactions_list_update_tree_view ( current_account, show_l );
 
-    /* update the menu */
-    //~ gsb_gui_update_bouton_affiche_ope_l ( show_l );
     return;
 }
 

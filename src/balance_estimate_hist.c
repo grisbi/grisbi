@@ -88,6 +88,7 @@ static gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *rende
 gsb_real bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *parent );
 static GtkWidget *bet_historical_get_data ( GtkWidget *container );
 static gboolean bet_historical_get_full_div ( GtkTreeModel *model, GtkTreeIter *parent );
+static gboolean bet_historical_initializes_account_settings ( gint account_number );
 static void bet_historical_populate_div_model ( gpointer key,
                         gpointer value,
                         gpointer user_data);
@@ -254,33 +255,26 @@ GtkWidget * bet_historical_create_page ( void )
 void bet_historical_origin_data_clicked ( GtkWidget *togglebutton, gpointer data )
 {
     GtkWidget *notebook;
-    GtkWidget *ancestor;
-    GtkWidget *widget;
     GtkTreeViewColumn *column;
     const gchar *name;
     gchar *title;
+    gint account_number;
 
+    account_number = gsb_gui_navigation_get_current_account ( );
     name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
     //~ devel_debug (name);
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
-    ancestor = g_object_get_data ( G_OBJECT ( notebook ), "bet_historical_data" );
-    if ( gtk_widget_is_ancestor ( togglebutton, ancestor ) == FALSE )
-    {
-        widget = utils_get_child_widget_by_name ( ancestor, name );
-        if ( widget )
-            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
-    }
 
     if ( g_strcmp0 ( name, "button_1" ) == 0 )
     {
-        etat.bet_hist_data = 0;
-        bet_data_set_div_ptr ( etat.bet_hist_data );
+        gsb_data_account_set_bet_hist_data ( account_number, 0 );
+        bet_data_set_div_ptr ( 0 );
         title = g_strdup ( _("Category") );
     }
     else
     {
-        etat.bet_hist_data = 1;
-        bet_data_set_div_ptr ( etat.bet_hist_data );
+        gsb_data_account_set_bet_hist_data ( account_number, 1 );
+        bet_data_set_div_ptr ( 1 );
         title = g_strdup ( _("Budgetary line") );
     }
 
@@ -303,29 +297,11 @@ void bet_historical_origin_data_clicked ( GtkWidget *togglebutton, gpointer data
  * */
 void bet_historical_fyear_clicked ( GtkWidget *combo, gpointer data )
 {
-    GtkWidget *notebook;
-    GtkWidget *ancestor;
-    GtkWidget *widget;
-    const gchar *name;
+    gint account_number;
 
-    //~ devel_debug (NULL);
-    etat.bet_hist_fyear = bet_historical_get_fyear_from_combobox ( combo );
-
-    name = gtk_widget_get_name ( GTK_WIDGET ( combo ) );
-    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
-    ancestor = g_object_get_data ( G_OBJECT ( notebook ), "bet_historical_data" );
-    if ( gtk_widget_is_ancestor ( combo, ancestor ) == FALSE )
-    {
-        widget = utils_get_child_widget_by_name ( ancestor, name );
-        if ( widget )
-        {
-            gsb_fyear_select_iter_by_number ( widget,
-                        bet_fyear_model,
-                        bet_fyear_model_filter,
-                        etat.bet_hist_fyear );
-        }
-
-    }
+    account_number = gsb_gui_navigation_get_current_account ( );
+    gsb_data_account_set_bet_hist_fyear ( account_number,
+                        bet_historical_get_fyear_from_combobox ( combo ) );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
@@ -753,9 +729,8 @@ void bet_historical_populate_data ( void )
 {
     GtkWidget *notebook;
     GtkWidget *tree_view;
-    GtkWidget *combo;
     GtkTreeModel *model;
-    gint selected_account;
+    gint account_number;
     gint fyear_number;
     GDate *date_min;
     GDate *date_max;
@@ -764,8 +739,8 @@ void bet_historical_populate_data ( void )
 
     //~ devel_debug (NULL);
     /* récuperation du n° de compte à utiliser */
-    selected_account = gsb_gui_navigation_get_current_account ( );
-    if ( selected_account == -1 )
+    account_number = gsb_gui_navigation_get_current_account ( );
+    if ( account_number == -1 )
         return;
 
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
@@ -773,12 +748,14 @@ void bet_historical_populate_data ( void )
     if ( GTK_IS_TREE_VIEW ( tree_view ) == FALSE )
         return;
 
+    /* Initializes account settings */
+    bet_historical_initializes_account_settings ( account_number );
+
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_store_clear ( GTK_TREE_STORE ( model ) );
 
     /* calculate date_min and date_max */
-    combo = g_object_get_data ( G_OBJECT ( notebook ), "bet_historical_fyear" );
-    fyear_number = bet_historical_get_fyear_from_combobox ( combo );
+    fyear_number = gsb_data_account_get_bet_hist_fyear ( account_number );
     if ( fyear_number == 0 )
     {
         date_min = gdate_today ( );
@@ -806,16 +783,16 @@ void bet_historical_populate_data ( void )
     while ( tmp_list )
     {
         gint transaction_number;
-        gint account_number;
+        gint tmp_account_number;
         const GDate *date;
 
         transaction_number = gsb_data_transaction_get_transaction_number (
                         tmp_list->data );
         tmp_list = tmp_list -> next;
 
-        account_number =  gsb_data_transaction_get_account_number (
+        tmp_account_number =  gsb_data_transaction_get_account_number (
                         transaction_number );
-        if ( account_number != selected_account )
+        if ( tmp_account_number != account_number )
             continue;
 
         date = gsb_data_transaction_get_date ( transaction_number );
@@ -1634,6 +1611,32 @@ void bet_historical_add_average_amount ( GtkWidget *menu_item,
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_historical_initializes_account_settings ( gint account_number )
+{
+    GtkWidget *notebook;
+    GtkWidget *combo = NULL;
+    gint fyear_number;
+
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook" );
+    combo = g_object_get_data ( G_OBJECT ( notebook ), "bet_historical_fyear" );
+
+    fyear_number = gsb_data_account_get_bet_hist_fyear ( account_number );
+
+    gsb_fyear_select_iter_by_number ( combo,
+                        bet_fyear_model,
+                        bet_fyear_model_filter,
+                        fyear_number );
+
+    return FALSE;
 }
 
 

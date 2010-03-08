@@ -145,7 +145,6 @@ gboolean gsb_file_config_load_config ( void )
     }
 
     /* get the geometry */
-
     conf.main_width = g_key_file_get_integer ( config,
                         "Geometry",
                         "Width",
@@ -184,75 +183,87 @@ gboolean gsb_file_config_load_config ( void )
                         "Path",
                         NULL ));
 
-    etat.make_backup = g_key_file_get_integer ( config,
-                        "General",
-                        "Make backup",
-                        NULL );
-
-    etat.make_backup_every_minutes = g_key_file_get_integer ( config,
-                        "General",
-                        "Make backup every x minutes",
-                        NULL );
-
-    etat.make_backup_nb_minutes = g_key_file_get_integer ( config,
-                        "General",
-                        "Make backup nb minutes",
-                        NULL );
-
-    gsb_file_set_backup_path ( g_key_file_get_string ( config,
-                        "General",
-                        "Backup path",
-                        NULL ));
-
-    etat.alerte_permission = g_key_file_get_integer ( config,
+    conf.alerte_permission = g_key_file_get_integer ( config,
                         "General",
                         "Show permission alert",
                         NULL );
 
-    etat.entree = g_key_file_get_integer ( config,
+    conf.entree = g_key_file_get_integer ( config,
                         "General",
                         "Function of enter",
                         NULL );
 
-    etat.alerte_mini = g_key_file_get_integer ( config,
+    conf.alerte_mini = g_key_file_get_integer ( config,
                         "General",
                         "Show alert messages",
                         NULL );
 
-    etat.utilise_fonte_listes = g_key_file_get_integer ( config,
+    conf.utilise_fonte_listes = g_key_file_get_integer ( config,
                         "General",
                         "Use user font",
                         NULL );
     
-    etat.font_string = g_key_file_get_string ( config, "General", "Font name", NULL );
+    conf.font_string = g_key_file_get_string ( config, "General", "Font name", NULL );
     
-    etat.latex_command = g_key_file_get_string ( config,
+    conf.latex_command = g_key_file_get_string ( config,
                         "General",
                         "Latex command",
                         NULL );
 
-    etat.dvips_command = g_key_file_get_string ( config,
+    conf.dvips_command = g_key_file_get_string ( config,
                         "General",
                         "Dvips command",
                         NULL );
 
-    etat.browser_command = g_key_file_get_string ( config,
+    conf.pluriel_final = g_key_file_get_integer ( config,
                         "General",
-                        "Web",
+                        "Pluriel_final",
+                        NULL );
+                        
+
+    /* get backup part */
+    conf.make_backup = g_key_file_get_integer ( config,
+                        "Backup",
+                        "Make backup",
                         NULL );
 
+    conf.make_bakup_single_file = g_key_file_get_integer ( config,
+                        "Backup",
+                        "Make backup single file",
+                        NULL );
+
+    conf.make_backup_every_minutes = g_key_file_get_integer ( config,
+                        "Backup",
+                        "Make backup every x minutes",
+                        NULL );
+
+    conf.make_backup_nb_minutes = g_key_file_get_integer ( config,
+                        "Backup",
+                        "Make backup nb minutes",
+                        NULL );
+
+    conf.compress_backup = g_key_file_get_integer ( config,
+                        "Backup",
+                        "Compress backup",
+                        NULL );
+
+    gsb_file_set_backup_path ( g_key_file_get_string ( config,
+                        "Backup",
+                        "Backup path",
+                        NULL ));
+
     /* get input/output */
-    etat.dernier_fichier_auto = g_key_file_get_integer ( config,
+    conf.dernier_fichier_auto = g_key_file_get_integer ( config,
                         "IO",
                         "Load last file",
                         NULL );
 
-    etat.sauvegarde_auto = g_key_file_get_integer ( config,
+    conf.sauvegarde_auto = g_key_file_get_integer ( config,
                         "IO",
                         "Save at closing",
                         NULL );
 
-    etat.sauvegarde_demarrage = g_key_file_get_integer ( config,
+    conf.sauvegarde_demarrage = g_key_file_get_integer ( config,
                         "IO",
                         "Save at opening",
                         NULL );
@@ -262,17 +273,12 @@ gboolean gsb_file_config_load_config ( void )
                         "Nb last opened files",
                         NULL );
 
-    etat.compress_file = g_key_file_get_integer ( config,
+    conf.compress_file = g_key_file_get_integer ( config,
                         "IO",
                         "Compress file",
                         NULL );
 
-    etat.compress_backup = g_key_file_get_integer ( config,
-                        "IO",
-                        "Compress backup",
-                        NULL );
-
-    etat.force_enregistrement = g_key_file_get_integer ( config,
+    conf.force_enregistrement = g_key_file_get_integer ( config,
                         "IO",
                         "Force saving",
                         NULL );
@@ -510,10 +516,12 @@ gboolean gsb_file_config_save_config ( void )
                         "Geometry",
                         "Width",
                         conf.main_width );
+
     g_key_file_set_integer ( config,
                         "Geometry",
                         "Height",
                         conf.main_height );
+
     g_key_file_set_integer ( config,
                         "Geometry",
                         "Full screen",
@@ -538,63 +546,55 @@ gboolean gsb_file_config_save_config ( void )
                         "General",
                         "Can modify R",
                         conf.r_modifiable );
+
     g_key_file_set_string ( config,
                         "General",
                         "Path",
                         gsb_file_get_last_path () );
-    g_key_file_set_integer ( config,
-                        "General",
-                        "Make backup",
-                        etat.make_backup );
-    g_key_file_set_integer ( config,
-                        "General",
-                        "Make backup every x minutes",
-                        etat.make_backup_every_minutes );
-    g_key_file_set_integer ( config,
-                        "General",
-                        "Make backup nb minutes",
-                        etat.make_backup_nb_minutes );
-    if (gsb_file_get_backup_path ())
-        g_key_file_set_string ( config,
-                        "General",
-                        "Backup path",
-                        gsb_file_get_backup_path ());
+
     g_key_file_set_integer ( config,
                         "General",
                         "Show permission alert",
-                        etat.alerte_permission );
+                        conf.alerte_permission );
+
     g_key_file_set_integer ( config,
                         "General",
                         "Function of enter",
-                        etat.entree );
+                        conf.entree );
+
     g_key_file_set_integer ( config,
                         "General",
                         "Show alert messages",
-                        etat.alerte_mini );
+                        conf.alerte_mini );
+
     g_key_file_set_integer ( config,
                         "General",
                         "Use user font",
-                        etat.utilise_fonte_listes );
-    if (etat.font_string)
+                        conf.utilise_fonte_listes );
+
+    if ( conf.font_string )
         g_key_file_set_string ( config,
                         "General",
                         "Font name",
-                        etat.font_string );
-    if (etat.latex_command)
+                        conf.font_string );
+
+    if ( conf.latex_command )
         g_key_file_set_string ( config,
                         "General",
                         "Latex command",
-                        etat.latex_command );
-    if (etat.dvips_command)
+                        conf.latex_command );
+
+    if ( conf.dvips_command )
         g_key_file_set_string ( config,
                         "General",
                         "Dvips command",
-                        etat.dvips_command );
-    if (etat.browser_command)
+                        conf.dvips_command );
+
+    if (conf.browser_command)
     {
         gchar *string;
 
-        string = my_strdelimit ( etat.browser_command, "&", "\\e" );
+        string = my_strdelimit ( conf.browser_command, "&", "\\e" );
         g_key_file_set_string ( config,
                         "General",
                         "Web",
@@ -602,21 +602,58 @@ gboolean gsb_file_config_save_config ( void )
         g_free (string);
     }
 
+    g_key_file_set_integer ( config,
+                        "General",
+                        "Pluriel_final",
+                        conf.pluriel_final );
+
+     /* save backup part */
+    g_key_file_set_integer ( config,
+                        "Backup",
+                        "Make backup",
+                        conf.make_backup );
+
+    g_key_file_set_integer ( config,
+                        "Backup",
+                        "Make backup single file",
+                        conf.make_bakup_single_file );
+
+    g_key_file_set_integer ( config,
+                        "Backup",
+                        "Make backup every x minutes",
+                        conf.make_backup_every_minutes );
+
+    g_key_file_set_integer ( config,
+                        "Backup",
+                        "Compress backup",
+                        conf.compress_backup );
+
+    g_key_file_set_integer ( config,
+                        "Backup",
+                        "Make backup nb minutes",
+                        conf.make_backup_nb_minutes );
+
+    if (gsb_file_get_backup_path ())
+        g_key_file_set_string ( config,
+                        "Backup",
+                        "Backup path",
+                        gsb_file_get_backup_path ());
+
     /* save input/output */
     g_key_file_set_integer ( config,
                         "IO",
                         "Load last file",
-                        etat.dernier_fichier_auto );
+                        conf.dernier_fichier_auto );
 
     g_key_file_set_integer ( config,
                         "IO",
                         "Save at closing",
-                        etat.sauvegarde_auto );
+                        conf.sauvegarde_auto );
 
     g_key_file_set_integer ( config,
                         "IO",
                         "Save at opening",
-                        etat.sauvegarde_demarrage );
+                        conf.sauvegarde_demarrage );
 
     g_key_file_set_integer ( config,
                         "IO",
@@ -626,17 +663,12 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "IO",
                         "Compress file",
-                        etat.compress_file );
-
-    g_key_file_set_integer ( config,
-                        "IO",
-                        "Compress backup",
-                        etat.compress_backup );
+                        conf.compress_file );
 
     g_key_file_set_integer ( config,
                         "IO",
                         "Force saving",
-                        etat.force_enregistrement );
+                        conf.force_enregistrement );
 
     if ( nb_derniers_fichiers_ouverts > 0
      &&
@@ -667,6 +699,7 @@ gboolean gsb_file_config_save_config ( void )
                         "Scheduled",
                         "Execute scheduled of month",
                         execute_scheduled_of_month );
+
     g_key_file_set_integer ( config,
                         "Scheduled",
                         "Balances with scheduled",
@@ -776,8 +809,9 @@ gboolean gsb_file_config_save_config ( void )
                         "Print config",
                         "Printer name",
                         etat.print_config.printer_name );
+
     if ( etat.print_config.printer_filename )
-    g_key_file_set_string ( config,
+        g_key_file_set_string ( config,
                         "Print config",
                         "Printer filename",
                         etat.print_config.printer_filename );
@@ -797,10 +831,12 @@ gboolean gsb_file_config_save_config ( void )
                         "Paper config",
                         "Name",
                         etat.print_config.paper_config.name );
+
     g_key_file_set_integer ( config,
                         "Paper config",
                         "Width",
                         etat.print_config.paper_config.width );
+
     g_key_file_set_integer ( config,
                         "Paper config",
                         "Height",
@@ -838,6 +874,7 @@ gboolean gsb_file_config_save_config ( void )
     g_free ( file_content);
     g_free (filename);
     g_key_file_free (config);
+
     return TRUE;
 }
 
@@ -971,48 +1008,48 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Affichage_alerte_permission" ))
     {
-	 etat.alerte_permission = utils_str_atoi (text);
+	 conf.alerte_permission = utils_str_atoi (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Force_enregistrement" ))
     {
-	etat.force_enregistrement = utils_str_atoi (text);
+	conf.force_enregistrement = utils_str_atoi (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Fonction_touche_entree" ))
     {
-	etat.entree = utils_str_atoi (text);
+	conf.entree = utils_str_atoi (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Affichage_messages_alertes" ))
     {
-	etat.alerte_mini = utils_str_atoi (text);
+	conf.alerte_mini = utils_str_atoi (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Utilise_fonte_des_listes" ))
     {
-	etat.utilise_fonte_listes = utils_str_atoi (text);
+	conf.utilise_fonte_listes = utils_str_atoi (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Fonte_des_listes" ))
     {
-	etat.font_string = my_strdup (text);
+	conf.font_string = my_strdup (text);
 	return;
     }
      if ( !strcmp ( element_name,
 		   "Navigateur_web" ))
     {
-	etat.browser_command = my_strdelimit (text,
+	conf.browser_command = my_strdelimit (text,
 					      "\\e",
 					      "&" );
 	return;
@@ -1022,13 +1059,13 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 		   "Latex_command" ))
     {
 	/* TODO dOm : fix memory leaks in this function (memory used by lvalue before setting its value */
-	etat.latex_command = my_strdup (text);
+	conf.latex_command = my_strdup (text);
 	return;
     }
      if ( !strcmp ( element_name,
 		   "Dvips_command" ))
     {
-	etat.dvips_command = my_strdup (text);
+	conf.dvips_command = my_strdup (text);
 	return;
     }
 
@@ -1063,7 +1100,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Chargement_auto_dernier_fichier" ))
     {
-	etat.dernier_fichier_auto = utils_str_atoi (text);
+	conf.dernier_fichier_auto = utils_str_atoi (text);
 	return;
     }
 
@@ -1077,14 +1114,14 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Enregistrement_automatique" ))
     {
-	etat.sauvegarde_auto = utils_str_atoi (text);
+	conf.sauvegarde_auto = utils_str_atoi (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Enregistrement_au_demarrage" ))
     {
-	etat.sauvegarde_demarrage = utils_str_atoi (text);
+	conf.sauvegarde_demarrage = utils_str_atoi (text);
 	return;
     }
 
@@ -1098,14 +1135,14 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Compression_fichier" ))
     {
-	etat.compress_file = utils_str_atoi (text);
+	conf.compress_file = utils_str_atoi (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Compression_backup" ))
     {
-	etat.compress_backup = utils_str_atoi (text);
+	conf.compress_backup = utils_str_atoi (text);
 	return;
     }
 
@@ -1234,13 +1271,13 @@ void gsb_file_config_clean_config ( void )
     conf.largeur_colonne_comptes_operation = mini_paned_width;
     conf.prefs_width = 600;
 
-    etat.force_enregistrement = 1;
+    conf.force_enregistrement = 1;
     etat.utilise_logo = 1;
 
     conf.r_modifiable = 0;       /* we can not change the reconciled transaction */
-    etat.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
-    etat.sauvegarde_auto = 0;    /* on NE sauvegarde PAS * automatiquement par défaut */
-    etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
+    conf.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
+    conf.sauvegarde_auto = 0;    /* on NE sauvegarde PAS * automatiquement par défaut */
+    conf.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
     execute_scheduled_of_month = FALSE;
     balances_with_scheduled = TRUE;
@@ -1260,26 +1297,26 @@ void gsb_file_config_clean_config ( void )
     conf.transactions_list_sort_by_value_date = 1;  /* Options for sorting by value date */  
     etat.show_closed_accounts = FALSE;
 
-    if (etat.font_string)
+    if ( conf.font_string )
     {
-    g_free (etat.font_string);
-    etat.font_string = NULL;
+    g_free ( conf.font_string );
+    conf.font_string = NULL;
     }
     
-    etat.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
+    conf.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
     gsb_file_update_last_path (g_get_home_dir ());
     gsb_file_set_backup_path (my_get_XDG_grisbi_data_dir ());
-    etat.make_backup = 1;       /* on force aussi le backup pbiava le 24/01/2009*/
-    etat.make_backup_every_minutes = FALSE;
-    etat.make_backup_nb_minutes = 0;
+    conf.make_backup = 1;
+    conf.make_backup_every_minutes = FALSE;
+    conf.make_backup_nb_minutes = 0;
 
     nb_derniers_fichiers_ouverts = 0;
     nb_max_derniers_fichiers_ouverts = 3;
     tab_noms_derniers_fichiers_ouverts = NULL;
 
     /* no compress by default */
-    etat.compress_file = 0;
-    etat.compress_backup = 0;
+    conf.compress_file = 0;
+    conf.compress_backup = 0;
 
     /* archive data */
     conf.check_for_archival = TRUE;
@@ -1293,31 +1330,31 @@ void gsb_file_config_clean_config ( void )
 
     /* Commands */
     /* TODO dOm : use a copy of string so that we can free it */
-    etat.latex_command = "latex";
-    etat.dvips_command = "dvips";
+    conf.latex_command = "latex";
+    conf.dvips_command = "dvips";
 
 /* mise en conformité avec les recommandations FreeDesktop. */
 #ifndef _WIN32
     if ( g_file_test ( "/usr/bin/firefox", G_FILE_TEST_EXISTS ) )
     {
-    etat.browser_command = g_strdup ( "/usr/bin/firefox" );
+    conf.browser_command = g_strdup ( "/usr/bin/firefox" );
     }
     else if ( g_file_test ( "/usr/bin/iceweasel", G_FILE_TEST_EXISTS ) )
     {
-    etat.browser_command = g_strdup ( "/usr/bin/iceweasel" );
+    conf.browser_command = g_strdup ( "/usr/bin/iceweasel" );
     }
     else if ( g_file_test ( "/usr/bin/opera", G_FILE_TEST_EXISTS ) )
     {
-    etat.browser_command = g_strdup ( "/usr/bin/opera" );
+    conf.browser_command = g_strdup ( "/usr/bin/opera" );
     }
     else if ( g_file_test ( "/usr/bin/mozilla", G_FILE_TEST_EXISTS ) )
     {
-    etat.browser_command = g_strdup ( "/usr/bin/mozilla" );
+    conf.browser_command = g_strdup ( "/usr/bin/mozilla" );
     }
     else
     {
 #endif /* _WIN32 */
-    etat.browser_command = g_strdup (ETAT_WWW_BROWSER);
+    conf.browser_command = g_strdup (ETAT_WWW_BROWSER);
 #ifndef _WIN32
     }
 #endif /* _WIN32 */

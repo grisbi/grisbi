@@ -361,38 +361,39 @@ gint latex_finish ()
 
     if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
     {
-	command = g_strdup_printf ( "%s -interaction=nonstopmode \"%s.tex\"", etat.latex_command, tempname );
-	if ( system ( command ) > 0 )
-	    dialogue_error_hint ( _("See console output for details.  Be sure you have installed LaTeX properly with unicode support."),
-				  _("LaTeX run was unable to complete.") );
-	else
-	{
-	    command = g_strdup_printf ( "%s %s \"%s.dvi\" -o \"%s\"",  etat.dvips_command,
-					( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
-					tempname,
-					(etat.print_config.printer ?
-					 (g_strconcat ( tempname, ".ps", NULL )) :
-					 etat.print_config.printer_filename) );
-	    unlink ( g_strdup_printf ("%s.tex", tempname) );
-	    unlink ( g_strdup_printf ("%s.aux", tempname) );
-	    unlink ( g_strdup_printf ("%s.log", tempname) );
-	    if ( !system ( command ) )
-	    {
-		if ( etat.print_config.printer )
-		{
-		    command = g_strdup_printf ( "%s %s.ps", etat.print_config.printer_name,
-						tempname );
-		    if ( system ( command ) )
-		    {
-			dialogue_error ( _("Cannot send job to printer") );
-		    }
-		}
-	    }
-	    else
-	    {
-		dialogue_error ( _("dvips was unable to complete, see console output for details.") );
-	    }
-	    unlink ( g_strdup_printf ("%s.dvi", tempname) );
+        command = g_strdup_printf ( "%s -interaction=nonstopmode \"%s.tex\"",
+                        conf.latex_command, tempname );
+        if ( system ( command ) > 0 )
+            dialogue_error_hint ( _("See console output for details.  Be sure you have installed LaTeX properly with unicode support."),
+                      _("LaTeX run was unable to complete.") );
+        else
+        {
+            command = g_strdup_printf ( "%s %s \"%s.dvi\" -o \"%s\"",  conf.dvips_command,
+                        ( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
+                        tempname,
+                        (etat.print_config.printer ?
+                         (g_strconcat ( tempname, ".ps", NULL )) :
+                         etat.print_config.printer_filename) );
+            unlink ( g_strdup_printf ("%s.tex", tempname) );
+            unlink ( g_strdup_printf ("%s.aux", tempname) );
+            unlink ( g_strdup_printf ("%s.log", tempname) );
+            if ( !system ( command ) )
+            {
+            if ( etat.print_config.printer )
+            {
+                command = g_strdup_printf ( "%s %s.ps", etat.print_config.printer_name,
+                            tempname );
+                if ( system ( command ) )
+                {
+                dialogue_error ( _("Cannot send job to printer") );
+                }
+            }
+            }
+            else
+            {
+            dialogue_error ( _("dvips was unable to complete, see console output for details.") );
+            }
+            unlink ( g_strdup_printf ("%s.dvi", tempname) );
 	}
 
 	if ( etat.print_config.printer )

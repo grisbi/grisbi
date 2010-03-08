@@ -24,6 +24,10 @@ void gsb_gui_headings_update_title ( gchar * title );
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page );
 void gsb_gui_sensitive_headings ( gboolean sensitive );
 gboolean gsb_gui_update_show_headings ();
+gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
+                        GtkNotebookPage *page,
+                        guint page_number,
+                        gpointer null );
 /*END_DECLARATION*/
 
 #endif

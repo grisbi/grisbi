@@ -1851,8 +1851,8 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
 	newrecord -> visible_col[column] = gsb_transactions_list_grep_cell_content ( transaction_number,
 										     tab_affichage_ope[line_in_transaction][column]);
 
-    if (etat.utilise_fonte_listes)
-	newrecord -> font = etat.font_string;
+    if ( conf.utilise_fonte_listes )
+	    newrecord -> font = conf.font_string;
     newrecord -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (transaction_number);
     newrecord -> what_is_line = IS_TRANSACTION;
     newrecord -> line_in_transaction = line_in_transaction;

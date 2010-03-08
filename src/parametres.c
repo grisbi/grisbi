@@ -819,16 +819,16 @@ GtkWidget *onglet_fichier ( void )
 
     /* Automatically load last file on startup? */
     button = gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
-                        &(etat.dernier_fichier_auto), NULL, NULL );
+                        &conf.dernier_fichier_auto, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (_("Automatically save on exit"),
-                        &(etat.sauvegarde_auto), NULL, NULL);
+                        &conf.sauvegarde_auto, NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Warn if file is used by someone else? */
     button = gsb_automem_checkbutton_new ( _("Force saving of locked files"),
-                        &(etat.force_enregistrement), NULL, NULL );
+                        &conf.force_enregistrement, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* crypt the grisbi file */
@@ -838,7 +838,7 @@ GtkWidget *onglet_fichier ( void )
 
     /* Compression level of files */
     button = gsb_automem_checkbutton_new ( _("Compress Grisbi file"),
-                        &(etat.compress_file), NULL, NULL );
+                        &conf.compress_file, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Memorize last opened files in menu */
@@ -856,19 +856,24 @@ GtkWidget *onglet_fichier ( void )
     /* Backups */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Backups"));
 
+    /* Single backup file */
+    button = gsb_automem_checkbutton_new ( _("Make a single backup file"),
+                        &conf.make_bakup_single_file, NULL, NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
+
     /* Compression level of backups */
     button = gsb_automem_checkbutton_new ( _("Compress Grisbi backup"),
-                        &(etat.compress_backup), NULL, NULL );
+                        &conf.compress_backup, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Backup at each opening? */
     button = gsb_automem_checkbutton_new ( _("Make a backup copy after opening files"),
-                        &(etat.sauvegarde_demarrage), NULL, NULL);
+                        &conf.sauvegarde_demarrage, NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup ? */
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
-                        &etat.make_backup, NULL, NULL);
+                        &conf.make_backup, NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup every x minutes */
@@ -876,11 +881,11 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
-                        &etat.make_backup_every_minutes,
+                        &conf.make_backup_every_minutes,
                         G_CALLBACK (gsb_file_automatic_backup_start), NULL);
     gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
 
-    button = gsb_automem_spin_button_new ( &etat.make_backup_nb_minutes,
+    button = gsb_automem_spin_button_new ( &conf.make_backup_nb_minutes,
                         G_CALLBACK (gsb_file_automatic_backup_change_time), NULL );
     gtk_widget_set_size_request ( button, width_spin_button, -1 );
     gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
@@ -994,7 +999,7 @@ GtkWidget *onglet_programmes (void)
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
                         GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entry = gsb_automem_entry_new ( &etat.browser_command, NULL, NULL );
+    entry = gsb_automem_entry_new ( &conf.browser_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     text = make_blue ( g_strconcat ( 
@@ -1021,7 +1026,7 @@ GtkWidget *onglet_programmes (void)
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
                         GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entry = gsb_automem_entry_new ( &etat.latex_command, NULL, NULL );
+    entry = gsb_automem_entry_new ( &conf.latex_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     label = gtk_label_new ( COLON(_("dvips command")));
@@ -1029,7 +1034,7 @@ GtkWidget *onglet_programmes (void)
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
                         GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entry = gsb_automem_entry_new ( &etat.dvips_command, NULL, NULL );
+    entry = gsb_automem_entry_new ( &conf.dvips_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
 

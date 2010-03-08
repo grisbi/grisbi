@@ -53,10 +53,6 @@ static void gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
 static gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
                         GtkAllocation *allocation,
                         gpointer null );
-static gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
-                        GtkNotebookPage *page,
-                        guint page_number,
-                        gpointer null );
 static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
                         GCallback cb );
 /*END_STATIC*/
@@ -234,16 +230,12 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         account_page,
                         gtk_label_new (SPACIFY(_("Accounts"))) );
-    
-    
+   
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         creation_fenetre_operations (),
                         gtk_label_new (SPACIFY(_("Transactions"))) );
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
-                        creation_onglet_comptes (),
-                        gtk_label_new (SPACIFY(_("Properties"))) );
 
-g_object_set_data ( G_OBJECT (notebook), "account_notebook", account_page );
+    g_object_set_data ( G_OBJECT (notebook), "account_notebook", account_page );
 
 #ifdef ENABLE_BALANCE_ESTIMATE
      /* append the balance estimate pages */
@@ -255,6 +247,10 @@ g_object_set_data ( G_OBJECT (notebook), "account_notebook", account_page );
                         gtk_label_new (SPACIFY(_("Historical data"))) );
 
 #endif /* ENABLE_BALANCE_ESTIMATE */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
+                        creation_onglet_comptes (),
+                        gtk_label_new (SPACIFY(_("Properties"))) );
+
     g_signal_connect ( G_OBJECT (account_page),
                         "switch_page",
                         G_CALLBACK (gsb_gui_on_account_switch_page),
@@ -311,17 +307,18 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
         gsb_form_set_expander_visible ( TRUE, TRUE );
         break;
 
-    case 1:
-        gsb_form_set_expander_visible (FALSE, FALSE );
-        break;
 #ifdef ENABLE_BALANCE_ESTIMATE
+    case 1:
     case 2:
-    case 3:
         gsb_form_set_expander_visible (FALSE, FALSE );
         bet_array_update_estimate_tab ( );
         break;
 #endif /* ENABLE_BALANCE_ESTIMATE */
+    case 3:
+        gsb_form_set_expander_visible (FALSE, FALSE );
+        break;
     }
+
     return ( FALSE );
 }
 

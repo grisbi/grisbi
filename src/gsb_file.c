@@ -406,7 +406,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     {
         /* the file has been opened succesfully */
         /* we make a backup if necessary */
-        if ( etat.sauvegarde_demarrage )
+        if ( conf.sauvegarde_demarrage )
             gsb_file_save_backup();
     }
     else
@@ -414,7 +414,7 @@ gboolean gsb_file_open_file ( gchar *filename )
         /* Loading failed. */
         gsb_status_message ( _("Failed to load accounts") );
 
-        if ( etat.sauvegarde_demarrage || etat.make_backup || etat.make_backup_every_minutes )
+        if ( conf.sauvegarde_demarrage || conf.make_backup || conf.make_backup_every_minutes )
         {
             gchar *tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
             gchar *tmpstr2 = g_strdup_printf ( 
@@ -572,7 +572,7 @@ gboolean gsb_file_save_file ( gint origine )
     /*     on vérifie que le fichier n'est pas locké */
     if ( etat.fichier_deja_ouvert
 	 &&
-	 !etat.force_enregistrement
+	 !conf.force_enregistrement
 	 &&
 	 origine != -2 )
     {
@@ -596,7 +596,7 @@ gboolean gsb_file_save_file ( gint origine )
     }
 
     /* make backup before saving if asked */
-    if (etat.make_backup)
+    if (conf.make_backup)
 	gsb_file_save_backup();
 
     /*   on a maintenant un nom de fichier */
@@ -604,7 +604,7 @@ gboolean gsb_file_save_file ( gint origine )
     gsb_status_message ( _("Saving file") );
 
     result = gsb_file_save_save_file ( nouveau_nom_enregistrement,
-				       etat.compress_file,
+				       conf.compress_file,
 				       FALSE );
 
     if ( result )
@@ -667,17 +667,31 @@ gboolean gsb_file_save_backup ( void )
     }
     /* create a filename for the backup :
      * filename_yyyymmddTmmhhss.gsb */
-    time ( &temps );
-    day_time = localtime (&temps);
-    filename =  g_strdup_printf ( "%s%s%s_%d%02d%02dT%02d%02d%02d.gsb",
-                        gsb_file_get_backup_path (),
-                        G_DIR_SEPARATOR_S,
-                        name,
-                        day_time -> tm_year + 1900, day_time -> tm_mon + 1, day_time -> tm_mday,
-                        day_time -> tm_hour, day_time -> tm_min, day_time -> tm_sec );
-    retour = gsb_file_save_save_file ( filename,
-                        etat.compress_backup,
-                        FALSE );
+    if ( conf.make_bakup_single_file )
+    {
+        filename =  g_strdup_printf ( "%s%s%s_backup.gsb",
+                            gsb_file_get_backup_path ( ),
+                            G_DIR_SEPARATOR_S,
+                            name );
+    }
+    else
+    {
+        time ( &temps );
+        day_time = localtime (&temps);
+        filename =  g_strdup_printf ( "%s%s%s_%d%02d%02dT%02d%02d%02d.gsb",
+                            gsb_file_get_backup_path (),
+                            G_DIR_SEPARATOR_S,
+                            name,
+                            day_time -> tm_year + 1900,
+                            day_time -> tm_mon + 1,
+                            day_time -> tm_mday,
+                            day_time -> tm_hour,
+                            day_time -> tm_min,
+                            day_time -> tm_sec );
+    }
+
+    retour = gsb_file_save_save_file ( filename, conf.compress_backup, FALSE );
+
     g_free (filename);
     g_free (name);
 
@@ -698,7 +712,7 @@ gboolean gsb_file_save_backup ( void )
 gboolean gsb_file_automatic_backup_start ( GtkWidget *checkbutton,
                         gpointer null )
 {
-    devel_debug_int (etat.make_backup_every_minutes);
+    devel_debug_int (conf.make_backup_every_minutes);
 
     /* if there is already a timeout, we remove it */
     if (id_timeout)
@@ -708,15 +722,15 @@ gboolean gsb_file_automatic_backup_start ( GtkWidget *checkbutton,
     }
 
     /* launch the timeout only if active and if there is some minutes */
-    if (etat.make_backup_every_minutes
+    if (conf.make_backup_every_minutes
 	&&
-	etat.make_backup_nb_minutes )
+	conf.make_backup_nb_minutes )
 #if GLIB_CHECK_VERSION(2,14,0)
-	id_timeout = g_timeout_add_seconds ( etat.make_backup_nb_minutes * 60,
+	id_timeout = g_timeout_add_seconds ( conf.make_backup_nb_minutes * 60,
 					     (GSourceFunc) (gsb_file_automatic_backup),
 					     NULL );
 #else
-	id_timeout = g_timeout_add ( etat.make_backup_nb_minutes * 60000,
+	id_timeout = g_timeout_add ( conf.make_backup_nb_minutes * 60000,
 				     (GSourceFunc) (gsb_file_automatic_backup),
 				     NULL );
 #endif
@@ -734,7 +748,7 @@ gboolean gsb_file_automatic_backup_start ( GtkWidget *checkbutton,
 gboolean gsb_file_automatic_backup_change_time ( GtkWidget *spinbutton,
                         gpointer null )
 {
-    devel_debug_int (etat.make_backup_nb_minutes);
+    devel_debug_int (conf.make_backup_nb_minutes);
 
     /* if there is already a timeout, we stop it */
     if (id_timeout)
@@ -744,13 +758,13 @@ gboolean gsb_file_automatic_backup_change_time ( GtkWidget *spinbutton,
     }
 
     /* set a new timeout only if there is an interval */
-    if (etat.make_backup_nb_minutes)
+    if (conf.make_backup_nb_minutes)
 #if GLIB_CHECK_VERSION(2,14,0)
-	id_timeout = g_timeout_add_seconds ( etat.make_backup_nb_minutes * 60,
+	id_timeout = g_timeout_add_seconds ( conf.make_backup_nb_minutes * 60,
 					     (GSourceFunc) (gsb_file_automatic_backup),
 					     NULL );
 #else
-	id_timeout = g_timeout_add ( etat.make_backup_nb_minutes * 60000,
+	id_timeout = g_timeout_add ( conf.make_backup_nb_minutes * 60000,
 				     (GSourceFunc) (gsb_file_automatic_backup),
 				     NULL );
 #endif
@@ -771,12 +785,12 @@ gboolean gsb_file_automatic_backup ( gpointer null )
 {
     devel_debug (NULL);
 
-    if (!etat.make_backup_every_minutes)
+    if (!conf.make_backup_every_minutes)
 	/* stop the timeout */
 	return FALSE;
 
     /* we save only if there is a nb of minutes, but don't stop the timer if not */
-    if (etat.make_backup_nb_minutes)
+    if (conf.make_backup_nb_minutes)
 	gsb_file_save_backup ();
 
     return TRUE;
@@ -808,8 +822,8 @@ static gint gsb_file_dialog_save ( void )
     if ( !etat.modification_fichier )
 	return GTK_RESPONSE_NO;
 
-    if ( etat.sauvegarde_auto &&
-	 ( !etat.fichier_deja_ouvert || etat.force_enregistrement ) &&
+    if ( conf.sauvegarde_auto &&
+	 ( !etat.fichier_deja_ouvert || conf.force_enregistrement ) &&
 	 nom_fichier_comptes )
       return GTK_RESPONSE_OK;
 
@@ -823,7 +837,7 @@ static gint gsb_file_dialog_save ( void )
 				      " " );
     if ( etat.fichier_deja_ouvert
 	 &&
-	 !etat.force_enregistrement )
+	 !conf.force_enregistrement )
     {
 	hint = g_strdup(_("Save locked files?"));
 	message = g_strdup_printf ( _("The document '%s' is locked but modified. If you want to save it, you must cancel and save it with another name or activate the \"%s\" option in setup."),

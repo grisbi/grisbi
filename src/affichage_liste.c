@@ -455,7 +455,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 							 _("Pressing RETURN in transaction form"),
 							 _("selects next field"),
 							 _("terminates transaction"),
-							 &etat.entree, NULL, NULL);
+							 &conf.entree, NULL, NULL);
 
     /* How to display financial year */
     radiogroup = gsb_automem_radiobutton_new_with_title (vbox_pref,

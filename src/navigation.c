@@ -1157,23 +1157,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 	    /* set the form */
 	    account_notebook = g_object_get_data ( G_OBJECT (notebook_general), "account_notebook" );
-        switch ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_notebook ) ) )
-        {
-        case 0:
-            gsb_form_set_expander_visible ( TRUE, TRUE );
-            break;
-
-        case 1:
-            gsb_form_set_expander_visible (FALSE, FALSE );
-            break;
-#ifdef ENABLE_BALANCE_ESTIMATE
-        case 2:
-        case 3:
-            gsb_form_set_expander_visible (FALSE, FALSE );
-            bet_array_update_estimate_tab ( );
-            break;
-#endif /* ENABLE_BALANCE_ESTIMATE */
-        }
+        gsb_gui_on_account_switch_page ( GTK_NOTEBOOK ( account_notebook ),
+                        NULL,
+                        gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_notebook ) ),
+                        NULL );
 	    gsb_form_show ( FALSE );
 
 	    buffer_last_account = account_number;

@@ -284,7 +284,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
     /* if the file was already opened and we don't force the saving, we do nothing */
     if ( (etat.fichier_deja_ouvert
 	  &&
-	  !etat.force_enregistrement)
+	  !conf.force_enregistrement)
 	 ||
 	 !nom_fichier_comptes
 	 ||
@@ -328,7 +328,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
 	if (g_file_test ( lock_filename,
 			  G_FILE_TEST_EXISTS ))
 	{
-	    if ( ! etat.force_enregistrement )
+	    if ( ! conf.force_enregistrement )
 		dialog_message ( "account-already-opened", nom_fichier_comptes );
 
 	    /* the lock is already created, return TRUE */

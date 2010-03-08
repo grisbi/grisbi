@@ -85,8 +85,8 @@ void gsb_data_print_config_init (void)
 
     if (font_transactions)
 	pango_font_description_free (font_transactions);
-    if (etat.utilise_fonte_listes && etat.font_string)
-	font_transactions = pango_font_description_from_string (etat.font_string);
+    if ( conf.utilise_fonte_listes && conf.font_string )
+	font_transactions = pango_font_description_from_string ( conf.font_string );
     else
 	font_transactions = pango_font_description_from_string  ("sans 6");
 

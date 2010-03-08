@@ -144,6 +144,7 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
+extern GdkColor couleur_bet_division;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_jour;
@@ -795,7 +796,10 @@ gulong gsb_file_save_color_part ( gulong iterator,
                         "\t\tText_color_1_blue=\"%d\"\n"
                         "\t\tCalendar_entry_red=\"%d\"\n"
                         "\t\tCalendar_entry_green=\"%d\"\n"
-                        "\t\tCalendar_entry_blue=\"%d\" />\n",
+                        "\t\tCalendar_entry_blue=\"%d\"\n"
+                        "\t\tCouleur_bet_division_red=\"%d\"\n"
+                        "\t\tCouleur_bet_division_green=\"%d\"\n"
+                        "\t\tCouleur_bet_division_blue=\"%d\" />\n",
     couleur_fond[0].red,
     couleur_fond[0].green,
     couleur_fond[0].blue,
@@ -825,7 +829,10 @@ gulong gsb_file_save_color_part ( gulong iterator,
     text_color[1].blue,
     calendar_entry_color.red,
     calendar_entry_color.green,
-    calendar_entry_color.blue );
+    calendar_entry_color.blue,
+    couleur_bet_division.red,
+    couleur_bet_division.green,
+    couleur_bet_division.blue );
 
     /* append the new string to the file content
      * and return the new iterator */
@@ -2629,10 +2636,9 @@ gulong gsb_file_save_bet_part ( gulong iterator,
     gint i;
 
     /* save the general informations */
-    new_string = g_markup_printf_escaped ( "\t<Bet Ddte=\"%d\" Edte=\"%d\" "
+    new_string = g_markup_printf_escaped ( "\t<Bet Ddte=\"%d\" "
                         "Nbre=\"%d\" UT=\"%d\" SD=\"%d\" Fi=\"%d\" />\n",
     etat.bet_deb_period,
-    etat.bet_end_period,
     etat.bet_months,
     etat.bet_spin_range,
     etat.bet_hist_data,
