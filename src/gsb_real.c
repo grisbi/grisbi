@@ -402,6 +402,7 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
              default_decimal_char_comma,
              mon_decimal_point,
              NULL);
+    space_chars = g_strconcat(" ", mon_thousands_sep, NULL);
 
     for ( ; ; )
     {
