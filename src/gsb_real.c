@@ -369,9 +369,13 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
     static gchar *decimal_chars;
     static const gchar *positive_chars = "+";
     static const gchar *negative_chars = "-";
-
-	unsigned mts_len;
-	unsigned mdp_len;
+    static const gchar *decimal_char_dot = ".";
+    static const gchar *decimal_char_comma = ",";
+    static const gchar *empty_char = "" ;
+    const gchar *default_decimal_char_dot = decimal_char_dot;
+    const gchar *default_decimal_char_comma = decimal_char_comma;
+    unsigned mts_len;
+    unsigned mdp_len;
     unsigned nb_digits = 0;
     gint64 mantissa = 0;
     gint8 sign = 0;
@@ -385,11 +389,19 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
                        ? strlen ( mon_thousands_sep )
                        : 0;
     mdp_len = mon_decimal_point ? strlen ( mon_decimal_point ) : 0;
-    if ( !strchr ( mon_thousands_sep, '.' ))
-        decimal_chars = g_strconcat(".", mon_decimal_point, NULL);
-    else
-        decimal_chars = g_strdup(mon_decimal_point);
-	space_chars = g_strconcat(" ", mon_thousands_sep, NULL);
+
+    if ( mon_thousands_sep )
+    {
+        if ( g_strstr_len ( mon_thousands_sep, -1, decimal_char_dot ) )
+            default_decimal_char_dot = empty_char;
+        if ( g_strstr_len ( mon_thousands_sep, -1, decimal_char_comma ) )
+            default_decimal_char_comma = empty_char ;
+    }
+
+    decimal_chars = g_strconcat(default_decimal_char_dot,
+             default_decimal_char_comma,
+             mon_decimal_point,
+             NULL);
 
     for ( ; ; )
     {
@@ -412,7 +424,7 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
                               : 0;
             return result;
         }
-        else if ( strchr ( decimal_chars, *p ) )
+        else if ( decimal_chars && strchr ( decimal_chars, *p ) )
         {
             if ( dot_position >= 0 ) // already found a decimal separator
                 return error_real;
@@ -443,6 +455,9 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
             return error_real;
         }
     }
+     /* Free memory */
+     g_free ( decimal_chars );
+     g_free ( space_chars );
 }
 
 
