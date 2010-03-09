@@ -18,3 +18,5 @@ stamp-h1
 grisbi*.tar.*
 m4
 *.exe
+.anjuta*
+gisbi.anjuta
