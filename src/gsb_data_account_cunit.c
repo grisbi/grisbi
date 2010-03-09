@@ -66,6 +66,8 @@ int gsb_data_account_cunit_clean_suite(void)
 
 void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balances()
 {
+    GDate *date = gdate_today() ;
+
     gint account_number = gsb_data_account_new(GSB_TYPE_BANK);
     CU_ASSERT_EQUAL(1, account_number);
 
@@ -78,6 +80,7 @@ void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balan
     CU_ASSERT_EQUAL(1, tr_number);
     gsb_real amount = { 2100000021, 2 };
     CU_ASSERT_EQUAL(TRUE, gsb_data_transaction_set_amount(tr_number, amount));
+    CU_ASSERT_EQUAL(TRUE, gsb_data_transaction_set_date(tr_number, date));
     gsb_real balance = gsb_data_account_calculate_current_and_marked_balances(account_number);
     CU_ASSERT_EQUAL(2100000021, balance.mantissa);
     CU_ASSERT_EQUAL(2, balance.exponent);
@@ -86,17 +89,26 @@ void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balan
     CU_ASSERT_EQUAL(2, tr_number);
     amount.mantissa = 100000000;
     CU_ASSERT_EQUAL(TRUE, gsb_data_transaction_set_amount(tr_number, amount));
+    CU_ASSERT_EQUAL(TRUE, gsb_data_transaction_set_date(tr_number, date));
     balance = gsb_data_account_calculate_current_and_marked_balances(account_number);
+    /* Lose of precision but no overflow */
+    /* Previous test
     CU_ASSERT_EQUAL(0x80000000, balance.mantissa);
     CU_ASSERT_EQUAL(0, balance.exponent);
+    */
+    CU_ASSERT_EQUAL(220000002, balance.mantissa);
+    CU_ASSERT_EQUAL(1, balance.exponent);
     
     tr_number = gsb_data_transaction_new_transaction(account_number);
     CU_ASSERT_EQUAL(3, tr_number);
     amount.mantissa = -100000000;
     CU_ASSERT_EQUAL(TRUE, gsb_data_transaction_set_amount(tr_number, amount));
+    CU_ASSERT_EQUAL(TRUE, gsb_data_transaction_set_date(tr_number, date));
     balance = gsb_data_account_calculate_current_and_marked_balances(account_number);
-    CU_ASSERT_EQUAL(2100000021, balance.mantissa);
-    CU_ASSERT_EQUAL(2, balance.exponent);
+    CU_ASSERT_EQUAL(210000002, balance.mantissa);
+    CU_ASSERT_EQUAL(1, balance.exponent);
+
+    g_date_free(date);
 }
 
 CU_pSuite gsb_data_account_cunit_create_suite()

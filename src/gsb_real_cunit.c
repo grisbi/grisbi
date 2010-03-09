@@ -70,13 +70,66 @@ int gsb_real_cunit_clean_suite ( void )
 
 void gsb_real_cunit__gsb_real_get_from_string ( void )
 {
-    gsb_real val = gsb_real_get_from_string("123,45");
-    CU_ASSERT_EQUAL(12345, val.mantissa);
-    CU_ASSERT_EQUAL(2, val.exponent);
+    char *lc_monetary_orig;
+    char *result = setlocale(LC_MONETARY, NULL);
+    if (result != NULL)
+    {
+        lc_monetary_orig = (char *)malloc((strlen(result) + 1) * sizeof(char));
+        strcpy(lc_monetary_orig, result);
 
-    val = gsb_real_get_from_string("21000000");
-    CU_ASSERT_EQUAL(21000000, val.mantissa);
-    CU_ASSERT_EQUAL(0, val.exponent);
+        /* C test */
+        result = setlocale(LC_MONETARY, "C");
+        if (result != NULL)
+        {
+            gsb_real val = gsb_real_get_from_string("123.45");
+            CU_ASSERT_EQUAL(12345, val.mantissa);
+            CU_ASSERT_EQUAL(2, val.exponent);
+
+            val = gsb_real_get_from_string("21000000");
+            CU_ASSERT_EQUAL(21000000, val.mantissa);
+            CU_ASSERT_EQUAL(0, val.exponent);
+        }
+
+        /* French test */
+        result = setlocale(LC_MONETARY, "fr_FR.UTF-8");
+        if (result == NULL)
+            result = setlocale(LC_MONETARY, "fr_FR@euro");
+        if (result == NULL)
+            result = setlocale(LC_MONETARY, "fr_FR");
+        if (result != NULL)
+        {
+            gsb_real val = gsb_real_get_from_string("123,45");
+            CU_ASSERT_EQUAL(12345, val.mantissa);
+            CU_ASSERT_EQUAL(2, val.exponent);
+
+            val = gsb_real_get_from_string("21000000");
+            CU_ASSERT_EQUAL(21000000, val.mantissa);
+            CU_ASSERT_EQUAL(0, val.exponent);
+        }
+
+        /* English test */
+        result = setlocale(LC_MONETARY, "en_US.UTF-8");
+        if (result == NULL)
+            result = setlocale(LC_MONETARY, "en_GB.UTF-8");
+        if (result == NULL)
+            result = setlocale(LC_MONETARY, "en_US");
+        if (result == NULL)
+            result = setlocale(LC_MONETARY, "en_GB");
+        if (result != NULL)
+        {
+            gsb_real val = gsb_real_get_from_string("123.45");
+            CU_ASSERT_EQUAL(12345, val.mantissa);
+            CU_ASSERT_EQUAL(2, val.exponent);
+
+            val = gsb_real_get_from_string("21 000 000");
+            CU_ASSERT_EQUAL(21000000, val.mantissa);
+            CU_ASSERT_EQUAL(0, val.exponent);
+        }
+
+        /* Restore current locale and free memory */
+        setlocale(LC_MONETARY, lc_monetary_orig);
+        free(lc_monetary_orig) ;
+    }
 }
 
 void gsb_real_cunit__gsb_real_raw_get_from_string()
