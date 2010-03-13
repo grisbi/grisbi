@@ -888,7 +888,7 @@ void bet_historical_populate_div_model ( gpointer key,
         gtk_tree_store_append ( GTK_TREE_STORE ( model ), &fils, &parent );
         gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &fils,
-                        SPP_HISTORICAL_DESC_COLUMN, div_name,
+                        SPP_HISTORICAL_DESC_COLUMN, g_strdup ( div_name ),
                         SPP_HISTORICAL_BALANCE_COLUMN, str_balance,
                         SPP_HISTORICAL_AVERAGE_COLUMN, str_average,
                         SPP_HISTORICAL_AVERAGE_AMOUNT, str_amount,
@@ -932,7 +932,7 @@ void bet_historical_populate_div_model ( gpointer key,
             sub_div_visible = TRUE;
             gtk_tree_view_expand_to_path ( tree_view, gtk_tree_model_get_path ( model, &fils ) );
         }
-        //~ g_free ( div_name );
+        g_free ( div_name );
         g_free ( str_balance );
         g_free ( str_average );
         g_free ( str_amount );

@@ -125,6 +125,8 @@ struct {
 struct {
 
     /* geometry */
+    gint root_x;                                    /* main_window x position */
+    gint root_y;                                    /* main_window y position */
     gint main_width;                                /* main_window width */
     gint main_height;                               /* main_window height */
     gint full_screen;                               /* 1 to full screen, 0 else */

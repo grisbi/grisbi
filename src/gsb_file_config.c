@@ -145,6 +145,16 @@ gboolean gsb_file_config_load_config ( void )
     }
 
     /* get the geometry */
+    conf.root_x = g_key_file_get_integer ( config,
+                        "Geometry",
+                        "Root_x",
+                        NULL );
+
+    conf.root_y = g_key_file_get_integer ( config,
+                        "Geometry",
+                        "Root_y",
+                        NULL );
+
     conf.main_width = g_key_file_get_integer ( config,
                         "Geometry",
                         "Width",
@@ -511,6 +521,16 @@ gboolean gsb_file_config_save_config ( void )
         conf.main_width = 0;
         conf.main_height = 0;
     }
+
+    g_key_file_set_integer ( config,
+                        "Geometry",
+                        "Root_x",
+                        conf.root_x );
+
+    g_key_file_set_integer ( config,
+                        "Geometry",
+                        "Root_y",
+                        conf.root_y );
 
     g_key_file_set_integer ( config,
                         "Geometry",

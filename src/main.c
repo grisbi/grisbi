@@ -68,10 +68,7 @@ static  void main_window_destroy_event( GObject* obj, gpointer data);
 /*END_STATIC*/
 
 
-
-
 /* vbox ajoutée dans la fenetre de base, contient le menu et la fenetre d'utilisation */
-
 G_MODULE_EXPORT GtkWidget *window = NULL;
 GtkWidget *window_vbox_principale = NULL;
 
@@ -285,8 +282,8 @@ int main (int argc, char **argv)
     else
 	gtk_window_set_default_size ( GTK_WINDOW ( window ), 900, 600 );
 
-    /* display window centered */
-    //~ gtk_window_set_position ( GTK_WINDOW (window), GTK_WIN_POS_CENTER );
+    /* display window at position */
+    gtk_window_move ( GTK_WINDOW (window), conf.root_x, conf.root_y );
 
     gtk_widget_show ( window );
 
@@ -327,7 +324,6 @@ int main (int argc, char **argv)
         gtk_window_maximize (GTK_WINDOW (window));
 
     gtk_main ();
-
 
     gsb_plugins_release ( );
 
@@ -381,6 +377,10 @@ gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
 gboolean gsb_grisbi_close ( void )
 {
     devel_debug (NULL);
+    /* sauvegarde la position de la fenetre principale */
+    gtk_window_get_position ( GTK_WINDOW ( window ), &conf.root_x, &conf.root_y  );
+    printf ("root_x = %d root_y = %d\n", conf.root_x, conf.root_y);
+
     if (! main_window_delete_event (window, NULL))
     	gtk_widget_destroy ( window );
 
