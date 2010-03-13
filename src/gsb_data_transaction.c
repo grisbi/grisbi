@@ -47,6 +47,7 @@
 #include "./include.h"
 #include "./structures.h"
 #include "./gsb_real.h"
+#include "./balance_estimate_data.h"
 /*END_INCLUDE*/
 
 
@@ -2304,8 +2305,13 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
     complete_transactions_list = g_slist_remove ( complete_transactions_list,
 						  transaction );
 
-
     gsb_data_transaction_free (transaction);
+
+#ifdef ENABLE_BALANCE_ESTIMATE
+    /* force the update module budget */
+    bet_data_set_maj ( TRUE );
+#endif /* ENABLE_BALANCE_ESTIMATE */
+
     return TRUE;
 }
 

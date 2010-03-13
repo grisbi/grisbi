@@ -509,7 +509,7 @@ GtkWidget *utils_get_child_widget_by_name ( GtkWidget *ancestor, const gchar *na
         if ( tmp_str && g_strcmp0 ( name, tmp_str ) == 0 )
             return widget;
 
-        if ( GTK_IS_CONTAINER ( widget ) )
+        if ( GTK_IS_CONTAINER ( widget ) == TRUE )
         {
             widget = utils_get_child_widget_by_name ( widget, name );
             if ( widget )

@@ -307,12 +307,11 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
         gsb_form_set_expander_visible ( TRUE, TRUE );
         break;
 
-#ifdef ENABLE_BALANCE_ESTIMATE
     case 1:
     case 2:
-        gsb_form_set_expander_visible (FALSE, FALSE );
-        bet_array_update_estimate_tab ( );
-        break;
+#ifdef ENABLE_BALANCE_ESTIMATE
+        if ( bet_data_get_maj ( ) )
+            bet_array_update_estimate_tab ( );
 #endif /* ENABLE_BALANCE_ESTIMATE */
     case 3:
         gsb_form_set_expander_visible (FALSE, FALSE );

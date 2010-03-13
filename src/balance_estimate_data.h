@@ -64,6 +64,7 @@ gboolean bet_data_populate_div ( gint transaction_number,
                         GHashTable  *list_div );
 gboolean bet_data_remove_div_hist ( gint account_nb, gint div_number, gint sub_div_nb );
 gboolean bet_data_search_div_hist ( gint account_nb, gint div_number, gint sub_div_nb );
+void bet_data_select_bet_pages ( gint account_number );
 gboolean bet_data_set_div_amount ( gint account_nb,
                         gint div_number,
                         gint sub_div_nb,

@@ -43,6 +43,7 @@ enum bet_historical_data_columns {
     SPP_HISTORICAL_DIV_NUMBER,
     SPP_HISTORICAL_SUB_DIV_NUMBER,
     SPP_HISTORICAL_EDITED_COLUMN,
+    SPP_HISTORICAL_BACKGROUND_COLOR,
     SPP_HISTORICAL_NUM_COLUMNS
 };
 
@@ -58,6 +59,7 @@ void bet_historical_populate_data ( void );
 void bet_historical_refresh_data ( GtkTreeModel *tab_model,
                         GDate *date_min,
                         GDate *date_max );
+void bet_historical_set_fyear_from_combobox ( GtkWidget *combo_box, gint fyear );
 /* END_DECLARATION */
 
 #endif /*_BALANCE_ESTIMATE_HIST_H*/

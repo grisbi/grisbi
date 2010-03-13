@@ -13,7 +13,7 @@
 #define VERSION_FICHIER "0.6.0"
 
 /* Define this when in CVS development branch. */
-#define IS_DEVELOPMENT_VERSION (1)
+#define IS_DEVELOPMENT_VERSION 1
 
 #define VERSION_FICHIER_ETAT "0.6.0"
 #define VERSION_FICHIER_CATEG "0.6.0"
@@ -113,10 +113,6 @@ struct {
 
     /* variables for the module estimate balance */
     gint bet_deb_period;
-    gint bet_spin_range;
-    gint bet_months;
-    gint bet_hist_data;
-    gint bet_hist_fyear;
     
 } etat;
 

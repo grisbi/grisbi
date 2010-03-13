@@ -23,16 +23,6 @@
 
 /* ./configure --with-balance-estimate */
 
-/*
- * prefix bet : Balance Estimate Tab
- *
- * TODO : change the color of each line in the graph :
- * red if balance is less than 0.
- * orange if balance is less than the minimum desired balance.
- * TODO : add a select button to display the selected line in the array
- * in the scheduler tab or in the account tab.
- */
-
 #include "include.h"
 #include <config.h>
 
@@ -40,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "balance_estimate_hist.h"
+#include "./balance_estimate_config.h"
 #include "./balance_estimate_data.h"
 #include "./balance_estimate_tab.h"
 #include "./utils_dates.h"
@@ -101,10 +92,12 @@ static void bet_historical_row_expanded_event ( GtkTreeView *tree_view,
                         GtkTreeModel *model );
 static gboolean bet_historical_set_empty_sub_div ( GtkTreeModel *model, GtkTreeIter *parent );
 static gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIter *parent );
+static gboolean bet_historical_set_background_color ( GtkWidget *tree_view );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern gboolean balances_with_scheduled;
+extern GdkColor couleur_fond[0];
 extern GtkWidget *notebook_general;
 extern gsb_real null_real;
 extern GtkWidget *window;
@@ -129,7 +122,7 @@ GtkTreeModel *bet_fyear_model_filter = NULL;
  *
  *
  * */
-GtkWidget * bet_historical_create_page ( void )
+GtkWidget *bet_historical_create_page ( void )
 {
     GtkWidget *notebook;
     GtkWidget *widget;
@@ -177,7 +170,7 @@ GtkWidget * bet_historical_create_page ( void )
     gtk_widget_set_name ( button_1, "button_1" );
     g_signal_connect ( G_OBJECT ( button_1 ),
                         "released",
-                        G_CALLBACK ( bet_historical_origin_data_clicked ),
+                        G_CALLBACK ( bet_config_origin_data_clicked ),
                         NULL );
     button_2 = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( button_1 ),
@@ -185,22 +178,16 @@ GtkWidget * bet_historical_create_page ( void )
     gtk_widget_set_name ( button_2, "button_2" );
     g_signal_connect ( G_OBJECT ( button_2 ),
                         "released",
-                        G_CALLBACK ( bet_historical_origin_data_clicked ),
+                        G_CALLBACK ( bet_config_origin_data_clicked ),
                         NULL );
 
+    g_object_set_data ( G_OBJECT ( notebook ), "button_1", button_1 );
+    g_object_set_data ( G_OBJECT ( notebook ), "button_2", button_2 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 5) ;
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 5) ;
 
-    if ( etat.bet_hist_data == 0 )
-    {
-        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_1 ), TRUE );
-        bet_data_set_div_ptr ( etat.bet_hist_data );
-    }
-    else
-    {
-        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_2 ), TRUE );
-        bet_data_set_div_ptr ( etat.bet_hist_data );
-    }
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_1 ), TRUE );
+    bet_data_set_div_ptr ( 0 );
 
     /* création du sélecteur de périod */
     if ( bet_historical_fyear_create_combobox_store ( ) )
@@ -220,19 +207,10 @@ GtkWidget * bet_historical_create_page ( void )
         gsb_fyear_hide_iter_by_name ( bet_fyear_model, str_year );
         g_free ( str_year );
 
-        /* show the old choice */
-        if ( etat.bet_hist_fyear > 0 )
-        {
-            gsb_fyear_select_iter_by_number ( widget,
-                        bet_fyear_model,
-                        bet_fyear_model_filter,
-                        etat.bet_hist_fyear );
-        }
-
         /* set the signal */
         g_signal_connect ( G_OBJECT ( widget ),
                         "changed",
-                        G_CALLBACK (bet_historical_fyear_clicked),
+                        G_CALLBACK (bet_config_fyear_clicked),
                         NULL );
     }
 
@@ -243,70 +221,6 @@ GtkWidget * bet_historical_create_page ( void )
     gtk_widget_show_all ( page );
 
     return page;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-void bet_historical_origin_data_clicked ( GtkWidget *togglebutton, gpointer data )
-{
-    GtkWidget *notebook;
-    GtkTreeViewColumn *column;
-    const gchar *name;
-    gchar *title;
-    gint account_number;
-
-    account_number = gsb_gui_navigation_get_current_account ( );
-    name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
-    //~ devel_debug (name);
-    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
-
-    if ( g_strcmp0 ( name, "button_1" ) == 0 )
-    {
-        gsb_data_account_set_bet_hist_data ( account_number, 0 );
-        bet_data_set_div_ptr ( 0 );
-        title = g_strdup ( _("Category") );
-    }
-    else
-    {
-        gsb_data_account_set_bet_hist_data ( account_number, 1 );
-        bet_data_set_div_ptr ( 1 );
-        title = g_strdup ( _("Budgetary line") );
-    }
-
-    column = g_object_get_data ( G_OBJECT ( notebook ),
-                        "historical_column_source" );
-    gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN ( column ), title );
-
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
-
-    bet_array_update_estimate_tab ( );
-}
-
-
-/**
- *
- *
- *
- *
- * */
-void bet_historical_fyear_clicked ( GtkWidget *combo, gpointer data )
-{
-    gint account_number;
-
-    account_number = gsb_gui_navigation_get_current_account ( );
-    gsb_data_account_set_bet_hist_fyear ( account_number,
-                        bet_historical_get_fyear_from_combobox ( combo ) );
-
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
-
-    bet_array_update_estimate_tab ( );
 }
 
 
@@ -327,8 +241,8 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
     {
         gchar *str_amount;
         gchar *str_average;
-        gint div;
-        gint sub_div;
+        gint div_number;
+        gint sub_div_nb;
         gint nbre_fils;
         gint account_nb;
         gboolean valeur;
@@ -339,8 +253,8 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
                         SPP_HISTORICAL_AVERAGE_COLUMN, &str_average,
                         SPP_HISTORICAL_AVERAGE_AMOUNT, &str_amount,
                         SPP_HISTORICAL_ACCOUNT_NUMBER, &account_nb,
-                        SPP_HISTORICAL_DIV_NUMBER, &div,
-                        SPP_HISTORICAL_SUB_DIV_NUMBER, &sub_div,
+                        SPP_HISTORICAL_DIV_NUMBER, &div_number,
+                        SPP_HISTORICAL_SUB_DIV_NUMBER, &sub_div_nb,
                         SPP_HISTORICAL_EDITED_COLUMN, &col_edited,
                         -1 );
 
@@ -351,28 +265,28 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
         if ( valeur == 1 )
         {
             //~ printf ("avant - account_nb = %d, div = %d, sub_div = %d\n", account_nb, div, sub_div);
-            bet_data_add_div_hist ( account_nb, div, sub_div );
-            bet_data_set_div_amount ( account_nb, div, sub_div,
+            bet_data_add_div_hist ( account_nb, div_number, sub_div_nb );
+            bet_data_set_div_amount ( account_nb, div_number, sub_div_nb,
                         gsb_real_import_from_string ( str_amount ) );
             gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
                         SPP_HISTORICAL_SELECT_COLUMN, 1,
                         SPP_HISTORICAL_RETAINED_COLUMN, str_average,
                         SPP_HISTORICAL_RETAINED_AMOUNT, str_amount,
                         SPP_HISTORICAL_ACCOUNT_NUMBER, account_nb,
-                        SPP_HISTORICAL_DIV_NUMBER, div,
-                        SPP_HISTORICAL_SUB_DIV_NUMBER, sub_div,
+                        SPP_HISTORICAL_DIV_NUMBER, div_number,
+                        SPP_HISTORICAL_SUB_DIV_NUMBER, sub_div_nb,
                         -1 );
         }
         else
         {
-            bet_data_remove_div_hist ( account_nb, div, sub_div );
+            bet_data_remove_div_hist ( account_nb, div_number, sub_div_nb );
             gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
                         SPP_HISTORICAL_SELECT_COLUMN, FALSE,
                         SPP_HISTORICAL_RETAINED_COLUMN, "",
                         SPP_HISTORICAL_RETAINED_AMOUNT, str_amount,
                         SPP_HISTORICAL_ACCOUNT_NUMBER, account_nb,
-                        SPP_HISTORICAL_DIV_NUMBER, div,
-                        SPP_HISTORICAL_SUB_DIV_NUMBER, sub_div,
+                        SPP_HISTORICAL_DIV_NUMBER, div_number,
+                        SPP_HISTORICAL_SUB_DIV_NUMBER, sub_div_nb,
                         SPP_HISTORICAL_EDITED_COLUMN, TRUE,
                         -1 );
         }
@@ -409,13 +323,13 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
                                 SPP_HISTORICAL_RETAINED_AMOUNT, str_amount,
                                 -1);
                     if ( bet_historical_amount_differ_average ( model, &parent) )
-                        bet_data_set_div_amount ( account_nb, div, 0, amount );
+                        bet_data_set_div_amount ( account_nb, div_number, 0, amount );
                         
                     bet_historical_row_collapse_all ( NULL, &parent, model );
                 }
                 else
                 {
-                    bet_data_set_div_amount ( account_nb, div, 0, null_real );
+                    bet_data_set_div_amount ( account_nb, div_number, 0, null_real );
                     gtk_tree_store_set ( GTK_TREE_STORE ( model ), &parent,
                                 SPP_HISTORICAL_SELECT_COLUMN, FALSE,
                                 SPP_HISTORICAL_RETAINED_COLUMN, "",
@@ -474,8 +388,8 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
         gboolean edited;
         gint account_nb;
         gint currency_number;
-        gint div;
-        gint sub_div;
+        gint div_number;
+        gint sub_div_nb;
         gchar *tmp_str;
         gchar *str_amount;
         gboolean is_parent = FALSE;
@@ -484,8 +398,8 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
         gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
                         SPP_HISTORICAL_SELECT_COLUMN, &valeur,
                         SPP_HISTORICAL_ACCOUNT_NUMBER, &account_nb,
-                        SPP_HISTORICAL_DIV_NUMBER, &div,
-                        SPP_HISTORICAL_SUB_DIV_NUMBER, &sub_div,
+                        SPP_HISTORICAL_DIV_NUMBER, &div_number,
+                        SPP_HISTORICAL_SUB_DIV_NUMBER, &sub_div_nb,
                         SPP_HISTORICAL_EDITED_COLUMN, &edited,
                         -1 );
 
@@ -503,11 +417,11 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
         currency_number = gsb_data_account_get_currency ( account_nb );
         tmp_str = gsb_real_get_string_with_currency ( number, currency_number, TRUE );
         //~ printf ("div = %d sub_div = %d tmp_str = %s\n", div, sub_div, tmp_str);
-        if ( bet_data_search_div_hist ( account_nb, div, sub_div ) == FALSE )
-            bet_data_add_div_hist ( account_nb, div, sub_div );
+        if ( bet_data_search_div_hist ( account_nb, div_number, sub_div_nb ) == FALSE )
+            bet_data_add_div_hist ( account_nb, div_number, sub_div_nb );
 
-        bet_data_set_div_edited  ( account_nb, div, sub_div, TRUE );
-        bet_data_set_div_amount ( account_nb, div, sub_div, number );
+        bet_data_set_div_edited  ( account_nb, div_number, sub_div_nb, TRUE );
+        bet_data_set_div_amount ( account_nb, div_number, sub_div_nb, number );
         gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
                             SPP_HISTORICAL_SELECT_COLUMN, TRUE,
                             SPP_HISTORICAL_RETAINED_COLUMN, tmp_str,
@@ -523,7 +437,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
         if ( is_parent && bet_historical_get_full_div ( model, &parent ) )
         {
             number = bet_historical_get_children_amount ( model, &parent );
-            bet_data_set_div_amount ( account_nb, div, 0, number );
+            bet_data_set_div_amount ( account_nb, div_number, 0, number );
             str_amount = gsb_real_save_real_to_string ( number, 2 );
             if ( tmp_str )
                 g_free ( tmp_str );
@@ -583,7 +497,8 @@ GtkWidget *bet_historical_get_data ( GtkWidget *container )
                         G_TYPE_INT,         /* SPP_HISTORICAL_ACCOUNT_NUMBER    */
                         G_TYPE_INT,         /* SPP_HISTORICAL_DIV_NUMBER        */
                         G_TYPE_INT,         /* SPP_HISTORICAL_SUB_DIV_NUMBER    */
-                        G_TYPE_BOOLEAN );   /* SPP_HISTORICAL_EDITED_COLUMN     */
+                        G_TYPE_BOOLEAN,     /* SPP_HISTORICAL_EDITED_COLUMN     */
+                        GDK_TYPE_COLOR );   /* SPP_HISTORICAL_BACKGROUND_COLOR  */
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL ( tree_model ) );
     g_object_unref ( G_OBJECT ( tree_model ) );
 
@@ -595,7 +510,7 @@ GtkWidget *bet_historical_get_data ( GtkWidget *container )
 
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-                        GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+                        GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC );
     gtk_widget_set_size_request ( scrolled_window, -1, 250 );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view );
     gtk_box_pack_start ( GTK_BOX ( container ), scrolled_window, TRUE, TRUE, 15 );
@@ -613,40 +528,43 @@ GtkWidget *bet_historical_get_data ( GtkWidget *container )
     column = gtk_tree_view_column_new_with_attributes ( _("Select"),
                         cell,
                         "active", SPP_HISTORICAL_SELECT_COLUMN,
+                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_column_set_alignment ( column, 0.5 );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ), column );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
 
     /* name of the div sous-div column*/
-    if ( etat.bet_hist_data == 0 )
-        title = g_strdup ( _("Category") );
-    else
-        title = g_strdup ( _("Budgetary line") );
+    title = g_strdup ( _("Category") );
     cell = gtk_cell_renderer_text_new ( );
     column = gtk_tree_view_column_new_with_attributes ( title,
                         cell,
                         "text", SPP_HISTORICAL_DESC_COLUMN,
+                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
                         NULL);
     g_object_set_data ( G_OBJECT ( notebook ), "historical_column_source",
                         column );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
-    gtk_tree_view_column_set_min_width ( column, 300 );
+    //~ gtk_tree_view_column_set_min_width ( column, 300 );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
 
     /* period analysis column */
     cell = gtk_cell_renderer_text_new ( );
     column = gtk_tree_view_column_new_with_attributes (
                         _("Period"), cell,
                         "text", SPP_HISTORICAL_PERIOD_COLUMN,
+                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
                         NULL);
     g_object_set (cell, "xalign", 0.5, NULL);
 
     gtk_tree_view_column_set_alignment ( column, 0.5 );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
-    gtk_tree_view_column_set_min_width ( column, 120 );
+    //~ gtk_tree_view_column_set_min_width ( column, 120 );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
 
     /* amount column */
     cell = gtk_cell_renderer_text_new ( );
@@ -654,14 +572,16 @@ GtkWidget *bet_historical_get_data ( GtkWidget *container )
                         _("Amount"), cell,
                         "text", SPP_HISTORICAL_BALANCE_COLUMN,
                         "foreground", SPP_HISTORICAL_BALANCE_COLOR,
+                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
-    gtk_tree_view_column_set_min_width ( column, 100 );
+    //~ gtk_tree_view_column_set_min_width ( column, 100 );
     g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
     gtk_tree_view_column_set_alignment ( column, 1 );
     gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
 
     /* average column */
     cell = gtk_cell_renderer_text_new ( );
@@ -669,14 +589,16 @@ GtkWidget *bet_historical_get_data ( GtkWidget *container )
                         _("Average"), cell,
                         "text", SPP_HISTORICAL_AVERAGE_COLUMN,
                         "foreground", SPP_HISTORICAL_BALANCE_COLOR,
+                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
-    gtk_tree_view_column_set_min_width ( column, 100 );
+    //~ gtk_tree_view_column_set_min_width ( column, 100 );
     g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
     gtk_tree_view_column_set_alignment ( column, 1 );
     gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
 
     /* amount retained column */
     cell = gtk_cell_renderer_text_new ( );
@@ -685,14 +607,16 @@ GtkWidget *bet_historical_get_data ( GtkWidget *container )
                         "text", SPP_HISTORICAL_RETAINED_COLUMN,
                         "foreground", SPP_HISTORICAL_BALANCE_COLOR,
                         "editable", SPP_HISTORICAL_EDITED_COLUMN,
+                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
-    gtk_tree_view_column_set_min_width ( column, 100 );
+    //~ gtk_tree_view_column_set_min_width ( column, 100 );
     g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
     gtk_tree_view_column_set_alignment ( column, 1 );
     gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
 
     g_signal_connect ( cell,
                         "editing-started",
@@ -814,6 +738,8 @@ void bet_historical_populate_data ( void )
     //~ bet_data_synchronise_hist_div_list ( list_div );
 
     g_hash_table_remove_all ( list_div );
+
+    bet_historical_set_background_color ( tree_view );
 }
 
 
@@ -870,7 +796,7 @@ void bet_historical_populate_div_model ( gpointer key,
     gsb_real amount;
 
     div_number = sh -> div;
-    div_name = bet_data_get_div_name ( div_number, 0, FALSE );
+    div_name = bet_data_get_div_name ( div_number, 0, NULL );
     account_nb = sh -> account_nb;
 
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
@@ -921,7 +847,6 @@ void bet_historical_populate_div_model ( gpointer key,
     }
 
     g_free ( div_name );
-    g_free ( str_balance );
     g_free ( str_average );
     g_free ( str_amount );
     g_free ( str_retained );
@@ -937,21 +862,24 @@ void bet_historical_populate_div_model ( gpointer key,
         GtkTreeIter fils;
         gchar **tab_str = NULL;
 
-        //~ printf ("division = %d sub_div = %d\n", div_number, sub_sh -> div);
-        div_name = bet_data_get_div_name ( div_number, sub_sh -> div, FALSE );
-
+        div_name = bet_data_get_div_name ( div_number, sub_sh -> div, NULL );
+        //~ printf ("division = %d sub_div = %d div_name = %s\n",
+                        //~ div_number, sub_sh -> div, div_name);
         if ( div_name && g_utf8_strrchr ( div_name, -1, ':' ) )
         {
 	        tab_str = g_strsplit ( div_name, ":", 2 );
-            if (tab_str[1])
+            if ( g_strv_length ( tab_str ) > 1 )
+            {
+                if ( div_name )
+                    g_free ( div_name );
                 div_name = g_strdup ( g_strstrip ( tab_str[1] ) );
+            }
             if ( tab_str )
                 g_strfreev ( tab_str );
         }
 
         str_balance = gsb_real_get_string_with_currency ( sub_sbr -> current_balance, 
                         gsb_data_account_get_currency ( sh -> account_nb ), TRUE );
-        //~ printf ("str_balance = %s\n", str_balance );
         average = gsb_real_div ( sub_sbr -> current_balance, period );
         str_amount = gsb_real_save_real_to_string ( average, 2 );
         str_average = gsb_real_get_string_with_currency ( average,
@@ -1004,8 +932,7 @@ void bet_historical_populate_div_model ( gpointer key,
             sub_div_visible = TRUE;
             gtk_tree_view_expand_to_path ( tree_view, gtk_tree_model_get_path ( model, &fils ) );
         }
-
-        g_free ( div_name );
+        //~ g_free ( div_name );
         g_free ( str_balance );
         g_free ( str_average );
         g_free ( str_amount );
@@ -1018,11 +945,12 @@ void bet_historical_populate_div_model ( gpointer key,
         if ( str_amount )
             g_free ( str_amount );
         str_amount = gsb_real_save_real_to_string ( amount, 2 );
-        //~ printf ("str_amount = %s\n", str_amount );
+
         if ( str_retained )
             g_free ( str_retained );
         str_retained = gsb_real_get_string_with_currency ( amount,
                     gsb_data_account_get_currency ( account_nb ), TRUE );
+
         gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                     &parent,
                     SPP_HISTORICAL_SELECT_COLUMN, TRUE,
@@ -1103,6 +1031,20 @@ gint bet_historical_get_fyear_from_combobox ( GtkWidget *combo_box )
     }
 
     return fyear_number;
+}
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_historical_set_fyear_from_combobox ( GtkWidget *combo_box, gint fyear )
+{
+    gsb_fyear_select_iter_by_number ( combo_box,
+                    bet_fyear_model,
+                    bet_fyear_model_filter,
+                    fyear );
 }
 
 
@@ -1216,8 +1158,8 @@ gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIter *par
         gchar *str_amount;
         gchar *str_retained;
         gint account_nb;
-        gint div;
-        gint sub_div;
+        gint div_number;
+        gint sub_div_nb;
         gsb_real retained;
 
         do
@@ -1225,14 +1167,14 @@ gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIter *par
             gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &fils_iter,
                         SPP_HISTORICAL_AVERAGE_AMOUNT, &str_amount,
                         SPP_HISTORICAL_ACCOUNT_NUMBER, &account_nb,
-                        SPP_HISTORICAL_DIV_NUMBER, &div,
-                        SPP_HISTORICAL_SUB_DIV_NUMBER, &sub_div,
+                        SPP_HISTORICAL_DIV_NUMBER, &div_number,
+                        SPP_HISTORICAL_SUB_DIV_NUMBER, &sub_div_nb,
                         SPP_HISTORICAL_EDITED_COLUMN, &edited,
                         -1 );
 
             retained = gsb_real_import_from_string ( str_amount );
-            bet_data_add_div_hist ( account_nb, div, sub_div );
-            bet_data_set_div_amount ( account_nb, div, sub_div,
+            bet_data_add_div_hist ( account_nb, div_number, sub_div_nb );
+            bet_data_set_div_amount ( account_nb, div_number, sub_div_nb,
                         gsb_real_import_from_string ( str_amount ) );
             str_retained = gsb_real_get_string_with_currency ( retained,
                         gsb_data_account_get_currency ( account_nb ), TRUE );
@@ -1277,18 +1219,18 @@ gboolean bet_historical_set_empty_sub_div ( GtkTreeModel *model, GtkTreeIter *pa
     {
         gchar *str_amount;
         gint account_nb;
-        gint div;
-        gint sub_div;
+        gint div_number;
+        gint sub_div_nb;
 
         do
         {
             gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &fils_iter,
                         SPP_HISTORICAL_AVERAGE_AMOUNT, &str_amount,
                         SPP_HISTORICAL_ACCOUNT_NUMBER, &account_nb,
-                        SPP_HISTORICAL_DIV_NUMBER, &div,
-                        SPP_HISTORICAL_SUB_DIV_NUMBER, &sub_div,
+                        SPP_HISTORICAL_DIV_NUMBER, &div_number,
+                        SPP_HISTORICAL_SUB_DIV_NUMBER, &sub_div_nb,
                         -1 );
-            bet_data_remove_div_hist ( account_nb, div, sub_div );
+            bet_data_remove_div_hist ( account_nb, div_number, sub_div_nb );
             gtk_tree_store_set ( GTK_TREE_STORE ( model ), &fils_iter,
                         SPP_HISTORICAL_SELECT_COLUMN, FALSE,
                         SPP_HISTORICAL_RETAINED_COLUMN, "",
@@ -1357,6 +1299,7 @@ void bet_historical_row_expanded_event ( GtkTreeView *tree_view,
         gtk_tree_view_collapse_row ( tree_view, path );
         gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( tree_view ), iter );
     }
+    bet_historical_set_background_color ( GTK_WIDGET ( tree_view ) );
 }
 
 
@@ -1499,7 +1442,7 @@ void bet_historical_add_last_amount ( GtkWidget *menu_item,
     GtkTreeModel *model;
     GtkTreeIter parent;
     GtkTreeIter iter;
-    gint account_nb;
+    gint account_number;
     gint div_number;
     gint sub_div_nb;
     gint currency_number;
@@ -1512,31 +1455,31 @@ void bet_historical_add_last_amount ( GtkWidget *menu_item,
         return;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
-                        SPP_HISTORICAL_ACCOUNT_NUMBER, &account_nb,
+                        SPP_HISTORICAL_ACCOUNT_NUMBER, &account_number,
                         SPP_HISTORICAL_DIV_NUMBER, &div_number,
                         SPP_HISTORICAL_SUB_DIV_NUMBER, &sub_div_nb,
                         -1 );
 
     amount = gsb_data_transaction_get_last_transaction_with_div_sub_div (
-                        account_nb,
+                        account_number,
                         div_number,
                         sub_div_nb,
-                        etat.bet_hist_data );
+                        gsb_data_account_get_bet_hist_data ( account_number ) );
     str_amount = gsb_real_save_real_to_string ( amount, 2 );
 
-    currency_number = gsb_data_account_get_currency ( account_nb );
+    currency_number = gsb_data_account_get_currency ( account_number );
     tmp_str = gsb_real_get_string_with_currency ( amount, currency_number, TRUE );
     //~ printf ("div = %d sub_div_nb = %d tmp_str = %s\n", div_number, sub_div_nb, tmp_str);
-    if ( bet_data_search_div_hist ( account_nb, div_number, sub_div_nb ) == FALSE )
-        bet_data_add_div_hist ( account_nb, div_number, sub_div_nb );
+    if ( bet_data_search_div_hist ( account_number, div_number, sub_div_nb ) == FALSE )
+        bet_data_add_div_hist ( account_number, div_number, sub_div_nb );
 
-    bet_data_set_div_edited  ( account_nb, div_number, sub_div_nb, TRUE );
-    bet_data_set_div_amount ( account_nb, div_number, sub_div_nb, amount );
+    bet_data_set_div_edited  ( account_number, div_number, sub_div_nb, TRUE );
+    bet_data_set_div_amount ( account_number, div_number, sub_div_nb, amount );
     gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
                         SPP_HISTORICAL_SELECT_COLUMN, TRUE,
                         SPP_HISTORICAL_RETAINED_COLUMN, tmp_str,
                         SPP_HISTORICAL_RETAINED_AMOUNT, str_amount,
-                        SPP_HISTORICAL_ACCOUNT_NUMBER, account_nb,
+                        SPP_HISTORICAL_ACCOUNT_NUMBER, account_number,
                         SPP_HISTORICAL_DIV_NUMBER, div_number,
                         SPP_HISTORICAL_SUB_DIV_NUMBER, sub_div_nb,
                         -1 );
@@ -1565,52 +1508,16 @@ void bet_historical_add_average_amount ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection )
 {
     GtkTreeModel *model;
-    //~ GtkTreeIter parent;
     GtkTreeIter iter;
-    gint account_nb;
-    gint div_number;
-    gint sub_div_nb;
-    gchar *str_average;
-    gchar *str_amount;
-    gsb_real amount;
+    gchar *path_string;
 
     if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
      &model, &iter ) )
         return;
 
-    gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
-                        SPP_HISTORICAL_AVERAGE_COLUMN, &str_average,
-                        SPP_HISTORICAL_AVERAGE_AMOUNT, &str_amount,
-                        SPP_HISTORICAL_ACCOUNT_NUMBER, &account_nb,
-                        SPP_HISTORICAL_DIV_NUMBER, &div_number,
-                        SPP_HISTORICAL_SUB_DIV_NUMBER, &sub_div_nb,
-                        -1 );
-
-    amount = gsb_real_import_from_string ( str_amount );
-    if ( bet_data_search_div_hist ( account_nb, div_number, sub_div_nb ) == FALSE )
-        bet_data_add_div_hist ( account_nb, div_number, sub_div_nb );
-
-    bet_data_set_div_edited  ( account_nb, div_number, sub_div_nb, FALSE );
-    bet_data_set_div_amount ( account_nb, div_number, sub_div_nb, amount );
-    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
-                        SPP_HISTORICAL_SELECT_COLUMN, TRUE,
-                        SPP_HISTORICAL_RETAINED_COLUMN, str_average,
-                        SPP_HISTORICAL_RETAINED_AMOUNT, str_amount,
-                        SPP_HISTORICAL_ACCOUNT_NUMBER, account_nb,
-                        SPP_HISTORICAL_DIV_NUMBER, div_number,
-                        SPP_HISTORICAL_SUB_DIV_NUMBER, sub_div_nb,
-                        -1 );
-
-    //~ if ( gtk_tree_model_iter_parent ( GTK_TREE_MODEL ( model ), &parent, &iter ) )
-        //~ gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-                        //~ &parent,
-                        //~ SPP_HISTORICAL_EDITED_COLUMN, TRUE,
-                        //~ -1);
-
-    bet_array_refresh_estimate_tab ( );
-
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    path_string = gtk_tree_path_to_string ( gtk_tree_model_get_path ( model, &iter ) );
+    if ( path_string )
+        bet_historical_div_toggle_clicked ( NULL, path_string, model );
 }
 
 
@@ -1641,11 +1548,65 @@ gboolean bet_historical_initializes_account_settings ( gint account_number )
 
 
 /**
+ * set the background colors of the list
+ *
+ * \param tree_view
+ *
+ * \return FALSE
+ * */
+gboolean bet_historical_set_background_color ( GtkWidget *tree_view )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkTreeIter fils_iter;
+
+    if ( !tree_view )
+	    return FALSE;
+
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
+    {
+        gint current_color = 0;
+
+        do
+        {
+            gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                        &iter,
+                        SPP_HISTORICAL_BACKGROUND_COLOR, &couleur_fond[current_color],
+                        -1 );
+            current_color = !current_color;
+
+            if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &fils_iter, &iter )
+             &&
+              gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( tree_view ),
+              gtk_tree_model_get_path ( GTK_TREE_MODEL ( model ), &iter ) ) )
+            {
+                do
+                {
+                    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                        &fils_iter,
+                        SPP_HISTORICAL_BACKGROUND_COLOR, &couleur_fond[current_color],
+                        -1 );
+                    current_color = !current_color;
+                }
+                while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &fils_iter ) );
+            }
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+    }
+
+    return FALSE;
+}
+
+
+/**
  *
  *
  *
  *
  * */
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

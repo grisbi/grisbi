@@ -1055,9 +1055,8 @@ gulong gsb_file_save_account_part ( gulong iterator,
 					       "\t\tForm_lines_number=\"%d\"\n"
 					       "\t\tForm_organization=\"%s\"\n"
 					       "\t\tForm_columns_width=\"%s\"\n"
-                           "\t\tBet_Ddte=\"%d\"\n"
                            "\t\tBet_start_date=\"%s\"\n"
-                           "\t\tBet_Nbre=\"%d\"\n"
+                           "\t\tBet_months=\"%d\"\n"
                            "\t\tBet_UT=\"%d\"\n"
                            "\t\tBet_SD=\"%d\"\n" 
                            "\t\tBet_Fi=\"%d\" />\n",
@@ -1094,7 +1093,6 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    gsb_data_form_get_nb_rows (account_number),
 	    my_safe_null_str(form_organization),
 	    my_safe_null_str(form_columns_width),
-        gsb_data_account_get_bet_deb_period ( account_number ),
         my_safe_null_str ( gsb_format_gdate_safe (
                         gsb_data_account_get_bet_start_date ( account_number ) ) ),
         gsb_data_account_get_bet_months ( account_number ),
@@ -2636,13 +2634,7 @@ gulong gsb_file_save_bet_part ( gulong iterator,
     gint i;
 
     /* save the general informations */
-    new_string = g_markup_printf_escaped ( "\t<Bet Ddte=\"%d\" "
-                        "Nbre=\"%d\" UT=\"%d\" SD=\"%d\" Fi=\"%d\" />\n",
-    etat.bet_deb_period,
-    etat.bet_months,
-    etat.bet_spin_range,
-    etat.bet_hist_data,
-    etat.bet_hist_fyear );
+    new_string = g_markup_printf_escaped ( "\t<Bet Ddte=\"%d\" />\n", etat.bet_deb_period );
 
     /* append the new string to the file content */
     iterator = gsb_file_save_append_part ( iterator,

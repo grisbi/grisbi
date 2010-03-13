@@ -41,6 +41,7 @@
 #include "./gsb_transactions_list.h"
 #include "./metatree.h"
 #include "./structures.h"
+#include "./traitement_variables.h"
 #include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -780,6 +781,10 @@ gboolean edit_category ( GtkTreeView * view )
 
     /* update the transactions list */
     transaction_list_update_element (ELEMENT_CATEGORY);
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
 
     return TRUE;
 }

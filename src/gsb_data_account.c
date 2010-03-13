@@ -118,7 +118,6 @@ typedef struct
 
     /** @name bet data */
     GDate *bet_start_date;  /* date de début */
-    gint bet_deb_period;    /* définition de la période 1 = premier jour du mois, 2 date jour */
     gint bet_spin_range;    /* echelle de la période 0 = mois 1 = années */
     gint bet_months;        /* nombre de mois ou d'années */
     gint bet_hist_data;     /* origine des données catégories ou IB */
@@ -730,7 +729,7 @@ kind_account gsb_data_account_get_kind ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> account_kind;
@@ -2921,7 +2920,10 @@ gint gsb_data_account_get_bet_months ( gint account_number )
     if (!account )
 	    return 0;
 
-    return account -> bet_months;
+    if ( account -> bet_months == 0 )
+        return 1;
+    else
+        return account -> bet_months;
 }
 
 
@@ -3021,42 +3023,6 @@ gboolean gsb_data_account_set_bet_hist_fyear ( gint account_number, gint hist_fy
 }
 
 
-/**
- * 
- *
- *
- * */
-gint gsb_data_account_get_bet_deb_period ( gint account_number )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	    return 0;
-
-    return account -> bet_deb_period;
-}
-
-
-/**
- * 
- *
- *
- * */
-gboolean gsb_data_account_set_bet_deb_period ( gint account_number, gint deb_period )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	    return FALSE;
-
-    account -> bet_deb_period = deb_period;
-
-    return TRUE;
-}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -383,10 +383,6 @@ void init_variables ( void )
     bet_data_init_variables ( );
 #endif /* ENABLE_BALANCE_ESTIMATE */
     etat.bet_deb_period = 1;
-    etat.bet_spin_range = 0;
-    etat.bet_months = 1;
-    etat.bet_hist_data = 0;
-    etat.bet_hist_fyear = 0;
 }
 
 

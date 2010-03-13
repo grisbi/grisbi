@@ -1748,14 +1748,6 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i], "Bet_Ddte" ))
-    {
-        gsb_data_account_set_bet_deb_period ( account_number,
-                        utils_str_atoi ( attribute_values[i] ) );
-        i++;
-        continue;
-    }
-
     if ( !strcmp ( attribute_names[i], "Bet_start_date" ))
     {
         gsb_data_account_set_bet_start_date ( account_number,
@@ -1764,7 +1756,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i], "Bet_Nbre" ))
+    if ( !strcmp ( attribute_names[i], "Bet_months" ))
     {
         gsb_data_account_set_bet_months ( account_number,
                         utils_str_atoi ( attribute_values[i] ) );
@@ -3682,34 +3674,6 @@ void gsb_file_load_bet_part ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i], "Ddte" ) )
     {
         etat.bet_deb_period = utils_str_atoi ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Nbre" ) )
-    {
-        etat.bet_months = utils_str_atoi ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "UT" ) )
-    {
-        etat.bet_spin_range = utils_str_atoi ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "SD" ) )
-    {
-        etat.bet_hist_data = utils_str_atoi ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Fi" ) )
-    {
-        etat.bet_hist_fyear = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }

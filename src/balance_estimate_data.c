@@ -21,6 +21,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/* ./configure --with-balance-estimate */
+
 #include "include.h"
 #include <config.h>
 
@@ -61,6 +63,7 @@ static void free_struct_hist_div ( struct_hist_div *bet_hist_div );
 
 /*START_EXTERN*/
 extern gboolean balances_with_scheduled;
+extern GtkWidget *notebook_general;
 extern gsb_real null_real;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -381,7 +384,7 @@ gchar *bet_data_get_div_name ( gint div_num,
                         gint sub_div,
                         const gchar *return_value_error )
 {
-    return g_strdup ( ptr_div_name ( div_num, sub_div, FALSE ) );
+    return g_strdup ( ptr_div_name ( div_num, sub_div, NULL ) );
 }
 
 
@@ -891,6 +894,52 @@ void free_struct_hist_div ( struct_hist_div *shd )
 
     g_free ( shd );
 }
+
+/**
+ * Sélectionne les onglets du module gestion budgétaire en fonction du type de compte
+ *
+ */
+void bet_data_select_bet_pages ( gint account_number )
+{
+    GtkWidget *notebook;
+    GtkWidget *page;
+    kind_account kind;
+    gint current_page;
+
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
+    kind = gsb_data_account_get_kind ( account_number );
+    current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook ) );
+
+    switch ( kind )
+    {
+    case GSB_TYPE_BANK:
+    case GSB_TYPE_CASH:
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 1 );
+        gtk_widget_show ( page );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
+        gtk_widget_show ( page );
+        bet_array_update_estimate_tab ( );
+        break;
+    case GSB_TYPE_LIABILITIES:
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 1 );
+        gtk_widget_show ( page );
+        if ( current_page == 2 )
+            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 1 );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
+        gtk_widget_hide ( page );
+        bet_array_update_estimate_tab ( );
+        break;
+    case GSB_TYPE_ASSET:
+        if ( current_page < 2 )
+            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 0 );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 1 );
+        gtk_widget_hide ( page );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
+        gtk_widget_hide ( page );
+        break;
+    }
+}
+
 
 /**
  *

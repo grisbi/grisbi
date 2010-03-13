@@ -994,6 +994,10 @@ gboolean navigation_change_account ( gint *no_account )
         gsb_file_update_window_title ( );
     }
 
+#ifdef ENABLE_BALANCE_ESTIMATE
+    bet_data_select_bet_pages ( new_account );
+#endif /* ENABLE_BALANCE_ESTIMATE */
+
     /* unset the last date written */
     gsb_date_free_last_date ();
 
