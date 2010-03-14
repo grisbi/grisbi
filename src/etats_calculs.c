@@ -903,8 +903,13 @@ operation_refusee:
 gint cherche_string_equivalente_dans_slist ( gchar *string_list,
 					     gchar *string_cmp )
 {
-    return ( strcmp ( string_list,
-		      string_cmp ));
+    if ( ! string_list || strlen ( string_list ) == 0 )
+        return -1;
+
+    if ( ! string_cmp || strlen ( string_cmp ) == 0 )
+        return 1;
+
+    return ( strcmp ( string_list, string_cmp ) );
 }
 /* ************************************************************************************************************** */
 
