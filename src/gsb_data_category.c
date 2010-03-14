@@ -841,24 +841,29 @@ gchar *gsb_data_category_get_name ( gint no_category,
     category = gsb_data_category_get_structure ( no_category );
 
     if (!category || !no_category)
-	return my_strdup (return_value_error);
+    {
+        if ( return_value_error == NULL )
+            return NULL;
+        else
+	        return my_strdup ( return_value_error );
+    }
 
-    return_value = my_strdup (category -> category_name);
+    return_value = my_strdup ( category -> category_name );
 
     if ( no_sub_category )
     {
-	struct_sub_category *sub_category;
+        struct_sub_category *sub_category;
 
-	sub_category = gsb_data_category_get_sub_category_structure ( no_category,
-								      no_sub_category );
+        sub_category = gsb_data_category_get_sub_category_structure ( no_category,
+                                          no_sub_category );
 
-	if (sub_category)
-	{
-	    return_value = g_strconcat ( return_value,
-					 " : ",
-					 sub_category -> sub_category_name,
-					 NULL );
-	}
+        if ( sub_category )
+        {
+            return_value = g_strconcat ( return_value,
+                         " : ",
+                         sub_category -> sub_category_name,
+                         NULL );
+        }
     }
     return return_value;
 }

@@ -355,7 +355,7 @@ void bet_array_refresh_estimate_tab ( void )
                         _("Please select the data source for the account: \"%s\""),
                         gsb_data_account_get_name ( account_nb ) );
     widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( notebook ), "bet_hist_title") );
-    gtk_label_set_markup ( GTK_LABEL ( widget ), title );
+    gtk_label_set_label ( GTK_LABEL ( widget ), title );
     g_free ( title );
 
     /* clear the model */
@@ -424,9 +424,9 @@ void bet_array_refresh_estimate_tab ( void )
 GtkWidget *bet_array_create_page ( void )
 {
     GtkWidget *notebook;
+    GtkWidget *page;
     GtkWidget *widget = NULL;
     GtkWidget *initial_date = NULL;
-    GtkWidget *vbox;
     GtkWidget *hbox;
     GtkWidget *align;
     GtkWidget *label;
@@ -442,19 +442,19 @@ GtkWidget *bet_array_create_page ( void )
 
     devel_debug (NULL);
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
-    vbox = gtk_vbox_new ( FALSE, 5 );
-    g_object_set_data ( G_OBJECT ( notebook ), "bet_account_duration", vbox );
+    page = gtk_vbox_new ( FALSE, 5 );
+    g_object_set_data ( G_OBJECT ( notebook ), "bet_account_duration", page );
 
     /* create the title */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX ( vbox ), align, FALSE, FALSE, 5) ;
+    gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
 
     label = gtk_label_new ("Estimate array");
     gtk_container_add ( GTK_CONTAINER ( align ), label );
     g_object_set_data ( G_OBJECT ( notebook ), "bet_array_title", label );
 
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX ( vbox ), align, FALSE, FALSE, 5) ;
+    gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
 
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
@@ -556,7 +556,7 @@ GtkWidget *bet_array_create_page ( void )
 				        GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view );
     gtk_widget_show ( scrolled_window );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( page ),
 		                GTK_WIDGET ( scrolled_window ), TRUE, TRUE, 5 );
 
     /* Date column */
@@ -638,9 +638,9 @@ GtkWidget *bet_array_create_page ( void )
 		                G_CALLBACK ( bet_array_list_button_press ),
 		                NULL );
 
-    gtk_widget_show_all ( vbox );
+    gtk_widget_show_all ( page );
 
-    return vbox;
+    return page;
 }
 
 
@@ -1376,6 +1376,7 @@ gboolean  bet_array_start_date_focus_out ( GtkWidget *entry,
     gint account_nb;
     GDate *date;
 
+    devel_debug (NULL);
     gtk_editable_select_region ( GTK_EDITABLE ( entry ), 0, 0 );
     account_nb = gsb_gui_navigation_get_current_account ( );
     date = gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );

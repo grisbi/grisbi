@@ -127,12 +127,12 @@ GtkWidget *bet_historical_create_page ( void )
     GtkWidget *notebook;
     GtkWidget *widget;
     GtkWidget *page;
-    GtkWidget *vbox;
     GtkWidget *hbox;
+    GtkWidget *align;
+    GtkWidget *label;
     GtkWidget *button_1, *button_2;
     GtkWidget *tree_view;
     gchar *str_year;
-    gchar *title;
     gint year;
 
     devel_debug (NULL);
@@ -140,29 +140,19 @@ GtkWidget *bet_historical_create_page ( void )
     page = gtk_vbox_new ( FALSE, 5 );
 
     /* titre de la page */
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( page ), hbox, FALSE, FALSE, 15 );
+    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
+    gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
  
-    widget = gtk_image_new_from_stock(
-                        GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_DIALOG);
-    gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5 );
-
-    vbox = gtk_vbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 5) ;
-
-    widget = gtk_label_new ( "bet_hist_title" );
-    g_object_set_data ( G_OBJECT ( notebook ), "bet_hist_title", widget);
-    title = g_strdup_printf (
-                        _("Please select the data source for the account: \"%s\""),
-                        gsb_data_account_get_name (
-                        gsb_gui_navigation_get_current_account ( ) ) );
-    gtk_label_set_markup ( GTK_LABEL ( widget ), title );
-    g_free ( title );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 5 );
+    label = gtk_label_new ( "bet_hist_title" );
+    gtk_container_add ( GTK_CONTAINER ( align ), label );
+    g_object_set_data ( G_OBJECT ( notebook ), "bet_hist_title", label);
 
     /* Choix des données sources */
+    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
+    gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
+
     hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 15 );
+    gtk_container_add ( GTK_CONTAINER ( align ), hbox );
     g_object_set_data ( G_OBJECT ( notebook ), "bet_historical_data", hbox );
 
     button_1 = gtk_radio_button_new_with_label ( NULL,
@@ -416,7 +406,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
         number = gsb_real_get_from_string ( new_text );
         currency_number = gsb_data_account_get_currency ( account_nb );
         tmp_str = gsb_real_get_string_with_currency ( number, currency_number, TRUE );
-        //~ printf ("div = %d sub_div = %d tmp_str = %s\n", div, sub_div, tmp_str);
+
         if ( bet_data_search_div_hist ( account_nb, div_number, sub_div_nb ) == FALSE )
             bet_data_add_div_hist ( account_nb, div_number, sub_div_nb );
 
@@ -427,6 +417,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
                             SPP_HISTORICAL_RETAINED_COLUMN, tmp_str,
                             SPP_HISTORICAL_RETAINED_AMOUNT, new_text,
                             -1 );
+        g_free ( tmp_str );
 
         if ( is_parent )
         gtk_tree_store_set ( GTK_TREE_STORE ( model ),
@@ -439,8 +430,6 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
             number = bet_historical_get_children_amount ( model, &parent );
             bet_data_set_div_amount ( account_nb, div_number, 0, number );
             str_amount = gsb_real_save_real_to_string ( number, 2 );
-            if ( tmp_str )
-                g_free ( tmp_str );
             tmp_str = gsb_real_get_string_with_currency ( number,
                         gsb_data_account_get_currency ( account_nb ), TRUE );
             gtk_tree_store_set ( GTK_TREE_STORE ( model ),
@@ -844,12 +833,12 @@ void bet_historical_populate_div_model ( gpointer key,
                         SPP_HISTORICAL_RETAINED_COLUMN, str_retained,
                         SPP_HISTORICAL_RETAINED_AMOUNT, str_amount,
                         -1);
+        g_free ( str_retained );
     }
 
     g_free ( div_name );
     g_free ( str_average );
     g_free ( str_amount );
-    g_free ( str_retained );
 
     if ( g_hash_table_size ( sh -> list_sub_div ) <= 1 )
         return;
@@ -888,7 +877,7 @@ void bet_historical_populate_div_model ( gpointer key,
         gtk_tree_store_append ( GTK_TREE_STORE ( model ), &fils, &parent );
         gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &fils,
-                        SPP_HISTORICAL_DESC_COLUMN, g_strdup ( div_name ),
+                        SPP_HISTORICAL_DESC_COLUMN, div_name,
                         SPP_HISTORICAL_BALANCE_COLUMN, str_balance,
                         SPP_HISTORICAL_AVERAGE_COLUMN, str_average,
                         SPP_HISTORICAL_AVERAGE_AMOUNT, str_amount,
@@ -931,12 +920,13 @@ void bet_historical_populate_div_model ( gpointer key,
                         -1);
             sub_div_visible = TRUE;
             gtk_tree_view_expand_to_path ( tree_view, gtk_tree_model_get_path ( model, &fils ) );
+
+            g_free ( str_retained );
         }
         g_free ( div_name );
         g_free ( str_balance );
         g_free ( str_average );
         g_free ( str_amount );
-        g_free ( str_retained );
     }
 
     if ( sub_div_visible && bet_historical_get_full_div ( model, &parent ) )
