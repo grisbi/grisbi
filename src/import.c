@@ -2022,8 +2022,9 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
              * in grisbi we will forget that transaction */
             if ( g_date_get_year ( imported_transaction -> date ) == g_date_get_year (
              gsb_data_transaction_get_date ( transaction_no ) ) )
-            
+            {
                 imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
+            }
         }
 
         /* if no id, check the cheque */

@@ -2,9 +2,9 @@
 /*                                                                            */
 /*                                  erreur.c                                  */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -65,8 +65,10 @@ FILE *debug_file = NULL;
 /*************************************************************************************************************/
 void traitement_sigsegv ( gint signal_nb )
 {
-    gchar * gsb_file_default_dir, * errmsg = g_strdup("");
-	gchar* old_errmsg;
+    gchar *gsb_file_default_dir;
+    gchar *errmsg = g_strdup ( "" );
+	gchar *old_errmsg;
+    gchar *tmpstr;
     GtkWidget * dialog;
 #ifdef HAVE_BACKTRACE
     GtkWidget * expander;
@@ -84,14 +86,14 @@ void traitement_sigsegv ( gint signal_nb )
 
 	if ( etat.en_train_de_charger )
 	{
-	    gchar* old_errmsg = errmsg;
+	    old_errmsg = errmsg;
 	    errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
 	    g_free ( old_errmsg );
 	}
 
 	if ( etat.en_train_de_sauvegarder )
 	{
-	    gchar* old_errmsg = errmsg;
+	    old_errmsg = errmsg;
 	    errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
 	    g_free ( old_errmsg );
 	}
@@ -121,7 +123,7 @@ void traitement_sigsegv ( gint signal_nb )
 
 	gsb_status_clear();
 
-        old_errmsg = errmsg;
+    old_errmsg = errmsg;
 	errmsg = g_strconcat ( errmsg, 
 			       g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
 						 nom_fichier_comptes ),
@@ -132,7 +134,7 @@ void traitement_sigsegv ( gint signal_nb )
     old_errmsg = errmsg;
     errmsg = g_strconcat ( errmsg, 
 			   "\n\n",
-			   _("Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "),
+			   _("Please report this problem to http://www.grisbi.org/bugtracking/.  "),
 			   NULL );
      g_free ( old_errmsg );
 
@@ -149,9 +151,10 @@ void traitement_sigsegv ( gint signal_nb )
     g_free ( errmsg );
 
 #ifdef HAVE_BACKTRACE
-    gchar* tmpstr = g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL );
+    tmpstr = g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL );
     expander = gtk_expander_new ( tmpstr );
     g_free ( tmpstr );
+
     gtk_expander_set_use_markup ( GTK_EXPANDER ( expander ), TRUE );
     gtk_container_add ( GTK_CONTAINER ( expander ), print_backtrace() );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog)->vbox ), expander, FALSE, FALSE, 6 );

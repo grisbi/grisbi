@@ -2494,7 +2494,11 @@ gint gsb_data_transaction_find_by_id ( gchar *id, gint account_number )
     if ( !id )
         return 0;
 
-    tmp_list = transactions_list;
+    tmp_list = g_slist_copy ( transactions_list );
+    
+    tmp_list = g_slist_sort (tmp_list, 
+                        (GCompareFunc) classement_sliste_transactions_par_date_decroissante );
+
     while (tmp_list)
     {
         struct_transaction *transaction;
@@ -2511,6 +2515,7 @@ gint gsb_data_transaction_find_by_id ( gchar *id, gint account_number )
 
         tmp_list = tmp_list -> next;
     }
+
     return 0;
 }
 
@@ -2675,6 +2680,7 @@ gsb_real gsb_data_transaction_get_last_transaction_with_div_sub_div (
 
         tmp_list = tmp_list -> next;
     }
+
     return null_real;
 }
 

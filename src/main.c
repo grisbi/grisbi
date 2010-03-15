@@ -379,7 +379,6 @@ gboolean gsb_grisbi_close ( void )
     devel_debug (NULL);
     /* sauvegarde la position de la fenetre principale */
     gtk_window_get_position ( GTK_WINDOW ( window ), &conf.root_x, &conf.root_y  );
-    printf ("root_x = %d root_y = %d\n", conf.root_x, conf.root_y);
 
     if (! main_window_delete_event (window, NULL))
     	gtk_widget_destroy ( window );

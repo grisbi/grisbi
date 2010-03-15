@@ -68,7 +68,7 @@
 
 
 /*START_STATIC*/
-static void bet_array_adjust_hist_data ( gint div_number,
+static void bet_array_adjust_hist_amount ( gint div_number,
                         gint sub_div_nb,
                         gsb_real amount,
                         GtkTreeModel *model );
@@ -97,6 +97,9 @@ static void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
                         gint selected_account,
                         GDate *date_min,
                         GDate *date_max );
+static gboolean bet_array_sort_scheduled_transactions ( gint div_number,
+                        gint sub_div_nb,
+                        GtkTreeModel *model );
 static gboolean  bet_array_start_date_focus_out ( GtkWidget *entry,
                         GdkEventFocus *ev,
                         gpointer data );
@@ -685,16 +688,20 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
         if (gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number ) )
             continue;
 
-        /* ignore scheduled operations of other account */
+        /* ignores transactions replaced with historical data */
         account_number = gsb_data_scheduled_get_account_number ( scheduled_number );
 
         div_number = bet_data_get_div_number ( scheduled_number, FALSE );
         sub_div_nb = bet_data_get_sub_div_nb ( scheduled_number, FALSE );
+        
         if ( div_number > 0
          &&
-         bet_data_search_div_hist ( account_number, div_number, 0 ) )
+         bet_data_search_div_hist ( account_number, div_number, 0 )
+         && 
+         bet_array_sort_scheduled_transactions ( div_number, sub_div_nb, tab_model ) )
             continue;
 
+        /* ignore scheduled operations of other account */
         if ( gsb_data_scheduled_is_transfer ( scheduled_number ) )
         {
             transfer_account_number = gsb_data_scheduled_get_account_number_transfer (
@@ -808,7 +815,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
     GSList *tmp_list;
 
     //~ devel_debug (NULL);
-    date_jour_1 = gsb_date_copy ( date_min );
+    date_jour_1 = gdate_today ( );
     if ( g_date_get_day ( date_min ) > 1 )
         g_date_set_day ( date_jour_1, 1 );
 
@@ -851,29 +858,26 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
          transaction_number ) != 0 )
             continue;
 
-        /* Ignore transactions that are before the first day of the month */
-        if ( g_date_compare ( date, date_jour_1 ) < 0 )
+        /* Ignore transactions that are before date_min */
+        if ( g_date_compare ( date, date_min ) < 0 )
             continue;
-
-        amount = gsb_data_transaction_get_amount ( transaction_number );
-
-        div_number = bet_data_get_div_number ( transaction_number, TRUE );
-        sub_div_nb = bet_data_get_sub_div_nb ( transaction_number, TRUE );
-        //~ if ( div_number == 18 || div_number == 27 )
-        //~ printf ("div_number = %d sub_div_number = %d\n", div_number, sub_div_nb);
-        if ( div_number > 0
-         &&
-         bet_data_search_div_hist ( account_number, div_number, 0 ) )
-        {
-            
-            //~ printf ("après test div_number = %d sub_div_nb = %d\n", div_number, sub_div_nb);
-            if ( g_date_get_month ( date ) == g_date_get_month ( date_jour_1 ) )
-                bet_array_adjust_hist_data ( div_number, sub_div_nb, amount, tab_model );
-        }
 
         /* ignore transaction which are before date_min */
         if ( g_date_compare ( date, date_min ) < 0 )
             continue;
+
+        /* ignores transactions replaced with historical data */
+        amount = gsb_data_transaction_get_amount ( transaction_number );
+
+        div_number = bet_data_get_div_number ( transaction_number, TRUE );
+        sub_div_nb = bet_data_get_sub_div_nb ( transaction_number, TRUE );
+        if ( div_number > 0
+         &&
+         bet_data_search_div_hist ( account_number, div_number, 0 ) )
+        {
+            if ( g_date_get_month ( date ) == g_date_get_month ( date_jour_1 ) )
+                bet_array_adjust_hist_amount ( div_number, sub_div_nb, amount, tab_model );
+        }
 
         str_date = gsb_format_gdate ( date );
         g_value_init ( &date_value, G_TYPE_DATE );
@@ -1178,7 +1182,7 @@ void bet_array_list_redo_menu ( GtkWidget *menu_item,
  * et un message pour budget dépassé.
  * 
  * */
-void bet_array_adjust_hist_data ( gint div_number,
+void bet_array_adjust_hist_amount ( gint div_number,
                         gint sub_div_nb,
                         gsb_real amount,
                         GtkTreeModel *model )
@@ -1497,6 +1501,44 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
 
     return FALSE;
 }
+/**
+ * Cette fonction permet de sauter les opérations planifiées qui sont
+ * remplacées par des données historiques
+ * 
+ * \return TRUE si l'opération doit être ignorée
+ * */
+gboolean bet_array_sort_scheduled_transactions ( gint div_number,
+                        gint sub_div_nb,
+                        GtkTreeModel *model )
+{
+    GtkTreeIter iter;
+
+    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
+    {
+        gint tmp_div_number;
+        gint tmp_sub_div_nb;
+
+        do
+        {
+            gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
+                        &iter,
+                        SPP_ESTIMATE_TREE_DIVISION_COLUMN, &tmp_div_number,
+                        SPP_ESTIMATE_TREE_SUB_DIV_COLUMN, &tmp_sub_div_nb,
+                        -1 );
+
+            if ( tmp_div_number == 0 || tmp_div_number != div_number )
+                continue;
+
+            if ( tmp_sub_div_nb == 0 || tmp_sub_div_nb == sub_div_nb )
+                return TRUE;
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+    }
+
+    return FALSE;
+}
+
+
 /**
  *
  *
