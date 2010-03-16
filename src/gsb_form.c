@@ -1974,6 +1974,7 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 	{
 	    gint payment_number;
 	    gint account_number;
+        gchar* tmp_str;
 
 	    account_number = gsb_form_get_account_number ();
 	    payment_number = gsb_payment_method_get_selected_number (widget);
@@ -1985,9 +1986,9 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 
 		if ( !strlen (gtk_entry_get_text ( GTK_ENTRY (widget))))
 		{
-		    gchar* tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (payment_number) + 1);
-		    gtk_entry_set_text ( GTK_ENTRY (widget), tmpstr);
-		    g_free ( tmpstr );
+            tmp_str = gsb_data_payment_incremente_last_number ( payment_number, 1 );
+		    gtk_entry_set_text ( GTK_ENTRY (widget), tmp_str);
+		    g_free ( tmp_str );
 		}
 	    }
 	}
@@ -2348,8 +2349,8 @@ gboolean gsb_form_finish_edition ( void )
                     {
                         gchar *tmpstr;
 
-                        tmpstr = utils_str_itoa ( gsb_data_payment_get_last_number (
-                                        payment_number ) + nbre_passage );
+                        tmpstr = gsb_data_payment_incremente_last_number ( payment_number,
+                                        nbre_passage );
                         gsb_data_transaction_set_method_of_payment_content (
                                         transaction_number,
                                         tmpstr );
@@ -2960,9 +2961,9 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 			/* get the last number to increase next time */
 			if ( is_transaction
 			     &&
-			     gsb_data_payment_get_automatic_numbering (payment_number))
+			     gsb_data_payment_get_automatic_numbering ( payment_number ) )
 			    gsb_data_payment_set_last_number ( payment_number,
-							       utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (widget_tmp))));
+							       gtk_entry_get_text (GTK_ENTRY ( widget_tmp ) ) );
 		    }
 		    else
 			gsb_data_mix_set_method_of_payment_content ( transaction_number, NULL, is_transaction);

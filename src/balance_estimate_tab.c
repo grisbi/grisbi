@@ -446,7 +446,7 @@ GtkWidget *bet_array_create_page ( void )
     devel_debug (NULL);
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
     page = gtk_vbox_new ( FALSE, 5 );
-    g_object_set_data ( G_OBJECT ( notebook ), "bet_account_duration", page );
+    gtk_widget_set_name ( page, "bet_array_page" );
 
     /* create the title */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);

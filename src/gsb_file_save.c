@@ -1146,7 +1146,9 @@ gulong gsb_file_save_payment_part ( gulong iterator,
 	payment_number = gsb_data_payment_get_number (list_tmp -> data);
 
 	/* now we can fill the file content */
-	new_string = g_markup_printf_escaped ( "\t<Payment Number=\"%d\" Name=\"%s\" Sign=\"%d\" Show_entry=\"%d\" Automatic_number=\"%d\" Current_number=\"%d\" Account=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( 
+                           "\t<Payment Number=\"%d\" Name=\"%s\" Sign=\"%d\" Show_entry=\"%d\""
+                           "Automatic_number=\"%d\" Current_number=\"%s\" Account=\"%d\" />\n",
 					       payment_number,
                            my_safe_null_str(gsb_data_payment_get_name (payment_number)),
 					       gsb_data_payment_get_sign (payment_number),

@@ -1875,7 +1875,7 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
                         "Current_number" ))
     {
         gsb_data_payment_set_last_number ( payment_number,
-                        utils_str_atoi (attribute_values[i]));
+                         attribute_values[i] );
         i++;
         continue;
     }
@@ -4941,7 +4941,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
         if ( !strcmp ( attribute_names[i],
                    "No_en_cours" ))
             gsb_data_payment_set_last_number ( payment_number,
-                                   utils_str_atoi (attribute_values[i]));
+                                    attribute_values[i] );
 
         i++;
         }

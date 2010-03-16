@@ -298,25 +298,25 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 	{
 	    if (gsb_data_payment_get_automatic_numbering (payment_number))
 	    {
-		gint number;
 		gchar* tmpstr;
 
-		number = gsb_data_payment_get_last_number (payment_number) + 1;
-		tmpstr = utils_str_itoa (number);
+		tmpstr = gsb_data_payment_incremente_last_number ( payment_number, 1 );
 		gsb_data_transaction_set_method_of_payment_content ( transaction_number,
 								     tmpstr);
-		g_free ( tmpstr );
-		gsb_data_payment_set_last_number ( payment_number, number );
+		gsb_data_payment_set_last_number ( payment_number, tmpstr );
+        g_free ( tmpstr );
 	    }
 	    else
 		gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-								     gsb_data_scheduled_get_method_of_payment_content (scheduled_number) );
+								     gsb_data_scheduled_get_method_of_payment_content (
+                                     scheduled_number ) );
 	}
     }
     else
     {
 	gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-							     gsb_data_scheduled_get_method_of_payment_content (scheduled_number) );
+							     gsb_data_scheduled_get_method_of_payment_content (
+                                 scheduled_number ) );
     }
     gsb_data_transaction_set_automatic_transaction ( transaction_number,
 						     gsb_data_scheduled_get_automatic_scheduled (scheduled_number));

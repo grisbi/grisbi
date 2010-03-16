@@ -48,6 +48,7 @@
 #include "./gsb_data_payment.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -274,8 +275,10 @@ GtkWidget *gsb_payment_method_config_create ( void )
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
     payment_last_number_entry = gsb_autofunc_spin_new ( 0,
-						     G_CALLBACK (gsb_payment_method_config_auto_entry_changed), payment_method_treeview,
-						     G_CALLBACK (gsb_data_payment_set_last_number), 0 );
+						G_CALLBACK (gsb_payment_method_config_auto_entry_changed),
+                        payment_method_treeview,
+						G_CALLBACK (gsb_data_payment_set_last_number_from_int),
+                        0 );
     gtk_widget_set_size_request ( payment_last_number_entry, width_entry, -1 );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       payment_last_number_entry, 1, 2, 1, 2,
@@ -417,7 +420,7 @@ void gsb_payment_method_config_fill_list ( GtkTreeModel *model)
 	    GtkTreeIter *parent_iter = NULL;
 	    GtkTreeIter method_iter;
 	    gboolean isdefault;
-	    gchar *number;
+	    const gchar *number;
 
 	    payment_number = gsb_data_payment_get_number (payment_list -> data);
 
@@ -452,7 +455,7 @@ void gsb_payment_method_config_fill_list ( GtkTreeModel *model)
 
 	    /* set the last number */
 	    if ( gsb_data_payment_get_automatic_numbering (payment_number))
-		number = utils_str_itoa (gsb_data_payment_get_last_number (payment_number));
+		number = gsb_data_payment_get_last_number ( payment_number );
 	    else
 		number = g_strdup("");
 
@@ -468,7 +471,6 @@ void gsb_payment_method_config_fill_list ( GtkTreeModel *model)
 				PAYMENT_METHODS_NUMBER_COLUMN, payment_number,
 				PAYMENT_METHODS_ACCOUNT_COLUMN, account_number,
 				-1 );
-	    g_free ( number );
 
 	    payment_list = payment_list -> next;
 	}
@@ -512,7 +514,7 @@ gboolean gsb_payment_method_config_select ( GtkTreeSelection *selection,
 					   gsb_data_payment_get_name (payment_number),
 					   payment_number );
 	    gsb_autofunc_spin_set_value ( payment_last_number_entry,
-					  gsb_data_payment_get_last_number (payment_number),
+					  gsb_data_payment_get_last_number_to_int ( payment_number ),
 					  payment_number );
 	    gsb_autofunc_checkbutton_set_value ( button_show_entry,
 						 gsb_data_payment_get_show_entry (payment_number),
@@ -824,16 +826,15 @@ gboolean gsb_payment_method_config_auto_button_changed ( GtkWidget *button,
 	{
 	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_auto_numbering )))
 	    {
-            gchar* tmpstr;
+            const gchar* tmpstr;
 
             gtk_widget_set_sensitive ( payment_last_number_entry, TRUE );
-            tmpstr = utils_str_itoa ( gsb_data_payment_get_last_number ( payment_number ) );
+            tmpstr = gsb_data_payment_get_last_number ( payment_number );
             gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                             &iter,
                             PAYMENT_METHODS_NUMBERING_COLUMN,
                             tmpstr,
                             -1);
-            g_free ( tmpstr );
 	    }
 	    else
 	    {
@@ -880,14 +881,13 @@ gboolean gsb_payment_method_config_auto_entry_changed ( GtkWidget *spin_button,
 			     -1 );
 	if (payment_number)
 	{
-        gchar* tmpstr;
+        const gchar* tmpstr;
 
-        tmpstr = utils_str_itoa ( gsb_data_payment_get_last_number ( payment_number ) );
+        tmpstr = gsb_data_payment_get_last_number ( payment_number );
         gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
                         PAYMENT_METHODS_NUMBERING_COLUMN,
                         tmpstr,
                         -1);
-	    g_free ( tmpstr );
 	}
     }
     return FALSE;

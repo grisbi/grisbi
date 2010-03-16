@@ -138,6 +138,7 @@ GtkWidget *bet_historical_create_page ( void )
     devel_debug (NULL);
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
     page = gtk_vbox_new ( FALSE, 5 );
+    gtk_widget_set_name ( page, "bet_historical_page" );
 
     /* titre de la page */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
@@ -1294,10 +1295,10 @@ void bet_historical_row_expanded_event ( GtkTreeView *tree_view,
 
 
 /**
+ * Cette fonction compare le montant de la colonne montant retenu avec le montant 
+ * de la colonne moyenne
  *
- *
- *
- *
+ * \ return O si egal -1 ou 1 si différent
  * */
 gboolean bet_historical_amount_differ_average ( GtkTreeModel *model,
                         GtkTreeIter *iter )

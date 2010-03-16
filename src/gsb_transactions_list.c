@@ -285,6 +285,7 @@ GtkWidget *creation_fenetre_operations ( void )
     /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
     /*     des boutons de conf au milieu, le transaction_form en bas */
     win_operations = gtk_vbox_new ( FALSE, 6 );
+    gtk_widget_set_name ( win_operations, "win_operations" );
 
     /* création de la barre d'outils */
     barre_outils = gtk_handle_box_new ();

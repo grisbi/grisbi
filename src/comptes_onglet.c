@@ -44,13 +44,14 @@
  */
 GtkWidget *creation_onglet_comptes ( void )
 {
-    GtkWidget * box;
+    GtkWidget *page;
 
-    box = gsb_account_property_create_page ();
+    page = gsb_account_property_create_page ();
+    gtk_widget_set_name ( page, "properties_page" );
 
-    gtk_widget_show_all (box);
+    gtk_widget_show_all ( page );
 
-    return ( box );
+    return ( page );
 }
 
 

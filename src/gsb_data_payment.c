@@ -35,6 +35,7 @@
 #include "./utils_str.h"
 #include "./gsb_data_account.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 
@@ -51,7 +52,7 @@ typedef struct
 
     gint show_entry;		/**< when select it in form, need to show an entry (for cheque number for example) or not */
     gint automatic_numbering;	/**< for cheque number for example */
-    gint last_number;		/**< the last number of cheque used */
+    gchar *last_number;		/**< the last number of cheque used */
 } struct_payment;
 
 
@@ -293,6 +294,8 @@ gint gsb_data_payment_new ( const gchar *name )
     else 
 	payment -> payment_name = NULL;
 
+    payment -> last_number = NULL;
+
     payment_list = g_slist_append ( payment_list, payment );
     payment_buffer = payment;
 
@@ -308,7 +311,10 @@ static void _gsb_data_payment_free ( struct_payment *payment )
         return;
     if ( payment -> payment_name )
         g_free ( payment -> payment_name );
+    if ( payment -> last_number )
+        g_free ( payment -> last_number );
     g_free ( payment );
+
     if ( payment_buffer == payment )
 	payment_buffer = NULL;
 }
@@ -642,14 +648,14 @@ gint gsb_data_payment_get_transfer_payment_number ( gint account_number )
  *
  * \return the last_number of the payment or -1 if fail
  * */
-gint gsb_data_payment_get_last_number ( gint payment_number )
+const gchar *gsb_data_payment_get_last_number ( gint payment_number )
 {
     struct_payment *payment;
-
+devel_debug_int (payment_number);
     payment = gsb_data_payment_get_structure ( payment_number );
 
     if (!payment)
-	return -1;
+	    return NULL;
 
     return payment -> last_number;
 }
@@ -664,7 +670,7 @@ gint gsb_data_payment_get_last_number ( gint payment_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_payment_set_last_number ( gint payment_number,
-					    gint last_number )
+					    const gchar *last_number )
 {
     struct_payment *payment;
 
@@ -673,11 +679,10 @@ gboolean gsb_data_payment_set_last_number ( gint payment_number,
     if (!payment)
 	return FALSE;
 
-    payment -> last_number = last_number;
+    payment -> last_number = my_strdup ( last_number );
 
     return TRUE;
 }
-
 
 
 /**
@@ -804,4 +809,95 @@ gint gsb_data_payment_get_similar ( gint origin_payment,
     else
 	return gsb_data_account_get_default_credit (target_account_number);
 }
+
+
+gchar *gsb_data_payment_incremente_last_number ( gint payment_number,
+                    gint increment )
+{
+    const gchar *last_number;
+    gchar *new_number;
+    gchar *prefix = NULL;
+    gint number;
+    gint i = 0;
+
+    last_number = gsb_data_payment_get_last_number ( payment_number );
+    while ( last_number[i] == '0' )
+    {
+        i++;
+    }
+    if ( i > 0 )
+        prefix = g_strndup ( last_number, i );
+    
+    number = utils_str_atoi ( last_number );
+    number += increment;
+    new_number = utils_str_itoa ( number );
+    if ( prefix && strlen ( prefix ) )
+        new_number = g_strconcat ( prefix, new_number, NULL );
+
+    return new_number;
+}
+
+
+/**
+ * return the last_number of the method of payment to int
+ * this is the last number to set automatically that number + 1
+ * 	in the cheque entry ; nothing to deal with gsb_data_payment_max_number
+ * 	wich give the last payment_number, internal number to count the method of payment
+ *
+ * \param payment_number the number of the method of payment
+ *
+ * \return the int_last_number of the payment or -1 if fail
+ * */
+gint gsb_data_payment_get_last_number_to_int ( gint payment_number )
+{
+    struct_payment *payment;
+
+    payment = gsb_data_payment_get_structure ( payment_number );
+
+    if (!payment)
+	    return -1;
+
+    return utils_str_atoi ( payment -> last_number );
+}
+
+
+/**
+ * set the last_number of the method of payment from an int
+ *
+ * \param payment_number the number of the method of payment
+ * \param last_number the last_number of the method of payment
+ *
+ * \return TRUE if ok or FALSE if problem
+ * */
+gboolean gsb_data_payment_set_last_number_from_int ( gint payment_number,
+					    gint last_number )
+{
+    struct_payment *payment;
+    const gchar *old_number;
+    gchar *new_number;
+    gchar *prefix = NULL;
+    gint i = 0;
+
+    payment = gsb_data_payment_get_structure ( payment_number );
+
+    if (!payment)
+	return FALSE;
+
+    old_number = gsb_data_payment_get_last_number ( payment_number );
+    while ( old_number[i] == '0' )
+    {
+        i++;
+    }
+    if ( i > 0 )
+        prefix = g_strndup ( old_number, i );
+
+    new_number = utils_str_itoa ( last_number );
+    if ( prefix && strlen ( prefix ) )
+        new_number = g_strconcat ( prefix, new_number, NULL );
+
+    payment -> last_number = new_number;
+
+    return TRUE;
+}
+
 

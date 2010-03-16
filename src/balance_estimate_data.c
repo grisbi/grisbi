@@ -918,14 +918,18 @@ void bet_data_select_bet_pages ( gint account_number )
         gtk_widget_show ( page );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
         gtk_widget_show ( page );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 3 );
+        gtk_widget_show ( page );
         bet_array_update_estimate_tab ( );
         break;
     case GSB_TYPE_LIABILITIES:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 1 );
         gtk_widget_show ( page );
-        if ( current_page == 2 )
+        if ( current_page == 2 || current_page == 3 )
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 1 );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
+        gtk_widget_hide ( page );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 3 );
         gtk_widget_hide ( page );
         bet_array_update_estimate_tab ( );
         break;
@@ -935,6 +939,8 @@ void bet_data_select_bet_pages ( gint account_number )
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 1 );
         gtk_widget_hide ( page );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
+        gtk_widget_hide ( page );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 3 );
         gtk_widget_hide ( page );
         break;
     }

@@ -164,8 +164,7 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
 
                     gsb_form_entry_get_focus (cheque_entry);
                     
-                    tmpstr = utils_str_itoa ( gsb_data_payment_get_last_number (
-                                payment_number ) + 1);
+                    tmpstr = gsb_data_payment_incremente_last_number ( payment_number, 1 );
                     gtk_entry_set_text ( GTK_ENTRY (cheque_entry), tmpstr);
                     g_free ( tmpstr );
                     gtk_widget_show (cheque_entry);
@@ -413,8 +412,7 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
 				gchar* tmpstr;
 
                 gsb_form_entry_get_focus (cheque_entry);
-                tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (
-                            payment_number) + 1);
+                tmpstr = gsb_data_payment_incremente_last_number ( payment_number, 1 );
                 gtk_entry_set_text ( GTK_ENTRY (cheque_entry), tmpstr);
                 g_free ( tmpstr );
             }

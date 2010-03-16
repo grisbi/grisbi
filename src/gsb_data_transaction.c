@@ -1392,7 +1392,9 @@ gboolean gsb_data_transaction_set_method_of_payment_number ( gint transaction_nu
 }
 
 
-/** get the method_of_payment_content
+/** 
+ * get the method_of_payment_content
+ *
  * \param transaction_number the number of the transaction
  * \return the method_of_payment_content of the transaction
  * */
@@ -1409,8 +1411,10 @@ const gchar *gsb_data_transaction_get_method_of_payment_content ( gint transacti
 }
 
 
-/** set the method_of_payment_content
+/** 
+ * set the method_of_payment_content
  * dupplicate the parameter before storing it in the transaction
+ *
  * \param transaction_number
  * \param no_account
  * \param method_of_payment_content a gchar with the new method_of_payment_content

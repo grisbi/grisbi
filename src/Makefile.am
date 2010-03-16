@@ -147,6 +147,7 @@ sources = \
 	utils_str.c		\
 	balance_estimate_config.c \
         balance_estimate_data.c \
+        balance_estimate_future.c \
         balance_estimate_hist.c \
 	balance_estimate_tab.c
 
@@ -158,6 +159,7 @@ grisbi_INCLUDES =		\
 	barre_outils.h		\
         balance_estimate_config.h \
         balance_estimate_data.h \
+        balance_estimate_future.h \
         balance_estimate_hist.h \
         balance_estimate_tab.h  \
 	categories_onglet.h	\
@@ -305,7 +307,7 @@ cunit_includes = \
 	gsb_real_cunit.h	\
 	utils_dates_cunit.h
 
-grisbi_SOURCES = $(sources) $(sources_config) $(grisbi_INCLUDES)
+grisbi_SOURCES = $(sources) $(sources_config) $(grisbi_INCLUDES)  
 
 if HAVE_CUNIT
 grisbi_SOURCES += $(cunit_sources)

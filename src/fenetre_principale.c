@@ -26,6 +26,7 @@
 /*START_INCLUDE*/
 #include "fenetre_principale.h"
 #include "./balance_estimate_data.h"
+#include "./balance_estimate_future.h"
 #include "./balance_estimate_hist.h"
 #include "./balance_estimate_tab.h"
 #include "./navigation.h"
@@ -242,11 +243,16 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         bet_array_create_page ( ),
                         gtk_label_new (SPACIFY(_("Forecast"))) );
+
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         bet_historical_create_page ( ),
                         gtk_label_new (SPACIFY(_("Historical data"))) );
 
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
+                        bet_future_create_page ( ),
+                        gtk_label_new (SPACIFY(_("Future data"))) );
 #endif /* ENABLE_BALANCE_ESTIMATE */
+
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         creation_onglet_comptes (),
                         gtk_label_new (SPACIFY(_("Properties"))) );
@@ -301,21 +307,36 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
                         guint page_number,
                         gpointer null )
 {
-    switch ( page_number )
-    {
-    case 0:
-        gsb_form_set_expander_visible ( TRUE, TRUE );
-        break;
+    const gchar *name;
 
-    case 1:
-    case 2:
+    name = gtk_widget_get_name ( gtk_notebook_get_nth_page ( notebook, page_number ) );
+
+    if ( g_utf8_collate ( name, "win_operations" ) == 0 )
+        gsb_form_set_expander_visible ( TRUE, TRUE );
 #ifdef ENABLE_BALANCE_ESTIMATE
+    else if ( g_utf8_collate ( name, "bet_array_page" ) == 0 )
+    {
+        gsb_form_set_expander_visible ( FALSE, FALSE );
         if ( bet_data_get_maj ( ) )
             bet_array_update_estimate_tab ( );
-#endif /* ENABLE_BALANCE_ESTIMATE */
-    case 3:
+    }
+    else if ( g_utf8_collate ( name, "bet_historical_page" ) == 0 )
+    {
+        gsb_form_set_expander_visible ( FALSE, FALSE );
+        if ( bet_data_get_maj ( ) )
+            bet_array_update_estimate_tab ( );
+    }
+    else if ( g_utf8_collate ( name, "bet_future_page" ) == 0 )
+    {
+        //~ gsb_form_set_expander_visible ( TRUE, TRUE );
         gsb_form_set_expander_visible (FALSE, FALSE );
-        break;
+        if ( bet_data_get_maj ( ) )
+            bet_array_update_estimate_tab ( );
+    }
+#endif /* ENABLE_BALANCE_ESTIMATE */
+    else if ( g_utf8_collate ( name, "properties_page" ) == 0 )
+    {
+        gsb_form_set_expander_visible ( FALSE, FALSE );
     }
 
     return ( FALSE );
