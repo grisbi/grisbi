@@ -126,7 +126,7 @@ GtkWidget *bet_future_create_page ( void )
  * */
 gboolean bet_future_configure_form_to_future ( void )
 {
-    gtk_widget_show (form_scheduled_part);
+    //~ gtk_widget_show (form_scheduled_part);
 
     return TRUE;
 }
@@ -138,7 +138,7 @@ gboolean bet_future_configure_form_to_future ( void )
  * */
 gboolean bet_future_configure_form_to_transaction ( void )
 {
-    gtk_widget_hide (form_scheduled_part);
+    //~ gtk_widget_hide (form_scheduled_part);
 
     return TRUE;
 }
