@@ -173,9 +173,11 @@ gchar *utils_str_localise_decimal_point_from_string ( const gchar *string )
     gchar *ptr_1, *ptr_2;
     gchar *new_str;
     gchar *mon_decimal_point;
+    gchar *mon_separateur;
     gchar **tab;
 
     mon_decimal_point = g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL );
+    mon_separateur = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
 
     if ( ( ptr_1 = g_strstr_len ( string, -1, "," ) )
      &&
@@ -192,7 +194,7 @@ gchar *utils_str_localise_decimal_point_from_string ( const gchar *string )
     else
         new_str = g_strdup ( string );
 
-    if ( g_strstr_len ( new_str, -1, mon_decimal_point ) == NULL )
+    if ( mon_decimal_point && g_strstr_len ( new_str, -1, mon_decimal_point ) == NULL )
     {
         tab = g_strsplit_set ( new_str, ".,", 0 );
         g_free ( new_str );
@@ -200,7 +202,19 @@ gchar *utils_str_localise_decimal_point_from_string ( const gchar *string )
         g_strfreev ( tab );
     }
 
-    g_free ( mon_decimal_point );
+    if ( mon_decimal_point )
+        g_free ( mon_decimal_point );
+
+    if ( mon_separateur && g_strstr_len ( new_str, -1, mon_separateur ) )
+    {
+        tab = g_strsplit ( new_str, " ", 0 );
+        g_free ( new_str );
+        new_str = g_strjoinv ( "", tab );
+        g_strfreev ( tab );
+    }
+
+    if ( mon_separateur )
+        g_free ( mon_separateur );
 
     return new_str;
 }

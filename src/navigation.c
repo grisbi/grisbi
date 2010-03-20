@@ -1025,7 +1025,7 @@ void gsb_navigation_update_statement_label ( gint account_number )
         tmp_str1 = gsb_format_gdate ( gsb_data_reconcile_get_final_date (
                                             reconcile_number ) );
         tmp_str2 = gsb_real_get_string_with_currency (
-                        gsb_data_reconcile_get_final_balance ( reconcile_number ),
+                        gsb_data_account_get_marked_balance ( account_number ),
                         gsb_data_account_get_currency ( account_number ), TRUE );
         
         tmp_str = g_strconcat ( _("Last statement: "), tmp_str1, " - ",

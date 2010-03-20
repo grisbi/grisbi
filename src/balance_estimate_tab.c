@@ -446,7 +446,6 @@ GtkWidget *bet_array_create_page ( void )
     devel_debug (NULL);
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
     page = gtk_vbox_new ( FALSE, 5 );
-    gtk_widget_set_name ( page, "bet_array_page" );
 
     /* create the title */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
@@ -812,12 +811,18 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
                         GDate *date_max )
 {
     GDate *date_jour_1;
+    GDate *date_comp;
     GSList *tmp_list;
 
     //~ devel_debug (NULL);
+    /* init dates */
     date_jour_1 = gdate_today ( );
     if ( g_date_get_day ( date_min ) > 1 )
         g_date_set_day ( date_jour_1, 1 );
+    if ( g_date_compare ( date_jour_1, date_min ) < 0 )
+        date_comp = date_jour_1;
+    else
+        date_comp = date_min;
 
     /* search transactions of the account which are in the period */
     tmp_list = gsb_data_transaction_get_transactions_list ( );
@@ -858,12 +863,8 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
          transaction_number ) != 0 )
             continue;
 
-        /* Ignore transactions that are before date_min */
-        if ( g_date_compare ( date, date_min ) < 0 )
-            continue;
-
-        /* ignore transaction which are before date_min */
-        if ( g_date_compare ( date, date_min ) < 0 )
+        /* Ignore transactions that are before date_com */
+        if ( g_date_compare ( date, date_comp ) < 0 )
             continue;
 
         /* ignores transactions replaced with historical data */
@@ -878,6 +879,11 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
             if ( g_date_get_month ( date ) == g_date_get_month ( date_jour_1 ) )
                 bet_array_adjust_hist_amount ( div_number, sub_div_nb, amount, tab_model );
         }
+
+        /* ignore transaction which are before date_min */
+        if ( g_date_compare ( date, date_min ) < 0 )
+            continue;
+
 
         str_date = gsb_format_gdate ( date );
         g_value_init ( &date_value, G_TYPE_DATE );
@@ -940,7 +946,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
 
 
 /**
- *
+ * Add a new line with historical data
  *
  *
  *

@@ -651,7 +651,7 @@ gint gsb_data_payment_get_transfer_payment_number ( gint account_number )
 const gchar *gsb_data_payment_get_last_number ( gint payment_number )
 {
     struct_payment *payment;
-devel_debug_int (payment_number);
+
     payment = gsb_data_payment_get_structure ( payment_number );
 
     if (!payment)

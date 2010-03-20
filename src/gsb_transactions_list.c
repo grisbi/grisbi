@@ -285,7 +285,6 @@ GtkWidget *creation_fenetre_operations ( void )
     /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
     /*     des boutons de conf au milieu, le transaction_form en bas */
     win_operations = gtk_vbox_new ( FALSE, 6 );
-    gtk_widget_set_name ( win_operations, "win_operations" );
 
     /* création de la barre d'outils */
     barre_outils = gtk_handle_box_new ();
@@ -1462,8 +1461,8 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
     /* if no P/R column, cannot really mark/unmark the transaction... */
     col = find_element_col (ELEMENT_MARK);
     if ( col == -1 )
-	return FALSE;
-
+	    return FALSE;
+printf ("etape 1\n");
     /* if we are on the white line, a R transaction or a child of split, do nothing */
     if ( transaction_number == -1
 	 ||
@@ -1471,19 +1470,19 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
 	 ||
 	 gsb_data_transaction_get_mother_transaction_number (transaction_number))
 	return FALSE;
-
+printf ("etape 2\n");
     account_number = gsb_gui_navigation_get_current_account ();
     amount = gsb_data_transaction_get_adjusted_amount (transaction_number, -1);
 
     if (gsb_data_transaction_get_marked_transaction (transaction_number))
     {
-	gsb_data_transaction_set_marked_transaction ( transaction_number,
-						      OPERATION_NORMALE );
+        gsb_data_transaction_set_marked_transaction ( transaction_number,
+                                  OPERATION_NORMALE );
     }
     else
     {
-	gsb_data_transaction_set_marked_transaction ( transaction_number,
-						      OPERATION_POINTEE );
+        gsb_data_transaction_set_marked_transaction ( transaction_number,
+                                  OPERATION_POINTEE );
     }
 
     transaction_list_update_transaction (transaction_number);
@@ -1517,6 +1516,7 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
 	gsb_reconcile_update_amounts (NULL, NULL);
     }
     /* need to update the marked amount on the home page */
+    gsb_navigation_update_statement_label ( account_number );
     mise_a_jour_liste_comptes_accueil = 1;
 
     if ( etat.modification_fichier == 0 )

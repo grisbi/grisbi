@@ -8,6 +8,8 @@
 
 
 /* START_DECLARATION */
+gboolean bet_future_configure_form_to_future ( void );
+gboolean bet_future_configure_form_to_transaction ( void );
 GtkWidget * bet_future_create_page ( void );
 /* END_DECLARATION */
 

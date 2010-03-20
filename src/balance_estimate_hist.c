@@ -138,7 +138,6 @@ GtkWidget *bet_historical_create_page ( void )
     devel_debug (NULL);
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
     page = gtk_vbox_new ( FALSE, 5 );
-    gtk_widget_set_name ( page, "bet_historical_page" );
 
     /* titre de la page */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
