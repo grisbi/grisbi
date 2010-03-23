@@ -78,6 +78,9 @@ gchar* (*ptr_div_name) ( gint div_num, gint sub_div, const gchar *return_value_e
 /* liste des div et sub_div cochées dans la vue des divisions */
 static GHashTable *bet_hist_div_list;
 
+/** the hashtable which contains all the bet_future structures */
+static GHashTable *bet_future_list;
+
 /* force la mise à jour des données */
 static gboolean bet_maj = FALSE;
 
@@ -95,6 +98,11 @@ gboolean bet_data_init_variables ( void )
                         g_str_equal,
                         (GDestroyNotify) g_free,
                         (GDestroyNotify) free_struct_hist_div );
+    bet_future_list = g_hash_table_new_full ( g_str_hash,
+                        g_str_equal,
+                        (GDestroyNotify) g_free,
+                        (GDestroyNotify) gsb_data_scheduled_free );
+
     return FALSE;
 
 }

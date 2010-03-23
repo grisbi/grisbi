@@ -11,6 +11,9 @@
 gboolean bet_future_configure_form_to_future ( void );
 gboolean bet_future_configure_form_to_transaction ( void );
 GtkWidget * bet_future_create_page ( void );
+gboolean bet_future_new_line_dialog ( GtkWidget *tree_view,
+                        GtkTreeModel *tab_model,
+                        gchar *str_date );
 /* END_DECLARATION */
 
 #endif /*_BALANCE_ESTIMATE_FUTURE_H*/

@@ -17,6 +17,11 @@ typedef struct
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
+gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
+                        GdkEventFocus *ev,
+                        gint *ptr_origin );
+gboolean gsb_form_widget_amount_entry_changed ( GtkWidget *entry,
+				        gpointer null );
 gboolean gsb_form_widget_check_empty ( GtkWidget *entry );
 GtkWidget *gsb_form_widget_create ( gint element_number,
                         gint account_number );

@@ -55,11 +55,11 @@
 
 /*START_STATIC*/
 static gboolean gsb_form_widget_can_focus ( gint element_number );
-static gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
-                        GdkEventFocus *ev,
-                        gint *ptr_origin );
-static gboolean gsb_form_widget_amount_entry_changed ( GtkWidget *entry,
-				        gpointer null );
+//~ static gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
+                        //~ GdkEventFocus *ev,
+                        //~ gint *ptr_origin );
+//~ static gboolean gsb_form_widget_amount_entry_changed ( GtkWidget *entry,
+				        //~ gpointer null );
 static gboolean gsb_form_combo_selection_changed ( GtkTreeSelection *tree_selection,
 						gint *ptr_origin );
 /*END_STATIC*/
@@ -369,7 +369,6 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
                        "changed",
                        G_CALLBACK ( gsb_form_combo_selection_changed ),
                        GINT_TO_POINTER ( element_number ) );
-
 	    }
 	    else
 		/* neither an entry, neither a combofix */
@@ -396,25 +395,8 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
  * */
 GtkWidget *gsb_form_widget_get_widget ( gint element_number )
 {
-    GSList *list_tmp;
-
-    if ( !element_number )
-	return NULL;
-
-    list_tmp = form_list_widgets;
-
-    while (list_tmp)
-    {
-	struct_element *element;
-
-	element = list_tmp -> data;
-
-	if (element -> element_number == element_number)
-	    return element -> element_widget;
-
-	list_tmp = list_tmp -> next;
-    }
-    return NULL;
+    return gsb_form_get_element_widget_from_list ( element_number,
+                        form_list_widgets );
 }
 
 

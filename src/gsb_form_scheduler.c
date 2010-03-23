@@ -55,12 +55,12 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_form_scheduler_button_press_event ( GtkWidget *entry,
-                        GdkEventButton *ev,
-                        gint *ptr_origin );
-static gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
-                        GdkEventFocus *ev,
-                        gint *ptr_origin );
+//~ static gboolean gsb_form_scheduler_button_press_event ( GtkWidget *entry,
+                        //~ GdkEventButton *ev,
+                        //~ gint *ptr_origin );
+//~ static gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
+                        //~ GdkEventFocus *ev,
+                        //~ gint *ptr_origin );
 static void gsb_form_scheduler_free_content_list ( GSList *content_list );
 static gboolean gsb_form_scheduler_frequency_button_changed ( GtkWidget *combo_box,
                        gpointer null );
@@ -80,16 +80,6 @@ static gboolean gsb_form_scheduler_set_limit_date ( GDate *date );
 
 /*START_EXTERN*/
 /*END_EXTERN*/
-
-/**
- * \struct
- * Associate an element number for the scheduler part of the form
- * with the pointer to its widget */
-typedef struct
-{
-    gint element_number;
-    GtkWidget *element_widget;
-} scheduled_element;
 
 /**
  * \struct
@@ -130,7 +120,7 @@ static gint last_account_number = 0;
 gboolean gsb_form_scheduler_create ( GtkWidget *table )
 {
     gint row, column;
-    scheduled_element *element;
+    struct_element *element;
     devel_debug (NULL);
     if (!table)
         return FALSE;
@@ -218,7 +208,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
                         "focus-out-event",
                         G_CALLBACK (gsb_form_scheduler_entry_lose_focus),
                         GINT_TO_POINTER (element_number));
-		    tooltip_text = SPACIFY(_("Custom frequency"));
+		    tooltip_text = SPACIFY(_("Own frequency"));
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
@@ -236,7 +226,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
                         tooltip_text);
 
 	    /* save the element */
-	    element = g_malloc0 (sizeof (scheduled_element));
+	    element = g_malloc0 (sizeof (struct_element));
 	    element -> element_number = element_number;
 	    element -> element_widget = widget;
 	    scheduled_element_list = g_slist_append ( scheduled_element_list,
@@ -277,7 +267,7 @@ gboolean gsb_form_scheduler_free_list ( void )
 
     while (list_tmp)
     {
-	scheduled_element *element;
+	struct_element *element;
 
 	element = list_tmp -> data;
 	if (element -> element_widget
@@ -661,7 +651,7 @@ gboolean gsb_form_scheduler_clean ( void )
 		case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
 		    gsb_form_widget_set_empty ( widget, TRUE );
 		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 _("User frequency") );
+					 _("Own frequency") );
 		    gtk_widget_set_sensitive ( widget, TRUE );
 		    break;
 	    }
@@ -776,21 +766,8 @@ gboolean gsb_form_scheduler_get_scheduler_part ( gint scheduled_number )
  * */
 GtkWidget *gsb_form_scheduler_get_element_widget ( gint element_number )
 {
-    GSList *list_tmp;
-
-    list_tmp = scheduled_element_list;
-
-    while (list_tmp)
-    {
-	scheduled_element *element;
-
-	element = list_tmp -> data;
-	if (element -> element_number == element_number)
-	    return element -> element_widget;
-
-	list_tmp = list_tmp -> next;
-    }
-    return NULL;
+    return gsb_form_get_element_widget_from_list ( element_number,
+                        scheduled_element_list );
 }
 
 
@@ -858,7 +835,10 @@ gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
     {
 	case  SCHEDULED_FORM_LIMIT_DATE:
 	    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) )
+        {
+            gsb_form_widget_set_empty ( entry, TRUE );
             string = _("Limit date");
+        }
 	    break;
 
 	case  SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
@@ -1257,4 +1237,7 @@ gboolean gsb_form_scheduler_recover_splits_of_transaction ( gint scheduled_trans
 }
 
 
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
 

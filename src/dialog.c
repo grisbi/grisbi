@@ -171,7 +171,7 @@ G_MODULE_EXPORT void dialogue_error ( gchar *text )
  */
 G_MODULE_EXPORT void dialogue_error_hint ( gchar *text, gchar *hint )
 {
-    dialogue_special ( GTK_MESSAGE_ERROR, make_hint(hint, text) );
+    dialogue_special ( GTK_MESSAGE_ERROR, make_hint (hint, text) );
 }
 
 
@@ -214,7 +214,7 @@ void dialogue_special ( GtkMessageType param, gchar *text )
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         param, GTK_BUTTONS_CLOSE,
                         "%s", text );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG (dialog)->label ), text );
 
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
     gtk_dialog_run (GTK_DIALOG (dialog));
@@ -582,12 +582,12 @@ gint question_conditional_yes_no_get_no_struct ( struct conditional_message *msg
  */
 gchar *make_hint ( gchar *hint, gchar *text )
 {
-    gchar *tmpstr;
+    gchar *tmp_str;
 
-    tmpstr = g_markup_printf_escaped (
-                        "<span size=\"larger\" weight=\"bold\">%s</span>\n\n%s", hint, text );
-
-    return tmpstr;
+    tmp_str = g_strconcat ( g_markup_printf_escaped (
+                        "<span size=\"larger\" weight=\"bold\">%s</span>\n\n", hint ),
+                        text, NULL );
+    return tmp_str;
 }
 
 

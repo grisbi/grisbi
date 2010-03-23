@@ -1,11 +1,57 @@
 #ifndef _GSB_DATA_SCHEDULED_H
 #define _GSB_DATA_SCHEDULED_H (1)
 
+
 /* START_INCLUDE_H */
-#include "././gsb_real.h"
+#include "./gsb_real.h"
 /* END_INCLUDE_H */
 
+
+/**
+ * \struct 
+ * Describe a scheduled
+ */
+typedef struct
+{
+    /** @name general stuff */
+    gint scheduled_number;
+    gint account_number;
+    gsb_real scheduled_amount;
+    gint party_number;
+    gchar *notes;
+    gshort automatic_scheduled;			/**< 0=manual, 1=automatic (scheduled scheduled) */
+    guint financial_year_number;
+
+    /** @name dates of the scheduled */
+    GDate *date;
+
+    /** @name currency stuff */
+    gint currency_number;
+
+    /** @name category stuff */
+    gint category_number;
+    gint sub_category_number;
+    gint budgetary_number;
+    gint sub_budgetary_number;
+    gint account_number_transfer;			/**< -1 for a scheduled neither categ, neither transfer, neither split */
+    gint split_of_scheduled;			/**< 1 if it's a split of scheduled */
+    gint mother_scheduled_number;			/**< for a split, the mother's scheduled number */
+
+    /** @name method of payment */
+    gint method_of_payment_number;
+    gchar *method_of_payment_content;
+    gint contra_method_of_payment_number;
+
+    /** @name specific stuff for scheduled transactions */
+    gint frequency;					/**<  0=once, 1=week, 2=month, 3=year, 4=perso */
+    gint user_interval;					/**<  0=days, 1=monthes, 2=years */
+    gint user_entry;
+    GDate *limit_date;
+} struct_scheduled;
+
+
 /* START_DECLARATION */
+void gsb_data_scheduled_free ( struct_scheduled *scheduled);
 gint gsb_data_scheduled_get_account_number ( gint scheduled_number );
 gint gsb_data_scheduled_get_account_number_transfer ( gint scheduled_number );
 gsb_real gsb_data_scheduled_get_amount ( gint scheduled_number );

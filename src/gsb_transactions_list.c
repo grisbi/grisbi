@@ -26,6 +26,7 @@
 /*START_INCLUDE*/
 #include "gsb_transactions_list.h"
 #include "./accueil.h"
+#include "./balance_estimate_data.h"
 #include "./utils_operations.h"
 #include "./dialog.h"
 #include "./affichage_liste.h"
@@ -941,7 +942,7 @@ gboolean gsb_transactions_list_set_row_align ( gfloat row_align )
     gint transaction_number;
     gint mother_transaction;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
 
     if (gsb_gui_navigation_get_current_account () == -1)
 	return FALSE;
@@ -2416,6 +2417,11 @@ gboolean clone_selected_transaction ( GtkWidget *menu_item,
     update_transaction_in_trees (new_transaction_number);
 
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+
+#ifdef ENABLE_BALANCE_ESTIMATE
+    /* force the update module budget */
+    bet_data_set_maj ( TRUE );
+#endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );

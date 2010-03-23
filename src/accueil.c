@@ -316,7 +316,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
     parent_save = form_transaction_part -> parent;
 
-    /* crée la boite de dialogue */
+    /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Enter a scheduled transaction"),
 					   GTK_WINDOW ( window ),
 					   GTK_DIALOG_MODAL,

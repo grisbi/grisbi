@@ -39,51 +39,7 @@
 /*END_INCLUDE*/
 
 
-/**
- * \struct 
- * Describe a scheduled
- */
-typedef struct
-{
-    /** @name general stuff */
-    gint scheduled_number;
-    gint account_number;
-    gsb_real scheduled_amount;
-    gint party_number;
-    gchar *notes;
-    gshort automatic_scheduled;			/**< 0=manual, 1=automatic (scheduled scheduled) */
-    guint financial_year_number;
-
-    /** @name dates of the scheduled */
-    GDate *date;
-
-    /** @name currency stuff */
-    gint currency_number;
-
-    /** @name category stuff */
-    gint category_number;
-    gint sub_category_number;
-    gint budgetary_number;
-    gint sub_budgetary_number;
-    gint account_number_transfer;			/**< -1 for a scheduled neither categ, neither transfer, neither split */
-    gint split_of_scheduled;			/**< 1 if it's a split of scheduled */
-    gint mother_scheduled_number;			/**< for a split, the mother's scheduled number */
-
-    /** @name method of payment */
-    gint method_of_payment_number;
-    gchar *method_of_payment_content;
-    gint contra_method_of_payment_number;
-
-    /** @name specific stuff for scheduled transactions */
-    gint frequency;					/**<  0=once, 1=week, 2=month, 3=year, 4=perso */
-    gint user_interval;					/**<  0=days, 1=monthes, 2=years */
-    gint user_entry;
-    GDate *limit_date;
-} struct_scheduled;
-
-
 /*START_STATIC*/
-static  void _gsb_data_scheduled_free ( struct_scheduled *scheduled);
 static void gsb_data_scheduled_delete_all_scheduled ();
 static gint gsb_data_scheduled_get_last_number (void);
 static gint gsb_data_scheduled_get_last_white_number (void);
@@ -121,10 +77,11 @@ void gsb_data_scheduled_delete_all_scheduled ()
         tmp_list = scheduled_list;
         while (tmp_list)
         {
-	    struct_scheduled *scheduled;
-	    scheduled = tmp_list -> data;
-	    tmp_list = tmp_list -> next;
-            _gsb_data_scheduled_free ( scheduled );
+            struct_scheduled *scheduled;
+
+            scheduled = tmp_list -> data;
+            tmp_list = tmp_list -> next;
+                gsb_data_scheduled_free ( scheduled );
         } 
         g_slist_free ( scheduled_list );
         scheduled_list = NULL;
@@ -1569,7 +1526,7 @@ gint gsb_data_scheduled_new_white_line ( gint mother_scheduled_number)
 /**
  * This internal function is called to free memory used by a struct_scheduled structure.
  */
-static void _gsb_data_scheduled_free ( struct_scheduled *scheduled)
+void gsb_data_scheduled_free ( struct_scheduled *scheduled)
 {
     if ( ! scheduled )
         return;
@@ -1621,7 +1578,7 @@ gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number )
 	    {
 		scheduled_list = g_slist_remove ( scheduled_list,
 						  scheduled_child );
-		_gsb_data_scheduled_free ( scheduled_child );
+		gsb_data_scheduled_free ( scheduled_child );
 	    }
 	    list_tmp = list_tmp -> next;
 	}
@@ -1630,7 +1587,7 @@ gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number )
     scheduled_list = g_slist_remove ( scheduled_list,
 				      scheduled );
 
-    _gsb_data_scheduled_free (scheduled);
+    gsb_data_scheduled_free (scheduled);
     return TRUE;
 }
 

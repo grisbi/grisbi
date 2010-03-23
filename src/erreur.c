@@ -134,13 +134,14 @@ void traitement_sigsegv ( gint signal_nb )
     old_errmsg = errmsg;
     errmsg = g_strconcat ( errmsg, 
 			   "\n\n",
-			   _("Please report this problem to http://www.grisbi.org/bugtracking/.  "),
+			   _("Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "),
 			   NULL );
      g_free ( old_errmsg );
 
 #ifdef HAVE_BACKTRACE
     old_errmsg = errmsg;
-    errmsg = g_strconcat ( errmsg, _("Copy and paste the following backtrace with your bug report."),
+    errmsg = g_strconcat ( errmsg, _("Copy and paste the following backtrace with your bug "
+                        "report."),
 			   NULL );
      g_free ( old_errmsg );
 #endif

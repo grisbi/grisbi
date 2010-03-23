@@ -157,25 +157,26 @@ gboolean lance_navigateur_web ( const gchar *url )
 {
     gchar **split;
     gchar *chaine = NULL;
+    gchar* tmp_str;
+
 #ifdef _WIN32
     gboolean use_default_browser = TRUE;
 
     if ( conf.browser_command && strlen ( conf.browser_command ) )
     {
-        use_default_browser = !strcmp( conf.browser_command,ETAT_WWW_BROWSER );
+        use_default_browser = !strcmp ( conf.browser_command,ETAT_WWW_BROWSER );
     }
     
 #else // !_WIN32
-    if ( !( conf.browser_command
-     &&
-     strlen ( conf.browser_command ) ) )
+    if ( !( conf.browser_command && strlen ( conf.browser_command ) ) )
     {
-    
-    gchar* tmpstr = g_strdup_printf ( _("Grisbi was unable to execute a web browser to "
-                        "browse url <tt>%s</tt>.  Please adjust your settings to a valid "
-                        "executable."), url );
-    dialogue_error_hint ( tmpstr, _("Cannot execute web browser") );
-    g_free (tmpstr);
+        tmp_str = g_strdup_printf ( _("Grisbi was unable to execute a web browser to "
+                        "browse url:\n<span foreground=\"blue\">%s</span>.\n\n"
+                        "Please adjust your settings to a valid executable."), url );
+        dialogue_error_hint ( tmp_str, _("Cannot execute web browser") );
+        g_free (tmp_str);
+
+        return FALSE;
     }
 #endif // _WIN32
 
@@ -184,41 +185,42 @@ gboolean lance_navigateur_web ( const gchar *url )
     if (!use_default_browser)
     {
 #endif // _WIN32
+        /* search if the sequence `%s' is in the string
+         * and split the string before and after this delimiter */
+        split = g_strsplit ( conf.browser_command, "%s", 0 );
 
-    /* search if the sequence `%s' is in the string
-     * and split the string before and after this delimiter */
-    split = g_strsplit ( conf.browser_command, "%s", 0 );
+        if ( split[1] )
+        {
+            /* he has a %s in the command */
+            /* concat the string before %s, the url and the string after %s */
+            tmp_str = g_strconcat ( " ", url, " ", NULL );
+            chaine = g_strjoinv ( tmp_str, split );
+            g_free( tmp_str );
+            g_strfreev ( split );
 
-    if ( split[1] )
-    {
-	/* 	il y a bien un %s dans la commande de lancement */
+            /* add the & character at the end */
+            tmp_str = g_strconcat ( chaine, "&", NULL );
+            g_free ( chaine );
+            chaine = tmp_str;
+        }
+        else
+            chaine = g_strconcat ( conf.browser_command, " ", url, "&", NULL ); 
 
-        /* concat the string before %s, the url and the string after %s */
-        gchar* tmpstr = g_strconcat ( " ", url, " ", NULL );
-	chaine = g_strjoinv ( tmpstr, split );
-	g_free(tmpstr);
-	/* add the & character at the end */
-	tmpstr = g_strconcat ( chaine, "&", NULL );
-	g_free(chaine);
-	chaine = tmpstr;
-    }
-    else
-	chaine = g_strconcat ( conf.browser_command, " ", url, "&", NULL ); 
-
-    g_strfreev(split);
-
-    if ( system ( chaine ) == -1 )
-    {
-    	gchar* tmpstr = g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\nThe command was: %s.\nPlease adjust your settings to a valid executable."), url, chaine );
-	dialogue_error_hint ( tmpstr, _("Cannot execute web browser") );
-	g_free(tmpstr);
-    }
+        if ( system ( chaine ) == -1 )
+        {
+            tmp_str = g_strdup_printf ( _("Grisbi was unable to execute a web browser to "
+                        "browse url <tt>%s</tt>.\nThe command was: %s.\n"
+                        "Please adjust your settings to a valid executable."),
+                        url, chaine );
+            dialogue_error_hint ( tmp_str, _("Cannot execute web browser") );
+            g_free(tmp_str);
+        }
 
 #ifdef _WIN32
     }
     else
     {
-        win32_shell_execute_open(url);
+        win32_shell_execute_open ( url );
     } 
 #endif // _WIN32
     g_free(chaine);

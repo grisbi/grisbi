@@ -716,7 +716,7 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
 {
     gchar *completed_string = NULL;
     const gchar *entry_string;
-devel_debug_int (insert_text);
+
     entry_string = gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) );
 
     if ( strlen ( entry_string ) )

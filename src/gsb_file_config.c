@@ -225,6 +225,11 @@ gboolean gsb_file_config_load_config ( void )
                         "Dvips command",
                         NULL );
 
+    conf.browser_command = g_key_file_get_string ( config,
+                        "General",
+                        "Web",
+                        NULL );
+
     conf.pluriel_final = g_key_file_get_integer ( config,
                         "General",
                         "Pluriel_final",
@@ -1354,30 +1359,30 @@ void gsb_file_config_clean_config ( void )
     conf.dvips_command = "dvips";
 
 /* mise en conformité avec les recommandations FreeDesktop. */
-//~ #ifndef _WIN32
-    //~ if ( g_file_test ( "/usr/bin/firefox", G_FILE_TEST_EXISTS ) )
-    //~ {
-    //~ conf.browser_command = g_strdup ( "/usr/bin/firefox" );
-    //~ }
-    //~ else if ( g_file_test ( "/usr/bin/iceweasel", G_FILE_TEST_EXISTS ) )
-    //~ {
-    //~ conf.browser_command = g_strdup ( "/usr/bin/iceweasel" );
-    //~ }
-    //~ else if ( g_file_test ( "/usr/bin/opera", G_FILE_TEST_EXISTS ) )
-    //~ {
-    //~ conf.browser_command = g_strdup ( "/usr/bin/opera" );
-    //~ }
-    //~ else if ( g_file_test ( "/usr/bin/mozilla", G_FILE_TEST_EXISTS ) )
-    //~ {
-    //~ conf.browser_command = g_strdup ( "/usr/bin/mozilla" );
-    //~ }
-    //~ else
-    //~ {
-//~ #endif /* _WIN32 */
-    conf.browser_command = g_strdup (ETAT_WWW_BROWSER);
-//~ #ifndef _WIN32
-    //~ }
-//~ #endif /* _WIN32 */
+#ifndef _WIN32
+    if ( g_file_test ( "/usr/bin/firefox", G_FILE_TEST_EXISTS ) )
+    {
+    conf.browser_command = g_strdup ( "/usr/bin/firefox" );
+    }
+    else if ( g_file_test ( "/usr/bin/iceweasel", G_FILE_TEST_EXISTS ) )
+    {
+    conf.browser_command = g_strdup ( "/usr/bin/iceweasel" );
+    }
+    else if ( g_file_test ( "/usr/bin/opera", G_FILE_TEST_EXISTS ) )
+    {
+    conf.browser_command = g_strdup ( "/usr/bin/opera" );
+    }
+    else if ( g_file_test ( "/usr/bin/mozilla", G_FILE_TEST_EXISTS ) )
+    {
+    conf.browser_command = g_strdup ( "/usr/bin/mozilla" );
+    }
+    else
+    {
+#endif /* _WIN32 */
+    conf.browser_command = g_strdup ( ETAT_WWW_BROWSER );
+#ifndef _WIN32
+    }
+#endif /* _WIN32 */
 
     /* Print */
     etat.print_config.printer = 0;

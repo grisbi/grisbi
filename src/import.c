@@ -27,6 +27,7 @@
 /*START_INCLUDE*/
 #include "import.h"
 #include "./utils.h"
+#include "./balance_estimate_data.h"
 #include "./import_csv.h"
 #include "./dialog.h"
 #include "./utils_file_selection.h"
@@ -1601,6 +1602,11 @@ void traitement_operations_importees ( void )
     dialogue ( _("You have just imported reconciled transactions but they not associated "
                  "with any reconcile number yet.  You may associate them with a reconcilation "
                  "later via the preferences windows.") );
+
+#ifdef ENABLE_BALANCE_ESTIMATE
+    /* force the update module budget */
+    bet_data_set_maj ( TRUE );
+#endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
@@ -4363,6 +4369,11 @@ gboolean gsb_import_by_rule ( gint rule )
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_accueil (FALSE);
+
+#ifdef ENABLE_BALANCE_ESTIMATE
+    /* force the update module budget */
+    bet_data_set_maj ( TRUE );
+#endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );

@@ -95,7 +95,7 @@ static gint gsb_form_check_for_transfer ( const gchar *entry_string );
 static gboolean gsb_form_get_categories ( gint transaction_number,
                         gint new_transaction,
                         gboolean is_transaction );
-static gint gsb_form_get_element_expandable ( gint element_number );
+//~ static gint gsb_form_get_element_expandable ( gint element_number );
 static gboolean gsb_form_hide ( void );
 static  gboolean gsb_form_size_allocate ( GtkWidget *widget,
                         GtkAllocation *allocation,
@@ -1187,7 +1187,7 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 	    return FALSE;
 	    break;
 	    
-	case-1:
+	case -1:
 	    account_number = gsb_form_scheduler_get_account ();
 	    if (account_number == -2 )
 		return FALSE;
@@ -1434,8 +1434,6 @@ gint gsb_form_get_element_expandable ( gint element_number )
 {
     switch ( element_number )
     {
-	case TRANSACTION_FORM_DEVISE:
-	case TRANSACTION_FORM_TYPE:
 	case TRANSACTION_FORM_OP_NB:
 	case TRANSACTION_FORM_MODE:
 	    return GTK_SHRINK;
@@ -2217,7 +2215,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
     return FALSE;
 }
-
 
 
 /** 
@@ -3401,3 +3398,38 @@ gboolean gsb_form_button_press ( GtkWidget *vbox,
 
     return FALSE;
 }
+
+
+/**
+ * return the widget of the element_number given in param in the list
+ *
+ * \param element_number
+ * \param GSList *list
+  *
+ * \return a GtkWidget * or NULL
+ * */
+GtkWidget *gsb_form_get_element_widget_from_list ( gint element_number,
+                        GSList *list )
+{
+    GSList *list_tmp;
+
+    list_tmp = list;
+
+    while (list_tmp)
+    {
+        struct_element *element;
+
+        element = list_tmp -> data;
+        if (element -> element_number == element_number)
+            return element -> element_widget;
+
+        list_tmp = list_tmp -> next;
+    }
+
+    return NULL;
+}
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
