@@ -255,7 +255,7 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
         if ( valeur == 1 )
         {
             //~ printf ("avant - account_nb = %d, div = %d, sub_div = %d\n", account_nb, div, sub_div);
-            bet_data_add_div_hist ( account_nb, div_number, sub_div_nb );
+            bet_data_hist_add_div ( account_nb, div_number, sub_div_nb );
             bet_data_set_div_amount ( account_nb, div_number, sub_div_nb,
                         gsb_real_import_from_string ( str_amount ) );
             gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
@@ -408,7 +408,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
         tmp_str = gsb_real_get_string_with_currency ( number, currency_number, TRUE );
 
         if ( bet_data_search_div_hist ( account_nb, div_number, sub_div_nb ) == FALSE )
-            bet_data_add_div_hist ( account_nb, div_number, sub_div_nb );
+            bet_data_hist_add_div ( account_nb, div_number, sub_div_nb );
 
         bet_data_set_div_edited  ( account_nb, div_number, sub_div_nb, TRUE );
         bet_data_set_div_amount ( account_nb, div_number, sub_div_nb, number );
@@ -688,7 +688,7 @@ void bet_historical_populate_data ( void )
     list_div = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         (GDestroyNotify) g_free,
-                        (GDestroyNotify) free_struct_historical );
+                        (GDestroyNotify) struct_free_bet_historical );
 
     /* search transactions of the account  */
     tmp_list = gsb_data_transaction_get_complete_transactions_list ( );
@@ -821,7 +821,7 @@ void bet_historical_populate_div_model ( gpointer key,
       ||
       g_hash_table_size ( sh -> list_sub_div ) <= 1 ) )
     {
-        retained = bet_data_get_div_amount ( account_nb, div_number, 0 );
+        retained = bet_data_hist_get_div_amount ( account_nb, div_number, 0 );
         if ( str_amount )
             g_free ( str_amount );
         str_amount = gsb_real_save_real_to_string ( retained, 2 );
@@ -893,7 +893,7 @@ void bet_historical_populate_div_model ( gpointer key,
             if ( bet_data_get_div_edited ( account_nb, div_number, sub_sh -> div ) )
             {
                 //~ printf ("account_nb = %d div_number = %d sub_sh -> div = %d\n", account_nb, div_number, sub_sh -> div );
-                retained = bet_data_get_div_amount ( account_nb, div_number, sub_sh -> div );
+                retained = bet_data_hist_get_div_amount ( account_nb, div_number, sub_sh -> div );
                 if ( str_amount )
                     g_free ( str_amount );
                 str_amount = gsb_real_save_real_to_string ( retained, 2 );
@@ -1070,7 +1070,7 @@ void bet_historical_refresh_data ( GtkTreeModel *tab_model,
                         -1 );
             if ( valeur == 1 )
             {
-                bet_array_list_add_new_line ( tab_model,
+                bet_array_list_add_new_hist_line ( tab_model,
                         GTK_TREE_MODEL ( model ), &iter,
                         date_min, date_max );
             }
@@ -1087,7 +1087,7 @@ void bet_historical_refresh_data ( GtkTreeModel *tab_model,
 
                     if ( valeur == 1 )
                     {
-                        bet_array_list_add_new_line ( tab_model,
+                        bet_array_list_add_new_hist_line ( tab_model,
                                 GTK_TREE_MODEL ( model ), &fils_iter,
                                 date_min, date_max );
                     }
@@ -1163,7 +1163,7 @@ gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIter *par
                         -1 );
 
             retained = gsb_real_import_from_string ( str_amount );
-            bet_data_add_div_hist ( account_nb, div_number, sub_div_nb );
+            bet_data_hist_add_div ( account_nb, div_number, sub_div_nb );
             bet_data_set_div_amount ( account_nb, div_number, sub_div_nb,
                         gsb_real_import_from_string ( str_amount ) );
             str_retained = gsb_real_get_string_with_currency ( retained,
@@ -1461,7 +1461,7 @@ void bet_historical_add_last_amount ( GtkWidget *menu_item,
     tmp_str = gsb_real_get_string_with_currency ( amount, currency_number, TRUE );
     //~ printf ("div = %d sub_div_nb = %d tmp_str = %s\n", div_number, sub_div_nb, tmp_str);
     if ( bet_data_search_div_hist ( account_number, div_number, sub_div_nb ) == FALSE )
-        bet_data_add_div_hist ( account_number, div_number, sub_div_nb );
+        bet_data_hist_add_div ( account_number, div_number, sub_div_nb );
 
     bet_data_set_div_edited  ( account_number, div_number, sub_div_nb, TRUE );
     bet_data_set_div_amount ( account_number, div_number, sub_div_nb, amount );

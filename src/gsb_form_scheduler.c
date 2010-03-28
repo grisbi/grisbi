@@ -55,12 +55,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-//~ static gboolean gsb_form_scheduler_button_press_event ( GtkWidget *entry,
-                        //~ GdkEventButton *ev,
-                        //~ gint *ptr_origin );
-//~ static gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
-                        //~ GdkEventFocus *ev,
-                        //~ gint *ptr_origin );
 static void gsb_form_scheduler_free_content_list ( GSList *content_list );
 static gboolean gsb_form_scheduler_frequency_button_changed ( GtkWidget *combo_box,
                        gpointer null );

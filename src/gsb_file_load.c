@@ -91,6 +91,8 @@ static void gsb_file_load_bank ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_bet_part ( const gchar **attribute_names,
                         const gchar **attribute_values );
+static void gsb_file_load_future_data ( const gchar **attribute_names,
+                        const gchar **attribute_values );
 static void gsb_file_load_bet_historical ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
@@ -165,6 +167,7 @@ extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_fond[2];
+extern GdkColor couleur_bet_future;
 extern GdkColor couleur_grise;
 extern GdkColor couleur_jour;
 extern GdkColor couleur_selection;
@@ -631,9 +634,16 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
         gsb_file_load_bet_part ( attribute_names, attribute_values );
         return;
     }
+
     if ( !strcmp ( element_name, "Bet_historical" ) )
     {
         gsb_file_load_bet_historical ( attribute_names, attribute_values );
+        return;
+    }
+
+    if ( !strcmp ( element_name, "Bet_future" ) )
+    {
+        gsb_file_load_future_data ( attribute_names, attribute_values );
         return;
     }
 #endif /* ENABLE_BALANCE_ESTIMATE */
@@ -1243,6 +1253,24 @@ void gsb_file_load_color_part ( const gchar **attribute_names,
                         "Couleur_bet_division_blue" ))
     {
         couleur_bet_division.blue = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_bet_future_red" ))
+    {
+        couleur_bet_future.red = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_bet_future_green" ))
+    {
+        couleur_bet_future.green = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_bet_future_blue" ))
+    {
+        couleur_bet_future.blue = utils_str_atoi (attribute_values[i]);
     }
 
     i++;
@@ -3705,7 +3733,7 @@ void gsb_file_load_bet_historical ( const gchar **attribute_names,
     return;
 
     /* create the structure */
-    shd = initialise_struct_hist_div ( );
+    shd = struct_initialise_hist_div ( );
 
     do
     {
@@ -3750,7 +3778,7 @@ void gsb_file_load_bet_historical ( const gchar **attribute_names,
         sub_div_nb = utils_str_atoi ( attribute_values[i] );
         if ( sub_div_nb > 0 )
         {
-            sub_shd = initialise_struct_hist_div ( );
+            sub_shd = struct_initialise_hist_div ( );
             sub_shd -> div_number = sub_div_nb;
             i++;
             continue;
@@ -3780,6 +3808,175 @@ void gsb_file_load_bet_historical ( const gchar **attribute_names,
     while ( attribute_names[i] );
 
     bet_data_insert_div_hist ( shd, sub_shd );
+}
+
+
+/**
+ * load the bet future data
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_future_data ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    gint i=0;
+    struct_futur_data *scheduled;
+
+    if ( !attribute_names[i] )
+    return;
+
+    scheduled = struct_initialise_bet_future ( );
+
+    if ( !scheduled )
+    {
+        dialogue_error_memory ();
+        return;
+    }
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+
+    if ( !strcmp (attribute_values[i], "(null)") )
+    {
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Nb" ) )
+    {
+        scheduled -> number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Dt" ) )
+    {
+        scheduled -> date = gsb_parse_date_string_safe ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Ac" ) )
+    {
+        scheduled -> account_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Am" ) )
+    {
+        scheduled -> amount = gsb_real_import_from_string ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Pa" ) )
+    {
+        scheduled -> party_number =  utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Ca" ) )
+    {
+        scheduled -> category_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Sca" ) )
+    {
+        scheduled -> sub_category_number =  utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Pn" ) )
+    {
+        scheduled -> payment_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Fi" ) )
+    {
+        scheduled -> fyear_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Bu" ) )
+    {
+        scheduled -> budgetary_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Sbu" ) )
+    {
+        scheduled -> sub_budgetary_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "No" ) )
+    {
+        scheduled -> notes = g_strdup ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Pe" ) )
+    {
+        scheduled -> frequency = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Pei" ) )
+    {
+        scheduled -> user_interval = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Pep" ) )
+    {
+        scheduled -> user_entry = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Dtl" ) )
+    {
+        GDate *date;
+
+        date = gsb_parse_date_string_safe ( attribute_values[i] );
+        if ( g_date_valid ( date ) )
+            scheduled -> limit_date = date;
+        else
+            scheduled -> limit_date = NULL;
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Mo" ) )
+    {
+        scheduled -> mother_row = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    /* normally, shouldn't come here */
+    i++;
+    }
+    while ( attribute_names[i] );
+
+    bet_data_future_set_lines_from_file ( scheduled );
 }
 
 

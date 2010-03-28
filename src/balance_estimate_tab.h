@@ -23,11 +23,12 @@
 #include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
+#include "./gsb_data_scheduled.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
 GtkWidget * bet_array_create_page ( void );
-void bet_array_list_add_new_line ( GtkTreeModel *tab_model,
+void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
                         GtkTreeModel *model,
                         GtkTreeIter *iter,
                         GDate *date_min,

@@ -1533,7 +1533,6 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 
     /* string will be filled only if the field is empty */
     string = NULL;
-    devel_debug_int (element_number);
     switch ( element_number )
     {
     case TRANSACTION_FORM_PARTY :
@@ -2190,7 +2189,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	case GDK_KP_Add:
 	case GDK_plus:
 	case GDK_equal:		/* This should make all our US users happy */
-
 	    /* increase the check of 1 */
 	    if (element_number == TRANSACTION_FORM_CHEQUE)
 	    {
@@ -2202,7 +2200,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
 	case GDK_KP_Subtract:
 	case GDK_minus:
-
 	    /* decrease the check of 1 */
 	    if (element_number == TRANSACTION_FORM_CHEQUE)
 	    {
@@ -2211,6 +2208,72 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 		return TRUE;
 	    }
 	    break;
+    }
+
+    if ( element_number == TRANSACTION_FORM_TYPE )
+    {
+        gint payment_number;
+
+        switch ( ev -> keyval )
+        {
+        case GDK_c:
+        case GDK_C:
+            payment_number = gsb_data_payment_get_number_by_name ( _("Credit card"),
+                        account_number );
+            if ( payment_number )
+                gsb_payment_method_set_combobox_history ( widget, payment_number );
+
+            return TRUE;
+            break;
+        case GDK_d:
+        case GDK_D:
+            payment_number = gsb_data_payment_get_number_by_name ( _("Direct deposit"),
+                        account_number );
+            if ( payment_number )
+                gsb_payment_method_set_combobox_history ( widget, payment_number );
+
+            return TRUE;
+            break;
+        case GDK_h:
+        case GDK_H:
+            payment_number = gsb_data_payment_get_number_by_name ( _("Check"),
+                        account_number );
+            if ( payment_number )
+                gsb_payment_method_set_combobox_history ( widget, payment_number );
+
+            return TRUE;
+            break;
+        case GDK_l:
+        case GDK_L:
+            payment_number = gsb_data_payment_get_number_by_name ( _("Cash withdrawal"),
+                        account_number );
+            if ( payment_number )
+                gsb_payment_method_set_combobox_history ( widget, payment_number );
+
+            return TRUE;
+            break;
+
+        case GDK_p:
+        case GDK_P:
+            payment_number = gsb_data_payment_get_number_by_name ( _("Direct debit"),
+                        account_number );
+            if ( payment_number )
+                gsb_payment_method_set_combobox_history ( widget, payment_number );
+
+            return TRUE;
+            break;
+        case GDK_t:
+        case GDK_T:
+        case GDK_v:
+        case GDK_V:
+            payment_number = gsb_data_payment_get_number_by_name ( _("Transfert"),
+                        account_number );
+            if ( payment_number )
+                gsb_payment_method_set_combobox_history ( widget, payment_number );
+
+            return TRUE;
+            break;
+        }
     }
 
     return FALSE;

@@ -133,7 +133,6 @@ static gulong gsb_file_save_transaction_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content,
                         gint archive_number );
-static const gchar *my_safe_null_str ( const gchar *string );
 /*END_STATIC*/
 
 
@@ -146,6 +145,7 @@ extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_fond[2];
+extern GdkColor couleur_bet_future;
 extern GdkColor couleur_grise;
 extern GdkColor couleur_jour;
 extern GdkColor couleur_selection;
@@ -799,7 +799,11 @@ gulong gsb_file_save_color_part ( gulong iterator,
                         "\t\tCalendar_entry_blue=\"%d\"\n"
                         "\t\tCouleur_bet_division_red=\"%d\"\n"
                         "\t\tCouleur_bet_division_green=\"%d\"\n"
-                        "\t\tCouleur_bet_division_blue=\"%d\" />\n",
+                        "\t\tCouleur_bet_division_blue=\"%d\"\n"
+                        "\t\tCouleur_bet_future_red=\"%d\"\n"
+                        "\t\tCouleur_bet_future_green=\"%d\"\n"
+                        "\t\tCouleur_bet_future_blue=\"%d\" />\n",
+
     couleur_fond[0].red,
     couleur_fond[0].green,
     couleur_fond[0].blue,
@@ -832,7 +836,10 @@ gulong gsb_file_save_color_part ( gulong iterator,
     calendar_entry_color.blue,
     couleur_bet_division.red,
     couleur_bet_division.green,
-    couleur_bet_division.blue );
+    couleur_bet_division.blue,
+    couleur_bet_future.red,
+    couleur_bet_future.green,
+    couleur_bet_future.blue );
 
     /* append the new string to the file content
      * and return the new iterator */

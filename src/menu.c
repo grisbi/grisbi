@@ -767,8 +767,6 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
     GSList *list_tmp;
     GtkActionGroup * action_group;
 
-    devel_debug ( "gsb_menu_update_accounts_in_menus" );
-
     if ( move_to_account_merge_id != -1 ) 
 	gtk_ui_manager_remove_ui ( ui_manager, move_to_account_merge_id );
 

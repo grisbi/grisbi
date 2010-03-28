@@ -83,6 +83,8 @@ extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_fond[2];
+extern GdkColor couleur_bet_future;
+extern GdkColor default_couleur_bet_future;
 extern GdkColor couleur_grise;
 extern GdkColor couleur_jour;
 extern GdkColor couleur_selection;
@@ -794,6 +796,7 @@ static GtkWidget *preferences_view_create_color_combobox (void)
     { N_("Archive color"), &archive_background_color, &default_archive_background_color},
     { N_("Background of invalid date entry"), &calendar_entry_color, &default_calendar_entry_color },
     { N_("Background of bet division"), &couleur_bet_division, &default_couleur_bet_division },
+    { N_("Background of bet futur"), &couleur_bet_future, &default_couleur_bet_future },
     { NULL, 0, 0},
     };
 

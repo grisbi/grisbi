@@ -130,7 +130,9 @@ GdkColor couleur_bleue;
 GdkColor couleur_jaune;
 GdkColor couleur_bet_division;
 GdkColor default_couleur_bet_division;
- 
+GdkColor couleur_bet_future;
+GdkColor default_couleur_bet_future;
+
 GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 
 gchar *nom_fichier_comptes = NULL;
@@ -506,15 +508,22 @@ void initialisation_couleurs_listes ( void )
     couleur_jaune.pixel = 1;
 
     /* colors of the background bet divisions */
-    couleur_bet_division.red =64550;
-    couleur_bet_division.green =65535;
+    couleur_bet_division.red = 64550;
+    couleur_bet_division.green = 65535;
     couleur_bet_division.blue = 33466;
 
-    default_couleur_bet_division.red =64550;
-    default_couleur_bet_division.green =65535;
+    default_couleur_bet_division.red = 64550;
+    default_couleur_bet_division.green = 65535;
     default_couleur_bet_division.blue = 33466;
 
-    
+    /* colors of the background bet future data */
+    couleur_bet_future.red = 31829;
+    couleur_bet_future.green = 51015;
+    couleur_bet_future.blue = 35908;
+
+    default_couleur_bet_future.red = 31829;
+    default_couleur_bet_future.green = 51015;
+    default_couleur_bet_future.blue =  35908;
 }
 /*****************************************************************************************************/
 

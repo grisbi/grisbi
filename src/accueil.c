@@ -391,8 +391,6 @@ void update_liste_comptes_accueil ( gboolean force )
 	   gsb_data_account_get_accounts_amount ( ) ) )
 	return;
 
-    devel_debug ( "update_liste_comptes_accueil" );
-
     mise_a_jour_liste_comptes_accueil = 0;
 
     /* Remove previous child */

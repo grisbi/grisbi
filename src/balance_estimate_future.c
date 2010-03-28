@@ -86,16 +86,20 @@ static gboolean bet_form_scheduler_frequency_button_changed ( GtkWidget *combo_b
 						       gpointer null );
 static GtkWidget *bet_form_scheduler_get_element_widget ( gint element_number );
 static GtkWidget *bet_form_widget_get_widget ( gint element_number );
-static gboolean bet_future_add_a_new_line_in_bet_array ( GtkWidget *tree_view,
-                        GtkTreeModel *tab_model,
-                        GtkWidget *dialog );
+static gboolean bet_future_get_budget_data ( GtkWidget *widget,
+                        gint budget_type,
+                        struct_futur_data *scheduled );
+static gboolean bet_future_get_category_data ( GtkWidget *widget,
+                        gint budget_type,
+                        struct_futur_data *scheduled );
+static gboolean bet_future_take_data_from_form ( GtkWidget *dialog,
+                        struct_futur_data *scheduled );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern gboolean balances_with_scheduled;
 extern gchar* bet_duration_array[];
 extern GdkColor couleur_fond[0];
-extern GdkColor couleur_bet_division;
 extern GtkWidget *notebook_general;
 extern gsb_real null_real;
 extern GtkWidget *window;
@@ -121,79 +125,7 @@ static GtkWidget *bet_dialog = NULL;
  *
  *
  * */
-GtkWidget *bet_future_create_page ( void )
-{
-    GtkWidget *notebook;
-    GtkWidget *page;
-    //~ GtkWidget *widget = NULL;
-    //~ GtkWidget *initial_date = NULL;
-    //~ GtkWidget *hbox;
-    GtkWidget *align;
-    GtkWidget *label;
-    //~ GtkWidget *spin_button = NULL;
-    //~ GtkWidget *previous = NULL;
-    //~ GtkWidget *scrolled_window;
-    //~ GtkWidget *tree_view;
-    //~ GtkTreeStore *tree_model;
-    //~ GtkTreeModel *sortable;
-    //~ GtkCellRenderer *cell;
-    //~ GtkTreeViewColumn *column;
-    //~ gint iduration;
-
-    devel_debug (NULL);
-    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
-    page = gtk_vbox_new ( FALSE, 5 );
-    gtk_widget_set_name ( page, "bet_future_page" );
-
-    /* create the title */
-    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
-
-    label = gtk_label_new ("Future data");
-    gtk_container_add ( GTK_CONTAINER ( align ), label );
-    g_object_set_data ( G_OBJECT ( notebook ), "bet_future_title", label );
-
-
-    gtk_widget_show_all ( page );
-
-    return page;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-gboolean bet_future_configure_form_to_future ( void )
-{
-    //~ gtk_widget_show (form_scheduled_part);
-
-    return TRUE;
-}
-/**
- *
- *
- *
- *
- * */
-gboolean bet_future_configure_form_to_transaction ( void )
-{
-    //~ gtk_widget_hide (form_scheduled_part);
-
-    return TRUE;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-gboolean bet_future_new_line_dialog ( GtkWidget *tree_view,
-                        GtkTreeModel *tab_model,
+gboolean bet_future_new_line_dialog ( GtkTreeModel *tab_model,
                         gchar *str_date )
 {
     GtkWidget *widget;
@@ -233,13 +165,20 @@ gboolean bet_future_new_line_dialog ( GtkWidget *tree_view,
 	gtk_widget_show ( vbox );
     }
     else
+    {
+        bet_form_clean ( gsb_gui_navigation_get_current_account ( ) );
         gtk_widget_show ( bet_dialog );
+    }
 
     /* init data */
+    
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_DATE );
     date = gsb_parse_date_string ( str_date );
     if ( g_date_valid ( date ) )
+    {
+        gsb_form_widget_set_empty ( widget, FALSE );
         gsb_calendar_entry_set_date ( widget, date );
+    }
 
     gtk_dialog_set_response_sensitive ( GTK_DIALOG ( bet_dialog ), GTK_RESPONSE_OK, FALSE );
 
@@ -248,15 +187,26 @@ dialog_return:
 
     if ( result == GTK_RESPONSE_OK )
     {
-        if ( bet_future_add_a_new_line_in_bet_array ( tree_view,
-                        tab_model,
-                        bet_dialog ) == 0 )
+        struct_futur_data *scheduled;
+
+        scheduled = struct_initialise_bet_future ( );
+
+        if ( !scheduled )
         {
-            tmp_str = g_strdup ( _("Error: the periodicity defined by the user is not filled in.") );
+            dialogue_error_memory ();
+            gtk_widget_hide ( bet_dialog );
+            return FALSE;
+        }
+
+        if ( bet_future_take_data_from_form ( bet_dialog, scheduled ) == FALSE )
+        {
+            tmp_str = g_strdup ( _("Error: the frequency defined by the user or the amount is "
+                                 "not specified or the date is invalid.") );
             dialogue_warning_hint ( tmp_str, _("One field is not filled in") );
             g_free ( tmp_str );
             goto dialog_return;
         }
+        bet_array_refresh_estimate_tab ( );
     }
 
     gtk_widget_hide ( bet_dialog );
@@ -613,7 +563,7 @@ gboolean bet_form_create_current_form ( GtkWidget *table )
                         row, row+1,
                         gsb_form_get_element_expandable ( element_number ),
                         gsb_form_get_element_expandable ( element_number ),
-                        0, 0);
+                        0, 2);
     element = g_malloc0 ( sizeof ( struct_element ) );
     element -> element_number = element_number;
     element -> element_widget = widget;
@@ -731,8 +681,6 @@ gboolean bet_form_clean ( gint account_number )
                 /* set the combo_box on 'Automatic' */
                 gsb_fyear_set_combobox_history ( element -> element_widget, 0 );
 
-                gtk_widget_set_sensitive ( GTK_WIDGET ( element -> element_widget ),
-                               FALSE );
                 break;
 
             case TRANSACTION_FORM_PARTY:
@@ -780,8 +728,6 @@ gboolean bet_form_clean ( gint account_number )
             case TRANSACTION_FORM_TYPE:
                 gsb_payment_method_set_combobox_history ( element -> element_widget,
                                       gsb_data_account_get_default_debit (account_number));
-                gtk_widget_set_sensitive ( GTK_WIDGET ( element -> element_widget ),
-                               FALSE );
                 break;
 
             }
@@ -1269,27 +1215,22 @@ gboolean bet_form_button_press_event ( GtkWidget *entry,
 
 
 /**
- *
+ * récupère les données du formulaire
  *
  *
  *
  * */
-gboolean bet_future_add_a_new_line_in_bet_array ( GtkWidget *tree_view,
-                        GtkTreeModel *tab_model,
-                        GtkWidget *dialog )
+gboolean bet_future_take_data_from_form ( GtkWidget *dialog,
+                        struct_futur_data *scheduled )
 {
     GtkWidget *widget;
-    struct_scheduled *scheduled;
+    gint budget_type;
 
-    scheduled = g_malloc0 ( sizeof ( struct_scheduled ) );
+    /* données liées au compte */
+    scheduled -> account_number = gsb_gui_navigation_get_current_account ( );
 
-    if ( !scheduled )
-    {
-        dialogue_error_memory ();
-        return FALSE;
-    }
-
-    widget = bet_form_scheduler_get_element_widget ( SCHEDULED_FORM_FREQUENCY_BUTTON ) ;
+    /* On traite les données de la planification */
+    widget = bet_form_scheduler_get_element_widget ( SCHEDULED_FORM_FREQUENCY_BUTTON );
     scheduled -> frequency = gsb_combo_box_get_index ( widget );
 
     switch ( scheduled -> frequency )
@@ -1327,14 +1268,164 @@ gboolean bet_future_add_a_new_line_in_bet_array ( GtkWidget *tree_view,
                 return FALSE;
     }
 
-printf ("frequency = %d date_fin = %s user_frequency = %d user_frequency_button = %d\n",
-        scheduled -> frequency,
-        gsb_format_gdate (scheduled -> limit_date),
-        scheduled -> user_entry,
-        scheduled -> user_interval);
+    /* On traite les données de transaction */
+    widget = bet_form_widget_get_widget ( TRANSACTION_FORM_DATE );
+    if ( gsb_form_widget_check_empty( widget ) == FALSE )
+    {
+        GDate *date_jour;
 
+        date_jour = gdate_today ( ); 
+        scheduled -> date = gsb_calendar_entry_get_date ( widget );
+        if ( scheduled -> date == NULL
+         || 
+         g_date_compare ( date_jour, scheduled -> date ) > 0 )
+            return FALSE;
+    }
+    else
+        return FALSE;
+
+    widget = bet_form_widget_get_widget ( TRANSACTION_FORM_EXERCICE );
+    if ( gsb_form_widget_check_empty( widget ) == FALSE )
+        scheduled -> fyear_number = gsb_fyear_get_fyear_from_combobox ( widget,
+                        scheduled -> date );
+    else
+        scheduled -> fyear_number = 0;
+
+    widget = bet_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+    if ( gsb_form_widget_check_empty ( widget ) == FALSE )
+        scheduled -> party_number = gsb_data_payee_get_number_by_name (
+                        gtk_combofix_get_text ( GTK_COMBOFIX ( widget ) ), TRUE );
+    else
+        scheduled -> party_number = 0;
+
+    widget = bet_form_widget_get_widget ( TRANSACTION_FORM_DEBIT );
+    if ( gsb_form_widget_check_empty ( widget ) == FALSE )
+    {
+            gsb_form_check_auto_separator ( widget );
+		    scheduled -> amount = gsb_real_opposite (
+                        gsb_utils_edit_calculate_entry ( widget ) );
+        budget_type = 1;
+    }
+    else
+    {
+        widget = bet_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
+        if ( gsb_form_widget_check_empty ( widget ) == FALSE )
+        {
+            gsb_form_check_auto_separator ( widget );
+            scheduled -> amount = gsb_utils_edit_calculate_entry ( widget );
+            budget_type = 0;
+        }
+        else
+            return FALSE;
+    }
+
+    widget = bet_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
+    if ( gsb_form_widget_check_empty( widget ) == FALSE )
+        scheduled -> payment_number = 
+                        gsb_payment_method_get_selected_number ( widget );
+    else
+        scheduled -> payment_number = 0;
+
+    widget = bet_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
+    if ( gsb_form_widget_check_empty( widget ) == FALSE )
+        bet_future_get_category_data ( widget, budget_type, scheduled );
+    else
+    {
+        scheduled -> category_number = 0;
+        scheduled -> sub_category_number = 0;
+    }
+
+    widget = bet_form_widget_get_widget ( TRANSACTION_FORM_BUDGET );
+    if ( gsb_form_widget_check_empty( widget ) == FALSE )
+        bet_future_get_budget_data ( widget, budget_type, scheduled );
+    else
+    {
+        scheduled -> budgetary_number = 0;
+        scheduled -> sub_budgetary_number = 0;
+    }
+
+    widget = bet_form_widget_get_widget ( TRANSACTION_FORM_NOTES );
+    if ( gsb_form_widget_check_empty( widget ) == FALSE )
+        scheduled -> notes = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
+    else
+        scheduled -> notes = NULL;
+
+    bet_data_future_add_lines ( scheduled );
     
     return TRUE;
+}
+
+
+/**
+ * récupère l'imputation et la sous imputation budgétaire 
+ *
+ *
+ * \return FALSE
+ * */
+gboolean bet_future_get_budget_data ( GtkWidget *widget,
+                        gint budget_type,
+                        struct_futur_data *scheduled )
+{
+    const gchar *string;
+    gchar **tab_char;
+
+    string = gtk_combofix_get_text ( GTK_COMBOFIX ( widget ) );
+    if ( string && strlen ( string ) > 0 )
+    {
+        tab_char = g_strsplit ( string, " : ", 2 );
+        scheduled -> budgetary_number = gsb_data_budget_get_number_by_name (
+                        tab_char[0], TRUE, budget_type );
+
+        if ( tab_char[1] && strlen ( tab_char[1] ) )
+            scheduled -> sub_budgetary_number = gsb_data_budget_get_sub_budget_number_by_name (
+                        scheduled -> budgetary_number, tab_char[1], TRUE );
+        else
+            scheduled -> sub_budgetary_number = 0;
+    }
+    else
+    {
+        scheduled -> budgetary_number = 0;
+        scheduled -> sub_budgetary_number = 0;
+    }
+        
+    return FALSE;
+}
+
+
+/**
+ * récupère la catégorie et la sous catégorie 
+ *
+ *
+ * \return FALSE
+ * */
+gboolean bet_future_get_category_data ( GtkWidget *widget,
+                        gint budget_type,
+                        struct_futur_data *scheduled )
+{
+    const gchar *string;
+    gchar **tab_char;
+
+    string = gtk_combofix_get_text ( GTK_COMBOFIX ( widget ) );
+    if ( string && strlen ( string ) > 0 )
+    {
+        tab_char = g_strsplit ( string, " : ", 2 );
+        scheduled -> category_number = gsb_data_category_get_number_by_name (
+                        tab_char[0], TRUE, budget_type );
+
+        if ( tab_char[1] && strlen ( tab_char[1] ) )
+            scheduled -> sub_category_number = 
+                        gsb_data_category_get_sub_category_number_by_name (
+                        scheduled -> category_number, tab_char[1], TRUE );
+        else
+            scheduled -> sub_category_number = 0;
+    }
+    else
+    {
+        scheduled -> category_number = 0;
+        scheduled -> category_number = 0;
+    }
+        
+    return FALSE;
 }
 /**
  *

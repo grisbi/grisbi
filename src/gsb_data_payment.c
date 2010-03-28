@@ -817,21 +817,24 @@ gchar *gsb_data_payment_incremente_last_number ( gint payment_number,
     const gchar *last_number;
     gchar *new_number;
     gchar *prefix = NULL;
-    gint number;
+    gint number = 0;
     gint i = 0;
 
     last_number = gsb_data_payment_get_last_number ( payment_number );
-    while ( last_number[i] == '0' )
+    if ( last_number && strlen ( last_number ) > 0 )
     {
-        i++;
+        while ( last_number[i] == '0' )
+        {
+            i++;
+        }
+        if ( i > 0 )
+            prefix = g_strndup ( last_number, i );
     }
-    if ( i > 0 )
-        prefix = g_strndup ( last_number, i );
     
     number = utils_str_atoi ( last_number );
     number += increment;
     new_number = utils_str_itoa ( number );
-    if ( prefix && strlen ( prefix ) )
+    if ( prefix && strlen ( prefix ) > 0 )
         new_number = g_strconcat ( prefix, new_number, NULL );
 
     return new_number;
