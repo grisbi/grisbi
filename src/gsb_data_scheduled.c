@@ -125,7 +125,7 @@ void gsb_data_scheduled_delete_all_scheduled ()
 
             scheduled = tmp_list -> data;
             tmp_list = tmp_list -> next;
-                gsb_data_scheduled_free ( scheduled );
+                _gsb_data_scheduled_free ( scheduled );
         } 
         g_slist_free ( scheduled_list );
         scheduled_list = NULL;
