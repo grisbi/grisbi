@@ -299,7 +299,7 @@ gchar **split_unique_datefield ( gchar * string, gchar date_tokens [] )
 GDate *gsb_parse_date_string ( const gchar *date_string )
 {
     GDate *date;
-    gchar *string, *format;
+    gchar *string, *string_ptr, *format;
     gchar **tab_date;
     gchar date_tokens [ 4 ] = { 0, 0, 0, 0 };
     int num_tokens = 0, num_fields = 0, i, j;
@@ -309,15 +309,18 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 	int k = 0;
 #endif
 
-    if ( !date_string
-    ||
-    !strlen (date_string))
-    return NULL;
+    if ( !date_string || !strlen (date_string) )
+        return NULL;
 
     /* Keep the const gchar in that function */
     string = g_strdup (date_string);
+    /* And keep a pointer to free memory later */
+    string_ptr = string;
     if ( ! strlen ( string ) )
+    {
+        g_free ( string_ptr );
         return NULL;
+    }
     g_strstrip ( string );
 
     /* Obtain date format tokens to compute order. */
@@ -375,24 +378,33 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 
     /* remove if there are some .. */
     tab_date = g_strsplit ( string, "..", 0 );
+    g_free ( string_ptr );
     string = g_strjoinv ( ".", tab_date );
+    string_ptr = string;
+    g_strfreev ( tab_date );
     /* split the parts of the date */
     tab_date = g_strsplit_set ( string, ".", 0 );
-	g_free(string);
+    /* From here, string is no more used */
+    g_free ( string_ptr );
+    string = string_ptr = NULL;
 
     num_fields = g_strv_length ( tab_date );
 
     if ( num_fields == 0 )
+    {
+        g_strfreev ( tab_date );
         return NULL;
+    }
     else if ( num_fields == 1 )
     {
-        /* there is only 1 field in the date, try to split the number (ie 01042000 gives 01/04/2000) */
+        /* there is only 1 field in the date, try to split the number
+         * (ie 01042000 gives 01/04/2000) */
         gchar ** new_tab_date = split_unique_datefield ( tab_date [ 0 ], date_tokens );
+        g_strfreev ( tab_date );
         if ( ! new_tab_date )
             return NULL;
         else
         {
-            g_strfreev ( tab_date ); 
             tab_date = new_tab_date;
             num_fields = g_strv_length ( tab_date );
         }
@@ -413,7 +425,10 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
                 j++;
             }
             else
+            {
+                g_date_free ( date );
                 return NULL;
+            }
             break;
             case 'd':
             if ( g_date_valid_day ( nvalue ) )
@@ -422,7 +437,10 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
                 j++;
             }
             else
+            {
+                g_date_free ( date );
                 return NULL;
+            }
             break;
             case 'y':
             case 'Y':
@@ -445,10 +463,14 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
                 j++;
             }
             else
+            {
+                g_date_free ( date );
                 return NULL;
+            }
             break;
             default:
                 g_printerr ( ">> Unknown format '%c'\n", date_tokens [ i ] );
+                g_date_free ( date );
                 return NULL;
             break;
         }
@@ -459,7 +481,10 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     /* need here to check if the date is valid, else an error occurs when
      * write for example only 31, and the current month has only 30 days... */
     if ( !g_date_valid (date) )
+    {
+        g_date_free ( date );
         return NULL;
+    }
     else
         return date;
 }

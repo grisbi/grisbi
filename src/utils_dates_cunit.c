@@ -63,41 +63,150 @@ int utils_dates_cunit_clean_suite ( void )
 void utils_dates_cunit__gsb_parse_date_string ( void )
 {
     GDate *date = NULL;
-    // invalid day
-    CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "00/02/2009" ) );
+    char *lc_time_orig;
+    char *result = setlocale(LC_TIME, NULL);
+    if (result != NULL)
+    {
+        lc_time_orig = (char *)malloc((strlen(result) + 1) * sizeof(char));
+        strcpy(lc_time_orig, result);
 
-    date = gsb_parse_date_string ( "01/02/2009" );
-    CU_ASSERT_EQUAL(2009, g_date_get_year(date));
-    CU_ASSERT_EQUAL(2, g_date_get_month(date));
-    CU_ASSERT_EQUAL(1, g_date_get_day(date));
+        /* C test */
+        result = setlocale(LC_TIME, "C");
+        if (result != NULL)
+        {
+            // invalid day
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "02/00/2009" ) );
 
-    // invalid day
-    CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "30/02/2009" ) );
+            date = gsb_parse_date_string ( "01/02/2009" );
+            CU_ASSERT_EQUAL(2009, g_date_get_year(date));
+            CU_ASSERT_EQUAL(1, g_date_get_month(date));
+            CU_ASSERT_EQUAL(2, g_date_get_day(date));
 
-    // 2009 is not a leap year
-    CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "29/02/2009" ) );
+            // invalid day
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "02/30/2009" ) );
 
-    // 2008 was a leap year
-    date = gsb_parse_date_string ( "29/02/2008" );
-    CU_ASSERT_EQUAL(2008, g_date_get_year(date));
-    CU_ASSERT_EQUAL(2, g_date_get_month(date));
-    CU_ASSERT_EQUAL(29, g_date_get_day(date));
+            // 2009 is not a leap year
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "02/29/2009" ) );
 
-    date = gsb_parse_date_string ( "28/02/2009" );
-    CU_ASSERT_EQUAL(2009, g_date_get_year(date));
-    CU_ASSERT_EQUAL(2, g_date_get_month(date));
-    CU_ASSERT_EQUAL(28, g_date_get_day(date));
+            // 2008 was a leap year
+            date = gsb_parse_date_string ( "02/29/2008" );
+            CU_ASSERT_EQUAL(2008, g_date_get_year(date));
+            CU_ASSERT_EQUAL(2, g_date_get_month(date));
+            CU_ASSERT_EQUAL(29, g_date_get_day(date));
 
-    date = gsb_parse_date_string ( "31/12/2009" );
-    CU_ASSERT_EQUAL(2009, g_date_get_year(date));
-    CU_ASSERT_EQUAL(12, g_date_get_month(date));
-    CU_ASSERT_EQUAL(31, g_date_get_day(date));
+            date = gsb_parse_date_string ( "02/28/2009" );
+            CU_ASSERT_EQUAL(2009, g_date_get_year(date));
+            CU_ASSERT_EQUAL(2, g_date_get_month(date));
+            CU_ASSERT_EQUAL(28, g_date_get_day(date));
 
-    // invalid day
-    CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "32/12/2009" ) );
+            date = gsb_parse_date_string ( "12/31/2009" );
+            CU_ASSERT_EQUAL(2009, g_date_get_year(date));
+            CU_ASSERT_EQUAL(12, g_date_get_month(date));
+            CU_ASSERT_EQUAL(31, g_date_get_day(date));
 
-    // invalid month
-    CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "13/13/2009" ) );
+            // invalid day
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "12/32/2009" ) );
+
+            // invalid month
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "13/13/2009" ) );
+        }
+
+        /* French test or english GB test*/
+        result = setlocale(LC_TIME, "fr_FR.UTF-8");
+        if (result == NULL)
+            result = setlocale(LC_TIME, "en_GB.UTF-8");
+        if (result == NULL)
+            result = setlocale(LC_TIME, "fr_FR@euro");
+        if (result == NULL)
+            result = setlocale(LC_TIME, "fr_FR");
+        if (result == NULL)
+            result = setlocale(LC_TIME, "en_GB");
+        if (result != NULL)
+        {
+            // invalid day
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "00/02/2009" ) );
+
+            date = gsb_parse_date_string ( "01/02/2009" );
+            CU_ASSERT_EQUAL(2009, g_date_get_year(date));
+            CU_ASSERT_EQUAL(2, g_date_get_month(date));
+            CU_ASSERT_EQUAL(1, g_date_get_day(date));
+
+            // invalid day
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "30/02/2009" ) );
+
+            // 2009 is not a leap year
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "29/02/2009" ) );
+
+            // 2008 was a leap year
+            date = gsb_parse_date_string ( "29/02/2008" );
+            CU_ASSERT_EQUAL(2008, g_date_get_year(date));
+            CU_ASSERT_EQUAL(2, g_date_get_month(date));
+            CU_ASSERT_EQUAL(29, g_date_get_day(date));
+
+            date = gsb_parse_date_string ( "28/02/2009" );
+            CU_ASSERT_EQUAL(2009, g_date_get_year(date));
+            CU_ASSERT_EQUAL(2, g_date_get_month(date));
+            CU_ASSERT_EQUAL(28, g_date_get_day(date));
+
+            date = gsb_parse_date_string ( "31/12/2009" );
+            CU_ASSERT_EQUAL(2009, g_date_get_year(date));
+            CU_ASSERT_EQUAL(12, g_date_get_month(date));
+            CU_ASSERT_EQUAL(31, g_date_get_day(date));
+
+            // invalid day
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "32/12/2009" ) );
+
+            // invalid month
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "13/13/2009" ) );
+        }
+
+        /* English US test */
+        result = setlocale(LC_TIME, "en_US.UTF-8");
+        if (result == NULL)
+            result = setlocale(LC_TIME, "en_US");
+        if (result != NULL)
+        {
+            // invalid day
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "02/00/2009" ) );
+
+            date = gsb_parse_date_string ( "02/01/2009" );
+            CU_ASSERT_EQUAL(2009, g_date_get_year(date));
+            CU_ASSERT_EQUAL(2, g_date_get_month(date));
+            CU_ASSERT_EQUAL(1, g_date_get_day(date));
+
+            // invalid day
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "02/30/2009" ) );
+
+            // 2009 is not a leap year
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "02/29/2009" ) );
+
+            // 2008 was a leap year
+            date = gsb_parse_date_string ( "02/29/2008" );
+            CU_ASSERT_EQUAL(2008, g_date_get_year(date));
+            CU_ASSERT_EQUAL(2, g_date_get_month(date));
+            CU_ASSERT_EQUAL(29, g_date_get_day(date));
+
+            date = gsb_parse_date_string ( "02/28/2009" );
+            CU_ASSERT_EQUAL(2009, g_date_get_year(date));
+            CU_ASSERT_EQUAL(2, g_date_get_month(date));
+            CU_ASSERT_EQUAL(28, g_date_get_day(date));
+
+            date = gsb_parse_date_string ( "12/31/2009" );
+            CU_ASSERT_EQUAL(2009, g_date_get_year(date));
+            CU_ASSERT_EQUAL(12, g_date_get_month(date));
+            CU_ASSERT_EQUAL(31, g_date_get_day(date));
+
+            // invalid day
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "12/32/2009" ) );
+
+            // invalid month
+            CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "13/13/2009" ) );
+        }
+
+        /* Restore current locale and free memory */
+        setlocale(LC_TIME, lc_time_orig);
+        free(lc_time_orig) ;
+    }
 }
 
 CU_pSuite utils_dates_cunit_create_suite ( void )

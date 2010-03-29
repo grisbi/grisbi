@@ -432,7 +432,7 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
             dot_position = nb_digits;
             p = g_utf8_find_next_char ( p, NULL );
         }
-        else if ( strchr ( space_chars, *p ) )
+        else if ( g_utf8_strchr ( space_chars, -1,  g_utf8_get_char( p ) ) )
         {
             // just skip spaces and thousands separators
             p = g_utf8_find_next_char ( p, NULL );
@@ -628,17 +628,20 @@ gboolean gsb_real_grow_exponent( gsb_real *num, guint target_exponent )
  * \param number_1 a pointer to gsb_real wich contains the number_1 to transform
  * \param number_2 a pointer to gsb_real wich contains the number_2 to transform
  *
- * \return TRUE if normalization occured
+ * \return TRUE if normalization occured without loss of precision
  * FALSE if exponents can't be the same without loss of precision
  * */
 gboolean gsb_real_normalize ( gsb_real *number_1, gsb_real *number_2 )
 {
     gsb_real_minimize_exponent ( number_1 );
     gsb_real_minimize_exponent ( number_2 );
+    gboolean safe_precision = TRUE;
 
     if ( number_1->exponent < number_2->exponent )
     {
-        if ( !gsb_real_grow_exponent ( number_1, number_2->exponent ) )
+        safe_precision = gsb_real_grow_exponent ( number_1,
+                                                  number_2->exponent );
+        if ( !safe_precision )
 		{
 			while ( number_2 -> exponent > number_1 -> exponent )
             {
@@ -649,7 +652,9 @@ gboolean gsb_real_normalize ( gsb_real *number_1, gsb_real *number_2 )
     }
     else if ( number_2->exponent < number_1->exponent )
     {
-        if ( !gsb_real_grow_exponent ( number_2, number_1->exponent ) )
+        safe_precision = gsb_real_grow_exponent ( number_2,
+                                                  number_1->exponent );
+        if ( !safe_precision )
 		{
             while ( number_1 -> exponent > number_2 -> exponent )
             {
@@ -659,7 +664,7 @@ gboolean gsb_real_normalize ( gsb_real *number_1, gsb_real *number_2 )
 		}
     }
 
-    return ( number_1->exponent == number_2->exponent );
+    return safe_precision;
 }
 
 
@@ -788,6 +793,12 @@ gsb_real gsb_real_mul ( gsb_real number_1,
 {
     gint64 mantissa;
 
+    if ( number_1.mantissa == error_real.mantissa
+         || number_2.mantissa == error_real.mantissa)
+    {
+        return error_real;
+    }
+
     mantissa = ( gint64 ) number_1.mantissa * number_2.mantissa;
     number_1.exponent += number_2.exponent;
 
@@ -914,26 +925,41 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
  **/
 gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent )
 {
-    if ( *mantissa > G_MAXLONG )
+    gint64 new_mantissa = *mantissa;
+    gint new_exponent = *exponent;
+
+    if ( new_mantissa > G_MAXLONG )
     {
         do
         {
-            --*exponent;
-            *mantissa = *mantissa / 10;
-        } while ( *mantissa > G_MAXLONG );
-        return TRUE;
+            --new_exponent;
+            new_mantissa = new_mantissa / 10;
+        } while ( new_mantissa > G_MAXLONG );
     }
-    else if ( *mantissa < G_MINLONG )
+    else if ( new_mantissa < G_MINLONG )
     {
         do
         {
-            --*exponent;
-            *mantissa = *mantissa / 10;
-        } while ( *mantissa < G_MINLONG );
-        return TRUE;
+            --new_exponent;
+            new_mantissa = new_mantissa / 10;
+        } while ( new_mantissa < G_MINLONG );
+    }
+    else
+    {
+        return FALSE;
     }
 
-    return FALSE;
+    // exponent must be greater or equal to 0
+    if (new_exponent < 0)
+    {
+        return FALSE;
+    }
+    else
+    {
+        *exponent = new_exponent;
+        *mantissa = new_mantissa;
+        return TRUE;
+    }
 }
 
 

@@ -399,17 +399,21 @@ void gsb_real_cunit__gsb_real_raw_format_string ( void )
     CU_ASSERT_STRING_EQUAL("<+>0<.>000031415<¤>", s);
     g_free(s);
 
+    /* TODO do this test for gsb_real_format_string instead
     n.mantissa = 31415;
     n.exponent = 10;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
     CU_ASSERT_STRING_EQUAL("###ERR###", s);
     g_free(s);
+    */
 
+    /* TODO do this test for gsb_real_format_string instead
     n.mantissa = 31415;
     n.exponent = -1;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
     CU_ASSERT_STRING_EQUAL("###ERR###", s);
     g_free(s);
+    */
 
     n.mantissa = 0x7FFFFFFF;
     n.exponent = 0;
@@ -447,11 +451,13 @@ void gsb_real_cunit__gsb_real_raw_format_string ( void )
     CU_ASSERT_STRING_EQUAL("<->21< >474< >836<.>47<¤>", s);
     g_free(s);
 
+    /* TODO do this test for gsb_real_format_string instead
     n.mantissa = 0x80000000;
     n.exponent = 2;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
     CU_ASSERT_STRING_EQUAL("###ERR###", s);
     g_free(s);
+    */
 
     n.mantissa = 2100000000;
     n.exponent = 2;
@@ -635,7 +641,9 @@ void gsb_real_cunit__gsb_real_mul()
     b.mantissa = 9;
     b.exponent = 1;
     r = gsb_real_mul ( a, b );
-    CU_ASSERT_EQUAL ( 0x80000000, r.mantissa );
+    // lose of precision
+    //CU_ASSERT_EQUAL ( 0x80000000, r.mantissa );
+    CU_ASSERT_EQUAL ( 1932735282, r.mantissa );
     CU_ASSERT_EQUAL ( 0, r.exponent );
     
     a.mantissa = 0x80000001;
