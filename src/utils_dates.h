@@ -21,5 +21,6 @@ gchar *gsb_format_gdate_safe ( const GDate *date );
 GDate *gsb_parse_date_string ( const gchar *date_string );
 GDate *gsb_parse_date_string_safe ( const gchar *date_string );
 GDate *gsb_date_get_last_day_of_month ( const GDate *date );
+GDate *gsb_date_tomorrow ( void );
 /* END_DECLARATION */
 #endif

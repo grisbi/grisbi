@@ -1500,7 +1500,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
     GtkWidget *widget;
     gint account_number;
     gint transaction_number;
-    gint payement_number;
+    gint payment_number;
 
     /* still not found, if change the content of the form, something come in entry
      * wich is nothing, so protect here */
@@ -1604,15 +1604,15 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                     if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_DEBIT )
                     {
                     if ( transaction_number == -1 )
-                        payement_number =  gsb_form_widget_get_old_credit_payement ( );
+                        payment_number =  gsb_form_widget_get_old_credit_payment ( );
                     else
-                        payement_number = gsb_data_transaction_get_method_of_payment_number (
+                        payment_number = gsb_data_transaction_get_method_of_payment_number (
                         transaction_number );
 
                     gsb_payment_method_create_combo_list ( widget,
                                             GSB_PAYMENT_CREDIT,
                                             account_number, 0 );
-                    gsb_payment_method_set_payment_position ( widget, payement_number );
+                    gsb_payment_method_set_payment_position ( widget, payment_number );
 
                     /* if there is no payment method, the last function hide it, but we have
                      * to hide the cheque element too */
@@ -1694,15 +1694,15 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                     if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_CREDIT )
                     {
                     if ( transaction_number == -1 )
-                        payement_number =  gsb_form_widget_get_old_debit_payement ( );
+                        payment_number =  gsb_form_widget_get_old_debit_payment ( );
                     else
-                        payement_number = gsb_data_transaction_get_method_of_payment_number (
+                        payment_number = gsb_data_transaction_get_method_of_payment_number (
                         transaction_number );
 
                     gsb_payment_method_create_combo_list ( widget,
                                             GSB_PAYMENT_DEBIT,
                                             account_number, 0 );
-                    gsb_payment_method_set_payment_position ( widget, payement_number );
+                    gsb_payment_method_set_payment_position ( widget, payment_number );
                     
                     /* if there is no payment method, the last function hide it, but we have
                      * to hide the cheque element too */
@@ -2181,8 +2181,12 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    }
 	    else
 	    {
-		gsb_form_finish_edition();
-		return TRUE;
+            widget_prov = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+            
+            gsb_form_transaction_complete_form_by_payee ( gtk_combofix_get_text (
+                        GTK_COMBOFIX ( widget_prov ) ) ); 
+            gsb_form_finish_edition();
+            return TRUE;
 	    }
 	    break;
 
@@ -2709,10 +2713,31 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 	return (FALSE);
     }
 
+    /* check if it's a daughter split */
+    mother_number = gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction);
+
+    /* check if debit or credit is > 0 */
+    widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_DEBIT );
+
+    if ( widget && mother_number )
+    {
+	    if ( gsb_form_widget_check_empty ( widget ) == TRUE
+         ||
+         utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) ) == 0 )
+        {
+            widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
+
+            if ( gsb_form_widget_check_empty ( widget ) == TRUE
+             ||
+             utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) ) == 0 )
+                dialogue_error ( _("You must enter an amount.") );
+
+            return (FALSE);
+        }
+    }
+    
     /* now work with the categories */
     widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
-
-    mother_number = gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction);
 
     /* check if it's a daughter split that the category is not a split of transaction */
     if ( widget
@@ -2724,7 +2749,8 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 	 !strcmp ( gtk_combofix_get_text (GTK_COMBOFIX (widget)),
 		   _("Split of transaction")))
     {
-	dialogue_error ( _("You cannot set split of transaction in category for a daughter of a split of transaction.") );
+	dialogue_error ( _("You cannot set split of transaction in category for a daughter "
+                        "of a split of transaction.") );
 	return (FALSE);
     }
 

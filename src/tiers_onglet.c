@@ -1002,8 +1002,8 @@ static GtkWidget *gsb_assistant_payees_page_2 ( GtkWidget *assistant )
                         etat.combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (entry),
                         etat.combofix_case_sensitive );
-    gtk_combofix_set_enter_function ( GTK_COMBOFIX (entry),
-					      FALSE );
+    //~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (entry),
+					      //~ FALSE );
     gtk_box_pack_start ( GTK_BOX(paddingbox), entry, FALSE, FALSE, 6 );
     g_object_set_data ( G_OBJECT (assistant), "payee", entry );
     paddingbox = new_paddingbox_with_title ( page, TRUE, _("Enter the new payee"));

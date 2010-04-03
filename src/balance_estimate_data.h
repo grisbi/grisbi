@@ -67,10 +67,12 @@ struct _future_data
 
 
 /* START_DECLARATION */
+GDate *bet_data_array_get_date_max ( gint account_number );
 GHashTable *bet_data_future_get_list ( void );
 gboolean bet_data_future_add_lines ( struct_futur_data *sfd );
 GDate *bet_data_futur_get_next_date ( struct_futur_data *scheduled,
 				     const GDate *date );
+gboolean bet_data_future_modify_lines ( struct_futur_data *scheduled );
 gboolean bet_data_future_remove_line ( gint account_number, gint number );
 gboolean bet_data_future_remove_lines ( gint account_number,
                         gint number,

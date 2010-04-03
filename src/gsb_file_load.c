@@ -967,11 +967,11 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         etat.combofix_case_sensitive = utils_str_atoi( attribute_values[i]);
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Combofix_enter_select_completion" ))
-    {
-        etat.combofix_enter_select_completion = utils_str_atoi( attribute_values[i]);
-    }
+    //~ else if ( !strcmp ( attribute_names[i],
+                        //~ "Combofix_enter_select_completion" ))
+    //~ {
+        //~ etat.combofix_enter_select_completion = utils_str_atoi( attribute_values[i]);
+    //~ }
 
     else if ( !strcmp ( attribute_names[i],
                         "Combofix_force_payee" ))

@@ -128,6 +128,26 @@ GDate *gdate_today ( void )
 
 
 /**
+ * return the tomorrow date in the gdate format
+ *
+ * \param
+ *
+ * \return a newly allocated GDate which represents the date of the day. Use g_date_free to free memory when no more used.
+ * */
+GDate *gsb_date_tomorrow ( void )
+{
+    GDate *date;
+
+    date = g_date_new ( );
+    g_date_set_time_t (  date, time ( NULL ) );
+    g_date_add_days ( date, 1);
+
+    return ( date );
+}
+
+
+
+/**
  * copy the date given in param
  * 
  * \param date a GDate to copy

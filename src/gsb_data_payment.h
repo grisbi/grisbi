@@ -31,6 +31,8 @@ gchar *gsb_data_payment_incremente_last_number ( gint payment_number,
 gboolean gsb_data_payment_init_variables ( void );
 gint gsb_data_payment_new ( const gchar *name );
 gboolean gsb_data_payment_remove ( gint payment_number );
+gint gsb_data_payment_search_number_other_account_by_name ( gint payment_number,
+                                gint account_number );
 gboolean gsb_data_payment_set_account_number ( gint payment_number,
 					       gint account_number );
 gboolean gsb_data_payment_set_automatic_numbering ( gint payment_number,

@@ -86,14 +86,16 @@ static gboolean bet_form_scheduler_frequency_button_changed ( GtkWidget *combo_b
 						       gpointer null );
 static GtkWidget *bet_form_scheduler_get_element_widget ( gint element_number );
 static GtkWidget *bet_form_widget_get_widget ( gint element_number );
+static gboolean bet_future_create_dialog ( void );
 static gboolean bet_future_get_budget_data ( GtkWidget *widget,
                         gint budget_type,
                         struct_futur_data *scheduled );
 static gboolean bet_future_get_category_data ( GtkWidget *widget,
                         gint budget_type,
                         struct_futur_data *scheduled );
-static gboolean bet_future_take_data_from_form ( GtkWidget *dialog,
-                        struct_futur_data *scheduled );
+static gboolean bet_future_set_form_data_from_line ( gint account_number,
+                        gint number  );
+static gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -129,14 +131,93 @@ gboolean bet_future_new_line_dialog ( GtkTreeModel *tab_model,
                         gchar *str_date )
 {
     GtkWidget *widget;
-    GtkWidget *vbox;
-    GtkWidget *table;
     gchar *tmp_str;
     GDate *date;
+    GDate *date_jour;
     gint result;
 
     if ( bet_dialog == NULL )
     {
+        bet_future_create_dialog ( );
+    }
+    else
+    {
+        bet_form_clean ( gsb_gui_navigation_get_current_account ( ) );
+        gtk_widget_show ( bet_dialog );
+    }
+
+    /* init data */
+    widget = bet_form_widget_get_widget ( TRANSACTION_FORM_DATE );
+    date = gsb_parse_date_string ( str_date );
+    date_jour = gdate_today ( ); 
+        
+    if ( g_date_valid ( date ) )
+    {
+        if ( g_date_compare ( date_jour, date ) >= 0 )
+        {
+            g_date_free ( date );
+            g_date_add_days ( date_jour, 1 );
+            date = date_jour;
+        }
+    }
+    else
+    {
+        g_date_add_days ( date_jour, 1 );
+        date = date_jour;
+    }
+
+    gsb_form_widget_set_empty ( widget, FALSE );
+    gsb_calendar_entry_set_date ( widget, date );
+
+    gtk_dialog_set_response_sensitive ( GTK_DIALOG ( bet_dialog ), GTK_RESPONSE_OK, FALSE );
+
+dialog_return:
+	result = gtk_dialog_run ( GTK_DIALOG ( bet_dialog ));
+
+    if ( result == GTK_RESPONSE_OK )
+    {
+        struct_futur_data *scheduled;
+
+        scheduled = struct_initialise_bet_future ( );
+
+        if ( !scheduled )
+        {
+            dialogue_error_memory ();
+            gtk_widget_hide ( bet_dialog );
+            return FALSE;
+        }
+
+        if ( bet_future_take_data_from_form ( scheduled ) == FALSE )
+        {
+            tmp_str = g_strdup ( _("Error: the frequency defined by the user or the amount is "
+                                 "not specified or the date is invalid.") );
+            dialogue_warning_hint ( tmp_str, _("One field is not filled in") );
+            g_free ( tmp_str );
+            goto dialog_return;
+        }
+        else
+            bet_data_future_add_lines ( scheduled );
+
+        bet_array_refresh_estimate_tab ( );
+    }
+
+    gtk_widget_hide ( bet_dialog );
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_future_create_dialog ( void )
+{
+    GtkWidget *vbox;
+    GtkWidget *table;
+
     /* Create the dialog */
     bet_dialog = gtk_dialog_new_with_buttons ( _("Enter a budget line"),
 					   GTK_WINDOW ( window ),
@@ -163,56 +244,9 @@ gboolean bet_future_new_line_dialog ( GtkTreeModel *tab_model,
     bet_form_create_current_form ( table );
 
 	gtk_widget_show ( vbox );
-    }
-    else
-    {
-        bet_form_clean ( gsb_gui_navigation_get_current_account ( ) );
-        gtk_widget_show ( bet_dialog );
-    }
-
-    /* init data */
-    
-    widget = bet_form_widget_get_widget ( TRANSACTION_FORM_DATE );
-    date = gsb_parse_date_string ( str_date );
-    if ( g_date_valid ( date ) )
-    {
-        gsb_form_widget_set_empty ( widget, FALSE );
-        gsb_calendar_entry_set_date ( widget, date );
-    }
-
-    gtk_dialog_set_response_sensitive ( GTK_DIALOG ( bet_dialog ), GTK_RESPONSE_OK, FALSE );
-
-dialog_return:
-	result = gtk_dialog_run ( GTK_DIALOG ( bet_dialog ));
-
-    if ( result == GTK_RESPONSE_OK )
-    {
-        struct_futur_data *scheduled;
-
-        scheduled = struct_initialise_bet_future ( );
-
-        if ( !scheduled )
-        {
-            dialogue_error_memory ();
-            gtk_widget_hide ( bet_dialog );
-            return FALSE;
-        }
-
-        if ( bet_future_take_data_from_form ( bet_dialog, scheduled ) == FALSE )
-        {
-            tmp_str = g_strdup ( _("Error: the frequency defined by the user or the amount is "
-                                 "not specified or the date is invalid.") );
-            dialogue_warning_hint ( tmp_str, _("One field is not filled in") );
-            g_free ( tmp_str );
-            goto dialog_return;
-        }
-        bet_array_refresh_estimate_tab ( );
-    }
-
-    gtk_widget_hide ( bet_dialog );
 
     return FALSE;
-}
+ }
 
 
 /**
@@ -389,8 +423,8 @@ gboolean bet_form_create_current_form ( GtkWidget *table )
 					 etat.combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
 					      etat.combofix_case_sensitive );
-    gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
-					      etat.combofix_enter_select_completion );
+    //~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
+					      //~ etat.combofix_enter_select_completion );
     /* we never mix the payee because the only case of the complex combofix is
      * for the report and there is non sense to mix report with the payee */
     gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
@@ -475,7 +509,7 @@ gboolean bet_form_create_current_form ( GtkWidget *table )
 
     element_number = TRANSACTION_FORM_CATEGORY;
     widget = gtk_combofix_new_complex (
-                         gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, TRUE ) );
+                         gsb_data_category_get_name_list ( TRUE, TRUE, FALSE, FALSE ) );
     gtk_widget_set_size_request ( widget, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
 					  etat.combofix_force_category );
@@ -483,8 +517,8 @@ gboolean bet_form_create_current_form ( GtkWidget *table )
 					 etat.combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
 					      etat.combofix_case_sensitive );
-    gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
-					      etat.combofix_enter_select_completion );
+    //~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
+					      //~ etat.combofix_enter_select_completion );
     gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
 					  etat.combofix_mixed_sort );
     gtk_widget_show ( widget );
@@ -535,8 +569,8 @@ gboolean bet_form_create_current_form ( GtkWidget *table )
 					 etat.combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
 					      etat.combofix_case_sensitive );
-    gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
-					      etat.combofix_enter_select_completion );
+    //~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
+					      //~ etat.combofix_enter_select_completion );
     gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
 					  etat.combofix_mixed_sort );
     gtk_widget_show ( widget );
@@ -646,6 +680,22 @@ gboolean bet_form_clean ( gint account_number )
 {
     GSList *tmp_list;
 
+    /* clean the scheduled widget */
+    tmp_list = bet_schedul_element_list;
+
+    while (tmp_list)
+    {
+        struct_element *element;
+
+        element = tmp_list -> data;
+
+        /* better to protect here if widget != NULL (bad experience...) */
+        if (element -> element_widget)
+            gtk_widget_set_sensitive ( element -> element_widget, TRUE );
+
+        tmp_list = tmp_list -> next;
+    }
+    
     /* clean the transactions widget */
     tmp_list = bet_form_list_widgets;
 
@@ -1215,13 +1265,131 @@ gboolean bet_form_button_press_event ( GtkWidget *entry,
 
 
 /**
+ * initialise les données du formulaire
+ *
+ *
+ *
+ * */
+gboolean bet_future_set_form_data_from_line ( gint account_number,
+                        gint number  )
+{
+    GtkWidget *widget;
+    GHashTable *future_list;
+    gchar *key;
+    struct_futur_data *scheduled;
+
+    if ( account_number == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( account_number ), ":",
+                        utils_str_itoa ( number ), NULL );
+
+    future_list = bet_data_future_get_list ( );
+
+    scheduled = g_hash_table_lookup ( future_list, key );
+    if ( scheduled == NULL )
+        return FALSE;
+
+    /* On traite les données de la planification */
+    widget = bet_form_scheduler_get_element_widget ( SCHEDULED_FORM_FREQUENCY_BUTTON );
+    gsb_combo_box_set_index ( widget, scheduled -> frequency );
+    gtk_widget_set_sensitive ( widget, FALSE );
+
+    if ( scheduled -> frequency > 0 )
+    {
+        if ( scheduled -> limit_date && g_date_valid ( scheduled -> limit_date ) )
+        {
+            widget = bet_form_scheduler_get_element_widget ( SCHEDULED_FORM_LIMIT_DATE );
+            gsb_form_widget_set_empty ( widget, FALSE );
+            gsb_calendar_entry_set_date ( widget, scheduled -> limit_date );
+            gtk_widget_set_sensitive ( widget, FALSE );
+        }
+
+        if ( scheduled -> user_entry > 0 )
+        {
+            widget = bet_form_scheduler_get_element_widget (
+                        SCHEDULED_FORM_FREQUENCY_USER_ENTRY );
+            gsb_form_widget_set_empty ( widget, FALSE );
+            gtk_entry_set_text ( GTK_ENTRY ( widget ),
+                        utils_str_itoa ( scheduled -> user_entry ) );
+            gtk_widget_set_sensitive ( widget, FALSE );
+
+            widget = bet_form_scheduler_get_element_widget (
+                    SCHEDULED_FORM_FREQUENCY_USER_BUTTON );
+            gsb_combo_box_set_index ( widget, scheduled -> user_interval );
+            gtk_widget_set_sensitive ( widget, FALSE );
+        }
+    }
+
+    /* On traite les données de transaction */
+    widget = bet_form_widget_get_widget ( TRANSACTION_FORM_DATE );
+    gsb_calendar_entry_set_date ( widget, scheduled -> date );
+    gsb_form_widget_set_empty ( widget, FALSE );
+
+    if ( scheduled -> fyear_number > 0 )
+    {
+        widget = bet_form_widget_get_widget ( TRANSACTION_FORM_EXERCICE );
+        gsb_fyear_set_combobox_history ( widget, scheduled -> fyear_number );
+    }
+
+    widget = bet_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+    gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
+    gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
+                        gsb_data_payee_get_name ( scheduled -> party_number, FALSE ) );
+    gtk_editable_set_position ( GTK_EDITABLE ( GTK_COMBOFIX ( widget ) -> entry ), 0 );
+    
+    if ( scheduled -> amount.mantissa < 0 )
+    {
+        widget = bet_form_widget_get_widget ( TRANSACTION_FORM_DEBIT );
+        gtk_entry_set_text ( GTK_ENTRY ( widget ), gsb_real_get_string (
+                        gsb_real_opposite ( scheduled -> amount ) ) );
+    }
+    else
+    {
+        widget = bet_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
+        gtk_entry_set_text ( GTK_ENTRY ( widget ), gsb_real_get_string ( scheduled -> amount ) );
+    }
+    gsb_form_widget_set_empty ( widget, FALSE );
+
+    widget = bet_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
+    gsb_payment_method_set_combobox_history ( widget, scheduled -> payment_number );
+
+    if ( scheduled -> category_number > 0 )
+    {
+        widget = bet_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
+        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
+        gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
+                        gsb_data_category_get_name ( scheduled -> category_number,
+                        scheduled -> sub_category_number, NULL) );
+    }
+
+    if ( scheduled -> budgetary_number > 0 )
+    {
+        widget = bet_form_widget_get_widget ( TRANSACTION_FORM_BUDGET );
+        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
+        gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
+                        gsb_data_budget_get_name (  scheduled -> budgetary_number,
+                        scheduled -> sub_budgetary_number, NULL ) );
+    }
+    
+    if ( scheduled -> notes && strlen ( scheduled -> notes ) > 0 )
+    {
+        widget = bet_form_widget_get_widget ( TRANSACTION_FORM_NOTES );
+        gsb_form_widget_set_empty ( widget, FALSE );
+        gtk_entry_set_text ( GTK_ENTRY ( widget ), scheduled -> notes );
+    }
+    
+    return TRUE;
+}
+
+
+/**
  * récupère les données du formulaire
  *
  *
  *
  * */
-gboolean bet_future_take_data_from_form ( GtkWidget *dialog,
-                        struct_futur_data *scheduled )
+gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled )
 {
     GtkWidget *widget;
     gint budget_type;
@@ -1272,14 +1440,18 @@ gboolean bet_future_take_data_from_form ( GtkWidget *dialog,
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_DATE );
     if ( gsb_form_widget_check_empty( widget ) == FALSE )
     {
-        GDate *date_jour;
+        GDate *date_tomorrow;
 
-        date_jour = gdate_today ( ); 
+        date_tomorrow = gsb_date_tomorrow ( );
         scheduled -> date = gsb_calendar_entry_get_date ( widget );
         if ( scheduled -> date == NULL
          || 
-         g_date_compare ( date_jour, scheduled -> date ) > 0 )
+         g_date_compare ( scheduled -> date, date_tomorrow ) < 0 )
+        {
+            g_date_free ( date_tomorrow );
             return FALSE;
+        }
+        g_date_free ( date_tomorrow );
     }
     else
         return FALSE;
@@ -1349,8 +1521,6 @@ gboolean bet_future_take_data_from_form ( GtkWidget *dialog,
         scheduled -> notes = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
     else
         scheduled -> notes = NULL;
-
-    bet_data_future_add_lines ( scheduled );
     
     return TRUE;
 }
@@ -1433,6 +1603,64 @@ gboolean bet_future_get_category_data ( GtkWidget *widget,
  *
  *
  * */
+gboolean bet_future_modify_line ( gint account_number,
+                        gint number,
+                        gint mother_row )
+{
+    gchar *tmp_str;
+    gint result;
+
+    if ( bet_dialog == NULL )
+    {
+        bet_future_create_dialog ( );
+    }
+    else
+    {
+        bet_form_clean ( gsb_gui_navigation_get_current_account ( ) );
+        gtk_widget_show ( bet_dialog );
+    }
+
+     /* init data */
+    bet_future_set_form_data_from_line ( account_number, number  );
+
+dialog_return:
+	result = gtk_dialog_run ( GTK_DIALOG ( bet_dialog ));
+
+    if ( result == GTK_RESPONSE_OK )
+    {
+        struct_futur_data *scheduled;
+
+        scheduled = struct_initialise_bet_future ( );
+
+        if ( !scheduled )
+        {
+            dialogue_error_memory ();
+            gtk_widget_hide ( bet_dialog );
+            return FALSE;
+        }
+
+        if ( bet_future_take_data_from_form ( scheduled ) == FALSE )
+        {
+            tmp_str = g_strdup ( _("Error: the frequency defined by the user or the amount is "
+                                 "not specified or the date is invalid.") );
+            dialogue_warning_hint ( tmp_str, _("One field is not filled in") );
+            g_free ( tmp_str );
+            goto dialog_return;
+        }
+        else
+        {
+            scheduled -> number = number;
+            scheduled -> mother_row = mother_row;
+            bet_data_future_modify_lines ( scheduled );
+        }
+
+        bet_array_refresh_estimate_tab ( );
+    }
+
+    gtk_widget_hide ( bet_dialog );
+
+    return FALSE;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

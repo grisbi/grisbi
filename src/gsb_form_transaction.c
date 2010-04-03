@@ -103,14 +103,18 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
              &&
              element -> element_number != TRANSACTION_FORM_PARTY
              &&
-              ((GTK_IS_ENTRY (element -> element_widget)
+             element -> element_number != TRANSACTION_FORM_CHEQUE
+             &&
+              ( ( GTK_IS_ENTRY ( element -> element_widget )
                 &&
-                !gsb_form_widget_check_empty(element -> element_widget))
+                !gsb_form_widget_check_empty ( element -> element_widget ) )
                ||
                (GTK_IS_COMBOFIX (element -> element_widget)
                 &&
-                !gsb_form_widget_check_empty(GTK_COMBOFIX (element -> element_widget) -> entry))))
+                !gsb_form_widget_check_empty ( GTK_COMBOFIX (
+                element -> element_widget ) -> entry ) ) ) )
             return TRUE;
+
         tmp_list = tmp_list -> next;
     }
 
@@ -192,7 +196,14 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
 
         if ( GTK_WIDGET_VISIBLE (widget))
         {
+            gint tmp_account;
+
             number = gsb_data_mix_get_method_of_payment_number (transaction_number, TRUE);
+            tmp_account = gsb_data_transaction_get_account_number ( transaction_number );
+
+            if ( account_number != tmp_account )
+                number = gsb_data_payment_search_number_other_account_by_name ( number,
+                                account_number );
 
             /* we show the cheque entry only for transactions */
             if (gsb_payment_method_set_combobox_history ( widget, number )

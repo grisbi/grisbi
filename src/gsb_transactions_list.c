@@ -405,8 +405,13 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 					     alignment[i] );
 
 	/* automatic and resizeable sizing */
-	gtk_tree_view_column_set_sizing ( transactions_tree_view_columns[i],
+    if ( i == column_balance )
+        gtk_tree_view_column_set_sizing ( transactions_tree_view_columns[i],
+					    GTK_TREE_VIEW_COLUMN_AUTOSIZE );
+    else
+	    gtk_tree_view_column_set_sizing ( transactions_tree_view_columns[i],
 					    GTK_TREE_VIEW_COLUMN_FIXED );
+
 	gtk_tree_view_column_set_resizable ( transactions_tree_view_columns[i],
 					    TRUE );
     }

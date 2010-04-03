@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-28 11:53+0200\n"
+"POT-Creation-Date: 2010-04-03 20:41+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -189,7 +189,7 @@ msgstr "Verplaats de transactie naar een andere rekening"
 #: src/gsb_bank.c:855 src/gsb_currency_config.c:353
 #: src/gsb_data_partial_balance.c:1532 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:241
-#: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1764
+#: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1769
 #: src/imputation_budgetaire.c:699 src/tiers_onglet.c:625
 msgid "Name"
 msgstr "Naam"
@@ -597,7 +597,7 @@ msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
 
 #. partie mensuelle
-#: src/balance_estimate_config.c:253 src/balance_estimate_tab.c:482
+#: src/balance_estimate_config.c:253 src/balance_estimate_tab.c:474
 #, fuzzy
 msgid "Duration estimation"
 msgstr "Transactie lijst lettertype"
@@ -640,124 +640,125 @@ msgstr "Kies een financieel jaar"
 msgid "Category"
 msgstr "Categorie"
 
-#: src/balance_estimate_config.c:510 src/balance_estimate_future.c:718
+#: src/balance_estimate_config.c:510 src/balance_estimate_future.c:752
 #: src/etats_affiche.c:2440 src/etats_config.c:677 src/gsb_form.c:1342
 #: src/gsb_form_widget.c:454 src/gsb_transactions_list.c:148
 #: src/imputation_budgetaire.c:155 src/meta_budgetary.c:62
 msgid "Budgetary line"
 msgstr "Budgetregel"
 
-#. Create the dialog
-#: src/balance_estimate_future.c:141
-#, fuzzy
-msgid "Enter a budget line"
-msgstr "Voeg een budgetregel toe"
-
-#: src/balance_estimate_future.c:203
+#: src/balance_estimate_future.c:192 src/balance_estimate_future.c:1628
 msgid ""
 "Error: the frequency defined by the user or the amount is not specified or "
 "the date is invalid."
 msgstr ""
 
-#: src/balance_estimate_future.c:205 src/gsb_currency.c:720
+#: src/balance_estimate_future.c:194 src/balance_estimate_future.c:1630
+#: src/gsb_currency.c:720
 #, fuzzy
 msgid "One field is not filled in"
 msgstr "Nog niet alle velden zijn ingevuld!"
 
-#: src/balance_estimate_future.c:242 src/balance_estimate_future.c:757
+#. Create the dialog
+#: src/balance_estimate_future.c:222
+#, fuzzy
+msgid "Enter a budget line"
+msgstr "Voeg een budgetregel toe"
+
+#: src/balance_estimate_future.c:276 src/balance_estimate_future.c:791
 #: src/gsb_form_scheduler.c:152 src/gsb_form_scheduler.c:875
 #: src/gsb_scheduler_list.c:998
 msgid "Once"
 msgstr "Een keer"
 
-#: src/balance_estimate_future.c:242 src/gsb_form_scheduler.c:152
+#: src/balance_estimate_future.c:276 src/gsb_form_scheduler.c:152
 #: src/gsb_scheduler_list.c:998
 msgid "Weekly"
 msgstr "Wekelijks"
 
-#: src/balance_estimate_future.c:242 src/gsb_form_scheduler.c:152
+#: src/balance_estimate_future.c:276 src/gsb_form_scheduler.c:152
 msgid "Monthly"
 msgstr "Maandelijks"
 
-#: src/balance_estimate_future.c:242 src/gsb_form_scheduler.c:152
+#: src/balance_estimate_future.c:276 src/gsb_form_scheduler.c:152
 #: src/gsb_scheduler_list.c:999
 #, fuzzy
 msgid "Bimonthly"
 msgstr "Maandelijks"
 
-#: src/balance_estimate_future.c:243 src/gsb_form_scheduler.c:153
+#: src/balance_estimate_future.c:277 src/gsb_form_scheduler.c:153
 #: src/gsb_scheduler_list.c:999
 msgid "Quarterly"
 msgstr ""
 
-#: src/balance_estimate_future.c:243 src/gsb_form_scheduler.c:153
+#: src/balance_estimate_future.c:277 src/gsb_form_scheduler.c:153
 #: src/gsb_scheduler_list.c:999
 msgid "Yearly"
 msgstr "Jaarlijks"
 
-#: src/balance_estimate_future.c:243 src/balance_estimate_future.c:771
+#: src/balance_estimate_future.c:277 src/balance_estimate_future.c:805
 #: src/etats_config.c:179 src/gsb_form_scheduler.c:153
 #: src/gsb_form_scheduler.c:885
 msgid "Custom"
 msgstr "Anders"
 
-#: src/balance_estimate_future.c:244 src/gsb_form_scheduler.c:154
+#: src/balance_estimate_future.c:278 src/gsb_form_scheduler.c:154
 msgid "Days"
 msgstr "Dagen"
 
-#: src/balance_estimate_future.c:244 src/gsb_form_scheduler.c:154
+#: src/balance_estimate_future.c:278 src/gsb_form_scheduler.c:154
 #, fuzzy
 msgid "Weeks"
 msgstr "Week"
 
-#: src/balance_estimate_future.c:244 src/gsb_form_scheduler.c:154
+#: src/balance_estimate_future.c:278 src/gsb_form_scheduler.c:154
 msgid "Months"
 msgstr "Maanden"
 
-#: src/balance_estimate_future.c:244 src/gsb_form_scheduler.c:154
+#: src/balance_estimate_future.c:278 src/gsb_form_scheduler.c:154
 msgid "Years"
 msgstr "Jaren"
 
-#: src/balance_estimate_future.c:257 src/gsb_form_scheduler.c:175
+#: src/balance_estimate_future.c:291 src/gsb_form_scheduler.c:175
 #: src/gsb_form_scheduler.c:192 src/gsb_scheduler_list.c:339
 msgid "Frequency"
 msgstr "Regelmaat"
 
-#: src/balance_estimate_future.c:265 src/gsb_form_scheduler.c:641
+#: src/balance_estimate_future.c:299 src/gsb_form_scheduler.c:641
 #: src/gsb_form_scheduler.c:834 src/gsb_form_scheduler.c:1096
 msgid "Limit date"
 msgstr "Tot datum"
 
 #. set the final date
-#: src/balance_estimate_future.c:278 src/etats_config.c:2329
+#: src/balance_estimate_future.c:312 src/etats_config.c:2329
 #: src/gsb_archive_config.c:98 src/gsb_assistant_archive.c:242
 #: src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:422
 #: src/gsb_assistant_reconcile_config.c:1227 src/gsb_reconcile_config.c:96
-#: src/gsb_reconcile_config.c:208 src/gsb_transactions_list.c:1764
+#: src/gsb_reconcile_config.c:208 src/gsb_transactions_list.c:1769
 msgid "Final date"
 msgstr "Eind datum"
 
-#: src/balance_estimate_future.c:285 src/gsb_form_scheduler.c:205
+#: src/balance_estimate_future.c:319 src/gsb_form_scheduler.c:205
 #: src/gsb_form_scheduler.c:648 src/gsb_form_scheduler.c:840
 #, fuzzy
 msgid "Own frequency"
 msgstr "Regelmaat"
 
-#: src/balance_estimate_future.c:295 src/balance_estimate_future.c:301
+#: src/balance_estimate_future.c:329 src/balance_estimate_future.c:335
 #: src/gsb_form_scheduler.c:211
 msgid "Custom frequency"
 msgstr "Andere regelmaat"
 
-#: src/balance_estimate_future.c:461 src/gsb_form_widget.c:210
+#: src/balance_estimate_future.c:495 src/gsb_form_widget.c:210
 msgid "Choose the financial year"
 msgstr "Kies een financieel jaar"
 
-#: src/balance_estimate_future.c:511 src/gsb_form_widget.c:271
+#: src/balance_estimate_future.c:545 src/gsb_form_widget.c:271
 msgid "Choose the method of payment"
 msgstr "Kies een betalingsmethode"
 
-#: src/balance_estimate_future.c:672 src/balance_estimate_tab.c:586
+#: src/balance_estimate_future.c:706 src/balance_estimate_tab.c:576
 #: src/etats_affiche.c:2405 src/export_csv.c:760
 #: src/gsb_assistant_reconcile_config.c:594 src/gsb_form.c:1284
 #: src/gsb_form_widget.c:422 src/gsb_reconcile.c:148
@@ -767,7 +768,7 @@ msgid "Date"
 msgstr "Datum"
 
 #. mise en place de la paddingbox des tiers
-#: src/balance_estimate_future.c:690 src/etats_affiche.c:2426
+#: src/balance_estimate_future.c:724 src/etats_affiche.c:2426
 #: src/etats_config.c:517 src/etats_config.c:520 src/etats_config.c:685
 #: src/etats_config.c:7022 src/export_csv.c:775 src/fenetre_principale.c:269
 #: src/gsb_assistant_reconcile_config.c:594 src/gsb_form.c:1311
@@ -779,7 +780,7 @@ msgid "Payee"
 msgstr "Betaler/begunstigde"
 
 #. Debit method_ptr
-#: src/balance_estimate_future.c:697 src/balance_estimate_tab.c:614
+#: src/balance_estimate_future.c:731 src/balance_estimate_tab.c:602
 #: src/categories_onglet.c:696 src/export_csv.c:781 src/gsb_form.c:1318
 #: src/gsb_form_widget.c:426 src/gsb_payment_method_config.c:318
 #: src/gsb_payment_method_config.c:389 src/gsb_payment_method_config.c:1084
@@ -789,7 +790,7 @@ msgid "Debit"
 msgstr "Debet(af)"
 
 #. Credit method_ptr
-#: src/balance_estimate_future.c:704 src/balance_estimate_tab.c:630
+#: src/balance_estimate_future.c:738 src/balance_estimate_tab.c:617
 #: src/categories_onglet.c:696 src/export_csv.c:778 src/gsb_form.c:1325
 #: src/gsb_form_widget.c:430 src/gsb_payment_method_config.c:325
 #: src/gsb_payment_method_config.c:402 src/gsb_payment_method_config.c:1080
@@ -798,13 +799,13 @@ msgstr "Debet(af)"
 msgid "Credit"
 msgstr "Credit(bij)"
 
-#: src/balance_estimate_future.c:711 src/gsb_form.c:1332
+#: src/balance_estimate_future.c:745 src/gsb_form.c:1332
 #: src/gsb_form_widget.c:446
 msgid "Categories : Sub-categories"
 msgstr "Categorieën : Sub-categorieën"
 
 #. Notes
-#: src/balance_estimate_future.c:725 src/etats_affiche.c:2447
+#: src/balance_estimate_future.c:759 src/etats_affiche.c:2447
 #: src/export_csv.c:796 src/gsb_bank.c:915 src/gsb_form.c:1349
 #: src/gsb_form_widget.c:458 src/gsb_transactions_list.c:159
 #: src/import_csv.c:82 src/traitement_variables.c:91
@@ -859,92 +860,97 @@ msgstr "dagen rond de datum van het importeren."
 msgid "Copy the average amount"
 msgstr ""
 
-#: src/balance_estimate_tab.c:364
+#: src/balance_estimate_tab.c:357
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
-#: src/balance_estimate_tab.c:373
+#: src/balance_estimate_tab.c:366
 #, fuzzy, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr "Gebruik de gekozen transactie als sjabloon"
 
-#: src/balance_estimate_tab.c:384
+#: src/balance_estimate_tab.c:377
 msgid "balance beginning of period"
 msgstr ""
 
-#: src/balance_estimate_tab.c:525
+#: src/balance_estimate_tab.c:515
 #, fuzzy
 msgid "Start date"
 msgstr "Start"
 
 #. Description entry
-#: src/balance_estimate_tab.c:601 src/etats_onglet.c:261
+#: src/balance_estimate_tab.c:590 src/etats_onglet.c:261
 #: src/tiers_onglet.c:638
 msgid "Description"
 msgstr "Omschrijving"
 
-#: src/balance_estimate_tab.c:645 src/export_csv.c:787 src/gsb_reconcile.c:151
+#: src/balance_estimate_tab.c:631 src/export_csv.c:787 src/gsb_reconcile.c:151
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:151
-#: src/gsb_transactions_list.c:2950 src/import_csv.c:88
+#: src/gsb_transactions_list.c:2955 src/import_csv.c:88
 #: src/traitement_variables.c:83
 msgid "Balance"
 msgstr "Saldo"
 
-#: src/balance_estimate_tab.c:729 src/balance_estimate_tab.c:739
-#: src/balance_estimate_tab.c:928
+#: src/balance_estimate_tab.c:718 src/balance_estimate_tab.c:728
+#: src/balance_estimate_tab.c:917
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Overschrijving naar een verwijderde rekening"
 
-#: src/balance_estimate_tab.c:1214
+#: src/balance_estimate_tab.c:1225
 msgid "Subtract to the balance"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1221
+#: src/balance_estimate_tab.c:1232
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Begin saldo"
 
-#: src/balance_estimate_tab.c:1239
+#: src/balance_estimate_tab.c:1248
 msgid "Insert Row"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1257 src/balance_estimate_tab.c:1269
-#: src/balance_estimate_tab.c:1280
+#: src/balance_estimate_tab.c:1265 src/balance_estimate_tab.c:1277
+#: src/balance_estimate_tab.c:1298
 #, fuzzy
 msgid "Delete selection"
 msgstr "Selecteer data"
 
-#: src/balance_estimate_tab.c:1291
+#: src/balance_estimate_tab.c:1288
+#, fuzzy
+msgid "Change selection"
+msgstr "Selecteer data"
+
+#: src/balance_estimate_tab.c:1309
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "Verwijder geplande transactie"
 
 #. redo item
-#: src/balance_estimate_tab.c:1308
+#: src/balance_estimate_tab.c:1326
 #, fuzzy
 msgid "Reset data"
 msgstr "Laatste datum"
 
-#: src/balance_estimate_tab.c:1506
+#: src/balance_estimate_tab.c:1586
 msgid " (still available)"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1514
+#: src/balance_estimate_tab.c:1594
 msgid " (yet to receive)"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1525 src/balance_estimate_tab.c:1536
+#: src/balance_estimate_tab.c:1605 src/balance_estimate_tab.c:1616
 #, fuzzy
 msgid " (budget exceeded)"
 msgstr "Geen budgetregel"
 
 #. New transaction
 #: src/barre_outils.c:93 src/gsb_scheduler_list.c:2006
-#: src/gsb_transactions_list.c:2145
+#: src/gsb_transactions_list.c:2150
 msgid "New transaction"
 msgstr "Nieuwe transactie"
 
@@ -1454,7 +1460,7 @@ msgid ""
 "versions)."
 msgstr ""
 
-#: src/dialog.c:116 src/main.c:218
+#: src/dialog.c:116 src/main.c:220
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
@@ -1764,13 +1770,13 @@ msgid "Result without financial year"
 msgstr "Resultaat zonder financieel jaar"
 
 #: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:950
-#: src/gsb_transactions_list.c:3377
+#: src/gsb_transactions_list.c:3382
 #, c-format
 msgid "Transfer to %s"
 msgstr "Overgeschreven naar %s"
 
 #: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:953
-#: src/gsb_transactions_list.c:3380
+#: src/gsb_transactions_list.c:3385
 #, c-format
 msgid "Transfer from %s"
 msgstr "Overgeschreven van %s"
@@ -1819,14 +1825,14 @@ msgstr "Totaal algemeen"
 
 #. Transfer = Virement
 #. Direct deposit remplacÃ© par Transfert = Virement
-#: src/etats_affiche.c:1844 src/gsb_form.c:2269 src/import.c:2639
+#: src/etats_affiche.c:1844 src/gsb_form.c:2273 src/import.c:2639
 #: src/import.c:2657
 msgid "Transfert"
 msgstr "Overgeschreven"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1043
-#: src/gsb_form.c:723 src/gsb_form.c:2725 src/gsb_form.c:3124
-#: src/gsb_form_scheduler.c:316 src/gsb_transactions_list.c:3355
+#: src/gsb_form.c:723 src/gsb_form.c:2750 src/gsb_form.c:3151
+#: src/gsb_form_scheduler.c:316 src/gsb_transactions_list.c:3360
 msgid "Split of transaction"
 msgstr "Opsplitsen van transactie"
 
@@ -4286,7 +4292,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
 #: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:515
-#: src/gsb_form.c:2832 src/gsb_form.c:2833 src/navigation.c:1238
+#: src/gsb_form.c:2858 src/gsb_form.c:2859 src/navigation.c:1238
 msgid "Report"
 msgstr "Rapport"
 
@@ -4347,50 +4353,50 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:813
+#: src/gsb_assistant_archive.c:812
 msgid "Please fill the initial date."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:817
+#: src/gsb_assistant_archive.c:816
 msgid "Please fill the final date."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:825
+#: src/gsb_assistant_archive.c:824
 msgid "The initial date is after the final date."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:829
+#: src/gsb_assistant_archive.c:828
 msgid "The initial date is not valid."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:833
+#: src/gsb_assistant_archive.c:832
 msgid "The final date is not valid."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:837
+#: src/gsb_assistant_archive.c:836
 msgid "The initial date belongs already to an archive."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:841
+#: src/gsb_assistant_archive.c:840
 msgid "The final date belongs already to an archive."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:887
+#: src/gsb_assistant_archive.c:884
 #, fuzzy
 msgid "Please choose a financial year."
 msgstr "Kies een financieel jaar"
 
-#: src/gsb_assistant_archive.c:892
+#: src/gsb_assistant_archive.c:889
 msgid "There is already an archive for that financial year."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:928
+#: src/gsb_assistant_archive.c:925
 #, fuzzy
 msgid "Please choose a report."
 msgstr "Vul een begunstigde in."
 
 #. there is some transactions to archive
-#: src/gsb_assistant_archive.c:955
+#: src/gsb_assistant_archive.c:952
 #, c-format
 msgid "%d transactions out of %d will be archived."
 msgstr ""
@@ -4873,7 +4879,7 @@ msgstr "Gebruik een transactie aan de hand van de tekst"
 # dit is een kop tekst gevolgd door uitleg van de gevolgen
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
-#: src/gsb_assistant_reconcile_config.c:1181 src/gsb_transactions_list.c:1715
+#: src/gsb_assistant_reconcile_config.c:1181 src/gsb_transactions_list.c:1720
 #, fuzzy
 msgid "Selection of a reconciliation"
 msgstr "Bevestig de handmatige controle handeling"
@@ -6682,19 +6688,19 @@ msgstr "Storting"
 
 #. pas trouvÃ© de dÃ©finition remplacÃ© par carte de crÃ©dit
 #. Point of sale = Point de vente remplacÃ© par carte de crÃ©dit
-#: src/gsb_data_payment.c:728 src/gsb_form.c:2221 src/import.c:2627
+#: src/gsb_data_payment.c:728 src/gsb_form.c:2225 src/import.c:2627
 #: src/import.c:2633
 msgid "Credit card"
 msgstr "Creditcard"
 
 #. Electronic payment remplacÃ© par Direct debit = PrÃ©lÃ¨vement
 #. Merchant initiated debit remplacÃ© par Direct debit = PrÃ©lÃ¨vement
-#: src/gsb_data_payment.c:737 src/gsb_form.c:2258 src/import.c:2645
+#: src/gsb_data_payment.c:737 src/gsb_form.c:2262 src/import.c:2645
 #: src/import.c:2663
 msgid "Direct debit"
 msgstr "Automatische afschrijving"
 
-#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:2033
+#: src/gsb_data_scheduled.c:1542 src/gsb_data_transaction.c:2033
 #: src/gsb_data_transaction.c:2095
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr ""
@@ -7386,68 +7392,73 @@ msgid "Cheque/Transfer number"
 msgstr "Cheque/overschrijvings-nummer"
 
 # helaas kan ik deze niet vinden dus weet ik nog steeds niet wat er bedoelt wordt
-#: src/gsb_form.c:2230 src/plugins/ofx/ofx.c:476
+#: src/gsb_form.c:2234 src/plugins/ofx/ofx.c:476
 msgid "Direct deposit"
 msgstr "Automatische storting"
 
 #. Check = ChÃ¨que
-#: src/gsb_form.c:2239 src/import.c:2427 src/import.c:2474 src/import.c:2599
+#: src/gsb_form.c:2243 src/import.c:2427 src/import.c:2474 src/import.c:2599
 #: src/plugins/ofx/ofx.c:432
 msgid "Check"
 msgstr "Controleer"
 
 #. Cash withdrawal = retrait en liquide
-#: src/gsb_form.c:2248 src/import.c:2651
+#: src/gsb_form.c:2252 src/import.c:2651
 msgid "Cash withdrawal"
 msgstr ""
 
-#: src/gsb_form.c:2376
+#: src/gsb_form.c:2380
 #, fuzzy
 msgid "No payee selected for this report."
 msgstr "Er is geen begunstigde geselecteerd voor dit rapport"
 
-#: src/gsb_form.c:2671
+#: src/gsb_form.c:2675
 msgid "You must enter a date."
 msgstr "U moet een datum invullen."
 
-#: src/gsb_form.c:2678
+#: src/gsb_form.c:2682
 #, fuzzy, c-format
 msgid "Invalid date %s"
 msgstr "Datum onbekende"
 
-#: src/gsb_form.c:2701
+#: src/gsb_form.c:2705
 #, fuzzy, c-format
 msgid "Invalid value date %s"
 msgstr "Datum onbekende"
 
-#: src/gsb_form.c:2727
+#: src/gsb_form.c:2733
+#, fuzzy
+msgid "You must enter an amount."
+msgstr "U moet een datum invullen."
+
+#: src/gsb_form.c:2752
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
 msgstr ""
 
-#: src/gsb_form.c:2760
+#: src/gsb_form.c:2786
 #, fuzzy
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "Transactie omzetten naar een geplande transactie"
 
-#: src/gsb_form.c:2767
+#: src/gsb_form.c:2793
 #, fuzzy
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "De bijbehorende rekening voor deze overschrijving bestaat niet"
 
-#: src/gsb_form.c:2775
+#: src/gsb_form.c:2801
 msgid "Can't issue a transfer its own account."
 msgstr "U kunt geen overschrijving maken naar dezelfde rekening"
 
-#: src/gsb_form.c:2780
+#: src/gsb_form.c:2806
 msgid "Can't issue a transfer on a closed account."
 msgstr "Kan geen transactie uitvoeren op/naar een gesloten rekening."
 
-#: src/gsb_form.c:2806
+#: src/gsb_form.c:2832
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7457,7 +7468,7 @@ msgstr ""
 "maar heeft geen nummer.\n"
 "Toch door gaan?"
 
-#: src/gsb_form.c:2820
+#: src/gsb_form.c:2846
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7465,31 +7476,31 @@ msgstr ""
 "Waarschuwing dit chequenummer wordt al gebruikt.\n"
 "Toch door gaan?"
 
-#: src/gsb_form.c:2840
+#: src/gsb_form.c:2866
 #, fuzzy
 msgid "A transaction with a multiple payee must be a new one."
 msgstr "Een transactie met meerdere begunstigden moet een nieuwe zijn"
 
-#: src/gsb_form.c:2845
+#: src/gsb_form.c:2871
 #, fuzzy
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "Een transactie met meerdere begunstigden moet een nieuwe zijn"
 
-#: src/gsb_form.c:2856
+#: src/gsb_form.c:2882
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 
-#: src/gsb_form.c:2863
+#: src/gsb_form.c:2889
 #, fuzzy
 msgid "Invalid multiple payee."
 msgstr "Ongeldige meervoudige begunstigde"
 
-#: src/gsb_form.c:3147
+#: src/gsb_form.c:3174
 #, fuzzy
 msgid "Modifying a transaction"
 msgstr "Bewerk transacties"
 
-#: src/gsb_form.c:3148
+#: src/gsb_form.c:3175
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7499,7 +7510,7 @@ msgid ""
 msgstr ""
 
 #. propose to configure the form
-#: src/gsb_form.c:3448
+#: src/gsb_form.c:3475
 msgid "Configure the form"
 msgstr ""
 
@@ -7594,7 +7605,7 @@ msgstr "Kies een rekening"
 msgid "Automatic/manual scheduled transaction"
 msgstr "Automatisch/Handmatig geplande transacties"
 
-#: src/gsb_form_transaction.c:346
+#: src/gsb_form_transaction.c:357
 #, fuzzy
 msgid "Report : "
 msgstr "Rapport"
@@ -7882,7 +7893,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "Laatste datum"
 
-#: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1764
+#: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1769
 #, fuzzy
 msgid "Init date"
 msgstr "Start datum"
@@ -8080,12 +8091,12 @@ msgid "Show transactions for the next"
 msgstr "Gebruik een transactie aan de hand van de tekst"
 
 #. Edit transaction
-#: src/gsb_scheduler_list.c:1992 src/gsb_transactions_list.c:2130
+#: src/gsb_scheduler_list.c:1992 src/gsb_transactions_list.c:2135
 msgid "Edit transaction"
 msgstr "Bewerk transacties"
 
 #. Delete transaction
-#: src/gsb_scheduler_list.c:2017 src/gsb_transactions_list.c:2153
+#: src/gsb_scheduler_list.c:2017 src/gsb_transactions_list.c:2158
 msgid "Delete transaction"
 msgstr "Verwijder transactie"
 
@@ -8146,7 +8157,7 @@ msgstr "Verwijder geplande transactie"
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "Verwijder geplande transactie"
 
-#: src/gsb_transactions_list.c:567 src/gsb_transactions_list.c:3494
+#: src/gsb_transactions_list.c:572 src/gsb_transactions_list.c:3499
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8154,46 +8165,46 @@ msgid ""
 "The concerned children number are :\n"
 msgstr ""
 
-#: src/gsb_transactions_list.c:808
+#: src/gsb_transactions_list.c:813
 msgid "P"
 msgstr "p"
 
-#: src/gsb_transactions_list.c:812
+#: src/gsb_transactions_list.c:817
 msgid "T"
 msgstr "T"
 
 #. set the R on the transaction
-#: src/gsb_transactions_list.c:816 src/gsb_transactions_list.c:1634
+#: src/gsb_transactions_list.c:821 src/gsb_transactions_list.c:1639
 msgid "R"
 msgstr "R"
 
-#: src/gsb_transactions_list.c:1187
+#: src/gsb_transactions_list.c:1192
 #, fuzzy, c-format
 msgid "Do you want to add the transactions of the archive %s into the list ?"
 msgstr ""
 "Wilt u enkel deze voorkomende of gehele geplande transactie verwijderen?"
 
-#: src/gsb_transactions_list.c:1197
+#: src/gsb_transactions_list.c:1202
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1201
+#: src/gsb_transactions_list.c:1206
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1564
+#: src/gsb_transactions_list.c:1569
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1576
+#: src/gsb_transactions_list.c:1581
 #, fuzzy
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -8211,7 +8222,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: src/gsb_transactions_list.c:1646
+#: src/gsb_transactions_list.c:1651
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -8219,26 +8230,26 @@ msgid ""
 "did."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1647
+#: src/gsb_transactions_list.c:1652
 #, fuzzy
 msgid "Marking a transaction as R"
 msgstr "Markeer transacties"
 
-#: src/gsb_transactions_list.c:1727
+#: src/gsb_transactions_list.c:1732
 #, fuzzy
 msgid "Select the reconciliation to associate to the selected transaction"
 msgstr "De niet gecontroleerde transacties"
 
-#: src/gsb_transactions_list.c:1849
+#: src/gsb_transactions_list.c:1854
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1893
+#: src/gsb_transactions_list.c:1898
 #, fuzzy
 msgid "Impossible to delete an archived transaction."
 msgstr "Het is niet mogelijk om een gecontroleerde transactie te verwijderen."
 
-#: src/gsb_transactions_list.c:1902
+#: src/gsb_transactions_list.c:1907
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -8246,66 +8257,66 @@ msgid ""
 "necessary."
 msgstr ""
 
-#: src/gsb_transactions_list.c:1917
+#: src/gsb_transactions_list.c:1922
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:1929
+#: src/gsb_transactions_list.c:1934
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
 #. use transaction as template
-#: src/gsb_transactions_list.c:2167
+#: src/gsb_transactions_list.c:2172
 msgid "Use selected transaction as a template"
 msgstr "Gebruik de gekozen transactie als sjabloon"
 
 #. Clone transaction
-#: src/gsb_transactions_list.c:2177
+#: src/gsb_transactions_list.c:2182
 msgid "Clone transaction"
 msgstr "Kloon transactie"
 
 #. Convert to scheduled transaction
-#: src/gsb_transactions_list.c:2190
+#: src/gsb_transactions_list.c:2195
 msgid "Convert transaction to scheduled transaction"
 msgstr "Transactie omzetten naar een geplande transactie"
 
 #. Move to another account
-#: src/gsb_transactions_list.c:2199
+#: src/gsb_transactions_list.c:2204
 msgid "Move transaction to another account"
 msgstr "Verplaats de transactie naar een andere rekening"
 
 #. Change cell content.
-#: src/gsb_transactions_list.c:2222
+#: src/gsb_transactions_list.c:2227
 msgid "Change cell content"
 msgstr ""
 
-#: src/gsb_transactions_list.c:2266
+#: src/gsb_transactions_list.c:2271
 #, fuzzy
 msgid "Clear cell"
 msgstr "Annuleren"
 
-#: src/gsb_transactions_list.c:2625
+#: src/gsb_transactions_list.c:2630
 msgid "Cannot move a transfer on his contra-account"
 msgstr "Kan de overschrijving niet op deze tegenrekening boeken"
 
 #. sort by line
-#: src/gsb_transactions_list.c:2904
+#: src/gsb_transactions_list.c:2909
 #, fuzzy
 msgid "Sort list by :"
 msgstr "Sorteer volgens datum"
 
-#: src/gsb_transactions_list.c:3364
+#: src/gsb_transactions_list.c:3369
 msgid "Transfer to a deleted account"
 msgstr "Overschrijving naar een verwijderde rekening"
 
-#: src/gsb_transactions_list.c:3366
+#: src/gsb_transactions_list.c:3371
 msgid "Transfer from a deleted account"
 msgstr "Overschrijving van een verwijderde rekening"
 
-#: src/gsb_transactions_list.c:3523
+#: src/gsb_transactions_list.c:3528
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -8319,13 +8330,13 @@ msgstr ""
 msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
 
-#: src/gtk_combofix.c:745
+#: src/gtk_combofix.c:746
 msgid ""
 "You cannot create new payee or category and subcategory without changing the "
 "options in preferences"
 msgstr ""
 
-#: src/gtk_combofix.c:748
+#: src/gtk_combofix.c:749
 msgid "Warning you cannot create payee or category"
 msgstr ""
 
@@ -9060,11 +9071,11 @@ msgstr "Budgetregel '%s' bestaat al."
 msgid "New sub-budget"
 msgstr "Nieuwe sub-budgetregel"
 
-#: src/main.c:166
+#: src/main.c:168
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Er is een sigaction fout: het programma sluit zich af\n"
 
-#: src/main.c:221
+#: src/main.c:223
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"

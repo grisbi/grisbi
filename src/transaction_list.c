@@ -134,22 +134,22 @@ void transaction_list_append_transaction ( gint transaction_number )
     /* if this is a child, go to append_child_record */
     if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
-	transaction_list_append_child (transaction_number);
-	return;
+        transaction_list_append_child (transaction_number);
+        return;
     }
 
     /* the transaction is a mother */
-    account_number = gsb_gui_navigation_get_current_account ();
+    account_number = gsb_data_transaction_get_account_number ( transaction_number );
 
     /* if the transaction is a split, create a white line, we will append it later */
-    if (gsb_data_transaction_get_split_of_transaction (transaction_number))
+    if ( gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
     {
 	/* append a white line */
 	gint white_line_number;
 	gchar *amount_string;
 	gchar *variance_string;
 
-	white_line_number = gsb_data_transaction_new_white_line (transaction_number);
+	white_line_number = gsb_data_transaction_new_white_line ( transaction_number );
 	children_rows = g_malloc0 (sizeof (CustomRecord*));
 
 	/* create and fill the white line record */
@@ -216,7 +216,7 @@ void transaction_list_append_transaction ( gint transaction_number )
 	/* we check if the row is visible or not only if we are on an account,
 	 * in other case, the model will be filtered when change account so no need
 	 * to do that here */
-	if (account_number != -1
+	if ( gsb_gui_navigation_get_current_account ( ) != -1
 	    &&
 	    gsb_transactions_list_transaction_visible ( newrecord[i] -> transaction_pointer,
 							account_number,

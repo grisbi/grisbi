@@ -75,8 +75,8 @@ static GSList *form_list_widgets = NULL;
 
 static gchar *old_debit = NULL;
 static gchar *old_credit = NULL;
-static gint old_credit_payement_number = 0;
-static gint old_debit_payement_number = 0;
+static gint old_credit_payment_number = 0;
+static gint old_debit_payment_number = 0;
 
 /**
  * return the list wich contains the widgets of the form
@@ -219,8 +219,8 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 					 etat.combofix_max_item );
 	    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
 					      etat.combofix_case_sensitive );
-	    gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
-					      etat.combofix_enter_select_completion );
+	    //~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
+					      //~ etat.combofix_enter_select_completion );
 	    /* we never mix the payee because the only case of the complex combofix is
 	     * for the report and there is non sense to mix report with the payee */
 	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
@@ -236,8 +236,8 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 					 etat.combofix_max_item );
 	    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
 					      etat.combofix_case_sensitive );
-	    gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
-					      etat.combofix_enter_select_completion );
+	    //~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
+					      //~ etat.combofix_enter_select_completion );
 	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
 					  etat.combofix_mixed_sort );
 	    break;
@@ -255,8 +255,8 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 					 etat.combofix_max_item );
 	    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
 					      etat.combofix_case_sensitive );
-	    gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
-					      etat.combofix_enter_select_completion );
+	    //~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
+					      //~ etat.combofix_enter_select_completion );
 	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
 					  etat.combofix_mixed_sort );
 	    break;
@@ -810,7 +810,7 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
             /* change the signe of the method of payment and the contra */
             if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_CREDIT )
             {
-                old_credit_payement_number = gsb_payment_method_get_selected_number (
+                old_credit_payment_number = gsb_payment_method_get_selected_number (
                         widget );
 
                 gsb_payment_method_create_combo_list ( widget,
@@ -853,7 +853,7 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
             /* change the signe of the method of payment and the contra */
             if ( gsb_payment_method_get_combo_sign (widget) == GSB_PAYMENT_DEBIT)
             {
-                old_debit_payement_number = gsb_payment_method_get_selected_number (
+                old_debit_payment_number = gsb_payment_method_get_selected_number (
                         widget );
 
                 gsb_payment_method_create_combo_list ( widget,
@@ -1066,9 +1066,9 @@ gboolean gsb_form_combo_selection_changed ( GtkTreeSelection *tree_selection,
  *
  *
  * */
-gint gsb_form_widget_get_old_credit_payement ( void )
+gint gsb_form_widget_get_old_credit_payment ( void )
 {
-    return old_credit_payement_number;
+    return old_credit_payment_number;
 }
 
 
@@ -1078,7 +1078,7 @@ gint gsb_form_widget_get_old_credit_payement ( void )
  *
  *
  * */
-gint gsb_form_widget_get_old_debit_payement ( void )
+gint gsb_form_widget_get_old_debit_payment ( void )
 {
-    return old_debit_payement_number;
+    return old_debit_payment_number;
 }

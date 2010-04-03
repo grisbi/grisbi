@@ -799,7 +799,6 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
     /* ok for now the choice is on initial/final date */
     if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU )
     {
-        printf ("current_page = ARCHIVE_ASSISTANT_MENU\n");
         if ( GTK_WIDGET_IS_SENSITIVE (initial_date) )
         {
             GDate *init_gdate;
@@ -871,9 +870,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 
                 tmp_list = tmp_list -> next;
             }
-            printf ("nbre de transactions dans l'archive = %d\n",
-                        g_slist_length ( list_transaction_to_archive ) );
-        }
+            }
 
         /* ok for now the choice is on fyear */
         else if (  GTK_WIDGET_IS_SENSITIVE ( financial_year_button ) )

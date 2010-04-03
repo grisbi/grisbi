@@ -120,7 +120,7 @@ typedef struct
     GDate *bet_start_date;  /* date de début */
     gint bet_spin_range;    /* echelle de la période 0 = mois 1 = années */
     gint bet_months;        /* nombre de mois ou d'années */
-    gint bet_hist_data;     /* origine des données catégories ou IB */
+    gint bet_hist_data;     /* origine des données 0 = catégories 1 = IB */
     gint bet_hist_fyear;    /* numéro d'exercice */
 } struct_account;
 
@@ -2948,7 +2948,7 @@ gboolean gsb_data_account_set_bet_months ( gint account_number, gint months )
 
 
 /**
- * 
+ * return the historical source of the data
  *
  *
  * */

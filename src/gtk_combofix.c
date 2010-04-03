@@ -97,6 +97,7 @@ enum combofix_columns {
     COMBOFIX_COL_VISIBLE,
     COMBOFIX_COL_LIST_NUMBER,
     COMBOFIX_COL_SEPARATOR,
+    COMBOFIX_N_COLUMNS,
 };
 
 enum combofix_key_direction {
@@ -523,7 +524,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
      * COMBOFIX_COL_LIST_NUMBER (a int) : the number of the list for a complex combofix (0 else)
      * COMBOFIX_COL_SEPARATOR (a boolean) : TRUE for a separator
      * */
-    combofix -> store = gtk_tree_store_new ( 5,
+    combofix -> store = gtk_tree_store_new ( COMBOFIX_N_COLUMNS,
                          G_TYPE_STRING,
                          G_TYPE_STRING,
                          G_TYPE_BOOLEAN,

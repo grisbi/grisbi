@@ -768,7 +768,7 @@ gint gsb_data_payment_create_default  ( gint account_number )
 
 
 /**
- * try to find a method of payment similar to the origin method of payement
+ * try to find a method of payment similar to the origin method of payment
  *
  * \param origin_payment	the method of payment we try to find a similar other
  * \param target_account_number	the account we want to search into for the new method of payment
@@ -904,3 +904,54 @@ gboolean gsb_data_payment_set_last_number_from_int ( gint payment_number,
 }
 
 
+/**
+ * permet de trouver pour un autre compte le moyen de paiement
+ * ayant le même nom.
+ *
+ * \param number initial
+ * \ numéro du nouveau compte
+ *
+ * \ return the numéro de paiement si trouvé ou celui par défaut pour 
+ * le compte concerné.
+ * */
+gint gsb_data_payment_search_number_other_account_by_name ( gint payment_number,
+                                gint account_number )
+{
+
+    const gchar *name;
+    GSList *tmp_list;
+    gint new_payment_number;
+    gint sign;
+
+    name = gsb_data_payment_get_name ( payment_number );
+
+    tmp_list = payment_list;
+
+    while ( tmp_list )
+    {
+        struct_payment *payment;
+
+        payment = tmp_list -> data;
+
+        if ( payment -> account_number == account_number )
+        {
+            if ( my_strcasecmp (  (gchar *)name, payment -> payment_name ) == 0 )
+                return payment -> payment_number;
+        }
+        tmp_list = tmp_list -> next;
+    }
+
+    sign = gsb_data_payment_get_sign ( payment_number );
+
+    if ( sign == GSB_PAYMENT_CREDIT)
+        new_payment_number = gsb_data_account_get_default_credit ( account_number );
+    else 
+        new_payment_number = gsb_data_account_get_default_debit ( account_number );
+
+    return new_payment_number;
+}
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

@@ -110,8 +110,10 @@ int main (int argc, char **argv)
     gboolean first_use = FALSE;
     gchar *string;
     gchar *path;
-	struct lconv *conv;
     cmdline_options  opt;
+#ifdef IS_DEVELOPMENT_VERSION
+	struct lconv *conv;
+#endif
 
 #ifndef _WIN32
     struct sigaction sig_sev;
@@ -191,7 +193,7 @@ int main (int argc, char **argv)
     register_import_formats ();
 
 #ifdef IS_DEVELOPMENT_VERSION
-    /* test locale pour les nombres */
+    /* test local pour les nombres */
 	conv = localeconv();
     
     printf ("currency_symbol = %s\n"

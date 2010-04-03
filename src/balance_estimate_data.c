@@ -846,7 +846,7 @@ SBR *struct_initialise_bet_range ( void )
 {
 	SBR	*sbr;
 	
-	sbr = g_malloc ( sizeof ( SBR ) );
+	sbr = g_malloc0 ( sizeof ( SBR ) );
     sbr -> first_pass = TRUE;
     sbr -> min_date = NULL;
     sbr -> max_date = NULL;
@@ -885,7 +885,7 @@ SH *struct_initialise_bet_historical ( void )
 {
 	SH	*sh;
 
-	sh = g_malloc ( sizeof ( SH ) );
+	sh = g_malloc0 ( sizeof ( SH ) );
     sh -> sbr = struct_initialise_bet_range ( );
     sh -> list_sub_div = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
@@ -923,7 +923,7 @@ struct_hist_div *struct_initialise_hist_div ( void )
 {
     struct_hist_div *shd;
 
-    shd = g_malloc ( sizeof ( struct_hist_div ) );
+    shd = g_malloc0 ( sizeof ( struct_hist_div ) );
     shd -> account_nb = 0;
     shd -> div_number = 0;
     shd -> div_edited = FALSE;
@@ -1007,7 +1007,7 @@ struct_futur_data *struct_initialise_bet_future ( void )
 {
     struct_futur_data *sfd;
 
-    sfd = g_malloc ( sizeof ( struct_futur_data ) );
+    sfd = g_malloc0 ( sizeof ( struct_futur_data ) );
 
     sfd -> date = NULL;
     sfd -> amount = null_real;
@@ -1051,9 +1051,6 @@ gboolean bet_data_future_add_lines ( struct_futur_data *scheduled )
 
     if ( scheduled -> frequency == 0 )
     {
-        //~ if ( ( old_sch = g_hash_table_lookup ( bet_future_list, key ) ) )
-            //~ g_hash_table_replace ( bet_future_list, key, scheduled );
-        //~ else
         if ( scheduled -> account_number == 0 )
             key = g_strconcat ("0:", utils_str_itoa ( future_number ), NULL );
         else
@@ -1066,14 +1063,16 @@ gboolean bet_data_future_add_lines ( struct_futur_data *scheduled )
     else
     {
         GDate *date;
+        GDate *date_max;
         gint mother_row;
         struct_futur_data *new_sch = NULL;
 
         mother_row = future_number;
 
+        date_max = bet_data_array_get_date_max ( scheduled -> account_number );
         /* we don't change the initial date */
         date = gsb_date_copy ( scheduled -> date );
-        while ( date != NULL && g_date_valid ( date ) )
+        while ( date != NULL && g_date_valid ( date ) && g_date_compare ( date, date_max ) <= 0 )
         {
             if ( scheduled -> account_number == 0 )
                 key = g_strconcat ("0:", utils_str_itoa ( future_number ), NULL );
@@ -1096,6 +1095,7 @@ gboolean bet_data_future_add_lines ( struct_futur_data *scheduled )
             new_sch = bet_data_future_copy_struct ( scheduled );
             new_sch -> date = date;
         }
+        g_date_free ( date_max );
     }
 
     if ( etat.modification_fichier == 0 )
@@ -1260,14 +1260,17 @@ struct_futur_data *bet_data_future_copy_struct ( struct_futur_data *scheduled )
 
     new_sch ->  number = scheduled -> number;
     new_sch ->  account_number = scheduled -> account_number;
+
     if ( g_date_valid ( scheduled -> date ) )
         new_sch -> date = gsb_date_copy ( scheduled -> date );
     else
         new_sch -> date = NULL;
+
     new_sch -> amount = gsb_real_new ( scheduled -> amount.mantissa,
                         scheduled -> amount.exponent );
     new_sch -> fyear_number = scheduled -> fyear_number;
     new_sch -> payment_number = scheduled -> payment_number;
+
     new_sch -> party_number = scheduled -> party_number;
     new_sch -> category_number = scheduled -> category_number;
     new_sch -> sub_category_number = scheduled -> sub_category_number;
@@ -1278,7 +1281,8 @@ struct_futur_data *bet_data_future_copy_struct ( struct_futur_data *scheduled )
     new_sch -> frequency = scheduled -> frequency;
     new_sch -> user_interval = scheduled -> user_interval;
     new_sch -> user_entry = scheduled -> user_entry;
-    if ( g_date_valid ( scheduled -> limit_date ) )
+
+    if ( scheduled -> limit_date && g_date_valid ( scheduled -> limit_date ) )
         new_sch -> limit_date = gsb_date_copy ( scheduled -> limit_date );
     else
         new_sch -> limit_date = NULL;
@@ -1359,11 +1363,71 @@ gboolean bet_data_future_remove_lines ( gint account_number,
 
 
 /**
- *
+ * retourne la date max d'interrogation pour les prévisions
  *
  *
  *
  * */
+GDate *bet_data_array_get_date_max ( gint account_number )
+{
+    GDate *date_min;
+    GDate *date_max;
+
+    date_min = gsb_data_account_get_bet_start_date ( account_number );
+
+    date_max = gsb_date_copy ( date_min );
+
+    if ( g_date_get_day ( date_min ) == 1 )
+    {
+        g_date_add_months (date_max, gsb_data_account_get_bet_months ( account_number ) - 1 );
+        date_max = gsb_date_get_last_day_of_month ( date_max );
+    }
+    else
+    {
+        g_date_add_months (date_max, gsb_data_account_get_bet_months ( account_number ) );
+        g_date_subtract_days ( date_max, 1 );
+    }
+
+    return date_max;
+}
+
+
+/**
+ * modify futures data lines 
+ *
+ *
+ *
+ * */
+gboolean bet_data_future_modify_lines ( struct_futur_data *scheduled )
+{
+    GHashTableIter iter;
+    gpointer key, value;
+
+    g_hash_table_iter_init ( &iter, bet_future_list );
+    while ( g_hash_table_iter_next ( &iter, &key, &value ) )
+    {
+        struct_futur_data *sch = ( struct_futur_data *) value;
+
+        if ( scheduled -> number == sch -> number )
+        {
+            if ( scheduled -> account_number == 0 )
+                key = g_strconcat ("0:", utils_str_itoa ( scheduled -> number ), NULL );
+            else
+                key = g_strconcat ( utils_str_itoa ( scheduled -> account_number ), ":",
+                                utils_str_itoa ( scheduled -> number ), NULL );
+
+            g_hash_table_replace ( bet_future_list, key, scheduled );
+        }
+    }
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
+    return TRUE;
+}
+
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
