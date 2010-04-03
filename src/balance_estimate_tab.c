@@ -44,6 +44,7 @@
 #include "./balance_estimate_data.h"
 #include "./balance_estimate_future.h"
 #include "./balance_estimate_hist.h"
+#include "./fenetre_principale.h"
 #include "./utils_dates.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_budget.h"
@@ -56,6 +57,7 @@
 #include "./gsb_fyear.h"
 #include "./gsb_real.h"
 #include "./gsb_scheduler.h"
+#include "./gsb_scheduler_list.h"
 #include "./gsb_transactions_list_sort.h"
 #include "./main.h"
 #include "./mouse.h"
@@ -96,6 +98,9 @@ static void bet_array_list_insert_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static void bet_array_list_redo_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
+static gint bet_array_list_schedule_line ( gint origine, gint account_number, gint number );
+static void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
+                        GtkTreeSelection *tree_selection );
 static gboolean bet_array_list_set_background_color ( GtkWidget *tree_view );
 void bet_array_list_traite_double_click ( GtkTreeView *tree_view );
 static void bet_array_list_update_balance ( GtkTreeModel *model );
@@ -128,6 +133,7 @@ extern gchar* bet_duration_array[];
 extern GdkColor couleur_fond[0];
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
+extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern GtkWidget *notebook_general;
 extern gsb_real null_real;
 extern GtkWidget *window;
@@ -1116,7 +1122,7 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
 
         if ( !str_description || !strlen ( str_description ) )
             str_description = g_strdup ( gsb_data_payee_get_name (
-                        scheduled -> party_number, FALSE ) );
+                        scheduled -> party_number, TRUE ) );
 
             if ( !str_description || !strlen ( str_description ) )
             {
@@ -1325,9 +1331,23 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
                         G_CALLBACK ( bet_array_list_delete_all_menu ),
                         tree_selection );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+            
+            /* Separator */
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
+
+            /* Convert to scheduled transaction */
+            menu_item = gtk_image_menu_item_new_with_label ( _("Convert selection to scheduled transaction") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                                gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
+                                GTK_ICON_SIZE_MENU ) );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                                "activate",
+                                G_CALLBACK ( bet_array_list_schedule_selected_line ),
+                                tree_selection );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
             break;            
     }
-            
+
     /* Separator */
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
     gtk_widget_show ( menu_item );
@@ -1452,8 +1472,7 @@ void bet_array_list_delete_all_menu ( GtkWidget *menu_item,
     gint number;
     gint mother_row;
 
-    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
-     &model, &iter ) )
+    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ), &model, &iter ) )
         return;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
@@ -1463,8 +1482,7 @@ void bet_array_list_delete_all_menu ( GtkWidget *menu_item,
                         -1 );
 
     if ( origine == SPP_ORIGIN_FUTURE )
-        bet_data_future_remove_lines ( gsb_gui_navigation_get_current_account ( ),
-                        number, mother_row );
+        bet_data_future_remove_lines ( gsb_gui_navigation_get_current_account ( ), number, mother_row );
 
     bet_array_refresh_estimate_tab ( );
 }
@@ -1905,6 +1923,89 @@ void bet_array_list_traite_double_click ( GtkTreeView *tree_view )
 
     selection = gtk_tree_view_get_selection ( tree_view );
     bet_array_list_change_menu ( NULL, selection );
+}
+
+
+/**
+ * Convert selected line to a template of scheduled transaction.
+ * 
+ */
+void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
+                        GtkTreeSelection *tree_selection )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gint origine;
+    gint number;
+    gint scheduled_number;
+
+    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ), &model, &iter ) )
+        return;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
+                        SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
+                        SPP_ESTIMATE_TREE_DIVISION_COLUMN, &number,
+                        -1 );
+
+    scheduled_number = bet_array_list_schedule_line ( origine,
+                        gsb_gui_navigation_get_current_account ( ),
+                        number );
+
+    mise_a_jour_liste_echeances_auto_accueil = 1;
+
+    gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
+    gsb_scheduler_list_select ( scheduled_number );
+    gsb_scheduler_list_edit_transaction ( scheduled_number );
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+}
+
+
+/**
+ *  Convert future line to a template of scheduled transaction.
+ *
+ * \param transaction  to use as a template.
+ *
+ * \return the number of the scheduled transaction
+ */
+gint bet_array_list_schedule_line ( gint origine, gint account_number, gint number )
+{
+    gint scheduled_number = 0;
+
+    scheduled_number = gsb_data_scheduled_new_scheduled ();
+
+    if ( !scheduled_number)
+	return FALSE;
+
+    if ( origine == SPP_ORIGIN_FUTURE )
+    {
+        struct_futur_data *scheduled;
+
+        scheduled = bet_data_future_get_struct ( account_number, number );
+        if ( scheduled == NULL )
+            return 0;
+
+        gsb_data_scheduled_set_account_number ( scheduled_number, scheduled -> account_number );
+        gsb_data_scheduled_set_date ( scheduled_number, scheduled -> date );
+        gsb_data_scheduled_set_amount ( scheduled_number, scheduled -> amount );
+        gsb_data_scheduled_set_currency_number ( scheduled_number,
+                             gsb_data_account_get_currency ( account_number ) );
+        gsb_data_scheduled_set_party_number ( scheduled_number, scheduled -> party_number );
+        gsb_data_scheduled_set_category_number ( scheduled_number, scheduled -> category_number );
+        gsb_data_scheduled_set_sub_category_number ( scheduled_number, scheduled -> sub_category_number );
+        gsb_data_scheduled_set_notes ( scheduled_number, scheduled -> notes );
+        gsb_data_scheduled_set_method_of_payment_number ( scheduled_number, scheduled -> payment_number );
+        gsb_data_scheduled_set_financial_year_number ( scheduled_number, scheduled -> fyear_number );
+        gsb_data_scheduled_set_budgetary_number ( scheduled_number, scheduled -> budgetary_number );
+        gsb_data_scheduled_set_sub_budgetary_number ( scheduled_number, scheduled -> sub_budgetary_number );
+
+        /* par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date,
+         * (c'est le cas, à 0 avec g_malloc0) que l'opé soit enregistrée immédiatement */
+        gsb_data_scheduled_set_frequency ( scheduled_number, scheduled -> frequency );
+    }
+
+    return scheduled_number;
 }
 
 

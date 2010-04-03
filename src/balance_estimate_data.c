@@ -1400,25 +1400,15 @@ GDate *bet_data_array_get_date_max ( gint account_number )
  * */
 gboolean bet_data_future_modify_lines ( struct_futur_data *scheduled )
 {
-    GHashTableIter iter;
-    gpointer key, value;
+    gchar *key;
 
-    g_hash_table_iter_init ( &iter, bet_future_list );
-    while ( g_hash_table_iter_next ( &iter, &key, &value ) )
-    {
-        struct_futur_data *sch = ( struct_futur_data *) value;
+    if ( scheduled -> account_number == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( scheduled -> number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( scheduled -> account_number ), ":",
+                        utils_str_itoa ( scheduled -> number ), NULL );
 
-        if ( scheduled -> number == sch -> number )
-        {
-            if ( scheduled -> account_number == 0 )
-                key = g_strconcat ("0:", utils_str_itoa ( scheduled -> number ), NULL );
-            else
-                key = g_strconcat ( utils_str_itoa ( scheduled -> account_number ), ":",
-                                utils_str_itoa ( scheduled -> number ), NULL );
-
-            g_hash_table_replace ( bet_future_list, key, scheduled );
-        }
-    }
+    g_hash_table_replace ( bet_future_list, key, scheduled );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
@@ -1426,6 +1416,29 @@ gboolean bet_data_future_modify_lines ( struct_futur_data *scheduled )
     return TRUE;
 }
 
+
+/**
+ *
+ *
+ *
+ *
+ * */
+struct_futur_data *bet_data_future_get_struct ( gint account_number, gint number )
+{
+    gchar *key;
+    struct_futur_data *scheduled;
+
+    if ( account_number == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( account_number ), ":",
+                        utils_str_itoa ( number ), NULL );
+
+    if ( ( scheduled = g_hash_table_lookup ( bet_future_list, key ) ) )
+        return scheduled;
+    else
+        return NULL;
+}
 
 
 /* Local Variables: */
