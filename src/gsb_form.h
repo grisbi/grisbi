@@ -21,7 +21,6 @@ enum origin_values {
 
 
 /* START_DECLARATION */
-gint gsb_form_get_element_expandable ( gint element_number );
 gboolean gsb_form_allocate_size ( GtkWidget *table,
                         GtkAllocation *allocation,
                         gpointer null );
@@ -47,6 +46,7 @@ void gsb_form_fill_element ( gint element_number,
 gboolean gsb_form_fill_from_account ( gint account_number );
 gboolean gsb_form_finish_edition ( void );
 gint gsb_form_get_account_number ( void );
+gint gsb_form_get_element_expandable ( gint element_number );
 GtkWidget *gsb_form_get_element_widget_from_list ( gint element_number,
                         GSList *list );
 GtkWidget *gsb_form_get_form_widget ( void );

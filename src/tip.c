@@ -39,7 +39,7 @@ static gchar * format_tip ( gchar * tip );
 static gchar * get_next_tip ();
 #define END_STATIC
 
-gint max;
+static gint max;
 
 /** 
  * Display a tip forcefully, even if show_tip option has been disabled.
@@ -93,7 +93,7 @@ void display_tip ( gboolean force )
                         GTK_STOCK_CLOSE, 3,
                         NULL );
  
-    gtk_widget_set_size_request ( dialog, 450, -1 );
+    //~ gtk_widget_set_size_request ( dialog, 450, -1 );
     /* We iterate as user can select several tips. */
     while ( TRUE )
     {

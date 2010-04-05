@@ -27,7 +27,6 @@
 
 /*START_INCLUDE*/
 #include "utils_str.h"
-#include "./include.h"
 #include "./gsb_data_report.h"
 /*END_INCLUDE*/
 
@@ -38,7 +37,6 @@ static gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trun
 
 
 /*START_EXTERN*/
-extern gint max;
 /*END_EXTERN*/
 
 

@@ -51,7 +51,6 @@
 #include "./fenetre_principale.h"
 #include "./print_config.h"
 #include "./include.h"
-#include "./etats_csv.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

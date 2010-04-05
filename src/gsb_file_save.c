@@ -33,8 +33,8 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_save.h"
-#include "./dialog.h"
 #include "./balance_estimate_data.h"
+#include "./dialog.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
 #include "./gsb_data_bank.h"
@@ -70,7 +70,6 @@
 #include "./gsb_calendar.h"
 #include "./erreur.h"
 #include "./gsb_plugins.h"
-#include "./gsb_real.h"
 #include "./gsb_data_report.h"
 /*END_INCLUDE*/
 
@@ -144,8 +143,8 @@ extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_bet_division;
-extern GdkColor couleur_fond[2];
 extern GdkColor couleur_bet_future;
+extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_jour;
 extern GdkColor couleur_selection;
@@ -1065,6 +1064,9 @@ gulong gsb_file_save_account_part ( gulong iterator,
                            "\t\tBet_start_date=\"%s\"\n"
                            "\t\tBet_months=\"%d\"\n"
                            "\t\tBet_UT=\"%d\"\n"
+                           "\t\tBet_select_transaction_label=\"%d\"\n" 
+                           "\t\tBet_select_scheduled_label=\"%d\"\n" 
+                           "\t\tBet_select_futur_label=\"%d\"\n"
                            "\t\tBet_SD=\"%d\"\n" 
                            "\t\tBet_Fi=\"%d\" />\n",
 	    my_safe_null_str(gsb_data_account_get_name (account_number)),
@@ -1104,6 +1106,9 @@ gulong gsb_file_save_account_part ( gulong iterator,
                         gsb_data_account_get_bet_start_date ( account_number ) ) ),
         gsb_data_account_get_bet_months ( account_number ),
         gsb_data_account_get_bet_spin_range ( account_number ),
+        gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_TRANSACTION ),
+        gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_SCHEDULED ),
+        gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_FUTURE ),
         gsb_data_account_get_bet_hist_data ( account_number ),
         gsb_data_account_get_bet_hist_fyear ( account_number ) );
 

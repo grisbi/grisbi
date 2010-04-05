@@ -30,29 +30,23 @@
 
 /*START_INCLUDE*/
 #include "balance_estimate_hist.h"
+#include "./balance_estimate_tab.h"
 #include "./balance_estimate_config.h"
 #include "./balance_estimate_data.h"
-#include "./balance_estimate_tab.h"
 #include "./utils_dates.h"
 #include "./gsb_data_account.h"
-#include "./gsb_data_budget.h"
-#include "./gsb_data_category.h"
 #include "./gsb_data_fyear.h"
-#include "./gsb_data_payee.h"
-#include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_fyear.h"
-#include "./gsb_real.h"
-#include "./gsb_scheduler.h"
-#include "./gsb_transactions_list_sort.h"
-#include "./main.h"
-#include "./mouse.h"
 #include "./navigation.h"
-#include "./include.h"
-#include "./structures.h"
 #include "./traitement_variables.h"
+#include "./utils_str.h"
+#include "./gsb_fyear.h"
+#include "./mouse.h"
+#include "./balance_estimate_data.h"
+#include "./structures.h"
+#include "./include.h"
 #include "./erreur.h"
-#include "./utils.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -60,6 +54,7 @@ static void bet_historical_add_average_amount ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static void bet_historical_add_last_amount ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
+static gboolean bet_historical_affiche_div ( GHashTable  *list_div, GtkWidget *tree_view );
 static gboolean bet_historical_amount_differ_average ( GtkTreeModel *model,
                         GtkTreeIter *iter );
 static gboolean bet_historical_button_press ( GtkWidget *tree_view,
@@ -69,20 +64,21 @@ static void bet_historical_div_cell_edited (GtkCellRendererText *cell,
                         const gchar *path_string,
                         const gchar *new_text,
                         GtkWidget *tree_view );
-static void bet_historical_div_cell_editing_started ( GtkCellRenderer *cell,
+static void bet_historical_div_cell_editing_started (GtkCellRenderer *cell,
                         GtkCellEditable *editable,
                         const gchar *path_string,
                         GtkWidget *tree_view );
 static gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
                         gchar *path_string,
-                        GtkTreeModel *store );
-gsb_real bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *parent );
+                        GtkTreeModel *model );
+static gboolean bet_historical_fyear_create_combobox_store ( void );
+static gsb_real bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *parent );
 static GtkWidget *bet_historical_get_data ( GtkWidget *container );
 static gboolean bet_historical_get_full_div ( GtkTreeModel *model, GtkTreeIter *parent );
 static gboolean bet_historical_initializes_account_settings ( gint account_number );
 static void bet_historical_populate_div_model ( gpointer key,
                         gpointer value,
-                        gpointer user_data);
+                        gpointer user_data );
 static void bet_historical_row_collapse_all ( GtkTreeView *tree_view,
                         GtkTreeIter *iter,
                         GtkTreeModel *model );
@@ -90,17 +86,15 @@ static void bet_historical_row_expanded_event ( GtkTreeView *tree_view,
                         GtkTreeIter *iter,
                         GtkTreePath *path,
                         GtkTreeModel *model );
+static gboolean bet_historical_set_background_color ( GtkWidget *tree_view );
 static gboolean bet_historical_set_empty_sub_div ( GtkTreeModel *model, GtkTreeIter *parent );
 static gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIter *parent );
-static gboolean bet_historical_set_background_color ( GtkWidget *tree_view );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gboolean balances_with_scheduled;
-extern GdkColor couleur_fond[0];
+extern GdkColor couleur_fond[2];
 extern GtkWidget *notebook_general;
 extern gsb_real null_real;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 /**
@@ -161,7 +155,8 @@ GtkWidget *bet_historical_create_page ( void )
     g_signal_connect ( G_OBJECT ( button_1 ),
                         "released",
                         G_CALLBACK ( bet_config_origin_data_clicked ),
-                        NULL );
+                        GINT_TO_POINTER ( 1 ) );
+
     button_2 = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( button_1 ),
                         _("Budgetary lines") );
@@ -169,7 +164,7 @@ GtkWidget *bet_historical_create_page ( void )
     g_signal_connect ( G_OBJECT ( button_2 ),
                         "released",
                         G_CALLBACK ( bet_config_origin_data_clicked ),
-                        NULL );
+                        GINT_TO_POINTER ( 1 ) );
 
     g_object_set_data ( G_OBJECT ( notebook ), "button_1", button_1 );
     g_object_set_data ( G_OBJECT ( notebook ), "button_2", button_2 );
@@ -201,7 +196,7 @@ GtkWidget *bet_historical_create_page ( void )
         g_signal_connect ( G_OBJECT ( widget ),
                         "changed",
                         G_CALLBACK (bet_config_fyear_clicked),
-                        NULL );
+                        GINT_TO_POINTER ( 1 ) );
     }
 
     /* création de la liste des données */

@@ -35,7 +35,6 @@
 #include "./utils_dates.h"
 #include "./utils_str.h"
 #include "./include.h"
-#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 
@@ -83,7 +82,7 @@ typedef struct
 
 
 /*START_STATIC*/
-static  void _gsb_data_scheduled_free ( struct_scheduled *scheduled);
+static  void _gsb_data_scheduled_free ( struct_scheduled *scheduled );
 static void gsb_data_scheduled_delete_all_scheduled ();
 static gint gsb_data_scheduled_get_last_number (void);
 static gint gsb_data_scheduled_get_last_white_number (void);

@@ -44,6 +44,7 @@
 #include "./transaction_list.h"
 #include "./gsb_transactions_list.h"
 #include "./fenetre_principale.h"
+#include "./gtk_combofix.h"
 #include "./gsb_data_transaction.h"
 #include "./include.h"
 #include "./erreur.h"

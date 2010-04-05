@@ -42,8 +42,8 @@
 #include "./gsb_currency_config.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
-#include "./gsb_data_category.h"
 #include "./gsb_data_budget.h"
+#include "./gsb_data_category.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_form.h"
 #include "./gsb_data_fyear.h"
@@ -61,7 +61,6 @@
 #include "./tiers_onglet.h"
 #include "./gsb_real.h"
 #include "./gsb_status.h"
-#include "./utils_files.h"
 #include "./utils_str.h"
 #include "./gsb_transactions_list.h"
 #include "./gtk_combofix.h"
@@ -71,6 +70,7 @@
 #include "./parametres.h"
 #include "./qif.h"
 #include "./transaction_list.h"
+#include "./utils_files.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
 #include "./go-charmap-sel.h"
@@ -120,6 +120,7 @@ static gboolean gsb_import_associations_select_func ( GtkTreeSelection *selectio
 static gchar **gsb_import_by_rule_ask_filename ( gint rule );
 static gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
                         GtkWidget *entry );
+static void gsb_import_check_ope_import ( GtkWidget *widget, gpointer data );
 static gboolean gsb_import_check_transaction_link ( gint transaction_number,
                         gint tested_transaction );
 static GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent );
@@ -131,6 +132,10 @@ static gboolean gsb_import_define_action ( struct struct_compte_importation *imp
                         GDate *first_date_import );
 static GDate *gsb_import_get_first_date ( GSList *import_list );
 static gboolean gsb_import_gunzip_file ( gchar *filename );
+static void gsb_import_lookup_budget ( struct struct_ope_importation *imported_transaction,
+                        gint transaction_number);
+static gboolean gsb_import_ope_import_test_toggled ( GtkWidget *vbox , gboolean test );
+static void gsb_import_ope_import_toggled ( GtkWidget *button, GtkWidget *vbox );
 static gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id );
 static gboolean gsb_import_set_tmp_file ( gchar *filename,
                         gchar * pointeur_char );
@@ -150,11 +155,6 @@ static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *pat
 static void pointe_opes_importees ( struct struct_compte_importation *imported_account,
                         gint account_number );
 static void traitement_operations_importees ( void );
-static void gsb_import_lookup_budget ( struct struct_ope_importation *imported_transaction,
-                        gint transaction_number );
-static void gsb_import_check_ope_import ( GtkWidget *widget, gpointer data );
-static void gsb_import_ope_import_toggled ( GtkWidget *button, GtkWidget *vbox );
-static gboolean gsb_import_ope_import_test_toggled ( GtkWidget *vbox , gboolean test );
 /*END_STATIC*/
 
 /*START_EXTERN*/

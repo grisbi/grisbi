@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-03 20:41+0200\n"
+"POT-Creation-Date: 2010-04-05 09:27+0200\n"
 "PO-Revision-Date: 2010-02-05 01:30+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -539,31 +539,36 @@ msgstr "Nepovolit vytvoření nové kategorie / rozpočtu"
 msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr ""
 
-#: src/balance_estimate_config.c:89 src/etats_config.c:6371
+#: src/balance_estimate_config.c:93 src/etats_config.c:6371
 msgid "Month"
 msgstr "Měsíc"
 
-#: src/balance_estimate_config.c:90 src/etats_config.c:6375
+#: src/balance_estimate_config.c:94 src/etats_config.c:6375
 msgid "Year"
 msgstr "Rok"
 
-#: src/balance_estimate_config.c:115 src/parametres.c:543
+#: src/balance_estimate_config.c:116 src/parametres.c:543
 #, fuzzy
-msgid "Accounts data"
-msgstr "Detaily účtu"
+msgid "General Options"
+msgstr "Hlavní"
 
-#: src/balance_estimate_config.c:121
+#: src/balance_estimate_config.c:122
 #, fuzzy
 msgid "Common data"
 msgstr "Běžná adresa"
 
-#: src/balance_estimate_config.c:131
+#: src/balance_estimate_config.c:156 src/parametres.c:552
 #, fuzzy
-msgid "Data Per Account"
-msgstr "Vytvořit nový účet"
+msgid "Accounts data"
+msgstr "Detaily účtu"
+
+#: src/balance_estimate_config.c:162
+#, fuzzy
+msgid "Select an account"
+msgstr "Označit bankovní účty"
 
 #. set the choice of account
-#: src/balance_estimate_config.c:136 src/categories_onglet.c:152
+#: src/balance_estimate_config.c:167 src/categories_onglet.c:152
 #: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
 #: src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_payment_method_config.c:161 src/gsb_reconcile_config.c:96
@@ -572,79 +577,115 @@ msgstr "Vytvořit nový účet"
 msgid "Account"
 msgstr "Účet"
 
-#: src/balance_estimate_config.c:182
-msgid "Beginning of period"
-msgstr "Začátek období"
-
-#: src/balance_estimate_config.c:191
+#: src/balance_estimate_config.c:184
 #, fuzzy
-msgid "1st day of month"
-msgstr "první den v měsíci"
+msgid "Data for the forecast"
+msgstr "Špatné datum pro pořadí"
 
-#: src/balance_estimate_config.c:197
-msgid "date today"
-msgstr "dnešní datum"
-
-#: src/balance_estimate_config.c:219
-msgid "Note: This option is used if no starting date for forecasts."
-msgstr ""
-
-#. partie mensuelle
-#: src/balance_estimate_config.c:253 src/balance_estimate_tab.c:474
-#, fuzzy
-msgid "Duration estimation"
-msgstr "Odhad trvání"
-
-#: src/balance_estimate_config.c:320
+#: src/balance_estimate_config.c:196
 #, fuzzy
 msgid "Sources of historical data"
 msgstr "Historická data"
 
+#: src/balance_estimate_config.c:230
+msgid "Beginning of period"
+msgstr "Začátek období"
+
+#: src/balance_estimate_config.c:239
+#, fuzzy
+msgid "1st day of month"
+msgstr "první den v měsíci"
+
+#: src/balance_estimate_config.c:245
+msgid "date today"
+msgstr "dnešní datum"
+
+#: src/balance_estimate_config.c:266
+msgid "Note: This option is used if no starting date for forecasts."
+msgstr ""
+
+#. partie mensuelle
+#: src/balance_estimate_config.c:303 src/balance_estimate_tab.c:480
+#, fuzzy
+msgid "Duration estimation"
+msgstr "Odhad trvání"
+
+#: src/balance_estimate_config.c:373
+#, fuzzy
+msgid "Labels for transactions"
+msgstr "Klikatelné trasakce"
+
+#: src/balance_estimate_config.c:378 src/balance_estimate_config.c:395
+#: src/balance_estimate_config.c:411
+#, fuzzy
+msgid "By default"
+msgstr "Zpět k výchozím"
+
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
-#: src/balance_estimate_config.c:330 src/balance_estimate_hist.c:159
-#: src/etats_config.c:526 src/etats_config.c:529 src/etats_config.c:2991
-#: src/etats_config.c:7057 src/fenetre_principale.c:274 src/navigation.c:302
-#: src/navigation.c:1213
+#: src/balance_estimate_config.c:379 src/balance_estimate_config.c:396
+#: src/balance_estimate_config.c:412 src/balance_estimate_config.c:457
+#: src/balance_estimate_hist.c:159 src/etats_config.c:526
+#: src/etats_config.c:529 src/etats_config.c:2991 src/etats_config.c:7057
+#: src/fenetre_principale.c:274 src/navigation.c:302 src/navigation.c:1213
 msgid "Categories"
 msgstr "Kategorie"
 
 #. mise en place de la paddingbox des ib
 #. set the title
-#: src/balance_estimate_config.c:339 src/balance_estimate_hist.c:167
-#: src/etats_config.c:535 src/etats_config.c:538 src/etats_config.c:3797
-#: src/etats_config.c:7134 src/export_csv.c:799 src/fenetre_principale.c:279
-#: src/import_csv.c:86 src/navigation.c:319 src/navigation.c:1224
-#: src/traitement_variables.c:80
+#: src/balance_estimate_config.c:380 src/balance_estimate_config.c:397
+#: src/balance_estimate_config.c:413 src/balance_estimate_config.c:466
+#: src/balance_estimate_hist.c:168 src/etats_config.c:535
+#: src/etats_config.c:538 src/etats_config.c:3797 src/etats_config.c:7134
+#: src/export_csv.c:799 src/fenetre_principale.c:279 src/import_csv.c:86
+#: src/navigation.c:319 src/navigation.c:1224 src/traitement_variables.c:80
 msgid "Budgetary lines"
 msgstr "Rozpočty"
 
-#: src/balance_estimate_config.c:353 src/balance_estimate_hist.c:188
+#: src/balance_estimate_config.c:390
+#, fuzzy
+msgid "Labels for scheduled transactions"
+msgstr "Uzavřené plánované transakce"
+
+#: src/balance_estimate_config.c:406
+msgid "Labels for futur data"
+msgstr ""
+
+#: src/balance_estimate_config.c:419
+#, fuzzy
+msgid ""
+"Order by default if the data are not zero: notes, payee, category and "
+"budgetary line."
+msgstr ""
+"Použít tuto měnu pro součty za plátce/příjemce,\n"
+"kategorie a rozpočty "
+
+#: src/balance_estimate_config.c:480 src/balance_estimate_hist.c:189
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Zvolte fiskální rok nebo pohyblivých 12 měsíců"
 
 #. name of the div sous-div column
-#: src/balance_estimate_config.c:504 src/balance_estimate_hist.c:527
+#: src/balance_estimate_config.c:643 src/balance_estimate_hist.c:528
 #: src/categories_onglet.c:143 src/etats_affiche.c:2433 src/etats_config.c:673
 #: src/export_csv.c:790 src/gsb_transactions_list.c:156 src/import_csv.c:84
 #: src/meta_categories.c:65 src/traitement_variables.c:88
 msgid "Category"
 msgstr "Kategorie"
 
-#: src/balance_estimate_config.c:510 src/balance_estimate_future.c:752
+#: src/balance_estimate_config.c:649 src/balance_estimate_future.c:768
 #: src/etats_affiche.c:2440 src/etats_config.c:677 src/gsb_form.c:1342
 #: src/gsb_form_widget.c:454 src/gsb_transactions_list.c:148
 #: src/imputation_budgetaire.c:155 src/meta_budgetary.c:62
 msgid "Budgetary line"
 msgstr "Rozpočet"
 
-#: src/balance_estimate_future.c:192 src/balance_estimate_future.c:1628
+#: src/balance_estimate_future.c:192 src/balance_estimate_future.c:1648
 msgid ""
 "Error: the frequency defined by the user or the amount is not specified or "
 "the date is invalid."
 msgstr ""
 
-#: src/balance_estimate_future.c:194 src/balance_estimate_future.c:1630
+#: src/balance_estimate_future.c:194 src/balance_estimate_future.c:1650
 #: src/gsb_currency.c:720
 #, fuzzy
 msgid "One field is not filled in"
@@ -656,7 +697,7 @@ msgstr "Jedno z polí není vyplněné"
 msgid "Enter a budget line"
 msgstr "Přidat rozpočet"
 
-#: src/balance_estimate_future.c:276 src/balance_estimate_future.c:791
+#: src/balance_estimate_future.c:276 src/balance_estimate_future.c:807
 #: src/gsb_form_scheduler.c:152 src/gsb_form_scheduler.c:875
 #: src/gsb_scheduler_list.c:998
 msgid "Once"
@@ -687,7 +728,7 @@ msgstr "Čtvrtletně"
 msgid "Yearly"
 msgstr "Ročně"
 
-#: src/balance_estimate_future.c:277 src/balance_estimate_future.c:805
+#: src/balance_estimate_future.c:277 src/balance_estimate_future.c:821
 #: src/etats_config.c:179 src/gsb_form_scheduler.c:153
 #: src/gsb_form_scheduler.c:885
 msgid "Custom"
@@ -749,7 +790,7 @@ msgstr "Zvolte fiskální rok"
 msgid "Choose the method of payment"
 msgstr "Zvolte metodu platby"
 
-#: src/balance_estimate_future.c:706 src/balance_estimate_tab.c:576
+#: src/balance_estimate_future.c:722 src/balance_estimate_tab.c:583
 #: src/etats_affiche.c:2405 src/export_csv.c:760
 #: src/gsb_assistant_reconcile_config.c:594 src/gsb_form.c:1284
 #: src/gsb_form_widget.c:422 src/gsb_reconcile.c:148
@@ -759,7 +800,7 @@ msgid "Date"
 msgstr "Datum"
 
 #. mise en place de la paddingbox des tiers
-#: src/balance_estimate_future.c:724 src/etats_affiche.c:2426
+#: src/balance_estimate_future.c:740 src/etats_affiche.c:2426
 #: src/etats_config.c:517 src/etats_config.c:520 src/etats_config.c:685
 #: src/etats_config.c:7022 src/export_csv.c:775 src/fenetre_principale.c:269
 #: src/gsb_assistant_reconcile_config.c:594 src/gsb_form.c:1311
@@ -771,7 +812,7 @@ msgid "Payee"
 msgstr "Plátce/příjemce"
 
 #. Debit method_ptr
-#: src/balance_estimate_future.c:731 src/balance_estimate_tab.c:602
+#: src/balance_estimate_future.c:747 src/balance_estimate_tab.c:609
 #: src/categories_onglet.c:696 src/export_csv.c:781 src/gsb_form.c:1318
 #: src/gsb_form_widget.c:426 src/gsb_payment_method_config.c:318
 #: src/gsb_payment_method_config.c:389 src/gsb_payment_method_config.c:1084
@@ -781,7 +822,7 @@ msgid "Debit"
 msgstr "Debet"
 
 #. Credit method_ptr
-#: src/balance_estimate_future.c:738 src/balance_estimate_tab.c:617
+#: src/balance_estimate_future.c:754 src/balance_estimate_tab.c:624
 #: src/categories_onglet.c:696 src/export_csv.c:778 src/gsb_form.c:1325
 #: src/gsb_form_widget.c:430 src/gsb_payment_method_config.c:325
 #: src/gsb_payment_method_config.c:402 src/gsb_payment_method_config.c:1080
@@ -790,30 +831,30 @@ msgstr "Debet"
 msgid "Credit"
 msgstr "Kredit"
 
-#: src/balance_estimate_future.c:745 src/gsb_form.c:1332
+#: src/balance_estimate_future.c:761 src/gsb_form.c:1332
 #: src/gsb_form_widget.c:446
 msgid "Categories : Sub-categories"
 msgstr "Kategorie : Podkategorie"
 
 #. Notes
-#: src/balance_estimate_future.c:759 src/etats_affiche.c:2447
+#: src/balance_estimate_future.c:775 src/etats_affiche.c:2447
 #: src/export_csv.c:796 src/gsb_bank.c:915 src/gsb_form.c:1349
 #: src/gsb_form_widget.c:458 src/gsb_transactions_list.c:159
 #: src/import_csv.c:82 src/traitement_variables.c:91
 msgid "Notes"
 msgstr "Pozn."
 
-#: src/balance_estimate_hist.c:517 src/tiers_onglet.c:1113
+#: src/balance_estimate_hist.c:518 src/tiers_onglet.c:1113
 #, fuzzy
 msgid "Select"
 msgstr "Vybrat"
 
-#: src/balance_estimate_hist.c:545
+#: src/balance_estimate_hist.c:546
 #, fuzzy
 msgid "Period"
 msgstr "Období"
 
-#: src/balance_estimate_hist.c:561 src/categories_onglet.c:161
+#: src/balance_estimate_hist.c:562 src/categories_onglet.c:161
 #: src/etats_config.c:5239 src/export_csv.c:784
 #: src/gsb_assistant_reconcile_config.c:594 src/gsb_scheduler_list.c:340
 #: src/gsb_transactions_list.c:152 src/import.c:3206
@@ -822,11 +863,11 @@ msgstr "Období"
 msgid "Amount"
 msgstr "Částka"
 
-#: src/balance_estimate_hist.c:578
+#: src/balance_estimate_hist.c:579
 msgid "Average"
 msgstr "Průměr"
 
-#: src/balance_estimate_hist.c:595
+#: src/balance_estimate_hist.c:596
 #, fuzzy
 msgid "Amount retained"
 msgstr "Zadržená částka"
@@ -836,55 +877,55 @@ msgstr "Zadržená částka"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it tha fyear should be showed
-#: src/balance_estimate_hist.c:679 src/balance_estimate_hist.c:982
+#: src/balance_estimate_hist.c:680 src/balance_estimate_hist.c:983
 msgid "12 months rolling"
 msgstr "pohyblivých 12 měsíců"
 
 #. Add last amount menu
-#: src/balance_estimate_hist.c:1380
+#: src/balance_estimate_hist.c:1381
 #, fuzzy
 msgid "Assign the amount of the last operation"
 msgstr "U importovaných částek otočit znaménko"
 
 #. Add average amount menu
-#: src/balance_estimate_hist.c:1403
+#: src/balance_estimate_hist.c:1404
 msgid "Copy the average amount"
 msgstr ""
 
-#: src/balance_estimate_tab.c:357
+#: src/balance_estimate_tab.c:363
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Odhadovaný zůstatek účtu \"%s\" od %s do %s"
 
-#: src/balance_estimate_tab.c:366
+#: src/balance_estimate_tab.c:372
 #, fuzzy, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr "Prosím vyberte zdroj dat"
 
-#: src/balance_estimate_tab.c:377
+#: src/balance_estimate_tab.c:383
 msgid "balance beginning of period"
 msgstr "zůstatek na začátku období"
 
-#: src/balance_estimate_tab.c:515
+#: src/balance_estimate_tab.c:522
 #, fuzzy
 msgid "Start date"
 msgstr "Začátek"
 
 #. Description entry
-#: src/balance_estimate_tab.c:590 src/etats_onglet.c:261
+#: src/balance_estimate_tab.c:597 src/etats_onglet.c:261
 #: src/tiers_onglet.c:638
 msgid "Description"
 msgstr "Popis"
 
-#: src/balance_estimate_tab.c:631 src/export_csv.c:787 src/gsb_reconcile.c:151
+#: src/balance_estimate_tab.c:638 src/export_csv.c:787 src/gsb_reconcile.c:151
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:151
 #: src/gsb_transactions_list.c:2955 src/import_csv.c:88
 #: src/traitement_variables.c:83
 msgid "Balance"
 msgstr "Zůstatek"
 
-#: src/balance_estimate_tab.c:718 src/balance_estimate_tab.c:728
-#: src/balance_estimate_tab.c:917
+#: src/balance_estimate_tab.c:725 src/balance_estimate_tab.c:735
+#: src/balance_estimate_tab.c:922
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
@@ -893,53 +934,76 @@ msgstr ""
 "Převod mezi účtem: %s\n"
 "a účtem: %s"
 
-#: src/balance_estimate_tab.c:1225
+#: src/balance_estimate_tab.c:1227
 msgid "Subtract to the balance"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1232
+#: src/balance_estimate_tab.c:1234
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Další zůstatek"
 
-#: src/balance_estimate_tab.c:1248
+#: src/balance_estimate_tab.c:1250
 msgid "Insert Row"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1265 src/balance_estimate_tab.c:1277
-#: src/balance_estimate_tab.c:1298
+#: src/balance_estimate_tab.c:1267 src/balance_estimate_tab.c:1279
+#: src/balance_estimate_tab.c:1300
 #, fuzzy
 msgid "Delete selection"
 msgstr "Výběr data"
 
-#: src/balance_estimate_tab.c:1288
+#: src/balance_estimate_tab.c:1290
 #, fuzzy
 msgid "Change selection"
 msgstr "Výběr data"
 
-#: src/balance_estimate_tab.c:1309
+#: src/balance_estimate_tab.c:1311
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "Odstranit jeden nebo všechny výskyty plánované transakce."
 
-#. redo item
 #: src/balance_estimate_tab.c:1326
+#, fuzzy
+msgid "Convert selection to scheduled transaction"
+msgstr "Změnit transakci na plánovanou transakci"
+
+#. redo item
+#: src/balance_estimate_tab.c:1343
 #, fuzzy
 msgid "Reset data"
 msgstr "Poslední datum"
 
-#: src/balance_estimate_tab.c:1586
+#: src/balance_estimate_tab.c:1616
 #, fuzzy
 msgid " (still available)"
 msgstr "Popis není k dispozici"
 
-#: src/balance_estimate_tab.c:1594
+#: src/balance_estimate_tab.c:1624
 msgid " (yet to receive)"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1605 src/balance_estimate_tab.c:1616
+#: src/balance_estimate_tab.c:1635 src/balance_estimate_tab.c:1646
 #, fuzzy
 msgid " (budget exceeded)"
+msgstr "Žádný rozpočet"
+
+#: src/balance_estimate_tab.c:2060 src/balance_estimate_tab.c:2110
+#: src/balance_estimate_tab.c:2155
+#, fuzzy
+msgid "No data by default"
+msgstr "Zpět k výchozím"
+
+#: src/balance_estimate_tab.c:2068 src/balance_estimate_tab.c:2118
+#: src/balance_estimate_tab.c:2161 src/etats_affiche.c:1860
+#: src/gsb_data_category.c:155 src/meta_categories.c:66
+msgid "No category"
+msgstr "Žádná kategorie"
+
+#: src/balance_estimate_tab.c:2076 src/balance_estimate_tab.c:2126
+#: src/balance_estimate_tab.c:2167 src/etats_affiche.c:2030
+#: src/meta_budgetary.c:63
+msgid "No budgetary line"
 msgstr "Žádný rozpočet"
 
 #. New transaction
@@ -1272,7 +1336,7 @@ msgstr "Vlastnosti pro %s"
 msgid "No sub-category defined"
 msgstr "Nebyla určena podkategorie"
 
-#: src/categories_onglet.c:640 src/qif.c:1144 src/qif.c:1151
+#: src/categories_onglet.c:640 src/qif.c:1152 src/qif.c:1159
 #, fuzzy
 msgid "No category defined"
 msgstr "Nebyla určena kategorie"
@@ -1856,23 +1920,14 @@ msgid "Transfert"
 msgstr "Převody"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1043
-#: src/gsb_form.c:723 src/gsb_form.c:2750 src/gsb_form.c:3151
+#: src/gsb_form.c:723 src/gsb_form.c:2750 src/gsb_form.c:3150
 #: src/gsb_form_scheduler.c:316 src/gsb_transactions_list.c:3360
 msgid "Split of transaction"
 msgstr "Rozdělení transakce"
 
-#: src/etats_affiche.c:1860 src/gsb_data_category.c:155
-#: src/meta_categories.c:66
-msgid "No category"
-msgstr "Žádná kategorie"
-
 #: src/etats_affiche.c:1946
 msgid "No subcategory"
 msgstr "Žádná podkategorie"
-
-#: src/etats_affiche.c:2030 src/meta_budgetary.c:63
-msgid "No budgetary line"
-msgstr "Žádný rozpočet"
 
 #: src/etats_affiche.c:2115 src/meta_budgetary.c:64
 msgid "No sub-budgetary line"
@@ -2698,7 +2753,7 @@ msgstr "Klikatelné trasakce"
 msgid "Make transactions clickable"
 msgstr "Transakce budou reagovat na kliknutí"
 
-#: src/etats_config.c:6828 src/parametres.c:1148
+#: src/etats_config.c:6828 src/parametres.c:1158
 msgid "Totals currencies"
 msgstr "Měny pro součty"
 
@@ -3278,7 +3333,7 @@ msgid "Historical data"
 msgstr "Historická data"
 
 #: src/fenetre_principale.c:264 src/navigation.c:268 src/parametres.c:320
-#: src/parametres.c:1067
+#: src/parametres.c:1077
 msgid "Scheduler"
 msgstr "Plánovač"
 
@@ -4402,7 +4457,7 @@ msgstr "Archivovat podle sestavy"
 msgid "Grisbi will archive transactions selected by a report."
 msgstr "Grisbi zaarchivuje transakce podle zvolené sestavy."
 
-#: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:515
+#: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:514
 #: src/gsb_form.c:2858 src/gsb_form.c:2859 src/navigation.c:1238
 msgid "Report"
 msgstr "Sestava"
@@ -4676,7 +4731,7 @@ msgstr "Názvy a soubory"
 #. will we crypt the file ?
 #. crypt the grisbi file
 #: src/gsb_assistant_file.c:323 src/gsb_assistant_first.c:249
-#: src/parametres.c:835
+#: src/parametres.c:845
 msgid "Encrypt Grisbi file"
 msgstr "Zašifrovat soubor Grisbi"
 
@@ -4788,12 +4843,12 @@ msgid "General configuration of Grisbi"
 msgstr "Základní nastavení Grisbi"
 
 #. configure the browser
-#: src/gsb_assistant_first.c:209 src/parametres.c:990
+#: src/gsb_assistant_first.c:209 src/parametres.c:1000
 #, fuzzy
 msgid "Web"
 msgstr "Web"
 
-#: src/gsb_assistant_first.c:216 src/parametres.c:997
+#: src/gsb_assistant_first.c:216 src/parametres.c:1007
 #, fuzzy
 msgid "Web browser command"
 msgstr "Příkaz webového prohlížeče"
@@ -4803,41 +4858,41 @@ msgstr "Příkaz webového prohlížeče"
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr "Můžete použít %s na určení URL např.: 'firefox -remote %s'"
 
-#: src/gsb_assistant_first.c:234 src/parametres.c:818
+#: src/gsb_assistant_first.c:234 src/parametres.c:828
 msgid "Account files handling"
 msgstr "Operace se soubory"
 
 #. Automatically load last file on startup?
-#: src/gsb_assistant_first.c:237 src/parametres.c:821
+#: src/gsb_assistant_first.c:237 src/parametres.c:831
 msgid "Automatically load last file on startup"
 msgstr "Při startu automaticky načíst poslední soubor"
 
 #. automatically save file at closing
-#: src/gsb_assistant_first.c:243 src/parametres.c:825
+#: src/gsb_assistant_first.c:243 src/parametres.c:835
 msgid "Automatically save on exit"
 msgstr "Automaticky uložit při ukončení"
 
 #. Automatic backup ?
-#: src/gsb_assistant_first.c:255 src/parametres.c:875
+#: src/gsb_assistant_first.c:255 src/parametres.c:885
 msgid "Make a backup copy before saving files"
 msgstr "Vytvořit záložní kopii před otevřením souboru"
 
-#: src/gsb_assistant_first.c:265 src/parametres.c:883
+#: src/gsb_assistant_first.c:265 src/parametres.c:893
 #, fuzzy
 msgid "Make a backup copy every "
 msgstr "Vytvořit záložní kopii každých "
 
-#: src/gsb_assistant_first.c:276 src/parametres.c:893
+#: src/gsb_assistant_first.c:276 src/parametres.c:903
 #, fuzzy
 msgid " minutes"
 msgstr " minut"
 
-#: src/gsb_assistant_first.c:285 src/parametres.c:900
+#: src/gsb_assistant_first.c:285 src/parametres.c:910
 #, fuzzy
 msgid "Backup directory"
 msgstr "Složka zálohy"
 
-#: src/gsb_assistant_first.c:290 src/parametres.c:907
+#: src/gsb_assistant_first.c:290 src/parametres.c:917
 msgid "Select/Create backup directory"
 msgstr "Vyberte/vytvořte složku pro zálohy"
 
@@ -6746,12 +6801,12 @@ msgstr "Datum změny"
 msgid "Invalid"
 msgstr "Neplatné"
 
-#: src/gsb_data_account.c:229
+#: src/gsb_data_account.c:232
 #, c-format
 msgid "No name %d"
 msgstr "Bez jména %d"
 
-#: src/gsb_data_account.c:541
+#: src/gsb_data_account.c:544
 #, c-format
 msgid ""
 "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
@@ -6759,7 +6814,7 @@ msgstr ""
 "Chybný počet řádků v gsb_data_account_set_nb_rows v gsb_data_account.c : %d\n"
 
 #. TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?
-#: src/gsb_data_account.c:1200
+#: src/gsb_data_account.c:1203
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
@@ -6770,7 +6825,7 @@ msgstr ""
 "no_column = %d\n"
 
 #. TODO dOm : the value of g_strdup_printf was not used. I add the devel_debug function to print it. Is it OK ?
-#: src/gsb_data_account.c:1238
+#: src/gsb_data_account.c:1241
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
@@ -6894,7 +6949,7 @@ msgstr "Vyberte měnu souhrnného zůstatku"
 msgid "No payee defined"
 msgstr "Není zadán plátce/příjemce"
 
-#: src/gsb_data_payee.c:711
+#: src/gsb_data_payee.c:710
 #, fuzzy, c-format
 msgid "The transaction %d has a payee n°%d but it doesn't exist."
 msgstr "Transakce %d má neexistujícího plátce/příjemce č. %d."
@@ -7313,7 +7368,7 @@ msgstr ""
 "pod jiným názvem, nebo povolte volbu \"%s\" v Možnostech."
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:580 src/gsb_file.c:845 src/parametres.c:830
+#: src/gsb_file.c:580 src/gsb_file.c:845 src/parametres.c:840
 msgid "Force saving of locked files"
 msgstr "Vynutit uložení uzamčených souborů"
 
@@ -7504,7 +7559,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "Plugin pro šifrování nebyl nalezen."
 
-#: src/gsb_file_load.c:462 src/gsb_file_load.c:5063
+#: src/gsb_file_load.c:462 src/gsb_file_load.c:5090
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Toto není soubor Grisbi... Nahrávání bylo přerušeno."
@@ -7521,7 +7576,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:8469
+#: src/gsb_file_load.c:8496
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7530,7 +7585,7 @@ msgstr ""
 "Pro otevření tohoto souboru potřebujete verzi Grisbi %s.\n"
 "Vy používáte verzi %s."
 
-#: src/gsb_file_load.c:8508
+#: src/gsb_file_load.c:8535
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7543,7 +7598,7 @@ msgstr ""
 "důležitých informací mějte na paměti, že se jedná o již archivované "
 "transakce."
 
-#: src/gsb_file_load.c:8512
+#: src/gsb_file_load.c:8539
 msgid "Grisbi archive opened"
 msgstr "Archiv Grisbi otevřen"
 
@@ -7778,12 +7833,12 @@ msgstr "Slovo \"Report\" je vyhrazené. Prosím použijte jiné."
 msgid "Invalid multiple payee."
 msgstr "Neplatných více plátců/příjemců."
 
-#: src/gsb_form.c:3174
+#: src/gsb_form.c:3173
 #, fuzzy
 msgid "Modifying a transaction"
 msgstr "Úprava transakce"
 
-#: src/gsb_form.c:3175
+#: src/gsb_form.c:3174
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7797,7 +7852,7 @@ msgstr ""
 "Jste si jist(a)?"
 
 #. propose to configure the form
-#: src/gsb_form.c:3475
+#: src/gsb_form.c:3474
 msgid "Configure the form"
 msgstr "Nastavit formulář"
 
@@ -9853,11 +9908,11 @@ msgstr "Možnosti Grisbi"
 msgid "Main"
 msgstr "Hlavní"
 
-#: src/parametres.c:273 src/parametres.c:814
+#: src/parametres.c:273 src/parametres.c:824
 msgid "Files"
 msgstr "Soubory"
 
-#: src/parametres.c:311 src/parametres.c:988
+#: src/parametres.c:311 src/parametres.c:998
 msgid "Programs"
 msgstr "Programy"
 
@@ -9865,11 +9920,11 @@ msgstr "Programy"
 msgid "Display"
 msgstr "Zobrazení"
 
-#: src/parametres.c:356 src/parametres.c:606
+#: src/parametres.c:356 src/parametres.c:616
 msgid "Messages & warnings"
 msgstr "Zprávy a varování"
 
-#: src/parametres.c:374 src/parametres.c:1145
+#: src/parametres.c:374 src/parametres.c:1155
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "Plátci/příjemci, kategorie a rozpočty"
@@ -9878,7 +9933,7 @@ msgstr "Plátci/příjemci, kategorie a rozpočty"
 msgid "List behavior"
 msgstr "Chování seznamu"
 
-#: src/parametres.c:411 src/parametres.c:692
+#: src/parametres.c:411 src/parametres.c:702
 #, fuzzy
 msgid "Messages before deleting"
 msgstr "Dotazy před odstraněním"
@@ -9910,61 +9965,61 @@ msgid "Balance estimate"
 msgstr "Odhadovaný zůstatek"
 
 #. Tip of the day
-#: src/parametres.c:609
+#: src/parametres.c:619
 msgid "Tip of the day"
 msgstr "Tip dne"
 
 #. Display or not tips
-#: src/parametres.c:612
+#: src/parametres.c:622
 msgid "Display tip of the day"
 msgstr "Zobrazit tip dne"
 
-#: src/parametres.c:619
+#: src/parametres.c:629
 #, fuzzy
 msgid "Display following warnings messages"
 msgstr "Zobrazit následující varovné zprávy"
 
-#: src/parametres.c:640 src/parametres.c:720
+#: src/parametres.c:650 src/parametres.c:730
 #, fuzzy
 msgid "Message"
 msgstr "Zpráva"
 
-#: src/parametres.c:696
+#: src/parametres.c:706
 #, fuzzy
 msgid "Display following messages"
 msgstr "Zobrazit následující zprávy"
 
 #. Compression level of files
-#: src/parametres.c:840
+#: src/parametres.c:850
 msgid "Compress Grisbi file"
 msgstr "Komprimovat soubor Grisbi"
 
-#: src/parametres.c:848
+#: src/parametres.c:858
 msgid "Memorise last opened files"
 msgstr "Pamatovat si poslední otevřené soubory"
 
 #. Backups
-#: src/parametres.c:857
+#: src/parametres.c:867
 msgid "Backups"
 msgstr "Zálohování"
 
 #. Single backup file
-#: src/parametres.c:860
+#: src/parametres.c:870
 #, fuzzy
 msgid "Make a single backup file"
 msgstr "Vytvořit záložní kopii každých "
 
 #. Compression level of backups
-#: src/parametres.c:865
+#: src/parametres.c:875
 msgid "Compress Grisbi backup"
 msgstr "Komprimovat zálohu Grisbi"
 
 #. Backup at each opening?
-#: src/parametres.c:870
+#: src/parametres.c:880
 msgid "Make a backup copy after opening files"
 msgstr "Vytvořit záložní kopii po otevření souboru"
 
-#: src/parametres.c:1006
+#: src/parametres.c:1016
 #, c-format
 msgid ""
 "You may use %s to expand the URL I.e:\n"
@@ -9973,60 +10028,60 @@ msgstr ""
 "Můžete použít %s na určení URL např.:\n"
 "'firefox -remote %s'"
 
-#: src/parametres.c:1017
+#: src/parametres.c:1027
 msgid "LaTeX support (old print system)"
 msgstr "Podpora LaTeX (starý tiskový systém)"
 
-#: src/parametres.c:1024
+#: src/parametres.c:1034
 msgid "LaTeX command"
 msgstr "příkaz pro LateX"
 
-#: src/parametres.c:1032
+#: src/parametres.c:1042
 msgid "dvips command"
 msgstr "příkaz pro dvips"
 
-#: src/parametres.c:1072
+#: src/parametres.c:1082
 #, fuzzy
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Oznámení plánovače při spuštění Grisbi"
 
-#: src/parametres.c:1073
+#: src/parametres.c:1083
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr "Oznámit / provést plánované transakce k datu splatnosti"
 
-#: src/parametres.c:1074
+#: src/parametres.c:1084
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Oznámit / provést plánované transakce pro měsíc"
 
-#: src/parametres.c:1082
+#: src/parametres.c:1092
 #, fuzzy
 msgid "Number of days before the warning or the execution"
 msgstr "Počet dní před oznámením nebo provedením"
 
 #. Take into account the planned operations in the calculation of balances
-#: src/parametres.c:1091
+#: src/parametres.c:1101
 #, fuzzy
 msgid "Calculation of balances"
 msgstr "Počítání zůstatků"
 
-#: src/parametres.c:1097
+#: src/parametres.c:1107
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
 msgstr "Při počítání zůstatků započítat do zůstatku i plánované operace"
 
-#: src/parametres.c:1154
+#: src/parametres.c:1164
 #, fuzzy
 msgid "Sort option for transactions"
 msgstr "Možnosti řazení transakcí"
 
-#: src/parametres.c:1155
+#: src/parametres.c:1165
 #, fuzzy
 msgid "by number"
 msgstr "podle čísla"
 
-#: src/parametres.c:1156
+#: src/parametres.c:1166
 msgid "by date"
 msgstr "podle data"
 
@@ -10459,36 +10514,36 @@ msgstr "Písma a rozložení"
 msgid "Invalid QIF file"
 msgstr "Chybný soubor QIF"
 
-#: src/qif.c:181 src/qif.c:240
+#: src/qif.c:182 src/qif.c:241
 msgid "bank"
 msgstr "bank"
 
-#: src/qif.c:184 src/qif.c:268
+#: src/qif.c:185 src/qif.c:271
 #, fuzzy
 msgid "cash)"
 msgstr "cash)"
 
-#: src/qif.c:187
+#: src/qif.c:188
 #, fuzzy
 msgid "ccard)"
 msgstr "ccard)"
 
-#: src/qif.c:190 src/qif.c:249
+#: src/qif.c:191 src/qif.c:250
 #, fuzzy
 msgid "invst)"
 msgstr "invst)"
 
-#: src/qif.c:193 src/qif.c:277
+#: src/qif.c:194 src/qif.c:280
 #, fuzzy
 msgid "oth a)"
 msgstr "oth a)"
 
-#: src/qif.c:196 src/qif.c:286
+#: src/qif.c:197 src/qif.c:289
 #, fuzzy
 msgid "oth l)"
 msgstr "oth l)"
 
-#: src/qif.c:256
+#: src/qif.c:257
 #, c-format
 msgid ""
 "Grisbi found an investment account (%s), which is not implemented yet.  "
@@ -10497,21 +10552,21 @@ msgstr ""
 "Grisbi nalezl účet investic (%s), který ještě není podporován. Grisbi jej "
 "přesto zkusí naimportovat jako bankovní účet."
 
-#: src/qif.c:483 src/qif.c:486
+#: src/qif.c:490 src/qif.c:493
 msgid " [Transaction imported without date]"
 msgstr " [Transakce byla naimportována bez datumu]"
 
-#: src/qif.c:509
+#: src/qif.c:517
 #, fuzzy
 msgid "Opening Balance"
 msgstr "Počáteční zůstatek"
 
-#: src/qif.c:533
+#: src/qif.c:540
 #, fuzzy
 msgid "Imported QIF account"
 msgstr "Importovaný účet QIF"
 
-#: src/qif.c:541
+#: src/qif.c:548
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10523,7 +10578,7 @@ msgstr ""
 "grisbi.org).\n"
 "Pro tentokrát budou všechna data naimportována jako 01.01.1970"
 
-#: src/qif.c:611
+#: src/qif.c:619
 #, c-format
 msgid ""
 "The date %s seems contains more than 2 separators.\n"
@@ -10534,17 +10589,17 @@ msgstr ""
 "To by se stát nemělo. Prosím zkontaktujte vývojový tým, abychom přidali váš "
 "neobvyklý formát data do Grisbi."
 
-#: src/qif.c:682
+#: src/qif.c:690
 #, fuzzy
 msgid "The order cannot be determined,\n"
 msgstr "Pořadí nemůže být určeno,\n"
 
-#: src/qif.c:687
+#: src/qif.c:695
 #, fuzzy
 msgid "Date wrong for the order "
 msgstr "Špatné datum pro pořadí"
 
-#: src/qif.c:902
+#: src/qif.c:910
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10555,7 +10610,7 @@ msgstr ""
 "ale formát QIF podporuje pouze jedne účet v souboru,\n"
 "proto Grisbi vytvořilo %d souborů, každý se jedním účtem:\n"
 
-#: src/qif.c:965
+#: src/qif.c:973
 #, fuzzy, c-format
 msgid "Error opening file '%s'"
 msgstr "Chyba při otevírání souboru '%s'"
@@ -10907,6 +10962,14 @@ msgid "No font defined"
 msgstr "Není zvoleno písmo"
 
 #, fuzzy
+#~ msgid "Futur data"
+#~ msgstr "datumu"
+
+#, fuzzy
+#~ msgid "Data Per Account"
+#~ msgstr "Vytvořit nový účet"
+
+#, fuzzy
 #~ msgid "Enter keeps current completion"
 #~ msgstr "Doplňovat s rozlišením velikosti písmen"
 
@@ -10914,16 +10977,8 @@ msgstr "Není zvoleno písmo"
 #~ msgid "User frequency"
 #~ msgstr "Volitelná frekvence"
 
-#, fuzzy
-#~ msgid "Future data"
-#~ msgstr "datumu"
-
 #~ msgid "Calculation of period"
 #~ msgstr "Výpočet období"
-
-#, fuzzy
-#~ msgid "General options"
-#~ msgstr "Hlavní"
 
 #, fuzzy
 #~ msgid "End of period"

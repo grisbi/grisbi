@@ -184,4 +184,13 @@ enum alignement {
     LEFT, CENTER, RIGHT,
 };
 
+
+enum bet_array_origin_data {
+    SPP_ORIGIN_TRANSACTION,
+    SPP_ORIGIN_SCHEDULED,
+    SPP_ORIGIN_HISTORICAL,
+    SPP_ORIGIN_FUTURE
+};
+
+
 #endif

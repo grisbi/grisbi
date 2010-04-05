@@ -31,6 +31,8 @@
 
 /*START_INCLUDE*/
 #include "transaction_list_sort.h"
+#include "./gsb_data_transaction.h"
+#include "./utils_dates.h"
 #include "./gsb_reconcile_list.h"
 #include "./gsb_transactions_list_sort.h"
 #include "./gsb_transactions_list.h"

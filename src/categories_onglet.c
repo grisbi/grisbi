@@ -34,6 +34,7 @@
 #include "./gsb_file.h"
 #include "./gsb_file_others.h"
 #include "./main.h"
+#include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./utils.h"
 #include "./utils_buttons.h"
@@ -41,7 +42,6 @@
 #include "./gsb_transactions_list.h"
 #include "./metatree.h"
 #include "./structures.h"
-#include "./traitement_variables.h"
 #include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/

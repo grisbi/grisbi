@@ -30,9 +30,9 @@
 
 /*START_INCLUDE*/
 #include "parametres.h"
-#include "./balance_estimate_config.h"
 #include "./menu.h"
 #include "./utils.h"
+#include "./balance_estimate_config.h"
 #include "./dialog.h"
 #include "./gsb_archive_config.h"
 #include "./gsb_automem.h"
@@ -540,11 +540,21 @@ gboolean preferences ( gint page )
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
                         &iter2,
-                        0, _("Accounts data"),
+                        0, _("General Options"),
                         1, BET_GENERAL_PAGE,
                         2, 400,
                         -1);
-    gtk_notebook_append_page (preference_frame, bet_config_create_page (), NULL);
+    gtk_notebook_append_page (preference_frame, bet_config_create_general_page (), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        &iter2,
+                        0, _("Accounts data"),
+                        1, BET_ACCOUNT_PAGE,
+                        2, 400,
+                        -1);
+    gtk_notebook_append_page (preference_frame, bet_config_create_account_page (), NULL);
+
 #endif
 
     /* select the page */

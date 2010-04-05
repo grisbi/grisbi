@@ -42,7 +42,6 @@ static gchar **split_unique_datefield ( gchar * string, gchar date_tokens [] );
 
 
 /*START_EXTERN*/
-extern gint max;
 /*END_EXTERN*/
 
 

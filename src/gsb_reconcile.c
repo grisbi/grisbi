@@ -36,12 +36,13 @@
 #include "./gsb_data_account.h"
 #include "./gsb_data_reconcile.h"
 #include "./gsb_data_transaction.h"
+#include "./gsb_form_widget.h"
 #include "./navigation.h"
 #include "./fenetre_principale.h"
 #include "./gsb_real.h"
 #include "./gsb_reconcile_list.h"
 #include "./gsb_transactions_list.h"
-#include "./gsb_form_widget.h"
+#include "./utils_editables.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./transaction_list.h"
@@ -51,8 +52,6 @@
 #include "./gsb_data_transaction.h"
 #include "./include.h"
 #include "./gsb_real.h"
-#include "./utils_editables.h"
-#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

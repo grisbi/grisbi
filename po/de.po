@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-03 20:41+0200\n"
+"POT-Creation-Date: 2010-04-05 09:27+0200\n"
 "PO-Revision-Date: 2010-02-21 23:30+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -496,31 +496,36 @@ msgstr "Neue Kategorien dürfen nicht erstellt werden"
 msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr "Maximale Einträge in der Auswahlliste [0 für kein Limit]"
 
-#: src/balance_estimate_config.c:89 src/etats_config.c:6371
+#: src/balance_estimate_config.c:93 src/etats_config.c:6371
 msgid "Month"
 msgstr "Monat"
 
-#: src/balance_estimate_config.c:90 src/etats_config.c:6375
+#: src/balance_estimate_config.c:94 src/etats_config.c:6375
 msgid "Year"
 msgstr "Jahr"
 
-#: src/balance_estimate_config.c:115 src/parametres.c:543
+#: src/balance_estimate_config.c:116 src/parametres.c:543
 #, fuzzy
-msgid "Accounts data"
-msgstr "Konto Details"
+msgid "General Options"
+msgstr "Allgemein"
 
-#: src/balance_estimate_config.c:121
+#: src/balance_estimate_config.c:122
 #, fuzzy
 msgid "Common data"
 msgstr "Hauptadresse"
 
-#: src/balance_estimate_config.c:131
+#: src/balance_estimate_config.c:156 src/parametres.c:552
 #, fuzzy
-msgid "Data Per Account"
-msgstr "Ein neues Konto anlegen"
+msgid "Accounts data"
+msgstr "Konto Details"
+
+#: src/balance_estimate_config.c:162
+#, fuzzy
+msgid "Select an account"
+msgstr "Bankkonten auswählen"
 
 #. set the choice of account
-#: src/balance_estimate_config.c:136 src/categories_onglet.c:152
+#: src/balance_estimate_config.c:167 src/categories_onglet.c:152
 #: src/etats_config.c:681 src/gsb_assistant_reconcile_config.c:399
 #: src/gsb_assistant_reconcile_config.c:594
 #: src/gsb_payment_method_config.c:161 src/gsb_reconcile_config.c:96
@@ -529,76 +534,112 @@ msgstr "Ein neues Konto anlegen"
 msgid "Account"
 msgstr "Konto"
 
-#: src/balance_estimate_config.c:182
+#: src/balance_estimate_config.c:184
+#, fuzzy
+msgid "Data for the forecast"
+msgstr "Falsches Datum für die Sortierung"
+
+#: src/balance_estimate_config.c:196
+msgid "Sources of historical data"
+msgstr "Buchungen Auswahl"
+
+#: src/balance_estimate_config.c:230
 msgid "Beginning of period"
 msgstr "Zeitspanne Anfang"
 
-#: src/balance_estimate_config.c:191
+#: src/balance_estimate_config.c:239
 msgid "1st day of month"
 msgstr "erster Tag vom Monat"
 
-#: src/balance_estimate_config.c:197
+#: src/balance_estimate_config.c:245
 msgid "date today"
 msgstr "aktuelles Datum"
 
-#: src/balance_estimate_config.c:219
+#: src/balance_estimate_config.c:266
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
 
 #. partie mensuelle
-#: src/balance_estimate_config.c:253 src/balance_estimate_tab.c:474
+#: src/balance_estimate_config.c:303 src/balance_estimate_tab.c:480
 msgid "Duration estimation"
 msgstr "Daten Zusammenstellung"
 
-#: src/balance_estimate_config.c:320
-msgid "Sources of historical data"
-msgstr "Buchungen Auswahl"
+#: src/balance_estimate_config.c:373
+#, fuzzy
+msgid "Labels for transactions"
+msgstr "Buchungen Aufruf"
+
+#: src/balance_estimate_config.c:378 src/balance_estimate_config.c:395
+#: src/balance_estimate_config.c:411
+#, fuzzy
+msgid "By default"
+msgstr "Voreinstellung"
 
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
-#: src/balance_estimate_config.c:330 src/balance_estimate_hist.c:159
-#: src/etats_config.c:526 src/etats_config.c:529 src/etats_config.c:2991
-#: src/etats_config.c:7057 src/fenetre_principale.c:274 src/navigation.c:302
-#: src/navigation.c:1213
+#: src/balance_estimate_config.c:379 src/balance_estimate_config.c:396
+#: src/balance_estimate_config.c:412 src/balance_estimate_config.c:457
+#: src/balance_estimate_hist.c:159 src/etats_config.c:526
+#: src/etats_config.c:529 src/etats_config.c:2991 src/etats_config.c:7057
+#: src/fenetre_principale.c:274 src/navigation.c:302 src/navigation.c:1213
 msgid "Categories"
 msgstr "Kategorien"
 
 #. mise en place de la paddingbox des ib
 #. set the title
-#: src/balance_estimate_config.c:339 src/balance_estimate_hist.c:167
-#: src/etats_config.c:535 src/etats_config.c:538 src/etats_config.c:3797
-#: src/etats_config.c:7134 src/export_csv.c:799 src/fenetre_principale.c:279
-#: src/import_csv.c:86 src/navigation.c:319 src/navigation.c:1224
-#: src/traitement_variables.c:80
+#: src/balance_estimate_config.c:380 src/balance_estimate_config.c:397
+#: src/balance_estimate_config.c:413 src/balance_estimate_config.c:466
+#: src/balance_estimate_hist.c:168 src/etats_config.c:535
+#: src/etats_config.c:538 src/etats_config.c:3797 src/etats_config.c:7134
+#: src/export_csv.c:799 src/fenetre_principale.c:279 src/import_csv.c:86
+#: src/navigation.c:319 src/navigation.c:1224 src/traitement_variables.c:80
 msgid "Budgetary lines"
 msgstr "Budgeteinträge"
 
-#: src/balance_estimate_config.c:353 src/balance_estimate_hist.c:188
+#: src/balance_estimate_config.c:390
+#, fuzzy
+msgid "Labels for scheduled transactions"
+msgstr "Geschlossene geplante Buchungen"
+
+#: src/balance_estimate_config.c:406
+msgid "Labels for futur data"
+msgstr ""
+
+#: src/balance_estimate_config.c:419
+#, fuzzy
+msgid ""
+"Order by default if the data are not zero: notes, payee, category and "
+"budgetary line."
+msgstr ""
+"Diese Währung für Salden, Empfänger, Kategorien\n"
+"und Budgeteinträge verwenden"
+
+#: src/balance_estimate_config.c:480 src/balance_estimate_hist.c:189
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Geschäftsjahr oder Zeitraum von 12 Monaten"
 
 #. name of the div sous-div column
-#: src/balance_estimate_config.c:504 src/balance_estimate_hist.c:527
+#: src/balance_estimate_config.c:643 src/balance_estimate_hist.c:528
 #: src/categories_onglet.c:143 src/etats_affiche.c:2433 src/etats_config.c:673
 #: src/export_csv.c:790 src/gsb_transactions_list.c:156 src/import_csv.c:84
 #: src/meta_categories.c:65 src/traitement_variables.c:88
 msgid "Category"
 msgstr "Kategorie"
 
-#: src/balance_estimate_config.c:510 src/balance_estimate_future.c:752
+#: src/balance_estimate_config.c:649 src/balance_estimate_future.c:768
 #: src/etats_affiche.c:2440 src/etats_config.c:677 src/gsb_form.c:1342
 #: src/gsb_form_widget.c:454 src/gsb_transactions_list.c:148
 #: src/imputation_budgetaire.c:155 src/meta_budgetary.c:62
 msgid "Budgetary line"
 msgstr "Budgeteintrag"
 
-#: src/balance_estimate_future.c:192 src/balance_estimate_future.c:1628
+#: src/balance_estimate_future.c:192 src/balance_estimate_future.c:1648
 msgid ""
 "Error: the frequency defined by the user or the amount is not specified or "
 "the date is invalid."
 msgstr ""
 
-#: src/balance_estimate_future.c:194 src/balance_estimate_future.c:1630
+#: src/balance_estimate_future.c:194 src/balance_estimate_future.c:1650
 #: src/gsb_currency.c:720
 msgid "One field is not filled in"
 msgstr "Es wurden nicht alle Eingabefelder befüllt"
@@ -609,7 +650,7 @@ msgstr "Es wurden nicht alle Eingabefelder befüllt"
 msgid "Enter a budget line"
 msgstr "Budgeteinträge Einnahmen"
 
-#: src/balance_estimate_future.c:276 src/balance_estimate_future.c:791
+#: src/balance_estimate_future.c:276 src/balance_estimate_future.c:807
 #: src/gsb_form_scheduler.c:152 src/gsb_form_scheduler.c:875
 #: src/gsb_scheduler_list.c:998
 msgid "Once"
@@ -639,7 +680,7 @@ msgstr "vierteljährlich"
 msgid "Yearly"
 msgstr "jährlich"
 
-#: src/balance_estimate_future.c:277 src/balance_estimate_future.c:805
+#: src/balance_estimate_future.c:277 src/balance_estimate_future.c:821
 #: src/etats_config.c:179 src/gsb_form_scheduler.c:153
 #: src/gsb_form_scheduler.c:885
 msgid "Custom"
@@ -699,7 +740,7 @@ msgstr "Geschäftsjahr auswählen"
 msgid "Choose the method of payment"
 msgstr "Zahlungsweise auswählen"
 
-#: src/balance_estimate_future.c:706 src/balance_estimate_tab.c:576
+#: src/balance_estimate_future.c:722 src/balance_estimate_tab.c:583
 #: src/etats_affiche.c:2405 src/export_csv.c:760
 #: src/gsb_assistant_reconcile_config.c:594 src/gsb_form.c:1284
 #: src/gsb_form_widget.c:422 src/gsb_reconcile.c:148
@@ -709,7 +750,7 @@ msgid "Date"
 msgstr "Datum"
 
 #. mise en place de la paddingbox des tiers
-#: src/balance_estimate_future.c:724 src/etats_affiche.c:2426
+#: src/balance_estimate_future.c:740 src/etats_affiche.c:2426
 #: src/etats_config.c:517 src/etats_config.c:520 src/etats_config.c:685
 #: src/etats_config.c:7022 src/export_csv.c:775 src/fenetre_principale.c:269
 #: src/gsb_assistant_reconcile_config.c:594 src/gsb_form.c:1311
@@ -720,7 +761,7 @@ msgid "Payee"
 msgstr "Empfänger"
 
 #. Debit method_ptr
-#: src/balance_estimate_future.c:731 src/balance_estimate_tab.c:602
+#: src/balance_estimate_future.c:747 src/balance_estimate_tab.c:609
 #: src/categories_onglet.c:696 src/export_csv.c:781 src/gsb_form.c:1318
 #: src/gsb_form_widget.c:426 src/gsb_payment_method_config.c:318
 #: src/gsb_payment_method_config.c:389 src/gsb_payment_method_config.c:1084
@@ -730,7 +771,7 @@ msgid "Debit"
 msgstr "Ausgaben"
 
 #. Credit method_ptr
-#: src/balance_estimate_future.c:738 src/balance_estimate_tab.c:617
+#: src/balance_estimate_future.c:754 src/balance_estimate_tab.c:624
 #: src/categories_onglet.c:696 src/export_csv.c:778 src/gsb_form.c:1325
 #: src/gsb_form_widget.c:430 src/gsb_payment_method_config.c:325
 #: src/gsb_payment_method_config.c:402 src/gsb_payment_method_config.c:1080
@@ -739,28 +780,28 @@ msgstr "Ausgaben"
 msgid "Credit"
 msgstr "Einnahmen"
 
-#: src/balance_estimate_future.c:745 src/gsb_form.c:1332
+#: src/balance_estimate_future.c:761 src/gsb_form.c:1332
 #: src/gsb_form_widget.c:446
 msgid "Categories : Sub-categories"
 msgstr "Kategorien : Unterkategorien"
 
 #. Notes
-#: src/balance_estimate_future.c:759 src/etats_affiche.c:2447
+#: src/balance_estimate_future.c:775 src/etats_affiche.c:2447
 #: src/export_csv.c:796 src/gsb_bank.c:915 src/gsb_form.c:1349
 #: src/gsb_form_widget.c:458 src/gsb_transactions_list.c:159
 #: src/import_csv.c:82 src/traitement_variables.c:91
 msgid "Notes"
 msgstr "Notizen"
 
-#: src/balance_estimate_hist.c:517 src/tiers_onglet.c:1113
+#: src/balance_estimate_hist.c:518 src/tiers_onglet.c:1113
 msgid "Select"
 msgstr "Auswählen"
 
-#: src/balance_estimate_hist.c:545
+#: src/balance_estimate_hist.c:546
 msgid "Period"
 msgstr "Zeitspanne"
 
-#: src/balance_estimate_hist.c:561 src/categories_onglet.c:161
+#: src/balance_estimate_hist.c:562 src/categories_onglet.c:161
 #: src/etats_config.c:5239 src/export_csv.c:784
 #: src/gsb_assistant_reconcile_config.c:594 src/gsb_scheduler_list.c:340
 #: src/gsb_transactions_list.c:152 src/import.c:3206
@@ -769,11 +810,11 @@ msgstr "Zeitspanne"
 msgid "Amount"
 msgstr "Betrag"
 
-#: src/balance_estimate_hist.c:578
+#: src/balance_estimate_hist.c:579
 msgid "Average"
 msgstr "Durchschnitt"
 
-#: src/balance_estimate_hist.c:595
+#: src/balance_estimate_hist.c:596
 msgid "Amount retained"
 msgstr "einbehaltener Betrag"
 
@@ -782,55 +823,55 @@ msgstr "einbehaltener Betrag"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it tha fyear should be showed
-#: src/balance_estimate_hist.c:679 src/balance_estimate_hist.c:982
+#: src/balance_estimate_hist.c:680 src/balance_estimate_hist.c:983
 msgid "12 months rolling"
 msgstr "Zeitraum von 12 Monaten"
 
 #. Add last amount menu
-#: src/balance_estimate_hist.c:1380
+#: src/balance_estimate_hist.c:1381
 #, fuzzy
 msgid "Assign the amount of the last operation"
 msgstr "Den Betrag der importierten Buchungen invertieren"
 
 #. Add average amount menu
-#: src/balance_estimate_hist.c:1403
+#: src/balance_estimate_hist.c:1404
 msgid "Copy the average amount"
 msgstr ""
 
-#: src/balance_estimate_tab.c:357
+#: src/balance_estimate_tab.c:363
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Voraussichtlicher Saldo für das Konto \"%s\" von %s bis %s"
 
-#: src/balance_estimate_tab.c:366
+#: src/balance_estimate_tab.c:372
 #, fuzzy, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr "Buchungen auswählen"
 
-#: src/balance_estimate_tab.c:377
+#: src/balance_estimate_tab.c:383
 msgid "balance beginning of period"
 msgstr "Saldo Anfangsperiode"
 
-#: src/balance_estimate_tab.c:515
+#: src/balance_estimate_tab.c:522
 #, fuzzy
 msgid "Start date"
 msgstr "Beginn"
 
 #. Description entry
-#: src/balance_estimate_tab.c:590 src/etats_onglet.c:261
+#: src/balance_estimate_tab.c:597 src/etats_onglet.c:261
 #: src/tiers_onglet.c:638
 msgid "Description"
 msgstr "Beschreibung"
 
-#: src/balance_estimate_tab.c:631 src/export_csv.c:787 src/gsb_reconcile.c:151
+#: src/balance_estimate_tab.c:638 src/export_csv.c:787 src/gsb_reconcile.c:151
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:151
 #: src/gsb_transactions_list.c:2955 src/import_csv.c:88
 #: src/traitement_variables.c:83
 msgid "Balance"
 msgstr "Saldo"
 
-#: src/balance_estimate_tab.c:718 src/balance_estimate_tab.c:728
-#: src/balance_estimate_tab.c:917
+#: src/balance_estimate_tab.c:725 src/balance_estimate_tab.c:735
+#: src/balance_estimate_tab.c:922
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
@@ -839,51 +880,74 @@ msgstr ""
 "Buchung zwischen Konto :%s\n"
 "und Konto: %s"
 
-#: src/balance_estimate_tab.c:1225
+#: src/balance_estimate_tab.c:1227
 msgid "Subtract to the balance"
 msgstr "Vom Saldo abziehen"
 
-#: src/balance_estimate_tab.c:1232
+#: src/balance_estimate_tab.c:1234
 msgid "Adding to the balance"
 msgstr "Zum Saldo hinzufügen"
 
-#: src/balance_estimate_tab.c:1248
+#: src/balance_estimate_tab.c:1250
 msgid "Insert Row"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1265 src/balance_estimate_tab.c:1277
-#: src/balance_estimate_tab.c:1298
+#: src/balance_estimate_tab.c:1267 src/balance_estimate_tab.c:1279
+#: src/balance_estimate_tab.c:1300
 msgid "Delete selection"
 msgstr "Auswahl löschen"
 
-#: src/balance_estimate_tab.c:1288
+#: src/balance_estimate_tab.c:1290
 #, fuzzy
 msgid "Change selection"
 msgstr "Datum Auswahl"
 
-#: src/balance_estimate_tab.c:1309
+#: src/balance_estimate_tab.c:1311
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "Ein oder alle Vorkommen von einer geplanten Buchung löschen"
 
-#. redo item
 #: src/balance_estimate_tab.c:1326
+#, fuzzy
+msgid "Convert selection to scheduled transaction"
+msgstr "Buchung regelmäßig ausführen"
+
+#. redo item
+#: src/balance_estimate_tab.c:1343
 msgid "Reset data"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1586
+#: src/balance_estimate_tab.c:1616
 #, fuzzy
 msgid " (still available)"
 msgstr "Keine Beschreibung vorhanden"
 
-#: src/balance_estimate_tab.c:1594
+#: src/balance_estimate_tab.c:1624
 msgid " (yet to receive)"
 msgstr ""
 
-#: src/balance_estimate_tab.c:1605 src/balance_estimate_tab.c:1616
+#: src/balance_estimate_tab.c:1635 src/balance_estimate_tab.c:1646
 #, fuzzy
 msgid " (budget exceeded)"
 msgstr "Kein Budgeteintrag definiert"
+
+#: src/balance_estimate_tab.c:2060 src/balance_estimate_tab.c:2110
+#: src/balance_estimate_tab.c:2155
+#, fuzzy
+msgid "No data by default"
+msgstr "Voreinstellung"
+
+#: src/balance_estimate_tab.c:2068 src/balance_estimate_tab.c:2118
+#: src/balance_estimate_tab.c:2161 src/etats_affiche.c:1860
+#: src/gsb_data_category.c:155 src/meta_categories.c:66
+msgid "No category"
+msgstr "Keine Kategorie"
+
+#: src/balance_estimate_tab.c:2076 src/balance_estimate_tab.c:2126
+#: src/balance_estimate_tab.c:2167 src/etats_affiche.c:2030
+#: src/meta_budgetary.c:63
+msgid "No budgetary line"
+msgstr "Kein Budgeteintrag"
 
 #. New transaction
 #: src/barre_outils.c:93 src/gsb_scheduler_list.c:2006
@@ -1177,7 +1241,7 @@ msgstr "Eigenschaften von %s"
 msgid "No sub-category defined"
 msgstr "Keine Unterkategorie definiert"
 
-#: src/categories_onglet.c:640 src/qif.c:1144 src/qif.c:1151
+#: src/categories_onglet.c:640 src/qif.c:1152 src/qif.c:1159
 msgid "No category defined"
 msgstr "Keine Kategorie definiert"
 
@@ -1756,23 +1820,14 @@ msgid "Transfert"
 msgstr "Umbuchung"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1043
-#: src/gsb_form.c:723 src/gsb_form.c:2750 src/gsb_form.c:3151
+#: src/gsb_form.c:723 src/gsb_form.c:2750 src/gsb_form.c:3150
 #: src/gsb_form_scheduler.c:316 src/gsb_transactions_list.c:3360
 msgid "Split of transaction"
 msgstr "Buchung splitten"
 
-#: src/etats_affiche.c:1860 src/gsb_data_category.c:155
-#: src/meta_categories.c:66
-msgid "No category"
-msgstr "Keine Kategorie"
-
 #: src/etats_affiche.c:1946
 msgid "No subcategory"
 msgstr "Keine Unterkategorie"
-
-#: src/etats_affiche.c:2030 src/meta_budgetary.c:63
-msgid "No budgetary line"
-msgstr "Kein Budgeteintrag"
 
 #: src/etats_affiche.c:2115 src/meta_budgetary.c:64
 msgid "No sub-budgetary line"
@@ -2558,7 +2613,7 @@ msgstr "Buchungen Aufruf"
 msgid "Make transactions clickable"
 msgstr "Buchungen sind aufrufbar"
 
-#: src/etats_config.c:6828 src/parametres.c:1148
+#: src/etats_config.c:6828 src/parametres.c:1158
 msgid "Totals currencies"
 msgstr "Währungen"
 
@@ -3122,7 +3177,7 @@ msgid "Historical data"
 msgstr "Prognose Buchungen"
 
 #: src/fenetre_principale.c:264 src/navigation.c:268 src/parametres.c:320
-#: src/parametres.c:1067
+#: src/parametres.c:1077
 msgid "Scheduler"
 msgstr "Planer"
 
@@ -4196,7 +4251,7 @@ msgstr "Archivierung nach Bericht"
 msgid "Grisbi will archive transactions selected by a report."
 msgstr "Es werden alle Buchungen aus einem gewählten Bericht archiviert."
 
-#: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:515
+#: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:514
 #: src/gsb_form.c:2858 src/gsb_form.c:2859 src/navigation.c:1238
 msgid "Report"
 msgstr "Bericht"
@@ -4469,7 +4524,7 @@ msgstr "Bezeichnungen und Dateinamen"
 #. will we crypt the file ?
 #. crypt the grisbi file
 #: src/gsb_assistant_file.c:323 src/gsb_assistant_first.c:249
-#: src/parametres.c:835
+#: src/parametres.c:845
 msgid "Encrypt Grisbi file"
 msgstr "Datei verschlüsseln"
 
@@ -4582,11 +4637,11 @@ msgid "General configuration of Grisbi"
 msgstr "Allgemeine Einstellungen"
 
 #. configure the browser
-#: src/gsb_assistant_first.c:209 src/parametres.c:990
+#: src/gsb_assistant_first.c:209 src/parametres.c:1000
 msgid "Web"
 msgstr "Internet"
 
-#: src/gsb_assistant_first.c:216 src/parametres.c:997
+#: src/gsb_assistant_first.c:216 src/parametres.c:1007
 msgid "Web browser command"
 msgstr "Webbrowser"
 
@@ -4595,38 +4650,38 @@ msgstr "Webbrowser"
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr "Mit %s die URL übergeben - z.B.: 'firefox -remote %s' "
 
-#: src/gsb_assistant_first.c:234 src/parametres.c:818
+#: src/gsb_assistant_first.c:234 src/parametres.c:828
 msgid "Account files handling"
 msgstr "Dateien"
 
 #. Automatically load last file on startup?
-#: src/gsb_assistant_first.c:237 src/parametres.c:821
+#: src/gsb_assistant_first.c:237 src/parametres.c:831
 msgid "Automatically load last file on startup"
 msgstr "Die letzte Datei automatisch öffnen"
 
 #. automatically save file at closing
-#: src/gsb_assistant_first.c:243 src/parametres.c:825
+#: src/gsb_assistant_first.c:243 src/parametres.c:835
 msgid "Automatically save on exit"
 msgstr "Beim Beenden automatisch speichern"
 
 #. Automatic backup ?
-#: src/gsb_assistant_first.c:255 src/parametres.c:875
+#: src/gsb_assistant_first.c:255 src/parametres.c:885
 msgid "Make a backup copy before saving files"
 msgstr "Vor dem Speichern der Datei eine Sicherung erstellen"
 
-#: src/gsb_assistant_first.c:265 src/parametres.c:883
+#: src/gsb_assistant_first.c:265 src/parametres.c:893
 msgid "Make a backup copy every "
 msgstr "Eine Sicherung alle "
 
-#: src/gsb_assistant_first.c:276 src/parametres.c:893
+#: src/gsb_assistant_first.c:276 src/parametres.c:903
 msgid " minutes"
 msgstr " Minuten"
 
-#: src/gsb_assistant_first.c:285 src/parametres.c:900
+#: src/gsb_assistant_first.c:285 src/parametres.c:910
 msgid "Backup directory"
 msgstr "Verzeichnis für Sicherungen"
 
-#: src/gsb_assistant_first.c:290 src/parametres.c:907
+#: src/gsb_assistant_first.c:290 src/parametres.c:917
 msgid "Select/Create backup directory"
 msgstr "Verzeichnis für Sicherungen - Grisbi"
 
@@ -6510,12 +6565,12 @@ msgstr "Aktualisierung Datum"
 msgid "Invalid"
 msgstr "Ungültig"
 
-#: src/gsb_data_account.c:229
+#: src/gsb_data_account.c:232
 #, c-format
 msgid "No name %d"
 msgstr "Kein Name %d"
 
-#: src/gsb_data_account.c:541
+#: src/gsb_data_account.c:544
 #, c-format
 msgid ""
 "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
@@ -6523,7 +6578,7 @@ msgstr ""
 "Bad nb rows nach gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
 
 #. TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?
-#: src/gsb_data_account.c:1200
+#: src/gsb_data_account.c:1203
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
@@ -6533,7 +6588,7 @@ msgstr ""
 "no_column = %d\n"
 
 #. TODO dOm : the value of g_strdup_printf was not used. I add the devel_debug function to print it. Is it OK ?
-#: src/gsb_data_account.c:1238
+#: src/gsb_data_account.c:1241
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
@@ -6654,7 +6709,7 @@ msgstr "Basiswährung für den partiellen Saldo auswählen"
 msgid "No payee defined"
 msgstr "Kein Empfänger definiert"
 
-#: src/gsb_data_payee.c:711
+#: src/gsb_data_payee.c:710
 #, c-format
 msgid "The transaction %d has a payee n°%d but it doesn't exist."
 msgstr ""
@@ -7071,7 +7126,7 @@ msgstr ""
 "Option \"%s\" in den Einstellungen."
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:580 src/gsb_file.c:845 src/parametres.c:830
+#: src/gsb_file.c:580 src/gsb_file.c:845 src/parametres.c:840
 msgid "Force saving of locked files"
 msgstr "Das Speichern von gesperrten Dateien erzwingen"
 
@@ -7256,7 +7311,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "Das Modul für die Verschlüsselung kann nicht gefunden werden."
 
-#: src/gsb_file_load.c:462 src/gsb_file_load.c:5063
+#: src/gsb_file_load.c:462 src/gsb_file_load.c:5090
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Diese Datei ist kein Grisbi-Datei...der Ladevorgang wird abgebrochen."
 
@@ -7272,7 +7327,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:8469
+#: src/gsb_file_load.c:8496
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7281,7 +7336,7 @@ msgstr ""
 "Grisbi mit Version %s ist zum Öffnen der Datei notwendig.\n"
 "Sie verwenden Version %s."
 
-#: src/gsb_file_load.c:8508
+#: src/gsb_file_load.c:8535
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7292,7 +7347,7 @@ msgstr ""
 "Bevor Buchungen oder wichtige Informationen geändert werden sollten Sie "
 "beachten, dass es sich um ein Archiv handelt."
 
-#: src/gsb_file_load.c:8512
+#: src/gsb_file_load.c:8539
 msgid "Grisbi archive opened"
 msgstr "Grisbi Archiv geöffnet"
 
@@ -7532,11 +7587,11 @@ msgstr "Das Wort \"Report\" ist reserviert, bitte ein anderes Wort verwenden."
 msgid "Invalid multiple payee."
 msgstr "Ungültige Gruppe von Empfängern."
 
-#: src/gsb_form.c:3174
+#: src/gsb_form.c:3173
 msgid "Modifying a transaction"
 msgstr "Eine Buchung bearbeiten"
 
-#: src/gsb_form.c:3175
+#: src/gsb_form.c:3174
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7549,7 +7604,7 @@ msgstr ""
 "Soll der Vorgang fortgesetzt werden?"
 
 #. propose to configure the form
-#: src/gsb_form.c:3475
+#: src/gsb_form.c:3474
 msgid "Configure the form"
 msgstr "Buchungsformular Einstellungen"
 
@@ -9471,11 +9526,11 @@ msgstr "Einstellungen - Grisbi"
 msgid "Main"
 msgstr "Allgemein"
 
-#: src/parametres.c:273 src/parametres.c:814
+#: src/parametres.c:273 src/parametres.c:824
 msgid "Files"
 msgstr "Dateien"
 
-#: src/parametres.c:311 src/parametres.c:988
+#: src/parametres.c:311 src/parametres.c:998
 msgid "Programs"
 msgstr "Programme"
 
@@ -9483,11 +9538,11 @@ msgstr "Programme"
 msgid "Display"
 msgstr "Anzeigeoptionen"
 
-#: src/parametres.c:356 src/parametres.c:606
+#: src/parametres.c:356 src/parametres.c:616
 msgid "Messages & warnings"
 msgstr "Tipps & Warnungen"
 
-#: src/parametres.c:374 src/parametres.c:1145
+#: src/parametres.c:374 src/parametres.c:1155
 msgid "Payees, categories and budgetaries"
 msgstr "Währungen & Sortierung"
 
@@ -9495,7 +9550,7 @@ msgstr "Währungen & Sortierung"
 msgid "List behavior"
 msgstr "Einstellungen"
 
-#: src/parametres.c:411 src/parametres.c:692
+#: src/parametres.c:411 src/parametres.c:702
 msgid "Messages before deleting"
 msgstr "Löschrückfragen"
 
@@ -9524,114 +9579,114 @@ msgid "Balance estimate"
 msgstr "Prognosen"
 
 #. Tip of the day
-#: src/parametres.c:609
+#: src/parametres.c:619
 msgid "Tip of the day"
 msgstr "Tipp des Tages"
 
 #. Display or not tips
-#: src/parametres.c:612
+#: src/parametres.c:622
 msgid "Display tip of the day"
 msgstr "Den Tipp des Tages anzeigen"
 
-#: src/parametres.c:619
+#: src/parametres.c:629
 msgid "Display following warnings messages"
 msgstr "Folgende Warnungen anzeigen"
 
-#: src/parametres.c:640 src/parametres.c:720
+#: src/parametres.c:650 src/parametres.c:730
 msgid "Message"
 msgstr "Meldung"
 
-#: src/parametres.c:696
+#: src/parametres.c:706
 msgid "Display following messages"
 msgstr "Folgende Meldungen anzeigen"
 
 #. Compression level of files
-#: src/parametres.c:840
+#: src/parametres.c:850
 msgid "Compress Grisbi file"
 msgstr "Datei komprimieren"
 
-#: src/parametres.c:848
+#: src/parametres.c:858
 msgid "Memorise last opened files"
 msgstr "Dateihistorie Anzahl"
 
 #. Backups
-#: src/parametres.c:857
+#: src/parametres.c:867
 msgid "Backups"
 msgstr "Sicherungen"
 
 #. Single backup file
-#: src/parametres.c:860
+#: src/parametres.c:870
 #, fuzzy
 msgid "Make a single backup file"
 msgstr "Eine Sicherung alle "
 
 #. Compression level of backups
-#: src/parametres.c:865
+#: src/parametres.c:875
 msgid "Compress Grisbi backup"
 msgstr "Sicherung komprimieren"
 
 #. Backup at each opening?
-#: src/parametres.c:870
+#: src/parametres.c:880
 msgid "Make a backup copy after opening files"
 msgstr "Nach dem Öffnen der Datei eine Sicherung erstellen"
 
-#: src/parametres.c:1006
+#: src/parametres.c:1016
 #, c-format
 msgid ""
 "You may use %s to expand the URL I.e:\n"
 "'firefox -remote %s'"
 msgstr "Mit %s die URL übergeben - z.B.: 'firefox -remote %s'"
 
-#: src/parametres.c:1017
+#: src/parametres.c:1027
 msgid "LaTeX support (old print system)"
 msgstr "Druck mit LaTeX"
 
-#: src/parametres.c:1024
+#: src/parametres.c:1034
 msgid "LaTeX command"
 msgstr "LaTeX Befehl"
 
-#: src/parametres.c:1032
+#: src/parametres.c:1042
 msgid "dvips command"
 msgstr "Dvips Befehl"
 
-#: src/parametres.c:1072
+#: src/parametres.c:1082
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Planer Meldungen"
 
-#: src/parametres.c:1073
+#: src/parametres.c:1083
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
 "Am Fälligkeitsdatum einen Hinweis anzeigen und die geplante Buchung ausführen"
 
-#: src/parametres.c:1074
+#: src/parametres.c:1084
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr ""
 "Für geplante Buchungen vom Monat einen Hinweis anzeigen und die Buchungen "
 "ausführen"
 
-#: src/parametres.c:1082
+#: src/parametres.c:1092
 msgid "Number of days before the warning or the execution"
 msgstr "Hinweis für eine geplante Buchung in Tagen davor anzeigen"
 
 #. Take into account the planned operations in the calculation of balances
-#: src/parametres.c:1091
+#: src/parametres.c:1101
 msgid "Calculation of balances"
 msgstr "Berechnung der Salden"
 
-#: src/parametres.c:1097
+#: src/parametres.c:1107
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
 msgstr "Die geplanten Buchungen vom Konto in die Berechnung miteinbeziehen"
 
-#: src/parametres.c:1154
+#: src/parametres.c:1164
 msgid "Sort option for transactions"
 msgstr "Sortierung"
 
-#: src/parametres.c:1155
+#: src/parametres.c:1165
 msgid "by number"
 msgstr "nach Nummer"
 
-#: src/parametres.c:1156
+#: src/parametres.c:1166
 msgid "by date"
 msgstr "nach Datum"
 
@@ -10047,31 +10102,31 @@ msgstr "Schriften & Layout"
 msgid "Invalid QIF file"
 msgstr "Ungültige Qif-Datei"
 
-#: src/qif.c:181 src/qif.c:240
+#: src/qif.c:182 src/qif.c:241
 msgid "bank"
 msgstr "Bank"
 
-#: src/qif.c:184 src/qif.c:268
+#: src/qif.c:185 src/qif.c:271
 msgid "cash)"
 msgstr "Bareinnahmen"
 
-#: src/qif.c:187
+#: src/qif.c:188
 msgid "ccard)"
 msgstr "Kreditkarte"
 
-#: src/qif.c:190 src/qif.c:249
+#: src/qif.c:191 src/qif.c:250
 msgid "invst)"
 msgstr "Investment"
 
-#: src/qif.c:193 src/qif.c:277
+#: src/qif.c:194 src/qif.c:280
 msgid "oth a)"
 msgstr "andere Einnahmen"
 
-#: src/qif.c:196 src/qif.c:286
+#: src/qif.c:197 src/qif.c:289
 msgid "oth l)"
 msgstr "andere Ausgaben"
 
-#: src/qif.c:256
+#: src/qif.c:257
 #, c-format
 msgid ""
 "Grisbi found an investment account (%s), which is not implemented yet.  "
@@ -10081,19 +10136,19 @@ msgstr ""
 "derzeit nicht implementiert. Grisbi wird versuchen, dieses Konto als "
 "Bankkonto zu importieren."
 
-#: src/qif.c:483 src/qif.c:486
+#: src/qif.c:490 src/qif.c:493
 msgid " [Transaction imported without date]"
 msgstr " [Importierte Buchungen ohne Datum]"
 
-#: src/qif.c:509
+#: src/qif.c:517
 msgid "Opening Balance"
 msgstr "Saldo Anfang"
 
-#: src/qif.c:533
+#: src/qif.c:540
 msgid "Imported QIF account"
 msgstr "Importiertes Qif-Konto"
 
-#: src/qif.c:541
+#: src/qif.c:548
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10106,7 +10161,7 @@ msgstr ""
 "Ursache für den Fehler zu finden.\n"
 "Die Buchungen werden mit dem Standarddatum 01.01.1970 importiert"
 
-#: src/qif.c:611
+#: src/qif.c:619
 #, c-format
 msgid ""
 "The date %s seems contains more than 2 separators.\n"
@@ -10118,15 +10173,15 @@ msgstr ""
 "vorkommen. Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) "
 "um die Ursache für den Fehler zu finden."
 
-#: src/qif.c:682
+#: src/qif.c:690
 msgid "The order cannot be determined,\n"
 msgstr "Die Sortierung kann nicht festgelegt werden,\n"
 
-#: src/qif.c:687
+#: src/qif.c:695
 msgid "Date wrong for the order "
 msgstr "Falsches Datum für die Sortierung"
 
-#: src/qif.c:902
+#: src/qif.c:910
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10137,7 +10192,7 @@ msgstr ""
 "Das Qif-Format unterstützt nur eine Datei pro Konto,\n"
 "deshalb hat Grisbi %d Dateien erstellt - jeweils eine pro Konto:\n"
 
-#: src/qif.c:965
+#: src/qif.c:973
 #, c-format
 msgid "Error opening file '%s'"
 msgstr "Fehler beim Öffnen der Datei '%s'"
@@ -10478,6 +10533,14 @@ msgid "No font defined"
 msgstr "Keine Schrift definiert"
 
 #, fuzzy
+#~ msgid "Futur data"
+#~ msgstr "Konto Details"
+
+#, fuzzy
+#~ msgid "Data Per Account"
+#~ msgstr "Ein neues Konto anlegen"
+
+#, fuzzy
 #~ msgid "Enter keeps current completion"
 #~ msgstr "Beim Vervollständigen Groß und Kleinschreibung berücksichtigen"
 
@@ -10486,9 +10549,6 @@ msgstr "Keine Schrift definiert"
 
 #~ msgid "Calculation of period"
 #~ msgstr "Zeitspanne für Berechnung"
-
-#~ msgid "General options"
-#~ msgstr "Allgemein"
 
 #~ msgid "End of period"
 #~ msgstr "Zeitspanne Ende"

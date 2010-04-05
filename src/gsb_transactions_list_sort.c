@@ -42,7 +42,6 @@
 #include "./gsb_data_transaction.h"
 #include "./navigation.h"
 #include "./gsb_real.h"
-#include "./utils_str.h"
 #include "./gsb_transactions_list.h"
 #include "./custom_list.h"
 #include "./gsb_transactions_list.h"

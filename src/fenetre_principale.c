@@ -25,9 +25,9 @@
 
 /*START_INCLUDE*/
 #include "fenetre_principale.h"
+#include "./balance_estimate_tab.h"
 #include "./balance_estimate_data.h"
 #include "./balance_estimate_hist.h"
-#include "./balance_estimate_tab.h"
 #include "./navigation.h"
 #include "./gsb_transactions_list.h"
 #include "./accueil.h"

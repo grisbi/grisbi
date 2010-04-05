@@ -31,8 +31,8 @@
 
 /*START_INCLUDE*/
 #include "gsb_currency.h"
-#include "./gsb_autofunc.h"
 #include "./dialog.h"
+#include "./gsb_autofunc.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_currency_link.h"
@@ -63,7 +63,6 @@ static gboolean gsb_currency_select_change_currency ( GtkWidget *combobox_1,
                         GtkWidget *combobox_2 );
 static gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
                         GtkWidget *entry_2 );
-
 /*END_STATIC*/
 
 /**

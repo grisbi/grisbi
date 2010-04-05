@@ -71,16 +71,12 @@ static gboolean gsb_form_config_realized ( GtkWidget *tree_view,
 				    gpointer null );
 static gboolean gsb_form_config_remove_column ( void );
 static gboolean gsb_form_config_remove_line ( void );
-//~ static gboolean gsb_form_config_switch_general_to_several_form ( void );
 static gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button );
-//~ static  gboolean gsb_form_config_update_accounts ( GtkWidget *button,
-						  //~ GtkWidget *combobox );
 static gboolean gsb_form_config_update_form_config ( gint account_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern GtkWidget *form_transaction_part;
-extern gint max;
 extern gint saved_allocation_size;
 extern GtkWidget *window;
 /*END_EXTERN*/

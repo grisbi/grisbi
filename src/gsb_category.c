@@ -37,6 +37,7 @@
 #include "./gsb_file_others.h"
 #include "./gsb_form_widget.h"
 #include "./gtk_combofix.h"
+#include "./utils_str.h"
 #include "./gsb_data_category.h"
 #include "./utils_files.h"
 #include "./gtk_combofix.h"

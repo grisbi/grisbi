@@ -17,16 +17,23 @@ GtkWidget *gsb_automem_entry_new ( gchar **value,
 GtkWidget *gsb_automem_imagefile_button_new ( GsbButtonStyle style,
 					      const gchar * name, const gchar * filename,
 					      GCallback callback, gpointer data );
+GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
+					    const gchar *choice2,
+					    const gchar *choice3,
+					    gint *value,
+					    GCallback callback,
+					    gpointer data );
 GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,
-					 const gchar *choice2,
-					 gboolean *value,
-					 GCallback hook,
-					 gpointer data );
+					    const gchar *choice2,
+					    gboolean *value,
+					    GCallback hook,
+					    gpointer data );
 GtkWidget *gsb_automem_radiobutton_new_with_title ( GtkWidget *parent,
-						    const gchar *title,
-						    const gchar *choice1, const gchar *choice2,
-						    gboolean *value,
-						    GCallback hook, gpointer data );
+					    const gchar *title,
+					    const gchar *choice1, const gchar *choice2,
+					    gboolean *value,
+					    GCallback hook,
+                        gpointer data );
 GtkWidget *gsb_automem_spin_button_new ( gint *value, 
 					 GCallback hook,
 					 gpointer data );

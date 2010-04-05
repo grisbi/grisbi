@@ -42,10 +42,10 @@ gchar *gsb_data_account_get_bank_account_iban (gint account_number);
 gchar *gsb_data_account_get_bank_account_key ( gint account_number );
 gchar *gsb_data_account_get_bank_account_number ( gint account_number );
 gchar *gsb_data_account_get_bank_branch_code ( gint account_number );
-gint gsb_data_account_get_bet_deb_period ( gint account_number );
 gint gsb_data_account_get_bet_hist_data ( gint account_number );
 gint gsb_data_account_get_bet_hist_fyear ( gint account_number );
 gint gsb_data_account_get_bet_months ( gint account_number );
+gint gsb_data_account_get_bet_select_label ( gint account_number, gint origine );
 gint gsb_data_account_get_bet_spin_range ( gint account_number );
 GDate *gsb_data_account_get_bet_start_date ( gint account_number );
 gint gsb_data_account_get_closed_account ( gint account_number );
@@ -100,10 +100,12 @@ gboolean gsb_data_account_set_bank_account_number ( gint account_number,
                         const gchar *bank_account_number );
 gboolean gsb_data_account_set_bank_branch_code ( gint account_number,
                         const gchar *bank_branch_code );
-gboolean gsb_data_account_set_bet_deb_period ( gint account_number, gint deb_period );
 gboolean gsb_data_account_set_bet_hist_data ( gint account_number, gint hist_data );
 gboolean gsb_data_account_set_bet_hist_fyear ( gint account_number, gint hist_fyear );
 gboolean gsb_data_account_set_bet_months ( gint account_number, gint months );
+gboolean gsb_data_account_set_bet_select_label ( gint account_number,
+                        gint origine,
+                        gint type );
 gboolean gsb_data_account_set_bet_spin_range ( gint account_number, gint spin_range );
 gboolean gsb_data_account_set_bet_start_date ( gint account_number, const GDate *date );
 gboolean gsb_data_account_set_closed_account ( gint account_number,

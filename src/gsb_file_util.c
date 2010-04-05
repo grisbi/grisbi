@@ -31,8 +31,8 @@
 #include "./utils_str.h"
 #include "./utils_files.h"
 #include "./include.h"
-#include "./erreur.h"
 #include "./structures.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

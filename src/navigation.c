@@ -26,7 +26,6 @@
 /*START_INCLUDE*/
 #include "navigation.h"
 #include "./balance_estimate_data.h"
-#include "./balance_estimate_tab.h"
 #include "./gsb_account_property.h"
 #include "./gsb_calendar.h"
 #include "./gsb_data_account.h"
@@ -41,6 +40,7 @@
 #include "./menu.h"
 #include "./etats_onglet.h"
 #include "./accueil.h"
+#include "./gsb_real.h"
 #include "./gsb_reconcile.h"
 #include "./gsb_scheduler_list.h"
 #include "./gsb_transactions_list.h"

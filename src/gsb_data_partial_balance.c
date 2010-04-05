@@ -81,7 +81,6 @@ static void gsb_partial_balance_selectionne_cptes ( GtkWidget *tree_view,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *main_vbox;
 extern gsb_real null_real;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -1492,7 +1491,7 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
  * */
 GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 {
-    GtkWidget *dialog, *label, *table, *paddingbox, * main_vbox, * vbox;
+    GtkWidget *dialog, *label, *table, *paddingbox, *main_vbox, *vbox;
     GtkWidget *entry_name, *entry_list, *account_list, *bouton;
 
     devel_debug ( NULL);

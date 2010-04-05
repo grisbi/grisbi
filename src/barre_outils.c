@@ -44,7 +44,6 @@
 #include "./utils_buttons.h"
 #include "./structures.h"
 #include "./include.h"
-#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

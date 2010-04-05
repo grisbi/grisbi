@@ -67,14 +67,11 @@ lldiv_t lldiv(long long numerator, long long denominator)
 #endif//_MSC_VER
 
 /*START_STATIC*/
-static gchar *gsb_real_format_string ( gsb_real number,
-                        gint currency_number,
-                        gboolean show_symbol );
+static gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add );
 static gboolean gsb_real_grow_exponent( gsb_real *num, guint target_exponent );
 static void gsb_real_minimize_exponent ( gsb_real *num );
 static void gsb_real_raw_minimize_exponent ( gint64 *mantissa, gint *exponent );
 static gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent );
-static gdouble gsb_real_real_to_double ( gsb_real number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -863,7 +860,7 @@ gsb_real gsb_real_div ( gsb_real number_1,
  *
  * \return the number in double format
  * */
-gdouble gsb_real_real_to_double ( gsb_real number )
+/*gdouble gsb_real_real_to_double ( gsb_real number )
 {
     gdouble double_number;
     gint i;
@@ -872,7 +869,7 @@ gdouble gsb_real_real_to_double ( gsb_real number )
     for ( i=0 ; i<number.exponent ; i++ )
 	double_number = double_number / 10;
     return double_number;
-}
+}*/
 
 
 /**
@@ -970,14 +967,14 @@ gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent )
  *
  * \return reverse of number
  * */
-gsb_real gsb_real_inverse ( gsb_real number )
+/*gsb_real gsb_real_inverse ( gsb_real number )
 {
     gsb_real number_tmp;
 
     number_tmp = gsb_real_double_to_real ( 1.00 / gsb_real_real_to_double ( number ) );
 
     return number_tmp;
-}
+}*/
 
 /* Function to transform string into gsb_real */
 gsb_real gsb_str_to_real ( const gchar * str )

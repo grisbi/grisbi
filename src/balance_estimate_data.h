@@ -4,8 +4,7 @@
 #include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
-#include "./gsb_data_scheduled.h"
-#include "./gsb_real.h"
+#include "././gsb_real.h"
 /* END_INCLUDE_H */
 
 
@@ -68,10 +67,8 @@ struct _future_data
 
 /* START_DECLARATION */
 GDate *bet_data_array_get_date_max ( gint account_number );
+gboolean bet_data_future_add_lines ( struct_futur_data *scheduled );
 GHashTable *bet_data_future_get_list ( void );
-gboolean bet_data_future_add_lines ( struct_futur_data *sfd );
-GDate *bet_data_futur_get_next_date ( struct_futur_data *scheduled,
-				     const GDate *date );
 struct_futur_data *bet_data_future_get_struct ( gint account_number, gint number );
 gboolean bet_data_future_modify_lines ( struct_futur_data *scheduled );
 gboolean bet_data_future_remove_line ( gint account_number, gint number );
@@ -79,13 +76,8 @@ gboolean bet_data_future_remove_lines ( gint account_number,
                         gint number,
                         gint mother_row );
 gboolean bet_data_future_set_lines_from_file ( struct_futur_data *scheduled );
-gboolean bet_data_hist_add_div ( gint account_nb,
-                        gint div_number,
-                        gint sub_div_nb );
-gsb_real bet_data_hist_get_div_amount ( gint account_nb, gint div_number, gint sub_div_nb );
-gint bet_data_get_div_children ( gint account_nb, gint div_number );
 gboolean bet_data_get_div_edited ( gint account_nb, gint div_number, gint sub_div_nb );
-gchar *bet_data_get_div_name (gint div_num,
+gchar *bet_data_get_div_name ( gint div_num,
                         gint sub_div,
                         const gchar *return_value_error );
 gint bet_data_get_div_number ( gint transaction_number, gboolean is_transaction );
@@ -93,6 +85,10 @@ gboolean bet_data_get_maj ( void );
 gint bet_data_get_selected_currency ( void );
 GPtrArray *bet_data_get_strings_to_save ( void );
 gint bet_data_get_sub_div_nb ( gint transaction_number, gboolean is_transaction );
+gboolean bet_data_hist_add_div ( gint account_nb,
+                        gint div_number,
+                        gint sub_div_nb );
+gsb_real bet_data_hist_get_div_amount ( gint account_nb, gint div_number, gint sub_div_nb );
 gboolean bet_data_init_variables ( void );
 void bet_data_insert_div_hist ( struct_hist_div *shd, struct_hist_div *sub_shd );
 gboolean bet_data_populate_div ( gint transaction_number,
@@ -112,13 +108,10 @@ gboolean bet_data_set_div_edited ( gint account_nb,
 gboolean bet_data_set_div_ptr ( gint type_div );
 void bet_data_set_maj ( gboolean maj );
 void bet_data_synchronise_hist_div_list ( GHashTable  *list_div );
+void struct_free_bet_historical ( SH *sh );
 struct_futur_data *struct_initialise_bet_future ( void );
 SBR *struct_initialise_bet_range ( void );
-SH *struct_initialise_bet_historical ( void );
 struct_hist_div *struct_initialise_hist_div ( void );
-void struct_free_bet_range ( SBR *sbr );
-void struct_free_bet_historical ( SH *sh );
-void struct_free_bet_future ( struct_futur_data *sfd );
 /* END_DECLARATION */
 
 

@@ -30,8 +30,9 @@
 #include "gtk_combofix.h"
 #include "./dialog.h"
 #include "./gsb_form_widget.h"
-#include "./structures.h"
 #include "./utils_str.h"
+#include "./parametres.h"
+#include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
 
@@ -108,7 +109,6 @@ enum combofix_key_direction {
 };
 
 /*START_EXTERN*/
-extern gint max;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

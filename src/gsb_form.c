@@ -32,8 +32,8 @@
 /*START_INCLUDE*/
 #include "gsb_form.h"
 #include "./accueil.h"
-#include "./dialog.h"
 #include "./balance_estimate_data.h"
+#include "./dialog.h"
 #include "./gsb_calendar_entry.h"
 #include "./gsb_calendar.h"
 #include "./gsb_currency.h"
@@ -95,7 +95,6 @@ static gint gsb_form_check_for_transfer ( const gchar *entry_string );
 static gboolean gsb_form_get_categories ( gint transaction_number,
                         gint new_transaction,
                         gboolean is_transaction );
-//~ static gint gsb_form_get_element_expandable ( gint element_number );
 static gboolean gsb_form_hide ( void );
 static  gboolean gsb_form_size_allocate ( GtkWidget *widget,
                         GtkAllocation *allocation,

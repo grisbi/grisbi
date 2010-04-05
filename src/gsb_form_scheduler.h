@@ -28,13 +28,13 @@ enum scheduled_form_widget {
 gboolean gsb_form_scheduler_button_press_event ( GtkWidget *entry,
                         GdkEventButton *ev,
                         gint *ptr_origin );
-gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
-                        GdkEventFocus *ev,
-                        gint *ptr_origin );
 gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
                         gpointer null );
 gboolean gsb_form_scheduler_clean ( void );
 gboolean gsb_form_scheduler_create ( GtkWidget *table );
+gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
+                        GdkEventFocus *ev,
+                        gint *ptr_origin );
 gboolean gsb_form_scheduler_free_list ( void );
 gint gsb_form_scheduler_get_account ( void );
 GtkWidget *gsb_form_scheduler_get_element_widget ( gint element_number );

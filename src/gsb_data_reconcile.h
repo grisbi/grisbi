@@ -13,7 +13,6 @@ gsb_real gsb_data_reconcile_get_final_balance ( gint reconcile_number );
 const GDate *gsb_data_reconcile_get_final_date ( gint reconcile_number );
 gsb_real gsb_data_reconcile_get_init_balance ( gint reconcile_number );
 const GDate *gsb_data_reconcile_get_init_date ( gint reconcile_number );
-
 const gchar *gsb_data_reconcile_get_name ( gint reconcile_number );
 gint gsb_data_reconcile_get_no_reconcile ( gpointer reconcile_ptr );
 gint gsb_data_reconcile_get_number_by_date ( const GDate *date,

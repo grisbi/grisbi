@@ -37,7 +37,7 @@ gchar *make_hint ( gchar *hint, gchar *text );
 gchar *make_pango_attribut ( gchar *attribut, gchar *text );
 gchar *make_red ( gchar *text );
 gboolean question_conditional_yes_no ( gchar *var );
-gint question_conditional_yes_no_get_no_struct ( struct conditional_message *message,
+gint question_conditional_yes_no_get_no_struct ( struct conditional_message *msg,
                         gchar *name );
 gboolean question_conditional_yes_no_with_struct ( struct conditional_message *message );
 gboolean question_yes_no ( gchar *text, gint default_answer );

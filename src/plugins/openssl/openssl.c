@@ -28,14 +28,16 @@
 /*START_INCLUDE*/
 #include "openssl.h"
 #include "./../../dialog.h"
+#include "./../../main.h"
 #include "./../../structures.h"
 #include "./../../include.h"
 #include "./../../erreur.h"
+/*END_INCLUDE*/
+
 /*FIX FOR THE LINKING ERROR WITH WINDOWS MSVC*/
 #ifdef _MSC_VER
 #include "./../../main.h"
 #endif
-/*END_INCLUDE*/
 
 /*START_EXTERN*/
 extern GtkWidget *window;

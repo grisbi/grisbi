@@ -42,13 +42,11 @@
 #include "./traitement_variables.h"
 #include "./utils.h"
 #include "./transaction_list.h"
-#include "./utils_str.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
-#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

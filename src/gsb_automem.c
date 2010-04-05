@@ -420,10 +420,11 @@ static gboolean gsb_automem_checkbutton_changed ( GtkWidget *checkbutton,
  * \return A newly created paddingbox
  */
 GtkWidget *gsb_automem_radiobutton_new_with_title ( GtkWidget *parent,
-						    const gchar *title,
-						    const gchar *choice1, const gchar *choice2,
-						    gboolean *value,
-						    GCallback hook, gpointer data )
+					    const gchar *title,
+					    const gchar *choice1, const gchar *choice2,
+					    gboolean *value,
+					    GCallback hook,
+                        gpointer data )
 {
     GtkWidget *paddingbox;
 
@@ -452,10 +453,10 @@ GtkWidget *gsb_automem_radiobutton_new_with_title ( GtkWidget *parent,
  * \return a vbox containing the radiobuttons
  */
 GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,
-					 const gchar *choice2,
-					 gboolean *value,
-					 GCallback hook,
-					 gpointer data )
+					    const gchar *choice2,
+					    gboolean *value,
+					    GCallback hook,
+					    gpointer data )
 {
     GtkWidget *button1, *button2, *vbox;
 
@@ -503,119 +504,106 @@ GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,
  *
  * \return A newly created paddingbox
  */
-/* comment by pbiava the 08/02/2009 : unused function 
-GtkWidget *gsb_automem_radiobutton3_new_with_title ( GtkWidget *parent,
-						     const gchar *title,
-						     const gchar *choice1, const gchar *choice2, const gchar *choice3,
-						     gboolean *value )
+/*GtkWidget *gsb_automem_radiobutton3_new_with_title ( GtkWidget *parent,
+						const gchar *title,
+					    const gchar *choice1, const gchar *choice2, const gchar *choice3,
+					    gboolean *value,
+					    GCallback hook,
+					    gpointer data )
 {
     GtkWidget *paddingbox;
 
     paddingbox = new_paddingbox_with_title (parent, FALSE, COLON(title));
     gtk_box_pack_start (GTK_BOX(paddingbox),
 			gsb_automem_radiobutton3_new ( choice1, choice2, choice3,
-						       value ), 
+						       value, hook, data ), 
 			FALSE, FALSE, 0 );
     return paddingbox;
-} */
+}*/
 
 
 
 /**
- * Creates a new radio buttons group with 3 choices.  Toggling will
- * change the content of an integer passed as an argument.
+ * Creates a new radio buttons group with 3 choices.
  *
  * \param choice1 First choice label
  * \param choice2 Second choice label
  * \param choice3 Second choice label
  * \param value A pointer to an integer that will be set to 0, 1 or 2
  *        according to buttons toggles.
+ * \param callback A callback function to run at each toggle
+ * \param data optional data to send to callback
  *
- * \return a vbox containing the radiobuttons
+ * \return a hbox containing the radiobuttons
  */
-/* comment by pbiava the 08/02/2009 : unused function 
-GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
-					  const gchar *choice2,
-					  const gchar *choice3,
-					  gboolean *value )
-{
-    GtkWidget *button1, *button2, *button3, *vbox;
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
+					    const gchar *choice2,
+					    const gchar *choice3,
+					    gint *value,
+					    GCallback callback,
+					    gpointer data )
+{
+    GtkWidget *hbox;
+    GtkWidget *button1;
+    GtkWidget *button2;
+    GtkWidget *button3 = NULL;
+
+    hbox = gtk_hbox_new ( FALSE, 6 );
 
     button1 = gtk_radio_button_new_with_mnemonic ( NULL, choice1 );
-    gtk_box_pack_start (GTK_BOX(vbox), button1, FALSE, FALSE, 0 );
-    button2 = gtk_radio_button_new_with_mnemonic ( gtk_radio_button_get_group (GTK_RADIO_BUTTON(button1)), 
-						   choice2 );
-    gtk_box_pack_start (GTK_BOX(vbox), button2, FALSE, FALSE, 0 );
-    button3 = gtk_radio_button_new_with_mnemonic ( gtk_radio_button_get_group (GTK_RADIO_BUTTON(button1)), 
-						   choice3 );
-    gtk_box_pack_start (GTK_BOX(vbox), button3, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button1, FALSE, FALSE, 0 );
 
+    button2 = gtk_radio_button_new_with_mnemonic ( gtk_radio_button_get_group (
+                        GTK_RADIO_BUTTON ( button1 ) ), 
+						choice2 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button2, FALSE, FALSE, 0 );
+
+    if ( choice3 && strlen ( choice3 ) )
+    {
+        button3 = gtk_radio_button_new_with_mnemonic ( gtk_radio_button_get_group (
+                        GTK_RADIO_BUTTON ( button1 ) ), 
+						choice3 );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), button3, FALSE, FALSE, 0 );
+    }
 
     if (value)
     {
-	switch (*value)
-	{
-	    case 0:
-		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button1 ), TRUE );
-		break;
-	    case 1:
-		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button2 ), TRUE );
-		break;
-	    default:
-		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button3 ), TRUE );
-	}
+        switch ( *value )
+        {
+            case 0:
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button1 ), TRUE );
+                break;
+            case 1:
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button2 ), TRUE );
+                break;
+            case 2:
+                if ( button3 )
+                    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button3 ), TRUE );
+                else
+                    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button2 ), TRUE );
+                break;
+        }
     }
+    else
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button1 ), TRUE );
 
-    !* we associate the value for all the buttons *!
-    g_object_set_data ( G_OBJECT ( button1 ),
-			"pointer", value);
-    g_object_set_data ( G_OBJECT ( button2 ),
-			"pointer", value);
-    g_object_set_data ( G_OBJECT ( button3 ),
-			"pointer", value);
+    /* we associate the value for the buttons */
+    g_object_set_data ( G_OBJECT ( button1 ), "pointer", GINT_TO_POINTER ( 0 ) );
+    g_object_set_data ( G_OBJECT ( button2 ), "pointer", GINT_TO_POINTER ( 1 ) );
+    if ( button3 )
+        g_object_set_data ( G_OBJECT ( button3 ), "pointer", GINT_TO_POINTER ( 2 ) );
 
-    g_signal_connect ( G_OBJECT ( button1 ), "toggled",
-		       G_CALLBACK (gsb_automem_radiobutton3_changed), GINT_TO_POINTER (0));
-    g_signal_connect ( G_OBJECT ( button2 ), "toggled",
-		       G_CALLBACK (gsb_automem_radiobutton3_changed), GINT_TO_POINTER (1));
-    g_signal_connect ( G_OBJECT ( button3 ), "toggled",
-		       G_CALLBACK (gsb_automem_radiobutton3_changed), GINT_TO_POINTER (2));
-
-    return vbox;
-} */
-
-/**
- * called for a change in automem_radiobutton3
- *
- * \param checkbutton	the button wich changed
- * \param value_ptr	a gint* wich is the value to set in the memory (0, 1 or 2)
- *
- * \return FALSE
- * */
-/* comment by pbiava the 08/02/2009 : unused function 
-static gboolean gsb_automem_radiobutton3_changed ( GtkWidget *checkbutton,
-						   gpointer value_ptr )
-{
-    gboolean *value;
-
-    !* as we have 3 buttons, this function will be always called 2 times,
-     * one for unset the button, and one for set the button,
-     * so we get only when the button is set *!
-    if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)))
-	return FALSE;
-
-    !* we are on the active button, so save the value for it *!
-    value = g_object_get_data ( G_OBJECT (checkbutton), "pointer");
-    if (value)
+    if ( callback )
     {
-	*value = GPOINTER_TO_INT (value_ptr);
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+	    g_signal_connect ( G_OBJECT ( button1 ), "released", G_CALLBACK ( callback ), data );
+        g_signal_connect ( G_OBJECT ( button2 ), "released", G_CALLBACK ( callback ), data );
+        if ( button3 )
+            g_signal_connect ( G_OBJECT ( button3 ), "released", G_CALLBACK ( callback ), data );
     }
-    return FALSE;
-}*/
+ 
+    return hbox;
+}
 
 
 /**

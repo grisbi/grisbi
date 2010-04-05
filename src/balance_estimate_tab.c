@@ -44,29 +44,29 @@
 #include "./balance_estimate_data.h"
 #include "./balance_estimate_future.h"
 #include "./balance_estimate_hist.h"
-#include "./fenetre_principale.h"
 #include "./utils_dates.h"
+#include "./gsb_calendar_entry.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_budget.h"
-#include "./gsb_calendar_entry.h"
 #include "./gsb_data_category.h"
-#include "./gsb_data_fyear.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
-#include "./gsb_fyear.h"
+#include "./navigation.h"
 #include "./gsb_real.h"
 #include "./gsb_scheduler.h"
 #include "./gsb_scheduler_list.h"
-#include "./gsb_transactions_list_sort.h"
-#include "./main.h"
-#include "./mouse.h"
-#include "./navigation.h"
-#include "./include.h"
-#include "./structures.h"
+#include "./gsb_transactions_list.h"
 #include "./traitement_variables.h"
+#include "./transaction_list_select.h"
+#include "./structures.h"
+#include "./fenetre_principale.h"
+#include "./mouse.h"
+#include "./balance_estimate_data.h"
+#include "./balance_estimate_hist.h"
+#include "./include.h"
 #include "./erreur.h"
-#include "./utils.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 
@@ -90,10 +90,13 @@ static gboolean bet_array_list_button_press ( GtkWidget *tree_view,
 static void bet_array_list_change_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static void bet_array_list_context_menu ( GtkWidget *tree_view );
-static void bet_array_list_delete_menu ( GtkWidget *menu_item,
-                        GtkTreeSelection *tree_selection );
 static void bet_array_list_delete_all_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
+static void bet_array_list_delete_menu ( GtkWidget *menu_item,
+                        GtkTreeSelection *tree_selection );
+static gchar *bet_array_list_get_description ( gint account_number,
+                        gint origine,
+                        gpointer value );
 static void bet_array_list_insert_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static void bet_array_list_redo_menu ( GtkWidget *menu_item,
@@ -102,7 +105,7 @@ static gint bet_array_list_schedule_line ( gint origine, gint account_number, gi
 static void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static gboolean bet_array_list_set_background_color ( GtkWidget *tree_view );
-void bet_array_list_traite_double_click ( GtkTreeView *tree_view );
+static void bet_array_list_traite_double_click ( GtkTreeView *tree_view );
 static void bet_array_list_update_balance ( GtkTreeModel *model );
 static gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
                         GDate *date_min,
@@ -121,28 +124,26 @@ static gboolean bet_array_sort_scheduled_transactions ( gint div_number,
 static gboolean  bet_array_start_date_focus_out ( GtkWidget *entry,
                         GdkEventFocus *ev,
                         gpointer data );
-static gboolean bet_array_update_average_column (GtkTreeModel *model,
+static gboolean bet_array_update_average_column ( GtkTreeModel *model,
                         GtkTreePath *path,
                         GtkTreeIter *iter,
-                        gpointer data);
+                        gpointer data );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gboolean balances_with_scheduled;
 extern gchar* bet_duration_array[];
-extern GdkColor couleur_fond[0];
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
+extern GdkColor couleur_fond[2];
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern GtkWidget *notebook_general;
 extern gsb_real null_real;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 enum bet_estimation_tree_columns {
     SPP_ESTIMATE_TREE_SELECT_COLUMN,    /* select column for the balance */
     SPP_ESTIMATE_TREE_ORIGIN_DATA,      /* origin of data : transaction, scheduled, hist, future */
-    SPP_ESTIMATE_TREE_DIVISION_COLUMN,  /* div_number */
+    SPP_ESTIMATE_TREE_DIVISION_COLUMN,  /* div_number, transaction_number, futur_number, scheduled_number*/
     SPP_ESTIMATE_TREE_SUB_DIV_COLUMN,   /* sub_div_nb */
     SPP_ESTIMATE_TREE_DATE_COLUMN,
     SPP_ESTIMATE_TREE_DESC_COLUMN,
@@ -156,12 +157,6 @@ enum bet_estimation_tree_columns {
     SPP_ESTIMATE_TREE_NUM_COLUMNS
 };
 
-enum bet_array_origin_data {
-    SPP_ORIGIN_TRANSACTION,
-    SPP_ORIGIN_SCHEDULED,
-    SPP_ORIGIN_HISTORICAL,
-    SPP_ORIGIN_FUTURE
-};
 
 /*
  * 
@@ -170,6 +165,7 @@ enum bet_array_origin_data {
  */
 void bet_array_update_estimate_tab ( void )
 {
+    devel_debug ( NULL );
     bet_historical_populate_data ( );
     bet_array_refresh_estimate_tab ( );
 }
@@ -311,7 +307,7 @@ void bet_array_refresh_estimate_tab ( void )
     SBR *tmp_range;
     GValue date_value = {0, };
 
-    //~ devel_debug (NULL);
+    devel_debug (NULL);
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
     tmp_range = struct_initialise_bet_range ( );
 
@@ -507,6 +503,7 @@ GtkWidget *bet_array_create_page ( void )
                         spin_button );
     }
 
+    g_object_set_data ( G_OBJECT ( spin_button ), "bet_origin_signal", GINT_TO_POINTER ( 1 ) );
     g_object_set_data ( G_OBJECT ( notebook ), "bet_account_previous", previous );
     g_object_set_data ( G_OBJECT ( notebook ), "bet_account_widget", widget );
     g_object_set_data ( G_OBJECT ( notebook ), "bet_account_spin_button", spin_button );
@@ -516,7 +513,7 @@ GtkWidget *bet_array_create_page ( void )
     g_signal_connect ( G_OBJECT ( spin_button ),
                         "value-changed",
                         G_CALLBACK ( bet_config_duration_number_changed ),
-                        NULL );
+                        GINT_TO_POINTER ( 1 ) );
 
     label = gtk_label_new ( COLON ( _("Start date" ) ) );
     gtk_misc_set_padding ( GTK_MISC (label), 5, 0 );
@@ -674,7 +671,7 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
     GtkTreeIter iter;
     GSList* tmp_list;
 
-    //~ devel_debug (NULL);
+    devel_debug (NULL);
     tmp_list = gsb_data_scheduled_get_scheduled_list ( );
 
     while (tmp_list)
@@ -743,11 +740,9 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
         }
         else if ( account_number == selected_account )
         {
-            str_description = gsb_data_scheduled_get_notes ( scheduled_number );
-
-            if ( !str_description || !strlen ( str_description ) )
-                str_description = gsb_data_payee_get_name (
-                            gsb_data_scheduled_get_party_number ( scheduled_number ), TRUE );
+            str_description = bet_array_list_get_description ( account_number,
+                        SPP_ORIGIN_SCHEDULED,
+                        GINT_TO_POINTER ( scheduled_number ) );
 
             amount = gsb_data_scheduled_get_amount ( scheduled_number );
         }
@@ -791,7 +786,7 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
                         &date_value );
             gtk_tree_store_set ( GTK_TREE_STORE ( tab_model ), &iter,
                         SPP_ESTIMATE_TREE_ORIGIN_DATA, SPP_ORIGIN_SCHEDULED,
-                        SPP_ESTIMATE_TREE_DIVISION_COLUMN, 0,
+                        SPP_ESTIMATE_TREE_DIVISION_COLUMN, scheduled_number,
                         SPP_ESTIMATE_TREE_SUB_DIV_COLUMN, 0,
                         SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
                         SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
@@ -829,7 +824,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
     GDate *date_comp;
     GSList *tmp_list;
 
-    //~ devel_debug (NULL);
+    devel_debug (NULL);
     /* init dates */
     date_jour_1 = gdate_today ( );
     if ( g_date_get_day ( date_min ) > 1 )
@@ -848,7 +843,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         gchar* str_amount;
         gchar* str_debit = NULL;
         gchar* str_credit = NULL;
-        const gchar* str_description;
+        gchar* str_description;
         gchar* str_date;
         gint transaction_number;
         gint transfer_number;
@@ -927,11 +922,9 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         }
         else
         {
-            str_description = gsb_data_transaction_get_notes ( transaction_number );
-
-            if (!str_description || !strlen (str_description))
-                str_description = gsb_data_payee_get_name (
-                            gsb_data_transaction_get_party_number ( transaction_number ), TRUE );
+            str_description = bet_array_list_get_description ( account_number,
+                        SPP_ORIGIN_TRANSACTION,
+                        GINT_TO_POINTER ( transaction_number ) );
         }
 
         /* add a line in the estimate array */
@@ -941,7 +934,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
                         &date_value );
         gtk_tree_store_set ( GTK_TREE_STORE ( tab_model ), &iter,
                         SPP_ESTIMATE_TREE_ORIGIN_DATA, SPP_ORIGIN_TRANSACTION,
-                        SPP_ESTIMATE_TREE_DIVISION_COLUMN, 0,
+                        SPP_ESTIMATE_TREE_DIVISION_COLUMN, transaction_number,
                         SPP_ESTIMATE_TREE_SUB_DIV_COLUMN, 0,
                         SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
                         SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
@@ -953,6 +946,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         g_value_unset ( &date_value );
         g_free ( str_date );
         g_free ( str_amount );
+        g_free ( str_description );
         if ( str_debit )
             g_free ( str_debit );
         if ( str_credit )
@@ -1118,21 +1112,9 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
         if ( g_date_compare ( scheduled -> date, date_min ) < 0 )
             continue;
 
-        str_description = g_strdup ( scheduled -> notes );
-
-        if ( !str_description || !strlen ( str_description ) )
-            str_description = g_strdup ( gsb_data_payee_get_name (
-                        scheduled -> party_number, TRUE ) );
-
-            if ( !str_description || !strlen ( str_description ) )
-            {
-                if ( gsb_data_account_get_bet_hist_data ( scheduled -> account_number ) == 0 )
-                    str_description = g_strdup ( gsb_data_category_get_name ( scheduled -> category_number,
-                                    scheduled -> sub_category_number, NULL) );
-                else
-                    str_description = g_strdup ( gsb_data_budget_get_name (  scheduled -> budgetary_number,
-                                     scheduled -> sub_budgetary_number, NULL ) );
-            }
+        str_description = bet_array_list_get_description ( account_number,
+                        SPP_ORIGIN_FUTURE,
+                        value );
 
         str_amount = gsb_real_save_real_to_string ( scheduled -> amount, 2 );
 
@@ -1336,7 +1318,8 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
             /* Convert to scheduled transaction */
-            menu_item = gtk_image_menu_item_new_with_label ( _("Convert selection to scheduled transaction") );
+            menu_item = gtk_image_menu_item_new_with_label ( 
+                                _("Convert selection to scheduled transaction") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                                 gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
                                 GTK_ICON_SIZE_MENU ) );
@@ -1417,7 +1400,22 @@ void bet_array_list_change_menu ( GtkWidget *menu_item,
                         SPP_ESTIMATE_TREE_SUB_DIV_COLUMN, &mother_row,
                         -1 );
 
-    if ( origine == SPP_ORIGIN_FUTURE )
+    if ( origine == SPP_ORIGIN_TRANSACTION )
+    {
+        GtkNotebook *notebook;
+
+        notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook" );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 0 );
+        transaction_list_select ( number );
+        gsb_transactions_list_edit_transaction ( number );
+    }
+    else if ( origine == SPP_ORIGIN_SCHEDULED )
+    {
+        gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
+        gsb_scheduler_list_select ( number );
+        gsb_scheduler_list_edit_transaction ( number );
+    }
+    else if ( origine == SPP_ORIGIN_FUTURE )
         bet_future_modify_line ( gsb_gui_navigation_get_current_account ( ), number, mother_row );
 }
 
@@ -1707,7 +1705,7 @@ void bet_array_list_update_balance ( GtkTreeModel *model )
  *
  *
  * */
-gboolean  bet_array_entry_key_press ( GtkWidget *entry,
+gboolean bet_array_entry_key_press ( GtkWidget *entry,
                         GdkEventKey *ev,
                         gpointer data )
 {
@@ -1736,7 +1734,7 @@ gboolean  bet_array_entry_key_press ( GtkWidget *entry,
  *
  *
  * */
-gboolean  bet_array_start_date_focus_out ( GtkWidget *entry,
+gboolean bet_array_start_date_focus_out ( GtkWidget *entry,
                         GdkEventFocus *ev,
                         gpointer data )
 {
@@ -2003,6 +2001,7 @@ gint bet_array_list_schedule_line ( gint origine, gint account_number, gint numb
         /* par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date,
          * (c'est le cas, à 0 avec g_malloc0) que l'opé soit enregistrée immédiatement */
         gsb_data_scheduled_set_frequency ( scheduled_number, scheduled -> frequency );
+        
     }
 
     return scheduled_number;
@@ -2015,6 +2014,159 @@ gint bet_array_list_schedule_line ( gint origine, gint account_number, gint numb
  *
  *
  * */
+gchar *bet_array_list_get_description ( gint account_number,
+                        gint origine,
+                        gpointer value )
+{
+    gchar *desc = NULL;
+    gint type;
+
+    type = gsb_data_account_get_bet_select_label ( account_number, origine );
+
+    if ( origine == SPP_ORIGIN_TRANSACTION )
+    {
+        gint transaction_number = GPOINTER_TO_INT ( value );
+
+        switch ( type )
+        {
+            case 0:
+                desc = g_strdup ( gsb_data_transaction_get_notes ( transaction_number ) );
+                if ( desc && strlen ( desc ) )
+                    break;
+
+                desc = g_strdup ( gsb_data_payee_get_name (
+                                    gsb_data_transaction_get_party_number (
+                                    transaction_number ), TRUE ) );
+                if ( desc && strlen ( desc ) )
+                    break;
+
+                desc = g_strdup ( gsb_data_category_get_name (
+                                    gsb_data_transaction_get_category_number (
+                                    transaction_number ),
+                                    gsb_data_transaction_get_sub_category_number (
+                                    transaction_number ), NULL) );
+                if ( desc && strlen ( desc ) )
+                    break;
+
+                desc = g_strdup ( gsb_data_budget_get_name (
+                                    gsb_data_transaction_get_budgetary_number (
+                                    transaction_number ),
+                                    gsb_data_transaction_get_sub_category_number (
+                                    transaction_number ),
+                                    _("No data by default") ) );
+                break;
+            case 1:
+                desc = g_strdup ( gsb_data_category_get_name (
+                                    gsb_data_transaction_get_category_number (
+                                    transaction_number ),
+                                    gsb_data_transaction_get_sub_category_number (
+                                    transaction_number ),
+                                    _("No category") ) );
+                break;
+            case 2:
+                desc = g_strdup ( gsb_data_budget_get_name (
+                                    gsb_data_transaction_get_budgetary_number (
+                                    transaction_number ),
+                                    gsb_data_transaction_get_sub_category_number (
+                                    transaction_number ),
+                                    _("No budgetary line") ) );
+                break;
+        }
+    }
+    else if ( origine == SPP_ORIGIN_SCHEDULED )
+    {
+        gint scheduled_number = GPOINTER_TO_INT ( value );
+
+        switch ( type )
+        {
+            case 0:
+                desc = g_strdup ( gsb_data_scheduled_get_notes ( scheduled_number ) );
+                if ( desc && strlen ( desc ) )
+                    break;
+
+                desc = g_strdup ( gsb_data_payee_get_name (
+                                    gsb_data_scheduled_get_party_number (
+                                    scheduled_number ), TRUE ) );
+                if ( desc && strlen ( desc ) )
+                    break;
+
+                desc = g_strdup ( gsb_data_category_get_name (
+                                    gsb_data_scheduled_get_category_number (
+                                    scheduled_number ),
+                                    gsb_data_scheduled_get_sub_category_number (
+                                    scheduled_number ), NULL) );
+                if ( desc && strlen ( desc ) )
+                    break;
+
+                desc = g_strdup ( gsb_data_budget_get_name (
+                                    gsb_data_scheduled_get_budgetary_number (
+                                    scheduled_number ),
+                                    gsb_data_scheduled_get_sub_category_number (
+                                    scheduled_number ),
+                                    _("No data by default") ) );
+                break;
+            case 1:
+                desc = g_strdup ( gsb_data_category_get_name (
+                                    gsb_data_scheduled_get_category_number (
+                                    scheduled_number ),
+                                    gsb_data_scheduled_get_sub_category_number (
+                                    scheduled_number ),
+                                    _("No category") ) );
+                break;
+            case 2:
+                desc = g_strdup ( gsb_data_budget_get_name (
+                                    gsb_data_scheduled_get_budgetary_number (
+                                    scheduled_number ),
+                                    gsb_data_scheduled_get_sub_category_number (
+                                    scheduled_number ),
+                                    _("No budgetary line") ) );
+                break;
+        }
+    }
+    else if ( origine == SPP_ORIGIN_FUTURE )
+    {
+        struct_futur_data *scheduled = ( struct_futur_data * ) value;
+
+        switch ( type )
+        {
+            case 0:
+                desc = g_strdup ( scheduled -> notes );
+                if ( desc && strlen ( desc ) )
+                    break;
+                
+                desc = g_strdup ( gsb_data_payee_get_name (
+                                scheduled -> party_number, TRUE ) );
+                if ( desc && strlen ( desc ) )
+                    break;
+
+                desc = g_strdup ( gsb_data_category_get_name (
+                                scheduled -> category_number,
+                                scheduled -> sub_category_number, NULL) );
+                if ( desc && strlen ( desc ) )
+                    break;
+
+                desc = g_strdup ( gsb_data_budget_get_name (
+                                scheduled -> budgetary_number,
+                                scheduled -> sub_budgetary_number,
+                                _("No data by default") ) );
+                break;
+            case 1:
+                desc = g_strdup ( gsb_data_category_get_name (
+                                scheduled -> category_number,
+                                scheduled -> sub_category_number,
+                                _("No category") ) );
+                break;
+            case 2:
+                desc = g_strdup ( gsb_data_budget_get_name (
+                                scheduled -> budgetary_number,
+                                scheduled -> sub_budgetary_number,
+                                _("No budgetary line") ) );
+                break;
+        }
+    }
+
+    return desc;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

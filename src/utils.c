@@ -32,8 +32,8 @@
 #include "./utils_str.h"
 #include "./gsb_file_config.h"
 #include "./include.h"
-#include "./erreur.h"
 #include "./structures.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -362,7 +362,7 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
  * \returns A pointer to a vbox widget that will contain all created
  * widgets and user defined widgets
  */
-GtkWidget *new_vbox_with_title_and_image ( gchar * title, GtkWidget *image )
+/*GtkWidget *new_vbox_with_title_and_image ( gchar * title, GtkWidget *image )
 {
     GtkWidget *vbox_pref, *hbox, *label, *eb;
     GtkStyle * style;
@@ -378,13 +378,13 @@ GtkWidget *new_vbox_with_title_and_image ( gchar * title, GtkWidget *image )
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), eb, FALSE, FALSE, 0);
 
 
-    /* Title hbox */
+    !* Title hbox *!
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_widget_show ( hbox );
     gtk_container_add ( GTK_CONTAINER ( eb ), hbox );
     gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 3 );
 
-    /* Icon */
+    !* Icon *!
     if ( image )
     {
         gtk_image_set_pixel_size ( GTK_IMAGE ( image ), 128 );
@@ -392,7 +392,7 @@ GtkWidget *new_vbox_with_title_and_image ( gchar * title, GtkWidget *image )
         gtk_widget_show ( image );
     }
 
-    /* Nice huge title */
+    !* Nice huge title *!
     label = gtk_label_new ( title );
     tmpstr1 = g_markup_escape_text (title, strlen(title));
     tmpstr2 = g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
@@ -406,7 +406,7 @@ GtkWidget *new_vbox_with_title_and_image ( gchar * title, GtkWidget *image )
     gtk_widget_show ( label );
 
     return vbox_pref;
-}
+}*/
 
 
 /**

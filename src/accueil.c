@@ -24,9 +24,9 @@
 
 /*START_INCLUDE*/
 #include "accueil.h"
-#include "./gsb_automem.h"
 #include "./classement_echeances.h"
 #include "./dialog.h"
+#include "./gsb_automem.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_partial_balance.h"
@@ -48,6 +48,7 @@
 #include "./fenetre_principale.h"
 #include "./gsb_data_account.h"
 #include "./gsb_select_icon.h"
+#include "./gsb_form_scheduler.h"
 #include "./include.h"
 #include "./erreur.h"
 #include "./gsb_real.h"

@@ -30,33 +30,32 @@
 #include "utils_files.h"
 #include "./dialog.h"
 #include "./utils_file_selection.h"
-#include "./utils_dates.h"
-#include "./gsb_file.h"
-#include "./utils.h"
-#include "./utils_str.h"
 #include "./go-charmap-sel.h"
+#include "./gsb_file.h"
+#include "./utils_str.h"
 #include "./gsb_file_config.h"
 #include "./utils_file_selection.h"
+#include "./go-charmap-sel.h"
 #include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void browse_file ( GtkButton *button, gpointer data );
-static void utils_files_file_chooser_cancel ( GtkWidget *bouton, GtkWidget *chooser);
 static gboolean utils_files_charmap_active_toggled ( GtkCellRendererToggle *cell,
                         gchar *path_str,
                         gpointer model );
+static GSList *utils_files_check_UTF8_validity ( const gchar *contents,
+                        const gchar *coding_system );
+static void utils_files_file_chooser_cancel ( GtkWidget *bouton, GtkWidget *chooser);
 static void utils_files_go_charmap_sel_changed ( GtkWidget *go_charmap_sel,
                         const gchar *encoding,
                         GtkWidget *dialog );
-static GSList *utils_files_check_UTF8_validity ( const gchar *contents,
-                        const gchar *coding_system );
-
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
+extern gchar *charmap_imported;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

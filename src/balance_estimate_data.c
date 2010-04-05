@@ -32,44 +32,40 @@
 #include "balance_estimate_data.h"
 #include "./balance_estimate_tab.h"
 #include "./dialog.h"
-#include "./utils_dates.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_budget.h"
 #include "./gsb_data_category.h"
-#include "./gsb_data_fyear.h"
 #include "./gsb_data_mix.h"
-#include "./gsb_data_payee.h"
-#include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
-#include "./gsb_file_save.h"
-#include "./gsb_fyear.h"
-#include "./gsb_scheduler.h"
-#include "./gsb_scheduler_list.h"
-#include "./gsb_transactions_list_sort.h"
-#include "./main.h"
+#include "./utils_dates.h"
 #include "./navigation.h"
-#include "./include.h"
-#include "./structures.h"
+#include "./gsb_real.h"
 #include "./traitement_variables.h"
+#include "./gsb_file_save.h"
+#include "./utils_str.h"
+#include "./gsb_data_account.h"
+#include "./gsb_scheduler_list.h"
 #include "./erreur.h"
-#include "./utils.h"
+#include "./structures.h"
 /*END_INCLUDE*/
 
 
 /*START_STATIC*/
+static GDate *bet_data_futur_get_next_date ( struct_futur_data *scheduled,
+				     const GDate *date );
 static struct_futur_data *bet_data_future_copy_struct ( struct_futur_data *scheduled );
 static void bet_data_future_set_max_number ( gint number );
-static gboolean bet_data_update_div ( SH *sh, gint transaction_number,
-                        gint sub_div );
-static void struct_free_hist_div ( struct_hist_div *bet_hist_div );
+static gboolean bet_data_update_div ( SH *sh, gint transaction_number, gint sub_div );
+static void struct_free_bet_future ( struct_futur_data *scheduled );
+static void struct_free_bet_range ( SBR *sbr );
+static void struct_free_hist_div ( struct_hist_div *shd );
+static SH *struct_initialise_bet_historical ( void );
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
-extern gboolean balances_with_scheduled;
 extern GtkWidget *notebook_general;
 extern gsb_real null_real;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -482,32 +478,6 @@ gboolean bet_data_set_div_edited ( gint account_nb,
     g_free ( key );
 
     return FALSE;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-gint bet_data_get_div_children ( gint account_nb, gint div_number )
-{
-    gchar *key;
-    struct_hist_div *shd;
-
-    if ( account_nb == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
-                        utils_str_itoa ( div_number ), NULL );
-
-    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
-    {
-        return g_hash_table_size ( shd -> sub_div_list );
-    }
-    else
-        return 0;
 }
 
 

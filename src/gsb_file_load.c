@@ -31,6 +31,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
+#include "./balance_estimate_data.h"
 #include "./dialog.h"
 #include "./gsb_assistant_archive.h"
 #include "./gsb_assistant_first.h"
@@ -69,9 +70,9 @@
 #include "./gsb_data_form.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_scheduler_list.h"
+#include "./structures.h"
 #include "./include.h"
 #include "./gsb_calendar.h"
-#include "./structures.h"
 #include "./erreur.h"
 #include "./gsb_plugins.h"
 #include "./gsb_real.h"
@@ -89,11 +90,9 @@ static void gsb_file_load_archive ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_bank ( const gchar **attribute_names,
                         const gchar **attribute_values );
-static void gsb_file_load_bet_part ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_future_data ( const gchar **attribute_names,
-                        const gchar **attribute_values );
 static void gsb_file_load_bet_historical ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_bet_part ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
 static void gsb_file_load_color_part ( const gchar **attribute_names,
@@ -108,6 +107,8 @@ static void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
                         gpointer user_data,
                         GError **error);
 static void gsb_file_load_financial_year ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_future_data ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_general_part ( const gchar **attribute_names,
                         const gchar **attribute_values );
@@ -166,8 +167,8 @@ extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_bet_division;
-extern GdkColor couleur_fond[2];
 extern GdkColor couleur_bet_future;
+extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_jour;
 extern GdkColor couleur_selection;
@@ -1795,6 +1796,33 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i], "Bet_UT" ))
     {
         gsb_data_account_set_bet_spin_range ( account_number,
+                        utils_str_atoi ( attribute_values[i] ) );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Bet_select_transaction_label" ))
+    {
+        gsb_data_account_set_bet_select_label ( account_number,
+                        SPP_ORIGIN_TRANSACTION,
+                        utils_str_atoi ( attribute_values[i] ) );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Bet_select_scheduled_label" ))
+    {
+        gsb_data_account_set_bet_select_label ( account_number,
+                        SPP_ORIGIN_SCHEDULED,
+                        utils_str_atoi ( attribute_values[i] ) );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Bet_select_futur_label" ))
+    {
+        gsb_data_account_set_bet_select_label ( account_number,
+                        SPP_ORIGIN_FUTURE,
                         utils_str_atoi ( attribute_values[i] ) );
         i++;
         continue;

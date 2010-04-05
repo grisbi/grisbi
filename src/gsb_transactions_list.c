@@ -65,6 +65,7 @@
 #include "./include.h"
 #include "./gsb_data_transaction.h"
 #include "./mouse.h"
+#include "./dialog.h"
 #include "./erreur.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/

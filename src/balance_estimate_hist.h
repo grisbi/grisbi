@@ -25,13 +25,8 @@ enum bet_historical_data_columns {
 };
 
 /* START_DECLARATION */
-gboolean bet_historical_affiche_div ( GHashTable  *list_div,
-                        GtkWidget *tree_view );
 GtkWidget *bet_historical_create_page ( void );
-void bet_historical_fyear_clicked ( GtkWidget *combo, gpointer data );
-gboolean bet_historical_fyear_create_combobox_store ( void );
 gint bet_historical_get_fyear_from_combobox ( GtkWidget *combo_box );
-void bet_historical_origin_data_clicked ( GtkWidget *togglebutton, gpointer data );
 void bet_historical_populate_data ( void );
 void bet_historical_refresh_data ( GtkTreeModel *tab_model,
                         GDate *date_min,

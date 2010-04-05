@@ -29,6 +29,7 @@
 
 /*START_INCLUDE*/
 #include "traitement_variables.h"
+#include "./balance_estimate_data.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
@@ -66,7 +67,6 @@
 #include "./gsb_calendar.h"
 #include "./erreur.h"
 #include "./structures.h"
-#include "./balance_estimate_data.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

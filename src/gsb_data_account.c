@@ -32,6 +32,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_account.h"
 #include "./dialog.h"
+#include "./utils_dates.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_form.h"
 #include "./gsb_data_transaction.h"
@@ -44,11 +45,10 @@
 #include "./custom_list.h"
 #include "./gsb_transactions_list.h"
 #include "./gsb_data_transaction.h"
-#include "./include.h"
 #include "./structures.h"
+#include "./include.h"
 #include "./erreur.h"
 #include "./gsb_real.h"
-#include "./utils_dates.h"
 /*END_INCLUDE*/
 
 /** \struct
@@ -100,14 +100,14 @@ typedef struct
     gchar   *bank_account_iban;
 
     /** @name reconcile sort */
-    gint 	reconcile_sort_type;			/**< 1 : sort by method of payment ; 0 : let the user sort by himself */
+    gint 	reconcile_sort_type;    /**< 1 : sort by method of payment ; 0 : let the user sort by himself */
     GSList 	*sort_list;				/**< the method of payment numbers sorted in a list
-							  (if split neutral, the negative method has a negative method of payment number)*/
-    gint 	split_neutral_payment;			/**< if 1 : neutral payments are splitted into debits/credits */
+							        (if split neutral, the negative method has a negative method of payment number)*/
+    gint 	split_neutral_payment;  /**< if 1 : neutral payments are splitted into debits/credits */
 
     /** @name tree_view sort stuff */
     gint 	sort_type;				/**< GTK_SORT_DESCENDING / GTK_SORT_ASCENDING */
-    gint 	sort_column;				/**< used to hide the arrow when change the column */
+    gint 	sort_column;		    /**< used to hide the arrow when change the column */
     gint 	column_element_sort[CUSTOM_MODEL_VISIBLE_COLUMNS];  /**< contains for each column the element number used to sort the list */
 
     /** @name current graphic position in the list (the row_align used with gtk_tree_view_scroll_to_cell) */
@@ -117,11 +117,14 @@ typedef struct
     gpointer 	form_organization;
 
     /** @name bet data */
-    GDate *bet_start_date;  /* date de début */
-    gint bet_spin_range;    /* echelle de la période 0 = mois 1 = années */
-    gint bet_months;        /* nombre de mois ou d'années */
-    gint bet_hist_data;     /* origine des données 0 = catégories 1 = IB */
-    gint bet_hist_fyear;    /* numéro d'exercice */
+    GDate *bet_start_date;              /* date de début */
+    gint bet_spin_range;                /* echelle de la période 0 = mois 1 = années */
+    gint bet_months;                    /* nombre de mois ou d'années */
+    gint bet_select_transaction_label;  /*  */
+    gint bet_select_scheduled_label;    /*  */
+    gint bet_select_futur_label;        /*  */
+    gint bet_hist_data;                 /* origine des données 0 = catégories 1 = IB */
+    gint bet_hist_fyear;                /* numéro d'exercice */
 } struct_account;
 
 
@@ -3018,6 +3021,70 @@ gboolean gsb_data_account_set_bet_hist_fyear ( gint account_number, gint hist_fy
 	    return FALSE;
 
     account -> bet_hist_fyear = hist_fyear;
+
+    return TRUE;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gint gsb_data_account_get_bet_select_label ( gint account_number, gint origine )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return 0;
+
+    switch ( origine )
+    {
+        case SPP_ORIGIN_TRANSACTION:
+            return account -> bet_select_transaction_label;
+            break;
+        case SPP_ORIGIN_SCHEDULED:
+            return account -> bet_select_scheduled_label;
+            break;
+        case SPP_ORIGIN_FUTURE:
+            return account -> bet_select_futur_label;
+            break;
+    }
+
+    return 0;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_select_label ( gint account_number,
+                        gint origine,
+                        gint type )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return FALSE;
+
+    switch ( origine )
+    {
+        case SPP_ORIGIN_TRANSACTION:
+            account -> bet_select_transaction_label = type;
+            break;
+        case SPP_ORIGIN_SCHEDULED:
+            account -> bet_select_scheduled_label = type;
+            break;
+        case SPP_ORIGIN_FUTURE:
+            account -> bet_select_futur_label = type;
+            break;
+    }
 
     return TRUE;
 }

@@ -30,8 +30,6 @@
 /*START_INCLUDE*/
 #include "gsb_data_import_rule.h"
 #include "./dialog.h"
-#include "./gsb_data_account.h"
-#include "./barre_outils.h"
 #include "./utils_str.h"
 #include "./import.h"
 /*END_INCLUDE*/

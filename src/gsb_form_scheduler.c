@@ -57,7 +57,7 @@
 /*START_STATIC*/
 static void gsb_form_scheduler_free_content_list ( GSList *content_list );
 static gboolean gsb_form_scheduler_frequency_button_changed ( GtkWidget *combo_box,
-                       gpointer null );
+						       gpointer null );
 static gint gsb_form_scheduler_get_auto ( void );
 static GSList *gsb_form_scheduler_get_content_list ( void );
 static gint gsb_form_scheduler_get_frequency ( void );

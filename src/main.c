@@ -52,12 +52,12 @@
 #include "./structures.h"
 #include "./include.h"
 #include "./erreur.h"
+/*END_INCLUDE*/
+
 // including resources so that the exe generated with MSVC has the right icon.
 #ifdef _MSC_VER
 #include "resource.h"
 #endif
-/*END_INCLUDE*/
-
 
 /*START_STATIC*/
 static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,

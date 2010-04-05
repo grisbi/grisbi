@@ -1,7 +1,7 @@
 #ifndef _ERREUR_H
 #define _ERREUR_H (1)
 /* START_INCLUDE_H */
-#include "./gsb_real.h"
+#include "././gsb_real.h"
 /* END_INCLUDE_H */
 
 /* constante de debug originale, obsolete il faudrait utiliser maintenant */

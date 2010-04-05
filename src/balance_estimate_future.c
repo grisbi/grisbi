@@ -31,40 +31,34 @@
 /*START_INCLUDE*/
 #include "balance_estimate_future.h"
 #include "./balance_estimate_tab.h"
-#include "./balance_estimate_config.h"
 #include "./balance_estimate_data.h"
-#include "./balance_estimate_hist.h"
-#include "./gsb_combo_box.h"
 #include "./dialog.h"
+#include "./utils_dates.h"
+#include "./gsb_calendar_entry.h"
+#include "./gsb_combo_box.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_budget.h"
+#include "./gsb_data_category.h"
+#include "./gsb_data_payee.h"
 #include "./gsb_form.h"
 #include "./gsb_form_scheduler.h"
 #include "./gsb_form_widget.h"
-#include "./gsb_data_form.h"
-#include "./utils_dates.h"
-#include "./gsb_data_account.h"
-#include "./gsb_data_budget.h"
-#include "./gsb_calendar_entry.h"
-#include "./gsb_data_category.h"
-#include "./gsb_data_fyear.h"
-#include "./gsb_data_payee.h"
-#include "./gsb_data_payment.h"
-#include "./gsb_data_scheduled.h"
-#include "./gsb_data_transaction.h"
 #include "./gsb_fyear.h"
-#include "./gsb_real.h"
-#include "./gsb_scheduler.h"
-#include "./gsb_payment_method.h"
-#include "./gsb_transactions_list_sort.h"
-#include "./gtk_combofix.h"
-#include "./main.h"
-#include "./mouse.h"
 #include "./navigation.h"
-#include "./include.h"
-#include "./structures.h"
+#include "./gsb_payment_method.h"
+#include "./gsb_real.h"
 #include "./utils_editables.h"
-#include "./traitement_variables.h"
+#include "./gtk_combofix.h"
+#include "./utils_str.h"
+#include "./gsb_data_payment.h"
+#include "./gtk_combofix.h"
+#include "./gsb_form_scheduler.h"
+#include "./structures.h"
+#include "./gsb_data_form.h"
+#include "./include.h"
 #include "./erreur.h"
-#include "./utils.h"
+#include "./gsb_form_widget.h"
+#include "./balance_estimate_data.h"
 /*END_INCLUDE*/
 
 
@@ -99,11 +93,6 @@ static gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled )
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gboolean balances_with_scheduled;
-extern gchar* bet_duration_array[];
-extern GdkColor couleur_fond[0];
-extern GtkWidget *notebook_general;
-extern gsb_real null_real;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -1276,6 +1265,7 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
     GtkWidget *widget;
     GHashTable *future_list;
     gchar *key;
+    const gchar *tmp_str;
     struct_futur_data *scheduled;
 
     if ( account_number == 0 )
@@ -1334,9 +1324,12 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
 
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
     gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
-    gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-                        gsb_data_payee_get_name ( scheduled -> party_number, FALSE ) );
-    gtk_editable_set_position ( GTK_EDITABLE ( GTK_COMBOFIX ( widget ) -> entry ), 0 );
+    tmp_str = gsb_data_payee_get_name ( scheduled -> party_number, TRUE );
+    if ( tmp_str && strlen ( tmp_str ) )
+    {
+        gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), tmp_str );
+        gtk_editable_set_position ( GTK_EDITABLE ( GTK_COMBOFIX ( widget ) -> entry ), 0 );
+    }
     
     if ( scheduled -> amount.mantissa < 0 )
     {

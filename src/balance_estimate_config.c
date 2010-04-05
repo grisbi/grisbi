@@ -30,40 +30,20 @@
 
 /*START_INCLUDE*/
 #include "balance_estimate_config.h"
+#include "./balance_estimate_tab.h"
 #include "./balance_estimate_data.h"
 #include "./balance_estimate_hist.h"
-#include "./balance_estimate_tab.h"
-#include "./gsb_account.h"
-#include "./parametres.h"
-#include "./menu.h"
-#include "./utils.h"
 #include "./utils_dates.h"
-#include "./dialog.h"
-#include "./gsb_archive_config.h"
+#include "./gsb_account.h"
 #include "./gsb_automem.h"
-#include "./gsb_bank.h"
-#include "./gsb_currency_config.h"
-#include "./gsb_currency_link_config.h"
 #include "./gsb_data_account.h"
-#include "./gsb_file.h"
-#include "./gsb_form_config.h"
 #include "./gsb_fyear.h"
-#include "./gsb_fyear_config.h"
 #include "./navigation.h"
-#include "./import.h"
-#include "./gsb_payment_method_config.h"
-#include "./gsb_reconcile_config.h"
-#include "./gsb_reconcile_sort_config.h"
+#include "./dialog.h"
 #include "./traitement_variables.h"
-#include "./utils_files.h"
-#include "./accueil.h"
-#include "./affichage_liste.h"
-#include "./affichage.h"
-#include "./tiers_onglet.h"
-#include "./categories_onglet.h"
-#include "./imputation_budgetaire.h"
+#include "./utils.h"
+#include "./utils_str.h"
 #include "./structures.h"
-#include "./fenetre_principale.h"
 #include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -72,11 +52,14 @@
 /*START_STATIC*/
 static gboolean bet_config_change_account ( GtkWidget *combo,
                         gpointer null );
+static gint bet_config_get_account ( void );
 static GtkWidget *bet_config_get_duration_widget ( GtkWidget *container );
 static GtkWidget *bet_config_get_period_widget ( GtkWidget *container );
-static GtkWidget *bet_config_select_historical_data ( GtkWidget *container );
-static void bet_config_period_clicked ( GtkWidget *togglebutton,
-                        GtkWidget *button );
+static GtkWidget *bet_config_get_select_historical_data ( GtkWidget *container );
+static GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container );
+static void bet_config_period_clicked ( GtkWidget *togglebutton, GtkWidget *button );
+static gboolean bet_config_select_label_changed ( GtkWidget *checkbutton,
+						   gpointer data );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -100,19 +83,16 @@ gchar* bet_duration_array[] = {
  *
  * */
 
-GtkWidget *bet_config_create_page ( void )
+GtkWidget *bet_config_create_general_page ( void )
 {
     GtkWidget *notebook;
     GtkWidget *vbox_pref;
-    GtkWidget *hbox;
-    GtkWidget *combo;
     GtkWidget *paddingbox;
-    GtkWidget *label;
     GtkWidget *widget;
 
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook" );
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Accounts data"),
+    vbox_pref = new_vbox_with_title_and_icon ( _("General Options"),
                         "balance_estimate.png" );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_pref ), 12 );
     
@@ -126,9 +106,39 @@ GtkWidget *bet_config_create_page ( void )
     /* add a separator */
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), gtk_hseparator_new (), FALSE, FALSE, 5 );
 
+    gtk_widget_show_all ( vbox_pref );
+
+    return vbox_pref;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+
+GtkWidget *bet_config_create_account_page ( void )
+{
+    GtkWidget *notebook;
+    GtkWidget *vbox_pref;
+    GtkWidget *hbox;
+    GtkWidget *combo;
+    GtkWidget *paddingbox;
+    GtkWidget *label;
+    GtkWidget *widget;
+    gint account_number;
+
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook" );
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Accounts data"),
+                        "balance_estimate.png" );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_pref ), 12 );
+    
     /* set the choice of account */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-                        _("Data Per Account") );
+                        _("Select an account") );
     
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 5 );
@@ -140,15 +150,31 @@ GtkWidget *bet_config_create_page ( void )
 
 	combo = gsb_account_create_combo_list ( (GtkSignalFunc) bet_config_change_account,
                         NULL, FALSE );
-	gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
+    g_object_set_data ( G_OBJECT ( notebook ), "account_combo", combo );
+    if ( ( account_number = gsb_gui_navigation_get_current_account ( ) ) == -1 )
+	    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
+    else
+        gsb_account_set_combo_account_number ( combo, account_number );
     gtk_box_pack_start ( GTK_BOX (hbox ), combo, FALSE, FALSE, 0 );
-    
+
+        
+    /* set the choice of account */
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+                        _("Data for the forecast") );
+
     /* Calculation of duration */
     widget = bet_config_get_duration_widget ( paddingbox );
     g_object_set_data ( G_OBJECT ( notebook ), "duration_widget", widget );
 
+    /* Select the labels of the list */
+    widget = bet_config_get_select_labels_widget ( paddingbox );
+    g_object_set_data ( G_OBJECT ( notebook ), "select_labels_widget", widget );    
+
     /* Sources of historical data */
-    widget = bet_config_select_historical_data ( paddingbox );
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+                        _("Sources of historical data") );
+
+    widget = bet_config_get_select_historical_data ( paddingbox );
     g_object_set_data ( G_OBJECT ( notebook ), "historical_data", widget );
 
     gtk_widget_show_all ( vbox_pref );
@@ -167,25 +193,26 @@ GtkWidget *bet_config_create_page ( void )
  * */
 GtkWidget *bet_config_get_period_widget ( GtkWidget *container )
 {
-    GtkWidget *main_vbox;
+    GtkWidget *vbox;
     GtkWidget *label;
     GtkWidget *button_1, *button_2;
     GtkWidget *hbox;
     GtkSizeGroup *size_group;
+    gchar *text;
 
     //~ devel_debug (NULL);
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
-    main_vbox = gtk_vbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( container ), main_vbox, FALSE, FALSE, 5);
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( container ), vbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Beginning of period") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_box_pack_start ( GTK_BOX ( main_vbox ), label, FALSE, FALSE, 5) ;
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5) ;
 
     hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( main_vbox ), hbox, FALSE, FALSE, 5) ;
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5) ;
 
     button_1 = gtk_radio_button_new_with_label ( NULL,
                         _("1st day of month") );
@@ -215,17 +242,19 @@ GtkWidget *bet_config_get_period_widget ( GtkWidget *container )
                         G_CALLBACK ( bet_config_period_clicked ),
                         NULL );
 
-    label = gtk_label_new ( 
-                        _("Note: This option is used if no starting date for forecasts.") );
+    text = make_blue ( _("Note: This option is used if no starting date for forecasts.") );
+    label = gtk_label_new ( text );
+    gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_box_pack_start ( GTK_BOX ( main_vbox ), label, FALSE, FALSE, 5) ;
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5) ;
+    g_free ( text );
 
+    gtk_widget_show_all ( vbox );
 
-    gtk_widget_show_all ( main_vbox );
-
-    return main_vbox;
+    return vbox;
 }
+
 
 /**
  *
@@ -235,7 +264,7 @@ GtkWidget *bet_config_get_period_widget ( GtkWidget *container )
  * */
 GtkWidget *bet_config_get_duration_widget ( GtkWidget *container )
 {
-    GtkWidget* main_vbox;
+    GtkWidget* vbox;
     GtkWidget *label;
     GtkWidget *spin_button = NULL;
     GtkWidget *widget = NULL;
@@ -246,22 +275,22 @@ GtkWidget *bet_config_get_duration_widget ( GtkWidget *container )
 
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
-    main_vbox = gtk_vbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( container ), main_vbox, FALSE, FALSE, 5);
+    vbox = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( container ), vbox, FALSE, FALSE, 0);
 
     /* partie mensuelle */
     label = gtk_label_new ( _("Duration estimation") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_box_pack_start ( GTK_BOX ( main_vbox ), label, FALSE, FALSE, 5) ;
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5 ) ;
 
     hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( main_vbox ), hbox, FALSE, FALSE, 5) ;
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 ) ;
 
     spin_button = gtk_spin_button_new_with_range ( 1.0, 240.0, 1.0);
     gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ), 1.0 );
     gtk_widget_set_name ( spin_button, "spin_button" );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button, FALSE, FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button, FALSE, FALSE, 0 );
 
     for (iduration = 0; bet_duration_array[iduration] != NULL; iduration++)
     {
@@ -278,11 +307,12 @@ GtkWidget *bet_config_get_duration_widget ( GtkWidget *container )
                         _(bet_duration_array[iduration]) );
         }
         gtk_widget_set_name ( widget, bet_duration_array[iduration] );
-        gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5 );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 0 );
         g_signal_connect (G_OBJECT ( widget ),
                         "released",
                         G_CALLBACK ( bet_config_duration_button_clicked ),
                         spin_button );
+        g_object_set_data ( G_OBJECT ( spin_button ), "bet_origin_signal", GINT_TO_POINTER ( 0 ) );
     }
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( previous ), TRUE );
@@ -290,11 +320,11 @@ GtkWidget *bet_config_get_duration_widget ( GtkWidget *container )
     g_signal_connect ( G_OBJECT ( spin_button ),
                         "value-changed",
                         G_CALLBACK ( bet_config_duration_number_changed ),
-                        widget );
+                        GINT_TO_POINTER ( 0 ) );
 
-    gtk_widget_show_all ( main_vbox );
+    gtk_widget_show_all ( vbox );
 
-    return main_vbox;
+    return vbox;
 }
 
 
@@ -304,27 +334,103 @@ GtkWidget *bet_config_get_duration_widget ( GtkWidget *container )
  *
  *
  * */
-GtkWidget *bet_config_select_historical_data ( GtkWidget *container )
+GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
 {
-    GtkWidget *main_vbox;
+    GtkWidget *vbox;
     GtkWidget *label;
+    GtkWidget *button;
+    gchar *text;
+    gint origine;
+    gint select;
+
+    vbox = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( container ), vbox, FALSE, FALSE, 0 );
+
+    /* set labels for transactions */
+    origine = SPP_ORIGIN_TRANSACTION;
+    select = gsb_data_account_get_bet_select_label ( bet_config_get_account ( ), origine );
+    label = gtk_label_new ( _("Labels for transactions") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5 );
+
+    button = gsb_automem_radiobutton3_new ( _("By default"),
+					  _("Categories"),
+					  _("Budgetary lines"),
+					  &select,
+                      G_CALLBACK ( bet_config_select_label_changed ),
+                      GINT_TO_POINTER ( origine ) );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
+
+
+    /* set labels for scheduled */
+    origine = SPP_ORIGIN_SCHEDULED;
+    select = gsb_data_account_get_bet_select_label ( bet_config_get_account ( ), origine );
+    label = gtk_label_new ( _("Labels for scheduled transactions") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5 );
+
+    button = gsb_automem_radiobutton3_new ( _("By default"),
+					  _("Categories"),
+					  _("Budgetary lines"),
+					  &select,
+                      G_CALLBACK ( bet_config_select_label_changed ),
+                      GINT_TO_POINTER ( origine ) );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
+
+    /* set labels for futur data */
+    origine = SPP_ORIGIN_FUTURE;
+    select = gsb_data_account_get_bet_select_label ( bet_config_get_account ( ), origine );
+    label = gtk_label_new ( _("Labels for futur data") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5 );
+
+    button = gsb_automem_radiobutton3_new ( _("By default"),
+					  _("Categories"),
+					  _("Budgetary lines"),
+					  &select,
+                      G_CALLBACK ( bet_config_select_label_changed ),
+                      GINT_TO_POINTER ( origine ) );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
+
+    text = make_blue ( _("Order by default if the data are not zero: notes, payee, "
+                        "category and budgetary line.") );
+    label = gtk_label_new ( text );
+    gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5 ) ;
+    g_free ( text );
+
+    gtk_widget_show_all ( vbox );
+
+    return vbox;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+GtkWidget *bet_config_get_select_historical_data ( GtkWidget *container )
+{
+    GtkWidget *vbox;
     GtkWidget *widget;
     GtkWidget *hbox;
     GtkWidget *button_1, *button_2;
     gchar *str_year;
     gint year;
 
-    main_vbox = gtk_vbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( container ), main_vbox, FALSE, FALSE, 5);
-
-    label = gtk_label_new ( _("Sources of historical data") );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
-    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_box_pack_start ( GTK_BOX ( main_vbox ), label, FALSE, FALSE, 5) ;
+    vbox = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( container ), vbox, FALSE, FALSE, 0);
 
     /* Choix des données sources */
     hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( main_vbox ), hbox, FALSE, FALSE, 15 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
     button_1 = gtk_radio_button_new_with_label ( NULL,
                         _("Categories") );
@@ -332,7 +438,7 @@ GtkWidget *bet_config_select_historical_data ( GtkWidget *container )
     g_signal_connect (G_OBJECT ( button_1 ),
                         "released",
                         G_CALLBACK ( bet_config_origin_data_clicked ),
-                        NULL );
+                        GINT_TO_POINTER ( 0 ) );
 
     button_2 = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( button_1 ),
@@ -341,7 +447,7 @@ GtkWidget *bet_config_select_historical_data ( GtkWidget *container )
     g_signal_connect (G_OBJECT ( button_2 ),
                         "released",
                         G_CALLBACK ( bet_config_origin_data_clicked ),
-                        NULL );
+                        GINT_TO_POINTER ( 0 ) );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 5) ;
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 5) ;
@@ -363,7 +469,7 @@ GtkWidget *bet_config_select_historical_data ( GtkWidget *container )
     g_signal_connect ( G_OBJECT ( widget ),
                     "changed",
                     G_CALLBACK ( bet_config_fyear_clicked ),
-                    NULL );
+                    GINT_TO_POINTER ( 0 ) );
 
     return hbox;
 }
@@ -405,7 +511,6 @@ void bet_config_period_clicked ( GtkWidget *togglebutton, GtkWidget *button )
 
 
 /*
- * bet_config_duration_button_clicked
  * This function is called when a radio button is called to change the estimate duration.
  * It copies the new durations from the data parameter (of the radio button) into
  * the bet_months property of the bet container
@@ -414,11 +519,17 @@ void bet_config_duration_button_clicked ( GtkWidget *togglebutton,
                         GtkWidget *spin_button )
 {
     const gchar *name;
+    gpointer data;
     gint account_number;
     gint months;
 
     name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
-    account_number = gsb_gui_navigation_get_current_account ( );
+    data = g_object_get_data ( G_OBJECT ( spin_button ), "bet_origin_signal");
+
+    if ( GPOINTER_TO_INT ( data ) == 0 )
+        account_number = bet_config_get_account ( );
+    else
+        account_number = gsb_gui_navigation_get_current_account ( );
 
     if ( g_strcmp0 ( name, "Year" ) == 0 )
     {
@@ -461,7 +572,10 @@ gboolean bet_config_duration_number_changed ( GtkWidget *spin_button,
     gint account_number;
     gint months;
 
-    account_number = gsb_gui_navigation_get_current_account ( );
+    if ( GPOINTER_TO_INT ( data ) == 0 )
+        account_number = bet_config_get_account ( );
+    else
+        account_number = gsb_gui_navigation_get_current_account ( );
 
     months = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ) );
     if ( gsb_data_account_get_bet_spin_range ( account_number ) == 1 )
@@ -492,9 +606,13 @@ void bet_config_origin_data_clicked ( GtkWidget *togglebutton, gpointer data )
     gchar *title;
     gint account_number;
 
-    account_number = gsb_gui_navigation_get_current_account ( );
+    if ( GPOINTER_TO_INT ( data ) == 0 )
+        account_number = bet_config_get_account ( );
+    else
+        account_number = gsb_gui_navigation_get_current_account ( );
+
     name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
-    //~ devel_debug (name);
+
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
 
     if ( g_strcmp0 ( name, "button_1" ) == 0 )
@@ -531,7 +649,11 @@ void bet_config_fyear_clicked ( GtkWidget *combo, gpointer data )
 {
     gint account_number;
 
-    account_number = gsb_gui_navigation_get_current_account ( );
+    if ( GPOINTER_TO_INT ( data ) == 0 )
+        account_number = bet_config_get_account ( );
+    else
+        account_number = gsb_gui_navigation_get_current_account ( );
+
     gsb_data_account_set_bet_hist_fyear ( account_number,
                         bet_historical_get_fyear_from_combobox ( combo ) );
 
@@ -548,7 +670,7 @@ void bet_config_fyear_clicked ( GtkWidget *combo, gpointer data )
  *
  *
  * */
-gboolean bet_config_set_property_widget_mirror ( GtkWidget *widget,
+/*gboolean bet_config_set_property_widget_mirror ( GtkWidget *widget,
                         gchar *ancestor_name,
                         gint widget_type,
                         gboolean value )
@@ -573,7 +695,7 @@ gboolean bet_config_set_property_widget_mirror ( GtkWidget *widget,
     }
 
     return FALSE;
-}
+}*/
 
 
 /**
@@ -639,6 +761,60 @@ gboolean bet_config_change_account ( GtkWidget *combo,
 
     return FALSE;
 }
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gint bet_config_get_account ( void )
+{
+    GtkWidget *notebook;
+    GtkWidget *combo;
+    gint account_number = -1;
+
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook" );
+    combo = g_object_get_data ( G_OBJECT ( notebook ), "account_combo" );
+    account_number = gsb_account_get_combo_account_number ( combo );
+
+    return account_number;
+}
+
+
+/**
+ * called for a change in automem_radiobutton3
+ *
+ * \param checkbutton	the button wich changed
+ * \param value_ptr	a gint* wich is the value to set in the memory (0, 1 or 2)
+ *
+ * \return FALSE
+ * */
+static gboolean bet_config_select_label_changed ( GtkWidget *checkbutton,
+						   gpointer data )
+{
+    gint value;
+    gint origine;
+    gint account_number;
+
+    devel_debug (NULL);
+
+    /* we are on the active button, so save the value for it */
+    value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+    origine = GPOINTER_TO_INT ( data );
+    account_number = bet_config_get_account ( );
+
+    gsb_data_account_set_bet_select_label ( account_number, origine, value );
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+    bet_array_refresh_estimate_tab ( );
+
+    return FALSE;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

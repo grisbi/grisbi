@@ -66,7 +66,6 @@ static gint compare_montants_etat ( gsb_real montant_ope,
 static void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 				   struct struct_etat_affichage *affichage,
 				   gchar * filename );
-static void impression_etat ( gint report_number );
 static const gchar *recupere_texte_test_etat ( gint transaction_number,
 					gint champ );
 static gint verifie_chq_test_etat ( gint text_comparison_number,
@@ -2652,24 +2651,24 @@ void denote_struct_sous_jaccentes ( gint origine )
 /*****************************************************************************************************/
 /* Fonction d'impression de l'état */
 /*****************************************************************************************************/
-void impression_etat ( gint report_number )
+/*void impression_etat ( gint report_number )
 {
 
     if ( ! print_config() )
        return;
 
     affichage_etat ( report_number, &latex_affichage, NULL );
-}
+}*/
 
 
-void impression_etat_courant ( )
+/*void impression_etat_courant ( )
 {
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != NAVIGATION_REPORT )
        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general),
                                NAVIGATION_REPORT );
 
     impression_etat (gsb_gui_navigation_get_current_report ());
-}
+}*/
 
 
 

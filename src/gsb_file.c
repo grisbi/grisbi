@@ -63,8 +63,8 @@
 #include "./utils_str.h"
 #include "./fenetre_principale.h"
 #include "./include.h"
-#include "./erreur.h"
 #include "./structures.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -93,7 +93,6 @@ extern gchar *initial_file_title;
 extern gchar *initial_holder_title;
 extern GtkWidget *main_hpaned;
 extern GtkWidget *main_vbox;
-extern gint max;
 extern GtkWidget * navigation_tree_view;
 extern gsize nb_derniers_fichiers_ouverts;
 extern gint nb_max_derniers_fichiers_ouverts;

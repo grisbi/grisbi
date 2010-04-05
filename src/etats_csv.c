@@ -26,14 +26,11 @@
 /*START_INCLUDE*/
 #include "etats_csv.h"
 #include "./dialog.h"
-#include "./gsb_data_report.h"
-#include "./navigation.h"
 #include "./utils_files.h"
 #include "./etats_config.h"
 #include "./include.h"
 #include "./structures.h"
 #include "./etats_affiche.h"
-#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -61,7 +58,6 @@ static gint csv_lastline = 1;
 
 
 /*START_EXTERN*/
-extern gint nb_colonnes;
 /*END_EXTERN*/
 
 

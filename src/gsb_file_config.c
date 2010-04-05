@@ -64,7 +64,6 @@ extern gboolean balances_with_scheduled;
 extern struct conditional_message delete_msg[];
 extern gboolean execute_scheduled_of_month;
 extern GtkWidget *main_hpaned;
-extern gint max;
 extern struct conditional_message messages[];
 extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;

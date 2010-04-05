@@ -42,6 +42,7 @@ gboolean clone_selected_transaction ( GtkWidget *menu_item,
                         gpointer null );
 GtkWidget *creation_fenetre_operations ( void );
 gint find_element_col ( gint element_number );
+gint find_element_col_for_archive ( void );
 gint find_element_col_split ( gint element_number );
 gint find_element_line ( gint element_number );
 gchar *gsb_transactions_get_category_real_name ( gint transaction_number );
@@ -82,6 +83,5 @@ void remove_transaction ();
 void schedule_selected_transaction ();
 gsb_real solde_debut_affichage ( gint account_number,
                         gint floating_point);
-gint find_element_col_for_archive ( void );
 /* END_DECLARATION */
 #endif

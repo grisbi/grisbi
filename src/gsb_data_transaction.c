@@ -31,13 +31,14 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_transaction.h"
+#include "./balance_estimate_data.h"
 #include "./classement_echeances.h"
 #include "./dialog.h"
+#include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_budget.h"
 #include "./gsb_data_category.h"
 #include "./gsb_data_currency.h"
-#include "./gsb_currency.h"
 #include "./gsb_data_currency_link.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
@@ -46,8 +47,6 @@
 #include "./utils_str.h"
 #include "./include.h"
 #include "./structures.h"
-#include "./gsb_real.h"
-#include "./balance_estimate_data.h"
 /*END_INCLUDE*/
 
 

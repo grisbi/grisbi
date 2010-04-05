@@ -30,6 +30,7 @@ enum preference_page  {
     METHODS_OF_PAYMENT_PAGE,
 #ifdef ENABLE_BALANCE_ESTIMATE
     BET_GENERAL_PAGE,
+    BET_ACCOUNT_PAGE,
 #endif
     NUM_PREFERENCES_PAGES
 };

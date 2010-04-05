@@ -33,7 +33,6 @@
 #include "transaction_list_select.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_transaction.h"
-#include "./barre_outils.h"
 #include "./menu.h"
 #include "./gsb_transactions_list.h"
 #include "./transaction_model.h"

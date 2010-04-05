@@ -34,7 +34,6 @@
 #include "./gsb_data_payment.h"
 #include "./gsb_form.h"
 #include "./gsb_form_widget.h"
-#include "./utils_str.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_form.h"
 #include "./erreur.h"
