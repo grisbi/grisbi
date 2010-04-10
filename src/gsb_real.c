@@ -854,25 +854,6 @@ gsb_real gsb_real_div ( gsb_real number_1,
 
 
 /**
- * convert a gsb_real to a double
- *
- * \param number a gsb_real number
- *
- * \return the number in double format
- * */
-/*gdouble gsb_real_real_to_double ( gsb_real number )
-{
-    gdouble double_number;
-    gint i;
-
-    double_number = number.mantissa;
-    for ( i=0 ; i<number.exponent ; i++ )
-	double_number = double_number / 10;
-    return double_number;
-}*/
-
-
-/**
  * convert a double to a gsb_real
  *
  * \param number a gdouble number
@@ -890,26 +871,40 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
     gdouble maxlong;
 
 	gsb_real real_number = {0, exp_add};
-    maxlong = G_MAXLONG / 10;
+    maxlong = G_MAXLONG / 100;
 
-	if(exp_add >=9)
+	if ( exp_add >= 9 )
 		return null_real;
 
-	while ( (modf (number, &tmp_double) ||
-		real_number.exponent < 0 ) &&
-		real_number.exponent < 9)
+    while ( real_number.exponent < 9 )
     {
-	number = number * 10;
-	real_number.exponent++;
+        decimal = modf ( number, &tmp_double );
 
-	if (fabs (number) > maxlong)
-	    number = rint (number);
+        if ( decimal == 0 )
+            break;
+        else if ( ( 1.0 - fabs ( decimal ) ) < 0.0000000001 )
+        {
+            if ( number > 0.0 )
+                number = tmp_double + 1;
+            else
+                number = tmp_double - 1;
+            break;
+        }
+        if ( real_number.exponent < 0 )
+            break;
+
+        number = number * 10;
+        real_number.exponent ++;
+
+        if ( fabs ( number ) > maxlong )
+            number = rint ( number );
     }
 	decimal = modf ( number, &tmp_double );
-	if ( ( (real_number.exponent == (9-exp_add)) ) && (decimal >= 0.5) )
-		real_number.mantissa = ((glong) number ) + 1;
+	if ( ( ( real_number.exponent == ( 9 - exp_add ) ) ) && ( decimal >= 0.5 ) )
+		real_number.mantissa = ( ( glong ) number ) + 1;
 	
-    real_number.mantissa = (glong) (number);
+    real_number.mantissa = ( glong ) ( number );
+
     return real_number;
 }
 
@@ -959,22 +954,6 @@ gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent )
     }
 }
 
-
-/**
- * div 1 by number
- *
- * \param number
- *
- * \return reverse of number
- * */
-/*gsb_real gsb_real_inverse ( gsb_real number )
-{
-    gsb_real number_tmp;
-
-    number_tmp = gsb_real_double_to_real ( 1.00 / gsb_real_real_to_double ( number ) );
-
-    return number_tmp;
-}*/
 
 /* Function to transform string into gsb_real */
 gsb_real gsb_str_to_real ( const gchar * str )

@@ -958,15 +958,17 @@ gboolean gsb_transactions_list_set_row_align ( gfloat row_align )
      * we do that when open the form, so only the last line interest us */
     if (row_align < 0)
     {
-	path = transaction_list_select_get_path (gsb_data_account_get_nb_rows (gsb_gui_navigation_get_current_account())- 1);
-	if ( path )
-	{
-	    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
-					   path, NULL,
-					   FALSE, 0.0, 0.0 );
-	    gtk_tree_path_free (path);
-	}
-	return FALSE;
+        path = transaction_list_select_get_path ( transaction_list_get_last_line (
+                            gsb_data_account_get_nb_rows (
+                            gsb_gui_navigation_get_current_account ( ) ) ) );
+        if ( path )
+        {
+            gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
+                           path, NULL,
+                           FALSE, 0.0, 0.0 );
+            gtk_tree_path_free (path);
+        }
+        return FALSE;
     }
 
     /* ok, we want to use row_align */
@@ -975,17 +977,19 @@ gboolean gsb_transactions_list_set_row_align ( gfloat row_align )
     /* if we are on a child, open the mother */
     mother_transaction = gsb_data_transaction_get_mother_transaction_number (transaction_number);
     if (mother_transaction)
-	gsb_transactions_list_switch_expander (mother_transaction);
+	    gsb_transactions_list_switch_expander (mother_transaction);
 
     /* if we are on white line, go to the end directly,
      * else at the opening, the white line is hidden */
     if (transaction_number == -1)
     {
-	path = transaction_list_select_get_path (gsb_data_account_get_nb_rows (gsb_gui_navigation_get_current_account())- 1);
-	row_align = 1.0;
+        path = transaction_list_select_get_path ( transaction_list_get_last_line (
+                            gsb_data_account_get_nb_rows (
+                            gsb_gui_navigation_get_current_account ( ) ) ) );
+        row_align = 1.0;
     }
     else
-	path = transaction_list_select_get_path (0);
+	    path = transaction_list_select_get_path (0);
 
     /* we need to use scroll_to_cell function because at this stade,
      * the tree view is not refreshed so all value with alignment don't work
@@ -1406,11 +1410,13 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
 gboolean gsb_transactions_list_edit_transaction ( gint transaction_number )
 {
     devel_debug_int (transaction_number);
+
     gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
                         gsb_data_transaction_get_account_number ( transaction_number ),
                         NULL );
     transaction_list_select ( transaction_number );
     gsb_form_fill_by_transaction ( transaction_number, TRUE, TRUE );
+
     return FALSE;
 }
 
@@ -3312,7 +3318,7 @@ gboolean gsb_transactions_list_transaction_visible ( gpointer transaction_ptr,
     {
         if ( gsb_data_account_get_l ( account_number ) )
 	        return ( gsb_data_archive_store_get_account_number (
-                        gsb_data_archive_store_get_number (transaction_ptr)) == account_number);
+                        gsb_data_archive_store_get_number ( transaction_ptr ) ) == account_number );
         else
             return FALSE;
     }
@@ -3321,11 +3327,11 @@ gboolean gsb_transactions_list_transaction_visible ( gpointer transaction_ptr,
      * is not shown, so check the basics for the transaction, and show or not after the separator */
 
     /*  check now for transactions */
-    transaction_number = gsb_data_transaction_get_transaction_number (transaction_ptr);
+    transaction_number = gsb_data_transaction_get_transaction_number ( transaction_ptr );
 
     /* check the general white line (one for all the list, so no account number) */
     if ( transaction_number == -1 )
-	return ( line_in_transaction < nb_rows );
+	    return ( display_mode_check_line ( line_in_transaction, nb_rows ) );
 
     /* check the account */
     if ( gsb_data_transaction_get_account_number (transaction_number) != account_number )
@@ -3338,7 +3344,7 @@ gboolean gsb_transactions_list_transaction_visible ( gpointer transaction_ptr,
 	return FALSE;
 
     /* 	    now we check if we show 1, 2, 3 or 4 lines */
-    return display_mode_check_line (line_in_transaction, nb_rows);
+    return display_mode_check_line ( line_in_transaction, nb_rows );
 }
 
 
@@ -3402,17 +3408,15 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 gboolean gsb_transactions_list_switch_expander ( gint transaction_number )
 {
     GtkTreePath *path;
-    gint last_line;
 
     devel_debug_int (transaction_number);
 
     if ( !gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
 	    return FALSE;
 
-    last_line = transaction_list_get_last_line (
-                    gsb_data_account_get_nb_rows (
-                    gsb_gui_navigation_get_current_account ( ) ) );
-    path = transaction_model_get_path ( transaction_number, last_line );
+    path = transaction_list_select_get_path ( transaction_list_get_last_line (
+                            gsb_data_account_get_nb_rows (
+                            gsb_gui_navigation_get_current_account ( ) ) ) );
 
     if ( gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( transactions_tree_view ), path ) )
 	    gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( transactions_tree_view ), path );

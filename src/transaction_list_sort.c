@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -80,17 +80,17 @@ void transaction_list_sort (void)
 
     /* resort */
     if (custom_list -> user_sort_reconcile)
-	g_qsort_with_data(custom_list->visibles_rows,
-			  custom_list->num_visibles_rows,
-			  sizeof(CustomRecord*),
-			  (GCompareDataFunc) gsb_reconcile_list_sort_func,
-			  custom_list);
+        g_qsort_with_data(custom_list->visibles_rows,
+                        custom_list->num_visibles_rows,
+                        sizeof(CustomRecord*),
+                        (GCompareDataFunc) gsb_reconcile_list_sort_func,
+                        custom_list);
     else
-	g_qsort_with_data(custom_list->visibles_rows,
-			  custom_list->num_visibles_rows,
-			  sizeof(CustomRecord*),
-			  (GCompareDataFunc) gsb_transactions_list_sort,
-			  custom_list);
+    g_qsort_with_data(custom_list->visibles_rows,
+                        custom_list->num_visibles_rows,
+                        sizeof(CustomRecord*),
+                        (GCompareDataFunc) gsb_transactions_list_sort,
+                        custom_list);
 
     /* let other objects know about the new order */
     neworder = g_new0(gint, custom_list->num_visibles_rows);
@@ -108,8 +108,12 @@ void transaction_list_sort (void)
                         //~ gsb_format_gdate ( gsb_data_transaction_get_date (
                         //~ transaction_number ) ),
                         //~ transaction_number);
-	neworder[i] = (custom_list->visibles_rows[i])->filtered_pos;
-	(custom_list->visibles_rows[i])->filtered_pos = i;
+        //~ printf ("transaction_number = %d record -> filtered_pos = %d record -> line_in_transaction =%d\n",
+                        //~ gsb_data_transaction_get_transaction_number ( record -> transaction_pointer),
+                        //~ record -> filtered_pos,
+                        //~ record -> line_in_transaction);
+        neworder[i] = (custom_list->visibles_rows[i])->filtered_pos;
+        (custom_list->visibles_rows[i])->filtered_pos = i;
     }
 
     path = gtk_tree_path_new();
@@ -134,7 +138,7 @@ void transaction_list_sort (void)
  * \return
  * */
 void transaction_list_sort_set_column ( gint new_sort_col,
-					GtkSortType new_sort_order )
+                        GtkSortType new_sort_order )
 {
     CustomList *custom_list;
 
@@ -177,7 +181,7 @@ void transaction_list_sort_set_column ( gint new_sort_col,
  * \return
  * */
 void transaction_list_sort_get_column ( gint *sort_col,
-					GtkSortType *sort_order )
+                        GtkSortType *sort_order )
 {
     CustomList *custom_list;
 

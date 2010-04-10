@@ -83,6 +83,7 @@
 #include "./structures.h"
 #include "./erreur.h"
 #include "./gsb_form_widget.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -107,6 +108,7 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
 /*START_EXTERN*/
 extern GtkWidget * navigation_tree_view;
+extern gsb_real null_real;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -2304,6 +2306,7 @@ gboolean gsb_form_finish_edition ( void )
     gint saved_scheduled_number = 0;
     gint source_transaction_number = -1;
     gint nbre_passage = 0;
+    gint mother_number;
 
     devel_debug (NULL);
 
@@ -2588,23 +2591,24 @@ gboolean gsb_form_finish_edition ( void )
 	 * we give the focus to the new white line created for that and
 	 * edit it, for that we need to open the transaction to select the
 	 * white line, and set it as current transaction */
-	if (gsb_data_mix_get_split_of_transaction (transaction_number, is_transaction))
+	if ( gsb_data_mix_get_split_of_transaction (transaction_number, is_transaction))
 	{
 	    /* it's a split */
 	    gint white_line_number;
 
 	    white_line_number = gsb_data_mix_get_white_line (transaction_number, is_transaction);
-	    if (is_transaction)
-            transaction_list_select (white_line_number);
+	    if ( is_transaction )
+            transaction_list_select ( white_line_number );
 	    else
             gsb_scheduler_list_select (white_line_number);
 	}
 
 	/* it was a new transaction, we save the last date entry */
-	gsb_date_set_last_date (gtk_entry_get_text ( GTK_ENTRY (gsb_form_widget_get_widget (TRANSACTION_FORM_DATE))));
+	gsb_date_set_last_date ( gtk_entry_get_text (
+                        GTK_ENTRY ( gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE ) ) ) );
 
 	/* we need to use edit_transaction to make a new child split if necessary */
-	if (is_transaction)
+	if ( is_transaction)
 	    gsb_transactions_list_edit_transaction (
                         gsb_data_account_get_current_transaction_number (account_number) );
 	else
@@ -2613,20 +2617,29 @@ gboolean gsb_form_finish_edition ( void )
     else
         gsb_form_hide ();
 
+    /* on sort de la saisie des opérations filles si variance == 0 */
+    if ( is_transaction
+     &&
+     ( mother_number = gsb_data_transaction_get_mother_transaction_number ( transaction_number ) )
+     &&
+     transaction_list_get_variance ( gsb_data_account_get_current_transaction_number (
+                        account_number ) ) )
+        transaction_list_select ( mother_number );
+     
     /* if it was a modification of transaction, we need to update the sort and colors
      * (done automatically for new transaction) */
-    if (!new_transaction && !execute_scheduled)
+    if ( !new_transaction && !execute_scheduled )
         gsb_transactions_list_update_tree_view (account_number, TRUE);
 
     /* show the warnings */
-    if (is_transaction)
+    if ( is_transaction )
     {
         affiche_dialogue_soldes_minimaux ();
         update_transaction_in_trees (transaction_number);
     }
 
     /* as we modify or create a transaction, we invalidate the current report */
-    gsb_report_set_current (0);
+    gsb_report_set_current ( 0 );
 
 #ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
@@ -2641,6 +2654,7 @@ gboolean gsb_form_finish_edition ( void )
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
+
     return FALSE;
 }
 
@@ -2720,15 +2734,21 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
     if ( widget && mother_number )
     {
+        gsb_real number = null_real;
+
+        if ( gsb_form_widget_check_empty ( widget ) == FALSE )
+            number = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
+            
 	    if ( gsb_form_widget_check_empty ( widget ) == TRUE
          ||
-         utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) ) == 0 )
+         number.mantissa == 0 )
         {
             widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
+            number = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
 
             if ( gsb_form_widget_check_empty ( widget ) == TRUE
              ||
-             utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) ) == 0 )
+             number.mantissa == 0 )
                 dialogue_error ( _("You must enter an amount.") );
 
             return (FALSE);
