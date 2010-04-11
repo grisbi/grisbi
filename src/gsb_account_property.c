@@ -68,6 +68,7 @@
 #include "./gsb_form_scheduler.h"
 #include "./include.h"
 #include "./erreur.h"
+#include "./gtk_combofix.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -463,17 +464,17 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
+    label_guichet = gtk_label_new ( NULL );
+    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+    gtk_box_pack_start ( GTK_BOX(hbox), label_guichet, FALSE, FALSE, 0 );
+
     detail_guichet = gsb_autofunc_entry_new ( NULL,
                         NULL,
                         NULL,
                         G_CALLBACK (gsb_data_account_set_bank_branch_code),
                         0);
     gtk_box_pack_start ( GTK_BOX(hbox), detail_guichet, TRUE, TRUE, 0);
-
-    label_guichet = gtk_label_new ( NULL );
-    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
-    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_box_pack_start ( GTK_BOX(hbox), label_guichet, FALSE, FALSE, 0 );
 
     /* création de la ligne du numéro du compte */
     hbox = gtk_hbox_new ( FALSE, 6 );
@@ -484,17 +485,17 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
+    label_no_compte = gtk_label_new ( NULL );
+    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+    gtk_box_pack_start ( GTK_BOX(hbox), label_no_compte, FALSE, FALSE, 0 );
+
     detail_no_compte = gsb_autofunc_entry_new ( NULL,
                         NULL,
                         NULL,
                         G_CALLBACK (gsb_data_account_set_bank_account_number),
                         0 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_no_compte, TRUE, TRUE, 0 );
-
-    label_no_compte = gtk_label_new ( NULL );
-    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
-    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_box_pack_start ( GTK_BOX(hbox), label_no_compte, FALSE, FALSE, 0 );
 
     detail_cle_compte = gsb_autofunc_entry_new ( NULL,
                         NULL,
@@ -1086,7 +1087,6 @@ gboolean gsb_account_property_iban_focus_out_event ( GtkWidget *entry,
         return FALSE;
 
     iban = gtk_editable_get_chars ( GTK_EDITABLE (entry), 0, -1 );
-    devel_debug (iban);
 
     if ( gsb_account_property_iban_control_iban (iban) == 0 )
         gsb_account_property_iban_set_iban (
@@ -1133,10 +1133,15 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
     bank_number = gsb_data_account_get_bank (current_account);
 
     /* set bank à revoir avec gestion des iban */
-
-    gsb_bank_list_set_bank (bank_list_combobox,
+    g_signal_handlers_block_by_func ( G_OBJECT ( bank_list_combobox ),
+                        G_CALLBACK ( gsb_account_property_changed_bank_label ),
+                        NULL );
+    gsb_bank_list_set_bank ( bank_list_combobox,
                         bank_number,
                         current_account );
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( bank_list_combobox ),
+                        G_CALLBACK ( gsb_account_property_changed_bank_label ),
+                        NULL );
 
     if ( iban == NULL || strlen (iban) == 0 )
     {
@@ -1175,6 +1180,7 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
         {
             code = g_utf8_strncpy ( code, ptr_1, (pos_char_2 - pos_char_1) + 1 );
             gtk_label_set_text ( GTK_LABEL (label_code_banque), code );
+            gtk_widget_show ( label_code_banque );
             set_label = TRUE;
         }
     }
@@ -1190,6 +1196,7 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
 
         code = g_utf8_strncpy ( code, ptr_1, (pos_char_2 - pos_char_1) + 1 );
         gtk_label_set_text ( GTK_LABEL (label_code_banque), code );
+        gtk_widget_show ( label_code_banque );
     }
 
     /* set bank_branch_code */
@@ -1213,6 +1220,7 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
     else
         code = g_strdup ( "" );
     gtk_label_set_text ( GTK_LABEL (label_guichet), code );
+    gtk_widget_show ( label_guichet );
 
     /* set bank_account_number */
     c = 'C';
@@ -1227,6 +1235,7 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
 
         code = g_utf8_strncpy ( code, ptr_1, (pos_char_2 - pos_char_1) + 1 );
         gtk_label_set_text ( GTK_LABEL (label_no_compte), code );
+        gtk_widget_show ( label_no_compte );
     }
 
     /* set bank_account_key */
@@ -1245,6 +1254,7 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
     else
         code = g_strdup ( "" );
     gtk_label_set_text ( GTK_LABEL (label_cle_compte), code );
+    gtk_widget_show ( label_cle_compte );
 
     g_free ( model );
     g_free ( tmpstr );
@@ -1353,7 +1363,7 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
 {
     struct iso_13616_iban *s_iban;
     gchar *model;
-    gchar *tmpstr = NULL;
+    gchar *tmp_str = NULL;
     gchar *substr;
     gchar *ptr = NULL;
     gchar *buffer = NULL;
@@ -1361,24 +1371,25 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
     gint i = 0;
     gulong lnum;
     gint reste = 0;
+    gint code_controle;
     gint result = 0;
 
     if ( iban == NULL )
         return 0;
-    else if ( strlen (iban) == 0 )
+    else if ( strlen ( iban ) == 0 )
         return -1;
 
     s_iban = gsb_account_property_iban_get_struc ( g_strndup (iban, 2) );
 
     model = my_strdelimit ( s_iban -> iban, " -", "" );
-    tmpstr = my_strdelimit ( iban, " -", "" );
+    tmp_str = my_strdelimit ( iban, " -", "" );
 
     /* on ne contrôle pas la longueur d'un IBAN sans modèle */
-    if ( g_strcmp0 (s_iban -> locale, "XX") != 0 &&
-                    g_utf8_strlen (model, -1) != g_utf8_strlen (tmpstr, -1) )
+    if ( g_strcmp0 ( s_iban -> locale, "XX" ) != 0 &&
+                    g_utf8_strlen ( model, -1 ) != g_utf8_strlen ( tmp_str, -1 ) )
     {
         g_free ( model );
-        g_free ( tmpstr );
+        g_free ( tmp_str );
         return 0;
     }
 
@@ -1389,12 +1400,12 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
      * codage particulier A = 10 B = 11 etc...
      */
 
-    if ( strlen (tmpstr) > 4 )
-        tmpstr = g_strconcat ( tmpstr + 4, g_strndup (tmpstr, 2), "00", NULL );
+    if ( strlen (tmp_str) > 4 )
+        tmp_str = g_strconcat ( tmp_str + 4, g_strndup (tmp_str, 2), "00", NULL );
     else
         return 0;
 
-    ptr = tmpstr;
+    ptr = tmp_str;
     while ( ptr[i]  )
 	{
         if ( g_ascii_isdigit ( ptr[i] ) )
@@ -1416,7 +1427,8 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
         i++;
     }
 
-    g_free ( tmpstr );
+    g_free ( tmp_str );
+
     /* vérification du calcul de l'IBAN
      *
      * methode : on procède par étapes
@@ -1432,13 +1444,13 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
         substr = g_strndup ( gstring -> str, 9 );
         lnum = ( gulong ) my_strtod ( substr, NULL );
         reste = lnum % 97;
+
         g_free ( substr );
 
         if ( gstring -> len >= 9 )
         {
             gstring = g_string_erase ( gstring, 0, 9 );
-            gstring = g_string_prepend ( gstring,
-                        g_strdup_printf ("%d", reste) );
+            gstring = g_string_prepend ( gstring, g_strdup_printf ( "%d", reste ) );
         }
         else
             break;
@@ -1446,13 +1458,17 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
 
     g_string_free ( gstring, TRUE );
 
-    tmpstr = g_strdup_printf ("%d", 98 - reste );
+    reste = 98 - reste;
 
-    if ( g_strcmp0 ( tmpstr, g_strndup (iban + 2, 2) ) == 0 )
+    tmp_str = g_strndup ( iban + 2, 2 );
+    code_controle =  utils_str_atoi ( tmp_str );
+    
+    if ( code_controle - reste == 0 )
         result = 1;
     else
         result = 0;
-    g_free ( tmpstr );
+
+    g_free ( tmp_str );
 
     return result;
 }
