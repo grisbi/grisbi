@@ -846,7 +846,7 @@ gsb_real gsb_real_div ( gsb_real number_1,
 	else
 	{
 		number = gsb_real_double_to_real_add_exponent (
-		                      (gdouble) number_1.mantissa / number_2.mantissa,
+		                      (gdouble) number_1.mantissa / (gdouble) number_2.mantissa,
 		                       number_1.exponent - number_2.exponent);
 	}
     return number;
@@ -869,42 +869,28 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
 {
     gdouble tmp_double, decimal;
     gdouble maxlong;
-
 	gsb_real real_number = {0, exp_add};
-    maxlong = G_MAXLONG / 100;
 
-	if ( exp_add >= 9 )
+    maxlong = G_MAXLONG / 10;
+
+	if(exp_add >=9)
 		return null_real;
 
-    while ( real_number.exponent < 9 )
+	while ( ( ( decimal = modf ( number, &tmp_double ) ) ||
+		real_number.exponent < 0 ) &&
+		real_number.exponent < 9)
     {
-        decimal = modf ( number, &tmp_double );
-
-        if ( decimal == 0 )
-            break;
-        else if ( ( 1.0 - fabs ( decimal ) ) < 0.0000000001 )
-        {
-            if ( number > 0.0 )
-                number = tmp_double + 1;
-            else
-                number = tmp_double - 1;
-            break;
-        }
-        if ( real_number.exponent < 0 )
-            break;
-
         number = number * 10;
-        real_number.exponent ++;
+        real_number.exponent++;
 
-        if ( fabs ( number ) > maxlong )
-            number = rint ( number );
+        if (fabs (number) > maxlong)
+            number = rint (number);
     }
 	decimal = modf ( number, &tmp_double );
-	if ( ( ( real_number.exponent == ( 9 - exp_add ) ) ) && ( decimal >= 0.5 ) )
-		real_number.mantissa = ( ( glong ) number ) + 1;
+	if ( ( (real_number.exponent == (9-exp_add)) ) && (decimal >= 0.5) )
+		real_number.mantissa = ((glong) number ) + 1;
 	
-    real_number.mantissa = ( glong ) ( number );
-
+    real_number.mantissa = (glong) (number);
     return real_number;
 }
 
