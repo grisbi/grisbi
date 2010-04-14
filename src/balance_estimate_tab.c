@@ -515,6 +515,7 @@ GtkWidget *bet_array_create_page ( void )
                         G_CALLBACK ( bet_config_duration_number_changed ),
                         GINT_TO_POINTER ( 1 ) );
 
+    /* set the start date and the automatic change of month */
     label = gtk_label_new ( COLON ( _("Start date" ) ) );
     gtk_misc_set_padding ( GTK_MISC (label), 5, 0 );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
@@ -530,6 +531,11 @@ GtkWidget *bet_array_create_page ( void )
 			            NULL );
     g_object_set_data ( G_OBJECT ( notebook ), "initial_date", initial_date );
     gtk_box_pack_start ( GTK_BOX (hbox), initial_date, FALSE, FALSE, 0 );
+
+    widget = gtk_check_button_new ( );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
+                        SPACIFY(_("Check the box to automatically change start date") ) );
+    gtk_box_pack_start ( GTK_BOX (hbox), widget, FALSE, FALSE, 0 );
 
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ( );

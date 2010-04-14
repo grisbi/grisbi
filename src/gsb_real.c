@@ -872,7 +872,7 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
 	gsb_real real_number = {0, exp_add};
 
     maxlong = G_MAXLONG / 10;
-
+    //~ printf ("number initial = %f exp_add = %d\n",number, exp_add);
 	if(exp_add >=9)
 		return null_real;
 
@@ -887,10 +887,19 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
             number = rint (number);
     }
 	decimal = modf ( number, &tmp_double );
-	if ( ( (real_number.exponent == (9-exp_add)) ) && (decimal >= 0.5) )
-		real_number.mantissa = ((glong) number ) + 1;
-	
-    real_number.mantissa = (glong) (number);
+    //~ printf ("number = %f decimal = %f tmp_double = %f\n", number, decimal, tmp_double);
+	if ( ( ( real_number.exponent == ( 9 - exp_add ) ) ) && ( fabs ( decimal ) >= 0.5 ) )
+    {
+        if ( tmp_double < 0 )
+		    real_number.mantissa = ((glong) tmp_double ) - 1;
+        else
+            real_number.mantissa = ((glong) tmp_double ) + 1;
+
+        gsb_real_minimize_exponent ( &real_number );
+    }
+	else
+        real_number.mantissa = (glong) (number);
+    //~ printf ("real_number.mantissa = %ld real_number.exponent = %d\n", real_number.mantissa,real_number.exponent); 
     return real_number;
 }
 

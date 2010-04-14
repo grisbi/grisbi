@@ -1956,6 +1956,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
         if ( etat.get_fusion_import_transactions &&
                         imported_transaction -> ope_correspondante > 0 )
         {
+            gsb_transactions_list_update_transaction ( transaction_number );
             list_tmp = list_tmp -> next;
             continue;
         }

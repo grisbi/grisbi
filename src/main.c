@@ -111,7 +111,7 @@ int main (int argc, char **argv)
     gchar *string;
     gchar *path;
     cmdline_options  opt;
-#ifdef IS_DEVELOPMENT_VERSION
+#if IS_DEVELOPMENT_VERSION == 1
 	struct lconv *conv;
 #endif
 
@@ -126,7 +126,7 @@ int main (int argc, char **argv)
     g_mem_set_vtable(glib_mem_profiler_table);
 #endif
 
-#if IS_DEVELOPMENT_VERSION
+#if IS_DEVELOPMENT_VERSION == 1
     gsb_cunit_run_tests();
     initialize_debugging();
 #endif
@@ -192,7 +192,7 @@ int main (int argc, char **argv)
     init_variables ();
     register_import_formats ();
 
-#ifdef IS_DEVELOPMENT_VERSION
+#if IS_DEVELOPMENT_VERSION == 1
     /* test local pour les nombres */
 	conv = localeconv();
     
