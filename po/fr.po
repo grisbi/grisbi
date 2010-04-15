@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-14 22:46+0200\n"
+"POT-Creation-Date: 2010-04-15 20:38+0200\n"
 "PO-Revision-Date: 2010-03-05 22:25+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -1800,11 +1800,16 @@ msgstr "Total général (%d opérations)"
 msgid "General total"
 msgstr "Total général"
 
+#. create the method of payment for a bank account
+#. create the method of payment for a liabilities account
 #. Transfer = Virement
 #. Direct deposit remplacÃ© par Transfert = Virement
-#: src/etats_affiche.c:1844 src/gsb_form.c:2274 src/import.c:2640
-#: src/import.c:2658
-msgid "Transfert"
+#: src/etats_affiche.c:1844 src/export_csv.c:602 src/export_csv.c:714
+#: src/export_csv.c:726 src/gsb_data_category.c:1045
+#: src/gsb_data_payment.c:632 src/gsb_data_payment.c:713
+#: src/gsb_data_payment.c:752 src/gsb_form.c:2274 src/import.c:2640
+#: src/import.c:2658 src/plugins/ofx/ofx.c:464
+msgid "Transfer"
 msgstr "Virement"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:572 src/gsb_data_category.c:1043
@@ -3118,15 +3123,6 @@ msgstr ""
 #: src/export_csv.c:593
 msgid "B"
 msgstr "V"
-
-#. create the method of payment for a bank account
-#. create the method of payment for a liabilities account
-#: src/export_csv.c:602 src/export_csv.c:714 src/export_csv.c:726
-#: src/gsb_data_category.c:1045 src/gsb_data_payment.c:632
-#: src/gsb_data_payment.c:713 src/gsb_data_payment.c:752
-#: src/plugins/ofx/ofx.c:464
-msgid "Transfer"
-msgstr "Virement"
 
 #: src/export_csv.c:716 src/gsb_form.c:1904
 msgid "Deleted account"

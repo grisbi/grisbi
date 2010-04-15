@@ -2637,7 +2637,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
         break;
         case OFX_XFER:
         /* Transfer = Virement */
-        payment_number = gsb_data_payment_get_number_by_name ( _("Transfert"),
+        payment_number = gsb_data_payment_get_number_by_name ( _("Transfer"),
                         account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
         break;
@@ -2655,7 +2655,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
         break;
         case OFX_DIRECTDEP:
         /* Direct deposit remplacé par Transfert = Virement */
-        payment_number = gsb_data_payment_get_number_by_name ( _("Transfert"),
+        payment_number = gsb_data_payment_get_number_by_name ( _("Transfer"),
                         account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
         break;

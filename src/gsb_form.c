@@ -2271,7 +2271,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
         case GDK_T:
         case GDK_v:
         case GDK_V:
-            payment_number = gsb_data_payment_get_number_by_name ( _("Transfert"),
+            payment_number = gsb_data_payment_get_number_by_name ( _("Transfer"),
                         account_number );
             if ( payment_number )
                 gsb_payment_method_set_combobox_history ( widget, payment_number );

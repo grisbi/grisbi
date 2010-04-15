@@ -268,7 +268,7 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
 
     /* XXX still buggy, very slow on the gtk_list_store_clear() call,
      * try to find why. */
-    if ( detail_devise_compte )
+    if ( detail_devise_compte && G_IS_OBJECT ( detail_devise_compte ) )
     {
         handler_id = (gulong) g_object_get_data ( G_OBJECT 
                             (detail_devise_compte), "changed-hook" );
@@ -280,7 +280,7 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
                             (detail_devise_compte));
         }
     }
-    if ( combo_devise_totaux_tiers )
+    if ( combo_devise_totaux_tiers && G_IS_OBJECT ( combo_devise_totaux_tiers ) )
     {
         handler_id = (gulong) g_object_get_data ( G_OBJECT 
                             (combo_devise_totaux_tiers), "changed-hook" );
@@ -289,7 +289,7 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
                             (gulong) g_object_get_data ( G_OBJECT 
                             (combo_devise_totaux_tiers), "changed-hook" ) );
     }
-    if ( combo_devise_totaux_categ )
+    if ( combo_devise_totaux_categ  && G_IS_OBJECT ( combo_devise_totaux_categ ) )
     {
         handler_id = (gulong) g_object_get_data ( G_OBJECT 
                             (combo_devise_totaux_categ), "changed-hook" );
@@ -298,7 +298,7 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
                             (gulong) g_object_get_data ( G_OBJECT 
                             (combo_devise_totaux_categ), "changed-hook" ) );
     }
-    if ( combo_devise_totaux_ib )
+    if ( combo_devise_totaux_ib  && G_IS_OBJECT ( combo_devise_totaux_ib ) )
     {
         handler_id = (gulong) g_object_get_data ( G_OBJECT 
                             (combo_devise_totaux_ib), "changed-hook" );
@@ -347,7 +347,7 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
     mise_a_jour_liste_echeances_auto_accueil = 1;
 
-    if ( detail_devise_compte )
+    if ( detail_devise_compte && G_IS_OBJECT ( detail_devise_compte ) )
     {
         handler_id = (gulong) g_object_get_data ( G_OBJECT 
                             (detail_devise_compte), "changed-hook" );
@@ -359,7 +359,7 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
                             (detail_devise_compte), "changed-hook" ) );
         }
     }
-    if ( combo_devise_totaux_tiers )
+    if ( combo_devise_totaux_tiers && G_IS_OBJECT ( combo_devise_totaux_tiers ) )
     {
         handler_id = (gulong) g_object_get_data ( G_OBJECT 
                             (combo_devise_totaux_tiers), "changed-hook" );
@@ -372,7 +372,7 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
                             (combo_devise_totaux_tiers), "changed-hook" ) );
         }
     }
-    if ( combo_devise_totaux_categ )
+    if ( combo_devise_totaux_categ  && G_IS_OBJECT ( combo_devise_totaux_categ ) )
     {
         handler_id = (gulong) g_object_get_data ( G_OBJECT 
                             (combo_devise_totaux_categ), "changed-hook" );
@@ -385,7 +385,7 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
                             (combo_devise_totaux_categ), "changed-hook" ) );
         }
     }
-    if ( combo_devise_totaux_ib )
+    if ( combo_devise_totaux_ib  && G_IS_OBJECT ( combo_devise_totaux_ib ) )
     {
         handler_id = (gulong) g_object_get_data ( G_OBJECT 
                             (combo_devise_totaux_ib), "changed-hook" );

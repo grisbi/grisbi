@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-14 22:46+0200\n"
+"POT-Creation-Date: 2010-04-15 20:38+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -1890,12 +1890,17 @@ msgstr "Algemeen totaal (%d transacties)"
 msgid "General total"
 msgstr "Totaal algemeen"
 
+#. create the method of payment for a bank account
+#. create the method of payment for a liabilities account
 #. Transfer = Virement
 #. Direct deposit remplacÃ© par Transfert = Virement
-#: src/etats_affiche.c:1844 src/gsb_form.c:2274 src/import.c:2640
-#: src/import.c:2658
-msgid "Transfert"
-msgstr "Overgeschreven"
+#: src/etats_affiche.c:1844 src/export_csv.c:602 src/export_csv.c:714
+#: src/export_csv.c:726 src/gsb_data_category.c:1045
+#: src/gsb_data_payment.c:632 src/gsb_data_payment.c:713
+#: src/gsb_data_payment.c:752 src/gsb_form.c:2274 src/import.c:2640
+#: src/import.c:2658 src/plugins/ofx/ofx.c:464
+msgid "Transfer"
+msgstr "Overschrijving"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:572 src/gsb_data_category.c:1043
 #: src/gsb_form.c:724 src/gsb_form.c:2769 src/gsb_form.c:3169
@@ -3266,15 +3271,6 @@ msgstr ""
 #: src/export_csv.c:593
 msgid "B"
 msgstr "B"
-
-#. create the method of payment for a bank account
-#. create the method of payment for a liabilities account
-#: src/export_csv.c:602 src/export_csv.c:714 src/export_csv.c:726
-#: src/gsb_data_category.c:1045 src/gsb_data_payment.c:632
-#: src/gsb_data_payment.c:713 src/gsb_data_payment.c:752
-#: src/plugins/ofx/ofx.c:464
-msgid "Transfer"
-msgstr "Overschrijving"
 
 # geen idee waar dit staat
 #: src/export_csv.c:716 src/gsb_form.c:1904
@@ -10503,6 +10499,9 @@ msgstr ""
 #, fuzzy
 msgid "No font defined"
 msgstr "Geen budgetregel"
+
+#~ msgid "Transfert"
+#~ msgstr "Overgeschreven"
 
 #, fuzzy
 #~ msgid "Futur data"

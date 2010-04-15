@@ -1841,7 +1841,7 @@ gint etat_affiche_affiche_categ_etat ( gint transaction_number,
 		if ( gsb_data_transaction_get_contra_transaction_number (transaction_number) > 0)
 		{
 		    pointeur_char = g_strconcat ( decalage_categ,
-						  _("Transfert"),
+						  _("Transfer"),
 						  NULL );
 		    ancienne_categ_speciale_etat = 1;
 		}

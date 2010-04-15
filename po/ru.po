@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-14 22:46+0200\n"
+"POT-Creation-Date: 2010-04-15 20:38+0200\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -1754,12 +1754,17 @@ msgstr "Итого (%d проводок)"
 msgid "General total"
 msgstr "Итого в целом"
 
+#. create the method of payment for a bank account
+#. create the method of payment for a liabilities account
 #. Transfer = Virement
 #. Direct deposit remplacÃ© par Transfert = Virement
-#: src/etats_affiche.c:1844 src/gsb_form.c:2274 src/import.c:2640
-#: src/import.c:2658
-msgid "Transfert"
-msgstr ""
+#: src/etats_affiche.c:1844 src/export_csv.c:602 src/export_csv.c:714
+#: src/export_csv.c:726 src/gsb_data_category.c:1045
+#: src/gsb_data_payment.c:632 src/gsb_data_payment.c:713
+#: src/gsb_data_payment.c:752 src/gsb_form.c:2274 src/import.c:2640
+#: src/import.c:2658 src/plugins/ofx/ofx.c:464
+msgid "Transfer"
+msgstr "Передача"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:572 src/gsb_data_category.c:1043
 #: src/gsb_form.c:724 src/gsb_form.c:2769 src/gsb_form.c:3169
@@ -3041,15 +3046,6 @@ msgstr ""
 #: src/export_csv.c:593
 msgid "B"
 msgstr ""
-
-#. create the method of payment for a bank account
-#. create the method of payment for a liabilities account
-#: src/export_csv.c:602 src/export_csv.c:714 src/export_csv.c:726
-#: src/gsb_data_category.c:1045 src/gsb_data_payment.c:632
-#: src/gsb_data_payment.c:713 src/gsb_data_payment.c:752
-#: src/plugins/ofx/ofx.c:464
-msgid "Transfer"
-msgstr "Передача"
 
 #: src/export_csv.c:716 src/gsb_form.c:1904
 msgid "Deleted account"
