@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
 /*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/*                      2009-2010 Pierre Biava (grisbi@pierre.biava.name)     */
 /* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -36,6 +37,7 @@
 #include "./gsb_data_account.h"
 #include "./gsb_data_reconcile.h"
 #include "./gsb_data_transaction.h"
+#include "./gsb_form.h"
 #include "./gsb_form_widget.h"
 #include "./navigation.h"
 #include "./fenetre_principale.h"
@@ -56,9 +58,12 @@
 
 /*START_STATIC*/
 static gboolean gsb_reconcile_cancel ( GtkWidget *button,
-				gpointer null );
+				        gpointer null );
+static gboolean gsb_reconcile_entry_lose_focus ( GtkWidget *entry,
+                        GdkEventFocus *ev,
+                        gpointer data );
 static gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
-					       gpointer null );
+					    gpointer null );
 static void gsb_reconcile_sensitive ( gboolean sensitive );
 /*END_STATIC*/
 
@@ -124,7 +129,10 @@ GtkWidget *gsb_reconcile_create_box ( void )
 
     reconcile_number_entry = gtk_entry_new ();
     gtk_widget_set_tooltip_text ( GTK_WIDGET (reconcile_number_entry),
-				  SPACIFY(_("If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation.\nYou can let it empty if you don't want to keep a trace of the reconciliation.")));
+				  SPACIFY(_("If reconciliation reference ends in a digit, it is "
+                            "automatically incremented at each reconciliation.\n"
+                            "You can let it empty if you don't want to keep a trace of "
+                            "the reconciliation.")));
     gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_number_entry, TRUE, TRUE, 0);
 
     separator = gtk_hseparator_new();
@@ -162,6 +170,10 @@ GtkWidget *gsb_reconcile_create_box ( void )
                         "changed",
 		                G_CALLBACK (gsb_reconcile_update_amounts),
 		                NULL );
+    g_signal_connect ( G_OBJECT ( reconcile_initial_balance_entry ),
+			            "focus-out-event",
+                        G_CALLBACK ( gsb_reconcile_entry_lose_focus ),
+                        NULL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_initial_balance_entry,
 				2, 3, 2, 3 );
 
@@ -178,6 +190,10 @@ GtkWidget *gsb_reconcile_create_box ( void )
                         "changed",
 		                G_CALLBACK (gsb_reconcile_update_amounts),
 		                NULL );
+    g_signal_connect ( G_OBJECT ( reconcile_final_balance_entry ),
+			            "focus-out-event",
+                        G_CALLBACK ( gsb_reconcile_entry_lose_focus ),
+                        NULL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_final_balance_entry,
 				2, 3, 4, 5 );
 
@@ -273,7 +289,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
  * \return FALSE
  * */
 gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
-					    gpointer null )
+                        gpointer null )
 {
     GDate *date;
     gint account_number;
@@ -477,7 +493,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
  * \return FALSE
  */
 gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
-					       gpointer null )
+					    gpointer null )
 {
     GSList *list_tmp_transactions;
     GDate *date;
@@ -638,7 +654,7 @@ void gsb_reconcile_sensitive ( gboolean sensitive )
  * \return FALSE
  * */
 gboolean gsb_reconcile_cancel ( GtkWidget *button,
-				gpointer null )
+				        gpointer null )
 {
     etat.equilibrage = 0;
 
@@ -684,7 +700,7 @@ gboolean gsb_reconcile_cancel ( GtkWidget *button,
  * \return FALSE
  * */
 gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
-					gpointer null )
+					    gpointer null )
 {
     gsb_real amount;
     gint account_number;
@@ -753,6 +769,14 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
 }
 
 
+gboolean gsb_reconcile_entry_lose_focus ( GtkWidget *entry,
+                        GdkEventFocus *ev,
+                        gpointer data )
+{
+    gsb_form_check_auto_separator ( entry );
+
+    return FALSE;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
