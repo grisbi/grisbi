@@ -75,6 +75,7 @@ static void bet_array_adjust_hist_amount ( gint div_number,
                         gint sub_div_nb,
                         gsb_real amount,
                         GtkTreeModel *model );
+static void bet_array_auto_inc_month_toggle ( GtkToggleButton *togglebutton, gpointer  data );
 static gint bet_array_date_sort_function ( GtkTreeModel *model,
                         GtkTreeIter *itera,
                         GtkTreeIter *iterb,
@@ -165,9 +166,19 @@ enum bet_estimation_tree_columns {
  */
 void bet_array_update_estimate_tab ( void )
 {
+    gint account_number;
+
     devel_debug ( NULL );
-    bet_historical_populate_data ( );
-    bet_array_refresh_estimate_tab ( );
+    /* Initializes account settings */
+    account_number = gsb_gui_navigation_get_current_account ( );
+
+    if ( account_number == -1 )
+        return;
+
+    bet_array_initializes_account_settings ( account_number );
+
+    bet_historical_populate_data ( account_number );
+    bet_array_refresh_estimate_tab ( account_number );
 }
 
 
@@ -285,7 +296,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
  * This function is called when the refresh button is pressed and when
  * the balance estimate tab is selected.
  */
-void bet_array_refresh_estimate_tab ( void )
+void bet_array_refresh_estimate_tab ( gint account_number )
 {
     GtkWidget *notebook;
     GtkWidget *widget;
@@ -299,7 +310,6 @@ void bet_array_refresh_estimate_tab ( void )
     gchar *str_amount;
     gchar *title;
     gchar *tmp_str;
-    gint account_nb;
     GDate *date_init;
     GDate *date_min;
     GDate *date_max;
@@ -311,21 +321,12 @@ void bet_array_refresh_estimate_tab ( void )
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
     tmp_range = struct_initialise_bet_range ( );
 
-    /* find the selected account */
-    account_nb = gsb_gui_navigation_get_current_account ( );
-
-    if ( account_nb == -1 )
-        return;
-
-    /* Initializes account settings */
-    bet_array_initializes_account_settings ( account_nb );
-
     /* calculate date_min and date_max with user choice */
-    date_min = gsb_data_account_get_bet_start_date ( account_nb );
+    date_min = gsb_data_account_get_bet_start_date ( account_number );
     
-    date_max = bet_data_array_get_date_max ( account_nb );
+    date_max = bet_data_array_get_date_max ( account_number );
 
-    widget = g_object_get_data ( G_OBJECT ( notebook ), "initial_date");
+    widget = g_object_get_data ( G_OBJECT ( notebook ), "bet_initial_date");
     gsb_calendar_entry_set_date ( widget, date_min );
 
     str_date_min = gsb_format_gdate ( date_min );
@@ -343,11 +344,11 @@ void bet_array_refresh_estimate_tab ( void )
      * in the future in the account. So we need to calculate the balance
      * of today */
     current_balance = gsb_data_account_calculate_current_day_balance (
-                        account_nb, date_min );
+                        account_number, date_min );
 
     str_amount = gsb_real_save_real_to_string ( current_balance, 2 );
     str_current_balance = gsb_real_get_string_with_currency ( current_balance,
-                        gsb_data_account_get_currency ( account_nb ), TRUE );
+                        gsb_data_account_get_currency ( account_number ), TRUE );
 
     if ( current_balance.mantissa < 0 )
         color_str = "red";
@@ -357,7 +358,7 @@ void bet_array_refresh_estimate_tab ( void )
     /* set the titles of tabs module budget */
     title = g_strdup_printf (
                         _("Balance estimate of the account \"%s\" from %s to %s"),
-                        gsb_data_account_get_name ( account_nb ),
+                        gsb_data_account_get_name ( account_number ),
                         str_date_min, str_date_max );
 
     widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( notebook ), "bet_array_title") );
@@ -366,7 +367,7 @@ void bet_array_refresh_estimate_tab ( void )
 
     title = g_strdup_printf (
                         _("Please select the data source for the account: \"%s\""),
-                        gsb_data_account_get_name ( account_nb ) );
+                        gsb_data_account_get_name ( account_number ) );
     widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( notebook ), "bet_hist_title") );
     gtk_label_set_label ( GTK_LABEL ( widget ), title );
     g_free ( title );
@@ -405,13 +406,13 @@ void bet_array_refresh_estimate_tab ( void )
     
     /* search transactions of the account which are in the period */
     bet_array_refresh_transactions_data ( tree_model,
-                        account_nb,
+                        account_number,
                         date_min,
                         date_max );
 
     /* for each schedulded operation */
     bet_array_refresh_scheduled_data ( tree_model,
-                        account_nb,
+                        account_number,
                         date_min,
                         date_max );
 
@@ -529,13 +530,19 @@ GtkWidget *bet_array_create_page ( void )
 			            "key-press-event",
 			            G_CALLBACK ( bet_array_entry_key_press ),
 			            NULL );
-    g_object_set_data ( G_OBJECT ( notebook ), "initial_date", initial_date );
+    g_object_set_data ( G_OBJECT ( notebook ), "bet_initial_date", initial_date );
     gtk_box_pack_start ( GTK_BOX (hbox), initial_date, FALSE, FALSE, 0 );
 
     widget = gtk_check_button_new ( );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
                         SPACIFY(_("Check the box to automatically change start date") ) );
+    g_object_set_data ( G_OBJECT ( notebook ), "bet_auto_inc_month", widget );
     gtk_box_pack_start ( GTK_BOX (hbox), widget, FALSE, FALSE, 0 );
+    g_signal_connect ( G_OBJECT ( widget ),
+			            "toggled",
+			            G_CALLBACK ( bet_array_auto_inc_month_toggle ),
+			            NULL );
 
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ( );
@@ -1475,6 +1482,7 @@ void bet_array_list_delete_all_menu ( GtkWidget *menu_item,
     gint origine;
     gint number;
     gint mother_row;
+    gint account_number;
 
     if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ), &model, &iter ) )
         return;
@@ -1486,9 +1494,12 @@ void bet_array_list_delete_all_menu ( GtkWidget *menu_item,
                         -1 );
 
     if ( origine == SPP_ORIGIN_FUTURE )
-        bet_data_future_remove_lines ( gsb_gui_navigation_get_current_account ( ), number, mother_row );
+    {
+        account_number = gsb_gui_navigation_get_current_account ( );
+        bet_data_future_remove_lines ( account_number, number, mother_row );
 
-    bet_array_refresh_estimate_tab ( );
+        bet_array_refresh_estimate_tab ( account_number );
+    }
 }
 
 
@@ -1744,19 +1755,19 @@ gboolean bet_array_start_date_focus_out ( GtkWidget *entry,
                         GdkEventFocus *ev,
                         gpointer data )
 {
-    gint account_nb;
+    gint account_number;
     GDate *date;
 
     devel_debug (NULL);
     gtk_editable_select_region ( GTK_EDITABLE ( entry ), 0, 0 );
-    account_nb = gsb_gui_navigation_get_current_account ( );
+    account_number = gsb_gui_navigation_get_current_account ( );
     date = gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
-    gsb_data_account_set_bet_start_date ( account_nb, date );
+    gsb_data_account_set_bet_start_date ( account_number, date );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
-    bet_array_refresh_estimate_tab ( );
+    bet_array_refresh_estimate_tab ( account_number );
 
     return FALSE;
 }
@@ -1834,18 +1845,27 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
     GtkWidget *ancestor;
     GtkWidget *widget = NULL;
     GtkWidget *button = NULL;
+    GtkWidget *toggled = NULL;
     gint param;
     gint months;
 
     //~ devel_debug_int ( account_number );
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook" );
     button = g_object_get_data ( G_OBJECT ( notebook ), "bet_account_spin_button" );
+
     param = gsb_data_account_get_bet_spin_range ( account_number );
     months = gsb_data_account_get_bet_months ( account_number );
+
+    g_signal_handlers_block_by_func ( G_OBJECT ( button ),
+                        G_CALLBACK ( bet_config_duration_number_changed ),
+                        GINT_TO_POINTER ( 1 ) );
 
     if ( param == 0 )
     {
         widget = g_object_get_data ( G_OBJECT ( notebook ), "bet_account_previous" );
+        g_signal_handlers_block_by_func ( G_OBJECT ( widget ),
+                        G_CALLBACK ( bet_config_duration_button_clicked ),
+                        button );
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
         gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( button ), 1.0, 240.0 );
         gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ),
@@ -1854,11 +1874,33 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
     else
     {
         widget = g_object_get_data ( G_OBJECT ( notebook ), "bet_account_widget" );
+        g_signal_handlers_block_by_func ( G_OBJECT ( widget ),
+                        G_CALLBACK ( bet_config_duration_button_clicked ),
+                        button );
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
         gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( button ), 1.0, 20.0 );
         gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ),
                         (gdouble) months / 12.0 );
     }
+
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( widget ),
+                        G_CALLBACK ( bet_config_duration_button_clicked ),
+                        button );
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( button ),
+                        G_CALLBACK ( bet_config_duration_number_changed ),
+                        GINT_TO_POINTER ( 1 ) );
+
+    toggled = g_object_get_data ( G_OBJECT ( notebook ), "bet_auto_inc_month" );
+    g_signal_handlers_block_by_func ( G_OBJECT ( toggled ),
+                        G_CALLBACK ( bet_array_auto_inc_month_toggle ),
+                        NULL );
+
+    param = gsb_data_account_get_bet_auto_inc_month ( account_number );
+    printf ("param = %d\n", param);
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( toggled ), param );
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( toggled ),
+                        G_CALLBACK ( bet_array_auto_inc_month_toggle ),
+                        NULL );
 
     ancestor = g_object_get_data ( G_OBJECT ( notebook ), "historical_data" );
 
@@ -1869,11 +1911,18 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
     else
         button = g_object_get_data ( G_OBJECT ( notebook ), "button_1" );
 
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
 
     param = gsb_data_account_get_bet_hist_fyear ( account_number );
-    widget = g_object_get_data ( G_OBJECT ( notebook ), "fyear_combo" );
+    widget = g_object_get_data ( G_OBJECT ( notebook ), "bet_hist_fyear_combo" );
+    g_signal_handlers_block_by_func ( G_OBJECT ( widget ),
+                        G_CALLBACK ( bet_config_fyear_clicked ),
+                        GINT_TO_POINTER ( 1 ) );
+
     bet_historical_set_fyear_from_combobox ( widget, param );
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( widget ),
+                        G_CALLBACK ( bet_config_fyear_clicked ),
+                        GINT_TO_POINTER ( 1 ) );
 
     return FALSE;
 }
@@ -2172,6 +2221,31 @@ gchar *bet_array_list_get_description ( gint account_number,
     }
 
     return desc;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_array_auto_inc_month_toggle ( GtkToggleButton *togglebutton, gpointer  data )
+{
+    gint account_number;
+    gboolean value;
+    
+    devel_debug_int (gtk_toggle_button_get_active ( togglebutton ));
+
+    account_number = gsb_gui_navigation_get_current_account ( );
+    if ( ( value = gtk_toggle_button_get_active ( togglebutton ) ) !=
+        gsb_data_account_get_bet_auto_inc_month ( account_number ) )
+    {
+        gsb_data_account_set_bet_auto_inc_month ( account_number, value );
+
+        if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+    }
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */

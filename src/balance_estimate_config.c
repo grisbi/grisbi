@@ -454,7 +454,7 @@ GtkWidget *bet_config_get_select_historical_data ( GtkWidget *container )
 
     /* création du sélecteur de périod */
     widget = gsb_fyear_make_combobox_new ( bet_fyear_model_filter, TRUE );
-    gtk_widget_set_name ( GTK_WIDGET ( widget ), "fyear_combo" );
+    gtk_widget_set_name ( GTK_WIDGET ( widget ), "bet_hist_fyear_combo" );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
                       SPACIFY(_("Choose the financial year or 12 months rolling") ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5);
@@ -556,7 +556,7 @@ void bet_config_duration_button_clicked ( GtkWidget *togglebutton,
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
-    bet_array_refresh_estimate_tab ( );
+    bet_array_refresh_estimate_tab ( account_number );
 }
 
 
@@ -586,7 +586,7 @@ gboolean bet_config_duration_number_changed ( GtkWidget *spin_button,
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
-    bet_array_refresh_estimate_tab ( );
+    bet_array_refresh_estimate_tab ( account_number );
 
     return ( FALSE );
 }
@@ -756,7 +756,7 @@ gboolean bet_config_change_account ( GtkWidget *combo,
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
 
     param = gsb_data_account_get_bet_hist_fyear ( account_number );
-    widget = utils_get_child_widget_by_name ( ancestor, "fyear_combo" );
+    widget = utils_get_child_widget_by_name ( ancestor, "bet_hist_fyear_combo" );
     bet_historical_set_fyear_from_combobox ( widget, param );
 
     return FALSE;
@@ -809,7 +809,7 @@ static gboolean bet_config_select_label_changed ( GtkWidget *checkbutton,
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
-    bet_array_refresh_estimate_tab ( );
+    bet_array_refresh_estimate_tab ( account_number );
 
     return FALSE;
 }

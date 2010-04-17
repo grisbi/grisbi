@@ -178,11 +178,11 @@ GtkWidget *bet_historical_create_page ( void )
     if ( bet_historical_fyear_create_combobox_store ( ) )
     {
         widget = gsb_fyear_make_combobox_new ( bet_fyear_model_filter, TRUE );
-        gtk_widget_set_name ( GTK_WIDGET ( widget ), "fyear_combo" );
+        gtk_widget_set_name ( GTK_WIDGET ( widget ), "bet_hist_fyear_combo" );
         gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
                         SPACIFY(_("Choose the financial year or 12 months rolling") ) );
 
-        g_object_set_data ( G_OBJECT ( notebook ), "bet_historical_fyear", widget );
+        g_object_set_data ( G_OBJECT ( notebook ), "bet_hist_fyear_combo", widget );
 
         gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5);
 
@@ -324,7 +324,7 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
             }
         }
 
-        bet_array_refresh_estimate_tab ( );
+        bet_array_refresh_estimate_tab ( account_nb );
     }
 
     if ( etat.modification_fichier == 0 )
@@ -438,7 +438,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
             g_free ( tmp_str );
         }
 
-        bet_array_refresh_estimate_tab ( );
+        bet_array_refresh_estimate_tab ( account_nb );
 
         if ( etat.modification_fichier == 0 )
             modification_fichier ( TRUE );
@@ -633,12 +633,11 @@ GtkWidget *bet_historical_get_data ( GtkWidget *container )
  *
  *
  * */
-void bet_historical_populate_data ( void )
+void bet_historical_populate_data ( gint account_number )
 {
     GtkWidget *notebook;
     GtkWidget *tree_view;
     GtkTreeModel *model;
-    gint account_number;
     gint fyear_number;
     GDate *date_min;
     GDate *date_max;
@@ -646,11 +645,6 @@ void bet_historical_populate_data ( void )
     GHashTable  *list_div;
 
     //~ devel_debug (NULL);
-    /* récuperation du n° de compte à utiliser */
-    account_number = gsb_gui_navigation_get_current_account ( );
-    if ( account_number == -1 )
-        return;
-
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
     tree_view = g_object_get_data (G_OBJECT ( notebook ), "bet_historical_treeview" );
     if ( GTK_IS_TREE_VIEW ( tree_view ) == FALSE )
@@ -1475,7 +1469,7 @@ void bet_historical_add_last_amount ( GtkWidget *menu_item,
                         SPP_HISTORICAL_EDITED_COLUMN, FALSE,
                         -1);
 
-    bet_array_refresh_estimate_tab ( );
+    bet_array_refresh_estimate_tab ( account_number );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
@@ -1519,7 +1513,7 @@ gboolean bet_historical_initializes_account_settings ( gint account_number )
     gint fyear_number;
 
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook" );
-    combo = g_object_get_data ( G_OBJECT ( notebook ), "bet_historical_fyear" );
+    combo = g_object_get_data ( G_OBJECT ( notebook ), "bet_hist_fyear_combo" );
 
     fyear_number = gsb_data_account_get_bet_hist_fyear ( account_number );
 

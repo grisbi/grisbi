@@ -947,11 +947,12 @@ gboolean gsb_transactions_list_set_row_align ( gfloat row_align )
     GtkTreePath *path;
     gint transaction_number;
     gint mother_transaction;
+    gint account_number;
 
     //~ devel_debug (NULL);
 
-    if (gsb_gui_navigation_get_current_account () == -1)
-	return FALSE;
+    if ( ( account_number = gsb_gui_navigation_get_current_account ( ) ) == -1)
+	    return FALSE;
 
     /* if we just want to let the tree view by himself, it's here
      * we get the path of the last line in transaction because untill now,
@@ -959,8 +960,7 @@ gboolean gsb_transactions_list_set_row_align ( gfloat row_align )
     if (row_align < 0)
     {
         path = transaction_list_select_get_path ( transaction_list_get_last_line (
-                            gsb_data_account_get_nb_rows (
-                            gsb_gui_navigation_get_current_account ( ) ) ) );
+                            gsb_data_account_get_nb_rows ( account_number ) ) );
         if ( path )
         {
             gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
@@ -984,8 +984,7 @@ gboolean gsb_transactions_list_set_row_align ( gfloat row_align )
     if (transaction_number == -1)
     {
         path = transaction_list_select_get_path ( transaction_list_get_last_line (
-                            gsb_data_account_get_nb_rows (
-                            gsb_gui_navigation_get_current_account ( ) ) ) );
+                            gsb_data_account_get_nb_rows ( account_number ) ) );
         row_align = 1.0;
     }
     else
@@ -1475,7 +1474,7 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
     col = find_element_col (ELEMENT_MARK);
     if ( col == -1 )
 	    return FALSE;
-printf ("etape 1\n");
+
     /* if we are on the white line, a R transaction or a child of split, do nothing */
     if ( transaction_number == -1
 	 ||
@@ -1483,7 +1482,7 @@ printf ("etape 1\n");
 	 ||
 	 gsb_data_transaction_get_mother_transaction_number (transaction_number))
 	return FALSE;
-printf ("etape 2\n");
+
     account_number = gsb_gui_navigation_get_current_account ();
     amount = gsb_data_transaction_get_adjusted_amount (transaction_number, -1);
 

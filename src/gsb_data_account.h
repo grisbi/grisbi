@@ -22,6 +22,7 @@ typedef enum _kind_account	kind_account;
 
 
 /* START_DECLARATION */
+gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_number );
 gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number );
 gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number,
                         GDate *day );
@@ -42,6 +43,7 @@ gchar *gsb_data_account_get_bank_account_iban (gint account_number);
 gchar *gsb_data_account_get_bank_account_key ( gint account_number );
 gchar *gsb_data_account_get_bank_account_number ( gint account_number );
 gchar *gsb_data_account_get_bank_branch_code ( gint account_number );
+gboolean gsb_data_account_get_bet_auto_inc_month ( gint account_number );
 gint gsb_data_account_get_bet_hist_data ( gint account_number );
 gint gsb_data_account_get_bet_hist_fyear ( gint account_number );
 gint gsb_data_account_get_bet_months ( gint account_number );
@@ -100,6 +102,8 @@ gboolean gsb_data_account_set_bank_account_number ( gint account_number,
                         const gchar *bank_account_number );
 gboolean gsb_data_account_set_bank_branch_code ( gint account_number,
                         const gchar *bank_branch_code );
+gboolean gsb_data_account_set_bet_auto_inc_month ( gint account_number,
+                        gboolean auto_inc_month );
 gboolean gsb_data_account_set_bet_hist_data ( gint account_number, gint hist_data );
 gboolean gsb_data_account_set_bet_hist_fyear ( gint account_number, gint hist_fyear );
 gboolean gsb_data_account_set_bet_months ( gint account_number, gint months );

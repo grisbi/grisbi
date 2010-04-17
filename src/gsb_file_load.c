@@ -1801,6 +1801,18 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "Bet_auto_inc_month" ))
+    {
+        gboolean auto_inc_month;
+
+        auto_inc_month = utils_str_atoi ( attribute_values[i] );
+        gsb_data_account_set_bet_auto_inc_month ( account_number, auto_inc_month );
+        if ( auto_inc_month )
+            gsb_data_account_bet_update_initial_date_if_necessary ( account_number );
+            
+        i++;
+        continue;
+    }
     if ( !strcmp ( attribute_names[i], "Bet_select_transaction_label" ))
     {
         gsb_data_account_set_bet_select_label ( account_number,

@@ -101,6 +101,11 @@ gint gsb_reconcile_list_sort_func (CustomRecord **a,
     gint payment_number_1, payment_number_2;
 
     /* ***** the first part is a copy of the generals tests in the transaction list sort ***** */
+    if ( !*a )
+        return -1;
+
+    if ( !*b )
+        return 1;
 
     /* i don't know why but sometimes there is a comparison between the 2 same rows... */
     if (*a == *b)

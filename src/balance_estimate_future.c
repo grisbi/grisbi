@@ -67,7 +67,7 @@ static gboolean bet_form_button_press_event ( GtkWidget *entry,
                         GdkEventButton *ev,
                         gint *ptr_origin );
 static gboolean bet_form_clean ( gint account_number );
-static gboolean bet_form_create_current_form ( GtkWidget *table );
+static gboolean bet_form_create_current_form ( GtkWidget *table, gint account_number );
 static gboolean bet_form_create_scheduler_part ( GtkWidget *table );
 static gboolean bet_form_entry_get_focus ( GtkWidget *entry );
 static gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
@@ -80,7 +80,7 @@ static gboolean bet_form_scheduler_frequency_button_changed ( GtkWidget *combo_b
 						       gpointer null );
 static GtkWidget *bet_form_scheduler_get_element_widget ( gint element_number );
 static GtkWidget *bet_form_widget_get_widget ( gint element_number );
-static gboolean bet_future_create_dialog ( void );
+static gboolean bet_future_create_dialog ( gint account_number );
 static gboolean bet_future_get_budget_data ( GtkWidget *widget,
                         gint budget_type,
                         struct_futur_data *scheduled );
@@ -124,14 +124,19 @@ gboolean bet_future_new_line_dialog ( GtkTreeModel *tab_model,
     GDate *date;
     GDate *date_jour;
     gint result;
+    gint account_number;
 
+    account_number = gsb_gui_navigation_get_current_account ( );
+    if ( account_number == -1 )
+        return FALSE;
+    
     if ( bet_dialog == NULL )
     {
-        bet_future_create_dialog ( );
+        bet_future_create_dialog ( account_number );
     }
     else
     {
-        bet_form_clean ( gsb_gui_navigation_get_current_account ( ) );
+        bet_form_clean ( account_number );
         gtk_widget_show ( bet_dialog );
     }
 
@@ -187,7 +192,7 @@ dialog_return:
         else
             bet_data_future_add_lines ( scheduled );
 
-        bet_array_refresh_estimate_tab ( );
+        bet_array_refresh_estimate_tab ( account_number );
     }
 
     gtk_widget_hide ( bet_dialog );
@@ -202,7 +207,7 @@ dialog_return:
  *
  *
  * */
-gboolean bet_future_create_dialog ( void )
+gboolean bet_future_create_dialog ( gint account_number )
 {
     GtkWidget *vbox;
     GtkWidget *table;
@@ -230,7 +235,7 @@ gboolean bet_future_create_dialog ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 5 );
 
     bet_form_create_scheduler_part ( table );
-    bet_form_create_current_form ( table );
+    bet_form_create_current_form ( table, account_number );
 
 	gtk_widget_show ( vbox );
 
@@ -372,15 +377,14 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *table )
  * 
  * \return FALSE
  * */
-gboolean bet_form_create_current_form ( GtkWidget *table )
+gboolean bet_form_create_current_form ( GtkWidget *table, gint account_number )
 {
 	GtkWidget *widget;
     GtkWidget *credit;
     gint element_number;
     gint width = 250;
     gint row = 2;
-    gint column = 0;
-    gint account_number;
+    gint column = 0;;
     struct_element *element;
     GSList *tmp_list;
 
@@ -1605,11 +1609,11 @@ gboolean bet_future_modify_line ( gint account_number,
 
     if ( bet_dialog == NULL )
     {
-        bet_future_create_dialog ( );
+        bet_future_create_dialog ( account_number );
     }
     else
     {
-        bet_form_clean ( gsb_gui_navigation_get_current_account ( ) );
+        bet_form_clean ( account_number );
         gtk_widget_show ( bet_dialog );
     }
 
@@ -1647,7 +1651,7 @@ dialog_return:
             bet_data_future_modify_lines ( scheduled );
         }
 
-        bet_array_refresh_estimate_tab ( );
+        bet_array_refresh_estimate_tab ( account_number );
     }
 
     gtk_widget_hide ( bet_dialog );

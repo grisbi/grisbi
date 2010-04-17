@@ -120,9 +120,10 @@ typedef struct
     GDate *bet_start_date;              /* date de début */
     gint bet_spin_range;                /* echelle de la période 0 = mois 1 = années */
     gint bet_months;                    /* nombre de mois ou d'années */
-    gint bet_select_transaction_label;  /*  */
-    gint bet_select_scheduled_label;    /*  */
-    gint bet_select_futur_label;        /*  */
+    gint bet_auto_inc_month;            /* incrémente automatiquement le mois */
+    gint bet_select_transaction_label;  /* fixe le label pour les opérations */
+    gint bet_select_scheduled_label;    /* fixe le label pour les opérations planifiées */
+    gint bet_select_futur_label;        /* fixe le label pour les données futures */
     gint bet_hist_data;                 /* origine des données 0 = catégories 1 = IB */
     gint bet_hist_fyear;                /* numéro d'exercice */
 } struct_account;
@@ -3031,6 +3032,45 @@ gboolean gsb_data_account_set_bet_hist_fyear ( gint account_number, gint hist_fy
  *
  *
  * */
+gboolean gsb_data_account_get_bet_auto_inc_month ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return FALSE;
+
+    return account -> bet_auto_inc_month;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_auto_inc_month ( gint account_number,
+                        gboolean auto_inc_month )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return FALSE;
+
+    account -> bet_auto_inc_month = auto_inc_month;
+
+    return TRUE;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
 gint gsb_data_account_get_bet_select_label ( gint account_number, gint origine )
 {
     struct_account *account;
@@ -3090,6 +3130,22 @@ gboolean gsb_data_account_set_bet_select_label ( gint account_number,
 }
 
 
+gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_number )
+{
+    GDate *date_jour;
+    GDate *tmp_date;
+
+    date_jour = gdate_today ( );
+    tmp_date = gsb_date_copy ( gsb_data_account_get_bet_start_date ( account_number ) );
+    g_date_add_months ( tmp_date, 1 );
+
+    if ( g_date_compare ( date_jour, tmp_date ) >= 0 )
+        gsb_data_account_set_bet_start_date ( account_number, tmp_date );
+
+    g_date_free ( tmp_date );
+
+    return FALSE;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

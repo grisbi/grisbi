@@ -898,7 +898,7 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
         gsb_real_minimize_exponent ( &real_number );
     }
 	else
-        real_number.mantissa = (glong) (number);
+        real_number.mantissa = (glong) ( tmp_double );
     //~ printf ("real_number.mantissa = %ld real_number.exponent = %d\n", real_number.mantissa,real_number.exponent); 
     return real_number;
 }

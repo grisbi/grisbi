@@ -1064,6 +1064,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
                            "\t\tBet_start_date=\"%s\"\n"
                            "\t\tBet_months=\"%d\"\n"
                            "\t\tBet_UT=\"%d\"\n"
+                           "\t\tBet_auto_inc_month=\"%d\"\n"
                            "\t\tBet_select_transaction_label=\"%d\"\n" 
                            "\t\tBet_select_scheduled_label=\"%d\"\n" 
                            "\t\tBet_select_futur_label=\"%d\"\n"
@@ -1106,6 +1107,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
                         gsb_data_account_get_bet_start_date ( account_number ) ) ),
         gsb_data_account_get_bet_months ( account_number ),
         gsb_data_account_get_bet_spin_range ( account_number ),
+        gsb_data_account_get_bet_auto_inc_month ( account_number ),
         gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_TRANSACTION ),
         gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_SCHEDULED ),
         gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_FUTURE ),
