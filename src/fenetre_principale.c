@@ -250,7 +250,7 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 #endif /* ENABLE_BALANCE_ESTIMATE */
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
-                        creation_onglet_comptes (),
+                        gsb_account_property_create_page (),
                         gtk_label_new (SPACIFY(_("Properties"))) );
 
     g_signal_connect ( G_OBJECT (account_page),
@@ -447,6 +447,26 @@ gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
         gtk_paned_set_position ( GTK_PANED ( hpaned ), mini_paned_width );
 
     return FALSE;
+}
+
+
+gint gsb_gui_on_account_get_property_page ( GtkNotebook *account_page )
+{
+    GtkWidget *child;
+    gint i = 0;
+
+    while ( ( child = gtk_notebook_get_nth_page ( account_page, i ) ) )
+    {
+        const gchar *label;
+
+        label = gtk_widget_get_name ( child );
+        if ( g_strcmp0 ( label, "properties_page" ) == 0 )
+            return i;
+        else
+            i++;
+    }
+
+    return 0;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */

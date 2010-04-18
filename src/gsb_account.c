@@ -133,16 +133,16 @@ gboolean gsb_account_new ( kind_account account_type,
      * (can come here at the end of the new file assistant...) */
     if (notebook_general)
     {
-	/* Add an entry in navigation pane. */
-	gsb_gui_navigation_add_account ( account_number,
-					 TRUE );
+        /* Add an entry in navigation pane. */
+        gsb_gui_navigation_add_account ( account_number, TRUE );
 
-	/* Go to accounts properties */
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ),
-				GSB_ACCOUNT_PAGE );
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), 1 );
+        /* Go to accounts properties */
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ),
+                    GSB_ACCOUNT_PAGE );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ),
+                        gsb_gui_on_account_get_property_page ( GTK_NOTEBOOK ( account_page ) ) );
 
-	gsb_account_property_fill_page ();
+        gsb_account_property_fill_page ();
     }
 
     if ( etat.modification_fichier == 0 )

@@ -683,51 +683,69 @@ gboolean bet_config_change_account ( GtkWidget *combo,
                         gpointer null )
 {
     GtkWidget *notebook;
-    GtkWidget *widget;
-    GtkWidget *button;
-    gpointer ptr;
+    GtkWidget *widget = NULL;
+    GtkWidget *button = NULL;
+    gpointer ptr = NULL;
     gint account_number;
     gint param;
     gint months;
 
+    devel_debug (NULL);
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook" );
     account_number = gsb_account_get_combo_account_number ( combo );
 
     param = gsb_data_account_get_bet_spin_range ( account_number );
     months = gsb_data_account_get_bet_months ( account_number );
     button = g_object_get_data ( G_OBJECT ( notebook ), "bet_config_account_spin_button" );
-    ptr = g_object_get_data ( G_OBJECT ( button ), "pointer" );
-    g_signal_handlers_block_by_func ( G_OBJECT ( button ),
+    if ( button && G_IS_OBJECT ( button ) )
+    {
+        ptr = g_object_get_data ( G_OBJECT ( button ), "pointer" );
+        g_signal_handlers_block_by_func ( G_OBJECT ( button ),
                         G_CALLBACK ( bet_config_duration_number_changed ),
                         ptr );
+    }
 
     if ( param == 0 )
     {
         widget = g_object_get_data ( G_OBJECT ( notebook ), "bet_config_account_previous" );
-        g_signal_handlers_block_by_func ( G_OBJECT ( widget ),
+        if ( widget && G_IS_OBJECT ( widget ) )
+        {
+            g_signal_handlers_block_by_func ( G_OBJECT ( widget ),
                         G_CALLBACK ( bet_config_duration_button_clicked ),
                         button );
-        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
-        gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( button ), 1.0, 240.0 );
-        gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ),
-                        (gdouble) months );
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
+        }
+        if ( button )
+        {
+            gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( button ), 1.0, 20.0 );
+            gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ),
+                        (gdouble) months / 12.0 );
+        }
     }
     else
     {
         widget = g_object_get_data ( G_OBJECT ( notebook ), "bet_config_account_widget" );
-        g_signal_handlers_block_by_func ( G_OBJECT ( widget ),
+        if ( widget && G_IS_OBJECT ( widget ) )
+        {
+            g_signal_handlers_block_by_func ( G_OBJECT ( widget ),
                         G_CALLBACK ( bet_config_duration_button_clicked ),
                         button );
-        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
-        gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( button ), 1.0, 20.0 );
-        gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ),
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
+        }
+        if ( button )
+        {
+            gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( button ), 1.0, 20.0 );
+            gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ),
                         (gdouble) months / 12.0 );
+        }
     }
 
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( widget ),
+    if ( widget && G_IS_OBJECT ( widget ) )
+        g_signal_handlers_unblock_by_func ( G_OBJECT ( widget ),
                         G_CALLBACK ( bet_config_duration_button_clicked ),
                         button );
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( button ),
+    if ( button && G_IS_OBJECT ( button ) )
+        g_signal_handlers_unblock_by_func ( G_OBJECT ( button ),
                         G_CALLBACK ( bet_config_duration_number_changed ),
                         ptr );
 
@@ -738,7 +756,8 @@ gboolean bet_config_change_account ( GtkWidget *combo,
     else
         button = g_object_get_data ( G_OBJECT ( notebook ), "bet_config_hist_button_1" );
 
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
+    if ( button )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
 
     param = gsb_data_account_get_bet_hist_fyear ( account_number );
     widget = g_object_get_data ( G_OBJECT ( notebook ), "bet_config_hist_fyear_combo" );

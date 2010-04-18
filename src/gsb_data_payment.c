@@ -35,6 +35,7 @@
 #include "./utils_str.h"
 #include "./gsb_data_account.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 
@@ -698,7 +699,7 @@ gint gsb_data_payment_create_default  ( gint account_number )
 {
     gint payment_number;
     GSList *sort_list = NULL;
-
+devel_debug_int ( account_number);
     switch (gsb_data_account_get_kind (account_number))
     {
 	case GSB_TYPE_CASH:

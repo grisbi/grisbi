@@ -22,6 +22,7 @@ GtkWidget * create_main_widget ( void );
 void gsb_gui_headings_update_suffix ( gchar * suffix );
 void gsb_gui_headings_update_title ( gchar * title );
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page );
+gint gsb_gui_on_account_get_property_page ( GtkNotebook *account_page );
 gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
                         GtkNotebookPage *page,
                         guint page_number,
