@@ -294,31 +294,30 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
     gint save_transaction;
     gint save_execute;
     GSList *content_list;
-    gboolean is_split;
+    gboolean is_split = FALSE;
     GtkWidget *category_entry;
     const gchar *tmp_str;
     gint new_account_number;
 
-    //~ devel_debug (NULL);
+    devel_debug (NULL);
 
     new_account_number = gsb_form_get_account_number ();
 
     /* need to check first if split (see later) */
     category_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
-    tmp_str = gtk_combofix_get_text ( GTK_COMBOFIX ( category_entry) );
-    if (category_entry
-	&&
-	gsb_form_widget_check_empty (GTK_COMBOFIX (category_entry) -> entry)
-	&&
-    tmp_str
-    && strlen ( tmp_str ) > 0
-    &&
-	!strcmp ( tmp_str, _("Split of transaction") ) )
-	/* ok it's a split */
-	is_split = TRUE;
-    else
-	is_split = FALSE;
-	
+    if ( category_entry )
+    {
+        tmp_str = gtk_combofix_get_text ( GTK_COMBOFIX ( category_entry) );
+        if ( gsb_form_widget_check_empty (GTK_COMBOFIX (category_entry) -> entry)
+         &&
+         tmp_str
+         && strlen ( tmp_str ) > 0
+         &&
+         !strcmp ( tmp_str, _("Split of transaction") ) )
+            /* ok it's a split */
+            is_split = TRUE;
+    }
+
     /* problem here : when change account, the form can be changed, with new or less widgets
      * so we fill again de form
      * but il the user fill the form and want to change after the account, it's annoying because

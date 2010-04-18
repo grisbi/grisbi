@@ -147,6 +147,7 @@ gboolean gsb_account_new ( kind_account account_type,
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
+
     return TRUE;
 }
 
@@ -166,13 +167,16 @@ gboolean gsb_account_delete ( void )
     deleted_account = gsb_gui_navigation_get_current_account ();
 
     tmpstr = g_strdup_printf (_("Delete account \"%s\"?"),
-				     gsb_data_account_get_name (deleted_account)) ;
+				     gsb_data_account_get_name ( deleted_account ) ) ;
+
     if ( !question_yes_no_hint ( tmpstr,
-				 _("This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this. Usually it's a better way to close an account."),
-				 GTK_RESPONSE_NO ))
+				        _("This will irreversibly remove this account and all operations "
+                        "that were previously contained.  There is no undo for this. "
+                        "Usually it's a better way to close an account."),
+				        GTK_RESPONSE_NO ))
     {
         g_free ( tmpstr );
-	return FALSE;
+	    return FALSE;
     }
     g_free ( tmpstr );
 
@@ -186,17 +190,16 @@ gboolean gsb_account_delete ( void )
 
     /* delete the schedules transactions on that account */
     list_tmp = gsb_data_scheduled_get_scheduled_list ();
-
     while (list_tmp)
     {
-	gint scheduled_number;
+        gint scheduled_number;
 
-	scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
+        scheduled_number = gsb_data_scheduled_get_scheduled_number ( list_tmp -> data );
 
-	if ( gsb_data_scheduled_get_account_number (scheduled_number) == deleted_account )
-	    gsb_data_scheduled_remove_scheduled (scheduled_number);
+        if ( gsb_data_scheduled_get_account_number (scheduled_number) == deleted_account )
+            gsb_data_scheduled_remove_scheduled (scheduled_number);
 
-	list_tmp = list_tmp -> next;
+        list_tmp = list_tmp -> next;
     }
 
 
@@ -204,27 +207,45 @@ gboolean gsb_account_delete ( void )
     list_tmp = gsb_data_transaction_get_complete_transactions_list ();
     while (list_tmp)
     {
-	gint transaction_number;
-	transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
+        gint transaction_number;
 
-	/* better to go to the next transaction now */
-	list_tmp = list_tmp -> next;
+        transaction_number = gsb_data_transaction_get_transaction_number ( list_tmp -> data );
 
-	if (gsb_data_transaction_get_account_number (transaction_number) == deleted_account)
-	{
-	    /* we are on a transaction on the deleted account, we delete that transaction,
-	     * but if it's a transfer, modify the contra-transaction to set transfer to deleted account */
-	    gint contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
-	    if (contra_transaction_number > 0)
-		/* it's a transfer, modify the contra-transaction */
-		gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number, -1);
+        /* better to go to the next transaction now */
+        list_tmp = list_tmp -> next;
 
-	    /* now can remove the transaction */
-	    gsb_data_transaction_remove_transaction_without_check (transaction_number);
-	}
+        if (gsb_data_transaction_get_account_number (transaction_number) == deleted_account)
+        {
+            gint contra_transaction_number;
+
+            /* we are on a transaction on the deleted account, we delete that transaction,
+             * but if it's a transfer, modify the contra-transaction to set transfer to deleted account */
+            contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (
+                                        transaction_number);
+            if (contra_transaction_number > 0)
+            /* it's a transfer, modify the contra-transaction */
+                gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number, -1);
+
+            /* now can remove the transaction */
+            gsb_data_transaction_remove_transaction_without_check ( transaction_number );
+        }
     }
 
-    /*     delete the account */
+    /* delete the payment_number */
+    list_tmp = gsb_data_account_get_sort_list ( deleted_account );
+    while (list_tmp)
+    {
+        gpointer ptr;
+        gint payment_number;
+
+        ptr = list_tmp -> data;
+        payment_number = GPOINTER_TO_INT ( ptr );
+        gsb_data_payment_remove ( payment_number );
+
+        list_tmp = list_tmp -> next;
+    }
+
+    /* delete the account */
     gsb_data_account_delete ( deleted_account );
 
     /* check gsb_gui_navigation_get_current_account () and gsb_gui_navigation_get_current_account ()_onglet and put them
