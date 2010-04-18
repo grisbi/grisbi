@@ -428,6 +428,11 @@ void importer_ib ( void )
     gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     filter = gtk_file_filter_new ();
+    gtk_file_filter_set_name ( filter, _("Grisbi category files (*.cgsb)") );
+    gtk_file_filter_add_pattern ( filter, "*.cgsb" );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
+
+    filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("All files") );
     gtk_file_filter_add_pattern ( filter, "*" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
@@ -472,19 +477,17 @@ void importer_ib ( void )
 
     switch ( resultat )
     {
-	case 2 :
-	    /* we want to replace the list */
-
-	    if ( !last_transaction_number )
-		gsb_data_budget_init_variables ();
+	    case 2 :
+            /* we want to replace the list */
+            if ( !last_transaction_number )
+                gsb_data_budget_init_variables ();
 
         case 1 :
-	    if ( !gsb_file_others_load_budget ( budget_name ))
-	    {
-		return;
-	    }
+            if ( g_str_has_suffix ( budget_name, ".cgsb" ) )
+                gsb_file_others_load_budget_from_category ( budget_name );
+            else
+                gsb_file_others_load_budget ( budget_name );
 	    break;
-
 	default :
 	    return;
     }
@@ -540,7 +543,8 @@ GtkWidget *creation_barre_outils_ib ( void )
 					   G_CALLBACK(importer_ib),
 					   NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  SPACIFY(_("Import a Grisbi budgetary line file (.igsb)")));
+				  SPACIFY(_("Import a Grisbi budgetary line file (.igsb)"
+                            " or create from a list of categories (.cgsb)" )));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Export button */

@@ -56,6 +56,12 @@ static gulong gsb_file_others_save_general_part ( gulong iterator,
 					   gulong *length_calculated,
 					   gchar **file_content,
 					   gchar *version );
+static void gsb_file_others_start_budget_from_category ( GMarkupParseContext *context,
+				     const gchar *element_name,
+				     const gchar **attribute_names,
+				     const gchar **attribute_values,
+				     GSList **import_list,
+				     GError **error);
 static void gsb_file_others_start_element ( GMarkupParseContext *context,
 				     const gchar *element_name,
 				     const gchar **attribute_names,
@@ -533,8 +539,13 @@ gboolean gsb_file_others_load ( gchar *filename,
 		    gsb_gui_navigation_add_report ( report_number );
 
 		    /* inform the user of that */
-		    dialogue_hint ( _("Some things in a report cannot be imported :\nThe selected lists of financial years, accounts, transfer accounts, categories, budgetaries, parties and kind of payments.\nSo that lists have been erased while the import.\nThe currencies have been set too on the first currency of this grisbi file.\nYou should check and modify that in the property box of that account."),
-				    _("Importing a report"));
+		    dialogue_hint ( _("Some things in a report cannot be imported :\n"
+                        "The selected lists of financial years, accounts, transfer accounts, "
+                        "categories, budgetaries, parties and kind of payments.\nSo that lists "
+                        "have been erased while the import.\nThe currencies have been set too "
+                        "on the first currency of this grisbi file.\nYou should check and modify "
+                        "that in the property box of that account."),
+				        _("Importing a report"));
 		}
 		break;
 	}
@@ -637,6 +648,23 @@ gboolean gsb_file_others_check_file ( gchar *file_content,
 		    dialogue_error ( _("This is not a report file, loading canceled..."));
 	    }
 	    break;
+
+	case 5:
+	    if ( !strncmp ( file_content,
+			    "<?xml version=\"1.0\"?>\n<Grisbi_categ>",
+			    36 ) )
+	    {
+		/* check if not before 0.6 */
+		if ( !strncmp ( file_content,
+				"<?xml version=\"1.0\"?>\n<Grisbi_categ>\n	<General\n",
+				47 ) )
+		    return TRUE;
+		else
+		    dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
+	    }
+	    else
+		dialogue_error ( _("This is not a category file, loading canceled..."));
+	    break;
     }
 
     return FALSE;
@@ -707,3 +735,105 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
 }
 
 
+gboolean gsb_file_others_load_budget_from_category ( const gchar *filename )
+{
+    gchar *file_content;
+    gchar* tmp_str;
+    GSList *import_list = NULL;
+
+    devel_debug (filename);
+
+    /* general check */
+    if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
+    {
+        tmp_str = g_strdup_printf (_("Cannot open file '%s': %s"),
+					 filename,
+					 latin2utf8 ( strerror ( errno ) ) );
+        dialogue_error ( tmp_str );
+        g_free ( tmp_str );
+        return FALSE;
+    }
+
+    /* check here if it's not a regular file */
+    if ( !g_file_test ( filename, G_FILE_TEST_IS_REGULAR ) )
+    {
+        tmp_str = g_strdup_printf ( 
+                        _("%s doesn't seem to be a regular file,\nplease check it and try again."),
+					   filename );
+        dialogue_error ( tmp_str );
+        g_free ( tmp_str );
+        return ( FALSE );
+    }
+
+    /* load the file */
+    if ( g_file_get_contents ( filename, &file_content, NULL, NULL ) )
+    {
+        GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
+        GMarkupParseContext *context;
+
+        /* check if it's a good file */
+        if ( !gsb_file_others_check_file ( file_content, 5 ) )
+        {
+            g_free ( file_content );
+            return FALSE;
+        }
+
+        /* we load only after 0.6 files,
+         * there is very few people who will want to upgrade previous categories, budgets...
+         * and i'm too lazy to create an import for old files */
+        /* fill the GMarkupParser for a new xml structure */
+        markup_parser -> start_element = (void *) gsb_file_others_start_budget_from_category;
+        markup_parser -> error = (void *) gsb_file_load_error;
+
+        context = g_markup_parse_context_new ( markup_parser,
+                               0,
+                               &import_list,
+                               NULL );
+        g_markup_parse_context_parse ( context,
+                           file_content,
+                           strlen ( file_content ),
+                           NULL );
+
+        /* on remplit l'arbre des imputation */
+        remplit_arbre_imputation ( );
+
+        g_markup_parse_context_free ( context );
+        g_free ( markup_parser );
+        g_free ( file_content );
+
+        if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+    }
+    else
+    {
+        tmp_str = g_strdup_printf (_("Cannot open file '%s': %s"),
+					 filename,
+					 latin2utf8 ( strerror ( errno ) ) );
+        dialogue_error ( tmp_str );
+        g_free ( tmp_str );
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+
+void gsb_file_others_start_budget_from_category ( GMarkupParseContext *context,
+				     const gchar *element_name,
+				     const gchar **attribute_names,
+				     const gchar **attribute_values,
+				     GSList **import_list,
+				     GError **error)
+{
+    if ( !strcmp ( element_name, "Category" ) )
+    {
+	    gsb_file_load_budgetary ( attribute_names, attribute_values );
+	    return;
+    }
+
+    if ( !strcmp ( element_name, "Sub_category" ))
+    {
+	    gsb_file_load_sub_budgetary ( attribute_names, attribute_values );
+	    return;
+    }
+}

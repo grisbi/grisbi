@@ -2835,8 +2835,9 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i],
-                                   "Nbb" ))
+    if ( !strcmp ( attribute_names[i], "Nbb" )
+     ||
+     !strcmp ( attribute_names[i], "Nbc" )  )
     {
         budget_number = utils_str_atoi (attribute_values[i]);
         i++;
