@@ -17,7 +17,6 @@ sources = \
 	barre_outils.c		\
 	categories_onglet.c	\
 	classement_echeances.c	\
-	comptes_onglet.c	\
 	csv_parse.c		\
 	custom_list.c		\
 	dialog.c		\
@@ -164,7 +163,6 @@ grisbi_INCLUDES =		\
         balance_estimate_tab.h  \
 	categories_onglet.h	\
 	classement_echeances.h	\
-	comptes_onglet.h	\
         csv_parse.h             \
 	custom_list.h		\
         etats_affiche.h         \
