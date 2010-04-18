@@ -9,7 +9,6 @@ src/balance_estimate_tab.c
 src/barre_outils.c
 src/categories_onglet.c
 src/classement_echeances.c
-src/comptes_onglet.c
 src/csv_parse.c
 src/custom_list.c
 src/dialog.c

@@ -77,7 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 %_iconsdir/hicolor/48x48/apps/%name.png
 
 %changelog
-* Sun Apr 00 2010 Pierre Biava <grisbi@pierre.biava.name> 0.6.0-1mdv2010.0
+* Sun Apr 18 2010 Pierre Biava <grisbi@pierre.biava.name> 0.6.0-1mdv2010.0
 - new version 0.6.0
 
 * Sun Aug 30 2009 Pierre Biava <pierre@pierre.biava.name> 0.6.0b1-1mdv2009.0

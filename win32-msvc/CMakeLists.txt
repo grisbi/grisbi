@@ -122,8 +122,6 @@ SET (grisbi_source
 	../src/categories_onglet.h
 	../src/classement_echeances.c
 	../src/classement_echeances.h
-	../src/comptes_onglet.c
-	../src/comptes_onglet.h
 	../src/csv_parse.c
 	../src/csv_parse.h
 	../src/custom_list.c
