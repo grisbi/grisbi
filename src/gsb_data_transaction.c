@@ -2312,7 +2312,7 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 
 #ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
-    bet_data_set_maj ( TRUE );
+    bet_data_set_maj ( transaction -> account_number, BET_MAJ_ESTIMATE );
 #endif /* ENABLE_BALANCE_ESTIMATE */
 
     return TRUE;

@@ -2431,7 +2431,7 @@ gboolean clone_selected_transaction ( GtkWidget *menu_item,
 
 #ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
-    bet_data_set_maj ( TRUE );
+    bet_data_set_maj ( gsb_gui_navigation_get_current_account ( ), BET_MAJ_ESTIMATE );
 #endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( etat.modification_fichier == 0 )

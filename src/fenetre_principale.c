@@ -303,6 +303,7 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
                         guint page_number,
                         gpointer null )
 {
+    //~ devel_debug_int (page_number);
     switch ( page_number )
     {
     case 0:
@@ -313,7 +314,7 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
     case 2:
 #ifdef ENABLE_BALANCE_ESTIMATE
         if ( bet_data_get_maj ( ) )
-            bet_array_update_estimate_tab ( );
+            bet_array_update_estimate_tab ( gsb_gui_navigation_get_current_account ( ) );
 #endif /* ENABLE_BALANCE_ESTIMATE */
     case 3:
         gsb_form_set_expander_visible (FALSE, FALSE );

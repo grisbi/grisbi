@@ -27,13 +27,14 @@
 
 /* START_DECLARATION */
 GtkWidget *bet_array_create_page ( void );
+gboolean bet_array_initializes_account_settings ( gint account_number );
 void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
                         GtkTreeModel *model,
                         GtkTreeIter *iter,
                         GDate *date_min,
                         GDate *date_max );
 void bet_array_refresh_estimate_tab ( gint account_number );
-void bet_array_update_estimate_tab ( void );
+void bet_array_update_estimate_tab ( gint account_number );
 /* END_DECLARATION */
 
 #endif /*_BALANCE_ESTIMATE_TAB_H*/

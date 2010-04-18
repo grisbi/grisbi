@@ -1605,7 +1605,7 @@ void traitement_operations_importees ( void )
 
 #ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
-    bet_data_set_maj ( TRUE );
+    bet_data_set_maj ( gsb_gui_navigation_get_current_account (), BET_MAJ_ESTIMATE );
 #endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( etat.modification_fichier == 0 )
@@ -4373,7 +4373,7 @@ gboolean gsb_import_by_rule ( gint rule )
 
 #ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
-    bet_data_set_maj ( TRUE );
+    bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
 #endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( etat.modification_fichier == 0 )

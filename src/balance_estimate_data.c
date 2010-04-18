@@ -84,7 +84,7 @@ static GHashTable *bet_future_list;
 static gint future_number;
 
 /* force la mise à jour des données */
-static gboolean bet_maj = FALSE;
+static gint bet_maj = FALSE;
 
 
 /**
@@ -116,7 +116,7 @@ gboolean bet_data_init_variables ( void )
  *
  *
  * */
-gboolean bet_data_get_maj ( void )
+gint bet_data_get_maj ( void )
 {
     return bet_maj;
 }
@@ -128,9 +128,52 @@ gboolean bet_data_get_maj ( void )
  *
  *
  * */
-void bet_data_set_maj ( gboolean maj )
+void bet_data_set_maj ( gint account_number, gint type_maj )
 {
-    bet_maj = maj;
+    GtkWidget *notebook;
+    GtkWidget *child;
+    const gchar *label;
+
+	devel_debug_int (account_number);
+    if ( type_maj != bet_maj )
+    {
+        switch ( type_maj )
+        {
+            case BET_MAJ_FALSE:
+                bet_maj = type_maj;
+                return;
+            break;
+            case BET_MAJ_ESTIMATE:
+                if ( bet_maj == BET_MAJ_FALSE )
+                    bet_maj = type_maj;
+                else if ( bet_maj == BET_MAJ_HISTORICAL )
+                    bet_maj = BET_MAJ_ALL;
+            break;
+            case BET_MAJ_HISTORICAL:
+                if ( bet_maj == BET_MAJ_FALSE )
+                    bet_maj = type_maj;
+                else if ( bet_maj == BET_MAJ_ESTIMATE )
+                    bet_maj = BET_MAJ_ALL;
+            break;
+            case BET_MAJ_ALL:
+                bet_maj = type_maj;
+            break;
+        }
+
+        if ( account_number == -1
+         || account_number != gsb_gui_navigation_get_current_account ( ) )
+            return;
+    }
+
+    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
+    child = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ),
+                        gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook ) ) );
+    label = gtk_widget_get_name ( child );
+
+    if ( g_strcmp0 ( label, "forecast_page" ) == 0 )
+        bet_array_update_estimate_tab ( account_number );
+    else if ( g_strcmp0 ( label, "historical_page" ) == 0 )
+        bet_array_update_estimate_tab ( account_number );
 }
 
 
@@ -944,7 +987,7 @@ void bet_data_select_bet_pages ( gint account_number )
         gtk_widget_show ( page );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
         gtk_widget_show ( page );
-        bet_array_update_estimate_tab ( );
+        bet_data_set_maj ( account_number, BET_MAJ_ALL );
         break;
     case GSB_TYPE_LIABILITIES:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 1 );
@@ -953,7 +996,7 @@ void bet_data_select_bet_pages ( gint account_number )
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 1 );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
         gtk_widget_hide ( page );
-        bet_array_update_estimate_tab ( );
+        bet_data_set_maj ( account_number, BET_MAJ_ALL );
         break;
     case GSB_TYPE_ASSET:
         if ( current_page < 2 )

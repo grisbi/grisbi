@@ -65,6 +65,15 @@ struct _future_data
 };
 
 
+enum type_maj 
+{
+    BET_MAJ_FALSE = 0,
+    BET_MAJ_ESTIMATE,
+    BET_MAJ_HISTORICAL,
+    BET_MAJ_ALL,
+};
+
+
 /* START_DECLARATION */
 GDate *bet_data_array_get_date_max ( gint account_number );
 gboolean bet_data_future_add_lines ( struct_futur_data *scheduled );
@@ -81,7 +90,7 @@ gchar *bet_data_get_div_name ( gint div_num,
                         gint sub_div,
                         const gchar *return_value_error );
 gint bet_data_get_div_number ( gint transaction_number, gboolean is_transaction );
-gboolean bet_data_get_maj ( void );
+gint bet_data_get_maj ( void );
 gint bet_data_get_selected_currency ( void );
 GPtrArray *bet_data_get_strings_to_save ( void );
 gint bet_data_get_sub_div_nb ( gint transaction_number, gboolean is_transaction );
@@ -106,7 +115,7 @@ gboolean bet_data_set_div_edited ( gint account_nb,
                         gint sub_div_nb,
                         gboolean edited );
 gboolean bet_data_set_div_ptr ( gint type_div );
-void bet_data_set_maj ( gboolean maj );
+void bet_data_set_maj ( gint account_number, gint type_maj );
 void bet_data_synchronise_hist_div_list ( GHashTable  *list_div );
 void struct_free_bet_historical ( SH *sh );
 struct_futur_data *struct_initialise_bet_future ( void );

@@ -73,7 +73,7 @@ static gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *rende
                         GtkTreeModel *model );
 static gboolean bet_historical_fyear_create_combobox_store ( void );
 static gsb_real bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *parent );
-static GtkWidget *bet_historical_get_data ( GtkWidget *container );
+static GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container );
 static gboolean bet_historical_get_full_div ( GtkTreeModel *model, GtkTreeIter *parent );
 static gboolean bet_historical_initializes_account_settings ( gint account_number );
 static void bet_historical_populate_div_model ( gpointer key,
@@ -132,6 +132,7 @@ GtkWidget *bet_historical_create_page ( void )
     devel_debug (NULL);
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
     page = gtk_vbox_new ( FALSE, 5 );
+    gtk_widget_set_name ( page, "historical_page" );
 
     /* titre de la page */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
@@ -151,7 +152,7 @@ GtkWidget *bet_historical_create_page ( void )
 
     button_1 = gtk_radio_button_new_with_label ( NULL,
                         _("Categories") );
-    gtk_widget_set_name ( button_1, "button_1" );
+    gtk_widget_set_name ( button_1, "bet_hist_button_1" );
     g_signal_connect ( G_OBJECT ( button_1 ),
                         "released",
                         G_CALLBACK ( bet_config_origin_data_clicked ),
@@ -160,14 +161,13 @@ GtkWidget *bet_historical_create_page ( void )
     button_2 = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( button_1 ),
                         _("Budgetary lines") );
-    gtk_widget_set_name ( button_2, "button_2" );
     g_signal_connect ( G_OBJECT ( button_2 ),
                         "released",
                         G_CALLBACK ( bet_config_origin_data_clicked ),
                         GINT_TO_POINTER ( 1 ) );
 
-    g_object_set_data ( G_OBJECT ( notebook ), "button_1", button_1 );
-    g_object_set_data ( G_OBJECT ( notebook ), "button_2", button_2 );
+    g_object_set_data ( G_OBJECT ( notebook ), "bet_hist_button_1", button_1 );
+    g_object_set_data ( G_OBJECT ( notebook ), "bet_hist_button_2", button_2 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 5) ;
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 5) ;
 
@@ -200,7 +200,7 @@ GtkWidget *bet_historical_create_page ( void )
     }
 
     /* création de la liste des données */
-    tree_view = bet_historical_get_data ( page );
+    tree_view = bet_historical_get_data_tree_view ( page );
     g_object_set_data ( G_OBJECT ( notebook ), "bet_historical_treeview", tree_view );
 
     gtk_widget_show_all ( page );
@@ -324,7 +324,7 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
             }
         }
 
-        bet_array_refresh_estimate_tab ( account_nb );
+        bet_data_set_maj ( account_nb, BET_MAJ_ESTIMATE );
     }
 
     if ( etat.modification_fichier == 0 )
@@ -438,7 +438,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
             g_free ( tmp_str );
         }
 
-        bet_array_refresh_estimate_tab ( account_nb );
+        bet_data_set_maj ( account_nb, BET_MAJ_ESTIMATE );
 
         if ( etat.modification_fichier == 0 )
             modification_fichier ( TRUE );
@@ -452,7 +452,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
  *
  *
  * */
-GtkWidget *bet_historical_get_data ( GtkWidget *container )
+GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
 {
     GtkWidget *notebook;
     GtkWidget *scrolled_window;
@@ -1469,7 +1469,7 @@ void bet_historical_add_last_amount ( GtkWidget *menu_item,
                         SPP_HISTORICAL_EDITED_COLUMN, FALSE,
                         -1);
 
-    bet_array_refresh_estimate_tab ( account_number );
+    bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );

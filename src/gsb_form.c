@@ -2643,7 +2643,7 @@ gboolean gsb_form_finish_edition ( void )
 
 #ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
-    bet_data_set_maj ( TRUE );
+    bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
 #endif /* ENABLE_BALANCE_ESTIMATE */
 
     /* give the focus to the date widget */

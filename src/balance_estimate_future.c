@@ -192,7 +192,7 @@ dialog_return:
         else
             bet_data_future_add_lines ( scheduled );
 
-        bet_array_refresh_estimate_tab ( account_number );
+        bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
     }
 
     gtk_widget_hide ( bet_dialog );
@@ -1651,7 +1651,7 @@ dialog_return:
             bet_data_future_modify_lines ( scheduled );
         }
 
-        bet_array_refresh_estimate_tab ( account_number );
+        bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
     }
 
     gtk_widget_hide ( bet_dialog );
