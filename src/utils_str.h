@@ -1,5 +1,13 @@
 #ifndef _UTILS_STR_H
 #define _UTILS_STR_H (1)
+
+#ifdef _WIN32
+#define NEW_LINE "\r\n"
+#else
+#define NEW_LINE "\n"
+#endif
+
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

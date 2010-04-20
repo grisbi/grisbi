@@ -1602,8 +1602,6 @@ void affiche_dialogue_soldes_minimaux ( void )
     if ( !mise_a_jour_soldes_minimaux  )
 	return;
 
-    devel_debug ( "affiche_dialogue_soldes_minimaux" );
-
     liste_autorise = NULL;
     liste_voulu = NULL;
     liste_autorise_et_voulu = NULL;

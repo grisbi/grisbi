@@ -134,7 +134,7 @@ void bet_data_set_maj ( gint account_number, gint type_maj )
     GtkWidget *child;
     const gchar *label;
 
-	devel_debug_int (account_number);
+	//~ devel_debug_int (account_number);
     if ( type_maj != bet_maj )
     {
         switch ( type_maj )

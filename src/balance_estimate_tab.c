@@ -330,7 +330,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     SBR *tmp_range;
     GValue date_value = {0, };
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
     tmp_range = struct_initialise_bet_range ( );
 
@@ -1103,7 +1103,7 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
     gpointer key, value;
     gint account_number;
 
-    devel_debug (NULL);
+    //~ devel_debug (NULL);
 
     account_number = gsb_gui_navigation_get_current_account ( );
     future_list = bet_data_future_get_list ( );
@@ -1270,6 +1270,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
     gtk_widget_show ( menu_item );
 
+    /* Insert Row */
     menu_item = gtk_image_menu_item_new_with_label ( _("Insert Row") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                     gtk_image_new_from_stock ( GTK_STOCK_ADD,
@@ -1864,7 +1865,7 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
     gint param;
     gint months;
 
-    devel_debug_int ( account_number );
+    //~ devel_debug_int ( account_number );
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook" );
     button = g_object_get_data ( G_OBJECT ( notebook ), "bet_account_spin_button" );
 

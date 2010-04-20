@@ -1610,7 +1610,21 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                         "Owner_address" ))
     {
-        gsb_data_account_set_holder_address ( account_number,
+        printf ("attribute_values[i] = %s\n",attribute_values[i]);
+        if ( g_strstr_len ( attribute_values[i], -1, "&#xA;" ) )
+        {
+            gchar **owner_tab;
+            gchar *owner_str;
+
+            owner_tab = g_strsplit ( attribute_values[i], "&#xA;", 0 );
+            owner_str = g_strjoinv ( NEW_LINE, owner_tab );
+            gsb_data_account_set_holder_address ( account_number, owner_str );
+
+            g_free ( owner_str );
+            g_strfreev ( owner_tab );
+        }
+        else
+            gsb_data_account_set_holder_address ( account_number,
                         attribute_values[i]);
         i++;
         continue;

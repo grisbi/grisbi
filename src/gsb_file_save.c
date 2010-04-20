@@ -935,6 +935,8 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	gchar *init_balance;
 	gchar *mini_wanted;
 	gchar *mini_auto;
+    gchar **owner_tab;
+    gchar *owner_str;
 
 	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
@@ -1026,9 +1028,21 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	mini_auto = gsb_real_save_real_to_string (
                         gsb_data_account_get_mini_balance_authorized ( account_number ), 2 );
 
+    /* protect the owner adress */
+    owner_str = g_strdup ( my_safe_null_str (
+                        gsb_data_account_get_holder_address ( account_number ) ) );
+    if ( g_strstr_len ( owner_str, -1, NEW_LINE ) )
+    {
+        owner_tab = g_strsplit ( owner_str, NEW_LINE, 0 );
+        g_free ( owner_str );
+        owner_str = g_strjoinv ( "&#xA;", owner_tab );
+
+        g_strfreev ( owner_tab );
+    }
+
     /* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Account\n"
-					       "\t\tName=\"%s\"\n"
+ 					       "\t\tName=\"%s\"\n"
 					       "\t\tId=\"%s\"\n"
 					       "\t\tNumber=\"%d\"\n"
 					       "\t\tOwner=\"%s\"\n"
@@ -1090,7 +1104,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    gsb_data_account_get_l ( account_number ),
 	    gsb_data_account_get_nb_rows (account_number),
 	    my_safe_null_str(gsb_data_account_get_comment (account_number)),
-	    my_safe_null_str(gsb_data_account_get_holder_address (account_number)),
+        owner_str,
 	    gsb_data_account_get_default_debit (account_number),
 	    gsb_data_account_get_default_credit (account_number),
 	    gsb_data_account_get_reconcile_sort_type (account_number),
@@ -1121,6 +1135,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	g_free (init_balance);
 	g_free (mini_auto);
 	g_free (mini_wanted);
+    g_free ( owner_str );
 
 	/* append the new string to the file content
 	 * and take the new iterator */

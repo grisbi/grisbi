@@ -242,12 +242,7 @@ GtkWidget *gsb_autofunc_textview_new ( const gchar *value,
     GtkWidget *text_view;
     GtkTextBuffer *buffer;
 
-    text_view = gsb_editable_text_view_new(value);
-    gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (text_view), 3);
-    gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (text_view), 3);
-    gtk_text_view_set_left_margin (GTK_TEXT_VIEW (text_view), 3);
-    gtk_text_view_set_right_margin (GTK_TEXT_VIEW (text_view), 3);
-    gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD );
+    text_view = gsb_editable_text_view_new ( value );
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
 
