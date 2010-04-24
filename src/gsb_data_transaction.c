@@ -647,7 +647,7 @@ const GDate *gsb_data_transaction_get_value_date_or_date ( gint transaction_numb
     if ( !transaction )
 	return NULL;
 
-    if ( transaction -> value_date )
+    if ( transaction -> value_date && g_date_valid ( transaction -> value_date ) )
         return transaction -> value_date;
     else
         return transaction -> date;

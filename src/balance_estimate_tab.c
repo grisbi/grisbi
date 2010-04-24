@@ -216,7 +216,8 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
         return -1;
 
     /* get first date to compare */
-    gtk_tree_model_get_value ( model, itera, SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, &date_value_a );
+    gtk_tree_model_get_value ( model, itera, 
+                        SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, &date_value_a );
     date_a = g_value_get_boxed ( &date_value_a );
     if ( date_a == NULL )
         return -1;
@@ -228,6 +229,40 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
         return -1;
 
     gint result = g_date_compare (date_b, date_a);
+
+    if ( result == 0 )
+    {
+        gint origine;
+        gchar *str_amount_a;
+        gchar *str_amount_b;
+        gsb_real amount_a = null_real;
+        gsb_real amount_b = null_real;
+
+        gtk_tree_model_get ( GTK_TREE_MODEL ( model ), itera,
+                        SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
+                        SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &str_amount_a,
+                        -1 );
+
+        if ( origine == SPP_ORIGIN_HISTORICAL )
+        {
+            gtk_tree_model_get ( GTK_TREE_MODEL ( model ), iterb,
+                        SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
+                        SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &str_amount_b,
+                        -1 );
+            if ( origine != SPP_ORIGIN_HISTORICAL )
+                result = -1;
+            else
+            {
+                amount_a = gsb_real_import_from_string ( str_amount_a );
+                amount_b = gsb_real_import_from_string ( str_amount_b );
+                result = - ( gsb_real_cmp ( amount_a, amount_b ) );
+            }
+
+            g_free ( str_amount_b );
+        }
+
+        g_free ( str_amount_a );
+    }
 
     g_value_unset ( &date_value_b );
     g_value_unset ( &date_value_a );
@@ -1281,7 +1316,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
                     tree_selection );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-    /* Delete item */
+    /* Delete convert item */
     switch ( origine )
     {
         case SPP_ORIGIN_TRANSACTION:

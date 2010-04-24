@@ -1610,7 +1610,6 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                         "Owner_address" ))
     {
-        printf ("attribute_values[i] = %s\n",attribute_values[i]);
         if ( g_strstr_len ( attribute_values[i], -1, "&#xA;" ) )
         {
             gchar **owner_tab;

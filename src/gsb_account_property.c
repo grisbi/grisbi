@@ -627,6 +627,7 @@ void gsb_account_property_fill_page ( void )
 
     /* fill bank information */
     bank_number = gsb_data_account_get_bank (current_account);
+    gsb_account_property_set_label_code_bic ( bank_number );
 
     gsb_account_property_iban_set_iban (
                         gsb_data_account_get_bank_account_iban (current_account) );

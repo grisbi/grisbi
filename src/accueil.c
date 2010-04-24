@@ -2022,7 +2022,7 @@ GtkWidget *onglet_accueil (void)
     /* create the model */
     list_store = gsb_partial_balance_create_model ( );
 
-    /* remplit le modèle si nécessaire */
+    /* populate the model if necessary */
     if ( g_slist_length ( gsb_data_partial_balance_get_list ( ) ) > 0 )
         gsb_partial_balance_fill_model ( list_store );
 
