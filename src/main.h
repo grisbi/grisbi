@@ -3,6 +3,7 @@
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
+gchar *PLUGINS_DIRECTORY;
 
 /* START_DECLARATION */
 gboolean gsb_grisbi_close ( void );

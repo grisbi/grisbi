@@ -166,7 +166,7 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
 void show_version(void)
 {
 #ifdef HAVE_PLUGINS
-    gsb_plugins_scan_dir ( PLUGINS_DIR );
+    gsb_plugins_scan_dir ( PLUGINS_DIRECTORY );
 #endif
 
     g_print(N_("Grisbi version %s, %s\n"), VERSION, gsb_plugin_get_list());
@@ -195,7 +195,7 @@ void show_help(void)
  *
  * \private
  */
-void   show_usage(gint errval, gchar* extra)
+void show_usage ( gint errval, gchar* extra )
 {
     show_errstr(errval,extra);
     g_printerr(USAGE_STRING);

@@ -68,8 +68,7 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	if ( strncmp ( split_filename[1], G_MODULE_SUFFIX, strlen(G_MODULE_SUFFIX) ) )
 	    continue;
 
-	complete_filename = g_build_filename ( PLUGINS_DIR,
-					       filename, NULL );
+	complete_filename = g_build_filename ( dirname, filename, NULL );
 
 	if ( ! ( plugin -> handle = 
 		 g_module_open (complete_filename, 0 ) ) )
