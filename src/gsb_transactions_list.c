@@ -1002,7 +1002,8 @@ gboolean gsb_transactions_list_set_row_align ( gfloat row_align )
 
 
 
-/** find column number for the transaction element number
+/**
+ * find column number for the transaction element number
  *
  * \param element_number the element we look for
  *
@@ -1024,7 +1025,8 @@ gint find_element_col ( gint element_number )
     return -1;
 }
 
-/** find line number for the transaction element number
+/** 
+ * find line number for the transaction element number
  *
  * \param element_number the element we look for
  *
@@ -1074,12 +1076,12 @@ gint find_element_col_split ( gint element_number )
 
 
 
-/******************************************************************************/
-/* cette fonction calcule le solde de départ pour l'affichage de la première opé */
-/* du compte */
-/* c'est soit le solde initial du compte si on affiche les R */
-/* soit le solde initial - les opés R si elles ne sont pas affichées */
-/******************************************************************************/
+/**
+ * cette fonction calcule le solde de départ pour l'affichage de la première opé
+ * du compte
+ * c'est soit le solde initial du compte si on affiche les R
+ * soit le solde initial - les opés R si elles ne sont pas affichées
+ * */
 gsb_real solde_debut_affichage ( gint account_number,
                         gint floating_point)
 {
@@ -1120,8 +1122,6 @@ gsb_real solde_debut_affichage ( gint account_number,
 
     return ( solde );
 }
-/******************************************************************************/
-
 
 
 /**
@@ -1264,10 +1264,11 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
     return TRUE;
 }
 
-/******************************************************************************/
-/* Fonction gsb_transactions_list_key_press */
-/* gère le clavier sur la liste des opés */
-/******************************************************************************/
+
+/**
+ * gère le clavier sur la liste des opés
+ * 
+ * */
 gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
                         GdkEventKey *ev )
 {
@@ -2453,15 +2454,26 @@ static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
 {
     gint new_transaction_number;
 
-    if (! assert_selected_transaction()) return FALSE;
+    if ( !assert_selected_transaction ( ) )
+        return FALSE;
 
-    new_transaction_number = gsb_transactions_list_clone_transaction (gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()),
-								      0 );
+    new_transaction_number = gsb_transactions_list_clone_transaction (
+                                    gsb_data_account_get_current_transaction_number (
+                                    gsb_gui_navigation_get_current_account ( ) ),
+								    0 );
 
-    update_transaction_in_trees (new_transaction_number);
+    update_transaction_in_trees ( new_transaction_number );
 
-    transaction_list_select (new_transaction_number);
-    gsb_transactions_list_edit_transaction (new_transaction_number);
+    transaction_list_select ( new_transaction_number );
+    gsb_transactions_list_edit_transaction ( new_transaction_number );
+    g_object_set_data ( G_OBJECT ( gsb_form_get_form_widget ( ) ),
+			    "transaction_selected_in_form",
+			    GINT_TO_POINTER ( -1 ) );
+
+#ifdef ENABLE_BALANCE_ESTIMATE
+    /* force the update module budget */
+    bet_data_set_maj ( gsb_gui_navigation_get_current_account ( ), BET_MAJ_ESTIMATE );
+#endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
@@ -2484,51 +2496,62 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number,
     gint new_transaction_number;
 
     /* dupplicate the transaction */
-    new_transaction_number = gsb_data_transaction_new_transaction ( gsb_data_transaction_get_account_number (transaction_number));
+    new_transaction_number = gsb_data_transaction_new_transaction (
+                                    gsb_data_transaction_get_account_number ( transaction_number ) );
     gsb_data_transaction_copy_transaction ( transaction_number,
 					    new_transaction_number, TRUE );
 
-    if (gsb_data_transaction_get_mother_transaction_number (transaction_number)
-	&&
-	mother_transaction_number )
+    if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number )
+	 &&
+	 mother_transaction_number )
 	gsb_data_transaction_set_mother_transaction_number ( new_transaction_number,
 							     mother_transaction_number );
 
     /* create the contra-transaction if necessary */
-    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number) > 0)
+    if ( gsb_data_transaction_get_contra_transaction_number ( transaction_number ) > 0 )
     {
 	gsb_form_transaction_validate_transfer ( new_transaction_number,
-						 1,
-						 gsb_data_transaction_get_contra_transaction_account (transaction_number));
+						1,
+						gsb_data_transaction_get_contra_transaction_account (
+                        transaction_number ) );
 
 	/* we need to set the contra method of payment of the transfer */
-	gsb_data_transaction_set_method_of_payment_number ( gsb_data_transaction_get_contra_transaction_number (new_transaction_number),
-							    gsb_data_transaction_get_method_of_payment_number (gsb_data_transaction_get_contra_transaction_number (transaction_number)));
+	gsb_data_transaction_set_method_of_payment_number (
+                        gsb_data_transaction_get_contra_transaction_number (
+                        new_transaction_number ),
+					    gsb_data_transaction_get_method_of_payment_number (
+                        gsb_data_transaction_get_contra_transaction_number (
+                        transaction_number ) ) );
     }
 
-    gsb_transactions_list_append_new_transaction (new_transaction_number, TRUE);
+    gsb_transactions_list_append_new_transaction ( new_transaction_number, TRUE );
 
-    if ( gsb_data_transaction_get_split_of_transaction (transaction_number))
+    if ( gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
     {
-	/* the transaction was a split, we look for the children to copy them */
+        /* the transaction was a split, we look for the children to copy them */
 
-	GSList *list_tmp_transactions;
-	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+        GSList *list_tmp_transactions;
+        list_tmp_transactions = gsb_data_transaction_get_transactions_list ( );
 
-	while ( list_tmp_transactions )
-	{
-	    gint transaction_number_tmp;
-	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+        while ( list_tmp_transactions )
+        {
+            gint transaction_number_tmp;
+            transaction_number_tmp = gsb_data_transaction_get_transaction_number (
+                                            list_tmp_transactions -> data );
 
-	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_data_transaction_get_account_number (transaction_number)
-		 &&
-		 gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number )
-		gsb_transactions_list_clone_transaction (transaction_number_tmp, new_transaction_number);
-	    list_tmp_transactions = list_tmp_transactions -> next;
-	}
+            if ( gsb_data_transaction_get_account_number ( transaction_number_tmp )
+             == gsb_data_transaction_get_account_number ( transaction_number )
+             &&
+             gsb_data_transaction_get_mother_transaction_number ( transaction_number_tmp )
+             == transaction_number )
+                gsb_transactions_list_clone_transaction (
+                            transaction_number_tmp, new_transaction_number );
+
+            list_tmp_transactions = list_tmp_transactions -> next;
+        }
     }
     if ( etat.equilibrage )
-        transaction_list_show_toggle_mark (TRUE);
+        transaction_list_show_toggle_mark ( TRUE );
 
     return new_transaction_number;
 }
