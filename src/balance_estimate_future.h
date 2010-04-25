@@ -8,6 +8,8 @@
 
 
 /* START_DECLARATION */
+gboolean bet_account_new_line_dialog ( GtkTreeModel *tab_model,
+                        gchar *str_date );
 gboolean bet_future_modify_line ( gint account_number,
                         gint number,
                         gint mother_row );

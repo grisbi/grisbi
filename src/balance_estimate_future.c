@@ -1658,6 +1658,184 @@ dialog_return:
 
     return FALSE;
 }
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_account_new_line_dialog ( GtkTreeModel *tab_model,
+                        gchar *str_date )
+{
+    GtkWidget *dialog;
+    GtkWidget *vbox;
+    GtkWidget *paddingbox;
+    GtkWidget *hbox, *widget, *sw, *tree_view;
+    GtkListStore *list_store;
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *cell;
+    //~ GtkTreeSelection *selection;
+    GSList *tmp_list;
+    GDate *date;
+    GDate *date_jour;
+    gint account_number;
+    gint result;
+
+    account_number = gsb_gui_navigation_get_current_account ( );
+    if ( account_number == -1 )
+        return FALSE;
+    
+    /* Create the dialog */
+    dialog = gtk_dialog_new_with_buttons ( _("Select an account"),
+					   GTK_WINDOW ( window ),
+					   GTK_DIALOG_MODAL,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_OK, GTK_RESPONSE_OK,
+					   NULL );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
+    gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
+
+	vbox = gtk_vbox_new ( FALSE, 0 );
+	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog )->vbox ), vbox, TRUE, TRUE, 0 );
+	gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+
+    /* list of accounts */
+    paddingbox = new_paddingbox_with_title (vbox, FALSE,  _("List of accounts") );
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 5);
+
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
+                        GTK_SHADOW_ETCHED_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+                        GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_ALWAYS);
+    gtk_box_pack_start ( GTK_BOX (hbox), sw, TRUE,TRUE, 0 );
+
+    /* create the model */
+    list_store = gtk_list_store_new ( 4, G_TYPE_STRING,  G_TYPE_STRING,  G_TYPE_INT, G_TYPE_BOOLEAN );
+
+    /* populate the model if necessary */
+    tmp_list = gsb_data_account_get_list_accounts ( );
+    while ( tmp_list )
+    {
+        gint tmp_account_number;
+        GtkTreeIter iter;
+
+        tmp_account_number = gsb_data_account_get_no_account ( tmp_list -> data );
+        if ( tmp_account_number != account_number )
+        {
+
+            gtk_list_store_append ( list_store, &iter );
+            gtk_list_store_set ( list_store,
+                        &iter,
+                        0, gsb_data_account_get_name ( tmp_account_number ),
+                        1, _("standard account"),
+                        2, tmp_account_number,
+                        3, FALSE,
+                        -1 );
+
+        }
+
+	    tmp_list = tmp_list -> next;
+    }
+
+    tmp_list = gsb_data_partial_balance_get_list ( );
+    while ( tmp_list )
+    {
+        gint tmp_number;
+        GtkTreeIter iter;
+
+        tmp_number = gsb_data_partial_balance_get_number ( tmp_list -> data );
+        gtk_list_store_append ( list_store, &iter );
+        gtk_list_store_set ( list_store,
+                        &iter,
+                        0, gsb_data_partial_balance_get_name ( tmp_number ),
+                        1, _("Partial balance"),
+                        2, tmp_number,
+                        3, TRUE,
+                        -1 );
+
+	    tmp_list = tmp_list -> next;
+    }
+
+    /* create the treeview */
+    tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( list_store ) );
+    g_object_unref ( list_store );
+
+    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
+    gtk_widget_set_size_request ( tree_view, 400, 150 );
+    gtk_container_add (GTK_CONTAINER ( sw ), tree_view );
+    gtk_container_set_resize_mode (GTK_CONTAINER ( sw ), GTK_RESIZE_PARENT );
+    g_object_set_data ( G_OBJECT ( vbox ), "tree_view", tree_view );
+
+    /* Account_name */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( _("Name"),
+                        cell, "text", 0, NULL );
+    gtk_tree_view_column_set_expand ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
+    gtk_tree_view_column_set_sort_column_id ( column, 0 );
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ), column );
+
+    /* type of account */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( _("Type"),
+                        cell, "text", 1, NULL );
+    gtk_tree_view_column_set_expand ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
+    gtk_tree_view_column_set_sort_column_id ( column, 1 );
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ), column );
+
+    /* Effective Date */
+    paddingbox = new_paddingbox_with_title (vbox, FALSE,  _("Effective Date") );
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 5);
+
+    widget = gsb_calendar_entry_new ( FALSE );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5);
+
+    /* set date */
+    date = gsb_parse_date_string ( str_date );
+    date_jour = gdate_today ( ); 
+        
+    if ( g_date_valid ( date ) )
+    {
+        if ( g_date_compare ( date_jour, date ) >= 0 )
+        {
+            g_date_free ( date );
+            g_date_add_days ( date_jour, 1 );
+            date = date_jour;
+        }
+    }
+    else
+    {
+        g_date_add_days ( date_jour, 1 );
+        date = date_jour;
+    }
+
+    gsb_form_widget_set_empty ( widget, FALSE );
+    gsb_calendar_entry_set_date ( widget, date );
+
+    gtk_widget_show_all ( dialog );
+
+    //~ dialog_return:
+	result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+
+    if ( result == GTK_RESPONSE_OK )
+    {
+    }
+
+    gtk_widget_destroy ( dialog );
+
+    return FALSE;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

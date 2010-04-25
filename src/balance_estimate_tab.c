@@ -97,6 +97,8 @@ static void bet_array_list_delete_menu ( GtkWidget *menu_item,
 static gchar *bet_array_list_get_description ( gint account_number,
                         gint origine,
                         gpointer value );
+static void bet_array_list_insert_account_balance_menu ( GtkWidget *menu_item,
+                        GtkTreeSelection *tree_selection );
 static void bet_array_list_insert_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static void bet_array_list_redo_menu ( GtkWidget *menu_item,
@@ -1252,6 +1254,7 @@ gboolean bet_array_list_button_press ( GtkWidget *tree_view,
  */
 void bet_array_list_context_menu ( GtkWidget *tree_view )
 {
+    GtkWidget *image;
     GtkWidget *menu, *menu_item;
     GtkTreeModel *model;
     GtkTreeSelection *tree_selection;
@@ -1259,6 +1262,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
     GDate *date;
     GDate *date_jour;
     gchar *str_date;
+    gchar *tmp_str;
     gboolean select = FALSE;
     gint origine;
 
@@ -1396,6 +1400,24 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
 
     /* Separator */
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
+    gtk_widget_show ( menu_item );
+
+    /* Insert an account balance */
+    tmp_str = g_build_filename ( PIXMAPS_DIR, "ac_bank.png", NULL);
+    image = gtk_image_new_from_file ( tmp_str );
+    gtk_image_set_pixel_size ( GTK_IMAGE ( image ), GTK_ICON_SIZE_MENU );
+    g_free ( tmp_str );
+
+    menu_item = gtk_image_menu_item_new_with_label ( _("Insert account balance") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                    "activate",
+                    G_CALLBACK ( bet_array_list_insert_account_balance_menu ),
+                    tree_selection );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+    /* Separator */
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
     gtk_widget_show ( menu_item );
 
     /* redo item */
@@ -1580,6 +1602,36 @@ void bet_array_list_insert_menu ( GtkWidget *menu_item,
     tree_view = gtk_tree_selection_get_tree_view ( tree_selection );
     bet_array_list_set_background_color ( GTK_WIDGET ( tree_view ) );
     bet_array_list_update_balance ( model );
+}
+
+
+/**
+ * insert an account balance
+ *
+ * /param menu item
+ * /param row selected
+ *
+ * */
+void bet_array_list_insert_account_balance_menu ( GtkWidget *menu_item,
+                        GtkTreeSelection *tree_selection )
+{
+    GtkTreeView *tree_view;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gchar *str_date;
+devel_debug (NULL);
+    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
+     &model, &iter ) )
+        return;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
+                        SPP_ESTIMATE_TREE_DATE_COLUMN, &str_date,
+                        -1 );
+
+    bet_account_new_line_dialog ( model, str_date );
+    //~ tree_view = gtk_tree_selection_get_tree_view ( tree_selection );
+    //~ bet_array_list_set_background_color ( GTK_WIDGET ( tree_view ) );
+    //~ bet_array_list_update_balance ( model );
 }
 
 
