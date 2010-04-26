@@ -76,3 +76,11 @@ uninstall:
 	  echo "uninstalling  $(DESTDIR)$$dir/grisbi-tips.mo"; \
 	done
 
+mostlyclean:
+	rm -f core core.* *.pox $(PACKAGE).po *.new.po
+	rm -fr *.gmo
+
+clean: mostlyclean
+
+distclean: clean
+	rm -f Makefile *.mo
