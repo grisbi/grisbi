@@ -325,7 +325,7 @@ int main (int argc, char **argv)
 		nom_fichier_comptes = NULL;
     }
 
-#ifdef IS_DEVELOPMENT_VERSION
+#if IS_DEVELOPMENT_VERSION == 1
     dialog_message ( "development-version", VERSION );
 #endif
 
