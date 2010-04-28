@@ -1,12 +1,14 @@
 # Process this file with automake to produce Makefile.in
 
 localedir = $(datadir)/locale
-AM_CPPFLAGS = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(prefix)/lib/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(datadir)/doc/@PACKAGE@\"" -Wall
+AM_CPPFLAGS = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(libdir)/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(datadir)/doc/@PACKAGE@\"" -Wall
 bin_PROGRAMS = grisbi
 
 # TODO: This manual setting of -Wl is a hack, I cannot get it from
 # configure right now because of no doc.
 grisbi_LDFLAGS = @lt_prog_compiler_wl@@export_dynamic_flag_spec@
+
+grisbi_LDADD = $(GTK_LIBS)
 
 config_dir = config
 
