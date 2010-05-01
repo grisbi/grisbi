@@ -38,15 +38,16 @@
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_fyear.h"
-#include "./navigation.h"
+#include "./gsb_real.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
+#include "./balance_estimate_data.h"
 #include "./gsb_fyear.h"
 #include "./mouse.h"
-#include "./balance_estimate_data.h"
 #include "./structures.h"
 #include "./include.h"
 #include "./erreur.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -246,7 +247,9 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
         if ( col_edited == FALSE && valeur == FALSE )
             return FALSE;
 
-        valeur = 1 - valeur;
+        if ( renderer )
+            valeur = 1 - valeur;
+
         if ( valeur == 1 )
         {
             //~ printf ("avant - account_nb = %d, div = %d, sub_div = %d\n", account_nb, div, sub_div);
