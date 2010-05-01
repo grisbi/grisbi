@@ -71,6 +71,7 @@
 #include "./transaction_list.h"
 #include "./transaction_list_select.h"
 #include "./utils_operations.h"
+#include "./balance_estimate_data.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_payment.h"
 #include "./gtk_combofix.h"
@@ -82,8 +83,8 @@
 #include "./include.h"
 #include "./structures.h"
 #include "./erreur.h"
-#include "./gsb_form_widget.h"
 #include "./gsb_real.h"
+#include "./gsb_form_widget.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -97,7 +98,7 @@ static gboolean gsb_form_get_categories ( gint transaction_number,
                         gint new_transaction,
                         gboolean is_transaction );
 static gboolean gsb_form_hide ( void );
-static  gboolean gsb_form_size_allocate ( GtkWidget *widget,
+static gboolean gsb_form_size_allocate ( GtkWidget *widget,
                         GtkAllocation *allocation,
                         gpointer null );
 static void gsb_form_take_datas_from_form ( gint transaction_number,
@@ -2860,18 +2861,21 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 		if (!question_yes_no ( _("Selected method of payment has an automatic incremental number\nbut doesn't contain any number.\nContinue anyway?"), GTK_RESPONSE_CANCEL))
 		    return (FALSE);
 	    }
-	    else
+	    else if ( mother_number == 0 )
 	    {
 		/* check that the number is not used */
 		gint tmp_transaction_number;
 		
-		tmp_transaction_number = gsb_data_transaction_check_content_payment (payment, utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (widget))));
+		tmp_transaction_number = gsb_data_transaction_check_content_payment (
+                                    payment, utils_str_atoi (
+                                    gtk_entry_get_text ( GTK_ENTRY ( widget ) ) ) );
 
 		if ( tmp_transaction_number
-		     &&
-		     tmp_transaction_number != transaction_number
-		     &&
-		     !question_yes_no ( _("Warning: this cheque number is already used.\nContinue anyway?"), GTK_RESPONSE_CANCEL))
+         &&
+         tmp_transaction_number != transaction_number
+         &&
+         !question_yes_no ( _("Warning: this cheque number is already used.\nContinue anyway?"),
+         GTK_RESPONSE_CANCEL ) )
 		    return FALSE;
 	    }
 	}
