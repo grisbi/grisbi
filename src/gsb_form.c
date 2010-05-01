@@ -2759,9 +2759,11 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
             if ( gsb_form_widget_check_empty ( widget ) == TRUE
              ||
              number.mantissa == 0 )
+            {
                 dialogue_error ( _("You must enter an amount.") );
 
-            return (FALSE);
+                return (FALSE);
+            }
         }
     }
     
