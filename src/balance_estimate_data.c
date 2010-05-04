@@ -84,7 +84,7 @@ static GHashTable *bet_future_list;
 static gint future_number;
 
 /** the hashtable for account_balance */
-static GHashTable *bet_transfert_list = NULL;
+static GHashTable *bet_transfert_list;
 static gint transfert_number;
 
 /* force la mise à jour des données */
@@ -719,7 +719,11 @@ GPtrArray *bet_data_get_strings_to_save ( void )
     gpointer key, value;
     gint index = 0;
 
-    if ( g_hash_table_size ( bet_hist_div_list ) == 0 )
+    if ( g_hash_table_size ( bet_hist_div_list ) == 0
+     &&
+        g_hash_table_size ( bet_future_list ) == 0
+     &&
+        g_hash_table_size ( bet_transfert_list ) == 0 )
         return NULL;
 
     tab = g_ptr_array_new ( );
