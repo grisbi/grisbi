@@ -73,6 +73,8 @@ esac
 
 $LIBTOOLIZE --force --copy
 
+intltoolize --force --copy --automake
+
 autoreconf --verbose --force --install
 
 #
