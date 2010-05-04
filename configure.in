@@ -159,7 +159,7 @@ else
 	then
 		nocunit=false
 		CFLAGS="${CFLAGS} -DHAVE_CUNIT"
-		LDFLAGS="${LDFLAGS} -lcunit"
+		LDFLAGS="${LDFLAGS}"
 	else
 		AC_MSG_RESULT([libcunit header missing. Check your libcunit installation])
 	fi
@@ -301,6 +301,7 @@ share/categories/de_DE/Makefile
 share/categories/de_AT/Makefile
 share/categories/ru/Makefile
 src/Makefile
+src/tests/Makefile
 src/plugins/gnucash/Makefile
 src/plugins/ofx/Makefile
 src/plugins/openssl/Makefile
