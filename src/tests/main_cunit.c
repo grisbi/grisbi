@@ -46,15 +46,21 @@
 #include "./utils_dates_cunit.h"
 /*END_INCLUDE*/
 
-#endif/*HAVE_CUNIT*/
 
-/*START_STATIC*/
-/*END_STATIC*/
+/* Following declarations avoid link errors.
+ * Everything should be removed as soon as core functions and GUI functions
+ * are properly separated and a libgrisbi_core.a library is generated.
+ */
+G_MODULE_EXPORT GtkWidget *window = NULL;
+GtkWidget *window_vbox_principale = NULL;
+extern FILE *debug_file;
+extern gchar *nom_fichier_comptes;
+gboolean gsb_grisbi_close( void )
+{
+	return FALSE;
+}
+/* End of unnecessary things */
 
-#if HAVE_CUNIT
-
-/*START_EXTERN*/
-/*END_EXTERN*/
 
 int gsb_cunit_run_tests()
 {
@@ -90,6 +96,31 @@ int gsb_cunit_run_tests()
 }
 
 #endif/*HAVE_CUNIT*/
+
+#ifdef _MSC_VER
+int APIENTRY wWinMain(HINSTANCE hInstance,
+                      HINSTANCE hPrevInstance,
+                      LPWSTR    lpCmdLine,
+                      int       nCmdShow)
+{
+	int argc, nLen;
+	LPWSTR * argvP;
+	char ** argv = malloc(sizeof(char**));
+	argvP = CommandLineToArgvW(GetCommandLineW(), &(argc));
+	nLen = WideCharToMultiByte(CP_UTF8, 0,argvP[0], -1, NULL, 0, NULL, NULL);
+	*argv = malloc((nLen + 1) * sizeof(char));
+	WideCharToMultiByte(CP_UTF8, 0, argvP[0], -1, *argv, nLen, NULL, NULL);
+	int result = main(argc, argv);
+	free(*argv);
+	free(argv);
+	return result;
+}
+#endif //_MSC_VER
+
+int main(int argc, char** argv)
+{
+	return gsb_cunit_run_tests() ;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

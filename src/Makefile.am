@@ -4,15 +4,18 @@ localedir = $(datadir)/locale
 AM_CPPFLAGS = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(libdir)/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(datadir)/doc/@PACKAGE@\"" -Wall
 bin_PROGRAMS = grisbi
 
+noinst_LIBRARIES = libgrisbi.a
+
 # TODO: This manual setting of -Wl is a hack, I cannot get it from
 # configure right now because of no doc.
 grisbi_LDFLAGS = @lt_prog_compiler_wl@@export_dynamic_flag_spec@
 
-grisbi_LDADD = $(GTK_LIBS)
+grisbi_LDADD = libgrisbi.a $(GTK_LIBS)
 
 config_dir = config
 
-sources = \
+
+libgrisbi_a_sources = 		\
 	accueil.c		\
 	affichage.c		\
 	affichage_liste.c	\
@@ -115,8 +118,6 @@ sources = \
 	import.c		\
 	import_csv.c		\
 	imputation_budgetaire.c	\
-	main.c			\
-	main_cunit.c			\
 	menu.c			\
 	meta_budgetary.c	\
 	meta_categories.c	\
@@ -152,7 +153,7 @@ sources = \
         balance_estimate_hist.c \
 	balance_estimate_tab.c
 
-grisbi_INCLUDES =		\
+libgrisbi_a_INCLUDES =		\
 	$(include_config)       \
 	accueil.h		\
 	affichage.h		\
@@ -167,6 +168,7 @@ grisbi_INCLUDES =		\
 	classement_echeances.h	\
         csv_parse.h             \
 	custom_list.h		\
+	erreur.h		\
         etats_affiche.h         \
         etats_csv.h             \
         etats_html.h            \
@@ -246,7 +248,6 @@ grisbi_INCLUDES =		\
 	gsb_transactions_list.h	\
 	gsb_transactions_list_sort.h	\
 	dialog.h		\
-	erreur.h		\
 	etats_calculs.h		\
 	etats_config.h		\
 	etats_gtktable.h	\
@@ -263,8 +264,6 @@ grisbi_INCLUDES =		\
 	import_csv.h		\
 	imputation_budgetaire.h	\
 	include.h		\
-	main.h			\
-	main_cunit.h			\
 	menu.h			\
         meta_budgetary.h        \
         meta_categories.h       \
@@ -297,20 +296,21 @@ grisbi_INCLUDES =		\
 	utils_operations.h	\
 	utils_str.h
 
-cunit_sources = \
-	gsb_data_account_cunit.c	\
-	gsb_real_cunit.c	\
-	utils_dates_cunit.c	
+libgrisbi_a_SOURCES = $(libgrisbi_a_sources) $(sources_config) $(libgrisbi_a_INCLUDES)
 
-cunit_includes = \
-	gsb_data_account_cunit.h	\
-	gsb_real_cunit.h	\
-	utils_dates_cunit.h
 
-grisbi_SOURCES = $(sources) $(sources_config) $(grisbi_INCLUDES)  
+grisbi_sources = 		\
+	main.c
+
+grisbi_INCLUDES = 		\
+	main.h
+
+grisbi_SOURCES = $(grisbi_sources) $(sources_config) $(grisbi_INCLUDES) $(libgrisbi_a_INCLUDES)
+
+SUBDIRS =
 
 if HAVE_CUNIT
-grisbi_SOURCES += $(cunit_sources)
+SUBDIRS += tests
 endif
 
 EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime
@@ -319,6 +319,5 @@ mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
 
 if HAVE_PLUGINS
-SUBDIRS = plugins/gnucash plugins/ofx plugins/openssl
-
+SUBDIRS += plugins/gnucash plugins/ofx plugins/openssl
 endif

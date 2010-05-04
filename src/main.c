@@ -38,7 +38,6 @@
 #include "./tip.h"
 #include "./utils.h"
 #include "./gsb_assistant_first.h"
-#include "./main_cunit.h"
 #include "./gsb_file.h"
 #include "./gsb_file_config.h"
 #include "./gsb_status.h"
@@ -125,7 +124,6 @@ int main (int argc, char **argv)
 #endif
 
 #if IS_DEVELOPMENT_VERSION == 1
-    gsb_cunit_run_tests();
     initialize_debugging();
 #endif
 
