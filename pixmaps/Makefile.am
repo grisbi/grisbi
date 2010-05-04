@@ -5,6 +5,7 @@ grisbi_pixmapsdir = $(datadir)/pixmaps/$(PACKAGE)
 grisbi_pixmaps_DATA = \
 	ac_asset.png \
 	ac_bank.png \
+	ac_bank_16.png \
 	ac_cash.png \
 	ac_home.png \
 	ac_liability.png \
