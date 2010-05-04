@@ -4,7 +4,6 @@
 
 
 #include "config.h"
-#include <libintl.h>
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,24 +34,7 @@
 #include <glib/gstdio.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 
-/* Define gettext functions */
-#ifdef ENABLE_NLS
-#  include <libintl.h>
-#  define _(String) gettext(String)
-#  ifdef gettext_noop
-#    define N_(String) gettext_noop(String)
-#  else
-#    define N_(String) (String)
-#  endif /* gettext_noop */
-#else
-#  define _(String) (String)
-#  define N_(String) (String)
-#  define textdomain(String) (String)
-#  define gettext(String) (String)
-#  define dgettext(Domain,String) (String)
-#  define dcgettext(Domain,String,Type) (String)
-#  define bindtextdomain(Domain,Directory) (Domain) 
-#endif /* ENABLE_NLS */
+#include <glib/gi18n.h>
 
 /* The following lines revert back to FPRINTF on Windows Systems(LIBINTL_FPRINTF seems BUGGY) */
 #ifdef _WIN32
