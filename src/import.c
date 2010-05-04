@@ -71,6 +71,7 @@
 #include "./qif.h"
 #include "./transaction_list.h"
 #include "./utils_files.h"
+#include "./balance_estimate_data.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
 #include "./go-charmap-sel.h"
@@ -102,7 +103,7 @@ static gint gsb_import_add_currency ( struct struct_compte_importation * compte 
 static void gsb_import_add_imported_transactions ( struct struct_compte_importation *imported_account,
                         gint account_number );
 static void gsb_import_associations_add_assoc ( GtkWidget *button, GtkWidget *main_widget );
-static  void gsb_import_associations_cell_edited (GtkCellRendererText *cell,
+static void gsb_import_associations_cell_edited (GtkCellRendererText *cell,
                         const gchar *path_string,
                         const gchar *new_text,
                         GObject * main_widget );

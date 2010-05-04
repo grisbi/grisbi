@@ -34,9 +34,9 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  gboolean utils_font_choose ( GtkWidget *button,
+static gboolean utils_font_choose ( GtkWidget *button,
 				    gchar **fontname );
-static  void utils_font_update_labels ( GtkWidget *button,
+static void utils_font_update_labels ( GtkWidget *button,
 				       const gchar *fontname);
 /*END_STATIC*/
 

@@ -538,34 +538,40 @@ gint gsb_transactions_list_sort_by_party ( gint transaction_number_1,
                         gint transaction_number_2 )
 {
     gint return_value;
+    gint party_number_1;
+    gint party_number_2;
 
-    if ( gsb_data_transaction_get_party_number ( transaction_number_1)== gsb_data_transaction_get_party_number ( transaction_number_2))
-	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
+    party_number_1 = gsb_data_transaction_get_party_number ( transaction_number_1 );
+    party_number_2 = gsb_data_transaction_get_party_number ( transaction_number_2 );
+
+    if (  party_number_1 == party_number_2 )
+	    return_value = gsb_transactions_list_sort_by_transaction_date_and_no (
+                        transaction_number_1, transaction_number_2 );
     else
     {
-	const gchar *temp_1;
-	const gchar *temp_2;
+        const gchar *temp_1;
+        const gchar *temp_2;
 
-	temp_1 = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_1),
-					   TRUE );
-	temp_2 = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_2),
-					   TRUE );
+        temp_1 = gsb_data_payee_get_name ( party_number_1, TRUE );
+        if ( temp_1 == NULL )
+            return -1;
 
-	/* g_utf8_collate is said not very fast, must try with big big account to check
-	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
-	return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "",
-							  -1 ),
-					g_utf8_casefold ( temp_2 ? temp_2 : "",
-							  -1 ));
+        temp_2 = gsb_data_payee_get_name ( party_number_2, TRUE );
+        if ( temp_2 == NULL )
+            return 1;
+
+        /* g_utf8_collate is said not very fast, must try with big big account to check
+         * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
+        return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "", -1 ),
+                        g_utf8_casefold ( temp_2 ? temp_2 : "", -1 ));
     }
 
     if ( return_value )
-	return return_value;
+        return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no (transaction_number_1, transaction_number_2);
+        return gsb_transactions_list_sort_by_transaction_date_and_no (
+                        transaction_number_1, transaction_number_2);
 }
-
-
 
 
 /** used to compare 2 iters and sort the by budgetary first, and 
@@ -580,38 +586,50 @@ gint gsb_transactions_list_sort_by_budget ( gint transaction_number_1,
                         gint transaction_number_2 )
 {
     gint return_value;
+    gint budgetary_number_1;
+    gint budgetary_number_2;
+    gint sub_budgetary_number_1;
+    gint sub_budgetary_number_2;
 
-    if ( gsb_data_transaction_get_budgetary_number ( transaction_number_1) == gsb_data_transaction_get_budgetary_number ( transaction_number_2)
+    budgetary_number_1 = gsb_data_transaction_get_budgetary_number ( transaction_number_1 );
+    budgetary_number_2 = gsb_data_transaction_get_budgetary_number ( transaction_number_2 );
+    sub_budgetary_number_1 = gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1 );
+    sub_budgetary_number_2 = gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2 );
+
+    if ( budgetary_number_1 == budgetary_number_2
 	 &&
-	 gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1)== gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2))
-	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
+	 sub_budgetary_number_1 == sub_budgetary_number_2 )
+	    return_value = gsb_transactions_list_sort_by_transaction_date_and_no(
+                        transaction_number_1, transaction_number_2 );
     else
     {
-	const gchar *temp_1;
-	const gchar *temp_2;
+        const gchar *temp_1;
+        const gchar *temp_2;
 
-	temp_1 = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number_1),
-					    gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1),
-					    NULL );
-	temp_2 = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number_2),
-					    gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2),
-					    NULL);
+        temp_1 = gsb_data_budget_get_name ( budgetary_number_1,
+                            sub_budgetary_number_1,
+                            NULL );
+        if ( temp_1 == NULL )
+            return -1;
 
-	/* g_utf8_collate is said not very fast, must try with big big account to check
-	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
-	return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "",
-							  -1 ),
-					g_utf8_casefold ( temp_2 ? temp_2 : "",
-							  -1 ));
+        temp_2 = gsb_data_budget_get_name ( budgetary_number_2,
+                            sub_budgetary_number_2,
+                            NULL);
+        if ( temp_2 == NULL )
+            return 1;
+
+        /* g_utf8_collate is said not very fast, must try with big big account to check
+         * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
+        return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "", -1 ),
+                        g_utf8_casefold ( temp_2 ? temp_2 : "", -1 ) );
     }
 
     if ( return_value )
-	return return_value;
+	    return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
+	    return gsb_transactions_list_sort_by_transaction_date_and_no (
+                        transaction_number_1, transaction_number_2);
 }
-
-
 
 
 /**
@@ -707,7 +725,7 @@ gint gsb_transactions_list_sort_by_type ( gint transaction_number_1,
 
     /* if it's the same type, we sort by the content of the types */
 
-    if ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_1)== gsb_data_transaction_get_method_of_payment_number ( transaction_number_2))
+    if ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_1) == gsb_data_transaction_get_method_of_payment_number ( transaction_number_2))
     {
 	return_value = g_utf8_collate ( g_utf8_casefold ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1) ? gsb_data_transaction_get_method_of_payment_content ( transaction_number_1) : "",
 							  -1 ),

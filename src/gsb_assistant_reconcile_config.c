@@ -50,21 +50,21 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  gboolean gsb_assistant_reconcile_config_hide_label_error ( GtkWidget *editable,
+static gboolean gsb_assistant_reconcile_config_hide_label_error ( GtkWidget *editable,
                         GtkWidget *label );
-static  gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *button,
+static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *button,
                         GtkWidget *assistant );
-static  gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *button,
+static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *button,
                         GtkWidget *assistant );
-static  gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidget *button,
+static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidget *button,
                         GtkWidget *label );
-static  GtkWidget *gsb_assistant_reconcile_config_page_automatically_associate ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistant );
-static  gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *button,
+static GtkWidget *gsb_assistant_reconcile_config_page_automatically_associate ( GtkWidget *assistant );
+static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWidget *assistant );
+static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistant );
+static gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *button,
                         GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void );
-static  GtkWidget *gsb_assistant_reconcile_config_page_success ( void );
+static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void );
+static GtkWidget *gsb_assistant_reconcile_config_page_success ( void );
 static gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
                         gint new_page );
 static gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant,

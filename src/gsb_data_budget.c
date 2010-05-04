@@ -83,8 +83,8 @@ typedef struct
 
 
 /*START_STATIC*/
-static  void _gsb_data_budget_free ( struct_budget* budget );
-static  void _gsb_data_sub_budget_free ( struct_sub_budget* sub_budget );
+static void _gsb_data_budget_free ( struct_budget* budget );
+static void _gsb_data_sub_budget_free ( struct_sub_budget* sub_budget );
 static GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
 						    GSList *sub_budget_list );
 static gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,

@@ -51,23 +51,23 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  gboolean gsb_autofunc_checkbutton_changed ( GtkWidget *button,
+static gboolean gsb_autofunc_checkbutton_changed ( GtkWidget *button,
 						   gboolean default_func (gint, gboolean));
-static  gboolean gsb_autofunc_combobox_changed ( GtkWidget *combobox,
+static gboolean gsb_autofunc_combobox_changed ( GtkWidget *combobox,
 						gboolean default_func (gint, gint));
 static gboolean gsb_autofunc_currency_changed ( GtkWidget *combobox,
 					 gboolean default_func (gint, gint));
-static  gboolean gsb_autofunc_date_changed ( GtkWidget *entry,
+static gboolean gsb_autofunc_date_changed ( GtkWidget *entry,
 					    gboolean default_func (gint, const GDate *));
-static  gboolean gsb_autofunc_entry_changed ( GtkWidget *entry,
+static gboolean gsb_autofunc_entry_changed ( GtkWidget *entry,
 					     gboolean default_func (gint, const gchar *));
-static  gboolean gsb_autofunc_int_changed ( GtkWidget *entry,
+static gboolean gsb_autofunc_int_changed ( GtkWidget *entry,
 					   gboolean default_func (gint, gint));
-static  gboolean gsb_autofunc_real_changed ( GtkWidget *entry,
+static gboolean gsb_autofunc_real_changed ( GtkWidget *entry,
 					    gboolean default_func (gint, gsb_real));
-static  gboolean gsb_autofunc_spin_changed ( GtkWidget *spin_button,
+static gboolean gsb_autofunc_spin_changed ( GtkWidget *spin_button,
 					    gboolean default_func (gint, gint));
-static  gboolean gsb_autofunc_textview_changed ( GtkTextBuffer *buffer,
+static gboolean gsb_autofunc_textview_changed ( GtkTextBuffer *buffer,
 						gboolean default_func (gint, const gchar *));
 /*END_STATIC*/
 

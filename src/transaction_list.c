@@ -59,10 +59,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  void transaction_list_append_child ( gint transaction_number );
-static  CustomRecord *transaction_list_create_record ( gint transaction_number,
+static void transaction_list_append_child ( gint transaction_number );
+static CustomRecord *transaction_list_create_record ( gint transaction_number,
                         gint line_in_transaction );
-static  gboolean transaction_list_update_white_child ( CustomRecord *white_record );
+static gboolean transaction_list_update_white_child ( CustomRecord *white_record );
 /*END_STATIC*/
 
 /*START_EXTERN*/

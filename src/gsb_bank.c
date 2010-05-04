@@ -46,31 +46,31 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  gboolean gsb_bank_add ( GtkWidget *button,
+static gboolean gsb_bank_add ( GtkWidget *button,
                         gpointer null );
-static  void gsb_bank_bic_code_changed ( GtkEntry *entry, gpointer data );
-static  void gsb_bank_code_changed ( GtkEntry *entry, gpointer data );
-static  gboolean gsb_bank_combobox_changed ( GtkWidget *combobox,
+static void gsb_bank_bic_code_changed ( GtkEntry *entry, gpointer data );
+static void gsb_bank_code_changed ( GtkEntry *entry, gpointer data );
+static gboolean gsb_bank_combobox_changed ( GtkWidget *combobox,
 					    gboolean default_func (gint, gint));
-static  gboolean gsb_bank_create_combobox_model ( void );
-static  GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
+static gboolean gsb_bank_create_combobox_model ( void );
+static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
                         GtkWidget *combobox );
-static  gboolean gsb_bank_delete ( GtkWidget *button,
+static gboolean gsb_bank_delete ( GtkWidget *button,
                         gpointer null );
-static  gboolean gsb_bank_edit_bank ( gint bank_number,
+static gboolean gsb_bank_edit_bank ( gint bank_number,
                         GtkWidget *combobox );
-static  gboolean gsb_bank_list_change_selection ( GtkTreeSelection *selection,
+static gboolean gsb_bank_list_change_selection ( GtkTreeSelection *selection,
                         GtkWidget *container );
-static  gboolean gsb_bank_list_changed ( GtkWidget *combobox,
+static gboolean gsb_bank_list_changed ( GtkWidget *combobox,
                         gpointer null );
-static  gboolean gsb_bank_list_check_separator ( GtkTreeModel *model,
+static gboolean gsb_bank_list_check_separator ( GtkTreeModel *model,
                         GtkTreeIter *iter,
 						gpointer null );
-static  gboolean gsb_bank_update_form ( gint bank_number,
+static gboolean gsb_bank_update_form ( gint bank_number,
                         GtkWidget *frame );
-static  gboolean gsb_bank_update_selected_line ( GtkEntry *entry,
+static gboolean gsb_bank_update_selected_line ( GtkEntry *entry,
 						GtkWidget *combobox );
-static  gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox );
+static gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox );
 /*END_STATIC*/
 
 static GtkWidget *bank_list_tree_view;

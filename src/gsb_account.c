@@ -35,6 +35,7 @@
 #include "./gsb_file.h"
 #include "./gsb_form_scheduler.h"
 #include "./navigation.h"
+#include "./fenetre_principale.h"
 #include "./menu.h"
 #include "./gsb_real.h"
 #include "./gsb_scheduler_list.h"
@@ -49,8 +50,6 @@
 #include "./gsb_form_scheduler.h"
 #include "./include.h"
 #include "./structures.h"
-#include "./gsb_real.h"
-#include "./gsb_data_account.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

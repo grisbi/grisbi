@@ -49,15 +49,15 @@ static gboolean print_config_show_config_apply ( GtkPrintOperation * operation,
 static gboolean print_report_begin ( GtkPrintOperation *operation,
 			      GtkPrintContext *context,
 			      gpointer null );
-static  void print_report_draw_column ( GtkTableChild *child,
+static void print_report_draw_column ( GtkTableChild *child,
 				       gint line_position  );
-static  void print_report_draw_line ( GtkTableChild *child,
+static void print_report_draw_line ( GtkTableChild *child,
 				     gint line_position  );
 static gboolean print_report_draw_page ( GtkPrintOperation *operation,
 				  GtkPrintContext *context,
 				  gint page,
 				  gpointer null );
-static  void print_report_draw_row ( GtkPrintContext *context,
+static void print_report_draw_row ( GtkPrintContext *context,
 				    GtkTableChild *child,
 				    gint line_position,
 				    gint is_title );

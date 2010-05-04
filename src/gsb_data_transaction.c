@@ -45,8 +45,10 @@
 #include "./utils_dates.h"
 #include "./gsb_real.h"
 #include "./utils_str.h"
+#include "./balance_estimate_data.h"
 #include "./include.h"
 #include "./structures.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 
@@ -101,7 +103,7 @@ typedef struct
 
 /*START_STATIC*/
 static void gsb_data_transaction_delete_all_transactions ( void );
-static  void gsb_data_transaction_free ( struct_transaction *transaction);
+static void gsb_data_transaction_free ( struct_transaction *transaction);
 static gint gsb_data_transaction_get_last_white_number (void);
 static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number );
 static gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction );

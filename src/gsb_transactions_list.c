@@ -59,6 +59,7 @@
 #include "./transaction_list_select.h"
 #include "./transaction_list_sort.h"
 #include "./transaction_model.h"
+#include "./balance_estimate_data.h"
 #include "./structures.h"
 #include "./custom_list.h"
 #include "./fenetre_principale.h"
@@ -84,7 +85,7 @@ static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
 static gboolean gsb_transactions_list_check_mark ( gint transaction_number );
 static gint gsb_transactions_list_choose_reconcile ( gint account_number,
                         gint selected_reconcile_number );
-static  gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
+static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
                         gpointer null );
 static gint gsb_transactions_list_clone_transaction ( gint transaction_number,
                         gint mother_transaction_number );

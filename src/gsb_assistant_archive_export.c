@@ -74,14 +74,14 @@ static GtkWidget *archive_export_combobox = NULL;
 static GtkWidget *archive_export_label_success = NULL;
 
 /*START_STATIC*/
-static  gint gsb_assistant_archive_export_get_selected_archive ( GtkTreeModel *model );
-static  GtkWidget *gsb_assistant_archive_export_page_choose ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_archive_export_page_name ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_archive_export_page_succes ( GtkWidget *assistant );
-static  gboolean gsb_assistant_archive_export_toggled ( GtkCellRendererToggle *renderer,
+static gint gsb_assistant_archive_export_get_selected_archive ( GtkTreeModel *model );
+static GtkWidget *gsb_assistant_archive_export_page_choose ( GtkWidget *assistant );
+static GtkWidget *gsb_assistant_archive_export_page_name ( GtkWidget *assistant );
+static GtkWidget *gsb_assistant_archive_export_page_succes ( GtkWidget *assistant );
+static gboolean gsb_assistant_archive_export_toggled ( GtkCellRendererToggle *renderer,
 						       gchar *path_string,
 						       GtkWidget *assistant );
-static  gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
+static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
 					       gint new_page );
 /*END_STATIC*/
 

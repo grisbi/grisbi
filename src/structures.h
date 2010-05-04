@@ -13,7 +13,7 @@
 #define VERSION_FICHIER "0.6.0"
 
 /* Define this when in CVS development branch. */
-#define IS_DEVELOPMENT_VERSION 0
+#define IS_DEVELOPMENT_VERSION 1
 
 #define VERSION_FICHIER_ETAT "0.6.0"
 #define VERSION_FICHIER_CATEG "0.6.0"
@@ -189,7 +189,8 @@ enum bet_array_origin_data {
     SPP_ORIGIN_TRANSACTION,
     SPP_ORIGIN_SCHEDULED,
     SPP_ORIGIN_HISTORICAL,
-    SPP_ORIGIN_FUTURE
+    SPP_ORIGIN_FUTURE,
+    SPP_ORIGIN_ACCOUNT
 };
 
 

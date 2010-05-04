@@ -64,11 +64,11 @@ static void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_ite
 static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
                         GdkEventKey *ev,
                         GtkTreeModel *model );
-static  gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree_model, 
+static gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree_model, 
                         GtkTreePath *path, 
                         GtkTreeIter *iter, 
                         gpointer data );
-static  gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel * tree_model, 
+static gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel * tree_model, 
                         GtkTreePath *path, 
                         GtkTreeIter *iter, 
                         gpointer data );
@@ -80,14 +80,14 @@ static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selecti
 static void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model, 
                         GtkTreeIter * account_iter,
                         gint account_number );
-static  gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel * tree_model, 
+static gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel * tree_model, 
                         GtkTreePath *path, 
                         GtkTreeIter *iter, 
                         gpointer data );
 static void gsb_gui_navigation_update_report_iter ( GtkTreeModel * model, 
                         GtkTreeIter * report_iter,
                         gint report_number );
-static  gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree_model, 
+static gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree_model, 
                         GtkTreePath *path, 
                         GtkTreeIter *iter, 
                         gpointer data );

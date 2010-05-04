@@ -33,7 +33,7 @@ static gboolean is_valid_window_number(gint w);
 static CMDLINE_ERRNO parse_tab_parameters(char *tab_parameters, cmdline_options* pOpt);
 static void show_errstr(gint errval, gchar* extra);
 static void show_help(void);
-static void   show_usage(gint errval, gchar* extra);
+static void show_usage ( gint errval, gchar* extra );
 static void show_version(void);
 /*END_STATIC*/
 

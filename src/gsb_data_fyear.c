@@ -48,7 +48,7 @@ enum fyear_invalid {
 };
 
 /*START_STATIC*/
-static  void _gsb_data_fyear_free ( struct_fyear *fyear );
+static void _gsb_data_fyear_free ( struct_fyear *fyear );
 static gpointer gsb_data_fyear_get_structure ( gint fyear_number );
 static gint gsb_data_fyear_max_number ( void );
 /*END_STATIC*/

@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "balance_estimate_config.h"
-#include "./balance_estimate_tab.h"
 #include "./balance_estimate_data.h"
 #include "./balance_estimate_hist.h"
 #include "./utils_dates.h"
@@ -43,6 +42,7 @@
 #include "./traitement_variables.h"
 #include "./utils.h"
 #include "./utils_str.h"
+#include "./balance_estimate_data.h"
 #include "./structures.h"
 #include "./include.h"
 #include "./erreur.h"

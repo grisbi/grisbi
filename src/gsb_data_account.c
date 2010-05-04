@@ -130,7 +130,7 @@ typedef struct
 
 
 /*START_STATIC*/
-static  void _gsb_data_account_free ( struct_account* account );
+static void _gsb_data_account_free ( struct_account* account );
 static void gsb_data_account_delete_all_accounts (void);
 static struct_account *gsb_data_account_get_structure ( gint no );
 static gint gsb_data_account_max_number ( void );
@@ -3130,6 +3130,11 @@ gboolean gsb_data_account_set_bet_select_label ( gint account_number,
 }
 
 
+/**
+ * 
+ *
+ *
+ * */
 gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_number )
 {
     GDate *date_jour;

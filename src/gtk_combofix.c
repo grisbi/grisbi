@@ -1575,6 +1575,8 @@ static gboolean gtk_combofix_select_item ( GtkComboFix *combofix,
 
         if ( tmp_str
          &&
+         tmp_item
+         &&
          g_utf8_collate ( g_utf8_casefold ( tmp_str, -1 ),
          g_utf8_casefold ( tmp_item, -1 ) ) == 0 )
             break;
@@ -1819,6 +1821,11 @@ static gint gtk_combofix_default_sort_func ( GtkTreeModel *model_sort,
 	    {
             gchar *cmp_string_1;
             gchar *cmp_string_2;
+
+            if ( string_1 == NULL )
+                return -1;
+            if ( string_2 == NULL )
+                return 1;
 
             cmp_string_1 = g_utf8_collate_key (string_1, -1);
             cmp_string_2 = g_utf8_collate_key (string_2, -1);

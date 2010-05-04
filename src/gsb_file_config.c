@@ -55,7 +55,7 @@ static void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
                         gpointer user_data,
                         GError **error);
 static gboolean gsb_file_config_load_last_xml_config ( gchar *filename );
-static  void gsb_file_config_remove_old_config_file ( gchar *filename );
+static void gsb_file_config_remove_old_config_file ( gchar *filename );
 /*END_STATIC*/
 
 

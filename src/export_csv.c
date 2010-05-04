@@ -49,18 +49,17 @@
 #include "./utils_files.h"
 #include "./gsb_data_transaction.h"
 #include "./include.h"
-#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  void csv_add_record(FILE* file,
+static void csv_add_record(FILE* file,
 			   gboolean clear_all,
 			   gboolean print_balance );
-static  void csv_clear_fields(gboolean clear_all);
-static  FILE *gsb_csv_export_open_file ( const gchar *filename );
-static  gboolean gsb_csv_export_title_line ( FILE *csv_file,
+static void csv_clear_fields(gboolean clear_all);
+static FILE *gsb_csv_export_open_file ( const gchar *filename );
+static gboolean gsb_csv_export_title_line ( FILE *csv_file,
 					    gboolean print_balance );
-static  gboolean gsb_csv_export_transaction ( gint transaction_number,
+static gboolean gsb_csv_export_transaction ( gint transaction_number,
 					     FILE *csv_file,
 					     gboolean print_balance );
 /*END_STATIC*/

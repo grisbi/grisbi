@@ -65,6 +65,7 @@
 #include "./structures.h"
 #include "./custom_list.h"
 #include "./gsb_data_form.h"
+#include "./utils_str.h"
 #include "./gsb_scheduler_list.h"
 #include "./include.h"
 #include "./gsb_calendar.h"
@@ -144,6 +145,7 @@ extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
+extern GdkColor couleur_bet_transfert;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_jour;
@@ -801,7 +803,10 @@ gulong gsb_file_save_color_part ( gulong iterator,
                         "\t\tCouleur_bet_division_blue=\"%d\"\n"
                         "\t\tCouleur_bet_future_red=\"%d\"\n"
                         "\t\tCouleur_bet_future_green=\"%d\"\n"
-                        "\t\tCouleur_bet_future_blue=\"%d\" />\n",
+                        "\t\tCouleur_bet_future_blue=\"%d\"\n"
+                        "\t\tCouleur_bet_transfert_red=\"%d\"\n"
+                        "\t\tCouleur_bet_transfert_green=\"%d\"\n"
+                        "\t\tCouleur_bet_transfert_blue=\"%d\" />\n",
 
     couleur_fond[0].red,
     couleur_fond[0].green,
@@ -838,7 +843,10 @@ gulong gsb_file_save_color_part ( gulong iterator,
     couleur_bet_division.blue,
     couleur_bet_future.red,
     couleur_bet_future.green,
-    couleur_bet_future.blue );
+    couleur_bet_future.blue,
+    couleur_bet_transfert.red,
+    couleur_bet_transfert.green,
+    couleur_bet_transfert.blue );
 
     /* append the new string to the file content
      * and return the new iterator */

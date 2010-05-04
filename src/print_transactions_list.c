@@ -51,23 +51,23 @@ static gboolean print_transactions_list_apply ( GtkPrintOperation * operation,
 static gboolean print_transactions_list_begin ( GtkPrintOperation *operation,
 					 GtkPrintContext *context,
 					 gpointer null );
-static  void print_transactions_list_calculate_columns ( gdouble page_width );
-static  void print_transactions_list_draw_background ( CustomRecord *record,
+static void print_transactions_list_calculate_columns ( gdouble page_width );
+static void print_transactions_list_draw_background ( CustomRecord *record,
 						      gboolean color_bg,
 						      gint line_position );
-static  gint print_transactions_list_draw_column ( gint column_position,
+static gint print_transactions_list_draw_column ( gint column_position,
 						 gint line_position );
-static  gint print_transactions_list_draw_columns_title ( GtkPrintContext *context,
+static gint print_transactions_list_draw_columns_title ( GtkPrintContext *context,
 							 gint line_position);
-static  gint print_transactions_list_draw_line ( gint line_position );
+static gint print_transactions_list_draw_line ( gint line_position );
 static gboolean print_transactions_list_draw_page ( GtkPrintOperation *operation,
 					     GtkPrintContext *context,
 					     gint page,
 					     gpointer null );
-static  gint print_transactions_list_draw_row ( GtkPrintContext *context,
+static gint print_transactions_list_draw_row ( GtkPrintContext *context,
 					      CustomRecord *record,
 					      gint line_position );
-static  gint print_transactions_list_draw_title ( GtkPrintContext *context,
+static gint print_transactions_list_draw_title ( GtkPrintContext *context,
 						 gint line_position );
 static gboolean print_transactions_list_get_visibles_lines ( gint *number_of_archives,
 						      gint *number_of_transactions );

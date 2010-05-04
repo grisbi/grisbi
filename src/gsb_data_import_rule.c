@@ -62,7 +62,7 @@ typedef struct
 
 
 /*START_STATIC*/
-static  void _gsb_data_import_rule_free ( struct_import_rule* import_rule);
+static void _gsb_data_import_rule_free ( struct_import_rule* import_rule);
 static gpointer gsb_data_import_rule_get_structure ( gint import_rule_number );
 static gint gsb_data_import_rule_max_number ( void );
 /*END_STATIC*/

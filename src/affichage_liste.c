@@ -46,7 +46,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  gboolean display_mode_button_changed ( GtkWidget *button,
+static gboolean display_mode_button_changed ( GtkWidget *button,
                         gint *line_ptr );
 static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
                         gpointer null );

@@ -128,10 +128,15 @@ GdkColor couleur_nom_compte_prelight;
 
 GdkColor couleur_bleue;
 GdkColor couleur_jaune;
+
+/* colors for the balance estimate modul */
 GdkColor couleur_bet_division;
 GdkColor default_couleur_bet_division;
 GdkColor couleur_bet_future;
 GdkColor default_couleur_bet_future;
+GdkColor couleur_bet_transfert;
+GdkColor default_couleur_bet_transfert;
+
 
 GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 
@@ -524,6 +529,15 @@ void initialisation_couleurs_listes ( void )
     default_couleur_bet_future.red = 31829;
     default_couleur_bet_future.green = 51015;
     default_couleur_bet_future.blue =  35908;
+
+    /* colors of the background bet transfert data */
+    couleur_bet_transfert.red = 31829;
+    couleur_bet_transfert.green = 51015;
+    couleur_bet_transfert.blue = 35908;
+
+    default_couleur_bet_transfert.red = 60035;
+    default_couleur_bet_transfert.green = 37622;
+    default_couleur_bet_transfert.blue =  59956;
 }
 /*****************************************************************************************************/
 

@@ -64,7 +64,7 @@
 
 /*START_STATIC*/
 static GtkWidget * create_preferences_tree ( );
-static  GtkWidget *gsb_config_scheduler_page ( void );
+static GtkWidget *gsb_config_scheduler_page ( void );
 static gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void );
 static gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );

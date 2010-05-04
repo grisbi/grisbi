@@ -42,7 +42,7 @@
 static void file_obfuscate_qif_next_line ( gchar *file_content,
 				    gint *position,
 				    gint *position_in_line );
-static  void file_obfuscate_qif_start ( gchar *filename );
+static void file_obfuscate_qif_start ( gchar *filename );
 /*END_STATIC*/
 
 /*START_EXTERN*/

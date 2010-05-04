@@ -10,8 +10,6 @@
 gboolean transaction_model_get_iter (GtkTreeIter  *iter,
 				     GtkTreePath  *path);
 CustomList *transaction_model_get_model (void);
-GtkTreePath *transaction_model_get_path ( gint transaction_number,
-					  gint line_in_transaction );
 gboolean transaction_model_get_transaction_iter ( GtkTreeIter *iter,
 						  gint transaction_number,
 						  gint line_in_transaction );

@@ -63,8 +63,8 @@
 static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
                         GdkEventWindowState *event,
                         gpointer null );
-static  gboolean main_window_delete_event (GtkWidget *window, gpointer data);
-static  void main_window_destroy_event( GObject* obj, gpointer data);
+static gboolean main_window_delete_event (GtkWidget *window, gpointer data);
+static void main_window_destroy_event( GObject* obj, gpointer data);
 /*END_STATIC*/
 
 /* vbox ajoutée dans la fenetre de base, contient le menu et la fenetre d'utilisation */

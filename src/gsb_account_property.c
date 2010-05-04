@@ -68,7 +68,6 @@
 #include "./gsb_form_scheduler.h"
 #include "./include.h"
 #include "./erreur.h"
-#include "./gtk_combofix.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

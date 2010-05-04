@@ -67,14 +67,14 @@ static GtkWidget *archive_name_entry = NULL;
 
 
 /*START_STATIC*/
-static  gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
+static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
                         GtkWidget *tree_view );
-static  gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
+static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
                         GtkWidget *tree_view );
-static  void gsb_archive_config_fill_list ( GtkListStore *store );
-static  gboolean gsb_archive_config_name_changed ( GtkWidget *entry,
+static void gsb_archive_config_fill_list ( GtkListStore *store );
+static gboolean gsb_archive_config_name_changed ( GtkWidget *entry,
                         GtkWidget *tree_view );
-static  gboolean gsb_archive_config_select ( GtkTreeSelection *selection,
+static gboolean gsb_archive_config_select ( GtkTreeSelection *selection,
                         GtkWidget *paddingbox );
 /*END_STATIC*/
 

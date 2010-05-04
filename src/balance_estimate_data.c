@@ -58,6 +58,7 @@ static void bet_data_future_set_max_number ( gint number );
 static gboolean bet_data_update_div ( SH *sh, gint transaction_number, gint sub_div );
 static void struct_free_bet_future ( struct_futur_data *scheduled );
 static void struct_free_bet_range ( SBR *sbr );
+static void struct_free_bet_transfert ( struct_transfert_data *transfert );
 static void struct_free_hist_div ( struct_hist_div *shd );
 static SH *struct_initialise_bet_historical ( void );
 /*END_STATIC*/
@@ -80,8 +81,11 @@ static GHashTable *bet_hist_div_list;
 
 /** the hashtable which contains all the bet_future structures */
 static GHashTable *bet_future_list;
-
 static gint future_number;
+
+/** the hashtable for account_balance */
+static GHashTable *bet_transfert_list = NULL;
+static gint transfert_number;
 
 /* force la mise à jour des données */
 static gint bet_maj = FALSE;
@@ -105,6 +109,12 @@ gboolean bet_data_init_variables ( void )
                         (GDestroyNotify) g_free,
                         (GDestroyNotify) struct_free_bet_future );
     future_number = 0;
+
+    bet_transfert_list = g_hash_table_new_full ( g_str_hash,
+                        g_str_equal,
+                        (GDestroyNotify) g_free,
+                        (GDestroyNotify) struct_free_bet_transfert );
+    transfert_number = 0;
 
     return FALSE;
 }
@@ -308,9 +318,6 @@ gboolean bet_data_remove_div_hist ( gint account_nb, gint div_number, gint sub_d
     gchar *key;
     char *sub_key;
     struct_hist_div *shd;
-    
-    //~ devel_debug ( g_strdup_printf ("account_nb = %d div_number = %d sub_div_nb = %d",
-                                    //~ account_nb, div_number, sub_div_nb));
     
     if ( account_nb == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
@@ -710,6 +717,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
     gchar *tmp_str = NULL;
     GHashTableIter iter;
     gpointer key, value;
+    gint index = 0;
 
     if ( g_hash_table_size ( bet_hist_div_list ) == 0 )
         return NULL;
@@ -803,6 +811,36 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         g_free (amount);
         g_free (date);
         g_free (limit_date);
+    }
+
+    g_hash_table_iter_init ( &iter, bet_transfert_list );
+    index = 0;
+    while ( g_hash_table_iter_next ( &iter, &key, &value ) )
+    {
+        struct_transfert_data *transfert = ( struct_transfert_data* ) value;
+        gchar *date;
+
+        /* set the dates */
+        date = gsb_format_gdate_safe ( transfert -> date );
+
+        tmp_str = g_markup_printf_escaped ( "\t<Bet_transfert Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" "
+                        "Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Aim=\"%d\" Ca=\"%d\" Sca=\"%d\" "
+                        "Bu=\"%d\" Sbu=\"%d\" />\n",
+					    ++index,
+					    my_safe_null_str ( date ),
+					    transfert -> account_number,
+					    transfert -> type,
+                        transfert -> replace_account,
+                        transfert -> replace_transaction,
+                        transfert -> auto_inc_month,
+					    transfert -> category_number,
+					    transfert -> sub_category_number,
+					    transfert -> budgetary_number,
+					    transfert -> sub_budgetary_number );
+
+        g_ptr_array_add ( tab, tmp_str );
+
+        g_free (date);
     }
 
     return tab;
@@ -1051,7 +1089,7 @@ void struct_free_bet_future ( struct_futur_data *scheduled )
 
 
 /**
- * add lines creates in the tab_array
+ * add lines creates in the bet_future_list
  *
  *
  *
@@ -1451,6 +1489,162 @@ struct_futur_data *bet_data_future_get_struct ( gint account_number, gint number
         return scheduled;
     else
         return NULL;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+struct_transfert_data *struct_initialise_bet_transfert ( void )
+{
+    struct_transfert_data *transfert;
+
+    transfert =  g_malloc0 ( sizeof ( struct_transfert_data ) );
+
+    transfert -> date = NULL;
+
+    return transfert;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void struct_free_bet_transfert ( struct_transfert_data *transfert )
+{
+    if ( transfert -> date )
+        g_date_free ( transfert -> date );
+
+    g_free ( transfert );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+GHashTable *bet_data_transfert_get_list ( void )
+{
+    return bet_transfert_list;
+}
+
+
+/**
+ * add line in the bet_transfer_list
+ *
+ *
+ *
+ * */
+gboolean bet_data_transfert_add_line ( struct_transfert_data *transfert )
+{
+    gchar *key;
+    
+    transfert_number ++;
+
+    if ( transfert -> account_number == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( transfert_number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( transfert -> account_number ), ":",
+                        utils_str_itoa ( transfert_number ), NULL );
+
+    transfert -> number = transfert_number;
+    g_hash_table_insert ( bet_transfert_list, key, transfert );
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
+    return TRUE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_data_transfert_remove_line ( gint account_number, gint number )
+{
+    GHashTableIter iter;
+    gpointer key, value;
+
+    g_hash_table_iter_init ( &iter, bet_transfert_list );
+    while (g_hash_table_iter_next ( &iter, &key, &value ) ) 
+    {
+        struct_transfert_data *transfert = ( struct_transfert_data *) value;
+
+        if ( account_number != transfert -> account_number 
+         ||
+         number != transfert -> number)
+            continue;
+
+        g_hash_table_iter_remove ( &iter );
+
+        break;
+    }
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_data_transfert_set_line_from_file ( struct_transfert_data *transfert )
+{
+    gchar *key;
+
+    if ( transfert -> account_number == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( transfert -> number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( transfert -> account_number ), ":",
+                        utils_str_itoa ( transfert -> number ), NULL );
+
+    if ( transfert -> number >  transfert_number )
+        transfert_number = transfert -> number;
+
+    g_hash_table_insert ( bet_transfert_list, key, transfert );
+
+    return TRUE;
+}
+
+
+/**
+ * modify transfert line 
+ *
+ *
+ *
+ * */
+gboolean bet_data_transfert_modify_line ( struct_transfert_data *transfert )
+{
+    gchar *key;
+
+    if ( transfert -> account_number == 0 )
+        key = g_strconcat ("0:", utils_str_itoa ( transfert -> number ), NULL );
+    else
+        key = g_strconcat ( utils_str_itoa ( transfert -> account_number ), ":",
+                        utils_str_itoa ( transfert -> number ), NULL );
+
+    g_hash_table_replace ( bet_transfert_list, key, transfert );
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
+    return TRUE;
 }
 
 
