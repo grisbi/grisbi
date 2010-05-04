@@ -135,6 +135,28 @@ static GtkWidget *bet_transfert_dialog = NULL;
  *
  *
  * */
+void bet_future_initialise_dialog ( void )
+ {
+    if ( bet_futur_dialog != NULL )
+    {
+        gtk_widget_destroy ( bet_futur_dialog );
+        bet_futur_dialog = NULL;
+    }
+
+    if ( bet_transfert_dialog != NULL )
+    {
+        gtk_widget_destroy ( bet_transfert_dialog );
+        bet_transfert_dialog = NULL;
+    }
+ }
+
+ 
+/**
+ *
+ *
+ *
+ *
+ * */
 gboolean bet_future_new_line_dialog ( GtkTreeModel *tab_model,
                         gchar *str_date )
 {
@@ -2249,7 +2271,10 @@ gchar *gsb_transfert_get_str_amount ( struct_transfert_data *transfert, gsb_real
     gint replace_currency;
 
     currency = gsb_data_account_get_currency ( transfert -> account_number );
-    replace_currency = gsb_data_partial_balance_get_currency ( transfert -> replace_account );
+    if ( transfert -> type == 0 )
+        replace_currency = gsb_data_account_get_currency ( transfert -> replace_account );
+    else
+        replace_currency = gsb_data_partial_balance_get_currency ( transfert -> replace_account );
 
     if ( currency == replace_currency || amount.mantissa == 0 )
         string = gsb_real_get_string_with_currency ( amount, currency, TRUE );

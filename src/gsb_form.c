@@ -1198,9 +1198,6 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 
     /* if each account has a separate form, get it here,
      * else, get the form of the first account */
-    //~ if (etat.formulaire_distinct_par_compte)
-	//~ form_account_number = account_number;
-    //~ else
 	form_account_number = gsb_data_account_first_number ();
 
     rows_number = gsb_data_form_get_nb_rows (form_account_number);

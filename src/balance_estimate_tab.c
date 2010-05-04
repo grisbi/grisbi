@@ -104,9 +104,12 @@ static void bet_array_list_insert_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static void bet_array_list_redo_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
+static gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_model,
+                        struct_transfert_data *transfert );
 static gint bet_array_list_schedule_line ( gint origine, gint account_number, gint number );
 static void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
+static gboolean bet_array_list_select_path ( GtkWidget *tree_view, const gchar *str_path );
 static gboolean bet_array_list_set_background_color ( GtkWidget *tree_view );
 static void bet_array_list_traite_double_click ( GtkTreeView *tree_view );
 static void bet_array_list_update_balance ( GtkTreeModel *model );
@@ -146,6 +149,7 @@ extern GdkColor couleur_fond[2];
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern GtkWidget *notebook_general;
 extern gsb_real null_real;
+extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
 enum bet_estimation_tree_columns {
@@ -487,6 +491,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
                         bet_array_update_average_column, tmp_range );
 
     bet_array_list_set_background_color ( tree_view );
+    bet_array_list_select_path ( tree_view, "0" );
 }
 
 
@@ -719,10 +724,6 @@ GtkWidget *bet_array_create_page ( void )
 		                "button-press-event",
 		                G_CALLBACK ( bet_array_list_button_press ),
 		                NULL );
-
-    gtk_widget_grab_focus ( tree_view );
-    gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ),
-                        gtk_tree_path_new_from_string ( "0" ) );
 
     gtk_widget_show_all ( page );
 
@@ -1563,6 +1564,8 @@ void bet_array_list_delete_menu ( GtkWidget *menu_item,
                         SPP_ESTIMATE_TREE_SUB_DIV_COLUMN, &sub_div_nb,
                         -1 );
         bet_data_remove_div_hist ( account_number, number, sub_div_nb );
+        gtk_tree_store_remove ( GTK_TREE_STORE ( model ), &iter );
+
         bet_data_set_maj ( account_number, BET_MAJ_HISTORICAL );
     }
     else if ( origine == SPP_ORIGIN_FUTURE )
@@ -1573,8 +1576,6 @@ void bet_array_list_delete_menu ( GtkWidget *menu_item,
     {
         bet_data_transfert_remove_line ( gsb_gui_navigation_get_current_account ( ), number );
     }
-
-    gtk_tree_store_remove ( GTK_TREE_STORE ( model ), &iter );
 
     tree_view = gtk_tree_selection_get_tree_view ( tree_selection );
     bet_array_list_set_background_color ( GTK_WIDGET ( tree_view ) );
@@ -1734,7 +1735,6 @@ void bet_array_adjust_hist_amount ( gint div_number,
 
             if ( tmp_div_number == 0 || tmp_div_number != div_number )
                 continue;
-            //~ printf ("ligne analysée div_number = %d, sub_div_number = %d\n", tmp_div_number, tmp_sub_div_nb);
 
             if ( tmp_sub_div_nb == 0 || tmp_sub_div_nb == sub_div_nb )
             {
@@ -1897,16 +1897,50 @@ gboolean bet_array_start_date_focus_out ( GtkWidget *entry,
     gint account_number;
     GDate *date;
 
-    devel_debug (NULL);
+    devel_debug (gtk_entry_get_text ( GTK_ENTRY ( entry ) ));
     gtk_editable_select_region ( GTK_EDITABLE ( entry ), 0, 0 );
     account_number = gsb_gui_navigation_get_current_account ( );
+
     date = gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+    if ( gsb_data_account_get_bet_auto_inc_month (  account_number ) )
+    {
+        GDate *old_date;
+
+        old_date = gsb_data_account_get_bet_start_date ( account_number );
+        if ( g_date_compare ( date, old_date ) != 0 )
+            gsb_data_account_set_bet_auto_inc_month ( account_number, FALSE );
+    }
+    
     gsb_data_account_set_bet_start_date ( account_number, date );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
     bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+
+    return FALSE;
+}
+
+
+/**
+ * select the paths of the list
+ *
+ * \param tree_view, str_path
+ *
+ * \return FALSE
+ * */
+gboolean bet_array_list_select_path ( GtkWidget *tree_view, const gchar *str_path )
+{
+    GtkTreePath *path;
+    GtkTreeSelection *selection;
+
+    path = gtk_tree_path_new_from_string ( str_path );
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+
+    gtk_widget_grab_focus ( tree_view );
+    gtk_tree_selection_select_path ( selection, path );
+
+    gtk_tree_path_free ( path );
 
     return FALSE;
 }
@@ -2387,14 +2421,22 @@ void bet_array_auto_inc_month_toggle ( GtkToggleButton *togglebutton, gpointer  
 {
     gint account_number;
     gboolean value;
+    gint auto_inc_month;
     
     devel_debug_int (gtk_toggle_button_get_active ( togglebutton ));
 
     account_number = gsb_gui_navigation_get_current_account ( );
-    if ( ( value = gtk_toggle_button_get_active ( togglebutton ) ) !=
-        gsb_data_account_get_bet_auto_inc_month ( account_number ) )
+    auto_inc_month = gsb_data_account_get_bet_auto_inc_month ( account_number );
+
+    if ( ( value = gtk_toggle_button_get_active ( togglebutton ) ) != auto_inc_month )
     {
         gsb_data_account_set_bet_auto_inc_month ( account_number, value );
+
+        if ( value )
+        {
+            gsb_data_account_bet_update_initial_date_if_necessary ( account_number );
+            bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+        }
 
         if ( etat.modification_fichier == 0 )
             modification_fichier ( TRUE );
@@ -2485,6 +2527,7 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
                         -1);
 
+        bet_array_list_replace_planned_line_by_transfert ( tab_model, transfert );
         g_value_unset ( &date_value );
         g_free ( str_date );
         g_free ( str_description );
@@ -2505,6 +2548,108 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
  *
  *
  * */
+gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_model,
+                        struct_transfert_data *transfert )
+{
+    GtkTreeIter iter;
+
+    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( tab_model ), &iter ) )
+    {
+        GtkTreeIter *tmp_iter = NULL;
+        gchar* str_date;
+        GDate *date_debut_comparaison;
+        GDate *date_fin_comparaison;
+        GDate *date;
+        gint scheduled_number;
+        gint origine;
+
+        date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( transfert -> date ),
+                    g_date_get_month ( transfert -> date ),
+                    g_date_get_year ( transfert -> date ));
+        g_date_subtract_days ( date_debut_comparaison,
+                    valeur_echelle_recherche_date_import );
+
+        date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( transfert -> date ),
+                    g_date_get_month ( transfert -> date ),
+                    g_date_get_year ( transfert -> date ));
+        g_date_add_days ( date_fin_comparaison,
+                    valeur_echelle_recherche_date_import );
+
+        do
+        {
+            gtk_tree_model_get ( GTK_TREE_MODEL ( tab_model ),
+                        &iter,
+                        SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
+                        SPP_ESTIMATE_TREE_DIVISION_COLUMN, &scheduled_number,
+                        SPP_ESTIMATE_TREE_DATE_COLUMN, &str_date,
+                        -1 );
+
+            if ( origine != SPP_ORIGIN_SCHEDULED )
+                continue;
+
+            date = gsb_parse_date_string ( str_date );
+            if ( g_date_compare ( date, date_debut_comparaison ) < 0 )
+                continue;
+
+            if ( g_date_compare ( date, date_fin_comparaison ) > 0 )
+            {
+                if ( tmp_iter )
+                    gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), tmp_iter );
+                break;
+            }
+
+            if ( transfert -> category_number )
+            {
+                /* on cherche une opération par sa catégorie */
+                gint tmp_category_number;
+                gint tmp_sub_category_number;
+
+                tmp_category_number = gsb_data_scheduled_get_category_number ( scheduled_number );
+                if ( transfert -> sub_category_number )
+                    tmp_sub_category_number = gsb_data_scheduled_get_sub_category_number (
+                                                    scheduled_number );
+
+                if ( transfert -> category_number == tmp_category_number
+                 &&
+                    transfert -> sub_category_number == tmp_sub_category_number )
+                {
+                    if ( g_date_compare ( date, transfert -> date ) == 0 )
+                    {
+                        gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), &iter );
+                        break;
+                    }
+                    tmp_iter = gtk_tree_iter_copy ( &iter );
+                }
+            }
+            else if ( transfert -> budgetary_number )
+            {
+                /* on cherche une opération par son IB */
+                gint tmp_budget_number;
+                gint tmp_sub_budget_number;
+
+                tmp_budget_number = gsb_data_scheduled_get_budgetary_number ( scheduled_number );
+                if ( transfert -> sub_budgetary_number )
+                    tmp_sub_budget_number = gsb_data_scheduled_get_sub_budgetary_number (
+                                                    scheduled_number );
+
+                if ( transfert -> budgetary_number == tmp_budget_number
+                 &&
+                    transfert -> sub_budgetary_number == tmp_sub_budget_number )
+                {
+                    if ( g_date_compare ( date, transfert -> date ) == 0 )
+                    {
+                        gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), &iter );
+                        break;
+                    }
+                    tmp_iter = gtk_tree_iter_copy ( &iter );
+                }
+            }
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( tab_model ), &iter ) );
+    }
+
+    return FALSE;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

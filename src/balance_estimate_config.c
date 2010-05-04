@@ -526,7 +526,7 @@ void bet_config_duration_button_clicked ( GtkWidget *togglebutton,
     gpointer data;
     gint account_number;
     gint months;
-devel_debug (NULL);
+
     name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
     data = g_object_get_data ( G_OBJECT ( spin_button ), "bet_origin_signal");
 
@@ -534,10 +534,9 @@ devel_debug (NULL);
         account_number = bet_config_get_account ( );
     else
         account_number = gsb_gui_navigation_get_current_account ( );
-printf ("account_number = %d\n", account_number);
+
     if ( g_strcmp0 ( name, "Year" ) == 0 )
     {
-        printf ("param = 1\n");
         gsb_data_account_set_bet_spin_range ( account_number, 1 );
         gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( spin_button ), 1.0, 20.0 );
         months = gsb_data_account_get_bet_months ( account_number );
@@ -551,7 +550,6 @@ printf ("account_number = %d\n", account_number);
     }
     else
     {
-        printf ("param = 0\n");
         gsb_data_account_set_bet_spin_range ( account_number, 0 );
         gsb_data_account_set_bet_months ( account_number,
                         gtk_spin_button_get_value_as_int (
@@ -577,12 +575,12 @@ gboolean bet_config_duration_number_changed ( GtkWidget *spin_button,
 {
     gint account_number;
     gint months;
-devel_debug (NULL);
+
     if ( GPOINTER_TO_INT ( data ) == 0 )
         account_number = bet_config_get_account ( );
     else
         account_number = gsb_gui_navigation_get_current_account ( );
-printf ("account_number = %d\n", account_number);
+
     months = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ) );
     if ( gsb_data_account_get_bet_spin_range ( account_number ) == 1 )
         months *= 12;

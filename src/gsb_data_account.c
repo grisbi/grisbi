@@ -1393,7 +1393,7 @@ gboolean gsb_data_account_set_mini_balance_authorized_message ( gint account_num
  * 
  * \param account_number no of the account
  * 
- * \return last number of reconcile or 0 if the account doesn't exist
+ * \return currency or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_currency ( gint account_number )
 {
@@ -3145,7 +3145,15 @@ gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_nu
     g_date_add_months ( tmp_date, 1 );
 
     if ( g_date_compare ( date_jour, tmp_date ) >= 0 )
-        gsb_data_account_set_bet_start_date ( account_number, tmp_date );
+    {
+        if ( g_date_get_month ( date_jour ) == g_date_get_month ( tmp_date ) )
+            gsb_data_account_set_bet_start_date ( account_number, tmp_date );
+        else
+        {
+            g_date_set_day ( date_jour, g_date_get_day ( tmp_date ) );
+            gsb_data_account_set_bet_start_date ( account_number, date_jour );
+        }
+    }
 
     g_date_free ( tmp_date );
 

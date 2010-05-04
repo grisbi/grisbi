@@ -30,6 +30,7 @@
 /*START_INCLUDE*/
 #include "traitement_variables.h"
 #include "./balance_estimate_data.h"
+#include "./balance_estimate_future.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
@@ -388,6 +389,8 @@ void init_variables ( void )
 #ifdef ENABLE_BALANCE_ESTIMATE
     /* création de la liste des données à utiliser dans le tableau de résultats */
     bet_data_init_variables ( );
+    /* initialisation des boites de dialogues */
+    bet_future_initialise_dialog ( );
 #endif /* ENABLE_BALANCE_ESTIMATE */
     etat.bet_deb_period = 1;
 }

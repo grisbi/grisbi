@@ -1375,6 +1375,8 @@ gboolean bet_data_future_remove_line ( gint account_number, gint number )
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
+    bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+
     return FALSE;
 }
 
@@ -1597,6 +1599,8 @@ gboolean bet_data_transfert_remove_line ( gint account_number, gint number )
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
+
+    bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
 
     return FALSE;
 }
