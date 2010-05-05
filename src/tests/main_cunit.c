@@ -28,14 +28,10 @@
 /*                                                                               */
 /* *******************************************************************************/
 
-#if HAVE_CUNIT
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif
-
-#include <CUnit/Automated.h>
-#include <CUnit/Basic.h>
 
 #include "include.h"
 
@@ -60,6 +56,13 @@ gboolean gsb_grisbi_close( void )
 	return FALSE;
 }
 /* End of unnecessary things */
+
+
+#if HAVE_CUNIT
+
+#include <CUnit/Automated.h>
+#include <CUnit/Basic.h>
+
 
 
 int gsb_cunit_run_tests()
