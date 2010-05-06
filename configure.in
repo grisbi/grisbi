@@ -31,8 +31,6 @@ PKG_CHECK_MODULES(GTK, [gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 gmodule-2.0 >= 2.2])
 LDFLAGS="${LDFLAGS}"
 CFLAGS="${CFLAGS} ${GTK_CFLAGS}"
 
-AC_SUBST(GTK_LIBS)
-
 
 dnl
 dnl Check whether GLib modules are supported, to determine whether we
@@ -42,7 +40,7 @@ AC_MSG_CHECKING(whether GLib supports loadable modules)
 ac_save_CFLAGS="$CFLAGS"
 ac_save_LIBS="$LIBS"
 CFLAGS="$CFLAGS $GTK_CFLAGS"
-LIBS="$GLIB_LIBS $GTK_LIBS $LIBS"
+LIBS="$GTK_LIBS $LIBS"
 AC_TRY_RUN([
 #include <glib.h>
 #include <gmodule.h>
