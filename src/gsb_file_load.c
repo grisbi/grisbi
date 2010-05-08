@@ -1819,6 +1819,14 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "Bet_use_budget" ))
+    {
+        gsb_data_account_set_bet_use_budget ( account_number,
+                        utils_str_atoi ( attribute_values[i] ) );
+        i++;
+        continue;
+    }
+
     if ( !strcmp ( attribute_names[i], "Bet_start_date" ))
     {
         gsb_data_account_set_bet_start_date ( account_number,

@@ -50,7 +50,6 @@ src/gsb_currency.c
 src/gsb_currency_config.c
 src/gsb_currency_link_config.c
 src/gsb_data_account.c
-src/gsb_data_account_cunit.c
 src/gsb_data_archive.c
 src/gsb_data_archive_store.c
 src/gsb_data_bank.c
@@ -90,7 +89,6 @@ src/gsb_payment_method.c
 src/gsb_payment_method_config.c
 src/gsb_plugins.c
 src/gsb_real.c
-src/gsb_real_cunit.c
 src/gsb_reconcile.c
 src/gsb_reconcile_config.c
 src/gsb_reconcile_list.c
@@ -108,7 +106,6 @@ src/import.c
 src/import_csv.c
 src/imputation_budgetaire.c
 src/main.c
-src/main_cunit.c
 src/menu.c
 src/meta_budgetary.c
 src/meta_categories.c
@@ -135,7 +132,6 @@ src/transaction_model.c
 src/utils_buttons.c
 src/utils.c
 src/utils_dates.c
-src/utils_dates_cunit.c
 src/utils_editables.c
 src/utils_files.c
 src/utils_file_selection.c

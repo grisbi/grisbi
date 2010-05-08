@@ -1939,6 +1939,9 @@ gboolean bet_array_list_select_path ( GtkWidget *tree_view, const gchar *str_pat
 
     gtk_widget_grab_focus ( tree_view );
     gtk_tree_selection_select_path ( selection, path );
+    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ),
+				   path, NULL,
+				   FALSE, 0.0, 0.0 );
 
     gtk_tree_path_free ( path );
 
@@ -2479,6 +2482,9 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
 
         if ( account_number != transfert -> account_number )
             continue;
+
+        if ( transfert -> auto_inc_month )
+            bet_data_transfert_update_date_if_necessary ( transfert );
 
         if ( g_date_compare ( transfert -> date, date_max ) > 0 )
             continue;

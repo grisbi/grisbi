@@ -183,7 +183,22 @@ void bet_data_set_maj ( gint account_number, gint type_maj )
     if ( g_strcmp0 ( label, "forecast_page" ) == 0 )
         bet_array_update_estimate_tab ( account_number );
     else if ( g_strcmp0 ( label, "historical_page" ) == 0 )
-        bet_array_update_estimate_tab ( account_number );
+    {
+        GtkWidget * widget;
+        gchar *title;
+        kind_account kind;
+
+        kind = gsb_data_account_get_kind ( account_number );
+        title = g_strdup_printf (
+                        _("Please select the data source for the account: \"%s\""),
+                        gsb_data_account_get_name ( account_number ) );
+        widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( notebook ), "bet_hist_title") );
+        gtk_label_set_label ( GTK_LABEL ( widget ), title );
+        g_free ( title );
+
+        if ( kind != GSB_TYPE_CASH )
+            bet_array_update_estimate_tab ( account_number );
+    }
 }
 
 
@@ -1016,20 +1031,32 @@ void bet_data_select_bet_pages ( gint account_number )
     GtkWidget *page;
     kind_account kind;
     gint current_page;
+    gint bet_use_budget;
 
     notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
     kind = gsb_data_account_get_kind ( account_number );
     current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook ) );
+    bet_use_budget = gsb_data_account_get_bet_use_budget ( account_number );
+    if ( bet_use_budget <= 0 )
+        kind = GSB_TYPE_ASSET;
 
     switch ( kind )
     {
     case GSB_TYPE_BANK:
-    case GSB_TYPE_CASH:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 1 );
         gtk_widget_show ( page );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
         gtk_widget_show ( page );
         bet_data_set_maj ( account_number, BET_MAJ_ALL );
+        break;
+    case GSB_TYPE_CASH:
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 1 );
+        gtk_widget_hide ( page );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
+        gtk_widget_show ( page );
+        if ( current_page == 1 )
+            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 2 );
+        bet_data_set_maj ( account_number, BET_MAJ_HISTORICAL );
         break;
     case GSB_TYPE_LIABILITIES:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 1 );
@@ -1653,6 +1680,46 @@ gboolean bet_data_transfert_modify_line ( struct_transfert_data *transfert )
         modification_fichier ( TRUE );
 
     return TRUE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transfert )
+{
+    GDate *date_jour;
+    GDate *tmp_date;
+
+    date_jour = gdate_today ( );
+    tmp_date = gsb_date_copy ( transfert -> date );
+    g_date_add_months ( tmp_date, 1 );
+
+    if ( g_date_compare ( date_jour, tmp_date ) >= 0 )
+    {
+        if ( g_date_get_month ( date_jour ) == g_date_get_month ( tmp_date ) )
+        {
+            g_date_free ( transfert -> date );
+            g_date_free ( date_jour );
+            transfert -> date = tmp_date;
+        }
+        else
+        {
+            g_date_set_day ( date_jour, g_date_get_day ( tmp_date ) );
+            g_date_free ( transfert -> date );
+            g_date_free ( tmp_date );
+            transfert -> date =  date_jour;
+        }
+        bet_data_transfert_modify_line ( transfert );
+    }
+    else
+    {
+        g_date_free ( tmp_date );
+        g_date_free ( date_jour );
+    }
 }
 
 

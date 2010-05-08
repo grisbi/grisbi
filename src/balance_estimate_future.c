@@ -96,7 +96,7 @@ static gboolean bet_future_get_category_data ( GtkWidget *widget,
 static gboolean bet_future_set_form_data_from_line ( gint account_number,
                         gint number  );
 static gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled );
-static void bet_transfert_auto_inc_toggle ( GtkToggleButton *button, gpointer data );
+//~ static void bet_transfert_auto_inc_toggle ( GtkToggleButton *button, gpointer data );
 static GtkWidget *bet_transfert_create_account_list_part ( GtkWidget *dialog, gint account_number );
 static GtkWidget *bet_transfert_create_dialog ( gint account_number );
 static gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
@@ -1894,11 +1894,11 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
     button = gtk_check_button_new_with_label ( _("Monthly auto-increment") );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_auto_inc", button );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
-    g_signal_connect ( G_OBJECT ( button ),
-			            "toggled",
-			            G_CALLBACK ( bet_transfert_auto_inc_toggle ),
-			            NULL );
+    //~ gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+    //~ g_signal_connect ( G_OBJECT ( button ),
+			            //~ "toggled",
+			            //~ G_CALLBACK ( bet_transfert_auto_inc_toggle ),
+			            //~ NULL );
 
     /* check button replace planned line */
     button = gtk_check_button_new_with_label ( 
@@ -2457,13 +2457,13 @@ gboolean bet_transfert_set_form_data_from_line ( gint account_number, gint numbe
  *
  *
  * */
-void bet_transfert_auto_inc_toggle ( GtkToggleButton *button, gpointer data )
-{
+//~ void bet_transfert_auto_inc_toggle ( GtkToggleButton *button, gpointer data )
+//~ {
+    //~ gint account_number;
 
-
-
-
-}
+    //~ account_number = gsb_gui_navigation_get_current_account ( );
+    //~ bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+//~ }
 
 
 /**

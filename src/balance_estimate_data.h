@@ -139,6 +139,7 @@ GHashTable *bet_data_transfert_get_list ( void );
 gboolean bet_data_transfert_modify_line ( struct_transfert_data *transfert );
 gboolean bet_data_transfert_remove_line ( gint account_number, gint number );
 gboolean bet_data_transfert_set_line_from_file ( struct_transfert_data *transfert );
+void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transfert );
 void struct_free_bet_historical ( SH *sh );
 struct_futur_data *struct_initialise_bet_future ( void );
 SBR *struct_initialise_bet_range ( void );

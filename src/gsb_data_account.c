@@ -117,6 +117,7 @@ typedef struct
     gpointer 	form_organization;
 
     /** @name bet data */
+    gint bet_use_budget;            /* 1 = use the budget module */
     GDate *bet_start_date;              /* date de début */
     gint bet_spin_range;                /* echelle de la période 0 = mois 1 = années */
     gint bet_months;                    /* nombre de mois ou d'années */
@@ -3057,7 +3058,7 @@ gboolean gsb_data_account_set_bet_auto_inc_month ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	    return FALSE;
 
     account -> bet_auto_inc_month = auto_inc_month;
@@ -3156,8 +3157,60 @@ gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_nu
     }
 
     g_date_free ( tmp_date );
+    g_date_free ( date_jour );
 
     return FALSE;
+}
+
+
+/**
+ * retourne le bit utilisation du module budget. 
+ *
+ *  -1 pas de module possible 0 non utilisé 1 utilisé
+ * */
+gint gsb_data_account_get_bet_use_budget ( gint account_number )
+{
+    struct_account *account;
+    kind_account kind;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return 0;
+
+    kind = account -> account_kind;
+
+    switch ( kind )
+    {
+        case GSB_TYPE_BANK:
+        case GSB_TYPE_CASH:
+        case GSB_TYPE_LIABILITIES:
+            return account -> bet_use_budget;
+            break;
+        case GSB_TYPE_ASSET:
+            return -1;
+            break;
+        default:
+            return -1;
+            break;
+    }
+
+    return -1;
+}
+
+
+gboolean gsb_data_account_set_bet_use_budget ( gint account_number, gint value )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+	    return FALSE;
+
+    account -> bet_use_budget = value;
+
+    return TRUE;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */
