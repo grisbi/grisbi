@@ -226,8 +226,7 @@ gint gsb_data_account_new ( kind_account account_kind )
     last_number = gsb_data_account_max_number ();
     /* we have to append the account first because some functions later will
      * look for that account */
-    list_accounts = g_slist_append ( list_accounts,
-				     account );
+    list_accounts = g_slist_append ( list_accounts, account );
 
     /* set the base */
     account -> account_number = last_number + 1;

@@ -744,19 +744,22 @@ void gsb_data_payee_remove_transaction_from_payee ( gint transaction_number )
      * we work with empty_payee */
 
     if (!payee
-	&&
-	!gsb_data_transaction_get_split_of_transaction (transaction_number)
-	&& 
-	gsb_data_transaction_get_contra_transaction_number (transaction_number) == 0)
-	payee = empty_payee;
+            &&
+            !gsb_data_transaction_get_split_of_transaction (transaction_number)
+            && 
+            gsb_data_transaction_get_contra_transaction_number (transaction_number) == 0)
+        payee = empty_payee;
 
-	payee -> payee_nb_transactions --;
-	payee -> payee_balance = gsb_real_sub ( payee -> payee_balance,
-						gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-													payee_tree_currency (), -1));
+    if (payee)
+    {
+        payee -> payee_nb_transactions --;
+        payee -> payee_balance = gsb_real_sub ( payee -> payee_balance,
+                gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+                    payee_tree_currency (), -1));
 
-	if ( !payee -> payee_nb_transactions ) /* Cope with float errors */
-	    payee -> payee_balance = null_real;
+        if ( !payee -> payee_nb_transactions ) /* Cope with float errors */
+            payee -> payee_balance = null_real;
+    }
 }
 
 
