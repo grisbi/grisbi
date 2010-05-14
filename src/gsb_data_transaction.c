@@ -2202,6 +2202,8 @@ static void gsb_data_transaction_free ( struct_transaction *transaction)
         g_free ( transaction -> notes );
     if ( transaction -> voucher )
         g_free ( transaction -> voucher );
+    if ( transaction -> bank_references )
+        g_free ( transaction -> bank_references );
     if ( transaction -> date )
         g_date_free ( transaction -> date );
     if ( transaction -> value_date )

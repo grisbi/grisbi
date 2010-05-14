@@ -109,13 +109,13 @@ void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balan
     CU_ASSERT_EQUAL(210000002, balance.mantissa);
     CU_ASSERT_EQUAL(1, balance.exponent);
 
-    g_date_free(date);
     /*
     gsb_data_transaction_remove_transaction( tr_number_3 );
     gsb_data_transaction_remove_transaction( tr_number_2 );
     gsb_data_transaction_remove_transaction( tr_number_1 );
     */
     gsb_data_account_delete( account_number );
+    g_date_free(date);
 }
 
 CU_pSuite gsb_data_account_cunit_create_suite()
