@@ -34,7 +34,6 @@
 #define END_INCLUDE
 
 #define START_STATIC
-static void change_button_sensitiveness ( GtkWidget * dialog, gint button, gboolean state );
 static gchar * format_tip ( gchar * tip );
 static gchar * get_next_tip ();
 #define END_STATIC
@@ -61,6 +60,7 @@ void display_tip ( gboolean force )
 {
     GtkWidget * checkbox;
     GtkWidget * dialog = NULL;
+    GtkWidget *btn_back, *btn_forward, *btn_close;
     gchar * tip;
     gchar *tmpstr;
 
@@ -87,27 +87,25 @@ void display_tip ( gboolean force )
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), checkbox, FALSE, FALSE, 6 );
     gtk_widget_show ( checkbox );
 
-    gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-                        GTK_STOCK_GO_BACK, 1,
-                        GTK_STOCK_GO_FORWARD, 2,
-                        GTK_STOCK_CLOSE, 3,
-                        NULL );
+    btn_back =    gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_GO_BACK, 1);
+    btn_forward = gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_GO_FORWARD, 2);
+    btn_close =   gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_CLOSE, 3);
  
     //~ gtk_widget_set_size_request ( dialog, 450, -1 );
     /* We iterate as user can select several tips. */
     while ( TRUE )
     {
     if ( max == etat.last_tip )
-        change_button_sensitiveness ( dialog, 1, FALSE );
+        gtk_widget_set_sensitive (btn_forward, FALSE);
     if ( etat.last_tip == 1 )
-        change_button_sensitiveness ( dialog, 0, FALSE );
+        gtk_widget_set_sensitive (btn_back, FALSE);
 
     switch ( gtk_dialog_run ( GTK_DIALOG(dialog) ) )
     {
         case 1:
         if ( etat.last_tip > 1 )
             etat.last_tip --;
-        change_button_sensitiveness ( dialog, 1, TRUE ); 
+        gtk_widget_set_sensitive (btn_forward, TRUE); 
         tmpstr = g_strconcat ( make_pango_attribut (
                         "size=\"larger\" weight=\"bold\"", _("Did you know that...") ),
                         "\n\n",
@@ -130,7 +128,7 @@ void display_tip ( gboolean force )
         gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ),
                         tmpstr );
         g_free ( tmpstr );
-        change_button_sensitiveness ( dialog, 0, TRUE );
+        gtk_widget_set_sensitive (btn_back, TRUE);
         break;
 
         default:
@@ -241,34 +239,6 @@ gchar * format_tip ( gchar * tip )
 }
 
 
-
-/**
- * Change sensitiveness of a one of the buttons of the dialog widget.
- *
- * \param dialog	Dialog widget that contains buttons.
- * \param button	Number of the button to change.
- * \param state		Sensitiveness to apply to the button.
- */
-void change_button_sensitiveness ( GtkWidget * dialog, gint button, gboolean state )
-{
-  GSList * iter;
-
-  if ( ! dialog )
-    return;
-
-  iter = (GSList *) gtk_container_get_children ( GTK_CONTAINER ( GTK_DIALOG(dialog) -> action_area) );
-
-  while ( iter )
-    {
-      if ( button == 2 )
-	{
-	  gtk_widget_set_sensitive ( GTK_WIDGET (iter -> data), state );
-	}
-      
-      button ++;
-      iter = iter -> next;
-    }
-}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
