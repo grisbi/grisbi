@@ -580,7 +580,7 @@ gint question_conditional_yes_no_get_no_struct ( struct conditional_message *msg
  *
  * \return a pango formated string with the two arguments concatenated. It returns a newly allocated string which must be freed when no more used.
  */
-gchar *make_hint ( gchar *hint, gchar *text )
+gchar *make_hint ( const gchar *hint, const gchar *text )
 {
     gchar *tmp_str;
 
