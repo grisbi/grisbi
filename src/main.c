@@ -139,9 +139,6 @@ int main (int argc, char **argv)
     win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
 #endif
 
-    bindtextdomain ("grisbi-tips", LOCALEDIR);
-    bind_textdomain_codeset ("grisbi-tips", "UTF-8");
-
     bindtextdomain (PACKAGE, LOCALEDIR);
     bind_textdomain_codeset (PACKAGE, "UTF-8");
     textdomain (PACKAGE);

@@ -49,10 +49,6 @@ extern GtkWidget *window;
 /** All messages */
 struct conditional_message messages[] =
 {
-    { "no-tip-available", N_("No tip of the day available"), 
-      N_("Make sure that grisbi was correctly installed and that tips file is readable."),
-      FALSE, FALSE, },
-
     { "ofx-security-not-implemented", N_("Security feature not implemented"),
       N_("This file contains security information, which processing is not implemented at "
       "this moment."),

@@ -1349,7 +1349,7 @@ void gsb_file_config_clean_config ( void )
     etat.largeur_auto_colonnes = 0;
     etat.retient_affichage_par_compte = 0;
 
-    etat.last_tip = 0;
+    etat.last_tip = -1;
     etat.show_tip = FALSE;
 
     /* Commands */
