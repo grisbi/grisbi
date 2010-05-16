@@ -287,7 +287,6 @@ help/C/Makefile
 help/de/Makefile
 help/en/Makefile
 help/fr/Makefile
-help/tips/Makefile
 pixmaps/Makefile
 pixmaps/flags/Makefile
 po/Makefile.in
