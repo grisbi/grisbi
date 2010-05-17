@@ -795,6 +795,8 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
     /* show the popup */
     if ( combofix -> visible_items && strlen ( entry_string )
      &&
+     completed_string
+     &&
      (!combofix -> max_items
      ||
      combofix -> visible_items < combofix -> max_items))
