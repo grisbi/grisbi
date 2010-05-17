@@ -582,11 +582,15 @@ gint question_conditional_yes_no_get_no_struct ( struct conditional_message *msg
  */
 gchar *make_hint ( const gchar *hint, const gchar *text )
 {
-    gchar *tmp_str;
+    gchar *tmp_str, *tmp_markup_str;
 
-    tmp_str = g_strconcat ( g_markup_printf_escaped (
-                        "<span size=\"larger\" weight=\"bold\">%s</span>\n\n", hint ),
-                        text, NULL );
+    tmp_markup_str = g_markup_printf_escaped (
+                     "<span size=\"larger\" weight=\"bold\">%s</span>\n\n", hint );
+
+    tmp_str = g_strconcat ( tmp_markup_str, text, NULL );
+
+    g_free ( tmp_markup_str );
+
     return tmp_str;
 }
 
