@@ -46,6 +46,7 @@ gchar *gsb_data_account_get_bank_branch_code ( gint account_number );
 gboolean gsb_data_account_get_bet_auto_inc_month ( gint account_number );
 gint gsb_data_account_get_bet_hist_data ( gint account_number );
 gint gsb_data_account_get_bet_hist_fyear ( gint account_number );
+gint gsb_data_account_get_bet_maj ( gint account_number );
 gint gsb_data_account_get_bet_months ( gint account_number );
 gint gsb_data_account_get_bet_select_label ( gint account_number, gint origine );
 gint gsb_data_account_get_bet_spin_range ( gint account_number );
@@ -107,6 +108,7 @@ gboolean gsb_data_account_set_bet_auto_inc_month ( gint account_number,
                         gboolean auto_inc_month );
 gboolean gsb_data_account_set_bet_hist_data ( gint account_number, gint hist_data );
 gboolean gsb_data_account_set_bet_hist_fyear ( gint account_number, gint hist_fyear );
+gboolean gsb_data_account_set_bet_maj ( gint account_number, gint type_maj );
 gboolean gsb_data_account_set_bet_months ( gint account_number, gint months );
 gboolean gsb_data_account_set_bet_select_label ( gint account_number,
                         gint origine,

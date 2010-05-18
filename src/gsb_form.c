@@ -2639,10 +2639,8 @@ gboolean gsb_form_finish_edition ( void )
     /* as we modify or create a transaction, we invalidate the current report */
     gsb_report_set_current ( 0 );
 
-#ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
-    bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
-#endif /* ENABLE_BALANCE_ESTIMATE */
+    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );

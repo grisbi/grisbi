@@ -2431,10 +2431,8 @@ gboolean clone_selected_transaction ( GtkWidget *menu_item,
 
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
-#ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
-    bet_data_set_maj ( gsb_gui_navigation_get_current_account ( ), BET_MAJ_ESTIMATE );
-#endif /* ENABLE_BALANCE_ESTIMATE */
+    gsb_data_account_set_bet_maj ( gsb_gui_navigation_get_current_account ( ), BET_MAJ_ALL );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
@@ -2471,10 +2469,8 @@ static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
 			    "transaction_selected_in_form",
 			    GINT_TO_POINTER ( -1 ) );
 
-#ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
-    bet_data_set_maj ( gsb_gui_navigation_get_current_account ( ), BET_MAJ_ESTIMATE );
-#endif /* ENABLE_BALANCE_ESTIMATE */
+    gsb_data_account_set_bet_maj ( gsb_gui_navigation_get_current_account ( ), BET_MAJ_ALL );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );

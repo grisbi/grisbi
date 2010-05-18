@@ -136,10 +136,8 @@ gboolean gsb_account_new ( kind_account account_type,
         gsb_gui_navigation_add_account ( account_number, TRUE );
 
         /* Go to accounts properties */
-        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ),
-                    GSB_ACCOUNT_PAGE );
-        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ),
-                        gsb_gui_on_account_get_property_page ( GTK_NOTEBOOK ( account_page ) ) );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), GSB_ACCOUNT_PAGE );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_PROPERTIES_PAGE );
 
         gsb_account_property_fill_page ();
     }

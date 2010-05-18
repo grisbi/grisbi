@@ -100,6 +100,7 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 
 
 /*START_EXTERN*/
+extern GtkWidget *account_page;
 extern gchar *initial_holder_title;
 extern GtkWidget *label_last_statement;
 extern GtkWidget *menu_import_rules;
@@ -1096,7 +1097,6 @@ void gsb_gui_navigation_remove_account ( gint account_number )
 gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
                         GtkTreeModel *model )
 {
-    GtkWidget * account_notebook;
     gint account_number, page_number;
     gint report_number;
     gchar * title = NULL;
@@ -1160,10 +1160,9 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gsb_menu_update_view_menu ( account_number );
 
 	    /* set the form */
-	    account_notebook = g_object_get_data ( G_OBJECT (notebook_general), "account_notebook" );
-        gsb_gui_on_account_switch_page ( GTK_NOTEBOOK ( account_notebook ),
+        gsb_gui_on_account_switch_page ( GTK_NOTEBOOK ( account_page ),
                         NULL,
-                        gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_notebook ) ),
+                        gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) ),
                         NULL );
 	    gsb_form_show ( FALSE );
 

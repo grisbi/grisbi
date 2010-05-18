@@ -31,6 +31,7 @@
 /*START_INCLUDE*/
 #include "balance_estimate_future.h"
 #include "./balance_estimate_data.h"
+#include "./balance_estimate_tab.h"
 #include "./dialog.h"
 #include "./utils_dates.h"
 #include "./gsb_calendar_entry.h"
@@ -234,7 +235,8 @@ dialog_return:
         else
             bet_data_future_add_lines ( scheduled );
 
-        bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+        bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
     }
 
     gtk_widget_hide ( bet_futur_dialog );
@@ -1720,7 +1722,7 @@ dialog_return:
             bet_data_future_modify_lines ( scheduled );
         }
 
-        bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
     }
 
     gtk_widget_hide ( bet_futur_dialog );
@@ -1813,7 +1815,8 @@ dialog_return:
         else
             bet_data_transfert_add_line ( transfert );
 
-        bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+        bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
     }
 
     gtk_widget_hide ( bet_transfert_dialog );
@@ -2362,7 +2365,8 @@ dialog_return:
             bet_data_transfert_modify_line ( transfert );
         }
 
-        bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+        bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
     }
 
     gtk_widget_hide ( bet_transfert_dialog );
@@ -2457,13 +2461,14 @@ gboolean bet_transfert_set_form_data_from_line ( gint account_number, gint numbe
  *
  *
  * */
-//~ void bet_transfert_auto_inc_toggle ( GtkToggleButton *button, gpointer data )
-//~ {
-    //~ gint account_number;
+/*void bet_transfert_auto_inc_toggle ( GtkToggleButton *button, gpointer data )
+{
+    gint account_number;
 
-    //~ account_number = gsb_gui_navigation_get_current_account ( );
-    //~ bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
-//~ }
+    account_number = gsb_gui_navigation_get_current_account ( );
+    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+    bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
+}*/
 
 
 /**

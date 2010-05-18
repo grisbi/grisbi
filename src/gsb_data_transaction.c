@@ -2314,10 +2314,8 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 
     gsb_data_transaction_free (transaction);
 
-#ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
-    bet_data_set_maj ( transaction -> account_number, BET_MAJ_ESTIMATE );
-#endif /* ENABLE_BALANCE_ESTIMATE */
+    gsb_data_account_set_bet_maj ( transaction -> account_number, BET_MAJ_ALL );
 
     return TRUE;
 }

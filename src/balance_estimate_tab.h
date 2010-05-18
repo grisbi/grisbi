@@ -32,7 +32,7 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
                         GtkTreeIter *iter,
                         GDate *date_min,
                         GDate *date_max );
-void bet_array_update_estimate_tab ( gint account_number );
+void bet_array_update_estimate_tab ( gint account_number, gint type_maj );
 /* END_DECLARATION */
 
 #endif /*_BALANCE_ESTIMATE_TAB_H*/

@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "balance_estimate_data.h"
+#include "./balance_estimate_hist.h"
 #include "./balance_estimate_tab.h"
 #include "./dialog.h"
 #include "./gsb_data_account.h"
@@ -65,6 +66,7 @@ static SH *struct_initialise_bet_historical ( void );
 
 
 /*START_EXTERN*/
+extern GtkWidget *account_page;
 extern GtkWidget *notebook_general;
 extern gsb_real null_real;
 /*END_EXTERN*/
@@ -87,8 +89,121 @@ static gint future_number;
 static GHashTable *bet_transfert_list;
 static gint transfert_number;
 
-/* force la mise à jour des données */
-static gint bet_maj = FALSE;
+
+/**
+ * Sélectionne les onglets du module gestion budgétaire en fonction du type de compte
+ *
+ */
+void bet_data_select_bet_pages ( gint account_number )
+{
+    GtkWidget *page;
+    kind_account kind;
+    gint current_page;
+    gint bet_use_budget;
+
+    devel_debug_int ( account_number );
+
+    kind = gsb_data_account_get_kind ( account_number );
+    current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) );
+    bet_use_budget = gsb_data_account_get_bet_use_budget ( account_number );
+    if ( bet_use_budget <= 0 )
+        kind = GSB_TYPE_ASSET;
+
+    switch ( kind )
+    {
+    case GSB_TYPE_BANK:
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
+        gtk_widget_show ( page );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
+        gtk_widget_show ( page );
+        bet_historical_g_signal_unblock_tree_view ( );
+        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
+        if ( current_page < GSB_PROPERTIES_PAGE 
+         && 
+         gsb_data_account_get_bet_use_budget ( account_number ) == FALSE )
+            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_TRANSACTIONS_PAGE );
+        break;
+    case GSB_TYPE_CASH:
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
+        gtk_widget_hide ( page );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
+        gtk_widget_show ( page );
+        if ( current_page == GSB_ESTIMATE_PAGE )
+            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
+        bet_historical_g_signal_block_tree_view ( );
+        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_HISTORICAL );
+        break;
+    case GSB_TYPE_LIABILITIES:
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
+        gtk_widget_show ( page );
+        if ( current_page == GSB_HISTORICAL_PAGE )
+            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
+        gtk_widget_hide ( page );
+        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+        break;
+    case GSB_TYPE_ASSET:
+        if ( current_page < GSB_PROPERTIES_PAGE )
+            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_TRANSACTIONS_PAGE );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
+        gtk_widget_hide ( page );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
+        gtk_widget_hide ( page );
+        break;
+    }
+}
+
+
+/*
+ * Met à jour les données à afficher dans les différentes vues du module
+ *
+ * 
+ */
+void bet_data_update_bet_module ( gint account_number, guint page )
+{
+    gint type_maj;
+    kind_account kind;
+
+    devel_debug_int ( account_number );
+
+    /* test account number */
+    if ( account_number == -1 )
+        return;
+
+    type_maj = gsb_data_account_get_bet_maj ( account_number );
+    if ( type_maj == BET_MAJ_FALSE )
+        return;
+
+    kind = gsb_data_account_get_kind ( account_number );
+
+    printf ("account_number = %d kind = %d page = %d type_maj = %d\n",
+                        account_number, kind, page, type_maj );
+
+    if ( page == -1 && gsb_gui_navigation_get_current_page ( ) == GSB_ACCOUNT_PAGE )
+        page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) );
+
+    switch ( page )
+    {
+        case GSB_ESTIMATE_PAGE:
+            bet_array_update_estimate_tab ( account_number, type_maj );
+            gsb_data_account_set_bet_maj ( account_number, BET_MAJ_FALSE );
+            break;
+        case GSB_HISTORICAL_PAGE:
+            if ( type_maj == BET_MAJ_ALL )
+            {
+                bet_historical_populate_data ( account_number );
+                gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+            }
+            else if ( type_maj ==  BET_MAJ_HISTORICAL )
+            {
+                bet_historical_populate_data ( account_number );
+                gsb_data_account_set_bet_maj ( account_number, BET_MAJ_FALSE );
+            }
+            break;
+        default:
+            break;
+    }
+}
 
 
 /**
@@ -117,88 +232,6 @@ gboolean bet_data_init_variables ( void )
     transfert_number = 0;
 
     return FALSE;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-gint bet_data_get_maj ( void )
-{
-    return bet_maj;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-void bet_data_set_maj ( gint account_number, gint type_maj )
-{
-    GtkWidget *notebook;
-    GtkWidget *child;
-    const gchar *label;
-
-	//~ devel_debug_int (account_number);
-    if ( type_maj != bet_maj )
-    {
-        switch ( type_maj )
-        {
-            case BET_MAJ_FALSE:
-                bet_maj = type_maj;
-                return;
-            break;
-            case BET_MAJ_ESTIMATE:
-                if ( bet_maj == BET_MAJ_FALSE )
-                    bet_maj = type_maj;
-                else if ( bet_maj == BET_MAJ_HISTORICAL )
-                    bet_maj = BET_MAJ_ALL;
-            break;
-            case BET_MAJ_HISTORICAL:
-                if ( bet_maj == BET_MAJ_FALSE )
-                    bet_maj = type_maj;
-                else if ( bet_maj == BET_MAJ_ESTIMATE )
-                    bet_maj = BET_MAJ_ALL;
-            break;
-            case BET_MAJ_ALL:
-                bet_maj = type_maj;
-            break;
-        }
-
-        if ( account_number == -1
-         || account_number != gsb_gui_navigation_get_current_account ( ) )
-            return;
-    }
-
-    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
-    child = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ),
-                        gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook ) ) );
-    label = gtk_widget_get_name ( child );
-
-    if ( g_strcmp0 ( label, "forecast_page" ) == 0 )
-        bet_array_update_estimate_tab ( account_number );
-    else if ( g_strcmp0 ( label, "historical_page" ) == 0 )
-    {
-        GtkWidget * widget;
-        gchar *title;
-        kind_account kind;
-
-        kind = gsb_data_account_get_kind ( account_number );
-        title = g_strdup_printf (
-                        _("Please select the data source for the account: \"%s\""),
-                        gsb_data_account_get_name ( account_number ) );
-        widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( notebook ), "bet_hist_title") );
-        gtk_label_set_label ( GTK_LABEL ( widget ), title );
-        g_free ( title );
-
-        if ( kind != GSB_TYPE_CASH )
-            bet_array_update_estimate_tab ( account_number );
-    }
 }
 
 
@@ -1022,64 +1055,6 @@ void struct_free_hist_div ( struct_hist_div *shd )
 }
 
 /**
- * Sélectionne les onglets du module gestion budgétaire en fonction du type de compte
- *
- */
-void bet_data_select_bet_pages ( gint account_number )
-{
-    GtkWidget *notebook;
-    GtkWidget *page;
-    kind_account kind;
-    gint current_page;
-    gint bet_use_budget;
-
-    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
-    kind = gsb_data_account_get_kind ( account_number );
-    current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook ) );
-    bet_use_budget = gsb_data_account_get_bet_use_budget ( account_number );
-    if ( bet_use_budget <= 0 )
-        kind = GSB_TYPE_ASSET;
-
-    switch ( kind )
-    {
-    case GSB_TYPE_BANK:
-        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 1 );
-        gtk_widget_show ( page );
-        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
-        gtk_widget_show ( page );
-        bet_data_set_maj ( account_number, BET_MAJ_ALL );
-        break;
-    case GSB_TYPE_CASH:
-        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 1 );
-        gtk_widget_hide ( page );
-        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
-        gtk_widget_show ( page );
-        if ( current_page == 1 )
-            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 2 );
-        bet_data_set_maj ( account_number, BET_MAJ_HISTORICAL );
-        break;
-    case GSB_TYPE_LIABILITIES:
-        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 1 );
-        gtk_widget_show ( page );
-        if ( current_page == 2 )
-            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 1 );
-        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
-        gtk_widget_hide ( page );
-        bet_data_set_maj ( account_number, BET_MAJ_ALL );
-        break;
-    case GSB_TYPE_ASSET:
-        if ( current_page < 2 )
-            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 0 );
-        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 1 );
-        gtk_widget_hide ( page );
-        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook ), 2 );
-        gtk_widget_hide ( page );
-        break;
-    }
-}
-
-
-/**
  *
  *
  *
@@ -1374,7 +1349,7 @@ struct_futur_data *bet_data_future_copy_struct ( struct_futur_data *scheduled )
     return new_sch;
 }
 /**
- *
+ * supprime l'occurence sélectionnée.
  *
  *
  *
@@ -1402,14 +1377,15 @@ gboolean bet_data_future_remove_line ( gint account_number, gint number )
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
-    bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+    bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
 
     return FALSE;
 }
 
 
 /**
- *
+ * supprime touts les occurences de la ligne sélectionnée
  *
  *
  *
@@ -1627,7 +1603,8 @@ gboolean bet_data_transfert_remove_line ( gint account_number, gint number )
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
-    bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+    bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
 
     return FALSE;
 }
@@ -1720,6 +1697,91 @@ void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transf
         g_date_free ( tmp_date );
         g_date_free ( date_jour );
     }
+}
+
+
+/**
+ * supprime toutes les données du module pour le compte passé en paramètre.
+ *
+ *
+ *
+ * */
+gboolean bet_data_remove_all_bet_data ( gint account_number )
+{
+    GHashTable *tmp_list;
+    GHashTableIter iter;
+    gpointer key, value;
+
+    tmp_list = bet_hist_div_list;
+
+    g_hash_table_iter_init ( &iter, tmp_list );
+    while ( g_hash_table_iter_next ( &iter, &key, &value ) )
+    {
+        struct_hist_div *shd = ( struct_hist_div *) value;
+
+        if ( account_number != shd -> account_nb )
+            continue;
+
+        if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
+        {
+            g_hash_table_iter_remove ( &iter );
+            g_hash_table_iter_init ( &iter, tmp_list );
+        }
+        else
+        {
+            GHashTableIter new_iter;
+
+            g_hash_table_iter_init ( &new_iter, shd -> sub_div_list );
+            while ( g_hash_table_iter_next ( &new_iter, &key, &value ) )
+            {
+                g_hash_table_iter_remove ( &new_iter );
+                g_hash_table_iter_init ( &new_iter, shd -> sub_div_list );
+
+                if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
+                    break;
+            }
+        }
+
+        if ( g_hash_table_size ( tmp_list ) == 0 )
+            break;
+    }
+
+    tmp_list = bet_future_list;
+
+    g_hash_table_iter_init ( &iter, tmp_list );
+    while ( g_hash_table_iter_next ( &iter, &key, &value ) )
+    {
+        struct_futur_data *scheduled = ( struct_futur_data *) value;
+
+        if ( account_number != scheduled -> account_number )
+            continue;
+
+        bet_data_future_remove_lines ( account_number, scheduled -> number,
+                        scheduled -> mother_row );
+        g_hash_table_iter_init ( &iter, tmp_list );
+
+        if ( g_hash_table_size ( tmp_list ) == 0 )
+            break;
+    }
+
+     tmp_list = bet_transfert_list;
+
+    g_hash_table_iter_init ( &iter, tmp_list );
+    while ( g_hash_table_iter_next ( &iter, &key, &value ) )
+    {
+        struct_transfert_data *transfert = ( struct_transfert_data *) value;
+
+        if ( account_number != transfert -> account_number )
+            continue;
+
+        g_hash_table_iter_remove ( &iter );
+        g_hash_table_iter_init ( &iter, tmp_list );
+
+        if ( g_hash_table_size ( tmp_list ) == 0 )
+            return TRUE;
+    }
+   
+    return TRUE;
 }
 
 

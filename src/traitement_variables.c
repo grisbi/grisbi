@@ -389,7 +389,7 @@ void init_variables ( void )
 #ifdef ENABLE_BALANCE_ESTIMATE
     /* création de la liste des données à utiliser dans le tableau de résultats */
     bet_data_init_variables ( );
-    /* initialisation des boites de dialogues */
+    /* initialisation des boites de dialogue */
     bet_future_initialise_dialog ( );
 #endif /* ENABLE_BALANCE_ESTIMATE */
     etat.bet_deb_period = 1;

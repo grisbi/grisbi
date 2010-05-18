@@ -36,7 +36,8 @@
  * la partie configurée par la conf
  * la partie configurée pendant le fonctionnement de grisbi
  * */
-struct {
+struct
+{
     time_t modification_fichier;
     gint is_archive;                /** TRUE if the file is an archive, FALSE else */
     gint equilibrage;
@@ -122,7 +123,8 @@ struct {
  * configured by the file grisbi.conf
  *
  */
-struct {
+struct
+{
 
     /* geometry */
     gint root_x;                                    /* main_window x position */
@@ -180,18 +182,32 @@ struct struct_payee_asso
     gchar   *search_str;
 };
 
-enum alignement {
+enum alignement
+{
     LEFT, CENTER, RIGHT,
 };
 
 
-enum bet_array_origin_data {
+enum bet_array_origin_data
+{
     SPP_ORIGIN_TRANSACTION,
     SPP_ORIGIN_SCHEDULED,
     SPP_ORIGIN_HISTORICAL,
     SPP_ORIGIN_FUTURE,
-    SPP_ORIGIN_ACCOUNT
+    SPP_ORIGIN_ACCOUNT,
+    SPP_ORIGIN_ARRAY,
+    SPP_ORIGIN_CONFIG
 };
+
+enum bet_type_maj 
+{
+    BET_MAJ_FALSE = 0,
+    BET_MAJ_ESTIMATE,
+    BET_MAJ_HISTORICAL,
+    BET_MAJ_FINANCIAL,
+    BET_MAJ_ALL,
+};
+
 
 
 #endif

@@ -138,9 +138,11 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
                         GtkTreePath *path,
                         GtkTreeIter *iter,
                         gpointer data );
+static GtkWidget *bet_array_create_tree_view ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkWidget *account_page;
 extern gchar* bet_duration_array[];
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
@@ -149,6 +151,7 @@ extern GdkColor couleur_fond[2];
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern GtkWidget *notebook_general;
 extern gsb_real null_real;
+extern const gdouble prev_month_max;
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
@@ -166,28 +169,19 @@ enum bet_estimation_tree_columns {
     SPP_ESTIMATE_TREE_AMOUNT_COLUMN,    /* the amount without currency */
     SPP_ESTIMATE_TREE_BALANCE_COLOR,
     SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-    SPP_ESTIMATE_TREE_NUM_COLUMNS
+    SPP_ESTIMATE_TREE_NUM_COLUMNS,
 };
 
 
 /*
- * 
+ * Met à jour les données à afficher dans les différentes vues du module
  *
  * 
  */
-void bet_array_update_estimate_tab ( gint account_number )
+void bet_array_update_estimate_tab ( gint account_number, gint type_maj )
 {
-    gint type_maj;
-
     devel_debug_int ( account_number );
     /* test account number */
-    if ( account_number == -1 )
-        return;
-
-    type_maj = bet_data_get_maj ( );
-
-    if ( type_maj == BET_MAJ_FALSE )
-        return;
 
     bet_array_initializes_account_settings ( account_number );
     switch ( type_maj )
@@ -203,7 +197,6 @@ void bet_array_update_estimate_tab ( gint account_number )
             bet_array_refresh_estimate_tab ( account_number );
         break;
     }
-    bet_data_set_maj ( -1, BET_MAJ_FALSE );
 }
 
 
@@ -358,7 +351,6 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
  */
 void bet_array_refresh_estimate_tab ( gint account_number )
 {
-    GtkWidget *notebook;
     GtkWidget *widget;
     GtkWidget *tree_view;
     GtkTreeIter iter;
@@ -377,8 +369,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     SBR *tmp_range;
     GValue date_value = {0, };
 
-    //~ devel_debug (NULL);
-    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
+    devel_debug (NULL);
     tmp_range = struct_initialise_bet_range ( );
 
     /* calculate date_min and date_max with user choice */
@@ -386,7 +377,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     
     date_max = bet_data_array_get_date_max ( account_number );
 
-    widget = g_object_get_data ( G_OBJECT ( notebook ), "bet_initial_date");
+    widget = g_object_get_data ( G_OBJECT ( account_page ), "bet_initial_date");
     gsb_calendar_entry_set_date ( widget, date_min );
 
     str_date_min = gsb_format_gdate ( date_min );
@@ -421,19 +412,12 @@ void bet_array_refresh_estimate_tab ( gint account_number )
                         gsb_data_account_get_name ( account_number ),
                         str_date_min, str_date_max );
 
-    widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( notebook ), "bet_array_title") );
-    gtk_label_set_label ( GTK_LABEL ( widget ), title );
-    g_free ( title );
-
-    title = g_strdup_printf (
-                        _("Please select the data source for the account: \"%s\""),
-                        gsb_data_account_get_name ( account_number ) );
-    widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( notebook ), "bet_hist_title") );
+    widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( account_page ), "bet_array_title") );
     gtk_label_set_label ( GTK_LABEL ( widget ), title );
     g_free ( title );
 
     /* clear the model */
-    tree_view = g_object_get_data ( G_OBJECT ( notebook ), "bet_estimate_treeview" );
+    tree_view = g_object_get_data ( G_OBJECT ( account_page ), "bet_estimate_treeview" );
     tree_model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_store_clear ( GTK_TREE_STORE ( tree_model ) );
 
@@ -503,25 +487,15 @@ void bet_array_refresh_estimate_tab ( gint account_number )
  * */
 GtkWidget *bet_array_create_page ( void )
 {
-    GtkWidget *notebook;
     GtkWidget *page;
     GtkWidget *widget = NULL;
     GtkWidget *initial_date = NULL;
     GtkWidget *hbox;
     GtkWidget *align;
     GtkWidget *label;
-    GtkWidget *spin_button = NULL;
-    GtkWidget *previous = NULL;
-    GtkWidget *scrolled_window;
     GtkWidget *tree_view;
-    GtkTreeStore *tree_model;
-    GtkTreeModel *sortable;
-    GtkCellRenderer *cell;
-    GtkTreeViewColumn *column;
-    gint iduration;
 
     devel_debug (NULL);
-    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook");
     page = gtk_vbox_new ( FALSE, 5 );
     gtk_widget_set_name ( page, "forecast_page" );
 
@@ -531,55 +505,14 @@ GtkWidget *bet_array_create_page ( void )
 
     label = gtk_label_new ("Estimate array");
     gtk_container_add ( GTK_CONTAINER ( align ), label );
-    g_object_set_data ( G_OBJECT ( notebook ), "bet_array_title", label );
+    g_object_set_data ( G_OBJECT ( account_page ), "bet_array_title", label );
 
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    /* set the duration widget */
+    hbox = bet_config_get_duration_widget ( SPP_ORIGIN_ARRAY );
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
-
-    label = gtk_label_new ( _("Duration estimation") );
-    gtk_misc_set_padding ( GTK_MISC (label), 5, 0 );
-    gtk_box_pack_start( GTK_BOX ( hbox ), label, FALSE, FALSE, 5);
-
-    spin_button = gtk_spin_button_new_with_range ( 1.0, 240.0, 1.0);
-
-    gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button, FALSE, FALSE, 5 );
-
-    for (iduration = 0; bet_duration_array[iduration] != NULL; iduration++)
-    {
-        if (previous == NULL)
-        {
-            widget = gtk_radio_button_new_with_label ( NULL,
-                        _(bet_duration_array[iduration]) );
-            previous = widget;
-        }  
-        else 
-        {
-            widget = gtk_radio_button_new_with_label_from_widget (
-                        GTK_RADIO_BUTTON ( previous ),
-                        _(bet_duration_array[iduration]) );
-        }
-        gtk_widget_set_name ( widget, bet_duration_array[iduration] );
-        gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5 );
-        g_signal_connect (G_OBJECT ( widget ),
-                        "released",
-                        G_CALLBACK ( bet_config_duration_button_clicked ),
-                        spin_button );
-    }
-
-    g_object_set_data ( G_OBJECT ( spin_button ), "bet_origin_signal", GINT_TO_POINTER ( 1 ) );
-    g_object_set_data ( G_OBJECT ( notebook ), "bet_account_previous", previous );
-    g_object_set_data ( G_OBJECT ( notebook ), "bet_account_widget", widget );
-    g_object_set_data ( G_OBJECT ( notebook ), "bet_account_spin_button", spin_button );
-
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( previous ), TRUE );
-
-    g_signal_connect ( G_OBJECT ( spin_button ),
-                        "value-changed",
-                        G_CALLBACK ( bet_config_duration_number_changed ),
-                        GINT_TO_POINTER ( 1 ) );
 
     /* set the start date and the automatic change of month */
     label = gtk_label_new ( COLON ( _("Start date" ) ) );
@@ -595,24 +528,48 @@ GtkWidget *bet_array_create_page ( void )
 			            "key-press-event",
 			            G_CALLBACK ( bet_array_entry_key_press ),
 			            NULL );
-    g_object_set_data ( G_OBJECT ( notebook ), "bet_initial_date", initial_date );
+    g_object_set_data ( G_OBJECT ( account_page ), "bet_initial_date", initial_date );
     gtk_box_pack_start ( GTK_BOX (hbox), initial_date, FALSE, FALSE, 0 );
 
     widget = gtk_check_button_new ( );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
                         SPACIFY(_("Check the box to automatically change start date") ) );
-    g_object_set_data ( G_OBJECT ( notebook ), "bet_auto_inc_month", widget );
+    g_object_set_data ( G_OBJECT ( account_page ), "bet_auto_inc_month", widget );
     gtk_box_pack_start ( GTK_BOX (hbox), widget, FALSE, FALSE, 0 );
     g_signal_connect ( G_OBJECT ( widget ),
 			            "toggled",
 			            G_CALLBACK ( bet_array_auto_inc_month_toggle ),
 			            NULL );
 
+    tree_view = bet_array_create_tree_view ( );
+    gtk_box_pack_start ( GTK_BOX ( page ), tree_view, TRUE, TRUE, 5 );
+
+    gtk_widget_show_all ( page );
+
+    return page;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+GtkWidget *bet_array_create_tree_view ( void )
+{
+    GtkWidget *scrolled_window;
+    GtkWidget *tree_view;
+    GtkTreeStore *tree_model;
+    GtkTreeModel *sortable;
+    GtkCellRenderer *cell;
+    GtkTreeViewColumn *column;
+
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ( );
     gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
-    g_object_set_data ( G_OBJECT ( notebook), "bet_estimate_treeview", tree_view );
+    g_object_set_data ( G_OBJECT ( account_page ), "bet_estimate_treeview", tree_view );
 
     /* create the model */
     tree_model = gtk_tree_store_new ( SPP_ESTIMATE_TREE_NUM_COLUMNS,
@@ -648,8 +605,6 @@ GtkWidget *bet_array_create_page ( void )
 				        GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view );
     gtk_widget_show ( scrolled_window );
-    gtk_box_pack_start ( GTK_BOX ( page ),
-		                GTK_WIDGET ( scrolled_window ), TRUE, TRUE, 5 );
 
     /* Date column */
     cell = gtk_cell_renderer_text_new ();
@@ -725,9 +680,9 @@ GtkWidget *bet_array_create_page ( void )
 		                G_CALLBACK ( bet_array_list_button_press ),
 		                NULL );
 
-    gtk_widget_show_all ( page );
+    gtk_widget_show_all ( tree_view );
 
-    return page;
+    return scrolled_window;;
 }
 
 
@@ -1175,7 +1130,10 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
         if ( g_date_compare ( scheduled -> date, date_tomorrow ) < 0 )
         {
             bet_data_future_remove_line ( account_number, scheduled -> number );
+            g_hash_table_iter_init ( &iter, future_list );
             g_date_free ( date_tomorrow );
+            if ( g_hash_table_size ( future_list ) == 0 )
+                return FALSE;
             continue;
         }
         else
@@ -1231,7 +1189,7 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
             g_free ( str_credit );
     }
 
-    return FALSE;
+    return TRUE;
 }
 
 
@@ -1509,10 +1467,7 @@ void bet_array_list_change_menu ( GtkWidget *menu_item,
 
     if ( origine == SPP_ORIGIN_TRANSACTION )
     {
-        GtkNotebook *notebook;
-
-        notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook" );
-        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 0 );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), 0 );
         transaction_list_select ( number );
         gsb_transactions_list_edit_transaction ( number );
     }
@@ -1566,7 +1521,7 @@ void bet_array_list_delete_menu ( GtkWidget *menu_item,
         bet_data_remove_div_hist ( account_number, number, sub_div_nb );
         gtk_tree_store_remove ( GTK_TREE_STORE ( model ), &iter );
 
-        bet_data_set_maj ( account_number, BET_MAJ_HISTORICAL );
+        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_HISTORICAL );
     }
     else if ( origine == SPP_ORIGIN_FUTURE )
     {
@@ -1614,7 +1569,8 @@ void bet_array_list_delete_all_menu ( GtkWidget *menu_item,
         account_number = gsb_gui_navigation_get_current_account ( );
         bet_data_future_remove_lines ( account_number, number, mother_row );
 
-        bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+        bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
     }
 }
 
@@ -1690,7 +1646,8 @@ void bet_array_list_redo_menu ( GtkWidget *menu_item,
         return;
 
     account_number = gsb_gui_navigation_get_current_account ( );
-    bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+    bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
 }
 
 
@@ -1916,7 +1873,8 @@ gboolean bet_array_start_date_focus_out ( GtkWidget *entry,
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
-    bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+    bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
 
     return FALSE;
 }
@@ -2023,16 +1981,15 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
  * */
 gboolean bet_array_initializes_account_settings ( gint account_number )
 {
-    GtkWidget *notebook;
     GtkWidget *widget = NULL;
     GtkWidget *button = NULL;
     GtkWidget *toggled = NULL;
+    gpointer pointer;
     gint param;
     gint months;
 
     //~ devel_debug_int ( account_number );
-    notebook = g_object_get_data ( G_OBJECT ( notebook_general ), "account_notebook" );
-    button = g_object_get_data ( G_OBJECT ( notebook ), "bet_account_spin_button" );
+    button = g_object_get_data ( G_OBJECT ( account_page ), "bet_account_spin_button" );
 
     param = gsb_data_account_get_bet_spin_range ( account_number );
     months = gsb_data_account_get_bet_months ( account_number );
@@ -2043,23 +2000,23 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
 
     if ( param == 0 )
     {
-        widget = g_object_get_data ( G_OBJECT ( notebook ), "bet_account_previous" );
+        widget = g_object_get_data ( G_OBJECT ( account_page ), "bet_account_previous" );
         g_signal_handlers_block_by_func ( G_OBJECT ( widget ),
                         G_CALLBACK ( bet_config_duration_button_clicked ),
                         button );
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
-        gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( button ), 1.0, 240.0 );
+        gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( button ), 1.0, prev_month_max );
         gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ),
                         (gdouble) months );
     }
     else
     {
-        widget = g_object_get_data ( G_OBJECT ( notebook ), "bet_account_widget" );
+        widget = g_object_get_data ( G_OBJECT ( account_page ), "bet_account_widget" );
         g_signal_handlers_block_by_func ( G_OBJECT ( widget ),
                         G_CALLBACK ( bet_config_duration_button_clicked ),
                         button );
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
-        gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( button ), 1.0, 20.0 );
+        gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( button ), 1.0, prev_month_max / 12.0 );
         gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ),
                         (gdouble) months / 12.0 );
     }
@@ -2071,7 +2028,7 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
                         G_CALLBACK ( bet_config_duration_number_changed ),
                         GINT_TO_POINTER ( 1 ) );
 
-    toggled = g_object_get_data ( G_OBJECT ( notebook ), "bet_auto_inc_month" );
+    toggled = g_object_get_data ( G_OBJECT ( account_page ), "bet_auto_inc_month" );
     g_signal_handlers_block_by_func ( G_OBJECT ( toggled ),
                         G_CALLBACK ( bet_array_auto_inc_month_toggle ),
                         NULL );
@@ -2086,22 +2043,23 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
     param = gsb_data_account_get_bet_hist_data ( account_number );
 
     if ( param == 1 )
-        button = g_object_get_data ( G_OBJECT ( notebook ), "bet_hist_button_2" );
+        button = g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_button_2" );
     else
-        button = g_object_get_data ( G_OBJECT ( notebook ), "bet_hist_button_1" );
+        button = g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_button_1" );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
 
     param = gsb_data_account_get_bet_hist_fyear ( account_number );
-    widget = g_object_get_data ( G_OBJECT ( notebook ), "bet_hist_fyear_combo" );
+    widget = g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_fyear_combo" );
+    pointer = g_object_get_data ( G_OBJECT ( widget ), "pointer" );
     g_signal_handlers_block_by_func ( G_OBJECT ( widget ),
                         G_CALLBACK ( bet_config_fyear_clicked ),
-                        GINT_TO_POINTER ( 1 ) );
+                        pointer );
 
     bet_historical_set_fyear_from_combobox ( widget, param );
     g_signal_handlers_unblock_by_func ( G_OBJECT ( widget ),
                         G_CALLBACK ( bet_config_fyear_clicked ),
-                        GINT_TO_POINTER ( 1 ) );
+                        pointer );
 
     return FALSE;
 }
@@ -2438,7 +2396,8 @@ void bet_array_auto_inc_month_toggle ( GtkToggleButton *togglebutton, gpointer  
         if ( value )
         {
             gsb_data_account_bet_update_initial_date_if_necessary ( account_number );
-            bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+            gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+            bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
         }
 
         if ( etat.modification_fichier == 0 )

@@ -13,6 +13,16 @@ typedef enum GSB_GENERAL_NOTEBOOK_PAGES {
     GSB_AQBANKING_PAGE,
 } GsbGeneralNotebookPages;
 
+typedef enum GSB_ACCOUNT_NOTEBOOK_PAGES {
+    GSB_TRANSACTIONS_PAGE,
+#ifdef ENABLE_BALANCE_ESTIMATE
+    GSB_ESTIMATE_PAGE,
+    GSB_HISTORICAL_PAGE,
+    //~ GSB_FINANCIAL_PAGE,
+#endif /* ENABLE_BALANCE_ESTIMATE */
+    GSB_PROPERTIES_PAGE,
+} GsbaccountNotebookPages;
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
@@ -22,7 +32,7 @@ GtkWidget * create_main_widget ( void );
 void gsb_gui_headings_update_suffix ( gchar * suffix );
 void gsb_gui_headings_update_title ( gchar * title );
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page );
-gint gsb_gui_on_account_get_property_page ( GtkNotebook *account_page );
+void gsb_gui_on_account_change_page ( GsbaccountNotebookPages page );
 gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
                         GtkNotebookPage *page,
                         guint page_number,

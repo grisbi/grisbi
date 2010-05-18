@@ -127,6 +127,7 @@ typedef struct
     gint bet_select_futur_label;        /* fixe le label pour les données futures */
     gint bet_hist_data;                 /* origine des données 0 = catégories 1 = IB */
     gint bet_hist_fyear;                /* numéro d'exercice */
+    gint bet_maj;                       /* MAJ du module estiamte balance */
 } struct_account;
 
 
@@ -3203,6 +3204,12 @@ gint gsb_data_account_get_bet_use_budget ( gint account_number )
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
 gboolean gsb_data_account_set_bet_use_budget ( gint account_number, gint value )
 {
     struct_account *account;
@@ -3216,6 +3223,46 @@ gboolean gsb_data_account_set_bet_use_budget ( gint account_number, gint value )
 
     return TRUE;
 }
+/**
+ *
+ *
+ *
+ *
+ * */
+gint gsb_data_account_get_bet_maj ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return 0;
+
+    return account -> bet_maj;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_maj ( gint account_number, gint type_maj )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+	    return FALSE;
+
+    account -> bet_maj = type_maj;
+
+    return TRUE;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

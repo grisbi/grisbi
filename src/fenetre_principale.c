@@ -32,6 +32,7 @@
 #include "./gsb_transactions_list.h"
 #include "./accueil.h"
 #include "./etats_onglet.h"
+#include "./gsb_data_account.h"
 #include "./gsb_account_property.h"
 #include "./gsb_form.h"
 #include "./gsb_scheduler_list.h"
@@ -235,8 +236,6 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
                         creation_fenetre_operations (),
                         gtk_label_new (SPACIFY(_("Transactions"))) );
 
-    g_object_set_data ( G_OBJECT (notebook), "account_notebook", account_page );
-
 #ifdef ENABLE_BALANCE_ESTIMATE
      /* append the balance estimate pages */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
@@ -303,20 +302,28 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
                         guint page_number,
                         gpointer null )
 {
+    gint account_number;
+    
     //~ devel_debug_int (page_number);
     switch ( page_number )
     {
-    case 0:
+    case GSB_TRANSACTIONS_PAGE:
         gsb_form_set_expander_visible ( TRUE, TRUE );
         break;
-
-    case 1:
-    case 2:
 #ifdef ENABLE_BALANCE_ESTIMATE
-        if ( bet_data_get_maj ( ) )
-            bet_array_update_estimate_tab ( gsb_gui_navigation_get_current_account ( ) );
+    case GSB_ESTIMATE_PAGE:
+        account_number = gsb_gui_navigation_get_current_account ( );
+        if ( gsb_data_account_get_bet_maj ( account_number ) )
+            bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
+        break;
+    case GSB_HISTORICAL_PAGE:
+        account_number = gsb_gui_navigation_get_current_account ( );
+        if ( gsb_data_account_get_bet_maj ( account_number ) )
+            bet_data_update_bet_module ( account_number, GSB_HISTORICAL_PAGE );
+        bet_historical_set_page_title ( account_number );
+        break;
 #endif /* ENABLE_BALANCE_ESTIMATE */
-    case 3:
+    case GSB_PROPERTIES_PAGE:
         gsb_form_set_expander_visible (FALSE, FALSE );
         break;
     }
@@ -324,6 +331,16 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
     return ( FALSE );
 }
 
+
+/**
+ * Set the account notebook page.
+ * 
+ * \param page		Page to set.
+ */
+void gsb_gui_on_account_change_page ( GsbaccountNotebookPages page )
+{
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), page );
+}
 
 
 /**
@@ -417,7 +434,6 @@ void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page )
 }
 
 
-
 /**
  * Trigger a callback functions only if button event that triggered it
  * was a simple click.
@@ -450,24 +466,6 @@ gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
 }
 
 
-gint gsb_gui_on_account_get_property_page ( GtkNotebook *account_page )
-{
-    GtkWidget *child;
-    gint i = 0;
-
-    while ( ( child = gtk_notebook_get_nth_page ( account_page, i ) ) )
-    {
-        const gchar *label;
-
-        label = gtk_widget_get_name ( child );
-        if ( g_strcmp0 ( label, "properties_page" ) == 0 )
-            return i;
-        else
-            i++;
-    }
-
-    return 0;
-}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

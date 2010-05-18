@@ -1521,6 +1521,9 @@ void traitement_operations_importees ( void )
         break;
     }
 
+        /* MAJ des données du module bet */
+        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
+
     /* first, we create the rule if asked */
     if (compte -> create_rule && compte -> action != IMPORT_CREATE_ACCOUNT)
     {
@@ -1603,11 +1606,6 @@ void traitement_operations_importees ( void )
     dialogue ( _("You have just imported reconciled transactions but they not associated "
                  "with any reconcile number yet.  You may associate them with a reconcilation "
                  "later via the preferences windows.") );
-
-#ifdef ENABLE_BALANCE_ESTIMATE
-    /* force the update module budget */
-    bet_data_set_maj ( gsb_gui_navigation_get_current_account (), BET_MAJ_ESTIMATE );
-#endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
@@ -4374,7 +4372,7 @@ gboolean gsb_import_by_rule ( gint rule )
 
 #ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
-    bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
 #endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( etat.modification_fichier == 0 )
