@@ -67,7 +67,8 @@ INCLUDE_DIRECTORIES(
 	target/gtk-dev/lib/glib-2.0/include
 	target/gtk-dev/lib/gtk-2.0/include
 	target/plugins-dev/libofx/include
-	target/plugins-dev/libxml/include
+	target/plugins-dev/libxml2/include
+	target/plugins-dev/iconv/include
 	target/plugins-dev/openssl/include
 	../win32-msvc/src
 	../win32-msvc
@@ -81,7 +82,8 @@ INCLUDE_DIRECTORIES(
 LINK_DIRECTORIES(
 	target/gtk-dev/lib
 	target/plugins-dev/libofx/lib
-	target/plugins-dev/libxml/lib
+	target/plugins-dev/libxml2/lib
+	target/plugins-dev/iconv/lib
 	target/plugins-dev/openssl/lib
 	target/plugins-dev/openssl/lib/VC
 	target/$(PlatformName)/$(OutDir)
@@ -103,6 +105,7 @@ LINK_LIBRARIES(
 	zdll
 	libofx
 	libxml2
+	iconv
 	libeay32
 	ssleay32
 )
@@ -398,10 +401,10 @@ ADD_EXECUTABLE(grisbi
 	${grisbi_source}
 )
 
-ADD_DEPENDENCIES (grisbi prepare_env)
+ADD_DEPENDENCIES (grisbi prepare_env prepare_mo)
 
 ADD_LIBRARY ( ofx
-	MODULE
+	SHARED
 	../src/plugins/ofx/ofx.c
 	../src/plugins/ofx/ofx.h
 )
@@ -413,7 +416,7 @@ ADD_CUSTOM_COMMAND ( TARGET ofx
 )
 
 ADD_LIBRARY ( gnucash
-	MODULE
+	SHARED
 	../src/plugins/gnucash/gnucash.c
 	../src/plugins/gnucash/gnucash.h
 )
@@ -424,7 +427,7 @@ ADD_CUSTOM_COMMAND ( TARGET gnucash
 )
 
 ADD_LIBRARY ( openssl
-	MODULE
+	SHARED
 	../src/plugins/openssl/openssl.c
 	../src/plugins/openssl/openssl.h
 )
@@ -511,7 +514,7 @@ set(
 
 set (msgfmt target\\gtk-dev\\bin\\msgfmt.exe)
 
-ADD_CUSTOM_TARGET(prepare_mo DEPENDS grisbi
+ADD_CUSTOM_TARGET(prepare_mo
 	COMMAND IF NOT EXIST target\\lib mkdir target\\lib
 	COMMAND IF NOT EXIST target\\lib\\locale mkdir target\\lib\\locale
 )
