@@ -98,6 +98,7 @@ static gboolean gsb_form_get_categories ( gint transaction_number,
                         gint new_transaction,
                         gboolean is_transaction );
 static gboolean gsb_form_hide ( void );
+static void gsb_form_set_current_date_into_date_entry ( void );
 static gboolean gsb_form_size_allocate ( GtkWidget *widget,
                         GtkAllocation *allocation,
                         gpointer null );
@@ -2646,19 +2647,22 @@ gboolean gsb_form_finish_edition ( void )
         modification_fichier ( TRUE );
 
     /* Si l'origine de l'opération est un modèle alors on sélectionne une ligne vide */
-    if ( GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( transaction_form ),
-							      "transaction_selected_in_form" ) ) == -1 )
-    {
-        g_object_set_data ( G_OBJECT ( transaction_form ), "transaction_selected_in_form", NULL );
-        transaction_list_select ( -1 );
-        return FALSE;
-    }
-
+    //~ if ( GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( transaction_form ),
+							      //~ "transaction_selected_in_form" ) ) == -1 )
+    //~ {
+        //~ g_object_set_data ( G_OBJECT ( transaction_form ), "transaction_selected_in_form", NULL );
+        //~ transaction_list_select ( -1 );
+        //~ return FALSE;
+    //~ }
     /* give the focus to the date widget */
-    if ( is_transaction )
-        gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
-    else
-        gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
+    //~ if ( is_transaction )
+    //~ {
+    gsb_form_escape_form ( );
+    gsb_form_set_current_date_into_date_entry ( );
+    gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
+    //~ }
+    //~ else
+        //~ gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
 
     return FALSE;
 }
@@ -3547,6 +3551,24 @@ GtkWidget *gsb_form_get_element_widget_from_list ( gint element_number,
     return NULL;
 }
 
+
+void gsb_form_set_current_date_into_date_entry ( void )
+{
+    GtkWidget *date_entry;
+
+	date_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE );
+	if ( gsb_form_widget_check_empty ( date_entry ) )
+	{
+        if ( save_form_date )
+            gtk_entry_set_text ( GTK_ENTRY ( date_entry ),
+                        gsb_format_gdate ( save_form_date ) );
+        else
+            gtk_entry_set_text ( GTK_ENTRY ( date_entry ),
+                         gsb_date_today ( ) );
+
+	    gsb_form_widget_set_empty ( date_entry, FALSE );
+    }
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
