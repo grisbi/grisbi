@@ -82,13 +82,17 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
                      LPWSTR    lpCmdLine,
                      int       nCmdShow)
 {
-	int argc, nLen;
+	int argc, nLen, i;
 	LPWSTR * argvP;
-	char ** argv = malloc(sizeof(char**));
+	char ** argv;
 	argvP = CommandLineToArgvW(GetCommandLineW(), &(argc));
-	nLen = WideCharToMultiByte(CP_UTF8, 0,argvP[0], -1, NULL, 0, NULL, NULL);
-	*argv = malloc((nLen + 1) * sizeof(char));
-	WideCharToMultiByte(CP_UTF8, 0, argvP[0], -1, *argv, nLen, NULL, NULL);
+	argv = malloc (argc* sizeof(char *));
+	for (i = 0 ; i<argc ; i++)
+	{
+		nLen = WideCharToMultiByte(CP_UTF8, 0,argvP[i], -1, NULL, 0, NULL, NULL);
+		argv[i] = malloc((nLen + 1) * sizeof(char));
+		WideCharToMultiByte(CP_UTF8, 0, argvP[i], -1, argv[i], nLen, NULL, NULL);
+	}
 	return main(argc, argv);
 }
 #endif
