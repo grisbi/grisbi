@@ -61,7 +61,7 @@ typedef struct
 
 
 /*START_STATIC*/
-static  void _gsb_data_partial_balance_free ( struct_partial_balance *partial_balance);
+static void _gsb_data_partial_balance_free ( struct_partial_balance *partial_balance);
 static gpointer gsb_data_partial_balance_get_structure ( gint partial_balance_number );
 static gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_number,
                         GtkWidget *parent );
@@ -1039,11 +1039,11 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
     partial_balance = gsb_data_partial_balance_get_structure ( partial_balance_number );
 
     if ( !partial_balance )
-        return 0;
+        return NULL;
 
     if ( partial_balance -> liste_cptes == NULL || 
      strlen ( partial_balance -> liste_cptes ) == 0 )
-        return 0;
+        return NULL;
 
     tab = g_strsplit ( partial_balance -> liste_cptes, ";", 0 );
     for ( i = 0; tab[i]; i++ )
@@ -1078,9 +1078,10 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
     if ( partial_balance -> colorise && solde.mantissa < 0 )
         string = g_strdup_printf ( "<span color=\"red\">%s</span>",
                         gsb_real_get_string_with_currency (
-                        solde, partial_balance -> currency, TRUE) );
+                        solde, partial_balance -> currency, TRUE ) );
     else
-        string = gsb_real_get_string_with_currency (solde, partial_balance -> currency, TRUE);
+        string = gsb_real_get_string_with_currency (
+                        solde, partial_balance -> currency, TRUE );
 
     return string;
 }
@@ -1090,22 +1091,21 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
  * 
  *
  * */
-gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_number )
+gsb_real gsb_data_partial_balance_get_current_amount ( gint partial_balance_number )
 {
     struct_partial_balance *partial_balance;
     gsb_real solde = null_real;
     gchar **tab;
-    gchar *string;
     gint i;
 
     partial_balance = gsb_data_partial_balance_get_structure ( partial_balance_number );
 
     if ( !partial_balance )
-        return 0;
+        return null_real;
 
     if ( partial_balance -> liste_cptes == NULL || 
      strlen ( partial_balance -> liste_cptes ) == 0 )
-        return 0;
+        return null_real;
 
     tab = g_strsplit ( partial_balance -> liste_cptes, ";", 0 );
     for ( i = 0; tab[i]; i++ )
@@ -1136,12 +1136,34 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
         solde = gsb_real_add ( solde, tmp_real );
     }
 
+    return solde;
+}
+
+
+/**
+ * 
+ *
+ * */
+gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_number )
+{
+    struct_partial_balance *partial_balance;
+    gsb_real solde = null_real;
+    gchar *string;
+
+    partial_balance = gsb_data_partial_balance_get_structure ( partial_balance_number );
+
+    if ( !partial_balance )
+        return NULL;
+
+    solde = gsb_data_partial_balance_get_current_amount ( partial_balance_number );
+
     if ( partial_balance -> colorise && solde.mantissa < 0 )
         string = g_strdup_printf ( "<span color=\"red\">%s</span>",
                         gsb_real_get_string_with_currency (
-                        solde, partial_balance -> currency, TRUE) );
+                        solde, partial_balance -> currency, TRUE ) );
     else
-        string = gsb_real_get_string_with_currency (solde, partial_balance -> currency, TRUE);
+        string = gsb_real_get_string_with_currency (
+                        solde, partial_balance -> currency, TRUE );
 
     return string;
 }

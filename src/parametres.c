@@ -64,7 +64,7 @@
 
 /*START_STATIC*/
 static GtkWidget * create_preferences_tree ( );
-static  GtkWidget *gsb_config_scheduler_page ( void );
+static GtkWidget *gsb_config_scheduler_page ( void );
 static gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void );
 static gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
@@ -544,7 +544,7 @@ gboolean preferences ( gint page )
                         1, BET_GENERAL_PAGE,
                         2, 400,
                         -1);
-    gtk_notebook_append_page (preference_frame, bet_config_create_general_page (), NULL);
+    gtk_notebook_append_page (preference_frame, bet_config_general_create_general_page (), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -553,7 +553,7 @@ gboolean preferences ( gint page )
                         1, BET_ACCOUNT_PAGE,
                         2, 400,
                         -1);
-    gtk_notebook_append_page (preference_frame, bet_config_create_account_page (), NULL);
+    gtk_notebook_append_page (preference_frame, bet_config_account_create_account_page (), NULL);
 
 #endif
 

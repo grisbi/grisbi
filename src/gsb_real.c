@@ -378,13 +378,14 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
     gint8 sign = 0;
     gint8 dot_position = -1;
     const gchar *p = string;
+    gboolean success = FALSE;
 
     if ( !string)
         return error_real;
 
     mts_len = mon_thousands_sep
-                       ? strlen ( mon_thousands_sep )
-                       : 0;
+              ? strlen ( mon_thousands_sep )
+              : 0;
     mdp_len = mon_decimal_point ? strlen ( mon_decimal_point ) : 0;
 
     if ( mon_thousands_sep )
@@ -396,9 +397,9 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
     }
 
     decimal_chars = g_strconcat(default_decimal_char_dot,
-             default_decimal_char_comma,
-             mon_decimal_point,
-             NULL);
+                                default_decimal_char_comma,
+                                mon_decimal_point,
+                                NULL);
     space_chars = g_strconcat(" ", mon_thousands_sep, NULL);
 
     for ( ; ; )
@@ -408,24 +409,24 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
             mantissa *= 10;
             mantissa += ( *p - '0' );
             if ( mantissa > G_MAXLONG )
-                return error_real;
+            {
+                break;
+            }
             if ( sign == 0 ) sign = 1; // no sign found yet ==> positive
             ++nb_digits;
             ++p;
         }
         else if ( *p == 0 ) // terminal zero
         {
-			gsb_real result;
-			result.mantissa = sign * mantissa;
-            result.exponent = ( dot_position >= 0 )
-                              ? nb_digits - dot_position
-                              : 0;
-            return result;
+            success = TRUE;
+            break;
         }
         else if ( decimal_chars && strchr ( decimal_chars, *p ) )
         {
             if ( dot_position >= 0 ) // already found a decimal separator
-                return error_real;
+            {
+                break;
+            }
             dot_position = nb_digits;
             p = g_utf8_find_next_char ( p, NULL );
         }
@@ -437,25 +438,42 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
         else if ( strchr ( negative_chars, *p ) )
         {
             if ( sign != 0 ) // sign already set
-                return error_real;
+            {
+                break;
+            }
             sign = -1;
             ++p;
         }
         else if ( strchr ( positive_chars, *p ) )
         {
             if ( sign != 0 ) // sign already set
-                return error_real;
+            {
+                break;
+            }
             sign = 1;
             ++p;
         }
         else // unknown char ==> error
         {
-            return error_real;
+            break;
         }
     }
-     /* Free memory */
-     g_free ( decimal_chars );
-     g_free ( space_chars );
+    /* Free memory */
+    g_free ( decimal_chars );
+    g_free ( space_chars );
+    if (success == TRUE)
+    {
+        gsb_real result;
+        result.mantissa = sign * mantissa;
+        result.exponent = ( dot_position >= 0 )
+                          ? nb_digits - dot_position
+                          : 0;
+        return result;
+    }
+    else
+    {
+        return error_real;
+    }
 }
 
 
@@ -602,7 +620,9 @@ gboolean gsb_real_grow_exponent( gsb_real *num, guint target_exponent )
 
     while ( exponent < target_exponent )
     {
-        gint64 new_mantissa = mantissa * 10;
+        gint64 new_mantissa;
+
+        new_mantissa = mantissa * 10;
         if ( ( new_mantissa > G_MAXLONG ) || ( new_mantissa < G_MINLONG ) )
         {
             succes = FALSE;
@@ -630,9 +650,10 @@ gboolean gsb_real_grow_exponent( gsb_real *num, guint target_exponent )
  * */
 gboolean gsb_real_normalize ( gsb_real *number_1, gsb_real *number_2 )
 {
+    gboolean safe_precision = TRUE;
+
     gsb_real_minimize_exponent ( number_1 );
     gsb_real_minimize_exponent ( number_2 );
-    gboolean safe_precision = TRUE;
 
     if ( number_1->exponent < number_2->exponent )
     {

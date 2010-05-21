@@ -63,8 +63,8 @@
 static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
                         GdkEventWindowState *event,
                         gpointer null );
-static  gboolean main_window_delete_event (GtkWidget *window, gpointer data);
-static  void main_window_destroy_event( GObject* obj, gpointer data);
+static gboolean main_window_delete_event (GtkWidget *window, gpointer data);
+static void main_window_destroy_event( GObject* obj, gpointer data);
 /*END_STATIC*/
 
 /* vbox ajoutée dans la fenetre de base, contient le menu et la fenetre d'utilisation */
@@ -83,13 +83,17 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
                      LPWSTR    lpCmdLine,
                      int       nCmdShow)
 {
-	int argc, nLen;
+	int argc, nLen, i;
 	LPWSTR * argvP;
-	char ** argv = malloc(sizeof(char**));
+	char ** argv;
 	argvP = CommandLineToArgvW(GetCommandLineW(), &(argc));
-	nLen = WideCharToMultiByte(CP_UTF8, 0,argvP[0], -1, NULL, 0, NULL, NULL);
-	*argv = malloc((nLen + 1) * sizeof(char));
-	WideCharToMultiByte(CP_UTF8, 0, argvP[0], -1, *argv, nLen, NULL, NULL);
+	argv = malloc (argc* sizeof(char *));
+	for (i = 0 ; i<argc ; i++)
+	{
+		nLen = WideCharToMultiByte(CP_UTF8, 0,argvP[i], -1, NULL, 0, NULL, NULL);
+		argv[i] = malloc((nLen + 1) * sizeof(char));
+		WideCharToMultiByte(CP_UTF8, 0, argvP[i], -1, argv[i], nLen, NULL, NULL);
+	}
 	return main(argc, argv);
 }
 #endif
@@ -119,25 +123,6 @@ int main (int argc, char **argv)
 #ifdef _MSC_VER
 	gchar *gtkrc_file;
 #endif
-
-#ifdef G_OS_UNIX
-    if ( g_file_test ( PLUGINS_DIR, G_FILE_TEST_IS_DIR ) )
-        PLUGINS_DIRECTORY = g_strdup ( PLUGINS_DIR );
-
-    else
-    {
-        gchar *ptr;
-        gchar *dir_name;
-
-        ptr = g_strrstr ( PLUGINS_DIR, "/grisbi" );
-        dir_name = g_strndup ( PLUGINS_DIR, ( ptr - PLUGINS_DIR ) );
-        dir_name = g_strconcat ( dir_name, "64/grisbi", NULL );
-        
-        if ( g_file_test ( dir_name, G_FILE_TEST_IS_DIR ) )
-            PLUGINS_DIRECTORY = dir_name;
-    }
-#endif
-
 
 #if GSB_GMEMPROFILE
     g_mem_set_vtable(glib_mem_profiler_table);
@@ -195,7 +180,7 @@ int main (int argc, char **argv)
     }
 
 #ifdef HAVE_PLUGINS
-    gsb_plugins_scan_dir ( PLUGINS_DIRECTORY );
+    gsb_plugins_scan_dir ( PLUGINS_DIR );
 #endif
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
@@ -325,7 +310,7 @@ int main (int argc, char **argv)
 		nom_fichier_comptes = NULL;
     }
 
-#ifdef IS_DEVELOPMENT_VERSION
+#if IS_DEVELOPMENT_VERSION == 1
     dialog_message ( "development-version", VERSION );
 #endif
 
@@ -345,7 +330,6 @@ int main (int argc, char **argv)
     gtk_main ();
 
     gsb_plugins_release ( );
-    g_free ( PLUGINS_DIRECTORY );
 
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save (path);

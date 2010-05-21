@@ -65,6 +65,7 @@
 #include "./structures.h"
 #include "./custom_list.h"
 #include "./gsb_data_form.h"
+#include "./utils_str.h"
 #include "./gsb_scheduler_list.h"
 #include "./include.h"
 #include "./gsb_calendar.h"
@@ -144,6 +145,7 @@ extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
+extern GdkColor couleur_bet_transfert;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_jour;
@@ -801,7 +803,10 @@ gulong gsb_file_save_color_part ( gulong iterator,
                         "\t\tCouleur_bet_division_blue=\"%d\"\n"
                         "\t\tCouleur_bet_future_red=\"%d\"\n"
                         "\t\tCouleur_bet_future_green=\"%d\"\n"
-                        "\t\tCouleur_bet_future_blue=\"%d\" />\n",
+                        "\t\tCouleur_bet_future_blue=\"%d\"\n"
+                        "\t\tCouleur_bet_transfert_red=\"%d\"\n"
+                        "\t\tCouleur_bet_transfert_green=\"%d\"\n"
+                        "\t\tCouleur_bet_transfert_blue=\"%d\" />\n",
 
     couleur_fond[0].red,
     couleur_fond[0].green,
@@ -838,7 +843,10 @@ gulong gsb_file_save_color_part ( gulong iterator,
     couleur_bet_division.blue,
     couleur_bet_future.red,
     couleur_bet_future.green,
-    couleur_bet_future.blue );
+    couleur_bet_future.blue,
+    couleur_bet_transfert.red,
+    couleur_bet_transfert.green,
+    couleur_bet_transfert.blue );
 
     /* append the new string to the file content
      * and return the new iterator */
@@ -1075,6 +1083,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 					       "\t\tForm_lines_number=\"%d\"\n"
 					       "\t\tForm_organization=\"%s\"\n"
 					       "\t\tForm_columns_width=\"%s\"\n"
+                           "\t\tBet_use_budget=\"%d\"\n"
                            "\t\tBet_start_date=\"%s\"\n"
                            "\t\tBet_months=\"%d\"\n"
                            "\t\tBet_UT=\"%d\"\n"
@@ -1117,6 +1126,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    gsb_data_form_get_nb_rows (account_number),
 	    my_safe_null_str(form_organization),
 	    my_safe_null_str(form_columns_width),
+        gsb_data_account_get_bet_use_budget ( account_number ),
         my_safe_null_str ( gsb_format_gdate_safe (
                         gsb_data_account_get_bet_start_date ( account_number ) ) ),
         gsb_data_account_get_bet_months ( account_number ),

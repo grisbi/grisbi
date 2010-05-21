@@ -38,61 +38,61 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  void connect_menu_signals (GtkMenu *menu, gpointer data);;
-static  void connect_menu_signals_to_submenu (GtkMenuItem *item, gpointer data);
-static  gint go_option_menu_button_press (GtkWidget      *widget,
+static void connect_menu_signals (GtkMenu *menu, gpointer data);;
+static void connect_menu_signals_to_submenu (GtkMenuItem *item, gpointer data);
+static gint go_option_menu_button_press (GtkWidget      *widget,
 			      GdkEventButton *event);
-static  void go_option_menu_calc_size (GOOptionMenu *option_menu);
-static  void go_option_menu_changed (GOOptionMenu *option_menu);
-static  GType go_option_menu_child_type (GtkContainer       *container);
-static  void go_option_menu_class_init (GOOptionMenuClass *class);
-static  void go_option_menu_destroy (GtkObject *object);
-static  void go_option_menu_detacher (GtkWidget     *widget,
+static void go_option_menu_calc_size (GOOptionMenu *option_menu);
+static void go_option_menu_changed (GOOptionMenu *option_menu);
+static GType go_option_menu_child_type (GtkContainer       *container);
+static void go_option_menu_class_init (GOOptionMenuClass *class);
+static void go_option_menu_destroy (GtkObject *object);
+static void go_option_menu_detacher (GtkWidget     *widget,
 				     GtkMenu	*menu) ;
-static  gint go_option_menu_expose (GtkWidget      *widget,
+static gint go_option_menu_expose (GtkWidget      *widget,
 			GdkEventExpose *event);
-static  void go_option_menu_get_property (GObject            *object,
+static void go_option_menu_get_property (GObject            *object,
 				   guint               prop_id,
 				   GValue             *value,
 				   GParamSpec         *pspec);
-static  void go_option_menu_get_props (GOOptionMenu       *option_menu,
+static void go_option_menu_get_props (GOOptionMenu       *option_menu,
 			   GOOptionMenuProps  *props);
-static  void go_option_menu_hide_all (GtkWidget *widget);
-static  void go_option_menu_init (GOOptionMenu *option_menu);
-static  void go_option_menu_item_destroy_cb (GtkWidget     *widget,
+static void go_option_menu_hide_all (GtkWidget *widget);
+static void go_option_menu_init (GOOptionMenu *option_menu);
+static void go_option_menu_item_destroy_cb (GtkWidget     *widget,
 				 GOOptionMenu *option_menu);
-static  void go_option_menu_item_state_changed_cb (GtkWidget      *widget,
+static void go_option_menu_item_state_changed_cb (GtkWidget      *widget,
 				       GtkStateType    previous_state,
 				       GOOptionMenu  *option_menu);
-static  gint go_option_menu_key_press (GtkWidget   *widget,
+static gint go_option_menu_key_press (GtkWidget   *widget,
 			   GdkEventKey *event);
-static  gboolean go_option_menu_mnemonic_activate (GtkWidget *widget,
+static gboolean go_option_menu_mnemonic_activate (GtkWidget *widget,
 				   gboolean   group_cycling);
-static  void go_option_menu_paint (GtkWidget    *widget,
+static void go_option_menu_paint (GtkWidget    *widget,
 		       GdkRectangle *area);
-static  void go_option_menu_position (GtkMenu  *menu,
+static void go_option_menu_position (GtkMenu  *menu,
 			  gint     *x,
 			  gint     *y,
 			  gboolean *push_in,
 			  gpointer  user_data);
-static  void go_option_menu_remove_contents (GOOptionMenu *option_menu);;
+static void go_option_menu_remove_contents (GOOptionMenu *option_menu);;
 static void go_option_menu_remove_menu (GOOptionMenu *option_menu);
-static  gint go_option_menu_scroll_event (GtkWidget          *widget,
+static gint go_option_menu_scroll_event (GtkWidget          *widget,
 			      GdkEventScroll     *event);
-static  void go_option_menu_select_first_sensitive (GOOptionMenu *option_menu);
-static  void go_option_menu_selection_done (GtkMenu  *menu,
+static void go_option_menu_select_first_sensitive (GOOptionMenu *option_menu);
+static void go_option_menu_selection_done (GtkMenu  *menu,
 				GOOptionMenu *option_menu);
-static  void go_option_menu_set_property (GObject            *object,
+static void go_option_menu_set_property (GObject            *object,
 			      guint               prop_id,
 			      const GValue       *value,
 			      GParamSpec         *pspec);
-static  void go_option_menu_show_all (GtkWidget *widget);
-static  void go_option_menu_size_allocate (GtkWidget     *widget,
+static void go_option_menu_show_all (GtkWidget *widget);
+static void go_option_menu_size_allocate (GtkWidget     *widget,
 				    GtkAllocation *allocation);
-static  void go_option_menu_size_request (GtkWidget      *widget,
+static void go_option_menu_size_request (GtkWidget      *widget,
 				   GtkRequisition *requisition);
-static  void go_option_menu_update_contents (GOOptionMenu *option_menu, GtkMenu *menu);;
-static  void go_option_menu_update_contents_real (GOOptionMenu *option_menu, 
+static void go_option_menu_update_contents (GOOptionMenu *option_menu, GtkMenu *menu);;
+static void go_option_menu_update_contents_real (GOOptionMenu *option_menu, 
 					   GtkMenu *menu, GtkMenuItem *menu_item);
 /*END_STATIC*/
 

@@ -68,9 +68,9 @@ static void appui_sur_manage_tiers ( void );
 static GtkWidget *creation_barre_outils_tiers ( void );
 static gboolean edit_payee ( GtkTreeView * view );
 static void gsb_assistant_payees_clicked ( GtkButton *button, GtkWidget *assistant );
-static  gboolean gsb_assistant_payees_enter_page_2 ( GtkWidget *assistant );
-static  gboolean gsb_assistant_payees_enter_page_3 ( GtkWidget *assistant );
-static  gboolean gsb_assistant_payees_enter_page_finish ( GtkWidget *assistant );
+static gboolean gsb_assistant_payees_enter_page_2 ( GtkWidget *assistant );
+static gboolean gsb_assistant_payees_enter_page_3 ( GtkWidget *assistant );
+static gboolean gsb_assistant_payees_enter_page_finish ( GtkWidget *assistant );
 static void gsb_assistant_payees_entry_changed ( GtkEditable *editable,
                         GtkWidget *assistant );
 static void gsb_assistant_payees_modifie_operations ( GSList *sup_payees,
@@ -79,9 +79,9 @@ static void gsb_assistant_payees_modifie_operations ( GSList *sup_payees,
                         gboolean save_notes,
                         gboolean extract_num,
                         gboolean is_transaction );
-static  GtkWidget *gsb_assistant_payees_page_2 ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_payees_page_finish ( GtkWidget *assistant );
+static GtkWidget *gsb_assistant_payees_page_2 ( GtkWidget *assistant );
+static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant );
+static GtkWidget *gsb_assistant_payees_page_finish ( GtkWidget *assistant );
 static gboolean gsb_assistant_payees_select_func (GtkTreeModel *model,
                         GtkTreePath *path,
                         GtkTreeIter *iter,

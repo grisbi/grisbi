@@ -65,7 +65,7 @@ static gboolean help_manual ( void );
 static gboolean help_quick_start ( void );
 static gboolean help_translation ( void );
 static gboolean help_website ( void );
-static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
+static void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
 			     GtkContainer * p_box) ;
 /*END_STATIC*/
 

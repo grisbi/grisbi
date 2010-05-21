@@ -71,6 +71,7 @@
 #include "./qif.h"
 #include "./transaction_list.h"
 #include "./utils_files.h"
+#include "./balance_estimate_data.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
 #include "./go-charmap-sel.h"
@@ -102,7 +103,7 @@ static gint gsb_import_add_currency ( struct struct_compte_importation * compte 
 static void gsb_import_add_imported_transactions ( struct struct_compte_importation *imported_account,
                         gint account_number );
 static void gsb_import_associations_add_assoc ( GtkWidget *button, GtkWidget *main_widget );
-static  void gsb_import_associations_cell_edited (GtkCellRendererText *cell,
+static void gsb_import_associations_cell_edited (GtkCellRendererText *cell,
                         const gchar *path_string,
                         const gchar *new_text,
                         GObject * main_widget );
@@ -1520,6 +1521,9 @@ void traitement_operations_importees ( void )
         break;
     }
 
+        /* MAJ des données du module bet */
+        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
+
     /* first, we create the rule if asked */
     if (compte -> create_rule && compte -> action != IMPORT_CREATE_ACCOUNT)
     {
@@ -1602,11 +1606,6 @@ void traitement_operations_importees ( void )
     dialogue ( _("You have just imported reconciled transactions but they not associated "
                  "with any reconcile number yet.  You may associate them with a reconcilation "
                  "later via the preferences windows.") );
-
-#ifdef ENABLE_BALANCE_ESTIMATE
-    /* force the update module budget */
-    bet_data_set_maj ( gsb_gui_navigation_get_current_account (), BET_MAJ_ESTIMATE );
-#endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
@@ -4373,7 +4372,7 @@ gboolean gsb_import_by_rule ( gint rule )
 
 #ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
-    bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
+    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
 #endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( etat.modification_fichier == 0 )

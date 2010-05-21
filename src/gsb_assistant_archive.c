@@ -54,21 +54,21 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  void gsb_assistant_archive_add_children_to_list ( gint transaction_number );
-static  void gsb_assistant_archive_add_contra_transaction_to_list ( gint transaction_number );
-static  void gsb_assistant_archive_add_transaction_to_list ( gpointer transaction_pointer );
-static  GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_archive_page_success ( void );
-static  gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assistant,
+static void gsb_assistant_archive_add_children_to_list ( gint transaction_number );
+static void gsb_assistant_archive_add_contra_transaction_to_list ( gint transaction_number );
+static void gsb_assistant_archive_add_transaction_to_list ( gpointer transaction_pointer );
+static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant );
+static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant );
+static GtkWidget *gsb_assistant_archive_page_success ( void );
+static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assistant,
                         gint new_page );
-static  gboolean gsb_assistant_archive_switch_to_intro ( GtkWidget *assistant,
+static gboolean gsb_assistant_archive_switch_to_intro ( GtkWidget *assistant,
                         gint new_page );
-static  gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
+static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
                         gint new_page );
-static  gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
+static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
                         gint new_page );
-static  gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant );
+static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/

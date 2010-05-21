@@ -46,9 +46,9 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  GDate *gsb_qif_get_date ( gchar *date_string, gint order );
-static  gchar **gsb_qif_get_date_content ( gchar *date_string );
-static  gint gsb_qif_get_date_order ( GSList *transactions_list );
+static GDate *gsb_qif_get_date ( gchar *date_string, gint order );
+static gchar **gsb_qif_get_date_content ( gchar *date_string );
+static gint gsb_qif_get_date_order ( GSList *transactions_list );
 /*END_STATIC*/
 
 /*START_EXTERN*/

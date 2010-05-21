@@ -134,52 +134,6 @@ void transaction_model_set_model ( CustomList *new_custom_list )
 
 
 /**
- * return the path of the transaction
- * according line_in_transaction
- *
- * \param line_in_transaction
- *
- * \return a newly allocated GtkTreePath
- * */
-GtkTreePath *transaction_model_get_path ( gint transaction_number,
-					  gint line_in_transaction )
-{
-    CustomRecord *record;
-    GtkTreePath *path;
-    GtkTreeIter iter;
-
-    g_return_val_if_fail ( custom_list != NULL, NULL );
-
-    if (!transaction_model_get_transaction_iter ( &iter,
-						  transaction_number, line_in_transaction ))
-    {
-        printf ("iter == NULL\n");
-	return NULL;
-    }
-
-    record = iter.user_data;
-    if (!record)
-    {
-        printf ("record == NULL\n");
-	return NULL;
-    }
-    record = record -> transaction_records[line_in_transaction];
-
-    path = gtk_tree_path_new ();
-    if (record -> mother_row)
-    {
-        printf ("record -> mother_row -> filtered_pos = %d\n", record -> mother_row -> filtered_pos);
-	/* it's a child, need to get the path of the mother */
-	gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
-    }
-
-    gtk_tree_path_append_index (path, record -> filtered_pos);
-
-    return path;
-}
-
-
-/**
  *  find the iter of the line of the asked transaction
  *  the transaction can be a mother or a child
  *

@@ -68,6 +68,7 @@
 #include "./custom_list.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_form.h"
+#include "./utils_str.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_scheduler_list.h"
 #include "./structures.h"
@@ -90,9 +91,13 @@ static void gsb_file_load_archive ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_bank ( const gchar **attribute_names,
                         const gchar **attribute_values );
+static void gsb_file_load_bet_future_data ( const gchar **attribute_names,
+                        const gchar **attribute_values );
 static void gsb_file_load_bet_historical ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_bet_part ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
 static void gsb_file_load_color_part ( const gchar **attribute_names,
@@ -107,8 +112,6 @@ static void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
                         gpointer user_data,
                         GError **error);
 static void gsb_file_load_financial_year ( const gchar **attribute_names,
-                        const gchar **attribute_values );
-static void gsb_file_load_future_data ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_general_part ( const gchar **attribute_names,
                         const gchar **attribute_values );
@@ -168,6 +171,7 @@ extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
+extern GdkColor couleur_bet_transfert;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_jour;
@@ -644,9 +648,16 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 
     if ( !strcmp ( element_name, "Bet_future" ) )
     {
-        gsb_file_load_future_data ( attribute_names, attribute_values );
+        gsb_file_load_bet_future_data ( attribute_names, attribute_values );
         return;
     }
+
+    if ( !strcmp ( element_name, "Bet_transfert" ) )
+    {
+        gsb_file_load_bet_transfert_part ( attribute_names, attribute_values );
+        return;
+    }
+
 #endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( !strcmp ( element_name,
@@ -1274,6 +1285,24 @@ void gsb_file_load_color_part ( const gchar **attribute_names,
         couleur_bet_future.blue = utils_str_atoi (attribute_values[i]);
     }
 
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_bet_transfert_red" ))
+    {
+        couleur_bet_transfert.red = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_bet_transfert_green" ))
+    {
+        couleur_bet_transfert.green = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_bet_transfert_blue" ))
+    {
+        couleur_bet_transfert.blue = utils_str_atoi (attribute_values[i]);
+    }
+
     i++;
     }
     while ( attribute_names[i] );
@@ -1786,6 +1815,14 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
                         utils_str_atoi ( pointeur_char[j]));
 
         g_strfreev ( pointeur_char );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Bet_use_budget" ))
+    {
+        gsb_data_account_set_bet_use_budget ( account_number,
+                        utils_str_atoi ( attribute_values[i] ) );
         i++;
         continue;
     }
@@ -3872,7 +3909,7 @@ void gsb_file_load_bet_historical ( const gchar **attribute_names,
  * \param attribute_values
  *
  * */
-void gsb_file_load_future_data ( const gchar **attribute_names,
+void gsb_file_load_bet_future_data ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
@@ -4031,6 +4068,127 @@ void gsb_file_load_future_data ( const gchar **attribute_names,
     while ( attribute_names[i] );
 
     bet_data_future_set_lines_from_file ( scheduled );
+}
+
+
+/**
+ * load the bet transfert line
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    gint i=0;
+    struct_transfert_data *transfert;
+
+    if ( !attribute_names[i] )
+    return;
+
+    transfert = struct_initialise_bet_transfert ( );
+
+    if ( !transfert )
+    {
+        dialogue_error_memory ();
+        return;
+    }
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+
+    if ( !strcmp (attribute_values[i], "(null)") )
+    {
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Nb" ) )
+    {
+        transfert -> number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Dt" ) )
+    {
+        transfert -> date = gsb_parse_date_string_safe ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Ac" ) )
+    {
+        transfert -> account_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Ty" ) )
+    {
+        transfert -> type = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Ra" ) )
+    {
+        transfert -> replace_account =  utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Rt" ) )
+    {
+        transfert -> replace_transaction = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Aim" ) )
+    {
+        transfert -> auto_inc_month = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Ca" ) )
+    {
+        transfert -> category_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Sca" ) )
+    {
+        transfert -> sub_category_number =  utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Bu" ) )
+    {
+        transfert -> budgetary_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Sbu" ) )
+    {
+        transfert -> sub_budgetary_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    /* normally, shouldn't come here */
+    i++;
+    }
+    while ( attribute_names[i] );
+
+    bet_data_transfert_set_line_from_file ( transfert );
 }
 
 

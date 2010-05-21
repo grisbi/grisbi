@@ -66,12 +66,13 @@ gchar *gsb_date_today ( void )
 {
     if (!last_date)
     {
-    GDate *date;
-    gchar date_str[SIZEOF_FORMATTED_STRING_DATE];
+        GDate *date;
+        gchar date_str[SIZEOF_FORMATTED_STRING_DATE];
 
-    date = gdate_today();
-    g_date_strftime ( date_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
-    gsb_date_set_last_date (date_str);
+        date = gdate_today();
+        g_date_strftime ( date_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
+        gsb_date_set_last_date (date_str);
+        g_date_free( date );
     }
     return (last_date);
 }
@@ -446,6 +447,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
             else
             {
                 g_date_free ( date );
+                g_strfreev ( tab_date );
                 return NULL;
             }
             break;
@@ -458,6 +460,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
             else
             {
                 g_date_free ( date );
+                g_strfreev ( tab_date );
                 return NULL;
             }
             break;
@@ -484,18 +487,20 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
             else
             {
                 g_date_free ( date );
+                g_strfreev ( tab_date );
                 return NULL;
             }
             break;
             default:
                 g_printerr ( ">> Unknown format '%c'\n", date_tokens [ i ] );
                 g_date_free ( date );
+                g_strfreev ( tab_date );
                 return NULL;
             break;
         }
     }
     /* comment for random crash. Memory allocation problem in split_unique_datefield () */
-    //~ g_strfreev ( tab_date );
+    g_strfreev ( tab_date );
 
     /* need here to check if the date is valid, else an error occurs when
      * write for example only 31, and the current month has only 30 days... */

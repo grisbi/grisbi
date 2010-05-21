@@ -45,8 +45,10 @@
 #include "./utils_dates.h"
 #include "./gsb_real.h"
 #include "./utils_str.h"
+#include "./balance_estimate_data.h"
 #include "./include.h"
 #include "./structures.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 
@@ -101,7 +103,7 @@ typedef struct
 
 /*START_STATIC*/
 static void gsb_data_transaction_delete_all_transactions ( void );
-static  void gsb_data_transaction_free ( struct_transaction *transaction);
+static void gsb_data_transaction_free ( struct_transaction *transaction);
 static gint gsb_data_transaction_get_last_white_number (void);
 static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number );
 static gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction );
@@ -2200,6 +2202,8 @@ static void gsb_data_transaction_free ( struct_transaction *transaction)
         g_free ( transaction -> notes );
     if ( transaction -> voucher )
         g_free ( transaction -> voucher );
+    if ( transaction -> bank_references )
+        g_free ( transaction -> bank_references );
     if ( transaction -> date )
         g_date_free ( transaction -> date );
     if ( transaction -> value_date )
@@ -2310,10 +2314,8 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 
     gsb_data_transaction_free (transaction);
 
-#ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
-    bet_data_set_maj ( transaction -> account_number, BET_MAJ_ESTIMATE );
-#endif /* ENABLE_BALANCE_ESTIMATE */
+    gsb_data_account_set_bet_maj ( transaction -> account_number, BET_MAJ_ALL );
 
     return TRUE;
 }

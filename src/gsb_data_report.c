@@ -156,7 +156,7 @@ typedef struct
 
 
 /*START_STATIC*/
-static  void _gsb_data_report_free ( struct_report *report );
+static void _gsb_data_report_free ( struct_report *report );
 static GSList *gsb_data_report_copy_categ_budget_struct (GSList *orig_categ_budget_list);
 static struct_report *gsb_data_report_get_structure ( gint report_number );
 /*END_STATIC*/

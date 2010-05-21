@@ -117,6 +117,7 @@ typedef struct
     gpointer 	form_organization;
 
     /** @name bet data */
+    gint bet_use_budget;            /* 1 = use the budget module */
     GDate *bet_start_date;              /* date de début */
     gint bet_spin_range;                /* echelle de la période 0 = mois 1 = années */
     gint bet_months;                    /* nombre de mois ou d'années */
@@ -126,11 +127,12 @@ typedef struct
     gint bet_select_futur_label;        /* fixe le label pour les données futures */
     gint bet_hist_data;                 /* origine des données 0 = catégories 1 = IB */
     gint bet_hist_fyear;                /* numéro d'exercice */
+    gint bet_maj;                       /* MAJ du module estiamte balance */
 } struct_account;
 
 
 /*START_STATIC*/
-static  void _gsb_data_account_free ( struct_account* account );
+static void _gsb_data_account_free ( struct_account* account );
 static void gsb_data_account_delete_all_accounts (void);
 static struct_account *gsb_data_account_get_structure ( gint no );
 static gint gsb_data_account_max_number ( void );
@@ -225,8 +227,7 @@ gint gsb_data_account_new ( kind_account account_kind )
     last_number = gsb_data_account_max_number ();
     /* we have to append the account first because some functions later will
      * look for that account */
-    list_accounts = g_slist_append ( list_accounts,
-				     account );
+    list_accounts = g_slist_append ( list_accounts, account );
 
     /* set the base */
     account -> account_number = last_number + 1;
@@ -285,28 +286,33 @@ static void _gsb_data_account_free ( struct_account* account )
 {
     if ( ! account )
         return;
-    if ( account -> account_id );
+    if ( account -> account_id )
 	g_free ( account -> account_id );
-    if ( account -> account_name );
+    if ( account -> account_name )
 	g_free ( account -> account_name );
-    if ( account -> name_icon );
+    if ( account -> name_icon )
 	g_free ( account -> name_icon );
-    if ( account -> comment );
+    if ( account -> comment )
 	g_free ( account -> comment );
-    if ( account -> holder_name );
+    if ( account -> holder_name )
 	g_free ( account -> holder_name );
-    if ( account -> holder_address );
+    if ( account -> holder_address )
 	g_free ( account -> holder_address );
-    if ( account -> bank_branch_code );
+    if ( account -> bank_branch_code )
 	g_free ( account -> bank_branch_code );
-    if ( account -> bank_account_number );
+    if ( account -> bank_account_number )
 	g_free ( account -> bank_account_number );
-    if ( account -> bank_account_key );
+    if ( account -> bank_account_key )
 	g_free ( account -> bank_account_key );
-    if ( account -> bank_account_iban );
+    if ( account -> bank_account_iban )
 	g_free ( account -> bank_account_iban );
-    /* TODO dOm : free row_align */
-    /* TODO dOm : free sort_list */
+    /* Should have already been freed */
+    if ( account -> sort_list )
+        g_slist_free( account -> sort_list ) ;
+    if ( account -> form_organization )
+        g_free ( account -> form_organization );
+    if ( account -> bet_start_date )
+        g_date_free( account -> bet_start_date );
     g_free ( account );
     if ( account_buffer == account )
 	account_buffer = NULL;
@@ -1393,7 +1399,7 @@ gboolean gsb_data_account_set_mini_balance_authorized_message ( gint account_num
  * 
  * \param account_number no of the account
  * 
- * \return last number of reconcile or 0 if the account doesn't exist
+ * \return currency or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_currency ( gint account_number )
 {
@@ -3057,7 +3063,7 @@ gboolean gsb_data_account_set_bet_auto_inc_month ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	    return FALSE;
 
     account -> bet_auto_inc_month = auto_inc_month;
@@ -3130,6 +3136,11 @@ gboolean gsb_data_account_set_bet_select_label ( gint account_number,
 }
 
 
+/**
+ * 
+ *
+ *
+ * */
 gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_number )
 {
     GDate *date_jour;
@@ -3140,12 +3151,118 @@ gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_nu
     g_date_add_months ( tmp_date, 1 );
 
     if ( g_date_compare ( date_jour, tmp_date ) >= 0 )
-        gsb_data_account_set_bet_start_date ( account_number, tmp_date );
+    {
+        if ( g_date_get_month ( date_jour ) == g_date_get_month ( tmp_date ) )
+            gsb_data_account_set_bet_start_date ( account_number, tmp_date );
+        else
+        {
+            g_date_set_day ( date_jour, g_date_get_day ( tmp_date ) );
+            gsb_data_account_set_bet_start_date ( account_number, date_jour );
+        }
+    }
 
     g_date_free ( tmp_date );
+    g_date_free ( date_jour );
 
     return FALSE;
 }
+
+
+/**
+ * retourne le bit utilisation du module budget. 
+ *
+ *  -1 pas de module possible 0 non utilisé 1 utilisé
+ * */
+gint gsb_data_account_get_bet_use_budget ( gint account_number )
+{
+    struct_account *account;
+    kind_account kind;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return 0;
+
+    kind = account -> account_kind;
+
+    switch ( kind )
+    {
+        case GSB_TYPE_BANK:
+        case GSB_TYPE_CASH:
+        case GSB_TYPE_LIABILITIES:
+            return account -> bet_use_budget;
+            break;
+        case GSB_TYPE_ASSET:
+            return -1;
+            break;
+        default:
+            return -1;
+            break;
+    }
+
+    return -1;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_use_budget ( gint account_number, gint value )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+	    return FALSE;
+
+    account -> bet_use_budget = value;
+
+    return TRUE;
+}
+/**
+ *
+ *
+ *
+ *
+ * */
+gint gsb_data_account_get_bet_maj ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	    return 0;
+
+    return account -> bet_maj;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_maj ( gint account_number, gint type_maj )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+	    return FALSE;
+
+    account -> bet_maj = type_maj;
+
+    return TRUE;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

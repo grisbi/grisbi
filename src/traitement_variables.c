@@ -30,6 +30,7 @@
 /*START_INCLUDE*/
 #include "traitement_variables.h"
 #include "./balance_estimate_data.h"
+#include "./balance_estimate_future.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
@@ -128,10 +129,15 @@ GdkColor couleur_nom_compte_prelight;
 
 GdkColor couleur_bleue;
 GdkColor couleur_jaune;
+
+/* colors for the balance estimate modul */
 GdkColor couleur_bet_division;
 GdkColor default_couleur_bet_division;
 GdkColor couleur_bet_future;
 GdkColor default_couleur_bet_future;
+GdkColor couleur_bet_transfert;
+GdkColor default_couleur_bet_transfert;
+
 
 GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 
@@ -383,6 +389,8 @@ void init_variables ( void )
 #ifdef ENABLE_BALANCE_ESTIMATE
     /* création de la liste des données à utiliser dans le tableau de résultats */
     bet_data_init_variables ( );
+    /* initialisation des boites de dialogue */
+    bet_future_initialise_dialog ( );
 #endif /* ENABLE_BALANCE_ESTIMATE */
     etat.bet_deb_period = 1;
 }
@@ -524,6 +532,15 @@ void initialisation_couleurs_listes ( void )
     default_couleur_bet_future.red = 31829;
     default_couleur_bet_future.green = 51015;
     default_couleur_bet_future.blue =  35908;
+
+    /* colors of the background bet transfert data */
+    couleur_bet_transfert.red = 31829;
+    couleur_bet_transfert.green = 51015;
+    couleur_bet_transfert.blue = 35908;
+
+    default_couleur_bet_transfert.red = 60035;
+    default_couleur_bet_transfert.green = 37622;
+    default_couleur_bet_transfert.blue =  59956;
 }
 /*****************************************************************************************************/
 

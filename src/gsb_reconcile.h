@@ -8,8 +8,8 @@
 /* START_DECLARATION */
 GtkWidget *gsb_reconcile_create_box ( void );
 gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
-					    gpointer null );
+                        gpointer null );
 gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
-					gpointer null );
+					    gpointer null );
 /* END_DECLARATION */
 #endif

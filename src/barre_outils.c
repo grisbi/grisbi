@@ -51,7 +51,7 @@ static GtkWidget *creation_barre_outils ( void );
 static gboolean popup_scheduled_view_mode_menu ( GtkWidget * button );
 static gboolean popup_transaction_rules_menu ( GtkWidget * button,
 					gpointer null );
-static  gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
+static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
 						   gpointer null );
 /*END_STATIC*/
 

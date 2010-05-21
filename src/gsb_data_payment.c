@@ -63,7 +63,7 @@ static GSList *payment_list = NULL;
 static struct_payment *payment_buffer;
 
 /*START_STATIC*/
-static  void _gsb_data_payment_free ( struct_payment *payment );
+static void _gsb_data_payment_free ( struct_payment *payment );
 static struct_payment *gsb_data_payment_get_structure ( gint payment_number );
 static gint gsb_data_payment_max_number ( void );
 /*END_STATIC*/

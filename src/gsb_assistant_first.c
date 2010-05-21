@@ -44,12 +44,12 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
+static gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
                         gint new_page );
-static  gboolean gsb_assistant_first_enter_page_3 ( GtkWidget *assistant,
+static gboolean gsb_assistant_first_enter_page_3 ( GtkWidget *assistant,
                         gint new_page );
-static  GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant );
+static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant );
+static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/

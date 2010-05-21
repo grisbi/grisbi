@@ -33,7 +33,7 @@ static gboolean is_valid_window_number(gint w);
 static CMDLINE_ERRNO parse_tab_parameters(char *tab_parameters, cmdline_options* pOpt);
 static void show_errstr(gint errval, gchar* extra);
 static void show_help(void);
-static void   show_usage(gint errval, gchar* extra);
+static void show_usage ( gint errval, gchar* extra );
 static void show_version(void);
 /*END_STATIC*/
 
@@ -166,7 +166,7 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
 void show_version(void)
 {
 #ifdef HAVE_PLUGINS
-    gsb_plugins_scan_dir ( PLUGINS_DIRECTORY );
+    gsb_plugins_scan_dir ( PLUGINS_DIR );
 #endif
 
     g_print(N_("Grisbi version %s, %s\n"), VERSION, gsb_plugin_get_list());

@@ -45,11 +45,11 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  gboolean gsb_automem_checkbutton_changed ( GtkWidget *checkbutton,
+static gboolean gsb_automem_checkbutton_changed ( GtkWidget *checkbutton,
 						  gpointer null );
-static  gboolean gsb_automem_entry_changed (GtkWidget *entry,
+static gboolean gsb_automem_entry_changed (GtkWidget *entry,
 					   gpointer null );
-static  gboolean gsb_automem_spin_button_changed ( GtkWidget *spin,
+static gboolean gsb_automem_spin_button_changed ( GtkWidget *spin,
 						  gpointer null);
 static GtkWidget *gsb_automem_spin_button_new_full ( gint *value, 
 					      gdouble lower, gdouble upper, 
@@ -57,7 +57,7 @@ static GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
 					      gdouble page_size, 
 					      gdouble climb_rate,
 					      GCallback hook, gpointer data );
-static  gboolean gsb_automem_textview_changed ( GtkTextBuffer *buffer,
+static gboolean gsb_automem_textview_changed ( GtkTextBuffer *buffer,
 					       gpointer null );
 /*END_STATIC*/
 

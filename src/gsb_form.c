@@ -71,6 +71,7 @@
 #include "./transaction_list.h"
 #include "./transaction_list_select.h"
 #include "./utils_operations.h"
+#include "./balance_estimate_data.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_payment.h"
 #include "./gtk_combofix.h"
@@ -82,8 +83,8 @@
 #include "./include.h"
 #include "./structures.h"
 #include "./erreur.h"
-#include "./gsb_form_widget.h"
 #include "./gsb_real.h"
+#include "./gsb_form_widget.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -97,7 +98,8 @@ static gboolean gsb_form_get_categories ( gint transaction_number,
                         gint new_transaction,
                         gboolean is_transaction );
 static gboolean gsb_form_hide ( void );
-static  gboolean gsb_form_size_allocate ( GtkWidget *widget,
+static void gsb_form_set_current_date_into_date_entry ( void );
+static gboolean gsb_form_size_allocate ( GtkWidget *widget,
                         GtkAllocation *allocation,
                         gpointer null );
 static void gsb_form_take_datas_from_form ( gint transaction_number,
@@ -1197,9 +1199,6 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 
     /* if each account has a separate form, get it here,
      * else, get the form of the first account */
-    //~ if (etat.formulaire_distinct_par_compte)
-	//~ form_account_number = account_number;
-    //~ else
 	form_account_number = gsb_data_account_first_number ();
 
     rows_number = gsb_data_form_get_nb_rows (form_account_number);
@@ -2641,28 +2640,29 @@ gboolean gsb_form_finish_edition ( void )
     /* as we modify or create a transaction, we invalidate the current report */
     gsb_report_set_current ( 0 );
 
-#ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
-    bet_data_set_maj ( account_number, BET_MAJ_ESTIMATE );
-#endif /* ENABLE_BALANCE_ESTIMATE */
+    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
     /* Si l'origine de l'opération est un modèle alors on sélectionne une ligne vide */
-    if ( GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( transaction_form ),
-							      "transaction_selected_in_form" ) ) == -1 )
-    {
-        g_object_set_data ( G_OBJECT ( transaction_form ), "transaction_selected_in_form", NULL );
-        transaction_list_select ( -1 );
-        return FALSE;
-    }
-
+    //~ if ( GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( transaction_form ),
+							      //~ "transaction_selected_in_form" ) ) == -1 )
+    //~ {
+        //~ g_object_set_data ( G_OBJECT ( transaction_form ), "transaction_selected_in_form", NULL );
+        //~ transaction_list_select ( -1 );
+        //~ return FALSE;
+    //~ }
     /* give the focus to the date widget */
-    if ( is_transaction )
-        gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
-    else
-        gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
+    //~ if ( is_transaction )
+    //~ {
+    gsb_form_escape_form ( );
+    gsb_form_set_current_date_into_date_entry ( );
+    gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
+    //~ }
+    //~ else
+        //~ gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
 
     return FALSE;
 }
@@ -2758,9 +2758,11 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
             if ( gsb_form_widget_check_empty ( widget ) == TRUE
              ||
              number.mantissa == 0 )
+            {
                 dialogue_error ( _("You must enter an amount.") );
 
-            return (FALSE);
+                return (FALSE);
+            }
         }
     }
     
@@ -2860,18 +2862,21 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 		if (!question_yes_no ( _("Selected method of payment has an automatic incremental number\nbut doesn't contain any number.\nContinue anyway?"), GTK_RESPONSE_CANCEL))
 		    return (FALSE);
 	    }
-	    else
+	    else if ( mother_number == 0 )
 	    {
 		/* check that the number is not used */
 		gint tmp_transaction_number;
 		
-		tmp_transaction_number = gsb_data_transaction_check_content_payment (payment, utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (widget))));
+		tmp_transaction_number = gsb_data_transaction_check_content_payment (
+                                    payment, utils_str_atoi (
+                                    gtk_entry_get_text ( GTK_ENTRY ( widget ) ) ) );
 
 		if ( tmp_transaction_number
-		     &&
-		     tmp_transaction_number != transaction_number
-		     &&
-		     !question_yes_no ( _("Warning: this cheque number is already used.\nContinue anyway?"), GTK_RESPONSE_CANCEL))
+         &&
+         tmp_transaction_number != transaction_number
+         &&
+         !question_yes_no ( _("Warning: this cheque number is already used.\nContinue anyway?"),
+         GTK_RESPONSE_CANCEL ) )
 		    return FALSE;
 	    }
 	}
@@ -3546,6 +3551,24 @@ GtkWidget *gsb_form_get_element_widget_from_list ( gint element_number,
     return NULL;
 }
 
+
+void gsb_form_set_current_date_into_date_entry ( void )
+{
+    GtkWidget *date_entry;
+
+	date_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE );
+	if ( gsb_form_widget_check_empty ( date_entry ) )
+	{
+        if ( save_form_date )
+            gtk_entry_set_text ( GTK_ENTRY ( date_entry ),
+                        gsb_format_gdate ( save_form_date ) );
+        else
+            gtk_entry_set_text ( GTK_ENTRY ( date_entry ),
+                         gsb_date_today ( ) );
+
+	    gsb_form_widget_set_empty ( date_entry, FALSE );
+    }
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

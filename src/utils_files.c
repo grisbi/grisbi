@@ -879,6 +879,8 @@ gchar *utils_files_get_ofx_charset ( gchar *contents )
                     }
                     i++;
                 } while ( all_charset_array[i] );
+				//CHARSET found in OFX file, but no match --> Exit function
+				return NULL;
             }
             g_free ( string );
             ptr = ptr_tmp + 1;

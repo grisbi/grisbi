@@ -100,31 +100,31 @@ static void remplissage_liste_modes_paiement_etats ( void );
 static void remplissage_liste_tiers_etats ( void );
 static void remplit_liste_comparaisons_montants_etat ( void );
 static void remplit_liste_comparaisons_textes_etat ( void );
-static  gboolean report_config_budget_select_all ( GtkWidget *button,
+static gboolean report_config_budget_select_all ( GtkWidget *button,
 						  gboolean *select_ptr );
-static  gboolean report_config_budget_select_type ( GtkWidget *button,
+static gboolean report_config_budget_select_type ( GtkWidget *button,
 						   gboolean *type_ptr );
-static  GSList *report_config_categ_budget_get_selected ( gboolean is_categ );
-static  gboolean report_config_categ_budget_toggled ( GtkCellRendererToggle *radio_renderer,
+static GSList *report_config_categ_budget_get_selected ( gboolean is_categ );
+static gboolean report_config_categ_budget_toggled ( GtkCellRendererToggle *radio_renderer,
 						     gchar *path_str,
 						     GtkTreeStore *store );
-static  gboolean report_config_category_select_all ( GtkWidget *button,
+static gboolean report_config_category_select_all ( GtkWidget *button,
 						    gboolean *select_ptr );
-static  gboolean report_config_category_select_type ( GtkWidget *button,
+static gboolean report_config_category_select_type ( GtkWidget *button,
 						     gboolean *type_ptr );
-static  void report_config_category_toggle_categ ( struct_categ_budget_sel *categ_budget_struct,
+static void report_config_category_toggle_categ ( struct_categ_budget_sel *categ_budget_struct,
 						  gboolean is_categ );
-static  void report_config_category_update_treeview ( gboolean is_categ );
-static  GtkWidget *report_config_create_categ_budget_list ( void );
-static  gboolean report_config_fill_categ_budget_list ( gboolean is_categ );
-static  gboolean report_config_mix_select_all ( GtkTreeModel *model,
+static void report_config_category_update_treeview ( gboolean is_categ );
+static GtkWidget *report_config_create_categ_budget_list ( void );
+static gboolean report_config_fill_categ_budget_list ( gboolean is_categ );
+static gboolean report_config_mix_select_all ( GtkTreeModel *model,
 					       gboolean toggle_value );
-static  gboolean report_config_mix_select_type ( gboolean is_categ,
+static gboolean report_config_mix_select_type ( gboolean is_categ,
 						gboolean type );
-static  void report_config_mixed_list_add_div ( gboolean is_categ,
+static void report_config_mixed_list_add_div ( gboolean is_categ,
 					       const gchar *name,
 					       gint number );
-static  void report_config_mixed_list_add_sub_div ( gboolean is_categ,
+static void report_config_mixed_list_add_sub_div ( gboolean is_categ,
 						   const gchar *name,
 						   gint number );
 static gboolean report_tree_selectable_func (GtkTreeSelection *selection,

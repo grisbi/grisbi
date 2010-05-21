@@ -5,6 +5,7 @@
 
 /* START_INCLUDE_H */
 #include "././gsb_real.h"
+#include "./fenetre_principale.h"
 /* END_INCLUDE_H */
 
 
@@ -12,6 +13,7 @@ typedef struct _bet_range           SBR;
 typedef struct _historical          SH;
 typedef struct _hist_div            struct_hist_div;
 typedef struct _future_data         struct_futur_data;
+typedef struct _transfert_data      struct_transfert_data;
 
 struct _bet_range
 {
@@ -65,12 +67,19 @@ struct _future_data
 };
 
 
-enum type_maj 
+struct _transfert_data
 {
-    BET_MAJ_FALSE = 0,
-    BET_MAJ_ESTIMATE,
-    BET_MAJ_HISTORICAL,
-    BET_MAJ_ALL,
+    gint number;
+    gint account_number;
+    gint type;
+    gint replace_account;
+    gint replace_transaction;
+    gint auto_inc_month;
+    GDate *date;
+    gint category_number;
+    gint sub_category_number;
+    gint budgetary_number;
+    gint sub_budgetary_number;
 };
 
 
@@ -90,7 +99,6 @@ gchar *bet_data_get_div_name ( gint div_num,
                         gint sub_div,
                         const gchar *return_value_error );
 gint bet_data_get_div_number ( gint transaction_number, gboolean is_transaction );
-gint bet_data_get_maj ( void );
 gint bet_data_get_selected_currency ( void );
 GPtrArray *bet_data_get_strings_to_save ( void );
 gint bet_data_get_sub_div_nb ( gint transaction_number, gboolean is_transaction );
@@ -103,6 +111,7 @@ void bet_data_insert_div_hist ( struct_hist_div *shd, struct_hist_div *sub_shd )
 gboolean bet_data_populate_div ( gint transaction_number,
                         gboolean is_transaction,
                         GHashTable  *list_div );
+gboolean bet_data_remove_all_bet_data ( gint account_number );
 gboolean bet_data_remove_div_hist ( gint account_nb, gint div_number, gint sub_div_nb );
 gboolean bet_data_search_div_hist ( gint account_nb, gint div_number, gint sub_div_nb );
 void bet_data_select_bet_pages ( gint account_number );
@@ -117,9 +126,17 @@ gboolean bet_data_set_div_edited ( gint account_nb,
 gboolean bet_data_set_div_ptr ( gint type_div );
 void bet_data_set_maj ( gint account_number, gint type_maj );
 void bet_data_synchronise_hist_div_list ( GHashTable  *list_div );
+gboolean bet_data_transfert_add_line ( struct_transfert_data *transfert );
+GHashTable *bet_data_transfert_get_list ( void );
+gboolean bet_data_transfert_modify_line ( struct_transfert_data *transfert );
+gboolean bet_data_transfert_remove_line ( gint account_number, gint number );
+gboolean bet_data_transfert_set_line_from_file ( struct_transfert_data *transfert );
+void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transfert );
+void bet_data_update_bet_module ( gint account_number, guint page );
 void struct_free_bet_historical ( SH *sh );
 struct_futur_data *struct_initialise_bet_future ( void );
 SBR *struct_initialise_bet_range ( void );
+struct_transfert_data *struct_initialise_bet_transfert ( void );
 struct_hist_div *struct_initialise_hist_div ( void );
 /* END_DECLARATION */
 

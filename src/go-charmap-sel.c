@@ -41,28 +41,28 @@ struct cb_find_entry {
 };
 
 /*START_STATIC*/
-static  void cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl);
-static  int charset_order (const void *_a, const void *_b);
-static  void cs_build_menu (GOCharmapSel *cs);
-static  void cs_class_init (GtkWidgetClass *widget_klass);
-static  void cs_emphasize_label (GtkLabel *label);
-static  void cs_get_property (GObject     *object,
+static void cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl);
+static int charset_order (const void *_a, const void *_b);
+static void cs_build_menu (GOCharmapSel *cs);
+static void cs_class_init (GtkWidgetClass *widget_klass);
+static void cs_emphasize_label (GtkLabel *label);
+static void cs_get_property (GObject     *object,
 		 guint        prop_id,
 		 GValue      *value,
 		 GParamSpec  *pspec);
-static  void cs_init (GOCharmapSel *cs);
-static  gboolean cs_mnemonic_activate (GtkWidget *w, gboolean group_cycling);
-static  void cs_set_property (GObject      *object,
+static void cs_init (GOCharmapSel *cs);
+static gboolean cs_mnemonic_activate (GtkWidget *w, gboolean group_cycling);
+static void cs_set_property (GObject      *object,
 		 guint         prop_id,
 		 const GValue *value,
 		 GParamSpec   *pspec);
-static  void encodings_changed_cb (GOOptionMenu *optionmenu, GOCharmapSel *cs);
-static  char const * get_locale_encoding_name (GOCharmapSel *cs);
+static void encodings_changed_cb (GOOptionMenu *optionmenu, GOCharmapSel *cs);
+static char const * get_locale_encoding_name (GOCharmapSel *cs);
 static const char * go_charmap_sel_get_encoding_name (G_GNUC_UNUSED GOCharmapSel *cs,
 				    const char *encoding);
-static  gboolean iconv_supported (const char *to, const char *from);
-static  int lgroups_order (const void *_a, const void *_b);
-static  void set_menu_to_default (GOCharmapSel *cs, gint item);
+static gboolean iconv_supported (const char *to, const char *from);
+static int lgroups_order (const void *_a, const void *_b);
+static void set_menu_to_default (GOCharmapSel *cs, gint item);
 /*END_STATIC*/
 
 /*START_EXTERN*/

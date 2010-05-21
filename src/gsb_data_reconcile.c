@@ -57,7 +57,7 @@ typedef struct
 
 
 /*START_STATIC*/
-static  void _gsb_data_reconcile_free ( struct_reconcile *reconcile );
+static void _gsb_data_reconcile_free ( struct_reconcile *reconcile );
 static gint gsb_data_reconcile_cmp_int (struct_reconcile *reconcile_1,
                         struct_reconcile *reconcile_2);
 static gpointer gsb_data_reconcile_get_structure ( gint reconcile_number );

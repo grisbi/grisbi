@@ -69,11 +69,11 @@ typedef struct
 
 
 /*START_STATIC*/
-static  void _gsb_data_archive_store_free ( struct_store_archive *archive );
-static  struct_store_archive *gsb_data_archive_store_find_struct ( gint archive_number,
+static void _gsb_data_archive_store_free ( struct_store_archive *archive );
+static struct_store_archive *gsb_data_archive_store_find_struct ( gint archive_number,
                         gint account_number );
-static  gint gsb_data_archive_store_max_number ( void );
-static  gint gsb_data_archive_store_new ( void );
+static gint gsb_data_archive_store_max_number ( void );
+static gint gsb_data_archive_store_new ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/

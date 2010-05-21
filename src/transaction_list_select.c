@@ -40,7 +40,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  gboolean transaction_list_select_record ( CustomRecord *record );
+static gboolean transaction_list_select_record ( CustomRecord *record );
 /*END_STATIC*/
 
 /*START_EXTERN*/

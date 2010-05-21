@@ -42,39 +42,39 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  void custom_list_class_init (CustomListClass *klass);
+static void custom_list_class_init (CustomListClass *klass);
 static void custom_list_finalize (GObject *object);
-static  GType custom_list_get_column_type (GtkTreeModel *tree_model,
+static GType custom_list_get_column_type (GtkTreeModel *tree_model,
 					  gint          index);
-static  GtkTreeModelFlags custom_list_get_flags (GtkTreeModel *tree_model);
-static  gboolean custom_list_get_iter (GtkTreeModel *tree_model,
+static GtkTreeModelFlags custom_list_get_flags (GtkTreeModel *tree_model);
+static gboolean custom_list_get_iter (GtkTreeModel *tree_model,
 				      GtkTreeIter  *iter,
 				      GtkTreePath  *path);
-static  gint custom_list_get_n_columns (GtkTreeModel *tree_model);
-static  GtkTreePath *custom_list_get_path (GtkTreeModel *tree_model,
+static gint custom_list_get_n_columns (GtkTreeModel *tree_model);
+static GtkTreePath *custom_list_get_path (GtkTreeModel *tree_model,
 					  GtkTreeIter  *iter);
-static  void custom_list_get_value (GtkTreeModel *tree_model,
+static void custom_list_get_value (GtkTreeModel *tree_model,
 				   GtkTreeIter  *iter,
 				   gint          column,
 				   GValue       *value);
-static  void custom_list_init (CustomList *custom_list);
-static  gboolean custom_list_iter_children (GtkTreeModel *tree_model,
+static void custom_list_init (CustomList *custom_list);
+static gboolean custom_list_iter_children (GtkTreeModel *tree_model,
 					   GtkTreeIter  *iter,
 					   GtkTreeIter  *parent);
-static  gboolean custom_list_iter_has_child (GtkTreeModel *tree_model,
+static gboolean custom_list_iter_has_child (GtkTreeModel *tree_model,
 					    GtkTreeIter  *iter);
-static  gint custom_list_iter_n_children (GtkTreeModel *tree_model,
+static gint custom_list_iter_n_children (GtkTreeModel *tree_model,
 					 GtkTreeIter  *iter);
-static  gboolean custom_list_iter_next (GtkTreeModel  *tree_model,
+static gboolean custom_list_iter_next (GtkTreeModel  *tree_model,
 				       GtkTreeIter   *iter);
-static  gboolean custom_list_iter_nth_child (GtkTreeModel *tree_model,
+static gboolean custom_list_iter_nth_child (GtkTreeModel *tree_model,
 					    GtkTreeIter  *iter,
 					    GtkTreeIter  *parent,
 					    gint          n);
-static  gboolean custom_list_iter_parent (GtkTreeModel *tree_model,
+static gboolean custom_list_iter_parent (GtkTreeModel *tree_model,
 					 GtkTreeIter  *iter,
 					 GtkTreeIter  *child);
-static  void custom_list_tree_model_init (GtkTreeModelIface *iface);
+static void custom_list_tree_model_init (GtkTreeModelIface *iface);
 /*END_STATIC*/
 
 /*START_EXTERN*/
