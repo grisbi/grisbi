@@ -120,7 +120,7 @@ int main (int argc, char **argv)
     struct sigaction sig_sev;
 #endif
 #ifdef _MSC_VER
-	gchar * gtkrc_file;
+	gchar *gtkrc_file;
 #endif
 
 #if GSB_GMEMPROFILE

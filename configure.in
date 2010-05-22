@@ -258,7 +258,8 @@ AC_DEFINE_UNQUOTED([GSB_NOOPTIM], [${GSB_NOOPTIM}],
 	[define to 1 if g_no_optim support is enabled])
 AC_SUBST(GSB_NOOPTIM)
 
-
+# Avoid implicit dynamic linking
+LDFLAGS="${LDFLAGS} -lm -lz"
 
 AC_SUBST(GTK_LIBS)
 AC_SUBST(GTK_CFLAGS)

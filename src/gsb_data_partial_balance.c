@@ -81,7 +81,6 @@ static void gsb_partial_balance_selectionne_cptes ( GtkWidget *tree_view,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *main_vbox;
 extern gsb_real null_real;
 extern GtkWidget *window;
 /*END_EXTERN*/
