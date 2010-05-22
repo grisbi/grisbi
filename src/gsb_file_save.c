@@ -1186,7 +1186,7 @@ gulong gsb_file_save_payment_part ( gulong iterator,
 
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( 
-                           "\t<Payment Number=\"%d\" Name=\"%s\" Sign=\"%d\" Show_entry=\"%d\""
+                           "\t<Payment Number=\"%d\" Name=\"%s\" Sign=\"%d\" Show_entry=\"%d\" "
                            "Automatic_number=\"%d\" Current_number=\"%s\" Account=\"%d\" />\n",
 					       payment_number,
                            my_safe_null_str(gsb_data_payment_get_name (payment_number)),
@@ -1270,7 +1270,11 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 	value_date = gsb_format_gdate_safe ( gsb_data_transaction_get_value_date ( transaction_number ));
 
 	/* now we can fill the file content */
-	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Cu=\"%d\" Am=\"%s\" Exb=\"%d\" Exr=\"%s\" Exf=\"%s\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Ar=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Mo=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" "
+                           "Dv=\"%s\" Cu=\"%d\" Am=\"%s\" Exb=\"%d\" Exr=\"%s\" Exf=\"%s\" "
+                           "Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" "
+                           "Pc=\"%s\" Ma=\"%d\" Ar=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" "
+                           "Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Mo=\"%d\" />\n",
 					       gsb_data_transaction_get_account_number ( transaction_number ),
 					       transaction_number,
 					       my_safe_null_str(gsb_data_transaction_get_transaction_id ( transaction_number)),
@@ -1355,7 +1359,11 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 	limit_date = gsb_format_gdate_safe (gsb_data_scheduled_get_limit_date ( scheduled_number));
 
 	/* now we can fill the file content */
-	new_string = g_markup_printf_escaped ( "\t<Scheduled Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" Am=\"%s\" Cu=\"%d\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Tra=\"%d\" Pn=\"%d\" CPn=\"%d\" Pc=\"%s\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" Au=\"%d\" Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Br=\"%d\" Mo=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Scheduled Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" Am=\"%s\" "
+                           "Cu=\"%d\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Tra=\"%d\" Pn=\"%d\" "
+                           "CPn=\"%d\" Pc=\"%s\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" "
+                           "Au=\"%d\" Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Br=\"%d\" "
+                           "Mo=\"%d\" />\n",
 					       scheduled_number,
 					       my_safe_null_str(date),
 					       gsb_data_scheduled_get_account_number ( scheduled_number),
@@ -1579,7 +1587,8 @@ gulong gsb_file_save_budgetary_part ( gulong iterator,
 	    /* now we can fill the file content
 	     * carrefull : the number of budget must be the first */
 
-	    new_string = g_markup_printf_escaped ( "\t<Sub_budgetary Nbb=\"%d\" Nb=\"%d\" Na=\"%s\" />\n",
+	    new_string = g_markup_printf_escaped ( "\t<Sub_budgetary Nbb=\"%d\" Nb=\"%d\" "
+                           "Na=\"%s\" />\n",
 						   budget_number,
 						   sub_budget_number,
 						   my_safe_null_str(gsb_data_budget_get_sub_budget_name ( budget_number,
@@ -1628,7 +1637,8 @@ gulong gsb_file_save_currency_part ( gulong iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_markup_printf_escaped ( "\t<Currency Nb=\"%d\" Na=\"%s\" Co=\"%s\" Ico=\"%s\" Fl=\"%d\" />\n",
+	new_string = g_markup_printf_escaped (
+                           "\t<Currency Nb=\"%d\" Na=\"%s\" Co=\"%s\" Ico=\"%s\" Fl=\"%d\" />\n",
 					       currency_number,
 					       my_safe_null_str(gsb_data_currency_get_name (currency_number)),
 					       my_safe_null_str(gsb_data_currency_get_code (currency_number)),
@@ -1732,7 +1742,9 @@ gulong gsb_file_save_bank_part ( gulong iterator,
 	bank_number = gsb_data_bank_get_no_bank (list_tmp -> data);
 
 	/* now we can fill the file content */
-	new_string = g_markup_printf_escaped ( "\t<Bank Nb=\"%d\" Na=\"%s\" Co=\"%s\" BIC=\"%s\" Adr=\"%s\" Tel=\"%s\" Mail=\"%s\" Web=\"%s\" Nac=\"%s\" Faxc=\"%s\" Telc=\"%s\" Mailc=\"%s\" Rem=\"%s\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Bank Nb=\"%d\" Na=\"%s\" Co=\"%s\" BIC=\"%s\" "
+                        "Adr=\"%s\" Tel=\"%s\" Mail=\"%s\" Web=\"%s\" Nac=\"%s\" Faxc=\"%s\" "
+                        "Telc=\"%s\" Mailc=\"%s\" Rem=\"%s\" />\n",
                         bank_number,
                         my_safe_null_str(gsb_data_bank_get_name (bank_number)),
                         my_safe_null_str(gsb_data_bank_get_code (bank_number)),
@@ -1791,7 +1803,8 @@ gulong gsb_file_save_financial_year_part ( gulong iterator,
 	end_date = gsb_format_gdate_safe (gsb_data_fyear_get_end_date(fyear_number));
 
 	/* now we can fill the file content */
-	new_string = g_markup_printf_escaped( "\t<Financial_year Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Sho=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Financial_year Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" "
+                          "Edte=\"%s\" Sho=\"%d\" />\n",
 					      fyear_number,
 					      my_safe_null_str(gsb_data_fyear_get_name (fyear_number)),
 					      my_safe_null_str(beginning_date),
@@ -1844,7 +1857,8 @@ gulong gsb_file_save_archive_part ( gulong iterator,
 	end_date = gsb_format_gdate_safe (gsb_data_archive_get_end_date (archive_number));
 
 	/* now we can fill the file content */
-	new_string = g_markup_printf_escaped( "\t<Archive Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Fye=\"%d\" Rep=\"%s\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Archive Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" "
+                          "Edte=\"%s\" Fye=\"%d\" Rep=\"%s\" />\n",
 					      archive_number,
 					      my_safe_null_str(gsb_data_archive_get_name (archive_number)),
 					      my_safe_null_str(beginning_date),
@@ -1913,7 +1927,8 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
                         gsb_data_reconcile_get_final_balance ( reconcile_number ), 2 );
 
 	/* now we can fill the file content */
-	new_string = g_markup_printf_escaped ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" Acc=\"%d\" Idate=\"%s\" Fdate=\"%s\" Ibal=\"%s\" Fbal=\"%s\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" Acc=\"%d\" "
+                           "Idate=\"%s\" Fdate=\"%s\" Ibal=\"%s\" Fbal=\"%s\" />\n",
 					       reconcile_number,
 					       my_safe_null_str(gsb_data_reconcile_get_name (reconcile_number)),
 					       gsb_data_reconcile_get_account (reconcile_number),
@@ -1962,7 +1977,8 @@ gulong gsb_file_save_import_rule_part ( gulong iterator,
 
 	import_rule_number = gsb_data_import_rule_get_number (list_tmp -> data);
 
-	new_string = g_markup_printf_escaped ( "\t<Import_rule Nb=\"%d\" Na=\"%s\" Acc=\"%d\" Cur=\"%d\" Inv=\"%d\" Enc=\"%s\" Fil=\"%s\" Act=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Import_rule Nb=\"%d\" Na=\"%s\" Acc=\"%d\" "
+                           "Cur=\"%d\" Inv=\"%d\" Enc=\"%s\" Fil=\"%s\" Act=\"%d\" />\n",
 					       import_rule_number,
 					       my_safe_null_str(gsb_data_import_rule_get_name (import_rule_number)),
 					       gsb_data_import_rule_get_account (import_rule_number),
