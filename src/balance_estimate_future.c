@@ -53,7 +53,6 @@
 #include "./gtk_combofix.h"
 #include "./utils.h"
 #include "./utils_str.h"
-#include "./balance_estimate_data.h"
 #include "./structures.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_account.h"
@@ -544,7 +543,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
 
     element_number = TRANSACTION_FORM_CATEGORY;
     widget = gtk_combofix_new_complex (
-                         gsb_data_category_get_name_list ( TRUE, TRUE, FALSE, FALSE ) );
+                         gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, FALSE ) );
     gtk_widget_set_size_request ( widget, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
 					  etat.combofix_force_category );
@@ -1624,21 +1623,30 @@ gboolean bet_future_get_category_data ( GtkWidget *widget,
 {
     const gchar *string;
     gchar **tab_char;
-    gint category_number;
+    gint category_number = 0;
     gint sub_category_number = 0;
+    struct_futur_data *sd = ( struct_futur_data *) value;
 
     string = gtk_combofix_get_text ( GTK_COMBOFIX ( widget ) );
     if ( string && strlen ( string ) > 0 )
     {
         tab_char = g_strsplit ( string, " : ", 2 );
-        category_number = gsb_data_category_get_number_by_name (
-                        tab_char[0], FALSE, 0 );
-
-        if ( tab_char[1] && strlen ( tab_char[1] ) )
-            sub_category_number = gsb_data_category_get_sub_category_number_by_name (
-                        category_number, tab_char[1], FALSE );
+        if ( my_strcasecmp ( tab_char[0], _("Transfer") ) == 0 )
+        {
+            sd -> is_transfert = TRUE;
+            sd -> account_transfert =  gsb_data_account_get_no_account_by_name ( tab_char[1] );
+        }
         else
-            sub_category_number = 0;
+        {
+            category_number = gsb_data_category_get_number_by_name (
+                            tab_char[0], FALSE, 0 );
+
+            if ( tab_char[1] && strlen ( tab_char[1] ) )
+                sub_category_number = gsb_data_category_get_sub_category_number_by_name (
+                            category_number, tab_char[1], FALSE );
+            else
+                sub_category_number = 0;
+        }
     }
     else
     {
@@ -1648,15 +1656,11 @@ gboolean bet_future_get_category_data ( GtkWidget *widget,
 
     if ( struct_type == 0 )
     {
-        struct_futur_data *sd = ( struct_futur_data *) value;
-
         sd -> category_number = category_number;
         sd -> sub_category_number = sub_category_number;
     }
     else if ( struct_type == 1 )
     {
-        struct_transfert_data *sd = ( struct_transfert_data *) value;
-
         sd -> category_number = category_number;
         sd -> sub_category_number = sub_category_number;
     }

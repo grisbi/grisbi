@@ -60,11 +60,9 @@
 #include "./gsb_transactions_list.h"
 #include "./traitement_variables.h"
 #include "./transaction_list_select.h"
-#include "./balance_estimate_data.h"
 #include "./structures.h"
 #include "./fenetre_principale.h"
 #include "./mouse.h"
-#include "./balance_estimate_hist.h"
 #include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -109,7 +107,6 @@ static gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel 
 static gint bet_array_list_schedule_line ( gint origine, gint account_number, gint number );
 static void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
-static gboolean bet_array_list_select_path ( GtkWidget *tree_view, const gchar *str_path );
 static gboolean bet_array_list_set_background_color ( GtkWidget *tree_view );
 static void bet_array_list_traite_double_click ( GtkTreeView *tree_view );
 static void bet_array_list_update_balance ( GtkTreeModel *model );
@@ -355,6 +352,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     GtkWidget *tree_view;
     GtkTreeIter iter;
     GtkTreeModel *tree_model;
+    GtkTreePath *path = NULL;
     gchar *color_str = NULL;
     gchar *str_date_min;
     gchar *str_date_max;
@@ -370,11 +368,12 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     GValue date_value = {0, };
 
     devel_debug (NULL);
+
     tmp_range = struct_initialise_bet_range ( );
 
     /* calculate date_min and date_max with user choice */
     date_min = gsb_data_account_get_bet_start_date ( account_number );
-    
+
     date_max = bet_data_array_get_date_max ( account_number );
 
     widget = g_object_get_data ( G_OBJECT ( account_page ), "bet_initial_date");
@@ -416,9 +415,13 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     gtk_label_set_label ( GTK_LABEL ( widget ), title );
     g_free ( title );
 
-    /* clear the model */
     tree_view = g_object_get_data ( G_OBJECT ( account_page ), "bet_estimate_treeview" );
-    tree_model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+    if ( gtk_tree_selection_get_selected (
+                        gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ),
+                        &tree_model, &iter ) )
+        path = gtk_tree_model_get_path ( tree_model, &iter );
+
+    /* clear the model */
     gtk_tree_store_clear ( GTK_TREE_STORE ( tree_model ) );
 
     tmp_str = g_strdup ( _("balance beginning of period") );
@@ -475,7 +478,8 @@ void bet_array_refresh_estimate_tab ( gint account_number )
                         bet_array_update_average_column, tmp_range );
 
     bet_array_list_set_background_color ( tree_view );
-    bet_array_list_select_path ( tree_view, "0" );
+    bet_array_list_select_path ( tree_view, path );
+    gtk_tree_path_free ( path );
 }
 
 
@@ -1122,9 +1126,14 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
         gchar *str_description;
         gchar *str_amount;
         GDate *date_tomorrow;
+        gsb_real amount;
 
         if ( account_number != scheduled -> account_number )
-            continue;
+        {
+            if ( scheduled -> is_transfert == 0
+             || ( scheduled -> is_transfert && account_number != scheduled -> account_transfert ) )
+                continue;
+        }
 
         date_tomorrow = gsb_date_tomorrow ( );
         if ( g_date_compare ( scheduled -> date, date_tomorrow ) < 0 )
@@ -1148,14 +1157,18 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
                         SPP_ORIGIN_FUTURE,
                         value );
 
-        str_amount = gsb_real_save_real_to_string ( scheduled -> amount, 2 );
+        if ( scheduled -> is_transfert )
+            amount = gsb_real_opposite ( scheduled -> amount );
+        else
+            amount = scheduled -> amount;
 
-        if ( scheduled -> amount.mantissa < 0 )
-            str_debit = gsb_real_get_string_with_currency ( gsb_real_opposite (
-                            scheduled -> amount ),
+        str_amount = gsb_real_save_real_to_string ( amount, 2 );
+
+        if ( amount.mantissa < 0 )
+            str_debit = gsb_real_get_string_with_currency ( gsb_real_opposite ( amount ),
                             bet_data_get_selected_currency ( ), TRUE );
         else
-            str_credit = gsb_real_get_string_with_currency ( scheduled -> amount,
+            str_credit = gsb_real_get_string_with_currency ( amount,
                             bet_data_get_selected_currency ( ), TRUE );
 
         str_date = gsb_format_gdate ( scheduled -> date );
@@ -1881,27 +1894,32 @@ gboolean bet_array_start_date_focus_out ( GtkWidget *entry,
 
 
 /**
- * select the paths of the list
+ * select path in the list
  *
- * \param tree_view, str_path
+ * \param tree_view, path
  *
  * \return FALSE
  * */
-gboolean bet_array_list_select_path ( GtkWidget *tree_view, const gchar *str_path )
+gboolean bet_array_list_select_path ( GtkWidget *tree_view, GtkTreePath *path )
 {
-    GtkTreePath *path;
     GtkTreeSelection *selection;
+    gboolean reset_pos = FALSE;
 
-    path = gtk_tree_path_new_from_string ( str_path );
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+
+    if ( path == NULL )
+    {
+        path = gtk_tree_path_new_from_string ( "0" );
+        reset_pos = TRUE;
+    }
 
     gtk_widget_grab_focus ( tree_view );
     gtk_tree_selection_select_path ( selection, path );
-    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ),
+
+    if ( reset_pos )
+        gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ),
 				   path, NULL,
 				   FALSE, 0.0, 0.0 );
-
-    gtk_tree_path_free ( path );
 
     return FALSE;
 }
@@ -2319,41 +2337,57 @@ gchar *bet_array_list_get_description ( gint account_number,
     {
         struct_futur_data *scheduled = ( struct_futur_data * ) value;
 
-        switch ( type )
+        if ( scheduled -> is_transfert )
         {
-            case 0:
-                desc = g_strdup ( scheduled -> notes );
-                if ( desc && strlen ( desc ) )
-                    break;
-                
-                desc = g_strdup ( gsb_data_payee_get_name (
-                                scheduled -> party_number, TRUE ) );
-                if ( desc && strlen ( desc ) )
-                    break;
+            if ( account_number == scheduled -> account_number )
+                desc = g_strdup_printf ( _("Transfer between account: %s\n"
+                        "and account: %s"),
+                        gsb_data_account_get_name ( account_number ),
+                        gsb_data_account_get_name ( scheduled -> account_transfert ) );
+            else
+                desc = g_strdup_printf ( _("Transfer between account: %s\n"
+                        "and account: %s"),
+                        gsb_data_account_get_name ( scheduled -> account_transfert ),
+                        gsb_data_account_get_name ( scheduled -> account_number ) );
+        }
+        else
+        {
+            switch ( type )
+            {
+                case 0:
+                    desc = g_strdup ( scheduled -> notes );
+                    if ( desc && strlen ( desc ) )
+                        break;
+                    
+                    desc = g_strdup ( gsb_data_payee_get_name (
+                                    scheduled -> party_number, TRUE ) );
+                    if ( desc && strlen ( desc ) )
+                        break;
 
-                desc = g_strdup ( gsb_data_category_get_name (
-                                scheduled -> category_number,
-                                scheduled -> sub_category_number, NULL) );
-                if ( desc && strlen ( desc ) )
-                    break;
+                    desc = g_strdup ( gsb_data_category_get_name (
+                                    scheduled -> category_number,
+                                    scheduled -> sub_category_number, NULL) );
+                    if ( desc && strlen ( desc ) )
+                        break;
 
-                desc = g_strdup ( gsb_data_budget_get_name (
-                                scheduled -> budgetary_number,
-                                scheduled -> sub_budgetary_number,
-                                _("No data by default") ) );
-                break;
-            case 1:
-                desc = g_strdup ( gsb_data_category_get_name (
-                                scheduled -> category_number,
-                                scheduled -> sub_category_number,
-                                _("No category") ) );
-                break;
-            case 2:
-                desc = g_strdup ( gsb_data_budget_get_name (
-                                scheduled -> budgetary_number,
-                                scheduled -> sub_budgetary_number,
-                                _("No budgetary line") ) );
-                break;
+                    desc = g_strdup ( gsb_data_budget_get_name (
+                                    scheduled -> budgetary_number,
+                                    scheduled -> sub_budgetary_number,
+                                    _("No data by default") ) );
+                    break;
+                case 1:
+                    desc = g_strdup ( gsb_data_category_get_name (
+                                    scheduled -> category_number,
+                                    scheduled -> sub_category_number,
+                                    _("No category") ) );
+                    break;
+                case 2:
+                    desc = g_strdup ( gsb_data_budget_get_name (
+                                    scheduled -> budgetary_number,
+                                    scheduled -> sub_budgetary_number,
+                                    _("No budgetary line") ) );
+                    break;
+            }
         }
     }
     else if ( origine == SPP_ORIGIN_ACCOUNT )

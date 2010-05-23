@@ -53,7 +53,8 @@
 
 /*START_STATIC*/
 static GDate *bet_data_futur_get_next_date ( struct_futur_data *scheduled,
-				     const GDate *date );
+				        const GDate *date,
+                        const GDate *date_max );
 static struct_futur_data *bet_data_future_copy_struct ( struct_futur_data *scheduled );
 static void bet_data_future_set_max_number ( gint number );
 static gboolean bet_data_update_div ( SH *sh, gint transaction_number, gint sub_div );
@@ -97,6 +98,7 @@ static gint transfert_number;
 void bet_data_select_bet_pages ( gint account_number )
 {
     GtkWidget *page;
+    GtkWidget *tree_view;
     kind_account kind;
     gint current_page;
     gint bet_use_budget;
@@ -109,11 +111,14 @@ void bet_data_select_bet_pages ( gint account_number )
     if ( bet_use_budget <= 0 )
         kind = GSB_TYPE_ASSET;
 
+    tree_view = g_object_get_data ( G_OBJECT ( account_page ), "bet_estimate_treeview" );
+
     switch ( kind )
     {
     case GSB_TYPE_BANK:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         gtk_widget_show ( page );
+        bet_array_list_select_path ( tree_view, NULL );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
         gtk_widget_show ( page );
         bet_historical_g_signal_unblock_tree_view ( );
@@ -136,6 +141,7 @@ void bet_data_select_bet_pages ( gint account_number )
     case GSB_TYPE_LIABILITIES:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         gtk_widget_show ( page );
+        bet_array_list_select_path ( tree_view, NULL );
         if ( current_page == GSB_HISTORICAL_PAGE )
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
@@ -176,8 +182,6 @@ void bet_data_update_bet_module ( gint account_number, guint page )
 
     kind = gsb_data_account_get_kind ( account_number );
 
-    printf ("account_number = %d kind = %d page = %d type_maj = %d\n",
-                        account_number, kind, page, type_maj );
 
     if ( page == -1 && gsb_gui_navigation_get_current_page ( ) == GSB_ACCOUNT_PAGE )
         page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) );
@@ -837,14 +841,16 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         limit_date = gsb_format_gdate_safe ( scheduled -> limit_date );
 
         tmp_str = g_markup_printf_escaped ( "\t<Bet_future Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" "
-                        "Am=\"%s\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Pn=\"%d\" "
-                        "Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" Au=\"0\" "
+                        "Am=\"%s\" Pa=\"%d\" IsT=\"%d\" Tra=\"%d\" Ca=\"%d\" Sca=\"%d\" "
+                        "Pn=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" Au=\"0\" "
                         "Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Mo=\"%d\" />\n",
 					    scheduled -> number,
 					    my_safe_null_str ( date ),
 					    scheduled -> account_number,
 					    my_safe_null_str ( amount ),
 					    scheduled -> party_number,
+                        scheduled -> is_transfert,
+                        scheduled -> account_transfert,
 					    scheduled -> category_number,
 					    scheduled -> sub_category_number,
 					    scheduled -> payment_number,
@@ -1127,9 +1133,10 @@ gboolean bet_data_future_add_lines ( struct_futur_data *scheduled )
         mother_row = future_number;
 
         date_max = bet_data_array_get_date_max ( scheduled -> account_number );
+
         /* we don't change the initial date */
         date = gsb_date_copy ( scheduled -> date );
-        while ( date != NULL && g_date_valid ( date ) && g_date_compare ( date, date_max ) <= 0 )
+        while ( date != NULL && g_date_valid ( date ) )
         {
             if ( scheduled -> account_number == 0 )
                 key = g_strconcat ("0:", utils_str_itoa ( future_number ), NULL );
@@ -1145,7 +1152,7 @@ gboolean bet_data_future_add_lines ( struct_futur_data *scheduled )
             new_sch -> number = future_number;
             g_hash_table_insert ( bet_future_list, key, new_sch );
 
-            date = bet_data_futur_get_next_date ( new_sch, date );
+            date = bet_data_futur_get_next_date ( new_sch, date, date_max );
             if ( date == NULL )
                 break;
             future_number ++;
@@ -1221,7 +1228,8 @@ GHashTable *bet_data_future_get_list ( void )
  * \return a newly allocated date, the next date or NULL if over the limit
  * */
 GDate *bet_data_futur_get_next_date ( struct_futur_data *scheduled,
-				     const GDate *date )
+				        const GDate *date,
+                        const GDate *date_max )
 {
     GDate *return_date;
 
@@ -1291,12 +1299,22 @@ GDate *bet_data_futur_get_next_date ( struct_futur_data *scheduled,
 	    break;
     }
 
-    if ( scheduled -> limit_date
-	 &&
-	 g_date_compare ( return_date, scheduled -> limit_date ) > 0 )
+    if ( scheduled -> limit_date )
     {
-        g_date_free (return_date);
-        return_date = NULL;
+	 
+	    if ( g_date_compare ( return_date, scheduled -> limit_date ) > 0 )
+        {
+            g_date_free (return_date);
+            return_date = NULL;
+        }
+    }
+    else
+    {
+        if ( g_date_compare ( return_date, date_max ) > 0 )
+        {
+            g_date_free (return_date);
+            return_date = NULL;
+        }
     }
     
     return ( return_date );
@@ -1311,42 +1329,50 @@ GDate *bet_data_futur_get_next_date ( struct_futur_data *scheduled,
  * */
 struct_futur_data *bet_data_future_copy_struct ( struct_futur_data *scheduled )
 {
-    struct_futur_data *new_sch;
+    struct_futur_data *new_scheduled;
 
-    new_sch = struct_initialise_bet_future ( );
+    new_scheduled = struct_initialise_bet_future ( );
 
-    new_sch ->  number = scheduled -> number;
-    new_sch ->  account_number = scheduled -> account_number;
+    if ( !new_scheduled )
+    {
+        dialogue_error_memory ();
+        return NULL;
+    }
+
+    new_scheduled ->  number = scheduled -> number;
+    new_scheduled ->  account_number = scheduled -> account_number;
 
     if ( g_date_valid ( scheduled -> date ) )
-        new_sch -> date = gsb_date_copy ( scheduled -> date );
+        new_scheduled -> date = gsb_date_copy ( scheduled -> date );
     else
-        new_sch -> date = NULL;
+        new_scheduled -> date = NULL;
 
-    new_sch -> amount = gsb_real_new ( scheduled -> amount.mantissa,
+    new_scheduled -> amount = gsb_real_new ( scheduled -> amount.mantissa,
                         scheduled -> amount.exponent );
-    new_sch -> fyear_number = scheduled -> fyear_number;
-    new_sch -> payment_number = scheduled -> payment_number;
+    new_scheduled -> fyear_number = scheduled -> fyear_number;
+    new_scheduled -> payment_number = scheduled -> payment_number;
 
-    new_sch -> party_number = scheduled -> party_number;
-    new_sch -> category_number = scheduled -> category_number;
-    new_sch -> sub_category_number = scheduled -> sub_category_number;
-    new_sch -> budgetary_number = scheduled -> budgetary_number;
-    new_sch -> sub_budgetary_number = scheduled -> sub_budgetary_number;
-    new_sch -> notes = g_strdup ( scheduled -> notes );
+    new_scheduled -> party_number = scheduled -> party_number;
+    new_scheduled -> is_transfert = scheduled -> is_transfert;
+    new_scheduled -> account_transfert = scheduled -> account_transfert;
+    new_scheduled -> category_number = scheduled -> category_number;
+    new_scheduled -> sub_category_number = scheduled -> sub_category_number;
+    new_scheduled -> budgetary_number = scheduled -> budgetary_number;
+    new_scheduled -> sub_budgetary_number = scheduled -> sub_budgetary_number;
+    new_scheduled -> notes = g_strdup ( scheduled -> notes );
 
-    new_sch -> frequency = scheduled -> frequency;
-    new_sch -> user_interval = scheduled -> user_interval;
-    new_sch -> user_entry = scheduled -> user_entry;
+    new_scheduled -> frequency = scheduled -> frequency;
+    new_scheduled -> user_interval = scheduled -> user_interval;
+    new_scheduled -> user_entry = scheduled -> user_entry;
 
     if ( scheduled -> limit_date && g_date_valid ( scheduled -> limit_date ) )
-        new_sch -> limit_date = gsb_date_copy ( scheduled -> limit_date );
+        new_scheduled -> limit_date = gsb_date_copy ( scheduled -> limit_date );
     else
-        new_sch -> limit_date = NULL;
+        new_scheduled -> limit_date = NULL;
 
-    new_sch -> mother_row = scheduled -> mother_row;
+    new_scheduled -> mother_row = scheduled -> mother_row;
 
-    return new_sch;
+    return new_scheduled;
 }
 /**
  * supprime l'occurence sélectionnée.
@@ -1364,10 +1390,15 @@ gboolean bet_data_future_remove_line ( gint account_number, gint number )
     {
         struct_futur_data *scheduled = ( struct_futur_data *) value;
 
-        if ( account_number != scheduled -> account_number 
-         ||
-         number != scheduled -> number)
+        if ( number != scheduled -> number )
             continue;
+
+        if ( account_number != scheduled -> account_number )
+        {
+            if ( scheduled -> is_transfert == 0
+             || ( scheduled -> is_transfert && account_number != scheduled -> account_transfert ) )
+                continue;
+        }
 
         g_hash_table_iter_remove ( &iter );
 
@@ -1403,7 +1434,11 @@ gboolean bet_data_future_remove_lines ( gint account_number,
         struct_futur_data *scheduled = ( struct_futur_data *) value;
 
         if ( account_number != scheduled -> account_number )
-            continue;
+        {
+            if ( scheduled -> is_transfert == 0
+             || ( scheduled -> is_transfert && account_number != scheduled -> account_transfert ) )
+                continue;
+        }
 
         if ( number == scheduled -> number )
             g_hash_table_iter_remove ( &iter );

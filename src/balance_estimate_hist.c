@@ -42,13 +42,11 @@
 #include "./navigation.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
-#include "./balance_estimate_data.h"
 #include "./gsb_fyear.h"
 #include "./mouse.h"
 #include "./structures.h"
 #include "./include.h"
 #include "./erreur.h"
-#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

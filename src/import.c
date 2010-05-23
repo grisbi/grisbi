@@ -71,7 +71,6 @@
 #include "./qif.h"
 #include "./transaction_list.h"
 #include "./utils_files.h"
-#include "./balance_estimate_data.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
 #include "./go-charmap-sel.h"
@@ -82,7 +81,6 @@
 #include "./gsb_data_transaction.h"
 #include "./gsb_form_scheduler.h"
 #include "./erreur.h"
-#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

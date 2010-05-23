@@ -71,7 +71,6 @@
 #include "./transaction_list.h"
 #include "./transaction_list_select.h"
 #include "./utils_operations.h"
-#include "./balance_estimate_data.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_payment.h"
 #include "./gtk_combofix.h"
@@ -83,7 +82,6 @@
 #include "./include.h"
 #include "./structures.h"
 #include "./erreur.h"
-#include "./gsb_real.h"
 #include "./gsb_form_widget.h"
 /*END_INCLUDE*/
 

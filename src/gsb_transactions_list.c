@@ -59,7 +59,6 @@
 #include "./transaction_list_select.h"
 #include "./transaction_list_sort.h"
 #include "./transaction_model.h"
-#include "./balance_estimate_data.h"
 #include "./structures.h"
 #include "./custom_list.h"
 #include "./fenetre_principale.h"
@@ -68,7 +67,6 @@
 #include "./mouse.h"
 #include "./dialog.h"
 #include "./erreur.h"
-#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

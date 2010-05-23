@@ -79,7 +79,6 @@
 #include "./gsb_real.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_data_report.h"
-#include "./balance_estimate_data.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -3968,6 +3967,20 @@ void gsb_file_load_bet_future_data ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i], "Pa" ) )
     {
         scheduled -> party_number =  utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "IsT" ) )
+    {
+        scheduled -> is_transfert =  utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Tra" ) )
+    {
+        scheduled -> account_transfert =  utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }

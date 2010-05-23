@@ -59,6 +59,9 @@ struct _future_data
     gint sub_budgetary_number;
     gchar *notes;
 
+    gboolean is_transfert;
+    gint account_transfert;
+
     gint frequency;                     /*  0=once, 1=week, 2=month, 5=year, 6=perso */
     gint user_interval;					/*  0=days, 1= week 2=month, 3=years */
     gint user_entry;
@@ -72,7 +75,7 @@ struct _transfert_data
     gint number;
     gint account_number;
     gint type;
-    gint replace_account;
+    gint replace_account;       /* Account number or partial balance concerned */
     gint replace_transaction;
     gint auto_inc_month;
     GDate *date;
