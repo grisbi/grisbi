@@ -747,7 +747,7 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
                             "and subcategory without changing the options "
                             "in preferences"),
                             _("Warning you cannot create payee or category") );
-        
+
         while (!completed_string
                &&
                new_string
@@ -760,7 +760,7 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
                                       new_string );
         }
 
-        if (completed_string)
+        if ( completed_string )
         {
             gtk_combofix_set_text ( combofix, new_string );
             g_free ( new_string );
@@ -908,9 +908,7 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
                     complete_string = model_string;
                 if ( !complete_string && model_string_length > length )
                     complete_string = model_string;
-                //~ else if ( complete_string )
-                    //~ if ( g_strncasecmp ( model_string, complete_string, length +1 ) < 0 )
-                        //~ complete_string = model_string;
+
                 combofix -> visible_items = combofix -> visible_items + 1;
 
                 text_written = TRUE;
@@ -946,6 +944,8 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     gtk_tree_path_free (path);
 
     gtk_tree_view_expand_all ( GTK_TREE_VIEW ( combofix -> tree_view ) );
+    gtk_tree_selection_unselect_all ( GTK_TREE_SELECTION (
+                        gtk_tree_view_get_selection ( GTK_TREE_VIEW ( combofix -> tree_view ) ) ) );
 
     return complete_string;
 }
@@ -1149,11 +1149,6 @@ static gboolean gtk_combofix_focus_out ( GtkWidget *entry,
 {
     gtk_combofix_hide_popup (combofix);
 
-    /* check the entry if force is set */
-    if ( gsb_form_widget_check_empty ( entry ) == 0 && combofix -> force )
-	    gtk_combofix_set_text ( combofix,
-				        gtk_combofix_update_visible_rows ( combofix,
-					    gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) );
     /* hide the selection */
     gtk_editable_select_region ( GTK_EDITABLE (entry), 0, 0 );
 
