@@ -334,7 +334,7 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
             widget = gsb_calendar_entry_new ( FALSE );
             gsb_form_widget_set_empty ( widget, TRUE );
             gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 _("Limit date") );
+					    _("Limit date") );
             g_signal_connect ( G_OBJECT (widget),
                         "button-press-event",
                         G_CALLBACK ( gsb_form_scheduler_button_press_event ),
@@ -721,7 +721,29 @@ gboolean bet_form_clean ( gint account_number )
 
         /* better to protect here if widget != NULL (bad experience...) */
         if (element -> element_widget)
+        {
             gtk_widget_set_sensitive ( element -> element_widget, TRUE );
+
+            switch (element -> element_number)
+            {
+            case SCHEDULED_FORM_FREQUENCY_BUTTON:
+                gsb_combo_box_set_index ( element -> element_widget, 0 );
+                break;
+            case SCHEDULED_FORM_LIMIT_DATE:
+                gsb_form_widget_set_empty ( element -> element_widget, TRUE );
+                gtk_entry_set_text ( GTK_ENTRY ( element -> element_widget ),
+                        _("Limit date") );
+                break;
+            case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
+                gtk_entry_set_text ( GTK_ENTRY ( element -> element_widget ),
+                            _("Own frequency") );
+                gsb_form_widget_set_empty ( element -> element_widget, TRUE );
+                break;
+    		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
+            gsb_combo_box_set_index ( element -> element_widget, 2 );
+		    break;
+            }
+        }
 
         tmp_list = tmp_list -> next;
     }
@@ -1365,10 +1387,10 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
     }
 
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
-    gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
     tmp_str = gsb_data_payee_get_name ( scheduled -> party_number, TRUE );
     if ( tmp_str && strlen ( tmp_str ) )
     {
+        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), tmp_str );
         gtk_editable_set_position ( GTK_EDITABLE ( GTK_COMBOFIX ( widget ) -> entry ), 0 );
     }
@@ -1396,6 +1418,19 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
                         gsb_data_category_get_name ( scheduled -> category_number,
                         scheduled -> sub_category_number, NULL) );
+    }
+    else if ( scheduled -> is_transfert )
+    {
+        gchar *tmp_str;
+
+        widget = bet_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
+        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
+        tmp_str = g_strconcat ( _("Transfer"), " : ",
+                        gsb_data_account_get_name ( scheduled -> account_transfert ),
+                        NULL );
+
+        gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), tmp_str );
+        g_free ( tmp_str );
     }
 
     if ( scheduled -> budgetary_number > 0 )
@@ -1585,6 +1620,8 @@ gboolean bet_future_get_budget_data ( GtkWidget *widget,
                         budgetary_number, tab_char[1], FALSE );
         else
             sub_budgetary_number = 0;
+
+        g_strfreev ( tab_char );
     }
     else
     {
@@ -1625,19 +1662,51 @@ gboolean bet_future_get_category_data ( GtkWidget *widget,
     gchar **tab_char;
     gint category_number = 0;
     gint sub_category_number = 0;
-    struct_futur_data *sd = ( struct_futur_data *) value;
 
     string = gtk_combofix_get_text ( GTK_COMBOFIX ( widget ) );
-    if ( string && strlen ( string ) > 0 )
+
+    if ( struct_type == 0 )
     {
-        tab_char = g_strsplit ( string, " : ", 2 );
-        if ( my_strcasecmp ( tab_char[0], _("Transfer") ) == 0 )
+        struct_futur_data *sd = ( struct_futur_data *) value;
+
+        if ( string && strlen ( string ) > 0 )
         {
-            sd -> is_transfert = TRUE;
-            sd -> account_transfert =  gsb_data_account_get_no_account_by_name ( tab_char[1] );
+            tab_char = g_strsplit ( string, " : ", 2 );
+            if ( my_strcasecmp ( tab_char[0], _("Transfer") ) == 0 )
+            {
+                sd -> is_transfert = TRUE;
+                sd -> account_transfert =  gsb_data_account_get_no_account_by_name ( tab_char[1] );
+            }
+            else
+            {
+                category_number = gsb_data_category_get_number_by_name (
+                                tab_char[0], FALSE, 0 );
+
+                if ( tab_char[1] && strlen ( tab_char[1] ) )
+                    sub_category_number = gsb_data_category_get_sub_category_number_by_name (
+                                category_number, tab_char[1], FALSE );
+                else
+                    sub_category_number = 0;
+            }
+
+            g_strfreev ( tab_char );
         }
         else
         {
+            category_number = 0;
+            category_number = 0;
+        }
+
+        sd -> category_number = category_number;
+        sd -> sub_category_number = sub_category_number;
+    }
+    else if ( struct_type == 1 )
+    {
+        struct_transfert_data *sd = ( struct_transfert_data *) value;
+
+        if ( string && strlen ( string ) > 0 )
+        {
+            tab_char = g_strsplit ( string, " : ", 2 );
             category_number = gsb_data_category_get_number_by_name (
                             tab_char[0], FALSE, 0 );
 
@@ -1646,21 +1715,15 @@ gboolean bet_future_get_category_data ( GtkWidget *widget,
                             category_number, tab_char[1], FALSE );
             else
                 sub_category_number = 0;
-        }
-    }
-    else
-    {
-        category_number = 0;
-        category_number = 0;
-    }
 
-    if ( struct_type == 0 )
-    {
-        sd -> category_number = category_number;
-        sd -> sub_category_number = sub_category_number;
-    }
-    else if ( struct_type == 1 )
-    {
+            g_strfreev ( tab_char );
+        }
+        else
+        {
+            category_number = 0;
+            category_number = 0;
+        }
+
         sd -> category_number = category_number;
         sd -> sub_category_number = sub_category_number;
     }
@@ -1727,6 +1790,7 @@ dialog_return:
         }
 
         gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+        bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
     }
 
     gtk_widget_hide ( bet_futur_dialog );
