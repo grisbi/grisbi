@@ -783,10 +783,9 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
         /* there is a completed_string, we set it in the entry only when inserting some text */
         gint position;
 
-        position = gtk_editable_get_position ( GTK_EDITABLE (combofix -> entry));
+        position = gtk_editable_get_position ( GTK_EDITABLE ( combofix -> entry ) );
         gtk_combofix_set_text ( combofix, completed_string );
-        gtk_editable_set_position ( GTK_EDITABLE (GTK_EDITABLE (combofix -> entry)),
-                        position );
+        gtk_editable_set_position ( GTK_EDITABLE ( combofix -> entry ), position );
 
         /* set the selection here doesn't work, so we will do it at the expose event */
         block_expose_event = 0;
