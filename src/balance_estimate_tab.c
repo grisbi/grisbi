@@ -1127,12 +1127,15 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
         gchar *str_amount;
         GDate *date_tomorrow;
         gsb_real amount;
+        gboolean inverse_amount = FALSE;
 
         if ( account_number != scheduled -> account_number )
         {
             if ( scheduled -> is_transfert == 0
              || ( scheduled -> is_transfert && account_number != scheduled -> account_transfert ) )
                 continue;
+            else
+                inverse_amount = TRUE;
         }
 
         date_tomorrow = gsb_date_tomorrow ( );
@@ -1157,7 +1160,7 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
                         SPP_ORIGIN_FUTURE,
                         value );
 
-        if ( scheduled -> is_transfert )
+        if ( inverse_amount )
             amount = gsb_real_opposite ( scheduled -> amount );
         else
             amount = scheduled -> amount;
