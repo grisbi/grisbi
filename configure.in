@@ -16,7 +16,7 @@ AC_SUBST(LIBTOOL_DEPS)
 AC_SUBST(lt_prog_compiler_wl)
 dnl Check if we have backtrace support
 AC_CHECK_FUNCS(backtrace)
-AC_CONFIG_MACRO_DIR([macros])
+AC_CONFIG_MACRO_DIR([m4])
 
 dnl Check for NLS support.                                                      
 AM_GLIB_GNU_GETTEXT
@@ -288,7 +288,6 @@ help/de/Makefile
 help/en/Makefile
 help/fr/Makefile
 help/tips/Makefile
-macros/Makefile
 pixmaps/Makefile
 pixmaps/flags/Makefile
 po/Makefile.in

@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = macros src po pixmaps help share
+SUBDIRS = src po pixmaps help share
 man_MANS = grisbi.1
 
 EXTRA_DIST = \
@@ -10,4 +10,4 @@ EXTRA_DIST = \
     $(man_MANS)
 
 
-ACLOCAL_AMFLAGS = -I macros
+ACLOCAL_AMFLAGS = -I m4
