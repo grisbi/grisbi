@@ -138,3 +138,4 @@ src/utils_file_selection.c
 src/utils_font.c
 src/utils_operations.c
 src/utils_str.c
+share/grisbi.desktop.in
