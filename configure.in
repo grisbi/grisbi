@@ -129,27 +129,24 @@ AM_CONDITIONAL(HAVE_CUNIT, test x$nocunit != xtrue)
 dnl
 dnl Check for libofx
 dnl
-AC_CHECK_HEADER(libofx/libofx.h,,noofx=true)
 AC_ARG_WITH(ofx,
-	AC_HELP_STRING([--without-ofx],
-	[build grisbi without ofx support [default=with]]),
-	[build_ofx=$withval],
-	[build_ofx=yes]
-)
-if test x$build_ofx != xno
-then
-    if test x$noofx != xtrue
-    then
-        AC_CHECK_LIB(ofx, ofx_set_status_cb, HAVE_OFX_SET_STATUS_CB="true")
-    else
-        noofx=true
-        AC_MSG_RESULT([Libofx header missing. Check your libofx installation])
-    fi
-else
-    noofx=true
+	AS_HELP_STRING([--with-ofx],[build grisbi without ofx support (default=auto)]),
+	[build_ofx=$withval]
+	[build_ofx=auto])
+
+PKG_CHECK_MODULES(LIBOFX, [libofx], have_ofx=yes, have_ofx=no)
+if test "$build_ofx" = yes -a "$with_ofx" = no; then
+	AC_MSG_ERROR([Ofx support was requested bug libofx could not be found.])
 fi
-AM_CONDITIONAL(HAVE_OFX, test x$noofx != xtrue)
-AM_CONDITIONAL(HAVE_OFX_SET_STATUS_CB, test x$OFX_SET_STATUS_CB != xtrue)
+if test "$build_ofx" != no; then
+	build_ofx=$have_ofx
+else
+	build_ofx=no
+fi
+if test "$build_ofx" = yes; then
+	PKG_CHECK_EXISTS([libofx >= 0.7], [AC_DEFINE([OFX_0_7], 1, [Build with libofx 0.7 or newer])])
+fi
+AM_CONDITIONAL(HAVE_OFX, [test "$build_ofx" = yes])
 
 
 dnl
@@ -243,5 +240,6 @@ src/plugins/openssl/Makefile
 echo "
 
                 Build plugin support:  $build_plugins
+                Build with OFX plugin: $build_ofx
 
 "
