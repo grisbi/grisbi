@@ -12,10 +12,7 @@ grisbi_LDFLAGS = @lt_prog_compiler_wl@@export_dynamic_flag_spec@
 
 grisbi_LDADD = libgrisbi.a $(GTK_LIBS)
 
-config_dir = config
-
-
-libgrisbi_a_sources = 		\
+libgrisbi_a_SOURCES = \
 	accueil.c		\
 	affichage.c		\
 	affichage_liste.c	\
@@ -151,10 +148,7 @@ libgrisbi_a_sources = 		\
         balance_estimate_data.c \
         balance_estimate_future.c \
         balance_estimate_hist.c \
-	balance_estimate_tab.c
-
-libgrisbi_a_INCLUDES =		\
-	$(include_config)       \
+	balance_estimate_tab.c	\
 	accueil.h		\
 	affichage.h		\
 	affichage_liste.h	\
@@ -296,16 +290,9 @@ libgrisbi_a_INCLUDES =		\
 	utils_operations.h	\
 	utils_str.h
 
-libgrisbi_a_SOURCES = $(libgrisbi_a_sources) $(sources_config) $(libgrisbi_a_INCLUDES)
-
-
-grisbi_sources = 		\
-	main.c
-
-grisbi_INCLUDES = 		\
+grisbi_SOURCES = 		\
+	main.c				\
 	main.h
-
-grisbi_SOURCES = $(grisbi_sources) $(sources_config) $(grisbi_INCLUDES) $(libgrisbi_a_INCLUDES)
 
 SUBDIRS =
 
