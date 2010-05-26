@@ -194,24 +194,6 @@ AM_CONDITIONAL(HAVE_OFX_SET_STATUS_CB, test x$OFX_SET_STATUS_CB != xtrue)
 
 
 dnl
-dnl ElectricFence support
-dnl
-dnl --enable-electricfence flag
-AC_ARG_ENABLE(electricfence,
-	[AC_HELP_STRING([--enable-electricfence],
-	[Enable compilation with ElectricFence (default=no)])],,
-	enable_electricfence=no)
-AC_CHECK_LIB(efence,malloc,electricfence=yes,electricfence=no)
-if test "x$enable_electricfence" = xyes ; then
-	if test "x$electricfence" = xyes ; then
-		AC_MSG_WARN([ElectricFence is enabled])
-		LDFLAGS="${LDFLAGS} -lefence"
-	else
-		AC_MSG_ERROR([Can't find the ElectriceFence library !])
-	fi
-fi
-
-dnl
 dnl WError support
 dnl
 AC_ARG_ENABLE(werror,
