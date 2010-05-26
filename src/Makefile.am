@@ -313,7 +313,7 @@ if HAVE_CUNIT
 SUBDIRS += tests
 endif
 
-EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime
+EXTRA_DIST = grisbi.keys grisbi.mime
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
