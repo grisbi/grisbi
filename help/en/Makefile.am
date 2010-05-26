@@ -5,7 +5,7 @@ HTML_FILES =			\
 	quickstart.html \
 	translation.html
 
-grisbi_helpdir = $(datadir)/doc/grisbi/en
+grisbi_helpdir = $(docdir)/en
 
 grisbi_help_DATA = \
 	topic.dat     \
