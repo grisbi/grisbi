@@ -3,15 +3,12 @@
 AM_CPPFLAGS = -I$(top_srcdir) -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(libdir)/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(docdir)\""
 bin_PROGRAMS = grisbi
 
-noinst_LIBRARIES = libgrisbi.a
+noinst_LTLIBRARIES = libgrisbi.la
 
-# TODO: This manual setting of -Wl is a hack, I cannot get it from
-# configure right now because of no doc.
-grisbi_LDFLAGS = @lt_prog_compiler_wl@@export_dynamic_flag_spec@
+grisbi_LDADD = libgrisbi.la $(GTK_LIBS)
 
-grisbi_LDADD = libgrisbi.a $(GTK_LIBS)
-
-libgrisbi_a_SOURCES = \
+libgrisbi_la_LDFLAGS = -export_dynamic
+libgrisbi_la_SOURCES = \
 	accueil.c		\
 	affichage.c		\
 	affichage_liste.c	\
@@ -293,7 +290,7 @@ grisbi_SOURCES = 		\
 	main.c				\
 	main.h
 
-SUBDIRS =
+SUBDIRS = .
 
 if HAVE_CUNIT
 SUBDIRS += tests

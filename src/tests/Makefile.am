@@ -18,9 +18,7 @@ cunit_tests_SOURCES = \
 	gsb_real_cunit.h	\
 	utils_dates_cunit.h
 
-cunit_tests_LDFLAGS = @lt_prog_compiler_wl@@export_dynamic_flag_spec@
-
-cunit_tests_LDADD = $(top_srcdir)/src/libgrisbi.a -lcunit $(GTK_LIBS)
+cunit_tests_LDADD = $(top_builddir)/src/libgrisbi.la -lcunit $(GTK_LIBS)
 
 
 CLEANFILES = *~

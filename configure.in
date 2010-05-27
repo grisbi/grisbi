@@ -1,21 +1,19 @@
 AC_INIT(grisbi,0.6.1-test_pre_rel)
 AC_CONFIG_SRCDIR(src/main.c)
-AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE([-Wall foreign])
-
 AC_GNU_SOURCE
 
 dnl Standard checks
 AC_ISC_POSIX
 AC_PROG_CC
 AC_STDC_HEADERS
-AM_PROG_LIBTOOL
-AC_LIBTOOL_DLOPEN_SELF
-AC_SUBST(LIBTOOL_DEPS)
-AC_SUBST(lt_prog_compiler_wl)
 dnl Check if we have backtrace support
 AC_CHECK_FUNCS(backtrace)
 AC_CONFIG_MACRO_DIR([m4])
+
+AM_INIT_AUTOMAKE([-Wall foreign])
+AM_CONFIG_HEADER(config.h)
+
+LT_INIT
 
 dnl Check for NLS support.                                                      
 AM_GLIB_GNU_GETTEXT
@@ -203,9 +201,6 @@ LDFLAGS="${LDFLAGS} -lm -lz"
 AC_SUBST(prefix)
 AC_SUBST(CFLAGS)
 AC_SUBST(LDFLAGS)
-AC_SUBST(export_dynamic_flag_spec_CXX)
-AC_SUBST(export_dynamic_flag_spec)
-AC_SUBST(lt_prog_compiler_wl)
 
 dnl ******************************
 dnl Makefiles
