@@ -1,14 +1,15 @@
-AC_INIT(grisbi,0.6.1-test_pre_rel)
+AC_INIT([grisbi],[0.6.1-test_pre_rel])
 AC_CONFIG_SRCDIR(src/main.c)
-AC_GNU_SOURCE
+AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_MACRO_DIR([m4])
 
 dnl Standard checks
-AC_ISC_POSIX
 AC_PROG_CC
-AC_STDC_HEADERS
+AC_USE_SYSTEM_EXTENSIONS
+AC_HEADER_STDC
+AC_SEARCH_LIBS([strerror],[cposix])
 dnl Check if we have backtrace support
 AC_CHECK_FUNCS(backtrace)
-AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([-Wall foreign])
 AM_CONFIG_HEADER(config.h)
@@ -206,7 +207,7 @@ dnl ******************************
 dnl Makefiles
 dnl ******************************
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 help/Makefile
 help/C/Makefile
@@ -230,6 +231,7 @@ src/plugins/gnucash/Makefile
 src/plugins/ofx/Makefile
 src/plugins/openssl/Makefile
 ])
+AC_OUTPUT
 
 echo "
 
