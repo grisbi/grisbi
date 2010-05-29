@@ -35,42 +35,6 @@ CFLAGS="${CFLAGS} ${GTK_CFLAGS}"
 
 
 dnl
-dnl Check whether GLib modules are supported, to determine whether we
-dnl can support plugins.
-dnl
-AC_MSG_CHECKING(whether GLib supports loadable modules)
-ac_save_CFLAGS="$CFLAGS"
-ac_save_LIBS="$LIBS"
-CFLAGS="$CFLAGS $GTK_CFLAGS"
-LIBS="$GTK_LIBS $LIBS"
-AC_TRY_RUN([
-#include <glib.h>
-#include <gmodule.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-int 
-main ()
-{
-  if (g_module_supported())
-    return 0;	/* success */
-  else
-    return 1;	/* failure */
-}
-], ac_cv_glib_supports_modules=yes, ac_cv_glib_supports_modules=no,
-   [echo $ac_n "cross compiling; assumed OK... $ac_c"
-    ac_cv_glib_supports_modules=yes])
-CFLAGS="$ac_save_CFLAGS"
-LIBS="$ac_save_LIBS"
-if test "$ac_cv_glib_supports_modules" = yes ; then
-  AC_MSG_RESULT(yes)
-  have_plugins=yes
-else
-  AC_MSG_RESULT(no)
-  have_plugins=no
-fi
-
-dnl
 dnl balance estimate
 dnl
 AC_ARG_WITH(balance_estimate,
@@ -80,41 +44,36 @@ AC_ARG_WITH(balance_estimate,
   AC_DEFINE(ENABLE_BALANCE_ESTIMATE, 1, [Define if balance estimate is enabled])
 ])
 
+
 dnl
-dnl check whether plugins should be enabled and, if they should be,
+dnl Plugin support using glib's GModule
 dnl
 AC_ARG_WITH(plugins,
-	AC_HELP_STRING([--with-plugins],
-	[support plugins.]),
-[
-  case "$withval" in
-  "" | y | ye | yes )
-    if test x$have_plugins = xno
-    then
-      AC_MSG_ERROR([GLib on this platform doesn't support loadable modules, so you can't enable plugins.])
-    fi
-    ;;
-  n | no)
-    have_plugins=no
-    ;;
-  *)
-    if test x$have_plugins = xno
-    then
-      AC_MSG_ERROR([GLib on this platform doesn't support loadable modules, so you can't enable plugins.])
-    fi
-    ;;
-  esac
-])
+	AS_HELP_STRING([--with-plugins],[support plugins (default=auto)]),
+	[build_plugins=$withval],
+	[build_plugins=auto])
 
-
-dnl
-dnl Where plugins are located
-dnl
-AM_CONDITIONAL(HAVE_PLUGINS, test x$have_plugins = xyes)
-if test x$have_plugins = xyes
-then
-  AC_DEFINE(HAVE_PLUGINS, 1, [Define if plugins are enabled])
+AC_MSG_CHECKING(whether GLib supports loadable modules)
+gmodule_supported=`$PKG_CONFIG gmodule-2.0 --variable gmodule_supported`
+if test "$gmodule_supported" = true ; then
+	have_plugins=yes
+else
+	have_plugins=no
 fi
+AC_MSG_RESULT($have_plugins)
+
+if test "$have_plugins" = no -a "$build_plugins" = yes; then
+	AC_MSG_ERROR([GLib on this platform doesn't support loadable modules, so you can't enable plugins.])
+fi
+if test "$build_plugins" != no; then
+	build_plugins=$have_plugins
+else
+	build_plugins=no
+fi
+if test "$build_plugins" = yes; then
+	AC_DEFINE(HAVE_PLUGINS, 1, [Define if plugins are enabled])
+fi
+AM_CONDITIONAL(HAVE_PLUGINS, [test "$build_plugins" = yes])
 
 
 dnl
@@ -280,3 +239,9 @@ src/plugins/gnucash/Makefile
 src/plugins/ofx/Makefile
 src/plugins/openssl/Makefile
 ])
+
+echo "
+
+                Build plugin support:  $build_plugins
+
+"
