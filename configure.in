@@ -75,13 +75,24 @@ AM_CONDITIONAL(HAVE_PLUGINS, [test "$build_plugins" = yes])
 dnl
 dnl XML2
 dnl
-PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.0, , noxml2=true)
-if test x$noxml2 == xtrue
-then
-	AC_MSG_RESULT([libxml2 support not available, this Grisbi build will not be able to load Gnucash files.])
+AC_ARG_WITH(libxml2,
+	AS_HELP_STRING([--with-libxml2],[libxml2 support for the GnuCash plugin (default=auto)]),
+	[build_libxml2=$withval],
+	[build_libxml2=auto])
+
+PKG_CHECK_MODULES(XML2, [libxml-2.0 >= 2.0], have_libxml2=yes, have_libxml2=no)
+if test "$build_libxml2" = yes -a "$have_libxml2" = no; then
+	AC_MSG_ERROR([Libxml2/GnuCash support was requested but libxml2 could not be found.])
+fi
+if test "$build_libxml2" != no; then
+	build_libxml2=$have_libxml2
+else
+	build_libxml2=no
+fi
+if test "$build_libxml2" = yes; then
 	AC_DEFINE(NOXML2, 1, [Define if libxml2 support is disabled])
 fi
-AM_CONDITIONAL(HAVE_XML2, test x$noxml2 != xtrue)
+AM_CONDITIONAL(HAVE_XML2, [test "$build_libxml2" = yes])
 
 
 dnl
@@ -229,6 +240,7 @@ AC_OUTPUT
 echo "
 
                 Build plugin support:  $build_plugins
+                Build with libxml2:    $build_libxml2
                 Build with OFX plugin: $build_ofx
 
 "
