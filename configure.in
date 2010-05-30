@@ -98,13 +98,24 @@ AM_CONDITIONAL(HAVE_XML2, [test "$build_libxml2" = yes])
 dnl
 dnl OpenSSL Check
 dnl
-PKG_CHECK_MODULES(OpenSSL, libssl, , nossl=true)
-if test x$nossl == xtrue
-then
-	AC_MSG_RESULT([OpenSSL support not available, this Grisbi build will not be able to crypt/decrypt files.])
+AC_ARG_WITH(openssl,
+	AS_HELP_STRING([--with-openssl],[OpenSSL support for file encryption support (default=auto)]),
+	[build_openssl=$withval],
+	[build_openssl=auto])
+
+PKG_CHECK_MODULES(OPENSSL, [libssl], have_openssl=yes, have_openssl=no)
+if test "$build_openssl" = yes -a "$have_openssl" = no; then
+	AC_MSG_ERROR([OpenSSL support was requested but libssl could not be found.])
+fi
+if test "$build_openssl" != no; then
+	build_openssl=$have_openssl
+else
+	build_openssl=no
+fi
+if test "$build_openssl" = yes; then
 	AC_DEFINE(NOSSL, 1, [Define if OpenSSL support is disabled])
 fi
-AM_CONDITIONAL(HAVE_SSL, test x$nossl != xtrue)
+AM_CONDITIONAL(HAVE_SSL, [test "$build_openssl" = yes])
 
 
 dnl
@@ -241,6 +252,7 @@ echo "
 
                 Build plugin support:  $build_plugins
                 Build with libxml2:    $build_libxml2
+                Build with OpenSSL:    $build_openssl
                 Build with OFX plugin: $build_ofx
 
 "
