@@ -1,6 +1,6 @@
 # Gnucash plugin
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(XML2_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(GRISBI_CFLAGS) $(XML2_CFLAGS)
 
 plugindir = $(libdir)/@PACKAGE@
 

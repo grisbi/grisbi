@@ -1,13 +1,14 @@
 # Process this file with automake to produce Makefile.in
 
-AM_CPPFLAGS = -I$(top_srcdir) -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(libdir)/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(docdir)\""
+AM_CPPFLAGS = -I$(top_srcdir) $(GRISBI_CFLAGS) -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(libdir)/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(docdir)\""
 bin_PROGRAMS = grisbi
 
 noinst_LTLIBRARIES = libgrisbi.la
 
-grisbi_LDADD = libgrisbi.la $(GTK_LIBS)
+grisbi_LDADD = $(GRISBI_LIBS) libgrisbi.la
 
 libgrisbi_la_LDFLAGS = -export_dynamic
+libgrisbi_la_LIBADD = $(GRISBI_LIBS)
 libgrisbi_la_SOURCES = \
 	accueil.c		\
 	affichage.c		\

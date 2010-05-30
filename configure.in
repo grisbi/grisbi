@@ -25,11 +25,9 @@ AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package.])
 
 dnl
-dnl Standard GTK checks
+dnl Main Grisbi libraries
 dnl
-PKG_CHECK_MODULES(GTK, [gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 gmodule-2.0 >= 2.2])
-LDFLAGS="${LDFLAGS}"
-CFLAGS="${CFLAGS} ${GTK_CFLAGS}"
+PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 gmodule-2.0 >= 2.2 zlib])
 
 
 dnl
@@ -81,7 +79,7 @@ PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.0, , noxml2=true)
 if test x$noxml2 == xtrue
 then
 	AC_MSG_RESULT([libxml2 support not available, this Grisbi build will not be able to load Gnucash files.])
-	CFLAGS="${CFLAGS} -DNOXML2"
+	AC_DEFINE(NOXML2, 1, [Define if libxml2 support is disabled])
 fi
 AM_CONDITIONAL(HAVE_XML2, test x$noxml2 != xtrue)
 
@@ -93,7 +91,7 @@ PKG_CHECK_MODULES(OpenSSL, libssl, , nossl=true)
 if test x$nossl == xtrue
 then
 	AC_MSG_RESULT([OpenSSL support not available, this Grisbi build will not be able to crypt/decrypt files.])
-	CFLAGS="${CFLAGS} -DNOSSL"
+	AC_DEFINE(NOSSL, 1, [Define if OpenSSL support is disabled])
 fi
 AM_CONDITIONAL(HAVE_SSL, test x$nossl != xtrue)
 
@@ -115,12 +113,14 @@ else
 	if test x$nocunit != xtrue
 	then
 		nocunit=false
-		CFLAGS="${CFLAGS} -DHAVE_CUNIT"
-		LDFLAGS="${LDFLAGS}"
+		CUNIT_CFLAGS="-DHAVE_CUNIT"
+		CUNIT_LIBS="-lcunit"
 	else
 		AC_MSG_RESULT([libcunit header missing. Check your libcunit installation])
 	fi
 fi
+AC_SUBST(CUNIT_CFLAGS)
+AC_SUBST(CUNIT_LIBS)
 AM_CONDITIONAL(HAVE_CUNIT, test x$nocunit != xtrue)
 
 
@@ -195,13 +195,6 @@ fi
 AC_DEFINE_UNQUOTED([GSB_NOOPTIM], [${GSB_NOOPTIM}], 
 	[define to 1 if g_no_optim support is enabled])
 AC_SUBST(GSB_NOOPTIM)
-
-# Avoid implicit dynamic linking
-LDFLAGS="${LDFLAGS} -lm -lz"
-
-AC_SUBST(prefix)
-AC_SUBST(CFLAGS)
-AC_SUBST(LDFLAGS)
 
 dnl ******************************
 dnl Makefiles

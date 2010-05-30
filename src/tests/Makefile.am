@@ -18,7 +18,7 @@ cunit_tests_SOURCES = \
 	gsb_real_cunit.h	\
 	utils_dates_cunit.h
 
-cunit_tests_LDADD = $(top_builddir)/src/libgrisbi.la -lcunit $(GTK_LIBS)
+cunit_tests_LDADD = $(CUNIT_LIBS) $(top_builddir)/src/libgrisbi.la
 
 
 CLEANFILES = *~

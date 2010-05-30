@@ -1,6 +1,6 @@
 # OFX plugin
 
-AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(LIBOFX_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(GRISBI_CFLAGS) $(LIBOFX_CFLAGS)
 
 plugindir = $(libdir)/@PACKAGE@
 
