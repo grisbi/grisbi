@@ -384,7 +384,7 @@ void update_liste_comptes_accueil ( gboolean force )
     gint nb_comptes_bancaires=0, nb_comptes_passif=0, nb_comptes_actif=0;
     gint new_comptes_bancaires=0, new_comptes_passif=0, new_comptes_actif=0;
     gint soldes_mixtes = 0;
-    
+
     if ( !force
 	 &&
 	 !( mise_a_jour_liste_comptes_accueil

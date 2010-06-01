@@ -49,13 +49,15 @@ static gboolean gsb_currency_link_config_add_link ( GtkWidget *tree_view );
 static void gsb_currency_link_config_append_line ( GtkTreeModel *model,
 					    gint link_number,
 					    GtkTreeIter *iter_to_fill );
-static GtkWidget *gsb_currency_link_config_create_list ();
+static gboolean gsb_currency_link_config_button_fixed_changed ( GtkWidget *checkbutton,
+						GtkWidget *tree_view );
+static GtkWidget *gsb_currency_link_config_create_list ( void );
 static void gsb_currency_link_config_fill_list ( GtkTreeModel *model );
 static gboolean gsb_currency_link_config_key_press ( GtkWidget *tree_view, GdkEventKey *ev );
 static gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view );
 static gboolean gsb_currency_link_config_remove_link ( GtkWidget *tree_view );
 static gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tree_selection,
-						    gpointer null );
+					    gpointer null );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -112,7 +114,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( tree_view ) ), 
 		       "changed",
 		       G_CALLBACK ( gsb_currency_link_config_select_currency ), 
-		       tree_model );
+		       NULL );
     /* check the keys on the list */
     g_signal_connect ( G_OBJECT ( tree_view ),
                         "key_press_event",
@@ -121,9 +123,9 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
 
     /* if nothing opened, all is unsensitive */
     if ( !gsb_data_account_get_accounts_amount () )
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+	    gtk_widget_set_sensitive ( vbox_pref, FALSE );
     else
-	gsb_currency_link_config_fill_list (tree_model);
+	    gsb_currency_link_config_fill_list ( tree_model );
 
     /* Create Add/Remove buttons */
     vbox = gtk_vbox_new ( FALSE, 5 );
@@ -202,6 +204,17 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
 			 combobox,
 			 FALSE, FALSE, 0 );
 
+    /* create fixed exchange rate */
+    button = gtk_check_button_new_with_label ( _("Fixed exchange rate") );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
+    gtk_widget_set_sensitive ( button, FALSE );
+    g_object_set_data ( G_OBJECT ( tree_model ), "fixed_button", button );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( gsb_currency_link_config_button_fixed_changed ),
+                        tree_view );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
+
     /* Create warning label */
     label = gtk_label_new (NULL);
     g_object_set_data ( G_OBJECT (tree_model), "warning_label", label );
@@ -221,7 +234,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
  *
  * \return a GtkTreeView
  */
-GtkWidget *gsb_currency_link_config_create_list ()
+GtkWidget *gsb_currency_link_config_create_list ( void )
 {
     GtkListStore * model;
     GtkWidget * treeview;
@@ -400,6 +413,7 @@ gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tree_selec
     GtkWidget *exchange_entry;
     GtkWidget *tree_view;
     GtkWidget *label;
+    GtkWidget *button;
 	gchar* tmpstr;
 
     if (!gtk_tree_selection_get_selected ( GTK_TREE_SELECTION (tree_selection),
@@ -414,11 +428,11 @@ gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tree_selec
 
     /* normally should not happen */
     if (!link_number)
-	return FALSE;
+	    return FALSE;
 
-    gtk_widget_set_sensitive ( GTK_WIDGET ( g_object_get_data ( G_OBJECT (model),
-								"hbox_line")),
-			       TRUE );
+    gtk_widget_set_sensitive (  GTK_WIDGET (
+                        g_object_get_data ( G_OBJECT ( model ), "hbox_line") ),
+			            TRUE );
 
     combobox_1 = g_object_get_data ( G_OBJECT (model),
 				     "combobox_1" );
@@ -426,7 +440,10 @@ gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tree_selec
 				     "combobox_2" );
     exchange_entry = g_object_get_data ( G_OBJECT (model),
 					 "exchange_entry" );
-    tree_view = GTK_WIDGET (gtk_tree_selection_get_tree_view (tree_selection));
+    button = g_object_get_data ( G_OBJECT (model), "fixed_button" );
+    gtk_widget_set_sensitive ( button, TRUE );
+
+    tree_view = GTK_WIDGET ( gtk_tree_selection_get_tree_view ( tree_selection ) );
 
     g_signal_handlers_block_by_func ( G_OBJECT (combobox_1),
 				      G_CALLBACK (gsb_currency_link_config_modify_link),
@@ -455,6 +472,16 @@ gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tree_selec
     g_signal_handlers_unblock_by_func ( G_OBJECT (exchange_entry),
 					G_CALLBACK (gsb_currency_link_config_modify_link),
 					tree_view );
+
+    /* set the fixed_link flag */
+    g_signal_handlers_block_by_func ( G_OBJECT ( button ),
+				      G_CALLBACK ( gsb_currency_link_config_button_fixed_changed ),
+				      tree_view );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ),
+					gsb_data_currency_link_get_fixed_link ( link_number ) );
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( button ),
+				      G_CALLBACK ( gsb_currency_link_config_button_fixed_changed ),
+				      tree_view );
 
     /* set or hide the warning label */
     label = g_object_get_data (G_OBJECT (model),
@@ -665,6 +692,34 @@ gboolean gsb_currency_link_config_key_press ( GtkWidget *tree_view, GdkEventKey 
 
     return FALSE;
 }
+
+
+/**
+ * met à jour le lien à chaque changement du check_button
+ *
+**/
+static gboolean gsb_currency_link_config_button_fixed_changed ( GtkWidget *checkbutton,
+						  GtkWidget *tree_view )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gint link_number;
+
+    if ( !gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (
+                        GTK_TREE_VIEW ( tree_view ) ),
+					    &model,
+					    &iter ) )
+        return FALSE;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, LINK_NUMBER_COLUMN, &link_number, -1 );
+
+    gsb_data_currency_link_set_fixed_link ( link_number,
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( checkbutton ) ) );
+
+    return FALSE;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -3119,6 +3119,14 @@ void gsb_file_load_currency_link ( const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "Fl" ))
+    {
+        gsb_data_currency_link_set_fixed_link ( link_number,
+                                 utils_str_atoi ( attribute_values[i] ) );
+        i++;
+        continue;
+    }
+
     /* normally, shouldn't come here */
     i++;
     }

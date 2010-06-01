@@ -1693,12 +1693,13 @@ gulong gsb_file_save_currency_link_part ( gulong iterator,
     /* now we can fill the file content */
     new_string = g_markup_printf_escaped (
                         "\t<Currency_link Nb=\"%d\" Cu1=\"%d\" Cu2=\"%d\" Ex=\"%s\" "
-                        "Modified_date=\"%s\"/>\n",
+                        "Modified_date=\"%s\" Fl=\"%d\" />\n",
                         link_number,
                         gsb_data_currency_link_get_first_currency ( link_number ),
                         gsb_data_currency_link_get_second_currency (link_number),
                         my_safe_null_str ( change_rate ),
-                        strdate );
+                        strdate,
+                        gsb_data_currency_link_get_fixed_link ( link_number ) );
 
     g_free ( change_rate );
     g_free ( strdate );

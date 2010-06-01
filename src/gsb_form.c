@@ -1374,7 +1374,6 @@ gboolean gsb_form_clean ( gint account_number )
 
 		case TRANSACTION_FORM_CHANGE:
 		    gtk_widget_hide ( element -> element_widget );
-
 		    break;
 
 		case TRANSACTION_FORM_BANK:
@@ -2644,23 +2643,9 @@ gboolean gsb_form_finish_edition ( void )
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
-    /* Si l'origine de l'opération est un modèle alors on sélectionne une ligne vide */
-    //~ if ( GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( transaction_form ),
-							      //~ "transaction_selected_in_form" ) ) == -1 )
-    //~ {
-        //~ g_object_set_data ( G_OBJECT ( transaction_form ), "transaction_selected_in_form", NULL );
-        //~ transaction_list_select ( -1 );
-        //~ return FALSE;
-    //~ }
-    /* give the focus to the date widget */
-    //~ if ( is_transaction )
-    //~ {
     gsb_form_escape_form ( );
     gsb_form_set_current_date_into_date_entry ( );
     gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
-    //~ }
-    //~ else
-        //~ gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
 
     return FALSE;
 }
@@ -3210,18 +3195,20 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 
 		    do
 		    {
-			gint transaction_number_tmp;
-			transaction_number_tmp = GPOINTER_TO_INT (children_list -> data);
+                gint transaction_number_tmp;
 
-			if (is_transaction)
-			    gsb_transactions_list_delete_transaction (transaction_number_tmp, FALSE);
-			else
-			    gsb_scheduler_list_delete_scheduled_transaction (transaction_number_tmp, FALSE);
+                transaction_number_tmp = GPOINTER_TO_INT (children_list -> data);
 
-			children_list = children_list -> next;
+                if (is_transaction)
+                    gsb_transactions_list_delete_transaction (transaction_number_tmp, FALSE);
+                else
+                    gsb_scheduler_list_delete_scheduled_transaction (transaction_number_tmp,
+                                FALSE);
+
+                save_children_list = save_children_list -> next;
 		    }
-		    while ( children_list );
-		    g_slist_free (save_children_list);
+		    while ( save_children_list );
+		    g_slist_free ( children_list );
 		}
 		gsb_data_mix_set_split_of_transaction ( transaction_number,
 							    0, is_transaction );
@@ -3375,13 +3362,12 @@ gboolean gsb_form_escape_form ( void )
 
     if ( etat.formulaire_toujours_affiche )
     {
-	gsb_form_clean (gsb_form_get_account_number ());
+        gsb_form_clean ( gsb_form_get_account_number ( ) );
     }
     else
     {
-	gsb_form_widget_free_list ();
-	gtk_expander_set_expanded ( GTK_EXPANDER (form_expander),
-				    FALSE );
+        gsb_form_widget_free_list ( );
+        gtk_expander_set_expanded ( GTK_EXPANDER ( form_expander ), FALSE );
     }
     return FALSE;
 }
@@ -3555,7 +3541,9 @@ void gsb_form_set_current_date_into_date_entry ( void )
     GtkWidget *date_entry;
 
 	date_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE );
-	if ( gsb_form_widget_check_empty ( date_entry ) )
+	if ( gsb_form_widget_check_empty ( date_entry ) 
+     ||
+     strlen ( gtk_entry_get_text ( GTK_ENTRY ( date_entry ) ) ) == 0 )
 	{
         if ( save_form_date )
             gtk_entry_set_text ( GTK_ENTRY ( date_entry ),

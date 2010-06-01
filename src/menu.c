@@ -614,7 +614,7 @@ gboolean gsb_gui_toggle_show_form ( void )
     if ( block_menu_cb ) return FALSE;
 
     gsb_form_switch_expander ( );
-    printf ("etat.formulaire_toujours_affiche = %d\n", etat.formulaire_toujours_affiche);
+
     return FALSE;
 }
 

@@ -52,6 +52,8 @@
 /*START_STATIC*/
 static struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint currency1_number,
                         gint currency2_number );
+static gboolean gsb_currency_checkbutton_link_changed ( GtkWidget *checkbutton,
+						  gboolean *value );
 static void gsb_currency_config_set_cached_exchange ( gint currency1_number,
                         gint currency2_number,
                         gsb_real change, gsb_real fees );
@@ -494,15 +496,16 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
                         gsb_real exchange_fees,
                         gboolean force )
 {
-    GtkWidget *dialog, *label, *entry, *hbox, *fees_entry, *paddingbox, *table;
-    GtkWidget *amount_entry, *amount_1_entry, *amount_2_entry, *widget;
-    struct cached_exchange_rate *cache;
-    gint result;
+    GtkWidget *dialog, *label, *hbox, *paddingbox, *table, *widget;
+    GtkWidget *entry, *amount_entry, *amount_1_entry, *amount_2_entry, *fees_entry;
     GtkWidget *combobox_1;
     GtkWidget *combobox_2;
+    struct cached_exchange_rate *cache;
     gchar* tmpstr;
     gint row = 0;
+    gint result;
     gint link_number;
+    gint change_link_currency = 1;
 
     if ( account_currency_number == 0 || transaction_currency_number == 0 )
         return;
@@ -562,7 +565,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     label = gtk_label_new ( _("Exchange rate") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.5, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 2, 3, row, row+1,
-               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* echange line currency 2 */
     combobox_2 = gsb_currency_make_combobox_exchange_dialog (
@@ -570,7 +573,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
                         account_currency_number,
                         !link_currency );
     gtk_table_attach ( GTK_TABLE(table), combobox_2, 3, 4, row, row+1,
-               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     row++;
 
     link_number = gsb_data_currency_link_search ( account_currency_number,
@@ -585,24 +588,24 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     label = gtk_label_new ( COLON(_("Amounts")) );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, row, row+1,
-               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     amount_1_entry = gtk_entry_new ();
     gtk_entry_set_activates_default ( GTK_ENTRY ( amount_1_entry ), TRUE );
     gtk_table_attach ( GTK_TABLE(table), amount_1_entry, 1, 2, row, row+1,
-               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* echange line input field */
     entry = gtk_entry_new ();
     gtk_widget_set_size_request ( entry, 100, -1 );
     gtk_entry_set_activates_default ( GTK_ENTRY ( entry ), TRUE );
     gtk_table_attach ( GTK_TABLE(table), entry, 2, 3, row, row+1,
-               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     amount_2_entry = gtk_entry_new ();
     gtk_entry_set_activates_default ( GTK_ENTRY ( amount_2_entry ), TRUE );
     gtk_table_attach ( GTK_TABLE(table), amount_2_entry, 3, 4, row, row+1,
-               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* if amount exist already, fill them here */
     if ( link_currency )
@@ -658,19 +661,37 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     label = gtk_label_new ( COLON(_("Exchange fees")) );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, row, row+1,
-               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* exchange fees line input field */
     fees_entry = gtk_entry_new ();
     gtk_entry_set_activates_default ( GTK_ENTRY ( fees_entry ), TRUE );
     gtk_table_attach ( GTK_TABLE(table), fees_entry, 1, 2, row, row+1,
-               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* exchange fees currency for fees */
     label = gtk_label_new (gsb_data_currency_get_name ( account_currency_number ) );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 2, 3, row, row+1,
-               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+
+    if ( link_number )
+    {
+        GtkWidget *checkbox;
+
+        change_link_currency = !gsb_data_currency_link_get_fixed_link ( link_number );
+        checkbox = gtk_check_button_new_with_label ( _("Change the link") );
+        if ( change_link_currency )
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( checkbox ), TRUE );
+        gtk_widget_set_sensitive ( checkbox, TRUE );
+        g_signal_connect ( G_OBJECT ( checkbox ),
+                        "toggled",
+                        G_CALLBACK ( gsb_currency_checkbutton_link_changed ),
+                        &change_link_currency );
+
+        gtk_table_attach ( GTK_TABLE(table), checkbox, 3, 4, row, row+1,
+                        GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    }
 
     /* if the rate or fees exist already, fill them here */
     if ( exchange_rate.mantissa )
@@ -727,7 +748,9 @@ dialog_return:
 
         if ( link_number )
         {
-            if ( gsb_real_cmp ( current_exchange,
+            if ( change_link_currency
+             &&
+             gsb_real_cmp ( current_exchange,
              gsb_data_currency_link_get_change_rate ( link_number ) ) != 0 )
                 gsb_data_currency_link_set_change_rate ( link_number,
                         current_exchange );
@@ -1081,16 +1104,39 @@ GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint transaction_currenc
 }
 
 
+/**
+ * 
+ *
+**/
 gsb_real gsb_currency_get_current_exchange ( void )
 {
     return current_exchange;
 }
 
 
+/**
+ * 
+ *
+**/
 gsb_real gsb_currency_get_current_exchange_fees ( void )
 {
     return current_exchange_fees;
 }
+
+
+/**
+ * met à jour value à chaque changement du check_button
+ *
+**/
+static gboolean gsb_currency_checkbutton_link_changed ( GtkWidget *checkbutton,
+						  gboolean *value )
+{
+    if ( value )
+        *value = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( checkbutton ) );
+
+    return FALSE;
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

@@ -47,6 +47,7 @@ typedef struct
 
     gint first_currency;
     gint second_currency;
+    gint fixed_link;  /* si = 1 le lien entre devises est fixe */
     gsb_real change_rate;
     GDate *modified_date;
 
@@ -421,7 +422,7 @@ gsb_real gsb_data_currency_link_get_change_rate ( gint currency_link_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_currency_link_set_change_rate ( gint currency_link_number,
-                        gsb_real change_rate)
+                        gsb_real change_rate )
 {
     struct_currency_link *currency_link;
 
@@ -643,3 +644,52 @@ gboolean gsb_data_currency_link_set_modified_date ( gint currency_link_number,
 
     return TRUE;
 }
+
+
+/**
+ * return the change_link_currency flag
+ *
+ * \param currency_link_number the number of the currency_link
+ *
+ * \return TRUE if ok or FALSE if no ok 
+ * */
+gboolean gsb_data_currency_link_get_fixed_link ( gint currency_link_number )
+{
+    struct_currency_link *currency_link;
+
+    currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
+
+    if ( !currency_link )
+	    return FALSE;
+
+    return currency_link -> fixed_link;
+}
+
+
+/**
+ * set the change_link_currency flag
+ *
+ * \param currency_link_number the number of the currency_link
+ * \param  the change_link_currency flag for the currency_link
+ *
+ * \return TRUE if ok or FALSE if problem
+ * */
+gboolean gsb_data_currency_link_set_fixed_link ( gint currency_link_number,
+                        gboolean fixed_link )
+{
+    struct_currency_link *currency_link;
+
+    currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
+
+    if ( !currency_link )
+	    return FALSE;
+
+    currency_link -> fixed_link = fixed_link;
+
+    return TRUE;
+}
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
