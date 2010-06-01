@@ -1331,13 +1331,13 @@ __END__
         <copy from=${gtkdevdir}/gettext/bin >libiconv2.dll</copy>
     </target>
     <target name=dtd  dest=dtd>
-        <copy from=${gtkdevdir}/bin/dtd ignore=['CVS','Makefile','topic']>.</copy>
+        <copy from=${gtkdevdir}/bin/dtd ignore=['.git','Makefile','topic']>.</copy>
     </target>
     <target name=help  dest=help>
-        <copy from=${grisbidir}/help ignore=['CVS','Makefile','topic']>.</copy>
+        <copy from=${grisbidir}/help ignore=['.git','Makefile','topic']>.</copy>
     </target>
     <target name=pixmaps  dest=pixmaps>
-        <copy from=${grisbidir}/pixmaps ignore=['CVS','Makefile','topic']>.</copy>
+        <copy from=${grisbidir}/pixmaps ignore=['.git','Makefile','topic']>.</copy>
     </target>
 </prefix>
 </gtk>

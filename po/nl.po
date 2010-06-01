@@ -11896,7 +11896,7 @@ msgstr "Geen budgetregel"
 #~ msgstr "Dit formaat exporteert geen valuta's."
 
 #~ msgid "Accounts to CSV file ..."
-#~ msgstr "Rekeningen naar een CVS bestand ..."
+#~ msgstr "Rekeningen naar een CSV bestand ..."
 
 #~ msgid "Third parties list (transactions)"
 #~ msgstr "Lijst van begunstigden (transacties)"

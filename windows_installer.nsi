@@ -132,7 +132,7 @@ Section $(ProgFiles)
 
   SetOutPath "$INSTDIR"
   
-  File /r /x "plugin" /x "dtd" /x "*.dll" /x "Makefile.am" /x ".cvsignore" /x "CVS" /x "*.exp" /x "*.idb" /x "*.lib" /x "Release" "${EXE_PATH}\*.*"
+  File /r /x "plugin" /x "dtd" /x "*.dll" /x "Makefile.am" /x ".gitignore" /x ".git" /x "*.exp" /x "*.idb" /x "*.lib" /x "Release" "${EXE_PATH}\*.*"
   File "win32\grisbi.ico"
   
   ;Store installation folder

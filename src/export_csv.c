@@ -1,5 +1,5 @@
 /* ************************************************************************** */
-/* This file manage cvs export format                                         */
+/* This file manage CSV export format                                         */
 /*                                                                            */
 /*     Copyright (C)    2004 François Terrot (francois.terrot at grisbi.org)  */
 /*          2005 Alain Portal (aportal@univ-montp2.fr)                        */

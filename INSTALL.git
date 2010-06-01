@@ -1,4 +1,4 @@
-If you get Grisbi source code from CVS, please run the autogen script to
+If you get Grisbi source code from Git, please run the autogen script to
 create the configure script :
 
 	./autogen.sh

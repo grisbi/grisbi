@@ -22,7 +22,7 @@ accounting for associations.
 
 If you want to keep updated with Grisbi releases, you may subscribe to
 the mailing list infos@grisbi.org (see Contacts) and if you like to
-live dangerously you even can download the unstable sources from CVS
+live dangerously you even can download the unstable sources from Git
 and compile them.
 
 Grisbi is free software, any contribution is welcome.
