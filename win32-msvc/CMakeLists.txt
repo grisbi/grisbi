@@ -58,18 +58,18 @@ ADD_DEFINITIONS(-DOFX_0_7=1)
 #ADD_DEFINITIONS(-DNOSSL=1)
 
 INCLUDE_DIRECTORIES(
-	target/gtk-dev/include/atk-1.0
-	target/gtk-dev/include/cairo
-	target/gtk-dev/include/glib-2.0
-	target/gtk-dev/include/gtk-2.0
-	target/gtk-dev/include/pango-1.0
-	target/gtk-dev/include
-	target/gtk-dev/lib/glib-2.0/include
-	target/gtk-dev/lib/gtk-2.0/include
-	target/plugins-dev/libofx/include
-	target/plugins-dev/libxml2/include
-	target/plugins-dev/iconv/include
-	target/plugins-dev/openssl/include
+	target/$(PlatformName)/gtk-dev/include/atk-1.0
+	target/$(PlatformName)/gtk-dev/include/cairo
+	target/$(PlatformName)/gtk-dev/include/glib-2.0
+	target/$(PlatformName)/gtk-dev/include/gtk-2.0
+	target/$(PlatformName)/gtk-dev/include/pango-1.0
+	target/$(PlatformName)/gtk-dev/include
+	target/$(PlatformName)/gtk-dev/lib/glib-2.0/include
+	target/$(PlatformName)/gtk-dev/lib/gtk-2.0/include
+	target/$(PlatformName)/plugins-dev/libofx/include
+	target/$(PlatformName)/plugins-dev/libxml2/include
+	target/$(PlatformName)/plugins-dev/iconv/include
+	target/$(PlatformName)/plugins-dev/openssl/include
 	../win32-msvc/src
 	../win32-msvc
 	../win32
@@ -80,34 +80,13 @@ INCLUDE_DIRECTORIES(
 )
 
 LINK_DIRECTORIES(
-	target/gtk-dev/lib
-	target/plugins-dev/libofx/lib
-	target/plugins-dev/libxml2/lib
-	target/plugins-dev/iconv/lib
-	target/plugins-dev/openssl/lib
-	target/plugins-dev/openssl/lib/VC
-	target/$(PlatformName)/$(OutDir)
-)
-
-LINK_LIBRARIES(
-	grisbi
-	cairo
-	gdk_pixbuf-2.0
-	gdk-win32-2.0
-	gio-2.0
-	glib-2.0
-	gmodule-2.0
-	gobject-2.0
-	gtk-win32-2.0
-	intl
-	pango-1.0
-	pangocairo-1.0
-	zdll
-	libofx
-	libxml2
-	iconv
-	libeay32
-	ssleay32
+	target/$(PlatformName)/gtk-dev/lib
+	target/$(PlatformName)/plugins-dev/libofx/lib
+	target/$(PlatformName)/plugins-dev/libxml2/lib
+	target/$(PlatformName)/plugins-dev/iconv/lib
+	target/$(PlatformName)/plugins-dev/openssl/lib
+	target/$(PlatformName)/plugins-dev/openssl/lib/VC
+	$(TargetDir)
 )
 
 SET (grisbi_source
@@ -321,8 +300,8 @@ SET (grisbi_source
 	../src/include.h
 	../src/main.c
 	../src/main.h
-	../src/main_cunit.c
-	../src/main_cunit.h
+#	../src/main_cunit.c
+#	../src/main_cunit.h
 	../src/menu.c
 	../src/menu.h
 	../src/meta_budgetary.c
@@ -401,6 +380,25 @@ ADD_EXECUTABLE(grisbi
 	${grisbi_source}
 )
 
+TARGET_LINK_LIBRARIES( grisbi
+	glib-2.0
+	intl
+	cairo
+	gdk_pixbuf-2.0
+	gdk-win32-2.0
+	gio-2.0
+	gmodule-2.0
+	gobject-2.0
+	gtk-win32-2.0
+	pango-1.0
+	pangocairo-1.0
+	zdll
+)
+
+set_target_properties ( grisbi
+	PROPERTIES ENABLE_EXPORTS 1
+)	
+
 ADD_DEPENDENCIES (grisbi prepare_env prepare_mo)
 
 ADD_LIBRARY ( ofx
@@ -439,8 +437,30 @@ ADD_CUSTOM_COMMAND ( TARGET openssl
 
 
 ADD_DEPENDENCIES (ofx grisbi)
+TARGET_LINK_LIBRARIES (ofx
+	glib-2.0
+	intl
+	grisbi
+	libofx
+)
 ADD_DEPENDENCIES (gnucash grisbi)
+TARGET_LINK_LIBRARIES (gnucash
+	glib-2.0
+	intl
+	grisbi
+	libxml2
+	iconv
+)
 ADD_DEPENDENCIES (openssl grisbi)
+TARGET_LINK_LIBRARIES (openssl
+	glib-2.0
+	intl
+	grisbi
+	gobject-2.0
+	gtk-win32-2.0
+	libeay32
+	ssleay32
+)
 
 ADD_CUSTOM_TARGET (prepare_env)
 
