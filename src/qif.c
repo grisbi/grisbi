@@ -969,7 +969,7 @@ gboolean qif_export ( const gchar *filename,
 
     if ( !( fichier_qif = utf8_fopen ( filename, "w" ) ))
     {
-	dialogue_error_hint ( latin2utf8 ( strerror(errno) ),
+	dialogue_error_hint ( g_strerror(errno),
 			      g_strdup_printf ( _("Error opening file '%s'"),
 						filename ) );
 	return FALSE;

@@ -143,7 +143,7 @@ gboolean gsb_file_others_save_category ( gchar *filename )
     {
         gchar *tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
 					   filename,
-					   latin2utf8(strerror(errno)) );
+					   g_strerror(errno) );
 	dialogue_error ( tmpstr );
 	g_free ( tmpstr );
 	g_free ( file_content);
@@ -224,7 +224,7 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
     {
 	gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
 					   filename,
-					   latin2utf8(strerror(errno)) );
+					   g_strerror(errno) );
 	dialogue_error ( tmpstr );
 	g_free ( tmpstr );
 	g_free ( file_content);
@@ -307,7 +307,7 @@ gboolean gsb_file_others_save_report ( gchar *filename )
     {
 	gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
 					   filename,
-					   latin2utf8(strerror(errno)) );
+					   g_strerror(errno) );
 	dialogue_error ( tmpstr);
 	g_free ( tmpstr );
 	g_free ( file_content);
@@ -424,7 +424,7 @@ gboolean gsb_file_others_load ( gchar *filename,
     {
         gchar* tmpstr = g_strdup_printf (_("Cannot open file '%s': %s"),
 					 filename,
-					 latin2utf8 (strerror(errno)));
+					 g_strerror(errno));
 	dialogue_error ( tmpstr );
 	g_free ( tmpstr );
 	return FALSE;
@@ -561,7 +561,7 @@ gboolean gsb_file_others_load ( gchar *filename,
     {
         gchar* tmpstr = g_strdup_printf (_("Cannot open file '%s': %s"),
 					 filename,
-					 latin2utf8 (strerror(errno)));
+					 g_strerror(errno));
 	dialogue_error ( tmpstr );
 	g_free ( tmpstr );
 	return FALSE;
@@ -748,7 +748,7 @@ gboolean gsb_file_others_load_budget_from_category ( const gchar *filename )
     {
         tmp_str = g_strdup_printf (_("Cannot open file '%s': %s"),
 					 filename,
-					 latin2utf8 ( strerror ( errno ) ) );
+					 g_strerror ( errno ) );
         dialogue_error ( tmp_str );
         g_free ( tmp_str );
         return FALSE;
@@ -808,7 +808,7 @@ gboolean gsb_file_others_load_budget_from_category ( const gchar *filename )
     {
         tmp_str = g_strdup_printf (_("Cannot open file '%s': %s"),
 					 filename,
-					 latin2utf8 ( strerror ( errno ) ) );
+					 g_strerror ( errno ) );
         dialogue_error ( tmp_str );
         g_free ( tmp_str );
         return FALSE;

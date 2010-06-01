@@ -394,7 +394,7 @@ static FILE *gsb_csv_export_open_file ( const gchar *filename )
     if ( !( csv_file = utf8_fopen ( filename, "w" ) ))
     {
 	sMessage = g_strdup_printf ( _("Error opening file \"%s\" :\n%s"),
-				     filename, strerror ( errno ) );
+				     filename, g_strerror ( errno ) );
 	dialogue ( sMessage );
 	g_free ( sMessage );
 	return NULL;

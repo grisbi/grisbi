@@ -885,7 +885,7 @@ gboolean gsb_file_config_save_config ( void )
     {
         gchar* tmpstr = g_strdup_printf ( _("Cannot save configuration file '%s': %s"),
                         filename,
-                        latin2utf8(strerror ( errno )) );
+                        g_strerror ( errno ) );
         dialogue_error ( tmpstr );
         g_free ( tmpstr );
         g_free ( file_content);
@@ -963,7 +963,7 @@ gboolean gsb_file_config_load_last_xml_config ( gchar *filename )
     {
 	gchar* tmpstr = g_strdup_printf (_("Cannot open config file '%s': %s"),
 					 filename,
-					 latin2utf8 (strerror(errno)));
+					 g_strerror(errno));
 	dialogue_error ( tmpstr );
 	g_free ( tmpstr );
 	return FALSE;

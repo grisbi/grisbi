@@ -421,7 +421,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     {
         gchar* tmpstr1 = g_strdup_printf (_("Cannot open file '%s': %s"),
                         filename,
-                        latin2utf8 (strerror(errno)));
+                        g_strerror(errno));
         gchar* tmpstr2 = g_strdup_printf ( _("Error loading file '%s'"), filename);
         dialogue_error_hint (tmpstr1, tmpstr2);
         g_free ( tmpstr1 );

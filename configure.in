@@ -7,7 +7,6 @@ dnl Standard checks
 AC_PROG_CC
 AC_USE_SYSTEM_EXTENSIONS
 AC_HEADER_STDC
-AC_SEARCH_LIBS([strerror],[cposix])
 dnl Check if we have backtrace support
 AC_CHECK_FUNCS(backtrace)
 

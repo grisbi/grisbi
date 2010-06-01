@@ -427,7 +427,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 	{
 	    gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
 					      filename,
-					      latin2utf8(strerror(errno)) );
+					      g_strerror(errno) );
 	    dialogue_error ( tmpstr );
 	    g_free ( tmpstr );
 	    g_free ( file_content);
