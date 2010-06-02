@@ -1965,7 +1965,7 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
     button = gtk_check_button_new_with_label ( _("Monthly auto-increment") );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_auto_inc", button );
-    //~ gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
     //~ g_signal_connect ( G_OBJECT ( button ),
 			            //~ "toggled",
 			            //~ G_CALLBACK ( bet_transfert_auto_inc_toggle ),

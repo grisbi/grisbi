@@ -1906,23 +1906,14 @@ gboolean bet_array_start_date_focus_out ( GtkWidget *entry,
 gboolean bet_array_list_select_path ( GtkWidget *tree_view, GtkTreePath *path )
 {
     GtkTreeSelection *selection;
-    gboolean reset_pos = FALSE;
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
 
     if ( path == NULL )
-    {
         path = gtk_tree_path_new_from_string ( "0" );
-        reset_pos = TRUE;
-    }
 
     gtk_widget_grab_focus ( tree_view );
     gtk_tree_selection_select_path ( selection, path );
-
-    if ( reset_pos )
-        gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ),
-				   path, NULL,
-				   FALSE, 0.0, 0.0 );
 
     return FALSE;
 }

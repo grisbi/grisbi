@@ -1703,35 +1703,22 @@ gboolean bet_data_transfert_modify_line ( struct_transfert_data *transfert )
  * */
 void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transfert )
 {
-    GDate *date_jour;
+    GDate *date_jour_1;
     GDate *tmp_date;
 
-    date_jour = gdate_today ( );
+    devel_debug (NULL);
+    date_jour_1 = gdate_today ( );
+    g_date_set_day ( date_jour_1, 1 );
     tmp_date = gsb_date_copy ( transfert -> date );
-    g_date_add_months ( tmp_date, 1 );
 
-    if ( g_date_compare ( date_jour, tmp_date ) >= 0 )
+    if ( g_date_get_month ( date_jour_1 ) == g_date_get_month ( tmp_date ) )
     {
-        if ( g_date_get_month ( date_jour ) == g_date_get_month ( tmp_date ) )
-        {
-            g_date_free ( transfert -> date );
-            g_date_free ( date_jour );
-            transfert -> date = tmp_date;
-        }
-        else
-        {
-            g_date_set_day ( date_jour, g_date_get_day ( tmp_date ) );
-            g_date_free ( transfert -> date );
-            g_date_free ( tmp_date );
-            transfert -> date =  date_jour;
-        }
-        bet_data_transfert_modify_line ( transfert );
+        g_date_free ( transfert -> date );
+        g_date_add_months ( tmp_date, 1 );
+        transfert -> date = tmp_date;
     }
-    else
-    {
-        g_date_free ( tmp_date );
-        g_date_free ( date_jour );
-    }
+
+    g_date_free ( date_jour_1 );
 }
 
 
