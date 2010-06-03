@@ -369,10 +369,12 @@ gchar *my_strdelimit ( const gchar *string,
  * */
 gint my_strcmp ( gchar *string_1, gchar *string_2 )
 {
-    if ( string_1
-	 &&
-	 string_2 )
-    {
+    if (!string_1 && string_2)
+	    return 1;
+    if (string_1 && !string_2)
+	    return -1;
+
+
 	if ( g_utf8_validate ( string_1, -1, NULL )
 	     &&
 	     g_utf8_validate ( string_2, -1, NULL ))
@@ -380,20 +382,16 @@ gint my_strcmp ( gchar *string_1, gchar *string_2 )
 	    gint retour;
  	    gchar *new_1, *new_2;
 	    
-	    new_1 = g_utf8_collate_key ( string_1,
-					 -1 );
-	    new_2 = g_utf8_collate_key ( string_2,
-					 -1 );
-	    retour = strcmp ( new_1,
-			      new_2 );
+	    new_1 = g_utf8_collate_key ( string_1, -1 );
+	    new_2 = g_utf8_collate_key ( string_2, -1 );
+	    retour = strcmp ( new_1, new_2 );
+
 	    g_free ( new_1 );
 	    g_free ( new_2 );
 	    return ( retour );
 	}
 	else
-	    return ( strcmp ( string_1,
-			      string_2 ));
-    }
+	    return ( strcmp ( string_1, string_2 ) );
 
     return 0;
 }

@@ -461,7 +461,7 @@ GSList *gsb_data_payee_get_name_list ( void )
 
         if ( payee -> payee_name )
             return_list = g_slist_insert_sorted ( return_list, payee -> payee_name,
-                        (GCompareFunc) g_utf8_collate );
+                        (GCompareFunc) my_strcmp );
 
         tmp_list = tmp_list -> next;
     }

@@ -280,12 +280,12 @@ G_MODULE_EXPORT extern void debug_message_string ( gchar *prefixe, gchar * file,
 
 	/* on affiche dans la console le message */
 	if (message)
-	    tmpstr = g_strdup_printf(_("%s, %d : %s - %s:%d:%s - %s\n"),
-				     get_debug_time (), clock(), prefixe,
+	    tmpstr = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %s\n"),
+				     get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
 				     file, line, function, message);
 	else
-	    tmpstr = g_strdup_printf(_("%s, %d : %s - %s:%d:%s\n"),
-				     get_debug_time (), clock(), prefixe,
+	    tmpstr = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s\n"),
+				     get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
 				     file, line, function);
 
 	if (etat.debug_mode)
@@ -322,8 +322,8 @@ extern void debug_message_int ( gchar *prefixe, gchar * file, gint line, const c
     if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode) 
     {
 	/* on affiche dans la console le message */
-	gchar* tmpstr = g_strdup_printf(_("%s, %d : %s - %s:%d:%s - %d\n"),
-					get_debug_time (), clock(), prefixe,
+	gchar* tmpstr = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %d\n"),
+					get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
 					file, line, function, message);
 
 	if (etat.debug_mode)
@@ -360,8 +360,8 @@ extern void debug_message_real ( gchar *prefixe, gchar * file, gint line, const 
     if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode) 
     {
 	/* on affiche dans la console le message */
-	gchar* tmpstr = g_strdup_printf(_("%s, %d : %s - %s:%d:%s - %ld E %d\n"),
-					get_debug_time (), clock (), prefixe,
+	gchar* tmpstr = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %ld E %d\n"),
+					get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
 					file, line, function, message.mantissa, message.exponent);
 
 	if (etat.debug_mode)
