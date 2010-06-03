@@ -81,8 +81,6 @@ struct _GtkComboFix
 
     gint visible_items;
     GtkWidget *popup;
-    /* complex combofix */
-    gboolean complex;
     /* automatic sorting */
     gint auto_sort;
 };

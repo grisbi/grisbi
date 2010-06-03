@@ -164,7 +164,6 @@ GtkWidget *gtk_combofix_new_complex ( GSList *list )
     /* set the fields of the combofix */
 
     combofix -> force = FALSE;
-    combofix -> complex = 1;
     combofix -> auto_sort = TRUE;
     combofix -> max_items = 0;
     combofix -> visible_items = 0;
@@ -360,48 +359,42 @@ void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix,
 gboolean gtk_combofix_set_list ( GtkComboFix *combofix,
                         GSList *list )
 {
+    GSList *tmp_list;
+    gint list_number = 0;
+    gint length;
+    GtkTreeIter iter;
+
     g_return_val_if_fail (combofix, FALSE );
     g_return_val_if_fail (GTK_IS_COMBOFIX (combofix), FALSE);
 
     gtk_tree_store_clear (combofix -> store);
 
-    if (combofix -> complex)
+    tmp_list = list;
+    length = g_slist_length (list);
+
+    while ( tmp_list )
     {
-        GSList *tmp_list;
-        gint list_number = 0;
-        gint length;
-        GtkTreeIter iter;
+        gtk_combofix_fill_store ( combofix,
+                      tmp_list -> data,
+                      list_number );
 
-        tmp_list = list;
-        length = g_slist_length (list);
-
-        while ( tmp_list )
+        /* set the separator */
+        if (list_number < (length-1))
         {
-            gtk_combofix_fill_store ( combofix,
-                          tmp_list -> data,
-                          list_number );
-
-            /* set the separator */
-            if (list_number < (length-1))
-            {
-            gtk_tree_store_append ( combofix -> store,
-                        &iter,
-                        NULL );
-            gtk_tree_store_set ( combofix -> store,
-                         &iter,
-                         COMBOFIX_COL_LIST_NUMBER, list_number,
-                         COMBOFIX_COL_SEPARATOR, TRUE,
-                         -1 );
-            }
-            list_number++;
-            tmp_list = tmp_list -> next;
+        gtk_tree_store_append ( combofix -> store,
+                    &iter,
+                    NULL );
+        gtk_tree_store_set ( combofix -> store,
+                     &iter,
+                     COMBOFIX_COL_LIST_NUMBER, list_number,
+                     COMBOFIX_COL_SEPARATOR, TRUE,
+                     -1 );
         }
+        list_number++;
+        tmp_list = tmp_list -> next;
     }
-    else
-    {
-        gtk_combofix_fill_store ( combofix, list, 0 );
-}
-return TRUE;
+
+    return TRUE;
 }
 
 
