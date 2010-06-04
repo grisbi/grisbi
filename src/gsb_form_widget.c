@@ -1080,3 +1080,29 @@ gint gsb_form_widget_get_old_debit_payment ( void )
 {
     return old_debit_payment_number;
 }
+
+
+/** Essai de remplacement des gtk_combofix */
+/**
+ * crée un gtk_combo_box pour les tiers
+ *
+ **/
+GtkWidget *gtk_combo_payee_new ( GSList *list )
+{
+    GtkWidget *combo_box;
+    GtkListStore *store;
+    GSList *tmp_list;
+
+
+    combo_box = gtk_combo_box_new ( );
+
+
+
+    
+    return combo_box;
+}
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
+
