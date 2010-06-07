@@ -154,11 +154,6 @@ guint gtk_combofix_get_type ( void )
  * */
 GtkWidget *gtk_combofix_new_complex ( GSList *list )
 {
-    GtkTreeIter iter;
-    GSList *tmp_list;
-    gint list_number = 0;
-    gint length;
-
     GtkComboFix *combofix = GTK_COMBOFIX ( gtk_type_new ( gtk_combofix_get_type () ) );
 
     /* set the fields of the combofix */
@@ -169,31 +164,7 @@ GtkWidget *gtk_combofix_new_complex ( GSList *list )
     combofix -> visible_items = 0;
     combofix -> case_sensitive = FALSE;
 
-    tmp_list = list;
-    length = g_slist_length (list);
-
-    while ( tmp_list )
-    {
-        gtk_combofix_fill_store ( combofix,
-                      tmp_list -> data,
-                      list_number );
-
-        /* set the separator */
-        if (list_number < (length-1))
-        {
-            gtk_tree_store_append ( combofix -> store,
-                        &iter,
-                        NULL );
-            gtk_tree_store_set ( combofix -> store,
-                     &iter,
-                     COMBOFIX_COL_LIST_NUMBER, list_number,
-                     COMBOFIX_COL_SEPARATOR, TRUE,
-                     -1 );
-        }
-
-        list_number++;
-        tmp_list = tmp_list -> next;
-    }
+    gtk_combofix_set_list (combofix, list);
 
    return ( GTK_WIDGET ( combofix ) );
 }
