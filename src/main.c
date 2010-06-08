@@ -357,10 +357,9 @@ gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
                         GdkEventWindowState *event,
                         gpointer null )
 {
-
-    if (event -> changed_mask == GDK_WINDOW_STATE_FULLSCREEN)
+    if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
     {
-	if (event -> new_window_state)
+	if (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED)
 	    conf.full_screen = TRUE;
 	else
 	    conf.full_screen = FALSE;
