@@ -1325,9 +1325,11 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
     case GDK_R:         /* touche R */
 
         if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
-        gsb_transactions_list_switch_R_mark (
-                        gsb_data_account_get_current_transaction_number ( account_number ) );
-        transaction_list_set_balances ( );
+        {
+            gsb_transactions_list_switch_R_mark (
+                            gsb_data_account_get_current_transaction_number ( account_number ) );
+            transaction_list_set_balances ( );
+        }
         break;
 
     case GDK_t:         /* touche t */
