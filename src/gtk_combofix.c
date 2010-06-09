@@ -405,6 +405,7 @@ void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix, gboolean mixed_sort )
 gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list )
 {
     GtkComboFixPrivate *priv = combofix -> priv;
+
     GSList *tmp_list;
     gint list_number = 0;
     gint length;
