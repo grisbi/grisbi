@@ -182,24 +182,7 @@ guint gtk_combofix_get_type ( void )
  * */
 GtkWidget *gtk_combofix_new ( GSList *list )
 {
-<<<<<<< HEAD
-    GtkComboFix *combofix = GTK_COMBOFIX ( gtk_type_new ( gtk_combofix_get_type () ) );
-
-    /* set the fields of the combofix */
-
-    combofix -> force = FALSE;
-    combofix -> auto_sort = TRUE;
-    combofix -> max_items = 0;
-    combofix -> visible_items = 0;
-    combofix -> case_sensitive = FALSE;
-
-    gtk_combofix_set_list (combofix, list);
-=======
     GtkComboFixPrivate *priv;
-    GtkTreeIter iter;
-    GSList *tmp_list;
-    gint list_number = 0;
-    gint length;
 
     GtkComboFix *combofix = GTK_COMBOFIX ( gtk_type_new ( gtk_combofix_get_type ( ) ) );
     priv = combofix -> priv;
@@ -211,32 +194,9 @@ GtkWidget *gtk_combofix_new ( GSList *list )
     priv -> auto_sort = TRUE;
     priv -> visible_items = 0;
 
-    tmp_list = list;
-    length = g_slist_length (list);
+    gtk_combofix_set_list (combofix, list);
 
-    while ( tmp_list )
-    {
-        gtk_combofix_fill_store ( combofix,
-                      tmp_list -> data,
-                      list_number );
-
-        /* set the separator */
-        if (list_number < (length-1))
-        {
-            gtk_tree_store_append ( priv -> store, &iter, NULL );
-            gtk_tree_store_set ( priv -> store,
-                     &iter,
-                     COMBOFIX_COL_LIST_NUMBER, list_number,
-                     COMBOFIX_COL_SEPARATOR, TRUE,
-                     -1 );
-        }
-
-        list_number++;
-        tmp_list = tmp_list -> next;
-    }
->>>>>>> Change gtk_combofix and minor changes
-
-   return ( GTK_WIDGET ( combofix ) );
+    return ( GTK_WIDGET ( combofix ) );
 }
 
 
@@ -444,10 +404,7 @@ void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix, gboolean mixed_sort )
  * */
 gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list )
 {
-<<<<<<< HEAD
-=======
-    GtkComboFixPrivate *priv;
->>>>>>> Change gtk_combofix and minor changes
+    GtkComboFixPrivate *priv = combofix -> priv;
     GSList *tmp_list;
     gint list_number = 0;
     gint length;
@@ -456,37 +413,13 @@ gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list )
     g_return_val_if_fail (combofix, FALSE );
     g_return_val_if_fail (GTK_IS_COMBOFIX (combofix), FALSE);
 
-    priv = combofix -> priv;
-
-<<<<<<< HEAD
-=======
     gtk_tree_store_clear ( priv -> store );
 
->>>>>>> Change gtk_combofix and minor changes
     tmp_list = list;
     length = g_slist_length (list);
 
     while ( tmp_list )
     {
-<<<<<<< HEAD
-        gtk_combofix_fill_store ( combofix,
-                      tmp_list -> data,
-                      list_number );
-
-        /* set the separator */
-        if (list_number < (length-1))
-        {
-        gtk_tree_store_append ( combofix -> store,
-                    &iter,
-                    NULL );
-        gtk_tree_store_set ( combofix -> store,
-                     &iter,
-                     COMBOFIX_COL_LIST_NUMBER, list_number,
-                     COMBOFIX_COL_SEPARATOR, TRUE,
-                     -1 );
-        }
-        list_number++;
-=======
         gtk_combofix_fill_store ( combofix, tmp_list -> data, list_number );
 
         /* set the separator */
@@ -501,7 +434,6 @@ gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list )
         }
         list_number++;
 
->>>>>>> Change gtk_combofix and minor changes
         tmp_list = tmp_list -> next;
     }
 
@@ -523,8 +455,6 @@ void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,
 }
 
 /* *********************** the second part contains all the static functions ******************************************** */
-
-
 static void gtk_combofix_class_init ( GtkComboFixClass *klass )
 {
     GObjectClass *object_class;
@@ -572,23 +502,23 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
 
     /* set the entry */
     combofix -> entry = gtk_entry_new ( );
-    g_signal_connect ( G_OBJECT (combofix -> entry),
+    g_signal_connect ( G_OBJECT ( combofix -> entry ),
                             "key-press-event",
                             G_CALLBACK ( gtk_combofix_key_press_event ),
                             combofix );
-    g_signal_connect_object ( G_OBJECT (combofix -> entry),
+    g_signal_connect_object ( G_OBJECT ( combofix -> entry ),
                             "insert-text",
-                            G_CALLBACK (gtk_combofix_entry_insert),
+                            G_CALLBACK ( gtk_combofix_entry_insert ),
                             combofix,
-                            G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-    g_signal_connect_object ( G_OBJECT (combofix -> entry),
+                            G_CONNECT_AFTER | G_CONNECT_SWAPPED );
+    g_signal_connect_object ( G_OBJECT ( combofix -> entry ),
                             "delete-text",
-                            G_CALLBACK (gtk_combofix_entry_delete),
+                            G_CALLBACK ( gtk_combofix_entry_delete ),
                             combofix,
                             G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-    g_signal_connect_swapped ( G_OBJECT (combofix -> entry),
+    g_signal_connect_swapped ( G_OBJECT ( combofix -> entry ),
                             "expose-event",
-                            G_CALLBACK (gtk_combofix_expose_entry),
+                            G_CALLBACK ( gtk_combofix_expose_entry ),
                             combofix );
     g_signal_connect_after ( G_OBJECT ( combofix -> entry ),
                             "focus-out-event",

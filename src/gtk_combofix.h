@@ -52,26 +52,7 @@ struct _GtkComboFix
     /* entry of the combofix */
     GtkWidget *entry;
     /* *** private entries *** */
-<<<<<<< HEAD
-
-    /* the tree_store is 5 columns :
-     * COMBOFIX_COL_VISIBLE_STRING (a string) : what we see in the combofix
-     * COMBOFIX_COL_REAL_STRING (a string) : what we set in the entry when selecting something
-     * COMBOFIX_COL_VISIBLE (a boolean) : if that line has to be showed
-     * COMBOFIX_COL_LIST_NUMBER (a int) : the number of the list 1, 2 ou 3 (CREDIT DEBIT SPECIAL
-     * COMBOFIX_COL_SEPARATOR TRUE if this is a separator */
-    GtkTreeStore *store;
-    GtkTreeModel *model_filter;
-    GtkTreeModel *model_sort;
-    GtkWidget *tree_view;
-
-    gint visible_items;
-    GtkWidget *popup;
-    /* automatic sorting */
-    gint auto_sort;
-=======
     GtkComboFixPrivate *GSEAL (priv);
->>>>>>> Change gtk_combofix and minor changes
 };
 
 struct _GtkComboFixClass
