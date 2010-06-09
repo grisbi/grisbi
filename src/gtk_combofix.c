@@ -790,7 +790,6 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix, gboolean ins
                             "and subcategory without changing the options "
                             "in preferences"),
                             _("Warning you cannot create payee or category") );
-
         }
 
         while (!completed_string

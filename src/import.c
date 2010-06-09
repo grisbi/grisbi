@@ -3713,8 +3713,6 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
                         etat.combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (entry),
                         etat.combofix_case_sensitive );
-    //~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (entry),
-                        //~ FALSE );
     gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 0, 1,
                         GTK_EXPAND|GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT (vbox_main), "payee", entry );
