@@ -929,9 +929,6 @@ void bet_historical_populate_div_model ( gpointer key,
         if ( str_amount )
             g_free ( str_amount );
         str_amount = gsb_real_save_real_to_string ( amount, 2 );
-
-        if ( str_retained )
-            g_free ( str_retained );
         str_retained = gsb_real_get_string_with_currency ( amount,
                     gsb_data_account_get_currency ( account_nb ), TRUE );
 

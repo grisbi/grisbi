@@ -1831,7 +1831,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     liste_combofix = g_slist_append ( liste_combofix, liste_division_debit );
     liste_combofix = g_slist_append ( liste_combofix, liste_division_credit );
 
-    combofix = gtk_combofix_new_complex (liste_combofix);
+    combofix = gtk_combofix_new ( liste_combofix );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix), TRUE );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combofix, TRUE, TRUE, 0 );
 

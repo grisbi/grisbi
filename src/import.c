@@ -3705,7 +3705,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-    entry = gtk_combofix_new_complex (
+    entry = gtk_combofix_new (
                         gsb_data_payee_get_name_and_report_list());
     gtk_combofix_set_text ( GTK_COMBOFIX (entry), "" );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (entry),FALSE );
@@ -4094,9 +4094,11 @@ gboolean gsb_import_associations_check_add_button ( GObject * main_widget )
     payee_widget = g_object_get_data ( main_widget, "payee" );
     if ( payee_widget )
     {
-    const gchar * content = gtk_combofix_get_text ( GTK_COMBOFIX ( payee_widget ) );
-    if ( ! content || ! strlen(content) )
-        sensitive = FALSE;
+        const gchar *content;
+
+        content = gtk_combofix_get_text ( GTK_COMBOFIX ( payee_widget ) );
+        if ( !content || ! strlen ( content ) )
+            sensitive = FALSE;
     }
 
     search_string_widget = g_object_get_data ( main_widget, "Search_string" );

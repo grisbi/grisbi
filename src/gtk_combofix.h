@@ -33,7 +33,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 
-
+#define GTK_TYPE_COMBOFIX             ( gtk_combofix_get_type ( ) )
 #define GTK_COMBOFIX(obj) GTK_CHECK_CAST(obj, gtk_combofix_get_type(), GtkComboFix )
 #define GTK_COMBOFIX_CLASS(klass) GTK_CHECK_CLASS_CAST( klass, gtk_combofix_get_type(), GtkComboFixClass )
 #define GTK_IS_COMBOFIX(obj) GTK_CHECK_TYPE ( obj, gtk_combofix_get_type() )
@@ -41,6 +41,7 @@ extern "C" {
 
 typedef struct _GtkComboFix GtkComboFix;
 typedef struct _GtkComboFixClass GtkComboFixClass;
+typedef struct _GtkComboFixPrivate GtkComboFixPrivate;
 
 
 /* structure of the ComboFix */
@@ -50,23 +51,8 @@ struct _GtkComboFix
 
     /* entry of the combofix */
     GtkWidget *entry;
-
-    /* TRUE if the entry content must belong to the list  */
-    gboolean force;
-
-    /* 0 to show all the items */
-    gint max_items;
-
-    /* TRUE for case sensitive (in that case, the first entry give the case) */
-    gboolean case_sensitive;
-
-    /* TRUE keep the completion, FALSE take the selection */
-    gboolean enter_function;
-
-    /* TRUE mix the different list, FALSE separate them */
-    gboolean mixed_sort;
-
     /* *** private entries *** */
+<<<<<<< HEAD
 
     /* the tree_store is 5 columns :
      * COMBOFIX_COL_VISIBLE_STRING (a string) : what we see in the combofix
@@ -83,6 +69,9 @@ struct _GtkComboFix
     GtkWidget *popup;
     /* automatic sorting */
     gint auto_sort;
+=======
+    GtkComboFixPrivate *GSEAL (priv);
+>>>>>>> Change gtk_combofix and minor changes
 };
 
 struct _GtkComboFixClass
@@ -91,142 +80,30 @@ struct _GtkComboFixClass
 };
 
 
+/* construction */
 guint gtk_combofix_get_type ( void );
+GtkWidget *gtk_combofix_new ( GSList *list );
 
-
-/**
- * create a complex combofix, ie several list set one after the others
- * by default, force is not set, auto_sort is TRUE, no max items
- * and case unsensitive
- *
- * \param list a g_slist of name (\t at the begining makes it as a child)
- * \param force TRUE and the text must be in the list
- * \param sort TRUE and the list will be sorted automatickly
- * \param min_length the minimum of characters to show the popup
- * 
- * \return the new widget
- * */
-GtkWidget *gtk_combofix_new_complex ( GSList *list );
-
-
-/**
- * set the text in the combofix without showing the popup or
- * doing any check
- *
- * \param combofix
- * \param text
- *
- * \return
- * */
-void gtk_combofix_set_text ( GtkComboFix *combofix,
-			     const gchar *text );
-
-
-/**
- * get the text in the combofix
- *
- * \param combofix
- *
- * \return a const gchar
- * */
+/* text */
 const gchar *gtk_combofix_get_text ( GtkComboFix *combofix );
+void gtk_combofix_set_text ( GtkComboFix *combofix, const gchar *text );
+void gtk_combofix_set_force_text ( GtkComboFix *combofix, gboolean value );
+void gtk_combofix_set_case_sensitive ( GtkComboFix *combofix, gboolean case_sensitive );
 
+/* popup */
+gboolean gtk_combofix_show_popup ( GtkComboFix *combofix );
+gboolean gtk_combofix_hide_popup ( GtkComboFix *combofix );
 
-/**
- * set the flag to force/unforce the text in the entry
- * if force is set, the value in the entry must belong to the list
- *
- * \param combofix
- * \param value
- *
- * \return
- * */
-void gtk_combofix_set_force_text ( GtkComboFix *combofix,
-				   gboolean value );
+/* list of items */
+gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list );
+void gtk_combofix_set_max_items ( GtkComboFix *combofix, gint max_items );
+void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix, gboolean mixed_sort );
+void gtk_combofix_set_sort ( GtkComboFix *combofix, gboolean auto_sort );
 
-/**
- * set the maximum items viewable in the popup,
- * if there is more items corresponding to the entry than that number,
- * the popup is not showed
- *
- * \param combofix
- * \param max_items
- *
- * \return
- * */
-void gtk_combofix_set_max_items ( GtkComboFix *combofix,
-				  gint max_items );
-
-/**
- * set if the list has to be automatickly sorted or not
- *
- * \param combofix
- * \param auto_sort TRUE for automatic sort
- *
- * \return
- * */
-void gtk_combofix_set_sort ( GtkComboFix *combofix,
-			     gboolean auto_sort );
-
-/**
- * set if the completion is case sensitive or not
- *
- * \param combofix
- * \param case_sensitive TRUE or FALSE
- *
- * \return
- * */
-void gtk_combofix_set_case_sensitive ( GtkComboFix *combofix,
-				       gboolean case_sensitive );
-
-/**
- * set the function of the enter key
- * either take the current selection and set it in the entry (FALSE)
- * either keep the current completion and close the popup (TRUE)
- *
- * \param combofix
- * \param enter_function TRUE or FALSE
- *
- * \return
- * */
-void gtk_combofix_set_enter_function ( GtkComboFix *combofix,
-				       gboolean  enter_function );
-
-/**
- * set for the complex combofix if the different list have to
- * be mixed or separate
- *
- * \param combofix
- * \param mixed_sort TRUE or FALSE
- *
- * \return
- * */
-void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix,
-				   gboolean mixed_sort );
-
-/**
- * show or hide the popup
- *
- * \param combofix
- * \param show TRUE to show the popup
- *
- * \return
- * */
-void gtk_combofix_view_list ( GtkComboFix *combofix,
-			      gboolean show );
-
-
-/**
- * change the list of an existing combofix
- *
- * \param combofix
- * \param list the new list
- *
- * \return TRUE if ok, FALSE if problem
- * */
-gboolean gtk_combofix_set_list ( GtkComboFix *combofix,
-				 GSList *list );
-
+/* set callback */
+void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,
+						GCallback func,
+					    gpointer data );
 
 #ifdef __cplusplus
 }

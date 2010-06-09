@@ -996,14 +996,12 @@ static GtkWidget *gsb_assistant_payees_page_2 ( GtkWidget *assistant )
 	g_free ( texte );
 	gtk_box_pack_start ( GTK_BOX(paddingbox), label, FALSE, FALSE, 6 );
 
-    entry = gtk_combofix_new_complex ( gsb_data_payee_get_name_and_report_list());
+    entry = gtk_combofix_new ( gsb_data_payee_get_name_and_report_list ( ) );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (entry),FALSE );
     gtk_combofix_set_max_items ( GTK_COMBOFIX (entry),
                         etat.combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (entry),
                         etat.combofix_case_sensitive );
-    //~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (entry),
-					      //~ FALSE );
     gtk_box_pack_start ( GTK_BOX(paddingbox), entry, FALSE, FALSE, 6 );
     g_object_set_data ( G_OBJECT (assistant), "payee", entry );
     paddingbox = new_paddingbox_with_title ( page, TRUE, _("Enter the new payee"));

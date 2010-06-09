@@ -1164,7 +1164,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
                         NULL,
                         gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) ),
                         NULL );
-	    gsb_form_show ( FALSE );
+	    //~ gsb_form_show ( FALSE );
 
 	    buffer_last_account = account_number;
 

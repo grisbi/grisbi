@@ -1521,11 +1521,8 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
      ||
      element_number == TRANSACTION_FORM_BUDGET )
     {
-    widget = gsb_form_widget_get_widget (element_number);
-
-    gtk_grab_remove ( GTK_COMBOFIX ( widget ) -> popup );
-    gdk_pointer_ungrab ( GDK_CURRENT_TIME );
-    gtk_widget_hide ( GTK_COMBOFIX ( widget ) ->popup );
+        widget = gsb_form_widget_get_widget (element_number);
+        gtk_combofix_hide_popup ( GTK_COMBOFIX ( widget ) );
     }
 
     /* string will be filled only if the field is empty */

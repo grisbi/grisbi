@@ -1706,7 +1706,6 @@ void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transf
     GDate *date_jour_1;
     GDate *tmp_date;
 
-    devel_debug (NULL);
     date_jour_1 = gdate_today ( );
     g_date_set_day ( date_jour_1, 1 );
     tmp_date = gsb_date_copy ( transfert -> date );

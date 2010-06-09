@@ -130,6 +130,7 @@ gboolean gsb_form_widget_free_list ( void )
                     g_signal_handlers_block_by_func ( element -> element_widget,
                         gsb_payment_method_changed_callback, NULL );
                     gtk_combofix_set_text ( GTK_COMBOFIX (element -> element_widget), "" );
+                    gsb_form_widget_set_empty ( GTK_WIDGET ( element -> element_widget ), TRUE );
                 }
                 gtk_widget_destroy (element -> element_widget);
                 element -> element_widget = NULL;
@@ -162,7 +163,6 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
                         gint account_number )
 {
     GtkWidget *widget;
-    GtkTreeSelection *tree_selection;
 
     if (!element_number)
 	return NULL;
@@ -209,7 +209,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_PARTY:
-	    widget = gtk_combofix_new_complex (
+	    widget = gtk_combofix_new (
                         gsb_data_payee_get_name_and_report_list ( ) );
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
 					  etat.combofix_force_payee );
@@ -217,8 +217,6 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 					 etat.combofix_max_item );
 	    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
 					      etat.combofix_case_sensitive );
-	    //~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
-					      //~ etat.combofix_enter_select_completion );
 	    /* we never mix the payee because the only case of the complex combofix is
 	     * for the report and there is non sense to mix report with the payee */
 	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
@@ -226,7 +224,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_CATEGORY:
-	    widget = gtk_combofix_new_complex (
+	    widget = gtk_combofix_new (
                          gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, TRUE ) );
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
 					  etat.combofix_force_category );
@@ -234,8 +232,6 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 					 etat.combofix_max_item );
 	    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
 					      etat.combofix_case_sensitive );
-	    //~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
-					      //~ etat.combofix_enter_select_completion );
 	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
 					  etat.combofix_mixed_sort );
 	    break;
@@ -245,7 +241,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_BUDGET:
-	    widget = gtk_combofix_new_complex (
+	    widget = gtk_combofix_new (
                         gsb_data_budget_get_name_list (TRUE, TRUE));
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
 					  etat.combofix_force_category );
@@ -253,8 +249,6 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 					 etat.combofix_max_item );
 	    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
 					      etat.combofix_case_sensitive );
-	    //~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
-					      //~ etat.combofix_enter_select_completion );
 	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
 					  etat.combofix_mixed_sort );
 	    break;
@@ -321,7 +315,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	form_list_widgets = g_slist_append ( form_list_widgets, element );
 
 	/* set the signals */
-	if ( GTK_IS_ENTRY ( widget ))
+	if ( GTK_IS_ENTRY ( widget ) )
 	{
 	    g_signal_connect ( G_OBJECT ( widget ),
 			       "focus-in-event",
@@ -342,11 +336,8 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	}
 	else
 	{
-	    if ( GTK_IS_COMBOFIX ( widget ))
+	    if ( GTK_IS_COMBOFIX ( widget ) )
 	    {
-            tree_selection = gtk_tree_view_get_selection (
-                        GTK_TREE_VIEW ( GTK_COMBOFIX ( widget ) -> tree_view ) );
-
 		    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( widget ) -> entry ),
                        "focus-in-event",
                        G_CALLBACK ( gsb_form_entry_get_focus ),
@@ -359,14 +350,13 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
                        "button-press-event",
                        G_CALLBACK ( gsb_form_button_press_event ),
                        GINT_TO_POINTER ( element_number ));
-            g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
+            g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( widget ) -> entry ),
                        "key-press-event",
                        G_CALLBACK ( gsb_form_key_press_event ),
                        GINT_TO_POINTER ( element_number ));
-            g_signal_connect ( G_OBJECT ( tree_selection ),
-                       "changed",
-                       G_CALLBACK ( gsb_form_combo_selection_changed ),
-                       GINT_TO_POINTER ( element_number ) );
+            gtk_combofix_set_selection_callback ( GTK_COMBOFIX ( widget ),
+						G_CALLBACK ( gsb_form_combo_selection_changed ),
+					    GINT_TO_POINTER ( element_number ) );
 	    }
 	    else
 		/* neither an entry, neither a combofix */
@@ -1081,26 +1071,6 @@ gint gsb_form_widget_get_old_debit_payment ( void )
     return old_debit_payment_number;
 }
 
-
-/** Essai de remplacement des gtk_combofix */
-/**
- * crée un gtk_combo_box pour les tiers
- *
- **/
-GtkWidget *gtk_combo_payee_new ( GSList *list )
-{
-    GtkWidget *combo_box;
-    GtkListStore *store;
-    GSList *tmp_list;
-
-
-    combo_box = gtk_combo_box_new ( );
-
-
-
-    
-    return combo_box;
-}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
