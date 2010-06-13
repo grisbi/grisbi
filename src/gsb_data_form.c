@@ -30,9 +30,9 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_form.h"
-#include "./dialog.h"
-#include "./gsb_data_account.h"
-#include "./gsb_form.h"
+#include "dialog.h"
+#include "gsb_data_account.h"
+#include "gsb_form.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -29,12 +29,12 @@
 
 /*START_INCLUDE*/
 #include "file_obfuscate_qif.h"
-#include "./dialog.h"
-#include "./utils_file_selection.h"
-#include "./gsb_assistant.h"
-#include "./gsb_file.h"
-#include "./gsb_status.h"
-#include "./include.h"
+#include "dialog.h"
+#include "utils_file_selection.h"
+#include "gsb_assistant.h"
+#include "gsb_file.h"
+#include "gsb_status.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 

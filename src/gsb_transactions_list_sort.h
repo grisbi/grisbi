@@ -1,7 +1,7 @@
 #ifndef _GSB_TRANSACTIONS_LIST_SORT_H
 #define _GSB_TRANSACTIONS_LIST_SORT_H (1)
 /* START_INCLUDE_H */
-#include "././custom_list.h"
+#include "custom_list.h"
 /* END_INCLUDE_H */
 
 

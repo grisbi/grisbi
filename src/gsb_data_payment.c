@@ -31,11 +31,11 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_payment.h"
-#include "./gsb_data_account.h"
-#include "./utils_str.h"
-#include "./gsb_data_account.h"
-#include "./include.h"
-#include "./erreur.h"
+#include "gsb_data_account.h"
+#include "utils_str.h"
+#include "gsb_data_account.h"
+#include "include.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 

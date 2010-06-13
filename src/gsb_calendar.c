@@ -32,9 +32,9 @@
 
 /*START_INCLUDE*/
 #include "gsb_calendar.h"
-#include "./gsb_data_scheduled.h"
-#include "./utils_dates.h"
-#include "./gsb_scheduler.h"
+#include "gsb_data_scheduled.h"
+#include "utils_dates.h"
+#include "gsb_scheduler.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

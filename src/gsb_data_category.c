@@ -29,17 +29,17 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_category.h"
-#include "./meta_categories.h"
-#include "./gsb_category.h"
-#include "./gsb_data_account.h"
-#include "./gsb_data_mix.h"
-#include "./gsb_data_transaction.h"
-#include "./gsb_real.h"
-#include "./utils_str.h"
-#include "./include.h"
-#include "./erreur.h"
-#include "./structures.h"
-#include "./gsb_real.h"
+#include "meta_categories.h"
+#include "gsb_category.h"
+#include "gsb_data_account.h"
+#include "gsb_data_mix.h"
+#include "gsb_data_transaction.h"
+#include "gsb_real.h"
+#include "utils_str.h"
+#include "include.h"
+#include "erreur.h"
+#include "structures.h"
+#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /**

@@ -25,15 +25,15 @@
 
 /*START_INCLUDE*/
 #include "meta_categories.h"
-#include "./categories_onglet.h"
-#include "./gsb_category.h"
-#include "./gsb_data_category.h"
-#include "./gsb_data_scheduled.h"
-#include "./gsb_data_transaction.h"
-#include "./utils_str.h"
-#include "./metatree.h"
-#include "./include.h"
-#include "./gsb_real.h"
+#include "categories_onglet.h"
+#include "gsb_category.h"
+#include "gsb_data_category.h"
+#include "gsb_data_scheduled.h"
+#include "gsb_data_transaction.h"
+#include "utils_str.h"
+#include "metatree.h"
+#include "include.h"
+#include "gsb_real.h"
 /*END_INCLUDE*/
 
 

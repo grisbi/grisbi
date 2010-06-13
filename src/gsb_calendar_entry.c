@@ -33,9 +33,9 @@
 
 /*START_INCLUDE*/
 #include "gsb_calendar_entry.h"
-#include "./utils_dates.h"
-#include "./gsb_form_widget.h"
-#include "./include.h"
+#include "utils_dates.h"
+#include "gsb_form_widget.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

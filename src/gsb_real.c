@@ -36,7 +36,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_real.h"
-#include "./gsb_data_currency.h"
+#include "gsb_data_currency.h"
 /*END_INCLUDE*/
 
 gsb_real null_real = { 0 , 0 };

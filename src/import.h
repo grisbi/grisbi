@@ -2,9 +2,9 @@
 #define _IMPORT_H (1)
 
 /* START_INCLUDE_H */
-#include "././gsb_real.h"
-#include "././gsb_data_transaction.h"
-#include "././structures.h"
+#include "gsb_real.h"
+#include "gsb_data_transaction.h"
+#include "structures.h"
 /* END_INCLUDE_H */
 
 /* struture d'une importation : compte contient la liste des opés importées */

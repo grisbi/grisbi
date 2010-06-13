@@ -33,16 +33,16 @@
 
 /*START_INCLUDE*/
 #include "gsb_bank.h"
-#include "./dialog.h"
-#include "./gsb_account_property.h"
-#include "./gsb_autofunc.h"
-#include "./gsb_data_account.h"
-#include "./gsb_data_bank.h"
-#include "./traitement_variables.h"
-#include "./utils.h"
-#include "./structures.h"
-#include "./gsb_transactions_list.h"
-#include "./include.h"
+#include "dialog.h"
+#include "gsb_account_property.h"
+#include "gsb_autofunc.h"
+#include "gsb_data_account.h"
+#include "gsb_data_bank.h"
+#include "traitement_variables.h"
+#include "utils.h"
+#include "structures.h"
+#include "gsb_transactions_list.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

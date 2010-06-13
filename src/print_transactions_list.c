@@ -28,18 +28,18 @@
 
 /*START_INCLUDE*/
 #include "print_transactions_list.h"
-#include "./gsb_autofunc.h"
-#include "./gsb_automem.h"
-#include "./gsb_calendar_entry.h"
-#include "./gsb_data_print_config.h"
-#include "./gsb_data_transaction.h"
-#include "./utils.h"
-#include "./print_dialog_config.h"
-#include "./transaction_model.h"
-#include "./custom_list.h"
-#include "./include.h"
-#include "./structures.h"
-#include "./erreur.h"
+#include "gsb_autofunc.h"
+#include "gsb_automem.h"
+#include "gsb_calendar_entry.h"
+#include "gsb_data_print_config.h"
+#include "gsb_data_transaction.h"
+#include "utils.h"
+#include "print_dialog_config.h"
+#include "transaction_model.h"
+#include "custom_list.h"
+#include "include.h"
+#include "structures.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 #if GTK_CHECK_VERSION(2,12,0)

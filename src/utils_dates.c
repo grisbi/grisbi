@@ -30,10 +30,10 @@
 
 /*START_INCLUDE*/
 #include "utils_dates.h"
-#include "./dialog.h"
-#include "./gsb_form_widget.h"
-#include "./utils_str.h"
-#include "./gsb_calendar_entry.h"
+#include "dialog.h"
+#include "gsb_form_widget.h"
+#include "utils_str.h"
+#include "gsb_calendar_entry.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

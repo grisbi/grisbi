@@ -25,10 +25,10 @@
 
 /*START_INCLUDE*/
 #include "gsb_select_icon.h"
-#include "./dialog.h"
-#include "./utils_str.h"
-#include "./include.h"
-#include "./erreur.h"
+#include "dialog.h"
+#include "utils_str.h"
+#include "include.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

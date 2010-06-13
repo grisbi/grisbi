@@ -26,8 +26,8 @@
 
 /*START_INCLUDE*/
 #include "dialog.h"
-#include "./parametres.h"
-#include "./include.h"
+#include "parametres.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

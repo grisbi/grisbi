@@ -2,7 +2,7 @@
 #define _GSB_FILE_CONFIG_H (1)
 
 /* START_INCLUDE_H */
-#include "././structures.h"
+#include "structures.h"
 /* END_INCLUDE_H */
 
 

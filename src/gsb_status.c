@@ -29,8 +29,8 @@
 
 /*START_INCLUDE*/
 #include "gsb_status.h"
-#include "./main.h"
-#include "./utils.h"
+#include "main.h"
+#include "utils.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

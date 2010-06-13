@@ -30,16 +30,16 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_budget.h"
-#include "./meta_budgetary.h"
-#include "./imputation_budgetaire.h"
-#include "./gsb_data_scheduled.h"
-#include "./gsb_data_transaction.h"
-#include "./gsb_real.h"
-#include "./utils_str.h"
-#include "./include.h"
-#include "./structures.h"
-#include "./gsb_real.h"
-#include "./erreur.h"
+#include "meta_budgetary.h"
+#include "imputation_budgetaire.h"
+#include "gsb_data_scheduled.h"
+#include "gsb_data_transaction.h"
+#include "gsb_real.h"
+#include "utils_str.h"
+#include "include.h"
+#include "structures.h"
+#include "gsb_real.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 

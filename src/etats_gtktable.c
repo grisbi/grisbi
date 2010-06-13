@@ -31,19 +31,19 @@
 
 /*START_INCLUDE*/
 #include "etats_gtktable.h"
-#include "./gsb_data_account.h"
-#include "./gsb_data_transaction.h"
-#include "./navigation.h"
-#include "./menu.h"
-#include "./gsb_transactions_list.h"
-#include "./utils.h"
-#include "./transaction_list.h"
-#include "./transaction_list_select.h"
-#include "./structures.h"
-#include "./fenetre_principale.h"
-#include "./gsb_data_transaction.h"
-#include "./etats_config.h"
-#include "./etats_affiche.h"
+#include "gsb_data_account.h"
+#include "gsb_data_transaction.h"
+#include "navigation.h"
+#include "menu.h"
+#include "gsb_transactions_list.h"
+#include "utils.h"
+#include "transaction_list.h"
+#include "transaction_list_select.h"
+#include "structures.h"
+#include "fenetre_principale.h"
+#include "gsb_data_transaction.h"
+#include "etats_config.h"
+#include "etats_affiche.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

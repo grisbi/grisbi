@@ -30,7 +30,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_currency.h"
-#include "./utils_str.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 

@@ -3,7 +3,7 @@
 
 
 /* START_INCLUDE_H */
-#include "././gsb_scheduler_list.h"
+#include "gsb_scheduler_list.h"
 /* END_INCLUDE_H */
 
 /* when a global variable contains a definition like here, need to put it with the definition,

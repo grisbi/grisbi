@@ -3,7 +3,7 @@
 
 
 /* START_INCLUDE_H */
-#include "././custom_list.h"
+#include "custom_list.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

@@ -1,8 +1,8 @@
 #ifndef _COMPTES_TRAITEMENTS_H
 #define _COMPTES_TRAITEMENTS_H (1)
 /* START_INCLUDE_H */
-#include "././gsb_real.h"
-#include "././gsb_data_account.h"
+#include "gsb_real.h"
+#include "gsb_data_account.h"
 /* END_INCLUDE_H */
 
 

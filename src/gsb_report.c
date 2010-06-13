@@ -30,7 +30,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_report.h"
-#include "./gsb_data_report.h"
+#include "gsb_data_report.h"
 /*END_INCLUDE*/
 
 

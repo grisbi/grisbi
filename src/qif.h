@@ -1,7 +1,7 @@
 #ifndef _QIF_H
 #define _QIF_H (1)
 /* START_INCLUDE_H */
-#include "././import.h"
+#include "import.h"
 /* END_INCLUDE_H */
 
 

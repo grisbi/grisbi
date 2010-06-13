@@ -30,15 +30,15 @@
 
 /*START_INCLUDE*/
 #include "gsb_payment_method.h"
-#include "./gsb_data_account.h"
-#include "./gsb_data_mix.h"
-#include "./gsb_data_payment.h"
-#include "./gsb_form.h"
-#include "./gsb_form_widget.h"
-#include "./gsb_data_payment.h"
-#include "./gsb_form.h"
-#include "./gsb_data_form.h"
-#include "./erreur.h"
+#include "gsb_data_account.h"
+#include "gsb_data_mix.h"
+#include "gsb_data_payment.h"
+#include "gsb_form.h"
+#include "gsb_form_widget.h"
+#include "gsb_data_payment.h"
+#include "gsb_form.h"
+#include "gsb_data_form.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

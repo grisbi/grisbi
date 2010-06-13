@@ -25,9 +25,9 @@
 
 /*START_INCLUDE*/
 #include "utils_editables.h"
-#include "./gsb_real.h"
-#include "./utils_str.h"
-#include "./gsb_real.h"
+#include "gsb_real.h"
+#include "utils_str.h"
+#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

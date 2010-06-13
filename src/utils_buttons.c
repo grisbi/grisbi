@@ -25,7 +25,7 @@
 
 /*START_INCLUDE*/
 #include "utils_buttons.h"
-#include "./gsb_automem.h"
+#include "gsb_automem.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -31,17 +31,17 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_payee.h"
-#include "./gsb_data_report.h"
-#include "./gsb_data_scheduled.h"
-#include "./gsb_data_transaction.h"
-#include "./tiers_onglet.h"
-#include "./gsb_real.h"
-#include "./utils_str.h"
-#include "./meta_payee.h"
-#include "./include.h"
-#include "./structures.h"
-#include "./gsb_real.h"
-#include "./erreur.h"
+#include "gsb_data_report.h"
+#include "gsb_data_scheduled.h"
+#include "gsb_data_transaction.h"
+#include "tiers_onglet.h"
+#include "gsb_real.h"
+#include "utils_str.h"
+#include "meta_payee.h"
+#include "include.h"
+#include "structures.h"
+#include "gsb_real.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 

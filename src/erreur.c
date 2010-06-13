@@ -28,17 +28,17 @@
 
 /*START_INCLUDE*/
 #include "erreur.h"
-#include "./dialog.h"
-#include "./gsb_file_save.h"
-#include "./gsb_file_util.h"
-#include "./gsb_plugins.h"
-#include "./gsb_status.h"
-#include "./traitement_variables.h"
-#include "./utils_files.h"
-#include "./utils_str.h"
-#include "./include.h"
-#include "./structures.h"
-#include "./gsb_real.h"
+#include "dialog.h"
+#include "gsb_file_save.h"
+#include "gsb_file_util.h"
+#include "gsb_plugins.h"
+#include "gsb_status.h"
+#include "traitement_variables.h"
+#include "utils_files.h"
+#include "utils_str.h"
+#include "include.h"
+#include "structures.h"
+#include "gsb_real.h"
 /*END_INCLUDE*/
 
 #ifdef HAVE_BACKTRACE

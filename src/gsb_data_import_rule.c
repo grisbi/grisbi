@@ -29,9 +29,9 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_import_rule.h"
-#include "./dialog.h"
-#include "./utils_str.h"
-#include "./import.h"
+#include "dialog.h"
+#include "utils_str.h"
+#include "import.h"
 /*END_INCLUDE*/
 
 /** \struct

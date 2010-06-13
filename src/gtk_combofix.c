@@ -28,7 +28,7 @@
 
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
-#include "./erreur.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 #define GTK_COMBOFIX_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GTK_TYPE_COMBOFIX, GtkComboFixPrivate))

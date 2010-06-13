@@ -28,16 +28,16 @@
 
 /*START_INCLUDE*/
 #include "utils_files.h"
-#include "./dialog.h"
-#include "./utils_file_selection.h"
-#include "./go-charmap-sel.h"
-#include "./gsb_file.h"
-#include "./utils_str.h"
-#include "./gsb_file_config.h"
-#include "./utils_file_selection.h"
-#include "./go-charmap-sel.h"
-#include "./include.h"
-#include "./erreur.h"
+#include "dialog.h"
+#include "utils_file_selection.h"
+#include "go-charmap-sel.h"
+#include "gsb_file.h"
+#include "utils_str.h"
+#include "gsb_file_config.h"
+#include "utils_file_selection.h"
+#include "go-charmap-sel.h"
+#include "include.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

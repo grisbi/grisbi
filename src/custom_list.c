@@ -35,10 +35,10 @@
 
 /*START_INCLUDE*/
 #include "custom_list.h"
-#include "./gsb_data_transaction.h"
-#include "./transaction_list.h"
-#include "./transaction_model.h"
-#include "./erreur.h"
+#include "gsb_data_transaction.h"
+#include "transaction_list.h"
+#include "transaction_model.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

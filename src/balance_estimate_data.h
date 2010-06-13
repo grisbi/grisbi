@@ -4,8 +4,8 @@
 #include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
-#include "././gsb_real.h"
-#include "./fenetre_principale.h"
+#include "gsb_real.h"
+#include "fenetre_principale.h"
 /* END_INCLUDE_H */
 
 

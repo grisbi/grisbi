@@ -30,18 +30,18 @@
 
 /*START_INCLUDE*/
 #include "gsb_currency_link_config.h"
-#include "./utils_dates.h"
-#include "./gsb_currency.h"
-#include "./gsb_data_account.h"
-#include "./gsb_data_currency.h"
-#include "./gsb_data_currency_link.h"
-#include "./navigation.h"
-#include "./gsb_real.h"
-#include "./traitement_variables.h"
-#include "./utils.h"
-#include "./include.h"
-#include "./structures.h"
-#include "./gsb_real.h"
+#include "utils_dates.h"
+#include "gsb_currency.h"
+#include "gsb_data_account.h"
+#include "gsb_data_currency.h"
+#include "gsb_data_currency_link.h"
+#include "navigation.h"
+#include "gsb_real.h"
+#include "traitement_variables.h"
+#include "utils.h"
+#include "include.h"
+#include "structures.h"
+#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

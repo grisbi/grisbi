@@ -32,7 +32,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_print_config.h"
-#include "./structures.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 

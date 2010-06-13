@@ -34,7 +34,7 @@
 
 /*START_INCLUDE*/
 #include "go-optionmenu.h"
-#include "./include.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

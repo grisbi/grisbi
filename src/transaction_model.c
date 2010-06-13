@@ -31,8 +31,8 @@
 
 /*START_INCLUDE*/
 #include "transaction_model.h"
-#include "./gsb_data_transaction.h"
-#include "./custom_list.h"
+#include "gsb_data_transaction.h"
+#include "custom_list.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

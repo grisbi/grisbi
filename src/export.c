@@ -26,15 +26,15 @@
 
 /*START_INCLUDE*/
 #include "export.h"
-#include "./gsb_assistant.h"
-#include "./export_csv.h"
-#include "./gsb_data_account.h"
-#include "./gsb_file.h"
-#include "./dialog.h"
-#include "./utils.h"
-#include "./qif.h"
-#include "./structures.h"
-#include "./include.h"
+#include "gsb_assistant.h"
+#include "export_csv.h"
+#include "gsb_data_account.h"
+#include "gsb_file.h"
+#include "dialog.h"
+#include "utils.h"
+#include "qif.h"
+#include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 

@@ -2,7 +2,7 @@
 #define _GSB_CATEGORY_DATA_H (1)
 
 /* START_INCLUDE_H */
-#include "././gsb_real.h"
+#include "gsb_real.h"
 /* END_INCLUDE_H */
 
 /* used to choose the kind of categories list */

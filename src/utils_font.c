@@ -29,8 +29,8 @@
 
 /*START_INCLUDE*/
 #include "utils_font.h"
-#include "./utils_str.h"
-#include "./include.h"
+#include "utils_str.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -31,10 +31,10 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_archive.h"
-#include "./dialog.h"
-#include "./gsb_data_transaction.h"
-#include "./utils_dates.h"
-#include "./utils_str.h"
+#include "dialog.h"
+#include "gsb_data_transaction.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 

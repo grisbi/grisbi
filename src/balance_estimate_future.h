@@ -4,8 +4,8 @@
 #include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
-#include "././gsb_real.h"
-#include "././balance_estimate_data.h"
+#include "gsb_real.h"
+#include "balance_estimate_data.h"
 /* END_INCLUDE_H */
 
 

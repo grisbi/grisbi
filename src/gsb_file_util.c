@@ -25,14 +25,14 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_util.h"
-#include "./dialog.h"
-#include "./gsb_data_account.h"
-#include "./gsb_data_transaction.h"
-#include "./utils_str.h"
-#include "./utils_files.h"
-#include "./include.h"
-#include "./structures.h"
-#include "./erreur.h"
+#include "dialog.h"
+#include "gsb_data_account.h"
+#include "gsb_data_transaction.h"
+#include "utils_str.h"
+#include "utils_files.h"
+#include "include.h"
+#include "structures.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

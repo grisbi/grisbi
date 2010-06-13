@@ -27,7 +27,7 @@
 
 /*START_INCLUDE*/
 #include "utils_str.h"
-#include "./gsb_data_report.h"
+#include "gsb_data_report.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

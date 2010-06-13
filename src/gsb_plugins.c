@@ -23,8 +23,8 @@
 
 /*START_INCLUDE*/
 #include "gsb_plugins.h"
-#include "./dialog.h"
-#include "./include.h"
+#include "dialog.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
