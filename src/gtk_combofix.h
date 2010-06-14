@@ -79,7 +79,6 @@ gboolean gtk_combofix_hide_popup ( GtkComboFix *combofix );
 gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list );
 void gtk_combofix_set_max_items ( GtkComboFix *combofix, gint max_items );
 void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix, gboolean mixed_sort );
-void gtk_combofix_set_sort ( GtkComboFix *combofix, gboolean auto_sort );
 
 /* set callback */
 void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,

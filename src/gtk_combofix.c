@@ -53,8 +53,6 @@ struct _GtkComboFixPrivate
     gboolean mixed_sort;
     /* 0 to show all the items */
     gint max_items;
-    /* automatic sorting */
-    gint auto_sort;
 
     gint visible_items;
 };
@@ -170,7 +168,7 @@ guint gtk_combofix_get_type ( void )
 
 /**
  * create a combofix, with several list set one after the others
- * by default, force is not set, auto_sort is TRUE, no max items
+ * by default, force is not set, no max items
  * and case unsensitive
  *
  * \param list a g_slist of name (\t at the beginning makes it as a child)
@@ -191,7 +189,6 @@ GtkWidget *gtk_combofix_new ( GSList *list )
     priv -> force = FALSE;
     priv -> max_items = 0;
     priv -> case_sensitive = FALSE;
-    priv -> auto_sort = TRUE;
     priv -> visible_items = 0;
 
     gtk_combofix_set_list (combofix, list);
