@@ -1593,7 +1593,7 @@ msgstr "%s, %2f : %s - %s:%d:%s - %s\n"
 #: src/erreur.c:287
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s\n"
-msgstr "%s, %2f : %s - %s:%d:%s - %s\n"
+msgstr "%s, %2f : %s - %s:%d:%s\n"
 
 #. on affiche dans la console le message
 #: src/erreur.c:325
