@@ -409,8 +409,10 @@ ADD_LIBRARY ( ofx
 
 ADD_CUSTOM_COMMAND ( TARGET ofx
 	POST_BUILD
-	COMMAND xcopy /D /Y $(TargetDir)ofx.dll target\\$(PlatformName)\\$(OutDir)\\plugins
-	COMMAND XCOPY /D /Y target\\plugins-dev\\libofx\\bin\\* target\\$(PlatformName)\\$(OutDir)
+	COMMAND XCOPY /D /Y $(TargetDir)ofx.dll target\\$(PlatformName)\\$(OutDir)\\plugins
+	COMMAND XCOPY /D /Y target\\$(PlatformName)\\plugins-dev\\libofx\\bin\\* target\\$(PlatformName)\\$(OutDir)
+	COMMAND IF NOT EXIST target\\$(PlatformName)\\$(OutDir)\\dtd MKDIR target\\$(PlatformName)\\$(OutDir)\\dtd
+	COMMAND XCOPY /D /Y target\\$(PlatformName)\\plugins-dev\\libofx\\bin\\dtd\\o*.d* target\\$(PlatformName)\\$(OutDir)\\dtd
 )
 
 ADD_LIBRARY ( gnucash
@@ -421,7 +423,9 @@ ADD_LIBRARY ( gnucash
 
 ADD_CUSTOM_COMMAND ( TARGET gnucash
 	POST_BUILD
-	COMMAND xcopy /D /Y $(TargetDir)gnucash.dll target\\$(PlatformName)\\$(OutDir)\\plugins
+	COMMAND XCOPY /D /Y $(TargetDir)gnucash.dll target\\$(PlatformName)\\$(OutDir)\\plugins
+	COMMAND XCOPY /D /Y target\\$(PlatformName)\\plugins-dev\\libxml2\\bin\\libxml2.dll target\\$(PlatformName)\\$(OutDir)
+	COMMAND XCOPY /D /Y target\\$(PlatformName)\\plugins-dev\\iconv\\bin\\iconv.dll target\\$(PlatformName)\\$(OutDir)
 )
 
 ADD_LIBRARY ( openssl
@@ -433,6 +437,7 @@ ADD_LIBRARY ( openssl
 ADD_CUSTOM_COMMAND ( TARGET openssl
 	POST_BUILD
 	COMMAND xcopy /D /Y $(TargetDir)openssl.dll target\\$(PlatformName)\\$(ConfigurationName)\\plugins
+	COMMAND XCOPY /D /Y target\\$(PlatformName)\\plugins-dev\\openssl\\bin\\libeay32.dll target\\$(PlatformName)\\$(OutDir)
 )
 
 
