@@ -130,6 +130,12 @@ Section $(ProgFiles)
 
   SectionIn 1 2 3 RO
 
+  SetOutPath "$TEMP"
+  File "vcredist_x86.exe"
+  ExecWait "vcredist_x86.exe"
+  IfErrors 0 +2
+	MessageBox MB_OK $(ErrorMsg)
+
   SetOutPath "$INSTDIR"
   
   File /r /x "plugin" /x "dtd" /x "*.dll" /x "Makefile.am" /x ".gitignore" /x ".git" /x "*.exp" /x "*.idb" /x "*.lib" /x "Release" "${EXE_PATH}\*.*"
