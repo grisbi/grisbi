@@ -2389,6 +2389,9 @@ gboolean assert_selected_transaction ()
  */
 gboolean new_transaction ()
 {
+	if ( gsb_gui_navigation_get_current_account ( ) == -1 )
+		return FALSE;
+
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
     gsb_form_escape_form();
     gsb_form_show (TRUE);
