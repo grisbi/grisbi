@@ -70,6 +70,7 @@ if test "$build_plugins" = yes; then
 	AC_DEFINE(HAVE_PLUGINS, 1, [Define if plugins are enabled])
 fi
 AM_CONDITIONAL(HAVE_PLUGINS, [test "$build_plugins" = yes])
+AC_SUBST(plugindir,[$\(libdir\)/$\(PACKAGE\)])
 
 
 dnl

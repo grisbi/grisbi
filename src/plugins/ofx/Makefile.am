@@ -2,8 +2,6 @@
 
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(GRISBI_CFLAGS) $(LIBOFX_CFLAGS)
 
-plugindir = $(libdir)/@PACKAGE@
-
 if HAVE_OFX
 
 plugin_LTLIBRARIES = ofx.la

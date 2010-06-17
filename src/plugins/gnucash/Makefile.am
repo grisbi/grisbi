@@ -2,8 +2,6 @@
 
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src $(GRISBI_CFLAGS) $(XML2_CFLAGS)
 
-plugindir = $(libdir)/@PACKAGE@
-
 if HAVE_XML2
 
 plugin_LTLIBRARIES = gnucash.la
