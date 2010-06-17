@@ -1765,7 +1765,7 @@ static gint gtk_combofix_default_sort_func ( GtkTreeModel *model_sort,
 
         cmp_string_1 = g_utf8_collate_key ( string_1, -1 );
         cmp_string_2 = g_utf8_collate_key ( string_2, -1 );
-        return_value = g_ascii_strcasecmp ( cmp_string_1, cmp_string_2 );
+        return_value = strcmp ( cmp_string_1, cmp_string_2 );
 
         g_free ( cmp_string_1 );
         g_free ( cmp_string_2 );
