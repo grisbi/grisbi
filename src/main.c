@@ -119,9 +119,6 @@ int main (int argc, char **argv)
 #ifndef _WIN32
     struct sigaction sig_sev;
 #endif
-#ifdef _MSC_VER
-	gchar *gtkrc_file;
-#endif
 
 #if GSB_GMEMPROFILE
     g_mem_set_vtable(glib_mem_profiler_table);
