@@ -36,11 +36,13 @@
 
 /*FIX FOR THE LINKING ERROR WITH WINDOWS MSVC*/
 #ifdef _MSC_VER
-#include "./../../main.h"
+#define SYMBOL_IMPORT __declspec(dllimport)
+#else
+#define SYMBOL_IMPORT extern
 #endif
 
 /*START_EXTERN*/
-extern GtkWidget *window;
+SYMBOL_IMPORT GtkWidget *window;
 /*END_EXTERN*/
 
 #ifndef NOSSL
