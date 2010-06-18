@@ -8127,7 +8127,7 @@ msgstr "%d jours"
 #: src/gsb_scheduler_list.c:979
 #, c-format
 msgid "%d weeks"
-msgstr "semaines"
+msgstr "%d semaines"
 
 #: src/gsb_scheduler_list.c:984
 #, c-format
