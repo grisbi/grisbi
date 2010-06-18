@@ -537,7 +537,7 @@ set(
   ../po/zh_CN.po
 ) 
 
-set (msgfmt target\\gtk-dev\\bin\\msgfmt.exe)
+set (msgfmt msgfmt.exe)
 
 ADD_CUSTOM_TARGET(prepare_mo
 	COMMAND IF NOT EXIST target\\lib mkdir target\\lib
