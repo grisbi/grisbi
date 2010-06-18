@@ -31,6 +31,8 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
+G_DEFINE_TYPE ( GtkComboFix, gtk_combofix, GTK_TYPE_HBOX );
+
 #define GTK_COMBOFIX_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GTK_TYPE_COMBOFIX, GtkComboFixPrivate))
 
 struct _GtkComboFixPrivate
@@ -86,6 +88,8 @@ static gboolean gtk_combofix_button_release_event ( GtkWidget *popup,
 static gboolean gtk_combofix_button_press ( GtkWidget *popup,
                         GdkEventButton *ev,
                         GtkComboFix *combofix );
+static void gtk_combofix_dispose ( GObject *combofix );
+static void gtk_combofix_finalize ( GObject *combofix );
 static gboolean  gtk_combofix_focus_out ( GtkWidget *entry,
                         GdkEvent *ev,
                         GtkComboFix *combofix );
@@ -141,31 +145,6 @@ enum combofix_key_direction {
 
 /* *********************** the first part contains all the extern functions ******************************************** */
 
-guint gtk_combofix_get_type ( void )
-{
-    static guint gtk_combofix_type = 0;
-
-    if ( !gtk_combofix_type )
-    {
-        static const GtkTypeInfo gtk_combofix_info = {
-            "GtkComboFix",
-            sizeof (GtkComboFix),
-            sizeof (GtkComboFixClass),
-            (GtkClassInitFunc) gtk_combofix_class_init,
-            (GtkObjectInitFunc) gtk_combofix_init,
-            NULL,
-            NULL,
-            (GtkClassInitFunc) NULL
-	    };
-
-	    gtk_combofix_type = gtk_type_unique ( gtk_hbox_get_type(),
-					      &gtk_combofix_info );
-    }
-
-    return ( gtk_combofix_type );
-}
-
-
 /**
  * create a combofix, with several list set one after the others
  * by default, force is not set, no max items
@@ -181,15 +160,9 @@ guint gtk_combofix_get_type ( void )
 GtkWidget *gtk_combofix_new ( GSList *list )
 {
     GtkComboFixPrivate *priv;
+    GtkComboFix *combofix = g_object_new ( GTK_TYPE_COMBOFIX, NULL);
 
-    GtkComboFix *combofix = GTK_COMBOFIX ( gtk_type_new ( gtk_combofix_get_type ( ) ) );
     priv = combofix -> priv;
-
-    /* set the fields of the combofix */
-    priv -> force = FALSE;
-    priv -> max_items = 0;
-    priv -> case_sensitive = FALSE;
-    priv -> visible_items = 0;
 
     gtk_combofix_set_list (combofix, list);
 
@@ -452,20 +425,61 @@ void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,
                         data );
 }
 
-/* *********************** the second part contains all the static functions ******************************************** */
+
+/**
+* append a new line in a combofix
+*
+* \param combofix text
+*
+* \return
+* */
+void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text )
+{
+
+
+
+
+}
+
+
+/**
+* remove aline in a combofix
+*
+* \param combofix text
+*
+* \return
+* */
+void gtk_combofix_remove_text ( GtkComboFix *combofix, const gchar *text )
+{
+
+
+
+
+}
+
+
+/* *********************** the second part contains object functions ******************************************** */
+
+
+/**
+* called when create a new combofix
+*
+* \param combofix
+*
+* \return
+* */
 static void gtk_combofix_class_init ( GtkComboFixClass *klass )
 {
     GObjectClass *object_class;
+    GtkWidgetClass *widget_class;
 
-/*   GtkWidgetClass *widget_class; */
-/*   GtkObjectClass *gtk_object_class; */
+    object_class = G_OBJECT_CLASS (klass);
+    object_class -> dispose = gtk_combofix_dispose;
+    object_class -> finalize = gtk_combofix_finalize;
 
-/*   widget_class = (GtkWidgetClass *)klass; */
-/*   gtk_object_class = (GtkObjectClass *)klass; */
-/*   gtk_object_class->destroy = gtk_combofix_destroy; */
-    object_class = ( GObjectClass *) klass;
+    widget_class = GTK_WIDGET_CLASS (klass);
 
-    g_type_class_add_private ( object_class, sizeof ( GtkComboFixPrivate ) );
+    g_type_class_add_private ( klass, sizeof ( GtkComboFixPrivate ) );
 }
 
 
@@ -484,9 +498,16 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     GtkCellRenderer *cell_renderer;
     GtkTreeViewColumn *tree_view_column;
     GtkWidget *scrolled_window;
-    GtkComboFixPrivate *priv = GTK_COMBOFIX_GET_PRIVATE ( combofix );
+    GtkComboFixPrivate *priv = NULL;
 
+    priv = GTK_COMBOFIX_GET_PRIVATE ( combofix );
     combofix -> priv = priv;
+
+    /* set the fields of the combofix */
+    priv -> force = FALSE;
+    priv -> max_items = 0;
+    priv -> case_sensitive = FALSE;
+    priv -> visible_items = 0;
 
     /* the combofix is a vbox */
     vbox = gtk_vbox_new ( FALSE, 0 );
@@ -626,6 +647,35 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
 
     gtk_widget_show ( priv -> tree_view );
 }
+
+
+/**
+* called when destroy a combofix
+*
+* \param combofix
+*
+* \return
+* */
+static void gtk_combofix_dispose ( GObject *combofix )
+{
+    G_OBJECT_CLASS ( gtk_combofix_parent_class ) -> dispose ( combofix );
+}
+
+
+/**
+* called when destroy combofix
+*
+* \param combofix
+*
+* \return
+* */
+static void gtk_combofix_finalize ( GObject *combofix )
+{
+    G_OBJECT_CLASS ( gtk_combofix_parent_class ) -> finalize ( combofix );
+}
+
+
+/* *********************** the third part contains all the static functions ******************************************** */
 
 
 /**
