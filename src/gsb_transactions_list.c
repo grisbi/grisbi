@@ -2175,7 +2175,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_stock ( GTK_STOCK_DELETE,
 							       GTK_ICON_SIZE_MENU ));
-    g_signal_connect ( G_OBJECT(menu_item), "activate", remove_transaction, NULL );
+    g_signal_connect ( G_OBJECT(menu_item), "activate", G_CALLBACK(remove_transaction), NULL );
     if ( !full
 	 ||
 	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
@@ -2212,7 +2212,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
 							       GTK_ICON_SIZE_MENU ));
-    g_signal_connect ( G_OBJECT(menu_item), "activate", schedule_selected_transaction, NULL );
+    g_signal_connect ( G_OBJECT(menu_item), "activate", G_CALLBACK(schedule_selected_transaction), NULL );
     gtk_widget_set_sensitive ( menu_item, full && mi_full );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
