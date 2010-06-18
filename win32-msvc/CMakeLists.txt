@@ -537,6 +537,13 @@ set(
   ../po/zh_CN.po
 ) 
 
+set (
+  tips_po_files
+  ../help/tips/de.po
+  ../help/tips/es.po
+  ../help/tips/fr.po
+)
+
 set (msgfmt msgfmt.exe)
 
 ADD_CUSTOM_TARGET(prepare_mo
@@ -552,6 +559,29 @@ foreach (current_po ${po_files})
   )
   
   set(mo_file target\\lib\\locale\\${lang}\\LC_MESSAGES\\${PACKAGE_NAME}.mo)
+  
+  add_custom_command(TARGET prepare_mo
+    POST_BUILD
+	COMMAND IF NOT EXIST target\\lib\\locale\\${lang} mkdir target\\lib\\locale\\${lang}
+	COMMAND IF NOT EXIST target\\lib\\locale\\${lang}\\LC_MESSAGES mkdir target\\lib\\locale\\${lang}\\LC_MESSAGES
+  )
+	
+  add_custom_command(TARGET prepare_mo
+	POST_BUILD
+    # OUTPUT ${mo_file}
+    COMMAND ${msgfmt} -c ${current_po} -o ${mo_file}
+    DEPENDS ${current_po}
+  )
+ endforeach (current_po)
+ 
+ foreach (current_po ${tips_po_files})
+  get_filename_component(
+    lang
+    ${current_po}
+    NAME_WE
+  )
+  
+  set(mo_file target\\lib\\locale\\${lang}\\LC_MESSAGES\\${PACKAGE_NAME}-tips.mo)
   
   add_custom_command(TARGET prepare_mo
     POST_BUILD
