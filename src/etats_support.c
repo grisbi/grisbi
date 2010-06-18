@@ -281,7 +281,7 @@ gchar *etats_titre ( gint report_number)
 		/* 30 derniers jours */
 
 		date_tmp = g_date_new ();
-		g_date_set_time ( date_tmp,
+		g_date_set_time_t ( date_tmp,
 				  time ( NULL ));
 
 		g_date_subtract_days ( date_tmp,
@@ -299,7 +299,7 @@ gchar *etats_titre ( gint report_number)
 		/* 3 derniers mois */
 
 		date_tmp = g_date_new ();
-		g_date_set_time ( date_tmp,
+		g_date_set_time_t ( date_tmp,
 				  time ( NULL ));
 		g_date_subtract_months ( date_tmp,
 					 3 );
@@ -328,7 +328,7 @@ gchar *etats_titre ( gint report_number)
 		/* 6 derniers mois */
 
 		date_tmp = g_date_new ();
-		g_date_set_time ( date_tmp,
+		g_date_set_time_t ( date_tmp,
 				  time ( NULL ));
 		g_date_subtract_months ( date_tmp,
 					 6 );
@@ -358,7 +358,7 @@ gchar *etats_titre ( gint report_number)
 		/* 12 derniers mois */
 
 		date_tmp = g_date_new ();
-		g_date_set_time ( date_tmp,
+		g_date_set_time_t ( date_tmp,
 				  time ( NULL ));
 		g_date_subtract_months ( date_tmp,
 					 12 );

@@ -725,7 +725,7 @@ GSList *recupere_opes_etat ( gint report_number )
 			GDate *date_tmp;
 
 			date_jour = g_date_new ();
-			g_date_set_time ( date_jour,
+			g_date_set_time_t ( date_jour,
 					  time ( NULL ));
 
 
