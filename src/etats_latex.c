@@ -270,7 +270,7 @@ gint latex_initialise (GSList * opes_selectionnees, gchar * filename )
 	filename = "";
     }
 
-    unlink ( filename );
+    g_unlink ( filename );
     file_out = utf8_fopen ( filename, "w" );
     if ( ! file_out )
     {
@@ -374,9 +374,9 @@ gint latex_finish ()
                         (etat.print_config.printer ?
                          (g_strconcat ( tempname, ".ps", NULL )) :
                          etat.print_config.printer_filename) );
-            unlink ( g_strdup_printf ("%s.tex", tempname) );
-            unlink ( g_strdup_printf ("%s.aux", tempname) );
-            unlink ( g_strdup_printf ("%s.log", tempname) );
+            g_unlink ( g_strdup_printf ("%s.tex", tempname) );
+            g_unlink ( g_strdup_printf ("%s.aux", tempname) );
+            g_unlink ( g_strdup_printf ("%s.log", tempname) );
             if ( !system ( command ) )
             {
             if ( etat.print_config.printer )
@@ -393,12 +393,12 @@ gint latex_finish ()
             {
             dialogue_error ( _("dvips was unable to complete, see console output for details.") );
             }
-            unlink ( g_strdup_printf ("%s.dvi", tempname) );
+            g_unlink ( g_strdup_printf ("%s.dvi", tempname) );
 	}
 
 	if ( etat.print_config.printer )
 	{
-	    unlink ( g_strdup_printf ("%s.ps", tempname) );
+	    g_unlink ( g_strdup_printf ("%s.ps", tempname) );
 	}
 
 	g_free ( tempname );
