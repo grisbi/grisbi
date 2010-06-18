@@ -281,7 +281,11 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
     {
 	case GTK_RESPONSE_OK:
 
+#ifndef _MSC_VER
 	    key = strdup (gtk_entry_get_text ( GTK_ENTRY ( entry )));
+#else
+	    key = _strdup (gtk_entry_get_text ( GTK_ENTRY ( entry )));
+#endif /* _MSC_VER */
 
 	    if (!strlen (key))
 		key = NULL;

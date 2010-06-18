@@ -665,7 +665,11 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
   doc = xmlParseFile( g_filename_from_utf8 ( tempname, -1, NULL, NULL, NULL ) );
 
   /** Once parsed, the temporary file is removed as it is useless.  */
+#ifndef _MSC_VER
   unlink ( tempname );
+#else
+  _unlink ( tempname );
+#endif
   
   return doc;
 }
