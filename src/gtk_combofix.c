@@ -28,9 +28,9 @@
 
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
-#include "erreur.h"
 /*END_INCLUDE*/
 
+ 
 G_DEFINE_TYPE ( GtkComboFix, gtk_combofix, GTK_TYPE_HBOX );
 
 #define GTK_COMBOFIX_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GTK_TYPE_COMBOFIX, GtkComboFixPrivate))
@@ -50,13 +50,14 @@ struct _GtkComboFixPrivate
     gboolean case_sensitive;
     /* TRUE if the entry content must belong to the list  */
     gboolean force;
-
     /* TRUE mix the different list, FALSE separate them */
     gboolean mixed_sort;
     /* 0 to show all the items */
     gint max_items;
-
     gint visible_items;
+
+    /* old entry */
+    gchar *old_entry;
 };
 
 
@@ -89,6 +90,15 @@ static gboolean gtk_combofix_button_press ( GtkWidget *popup,
                         GdkEventButton *ev,
                         GtkComboFix *combofix );
 static void gtk_combofix_dispose ( GObject *combofix );
+static gboolean gtk_combofix_fill_iter_child ( GtkTreeStore *store,
+                        GtkTreeIter *iter_parent,
+                        const gchar *string,
+                        const gchar *real_string,
+                        gint list_number );
+static gboolean gtk_combofix_fill_iter_parent ( GtkTreeStore *store,
+                        GtkTreeIter *iter_parent,
+                        const gchar *string,
+                        gint list_number );
 static void gtk_combofix_finalize ( GObject *combofix );
 static gboolean  gtk_combofix_focus_out ( GtkWidget *entry,
                         GdkEvent *ev,
@@ -159,9 +169,9 @@ enum combofix_key_direction {
  * */
 GtkWidget *gtk_combofix_new ( GSList *list )
 {
-    GtkComboFixPrivate *priv;
-    GtkComboFix *combofix = g_object_new ( GTK_TYPE_COMBOFIX, NULL);
-
+    //~ GtkComboFixPrivate *priv;
+    GtkComboFix *combofix = g_object_new ( GTK_TYPE_COMBOFIX, NULL );
+ 
     //~ priv = combofix -> priv;
 
     gtk_combofix_set_list (combofix, list);
@@ -197,26 +207,29 @@ const gchar *gtk_combofix_get_text ( GtkComboFix *combofix )
  * */
 void gtk_combofix_set_text ( GtkComboFix *combofix, const gchar *text )
 {
-    g_return_if_fail (combofix);
-    g_return_if_fail (GTK_IS_COMBOFIX (combofix));
+    g_return_if_fail ( combofix );
+    g_return_if_fail ( GTK_IS_COMBOFIX ( combofix ) );
 
-    g_signal_handlers_block_by_func ( G_OBJECT (combofix -> entry),
-                        G_CALLBACK (gtk_combofix_entry_insert),
+    g_signal_handlers_block_by_func ( G_OBJECT ( combofix -> entry ),
+                        G_CALLBACK ( gtk_combofix_entry_insert ),
                         combofix );
-    g_signal_handlers_block_by_func ( G_OBJECT (combofix -> entry),
-                        G_CALLBACK (gtk_combofix_entry_delete),
+    g_signal_handlers_block_by_func ( G_OBJECT (combofix -> entry ),
+                        G_CALLBACK ( gtk_combofix_entry_delete ),
                         combofix );
 
     if ( text && strlen ( text ) > 0 )
+    {
         gtk_entry_set_text ( GTK_ENTRY ( combofix -> entry ), text );
+        //~ gtk_combofix_append_text ( combofix, text );
+    }
     else
         gtk_entry_set_text ( GTK_ENTRY ( combofix -> entry ), "" );
 
-    g_signal_handlers_unblock_by_func ( G_OBJECT (combofix -> entry),
-                        G_CALLBACK (gtk_combofix_entry_insert),
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( combofix -> entry ),
+                        G_CALLBACK ( gtk_combofix_entry_insert ),
                         combofix );
-    g_signal_handlers_unblock_by_func ( G_OBJECT (combofix -> entry),
-                        G_CALLBACK (gtk_combofix_entry_delete),
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( combofix -> entry ),
+                        G_CALLBACK ( gtk_combofix_entry_delete ),
                         combofix );
 }
 
@@ -436,10 +449,40 @@ void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,
 * */
 void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text )
 {
+    GtkComboFixPrivate *priv = combofix -> priv;
+    gchar **tab_char;
+    gint empty;
 
+    g_print ("gtk_combofix_append_text = %s\n", text );
 
+    empty = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( combofix -> entry ), "empty" ) );
+    if ( empty || priv -> force )
+        return;
 
+    if ( priv -> old_entry && strcmp ( text, priv -> old_entry ) == 0 )
+        return;
 
+    tab_char = g_strsplit ( text, " : ", 2 );
+    if (tab_char[0])
+    {
+        GtkTreeIter iter_parent;
+
+        gtk_combofix_fill_iter_parent ( priv -> store, &iter_parent, text, 0 );
+
+        if ( tab_char[1] )
+        {
+            gchar* tmp_str;
+
+            tmp_str = g_strconcat ( "\t", text, NULL );
+            gtk_combofix_fill_iter_child ( priv -> store, &iter_parent, text, tmp_str, 0 );
+
+            g_free ( tmp_str );
+        }
+    }
+
+    if ( priv -> old_entry && strlen ( priv -> old_entry ) )
+        g_free ( priv -> old_entry );
+    priv -> old_entry = g_strdup ( text );
 }
 
 
@@ -460,7 +503,6 @@ void gtk_combofix_remove_text ( GtkComboFix *combofix, const gchar *text )
 
 
 /* *********************** the second part contains the construct object functions ******************************************** */
-
 
 /**
 * called when create a new combofix
@@ -508,6 +550,9 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     priv -> max_items = 0;
     priv -> case_sensitive = FALSE;
     priv -> visible_items = 0;
+
+    /* init the old_entry */
+    priv -> old_entry = NULL;
 
     /* the combofix is a vbox */
     vbox = gtk_vbox_new ( FALSE, 0 );
@@ -671,12 +716,16 @@ static void gtk_combofix_dispose ( GObject *combofix )
 * */
 static void gtk_combofix_finalize ( GObject *combofix )
 {
+    GtkComboFix *self = GTK_COMBOFIX ( combofix ) ;
+
+    if ( self -> priv -> old_entry && strlen ( self -> priv -> old_entry ) )
+        g_free ( self -> priv -> old_entry );
+
     G_OBJECT_CLASS ( gtk_combofix_parent_class ) -> finalize ( combofix );
 }
 
 
 /* *********************** the third part contains all the static functions ******************************************** */
-
 
 /**
 * fill the model of the combofix given in param
@@ -695,7 +744,6 @@ static gboolean gtk_combofix_fill_store ( GtkComboFix *combofix,
 {
     GSList *tmp_list;
     GtkTreeIter iter_parent;
-    GtkTreeIter iter_child;
     gchar *last_parent = NULL;
     GtkComboFixPrivate *priv = combofix -> priv;
 
@@ -705,13 +753,12 @@ static gboolean gtk_combofix_fill_store ( GtkComboFix *combofix,
     /* normally the list cannot begin by a child, but we check here to
      * avoid a big crash */
 
-    if ( list -> data
-	 &&
-	 ((gchar *)(list -> data))[0] == '\t' )
+    if ( list -> data && ( (gchar *) (list -> data))[0] == '\t' )
     {
-        devel_debug ( "GtkComboFix error : the first entry in the list is a child, "
-                        "cannot fill the combofix\n" );
-        return FALSE;
+        gboolean FAILED = TRUE;
+
+        g_print ( "GtkComboFix error : the first entry in the list is a child, cannot fill the combofix\n" );
+        g_return_val_if_fail ( FAILED, FALSE );
     }
 
     tmp_list = list;
@@ -719,7 +766,7 @@ static gboolean gtk_combofix_fill_store ( GtkComboFix *combofix,
     while (tmp_list)
     {
         gchar *string;
-        gchar* tmpstr;
+        gchar* tmp_str;
 
         string = tmp_list -> data;
 
@@ -729,32 +776,20 @@ static gboolean gtk_combofix_fill_store ( GtkComboFix *combofix,
             if ( string[0] == '\t' )
             {
                 /* it's a child */
-                tmpstr = g_strconcat ( last_parent, " : ", string + 1, NULL );
+                tmp_str = g_strconcat ( last_parent, " : ", string + 1, NULL );
 
-                gtk_tree_store_append ( priv -> store, &iter_child, &iter_parent );
-                gtk_tree_store_set ( priv -> store,
-                            &iter_child,
-                            COMBOFIX_COL_VISIBLE_STRING, string + 1,
-                            COMBOFIX_COL_REAL_STRING, tmpstr,
-                            COMBOFIX_COL_VISIBLE, TRUE,
-                            COMBOFIX_COL_LIST_NUMBER, list_number,
-                            -1 );
-                g_free ( tmpstr );
+                gtk_combofix_fill_iter_child ( priv -> store, &iter_parent, string + 1, tmp_str, list_number );
+
+                g_free ( tmp_str );
             }
             else
             {
                 /* it's a parent */
-                gtk_tree_store_append ( priv -> store, &iter_parent, NULL );
-                gtk_tree_store_set ( priv -> store,
-                            &iter_parent,
-                            COMBOFIX_COL_VISIBLE_STRING, string,
-                            COMBOFIX_COL_REAL_STRING, string,
-                            COMBOFIX_COL_VISIBLE, TRUE,
-                            COMBOFIX_COL_LIST_NUMBER, list_number,
-                            -1 );
+                gtk_combofix_fill_iter_parent ( priv -> store, &iter_parent, string, list_number );
                 last_parent = string;
             }
         }
+
         tmp_list = tmp_list -> next;
     }
 
@@ -764,6 +799,65 @@ static gboolean gtk_combofix_fill_store ( GtkComboFix *combofix,
 }
 
 
+/**
+* fill a parent_iter of the model given in param
+* with the string given in param
+*
+* \param store
+* \param parent_iter
+* \param string
+* \param list_number 	the number of the list
+*
+* \return TRUE
+* */
+static gboolean gtk_combofix_fill_iter_parent ( GtkTreeStore *store,
+                        GtkTreeIter *iter_parent,
+                        const gchar *string,
+                        gint list_number )
+{
+    gtk_tree_store_append ( store, iter_parent, NULL );
+    gtk_tree_store_set ( store,
+                iter_parent,
+                COMBOFIX_COL_VISIBLE_STRING, string,
+                COMBOFIX_COL_REAL_STRING, string,
+                COMBOFIX_COL_VISIBLE, TRUE,
+                COMBOFIX_COL_LIST_NUMBER, list_number,
+                -1 );
+
+    return TRUE;
+}
+
+
+/**
+* fill a child_iter of the model given in param
+* with the string given in param
+*
+* \param store
+* \param parent_iter
+* \param string
+* \param list_number 	the number of the list
+*
+* \return TRUE
+* */
+static gboolean gtk_combofix_fill_iter_child ( GtkTreeStore *store,
+                        GtkTreeIter *iter_parent,
+                        const gchar *string,
+                        const gchar *real_string,
+                        gint list_number )
+{
+    GtkTreeIter iter_child;
+
+    gtk_tree_store_append ( store, &iter_child, iter_parent );
+    gtk_tree_store_set ( store,
+                        &iter_child,
+                        COMBOFIX_COL_VISIBLE_STRING, string,
+                        COMBOFIX_COL_REAL_STRING, real_string,
+                        COMBOFIX_COL_VISIBLE, TRUE,
+                        COMBOFIX_COL_LIST_NUMBER, list_number,
+                        -1 );
+
+    return TRUE;
+}
 
 
 /**
@@ -811,7 +905,7 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix, gboolean ins
     GtkComboFixPrivate *priv = combofix -> priv;
 
     entry_string = gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) );
-
+g_print ("gtk_combofix_entry_changed = %s\n", entry_string );
     if ( strlen ( entry_string ) )
     {
         completed_string = gtk_combofix_update_visible_rows ( combofix,
@@ -946,7 +1040,6 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     gboolean separator = FALSE;
     GtkComboFixPrivate *priv = combofix -> priv;
 
-    //~ devel_debug ( string);
     if (!combofix
 	||
 	!string )
