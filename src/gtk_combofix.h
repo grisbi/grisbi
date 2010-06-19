@@ -23,46 +23,38 @@
 
 
 #include <gtk/gtk.h>
-#include <stdlib.h>
-#include <string.h>
-#include <gtk/gtkeditable.h>
+
+#define GTK_TYPE_COMBOFIX           ( gtk_combofix_get_type ( ) )
+#define GTK_COMBOFIX(obj)           ( G_TYPE_CHECK_INSTANCE_CAST ( (obj), GTK_TYPE_COMBOFIX, GtkComboFix ) )
+#define GTK_COMBOFIX_CLASS(klass)   ( G_TYPE_CHECK_CLASS_CAST ( (klass),  GTK_TYPE_COMBOFIX, GtkComboFixClass ) )
+#define GTK_IS_COMBOFIX(obj)        ( G_TYPE_CHECK_INSTANCE_TYPE ( (obj), GTK_TYPE_COMBOFIX ) )
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
-
-#define GTK_TYPE_COMBOFIX             ( gtk_combofix_get_type ( ) )
-#define GTK_COMBOFIX(obj) GTK_CHECK_CAST(obj, gtk_combofix_get_type(), GtkComboFix )
-#define GTK_COMBOFIX_CLASS(klass) GTK_CHECK_CLASS_CAST( klass, gtk_combofix_get_type(), GtkComboFixClass )
-#define GTK_IS_COMBOFIX(obj) GTK_CHECK_TYPE ( obj, gtk_combofix_get_type() )
-
-
-typedef struct _GtkComboFix GtkComboFix;
-typedef struct _GtkComboFixClass GtkComboFixClass;
-typedef struct _GtkComboFixPrivate GtkComboFixPrivate;
+typedef struct _GtkComboFix         GtkComboFix;
+typedef struct _GtkComboFixClass    GtkComboFixClass;
+typedef struct _GtkComboFixPrivate  GtkComboFixPrivate;
 
 
 /* structure of the ComboFix */
 struct _GtkComboFix
 {
-    GtkVBox vbox;
+    GtkHBox parent;
 
     /* entry of the combofix */
     GtkWidget *entry;
+
     /* *** private entries *** */
     GtkComboFixPrivate *GSEAL (priv);
 };
 
 struct _GtkComboFixClass
 {
-    GtkVBoxClass parent_class;
+    GtkHBoxClass parent_class;
 };
 
 
 /* construction */
-guint gtk_combofix_get_type ( void );
+GType gtk_combofix_get_type ( void ) G_GNUC_CONST;
 GtkWidget *gtk_combofix_new ( GSList *list );
 
 /* text */
@@ -77,6 +69,8 @@ gboolean gtk_combofix_hide_popup ( GtkComboFix *combofix );
 
 /* list of items */
 gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list );
+void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text );
+void gtk_combofix_remove_text ( GtkComboFix *combofix, const gchar *text );
 void gtk_combofix_set_max_items ( GtkComboFix *combofix, gint max_items );
 void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix, gboolean mixed_sort );
 
@@ -84,9 +78,5 @@ void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix, gboolean mixed_sort );
 void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,
 						GCallback func,
 					    gpointer data );
-
-#ifdef __cplusplus
-}
-#endif				/* __cplusplus */
 
 #endif				/* __GTK_COMBOFIX_H__ */
