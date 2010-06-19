@@ -162,7 +162,7 @@ GtkWidget *gtk_combofix_new ( GSList *list )
     GtkComboFixPrivate *priv;
     GtkComboFix *combofix = g_object_new ( GTK_TYPE_COMBOFIX, NULL);
 
-    priv = combofix -> priv;
+    //~ priv = combofix -> priv;
 
     gtk_combofix_set_list (combofix, list);
 
@@ -383,6 +383,7 @@ gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list )
 
     g_return_val_if_fail (combofix, FALSE );
     g_return_val_if_fail (GTK_IS_COMBOFIX (combofix), FALSE);
+    g_return_val_if_fail (list, FALSE);
 
     gtk_tree_store_clear ( priv -> store );
 
@@ -443,7 +444,7 @@ void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text )
 
 
 /**
-* remove aline in a combofix
+* remove a line in a combofix
 *
 * \param combofix text
 *
@@ -458,7 +459,7 @@ void gtk_combofix_remove_text ( GtkComboFix *combofix, const gchar *text )
 }
 
 
-/* *********************** the second part contains object functions ******************************************** */
+/* *********************** the second part contains the construct object functions ******************************************** */
 
 
 /**
@@ -498,9 +499,8 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     GtkCellRenderer *cell_renderer;
     GtkTreeViewColumn *tree_view_column;
     GtkWidget *scrolled_window;
-    GtkComboFixPrivate *priv = NULL;
+    GtkComboFixPrivate *priv = GTK_COMBOFIX_GET_PRIVATE ( combofix );
 
-    priv = GTK_COMBOFIX_GET_PRIVATE ( combofix );
     combofix -> priv = priv;
 
     /* set the fields of the combofix */
