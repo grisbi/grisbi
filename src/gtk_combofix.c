@@ -55,9 +55,6 @@ struct _GtkComboFixPrivate
     /* 0 to show all the items */
     gint max_items;
     gint visible_items;
-
-    /* old entry */
-    gchar *old_entry;
 };
 
 
@@ -218,10 +215,7 @@ void gtk_combofix_set_text ( GtkComboFix *combofix, const gchar *text )
                         combofix );
 
     if ( text && strlen ( text ) > 0 )
-    {
         gtk_entry_set_text ( GTK_ENTRY ( combofix -> entry ), text );
-        //~ gtk_combofix_append_text ( combofix, text );
-    }
     else
         gtk_entry_set_text ( GTK_ENTRY ( combofix -> entry ), "" );
 
@@ -440,68 +434,6 @@ void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,
 }
 
 
-/**
-* append a new line in a combofix
-*
-* \param combofix text
-*
-* \return
-* */
-void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text )
-{
-    GtkComboFixPrivate *priv = combofix -> priv;
-    gchar **tab_char;
-    gint empty;
-
-    g_print ("gtk_combofix_append_text = %s\n", text );
-
-    empty = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( combofix -> entry ), "empty" ) );
-    if ( empty || priv -> force )
-        return;
-
-    if ( priv -> old_entry && strcmp ( text, priv -> old_entry ) == 0 )
-        return;
-
-    tab_char = g_strsplit ( text, " : ", 2 );
-    if (tab_char[0])
-    {
-        GtkTreeIter iter_parent;
-
-        gtk_combofix_fill_iter_parent ( priv -> store, &iter_parent, text, 0 );
-
-        if ( tab_char[1] )
-        {
-            gchar* tmp_str;
-
-            tmp_str = g_strconcat ( "\t", text, NULL );
-            gtk_combofix_fill_iter_child ( priv -> store, &iter_parent, text, tmp_str, 0 );
-
-            g_free ( tmp_str );
-        }
-    }
-
-    if ( priv -> old_entry && strlen ( priv -> old_entry ) )
-        g_free ( priv -> old_entry );
-    priv -> old_entry = g_strdup ( text );
-}
-
-
-/**
-* remove a line in a combofix
-*
-* \param combofix text
-*
-* \return
-* */
-void gtk_combofix_remove_text ( GtkComboFix *combofix, const gchar *text )
-{
-
-
-
-
-}
-
-
 /* *********************** the second part contains the construct object functions ******************************************** */
 
 /**
@@ -550,9 +482,6 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     priv -> max_items = 0;
     priv -> case_sensitive = FALSE;
     priv -> visible_items = 0;
-
-    /* init the old_entry */
-    priv -> old_entry = NULL;
 
     /* the combofix is a vbox */
     vbox = gtk_vbox_new ( FALSE, 0 );
@@ -716,11 +645,6 @@ static void gtk_combofix_dispose ( GObject *combofix )
 * */
 static void gtk_combofix_finalize ( GObject *combofix )
 {
-    GtkComboFix *self = GTK_COMBOFIX ( combofix ) ;
-
-    if ( self -> priv -> old_entry && strlen ( self -> priv -> old_entry ) )
-        g_free ( self -> priv -> old_entry );
-
     G_OBJECT_CLASS ( gtk_combofix_parent_class ) -> finalize ( combofix );
 }
 
