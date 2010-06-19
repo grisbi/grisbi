@@ -146,7 +146,7 @@ Section $(ProgFiles)
   
   ; File extension keys
   WriteRegStr HKCR ".gsb" "" "gsb_account_file"
-  WriteRegExpandStr HKCR "gsb_account_file\Shell\open\command" "" "$INSTDIR\grisbi.exe"
+  WriteRegExpandStr HKCR "gsb_account_file\Shell\open\command" "" "$INSTDIR\grisbi.exe %1"
   WriteRegExpandStr HKCR "gsb_account_file\DefaultIcon" "" "$INSTDIR\grisbi.ico"
   
   ;Create uninstaller
