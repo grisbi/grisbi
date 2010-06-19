@@ -1021,7 +1021,7 @@ gboolean gsb_data_account_set_balances_are_dirty ( gint account_number )
 gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number )
 {
     struct_account *account;
-    GDate *date_jour = g_date_new ( );
+    GDate *date_jour;
     GSList *tmp_list;
     gsb_real current_balance;
 	gsb_real current_balance_later = null_real;
@@ -1042,7 +1042,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
     marked_balance = gsb_real_adjust_exponent ( account -> init_balance,
 						floating_point );
 
-    g_date_set_time_t (date_jour, time (NULL));
+    date_jour = gdate_today ( );
 
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
 
@@ -2755,7 +2755,7 @@ gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number,
                         GDate *day )
 {
     struct_account *account;
-    GDate *date_jour = g_date_new ( );
+    GDate *date_jour;
     GSList *tmp_list;
     gsb_real current_balance;
 	gsb_real current_balance_later = null_real;

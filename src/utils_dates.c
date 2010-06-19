@@ -138,8 +138,7 @@ GDate *gsb_date_tomorrow ( void )
 {
     GDate *date;
 
-    date = g_date_new ( );
-    g_date_set_time_t (  date, time ( NULL ) );
+    date = gdate_today ( );
     g_date_add_days ( date, 1);
 
     return ( date );
