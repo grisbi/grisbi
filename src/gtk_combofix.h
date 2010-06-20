@@ -68,6 +68,7 @@ gboolean gtk_combofix_show_popup ( GtkComboFix *combofix );
 gboolean gtk_combofix_hide_popup ( GtkComboFix *combofix );
 
 /* list of items */
+void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text );
 gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list );
 void gtk_combofix_set_max_items ( GtkComboFix *combofix, gint max_items );
 void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix, gboolean mixed_sort );

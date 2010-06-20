@@ -31,16 +31,18 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_payee.h"
+#include "gsb_data_form.h"
 #include "gsb_data_report.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_form_widget.h"
+#include "gtk_combofix.h"
 #include "tiers_onglet.h"
 #include "gsb_real.h"
 #include "utils_str.h"
 #include "meta_payee.h"
 #include "include.h"
 #include "structures.h"
-#include "gsb_real.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -357,7 +359,9 @@ gint gsb_data_payee_get_number_by_name ( const gchar *name,
 	if (create)
 	{
 	    payee_number = gsb_data_payee_new (name);
-	    gsb_payee_update_combofix ();
+	    gtk_combofix_append_text ( GTK_COMBOFIX (
+                        gsb_form_widget_get_widget ( TRANSACTION_FORM_BUDGET ) ), name );
+;
 	}
     }
     return payee_number;
@@ -419,6 +423,7 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
 				   const gchar *name )
 {
     struct_payee *payee;
+    GtkWidget *combofix;
 
     payee = gsb_data_payee_get_structure ( no_payee );
 
@@ -432,7 +437,9 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
     /* and copy the new one or set NULL */
     payee -> payee_name = my_strdup (name);
 
-    gsb_payee_update_combofix ();
+    combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_BUDGET );
+    if ( combofix )
+        gtk_combofix_append_text ( GTK_COMBOFIX ( combofix ), name );
 
     return TRUE;
 }

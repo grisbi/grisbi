@@ -2991,7 +2991,6 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
                         gsb_data_payee_get_number_by_name (
                         gtk_combofix_get_text ( GTK_COMBOFIX ( element -> element_widget ) ),
                         TRUE ), is_transaction );
-		    gsb_payee_update_combofix ();
 		}
 		break;
 
