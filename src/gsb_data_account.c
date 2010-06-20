@@ -2527,10 +2527,15 @@ gboolean gsb_data_account_set_name_icon ( gint account_number,
     if ( account -> name_icon )
         g_free ( account -> name_icon );
 
-    if (!filename || !strlen (filename))
-    account -> name_icon = NULL;
+    if ( !filename || !strlen ( filename ) )
+        account -> name_icon = NULL;
     else
-    account -> name_icon = my_strdup (filename);
+    {
+        if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
+            account -> name_icon = NULL;
+        else
+            account -> name_icon = my_strdup ( filename );
+    }
 
     return TRUE;
 }
