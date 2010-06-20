@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 18:36+0200\n"
+"POT-Creation-Date: 2010-06-20 10:52+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -926,7 +926,7 @@ msgstr "Descripción"
 
 #: src/balance_estimate_tab.c:671 src/export_csv.c:787 src/gsb_reconcile.c:158
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:151
-#: src/gsb_transactions_list.c:2989 src/import_csv.c:88
+#: src/gsb_transactions_list.c:2992 src/import_csv.c:88
 #: src/traitement_variables.c:84
 msgid "Balance"
 msgstr "Balance"
@@ -1499,7 +1499,7 @@ msgstr ""
 "puede cambiar y originar ficheros incompatibles con cualquier versión "
 "anterior)."
 
-#: src/dialog.c:116 src/main.c:220
+#: src/dialog.c:116 src/main.c:217
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Está usando Grisbi con la versión %s de GTK"
@@ -1815,13 +1815,13 @@ msgid "Result without financial year"
 msgstr "Resultado sin el año financiero"
 
 #: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:950
-#: src/gsb_transactions_list.c:3416
+#: src/gsb_transactions_list.c:3419
 #, c-format
 msgid "Transfer to %s"
 msgstr "Transferido a %s"
 
 #: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:953
-#: src/gsb_transactions_list.c:3419
+#: src/gsb_transactions_list.c:3422
 #, c-format
 msgid "Transfer from %s"
 msgstr "Transferido desde %s"
@@ -1870,7 +1870,7 @@ msgstr "Total general"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1043
 #: src/gsb_form.c:724 src/gsb_form.c:2760 src/gsb_form.c:3163
-#: src/gsb_form_scheduler.c:316 src/gsb_transactions_list.c:3394
+#: src/gsb_form_scheduler.c:316 src/gsb_transactions_list.c:3397
 msgid "Split of transaction"
 msgstr "Anotación en la transacción"
 
@@ -3050,7 +3050,7 @@ msgstr "años financieros"
 msgid "all dates"
 msgstr "todas las fechas"
 
-#: src/etats_support.c:188 src/etats_support.c:292
+#: src/etats_support.c:188 src/etats_support.c:290
 #, c-format
 msgid "Result from %s to %s"
 msgstr "Resultado desde %s hasta %s"
@@ -3084,12 +3084,12 @@ msgstr "total del mes hasta %s"
 msgid "year total at %s"
 msgstr "total del año hasta %s"
 
-#: src/etats_support.c:317 src/etats_support.c:347 src/etats_support.c:376
+#: src/etats_support.c:313 src/etats_support.c:341 src/etats_support.c:368
 #, c-format
 msgid "from %s %d"
 msgstr "desde %s %d"
 
-#: src/etats_support.c:321 src/etats_support.c:351 src/etats_support.c:380
+#: src/etats_support.c:317 src/etats_support.c:345 src/etats_support.c:372
 #, c-format
 msgid "to %s %d"
 msgstr "hasta %s %d"
@@ -4286,7 +4286,7 @@ msgstr "Archivar por informe"
 msgid "Grisbi will archive transactions selected by a report."
 msgstr "Grisbi archivará todas las transacciones seleccionadas por un informe."
 
-#: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:517
+#: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:516
 #: src/gsb_form.c:2871 src/gsb_form.c:2872 src/navigation.c:1237
 msgid "Report"
 msgstr "Informe"
@@ -6753,7 +6753,7 @@ msgstr "Seleccione la moneda del balance parcial"
 msgid "No payee defined"
 msgstr "No hay tercero definido"
 
-#: src/gsb_data_payee.c:713
+#: src/gsb_data_payee.c:712
 #, c-format
 msgid "The transaction %d has a payee n°%d but it doesn't exist."
 msgstr "La transacción %d tiene un tercero n°%d pero éste no existe."
@@ -8273,7 +8273,7 @@ msgstr "Borrar una transacción programada."
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "Borrar un o todas las ocurrencias de la transacción programada."
 
-#: src/gsb_transactions_list.c:572 src/gsb_transactions_list.c:3531
+#: src/gsb_transactions_list.c:572 src/gsb_transactions_list.c:3534
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8438,24 +8438,24 @@ msgstr "Cambiar el contenido de la celda"
 msgid "Clear cell"
 msgstr "Borrar celda"
 
-#: src/gsb_transactions_list.c:2664
+#: src/gsb_transactions_list.c:2667
 msgid "Cannot move a transfer on his contra-account"
 msgstr "No se puedo mover una transferencia en su contracuenta"
 
 #. sort by line
-#: src/gsb_transactions_list.c:2943
+#: src/gsb_transactions_list.c:2946
 msgid "Sort list by :"
 msgstr "Ordenar la lista por :"
 
-#: src/gsb_transactions_list.c:3403
+#: src/gsb_transactions_list.c:3406
 msgid "Transfer to a deleted account"
 msgstr "Transferir a una cuenta borrada"
 
-#: src/gsb_transactions_list.c:3405
+#: src/gsb_transactions_list.c:3408
 msgid "Transfer from a deleted account"
 msgstr "Transferir desde una cuenta borrada"
 
-#: src/gsb_transactions_list.c:3560
+#: src/gsb_transactions_list.c:3563
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -8476,7 +8476,7 @@ msgstr ""
 "preguntar por el número de orden %d que no existe... devolver ordenador por "
 "fecha"
 
-#: src/gtk_combofix.c:789
+#: src/gtk_combofix.c:854
 msgid ""
 "You cannot create new payee or category and subcategory without changing the "
 "options in preferences"
@@ -8484,7 +8484,7 @@ msgstr ""
 "No puede crear un nuevo tercero o una nueva categoría ni subcategoría sin "
 "cambiar las opciones en las preferencias"
 
-#: src/gtk_combofix.c:792
+#: src/gtk_combofix.c:857
 msgid "Warning you cannot create payee or category"
 msgstr "Cuidado, no puede crear terceros ni categorías"
 
@@ -9215,11 +9215,11 @@ msgstr "La línea presupuestaria ya existe."
 msgid "New sub-budget"
 msgstr "Nuevo subpresupuesto"
 
-#: src/main.c:168
+#: src/main.c:165
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Error en sigaction: SIGSEGV no será interrumpido\n"
 
-#: src/main.c:223
+#: src/main.c:220
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -9909,7 +9909,7 @@ msgstr "Débito mercantil iniciado"
 msgid "Repeating payment/standing order"
 msgstr "Repitiendo el orden del pago/asentamiento"
 
-#: src/plugins/openssl/openssl.c:179
+#: src/plugins/openssl/openssl.c:181
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
@@ -9919,7 +9919,7 @@ msgstr ""
 "\n"
 
 #. FIXME: import symbols to be sure we can call this kind of stuff.
-#: src/plugins/openssl/openssl.c:190
+#: src/plugins/openssl/openssl.c:192
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
@@ -9927,24 +9927,24 @@ msgstr ""
 "Esta construcción de Grisbi no soporta encriptación \n"
 "Por favor recompile Grisbi con la encriptación OpenSSL activada."
 
-#: src/plugins/openssl/openssl.c:192
+#: src/plugins/openssl/openssl.c:194
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "No se puede abrir el archivo encriptado '%s'"
 
-#: src/plugins/openssl/openssl.c:217
+#: src/plugins/openssl/openssl.c:219
 msgid "Grisbi password"
 msgstr "Contraseña de Grisbi"
 
-#: src/plugins/openssl/openssl.c:221
+#: src/plugins/openssl/openssl.c:223
 msgid "Crypt file"
 msgstr "Fichero encriptado"
 
-#: src/plugins/openssl/openssl.c:221
+#: src/plugins/openssl/openssl.c:223
 msgid "Decrypt file"
 msgstr "Desencriptar archivo"
 
-#: src/plugins/openssl/openssl.c:249
+#: src/plugins/openssl/openssl.c:251
 #, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
@@ -9953,7 +9953,7 @@ msgstr ""
 "%sPor favor introduzca una contraseña para encriptar el fichero\n"
 "<span foreground=\"blue\">%s</span>"
 
-#: src/plugins/openssl/openssl.c:255
+#: src/plugins/openssl/openssl.c:257
 #, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
@@ -9962,11 +9962,11 @@ msgstr ""
 "%sPor favor introduzca la contraseña para desencriptar el fichero\n"
 "<span foreground=\"blue\">%s</span>"
 
-#: src/plugins/openssl/openssl.c:263
+#: src/plugins/openssl/openssl.c:265
 msgid "Password"
 msgstr "Contraseña"
 
-#: src/plugins/openssl/openssl.c:271
+#: src/plugins/openssl/openssl.c:273
 msgid "Don't ask password again for this session."
 msgstr "No volver a pedir la contraseña para esta sesión."
 

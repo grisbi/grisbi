@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 18:36+0200\n"
+"POT-Creation-Date: 2010-06-20 10:52+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -968,7 +968,7 @@ msgstr "Περιγραφή"
 
 #: src/balance_estimate_tab.c:671 src/export_csv.c:787 src/gsb_reconcile.c:158
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:151
-#: src/gsb_transactions_list.c:2989 src/import_csv.c:88
+#: src/gsb_transactions_list.c:2992 src/import_csv.c:88
 #: src/traitement_variables.c:84
 msgid "Balance"
 msgstr "Ισορροπία"
@@ -1553,7 +1553,7 @@ msgstr ""
 "αρχεία λογιστικής σας. (Η μορφή αρχείου μπορεί να αλλάξει και να καταστήσει "
 "τα αρχεία ασύμβατα με τις προηγούμενες εκδόσεις)."
 
-#: src/dialog.c:116 src/main.c:220
+#: src/dialog.c:116 src/main.c:217
 #, fuzzy, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Τρέχετε  την έκδοση Grisbi %s"
@@ -1869,13 +1869,13 @@ msgid "Result without financial year"
 msgstr "Αποτέλεσμα χωρίς δημοσιονομικό έτος"
 
 #: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:950
-#: src/gsb_transactions_list.c:3416
+#: src/gsb_transactions_list.c:3419
 #, c-format
 msgid "Transfer to %s"
 msgstr "Μεταφορά σε %s"
 
 #: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:953
-#: src/gsb_transactions_list.c:3419
+#: src/gsb_transactions_list.c:3422
 #, c-format
 msgid "Transfer from %s"
 msgstr "Μεταφορά από %s"
@@ -1924,7 +1924,7 @@ msgstr "Γενικό σύνολο"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1043
 #: src/gsb_form.c:724 src/gsb_form.c:2760 src/gsb_form.c:3163
-#: src/gsb_form_scheduler.c:316 src/gsb_transactions_list.c:3394
+#: src/gsb_form_scheduler.c:316 src/gsb_transactions_list.c:3397
 msgid "Split of transaction"
 msgstr "Διάσπαση της συναλλαγής"
 
@@ -3115,7 +3115,7 @@ msgstr "Οκονομικά έτη"
 msgid "all dates"
 msgstr "Όλες οι ημερομηνίες"
 
-#: src/etats_support.c:188 src/etats_support.c:292
+#: src/etats_support.c:188 src/etats_support.c:290
 #, c-format
 msgid "Result from %s to %s"
 msgstr "Αποτέλεσμα από %s σε %s"
@@ -3149,12 +3149,12 @@ msgstr "σύνολο μήνα %s"
 msgid "year total at %s"
 msgstr "σύνολο έτους %s"
 
-#: src/etats_support.c:317 src/etats_support.c:347 src/etats_support.c:376
+#: src/etats_support.c:313 src/etats_support.c:341 src/etats_support.c:368
 #, c-format
 msgid "from %s %d"
 msgstr "από %s %d"
 
-#: src/etats_support.c:321 src/etats_support.c:351 src/etats_support.c:380
+#: src/etats_support.c:317 src/etats_support.c:345 src/etats_support.c:372
 #, c-format
 msgid "to %s %d"
 msgstr "από %s %d"
@@ -4358,7 +4358,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 "Το Grisbi θα αρχειοθετήσει τις συναλλαγές που επιλέγονται από μια έκθεση."
 
-#: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:517
+#: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:516
 #: src/gsb_form.c:2871 src/gsb_form.c:2872 src/navigation.c:1237
 msgid "Report"
 msgstr "Αναφορά"
@@ -6875,7 +6875,7 @@ msgstr "Επιλέξτε το νόμισμα βάσεων για τον λογα
 msgid "No payee defined"
 msgstr "Δεν καθορίζεται κανένας δικαιούχος πληρωμής "
 
-#: src/gsb_data_payee.c:713
+#: src/gsb_data_payee.c:712
 #, c-format
 msgid "The transaction %d has a payee n°%d but it doesn't exist."
 msgstr "Η συναλλαγή %d έχει έναν δικαιούχο πληρωμής n°%d αλλά δεν υπάρχει."
@@ -8416,7 +8416,7 @@ msgstr "Διαγράψτε μια σχεδιασμένη συναλλαγή"
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "Διαγράψτε την επιλεγμένη σχεδιασμένη συναλλαγή"
 
-#: src/gsb_transactions_list.c:572 src/gsb_transactions_list.c:3531
+#: src/gsb_transactions_list.c:572 src/gsb_transactions_list.c:3534
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8585,24 +8585,24 @@ msgstr "Αλλαγή περιεχομένου κελιού"
 msgid "Clear cell"
 msgstr "Ακύρωση"
 
-#: src/gsb_transactions_list.c:2664
+#: src/gsb_transactions_list.c:2667
 msgid "Cannot move a transfer on his contra-account"
 msgstr "Αδύνατη η μετακίνηση του σε αντίθετο λογαριασμό."
 
 #. sort by line
-#: src/gsb_transactions_list.c:2943
+#: src/gsb_transactions_list.c:2946
 msgid "Sort list by :"
 msgstr "Κατηγοριοποίηση λίστας κατά :"
 
-#: src/gsb_transactions_list.c:3403
+#: src/gsb_transactions_list.c:3406
 msgid "Transfer to a deleted account"
 msgstr "Μεταφορά σε έναν διαγραμμένο λογαριασμό."
 
-#: src/gsb_transactions_list.c:3405
+#: src/gsb_transactions_list.c:3408
 msgid "Transfer from a deleted account"
 msgstr "Μεταφορά από έναν διαγραμμένο λογαριασμό."
 
-#: src/gsb_transactions_list.c:3560
+#: src/gsb_transactions_list.c:3563
 #, fuzzy
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
@@ -8623,13 +8623,13 @@ msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
 "ζητήστε τον αριθμό είδους %d που δεν υπάρχει… επιστροφή κατά την ημερομηνία"
 
-#: src/gtk_combofix.c:789
+#: src/gtk_combofix.c:854
 msgid ""
 "You cannot create new payee or category and subcategory without changing the "
 "options in preferences"
 msgstr ""
 
-#: src/gtk_combofix.c:792
+#: src/gtk_combofix.c:857
 msgid "Warning you cannot create payee or category"
 msgstr ""
 
@@ -9364,11 +9364,11 @@ msgstr "Η δημοσιονομική γραμμή υπάρχει ήδη"
 msgid "New sub-budget"
 msgstr "Νέος υπο--προϋπολογισμός"
 
-#: src/main.c:168
+#: src/main.c:165
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμένο\n"
 
-#: src/main.c:223
+#: src/main.c:220
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -10071,7 +10071,7 @@ msgstr "Αρχική χρέωση εμπόρου"
 msgid "Repeating payment/standing order"
 msgstr "Επανάληψη της πληρωμής/της μόνιμης διαταγής"
 
-#: src/plugins/openssl/openssl.c:179
+#: src/plugins/openssl/openssl.c:181
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
@@ -10081,7 +10081,7 @@ msgstr ""
 "\n"
 
 #. FIXME: import symbols to be sure we can call this kind of stuff.
-#: src/plugins/openssl/openssl.c:190
+#: src/plugins/openssl/openssl.c:192
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
@@ -10089,24 +10089,24 @@ msgstr ""
 "Αυτή η έκδοση του Grisbi δεν υποστηρίζει κρυπτογράφηση.\n"
 "Παρακαλώ ξαναμεταγλωττίστε το Grisbi με κρυπτογράφηση OpenSSL ενεργοποιημένη."
 
-#: src/plugins/openssl/openssl.c:192
+#: src/plugins/openssl/openssl.c:194
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Αδύνατο το άνοιγμα του κρυπτογραφημένου αρχείου '%s'"
 
-#: src/plugins/openssl/openssl.c:217
+#: src/plugins/openssl/openssl.c:219
 msgid "Grisbi password"
 msgstr "Κωδικός πρόσβασης του Grisbi"
 
-#: src/plugins/openssl/openssl.c:221
+#: src/plugins/openssl/openssl.c:223
 msgid "Crypt file"
 msgstr "Κρυπτογραφημένο αρχείο"
 
-#: src/plugins/openssl/openssl.c:221
+#: src/plugins/openssl/openssl.c:223
 msgid "Decrypt file"
 msgstr "Αποκρυπτογραφημένο αρχείο"
 
-#: src/plugins/openssl/openssl.c:249
+#: src/plugins/openssl/openssl.c:251
 #, fuzzy, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
@@ -10116,7 +10116,7 @@ msgstr ""
 "αρχείο\n"
 "'<span foreground=\"blue\">%s</span>'"
 
-#: src/plugins/openssl/openssl.c:255
+#: src/plugins/openssl/openssl.c:257
 #, fuzzy, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
@@ -10126,11 +10126,11 @@ msgstr ""
 "αρχείο\n"
 "'<span foreground=\"blue\">%s</span>'"
 
-#: src/plugins/openssl/openssl.c:263
+#: src/plugins/openssl/openssl.c:265
 msgid "Password"
 msgstr "Κωδικός πρόσβασης"
 
-#: src/plugins/openssl/openssl.c:271
+#: src/plugins/openssl/openssl.c:273
 msgid "Don't ask password again for this session."
 msgstr "Να μην ξαναζητηθεί κωδικός πρόσβασης για αυτήν τη συνεδρία."
 

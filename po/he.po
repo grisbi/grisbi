@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 18:36+0200\n"
+"POT-Creation-Date: 2010-06-20 10:52+0200\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team:  <en@li.org>\n"
@@ -1262,7 +1262,7 @@ msgstr "תיאור"
 
 #: src/balance_estimate_tab.c:671 src/export_csv.c:787 src/gsb_reconcile.c:158
 #: src/gsb_scheduler_list.c:340 src/gsb_transactions_list.c:151
-#: src/gsb_transactions_list.c:2989 src/import_csv.c:88
+#: src/gsb_transactions_list.c:2992 src/import_csv.c:88
 #: src/traitement_variables.c:84
 msgid "Balance"
 msgstr "מאזן"
@@ -1849,7 +1849,7 @@ msgid ""
 "versions)."
 msgstr ""
 
-#: src/dialog.c:116 src/main.c:220
+#: src/dialog.c:116 src/main.c:217
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
@@ -2157,13 +2157,13 @@ msgid "Result without financial year"
 msgstr "תוצאה ללא שנת כספים"
 
 #: src/etats_affiche.c:1399 src/gsb_scheduler_list.c:950
-#: src/gsb_transactions_list.c:3416
+#: src/gsb_transactions_list.c:3419
 #, c-format
 msgid "Transfer to %s"
 msgstr "העברה אל %s"
 
 #: src/etats_affiche.c:1401 src/gsb_scheduler_list.c:953
-#: src/gsb_transactions_list.c:3419
+#: src/gsb_transactions_list.c:3422
 #, c-format
 msgid "Transfer from %s"
 msgstr "העברה מאת %s"
@@ -2212,7 +2212,7 @@ msgstr "סך הכל הכללי"
 
 #: src/etats_affiche.c:1853 src/export_csv.c:571 src/gsb_data_category.c:1043
 #: src/gsb_form.c:724 src/gsb_form.c:2760 src/gsb_form.c:3163
-#: src/gsb_form_scheduler.c:316 src/gsb_transactions_list.c:3394
+#: src/gsb_form_scheduler.c:316 src/gsb_transactions_list.c:3397
 msgid "Split of transaction"
 msgstr "שבירת עיסקה"
 
@@ -3445,7 +3445,7 @@ msgstr "שנות כספים"
 msgid "all dates"
 msgstr "כל התאריכים"
 
-#: src/etats_support.c:188 src/etats_support.c:292
+#: src/etats_support.c:188 src/etats_support.c:290
 #, fuzzy, c-format
 msgid "Result from %s to %s"
 msgstr "תוצאה עבור %s"
@@ -3479,12 +3479,12 @@ msgstr "סיכום חודשי ב %d/%d/%d"
 msgid "year total at %s"
 msgstr "סיכום שנתי ב %d/%d/%d"
 
-#: src/etats_support.c:317 src/etats_support.c:347 src/etats_support.c:376
+#: src/etats_support.c:313 src/etats_support.c:341 src/etats_support.c:368
 #, c-format
 msgid "from %s %d"
 msgstr "מ %s %d"
 
-#: src/etats_support.c:321 src/etats_support.c:351 src/etats_support.c:380
+#: src/etats_support.c:317 src/etats_support.c:345 src/etats_support.c:372
 #, c-format
 msgid "to %s %d"
 msgstr "עד %s %d"
@@ -4633,7 +4633,7 @@ msgstr "הדפסת דו\"ח"
 msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:517
+#: src/gsb_assistant_archive.c:314 src/gsb_data_payee.c:516
 #: src/gsb_form.c:2871 src/gsb_form.c:2872 src/navigation.c:1237
 msgid "Report"
 msgstr "דו\"ח"
@@ -7015,7 +7015,7 @@ msgstr "בחירת חשבונות בנק"
 msgid "No payee defined"
 msgstr "לא הוגדרו צדדים שלישיים"
 
-#: src/gsb_data_payee.c:713
+#: src/gsb_data_payee.c:712
 #, fuzzy, c-format
 msgid "The transaction %d has a payee n°%d but it doesn't exist."
 msgstr "לעיסקה #%d צריכה להיות #%d נגדית, אך זו אינה קיימת.\n"
@@ -8465,7 +8465,7 @@ msgstr "מחיקת עיסקה מתוכננת"
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "מחיקת עיסקה מתוכננת"
 
-#: src/gsb_transactions_list.c:572 src/gsb_transactions_list.c:3531
+#: src/gsb_transactions_list.c:572 src/gsb_transactions_list.c:3534
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8605,25 +8605,25 @@ msgstr ""
 msgid "Clear cell"
 msgstr "ביטול"
 
-#: src/gsb_transactions_list.c:2664
+#: src/gsb_transactions_list.c:2667
 msgid "Cannot move a transfer on his contra-account"
 msgstr "לא ניתן להעביר העברה אל עיסקה נגדית זו"
 
 #. sort by line
-#: src/gsb_transactions_list.c:2943
+#: src/gsb_transactions_list.c:2946
 #, fuzzy
 msgid "Sort list by :"
 msgstr "מיון על פי תאריך"
 
-#: src/gsb_transactions_list.c:3403
+#: src/gsb_transactions_list.c:3406
 msgid "Transfer to a deleted account"
 msgstr "העברה לחשבון שנמחק"
 
-#: src/gsb_transactions_list.c:3405
+#: src/gsb_transactions_list.c:3408
 msgid "Transfer from a deleted account"
 msgstr "העברה מחשבון שנמחק"
 
-#: src/gsb_transactions_list.c:3560
+#: src/gsb_transactions_list.c:3563
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -8637,13 +8637,13 @@ msgstr ""
 msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
 
-#: src/gtk_combofix.c:789
+#: src/gtk_combofix.c:854
 msgid ""
 "You cannot create new payee or category and subcategory without changing the "
 "options in preferences"
 msgstr ""
 
-#: src/gtk_combofix.c:792
+#: src/gtk_combofix.c:857
 msgid "Warning you cannot create payee or category"
 msgstr ""
 
@@ -9367,11 +9367,11 @@ msgstr "קו התקציב '%s' כבר קיים."
 msgid "New sub-budget"
 msgstr "תת-קו תקציב חדש"
 
-#: src/main.c:168
+#: src/main.c:165
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Error on sigaction: SIGSEGV won't be trapped\n"
 
-#: src/main.c:223
+#: src/main.c:220
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -10100,14 +10100,14 @@ msgstr "חוב יזום של הסוחר"
 msgid "Repeating payment/standing order"
 msgstr "סדר תשלום/העמדה חוזר"
 
-#: src/plugins/openssl/openssl.c:179
+#: src/plugins/openssl/openssl.c:181
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
 msgstr ""
 
 #. FIXME: import symbols to be sure we can call this kind of stuff.
-#: src/plugins/openssl/openssl.c:190
+#: src/plugins/openssl/openssl.c:192
 #, fuzzy
 msgid ""
 "This build of Grisbi does not support encryption.\n"
@@ -10116,45 +10116,45 @@ msgstr ""
 "This build of Grisbi does not support OFX, please recompile Grisbi with OFX "
 "support enabled"
 
-#: src/plugins/openssl/openssl.c:192
+#: src/plugins/openssl/openssl.c:194
 #, fuzzy, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "לא ניתן לפתוח את הקובץ '%s': %s"
 
-#: src/plugins/openssl/openssl.c:217
+#: src/plugins/openssl/openssl.c:219
 #, fuzzy
 msgid "Grisbi password"
 msgstr "לוגו של גריספי"
 
-#: src/plugins/openssl/openssl.c:221
+#: src/plugins/openssl/openssl.c:223
 #, fuzzy
 msgid "Crypt file"
 msgstr "קובץ Postscript"
 
-#: src/plugins/openssl/openssl.c:221
+#: src/plugins/openssl/openssl.c:223
 #, fuzzy
 msgid "Decrypt file"
 msgstr "קובץ Postscript"
 
-#: src/plugins/openssl/openssl.c:249
+#: src/plugins/openssl/openssl.c:251
 #, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
 "<span foreground=\"blue\">%s</span>"
 msgstr ""
 
-#: src/plugins/openssl/openssl.c:255
+#: src/plugins/openssl/openssl.c:257
 #, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
 "<span foreground=\"blue\">%s</span>"
 msgstr ""
 
-#: src/plugins/openssl/openssl.c:263
+#: src/plugins/openssl/openssl.c:265
 msgid "Password"
 msgstr ""
 
-#: src/plugins/openssl/openssl.c:271
+#: src/plugins/openssl/openssl.c:273
 msgid "Don't ask password again for this session."
 msgstr ""
 
