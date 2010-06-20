@@ -2032,12 +2032,11 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
         }
 
         /* if no id, check the cheque */
-        tmpstr = utils_str_itoa (imported_transaction -> cheque);
         if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION
          &&
          imported_transaction -> cheque
          &&
-         gsb_data_transaction_find_by_payment_content ( tmpstr,
+         gsb_data_transaction_find_by_payment_content ( imported_transaction -> cheque,
                                 account_number ) )
         {
             /* found the cheque, forget that transaction */
@@ -2588,8 +2587,6 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 
     if (origine && g_ascii_strcasecmp (origine, "OFX") == 0 )
     {
-    gchar *buffer;
-    
     switch ( imported_transaction -> type_de_transaction )
     {
         case OFX_CHECK:
@@ -2599,11 +2596,8 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
         gsb_data_transaction_set_method_of_payment_number (transaction_number, 
                         payment_number);
         /* we get the check number */
-        buffer = g_malloc0 ( 12*sizeof (gchar) );
-        g_ascii_formatd ( buffer,12,"%.0f", imported_transaction -> cheque);
         gsb_data_transaction_set_method_of_payment_content (
-                transaction_number, buffer );
-        g_free ( buffer );
+                transaction_number, imported_transaction -> cheque );
 
         break;
         //~ case OFX_INT:
@@ -2725,25 +2719,24 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gsb_data_transaction_set_method_of_payment_number ( transaction_number,
                         payment_number );
 
-    tmpstr = utils_str_itoa ( imported_transaction -> cheque );
     if ( gsb_data_payment_get_automatic_numbering (payment_number))
         /* we are on the default payment_number, save just the cheque number */
         gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-                        tmpstr );
+                        imported_transaction -> cheque );
     else
     {
         /* we are on a automatic numbering payment, we will save the cheque only
          * if it's not used before, else we show an warning message */
-        if (gsb_data_transaction_check_content_payment (payment_number, imported_transaction -> cheque))
+        if ( gsb_data_transaction_check_content_payment ( payment_number, imported_transaction -> cheque ) )
         {
-        gchar* tmpstr = g_strdup_printf ( _("Warning : the cheque number %ld is already used.\nWe skip it"),
+        gchar* tmpstr = g_strdup_printf ( _("Warning : the cheque number %s is already used.\nWe skip it"),
                         imported_transaction -> cheque );
         dialogue_warning ( tmpstr );
         g_free ( tmpstr );
         }
         else
         gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-                        utils_str_itoa ( imported_transaction -> cheque ) );
+                        imported_transaction -> cheque );
     }
     g_free ( tmpstr );
     }

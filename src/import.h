@@ -73,7 +73,7 @@ struct struct_ope_importation
     
     gchar *tiers;
     gchar *notes;
-    gulong cheque;
+    gchar *cheque;
 
     gchar *categ;
 	gchar *budget;

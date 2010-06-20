@@ -411,7 +411,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 	ope_import -> notes = latin2utf8 ( data.memo );
 
     if ( data.check_number_valid )
-	ope_import -> cheque = utils_str_atoi ( data.check_number );
+	ope_import -> cheque = latin2utf8 ( data.check_number );
 
     if ( data.amount_valid )
 	ope_import -> montant = gsb_real_double_to_real (data.amount);

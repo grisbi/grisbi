@@ -365,8 +365,7 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
 
 		    /* récupération du chèque */
 		    if ( tmp_str[0] == 'N' )
-			imported_transaction -> cheque = my_strtod ( tmp_str + 1,
-								     NULL ); 
+			imported_transaction -> cheque = my_strdup ( tmp_str + 1 ); 
 
 		    /* récupération du tiers */
 		    if ( tmp_str[0] == 'P' )

@@ -2848,8 +2848,8 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 		gint tmp_transaction_number;
 		
 		tmp_transaction_number = gsb_data_transaction_check_content_payment (
-                                    payment, utils_str_atoi (
-                                    gtk_entry_get_text ( GTK_ENTRY ( widget ) ) ) );
+                                    payment,
+                                    gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
 
 		if ( tmp_transaction_number
          &&

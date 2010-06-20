@@ -2572,7 +2572,7 @@ gint gsb_data_transaction_get_white_line ( gint transaction_number )
  * \return the number of the transaction if one is found, FALSE if none found, so can use it
  * */
 gint gsb_data_transaction_check_content_payment ( gint payment_number,
-                        gint number )
+                        gchar *number )
 {
     GSList *tmp_list;
 
@@ -2593,8 +2593,9 @@ gint gsb_data_transaction_check_content_payment ( gint payment_number,
 
 	if ( transaction -> method_of_payment_number == payment_number
 	     &&
-	     utils_str_atoi (transaction -> method_of_payment_content) == number )
+	     g_ascii_strcasecmp (transaction -> method_of_payment_content, number ) == 0 )
 	    return transaction -> transaction_number;
+
 	tmp_list = tmp_list -> next;
     }
     return FALSE;

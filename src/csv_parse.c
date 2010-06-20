@@ -344,7 +344,9 @@ gboolean csv_import_parse_notes ( struct struct_ope_importation * ope, gchar * s
 gboolean csv_import_parse_voucher ( struct struct_ope_importation * ope, gchar * string )
 {
     g_return_val_if_fail ( string, FALSE );
-    ope -> cheque = my_strtod ( string, NULL );
+    if ( ope -> cheque )
+        g_free ( ope -> cheque );
+    ope -> cheque = my_strdup ( string );
     return TRUE;
 }
 

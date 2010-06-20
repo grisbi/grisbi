@@ -19,7 +19,7 @@ enum operation_etat_rapprochement {
 /* START_DECLARATION */
 gboolean gsb_data_transaction_add_archived_to_list ( gint transaction_number );
 gint gsb_data_transaction_check_content_payment ( gint payment_number,
-                        gint number );
+                        gchar *number );
 gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
                         gint target_transaction_number,
                         gboolean reset_mark );
