@@ -11,6 +11,7 @@ dnl Check if we have backtrace support
 AC_CHECK_FUNCS(backtrace)
 
 AM_INIT_AUTOMAKE([-Wall foreign])
+AM_CONFIG_HEADER(config.h)
 
 LT_INIT
 
@@ -25,7 +26,6 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package.])
 dnl
 dnl Main Grisbi libraries
 dnl
-
 #PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 gmodule-2.0 >= 2.2 zlib])
 # Temporary hack until Mandriva ships zlib.pc
 PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 gmodule-2.0 >= 2.2])
