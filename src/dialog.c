@@ -165,7 +165,7 @@ G_MODULE_EXPORT void dialogue_error ( gchar *text )
  * \param text Text to display in window
  * \param hint Text to display in window as hint (bold, larger)
  */
-G_MODULE_EXPORT void dialogue_error_hint ( gchar *text, gchar *hint )
+G_MODULE_EXPORT void dialogue_error_hint ( const gchar *text, gchar *hint )
 {
     dialogue_special ( GTK_MESSAGE_ERROR, make_hint (hint, text) );
 }

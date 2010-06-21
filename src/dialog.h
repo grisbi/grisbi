@@ -20,7 +20,7 @@ void dialogue ( gchar *texte_dialogue );
 void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var );
 G_MODULE_EXPORT void dialogue_error ( gchar *text );
 void dialogue_error_brain_damage ();
-G_MODULE_EXPORT void dialogue_error_hint ( gchar *text, gchar *hint );
+G_MODULE_EXPORT void dialogue_error_hint ( const gchar *text, gchar *hint );
 void dialogue_error_memory ();
 void dialogue_hint ( gchar *text, gchar *hint );
 const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_description );
