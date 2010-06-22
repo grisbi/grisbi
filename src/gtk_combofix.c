@@ -128,7 +128,6 @@ static gboolean gtk_combofix_fill_iter_parent ( GtkTreeStore *store,
                         GtkTreeIter *iter_parent,
                         const gchar *string,
                         gint list_number );
-//~ static void gtk_combofix_remove_text ( GtkComboFix *combofix, const gchar *text );
 static gboolean gtk_combofix_search_for_text (GtkTreeModel *model,
                         GtkTreePath *path,
                         GtkTreeIter *iter,
@@ -399,6 +398,7 @@ gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list )
     gint list_number = 0;
     gint length;
     GtkTreeIter iter;
+    g_print ("gtk_combofix_set_list payees\n" );
 
     g_return_val_if_fail (combofix, FALSE );
     g_return_val_if_fail (GTK_IS_COMBOFIX (combofix), FALSE);
@@ -432,6 +432,123 @@ gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list )
 }
 
 
+/**
+* append a new line in a combofix
+*
+* \param combofix text
+*
+* \return
+* */
+void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text )
+{
+    GtkComboFixPrivate *priv = combofix -> priv;
+    gchar **tab_char;
+    gint empty;
+    gpointer pointers[3] = { ( gpointer ) text, NULL, GINT_TO_POINTER ( priv -> case_sensitive ) };
+
+    g_return_if_fail ( combofix );
+    g_return_if_fail ( GTK_IS_COMBOFIX ( combofix ) );
+
+    //~ g_print ("gtk_combofix_append_text = %s\n", text );
+
+    empty = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( combofix -> entry ), "empty" ) );
+    if ( empty || priv -> force )
+        return;
+
+    if ( priv -> old_entry && strcmp ( text, priv -> old_entry ) == 0 )
+        return;
+
+    gtk_tree_model_foreach ( GTK_TREE_MODEL ( priv -> store ),
+                        (GtkTreeModelForeachFunc) gtk_combofix_search_for_text,
+                        pointers );
+
+    if ( pointers[1] && GINT_TO_POINTER ( pointers[1] ) )
+        return;
+
+    tab_char = g_strsplit ( text, " : ", 2 );
+    if (tab_char[0])
+    {
+        GtkTreeIter iter_parent;
+
+        gtk_combofix_fill_iter_parent ( priv -> store, &iter_parent, text, 0 );
+
+        if ( tab_char[1] )
+        {
+            gchar* tmpstr;
+
+            tmpstr = g_strconcat ( "\t", text, NULL );
+            gtk_combofix_fill_iter_child ( priv -> store, &iter_parent, tab_char[1], text, 0 );
+
+            g_free ( tmpstr );
+        }
+    }
+
+    if ( priv -> old_entry && strlen ( priv -> old_entry ) )
+        g_free ( priv -> old_entry );
+    priv -> old_entry = g_strdup ( text );
+}
+
+
+/**
+* remove a line in a combofix
+*
+* \param combofix text
+*
+* \return
+* */
+void gtk_combofix_remove_text ( GtkComboFix *combofix, const gchar *text )
+{
+    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkTreeIter iter;
+    gboolean case_sensitive = priv -> case_sensitive;
+    gboolean valid;
+
+    valid = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( priv -> store ), &iter);
+
+    while ( valid )
+    {
+        gchar *tmp_str;
+        gboolean separator;
+
+        gtk_tree_model_get ( GTK_TREE_MODEL ( priv -> store ), &iter,
+                    COMBOFIX_COL_REAL_STRING, &tmp_str,
+                    COMBOFIX_COL_SEPARATOR, &separator,
+                    -1 );
+
+        if ( separator )
+        {
+            valid = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( priv -> store ), &iter );
+            continue;
+        }
+        if ( case_sensitive && !strcmp ( text, tmp_str ) )
+        {
+            g_free ( tmp_str );
+            break;
+        }
+        else if ( !g_utf8_collate ( g_utf8_casefold ( text, -1 ),
+                                    g_utf8_casefold ( tmp_str, -1 ) ) )
+        {
+            g_free ( tmp_str );
+            break;
+        }
+
+        g_free ( tmp_str );
+
+        valid = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( priv -> store ), &iter );
+    }
+    
+    if ( valid )
+        gtk_tree_store_remove ( priv -> store, &iter );
+}
+
+
+/**
+* 
+*
+* \param combofix text
+*
+* \return
+* */
 void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,
 						GCallback func,
 					    gpointer data )
@@ -668,8 +785,8 @@ static void gtk_combofix_finalize ( GObject *combofix )
 * with the list given in param
 * carreful : the list is not cleared, so if needed, must do it before
 *
-* \param combofix
-* \param list 		a g_slist of strings
+* \param                combofix
+* \param list           a g_slist of strings
 * \param list_number 	the number of the list for a complex, 0 else
 *
 * \return TRUE ok, FALSE pb
@@ -1911,63 +2028,6 @@ void gtk_combofix_dialog ( gchar *text, gchar *hint )
 
 
 /**
-* append a new line in a combofix
-*
-* \param combofix text
-*
-* \return
-* */
-void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text )
-{
-    GtkComboFixPrivate *priv = combofix -> priv;
-    gchar **tab_char;
-    gint empty;
-    gpointer pointers[3] = { ( gpointer ) text, NULL, GINT_TO_POINTER ( priv -> case_sensitive ) };
-
-    g_return_if_fail ( combofix );
-    g_return_if_fail ( GTK_IS_COMBOFIX ( combofix ) );
-
-    //~ g_print ("gtk_combofix_append_text = %s\n", text );
-
-    empty = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( combofix -> entry ), "empty" ) );
-    if ( empty || priv -> force )
-        return;
-
-    if ( priv -> old_entry && strcmp ( text, priv -> old_entry ) == 0 )
-        return;
-
-    gtk_tree_model_foreach ( GTK_TREE_MODEL ( priv -> store ),
-                        (GtkTreeModelForeachFunc) gtk_combofix_search_for_text,
-                        pointers );
-
-    if ( pointers[1] && GINT_TO_POINTER ( pointers[1] ) )
-        return;
-
-    tab_char = g_strsplit ( text, " : ", 2 );
-    if (tab_char[0])
-    {
-        GtkTreeIter iter_parent;
-
-        gtk_combofix_fill_iter_parent ( priv -> store, &iter_parent, text, 0 );
-
-        if ( tab_char[1] )
-        {
-            gchar* tmpstr;
-
-            tmpstr = g_strconcat ( "\t", text, NULL );
-            gtk_combofix_fill_iter_child ( priv -> store, &iter_parent, tab_char[1], text, 0 );
-
-            g_free ( tmpstr );
-        }
-    }
-
-    if ( priv -> old_entry && strlen ( priv -> old_entry ) )
-        g_free ( priv -> old_entry );
-    priv -> old_entry = g_strdup ( text );
-}
-
-
-/**
 * vérifie si la chaine text existe déjà
 *
 * \param
@@ -1981,15 +2041,15 @@ gboolean gtk_combofix_search_for_text (GtkTreeModel *model,
 {
     gchar *tmp_str;
     gboolean case_sensitive;
-    gboolean visible;
+    gboolean separator;
     gint return_value;
 
     gtk_tree_model_get ( GTK_TREE_MODEL( model ), iter,
 			            COMBOFIX_COL_REAL_STRING, &tmp_str,
-                        COMBOFIX_COL_VISIBLE, &visible,
+                        COMBOFIX_COL_SEPARATOR, &separator,
 			            -1 );
 
-    if ( visible == FALSE )
+    if ( separator )
     {
         g_free ( tmp_str );
         return FALSE;
@@ -2006,22 +2066,6 @@ gboolean gtk_combofix_search_for_text (GtkTreeModel *model,
 
     return return_value;
 }
-
-/**
-* remove a line in a combofix
-*
-* \param combofix text
-*
-* \return
-* */
-/*void gtk_combofix_remove_text ( GtkComboFix *combofix, const gchar *text )
-{
-
-
-
-
-}*/
-
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

@@ -430,14 +430,19 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
     if (!payee)
 	return FALSE;
 
+    combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_BUDGET );
+
     /* we free the last name */
     if ( payee -> payee_name )
-	g_free (payee -> payee_name);
+    {
+        if ( combofix )
+            gtk_combofix_remove_text ( GTK_COMBOFIX ( combofix ), payee -> payee_name );
+	    g_free ( payee -> payee_name );
+    }
     
     /* and copy the new one or set NULL */
     payee -> payee_name = my_strdup (name);
 
-    combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_BUDGET );
     if ( combofix )
         gtk_combofix_append_text ( GTK_COMBOFIX ( combofix ), name );
 
