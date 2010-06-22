@@ -25,8 +25,12 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package.])
 dnl
 dnl Main Grisbi libraries
 dnl
-PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 gmodule-2.0 >= 2.2 zlib])
-
+#PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 gmodule-2.0 >= 2.2 zlib])
+# Temporary hack until Mandriva ships zlib.pc
+PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 gmodule-2.0 >= 2.2])
+GRISBI_LIBS="$GRISBI_LIBS -lz"
+AC_SUBST(GRISBI_LIBS)
+# </hack>
 
 dnl
 dnl balance estimate
