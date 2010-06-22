@@ -372,7 +372,7 @@ SET (grisbi_source
 	../win32/win32gtkutils.h
 	../win32/win32utils.c
 	../win32/win32utils.h
-	../win32/grisbi.ico
+	# ../win32/grisbi.ico
 )
 
 ADD_EXECUTABLE(grisbi
