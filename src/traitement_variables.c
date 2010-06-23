@@ -616,10 +616,10 @@ void initialise_tab_affichage_ope ( void )
     for ( j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
         tab_affichage_ope[i][j] = tab[i][j];
 
-    /* by default, the display of lines is 1, 1-2, 1-2-4 */
+    /* by default, the display of lines is 1, 1-2, 1-2-3 */
     display_one_line = 0;
     display_two_lines = 0;
-    display_three_lines = 1;
+    display_three_lines = 0;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */
