@@ -444,7 +444,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	    csv_field_date = g_strdup_printf ("%d/%d/%d", 
 					      g_date_day ( date ), 
 					      g_date_month ( date ),
-					      g_date_year ( date ) );
+					      g_date_get_year ( date ) );
 	}
 
 	value_date = gsb_data_transaction_get_value_date ( transaction_number );
@@ -454,7 +454,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	    csv_field_date_val = g_strdup_printf ("%d/%d/%d", 
 						  g_date_day ( value_date ), 
 						  g_date_month ( value_date ),
-						  g_date_year ( value_date ) );
+						  g_date_get_year ( value_date ) );
 	}
 
 	/* met le pointage */

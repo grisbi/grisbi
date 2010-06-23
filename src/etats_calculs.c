@@ -761,14 +761,14 @@ GSList *recupere_opes_etat ( gint report_number )
 
 				if ( g_date_month ( date_jour ) != g_date_month ( gsb_data_transaction_get_date (transaction_number_tmp))
 				     ||
-				     g_date_year ( date_jour ) != g_date_year ( gsb_data_transaction_get_date (transaction_number_tmp)))
+				     g_date_get_year ( date_jour ) != g_date_get_year ( gsb_data_transaction_get_date (transaction_number_tmp)))
 				    goto operation_refusee;
 				break;
 
 			    case 4:
 				/* année en cours */
 
-				if ( g_date_year ( date_jour ) != g_date_year ( gsb_data_transaction_get_date (transaction_number_tmp)))
+				if ( g_date_get_year ( date_jour ) != g_date_get_year ( gsb_data_transaction_get_date (transaction_number_tmp)))
 				    goto operation_refusee;
 				break;
 
@@ -777,7 +777,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 				if ( g_date_month ( date_jour ) != g_date_month ( gsb_data_transaction_get_date (transaction_number_tmp))
 				     ||
-				     g_date_year ( date_jour ) != g_date_year ( gsb_data_transaction_get_date (transaction_number_tmp))
+				     g_date_get_year ( date_jour ) != g_date_get_year ( gsb_data_transaction_get_date (transaction_number_tmp))
 				     ||
 				     g_date_compare ( date_jour,
 						      gsb_data_transaction_get_date (transaction_number_tmp)) < 0 )
@@ -787,7 +787,7 @@ GSList *recupere_opes_etat ( gint report_number )
 			    case 6:
 				/* cumul annuel */
 
-				if ( g_date_year ( date_jour ) != g_date_year ( gsb_data_transaction_get_date (transaction_number_tmp))
+				if ( g_date_get_year ( date_jour ) != g_date_get_year ( gsb_data_transaction_get_date (transaction_number_tmp))
 				     ||
 				     g_date_compare ( date_jour,
 						      gsb_data_transaction_get_date (transaction_number_tmp)) < 0 )
@@ -802,7 +802,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 				if ( g_date_month ( date_jour ) != g_date_month ( gsb_data_transaction_get_date (transaction_number_tmp))
 				     ||
-				     g_date_year ( date_jour ) != g_date_year ( gsb_data_transaction_get_date (transaction_number_tmp)))
+				     g_date_get_year ( date_jour ) != g_date_get_year ( gsb_data_transaction_get_date (transaction_number_tmp)))
 				    goto operation_refusee;
 				break;
 
@@ -812,7 +812,7 @@ GSList *recupere_opes_etat ( gint report_number )
 				g_date_subtract_years ( date_jour,
 							1 );
 
-				if ( g_date_year ( date_jour ) != g_date_year ( gsb_data_transaction_get_date (transaction_number_tmp)))
+				if ( g_date_get_year ( date_jour ) != g_date_get_year ( gsb_data_transaction_get_date (transaction_number_tmp)))
 				    goto operation_refusee;
 				break;
 
@@ -821,7 +821,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 				date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
 							    g_date_month ( date_jour ),
-							    g_date_year ( date_jour ) );
+							    g_date_get_year ( date_jour ) );
 				g_date_subtract_days ( date_tmp,
 						       30 );
 				if ( g_date_compare ( date_tmp,
@@ -837,7 +837,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 				date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
 							    g_date_month ( date_jour ),
-							    g_date_year ( date_jour ) );
+							    g_date_get_year ( date_jour ) );
 				g_date_subtract_months ( date_tmp,
 							 3 );
 				if ( g_date_compare ( date_tmp,
@@ -853,7 +853,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 				date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
 							    g_date_month ( date_jour ),
-							    g_date_year ( date_jour ) );
+							    g_date_get_year ( date_jour ) );
 				g_date_subtract_months ( date_tmp,
 							 6 );
 				if ( g_date_compare ( date_tmp,
@@ -869,7 +869,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 				date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
 							    g_date_month ( date_jour ),
-							    g_date_year ( date_jour ) );
+							    g_date_get_year ( date_jour ) );
 				g_date_subtract_months ( date_tmp,
 							 12 );
 				if ( g_date_compare ( date_tmp,

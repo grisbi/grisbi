@@ -217,7 +217,7 @@ gchar *etats_titre ( gint report_number)
 				      ", ", 
 				      g_strdup_printf ( _("%s %d"),
 							buffer_date,
-							g_date_year (today_date)),
+							g_date_get_year (today_date)),
 				      NULL );
 		break;
 
@@ -226,7 +226,7 @@ gchar *etats_titre ( gint report_number)
 
 		titre = g_strconcat ( titre,
 				      ", ", g_strdup_printf ( _("year %d"),
-							      g_date_year (today_date)),
+							      g_date_get_year (today_date)),
 				      NULL );
 		break;
 
@@ -264,7 +264,7 @@ gchar *etats_titre ( gint report_number)
 				      ", ", 
 				      g_strdup_printf ( _("%s %d"),
 							buffer_date,
-							g_date_year (today_date)),
+							g_date_get_year (today_date)),
 				      NULL );
 		break;
 
@@ -273,7 +273,7 @@ gchar *etats_titre ( gint report_number)
 
 		titre = g_strconcat ( titre,
 				      ", ", g_strdup_printf ( _("year %d"),
-							      g_date_year (today_date) - 1),
+							      g_date_get_year (today_date) - 1),
 				      NULL );
 		break;
 
@@ -312,11 +312,11 @@ gchar *etats_titre ( gint report_number)
 				      ", ", 
 				      g_strdup_printf ( _("from %s %d"),
 							buffer_date_2,
-							g_date_year ( date_tmp )),
+							g_date_get_year ( date_tmp )),
 				      " ",
 				      g_strdup_printf ( _("to %s %d"),
 							buffer_date,
-							g_date_year (today_date)),
+							g_date_get_year (today_date)),
 				      NULL );
 		break;
 
@@ -340,11 +340,11 @@ gchar *etats_titre ( gint report_number)
 				      ", ", 
 				      g_strdup_printf ( _("from %s %d"),
 							buffer_date_2,
-							g_date_year ( date_tmp )),
+							g_date_get_year ( date_tmp )),
 				      " ",
 				      g_strdup_printf ( _("to %s %d"),
 							buffer_date,
-							g_date_year (today_date)),
+							g_date_get_year (today_date)),
 				      NULL );
 		break;
 
@@ -367,11 +367,11 @@ gchar *etats_titre ( gint report_number)
 				      ", ", 
 				      g_strdup_printf ( _("from %s %d"),
 							buffer_date_2,
-							g_date_year ( date_tmp )),
+							g_date_get_year ( date_tmp )),
 				      " ",
 				      g_strdup_printf ( _("to %s %d"),
 							buffer_date,
-							g_date_year (today_date)),
+							g_date_get_year (today_date)),
 				      NULL );
 		break;
 	}
