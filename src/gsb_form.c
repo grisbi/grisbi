@@ -96,6 +96,7 @@ static gboolean gsb_form_get_categories ( gint transaction_number,
                         gint new_transaction,
                         gboolean is_transaction );
 static gboolean gsb_form_hide ( void );
+static gboolean gsb_form_initialise_transaction_form ( void );
 static void gsb_form_set_current_date_into_date_entry ( void );
 static gboolean gsb_form_size_allocate ( GtkWidget *widget,
                         GtkAllocation *allocation,
@@ -213,10 +214,10 @@ void gsb_form_create_widgets ( void )
 
     devel_debug (NULL);
 
-    gsb_form_widget_free_list ();
     if ( child && GTK_IS_WIDGET(child) )
     {
-	gtk_container_remove ( GTK_CONTAINER(form_expander), child );
+        gsb_form_widget_free_list ();
+	    gtk_container_remove ( GTK_CONTAINER ( form_expander ), child );
     }
 
     /* Expander has a composite label */
@@ -298,6 +299,9 @@ void gsb_form_create_widgets ( void )
 		       NULL );
     gtk_container_add ( GTK_CONTAINER (event_box),
 			form_transaction_part );
+
+    gsb_form_initialise_transaction_form ( );
+
 
     /* the buttons part is a hbox, with the recuperate child split
      * on the left and valid/cancel on the right */
@@ -974,7 +978,6 @@ gboolean gsb_form_activate_expander ( GtkWidget *expander,
     {
         GtkWidget *date_entry;
 
-        gsb_form_widget_free_list ();
         gsb_form_show ( TRUE );
         etat.formulaire_toujours_affiche = TRUE;
         gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
@@ -1177,9 +1180,6 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 
     devel_debug_int (account_number);
 
-    /* free the form if necessary */
-    gsb_form_widget_free_list ();
-
     /* account_number can be -1 if come here from the accounts choice button,
      * and -2 if there were a problem with the origin */
     switch (account_number)
@@ -1195,52 +1195,10 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 	    break;
     }
 
-    /* if each account has a separate form, get it here,
-     * else, get the form of the first account */
-	form_account_number = gsb_data_account_first_number ();
+    gsb_form_clean ( account_number );
 
-    rows_number = gsb_data_form_get_nb_rows (form_account_number);
-    columns_number = gsb_data_form_get_nb_columns (form_account_number);
-
-    gtk_table_resize ( GTK_TABLE (form_transaction_part),
-		       rows_number,
-		       columns_number );
-
-    for ( row=0 ; row < rows_number ; row++ )
-	for ( column=0 ; column < columns_number ; column++ )
-	{
-	    GtkWidget *widget;
-	    gint element = gsb_data_form_get_value ( form_account_number, column, row );
-
-	    /* we use form_account_number to find what is shown or not in the form,
-	     * but to fill the form we need to use account_number because some elements
-	     * are account dependant (ex method of payment) */
-		widget = gsb_form_widget_create ( element, account_number );
-
-	    if ( !widget )
-		continue;
-
-	    gtk_table_attach ( GTK_TABLE (form_transaction_part),
-			       widget,
-			       column, column+1,
-			       row, row+1,
-			       gsb_form_get_element_expandable ( element ),
-			       gsb_form_get_element_expandable ( element ),
-			       0, 0);
-	    /* we want to show all the widget created except the method of payment
-	     * and contra, they know themselves if they have to be shown or not,
-	     * so just let them */
-	    if (element != TRANSACTION_FORM_TYPE
-		 &&
-		 element != TRANSACTION_FORM_CONTRA
-         &&
-         element != TRANSACTION_FORM_CHEQUE )
-		gtk_widget_show (widget);
-	}
-    gsb_form_clean (account_number);
     return FALSE;
 }
-
 
 
 /**
@@ -3362,7 +3320,6 @@ gboolean gsb_form_escape_form ( void )
     }
     else
     {
-        gsb_form_widget_free_list ( );
         gtk_expander_set_expanded ( GTK_EXPANDER ( form_expander ), FALSE );
     }
     return FALSE;
@@ -3532,6 +3489,12 @@ GtkWidget *gsb_form_get_element_widget_from_list ( gint element_number,
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
 void gsb_form_set_current_date_into_date_entry ( void )
 {
     GtkWidget *date_entry;
@@ -3551,6 +3514,58 @@ void gsb_form_set_current_date_into_date_entry ( void )
 	    gsb_form_widget_set_empty ( date_entry, FALSE );
     }
 }
+
+/**
+ * initialise le formulaire
+ *
+ * \param
+ * 
+ * \return FALSE
+ * */
+gboolean gsb_form_initialise_transaction_form ( void )
+{
+    gint row, column;
+    gint rows_number, columns_number;
+    gint form_account_number;
+    gint account_number;
+
+    devel_debug (NULL);
+
+    /* get the form of the first account */
+	form_account_number = gsb_data_account_first_number ();
+    account_number = gsb_data_account_first_number ( );
+
+    rows_number = gsb_data_form_get_nb_rows (form_account_number);
+    columns_number = gsb_data_form_get_nb_columns (form_account_number);
+
+    gtk_table_resize ( GTK_TABLE (form_transaction_part),
+		       rows_number,
+		       columns_number );
+
+    for ( row=0 ; row < rows_number ; row++ )
+	for ( column=0 ; column < columns_number ; column++ )
+	{
+	    GtkWidget *widget;
+	    gint element;
+
+        element = gsb_data_form_get_value ( form_account_number, column, row );
+		widget = gsb_form_widget_create ( element, account_number );
+
+	    if ( !widget )
+		continue;
+
+	    gtk_table_attach ( GTK_TABLE (form_transaction_part),
+			       widget,
+			       column, column+1,
+			       row, row+1,
+			       gsb_form_get_element_expandable ( element ),
+			       gsb_form_get_element_expandable ( element ),
+			       0, 0);
+	}
+
+    return FALSE;
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
