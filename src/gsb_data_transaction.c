@@ -2572,7 +2572,7 @@ gint gsb_data_transaction_get_white_line ( gint transaction_number )
  * \return the number of the transaction if one is found, FALSE if none found, so can use it
  * */
 gint gsb_data_transaction_check_content_payment ( gint payment_number,
-                        gchar *number )
+                        const gchar *number )
 {
     GSList *tmp_list;
 
