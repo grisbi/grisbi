@@ -675,7 +675,7 @@ gboolean gsb_calendar_entry_calendar_key_press ( GtkCalendar *pCalendar,
 	    return TRUE;
     }
 
-    day = g_date_day (date);
+    day = g_date_get_day (date);
     month = g_date_get_month (date);
     year = g_date_get_year (date);
     g_date_free (date);

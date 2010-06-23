@@ -442,7 +442,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	{
 	    CSV_CLEAR_FIELD (csv_field_date);
 	    csv_field_date = g_strdup_printf ("%d/%d/%d", 
-					      g_date_day ( date ), 
+					      g_date_get_day ( date ), 
 					      g_date_get_month ( date ),
 					      g_date_get_year ( date ) );
 	}
@@ -452,7 +452,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	{
 	    CSV_CLEAR_FIELD (csv_field_date_val);
 	    csv_field_date_val = g_strdup_printf ("%d/%d/%d", 
-						  g_date_day ( value_date ), 
+						  g_date_get_day ( value_date ), 
 						  g_date_get_month ( value_date ),
 						  g_date_get_year ( value_date ) );
 	}

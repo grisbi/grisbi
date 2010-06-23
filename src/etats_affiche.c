@@ -856,14 +856,14 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 		{
 		    case 0:
 			/* split by day, set the day of the transaction */
-			date_debut_periode = g_date_new_dmy ( g_date_day ( date),
+			date_debut_periode = g_date_new_dmy ( g_date_get_day ( date),
 							      g_date_get_month ( date),
 							      g_date_get_year ( date));
 			break;
 
 		    case 1:
 			/* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
-			date_debut_periode = g_date_new_dmy ( g_date_day ( date),
+			date_debut_periode = g_date_new_dmy ( g_date_get_day ( date),
 							      g_date_get_month ( date),
 							      g_date_get_year ( date));
 
@@ -948,7 +948,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	    /* 	  si on est en début de semaine, on met un sous total */
 
-	    date_tmp = g_date_new_dmy ( g_date_day ( date_debut_periode ),
+	    date_tmp = g_date_new_dmy ( g_date_get_day ( date_debut_periode ),
 					g_date_get_month ( date_debut_periode ),
 					g_date_get_year ( date_debut_periode ));
 	    g_date_add_days ( date_tmp,
@@ -976,7 +976,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	    g_date_free ( date_tmp );
 
-	    date_tmp = g_date_new_dmy ( g_date_day ( date_debut_periode ),
+	    date_tmp = g_date_new_dmy ( g_date_get_day ( date_debut_periode ),
 					g_date_get_month ( date_debut_periode ),
 					g_date_get_year ( date_debut_periode ));
 	    g_date_add_days ( date_tmp,
@@ -1094,14 +1094,14 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	    {
 		case 0:
 		    /* split by day, set on the transactions day */
-		    date_debut_periode = g_date_new_dmy ( g_date_day ( date),
+		    date_debut_periode = g_date_new_dmy ( g_date_get_day ( date),
 							  g_date_get_month ( date),
 							  g_date_get_year ( date));
 		    break;
 		case 1:
 		    /* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
 
-		    date_debut_periode = g_date_new_dmy ( g_date_day ( date),
+		    date_debut_periode = g_date_new_dmy ( g_date_get_day ( date),
 							  g_date_get_month ( date),
 							  g_date_get_year ( date));
 

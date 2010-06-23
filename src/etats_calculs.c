@@ -819,7 +819,7 @@ GSList *recupere_opes_etat ( gint report_number )
 			    case 9:
 				/* 30 derniers jours */
 
-				date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
+				date_tmp = g_date_new_dmy ( g_date_get_day ( date_jour ),
 							    g_date_get_month ( date_jour ),
 							    g_date_get_year ( date_jour ) );
 				g_date_subtract_days ( date_tmp,
@@ -835,7 +835,7 @@ GSList *recupere_opes_etat ( gint report_number )
 			    case 10:
 				/* 3 derniers mois */
 
-				date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
+				date_tmp = g_date_new_dmy ( g_date_get_day ( date_jour ),
 							    g_date_get_month ( date_jour ),
 							    g_date_get_year ( date_jour ) );
 				g_date_subtract_months ( date_tmp,
@@ -851,7 +851,7 @@ GSList *recupere_opes_etat ( gint report_number )
 			    case 11:
 				/* 6 derniers mois */
 
-				date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
+				date_tmp = g_date_new_dmy ( g_date_get_day ( date_jour ),
 							    g_date_get_month ( date_jour ),
 							    g_date_get_year ( date_jour ) );
 				g_date_subtract_months ( date_tmp,
@@ -867,7 +867,7 @@ GSList *recupere_opes_etat ( gint report_number )
 			    case 12:
 				/* 12 derniers mois */
 
-				date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
+				date_tmp = g_date_new_dmy ( g_date_get_day ( date_jour ),
 							    g_date_get_month ( date_jour ),
 							    g_date_get_year ( date_jour ) );
 				g_date_subtract_months ( date_tmp,
