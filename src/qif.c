@@ -1013,7 +1013,7 @@ gboolean qif_export ( const gchar *filename,
 		fprintf ( fichier_qif,
 			  "D%d/%d/%d\n",
 			  g_date_day (gsb_data_transaction_get_date (transaction_number_tmp)),
-			  g_date_month (gsb_data_transaction_get_date (transaction_number_tmp)),
+			  g_date_get_month (gsb_data_transaction_get_date (transaction_number_tmp)),
 			  g_date_get_year (gsb_data_transaction_get_date (transaction_number_tmp)));
 
 		/* met le solde initial */
@@ -1047,7 +1047,7 @@ gboolean qif_export ( const gchar *filename,
 		fprintf ( fichier_qif,
 			  "D%d/%d/%d\n",
 			  g_date_day (gsb_data_transaction_get_date (transaction_number_tmp)),
-			  g_date_month (gsb_data_transaction_get_date (transaction_number_tmp)),
+			  g_date_get_month (gsb_data_transaction_get_date (transaction_number_tmp)),
 			  g_date_get_year (gsb_data_transaction_get_date (transaction_number_tmp)));
 
 		/* met le pointage */

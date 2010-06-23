@@ -857,14 +857,14 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 		    case 0:
 			/* split by day, set the day of the transaction */
 			date_debut_periode = g_date_new_dmy ( g_date_day ( date),
-							      g_date_month ( date),
+							      g_date_get_month ( date),
 							      g_date_get_year ( date));
 			break;
 
 		    case 1:
 			/* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
 			date_debut_periode = g_date_new_dmy ( g_date_day ( date),
-							      g_date_month ( date),
+							      g_date_get_month ( date),
 							      g_date_get_year ( date));
 
             if ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
@@ -881,7 +881,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 			/* séparation par mois */
 
 			date_debut_periode = g_date_new_dmy ( 1,
-							      g_date_month ( date),
+							      g_date_get_month ( date),
 							      g_date_get_year ( date));
 			break;
 
@@ -949,7 +949,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	    /* 	  si on est en début de semaine, on met un sous total */
 
 	    date_tmp = g_date_new_dmy ( g_date_day ( date_debut_periode ),
-					g_date_month ( date_debut_periode ),
+					g_date_get_month ( date_debut_periode ),
 					g_date_get_year ( date_debut_periode ));
 	    g_date_add_days ( date_tmp,
 			      7 );
@@ -977,7 +977,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	    g_date_free ( date_tmp );
 
 	    date_tmp = g_date_new_dmy ( g_date_day ( date_debut_periode ),
-					g_date_month ( date_debut_periode ),
+					g_date_get_month ( date_debut_periode ),
 					g_date_get_year ( date_debut_periode ));
 	    g_date_add_days ( date_tmp,
 			      6 );
@@ -1010,7 +1010,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	    if ( !force
 		 &&
-		 g_date_month ( date) == g_date_month ( date_debut_periode ) )
+		 g_date_get_month ( date) == g_date_get_month ( date_debut_periode ) )
 		return ( ligne );
 
 	    g_date_strftime ( buffer,
@@ -1095,14 +1095,14 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 		case 0:
 		    /* split by day, set on the transactions day */
 		    date_debut_periode = g_date_new_dmy ( g_date_day ( date),
-							  g_date_month ( date),
+							  g_date_get_month ( date),
 							  g_date_get_year ( date));
 		    break;
 		case 1:
 		    /* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
 
 		    date_debut_periode = g_date_new_dmy ( g_date_day ( date),
-							  g_date_month ( date),
+							  g_date_get_month ( date),
 							  g_date_get_year ( date));
 
 		    if ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
@@ -1119,7 +1119,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 		    /* séparation par mois */
 
 		    date_debut_periode = g_date_new_dmy ( 1,
-							  g_date_month ( date),
+							  g_date_get_month ( date),
 							  g_date_get_year ( date));
 		    break;
 

@@ -481,7 +481,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     {
 	gint last_day;
 	
-	last_day = g_date_get_days_in_month ( g_date_month (date),
+	last_day = g_date_get_days_in_month ( g_date_get_month (date),
 					      g_date_get_year (date));
 	g_date_set_day (date, last_day);
     }
