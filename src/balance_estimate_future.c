@@ -455,8 +455,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     widget = gtk_combofix_new (
                         gsb_data_payee_get_name_and_report_list ( ) );
     gtk_widget_set_size_request ( widget, width, -1 );
-    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
-					  etat.combofix_force_payee );
+    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
     gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
 					 etat.combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
@@ -545,8 +544,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     widget = gtk_combofix_new (
                          gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, FALSE ) );
     gtk_widget_set_size_request ( widget, width, -1 );
-    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
-					  etat.combofix_force_category );
+    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
     gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
 					 etat.combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
@@ -595,8 +593,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     widget = gtk_combofix_new (
                         gsb_data_budget_get_name_list (TRUE, TRUE));
     gtk_widget_set_size_request ( widget, width, -1 );
-    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
-					  etat.combofix_force_category );
+    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
     gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
 					 etat.combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
