@@ -8613,7 +8613,7 @@ gboolean gsb_file_load_update_previous_version ( void )
                     reconcile_number = gsb_data_reconcile_get_account_last_number (
                                             reconcile -> account_number );
                     final_date = gsb_data_reconcile_get_final_date ( reconcile_number );
-                    ecart_date = g_date_get_days_between ( final_date, reconcile -> final_date );
+                    ecart_date = g_date_days_between ( final_date, reconcile -> final_date );
 
                     if ( abs (ecart_date) < 10 )
                     {
