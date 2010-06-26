@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2006 Benjamin Drieu (bdrieu@april.org)		      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2006 Benjamin Drieu (bdrieu@april.org)                */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -48,9 +48,9 @@ SYMBOL_IMPORT GtkWidget *window;
 #ifndef NOSSL
 /*START_STATIC*/
 static gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_message,
-					 gboolean encrypt );
+                        gboolean encrypt );
 static gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
-				  gboolean crypt, gulong length );
+                        gboolean crypt, gulong length );
 /*END_STATIC*/
 #endif
 
@@ -69,7 +69,7 @@ gchar *crypt_key;
  * \return the length of the new file_content or 0 if problem
  */
 gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
-				  gboolean crypt, gulong length )
+                        gboolean crypt, gulong length )
 {
 #ifndef NOSSL
     gchar * key, * message = "";
@@ -210,18 +210,18 @@ return_bad_password:
  * cancelled. */
 #ifndef NOSSL
 gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_message,
-					 gboolean encrypt )
+                        gboolean encrypt )
 {
     gchar *key = NULL;
     GtkWidget *dialog, *button, *label, *entry, *hbox, *hbox2, *vbox, *icon;
     gint result;
 
     dialog = gtk_dialog_new_with_buttons ( _("Grisbi password"),
-					   GTK_WINDOW ( window ),
-					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   ( encrypt ? _("Crypt file") : _("Decrypt file") ), GTK_RESPONSE_OK,
-					   NULL );
+                        GTK_WINDOW ( window ),
+                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                        ( encrypt ? _("Crypt file") : _("Decrypt file") ), GTK_RESPONSE_OK,
+                        NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
@@ -234,7 +234,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 6 );
     icon = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_AUTHENTICATION,
-				      GTK_ICON_SIZE_DIALOG );
+                        GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( vbox ), icon, FALSE, FALSE, 6 );
 
     vbox = gtk_vbox_new ( FALSE, 6 );
@@ -246,24 +246,24 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
 
     if ( encrypt )
-	gtk_label_set_markup ( GTK_LABEL (label),
-			       g_strdup_printf (
-                    _( "%sPlease enter password to encrypt file\n<span "
-                    "foreground=\"blue\">%s</span>" ),
-                    additional_message, file_name ) );
+        gtk_label_set_markup ( GTK_LABEL (label),
+                        g_strdup_printf (
+                        _( "%sPlease enter password to encrypt file\n<span "
+                        "foreground=\"blue\">%s</span>" ),
+                        additional_message, file_name ) );
     else
-	gtk_label_set_markup ( GTK_LABEL (label),
-			       g_strdup_printf (
-                    _( "%sPlease enter password to decrypt file\n<span "
-                    "foreground=\"blue\">%s</span>" ),
-                    additional_message, file_name ) );
+        gtk_label_set_markup ( GTK_LABEL (label),
+                        g_strdup_printf (
+                        _( "%sPlease enter password to decrypt file\n<span "
+                        "foreground=\"blue\">%s</span>" ),
+                        additional_message, file_name ) );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 6 );
 
     hbox2 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox2, FALSE, FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 gtk_label_new ( COLON(_("Password")) ),
-			 FALSE, FALSE, 0 );
+                        gtk_label_new ( COLON(_("Password")) ),
+                        FALSE, FALSE, 0 );
 
     entry = gtk_entry_new ();
     gtk_entry_set_activates_default ( GTK_ENTRY ( entry ), TRUE );
@@ -275,25 +275,34 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
     gtk_widget_show_all ( dialog );
+
+return_bad_password:
     result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     switch (result)
     {
-	case GTK_RESPONSE_OK:
+    case GTK_RESPONSE_OK:
 
-	    key = g_strdup (gtk_entry_get_text ( GTK_ENTRY ( entry )));
+        key = g_strdup (gtk_entry_get_text ( GTK_ENTRY ( entry )));
 
-	    if (!strlen (key))
-		key = NULL;
+        if (!strlen ( key ) )
+            key = NULL;
+        else if ( g_utf8_strlen ( key, -1 ) < 7 )
+        {
+            dialogue_warning_hint ( _("The password must contain at least 7 characters"),
+                                   _("Password too short" ) );
+            goto return_bad_password;
+        }
 
-	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button )))
-		crypt_key = key;
-	    else
-		crypt_key = NULL;
-	    break;
 
-	case GTK_RESPONSE_CANCEL:
-	    key = NULL;
+        if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button )))
+            crypt_key = key;
+        else
+            crypt_key = NULL;
+        break;
+
+    case GTK_RESPONSE_CANCEL:
+            key = NULL;
     }
 
     gtk_widget_destroy ( dialog );
@@ -319,7 +328,7 @@ G_MODULE_EXPORT extern void openssl_plugin_register ()
 
 /** Main function of module. */
 G_MODULE_EXPORT extern gint openssl_plugin_run ( gchar * file_name, gchar **file_content,
-					  gboolean crypt, gulong length )
+                        gboolean crypt, gulong length )
 {
     return gsb_file_util_crypt_file ( file_name, file_content, crypt, length );
 }

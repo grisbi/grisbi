@@ -9965,7 +9965,7 @@ msgid ""
 "Please recompile Grisbi with OpenSSL encryption enabled."
 msgstr ""
 "Cette version compilée de Grisbi ne gère pas le cryptage.\n"
-"Veuillez recompiler Grisbi avec le cryptage OpenSSL d'activé."
+"Veuillez recompiler Grisbi avec le cryptage OpenSSL activé."
 
 #: ../src/plugins/openssl/openssl.c:194
 #, c-format
