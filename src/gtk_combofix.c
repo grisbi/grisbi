@@ -216,8 +216,6 @@ void gtk_combofix_set_text ( GtkComboFix *combofix, const gchar *text )
     g_return_if_fail ( combofix );
     g_return_if_fail ( GTK_IS_COMBOFIX ( combofix ) );
 
-    //~ g_print ("gtk_combofix_set_text -> %s\n", text );
-
     g_signal_handlers_block_by_func ( G_OBJECT ( combofix -> entry ),
                         G_CALLBACK ( gtk_combofix_entry_insert ),
                         combofix );
@@ -398,7 +396,6 @@ gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list )
     gint list_number = 0;
     gint length;
     GtkTreeIter iter;
-    g_print ("gtk_combofix_set_list payees\n" );
 
     g_return_val_if_fail (combofix, FALSE );
     g_return_val_if_fail (GTK_IS_COMBOFIX (combofix), FALSE);
@@ -961,8 +958,6 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix, gboolean ins
 
     entry_string = gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) );
 
-    //~ g_print ("gtk_combofix_entry_changed = %s\n", entry_string );
-
     if ( strlen ( entry_string ) )
     {
         completed_string = gtk_combofix_update_visible_rows ( combofix,
@@ -1435,10 +1430,12 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
     {
     case GDK_ISO_Left_Tab:
     case GDK_Tab :
-	case GDK_KP_Enter :
-	case GDK_Return :
+    case GDK_KP_Enter :
+    case GDK_Return :
         /* we get the current selection */
-        if ( GTK_WIDGET_VISIBLE ( priv -> popup ) )
+        if ( GTK_WIDGET_VISIBLE ( priv -> popup )
+         &&
+         strlen ( gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) ) ) == 0 )
         {
            if ( ! gtk_combofix_choose_selection ( combofix ) )
             {
@@ -1451,55 +1448,61 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
         gtk_combofix_append_text ( combofix, gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) ) );
         /* le traitement de ENTER est fait dans le formulaire */
         return FALSE;
-	    break;
+        break;
 
-	case GDK_Escape:
-	    if ( GTK_WIDGET_VISIBLE ( priv -> popup ))
-	    {
+    case GDK_Escape:
+        if ( GTK_WIDGET_VISIBLE ( priv -> popup ))
+        {
             gtk_combofix_hide_popup ( combofix );
-            gtk_editable_select_region ( GTK_EDITABLE ( combofix -> entry ),
-					    0,
-					    0 );
+            gtk_editable_select_region ( GTK_EDITABLE ( combofix -> entry ), 0, 0 );
             return TRUE;
-	    }
-	    break;
+        }
+        break;
 
-	case GDK_Down :
-	case GDK_KP_Down :
-	    /* show the popup if necessary */
-	    if ( !GTK_WIDGET_VISIBLE ( priv -> popup ) )
-		gtk_combofix_show_popup ( combofix );
+    case GDK_Down :
+    case GDK_KP_Down :
+        /* show the popup if necessary */
+        if ( !GTK_WIDGET_VISIBLE ( priv -> popup ) )
+            gtk_combofix_show_popup ( combofix );
 
-	    gtk_combofix_move_selection ( combofix,
-					  COMBOFIX_DOWN );
-	    return TRUE;
-	    break;
-
-	case GDK_Up :
-	case GDK_KP_Up :
-	    /* move the selection up in the combofix only if the popup is showed,
-	     * else let the program works with the upper key */
-	    if (GTK_WIDGET_VISIBLE ( priv -> popup))
-	    {
-            gtk_combofix_move_selection ( combofix, COMBOFIX_UP );
-            return TRUE;
-	    }
-	    break;
-
-	case GDK_Page_Up :
-	case GDK_KP_Page_Up :
-	    gtk_combofix_move_selection ( combofix, COMBOFIX_PAGE_UP );
+        gtk_combofix_move_selection ( combofix, COMBOFIX_DOWN );
+        gtk_combofix_choose_selection ( combofix );
         return TRUE;
-	    break;
+        break;
 
-	case GDK_Page_Down :
-	case GDK_KP_Page_Down :
-	    /* show the popup if necessary */
-	    gtk_combofix_show_popup ( combofix );
+    case GDK_Up :
+    case GDK_KP_Up :
+        /* move the selection up in the combofix only if the popup is showed,
+         * else let the program works with the upper key */
+        if (GTK_WIDGET_VISIBLE ( priv -> popup))
+        {
+            gtk_combofix_move_selection ( combofix, COMBOFIX_UP );
+            gtk_combofix_choose_selection ( combofix );
+            return TRUE;
+        }
+        break;
 
-	    gtk_combofix_move_selection ( combofix, COMBOFIX_PAGE_DOWN );
-	    return TRUE;
-	    break;
+    case GDK_Page_Up :
+    case GDK_KP_Page_Up :
+        /* show the popup if necessary */
+        if ( !GTK_WIDGET_VISIBLE ( priv -> popup ) )
+            gtk_combofix_show_popup ( combofix );
+
+        gtk_combofix_move_selection ( combofix, COMBOFIX_PAGE_UP );
+        gtk_combofix_choose_selection ( combofix );
+        return TRUE;
+        break;
+
+    case GDK_Page_Down :
+    case GDK_KP_Page_Down :
+        /* show the popup if necessary */
+        if ( !GTK_WIDGET_VISIBLE ( priv -> popup ) )
+            gtk_combofix_show_popup ( combofix );
+
+        gtk_combofix_move_selection ( combofix, COMBOFIX_PAGE_DOWN );
+        gtk_combofix_choose_selection ( combofix );
+        return TRUE;
+        break;
     }
     return FALSE;
 }
@@ -1522,6 +1525,7 @@ static gboolean gtk_combofix_button_press_event ( GtkWidget *tree_view,
     if (ev -> type ==  GDK_BUTTON_PRESS )
     {
         gtk_combofix_choose_selection (combofix);
+        gtk_combofix_hide_popup ( combofix );
         return TRUE;
     }
 
@@ -1581,7 +1585,6 @@ static gboolean gtk_combofix_choose_selection ( GtkComboFix *combofix )
     if ( string && strlen ( string ) )
         gtk_combofix_set_text ( combofix, string );
 
-    gtk_combofix_hide_popup ( combofix );
     return TRUE;
 }
 
