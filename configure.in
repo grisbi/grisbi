@@ -92,7 +92,7 @@ if test "$build_libxml2" != no; then
 else
 	build_libxml2=no
 fi
-if test "$build_libxml2" = yes; then
+if test "$build_libxml2" = no; then
 	AC_DEFINE(NOXML2, 1, [Define if libxml2 support is disabled])
 fi
 AM_CONDITIONAL(HAVE_XML2, [test "$build_libxml2" = yes])
@@ -115,7 +115,7 @@ if test "$build_openssl" != no; then
 else
 	build_openssl=no
 fi
-if test "$build_openssl" = yes; then
+if test "$build_openssl" = no; then
 	AC_DEFINE(NOSSL, 1, [Define if OpenSSL support is disabled])
 fi
 AM_CONDITIONAL(HAVE_SSL, [test "$build_openssl" = yes])
