@@ -198,7 +198,7 @@ const gchar *gtk_combofix_get_text ( GtkComboFix *combofix )
     g_return_val_if_fail (combofix , NULL);
     g_return_val_if_fail (GTK_IS_COMBOFIX (combofix), NULL);
 
-    return ( gtk_entry_get_text ( GTK_ENTRY (combofix->entry)));
+    return ( gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) ) );
 }
 
 
@@ -441,15 +441,17 @@ gboolean gtk_combofix_set_list ( GtkComboFix *combofix, GSList *list )
 * */
 void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text )
 {
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
     gchar **tab_char;
     gint empty;
-    gpointer pointers[3] = { ( gpointer ) text, NULL, GINT_TO_POINTER ( priv -> case_sensitive ) };
+    gpointer pointers[3] = { ( gpointer ) text, NULL, NULL };
 
     g_return_if_fail ( combofix );
     g_return_if_fail ( GTK_IS_COMBOFIX ( combofix ) );
 
     //~ g_print ("gtk_combofix_append_text = %s\n", text );
+    priv = combofix -> priv;
+    pointers[2] = GINT_TO_POINTER ( priv -> case_sensitive );
 
     empty = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( combofix -> entry ), "empty" ) );
     if ( empty || priv -> force )
@@ -550,8 +552,8 @@ void gtk_combofix_remove_text ( GtkComboFix *combofix, const gchar *text )
 * \return
 * */
 void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,
-						GCallback func,
-					    gpointer data )
+                        GCallback func,
+                        gpointer data )
 {
     GtkComboFixPrivate *priv = combofix -> priv;
 
@@ -1934,21 +1936,28 @@ static gint gtk_combofix_default_sort_func ( GtkTreeModel *model_sort,
     gboolean separator_1;
     gboolean separator_2;
 
-    gtk_tree_model_get ( GTK_TREE_MODEL (model_sort),
-			 iter_1,
-			 COMBOFIX_COL_LIST_NUMBER, &list_number_1,
-			 COMBOFIX_COL_VISIBLE_STRING, &string_1,
-			 COMBOFIX_COL_SEPARATOR, &separator_1,
-			 -1 );
-    gtk_tree_model_get ( GTK_TREE_MODEL (model_sort),
-			 iter_2,
-			 COMBOFIX_COL_LIST_NUMBER, &list_number_2,
-			 COMBOFIX_COL_VISIBLE_STRING, &string_2,
-			 COMBOFIX_COL_SEPARATOR, &separator_2,
-			 -1 );
+    if ( iter_1 )
+        gtk_tree_model_get ( GTK_TREE_MODEL (model_sort),
+                        iter_1,
+                        COMBOFIX_COL_LIST_NUMBER, &list_number_1,
+                        COMBOFIX_COL_VISIBLE_STRING, &string_1,
+                        COMBOFIX_COL_SEPARATOR, &separator_1,
+                        -1 );
+    else
+        return -1;
+
+    if ( iter_2 )
+        gtk_tree_model_get ( GTK_TREE_MODEL (model_sort),
+                        iter_2,
+                        COMBOFIX_COL_LIST_NUMBER, &list_number_2,
+                        COMBOFIX_COL_VISIBLE_STRING, &string_2,
+                        COMBOFIX_COL_SEPARATOR, &separator_2,
+                        -1 );
+    else
+        return 1;
 
     if ( priv -> mixed_sort == FALSE )
-	    return_value = list_number_1 - list_number_2;
+        return_value = list_number_1 - list_number_2;
 
     if ( return_value == 0 )
     {

@@ -76,7 +76,7 @@ void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix, gboolean mixed_sort );
 
 /* set callback */
 void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,
-						GCallback func,
-					    gpointer data );
+                        GCallback func,
+                        gpointer data );
 
-#endif				/* __GTK_COMBOFIX_H__ */
+#endif /* __GTK_COMBOFIX_H__ */
