@@ -36,7 +36,7 @@
  * la partie configurée par la conf
  * la partie configurée pendant le fonctionnement de grisbi
  * */
-struct
+struct gsb_etat_t
 {
     time_t modification_fichier;
     gint is_archive;                /** TRUE if the file is an archive, FALSE else */
@@ -115,7 +115,10 @@ struct
     /* variables for the module estimate balance */
     gint bet_deb_period;
     
-} etat;
+};
+
+/* declared in parametres.c */
+extern struct gsb_etat_t etat;
 
 
 /** structure conf
