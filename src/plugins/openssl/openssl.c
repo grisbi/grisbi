@@ -291,6 +291,8 @@ return_bad_password:
         {
             dialogue_warning_hint ( _("The password must contain at least 7 characters"),
                                    _("Password too short" ) );
+            gtk_entry_set_text ( GTK_ENTRY ( entry ), "" );
+
             goto return_bad_password;
         }
 
