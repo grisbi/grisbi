@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-28 20:52+0200\n"
+"POT-Creation-Date: 2010-06-29 20:26+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -568,6 +568,18 @@ msgstr ""
 #, fuzzy
 msgid "Accounts data"
 msgstr "Λεπτομέρειες λογαριασμού"
+
+#. Data for the forecast
+#: ../src/balance_estimate_config.c:224
+#, fuzzy
+msgid "Data for the forecast"
+msgstr "Ημερομηνία λανθασμένη για τη διαταγή"
+
+#. Sources of historical data
+#: ../src/balance_estimate_config.c:229
+#, fuzzy
+msgid "Sources of historical data"
+msgstr "Αρχική ημερομηνία"
 
 #. set the choice of account
 #: ../src/balance_estimate_config.c:270 ../src/categories_onglet.c:152
@@ -10939,14 +10951,6 @@ msgstr "Προσωπικός διευθυντής χρηματοδότησης �
 #~ msgstr ""
 #~ "Σιγουρευτείτε ότι το grisbi εγκαταστάθηκε σωστά και ότι το αρχείο "
 #~ "συμβουλών είναι αναγνώσιμο"
-
-#, fuzzy
-#~ msgid "Data for the forecast"
-#~ msgstr "Ημερομηνία λανθασμένη για τη διαταγή"
-
-#, fuzzy
-#~ msgid "Sources of historical data"
-#~ msgstr "Αρχική ημερομηνία"
 
 #~ msgid "Transfert"
 #~ msgstr "Μεταφορά"

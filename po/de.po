@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-28 20:52+0200\n"
+"POT-Creation-Date: 2010-06-29 20:26+0200\n"
 "PO-Revision-Date: 2010-05-16 14:55+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -540,6 +540,16 @@ msgstr ""
 #: ../src/balance_estimate_config.c:204 ../src/parametres.c:552
 msgid "Accounts data"
 msgstr "Konten Einstellungen"
+
+#. Data for the forecast
+#: ../src/balance_estimate_config.c:224
+msgid "Data for the forecast"
+msgstr "Daten für die Prognose"
+
+#. Sources of historical data
+#: ../src/balance_estimate_config.c:229
+msgid "Sources of historical data"
+msgstr "Buchungen Auswahl"
 
 #. set the choice of account
 #: ../src/balance_estimate_config.c:270 ../src/categories_onglet.c:152
@@ -10890,9 +10900,3 @@ msgstr "Finanzprogramm für Privatpersonen"
 #~ "Make sure that grisbi was correctly installed and that tips file is "
 #~ "readable."
 #~ msgstr "Bitte die Installation von Grisbi überprüfen."
-
-#~ msgid "Data for the forecast"
-#~ msgstr "Daten für die Prognose"
-
-#~ msgid "Sources of historical data"
-#~ msgstr "Buchungen Auswahl"

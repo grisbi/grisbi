@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-28 20:52+0200\n"
+"POT-Creation-Date: 2010-06-29 20:26+0200\n"
 "PO-Revision-Date: 2010-04-27 00:47+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -535,6 +535,16 @@ msgstr "Poznámka: toto nastavení platí pro prognózy bez počátečního data
 #: ../src/balance_estimate_config.c:204 ../src/parametres.c:552
 msgid "Accounts data"
 msgstr "Detaily účtu"
+
+#. Data for the forecast
+#: ../src/balance_estimate_config.c:224
+msgid "Data for the forecast"
+msgstr "Data pro prognózu"
+
+#. Sources of historical data
+#: ../src/balance_estimate_config.c:229
+msgid "Sources of historical data"
+msgstr "Zdroje historických dat"
 
 #. set the choice of account
 #: ../src/balance_estimate_config.c:270 ../src/categories_onglet.c:152
@@ -10661,12 +10671,6 @@ msgstr "Osobní správce financí pro každého\n"
 #~ msgstr ""
 #~ "Ujistěte se, že Grisbi bylo korektně nainstalováno a soubor tipů je "
 #~ "čitelný."
-
-#~ msgid "Data for the forecast"
-#~ msgstr "Data pro prognózu"
-
-#~ msgid "Sources of historical data"
-#~ msgstr "Zdroje historických dat"
 
 #~ msgid "Transfert"
 #~ msgstr "Převody"

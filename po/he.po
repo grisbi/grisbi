@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-28 20:52+0200\n"
+"POT-Creation-Date: 2010-06-29 20:26+0200\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team:  <en@li.org>\n"
@@ -857,6 +857,18 @@ msgstr ""
 #, fuzzy
 msgid "Accounts data"
 msgstr "פרטי חשבון"
+
+#. Data for the forecast
+#: ../src/balance_estimate_config.c:224
+#, fuzzy
+msgid "Data for the forecast"
+msgstr "בראש הדו\"ח"
+
+#. Sources of historical data
+#: ../src/balance_estimate_config.c:229
+#, fuzzy
+msgid "Sources of historical data"
+msgstr "תאריך התחלה"
 
 #. set the choice of account
 #: ../src/balance_estimate_config.c:270 ../src/categories_onglet.c:152
@@ -10939,14 +10951,6 @@ msgstr "אין קו תקציב"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Data for the forecast"
-#~ msgstr "בראש הדו\"ח"
-
-#, fuzzy
-#~ msgid "Sources of historical data"
-#~ msgstr "תאריך התחלה"
 
 #~ msgid "Transfert"
 #~ msgstr "העברה"

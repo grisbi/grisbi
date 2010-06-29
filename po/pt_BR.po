@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-28 20:52+0200\n"
+"POT-Creation-Date: 2010-06-29 20:26+0200\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
@@ -582,6 +582,18 @@ msgstr ""
 #, fuzzy
 msgid "Accounts data"
 msgstr "Detalhes da conta"
+
+#. Data for the forecast
+#: ../src/balance_estimate_config.c:224
+#, fuzzy
+msgid "Data for the forecast"
+msgstr " no topo do relatório"
+
+#. Sources of historical data
+#: ../src/balance_estimate_config.c:229
+#, fuzzy
+msgid "Sources of historical data"
+msgstr "Data inicial"
 
 #. set the choice of account
 #: ../src/balance_estimate_config.c:270 ../src/categories_onglet.c:152
@@ -10720,14 +10732,6 @@ msgstr "Nenhum orçamento"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Data for the forecast"
-#~ msgstr " no topo do relatório"
-
-#, fuzzy
-#~ msgid "Sources of historical data"
-#~ msgstr "Data inicial"
 
 #~ msgid "Transfert"
 #~ msgstr "Transferir"

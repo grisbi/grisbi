@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-28 20:52+0200\n"
+"POT-Creation-Date: 2010-06-29 20:26+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -541,6 +541,16 @@ msgstr ""
 #: ../src/balance_estimate_config.c:204 ../src/parametres.c:552
 msgid "Accounts data"
 msgstr "Datos de la cuenta"
+
+#. Data for the forecast
+#: ../src/balance_estimate_config.c:224
+msgid "Data for the forecast"
+msgstr "Datos para la predicción"
+
+#. Sources of historical data
+#: ../src/balance_estimate_config.c:229
+msgid "Sources of historical data"
+msgstr "Fuentes de datos históricos"
 
 #. set the choice of account
 #: ../src/balance_estimate_config.c:270 ../src/categories_onglet.c:152
@@ -10849,12 +10859,6 @@ msgstr "Gestor de finanzas personal para todo el mundo\n"
 #~ msgstr ""
 #~ "Asegúrese de que grisbi fue instalado correctamente y que el fichero de "
 #~ "consejos se puede leer."
-
-#~ msgid "Data for the forecast"
-#~ msgstr "Datos para la predicción"
-
-#~ msgid "Sources of historical data"
-#~ msgstr "Fuentes de datos históricos"
 
 #~ msgid "Transfert"
 #~ msgstr "Transferencia"

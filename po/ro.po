@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-28 20:52+0200\n"
+"POT-Creation-Date: 2010-06-29 20:26+0200\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team:  <bucuresti@free.fr>\n"
@@ -613,6 +613,18 @@ msgstr ""
 #, fuzzy
 msgid "Accounts data"
 msgstr "Detalii a contului"
+
+#. Data for the forecast
+#: ../src/balance_estimate_config.c:224
+#, fuzzy
+msgid "Data for the forecast"
+msgstr "în sus de stare"
+
+#. Sources of historical data
+#: ../src/balance_estimate_config.c:229
+#, fuzzy
+msgid "Sources of historical data"
+msgstr "Dată iniţială"
 
 #. set the choice of account
 #: ../src/balance_estimate_config.c:270 ../src/categories_onglet.c:152
@@ -10748,14 +10760,6 @@ msgstr "Nici'o imputaţie"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Data for the forecast"
-#~ msgstr "în sus de stare"
-
-#, fuzzy
-#~ msgid "Sources of historical data"
-#~ msgstr "Dată iniţială"
 
 #~ msgid "Transfert"
 #~ msgstr "Virament"

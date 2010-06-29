@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-28 20:52+0200\n"
+"POT-Creation-Date: 2010-06-29 20:26+0200\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -536,6 +536,18 @@ msgstr ""
 #, fuzzy
 msgid "Accounts data"
 msgstr "Подробнее о счёте"
+
+#. Data for the forecast
+#: ../src/balance_estimate_config.c:224
+#, fuzzy
+msgid "Data for the forecast"
+msgstr "Имя файла со счетами"
+
+#. Sources of historical data
+#: ../src/balance_estimate_config.c:229
+#, fuzzy
+msgid "Sources of historical data"
+msgstr "Дата начала"
 
 #. set the choice of account
 #: ../src/balance_estimate_config.c:270 ../src/categories_onglet.c:152
@@ -10178,10 +10190,6 @@ msgstr "Общедоступное управление личными фина�
 
 #~ msgid "No tip of the day available"
 #~ msgstr "Советы дня недоступны"
-
-#, fuzzy
-#~ msgid "Data for the forecast"
-#~ msgstr "Имя файла со счетами"
 
 #, fuzzy
 #~ msgid "Futur data"

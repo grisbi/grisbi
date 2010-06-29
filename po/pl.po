@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-28 20:52+0200\n"
+"POT-Creation-Date: 2010-06-29 20:26+0200\n"
 "PO-Revision-Date: 2006-05-15 12:44+0200\n"
 "Last-Translator: Ryszard Jeziorski <r.jeziorski@dart.kielce.pl>\n"
 "Language-Team: Polish\n"
@@ -581,6 +581,18 @@ msgstr ""
 #, fuzzy
 msgid "Accounts data"
 msgstr "Opis konta"
+
+#. Data for the forecast
+#: ../src/balance_estimate_config.c:224
+#, fuzzy
+msgid "Data for the forecast"
+msgstr "u góry raportu"
+
+#. Sources of historical data
+#: ../src/balance_estimate_config.c:229
+#, fuzzy
+msgid "Sources of historical data"
+msgstr "Data początkowa"
 
 #. set the choice of account
 #: ../src/balance_estimate_config.c:270 ../src/categories_onglet.c:152
@@ -10681,14 +10693,6 @@ msgstr "Nieokreślona linia budżetowa"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Data for the forecast"
-#~ msgstr "u góry raportu"
-
-#, fuzzy
-#~ msgid "Sources of historical data"
-#~ msgstr "Data początkowa"
 
 #~ msgid "Transfert"
 #~ msgstr "Przelew"

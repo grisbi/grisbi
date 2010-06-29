@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-28 20:52+0200\n"
+"POT-Creation-Date: 2010-06-29 20:26+0200\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -570,6 +570,17 @@ msgstr ""
 #, fuzzy
 msgid "Accounts data"
 msgstr "Kontooplysninger"
+
+#. Data for the forecast
+#: ../src/balance_estimate_config.c:224
+msgid "Data for the forecast"
+msgstr ""
+
+#. Sources of historical data
+#: ../src/balance_estimate_config.c:229
+#, fuzzy
+msgid "Sources of historical data"
+msgstr "Forkert dato"
 
 #. set the choice of account
 #: ../src/balance_estimate_config.c:270 ../src/categories_onglet.c:152
@@ -10379,10 +10390,6 @@ msgstr "Ingen kategori  (%d)"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Sources of historical data"
-#~ msgstr "Forkert dato"
 
 #, fuzzy
 #~ msgid "Transfert"

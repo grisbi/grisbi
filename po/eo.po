@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-28 20:52+0200\n"
+"POT-Creation-Date: 2010-06-29 20:26+0200\n"
 "PO-Revision-Date: 2009-06-28 20:04+0200\n"
 "Last-Translator: Cyril Castelbou <cyril.castelbou@free.fr>\n"
 "Language-Team: esperanto <eo@li.org>\n"
@@ -525,6 +525,16 @@ msgstr ""
 
 #: ../src/balance_estimate_config.c:204 ../src/parametres.c:552
 msgid "Accounts data"
+msgstr ""
+
+#. Data for the forecast
+#: ../src/balance_estimate_config.c:224
+msgid "Data for the forecast"
+msgstr ""
+
+#. Sources of historical data
+#: ../src/balance_estimate_config.c:229
+msgid "Sources of historical data"
 msgstr ""
 
 #. set the choice of account

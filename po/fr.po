@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-28 20:52+0200\n"
+"POT-Creation-Date: 2010-06-29 20:26+0200\n"
 "PO-Revision-Date: 2010-05-02 23:26+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -544,6 +544,16 @@ msgstr ""
 #: ../src/balance_estimate_config.c:204 ../src/parametres.c:552
 msgid "Accounts data"
 msgstr "Données des comptes"
+
+#. Data for the forecast
+#: ../src/balance_estimate_config.c:224
+msgid "Data for the forecast"
+msgstr "Données pour le tableau des prévisions"
+
+#. Sources of historical data
+#: ../src/balance_estimate_config.c:229
+msgid "Sources of historical data"
+msgstr "Sources des données historiques"
 
 #. set the choice of account
 #: ../src/balance_estimate_config.c:270 ../src/categories_onglet.c:152
@@ -10849,9 +10859,3 @@ msgstr "Aucune police définie"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Gestionnaire de finances personnelles"
-
-#~ msgid "Data for the forecast"
-#~ msgstr "Données pour le tableau des prévisions"
-
-#~ msgid "Sources of historical data"
-#~ msgstr "Sources des données historiques"

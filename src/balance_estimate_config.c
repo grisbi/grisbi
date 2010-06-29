@@ -221,12 +221,12 @@ GtkWidget *bet_config_account_create_account_page ( void )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox, NULL );
 
     /* Data for the forecast */
-    widget = bet_config_account_get_forecast_data ( "Data for the forecast" );
+    widget = bet_config_account_get_forecast_data ( _("Data for the forecast") );
     g_object_set_data ( G_OBJECT ( account_page ), "Data_for_forecast", widget );
     gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 0 );
 
     /* Sources of historical data */
-    widget = bet_config_account_get_select_historical_data ( "Sources of historical data" );
+    widget = bet_config_account_get_select_historical_data ( _("Sources of historical data") );
     g_object_set_data ( G_OBJECT ( account_page ), "Data_for_historical", widget );
     gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 0 );
 
