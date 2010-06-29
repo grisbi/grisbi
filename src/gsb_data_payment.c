@@ -796,6 +796,10 @@ gint gsb_data_payment_get_similar ( gint origin_payment,
 
 	if (tmp_payment -> account_number == target_account_number
 	    &&
+        payment -> payment_name
+        &&
+        tmp_payment -> payment_name
+        &&
 	    !strcmp (payment -> payment_name, tmp_payment -> payment_name)
 	    &&
 	    payment -> payment_sign == tmp_payment -> payment_sign)
