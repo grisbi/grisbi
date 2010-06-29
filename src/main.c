@@ -70,7 +70,6 @@ static void main_window_destroy_event( GObject* obj, gpointer data);
 G_MODULE_EXPORT GtkWidget *window = NULL;
 GtkWidget *window_vbox_principale = NULL;
 
-
 /*START_EXTERN*/
 extern FILE *debug_file;
 extern gchar *nom_fichier_comptes;
