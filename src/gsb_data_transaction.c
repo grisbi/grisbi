@@ -2593,6 +2593,8 @@ gint gsb_data_transaction_check_content_payment ( gint payment_number,
 
 	if ( transaction -> method_of_payment_number == payment_number
 	     &&
+         transaction -> method_of_payment_content
+         &&
 	     g_ascii_strcasecmp (transaction -> method_of_payment_content, number ) == 0 )
 	    return transaction -> transaction_number;
 
