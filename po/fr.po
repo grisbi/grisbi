@@ -8462,7 +8462,7 @@ msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
 #. use transaction as template
 #: ../src/gsb_transactions_list.c:2188
 msgid "Use selected transaction as a template"
-msgstr "Utiliser l'opération séléctionnée comme modèle"
+msgstr "Utiliser l'opération sélectionnée comme modèle"
 
 #. Clone transaction
 #: ../src/gsb_transactions_list.c:2198
