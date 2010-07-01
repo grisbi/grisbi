@@ -176,7 +176,7 @@ struct gsb_conf_t
 
 };
 
-/* declared in parametres.c */
+/* declared in gsb_file_config.c */
 extern struct gsb_conf_t conf;
 
 /* structure définissant une association entre un tiers

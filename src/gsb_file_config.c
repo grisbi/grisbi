@@ -70,6 +70,9 @@ extern gchar *nom_fichier_comptes;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
+/* global variable, see structures.h */
+struct gsb_conf_t conf;
+
 gint mini_paned_width = 0;
 
 /* contient le nb de derniers fichiers ouverts */

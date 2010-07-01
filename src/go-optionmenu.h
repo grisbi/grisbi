@@ -101,14 +101,6 @@ struct _GOOptionMenuProps
   gint focus_pad;
 };
 
-static const GOOptionMenuProps default_props = {
-  TRUE,
-  { 7, 13 },
-  { 7, 5, 2, 2 },		/* Left, right, top, bottom */
-  1,
-  0
-};
-
 
 /* START_DECLARATION */
 GtkWidget * go_option_menu_get_history (GOOptionMenu *option_menu);
