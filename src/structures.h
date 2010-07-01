@@ -126,7 +126,7 @@ extern struct gsb_etat_t etat;
  * configured by the file grisbi.conf
  *
  */
-struct
+struct gsb_conf_t
 {
 
     /* geometry */
@@ -174,7 +174,10 @@ struct
     gint check_for_archival;                        /* TRUE if we want to check the number of non archived transactions at the opening */
     gint max_non_archived_transactions_for_check;   /* the max number of transaction before grisbi warm at the opening */
 
-} conf;
+};
+
+/* declared in parametres.c */
+extern struct gsb_etat_t etat;
 
 /* structure définissant une association entre un tiers
  * et une chaine de recherche contenant un ou des jokers (%)
