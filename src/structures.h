@@ -177,7 +177,7 @@ struct gsb_conf_t
 };
 
 /* declared in parametres.c */
-extern struct gsb_etat_t etat;
+extern struct gsb_conf_t conf;
 
 /* structure définissant une association entre un tiers
  * et une chaine de recherche contenant un ou des jokers (%)
