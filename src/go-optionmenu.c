@@ -162,6 +162,14 @@ enum
   LAST_PROP
 };
 
+static const GOOptionMenuProps default_props = {
+  TRUE,
+  { 7, 13 },
+  { 7, 5, 2, 2 },		/* Left, right, top, bottom */
+  1,
+  0
+};
+
 static GtkButtonClass *parent_class = NULL;
 static guint           signals[LAST_SIGNAL] = { 0 };
 

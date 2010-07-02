@@ -36,7 +36,7 @@
  * la partie configurée par la conf
  * la partie configurée pendant le fonctionnement de grisbi
  * */
-struct
+struct gsb_etat_t
 {
     time_t modification_fichier;
     gint is_archive;                /** TRUE if the file is an archive, FALSE else */
@@ -115,7 +115,10 @@ struct
     /* variables for the module estimate balance */
     gint bet_deb_period;
     
-} etat;
+};
+
+/* declared in parametres.c */
+extern struct gsb_etat_t etat;
 
 
 /** structure conf
@@ -123,7 +126,7 @@ struct
  * configured by the file grisbi.conf
  *
  */
-struct
+struct gsb_conf_t
 {
 
     /* geometry */
@@ -171,7 +174,10 @@ struct
     gint check_for_archival;                        /* TRUE if we want to check the number of non archived transactions at the opening */
     gint max_non_archived_transactions_for_check;   /* the max number of transaction before grisbi warm at the opening */
 
-} conf;
+};
+
+/* declared in gsb_file_config.c */
+extern struct gsb_conf_t conf;
 
 /* structure définissant une association entre un tiers
  * et une chaine de recherche contenant un ou des jokers (%)
