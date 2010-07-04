@@ -454,9 +454,9 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
     }
     
     /* and copy the new one or set NULL */
-    payee -> payee_name = my_strdup (name);
+    payee -> payee_name = my_strdup ( name );
 
-    if ( combofix )
+    if ( combofix && name && strlen ( name ) )
         gtk_combofix_append_text ( GTK_COMBOFIX ( combofix ), name );
 
     return TRUE;
