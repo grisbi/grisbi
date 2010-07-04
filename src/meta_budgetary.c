@@ -222,7 +222,6 @@ gint budgetary_line_add_div ()
     }
 
     new_budget_number = gsb_data_budget_get_number_by_name ( name, TRUE, 0 );
-    gsb_budget_update_combofix ();
 
     return new_budget_number;
 }
@@ -253,8 +252,6 @@ gint budgetary_line_add_sub_div ( int div_id )
     }
 
     new_sub_budget_number = gsb_data_budget_get_sub_budget_number_by_name ( div_id, name, TRUE );
-
-    gsb_budget_update_combofix ();
 
     return new_sub_budget_number;
 }

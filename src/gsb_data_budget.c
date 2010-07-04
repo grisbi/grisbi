@@ -1,8 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          2009-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -32,13 +33,14 @@
 #include "gsb_data_budget.h"
 #include "meta_budgetary.h"
 #include "imputation_budgetaire.h"
+#include "gsb_data_form.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_form_widget.h"
 #include "gsb_real.h"
 #include "utils_str.h"
 #include "include.h"
 #include "structures.h"
-#include "gsb_real.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -86,18 +88,18 @@ typedef struct
 static void _gsb_data_budget_free ( struct_budget* budget );
 static void _gsb_data_sub_budget_free ( struct_sub_budget* sub_budget );
 static GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
-						    GSList *sub_budget_list );
+                        GSList *sub_budget_list );
 static gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
-						      const gchar *name );
+                        const gchar *name );
 static gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub_budget,
-							  const gchar *name );
+                        const gchar *name );
 static gpointer gsb_data_budget_get_structure_in_list ( gint no_budget,
-						 GSList *list );
+                        GSList *list );
 static gint gsb_data_budget_max_number ( void );
 static gint gsb_data_budget_max_sub_budget_number ( gint budget_number );
 static gint gsb_data_budget_new ( const gchar *name );
 static gint gsb_data_budget_new_sub_budget ( gint budget_number,
-				      const gchar *name );
+                        const gchar *name );
 static void gsb_data_budget_reset_counters ( void );
 static gint gsb_data_sub_budget_compare ( struct_sub_budget * a, struct_sub_budget * b );
 /*END_STATIC*/
@@ -244,7 +246,7 @@ gpointer gsb_data_budget_get_empty_budget ( void )
  * \return the adr of the struct of the budget (NULL if doesn't exit)
  * */
 gpointer gsb_data_budget_get_structure_in_list ( gint no_budget,
-						 GSList *list )
+                        GSList *list )
 {
     GSList *tmp;
 
@@ -280,7 +282,7 @@ gpointer gsb_data_budget_get_structure_in_list ( gint no_budget,
  * \return the adr of the struct of the sub-budget (NULL if doesn't exit)
  * */
 gpointer gsb_data_budget_get_sub_budget_structure ( gint no_budget,
-						    gint no_sub_budget )
+                        gint no_sub_budget )
 {
     GSList *tmp;
     struct_budget *budget;
@@ -551,7 +553,7 @@ gboolean gsb_data_budget_remove ( gint no_budget )
  * \return TRUE ok
  * */
 gboolean gsb_data_budget_sub_budget_remove ( gint no_budget,
-					     gint no_sub_budget )
+                        gint no_sub_budget )
 {
     struct_budget *budget;
     struct_sub_budget *sub_budget;
@@ -584,7 +586,7 @@ gboolean gsb_data_budget_sub_budget_remove ( gint no_budget,
  * \return the number of the new sub-budget or 0 if problem
  * */
 gint gsb_data_budget_new_sub_budget ( gint budget_number,
-				      const gchar *name )
+                        const gchar *name )
 {
     gint sub_budget_number;
 
@@ -612,7 +614,7 @@ gint gsb_data_budget_new_sub_budget ( gint budget_number,
  * \return the number of the new sub-budget or 0 if problem
  * */
 gint gsb_data_budget_new_sub_budget_with_number ( gint number,
-						  gint budget_number)
+                        gint budget_number)
 {
     struct_budget *budget;
     struct_sub_budget *sub_budget;
@@ -647,8 +649,8 @@ gint gsb_data_budget_new_sub_budget_with_number ( gint number,
  * \return the number of the budget or FALSE if problem
  * */
 gint gsb_data_budget_get_number_by_name ( const gchar *name,
-					  gboolean create,
-					  gint budget_type )
+                        gboolean create,
+                        gint budget_type )
 {
     GSList *list_tmp;
     gint budget_number = 0;
@@ -675,9 +677,8 @@ gint gsb_data_budget_get_number_by_name ( const gchar *name,
 	if (create)
 	{
 	    budget_number = gsb_data_budget_new (name);
-	    gsb_data_budget_set_type ( budget_number,
-				       budget_type );
-	    gsb_budget_update_combofix ();
+	    gsb_data_budget_set_type ( budget_number, budget_type );
+	    gsb_budget_update_combofix ( FALSE );
 	}
     }
     return budget_number;
@@ -696,8 +697,8 @@ gint gsb_data_budget_get_number_by_name ( const gchar *name,
  * \return the number of the sub-budget or FALSE if problem
  * */
 gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
-						     const gchar *name,
-						     gboolean create )
+                        const gchar *name,
+                        gboolean create )
 {
     GSList *list_tmp;
     struct_budget *budget;
@@ -744,7 +745,7 @@ gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
  * \return 0 if it's the same name
  * */
 gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
-						      const gchar *name )
+                        const gchar *name )
 {
     return ( my_strcasecmp ( budget -> budget_name, name ) );
 }
@@ -760,7 +761,7 @@ gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
  * \return 0 if it's the same name
  * */
 gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub_budget,
-							  const gchar *name )
+                        const gchar *name )
 {
     return ( my_strcasecmp ( sub_budget -> sub_budget_name, name ));
 }
@@ -778,8 +779,8 @@ gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub
  * 	the returned value need to be freed
  * */
 gchar *gsb_data_budget_get_name ( gint no_budget,
-				  gint no_sub_budget,
-				  const gchar *return_value_error )
+                    gint no_sub_budget,
+                    const gchar *return_value_error )
 {
     struct_budget *budget;
     gchar *return_value;
@@ -820,27 +821,32 @@ gchar *gsb_data_budget_get_name ( gint no_budget,
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_budget_set_name ( gint no_budget,
-				    const gchar *name )
+                    const gchar *name )
 {
     struct_budget *budget;
 
     budget = gsb_data_budget_get_structure ( no_budget );
 
     if (!budget)
-	return FALSE;
+        return FALSE;
 
     /* we free the last name */
 
     if ( budget -> budget_name )
-	g_free (budget -> budget_name);
+        g_free (budget -> budget_name);
 
     /* and copy the new one */
     if ( name )
-	budget -> budget_name = my_strdup (name);
-    else
-	budget -> budget_name = NULL;
+    {
+        GtkWidget *combofix;
 
-    gsb_budget_update_combofix ();
+        budget -> budget_name = my_strdup (name);
+        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+        if ( combofix )
+            gsb_budget_update_combofix ( TRUE );
+    }
+    else
+        budget -> budget_name = NULL;
 
     return TRUE;
 }
@@ -856,8 +862,8 @@ gboolean gsb_data_budget_set_name ( gint no_budget,
  * 		or return_value_error to be freed too
  * */
 gchar *gsb_data_budget_get_sub_budget_name ( gint no_budget,
-					     gint no_sub_budget,
-					     const gchar *return_value_error )
+                        gint no_sub_budget,
+                        const gchar *return_value_error )
 {
     struct_sub_budget *sub_budget;
 
@@ -882,8 +888,8 @@ gchar *gsb_data_budget_get_sub_budget_name ( gint no_budget,
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_budget_set_sub_budget_name ( gint no_budget,
-					       gint no_sub_budget,
-					       const gchar *name )
+                        gint no_sub_budget,
+                        const gchar *name )
 {
     struct_sub_budget *sub_budget;
 
@@ -916,7 +922,7 @@ gboolean gsb_data_budget_set_sub_budget_name ( gint no_budget,
  * \return a g_slist of g_slist of gchar *
  * */
 GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
-					gboolean set_credit )
+                        gboolean set_credit )
 {
     GSList *return_list;
     GSList *tmp_list;
@@ -981,7 +987,7 @@ GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
  * \return the new budget_list (normally shouldn't changed
  * */
 GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
-						    GSList *sub_budget_list )
+                        GSList *sub_budget_list )
 {
     GSList *tmp_list;
 
@@ -1040,7 +1046,7 @@ gint gsb_data_budget_get_type ( gint no_budget )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_budget_set_type ( gint no_budget,
-				    gint budget_type )
+                        gint budget_type )
 {
     struct_budget *budget;
 
@@ -1084,7 +1090,7 @@ gint gsb_data_budget_get_nb_transactions ( gint no_budget )
  * \return nb_transactions of the sub-budget or 0 if problem
  * */
 gint gsb_data_budget_get_sub_budget_nb_transactions ( gint no_budget,
-						      gint no_sub_budget )
+                        gint no_sub_budget )
 {
     struct_sub_budget *sub_budget;
 
@@ -1150,7 +1156,7 @@ gsb_real gsb_data_budget_get_balance ( gint no_budget )
  * \return balance of the sub-budget or 0 if problem
  * */
 gsb_real gsb_data_budget_get_sub_budget_balance ( gint no_budget,
-						  gint no_sub_budget )
+                        gint no_sub_budget )
 {
     struct_sub_budget *sub_budget;
 
@@ -1271,8 +1277,8 @@ void gsb_data_budget_update_counters ( void )
  * \param sub_budget_id		Sub-budget to add transaction into total.
  */
 void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
-						 gint budget_id,
-						 gint sub_budget_id )
+                        gint budget_id,
+                        gint sub_budget_id )
 {
     struct_budget *budget;
     struct_sub_budget *sub_budget;
@@ -1509,8 +1515,8 @@ gboolean gsb_debug_duplicate_budget_fix ()
  * \return
  * */
 void gsb_data_budget_set_budget_from_string ( gint transaction_number,
-					      const gchar *string,
-					      gboolean is_transaction )
+                        const gchar *string,
+                        gboolean is_transaction )
 {
     gchar **tab_char;
     gint budget_number;

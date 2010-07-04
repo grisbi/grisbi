@@ -342,11 +342,12 @@ gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, GtkTree
  *
  * \return FALSE
  * */
-gboolean gsb_budget_update_combofix ( void )
+gboolean gsb_budget_update_combofix ( gboolean force )
 {
-    if ( gsb_data_form_check_for_value (TRANSACTION_FORM_BUDGET))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (TRANSACTION_FORM_BUDGET)),
-				gsb_data_budget_get_name_list (TRUE, TRUE));
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_BUDGET ) || force )
+        gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (
+                        TRANSACTION_FORM_BUDGET ) ),
+                        gsb_data_budget_get_name_list ( TRUE, TRUE ) );
 
     return FALSE;
 }
