@@ -245,13 +245,21 @@ gint gsb_data_payee_new ( const gchar *name )
 {
     struct_payee *payee;
 
-    payee = g_malloc0 ( sizeof ( struct_payee ));
+    payee = g_malloc0 ( sizeof ( struct_payee ) );
     payee -> payee_number = gsb_data_payee_max_number () + 1;
 
-    if (name)
-	payee -> payee_name = my_strdup (name);
+    if ( name )
+    {
+        GtkWidget *combofix;
+
+        payee -> payee_name = my_strdup ( name );
+        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+    
+        if ( combofix && name )
+            gtk_combofix_append_text ( GTK_COMBOFIX ( combofix ), name );
+    }
     else 
-	payee -> payee_name = NULL;
+        payee -> payee_name = NULL;
 
     payee_list = g_slist_append ( payee_list, payee );
 
@@ -289,12 +297,17 @@ static void _gsb_data_payee_free ( struct_payee* payee)
 gboolean gsb_data_payee_remove ( gint no_payee )
 {
     struct_payee *payee;
+    GtkWidget *combofix;
 
     payee = gsb_data_payee_get_structure ( no_payee );
 
     if (!payee)
-	return FALSE;
-    
+        return FALSE;
+
+    combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+    if ( combofix )
+        gtk_combofix_remove_text ( GTK_COMBOFIX ( combofix ), payee -> payee_name );
+
     payee_list = g_slist_remove ( payee_list,
 				  payee );
     _gsb_data_payee_free (payee);
@@ -360,7 +373,7 @@ gint gsb_data_payee_get_number_by_name ( const gchar *name,
 	{
 	    payee_number = gsb_data_payee_new (name);
 	    gtk_combofix_append_text ( GTK_COMBOFIX (
-                        gsb_form_widget_get_widget ( TRANSACTION_FORM_BUDGET ) ), name );
+                        gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY ) ), name );
 ;
 	}
     }
@@ -428,9 +441,9 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
     payee = gsb_data_payee_get_structure ( no_payee );
 
     if (!payee)
-	return FALSE;
+        return FALSE;
 
-    combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_BUDGET );
+    combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
 
     /* we free the last name */
     if ( payee -> payee_name )

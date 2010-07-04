@@ -1445,7 +1445,6 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
                 gtk_editable_select_region ( GTK_EDITABLE (combofix -> entry), 0, 0 );
             }
         }
-        gtk_combofix_append_text ( combofix, gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) ) );
         /* le traitement de ENTER est fait dans le formulaire */
         return FALSE;
         break;
