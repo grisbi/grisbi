@@ -86,12 +86,12 @@ static gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTree
                         gchar ** text, gint * no_div, gint * no_sub_div, 
                         gint * no_transaction, gint * data );
 static enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model, 
-						GtkTreePath * path );
+                        GtkTreePath * path );
 static gboolean metatree_model_is_displayed ( GtkTreeModel * model );
 static void metatree_new_sub_division ( GtkTreeModel * model, gint div_id );
 static void metatree_remove_iter_and_select_next ( GtkTreeView * tree_view, 
                         GtkTreeModel * model,
-					    GtkTreeIter * iter );
+                        GtkTreeIter * iter );
 static void move_all_sub_divisions_to_division ( GtkTreeModel *model,
                         gint orig_division,
                         gint dest_division );
@@ -210,7 +210,7 @@ gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * 
  * \return		Type of entry.
  */
 enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model, 
-						GtkTreePath * path )
+                        GtkTreePath * path )
 {
     gint no_div, no_sub_div, no_transaction;
   
@@ -2124,12 +2124,17 @@ void update_transaction_in_tree ( MetatreeInterface * iface,
                         GtkTreeModel * model, 
                         gint transaction_number )
 {
-    GtkTreeIter * transaction_iter, * sub_div_iter = NULL, * div_iter;
-    GtkTreePath * div_path, * sub_div_path, * transaction_path;
-    gint div_id, sub_div_id;
-    
-    if ( !transaction_number || ! metatree_model_is_displayed ( model ) )
-	return;
+    GtkTreeIter *transaction_iter;
+    GtkTreeIter *div_iter;
+    GtkTreeIter *sub_div_iter = NULL;
+    GtkTreePath *transaction_path;
+    GtkTreePath *div_path;
+    GtkTreePath *sub_div_path = NULL;
+    gint div_id;
+    gint sub_div_id;
+
+    if ( !transaction_number || !metatree_model_is_displayed ( model ) )
+        return;
 
     div_id = iface -> transaction_div_id (transaction_number);
     sub_div_id = iface -> transaction_sub_div_id (transaction_number);
@@ -2138,27 +2143,27 @@ void update_transaction_in_tree ( MetatreeInterface * iface,
     div_iter = get_iter_from_div ( model, div_id, 0 );
     if ( div_iter )
     {
-	fill_division_row ( model, iface, div_iter, div_id );
+        fill_division_row ( model, iface, div_iter, div_id );
     }
     else
     {
-	metatree_fill_new_division ( iface, model, div_id );
-	div_iter = get_iter_from_div ( model, div_id, 0 );
+        metatree_fill_new_division ( iface, model, div_id );
+        div_iter = get_iter_from_div ( model, div_id, 0 );
     }
 
     /* Fill in sub-division if existing. */
     if ( iface -> depth != 1 )
     {
-	sub_div_iter = get_iter_from_div ( model, div_id, sub_div_id );
-	if ( sub_div_iter )
-	{
-	    fill_sub_division_row ( model, iface, sub_div_iter, div_id, sub_div_id );
-	}
-	else
-	{
-	    metatree_fill_new_sub_division ( iface, model, div_id, sub_div_id );
-	    sub_div_iter = get_iter_from_div ( model, div_id, sub_div_id );
-	}
+        sub_div_iter = get_iter_from_div ( model, div_id, sub_div_id );
+        if ( sub_div_iter )
+        {
+            fill_sub_division_row ( model, iface, sub_div_iter, div_id, sub_div_id );
+        }
+        else
+        {
+            metatree_fill_new_sub_division ( iface, model, div_id, sub_div_id );
+            sub_div_iter = get_iter_from_div ( model, div_id, sub_div_id );
+        }
     }
 
     /* Fill in transaction if existing. */
@@ -2166,16 +2171,17 @@ void update_transaction_in_tree ( MetatreeInterface * iface,
 
     if ( transaction_iter )
     {
-	div_path = gtk_tree_model_get_path ( model, div_iter );
-	sub_div_path = gtk_tree_model_get_path ( model, sub_div_iter );
-	transaction_path = gtk_tree_model_get_path ( model, transaction_iter );
-	if ( ( iface -> depth != 1 &&
-	       ! gtk_tree_path_is_ancestor ( sub_div_path, transaction_path ) ) ||
-	     ! gtk_tree_path_is_ancestor ( div_path, transaction_path ) )
-	{
-	    gtk_tree_store_remove ( GTK_TREE_STORE(model), transaction_iter );
-	    transaction_iter = NULL;
-	}
+        div_path = gtk_tree_model_get_path ( model, div_iter );
+        if ( sub_div_iter )
+            sub_div_path = gtk_tree_model_get_path ( model, sub_div_iter );
+        transaction_path = gtk_tree_model_get_path ( model, transaction_iter );
+        if ( ( iface -> depth != 1 &&
+               ! gtk_tree_path_is_ancestor ( sub_div_path, transaction_path ) ) ||
+             ! gtk_tree_path_is_ancestor ( div_path, transaction_path ) )
+        {
+            gtk_tree_store_remove ( GTK_TREE_STORE(model), transaction_iter );
+            transaction_iter = NULL;
+        }
     }
 
     /* If no transaction iter is found, this either means transactions
@@ -2188,7 +2194,7 @@ void update_transaction_in_tree ( MetatreeInterface * iface,
 	gchar *text;
 
 	if ( ! gtk_tree_model_iter_children ( model, &child_iter, 
-					      ( iface -> depth == 1 ? div_iter : sub_div_iter ) ) )
+                        ( iface -> depth == 1 ? div_iter : sub_div_iter ) ) )
 	    /* Panic, something went wrong. */
 	    return;
 	
@@ -2200,16 +2206,13 @@ void update_transaction_in_tree ( MetatreeInterface * iface,
 	if ( text )
 	{
 	    gtk_tree_store_append ( GTK_TREE_STORE(model), &child_iter,
-				    ( iface -> depth == 1 ? div_iter : sub_div_iter ) );
+                        ( iface -> depth == 1 ? div_iter : sub_div_iter ) );
 	    transaction_iter = &child_iter;
 	}
     }
 
     if ( transaction_iter )
-    {
-
-	fill_transaction_row ( model, transaction_iter, transaction_number );
-    }
+        fill_transaction_row ( model, transaction_iter, transaction_number );
 }
 
 
@@ -2223,7 +2226,7 @@ void update_transaction_in_tree ( MetatreeInterface * iface,
  */
 void metatree_remove_iter_and_select_next ( GtkTreeView * tree_view, 
                         GtkTreeModel * model,
-					    GtkTreeIter * iter )
+                        GtkTreeIter * iter )
 {
     GtkTreeSelection * selection;
 
