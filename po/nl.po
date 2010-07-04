@@ -7543,15 +7543,13 @@ msgstr ""
 
 # als er een overschrijfing is naar een rekening die nu verwijderd is komt er dit te staan
 #: ../src/gsb_form.c:741
-#, fuzzy
 msgid "Transfer : Deleted account"
-msgstr "Overschrijving: verwijderde rekening"
+msgstr "Overschrijving : verwijderde rekening"
 
 #: ../src/gsb_form.c:760 ../src/gsb_form.c:1844 ../src/gsb_form.c:1845
 #: ../src/gsb_form_widget.c:1023
-#, fuzzy
 msgid "Transfer : "
-msgstr "Overschrijving"
+msgstr "Overschrijving : "
 
 #: ../src/gsb_form.c:909
 msgid "Auto"
