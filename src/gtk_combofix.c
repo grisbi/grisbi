@@ -88,6 +88,9 @@ static gboolean gtk_combofix_button_release_event ( GtkWidget *popup,
 static gboolean gtk_combofix_button_press ( GtkWidget *popup,
                         GdkEventButton *ev,
                         GtkComboFix *combofix );
+static gboolean gtk_combofix_focus_in ( GtkWidget *entry,
+                        GdkEvent *ev,
+                        GtkComboFix *combofix );
 static gboolean  gtk_combofix_focus_out ( GtkWidget *entry,
                         GdkEvent *ev,
                         GtkComboFix *combofix );
@@ -641,6 +644,11 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
                             "expose-event",
                             G_CALLBACK ( gtk_combofix_expose_entry ),
                             combofix );
+    g_signal_connect_after ( G_OBJECT ( combofix -> entry ),
+                        "focus-in-event",
+                        G_CALLBACK ( gtk_combofix_focus_in ),
+                        combofix );
+
     g_signal_connect_after ( G_OBJECT ( combofix -> entry ),
                             "focus-out-event",
                             G_CALLBACK ( gtk_combofix_focus_out ),
@@ -1386,6 +1394,36 @@ static gboolean gtk_combofix_focus_out ( GtkWidget *entry,
 }
 
 
+/**
+ * called when the entry receive a focus in event
+ * 
+ *
+ * \param entry
+ * \param ev
+ * \param combofix
+ *
+ * \return FALSE
+ * */
+static gboolean gtk_combofix_focus_in ( GtkWidget *entry,
+                        GdkEvent *ev,
+                        GtkComboFix *combofix )
+{
+    const gchar *text;
+    GtkComboFixPrivate *priv = GTK_COMBOFIX_GET_PRIVATE ( combofix );
+
+    text = gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) );
+
+    if ( priv -> old_entry && strlen ( priv -> old_entry ) )
+        g_free ( priv -> old_entry );
+
+    if ( text && strlen ( text ) )
+        priv -> old_entry = g_strdup ( text );
+    else
+        priv -> old_entry = NULL;
+
+    return ( FALSE );
+}
+
 
 /**
  * the popup need to be modal to work fine, but the entry won't receive
@@ -1453,6 +1491,7 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
         if ( GTK_WIDGET_VISIBLE ( priv -> popup ))
         {
             gtk_combofix_hide_popup ( combofix );
+            gtk_combofix_set_text ( combofix, priv -> old_entry );
             gtk_editable_select_region ( GTK_EDITABLE ( combofix -> entry ), 0, 0 );
             return TRUE;
         }
