@@ -7295,13 +7295,11 @@ msgid "Recover the children"
 msgstr ""
 
 #: ../src/gsb_form.c:741
-#, fuzzy
 msgid "Transfer : Deleted account"
 msgstr "Slet konto"
 
 #: ../src/gsb_form.c:760 ../src/gsb_form.c:1844 ../src/gsb_form.c:1845
 #: ../src/gsb_form_widget.c:1023
-#, fuzzy
 msgid "Transfer : "
 msgstr "Overførsel"
 
