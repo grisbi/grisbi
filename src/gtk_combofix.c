@@ -627,32 +627,32 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     /* set the entry */
     combofix -> entry = gtk_entry_new ( );
     g_signal_connect ( G_OBJECT ( combofix -> entry ),
-                            "key-press-event",
-                            G_CALLBACK ( gtk_combofix_key_press_event ),
-                            combofix );
+                        "key-press-event",
+                        G_CALLBACK ( gtk_combofix_key_press_event ),
+                        combofix );
     g_signal_connect_object ( G_OBJECT ( combofix -> entry ),
-                            "insert-text",
-                            G_CALLBACK ( gtk_combofix_entry_insert ),
-                            combofix,
-                            G_CONNECT_AFTER | G_CONNECT_SWAPPED );
+                        "insert-text",
+                        G_CALLBACK ( gtk_combofix_entry_insert ),
+                        combofix,
+                        G_CONNECT_AFTER | G_CONNECT_SWAPPED );
     g_signal_connect_object ( G_OBJECT ( combofix -> entry ),
-                            "delete-text",
-                            G_CALLBACK ( gtk_combofix_entry_delete ),
-                            combofix,
-                            G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+                        "delete-text",
+                        G_CALLBACK ( gtk_combofix_entry_delete ),
+                        combofix,
+                        G_CONNECT_AFTER | G_CONNECT_SWAPPED);
     g_signal_connect_swapped ( G_OBJECT ( combofix -> entry ),
-                            "expose-event",
-                            G_CALLBACK ( gtk_combofix_expose_entry ),
-                            combofix );
+                        "expose-event",
+                        G_CALLBACK ( gtk_combofix_expose_entry ),
+                        combofix );
     g_signal_connect_after ( G_OBJECT ( combofix -> entry ),
                         "focus-in-event",
                         G_CALLBACK ( gtk_combofix_focus_in ),
                         combofix );
 
     g_signal_connect_after ( G_OBJECT ( combofix -> entry ),
-                            "focus-out-event",
-                            G_CALLBACK ( gtk_combofix_focus_out ),
-                            combofix );
+                        "focus-out-event",
+                        G_CALLBACK ( gtk_combofix_focus_out ),
+                        combofix );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combofix -> entry, TRUE, TRUE, 0 );
     gtk_widget_show ( combofix -> entry );
 
@@ -660,30 +660,30 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     priv -> button = gtk_button_new ( );
     gtk_button_set_relief ( GTK_BUTTON ( priv -> button ), GTK_RELIEF_NONE );
     gtk_container_add ( GTK_CONTAINER ( priv -> button ),
-                            gtk_arrow_new ( GTK_ARROW_DOWN, GTK_SHADOW_NONE) );
+                        gtk_arrow_new ( GTK_ARROW_DOWN, GTK_SHADOW_NONE) );
     g_signal_connect_swapped ( G_OBJECT ( priv -> button ),
-                            "clicked",
-                            G_CALLBACK ( gtk_combofix_show_popup ),
-                            combofix );
+                        "clicked",
+                        G_CALLBACK ( gtk_combofix_show_popup ),
+                        combofix );
     gtk_box_pack_start ( GTK_BOX ( hbox ), priv -> button, FALSE, FALSE, 0 );
     gtk_widget_show_all ( priv -> button );
 
     /* set the popup but don't show it */
     priv -> popup = gtk_window_new ( GTK_WINDOW_POPUP );
     g_signal_connect ( G_OBJECT ( priv -> popup ),
-                            "key-press-event",
-                            G_CALLBACK (gtk_combofix_popup_key_press_event),
-                            combofix );
+                        "key-press-event",
+                        G_CALLBACK (gtk_combofix_popup_key_press_event),
+                        combofix );
     gtk_window_set_resizable ( GTK_WINDOW ( priv -> popup ), FALSE );
 
     g_signal_connect ( G_OBJECT ( priv -> popup ),
-                            "button-press-event",
-                            G_CALLBACK ( gtk_combofix_button_press ),
-                            combofix );
+                        "button-press-event",
+                        G_CALLBACK ( gtk_combofix_button_press ),
+                        combofix );
     g_signal_connect ( G_OBJECT ( priv -> popup ),
-                            "button-release-event",
-                            G_CALLBACK ( gtk_combofix_button_release_event ),
-                            combofix );
+                        "button-release-event",
+                        G_CALLBACK ( gtk_combofix_button_release_event ),
+                        combofix );
 
     frame = gtk_frame_new ( NULL );
     gtk_container_add ( GTK_CONTAINER ( priv -> popup ), frame );
@@ -691,8 +691,8 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
 
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW(scrolled_window),
-                            GTK_POLICY_AUTOMATIC,
-                            GTK_POLICY_AUTOMATIC );
+                        GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_AUTOMATIC );
     gtk_container_add ( GTK_CONTAINER (frame), scrolled_window );
     gtk_widget_show (scrolled_window);
 
@@ -705,10 +705,9 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
                         G_TYPE_BOOLEAN );
 
     /* we set the store in a filter to show only what is selected */
-    priv -> model_filter = gtk_tree_model_filter_new ( GTK_TREE_MODEL ( priv -> store),
-                                   NULL );
+    priv -> model_filter = gtk_tree_model_filter_new ( GTK_TREE_MODEL ( priv -> store), NULL );
     gtk_tree_model_filter_set_visible_column ( GTK_TREE_MODEL_FILTER ( priv -> model_filter ),
-                           COMBOFIX_COL_VISIBLE );
+                        COMBOFIX_COL_VISIBLE );
 
     /* we set the filter in a sorting model */
     priv -> model_sort = gtk_tree_model_sort_new_with_model ( GTK_TREE_MODEL (
@@ -724,35 +723,31 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     /* make the column */
     cell_renderer = gtk_cell_renderer_text_new ();
     tree_view_column = gtk_tree_view_column_new_with_attributes ( "",
-                                      cell_renderer,
-                                      "text", COMBOFIX_COL_VISIBLE_STRING,
-                                      NULL );
+                                    cell_renderer,
+                                    "text", COMBOFIX_COL_VISIBLE_STRING,
+                                    NULL );
     gtk_tree_view_column_set_sizing ( tree_view_column,
-                      GTK_TREE_VIEW_COLUMN_FIXED );
+                        GTK_TREE_VIEW_COLUMN_FIXED );
 
     /* set the sorting model in the tree view */
     priv -> tree_view = gtk_tree_view_new_with_model (
-                            GTK_TREE_MODEL ( priv -> model_sort ) );
+                                    GTK_TREE_MODEL ( priv -> model_sort ) );
 
     priv -> selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( priv -> tree_view ) );
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( priv -> selection ),
-                            GTK_SELECTION_SINGLE );
-    gtk_tree_view_set_hover_selection ( GTK_TREE_VIEW ( priv -> tree_view ),
-                            TRUE );
-    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( priv -> tree_view ),
-                            FALSE );
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( priv -> tree_view ),
-                            tree_view_column );
-    gtk_tree_view_set_fixed_height_mode ( GTK_TREE_VIEW ( priv -> tree_view ),
-                            TRUE );
+                        GTK_SELECTION_SINGLE );
+    gtk_tree_view_set_hover_selection ( GTK_TREE_VIEW ( priv -> tree_view ), TRUE );
+    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( priv -> tree_view ), FALSE );
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( priv -> tree_view ), tree_view_column );
+    gtk_tree_view_set_fixed_height_mode ( GTK_TREE_VIEW ( priv -> tree_view ), TRUE );
     gtk_tree_view_set_row_separator_func ( GTK_TREE_VIEW ( priv -> tree_view ),
-                           (GtkTreeViewRowSeparatorFunc) gtk_combofix_separator_func,
-                           combofix, NULL );
+                        (GtkTreeViewRowSeparatorFunc) gtk_combofix_separator_func,
+                        combofix, NULL );
 
     g_signal_connect ( G_OBJECT ( priv -> tree_view ),
-                            "button-press-event",
-                            G_CALLBACK ( gtk_combofix_button_press_event ),
-                            combofix );
+                        "button-press-event",
+                        G_CALLBACK ( gtk_combofix_button_press_event ),
+                        combofix );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), priv -> tree_view );
 
     gtk_widget_show ( priv -> tree_view );
