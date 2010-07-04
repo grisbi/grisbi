@@ -116,7 +116,7 @@ gboolean gsb_account_new ( kind_account account_type,
     gsb_data_account_set_name (account_number, name);
 
     /* update the combofix for categ */ 
-    gsb_category_update_combofix ();
+    gsb_category_update_combofix ( FALSE );
 
     /* update the name of accounts in form */
     gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),

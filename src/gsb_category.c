@@ -276,14 +276,15 @@ gboolean gsb_category_assistant_create_categories ( GtkWidget *assistant )
  *
  * \return FALSE
  * */
-gboolean gsb_category_update_combofix ( void )
+gboolean gsb_category_update_combofix ( gboolean force )
 {
-    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY ))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY)),
-				gsb_data_category_get_name_list ( TRUE,
-								  TRUE,
-								  TRUE,
-								  TRUE ));
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY ) || force )
+    {
+        gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (
+                        TRANSACTION_FORM_CATEGORY ) ),
+                        gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, TRUE ) );
+    }
+ 
     return FALSE;
 }
 

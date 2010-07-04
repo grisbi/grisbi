@@ -1,6 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2009-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -32,14 +33,15 @@
 #include "meta_categories.h"
 #include "gsb_category.h"
 #include "gsb_data_account.h"
+#include "gsb_data_form.h"
 #include "gsb_data_mix.h"
 #include "gsb_data_transaction.h"
+#include "gsb_form_widget.h"
 #include "gsb_real.h"
 #include "utils_str.h"
 #include "include.h"
 #include "erreur.h"
 #include "structures.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /**
@@ -725,9 +727,8 @@ gint gsb_data_category_get_number_by_name ( const gchar *name,
 	if (create)
 	{
 	    category_number = gsb_data_category_new (name);
-	    gsb_data_category_set_type ( category_number,
-					 category_type );
-	    gsb_category_update_combofix ();
+	    gsb_data_category_set_type ( category_number, category_type );
+	    gsb_category_update_combofix ( FALSE );
 	}
     }
     return category_number;
@@ -775,7 +776,7 @@ gint gsb_data_category_get_sub_category_number_by_name ( gint category_number,
 	{
 	    sub_category_number = gsb_data_category_new_sub_category ( category_number,
 								       name);
-	    gsb_category_update_combofix ();
+	    gsb_category_update_combofix ( FALSE );
 	}
     }
     return sub_category_number;
@@ -879,27 +880,32 @@ gchar *gsb_data_category_get_name ( gint no_category,
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_category_set_name ( gint no_category,
-				      const gchar *name )
+                        const gchar *name )
 {
     struct_category *category;
-
+    
     category = gsb_data_category_get_structure ( no_category );
 
-    if (!category)
-	return FALSE;
+    if ( !category )
+        return FALSE;
+
 
     /* we free the last name */
-
     if ( category -> category_name )
-	g_free (category -> category_name);
+        g_free ( category -> category_name );
 
     /* and copy the new one */
     if ( name )
-	category -> category_name = my_strdup (name);
-    else
-	category -> category_name = NULL;
+    {
+        GtkWidget *combofix;
 
-    gsb_category_update_combofix ();
+        category -> category_name = my_strdup ( name );
+        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+        if ( combofix )
+            gsb_category_update_combofix ( TRUE );
+    }
+    else
+        category -> category_name = NULL;
 
     return TRUE;
 }
@@ -949,8 +955,8 @@ gboolean gsb_data_category_set_sub_category_name ( gint no_category,
     sub_category = gsb_data_category_get_sub_category_structure ( no_category,
 								  no_sub_category );
 
-    if (!sub_category)
-	return FALSE;
+    if ( !sub_category )
+        return FALSE;
 
     /* we free the last name */
 
@@ -959,11 +965,16 @@ gboolean gsb_data_category_set_sub_category_name ( gint no_category,
 
     /* and copy the new one */
     if ( name )
-	sub_category -> sub_category_name = my_strdup (name);
+    {
+        GtkWidget *combofix;
+        
+        sub_category -> sub_category_name = my_strdup ( name );
+        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+        if ( combofix )
+            gsb_category_update_combofix ( TRUE );
+    }
     else
-	sub_category -> sub_category_name = NULL;
-
-    gsb_category_update_combofix ();
+        sub_category -> sub_category_name = NULL;
 
     return TRUE;
 }
@@ -1647,7 +1658,7 @@ gint gsb_data_category_test_create_category ( gint no_category,
         {
             category_number = gsb_data_category_new (name);
             gsb_data_category_set_type ( category_number, category_type );
-            gsb_category_update_combofix ();
+            gsb_category_update_combofix ( FALSE );
         }
         return category_number;
     }
@@ -1683,7 +1694,7 @@ gboolean gsb_data_category_test_create_sub_category ( gint no_category,
         else
         {
             sub_category_number = gsb_data_category_new_sub_category ( no_category, name );
-            gsb_category_update_combofix ();
+            gsb_category_update_combofix ( FALSE );
         }
         return TRUE;
     }

@@ -9,7 +9,7 @@
 /* START_DECLARATION */
 gboolean gsb_category_assistant_create_categories ( GtkWidget *assistant );
 GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant );
-gboolean gsb_category_update_combofix ( void );
+gboolean gsb_category_update_combofix ( gboolean force );
 /* END_DECLARATION */
 
 
