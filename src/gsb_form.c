@@ -2608,9 +2608,9 @@ gboolean gsb_form_finish_edition ( void )
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
-    /* Si l'origine de l'opération est un modèle alors on sélectionne une ligne vide */
+    /* If the origin of the operation is a model, so we select the new transaction */
     if ( GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( transaction_form ),
-							      "transaction_selected_in_form" ) ) == -1 )
+     "transaction_selected_in_form" ) ) == -1 )
     {
         transaction_list_select ( transaction_number );
         return FALSE;
