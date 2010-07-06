@@ -4361,10 +4361,8 @@ gboolean gsb_import_by_rule ( gint rule )
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_accueil (FALSE);
 
-#ifdef ENABLE_BALANCE_ESTIMATE
     /* force the update module budget */
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
-#endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );

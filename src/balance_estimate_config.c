@@ -26,8 +26,6 @@
 #include "include.h"
 #include <config.h>
 
-#ifdef ENABLE_BALANCE_ESTIMATE
-
 /*START_INCLUDE*/
 #include "balance_estimate_config.h"
 #include "balance_estimate_data.h"
@@ -1106,4 +1104,3 @@ void bet_config_use_budget_toggle ( GtkToggleButton *button, GtkWidget *combo )
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
-#endif /* ENABLE_BALANCE_ESTIMATE */

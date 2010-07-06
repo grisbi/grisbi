@@ -632,7 +632,6 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     return;
     }
 
-#ifdef ENABLE_BALANCE_ESTIMATE
     if ( !strcmp ( element_name, "Bet" ) )
     {
         gsb_file_load_bet_part ( attribute_names, attribute_values );
@@ -656,8 +655,6 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
         gsb_file_load_bet_transfert_part ( attribute_names, attribute_values );
         return;
     }
-
-#endif /* ENABLE_BALANCE_ESTIMATE */
 
     if ( !strcmp ( element_name,
                         "Report" ))

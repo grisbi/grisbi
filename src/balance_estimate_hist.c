@@ -26,8 +26,6 @@
 #include "include.h"
 #include <config.h>
 
-#ifdef ENABLE_BALANCE_ESTIMATE
-
 /*START_INCLUDE*/
 #include "balance_estimate_hist.h"
 #include "balance_estimate_tab.h"
@@ -1672,4 +1670,3 @@ void bet_historical_set_page_title ( gint account_number )
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
-#endif /* ENABLE_BALANCE_ESTIMATE */

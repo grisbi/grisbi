@@ -26,8 +26,6 @@
 #include "include.h"
 #include <config.h>
 
-#ifdef ENABLE_BALANCE_ESTIMATE
-
 /*START_INCLUDE*/
 #include "balance_estimate_data.h"
 #include "balance_estimate_hist.h"
@@ -1809,4 +1807,3 @@ gboolean bet_data_remove_all_bet_data ( gint account_number )
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
-#endif /* ENABLE_BALANCE_ESTIMATE */

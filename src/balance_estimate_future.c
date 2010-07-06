@@ -26,8 +26,6 @@
 #include "include.h"
 #include <config.h>
 
-#ifdef ENABLE_BALANCE_ESTIMATE
-
 /*START_INCLUDE*/
 #include "balance_estimate_future.h"
 #include "balance_estimate_data.h"
@@ -2577,4 +2575,3 @@ void bet_transfert_replace_data_toggle ( GtkToggleButton *button, GtkWidget *dia
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
-#endif /* ENABLE_BALANCE_ESTIMATE */

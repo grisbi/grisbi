@@ -36,8 +36,6 @@
 #include "include.h"
 #include <config.h>
 
-#ifdef ENABLE_BALANCE_ESTIMATE
-
 /*START_INCLUDE*/
 #include "balance_estimate_tab.h"
 #include "balance_estimate_config.h"
@@ -2646,4 +2644,3 @@ gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_mo
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
-#endif /* ENABLE_BALANCE_ESTIMATE */

@@ -530,7 +530,6 @@ gboolean preferences ( gint page )
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(fenetre_preferences) -> vbox ),
                         hpaned, TRUE, TRUE, 0);
 
-#ifdef ENABLE_BALANCE_ESTIMATE 
     /* balance estimate subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -557,8 +556,6 @@ gboolean preferences ( gint page )
                         2, 400,
                         -1);
     gtk_notebook_append_page (preference_frame, bet_config_account_create_account_page (), NULL);
-
-#endif
 
     /* select the page */
     if ( page >= 0 && page < NUM_PREFERENCES_PAGES )

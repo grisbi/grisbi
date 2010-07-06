@@ -33,17 +33,6 @@ AC_SUBST(GRISBI_LIBS)
 # </hack>
 
 dnl
-dnl balance estimate
-dnl
-AC_ARG_WITH(balance_estimate,
-	AC_HELP_STRING([--with-balance-estimate],
-	[add the support of balance estimate.]),
-[
-  AC_DEFINE(ENABLE_BALANCE_ESTIMATE, 1, [Define if balance estimate is enabled])
-])
-
-
-dnl
 dnl Plugin support using glib's GModule
 dnl
 AC_ARG_WITH(plugins,

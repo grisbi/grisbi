@@ -269,11 +269,8 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 	+ report_part * g_slist_length ( gsb_data_report_get_report_list ())
 	+ import_rule_part * g_slist_length ( gsb_data_import_rule_get_list ())
     + partial_balance_part * g_slist_length ( gsb_data_partial_balance_get_list ())
-    + logo_part;
-
-#ifdef ENABLE_BALANCE_ESTIMATE
-    length_calculated += bet_part;
-#endif /* ENABLE_BALANCE_ESTIMATE */
+    + logo_part
+    + bet_part;
 
     iterator = 0;
     file_content = g_malloc0 ( length_calculated );
@@ -364,11 +361,9 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 						&length_calculated,
 						&file_content );
 
-#ifdef ENABLE_BALANCE_ESTIMATE
     iterator = gsb_file_save_bet_part ( iterator,
                         &length_calculated,
                         &file_content );
-#endif /* ENABLE_BALANCE_ESTIMATE */
 
     iterator = gsb_file_save_report_part ( iterator,
 					   &length_calculated,

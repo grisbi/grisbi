@@ -236,7 +236,6 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
                         creation_fenetre_operations (),
                         gtk_label_new (SPACIFY(_("Transactions"))) );
 
-#ifdef ENABLE_BALANCE_ESTIMATE
      /* append the balance estimate pages */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         bet_array_create_page ( ),
@@ -245,8 +244,6 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         bet_historical_create_page ( ),
                         gtk_label_new (SPACIFY(_("Historical data"))) );
-
-#endif /* ENABLE_BALANCE_ESTIMATE */
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         gsb_account_property_create_page (),
@@ -302,9 +299,7 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
                         guint page_number,
                         gpointer null )
 {
-#ifdef ENABLE_BALANCE_ESTIMATE
     gint account_number;
-#endif /* ENABLE_BALANCE_ESTIMATE */
 
     //~ devel_debug_int (page_number);
     switch ( page_number )
@@ -312,7 +307,6 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
     case GSB_TRANSACTIONS_PAGE:
         gsb_form_set_expander_visible ( TRUE, TRUE );
         break;
-#ifdef ENABLE_BALANCE_ESTIMATE
     case GSB_ESTIMATE_PAGE:
         gsb_form_set_expander_visible (FALSE, FALSE );
         account_number = gsb_gui_navigation_get_current_account ( );
@@ -326,7 +320,6 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
             bet_data_update_bet_module ( account_number, GSB_HISTORICAL_PAGE );
         bet_historical_set_page_title ( account_number );
         break;
-#endif /* ENABLE_BALANCE_ESTIMATE */
     case GSB_PROPERTIES_PAGE:
         gsb_form_set_expander_visible (FALSE, FALSE );
         break;
