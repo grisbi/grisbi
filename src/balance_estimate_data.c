@@ -1375,10 +1375,10 @@ struct_futur_data *bet_data_future_copy_struct ( struct_futur_data *scheduled )
 /**
  * supprime l'occurence sélectionnée.
  *
- *
+ * \param maj TRUE force la mise à jour
  *
  * */
-gboolean bet_data_future_remove_line ( gint account_number, gint number )
+gboolean bet_data_future_remove_line ( gint account_number, gint number, gboolean maj )
 {
     GHashTableIter iter;
     gpointer key, value;
@@ -1406,8 +1406,11 @@ gboolean bet_data_future_remove_line ( gint account_number, gint number )
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
-    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
-    bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
+    if ( maj )
+    {
+        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+        bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
+    }
 
     return FALSE;
 }

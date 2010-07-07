@@ -92,7 +92,7 @@ gboolean bet_data_future_add_lines ( struct_futur_data *scheduled );
 GHashTable *bet_data_future_get_list ( void );
 struct_futur_data *bet_data_future_get_struct ( gint account_number, gint number );
 gboolean bet_data_future_modify_lines ( struct_futur_data *scheduled );
-gboolean bet_data_future_remove_line ( gint account_number, gint number );
+gboolean bet_data_future_remove_line ( gint account_number, gint number, gboolean maj );
 gboolean bet_data_future_remove_lines ( gint account_number,
                         gint number,
                         gint mother_row );

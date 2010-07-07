@@ -1139,7 +1139,7 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
         date_tomorrow = gsb_date_tomorrow ( );
         if ( g_date_compare ( scheduled -> date, date_tomorrow ) < 0 )
         {
-            bet_data_future_remove_line ( account_number, scheduled -> number );
+            bet_data_future_remove_line ( account_number, scheduled -> number, FALSE );
             g_hash_table_iter_init ( &iter, future_list );
             g_date_free ( date_tomorrow );
             if ( g_hash_table_size ( future_list ) == 0 )
@@ -1539,7 +1539,7 @@ void bet_array_list_delete_menu ( GtkWidget *menu_item,
     }
     else if ( origine == SPP_ORIGIN_FUTURE )
     {
-        bet_data_future_remove_line ( gsb_gui_navigation_get_current_account ( ), number );
+        bet_data_future_remove_line ( gsb_gui_navigation_get_current_account ( ), number, TRUE );
     }
     else if ( origine == SPP_ORIGIN_ACCOUNT )
     {
