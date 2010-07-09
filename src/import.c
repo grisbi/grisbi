@@ -27,7 +27,7 @@
 /*START_INCLUDE*/
 #include "import.h"
 #include "utils.h"
-#include "balance_estimate_data.h"
+#include "bet_data.h"
 #include "import_csv.h"
 #include "dialog.h"
 #include "utils_file_selection.h"

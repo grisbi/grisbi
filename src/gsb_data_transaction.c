@@ -31,7 +31,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_transaction.h"
-#include "balance_estimate_data.h"
+#include "bet_data.h"
 #include "classement_echeances.h"
 #include "dialog.h"
 #include "gsb_currency.h"

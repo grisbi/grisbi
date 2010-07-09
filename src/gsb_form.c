@@ -32,7 +32,7 @@
 /*START_INCLUDE*/
 #include "gsb_form.h"
 #include "accueil.h"
-#include "balance_estimate_data.h"
+#include "bet_data.h"
 #include "dialog.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_calendar.h"

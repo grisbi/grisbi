@@ -68,7 +68,7 @@ libgrisbi_la_SOURCES = \
 	gsb_data_fyear.c	\
 	gsb_data_import_rule.c	\
 	gsb_data_mix.c		\
-        gsb_data_partial_balance.c   \
+    gsb_data_partial_balance.c   \
 	gsb_data_payee.c	\
 	gsb_data_payment.c		\
 	gsb_data_print_config.c		\
@@ -141,32 +141,32 @@ libgrisbi_la_SOURCES = \
 	utils_font.c		\
 	utils_operations.c	\
 	utils_str.c		\
-	balance_estimate_config.c \
-        balance_estimate_data.c \
-        balance_estimate_future.c \
-        balance_estimate_hist.c \
-	balance_estimate_tab.c	\
+	bet_config.c \
+    bet_data.c \
+    bet_future.c \
+    bet_hist.c \
+	bet_tab.c	\
 	accueil.h		\
 	affichage.h		\
 	affichage_liste.h	\
 	barre_outils.h		\
-        balance_estimate_config.h \
-        balance_estimate_data.h \
-        balance_estimate_future.h \
-        balance_estimate_hist.h \
-        balance_estimate_tab.h  \
+    bet_config.h \
+    bet_data.h \
+    bet_future.h \
+    bet_hist.h \
+    bet_tab.h  \
 	categories_onglet.h	\
 	classement_echeances.h	\
-        csv_parse.h             \
+    csv_parse.h             \
 	custom_list.h		\
 	erreur.h		\
-        etats_affiche.h         \
-        etats_csv.h             \
-        etats_html.h            \
-        export.h                \
-        export_csv.h            \
-        go-charmap-sel.h        \
-        go-optionmenu.h         \
+    etats_affiche.h         \
+    etats_csv.h             \
+    etats_html.h            \
+    export.h                \
+    export_csv.h            \
+    go-charmap-sel.h        \
+    go-optionmenu.h         \
 	gsb_account.h		\
 	gsb_account_property.h	\
 	gsb_archive_config.h	\
@@ -184,7 +184,7 @@ libgrisbi_la_SOURCES = \
 	gsb_combo_box.h		\
 	gsb_calendar.h		\
 	gsb_calendar_entry.h	\
-        gsb_currency.h		\
+    gsb_currency.h		\
 	gsb_currency_config.h	\
 	gsb_currency_link_config.h	\
 	gsb_data_account.h	\
@@ -199,7 +199,7 @@ libgrisbi_la_SOURCES = \
 	gsb_data_fyear.h	\
 	gsb_data_import_rule.h	\
 	gsb_data_mix.h		\
-        gsb_data_partial_balance.h   \
+    gsb_data_partial_balance.h   \
 	gsb_data_payee.h	\
 	gsb_data_payment.h		\
 	gsb_data_print_config.h		\
@@ -225,14 +225,14 @@ libgrisbi_la_SOURCES = \
 	gsb_fyear_config.h	\
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
-        gsb_plugins.h           \
+    gsb_plugins.h           \
 	gsb_real.h		\
 	gsb_reconcile.h		\
 	gsb_reconcile_config.h	\
 	gsb_reconcile_list.h	\
 	gsb_reconcile_sort_config.h	\
 	gsb_report.h		\
-        gsb_status.h            \
+    gsb_status.h            \
 	gsb_select_icon.h 	\
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\
@@ -256,11 +256,11 @@ libgrisbi_la_SOURCES = \
 	imputation_budgetaire.h	\
 	include.h		\
 	menu.h			\
-        meta_budgetary.h        \
-        meta_categories.h       \
-        meta_payee.h            \
-        metatree.h              \
-        mouse.h                 \
+    meta_budgetary.h        \
+    meta_categories.h       \
+    meta_payee.h            \
+    metatree.h              \
+    mouse.h                 \
 	navigation.h		\
 	parametres.h		\
 	parse_cmdline.h		\
@@ -285,7 +285,8 @@ libgrisbi_la_SOURCES = \
 	utils_files.h		\
 	utils_font.h		\
 	utils_operations.h	\
-	utils_str.h
+	utils_str.h      \
+	bet_config.c
 
 grisbi_SOURCES = 		\
 	main.c				\

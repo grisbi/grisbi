@@ -29,8 +29,7 @@
 
 /*START_INCLUDE*/
 #include "traitement_variables.h"
-#include "balance_estimate_data.h"
-#include "balance_estimate_future.h"
+#include "bet_data.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"

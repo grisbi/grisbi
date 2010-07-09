@@ -32,7 +32,7 @@
 #include "parametres.h"
 #include "menu.h"
 #include "utils.h"
-#include "balance_estimate_config.h"
+#include "bet_config.h"
 #include "dialog.h"
 #include "gsb_archive_config.h"
 #include "gsb_automem.h"

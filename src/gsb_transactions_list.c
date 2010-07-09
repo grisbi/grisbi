@@ -26,7 +26,7 @@
 /*START_INCLUDE*/
 #include "gsb_transactions_list.h"
 #include "accueil.h"
-#include "balance_estimate_data.h"
+#include "bet_data.h"
 #include "utils_operations.h"
 #include "dialog.h"
 #include "affichage_liste.h"

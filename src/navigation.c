@@ -25,7 +25,7 @@
 
 /*START_INCLUDE*/
 #include "navigation.h"
-#include "balance_estimate_data.h"
+#include "bet_data.h"
 #include "gsb_account_property.h"
 #include "gsb_calendar.h"
 #include "gsb_data_account.h"

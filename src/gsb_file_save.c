@@ -33,7 +33,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_save.h"
-#include "balance_estimate_data.h"
+#include "bet_data.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"

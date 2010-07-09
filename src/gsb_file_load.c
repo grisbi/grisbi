@@ -31,7 +31,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
-#include "balance_estimate_data.h"
+#include "bet_data.h"
 #include "dialog.h"
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_first.h"
