@@ -48,20 +48,6 @@ glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
 #define sizeofarray(x) (sizeof(x)/sizeof(*x))
 
 #ifdef _MSC_VER
-typedef struct _lldiv_t
-{
-	long long 	quot;
-	long long 	rem;
-} lldiv_t;
-
-lldiv_t lldiv(long long numerator, long long denominator)
-{
-	//TODO find a standard/efficient impl for this
-	lldiv_t result;
-	result.quot = numerator / denominator;
-	result.rem = numerator % denominator;
-	return result;
-}
 #define lrint(x) (floor(x + 0.5))
 #define rint(x) (floor(x + 0.5))
 #endif//_MSC_VER
