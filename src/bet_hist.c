@@ -31,6 +31,7 @@
 #include "bet_tab.h"
 #include "bet_config.h"
 #include "bet_data.h"
+#include "fenetre_principale.h"
 #include "utils_dates.h"
 #include "gsb_data_account.h"
 #include "gsb_data_fyear.h"

@@ -31,6 +31,7 @@
 #include "bet_data.h"
 #include "bet_tab.h"
 #include "dialog.h"
+#include "fenetre_principale.h"
 #include "utils_dates.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_combo_box.h"

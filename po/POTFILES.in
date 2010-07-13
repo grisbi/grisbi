@@ -3,6 +3,7 @@ src/affichage.c
 src/affichage_liste.c
 src/bet_config.c
 src/bet_data.c
+src/bet_finance_ui.c
 src/bet_future.c
 src/bet_hist.c
 src/bet_tab.c

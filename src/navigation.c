@@ -37,6 +37,7 @@
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
 #include "fenetre_principale.h"
+#include "bet_finance_ui.h"
 #include "menu.h"
 #include "etats_onglet.h"
 #include "accueil.h"
@@ -241,8 +242,7 @@ GtkWidget * create_navigation_pane ( void )
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ), 
 				  GTK_TREE_VIEW_COLUMN ( column ) );
     /* Account list */
-    tmpstr = g_build_filename ( PIXMAPS_DIR,
-				       "ac_home.png", NULL );
+    tmpstr = g_build_filename ( PIXMAPS_DIR, "ac_home.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &account_iter, NULL);
@@ -259,8 +259,7 @@ GtkWidget * create_navigation_pane ( void )
     create_account_list ( GTK_TREE_MODEL(navigation_model) );
 
     /* Scheduler */
-    tmpstr = g_build_filename( PIXMAPS_DIR,
-			       "scheduler.png", NULL );
+    tmpstr = g_build_filename( PIXMAPS_DIR, "scheduler.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -276,8 +275,7 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Payees */
-    tmpstr =  g_build_filename( PIXMAPS_DIR,
-				"payees.png", NULL );
+    tmpstr =  g_build_filename( PIXMAPS_DIR, "payees.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -292,9 +290,24 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 
+    /* Balance estimate */
+    tmpstr = g_build_filename( PIXMAPS_DIR, "ac_liability.png", NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
+    g_free ( tmpstr );
+    gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
+    gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
+		       NAVIGATION_PIX, pixbuf,
+		       NAVIGATION_TEXT, _("Credits simulator"), 
+		       NAVIGATION_PIX_VISIBLE, TRUE, 
+		       NAVIGATION_FONT, 800,
+		       NAVIGATION_PAGE, GSB_GENERAL_FINANCIAL_PAGE,
+		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_REPORT, -1,
+		       NAVIGATION_SENSITIVE, 1,
+		       -1 );
+
     /* Categories */
-    tmpstr = g_build_filename( PIXMAPS_DIR,
-			       "categories.png", NULL );
+    tmpstr = g_build_filename( PIXMAPS_DIR, "categories.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -310,8 +323,7 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Budgetary lines */
-    tmpstr = g_build_filename( PIXMAPS_DIR,
-			       "budgetary_lines.png", NULL );
+    tmpstr = g_build_filename( PIXMAPS_DIR, "budgetary_lines.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -327,8 +339,7 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Reports */
-    tmpstr = g_build_filename( PIXMAPS_DIR,
-			       "reports.png", NULL );
+    tmpstr = g_build_filename( PIXMAPS_DIR, "reports.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &reports_iter, NULL);
@@ -1201,6 +1212,17 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE, FALSE );
 		payee_fill_tree ();
+	    break;
+
+	case GSB_GENERAL_FINANCIAL_PAGE:
+	    notice_debug ("Credits simulator page selected");
+
+	    /* set the title */
+	    title = g_strdup(_("Credits simulator"));
+
+	    /* what to be done if switch to that page */
+	    gsb_form_set_expander_visible (FALSE, FALSE);
+        bet_financial_create_page ( );
 	    break;
 
 	case GSB_CATEGORIES_PAGE:

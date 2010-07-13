@@ -27,6 +27,7 @@
 #include "fenetre_principale.h"
 #include "bet_tab.h"
 #include "bet_data.h"
+#include "bet_finance_ui.h"
 #include "bet_hist.h"
 #include "navigation.h"
 #include "gsb_transactions_list.h"
@@ -261,8 +262,14 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 
     /* append the payee page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       onglet_tiers(),
+			       onglet_tiers (),
 			       gtk_label_new (SPACIFY(_("Payee"))) );
+
+
+    /* append the financial page */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			       bet_financial_create_page (),
+			       gtk_label_new (SPACIFY(_("Credits simulator"))) );
 
     /* append the categories page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
