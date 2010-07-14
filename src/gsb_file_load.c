@@ -934,14 +934,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     }
 
     else if ( !strcmp ( attribute_names[i],
-                        "Remind_form_per_account" ))
-    {
-        //~ etat.formulaire_distinct_par_compte = utils_str_atoi( attribute_values[i]);
-        etat.formulaire_distinct_par_compte = 0;
-
-    }
-
-    else if ( !strcmp ( attribute_names[i],
                         "Transaction_column_width" ))
     {
         gchar **pointeur_char;
@@ -992,12 +984,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     {
         etat.combofix_case_sensitive = utils_str_atoi( attribute_values[i]);
     }
-
-    //~ else if ( !strcmp ( attribute_names[i],
-                        //~ "Combofix_enter_select_completion" ))
-    //~ {
-        //~ etat.combofix_enter_select_completion = utils_str_atoi( attribute_values[i]);
-    //~ }
 
     else if ( !strcmp ( attribute_names[i],
                         "Combofix_force_payee" ))
@@ -6700,14 +6686,6 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
         }
 
     g_strfreev ( pointeur_char );
-    return;
-    }
-
-    if ( !strcmp ( element_name,
-           "Formulaire_distinct_par_compte" ))
-    {
-    //~ etat.formulaire_distinct_par_compte = utils_str_atoi( text);
-    etat.formulaire_distinct_par_compte = 0;
     return;
     }
 

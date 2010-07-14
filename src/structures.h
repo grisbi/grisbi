@@ -53,7 +53,6 @@ struct gsb_etat_t
     gint affichage_exercice_automatique;            /* automatic fyear :0 to set according to the date, 2 according to value date */
     gint automatic_completion_payee;                /* 1 pour autoriser la completion automatique des opérations */
     gboolean limit_completion_to_current_account;   /* Limit payee completion to current account or do a full search. */
-    gint formulaire_distinct_par_compte;            /* à 1 si le formulaire est différent pour chaque compte */
     gint affiche_nb_ecritures_listes;
     gint largeur_auto_colonnes;
     gint retient_affichage_par_compte;      /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */

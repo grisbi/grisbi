@@ -696,7 +696,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tCombofix_mixed_sort=\"%d\"\n"
 					   "\t\tCombofix_max_item=\"%d\"\n"
 					   "\t\tCombofix_case_sensitive=\"%d\"\n"
-					   //~ "\t\tCombofix_enter_select_completion=\"%d\"\n"
 					   "\t\tCombofix_force_payee=\"%d\"\n"
 					   "\t\tCombofix_force_category=\"%d\"\n"
 					   "\t\tAutomatic_amount_separator=\"%d\"\n"
@@ -730,14 +729,12 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	display_one_line,
 	display_two_lines,
 	display_three_lines,
-	//~ etat.formulaire_distinct_par_compte,
     0,
 	my_safe_null_str(transaction_column_width_write),
 	my_safe_null_str(scheduler_column_width_write),
 	etat.combofix_mixed_sort,
 	etat.combofix_max_item,
 	etat.combofix_case_sensitive,
-	//~ etat.combofix_enter_select_completion,
 	etat.combofix_force_payee,
 	etat.combofix_force_category,
 	etat.automatic_separator,

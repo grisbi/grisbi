@@ -154,32 +154,8 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0 );
 
-    /* the button to choose the configuration for all/one account */
-    //~ button = gsb_automem_checkbutton_new ( _("Each account has his own form"),
-                        //~ &etat.formulaire_distinct_par_compte,
-                        //~ G_CALLBACK ( gsb_form_config_switch_general_to_several_form ),
-                        //~ NULL);
-    //~ gtk_box_pack_start ( GTK_BOX (hbox ), button, FALSE, FALSE, 0 );
-
     /* the accounts option_menu */
     accounts_combobox = gsb_account_create_combo_list ((GtkSignalFunc) gsb_form_config_change_account_choice, NULL, FALSE );
-    //~ gtk_widget_set_sensitive ( accounts_combobox, etat.formulaire_distinct_par_compte );
-    //~ gtk_box_pack_start ( GTK_BOX (hbox ), accounts_combobox, FALSE, FALSE, 0 );
-
-    /* add the update-form button */
-    //~ hbox = gtk_hbox_new ( FALSE, 5 );
-    //~ gtk_box_pack_start ( GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0 );
-
-    //~ update_button = gtk_button_new_with_label (_("Update"));
-    //~ gtk_widget_set_sensitive ( update_button, etat.formulaire_distinct_par_compte );
-    //~ g_signal_connect ( G_OBJECT (update_button),
-                        //~ "clicked",
-                        //~ G_CALLBACK (gsb_form_config_update_accounts),
-                        //~ accounts_combobox );
-    //~ gtk_box_pack_start ( GTK_BOX (hbox), update_button, FALSE, FALSE, 0 );
-
-    //~ label = gtk_label_new ( _(" : Duplicate the selected form for all accounts") );
-    //~ gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     /*create the scolled window for tree_view */
     sw = gtk_scrolled_window_new ( NULL, NULL);
@@ -548,39 +524,6 @@ gboolean gsb_form_config_update_form_config ( gint account_number )
 
 
 /**
- * called when click on the button "each account has his form",
- * unsensitive/sensitive the accounts option_menu,
- * if unsensitive, set the menu to the first account
- *
- * \param
- *
- * \return FALSE*/
-//~ gboolean gsb_form_config_switch_general_to_several_form ( void )
-//~ {
-    //~ if ( etat.formulaire_distinct_par_compte )
-    //~ {
-	//~ gtk_widget_set_sensitive ( accounts_combobox,
-				   //~ TRUE );
-	//~ gtk_widget_set_sensitive ( update_button,
-				   //~ TRUE );
-    //~ }
-    //~ else
-    //~ {
-	//~ gtk_combo_box_set_active ( GTK_COMBO_BOX (accounts_combobox),
-				   //~ 0 );
-	//~ /* just in case we were already on the first choice */
-	//~ gsb_form_config_change_account_choice (accounts_combobox, NULL);
-
-	//~ gtk_widget_set_sensitive ( accounts_combobox,
-				   //~ FALSE );
-	//~ gtk_widget_set_sensitive ( update_button,
-				   //~ FALSE );
-    //~ }
-    //~ return FALSE;
-//~ }
-
-						       
-/**
  * called if we change the account in the option menu of the accounts
  *
  * \param combobox the combobox of the list of accounts
@@ -908,9 +851,6 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
 
     for (i=0 ; i<gsb_data_account_get_accounts_amount () ; i++)
     {
-	if (!etat.formulaire_distinct_par_compte
-	    ||
-	    i == account_number)
 	    for ( column=0 ; column < gsb_data_form_get_nb_columns (i) ; column++ )
 	    {
 		gint size_column;
@@ -927,13 +867,8 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
         modification_fichier ( TRUE );
 
     /* update the form if needed */
-    if ( !etat.formulaire_distinct_par_compte
-	 ||
-	 gsb_account_get_combo_account_number ( accounts_combobox ) == gsb_gui_navigation_get_current_account ())
-    {
 	saved_allocation_size = 0;
 	gsb_form_allocate_size ( NULL, &(form_transaction_part -> allocation), NULL );
-    }
 
     return FALSE;
 }
