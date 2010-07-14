@@ -59,7 +59,11 @@ struct gsb_etat_t
     gint retient_affichage_par_compte;      /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
     gint en_train_de_sauvegarder;
     gint en_train_de_charger;
+
+    /* Fonts & logo */
     gint utilise_logo;
+    gboolean is_pixmaps_dir;        /* TRUE if path_icon == PIXMAPS_DIR */
+    gchar *name_logo;
     gint display_grisbi_title;      /* selection du titre principal de grisbi */
     
     gint display_toolbar;           /** Display mode of toolbar. */

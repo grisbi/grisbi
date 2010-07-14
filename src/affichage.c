@@ -492,18 +492,18 @@ void change_logo_accueil ( GtkWidget * file_selector )
 
     const gchar *selected_filename;
 
-    selected_filename = file_selection_get_filename (GTK_FILE_CHOOSER (file_selector));
+    selected_filename = file_selection_get_filename ( GTK_FILE_CHOOSER ( file_selector ) );
 
     if ( gsb_data_account_get_accounts_amount () )
     {
         /* on change le logo */
         gchar * chemin_logo;
 
-        gtk_container_remove (GTK_CONTAINER(logo_button), preview);
+        gtk_container_remove ( GTK_CONTAINER ( logo_button ), preview );
         chemin_logo = g_strstrip ( g_strdup ( selected_filename ) );
         if ( !strlen ( chemin_logo ) )
         {
-            if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
+            if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ) )
                 gtk_widget_hide ( logo_accueil );
             preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE,
                              GTK_ICON_SIZE_BUTTON );
@@ -511,8 +511,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
         else
         {
             /* Update preview */
-            pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
-			g_free(chemin_logo);
+            pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
             if (!pixbuf)
             {
                 if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
@@ -522,6 +521,26 @@ void change_logo_accueil ( GtkWidget * file_selector )
             }
             else
             {
+                if ( g_strcmp0 ( g_path_get_dirname ( chemin_logo ), PIXMAPS_DIR ) == 0 )
+                {
+                    gchar *name_logo;
+
+                    etat.is_pixmaps_dir = TRUE;
+
+                    name_logo = g_path_get_basename ( chemin_logo );
+                    if ( g_strcmp0 ( name_logo, "grisbi-logo.png" ) != 0 )
+                        etat.name_logo = name_logo;
+                    else
+                        etat.name_logo = NULL;
+                }
+                else
+                {
+                    etat.is_pixmaps_dir = FALSE;
+                    if ( etat.name_logo && strlen ( etat.name_logo ) )
+                        g_free ( etat.name_logo );
+                    etat.name_logo = NULL;
+                }
+
                 gsb_select_icon_set_logo_pixbuf ( pixbuf );
                 preview = gtk_image_new_from_pixbuf ( 
                         gdk_pixbuf_scale_simple ( 
@@ -538,9 +557,11 @@ void change_logo_accueil ( GtkWidget * file_selector )
                 gtk_window_set_default_icon ( 
                             gsb_select_icon_get_logo_pixbuf ( ) );
             }
+
+            g_free ( chemin_logo );
         }
         gtk_widget_show ( preview );
-        gtk_container_add ( GTK_CONTAINER(logo_button), preview );
+        gtk_container_add ( GTK_CONTAINER ( logo_button ), preview );
         
         /* Mark file as modified */
         if ( etat.modification_fichier == 0 )
@@ -562,20 +583,29 @@ gboolean modification_logo_accueil ( )
 					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 					   NULL);
 
-    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( file_selector ), gsb_file_get_last_path () );
+    if ( etat.is_pixmaps_dir )
+        gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (
+                        file_selector ), PIXMAPS_DIR );
+    else
+        gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (
+                        file_selector ), gsb_file_get_last_path () );
+        
     gtk_window_set_position ( GTK_WINDOW ( file_selector ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     /* create the preview */
     preview = gtk_image_new ();
-    gtk_file_chooser_set_preview_widget (GTK_FILE_CHOOSER (file_selector), preview);
-    g_signal_connect (G_OBJECT (file_selector), "update-preview",
-    		G_CALLBACK (preferences_view_update_preview_logo), preview);
+    gtk_file_chooser_set_preview_widget ( GTK_FILE_CHOOSER ( file_selector ), preview );
+    g_signal_connect (G_OBJECT (file_selector),
+                        "update-preview",
+                        G_CALLBACK ( preferences_view_update_preview_logo ),
+                        preview );
 
     switch ( gtk_dialog_run ( GTK_DIALOG ( file_selector ) ) )
     {
 	case GTK_RESPONSE_OK:
 	    change_logo_accueil ( file_selector );
-	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (file_selector), TRUE));
+	    gsb_file_update_last_path ( file_selection_get_last_directory (
+                        GTK_FILE_CHOOSER ( file_selector ), TRUE ) );
 
 	default:
 	    gtk_widget_destroy ( file_selector );

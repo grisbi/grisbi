@@ -295,12 +295,11 @@ void init_variables ( void )
     affichage_echeances_perso_nb_libre = 0;
     affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
 
-
     no_devise_totaux_tiers = 1;
     no_devise_totaux_categ = 1;
     no_devise_totaux_ib = 1;
 
-    /* initialization of titles */
+    /* initialization of titles and logo part */
     titre_fichier = g_strdup( _("My accounts") );
     if ( initial_file_title && strlen ( initial_file_title ) )
         g_free ( initial_file_title );
@@ -309,6 +308,13 @@ void init_variables ( void )
     if ( initial_holder_title && strlen ( initial_holder_title ) )
         g_free ( initial_holder_title );
     initial_holder_title = NULL;
+
+    etat.is_pixmaps_dir = TRUE;
+    if ( etat.name_logo && strlen ( etat.name_logo ) )
+        g_free ( etat.name_logo );
+    etat.name_logo = NULL;
+    gsb_select_icon_init_logo_variables ();
+
 
     adresse_commune = NULL;
     adresse_secondaire = NULL;

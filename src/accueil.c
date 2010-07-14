@@ -174,9 +174,7 @@ GtkWidget *creation_onglet_accueil ( void )
         {
             logo_accueil =  gtk_image_new_from_pixbuf ( 
                         gsb_select_icon_get_logo_pixbuf ( ) );
-            if ( ! logo_accueil )
-                logo_accueil =  gtk_image_new_from_pixbuf ( 
-                        gsb_select_icon_get_default_logo_pixbuf ( ) );
+
             gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 20 );
             gtk_widget_set_size_request ( hbox_title, -1, LOGO_HEIGHT + 20 );
         }

@@ -147,7 +147,7 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
     }
 
     assistant = gsb_assistant_new (text_1, text_2,
-				   "grisbi.png", NULL);
+				   "grisbi-logo.png", NULL);
 
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_file_page_2 (assistant),

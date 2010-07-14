@@ -175,7 +175,7 @@ int main (int argc, char **argv)
 #endif
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
-    string = g_build_filename ( PIXMAPS_DIR, "grisbi.png", NULL );
+    string = g_build_filename ( PIXMAPS_DIR, "grisbi-logo.png", NULL );
     if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
     gtk_window_set_default_icon_from_file ( string, NULL );
     g_free (string);

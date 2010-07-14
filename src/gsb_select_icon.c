@@ -61,6 +61,17 @@ static GtkListStore *store = NULL;
 static gchar * path_icon;
 static gchar * new_icon;
 
+/* variables for account_icon */
+static GSList *list_accounts_icon = NULL;
+
+typedef struct
+{
+    gint account_number;
+    GdkPixbuf *pixbuf;
+}  struct_account_icon;
+
+static struct_account_icon *icon_buffer;
+
 
 enum { 
         PIXBUF_COLUMN,
@@ -70,13 +81,61 @@ enum {
 
 
 /**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_select_icon_init_account_variables ( void )
+{
+    if ( list_accounts_icon )
+    {
+        GSList* tmp_list = list_accounts_icon;
+
+        while ( tmp_list )
+        {
+            struct_account_icon *icon;
+
+            icon = tmp_list -> data;
+            tmp_list = tmp_list -> next;
+            if ( icon -> pixbuf )
+                g_object_unref ( icon -> pixbuf );
+
+            g_free ( icon );
+        }
+        g_slist_free ( list_accounts_icon );
+    }
+    list_accounts_icon = NULL;
+    icon_buffer = NULL;
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_select_icon_init_logo_variables ( void )
+{
+    if ( pixbuf_logo )
+                g_object_unref ( pixbuf_logo );
+    pixbuf_logo = NULL;
+
+    return FALSE;
+}
+
+
+/**
  * crée la boite de dialogue initiale avec le  GtkIconView
  *
  * \param nom de l'icône
  *
  * \return le nouveau nom de l'icône ou NULL
  * */
-gchar * gsb_select_icon_create_window ( gchar * name_icon )
+gchar * gsb_select_icon_create_window ( gchar *name_icon )
 {
     GtkWidget *content_area;
     GtkWidget *hbox;
@@ -86,6 +145,12 @@ gchar * gsb_select_icon_create_window ( gchar * name_icon )
 	gint result;
 
     devel_debug ( name_icon );
+
+    if ( new_icon && strlen ( new_icon ) > 0 )
+        g_free ( new_icon );
+
+    new_icon = g_strdup ( name_icon );
+
     path_icon = g_path_get_dirname ( name_icon );
     dialog = gtk_dialog_new_with_buttons ( _("Browse icons"),
                             GTK_WINDOW ( window ),
@@ -127,19 +192,19 @@ gchar * gsb_select_icon_create_window ( gchar * name_icon )
 
     /* gestion des signaux */
     g_signal_connect ( G_OBJECT ( icon_view ), 
-                       "selection-changed", 
-                            G_CALLBACK( gsb_select_icon_selection_changed ), 
-                            NULL );
+                        "selection-changed", 
+                        G_CALLBACK( gsb_select_icon_selection_changed ), 
+                        NULL );
 
     g_signal_connect ( G_OBJECT ( chooser_button ), 
-                            "pressed", 
-                            G_CALLBACK(gsb_select_icon_create_file_chooser), 
-                            NULL );
+                        "pressed", 
+                        G_CALLBACK(gsb_select_icon_create_file_chooser), 
+                        NULL );
 
     g_signal_connect ( G_OBJECT( entry_text ), 
-                       "changed", 
-                            G_CALLBACK( gsb_select_icon_entry_text_changed ), 
-                            NULL );
+                        "changed", 
+                        G_CALLBACK( gsb_select_icon_entry_text_changed ), 
+                        NULL );
 
     gtk_widget_show_all ( dialog );
 
@@ -147,10 +212,10 @@ gchar * gsb_select_icon_create_window ( gchar * name_icon )
     switch (result)
     {
       case GTK_RESPONSE_ACCEPT:
-         devel_debug ( "réponse OK\n" );
+         devel_debug ( "réponse OK" );
          break;
       default:
-         devel_debug ( "réponse Non OK\n" );
+         devel_debug ( "réponse Non OK" );
          if ( new_icon && strlen ( new_icon ) > 0 )
             g_free ( new_icon );
          new_icon = NULL;
@@ -543,6 +608,7 @@ gchar * gsb_select_icon_create_chaine_base64_from_pixbuf ( GdkPixbuf *pixbuf )
  *
  * \param str_base64
  *
+ * return a new pixbuf
 * */
 GdkPixbuf *gsb_select_icon_create_pixbuf_from_chaine_base64 ( gchar *str_base64 )
 {
@@ -552,19 +618,31 @@ GdkPixbuf *gsb_select_icon_create_pixbuf_from_chaine_base64 ( gchar *str_base64 
     GdkPixbuf *pixbuf = NULL;
 
     data = g_base64_decode ( str_base64, &longueur );
-    gdk_pixdata_deserialize( &pixdata, longueur, data, NULL );
-    pixbuf = gdk_pixbuf_from_pixdata( &pixdata, TRUE, NULL );
+    gdk_pixdata_deserialize ( &pixdata, longueur, data, NULL );
+    pixbuf = gdk_pixbuf_from_pixdata ( &pixdata, TRUE, NULL );
 
     return pixbuf;
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
 GdkPixbuf *gsb_select_icon_get_logo_pixbuf ( void )
 {
     return pixbuf_logo;
 }
 
 
+/**
+ * retourne le logo par défaut de grisbi
+ *
+ *
+ * return a new pixbuf
+ * */
 GdkPixbuf *gsb_select_icon_get_default_logo_pixbuf ( void )
 {
     GdkPixbuf *pixbuf = NULL;
@@ -586,6 +664,12 @@ GdkPixbuf *gsb_select_icon_get_default_logo_pixbuf ( void )
 }
 
 
+/**
+ *
+ *
+ * \param pixbuf
+ *
+ * */
 void gsb_select_icon_set_logo_pixbuf ( GdkPixbuf *pixbuf )
 {
     if ( pixbuf_logo != NULL )
@@ -601,6 +685,13 @@ void gsb_select_icon_set_logo_pixbuf ( GdkPixbuf *pixbuf )
 }
 
 
+/**
+ * redimmensionne le logo
+ *
+ * \param pixbuf à redimmensionner
+ *
+ * return a new pixbuf
+ * */
 GdkPixbuf *gsb_select_icon_resize_logo_pixbuf ( GdkPixbuf *pixbuf )
 {
     GdkPixbuf * tmp;
@@ -627,3 +718,282 @@ GdkPixbuf *gsb_select_icon_resize_logo_pixbuf ( GdkPixbuf *pixbuf )
 
     return tmp;
 }
+
+
+/**
+ * retourne la liste des icones pour les comptes
+ *
+ *
+ * return list_accounts_icon
+ * */
+GSList *gsb_select_icon_list_accounts_icon ( void )
+{
+    return list_accounts_icon;
+}
+
+
+/**
+ * find and return the number of the account which the struct account_icon is the param 
+ * 
+ * \param the struct of the account_icon
+ * 
+ * \return the number of account, -1 if pb
+ * */
+gint gsb_select_icon_get_no_account_by_ptr ( gpointer account_icon_ptr )
+{
+    struct_account_icon *icon;
+
+    if ( !account_icon_ptr )
+        return -1;
+
+    icon = account_icon_ptr;
+    icon_buffer = icon;
+
+    return  icon -> account_number;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+GdkPixbuf *gsb_select_icon_get_account_pixbuf ( gint account_number )
+{
+    GSList *list_tmp;
+
+     if ( icon_buffer
+	 &&
+	 icon_buffer -> account_number == account_number )
+        return icon_buffer -> pixbuf;
+
+    list_tmp = list_accounts_icon;
+
+    while ( list_tmp )
+    {
+        struct_account_icon *icon;
+
+        icon = list_tmp -> data;
+
+        if ( icon -> account_number == account_number )
+            return icon -> pixbuf;
+
+        list_tmp = list_tmp -> next;
+    }
+
+    return NULL;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+GdkPixbuf *gsb_select_icon_get_account_pixbuf_by_ptr ( gpointer account_icon_ptr )
+{
+    struct_account_icon *icon;
+
+    if ( !account_icon_ptr )
+        return NULL;
+
+    icon = account_icon_ptr;
+    icon_buffer = icon;
+
+    return  icon -> pixbuf;
+}
+
+
+/**
+ * ajoute une nouvelle icone pour le compte passé en paramètre
+ *
+ *
+ * return TRUE if OK else FALSE
+ * */
+gboolean gsb_select_icon_new_account_icon ( gint account_number,
+                        GdkPixbuf *pixbuf )
+{
+    struct_account_icon *icon;
+
+    icon = g_malloc0 ( sizeof ( struct_account_icon ) );
+    icon_buffer = icon;
+
+    if ( !icon )
+    {
+        dialogue_error_memory ();
+        return FALSE;
+    }
+
+    icon -> account_number = account_number;
+    icon -> pixbuf = pixbuf;
+
+    list_accounts_icon = g_slist_prepend ( list_accounts_icon, icon );
+
+    return TRUE;
+}
+
+/**
+ * ajoute une nouvelle icone pour le compte passé en paramètre
+ *
+ * /param la chaine codée de l'icone
+ * return TRUE if OK else FALSE
+ * */
+gboolean gsb_select_icon_new_account_icon_from_file ( gint account_number,
+                        const gchar *filename )
+{
+    struct_account_icon *icon;
+    GdkPixbuf *pixbuf;
+    GError *error = NULL;
+
+    if ( !filename || !strlen ( filename ) )
+        return FALSE;
+    else
+    {
+        if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
+            return FALSE;
+    }
+
+    icon = g_malloc0 ( sizeof ( struct_account_icon ) );
+    icon_buffer = icon;
+
+    if ( !icon )
+    {
+        dialogue_error_memory ();
+
+        return FALSE;
+    }
+
+    icon -> account_number = account_number;
+
+    pixbuf = gdk_pixbuf_new_from_file_at_size ( filename , 32, 32, &error );
+
+    if ( pixbuf )
+    {
+        icon -> pixbuf = pixbuf;
+        list_accounts_icon = g_slist_prepend ( list_accounts_icon, icon );
+
+        return TRUE;
+    }
+    else
+    {
+        gchar* tmp_str;
+
+        tmp_str = g_strconcat( "Erreur de pixbuf : ",
+                        error -> message, " image ",
+                        filename, NULL );
+        devel_debug ( tmp_str );
+        dialogue_error ( tmp_str );
+        g_free ( tmp_str );
+        g_free ( icon );
+
+        return FALSE;
+    }        
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+GdkPixbuf *gsb_select_icon_change_account_pixbuf ( gint account_number,
+                        gchar *filename )
+{
+    GSList *list_tmp;
+    GdkPixbuf *pixbuf;
+    GError *error = NULL;
+
+    if ( icon_buffer
+	 &&
+	 icon_buffer -> account_number == account_number )
+    {
+        pixbuf = gdk_pixbuf_new_from_file_at_size ( filename , 32, 32, &error );
+        if ( pixbuf )
+        {
+            g_object_unref ( icon_buffer -> pixbuf );
+            icon_buffer -> pixbuf = pixbuf;
+
+            return icon_buffer -> pixbuf;
+        }
+        else
+            return NULL;
+    }
+
+    list_tmp = list_accounts_icon;
+
+    while ( list_tmp )
+    {
+        struct_account_icon *icon;
+
+        icon = list_tmp -> data;
+
+        if ( icon -> account_number == account_number )
+        {
+            pixbuf = gdk_pixbuf_new_from_file_at_size ( filename , 32, 32, &error );
+            if ( pixbuf )
+            {
+                g_object_unref ( icon -> pixbuf );
+                icon -> pixbuf = pixbuf;
+
+                return icon -> pixbuf;
+            }
+            else
+                return NULL;
+        }
+
+        list_tmp = list_tmp -> next;
+    }
+
+    if ( gsb_select_icon_new_account_icon_from_file ( account_number, filename ) )
+        return gsb_select_icon_get_account_pixbuf ( account_number );
+    else
+        return NULL;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_select_icon_remove_account_pixbuf ( gint account_number )
+{
+    GSList *list_tmp;
+    GdkPixbuf *pixbuf;
+    GError *error = NULL;
+
+    list_tmp = list_accounts_icon;
+
+    while ( list_tmp )
+    {
+        struct_account_icon *icon;
+
+        icon = list_tmp -> data;
+
+        if ( icon -> account_number == account_number )
+        {
+            
+            if ( icon -> pixbuf )
+            {
+                g_object_unref ( icon -> pixbuf );
+                list_tmp = g_slist_remove ( list_accounts_icon, icon );
+                g_free ( icon );
+                icon_buffer = NULL;
+
+                return TRUE;
+            }
+        }
+
+        list_tmp = list_tmp -> next;
+    }
+
+    return FALSE;
+}
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
