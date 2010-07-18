@@ -3264,8 +3264,10 @@ gint gsb_data_account_get_bet_use_budget ( gint account_number )
     {
         case GSB_TYPE_BANK:
         case GSB_TYPE_CASH:
-        case GSB_TYPE_LIABILITIES:
             return account -> bet_use_budget;
+            break;
+        case GSB_TYPE_LIABILITIES:
+            return -1;
             break;
         case GSB_TYPE_ASSET:
             return -1;

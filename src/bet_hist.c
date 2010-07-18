@@ -967,7 +967,7 @@ gboolean bet_historical_fyear_create_combobox_store ( void )
     /* the fyear list store, contains 3 columns :
      * FYEAR_COL_NAME : the name of the fyear
      * FYEAR_COL_NUMBER : the number of the fyear
-     * FYEAR_COL_VIEW : it tha fyear should be showed */
+     * FYEAR_COL_VIEW : it the fyear should be showed */
 
     titre = g_strdup ( _("12 months rolling") );
     bet_fyear_model = GTK_TREE_MODEL ( gtk_list_store_new ( 3,

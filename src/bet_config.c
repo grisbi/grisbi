@@ -213,10 +213,12 @@ GtkWidget *bet_config_account_create_account_page ( void )
     gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), notebook, FALSE, FALSE, 0 );
     g_object_set_data ( G_OBJECT ( account_page ), "config_notebook", notebook );
+    gtk_widget_show ( notebook );
 
     /* Data for the account of type GSB_TYPE_BANK, GSB_TYPE_CASH */
     vbox = gtk_vbox_new ( FALSE, 0 );
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox, NULL );
+    gtk_widget_show ( vbox );
 
     /* Data for the forecast */
     widget = bet_config_account_get_forecast_data ( _("Data for the forecast") );
@@ -229,13 +231,11 @@ GtkWidget *bet_config_account_create_account_page ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 0 );
 
     /* Data for the account of type GSB_TYPE_LIABILITIES */
-    vbox = gtk_vbox_new ( FALSE, 0 );
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox, NULL );
+    //~ vbox = gtk_vbox_new ( FALSE, 0 );
+    //~ gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox, NULL );
 
     widget = g_object_get_data ( G_OBJECT ( account_page ), "account_combo" );
     bet_config_change_account ( widget );
-
-    gtk_widget_show_all ( notebook );
 
     return vbox_pref;
 }
@@ -953,8 +953,8 @@ gboolean bet_config_change_account ( GtkWidget *combo )
             bet_config_initialise_select_historical_data ( account_number, account_page );
             break;
         case GSB_TYPE_LIABILITIES:
-            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 1 ); 
-            break;
+            //~ gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 1 ); 
+            //~ break;
         case GSB_TYPE_ASSET:
             break;
     }
@@ -1024,7 +1024,7 @@ gboolean bet_config_select_label_changed ( GtkWidget *checkbutton,
 void bet_config_sensitive_account_parameters ( gint account_number, gboolean sensitive )
 {
     GtkWidget *widget = NULL;
-
+printf ("account_number = %d sensitive = %d\n", account_number, sensitive);
     if ( sensitive )
     {
         kind_account kind;
@@ -1045,17 +1045,20 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
             gtk_widget_show_all ( widget );
             break;
         case GSB_TYPE_LIABILITIES:
-            break;
         case GSB_TYPE_ASSET:
+            widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
+            gtk_widget_hide_all ( widget );
+            widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
+            gtk_widget_hide_all ( widget );
             break;
         }
     }
     else
     {
-            widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
-            gtk_widget_hide_all ( widget );
-            widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
-            gtk_widget_hide_all ( widget );
+        widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
+        gtk_widget_hide_all ( widget );
+        widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
+        gtk_widget_hide_all ( widget );
     }
 }
 
