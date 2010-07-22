@@ -51,7 +51,10 @@ gdouble bet_data_finance_get_echeance ( gdouble capital,
 
     coeff = pow ( ( 1 + taux_periodique ), nbre_echeances );
 
-    number = ( capital * taux_periodique * coeff ) / ( coeff - 1 );
+    if ( taux_periodique == 0 )
+        number = capital / nbre_echeances;
+    else
+        number = ( capital * taux_periodique * coeff ) / ( coeff - 1 );
     number = bet_data_finance_troncate_number ( number, 2 );
 
     return number;

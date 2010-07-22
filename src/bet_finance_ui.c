@@ -610,6 +610,16 @@ void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget )
     /* capital */
     s_echeance -> capital = bet_finance_get_number_from_string ( widget, "capital" );
 
+    if ( s_echeance -> capital == 0 )
+    {
+        gchar *tmp_str;
+
+        tmp_str = g_strdup ( _(" Vous devez au moins entrer une valeur pour le capital") );
+        dialogue_error ( tmp_str );
+        g_free ( tmp_str );
+        return;
+    }
+
     /* taux */
     s_echeance -> taux = bet_finance_get_number_from_string ( widget, "taux" );
 
