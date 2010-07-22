@@ -143,6 +143,7 @@ libgrisbi_la_SOURCES = \
 	utils_str.c		\
 	bet_config.c \
     bet_data.c \
+    bet_data_finance.c \
     bet_finance_ui.c \
     bet_future.c \
     bet_hist.c \
@@ -153,6 +154,7 @@ libgrisbi_la_SOURCES = \
 	barre_outils.h		\
     bet_config.h \
     bet_data.h \
+    bet_data_finance.h \
     bet_finance_ui.h \
     bet_future.h \
     bet_hist.h \

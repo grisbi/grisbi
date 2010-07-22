@@ -9,6 +9,7 @@ grisbi_pixmaps_DATA = \
 	ac_cash.png \
 	ac_home.png \
 	ac_liability.png \
+	ac_liability_16.png \
 	addresses.png \
 	amount.png \
 	archive.png \

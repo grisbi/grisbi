@@ -1233,8 +1233,8 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    title = g_strdup(_("Credits simulator"));
 
 	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE, FALSE);
-        bet_financial_create_page ( );
+        gsb_form_set_expander_visible (FALSE, FALSE);
+        bet_finance_switch_simulator_page ( );
 	    break;
 
 	case GSB_CATEGORIES_PAGE:

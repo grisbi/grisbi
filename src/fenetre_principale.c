@@ -268,8 +268,8 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 
     /* append the financial page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       bet_financial_create_page (),
-			       gtk_label_new (SPACIFY(_("Credits simulator"))) );
+                        bet_finance_create_page (),
+                        gtk_label_new (SPACIFY(_("Credits simulator"))) );
 
     /* append the categories page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
