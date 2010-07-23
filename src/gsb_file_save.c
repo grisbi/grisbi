@@ -2661,7 +2661,7 @@ gulong gsb_file_save_logo_part ( gulong iterator,
 
     pixbuf = gsb_select_icon_get_logo_pixbuf ( );
     if ( !pixbuf )
-        return;
+        return 0;
 
     str64 = gsb_select_icon_create_chaine_base64_from_pixbuf ( pixbuf );
 

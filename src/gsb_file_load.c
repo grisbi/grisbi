@@ -867,7 +867,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     else if ( !strcmp ( attribute_names[i], "Name_logo" ) )
     {
         GdkPixbuf *pixbuf = NULL;
-        gchar *name_logo = NULL;
 
         etat.name_logo = my_strdup ( attribute_values[i] );
         if ( etat.is_pixmaps_dir )

@@ -25,9 +25,10 @@
 /*START_INCLUDE*/
 #include "bet_finance_ui.h"
 #include "bet_data_finance.h"
-#include "gsb_currency.h"
+#include "dialog.h"
 #include "fenetre_principale.h"
 #include "gsb_combo_box.h"
+#include "gsb_currency.h"
 #include "gsb_form_widget.h"
 #include "gsb_real.h"
 #include "mouse.h"
@@ -179,12 +180,9 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     GtkWidget *align;
     GtkWidget *label;
     GtkWidget *spin_button = NULL;
-    GtkWidget *button, *button_1, *button_2;
+    GtkWidget *button;
     GtkWidget *tree_view;
     GtkWidget *expander;
-    gchar *str_year;
-    gint year;
-    gpointer pointer;
 
     devel_debug (NULL);
 
@@ -334,7 +332,6 @@ void bet_finance_activate_expander ( GtkWidget *expander, GtkWidget *widget )
  * */
 GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
 {
-    GtkWidget *widget;
     GtkWidget *vbox;
     GtkWidget *hbox;
     GtkWidget *align;
@@ -588,7 +585,6 @@ void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget )
     GtkWidget *combobox;
     GtkWidget *bouton;
     GtkWidget *tree_view;
-    GtkWidget *spin_button;
     GtkTreeModel *model;
     gdouble taux_frais;
     gint duree_min, duree_max;
@@ -702,7 +698,7 @@ gdouble bet_finance_get_number_from_string ( GtkWidget *parent, const gchar *nam
         GtkWidget *combobox;
         const gchar *entry;
         gchar *tmp_str;
-        gint devise;
+        gint devise = 0;
 
         entry = gtk_entry_get_text ( GTK_ENTRY ( widget ) );
         if ( entry && strlen ( entry ) > 0 )
@@ -950,17 +946,10 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
 GtkWidget *bet_finance_create_amortization_page ( void )
 {
     GtkWidget *page;
-    GtkWidget *widget;
-    GtkWidget *vbox, *hbox;
+    GtkWidget *hbox;
     GtkWidget *align;
     GtkWidget *label;
-    GtkWidget *spin_button = NULL;
-    GtkWidget *button, *button_1, *button_2;
     GtkWidget *tree_view;
-    GtkWidget *expander;
-    gchar *str_year;
-    gint year;
-    gpointer pointer;
 
     devel_debug (NULL);
 
@@ -1032,7 +1021,6 @@ GtkWidget *bet_finance_create_amortization_page ( void )
  * */
 GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container )
 {
-    GtkTreeIter iter;
     GtkWidget *scrolled_window;
     GtkWidget *tree_view;
     GtkTreeStore *tree_model;
@@ -1197,12 +1185,9 @@ void bet_finance_fill_amortization_array ( GtkWidget *menu_item,
     gchar *str_duree;
     gchar *str_capital;
     gchar *str_taux;
-    gchar *str_frais;
-    gchar *str_echeance;
     gint index = 0;
     gint nbre_echeances;
     gdouble taux_periodique;
-    gdouble echeance;
     struct_amortissement *s_amortissement;
 
     devel_debug ( NULL );
@@ -1289,9 +1274,6 @@ void bet_finance_fill_amortization_ligne ( GtkTreeModel *model,
     gchar *str_principal = NULL;
     gchar *str_frais = NULL;
     gchar *str_echeance = NULL;
-    gdouble capital_du;
-    gdouble interets;
-    gdouble principal;
 
     str_capital_du = gsb_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> capital_du ),

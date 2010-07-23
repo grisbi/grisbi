@@ -30,6 +30,7 @@
 /*START_INCLUDE*/
 #include "traitement_variables.h"
 #include "bet_data.h"
+#include "bet_future.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -52,6 +53,7 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form_scheduler.h"
+#include "gsb_select_icon.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
 #include "menu.h"
