@@ -1341,9 +1341,9 @@ void bet_config_initialise_finance_widget ( gint account_number,
     gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ), nbre_ans );
     widget = g_object_get_data ( G_OBJECT ( parent ), "bet_config_unit_duree" );
     if ( nbre_ans == 1 )
-        gtk_label_set_label ( GTK_LABEL ( widget ), _(" year ") );
+        gtk_label_set_label ( GTK_LABEL ( widget ), _("year") );
     else
-        gtk_label_set_label ( GTK_LABEL ( widget ), _(" years ") );
+        gtk_label_set_label ( GTK_LABEL ( widget ), _("years") );
 
     /* set start_date */
     widget = g_object_get_data ( G_OBJECT ( parent ), "bet_config_start_date" );
