@@ -31,24 +31,21 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_account.h"
+#include "custom_list.h"
 #include "dialog.h"
-#include "utils_dates.h"
+#include "fenetre_principale.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
-#include "fenetre_principale.h"
-#include "navigation.h"
-#include "gsb_real.h"
 #include "gsb_select_icon.h"
-#include "traitement_variables.h"
-#include "utils_str.h"
-#include "custom_list.h"
 #include "gsb_transactions_list.h"
-#include "gsb_data_transaction.h"
-#include "structures.h"
 #include "include.h"
+#include "navigation.h"
+#include "structures.h"
+#include "traitement_variables.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 #include "erreur.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /** \struct
@@ -120,10 +117,10 @@ typedef struct
     gpointer 	form_organization;
 
     /** @name bet data */
-    gint bet_use_budget;            /* 1 = use the budget module */
+    gint bet_use_budget;                /* 1 = use the budget module */
     GDate *bet_start_date;              /* date de début */
-    gint bet_spin_range;                /* echelle de la période 0 = mois 1 = années */
     gint bet_months;                    /* nombre de mois ou d'années */
+    gint bet_spin_range;                /* echelle de la période 0 = mois 1 = années */
     gint bet_auto_inc_month;            /* incrémente automatiquement le mois */
     gint bet_select_transaction_label;  /* fixe le label pour les opérations */
     gint bet_select_scheduled_label;    /* fixe le label pour les opérations planifiées */
@@ -131,6 +128,10 @@ typedef struct
     gint bet_hist_data;                 /* origine des données 0 = catégories 1 = IB */
     gint bet_hist_fyear;                /* numéro d'exercice */
     gint bet_maj;                       /* MAJ du module estiamte balance */
+    gdouble bet_capital;                /* capital emprunté */
+    gdouble bet_taux_annuel;            /* taux d'interet annuel */
+    gdouble bet_frais;                  /* frais par echeance */
+    gint bet_type_taux;                 /* type de taux : actuariel ou proportionnel */
 } struct_account;
 
 
@@ -459,7 +460,7 @@ gint gsb_data_account_get_no_account ( gpointer account_ptr )
  * \return the new number, or -1 if failed
  * */
 gint gsb_data_account_set_account_number ( gint account_number,
-					   gint new_no )
+                        gint new_no )
 {
     struct_account *account;
 
@@ -888,7 +889,7 @@ gsb_real gsb_data_account_get_init_balance ( gint account_number,
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_init_balance ( gint account_number,
-					     gsb_real balance )
+                        gsb_real balance )
 {
     struct_account *account;
 
@@ -1310,7 +1311,7 @@ gint gsb_data_account_get_current_transaction_number ( gint account_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_current_transaction_number ( gint account_number,
-							   gint transaction_number )
+                        gint transaction_number )
 {
     struct_account *account;
 
@@ -2904,7 +2905,7 @@ GDate *gsb_data_account_get_bet_start_date ( gint account_number )
     account = gsb_data_account_get_structure ( account_number );
 
     if (!account )
-	    return 0;
+        return 0;
 
     date = account -> bet_start_date;
 
@@ -3003,7 +3004,7 @@ gint gsb_data_account_get_bet_months ( gint account_number )
     account = gsb_data_account_get_structure ( account_number );
 
     if (!account )
-	    return 0;
+        return 0;
 
     if ( account -> bet_months == 0 )
         return 1;
@@ -3020,11 +3021,11 @@ gint gsb_data_account_get_bet_months ( gint account_number )
 gboolean gsb_data_account_set_bet_months ( gint account_number, gint months )
 {
     struct_account *account;
-
+devel_debug_int ( months );
     account = gsb_data_account_get_structure ( account_number );
 
     if (!account )
-	    return FALSE;
+        return FALSE;
 
     account -> bet_months = months;
 
@@ -3256,7 +3257,7 @@ gint gsb_data_account_get_bet_use_budget ( gint account_number )
     account = gsb_data_account_get_structure ( account_number );
 
     if (!account )
-	    return 0;
+        return 0;
 
     kind = account -> account_kind;
 
@@ -3264,10 +3265,8 @@ gint gsb_data_account_get_bet_use_budget ( gint account_number )
     {
         case GSB_TYPE_BANK:
         case GSB_TYPE_CASH:
-            return account -> bet_use_budget;
-            break;
         case GSB_TYPE_LIABILITIES:
-            return -1;
+            return account -> bet_use_budget;
             break;
         case GSB_TYPE_ASSET:
             return -1;
@@ -3313,7 +3312,7 @@ gint gsb_data_account_get_bet_maj ( gint account_number )
     account = gsb_data_account_get_structure ( account_number );
 
     if (!account )
-	    return 0;
+        return 0;
 
     return account -> bet_maj;
 }
@@ -3332,7 +3331,7 @@ gboolean gsb_data_account_set_bet_maj ( gint account_number, gint type_maj )
     account = gsb_data_account_get_structure ( account_number );
 
     if ( !account )
-	    return FALSE;
+        return FALSE;
 
     account -> bet_maj = type_maj;
 
@@ -3340,6 +3339,170 @@ gboolean gsb_data_account_set_bet_maj ( gint account_number, gint type_maj )
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
+gdouble gsb_data_account_get_bet_finance_capital ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+        return 0;
+
+    return account -> bet_capital;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_finance_capital ( gint account_number, gdouble capital )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+        return FALSE;
+
+    account -> bet_capital = capital;
+
+    return TRUE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gdouble gsb_data_account_get_bet_finance_taux_annuel ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+        return 0;
+
+    return account -> bet_taux_annuel;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_finance_taux_annuel ( gint account_number, gdouble taux_annuel )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+        return FALSE;
+
+    account -> bet_taux_annuel = taux_annuel;
+
+    return TRUE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gdouble gsb_data_account_get_bet_finance_frais ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+        return 0;
+
+    return account -> bet_frais;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_finance_frais ( gint account_number, gdouble frais )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+        return FALSE;
+
+    account -> bet_frais = frais;
+
+    return TRUE;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gint gsb_data_account_get_bet_finance_type_taux ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+        return 0;
+
+    return account -> bet_type_taux;
+}
+
+
+/**
+ * 
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bet_finance_type_taux ( gint account_number, gint type_taux )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+        return FALSE;
+
+    account -> bet_type_taux = type_taux;
+
+    return TRUE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

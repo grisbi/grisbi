@@ -290,7 +290,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 
-    /* Balance estimate */
+    /* Credits simulator */
     tmpstr = g_build_filename( PIXMAPS_DIR, "ac_liability.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );

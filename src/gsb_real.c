@@ -1127,6 +1127,22 @@ gchar *gsb_real_save_real_to_string ( gsb_real number, gint default_exponent )
 }
 
 
+gdouble gsb_real_real_to_double ( gsb_real number )
+{
+    gdouble result;
+
+    result = number.mantissa;
+
+    while ( number.exponent > 0 )
+    {
+        result /= 10;
+        number.exponent--;
+    }
+
+    return result;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

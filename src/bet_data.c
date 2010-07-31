@@ -120,32 +120,39 @@ void bet_data_select_bet_pages ( gint account_number )
         bet_array_list_select_path ( tree_view, NULL );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
         gtk_widget_show ( page );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_FINANCE_PAGE );
+        gtk_widget_hide ( page );
         bet_historical_g_signal_unblock_tree_view ( );
         gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
         if ( current_page < GSB_PROPERTIES_PAGE 
          && 
          gsb_data_account_get_bet_use_budget ( account_number ) == FALSE )
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_TRANSACTIONS_PAGE );
+        if ( current_page == GSB_FINANCE_PAGE )
+            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         break;
     case GSB_TYPE_CASH:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         gtk_widget_hide ( page );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
         gtk_widget_show ( page );
-        if ( current_page == GSB_ESTIMATE_PAGE )
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_FINANCE_PAGE );
+        gtk_widget_hide ( page );
+        if ( current_page == GSB_ESTIMATE_PAGE || current_page == GSB_FINANCE_PAGE )
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
         bet_historical_g_signal_block_tree_view ( );
         gsb_data_account_set_bet_maj ( account_number, BET_MAJ_HISTORICAL );
         break;
     case GSB_TYPE_LIABILITIES:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
-        gtk_widget_show ( page );
+        gtk_widget_hide ( page );
         bet_array_list_select_path ( tree_view, NULL );
-        if ( current_page == GSB_HISTORICAL_PAGE )
-            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
         gtk_widget_hide ( page );
-        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_FINANCE_PAGE );
+        gtk_widget_show ( page );
+        if ( current_page == GSB_ESTIMATE_PAGE || current_page == GSB_HISTORICAL_PAGE )
+            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_FINANCE_PAGE );
         break;
     case GSB_TYPE_ASSET:
         if ( current_page < GSB_PROPERTIES_PAGE )
@@ -153,6 +160,8 @@ void bet_data_select_bet_pages ( gint account_number )
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         gtk_widget_hide ( page );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
+        gtk_widget_hide ( page );
+        page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_FINANCE_PAGE );
         gtk_widget_hide ( page );
         break;
     }

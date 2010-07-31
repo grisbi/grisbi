@@ -145,6 +145,29 @@ GDate *gsb_date_tomorrow ( void )
 }
 
 
+/**
+ * adds one month to a date
+ *
+ * \param date
+ * \param free the init date
+ *
+ * \return a newly allocated GDate which represents the date of the day. 
+ * Use g_date_free to free memory when no more used.
+ * */
+GDate *gsb_date_add_one_month ( GDate *date, gboolean free )
+{
+    GDate *new_date;
+
+    new_date = gsb_date_copy ( date );
+    g_date_add_months ( new_date, 1);
+
+    if ( free )
+        g_date_free ( date );
+
+    return ( new_date );
+}
+
+
 
 /**
  * copy the date given in param
