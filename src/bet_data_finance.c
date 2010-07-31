@@ -25,6 +25,7 @@
 /*START_INCLUDE*/
 #include "bet_data_finance.h"
 #include "bet_finance_ui.h"
+#include "utils_dates.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -37,7 +38,7 @@
 /*END_EXTERN*/
 
 /**
- *
+ * retourne l'échéance hors frais
  *
  *
  *
@@ -62,9 +63,12 @@ gdouble bet_data_finance_get_echeance ( gdouble capital,
 
 
 /**
+ * Calcule le taux périodique d'un intérêt
  *
+ * /param taux d'intérêt
+ * /param type de taux : actuariel ou proportionnel
  *
- *
+ * /return a double
  *
  * */
 gdouble bet_data_finance_get_taux_periodique ( gdouble taux, gint type_taux )
@@ -82,7 +86,7 @@ gdouble bet_data_finance_get_taux_periodique ( gdouble taux, gint type_taux )
 
 
 /**
- *
+ * Calcule le montant des frais par échéances ( en général des assurances)
  *
  *
  *
@@ -101,7 +105,7 @@ gdouble bet_data_finance_get_frais_par_echeance ( gdouble capital,
 
 
 /**
- *
+ * Calcule les intérêts par période
  *
  *
  *
@@ -118,7 +122,7 @@ gdouble bet_data_finance_get_interets ( gdouble capital_du, gdouble taux_periodi
 
 
 /**
- *
+ * retourne le capital remboursé
  *
  *
  *
@@ -137,7 +141,7 @@ gdouble bet_data_finance_get_principal ( gdouble echeance,
 
 
 /**
- *
+ * Calcule la dernière échéance du prêt
  *
  *
  *
@@ -156,30 +160,48 @@ gdouble number;
 
 
 /**
+ * arrondit à la précision demandée
+ *
+ * /param nombre à arrondir
+ * /param nombre de chiffres significatifs
+ *
+ * /return a double number
+ *
+ * */
+gdouble bet_data_finance_troncate_number ( gdouble number, gint nbre_decimal )
+{
+    gchar *str_number;
+    gdouble result;
+
+    str_number = utils_str_dtostr ( number, nbre_decimal, FALSE );
+    result =  my_strtod ( str_number, NULL );
+
+    g_free ( str_number );
+
+    return result;
+}
+
+GDate *bet_data_finance_get_date_last_installment_paid ( GDate *date_depart )
+{
+    GDate *date_jour;
+    GDateDay jour;
+
+    date_jour = gdate_today ( );
+    jour = g_date_get_day ( date_depart );
+
+    if ( g_date_get_day ( date_jour ) < jour )
+        g_date_subtract_months  ( date_jour, 1 );
+    
+    g_date_set_day ( date_jour, jour );
+
+    return date_jour;
+}
+/**
  *
  *
  *
  *
  * */
-gdouble bet_data_finance_troncate_number ( gdouble number, gint nbre_decimal )
-{
-    gchar buffer[256];
-    gchar *str_number;
-    gchar *format;
-    gint nbre_char;
-    gdouble result;
-
-    format = g_strconcat ( "%.", utils_str_itoa ( nbre_decimal ), "f", NULL );
-
-    nbre_char = g_sprintf ( buffer, format, number );
-    str_number = g_strndup ( buffer, nbre_char + 1 );
-
-    result =  my_strtod ( str_number, NULL );
-
-    return result;
-}
-
-
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

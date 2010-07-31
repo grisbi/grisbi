@@ -6,6 +6,7 @@
 
 /* START_DECLARATION */
 GDate *gdate_today ( void );
+GDate *gsb_date_add_one_month ( GDate *date, gboolean free );
 gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
                         gboolean set_today );
 gboolean gsb_date_check_entry ( GtkWidget *entry );

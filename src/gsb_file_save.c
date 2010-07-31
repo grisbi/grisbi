@@ -952,6 +952,8 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	gchar *mini_auto;
     gchar **owner_tab;
     gchar *owner_str;
+    gchar *bet_str;
+    kind_account kind;
 
 	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
@@ -1055,6 +1057,8 @@ gulong gsb_file_save_account_part ( gulong iterator,
         g_strfreev ( owner_tab );
     }
 
+    kind = gsb_data_account_get_kind ( account_number );
+
     /* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Account\n"
  					       "\t\tName=\"%s\"\n"
@@ -1090,21 +1094,12 @@ gulong gsb_file_save_account_part ( gulong iterator,
 					       "\t\tForm_lines_number=\"%d\"\n"
 					       "\t\tForm_organization=\"%s\"\n"
 					       "\t\tForm_columns_width=\"%s\"\n"
-                           "\t\tBet_use_budget=\"%d\"\n"
-                           "\t\tBet_start_date=\"%s\"\n"
-                           "\t\tBet_months=\"%d\"\n"
-                           "\t\tBet_UT=\"%d\"\n"
-                           "\t\tBet_auto_inc_month=\"%d\"\n"
-                           "\t\tBet_select_transaction_label=\"%d\"\n" 
-                           "\t\tBet_select_scheduled_label=\"%d\"\n" 
-                           "\t\tBet_select_futur_label=\"%d\"\n"
-                           "\t\tBet_SD=\"%d\"\n" 
-                           "\t\tBet_Fi=\"%d\" />\n",
+                           "\t\tBet_use_budget=\"%d\"",
 	    my_safe_null_str(gsb_data_account_get_name (account_number)),
 	    my_safe_null_str(gsb_data_account_get_id (account_number)),
 	    account_number,
 	    my_safe_null_str(gsb_data_account_get_holder_name (account_number)),
-	    gsb_data_account_get_kind (account_number),
+	    kind,
 	    gsb_data_account_get_currency (account_number),
 	    my_safe_null_str(gsb_data_account_get_name_icon (account_number)),
 	    gsb_data_account_get_bank (account_number),
@@ -1133,17 +1128,57 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    gsb_data_form_get_nb_rows (account_number),
 	    my_safe_null_str(form_organization),
 	    my_safe_null_str(form_columns_width),
-        gsb_data_account_get_bet_use_budget ( account_number ),
-        my_safe_null_str ( gsb_format_gdate_safe (
+        gsb_data_account_get_bet_use_budget ( account_number ) );
+
+    switch ( kind )
+    {
+        case GSB_TYPE_LIABILITIES:
+            bet_str = g_markup_printf_escaped ( "\t\tBet_start_date=\"%s\"\n"
+                        "\t\tBet_months=\"%d\"\n"
+                        "\t\tBet_capital=\"%s\"\n"
+                        "\t\tBet_taux_annuel=\"%s\"\n"
+                        "\t\tBet_frais=\"%s\"\n"
+                        "\t\tBet_type_taux=\"%d\" />\n",
+                my_safe_null_str ( gsb_format_gdate_safe (
                         gsb_data_account_get_bet_start_date ( account_number ) ) ),
-        gsb_data_account_get_bet_months ( account_number ),
-        gsb_data_account_get_bet_spin_range ( account_number ),
-        gsb_data_account_get_bet_auto_inc_month ( account_number ),
-        gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_TRANSACTION ),
-        gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_SCHEDULED ),
-        gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_FUTURE ),
-        gsb_data_account_get_bet_hist_data ( account_number ),
-        gsb_data_account_get_bet_hist_fyear ( account_number ) );
+                gsb_data_account_get_bet_months ( account_number ),
+                my_safe_null_str ( utils_str_dtostr (
+                        gsb_data_account_get_bet_finance_capital ( account_number ), 2, TRUE ) ),
+                my_safe_null_str ( utils_str_dtostr (
+                        gsb_data_account_get_bet_finance_taux_annuel ( account_number ), 2, TRUE ) ),
+                my_safe_null_str ( utils_str_dtostr (
+                        gsb_data_account_get_bet_finance_frais ( account_number ), 2, TRUE ) ),
+                gsb_data_account_get_bet_finance_type_taux ( account_number ) );
+            new_string = g_strconcat ( new_string, "\n", bet_str, NULL );
+            g_free ( bet_str );
+            break;
+        case GSB_TYPE_ASSET:
+            new_string = g_strconcat ( new_string, " />\n",NULL );
+            break;
+        default:
+            bet_str = g_markup_printf_escaped ( "\t\tBet_start_date=\"%s\"\n"
+                        "\t\tBet_months=\"%d\"\n"
+                        "\t\tBet_UT=\"%d\"\n"
+                        "\t\tBet_auto_inc_month=\"%d\"\n"
+                        "\t\tBet_select_transaction_label=\"%d\"\n" 
+                        "\t\tBet_select_scheduled_label=\"%d\"\n" 
+                        "\t\tBet_select_futur_label=\"%d\"\n"
+                        "\t\tBet_SD=\"%d\"\n" 
+                        "\t\tBet_Fi=\"%d\" />\n",
+            my_safe_null_str ( gsb_format_gdate_safe (
+                        gsb_data_account_get_bet_start_date ( account_number ) ) ),
+            gsb_data_account_get_bet_months ( account_number ),
+            gsb_data_account_get_bet_spin_range ( account_number ),
+            gsb_data_account_get_bet_auto_inc_month ( account_number ),
+            gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_TRANSACTION ),
+            gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_SCHEDULED ),
+            gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_FUTURE ),
+            gsb_data_account_get_bet_hist_data ( account_number ),
+            gsb_data_account_get_bet_hist_fyear ( account_number ) );
+            new_string = g_strconcat ( new_string, "\n", bet_str, NULL );
+            g_free ( bet_str );
+            break;
+    }
 
 	g_free (sort_list);
 	g_free (sort_kind_column);

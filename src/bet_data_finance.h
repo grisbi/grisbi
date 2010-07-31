@@ -9,6 +9,7 @@
 
 
 /* START_DECLARATION */
+GDate *bet_data_finance_get_date_last_installment_paid ( GDate *date_depart );
 gdouble bet_data_finance_get_last_echeance ( gdouble capital_du,
                         gdouble interets,
                         gdouble frais );

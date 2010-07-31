@@ -1904,6 +1904,38 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "Bet_capital" ))
+    {
+        gsb_data_account_set_bet_finance_capital ( account_number,
+                        g_ascii_strtod ( attribute_values[i], NULL ) );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Bet_taux_annuel" ))
+    {
+        gsb_data_account_set_bet_finance_taux_annuel ( account_number,
+                        g_ascii_strtod ( attribute_values[i], NULL ) );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Bet_frais" ))
+    {
+        gsb_data_account_set_bet_finance_frais ( account_number,
+                        g_ascii_strtod ( attribute_values[i], NULL ) );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Bet_type_taux" ))
+    {
+        gsb_data_account_set_bet_finance_type_taux ( account_number,
+                        g_ascii_strtod ( attribute_values[i], NULL ) );
+        i++;
+        continue;
+    }
+
     /* normally, shouldn't come here */
     i++;
     }

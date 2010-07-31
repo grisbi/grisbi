@@ -44,6 +44,10 @@ gchar *gsb_data_account_get_bank_account_key ( gint account_number );
 gchar *gsb_data_account_get_bank_account_number ( gint account_number );
 gchar *gsb_data_account_get_bank_branch_code ( gint account_number );
 gboolean gsb_data_account_get_bet_auto_inc_month ( gint account_number );
+gdouble gsb_data_account_get_bet_finance_capital ( gint account_number );
+gdouble gsb_data_account_get_bet_finance_frais ( gint account_number );
+gdouble gsb_data_account_get_bet_finance_taux_annuel ( gint account_number );
+gint gsb_data_account_get_bet_finance_type_taux ( gint account_number );
 gint gsb_data_account_get_bet_hist_data ( gint account_number );
 gint gsb_data_account_get_bet_hist_fyear ( gint account_number );
 gint gsb_data_account_get_bet_maj ( gint account_number );
@@ -95,7 +99,7 @@ gboolean gsb_data_account_reorder ( GSList *new_order );
 gboolean gsb_data_account_set_account_icon_pixbuf ( gint account_number,
                         GdkPixbuf * pixbuf );
 gint gsb_data_account_set_account_number ( gint account_number,
-					   gint new_no );
+                        gint new_no );
 gboolean gsb_data_account_set_balances_are_dirty ( gint account_number );
 gboolean gsb_data_account_set_bank ( gint account_number,
                         gint bank );
@@ -108,6 +112,10 @@ gboolean gsb_data_account_set_bank_branch_code ( gint account_number,
                         const gchar *bank_branch_code );
 gboolean gsb_data_account_set_bet_auto_inc_month ( gint account_number,
                         gboolean auto_inc_month );
+gboolean gsb_data_account_set_bet_finance_capital ( gint account_number, gdouble capital );
+gboolean gsb_data_account_set_bet_finance_frais ( gint account_number, gdouble frais );
+gboolean gsb_data_account_set_bet_finance_taux_annuel ( gint account_number, gdouble taux_annuel );
+gboolean gsb_data_account_set_bet_finance_type_taux ( gint account_number, gint type_taux );
 gboolean gsb_data_account_set_bet_hist_data ( gint account_number, gint hist_data );
 gboolean gsb_data_account_set_bet_hist_fyear ( gint account_number, gint hist_fyear );
 gboolean gsb_data_account_set_bet_maj ( gint account_number, gint type_maj );
@@ -125,7 +133,7 @@ gboolean gsb_data_account_set_comment ( gint account_number,
 gboolean gsb_data_account_set_currency ( gint account_number,
                         gint currency );
 gboolean gsb_data_account_set_current_transaction_number ( gint account_number,
-							   gint transaction_number );
+                        gint transaction_number );
 gboolean gsb_data_account_set_default_credit ( gint account_number,
                         gint default_credit );
 gboolean gsb_data_account_set_default_debit ( gint account_number,
@@ -142,7 +150,7 @@ gboolean gsb_data_account_set_holder_name ( gint account_number,
 gboolean gsb_data_account_set_id ( gint account_number,
                         const gchar *id );
 gboolean gsb_data_account_set_init_balance ( gint account_number,
-					     gsb_real balance );
+                        gsb_real balance );
 gboolean gsb_data_account_set_kind ( gint account_number,
                         kind_account account_kind );
 gboolean gsb_data_account_set_l ( gint account_number,

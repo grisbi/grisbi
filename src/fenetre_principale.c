@@ -25,13 +25,14 @@
 
 /*START_INCLUDE*/
 #include "fenetre_principale.h"
-#include "bet_tab.h"
+#include "accueil.h"
 #include "bet_data.h"
+#include "bet_data_finance.h"
 #include "bet_finance_ui.h"
 #include "bet_hist.h"
+#include "bet_tab.h"
 #include "navigation.h"
 #include "gsb_transactions_list.h"
-#include "accueil.h"
 #include "etats_onglet.h"
 #include "gsb_data_account.h"
 #include "gsb_account_property.h"
@@ -220,11 +221,11 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 {
     /* append the main page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       creation_onglet_accueil(),
-			       gtk_label_new (SPACIFY(_("Main page"))) );
+                        creation_onglet_accueil(),
+                        gtk_label_new (SPACIFY(_("Main page"))) );
 
     /* append the account page : a notebook with the account configuration
-     * and the transactions page */
+     * the bet pages and transactions page */
     account_page = gtk_notebook_new ();
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(account_page), FALSE );
     gtk_widget_show ( account_page );
@@ -237,7 +238,7 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
                         creation_fenetre_operations (),
                         gtk_label_new (SPACIFY(_("Transactions"))) );
 
-     /* append the balance estimate pages */
+    /* append the balance estimate pages */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         bet_array_create_page ( ),
                         gtk_label_new (SPACIFY(_("Forecast"))) );
@@ -245,6 +246,11 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         bet_historical_create_page ( ),
                         gtk_label_new (SPACIFY(_("Historical data"))) );
+
+    /* append the amortization page */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
+                        bet_finance_create_account_page ( ),
+                        gtk_label_new ( SPACIFY ( _("Amortization array") ) ) );
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         gsb_account_property_create_page (),
@@ -257,14 +263,13 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 
     /* append the scheduled transactions page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       gsb_scheduler_list_create_list (),
-			       gtk_label_new (SPACIFY(_("Scheduler"))) );
+                        gsb_scheduler_list_create_list (),
+                        gtk_label_new (SPACIFY(_("Scheduler"))) );
 
     /* append the payee page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       onglet_tiers (),
-			       gtk_label_new (SPACIFY(_("Payee"))) );
-
+                        onglet_tiers (),
+                        gtk_label_new (SPACIFY(_("Payee"))) );
 
     /* append the financial page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
@@ -273,18 +278,18 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 
     /* append the categories page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       onglet_categories (),
-			       gtk_label_new (SPACIFY(_("Categories"))) );
+                        onglet_categories (),
+                        gtk_label_new (SPACIFY(_("Categories"))) );
 
     /* append the budget page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       onglet_imputations(),
-			       gtk_label_new (SPACIFY(_("Budgetary lines"))) );
+                        onglet_imputations(),
+                        gtk_label_new (SPACIFY(_("Budgetary lines"))) );
 
     /* append the reports page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       creation_onglet_etats (),
-			       gtk_label_new (SPACIFY(_("Reports"))) );
+                        creation_onglet_etats (),
+                        gtk_label_new (SPACIFY(_("Reports"))) );
 
     return FALSE;
 }
@@ -327,6 +332,10 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
             bet_data_update_bet_module ( account_number, GSB_HISTORICAL_PAGE );
         bet_historical_set_page_title ( account_number );
         break;
+    case GSB_FINANCE_PAGE:
+        gsb_form_set_expander_visible (FALSE, FALSE );
+        account_number = gsb_gui_navigation_get_current_account ( );
+        bet_finance_ui_update_amortization_tab ( account_number );
     case GSB_PROPERTIES_PAGE:
         gsb_form_set_expander_visible (FALSE, FALSE );
         break;
