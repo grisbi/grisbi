@@ -963,8 +963,6 @@ GdkPixbuf *gsb_select_icon_change_account_pixbuf ( gint account_number,
 gboolean gsb_select_icon_remove_account_pixbuf ( gint account_number )
 {
     GSList *list_tmp;
-    GdkPixbuf *pixbuf;
-    GError *error = NULL;
 
     list_tmp = list_accounts_icon;
 

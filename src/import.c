@@ -2367,7 +2367,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gint last_transaction_number;
     gint div_number;
     gint payment_number = 0;
-    gchar* tmpstr;
+    gchar* tmpstr = NULL;
 
     if ( etat.get_fusion_import_transactions
      &&

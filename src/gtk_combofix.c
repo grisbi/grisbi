@@ -2135,13 +2135,9 @@ gboolean gtk_combofix_search_for_text (GtkTreeModel *model,
 gchar *gtk_combofix_get_first_string_from_sort_model ( GtkTreeModel *sort_model,
                         const gchar *string )
 {
-    gchar *complete_string = NULL;
-    GtkTreePath *path;
     GtkTreeIter iter;
     GtkTreeIter child_iter;
-    gint path_ok;
     gint length;
-    gboolean text_written = FALSE;
     gboolean separator = FALSE;
     gchar *model_string;
     gint model_string_length;
