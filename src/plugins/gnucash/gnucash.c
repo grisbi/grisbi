@@ -834,7 +834,7 @@ struct struct_ope_importation * new_transaction_from_split ( struct gnucash_spli
 
 gboolean node_strcmp ( xmlNodePtr node, gchar * name )
 {
-  return node -> name && ! strcmp ( node -> name, name );
+  return node -> name && ! strcmp ( ( gchar *) node -> name, name );
 }
 
 
