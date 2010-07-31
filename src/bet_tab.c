@@ -579,13 +579,13 @@ GtkWidget *bet_array_create_tree_view ( void )
                     G_TYPE_INT,         /* SPP_ESTIMATE_TREE_ORIGIN_DATA */
                     G_TYPE_INT,         /* SPP_ESTIMATE_TREE_DIVISION_COLUMN */
                     G_TYPE_INT,         /* SPP_ESTIMATE_TREE_SUB_DIV_COLUMN */
-				    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DATE_COLUMN */
-				    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DESC_COLUMN */
-				    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DEBIT_COLUMN */
-				    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_CREDIT_COLUMN */
-				    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_BALANCE_COLUMN */
-				    G_TYPE_DATE,        /* SPP_ESTIMATE_TREE_SORT_DATE_COLUMN */
-				    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_AMOUNT_COLUMN */
+                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DATE_COLUMN */
+                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DESC_COLUMN */
+                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DEBIT_COLUMN */
+                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_CREDIT_COLUMN */
+                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_BALANCE_COLUMN */
+                    G_TYPE_DATE,        /* SPP_ESTIMATE_TREE_SORT_DATE_COLUMN */
+                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_AMOUNT_COLUMN */
                     G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_BALANCE_COLOR */
                     GDK_TYPE_COLOR );   /* SPP_ESTIMATE_TREE_BACKGROUND_COLOR */
 
@@ -595,31 +595,32 @@ GtkWidget *bet_array_create_tree_view ( void )
     /* sort by date */
     sortable = gtk_tree_model_sort_new_with_model ( GTK_TREE_MODEL ( tree_model ) );
     gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model ),
-				      SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
-				      (GtkTreeIterCompareFunc) bet_array_date_sort_function,
-				      NULL, NULL );
+                        SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
+                        (GtkTreeIterCompareFunc) bet_array_date_sort_function,
+                        NULL,
+                        NULL );
     gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(tree_model),
-					 SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, GTK_SORT_DESCENDING);
+                        SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, GTK_SORT_DESCENDING);
 
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_widget_show ( scrolled_window );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				        GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC );
+                        GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view );
     gtk_widget_show ( scrolled_window );
 
     /* Date column */
     cell = gtk_cell_renderer_text_new ();
     column = gtk_tree_view_column_new_with_attributes (
-					    _("Date"), cell,
-					    "text", SPP_ESTIMATE_TREE_DATE_COLUMN,
+                        _("Date"), cell,
+                        "text", SPP_ESTIMATE_TREE_DATE_COLUMN,
                         "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
                         NULL);
     g_object_set (cell, "xalign", 0.5, NULL);
 
     gtk_tree_view_column_set_alignment ( column, 0.5 );
     gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
-				GTK_TREE_VIEW_COLUMN(column));
+                        GTK_TREE_VIEW_COLUMN(column));
     gtk_tree_view_column_set_resizable ( column, TRUE );
 
     /* Description column */
@@ -1710,76 +1711,75 @@ void bet_array_adjust_hist_amount ( gint div_number,
             if ( tmp_sub_div_nb == 0 || tmp_sub_div_nb == sub_div_nb )
             {
                 div_name = bet_data_get_div_name ( tmp_div_number, tmp_sub_div_nb, FALSE );
-				//~ printf ("div_number = %d, sub_div_number = %d div_name = %s str_desc = %s\n",
-                         //~ tmp_div_number, tmp_sub_div_nb, div_name, str_desc );
+
                 date = gsb_parse_date_string ( str_date );
                 date_today = gdate_today ( );
                 if ( g_date_get_month ( date ) - g_date_get_month ( date_today ) == 0 )
                 {
                     number = gsb_real_import_from_string ( str_amount );
-                    if ( number .mantissa < 0 )
-                        sign = -1;
-                    number = gsb_real_sub ( number, amount );
-                    if ( number.mantissa == 0 )
-                        gtk_tree_store_remove ( GTK_TREE_STORE ( model ), &iter );
-                    else
+                    if ( number.mantissa != 0 )
                     {
+                        sign = bet_data_get_div_type ( div_number );
+                        number = gsb_real_sub ( number, amount );
+
                         if ( str_amount )
                             g_free ( str_amount );
                         if ( str_desc )
                             g_free ( str_desc );
-
-                        str_amount = gsb_real_save_real_to_string ( number, 2 );
-                        if ( number.mantissa < 0 && sign < 0 )
+                        if ( sign == 1 )
                         {
-                            str_debit = gsb_real_get_string_with_currency (
-                                        gsb_real_abs ( number ),
-                                        bet_data_get_selected_currency ( ),
-                                        TRUE );
-                            str_desc = g_strconcat ( div_name, _(" (still available)"), NULL);
-                        }
-                        else if ( number.mantissa > 0 && sign > 0 )
-                        {
-                            str_credit = gsb_real_get_string_with_currency (
-                                        gsb_real_abs ( number ),
-                                        bet_data_get_selected_currency ( ),
-                                        TRUE );
-                            str_desc = g_strconcat ( div_name, _(" (yet to receive)"), NULL);
-                        }
-                        else if ( sign == -1 )
-                        {
-                            str_debit = gsb_real_get_string_with_currency (
-                                        null_real,
-                                        bet_data_get_selected_currency ( ),
-                                        TRUE );
-                            if ( str_amount )
-                                g_free ( str_amount );
-                            str_amount = g_strdup ( "0.00" );
-                            str_desc = g_strconcat ( div_name, _(" (budget exceeded)"), NULL);
+                            if ( number.mantissa < 0 )
+                            {
+                                str_amount = gsb_real_save_real_to_string ( number, 2 );
+                                str_debit = gsb_real_get_string_with_currency (
+                                            gsb_real_abs ( number ),
+                                            bet_data_get_selected_currency ( ),
+                                            TRUE );
+                                str_desc = g_strconcat ( div_name, _(" (still available)"), NULL);
+                            }
+                            else
+                            {
+                                str_debit = gsb_real_get_string_with_currency (
+                                            null_real,
+                                            bet_data_get_selected_currency ( ),
+                                            TRUE );
+                                str_amount = g_strdup ( "0.00" );
+                                str_desc = g_strconcat ( div_name, _(" (budget exceeded)"), NULL);
+                            }
                         }
                         else
                         {
-                            str_credit = gsb_real_get_string_with_currency (
-                                        null_real,
-                                        bet_data_get_selected_currency ( ),
-                                        TRUE );
-                            if ( str_amount )
-                                g_free ( str_amount );
-                            str_amount = g_strdup ( "0.00" );
-                            str_desc = g_strconcat ( div_name, _(" (budget exceeded)"), NULL);
+                            if ( number.mantissa > 0 )
+                            {
+                                str_amount = gsb_real_save_real_to_string ( number, 2 );
+                                str_credit = gsb_real_get_string_with_currency (
+                                            gsb_real_abs ( number ),
+                                            bet_data_get_selected_currency ( ),
+                                            TRUE );
+                                str_desc = g_strconcat ( div_name, _(" (yet to receive)"), NULL);
+                            }
+                            else
+                            {
+                                str_credit = gsb_real_get_string_with_currency (
+                                            null_real,
+                                            bet_data_get_selected_currency ( ),
+                                            TRUE );
+                                str_amount = g_strdup ( "0.00" );
+                                str_desc = g_strconcat ( div_name, _(" (budget exceeded)"), NULL);
+                            }
                         }
 
                         gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
-                                        SPP_ESTIMATE_TREE_DESC_COLUMN, str_desc,
-                                        SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
-                                        SPP_ESTIMATE_TREE_CREDIT_COLUMN, str_credit,
-                                        SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
-                                        -1 );
+                                            SPP_ESTIMATE_TREE_DESC_COLUMN, str_desc,
+                                            SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
+                                            SPP_ESTIMATE_TREE_CREDIT_COLUMN, str_credit,
+                                            SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
+                                            -1 );
 
-                        g_free ( str_desc );
-                        g_free ( str_credit );
-                        g_free ( str_debit );
-                        g_free ( str_amount );
+                            g_free ( str_desc );
+                            g_free ( str_credit );
+                            g_free ( str_debit );
+                            g_free ( str_amount );
                     }
                     g_free ( str_date );
                     g_free ( div_name );

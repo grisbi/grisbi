@@ -51,7 +51,7 @@
 
 /*START_STATIC*/
 static GDate *bet_data_futur_get_next_date ( struct_futur_data *scheduled,
-				        const GDate *date,
+                        const GDate *date,
                         const GDate *date_max );
 static struct_futur_data *bet_data_future_copy_struct ( struct_futur_data *scheduled );
 static void bet_data_future_set_max_number ( gint number );
@@ -74,6 +74,7 @@ extern gsb_real null_real;
 /* pointeurs définis en fonction du type de données catégories ou IB */
 gint (*ptr_div) ( gint transaction_num, gboolean is_transaction );
 gint (*ptr_sub_div) ( gint transaction_num, gboolean is_transaction );
+gint (*ptr_type) ( gint no_div );
 gchar* (*ptr_div_name) ( gint div_num, gint sub_div, const gchar *return_value_error );
 
 
@@ -447,12 +448,14 @@ gboolean bet_data_set_div_ptr ( gint type_div )
     {
         ptr_div = &gsb_data_mix_get_category_number;
         ptr_sub_div = &gsb_data_mix_get_sub_category_number;
+        ptr_type = &gsb_data_category_get_type;
         ptr_div_name = &gsb_data_category_get_name;
     }
     else
     {
         ptr_div = &gsb_data_mix_get_budgetary_number;
         ptr_sub_div = &gsb_data_mix_get_sub_budgetary_number;
+        ptr_type = &gsb_data_budget_get_type;
         ptr_div_name = &gsb_data_budget_get_name;
     }
 
@@ -479,6 +482,18 @@ gint bet_data_get_div_number ( gint transaction_number, gboolean is_transaction 
 gint bet_data_get_sub_div_nb ( gint transaction_number, gboolean is_transaction )
 {
     return ptr_sub_div ( transaction_number, is_transaction );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gint bet_data_get_div_type ( gint div_number )
+{
+    return ptr_type ( div_number );
 }
 
 
@@ -1226,7 +1241,7 @@ GHashTable *bet_data_future_get_list ( void )
  * \return a newly allocated date, the next date or NULL if over the limit
  * */
 GDate *bet_data_futur_get_next_date ( struct_futur_data *scheduled,
-				        const GDate *date,
+                        const GDate *date,
                         const GDate *date_max )
 {
     GDate *return_date;

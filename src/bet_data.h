@@ -101,6 +101,7 @@ gchar *bet_data_get_div_name ( gint div_num,
                         gint sub_div,
                         const gchar *return_value_error );
 gint bet_data_get_div_number ( gint transaction_number, gboolean is_transaction );
+gint bet_data_get_div_type ( gint div_number );
 gint bet_data_get_selected_currency ( void );
 GPtrArray *bet_data_get_strings_to_save ( void );
 gint bet_data_get_sub_div_nb ( gint transaction_number, gboolean is_transaction );
