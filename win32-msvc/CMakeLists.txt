@@ -96,8 +96,8 @@ SET (grisbi_source
 	../src/affichage.h
 	../src/affichage_liste.c
 	../src/affichage_liste.h
-	../src/balance_estimate_tab.c
-	../src/balance_estimate_tab.h
+#	../src/balance_estimate_tab.c
+#	../src/balance_estimate_tab.h
 	../src/barre_outils.c
 	../src/barre_outils.h
 	../src/categories_onglet.c
