@@ -11043,9 +11043,3 @@ msgstr "Aucune police définie"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Gestionnaire de finances personnelles"
-
-#~ msgid "Montly"
-#~ msgstr "Mensuel"
-
-#~ msgid "Credit Calculator and Amortization"
-#~ msgstr "Simulateur de crédit et d'amortissement"
