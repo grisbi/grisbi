@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-01 00:39+0200\n"
+"POT-Creation-Date: 2010-08-05 21:48+0200\n"
 "PO-Revision-Date: 2010-05-02 23:26+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -695,29 +695,21 @@ msgstr "Taux actuariel"
 msgid "Proportional rate"
 msgstr "Taux proportionnel"
 
-#. ~ g_signal_connect ( button_1,
-#. ~ "released",
-#. ~ G_CALLBACK ( bet_finance_type_taux_changed ),
-#. ~ parent );
-#. ~ g_signal_connect ( button_2,
-#. ~ "released",
-#. ~ G_CALLBACK ( bet_finance_type_taux_changed ),
-#. ~ parent );
-#: ../src/bet_config.c:1291
+#: ../src/bet_config.c:1283
 msgid "Apply"
 msgstr "Appliquer"
 
-#: ../src/bet_config.c:1344 ../src/bet_finance_ui.c:761
+#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:761
 #: ../src/bet_finance_ui.c:1507
 msgid " year "
 msgstr " an "
 
-#: ../src/bet_config.c:1346 ../src/bet_finance_ui.c:763
+#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:763
 #: ../src/bet_finance_ui.c:1509
 msgid " years "
 msgstr " ans "
 
-#: ../src/bet_config.c:1396 ../src/bet_finance_ui.c:627
+#: ../src/bet_config.c:1388 ../src/bet_finance_ui.c:627
 msgid "You must enter at least one value for the capital"
 msgstr "Vous devez entrer au moins une valeur pour le capital"
 
@@ -888,6 +880,7 @@ msgid "Weekly"
 msgstr "Hebdomadaire"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:152
+#: ../src/gsb_scheduler_list.c:998
 msgid "Monthly"
 msgstr "Mensuel"
 
@@ -1101,7 +1094,7 @@ msgstr "Moyenne"
 msgid "Amount retained"
 msgstr "Montant retenu"
 
-#. ~ devel_debug (NULL);
+#. devel_debug (NULL);
 #. the fyear list store, contains 3 columns :
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
@@ -7531,15 +7524,15 @@ msgstr ""
 msgid "Cannot open config file '%s': %s"
 msgstr "Impossible d'ouvrir le fichier de configuration « %s » : %s"
 
-#: ../src/gsb_file_config.c:1398 ../src/print_config.c:51
+#: ../src/gsb_file_config.c:1375 ../src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: ../src/gsb_file_config.c:1417
+#: ../src/gsb_file_config.c:1394
 msgid "Delete config file from a previous version"
 msgstr "Supprimer la copie du fichier de la version précédente de grisbi"
 
-#: ../src/gsb_file_config.c:1437
+#: ../src/gsb_file_config.c:1414
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7551,11 +7544,11 @@ msgstr ""
 "\n"
 "<b>Voulez-vous le supprimer ?</b>"
 
-#: ../src/gsb_file_config.c:1501
+#: ../src/gsb_file_config.c:1478
 msgid "Choose a file"
 msgstr "Choisir un fichier"
 
-#: ../src/gsb_file_config.c:1524
+#: ../src/gsb_file_config.c:1501
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -7904,53 +7897,53 @@ msgstr ""
 msgid "Configure the form"
 msgstr "Configurer le formulaire"
 
-#: ../src/gsb_form_config.c:116 ../src/parametres.c:442
+#: ../src/gsb_form_config.c:113 ../src/parametres.c:442
 msgid "Transaction form"
 msgstr "Formulaire des opérations"
 
 #. create the paddingbox into the parent
-#: ../src/gsb_form_config.c:149
+#: ../src/gsb_form_config.c:144
 msgid "Form structure preview"
 msgstr "Prévisualisation de la structure du formulaire"
 
 #. set the box with the buttons
-#: ../src/gsb_form_config.c:178
+#: ../src/gsb_form_config.c:173
 msgid "Form structure content"
 msgstr "Contenu de la structure du formulaire"
 
-#: ../src/gsb_form_config.c:225
+#: ../src/gsb_form_config.c:220
 msgid "Col 1"
 msgstr "Col 1"
 
-#: ../src/gsb_form_config.c:226
+#: ../src/gsb_form_config.c:221
 msgid "Col 2"
 msgstr "Col 2"
 
-#: ../src/gsb_form_config.c:227
+#: ../src/gsb_form_config.c:222
 msgid "Col 3"
 msgstr "Col 3"
 
-#: ../src/gsb_form_config.c:228
+#: ../src/gsb_form_config.c:223
 msgid "Col 4"
 msgstr "Col 4"
 
-#: ../src/gsb_form_config.c:229
+#: ../src/gsb_form_config.c:224
 msgid "Col 5"
 msgstr "Col 5"
 
-#: ../src/gsb_form_config.c:230
+#: ../src/gsb_form_config.c:225
 msgid "Col 6"
 msgstr "Col 6"
 
-#: ../src/gsb_form_config.c:342
+#: ../src/gsb_form_config.c:337
 msgid "rows"
 msgstr "lignes"
 
-#: ../src/gsb_form_config.c:389
+#: ../src/gsb_form_config.c:384
 msgid "columns"
 msgstr "colonnes"
 
-#: ../src/gsb_form_config.c:693
+#: ../src/gsb_form_config.c:667
 msgid ""
 "There is no place enough to put the element. You need to increase the number "
 "of rows or columns to add an element."
@@ -7958,11 +7951,11 @@ msgstr ""
 "Il n'y a pas assez de place pour mettre l'élément.  Vous devez augmenter le "
 "nombre de lignes ou de colonnes pour ajouter un élément supplémentaire."
 
-#: ../src/gsb_form_config.c:694 ../src/gsb_form_config.c:697
+#: ../src/gsb_form_config.c:668 ../src/gsb_form_config.c:671
 msgid "The table is full"
 msgstr "La table est pleine"
 
-#: ../src/gsb_form_config.c:696
+#: ../src/gsb_form_config.c:670
 msgid ""
 "There is no place enough to put the two elements (you have clicked on an "
 "element which contains two). You need to increase the number of rows or "
@@ -8390,10 +8383,6 @@ msgstr "%d mois"
 msgid "%d years"
 msgstr "%d ans"
 
-#: ../src/gsb_scheduler_list.c:998
-msgid "Montly"
-msgstr "Mensuel"
-
 #: ../src/gsb_scheduler_list.c:1647
 #, c-format
 msgid ""
@@ -8720,7 +8709,7 @@ msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
 "Demande pour un numéro de tri : %d qui n'existe pas... retour au tri par date"
 
-#: ../src/gtk_combofix.c:992
+#: ../src/gtk_combofix.c:989
 msgid ""
 "You cannot create new payee or category and subcategory without changing the "
 "options in preferences"
@@ -8728,7 +8717,7 @@ msgstr ""
 "Vous ne pouvez pas créer de nouveau tiers ou catégorie sous-catégorie sans "
 "modifier l'option correspondante dans les préférences"
 
-#: ../src/gtk_combofix.c:995
+#: ../src/gtk_combofix.c:992
 msgid "Warning you cannot create payee or category"
 msgstr "Attention vous ne pouvez pas créer de tiers ou de catégorie"
 
@@ -11054,6 +11043,9 @@ msgstr "Aucune police définie"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Gestionnaire de finances personnelles"
+
+#~ msgid "Montly"
+#~ msgstr "Mensuel"
 
 #~ msgid "Credit Calculator and Amortization"
 #~ msgstr "Simulateur de crédit et d'amortissement"

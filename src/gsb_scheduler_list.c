@@ -995,7 +995,7 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
 		 &&
 		 frequency >= 0 )
 	    {
-		gchar * names[] = { _("Once"), _("Weekly"), _("Montly"),
+		gchar * names[] = { _("Once"), _("Weekly"), _("Monthly"),
 		    _("Bimonthly"), _("Quarterly"), _("Yearly") };
 		line[COL_NB_FREQUENCY] = names [frequency];
 	    }
