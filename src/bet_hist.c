@@ -225,7 +225,7 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
 {
     GtkTreeIter iter;
 
-    //~ devel_debug (path_string);
+    /* devel_debug (path_string); */
     if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( model ), &iter, path_string ) )
     {
         gchar *str_amount;
@@ -255,8 +255,8 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
 
         if ( valeur == 1 )
         {
-            //~ printf ("avant - account_number = %d, div = %d, sub_div = %d\n",
-                        //~ account_number, div, sub_div);
+            /* printf ("avant - account_number = %d, div = %d, sub_div = %d\n",
+                        account_number, div, sub_div); */
             bet_data_hist_add_div ( account_number, div_number, sub_div_nb );
             bet_data_set_div_amount ( account_number, div_number, sub_div_nb,
                         gsb_real_import_from_string ( str_amount ) );
@@ -372,7 +372,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
     GtkTreeModel *model;
     GtkTreeIter iter;
 
-    //~ devel_debug (new_text);
+    /* devel_debug (new_text); */
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
     if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( model ), &iter, path_string ) )
     {
@@ -470,7 +470,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     GtkTreeViewColumn *column;
     gchar *title;
 
-    //~ devel_debug (NULL);
+    /* devel_debug (NULL); */
     tree_view = gtk_tree_view_new ( );
     gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW (tree_view), TRUE);
     g_object_set_data ( G_OBJECT ( account_page ), "hist_tree_view", tree_view );
@@ -715,7 +715,7 @@ void bet_historical_populate_data ( gint account_number )
     }
 
     bet_historical_affiche_div ( list_div, tree_view );
-    //~ bet_data_synchronise_hist_div_list ( list_div );
+    /* bet_data_synchronise_hist_div_list ( list_div ); */
 
     g_hash_table_remove_all ( list_div );
 
@@ -733,7 +733,7 @@ gboolean bet_historical_affiche_div ( GHashTable  *list_div, GtkWidget *tree_vie
 {
     GtkTreeModel *model;
 
-    //~ devel_debug (NULL);
+    /* devel_debug (NULL); */
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
     g_hash_table_foreach ( list_div, bet_historical_populate_div_model, tree_view );
@@ -845,8 +845,8 @@ void bet_historical_populate_div_model ( gpointer key,
         gchar **tab_str = NULL;
 
         div_name = bet_data_get_div_name ( div_number, sub_sh -> div, NULL );
-        //~ printf ("division = %d sub_div = %d div_name = %s\n",
-                        //~ div_number, sub_sh -> div, div_name);
+        /* printf ("division = %d sub_div = %d div_name = %s\n",
+                        div_number, sub_sh -> div, div_name); */
         if ( div_name && g_utf8_strrchr ( div_name, -1, ':' ) )
         {
 	        tab_str = g_strsplit ( div_name, ":", 2 );
@@ -885,7 +885,7 @@ void bet_historical_populate_div_model ( gpointer key,
         {
             if ( bet_data_get_div_edited ( account_nb, div_number, sub_sh -> div ) )
             {
-                //~ printf ("account_nb = %d div_number = %d sub_sh -> div = %d\n", account_nb, div_number, sub_sh -> div );
+                /* printf ("account_nb = %d div_number = %d sub_sh -> div = %d\n", account_nb, div_number, sub_sh -> div ); */
                 retained = bet_data_hist_get_div_amount ( account_nb, div_number, sub_sh -> div );
                 if ( str_amount )
                     g_free ( str_amount );
@@ -963,7 +963,7 @@ gboolean bet_historical_fyear_create_combobox_store ( void )
 {
     gchar *titre;
 
-    //~ devel_debug (NULL);
+    /* devel_debug (NULL); */
     /* the fyear list store, contains 3 columns :
      * FYEAR_COL_NAME : the name of the fyear
      * FYEAR_COL_NUMBER : the number of the fyear
@@ -998,7 +998,7 @@ gint bet_historical_get_fyear_from_combobox ( GtkWidget *combo_box )
     gint fyear_number = 0;
     GtkTreeIter iter;
 
-    //~ devel_debug (NULL);
+    /* devel_debug (NULL); */
     if ( !gtk_combo_box_get_active_iter ( GTK_COMBO_BOX ( combo_box ), &iter ) )
         return 0;
 
@@ -1451,7 +1451,7 @@ void bet_historical_add_last_amount ( GtkWidget *menu_item,
 
     currency_number = gsb_data_account_get_currency ( account_number );
     tmp_str = gsb_real_get_string_with_currency ( amount, currency_number, TRUE );
-    //~ printf ("div = %d sub_div_nb = %d tmp_str = %s\n", div_number, sub_div_nb, tmp_str);
+    /* printf ("div = %d sub_div_nb = %d tmp_str = %s\n", div_number, sub_div_nb, tmp_str); */
     if ( bet_data_search_div_hist ( account_number, div_number, sub_div_nb ) == FALSE )
         bet_data_hist_add_div ( account_number, div_number, sub_div_nb );
 

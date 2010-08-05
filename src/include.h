@@ -20,7 +20,7 @@
 #ifndef _MSC_VER
 #	include <unistd.h>
 #	include <pwd.h>
-#endif//_MSC_VER
+#endif /*_MSC_VER */
 #include <fcntl.h>
 #include <signal.h>
 #include <ctype.h>

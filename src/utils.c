@@ -167,7 +167,7 @@ gboolean lance_navigateur_web ( const gchar *url )
         use_default_browser = !strcmp ( conf.browser_command,ETAT_WWW_BROWSER );
     }
     
-#else // !_WIN32
+#else /* _WIN32 */
     if ( !( conf.browser_command && strlen ( conf.browser_command ) ) )
     {
         tmp_str = g_strdup_printf ( _("Grisbi was unable to execute a web browser to "
@@ -178,13 +178,13 @@ gboolean lance_navigateur_web ( const gchar *url )
 
         return FALSE;
     }
-#endif // _WIN32
+#endif /* _WIN32 */
 
 
 #ifdef _WIN32
     if (!use_default_browser)
     {
-#endif // _WIN32
+#endif /* _WIN32 */
         /* search if the sequence `%s' is in the string
          * and split the string before and after this delimiter */
         split = g_strsplit ( conf.browser_command, "%s", 0 );
@@ -222,7 +222,7 @@ gboolean lance_navigateur_web ( const gchar *url )
     {
         win32_shell_execute_open ( url );
     } 
-#endif // _WIN32
+#endif /* _WIN32 */
     g_free(chaine);
 
     return FALSE;

@@ -28,7 +28,7 @@
 #include "include.h"
 #ifdef _MSC_VER
 #	include <io.h> // for _chmod()
-#endif//_MSC_VER
+#endif /*_MSC_VER */
 #include <zlib.h>
 
 /*START_INCLUDE*/
@@ -469,7 +469,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 	_chmod ( filename, _S_IREAD | _S_IWRITE );
 #else
 	chmod ( filename, S_IRUSR | S_IWUSR );
-#endif//_MSC_VER
+#endif /*_MSC_VER */
 	}
     else
     {
@@ -487,7 +487,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 	    /* we couldn't set the chmod, set the default permission */
 		chmod ( filename, S_IRUSR | S_IWUSR );
 	}
-#endif//_MSC_VER
+#endif /*_MSC_VER */
     }
 
     etat.en_train_de_sauvegarder = 0;

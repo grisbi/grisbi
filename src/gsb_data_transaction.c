@@ -763,8 +763,8 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
     if ( transaction -> currency_number == return_currency_number )
         return gsb_real_adjust_exponent  ( transaction -> transaction_amount,
 					   return_exponent );
-//~ printf ("get_adjusted_amount transaction_number = %d transaction -> currency_number = %d return_currency_number = %d\n",
-    //~ transaction_number, transaction -> currency_number, return_currency_number);
+/* printf ("get_adjusted_amount transaction_number = %d transaction -> currency_number = %d return_currency_number = %d\n",
+    transaction_number, transaction -> currency_number, return_currency_number); */
     /* now we can adjust the amount */
 	/* the exchange is saved in the transaction itself */
     if ( transaction -> exchange_rate.mantissa )

@@ -50,7 +50,7 @@ glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
 #ifdef _MSC_VER
 #define lrint(x) (floor(x + 0.5))
 #define rint(x) (floor(x + 0.5))
-#endif//_MSC_VER
+#endif /*_MSC_VER */
 
 /*START_STATIC*/
 static gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add );
@@ -398,18 +398,18 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
             {
                 break;
             }
-            if ( sign == 0 ) sign = 1; // no sign found yet ==> positive
+            if ( sign == 0 ) sign = 1; /* no sign found yet ==> positive */
             ++nb_digits;
             ++p;
         }
-        else if ( *p == 0 ) // terminal zero
+        else if ( *p == 0 ) /* terminal zero */
         {
             success = TRUE;
             break;
         }
         else if ( decimal_chars && strchr ( decimal_chars, *p ) )
         {
-            if ( dot_position >= 0 ) // already found a decimal separator
+            if ( dot_position >= 0 ) /* already found a decimal separator */
             {
                 break;
             }
@@ -418,12 +418,12 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
         }
         else if ( g_utf8_strchr ( space_chars, -1,  g_utf8_get_char( p ) ) )
         {
-            // just skip spaces and thousands separators
+            /* just skip spaces and thousands separators */
             p = g_utf8_find_next_char ( p, NULL );
         }
         else if ( strchr ( negative_chars, *p ) )
         {
-            if ( sign != 0 ) // sign already set
+            if ( sign != 0 ) /* sign already set */
             {
                 break;
             }
@@ -432,14 +432,14 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
         }
         else if ( strchr ( positive_chars, *p ) )
         {
-            if ( sign != 0 ) // sign already set
+            if ( sign != 0 ) /* sign already set */
             {
                 break;
             }
             sign = 1;
             ++p;
         }
-        else // unknown char ==> error
+        else /* unknown char ==> error */
         {
             break;
         }
@@ -497,12 +497,12 @@ gsb_real gsb_real_import_from_string ( const gchar *string )
             mantissa += ( *p - '0' );
             if ( mantissa > G_MAXLONG )
                 return error_real;
-            if ( sign == 0 ) sign = 1; // no sign found yet ==> positive
+            if ( sign == 0 ) sign = 1; /* no sign found yet ==> positive */
             ++nb_digits;
             ++p;
-            //~ printf ("mantissa = %lld nb_digits = %d\n", mantissa, nb_digits);
+            /* printf ("mantissa = %lld nb_digits = %d\n", mantissa, nb_digits); */
         }
-        else if ( *p == 0 ) // terminal zero
+        else if ( *p == 0 ) /* terminal zero */
         {
 			gsb_real result;
 			result.mantissa = sign * mantissa;
@@ -512,24 +512,24 @@ gsb_real gsb_real_import_from_string ( const gchar *string )
                 result.exponent = ( dot_position >= 0 )
                               ? nb_digits - dot_position
                               : 0;
-            //~ printf ("result.mantissa = %ld result.exponent = %d\n", result.mantissa, result.exponent);
+            /* printf ("result.mantissa = %ld result.exponent = %d\n", result.mantissa, result.exponent); */
             return result;
         }
         else if ( strchr ( ".", *p ) )
         {
-            if ( dot_position >= 0 ) // already found a decimal separator
+            if ( dot_position >= 0 ) /* already found a decimal separator */
                 return error_real;
             dot_position = nb_digits;
             p = g_utf8_find_next_char ( p, NULL );
         }
         else if ( strchr ( "-", *p ) )
         {
-            if ( sign != 0 ) // sign already set
+            if ( sign != 0 ) /* sign already set */
                 return error_real;
             sign = -1;
             ++p;
         }
-        else // unknown char ==> error
+        else /* unknown char ==> error */
         {
             return error_real;
         }
@@ -879,7 +879,7 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
 	gsb_real real_number = {0, exp_add};
 
     maxlong = G_MAXLONG / 10;
-    //~ printf ("number initial = %f exp_add = %d\n",number, exp_add);
+    /* printf ("number initial = %f exp_add = %d\n",number, exp_add); */
 	if(exp_add >=9)
 		return null_real;
 
@@ -894,7 +894,7 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
             number = rint (number);
     }
 	decimal = modf ( number, &tmp_double );
-    //~ printf ("number = %f decimal = %f tmp_double = %f\n", number, decimal, tmp_double);
+    /* printf ("number = %f decimal = %f tmp_double = %f\n", number, decimal, tmp_double); */
 	if ( ( ( real_number.exponent == ( 9 - exp_add ) ) ) && ( fabs ( decimal ) >= 0.5 ) )
     {
         if ( tmp_double < 0 )
@@ -906,7 +906,7 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
     }
 	else
         real_number.mantissa = (glong) ( tmp_double );
-    //~ printf ("real_number.mantissa = %ld real_number.exponent = %d\n", real_number.mantissa,real_number.exponent); 
+    /* printf ("real_number.mantissa = %ld real_number.exponent = %d\n", real_number.mantissa,real_number.exponent); */
     return real_number;
 }
 
@@ -943,7 +943,7 @@ gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent )
         return FALSE;
     }
 
-    // exponent must be greater or equal to 0
+    /* exponent must be greater or equal to 0 */
     if (new_exponent < 0)
     {
         return FALSE;
@@ -1120,8 +1120,8 @@ gchar *gsb_real_save_real_to_string ( gsb_real number, gint default_exponent )
             }
         }
     }
-    //~ printf ("number.mantissa = %ld number.exponent = %d résultat = %s\n",
-                        //~ number.mantissa, number.exponent, result );
+    /* printf ("number.mantissa = %ld number.exponent = %d résultat = %s\n",
+                        number.mantissa, number.exponent, result ); */
 
     return result;
 }

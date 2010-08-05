@@ -951,7 +951,7 @@ gboolean gsb_transactions_list_set_row_align ( gfloat row_align )
     gint mother_transaction;
     gint account_number;
 
-    //~ devel_debug (NULL);
+    /* devel_debug (NULL); */
 
     if ( ( account_number = gsb_gui_navigation_get_current_account ( ) ) == -1)
 	    return FALSE;
@@ -2084,7 +2084,7 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transact
 {
     gint contra_transaction_number;
 
-    //~ devel_debug_int (transaction_number);
+    /* devel_debug_int (transaction_number); */
 
     if ( transaction_number == -1 )
 	return FALSE;

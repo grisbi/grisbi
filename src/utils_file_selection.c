@@ -272,22 +272,22 @@ gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended)
     gboolean is_endedstr = FALSE;
     gchar* tmpstr;
 
-    // Chek if the sirectory string is ended by a separator
-    // (if directory string  is small than the separator string
-    //  it can ot be ended by the separator string)
+    /* Chek if the sirectory string is ended by a separator
+     (if directory string  is small than the separator string
+     it can ot be ended by the separator string) */
     if ( dirstr_len >= sepstr_len) 
     {
         is_endedstr = (gboolean)(!strncmp( dirstr + dirstr_len - sepstr_len, sepstr, sepstr_len));
     }
 
-    // We want the dirstr ended by a sepstrarator but there no
+    /* We want the dirstr ended by a sepstrarator but there no */
     if (ended&&!is_endedstr)
     {
         tmpstr = g_strconcat(dirstr,G_DIR_SEPARATOR_S,NULL);
 	g_free(dirstr);
 	dirstr = tmpstr;
     }
-    // We do not want to have a separator at the end, but there is one 
+    /* We do not want to have a separator at the end, but there is one */
     else if ((!ended)&&is_endedstr)
     {
         dirstr[dirstr_len-sepstr_len-1] = 0;

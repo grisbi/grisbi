@@ -2492,7 +2492,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
             &&
             strlen (imported_transaction -> categ))
         {
-            // Fill budget if existing
+            /* Fill budget if existing */
             if ( imported_transaction -> budget
                 &&
                 strlen (imported_transaction -> budget))
@@ -2569,7 +2569,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
             gsb_data_transaction_set_category_number ( transaction_number, 0 );
             gsb_data_transaction_set_sub_category_number ( transaction_number, 0 );
 
-            // Fill budget if existing
+            /* Fill budget if existing */
             if ( imported_transaction -> budget
                 &&
                 strlen (imported_transaction -> budget))
@@ -2600,14 +2600,14 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                 transaction_number, imported_transaction -> cheque );
 
         break;
-        //~ case OFX_INT:
-        //~ break;
-        //~ case OFX_DIV:
-        //~ break;
-        //~ case OFX_SRVCHG:
-        //~ break;
-        //~ case OFX_FEE:
-        //~ break;
+        /* case OFX_INT:
+        break;
+        case OFX_DIV:
+        break;
+        case OFX_SRVCHG:
+        break;
+        case OFX_FEE:
+        break; */
         case OFX_DEP:
         /* Deposit = Dépôt */
         payment_number = gsb_data_payment_get_number_by_name ( _("Deposit"),
@@ -2657,8 +2657,8 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
 
         break;
-        //~ case OFX_REPEATPMT:
-        //~ break;
+        /* case OFX_REPEATPMT:
+        break; */
 
         case OFX_DEBIT:
         case OFX_CREDIT:

@@ -722,10 +722,10 @@ void transaction_list_filter ( gint account_number )
 		}
 		else
 		    record -> has_expander = FALSE;
-        //~ printf ("transaction_number = %d record -> filtered_pos = %d record -> line_in_transaction =%d\n",
-                        //~ gsb_data_transaction_get_transaction_number ( record -> transaction_pointer),
-                        //~ record -> filtered_pos,
-                        //~ record -> line_in_transaction);
+        /* printf ("transaction_number = %d record -> filtered_pos = %d record -> line_in_transaction =%d\n",
+                        gsb_data_transaction_get_transaction_number ( record -> transaction_pointer),
+                        record -> filtered_pos,
+                        record -> line_in_transaction); */
 
 		/* the value of the row is set in memory, we update the tree view if necessary */
 		/* if the record was already shown and the position hasn't change, nothing to do */
@@ -992,10 +992,10 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
     record = iter.user_data;
     if (!record)
 	return FALSE;
-    //~ printf ("transaction_number = %d record -> filtered_pos = %d record -> line_in_transaction = %d\n",
-        //~ transaction_number,
-        //~ record -> filtered_pos,
-        //~ record -> line_in_transaction);
+    /* printf ("transaction_number = %d record -> filtered_pos = %d record -> line_in_transaction = %d\n",
+        transaction_number,
+        record -> filtered_pos,
+        record -> line_in_transaction); */
 
     /* if the transaction is a split, we need to check if there are already children,
      * else we add the white line */

@@ -142,7 +142,7 @@ void display_tip ( gboolean force )
     btn_forward = gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_GO_FORWARD, 2);
     btn_close =   gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_CLOSE, 3);
  
-    //~ gtk_widget_set_size_request ( dialog, 450, -1 );
+    /* gtk_widget_set_size_request ( dialog, 450, -1 ); */
     /* We iterate as user can select several tips. */
     while ( TRUE )
     {

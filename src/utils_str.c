@@ -64,7 +64,7 @@ gchar *utils_str_itoa ( gint integer )
     
     num = abs(integer);
 
-    // Construct the result in the reverse order from right to left, then reverse it.
+    /* Construct the result in the reverse order from right to left, then reverse it. */
     do
     {
 	result_div = div ( num, 10 );
@@ -73,8 +73,8 @@ gchar *utils_str_itoa ( gint integer )
     }
     while ( ( num = result_div.quot ));
 
-    // Add the sign at the end of the string just before to reverse it to avoid
-    // to have to insert it at the begin just after...
+    /* Add the sign at the end of the string just before to reverse it to avoid
+     to have to insert it at the begin just after... */
     if (integer < 0)
     {
         chaine[i++] = '-';

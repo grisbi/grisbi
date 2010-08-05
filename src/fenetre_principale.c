@@ -313,7 +313,7 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 {
     gint account_number;
 
-    //~ devel_debug_int (page_number);
+    /* devel_debug_int (page_number); */
     switch ( page_number )
     {
     case GSB_TRANSACTIONS_PAGE:

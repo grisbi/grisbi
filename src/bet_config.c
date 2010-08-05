@@ -139,7 +139,7 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
     GtkSizeGroup *size_group;
     gchar *text;
 
-    //~ devel_debug (NULL);
+    /* devel_debug (NULL); */
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
     vbox = gtk_vbox_new ( FALSE, 5 );
@@ -1279,14 +1279,6 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 5) ;
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 5) ;
-    //~ g_signal_connect ( button_1,
-                        //~ "released",
-                        //~ G_CALLBACK ( bet_finance_type_taux_changed ),
-                        //~ parent );
-    //~ g_signal_connect ( button_2,
-                        //~ "released",
-                        //~ G_CALLBACK ( bet_finance_type_taux_changed ),
-                        //~ parent );
 
     button = gtk_button_new_with_label ( _("Apply") );
     gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
@@ -1314,7 +1306,7 @@ void bet_config_initialise_finance_widget ( gint account_number,
     gint nbre_ans;
     gdouble taux;
 
-    //~ devel_debug (NULL);
+    /* devel_debug (NULL); */
     parent = g_object_get_data ( G_OBJECT ( notebook ), "Data_for_credit" );
     /* get devise */
     devise = gsb_data_account_get_currency ( account_number );

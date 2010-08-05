@@ -180,11 +180,8 @@ enum combofix_key_direction {
  * */
 GtkWidget *gtk_combofix_new ( GSList *list )
 {
-    //~ GtkComboFixPrivate *priv;
     GtkComboFix *combofix = g_object_new ( GTK_TYPE_COMBOFIX, NULL );
  
-    //~ priv = combofix -> priv;
-
     gtk_combofix_set_list (combofix, list);
 
     return ( GTK_WIDGET ( combofix ) );
@@ -451,7 +448,7 @@ void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text )
     g_return_if_fail ( combofix );
     g_return_if_fail ( GTK_IS_COMBOFIX ( combofix ) );
 
-    //~ g_print ("gtk_combofix_append_text = %s\n", text );
+    /* g_print ("gtk_combofix_append_text = %s\n", text ); */
     priv = combofix -> priv;
     pointers[2] = GINT_TO_POINTER ( priv -> case_sensitive );
 

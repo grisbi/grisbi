@@ -524,11 +524,11 @@ GtkWidget *onglet_form_completion ( void )
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
 
-    //~ gtk_box_pack_start ( GTK_BOX (vbox_pref),
-                        //~ gsb_automem_checkbutton_new (_("Enter keeps current completion"),
-                        //~ &etat.combofix_enter_select_completion,
-                        //~ G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
-                        //~ FALSE, FALSE, 0 );
+/*    gtk_box_pack_start ( GTK_BOX (vbox_pref),
+                        gsb_automem_checkbutton_new (_("Enter keeps current completion"),
+                        &etat.combofix_enter_select_completion,
+                        G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
+                        FALSE, FALSE, 0 ); */
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Don't allow new payee creation"),
@@ -595,8 +595,8 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 				     etat.combofix_max_item );
 	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
 					  etat.combofix_case_sensitive );
-	//~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (combofix),
-					  //~ etat.combofix_enter_select_completion );
+/*  gtk_combofix_set_enter_function ( GTK_COMBOFIX (combofix),
+					  etat.combofix_enter_select_completion );*/
     }
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
@@ -608,8 +608,8 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 				     etat.combofix_max_item );
 	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
 					  etat.combofix_case_sensitive );
-	//~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (combofix),
-					  //~ etat.combofix_enter_select_completion );
+/*  gtk_combofix_set_enter_function ( GTK_COMBOFIX (combofix),
+                        etat.combofix_enter_select_completion ); */
 	gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (combofix),
 				      etat.combofix_mixed_sort );
     }
@@ -623,8 +623,6 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 				     etat.combofix_max_item );
 	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
 					  etat.combofix_case_sensitive );
-	//~ gtk_combofix_set_enter_function ( GTK_COMBOFIX (combofix),
-					  //~ etat.combofix_enter_select_completion );
 	gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (combofix),
 				      etat.combofix_mixed_sort );
     }

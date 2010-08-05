@@ -2339,7 +2339,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 	return FALSE;
 
     /* Update sensitiveness of linked widgets. */
-    //~ metatree_set_linked_widgets_sensitive ( model, selection_is_set, "selection" );
+    /* metatree_set_linked_widgets_sensitive ( model, selection_is_set, "selection" ); */
     if ( ! div_id || ( sub_div_id <= 0 && current_number <= 0 ) )
     {
 	metatree_set_linked_widgets_sensitive ( model, FALSE, "selection" );

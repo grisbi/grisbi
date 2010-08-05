@@ -220,9 +220,9 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     completion = gtk_entry_completion_new ( );
     widget = gtk_entry_new ( );
     gtk_entry_set_completion ( GTK_ENTRY ( widget ), completion );
-    //~ printf ("nbre de caractères avant completion =%d\n",
-        //~ gtk_entry_completion_get_minimum_key_length (completion));
-    //~ gtk_entry_set_text ( GTK_ENTRY ( widget ), "177000" );
+    /* printf ("nbre de caractères avant completion =%d\n",
+        gtk_entry_completion_get_minimum_key_length ( completion ) ); */
+    gtk_entry_set_text ( GTK_ENTRY ( widget ), "10000" );
     g_object_set_data ( G_OBJECT ( page ), "capital", widget );
     gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5 );
     g_signal_connect ( G_OBJECT ( widget ),
@@ -242,7 +242,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     spin_button = gtk_spin_button_new_with_range ( 0.0, 100, 0.01);
-    //~ gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ), 3.80);
+    gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ), 4.0);
     g_object_set_data ( G_OBJECT ( page ), "taux", spin_button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button, FALSE, FALSE, 0 );
 
@@ -367,7 +367,7 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     spin_button = gtk_spin_button_new_with_range ( 0.0, 100, 0.01 );
-    //~ gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ), 6.96 );
+    gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ), 0.35 );
     g_object_set_data ( G_OBJECT ( parent ), "frais", spin_button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button, FALSE, FALSE, 0 );
 
@@ -1458,7 +1458,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     GDate *last_paid_date;
     struct_amortissement *s_amortissement;
 
-    //~ devel_debug ( NULL );
+    /* devel_debug ( NULL ); */
     if ( gsb_gui_navigation_get_current_account ( ) != account_number )
         return;
 

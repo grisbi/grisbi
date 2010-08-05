@@ -78,7 +78,7 @@ gdouble bet_data_finance_get_taux_periodique ( gdouble taux, gint type_taux )
     if ( type_taux )
         taux_periodique = ( taux / 100 ) / 12;
     else
-        //~ taux_periodique = pow ( 1 + ( taux / 100 ), (1/12) ) - 1;
+        /* taux_periodique = pow ( 1 + ( taux / 100 ), (1/12) ) - 1; */
         taux_periodique = 0.004868;
 
     return taux_periodique;

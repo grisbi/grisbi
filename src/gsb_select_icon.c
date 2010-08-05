@@ -449,8 +449,6 @@ void gsb_select_icon_entry_text_changed ( GtkComboBoxEntry *entry,
                             path, TRUE, 0.5, 0 );
             gtk_widget_set_sensitive (bouton_OK, FALSE );
         }
-        //~ else
-            //~ devel_debug ( "ce n'est pas un répertoire" );
     }
 }
 
@@ -520,13 +518,13 @@ gchar * gsb_select_icon_troncate_name_icon ( gchar *name_icon, gint trunc )
         n--;
         
         tmpstr = g_malloc ( size + n + 1 );
-        //~ devel_debug_int ( n );
-        //~ devel_debug ( name_icon );
+        /* devel_debug_int ( n );
+        devel_debug ( name_icon ); */
         tmpstr = g_utf8_strncpy ( tmpstr, name_icon, trunc );
         do
         {
             end = g_utf8_offset_to_pointer ( name_icon, i * trunc );
-            //~ devel_debug ( end );
+            /* devel_debug ( end ); */
             if ( i < n )
                 ptr = g_utf8_offset_to_pointer ( name_icon, ( i + 1 ) * 10 );
             if ( ptr )

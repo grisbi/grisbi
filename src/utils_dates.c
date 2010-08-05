@@ -26,7 +26,7 @@
 #include <winnls.h>
 #else
 #include <langinfo.h>
-#endif//_MSC_VER
+#endif /*_MSC_VER */
 
 /*START_INCLUDE*/
 #include "utils_dates.h"

@@ -109,12 +109,12 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
             /* -h : short help = usage */
             case 'v' : /* -v */
             case 'V' : /* --version */
-                app_must_stop       = TRUE;// stopping here!
+                app_must_stop       = TRUE; /* stopping here! */
                 show_version();    
                 break;
             case 'h':  /* -h */
             case 'H':  /* --help */
-                app_must_stop       = TRUE;// stopping here!
+                app_must_stop       = TRUE; /* stopping here! */
                 show_help();
                 break; 
             case 't': /* -t <str> */

@@ -505,7 +505,7 @@ gint csv_skip_lines ( gchar ** contents, gint num_lines, gchar * separator )
     GSList * list;
     int i;
 
-    //~ g_print ("Skipping %d lines\n", num_lines );
+    /* g_print ("Skipping %d lines\n", num_lines ); */
 
     for ( i = 0; i < num_lines; i ++ )
     {
@@ -1173,7 +1173,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
          * earlier. */
         if ( index < CSV_MAX_TOP_LINES && etat.csv_skipped_lines [ index ] )
         {
-            //~ g_print ("Skipping line %d\n", index );
+            /* g_print ("Skipping line %d\n", index ); */
             list = csv_get_next_line ( &contents, separator );
             index++;
             continue;
@@ -1217,19 +1217,19 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
                     }
                     else if ( ! field -> parse ( ope, list -> data ) )
                     {
-                        //~ g_print ("%s", "(failed)");
+                        /* g_print ("%s", "(failed)"); */
                     }
                 }
                 else
                     {
-                    //~ g_print ("%s", "(invalid)");
+                    /* g_print ("%s", "(invalid)"); */
                     }
             }
             }
             list = list -> next;
         }
 
-        //~ g_print (">> Appending new transaction %p\n", ope );
+        /* g_print (">> Appending new transaction %p\n", ope ); */
         compte -> operations_importees = g_slist_append ( compte -> operations_importees,
                                   ope );
 

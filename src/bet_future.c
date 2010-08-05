@@ -73,8 +73,8 @@ static gboolean bet_form_create_current_form ( GtkWidget *dialog,
                         gint account_number );
 static gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table );
 static gboolean bet_form_entry_get_focus ( GtkWidget *entry,
-                         GdkEventFocus *ev,
-                         GtkWidget *dialog );
+                        GdkEventFocus *ev,
+                        GtkWidget *dialog );
 static gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
                         GdkEventFocus *ev,
                         gint *ptr_origin );
@@ -82,7 +82,7 @@ static gboolean bet_form_key_press_event ( GtkWidget *widget,
                         GdkEventKey *ev,
                         gint *ptr_origin );
 static gboolean bet_form_scheduler_frequency_button_changed ( GtkWidget *combo_box,
-						       GtkWidget *dialog );
+                        GtkWidget *dialog );
 static GtkWidget *bet_form_scheduler_get_element_widget ( gint element_number );
 static GtkWidget *bet_form_widget_get_widget ( gint element_number );
 static GtkWidget *bet_future_create_dialog ( gint account_number );
@@ -95,7 +95,7 @@ static gboolean bet_future_get_category_data ( GtkWidget *widget,
 static gboolean bet_future_set_form_data_from_line ( gint account_number,
                         gint number  );
 static gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled );
-//~ static void bet_transfert_auto_inc_toggle ( GtkToggleButton *button, gpointer data );
+/* static void bet_transfert_auto_inc_toggle ( GtkToggleButton *button, gpointer data ); */
 static GtkWidget *bet_transfert_create_account_list_part ( GtkWidget *dialog, gint account_number );
 static GtkWidget *bet_transfert_create_dialog ( gint account_number );
 static gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
@@ -846,7 +846,7 @@ gboolean bet_form_clean ( gint account_number )
  * \return FALSE 
  * */
 gboolean bet_form_scheduler_frequency_button_changed ( GtkWidget *combo_box,
-						       GtkWidget *dialog )
+                        GtkWidget *dialog )
 {
     gchar *selected_item;
 
@@ -897,8 +897,8 @@ gboolean bet_form_scheduler_frequency_button_changed ( GtkWidget *combo_box,
  * \return FALSE
  * */
 gboolean bet_form_entry_get_focus ( GtkWidget *entry,
-                         GdkEventFocus *ev,
-                         GtkWidget *dialog )
+                        GdkEventFocus *ev,
+                        GtkWidget *dialog )
 {
     /* the entry can be a combofix or a real entry */
     if (GTK_IS_COMBOFIX ( entry ))
@@ -1961,10 +1961,10 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_auto_inc", button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
-    //~ g_signal_connect ( G_OBJECT ( button ),
-			            //~ "toggled",
-			            //~ G_CALLBACK ( bet_transfert_auto_inc_toggle ),
-			            //~ NULL );
+    /* g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( bet_transfert_auto_inc_toggle ),
+                        NULL ); */
 
     /* check button replace planned line */
     button = gtk_check_button_new_with_label ( 

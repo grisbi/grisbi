@@ -142,7 +142,7 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
 	/* the file is not compressed, keep the original size */
 	alloc_size = orig_size + 1;
     else
-#endif//_WIN32
+#endif /*_MSC_VER */
 	/* the file is compressed, the final size should be about 20x more
 	 *  this is not completly true, if the file is compressed AND crypted,
 	 * the size doesn't really change. but i can't know here if the file is crypted

@@ -589,7 +589,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 		{
 		    /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
 		    CSV_CLEAR_FIELD (csv_field_ventil);
-		    csv_field_ventil = my_strdup (_("B")); // -> mark 
+		    csv_field_ventil = my_strdup (_("B")); /* -> mark */
 
 		    CSV_CLEAR_FIELD (csv_field_operation);
 		    csv_field_operation = g_strdup_printf("%d", pSplitTransaction );

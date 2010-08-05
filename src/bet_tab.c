@@ -703,7 +703,7 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
     GtkTreeIter iter;
     GSList* tmp_list;
 
-    //~ devel_debug (NULL);
+    /* devel_debug (NULL); */
     tmp_list = gsb_data_scheduled_get_scheduled_list ( );
 
     while (tmp_list)
@@ -856,7 +856,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
     GDate *date_comp;
     GSList *tmp_list;
 
-    //~ devel_debug (NULL);
+    /* devel_debug (NULL); */
     /* init dates */
     date_jour_1 = gdate_today ( );
     if ( g_date_get_day ( date_min ) > 1 )
@@ -1013,7 +1013,7 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
     gint sub_div_nb;
     gsb_real amount;
 
-    //~ devel_debug (NULL);
+    /* devel_debug (NULL); */
     date_jour = gdate_today ( );
     date = gsb_date_get_last_day_of_month ( date_min );
         
@@ -1108,7 +1108,7 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
     gpointer key, value;
     gint account_number;
 
-    //~ devel_debug (NULL);
+    /* devel_debug (NULL); */
 
     account_number = gsb_gui_navigation_get_current_account ( );
     future_list = bet_data_future_get_list ( );
@@ -1998,7 +1998,7 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
     gint param;
     gint months;
 
-    //~ devel_debug_int ( account_number );
+    /* devel_debug_int ( account_number ); */
     button = g_object_get_data ( G_OBJECT ( account_page ), "bet_account_spin_button" );
 
     param = gsb_data_account_get_bet_spin_range ( account_number );

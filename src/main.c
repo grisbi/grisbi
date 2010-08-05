@@ -53,7 +53,7 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-// including resources so that the exe generated with MSVC has the right icon.
+/* including resources so that the exe generated with MSVC has the right icon. */
 #ifdef _MSC_VER
 #include "resource.h"
 #endif

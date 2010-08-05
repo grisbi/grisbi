@@ -93,9 +93,6 @@ static GtkWidget *form_config_buttons[TRANSACTION_FORM_WIDGET_NB-3];
 /** the option menu which contains all the accounts, to configure the form */
 static GtkWidget *accounts_combobox;
 
-/** the button to update all the accounts forms */
-//~ static GtkWidget *update_button;
-
 /** the tree view */
 static GtkWidget *form_config_tree_view;
 
@@ -140,10 +137,8 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 {
     GtkWidget *sw;
     GtkWidget *hbox;
-    //~ GtkWidget *button;
     GtkWidget *paddingbox;
-    //~ GtkWidget *label;
-	GtkListStore* list_store;
+    GtkListStore* list_store;
 
     /* create the paddingbox into the parent */
     paddingbox = new_paddingbox_with_title ( vbox_parent, TRUE, _("Form structure preview"));
@@ -541,27 +536,6 @@ gboolean gsb_form_config_change_account_choice ( GtkWidget *combobox,
     return FALSE;
 }
 
-
-/**
- * callback for update all the accounts forms organization
- * 	according to the selected account
- *
- * \param button	the update_button
- * \param null		the combobox of accounts
- *
- * \return FALSE
- * */
-//~ static gboolean gsb_form_config_update_accounts ( GtkWidget *button,
-						  //~ GtkWidget *combobox )
-//~ {
-    //~ if (!question_yes_no (_("Warning : all the form of the accounts will be updated according to the selected account. All the changes in the other accounts will be overwritten.\n\nAre you sure to do that ?"), GTK_RESPONSE_CANCEL))
-	//~ return FALSE;
-
-    //~ /* update all the accounts */
-    //~ gsb_form_config_update_from_account (gsb_account_get_combo_account_number (combobox));
-
-    //~ return FALSE;
-//~ }
 
 /**
  * called when toggle a button of the form configuration, append or remove
