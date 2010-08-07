@@ -26,9 +26,11 @@ gboolean gsb_form_widget_free_list ( void );
 GSList *gsb_form_widget_get_list ( void );
 gchar *gsb_form_widget_get_name ( gint element_number );
 gchar *gsb_form_widget_get_old_credit ( void );
-gint gsb_form_widget_get_old_credit_payment ( void );
+gint gsb_form_widget_get_old_credit_payment_number ( void );
+const gchar *gsb_form_widget_get_old_credit_payment_content ( void );
 gchar *gsb_form_widget_get_old_debit ( void );
-gint gsb_form_widget_get_old_debit_payment ( void );
+gint gsb_form_widget_get_old_debit_payment_number ( void );
+const gchar *gsb_form_widget_get_old_debit_payment_content ( void );
 gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string );
 GtkWidget *gsb_form_widget_get_widget ( gint element_number );
 gint gsb_form_widget_next_element ( gint account_number,

@@ -71,6 +71,7 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
                         gint exclude )
 {
     GtkWidget *widget =  NULL;
+    GtkWidget *cheque_entry;
     GtkListStore *store;
     GSList *tmp_list;
     gint store_filled = 0;
@@ -137,10 +138,11 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
                         "combo_sign",
                         GINT_TO_POINTER (sign));
 
+    cheque_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
+
     /* if nothing in the store, hide it */
     if (store_filled)
     {
-        GtkWidget *cheque_entry;
         gint payment_number = 0;
 
         if ( sign == GSB_PAYMENT_DEBIT )
@@ -151,8 +153,6 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
             gsb_payment_method_set_combobox_history ( combo_box, payment_number );
 
         gtk_widget_show (combo_box);
-
-        cheque_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
 
         if ( gsb_data_payment_get_show_entry ( payment_number) )
         {
@@ -193,6 +193,12 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
     else
     {
         gtk_widget_hide (combo_box);
+        gtk_entry_set_text ( GTK_ENTRY (cheque_entry), "" );
+        gsb_form_entry_lose_focus ( cheque_entry,
+                        FALSE,
+                        GINT_TO_POINTER ( TRANSACTION_FORM_CHEQUE ));
+        gtk_widget_hide ( cheque_entry );
+
     }
     if ( widget )
         g_signal_handlers_unblock_by_func (widget, 

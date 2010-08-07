@@ -1458,6 +1458,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
     gchar *string;
     gint element_number;
     GtkWidget *widget;
+    GtkWidget *tmp_widget;
     gint account_number;
     gint transaction_number;
     gint payment_number;
@@ -1545,11 +1546,10 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
             /* si pas de nouveau débit on essaie de remettre l'ancien crédit */
             if ( (string = gsb_form_widget_get_old_credit ( ) ) )
             {
-                GtkWidget * widget_prov = gsb_form_widget_get_widget (
-                        TRANSACTION_FORM_CREDIT );
+                tmp_widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
 
-                gtk_entry_set_text ( GTK_ENTRY ( widget_prov ), string );
-                gsb_form_widget_set_empty ( widget_prov, FALSE );
+                gtk_entry_set_text ( GTK_ENTRY ( tmp_widget ), string );
+                gsb_form_widget_set_empty ( tmp_widget, FALSE );
                 g_free ( string );
                 
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
@@ -1561,21 +1561,23 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                     if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_DEBIT )
                     {
                     if ( transaction_number == -1 )
-                        payment_number =  gsb_form_widget_get_old_credit_payment ( );
+                        payment_number =  gsb_form_widget_get_old_credit_payment_number ( );
                     else
                         payment_number = gsb_data_transaction_get_method_of_payment_number (
-                        transaction_number );
+                                            transaction_number );
 
                     gsb_payment_method_create_combo_list ( widget,
                                             GSB_PAYMENT_CREDIT,
                                             account_number, 0 );
                     gsb_payment_method_set_payment_position ( widget, payment_number );
 
-                    /* if there is no payment method, the last function hide it, but we have
-                     * to hide the cheque element too */
-                    if ( !GTK_WIDGET_VISIBLE (widget))
-                        gtk_widget_hide (gsb_form_widget_get_widget (
-                                            TRANSACTION_FORM_CHEQUE ) );
+                    widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
+                    if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
+                    {
+                        gtk_entry_set_text ( GTK_ENTRY ( widget ),
+                                            gsb_form_widget_get_old_credit_payment_content ( ) );
+                        gsb_form_widget_set_empty ( widget, FALSE );
+                    }
 
                     widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
                     if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
@@ -1594,7 +1596,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
         /* we change the payment method to adapt it for the debit */
         if ( strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
         {
-        /* empty the credit */
+        /* empty the debit */
         widget = gsb_form_widget_get_widget (TRANSACTION_FORM_DEBIT);
         if (!gsb_form_widget_check_empty (widget))
         {
@@ -1635,11 +1637,10 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
             /* si pas de nouveau credit on essaie de remettre l'ancien débit */
             if ( (string = gsb_form_widget_get_old_debit ( ) ) )
             {
-                GtkWidget * widget_prov = gsb_form_widget_get_widget (
-                        TRANSACTION_FORM_DEBIT );
+                tmp_widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_DEBIT );
 
-                gtk_entry_set_text ( GTK_ENTRY ( widget_prov ), string );
-                gsb_form_widget_set_empty ( widget_prov, FALSE );
+                gtk_entry_set_text ( GTK_ENTRY ( tmp_widget ), string );
+                gsb_form_widget_set_empty ( tmp_widget, FALSE );
                 g_free ( string );
 
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
@@ -1651,22 +1652,24 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                     if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_CREDIT )
                     {
                     if ( transaction_number == -1 )
-                        payment_number =  gsb_form_widget_get_old_debit_payment ( );
+                        payment_number =  gsb_form_widget_get_old_debit_payment_number ( );
                     else
                         payment_number = gsb_data_transaction_get_method_of_payment_number (
-                        transaction_number );
+                                            transaction_number );
 
                     gsb_payment_method_create_combo_list ( widget,
                                             GSB_PAYMENT_DEBIT,
                                             account_number, 0 );
                     gsb_payment_method_set_payment_position ( widget, payment_number );
-                    
-                    /* if there is no payment method, the last function hide it, but we have
-                     * to hide the cheque element too */
-                    if ( !GTK_WIDGET_VISIBLE ( widget ) )
-                        gtk_widget_hide (gsb_form_widget_get_widget (
-                                            TRANSACTION_FORM_CHEQUE ) );
 
+                    widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
+                    if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
+                    {
+                        gtk_entry_set_text ( GTK_ENTRY ( widget ),
+                                            gsb_form_widget_get_old_debit_payment_content ( ) );
+                        gsb_form_widget_set_empty ( widget, FALSE );
+                    }
+ 
                     widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
                     if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
                         gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (
