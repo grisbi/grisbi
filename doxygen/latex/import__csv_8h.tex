@@ -1,0 +1,65 @@
+\section{Référence du fichier import\_\-csv.h}
+\label{import__csv_8h}\index{import\_\-csv.h@{import\_\-csv.h}}
+{\ttfamily \#include \char`\"{}import.h\char`\"{}}\par
+\subsection*{Structures de données}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf csv\_\-field}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf csv\_\-import\_\-csv\_\-account} (GtkWidget $\ast$assistant, struct {\bf imported\_\-file} $\ast$imported)
+\item 
+GtkWidget $\ast$ {\bf import\_\-create\_\-csv\_\-preview\_\-page} (GtkWidget $\ast$assistant)
+\item 
+gboolean {\bf import\_\-enter\_\-csv\_\-preview\_\-page} (GtkWidget $\ast$assistant)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{import\_\-csv.h@{import\_\-csv.h}!csv\_\-import\_\-csv\_\-account@{csv\_\-import\_\-csv\_\-account}}
+\index{csv\_\-import\_\-csv\_\-account@{csv\_\-import\_\-csv\_\-account}!import_csv.h@{import\_\-csv.h}}
+\subsubsection[{csv\_\-import\_\-csv\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gboolean csv\_\-import\_\-csv\_\-account (GtkWidget $\ast$ {\em assistant}, \/  struct {\bf imported\_\-file} $\ast$ {\em imported})}\label{import__csv_8h_ae91b90112538a2ac7605b2843715e3d3}
+Actually do the grunt work, that is, parse the CSV file and create importation structures in memory.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em assistant}]The assistant that contains configuration for import. \item[{\em imported}]A pointer to the structure representing file import.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1143 du fichier import\_\-csv.c.
+
+\index{import\_\-csv.h@{import\_\-csv.h}!import\_\-create\_\-csv\_\-preview\_\-page@{import\_\-create\_\-csv\_\-preview\_\-page}}
+\index{import\_\-create\_\-csv\_\-preview\_\-page@{import\_\-create\_\-csv\_\-preview\_\-page}!import_csv.h@{import\_\-csv.h}}
+\subsubsection[{import\_\-create\_\-csv\_\-preview\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ import\_\-create\_\-csv\_\-preview\_\-page (GtkWidget $\ast$ {\em assistant})}\label{import__csv_8h_a4539af86cc658258c77621c5e2473d29}
+Create the preview page of the import assistant.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em assistant}]GsbAssistant to add page into.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A newly-\/allocated GtkVBox. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 120 du fichier import\_\-csv.c.
+
+\index{import\_\-csv.h@{import\_\-csv.h}!import\_\-enter\_\-csv\_\-preview\_\-page@{import\_\-enter\_\-csv\_\-preview\_\-page}}
+\index{import\_\-enter\_\-csv\_\-preview\_\-page@{import\_\-enter\_\-csv\_\-preview\_\-page}!import_csv.h@{import\_\-csv.h}}
+\subsubsection[{import\_\-enter\_\-csv\_\-preview\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}gboolean import\_\-enter\_\-csv\_\-preview\_\-page (GtkWidget $\ast$ {\em assistant})}\label{import__csv_8h_afa61668796ba48ba9a3df231034349ca}
+Fill in all graphical elements of preview page with data from a CSV file.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em assistant}]Assistant that contains the page.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1053 du fichier import\_\-csv.c.
+

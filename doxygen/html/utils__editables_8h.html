@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier utils_editables.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier utils_editables.h</h1><code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+
+<p><a href="utils__editables_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__editables_8h.html#a144daaaa0139d9b489fcc9bc21664943">gsb_editable_erase_text_view</a> (GtkWidget *button, GtkWidget *text_view)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__editables_8h.html#a56e1df70defb8d072289f283b24627c0">gsb_editable_text_view_get_content</a> (GtkWidget *text_view)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__editables_8h.html#aba01d00a8b7c423cb00e224ef2df56f2">gsb_editable_text_view_new</a> (const gchar *value)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__editables_8h.html#a45ab7802df06eecfebeeba20fc37a622">gsb_utils_edit_calculate_entry</a> (GtkWidget *entry)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__editables_8h.html#a633b0bd1f5f7f4e4a1cb312d7679e4e2">increment_decrement_champ</a> (GtkWidget *entry, gint increment)</td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a144daaaa0139d9b489fcc9bc21664943"></a><!-- doxytag: member="utils_editables.h::gsb_editable_erase_text_view" ref="a144daaaa0139d9b489fcc9bc21664943" args="(GtkWidget *button, GtkWidget *text_view)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_editable_erase_text_view </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>button</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>text_view</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>erase the text view given in param</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>button</em>&nbsp;</td><td>not used </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>text_view</em>&nbsp;</td><td>the text_view to erase</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__editables_8c_source.html#l00102">102</a> du fichier <a class="el" href="utils__editables_8c_source.html">utils_editables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a56e1df70defb8d072289f283b24627c0"></a><!-- doxytag: member="utils_editables.h::gsb_editable_text_view_get_content" ref="a56e1df70defb8d072289f283b24627c0" args="(GtkWidget *text_view)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_editable_text_view_get_content </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>text_view</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the entire content of a text view</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>the</em>&nbsp;</td><td>text_view</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a gchar which is the content of the text view </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__editables_8c_source.html#l00076">76</a> du fichier <a class="el" href="utils__editables_8c_source.html">utils_editables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aba01d00a8b7c423cb00e224ef2df56f2"></a><!-- doxytag: member="utils_editables.h::gsb_editable_text_view_new" ref="aba01d00a8b7c423cb00e224ef2df56f2" args="(const gchar *value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_editable_text_view_new </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>value</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a normalised text view for grisbi and add the value inside</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td>a pointer to a string</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a GtkWidget which is a text_view with the string inside </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__editables_8c_source.html#l00050">50</a> du fichier <a class="el" href="utils__editables_8c_source.html">utils_editables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a45ab7802df06eecfebeeba20fc37a622"></a><!-- doxytag: member="utils_editables.h::gsb_utils_edit_calculate_entry" ref="a45ab7802df06eecfebeeba20fc37a622" args="(GtkWidget *entry)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_utils_edit_calculate_entry </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>entry</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>calcule le total du contenu de l'entrée donnée en argument accepte les + et les -</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>entry</em>&nbsp;</td><td>entrée d'un montant</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd><a class="el" href="structgsb__real.html">gsb_real</a> total de ce qui est dans l'entrée </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__editables_8c_source.html#l00148">148</a> du fichier <a class="el" href="utils__editables_8c_source.html">utils_editables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a633b0bd1f5f7f4e4a1cb312d7679e4e2"></a><!-- doxytag: member="utils_editables.h::increment_decrement_champ" ref="a633b0bd1f5f7f4e4a1cb312d7679e4e2" args="(GtkWidget *entry, gint increment)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void increment_decrement_champ </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>entry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>increment</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Increment or decrement the value of a GtkEntry.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>entry</em>&nbsp;</td><td>Entry to change the value of. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>increment</em>&nbsp;</td><td>Value to add or substract from the numerical value of entry. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="utils__editables_8c_source.html#l00126">126</a> du fichier <a class="el" href="utils__editables_8c_source.html">utils_editables.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

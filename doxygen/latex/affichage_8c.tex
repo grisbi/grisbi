@@ -1,0 +1,393 @@
+\section{Référence du fichier affichage.c}
+\label{affichage_8c}\index{affichage.c@{affichage.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}affichage.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-automem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}fenetre\_\-principale.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}accueil.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-scheduler\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-select\_\-icon.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}main.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-buttons.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-display\_\-fonts} (void)
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-display\_\-addresses} (void)
+\item 
+gboolean {\bf update\_\-homepage\_\-title} (GtkEntry $\ast$entry, gchar $\ast$value, gint length, gint $\ast$position)
+\item 
+GtkWidget $\ast$ {\bf tab\_\-display\_\-toolbar} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+gchar $\ast$ {\bf adresse\_\-commune}
+\item 
+gchar $\ast$ {\bf adresse\_\-secondaire}
+\item 
+GdkColor {\bf archive\_\-background\_\-color}
+\item 
+GdkColor {\bf calendar\_\-entry\_\-color}
+\item 
+GdkColor {\bf couleur\_\-bet\_\-division}
+\item 
+GdkColor {\bf couleur\_\-bet\_\-future}
+\item 
+GdkColor {\bf couleur\_\-bet\_\-transfert}
+\item 
+GdkColor {\bf couleur\_\-fond} [2]
+\item 
+GdkColor {\bf couleur\_\-grise}
+\item 
+GdkColor {\bf couleur\_\-jour}
+\item 
+GdkColor {\bf couleur\_\-selection}
+\item 
+GdkColor {\bf default\_\-archive\_\-background\_\-color}
+\item 
+GdkColor {\bf default\_\-calendar\_\-entry\_\-color}
+\item 
+GdkColor {\bf default\_\-couleur\_\-bet\_\-division}
+\item 
+GdkColor {\bf default\_\-couleur\_\-bet\_\-future}
+\item 
+GdkColor {\bf default\_\-couleur\_\-bet\_\-transfert}
+\item 
+GdkColor {\bf default\_\-couleur\_\-fond} [2]
+\item 
+GdkColor {\bf default\_\-couleur\_\-grise}
+\item 
+GdkColor {\bf default\_\-couleur\_\-jour}
+\item 
+GdkColor {\bf default\_\-couleur\_\-selection}
+\item 
+GdkColor {\bf default\_\-split\_\-background}
+\item 
+GdkColor {\bf default\_\-text\_\-color} [2]
+\item 
+GtkWidget $\ast$ {\bf fenetre\_\-preferences}
+\item 
+GtkWidget $\ast$ {\bf hbox\_\-title}
+\item 
+gchar $\ast$ {\bf initial\_\-file\_\-title}
+\item 
+gchar $\ast$ {\bf initial\_\-holder\_\-title}
+\item 
+GtkWidget $\ast$ {\bf label\_\-titre\_\-fichier}
+\item 
+GtkWidget $\ast$ {\bf logo\_\-accueil}
+\item 
+gchar $\ast$ {\bf nom\_\-fichier\_\-comptes}
+\item 
+GdkColor {\bf split\_\-background}
+\item 
+GdkColor {\bf text\_\-color} [2]
+\item 
+gchar $\ast$ {\bf titre\_\-fichier}
+\item 
+GtkWidget $\ast$ {\bf window}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{affichage.c@{affichage.c}!onglet\_\-display\_\-addresses@{onglet\_\-display\_\-addresses}}
+\index{onglet\_\-display\_\-addresses@{onglet\_\-display\_\-addresses}!affichage.c@{affichage.c}}
+\subsubsection[{onglet\_\-display\_\-addresses}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-display\_\-addresses (void)}\label{affichage_8c_a8188edfa1a69ab92d5aee186855442b8}
+Creates the \char`\"{}Titles \& Addresses\char`\"{} tab. This tab is mainly composed of text entries and editables.
+
+\begin{DoxyReturn}{Renvoie}
+A newly allocated vbox 
+\end{DoxyReturn}
+
+
+\begin{DoxyNote}{Note}
+This is not implemented yet 
+\end{DoxyNote}
+
+
+
+
+Définition à la ligne 363 du fichier affichage.c.
+
+\index{affichage.c@{affichage.c}!onglet\_\-display\_\-fonts@{onglet\_\-display\_\-fonts}}
+\index{onglet\_\-display\_\-fonts@{onglet\_\-display\_\-fonts}!affichage.c@{affichage.c}}
+\subsubsection[{onglet\_\-display\_\-fonts}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-display\_\-fonts (void)}\label{affichage_8c_ab7ab35642d20a97b0129dc7df997c989}
+Creates the \char`\"{}Fonts \& logo\char`\"{} tab. This function creates some buttons that are borrowed from applications like gedit.
+
+\begin{DoxyReturn}{Renvoie}
+A newly allocated vbox 
+\end{DoxyReturn}
+
+
+Définition à la ligne 132 du fichier affichage.c.
+
+\index{affichage.c@{affichage.c}!tab\_\-display\_\-toolbar@{tab\_\-display\_\-toolbar}}
+\index{tab\_\-display\_\-toolbar@{tab\_\-display\_\-toolbar}!affichage.c@{affichage.c}}
+\subsubsection[{tab\_\-display\_\-toolbar}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ tab\_\-display\_\-toolbar (void)}\label{affichage_8c_ad383c9540bfca50409800d2d9869c3ac}
+Create a vbox containing widgets allowing to change aspects of toolbar buttons.
+
+\begin{DoxyReturn}{Renvoie}
+A newly created vbox. 
+\end{DoxyReturn}
+
+
+TODO: really add option to hide toolbar? This could save space, but if so, we should add all equivalents to menus. 
+
+
+
+Définition à la ligne 723 du fichier affichage.c.
+
+\index{affichage.c@{affichage.c}!update\_\-homepage\_\-title@{update\_\-homepage\_\-title}}
+\index{update\_\-homepage\_\-title@{update\_\-homepage\_\-title}!affichage.c@{affichage.c}}
+\subsubsection[{update\_\-homepage\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}gboolean update\_\-homepage\_\-title (GtkEntry $\ast$ {\em entry}, \/  gchar $\ast$ {\em value}, \/  gint {\em length}, \/  gint $\ast$ {\em position})}\label{affichage_8c_a540ad020b9ea9514f836a69f20e412cd}
+Update the label that contain main title in homepage.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]Widget that triggered this handled. Not used. \item[{\em value}]Not used handler parameter. \item[{\em length}]Not used handler parameter. \item[{\em position}]Not used handler parameter. \end{DoxyParams}
+
+
+Définition à la ligne 661 du fichier affichage.c.
+
+
+
+\subsection{Documentation des variables}
+\index{affichage.c@{affichage.c}!adresse\_\-commune@{adresse\_\-commune}}
+\index{adresse\_\-commune@{adresse\_\-commune}!affichage.c@{affichage.c}}
+\subsubsection[{adresse\_\-commune}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf adresse\_\-commune}}\label{affichage_8c_ab7ec5b8a1b4dca10b71bfe0364eb7248}
+
+
+Définition à la ligne 148 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!adresse\_\-secondaire@{adresse\_\-secondaire}}
+\index{adresse\_\-secondaire@{adresse\_\-secondaire}!affichage.c@{affichage.c}}
+\subsubsection[{adresse\_\-secondaire}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf adresse\_\-secondaire}}\label{affichage_8c_a5495a13fee46daf1634623fe4e63f99a}
+
+
+Définition à la ligne 149 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!archive\_\-background\_\-color@{archive\_\-background\_\-color}}
+\index{archive\_\-background\_\-color@{archive\_\-background\_\-color}!affichage.c@{affichage.c}}
+\subsubsection[{archive\_\-background\_\-color}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf archive\_\-background\_\-color}}\label{affichage_8c_a881db8e6c000ad504ff0183a674cb196}
+
+
+Définition à la ligne 115 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!calendar\_\-entry\_\-color@{calendar\_\-entry\_\-color}}
+\index{calendar\_\-entry\_\-color@{calendar\_\-entry\_\-color}!affichage.c@{affichage.c}}
+\subsubsection[{calendar\_\-entry\_\-color}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf calendar\_\-entry\_\-color}}\label{affichage_8c_aa809fea280ab9cef6e16774b54a573ae}
+
+
+Définition à la ligne 119 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!couleur\_\-bet\_\-division@{couleur\_\-bet\_\-division}}
+\index{couleur\_\-bet\_\-division@{couleur\_\-bet\_\-division}!affichage.c@{affichage.c}}
+\subsubsection[{couleur\_\-bet\_\-division}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-bet\_\-division}}\label{affichage_8c_a9c6b0a0f3037804c43aa435dbb98f7ec}
+
+
+Définition à la ligne 135 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!couleur\_\-bet\_\-future@{couleur\_\-bet\_\-future}}
+\index{couleur\_\-bet\_\-future@{couleur\_\-bet\_\-future}!affichage.c@{affichage.c}}
+\subsubsection[{couleur\_\-bet\_\-future}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-bet\_\-future}}\label{affichage_8c_af7f95b1eb6717e97b624b506258fd893}
+
+
+Définition à la ligne 137 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!couleur\_\-bet\_\-transfert@{couleur\_\-bet\_\-transfert}}
+\index{couleur\_\-bet\_\-transfert@{couleur\_\-bet\_\-transfert}!affichage.c@{affichage.c}}
+\subsubsection[{couleur\_\-bet\_\-transfert}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-bet\_\-transfert}}\label{affichage_8c_abf473d007a5860d19e62be3c33654a48}
+
+
+Définition à la ligne 139 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!couleur\_\-fond@{couleur\_\-fond}}
+\index{couleur\_\-fond@{couleur\_\-fond}!affichage.c@{affichage.c}}
+\subsubsection[{couleur\_\-fond}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-fond}[2]}\label{affichage_8c_a58089bf9225ae2e274165369f8bc7a00}
+colors in the transactions list 
+
+Définition à la ligne 112 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!couleur\_\-grise@{couleur\_\-grise}}
+\index{couleur\_\-grise@{couleur\_\-grise}!affichage.c@{affichage.c}}
+\subsubsection[{couleur\_\-grise}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-grise}}\label{affichage_8c_a4119417896b5652f640ead3795baac52}
+
+
+Définition à la ligne 114 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!couleur\_\-jour@{couleur\_\-jour}}
+\index{couleur\_\-jour@{couleur\_\-jour}!affichage.c@{affichage.c}}
+\subsubsection[{couleur\_\-jour}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-jour}}\label{affichage_8c_a668e8ab17ed4a22af1464c091c2668c2}
+
+
+Définition à la ligne 113 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!couleur\_\-selection@{couleur\_\-selection}}
+\index{couleur\_\-selection@{couleur\_\-selection}!affichage.c@{affichage.c}}
+\subsubsection[{couleur\_\-selection}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-selection}}\label{affichage_8c_a35e437a6db69c9160eeb81674971108b}
+
+
+Définition à la ligne 116 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!default\_\-archive\_\-background\_\-color@{default\_\-archive\_\-background\_\-color}}
+\index{default\_\-archive\_\-background\_\-color@{default\_\-archive\_\-background\_\-color}!affichage.c@{affichage.c}}
+\subsubsection[{default\_\-archive\_\-background\_\-color}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf default\_\-archive\_\-background\_\-color}}\label{affichage_8c_a9b02755865b26afa2ff2c5fed58021d3}
+
+
+Définition à la ligne 105 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!default\_\-calendar\_\-entry\_\-color@{default\_\-calendar\_\-entry\_\-color}}
+\index{default\_\-calendar\_\-entry\_\-color@{default\_\-calendar\_\-entry\_\-color}!affichage.c@{affichage.c}}
+\subsubsection[{default\_\-calendar\_\-entry\_\-color}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf default\_\-calendar\_\-entry\_\-color}}\label{affichage_8c_acc3ef52863503926b5b8f9b17e3cf442}
+
+
+Définition à la ligne 109 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!default\_\-couleur\_\-bet\_\-division@{default\_\-couleur\_\-bet\_\-division}}
+\index{default\_\-couleur\_\-bet\_\-division@{default\_\-couleur\_\-bet\_\-division}!affichage.c@{affichage.c}}
+\subsubsection[{default\_\-couleur\_\-bet\_\-division}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf default\_\-couleur\_\-bet\_\-division}}\label{affichage_8c_a8429a293f7b484c7ddd18477b5826837}
+
+
+Définition à la ligne 136 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!default\_\-couleur\_\-bet\_\-future@{default\_\-couleur\_\-bet\_\-future}}
+\index{default\_\-couleur\_\-bet\_\-future@{default\_\-couleur\_\-bet\_\-future}!affichage.c@{affichage.c}}
+\subsubsection[{default\_\-couleur\_\-bet\_\-future}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf default\_\-couleur\_\-bet\_\-future}}\label{affichage_8c_adba548ffc8e18696333d5a1c307f4c16}
+
+
+Définition à la ligne 138 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!default\_\-couleur\_\-bet\_\-transfert@{default\_\-couleur\_\-bet\_\-transfert}}
+\index{default\_\-couleur\_\-bet\_\-transfert@{default\_\-couleur\_\-bet\_\-transfert}!affichage.c@{affichage.c}}
+\subsubsection[{default\_\-couleur\_\-bet\_\-transfert}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf default\_\-couleur\_\-bet\_\-transfert}}\label{affichage_8c_aeb871339509ce469b886f7e5e302c85a}
+
+
+Définition à la ligne 140 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!default\_\-couleur\_\-fond@{default\_\-couleur\_\-fond}}
+\index{default\_\-couleur\_\-fond@{default\_\-couleur\_\-fond}!affichage.c@{affichage.c}}
+\subsubsection[{default\_\-couleur\_\-fond}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf default\_\-couleur\_\-fond}[2]}\label{affichage_8c_a825451c26e17de125aef98ca62e96358}
+defaults colors in the transactions list 
+
+Définition à la ligne 102 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!default\_\-couleur\_\-grise@{default\_\-couleur\_\-grise}}
+\index{default\_\-couleur\_\-grise@{default\_\-couleur\_\-grise}!affichage.c@{affichage.c}}
+\subsubsection[{default\_\-couleur\_\-grise}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf default\_\-couleur\_\-grise}}\label{affichage_8c_a1dff44f95100cba45b331a6ed4c8e005}
+
+
+Définition à la ligne 104 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!default\_\-couleur\_\-jour@{default\_\-couleur\_\-jour}}
+\index{default\_\-couleur\_\-jour@{default\_\-couleur\_\-jour}!affichage.c@{affichage.c}}
+\subsubsection[{default\_\-couleur\_\-jour}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf default\_\-couleur\_\-jour}}\label{affichage_8c_a942af6b24cf90dcad3ad838b49394d6d}
+
+
+Définition à la ligne 103 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!default\_\-couleur\_\-selection@{default\_\-couleur\_\-selection}}
+\index{default\_\-couleur\_\-selection@{default\_\-couleur\_\-selection}!affichage.c@{affichage.c}}
+\subsubsection[{default\_\-couleur\_\-selection}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf default\_\-couleur\_\-selection}}\label{affichage_8c_a7024ada5bb9ad3a42a530f28be2d1714}
+
+
+Définition à la ligne 106 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!default\_\-split\_\-background@{default\_\-split\_\-background}}
+\index{default\_\-split\_\-background@{default\_\-split\_\-background}!affichage.c@{affichage.c}}
+\subsubsection[{default\_\-split\_\-background}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf default\_\-split\_\-background}}\label{affichage_8c_a3f6c86dcef012ed66805beb0c76fd2f8}
+
+
+Définition à la ligne 107 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!default\_\-text\_\-color@{default\_\-text\_\-color}}
+\index{default\_\-text\_\-color@{default\_\-text\_\-color}!affichage.c@{affichage.c}}
+\subsubsection[{default\_\-text\_\-color}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf default\_\-text\_\-color}[2]}\label{affichage_8c_ad2907ac01ffda6d7aefaddefb2369c9f}
+
+
+Définition à la ligne 108 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!fenetre\_\-preferences@{fenetre\_\-preferences}}
+\index{fenetre\_\-preferences@{fenetre\_\-preferences}!affichage.c@{affichage.c}}
+\subsubsection[{fenetre\_\-preferences}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf fenetre\_\-preferences}}\label{affichage_8c_a280b98575c3c9e0b637ec78b157a1ff4}
+
+
+Définition à la ligne 91 du fichier parametres.c.
+
+\index{affichage.c@{affichage.c}!hbox\_\-title@{hbox\_\-title}}
+\index{hbox\_\-title@{hbox\_\-title}!affichage.c@{affichage.c}}
+\subsubsection[{hbox\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf hbox\_\-title}}\label{affichage_8c_a5c4177f9546fc12979a20354c696c96a}
+
+
+Définition à la ligne 109 du fichier accueil.c.
+
+\index{affichage.c@{affichage.c}!initial\_\-file\_\-title@{initial\_\-file\_\-title}}
+\index{initial\_\-file\_\-title@{initial\_\-file\_\-title}!affichage.c@{affichage.c}}
+\subsubsection[{initial\_\-file\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf initial\_\-file\_\-title}}\label{affichage_8c_ac7526506154f32a987a2cd923aba4d7c}
+
+
+Définition à la ligne 226 du fichier gsb\_\-file\_\-load.c.
+
+\index{affichage.c@{affichage.c}!initial\_\-holder\_\-title@{initial\_\-holder\_\-title}}
+\index{initial\_\-holder\_\-title@{initial\_\-holder\_\-title}!affichage.c@{affichage.c}}
+\subsubsection[{initial\_\-holder\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf initial\_\-holder\_\-title}}\label{affichage_8c_a2b411f03999259d3ba57ceb09d126c6d}
+
+
+Définition à la ligne 227 du fichier gsb\_\-file\_\-load.c.
+
+\index{affichage.c@{affichage.c}!label\_\-titre\_\-fichier@{label\_\-titre\_\-fichier}}
+\index{label\_\-titre\_\-fichier@{label\_\-titre\_\-fichier}!affichage.c@{affichage.c}}
+\subsubsection[{label\_\-titre\_\-fichier}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf label\_\-titre\_\-fichier}}\label{affichage_8c_ad5a5e4da0960d4245ba98245c3a868dc}
+
+
+Définition à la ligne 110 du fichier accueil.c.
+
+\index{affichage.c@{affichage.c}!logo\_\-accueil@{logo\_\-accueil}}
+\index{logo\_\-accueil@{logo\_\-accueil}!affichage.c@{affichage.c}}
+\subsubsection[{logo\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf logo\_\-accueil}}\label{affichage_8c_a54bbf4c2b1a287f2b68dd985bc3df3a0}
+
+
+Définition à la ligne 108 du fichier accueil.c.
+
+\index{affichage.c@{affichage.c}!nom\_\-fichier\_\-comptes@{nom\_\-fichier\_\-comptes}}
+\index{nom\_\-fichier\_\-comptes@{nom\_\-fichier\_\-comptes}!affichage.c@{affichage.c}}
+\subsubsection[{nom\_\-fichier\_\-comptes}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf nom\_\-fichier\_\-comptes}}\label{affichage_8c_ae00b9af94c75169e6ab8cf0ec25e8b89}
+
+
+Définition à la ligne 145 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!split\_\-background@{split\_\-background}}
+\index{split\_\-background@{split\_\-background}!affichage.c@{affichage.c}}
+\subsubsection[{split\_\-background}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf split\_\-background}}\label{affichage_8c_abc4f631d953e2be68189a6fbcf55cd1d}
+
+
+Définition à la ligne 117 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!text\_\-color@{text\_\-color}}
+\index{text\_\-color@{text\_\-color}!affichage.c@{affichage.c}}
+\subsubsection[{text\_\-color}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf text\_\-color}[2]}\label{affichage_8c_a8169600c05eb3674c1b11ca67dd677d3}
+
+
+Définition à la ligne 118 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!titre\_\-fichier@{titre\_\-fichier}}
+\index{titre\_\-fichier@{titre\_\-fichier}!affichage.c@{affichage.c}}
+\subsubsection[{titre\_\-fichier}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf titre\_\-fichier}}\label{affichage_8c_a787cc81cf2ad728775b73d723713980b}
+
+
+Définition à la ligne 147 du fichier traitement\_\-variables.c.
+
+\index{affichage.c@{affichage.c}!window@{window}}
+\index{window@{window}!affichage.c@{affichage.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{affichage_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

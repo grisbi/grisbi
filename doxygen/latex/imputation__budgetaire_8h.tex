@@ -1,0 +1,87 @@
+\section{Référence du fichier imputation\_\-budgetaire.h}
+\label{imputation__budgetaire_8h}\index{imputation\_\-budgetaire.h@{imputation\_\-budgetaire.h}}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf budgetary\_\-hold\_\-position\_\-set\_\-expand} (gboolean expand)
+\item 
+gboolean {\bf budgetary\_\-hold\_\-position\_\-set\_\-path} (GtkTreePath $\ast$path)
+\item 
+gboolean {\bf gsb\_\-budget\_\-update\_\-combofix} (gboolean force)
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-imputations} (void)
+\item 
+void {\bf remplit\_\-arbre\_\-imputation} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{imputation\_\-budgetaire.h@{imputation\_\-budgetaire.h}!budgetary\_\-hold\_\-position\_\-set\_\-expand@{budgetary\_\-hold\_\-position\_\-set\_\-expand}}
+\index{budgetary\_\-hold\_\-position\_\-set\_\-expand@{budgetary\_\-hold\_\-position\_\-set\_\-expand}!imputation_budgetaire.h@{imputation\_\-budgetaire.h}}
+\subsubsection[{budgetary\_\-hold\_\-position\_\-set\_\-expand}]{\setlength{\rightskip}{0pt plus 5cm}gboolean budgetary\_\-hold\_\-position\_\-set\_\-expand (gboolean {\em expand})}\label{imputation__budgetaire_8h_a3266a447db85ea0aff52f82aa54bbbd8}
+sauvegarde l'attribut expand.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em expand}]\end{DoxyParams}
+
+
+Définition à la ligne 927 du fichier imputation\_\-budgetaire.c.
+
+\index{imputation\_\-budgetaire.h@{imputation\_\-budgetaire.h}!budgetary\_\-hold\_\-position\_\-set\_\-path@{budgetary\_\-hold\_\-position\_\-set\_\-path}}
+\index{budgetary\_\-hold\_\-position\_\-set\_\-path@{budgetary\_\-hold\_\-position\_\-set\_\-path}!imputation_budgetaire.h@{imputation\_\-budgetaire.h}}
+\subsubsection[{budgetary\_\-hold\_\-position\_\-set\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}gboolean budgetary\_\-hold\_\-position\_\-set\_\-path (GtkTreePath $\ast$ {\em path})}\label{imputation__budgetaire_8h_a6228c4caafe41ed3474c70918e98cfac}
+sauvegarde le chemin de la dernière imputation sélectionnée.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em path}]\end{DoxyParams}
+
+
+Définition à la ligne 916 du fichier imputation\_\-budgetaire.c.
+
+\index{imputation\_\-budgetaire.h@{imputation\_\-budgetaire.h}!gsb\_\-budget\_\-update\_\-combofix@{gsb\_\-budget\_\-update\_\-combofix}}
+\index{gsb\_\-budget\_\-update\_\-combofix@{gsb\_\-budget\_\-update\_\-combofix}!imputation_budgetaire.h@{imputation\_\-budgetaire.h}}
+\subsubsection[{gsb\_\-budget\_\-update\_\-combofix}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-budget\_\-update\_\-combofix (gboolean {\em force})}\label{imputation__budgetaire_8h_ad363e475c28e0d82a408950418ffb877}
+update the form's combofix for the budget
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 345 du fichier imputation\_\-budgetaire.c.
+
+\index{imputation\_\-budgetaire.h@{imputation\_\-budgetaire.h}!onglet\_\-imputations@{onglet\_\-imputations}}
+\index{onglet\_\-imputations@{onglet\_\-imputations}!imputation_budgetaire.h@{imputation\_\-budgetaire.h}}
+\subsubsection[{onglet\_\-imputations}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-imputations (void)}\label{imputation__budgetaire_8h_ac694980b7be317dc9bdb169c8afd1876}
+
+
+Définition à la ligne 94 du fichier imputation\_\-budgetaire.c.
+
+\index{imputation\_\-budgetaire.h@{imputation\_\-budgetaire.h}!remplit\_\-arbre\_\-imputation@{remplit\_\-arbre\_\-imputation}}
+\index{remplit\_\-arbre\_\-imputation@{remplit\_\-arbre\_\-imputation}!imputation_budgetaire.h@{imputation\_\-budgetaire.h}}
+\subsubsection[{remplit\_\-arbre\_\-imputation}]{\setlength{\rightskip}{0pt plus 5cm}void remplit\_\-arbre\_\-imputation (void)}\label{imputation__budgetaire_8h_a3c4c67e80fdca7661b83a5176e7ac787}
+fill the tree of budget
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+First, remove previous tree
+
+Then, populate tree with budgetary lines.
+
+Each budget has sub budgetary lines. 
+
+
+
+Définition à la ligne 227 du fichier imputation\_\-budgetaire.c.
+

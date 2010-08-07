@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de erreur.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>erreur.h</h1><a href="erreur_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _ERREUR_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _ERREUR_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span><span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00004"></a>00004 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00005"></a>00005 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="comment">/* constante de debug originale, obsolete il faudrait utiliser maintenant */</span>
+<a name="l00008"></a>00008 <span class="comment">/* la variable globale debugging_grisbi, voir erreur.c */</span>
+<a name="l00009"></a><a class="code" href="erreur_8h.html#ad72dbcf6d0153db1b8d8a58001feed83">00009</a> <span class="preprocessor">#define DEBUG utils_str_atoi (getenv (&quot;DEBUG_GRISBI&quot;))</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span>
+<a name="l00011"></a>00011 <span class="comment">/* constantes definissant le niveau de debug */</span>
+<a name="l00012"></a><a class="code" href="erreur_8h.html#adcb5727a0eed4d0e81391f5cae4c4262">00012</a> <span class="preprocessor">#define DEBUG_LEVEL_ALERT                       1               </span><span class="comment">/* grave probleme */</span>
+<a name="l00013"></a><a class="code" href="erreur_8h.html#af1733a7d8293df75bf64a9af8159c5e0">00013</a> <span class="preprocessor">#define DEBUG_LEVEL_IMPORTANT                   2               </span><span class="comment">/* probleme moins grave */</span>
+<a name="l00014"></a><a class="code" href="erreur_8h.html#aa1d0c9dd70a64b98644f322b77848c7e">00014</a> <span class="preprocessor">#define DEBUG_LEVEL_NOTICE                      3               </span><span class="comment">/* probleme encore moins grave :) */</span>
+<a name="l00015"></a><a class="code" href="erreur_8h.html#a5f068e0ead7c7e158d2ff28e7b2f2794">00015</a> <span class="preprocessor">#define DEBUG_LEVEL_INFO                        4               </span><span class="comment">/* autre information */</span>
+<a name="l00016"></a><a class="code" href="erreur_8h.html#a50e285e7f95e4a1f0fb16c600921836c">00016</a> <span class="preprocessor">#define DEBUG_LEVEL_DEBUG                       5               </span><span class="comment">/* information de debug */</span>
+<a name="l00017"></a><a class="code" href="erreur_8h.html#a18d5723f78024cc6ae507a57cbd18e15">00017</a> <span class="preprocessor">#define MAX_DEBUG_LEVEL                         5               </span><span class="comment">/* ignore higher debug levels */</span>
+<a name="l00018"></a>00018 
+<a name="l00019"></a><a class="code" href="erreur_8h.html#a10f4eeae4cc251a8d632fd62ec1057fb">00019</a> <span class="preprocessor">#define devel_debug_int(x) debug_message_int(&quot;Debug&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_DEBUG,FALSE)</span>
+<a name="l00020"></a><a class="code" href="erreur_8h.html#a19258644ccb654e0ef9522bdc9e84715">00020</a> <span class="preprocessor"></span><span class="preprocessor">#define devel_debug_real(x) debug_message_real(&quot;Debug&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_DEBUG,FALSE)</span>
+<a name="l00021"></a><a class="code" href="erreur_8h.html#a17bfffc4306bc76edd79e060a8947dc4">00021</a> <span class="preprocessor"></span><span class="preprocessor">#define devel_debug(x) debug_message_string(&quot;Debug&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_DEBUG,FALSE)</span>
+<a name="l00022"></a><a class="code" href="erreur_8h.html#a4538fd4861a4ef0fdec1e42edd2ebf2b">00022</a> <span class="preprocessor"></span><span class="preprocessor">#define notice_debug(x) debug_message_string(&quot;Info&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_INFO,FALSE)</span>
+<a name="l00023"></a><a class="code" href="erreur_8h.html#a70b10c07513d0694ee36dcdcb1696949">00023</a> <span class="preprocessor"></span><span class="preprocessor">#define warning_debug(x) debug_message_string(&quot;Warning&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_NOTICE,FALSE)</span>
+<a name="l00024"></a><a class="code" href="erreur_8h.html#a212b1bbf19e79a680a6ee370df9d76c1">00024</a> <span class="preprocessor"></span><span class="preprocessor">#define important_debug(x) debug_message_string(&quot;Important&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_IMPORTANT,FALSE)</span>
+<a name="l00025"></a><a class="code" href="erreur_8h.html#a89605ef34ba8b746a61b0614aa552b80">00025</a> <span class="preprocessor"></span><span class="preprocessor">#define alert_debug(x) debug_message_string(&quot;Alert&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_ALERT,FALSE)</span>
+<a name="l00026"></a><a class="code" href="erreur_8h.html#a7b65e07d6935901fcfcfa961f2a61fbf">00026</a> <span class="preprocessor"></span><span class="preprocessor">#define DEBUG_WHERE_AM_I g_strdup_printf(&quot;%s line %05d&quot;,__FILE__,__LINE__)</span>
+<a name="l00027"></a>00027 <span class="preprocessor"></span>
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00030"></a>00030 <span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="erreur_8c.html#ae591dcdff555bc84145ac56dd9a29100">debug_message_int</a> ( gchar *prefixe, gchar * file, gint line, <span class="keyword">const</span> <span class="keywordtype">char</span> * function, 
+<a name="l00031"></a>00031                                 gint message, gint level, gboolean force_debug_display);
+<a name="l00032"></a>00032 <span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="erreur_8c.html#a1d5e8e58666af6134f40c6b2469749fe">debug_message_real</a> ( gchar *prefixe, gchar * file, gint line, <span class="keyword">const</span> <span class="keywordtype">char</span> * function, 
+<a name="l00033"></a>00033                                 <a class="code" href="structgsb__real.html">gsb_real</a> message, gint level, gboolean force_debug_display);
+<a name="l00034"></a>00034 G_MODULE_EXPORT <span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="erreur_8c.html#a610481ee224a2ea98c37456084c54638">debug_message_string</a> ( gchar *prefixe, gchar * file, gint line, <span class="keyword">const</span> <span class="keywordtype">char</span> * function, 
+<a name="l00035"></a>00035                                    <span class="keyword">const</span> gchar *message, gint level, gboolean force_debug_display);
+<a name="l00036"></a>00036 gboolean <a class="code" href="erreur_8c.html#a8321053275e249fd34c4890aec24ab1e">gsb_debug_start_log</a> (<span class="keywordtype">void</span>);
+<a name="l00037"></a>00037 <span class="keywordtype">void</span> <a class="code" href="erreur_8c.html#ab6d5eff68f3c78505c67b358955c3e85">initialize_debugging</a> ( <span class="keywordtype">void</span> );
+<a name="l00038"></a>00038 <span class="keywordtype">void</span> <a class="code" href="erreur_8c.html#aac06461c37298dba178aed1b0c3fde98">traitement_sigsegv</a> ( gint signal_nb );
+<a name="l00039"></a>00039 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:00 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,103 @@
+\section{Référence du fichier gsb\_\-assistant\_\-archive.c}
+\label{gsb__assistant__archive_8c}\index{gsb\_\-assistant\_\-archive.c@{gsb\_\-assistant\_\-archive.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-assistant\_\-archive.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}etats\_\-support.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-assistant.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-calendar\_\-entry.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-archive.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-archive\_\-store.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-report.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-report.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}etats\_\-calculs.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf archive\_\-assistant\_\-page} \{ {\bf ARCHIVE\_\-ASSISTANT\_\-INTRO} =  0, 
+{\bf ARCHIVE\_\-ASSISTANT\_\-MENU}, 
+{\bf ARCHIVE\_\-ASSISTANT\_\-ARCHIVE\_\-NAME}, 
+{\bf ARCHIVE\_\-ASSISTANT\_\-SUCCESS}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkResponseType {\bf gsb\_\-assistant\_\-archive\_\-run\_\-by\_\-menu} (void)
+\item 
+GtkResponseType {\bf gsb\_\-assistant\_\-archive\_\-run} (gboolean {\bf origin})
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+we find here the complete assistant to archive some transactions 
+
+Définition dans le fichier {\bf gsb\_\-assistant\_\-archive.c}.
+
+
+
+\subsection{Documentation du type de l'énumération}
+\index{gsb\_\-assistant\_\-archive.c@{gsb\_\-assistant\_\-archive.c}!archive\_\-assistant\_\-page@{archive\_\-assistant\_\-page}}
+\index{archive\_\-assistant\_\-page@{archive\_\-assistant\_\-page}!gsb_assistant_archive.c@{gsb\_\-assistant\_\-archive.c}}
+\subsubsection[{archive\_\-assistant\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf archive\_\-assistant\_\-page}}\label{gsb__assistant__archive_8c_a9338eaa443e5fa1dc67b270bb59a4597}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{ARCHIVE\_\-ASSISTANT\_\-INTRO@{ARCHIVE\_\-ASSISTANT\_\-INTRO}!gsb\_\-assistant\_\-archive.c@{gsb\_\-assistant\_\-archive.c}}\index{gsb\_\-assistant\_\-archive.c@{gsb\_\-assistant\_\-archive.c}!ARCHIVE\_\-ASSISTANT\_\-INTRO@{ARCHIVE\_\-ASSISTANT\_\-INTRO}}\item[{\em 
+ARCHIVE\_\-ASSISTANT\_\-INTRO\label{gsb__assistant__archive_8c_a9338eaa443e5fa1dc67b270bb59a4597a747307c4f3f09edb50881e75f24a8be1}
+}]\index{ARCHIVE\_\-ASSISTANT\_\-MENU@{ARCHIVE\_\-ASSISTANT\_\-MENU}!gsb\_\-assistant\_\-archive.c@{gsb\_\-assistant\_\-archive.c}}\index{gsb\_\-assistant\_\-archive.c@{gsb\_\-assistant\_\-archive.c}!ARCHIVE\_\-ASSISTANT\_\-MENU@{ARCHIVE\_\-ASSISTANT\_\-MENU}}\item[{\em 
+ARCHIVE\_\-ASSISTANT\_\-MENU\label{gsb__assistant__archive_8c_a9338eaa443e5fa1dc67b270bb59a4597a590584282c8c782743f8df3c51482748}
+}]\index{ARCHIVE\_\-ASSISTANT\_\-ARCHIVE\_\-NAME@{ARCHIVE\_\-ASSISTANT\_\-ARCHIVE\_\-NAME}!gsb\_\-assistant\_\-archive.c@{gsb\_\-assistant\_\-archive.c}}\index{gsb\_\-assistant\_\-archive.c@{gsb\_\-assistant\_\-archive.c}!ARCHIVE\_\-ASSISTANT\_\-ARCHIVE\_\-NAME@{ARCHIVE\_\-ASSISTANT\_\-ARCHIVE\_\-NAME}}\item[{\em 
+ARCHIVE\_\-ASSISTANT\_\-ARCHIVE\_\-NAME\label{gsb__assistant__archive_8c_a9338eaa443e5fa1dc67b270bb59a4597a4c8f1f0fe076550203e3d9a665f154ce}
+}]\index{ARCHIVE\_\-ASSISTANT\_\-SUCCESS@{ARCHIVE\_\-ASSISTANT\_\-SUCCESS}!gsb\_\-assistant\_\-archive.c@{gsb\_\-assistant\_\-archive.c}}\index{gsb\_\-assistant\_\-archive.c@{gsb\_\-assistant\_\-archive.c}!ARCHIVE\_\-ASSISTANT\_\-SUCCESS@{ARCHIVE\_\-ASSISTANT\_\-SUCCESS}}\item[{\em 
+ARCHIVE\_\-ASSISTANT\_\-SUCCESS\label{gsb__assistant__archive_8c_a9338eaa443e5fa1dc67b270bb59a4597a3a05338521296356092250cbdc1f7980}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 77 du fichier gsb\_\-assistant\_\-archive.c.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-assistant\_\-archive.c@{gsb\_\-assistant\_\-archive.c}!gsb\_\-assistant\_\-archive\_\-run@{gsb\_\-assistant\_\-archive\_\-run}}
+\index{gsb\_\-assistant\_\-archive\_\-run@{gsb\_\-assistant\_\-archive\_\-run}!gsb_assistant_archive.c@{gsb\_\-assistant\_\-archive.c}}
+\subsubsection[{gsb\_\-assistant\_\-archive\_\-run}]{\setlength{\rightskip}{0pt plus 5cm}GtkResponseType gsb\_\-assistant\_\-archive\_\-run (gboolean {\em origin})}\label{gsb__assistant__archive_8c_ab704558aef7214e869b6a9a3a87d0b1f}
+this function is called to launch the assistant to make archives
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em origin}]: FALSE by menu, TRUE automatically after a file opening\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a GtkResponseType containing the return value at the end of the assistant 
+\end{DoxyReturn}
+
+
+Définition à la ligne 120 du fichier gsb\_\-assistant\_\-archive.c.
+
+\index{gsb\_\-assistant\_\-archive.c@{gsb\_\-assistant\_\-archive.c}!gsb\_\-assistant\_\-archive\_\-run\_\-by\_\-menu@{gsb\_\-assistant\_\-archive\_\-run\_\-by\_\-menu}}
+\index{gsb\_\-assistant\_\-archive\_\-run\_\-by\_\-menu@{gsb\_\-assistant\_\-archive\_\-run\_\-by\_\-menu}!gsb_assistant_archive.c@{gsb\_\-assistant\_\-archive.c}}
+\subsubsection[{gsb\_\-assistant\_\-archive\_\-run\_\-by\_\-menu}]{\setlength{\rightskip}{0pt plus 5cm}GtkResponseType gsb\_\-assistant\_\-archive\_\-run\_\-by\_\-menu (void)}\label{gsb__assistant__archive_8c_a57e51811453ac3de14dd07bfa3b752e2}
+cannot send param by menu, so come here to launch the assistant
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the GtkResponseType of the assistant 
+\end{DoxyReturn}
+
+
+Définition à la ligne 107 du fichier gsb\_\-assistant\_\-archive.c.
+

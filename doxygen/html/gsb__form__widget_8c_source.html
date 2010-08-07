@@ -1,0 +1,1006 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_form_widget.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_form_widget.c</h1><a href="gsb__form__widget_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */</span>
+<a name="l00004"></a>00004 <span class="comment">/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */</span>
+<a name="l00005"></a>00005 <span class="comment">/*                      2009 Pierre Biava (grisbi@pierre.biava.name)          */</span>
+<a name="l00006"></a>00006 <span class="comment">/*          http://www.grisbi.org                                             */</span>
+<a name="l00007"></a>00007 <span class="comment">/*                                                                            */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00010"></a>00010 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00011"></a>00011 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00012"></a>00012 <span class="comment">/*                                                                            */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00015"></a>00015 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00016"></a>00016 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00017"></a>00017 <span class="comment">/*                                                                            */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00019"></a>00019 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00020"></a>00020 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00021"></a>00021 <span class="comment">/*                                                                            */</span>
+<a name="l00022"></a>00022 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00023"></a>00023 
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="gsb__form__widget_8h.html">gsb_form_widget.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="gsb__calendar__entry_8h.html">gsb_calendar_entry.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="gsb__currency_8h.html">gsb_currency.h</a>&quot;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__account_8h.html">gsb_data_account.h</a>&quot;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__budget_8h.html">gsb_data_budget.h</a>&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__category_8h.html">gsb_data_category.h</a>&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__form_8h.html">gsb_data_form.h</a>&quot;</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__payee_8h.html">gsb_data_payee.h</a>&quot;</span>
+<a name="l00041"></a>00041 <span class="preprocessor">#include &quot;<a class="code" href="gsb__form_8h.html">gsb_form.h</a>&quot;</span>
+<a name="l00042"></a>00042 <span class="preprocessor">#include &quot;<a class="code" href="gsb__form__transaction_8h.html">gsb_form_transaction.h</a>&quot;</span>
+<a name="l00043"></a>00043 <span class="preprocessor">#include &quot;<a class="code" href="gsb__fyear_8h.html">gsb_fyear.h</a>&quot;</span>
+<a name="l00044"></a>00044 <span class="preprocessor">#include &quot;<a class="code" href="gsb__payment__method_8h.html">gsb_payment_method.h</a>&quot;</span>
+<a name="l00045"></a>00045 <span class="preprocessor">#include &quot;<a class="code" href="gtk__combofix_8h.html">gtk_combofix.h</a>&quot;</span>
+<a name="l00046"></a>00046 <span class="preprocessor">#include &quot;<a class="code" href="traitement__variables_8h.html">traitement_variables.h</a>&quot;</span>
+<a name="l00047"></a>00047 <span class="preprocessor">#include &quot;<a class="code" href="gsb__form_8h.html">gsb_form.h</a>&quot;</span>
+<a name="l00048"></a>00048 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__payment_8h.html">gsb_data_payment.h</a>&quot;</span>
+<a name="l00049"></a>00049 <span class="preprocessor">#include &quot;<a class="code" href="gtk__combofix_8h.html">gtk_combofix.h</a>&quot;</span>
+<a name="l00050"></a>00050 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00051"></a>00051 <span class="preprocessor">#include &quot;<a class="code" href="structures_8h.html">structures.h</a>&quot;</span>
+<a name="l00052"></a>00052 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__form_8h.html">gsb_data_form.h</a>&quot;</span>
+<a name="l00053"></a>00053 <span class="preprocessor">#include &quot;<a class="code" href="erreur_8h.html">erreur.h</a>&quot;</span>
+<a name="l00054"></a>00054 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056 <span class="comment">/*START_STATIC*/</span>
+<a name="l00057"></a>00057 <span class="keyword">static</span> gboolean gsb_form_combo_selection_changed ( GtkTreeSelection *tree_selection,
+<a name="l00058"></a>00058                                                   gint *ptr_origin );
+<a name="l00059"></a>00059 <span class="keyword">static</span> gboolean gsb_form_widget_can_focus ( gint element_number );
+<a name="l00060"></a>00060 <span class="keyword">static</span> gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
+<a name="l00061"></a>00061                         GdkEventFocus *ev,
+<a name="l00062"></a>00062                         gint *ptr_origin );
+<a name="l00063"></a>00063 <span class="comment">/*END_STATIC*/</span>
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00066"></a>00066 <span class="keyword">extern</span> GdkColor <a class="code" href="affichage_8c.html#aa809fea280ab9cef6e16774b54a573ae">calendar_entry_color</a>;
+<a name="l00067"></a>00067 <span class="keyword">extern</span> GtkWidget *<a class="code" href="gsb__form_8c.html#ae8d7190a1fb3183b5b2230a299e1ec3d">form_button_cancel</a>;
+<a name="l00068"></a>00068 <span class="keyword">extern</span> GtkWidget *<a class="code" href="gsb__form_8c.html#ab8cc725a56b7979ec55e7b4625d0b66c">form_button_valid</a>;
+<a name="l00069"></a>00069 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00070"></a>00070 
+<a name="l00072"></a>00072 <span class="keyword">static</span> GSList *form_list_widgets = NULL;
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074 <span class="keyword">static</span> gchar *old_debit = NULL;
+<a name="l00075"></a>00075 <span class="keyword">static</span> gchar *old_credit = NULL;
+<a name="l00076"></a>00076 <span class="keyword">static</span> gint old_credit_payment_number = 0;
+<a name="l00077"></a>00077 <span class="keyword">static</span> gint old_debit_payment_number = 0;
+<a name="l00078"></a>00078 <span class="keyword">static</span> gchar *old_credit_payment_content = NULL;
+<a name="l00079"></a>00079 <span class="keyword">static</span> gchar *old_debit_payment_content = NULL;
+<a name="l00080"></a>00080 
+<a name="l00088"></a><a class="code" href="gsb__form__widget_8h.html#ad4885fdd3bce3607cf1aba2765864c35">00088</a> GSList *<a class="code" href="gsb__form__widget_8c.html#ad4885fdd3bce3607cf1aba2765864c35">gsb_form_widget_get_list</a> ( <span class="keywordtype">void</span> )
+<a name="l00089"></a>00089 {
+<a name="l00090"></a>00090     <span class="keywordflow">return</span> form_list_widgets;
+<a name="l00091"></a>00091 }
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 
+<a name="l00102"></a><a class="code" href="gsb__form__widget_8h.html#acabcc2310e5c066c35065e2b8d2fdd73">00102</a> gboolean <a class="code" href="gsb__form__widget_8c.html#acabcc2310e5c066c35065e2b8d2fdd73">gsb_form_widget_free_list</a> ( <span class="keywordtype">void</span> )
+<a name="l00103"></a>00103 {
+<a name="l00104"></a>00104     GSList *tmp_list;
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106     <a class="code" href="erreur_8h.html#a17bfffc4306bc76edd79e060a8947dc4">devel_debug</a> (NULL);
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108     <span class="keywordflow">if</span> (!form_list_widgets)
+<a name="l00109"></a>00109         <span class="keywordflow">return</span> FALSE;
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111     tmp_list = form_list_widgets;
+<a name="l00112"></a>00112     <span class="keywordflow">while</span> (tmp_list)
+<a name="l00113"></a>00113     {
+<a name="l00114"></a>00114         <a class="code" href="structstruct__element.html">struct_element</a> *element;
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116         element = tmp_list -&gt; data;
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118         <span class="keywordflow">if</span> (! element )
+<a name="l00119"></a>00119             <span class="keywordflow">continue</span>;
+<a name="l00120"></a>00120         
+<a name="l00121"></a>00121         <span class="comment">/* just to make sure... */</span>
+<a name="l00122"></a>00122         <span class="keywordflow">if</span> ( element -&gt; element_widget ) 
+<a name="l00123"></a>00123         {
+<a name="l00124"></a>00124             <span class="keywordflow">if</span> (GTK_IS_WIDGET (element -&gt; element_widget))
+<a name="l00125"></a>00125             {
+<a name="l00126"></a>00126                 <span class="comment">/* if there is something in the combofix we destroy, the popup will</span>
+<a name="l00127"></a>00127 <span class="comment">                 * be showed because destroying the gtk_entry will erase it directly,</span>
+<a name="l00128"></a>00128 <span class="comment">                 * so the simpliest way to avoid that is to erase now the entry, but with</span>
+<a name="l00129"></a>00129 <span class="comment">                 * gtk_combofix_set_text [cedric] (didn&#39;t succeed with another thing...) */</span>
+<a name="l00130"></a>00130                 <span class="keywordflow">if</span> (<a class="code" href="gtk__combofix_8h.html#ae229acb083eaf65647feb13fb925cfba">GTK_IS_COMBOFIX</a> (element -&gt; element_widget))
+<a name="l00131"></a>00131                 {
+<a name="l00132"></a>00132                     g_signal_handlers_block_by_func ( element -&gt; element_widget,
+<a name="l00133"></a>00133                         <a class="code" href="gsb__payment__method_8c.html#a5b947653cf00a61d5afa4870c4c63498">gsb_payment_method_changed_callback</a>, NULL );
+<a name="l00134"></a>00134                     <a class="code" href="gtk__combofix_8c.html#ac041b5bd83117286152eb388569f137d">gtk_combofix_set_text</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (element -&gt; element_widget), <span class="stringliteral">&quot;&quot;</span> );
+<a name="l00135"></a>00135                     <a class="code" href="gsb__form__widget_8c.html#a0b68e260dc6da6f49888145c901faaa9">gsb_form_widget_set_empty</a> ( GTK_WIDGET ( element -&gt; element_widget ), TRUE );
+<a name="l00136"></a>00136                 }
+<a name="l00137"></a>00137                 gtk_widget_destroy (element -&gt; element_widget);
+<a name="l00138"></a>00138                 element -&gt; element_widget = NULL;
+<a name="l00139"></a>00139             }
+<a name="l00140"></a>00140         }
+<a name="l00141"></a>00141         <span class="keywordflow">else</span> 
+<a name="l00142"></a>00142         {
+<a name="l00143"></a>00143             <a class="code" href="erreur_8h.html#a89605ef34ba8b746a61b0614aa552b80">alert_debug</a> (<span class="stringliteral">&quot;element_widget is NULL\n&quot;</span>);
+<a name="l00144"></a>00144         }
+<a name="l00145"></a>00145         g_free (element);
+<a name="l00146"></a>00146         tmp_list = tmp_list -&gt; next;
+<a name="l00147"></a>00147     }
+<a name="l00148"></a>00148     g_slist_free (form_list_widgets);
+<a name="l00149"></a>00149     form_list_widgets = NULL;
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151     <span class="keywordflow">return</span> FALSE;
+<a name="l00152"></a>00152 }
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155 
+<a name="l00164"></a><a class="code" href="gsb__form__widget_8h.html#a12c6f45282e18968885785e41f434d50">00164</a> GtkWidget *<a class="code" href="gsb__form__widget_8c.html#a12c6f45282e18968885785e41f434d50">gsb_form_widget_create</a> ( gint element_number,
+<a name="l00165"></a>00165                         gint account_number )
+<a name="l00166"></a>00166 {
+<a name="l00167"></a>00167     GtkWidget *widget;
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169     <span class="keywordflow">if</span> (!element_number)
+<a name="l00170"></a>00170         <span class="keywordflow">return</span> NULL;
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172     widget = NULL;
+<a name="l00173"></a>00173 
+<a name="l00174"></a>00174     <span class="keywordflow">switch</span> (element_number)
+<a name="l00175"></a>00175     {
+<a name="l00176"></a>00176         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a6f643a4593287663756c1a27ab737928">TRANSACTION_FORM_DATE</a>:
+<a name="l00177"></a>00177         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a8097bc595a8541635fa0a48be097f90c">TRANSACTION_FORM_VALUE_DATE</a>:
+<a name="l00178"></a>00178             widget = <a class="code" href="gsb__calendar__entry_8c.html#afc3a9a10d06b658715e71451cd8bd97f">gsb_calendar_entry_new</a> ( FALSE );
+<a name="l00179"></a>00179             <span class="keywordflow">break</span>;
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0adf4d1c605b1a540b073456f78b0ce09e">TRANSACTION_FORM_DEBIT</a>:
+<a name="l00182"></a>00182         widget = gtk_entry_new ( );
+<a name="l00183"></a>00183         g_object_set_data ( G_OBJECT ( widget ), <span class="stringliteral">&quot;element_number&quot;</span>,
+<a name="l00184"></a>00184                         GINT_TO_POINTER ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0adf4d1c605b1a540b073456f78b0ce09e">TRANSACTION_FORM_DEBIT</a> ) );
+<a name="l00185"></a>00185         g_signal_connect ( G_OBJECT ( widget ),
+<a name="l00186"></a>00186                                 <span class="stringliteral">&quot;changed&quot;</span>,
+<a name="l00187"></a>00187                                 G_CALLBACK ( <a class="code" href="gsb__form__widget_8c.html#a7398bf4ce9d9bebb04a02f7a771a58fa">gsb_form_widget_amount_entry_changed</a> ),
+<a name="l00188"></a>00188                                 NULL );
+<a name="l00189"></a>00189         <span class="keywordflow">break</span>;
+<a name="l00190"></a>00190         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0aea838f4dc3955f3ab0c14629e0e9ef15">TRANSACTION_FORM_CREDIT</a>:
+<a name="l00191"></a>00191         widget = gtk_entry_new ( );
+<a name="l00192"></a>00192         g_object_set_data ( G_OBJECT ( widget ), <span class="stringliteral">&quot;element_number&quot;</span>,
+<a name="l00193"></a>00193                         GINT_TO_POINTER ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0aea838f4dc3955f3ab0c14629e0e9ef15">TRANSACTION_FORM_CREDIT</a> ) );
+<a name="l00194"></a>00194         g_signal_connect ( G_OBJECT ( widget ),
+<a name="l00195"></a>00195                                 <span class="stringliteral">&quot;changed&quot;</span>,
+<a name="l00196"></a>00196                                 G_CALLBACK ( <a class="code" href="gsb__form__widget_8c.html#a7398bf4ce9d9bebb04a02f7a771a58fa">gsb_form_widget_amount_entry_changed</a> ),
+<a name="l00197"></a>00197                                 NULL );
+<a name="l00198"></a>00198         <span class="keywordflow">break</span>;
+<a name="l00199"></a>00199 
+<a name="l00200"></a>00200         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a46d819ca8a4fdfc977e280e8ddd86e35">TRANSACTION_FORM_NOTES</a>:
+<a name="l00201"></a>00201         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0ab040b10c7b94b662ad06c18899b16451">TRANSACTION_FORM_CHEQUE</a>:
+<a name="l00202"></a>00202         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a1dba81fc50d5b24899ed6366edc4bfbc">TRANSACTION_FORM_VOUCHER</a>:
+<a name="l00203"></a>00203         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a86a258641f31d4894d235627c19b49db">TRANSACTION_FORM_BANK</a>:
+<a name="l00204"></a>00204             widget = gtk_entry_new();
+<a name="l00205"></a>00205             <span class="keywordflow">break</span>;
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a3fb2b8499a3f175a3a1884add7ebe306">TRANSACTION_FORM_EXERCICE</a>:
+<a name="l00208"></a>00208             widget = <a class="code" href="gsb__fyear_8c.html#a6f8ef344dde2ca4102a8371319b7565e">gsb_fyear_make_combobox</a> (TRUE);
+<a name="l00209"></a>00209             gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
+<a name="l00210"></a>00210                                           <a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Choose the financial year&quot;</span>)));
+<a name="l00211"></a>00211             <span class="keywordflow">break</span>;
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0ada5fb376a464a271d8367106cb8725e6">TRANSACTION_FORM_PARTY</a>:
+<a name="l00214"></a>00214             widget = <a class="code" href="gtk__combofix_8c.html#a7642341a194730bea49a96c515349870">gtk_combofix_new</a> (
+<a name="l00215"></a>00215                         <a class="code" href="gsb__data__payee_8c.html#a04e398908c76c8314a9dcf22dcadaf49">gsb_data_payee_get_name_and_report_list</a> ( ) );
+<a name="l00216"></a>00216             <a class="code" href="gtk__combofix_8c.html#af698335af63e4952d8c35d912732b4e4">gtk_combofix_set_force_text</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget),
+<a name="l00217"></a>00217                                           <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a2d144af514bb01efa489541db464bc80">combofix_force_payee</a> );
+<a name="l00218"></a>00218             <a class="code" href="gtk__combofix_8c.html#a5f12519f66c3da8248e512bf6b584d29">gtk_combofix_set_max_items</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget),
+<a name="l00219"></a>00219                                          <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a6a71e36dd4154a8a28ec1c61815e48cf">combofix_max_item</a> );
+<a name="l00220"></a>00220             <a class="code" href="gtk__combofix_8c.html#ac7743a3ebf76e8dc9203d696dbc02cae">gtk_combofix_set_case_sensitive</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget),
+<a name="l00221"></a>00221                                               <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a125b6acef0ed7c3675d331ebb36ee373">combofix_case_sensitive</a> );
+<a name="l00222"></a>00222             <span class="comment">/* we never mix the payee because the only case of the complex combofix is</span>
+<a name="l00223"></a>00223 <span class="comment">             * for the report and there is non sense to mix report with the payee */</span>
+<a name="l00224"></a>00224             <a class="code" href="gtk__combofix_8c.html#a4d9749a858856cb3818749500a0a3d86">gtk_combofix_set_mixed_sort</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget),
+<a name="l00225"></a>00225                                           FALSE );
+<a name="l00226"></a>00226             <span class="keywordflow">break</span>;
+<a name="l00227"></a>00227 
+<a name="l00228"></a>00228         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a1aaea0001978835b5bfaf82154adc0a4">TRANSACTION_FORM_CATEGORY</a>:
+<a name="l00229"></a>00229             widget = <a class="code" href="gtk__combofix_8c.html#a7642341a194730bea49a96c515349870">gtk_combofix_new</a> (
+<a name="l00230"></a>00230                          <a class="code" href="gsb__data__category_8c.html#ac9e9466a500b7589b2b38af6ffdc9a27">gsb_data_category_get_name_list</a> ( TRUE, TRUE, TRUE, TRUE ) );
+<a name="l00231"></a>00231             <a class="code" href="gtk__combofix_8c.html#af698335af63e4952d8c35d912732b4e4">gtk_combofix_set_force_text</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget),
+<a name="l00232"></a>00232                                           <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a438d5f681d3caeb050f58d3731f8d913">combofix_force_category</a> );
+<a name="l00233"></a>00233             <a class="code" href="gtk__combofix_8c.html#a5f12519f66c3da8248e512bf6b584d29">gtk_combofix_set_max_items</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget),
+<a name="l00234"></a>00234                                          <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a6a71e36dd4154a8a28ec1c61815e48cf">combofix_max_item</a> );
+<a name="l00235"></a>00235             <a class="code" href="gtk__combofix_8c.html#ac7743a3ebf76e8dc9203d696dbc02cae">gtk_combofix_set_case_sensitive</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget),
+<a name="l00236"></a>00236                                               <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a125b6acef0ed7c3675d331ebb36ee373">combofix_case_sensitive</a> );
+<a name="l00237"></a>00237             <a class="code" href="gtk__combofix_8c.html#a4d9749a858856cb3818749500a0a3d86">gtk_combofix_set_mixed_sort</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget),
+<a name="l00238"></a>00238                                           <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a66bb2fbaf6417db78f4a3444aa26cfa3">combofix_mixed_sort</a> );
+<a name="l00239"></a>00239             <span class="keywordflow">break</span>;
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0ae85b1c4ca906a86d26308e22b1197e1b">TRANSACTION_FORM_FREE</a>:
+<a name="l00242"></a>00242             <a class="code" href="erreur_8h.html#a89605ef34ba8b746a61b0614aa552b80">alert_debug</a> ( <span class="stringliteral">&quot;TRANSACTION_FORM_FREE returns an empty widget&quot;</span> );
+<a name="l00243"></a>00243             <span class="keywordflow">break</span>;
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0ade76330851ee455bd3e4917bfbcbfa23">TRANSACTION_FORM_BUDGET</a>:
+<a name="l00246"></a>00246             widget = <a class="code" href="gtk__combofix_8c.html#a7642341a194730bea49a96c515349870">gtk_combofix_new</a> (
+<a name="l00247"></a>00247                         <a class="code" href="gsb__data__budget_8c.html#a1478a23010fb605611356e0966dabca3">gsb_data_budget_get_name_list</a> (TRUE, TRUE));
+<a name="l00248"></a>00248             <a class="code" href="gtk__combofix_8c.html#af698335af63e4952d8c35d912732b4e4">gtk_combofix_set_force_text</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget),
+<a name="l00249"></a>00249                                           <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a438d5f681d3caeb050f58d3731f8d913">combofix_force_category</a> );
+<a name="l00250"></a>00250             <a class="code" href="gtk__combofix_8c.html#a5f12519f66c3da8248e512bf6b584d29">gtk_combofix_set_max_items</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget),
+<a name="l00251"></a>00251                                          <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a6a71e36dd4154a8a28ec1c61815e48cf">combofix_max_item</a> );
+<a name="l00252"></a>00252             <a class="code" href="gtk__combofix_8c.html#ac7743a3ebf76e8dc9203d696dbc02cae">gtk_combofix_set_case_sensitive</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget),
+<a name="l00253"></a>00253                                               <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a125b6acef0ed7c3675d331ebb36ee373">combofix_case_sensitive</a> );
+<a name="l00254"></a>00254             <a class="code" href="gtk__combofix_8c.html#a4d9749a858856cb3818749500a0a3d86">gtk_combofix_set_mixed_sort</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget),
+<a name="l00255"></a>00255                                           <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a66bb2fbaf6417db78f4a3444aa26cfa3">combofix_mixed_sort</a> );
+<a name="l00256"></a>00256             <span class="keywordflow">break</span>;
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a3ae7bb2abdcc2e5494d0f453108d39ef">TRANSACTION_FORM_TYPE</a>:
+<a name="l00259"></a>00259             widget = gtk_combo_box_new ();
+<a name="l00260"></a>00260             <a class="code" href="gsb__payment__method_8c.html#a161fa2bfbb02f3b3310759b78437586a">gsb_payment_method_create_combo_list</a> ( widget,
+<a name="l00261"></a>00261                         <a class="code" href="gsb__data__payment_8h.html#a75b824ed98739971febf033ea0293012">GSB_PAYMENT_DEBIT</a>,
+<a name="l00262"></a>00262                         account_number, 0 );
+<a name="l00263"></a>00263             gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
+<a name="l00264"></a>00264             gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
+<a name="l00265"></a>00265                         <a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Choose the method of payment&quot;</span>)));
+<a name="l00266"></a>00266         g_signal_connect ( G_OBJECT (widget),
+<a name="l00267"></a>00267                         <span class="stringliteral">&quot;changed&quot;</span>,
+<a name="l00268"></a>00268                         G_CALLBACK (<a class="code" href="gsb__payment__method_8c.html#a5b947653cf00a61d5afa4870c4c63498">gsb_payment_method_changed_callback</a>),
+<a name="l00269"></a>00269                         NULL );
+<a name="l00270"></a>00270             <span class="keywordflow">break</span>;
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a04a54c703677228b4ae47cab1992554b">TRANSACTION_FORM_DEVISE</a>:
+<a name="l00273"></a>00273             widget = <a class="code" href="gsb__currency_8c.html#ad0c6f15f859f45a94923fa743d81f5b5">gsb_currency_make_combobox</a> (FALSE);
+<a name="l00274"></a>00274             gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
+<a name="l00275"></a>00275                                           <a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Choose currency&quot;</span>)));
+<a name="l00276"></a>00276             <a class="code" href="gsb__currency_8c.html#a8774e282bad3c3101b161fd54bcb660a">gsb_currency_set_combobox_history</a> ( widget,
+<a name="l00277"></a>00277                                                 <a class="code" href="gsb__data__account_8c.html#a9f8d132b988ca73a7061fca955f6bc2c">gsb_data_account_get_currency</a> (account_number));
+<a name="l00278"></a>00278         g_signal_connect ( G_OBJECT (  widget ),
+<a name="l00279"></a>00279                                <span class="stringliteral">&quot;changed&quot;</span>,
+<a name="l00280"></a>00280                                G_CALLBACK (<a class="code" href="gsb__form__transaction_8c.html#a4b5641da00b228399e4ac1d5919776c5">gsb_form_transaction_currency_changed</a>),
+<a name="l00281"></a>00281                                NULL );
+<a name="l00282"></a>00282             <span class="keywordflow">break</span>;
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a54b913a7cb6769230a2c55ba7a3429d1">TRANSACTION_FORM_CHANGE</a>:
+<a name="l00285"></a>00285             widget = gtk_button_new_with_label ( _(<span class="stringliteral">&quot;Change&quot;</span>) );
+<a name="l00286"></a>00286             gtk_button_set_relief ( GTK_BUTTON ( widget ),
+<a name="l00287"></a>00287                                     GTK_RELIEF_NONE );
+<a name="l00288"></a>00288             gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
+<a name="l00289"></a>00289                                           <a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Define the change for that transaction&quot;</span>)));
+<a name="l00290"></a>00290             g_signal_connect ( G_OBJECT (  widget ),
+<a name="l00291"></a>00291                                <span class="stringliteral">&quot;clicked&quot;</span>,
+<a name="l00292"></a>00292                                G_CALLBACK (<a class="code" href="gsb__form__transaction_8c.html#a927a6c6a4223e910e227c7683bd5d841">gsb_form_transaction_change_clicked</a>),
+<a name="l00293"></a>00293                                NULL );
+<a name="l00294"></a>00294             <span class="keywordflow">break</span>;
+<a name="l00295"></a>00295 
+<a name="l00296"></a>00296         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a7e4cf07a1e574ca1a47cb41f16380752">TRANSACTION_FORM_CONTRA</a>:
+<a name="l00297"></a>00297             <span class="comment">/* no menu at beginning, appened when choose the contra-account */</span>
+<a name="l00298"></a>00298             widget = gtk_combo_box_new ();
+<a name="l00299"></a>00299             gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
+<a name="l00300"></a>00300                                           <a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Contra-transaction method of payment&quot;</span>)));
+<a name="l00301"></a>00301             <span class="keywordflow">break</span>;
+<a name="l00302"></a>00302 
+<a name="l00303"></a>00303         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a75a0f2754da44b5e8e40f56892d99ea8">TRANSACTION_FORM_OP_NB</a>:
+<a name="l00304"></a>00304         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a989af19ddc2ec260ae3957be2d805c57">TRANSACTION_FORM_MODE</a>:
+<a name="l00305"></a>00305             widget = gtk_label_new ( NULL );
+<a name="l00306"></a>00306             <span class="keywordflow">break</span>;
+<a name="l00307"></a>00307     }
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309     <span class="keywordflow">if</span> ( widget )
+<a name="l00310"></a>00310     {
+<a name="l00311"></a>00311         <span class="comment">/* first, append the widget to the list */</span>
+<a name="l00312"></a>00312         <a class="code" href="structstruct__element.html">struct_element</a> *element;
+<a name="l00313"></a>00313 
+<a name="l00314"></a>00314         element = g_malloc0 (<span class="keyword">sizeof</span> (<a class="code" href="structstruct__element.html">struct_element</a>));
+<a name="l00315"></a>00315         element -&gt; element_number = element_number;
+<a name="l00316"></a>00316         element -&gt; element_widget = widget;
+<a name="l00317"></a>00317         form_list_widgets = g_slist_append ( form_list_widgets, element );
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319         <span class="comment">/* set the signals */</span>
+<a name="l00320"></a>00320         <span class="keywordflow">if</span> ( GTK_IS_ENTRY ( widget ) )
+<a name="l00321"></a>00321         {
+<a name="l00322"></a>00322             g_signal_connect ( G_OBJECT ( widget ),
+<a name="l00323"></a>00323                                <span class="stringliteral">&quot;focus-in-event&quot;</span>,
+<a name="l00324"></a>00324                                G_CALLBACK ( gsb_form_widget_entry_get_focus ),
+<a name="l00325"></a>00325                                GINT_TO_POINTER ( element_number ));
+<a name="l00326"></a>00326             g_signal_connect ( G_OBJECT ( widget ),
+<a name="l00327"></a>00327                                <span class="stringliteral">&quot;focus-out-event&quot;</span>,
+<a name="l00328"></a>00328                                G_CALLBACK ( <a class="code" href="gsb__form_8c.html#a296c92c9bbb57810858ffae689256511">gsb_form_entry_lose_focus</a> ),
+<a name="l00329"></a>00329                                GINT_TO_POINTER ( element_number ));
+<a name="l00330"></a>00330             g_signal_connect ( G_OBJECT ( widget ),
+<a name="l00331"></a>00331                                <span class="stringliteral">&quot;button-press-event&quot;</span>,
+<a name="l00332"></a>00332                                G_CALLBACK ( <a class="code" href="gsb__form_8c.html#a2b1fd15d1d10cefef073a452272c0d96">gsb_form_button_press_event</a> ),
+<a name="l00333"></a>00333                                GINT_TO_POINTER ( element_number ));
+<a name="l00334"></a>00334             g_signal_connect ( G_OBJECT ( widget ),
+<a name="l00335"></a>00335                                <span class="stringliteral">&quot;key-press-event&quot;</span>,
+<a name="l00336"></a>00336                                G_CALLBACK ( <a class="code" href="gsb__form_8c.html#a39be1dd293de38ff5fe006d67b5dbb0e">gsb_form_key_press_event</a> ),
+<a name="l00337"></a>00337                                GINT_TO_POINTER ( element_number ));
+<a name="l00338"></a>00338         }
+<a name="l00339"></a>00339         <span class="keywordflow">else</span>
+<a name="l00340"></a>00340         {
+<a name="l00341"></a>00341             <span class="keywordflow">if</span> ( <a class="code" href="gtk__combofix_8h.html#ae229acb083eaf65647feb13fb925cfba">GTK_IS_COMBOFIX</a> ( widget ) )
+<a name="l00342"></a>00342             {
+<a name="l00343"></a>00343                     g_signal_connect ( G_OBJECT ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> ( widget ) -&gt; entry ),
+<a name="l00344"></a>00344                        <span class="stringliteral">&quot;focus-in-event&quot;</span>,
+<a name="l00345"></a>00345                        G_CALLBACK ( <a class="code" href="gsb__form_8c.html#a9d4a08b546d966dcaa1293e5b7820857">gsb_form_entry_get_focus</a> ),
+<a name="l00346"></a>00346                        GINT_TO_POINTER ( element_number ));
+<a name="l00347"></a>00347                     g_signal_connect ( G_OBJECT ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget ) -&gt; entry ),
+<a name="l00348"></a>00348                        <span class="stringliteral">&quot;focus-out-event&quot;</span>,
+<a name="l00349"></a>00349                        G_CALLBACK ( <a class="code" href="gsb__form_8c.html#a296c92c9bbb57810858ffae689256511">gsb_form_entry_lose_focus</a> ),
+<a name="l00350"></a>00350                        GINT_TO_POINTER ( element_number ));
+<a name="l00351"></a>00351                     g_signal_connect ( G_OBJECT ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (widget ) -&gt; entry ),
+<a name="l00352"></a>00352                        <span class="stringliteral">&quot;button-press-event&quot;</span>,
+<a name="l00353"></a>00353                        G_CALLBACK ( <a class="code" href="gsb__form_8c.html#a2b1fd15d1d10cefef073a452272c0d96">gsb_form_button_press_event</a> ),
+<a name="l00354"></a>00354                        GINT_TO_POINTER ( element_number ));
+<a name="l00355"></a>00355             g_signal_connect ( G_OBJECT ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> ( widget ) -&gt; entry ),
+<a name="l00356"></a>00356                        <span class="stringliteral">&quot;key-press-event&quot;</span>,
+<a name="l00357"></a>00357                        G_CALLBACK ( <a class="code" href="gsb__form_8c.html#a39be1dd293de38ff5fe006d67b5dbb0e">gsb_form_key_press_event</a> ),
+<a name="l00358"></a>00358                        GINT_TO_POINTER ( element_number ));
+<a name="l00359"></a>00359             <a class="code" href="gtk__combofix_8c.html#aaaedc2affe02e18b822ef9b59254334c">gtk_combofix_set_selection_callback</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> ( widget ),
+<a name="l00360"></a>00360                                                 G_CALLBACK ( gsb_form_combo_selection_changed ),
+<a name="l00361"></a>00361                                             GINT_TO_POINTER ( element_number ) );
+<a name="l00362"></a>00362             }
+<a name="l00363"></a>00363             <span class="keywordflow">else</span>
+<a name="l00364"></a>00364                 <span class="comment">/* neither an entry, neither a combofix */</span>
+<a name="l00365"></a>00365                 g_signal_connect ( G_OBJECT ( widget ),
+<a name="l00366"></a>00366                                    <span class="stringliteral">&quot;key-press-event&quot;</span>,
+<a name="l00367"></a>00367                                    G_CALLBACK ( <a class="code" href="gsb__form_8c.html#a39be1dd293de38ff5fe006d67b5dbb0e">gsb_form_key_press_event</a> ),
+<a name="l00368"></a>00368                                    GINT_TO_POINTER ( element_number ));
+<a name="l00369"></a>00369         }
+<a name="l00370"></a>00370     }
+<a name="l00371"></a>00371     <span class="keywordflow">else</span> {
+<a name="l00372"></a>00372         <a class="code" href="erreur_8h.html#a89605ef34ba8b746a61b0614aa552b80">alert_debug</a> ( <span class="stringliteral">&quot;Widget should not be NULL&quot;</span> );
+<a name="l00373"></a>00373     }
+<a name="l00374"></a>00374     
+<a name="l00375"></a>00375     <span class="keywordflow">return</span> widget;
+<a name="l00376"></a>00376 }
+<a name="l00377"></a>00377 
+<a name="l00378"></a>00378 
+<a name="l00386"></a><a class="code" href="gsb__form__widget_8h.html#ad3d6e5f87dcce9c175f2f402fc63d94e">00386</a> GtkWidget *<a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> ( gint element_number )
+<a name="l00387"></a>00387 {
+<a name="l00388"></a>00388     <span class="keywordflow">return</span> <a class="code" href="gsb__form_8c.html#a4f3c5b646acc08a46a9742e1ea1086b8">gsb_form_get_element_widget_from_list</a> ( element_number,
+<a name="l00389"></a>00389                         form_list_widgets );
+<a name="l00390"></a>00390 }
+<a name="l00391"></a>00391 
+<a name="l00392"></a>00392 
+<a name="l00400"></a><a class="code" href="gsb__form__widget_8h.html#a48e129aec71bef3117effe95f85c4a12">00400</a> gchar *<a class="code" href="gsb__form__widget_8c.html#a48e129aec71bef3117effe95f85c4a12">gsb_form_widget_get_name</a> ( gint element_number )
+<a name="l00401"></a>00401 {
+<a name="l00402"></a>00402     <span class="keywordflow">switch</span> ( element_number )
+<a name="l00403"></a>00403     {
+<a name="l00404"></a>00404         <span class="keywordflow">case</span> -1:
+<a name="l00405"></a>00405             <span class="comment">/* that value shouldn&#39;t be there, it shows that a gsb_data_form_... returns</span>
+<a name="l00406"></a>00406 <span class="comment">             * an error value */</span>
+<a name="l00407"></a>00407             <a class="code" href="erreur_8h.html#a70b10c07513d0694ee36dcdcb1696949">warning_debug</a> ( <span class="stringliteral">&quot;gsb_form_widget_get_name : a value in the form is -1 wich should not happen.\nA gsb_data_form_... function must have returned an error value...&quot;</span> );
+<a name="l00408"></a>00408             <span class="keywordflow">return</span> NULL;
+<a name="l00409"></a>00409             <span class="keywordflow">break</span>;
+<a name="l00410"></a>00410 
+<a name="l00411"></a>00411         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a6f643a4593287663756c1a27ab737928">TRANSACTION_FORM_DATE</a>:
+<a name="l00412"></a>00412             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Date&quot;</span>));
+<a name="l00413"></a>00413             <span class="keywordflow">break</span>;
+<a name="l00414"></a>00414 
+<a name="l00415"></a>00415         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0adf4d1c605b1a540b073456f78b0ce09e">TRANSACTION_FORM_DEBIT</a>:
+<a name="l00416"></a>00416             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Debit&quot;</span>));
+<a name="l00417"></a>00417             <span class="keywordflow">break</span>;
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0aea838f4dc3955f3ab0c14629e0e9ef15">TRANSACTION_FORM_CREDIT</a>:
+<a name="l00420"></a>00420             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Credit&quot;</span>));
+<a name="l00421"></a>00421             <span class="keywordflow">break</span>;
+<a name="l00422"></a>00422 
+<a name="l00423"></a>00423         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a8097bc595a8541635fa0a48be097f90c">TRANSACTION_FORM_VALUE_DATE</a>:
+<a name="l00424"></a>00424             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Value date&quot;</span>));
+<a name="l00425"></a>00425             <span class="keywordflow">break</span>;
+<a name="l00426"></a>00426 
+<a name="l00427"></a>00427         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a3fb2b8499a3f175a3a1884add7ebe306">TRANSACTION_FORM_EXERCICE</a>:
+<a name="l00428"></a>00428             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Financial year&quot;</span>));
+<a name="l00429"></a>00429             <span class="keywordflow">break</span>;
+<a name="l00430"></a>00430 
+<a name="l00431"></a>00431         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0ada5fb376a464a271d8367106cb8725e6">TRANSACTION_FORM_PARTY</a>:
+<a name="l00432"></a>00432             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Payee&quot;</span>));
+<a name="l00433"></a>00433             <span class="keywordflow">break</span>;
+<a name="l00434"></a>00434 
+<a name="l00435"></a>00435         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a1aaea0001978835b5bfaf82154adc0a4">TRANSACTION_FORM_CATEGORY</a>:
+<a name="l00436"></a>00436             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Categories : Sub-categories&quot;</span>));
+<a name="l00437"></a>00437             <span class="keywordflow">break</span>;
+<a name="l00438"></a>00438 
+<a name="l00439"></a>00439         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0ae85b1c4ca906a86d26308e22b1197e1b">TRANSACTION_FORM_FREE</a>:
+<a name="l00440"></a>00440             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Free&quot;</span>));
+<a name="l00441"></a>00441             <span class="keywordflow">break</span>;
+<a name="l00442"></a>00442 
+<a name="l00443"></a>00443         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0ade76330851ee455bd3e4917bfbcbfa23">TRANSACTION_FORM_BUDGET</a>:
+<a name="l00444"></a>00444             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Budgetary line&quot;</span>));
+<a name="l00445"></a>00445             <span class="keywordflow">break</span>;
+<a name="l00446"></a>00446 
+<a name="l00447"></a>00447         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a46d819ca8a4fdfc977e280e8ddd86e35">TRANSACTION_FORM_NOTES</a>:
+<a name="l00448"></a>00448             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Notes&quot;</span>));
+<a name="l00449"></a>00449             <span class="keywordflow">break</span>;
+<a name="l00450"></a>00450 
+<a name="l00451"></a>00451         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a3ae7bb2abdcc2e5494d0f453108d39ef">TRANSACTION_FORM_TYPE</a>:
+<a name="l00452"></a>00452             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Method of payment&quot;</span>));
+<a name="l00453"></a>00453             <span class="keywordflow">break</span>;
+<a name="l00454"></a>00454 
+<a name="l00455"></a>00455         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0ab040b10c7b94b662ad06c18899b16451">TRANSACTION_FORM_CHEQUE</a>:
+<a name="l00456"></a>00456             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Cheque/Transfer number&quot;</span>));
+<a name="l00457"></a>00457             <span class="keywordflow">break</span>;
+<a name="l00458"></a>00458 
+<a name="l00459"></a>00459         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a04a54c703677228b4ae47cab1992554b">TRANSACTION_FORM_DEVISE</a>:
+<a name="l00460"></a>00460             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Currency&quot;</span>));
+<a name="l00461"></a>00461             <span class="keywordflow">break</span>;
+<a name="l00462"></a>00462 
+<a name="l00463"></a>00463         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a54b913a7cb6769230a2c55ba7a3429d1">TRANSACTION_FORM_CHANGE</a>:
+<a name="l00464"></a>00464             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Change&quot;</span>));
+<a name="l00465"></a>00465             <span class="keywordflow">break</span>;
+<a name="l00466"></a>00466 
+<a name="l00467"></a>00467         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a1dba81fc50d5b24899ed6366edc4bfbc">TRANSACTION_FORM_VOUCHER</a>:
+<a name="l00468"></a>00468             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Voucher&quot;</span>));
+<a name="l00469"></a>00469             <span class="keywordflow">break</span>;
+<a name="l00470"></a>00470 
+<a name="l00471"></a>00471         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a86a258641f31d4894d235627c19b49db">TRANSACTION_FORM_BANK</a>:
+<a name="l00472"></a>00472             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Bank references&quot;</span>));
+<a name="l00473"></a>00473             <span class="keywordflow">break</span>;
+<a name="l00474"></a>00474 
+<a name="l00475"></a>00475         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a7e4cf07a1e574ca1a47cb41f16380752">TRANSACTION_FORM_CONTRA</a>:
+<a name="l00476"></a>00476             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Contra-transaction method of payment&quot;</span>));
+<a name="l00477"></a>00477             <span class="keywordflow">break</span>;
+<a name="l00478"></a>00478 
+<a name="l00479"></a>00479         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a75a0f2754da44b5e8e40f56892d99ea8">TRANSACTION_FORM_OP_NB</a>:
+<a name="l00480"></a>00480             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Transaction number&quot;</span>));
+<a name="l00481"></a>00481             <span class="keywordflow">break</span>;
+<a name="l00482"></a>00482 
+<a name="l00483"></a>00483         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a989af19ddc2ec260ae3957be2d805c57">TRANSACTION_FORM_MODE</a>:
+<a name="l00484"></a>00484             <span class="keywordflow">return</span> (N_(<span class="stringliteral">&quot;Automatic/Manual&quot;</span>));
+<a name="l00485"></a>00485             <span class="keywordflow">break</span>;
+<a name="l00486"></a>00486     }
+<a name="l00487"></a>00487     <span class="keywordflow">return</span> NULL;
+<a name="l00488"></a>00488 }
+<a name="l00489"></a>00489 
+<a name="l00490"></a>00490 
+<a name="l00502"></a><a class="code" href="gsb__form__widget_8h.html#ad677f89db19be4b34cfe527f41387617">00502</a> gint <a class="code" href="gsb__form__widget_8c.html#ad677f89db19be4b34cfe527f41387617">gsb_form_widget_next_element</a> ( gint account_number,
+<a name="l00503"></a>00503                         gint element_number,
+<a name="l00504"></a>00504                         gint direction )
+<a name="l00505"></a>00505 {
+<a name="l00506"></a>00506     gint row;
+<a name="l00507"></a>00507     gint column;
+<a name="l00508"></a>00508     gint return_value_number = 0;
+<a name="l00509"></a>00509     gint form_column_number;
+<a name="l00510"></a>00510     gint form_row_number;
+<a name="l00511"></a>00511     
+<a name="l00512"></a>00512     <span class="keywordflow">if</span> ( !<a class="code" href="gsb__data__form_8c.html#a011611d3aa6cecc0c619981f69bf2a6e">gsb_data_form_look_for_value</a> ( account_number,
+<a name="l00513"></a>00513                                          element_number,
+<a name="l00514"></a>00514                                          &amp;row,
+<a name="l00515"></a>00515                                          &amp;column ))
+<a name="l00516"></a>00516         <span class="keywordflow">return</span> -1;
+<a name="l00517"></a>00517 
+<a name="l00518"></a>00518     form_column_number = <a class="code" href="gsb__data__form_8c.html#a4bc1dd95bb028e836ef638b937e28116">gsb_data_form_get_nb_columns</a> (account_number);
+<a name="l00519"></a>00519     form_row_number = <a class="code" href="gsb__data__form_8c.html#af5613a656e573f2e9a95d1c89c495c1c">gsb_data_form_get_nb_rows</a> (account_number);
+<a name="l00520"></a>00520 
+<a name="l00521"></a>00521     <span class="keywordflow">while</span> ( !gsb_form_widget_can_focus (return_value_number)) 
+<a name="l00522"></a>00522     {
+<a name="l00523"></a>00523         <span class="keywordflow">switch</span> ( direction )
+<a name="l00524"></a>00524         {
+<a name="l00525"></a>00525             <span class="keywordflow">case</span> <a class="code" href="gsb__form_8h.html#a2e0bbf02b618287b4490e34a8779bbf1a7d92f8caf6275df04fe1231e5dcf1fd8">GSB_LEFT</a>:
+<a name="l00526"></a>00526                 <span class="keywordflow">if</span> ( !column &amp;&amp; !row )
+<a name="l00527"></a>00527                 {
+<a name="l00528"></a>00528                     <span class="comment">/* we are at the upper left, go on the bottom right */</span>
+<a name="l00529"></a>00529                     column = form_column_number;
+<a name="l00530"></a>00530                     row = form_row_number -1; 
+<a name="l00531"></a>00531                 }
+<a name="l00532"></a>00532 
+<a name="l00533"></a>00533                 <span class="keywordflow">if</span> ( --column == -1 )
+<a name="l00534"></a>00534                 {
+<a name="l00535"></a>00535                     column = form_column_number - 1;
+<a name="l00536"></a>00536                     row--;
+<a name="l00537"></a>00537                 }
+<a name="l00538"></a>00538                 return_value_number = <a class="code" href="gsb__data__form_8c.html#a1f2dc075c964a00b50da003f969bb517">gsb_data_form_get_value</a> ( account_number,
+<a name="l00539"></a>00539                                                                 column,
+<a name="l00540"></a>00540                                                                 row );
+<a name="l00541"></a>00541                 <span class="keywordflow">break</span>;
+<a name="l00542"></a>00542 
+<a name="l00543"></a>00543             <span class="keywordflow">case</span> <a class="code" href="gsb__form_8h.html#a2e0bbf02b618287b4490e34a8779bbf1ae962ac70f6317817286d0011e078049f">GSB_RIGHT</a>:
+<a name="l00544"></a>00544                 <span class="keywordflow">if</span> ( column == (form_column_number - 1)
+<a name="l00545"></a>00545                      &amp;&amp;
+<a name="l00546"></a>00546                      row == (form_row_number - 1))
+<a name="l00547"></a>00547                 {
+<a name="l00548"></a>00548                     <span class="comment">/* we are on the bottom right, we finish the edition or</span>
+<a name="l00549"></a>00549 <span class="comment">                     * go to the upper left */</span>
+<a name="l00550"></a>00550                     <span class="keywordflow">if</span> ( !<a class="code" href="gsb__file__config_8c.html#ac390e947e97cef2bec2f5d59d6ec1071">conf</a>.<a class="code" href="structgsb__conf__t.html#a113714571dbac6fc2ec93356d2e1c3b7">entree</a> )
+<a name="l00551"></a>00551                     {
+<a name="l00552"></a>00552                         return_value_number = -2;
+<a name="l00553"></a>00553                         <span class="keywordflow">continue</span>;
+<a name="l00554"></a>00554                     }
+<a name="l00555"></a>00555                     column = -1;
+<a name="l00556"></a>00556                     row = 0; 
+<a name="l00557"></a>00557                 }
+<a name="l00558"></a>00558 
+<a name="l00559"></a>00559                 <span class="keywordflow">if</span> ( ++column == form_column_number )
+<a name="l00560"></a>00560                 {
+<a name="l00561"></a>00561                     column = 0;
+<a name="l00562"></a>00562                     row++;
+<a name="l00563"></a>00563                 }
+<a name="l00564"></a>00564                 return_value_number = <a class="code" href="gsb__data__form_8c.html#a1f2dc075c964a00b50da003f969bb517">gsb_data_form_get_value</a> ( account_number,
+<a name="l00565"></a>00565                                                                 column,
+<a name="l00566"></a>00566                                                                 row );
+<a name="l00567"></a>00567                 <span class="keywordflow">break</span>;
+<a name="l00568"></a>00568 
+<a name="l00569"></a>00569             <span class="keywordflow">case</span> <a class="code" href="gsb__form_8h.html#a2e0bbf02b618287b4490e34a8779bbf1abd08bea538310c0a89e5aa3e11e17cf5">GSB_UP</a>:
+<a name="l00570"></a>00570                 <span class="keywordflow">if</span> ( !row )
+<a name="l00571"></a>00571                 {
+<a name="l00572"></a>00572                     return_value_number = -1;
+<a name="l00573"></a>00573                     <span class="keywordflow">continue</span>;
+<a name="l00574"></a>00574                 }
+<a name="l00575"></a>00575 
+<a name="l00576"></a>00576                 row--;
+<a name="l00577"></a>00577                 return_value_number = <a class="code" href="gsb__data__form_8c.html#a1f2dc075c964a00b50da003f969bb517">gsb_data_form_get_value</a> ( account_number,
+<a name="l00578"></a>00578                                                                 column,
+<a name="l00579"></a>00579                                                                 row );
+<a name="l00580"></a>00580                 <span class="keywordflow">break</span>;
+<a name="l00581"></a>00581 
+<a name="l00582"></a>00582             <span class="keywordflow">case</span> <a class="code" href="gsb__form_8h.html#a2e0bbf02b618287b4490e34a8779bbf1a3821c30759d8525c638a2e56eacc3716">GSB_DOWN</a>:
+<a name="l00583"></a>00583                 <span class="keywordflow">if</span> ( row == (form_row_number - 1))
+<a name="l00584"></a>00584                 {
+<a name="l00585"></a>00585                     return_value_number = -1;
+<a name="l00586"></a>00586                     <span class="keywordflow">continue</span>;
+<a name="l00587"></a>00587                 }
+<a name="l00588"></a>00588                 row++;
+<a name="l00589"></a>00589                 return_value_number = <a class="code" href="gsb__data__form_8c.html#a1f2dc075c964a00b50da003f969bb517">gsb_data_form_get_value</a> ( account_number,
+<a name="l00590"></a>00590                                                                 column,
+<a name="l00591"></a>00591                                                                 row );
+<a name="l00592"></a>00592                 <span class="keywordflow">break</span>;
+<a name="l00593"></a>00593 
+<a name="l00594"></a>00594             <span class="keywordflow">default</span>:
+<a name="l00595"></a>00595                 return_value_number = -1;
+<a name="l00596"></a>00596         }
+<a name="l00597"></a>00597     }
+<a name="l00598"></a>00598     <span class="keywordflow">return</span> return_value_number;
+<a name="l00599"></a>00599 }
+<a name="l00600"></a>00600 
+<a name="l00601"></a>00601 
+<a name="l00609"></a>00609 gboolean gsb_form_widget_can_focus ( gint element_number )
+<a name="l00610"></a>00610 {
+<a name="l00611"></a>00611     GtkWidget *widget;
+<a name="l00612"></a>00612 
+<a name="l00613"></a>00613     <span class="comment">/* if element_number is -1 or -2, the iteration while must</span>
+<a name="l00614"></a>00614 <span class="comment">     * stop, so return TRUE */</span>
+<a name="l00615"></a>00615     <span class="keywordflow">if</span> ( element_number == -1
+<a name="l00616"></a>00616          ||
+<a name="l00617"></a>00617          element_number == -2 )
+<a name="l00618"></a>00618         <span class="keywordflow">return</span> TRUE;
+<a name="l00619"></a>00619 
+<a name="l00620"></a>00620     widget = <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> (element_number);
+<a name="l00621"></a>00621 
+<a name="l00622"></a>00622     <span class="keywordflow">if</span> ( !widget )
+<a name="l00623"></a>00623         <span class="keywordflow">return</span> FALSE;
+<a name="l00624"></a>00624 
+<a name="l00625"></a>00625     <span class="keywordflow">if</span> ( !GTK_WIDGET_VISIBLE (widget))
+<a name="l00626"></a>00626         <span class="keywordflow">return</span> FALSE;
+<a name="l00627"></a>00627 
+<a name="l00628"></a>00628     <span class="keywordflow">if</span> ( !GTK_WIDGET_SENSITIVE (widget))
+<a name="l00629"></a>00629         <span class="keywordflow">return</span> FALSE;
+<a name="l00630"></a>00630 
+<a name="l00631"></a>00631     <span class="keywordflow">if</span> ( !(<a class="code" href="gtk__combofix_8h.html#ae229acb083eaf65647feb13fb925cfba">GTK_IS_COMBOFIX</a> (widget)
+<a name="l00632"></a>00632            ||
+<a name="l00633"></a>00633            GTK_IS_ENTRY (widget)
+<a name="l00634"></a>00634            ||
+<a name="l00635"></a>00635            GTK_IS_BUTTON (widget)
+<a name="l00636"></a>00636            ||
+<a name="l00637"></a>00637            GTK_IS_COMBO_BOX (widget)))
+<a name="l00638"></a>00638         <span class="keywordflow">return</span> FALSE;
+<a name="l00639"></a>00639 
+<a name="l00640"></a>00640     <span class="keywordflow">return</span> TRUE;
+<a name="l00641"></a>00641 }
+<a name="l00642"></a>00642 
+<a name="l00643"></a>00643 
+<a name="l00651"></a><a class="code" href="gsb__form__widget_8h.html#a44684cf3788bb37368da547e0a7c7296">00651</a> <span class="keywordtype">void</span> <a class="code" href="gsb__form__widget_8c.html#a44684cf3788bb37368da547e0a7c7296">gsb_form_widget_set_focus</a> ( gint element_number )
+<a name="l00652"></a>00652 {
+<a name="l00653"></a>00653     GtkWidget *widget;
+<a name="l00654"></a>00654 
+<a name="l00655"></a>00655     widget = <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> (element_number);
+<a name="l00656"></a>00656 
+<a name="l00657"></a>00657     <span class="keywordflow">if</span> ( !widget )
+<a name="l00658"></a>00658         <span class="keywordflow">return</span>;
+<a name="l00659"></a>00659 
+<a name="l00660"></a>00660     <span class="keywordflow">if</span> ( <a class="code" href="gtk__combofix_8h.html#ae229acb083eaf65647feb13fb925cfba">GTK_IS_COMBOFIX</a> ( widget ))
+<a name="l00661"></a>00661         gtk_widget_grab_focus ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> ( widget ) -&gt; entry );
+<a name="l00662"></a>00662     <span class="keywordflow">else</span>
+<a name="l00663"></a>00663         gtk_widget_grab_focus ( widget );
+<a name="l00664"></a>00664 
+<a name="l00665"></a>00665     <span class="keywordflow">return</span>;
+<a name="l00666"></a>00666 }
+<a name="l00667"></a>00667 
+<a name="l00668"></a>00668 
+<a name="l00676"></a><a class="code" href="gsb__form__widget_8h.html#ab190653d3c006279c4b0bc9bfea4d8c4">00676</a> gboolean <a class="code" href="gsb__form__widget_8c.html#ab190653d3c006279c4b0bc9bfea4d8c4">gsb_form_widget_check_empty</a> ( GtkWidget *entry )
+<a name="l00677"></a>00677 {
+<a name="l00678"></a>00678     <span class="keywordflow">if</span> (!entry
+<a name="l00679"></a>00679         ||
+<a name="l00680"></a>00680         (!GTK_IS_ENTRY (entry)
+<a name="l00681"></a>00681          &amp;&amp;
+<a name="l00682"></a>00682          !<a class="code" href="gtk__combofix_8h.html#ae229acb083eaf65647feb13fb925cfba">GTK_IS_COMBOFIX</a> (entry)))
+<a name="l00683"></a>00683         <span class="keywordflow">return</span> FALSE;
+<a name="l00684"></a>00684 
+<a name="l00685"></a>00685     <span class="keywordflow">if</span> (<a class="code" href="gtk__combofix_8h.html#ae229acb083eaf65647feb13fb925cfba">GTK_IS_COMBOFIX</a> (entry))
+<a name="l00686"></a>00686         entry = <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> (entry) -&gt; entry;
+<a name="l00687"></a>00687 
+<a name="l00688"></a>00688     <span class="keywordflow">return</span> GPOINTER_TO_INT( g_object_get_data ( G_OBJECT(entry), <span class="stringliteral">&quot;empty&quot;</span> ) );
+<a name="l00689"></a>00689 }
+<a name="l00690"></a>00690 
+<a name="l00691"></a>00691 
+<a name="l00700"></a><a class="code" href="gsb__form__widget_8h.html#a0b68e260dc6da6f49888145c901faaa9">00700</a> <span class="keywordtype">void</span> <a class="code" href="gsb__form__widget_8c.html#a0b68e260dc6da6f49888145c901faaa9">gsb_form_widget_set_empty</a> ( GtkWidget *entry,
+<a name="l00701"></a>00701                     gboolean empty )
+<a name="l00702"></a>00702 {
+<a name="l00703"></a>00703     GdkColor gray, black;
+<a name="l00704"></a>00704 
+<a name="l00705"></a>00705     gray.pixel = 0;
+<a name="l00706"></a>00706     gray.red = <a class="code" href="traitement__variables_8h.html#a05ad5156a486db023475b39769ccaca2">EMPTY_ENTRY_COLOR_RED</a>; 
+<a name="l00707"></a>00707     gray.green = <a class="code" href="traitement__variables_8h.html#a58a3bef09162e0d393ce6dbabe1f3b7c">EMPTY_ENTRY_COLOR_GREEN</a>;
+<a name="l00708"></a>00708     gray.blue = <a class="code" href="traitement__variables_8h.html#ac5ec2d8e72ae0146380383e99cae2c50">EMPTY_ENTRY_COLOR_BLUE</a>; 
+<a name="l00709"></a>00709 
+<a name="l00710"></a>00710     black.pixel = 0;
+<a name="l00711"></a>00711     black.red = 0;
+<a name="l00712"></a>00712     black.green = 0;
+<a name="l00713"></a>00713     black.blue = 0;
+<a name="l00714"></a>00714 
+<a name="l00715"></a>00715     <span class="keywordflow">if</span> (!entry
+<a name="l00716"></a>00716         ||
+<a name="l00717"></a>00717         !GTK_IS_ENTRY (entry))
+<a name="l00718"></a>00718         <span class="keywordflow">return</span>;
+<a name="l00719"></a>00719 
+<a name="l00720"></a>00720     <span class="keywordflow">if</span> ( ! empty )
+<a name="l00721"></a>00721     {
+<a name="l00722"></a>00722         gtk_widget_modify_text ( entry, 
+<a name="l00723"></a>00723                                  GTK_STATE_NORMAL,
+<a name="l00724"></a>00724                                  &amp;black );
+<a name="l00725"></a>00725     }
+<a name="l00726"></a>00726     <span class="keywordflow">else</span>
+<a name="l00727"></a>00727     {
+<a name="l00728"></a>00728         gtk_widget_modify_text ( entry, 
+<a name="l00729"></a>00729                                  GTK_STATE_NORMAL,
+<a name="l00730"></a>00730                                  &amp;gray );
+<a name="l00731"></a>00731     }
+<a name="l00732"></a>00732 
+<a name="l00733"></a>00733     g_object_set_data ( G_OBJECT(entry), <span class="stringliteral">&quot;empty&quot;</span>, GINT_TO_POINTER( empty ) );
+<a name="l00734"></a>00734 }
+<a name="l00735"></a>00735 
+<a name="l00736"></a>00736 
+<a name="l00746"></a>00746 gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
+<a name="l00747"></a>00747                         GdkEventFocus *ev,
+<a name="l00748"></a>00748                         gint *ptr_origin )
+<a name="l00749"></a>00749 {
+<a name="l00750"></a>00750     GtkWidget *fyear_button;
+<a name="l00751"></a>00751     GtkWidget *widget;
+<a name="l00752"></a>00752     GtkWidget *tmp_widget;
+<a name="l00753"></a>00753     gint element_number;
+<a name="l00754"></a>00754     gint account_number;
+<a name="l00755"></a>00755 
+<a name="l00756"></a>00756     <span class="comment">/* still not found, if change the content of the form, something come in entry</span>
+<a name="l00757"></a>00757 <span class="comment">     * wich is nothing, so protect here */</span>
+<a name="l00758"></a>00758     <span class="keywordflow">if</span> ( !GTK_IS_WIDGET (entry)
+<a name="l00759"></a>00759      ||
+<a name="l00760"></a>00760      !GTK_IS_ENTRY (entry))
+<a name="l00761"></a>00761     <span class="keywordflow">return</span> FALSE;
+<a name="l00762"></a>00762 
+<a name="l00763"></a>00763     <span class="comment">/* it clears the entry in question */</span>
+<a name="l00764"></a>00764     <span class="keywordflow">if</span> ( <a class="code" href="gsb__form__widget_8c.html#ab190653d3c006279c4b0bc9bfea4d8c4">gsb_form_widget_check_empty</a> (entry) )
+<a name="l00765"></a>00765     {
+<a name="l00766"></a>00766         gtk_entry_set_text ( GTK_ENTRY (entry), <span class="stringliteral">&quot;&quot;</span> );
+<a name="l00767"></a>00767         <a class="code" href="gsb__form__widget_8c.html#a0b68e260dc6da6f49888145c901faaa9">gsb_form_widget_set_empty</a> ( entry,
+<a name="l00768"></a>00768                     FALSE );
+<a name="l00769"></a>00769     }
+<a name="l00770"></a>00770     element_number = GPOINTER_TO_INT (ptr_origin);
+<a name="l00771"></a>00771     account_number = <a class="code" href="gsb__form_8c.html#a6d9502c48d88f43354c126077ade6e1e">gsb_form_get_account_number</a> ();
+<a name="l00772"></a>00772 
+<a name="l00773"></a>00773     <span class="keywordflow">switch</span> ( element_number )
+<a name="l00774"></a>00774     {
+<a name="l00775"></a>00775     <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a6f643a4593287663756c1a27ab737928">TRANSACTION_FORM_DATE</a>:
+<a name="l00776"></a>00776     <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a8097bc595a8541635fa0a48be097f90c">TRANSACTION_FORM_VALUE_DATE</a>:
+<a name="l00777"></a>00777         <span class="comment">/* set the financial year on automatic by default */</span>
+<a name="l00778"></a>00778         fyear_button = <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> (<a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a3fb2b8499a3f175a3a1884add7ebe306">TRANSACTION_FORM_EXERCICE</a>);
+<a name="l00779"></a>00779         <span class="keywordflow">if</span> (fyear_button)
+<a name="l00780"></a>00780             <a class="code" href="gsb__fyear_8c.html#aa7d81ecc027bf5ccacae5afd165b01c8">gsb_fyear_set_combobox_history</a> ( fyear_button, 0 );
+<a name="l00781"></a>00781         <span class="keywordflow">break</span>;
+<a name="l00782"></a>00782     <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0adf4d1c605b1a540b073456f78b0ce09e">TRANSACTION_FORM_DEBIT</a> :
+<a name="l00783"></a>00783         <span class="comment">/* on met old_debit = NULl car avec g_free plantage */</span>
+<a name="l00784"></a>00784         <span class="keywordflow">if</span> ( old_debit &amp;&amp; strlen ( old_debit ) &gt; 0 )
+<a name="l00785"></a>00785             old_debit = NULL;
+<a name="l00786"></a>00786 
+<a name="l00787"></a>00787         <span class="comment">/* save the credit if necessary */</span>
+<a name="l00788"></a>00788         widget = <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0aea838f4dc3955f3ab0c14629e0e9ef15">TRANSACTION_FORM_CREDIT</a> );
+<a name="l00789"></a>00789         <span class="keywordflow">if</span> ( !<a class="code" href="gsb__form__widget_8c.html#ab190653d3c006279c4b0bc9bfea4d8c4">gsb_form_widget_check_empty</a> ( widget ) )
+<a name="l00790"></a>00790             old_credit = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
+<a name="l00791"></a>00791 
+<a name="l00792"></a>00792         <span class="comment">/* we change the payment method to adapt it for the debit */</span>
+<a name="l00793"></a>00793         widget = <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a3ae7bb2abdcc2e5494d0f453108d39ef">TRANSACTION_FORM_TYPE</a>);
+<a name="l00794"></a>00794 
+<a name="l00795"></a>00795         <span class="comment">/* change the method of payment if necessary</span>
+<a name="l00796"></a>00796 <span class="comment">         * (if grey, it&#39;s a child of split so do nothing) */</span>
+<a name="l00797"></a>00797         <span class="keywordflow">if</span> ( widget
+<a name="l00798"></a>00798              &amp;&amp;
+<a name="l00799"></a>00799              GTK_WIDGET_SENSITIVE ( widget ) )
+<a name="l00800"></a>00800         {
+<a name="l00801"></a>00801             <span class="comment">/* change the signe of the method of payment and the contra */</span>
+<a name="l00802"></a>00802             <span class="keywordflow">if</span> ( <a class="code" href="gsb__payment__method_8c.html#a3da00935a5480a41d3b8b31b3f073bfd">gsb_payment_method_get_combo_sign</a> ( widget ) == <a class="code" href="gsb__data__payment_8h.html#aeb7171fc651a06537ca3296b3d38680b">GSB_PAYMENT_CREDIT</a> )
+<a name="l00803"></a>00803             {
+<a name="l00804"></a>00804                 old_credit_payment_number = <a class="code" href="gsb__payment__method_8c.html#ae98cce0ba13ed710ed1f287915ba9acb">gsb_payment_method_get_selected_number</a> ( widget );
+<a name="l00805"></a>00805 
+<a name="l00806"></a>00806                 tmp_widget = <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0ab040b10c7b94b662ad06c18899b16451">TRANSACTION_FORM_CHEQUE</a> );
+<a name="l00807"></a>00807                 <span class="keywordflow">if</span> ( tmp_widget &amp;&amp; GTK_WIDGET_VISIBLE ( tmp_widget ) )
+<a name="l00808"></a>00808                 {
+<a name="l00809"></a>00809                     <span class="keywordflow">if</span> ( old_credit_payment_content )
+<a name="l00810"></a>00810                         g_free ( old_credit_payment_content );
+<a name="l00811"></a>00811                     old_credit_payment_content = g_strdup ( gtk_entry_get_text (
+<a name="l00812"></a>00812                                         GTK_ENTRY ( tmp_widget ) ) );
+<a name="l00813"></a>00813                 }
+<a name="l00814"></a>00814 
+<a name="l00815"></a>00815                 <a class="code" href="gsb__payment__method_8c.html#a161fa2bfbb02f3b3310759b78437586a">gsb_payment_method_create_combo_list</a> ( widget,
+<a name="l00816"></a>00816                                         <a class="code" href="gsb__data__payment_8h.html#a75b824ed98739971febf033ea0293012">GSB_PAYMENT_DEBIT</a>,
+<a name="l00817"></a>00817                                         account_number, 0 );
+<a name="l00818"></a>00818 
+<a name="l00819"></a>00819                 widget = <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a7e4cf07a1e574ca1a47cb41f16380752">TRANSACTION_FORM_CONTRA</a> );
+<a name="l00820"></a>00820                 <span class="keywordflow">if</span> ( widget &amp;&amp; GTK_WIDGET_VISIBLE ( widget ) )
+<a name="l00821"></a>00821                     <a class="code" href="gsb__payment__method_8c.html#a161fa2bfbb02f3b3310759b78437586a">gsb_payment_method_create_combo_list</a> ( <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> (
+<a name="l00822"></a>00822                                         <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a7e4cf07a1e574ca1a47cb41f16380752">TRANSACTION_FORM_CONTRA</a> ),
+<a name="l00823"></a>00823                                         <a class="code" href="gsb__data__payment_8h.html#aeb7171fc651a06537ca3296b3d38680b">GSB_PAYMENT_CREDIT</a>,
+<a name="l00824"></a>00824                                         account_number, 0 );
+<a name="l00825"></a>00825             }
+<a name="l00826"></a>00826         }
+<a name="l00827"></a>00827         <a class="code" href="gsb__form_8c.html#a60efcda31e6e2aff0a5d1e721810128c">gsb_form_check_auto_separator</a> ( entry );
+<a name="l00828"></a>00828         <span class="keywordflow">break</span>;
+<a name="l00829"></a>00829     <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0aea838f4dc3955f3ab0c14629e0e9ef15">TRANSACTION_FORM_CREDIT</a> :
+<a name="l00830"></a>00830          <span class="comment">/* on met old_credit = NULl car avec g_free plantage */</span>
+<a name="l00831"></a>00831         <span class="keywordflow">if</span> ( old_credit &amp;&amp; strlen ( old_credit ) &gt; 0 )
+<a name="l00832"></a>00832             old_credit = NULL;
+<a name="l00833"></a>00833 
+<a name="l00834"></a>00834         <span class="comment">/* save the debit if necessary */</span>
+<a name="l00835"></a>00835         widget = <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0adf4d1c605b1a540b073456f78b0ce09e">TRANSACTION_FORM_DEBIT</a> );
+<a name="l00836"></a>00836         <span class="keywordflow">if</span> ( !<a class="code" href="gsb__form__widget_8c.html#ab190653d3c006279c4b0bc9bfea4d8c4">gsb_form_widget_check_empty</a> ( widget ) )
+<a name="l00837"></a>00837             old_debit = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
+<a name="l00838"></a>00838 
+<a name="l00839"></a>00839         <span class="comment">/* we change the payment method to adapt it for the debit */</span>
+<a name="l00840"></a>00840         widget = <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a3ae7bb2abdcc2e5494d0f453108d39ef">TRANSACTION_FORM_TYPE</a>);
+<a name="l00841"></a>00841 
+<a name="l00842"></a>00842         <span class="comment">/* change the method of payment if necessary</span>
+<a name="l00843"></a>00843 <span class="comment">         * (if grey, it&#39;s a child of split so do nothing) */</span>
+<a name="l00844"></a>00844         <span class="keywordflow">if</span> ( widget
+<a name="l00845"></a>00845              &amp;&amp;
+<a name="l00846"></a>00846              GTK_WIDGET_SENSITIVE (widget))
+<a name="l00847"></a>00847         {
+<a name="l00848"></a>00848             <span class="comment">/* change the signe of the method of payment and the contra */</span>
+<a name="l00849"></a>00849             <span class="keywordflow">if</span> ( <a class="code" href="gsb__payment__method_8c.html#a3da00935a5480a41d3b8b31b3f073bfd">gsb_payment_method_get_combo_sign</a> (widget) == <a class="code" href="gsb__data__payment_8h.html#a75b824ed98739971febf033ea0293012">GSB_PAYMENT_DEBIT</a>)
+<a name="l00850"></a>00850             {
+<a name="l00851"></a>00851                 old_debit_payment_number = <a class="code" href="gsb__payment__method_8c.html#ae98cce0ba13ed710ed1f287915ba9acb">gsb_payment_method_get_selected_number</a> ( widget );
+<a name="l00852"></a>00852 
+<a name="l00853"></a>00853                 tmp_widget = <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0ab040b10c7b94b662ad06c18899b16451">TRANSACTION_FORM_CHEQUE</a> );
+<a name="l00854"></a>00854                 <span class="keywordflow">if</span> ( tmp_widget &amp;&amp; GTK_WIDGET_VISIBLE ( tmp_widget ) )
+<a name="l00855"></a>00855                 {
+<a name="l00856"></a>00856                     <span class="keywordflow">if</span> ( old_debit_payment_content )
+<a name="l00857"></a>00857                         g_free ( old_debit_payment_content );
+<a name="l00858"></a>00858                     old_debit_payment_content = g_strdup ( gtk_entry_get_text (
+<a name="l00859"></a>00859                                         GTK_ENTRY ( tmp_widget ) ) );
+<a name="l00860"></a>00860                 }
+<a name="l00861"></a>00861 
+<a name="l00862"></a>00862                 <a class="code" href="gsb__payment__method_8c.html#a161fa2bfbb02f3b3310759b78437586a">gsb_payment_method_create_combo_list</a> ( widget,
+<a name="l00863"></a>00863                                         <a class="code" href="gsb__data__payment_8h.html#aeb7171fc651a06537ca3296b3d38680b">GSB_PAYMENT_CREDIT</a>,
+<a name="l00864"></a>00864                                         account_number, 0 );
+<a name="l00865"></a>00865 
+<a name="l00866"></a>00866                 widget = <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a7e4cf07a1e574ca1a47cb41f16380752">TRANSACTION_FORM_CONTRA</a>);
+<a name="l00867"></a>00867                 <span class="keywordflow">if</span> ( widget &amp;&amp; GTK_WIDGET_VISIBLE ( widget ) )
+<a name="l00868"></a>00868                     <a class="code" href="gsb__payment__method_8c.html#a161fa2bfbb02f3b3310759b78437586a">gsb_payment_method_create_combo_list</a> ( widget,
+<a name="l00869"></a>00869                                         <a class="code" href="gsb__data__payment_8h.html#a75b824ed98739971febf033ea0293012">GSB_PAYMENT_DEBIT</a>,
+<a name="l00870"></a>00870                                         account_number, 0 );
+<a name="l00871"></a>00871             }
+<a name="l00872"></a>00872         }
+<a name="l00873"></a>00873         <a class="code" href="gsb__form_8c.html#a60efcda31e6e2aff0a5d1e721810128c">gsb_form_check_auto_separator</a> (entry);
+<a name="l00874"></a>00874         <span class="keywordflow">break</span>;
+<a name="l00875"></a>00875     }
+<a name="l00876"></a>00876     
+<a name="l00877"></a>00877     <span class="comment">/* sensitive the valid and cancel buttons */</span>
+<a name="l00878"></a>00878     gtk_widget_set_sensitive (GTK_WIDGET (<a class="code" href="gsb__form_8c.html#ab8cc725a56b7979ec55e7b4625d0b66c">form_button_valid</a>), TRUE);
+<a name="l00879"></a>00879     gtk_widget_set_sensitive (GTK_WIDGET (<a class="code" href="gsb__form_8c.html#ae8d7190a1fb3183b5b2230a299e1ec3d">form_button_cancel</a>), TRUE);
+<a name="l00880"></a>00880 
+<a name="l00881"></a>00881     <span class="keywordflow">return</span> FALSE;
+<a name="l00882"></a>00882 }
+<a name="l00883"></a>00883 
+<a name="l00884"></a>00884 
+<a name="l00885"></a><a class="code" href="gsb__form__widget_8h.html#ae7ff916027066e30c9979f501487ea99">00885</a> gchar *<a class="code" href="gsb__form__widget_8c.html#ae7ff916027066e30c9979f501487ea99">gsb_form_widget_get_old_credit</a> ( <span class="keywordtype">void</span> )
+<a name="l00886"></a>00886 {
+<a name="l00887"></a>00887     <span class="keywordflow">if</span> ( old_credit &amp;&amp; strlen ( old_credit ) &gt; 0 )
+<a name="l00888"></a>00888         <span class="keywordflow">return</span> g_strdup ( old_credit );
+<a name="l00889"></a>00889     <span class="keywordflow">else</span>
+<a name="l00890"></a>00890         <span class="keywordflow">return</span> NULL;
+<a name="l00891"></a>00891 }
+<a name="l00892"></a>00892 
+<a name="l00893"></a>00893 
+<a name="l00894"></a><a class="code" href="gsb__form__widget_8h.html#a2eb4aaa73002541694ea3376428698e4">00894</a> gchar *<a class="code" href="gsb__form__widget_8c.html#a2eb4aaa73002541694ea3376428698e4">gsb_form_widget_get_old_debit</a> ( <span class="keywordtype">void</span> )
+<a name="l00895"></a>00895 {
+<a name="l00896"></a>00896     <span class="keywordflow">if</span> ( old_debit &amp;&amp; strlen ( old_debit ) &gt; 0 )
+<a name="l00897"></a>00897         <span class="keywordflow">return</span> g_strdup ( old_debit );
+<a name="l00898"></a>00898     <span class="keywordflow">else</span>
+<a name="l00899"></a>00899         <span class="keywordflow">return</span> NULL;
+<a name="l00900"></a>00900 }
+<a name="l00901"></a>00901 
+<a name="l00902"></a>00902 
+<a name="l00912"></a><a class="code" href="gsb__form__widget_8h.html#a7398bf4ce9d9bebb04a02f7a771a58fa">00912</a> gboolean <a class="code" href="gsb__form__widget_8c.html#a7398bf4ce9d9bebb04a02f7a771a58fa">gsb_form_widget_amount_entry_changed</a> ( GtkWidget *entry,
+<a name="l00913"></a>00913                                         gpointer null )
+<a name="l00914"></a>00914 {
+<a name="l00915"></a>00915     gboolean valide;
+<a name="l00916"></a>00916     gint element_number;
+<a name="l00917"></a>00917 
+<a name="l00918"></a>00918     <span class="comment">/* if we are in the form and the entry is empty, do nothing</span>
+<a name="l00919"></a>00919 <span class="comment">     * because it&#39;s a special style too */</span>
+<a name="l00920"></a>00920     element_number = GPOINTER_TO_INT ( g_object_get_data (
+<a name="l00921"></a>00921                         G_OBJECT ( entry ), <span class="stringliteral">&quot;element_number&quot;</span> ) );
+<a name="l00922"></a>00922     <span class="keywordflow">if</span> ( g_strcmp0 ( <a class="code" href="gsb__form__widget_8c.html#a48e129aec71bef3117effe95f85c4a12">gsb_form_widget_get_name</a> ( element_number ),
+<a name="l00923"></a>00923      gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) == 0 )
+<a name="l00924"></a>00924         <span class="keywordflow">return</span> FALSE;
+<a name="l00925"></a>00925 
+<a name="l00926"></a>00926     <span class="keywordflow">if</span> ( <a class="code" href="gsb__form__widget_8c.html#ab190653d3c006279c4b0bc9bfea4d8c4">gsb_form_widget_check_empty</a> ( entry ) )
+<a name="l00927"></a>00927             <span class="keywordflow">return</span> FALSE;
+<a name="l00928"></a>00928 
+<a name="l00929"></a>00929     <span class="comment">/* if nothing in the entry, keep the normal style */</span>
+<a name="l00930"></a>00930     <span class="keywordflow">if</span> ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) )
+<a name="l00931"></a>00931     {
+<a name="l00932"></a>00932                 gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+<a name="l00933"></a>00933             <span class="keywordflow">return</span> FALSE;
+<a name="l00934"></a>00934     }
+<a name="l00935"></a>00935 
+<a name="l00936"></a>00936     valide = <a class="code" href="gsb__form__widget_8c.html#a8278574a493b1c7f20ba557c3cb82344">gsb_form_widget_get_valide_amout_entry</a> (
+<a name="l00937"></a>00937         gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+<a name="l00938"></a>00938     <span class="keywordflow">if</span> ( valide )
+<a name="l00939"></a>00939     {
+<a name="l00940"></a>00940         <span class="comment">/* the entry is valid, make it normal */</span>
+<a name="l00941"></a>00941             gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+<a name="l00942"></a>00942     }
+<a name="l00943"></a>00943     <span class="keywordflow">else</span>
+<a name="l00944"></a>00944     {
+<a name="l00945"></a>00945             <span class="comment">/* the entry is not valid, make it red */</span>
+<a name="l00946"></a>00946                 gtk_widget_modify_base ( entry, GTK_STATE_NORMAL,
+<a name="l00947"></a>00947                         &amp;<a class="code" href="affichage_8c.html#aa809fea280ab9cef6e16774b54a573ae">calendar_entry_color</a> );
+<a name="l00948"></a>00948     }
+<a name="l00949"></a>00949 
+<a name="l00950"></a>00950     <span class="keywordflow">return</span> FALSE;
+<a name="l00951"></a>00951 }
+<a name="l00952"></a>00952 
+<a name="l00953"></a>00953 
+<a name="l00960"></a><a class="code" href="gsb__form__widget_8h.html#a8278574a493b1c7f20ba557c3cb82344">00960</a> gboolean <a class="code" href="gsb__form__widget_8c.html#a8278574a493b1c7f20ba557c3cb82344">gsb_form_widget_get_valide_amout_entry</a> ( <span class="keyword">const</span> gchar *<span class="keywordtype">string</span> )
+<a name="l00961"></a>00961 {
+<a name="l00962"></a>00962     <span class="keyword">struct </span>lconv *conv = localeconv ( );
+<a name="l00963"></a>00963     gchar *mon_thousands_sep;
+<a name="l00964"></a>00964     gunichar thousands_sep;
+<a name="l00965"></a>00965     <span class="keyword">const</span> gchar *ptr;
+<a name="l00966"></a>00966 
+<a name="l00967"></a>00967     ptr = string;
+<a name="l00968"></a>00968     mon_thousands_sep = g_locale_to_utf8 ( conv-&gt;mon_thousands_sep,
+<a name="l00969"></a>00969                         -1, NULL, NULL, NULL );
+<a name="l00970"></a>00970     thousands_sep = g_utf8_get_char_validated ( mon_thousands_sep, -1 );
+<a name="l00971"></a>00971     
+<a name="l00972"></a>00972     <span class="keywordflow">while</span> ( g_utf8_strlen (ptr, -1) &gt; 0 )
+<a name="l00973"></a>00973     {
+<a name="l00974"></a>00974         gunichar ch;
+<a name="l00975"></a>00975 
+<a name="l00976"></a>00976         ch = g_utf8_get_char_validated (ptr, -1);
+<a name="l00977"></a>00977         <span class="keywordflow">if</span> ( !g_unichar_isdefined ( ch ) )
+<a name="l00978"></a>00978             <span class="keywordflow">return</span> FALSE;
+<a name="l00979"></a>00979         <span class="keywordflow">if</span> ( !g_ascii_isdigit ( ch ) )
+<a name="l00980"></a>00980         {
+<a name="l00981"></a>00981             <span class="keywordflow">if</span> ( g_unichar_isdefined ( thousands_sep ) )
+<a name="l00982"></a>00982             {
+<a name="l00983"></a>00983                 <span class="keywordflow">if</span> ( ch != <span class="charliteral">&#39;.&#39;</span> &amp;&amp; ch != <span class="charliteral">&#39;,&#39;</span> &amp;&amp; ch != <span class="charliteral">&#39;+&#39;</span> &amp;&amp; ch != <span class="charliteral">&#39;-&#39;</span>
+<a name="l00984"></a>00984                  &amp;&amp; ch != thousands_sep
+<a name="l00985"></a>00985                   )
+<a name="l00986"></a>00986                     <span class="keywordflow">return</span> FALSE;
+<a name="l00987"></a>00987             }
+<a name="l00988"></a>00988             <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( ch != <span class="charliteral">&#39;.&#39;</span> &amp;&amp; ch != <span class="charliteral">&#39;,&#39;</span> &amp;&amp; ch != <span class="charliteral">&#39;+&#39;</span> &amp;&amp; ch != <span class="charliteral">&#39;-&#39;</span> )
+<a name="l00989"></a>00989                     <span class="keywordflow">return</span> FALSE;
+<a name="l00990"></a>00990         }
+<a name="l00991"></a>00991 
+<a name="l00992"></a>00992         ptr = g_utf8_next_char (ptr);
+<a name="l00993"></a>00993     }
+<a name="l00994"></a>00994 
+<a name="l00995"></a>00995     <span class="keywordflow">return</span> TRUE;
+<a name="l00996"></a>00996 }
+<a name="l00997"></a>00997 
+<a name="l00998"></a>00998 
+<a name="l01005"></a>01005 gboolean gsb_form_combo_selection_changed ( GtkTreeSelection *tree_selection,
+<a name="l01006"></a>01006                                                   gint *ptr_origin )
+<a name="l01007"></a>01007 {
+<a name="l01008"></a>01008     GtkWidget *widget;
+<a name="l01009"></a>01009     GtkTreeModel *model;
+<a name="l01010"></a>01010     GtkTreeIter iter;
+<a name="l01011"></a>01011     gchar *tmp_str;
+<a name="l01012"></a>01012     gint element_number;
+<a name="l01013"></a>01013     gint account_nb;
+<a name="l01014"></a>01014 
+<a name="l01015"></a>01015     element_number = GPOINTER_TO_INT (ptr_origin);
+<a name="l01016"></a>01016 
+<a name="l01017"></a>01017     <span class="keywordflow">if</span> ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
+<a name="l01018"></a>01018      &amp;model, &amp;iter ) )
+<a name="l01019"></a>01019         <span class="keywordflow">return</span> FALSE;
+<a name="l01020"></a>01020 
+<a name="l01021"></a>01021     gtk_tree_model_get ( model, &amp;iter, 1, &amp;tmp_str, -1 );
+<a name="l01022"></a>01022 
+<a name="l01023"></a>01023     <span class="keywordflow">if</span> ( tmp_str &amp;&amp; strlen ( tmp_str ) )
+<a name="l01024"></a>01024     {
+<a name="l01025"></a>01025         <span class="keywordflow">switch</span> ( element_number )
+<a name="l01026"></a>01026         {
+<a name="l01027"></a>01027         <span class="keywordflow">case</span> <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a1aaea0001978835b5bfaf82154adc0a4">TRANSACTION_FORM_CATEGORY</a>:
+<a name="l01028"></a>01028             widget = <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a04a54c703677228b4ae47cab1992554b">TRANSACTION_FORM_DEVISE</a> );
+<a name="l01029"></a>01029             <span class="keywordflow">if</span> ( widget != NULL 
+<a name="l01030"></a>01030              &amp;&amp; 
+<a name="l01031"></a>01031              GTK_WIDGET_VISIBLE (
+<a name="l01032"></a>01032              <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a04a54c703677228b4ae47cab1992554b">TRANSACTION_FORM_DEVISE</a>) ) )
+<a name="l01033"></a>01033             {
+<a name="l01034"></a>01034                 <span class="keywordflow">if</span> ( g_str_has_prefix ( tmp_str, _(<span class="stringliteral">&quot;Transfer : &quot;</span>) ) )
+<a name="l01035"></a>01035                 {
+<a name="l01036"></a>01036                     account_nb = <a class="code" href="gsb__form_8c.html#a6d9502c48d88f43354c126077ade6e1e">gsb_form_get_account_number</a> ( );
+<a name="l01037"></a>01037                     <span class="keywordflow">if</span> ( g_str_has_suffix ( tmp_str,
+<a name="l01038"></a>01038                      <a class="code" href="gsb__data__account_8c.html#a6b0df19868e38619bff512f2c18ef51e">gsb_data_account_get_name</a> ( account_nb ) ) )
+<a name="l01039"></a>01039                         gtk_widget_hide ( <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> (
+<a name="l01040"></a>01040                             <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a54b913a7cb6769230a2c55ba7a3429d1">TRANSACTION_FORM_CHANGE</a> ) );
+<a name="l01041"></a>01041                     <span class="keywordflow">else</span>
+<a name="l01042"></a>01042                         gtk_widget_show ( <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> (
+<a name="l01043"></a>01043                             <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a54b913a7cb6769230a2c55ba7a3429d1">TRANSACTION_FORM_CHANGE</a> ) );
+<a name="l01044"></a>01044                 }
+<a name="l01045"></a>01045                 <span class="keywordflow">else</span>
+<a name="l01046"></a>01046                     gtk_widget_hide ( <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> (
+<a name="l01047"></a>01047                         <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a54b913a7cb6769230a2c55ba7a3429d1">TRANSACTION_FORM_CHANGE</a> ) );
+<a name="l01048"></a>01048             }
+<a name="l01049"></a>01049             <span class="keywordflow">else</span>
+<a name="l01050"></a>01050             {
+<a name="l01051"></a>01051                 widget = <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a54b913a7cb6769230a2c55ba7a3429d1">TRANSACTION_FORM_CHANGE</a> );
+<a name="l01052"></a>01052                 <span class="keywordflow">if</span> ( widget != NULL )
+<a name="l01053"></a>01053                     gtk_widget_hide ( widget );
+<a name="l01054"></a>01054             }
+<a name="l01055"></a>01055             <span class="keywordflow">break</span>;
+<a name="l01056"></a>01056         }
+<a name="l01057"></a>01057     }
+<a name="l01058"></a>01058     <span class="keywordflow">return</span> FALSE;
+<a name="l01059"></a>01059 }
+<a name="l01060"></a>01060 
+<a name="l01061"></a>01061 
+<a name="l01068"></a><a class="code" href="gsb__form__widget_8h.html#a7daa646e13858fbb603260cecfca7671">01068</a> gint <a class="code" href="gsb__form__widget_8c.html#a7daa646e13858fbb603260cecfca7671">gsb_form_widget_get_old_credit_payment_number</a> ( <span class="keywordtype">void</span> )
+<a name="l01069"></a>01069 {
+<a name="l01070"></a>01070     <span class="keywordflow">return</span> old_credit_payment_number;
+<a name="l01071"></a>01071 }
+<a name="l01072"></a>01072 
+<a name="l01073"></a>01073 
+<a name="l01080"></a><a class="code" href="gsb__form__widget_8h.html#afde4e211d1dbebd81596b477e255dc59">01080</a> gint <a class="code" href="gsb__form__widget_8c.html#afde4e211d1dbebd81596b477e255dc59">gsb_form_widget_get_old_debit_payment_number</a> ( <span class="keywordtype">void</span> )
+<a name="l01081"></a>01081 {
+<a name="l01082"></a>01082     <span class="keywordflow">return</span> old_debit_payment_number;
+<a name="l01083"></a>01083 }
+<a name="l01084"></a>01084 
+<a name="l01085"></a>01085 
+<a name="l01092"></a><a class="code" href="gsb__form__widget_8h.html#a64e6bc61502ff19fc4ea8fb8df3b172e">01092</a> <span class="keyword">const</span> gchar *<a class="code" href="gsb__form__widget_8c.html#a64e6bc61502ff19fc4ea8fb8df3b172e">gsb_form_widget_get_old_credit_payment_content</a> ( <span class="keywordtype">void</span> )
+<a name="l01093"></a>01093 {
+<a name="l01094"></a>01094     <span class="keywordflow">return</span> old_credit_payment_content;
+<a name="l01095"></a>01095 }
+<a name="l01096"></a>01096 
+<a name="l01097"></a>01097 
+<a name="l01104"></a><a class="code" href="gsb__form__widget_8h.html#a7fa4b04b3b5d5e3ce498e753d8278560">01104</a> <span class="keyword">const</span> gchar *<a class="code" href="gsb__form__widget_8c.html#a7fa4b04b3b5d5e3ce498e753d8278560">gsb_form_widget_get_old_debit_payment_content</a> ( <span class="keywordtype">void</span> )
+<a name="l01105"></a>01105 {
+<a name="l01106"></a>01106     <span class="keywordflow">return</span> old_debit_payment_content;
+<a name="l01107"></a>01107 }
+<a name="l01108"></a>01108 
+<a name="l01109"></a>01109 
+<a name="l01110"></a>01110 <span class="comment">/* Local Variables: */</span>
+<a name="l01111"></a>01111 <span class="comment">/* c-basic-offset: 4 */</span>
+<a name="l01112"></a>01112 <span class="comment">/* End: */</span>
+<a name="l01113"></a>01113 
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:02 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

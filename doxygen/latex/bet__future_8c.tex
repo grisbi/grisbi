@@ -1,0 +1,138 @@
+\section{Référence du fichier bet\_\-future.c}
+\label{bet__future_8c}\index{bet\_\-future.c@{bet\_\-future.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include $<$config.h$>$}\par
+{\ttfamily \#include \char`\"{}bet\_\-future.h\char`\"{}}\par
+{\ttfamily \#include $<$gtk/gtk.h$>$}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}bet\_\-data.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}bet\_\-tab.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}fenetre\_\-principale.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-calendar\_\-entry.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-combo\_\-box.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-budget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-category.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-partial\_\-balance.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payee.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-scheduler.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-widget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gtk\_\-combofix.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf BET\_\-SCHEDULED\_\-WIDTH}~4
+\item 
+\#define {\bf BET\_\-SCHEDULED\_\-HEIGHT}~2
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf bet\_\-future\_\-initialise\_\-dialog} (void)
+\item 
+gboolean {\bf bet\_\-future\_\-new\_\-line\_\-dialog} (GtkTreeModel $\ast$tab\_\-model, gchar $\ast$str\_\-date)
+\item 
+gboolean {\bf bet\_\-future\_\-modify\_\-line} (gint account\_\-number, gint number, gint mother\_\-row)
+\item 
+gboolean {\bf bet\_\-transfert\_\-new\_\-line\_\-dialog} (GtkTreeModel $\ast$tab\_\-model, gchar $\ast$str\_\-date)
+\item 
+gchar $\ast$ {\bf gsb\_\-transfert\_\-get\_\-str\_\-amount} ({\bf struct\_\-transfert\_\-data} $\ast$transfert, {\bf gsb\_\-real} amount)
+\item 
+gboolean {\bf bet\_\-transfert\_\-modify\_\-line} (gint account\_\-number, gint number)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+{\bf gsb\_\-real} {\bf null\_\-real}
+\item 
+GtkWidget $\ast$ {\bf window}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des macros}
+\index{bet\_\-future.c@{bet\_\-future.c}!BET\_\-SCHEDULED\_\-HEIGHT@{BET\_\-SCHEDULED\_\-HEIGHT}}
+\index{BET\_\-SCHEDULED\_\-HEIGHT@{BET\_\-SCHEDULED\_\-HEIGHT}!bet_future.c@{bet\_\-future.c}}
+\subsubsection[{BET\_\-SCHEDULED\_\-HEIGHT}]{\setlength{\rightskip}{0pt plus 5cm}\#define BET\_\-SCHEDULED\_\-HEIGHT~2}\label{bet__future_8c_a5ff48c89a9296c5cf66e6b33c1bca11c}
+
+
+Définition à la ligne 116 du fichier bet\_\-future.c.
+
+\index{bet\_\-future.c@{bet\_\-future.c}!BET\_\-SCHEDULED\_\-WIDTH@{BET\_\-SCHEDULED\_\-WIDTH}}
+\index{BET\_\-SCHEDULED\_\-WIDTH@{BET\_\-SCHEDULED\_\-WIDTH}!bet_future.c@{bet\_\-future.c}}
+\subsubsection[{BET\_\-SCHEDULED\_\-WIDTH}]{\setlength{\rightskip}{0pt plus 5cm}\#define BET\_\-SCHEDULED\_\-WIDTH~4}\label{bet__future_8c_a10d8870f99c7abbffdc2ed9c3c5847da}
+
+
+Définition à la ligne 115 du fichier bet\_\-future.c.
+
+
+
+\subsection{Documentation des fonctions}
+\index{bet\_\-future.c@{bet\_\-future.c}!bet\_\-future\_\-initialise\_\-dialog@{bet\_\-future\_\-initialise\_\-dialog}}
+\index{bet\_\-future\_\-initialise\_\-dialog@{bet\_\-future\_\-initialise\_\-dialog}!bet_future.c@{bet\_\-future.c}}
+\subsubsection[{bet\_\-future\_\-initialise\_\-dialog}]{\setlength{\rightskip}{0pt plus 5cm}void bet\_\-future\_\-initialise\_\-dialog (void)}\label{bet__future_8c_ab9f4286a82ff1209786e6f1720a9990c}
+
+
+Définition à la ligne 137 du fichier bet\_\-future.c.
+
+\index{bet\_\-future.c@{bet\_\-future.c}!bet\_\-future\_\-modify\_\-line@{bet\_\-future\_\-modify\_\-line}}
+\index{bet\_\-future\_\-modify\_\-line@{bet\_\-future\_\-modify\_\-line}!bet_future.c@{bet\_\-future.c}}
+\subsubsection[{bet\_\-future\_\-modify\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gboolean bet\_\-future\_\-modify\_\-line (gint {\em account\_\-number}, \/  gint {\em number}, \/  gint {\em mother\_\-row})}\label{bet__future_8c_ae40824ff68f1d0feb3492cb0ae14d8ae}
+
+
+Définition à la ligne 1735 du fichier bet\_\-future.c.
+
+\index{bet\_\-future.c@{bet\_\-future.c}!bet\_\-future\_\-new\_\-line\_\-dialog@{bet\_\-future\_\-new\_\-line\_\-dialog}}
+\index{bet\_\-future\_\-new\_\-line\_\-dialog@{bet\_\-future\_\-new\_\-line\_\-dialog}!bet_future.c@{bet\_\-future.c}}
+\subsubsection[{bet\_\-future\_\-new\_\-line\_\-dialog}]{\setlength{\rightskip}{0pt plus 5cm}gboolean bet\_\-future\_\-new\_\-line\_\-dialog (GtkTreeModel $\ast$ {\em tab\_\-model}, \/  gchar $\ast$ {\em str\_\-date})}\label{bet__future_8c_ae2fa4dca9e56707df127ad926b5a01f8}
+
+
+Définition à la ligne 159 du fichier bet\_\-future.c.
+
+\index{bet\_\-future.c@{bet\_\-future.c}!bet\_\-transfert\_\-modify\_\-line@{bet\_\-transfert\_\-modify\_\-line}}
+\index{bet\_\-transfert\_\-modify\_\-line@{bet\_\-transfert\_\-modify\_\-line}!bet_future.c@{bet\_\-future.c}}
+\subsubsection[{bet\_\-transfert\_\-modify\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gboolean bet\_\-transfert\_\-modify\_\-line (gint {\em account\_\-number}, \/  gint {\em number})}\label{bet__future_8c_a5e8c1eac75f29a293cd5567c6041eea3}
+
+
+Définition à la ligne 2374 du fichier bet\_\-future.c.
+
+\index{bet\_\-future.c@{bet\_\-future.c}!bet\_\-transfert\_\-new\_\-line\_\-dialog@{bet\_\-transfert\_\-new\_\-line\_\-dialog}}
+\index{bet\_\-transfert\_\-new\_\-line\_\-dialog@{bet\_\-transfert\_\-new\_\-line\_\-dialog}!bet_future.c@{bet\_\-future.c}}
+\subsubsection[{bet\_\-transfert\_\-new\_\-line\_\-dialog}]{\setlength{\rightskip}{0pt plus 5cm}gboolean bet\_\-transfert\_\-new\_\-line\_\-dialog (GtkTreeModel $\ast$ {\em tab\_\-model}, \/  gchar $\ast$ {\em str\_\-date})}\label{bet__future_8c_ac02be860167b4f09f638c3b81f2af565}
+
+
+Définition à la ligne 1802 du fichier bet\_\-future.c.
+
+\index{bet\_\-future.c@{bet\_\-future.c}!gsb\_\-transfert\_\-get\_\-str\_\-amount@{gsb\_\-transfert\_\-get\_\-str\_\-amount}}
+\index{gsb\_\-transfert\_\-get\_\-str\_\-amount@{gsb\_\-transfert\_\-get\_\-str\_\-amount}!bet_future.c@{bet\_\-future.c}}
+\subsubsection[{gsb\_\-transfert\_\-get\_\-str\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-transfert\_\-get\_\-str\_\-amount ({\bf struct\_\-transfert\_\-data} $\ast$ {\em transfert}, \/  {\bf gsb\_\-real} {\em amount})}\label{bet__future_8c_a7ba318b5159699e3b2eca0a402826f8e}
+
+
+Définition à la ligne 2332 du fichier bet\_\-future.c.
+
+
+
+\subsection{Documentation des variables}
+\index{bet\_\-future.c@{bet\_\-future.c}!null\_\-real@{null\_\-real}}
+\index{null\_\-real@{null\_\-real}!bet_future.c@{bet\_\-future.c}}
+\subsubsection[{null\_\-real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf null\_\-real}}\label{bet__future_8c_a26f304bec3fdc0651b9aa8765d4de3c6}
+
+
+Définition à la ligne 42 du fichier gsb\_\-real.c.
+
+\index{bet\_\-future.c@{bet\_\-future.c}!window@{window}}
+\index{window@{window}!bet_future.c@{bet\_\-future.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{bet__future_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

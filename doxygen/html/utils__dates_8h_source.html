@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de utils_dates.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>utils_dates.h</h1><a href="utils__dates_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _UTILS_DATES_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _UTILS_DATES_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span><span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00004"></a>00004 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00008"></a>00008 GDate *<a class="code" href="utils__dates_8c.html#a6b816aab8b5dd412b89406bcc587738b">gdate_today</a> ( <span class="keywordtype">void</span> );
+<a name="l00009"></a>00009 GDate *<a class="code" href="utils__dates_8c.html#a146f578d7f01aba9a13fbed426295b9d">gsb_date_add_one_month</a> ( GDate *date, gboolean free );
+<a name="l00010"></a>00010 gboolean <a class="code" href="utils__dates_8c.html#af09f2167efc12cc516f17c3c04c05f2f">gsb_date_check_and_complete_entry</a> ( GtkWidget *entry,
+<a name="l00011"></a>00011                         gboolean set_today );
+<a name="l00012"></a>00012 gboolean <a class="code" href="utils__dates_8c.html#a02184736d75dd242e3c5c3b4a89efd81">gsb_date_check_entry</a> ( GtkWidget *entry );
+<a name="l00013"></a>00013 GDate *<a class="code" href="utils__dates_8c.html#ad688d2e013a4c82fa7e1cb47f64054d4">gsb_date_copy</a> ( <span class="keyword">const</span> GDate *date );
+<a name="l00014"></a>00014 <span class="keywordtype">void</span> <a class="code" href="utils__dates_8c.html#af8f672b19112b497c550cd33caf35d86">gsb_date_free_last_date</a> ( <span class="keywordtype">void</span> );
+<a name="l00015"></a>00015 gchar *<a class="code" href="utils__dates_8c.html#aabfe81bd576f533aff2f7cfebd52161c">gsb_date_get_compiled_time</a> ( <span class="keywordtype">void</span> );
+<a name="l00016"></a>00016 GDate *<a class="code" href="utils__dates_8c.html#a72b939da505a26d0409317e4742af1f6">gsb_date_get_last_day_of_month</a> ( <span class="keyword">const</span> GDate *date );
+<a name="l00017"></a>00017 GDate *<a class="code" href="utils__dates_8c.html#a60657a1332e700eeb88b1fc59ee2d25c">gsb_date_get_last_entry_date</a> ( <span class="keyword">const</span> gchar *<span class="keywordtype">string</span> );
+<a name="l00018"></a>00018 <span class="keywordtype">void</span> <a class="code" href="utils__dates_8c.html#aaac40b10a45d7e5d71c519b5d4755311">gsb_date_set_last_date</a> ( <span class="keyword">const</span> gchar *date );
+<a name="l00019"></a>00019 gchar *<a class="code" href="utils__dates_8c.html#af4555330ab5823ec03ff9388cca24e58">gsb_date_today</a> ( <span class="keywordtype">void</span> );
+<a name="l00020"></a>00020 GDate *<a class="code" href="utils__dates_8c.html#a527126308515106069bf3e5b2fc100ef">gsb_date_tomorrow</a> ( <span class="keywordtype">void</span> );
+<a name="l00021"></a>00021 gchar *<a class="code" href="utils__dates_8c.html#a6d8984b6159dab5d8f05b8da5b7509ed">gsb_format_date</a> ( gint day, gint month, gint year );
+<a name="l00022"></a>00022 gchar *<a class="code" href="utils__dates_8c.html#a6e7537390d7569da5efc74f96ea57da7">gsb_format_gdate</a> ( <span class="keyword">const</span> GDate *date );
+<a name="l00023"></a>00023 gchar *<a class="code" href="utils__dates_8c.html#abe508780ddee49c70a49b509e731bb27">gsb_format_gdate_safe</a> ( <span class="keyword">const</span> GDate *date );
+<a name="l00024"></a>00024 GDate *<a class="code" href="utils__dates_8c.html#a76c6dc10a356af3bd3a74738d41960a8">gsb_parse_date_string</a> ( <span class="keyword">const</span> gchar *<a class="code" href="structstruct__last__entry__date.html#a5074185074700e91c55afc3b8bbefe0d">date_string</a> );
+<a name="l00025"></a>00025 GDate *<a class="code" href="utils__dates_8c.html#a79ec6369fd094262ad9374b115068c17">gsb_parse_date_string_safe</a> ( <span class="keyword">const</span> gchar *<a class="code" href="structstruct__last__entry__date.html#a5074185074700e91c55afc3b8bbefe0d">date_string</a> );
+<a name="l00026"></a>00026 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

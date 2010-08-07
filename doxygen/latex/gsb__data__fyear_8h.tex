@@ -1,0 +1,370 @@
+\section{Référence du fichier gsb\_\-data\_\-fyear.h}
+\label{gsb__data__fyear_8h}\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsection*{Structures de données}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf struct\_\-fyear}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf gsb\_\-data\_\-fyear\_\-check\_\-all\_\-for\_\-invalid} (void)
+\item 
+gboolean {\bf gsb\_\-data\_\-fyear\_\-check\_\-for\_\-invalid} (gint fyear\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-fyear\_\-compare} (gint fyear\_\-number\_\-1, gint fyear\_\-number\_\-2)
+\item 
+gint {\bf gsb\_\-data\_\-fyear\_\-compare\_\-from\_\-struct} ({\bf struct\_\-fyear} $\ast$fyear\_\-1, {\bf struct\_\-fyear} $\ast$fyear\_\-2)
+\item 
+GDate $\ast$ {\bf gsb\_\-data\_\-fyear\_\-get\_\-beginning\_\-date} (gint fyear\_\-number)
+\item 
+GDate $\ast$ {\bf gsb\_\-data\_\-fyear\_\-get\_\-end\_\-date} (gint fyear\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-fyear\_\-get\_\-form\_\-show} (gint fyear\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-fyear\_\-get\_\-from\_\-date} (const GDate $\ast$date)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-fyear\_\-get\_\-fyears\_\-list} (void)
+\item 
+gint {\bf gsb\_\-data\_\-fyear\_\-get\_\-invalid} (gint fyear\_\-number)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-fyear\_\-get\_\-invalid\_\-message} (gint fyear\_\-number)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-fyear\_\-get\_\-name} (gint fyear\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-fyear\_\-get\_\-no\_\-fyear} (gpointer fyear\_\-ptr)
+\item 
+gboolean {\bf gsb\_\-data\_\-fyear\_\-init\_\-variables} (void)
+\item 
+gint {\bf gsb\_\-data\_\-fyear\_\-new} (const gchar $\ast$name)
+\item 
+gboolean {\bf gsb\_\-data\_\-fyear\_\-remove} (gint fyear\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-fyear\_\-set\_\-beginning\_\-date} (gint fyear\_\-number, GDate $\ast$date)
+\item 
+gboolean {\bf gsb\_\-data\_\-fyear\_\-set\_\-end\_\-date} (gint fyear\_\-number, GDate $\ast$date)
+\item 
+gboolean {\bf gsb\_\-data\_\-fyear\_\-set\_\-form\_\-show} (gint fyear\_\-number, gboolean showed\_\-in\_\-form)
+\item 
+gboolean {\bf gsb\_\-data\_\-fyear\_\-set\_\-name} (gint fyear\_\-number, const gchar $\ast$name)
+\item 
+gint {\bf gsb\_\-data\_\-fyear\_\-set\_\-new\_\-number} (gint fyear\_\-number, gint new\_\-no\_\-fyear)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-check\_\-all\_\-for\_\-invalid@{gsb\_\-data\_\-fyear\_\-check\_\-all\_\-for\_\-invalid}}
+\index{gsb\_\-data\_\-fyear\_\-check\_\-all\_\-for\_\-invalid@{gsb\_\-data\_\-fyear\_\-check\_\-all\_\-for\_\-invalid}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-check\_\-all\_\-for\_\-invalid}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-data\_\-fyear\_\-check\_\-all\_\-for\_\-invalid (void)}\label{gsb__data__fyear_8h_a6cb16020450190908ca4bfd4e2c14d4e}
+check all the fyear if the are invalid and set their flag normaly called to each change of a fyear an invalid fyear will not be used by grisbi and showed as invalid in the configuration
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the number of the fyear to check\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if invalid, FALSE if not 
+\end{DoxyReturn}
+
+
+Définition à la ligne 559 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-check\_\-for\_\-invalid@{gsb\_\-data\_\-fyear\_\-check\_\-for\_\-invalid}}
+\index{gsb\_\-data\_\-fyear\_\-check\_\-for\_\-invalid@{gsb\_\-data\_\-fyear\_\-check\_\-for\_\-invalid}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-check\_\-for\_\-invalid}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-fyear\_\-check\_\-for\_\-invalid (gint {\em fyear\_\-number})}\label{gsb__data__fyear_8h_aad824f68b9b121fd2c929e8da826a13b}
+check if the fyear is invalid and set the flag a fyear is invalid an invalid fyear will not be used by grisbi and showed as invalid in the configuration
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the number of the fyear to check\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if invalid, FALSE if not 
+\end{DoxyReturn}
+
+
+Définition à la ligne 584 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-compare@{gsb\_\-data\_\-fyear\_\-compare}}
+\index{gsb\_\-data\_\-fyear\_\-compare@{gsb\_\-data\_\-fyear\_\-compare}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-compare}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-fyear\_\-compare (gint {\em fyear\_\-number\_\-1}, \/  gint {\em fyear\_\-number\_\-2})}\label{gsb__data__fyear_8h_a974f8087101acb7aef6b225def4ed667}
+compare 2 financial years
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number\_\-1}]\item[{\em fyear\_\-number\_\-2}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+-\/1 if fyear 1 is before 2 ; +1 if fyear 1 is after 2 ; 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 677 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-compare\_\-from\_\-struct@{gsb\_\-data\_\-fyear\_\-compare\_\-from\_\-struct}}
+\index{gsb\_\-data\_\-fyear\_\-compare\_\-from\_\-struct@{gsb\_\-data\_\-fyear\_\-compare\_\-from\_\-struct}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-compare\_\-from\_\-struct}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-fyear\_\-compare\_\-from\_\-struct ({\bf struct\_\-fyear} $\ast$ {\em fyear\_\-1}, \/  {\bf struct\_\-fyear} $\ast$ {\em fyear\_\-2})}\label{gsb__data__fyear_8h_aaef77729ed58d8644b587d48f0f24bc3}
+compare 2 financial years bye \doxyref{struct\_\-fyear}{p.}{structstruct__fyear} $\ast$fyear
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em \doxyref{struct\_\-fyear}{p.}{structstruct__fyear}}]$\ast$fyear\_\-1 \item[{\em \doxyref{struct\_\-fyear}{p.}{structstruct__fyear}}]$\ast$fyear\_\-2\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+-\/1 if fyear 2 is before 1 ; +1 if fyear 2 is after 1 ; 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 698 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-get\_\-beginning\_\-date@{gsb\_\-data\_\-fyear\_\-get\_\-beginning\_\-date}}
+\index{gsb\_\-data\_\-fyear\_\-get\_\-beginning\_\-date@{gsb\_\-data\_\-fyear\_\-get\_\-beginning\_\-date}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-get\_\-beginning\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}GDate$\ast$ gsb\_\-data\_\-fyear\_\-get\_\-beginning\_\-date (gint {\em fyear\_\-number})}\label{gsb__data__fyear_8h_afdcd8883d9a62f1b165c1099c4476355}
+return the beginning date of the fyear
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the number of the fyear\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the beginning date of the fyear or NULL if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 355 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-get\_\-end\_\-date@{gsb\_\-data\_\-fyear\_\-get\_\-end\_\-date}}
+\index{gsb\_\-data\_\-fyear\_\-get\_\-end\_\-date@{gsb\_\-data\_\-fyear\_\-get\_\-end\_\-date}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-get\_\-end\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}GDate$\ast$ gsb\_\-data\_\-fyear\_\-get\_\-end\_\-date (gint {\em fyear\_\-number})}\label{gsb__data__fyear_8h_a567296ee6aea9f010688da1bd2bfbf12}
+return the end date of the fyear
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the number of the fyear\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the end date of the fyear or NULL if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 405 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-get\_\-form\_\-show@{gsb\_\-data\_\-fyear\_\-get\_\-form\_\-show}}
+\index{gsb\_\-data\_\-fyear\_\-get\_\-form\_\-show@{gsb\_\-data\_\-fyear\_\-get\_\-form\_\-show}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-get\_\-form\_\-show}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-fyear\_\-get\_\-form\_\-show (gint {\em fyear\_\-number})}\label{gsb__data__fyear_8h_a1c5a2857a1f6b22871cf064e3e4ed914}
+return the showed\_\-in\_\-form of the fyear
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the number of the fyear\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the showed\_\-in\_\-form of the fyear or NULL if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 456 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-get\_\-from\_\-date@{gsb\_\-data\_\-fyear\_\-get\_\-from\_\-date}}
+\index{gsb\_\-data\_\-fyear\_\-get\_\-from\_\-date@{gsb\_\-data\_\-fyear\_\-get\_\-from\_\-date}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-get\_\-from\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-fyear\_\-get\_\-from\_\-date (const GDate $\ast$ {\em date})}\label{gsb__data__fyear_8h_ae8c0a9df7ec7f52e06c494d38f6de3f7}
+get the financial year corresponding to the given date if there is more than 1 financial year corresponding to that date, return -\/1
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em date}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of financial year, 0 if none on that date, -\/1 if more than 1 on that date 
+\end{DoxyReturn}
+
+
+Définition à la ligne 635 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-get\_\-fyears\_\-list@{gsb\_\-data\_\-fyear\_\-get\_\-fyears\_\-list}}
+\index{gsb\_\-data\_\-fyear\_\-get\_\-fyears\_\-list@{gsb\_\-data\_\-fyear\_\-get\_\-fyears\_\-list}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-get\_\-fyears\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-fyear\_\-get\_\-fyears\_\-list (void)}\label{gsb__data__fyear_8h_a981e70c384f682f93195b489ca06e7f5}
+give the g\_\-slist of fyears structure usefull when want to check all fyears
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the g\_\-slist of fyears structure 
+\end{DoxyReturn}
+
+
+Définition à la ligne 143 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-get\_\-invalid@{gsb\_\-data\_\-fyear\_\-get\_\-invalid}}
+\index{gsb\_\-data\_\-fyear\_\-get\_\-invalid@{gsb\_\-data\_\-fyear\_\-get\_\-invalid}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-get\_\-invalid}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-fyear\_\-get\_\-invalid (gint {\em fyear\_\-number})}\label{gsb__data__fyear_8h_a5fc1c7468c9fccf10daf7c35f892d5f8}
+return the invalid\_\-fyear of the fyear the flag invalid is set automatickly by gsb\_\-data\_\-fyear\_\-check\_\-for\_\-invalid
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the number of the fyear\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if the fyear is invalid 
+\end{DoxyReturn}
+
+
+Définition à la ligne 505 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-get\_\-invalid\_\-message@{gsb\_\-data\_\-fyear\_\-get\_\-invalid\_\-message}}
+\index{gsb\_\-data\_\-fyear\_\-get\_\-invalid\_\-message@{gsb\_\-data\_\-fyear\_\-get\_\-invalid\_\-message}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-get\_\-invalid\_\-message}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-fyear\_\-get\_\-invalid\_\-message (gint {\em fyear\_\-number})}\label{gsb__data__fyear_8h_aeb72123ee0f21b6be9a9512b3e290656}
+return the message error because of the invalid fyear
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the number of the fyear\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a const gchar formatted with markup : error the message or NULL if not exist 
+\end{DoxyReturn}
+
+
+Définition à la ligne 524 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-get\_\-name@{gsb\_\-data\_\-fyear\_\-get\_\-name}}
+\index{gsb\_\-data\_\-fyear\_\-get\_\-name@{gsb\_\-data\_\-fyear\_\-get\_\-name}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-get\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-fyear\_\-get\_\-name (gint {\em fyear\_\-number})}\label{gsb__data__fyear_8h_ad6c1d7c774990722a69d741ab0d4785e}
+return the name of the fyear
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the number of the fyear\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the name of the fyear or NULL if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 300 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-get\_\-no\_\-fyear@{gsb\_\-data\_\-fyear\_\-get\_\-no\_\-fyear}}
+\index{gsb\_\-data\_\-fyear\_\-get\_\-no\_\-fyear@{gsb\_\-data\_\-fyear\_\-get\_\-no\_\-fyear}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-get\_\-no\_\-fyear}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-fyear\_\-get\_\-no\_\-fyear (gpointer {\em fyear\_\-ptr})}\label{gsb__data__fyear_8h_a8a164bec6890c1eb99bde9e7c06794d9}
+return the number of the fyears given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-ptr}]a pointer to the struct of the fyear\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the fyear, 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 155 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-init\_\-variables@{gsb\_\-data\_\-fyear\_\-init\_\-variables}}
+\index{gsb\_\-data\_\-fyear\_\-init\_\-variables@{gsb\_\-data\_\-fyear\_\-init\_\-variables}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-init\_\-variables}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-fyear\_\-init\_\-variables (void)}\label{gsb__data__fyear_8h_a99ae9b3ba2b0abfcd6bef6e47d177f85}
+set the fyears global variables to NULL, usually when we init all the global variables
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 74 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-new@{gsb\_\-data\_\-fyear\_\-new}}
+\index{gsb\_\-data\_\-fyear\_\-new@{gsb\_\-data\_\-fyear\_\-new}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-fyear\_\-new (const gchar $\ast$ {\em name})}\label{gsb__data__fyear_8h_a47079d9986c7aa9cb1a45eba87252408}
+create a new fyear, give him a number, append it to the list and return the number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em name}]the name of the fyear (can be freed after, it's a copy) or NULL\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the new fyear 
+\end{DoxyReturn}
+
+
+Définition à la ligne 205 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-remove@{gsb\_\-data\_\-fyear\_\-remove}}
+\index{gsb\_\-data\_\-fyear\_\-remove@{gsb\_\-data\_\-fyear\_\-remove}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-fyear\_\-remove (gint {\em fyear\_\-number})}\label{gsb__data__fyear_8h_adc3f164b9145e97a08681a7c39d8ea08}
+remove a fyear set all the fyears of transaction which are this one to 0
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the fyear we want to remove\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 250 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-set\_\-beginning\_\-date@{gsb\_\-data\_\-fyear\_\-set\_\-beginning\_\-date}}
+\index{gsb\_\-data\_\-fyear\_\-set\_\-beginning\_\-date@{gsb\_\-data\_\-fyear\_\-set\_\-beginning\_\-date}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-set\_\-beginning\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-fyear\_\-set\_\-beginning\_\-date (gint {\em fyear\_\-number}, \/  GDate $\ast$ {\em date})}\label{gsb__data__fyear_8h_a449af800bb4bbaa3f47328293b5c78c4}
+set the beginning date of the fyear the value is dupplicate in memory
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the number of the fyear \item[{\em date}]the beginning date of the fyear\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 377 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-set\_\-end\_\-date@{gsb\_\-data\_\-fyear\_\-set\_\-end\_\-date}}
+\index{gsb\_\-data\_\-fyear\_\-set\_\-end\_\-date@{gsb\_\-data\_\-fyear\_\-set\_\-end\_\-date}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-set\_\-end\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-fyear\_\-set\_\-end\_\-date (gint {\em fyear\_\-number}, \/  GDate $\ast$ {\em date})}\label{gsb__data__fyear_8h_a7555661e78190e110ead4271124fe531}
+set the end date of the fyear the value is dupplicate in memory
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the number of the fyear \item[{\em date}]the end date of the fyear\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 427 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-set\_\-form\_\-show@{gsb\_\-data\_\-fyear\_\-set\_\-form\_\-show}}
+\index{gsb\_\-data\_\-fyear\_\-set\_\-form\_\-show@{gsb\_\-data\_\-fyear\_\-set\_\-form\_\-show}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-set\_\-form\_\-show}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-fyear\_\-set\_\-form\_\-show (gint {\em fyear\_\-number}, \/  gboolean {\em showed\_\-in\_\-form})}\label{gsb__data__fyear_8h_a3756e8e72f5d4892a56609323682db50}
+set the showed\_\-in\_\-form of the fyear
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the number of the fyear \item[{\em showed\_\-in\_\-form}]the showed\_\-in\_\-form of the fyear\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 477 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-set\_\-name@{gsb\_\-data\_\-fyear\_\-set\_\-name}}
+\index{gsb\_\-data\_\-fyear\_\-set\_\-name@{gsb\_\-data\_\-fyear\_\-set\_\-name}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-set\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-fyear\_\-set\_\-name (gint {\em fyear\_\-number}, \/  const gchar $\ast$ {\em name})}\label{gsb__data__fyear_8h_a520f8d07dc81be619cf3f231bbec09f8}
+set the name of the fyear the value is dupplicate in memory
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the number of the fyear \item[{\em name}]the name of the fyear\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 322 du fichier gsb\_\-data\_\-fyear.c.
+
+\index{gsb\_\-data\_\-fyear.h@{gsb\_\-data\_\-fyear.h}!gsb\_\-data\_\-fyear\_\-set\_\-new\_\-number@{gsb\_\-data\_\-fyear\_\-set\_\-new\_\-number}}
+\index{gsb\_\-data\_\-fyear\_\-set\_\-new\_\-number@{gsb\_\-data\_\-fyear\_\-set\_\-new\_\-number}!gsb_data_fyear.h@{gsb\_\-data\_\-fyear.h}}
+\subsubsection[{gsb\_\-data\_\-fyear\_\-set\_\-new\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-fyear\_\-set\_\-new\_\-number (gint {\em fyear\_\-number}, \/  gint {\em new\_\-no\_\-fyear})}\label{gsb__data__fyear_8h_a519838d8df1addfc140a8b3005a7310a}
+set a new number for the fyear normally used only while loading the file because the number are given automaticly
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]the number of the fyear \item[{\em new\_\-no\_\-fyear}]the new number of the fyear\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the new number or 0 if the fyear doen't exist 
+\end{DoxyReturn}
+
+
+Définition à la ligne 278 du fichier gsb\_\-data\_\-fyear.c.
+

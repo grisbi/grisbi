@@ -1,0 +1,1032 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_data_partial_balance.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_data_partial_balance.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__partial__balance_8h_source.html">gsb_data_partial_balance.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__currency__config_8h_source.html">gsb_currency_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__currency_8h_source.html">gsb_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__currency_8h_source.html">gsb_data_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__currency__link_8h_source.html">gsb_data_currency_link.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="gsb__data__partial__balance_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Structures de données</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__partial__balance.html">struct_partial_balance</a></td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a6b7468f19714666d0e109e82c1e2250a">gsb_partial_balance_new_at_position</a> (const gchar *name, gint pos)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkListStore *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#ab8b7da472ebbe6633b0c5f9fae61a413">gsb_partial_balance_create_model</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a3ad14b86fa26a4473be2c400d0dcb9e3">gsb_partial_balance_fill_model</a> (GtkListStore *list_store)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a45a38bad71b403cb72573fc296cb6eff">gsb_partial_balance_add</a> (GtkWidget *button, GtkWidget *main_widget)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a2136465d129225b7cfef720d0880af2d">gsb_partial_balance_edit</a> (GtkWidget *button, GtkWidget *main_widget)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#ab9bf1f9d085f6e1b450474068837b101">gsb_partial_balance_delete</a> (GtkWidget *button, GtkWidget *main_widget)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a41445613bc74e7cec65115a097e486fa">gsb_partial_balance_select_func</a> (GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *path, gboolean path_currently_selected, GObject *main_widget)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a76a78a9bfc49e4215ddbdd12c9de66a7">gsb_partial_balance_key_press</a> (GtkWidget *tree_view, GdkEventKey *ev)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a07410f9e80aa69142600b84367d48054">gsb_partial_balance_button_press</a> (GtkWidget *tree_view, GdkEventButton *ev, gpointer null)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a128e5e6d3ef890a29e00cf9854b7d682">gsb_partial_balance_colorise_toggled</a> (GtkCellRendererToggle *cell, gchar *path_str, GtkWidget *tree_view)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a6f4eaeeee77c8cdf2080849eb4df9133">gsb_data_partial_balance_init_variables</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a09c15eba9140e6063aeaeb754481da19">gsb_data_partial_balance_get_list</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a645d1d88a2b73c7c48d218d5dc240ec4">gsb_data_partial_balance_get_number</a> (gpointer balance_ptr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a60c22c649a2f4ff7460ece9208c88bc5">gsb_data_partial_balance_get_liste_cptes</a> (gint partial_balance_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a84f976f707046b30d436a82a94921441">gsb_data_partial_balance_set_liste_cptes</a> (gint partial_balance_number, const gchar *liste_cptes)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a742abdf5e9bbd787e85bd0ef54b9fe8c">gsb_data_partial_balance_get_name</a> (gint partial_balance_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#ae2945c54476e4bdd915ec04fd8d5d899">gsb_data_partial_balance_set_name</a> (gint partial_balance_number, const gchar *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="gsb__data__account_8h.html#abe336abc6aaa13733b0ea311c9478862">kind_account</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#ae06d0d8f3876578c0c96fb902a2f1a64">gsb_data_partial_balance_get_kind</a> (gint partial_balance_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#ac2900a59a974385c4946ecddb1618f83">gsb_data_partial_balance_set_kind</a> (gint partial_balance_number, <a class="el" href="gsb__data__account_8h.html#abe336abc6aaa13733b0ea311c9478862">kind_account</a> kind)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#adc46165b029838315336eabdd6df6e63">gsb_data_partial_balance_get_currency</a> (gint partial_balance_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#af4cb703ca2fc2dd7795ac931ce6c0cc7">gsb_data_partial_balance_set_currency</a> (gint partial_balance_number, gint currency)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#aa45781dd7d5f787326c68fd88af26104">gsb_data_partial_balance_get_colorise</a> (gint partial_balance_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a1089db03152e013649c65d8d8778396c">gsb_data_partial_balance_set_colorise</a> (gint partial_balance_number, gboolean colorise)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#afdd82919a412742b289e9ce8c8593138">gsb_data_partial_balance_get_marked_balance</a> (gint partial_balance_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a3b93643dcaf37d9037bd7c62d244a0d1">gsb_data_partial_balance_get_current_amount</a> (gint partial_balance_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#aa499f52edc2425fcf0ab8c87235e5f33">gsb_data_partial_balance_get_current_balance</a> (gint partial_balance_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a644c11f20828df365b13b5e5312f65a2">gsb_data_partial_balance_drag_data_received</a> (GtkTreeDragDest *drag_dest, GtkTreePath *dest_path, GtkSelectionData *selection_data)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#ae6b9a481d5b88820519dff2b7904824c">gsb_data_partial_balance_drag_data_get</a> (GtkTreeDragSource *drag_source, GtkTreePath *path, GtkSelectionData *selection_data)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__partial__balance_8c.html#a2f4dcaeb5fb7f3d273e4e3a198ce4d55">no_devise_solde_partiels</a></td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="ae6b9a481d5b88820519dff2b7904824c"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_drag_data_get" ref="ae6b9a481d5b88820519dff2b7904824c" args="(GtkTreeDragSource *drag_source, GtkTreePath *path, GtkSelectionData *selection_data)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_partial_balance_drag_data_get </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreeDragSource *&nbsp;</td>
+          <td class="paramname"> <em>drag_source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkTreePath *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkSelectionData *&nbsp;</td>
+          <td class="paramname"> <em>selection_data</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Fill the drag &amp; drop structure with the path of selected column. This is an interface function called from GTK, much like a callback.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>drag_source</em>&nbsp;</td><td>Not used. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td>Original path for the gtk selection. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>selection_data</em>&nbsp;</td><td>A pointer to the drag &amp; drop structure.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE, to allow future processing by the callback chain. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l01391">1391</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a644c11f20828df365b13b5e5312f65a2"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_drag_data_received" ref="a644c11f20828df365b13b5e5312f65a2" args="(GtkTreeDragDest *drag_dest, GtkTreePath *dest_path, GtkSelectionData *selection_data)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_partial_balance_drag_data_received </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreeDragDest *&nbsp;</td>
+          <td class="paramname"> <em>drag_dest</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkTreePath *&nbsp;</td>
+          <td class="paramname"> <em>dest_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkSelectionData *&nbsp;</td>
+          <td class="paramname"> <em>selection_data</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>callback when tree_view Home tab receive a drag and drop signal</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>drag_dest</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dest_path</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>selection_data</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l01345">1345</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa45781dd7d5f787326c68fd88af26104"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_get_colorise" ref="aa45781dd7d5f787326c68fd88af26104" args="(gint partial_balance_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_partial_balance_get_colorise </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>partial_balance_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>partial_balance_number</em>&nbsp;</td><td>no of the partial_balance</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00992">992</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adc46165b029838315336eabdd6df6e63"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_get_currency" ref="adc46165b029838315336eabdd6df6e63" args="(gint partial_balance_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_partial_balance_get_currency </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>partial_balance_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the currency of the partial_balance</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>partial_balance_number</em>&nbsp;</td><td>no of the partial_balance</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>partial_balance currency or 0 if the partial_balance doesn't exist </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00948">948</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3b93643dcaf37d9037bd7c62d244a0d1"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_get_current_amount" ref="a3b93643dcaf37d9037bd7c62d244a0d1" args="(gint partial_balance_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_data_partial_balance_get_current_amount </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>partial_balance_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l01094">1094</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa499f52edc2425fcf0ab8c87235e5f33"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_get_current_balance" ref="aa499f52edc2425fcf0ab8c87235e5f33" args="(gint partial_balance_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_data_partial_balance_get_current_balance </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>partial_balance_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l01147">1147</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae06d0d8f3876578c0c96fb902a2f1a64"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_get_kind" ref="ae06d0d8f3876578c0c96fb902a2f1a64" args="(gint partial_balance_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="gsb__data__account_8h.html#abe336abc6aaa13733b0ea311c9478862">kind_account</a> gsb_data_partial_balance_get_kind </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>partial_balance_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the kind of the partial_balance </p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>partial_balance_number</em>&nbsp;</td><td>no of the partial_balance</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>partial_balance type or 0 if the partial_balance doesn't exist </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00905">905</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a09c15eba9140e6063aeaeb754481da19"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_get_list" ref="a09c15eba9140e6063aeaeb754481da19" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* gsb_data_partial_balance_get_list </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>give the g_slist of partial_balance structure usefull when want to check all partial_balance carrefull : it's not a copy, so we must not free or change it</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>none</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the g_slist of partial_balance structure </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00749">749</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a60c22c649a2f4ff7460ece9208c88bc5"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_get_liste_cptes" ref="a60c22c649a2f4ff7460ece9208c88bc5" args="(gint partial_balance_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const gchar* gsb_data_partial_balance_get_liste_cptes </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>partial_balance_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the liste_cptes of the partial_balance</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>partial_balance_number</em>&nbsp;</td><td>the number of the partial_balance</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the liste_cptes of the partial_balance or NULL if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00806">806</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afdd82919a412742b289e9ce8c8593138"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_get_marked_balance" ref="afdd82919a412742b289e9ce8c8593138" args="(gint partial_balance_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_data_partial_balance_get_marked_balance </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>partial_balance_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l01031">1031</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a742abdf5e9bbd787e85bd0ef54b9fe8c"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_get_name" ref="a742abdf5e9bbd787e85bd0ef54b9fe8c" args="(gint partial_balance_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const gchar* gsb_data_partial_balance_get_name </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>partial_balance_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the name of the partial_balance</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>partial_balance_number</em>&nbsp;</td><td>the number of the partial_balance</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the name of the partial_balance or NULL if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00856">856</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a645d1d88a2b73c7c48d218d5dc240ec4"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_get_number" ref="a645d1d88a2b73c7c48d218d5dc240ec4" args="(gpointer balance_ptr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_partial_balance_get_number </td>
+          <td>(</td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>balance_ptr</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the number of the partial_balance given in param</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>balance_ptr</em>&nbsp;</td><td>a pointer to the struct of the partial_balance</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of the partial_balance, 0 if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00762">762</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6f4eaeeee77c8cdf2080849eb4df9133"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_init_variables" ref="a6f4eaeeee77c8cdf2080849eb4df9133" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_partial_balance_init_variables </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the partial_balance global variables to NULL, usually when we init all the global variables</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00678">678</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1089db03152e013649c65d8d8778396c"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_set_colorise" ref="a1089db03152e013649c65d8d8778396c" args="(gint partial_balance_number, gboolean colorise)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_partial_balance_set_colorise </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>partial_balance_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>colorise</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>partial_balance_number</em>&nbsp;</td><td>no of the partial_balance </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>colorise</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE, ok ; FALSE, problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l01011">1011</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af4cb703ca2fc2dd7795ac931ce6c0cc7"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_set_currency" ref="af4cb703ca2fc2dd7795ac931ce6c0cc7" args="(gint partial_balance_number, gint currency)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_partial_balance_set_currency </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>partial_balance_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the currency of the partial_balance</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>partial_balance_number</em>&nbsp;</td><td>no of the partial_balance </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>currency</em>&nbsp;</td><td>to set</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE, ok ; FALSE, problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00969">969</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac2900a59a974385c4946ecddb1618f83"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_set_kind" ref="ac2900a59a974385c4946ecddb1618f83" args="(gint partial_balance_number, kind_account kind)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_partial_balance_set_kind </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>partial_balance_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="gsb__data__account_8h.html#abe336abc6aaa13733b0ea311c9478862">kind_account</a>&nbsp;</td>
+          <td class="paramname"> <em>kind</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the kind of the partial_balance </p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>partial_balance_number</em>&nbsp;</td><td>no of the partial_balance </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>kind</em>&nbsp;</td><td>type to set</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE, ok ; FALSE, problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00925">925</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a84f976f707046b30d436a82a94921441"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_set_liste_cptes" ref="a84f976f707046b30d436a82a94921441" args="(gint partial_balance_number, const gchar *liste_cptes)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_partial_balance_set_liste_cptes </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>partial_balance_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>liste_cptes</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the liste_cptes of the partial_balance the value is dupplicate in memory</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>partial_balance_number</em>&nbsp;</td><td>the number of the partial_balance </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>liste_cptes</em>&nbsp;</td><td>of the partial_balance</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00828">828</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae2945c54476e4bdd915ec04fd8d5d899"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_data_partial_balance_set_name" ref="ae2945c54476e4bdd915ec04fd8d5d899" args="(gint partial_balance_number, const gchar *name)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_partial_balance_set_name </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>partial_balance_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>name</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the name of the import_rule the value is dupplicate in memory</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>import_rule_number</em>&nbsp;</td><td>the number of the import_rule </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>the name of the import_rule</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00878">878</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a45a38bad71b403cb72573fc296cb6eff"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_partial_balance_add" ref="a45a38bad71b403cb72573fc296cb6eff" args="(GtkWidget *button, GtkWidget *main_widget)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_partial_balance_add </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>button</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>main_widget</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>add a partial_balance </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00248">248</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a07410f9e80aa69142600b84367d48054"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_partial_balance_button_press" ref="a07410f9e80aa69142600b84367d48054" args="(GtkWidget *tree_view, GdkEventButton *ev, gpointer null)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_partial_balance_button_press </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>tree_view</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GdkEventButton *&nbsp;</td>
+          <td class="paramname"> <em>ev</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>null</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>called when press a mouse button on the partial_balance_list</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>tree_view</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ev</em>&nbsp;</td><td>a GdkEventButton</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if double - click else FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00610">610</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a128e5e6d3ef890a29e00cf9854b7d682"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_partial_balance_colorise_toggled" ref="a128e5e6d3ef890a29e00cf9854b7d682" args="(GtkCellRendererToggle *cell, gchar *path_str, GtkWidget *tree_view)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_partial_balance_colorise_toggled </td>
+          <td>(</td>
+          <td class="paramtype">GtkCellRendererToggle *&nbsp;</td>
+          <td class="paramname"> <em>cell</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>path_str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>tree_view</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00634">634</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab8b7da472ebbe6633b0c5f9fae61a413"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_partial_balance_create_model" ref="ab8b7da472ebbe6633b0c5f9fae61a413" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkListStore* gsb_partial_balance_create_model </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>\param</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00175">175</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab9bf1f9d085f6e1b450474068837b101"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_partial_balance_delete" ref="ab9bf1f9d085f6e1b450474068837b101" args="(GtkWidget *button, GtkWidget *main_widget)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_partial_balance_delete </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>button</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>main_widget</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>remove a partial_balance </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00443">443</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2136465d129225b7cfef720d0880af2d"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_partial_balance_edit" ref="a2136465d129225b7cfef720d0880af2d" args="(GtkWidget *button, GtkWidget *main_widget)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_partial_balance_edit </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>button</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>main_widget</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Edit a partial_balance </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00333">333</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3ad14b86fa26a4473be2c400d0dcb9e3"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_partial_balance_fill_model" ref="a3ad14b86fa26a4473be2c400d0dcb9e3" args="(GtkListStore *list_store)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_partial_balance_fill_model </td>
+          <td>(</td>
+          <td class="paramtype">GtkListStore *&nbsp;</td>
+          <td class="paramname"> <em>list_store</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>\param</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00191">191</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a76a78a9bfc49e4215ddbdd12c9de66a7"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_partial_balance_key_press" ref="a76a78a9bfc49e4215ddbdd12c9de66a7" args="(GtkWidget *tree_view, GdkEventKey *ev)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_partial_balance_key_press </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>tree_view</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GdkEventKey *&nbsp;</td>
+          <td class="paramname"> <em>ev</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>gère le clavier sur la liste des soldes partiels </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00580">580</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6b7468f19714666d0e109e82c1e2250a"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_partial_balance_new_at_position" ref="a6b7468f19714666d0e109e82c1e2250a" args="(const gchar *name, gint pos)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_partial_balance_new_at_position </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>pos</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a new partial balance and insert it at position "pos" and return the number</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>the name of the partial_balance (can be freed after, it's a copy) or NULL </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of the new partial_balance </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00144">144</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a41445613bc74e7cec65115a097e486fa"></a><!-- doxytag: member="gsb_data_partial_balance.c::gsb_partial_balance_select_func" ref="a41445613bc74e7cec65115a097e486fa" args="(GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *path, gboolean path_currently_selected, GObject *main_widget)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_partial_balance_select_func </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreeSelection *&nbsp;</td>
+          <td class="paramname"> <em>selection</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkTreeModel *&nbsp;</td>
+          <td class="paramname"> <em>model</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkTreePath *&nbsp;</td>
+          <td class="paramname"> <em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>path_currently_selected</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GObject *&nbsp;</td>
+          <td class="paramname"> <em>main_widget</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Fonction appellée quand on sélectionne un solde partiel </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00518">518</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a2f4dcaeb5fb7f3d273e4e3a198ce4d55"></a><!-- doxytag: member="gsb_data_partial_balance.c::no_devise_solde_partiels" ref="a2f4dcaeb5fb7f3d273e4e3a198ce4d55" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="gsb__data__partial__balance_8c.html#a2f4dcaeb5fb7f3d273e4e3a198ce4d55">no_devise_solde_partiels</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__partial__balance_8c_source.html#l00089">89</a> du fichier <a class="el" href="gsb__data__partial__balance_8c_source.html">gsb_data_partial_balance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a26f304bec3fdc0651b9aa8765d4de3c6"></a><!-- doxytag: member="gsb_data_partial_balance.c::null_real" ref="a26f304bec3fdc0651b9aa8765d4de3c6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> <a class="el" href="utils__editables_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00042">42</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="gsb_data_partial_balance.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

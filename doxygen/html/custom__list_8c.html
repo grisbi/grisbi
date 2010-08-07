@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier custom_list.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier custom_list.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="custom__list_8h_source.html">custom_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="transaction__list_8h_source.html">transaction_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="custom__list_8c_source.html">transaction_model.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="custom__list_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct__CustomList.html">CustomList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8c.html#af2283d90d622138e25ad463bfd0c8557">custom_list_new</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GType&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8c.html#adeb9a6aec026a0fbbe6a22a1c7c13ece">custom_list_get_type</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8c.html#a328dd87cc6168f5d518078168fe046c3">custom_list_set_value</a> (GtkTreeModel *tree_model, GtkTreeIter *iter, gint column, GValue *value)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8c.html#a8169600c05eb3674c1b11ca67dd677d3">text_color</a> [2]</td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>this is a custom model used for the transaction list to improve the original gtk model big thanks to Tim-Philipp Müller for his tutorial without i never could do that you can find the tutorial there : <a href="http://scentric.net/tutorial/treeview-tutorial.html">http://scentric.net/tutorial/treeview-tutorial.html</a> this file contains the definitions and functioning of the custom list the funtions using it are in gsb_list_model.c </p>
+
+<p>Définition dans le fichier <a class="el" href="custom__list_8c_source.html">custom_list.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="adeb9a6aec026a0fbbe6a22a1c7c13ece"></a><!-- doxytag: member="custom_list.c::custom_list_get_type" ref="adeb9a6aec026a0fbbe6a22a1c7c13ece" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GType custom_list_get_type </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>we register our new type and its interfaces with the type system. extern is necessary for mk_include to set that function in <a class="el" href="custom__list_8h.html">custom_list.h</a></p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>Gtype </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="custom__list_8c_source.html#l00150">150</a> du fichier <a class="el" href="custom__list_8c_source.html">custom_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af2283d90d622138e25ad463bfd0c8557"></a><!-- doxytag: member="custom_list.c::custom_list_new" ref="af2283d90d622138e25ad463bfd0c8557" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct__CustomList.html">CustomList</a>* custom_list_new </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create the new custom list add automatically the white line</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the new CustomList tree model </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="custom__list_8c_source.html#l00096">96</a> du fichier <a class="el" href="custom__list_8c_source.html">custom_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a328dd87cc6168f5d518078168fe046c3"></a><!-- doxytag: member="custom_list.c::custom_list_set_value" ref="a328dd87cc6168f5d518078168fe046c3" args="(GtkTreeModel *tree_model, GtkTreeIter *iter, gint column, GValue *value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void custom_list_set_value </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreeModel *&nbsp;</td>
+          <td class="paramname"> <em>tree_model</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkTreeIter *&nbsp;</td>
+          <td class="paramname"> <em>iter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>column</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GValue *&nbsp;</td>
+          <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Sets the data in the cell specified by iter and column. The type of value must be convertible to the type of the column. this function doesn't check the type of the value, it's done already in transaction_list_update_column so the type must be the good one (todo if we begin to call that function directly)</p>
+<p>shouldn't be called to set a string in the visibles columns, should use transaction_list_update_element instead</p>
+<p>reached by gtk_tree_model_get_value</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>tree_model</em>&nbsp;</td><td>the CustomList </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>iter</em>&nbsp;</td><td>iter of the row of the value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>column</em>&nbsp;</td><td>column of the value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td>value to fill</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="custom__list_8c_source.html#l00564">564</a> du fichier <a class="el" href="custom__list_8c_source.html">custom_list.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a8169600c05eb3674c1b11ca67dd677d3"></a><!-- doxytag: member="custom_list.c::text_color" ref="a8169600c05eb3674c1b11ca67dd677d3" args="[2]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#a8169600c05eb3674c1b11ca67dd677d3">text_color</a>[2]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00118">118</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

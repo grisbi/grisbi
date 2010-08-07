@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_assistant.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_assistant.h</h1><a href="gsb__assistant_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef GSB_ASSISTANT_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define GSB_ASSISTANT_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00005"></a>00005 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00008"></a>00008 <span class="keywordtype">void</span> <a class="code" href="gsb__assistant_8c.html#a6972bde2415e07b7afb35a062456f129">gsb_assistant_add_page</a> ( GtkWidget * assistant, GtkWidget * widget, gint position,
+<a name="l00009"></a>00009                               gint prev, gint next, GCallback enter_callback );
+<a name="l00010"></a>00010 <span class="keywordtype">void</span> <a class="code" href="gsb__assistant_8c.html#af9667499ec49ad50593c8662801d4a9c">gsb_assistant_change_button_next</a> ( GtkWidget * assistant, gchar * title,
+<a name="l00011"></a>00011                                         GtkResponseType response );
+<a name="l00012"></a>00012 GtkWidget * <a class="code" href="gsb__assistant_8c.html#a8502128771d8c3f3e8c83d877e1f20ea">gsb_assistant_new</a> ( <span class="keyword">const</span> gchar * title, <span class="keyword">const</span> gchar * explanation,
+<a name="l00013"></a>00013                                 gchar * image_filename,
+<a name="l00014"></a>00014                                 GCallback enter_callback );
+<a name="l00015"></a>00015 <span class="keywordtype">void</span> <a class="code" href="gsb__assistant_8c.html#afa94b439f0978b7eac4d469df5def613">gsb_assistant_next_page</a> ( GtkWidget *assistant );
+<a name="l00016"></a>00016 GtkResponseType <a class="code" href="gsb__assistant_8c.html#a886a6fa8c458d71d7cfae7b54bd3187f">gsb_assistant_run</a> ( GtkWidget * assistant );
+<a name="l00017"></a>00017 gboolean <a class="code" href="gsb__assistant_8c.html#ad38c5d761d97d2257a4b35a52c4048c6">gsb_assistant_sensitive_button_next</a> ( GtkWidget * assistant, gboolean state );
+<a name="l00018"></a>00018 gboolean <a class="code" href="gsb__assistant_8c.html#ae21578dcc45348d3400059b9c6794252">gsb_assistant_sensitive_button_prev</a> ( GtkWidget * assistant, gboolean state );
+<a name="l00019"></a>00019 <span class="keywordtype">void</span> <a class="code" href="gsb__assistant_8c.html#a06ff0b5745a3a4bd14ceecbd56cd09c1">gsb_assistant_set_next</a> ( GtkWidget * assistant, gint page, gint next );
+<a name="l00020"></a>00020 <span class="keywordtype">void</span> <a class="code" href="gsb__assistant_8c.html#a9c400b973258731e6d4dd4a01a63e1aa">gsb_assistant_set_prev</a> ( GtkWidget * assistant, gint page, gint prev );
+<a name="l00021"></a>00021 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

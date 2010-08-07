@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier utils_file_selection.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier utils_file_selection.h</h1>
+<p><a href="utils__file__selection_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Macros</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__file__selection_8h.html#a6a4bee62214d9dfd2b4bba67a1e105e3">FILE_SELECTION_DEFAULT</a>&nbsp;&nbsp;&nbsp;0x0000</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__file__selection_8h.html#a479801e1efb641420a3be56732ebca77">FILE_SELECTION_IS_OPEN_DIALOG</a>&nbsp;&nbsp;&nbsp;0x0000</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__file__selection_8h.html#a823595fd9dc58c9b9005a98335efd74e">FILE_SELECTION_IS_SAVE_DIALOG</a>&nbsp;&nbsp;&nbsp;0x0001</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__file__selection_8h.html#a77427550083b33e37511110084ffa118">FILE_SELECTION_NOOVERWRITECHECK</a>&nbsp;&nbsp;&nbsp;0x0002</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__file__selection_8h.html#a36fd252876e7e8b0fb7c824a4016f168">FILE_SELECTION_MUST_EXIST</a>&nbsp;&nbsp;&nbsp;0x0002</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__file__selection_8h.html#a9191727402ba314f35438f00153815a0">FILE_SELECTION_MULTISELECTION</a>&nbsp;&nbsp;&nbsp;0x0004</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__file__selection_8h.html#a553733327d0e98dc761f3eec04c9d3d3">file_selection_get_filename</a> (GtkFileChooser *filesel)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__file__selection_8h.html#a7ceee035264e3ea82cd7e5863650a6c3">file_selection_get_last_directory</a> (GtkFileChooser *filesel, gboolean ended)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__file__selection_8h.html#a28d01f93cf3b5c0f02cb506b15338c29">file_selection_new</a> (const gchar *title, const gint properties)</td></tr>
+</table>
+<hr/><h2>Documentation des macros</h2>
+<a class="anchor" id="a6a4bee62214d9dfd2b4bba67a1e105e3"></a><!-- doxytag: member="utils_file_selection.h::FILE_SELECTION_DEFAULT" ref="a6a4bee62214d9dfd2b4bba67a1e105e3" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FILE_SELECTION_DEFAULT&nbsp;&nbsp;&nbsp;0x0000</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>File selection dialog behaviour properties No particular behaviour (open file dialog) </p>
+
+<p>Définition à la ligne <a class="el" href="utils__file__selection_8h_source.html#l00041">41</a> du fichier <a class="el" href="utils__file__selection_8h_source.html">utils_file_selection.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a479801e1efb641420a3be56732ebca77"></a><!-- doxytag: member="utils_file_selection.h::FILE_SELECTION_IS_OPEN_DIALOG" ref="a479801e1efb641420a3be56732ebca77" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FILE_SELECTION_IS_OPEN_DIALOG&nbsp;&nbsp;&nbsp;0x0000</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>The file selection is used for open operation </p>
+
+<p>Définition à la ligne <a class="el" href="utils__file__selection_8h_source.html#l00042">42</a> du fichier <a class="el" href="utils__file__selection_8h_source.html">utils_file_selection.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a823595fd9dc58c9b9005a98335efd74e"></a><!-- doxytag: member="utils_file_selection.h::FILE_SELECTION_IS_SAVE_DIALOG" ref="a823595fd9dc58c9b9005a98335efd74e" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FILE_SELECTION_IS_SAVE_DIALOG&nbsp;&nbsp;&nbsp;0x0001</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>The file selection is used for a save operation </p>
+
+<p>Définition à la ligne <a class="el" href="utils__file__selection_8h_source.html#l00043">43</a> du fichier <a class="el" href="utils__file__selection_8h_source.html">utils_file_selection.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9191727402ba314f35438f00153815a0"></a><!-- doxytag: member="utils_file_selection.h::FILE_SELECTION_MULTISELECTION" ref="a9191727402ba314f35438f00153815a0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FILE_SELECTION_MULTISELECTION&nbsp;&nbsp;&nbsp;0x0004</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">À faire:</a></b></dt><dd>allow the multi selection behaviour </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__file__selection_8h_source.html#l00046">46</a> du fichier <a class="el" href="utils__file__selection_8h_source.html">utils_file_selection.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a36fd252876e7e8b0fb7c824a4016f168"></a><!-- doxytag: member="utils_file_selection.h::FILE_SELECTION_MUST_EXIST" ref="a36fd252876e7e8b0fb7c824a4016f168" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FILE_SELECTION_MUST_EXIST&nbsp;&nbsp;&nbsp;0x0002</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>The selected file name must exists - only for open operation </p>
+
+<p>Définition à la ligne <a class="el" href="utils__file__selection_8h_source.html#l00045">45</a> du fichier <a class="el" href="utils__file__selection_8h_source.html">utils_file_selection.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a77427550083b33e37511110084ffa118"></a><!-- doxytag: member="utils_file_selection.h::FILE_SELECTION_NOOVERWRITECHECK" ref="a77427550083b33e37511110084ffa118" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FILE_SELECTION_NOOVERWRITECHECK&nbsp;&nbsp;&nbsp;0x0002</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>No existance check and overwrite confirmation done - used only for save operations </p>
+
+<p>Définition à la ligne <a class="el" href="utils__file__selection_8h_source.html#l00044">44</a> du fichier <a class="el" href="utils__file__selection_8h_source.html">utils_file_selection.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a553733327d0e98dc761f3eec04c9d3d3"></a><!-- doxytag: member="utils_file_selection.h::file_selection_get_filename" ref="a553733327d0e98dc761f3eec04c9d3d3" args="(GtkFileChooser *filesel)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* file_selection_get_filename </td>
+          <td>(</td>
+          <td class="paramtype">GtkFileChooser *&nbsp;</td>
+          <td class="paramname"> <em>filesel</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>file_selection_get_entry.</p>
+<p>Get the text (converted in UTF-8 string) of the filename entry field of a GtkFileChooser dialog</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>filesel</em>&nbsp;</td><td>GtkFileChooser widget</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the entry string converted in UFT-8 charset. The returned string has been allocated in this function are need to be release where no more used (no need to add any my_strdup string to use it) file_selection_set_filename</dd></dl>
+<p>Set the filename property of the GtkFileChooser after having converted in the locale char set</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>filesel</em>&nbsp;</td><td>GtkFileChooser widget handle </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>utf8filename</em>&nbsp;</td><td>the string to set coded with the UTF8 charset file_selection_get_filename</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Get the filename property of the GtkFileChooser, converted in UFT-8 charset</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>filesel</em>&nbsp;</td><td>GtkFileChooser widget handle </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the filename string converted in UFT-8 charset. The returned string has been allocated in this function are need to be release where no more used (no need to add any my_strdup string to use it) </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__file__selection_8c_source.html#l00224">224</a> du fichier <a class="el" href="utils__file__selection_8c_source.html">utils_file_selection.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7ceee035264e3ea82cd7e5863650a6c3"></a><!-- doxytag: member="utils_file_selection.h::file_selection_get_last_directory" ref="a7ceee035264e3ea82cd7e5863650a6c3" args="(GtkFileChooser *filesel, gboolean ended)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* file_selection_get_last_directory </td>
+          <td>(</td>
+          <td class="paramtype">GtkFileChooser *&nbsp;</td>
+          <td class="paramname"> <em>filesel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>ended</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>file_selection_get_selections.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>filesel</em>&nbsp;</td><td>GtkFileChooser widget descriptor</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Provided the exactly the same service as gtk_file_selection_get_selections, except that the results string of the list are already coded using UTF-8 charset.</p>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>table of selected filenames (with path) using UTF8 charset</dd></dl>
+<p>The returned table is not the one returned by the gtk function but a newly allocated It should be unallocated by the caller. Use g_strfreev() to free it. file_selection_get_last_directory   should the return string be terminated by a directory separator character</p>
+<p>Get the last directory from the history pulldown menu, add or remove (depending of the ended argument) a last directory separator character at the end of the UTF8 returned string.</p>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>newly allocated utf-8 string which should be freed after no more needed. There is no need to use my_strdup before using the returned string. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__file__selection_8c_source.html#l00266">266</a> du fichier <a class="el" href="utils__file__selection_8c_source.html">utils_file_selection.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a28d01f93cf3b5c0f02cb506b15338c29"></a><!-- doxytag: member="utils_file_selection.h::file_selection_new" ref="a28d01f93cf3b5c0f02cb506b15338c29" args="(const gchar *title, const gint properties)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* file_selection_new </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>title</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gint&nbsp;</td>
+          <td class="paramname"> <em>properties</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Validate the selected filename from a GtkFileChooser</p>
+<p>If the user select or enter an existing filename, this function asks her to confirm she wants to overwrite the file.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>selection_fichier</em>&nbsp;</td><td>GtkFileChooser widget </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd><ul>
+<li>TRUE if the filename is ok (file does not exists or user confirm to overwrite it)</li>
+<li>FALSE in all other cases (filename empty, ...) Handler called by the "Save" GTKFileSelection dialog on button_ok "clicked" signal.</li>
+</ul>
+</dd></dl>
+<p>Send:</p>
+<ul>
+<li>GTK_RESPONSE_OK if the selected filename does not exists or if the user confirm the overwrite</li>
+<li>GTK_RESPONSE_NONE in all others cases. Validate the selected filename from a GtkFileChooser. Check if file exists.</li>
+</ul>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>selection_fichier</em>&nbsp;</td><td>GtkFileChooser widget </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd><ul>
+<li>TRUE if the filename is ok (file exists and is valid)</li>
+<li>FALSE in all other cases (filename empty, ...) Handler called by the "Open" GTKFileSelection dialog on button_ok "clicked" signal.</li>
+</ul>
+</dd></dl>
+<p>Send:</p>
+<ul>
+<li>GTK_RESPONSE_OK if the selected filename exists</li>
+<li>GTK_RESPONSE_NONE in all others cases. </li>
+</ul>
+
+<p>Définition à la ligne <a class="el" href="utils__file__selection_8c_source.html#l00160">160</a> du fichier <a class="el" href="utils__file__selection_8c_source.html">utils_file_selection.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

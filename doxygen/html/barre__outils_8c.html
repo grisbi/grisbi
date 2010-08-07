@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier barre_outils.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier barre_outils.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="barre__outils_8h_source.html">barre_outils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__automem_8h_source.html">gsb_automem.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="barre__outils_8c_source.html">gsb_data_import_rule.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__scheduler__list_8h_source.html">gsb_scheduler_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__buttons_8h_source.html">utils_buttons.h</a>&quot;</code><br/>
+
+<p><a href="barre__outils_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="barre__outils_8c.html#ac0082a1048984a35739d37d106617dd6">gsb_gui_update_transaction_toolbar</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="barre__outils_8c.html#ae695ec2f9683a33728d94f301b83aaa9">change_aspect_liste</a> (gint demande)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="barre__outils_8c.html#a9f1ea21cc01c1a429a23c478fc9ca868">creation_barre_outils_echeancier</a> (void)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="barre__outils_8c.html#a1333bf48291dd195210eda922d5183c4">scheduler_button_execute</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="barre__outils_8c.html#a3eb48f27c4c4fe376efa3cbccab64398">scheduler_button_delete</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="barre__outils_8c.html#aee9c73717e42febf99a7eb6a09521f3a">scheduler_button_edit</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="barre__outils_8c.html#ae624b78f586a9e3f5d60e6f2e2866819">menu_import_rules</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="barre__outils_8c.html#a268b1e31b413c512d03776ae10b8f785">barre_outils</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="barre__outils_8c.html#a148929df9268caccbe39dfef840fe42d">block_menu_cb</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkUIManager *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="barre__outils_8c.html#aa6a3b64b294a67080fe530ae293bce63">ui_manager</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>set up the toolbar </p>
+
+<p>Définition dans le fichier <a class="el" href="barre__outils_8c_source.html">barre_outils.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="ae695ec2f9683a33728d94f301b83aaa9"></a><!-- doxytag: member="barre_outils.c::change_aspect_liste" ref="ae695ec2f9683a33728d94f301b83aaa9" args="(gint demande)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean change_aspect_liste </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>demande</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="barre__outils_8c_source.html#l00328">328</a> du fichier <a class="el" href="barre__outils_8c_source.html">barre_outils.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9f1ea21cc01c1a429a23c478fc9ca868"></a><!-- doxytag: member="barre_outils.c::creation_barre_outils_echeancier" ref="a9f1ea21cc01c1a429a23c478fc9ca868" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* creation_barre_outils_echeancier </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Create the toolbar that contains all elements needed to manipulate the scheduler.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly created hbox. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="barre__outils_8c_source.html#l00490">490</a> du fichier <a class="el" href="barre__outils_8c_source.html">barre_outils.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac0082a1048984a35739d37d106617dd6"></a><!-- doxytag: member="barre_outils.c::gsb_gui_update_transaction_toolbar" ref="ac0082a1048984a35739d37d106617dd6" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_gui_update_transaction_toolbar </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="barre__outils_8c_source.html#l00191">191</a> du fichier <a class="el" href="barre__outils_8c_source.html">barre_outils.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a268b1e31b413c512d03776ae10b8f785"></a><!-- doxytag: member="barre_outils.c::barre_outils" ref="a268b1e31b413c512d03776ae10b8f785" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__transactions__list_8c.html#a268b1e31b413c512d03776ae10b8f785">barre_outils</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00124">124</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a148929df9268caccbe39dfef840fe42d"></a><!-- doxytag: member="barre_outils.c::block_menu_cb" ref="a148929df9268caccbe39dfef840fe42d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean <a class="el" href="menu_8c.html#a148929df9268caccbe39dfef840fe42d">block_menu_cb</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="menu_8c_source.html#l00083">83</a> du fichier <a class="el" href="menu_8c_source.html">menu.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae624b78f586a9e3f5d60e6f2e2866819"></a><!-- doxytag: member="barre_outils.c::menu_import_rules" ref="ae624b78f586a9e3f5d60e6f2e2866819" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="navigation_8c.html#ae624b78f586a9e3f5d60e6f2e2866819">menu_import_rules</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>the import rules button is showed or hidden if account have or no some rules so need to set in global variables </p>
+
+<p>Définition à la ligne <a class="el" href="barre__outils_8c_source.html#l00071">71</a> du fichier <a class="el" href="barre__outils_8c_source.html">barre_outils.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3eb48f27c4c4fe376efa3cbccab64398"></a><!-- doxytag: member="barre_outils.c::scheduler_button_delete" ref="a3eb48f27c4c4fe376efa3cbccab64398" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__scheduler__list_8c.html#a3eb48f27c4c4fe376efa3cbccab64398">scheduler_button_delete</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="barre__outils_8c_source.html#l00065">65</a> du fichier <a class="el" href="barre__outils_8c_source.html">barre_outils.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aee9c73717e42febf99a7eb6a09521f3a"></a><!-- doxytag: member="barre_outils.c::scheduler_button_edit" ref="aee9c73717e42febf99a7eb6a09521f3a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__scheduler__list_8c.html#aee9c73717e42febf99a7eb6a09521f3a">scheduler_button_edit</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="barre__outils_8c_source.html#l00066">66</a> du fichier <a class="el" href="barre__outils_8c_source.html">barre_outils.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1333bf48291dd195210eda922d5183c4"></a><!-- doxytag: member="barre_outils.c::scheduler_button_execute" ref="a1333bf48291dd195210eda922d5183c4" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__scheduler__list_8c.html#a1333bf48291dd195210eda922d5183c4">scheduler_button_execute</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>here are the 3 buttons on the scheduler toolbar which can been unsensitive or sensitive </p>
+
+<p>Définition à la ligne <a class="el" href="barre__outils_8c_source.html#l00064">64</a> du fichier <a class="el" href="barre__outils_8c_source.html">barre_outils.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa6a3b64b294a67080fe530ae293bce63"></a><!-- doxytag: member="barre_outils.c::ui_manager" ref="aa6a3b64b294a67080fe530ae293bce63" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkUIManager* <a class="el" href="menu_8c.html#aa6a3b64b294a67080fe530ae293bce63">ui_manager</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="menu_8c_source.html#l00084">84</a> du fichier <a class="el" href="menu_8c_source.html">menu.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

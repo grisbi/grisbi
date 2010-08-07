@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_data_category.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_data_category.h</h1><a href="gsb__data__category_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _GSB_CATEGORY_DATA_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _GSB_CATEGORY_DATA_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00005"></a>00005 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00006"></a>00006 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="comment">/* used to choose the kind of categories list */</span>
+<a name="l00009"></a><a class="code" href="gsb__data__category_8h.html#a6f62ec3bb761e85562c32b19fc8014c7">00009</a> <span class="keyword">enum</span> <a class="code" href="gsb__data__category_8h.html#a6f62ec3bb761e85562c32b19fc8014c7">category_choice_values</a> {
+<a name="l00010"></a><a class="code" href="gsb__data__category_8h.html#a6f62ec3bb761e85562c32b19fc8014c7a8d314e7ccac8139217262aed2b4b997f">00010</a>     <a class="code" href="gsb__data__category_8h.html#a6f62ec3bb761e85562c32b19fc8014c7a8d314e7ccac8139217262aed2b4b997f">CATEGORY_CHOICE_NONE</a> = 0,
+<a name="l00011"></a><a class="code" href="gsb__data__category_8h.html#a6f62ec3bb761e85562c32b19fc8014c7a2a3a380d4d007c8c7eef29e832a95dc7">00011</a>     <a class="code" href="gsb__data__category_8h.html#a6f62ec3bb761e85562c32b19fc8014c7a2a3a380d4d007c8c7eef29e832a95dc7">CATEGORY_CHOICE_DEFAULT</a>,
+<a name="l00012"></a><a class="code" href="gsb__data__category_8h.html#a6f62ec3bb761e85562c32b19fc8014c7abae1c9ae2fa1aee2061625453a140309">00012</a>     <a class="code" href="gsb__data__category_8h.html#a6f62ec3bb761e85562c32b19fc8014c7abae1c9ae2fa1aee2061625453a140309">CATEGORY_CHOICE_ASSOCIATION</a>,
+<a name="l00013"></a><a class="code" href="gsb__data__category_8h.html#a6f62ec3bb761e85562c32b19fc8014c7a20f28c72f7674cd4c5173cbea5e55efa">00013</a>     <a class="code" href="gsb__data__category_8h.html#a6f62ec3bb761e85562c32b19fc8014c7a20f28c72f7674cd4c5173cbea5e55efa">CATEGORY_CHOICE_LIBERAL</a>
+<a name="l00014"></a>00014 };
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00018"></a>00018 <span class="keywordtype">void</span> <a class="code" href="gsb__data__category_8c.html#ab0125720f46b82a2e71c823b623008d7">gsb_data_category_add_transaction_to_category</a> ( gint transaction_number,
+<a name="l00019"></a>00019                                                      gint category_id,
+<a name="l00020"></a>00020                                                      gint sub_category_id );
+<a name="l00021"></a>00021 gboolean <a class="code" href="gsb__data__category_8c.html#ab038a913b9c16fabc45e33f60ea97649">gsb_data_category_fill_transaction_by_string</a> ( gint transaction_number,
+<a name="l00022"></a>00022                         <span class="keyword">const</span> gchar *<span class="keywordtype">string</span>,
+<a name="l00023"></a>00023                         gboolean is_transaction );
+<a name="l00024"></a>00024 <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="gsb__data__category_8c.html#a102bf405f0b935f393efafaf1cf53503">gsb_data_category_get_balance</a> ( gint no_category );
+<a name="l00025"></a>00025 GSList *<a class="code" href="gsb__data__category_8c.html#a818774b4775a516ebcffe7bbea3fbaeb">gsb_data_category_get_categories_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00026"></a>00026 <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="gsb__data__category_8c.html#ab0bd6098046498d7d3de366ffc6dd177">gsb_data_category_get_direct_balance</a> ( gint no_category );
+<a name="l00027"></a>00027 gpointer <a class="code" href="gsb__data__category_8c.html#ac519a744a6487c166367b5e12fb3f2b5">gsb_data_category_get_empty_category</a> ( <span class="keywordtype">void</span> );
+<a name="l00028"></a>00028 gchar *<a class="code" href="gsb__data__category_8c.html#a615342249ac310a61000690303ce88a9">gsb_data_category_get_name</a> ( gint no_category,
+<a name="l00029"></a>00029                                     gint no_sub_category,
+<a name="l00030"></a>00030                                     <span class="keyword">const</span> gchar *return_value_error );
+<a name="l00031"></a>00031 GSList *<a class="code" href="gsb__data__category_8c.html#ac9e9466a500b7589b2b38af6ffdc9a27">gsb_data_category_get_name_list</a> ( gboolean set_debit,
+<a name="l00032"></a>00032                                           gboolean set_credit,
+<a name="l00033"></a>00033                                           gboolean set_special,
+<a name="l00034"></a>00034                                           gboolean set_split );
+<a name="l00035"></a>00035 gint <a class="code" href="gsb__data__category_8c.html#af73e48e7177061fe93a61a3d2ea8f34c">gsb_data_category_get_nb_direct_transactions</a> ( gint no_category );
+<a name="l00036"></a>00036 gint <a class="code" href="gsb__data__category_8c.html#a680b3ce8f52b52d129b7476030f28751">gsb_data_category_get_nb_transactions</a> ( gint no_category );
+<a name="l00037"></a>00037 gint <a class="code" href="gsb__data__category_8c.html#ad96f1f1ae0532eb5ae3503a79dcaa64d">gsb_data_category_get_no_category</a> ( gpointer category_ptr );
+<a name="l00038"></a>00038 gint <a class="code" href="gsb__data__category_8c.html#a55a6b25f3fe1e0c08f603308ab091d97">gsb_data_category_get_no_sub_category</a> ( gpointer sub_category_ptr );
+<a name="l00039"></a>00039 gint <a class="code" href="gsb__data__category_8c.html#a0829907fff4f8dda3487debb5f2cc43f">gsb_data_category_get_number_by_name</a> ( <span class="keyword">const</span> gchar *name,
+<a name="l00040"></a>00040                         gboolean create,
+<a name="l00041"></a>00041                                             gint category_type );
+<a name="l00042"></a>00042 gpointer <a class="code" href="gsb__data__category_8c.html#a1ea1662771313b5e9800d380eed970d2">gsb_data_category_get_structure</a> ( gint no_category );
+<a name="l00043"></a>00043 <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="gsb__data__category_8c.html#aeac932813d0fb3d2a96433c47f84360d">gsb_data_category_get_sub_category_balance</a> ( gint no_category,
+<a name="l00044"></a>00044                                                       gint no_sub_category );
+<a name="l00045"></a>00045 GSList *<a class="code" href="gsb__data__category_8c.html#a5b6c6e3288cd0e25f28dd9ac1af6979f">gsb_data_category_get_sub_category_list</a> ( gint no_category );
+<a name="l00046"></a>00046 gchar *<a class="code" href="gsb__data__category_8c.html#a3b5bc5fb4125a2e3e8df0c922cbee149">gsb_data_category_get_sub_category_name</a> ( gint no_category,
+<a name="l00047"></a>00047                                                  gint no_sub_category,
+<a name="l00048"></a>00048                                                  <span class="keyword">const</span> gchar *return_value_error );
+<a name="l00049"></a>00049 gint <a class="code" href="gsb__data__category_8c.html#a5f16d58b41f4b4278206b7a1e060989f">gsb_data_category_get_sub_category_nb_transactions</a> ( gint no_category,
+<a name="l00050"></a>00050                                                           gint no_sub_category );
+<a name="l00051"></a>00051 gint <a class="code" href="gsb__data__category_8c.html#ae7a9bf73192580090b2d710ec5a1c0f9">gsb_data_category_get_sub_category_number_by_name</a> ( gint category_number,
+<a name="l00052"></a>00052                                                          <span class="keyword">const</span> gchar *name,
+<a name="l00053"></a>00053                                                          gboolean create );
+<a name="l00054"></a>00054 gpointer <a class="code" href="gsb__data__category_8c.html#ab36a02b615d8b89789810a7f74f338cd">gsb_data_category_get_sub_category_structure</a> ( gint no_category,
+<a name="l00055"></a>00055                         gint no_sub_category );
+<a name="l00056"></a>00056 gint <a class="code" href="gsb__data__category_8c.html#ad207c5dac58f010fe8c73c4e2f2f5a58">gsb_data_category_get_type</a> ( gint no_category );
+<a name="l00057"></a>00057 gboolean <a class="code" href="gsb__data__category_8c.html#a0efec43fb6122b3f83bf71995d2a2459">gsb_data_category_init_variables</a> ( <span class="keywordtype">void</span> );
+<a name="l00058"></a>00058 gint <a class="code" href="gsb__data__category_8c.html#a007e82a8aede52e25cabd4525cdd75af">gsb_data_category_new_sub_category_with_number</a> ( gint number,
+<a name="l00059"></a>00059                         gint category_number);
+<a name="l00060"></a>00060 gint <a class="code" href="gsb__data__category_8c.html#af1200f47ea735940d984eff24c5c41ef">gsb_data_category_new_with_number</a> ( gint number );
+<a name="l00061"></a>00061 gboolean <a class="code" href="gsb__data__category_8c.html#a6c7a65577a171613fef900fc5f2a3bc3">gsb_data_category_remove</a> ( gint no_category );
+<a name="l00062"></a>00062 <span class="keywordtype">void</span> <a class="code" href="gsb__data__category_8c.html#aa19788e0032e0cac0e125c478c5a3b06">gsb_data_category_remove_transaction_from_category</a> ( gint transaction_number );
+<a name="l00063"></a>00063 gboolean <a class="code" href="gsb__data__category_8c.html#a24478d49cde92d7c4b165bd5a746aa6a">gsb_data_category_set_name</a> ( gint no_category,
+<a name="l00064"></a>00064                                       <span class="keyword">const</span> gchar *name );
+<a name="l00065"></a>00065 gboolean <a class="code" href="gsb__data__category_8c.html#aa34eb73fc8d399e770bfaf0e9dbae579">gsb_data_category_set_sub_category_name</a> ( gint no_category,
+<a name="l00066"></a>00066                                                    gint no_sub_category,
+<a name="l00067"></a>00067                                                    <span class="keyword">const</span> gchar *name );
+<a name="l00068"></a>00068 gboolean <a class="code" href="gsb__data__category_8c.html#a5378b0ca829c745cd3cd2b8c11d090fd">gsb_data_category_set_type</a> ( gint no_category,
+<a name="l00069"></a>00069                                       gint category_type );
+<a name="l00070"></a>00070 gboolean <a class="code" href="gsb__data__category_8c.html#a46cf96dd8292ede898029509cd912c13">gsb_data_category_sub_category_remove</a> ( gint no_category,
+<a name="l00071"></a>00071                         gint no_sub_category );
+<a name="l00072"></a>00072 gint <a class="code" href="gsb__data__category_8c.html#a5699c010964e46bf1579ff0b17d84242">gsb_data_category_test_create_category</a> ( gint no_category,
+<a name="l00073"></a>00073                         <span class="keyword">const</span> gchar *name,
+<a name="l00074"></a>00074                         gint category_type );
+<a name="l00075"></a>00075 gboolean <a class="code" href="gsb__data__category_8c.html#ab7e2bf16a1622e1a01729e05d081aaf6">gsb_data_category_test_create_sub_category</a> ( gint no_category,
+<a name="l00076"></a>00076                         gint no_sub_category,
+<a name="l00077"></a>00077                         <span class="keyword">const</span> gchar *name );
+<a name="l00078"></a>00078 <span class="keywordtype">void</span> <a class="code" href="gsb__data__category_8c.html#a7493a6311c8104b85359d4e5845801f5">gsb_data_category_update_counters</a> ( <span class="keywordtype">void</span> );
+<a name="l00079"></a>00079 gchar * <a class="code" href="gsb__data__category_8c.html#a77a566f97efc985ed31a709e0f999884" title="Debug check to verify if some sub categories are doubled.">gsb_debug_duplicate_categ_check</a> ();
+<a name="l00080"></a>00080 gboolean <a class="code" href="gsb__data__category_8c.html#adc32170e6ce2e5c802d70dc7e0e43085">gsb_debug_duplicate_categ_fix</a> ();
+<a name="l00081"></a>00081 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00082"></a>00082 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

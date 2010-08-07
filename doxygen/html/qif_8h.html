@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier qif.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier qif.h</h1><code>#include &quot;<a class="el" href="import_8h_source.html">import.h</a>&quot;</code><br/>
+
+<p><a href="qif_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="qif_8h.html#ab8b53b4487406e2e0358e072366a286a">gsb_qif_export_archive</a> (const gchar *filename, gint archive_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="qif_8h.html#ab66e0b31bda4d15361ec55e5bf5b285a">qif_export</a> (const gchar *filename, gint account_nb, gint archive_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="qif_8h.html#a73e30ab82ed579859c5b35895252f1ff">recuperation_donnees_qif</a> (GtkWidget *assistant, struct <a class="el" href="structimported__file.html">imported_file</a> *imported)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Import QIF data.  <a href="#a73e30ab82ed579859c5b35895252f1ff"></a><br/></td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="ab8b53b4487406e2e0358e072366a286a"></a><!-- doxytag: member="qif.h::gsb_qif_export_archive" ref="ab8b53b4487406e2e0358e072366a286a" args="(const gchar *filename, gint archive_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_qif_export_archive </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>export an archive given in param it will create 1 file per account exported, containing the transactions of the archive the name exported will be "filename-name of the account.qif"</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>filename</em>&nbsp;</td><td>a name without the extension </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE ok, FALSE pb </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="qif_8c_source.html#l00865">865</a> du fichier <a class="el" href="qif_8c_source.html">qif.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab66e0b31bda4d15361ec55e5bf5b285a"></a><!-- doxytag: member="qif.h::qif_export" ref="ab66e0b31bda4d15361ec55e5bf5b285a" args="(const gchar *filename, gint account_nb, gint archive_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean qif_export </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_nb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a qif export, according to the filename, the account and eventually, limit the export to the archive if exists this will export all the transactions of the account (except if we ask for an archive...) including the archived transactions</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>filename</em>&nbsp;</td><td>that file will be checked and ask to overwrite if needed </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>account_nb</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>if 0, just export in qif the account transactions ; if non 0, export just the transactions for that archive and account</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE ok, FALSE pb </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="qif_8c_source.html#l00956">956</a> du fichier <a class="el" href="qif_8c_source.html">qif.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a73e30ab82ed579859c5b35895252f1ff"></a><!-- doxytag: member="qif.h::recuperation_donnees_qif" ref="a73e30ab82ed579859c5b35895252f1ff" args="(GtkWidget *assistant, struct imported_file *imported)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean recuperation_donnees_qif </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>assistant</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structimported__file.html">imported_file</a> *&nbsp;</td>
+          <td class="paramname"> <em>imported</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Import QIF data. </p>
+<p>Open a QIF file and fills in data in a <a class="el" href="structstruct__compte__importation.html">struct_compte_importation</a> data structure.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>assistant</em>&nbsp;</td><td>Not used. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>imported</em>&nbsp;</td><td>A pointer to structure containing name and format of imported file.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE on success. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="qif_8c_source.html#l00094">94</a> du fichier <a class="el" href="qif_8c_source.html">qif.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de etats_config.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>etats_config.h</h1><a href="etats__config_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _ETATS_CONFIG_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _ETATS_CONFIG_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a><a class="code" href="etats__config_8h.html#a1ed152a52803941ba905e814b126abbb">00004</a> <span class="preprocessor">#define TEXT_NORMAL     (0&lt;&lt;0)</span>
+<a name="l00005"></a><a class="code" href="etats__config_8h.html#ac6a05036dfbcc5b69c4e3f9b6bbedb2a">00005</a> <span class="preprocessor"></span><span class="preprocessor">#define TEXT_BOLD       (1&lt;&lt;0)</span>
+<a name="l00006"></a><a class="code" href="etats__config_8h.html#a7000b34e44b52793133316521b6bf486">00006</a> <span class="preprocessor"></span><span class="preprocessor">#define TEXT_ITALIC     (1&lt;&lt;1)</span>
+<a name="l00007"></a><a class="code" href="etats__config_8h.html#a6da9ea675cad4cae380d40effba08953">00007</a> <span class="preprocessor"></span><span class="preprocessor">#define TEXT_HUGE       (1&lt;&lt;2)</span>
+<a name="l00008"></a><a class="code" href="etats__config_8h.html#aad16158a590754a5968d016e87369945">00008</a> <span class="preprocessor"></span><span class="preprocessor">#define TEXT_LARGE      (1&lt;&lt;3)</span>
+<a name="l00009"></a><a class="code" href="etats__config_8h.html#aa27dd4cbfa0f47509fa3248775e46a9e">00009</a> <span class="preprocessor"></span><span class="preprocessor">#define TEXT_SMALL      (1&lt;&lt;4)</span>
+<a name="l00010"></a>00010 <span class="preprocessor"></span>
+<a name="l00011"></a><a class="code" href="etats__config_8h.html#a2e661ed8f308470f78cccc12b0f8c5ce">00011</a> <span class="keyword">enum</span> <a class="code" href="etats__config_8h.html#a2e661ed8f308470f78cccc12b0f8c5ce">report_tree_columns</a> {
+<a name="l00012"></a><a class="code" href="etats__config_8h.html#a2e661ed8f308470f78cccc12b0f8c5cead37d222744c15bf2e7154badb6f7bee8">00012</a>     <a class="code" href="etats__config_8h.html#a2e661ed8f308470f78cccc12b0f8c5cead37d222744c15bf2e7154badb6f7bee8">REPORT_TREE_TEXT_COLUMN</a>,
+<a name="l00013"></a><a class="code" href="etats__config_8h.html#a2e661ed8f308470f78cccc12b0f8c5cea982e07298ec9d0be2f6c398bfae27fd2">00013</a>     <a class="code" href="etats__config_8h.html#a2e661ed8f308470f78cccc12b0f8c5cea982e07298ec9d0be2f6c398bfae27fd2">REPORT_TREE_PAGE_COLUMN</a>,
+<a name="l00014"></a><a class="code" href="etats__config_8h.html#a2e661ed8f308470f78cccc12b0f8c5ceae64b897735ac1a145e9adcbd984177c2">00014</a>     <a class="code" href="etats__config_8h.html#a2e661ed8f308470f78cccc12b0f8c5ceae64b897735ac1a145e9adcbd984177c2">REPORT_TREE_BOLD_COLUMN</a>,
+<a name="l00015"></a><a class="code" href="etats__config_8h.html#a2e661ed8f308470f78cccc12b0f8c5cea1b94f223d3957170a3c85914fdb0b2ae">00015</a>     <a class="code" href="etats__config_8h.html#a2e661ed8f308470f78cccc12b0f8c5cea1b94f223d3957170a3c85914fdb0b2ae">REPORT_TREE_ITALIC_COLUMN</a>,
+<a name="l00016"></a><a class="code" href="etats__config_8h.html#a2e661ed8f308470f78cccc12b0f8c5ceabbdb01f94973693c938bd9d6330861d8">00016</a>     <a class="code" href="etats__config_8h.html#a2e661ed8f308470f78cccc12b0f8c5ceabbdb01f94973693c938bd9d6330861d8">REPORT_TREE_NUM_COLUMNS</a>,
+<a name="l00017"></a>00017 };
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00020"></a>00020 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00023"></a>00023 <span class="keywordtype">void</span> <a class="code" href="etats__config_8c.html#a9b69a48d62d062235b3e849dbf5cd951">personnalisation_etat</a> (<span class="keywordtype">void</span>);
+<a name="l00024"></a>00024 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

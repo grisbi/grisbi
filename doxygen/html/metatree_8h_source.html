@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de metatree.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>metatree.h</h1><a href="metatree_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef METATREE_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define METATREE_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00007"></a>00007 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 
+<a name="l00011"></a><a class="code" href="structmetatree__interface.html">00011</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structmetatree__interface.html">metatree_interface</a> {
+<a name="l00012"></a><a class="code" href="structmetatree__interface.html#aace6dc61ff0a82159daceecc337ea859">00012</a>     gint <a class="code" href="structmetatree__interface.html#aace6dc61ff0a82159daceecc337ea859">depth</a>;
+<a name="l00013"></a><a class="code" href="structmetatree__interface.html#ac1c0431807412961f368e085c5725890">00013</a>     gint <a class="code" href="structmetatree__interface.html#ac1c0431807412961f368e085c5725890">content</a>;       <span class="comment">/* content of the metatree : 0 : payee, 1 : category, 2 : budget */</span>
+<a name="l00014"></a><a class="code" href="structmetatree__interface.html#a7ab40104bf2380d133fb8ea9d6b0dcd1">00014</a>     gint (* <a class="code" href="structmetatree__interface.html#a7ab40104bf2380d133fb8ea9d6b0dcd1">tree_currency</a>) ();
+<a name="l00015"></a>00015     <span class="comment">/* Read operations */</span>
+<a name="l00016"></a><a class="code" href="structmetatree__interface.html#aa9d70406fad4f1aba6e4b601bbb95a89">00016</a>     <span class="keyword">const</span> gchar * <a class="code" href="structmetatree__interface.html#aa9d70406fad4f1aba6e4b601bbb95a89">meta_name</a>;
+<a name="l00017"></a><a class="code" href="structmetatree__interface.html#a27b859e6c492a083b99ec6cde1bbfe2e">00017</a>     <span class="keyword">const</span> gchar * <a class="code" href="structmetatree__interface.html#a27b859e6c492a083b99ec6cde1bbfe2e">no_div_label</a>;
+<a name="l00018"></a><a class="code" href="structmetatree__interface.html#a92da245dbce813893cf92f748e662734">00018</a>     <span class="keyword">const</span> gchar * <a class="code" href="structmetatree__interface.html#a92da245dbce813893cf92f748e662734">no_sub_div_label</a>;
+<a name="l00019"></a><a class="code" href="structmetatree__interface.html#a68d791c4afac5c5972aafe7efcec2a11">00019</a>     gint (* <a class="code" href="structmetatree__interface.html#a68d791c4afac5c5972aafe7efcec2a11">get_without_div_pointer</a>) ();
+<a name="l00020"></a><a class="code" href="structmetatree__interface.html#a0d4a70d654cfb14fea7cc84529c9c23c">00020</a>     gint (* <a class="code" href="structmetatree__interface.html#a0d4a70d654cfb14fea7cc84529c9c23c">get_div_pointer_from_name</a>) (<span class="keyword">const</span> gchar *,gboolean);
+<a name="l00021"></a><a class="code" href="structmetatree__interface.html#ae23faf569f3cb13ce91f640d5bbe88cf">00021</a>     gint (* <a class="code" href="structmetatree__interface.html#ae23faf569f3cb13ce91f640d5bbe88cf">get_sub_div_pointer_from_name</a>) (int,<span class="keyword">const</span> gchar *,gboolean);
+<a name="l00022"></a><a class="code" href="structmetatree__interface.html#ac0d8da7081759c07c196ef81f72b7a8b">00022</a>     gint (* <a class="code" href="structmetatree__interface.html#ac0d8da7081759c07c196ef81f72b7a8b">div_nb_transactions</a>) (gint);
+<a name="l00023"></a><a class="code" href="structmetatree__interface.html#ab8ded2fa7527cee822f8210f82ea11a2">00023</a>     gint (* <a class="code" href="structmetatree__interface.html#ab8ded2fa7527cee822f8210f82ea11a2">sub_div_nb_transactions</a>) (gint ,gint);
+<a name="l00024"></a><a class="code" href="structmetatree__interface.html#afb9d91d292283c5250707d57139e3f60">00024</a>     gchar * (* div_name) (gint);
+<a name="l00025"></a><a class="code" href="structmetatree__interface.html#ad5126f6ad091ba08666844a6e082b92c">00025</a>     gchar * (* sub_div_name) (gint, gint);
+<a name="l00026"></a><a class="code" href="structmetatree__interface.html#a0b3b6060b22b0a42cb4e2f5a78447b07">00026</a>     <a class="code" href="structgsb__real.html">gsb_real</a> (* <a class="code" href="structmetatree__interface.html#a0b3b6060b22b0a42cb4e2f5a78447b07">div_balance</a>) (gint);
+<a name="l00027"></a><a class="code" href="structmetatree__interface.html#a1b24651778a74f9eebe4dbd59607f5e2">00027</a>     <a class="code" href="structgsb__real.html">gsb_real</a> (* <a class="code" href="structmetatree__interface.html#a1b24651778a74f9eebe4dbd59607f5e2">sub_div_balance</a>) (gint,gint);
+<a name="l00028"></a><a class="code" href="structmetatree__interface.html#acf4885e6b2d5fa5418d5fd1a0c46d860">00028</a>     gint (* <a class="code" href="structmetatree__interface.html#acf4885e6b2d5fa5418d5fd1a0c46d860">div_id</a>) (gpointer);
+<a name="l00029"></a><a class="code" href="structmetatree__interface.html#ac7971d65e0011bfc0884275d5ff3a0cb">00029</a>     gint (* <a class="code" href="structmetatree__interface.html#ac7971d65e0011bfc0884275d5ff3a0cb">sub_div_id</a>) (gpointer);
+<a name="l00030"></a><a class="code" href="structmetatree__interface.html#a87b80fadda4471f348d694e972370042">00030</a>     GSList * (* div_list) ();
+<a name="l00031"></a><a class="code" href="structmetatree__interface.html#a157c0657918bf598a401ea66b51200f1">00031</a>     GSList * (* div_sub_div_list) (gint);
+<a name="l00032"></a><a class="code" href="structmetatree__interface.html#a2292c27893368fbaa395205ec934db4a">00032</a>     gint (* <a class="code" href="structmetatree__interface.html#a2292c27893368fbaa395205ec934db4a">div_type</a>) (gint);
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034     <span class="comment">/* Transaction operations */</span>
+<a name="l00035"></a><a class="code" href="structmetatree__interface.html#a5cac668f9945ead5b4254c4f80b99266">00035</a>     gint (* <a class="code" href="structmetatree__interface.html#a5cac668f9945ead5b4254c4f80b99266">transaction_div_id</a>) (gint);
+<a name="l00036"></a><a class="code" href="structmetatree__interface.html#a71df7590f3837cc0abcf2ac0c8ef0669">00036</a>     gint (* <a class="code" href="structmetatree__interface.html#a71df7590f3837cc0abcf2ac0c8ef0669">transaction_sub_div_id</a>) (gint);
+<a name="l00037"></a><a class="code" href="structmetatree__interface.html#a74107bfb0474039c0dcf8cc27bfbd7b7">00037</a>     gboolean (* <a class="code" href="structmetatree__interface.html#a74107bfb0474039c0dcf8cc27bfbd7b7">transaction_set_div_id</a>) (gint, int);
+<a name="l00038"></a><a class="code" href="structmetatree__interface.html#a91a0a9e7831c6216261b9d1526b665c4">00038</a>     gboolean (* <a class="code" href="structmetatree__interface.html#a91a0a9e7831c6216261b9d1526b665c4">transaction_set_sub_div_id</a>) (gint, int);
+<a name="l00039"></a><a class="code" href="structmetatree__interface.html#ace90eff6526afed3cfea014df535b1ae">00039</a>     gint (* <a class="code" href="structmetatree__interface.html#ace90eff6526afed3cfea014df535b1ae">scheduled_div_id</a>) (int);
+<a name="l00040"></a><a class="code" href="structmetatree__interface.html#a253410a86799d63980a8da65dbea0255">00040</a>     gint (* <a class="code" href="structmetatree__interface.html#a253410a86799d63980a8da65dbea0255">scheduled_sub_div_id</a>) (int);
+<a name="l00041"></a><a class="code" href="structmetatree__interface.html#afb5a2cdac5c447733597d53024b1f68c">00041</a>     gboolean (* <a class="code" href="structmetatree__interface.html#afb5a2cdac5c447733597d53024b1f68c">scheduled_set_div_id</a>) (int, int);
+<a name="l00042"></a><a class="code" href="structmetatree__interface.html#abe96706f67f980d36cf5e0f13244b9a7">00042</a>     gboolean (* <a class="code" href="structmetatree__interface.html#abe96706f67f980d36cf5e0f13244b9a7">scheduled_set_sub_div_id</a>) (int, int);
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044     <span class="comment">/* Write operations on div */</span>
+<a name="l00045"></a><a class="code" href="structmetatree__interface.html#a646b1dc505a16f0fca45a49171890c56">00045</a>     gint (* <a class="code" href="structmetatree__interface.html#a646b1dc505a16f0fca45a49171890c56">add_div</a>) ();
+<a name="l00046"></a><a class="code" href="structmetatree__interface.html#a61b8cb425a554296258fc34eed00abb0">00046</a>     gint (* <a class="code" href="structmetatree__interface.html#a61b8cb425a554296258fc34eed00abb0">add_sub_div</a>) (int);
+<a name="l00047"></a><a class="code" href="structmetatree__interface.html#a6a09c3389c0f3b80e23addfdafca27a5">00047</a>     gboolean (* <a class="code" href="structmetatree__interface.html#a6a09c3389c0f3b80e23addfdafca27a5">remove_div</a>) (int);
+<a name="l00048"></a><a class="code" href="structmetatree__interface.html#ac69d8fde7f6e5e99923ab2848e9149f6">00048</a>     gboolean (* <a class="code" href="structmetatree__interface.html#ac69d8fde7f6e5e99923ab2848e9149f6">remove_sub_div</a>) (int,int);
+<a name="l00049"></a><a class="code" href="structmetatree__interface.html#a2be0eb2049ea2110b10501c5e27cf6e3">00049</a>     gboolean (* <a class="code" href="structmetatree__interface.html#a2be0eb2049ea2110b10501c5e27cf6e3">add_transaction_to_div</a>) (gint, int);
+<a name="l00050"></a><a class="code" href="structmetatree__interface.html#aa43e3294c308800aa226dee40f048a5b">00050</a>     void (* <a class="code" href="structmetatree__interface.html#aa43e3294c308800aa226dee40f048a5b">add_transaction_to_sub_div</a>) (gint, int, int);
+<a name="l00051"></a><a class="code" href="structmetatree__interface.html#ab4ed1f3d2bd093b428069f724e605022">00051</a>     void (* <a class="code" href="structmetatree__interface.html#ab4ed1f3d2bd093b428069f724e605022">remove_transaction_from_div</a>) (int);
+<a name="l00052"></a><a class="code" href="structmetatree__interface.html#a5cbad2e99f7615d600c16ea4cdb0a478">00052</a>     void (* <a class="code" href="structmetatree__interface.html#a5cbad2e99f7615d600c16ea4cdb0a478">remove_transaction_from_sub_div</a>) (int);
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054     <span class="comment">/* sauvegarde dernière sélection */</span>
+<a name="l00055"></a><a class="code" href="structmetatree__interface.html#af323070e902eabe028e842724a292bc7">00055</a>     gboolean (* <a class="code" href="structmetatree__interface.html#af323070e902eabe028e842724a292bc7">hold_position_set_path</a>) ( GtkTreePath *);
+<a name="l00056"></a><a class="code" href="structmetatree__interface.html#a0406d4ccfabf7ee063d4482d1365ab69">00056</a>     gboolean (* <a class="code" href="structmetatree__interface.html#a0406d4ccfabf7ee063d4482d1365ab69">hold_position_set_expand</a>) ( gboolean );
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058 } <a class="code" href="structmetatree__interface.html">MetatreeInterface</a>;
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061 <span class="comment">/* structure permettant de mémoriser la dernière sélection dans un metatree */</span>
+<a name="l00062"></a><a class="code" href="structmetatree__hold__position.html">00062</a> <span class="keyword">struct </span><a class="code" href="structmetatree__hold__position.html">metatree_hold_position</a>
+<a name="l00063"></a>00063 {
+<a name="l00064"></a><a class="code" href="structmetatree__hold__position.html#a117af8b442325dd362705fa0eb784ffa">00064</a>     GtkTreePath *<a class="code" href="structmetatree__hold__position.html#a117af8b442325dd362705fa0eb784ffa">path</a>;
+<a name="l00065"></a><a class="code" href="structmetatree__hold__position.html#a1a26e0c68691326ba8b92328eb0597ce">00065</a>     gboolean <a class="code" href="structmetatree__hold__position.html#a1a26e0c68691326ba8b92328eb0597ce">expand</a>;
+<a name="l00066"></a>00066 };
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068 
+<a name="l00069"></a><a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2">00069</a> <span class="keyword">enum</span> <a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2">meta_tree_columns</a> {
+<a name="l00070"></a><a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a6541026c0b07348fd7c678656b561435">00070</a>     <a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a6541026c0b07348fd7c678656b561435">META_TREE_TEXT_COLUMN</a>,
+<a name="l00071"></a><a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a20782eac9d70d22ccf33d451750c2d89">00071</a>     <a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a20782eac9d70d22ccf33d451750c2d89">META_TREE_ACCOUNT_COLUMN</a>,
+<a name="l00072"></a><a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a458db84506df49cd57ac03f90e32c004">00072</a>     <a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a458db84506df49cd57ac03f90e32c004">META_TREE_BALANCE_COLUMN</a>,
+<a name="l00073"></a>00073     <span class="comment">/* this is the number of the current row : either number of categ/budget/payee,</span>
+<a name="l00074"></a>00074 <span class="comment">     * either number of sub-categ/sub-budget,</span>
+<a name="l00075"></a>00075 <span class="comment">     * either number of transaction */</span>
+<a name="l00076"></a><a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a9912bc6c28228594476f774e90149037">00076</a>     <a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a9912bc6c28228594476f774e90149037">META_TREE_POINTER_COLUMN</a>,
+<a name="l00077"></a>00077     <span class="comment">/* number of categ/budget */</span>
+<a name="l00078"></a><a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a6486ed23c06665da89b546957582c6f7">00078</a>     <a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a6486ed23c06665da89b546957582c6f7">META_TREE_NO_DIV_COLUMN</a>,
+<a name="l00079"></a>00079     <span class="comment">/* number of the sub-categ/sub-budget */</span>
+<a name="l00080"></a><a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2ad19252411e2a460780777e5a4c91a7e4">00080</a>     <a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2ad19252411e2a460780777e5a4c91a7e4">META_TREE_NO_SUB_DIV_COLUMN</a>,
+<a name="l00081"></a>00081     <span class="comment">/* number of the transaction */</span>
+<a name="l00082"></a><a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a8033f104da101cc3494f8d4258c27081">00082</a>     <a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a8033f104da101cc3494f8d4258c27081">META_TREE_NO_TRANSACTION_COLUMN</a>,
+<a name="l00083"></a><a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a3ad9e953a2d19c62407870237977b8da">00083</a>     <a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a3ad9e953a2d19c62407870237977b8da">META_TREE_FONT_COLUMN</a>,
+<a name="l00084"></a><a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a0d0e34fb0ee186d989553b132f7c882a">00084</a>     <a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2a0d0e34fb0ee186d989553b132f7c882a">META_TREE_XALIGN_COLUMN</a>,
+<a name="l00085"></a><a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2aaa88c3353f42ab06d5bec7fdde7f0d82">00085</a>     <a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2aaa88c3353f42ab06d5bec7fdde7f0d82">META_TREE_DATE_COLUMN</a>,
+<a name="l00086"></a><a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2afa291b4a4ef4b884ecd76922c437f128">00086</a>     <a class="code" href="metatree_8h.html#a04ce977810b694b004b149516fa84bd2afa291b4a4ef4b884ecd76922c437f128">META_TREE_NUM_COLUMNS</a>,
+<a name="l00087"></a>00087 }; 
+<a name="l00088"></a>00088 
+<a name="l00089"></a><a class="code" href="metatree_8h.html#acc2996a84280f2cdb9c0c08d167e49bc">00089</a> <span class="keyword">enum</span> <a class="code" href="metatree_8h.html#acc2996a84280f2cdb9c0c08d167e49bc">meta_tree_row_type</a> {
+<a name="l00090"></a><a class="code" href="metatree_8h.html#acc2996a84280f2cdb9c0c08d167e49bcae1b805871bec592f183eff29e2979f6f">00090</a>     <a class="code" href="metatree_8h.html#acc2996a84280f2cdb9c0c08d167e49bcae1b805871bec592f183eff29e2979f6f">META_TREE_DIV</a>,
+<a name="l00091"></a><a class="code" href="metatree_8h.html#acc2996a84280f2cdb9c0c08d167e49bca40a9f45dad68e4ded064e74193535d35">00091</a>     <a class="code" href="metatree_8h.html#acc2996a84280f2cdb9c0c08d167e49bca40a9f45dad68e4ded064e74193535d35">META_TREE_SUB_DIV</a>,
+<a name="l00092"></a><a class="code" href="metatree_8h.html#acc2996a84280f2cdb9c0c08d167e49bca955b4d7c13971ab9f650723230a44772">00092</a>     <a class="code" href="metatree_8h.html#acc2996a84280f2cdb9c0c08d167e49bca955b4d7c13971ab9f650723230a44772">META_TREE_TRANSACTION</a>,
+<a name="l00093"></a><a class="code" href="metatree_8h.html#acc2996a84280f2cdb9c0c08d167e49bca4e73d5fa16e732a7bec76713962e69db">00093</a>     <a class="code" href="metatree_8h.html#acc2996a84280f2cdb9c0c08d167e49bca4e73d5fa16e732a7bec76713962e69db">META_TREE_INVALID</a>,
+<a name="l00094"></a>00094 };
+<a name="l00095"></a>00095 
+<a name="l00096"></a><a class="code" href="metatree_8h.html#afa11a24cb7d209be15b8c9092a7d0b91">00096</a> <span class="preprocessor">#define META_TREE_COLUMN_TYPES G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, \</span>
+<a name="l00097"></a>00097 <span class="preprocessor">                                 G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, \</span>
+<a name="l00098"></a>00098 <span class="preprocessor">                                 G_TYPE_INT, G_TYPE_FLOAT, G_TYPE_POINTER</span>
+<a name="l00099"></a>00099 <span class="preprocessor"></span>
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101 <span class="comment">/*START_DECLARATION*/</span>
+<a name="l00102"></a>00102 <span class="keywordtype">void</span> <a class="code" href="metatree_8c.html#adc51b18c5d2db6840fe918ca84067139">appui_sur_ajout_sub_division</a> ( GtkTreeModel * model );
+<a name="l00103"></a>00103 gboolean <a class="code" href="metatree_8c.html#a2016821cfa93c13034c3934f60b39473">division_activated</a> ( GtkTreeView * treeview, GtkTreePath * path,
+<a name="l00104"></a>00104                         GtkTreeViewColumn * col, gpointer userdata );
+<a name="l00105"></a>00105 gboolean <a class="code" href="metatree_8c.html#ad695aea21eec466bbace0cd9a26067f9">division_column_expanded</a>  ( GtkTreeView * treeview, GtkTreeIter * iter, 
+<a name="l00106"></a>00106                         GtkTreePath * tree_path, gpointer user_data ) ;
+<a name="l00107"></a>00107 gboolean <a class="code" href="metatree_8c.html#a77e243b108bde662e9dced05ccef86b8">division_drag_data_received</a> ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
+<a name="l00108"></a>00108                         GtkSelectionData * selection_data );
+<a name="l00109"></a>00109 gboolean <a class="code" href="metatree_8c.html#a6be29e102e03a967453310f0224dd450">division_row_drop_possible</a> ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
+<a name="l00110"></a>00110                         GtkSelectionData * selection_data );
+<a name="l00111"></a>00111 <span class="keywordtype">void</span> <a class="code" href="metatree_8c.html#a69bc59e1ce9e70ce93b4206aed12d7f3">expand_arbre_division</a> ( GtkWidget *bouton, gint depth );
+<a name="l00112"></a>00112 <span class="keywordtype">void</span> <a class="code" href="metatree_8c.html#a3a39c8d7bec94526c1ce601db6bc0767">fill_division_row</a> ( GtkTreeModel * model, <a class="code" href="structmetatree__interface.html">MetatreeInterface</a> * iface, 
+<a name="l00113"></a>00113                         GtkTreeIter * iter, gint division );
+<a name="l00114"></a>00114 <span class="keywordtype">void</span> <a class="code" href="metatree_8c.html#a1fcb870c7265355b6468ce6cf4c16d6c">fill_sub_division_row</a> ( GtkTreeModel * model, <a class="code" href="structmetatree__interface.html">MetatreeInterface</a> * iface, 
+<a name="l00115"></a>00115                         GtkTreeIter * iter,
+<a name="l00116"></a>00116                         gint division,
+<a name="l00117"></a>00117                         gint sub_division );
+<a name="l00118"></a>00118 GtkTreeIter *<a class="code" href="metatree_8c.html#a88d6f9df7068417b2e7be60fd1968a1a">get_iter_from_div</a> ( GtkTreeModel * model, <span class="keywordtype">int</span> div, <span class="keywordtype">int</span> sub_div );
+<a name="l00119"></a>00119 <span class="keywordtype">void</span> <a class="code" href="metatree_8c.html#a9d3ab11aa08343d4770b2baec4ae159b">metatree_new_division</a> ( GtkTreeModel * model );
+<a name="l00120"></a>00120 <span class="keywordtype">void</span> <a class="code" href="metatree_8c.html#a84b23abc85668cd5270c2a36e2670668">metatree_register_widget_as_linked</a> ( GtkTreeModel * model,
+<a name="l00121"></a>00121                         GtkWidget * widget,
+<a name="l00122"></a>00122                         gchar * link_type );
+<a name="l00123"></a>00123 <span class="keywordtype">void</span> <a class="code" href="metatree_8c.html#a65e380c4327a404b4d9686292e8e8e6e">metatree_remove_transaction</a> ( GtkTreeView * tree_view,
+<a name="l00124"></a>00124                         <a class="code" href="structmetatree__interface.html">MetatreeInterface</a> * iface, 
+<a name="l00125"></a>00125                         gint transaction,
+<a name="l00126"></a>00126                         gboolean delete_transaction );
+<a name="l00127"></a>00127 gboolean <a class="code" href="metatree_8c.html#af2fb2eaf7cbecb065aa16959047b9f6d">metatree_selection_changed</a> ( GtkTreeSelection * selection, GtkTreeModel * model );
+<a name="l00128"></a>00128 <span class="keywordtype">void</span> <a class="code" href="metatree_8c.html#a5d0b0e8fc74bc89dc56d5fe7a45c22a9">metatree_set_linked_widgets_sensitive</a> ( GtkTreeModel * model,
+<a name="l00129"></a>00129                         gboolean sensitive,
+<a name="l00130"></a>00130                         gchar * link_type );
+<a name="l00131"></a>00131 gboolean <a class="code" href="metatree_8c.html#aed0f925684f06f89a0fedaf4d4a9ad11">metatree_sort_column</a>  ( GtkTreeModel * model,
+<a name="l00132"></a>00132                         GtkTreeIter * a, GtkTreeIter * b,
+<a name="l00133"></a>00133                         gpointer user_data );
+<a name="l00134"></a>00134 gboolean <a class="code" href="metatree_8c.html#a60d43ade0aa1dad68c8b3d87c5200dd1">supprimer_division</a> ( GtkTreeView * tree_view );
+<a name="l00135"></a>00135 <span class="keywordtype">void</span> <a class="code" href="metatree_8c.html#afd46b955f542c4091bce75608dcc8504">update_transaction_in_tree</a> ( <a class="code" href="structmetatree__interface.html">MetatreeInterface</a> * iface, 
+<a name="l00136"></a>00136                         GtkTreeModel * model, 
+<a name="l00137"></a>00137                         gint transaction_number );
+<a name="l00138"></a>00138 <span class="comment">/*END_DECLARATION*/</span>
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,75 @@
+\section{Référence du fichier affichage.h}
+\label{affichage_8h}\index{affichage.h@{affichage.h}}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-display\_\-addresses} (void)
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-display\_\-fonts} (void)
+\item 
+GtkWidget $\ast$ {\bf tab\_\-display\_\-toolbar} (void)
+\item 
+gboolean {\bf update\_\-homepage\_\-title} (GtkEntry $\ast$entry, gchar $\ast$value, gint length, gint $\ast$position)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{affichage.h@{affichage.h}!onglet\_\-display\_\-addresses@{onglet\_\-display\_\-addresses}}
+\index{onglet\_\-display\_\-addresses@{onglet\_\-display\_\-addresses}!affichage.h@{affichage.h}}
+\subsubsection[{onglet\_\-display\_\-addresses}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-display\_\-addresses (void)}\label{affichage_8h_a8188edfa1a69ab92d5aee186855442b8}
+Creates the \char`\"{}Titles \& Addresses\char`\"{} tab. This tab is mainly composed of text entries and editables.
+
+\begin{DoxyReturn}{Renvoie}
+A newly allocated vbox 
+\end{DoxyReturn}
+
+
+\begin{DoxyNote}{Note}
+This is not implemented yet 
+\end{DoxyNote}
+
+
+
+
+Définition à la ligne 363 du fichier affichage.c.
+
+\index{affichage.h@{affichage.h}!onglet\_\-display\_\-fonts@{onglet\_\-display\_\-fonts}}
+\index{onglet\_\-display\_\-fonts@{onglet\_\-display\_\-fonts}!affichage.h@{affichage.h}}
+\subsubsection[{onglet\_\-display\_\-fonts}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-display\_\-fonts (void)}\label{affichage_8h_ab7ab35642d20a97b0129dc7df997c989}
+Creates the \char`\"{}Fonts \& logo\char`\"{} tab. This function creates some buttons that are borrowed from applications like gedit.
+
+\begin{DoxyReturn}{Renvoie}
+A newly allocated vbox 
+\end{DoxyReturn}
+
+
+Définition à la ligne 132 du fichier affichage.c.
+
+\index{affichage.h@{affichage.h}!tab\_\-display\_\-toolbar@{tab\_\-display\_\-toolbar}}
+\index{tab\_\-display\_\-toolbar@{tab\_\-display\_\-toolbar}!affichage.h@{affichage.h}}
+\subsubsection[{tab\_\-display\_\-toolbar}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ tab\_\-display\_\-toolbar (void)}\label{affichage_8h_ad383c9540bfca50409800d2d9869c3ac}
+Create a vbox containing widgets allowing to change aspects of toolbar buttons.
+
+\begin{DoxyReturn}{Renvoie}
+A newly created vbox. 
+\end{DoxyReturn}
+
+
+TODO: really add option to hide toolbar? This could save space, but if so, we should add all equivalents to menus. 
+
+
+
+Définition à la ligne 723 du fichier affichage.c.
+
+\index{affichage.h@{affichage.h}!update\_\-homepage\_\-title@{update\_\-homepage\_\-title}}
+\index{update\_\-homepage\_\-title@{update\_\-homepage\_\-title}!affichage.h@{affichage.h}}
+\subsubsection[{update\_\-homepage\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}gboolean update\_\-homepage\_\-title (GtkEntry $\ast$ {\em entry}, \/  gchar $\ast$ {\em value}, \/  gint {\em length}, \/  gint $\ast$ {\em position})}\label{affichage_8h_a540ad020b9ea9514f836a69f20e412cd}
+Update the label that contain main title in homepage.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]Widget that triggered this handled. Not used. \item[{\em value}]Not used handler parameter. \item[{\em length}]Not used handler parameter. \item[{\em position}]Not used handler parameter. \end{DoxyParams}
+
+
+Définition à la ligne 661 du fichier affichage.c.
+

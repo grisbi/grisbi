@@ -1,0 +1,549 @@
+\section{Référence du fichier etats\_\-config.c}
+\label{etats__config_8c}\index{etats\_\-config.c@{etats\_\-config.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}etats\_\-config.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}etats\_\-calculs.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}tiers\_\-onglet.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-calendar\_\-entry.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-budget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-category.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payee.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payment.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-report\_\-amout\_\-comparison.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-report.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-report\_\-text\_\-comparison.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}fenetre\_\-principale.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \par
+{\bf REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NAME} =  0, 
+{\bf REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-ACTIVE}, 
+{\bf REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-ACTIVATABLE}, 
+{\bf REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NUMBER}, 
+\par
+{\bf REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-SUB\_\-NUMBER}, 
+{\bf REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NB}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf personnalisation\_\-etat} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+gchar $\ast$ {\bf liste\_\-plages\_\-dates} [$\,$]
+\item 
+gchar $\ast$ {\bf jours\_\-semaine} [$\,$]
+\item 
+gint {\bf ancienne\_\-ib\_\-etat}
+\item 
+gint {\bf ancienne\_\-sous\_\-ib\_\-etat}
+\item 
+gint {\bf ancienne\_\-categ\_\-etat}
+\item 
+gint {\bf ancienne\_\-categ\_\-speciale\_\-etat}
+\item 
+gint {\bf ancienne\_\-sous\_\-categ\_\-etat}
+\item 
+gint {\bf ancien\_\-compte\_\-etat}
+\item 
+gint {\bf ancien\_\-tiers\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-categ\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-sous\_\-categ\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-ib\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-sous\_\-ib\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-compte\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-tiers\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-periode\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-exo\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-categ\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-sous\_\-categ\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-ib\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-sous\_\-ib\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-compte\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-tiers\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-periode\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-exo\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-general\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-partie\_\-etat}
+\item 
+GDate $\ast$ {\bf date\_\-debut\_\-periode}
+\item 
+gint {\bf exo\_\-en\_\-cours\_\-etat}
+\item 
+gint {\bf changement\_\-de\_\-groupe\_\-etat}
+\item 
+gint {\bf debut\_\-affichage\_\-etat}
+\item 
+gint {\bf devise\_\-compte\_\-en\_\-cours\_\-etat}
+\item 
+gint {\bf devise\_\-categ\_\-etat}
+\item 
+gint {\bf devise\_\-ib\_\-etat}
+\item 
+gint {\bf devise\_\-tiers\_\-etat}
+\item 
+gint {\bf devise\_\-generale\_\-etat}
+\item 
+const gchar $\ast$ {\bf nom\_\-categ\_\-en\_\-cours}
+\item 
+const gchar $\ast$ {\bf nom\_\-ss\_\-categ\_\-en\_\-cours}
+\item 
+const gchar $\ast$ {\bf nom\_\-ib\_\-en\_\-cours}
+\item 
+const gchar $\ast$ {\bf nom\_\-ss\_\-ib\_\-en\_\-cours}
+\item 
+const gchar $\ast$ {\bf nom\_\-compte\_\-en\_\-cours}
+\item 
+const gchar $\ast$ {\bf nom\_\-tiers\_\-en\_\-cours}
+\item 
+gint {\bf titres\_\-affiches}
+\item 
+GtkWidget $\ast$ {\bf navigation\_\-tree\_\-view}
+\item 
+GtkWidget $\ast$ {\bf notebook\_\-config\_\-etat}
+\item 
+GtkWidget $\ast$ {\bf notebook\_\-etats}
+\item 
+GtkWidget $\ast$ {\bf notebook\_\-general}
+\item 
+GtkWidget $\ast$ {\bf window}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation du type de l'énumération}
+\subsubsection[{"@1}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}\label{etats__config_8c_adf764cbdea00d65edcd07bb9953ad2b7}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NAME@{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NAME}!etats\_\-config.c@{etats\_\-config.c}}\index{etats\_\-config.c@{etats\_\-config.c}!REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NAME@{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NAME}}\item[{\em 
+REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NAME\label{etats__config_8c_adf764cbdea00d65edcd07bb9953ad2b7addc503a22071b40d184ea0401daf9339}
+}]\index{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-ACTIVE@{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-ACTIVE}!etats\_\-config.c@{etats\_\-config.c}}\index{etats\_\-config.c@{etats\_\-config.c}!REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-ACTIVE@{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-ACTIVE}}\item[{\em 
+REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-ACTIVE\label{etats__config_8c_adf764cbdea00d65edcd07bb9953ad2b7ac8591acd1831c92457cd37edb5814bbc}
+}]\index{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-ACTIVATABLE@{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-ACTIVATABLE}!etats\_\-config.c@{etats\_\-config.c}}\index{etats\_\-config.c@{etats\_\-config.c}!REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-ACTIVATABLE@{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-ACTIVATABLE}}\item[{\em 
+REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-ACTIVATABLE\label{etats__config_8c_adf764cbdea00d65edcd07bb9953ad2b7a29d8416f73ac314b297915363e7d5ed5}
+}]\index{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NUMBER@{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NUMBER}!etats\_\-config.c@{etats\_\-config.c}}\index{etats\_\-config.c@{etats\_\-config.c}!REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NUMBER@{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NUMBER}}\item[{\em 
+REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NUMBER\label{etats__config_8c_adf764cbdea00d65edcd07bb9953ad2b7a6f68c5cac057b4ca5aa962c72a7bdcc9}
+}]\index{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-SUB\_\-NUMBER@{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-SUB\_\-NUMBER}!etats\_\-config.c@{etats\_\-config.c}}\index{etats\_\-config.c@{etats\_\-config.c}!REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-SUB\_\-NUMBER@{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-SUB\_\-NUMBER}}\item[{\em 
+REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-SUB\_\-NUMBER\label{etats__config_8c_adf764cbdea00d65edcd07bb9953ad2b7aa2972713d581d3fa10f20305368d0e2f}
+}]\index{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NB@{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NB}!etats\_\-config.c@{etats\_\-config.c}}\index{etats\_\-config.c@{etats\_\-config.c}!REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NB@{REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NB}}\item[{\em 
+REPORT\_\-CATEG\_\-BUDGET\_\-LIST\_\-NB\label{etats__config_8c_adf764cbdea00d65edcd07bb9953ad2b7a277c6e5e02c7dd70756f9fed8c4e7f9d}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 159 du fichier etats\_\-config.c.
+
+
+
+\subsection{Documentation des fonctions}
+\index{etats\_\-config.c@{etats\_\-config.c}!personnalisation\_\-etat@{personnalisation\_\-etat}}
+\index{personnalisation\_\-etat@{personnalisation\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{personnalisation\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}void personnalisation\_\-etat (void)}\label{etats__config_8c_a9b69a48d62d062235b3e849dbf5cd951}
+
+
+Définition à la ligne 381 du fichier etats\_\-config.c.
+
+
+
+\subsection{Documentation des variables}
+\index{etats\_\-config.c@{etats\_\-config.c}!ancien\_\-compte\_\-etat@{ancien\_\-compte\_\-etat}}
+\index{ancien\_\-compte\_\-etat@{ancien\_\-compte\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{ancien\_\-compte\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ancien\_\-compte\_\-etat}}\label{etats__config_8c_aa963ebc8f70f33f5f763428e5b60223d}
+
+
+Définition à la ligne 314 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!ancien\_\-tiers\_\-etat@{ancien\_\-tiers\_\-etat}}
+\index{ancien\_\-tiers\_\-etat@{ancien\_\-tiers\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{ancien\_\-tiers\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ancien\_\-tiers\_\-etat}}\label{etats__config_8c_a5b4b5a3cce8adc2c0f8d26b99a6ac237}
+
+
+Définition à la ligne 315 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!ancienne\_\-categ\_\-etat@{ancienne\_\-categ\_\-etat}}
+\index{ancienne\_\-categ\_\-etat@{ancienne\_\-categ\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{ancienne\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ancienne\_\-categ\_\-etat}}\label{etats__config_8c_a27ae89b8d957ad090d865123d0140660}
+
+
+Définition à la ligne 311 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!ancienne\_\-categ\_\-speciale\_\-etat@{ancienne\_\-categ\_\-speciale\_\-etat}}
+\index{ancienne\_\-categ\_\-speciale\_\-etat@{ancienne\_\-categ\_\-speciale\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{ancienne\_\-categ\_\-speciale\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ancienne\_\-categ\_\-speciale\_\-etat}}\label{etats__config_8c_a272b0e6e10dda1b35e50300cd610cfd1}
+
+
+Définition à la ligne 312 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!ancienne\_\-ib\_\-etat@{ancienne\_\-ib\_\-etat}}
+\index{ancienne\_\-ib\_\-etat@{ancienne\_\-ib\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{ancienne\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ancienne\_\-ib\_\-etat}}\label{etats__config_8c_a7ec62d3e029ce7a90e4a2bbe363c4fe0}
+
+
+Définition à la ligne 309 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!ancienne\_\-sous\_\-categ\_\-etat@{ancienne\_\-sous\_\-categ\_\-etat}}
+\index{ancienne\_\-sous\_\-categ\_\-etat@{ancienne\_\-sous\_\-categ\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{ancienne\_\-sous\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ancienne\_\-sous\_\-categ\_\-etat}}\label{etats__config_8c_a5542f5d3ecd5af99198cd9bf67a9ff71}
+
+
+Définition à la ligne 313 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!ancienne\_\-sous\_\-ib\_\-etat@{ancienne\_\-sous\_\-ib\_\-etat}}
+\index{ancienne\_\-sous\_\-ib\_\-etat@{ancienne\_\-sous\_\-ib\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{ancienne\_\-sous\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ancienne\_\-sous\_\-ib\_\-etat}}\label{etats__config_8c_ab576c21677f0ca665531b1f8db06b724}
+
+
+Définition à la ligne 310 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!changement\_\-de\_\-groupe\_\-etat@{changement\_\-de\_\-groupe\_\-etat}}
+\index{changement\_\-de\_\-groupe\_\-etat@{changement\_\-de\_\-groupe\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{changement\_\-de\_\-groupe\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf changement\_\-de\_\-groupe\_\-etat}}\label{etats__config_8c_a68a05b085bd2003ba74b209e997cf8a1}
+
+
+Définition à la ligne 336 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!date\_\-debut\_\-periode@{date\_\-debut\_\-periode}}
+\index{date\_\-debut\_\-periode@{date\_\-debut\_\-periode}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{date\_\-debut\_\-periode}]{\setlength{\rightskip}{0pt plus 5cm}GDate$\ast$ {\bf date\_\-debut\_\-periode}}\label{etats__config_8c_a7cae10e43ecf35e09ff52cb168a4a18c}
+
+
+Définition à la ligne 334 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!debut\_\-affichage\_\-etat@{debut\_\-affichage\_\-etat}}
+\index{debut\_\-affichage\_\-etat@{debut\_\-affichage\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{debut\_\-affichage\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf debut\_\-affichage\_\-etat}}\label{etats__config_8c_a5467b112388c669f4170b0d644627bdf}
+
+
+Définition à la ligne 337 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!devise\_\-categ\_\-etat@{devise\_\-categ\_\-etat}}
+\index{devise\_\-categ\_\-etat@{devise\_\-categ\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{devise\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf devise\_\-categ\_\-etat}}\label{etats__config_8c_adaa4a489115440e4b626aa3b62a426e3}
+
+
+Définition à la ligne 339 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!devise\_\-compte\_\-en\_\-cours\_\-etat@{devise\_\-compte\_\-en\_\-cours\_\-etat}}
+\index{devise\_\-compte\_\-en\_\-cours\_\-etat@{devise\_\-compte\_\-en\_\-cours\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{devise\_\-compte\_\-en\_\-cours\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf devise\_\-compte\_\-en\_\-cours\_\-etat}}\label{etats__config_8c_a422822312d2318e4dcc89876b272190f}
+
+
+Définition à la ligne 338 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!devise\_\-generale\_\-etat@{devise\_\-generale\_\-etat}}
+\index{devise\_\-generale\_\-etat@{devise\_\-generale\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{devise\_\-generale\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf devise\_\-generale\_\-etat}}\label{etats__config_8c_ac386cfcb130eaec7498c754733b118df}
+
+
+Définition à la ligne 342 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!devise\_\-ib\_\-etat@{devise\_\-ib\_\-etat}}
+\index{devise\_\-ib\_\-etat@{devise\_\-ib\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{devise\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf devise\_\-ib\_\-etat}}\label{etats__config_8c_a98f915576da9142adfe793e027729e2a}
+
+
+Définition à la ligne 340 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!devise\_\-tiers\_\-etat@{devise\_\-tiers\_\-etat}}
+\index{devise\_\-tiers\_\-etat@{devise\_\-tiers\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{devise\_\-tiers\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf devise\_\-tiers\_\-etat}}\label{etats__config_8c_ade4d3d82f703c4de9afda7c90b2235c0}
+
+
+Définition à la ligne 341 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!exo\_\-en\_\-cours\_\-etat@{exo\_\-en\_\-cours\_\-etat}}
+\index{exo\_\-en\_\-cours\_\-etat@{exo\_\-en\_\-cours\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{exo\_\-en\_\-cours\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf exo\_\-en\_\-cours\_\-etat}}\label{etats__config_8c_a56b05d8c0d7da3d30651f195bb372762}
+
+
+Définition à la ligne 335 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!jours\_\-semaine@{jours\_\-semaine}}
+\index{jours\_\-semaine@{jours\_\-semaine}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{jours\_\-semaine}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf jours\_\-semaine}[$\,$]}\label{etats__config_8c_ac315591e8b0b5daecd30327b0a2224bf}
+{\bfseries Valeur initiale :}
+\begin{DoxyCode}
+ {
+    N_("Monday"),
+    N_("Tuesday"),
+    N_("Wednesday"),
+    N_("Thursday"),
+    N_("Friday"),
+    N_("Saturday"),
+    N_("Sunday"),
+    NULL }
+\end{DoxyCode}
+
+
+Définition à la ligne 193 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!liste\_\-plages\_\-dates@{liste\_\-plages\_\-dates}}
+\index{liste\_\-plages\_\-dates@{liste\_\-plages\_\-dates}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{liste\_\-plages\_\-dates}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf liste\_\-plages\_\-dates}[$\,$]}\label{etats__config_8c_ab8e3ed1424ff4242d1e9df58aad68eb1}
+{\bfseries Valeur initiale :}
+\begin{DoxyCode}
+ {
+    N_("All"),
+    N_("Custom"),
+    N_("Total to now"),
+    N_("Current month"),
+    N_("Current year"),
+    N_("Current month to now"),
+    N_("Current year to now"),
+    N_("Previous month"),
+    N_("Previous year"),
+    N_("Last 30 days"),
+    N_("Last 3 months"),
+    N_("Last 6 months"),
+    N_("Last 12 months"),
+    NULL }
+\end{DoxyCode}
+
+
+Définition à la ligne 177 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!montant\_\-categ\_\-etat@{montant\_\-categ\_\-etat}}
+\index{montant\_\-categ\_\-etat@{montant\_\-categ\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{montant\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-categ\_\-etat}}\label{etats__config_8c_afc4d1cbfa38b987f27933ddccd51598b}
+
+
+Définition à la ligne 316 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!montant\_\-compte\_\-etat@{montant\_\-compte\_\-etat}}
+\index{montant\_\-compte\_\-etat@{montant\_\-compte\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{montant\_\-compte\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-compte\_\-etat}}\label{etats__config_8c_ae5577643c4652cb316b536fe589be57a}
+
+
+Définition à la ligne 320 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!montant\_\-exo\_\-etat@{montant\_\-exo\_\-etat}}
+\index{montant\_\-exo\_\-etat@{montant\_\-exo\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{montant\_\-exo\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-exo\_\-etat}}\label{etats__config_8c_abf2d51bfad45c9a5e7e75400c92778a2}
+
+
+Définition à la ligne 323 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!montant\_\-ib\_\-etat@{montant\_\-ib\_\-etat}}
+\index{montant\_\-ib\_\-etat@{montant\_\-ib\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{montant\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-ib\_\-etat}}\label{etats__config_8c_a73e02b2358ae86d87963134245729348}
+
+
+Définition à la ligne 318 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!montant\_\-periode\_\-etat@{montant\_\-periode\_\-etat}}
+\index{montant\_\-periode\_\-etat@{montant\_\-periode\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{montant\_\-periode\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-periode\_\-etat}}\label{etats__config_8c_aed8c8e6d4a199c152eae898166a2e34a}
+
+
+Définition à la ligne 322 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!montant\_\-sous\_\-categ\_\-etat@{montant\_\-sous\_\-categ\_\-etat}}
+\index{montant\_\-sous\_\-categ\_\-etat@{montant\_\-sous\_\-categ\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{montant\_\-sous\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-sous\_\-categ\_\-etat}}\label{etats__config_8c_ab5c074fe2fc567694fbe4a2cf3ca86b9}
+
+
+Définition à la ligne 317 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!montant\_\-sous\_\-ib\_\-etat@{montant\_\-sous\_\-ib\_\-etat}}
+\index{montant\_\-sous\_\-ib\_\-etat@{montant\_\-sous\_\-ib\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{montant\_\-sous\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-sous\_\-ib\_\-etat}}\label{etats__config_8c_ab5efab0379678fac2d20097c5eef106a}
+
+
+Définition à la ligne 319 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!montant\_\-tiers\_\-etat@{montant\_\-tiers\_\-etat}}
+\index{montant\_\-tiers\_\-etat@{montant\_\-tiers\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{montant\_\-tiers\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-tiers\_\-etat}}\label{etats__config_8c_aae854ba19cf7827f321f3282a9f4b0c2}
+
+
+Définition à la ligne 321 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!navigation\_\-tree\_\-view@{navigation\_\-tree\_\-view}}
+\index{navigation\_\-tree\_\-view@{navigation\_\-tree\_\-view}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{navigation\_\-tree\_\-view}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf navigation\_\-tree\_\-view}}\label{etats__config_8c_a1cd17e8b2fd91a191f8d5d6a7e5f6979}
+Navigation tree view. 
+
+Définition à la ligne 115 du fichier navigation.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nb\_\-ope\_\-categ\_\-etat@{nb\_\-ope\_\-categ\_\-etat}}
+\index{nb\_\-ope\_\-categ\_\-etat@{nb\_\-ope\_\-categ\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nb\_\-ope\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-categ\_\-etat}}\label{etats__config_8c_ae6985b862a00ba2b027e1563864be011}
+
+
+Définition à la ligne 324 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nb\_\-ope\_\-compte\_\-etat@{nb\_\-ope\_\-compte\_\-etat}}
+\index{nb\_\-ope\_\-compte\_\-etat@{nb\_\-ope\_\-compte\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nb\_\-ope\_\-compte\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-compte\_\-etat}}\label{etats__config_8c_a1b11951d1a56f8c68f55c0fa1cb0c1c7}
+
+
+Définition à la ligne 328 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nb\_\-ope\_\-exo\_\-etat@{nb\_\-ope\_\-exo\_\-etat}}
+\index{nb\_\-ope\_\-exo\_\-etat@{nb\_\-ope\_\-exo\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nb\_\-ope\_\-exo\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-exo\_\-etat}}\label{etats__config_8c_a4b03672e73353edd27cc31fb88ff998c}
+
+
+Définition à la ligne 331 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nb\_\-ope\_\-general\_\-etat@{nb\_\-ope\_\-general\_\-etat}}
+\index{nb\_\-ope\_\-general\_\-etat@{nb\_\-ope\_\-general\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nb\_\-ope\_\-general\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-general\_\-etat}}\label{etats__config_8c_ac17ce010b9f2b380c122b90b4059fb7b}
+
+
+Définition à la ligne 332 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nb\_\-ope\_\-ib\_\-etat@{nb\_\-ope\_\-ib\_\-etat}}
+\index{nb\_\-ope\_\-ib\_\-etat@{nb\_\-ope\_\-ib\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nb\_\-ope\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-ib\_\-etat}}\label{etats__config_8c_a10ebe84ab2fe2ca0757b40f9bf185c83}
+
+
+Définition à la ligne 326 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nb\_\-ope\_\-partie\_\-etat@{nb\_\-ope\_\-partie\_\-etat}}
+\index{nb\_\-ope\_\-partie\_\-etat@{nb\_\-ope\_\-partie\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nb\_\-ope\_\-partie\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-partie\_\-etat}}\label{etats__config_8c_a5f9793983be874655fa535ec4390fd0e}
+
+
+Définition à la ligne 333 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nb\_\-ope\_\-periode\_\-etat@{nb\_\-ope\_\-periode\_\-etat}}
+\index{nb\_\-ope\_\-periode\_\-etat@{nb\_\-ope\_\-periode\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nb\_\-ope\_\-periode\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-periode\_\-etat}}\label{etats__config_8c_a5a93de94b74c1dcf8b4ac05352f8a4fc}
+
+
+Définition à la ligne 330 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nb\_\-ope\_\-sous\_\-categ\_\-etat@{nb\_\-ope\_\-sous\_\-categ\_\-etat}}
+\index{nb\_\-ope\_\-sous\_\-categ\_\-etat@{nb\_\-ope\_\-sous\_\-categ\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nb\_\-ope\_\-sous\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-sous\_\-categ\_\-etat}}\label{etats__config_8c_a84bea4d1bc742aad297bc7746dfa4f4e}
+
+
+Définition à la ligne 325 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nb\_\-ope\_\-sous\_\-ib\_\-etat@{nb\_\-ope\_\-sous\_\-ib\_\-etat}}
+\index{nb\_\-ope\_\-sous\_\-ib\_\-etat@{nb\_\-ope\_\-sous\_\-ib\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nb\_\-ope\_\-sous\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-sous\_\-ib\_\-etat}}\label{etats__config_8c_a1f68e24419272f0faf0d6696d763aa88}
+
+
+Définition à la ligne 327 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nb\_\-ope\_\-tiers\_\-etat@{nb\_\-ope\_\-tiers\_\-etat}}
+\index{nb\_\-ope\_\-tiers\_\-etat@{nb\_\-ope\_\-tiers\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nb\_\-ope\_\-tiers\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-tiers\_\-etat}}\label{etats__config_8c_a2a4a8e2b7264cdb23ba5297beee6ce9c}
+
+
+Définition à la ligne 329 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nom\_\-categ\_\-en\_\-cours@{nom\_\-categ\_\-en\_\-cours}}
+\index{nom\_\-categ\_\-en\_\-cours@{nom\_\-categ\_\-en\_\-cours}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nom\_\-categ\_\-en\_\-cours}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ {\bf nom\_\-categ\_\-en\_\-cours}}\label{etats__config_8c_a8451d9f992a33f2f6a95572bf3ebe732}
+
+
+Définition à la ligne 344 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nom\_\-compte\_\-en\_\-cours@{nom\_\-compte\_\-en\_\-cours}}
+\index{nom\_\-compte\_\-en\_\-cours@{nom\_\-compte\_\-en\_\-cours}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nom\_\-compte\_\-en\_\-cours}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ {\bf nom\_\-compte\_\-en\_\-cours}}\label{etats__config_8c_aec1a39f8dd6a5209e972b1e3c18692a4}
+
+
+Définition à la ligne 348 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nom\_\-ib\_\-en\_\-cours@{nom\_\-ib\_\-en\_\-cours}}
+\index{nom\_\-ib\_\-en\_\-cours@{nom\_\-ib\_\-en\_\-cours}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nom\_\-ib\_\-en\_\-cours}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ {\bf nom\_\-ib\_\-en\_\-cours}}\label{etats__config_8c_ae7d124c4540ae28e59c875e7a273d1b2}
+
+
+Définition à la ligne 346 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nom\_\-ss\_\-categ\_\-en\_\-cours@{nom\_\-ss\_\-categ\_\-en\_\-cours}}
+\index{nom\_\-ss\_\-categ\_\-en\_\-cours@{nom\_\-ss\_\-categ\_\-en\_\-cours}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nom\_\-ss\_\-categ\_\-en\_\-cours}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ {\bf nom\_\-ss\_\-categ\_\-en\_\-cours}}\label{etats__config_8c_a70d5f4a7719dfb6e7256bf9c0c6c81c0}
+
+
+Définition à la ligne 345 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nom\_\-ss\_\-ib\_\-en\_\-cours@{nom\_\-ss\_\-ib\_\-en\_\-cours}}
+\index{nom\_\-ss\_\-ib\_\-en\_\-cours@{nom\_\-ss\_\-ib\_\-en\_\-cours}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nom\_\-ss\_\-ib\_\-en\_\-cours}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ {\bf nom\_\-ss\_\-ib\_\-en\_\-cours}}\label{etats__config_8c_aeebb77c73228c08a745bce2b31626184}
+
+
+Définition à la ligne 347 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!nom\_\-tiers\_\-en\_\-cours@{nom\_\-tiers\_\-en\_\-cours}}
+\index{nom\_\-tiers\_\-en\_\-cours@{nom\_\-tiers\_\-en\_\-cours}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{nom\_\-tiers\_\-en\_\-cours}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ {\bf nom\_\-tiers\_\-en\_\-cours}}\label{etats__config_8c_ad6c29bcab9528b5f233ca087daae59e2}
+
+
+Définition à la ligne 349 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!notebook\_\-config\_\-etat@{notebook\_\-config\_\-etat}}
+\index{notebook\_\-config\_\-etat@{notebook\_\-config\_\-etat}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{notebook\_\-config\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf notebook\_\-config\_\-etat}}\label{etats__config_8c_ad5b48cab6caf68a0ecc6f6984325b022}
+
+
+Définition à la ligne 79 du fichier etats\_\-onglet.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!notebook\_\-etats@{notebook\_\-etats}}
+\index{notebook\_\-etats@{notebook\_\-etats}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{notebook\_\-etats}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf notebook\_\-etats}}\label{etats__config_8c_ae92ea175fa6b21c845c3a0971646f6d5}
+
+
+Définition à la ligne 78 du fichier etats\_\-onglet.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!notebook\_\-general@{notebook\_\-general}}
+\index{notebook\_\-general@{notebook\_\-general}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{notebook\_\-general}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf notebook\_\-general}}\label{etats__config_8c_a8924516aa4170f932308e93cf93a785b}
+
+
+Définition à la ligne 70 du fichier fenetre\_\-principale.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!titres\_\-affiches@{titres\_\-affiches}}
+\index{titres\_\-affiches@{titres\_\-affiches}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{titres\_\-affiches}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf titres\_\-affiches}}\label{etats__config_8c_aa74984417afb965dc68f02651313074b}
+
+
+Définition à la ligne 350 du fichier etats\_\-config.c.
+
+\index{etats\_\-config.c@{etats\_\-config.c}!window@{window}}
+\index{window@{window}!etats_config.c@{etats\_\-config.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{etats__config_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

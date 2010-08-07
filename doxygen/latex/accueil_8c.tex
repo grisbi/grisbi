@@ -1,0 +1,379 @@
+\section{Référence du fichier accueil.c}
+\label{accueil_8c}\index{accueil.c@{accueil.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include $<$locale.h$>$}\par
+{\ttfamily \#include $<$stdio.h$>$}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include $<$strings.h$>$}\par
+{\ttfamily \#include $<$string.h$>$}\par
+{\ttfamily \#include $<$sys/types.h$>$}\par
+{\ttfamily \#include $<$sys/timeb.h$>$}\par
+{\ttfamily \#include $<$time.h$>$}\par
+{\ttfamily \#include $<$sys/stat.h$>$}\par
+{\ttfamily \#include $<$unistd.h$>$}\par
+{\ttfamily \#include $<$pwd.h$>$}\par
+{\ttfamily \#include $<$fcntl.h$>$}\par
+{\ttfamily \#include $<$signal.h$>$}\par
+{\ttfamily \#include $<$ctype.h$>$}\par
+{\ttfamily \#include $<$errno.h$>$}\par
+{\ttfamily \#include $<$math.h$>$}\par
+{\ttfamily \#include $<$gtk/gtktextview.h$>$}\par
+{\ttfamily \#include $<$gdk/gdkkeysyms.h$>$}\par
+{\ttfamily \#include $<$gtk/gtk.h$>$}\par
+{\ttfamily \#include $<$glib/gstdio.h$>$}\par
+{\ttfamily \#include $<$gdk-\/pixbuf/gdk-\/pixdata.h$>$}\par
+{\ttfamily \#include $<$glib/gi18n.h$>$}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-select\_\-icon.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-scheduler.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf show\_\-paddingbox}(child)~gtk\_\-widget\_\-show\_\-all (gtk\_\-widget\_\-get\_\-parent(gtk\_\-widget\_\-get\_\-parent(gtk\_\-widget\_\-get\_\-parent(GTK\_\-WIDGET(child)))))
+\item 
+\#define {\bf hide\_\-paddingbox}(child)~gtk\_\-widget\_\-hide\_\-all (gtk\_\-widget\_\-get\_\-parent(gtk\_\-widget\_\-get\_\-parent(gtk\_\-widget\_\-get\_\-parent(GTK\_\-WIDGET(child)))))
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf creation\_\-onglet\_\-accueil} (void)
+\item 
+void {\bf mise\_\-a\_\-jour\_\-accueil} (gboolean force)
+\item 
+void {\bf affiche\_\-dialogue\_\-soldes\_\-minimaux} (void)
+\item 
+gboolean {\bf gsb\_\-main\_\-page\_\-update\_\-finished\_\-scheduled\_\-transactions} (gint scheduled\_\-number)
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-accueil} (void)
+\item 
+void {\bf gsb\_\-main\_\-page\_\-update\_\-homepage\_\-title} (gchar $\ast$title)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf balances\_\-with\_\-scheduled}
+\item 
+GdkColor {\bf couleur\_\-bleue}
+\item 
+GdkColor {\bf couleur\_\-jaune}
+\item 
+GdkColor {\bf couleur\_\-nom\_\-compte\_\-normal}
+\item 
+GdkColor {\bf couleur\_\-nom\_\-compte\_\-prelight}
+\item 
+GdkColor {\bf couleur\_\-solde\_\-alarme\_\-orange\_\-normal}
+\item 
+GdkColor {\bf couleur\_\-solde\_\-alarme\_\-orange\_\-prelight}
+\item 
+GdkColor {\bf couleur\_\-solde\_\-alarme\_\-rouge\_\-normal}
+\item 
+GdkColor {\bf couleur\_\-solde\_\-alarme\_\-rouge\_\-prelight}
+\item 
+GdkColor {\bf couleur\_\-solde\_\-alarme\_\-verte\_\-normal}
+\item 
+GdkColor {\bf couleur\_\-solde\_\-alarme\_\-verte\_\-prelight}
+\item 
+GtkWidget $\ast$ {\bf form\_\-transaction\_\-part}
+\item 
+{\bf gsb\_\-real} {\bf null\_\-real}
+\item 
+GSList $\ast$ {\bf scheduled\_\-transactions\_\-taken}
+\item 
+GSList $\ast$ {\bf scheduled\_\-transactions\_\-to\_\-take}
+\item 
+gchar $\ast$ {\bf titre\_\-fichier}
+\item 
+GtkWidget $\ast$ {\bf window}
+\item 
+GtkWidget $\ast$ {\bf logo\_\-accueil} = NULL
+\item 
+GtkWidget $\ast$ {\bf hbox\_\-title} = NULL
+\item 
+GtkWidget $\ast$ {\bf label\_\-titre\_\-fichier} = NULL
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-soldes\_\-minimaux}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}
+\item 
+GtkSizeGroup $\ast$ {\bf size\_\-group\_\-accueil}
+\item 
+gchar $\ast$ {\bf chaine\_\-espace} = \char`\"{} \char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des macros}
+\index{accueil.c@{accueil.c}!hide\_\-paddingbox@{hide\_\-paddingbox}}
+\index{hide\_\-paddingbox@{hide\_\-paddingbox}!accueil.c@{accueil.c}}
+\subsubsection[{hide\_\-paddingbox}]{\setlength{\rightskip}{0pt plus 5cm}\#define hide\_\-paddingbox(child)~gtk\_\-widget\_\-hide\_\-all (gtk\_\-widget\_\-get\_\-parent(gtk\_\-widget\_\-get\_\-parent(gtk\_\-widget\_\-get\_\-parent(GTK\_\-WIDGET(child)))))}\label{accueil_8c_a02da9b42f805679eb687619a1dc2aa71}
+
+
+Définition à la ligne 121 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!show\_\-paddingbox@{show\_\-paddingbox}}
+\index{show\_\-paddingbox@{show\_\-paddingbox}!accueil.c@{accueil.c}}
+\subsubsection[{show\_\-paddingbox}]{\setlength{\rightskip}{0pt plus 5cm}\#define show\_\-paddingbox(child)~gtk\_\-widget\_\-show\_\-all (gtk\_\-widget\_\-get\_\-parent(gtk\_\-widget\_\-get\_\-parent(gtk\_\-widget\_\-get\_\-parent(GTK\_\-WIDGET(child)))))}\label{accueil_8c_ab03f50b500134428099c1983259a4957}
+
+
+Définition à la ligne 120 du fichier accueil.c.
+
+
+
+\subsection{Documentation des fonctions}
+\index{accueil.c@{accueil.c}!affiche\_\-dialogue\_\-soldes\_\-minimaux@{affiche\_\-dialogue\_\-soldes\_\-minimaux}}
+\index{affiche\_\-dialogue\_\-soldes\_\-minimaux@{affiche\_\-dialogue\_\-soldes\_\-minimaux}!accueil.c@{accueil.c}}
+\subsubsection[{affiche\_\-dialogue\_\-soldes\_\-minimaux}]{\setlength{\rightskip}{0pt plus 5cm}void affiche\_\-dialogue\_\-soldes\_\-minimaux (void)}\label{accueil_8c_a14c0d85dd53f652a98e6a0ff81d9123b}
+
+
+Définition à la ligne 1591 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!creation\_\-onglet\_\-accueil@{creation\_\-onglet\_\-accueil}}
+\index{creation\_\-onglet\_\-accueil@{creation\_\-onglet\_\-accueil}!accueil.c@{accueil.c}}
+\subsubsection[{creation\_\-onglet\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ creation\_\-onglet\_\-accueil (void)}\label{accueil_8c_a31cb1d27d08c170361e63a0a7ef4ddb0}
+
+
+Définition à la ligne 137 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!gsb\_\-main\_\-page\_\-update\_\-finished\_\-scheduled\_\-transactions@{gsb\_\-main\_\-page\_\-update\_\-finished\_\-scheduled\_\-transactions}}
+\index{gsb\_\-main\_\-page\_\-update\_\-finished\_\-scheduled\_\-transactions@{gsb\_\-main\_\-page\_\-update\_\-finished\_\-scheduled\_\-transactions}!accueil.c@{accueil.c}}
+\subsubsection[{gsb\_\-main\_\-page\_\-update\_\-finished\_\-scheduled\_\-transactions}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-main\_\-page\_\-update\_\-finished\_\-scheduled\_\-transactions (gint {\em scheduled\_\-number})}\label{accueil_8c_a3b20e859b5870632529db167d03decfa}
+update the finished scheduled transactions part in the main page the scheduled transaction in param is finished
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em scheduled\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1857 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!gsb\_\-main\_\-page\_\-update\_\-homepage\_\-title@{gsb\_\-main\_\-page\_\-update\_\-homepage\_\-title}}
+\index{gsb\_\-main\_\-page\_\-update\_\-homepage\_\-title@{gsb\_\-main\_\-page\_\-update\_\-homepage\_\-title}!accueil.c@{accueil.c}}
+\subsubsection[{gsb\_\-main\_\-page\_\-update\_\-homepage\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-main\_\-page\_\-update\_\-homepage\_\-title (gchar $\ast$ {\em title})}\label{accueil_8c_a464c456279ac03bc59b1f54ae2133bf1}
+update the title of the main page 
+
+Définition à la ligne 2138 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!mise\_\-a\_\-jour\_\-accueil@{mise\_\-a\_\-jour\_\-accueil}}
+\index{mise\_\-a\_\-jour\_\-accueil@{mise\_\-a\_\-jour\_\-accueil}!accueil.c@{accueil.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}void mise\_\-a\_\-jour\_\-accueil (gboolean {\em force})}\label{accueil_8c_a15511226739a34542ef8d7b979aedcf0}
+update the first page, force the updating if asked, else, each function will decide if it need to be updated or not
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em force}]TRUE if we want to update all\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 295 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!onglet\_\-accueil@{onglet\_\-accueil}}
+\index{onglet\_\-accueil@{onglet\_\-accueil}!accueil.c@{accueil.c}}
+\subsubsection[{onglet\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-accueil (void)}\label{accueil_8c_a2ce3fbe764b92fba9b115271c89ddbb1}
+
+
+Définition à la ligne 1939 du fichier accueil.c.
+
+
+
+\subsection{Documentation des variables}
+\index{accueil.c@{accueil.c}!balances\_\-with\_\-scheduled@{balances\_\-with\_\-scheduled}}
+\index{balances\_\-with\_\-scheduled@{balances\_\-with\_\-scheduled}!accueil.c@{accueil.c}}
+\subsubsection[{balances\_\-with\_\-scheduled}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf balances\_\-with\_\-scheduled}}\label{accueil_8c_a2f70ab8aa9d2a494c0653e8f29eddf40}
+Take into account the planned operations in the calculation of the balances (TRUE default) 
+
+Définition à la ligne 71 du fichier gsb\_\-scheduler.c.
+
+\index{accueil.c@{accueil.c}!chaine\_\-espace@{chaine\_\-espace}}
+\index{chaine\_\-espace@{chaine\_\-espace}!accueil.c@{accueil.c}}
+\subsubsection[{chaine\_\-espace}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf chaine\_\-espace} = \char`\"{} \char`\"{}}\label{accueil_8c_a0a186a4f6ba30156f2d8ff8025328371}
+
+
+Définition à la ligne 134 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!couleur\_\-bleue@{couleur\_\-bleue}}
+\index{couleur\_\-bleue@{couleur\_\-bleue}!accueil.c@{accueil.c}}
+\subsubsection[{couleur\_\-bleue}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-bleue}}\label{accueil_8c_abf8bca2fdf4d7ff487314637a68d8ca1}
+
+
+Définition à la ligne 131 du fichier traitement\_\-variables.c.
+
+\index{accueil.c@{accueil.c}!couleur\_\-jaune@{couleur\_\-jaune}}
+\index{couleur\_\-jaune@{couleur\_\-jaune}!accueil.c@{accueil.c}}
+\subsubsection[{couleur\_\-jaune}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-jaune}}\label{accueil_8c_ab8c7a6a865f85f0e0ed7ba712c688552}
+
+
+Définition à la ligne 132 du fichier traitement\_\-variables.c.
+
+\index{accueil.c@{accueil.c}!couleur\_\-nom\_\-compte\_\-normal@{couleur\_\-nom\_\-compte\_\-normal}}
+\index{couleur\_\-nom\_\-compte\_\-normal@{couleur\_\-nom\_\-compte\_\-normal}!accueil.c@{accueil.c}}
+\subsubsection[{couleur\_\-nom\_\-compte\_\-normal}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-nom\_\-compte\_\-normal}}\label{accueil_8c_afefd0503b07889ace94c105384b52c3b}
+
+
+Définition à la ligne 128 du fichier traitement\_\-variables.c.
+
+\index{accueil.c@{accueil.c}!couleur\_\-nom\_\-compte\_\-prelight@{couleur\_\-nom\_\-compte\_\-prelight}}
+\index{couleur\_\-nom\_\-compte\_\-prelight@{couleur\_\-nom\_\-compte\_\-prelight}!accueil.c@{accueil.c}}
+\subsubsection[{couleur\_\-nom\_\-compte\_\-prelight}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-nom\_\-compte\_\-prelight}}\label{accueil_8c_a52532ca2dfcfc96be10da30f80c66839}
+
+
+Définition à la ligne 129 du fichier traitement\_\-variables.c.
+
+\index{accueil.c@{accueil.c}!couleur\_\-solde\_\-alarme\_\-orange\_\-normal@{couleur\_\-solde\_\-alarme\_\-orange\_\-normal}}
+\index{couleur\_\-solde\_\-alarme\_\-orange\_\-normal@{couleur\_\-solde\_\-alarme\_\-orange\_\-normal}!accueil.c@{accueil.c}}
+\subsubsection[{couleur\_\-solde\_\-alarme\_\-orange\_\-normal}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-solde\_\-alarme\_\-orange\_\-normal}}\label{accueil_8c_a062471eba775cb09f75d8c4d97c02172}
+
+
+Définition à la ligne 124 du fichier traitement\_\-variables.c.
+
+\index{accueil.c@{accueil.c}!couleur\_\-solde\_\-alarme\_\-orange\_\-prelight@{couleur\_\-solde\_\-alarme\_\-orange\_\-prelight}}
+\index{couleur\_\-solde\_\-alarme\_\-orange\_\-prelight@{couleur\_\-solde\_\-alarme\_\-orange\_\-prelight}!accueil.c@{accueil.c}}
+\subsubsection[{couleur\_\-solde\_\-alarme\_\-orange\_\-prelight}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-solde\_\-alarme\_\-orange\_\-prelight}}\label{accueil_8c_a0619465546390ec6f870c9f85b773307}
+
+
+Définition à la ligne 125 du fichier traitement\_\-variables.c.
+
+\index{accueil.c@{accueil.c}!couleur\_\-solde\_\-alarme\_\-rouge\_\-normal@{couleur\_\-solde\_\-alarme\_\-rouge\_\-normal}}
+\index{couleur\_\-solde\_\-alarme\_\-rouge\_\-normal@{couleur\_\-solde\_\-alarme\_\-rouge\_\-normal}!accueil.c@{accueil.c}}
+\subsubsection[{couleur\_\-solde\_\-alarme\_\-rouge\_\-normal}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-solde\_\-alarme\_\-rouge\_\-normal}}\label{accueil_8c_af38b374eef29a79c10501f0560f0569e}
+
+
+Définition à la ligne 126 du fichier traitement\_\-variables.c.
+
+\index{accueil.c@{accueil.c}!couleur\_\-solde\_\-alarme\_\-rouge\_\-prelight@{couleur\_\-solde\_\-alarme\_\-rouge\_\-prelight}}
+\index{couleur\_\-solde\_\-alarme\_\-rouge\_\-prelight@{couleur\_\-solde\_\-alarme\_\-rouge\_\-prelight}!accueil.c@{accueil.c}}
+\subsubsection[{couleur\_\-solde\_\-alarme\_\-rouge\_\-prelight}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-solde\_\-alarme\_\-rouge\_\-prelight}}\label{accueil_8c_a1f0e9441b29240d555149fa5e114f5da}
+
+
+Définition à la ligne 127 du fichier traitement\_\-variables.c.
+
+\index{accueil.c@{accueil.c}!couleur\_\-solde\_\-alarme\_\-verte\_\-normal@{couleur\_\-solde\_\-alarme\_\-verte\_\-normal}}
+\index{couleur\_\-solde\_\-alarme\_\-verte\_\-normal@{couleur\_\-solde\_\-alarme\_\-verte\_\-normal}!accueil.c@{accueil.c}}
+\subsubsection[{couleur\_\-solde\_\-alarme\_\-verte\_\-normal}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-solde\_\-alarme\_\-verte\_\-normal}}\label{accueil_8c_a4cabdd7b9ef47892068e5d191cff512d}
+
+
+Définition à la ligne 122 du fichier traitement\_\-variables.c.
+
+\index{accueil.c@{accueil.c}!couleur\_\-solde\_\-alarme\_\-verte\_\-prelight@{couleur\_\-solde\_\-alarme\_\-verte\_\-prelight}}
+\index{couleur\_\-solde\_\-alarme\_\-verte\_\-prelight@{couleur\_\-solde\_\-alarme\_\-verte\_\-prelight}!accueil.c@{accueil.c}}
+\subsubsection[{couleur\_\-solde\_\-alarme\_\-verte\_\-prelight}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-solde\_\-alarme\_\-verte\_\-prelight}}\label{accueil_8c_a59672cd86b54f5212dc6e0c5016e7661}
+
+
+Définition à la ligne 123 du fichier traitement\_\-variables.c.
+
+\index{accueil.c@{accueil.c}!form\_\-transaction\_\-part@{form\_\-transaction\_\-part}}
+\index{form\_\-transaction\_\-part@{form\_\-transaction\_\-part}!accueil.c@{accueil.c}}
+\subsubsection[{form\_\-transaction\_\-part}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf form\_\-transaction\_\-part}}\label{accueil_8c_afb5de72ed97c05cc117b44cf61adfb86}
+
+
+Définition à la ligne 126 du fichier gsb\_\-form.c.
+
+\index{accueil.c@{accueil.c}!hbox\_\-title@{hbox\_\-title}}
+\index{hbox\_\-title@{hbox\_\-title}!accueil.c@{accueil.c}}
+\subsubsection[{hbox\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf hbox\_\-title} = NULL}\label{accueil_8c_a5c4177f9546fc12979a20354c696c96a}
+
+
+Définition à la ligne 109 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!label\_\-titre\_\-fichier@{label\_\-titre\_\-fichier}}
+\index{label\_\-titre\_\-fichier@{label\_\-titre\_\-fichier}!accueil.c@{accueil.c}}
+\subsubsection[{label\_\-titre\_\-fichier}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf label\_\-titre\_\-fichier} = NULL}\label{accueil_8c_ad5a5e4da0960d4245ba98245c3a868dc}
+
+
+Définition à la ligne 110 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!logo\_\-accueil@{logo\_\-accueil}}
+\index{logo\_\-accueil@{logo\_\-accueil}!accueil.c@{accueil.c}}
+\subsubsection[{logo\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf logo\_\-accueil} = NULL}\label{accueil_8c_a54bbf4c2b1a287f2b68dd985bc3df3a0}
+
+
+Définition à la ligne 108 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs@{mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}}
+\index{mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs@{mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}!accueil.c@{accueil.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}}\label{accueil_8c_a9ebd251de44611d97ec364d1867a75ff}
+
+
+Définition à la ligne 131 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}}
+\index{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}!accueil.c@{accueil.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}}\label{accueil_8c_a018917e8dacfd8fbe4e94d0f99a59c08}
+
+
+Définition à la ligne 127 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}}
+\index{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}!accueil.c@{accueil.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}}\label{accueil_8c_a097d2eb216e05a68a5a153e7b68b6469}
+
+
+Définition à la ligne 129 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}}
+\index{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}!accueil.c@{accueil.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}}\label{accueil_8c_a5957dd978b4a0c3ab01e006cedfdf96c}
+
+
+Définition à la ligne 128 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!mise\_\-a\_\-jour\_\-soldes\_\-minimaux@{mise\_\-a\_\-jour\_\-soldes\_\-minimaux}}
+\index{mise\_\-a\_\-jour\_\-soldes\_\-minimaux@{mise\_\-a\_\-jour\_\-soldes\_\-minimaux}!accueil.c@{accueil.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-soldes\_\-minimaux}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-soldes\_\-minimaux}}\label{accueil_8c_afaffaedc4fd0ae8638f7158c6777b35b}
+
+
+Définition à la ligne 130 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!null\_\-real@{null\_\-real}}
+\index{null\_\-real@{null\_\-real}!accueil.c@{accueil.c}}
+\subsubsection[{null\_\-real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf null\_\-real}}\label{accueil_8c_a26f304bec3fdc0651b9aa8765d4de3c6}
+
+
+Définition à la ligne 42 du fichier gsb\_\-real.c.
+
+\index{accueil.c@{accueil.c}!scheduled\_\-transactions\_\-taken@{scheduled\_\-transactions\_\-taken}}
+\index{scheduled\_\-transactions\_\-taken@{scheduled\_\-transactions\_\-taken}!accueil.c@{accueil.c}}
+\subsubsection[{scheduled\_\-transactions\_\-taken}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf scheduled\_\-transactions\_\-taken}}\label{accueil_8c_af539ba1ef9bfd1d56ab43b9865b0bab5}
+
+
+Définition à la ligne 127 du fichier gsb\_\-scheduler\_\-list.c.
+
+\index{accueil.c@{accueil.c}!scheduled\_\-transactions\_\-to\_\-take@{scheduled\_\-transactions\_\-to\_\-take}}
+\index{scheduled\_\-transactions\_\-to\_\-take@{scheduled\_\-transactions\_\-to\_\-take}!accueil.c@{accueil.c}}
+\subsubsection[{scheduled\_\-transactions\_\-to\_\-take}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf scheduled\_\-transactions\_\-to\_\-take}}\label{accueil_8c_ade6e813638ccb1437faf234fa2725303}
+lists of number of scheduled transactions taken or to be taken 
+
+Définition à la ligne 126 du fichier gsb\_\-scheduler\_\-list.c.
+
+\index{accueil.c@{accueil.c}!size\_\-group\_\-accueil@{size\_\-group\_\-accueil}}
+\index{size\_\-group\_\-accueil@{size\_\-group\_\-accueil}!accueil.c@{accueil.c}}
+\subsubsection[{size\_\-group\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}GtkSizeGroup$\ast$ {\bf size\_\-group\_\-accueil}}\label{accueil_8c_a7a2c9fe3145d035ff2611ca3f3d06bca}
+
+
+Définition à la ligne 133 du fichier accueil.c.
+
+\index{accueil.c@{accueil.c}!titre\_\-fichier@{titre\_\-fichier}}
+\index{titre\_\-fichier@{titre\_\-fichier}!accueil.c@{accueil.c}}
+\subsubsection[{titre\_\-fichier}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf titre\_\-fichier}}\label{accueil_8c_a787cc81cf2ad728775b73d723713980b}
+
+
+Définition à la ligne 147 du fichier traitement\_\-variables.c.
+
+\index{accueil.c@{accueil.c}!window@{window}}
+\index{window@{window}!accueil.c@{accueil.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{accueil_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

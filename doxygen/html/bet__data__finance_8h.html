@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier bet_data_finance.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier bet_data_finance.h</h1><code>#include &lt;gtk/gtk.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+
+<p><a href="bet__data__finance_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GDate *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__data__finance_8h.html#a458866f9c7b31421885e2c6a6907b35a">bet_data_finance_get_date_last_installment_paid</a> (GDate *date_depart)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gdouble&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__data__finance_8h.html#a000ced710980fbd826287f66cd12a153">bet_data_finance_get_last_echeance</a> (gdouble capital_du, gdouble interets, gdouble frais)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gdouble&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__data__finance_8h.html#a547a8aeeaa739cf8fb7e59ab11c2fec7">bet_data_finance_get_echeance</a> (gdouble capital, gdouble taux_periodique, gint duree)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gdouble&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__data__finance_8h.html#ac0231e5d0ce8fea81b31249558bde098">bet_data_finance_get_frais_par_echeance</a> (gdouble capital, gdouble taux_frais, gint nbre_echeances)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gdouble&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__data__finance_8h.html#a6a129b4a8d1873a1215384ab6ccee3e6">bet_data_finance_get_interets</a> (gdouble capital_du, gdouble taux_periodique)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gdouble&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__data__finance_8h.html#a66297619c92a4041ff4f4fe1240f212a">bet_data_finance_get_principal</a> (gdouble echeance, gdouble interets, gdouble frais)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gdouble&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__data__finance_8h.html#ad31dc1b97b1e3874d40e5dae112aa66c">bet_data_finance_get_taux_periodique</a> (gdouble taux, gint type_taux)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gdouble&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__data__finance_8h.html#a6e87f9712fa8d75a50417f77f17cf53e">bet_data_finance_troncate_number</a> (gdouble number, gint nbre_decimal)</td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a458866f9c7b31421885e2c6a6907b35a"></a><!-- doxytag: member="bet_data_finance.h::bet_data_finance_get_date_last_installment_paid" ref="a458866f9c7b31421885e2c6a6907b35a" args="(GDate *date_depart)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GDate* bet_data_finance_get_date_last_installment_paid </td>
+          <td>(</td>
+          <td class="paramtype">GDate *&nbsp;</td>
+          <td class="paramname"> <em>date_depart</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__data__finance_8c_source.html#l00184">184</a> du fichier <a class="el" href="bet__data__finance_8c_source.html">bet_data_finance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a547a8aeeaa739cf8fb7e59ab11c2fec7"></a><!-- doxytag: member="bet_data_finance.h::bet_data_finance_get_echeance" ref="a547a8aeeaa739cf8fb7e59ab11c2fec7" args="(gdouble capital, gdouble taux_periodique, gint duree)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gdouble bet_data_finance_get_echeance </td>
+          <td>(</td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>capital</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>taux_periodique</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>nbre_echeances</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>retourne l'échéance hors frais </p>
+
+<p>Définition à la ligne <a class="el" href="bet__data__finance_8c_source.html#l00046">46</a> du fichier <a class="el" href="bet__data__finance_8c_source.html">bet_data_finance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac0231e5d0ce8fea81b31249558bde098"></a><!-- doxytag: member="bet_data_finance.h::bet_data_finance_get_frais_par_echeance" ref="ac0231e5d0ce8fea81b31249558bde098" args="(gdouble capital, gdouble taux_frais, gint nbre_echeances)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gdouble bet_data_finance_get_frais_par_echeance </td>
+          <td>(</td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>capital</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>taux_frais</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>nbre_echeances</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Calcule le montant des frais par échéances ( en général des assurances) </p>
+
+<p>Définition à la ligne <a class="el" href="bet__data__finance_8c_source.html#l00094">94</a> du fichier <a class="el" href="bet__data__finance_8c_source.html">bet_data_finance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6a129b4a8d1873a1215384ab6ccee3e6"></a><!-- doxytag: member="bet_data_finance.h::bet_data_finance_get_interets" ref="a6a129b4a8d1873a1215384ab6ccee3e6" args="(gdouble capital_du, gdouble taux_periodique)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gdouble bet_data_finance_get_interets </td>
+          <td>(</td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>capital_du</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>taux_periodique</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Calcule les intérêts par période </p>
+
+<p>Définition à la ligne <a class="el" href="bet__data__finance_8c_source.html#l00113">113</a> du fichier <a class="el" href="bet__data__finance_8c_source.html">bet_data_finance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a000ced710980fbd826287f66cd12a153"></a><!-- doxytag: member="bet_data_finance.h::bet_data_finance_get_last_echeance" ref="a000ced710980fbd826287f66cd12a153" args="(gdouble capital_du, gdouble interets, gdouble frais)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gdouble bet_data_finance_get_last_echeance </td>
+          <td>(</td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>capital_du</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>interets</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>frais</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Calcule la dernière échéance du prêt </p>
+
+<p>Définition à la ligne <a class="el" href="bet__data__finance_8c_source.html#l00149">149</a> du fichier <a class="el" href="bet__data__finance_8c_source.html">bet_data_finance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a66297619c92a4041ff4f4fe1240f212a"></a><!-- doxytag: member="bet_data_finance.h::bet_data_finance_get_principal" ref="a66297619c92a4041ff4f4fe1240f212a" args="(gdouble echeance, gdouble interets, gdouble frais)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gdouble bet_data_finance_get_principal </td>
+          <td>(</td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>echeance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>interets</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>frais</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>retourne le capital remboursé </p>
+
+<p>Définition à la ligne <a class="el" href="bet__data__finance_8c_source.html#l00130">130</a> du fichier <a class="el" href="bet__data__finance_8c_source.html">bet_data_finance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad31dc1b97b1e3874d40e5dae112aa66c"></a><!-- doxytag: member="bet_data_finance.h::bet_data_finance_get_taux_periodique" ref="ad31dc1b97b1e3874d40e5dae112aa66c" args="(gdouble taux, gint type_taux)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gdouble bet_data_finance_get_taux_periodique </td>
+          <td>(</td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>taux</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>type_taux</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Calcule le taux périodique d'un intérêt</p>
+<p>/param taux d'intérêt /param type de taux : actuariel ou proportionnel</p>
+<p>/return a double </p>
+
+<p>Définition à la ligne <a class="el" href="bet__data__finance_8c_source.html#l00074">74</a> du fichier <a class="el" href="bet__data__finance_8c_source.html">bet_data_finance.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6e87f9712fa8d75a50417f77f17cf53e"></a><!-- doxytag: member="bet_data_finance.h::bet_data_finance_troncate_number" ref="a6e87f9712fa8d75a50417f77f17cf53e" args="(gdouble number, gint nbre_decimal)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gdouble bet_data_finance_troncate_number </td>
+          <td>(</td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>nbre_decimal</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>arrondit à la précision demandée</p>
+<p>/param nombre à arrondir /param nombre de chiffres significatifs</p>
+<p>/return a double number </p>
+
+<p>Définition à la ligne <a class="el" href="bet__data__finance_8c_source.html#l00171">171</a> du fichier <a class="el" href="bet__data__finance_8c_source.html">bet_data_finance.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

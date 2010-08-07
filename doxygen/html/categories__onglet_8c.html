@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier categories_onglet.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier categories_onglet.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="categories__onglet_8c_source.html">categories_onglet.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__file__selection_8h_source.html">utils_file_selection.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__automem_8h_source.html">gsb_automem.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__category_8h_source.html">gsb_data_category.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__file_8h_source.html">gsb_file.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="main_8h_source.html">main.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__buttons_8h_source.html">utils_buttons.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="transaction__list_8h_source.html">transaction_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="metatree_8h_source.html">metatree.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="categories__onglet_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="categories__onglet_8c.html#a4aca926dc47f973c138ed72e9aad5804">onglet_categories</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="categories__onglet_8c.html#a07984d808278a498b3fef3e187cc29e2">remplit_arbre_categ</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="categories__onglet_8c.html#a07189d15b8fbd91a38070efebee6ee97">category_hold_position_set_path</a> (GtkTreePath *path)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="categories__onglet_8c.html#a5b685ac483cc1dcc8dc736a644a80651">category_hold_position_set_expand</a> (gboolean expand)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkTreeStore *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="categories__onglet_8c.html#ae8424f0222ea0a41ea824d2294ee1b34">categ_tree_model</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="categories__onglet_8c.html#a6cf88c38349ee099aa4138c213aae21b">arbre_categ</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="categories__onglet_8c.html#a8f609654dcfbbcaa6791bcee83d6473d">no_devise_totaux_categ</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmetatree__hold__position.html">metatree_hold_position</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="categories__onglet_8c.html#a7f1f945fd2d4ad6ccad85f0a7cc36f40">category_hold_position</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmetatree__interface.html">MetatreeInterface</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="categories__onglet_8c.html#ac3d52fdc414a19ac674a323f25194bc7">category_interface</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="categories__onglet_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a5b685ac483cc1dcc8dc736a644a80651"></a><!-- doxytag: member="categories_onglet.c::category_hold_position_set_expand" ref="a5b685ac483cc1dcc8dc736a644a80651" args="(gboolean expand)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean category_hold_position_set_expand </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>expand</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>sauvegarde l'attribut expand.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>expand</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="categories__onglet_8c_source.html#l00891">891</a> du fichier <a class="el" href="categories__onglet_8c_source.html">categories_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a07189d15b8fbd91a38070efebee6ee97"></a><!-- doxytag: member="categories_onglet.c::category_hold_position_set_path" ref="a07189d15b8fbd91a38070efebee6ee97" args="(GtkTreePath *path)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean category_hold_position_set_path </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreePath *&nbsp;</td>
+          <td class="paramname"> <em>path</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>sauvegarde le chemin de la dernière categorie sélectionnée.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="categories__onglet_8c_source.html#l00880">880</a> du fichier <a class="el" href="categories__onglet_8c_source.html">categories_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4aca926dc47f973c138ed72e9aad5804"></a><!-- doxytag: member="categories_onglet.c::onglet_categories" ref="a4aca926dc47f973c138ed72e9aad5804" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* onglet_categories </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Create and return contents of the "Category" notebook page.</p>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly allocated hbox. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="categories__onglet_8c_source.html#l00084">84</a> du fichier <a class="el" href="categories__onglet_8c_source.html">categories_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a07984d808278a498b3fef3e187cc29e2"></a><!-- doxytag: member="categories_onglet.c::remplit_arbre_categ" ref="a07984d808278a498b3fef3e187cc29e2" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void remplit_arbre_categ </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Fill category tree with data. </p>
+
+<p><p>First, remove previous tree</p>
+<p>Then, populate tree with categories.</p>
+<p>Each category has subcategories. </p>
+</p>
+
+<p>Définition à la ligne <a class="el" href="categories__onglet_8c_source.html#l00211">211</a> du fichier <a class="el" href="categories__onglet_8c_source.html">categories_onglet.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a6cf88c38349ee099aa4138c213aae21b"></a><!-- doxytag: member="categories_onglet.c::arbre_categ" ref="a6cf88c38349ee099aa4138c213aae21b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__operations_8c.html#a6cf88c38349ee099aa4138c213aae21b">arbre_categ</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="categories__onglet_8c_source.html#l00064">64</a> du fichier <a class="el" href="categories__onglet_8c_source.html">categories_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae8424f0222ea0a41ea824d2294ee1b34"></a><!-- doxytag: member="categories_onglet.c::categ_tree_model" ref="ae8424f0222ea0a41ea824d2294ee1b34" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkTreeStore* <a class="el" href="utils__operations_8c.html#ae8424f0222ea0a41ea824d2294ee1b34">categ_tree_model</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="categories__onglet_8c_source.html#l00063">63</a> du fichier <a class="el" href="categories__onglet_8c_source.html">categories_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7f1f945fd2d4ad6ccad85f0a7cc36f40"></a><!-- doxytag: member="categories_onglet.c::category_hold_position" ref="a7f1f945fd2d4ad6ccad85f0a7cc36f40" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmetatree__hold__position.html">metatree_hold_position</a>* <a class="el" href="categories__onglet_8c.html#a7f1f945fd2d4ad6ccad85f0a7cc36f40">category_hold_position</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="categories__onglet_8c_source.html#l00071">71</a> du fichier <a class="el" href="categories__onglet_8c_source.html">categories_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac3d52fdc414a19ac674a323f25194bc7"></a><!-- doxytag: member="categories_onglet.c::category_interface" ref="ac3d52fdc414a19ac674a323f25194bc7" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structmetatree__interface.html">MetatreeInterface</a>* <a class="el" href="utils__operations_8c.html#ac3d52fdc414a19ac674a323f25194bc7">category_interface</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="meta__categories_8c_source.html#l00104">104</a> du fichier <a class="el" href="meta__categories_8c_source.html">meta_categories.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8f609654dcfbbcaa6791bcee83d6473d"></a><!-- doxytag: member="categories_onglet.c::no_devise_totaux_categ" ref="a8f609654dcfbbcaa6791bcee83d6473d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a8f609654dcfbbcaa6791bcee83d6473d">no_devise_totaux_categ</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="categories__onglet_8c_source.html#l00065">65</a> du fichier <a class="el" href="categories__onglet_8c_source.html">categories_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="categories_onglet.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

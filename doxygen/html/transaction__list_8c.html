@@ -1,0 +1,833 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier transaction_list.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier transaction_list.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="transaction__list_8h_source.html">transaction_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="custom__list_8h_source.html">custom_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="affichage__liste_8h_source.html">affichage_liste.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__dates_8h_source.html">utils_dates.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__archive_8h_source.html">gsb_data_archive.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__archive__store_8h_source.html">gsb_data_archive_store.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__currency_8h_source.html">gsb_data_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="transaction__list__select_8h_source.html">transaction_list_select.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="transaction__list__sort_8h_source.html">transaction_list_sort.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="transaction__model_8h_source.html">transaction_model.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="transaction__list_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a119133276c26aa62d5bc52f540c42148">transaction_list_create</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#aa34d9e30792bb09d3dfef963febee748">transaction_list_append_transaction</a> (gint transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#afbdc1da83c1a8ae632c753d56acad64c">transaction_list_append_archive</a> (gint archive_store_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#aaf9d03a4407c95f392ef53378ce1fd0f">transaction_list_remove_transaction</a> (gint transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#aa086653043993d4f3fef7e086c595849">transaction_list_remove_archive</a> (gint archive_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#aaa7ed8c4599c862c1ec1332b2ec80c2f">transaction_list_filter</a> (gint account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a31251e7e47a79c21b63cffdea74a2ee9">transaction_list_colorize</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a59ee075b27fa18fb9691201b52ec6692">transaction_list_set_balances</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a7530aa4be260035a39dc5de2acbb8f62">transaction_list_update_transaction</a> (gint transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#aee9667138888c4cb946225cae2972363">transaction_list_update_element</a> (gint element_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#ae0a3124ae16f900464b4f062e1ae794b">transaction_list_update_column</a> (gint column, GValue *value)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#afc18493ff506a23b7c89174b7e6a8992">transaction_list_update_cell</a> (gint cell_col, gint cell_line)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#acb52b4ec82acaa5e86ef02efad179bdd">transaction_list_show_toggle_mark</a> (gboolean show)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#ab23532a1ddd63489aaf16011032bd09b">transaction_list_set</a> (GtkTreeIter *iter,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a962d6144bbd2b7b482f964ba557cc38c">transaction_list_get_n_children</a> (gint transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a05971725f868ba198edf8b30242fec2a">transaction_list_redraw</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a8a1d86e0958c09384cf1363b0f07eb3b">transaction_list_get_last_line</a> (gint nb_rows)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a8e2f2c3981823494ae5f16f0e8db383b">transaction_list_set_color_jour</a> (gint account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a735d8f0f97ed0239d4b0f7d0cd0604bf">transaction_list_get_variance</a> (gint transaction_number)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a881db8e6c000ad504ff0183a674cb196">archive_background_color</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a58089bf9225ae2e274165369f8bc7a00">couleur_fond</a> [2]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a668e8ab17ed4a22af1464c091c2668c2">couleur_jour</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a36eb372c7727c89f6ed96a3756a28740">display_one_line</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#aa74165188c76a0e2ba64239b2236841c">display_three_lines</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a420ccd553ba703004c7415ba8ee25630">display_two_lines</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#ac2f7ca891d6c3a7cfb5c8df02918cf7c">orphan_child_transactions</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#abc4f631d953e2be68189a6fbcf55cd1d">split_background</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a0c444565adac369ff42631d4b7b7e6bb">tab_affichage_ope</a> [TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a8169600c05eb3674c1b11ca67dd677d3">text_color</a> [2]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>this contains the general functions to work with the CustomList as append/remove some transactions, filter, colorize the list...</p>
+<p>Grisbi shouldn't work directly on the CustomList except by those files </p>
+
+<p>Définition dans le fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="afbdc1da83c1a8ae632c753d56acad64c"></a><!-- doxytag: member="transaction_list.c::transaction_list_append_archive" ref="afbdc1da83c1a8ae632c753d56acad64c" args="(gint archive_store_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_list_append_archive </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_store_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>append an archive to the list create the CustomList if still not created</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_store_number</em>&nbsp;</td><td>the archive to append</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l00294">294</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa34d9e30792bb09d3dfef963febee748"></a><!-- doxytag: member="transaction_list.c::transaction_list_append_transaction" ref="aa34d9e30792bb09d3dfef963febee748" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_list_append_transaction </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>append a transaction to the list that transaction can be a mother or a child (split)</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td>the transaction to append</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l00116">116</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a31251e7e47a79c21b63cffdea74a2ee9"></a><!-- doxytag: member="transaction_list.c::transaction_list_colorize" ref="a31251e7e47a79c21b63cffdea74a2ee9" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_list_colorize </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>colorize transactions in the model</p>
+<p>to update all the tree view, use gsb_transactions_list_update_tree_view instead</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l00786">786</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a119133276c26aa62d5bc52f540c42148"></a><!-- doxytag: member="transaction_list.c::transaction_list_create" ref="a119133276c26aa62d5bc52f540c42148" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_create </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create the new custom list</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE : ok, FALSE : pb while creating the list </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l00097">97</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aaa7ed8c4599c862c1ec1332b2ec80c2f"></a><!-- doxytag: member="transaction_list.c::transaction_list_filter" ref="aaa7ed8c4599c862c1ec1332b2ec80c2f" args="(gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_list_filter </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>this function is called to filter the model, according to account number check each line of the list and mark it as visible or not this function will initialize and fill visibles_rows and num_visibles_rows in the model</p>
+<p>usually, we need to call that function first, then transaction_list_sort, the transaction_list_colorize</p>
+<p>to update all the tree view, use gsb_transactions_list_update_tree_view instead</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td>account we want the filter</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l00603">603</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8a1d86e0958c09384cf1363b0f07eb3b"></a><!-- doxytag: member="transaction_list.c::transaction_list_get_last_line" ref="a8a1d86e0958c09384cf1363b0f07eb3b" args="(gint nb_rows)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint transaction_list_get_last_line </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>nb_rows</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the last visible line</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>nb_rows</em>&nbsp;</td><td>the number of visibles lines (1, 2, 3 or 4)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>numero of the last line </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l01956">1956</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a962d6144bbd2b7b482f964ba557cc38c"></a><!-- doxytag: member="transaction_list.c::transaction_list_get_n_children" ref="a962d6144bbd2b7b482f964ba557cc38c" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint transaction_list_get_n_children </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the number of children of the transaction, in the tree view so the white line is count into</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td>the split we want the children number</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of children or 0 if not a split </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l01594">1594</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a735d8f0f97ed0239d4b0f7d0cd0604bf"></a><!-- doxytag: member="transaction_list.c::transaction_list_get_variance" ref="a735d8f0f97ed0239d4b0f7d0cd0604bf" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_get_variance </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>retourne TRUE si la variance de l'opération ventilée == 0 </p>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l02091">2091</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a05971725f868ba198edf8b30242fec2a"></a><!-- doxytag: member="transaction_list.c::transaction_list_redraw" ref="a05971725f868ba198edf8b30242fec2a" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_redraw </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>send a "row-changed" to all the row of the showed transactions, so in fact re-draw the list and colors</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l01626">1626</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa086653043993d4f3fef7e086c595849"></a><!-- doxytag: member="transaction_list.c::transaction_list_remove_archive" ref="aa086653043993d4f3fef7e086c595849" args="(gint archive_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_remove_archive </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>remove an archive from the tree model it should be a good thing to update the tree_view after that</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the archive to remove</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE : archive removed, FALSE : problem, nothing done </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l00513">513</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aaf9d03a4407c95f392ef53378ce1fd0f"></a><!-- doxytag: member="transaction_list.c::transaction_list_remove_transaction" ref="aaf9d03a4407c95f392ef53378ce1fd0f" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_remove_transaction </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>remove a transaction from the tree model this doesn't change any filter or sort parameters, so just need to colorize and set the balances after that</p>
+<p>WARNING : the transaction (and its children) must not be freed when come here</p>
+<p>NOTE : if the removed transaction is the selected transaction, the model won't have selected transaction anymore, so need to do selection_next before</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td>the transaction to remove</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE : transaction removed, FALSE : problem, nothing done </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l00371">371</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab23532a1ddd63489aaf16011032bd09b"></a><!-- doxytag: member="transaction_list.c::transaction_list_set" ref="ab23532a1ddd63489aaf16011032bd09b" args="(GtkTreeIter *iter,...)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_list_set </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreeIter *&nbsp;</td>
+          <td class="paramname"> <em>iter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&nbsp;</td>
+          <td class="paramname"> <em>...</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l01485">1485</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a59ee075b27fa18fb9691201b52ec6692"></a><!-- doxytag: member="transaction_list.c::transaction_list_set_balances" ref="a59ee075b27fa18fb9691201b52ec6692" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_list_set_balances </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>fill the balance cell of the transactions in the sorted model</p>
+<p>to update all the tree view, use gsb_transactions_list_update_tree_view instead</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l00854">854</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8e2f2c3981823494ae5f16f0e8db383b"></a><!-- doxytag: member="transaction_list.c::transaction_list_set_color_jour" ref="a8e2f2c3981823494ae5f16f0e8db383b" args="(gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_list_set_color_jour </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>colorise avec un fond gris la ligne qui correspond à la date du jour</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l02029">2029</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acb52b4ec82acaa5e86ef02efad179bdd"></a><!-- doxytag: member="transaction_list.c::transaction_list_show_toggle_mark" ref="acb52b4ec82acaa5e86ef02efad179bdd" args="(gboolean show)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_show_toggle_mark </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>show</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>show or hide the toggle button on the P column</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>show</em>&nbsp;</td><td>TRUE/FALSE</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE : ok, FALSE : pb, nothing done </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l01424">1424</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afc18493ff506a23b7c89174b7e6a8992"></a><!-- doxytag: member="transaction_list.c::transaction_list_update_cell" ref="afc18493ff506a23b7c89174b7e6a8992" args="(gint cell_col, gint cell_line)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_update_cell </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>cell_col</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>cell_line</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update a cell with it's element usually you need transaction_list_update_element wich will update all the cells of the element this function is called to erase some cell after moving the element (ie the notes element has moved the cell location, we need to erase the last cells, so we call this with the last cell_col and cell_line In that case, be sure to set before tab_affichage_ope[cell_col][cell_line] to 0, else the last cells will be re-written without change )</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>cell_col</em>&nbsp;</td><td>the column of the element we want to update </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>cell_line</em>&nbsp;</td><td>the line of the element we want to update</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE : problem, nothing done ; TRUE : ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l01322">1322</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae0a3124ae16f900464b4f062e1ae794b"></a><!-- doxytag: member="transaction_list.c::transaction_list_update_column" ref="ae0a3124ae16f900464b4f062e1ae794b" args="(gint column, GValue *value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_update_column </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>column</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GValue *&nbsp;</td>
+          <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update the column of all the record with the value this is used to update some non seen fixed columns, as font for example to update some visible columns, use instead transaction_list_update_element</p>
+<p>the columns are defined in <a class="el" href="custom__list_8h.html">custom_list.h</a></p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>column</em>&nbsp;</td><td>the column of the value we want to update </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td>the value to set in the column</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE : problem, nothing done ; TRUE : ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l01226">1226</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aee9667138888c4cb946225cae2972363"></a><!-- doxytag: member="transaction_list.c::transaction_list_update_element" ref="aee9667138888c4cb946225cae2972363" args="(gint element_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_update_element </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>element_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update the given element for all the transactions in the list an element is something showed in the list, as date, payee... to update a column not showed, as color, font... use instead transaction_list_update_column</p>
+<p>the elements are defined in <a class="el" href="gsb__transactions__list_8h.html">gsb_transactions_list.h</a></p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>element_number</em>&nbsp;</td><td>the element to update</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE : problem, nothing done ; TRUE : ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l01194">1194</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7530aa4be260035a39dc5de2acbb8f62"></a><!-- doxytag: member="transaction_list.c::transaction_list_update_transaction" ref="a7530aa4be260035a39dc5de2acbb8f62" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_update_transaction </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update a transaction on the model avoid to change it with transaction_list_set it's slower but lower code... and now, slower is not really visible, so use that function instead of transaction_list_set</p>
+<p>this function modify just the transaction on the view, call gsb_transactions_list_update_transaction will make all the other necessary changes when a transaction is modified</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE : transaction updated, FALSE : problem, nothing done </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list_8c_source.html#l00969">969</a> du fichier <a class="el" href="transaction__list_8c_source.html">transaction_list.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a881db8e6c000ad504ff0183a674cb196"></a><!-- doxytag: member="transaction_list.c::archive_background_color" ref="a881db8e6c000ad504ff0183a674cb196" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#a881db8e6c000ad504ff0183a674cb196">archive_background_color</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00115">115</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a58089bf9225ae2e274165369f8bc7a00"></a><!-- doxytag: member="transaction_list.c::couleur_fond" ref="a58089bf9225ae2e274165369f8bc7a00" args="[2]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#a58089bf9225ae2e274165369f8bc7a00">couleur_fond</a>[2]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>colors in the transactions list </p>
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00112">112</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a668e8ab17ed4a22af1464c091c2668c2"></a><!-- doxytag: member="transaction_list.c::couleur_jour" ref="a668e8ab17ed4a22af1464c091c2668c2" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#a668e8ab17ed4a22af1464c091c2668c2">couleur_jour</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00113">113</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a36eb372c7727c89f6ed96a3756a28740"></a><!-- doxytag: member="transaction_list.c::display_one_line" ref="a36eb372c7727c89f6ed96a3756a28740" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="transaction__list_8c.html#a36eb372c7727c89f6ed96a3756a28740">display_one_line</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="affichage__liste_8c_source.html#l00066">66</a> du fichier <a class="el" href="affichage__liste_8c_source.html">affichage_liste.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa74165188c76a0e2ba64239b2236841c"></a><!-- doxytag: member="transaction_list.c::display_three_lines" ref="aa74165188c76a0e2ba64239b2236841c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="transaction__list_8c.html#aa74165188c76a0e2ba64239b2236841c">display_three_lines</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="affichage__liste_8c_source.html#l00074">74</a> du fichier <a class="el" href="affichage__liste_8c_source.html">affichage_liste.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a420ccd553ba703004c7415ba8ee25630"></a><!-- doxytag: member="transaction_list.c::display_two_lines" ref="a420ccd553ba703004c7415ba8ee25630" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="transaction__list_8c.html#a420ccd553ba703004c7415ba8ee25630">display_two_lines</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="affichage__liste_8c_source.html#l00070">70</a> du fichier <a class="el" href="affichage__liste_8c_source.html">affichage_liste.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a26f304bec3fdc0651b9aa8765d4de3c6"></a><!-- doxytag: member="transaction_list.c::null_real" ref="a26f304bec3fdc0651b9aa8765d4de3c6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> <a class="el" href="utils__editables_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00042">42</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac2f7ca891d6c3a7cfb5c8df02918cf7c"></a><!-- doxytag: member="transaction_list.c::orphan_child_transactions" ref="ac2f7ca891d6c3a7cfb5c8df02918cf7c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* <a class="el" href="transaction__list_8c.html#ac2f7ca891d6c3a7cfb5c8df02918cf7c">orphan_child_transactions</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>this is used when opening a file and filling the model, when some children didn't find their mother </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00141">141</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abc4f631d953e2be68189a6fbcf55cd1d"></a><!-- doxytag: member="transaction_list.c::split_background" ref="abc4f631d953e2be68189a6fbcf55cd1d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#abc4f631d953e2be68189a6fbcf55cd1d">split_background</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00117">117</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0c444565adac369ff42631d4b7b7e6bb"></a><!-- doxytag: member="transaction_list.c::tab_affichage_ope" ref="a0c444565adac369ff42631d4b7b7e6bb" args="[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="transaction__list_8c.html#a0c444565adac369ff42631d4b7b7e6bb">tab_affichage_ope</a>[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="affichage__liste_8c_source.html#l00063">63</a> du fichier <a class="el" href="affichage__liste_8c_source.html">affichage_liste.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8169600c05eb3674c1b11ca67dd677d3"></a><!-- doxytag: member="transaction_list.c::text_color" ref="a8169600c05eb3674c1b11ca67dd677d3" args="[2]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#a8169600c05eb3674c1b11ca67dd677d3">text_color</a>[2]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00118">118</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="transaction_list.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,490 @@
+\section{Référence du fichier gsb\_\-form.h}
+\label{gsb__form_8h}\index{gsb\_\-form.h@{gsb\_\-form.h}}
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf direction\_\-move} \{ {\bf GSB\_\-LEFT} =  0, 
+{\bf GSB\_\-RIGHT}, 
+{\bf GSB\_\-UP}, 
+{\bf GSB\_\-DOWN}
+ \}
+\item 
+enum {\bf origin\_\-values} \{ {\bf ORIGIN\_\-VALUE\_\-OTHER} =  -\/3, 
+{\bf ORIGIN\_\-VALUE\_\-HOME}, 
+{\bf ORIGIN\_\-VALUE\_\-SCHEDULED}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-form\_\-allocate\_\-size} (GtkWidget $\ast$table, GtkAllocation $\ast$allocation, gpointer null)
+\item 
+gboolean {\bf gsb\_\-form\_\-button\_\-press\_\-event} (GtkWidget $\ast$entry, GdkEventButton $\ast$ev, gint $\ast$ptr\_\-origin)
+\item 
+gboolean {\bf gsb\_\-form\_\-change\_\-sensitive\_\-buttons} (gboolean sensitive)
+\item 
+void {\bf gsb\_\-form\_\-check\_\-auto\_\-separator} (GtkWidget $\ast$entry)
+\item 
+gboolean {\bf gsb\_\-form\_\-clean} (gint account\_\-number)
+\item 
+void {\bf gsb\_\-form\_\-create\_\-widgets} (void)
+\item 
+gboolean {\bf gsb\_\-form\_\-entry\_\-get\_\-focus} (GtkWidget $\ast$entry)
+\item 
+gboolean {\bf gsb\_\-form\_\-entry\_\-lose\_\-focus} (GtkWidget $\ast$entry, GdkEventFocus $\ast$ev, gint $\ast$ptr\_\-origin)
+\item 
+gboolean {\bf gsb\_\-form\_\-escape\_\-form} (void)
+\item 
+gboolean {\bf gsb\_\-form\_\-fill\_\-by\_\-transaction} (gint transaction\_\-number, gint is\_\-transaction, gboolean grab\_\-focus)
+\item 
+void {\bf gsb\_\-form\_\-fill\_\-element} (gint element\_\-number, gint account\_\-number, gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-form\_\-fill\_\-from\_\-account} (gint account\_\-number)
+\item 
+gboolean {\bf gsb\_\-form\_\-finish\_\-edition} (void)
+\item 
+gint {\bf gsb\_\-form\_\-get\_\-account\_\-number} (void)
+\item 
+gint {\bf gsb\_\-form\_\-get\_\-element\_\-expandable} (gint element\_\-number)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-form\_\-get\_\-element\_\-widget\_\-from\_\-list} (gint element\_\-number, GSList $\ast$list)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-form\_\-get\_\-form\_\-widget} (void)
+\item 
+gint {\bf gsb\_\-form\_\-get\_\-origin} (void)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-form\_\-get\_\-scheduler\_\-part} (void)
+\item 
+gboolean {\bf gsb\_\-form\_\-is\_\-visible} (void)
+\item 
+gboolean {\bf gsb\_\-form\_\-key\_\-press\_\-event} (GtkWidget $\ast$widget, GdkEventKey $\ast$ev, gint $\ast$ptr\_\-origin)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-form\_\-new} (void)
+\item 
+gboolean {\bf gsb\_\-form\_\-set\_\-expander\_\-visible} (gboolean visible, gboolean transactions\_\-list)
+\item 
+gboolean {\bf gsb\_\-form\_\-set\_\-sensitive} (gboolean split, gboolean split\_\-child)
+\item 
+gboolean {\bf gsb\_\-form\_\-show} (gboolean show)
+\item 
+gboolean {\bf gsb\_\-form\_\-switch\_\-expander} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation du type de l'énumération}
+\index{gsb\_\-form.h@{gsb\_\-form.h}!direction\_\-move@{direction\_\-move}}
+\index{direction\_\-move@{direction\_\-move}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{direction\_\-move}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf direction\_\-move}}\label{gsb__form_8h_a2e0bbf02b618287b4490e34a8779bbf1}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{GSB\_\-LEFT@{GSB\_\-LEFT}!gsb\_\-form.h@{gsb\_\-form.h}}\index{gsb\_\-form.h@{gsb\_\-form.h}!GSB\_\-LEFT@{GSB\_\-LEFT}}\item[{\em 
+GSB\_\-LEFT\label{gsb__form_8h_a2e0bbf02b618287b4490e34a8779bbf1a7d92f8caf6275df04fe1231e5dcf1fd8}
+}]\index{GSB\_\-RIGHT@{GSB\_\-RIGHT}!gsb\_\-form.h@{gsb\_\-form.h}}\index{gsb\_\-form.h@{gsb\_\-form.h}!GSB\_\-RIGHT@{GSB\_\-RIGHT}}\item[{\em 
+GSB\_\-RIGHT\label{gsb__form_8h_a2e0bbf02b618287b4490e34a8779bbf1ae962ac70f6317817286d0011e078049f}
+}]\index{GSB\_\-UP@{GSB\_\-UP}!gsb\_\-form.h@{gsb\_\-form.h}}\index{gsb\_\-form.h@{gsb\_\-form.h}!GSB\_\-UP@{GSB\_\-UP}}\item[{\em 
+GSB\_\-UP\label{gsb__form_8h_a2e0bbf02b618287b4490e34a8779bbf1abd08bea538310c0a89e5aa3e11e17cf5}
+}]\index{GSB\_\-DOWN@{GSB\_\-DOWN}!gsb\_\-form.h@{gsb\_\-form.h}}\index{gsb\_\-form.h@{gsb\_\-form.h}!GSB\_\-DOWN@{GSB\_\-DOWN}}\item[{\em 
+GSB\_\-DOWN\label{gsb__form_8h_a2e0bbf02b618287b4490e34a8779bbf1a3821c30759d8525c638a2e56eacc3716}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 7 du fichier gsb\_\-form.h.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!origin\_\-values@{origin\_\-values}}
+\index{origin\_\-values@{origin\_\-values}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{origin\_\-values}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf origin\_\-values}}\label{gsb__form_8h_acbde03f1dd6119a46288432487d33ea7}
+returned values want ask for the origin must be $<$ 0 because 0 and more are reserved for account numbers \begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{ORIGIN\_\-VALUE\_\-OTHER@{ORIGIN\_\-VALUE\_\-OTHER}!gsb\_\-form.h@{gsb\_\-form.h}}\index{gsb\_\-form.h@{gsb\_\-form.h}!ORIGIN\_\-VALUE\_\-OTHER@{ORIGIN\_\-VALUE\_\-OTHER}}\item[{\em 
+ORIGIN\_\-VALUE\_\-OTHER\label{gsb__form_8h_acbde03f1dd6119a46288432487d33ea7acff47176beac417594ae97b9862907a7}
+}]\index{ORIGIN\_\-VALUE\_\-HOME@{ORIGIN\_\-VALUE\_\-HOME}!gsb\_\-form.h@{gsb\_\-form.h}}\index{gsb\_\-form.h@{gsb\_\-form.h}!ORIGIN\_\-VALUE\_\-HOME@{ORIGIN\_\-VALUE\_\-HOME}}\item[{\em 
+ORIGIN\_\-VALUE\_\-HOME\label{gsb__form_8h_acbde03f1dd6119a46288432487d33ea7a91926ef0f41e009edddada4c2f2eb64b}
+}]\index{ORIGIN\_\-VALUE\_\-SCHEDULED@{ORIGIN\_\-VALUE\_\-SCHEDULED}!gsb\_\-form.h@{gsb\_\-form.h}}\index{gsb\_\-form.h@{gsb\_\-form.h}!ORIGIN\_\-VALUE\_\-SCHEDULED@{ORIGIN\_\-VALUE\_\-SCHEDULED}}\item[{\em 
+ORIGIN\_\-VALUE\_\-SCHEDULED\label{gsb__form_8h_acbde03f1dd6119a46288432487d33ea7a93672b0b106cc1bb656ab4cd7508da59}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 16 du fichier gsb\_\-form.h.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-allocate\_\-size@{gsb\_\-form\_\-allocate\_\-size}}
+\index{gsb\_\-form\_\-allocate\_\-size@{gsb\_\-form\_\-allocate\_\-size}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-allocate\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-allocate\_\-size (GtkWidget $\ast$ {\em table}, \/  GtkAllocation $\ast$ {\em allocation}, \/  gpointer {\em null})}\label{gsb__form_8h_a2614075bf7a6653112864bfb189f2ef4}
+set the size of the columns in the form, according to the user conf and the size of the window
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em table}]the table wich receive the 'size-\/allocate' signal \item[{\em allocation}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3363 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-button\_\-press\_\-event@{gsb\_\-form\_\-button\_\-press\_\-event}}
+\index{gsb\_\-form\_\-button\_\-press\_\-event@{gsb\_\-form\_\-button\_\-press\_\-event}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-button\_\-press\_\-event}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-button\_\-press\_\-event (GtkWidget $\ast$ {\em entry}, \/  GdkEventButton $\ast$ {\em ev}, \/  gint $\ast$ {\em ptr\_\-origin})}\label{gsb__form_8h_a2b1fd15d1d10cefef073a452272c0d96}
+called when we press the button in an entry field in the form if \char`\"{}transaction\_\-number\_\-in\_\-form\char`\"{} as data of transaction\_\-form is NULL, do the necessary to begin a new empty transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]wich receive the signal \item[{\em ev}]can be NULL \item[{\em ptr\_\-origin}]a pointer to int on the element\_\-number\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1882 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-change\_\-sensitive\_\-buttons@{gsb\_\-form\_\-change\_\-sensitive\_\-buttons}}
+\index{gsb\_\-form\_\-change\_\-sensitive\_\-buttons@{gsb\_\-form\_\-change\_\-sensitive\_\-buttons}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-change\_\-sensitive\_\-buttons}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-change\_\-sensitive\_\-buttons (gboolean {\em sensitive})}\label{gsb__form_8h_a4b21c0e7d139bd0161977dad9633c88a}
+sensitive or unsensitive all the buttons on the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em sensitive}]TRUE or FALSE\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1969 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-check\_\-auto\_\-separator@{gsb\_\-form\_\-check\_\-auto\_\-separator}}
+\index{gsb\_\-form\_\-check\_\-auto\_\-separator@{gsb\_\-form\_\-check\_\-auto\_\-separator}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-check\_\-auto\_\-separator}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-form\_\-check\_\-auto\_\-separator (GtkWidget $\ast$ {\em entry})}\label{gsb__form_8h_a60efcda31e6e2aff0a5d1e721810128c}
+called when leave an amount entry, il the automatic separator is on, set the separator in the entry if there is none
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 1763 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-clean@{gsb\_\-form\_\-clean}}
+\index{gsb\_\-form\_\-clean@{gsb\_\-form\_\-clean}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-clean}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-clean (gint {\em account\_\-number})}\label{gsb__form_8h_aeefa6b4f242f4d3982b7eb0c7c5ef2cc}
+clean the form according to the account\_\-number and set the default values
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account}]number\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1241 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-create\_\-widgets@{gsb\_\-form\_\-create\_\-widgets}}
+\index{gsb\_\-form\_\-create\_\-widgets@{gsb\_\-form\_\-create\_\-widgets}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-create\_\-widgets}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-form\_\-create\_\-widgets (void)}\label{gsb__form_8h_ab1073bc2ba950634cd4625a815b6f110}
+Do the grunt job of creating widgets in for the Grisbi form. Fills them in form\_\-expander, a GtkExpander normally created by \doxyref{gsb\_\-form\_\-new()}{p.}{gsb__form_8c_a8f9caee3ec92e2364ea7acb46a7f558c}. It is reentrant, that is calling it over and over will reinitialize form content and delete previous content. 
+
+Définition à la ligne 207 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-entry\_\-get\_\-focus@{gsb\_\-form\_\-entry\_\-get\_\-focus}}
+\index{gsb\_\-form\_\-entry\_\-get\_\-focus@{gsb\_\-form\_\-entry\_\-get\_\-focus}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-entry\_\-get\_\-focus}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-entry\_\-get\_\-focus (GtkWidget $\ast$ {\em entry})}\label{gsb__form_8h_a9d4a08b546d966dcaa1293e5b7820857}
+called when an entry get the focus, if the entry is free, set it normal and erase the help content
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]\item[{\em ev}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1418 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-entry\_\-lose\_\-focus@{gsb\_\-form\_\-entry\_\-lose\_\-focus}}
+\index{gsb\_\-form\_\-entry\_\-lose\_\-focus@{gsb\_\-form\_\-entry\_\-lose\_\-focus}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-entry\_\-lose\_\-focus}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-entry\_\-lose\_\-focus (GtkWidget $\ast$ {\em entry}, \/  GdkEventFocus $\ast$ {\em ev}, \/  gint $\ast$ {\em ptr\_\-origin})}\label{gsb__form_8h_a296c92c9bbb57810858ffae689256511}
+called when an entry lose the focus
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]\item[{\em ev}]\item[{\em ptr\_\-origin}]a pointer gint wich is the number of the element\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1454 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-escape\_\-form@{gsb\_\-form\_\-escape\_\-form}}
+\index{gsb\_\-form\_\-escape\_\-form@{gsb\_\-form\_\-escape\_\-form}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-escape\_\-form}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-escape\_\-form (void)}\label{gsb__form_8h_a5629926349c0078b226ef9da39c6c7c3}
+called when cancel a form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3315 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-fill\_\-by\_\-transaction@{gsb\_\-form\_\-fill\_\-by\_\-transaction}}
+\index{gsb\_\-form\_\-fill\_\-by\_\-transaction@{gsb\_\-form\_\-fill\_\-by\_\-transaction}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-fill\_\-by\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-fill\_\-by\_\-transaction (gint {\em transaction\_\-number}, \/  gint {\em is\_\-transaction}, \/  gboolean {\em grab\_\-focus})}\label{gsb__form_8h_af0e251779d36898a65c54b5a51d700f2}
+fill the form according to the transaction or scheduled transaction given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction or scheduled transaction \item[{\em is\_\-transaction}]TRUE if transaction, FALSE if scheduled transaction that param could be taken from the navigation bar but i prefer set in param for now \item[{\em grab\_\-focus}]if TRUE, after filling the form, the date will grab the focus ; if FALSE, nothing change with focus\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 389 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-fill\_\-element@{gsb\_\-form\_\-fill\_\-element}}
+\index{gsb\_\-form\_\-fill\_\-element@{gsb\_\-form\_\-fill\_\-element}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-fill\_\-element}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-form\_\-fill\_\-element (gint {\em element\_\-number}, \/  gint {\em account\_\-number}, \/  gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__form_8h_a2285e35da9f2246df644ab2ffcfe49af}
+fill the element\_\-number in the form according to the given transaction or scheduled transaction this is the best way to fill the form : send here the element number, the transaction or scheduled number and this function will fill the good element with the good value in the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em element\_\-number}]the element we want to fill \item[{\em account\_\-number}]used for currency and method of payment \item[{\em transaction\_\-number}]the number of transaction or scheduled transaction to fill the element \item[{\em is\_\-transaction}]TRUE if transaction, FALSE if scheduled transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 641 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-fill\_\-from\_\-account@{gsb\_\-form\_\-fill\_\-from\_\-account}}
+\index{gsb\_\-form\_\-fill\_\-from\_\-account@{gsb\_\-form\_\-fill\_\-from\_\-account}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-fill\_\-from\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-fill\_\-from\_\-account (gint {\em account\_\-number})}\label{gsb__form_8h_afb1d295baed50f6ee280c64d012b0591}
+fill the form according to the account\_\-number :
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]the number of account or -\/1 to get it from the account button\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1172 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-finish\_\-edition@{gsb\_\-form\_\-finish\_\-edition}}
+\index{gsb\_\-form\_\-finish\_\-edition@{gsb\_\-form\_\-finish\_\-edition}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-finish\_\-edition}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-finish\_\-edition (void)}\label{gsb__form_8h_a6dea38d7e749e25871a41838806e9c42}
+called when the user finishes the edition of the form this function works for transaction and scheduled transactions, it add/modify the transaction in the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2261 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-get\_\-account\_\-number@{gsb\_\-form\_\-get\_\-account\_\-number}}
+\index{gsb\_\-form\_\-get\_\-account\_\-number@{gsb\_\-form\_\-get\_\-account\_\-number}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-get\_\-account\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-form\_\-get\_\-account\_\-number (void)}\label{gsb__form_8h_a6d9502c48d88f43354c126077ade6e1e}
+return the current account number according, if we are on transactions list, return the current account, if we are on scheduling list, return the selected account on button if we are on welcome page, it's only if it's an execution of scheduled
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em origin}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the account number or -\/2 if problem (-\/1 is reserved to get account from the button) 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1085 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-get\_\-element\_\-expandable@{gsb\_\-form\_\-get\_\-element\_\-expandable}}
+\index{gsb\_\-form\_\-get\_\-element\_\-expandable@{gsb\_\-form\_\-get\_\-element\_\-expandable}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-get\_\-element\_\-expandable}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-form\_\-get\_\-element\_\-expandable (gint {\em element\_\-number})}\label{gsb__form_8h_af90472ce3b0d5cb03dd778fe07d5c35c}
+Determine element is expandable or not in a GtkTable.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em element\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 1395 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-get\_\-element\_\-widget\_\-from\_\-list@{gsb\_\-form\_\-get\_\-element\_\-widget\_\-from\_\-list}}
+\index{gsb\_\-form\_\-get\_\-element\_\-widget\_\-from\_\-list@{gsb\_\-form\_\-get\_\-element\_\-widget\_\-from\_\-list}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-get\_\-element\_\-widget\_\-from\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-form\_\-get\_\-element\_\-widget\_\-from\_\-list (gint {\em element\_\-number}, \/  GSList $\ast$ {\em list})}\label{gsb__form_8h_a4f3c5b646acc08a46a9742e1ea1086b8}
+return the widget of the element\_\-number given in param in the list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em element\_\-number}]\item[{\em GSList}]$\ast$list\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a GtkWidget $\ast$ or NULL 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3494 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-get\_\-form\_\-widget@{gsb\_\-form\_\-get\_\-form\_\-widget}}
+\index{gsb\_\-form\_\-get\_\-form\_\-widget@{gsb\_\-form\_\-get\_\-form\_\-widget}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-get\_\-form\_\-widget}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-form\_\-get\_\-form\_\-widget (void)}\label{gsb__form_8h_a8cc8131c63a611a38f617ecd1e86b1e3}
+the value transaction\_\-form is static, that function return it
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a pointer to the transaction form 
+\end{DoxyReturn}
+
+
+Définition à la ligne 162 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-get\_\-origin@{gsb\_\-form\_\-get\_\-origin}}
+\index{gsb\_\-form\_\-get\_\-origin@{gsb\_\-form\_\-get\_\-origin}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-get\_\-origin}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-form\_\-get\_\-origin (void)}\label{gsb__form_8h_a4cf81657c9b860f60d0f42cc952fadb6}
+get the page where we are and return a number according that page : ORIGIN\_\-VALUE\_\-OTHER : we are neither on scheduled transactions, neither transactions list, neither welcome page ORIGIN\_\-VALUE\_\-HOME : we are on the welcome page ORIGIN\_\-VALUE\_\-SCHEDULED : we are on the scheduled transactions 0 to x : the account number where we are that function is called at each beginning to know where we are and what to do...
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number where we are 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1138 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-get\_\-scheduler\_\-part@{gsb\_\-form\_\-get\_\-scheduler\_\-part}}
+\index{gsb\_\-form\_\-get\_\-scheduler\_\-part@{gsb\_\-form\_\-get\_\-scheduler\_\-part}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-get\_\-scheduler\_\-part}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-form\_\-get\_\-scheduler\_\-part (void)}\label{gsb__form_8h_ab792f6c61ee112779fdbf50028337d02}
+return the address of the scheduler part widget
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a pointer to a widget (the scheduler part of the form) 
+\end{DoxyReturn}
+
+
+Définition à la ligne 195 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-is\_\-visible@{gsb\_\-form\_\-is\_\-visible}}
+\index{gsb\_\-form\_\-is\_\-visible@{gsb\_\-form\_\-is\_\-visible}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-is\_\-visible}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-is\_\-visible (void)}\label{gsb__form_8h_aa8d4c0a5ce5d891427405bcc9ce9372e}
+Check if transactions form is visible.
+
+\begin{DoxyReturn}{Renvoie}
+TRUE if transactions forms is expanded, FALSE otherwise. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1052 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-key\_\-press\_\-event@{gsb\_\-form\_\-key\_\-press\_\-event}}
+\index{gsb\_\-form\_\-key\_\-press\_\-event@{gsb\_\-form\_\-key\_\-press\_\-event}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-key\_\-press\_\-event}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-key\_\-press\_\-event (GtkWidget $\ast$ {\em widget}, \/  GdkEventKey $\ast$ {\em ev}, \/  gint $\ast$ {\em ptr\_\-origin})}\label{gsb__form_8h_a39be1dd293de38ff5fe006d67b5dbb0e}
+called when press a key on an element of the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em widget}]wich receive the signal \item[{\em ev}]\item[{\em ptr\_\-origin}]a pointer number of the element\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1995 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-new@{gsb\_\-form\_\-new}}
+\index{gsb\_\-form\_\-new@{gsb\_\-form\_\-new}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-form\_\-new (void)}\label{gsb__form_8h_a8f9caee3ec92e2364ea7acb46a7f558c}
+Create an empty form in an GtkExpander.
+
+\begin{DoxyReturn}{Renvoie}
+Expander that contains form. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 172 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-set\_\-expander\_\-visible@{gsb\_\-form\_\-set\_\-expander\_\-visible}}
+\index{gsb\_\-form\_\-set\_\-expander\_\-visible@{gsb\_\-form\_\-set\_\-expander\_\-visible}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-set\_\-expander\_\-visible}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-set\_\-expander\_\-visible (gboolean {\em visible}, \/  gboolean {\em transactions\_\-list})}\label{gsb__form_8h_a930d0b9f0d831e2ddc6ad9730c2292eb}
+show or hide the expander
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em visible}]TRUE or FALSE \item[{\em transactions\_\-list}]TRUE if we are on transactions, FALSE if we are on scheduler\end{DoxyParams}
+return FALSE 
+
+Définition à la ligne 924 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-set\_\-sensitive@{gsb\_\-form\_\-set\_\-sensitive}}
+\index{gsb\_\-form\_\-set\_\-sensitive@{gsb\_\-form\_\-set\_\-sensitive}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-set\_\-sensitive}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-set\_\-sensitive (gboolean {\em split}, \/  gboolean {\em split\_\-child})}\label{gsb__form_8h_a9b10e647aa589965a9dead94f562c855}
+set the form sensitive, depend if it's a split child or normal transaction in fact, the form is always sensitive, so just unsensitive what is needed for split child or split mother
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em split}]TRUE if is split of transaction (mother) \item[{\em split\_\-child}]TRUE if it's a child\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 570 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-show@{gsb\_\-form\_\-show}}
+\index{gsb\_\-form\_\-show@{gsb\_\-form\_\-show}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-show}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-show (gboolean {\em show})}\label{gsb__form_8h_a6c04fa27ec8a5ddc37d4626cf4803648}
+show the form, detect automaticly what we need to show, even for transactions, scheduled\_\-transactions and the buttons valid/cancel
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em show}]TRUE if we want to automatickly turn on the expander, FALSE if we don't want, so just let it\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1011 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form.h@{gsb\_\-form.h}!gsb\_\-form\_\-switch\_\-expander@{gsb\_\-form\_\-switch\_\-expander}}
+\index{gsb\_\-form\_\-switch\_\-expander@{gsb\_\-form\_\-switch\_\-expander}!gsb_form.h@{gsb\_\-form.h}}
+\subsubsection[{gsb\_\-form\_\-switch\_\-expander}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-switch\_\-expander (void)}\label{gsb__form_8h_a1b98eb9782332c6253864efa0dfce2ac}
+show/hide the form according to the expander, this will emit a signal as if the user changed it by himself
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 952 du fichier gsb\_\-form.c.
+

@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier parametres.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier parametres.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="parametres_8h_source.html">parametres.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="menu_8h_source.html">menu.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__config_8h_source.html">bet_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__archive__config_8h_source.html">gsb_archive_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__automem_8h_source.html">gsb_automem.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__bank_8h_source.html">gsb_bank.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__currency__config_8h_source.html">gsb_currency_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__currency__link__config_8h_source.html">gsb_currency_link_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__file_8h_source.html">gsb_file.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__config_8h_source.html">gsb_form_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__fyear__config_8h_source.html">gsb_fyear_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="import_8h_source.html">import.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__payment__method__config_8h_source.html">gsb_payment_method_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__reconcile__config_8h_source.html">gsb_reconcile_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__reconcile__sort__config_8h_source.html">gsb_reconcile_sort_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__files_8h_source.html">utils_files.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="accueil_8h_source.html">accueil.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="affichage__liste_8h_source.html">affichage_liste.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="affichage_8h_source.html">affichage.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="tiers__onglet_8h_source.html">tiers_onglet.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="categories__onglet_8h_source.html">categories_onglet.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="imputation__budgetaire_8h_source.html">imputation_budgetaire.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="fenetre__principale_8h_source.html">fenetre_principale.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="parametres_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#a0da746576e2617f919aa2c8047ec3bf0">gsb_preferences_menu_open</a> (GtkWidget *menu_item, gpointer page_ptr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#a11ca21a8e0c2101e89252e4b391530bf">preferences</a> (gint page)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#aeda2d150b221e3ecad4af85050194e3f">gsb_gui_encryption_toggled</a> (GtkWidget *checkbox, gpointer data)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#a6d6ce89725f0f6ea7443041a44d96e41">gsb_config_backup_dir_chosen</a> (GtkWidget *button, GtkWidget *dialog)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#abeee3f7f40a97726a843a50f81c4fcac">gsb_config_metatree_sort_transactions</a> (GtkWidget *checkbutton, gpointer null)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structgsb__etat__t.html">gsb_etat_t</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#a280b98575c3c9e0b637ec78b157a1ff4">fenetre_preferences</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#a2f70ab8aa9d2a494c0653e8f29eddf40">balances_with_scheduled</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structconditional__message.html">conditional_message</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a> []</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#a28dbce464ef05c5a6db0d64a31fff16d">execute_scheduled_of_month</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structconditional__message.html">conditional_message</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#a430b9f94c0af809780196ca7d7040fde">messages</a> []</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#ab4baae80534027ea3fe73d417c48caaa">nb_days_before_scheduled</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#a691d56f7a427c60a7714f6bec232807b">nb_max_derniers_fichiers_ouverts</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#a787cc81cf2ad728775b73d723713980b">titre_fichier</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parametres_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>we find here the configuration dialog </p>
+
+<p>Définition dans le fichier <a class="el" href="parametres_8c_source.html">parametres.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a6d6ce89725f0f6ea7443041a44d96e41"></a><!-- doxytag: member="parametres.c::gsb_config_backup_dir_chosen" ref="a6d6ce89725f0f6ea7443041a44d96e41" args="(GtkWidget *button, GtkWidget *dialog)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_config_backup_dir_chosen </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>button</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>dialog</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>called when choose a new directory for the backup</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>button</em>&nbsp;</td><td>the GtkFileChooserButton </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>null</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="parametres_8c_source.html#l00968">968</a> du fichier <a class="el" href="parametres_8c_source.html">parametres.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abeee3f7f40a97726a843a50f81c4fcac"></a><!-- doxytag: member="parametres.c::gsb_config_metatree_sort_transactions" ref="abeee3f7f40a97726a843a50f81c4fcac" args="(GtkWidget *checkbutton, gpointer null)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_config_metatree_sort_transactions </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>checkbutton</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>null</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="parametres_8c_source.html#l01174">1174</a> du fichier <a class="el" href="parametres_8c_source.html">parametres.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aeda2d150b221e3ecad4af85050194e3f"></a><!-- doxytag: member="parametres.c::gsb_gui_encryption_toggled" ref="aeda2d150b221e3ecad4af85050194e3f" args="(GtkWidget *checkbox, gpointer data)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_gui_encryption_toggled </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>checkbox</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>data</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Warns that there is no coming back if password is forgotten when encryption is activated.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>checkbox</em>&nbsp;</td><td>Checkbox that triggered event. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td>Unused.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="parametres_8c_source.html#l00950">950</a> du fichier <a class="el" href="parametres_8c_source.html">parametres.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0da746576e2617f919aa2c8047ec3bf0"></a><!-- doxytag: member="parametres.c::gsb_preferences_menu_open" ref="a0da746576e2617f919aa2c8047ec3bf0" args="(GtkWidget *menu_item, gpointer page_ptr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_preferences_menu_open </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>menu_item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>page_ptr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>call the preferences page by a menu</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>menu_item</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>page_ptr</em>&nbsp;</td><td>the page to open</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="parametres_8c_source.html#l00213">213</a> du fichier <a class="el" href="parametres_8c_source.html">parametres.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a11ca21a8e0c2101e89252e4b391530bf"></a><!-- doxytag: member="parametres.c::preferences" ref="a11ca21a8e0c2101e89252e4b391530bf" args="(gint page)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean preferences </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>page</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Creates a new GtkDialog with a paned list of topics and a paned notebook that allows to switch between all pages. A click on the list selects one specific page.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>page</em>&nbsp;</td><td>Initial page to select. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="parametres_8c_source.html#l00228">228</a> du fichier <a class="el" href="parametres_8c_source.html">parametres.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a2f70ab8aa9d2a494c0653e8f29eddf40"></a><!-- doxytag: member="parametres.c::balances_with_scheduled" ref="a2f70ab8aa9d2a494c0653e8f29eddf40" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean <a class="el" href="parametres_8c.html#a2f70ab8aa9d2a494c0653e8f29eddf40">balances_with_scheduled</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Take into account the planned operations in the calculation of the balances (TRUE default) </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler_8c_source.html#l00071">71</a> du fichier <a class="el" href="gsb__scheduler_8c_source.html">gsb_scheduler.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8be9044200783277533661fc770e77f5"></a><!-- doxytag: member="parametres.c::delete_msg" ref="a8be9044200783277533661fc770e77f5" args="[]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structconditional__message.html">conditional_message</a> <a class="el" href="parametres_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>All delete messages </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00182">182</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab2a744f5d2124688473d13979420e911"></a><!-- doxytag: member="parametres.c::etat" ref="ab2a744f5d2124688473d13979420e911" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structgsb__etat__t.html">gsb_etat_t</a> <a class="el" href="structures_8h.html#ab2a744f5d2124688473d13979420e911">etat</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="parametres_8c_source.html#l00089">89</a> du fichier <a class="el" href="parametres_8c_source.html">parametres.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a28dbce464ef05c5a6db0d64a31fff16d"></a><!-- doxytag: member="parametres.c::execute_scheduled_of_month" ref="a28dbce464ef05c5a6db0d64a31fff16d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean <a class="el" href="parametres_8c.html#a28dbce464ef05c5a6db0d64a31fff16d">execute_scheduled_of_month</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>warn/execute scheduled at expiration (FALSE) or of the month (TRUE) </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler_8c_source.html#l00068">68</a> du fichier <a class="el" href="gsb__scheduler_8c_source.html">gsb_scheduler.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a280b98575c3c9e0b637ec78b157a1ff4"></a><!-- doxytag: member="parametres.c::fenetre_preferences" ref="a280b98575c3c9e0b637ec78b157a1ff4" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="parametres_8c.html#a280b98575c3c9e0b637ec78b157a1ff4">fenetre_preferences</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="parametres_8c_source.html#l00091">91</a> du fichier <a class="el" href="parametres_8c_source.html">parametres.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a430b9f94c0af809780196ca7d7040fde"></a><!-- doxytag: member="parametres.c::messages" ref="a430b9f94c0af809780196ca7d7040fde" args="[]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structconditional__message.html">conditional_message</a> <a class="el" href="parametres_8c.html#a430b9f94c0af809780196ca7d7040fde">messages</a>[]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>All messages </p>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00050">50</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab4baae80534027ea3fe73d417c48caaa"></a><!-- doxytag: member="parametres.c::nb_days_before_scheduled" ref="ab4baae80534027ea3fe73d417c48caaa" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="parametres_8c.html#ab4baae80534027ea3fe73d417c48caaa">nb_days_before_scheduled</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>number of days before the scheduled to execute it </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler_8c_source.html#l00065">65</a> du fichier <a class="el" href="gsb__scheduler_8c_source.html">gsb_scheduler.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a691d56f7a427c60a7714f6bec232807b"></a><!-- doxytag: member="parametres.c::nb_max_derniers_fichiers_ouverts" ref="a691d56f7a427c60a7714f6bec232807b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="parametres_8c.html#a691d56f7a427c60a7714f6bec232807b">nb_max_derniers_fichiers_ouverts</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__file__config_8c_source.html#l00082">82</a> du fichier <a class="el" href="gsb__file__config_8c_source.html">gsb_file_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a787cc81cf2ad728775b73d723713980b"></a><!-- doxytag: member="parametres.c::titre_fichier" ref="a787cc81cf2ad728775b73d723713980b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="traitement__variables_8c.html#a787cc81cf2ad728775b73d723713980b">titre_fichier</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00147">147</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="parametres.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

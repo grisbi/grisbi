@@ -1,0 +1,346 @@
+\section{Référence du fichier utils\_\-str.c}
+\label{utils__str_8c}\index{utils\_\-str.c@{utils\_\-str.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include $<$stdlib.h$>$}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-report.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gchar $\ast$ {\bf utils\_\-str\_\-itoa} (gint integer)
+\begin{DoxyCompactList}\small\item\em convert an integer into a gchar based string \item\end{DoxyCompactList}\item 
+gchar $\ast$ {\bf utils\_\-str\_\-reduce\_\-exponant\_\-from\_\-string} (const gchar $\ast$amount\_\-string, gint exponent)
+\item 
+gchar $\ast$ {\bf utils\_\-str\_\-localise\_\-decimal\_\-point\_\-from\_\-string} (const gchar $\ast$string)
+\item 
+G\_\-MODULE\_\-EXPORT gint {\bf utils\_\-str\_\-atoi} (const gchar $\ast$chaine)
+\begin{DoxyCompactList}\small\item\em Secured version of atoi. \item\end{DoxyCompactList}\item 
+double {\bf my\_\-strtod} (const gchar $\ast$nptr, gchar $\ast$$\ast$endptr)
+\item 
+G\_\-MODULE\_\-EXPORT gchar $\ast$ {\bf latin2utf8} (const gchar $\ast$inchar)
+\item 
+gchar $\ast$ {\bf my\_\-strdelimit} (const gchar $\ast$string, const gchar $\ast$delimiters, const gchar $\ast$new\_\-delimiters)
+\item 
+gint {\bf my\_\-strcmp} (gchar $\ast$string\_\-1, gchar $\ast$string\_\-2)
+\item 
+gint {\bf my\_\-strcasecmp} (const gchar $\ast$string\_\-1, const gchar $\ast$string\_\-2)
+\item 
+gint {\bf my\_\-strncasecmp} (gchar $\ast$string\_\-1, gchar $\ast$string\_\-2, gint longueur)
+\item 
+G\_\-MODULE\_\-EXPORT gchar $\ast$ {\bf my\_\-strdup} (const gchar $\ast$string)
+\item 
+gchar $\ast$ {\bf limit\_\-string} (gchar $\ast$string, gint length)
+\item 
+GSList $\ast$ {\bf gsb\_\-string\_\-get\_\-int\_\-list\_\-from\_\-string} (const gchar $\ast$string, gchar $\ast$delimiter)
+\item 
+GSList $\ast$ {\bf gsb\_\-string\_\-get\_\-string\_\-list\_\-from\_\-string} (const gchar $\ast$string, gchar $\ast$delimiter)
+\item 
+GSList $\ast$ {\bf gsb\_\-string\_\-get\_\-categ\_\-budget\_\-struct\_\-list\_\-from\_\-string} (const gchar $\ast$string)
+\item 
+gchar $\ast$ {\bf gsb\_\-string\_\-truncate} (gchar $\ast$string)
+\item 
+gchar $\ast$ {\bf gsb\_\-string\_\-remplace\_\-string} (gchar $\ast$str, gchar $\ast$old\_\-str, gchar $\ast$new\_\-str)
+\item 
+gboolean {\bf gsb\_\-string\_\-is\_\-trouve} (const gchar $\ast$payee\_\-name, const gchar $\ast$needle)
+\item 
+gchar $\ast$ {\bf gsb\_\-string\_\-remplace\_\-joker} (const gchar $\ast$chaine, gchar $\ast$new\_\-str)
+\item 
+gchar $\ast$ {\bf gsb\_\-string\_\-extract\_\-int} (const gchar $\ast$chaine)
+\item 
+gchar $\ast$ {\bf gsb\_\-string\_\-uniform\_\-new\_\-line} (const gchar $\ast$chaine, gint nbre\_\-char)
+\item 
+gchar $\ast$ {\bf utils\_\-str\_\-dtostr} (gdouble number, gint nbre\_\-decimal, gboolean canonical)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{utils\_\-str.c@{utils\_\-str.c}!gsb\_\-string\_\-extract\_\-int@{gsb\_\-string\_\-extract\_\-int}}
+\index{gsb\_\-string\_\-extract\_\-int@{gsb\_\-string\_\-extract\_\-int}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{gsb\_\-string\_\-extract\_\-int}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-string\_\-extract\_\-int (const gchar $\ast$ {\em chaine})}\label{utils__str_8c_a573a6cddf4b47bcd3a0790575304e4a8}
+
+
+Définition à la ligne 903 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!gsb\_\-string\_\-get\_\-categ\_\-budget\_\-struct\_\-list\_\-from\_\-string@{gsb\_\-string\_\-get\_\-categ\_\-budget\_\-struct\_\-list\_\-from\_\-string}}
+\index{gsb\_\-string\_\-get\_\-categ\_\-budget\_\-struct\_\-list\_\-from\_\-string@{gsb\_\-string\_\-get\_\-categ\_\-budget\_\-struct\_\-list\_\-from\_\-string}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{gsb\_\-string\_\-get\_\-categ\_\-budget\_\-struct\_\-list\_\-from\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-string\_\-get\_\-categ\_\-budget\_\-struct\_\-list\_\-from\_\-string (const gchar $\ast$ {\em string})}\label{utils__str_8c_a2cdd922452888e0a6349b4ce2cb38256}
+return a gslist of \doxyref{struct\_\-categ\_\-budget\_\-sel}{p.}{structstruct__categ__budget__sel} from a string as no\_\-categ/no\_\-sub\_\-categ/no\_\-sub\_\-categ/no\_\-sub\_\-categ-\/no\_\-categ/no\_\-sub\_\-categ... (or idem with budget)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em string}]the string we want to change to a list\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a g\_\-slist or NULL 
+\end{DoxyReturn}
+
+
+Définition à la ligne 665 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!gsb\_\-string\_\-get\_\-int\_\-list\_\-from\_\-string@{gsb\_\-string\_\-get\_\-int\_\-list\_\-from\_\-string}}
+\index{gsb\_\-string\_\-get\_\-int\_\-list\_\-from\_\-string@{gsb\_\-string\_\-get\_\-int\_\-list\_\-from\_\-string}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{gsb\_\-string\_\-get\_\-int\_\-list\_\-from\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-string\_\-get\_\-int\_\-list\_\-from\_\-string (const gchar $\ast$ {\em string}, \/  gchar $\ast$ {\em delimiter})}\label{utils__str_8c_a91319e0a1698979ebbfa69d2406b37d8}
+return a gslist of integer from a string which the elements are separated by the separator
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em string}]the string we want to change to a list \item[{\em delimiter}]the string which is the separator in the list\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a g\_\-slist or NULL 
+\end{DoxyReturn}
+
+
+Définition à la ligne 576 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!gsb\_\-string\_\-get\_\-string\_\-list\_\-from\_\-string@{gsb\_\-string\_\-get\_\-string\_\-list\_\-from\_\-string}}
+\index{gsb\_\-string\_\-get\_\-string\_\-list\_\-from\_\-string@{gsb\_\-string\_\-get\_\-string\_\-list\_\-from\_\-string}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{gsb\_\-string\_\-get\_\-string\_\-list\_\-from\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-string\_\-get\_\-string\_\-list\_\-from\_\-string (const gchar $\ast$ {\em string}, \/  gchar $\ast$ {\em delimiter})}\label{utils__str_8c_a1a167ac822379a89b7f87698cc79cfe8}
+return a gslist of strings from a string which the elements are separated by the separator (same as gsb\_\-string\_\-get\_\-int\_\-list\_\-from\_\-string but with strings)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em string}]the string we want to change to a list \item[{\em delimiter}]the string which is the separator in the list\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a g\_\-slist or NULL 
+\end{DoxyReturn}
+
+
+Définition à la ligne 621 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!gsb\_\-string\_\-is\_\-trouve@{gsb\_\-string\_\-is\_\-trouve}}
+\index{gsb\_\-string\_\-is\_\-trouve@{gsb\_\-string\_\-is\_\-trouve}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{gsb\_\-string\_\-is\_\-trouve}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-string\_\-is\_\-trouve (const gchar $\ast$ {\em payee\_\-name}, \/  const gchar $\ast$ {\em needle})}\label{utils__str_8c_a4f7c837f05cb6ab362e401409acc461b}
+recherche des mots séparés par des jokers \char`\"{}\%$\ast$\char`\"{} dans une chaine
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em haystack}]\item[{\em needle}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE si trouvé FALSE autrement 
+\end{DoxyReturn}
+
+
+Définition à la ligne 801 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!gsb\_\-string\_\-remplace\_\-joker@{gsb\_\-string\_\-remplace\_\-joker}}
+\index{gsb\_\-string\_\-remplace\_\-joker@{gsb\_\-string\_\-remplace\_\-joker}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{gsb\_\-string\_\-remplace\_\-joker}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-string\_\-remplace\_\-joker (const gchar $\ast$ {\em chaine}, \/  gchar $\ast$ {\em new\_\-str})}\label{utils__str_8c_aad2ed2c5c3098fad8c62053320dbe3cb}
+remplace les jokers \char`\"{}\%$\ast$\char`\"{} par une chaine
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em str}]\item[{\em new\_\-str}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+chaine avec chaine de remplacement 
+\end{DoxyReturn}
+
+
+Définition à la ligne 871 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!gsb\_\-string\_\-remplace\_\-string@{gsb\_\-string\_\-remplace\_\-string}}
+\index{gsb\_\-string\_\-remplace\_\-string@{gsb\_\-string\_\-remplace\_\-string}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{gsb\_\-string\_\-remplace\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-string\_\-remplace\_\-string (gchar $\ast$ {\em str}, \/  gchar $\ast$ {\em old\_\-str}, \/  gchar $\ast$ {\em new\_\-str})}\label{utils__str_8c_a5bc68bfec149a7cbfdc6ecc66a48f634}
+remplace la chaine old\_\-str par new\_\-str dans str 
+
+Définition à la ligne 772 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!gsb\_\-string\_\-truncate@{gsb\_\-string\_\-truncate}}
+\index{gsb\_\-string\_\-truncate@{gsb\_\-string\_\-truncate}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{gsb\_\-string\_\-truncate}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-string\_\-truncate (gchar $\ast$ {\em string})}\label{utils__str_8c_a2202aea628d0de82cdfee24ab00fc7f6}
+Return a newly created strings, truncating original. It should be truncated at the end of the word containing the 20th letter.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em string}]String to truncate.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A newly-\/created string. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 721 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!gsb\_\-string\_\-uniform\_\-new\_\-line@{gsb\_\-string\_\-uniform\_\-new\_\-line}}
+\index{gsb\_\-string\_\-uniform\_\-new\_\-line@{gsb\_\-string\_\-uniform\_\-new\_\-line}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{gsb\_\-string\_\-uniform\_\-new\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-string\_\-uniform\_\-new\_\-line (const gchar $\ast$ {\em chaine}, \/  gint {\em nbre\_\-char})}\label{utils__str_8c_ab54b5cc09462d6075a7846447d02e2ad}
+uniformisation des CR+LF dans les fichiers importés
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em chaine}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+chaine au format unix 
+\end{DoxyReturn}
+
+
+Définition à la ligne 937 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!latin2utf8@{latin2utf8}}
+\index{latin2utf8@{latin2utf8}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{latin2utf8}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT gchar$\ast$ latin2utf8 (const gchar $\ast$ {\em inchar})}\label{utils__str_8c_ab704c07d882cce97ac79ab6ad7623e60}
+
+
+Définition à la ligne 346 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!limit\_\-string@{limit\_\-string}}
+\index{limit\_\-string@{limit\_\-string}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{limit\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ limit\_\-string (gchar $\ast$ {\em string}, \/  gint {\em length})}\label{utils__str_8c_a67b348352595edf6bfbb1d64ad7c0f7b}
+check if the string is maximum to the length if bigger, limit it and set ... at the end
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em string}]the string to check \item[{\em length}]the limit length we want\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a dupplicate version of the string with max length character (must to be freed) 
+\end{DoxyReturn}
+
+
+Définition à la ligne 537 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!my\_\-strcasecmp@{my\_\-strcasecmp}}
+\index{my\_\-strcasecmp@{my\_\-strcasecmp}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{my\_\-strcasecmp}]{\setlength{\rightskip}{0pt plus 5cm}gint my\_\-strcasecmp (const gchar $\ast$ {\em string\_\-1}, \/  const gchar $\ast$ {\em string\_\-2})}\label{utils__str_8c_af2728abf4fbd2d14f13a3025211dab47}
+compare 2 strings unsensitive if a string is NULL, it will go after the non NULL
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em string\_\-1}]\item[{\em string\_\-2}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+-\/1 string\_\-1 before string\_\-2 (or string\_\-2 NULL) ; 0 if same or NULL everyone ; +1 if string\_\-1 after string\_\-2 (or string\_\-1 NULL) 
+\end{DoxyReturn}
+
+
+Définition à la ligne 433 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!my\_\-strcmp@{my\_\-strcmp}}
+\index{my\_\-strcmp@{my\_\-strcmp}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{my\_\-strcmp}]{\setlength{\rightskip}{0pt plus 5cm}gint my\_\-strcmp (gchar $\ast$ {\em string\_\-1}, \/  gchar $\ast$ {\em string\_\-2})}\label{utils__str_8c_a031629b031394a54e85e1230c3eb3d19}
+compare 2 chaines sensitive que ce soit utf8 ou ascii 
+
+Définition à la ligne 394 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!my\_\-strdelimit@{my\_\-strdelimit}}
+\index{my\_\-strdelimit@{my\_\-strdelimit}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{my\_\-strdelimit}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ my\_\-strdelimit (const gchar $\ast$ {\em string}, \/  const gchar $\ast$ {\em delimiters}, \/  const gchar $\ast$ {\em new\_\-delimiters})}\label{utils__str_8c_a132f77383d5b1e3070ef354a1fdd8a10}
+do the same as g\_\-strdelimit but new\_\-delimiters can containes several characters or none ex my\_\-strdelimit (\char`\"{}a-\/b\char`\"{}, \char`\"{}-\/\char`\"{}, \char`\"{}123\char`\"{}) returns a123b my\_\-strdelimit (\char`\"{}a-\/b\char`\"{}, \char`\"{}-\/\char`\"{}, \char`\"{}\char`\"{}) returns ab
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em string}]the string we want to modify \item[{\em delimiters}]the characters we need to change to new\_\-delimiters \item[{\em new\_\-delimiters}]the replacements characters for delimiters\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a newly allocated string or NULL 
+\end{DoxyReturn}
+
+
+Définition à la ligne 363 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!my\_\-strdup@{my\_\-strdup}}
+\index{my\_\-strdup@{my\_\-strdup}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{my\_\-strdup}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT gchar$\ast$ my\_\-strdup (const gchar $\ast$ {\em string})}\label{utils__str_8c_ad9a37361694eeaa2847b0fe11389824d}
+Protect the my\_\-strdup function if the string is NULL
+
+If the length of string is 0 (ie \char`\"{}\char`\"{}), return NULL. That is just nonsense, but it has been done that way and disabling it would certainly cause side effects. [benj]
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em string}]the string to be dupped\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a newly allocated string (which is a copy of that string) or NULL if the parameter is NULL or an empty string. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 519 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!my\_\-strncasecmp@{my\_\-strncasecmp}}
+\index{my\_\-strncasecmp@{my\_\-strncasecmp}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{my\_\-strncasecmp}]{\setlength{\rightskip}{0pt plus 5cm}gint my\_\-strncasecmp (gchar $\ast$ {\em string\_\-1}, \/  gchar $\ast$ {\em string\_\-2}, \/  gint {\em longueur})}\label{utils__str_8c_abf977b0f883489b8d4c6508f9aac3921}
+compare 2 chaines case-\/insensitive que ce soit utf8 ou ascii 
+
+Définition à la ligne 473 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!my\_\-strtod@{my\_\-strtod}}
+\index{my\_\-strtod@{my\_\-strtod}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{my\_\-strtod}]{\setlength{\rightskip}{0pt plus 5cm}double my\_\-strtod (const gchar $\ast$ {\em nptr}, \/  gchar $\ast$$\ast$ {\em endptr})}\label{utils__str_8c_afd559e6aa481ff484dc3eefad3b0beff}
+Fonction my\_\-strtod (string to decimal) Convertie une chaine de caractères en un nombre Paramètres d'entrée :
+\begin{DoxyItemize}
+\item nptr : pointeur sur la chaine de caractères à convertir
+\item endptr : renvoie le reste de la chaine après le dernier caractère utilisé dans la conversion Valeur de retour :
+\item resultat : le résultat de la conversion Variables locales :
+\item entier : la partie entière du résultat
+\item mantisse : la partie décimale du résultat
+\item invert : le signe du résultat (0 -\/$>$ positif, 1 -\/$>$ négatif)
+\item p, m : pointeurs locaux sur la chaine de caractères à convertir 
+\end{DoxyItemize}
+
+Définition à la ligne 259 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!utils\_\-str\_\-atoi@{utils\_\-str\_\-atoi}}
+\index{utils\_\-str\_\-atoi@{utils\_\-str\_\-atoi}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{utils\_\-str\_\-atoi}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT gint utils\_\-str\_\-atoi (const gchar $\ast$ {\em chaine})}\label{utils__str_8c_a5653e4c704f0c344ca9d1549561f9cd3}
+
+
+Secured version of atoi. 
+
+Encapsulated call of atoi which may crash when it is call with a NULL pointer.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em chaine}]pointer to the buffer containing the string to convert\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the converted string as interger 
+\end{DoxyReturn}
+
+\begin{DoxyRetVals}{Valeurs retournées}
+\item[{\em 0}]when the pointer is NULL or the string empty. \end{DoxyRetVals}
+
+
+Définition à la ligne 232 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!utils\_\-str\_\-dtostr@{utils\_\-str\_\-dtostr}}
+\index{utils\_\-str\_\-dtostr@{utils\_\-str\_\-dtostr}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{utils\_\-str\_\-dtostr}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ utils\_\-str\_\-dtostr (gdouble {\em number}, \/  gint {\em nbre\_\-decimal}, \/  gboolean {\em canonical})}\label{utils__str_8c_a223cea3f0d88df38e526d57e491bd27a}
+
+
+Définition à la ligne 966 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!utils\_\-str\_\-itoa@{utils\_\-str\_\-itoa}}
+\index{utils\_\-str\_\-itoa@{utils\_\-str\_\-itoa}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{utils\_\-str\_\-itoa}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ utils\_\-str\_\-itoa (gint {\em integer})}\label{utils__str_8c_a1e50f3be459180b9dea9f14eb7e1204e}
+
+
+convert an integer into a gchar based string 
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em integer}]integer to convert\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a newly allocated string
+\end{DoxyReturn}
+You have to unallocate the returned string when you no more use it to save memory
+
+\begin{Desc}
+\item[{\bf À faire}]: check usage of this function which a cause of memory leak\end{Desc}
+
+
+Définition à la ligne 56 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!utils\_\-str\_\-localise\_\-decimal\_\-point\_\-from\_\-string@{utils\_\-str\_\-localise\_\-decimal\_\-point\_\-from\_\-string}}
+\index{utils\_\-str\_\-localise\_\-decimal\_\-point\_\-from\_\-string@{utils\_\-str\_\-localise\_\-decimal\_\-point\_\-from\_\-string}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{utils\_\-str\_\-localise\_\-decimal\_\-point\_\-from\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ utils\_\-str\_\-localise\_\-decimal\_\-point\_\-from\_\-string (const gchar $\ast$ {\em string})}\label{utils__str_8c_ac5358e3ba8d2c9eba77b254e9ccb7590}
+locates the decimal dot 
+
+Définition à la ligne 168 du fichier utils\_\-str.c.
+
+\index{utils\_\-str.c@{utils\_\-str.c}!utils\_\-str\_\-reduce\_\-exponant\_\-from\_\-string@{utils\_\-str\_\-reduce\_\-exponant\_\-from\_\-string}}
+\index{utils\_\-str\_\-reduce\_\-exponant\_\-from\_\-string@{utils\_\-str\_\-reduce\_\-exponant\_\-from\_\-string}!utils_str.c@{utils\_\-str.c}}
+\subsubsection[{utils\_\-str\_\-reduce\_\-exponant\_\-from\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ utils\_\-str\_\-reduce\_\-exponant\_\-from\_\-string (const gchar $\ast$ {\em amount\_\-string}, \/  gint {\em exponent})}\label{utils__str_8c_a405fb140e26d92c4f1c5f7e41b82d547}
+used for now only while loading a file before the 0.6.0 version reduce the exponant IN THE STRING of the amount because before the 0.6.0 all the gdouble where saved with an exponent very big ie : in the file we have \char`\"{}12.340000\char`\"{} and that fonction return \char`\"{}12.34\char`\"{} wich will be nicely imported with gsb\_\-data\_\-transaction\_\-set\_\-amount\_\-from\_\-string
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em amount\_\-string}]\item[{\em exponent}]the exponent we want at the end (normally always 2, but if ever...)\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a newly allocated string with only 'exponent' digits after the separator (need to be freed). This function returns NULL if the amount\_\-string parameter is NULL. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 104 du fichier utils\_\-str.c.
+

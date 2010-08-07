@@ -1,0 +1,124 @@
+\section{Référence du fichier gsb\_\-form\_\-transaction.h}
+\label{gsb__form__transaction_8h}\index{gsb\_\-form\_\-transaction.h@{gsb\_\-form\_\-transaction.h}}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-form\_\-transaction\_\-change\_\-clicked} (GtkWidget $\ast$button, gpointer null)
+\item 
+gboolean {\bf gsb\_\-form\_\-transaction\_\-complete\_\-form\_\-by\_\-payee} (const gchar $\ast$payee\_\-name)
+\item 
+void {\bf gsb\_\-form\_\-transaction\_\-currency\_\-changed} (GtkWidget $\ast$widget, gpointer null)
+\item 
+GSList $\ast$ {\bf gsb\_\-form\_\-transaction\_\-get\_\-parties\_\-list\_\-from\_\-report} (void)
+\item 
+gboolean {\bf gsb\_\-form\_\-transaction\_\-recover\_\-splits\_\-of\_\-transaction} (gint new\_\-transaction\_\-number, gint no\_\-last\_\-split)
+\item 
+gint {\bf gsb\_\-form\_\-transaction\_\-validate\_\-transfer} (gint transaction\_\-number, gint new\_\-transaction, gint account\_\-transfer)
+\item 
+gint {\bf gsb\_\-form\_\-transactions\_\-look\_\-for\_\-last\_\-party} (gint no\_\-party, gint no\_\-new\_\-transaction, gint account\_\-number)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-form\_\-transaction.h@{gsb\_\-form\_\-transaction.h}!gsb\_\-form\_\-transaction\_\-change\_\-clicked@{gsb\_\-form\_\-transaction\_\-change\_\-clicked}}
+\index{gsb\_\-form\_\-transaction\_\-change\_\-clicked@{gsb\_\-form\_\-transaction\_\-change\_\-clicked}!gsb_form_transaction.h@{gsb\_\-form\_\-transaction.h}}
+\subsubsection[{gsb\_\-form\_\-transaction\_\-change\_\-clicked}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-transaction\_\-change\_\-clicked (GtkWidget $\ast$ {\em button}, \/  gpointer {\em null})}\label{gsb__form__transaction_8h_a927a6c6a4223e910e227c7683bd5d841}
+callback called when the user click on the 'change' button in the form show a popup to modify the values
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em button}]\item[{\em null}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 548 du fichier gsb\_\-form\_\-transaction.c.
+
+\index{gsb\_\-form\_\-transaction.h@{gsb\_\-form\_\-transaction.h}!gsb\_\-form\_\-transaction\_\-complete\_\-form\_\-by\_\-payee@{gsb\_\-form\_\-transaction\_\-complete\_\-form\_\-by\_\-payee}}
+\index{gsb\_\-form\_\-transaction\_\-complete\_\-form\_\-by\_\-payee@{gsb\_\-form\_\-transaction\_\-complete\_\-form\_\-by\_\-payee}!gsb_form_transaction.h@{gsb\_\-form\_\-transaction.h}}
+\subsubsection[{gsb\_\-form\_\-transaction\_\-complete\_\-form\_\-by\_\-payee}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-transaction\_\-complete\_\-form\_\-by\_\-payee (const gchar $\ast$ {\em payee\_\-name})}\label{gsb__form__transaction_8h_a97f907f396b67e7383c6e3ff747e4277}
+if only the date and payee are filled in the form, fill all the fields with the same datas that the last transaction found with the same payee
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em payee\_\-name}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE if no payee name or problem (and the entry payee will be erased), TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 76 du fichier gsb\_\-form\_\-transaction.c.
+
+\index{gsb\_\-form\_\-transaction.h@{gsb\_\-form\_\-transaction.h}!gsb\_\-form\_\-transaction\_\-currency\_\-changed@{gsb\_\-form\_\-transaction\_\-currency\_\-changed}}
+\index{gsb\_\-form\_\-transaction\_\-currency\_\-changed@{gsb\_\-form\_\-transaction\_\-currency\_\-changed}!gsb_form_transaction.h@{gsb\_\-form\_\-transaction.h}}
+\subsubsection[{gsb\_\-form\_\-transaction\_\-currency\_\-changed}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-form\_\-transaction\_\-currency\_\-changed (GtkWidget $\ast$ {\em widget}, \/  gpointer {\em null})}\label{gsb__form__transaction_8h_a4b5641da00b228399e4ac1d5919776c5}
+
+
+Définition à la ligne 602 du fichier gsb\_\-form\_\-transaction.c.
+
+\index{gsb\_\-form\_\-transaction.h@{gsb\_\-form\_\-transaction.h}!gsb\_\-form\_\-transaction\_\-get\_\-parties\_\-list\_\-from\_\-report@{gsb\_\-form\_\-transaction\_\-get\_\-parties\_\-list\_\-from\_\-report}}
+\index{gsb\_\-form\_\-transaction\_\-get\_\-parties\_\-list\_\-from\_\-report@{gsb\_\-form\_\-transaction\_\-get\_\-parties\_\-list\_\-from\_\-report}!gsb_form_transaction.h@{gsb\_\-form\_\-transaction.h}}
+\subsubsection[{gsb\_\-form\_\-transaction\_\-get\_\-parties\_\-list\_\-from\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-form\_\-transaction\_\-get\_\-parties\_\-list\_\-from\_\-report (void)}\label{gsb__form__transaction_8h_aa06a7043f1bd2f313d841b74b600a450}
+return a list of numbers of parties if the party in the form is a report
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a g\_\-slist, with -\/1 if it's a normal party or a list of parties if it's a report 
+\end{DoxyReturn}
+
+
+Définition à la ligne 343 du fichier gsb\_\-form\_\-transaction.c.
+
+\index{gsb\_\-form\_\-transaction.h@{gsb\_\-form\_\-transaction.h}!gsb\_\-form\_\-transaction\_\-recover\_\-splits\_\-of\_\-transaction@{gsb\_\-form\_\-transaction\_\-recover\_\-splits\_\-of\_\-transaction}}
+\index{gsb\_\-form\_\-transaction\_\-recover\_\-splits\_\-of\_\-transaction@{gsb\_\-form\_\-transaction\_\-recover\_\-splits\_\-of\_\-transaction}!gsb_form_transaction.h@{gsb\_\-form\_\-transaction.h}}
+\subsubsection[{gsb\_\-form\_\-transaction\_\-recover\_\-splits\_\-of\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-transaction\_\-recover\_\-splits\_\-of\_\-transaction (gint {\em new\_\-transaction\_\-number}, \/  gint {\em no\_\-last\_\-split})}\label{gsb__form__transaction_8h_a318ee36f5765d28282106ff7b844b5ec}
+Clone the children of a split transaction to add the to the new split
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em new\_\-transaction\_\-number}]the number of the new mother of the cloned transaction \item[{\em no\_\-last\_\-split}]the no of last split mother\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 294 du fichier gsb\_\-form\_\-transaction.c.
+
+\index{gsb\_\-form\_\-transaction.h@{gsb\_\-form\_\-transaction.h}!gsb\_\-form\_\-transaction\_\-validate\_\-transfer@{gsb\_\-form\_\-transaction\_\-validate\_\-transfer}}
+\index{gsb\_\-form\_\-transaction\_\-validate\_\-transfer@{gsb\_\-form\_\-transaction\_\-validate\_\-transfer}!gsb_form_transaction.h@{gsb\_\-form\_\-transaction.h}}
+\subsubsection[{gsb\_\-form\_\-transaction\_\-validate\_\-transfer}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-form\_\-transaction\_\-validate\_\-transfer (gint {\em transaction\_\-number}, \/  gint {\em new\_\-transaction}, \/  gint {\em account\_\-transfer})}\label{gsb__form__transaction_8h_a71dba4f06ba2ca8857c36a489844dad7}
+validate a transfert from a form :
+\begin{DoxyItemize}
+\item create the contra-\/transaction
+\item delete the last contra-\/transaction if it's a modification
+\item append the contra-\/transaction to the tree view or update the tree\_\-view
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the new transaction or the modifed transaction \item[{\em new\_\-transaction}]TRUE if it's a new transaction \item[{\em account\_\-transfer}]the number of the account we want to create the contra-\/transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the contra-\/transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 426 du fichier gsb\_\-form\_\-transaction.c.
+
+\index{gsb\_\-form\_\-transaction.h@{gsb\_\-form\_\-transaction.h}!gsb\_\-form\_\-transactions\_\-look\_\-for\_\-last\_\-party@{gsb\_\-form\_\-transactions\_\-look\_\-for\_\-last\_\-party}}
+\index{gsb\_\-form\_\-transactions\_\-look\_\-for\_\-last\_\-party@{gsb\_\-form\_\-transactions\_\-look\_\-for\_\-last\_\-party}!gsb_form_transaction.h@{gsb\_\-form\_\-transaction.h}}
+\subsubsection[{gsb\_\-form\_\-transactions\_\-look\_\-for\_\-last\_\-party}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-form\_\-transactions\_\-look\_\-for\_\-last\_\-party (gint {\em no\_\-party}, \/  gint {\em no\_\-new\_\-transaction}, \/  gint {\em account\_\-number})}\label{gsb__form__transaction_8h_a94d3117aba63e480771a5f124c4dc459}
+Look for the last transaction with the same party. Begin in the current account, and continue in other accounts if necessary.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-party}]the party we are looking for \item[{\em no\_\-new\_\-transaction}]if the transaction found is that transaction, we don't \item[{\em account\_\-number}]the account we want to find first the party keep it\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the transaction found, or 0 
+\end{DoxyReturn}
+
+
+Définition à la ligne 244 du fichier gsb\_\-form\_\-transaction.c.
+

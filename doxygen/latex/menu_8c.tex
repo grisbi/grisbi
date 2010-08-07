@@ -1,0 +1,256 @@
+\section{Référence du fichier menu.c}
+\label{menu_8c}\index{menu.c@{menu.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}menu.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}help.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}barre\_\-outils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}export.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}file\_\-obfuscate\_\-qif.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}file\_\-obfuscate.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}tip.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-assistant\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-assistant\_\-archive\_\-export.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-assistant\_\-archive.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-debug.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}main.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}import.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}parametres.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf init\_\-menus} (GtkWidget $\ast$vbox)
+\item 
+void {\bf efface\_\-derniers\_\-fichiers\_\-ouverts} (void)
+\item 
+gboolean {\bf affiche\_\-derniers\_\-fichiers\_\-ouverts} (void)
+\item 
+gchar $\ast$ {\bf menu\_\-name} (gchar $\ast$menu, gchar $\ast$submenu, gchar $\ast$subsubmenu)
+\item 
+gboolean {\bf gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string} (gchar $\ast$item\_\-name, gboolean state)
+\item 
+gboolean {\bf gsb\_\-gui\_\-sensitive\_\-menu\_\-item} (gchar $\ast$root\_\-menu\_\-name, gchar $\ast$submenu\_\-name, gchar $\ast$subsubmenu\_\-name, gboolean state)
+\item 
+gboolean {\bf gsb\_\-gui\_\-toggle\_\-show\_\-reconciled} (void)
+\item 
+gboolean {\bf gsb\_\-gui\_\-toggle\_\-show\_\-archived} (void)
+\item 
+gboolean {\bf gsb\_\-menu\_\-update\_\-view\_\-menu} (gint account\_\-number)
+\item 
+gboolean {\bf gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus} (void)
+\item 
+gboolean {\bf gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive} (gboolean sensitive)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GtkTreeModel $\ast$ {\bf navigation\_\-model}
+\item 
+gsize {\bf nb\_\-derniers\_\-fichiers\_\-ouverts}
+\item 
+gint {\bf nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts}
+\item 
+gchar $\ast$$\ast$ {\bf tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts}
+\item 
+GtkWidget $\ast$ {\bf window}
+\item 
+gboolean {\bf block\_\-menu\_\-cb} = FALSE
+\item 
+GtkUIManager $\ast$ {\bf ui\_\-manager}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{menu.c@{menu.c}!affiche\_\-derniers\_\-fichiers\_\-ouverts@{affiche\_\-derniers\_\-fichiers\_\-ouverts}}
+\index{affiche\_\-derniers\_\-fichiers\_\-ouverts@{affiche\_\-derniers\_\-fichiers\_\-ouverts}!menu.c@{menu.c}}
+\subsubsection[{affiche\_\-derniers\_\-fichiers\_\-ouverts}]{\setlength{\rightskip}{0pt plus 5cm}gboolean affiche\_\-derniers\_\-fichiers\_\-ouverts (void)}\label{menu_8c_a7b48dc605d99995e31545dc3bdad1d85}
+Add menu items to the \char`\"{}Recent files\char`\"{} submenu. 
+
+Définition à la ligne 353 du fichier menu.c.
+
+\index{menu.c@{menu.c}!efface\_\-derniers\_\-fichiers\_\-ouverts@{efface\_\-derniers\_\-fichiers\_\-ouverts}}
+\index{efface\_\-derniers\_\-fichiers\_\-ouverts@{efface\_\-derniers\_\-fichiers\_\-ouverts}!menu.c@{menu.c}}
+\subsubsection[{efface\_\-derniers\_\-fichiers\_\-ouverts}]{\setlength{\rightskip}{0pt plus 5cm}void efface\_\-derniers\_\-fichiers\_\-ouverts (void)}\label{menu_8c_a31e1f092a06fca742e15442a4fd44313}
+Blank the \char`\"{}Recent files submenu\char`\"{}. 
+
+Définition à la ligne 343 du fichier menu.c.
+
+\index{menu.c@{menu.c}!gsb\_\-gui\_\-sensitive\_\-menu\_\-item@{gsb\_\-gui\_\-sensitive\_\-menu\_\-item}}
+\index{gsb\_\-gui\_\-sensitive\_\-menu\_\-item@{gsb\_\-gui\_\-sensitive\_\-menu\_\-item}!menu.c@{menu.c}}
+\subsubsection[{gsb\_\-gui\_\-sensitive\_\-menu\_\-item}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-gui\_\-sensitive\_\-menu\_\-item (gchar $\ast$ {\em root\_\-menu\_\-name}, \/  gchar $\ast$ {\em submenu\_\-name}, \/  gchar $\ast$ {\em subsubmenu\_\-name}, \/  gboolean {\em state})}\label{menu_8c_ad3557028823b3fd30c4d7367b698d2e2}
+Set sensitiveness of a menu item according to its position in the menu.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em root\_\-menu\_\-name}]Name of the menu. \item[{\em submenu\_\-name}]Name of the sub menu. \item[{\em subsubmenu\_\-name}]Name of the sub sub menu.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE on success. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 565 du fichier menu.c.
+
+\index{menu.c@{menu.c}!gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string@{gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string}}
+\index{gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string@{gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string}!menu.c@{menu.c}}
+\subsubsection[{gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string (gchar $\ast$ {\em item\_\-name}, \/  gboolean {\em state})}\label{menu_8c_aa52fc499e8216c49fa496f24c46eb811}
+Set sensitiveness of a menu item according to a string representation of its position in the menu. menu.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em root\_\-menu\_\-name}]Name of the menu. \item[{\em submenu\_\-name}]Name of the sub menu. \item[{\em subsubmenu\_\-name}]Name of the sub sub menu.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE on success. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 539 du fichier menu.c.
+
+\index{menu.c@{menu.c}!gsb\_\-gui\_\-toggle\_\-show\_\-archived@{gsb\_\-gui\_\-toggle\_\-show\_\-archived}}
+\index{gsb\_\-gui\_\-toggle\_\-show\_\-archived@{gsb\_\-gui\_\-toggle\_\-show\_\-archived}!menu.c@{menu.c}}
+\subsubsection[{gsb\_\-gui\_\-toggle\_\-show\_\-archived}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-gui\_\-toggle\_\-show\_\-archived (void)}\label{menu_8c_aa2af14ac64481c25621aef9c3e43eea5}
+Show or hide display of lines archives.
+
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 653 du fichier menu.c.
+
+\index{menu.c@{menu.c}!gsb\_\-gui\_\-toggle\_\-show\_\-reconciled@{gsb\_\-gui\_\-toggle\_\-show\_\-reconciled}}
+\index{gsb\_\-gui\_\-toggle\_\-show\_\-reconciled@{gsb\_\-gui\_\-toggle\_\-show\_\-reconciled}!menu.c@{menu.c}}
+\subsubsection[{gsb\_\-gui\_\-toggle\_\-show\_\-reconciled}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-gui\_\-toggle\_\-show\_\-reconciled (void)}\label{menu_8c_aeb017cf19bed8e724d46231072994de9}
+Show or hide display of reconciled transactions.
+
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 628 du fichier menu.c.
+
+\index{menu.c@{menu.c}!gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive@{gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive}}
+\index{gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive@{gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive}!menu.c@{menu.c}}
+\subsubsection[{gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive (gboolean {\em sensitive})}\label{menu_8c_a2cd0fa9a87d28146f743c30d75c3ee00}
+Set sensitiveness of all menu items that work on the selected transaction.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em sensitive}]Sensitiveness (FALSE for unsensitive, TRUE for sensitive).\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 831 du fichier menu.c.
+
+\index{menu.c@{menu.c}!gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus@{gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus}}
+\index{gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus@{gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus}!menu.c@{menu.c}}
+\subsubsection[{gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus (void)}\label{menu_8c_a82ddd4b1a12d79cf3c8211128ef52a88}
+Update the clickable list of closed accounts and target accounts to move a transaction, in menu.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em $\backslash$return}]FALSE \end{DoxyParams}
+
+
+Définition à la ligne 765 du fichier menu.c.
+
+\index{menu.c@{menu.c}!gsb\_\-menu\_\-update\_\-view\_\-menu@{gsb\_\-menu\_\-update\_\-view\_\-menu}}
+\index{gsb\_\-menu\_\-update\_\-view\_\-menu@{gsb\_\-menu\_\-update\_\-view\_\-menu}!menu.c@{menu.c}}
+\subsubsection[{gsb\_\-menu\_\-update\_\-view\_\-menu}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-menu\_\-update\_\-view\_\-menu (gint {\em account\_\-number})}\label{menu_8c_a60f727414d6ce8974582d80ae95c1f81}
+Update the view menu in the menu bar
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]The account used to update the menu\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 700 du fichier menu.c.
+
+\index{menu.c@{menu.c}!init\_\-menus@{init\_\-menus}}
+\index{init\_\-menus@{init\_\-menus}!menu.c@{menu.c}}
+\subsubsection[{init\_\-menus}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ init\_\-menus (GtkWidget $\ast$ {\em vbox})}\label{menu_8c_a797e59b4900aa4af71181ca9b7145aa4}
+
+
+Définition à la ligne 164 du fichier menu.c.
+
+\index{menu.c@{menu.c}!menu\_\-name@{menu\_\-name}}
+\index{menu\_\-name@{menu\_\-name}!menu.c@{menu.c}}
+\subsubsection[{menu\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ menu\_\-name (gchar $\ast$ {\em menu}, \/  gchar $\ast$ {\em submenu}, \/  gchar $\ast$ {\em subsubmenu})}\label{menu_8c_a8bf02c2e8820e600ffa71a0ef9f6cce8}
+Concatenate menu entry names to produce a valid menu path, like /Menubar/FileMenu/Save
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em menu}]Name of the root menu. \item[{\em submenu}]Name of the sub-\/menu. \item[{\em subsubmenu}]Name of the sub-\/sub-\/menu.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A newly-\/created string representing the menu path. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 516 du fichier menu.c.
+
+
+
+\subsection{Documentation des variables}
+\index{menu.c@{menu.c}!block\_\-menu\_\-cb@{block\_\-menu\_\-cb}}
+\index{block\_\-menu\_\-cb@{block\_\-menu\_\-cb}!menu.c@{menu.c}}
+\subsubsection[{block\_\-menu\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf block\_\-menu\_\-cb} = FALSE}\label{menu_8c_a148929df9268caccbe39dfef840fe42d}
+
+
+Définition à la ligne 83 du fichier menu.c.
+
+\index{menu.c@{menu.c}!navigation\_\-model@{navigation\_\-model}}
+\index{navigation\_\-model@{navigation\_\-model}!menu.c@{menu.c}}
+\subsubsection[{navigation\_\-model}]{\setlength{\rightskip}{0pt plus 5cm}GtkTreeModel$\ast$ {\bf navigation\_\-model}}\label{menu_8c_af25f8dd6dec7eb5cb22b4a710e686d29}
+Model of the navigation tree. 
+
+Définition à la ligne 118 du fichier navigation.c.
+
+\index{menu.c@{menu.c}!nb\_\-derniers\_\-fichiers\_\-ouverts@{nb\_\-derniers\_\-fichiers\_\-ouverts}}
+\index{nb\_\-derniers\_\-fichiers\_\-ouverts@{nb\_\-derniers\_\-fichiers\_\-ouverts}!menu.c@{menu.c}}
+\subsubsection[{nb\_\-derniers\_\-fichiers\_\-ouverts}]{\setlength{\rightskip}{0pt plus 5cm}gsize {\bf nb\_\-derniers\_\-fichiers\_\-ouverts}}\label{menu_8c_a602b7cdee2b4750d17e89e642189e6ba}
+
+
+Définition à la ligne 79 du fichier gsb\_\-file\_\-config.c.
+
+\index{menu.c@{menu.c}!nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts@{nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts}}
+\index{nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts@{nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts}!menu.c@{menu.c}}
+\subsubsection[{nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts}}\label{menu_8c_a691d56f7a427c60a7714f6bec232807b}
+
+
+Définition à la ligne 82 du fichier gsb\_\-file\_\-config.c.
+
+\index{menu.c@{menu.c}!tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts@{tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts}}
+\index{tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts@{tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts}!menu.c@{menu.c}}
+\subsubsection[{tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$$\ast$ {\bf tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts}}\label{menu_8c_a29a380dfbc7b7bc62547a1c0f5d95ff4}
+
+
+Définition à la ligne 83 du fichier gsb\_\-file\_\-config.c.
+
+\index{menu.c@{menu.c}!ui\_\-manager@{ui\_\-manager}}
+\index{ui\_\-manager@{ui\_\-manager}!menu.c@{menu.c}}
+\subsubsection[{ui\_\-manager}]{\setlength{\rightskip}{0pt plus 5cm}GtkUIManager$\ast$ {\bf ui\_\-manager}}\label{menu_8c_aa6a3b64b294a67080fe530ae293bce63}
+
+
+Définition à la ligne 84 du fichier menu.c.
+
+\index{menu.c@{menu.c}!window@{window}}
+\index{window@{window}!menu.c@{menu.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{menu_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

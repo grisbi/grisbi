@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_combo_box.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_combo_box.c</h1><a href="gsb__combo__box_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*                                gsb_combo_box                               */</span>
+<a name="l00004"></a>00004 <span class="comment">/*                                                                            */</span>
+<a name="l00005"></a>00005 <span class="comment">/*     Copyright (C)    2000-2006 Cédric Auger (cedric@grisbi.org)           */</span>
+<a name="l00006"></a>00006 <span class="comment">/*                      2003-2006 Benjamin Drieu (bdrieu@april.org)           */</span>
+<a name="l00007"></a>00007 <span class="comment">/*                      http://www.grisbi.org                                 */</span>
+<a name="l00008"></a>00008 <span class="comment">/*                                                                            */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00010"></a>00010 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00011"></a>00011 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00013"></a>00013 <span class="comment">/*                                                                            */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00015"></a>00015 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00016"></a>00016 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00018"></a>00018 <span class="comment">/*                                                                            */</span>
+<a name="l00019"></a>00019 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00020"></a>00020 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00021"></a>00021 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00022"></a>00022 <span class="comment">/*                                                                            */</span>
+<a name="l00023"></a>00023 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00024"></a>00024 
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="gsb__combo__box_8h.html">gsb_combo_box.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037 <span class="comment">/*START_STATIC*/</span>
+<a name="l00038"></a>00038 <span class="comment">/*END_STATIC*/</span>
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00041"></a>00041 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00042"></a>00042 
+<a name="l00057"></a><a class="code" href="gsb__combo__box_8h.html#a23f4b26bf92de4ed5e6997ab265b3bdc">00057</a> GtkWidget *<a class="code" href="gsb__combo__box_8c.html#a23f4b26bf92de4ed5e6997ab265b3bdc">gsb_combo_box_new_with_index</a> ( gchar **<span class="keywordtype">string</span>,
+<a name="l00058"></a>00058                                           GCallback func,
+<a name="l00059"></a>00059                                           gpointer data )
+<a name="l00060"></a>00060 {
+<a name="l00061"></a>00061     GtkWidget *combo_box;
+<a name="l00062"></a>00062     GtkListStore *store;
+<a name="l00063"></a>00063     GtkCellRenderer *renderer;
+<a name="l00064"></a>00064     gint i = 0;
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066     combo_box = gtk_combo_box_new ();
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068     store = gtk_list_store_new ( 2,
+<a name="l00069"></a>00069                                  G_TYPE_STRING,
+<a name="l00070"></a>00070                                  G_TYPE_INT );
+<a name="l00071"></a>00071     <span class="keywordflow">if</span> (<span class="keywordtype">string</span>)
+<a name="l00072"></a>00072     {
+<a name="l00073"></a>00073         <span class="keywordflow">while</span> (<span class="keywordtype">string</span>[i])
+<a name="l00074"></a>00074         {
+<a name="l00075"></a>00075             GtkTreeIter iter;
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077             gtk_list_store_append ( GTK_LIST_STORE (store),
+<a name="l00078"></a>00078                                     &amp;iter );
+<a name="l00079"></a>00079             gtk_list_store_set ( store,
+<a name="l00080"></a>00080                                  &amp;iter,
+<a name="l00081"></a>00081                                  0, <span class="keywordtype">string</span>[i],
+<a name="l00082"></a>00082                                  1, i,
+<a name="l00083"></a>00083                                  -1 );
+<a name="l00084"></a>00084             i++;
+<a name="l00085"></a>00085         }
+<a name="l00086"></a>00086     }
+<a name="l00087"></a>00087     gtk_combo_box_set_model ( GTK_COMBO_BOX (combo_box),
+<a name="l00088"></a>00088                               GTK_TREE_MODEL (store));
+<a name="l00089"></a>00089     <span class="keywordflow">if</span> ( func )
+<a name="l00090"></a>00090         g_signal_connect ( G_OBJECT (combo_box),
+<a name="l00091"></a>00091                            <span class="stringliteral">&quot;changed&quot;</span>,
+<a name="l00092"></a>00092                            G_CALLBACK(func),
+<a name="l00093"></a>00093                            data );
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095     renderer = gtk_cell_renderer_text_new ();
+<a name="l00096"></a>00096     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
+<a name="l00097"></a>00097     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), renderer,
+<a name="l00098"></a>00098                                     <span class="stringliteral">&quot;text&quot;</span>, 0,
+<a name="l00099"></a>00099                                     NULL);
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101     <span class="keywordflow">return</span> combo_box;
+<a name="l00102"></a>00102 }
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104 
+<a name="l00119"></a><a class="code" href="gsb__combo__box_8h.html#aaa528158307654e8a321fbaaf07cd349">00119</a> GtkWidget *<a class="code" href="gsb__combo__box_8c.html#aaa528158307654e8a321fbaaf07cd349">gsb_combo_box_new_with_index_by_list</a> ( GSList *list,
+<a name="l00120"></a>00120                                                   GCallback func,
+<a name="l00121"></a>00121                                                   gpointer data )
+<a name="l00122"></a>00122 {
+<a name="l00123"></a>00123     GSList *tmp_list;
+<a name="l00124"></a>00124     GtkWidget *combo_box;
+<a name="l00125"></a>00125     GtkListStore *store;
+<a name="l00126"></a>00126     GtkCellRenderer *renderer;
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128     combo_box = gtk_combo_box_new ();
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130     store = gtk_list_store_new ( 2,
+<a name="l00131"></a>00131                                  G_TYPE_STRING,
+<a name="l00132"></a>00132                                  G_TYPE_INT );
+<a name="l00133"></a>00133     tmp_list = list;
+<a name="l00134"></a>00134     <span class="keywordflow">if</span> (tmp_list)
+<a name="l00135"></a>00135     {
+<a name="l00136"></a>00136         <span class="keywordflow">while</span> (tmp_list)
+<a name="l00137"></a>00137         {
+<a name="l00138"></a>00138             GtkTreeIter iter;
+<a name="l00139"></a>00139             gchar *string;
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141             <span class="keywordtype">string</span> = tmp_list -&gt; data;
+<a name="l00142"></a>00142             tmp_list = tmp_list -&gt; next;
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144             <span class="comment">/* should not append */</span>
+<a name="l00145"></a>00145             <span class="keywordflow">if</span> (!tmp_list)
+<a name="l00146"></a>00146                 <span class="keywordflow">break</span>;
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148             gtk_list_store_append ( GTK_LIST_STORE (store),
+<a name="l00149"></a>00149                                     &amp;iter );
+<a name="l00150"></a>00150             gtk_list_store_set ( store,
+<a name="l00151"></a>00151                                  &amp;iter,
+<a name="l00152"></a>00152                                  0, <span class="keywordtype">string</span>,
+<a name="l00153"></a>00153                                  1, GPOINTER_TO_INT (tmp_list -&gt; data),
+<a name="l00154"></a>00154                                  -1 );
+<a name="l00155"></a>00155             tmp_list = tmp_list -&gt; next;
+<a name="l00156"></a>00156         }
+<a name="l00157"></a>00157     }
+<a name="l00158"></a>00158     gtk_combo_box_set_model ( GTK_COMBO_BOX (combo_box),
+<a name="l00159"></a>00159                               GTK_TREE_MODEL (store));
+<a name="l00160"></a>00160     <span class="keywordflow">if</span> ( func )
+<a name="l00161"></a>00161         g_signal_connect ( G_OBJECT (combo_box),
+<a name="l00162"></a>00162                            <span class="stringliteral">&quot;changed&quot;</span>,
+<a name="l00163"></a>00163                            G_CALLBACK(func),
+<a name="l00164"></a>00164                            data );
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166     renderer = gtk_cell_renderer_text_new ();
+<a name="l00167"></a>00167     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
+<a name="l00168"></a>00168     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), renderer,
+<a name="l00169"></a>00169                                     <span class="stringliteral">&quot;text&quot;</span>, 0,
+<a name="l00170"></a>00170                                     NULL);
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172     <span class="keywordflow">return</span> combo_box;
+<a name="l00173"></a>00173 }
+<a name="l00174"></a>00174 
+<a name="l00183"></a><a class="code" href="gsb__combo__box_8h.html#a12d7d2e0baa0791bf2e5740c43376153">00183</a> gint <a class="code" href="gsb__combo__box_8c.html#a12d7d2e0baa0791bf2e5740c43376153">gsb_combo_box_get_index</a> ( GtkWidget *combo_box )
+<a name="l00184"></a>00184 {
+<a name="l00185"></a>00185     gint index;
+<a name="l00186"></a>00186     GtkTreeIter iter;
+<a name="l00187"></a>00187 
+<a name="l00188"></a>00188     <span class="keywordflow">if</span> (!combo_box)
+<a name="l00189"></a>00189         <span class="keywordflow">return</span> -1;
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191     <span class="keywordflow">if</span> ( !gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (combo_box),
+<a name="l00192"></a>00192                                           &amp;iter ))
+<a name="l00193"></a>00193         <span class="keywordflow">return</span> -1;
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195     gtk_tree_model_get ( GTK_TREE_MODEL (gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box))),
+<a name="l00196"></a>00196                          &amp;iter,
+<a name="l00197"></a>00197                          1, &amp;index,
+<a name="l00198"></a>00198                          -1 );
+<a name="l00199"></a>00199     <span class="keywordflow">return</span> index;
+<a name="l00200"></a>00200 }
+<a name="l00201"></a>00201 
+<a name="l00202"></a>00202 
+<a name="l00213"></a><a class="code" href="gsb__combo__box_8h.html#a8d9cde44f97483d1e2ebe3c6c65f5570">00213</a> gint <a class="code" href="gsb__combo__box_8c.html#a8d9cde44f97483d1e2ebe3c6c65f5570">gsb_combo_box_set_index</a> ( GtkWidget *combo_box,
+<a name="l00214"></a>00214                                gint index )
+<a name="l00215"></a>00215 {
+<a name="l00216"></a>00216     GtkTreeIter iter;
+<a name="l00217"></a>00217     GtkTreeModel *model;
+<a name="l00218"></a>00218 
+<a name="l00219"></a>00219     <span class="comment">/* if no account button, go away... */</span>
+<a name="l00220"></a>00220     <span class="keywordflow">if</span> (!combo_box)
+<a name="l00221"></a>00221         <span class="keywordflow">return</span> FALSE;
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223     model = gtk_combo_box_get_model ( GTK_COMBO_BOX (combo_box));
+<a name="l00224"></a>00224 
+<a name="l00225"></a>00225     <span class="keywordflow">if</span> ( gtk_tree_model_get_iter_first (model, &amp;iter))
+<a name="l00226"></a>00226     {
+<a name="l00227"></a>00227         <span class="keywordflow">do</span>
+<a name="l00228"></a>00228         {
+<a name="l00229"></a>00229             gint number;
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231             gtk_tree_model_get ( model, &amp;iter,
+<a name="l00232"></a>00232                                  1, &amp;number,
+<a name="l00233"></a>00233                                  -1 );
+<a name="l00234"></a>00234             <span class="keywordflow">if</span> (number == index)
+<a name="l00235"></a>00235             {
+<a name="l00236"></a>00236                 gtk_combo_box_set_active_iter ( GTK_COMBO_BOX (combo_box),
+<a name="l00237"></a>00237                                                 &amp;iter );
+<a name="l00238"></a>00238                 <span class="keywordflow">return</span> TRUE;
+<a name="l00239"></a>00239             }
+<a name="l00240"></a>00240         }
+<a name="l00241"></a>00241         <span class="keywordflow">while</span> (gtk_tree_model_iter_next (model, &amp;iter));
+<a name="l00242"></a>00242     }
+<a name="l00243"></a>00243     <span class="keywordflow">return</span> FALSE;
+<a name="l00244"></a>00244 }
+<a name="l00245"></a>00245 
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_form_scheduler.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_form_scheduler.h</h1><a href="gsb__form__scheduler_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _GSB_FORM_SCHEDULER_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _GSB_FORM_SCHEDULER_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00006"></a>00006 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="comment">/* the  the size of the scheduled part of the form,</span>
+<a name="l00009"></a>00009 <span class="comment"> * fixed here for now, but can become configurable easily</span>
+<a name="l00010"></a>00010 <span class="comment"> * because the filling function use that values for a table */</span>
+<a name="l00011"></a><a class="code" href="gsb__form__scheduler_8h.html#a02489b8b1a1c746ef38b8766495ca42d">00011</a> <span class="preprocessor">#define SCHEDULED_WIDTH 6</span>
+<a name="l00012"></a><a class="code" href="gsb__form__scheduler_8h.html#a0d337f30e3830c714644cba4e1581abe">00012</a> <span class="preprocessor"></span><span class="preprocessor">#define SCHEDULED_HEIGHT 1</span>
+<a name="l00013"></a>00013 <span class="preprocessor"></span>
+<a name="l00014"></a>00014 <span class="comment">/* that enum is in the order of the widgets, if we switch 2 of them,</span>
+<a name="l00015"></a>00015 <span class="comment"> * they will be switched on the form */</span>
+<a name="l00016"></a><a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338a">00016</a> <span class="keyword">enum</span> <a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338a">scheduled_form_widget</a> {
+<a name="l00017"></a><a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aa236226041a9a2521a8dfeb40d6197c8e">00017</a>     <a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aa236226041a9a2521a8dfeb40d6197c8e">SCHEDULED_FORM_ACCOUNT</a> = 0,
+<a name="l00018"></a><a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aad805a086f5af4b455572b92913e948c3">00018</a>     <a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aad805a086f5af4b455572b92913e948c3">SCHEDULED_FORM_AUTO</a>,
+<a name="l00019"></a><a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aad7c773c0d5686e712d48782dba375366">00019</a>     <a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aad7c773c0d5686e712d48782dba375366">SCHEDULED_FORM_FREQUENCY_BUTTON</a>,
+<a name="l00020"></a><a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aade3bb1a46e9b5b05a349134a7cb5b701">00020</a>     <a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aade3bb1a46e9b5b05a349134a7cb5b701">SCHEDULED_FORM_LIMIT_DATE</a>,
+<a name="l00021"></a><a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aa7431b71d30a9a96c6e8186d9f4d66b14">00021</a>     <a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aa7431b71d30a9a96c6e8186d9f4d66b14">SCHEDULED_FORM_FREQUENCY_USER_ENTRY</a>,
+<a name="l00022"></a><a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aa0a97bfcdf119b1421f96730f3b21532c">00022</a>     <a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aa0a97bfcdf119b1421f96730f3b21532c">SCHEDULED_FORM_FREQUENCY_USER_BUTTON</a>,
+<a name="l00023"></a><a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aa8059f6eaaf2a0ff06160c7dd7e169205">00023</a>     <a class="code" href="gsb__form__scheduler_8h.html#a93ff9bf3e5edd696882626ba5bd6338aa8059f6eaaf2a0ff06160c7dd7e169205">SCHEDULED_FORM_MAX_WIDGETS</a>,
+<a name="l00024"></a>00024 };
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 
+<a name="l00027"></a>00027 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00028"></a>00028 gboolean <a class="code" href="gsb__form__scheduler_8c.html#a13015cfb9bd4e5a5e9b916e180d3de11">gsb_form_scheduler_button_press_event</a> ( GtkWidget *entry,
+<a name="l00029"></a>00029                         GdkEventButton *ev,
+<a name="l00030"></a>00030                         gint *ptr_origin );
+<a name="l00031"></a>00031 gboolean <a class="code" href="gsb__form__scheduler_8c.html#a294ff0030e408d7286e58e03683d3ca5">gsb_form_scheduler_change_account</a> ( GtkWidget *button,
+<a name="l00032"></a>00032                         gpointer null );
+<a name="l00033"></a>00033 gboolean <a class="code" href="gsb__form__scheduler_8c.html#a19610a2e8fde16919239e690bb1794c1">gsb_form_scheduler_clean</a> ( <span class="keywordtype">void</span> );
+<a name="l00034"></a>00034 gboolean <a class="code" href="gsb__form__scheduler_8c.html#ae93578da3dadec26fe150fd8c3a0b1c2">gsb_form_scheduler_create</a> ( GtkWidget *table );
+<a name="l00035"></a>00035 gboolean <a class="code" href="gsb__form__scheduler_8c.html#a4dc5a0bba31672a25faa607460a5bdcd">gsb_form_scheduler_entry_lose_focus</a> ( GtkWidget *entry,
+<a name="l00036"></a>00036                         GdkEventFocus *ev,
+<a name="l00037"></a>00037                         gint *ptr_origin );
+<a name="l00038"></a>00038 gboolean <a class="code" href="gsb__form__scheduler_8c.html#a179b105a5c76af5f798fe1f196271d50">gsb_form_scheduler_free_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00039"></a>00039 gint <a class="code" href="gsb__form__scheduler_8c.html#a79b8fe872500a5ae8cf42cfffe553af4">gsb_form_scheduler_get_account</a> ( <span class="keywordtype">void</span> );
+<a name="l00040"></a>00040 GtkWidget *<a class="code" href="gsb__form__scheduler_8c.html#a7d99c295efd93b1750ded52204d8ab72">gsb_form_scheduler_get_element_widget</a> ( gint element_number );
+<a name="l00041"></a>00041 gboolean <a class="code" href="gsb__form__scheduler_8c.html#ab8aa02a06e41634b309ce02f7c4eb8bd">gsb_form_scheduler_get_scheduler_part</a> ( gint scheduled_number );
+<a name="l00042"></a>00042 gboolean <a class="code" href="gsb__form__scheduler_8c.html#a25a09f658b254f882516a3885234c67e">gsb_form_scheduler_recover_splits_of_transaction</a> ( gint scheduled_transaction,
+<a name="l00043"></a>00043                                                             gint transaction_number );
+<a name="l00044"></a>00044 gboolean <a class="code" href="gsb__form__scheduler_8c.html#af4c0e862daec4a1386d5431fce4d7efd">gsb_form_scheduler_sensitive_buttons</a> ( gboolean sensitive );
+<a name="l00045"></a>00045 gboolean <a class="code" href="gsb__form__scheduler_8c.html#a1b3f6e7bce1e5525ba19191b3364045e">gsb_form_scheduler_set</a> ( gint scheduled_number );
+<a name="l00046"></a>00046 gboolean <a class="code" href="gsb__form__scheduler_8c.html#ace37e579a0c5f661a5c46454079327a9">gsb_form_scheduler_set_frequency</a> ( gint frequency );
+<a name="l00047"></a>00047 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00048"></a>00048 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:02 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

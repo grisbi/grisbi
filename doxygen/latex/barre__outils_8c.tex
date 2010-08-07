@@ -1,0 +1,132 @@
+\section{Référence du fichier barre\_\-outils.c}
+\label{barre__outils_8c}\index{barre\_\-outils.c@{barre\_\-outils.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}barre\_\-outils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-automem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-import\_\-rule.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-scheduler\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-buttons.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf gsb\_\-gui\_\-update\_\-transaction\_\-toolbar} (void)
+\item 
+gboolean {\bf change\_\-aspect\_\-liste} (gint demande)
+\item 
+GtkWidget $\ast$ {\bf creation\_\-barre\_\-outils\_\-echeancier} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf scheduler\_\-button\_\-execute} = NULL
+\item 
+GtkWidget $\ast$ {\bf scheduler\_\-button\_\-delete} = NULL
+\item 
+GtkWidget $\ast$ {\bf scheduler\_\-button\_\-edit} = NULL
+\item 
+GtkWidget $\ast$ {\bf menu\_\-import\_\-rules}
+\item 
+GtkWidget $\ast$ {\bf barre\_\-outils}
+\item 
+gboolean {\bf block\_\-menu\_\-cb}
+\item 
+GtkUIManager $\ast$ {\bf ui\_\-manager}
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+set up the toolbar 
+
+Définition dans le fichier {\bf barre\_\-outils.c}.
+
+
+
+\subsection{Documentation des fonctions}
+\index{barre\_\-outils.c@{barre\_\-outils.c}!change\_\-aspect\_\-liste@{change\_\-aspect\_\-liste}}
+\index{change\_\-aspect\_\-liste@{change\_\-aspect\_\-liste}!barre_outils.c@{barre\_\-outils.c}}
+\subsubsection[{change\_\-aspect\_\-liste}]{\setlength{\rightskip}{0pt plus 5cm}gboolean change\_\-aspect\_\-liste (gint {\em demande})}\label{barre__outils_8c_ae695ec2f9683a33728d94f301b83aaa9}
+
+
+Définition à la ligne 328 du fichier barre\_\-outils.c.
+
+\index{barre\_\-outils.c@{barre\_\-outils.c}!creation\_\-barre\_\-outils\_\-echeancier@{creation\_\-barre\_\-outils\_\-echeancier}}
+\index{creation\_\-barre\_\-outils\_\-echeancier@{creation\_\-barre\_\-outils\_\-echeancier}!barre_outils.c@{barre\_\-outils.c}}
+\subsubsection[{creation\_\-barre\_\-outils\_\-echeancier}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ creation\_\-barre\_\-outils\_\-echeancier (void)}\label{barre__outils_8c_a9f1ea21cc01c1a429a23c478fc9ca868}
+Create the toolbar that contains all elements needed to manipulate the scheduler.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A newly created hbox. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 490 du fichier barre\_\-outils.c.
+
+\index{barre\_\-outils.c@{barre\_\-outils.c}!gsb\_\-gui\_\-update\_\-transaction\_\-toolbar@{gsb\_\-gui\_\-update\_\-transaction\_\-toolbar}}
+\index{gsb\_\-gui\_\-update\_\-transaction\_\-toolbar@{gsb\_\-gui\_\-update\_\-transaction\_\-toolbar}!barre_outils.c@{barre\_\-outils.c}}
+\subsubsection[{gsb\_\-gui\_\-update\_\-transaction\_\-toolbar}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-gui\_\-update\_\-transaction\_\-toolbar (void)}\label{barre__outils_8c_ac0082a1048984a35739d37d106617dd6}
+
+
+Définition à la ligne 191 du fichier barre\_\-outils.c.
+
+
+
+\subsection{Documentation des variables}
+\index{barre\_\-outils.c@{barre\_\-outils.c}!barre\_\-outils@{barre\_\-outils}}
+\index{barre\_\-outils@{barre\_\-outils}!barre_outils.c@{barre\_\-outils.c}}
+\subsubsection[{barre\_\-outils}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf barre\_\-outils}}\label{barre__outils_8c_a268b1e31b413c512d03776ae10b8f785}
+
+
+Définition à la ligne 124 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{barre\_\-outils.c@{barre\_\-outils.c}!block\_\-menu\_\-cb@{block\_\-menu\_\-cb}}
+\index{block\_\-menu\_\-cb@{block\_\-menu\_\-cb}!barre_outils.c@{barre\_\-outils.c}}
+\subsubsection[{block\_\-menu\_\-cb}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf block\_\-menu\_\-cb}}\label{barre__outils_8c_a148929df9268caccbe39dfef840fe42d}
+
+
+Définition à la ligne 83 du fichier menu.c.
+
+\index{barre\_\-outils.c@{barre\_\-outils.c}!menu\_\-import\_\-rules@{menu\_\-import\_\-rules}}
+\index{menu\_\-import\_\-rules@{menu\_\-import\_\-rules}!barre_outils.c@{barre\_\-outils.c}}
+\subsubsection[{menu\_\-import\_\-rules}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf menu\_\-import\_\-rules}}\label{barre__outils_8c_ae624b78f586a9e3f5d60e6f2e2866819}
+the import rules button is showed or hidden if account have or no some rules so need to set in global variables 
+
+Définition à la ligne 71 du fichier barre\_\-outils.c.
+
+\index{barre\_\-outils.c@{barre\_\-outils.c}!scheduler\_\-button\_\-delete@{scheduler\_\-button\_\-delete}}
+\index{scheduler\_\-button\_\-delete@{scheduler\_\-button\_\-delete}!barre_outils.c@{barre\_\-outils.c}}
+\subsubsection[{scheduler\_\-button\_\-delete}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf scheduler\_\-button\_\-delete} = NULL}\label{barre__outils_8c_a3eb48f27c4c4fe376efa3cbccab64398}
+
+
+Définition à la ligne 65 du fichier barre\_\-outils.c.
+
+\index{barre\_\-outils.c@{barre\_\-outils.c}!scheduler\_\-button\_\-edit@{scheduler\_\-button\_\-edit}}
+\index{scheduler\_\-button\_\-edit@{scheduler\_\-button\_\-edit}!barre_outils.c@{barre\_\-outils.c}}
+\subsubsection[{scheduler\_\-button\_\-edit}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf scheduler\_\-button\_\-edit} = NULL}\label{barre__outils_8c_aee9c73717e42febf99a7eb6a09521f3a}
+
+
+Définition à la ligne 66 du fichier barre\_\-outils.c.
+
+\index{barre\_\-outils.c@{barre\_\-outils.c}!scheduler\_\-button\_\-execute@{scheduler\_\-button\_\-execute}}
+\index{scheduler\_\-button\_\-execute@{scheduler\_\-button\_\-execute}!barre_outils.c@{barre\_\-outils.c}}
+\subsubsection[{scheduler\_\-button\_\-execute}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf scheduler\_\-button\_\-execute} = NULL}\label{barre__outils_8c_a1333bf48291dd195210eda922d5183c4}
+here are the 3 buttons on the scheduler toolbar which can been unsensitive or sensitive 
+
+Définition à la ligne 64 du fichier barre\_\-outils.c.
+
+\index{barre\_\-outils.c@{barre\_\-outils.c}!ui\_\-manager@{ui\_\-manager}}
+\index{ui\_\-manager@{ui\_\-manager}!barre_outils.c@{barre\_\-outils.c}}
+\subsubsection[{ui\_\-manager}]{\setlength{\rightskip}{0pt plus 5cm}GtkUIManager$\ast$ {\bf ui\_\-manager}}\label{barre__outils_8c_aa6a3b64b294a67080fe530ae293bce63}
+
+
+Définition à la ligne 84 du fichier menu.c.
+

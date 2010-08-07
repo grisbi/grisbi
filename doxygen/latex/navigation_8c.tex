@@ -1,0 +1,421 @@
+\section{Référence du fichier navigation.c}
+\label{navigation_8c}\index{navigation.c@{navigation.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}bet\_\-data.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-account\_\-property.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-calendar.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-import\_\-rule.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-reconcile.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-report.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-scheduler.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}fenetre\_\-principale.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}bet\_\-finance\_\-ui.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}menu.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}etats\_\-onglet.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}accueil.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-reconcile.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-scheduler\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}main.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}tiers\_\-onglet.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}categories\_\-onglet.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}imputation\_\-budgetaire.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list\_\-select.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list\_\-sort.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf create\_\-navigation\_\-pane} (void)
+\item 
+gint {\bf gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-page} (void)
+\item 
+gint {\bf gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-account} (void)
+\item 
+gint {\bf gsb\_\-gui\_\-navigation\_\-get\_\-last\_\-account} (void)
+\item 
+gint {\bf gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-report} (void)
+\item 
+void {\bf create\_\-account\_\-list} (GtkTreeModel $\ast$model)
+\item 
+void {\bf gsb\_\-gui\_\-navigation\_\-update\_\-report} (gint report\_\-number)
+\item 
+void {\bf gsb\_\-gui\_\-navigation\_\-add\_\-report} (gint report\_\-number)
+\item 
+void {\bf gsb\_\-gui\_\-navigation\_\-remove\_\-report} (gint report\_\-number)
+\item 
+void {\bf gsb\_\-gui\_\-navigation\_\-update\_\-account} (gint account\_\-number)
+\item 
+void {\bf gsb\_\-gui\_\-navigation\_\-add\_\-account} (gint account\_\-number, gboolean switch\_\-to\_\-account)
+\item 
+gboolean {\bf navigation\_\-change\_\-account} (gint $\ast$no\_\-account)
+\item 
+void {\bf gsb\_\-navigation\_\-update\_\-statement\_\-label} (gint account\_\-number)
+\item 
+void {\bf gsb\_\-navigation\_\-update\_\-account\_\-label} (gint account\_\-number)
+\item 
+void {\bf gsb\_\-gui\_\-navigation\_\-remove\_\-account} (gint account\_\-number)
+\item 
+gboolean {\bf gsb\_\-gui\_\-navigation\_\-set\_\-selection} (gint page, gint account\_\-number, gpointer report)
+\item 
+gboolean {\bf gsb\_\-gui\_\-navigation\_\-select\_\-prev} ()
+\item 
+gboolean {\bf gsb\_\-gui\_\-navigation\_\-select\_\-next} ()
+\item 
+gboolean {\bf navigation\_\-drag\_\-data\_\-received} (GtkTreeDragDest $\ast$drag\_\-dest, GtkTreePath $\ast$dest\_\-path, GtkSelectionData $\ast$selection\_\-data)
+\item 
+gboolean {\bf navigation\_\-row\_\-drop\_\-possible} (GtkTreeDragDest $\ast$drag\_\-dest, GtkTreePath $\ast$dest\_\-path, GtkSelectionData $\ast$selection\_\-data)
+\item 
+void {\bf gsb\_\-gui\_\-navigation\_\-update\_\-home\_\-page} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf account\_\-page}
+\item 
+gchar $\ast$ {\bf initial\_\-holder\_\-title}
+\item 
+GtkWidget $\ast$ {\bf label\_\-last\_\-statement}
+\item 
+GtkWidget $\ast$ {\bf menu\_\-import\_\-rules}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}
+\item 
+GtkWidget $\ast$ {\bf notebook\_\-general}
+\item 
+gchar $\ast$ {\bf titre\_\-fichier}
+\item 
+GtkWidget $\ast$ {\bf navigation\_\-tree\_\-view} = NULL
+\item 
+GtkTreeModel $\ast$ {\bf navigation\_\-model} = NULL
+\item 
+GtkWidget $\ast$ {\bf reconcile\_\-panel}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{navigation.c@{navigation.c}!create\_\-account\_\-list@{create\_\-account\_\-list}}
+\index{create\_\-account\_\-list@{create\_\-account\_\-list}!navigation.c@{navigation.c}}
+\subsubsection[{create\_\-account\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}void create\_\-account\_\-list (GtkTreeModel $\ast$ {\em model})}\label{navigation_8c_a40d9073dbe6df6658ce1c5c45118cd22}
+Create a list of tree items that are shortcuts to accounts.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em model}]Tree model to insert items into. \item[{\em account\_\-iter}]Parent iter. \end{DoxyParams}
+
+
+Définition à la ligne 516 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!create\_\-navigation\_\-pane@{create\_\-navigation\_\-pane}}
+\index{create\_\-navigation\_\-pane@{create\_\-navigation\_\-pane}!navigation.c@{navigation.c}}
+\subsubsection[{create\_\-navigation\_\-pane}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ create\_\-navigation\_\-pane (void)}\label{navigation_8c_a9213ab9c2e1f3d5d558517a5bac09a5b}
+Create the navigation pane on the left of the GUI. It contains account list as well as shortcuts.
+
+\begin{DoxyReturn}{Renvoie}
+The newly allocated pane. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 138 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-add\_\-account@{gsb\_\-gui\_\-navigation\_\-add\_\-account}}
+\index{gsb\_\-gui\_\-navigation\_\-add\_\-account@{gsb\_\-gui\_\-navigation\_\-add\_\-account}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-add\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-gui\_\-navigation\_\-add\_\-account (gint {\em account\_\-number}, \/  gboolean {\em switch\_\-to\_\-account})}\label{navigation_8c_acc4cb91805c595677dcc822498171ece}
+Add an account to the navigation pane.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]Account ID to add. \item[{\em switch\_\-to\_\-account}]TRUE to show the account, FALSE to just create it \end{DoxyParams}
+
+
+Définition à la ligne 905 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-add\_\-report@{gsb\_\-gui\_\-navigation\_\-add\_\-report}}
+\index{gsb\_\-gui\_\-navigation\_\-add\_\-report@{gsb\_\-gui\_\-navigation\_\-add\_\-report}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-add\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-gui\_\-navigation\_\-add\_\-report (gint {\em report\_\-number})}\label{navigation_8c_a6c19e82e10a0dd98a3a20290a3a873ec}
+Add an report to the navigation pane.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-nb}]Report ID to add. \end{DoxyParams}
+
+
+Définition à la ligne 787 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-account@{gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-account}}
+\index{gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-account@{gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-account}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-account (void)}\label{navigation_8c_a3b668bf52ce71dcff3ea10c9db7be859}
+return the account number selected rem : this is only for account number of the transactions list, if we want the current account number, for transactions or scheduled, go to see gsb\_\-form\_\-get\_\-account\_\-number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a gint, the account number or -\/1 if none selected 
+\end{DoxyReturn}
+
+
+Définition à la ligne 421 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-page@{gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-page}}
+\index{gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-page@{gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-page}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-page (void)}\label{navigation_8c_a06fa2882a164439e56e780c2127cd22c}
+return the current page selected the value returned is defined by GSB\_\-GENERAL\_\-NOTEBOOK\_\-PAGES
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a gint wich is the numero of the page, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 388 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-report@{gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-report}}
+\index{gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-report@{gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-report}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-gui\_\-navigation\_\-get\_\-current\_\-report (void)}\label{navigation_8c_aef700722a199569003341a41144ee004}
+Return the number of the current selected report
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the current number of the report, or 0 if none selected 
+\end{DoxyReturn}
+
+
+Définition à la ligne 475 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-get\_\-last\_\-account@{gsb\_\-gui\_\-navigation\_\-get\_\-last\_\-account}}
+\index{gsb\_\-gui\_\-navigation\_\-get\_\-last\_\-account@{gsb\_\-gui\_\-navigation\_\-get\_\-last\_\-account}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-get\_\-last\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-gui\_\-navigation\_\-get\_\-last\_\-account (void)}\label{navigation_8c_ad804dac7f03dd7f66ba7e0d43aa84165}
+
+
+Définition à la ligne 462 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-remove\_\-account@{gsb\_\-gui\_\-navigation\_\-remove\_\-account}}
+\index{gsb\_\-gui\_\-navigation\_\-remove\_\-account@{gsb\_\-gui\_\-navigation\_\-remove\_\-account}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-remove\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-gui\_\-navigation\_\-remove\_\-account (gint {\em account\_\-number})}\label{navigation_8c_a6e9f014d077329a589843dbe3edd15de}
+Remove account from the navigation pane.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]Account ID to remove. \end{DoxyParams}
+
+
+Définition à la ligne 1098 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-remove\_\-report@{gsb\_\-gui\_\-navigation\_\-remove\_\-report}}
+\index{gsb\_\-gui\_\-navigation\_\-remove\_\-report@{gsb\_\-gui\_\-navigation\_\-remove\_\-report}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-remove\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-gui\_\-navigation\_\-remove\_\-report (gint {\em report\_\-number})}\label{navigation_8c_a8a6328e785b95ea6e2ee4163e6c71edc}
+Remove report from the navigation pane.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-nb}]Report ID to add. \end{DoxyParams}
+
+
+Définition à la ligne 813 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-select\_\-next@{gsb\_\-gui\_\-navigation\_\-select\_\-next}}
+\index{gsb\_\-gui\_\-navigation\_\-select\_\-next@{gsb\_\-gui\_\-navigation\_\-select\_\-next}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-select\_\-next}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-gui\_\-navigation\_\-select\_\-next ()}\label{navigation_8c_a90ca4d003b85ca3c49ed7a7188a6ab60}
+
+
+Définition à la ligne 1444 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-select\_\-prev@{gsb\_\-gui\_\-navigation\_\-select\_\-prev}}
+\index{gsb\_\-gui\_\-navigation\_\-select\_\-prev@{gsb\_\-gui\_\-navigation\_\-select\_\-prev}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-select\_\-prev}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-gui\_\-navigation\_\-select\_\-prev ()}\label{navigation_8c_af59677879274f3120ba149db61d4cb0e}
+
+
+Définition à la ligne 1400 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-set\_\-selection@{gsb\_\-gui\_\-navigation\_\-set\_\-selection}}
+\index{gsb\_\-gui\_\-navigation\_\-set\_\-selection@{gsb\_\-gui\_\-navigation\_\-set\_\-selection}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-set\_\-selection}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-gui\_\-navigation\_\-set\_\-selection (gint {\em page}, \/  gint {\em account\_\-number}, \/  gpointer {\em report})}\label{navigation_8c_a3fb9bd34026d724eefe1309fb63bf8fc}
+Set the selection of the navigation list depending on desired page and/or account or report.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em page}]Page to switch to. \item[{\em account\_\-number}]If page is GSB\_\-ACCOUNT\_\-PAGE, switch to given account. \item[{\em report}]If page is GSB\_\-REPORTS, switch to given report.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE on success. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1315 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-update\_\-account@{gsb\_\-gui\_\-navigation\_\-update\_\-account}}
+\index{gsb\_\-gui\_\-navigation\_\-update\_\-account@{gsb\_\-gui\_\-navigation\_\-update\_\-account}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-update\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-gui\_\-navigation\_\-update\_\-account (gint {\em account\_\-number})}\label{navigation_8c_adcd317bee4b886a4eafb93112f65042e}
+Update information for an account in navigation pane.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]Number of the account that has to be updated. \end{DoxyParams}
+
+
+Définition à la ligne 827 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-update\_\-home\_\-page@{gsb\_\-gui\_\-navigation\_\-update\_\-home\_\-page}}
+\index{gsb\_\-gui\_\-navigation\_\-update\_\-home\_\-page@{gsb\_\-gui\_\-navigation\_\-update\_\-home\_\-page}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-update\_\-home\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-gui\_\-navigation\_\-update\_\-home\_\-page (void)}\label{navigation_8c_a4deacb31bc63a27b2ed5b39f79bffc0b}
+Met à jour la page d'accueil immédiatement si elle est affichée sinon plus tard 
+
+Définition à la ligne 1698 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-gui\_\-navigation\_\-update\_\-report@{gsb\_\-gui\_\-navigation\_\-update\_\-report}}
+\index{gsb\_\-gui\_\-navigation\_\-update\_\-report@{gsb\_\-gui\_\-navigation\_\-update\_\-report}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-gui\_\-navigation\_\-update\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-gui\_\-navigation\_\-update\_\-report (gint {\em report\_\-number})}\label{navigation_8c_adbca6d230d0584e10054913fbce3caf1}
+Update information for an report in navigation pane.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-nb}]Number of the report that has to be updated. \end{DoxyParams}
+
+
+Définition à la ligne 717 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-navigation\_\-update\_\-account\_\-label@{gsb\_\-navigation\_\-update\_\-account\_\-label}}
+\index{gsb\_\-navigation\_\-update\_\-account\_\-label@{gsb\_\-navigation\_\-update\_\-account\_\-label}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-navigation\_\-update\_\-account\_\-label}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-navigation\_\-update\_\-account\_\-label (gint {\em account\_\-number})}\label{navigation_8c_a85b5920bb0556b488e09294e8cfbcb0e}
+update the account name and the amount on the bottom
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 1073 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!gsb\_\-navigation\_\-update\_\-statement\_\-label@{gsb\_\-navigation\_\-update\_\-statement\_\-label}}
+\index{gsb\_\-navigation\_\-update\_\-statement\_\-label@{gsb\_\-navigation\_\-update\_\-statement\_\-label}!navigation.c@{navigation.c}}
+\subsubsection[{gsb\_\-navigation\_\-update\_\-statement\_\-label}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-navigation\_\-update\_\-statement\_\-label (gint {\em account\_\-number})}\label{navigation_8c_a342b7c00db1370b25971fbc56df7b02e}
+update the statement label for the given account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 1025 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!navigation\_\-change\_\-account@{navigation\_\-change\_\-account}}
+\index{navigation\_\-change\_\-account@{navigation\_\-change\_\-account}!navigation.c@{navigation.c}}
+\subsubsection[{navigation\_\-change\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gboolean navigation\_\-change\_\-account (gint $\ast$ {\em no\_\-account})}\label{navigation_8c_a610fc35ca64e7ce4e22dd7e8cb59549f}
+change the list of transactions, according to the new account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-account}]a pointer on the number of the account we want to see\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 933 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!navigation\_\-drag\_\-data\_\-received@{navigation\_\-drag\_\-data\_\-received}}
+\index{navigation\_\-drag\_\-data\_\-received@{navigation\_\-drag\_\-data\_\-received}!navigation.c@{navigation.c}}
+\subsubsection[{navigation\_\-drag\_\-data\_\-received}]{\setlength{\rightskip}{0pt plus 5cm}gboolean navigation\_\-drag\_\-data\_\-received (GtkTreeDragDest $\ast$ {\em drag\_\-dest}, \/  GtkTreePath $\ast$ {\em dest\_\-path}, \/  GtkSelectionData $\ast$ {\em selection\_\-data})}\label{navigation_8c_a788a6af93e112548ce10da6c6c6cb9b6}
+
+
+Définition à la ligne 1581 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!navigation\_\-row\_\-drop\_\-possible@{navigation\_\-row\_\-drop\_\-possible}}
+\index{navigation\_\-row\_\-drop\_\-possible@{navigation\_\-row\_\-drop\_\-possible}!navigation.c@{navigation.c}}
+\subsubsection[{navigation\_\-row\_\-drop\_\-possible}]{\setlength{\rightskip}{0pt plus 5cm}gboolean navigation\_\-row\_\-drop\_\-possible (GtkTreeDragDest $\ast$ {\em drag\_\-dest}, \/  GtkTreePath $\ast$ {\em dest\_\-path}, \/  GtkSelectionData $\ast$ {\em selection\_\-data})}\label{navigation_8c_adf246197990d5637d92d86667f1441fa}
+
+
+Définition à la ligne 1645 du fichier navigation.c.
+
+
+
+\subsection{Documentation des variables}
+\index{navigation.c@{navigation.c}!account\_\-page@{account\_\-page}}
+\index{account\_\-page@{account\_\-page}!navigation.c@{navigation.c}}
+\subsubsection[{account\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf account\_\-page}}\label{navigation_8c_ad5443d986a9ab5d64dd84c5346c4b87c}
+Notebook of the account pane. 
+
+Définition à la ligne 75 du fichier fenetre\_\-principale.c.
+
+\index{navigation.c@{navigation.c}!initial\_\-holder\_\-title@{initial\_\-holder\_\-title}}
+\index{initial\_\-holder\_\-title@{initial\_\-holder\_\-title}!navigation.c@{navigation.c}}
+\subsubsection[{initial\_\-holder\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf initial\_\-holder\_\-title}}\label{navigation_8c_a2b411f03999259d3ba57ceb09d126c6d}
+
+
+Définition à la ligne 227 du fichier gsb\_\-file\_\-load.c.
+
+\index{navigation.c@{navigation.c}!label\_\-last\_\-statement@{label\_\-last\_\-statement}}
+\index{label\_\-last\_\-statement@{label\_\-last\_\-statement}!navigation.c@{navigation.c}}
+\subsubsection[{label\_\-last\_\-statement}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf label\_\-last\_\-statement}}\label{navigation_8c_a1d4fbf807088a54821529a81f72bdd07}
+label of the last statement 
+
+Définition à la ligne 116 du fichier gsb\_\-form.c.
+
+\index{navigation.c@{navigation.c}!menu\_\-import\_\-rules@{menu\_\-import\_\-rules}}
+\index{menu\_\-import\_\-rules@{menu\_\-import\_\-rules}!navigation.c@{navigation.c}}
+\subsubsection[{menu\_\-import\_\-rules}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf menu\_\-import\_\-rules}}\label{navigation_8c_ae624b78f586a9e3f5d60e6f2e2866819}
+the import rules button is showed or hidden if account have or no some rules so need to set in global variables 
+
+Définition à la ligne 71 du fichier barre\_\-outils.c.
+
+\index{navigation.c@{navigation.c}!mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}}
+\index{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}!navigation.c@{navigation.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}}\label{navigation_8c_a018917e8dacfd8fbe4e94d0f99a59c08}
+
+
+Définition à la ligne 127 du fichier accueil.c.
+
+\index{navigation.c@{navigation.c}!navigation\_\-model@{navigation\_\-model}}
+\index{navigation\_\-model@{navigation\_\-model}!navigation.c@{navigation.c}}
+\subsubsection[{navigation\_\-model}]{\setlength{\rightskip}{0pt plus 5cm}GtkTreeModel$\ast$ {\bf navigation\_\-model} = NULL}\label{navigation_8c_af25f8dd6dec7eb5cb22b4a710e686d29}
+Model of the navigation tree. 
+
+Définition à la ligne 118 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!navigation\_\-tree\_\-view@{navigation\_\-tree\_\-view}}
+\index{navigation\_\-tree\_\-view@{navigation\_\-tree\_\-view}!navigation.c@{navigation.c}}
+\subsubsection[{navigation\_\-tree\_\-view}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf navigation\_\-tree\_\-view} = NULL}\label{navigation_8c_a1cd17e8b2fd91a191f8d5d6a7e5f6979}
+Navigation tree view. 
+
+Définition à la ligne 115 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!notebook\_\-general@{notebook\_\-general}}
+\index{notebook\_\-general@{notebook\_\-general}!navigation.c@{navigation.c}}
+\subsubsection[{notebook\_\-general}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf notebook\_\-general}}\label{navigation_8c_a8924516aa4170f932308e93cf93a785b}
+
+
+Définition à la ligne 70 du fichier fenetre\_\-principale.c.
+
+\index{navigation.c@{navigation.c}!reconcile\_\-panel@{reconcile\_\-panel}}
+\index{reconcile\_\-panel@{reconcile\_\-panel}!navigation.c@{navigation.c}}
+\subsubsection[{reconcile\_\-panel}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf reconcile\_\-panel}}\label{navigation_8c_a0356c8380fe78fe23dc212255df45e4b}
+Widget that hold all reconciliation widgets. 
+
+Définition à la ligne 124 du fichier navigation.c.
+
+\index{navigation.c@{navigation.c}!titre\_\-fichier@{titre\_\-fichier}}
+\index{titre\_\-fichier@{titre\_\-fichier}!navigation.c@{navigation.c}}
+\subsubsection[{titre\_\-fichier}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf titre\_\-fichier}}\label{navigation_8c_a787cc81cf2ad728775b73d723713980b}
+
+
+Définition à la ligne 147 du fichier traitement\_\-variables.c.
+

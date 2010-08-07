@@ -1,0 +1,1216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_transactions_list.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_transactions_list.h</h1><code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+
+<p><a href="gsb__transactions__list_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Macros</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a6af7ccb9deda7edaeea9ca8bfc7c6b37">COLUMN_LEFT</a>&nbsp;&nbsp;&nbsp;0.0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a1acc57689f7f1675288fb8a4b29fb4e7">COLUMN_CENTER</a>&nbsp;&nbsp;&nbsp;0.5</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a854253903a51c832eec04ab2ac08901b">COLUMN_RIGHT</a>&nbsp;&nbsp;&nbsp;1.0</td></tr>
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom">{ <br/>
+&nbsp;&nbsp;<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a23886a6e4002c32ce2faadbc7caa5e5a">ELEMENT_DATE</a> =  1, 
+<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57ab761a8d812187a4600c7525771f7f8e6">ELEMENT_VALUE_DATE</a>, 
+<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a2c500de74c55386754d7406fec8040ce">ELEMENT_PARTY</a>, 
+<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a9ac9d9fa61388060ab239d177bd6eda8">ELEMENT_BUDGET</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a562334a8510015ee6bd6be39ec899828">ELEMENT_DEBIT</a>, 
+<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57adb5de8e2e54fe03605af16b9eb86452e">ELEMENT_CREDIT</a>, 
+<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a0f73340eb5af6e8a5454c1aa833339e8">ELEMENT_BALANCE</a>, 
+<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57ab1d48e2978669bb807a1baaa8cdea794">ELEMENT_AMOUNT</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57ab990b13349c34bf1524cab596b6c614b">ELEMENT_PAYMENT_TYPE</a>, 
+<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57af5e128aeac4005857a0cc18fd45b9ea2">ELEMENT_RECONCILE_NB</a>, 
+<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a4825ce568dc0468f2fc4c1bc5ab11ff6">ELEMENT_EXERCICE</a>, 
+<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a14d07ec8c3f6be2c40010a64205711be">ELEMENT_CATEGORY</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a1c9bb425c66169e4464498e2d76c6f00">ELEMENT_MARK</a>, 
+<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57aa39a67b0d3d908e1564af0b203c5d585">ELEMENT_VOUCHER</a>, 
+<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a5bc876fbf3281eb4cc86a5fefdfc4487">ELEMENT_NOTES</a>, 
+<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57aa1f58a928f37cd97e2ef66a05cb18f47">ELEMENT_BANK</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57ac81545daeefa24557d7b18826cb11fad">ELEMENT_NO</a>, 
+<a class="el" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57aa2c405cbd6e9496265ce869d0fad27c0">ELEMENT_CHQ</a>
+<br/>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a8da0807401b34e59349e9534ed0e9cd9">clone_selected_transaction</a> (GtkWidget *menu_item, gpointer null)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a750143785ed9e62525a92754c8262f55">creation_fenetre_operations</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a8be7f66c4c8f7c67eb187290c18fb6f7">find_element_col</a> (gint element_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#aa2d81179288c9dd410d36fc58c9a9ca4">find_element_col_for_archive</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#aa33a589932f8d657a321fd0bb5a4447f">find_element_col_split</a> (gint element_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a17bf5dcbc82415220a20244112d65aef">find_element_line</a> (gint element_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a1144ff7dd8c9bf6a2a6eb870fc8ae2df">gsb_transactions_get_category_real_name</a> (gint transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#ab384002f4635a570bc9907b04b3efd24">gsb_transactions_list_append_new_transaction</a> (gint transaction_number, gboolean update_tree_view)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#ab0651c16a8ca47b70e7ccdb2d9c18ba1">gsb_transactions_list_delete_transaction</a> (gint transaction_number, gint show_warning)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#af4607ecfa510ff666ad6f3a12b898e4f">gsb_transactions_list_delete_transaction_from_tree_view</a> (gint transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a78ae21515e884855e82af687571bb3c2">gsb_transactions_list_edit_current_transaction</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a01ca41bdcf1f932ae3a4289433d64cf5">gsb_transactions_list_edit_transaction</a> (gint transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a586edcd7d904b6fd75ab87544f8609fa">gsb_transactions_list_edit_transaction_by_pointer</a> (gint *transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a1a818af14b9c3c740d85b2c76cae24d5">gsb_transactions_list_fill_archive_store</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gfloat&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#aaae69a76295b86b7baace98ce4066738">gsb_transactions_list_get_row_align</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a9c93505713234d8fa4727b067a140641">gsb_transactions_list_get_tree_view</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a1e229d05133af4abe35b72675491f580">gsb_transactions_list_grep_cell_content</a> (gint transaction_number, gint cell_content_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a5a3574009546c888666713aa8269327b">gsb_transactions_list_make_gui_list</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#afb50643bfc50dcd627a5f720c30c8765">gsb_transactions_list_restore_archive</a> (gint archive_number, gboolean show_warning)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a2528e018beffeb0d2ce2f2386e690360">gsb_transactions_list_selection_changed</a> (gint new_selected_transaction)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a6de9b44e088a49d4d6328209a24443c2">gsb_transactions_list_set_row_align</a> (gfloat row_align)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a8da293358f10b57d3107c903fbd4ef12">gsb_transactions_list_set_visible_rows_number</a> (gint rows_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a7a066474fae8e311ca096b15cf9d33cc">gsb_transactions_list_show_archives_lines</a> (gboolean show_l)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a0ea3d83f0d74d289b6ae23c495f4aa7d">gsb_transactions_list_splitted_to_scheduled</a> (gint transaction_number, gint scheduled_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a6089f07015c6278f5d0a689783fe4019">gsb_transactions_list_switch_expander</a> (gint transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a3fea90bc90cbcb2b613935cb657fd320">gsb_transactions_list_transaction_visible</a> (gpointer transaction_ptr, gint account_number, gint line_in_transaction, gint what_is_line)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a83f53b0c0b9da33efa7f7691ea939f9e">gsb_transactions_list_update_transaction</a> (gint transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#ab7d08f59bcf7149edda9db47e67333a4">gsb_transactions_list_update_tree_view</a> (gint account_number, gboolean keep_selected_transaction)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a7885778abe9c7b1213f7f0485e666413">mise_a_jour_affichage_r</a> (gboolean show_r)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a28b9f175715bce0ac88b473e29ac2fea">move_selected_operation_to_account_nb</a> (gint *account)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a2f2bb8bf01af048e33c47d43c8370a21">new_transaction</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#aa52082e3faa52c7be3aa7d5dd41d0731">remove_transaction</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#a57f2d9faad61b1154270e444656bd275">schedule_selected_transaction</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__transactions__list_8h.html#ad8b68b6ef2fd8238d726e11c981fc701">solde_debut_affichage</a> (gint account_number, gint floating_point)</td></tr>
+</table>
+<hr/><h2>Documentation des macros</h2>
+<a class="anchor" id="a1acc57689f7f1675288fb8a4b29fb4e7"></a><!-- doxytag: member="gsb_transactions_list.h::COLUMN_CENTER" ref="a1acc57689f7f1675288fb8a4b29fb4e7" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define COLUMN_CENTER&nbsp;&nbsp;&nbsp;0.5</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8h_source.html#l00032">32</a> du fichier <a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6af7ccb9deda7edaeea9ca8bfc7c6b37"></a><!-- doxytag: member="gsb_transactions_list.h::COLUMN_LEFT" ref="a6af7ccb9deda7edaeea9ca8bfc7c6b37" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define COLUMN_LEFT&nbsp;&nbsp;&nbsp;0.0</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8h_source.html#l00031">31</a> du fichier <a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a854253903a51c832eec04ab2ac08901b"></a><!-- doxytag: member="gsb_transactions_list.h::COLUMN_RIGHT" ref="a854253903a51c832eec04ab2ac08901b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define COLUMN_RIGHT&nbsp;&nbsp;&nbsp;1.0</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8h_source.html#l00033">33</a> du fichier <a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57"></a><!-- doxytag: member="gsb_transactions_list.h::@9" ref="ab04a0655cd1e3bcac5e8f48c18df1a57" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57a23886a6e4002c32ce2faadbc7caa5e5a"></a><!-- doxytag: member="ELEMENT_DATE" ref="ab04a0655cd1e3bcac5e8f48c18df1a57a23886a6e4002c32ce2faadbc7caa5e5a" args="" -->ELEMENT_DATE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57ab761a8d812187a4600c7525771f7f8e6"></a><!-- doxytag: member="ELEMENT_VALUE_DATE" ref="ab04a0655cd1e3bcac5e8f48c18df1a57ab761a8d812187a4600c7525771f7f8e6" args="" -->ELEMENT_VALUE_DATE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57a2c500de74c55386754d7406fec8040ce"></a><!-- doxytag: member="ELEMENT_PARTY" ref="ab04a0655cd1e3bcac5e8f48c18df1a57a2c500de74c55386754d7406fec8040ce" args="" -->ELEMENT_PARTY</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57a9ac9d9fa61388060ab239d177bd6eda8"></a><!-- doxytag: member="ELEMENT_BUDGET" ref="ab04a0655cd1e3bcac5e8f48c18df1a57a9ac9d9fa61388060ab239d177bd6eda8" args="" -->ELEMENT_BUDGET</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57a562334a8510015ee6bd6be39ec899828"></a><!-- doxytag: member="ELEMENT_DEBIT" ref="ab04a0655cd1e3bcac5e8f48c18df1a57a562334a8510015ee6bd6be39ec899828" args="" -->ELEMENT_DEBIT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57adb5de8e2e54fe03605af16b9eb86452e"></a><!-- doxytag: member="ELEMENT_CREDIT" ref="ab04a0655cd1e3bcac5e8f48c18df1a57adb5de8e2e54fe03605af16b9eb86452e" args="" -->ELEMENT_CREDIT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57a0f73340eb5af6e8a5454c1aa833339e8"></a><!-- doxytag: member="ELEMENT_BALANCE" ref="ab04a0655cd1e3bcac5e8f48c18df1a57a0f73340eb5af6e8a5454c1aa833339e8" args="" -->ELEMENT_BALANCE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57ab1d48e2978669bb807a1baaa8cdea794"></a><!-- doxytag: member="ELEMENT_AMOUNT" ref="ab04a0655cd1e3bcac5e8f48c18df1a57ab1d48e2978669bb807a1baaa8cdea794" args="" -->ELEMENT_AMOUNT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57ab990b13349c34bf1524cab596b6c614b"></a><!-- doxytag: member="ELEMENT_PAYMENT_TYPE" ref="ab04a0655cd1e3bcac5e8f48c18df1a57ab990b13349c34bf1524cab596b6c614b" args="" -->ELEMENT_PAYMENT_TYPE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57af5e128aeac4005857a0cc18fd45b9ea2"></a><!-- doxytag: member="ELEMENT_RECONCILE_NB" ref="ab04a0655cd1e3bcac5e8f48c18df1a57af5e128aeac4005857a0cc18fd45b9ea2" args="" -->ELEMENT_RECONCILE_NB</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57a4825ce568dc0468f2fc4c1bc5ab11ff6"></a><!-- doxytag: member="ELEMENT_EXERCICE" ref="ab04a0655cd1e3bcac5e8f48c18df1a57a4825ce568dc0468f2fc4c1bc5ab11ff6" args="" -->ELEMENT_EXERCICE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57a14d07ec8c3f6be2c40010a64205711be"></a><!-- doxytag: member="ELEMENT_CATEGORY" ref="ab04a0655cd1e3bcac5e8f48c18df1a57a14d07ec8c3f6be2c40010a64205711be" args="" -->ELEMENT_CATEGORY</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57a1c9bb425c66169e4464498e2d76c6f00"></a><!-- doxytag: member="ELEMENT_MARK" ref="ab04a0655cd1e3bcac5e8f48c18df1a57a1c9bb425c66169e4464498e2d76c6f00" args="" -->ELEMENT_MARK</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57aa39a67b0d3d908e1564af0b203c5d585"></a><!-- doxytag: member="ELEMENT_VOUCHER" ref="ab04a0655cd1e3bcac5e8f48c18df1a57aa39a67b0d3d908e1564af0b203c5d585" args="" -->ELEMENT_VOUCHER</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57a5bc876fbf3281eb4cc86a5fefdfc4487"></a><!-- doxytag: member="ELEMENT_NOTES" ref="ab04a0655cd1e3bcac5e8f48c18df1a57a5bc876fbf3281eb4cc86a5fefdfc4487" args="" -->ELEMENT_NOTES</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57aa1f58a928f37cd97e2ef66a05cb18f47"></a><!-- doxytag: member="ELEMENT_BANK" ref="ab04a0655cd1e3bcac5e8f48c18df1a57aa1f58a928f37cd97e2ef66a05cb18f47" args="" -->ELEMENT_BANK</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57ac81545daeefa24557d7b18826cb11fad"></a><!-- doxytag: member="ELEMENT_NO" ref="ab04a0655cd1e3bcac5e8f48c18df1a57ac81545daeefa24557d7b18826cb11fad" args="" -->ELEMENT_NO</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ab04a0655cd1e3bcac5e8f48c18df1a57aa2c405cbd6e9496265ce869d0fad27c0"></a><!-- doxytag: member="ELEMENT_CHQ" ref="ab04a0655cd1e3bcac5e8f48c18df1a57aa2c405cbd6e9496265ce869d0fad27c0" args="" -->ELEMENT_CHQ</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8h_source.html#l00007">7</a> du fichier <a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a8da0807401b34e59349e9534ed0e9cd9"></a><!-- doxytag: member="gsb_transactions_list.h::clone_selected_transaction" ref="a8da0807401b34e59349e9534ed0e9cd9" args="(GtkWidget *menu_item, gpointer null)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean clone_selected_transaction </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>menu_item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>null</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Clone selected transaction if any. Update user interface as well.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>menu_item</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>null</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l02428">2428</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a750143785ed9e62525a92754c8262f55"></a><!-- doxytag: member="gsb_transactions_list.h::creation_fenetre_operations" ref="a750143785ed9e62525a92754c8262f55" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* creation_fenetre_operations </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Create the transaction window with all components needed. </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00282">282</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8be7f66c4c8f7c67eb187290c18fb6f7"></a><!-- doxytag: member="gsb_transactions_list.h::find_element_col" ref="a8be7f66c4c8f7c67eb187290c18fb6f7" args="(gint element_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint find_element_col </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>element_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>find column number for the transaction element number</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>element_number</em>&nbsp;</td><td>the element we look for</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>column number or -1 if the element is not shown </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l01014">1014</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa2d81179288c9dd410d36fc58c9a9ca4"></a><!-- doxytag: member="gsb_transactions_list.h::find_element_col_for_archive" ref="aa2d81179288c9dd410d36fc58c9a9ca4" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint find_element_col_for_archive </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>find column number for the archive texte</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>element_number</em>&nbsp;</td><td>the element we look for</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>column number or an other element </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l03630">3630</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa33a589932f8d657a321fd0bb5a4447f"></a><!-- doxytag: member="gsb_transactions_list.h::find_element_col_split" ref="aa33a589932f8d657a321fd0bb5a4447f" args="(gint element_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint find_element_col_split </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>element_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>find column number for the element, but for split transaction there is no line find because only 1 line for now, only payee, debit and credit are shown in a split child</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>element_number</em>&nbsp;</td><td>the element we look for in a split child</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>column number or -1 if the element is not shown </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l01062">1062</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a17bf5dcbc82415220a20244112d65aef"></a><!-- doxytag: member="gsb_transactions_list.h::find_element_line" ref="a17bf5dcbc82415220a20244112d65aef" args="(gint element_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint find_element_line </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>element_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>find line number for the transaction element number</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>element_number</em>&nbsp;</td><td>the element we look for</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>line number or -1 if the element is not shown </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l01037">1037</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1144ff7dd8c9bf6a2a6eb870fc8ae2df"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_get_category_real_name" ref="a1144ff7dd8c9bf6a2a6eb870fc8ae2df" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_transactions_get_category_real_name </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l03391">3391</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab384002f4635a570bc9907b04b3efd24"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_append_new_transaction" ref="ab384002f4635a570bc9907b04b3efd24" args="(gint transaction_number, gboolean update_tree_view)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_transactions_list_append_new_transaction </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>update_tree_view</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>append a new transaction in the tree_view use gsb_transactions_list_append_transaction and do all the stuff arround that, ie calculate the balances, show or not the line... so this function is very good to append 1 transactions, but to append several transactions, it's better to use gsb_transactions_list_append_transaction and do the stuff separatly</p>
+<p>if the transaction is a split, append a white line and open the split to see the daughters</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>update_tree_view</em>&nbsp;</td><td>should be TRUE, except if we append a lot of transactions (import...) this must be FALSE to avoid time consuming, and need to update tree view later</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00647">647</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab0651c16a8ca47b70e7ccdb2d9c18ba1"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_delete_transaction" ref="ab0651c16a8ca47b70e7ccdb2d9c18ba1" args="(gint transaction_number, gint show_warning)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_transactions_list_delete_transaction </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>show_warning</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>delete a transaction if it's a transfer, delete also the contra-transaction if it's a split, delete the childs</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction</em>&nbsp;</td><td>The transaction to delete </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>show_warning</em>&nbsp;</td><td>TRUE to ask if the user is sure, FALSE directly delete the transaction if TRUE, the form will be reset too</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE if canceled or nothing done, TRUE if ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l01888">1888</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af4607ecfa510ff666ad6f3a12b898e4f"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_delete_transaction_from_tree_view" ref="af4607ecfa510ff666ad6f3a12b898e4f" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_transactions_list_delete_transaction_from_tree_view </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Delete the transaction from the tree view if it's a transfer, delete the contra transaction from the tree view if it's a split, delete a the children and if necessary the contra transactions</p>
+<p>don't do any check about possible or marked... check before do nothing in memory, only on the tree view</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l02083">2083</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a78ae21515e884855e82af687571bb3c2"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_edit_current_transaction" ref="a78ae21515e884855e82af687571bb3c2" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_transactions_list_edit_current_transaction </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Called to edit a the current transaction</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l01457">1457</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a01ca41bdcf1f932ae3a4289433d64cf5"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_edit_transaction" ref="a01ca41bdcf1f932ae3a4289433d64cf5" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_transactions_list_edit_transaction </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Called to edit a specific transaction</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l01419">1419</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a586edcd7d904b6fd75ab87544f8609fa"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_edit_transaction_by_pointer" ref="a586edcd7d904b6fd75ab87544f8609fa" args="(gint *transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_transactions_list_edit_transaction_by_pointer </td>
+          <td>(</td>
+          <td class="paramtype">gint *&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Called to edit a specific transaction but the number of transaction is passed via a pointer (by g_signal_connect)</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td>a pointer wich is the number of the transaction</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l01441">1441</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1a818af14b9c3c740d85b2c76cae24d5"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_fill_archive_store" ref="a1a818af14b9c3c740d85b2c76cae24d5" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_transactions_list_fill_archive_store </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>fill the store with the archive it's only 1 line per archive, with a name, a date (the initial date) and an amount (the balance of the archive for the account)</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00608">608</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aaae69a76295b86b7baace98ce4066738"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_get_row_align" ref="aaae69a76295b86b7baace98ce4066738" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gfloat gsb_transactions_list_get_row_align </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>calculate the row_align of the current selected transaction to set it later with gtk_tree_view_scroll_to_cell</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a gfloat used as row_align </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00906">906</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9c93505713234d8fa4727b067a140641"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_get_tree_view" ref="a9c93505713234d8fa4727b067a140641" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_transactions_list_get_tree_view </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the transactions tree_view</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the GtkTreeView </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00233">233</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1e229d05133af4abe35b72675491f580"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_grep_cell_content" ref="a1e229d05133af4abe35b72675491f580" args="(gint transaction_number, gint cell_content_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_transactions_list_grep_cell_content </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>cell_content_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>take in a transaction the content to set in a cell of the transaction's list all the value are dupplicate and have to be freed after use (except when NULL)</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>cell_content_number</em>&nbsp;</td><td>what we need in the transaction</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a newly allocated string which represent the content of the transaction, or NULL </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00693">693</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5a3574009546c888666713aa8269327b"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_make_gui_list" ref="a5a3574009546c888666713aa8269327b" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_transactions_list_make_gui_list </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create fully the gui list and fill it</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the widget which contains the list, to set at the right place </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00316">316</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afb50643bfc50dcd627a5f720c30c8765"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_restore_archive" ref="afb50643bfc50dcd627a5f720c30c8765" args="(gint archive_number, gboolean show_warning)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_transactions_list_restore_archive </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>show_warning</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>replace in the transactions list the archive lines by all the transactions in the archive remove too the archive_store from the archive_store list</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the archive to restore </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>show_warning</em>&nbsp;</td><td>TRUE to show a warning if the R transactions are not shown on the account</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l03471">3471</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2528e018beffeb0d2ce2f2386e690360"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_selection_changed" ref="a2528e018beffeb0d2ce2f2386e690360" args="(gint new_selected_transaction)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_transactions_list_selection_changed </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>new_selected_transaction</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>called when the selection changed do some stuff wich happen in that case</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>new_selected_transaction</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l01374">1374</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6de9b44e088a49d4d6328209a24443c2"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_set_row_align" ref="a6de9b44e088a49d4d6328209a24443c2" args="(gfloat row_align)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_transactions_list_set_row_align </td>
+          <td>(</td>
+          <td class="paramtype">gfloat&nbsp;</td>
+          <td class="paramname"> <em>row_align</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the list at the good position saved before with row_align</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>row_align</em>&nbsp;</td><td>a gfloat to aligne in the function gtk_tree_view_scroll_to_cell if &lt; 0, don't use row_align but let the tree view to move by himself to the selected transaction</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00947">947</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8da293358f10b57d3107c903fbd4ef12"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_set_visible_rows_number" ref="a8da293358f10b57d3107c903fbd4ef12" args="(gint rows_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_transactions_list_set_visible_rows_number </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>rows_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>called to change the number of visible rows depends of the conf, change the number of rows of the current account, and if necessary of all the accounts adapts also the tree for the splits to set the expander on the new last line</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>rows_number</em>&nbsp;</td><td>the new number of lines we want to see</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l03284">3284</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7a066474fae8e311ca096b15cf9d33cc"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_show_archives_lines" ref="a7a066474fae8e311ca096b15cf9d33cc" args="(gboolean show_l)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_transactions_list_show_archives_lines </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>show_l</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>switch the view between show the reconciled transactions or not</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>show_r</em>&nbsp;</td><td>TRUE or FALSE</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l03232">3232</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0ea3d83f0d74d289b6ae23c495f4aa7d"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_splitted_to_scheduled" ref="a0ea3d83f0d74d289b6ae23c495f4aa7d" args="(gint transaction_number, gint scheduled_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_transactions_list_splitted_to_scheduled </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>scheduled_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>clone the splitted children of a transaction to splitted children of the scheduled transaction</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td>mother of the splitted children we look for </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>scheduled_number</em>&nbsp;</td><td>splitted scheduled transaction we want to add the children</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l02826">2826</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6089f07015c6278f5d0a689783fe4019"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_switch_expander" ref="a6089f07015c6278f5d0a689783fe4019" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_transactions_list_switch_expander </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>switch the expander of the split given in param</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td>the split we want to switch</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l03438">3438</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3fea90bc90cbcb2b613935cb657fd320"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_transaction_visible" ref="a3fea90bc90cbcb2b613935cb657fd320" args="(gpointer transaction_ptr, gint account_number, gint line_in_transaction, gint what_is_line)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_transactions_list_transaction_visible </td>
+          <td>(</td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>transaction_ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>line_in_transaction</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>what_is_line</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>check if the transaction given in param should be visible or not according to the account and the current line this function is called to filter the model for each line in transaction_list_filter so need to be very fast</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td>the pointer in the model, usually a transaction, but can be archive </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td>account number </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>line_in_transaction</em>&nbsp;</td><td>the line in the transaction (0, 1, 2 or 3) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>what_is_line</em>&nbsp;</td><td>IS_TRANSACTION / IS_ARCHIVE</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if the transaction should be shown, FALSE else </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l03334">3334</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a83f53b0c0b9da33efa7f7691ea939f9e"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_update_transaction" ref="a83f53b0c0b9da33efa7f7691ea939f9e" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_transactions_list_update_transaction </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update the transaction given in the tree_view</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction</em>&nbsp;</td><td>transaction to update</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00873">873</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab7d08f59bcf7149edda9db47e67333a4"></a><!-- doxytag: member="gsb_transactions_list.h::gsb_transactions_list_update_tree_view" ref="ab7d08f59bcf7149edda9db47e67333a4" args="(gint account_number, gboolean keep_selected_transaction)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_transactions_list_update_tree_view </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>keep_selected_transaction</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update the tree view, ie : filter it according to the account sort it colorize it set the balances keep the selected transaction if we want this should be called all the time, except when we need only 1 of all of this</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>keep_selected_transaction</em>&nbsp;</td><td>TRUE if we want to keep the selected transaction else we need to select another transaction after that call</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00254">254</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7885778abe9c7b1213f7f0485e666413"></a><!-- doxytag: member="gsb_transactions_list.h::mise_a_jour_affichage_r" ref="a7885778abe9c7b1213f7f0485e666413" args="(gboolean show_r)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void mise_a_jour_affichage_r </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>show_r</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>switch the view between show the reconciled transactions or not</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>show_r</em>&nbsp;</td><td>TRUE or FALSE</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l03181">3181</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a28b9f175715bce0ac88b473e29ac2fea"></a><!-- doxytag: member="gsb_transactions_list.h::move_selected_operation_to_account_nb" ref="a28b9f175715bce0ac88b473e29ac2fea" args="(gint *account)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void move_selected_operation_to_account_nb </td>
+          <td>(</td>
+          <td class="paramtype">gint *&nbsp;</td>
+          <td class="paramname"> <em>account</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Move selected transaction to another account. Normally called as a handler.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>menu_item</em>&nbsp;</td><td>The GtkMenuItem that triggered this handler. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l02613">2613</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2f2bb8bf01af048e33c47d43c8370a21"></a><!-- doxytag: member="gsb_transactions_list.h::new_transaction" ref="a2f2bb8bf01af048e33c47d43c8370a21" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean new_transaction </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Empty transaction form and select transactions tab. </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l02390">2390</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa52082e3faa52c7be3aa7d5dd41d0731"></a><!-- doxytag: member="gsb_transactions_list.h::remove_transaction" ref="aa52082e3faa52c7be3aa7d5dd41d0731" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void remove_transaction </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Remove selected transaction if any. </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l02409">2409</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a57f2d9faad61b1154270e444656bd275"></a><!-- doxytag: member="gsb_transactions_list.h::schedule_selected_transaction" ref="a57f2d9faad61b1154270e444656bd275" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void schedule_selected_transaction </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Convert selected transaction to a template of scheduled transaction via schedule_transaction(). </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l02708">2708</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad8b68b6ef2fd8238d726e11c981fc701"></a><!-- doxytag: member="gsb_transactions_list.h::solde_debut_affichage" ref="ad8b68b6ef2fd8238d726e11c981fc701" args="(gint account_number, gint floating_point)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> solde_debut_affichage </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>floating_point</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>cette fonction calcule le solde de départ pour l'affichage de la première opé du compte c'est soit le solde initial du compte si on affiche les R soit le solde initial - les opés R si elles ne sont pas affichées </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l01087">1087</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

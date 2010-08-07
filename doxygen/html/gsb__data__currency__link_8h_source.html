@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_data_currency_link.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_data_currency_link.h</h1><a href="gsb__data__currency__link_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _GSB_DATA_CURRENCY_LINK_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _GSB_DATA_CURRENCY_LINK_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00007"></a>00007 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00010"></a>00010 <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="gsb__data__currency__link_8c.html#aa18864d68d7555d3b39e14ef87beeb7d">gsb_data_currency_link_get_change_rate</a> ( gint currency_link_number );
+<a name="l00011"></a>00011 GSList *<a class="code" href="gsb__data__currency__link_8c.html#afabcb6dbde8dd4e991d69acf4c515ff6">gsb_data_currency_link_get_currency_link_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00012"></a>00012 gint <a class="code" href="gsb__data__currency__link_8c.html#a2591e4c674d78df9749c4b3550102a9c">gsb_data_currency_link_get_first_currency</a> ( gint currency_link_number );
+<a name="l00013"></a>00013 gboolean <a class="code" href="gsb__data__currency__link_8c.html#a98c2a1a949a837d8a8e81273a1b5597a">gsb_data_currency_link_get_fixed_link</a> ( gint currency_link_number );
+<a name="l00014"></a>00014 gint <a class="code" href="gsb__data__currency__link_8c.html#a43d077a96dc987da2527bb84cf830631">gsb_data_currency_link_get_invalid_link</a> ( gint currency_link_number );
+<a name="l00015"></a>00015 <span class="keyword">const</span> gchar *<a class="code" href="gsb__data__currency__link_8c.html#a2e557736f1bcf1f082a81f73a36542c1">gsb_data_currency_link_get_invalid_message</a> ( gint currency_link_number );
+<a name="l00016"></a>00016 GDate *<a class="code" href="gsb__data__currency__link_8c.html#aa69aa5e3a5a36188b6b78e37f72a566c">gsb_data_currency_link_get_modified_date</a> ( gint currency_link_number );
+<a name="l00017"></a>00017 gint <a class="code" href="gsb__data__currency__link_8c.html#a98649f0d33b433e86464d1446d72736e">gsb_data_currency_link_get_no_currency_link</a> ( gpointer currency_link_ptr );
+<a name="l00018"></a>00018 gint <a class="code" href="gsb__data__currency__link_8c.html#a7b5878d793377c0cd6cb5c140f7dc56d">gsb_data_currency_link_get_second_currency</a> ( gint currency_link_number );
+<a name="l00019"></a>00019 gboolean <a class="code" href="gsb__data__currency__link_8c.html#a4cd0e66deb9185816119a0ddd973f1c6">gsb_data_currency_link_init_variables</a> ( <span class="keywordtype">void</span> );
+<a name="l00020"></a>00020 gint <a class="code" href="gsb__data__currency__link_8c.html#a78bdeb826c13c39ba178ac66c41f17aa">gsb_data_currency_link_new</a> ( gint currency_link_number );
+<a name="l00021"></a>00021 gboolean <a class="code" href="gsb__data__currency__link_8c.html#af6a6a897e207d9a9d1627640a96ade55">gsb_data_currency_link_remove</a> ( gint currency_link_number );
+<a name="l00022"></a>00022 gint <a class="code" href="gsb__data__currency__link_8c.html#ae1bb872fddbad3052301ba8ef1b1e9bb">gsb_data_currency_link_search</a> ( gint currency_1,
+<a name="l00023"></a>00023                         gint currency_2 );
+<a name="l00024"></a>00024 gboolean <a class="code" href="gsb__data__currency__link_8c.html#a8d185945246d4c709ddafcf1daecfa38">gsb_data_currency_link_set_change_rate</a> ( gint currency_link_number,
+<a name="l00025"></a>00025                         <a class="code" href="structgsb__real.html">gsb_real</a> change_rate );
+<a name="l00026"></a>00026 gboolean <a class="code" href="gsb__data__currency__link_8c.html#a299015b16318ea3ffb9962b8e57f43d9">gsb_data_currency_link_set_first_currency</a> ( gint currency_link_number,
+<a name="l00027"></a>00027                         gint first_currency );
+<a name="l00028"></a>00028 gboolean <a class="code" href="gsb__data__currency__link_8c.html#a82b5b120da2c6a35a220b2aec872dd89">gsb_data_currency_link_set_fixed_link</a> ( gint currency_link_number,
+<a name="l00029"></a>00029                         gboolean fixed_link );
+<a name="l00030"></a>00030 gboolean <a class="code" href="gsb__data__currency__link_8c.html#a45a0f10f5738e9fc8118bd99442e6366">gsb_data_currency_link_set_modified_date</a> ( gint currency_link_number,
+<a name="l00031"></a>00031                         GDate *date );
+<a name="l00032"></a>00032 gint <a class="code" href="gsb__data__currency__link_8c.html#afcae5a85a8cd075e218f6eb7d3a4669a">gsb_data_currency_link_set_new_number</a> ( gint currency_link_number,
+<a name="l00033"></a>00033                         gint new_no_currency_link );
+<a name="l00034"></a>00034 gboolean <a class="code" href="gsb__data__currency__link_8c.html#ab8ecae95419928fd21f71f9f9e31e449">gsb_data_currency_link_set_second_currency</a> ( gint currency_link_number,
+<a name="l00035"></a>00035                         gint second_currency );
+<a name="l00036"></a>00036 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

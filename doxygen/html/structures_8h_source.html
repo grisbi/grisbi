@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de structures.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>structures.h</h1><a href="structures_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _STRUCTURES_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _STRUCTURES_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="comment">/* fichier d&#39;en tête structures.h */</span>
+<a name="l00005"></a>00005 <span class="comment">/* contient toutes les structures du prog */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="preprocessor">#include &quot;<a class="code" href="print__config_8h.html">print_config.h</a>&quot;</span>
+<a name="l00008"></a>00008 <span class="preprocessor">#include &quot;<a class="code" href="utils__str_8h.html">utils_str.h</a>&quot;</span>
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="comment">/* the VERSION_FICHIER is in fact the lowest version which can be used to open the</span>
+<a name="l00011"></a>00011 <span class="comment"> * file, so each time we make an incompatibility issue, VERSION_FICHIER must be set</span>
+<a name="l00012"></a>00012 <span class="comment"> * to VERSION_GRISBI */</span>
+<a name="l00013"></a><a class="code" href="structures_8h.html#ab543f4bce79f29c3d34f92ebec03c9fe">00013</a> <span class="preprocessor">#define VERSION_FICHIER &quot;0.6.0&quot;</span>
+<a name="l00014"></a>00014 <span class="preprocessor"></span>
+<a name="l00015"></a>00015 <span class="comment">/* Define this when in Git development branch. */</span>
+<a name="l00016"></a><a class="code" href="structures_8h.html#a180760e9c5236a1ac40cad78329ecb7e">00016</a> <span class="preprocessor">#define IS_DEVELOPMENT_VERSION 1</span>
+<a name="l00017"></a>00017 <span class="preprocessor"></span>
+<a name="l00018"></a><a class="code" href="structures_8h.html#ac67b9c98ee8d1934919e426bcdada8a1">00018</a> <span class="preprocessor">#define VERSION_FICHIER_ETAT &quot;0.6.0&quot;</span>
+<a name="l00019"></a><a class="code" href="structures_8h.html#a1cb86b24780a16be7cdbb0abe9a14af6">00019</a> <span class="preprocessor"></span><span class="preprocessor">#define VERSION_FICHIER_CATEG &quot;0.6.0&quot;</span>
+<a name="l00020"></a><a class="code" href="structures_8h.html#ab3e20dc1e44d90436b46643e52d92adf">00020</a> <span class="preprocessor"></span><span class="preprocessor">#define VERSION_FICHIER_IB &quot;0.6.0&quot;</span>
+<a name="l00021"></a><a class="code" href="structures_8h.html#ad8e6c67206ef777067d2bad7f6d0cfe8">00021</a> <span class="preprocessor"></span><span class="preprocessor">#define VERSION_GTK_MAJOR 2</span>
+<a name="l00022"></a><a class="code" href="structures_8h.html#a2d31570fe40ad0097dd3b6312470eec2">00022</a> <span class="preprocessor"></span><span class="preprocessor">#define VERSION_GTK_MINOR 16</span>
+<a name="l00023"></a><a class="code" href="structures_8h.html#a1d2f4338aa44cc156bfcac60c7465a01">00023</a> <span class="preprocessor"></span><span class="preprocessor">#define VERSION_GTK_MICRO 0</span>
+<a name="l00024"></a>00024 <span class="preprocessor"></span>
+<a name="l00025"></a><a class="code" href="structures_8h.html#aaad3270d56994a956f6956f142c1c103">00025</a> <span class="preprocessor">#define COLON(s) (g_strconcat ( s, &quot; : &quot;, NULL ))</span>
+<a name="l00026"></a><a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">00026</a> <span class="preprocessor"></span><span class="preprocessor">#define SPACIFY(s) (g_strconcat ( &quot; &quot;, s, &quot; &quot;, NULL ))</span>
+<a name="l00027"></a><a class="code" href="structures_8h.html#a4b7af7f6d6792977527776b10b9d70e0">00027</a> <span class="preprocessor"></span><span class="preprocessor">#define PRESPACIFY(s) (g_strconcat ( &quot; &quot;, s, NULL ))</span>
+<a name="l00028"></a><a class="code" href="structures_8h.html#acec4595b4886c3686815d8cd5fb79a0f">00028</a> <span class="preprocessor"></span><span class="preprocessor">#define POSTSPACIFY(s) (g_strconcat ( s, &quot; &quot;, NULL ))</span>
+<a name="l00029"></a>00029 <span class="preprocessor"></span>
+<a name="l00030"></a><a class="code" href="structures_8h.html#a6579a0d80c7ece1e151b927eaf548f62">00030</a> <span class="preprocessor">#define CSV_MAX_TOP_LINES 10    </span>
+<a name="l00039"></a><a class="code" href="structgsb__etat__t.html">00039</a> <span class="preprocessor">struct gsb_etat_t</span>
+<a name="l00040"></a>00040 <span class="preprocessor"></span>{
+<a name="l00041"></a><a class="code" href="structgsb__etat__t.html#a9d0fa9057da603e64a601d69d7bf2b51">00041</a>     time_t <a class="code" href="traitement__variables_8c.html#aa4084b9e508b1d1fea1d09c6b6208021">modification_fichier</a>;
+<a name="l00042"></a><a class="code" href="structgsb__etat__t.html#ac9abb0586d6d0af26cfd09e1b99057d8">00042</a>     gint is_archive;                
+<a name="l00043"></a><a class="code" href="structgsb__etat__t.html#ae3a5af3d26105e740e989e5c6804bab2">00043</a>     gint equilibrage;
+<a name="l00044"></a>00044 
+<a name="l00045"></a><a class="code" href="structgsb__etat__t.html#a34dce90a505d952d0fad5ec91297cd9a">00045</a>     gboolean debug_mode;            <span class="comment">/* TRUE in debug mode, FALSE for normale mode */</span>
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047     <span class="comment">/* files and backup part */</span>
+<a name="l00048"></a><a class="code" href="structgsb__etat__t.html#a5d00886877a537e1acf2ca7eb8d247f6">00048</a>     gint crypt_file;                <span class="comment">/* TRUE if we want to crypt the file */</span>
+<a name="l00049"></a><a class="code" href="structgsb__etat__t.html#a51b3460f67898d36bcdfce1c17cf74e1">00049</a>     gint fichier_deja_ouvert;       <span class="comment">/* à un si lors de l&#39;ouverture, le fichier semblait déjà ouvert */</span>
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051     <span class="comment">/* formulaire */</span>
+<a name="l00052"></a><a class="code" href="structgsb__etat__t.html#a87c3eec6adcbac2891ad3f762802fc7f">00052</a>     gint formulaire_toujours_affiche;
+<a name="l00053"></a><a class="code" href="structgsb__etat__t.html#a03f2612a11dacafc16a35d08fc394527">00053</a>     gint affichage_exercice_automatique;            <span class="comment">/* automatic fyear :0 to set according to the date, 2 according to value date */</span>
+<a name="l00054"></a><a class="code" href="structgsb__etat__t.html#a6b1800884272ad45f6bea3f48153e162">00054</a>     gint automatic_completion_payee;                <span class="comment">/* 1 pour autoriser la completion automatique des opérations */</span>
+<a name="l00055"></a><a class="code" href="structgsb__etat__t.html#a061061ce7c3655a4e088acc4481fd71d">00055</a>     gboolean limit_completion_to_current_account;   <span class="comment">/* Limit payee completion to current account or do a full search. */</span>
+<a name="l00056"></a><a class="code" href="structgsb__etat__t.html#ab31c706cecdea039591ea7ad86bd67d0">00056</a>     gint affiche_nb_ecritures_listes;
+<a name="l00057"></a><a class="code" href="structgsb__etat__t.html#a352f15e3c36e2018ce3a749d693dd996">00057</a>     gint largeur_auto_colonnes;
+<a name="l00058"></a><a class="code" href="structgsb__etat__t.html#ae45e10b2c70e5cc3844a13a052ad0d78">00058</a>     gint retient_affichage_par_compte;      <span class="comment">/* à 1 si les caractéristiques de l&#39;affichage (R, non R ...) diffèrent par compte */</span>
+<a name="l00059"></a><a class="code" href="structgsb__etat__t.html#a1e291fdcb0a4837a3e7f5ced3dae2fce">00059</a>     gint en_train_de_sauvegarder;
+<a name="l00060"></a><a class="code" href="structgsb__etat__t.html#ae139b0ab92936604ed03a01b9e3366ba">00060</a>     gint en_train_de_charger;
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062     <span class="comment">/* Fonts &amp; logo */</span>
+<a name="l00063"></a><a class="code" href="structgsb__etat__t.html#a2228cfa5b20058093f1a82e9c50d1b0a">00063</a>     gint utilise_logo;
+<a name="l00064"></a><a class="code" href="structgsb__etat__t.html#abfc8db076ca582b5323f585f21698ca8">00064</a>     gboolean is_pixmaps_dir;        <span class="comment">/* TRUE if path_icon == PIXMAPS_DIR */</span>
+<a name="l00065"></a><a class="code" href="structgsb__etat__t.html#a1c4f0ecde430510ed3cf0c68491268b1">00065</a>     gchar *name_logo;
+<a name="l00066"></a><a class="code" href="structgsb__etat__t.html#a568b1677ab2a0bf755b7668eaf523418">00066</a>     gint display_grisbi_title;      <span class="comment">/* selection du titre principal de grisbi */</span>
+<a name="l00067"></a>00067     
+<a name="l00068"></a><a class="code" href="structgsb__etat__t.html#a021fc81e4d8dc513eeb6b709e666dc20">00068</a>     gint display_toolbar;           
+<a name="l00069"></a><a class="code" href="structgsb__etat__t.html#aac2ec593dc36ada550b5792296d48f2e">00069</a>     gboolean show_toolbar;          
+<a name="l00070"></a><a class="code" href="structgsb__etat__t.html#a462b19c31b3d72be181a70d59c9cd5fd">00070</a>     gboolean show_headings_bar;     
+<a name="l00071"></a><a class="code" href="structgsb__etat__t.html#a2bc8b82e44468eaed090b64ef81956f1">00071</a>     gboolean show_closed_accounts;
+<a name="l00072"></a><a class="code" href="structgsb__etat__t.html#a5d009282cf4adee9a40cf1b6a7e7327b">00072</a>     gboolean automatic_separator;   <span class="comment">/* TRUE if do automatic separator */</span>
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074     <span class="comment">/* Various display message stuff    */</span>
+<a name="l00075"></a><a class="code" href="structgsb__etat__t.html#ad112c328afd30d48eacd613fec927079">00075</a>     gint display_message_lock_active;
+<a name="l00076"></a><a class="code" href="structgsb__etat__t.html#aa01847b45365b4a9be899d2c9f7764aa">00076</a>     gint display_message_file_readable;
+<a name="l00077"></a><a class="code" href="structgsb__etat__t.html#a5ddc9d05876c50e5de7839f1a3a903ac">00077</a>     gint display_message_minimum_alert;
+<a name="l00078"></a><a class="code" href="structgsb__etat__t.html#ae603f12f755e6f002bb848084703ada4">00078</a>     gint display_message_no_budgetary_line;
+<a name="l00079"></a><a class="code" href="structgsb__etat__t.html#ab748e6b0a0783564a44a2a5465442c1d">00079</a>     gint display_message_qif_export_currency;
+<a name="l00080"></a><a class="code" href="structgsb__etat__t.html#a6d399e239ddc40e231b57f28d8fe2406">00080</a>     gint display_message_ofx_security;
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082     <span class="comment">/* import rules */</span>
+<a name="l00083"></a><a class="code" href="structgsb__etat__t.html#a628fdfc85cd4c1b52ca5f29b7cb7cd06">00083</a>     gint get_extract_number_for_check;      <span class="comment">/* TRUE if Extracting a number and save it in the field No Cheque/Virement */</span>
+<a name="l00084"></a><a class="code" href="structgsb__etat__t.html#a57578c75cdb213a3320a587861a713ad">00084</a>     gint get_fusion_import_transactions;    <span class="comment">/* TRUE if merge transactions imported with transactions found*/</span>
+<a name="l00085"></a><a class="code" href="structgsb__etat__t.html#a3fa0078d2f9783e00e473ee5a127f1f6">00085</a>     gint get_categorie_for_payee;           <span class="comment">/* TRUE to automatically retrieve the category of the payee if it exists */</span>
+<a name="l00086"></a><a class="code" href="structgsb__etat__t.html#af20e6f2e4e19db775dbd86405e877f09">00086</a>     gint get_fyear_by_value_date;           <span class="comment">/* TRUE to get the fyear by value date, FALSE by date */</span>
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088     <span class="comment">/* combofix configuration */</span>
+<a name="l00089"></a><a class="code" href="structgsb__etat__t.html#a66bb2fbaf6417db78f4a3444aa26cfa3">00089</a>     gint combofix_mixed_sort;               <span class="comment">/* TRUE for no separation between the categories */</span>
+<a name="l00090"></a><a class="code" href="structgsb__etat__t.html#a6a71e36dd4154a8a28ec1c61815e48cf">00090</a>     gint combofix_max_item;                 <span class="comment">/* maximum number of items we want before showing the popup */</span>
+<a name="l00091"></a><a class="code" href="structgsb__etat__t.html#a125b6acef0ed7c3675d331ebb36ee373">00091</a>     gint combofix_case_sensitive;           <span class="comment">/* TRUE if case sensitive */</span>
+<a name="l00092"></a><a class="code" href="structgsb__etat__t.html#a5b4d8e9fb0ca2d1d3bd9a4ab2e41df7e">00092</a>     gint combofix_enter_select_completion;  <span class="comment">/* TRUE if enter close the popup and keep what is in the entry (else, select the current item in the list) */</span>
+<a name="l00093"></a><a class="code" href="structgsb__etat__t.html#a2d144af514bb01efa489541db464bc80">00093</a>     gint combofix_force_payee;              <span class="comment">/* TRUE if no new item can be appended in the payee combofix */</span>
+<a name="l00094"></a><a class="code" href="structgsb__etat__t.html#a438d5f681d3caeb050f58d3731f8d913">00094</a>     gint combofix_force_category;           <span class="comment">/* TRUE if no new item can be appended in the category and budget combofix */</span>
+<a name="l00095"></a>00095     
+<a name="l00096"></a>00096     <span class="comment">/* Print stuff */</span>
+<a name="l00097"></a><a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">00097</a>     <span class="keyword">struct </span><a class="code" href="structprint__config.html">print_config</a> <a class="code" href="structprint__config.html">print_config</a>;
+<a name="l00098"></a>00098     
+<a name="l00099"></a>00099     <span class="comment">/* width panned */</span>
+<a name="l00100"></a><a class="code" href="structgsb__etat__t.html#a9d04582aa25fe395e17afb07af18405a">00100</a>     gint largeur_colonne_echeancier;
+<a name="l00101"></a><a class="code" href="structgsb__etat__t.html#a98930857c3bbd64e9d392bd3f670dcba">00101</a>     gint largeur_colonne_comptes_comptes;
+<a name="l00102"></a><a class="code" href="structgsb__etat__t.html#aabb26bfc1a0218e04089d46dd495e02a">00102</a>     gint largeur_colonne_etat;
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104     <span class="comment">/* variables sur l&#39;échéancier */</span>
+<a name="l00105"></a><a class="code" href="structgsb__etat__t.html#a973a219fce3f9cbfdd56022173c50206">00105</a>     gint affichage_commentaire_echeancier;      <span class="comment">/* à 1 si le commentaire est affiché */</span>
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107     <span class="comment">/* Tips */</span>
+<a name="l00108"></a><a class="code" href="structgsb__etat__t.html#af10296b248b4be892fcb555fd4c12f44">00108</a>     gint last_tip; 
+<a name="l00109"></a><a class="code" href="structgsb__etat__t.html#a7226554af3f7af0ed91ae5e4120daa5a">00109</a>     gint show_tip; 
+<a name="l00110"></a>00110 
+<a name="l00111"></a><a class="code" href="structgsb__etat__t.html#a21a448909a9460d5a6de8ddf4edb16e0">00111</a>     gchar * csv_separator;                              
+<a name="l00112"></a><a class="code" href="structgsb__etat__t.html#a51653cc807d6160d6ad2f65666026a68">00112</a>     gboolean csv_skipped_lines [ <a class="code" href="structures_8h.html#a6579a0d80c7ece1e151b927eaf548f62">CSV_MAX_TOP_LINES</a> ];   <span class="comment">/* Contains a pointer to skipped lines in CSV preview. */</span>
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114     <span class="comment">/* variables pour les metatree */</span>
+<a name="l00115"></a><a class="code" href="structgsb__etat__t.html#aab3a9a46a988630eff0a8d7a0b9a80e8">00115</a>     gint metatree_sort_transactions;        <span class="comment">/* TRUE = sort transactions by date */</span>
+<a name="l00116"></a><a class="code" href="structgsb__etat__t.html#afe6525697e72cd23f1bdafea6642fd37">00116</a>     gint add_archive_in_total_balance;      <span class="comment">/* Add transactions archived in the totals */</span>
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118     <span class="comment">/* variables for the module estimate balance */</span>
+<a name="l00119"></a><a class="code" href="structgsb__etat__t.html#abeb050bc20ba0ac1d694a1e1326f2fe2">00119</a>     gint bet_deb_period;
+<a name="l00120"></a>00120     
+<a name="l00121"></a>00121 };
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123 <span class="comment">/* declared in parametres.c */</span>
+<a name="l00124"></a>00124 <span class="keyword">extern</span> <span class="keyword">struct </span><a class="code" href="structgsb__etat__t.html">gsb_etat_t</a> <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>;
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126 
+<a name="l00132"></a><a class="code" href="structgsb__conf__t.html">00132</a> <span class="keyword">struct </span><a class="code" href="structgsb__conf__t.html">gsb_conf_t</a>
+<a name="l00133"></a>00133 {
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135     <span class="comment">/* geometry */</span>
+<a name="l00136"></a><a class="code" href="structgsb__conf__t.html#acb7a409248588233380f0ecc8e9039b2">00136</a>     gint <a class="code" href="structgsb__conf__t.html#acb7a409248588233380f0ecc8e9039b2">root_x</a>;                                    <span class="comment">/* main_window x position */</span>
+<a name="l00137"></a><a class="code" href="structgsb__conf__t.html#af45fe31733740f1eb41d426b5483ff3a">00137</a>     gint <a class="code" href="structgsb__conf__t.html#af45fe31733740f1eb41d426b5483ff3a">root_y</a>;                                    <span class="comment">/* main_window y position */</span>
+<a name="l00138"></a><a class="code" href="structgsb__conf__t.html#a20fe008f8e096daa099b3b77f9705898">00138</a>     gint <a class="code" href="structgsb__conf__t.html#a20fe008f8e096daa099b3b77f9705898">main_width</a>;                                <span class="comment">/* main_window width */</span>
+<a name="l00139"></a><a class="code" href="structgsb__conf__t.html#af596de4ac7cfb04973c57558c8699f16">00139</a>     gint <a class="code" href="structgsb__conf__t.html#af596de4ac7cfb04973c57558c8699f16">main_height</a>;                               <span class="comment">/* main_window height */</span>
+<a name="l00140"></a><a class="code" href="structgsb__conf__t.html#ac52b8049141eff89fc607a6be13c9d91">00140</a>     gint <a class="code" href="structgsb__conf__t.html#ac52b8049141eff89fc607a6be13c9d91">full_screen</a>;                               <span class="comment">/* 1 to full screen, 0 else */</span>
+<a name="l00141"></a><a class="code" href="structgsb__conf__t.html#aab174c3faa807258d44e178e3272ec1b">00141</a>     gint <a class="code" href="structgsb__conf__t.html#aab174c3faa807258d44e178e3272ec1b">largeur_colonne_comptes_operation</a>;
+<a name="l00142"></a><a class="code" href="structgsb__conf__t.html#a54050896320456071ee967c63f151607">00142</a>     gint <a class="code" href="structgsb__conf__t.html#a54050896320456071ee967c63f151607">prefs_width</a>;                               <span class="comment">/* preferences width */</span>
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144     <span class="comment">/* general part */</span>
+<a name="l00145"></a><a class="code" href="structgsb__conf__t.html#a07552fa669b3cd6069633aeeba230fe4">00145</a>     gint <a class="code" href="structgsb__conf__t.html#a07552fa669b3cd6069633aeeba230fe4">r_modifiable</a>;                              <span class="comment">/* Changes in reconciled transactions */</span>
+<a name="l00146"></a><a class="code" href="structgsb__conf__t.html#a113714571dbac6fc2ec93356d2e1c3b7">00146</a>     gint <a class="code" href="structgsb__conf__t.html#a113714571dbac6fc2ec93356d2e1c3b7">entree</a>;                                    <span class="comment">/* si etat.entree = 1, la touche entrée finit l&#39;opération */</span> 
+<a name="l00147"></a><a class="code" href="structgsb__conf__t.html#abd557f271ec40d52e95d3190593d60f4">00147</a>     gint <a class="code" href="structgsb__conf__t.html#abd557f271ec40d52e95d3190593d60f4">alerte_mini</a>;
+<a name="l00148"></a><a class="code" href="structgsb__conf__t.html#ab70c28739918be7b7c8a245a111ecd3f">00148</a>     gint <a class="code" href="structgsb__conf__t.html#ab70c28739918be7b7c8a245a111ecd3f">utilise_fonte_listes</a>;                      <span class="comment">/* TRUE to use a custom font for the lists */</span>
+<a name="l00149"></a><a class="code" href="structgsb__conf__t.html#ad49cf29b046f0c3eb8b77dabdbb53021">00149</a>     gchar *<a class="code" href="structgsb__conf__t.html#ad49cf29b046f0c3eb8b77dabdbb53021">font_string</a>;                             <span class="comment">/* contain the description of the font, or NULL */</span>
+<a name="l00150"></a><a class="code" href="structgsb__conf__t.html#a1f1c81c5d78cee38e3c4905e2a6f975f">00150</a>     gchar *<a class="code" href="structgsb__conf__t.html#a1f1c81c5d78cee38e3c4905e2a6f975f">browser_command</a>;
+<a name="l00151"></a><a class="code" href="structgsb__conf__t.html#ad8c00ed949ead63c8c2e8cae2c5427b0">00151</a>     gchar *<a class="code" href="structgsb__conf__t.html#ad8c00ed949ead63c8c2e8cae2c5427b0">latex_command</a>;
+<a name="l00152"></a><a class="code" href="structgsb__conf__t.html#a88152768016fab9c9b37b3b9bef0fdf1">00152</a>     gchar *<a class="code" href="structgsb__conf__t.html#a88152768016fab9c9b37b3b9bef0fdf1">dvips_command</a>;
+<a name="l00153"></a><a class="code" href="structgsb__conf__t.html#ad8eb00244bd377513cdcc7be85a81490">00153</a>     gint <a class="code" href="structgsb__conf__t.html#ad8eb00244bd377513cdcc7be85a81490">pluriel_final</a>;                             <span class="comment">/* 0 = finals 1 = finaux */</span>
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155     <span class="comment">/* files part */</span>
+<a name="l00156"></a><a class="code" href="structgsb__conf__t.html#af2b609f9c253b3560fa678f805d94f00">00156</a>     gint <a class="code" href="structgsb__conf__t.html#af2b609f9c253b3560fa678f805d94f00">sauvegarde_demarrage</a>;                      <span class="comment">/* utilisé pour enregistrer le fichier s&#39;il s&#39;est bien ouvert */</span>
+<a name="l00157"></a><a class="code" href="structgsb__conf__t.html#a673c71a1aaa248541d9366eea400972a">00157</a>     gint <a class="code" href="structgsb__conf__t.html#a673c71a1aaa248541d9366eea400972a">sauvegarde_auto</a>;                           <span class="comment">/* utilisé pour enregistrer le fichier automatiquementà la fermeture */</span>
+<a name="l00158"></a><a class="code" href="structgsb__conf__t.html#a20363216fde07ae08492945768fe7d6a">00158</a>     gint <a class="code" href="structgsb__conf__t.html#a20363216fde07ae08492945768fe7d6a">dernier_fichier_auto</a>;
+<a name="l00159"></a><a class="code" href="structgsb__conf__t.html#ad9454c37331a99515489635dca3d0234">00159</a>     gint <a class="code" href="structgsb__conf__t.html#ad9454c37331a99515489635dca3d0234">compress_file</a>;                             <span class="comment">/* TRUE if we want to compress the grisbi file */</span>
+<a name="l00160"></a><a class="code" href="structgsb__conf__t.html#aa5dc717cc4996e2152c68f9e3f077f07">00160</a>     gint <a class="code" href="structgsb__conf__t.html#aa5dc717cc4996e2152c68f9e3f077f07">alerte_permission</a>;                         <span class="comment">/* à un si le message d&#39;alerte s&#39;affiche */</span>
+<a name="l00161"></a><a class="code" href="structgsb__conf__t.html#a99f11a90e357d09883a0a994c7d3031f">00161</a>     gint <a class="code" href="structgsb__conf__t.html#a99f11a90e357d09883a0a994c7d3031f">force_enregistrement</a>;                      <span class="comment">/* à un si on force l&#39;enregistrement */</span>
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163     <span class="comment">/* backup part */</span>
+<a name="l00164"></a><a class="code" href="structgsb__conf__t.html#affba80c08847721573312df63317f9c4">00164</a>     gint <a class="code" href="structgsb__conf__t.html#affba80c08847721573312df63317f9c4">make_backup</a>;                               <span class="comment">/* TRUE for create a backup when save file */</span>
+<a name="l00165"></a><a class="code" href="structgsb__conf__t.html#a01bf44cc2178d2085b1c726e061caee1">00165</a>     gint <a class="code" href="structgsb__conf__t.html#a01bf44cc2178d2085b1c726e061caee1">make_backup_every_minutes</a>;                 <span class="comment">/* TRUE to make backup every x mn */</span>
+<a name="l00166"></a><a class="code" href="structgsb__conf__t.html#a5a6be9e1da1968dc1667dffbcbd0b48e">00166</a>     gint <a class="code" href="structgsb__conf__t.html#a5a6be9e1da1968dc1667dffbcbd0b48e">make_backup_nb_minutes</a>;                    <span class="comment">/* the number of minutes we want to make a backup */</span>
+<a name="l00167"></a><a class="code" href="structgsb__conf__t.html#a0840b17e46ea0a54bb6af0848061e65d">00167</a>     gint <a class="code" href="structgsb__conf__t.html#a0840b17e46ea0a54bb6af0848061e65d">make_bakup_single_file</a>;                    <span class="comment">/* TRUE if a single backup file */</span>
+<a name="l00168"></a><a class="code" href="structgsb__conf__t.html#a5a7d61765a6602f4866e93c477f437d5">00168</a>     gint <a class="code" href="structgsb__conf__t.html#a5a7d61765a6602f4866e93c477f437d5">compress_backup</a>;                           <span class="comment">/* TRUE if we want to compress the backup */</span>
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170     <span class="comment">/* variables for the list of transactions */</span>
+<a name="l00171"></a><a class="code" href="structgsb__conf__t.html#a2e6917fe4ddb0d329be926062c2cccbd">00171</a>     gint <a class="code" href="structgsb__conf__t.html#a2e6917fe4ddb0d329be926062c2cccbd">show_transaction_selected_in_form</a>;         <span class="comment">/* TRUE will show the selected transaction in the form */</span>
+<a name="l00172"></a><a class="code" href="structgsb__conf__t.html#afe3b36b196c6045e42ce4afdd915d506">00172</a>     gint <a class="code" href="structgsb__conf__t.html#afe3b36b196c6045e42ce4afdd915d506">show_transaction_gives_balance</a>;            <span class="comment">/* TRUE si on visualise l&#39;opération qui donne le solde du jour */</span>
+<a name="l00173"></a><a class="code" href="structgsb__conf__t.html#a0c7293754ae86b8094599c04d41ecdb2">00173</a>     gboolean <a class="code" href="structgsb__conf__t.html#a0c7293754ae86b8094599c04d41ecdb2">transactions_list_sort_by_date</a>;        <span class="comment">/* Options for sorting by date */</span>
+<a name="l00174"></a><a class="code" href="structgsb__conf__t.html#a552fafee7440e72e1c067b06b19fcf45">00174</a>     gboolean <a class="code" href="structgsb__conf__t.html#a552fafee7440e72e1c067b06b19fcf45">transactions_list_sort_by_value_date</a>;  <span class="comment">/* Options for sorting by value date */</span>
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176     <span class="comment">/* archive stuff */</span>
+<a name="l00177"></a><a class="code" href="structgsb__conf__t.html#acbda7ede31ae46f1c0df39c7b70b204a">00177</a>     gint <a class="code" href="structgsb__conf__t.html#acbda7ede31ae46f1c0df39c7b70b204a">check_for_archival</a>;                        <span class="comment">/* TRUE if we want to check the number of non archived transactions at the opening */</span>
+<a name="l00178"></a><a class="code" href="structgsb__conf__t.html#ab73a8c5710e5381f4e54fccf40fbedbe">00178</a>     gint <a class="code" href="structgsb__conf__t.html#ab73a8c5710e5381f4e54fccf40fbedbe">max_non_archived_transactions_for_check</a>;   <span class="comment">/* the max number of transaction before grisbi warm at the opening */</span>
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180 };
+<a name="l00181"></a>00181 
+<a name="l00182"></a>00182 <span class="comment">/* declared in gsb_file_config.c */</span>
+<a name="l00183"></a>00183 <span class="keyword">extern</span> <span class="keyword">struct </span><a class="code" href="structgsb__conf__t.html">gsb_conf_t</a> <a class="code" href="gsb__file__config_8c.html#ac390e947e97cef2bec2f5d59d6ec1071">conf</a>;
+<a name="l00184"></a>00184 
+<a name="l00185"></a>00185 <span class="comment">/* structure définissant une association entre un tiers</span>
+<a name="l00186"></a>00186 <span class="comment"> * et une chaine de recherche contenant un ou des jokers (%)</span>
+<a name="l00187"></a>00187 <span class="comment"> */</span>
+<a name="l00188"></a><a class="code" href="structstruct__payee__asso.html">00188</a> <span class="keyword">struct </span><a class="code" href="structstruct__payee__asso.html">struct_payee_asso</a>
+<a name="l00189"></a>00189 {
+<a name="l00190"></a><a class="code" href="structstruct__payee__asso.html#a7329817d04cb09669673903293809b57">00190</a>     gint    <a class="code" href="structstruct__payee__asso.html#a7329817d04cb09669673903293809b57">payee_number</a>;
+<a name="l00191"></a><a class="code" href="structstruct__payee__asso.html#a8c3e7ca460bc86da0cc0c19d13999ee0">00191</a>     gchar   *<a class="code" href="structstruct__payee__asso.html#a8c3e7ca460bc86da0cc0c19d13999ee0">search_str</a>;
+<a name="l00192"></a>00192 };
+<a name="l00193"></a>00193 
+<a name="l00194"></a><a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306">00194</a> <span class="keyword">enum</span> <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306">alignement</a>
+<a name="l00195"></a>00195 {
+<a name="l00196"></a><a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306aec8379af7490bb9eaaf579cf17876f38">00196</a>     <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306adb45120aafd37a973140edee24708065">LEFT</a>, <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306a2159ffbd3a68037511ab5ab4dd35ace7">CENTER</a>, <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306aec8379af7490bb9eaaf579cf17876f38">RIGHT</a>,
+<a name="l00197"></a>00197 };
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199 
+<a name="l00200"></a><a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25">00200</a> <span class="keyword">enum</span> <a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25">bet_array_origin_data</a>
+<a name="l00201"></a>00201 {
+<a name="l00202"></a><a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25adbd514047946e59eb715c8940e168647">00202</a>     <a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25adbd514047946e59eb715c8940e168647">SPP_ORIGIN_TRANSACTION</a>,
+<a name="l00203"></a><a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25a1b682ad0ffa2fd82dcb7419b4f75ccb7">00203</a>     <a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25a1b682ad0ffa2fd82dcb7419b4f75ccb7">SPP_ORIGIN_SCHEDULED</a>,
+<a name="l00204"></a><a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25ae0dbf8c012d403e8e58c445f586eccca">00204</a>     <a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25ae0dbf8c012d403e8e58c445f586eccca">SPP_ORIGIN_HISTORICAL</a>,
+<a name="l00205"></a><a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25accfd7d3ca8c28accee67d759767e6b81">00205</a>     <a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25accfd7d3ca8c28accee67d759767e6b81">SPP_ORIGIN_FUTURE</a>,
+<a name="l00206"></a><a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25a61b19c3f1430c6e5d4595e3fe30c94f9">00206</a>     <a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25a61b19c3f1430c6e5d4595e3fe30c94f9">SPP_ORIGIN_ACCOUNT</a>,
+<a name="l00207"></a><a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25a090ab38cc81f0b5ee45099b3afa3a8be">00207</a>     <a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25a090ab38cc81f0b5ee45099b3afa3a8be">SPP_ORIGIN_ARRAY</a>,
+<a name="l00208"></a><a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25ae78a744f10bcd644ee9c94ca3fca40f0">00208</a>     <a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25ae78a744f10bcd644ee9c94ca3fca40f0">SPP_ORIGIN_CONFIG</a>,
+<a name="l00209"></a><a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25a92b9256715f65fc290fc74d0e4e53b89">00209</a>     <a class="code" href="structures_8h.html#a3bcf2520348c5b510a0ead09dd209e25a92b9256715f65fc290fc74d0e4e53b89">SPP_ORIGIN_FINANCE</a>
+<a name="l00210"></a>00210 };
+<a name="l00211"></a>00211 
+<a name="l00212"></a><a class="code" href="structures_8h.html#ab021d1439ce505d767a56f4fc41af400">00212</a> <span class="keyword">enum</span> <a class="code" href="structures_8h.html#ab021d1439ce505d767a56f4fc41af400">bet_type_maj</a> 
+<a name="l00213"></a>00213 {
+<a name="l00214"></a><a class="code" href="structures_8h.html#ab021d1439ce505d767a56f4fc41af400a85b2c3349ecc04524add7ae231787dbc">00214</a>     <a class="code" href="structures_8h.html#ab021d1439ce505d767a56f4fc41af400a85b2c3349ecc04524add7ae231787dbc">BET_MAJ_FALSE</a> = 0,
+<a name="l00215"></a><a class="code" href="structures_8h.html#ab021d1439ce505d767a56f4fc41af400a8c9b47440bdc426dc6e11af2b2856792">00215</a>     <a class="code" href="structures_8h.html#ab021d1439ce505d767a56f4fc41af400a8c9b47440bdc426dc6e11af2b2856792">BET_MAJ_ESTIMATE</a>,
+<a name="l00216"></a><a class="code" href="structures_8h.html#ab021d1439ce505d767a56f4fc41af400acf2c8b517c4d30e79bfe2e8b6b5400c5">00216</a>     <a class="code" href="structures_8h.html#ab021d1439ce505d767a56f4fc41af400acf2c8b517c4d30e79bfe2e8b6b5400c5">BET_MAJ_HISTORICAL</a>,
+<a name="l00217"></a><a class="code" href="structures_8h.html#ab021d1439ce505d767a56f4fc41af400a3cb3fcf8bdeb6eb4bb3e8a5f44bc1b00">00217</a>     <a class="code" href="structures_8h.html#ab021d1439ce505d767a56f4fc41af400a3cb3fcf8bdeb6eb4bb3e8a5f44bc1b00">BET_MAJ_FINANCIAL</a>,
+<a name="l00218"></a><a class="code" href="structures_8h.html#ab021d1439ce505d767a56f4fc41af400a9d574c71c6a04cadf85be9083be54eed">00218</a>     <a class="code" href="structures_8h.html#ab021d1439ce505d767a56f4fc41af400a9d574c71c6a04cadf85be9083be54eed">BET_MAJ_ALL</a>,
+<a name="l00219"></a>00219 };
+<a name="l00220"></a>00220 
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

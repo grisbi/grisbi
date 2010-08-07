@@ -1,0 +1,314 @@
+\section{Référence du fichier gsb\_\-data\_\-archive.h}
+\label{gsb__data__archive_8h}\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-archive\_\-get\_\-archives\_\-list} (void)
+\item 
+GDate $\ast$ {\bf gsb\_\-data\_\-archive\_\-get\_\-beginning\_\-date} (gint archive\_\-number)
+\item 
+GDate $\ast$ {\bf gsb\_\-data\_\-archive\_\-get\_\-end\_\-date} (gint archive\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-archive\_\-get\_\-from\_\-date} (const GDate $\ast$date)
+\item 
+gint {\bf gsb\_\-data\_\-archive\_\-get\_\-from\_\-fyear} (gint fyear\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-archive\_\-get\_\-fyear} (gint archive\_\-number)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-archive\_\-get\_\-name} (gint archive\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-archive\_\-get\_\-no\_\-archive} (gpointer archive\_\-ptr)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-archive\_\-get\_\-report\_\-title} (gint archive\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-archive\_\-init\_\-variables} (void)
+\item 
+gint {\bf gsb\_\-data\_\-archive\_\-new} (const gchar $\ast$name)
+\item 
+gboolean {\bf gsb\_\-data\_\-archive\_\-remove} (gint archive\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-archive\_\-set\_\-beginning\_\-date} (gint archive\_\-number, const GDate $\ast$date)
+\item 
+gboolean {\bf gsb\_\-data\_\-archive\_\-set\_\-end\_\-date} (gint archive\_\-number, const GDate $\ast$date)
+\item 
+gboolean {\bf gsb\_\-data\_\-archive\_\-set\_\-fyear} (gint archive\_\-number, gint fyear\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-archive\_\-set\_\-name} (gint archive\_\-number, const gchar $\ast$name)
+\item 
+gint {\bf gsb\_\-data\_\-archive\_\-set\_\-new\_\-number} (gint archive\_\-number, gint new\_\-no\_\-archive)
+\item 
+gboolean {\bf gsb\_\-data\_\-archive\_\-set\_\-report\_\-title} (gint archive\_\-number, const gchar $\ast$report\_\-title)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-get\_\-archives\_\-list@{gsb\_\-data\_\-archive\_\-get\_\-archives\_\-list}}
+\index{gsb\_\-data\_\-archive\_\-get\_\-archives\_\-list@{gsb\_\-data\_\-archive\_\-get\_\-archives\_\-list}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-get\_\-archives\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-archive\_\-get\_\-archives\_\-list (void)}\label{gsb__data__archive_8h_a7d5b3a8b5e99a9bbe14f526ab3d1936b}
+give the g\_\-slist of archives structure usefull when want to check all archives
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the g\_\-slist of archives structure 
+\end{DoxyReturn}
+
+
+Définition à la ligne 158 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-get\_\-beginning\_\-date@{gsb\_\-data\_\-archive\_\-get\_\-beginning\_\-date}}
+\index{gsb\_\-data\_\-archive\_\-get\_\-beginning\_\-date@{gsb\_\-data\_\-archive\_\-get\_\-beginning\_\-date}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-get\_\-beginning\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}GDate$\ast$ gsb\_\-data\_\-archive\_\-get\_\-beginning\_\-date (gint {\em archive\_\-number})}\label{gsb__data__archive_8h_afc0ef716ad2bcd7b9805571c6bcdc04d}
+return the beginning date of the archive
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the number of the archive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the beginning date of the archive or NULL if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 387 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-get\_\-end\_\-date@{gsb\_\-data\_\-archive\_\-get\_\-end\_\-date}}
+\index{gsb\_\-data\_\-archive\_\-get\_\-end\_\-date@{gsb\_\-data\_\-archive\_\-get\_\-end\_\-date}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-get\_\-end\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}GDate$\ast$ gsb\_\-data\_\-archive\_\-get\_\-end\_\-date (gint {\em archive\_\-number})}\label{gsb__data__archive_8h_acd3d52c042e9c6d8d3a42cd55c69cdd2}
+return the end date of the archive
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the number of the archive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the end date of the archive or NULL if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 437 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-get\_\-from\_\-date@{gsb\_\-data\_\-archive\_\-get\_\-from\_\-date}}
+\index{gsb\_\-data\_\-archive\_\-get\_\-from\_\-date@{gsb\_\-data\_\-archive\_\-get\_\-from\_\-date}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-get\_\-from\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-archive\_\-get\_\-from\_\-date (const GDate $\ast$ {\em date})}\label{gsb__data__archive_8h_ad4fa84d9de6ee591fbe1d3e3bf42e22f}
+get the archive corresponding to the given date if there is more than 1 archive corresponding to that date, return -\/1
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em date}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of archive, 0 if none on that date, -\/1 if more than 1 on that date 
+\end{DoxyReturn}
+
+
+Définition à la ligne 579 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-get\_\-from\_\-fyear@{gsb\_\-data\_\-archive\_\-get\_\-from\_\-fyear}}
+\index{gsb\_\-data\_\-archive\_\-get\_\-from\_\-fyear@{gsb\_\-data\_\-archive\_\-get\_\-from\_\-fyear}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-get\_\-from\_\-fyear}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-archive\_\-get\_\-from\_\-fyear (gint {\em fyear\_\-number})}\label{gsb__data__archive_8h_a75a79145c15deb4977a71e7c5ee6db47}
+get the archive corresponding to the given financial year
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fyear\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of archive, 0 if none 
+\end{DoxyReturn}
+
+
+Définition à la ligne 622 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-get\_\-fyear@{gsb\_\-data\_\-archive\_\-get\_\-fyear}}
+\index{gsb\_\-data\_\-archive\_\-get\_\-fyear@{gsb\_\-data\_\-archive\_\-get\_\-fyear}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-get\_\-fyear}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-archive\_\-get\_\-fyear (gint {\em archive\_\-number})}\label{gsb__data__archive_8h_a7155599a42559d8b97aa24f6c89c3684}
+return the fyear of the archive
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the number of the archive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the fyear of the archive or 0 if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 486 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-get\_\-name@{gsb\_\-data\_\-archive\_\-get\_\-name}}
+\index{gsb\_\-data\_\-archive\_\-get\_\-name@{gsb\_\-data\_\-archive\_\-get\_\-name}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-get\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-archive\_\-get\_\-name (gint {\em archive\_\-number})}\label{gsb__data__archive_8h_ab61c1a7e1814ae6b8d5fd6f54db3606b}
+return the name of the archive
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the number of the archive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the name of the archive or NULL if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 336 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-get\_\-no\_\-archive@{gsb\_\-data\_\-archive\_\-get\_\-no\_\-archive}}
+\index{gsb\_\-data\_\-archive\_\-get\_\-no\_\-archive@{gsb\_\-data\_\-archive\_\-get\_\-no\_\-archive}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-get\_\-no\_\-archive}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-archive\_\-get\_\-no\_\-archive (gpointer {\em archive\_\-ptr})}\label{gsb__data__archive_8h_a4d89b738aff63b952bd74a74c9e4bdff}
+return the number of the archives given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-ptr}]a pointer to the struct of the archive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the archive, 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 170 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-get\_\-report\_\-title@{gsb\_\-data\_\-archive\_\-get\_\-report\_\-title}}
+\index{gsb\_\-data\_\-archive\_\-get\_\-report\_\-title@{gsb\_\-data\_\-archive\_\-get\_\-report\_\-title}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-get\_\-report\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-archive\_\-get\_\-report\_\-title (gint {\em archive\_\-number})}\label{gsb__data__archive_8h_a3d8b5fb39ae27430a4ef69a8de23c016}
+return the report creation of the archive
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the number of the archive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the report\_\-title or NULL 
+\end{DoxyReturn}
+
+
+Définition à la ligne 530 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-init\_\-variables@{gsb\_\-data\_\-archive\_\-init\_\-variables}}
+\index{gsb\_\-data\_\-archive\_\-init\_\-variables@{gsb\_\-data\_\-archive\_\-init\_\-variables}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-init\_\-variables}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-archive\_\-init\_\-variables (void)}\label{gsb__data__archive_8h_a1167784bcdd0ebef214194f217a6db7e}
+set the archives global variables to NULL, usually when we init all the global variables
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 88 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-new@{gsb\_\-data\_\-archive\_\-new}}
+\index{gsb\_\-data\_\-archive\_\-new@{gsb\_\-data\_\-archive\_\-new}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-archive\_\-new (const gchar $\ast$ {\em name})}\label{gsb__data__archive_8h_af867698152bb736c36b4d02ec8a5b173}
+create a new archive, give him a number, append it to the list and return the number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em name}]the name of the archive (can be freed after, it's a copy) or NULL\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the new archive 
+\end{DoxyReturn}
+
+
+Définition à la ligne 220 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-remove@{gsb\_\-data\_\-archive\_\-remove}}
+\index{gsb\_\-data\_\-archive\_\-remove@{gsb\_\-data\_\-archive\_\-remove}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-archive\_\-remove (gint {\em archive\_\-number})}\label{gsb__data__archive_8h_a29c34a3d5e63dd56c7120e8ac464b204}
+remove an archive remove too the archive from the transactions linked to it
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the archive we want to remove\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 271 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-set\_\-beginning\_\-date@{gsb\_\-data\_\-archive\_\-set\_\-beginning\_\-date}}
+\index{gsb\_\-data\_\-archive\_\-set\_\-beginning\_\-date@{gsb\_\-data\_\-archive\_\-set\_\-beginning\_\-date}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-set\_\-beginning\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-archive\_\-set\_\-beginning\_\-date (gint {\em archive\_\-number}, \/  const GDate $\ast$ {\em date})}\label{gsb__data__archive_8h_ad79c38199834ae790c8534d7addc6b9c}
+set the beginning date of the archive the value is dupplicate in memory
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the number of the archive \item[{\em date}]the beginning date of the archive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 409 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-set\_\-end\_\-date@{gsb\_\-data\_\-archive\_\-set\_\-end\_\-date}}
+\index{gsb\_\-data\_\-archive\_\-set\_\-end\_\-date@{gsb\_\-data\_\-archive\_\-set\_\-end\_\-date}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-set\_\-end\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-archive\_\-set\_\-end\_\-date (gint {\em archive\_\-number}, \/  const GDate $\ast$ {\em date})}\label{gsb__data__archive_8h_a3a502c684a99f9d9d431c7a7a1ba8ce2}
+set the end date of the archive the value is dupplicate in memory
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the number of the archive \item[{\em date}]the end date of the archive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 459 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-set\_\-fyear@{gsb\_\-data\_\-archive\_\-set\_\-fyear}}
+\index{gsb\_\-data\_\-archive\_\-set\_\-fyear@{gsb\_\-data\_\-archive\_\-set\_\-fyear}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-set\_\-fyear}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-archive\_\-set\_\-fyear (gint {\em archive\_\-number}, \/  gint {\em fyear\_\-number})}\label{gsb__data__archive_8h_ae4edb9d1b45b34750d48ba8405db21bf}
+set the fyear of the archive
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the number of the archive \item[{\em fyear\_\-number}]the fyear of the archive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 507 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-set\_\-name@{gsb\_\-data\_\-archive\_\-set\_\-name}}
+\index{gsb\_\-data\_\-archive\_\-set\_\-name@{gsb\_\-data\_\-archive\_\-set\_\-name}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-set\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-archive\_\-set\_\-name (gint {\em archive\_\-number}, \/  const gchar $\ast$ {\em name})}\label{gsb__data__archive_8h_abfc44c529725db841973582c3cf438ed}
+set the name of the archive the value is dupplicate in memory
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the number of the archive \item[{\em name}]the name of the archive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 358 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-set\_\-new\_\-number@{gsb\_\-data\_\-archive\_\-set\_\-new\_\-number}}
+\index{gsb\_\-data\_\-archive\_\-set\_\-new\_\-number@{gsb\_\-data\_\-archive\_\-set\_\-new\_\-number}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-set\_\-new\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-archive\_\-set\_\-new\_\-number (gint {\em archive\_\-number}, \/  gint {\em new\_\-no\_\-archive})}\label{gsb__data__archive_8h_a85712d057b32e6e854932bc6d9d30b73}
+set a new number for the archive normally used only while loading the file because the number are given automaticly
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the number of the archive \item[{\em new\_\-no\_\-archive}]the new number of the archive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the new number or 0 if the archive doen't exist 
+\end{DoxyReturn}
+
+
+Définition à la ligne 314 du fichier gsb\_\-data\_\-archive.c.
+
+\index{gsb\_\-data\_\-archive.h@{gsb\_\-data\_\-archive.h}!gsb\_\-data\_\-archive\_\-set\_\-report\_\-title@{gsb\_\-data\_\-archive\_\-set\_\-report\_\-title}}
+\index{gsb\_\-data\_\-archive\_\-set\_\-report\_\-title@{gsb\_\-data\_\-archive\_\-set\_\-report\_\-title}!gsb_data_archive.h@{gsb\_\-data\_\-archive.h}}
+\subsubsection[{gsb\_\-data\_\-archive\_\-set\_\-report\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-archive\_\-set\_\-report\_\-title (gint {\em archive\_\-number}, \/  const gchar $\ast$ {\em report\_\-title})}\label{gsb__data__archive_8h_a29cea4dae2fb32483efd7bc480d07d4d}
+set the report\_\-title value,
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the number of the archive \item[{\em report\_\-title}]the title to set if created by a report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 551 du fichier gsb\_\-data\_\-archive.c.
+

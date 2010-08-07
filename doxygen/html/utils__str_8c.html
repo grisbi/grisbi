@@ -1,0 +1,804 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier utils_str.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier utils_str.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__report_8h_source.html">gsb_data_report.h</a>&quot;</code><br/>
+
+<p><a href="utils__str_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a1e50f3be459180b9dea9f14eb7e1204e">utils_str_itoa</a> (gint integer)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">convert an integer into a gchar based string  <a href="#a1e50f3be459180b9dea9f14eb7e1204e"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a405fb140e26d92c4f1c5f7e41b82d547">utils_str_reduce_exponant_from_string</a> (const gchar *amount_string, gint exponent)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#ac5358e3ba8d2c9eba77b254e9ccb7590">utils_str_localise_decimal_point_from_string</a> (const gchar *string)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">G_MODULE_EXPORT gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a5653e4c704f0c344ca9d1549561f9cd3">utils_str_atoi</a> (const gchar *chaine)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Secured version of atoi.  <a href="#a5653e4c704f0c344ca9d1549561f9cd3"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#afd559e6aa481ff484dc3eefad3b0beff">my_strtod</a> (const gchar *nptr, gchar **endptr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">G_MODULE_EXPORT gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#ab704c07d882cce97ac79ab6ad7623e60">latin2utf8</a> (const gchar *inchar)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a132f77383d5b1e3070ef354a1fdd8a10">my_strdelimit</a> (const gchar *string, const gchar *delimiters, const gchar *new_delimiters)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a031629b031394a54e85e1230c3eb3d19">my_strcmp</a> (gchar *string_1, gchar *string_2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#af2728abf4fbd2d14f13a3025211dab47">my_strcasecmp</a> (const gchar *string_1, const gchar *string_2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#abf977b0f883489b8d4c6508f9aac3921">my_strncasecmp</a> (gchar *string_1, gchar *string_2, gint longueur)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">G_MODULE_EXPORT gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#ad9a37361694eeaa2847b0fe11389824d">my_strdup</a> (const gchar *string)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a67b348352595edf6bfbb1d64ad7c0f7b">limit_string</a> (gchar *string, gint length)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a91319e0a1698979ebbfa69d2406b37d8">gsb_string_get_int_list_from_string</a> (const gchar *string, gchar *delimiter)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a1a167ac822379a89b7f87698cc79cfe8">gsb_string_get_string_list_from_string</a> (const gchar *string, gchar *delimiter)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a2cdd922452888e0a6349b4ce2cb38256">gsb_string_get_categ_budget_struct_list_from_string</a> (const gchar *string)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a2202aea628d0de82cdfee24ab00fc7f6">gsb_string_truncate</a> (gchar *string)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a5bc68bfec149a7cbfdc6ecc66a48f634">gsb_string_remplace_string</a> (gchar *str, gchar *old_str, gchar *new_str)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a4f7c837f05cb6ab362e401409acc461b">gsb_string_is_trouve</a> (const gchar *payee_name, const gchar *needle)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#aad2ed2c5c3098fad8c62053320dbe3cb">gsb_string_remplace_joker</a> (const gchar *chaine, gchar *new_str)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a573a6cddf4b47bcd3a0790575304e4a8">gsb_string_extract_int</a> (const gchar *chaine)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#ab54b5cc09462d6075a7846447d02e2ad">gsb_string_uniform_new_line</a> (const gchar *chaine, gint nbre_char)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__str_8c.html#a223cea3f0d88df38e526d57e491bd27a">utils_str_dtostr</a> (gdouble number, gint nbre_decimal, gboolean canonical)</td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a573a6cddf4b47bcd3a0790575304e4a8"></a><!-- doxytag: member="utils_str.c::gsb_string_extract_int" ref="a573a6cddf4b47bcd3a0790575304e4a8" args="(const gchar *chaine)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_string_extract_int </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>chaine</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00903">903</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2cdd922452888e0a6349b4ce2cb38256"></a><!-- doxytag: member="utils_str.c::gsb_string_get_categ_budget_struct_list_from_string" ref="a2cdd922452888e0a6349b4ce2cb38256" args="(const gchar *string)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* gsb_string_get_categ_budget_struct_list_from_string </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>string</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return a gslist of <a class="el" href="structstruct__categ__budget__sel.html">struct_categ_budget_sel</a> from a string as no_categ/no_sub_categ/no_sub_categ/no_sub_categ-no_categ/no_sub_categ... (or idem with budget)</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>string</em>&nbsp;</td><td>the string we want to change to a list</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a g_slist or NULL </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00665">665</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a91319e0a1698979ebbfa69d2406b37d8"></a><!-- doxytag: member="utils_str.c::gsb_string_get_int_list_from_string" ref="a91319e0a1698979ebbfa69d2406b37d8" args="(const gchar *string, gchar *delimiter)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* gsb_string_get_int_list_from_string </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>string</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>delimiter</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return a gslist of integer from a string which the elements are separated by the separator</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>string</em>&nbsp;</td><td>the string we want to change to a list </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>delimiter</em>&nbsp;</td><td>the string which is the separator in the list</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a g_slist or NULL </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00576">576</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1a167ac822379a89b7f87698cc79cfe8"></a><!-- doxytag: member="utils_str.c::gsb_string_get_string_list_from_string" ref="a1a167ac822379a89b7f87698cc79cfe8" args="(const gchar *string, gchar *delimiter)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* gsb_string_get_string_list_from_string </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>string</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>delimiter</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return a gslist of strings from a string which the elements are separated by the separator (same as gsb_string_get_int_list_from_string but with strings)</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>string</em>&nbsp;</td><td>the string we want to change to a list </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>delimiter</em>&nbsp;</td><td>the string which is the separator in the list</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a g_slist or NULL </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00621">621</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4f7c837f05cb6ab362e401409acc461b"></a><!-- doxytag: member="utils_str.c::gsb_string_is_trouve" ref="a4f7c837f05cb6ab362e401409acc461b" args="(const gchar *payee_name, const gchar *needle)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_string_is_trouve </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>payee_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>needle</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>recherche des mots séparés par des jokers "%*" dans une chaine</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>haystack</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>needle</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE si trouvé FALSE autrement </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00801">801</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aad2ed2c5c3098fad8c62053320dbe3cb"></a><!-- doxytag: member="utils_str.c::gsb_string_remplace_joker" ref="aad2ed2c5c3098fad8c62053320dbe3cb" args="(const gchar *chaine, gchar *new_str)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_string_remplace_joker </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>chaine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>new_str</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>remplace les jokers "%*" par une chaine</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>str</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>new_str</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>chaine avec chaine de remplacement </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00871">871</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5bc68bfec149a7cbfdc6ecc66a48f634"></a><!-- doxytag: member="utils_str.c::gsb_string_remplace_string" ref="a5bc68bfec149a7cbfdc6ecc66a48f634" args="(gchar *str, gchar *old_str, gchar *new_str)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_string_remplace_string </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>old_str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>new_str</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>remplace la chaine old_str par new_str dans str </p>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00772">772</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2202aea628d0de82cdfee24ab00fc7f6"></a><!-- doxytag: member="utils_str.c::gsb_string_truncate" ref="a2202aea628d0de82cdfee24ab00fc7f6" args="(gchar *string)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_string_truncate </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>string</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Return a newly created strings, truncating original. It should be truncated at the end of the word containing the 20th letter.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>string</em>&nbsp;</td><td>String to truncate.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly-created string. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00721">721</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab54b5cc09462d6075a7846447d02e2ad"></a><!-- doxytag: member="utils_str.c::gsb_string_uniform_new_line" ref="ab54b5cc09462d6075a7846447d02e2ad" args="(const gchar *chaine, gint nbre_char)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_string_uniform_new_line </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>chaine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>nbre_char</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>uniformisation des CR+LF dans les fichiers importés</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>chaine</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>chaine au format unix </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00937">937</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab704c07d882cce97ac79ab6ad7623e60"></a><!-- doxytag: member="utils_str.c::latin2utf8" ref="ab704c07d882cce97ac79ab6ad7623e60" args="(const gchar *inchar)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">G_MODULE_EXPORT gchar* latin2utf8 </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>inchar</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00346">346</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a67b348352595edf6bfbb1d64ad7c0f7b"></a><!-- doxytag: member="utils_str.c::limit_string" ref="a67b348352595edf6bfbb1d64ad7c0f7b" args="(gchar *string, gint length)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* limit_string </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>string</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>length</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>check if the string is maximum to the length if bigger, limit it and set ... at the end</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>string</em>&nbsp;</td><td>the string to check </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>length</em>&nbsp;</td><td>the limit length we want</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a dupplicate version of the string with max length character (must to be freed) </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00537">537</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af2728abf4fbd2d14f13a3025211dab47"></a><!-- doxytag: member="utils_str.c::my_strcasecmp" ref="af2728abf4fbd2d14f13a3025211dab47" args="(const gchar *string_1, const gchar *string_2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint my_strcasecmp </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>string_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>string_2</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>compare 2 strings unsensitive if a string is NULL, it will go after the non NULL</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>string_1</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>string_2</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>-1 string_1 before string_2 (or string_2 NULL) ; 0 if same or NULL everyone ; +1 if string_1 after string_2 (or string_1 NULL) </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00433">433</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a031629b031394a54e85e1230c3eb3d19"></a><!-- doxytag: member="utils_str.c::my_strcmp" ref="a031629b031394a54e85e1230c3eb3d19" args="(gchar *string_1, gchar *string_2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint my_strcmp </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>string_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>string_2</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>compare 2 chaines sensitive que ce soit utf8 ou ascii </p>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00394">394</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a132f77383d5b1e3070ef354a1fdd8a10"></a><!-- doxytag: member="utils_str.c::my_strdelimit" ref="a132f77383d5b1e3070ef354a1fdd8a10" args="(const gchar *string, const gchar *delimiters, const gchar *new_delimiters)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* my_strdelimit </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>string</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>delimiters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>new_delimiters</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>do the same as g_strdelimit but new_delimiters can containes several characters or none ex my_strdelimit ("a-b", "-", "123") returns a123b my_strdelimit ("a-b", "-", "") returns ab</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>string</em>&nbsp;</td><td>the string we want to modify </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>delimiters</em>&nbsp;</td><td>the characters we need to change to new_delimiters </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>new_delimiters</em>&nbsp;</td><td>the replacements characters for delimiters</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a newly allocated string or NULL </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00363">363</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad9a37361694eeaa2847b0fe11389824d"></a><!-- doxytag: member="utils_str.c::my_strdup" ref="ad9a37361694eeaa2847b0fe11389824d" args="(const gchar *string)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">G_MODULE_EXPORT gchar* my_strdup </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>string</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Protect the my_strdup function if the string is NULL</p>
+<p>If the length of string is 0 (ie ""), return NULL. That is just nonsense, but it has been done that way and disabling it would certainly cause side effects. [benj]</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>string</em>&nbsp;</td><td>the string to be dupped</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a newly allocated string (which is a copy of that string) or NULL if the parameter is NULL or an empty string. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00519">519</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abf977b0f883489b8d4c6508f9aac3921"></a><!-- doxytag: member="utils_str.c::my_strncasecmp" ref="abf977b0f883489b8d4c6508f9aac3921" args="(gchar *string_1, gchar *string_2, gint longueur)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint my_strncasecmp </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>string_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>string_2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>longueur</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>compare 2 chaines case-insensitive que ce soit utf8 ou ascii </p>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00473">473</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afd559e6aa481ff484dc3eefad3b0beff"></a><!-- doxytag: member="utils_str.c::my_strtod" ref="afd559e6aa481ff484dc3eefad3b0beff" args="(const gchar *nptr, gchar **endptr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double my_strtod </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>nptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar **&nbsp;</td>
+          <td class="paramname"> <em>endptr</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Fonction my_strtod (string to decimal) Convertie une chaine de caractères en un nombre Paramètres d'entrée :</p>
+<ul>
+<li>nptr : pointeur sur la chaine de caractères à convertir</li>
+<li>endptr : renvoie le reste de la chaine après le dernier caractère utilisé dans la conversion Valeur de retour :</li>
+<li>resultat : le résultat de la conversion Variables locales :</li>
+<li>entier : la partie entière du résultat</li>
+<li>mantisse : la partie décimale du résultat</li>
+<li>invert : le signe du résultat (0 -&gt; positif, 1 -&gt; négatif)</li>
+<li>p, m : pointeurs locaux sur la chaine de caractères à convertir </li>
+</ul>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00259">259</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5653e4c704f0c344ca9d1549561f9cd3"></a><!-- doxytag: member="utils_str.c::utils_str_atoi" ref="a5653e4c704f0c344ca9d1549561f9cd3" args="(const gchar *chaine)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">G_MODULE_EXPORT gint utils_str_atoi </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>chaine</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Secured version of atoi. </p>
+<p>Encapsulated call of atoi which may crash when it is call with a NULL pointer.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>chaine</em>&nbsp;</td><td>pointer to the buffer containing the string to convert</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the converted string as interger </dd></dl>
+<dl><dt><b>Valeurs retournées:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>0</em>&nbsp;</td><td>when the pointer is NULL or the string empty. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00232">232</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a223cea3f0d88df38e526d57e491bd27a"></a><!-- doxytag: member="utils_str.c::utils_str_dtostr" ref="a223cea3f0d88df38e526d57e491bd27a" args="(gdouble number, gint nbre_decimal, gboolean canonical)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* utils_str_dtostr </td>
+          <td>(</td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>nbre_decimal</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>canonical</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00966">966</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1e50f3be459180b9dea9f14eb7e1204e"></a><!-- doxytag: member="utils_str.c::utils_str_itoa" ref="a1e50f3be459180b9dea9f14eb7e1204e" args="(gint integer)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* utils_str_itoa </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>integer</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>convert an integer into a gchar based string </p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>integer</em>&nbsp;</td><td>integer to convert</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a newly allocated string</dd></dl>
+<p>You have to unallocate the returned string when you no more use it to save memory</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">À faire:</a></b></dt><dd>: check usage of this function which a cause of memory leak</dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00056">56</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac5358e3ba8d2c9eba77b254e9ccb7590"></a><!-- doxytag: member="utils_str.c::utils_str_localise_decimal_point_from_string" ref="ac5358e3ba8d2c9eba77b254e9ccb7590" args="(const gchar *string)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* utils_str_localise_decimal_point_from_string </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>string</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>locates the decimal dot </p>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00168">168</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a405fb140e26d92c4f1c5f7e41b82d547"></a><!-- doxytag: member="utils_str.c::utils_str_reduce_exponant_from_string" ref="a405fb140e26d92c4f1c5f7e41b82d547" args="(const gchar *amount_string, gint exponent)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* utils_str_reduce_exponant_from_string </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>amount_string</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>exponent</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>used for now only while loading a file before the 0.6.0 version reduce the exponant IN THE STRING of the amount because before the 0.6.0 all the gdouble where saved with an exponent very big ie : in the file we have "12.340000" and that fonction return "12.34" wich will be nicely imported with gsb_data_transaction_set_amount_from_string</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>amount_string</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>exponent</em>&nbsp;</td><td>the exponent we want at the end (normally always 2, but if ever...)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a newly allocated string with only 'exponent' digits after the separator (need to be freed). This function returns NULL if the amount_string parameter is NULL. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__str_8c_source.html#l00104">104</a> du fichier <a class="el" href="utils__str_8c_source.html">utils_str.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

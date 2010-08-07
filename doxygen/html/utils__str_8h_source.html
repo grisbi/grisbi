@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de utils_str.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>utils_str.h</h1><a href="utils__str_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _UTILS_STR_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _UTILS_STR_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="preprocessor">#ifdef _WIN32</span>
+<a name="l00005"></a>00005 <span class="preprocessor"></span><span class="preprocessor">#define NEW_LINE &quot;\r\n&quot;</span>
+<a name="l00006"></a>00006 <span class="preprocessor"></span><span class="preprocessor">#else</span>
+<a name="l00007"></a><a class="code" href="utils__str_8h.html#a7b99dc1e1c86b4897498c2d436ead1b5">00007</a> <span class="preprocessor"></span><span class="preprocessor">#define NEW_LINE &quot;\n&quot;</span>
+<a name="l00008"></a>00008 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00009"></a>00009 <span class="preprocessor"></span>
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00012"></a>00012 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00016"></a>00016 gchar *<a class="code" href="utils__str_8c.html#a573a6cddf4b47bcd3a0790575304e4a8">gsb_string_extract_int</a> ( <span class="keyword">const</span> gchar *chaine );
+<a name="l00017"></a>00017 GSList *<a class="code" href="utils__str_8c.html#a2cdd922452888e0a6349b4ce2cb38256">gsb_string_get_categ_budget_struct_list_from_string</a> ( <span class="keyword">const</span> gchar *<span class="keywordtype">string</span> );
+<a name="l00018"></a>00018 GSList *<a class="code" href="utils__str_8c.html#a91319e0a1698979ebbfa69d2406b37d8">gsb_string_get_int_list_from_string</a> ( <span class="keyword">const</span> gchar *<span class="keywordtype">string</span>,
+<a name="l00019"></a>00019                         gchar *delimiter );
+<a name="l00020"></a>00020 GSList *<a class="code" href="utils__str_8c.html#a1a167ac822379a89b7f87698cc79cfe8">gsb_string_get_string_list_from_string</a> ( <span class="keyword">const</span> gchar *<span class="keywordtype">string</span>,
+<a name="l00021"></a>00021                         gchar *delimiter );
+<a name="l00022"></a>00022 gboolean <a class="code" href="utils__str_8c.html#a4f7c837f05cb6ab362e401409acc461b">gsb_string_is_trouve</a> ( <span class="keyword">const</span> gchar *payee_name, <span class="keyword">const</span> gchar *needle );
+<a name="l00023"></a>00023 gchar * <a class="code" href="utils__str_8c.html#aad2ed2c5c3098fad8c62053320dbe3cb">gsb_string_remplace_joker</a> ( <span class="keyword">const</span> gchar *chaine, gchar *new_str );
+<a name="l00024"></a>00024 gchar * <a class="code" href="utils__str_8c.html#a5bc68bfec149a7cbfdc6ecc66a48f634">gsb_string_remplace_string</a> ( gchar *str, gchar *old_str, gchar *new_str );
+<a name="l00025"></a>00025 gchar * <a class="code" href="utils__str_8c.html#a2202aea628d0de82cdfee24ab00fc7f6">gsb_string_truncate</a> ( gchar * <span class="keywordtype">string</span> );
+<a name="l00026"></a>00026 gchar *<a class="code" href="utils__str_8c.html#ab54b5cc09462d6075a7846447d02e2ad">gsb_string_uniform_new_line</a> ( <span class="keyword">const</span> gchar *chaine, gint nbre_char );
+<a name="l00027"></a>00027 G_MODULE_EXPORT gchar * <a class="code" href="utils__str_8c.html#ab704c07d882cce97ac79ab6ad7623e60">latin2utf8</a> ( <span class="keyword">const</span> gchar * inchar);
+<a name="l00028"></a>00028 gchar *<a class="code" href="utils__str_8c.html#a67b348352595edf6bfbb1d64ad7c0f7b">limit_string</a> ( gchar *<span class="keywordtype">string</span>,
+<a name="l00029"></a>00029                         gint length );
+<a name="l00030"></a>00030 gint <a class="code" href="utils__str_8c.html#af2728abf4fbd2d14f13a3025211dab47">my_strcasecmp</a> ( <span class="keyword">const</span> gchar *string_1, <span class="keyword">const</span> gchar *string_2 );
+<a name="l00031"></a>00031 gint <a class="code" href="utils__str_8c.html#a031629b031394a54e85e1230c3eb3d19">my_strcmp</a> ( gchar *string_1, gchar *string_2 );
+<a name="l00032"></a>00032 gchar *<a class="code" href="utils__str_8c.html#a132f77383d5b1e3070ef354a1fdd8a10">my_strdelimit</a> ( <span class="keyword">const</span> gchar *<span class="keywordtype">string</span>,
+<a name="l00033"></a>00033                         <span class="keyword">const</span> gchar *delimiters,
+<a name="l00034"></a>00034                         <span class="keyword">const</span> gchar *new_delimiters );
+<a name="l00035"></a>00035 G_MODULE_EXPORT gchar *<a class="code" href="utils__str_8c.html#ad9a37361694eeaa2847b0fe11389824d">my_strdup</a> ( <span class="keyword">const</span> gchar *<span class="keywordtype">string</span> );
+<a name="l00036"></a>00036 gint <a class="code" href="utils__str_8c.html#abf977b0f883489b8d4c6508f9aac3921">my_strncasecmp</a> ( gchar *string_1,
+<a name="l00037"></a>00037                         gchar *string_2,
+<a name="l00038"></a>00038                         gint longueur );
+<a name="l00039"></a>00039 <span class="keywordtype">double</span> <a class="code" href="utils__str_8c.html#afd559e6aa481ff484dc3eefad3b0beff">my_strtod</a> ( <span class="keyword">const</span> gchar *nptr, gchar **endptr );
+<a name="l00040"></a>00040 G_MODULE_EXPORT gint <a class="code" href="utils__str_8c.html#a5653e4c704f0c344ca9d1549561f9cd3" title="Secured version of atoi.">utils_str_atoi</a> ( <span class="keyword">const</span> gchar *chaine );
+<a name="l00041"></a>00041 gchar *<a class="code" href="utils__str_8c.html#a1e50f3be459180b9dea9f14eb7e1204e" title="convert an integer into a gchar based string">utils_str_itoa</a> ( gint integer );
+<a name="l00042"></a>00042 gchar *<a class="code" href="utils__str_8c.html#a223cea3f0d88df38e526d57e491bd27a">utils_str_dtostr</a> ( gdouble number, gint nbre_decimal, gboolean canonical );
+<a name="l00043"></a>00043 gchar *<a class="code" href="utils__str_8c.html#ac5358e3ba8d2c9eba77b254e9ccb7590">utils_str_localise_decimal_point_from_string</a> ( <span class="keyword">const</span> gchar *<span class="keywordtype">string</span> );
+<a name="l00044"></a>00044 gchar *<a class="code" href="utils__str_8c.html#a405fb140e26d92c4f1c5f7e41b82d547">utils_str_reduce_exponant_from_string</a> ( <span class="keyword">const</span> gchar *amount_string,
+<a name="l00045"></a>00045                         gint exponent );
+<a name="l00046"></a>00046 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00047"></a>00047 
+<a name="l00048"></a><a class="code" href="utils__str_8h.html#ac79499d2c3ca0f33219f555f81c62e30">00048</a> <span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code" href="utils__str_8h.html#ac79499d2c3ca0f33219f555f81c62e30">GSB_TITLE_NAME</a> {
+<a name="l00049"></a><a class="code" href="utils__str_8h.html#ac79499d2c3ca0f33219f555f81c62e30a6d916bd08ff1910802d607eb52d6d24a">00049</a>     <a class="code" href="utils__str_8h.html#ac79499d2c3ca0f33219f555f81c62e30a6d916bd08ff1910802d607eb52d6d24a">GSB_ACCOUNTS_TITLE</a>,
+<a name="l00050"></a><a class="code" href="utils__str_8h.html#ac79499d2c3ca0f33219f555f81c62e30aefa28395c9e61fbbc609bd2894eb2a8e">00050</a>     <a class="code" href="utils__str_8h.html#ac79499d2c3ca0f33219f555f81c62e30aefa28395c9e61fbbc609bd2894eb2a8e">GSB_ACCOUNT_HOLDER</a>,
+<a name="l00051"></a><a class="code" href="utils__str_8h.html#ac79499d2c3ca0f33219f555f81c62e30a72e3a3f528a8f19ab80ef469dc490ab7">00051</a>     <a class="code" href="utils__str_8h.html#ac79499d2c3ca0f33219f555f81c62e30a72e3a3f528a8f19ab80ef469dc490ab7">GSB_ACCOUNTS_FILE</a>,
+<a name="l00052"></a>00052 } <a class="code" href="utils__str_8h.html#ab20cc8232e8cb9d3ef96c1f13fd27893">GsbTitleType</a>;
+<a name="l00053"></a>00053 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

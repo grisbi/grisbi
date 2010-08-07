@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de bet_data.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>bet_data.h</h1><a href="bet__data_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _BALANCE_ESTIMATE_DATA_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _BALANCE_ESTIMATE_DATA_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="preprocessor">#include &lt;gtk/gtk.h&gt;</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00007"></a>00007 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00008"></a>00008 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 
+<a name="l00011"></a><a class="code" href="bet__data_8h.html#a64ea101cce8cc47efd206cf10c729b0a">00011</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct__bet__range.html">_bet_range</a>           <a class="code" href="struct__bet__range.html">SBR</a>;
+<a name="l00012"></a><a class="code" href="bet__data_8h.html#af44a48e75280e6f4b4effa21972e619f">00012</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct__historical.html">_historical</a>          <a class="code" href="struct__historical.html">SH</a>;
+<a name="l00013"></a><a class="code" href="bet__data_8h.html#a177b490589a96c75bc5d9083b8088c75">00013</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct__hist__div.html">_hist_div</a>            <a class="code" href="struct__hist__div.html">struct_hist_div</a>;
+<a name="l00014"></a><a class="code" href="bet__data_8h.html#a8796fb2765c00bc3a62e126284007484">00014</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct__future__data.html">_future_data</a>         <a class="code" href="struct__future__data.html">struct_futur_data</a>;
+<a name="l00015"></a><a class="code" href="bet__data_8h.html#a916544ee758dd6ec43bf5a6bb5978caf">00015</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct__transfert__data.html">_transfert_data</a>      <a class="code" href="struct__transfert__data.html">struct_transfert_data</a>;
+<a name="l00016"></a>00016 
+<a name="l00017"></a><a class="code" href="struct__bet__range.html">00017</a> <span class="keyword">struct </span><a class="code" href="struct__bet__range.html">_bet_range</a>
+<a name="l00018"></a>00018 {
+<a name="l00019"></a><a class="code" href="struct__bet__range.html#a0dbb01f1c1ea61acc5bec1c441120563">00019</a>     gboolean <a class="code" href="struct__bet__range.html#a0dbb01f1c1ea61acc5bec1c441120563">first_pass</a>;
+<a name="l00020"></a><a class="code" href="struct__bet__range.html#a2573f9fc9aca0d0db06c5d4f60aa4213">00020</a>     GDate *<a class="code" href="struct__bet__range.html#a2573f9fc9aca0d0db06c5d4f60aa4213">min_date</a>;
+<a name="l00021"></a><a class="code" href="struct__bet__range.html#a1b8eb0e62785339e949259edafd4baad">00021</a>     GDate *<a class="code" href="struct__bet__range.html#a1b8eb0e62785339e949259edafd4baad">max_date</a>;
+<a name="l00022"></a><a class="code" href="struct__bet__range.html#a8d990673fb6963e1b5747fccd13b3167">00022</a>     <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="struct__bet__range.html#a8d990673fb6963e1b5747fccd13b3167">min_balance</a>;
+<a name="l00023"></a><a class="code" href="struct__bet__range.html#a61dfe985728bad8ca4d781be4690fb98">00023</a>     <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="struct__bet__range.html#a61dfe985728bad8ca4d781be4690fb98">max_balance</a>;
+<a name="l00024"></a><a class="code" href="struct__bet__range.html#a23afd83173850a5001e7a5b36287b23f">00024</a>     <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="struct__bet__range.html#a23afd83173850a5001e7a5b36287b23f">current_balance</a>;
+<a name="l00025"></a>00025 };
+<a name="l00026"></a>00026 
+<a name="l00027"></a><a class="code" href="struct__historical.html">00027</a> <span class="keyword">struct </span><a class="code" href="struct__historical.html">_historical</a>
+<a name="l00028"></a>00028 {
+<a name="l00029"></a><a class="code" href="struct__historical.html#af538d684e0e04e0b0a6748ea693511da">00029</a>     gint <a class="code" href="struct__historical.html#af538d684e0e04e0b0a6748ea693511da">div</a>;
+<a name="l00030"></a><a class="code" href="struct__historical.html#a0b07d8036f659e40b7a8dca254977f38">00030</a>         gint <a class="code" href="struct__historical.html#a0b07d8036f659e40b7a8dca254977f38">account_nb</a>;
+<a name="l00031"></a><a class="code" href="struct__historical.html#a8dd3440b0f7e42c768836c74f7a8c355">00031</a>     <a class="code" href="struct__bet__range.html">SBR</a> *<a class="code" href="struct__historical.html#a8dd3440b0f7e42c768836c74f7a8c355">sbr</a>;
+<a name="l00032"></a><a class="code" href="struct__historical.html#aa7dc0aadedc7245696f8f71067350515">00032</a>         GHashTable *<a class="code" href="struct__historical.html#aa7dc0aadedc7245696f8f71067350515">list_sub_div</a>;
+<a name="l00033"></a>00033 };
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035 
+<a name="l00036"></a><a class="code" href="struct__hist__div.html">00036</a> <span class="keyword">struct </span><a class="code" href="struct__hist__div.html">_hist_div</a>
+<a name="l00037"></a>00037 {
+<a name="l00038"></a><a class="code" href="struct__hist__div.html#a0d788fd23a7bb0ae79e5f677889a0724">00038</a>     gint <a class="code" href="struct__hist__div.html#a0d788fd23a7bb0ae79e5f677889a0724">account_nb</a>;
+<a name="l00039"></a><a class="code" href="struct__hist__div.html#aa7df5b76f022037b8118d35c6ca78e9e">00039</a>     gint <a class="code" href="struct__hist__div.html#aa7df5b76f022037b8118d35c6ca78e9e">div_number</a>;
+<a name="l00040"></a><a class="code" href="struct__hist__div.html#ac1620dc53b32f9c7ba082e45c51987b0">00040</a>     gboolean <a class="code" href="struct__hist__div.html#ac1620dc53b32f9c7ba082e45c51987b0">div_edited</a>;
+<a name="l00041"></a><a class="code" href="struct__hist__div.html#ab69bea8d8cef3a16e32e2d846643e3b9">00041</a>     GHashTable *<a class="code" href="struct__hist__div.html#ab69bea8d8cef3a16e32e2d846643e3b9">sub_div_list</a>;
+<a name="l00042"></a><a class="code" href="struct__hist__div.html#a472ec5b8c77191287a9131f2253829aa">00042</a>     <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="struct__hist__div.html#a472ec5b8c77191287a9131f2253829aa">amount</a>;
+<a name="l00043"></a>00043 };
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045 
+<a name="l00046"></a><a class="code" href="struct__future__data.html">00046</a> <span class="keyword">struct </span><a class="code" href="struct__future__data.html">_future_data</a>
+<a name="l00047"></a>00047 {
+<a name="l00048"></a><a class="code" href="struct__future__data.html#a6b5279b16d72b20955071d9157768b99">00048</a>     gint <a class="code" href="struct__future__data.html#a6b5279b16d72b20955071d9157768b99">number</a>;
+<a name="l00049"></a><a class="code" href="struct__future__data.html#aec6e59fe50ac1f8b16494f1eb9c3ce08">00049</a>     gint <a class="code" href="struct__future__data.html#aec6e59fe50ac1f8b16494f1eb9c3ce08">account_number</a>;
+<a name="l00050"></a><a class="code" href="struct__future__data.html#ad3244452aa5627982a643f3affeeacbc">00050</a>     GDate *<a class="code" href="struct__future__data.html#ad3244452aa5627982a643f3affeeacbc">date</a>;
+<a name="l00051"></a><a class="code" href="struct__future__data.html#ab6a468f4764512e715d9000a2a7086df">00051</a>     <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="struct__future__data.html#ab6a468f4764512e715d9000a2a7086df">amount</a>;
+<a name="l00052"></a><a class="code" href="struct__future__data.html#a7c71c9a3d9e67a1877d2bbf620a82481">00052</a>     guint <a class="code" href="struct__future__data.html#a7c71c9a3d9e67a1877d2bbf620a82481">fyear_number</a>;
+<a name="l00053"></a><a class="code" href="struct__future__data.html#a3db4223c031a32be201a67570597a1d7">00053</a>     gint <a class="code" href="struct__future__data.html#a3db4223c031a32be201a67570597a1d7">payment_number</a>;
+<a name="l00054"></a><a class="code" href="struct__future__data.html#af5492347097a217e0885fd32cd2d4ee9">00054</a>     gint <a class="code" href="struct__future__data.html#af5492347097a217e0885fd32cd2d4ee9">party_number</a>;
+<a name="l00055"></a><a class="code" href="struct__future__data.html#afb745c743998073de41000fce3d45378">00055</a>     gint <a class="code" href="struct__future__data.html#afb745c743998073de41000fce3d45378">category_number</a>;
+<a name="l00056"></a><a class="code" href="struct__future__data.html#a5a3ca7149f104db6bbdc1e4110b0046d">00056</a>     gint <a class="code" href="struct__future__data.html#a5a3ca7149f104db6bbdc1e4110b0046d">sub_category_number</a>;
+<a name="l00057"></a><a class="code" href="struct__future__data.html#a9286325fd1c8341632c6984a360e7d65">00057</a>     gint <a class="code" href="struct__future__data.html#a9286325fd1c8341632c6984a360e7d65">budgetary_number</a>;
+<a name="l00058"></a><a class="code" href="struct__future__data.html#ad2718266256d134b54a69d46f032e32c">00058</a>     gint <a class="code" href="struct__future__data.html#ad2718266256d134b54a69d46f032e32c">sub_budgetary_number</a>;
+<a name="l00059"></a><a class="code" href="struct__future__data.html#a956a475ceab4f567c54155e84f364e21">00059</a>     gchar *<a class="code" href="struct__future__data.html#a956a475ceab4f567c54155e84f364e21">notes</a>;
+<a name="l00060"></a>00060 
+<a name="l00061"></a><a class="code" href="struct__future__data.html#a74c0f6ce57c07a660f662ff785949613">00061</a>     gboolean <a class="code" href="struct__future__data.html#a74c0f6ce57c07a660f662ff785949613">is_transfert</a>;
+<a name="l00062"></a><a class="code" href="struct__future__data.html#af83878f06d5b952670835f6d80ba9726">00062</a>     gint <a class="code" href="struct__future__data.html#af83878f06d5b952670835f6d80ba9726">account_transfert</a>;
+<a name="l00063"></a>00063 
+<a name="l00064"></a><a class="code" href="struct__future__data.html#a1c0d4cbeafeac3b999d7ad486797d58f">00064</a>     gint <a class="code" href="struct__future__data.html#a1c0d4cbeafeac3b999d7ad486797d58f">frequency</a>;                     <span class="comment">/*  0=once, 1=week, 2=month, 5=year, 6=perso */</span>
+<a name="l00065"></a><a class="code" href="struct__future__data.html#a885f8205f201ed4d41e2929d875af157">00065</a>     gint <a class="code" href="struct__future__data.html#a885f8205f201ed4d41e2929d875af157">user_interval</a>;                                 <span class="comment">/*  0=days, 1= week 2=month, 3=years */</span>
+<a name="l00066"></a><a class="code" href="struct__future__data.html#a0ce6ae8765433eab3ccb2e692830cc15">00066</a>     gint <a class="code" href="struct__future__data.html#a0ce6ae8765433eab3ccb2e692830cc15">user_entry</a>;
+<a name="l00067"></a><a class="code" href="struct__future__data.html#a81185f700098d78812314fcf51f83af2">00067</a>     GDate *<a class="code" href="struct__future__data.html#a81185f700098d78812314fcf51f83af2">limit_date</a>;
+<a name="l00068"></a><a class="code" href="struct__future__data.html#affc482dfcab885b68b3d48c15dae8208">00068</a>     gint <a class="code" href="struct__future__data.html#affc482dfcab885b68b3d48c15dae8208">mother_row</a>;                    <span class="comment">/* if frequency &gt; 0 */</span>
+<a name="l00069"></a>00069 };
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071 
+<a name="l00072"></a><a class="code" href="struct__transfert__data.html">00072</a> <span class="keyword">struct </span><a class="code" href="struct__transfert__data.html">_transfert_data</a>
+<a name="l00073"></a>00073 {
+<a name="l00074"></a><a class="code" href="struct__transfert__data.html#abd142c2d90e3f1dc8e699fc11811eec9">00074</a>     gint <a class="code" href="struct__transfert__data.html#abd142c2d90e3f1dc8e699fc11811eec9">number</a>;
+<a name="l00075"></a><a class="code" href="struct__transfert__data.html#a3ba1dcd56a9cfaa0bd852a153e8b4bb3">00075</a>     gint <a class="code" href="struct__transfert__data.html#a3ba1dcd56a9cfaa0bd852a153e8b4bb3">account_number</a>;
+<a name="l00076"></a><a class="code" href="struct__transfert__data.html#a0473435f6eac8d000573d1e9e5c7cce2">00076</a>     gint <a class="code" href="struct__transfert__data.html#a0473435f6eac8d000573d1e9e5c7cce2">type</a>;
+<a name="l00077"></a><a class="code" href="struct__transfert__data.html#a36b3541722ab7734fef23067d72ce0b7">00077</a>     gint <a class="code" href="struct__transfert__data.html#a36b3541722ab7734fef23067d72ce0b7">replace_account</a>;       <span class="comment">/* Account number or partial balance concerned */</span>
+<a name="l00078"></a><a class="code" href="struct__transfert__data.html#a7463d2f333c41617781b46383ef8e23f">00078</a>     gint <a class="code" href="struct__transfert__data.html#a7463d2f333c41617781b46383ef8e23f">replace_transaction</a>;
+<a name="l00079"></a><a class="code" href="struct__transfert__data.html#a54e9310ec0bdddb6dd78df8d3f12c897">00079</a>     gint <a class="code" href="struct__transfert__data.html#a54e9310ec0bdddb6dd78df8d3f12c897">auto_inc_month</a>;
+<a name="l00080"></a><a class="code" href="struct__transfert__data.html#aa0172d4a97c16d13a2138c27cb1bfbaf">00080</a>     GDate *<a class="code" href="struct__transfert__data.html#aa0172d4a97c16d13a2138c27cb1bfbaf">date</a>;
+<a name="l00081"></a><a class="code" href="struct__transfert__data.html#a0f5f788e1ea93c6812e64cd5116ce0a4">00081</a>     gint <a class="code" href="struct__transfert__data.html#a0f5f788e1ea93c6812e64cd5116ce0a4">category_number</a>;
+<a name="l00082"></a><a class="code" href="struct__transfert__data.html#aa03307c5d5aa09612f3d1da289397c8c">00082</a>     gint <a class="code" href="struct__transfert__data.html#aa03307c5d5aa09612f3d1da289397c8c">sub_category_number</a>;
+<a name="l00083"></a><a class="code" href="struct__transfert__data.html#a1401ed2c69ccc97868a64ad488215dc7">00083</a>     gint <a class="code" href="struct__transfert__data.html#a1401ed2c69ccc97868a64ad488215dc7">budgetary_number</a>;
+<a name="l00084"></a><a class="code" href="struct__transfert__data.html#a5be29383f5141591b40b0f8dd8a907fd">00084</a>     gint <a class="code" href="struct__transfert__data.html#a5be29383f5141591b40b0f8dd8a907fd">sub_budgetary_number</a>;
+<a name="l00085"></a>00085 };
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00089"></a>00089 GDate *<a class="code" href="bet__data_8c.html#a0ad9a8f139c9c1fe907454b3130192c3">bet_data_array_get_date_max</a> ( gint account_number );
+<a name="l00090"></a>00090 gboolean <a class="code" href="bet__data_8c.html#a066b9bb27fff2cf3ab6220e10298ed38">bet_data_future_add_lines</a> ( <a class="code" href="struct__future__data.html">struct_futur_data</a> *scheduled );
+<a name="l00091"></a>00091 GHashTable *<a class="code" href="bet__data_8c.html#a684351ebf464e4e504106b29c24ba78b">bet_data_future_get_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00092"></a>00092 <a class="code" href="struct__future__data.html">struct_futur_data</a> *<a class="code" href="bet__data_8c.html#aa5c30184255023ebcdf6c6234e6a989a">bet_data_future_get_struct</a> ( gint account_number, gint number );
+<a name="l00093"></a>00093 gboolean <a class="code" href="bet__data_8c.html#aa5807c7bbe8349ad4e5d0377d897092d">bet_data_future_modify_lines</a> ( <a class="code" href="struct__future__data.html">struct_futur_data</a> *scheduled );
+<a name="l00094"></a>00094 gboolean <a class="code" href="bet__data_8c.html#a5feeffaadf0363f8d23e005000bb8518">bet_data_future_remove_line</a> ( gint account_number, gint number, gboolean maj );
+<a name="l00095"></a>00095 gboolean <a class="code" href="bet__data_8c.html#ab7c4f2f8f73676c85d7b5b8412833c2d">bet_data_future_remove_lines</a> ( gint account_number,
+<a name="l00096"></a>00096                         gint number,
+<a name="l00097"></a>00097                         gint mother_row );
+<a name="l00098"></a>00098 gboolean <a class="code" href="bet__data_8c.html#af0aa62f96e076cc583fa339a7a2ecc48">bet_data_future_set_lines_from_file</a> ( <a class="code" href="struct__future__data.html">struct_futur_data</a> *scheduled );
+<a name="l00099"></a>00099 gboolean <a class="code" href="bet__data_8c.html#a404cd035dc7d1d50729066aa299fe43b">bet_data_get_div_edited</a> ( gint account_nb, gint div_number, gint sub_div_nb );
+<a name="l00100"></a>00100 gchar *<a class="code" href="bet__data_8c.html#aea9c573187265658d763308e06b90b05">bet_data_get_div_name</a> ( gint div_num,
+<a name="l00101"></a>00101                         gint sub_div,
+<a name="l00102"></a>00102                         <span class="keyword">const</span> gchar *return_value_error );
+<a name="l00103"></a>00103 gint <a class="code" href="bet__data_8c.html#ab4bf76da9537ef326910893cb8efca75">bet_data_get_div_number</a> ( gint transaction_number, gboolean is_transaction );
+<a name="l00104"></a>00104 gint <a class="code" href="bet__data_8c.html#ae1629f0fcd2e8027d1b9a07d99efbf1d">bet_data_get_div_type</a> ( gint div_number );
+<a name="l00105"></a>00105 gint <a class="code" href="bet__data_8c.html#a276706a60495ceea4d9b6ce0794888e9">bet_data_get_selected_currency</a> ( <span class="keywordtype">void</span> );
+<a name="l00106"></a>00106 GPtrArray *<a class="code" href="bet__data_8c.html#a4185b5667139f402a298806bb53a211a">bet_data_get_strings_to_save</a> ( <span class="keywordtype">void</span> );
+<a name="l00107"></a>00107 gint <a class="code" href="bet__data_8c.html#a92ceecac038add334e75ef1c12f7a666">bet_data_get_sub_div_nb</a> ( gint transaction_number, gboolean is_transaction );
+<a name="l00108"></a>00108 gboolean <a class="code" href="bet__data_8c.html#a8e4e124545cf8a530c9c3ad879bcf5ea">bet_data_hist_add_div</a> ( gint account_nb,
+<a name="l00109"></a>00109                         gint div_number,
+<a name="l00110"></a>00110                         gint sub_div_nb );
+<a name="l00111"></a>00111 <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="bet__data_8c.html#aa0afee08549af46994f0cd802d462338">bet_data_hist_get_div_amount</a> ( gint account_nb, gint div_number, gint sub_div_nb );
+<a name="l00112"></a>00112 gboolean <a class="code" href="bet__data_8c.html#ac36863d207e1ef101c501a31760e67a1">bet_data_init_variables</a> ( <span class="keywordtype">void</span> );
+<a name="l00113"></a>00113 <span class="keywordtype">void</span> <a class="code" href="bet__data_8c.html#ad0f230cc72b4bb9181f91d2ede65709b">bet_data_insert_div_hist</a> ( <a class="code" href="struct__hist__div.html">struct_hist_div</a> *shd, <a class="code" href="struct__hist__div.html">struct_hist_div</a> *sub_shd );
+<a name="l00114"></a>00114 gboolean <a class="code" href="bet__data_8c.html#a0de6607543e7a4e0f2051394707631b5">bet_data_populate_div</a> ( gint transaction_number,
+<a name="l00115"></a>00115                         gboolean is_transaction,
+<a name="l00116"></a>00116                         GHashTable  *list_div );
+<a name="l00117"></a>00117 gboolean <a class="code" href="bet__data_8c.html#a9dbd4a0c3a7673f2972be160d341dd93">bet_data_remove_all_bet_data</a> ( gint account_number );
+<a name="l00118"></a>00118 gboolean <a class="code" href="bet__data_8c.html#a2ad8c256ef5056925b921a71d8645578">bet_data_remove_div_hist</a> ( gint account_nb, gint div_number, gint sub_div_nb );
+<a name="l00119"></a>00119 gboolean <a class="code" href="bet__data_8c.html#aa5a0bad0ab672a04b4dfa18d9816aa20">bet_data_search_div_hist</a> ( gint account_nb, gint div_number, gint sub_div_nb );
+<a name="l00120"></a>00120 <span class="keywordtype">void</span> <a class="code" href="bet__data_8c.html#a1056a006e9aa525d168c86363029d44e">bet_data_select_bet_pages</a> ( gint account_number );
+<a name="l00121"></a>00121 gboolean <a class="code" href="bet__data_8c.html#a3eeebe94c6f939ab1428c4a3860d7884">bet_data_set_div_amount</a> ( gint account_nb,
+<a name="l00122"></a>00122                         gint div_number,
+<a name="l00123"></a>00123                         gint sub_div_nb,
+<a name="l00124"></a>00124                         <a class="code" href="structgsb__real.html">gsb_real</a> amount );
+<a name="l00125"></a>00125 gboolean <a class="code" href="bet__data_8c.html#ac97294377ef5262c8c3940ecdb8e2443">bet_data_set_div_edited</a> ( gint account_nb,
+<a name="l00126"></a>00126                         gint div_number,
+<a name="l00127"></a>00127                         gint sub_div_nb,
+<a name="l00128"></a>00128                         gboolean edited );
+<a name="l00129"></a>00129 gboolean <a class="code" href="bet__data_8c.html#aa8173c7d047bf72aef314ecf99689f73">bet_data_set_div_ptr</a> ( gint type_div );
+<a name="l00130"></a>00130 <span class="keywordtype">void</span> <a class="code" href="bet__data_8h.html#a9d97dd1579de14c0455d038cc583d448">bet_data_set_maj</a> ( gint account_number, gint type_maj );
+<a name="l00131"></a>00131 <span class="keywordtype">void</span> <a class="code" href="bet__data_8c.html#a91745c4a532e0241a7a257fb8aa53a93">bet_data_synchronise_hist_div_list</a> ( GHashTable  *list_div );
+<a name="l00132"></a>00132 gboolean <a class="code" href="bet__data_8c.html#ae27191a1ef681788491163590697b53f">bet_data_transfert_add_line</a> ( <a class="code" href="struct__transfert__data.html">struct_transfert_data</a> *transfert );
+<a name="l00133"></a>00133 GHashTable *<a class="code" href="bet__data_8c.html#a77e5c063714b4d86398084828d7b78eb">bet_data_transfert_get_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00134"></a>00134 gboolean <a class="code" href="bet__data_8c.html#ae6b517cdcf60d19b28ab333c4ff74d7b">bet_data_transfert_modify_line</a> ( <a class="code" href="struct__transfert__data.html">struct_transfert_data</a> *transfert );
+<a name="l00135"></a>00135 gboolean <a class="code" href="bet__data_8c.html#a96f2da14ad123bdaca6976f33481166c">bet_data_transfert_remove_line</a> ( gint account_number, gint number );
+<a name="l00136"></a>00136 gboolean <a class="code" href="bet__data_8c.html#aa39d707af5ab5b7827ca29e9d4cd4d5c">bet_data_transfert_set_line_from_file</a> ( <a class="code" href="struct__transfert__data.html">struct_transfert_data</a> *transfert );
+<a name="l00137"></a>00137 <span class="keywordtype">void</span> <a class="code" href="bet__data_8c.html#aaab5591eff8b758d7d53b3cc0e94f102">bet_data_transfert_update_date_if_necessary</a> ( <a class="code" href="struct__transfert__data.html">struct_transfert_data</a> *transfert );
+<a name="l00138"></a>00138 <span class="keywordtype">void</span> <a class="code" href="bet__data_8c.html#af0bc501a6a7a255f8adc9500328c950f">bet_data_update_bet_module</a> ( gint account_number, guint page );
+<a name="l00139"></a>00139 <span class="keywordtype">void</span> <a class="code" href="bet__data_8c.html#a89a8671d4171468fbbd9cb1f36689f71">struct_free_bet_historical</a> ( <a class="code" href="struct__historical.html">SH</a> *sh );
+<a name="l00140"></a>00140 <a class="code" href="struct__future__data.html">struct_futur_data</a> *<a class="code" href="bet__data_8c.html#a23e8ade4555e56f2de46d41996b2e5c4">struct_initialise_bet_future</a> ( <span class="keywordtype">void</span> );
+<a name="l00141"></a>00141 <a class="code" href="struct__bet__range.html">SBR</a> *<a class="code" href="bet__data_8c.html#aadf624d8e035217dfd51c842ea776e3d">struct_initialise_bet_range</a> ( <span class="keywordtype">void</span> );
+<a name="l00142"></a>00142 <a class="code" href="struct__transfert__data.html">struct_transfert_data</a> *<a class="code" href="bet__data_8c.html#abf90f0c52bc2bbdcc336f4956ace257f">struct_initialise_bet_transfert</a> ( <span class="keywordtype">void</span> );
+<a name="l00143"></a>00143 <a class="code" href="struct__hist__div.html">struct_hist_div</a> *<a class="code" href="bet__data_8c.html#a02747f493a512f416e05204ef14f6925">struct_initialise_hist_div</a> ( <span class="keywordtype">void</span> );
+<a name="l00144"></a>00144 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00145"></a>00145 
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:00 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier affichage_liste.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier affichage_liste.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="affichage__liste_8c_source.html">affichage_liste.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__automem_8h_source.html">gsb_automem.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form_8h_source.html">gsb_form.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+<code>#include &lt;gtk/gtk.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="custom__list_8h_source.html">custom_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="fenetre__principale_8h_source.html">fenetre_principale.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gtk__combofix_8h_source.html">gtk_combofix.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="affichage__liste_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage__liste_8c.html#a822e762a82cda85425acf41f0be4ef90">onglet_affichage_operations</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage__liste_8c.html#a29ff0d6bb71d4f22c3cfb6fc8d58d0a3">display_mode_check_line</a> (gint line_in_transaction, gint visibles_lines)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage__liste_8c.html#a0c0358b4457dcb87adf267e8fd04d971">recuperation_noms_colonnes_et_tips</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage__liste_8c.html#a33da4cf29fe0704c65a8d2c3fc88700c">onglet_diverse_form_and_lists</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage__liste_8c.html#a35c31378d6ff0acbfdd295ef8dea0982">onglet_form_completion</a> (void)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage__liste_8c.html#a0c444565adac369ff42631d4b7b7e6bb">tab_affichage_ope</a> [TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage__liste_8c.html#a36eb372c7727c89f6ed96a3756a28740">display_one_line</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage__liste_8c.html#a420ccd553ba703004c7415ba8ee25630">display_two_lines</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage__liste_8c.html#aa74165188c76a0e2ba64239b2236841c">display_three_lines</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage__liste_8c.html#a53693b9d5a4ba330fa5650e09ef0519f">liste_labels_titres_colonnes_liste_ope</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage__liste_8c.html#a7d49023563c9144cf16b6b4c2b65ce05">tips_col_liste_operations</a> [CUSTOM_MODEL_N_VISIBLES_COLUMN]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage__liste_8c.html#abe5a25ede887e60c7f679c9ff03607f0">titres_colonnes_liste_operations</a> [CUSTOM_MODEL_N_VISIBLES_COLUMN]</td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a29ff0d6bb71d4f22c3cfb6fc8d58d0a3"></a><!-- doxytag: member="affichage_liste.c::display_mode_check_line" ref="a29ff0d6bb71d4f22c3cfb6fc8d58d0a3" args="(gint line_in_transaction, gint visibles_lines)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean display_mode_check_line </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>line_in_transaction</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>visibles_lines</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>check if the line given in param, according to the number of visible lines if visibles_lines is 4, that function returns always TRUE</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>line_in_transaction</em>&nbsp;</td><td>the line in the transaction we want to check </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>visibles_lines</em>&nbsp;</td><td>the number of visibles lines (1, 2, 3 or 4)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE : the line should be showed, FALSE : the line must be hidden </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="affichage__liste_8c_source.html#l00302">302</a> du fichier <a class="el" href="affichage__liste_8c_source.html">affichage_liste.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a822e762a82cda85425acf41f0be4ef90"></a><!-- doxytag: member="affichage_liste.c::onglet_affichage_operations" ref="a822e762a82cda85425acf41f0be4ef90" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* onglet_affichage_operations </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create the page of configuration for the transaction list behavior</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a vbox containing the configuration page </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="affichage__liste_8c_source.html#l00094">94</a> du fichier <a class="el" href="affichage__liste_8c_source.html">affichage_liste.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a33da4cf29fe0704c65a8d2c3fc88700c"></a><!-- doxytag: member="affichage_liste.c::onglet_diverse_form_and_lists" ref="a33da4cf29fe0704c65a8d2c3fc88700c" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* onglet_diverse_form_and_lists </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="affichage__liste_8c_source.html#l00445">445</a> du fichier <a class="el" href="affichage__liste_8c_source.html">affichage_liste.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a35c31378d6ff0acbfdd295ef8dea0982"></a><!-- doxytag: member="affichage_liste.c::onglet_form_completion" ref="a35c31378d6ff0acbfdd295ef8dea0982" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* onglet_form_completion </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="affichage__liste_8c_source.html#l00490">490</a> du fichier <a class="el" href="affichage__liste_8c_source.html">affichage_liste.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0c0358b4457dcb87adf267e8fd04d971"></a><!-- doxytag: member="affichage_liste.c::recuperation_noms_colonnes_et_tips" ref="a0c0358b4457dcb87adf267e8fd04d971" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void recuperation_noms_colonnes_et_tips </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>fill the titres_colonnes_liste_operations variable and the associated tips so get the first row element name and set it for title fill the tips with all the elements of the column</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="affichage__liste_8c_source.html#l00391">391</a> du fichier <a class="el" href="affichage__liste_8c_source.html">affichage_liste.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a36eb372c7727c89f6ed96a3756a28740"></a><!-- doxytag: member="affichage_liste.c::display_one_line" ref="a36eb372c7727c89f6ed96a3756a28740" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="transaction__list_8c.html#a36eb372c7727c89f6ed96a3756a28740">display_one_line</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="affichage__liste_8c_source.html#l00066">66</a> du fichier <a class="el" href="affichage__liste_8c_source.html">affichage_liste.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa74165188c76a0e2ba64239b2236841c"></a><!-- doxytag: member="affichage_liste.c::display_three_lines" ref="aa74165188c76a0e2ba64239b2236841c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="transaction__list_8c.html#aa74165188c76a0e2ba64239b2236841c">display_three_lines</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="affichage__liste_8c_source.html#l00074">74</a> du fichier <a class="el" href="affichage__liste_8c_source.html">affichage_liste.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a420ccd553ba703004c7415ba8ee25630"></a><!-- doxytag: member="affichage_liste.c::display_two_lines" ref="a420ccd553ba703004c7415ba8ee25630" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="transaction__list_8c.html#a420ccd553ba703004c7415ba8ee25630">display_two_lines</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="affichage__liste_8c_source.html#l00070">70</a> du fichier <a class="el" href="affichage__liste_8c_source.html">affichage_liste.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a53693b9d5a4ba330fa5650e09ef0519f"></a><!-- doxytag: member="affichage_liste.c::liste_labels_titres_colonnes_liste_ope" ref="a53693b9d5a4ba330fa5650e09ef0519f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* <a class="el" href="traitement__variables_8c.html#a53693b9d5a4ba330fa5650e09ef0519f">liste_labels_titres_colonnes_liste_ope</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00143">143</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0c444565adac369ff42631d4b7b7e6bb"></a><!-- doxytag: member="affichage_liste.c::tab_affichage_ope" ref="a0c444565adac369ff42631d4b7b7e6bb" args="[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="transaction__list_8c.html#a0c444565adac369ff42631d4b7b7e6bb">tab_affichage_ope</a>[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="affichage__liste_8c_source.html#l00063">63</a> du fichier <a class="el" href="affichage__liste_8c_source.html">affichage_liste.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7d49023563c9144cf16b6b4c2b65ce05"></a><!-- doxytag: member="affichage_liste.c::tips_col_liste_operations" ref="a7d49023563c9144cf16b6b4c2b65ce05" args="[CUSTOM_MODEL_N_VISIBLES_COLUMN]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="gsb__transactions__list_8c.html#a7d49023563c9144cf16b6b4c2b65ce05">tips_col_liste_operations</a>[CUSTOM_MODEL_N_VISIBLES_COLUMN]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00127">127</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abe5a25ede887e60c7f679c9ff03607f0"></a><!-- doxytag: member="affichage_liste.c::titres_colonnes_liste_operations" ref="abe5a25ede887e60c7f679c9ff03607f0" args="[CUSTOM_MODEL_N_VISIBLES_COLUMN]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="gsb__transactions__list_8c.html#abe5a25ede887e60c7f679c9ff03607f0">titres_colonnes_liste_operations</a>[CUSTOM_MODEL_N_VISIBLES_COLUMN]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00128">128</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

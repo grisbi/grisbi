@@ -1,0 +1,133 @@
+\section{Référence du fichier gsb\_\-assistant.h}
+\label{gsb__assistant_8h}\index{gsb\_\-assistant.h@{gsb\_\-assistant.h}}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf gsb\_\-assistant\_\-add\_\-page} (GtkWidget $\ast$assistant, GtkWidget $\ast$widget, gint position, gint prev, gint next, GCallback enter\_\-callback)
+\item 
+void {\bf gsb\_\-assistant\_\-change\_\-button\_\-next} (GtkWidget $\ast$assistant, gchar $\ast$title, GtkResponseType response)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-assistant\_\-new} (const gchar $\ast$title, const gchar $\ast$explanation, gchar $\ast$image\_\-filename, GCallback enter\_\-callback)
+\item 
+void {\bf gsb\_\-assistant\_\-next\_\-page} (GtkWidget $\ast$assistant)
+\item 
+GtkResponseType {\bf gsb\_\-assistant\_\-run} (GtkWidget $\ast$assistant)
+\item 
+gboolean {\bf gsb\_\-assistant\_\-sensitive\_\-button\_\-next} (GtkWidget $\ast$assistant, gboolean state)
+\item 
+gboolean {\bf gsb\_\-assistant\_\-sensitive\_\-button\_\-prev} (GtkWidget $\ast$assistant, gboolean state)
+\item 
+void {\bf gsb\_\-assistant\_\-set\_\-next} (GtkWidget $\ast$assistant, gint page, gint next)
+\item 
+void {\bf gsb\_\-assistant\_\-set\_\-prev} (GtkWidget $\ast$assistant, gint page, gint prev)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-assistant.h@{gsb\_\-assistant.h}!gsb\_\-assistant\_\-add\_\-page@{gsb\_\-assistant\_\-add\_\-page}}
+\index{gsb\_\-assistant\_\-add\_\-page@{gsb\_\-assistant\_\-add\_\-page}!gsb_assistant.h@{gsb\_\-assistant.h}}
+\subsubsection[{gsb\_\-assistant\_\-add\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-assistant\_\-add\_\-page (GtkWidget $\ast$ {\em assistant}, \/  GtkWidget $\ast$ {\em widget}, \/  gint {\em position}, \/  gint {\em prev}, \/  gint {\em next}, \/  GCallback {\em enter\_\-callback})}\label{gsb__assistant_8h_a6972bde2415e07b7afb35a062456f129}
+Add a page to the Grisbi assistant.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em assistant}]Grisbi assistant to add a page to. \item[{\em widget}]Widget containing the new page to insert. \item[{\em position}]Number of the page to insert. Page 0 is reserved to the explanation label. \item[{\em prev}]Page to display when the \char`\"{}Previous\char`\"{} button is clicked. \item[{\em next}]Page to display when the \char`\"{}Next\char`\"{} button is clicked. \item[{\em enter\_\-callback}]A callback to connect to the \char`\"{}switch-\/page\char`\"{} callback of the Grisbi assistant notebook. (the callback should be : gboolean callback ( GtkWidget $\ast$assistant, gint new\_\-page ) ) \end{DoxyParams}
+
+
+Définition à la ligne 173 du fichier gsb\_\-assistant.c.
+
+\index{gsb\_\-assistant.h@{gsb\_\-assistant.h}!gsb\_\-assistant\_\-change\_\-button\_\-next@{gsb\_\-assistant\_\-change\_\-button\_\-next}}
+\index{gsb\_\-assistant\_\-change\_\-button\_\-next@{gsb\_\-assistant\_\-change\_\-button\_\-next}!gsb_assistant.h@{gsb\_\-assistant.h}}
+\subsubsection[{gsb\_\-assistant\_\-change\_\-button\_\-next}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-assistant\_\-change\_\-button\_\-next (GtkWidget $\ast$ {\em assistant}, \/  gchar $\ast$ {\em title}, \/  GtkResponseType {\em response})}\label{gsb__assistant_8h_af9667499ec49ad50593c8662801d4a9c}
+force the assistant to go to the previous page
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em assistant}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 422 du fichier gsb\_\-assistant.c.
+
+\index{gsb\_\-assistant.h@{gsb\_\-assistant.h}!gsb\_\-assistant\_\-new@{gsb\_\-assistant\_\-new}}
+\index{gsb\_\-assistant\_\-new@{gsb\_\-assistant\_\-new}!gsb_assistant.h@{gsb\_\-assistant.h}}
+\subsubsection[{gsb\_\-assistant\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-assistant\_\-new (const gchar $\ast$ {\em title}, \/  const gchar $\ast$ {\em explanation}, \/  gchar $\ast$ {\em image\_\-filename}, \/  GCallback {\em enter\_\-callback})}\label{gsb__assistant_8h_a8502128771d8c3f3e8c83d877e1f20ea}
+Create and initialize a new grisbi assistant. It is basically composed of a GtkDialog with a notebook that is switched from page to page when user click on dialog buttons.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em title}]Title of the assistant. \item[{\em explanation}]Short text to display in the first page of the assistant. \item[{\em image\_\-filename}]Icon to display in the title. (if NULL, use grisbi.png, default logo) \item[{\em enter\_\-callback}]A callback to connect to the \char`\"{}switch-\/page\char`\"{} callback when go to the first page of the Grisbi assistant notebook. (the callback should be : gboolean callback ( GtkWidget $\ast$assistant, gint new\_\-page ) ) \end{DoxyParams}
+
+
+Définition à la ligne 62 du fichier gsb\_\-assistant.c.
+
+\index{gsb\_\-assistant.h@{gsb\_\-assistant.h}!gsb\_\-assistant\_\-next\_\-page@{gsb\_\-assistant\_\-next\_\-page}}
+\index{gsb\_\-assistant\_\-next\_\-page@{gsb\_\-assistant\_\-next\_\-page}!gsb_assistant.h@{gsb\_\-assistant.h}}
+\subsubsection[{gsb\_\-assistant\_\-next\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-assistant\_\-next\_\-page (GtkWidget $\ast$ {\em assistant})}\label{gsb__assistant_8h_afa94b439f0978b7eac4d469df5def613}
+force the assistant to go to the next page
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em assistant}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 391 du fichier gsb\_\-assistant.c.
+
+\index{gsb\_\-assistant.h@{gsb\_\-assistant.h}!gsb\_\-assistant\_\-run@{gsb\_\-assistant\_\-run}}
+\index{gsb\_\-assistant\_\-run@{gsb\_\-assistant\_\-run}!gsb_assistant.h@{gsb\_\-assistant.h}}
+\subsubsection[{gsb\_\-assistant\_\-run}]{\setlength{\rightskip}{0pt plus 5cm}GtkResponseType gsb\_\-assistant\_\-run (GtkWidget $\ast$ {\em assistant})}\label{gsb__assistant_8h_a886a6fa8c458d71d7cfae7b54bd3187f}
+Run the Grisbi assistant. This will pop up a new dialog.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em assistant}]Grisbi assistant to run.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+Outcome of the Grisbi assistant. Can be GTK\_\-RESPONSE\_\-APPLY for success and GTK\_\-RESPONSE\_\-CANCEL for failure (user canceled or closed dialog). 
+\end{DoxyReturn}
+
+
+Définition à la ligne 204 du fichier gsb\_\-assistant.c.
+
+\index{gsb\_\-assistant.h@{gsb\_\-assistant.h}!gsb\_\-assistant\_\-sensitive\_\-button\_\-next@{gsb\_\-assistant\_\-sensitive\_\-button\_\-next}}
+\index{gsb\_\-assistant\_\-sensitive\_\-button\_\-next@{gsb\_\-assistant\_\-sensitive\_\-button\_\-next}!gsb_assistant.h@{gsb\_\-assistant.h}}
+\subsubsection[{gsb\_\-assistant\_\-sensitive\_\-button\_\-next}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-assistant\_\-sensitive\_\-button\_\-next (GtkWidget $\ast$ {\em assistant}, \/  gboolean {\em state})}\label{gsb__assistant_8h_ad38c5d761d97d2257a4b35a52c4048c6}
+
+
+Définition à la ligne 364 du fichier gsb\_\-assistant.c.
+
+\index{gsb\_\-assistant.h@{gsb\_\-assistant.h}!gsb\_\-assistant\_\-sensitive\_\-button\_\-prev@{gsb\_\-assistant\_\-sensitive\_\-button\_\-prev}}
+\index{gsb\_\-assistant\_\-sensitive\_\-button\_\-prev@{gsb\_\-assistant\_\-sensitive\_\-button\_\-prev}!gsb_assistant.h@{gsb\_\-assistant.h}}
+\subsubsection[{gsb\_\-assistant\_\-sensitive\_\-button\_\-prev}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-assistant\_\-sensitive\_\-button\_\-prev (GtkWidget $\ast$ {\em assistant}, \/  gboolean {\em state})}\label{gsb__assistant_8h_ae21578dcc45348d3400059b9c6794252}
+
+
+Définition à la ligne 376 du fichier gsb\_\-assistant.c.
+
+\index{gsb\_\-assistant.h@{gsb\_\-assistant.h}!gsb\_\-assistant\_\-set\_\-next@{gsb\_\-assistant\_\-set\_\-next}}
+\index{gsb\_\-assistant\_\-set\_\-next@{gsb\_\-assistant\_\-set\_\-next}!gsb_assistant.h@{gsb\_\-assistant.h}}
+\subsubsection[{gsb\_\-assistant\_\-set\_\-next}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-assistant\_\-set\_\-next (GtkWidget $\ast$ {\em assistant}, \/  gint {\em page}, \/  gint {\em next})}\label{gsb__assistant_8h_a06ff0b5745a3a4bd14ceecbd56cd09c1}
+Change the next page associated to a notebook page. This can be used to insert a page between two others.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em assistant}]A pointer to a Grisbi assistant. \item[{\em page}]Page to change next link. \item[{\em next}]Number of the new next page. \end{DoxyParams}
+
+
+Définition à la ligne 348 du fichier gsb\_\-assistant.c.
+
+\index{gsb\_\-assistant.h@{gsb\_\-assistant.h}!gsb\_\-assistant\_\-set\_\-prev@{gsb\_\-assistant\_\-set\_\-prev}}
+\index{gsb\_\-assistant\_\-set\_\-prev@{gsb\_\-assistant\_\-set\_\-prev}!gsb_assistant.h@{gsb\_\-assistant.h}}
+\subsubsection[{gsb\_\-assistant\_\-set\_\-prev}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-assistant\_\-set\_\-prev (GtkWidget $\ast$ {\em assistant}, \/  gint {\em page}, \/  gint {\em prev})}\label{gsb__assistant_8h_a9c400b973258731e6d4dd4a01a63e1aa}
+Change the previous page associated to a notebook page. This can be used to insert a page between two others.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em assistant}]A pointer to a Grisbi assistant. \item[{\em page}]Page to change previous link. \item[{\em prev}]Number of the new previous page. \end{DoxyParams}
+
+
+Définition à la ligne 329 du fichier gsb\_\-assistant.c.
+

@@ -1,0 +1,307 @@
+\section{Référence du fichier gsb\_\-currency.c}
+\label{gsb__currency_8c}\index{gsb\_\-currency.c@{gsb\_\-currency.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-autofunc.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-currency\_\-link.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-widget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-files.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-currency\_\-config.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf currency\_\-list\_\-columns} \{ \par
+{\bf CURRENCY\_\-COL\_\-CODE} =  0, 
+{\bf CURRENCY\_\-COL\_\-NAME}, 
+{\bf CURRENCY\_\-COL\_\-NUMBER}, 
+{\bf CURRENCY\_\-COL\_\-FLAG}, 
+\par
+{\bf CURRENCY\_\-NUM\_\-COL}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf gsb\_\-currency\_\-init\_\-variables} (void)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-currency\_\-make\_\-combobox} (gboolean set\_\-name)
+\item 
+gboolean {\bf gsb\_\-currency\_\-set\_\-combobox\_\-history} (GtkWidget $\ast$combo\_\-box, gint currency\_\-number)
+\item 
+gint {\bf gsb\_\-currency\_\-get\_\-currency\_\-from\_\-combobox} (GtkWidget $\ast$combo\_\-box)
+\item 
+gboolean {\bf gsb\_\-currency\_\-update\_\-combobox\_\-currency\_\-list} (void)
+\item 
+void {\bf gsb\_\-currency\_\-check\_\-for\_\-change} (gint transaction\_\-number)
+\item 
+void {\bf gsb\_\-currency\_\-exchange\_\-dialog} (gint account\_\-currency\_\-number, gint transaction\_\-currency\_\-number, gboolean link\_\-currency, {\bf gsb\_\-real} exchange\_\-rate, {\bf gsb\_\-real} exchange\_\-fees, gboolean force)
+\item 
+void {\bf gsb\_\-currency\_\-init\_\-exchanges} (void)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-currency\_\-get\_\-current\_\-exchange} (void)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-currency\_\-get\_\-current\_\-exchange\_\-fees} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GdkColor {\bf calendar\_\-entry\_\-color}
+\item 
+GtkWidget $\ast$ {\bf combo\_\-devise\_\-totaux\_\-categ}
+\item 
+GtkWidget $\ast$ {\bf combo\_\-devise\_\-totaux\_\-ib}
+\item 
+GtkWidget $\ast$ {\bf combo\_\-devise\_\-totaux\_\-tiers}
+\item 
+GtkWidget $\ast$ {\bf detail\_\-devise\_\-compte}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}
+\item 
+{\bf gsb\_\-real} {\bf null\_\-real}
+\item 
+GtkWidget $\ast$ {\bf window}
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+contains tools to work with the currencies 
+
+Définition dans le fichier {\bf gsb\_\-currency.c}.
+
+
+
+\subsection{Documentation du type de l'énumération}
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!currency\_\-list\_\-columns@{currency\_\-list\_\-columns}}
+\index{currency\_\-list\_\-columns@{currency\_\-list\_\-columns}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{currency\_\-list\_\-columns}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf currency\_\-list\_\-columns}}\label{gsb__currency_8c_af9940019db3e8478ba0fd174b2ef0c12}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{CURRENCY\_\-COL\_\-CODE@{CURRENCY\_\-COL\_\-CODE}!gsb\_\-currency.c@{gsb\_\-currency.c}}\index{gsb\_\-currency.c@{gsb\_\-currency.c}!CURRENCY\_\-COL\_\-CODE@{CURRENCY\_\-COL\_\-CODE}}\item[{\em 
+CURRENCY\_\-COL\_\-CODE\label{gsb__currency_8c_af9940019db3e8478ba0fd174b2ef0c12a8e2fff33d13c51d2882671a03a0452d5}
+}]\index{CURRENCY\_\-COL\_\-NAME@{CURRENCY\_\-COL\_\-NAME}!gsb\_\-currency.c@{gsb\_\-currency.c}}\index{gsb\_\-currency.c@{gsb\_\-currency.c}!CURRENCY\_\-COL\_\-NAME@{CURRENCY\_\-COL\_\-NAME}}\item[{\em 
+CURRENCY\_\-COL\_\-NAME\label{gsb__currency_8c_af9940019db3e8478ba0fd174b2ef0c12a81f964da9b834c0d60fe9dea6bdf8fa2}
+}]\index{CURRENCY\_\-COL\_\-NUMBER@{CURRENCY\_\-COL\_\-NUMBER}!gsb\_\-currency.c@{gsb\_\-currency.c}}\index{gsb\_\-currency.c@{gsb\_\-currency.c}!CURRENCY\_\-COL\_\-NUMBER@{CURRENCY\_\-COL\_\-NUMBER}}\item[{\em 
+CURRENCY\_\-COL\_\-NUMBER\label{gsb__currency_8c_af9940019db3e8478ba0fd174b2ef0c12a71cdec02aa0802a0e38865ba59d6aeeb}
+}]\index{CURRENCY\_\-COL\_\-FLAG@{CURRENCY\_\-COL\_\-FLAG}!gsb\_\-currency.c@{gsb\_\-currency.c}}\index{gsb\_\-currency.c@{gsb\_\-currency.c}!CURRENCY\_\-COL\_\-FLAG@{CURRENCY\_\-COL\_\-FLAG}}\item[{\em 
+CURRENCY\_\-COL\_\-FLAG\label{gsb__currency_8c_af9940019db3e8478ba0fd174b2ef0c12af9ef12e6656cd025d634563921f38879}
+}]\index{CURRENCY\_\-NUM\_\-COL@{CURRENCY\_\-NUM\_\-COL}!gsb\_\-currency.c@{gsb\_\-currency.c}}\index{gsb\_\-currency.c@{gsb\_\-currency.c}!CURRENCY\_\-NUM\_\-COL@{CURRENCY\_\-NUM\_\-COL}}\item[{\em 
+CURRENCY\_\-NUM\_\-COL\label{gsb__currency_8c_af9940019db3e8478ba0fd174b2ef0c12a42e6675f13a5452a1c0ca2c63c75509b}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 78 du fichier gsb\_\-currency.c.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!gsb\_\-currency\_\-check\_\-for\_\-change@{gsb\_\-currency\_\-check\_\-for\_\-change}}
+\index{gsb\_\-currency\_\-check\_\-for\_\-change@{gsb\_\-currency\_\-check\_\-for\_\-change}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{gsb\_\-currency\_\-check\_\-for\_\-change}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-currency\_\-check\_\-for\_\-change (gint {\em transaction\_\-number})}\label{gsb__currency_8c_aad743bb08129ef82240ca9ecc743b4dc}
+Check if a transaction need an exchange rate and fees with its account if yes, ask for that and set the in the transaction.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\end{DoxyParams}
+
+
+Définition à la ligne 415 du fichier gsb\_\-currency.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!gsb\_\-currency\_\-exchange\_\-dialog@{gsb\_\-currency\_\-exchange\_\-dialog}}
+\index{gsb\_\-currency\_\-exchange\_\-dialog@{gsb\_\-currency\_\-exchange\_\-dialog}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{gsb\_\-currency\_\-exchange\_\-dialog}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-currency\_\-exchange\_\-dialog (gint {\em account\_\-currency\_\-number}, \/  gint {\em transaction\_\-currency\_\-number}, \/  gboolean {\em link\_\-currency}, \/  {\bf gsb\_\-real} {\em exchange\_\-rate}, \/  {\bf gsb\_\-real} {\em exchange\_\-fees}, \/  gboolean {\em force})}\label{gsb__currency_8c_a729f791b99a98165dcd022823e0613c4}
+ask to the user the exchange and the fees for a transaction fill the variables current\_\-exchange and current\_\-exchange\_\-fees with the data of the user if this was asked before, will use the buffer cached exchange rate, except if force is set to TRUE
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-currency\_\-number}]\item[{\em transaction\_\-currency\_\-number}]\item[{\em link\_\-currency}]si = TRUE : 1 nom\_\-devise = \char`\"{}change\char`\"{} devise\_\-en\_\-rapport \item[{\em exchange\_\-rate}]\item[{\em exchange\_\-fees}]\item[{\em force}]if TRUE will not get the cached exchange rate and will really ask to the user\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 492 du fichier gsb\_\-currency.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!gsb\_\-currency\_\-get\_\-currency\_\-from\_\-combobox@{gsb\_\-currency\_\-get\_\-currency\_\-from\_\-combobox}}
+\index{gsb\_\-currency\_\-get\_\-currency\_\-from\_\-combobox@{gsb\_\-currency\_\-get\_\-currency\_\-from\_\-combobox}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{gsb\_\-currency\_\-get\_\-currency\_\-from\_\-combobox}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-currency\_\-get\_\-currency\_\-from\_\-combobox (GtkWidget $\ast$ {\em combo\_\-box})}\label{gsb__currency_8c_a3abd39af3aafa4213a8ffbe74d5d6b10}
+Get and return the number of the currency in the option\_\-menu given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em currency\_\-option\_\-menu}]an option menu with the currencies\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of currency 
+\end{DoxyReturn}
+
+
+Définition à la ligne 231 du fichier gsb\_\-currency.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!gsb\_\-currency\_\-get\_\-current\_\-exchange@{gsb\_\-currency\_\-get\_\-current\_\-exchange}}
+\index{gsb\_\-currency\_\-get\_\-current\_\-exchange@{gsb\_\-currency\_\-get\_\-current\_\-exchange}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{gsb\_\-currency\_\-get\_\-current\_\-exchange}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-currency\_\-get\_\-current\_\-exchange (void)}\label{gsb__currency_8c_a1c636201d2a34c0b844ec47062791c5c}
+
+
+Définition à la ligne 1111 du fichier gsb\_\-currency.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!gsb\_\-currency\_\-get\_\-current\_\-exchange\_\-fees@{gsb\_\-currency\_\-get\_\-current\_\-exchange\_\-fees}}
+\index{gsb\_\-currency\_\-get\_\-current\_\-exchange\_\-fees@{gsb\_\-currency\_\-get\_\-current\_\-exchange\_\-fees}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{gsb\_\-currency\_\-get\_\-current\_\-exchange\_\-fees}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-currency\_\-get\_\-current\_\-exchange\_\-fees (void)}\label{gsb__currency_8c_a1ec60f51d17f25c548d65ec10fa7498a}
+
+
+Définition à la ligne 1121 du fichier gsb\_\-currency.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!gsb\_\-currency\_\-init\_\-exchanges@{gsb\_\-currency\_\-init\_\-exchanges}}
+\index{gsb\_\-currency\_\-init\_\-exchanges@{gsb\_\-currency\_\-init\_\-exchanges}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{gsb\_\-currency\_\-init\_\-exchanges}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-currency\_\-init\_\-exchanges (void)}\label{gsb__currency_8c_a11418c2c043ae6df7915c8f71a5af31e}
+
+
+Définition à la ligne 948 du fichier gsb\_\-currency.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!gsb\_\-currency\_\-init\_\-variables@{gsb\_\-currency\_\-init\_\-variables}}
+\index{gsb\_\-currency\_\-init\_\-variables@{gsb\_\-currency\_\-init\_\-variables}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{gsb\_\-currency\_\-init\_\-variables}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-currency\_\-init\_\-variables (void)}\label{gsb__currency_8c_ad3d2955dc098538b6745184d1dd571f0}
+set to NULL the static variables
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 124 du fichier gsb\_\-currency.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!gsb\_\-currency\_\-make\_\-combobox@{gsb\_\-currency\_\-make\_\-combobox}}
+\index{gsb\_\-currency\_\-make\_\-combobox@{gsb\_\-currency\_\-make\_\-combobox}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{gsb\_\-currency\_\-make\_\-combobox}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-currency\_\-make\_\-combobox (gboolean {\em set\_\-name})}\label{gsb__currency_8c_ad0c6f15f859f45a94923fa743d81f5b5}
+create and return a combobox with the currencies for automatic value changed in memory, see gsb\_\-autofunc\_\-currency\_\-new
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em set\_\-name}]if TRUE, the currencies in the combobox will be name(code), else it will be only the code\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a widget combobox or NULL 
+\end{DoxyReturn}
+
+
+Définition à la ligne 144 du fichier gsb\_\-currency.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!gsb\_\-currency\_\-set\_\-combobox\_\-history@{gsb\_\-currency\_\-set\_\-combobox\_\-history}}
+\index{gsb\_\-currency\_\-set\_\-combobox\_\-history@{gsb\_\-currency\_\-set\_\-combobox\_\-history}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{gsb\_\-currency\_\-set\_\-combobox\_\-history}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-currency\_\-set\_\-combobox\_\-history (GtkWidget $\ast$ {\em combo\_\-box}, \/  gint {\em currency\_\-number})}\label{gsb__currency_8c_a8774e282bad3c3101b161fd54bcb660a}
+set the combobox on the currency given in param
+
+the combo-\/box to set  the currency we want to set on the combo-\/box
+
+\begin{DoxyReturn}{Renvoie}
+TRUE currency found, FALSE currency not found, nothing change 
+\end{DoxyReturn}
+
+
+Définition à la ligne 190 du fichier gsb\_\-currency.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!gsb\_\-currency\_\-update\_\-combobox\_\-currency\_\-list@{gsb\_\-currency\_\-update\_\-combobox\_\-currency\_\-list}}
+\index{gsb\_\-currency\_\-update\_\-combobox\_\-currency\_\-list@{gsb\_\-currency\_\-update\_\-combobox\_\-currency\_\-list}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{gsb\_\-currency\_\-update\_\-combobox\_\-currency\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-currency\_\-update\_\-combobox\_\-currency\_\-list (void)}\label{gsb__currency_8c_aa0749d5749e2bef8d4e3d4f19f5d4524}
+update the list of the currencies for combobox, wich change all the current combobox content
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 258 du fichier gsb\_\-currency.c.
+
+
+
+\subsection{Documentation des variables}
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!calendar\_\-entry\_\-color@{calendar\_\-entry\_\-color}}
+\index{calendar\_\-entry\_\-color@{calendar\_\-entry\_\-color}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{calendar\_\-entry\_\-color}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf calendar\_\-entry\_\-color}}\label{gsb__currency_8c_aa809fea280ab9cef6e16774b54a573ae}
+
+
+Définition à la ligne 119 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!combo\_\-devise\_\-totaux\_\-categ@{combo\_\-devise\_\-totaux\_\-categ}}
+\index{combo\_\-devise\_\-totaux\_\-categ@{combo\_\-devise\_\-totaux\_\-categ}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{combo\_\-devise\_\-totaux\_\-categ}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf combo\_\-devise\_\-totaux\_\-categ}}\label{gsb__currency_8c_abe70dd95688032466d8be65418364937}
+
+
+Définition à la ligne 85 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!combo\_\-devise\_\-totaux\_\-ib@{combo\_\-devise\_\-totaux\_\-ib}}
+\index{combo\_\-devise\_\-totaux\_\-ib@{combo\_\-devise\_\-totaux\_\-ib}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{combo\_\-devise\_\-totaux\_\-ib}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf combo\_\-devise\_\-totaux\_\-ib}}\label{gsb__currency_8c_a1b537d048003238dcc92058cda5945b7}
+
+
+Définition à la ligne 84 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!combo\_\-devise\_\-totaux\_\-tiers@{combo\_\-devise\_\-totaux\_\-tiers}}
+\index{combo\_\-devise\_\-totaux\_\-tiers@{combo\_\-devise\_\-totaux\_\-tiers}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{combo\_\-devise\_\-totaux\_\-tiers}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf combo\_\-devise\_\-totaux\_\-tiers}}\label{gsb__currency_8c_a603e56a73bd24363ac8451504fb22e8d}
+
+
+Définition à la ligne 83 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!detail\_\-devise\_\-compte@{detail\_\-devise\_\-compte}}
+\index{detail\_\-devise\_\-compte@{detail\_\-devise\_\-compte}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{detail\_\-devise\_\-compte}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf detail\_\-devise\_\-compte}}\label{gsb__currency_8c_a41f9865652dc0c67db2dae5b516b18e6}
+
+
+Définition à la ligne 150 du fichier gsb\_\-account\_\-property.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}}
+\index{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}}\label{gsb__currency_8c_a018917e8dacfd8fbe4e94d0f99a59c08}
+
+
+Définition à la ligne 127 du fichier accueil.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}}
+\index{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}}\label{gsb__currency_8c_a097d2eb216e05a68a5a153e7b68b6469}
+
+
+Définition à la ligne 129 du fichier accueil.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}}
+\index{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}}\label{gsb__currency_8c_a5957dd978b4a0c3ab01e006cedfdf96c}
+
+
+Définition à la ligne 128 du fichier accueil.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!null\_\-real@{null\_\-real}}
+\index{null\_\-real@{null\_\-real}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{null\_\-real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf null\_\-real}}\label{gsb__currency_8c_a26f304bec3fdc0651b9aa8765d4de3c6}
+
+
+Définition à la ligne 42 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-currency.c@{gsb\_\-currency.c}!window@{window}}
+\index{window@{window}!gsb_currency.c@{gsb\_\-currency.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{gsb__currency_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

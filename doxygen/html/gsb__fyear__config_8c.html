@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_fyear_config.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_fyear_config.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__fyear__config_8c_source.html">gsb_fyear_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__dates_8h_source.html">utils_dates.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__autofunc_8h_source.html">gsb_autofunc.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__calendar__entry_8h_source.html">gsb_calendar_entry.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__fyear_8h_source.html">gsb_data_fyear.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__fyear_8h_source.html">gsb_fyear.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="transaction__list_8h_source.html">transaction_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+
+<p><a href="gsb__fyear__config_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__fyear__config_8c.html#a088085e85de78ca80e0b873d851158f0">fyear_list_column</a> { <br/>
+&nbsp;&nbsp;<a class="el" href="gsb__fyear__config_8c.html#a088085e85de78ca80e0b873d851158f0a94deb64ee392821b38374d552fede7cd">FYEAR_NAME_COLUMN</a> =  0, 
+<a class="el" href="gsb__fyear__config_8c.html#a088085e85de78ca80e0b873d851158f0af9c10820a9d04b822ebad88dde1661c2">FYEAR_BEGIN_DATE_COLUMN</a>, 
+<a class="el" href="gsb__fyear__config_8c.html#a088085e85de78ca80e0b873d851158f0aa3a21ba2779d34aa27ee20a16cea2167">FYEAR_END_DATE_COLUMN</a>, 
+<a class="el" href="gsb__fyear__config_8c.html#a088085e85de78ca80e0b873d851158f0ac4a5416f7dd5896530479a3bfd5006cf">FYEAR_INVALID_COLUMN</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="gsb__fyear__config_8c.html#a088085e85de78ca80e0b873d851158f0a0fb39cca353049b7f5302d79ed6a6593">FYEAR_NUMBER_COLUMN</a>, 
+<a class="el" href="gsb__fyear__config_8c.html#a088085e85de78ca80e0b873d851158f0a5bf8ca2258578fc0c663356423cf6979">NUM_FYEARS_COLUMNS</a>
+<br/>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__fyear__config_8c.html#a37421ef73d8d61900daa3c6c18846ed6">gsb_fyear_config_create_page</a> (void)</td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>work with the configuration of the finacial year </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__fyear__config_8c_source.html">gsb_fyear_config.c</a>.</p>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="a088085e85de78ca80e0b873d851158f0"></a><!-- doxytag: member="gsb_fyear_config.c::fyear_list_column" ref="a088085e85de78ca80e0b873d851158f0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="gsb__fyear__config_8c.html#a088085e85de78ca80e0b873d851158f0">fyear_list_column</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Columns numbers for fyears list </p>
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a088085e85de78ca80e0b873d851158f0a94deb64ee392821b38374d552fede7cd"></a><!-- doxytag: member="FYEAR_NAME_COLUMN" ref="a088085e85de78ca80e0b873d851158f0a94deb64ee392821b38374d552fede7cd" args="" -->FYEAR_NAME_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a088085e85de78ca80e0b873d851158f0af9c10820a9d04b822ebad88dde1661c2"></a><!-- doxytag: member="FYEAR_BEGIN_DATE_COLUMN" ref="a088085e85de78ca80e0b873d851158f0af9c10820a9d04b822ebad88dde1661c2" args="" -->FYEAR_BEGIN_DATE_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a088085e85de78ca80e0b873d851158f0aa3a21ba2779d34aa27ee20a16cea2167"></a><!-- doxytag: member="FYEAR_END_DATE_COLUMN" ref="a088085e85de78ca80e0b873d851158f0aa3a21ba2779d34aa27ee20a16cea2167" args="" -->FYEAR_END_DATE_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a088085e85de78ca80e0b873d851158f0ac4a5416f7dd5896530479a3bfd5006cf"></a><!-- doxytag: member="FYEAR_INVALID_COLUMN" ref="a088085e85de78ca80e0b873d851158f0ac4a5416f7dd5896530479a3bfd5006cf" args="" -->FYEAR_INVALID_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a088085e85de78ca80e0b873d851158f0a0fb39cca353049b7f5302d79ed6a6593"></a><!-- doxytag: member="FYEAR_NUMBER_COLUMN" ref="a088085e85de78ca80e0b873d851158f0a0fb39cca353049b7f5302d79ed6a6593" args="" -->FYEAR_NUMBER_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a088085e85de78ca80e0b873d851158f0a5bf8ca2258578fc0c663356423cf6979"></a><!-- doxytag: member="NUM_FYEARS_COLUMNS" ref="a088085e85de78ca80e0b873d851158f0a5bf8ca2258578fc0c663356423cf6979" args="" -->NUM_FYEARS_COLUMNS</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__fyear__config_8c_source.html#l00051">51</a> du fichier <a class="el" href="gsb__fyear__config_8c_source.html">gsb_fyear_config.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a37421ef73d8d61900daa3c6c18846ed6"></a><!-- doxytag: member="gsb_fyear_config.c::gsb_fyear_config_create_page" ref="a37421ef73d8d61900daa3c6c18846ed6" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_fyear_config_create_page </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Creates the "Financial years" tab. It creates a financial years list and then a form that allows to edit selected financial year.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly allocated vbox </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__fyear__config_8c_source.html#l00089">89</a> du fichier <a class="el" href="gsb__fyear__config_8c_source.html">gsb_fyear_config.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

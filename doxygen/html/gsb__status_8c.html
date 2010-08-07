@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_status.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_status.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__status_8h_source.html">gsb_status.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="main_8h_source.html">main.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+
+<p><a href="gsb__status_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__status_8c.html#afefc29293b2b4910c410f379629d4086">gsb_new_statusbar</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__status_8c.html#a476044d7002fa33e44709e7293974914">gsb_status_message</a> (gchar *message)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__status_8c.html#ae0a64a6da0c88a30c75e64e06c734aec">gsb_status_clear</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__status_8c.html#a16da6eed5923c59ba4584c96af26ff41">gsb_status_wait</a> (gboolean force_update)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__status_8c.html#ac4035c7e810531f0bf1264ae3be76c52">gsb_status_stop_wait</a> (gboolean force_update)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__status_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>Various routines that implement the status bar. </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__status_8c_source.html">gsb_status.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="afefc29293b2b4910c410f379629d4086"></a><!-- doxytag: member="gsb_status.c::gsb_new_statusbar" ref="afefc29293b2b4910c410f379629d4086" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_new_statusbar </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Create and return a new GtkStatusBar to hold various status information.</p>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly allocated GtkStatusBar. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__status_8c_source.html#l00073">73</a> du fichier <a class="el" href="gsb__status_8c_source.html">gsb_status.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae0a64a6da0c88a30c75e64e06c734aec"></a><!-- doxytag: member="gsb_status.c::gsb_status_clear" ref="ae0a64a6da0c88a30c75e64e06c734aec" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_status_clear </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Clear any message in the status bar. </p>
+
+<p><p>Call gtk_main_iteration() to ensure status message is displayed. This is done because we need to display it immediately without waiting to return to gtk_main(). </p>
+</p>
+
+<p>Définition à la ligne <a class="el" href="gsb__status_8c_source.html#l00110">110</a> du fichier <a class="el" href="gsb__status_8c_source.html">gsb_status.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a476044d7002fa33e44709e7293974914"></a><!-- doxytag: member="gsb_status.c::gsb_status_message" ref="a476044d7002fa33e44709e7293974914" args="(gchar *message)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_status_message </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>message</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Display a message in the status bar.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>Message to display. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p><p>Call gtk_main_iteration() to ensure status message is displayed. This is done because we need to display it immediately without waiting to return to gtk_main(). </p>
+</p>
+
+<p>Définition à la ligne <a class="el" href="gsb__status_8c_source.html#l00091">91</a> du fichier <a class="el" href="gsb__status_8c_source.html">gsb_status.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac4035c7e810531f0bf1264ae3be76c52"></a><!-- doxytag: member="gsb_status.c::gsb_status_stop_wait" ref="ac4035c7e810531f0bf1264ae3be76c52" args="(gboolean force_update)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_status_stop_wait </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>force_update</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Change current cursor to default cursor.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>force_update</em>&nbsp;</td><td>Call a gtk iteration to ensure cursor is updated. May cause trouble if called from some signal handlers. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__status_8c_source.html#l00178">178</a> du fichier <a class="el" href="gsb__status_8c_source.html">gsb_status.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a16da6eed5923c59ba4584c96af26ff41"></a><!-- doxytag: member="gsb_status.c::gsb_status_wait" ref="a16da6eed5923c59ba4584c96af26ff41" args="(gboolean force_update)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_status_wait </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>force_update</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Change current cursor to a animated watch (if animation supported by environment).</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>force_update</em>&nbsp;</td><td>Call a gtk iteration to ensure cursor is updated. May cause trouble if called from some signal handlers. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__status_8c_source.html#l00136">136</a> du fichier <a class="el" href="gsb__status_8c_source.html">gsb_status.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="gsb_status.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

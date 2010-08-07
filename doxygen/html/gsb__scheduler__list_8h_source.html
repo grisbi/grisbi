@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_scheduler_list.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_scheduler_list.h</h1><a href="gsb__scheduler__list_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef GSB_SCHEDULER_LIST_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define GSB_SCHEDULER_LIST_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="keyword">enum</span>
+<a name="l00005"></a>00005 {
+<a name="l00006"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dafe0da1cd590cd7b9210ecf118624f384">00006</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dafe0da1cd590cd7b9210ecf118624f384">COL_NB_DATE</a> = 0,
+<a name="l00007"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da9241ab78f620cf6a734e44238cd4f5e6">00007</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da9241ab78f620cf6a734e44238cd4f5e6">COL_NB_ACCOUNT</a>,
+<a name="l00008"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da1cf8ae6649e259b08f22ef4d67ee80da">00008</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da1cf8ae6649e259b08f22ef4d67ee80da">COL_NB_PARTY</a>,
+<a name="l00009"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da272f48925ad6961f16ca1090650a72bd">00009</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da272f48925ad6961f16ca1090650a72bd">COL_NB_FREQUENCY</a>,
+<a name="l00010"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daa1d42633cccb5217630366b2ec32544e">00010</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daa1d42633cccb5217630366b2ec32544e">COL_NB_MODE</a>,
+<a name="l00011"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da79938fa2eecb166cf7b3181530cefd14">00011</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da79938fa2eecb166cf7b3181530cefd14">COL_NB_NOTES</a>,
+<a name="l00012"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dad0cc8e1ddd8d671367a12a6fae069d2b">00012</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dad0cc8e1ddd8d671367a12a6fae069d2b">COL_NB_AMOUNT</a>,
+<a name="l00013"></a>00013 
+<a name="l00014"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da78937918a995b47f1677999dce25f5b5">00014</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da78937918a995b47f1677999dce25f5b5">SCHEDULER_COL_NB_BACKGROUND</a>,                <span class="comment">/*&lt; color of the background */</span>
+<a name="l00015"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dad65fe989fc9bbde1820501163e96c85f">00015</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dad65fe989fc9bbde1820501163e96c85f">SCHEDULER_COL_NB_SAVE_BACKGROUND</a>,           <span class="comment">/*&lt; when selection, save of the normal color of background */</span>
+<a name="l00016"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daa64ce25591d5477bc2b516b873becc79">00016</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daa64ce25591d5477bc2b516b873becc79">SCHEDULER_COL_NB_AMOUNT_COLOR</a>,              <span class="comment">/*&lt; color of the amount */</span>
+<a name="l00017"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf04e08f20fbe8f8207ab62bb55ac4f30">00017</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf04e08f20fbe8f8207ab62bb55ac4f30">SCHEDULER_COL_NB_TRANSACTION_NUMBER</a>,
+<a name="l00018"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da30e69fc6367f79b11b253c112999423c">00018</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da30e69fc6367f79b11b253c112999423c">SCHEDULER_COL_NB_FONT</a>,                      <span class="comment">/*&lt; PangoFontDescription if used */</span>
+<a name="l00019"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daeadc5dc23981b29c14e504a0bb93aecb">00019</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daeadc5dc23981b29c14e504a0bb93aecb">SCHEDULER_COL_NB_VIRTUAL_TRANSACTION</a>,       <span class="comment">/*&lt; to 1 if it&#39;s a calculated scheduled transaction (for longer view), so, cannot edit */</span>
+<a name="l00020"></a>00020 
+<a name="l00021"></a><a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf44b8a58c6dbe8eff99ff9a85522fe7c">00021</a>     <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf44b8a58c6dbe8eff99ff9a85522fe7c">SCHEDULER_COL_NB_TOTAL</a>,
+<a name="l00022"></a>00022 };
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 <span class="comment">/* number of visible columns */</span>
+<a name="l00026"></a><a class="code" href="gsb__scheduler__list_8h.html#af73ad30e2c80f3dc63b6f3495ce5ed26">00026</a> <span class="preprocessor">#define SCHEDULER_COL_VISIBLE_COLUMNS 7</span>
+<a name="l00027"></a>00027 <span class="preprocessor"></span>
+<a name="l00028"></a>00028 <span class="comment">/* define the columns in the store</span>
+<a name="l00029"></a>00029 <span class="comment"> * as the data are filled above, the number here</span>
+<a name="l00030"></a>00030 <span class="comment"> * begin at NB_COLS_SCHEDULER */</span>
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 
+<a name="l00033"></a><a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99f">00033</a> <span class="keyword">enum</span> <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99f">scheduler_periodicity</a> {
+<a name="l00034"></a><a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fa5bf38eda05b85e26a0f7805deb0bc25f">00034</a>     <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fa5bf38eda05b85e26a0f7805deb0bc25f">SCHEDULER_PERIODICITY_ONCE_VIEW</a> = 0,
+<a name="l00035"></a><a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fabcdc8af8cb4dbf70adee82e655880b8d">00035</a>     <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fabcdc8af8cb4dbf70adee82e655880b8d">SCHEDULER_PERIODICITY_WEEK_VIEW</a>,
+<a name="l00036"></a><a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fabe11ef4b2d7c753f7b1d54269770145e">00036</a>     <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fabe11ef4b2d7c753f7b1d54269770145e">SCHEDULER_PERIODICITY_MONTH_VIEW</a>,
+<a name="l00037"></a><a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fa2db2f2fd4c65c66599f6fab69380cae5">00037</a>     <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fa2db2f2fd4c65c66599f6fab69380cae5">SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW</a>,
+<a name="l00038"></a><a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fa56886f0330e75d47ab8ce48862553d0c">00038</a>     <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fa56886f0330e75d47ab8ce48862553d0c">SCHEDULER_PERIODICITY_TRIMESTER_VIEW</a>,
+<a name="l00039"></a><a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fa827e62a34c30e5cd8bdf60b15bb96009">00039</a>     <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fa827e62a34c30e5cd8bdf60b15bb96009">SCHEDULER_PERIODICITY_YEAR_VIEW</a>,
+<a name="l00040"></a><a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99faa61a2684a7f9891e9ab77e2e2c877ded">00040</a>     <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99faa61a2684a7f9891e9ab77e2e2c877ded">SCHEDULER_PERIODICITY_CUSTOM_VIEW</a>,
+<a name="l00041"></a><a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fac399afd88d18a2a804db420f3158006b">00041</a>     <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fac399afd88d18a2a804db420f3158006b">SCHEDULER_PERIODICITY_NB_CHOICES</a>,
+<a name="l00042"></a>00042 };
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 
+<a name="l00045"></a><a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952">00045</a> <span class="keyword">enum</span> <a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952">periodicity_units</a> {
+<a name="l00046"></a><a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952a1905f331721562b054eb5abd6b6d5cc9">00046</a>     <a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952a1905f331721562b054eb5abd6b6d5cc9">PERIODICITY_DAYS</a>,
+<a name="l00047"></a><a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952af14294244660bfb8e9efcb3c8b784b5e">00047</a>     <a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952af14294244660bfb8e9efcb3c8b784b5e">PERIODICITY_WEEKS</a>,
+<a name="l00048"></a><a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952a3d48559cf1477ea530192fae290fff37">00048</a>     <a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952a3d48559cf1477ea530192fae290fff37">PERIODICITY_MONTHS</a>,
+<a name="l00049"></a><a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952a01edc95473eab3ab0b29b8e1fd43c68a">00049</a>     <a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952a01edc95473eab3ab0b29b8e1fd43c68a">PERIODICITY_YEARS</a>,
+<a name="l00050"></a>00050 };
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00054"></a>00054 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00058"></a>00058 gboolean <a class="code" href="gsb__scheduler__list_8c.html#a44db4084e9e03a49fb9c73b5bff9e788">gsb_scheduler_list_append_new_scheduled</a> ( gint scheduled_number,
+<a name="l00059"></a>00059                         GDate *end_date );
+<a name="l00060"></a>00060 gboolean <a class="code" href="gsb__scheduler__list_8c.html#a56cddba54e3383ebe1506b9a94e22a26">gsb_scheduler_list_change_scheduler_view</a> ( <span class="keyword">enum</span> <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99f">scheduler_periodicity</a> periodicity,
+<a name="l00061"></a>00061                         gpointer item );
+<a name="l00062"></a>00062 GtkWidget *<a class="code" href="gsb__scheduler__list_8c.html#a12e2a6349e0cdbd81b349b588f137336">gsb_scheduler_list_create_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00063"></a>00063 gboolean <a class="code" href="gsb__scheduler__list_8c.html#a250e1059f152f3bb43280745d0a66fe6">gsb_scheduler_list_delete_scheduled_transaction</a> ( gint scheduled_number,
+<a name="l00064"></a>00064                         gboolean show_warning );
+<a name="l00065"></a>00065 gboolean <a class="code" href="gsb__scheduler__list_8c.html#ad3d815d7983018de7999d778590f17dc">gsb_scheduler_list_delete_scheduled_transaction_by_menu</a> ( GtkWidget *button,
+<a name="l00066"></a>00066                         gpointer null );
+<a name="l00067"></a>00067 gboolean <a class="code" href="gsb__scheduler__list_8c.html#a10a206d10ab971adb3ea36ec263c34d2">gsb_scheduler_list_edit_transaction</a> ( gint scheduled_number );
+<a name="l00068"></a>00068 gboolean <a class="code" href="gsb__scheduler__list_8c.html#aecc0e9467fcae670ba2243053ce56334">gsb_scheduler_list_execute_transaction</a> ( gint scheduled_number );
+<a name="l00069"></a>00069 gboolean <a class="code" href="gsb__scheduler__list_8c.html#a09e95845b5893d975e94605f02051651">gsb_scheduler_list_fill_list</a> ( GtkWidget *tree_view );
+<a name="l00070"></a>00070 gint <a class="code" href="gsb__scheduler__list_8c.html#a52c8fea240a34ec37da7fe33460d06e7">gsb_scheduler_list_get_current_scheduled_number</a> ( <span class="keywordtype">void</span> );
+<a name="l00071"></a>00071 GDate *<a class="code" href="gsb__scheduler__list_8c.html#ad9e65bbbb35121bbbb743a902b3632e9">gsb_scheduler_list_get_end_date_scheduled_showed</a> ( <span class="keywordtype">void</span> );
+<a name="l00072"></a>00072 gint <a class="code" href="gsb__scheduler__list_8c.html#ae3d3fe09b37dc577b1b3f4564da0572a">gsb_scheduler_list_get_last_scheduled_number</a> ( <span class="keywordtype">void</span> );
+<a name="l00073"></a>00073 GtkWidget *<a class="code" href="gsb__scheduler__list_8c.html#a672312ea4cd0c1237b5a8312c330aaef">gsb_scheduler_list_get_tree_view</a> ( <span class="keywordtype">void</span> );
+<a name="l00074"></a>00074 <span class="keywordtype">void</span> <a class="code" href="gsb__scheduler__list_8c.html#ad206fcc8ffc537e7d0eda58442a56acc">gsb_scheduler_list_init_variables</a> ( <span class="keywordtype">void</span> );
+<a name="l00075"></a>00075 gboolean <a class="code" href="gsb__scheduler__list_8c.html#ab752b98c60209519778b0ccc5786527d">gsb_scheduler_list_redraw</a> ( <span class="keywordtype">void</span> );
+<a name="l00076"></a>00076 gboolean <a class="code" href="gsb__scheduler__list_8c.html#ae61448df24743985077437b1ef276cc5">gsb_scheduler_list_remove_transaction_from_list</a> ( gint scheduled_number );
+<a name="l00077"></a>00077 gboolean <a class="code" href="gsb__scheduler__list_8c.html#acbc7a6e13ae89beb5afb56a3e8bba495">gsb_scheduler_list_select</a> ( gint scheduled_number );
+<a name="l00078"></a>00078 gboolean <a class="code" href="gsb__scheduler__list_8c.html#a4348c22b2bc74713a8615c749c61f4d8">gsb_scheduler_list_set_background_color</a> ( GtkWidget *tree_view );
+<a name="l00079"></a>00079 gboolean <a class="code" href="gsb__scheduler__list_8c.html#a9eaf111074be94831038960ae9e56732">gsb_scheduler_list_show_notes</a> ( <span class="keywordtype">void</span> );
+<a name="l00080"></a>00080 gboolean <a class="code" href="gsb__scheduler__list_8c.html#a7b1d97387d5d2e281f3ead3e6ab0311b">gsb_scheduler_list_update_transaction_in_list</a> ( gint scheduled_number );
+<a name="l00081"></a>00081 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:02 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de navigation.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>navigation.h</h1><a href="navigation_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef NAVIGATION_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define NAVIGATION_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 
+<a name="l00006"></a><a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441">00006</a> <span class="keyword">enum</span> <a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441">navigation_cols</a> { 
+<a name="l00007"></a><a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441a9f4d8db6fde7f70ebc1386d471efbc88">00007</a>     <a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441ad2ccbb4a909304104e586cd3f5366a83">NAVIGATION_PIX</a>, <a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441a9f4d8db6fde7f70ebc1386d471efbc88">NAVIGATION_PIX_VISIBLE</a>,
+<a name="l00008"></a><a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441ae11b86b21ebda4d507e3e4723e32e600">00008</a>     <a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441ae11b86b21ebda4d507e3e4723e32e600">NAVIGATION_TEXT</a>, <a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441aef948e00303ccc97165983f994a9be1f">NAVIGATION_FONT</a>,
+<a name="l00009"></a><a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441ae2dcc16f7124d46c4bbd17a3f2162158">00009</a>     <a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441ae2dcc16f7124d46c4bbd17a3f2162158">NAVIGATION_PAGE</a>, <a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441a2bd700dd869e4529a09479b8e3a96cc6">NAVIGATION_ACCOUNT</a>,
+<a name="l00010"></a><a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441a1be64db2d46a60171ef2e51bf02712cc">00010</a>     <a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441ad1379924ed0ede2912107c9394a0ec0e">NAVIGATION_REPORT</a>, <a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441a1be64db2d46a60171ef2e51bf02712cc">NAVIGATION_SENSITIVE</a>,
+<a name="l00011"></a><a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441a21f3e1b489040eee5546d29c810275b4">00011</a>     <a class="code" href="navigation_8h.html#a3f7cf16a5e5b276a8744f42496c2c441a21f3e1b489040eee5546d29c810275b4">NAVIGATION_TOTAL</a>,
+<a name="l00012"></a>00012 };
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00016"></a>00016 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00017"></a>00017 
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00020"></a>00020 <span class="keywordtype">void</span> <a class="code" href="navigation_8c.html#a40d9073dbe6df6658ce1c5c45118cd22">create_account_list</a> ( GtkTreeModel * model );
+<a name="l00021"></a>00021 GtkWidget * <a class="code" href="navigation_8c.html#a9213ab9c2e1f3d5d558517a5bac09a5b">create_navigation_pane</a> ( <span class="keywordtype">void</span> );
+<a name="l00022"></a>00022 <span class="keywordtype">void</span> <a class="code" href="navigation_8c.html#acc4cb91805c595677dcc822498171ece">gsb_gui_navigation_add_account</a> ( gint account_number,
+<a name="l00023"></a>00023                         gboolean switch_to_account );
+<a name="l00024"></a>00024 <span class="keywordtype">void</span> <a class="code" href="navigation_8c.html#a6c19e82e10a0dd98a3a20290a3a873ec">gsb_gui_navigation_add_report</a> ( gint report_number );
+<a name="l00025"></a>00025 gint <a class="code" href="navigation_8c.html#a3b668bf52ce71dcff3ea10c9db7be859">gsb_gui_navigation_get_current_account</a> ( <span class="keywordtype">void</span> );
+<a name="l00026"></a>00026 gint <a class="code" href="navigation_8c.html#a06fa2882a164439e56e780c2127cd22c">gsb_gui_navigation_get_current_page</a> ( <span class="keywordtype">void</span> );
+<a name="l00027"></a>00027 gint <a class="code" href="navigation_8c.html#aef700722a199569003341a41144ee004">gsb_gui_navigation_get_current_report</a> ( <span class="keywordtype">void</span> );
+<a name="l00028"></a>00028 gint <a class="code" href="navigation_8c.html#ad804dac7f03dd7f66ba7e0d43aa84165">gsb_gui_navigation_get_last_account</a> ( <span class="keywordtype">void</span> );
+<a name="l00029"></a>00029 <span class="keywordtype">void</span> <a class="code" href="navigation_8c.html#a6e9f014d077329a589843dbe3edd15de">gsb_gui_navigation_remove_account</a> ( gint account_number );
+<a name="l00030"></a>00030 <span class="keywordtype">void</span> <a class="code" href="navigation_8c.html#a8a6328e785b95ea6e2ee4163e6c71edc">gsb_gui_navigation_remove_report</a> ( gint report_number );
+<a name="l00031"></a>00031 gboolean <a class="code" href="navigation_8c.html#a90ca4d003b85ca3c49ed7a7188a6ab60">gsb_gui_navigation_select_next</a> ();
+<a name="l00032"></a>00032 gboolean <a class="code" href="navigation_8c.html#af59677879274f3120ba149db61d4cb0e">gsb_gui_navigation_select_prev</a> ();
+<a name="l00033"></a>00033 gboolean <a class="code" href="navigation_8c.html#a3fb9bd34026d724eefe1309fb63bf8fc">gsb_gui_navigation_set_selection</a> ( gint page, gint account_number, gpointer report );
+<a name="l00034"></a>00034 <span class="keywordtype">void</span> <a class="code" href="navigation_8c.html#adcd317bee4b886a4eafb93112f65042e">gsb_gui_navigation_update_account</a> ( gint account_number );
+<a name="l00035"></a>00035 <span class="keywordtype">void</span> <a class="code" href="navigation_8c.html#a4deacb31bc63a27b2ed5b39f79bffc0b">gsb_gui_navigation_update_home_page</a> ( <span class="keywordtype">void</span> );
+<a name="l00036"></a>00036 <span class="keywordtype">void</span> <a class="code" href="navigation_8c.html#adbca6d230d0584e10054913fbce3caf1">gsb_gui_navigation_update_report</a> ( gint report_number ) ;
+<a name="l00037"></a>00037 <span class="keywordtype">void</span> <a class="code" href="navigation_8c.html#a85b5920bb0556b488e09294e8cfbcb0e">gsb_navigation_update_account_label</a> ( gint account_number );
+<a name="l00038"></a>00038 <span class="keywordtype">void</span> <a class="code" href="navigation_8c.html#a342b7c00db1370b25971fbc56df7b02e">gsb_navigation_update_statement_label</a> ( gint account_number );
+<a name="l00039"></a>00039 gboolean <a class="code" href="navigation_8c.html#a610fc35ca64e7ce4e22dd7e8cb59549f">navigation_change_account</a> ( gint *no_account );
+<a name="l00040"></a>00040 gboolean <a class="code" href="navigation_8c.html#a788a6af93e112548ce10da6c6c6cb9b6">navigation_drag_data_received</a> ( GtkTreeDragDest * drag_dest,
+<a name="l00041"></a>00041                         GtkTreePath * dest_path,
+<a name="l00042"></a>00042                         GtkSelectionData * selection_data );
+<a name="l00043"></a>00043 gboolean <a class="code" href="navigation_8c.html#adf246197990d5637d92d86667f1441fa">navigation_row_drop_possible</a> ( GtkTreeDragDest * drag_dest, 
+<a name="l00044"></a>00044                         GtkTreePath * dest_path,
+<a name="l00045"></a>00045                         GtkSelectionData * selection_data );
+<a name="l00046"></a>00046 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

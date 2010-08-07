@@ -1,0 +1,453 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier bet_tab.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier bet_tab.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &lt;config.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="bet__tab_8h_source.html">bet_tab.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__config_8h_source.html">bet_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__data_8h_source.html">bet_data.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__future_8h_source.html">bet_future.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__hist_8h_source.html">bet_hist.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__dates_8h_source.html">utils_dates.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__calendar__entry_8h_source.html">gsb_calendar_entry.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__budget_8h_source.html">gsb_data_budget.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__category_8h_source.html">gsb_data_category.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__partial__balance_8h_source.html">gsb_data_partial_balance.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__payee_8h_source.html">gsb_data_payee.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__scheduled_8h_source.html">gsb_data_scheduled.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__scheduler_8h_source.html">gsb_scheduler.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__scheduler__list_8h_source.html">gsb_scheduler_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__tab_8c_source.html">transaction_list_select.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="fenetre__principale_8h_source.html">fenetre_principale.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="mouse_8h_source.html">mouse.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="bet__tab_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071">bet_estimation_tree_columns</a> { <br/>
+&nbsp;&nbsp;<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071a8d28d16e707f8ef83a6482f4f05f88f9">SPP_ESTIMATE_TREE_SELECT_COLUMN</a>, 
+<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071a382ebc627ee2a6c25e5a75039595f7fd">SPP_ESTIMATE_TREE_ORIGIN_DATA</a>, 
+<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071a062f1638462f8a404f71baed06a4b0ea">SPP_ESTIMATE_TREE_DIVISION_COLUMN</a>, 
+<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071a33e527dd84ea5d03ee4e9568c728b4ca">SPP_ESTIMATE_TREE_SUB_DIV_COLUMN</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071aa00a802396251fb6215941b0adf06ee1">SPP_ESTIMATE_TREE_DATE_COLUMN</a>, 
+<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071a706b27897d4924a0620978d84115c375">SPP_ESTIMATE_TREE_DESC_COLUMN</a>, 
+<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071a08bfc78352f1f1addda9ede9f0b96374">SPP_ESTIMATE_TREE_DEBIT_COLUMN</a>, 
+<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071a93c1d23dc2e5593aec277c0e1791509e">SPP_ESTIMATE_TREE_CREDIT_COLUMN</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071ad3ddedd0bbe3a33f53ff2463146e45b6">SPP_ESTIMATE_TREE_BALANCE_COLUMN</a>, 
+<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071a3faa8a08c19c54eecd48f224bea3763a">SPP_ESTIMATE_TREE_SORT_DATE_COLUMN</a>, 
+<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071a49f90afb7beeb14fdcce6afb5724041c">SPP_ESTIMATE_TREE_AMOUNT_COLUMN</a>, 
+<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071a7afe483515be57d16649b4083c570908">SPP_ESTIMATE_TREE_BALANCE_COLOR</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071a19c0d0e4d00cf50f407570a6fe897eee">SPP_ESTIMATE_TREE_BACKGROUND_COLOR</a>, 
+<a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071a49117dacbfa65fff9689f213eb17a92d">SPP_ESTIMATE_TREE_NUM_COLUMNS</a>
+<br/>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#a333b7b726d6915f02a6a8bb93365046b">bet_array_update_estimate_tab</a> (gint account_number, gint type_maj)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#a09149e373255d66892a1f9809e29615e">bet_array_create_page</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#a06cdcd05c5db9dec496f47a99b7eaca5">bet_array_list_add_new_hist_line</a> (GtkTreeModel *tab_model, GtkTreeModel *model, GtkTreeIter *iter, GDate *date_min, GDate *date_max)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#ad6a44874943998f49cc24bda305c961b">bet_array_list_select_path</a> (GtkWidget *tree_view, GtkTreePath *path)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#a9bc40d97c6989df4ee885344bc8110cd">bet_duration_array</a> []</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#a9c6b0a0f3037804c43aa435dbb98f7ec">couleur_bet_division</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#af7f95b1eb6717e97b624b506258fd893">couleur_bet_future</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#abf473d007a5860d19e62be3c33654a48">couleur_bet_transfert</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#a58089bf9225ae2e274165369f8bc7a00">couleur_fond</a> [2]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#a097d2eb216e05a68a5a153e7b68b6469">mise_a_jour_liste_echeances_auto_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const gdouble&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#a2a9036317d63fb6459987ed41b88bf4f">prev_month_max</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__tab_8c.html#abd82865835fd6c5fcfe97283dbfd0648">valeur_echelle_recherche_date_import</a></td></tr>
+</table>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071"></a><!-- doxytag: member="bet_tab.c::bet_estimation_tree_columns" ref="a136bab8f4ac78661a7455763e9ec2071" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="bet__tab_8c.html#a136bab8f4ac78661a7455763e9ec2071">bet_estimation_tree_columns</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071a8d28d16e707f8ef83a6482f4f05f88f9"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_SELECT_COLUMN" ref="a136bab8f4ac78661a7455763e9ec2071a8d28d16e707f8ef83a6482f4f05f88f9" args="" -->SPP_ESTIMATE_TREE_SELECT_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071a382ebc627ee2a6c25e5a75039595f7fd"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_ORIGIN_DATA" ref="a136bab8f4ac78661a7455763e9ec2071a382ebc627ee2a6c25e5a75039595f7fd" args="" -->SPP_ESTIMATE_TREE_ORIGIN_DATA</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071a062f1638462f8a404f71baed06a4b0ea"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_DIVISION_COLUMN" ref="a136bab8f4ac78661a7455763e9ec2071a062f1638462f8a404f71baed06a4b0ea" args="" -->SPP_ESTIMATE_TREE_DIVISION_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071a33e527dd84ea5d03ee4e9568c728b4ca"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_SUB_DIV_COLUMN" ref="a136bab8f4ac78661a7455763e9ec2071a33e527dd84ea5d03ee4e9568c728b4ca" args="" -->SPP_ESTIMATE_TREE_SUB_DIV_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071aa00a802396251fb6215941b0adf06ee1"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_DATE_COLUMN" ref="a136bab8f4ac78661a7455763e9ec2071aa00a802396251fb6215941b0adf06ee1" args="" -->SPP_ESTIMATE_TREE_DATE_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071a706b27897d4924a0620978d84115c375"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_DESC_COLUMN" ref="a136bab8f4ac78661a7455763e9ec2071a706b27897d4924a0620978d84115c375" args="" -->SPP_ESTIMATE_TREE_DESC_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071a08bfc78352f1f1addda9ede9f0b96374"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_DEBIT_COLUMN" ref="a136bab8f4ac78661a7455763e9ec2071a08bfc78352f1f1addda9ede9f0b96374" args="" -->SPP_ESTIMATE_TREE_DEBIT_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071a93c1d23dc2e5593aec277c0e1791509e"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_CREDIT_COLUMN" ref="a136bab8f4ac78661a7455763e9ec2071a93c1d23dc2e5593aec277c0e1791509e" args="" -->SPP_ESTIMATE_TREE_CREDIT_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071ad3ddedd0bbe3a33f53ff2463146e45b6"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_BALANCE_COLUMN" ref="a136bab8f4ac78661a7455763e9ec2071ad3ddedd0bbe3a33f53ff2463146e45b6" args="" -->SPP_ESTIMATE_TREE_BALANCE_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071a3faa8a08c19c54eecd48f224bea3763a"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_SORT_DATE_COLUMN" ref="a136bab8f4ac78661a7455763e9ec2071a3faa8a08c19c54eecd48f224bea3763a" args="" -->SPP_ESTIMATE_TREE_SORT_DATE_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071a49f90afb7beeb14fdcce6afb5724041c"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_AMOUNT_COLUMN" ref="a136bab8f4ac78661a7455763e9ec2071a49f90afb7beeb14fdcce6afb5724041c" args="" -->SPP_ESTIMATE_TREE_AMOUNT_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071a7afe483515be57d16649b4083c570908"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_BALANCE_COLOR" ref="a136bab8f4ac78661a7455763e9ec2071a7afe483515be57d16649b4083c570908" args="" -->SPP_ESTIMATE_TREE_BALANCE_COLOR</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071a19c0d0e4d00cf50f407570a6fe897eee"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_BACKGROUND_COLOR" ref="a136bab8f4ac78661a7455763e9ec2071a19c0d0e4d00cf50f407570a6fe897eee" args="" -->SPP_ESTIMATE_TREE_BACKGROUND_COLOR</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a136bab8f4ac78661a7455763e9ec2071a49117dacbfa65fff9689f213eb17a92d"></a><!-- doxytag: member="SPP_ESTIMATE_TREE_NUM_COLUMNS" ref="a136bab8f4ac78661a7455763e9ec2071a49117dacbfa65fff9689f213eb17a92d" args="" -->SPP_ESTIMATE_TREE_NUM_COLUMNS</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="bet__tab_8c_source.html#l00153">153</a> du fichier <a class="el" href="bet__tab_8c_source.html">bet_tab.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a09149e373255d66892a1f9809e29615e"></a><!-- doxytag: member="bet_tab.c::bet_array_create_page" ref="a09149e373255d66892a1f9809e29615e" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* bet_array_create_page </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__tab_8c_source.html#l00490">490</a> du fichier <a class="el" href="bet__tab_8c_source.html">bet_tab.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a06cdcd05c5db9dec496f47a99b7eaca5"></a><!-- doxytag: member="bet_tab.c::bet_array_list_add_new_hist_line" ref="a06cdcd05c5db9dec496f47a99b7eaca5" args="(GtkTreeModel *tab_model, GtkTreeModel *model, GtkTreeIter *iter, GDate *date_min, GDate *date_max)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bet_array_list_add_new_hist_line </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreeModel *&nbsp;</td>
+          <td class="paramname"> <em>tab_model</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkTreeModel *&nbsp;</td>
+          <td class="paramname"> <em>model</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkTreeIter *&nbsp;</td>
+          <td class="paramname"> <em>iter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GDate *&nbsp;</td>
+          <td class="paramname"> <em>date_min</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GDate *&nbsp;</td>
+          <td class="paramname"> <em>date_max</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Add a new line with historical data </p>
+
+<p>Définition à la ligne <a class="el" href="bet__tab_8c_source.html#l00996">996</a> du fichier <a class="el" href="bet__tab_8c_source.html">bet_tab.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad6a44874943998f49cc24bda305c961b"></a><!-- doxytag: member="bet_tab.c::bet_array_list_select_path" ref="ad6a44874943998f49cc24bda305c961b" args="(GtkWidget *tree_view, GtkTreePath *path)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean bet_array_list_select_path </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>tree_view</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkTreePath *&nbsp;</td>
+          <td class="paramname"> <em>path</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>select path in the list</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>tree_view,path</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="bet__tab_8c_source.html#l01904">1904</a> du fichier <a class="el" href="bet__tab_8c_source.html">bet_tab.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a333b7b726d6915f02a6a8bb93365046b"></a><!-- doxytag: member="bet_tab.c::bet_array_update_estimate_tab" ref="a333b7b726d6915f02a6a8bb93365046b" args="(gint account_number, gint type_maj)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bet_array_update_estimate_tab </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>type_maj</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__tab_8c_source.html#l00176">176</a> du fichier <a class="el" href="bet__tab_8c_source.html">bet_tab.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="ad5443d986a9ab5d64dd84c5346c4b87c"></a><!-- doxytag: member="bet_tab.c::account_page" ref="ad5443d986a9ab5d64dd84c5346c4b87c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="navigation_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Notebook of the account pane. </p>
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00075">75</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9bc40d97c6989df4ee885344bc8110cd"></a><!-- doxytag: member="bet_tab.c::bet_duration_array" ref="a9bc40d97c6989df4ee885344bc8110cd" args="[]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="bet__tab_8c.html#a9bc40d97c6989df4ee885344bc8110cd">bet_duration_array</a>[]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__config_8c_source.html#l00088">88</a> du fichier <a class="el" href="bet__config_8c_source.html">bet_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9c6b0a0f3037804c43aa435dbb98f7ec"></a><!-- doxytag: member="bet_tab.c::couleur_bet_division" ref="a9c6b0a0f3037804c43aa435dbb98f7ec" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a9c6b0a0f3037804c43aa435dbb98f7ec">couleur_bet_division</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00135">135</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af7f95b1eb6717e97b624b506258fd893"></a><!-- doxytag: member="bet_tab.c::couleur_bet_future" ref="af7f95b1eb6717e97b624b506258fd893" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#af7f95b1eb6717e97b624b506258fd893">couleur_bet_future</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00137">137</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abf473d007a5860d19e62be3c33654a48"></a><!-- doxytag: member="bet_tab.c::couleur_bet_transfert" ref="abf473d007a5860d19e62be3c33654a48" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#abf473d007a5860d19e62be3c33654a48">couleur_bet_transfert</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00139">139</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a58089bf9225ae2e274165369f8bc7a00"></a><!-- doxytag: member="bet_tab.c::couleur_fond" ref="a58089bf9225ae2e274165369f8bc7a00" args="[2]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#a58089bf9225ae2e274165369f8bc7a00">couleur_fond</a>[2]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>colors in the transactions list </p>
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00112">112</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a097d2eb216e05a68a5a153e7b68b6469"></a><!-- doxytag: member="bet_tab.c::mise_a_jour_liste_echeances_auto_accueil" ref="a097d2eb216e05a68a5a153e7b68b6469" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a097d2eb216e05a68a5a153e7b68b6469">mise_a_jour_liste_echeances_auto_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00129">129</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8924516aa4170f932308e93cf93a785b"></a><!-- doxytag: member="bet_tab.c::notebook_general" ref="a8924516aa4170f932308e93cf93a785b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="traitement__variables_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00070">70</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a26f304bec3fdc0651b9aa8765d4de3c6"></a><!-- doxytag: member="bet_tab.c::null_real" ref="a26f304bec3fdc0651b9aa8765d4de3c6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> <a class="el" href="utils__editables_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00042">42</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2a9036317d63fb6459987ed41b88bf4f"></a><!-- doxytag: member="bet_tab.c::prev_month_max" ref="a2a9036317d63fb6459987ed41b88bf4f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const gdouble <a class="el" href="bet__tab_8c.html#a2a9036317d63fb6459987ed41b88bf4f">prev_month_max</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__config_8c_source.html#l00094">94</a> du fichier <a class="el" href="bet__config_8c_source.html">bet_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abd82865835fd6c5fcfe97283dbfd0648"></a><!-- doxytag: member="bet_tab.c::valeur_echelle_recherche_date_import" ref="abd82865835fd6c5fcfe97283dbfd0648" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#abd82865835fd6c5fcfe97283dbfd0648">valeur_echelle_recherche_date_import</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="import_8c_source.html#l00209">209</a> du fichier <a class="el" href="import_8c_source.html">import.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

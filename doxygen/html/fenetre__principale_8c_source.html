@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de fenetre_principale.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>fenetre_principale.c</h1><a href="fenetre__principale_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*  Fichier qui s&#39;occupe de former les différentes fenêtres de travail        */</span>
+<a name="l00003"></a>00003 <span class="comment">/*                                                                            */</span>
+<a name="l00004"></a>00004 <span class="comment">/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */</span>
+<a name="l00005"></a>00005 <span class="comment">/*          2005-2008 Benjamin Drieu (bdrieu@april.org)                       */</span>
+<a name="l00006"></a>00006 <span class="comment">/*          http://www.grisbi.org                                             */</span>
+<a name="l00007"></a>00007 <span class="comment">/*                                                                            */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00010"></a>00010 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00011"></a>00011 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00012"></a>00012 <span class="comment">/*                                                                            */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00015"></a>00015 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00016"></a>00016 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00017"></a>00017 <span class="comment">/*                                                                            */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00019"></a>00019 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00020"></a>00020 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00021"></a>00021 <span class="comment">/*                                                                            */</span>
+<a name="l00022"></a>00022 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="fenetre__principale_8h.html">fenetre_principale.h</a>&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="accueil_8h.html">accueil.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="bet__data_8h.html">bet_data.h</a>&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="bet__data__finance_8h.html">bet_data_finance.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="bet__finance__ui_8h.html">bet_finance_ui.h</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="bet__hist_8h.html">bet_hist.h</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="bet__tab_8h.html">bet_tab.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="navigation_8h.html">navigation.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="gsb__transactions__list_8h.html">gsb_transactions_list.h</a>&quot;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;<a class="code" href="etats__onglet_8h.html">etats_onglet.h</a>&quot;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__account_8h.html">gsb_data_account.h</a>&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;<a class="code" href="gsb__account__property_8h.html">gsb_account_property.h</a>&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;<a class="code" href="gsb__form_8h.html">gsb_form.h</a>&quot;</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#include &quot;<a class="code" href="gsb__scheduler__list_8h.html">gsb_scheduler_list.h</a>&quot;</span>
+<a name="l00041"></a>00041 <span class="preprocessor">#include &quot;<a class="code" href="main_8h.html">main.h</a>&quot;</span>
+<a name="l00042"></a>00042 <span class="preprocessor">#include &quot;<a class="code" href="categories__onglet_8h.html">categories_onglet.h</a>&quot;</span>
+<a name="l00043"></a>00043 <span class="preprocessor">#include &quot;<a class="code" href="imputation__budgetaire_8h.html">imputation_budgetaire.h</a>&quot;</span>
+<a name="l00044"></a>00044 <span class="preprocessor">#include &quot;<a class="code" href="tiers__onglet_8h.html">tiers_onglet.h</a>&quot;</span>
+<a name="l00045"></a>00045 <span class="preprocessor">#include &quot;<a class="code" href="structures_8h.html">structures.h</a>&quot;</span>
+<a name="l00046"></a>00046 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00047"></a>00047 <span class="preprocessor">#include &quot;<a class="code" href="erreur_8h.html">erreur.h</a>&quot;</span>
+<a name="l00048"></a>00048 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050 <span class="comment">/*START_STATIC*/</span>
+<a name="l00051"></a>00051 <span class="keyword">static</span> GtkWidget *create_main_notebook (<span class="keywordtype">void</span> );
+<a name="l00052"></a>00052 <span class="keyword">static</span> gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook );
+<a name="l00053"></a>00053 <span class="keyword">static</span> <span class="keywordtype">void</span> gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
+<a name="l00054"></a>00054                         <span class="keyword">const</span> gchar *text,
+<a name="l00055"></a>00055                         gboolean escape_text );
+<a name="l00056"></a>00056 <span class="keyword">static</span> gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
+<a name="l00057"></a>00057                         GtkAllocation *allocation,
+<a name="l00058"></a>00058                         gpointer null );
+<a name="l00059"></a>00059 <span class="keyword">static</span> gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
+<a name="l00060"></a>00060                         GCallback cb );
+<a name="l00061"></a>00061 <span class="comment">/*END_STATIC*/</span>
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00064"></a>00064 <span class="keyword">extern</span> gint <a class="code" href="fenetre__principale_8c.html#aeedb26129c4cdb0718946b03abf8b0d5">mini_paned_width</a>;
+<a name="l00065"></a>00065 <span class="keyword">extern</span> GtkWidget *<a class="code" href="accueil_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a>;
+<a name="l00066"></a>00066 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069 <span class="comment">/* adr du notebook de base */</span>
+<a name="l00070"></a><a class="code" href="traitement__variables_8c.html#a8924516aa4170f932308e93cf93a785b">00070</a> GtkWidget *<a class="code" href="bet__config_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a> = NULL;
+<a name="l00071"></a><a class="code" href="gsb__file__config_8c.html#a4a46e75f5e42baf4abffc03a92ec3030">00071</a> GtkWidget *<a class="code" href="fenetre__principale_8c.html#a4a46e75f5e42baf4abffc03a92ec3030">main_hpaned</a> = NULL;
+<a name="l00072"></a><a class="code" href="gsb__file_8c.html#a59d87f8d62479b981be4e0618fe1b172">00072</a> GtkWidget *<a class="code" href="fenetre__principale_8c.html#a59d87f8d62479b981be4e0618fe1b172">main_vbox</a> = NULL;
+<a name="l00073"></a>00073 
+<a name="l00075"></a><a class="code" href="navigation_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">00075</a> GtkWidget *<a class="code" href="bet__config_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a> = NULL;
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077 <span class="keyword">static</span> GtkWidget * headings_eb = NULL;
+<a name="l00078"></a>00078 
+<a name="l00080"></a>00080 <span class="keyword">static</span> GtkWidget * headings_title = NULL;
+<a name="l00082"></a>00082 <span class="keyword">static</span> GtkWidget * headings_suffix = NULL;
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084 
+<a name="l00091"></a><a class="code" href="fenetre__principale_8h.html#af3f1b8f11e630ea3467cca17ef4ee048">00091</a> GtkWidget * <a class="code" href="fenetre__principale_8c.html#af3f1b8f11e630ea3467cca17ef4ee048">create_main_widget</a> ( <span class="keywordtype">void</span> )
+<a name="l00092"></a>00092 {
+<a name="l00093"></a>00093     GtkWidget * hbox, * arrow_eb, * arrow_left, * arrow_right;
+<a name="l00094"></a>00094     GtkStyle * style;
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096     <span class="comment">/* All stuff will be put in a huge vbox, with an hbox containing</span>
+<a name="l00097"></a>00097 <span class="comment">     * quick summary. */</span>
+<a name="l00098"></a>00098     <a class="code" href="fenetre__principale_8c.html#a59d87f8d62479b981be4e0618fe1b172">main_vbox</a> = gtk_vbox_new ( FALSE, 0 );
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100     headings_eb = gtk_event_box_new ();
+<a name="l00101"></a>00101     style = gtk_widget_get_style ( headings_eb );
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103     hbox = gtk_hbox_new ( FALSE, 0 );
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105     <span class="comment">/* Create two arrows. */</span>
+<a name="l00106"></a>00106     arrow_left = gtk_arrow_new ( GTK_ARROW_LEFT, GTK_SHADOW_OUT );
+<a name="l00107"></a>00107     arrow_eb = gtk_event_box_new ();
+<a name="l00108"></a>00108     gtk_widget_modify_bg ( arrow_eb, 0, &amp;(style -&gt; bg[GTK_STATE_ACTIVE]) );
+<a name="l00109"></a>00109     gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_left );
+<a name="l00110"></a>00110     g_signal_connect ( G_OBJECT ( arrow_eb ), <span class="stringliteral">&quot;button-press-event&quot;</span>, 
+<a name="l00111"></a>00111                        G_CALLBACK ( on_simpleclick_event_run ), 
+<a name="l00112"></a>00112                        <a class="code" href="navigation_8c.html#af59677879274f3120ba149db61d4cb0e">gsb_gui_navigation_select_prev</a> );
+<a name="l00113"></a>00113     gtk_box_pack_start ( GTK_BOX ( hbox ), arrow_eb, FALSE, FALSE, 0 );
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115     arrow_right = gtk_arrow_new ( GTK_ARROW_RIGHT, GTK_SHADOW_OUT );
+<a name="l00116"></a>00116     arrow_eb = gtk_event_box_new ();
+<a name="l00117"></a>00117     gtk_widget_modify_bg ( arrow_eb, 0, &amp;(style -&gt; bg[GTK_STATE_ACTIVE]) );
+<a name="l00118"></a>00118     gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_right );
+<a name="l00119"></a>00119     g_signal_connect ( G_OBJECT ( arrow_eb ), <span class="stringliteral">&quot;button-press-event&quot;</span>, 
+<a name="l00120"></a>00120                        G_CALLBACK ( on_simpleclick_event_run ), 
+<a name="l00121"></a>00121                        <a class="code" href="navigation_8c.html#a90ca4d003b85ca3c49ed7a7188a6ab60">gsb_gui_navigation_select_next</a> );
+<a name="l00122"></a>00122     gtk_box_pack_start ( GTK_BOX(hbox), arrow_eb, FALSE, FALSE, 3 );
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124     <span class="comment">/* Define labels. */</span>
+<a name="l00125"></a>00125     headings_title = gtk_label_new ( NULL );
+<a name="l00126"></a>00126     gtk_label_set_justify ( GTK_LABEL(headings_title), GTK_JUSTIFY_LEFT );
+<a name="l00127"></a>00127     gtk_misc_set_alignment (GTK_MISC (headings_title), 0.0, 0.5);
+<a name="l00128"></a>00128     gtk_box_pack_start ( GTK_BOX(hbox), headings_title, TRUE, TRUE, 3 );
+<a name="l00129"></a>00129     headings_suffix = gtk_label_new (NULL);
+<a name="l00130"></a>00130     gtk_box_pack_start ( GTK_BOX(hbox), headings_suffix, FALSE, FALSE, 0 );
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132     <span class="comment">/* Change color with an event box trick. */</span>
+<a name="l00133"></a>00133     gtk_container_add ( GTK_CONTAINER ( headings_eb ), hbox );
+<a name="l00134"></a>00134     gtk_widget_modify_bg ( headings_eb, 0, &amp;(style -&gt; bg[GTK_STATE_ACTIVE]) );
+<a name="l00135"></a>00135     gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 6 );
+<a name="l00136"></a>00136 
+<a name="l00137"></a>00137     gtk_box_pack_start ( GTK_BOX(<a class="code" href="fenetre__principale_8c.html#a59d87f8d62479b981be4e0618fe1b172">main_vbox</a>), headings_eb, FALSE, FALSE, 0 );
+<a name="l00138"></a>00138     <a class="code" href="fenetre__principale_8c.html#a1ea5e5d9534b171d1062af58ac8c6f3b">gsb_gui_update_show_headings</a> ();
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140     <span class="comment">/* Then create and fill the main hpaned. */</span>
+<a name="l00141"></a>00141     <a class="code" href="fenetre__principale_8c.html#a4a46e75f5e42baf4abffc03a92ec3030">main_hpaned</a> = gtk_hpaned_new ();
+<a name="l00142"></a>00142     g_signal_connect ( G_OBJECT ( <a class="code" href="fenetre__principale_8c.html#a4a46e75f5e42baf4abffc03a92ec3030">main_hpaned</a> ),
+<a name="l00143"></a>00143                        <span class="stringliteral">&quot;size_allocate&quot;</span>,
+<a name="l00144"></a>00144                        G_CALLBACK ( gsb_gui_hpaned_size_allocate ),
+<a name="l00145"></a>00145                        NULL );
+<a name="l00146"></a>00146     gtk_box_pack_start ( GTK_BOX(<a class="code" href="fenetre__principale_8c.html#a59d87f8d62479b981be4e0618fe1b172">main_vbox</a>), <a class="code" href="fenetre__principale_8c.html#a4a46e75f5e42baf4abffc03a92ec3030">main_hpaned</a>, TRUE, TRUE, 0 );
+<a name="l00147"></a>00147     gtk_paned_add1 ( GTK_PANED( <a class="code" href="fenetre__principale_8c.html#a4a46e75f5e42baf4abffc03a92ec3030">main_hpaned</a> ), <a class="code" href="navigation_8c.html#a9213ab9c2e1f3d5d558517a5bac09a5b">create_navigation_pane</a> ( ) );
+<a name="l00148"></a>00148     gtk_paned_add2 ( GTK_PANED( <a class="code" href="fenetre__principale_8c.html#a4a46e75f5e42baf4abffc03a92ec3030">main_hpaned</a> ), create_main_notebook ( ) );
+<a name="l00149"></a>00149     gtk_container_set_border_width ( GTK_CONTAINER ( <a class="code" href="fenetre__principale_8c.html#a4a46e75f5e42baf4abffc03a92ec3030">main_hpaned</a> ), 6 );
+<a name="l00150"></a>00150     <span class="keywordflow">if</span> ( <a class="code" href="gsb__file__config_8c.html#ac390e947e97cef2bec2f5d59d6ec1071">conf</a>.<a class="code" href="structgsb__conf__t.html#aab174c3faa807258d44e178e3272ec1b">largeur_colonne_comptes_operation</a> )
+<a name="l00151"></a>00151     {
+<a name="l00152"></a>00152         gtk_paned_set_position ( GTK_PANED ( <a class="code" href="fenetre__principale_8c.html#a4a46e75f5e42baf4abffc03a92ec3030">main_hpaned</a> ),
+<a name="l00153"></a>00153                         <a class="code" href="gsb__file__config_8c.html#ac390e947e97cef2bec2f5d59d6ec1071">conf</a>.<a class="code" href="structgsb__conf__t.html#aab174c3faa807258d44e178e3272ec1b">largeur_colonne_comptes_operation</a> );
+<a name="l00154"></a>00154     }
+<a name="l00155"></a>00155     <span class="keywordflow">else</span>
+<a name="l00156"></a>00156     {
+<a name="l00157"></a>00157         gint width, height;
+<a name="l00158"></a>00158 
+<a name="l00159"></a>00159         gtk_window_get_size ( GTK_WINDOW ( <a class="code" href="accueil_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a> ), &amp;width, &amp;height );
+<a name="l00160"></a>00160     <span class="keywordflow">if</span> ( height &lt; <a class="code" href="fenetre__principale_8c.html#aeedb26129c4cdb0718946b03abf8b0d5">mini_paned_width</a> )
+<a name="l00161"></a>00161         height = <a class="code" href="fenetre__principale_8c.html#aeedb26129c4cdb0718946b03abf8b0d5">mini_paned_width</a>;
+<a name="l00162"></a>00162         gtk_paned_set_position ( GTK_PANED ( <a class="code" href="fenetre__principale_8c.html#a4a46e75f5e42baf4abffc03a92ec3030">main_hpaned</a> ), (gint) width / 4 );
+<a name="l00163"></a>00163     }
+<a name="l00164"></a>00164     gtk_widget_show ( <a class="code" href="fenetre__principale_8c.html#a4a46e75f5e42baf4abffc03a92ec3030">main_hpaned</a> );
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166     gtk_widget_show ( <a class="code" href="fenetre__principale_8c.html#a59d87f8d62479b981be4e0618fe1b172">main_vbox</a> );
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168     <span class="keywordflow">return</span> <a class="code" href="fenetre__principale_8c.html#a59d87f8d62479b981be4e0618fe1b172">main_vbox</a>;
+<a name="l00169"></a>00169 }
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172 
+<a name="l00181"></a>00181 GtkWidget *create_main_notebook (<span class="keywordtype">void</span> )
+<a name="l00182"></a>00182 {
+<a name="l00183"></a>00183     GtkWidget * vbox, * form;
+<a name="l00184"></a>00184 
+<a name="l00185"></a>00185     <a class="code" href="erreur_8h.html#a17bfffc4306bc76edd79e060a8947dc4">devel_debug</a> ( <span class="stringliteral">&quot;create_main_notebook&quot;</span> );
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187     <span class="comment">/* the main right page is a vbox with a notebook on the top</span>
+<a name="l00188"></a>00188 <span class="comment">     * and the form on the bottom */</span>
+<a name="l00189"></a>00189 
+<a name="l00190"></a>00190     vbox = gtk_vbox_new ( FALSE, 0 );
+<a name="l00191"></a>00191 
+<a name="l00192"></a>00192     <span class="comment">/* append the notebook */</span>
+<a name="l00193"></a>00193     <a class="code" href="bet__config_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a> = gtk_notebook_new ( );
+<a name="l00194"></a>00194     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( <a class="code" href="bet__config_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a> ), FALSE );
+<a name="l00195"></a>00195     gtk_notebook_set_show_border ( GTK_NOTEBOOK ( <a class="code" href="bet__config_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a> ), FALSE );
+<a name="l00196"></a>00196     gtk_box_pack_start ( GTK_BOX ( vbox ), <a class="code" href="bet__config_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a>, TRUE, TRUE, 0 );
+<a name="l00197"></a>00197     gtk_widget_show ( <a class="code" href="bet__config_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a> );
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199     <span class="comment">/* append the form */</span>
+<a name="l00200"></a>00200     form = <a class="code" href="gsb__form_8c.html#a8f9caee3ec92e2364ea7acb46a7f558c">gsb_form_new</a> ( );
+<a name="l00201"></a>00201     gtk_box_pack_start ( GTK_BOX ( vbox ), form, FALSE, FALSE, 0 );
+<a name="l00202"></a>00202     gtk_widget_hide ( form );
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204     <span class="comment">/* fill the notebook */</span>
+<a name="l00205"></a>00205     gsb_gui_fill_main_notebook ( <a class="code" href="bet__config_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a> );
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207     gtk_widget_show ( vbox );
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209     <span class="keywordflow">return</span> vbox;
+<a name="l00210"></a>00210 }
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212 
+<a name="l00220"></a>00220 gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
+<a name="l00221"></a>00221 {
+<a name="l00222"></a>00222     <span class="comment">/* append the main page */</span>
+<a name="l00223"></a>00223     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+<a name="l00224"></a>00224                         <a class="code" href="accueil_8c.html#a31cb1d27d08c170361e63a0a7ef4ddb0">creation_onglet_accueil</a>(),
+<a name="l00225"></a>00225                         gtk_label_new (<a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Main page&quot;</span>))) );
+<a name="l00226"></a>00226 
+<a name="l00227"></a>00227     <span class="comment">/* append the account page : a notebook with the account configuration</span>
+<a name="l00228"></a>00228 <span class="comment">     * the bet pages and transactions page */</span>
+<a name="l00229"></a>00229     <a class="code" href="bet__config_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a> = gtk_notebook_new ();
+<a name="l00230"></a>00230     gtk_notebook_set_show_border ( GTK_NOTEBOOK(<a class="code" href="bet__config_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a>), FALSE );
+<a name="l00231"></a>00231     gtk_widget_show ( <a class="code" href="bet__config_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a> );
+<a name="l00232"></a>00232 
+<a name="l00233"></a>00233     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+<a name="l00234"></a>00234                         <a class="code" href="bet__config_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a>,
+<a name="l00235"></a>00235                         gtk_label_new (<a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Accounts&quot;</span>))) );
+<a name="l00236"></a>00236    
+<a name="l00237"></a>00237     gtk_notebook_append_page ( GTK_NOTEBOOK ( <a class="code" href="bet__config_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a> ),
+<a name="l00238"></a>00238                         <a class="code" href="gsb__transactions__list_8c.html#a750143785ed9e62525a92754c8262f55">creation_fenetre_operations</a> (),
+<a name="l00239"></a>00239                         gtk_label_new (<a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Transactions&quot;</span>))) );
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241     <span class="comment">/* append the balance estimate pages */</span>
+<a name="l00242"></a>00242     gtk_notebook_append_page ( GTK_NOTEBOOK ( <a class="code" href="bet__config_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a> ),
+<a name="l00243"></a>00243                         <a class="code" href="bet__tab_8c.html#a09149e373255d66892a1f9809e29615e">bet_array_create_page</a> ( ),
+<a name="l00244"></a>00244                         gtk_label_new (<a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Forecast&quot;</span>))) );
+<a name="l00245"></a>00245 
+<a name="l00246"></a>00246     gtk_notebook_append_page ( GTK_NOTEBOOK ( <a class="code" href="bet__config_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a> ),
+<a name="l00247"></a>00247                         <a class="code" href="bet__hist_8c.html#a339ca48839f4c4ed5480bd2d36822c9c">bet_historical_create_page</a> ( ),
+<a name="l00248"></a>00248                         gtk_label_new (<a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Historical data&quot;</span>))) );
+<a name="l00249"></a>00249 
+<a name="l00250"></a>00250     <span class="comment">/* append the amortization page */</span>
+<a name="l00251"></a>00251     gtk_notebook_append_page ( GTK_NOTEBOOK ( <a class="code" href="bet__config_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a> ),
+<a name="l00252"></a>00252                         <a class="code" href="bet__finance__ui_8c.html#a96bad4699d87b533c1c4f2f51f285e2a">bet_finance_create_account_page</a> ( ),
+<a name="l00253"></a>00253                         gtk_label_new ( <a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a> ( _(<span class="stringliteral">&quot;Amortization array&quot;</span>) ) ) );
+<a name="l00254"></a>00254 
+<a name="l00255"></a>00255     gtk_notebook_append_page ( GTK_NOTEBOOK ( <a class="code" href="bet__config_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a> ),
+<a name="l00256"></a>00256                         <a class="code" href="gsb__account__property_8c.html#a5266ddf452ec44e874324c9edc910f4e">gsb_account_property_create_page</a> (),
+<a name="l00257"></a>00257                         gtk_label_new (<a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Properties&quot;</span>))) );
+<a name="l00258"></a>00258 
+<a name="l00259"></a>00259     g_signal_connect ( G_OBJECT (<a class="code" href="bet__config_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a>),
+<a name="l00260"></a>00260                         <span class="stringliteral">&quot;switch_page&quot;</span>,
+<a name="l00261"></a>00261                         G_CALLBACK (<a class="code" href="fenetre__principale_8c.html#ac472c4356247af478d93db80f99a2792">gsb_gui_on_account_switch_page</a>),
+<a name="l00262"></a>00262                         NULL );
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264     <span class="comment">/* append the scheduled transactions page */</span>
+<a name="l00265"></a>00265     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+<a name="l00266"></a>00266                         <a class="code" href="gsb__scheduler__list_8c.html#a12e2a6349e0cdbd81b349b588f137336">gsb_scheduler_list_create_list</a> (),
+<a name="l00267"></a>00267                         gtk_label_new (<a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Scheduler&quot;</span>))) );
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269     <span class="comment">/* append the payee page */</span>
+<a name="l00270"></a>00270     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+<a name="l00271"></a>00271                         <a class="code" href="tiers__onglet_8c.html#accd2776091bc5768c5d272ea591eb393">onglet_tiers</a> (),
+<a name="l00272"></a>00272                         gtk_label_new (<a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Payee&quot;</span>))) );
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274     <span class="comment">/* append the financial page */</span>
+<a name="l00275"></a>00275     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+<a name="l00276"></a>00276                         <a class="code" href="bet__finance__ui_8c.html#a98569354482d0a913898ce67b30e1557">bet_finance_create_page</a> (),
+<a name="l00277"></a>00277                         gtk_label_new (<a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Credits simulator&quot;</span>))) );
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279     <span class="comment">/* append the categories page */</span>
+<a name="l00280"></a>00280     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+<a name="l00281"></a>00281                         <a class="code" href="categories__onglet_8c.html#a4aca926dc47f973c138ed72e9aad5804">onglet_categories</a> (),
+<a name="l00282"></a>00282                         gtk_label_new (<a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Categories&quot;</span>))) );
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284     <span class="comment">/* append the budget page */</span>
+<a name="l00285"></a>00285     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+<a name="l00286"></a>00286                         <a class="code" href="imputation__budgetaire_8c.html#ac694980b7be317dc9bdb169c8afd1876">onglet_imputations</a>(),
+<a name="l00287"></a>00287                         gtk_label_new (<a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Budgetary lines&quot;</span>))) );
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289     <span class="comment">/* append the reports page */</span>
+<a name="l00290"></a>00290     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+<a name="l00291"></a>00291                         <a class="code" href="etats__onglet_8c.html#a285336f1df04e46f0e34f9c5f5264508">creation_onglet_etats</a> (),
+<a name="l00292"></a>00292                         gtk_label_new (<a class="code" href="structures_8h.html#a865883e81d37f6f4329636d5170f5209">SPACIFY</a>(_(<span class="stringliteral">&quot;Reports&quot;</span>))) );
+<a name="l00293"></a>00293 
+<a name="l00294"></a>00294     <span class="keywordflow">return</span> FALSE;
+<a name="l00295"></a>00295 }
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297 
+<a name="l00309"></a><a class="code" href="fenetre__principale_8h.html#ac472c4356247af478d93db80f99a2792">00309</a> gboolean <a class="code" href="fenetre__principale_8c.html#ac472c4356247af478d93db80f99a2792">gsb_gui_on_account_switch_page</a> ( GtkNotebook *notebook,
+<a name="l00310"></a>00310                         GtkNotebookPage *page,
+<a name="l00311"></a>00311                         guint page_number,
+<a name="l00312"></a>00312                         gpointer null )
+<a name="l00313"></a>00313 {
+<a name="l00314"></a>00314     gint account_number;
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316     <span class="comment">/* devel_debug_int (page_number); */</span>
+<a name="l00317"></a>00317     <span class="keywordflow">switch</span> ( page_number )
+<a name="l00318"></a>00318     {
+<a name="l00319"></a>00319     <span class="keywordflow">case</span> <a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520ab1e1afd5860f84ec3b2434c16e8d661e">GSB_TRANSACTIONS_PAGE</a>:
+<a name="l00320"></a>00320         <a class="code" href="gsb__form_8c.html#a930d0b9f0d831e2ddc6ad9730c2292eb">gsb_form_set_expander_visible</a> ( TRUE, TRUE );
+<a name="l00321"></a>00321         <span class="keywordflow">break</span>;
+<a name="l00322"></a>00322     <span class="keywordflow">case</span> <a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520a64a555a792b2e49c42b925cad7bbc465">GSB_ESTIMATE_PAGE</a>:
+<a name="l00323"></a>00323         <a class="code" href="gsb__form_8c.html#a930d0b9f0d831e2ddc6ad9730c2292eb">gsb_form_set_expander_visible</a> (FALSE, FALSE );
+<a name="l00324"></a>00324         account_number = <a class="code" href="navigation_8c.html#a3b668bf52ce71dcff3ea10c9db7be859">gsb_gui_navigation_get_current_account</a> ( );
+<a name="l00325"></a>00325         <span class="keywordflow">if</span> ( <a class="code" href="gsb__data__account_8c.html#acfd5b571d1eb8c55b20440bc4b584baf">gsb_data_account_get_bet_maj</a> ( account_number ) )
+<a name="l00326"></a>00326             <a class="code" href="bet__data_8c.html#af0bc501a6a7a255f8adc9500328c950f">bet_data_update_bet_module</a> ( account_number, <a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520a64a555a792b2e49c42b925cad7bbc465">GSB_ESTIMATE_PAGE</a> );
+<a name="l00327"></a>00327         <span class="keywordflow">break</span>;
+<a name="l00328"></a>00328     <span class="keywordflow">case</span> <a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520a90dc66bf685d88710b5f31dec284ca60">GSB_HISTORICAL_PAGE</a>:
+<a name="l00329"></a>00329         <a class="code" href="gsb__form_8c.html#a930d0b9f0d831e2ddc6ad9730c2292eb">gsb_form_set_expander_visible</a> (FALSE, FALSE );
+<a name="l00330"></a>00330         account_number = <a class="code" href="navigation_8c.html#a3b668bf52ce71dcff3ea10c9db7be859">gsb_gui_navigation_get_current_account</a> ( );
+<a name="l00331"></a>00331         <span class="keywordflow">if</span> ( <a class="code" href="gsb__data__account_8c.html#acfd5b571d1eb8c55b20440bc4b584baf">gsb_data_account_get_bet_maj</a> ( account_number ) )
+<a name="l00332"></a>00332             <a class="code" href="bet__data_8c.html#af0bc501a6a7a255f8adc9500328c950f">bet_data_update_bet_module</a> ( account_number, <a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520a90dc66bf685d88710b5f31dec284ca60">GSB_HISTORICAL_PAGE</a> );
+<a name="l00333"></a>00333         <a class="code" href="bet__hist_8c.html#aa39deaae836fcf9b62acc430d95e1479">bet_historical_set_page_title</a> ( account_number );
+<a name="l00334"></a>00334         <span class="keywordflow">break</span>;
+<a name="l00335"></a>00335     <span class="keywordflow">case</span> <a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520ae293458cd4959e914140e844db3e3cd7">GSB_FINANCE_PAGE</a>:
+<a name="l00336"></a>00336         <a class="code" href="gsb__form_8c.html#a930d0b9f0d831e2ddc6ad9730c2292eb">gsb_form_set_expander_visible</a> (FALSE, FALSE );
+<a name="l00337"></a>00337         account_number = <a class="code" href="navigation_8c.html#a3b668bf52ce71dcff3ea10c9db7be859">gsb_gui_navigation_get_current_account</a> ( );
+<a name="l00338"></a>00338         <a class="code" href="bet__finance__ui_8c.html#ad177ea31ac56791c3a4e91ad9be07e5c">bet_finance_ui_update_amortization_tab</a> ( account_number );
+<a name="l00339"></a>00339     <span class="keywordflow">case</span> <a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520a45c82e5bce0145d1fa7756bd8d1776af">GSB_PROPERTIES_PAGE</a>:
+<a name="l00340"></a>00340         <a class="code" href="gsb__form_8c.html#a930d0b9f0d831e2ddc6ad9730c2292eb">gsb_form_set_expander_visible</a> (FALSE, FALSE );
+<a name="l00341"></a>00341         <span class="keywordflow">break</span>;
+<a name="l00342"></a>00342     }
+<a name="l00343"></a>00343 
+<a name="l00344"></a>00344     <span class="keywordflow">return</span> ( FALSE );
+<a name="l00345"></a>00345 }
+<a name="l00346"></a>00346 
+<a name="l00347"></a>00347 
+<a name="l00353"></a><a class="code" href="fenetre__principale_8h.html#a94dc9871dffaaec186f7933619418064">00353</a> <span class="keywordtype">void</span> <a class="code" href="fenetre__principale_8c.html#a94dc9871dffaaec186f7933619418064">gsb_gui_on_account_change_page</a> ( <a class="code" href="fenetre__principale_8h.html#a52ecea0b75c8cf1a5b2dc61975676ff2">GsbaccountNotebookPages</a> page )
+<a name="l00354"></a>00354 {
+<a name="l00355"></a>00355     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( <a class="code" href="bet__config_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a> ), page );
+<a name="l00356"></a>00356 }
+<a name="l00357"></a>00357 
+<a name="l00358"></a>00358 
+<a name="l00366"></a>00366 <span class="keywordtype">void</span> gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
+<a name="l00367"></a>00367                         <span class="keyword">const</span> gchar *text,
+<a name="l00368"></a>00368                         gboolean escape_text )
+<a name="l00369"></a>00369 {
+<a name="l00370"></a>00370     gchar* tmpstr;
+<a name="l00371"></a>00371 
+<a name="l00372"></a>00372     <span class="keywordflow">if</span> ( escape_text )
+<a name="l00373"></a>00373         tmpstr = g_markup_printf_escaped (<span class="stringliteral">&quot;&lt;b&gt;%s&lt;/b&gt;&quot;</span>, text );
+<a name="l00374"></a>00374     <span class="keywordflow">else</span>
+<a name="l00375"></a>00375         tmpstr = g_strconcat ( <span class="stringliteral">&quot;&lt;b&gt;&quot;</span>, text, <span class="stringliteral">&quot;&lt;/b&gt;&quot;</span>, NULL );
+<a name="l00376"></a>00376     gtk_label_set_markup ( label, tmpstr );
+<a name="l00377"></a>00377 
+<a name="l00378"></a>00378     g_free ( tmpstr );
+<a name="l00379"></a>00379 }
+<a name="l00380"></a>00380 
+<a name="l00387"></a><a class="code" href="fenetre__principale_8h.html#a7dd6f116baa9323630e845e36615fc53">00387</a> <span class="keywordtype">void</span> <a class="code" href="fenetre__principale_8c.html#a7dd6f116baa9323630e845e36615fc53">gsb_gui_headings_update_title</a> ( gchar * title )
+<a name="l00388"></a>00388 {
+<a name="l00389"></a>00389     gsb_gui_headings_private_update_label_markup ( GTK_LABEL(headings_title), title, TRUE );
+<a name="l00390"></a>00390 }
+<a name="l00391"></a>00391 
+<a name="l00398"></a><a class="code" href="fenetre__principale_8h.html#aeed9c0940d61e6cf37c5f421ce3b663f">00398</a> <span class="keywordtype">void</span> <a class="code" href="fenetre__principale_8c.html#aeed9c0940d61e6cf37c5f421ce3b663f">gsb_gui_headings_update_suffix</a> ( gchar * suffix )
+<a name="l00399"></a>00399 {
+<a name="l00400"></a>00400     gsb_gui_headings_private_update_label_markup ( GTK_LABEL(headings_suffix), suffix, FALSE );
+<a name="l00401"></a>00401 }
+<a name="l00402"></a>00402 
+<a name="l00403"></a>00403 
+<a name="l00404"></a>00404 
+<a name="l00405"></a>00405 
+<a name="l00411"></a><a class="code" href="fenetre__principale_8h.html#a1ea5e5d9534b171d1062af58ac8c6f3b">00411</a> gboolean <a class="code" href="fenetre__principale_8c.html#a1ea5e5d9534b171d1062af58ac8c6f3b">gsb_gui_update_show_headings</a> ()
+<a name="l00412"></a>00412 {
+<a name="l00413"></a>00413     <span class="keywordflow">if</span> ( <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a462b19c31b3d72be181a70d59c9cd5fd">show_headings_bar</a> )
+<a name="l00414"></a>00414     {
+<a name="l00415"></a>00415         gtk_widget_show_all ( headings_eb );
+<a name="l00416"></a>00416     }
+<a name="l00417"></a>00417     <span class="keywordflow">else</span>
+<a name="l00418"></a>00418     {
+<a name="l00419"></a>00419         gtk_widget_hide_all ( headings_eb );
+<a name="l00420"></a>00420     }
+<a name="l00421"></a>00421     <span class="keywordflow">return</span> FALSE;
+<a name="l00422"></a>00422 }
+<a name="l00423"></a>00423 
+<a name="l00431"></a><a class="code" href="fenetre__principale_8h.html#a94542c45fb71a3cd8b955b5e0fcc2ed9">00431</a> <span class="keywordtype">void</span> <a class="code" href="fenetre__principale_8c.html#a94542c45fb71a3cd8b955b5e0fcc2ed9">gsb_gui_sensitive_headings</a> ( gboolean sensitive )
+<a name="l00432"></a>00432 {
+<a name="l00433"></a>00433     <span class="keywordflow">if</span> (headings_eb)
+<a name="l00434"></a>00434         gtk_widget_set_sensitive ( headings_eb,
+<a name="l00435"></a>00435                                    sensitive );
+<a name="l00436"></a>00436 }
+<a name="l00437"></a>00437 
+<a name="l00438"></a>00438 
+<a name="l00444"></a><a class="code" href="fenetre__principale_8h.html#ae7636cbe5e0d42949754b905193ce99d">00444</a> <span class="keywordtype">void</span> <a class="code" href="fenetre__principale_8c.html#ae7636cbe5e0d42949754b905193ce99d">gsb_gui_notebook_change_page</a> ( <a class="code" href="fenetre__principale_8h.html#a6e3a0b1ab242e7ceb5beeef96a6ac8f1">GsbGeneralNotebookPages</a> page )
+<a name="l00445"></a>00445 {
+<a name="l00446"></a>00446     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( <a class="code" href="bet__config_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a> ), page );
+<a name="l00447"></a>00447 }
+<a name="l00448"></a>00448 
+<a name="l00449"></a>00449 
+<a name="l00455"></a>00455 gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
+<a name="l00456"></a>00456                         GCallback cb )
+<a name="l00457"></a>00457 {
+<a name="l00458"></a>00458     <span class="keywordflow">if</span> ( button_event -&gt; type == GDK_BUTTON_PRESS )
+<a name="l00459"></a>00459     {
+<a name="l00460"></a>00460         cb ();
+<a name="l00461"></a>00461     }
+<a name="l00462"></a>00462 
+<a name="l00463"></a>00463     <span class="keywordflow">return</span> TRUE;
+<a name="l00464"></a>00464 }
+<a name="l00465"></a>00465 
+<a name="l00466"></a>00466 
+<a name="l00467"></a>00467 gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
+<a name="l00468"></a>00468                         GtkAllocation *allocation,
+<a name="l00469"></a>00469                         gpointer null )
+<a name="l00470"></a>00470 {
+<a name="l00471"></a>00471     gint paned_width;
+<a name="l00472"></a>00472 
+<a name="l00473"></a>00473     paned_width = gtk_paned_get_position ( GTK_PANED ( hpaned ) );
+<a name="l00474"></a>00474     
+<a name="l00475"></a>00475     <span class="keywordflow">if</span> ( paned_width  &lt; <a class="code" href="fenetre__principale_8c.html#aeedb26129c4cdb0718946b03abf8b0d5">mini_paned_width</a> )
+<a name="l00476"></a>00476         gtk_paned_set_position ( GTK_PANED ( hpaned ), <a class="code" href="fenetre__principale_8c.html#aeedb26129c4cdb0718946b03abf8b0d5">mini_paned_width</a> );
+<a name="l00477"></a>00477 
+<a name="l00478"></a>00478     <span class="keywordflow">return</span> FALSE;
+<a name="l00479"></a>00479 }
+<a name="l00480"></a>00480 
+<a name="l00481"></a>00481 
+<a name="l00482"></a>00482 <span class="comment">/* Local Variables: */</span>
+<a name="l00483"></a>00483 <span class="comment">/* c-basic-offset: 4 */</span>
+<a name="l00484"></a>00484 <span class="comment">/* End: */</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

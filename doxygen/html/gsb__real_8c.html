@@ -1,0 +1,881 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_real.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_real.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &lt;assert.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__currency_8h_source.html">gsb_data_currency.h</a>&quot;</code><br/>
+
+<p><a href="gsb__real_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Macros</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a83415ffebb68b4e447c6c0befbc6cc57">sizeofarray</a>(x)&nbsp;&nbsp;&nbsp;(sizeof(x)/sizeof(*x))</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a9207a2084e51e49584c038b6c8ae4433">gsb_real_get_string</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a03f4474a9a4269e384951af9be4acedd">gsb_real_get_string_with_currency</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number, gint currency_number, gboolean show_symbol)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a744dbe148fd54b26989be45a2044a2a2">gsb_real_raw_format_string</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number, struct lconv *conv, const gchar *currency_symbol)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a55251dc8f90b19c4aad77b0ad4164f20">gsb_real_format_string</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number, gint currency_number, gboolean show_symbol)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#ada8e5c9cbdb5ccab2c0bbc6e52b04efe">gsb_real_get_from_string</a> (const gchar *string)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a2de01ed575642df6733b066db62b7211">gsb_real_new</a> (gint mantissa, gint exponent)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#af8a7458d3d739cc56e2f826e83b52a5e">gsb_real_raw_get_from_string</a> (const gchar *string, const gchar *mon_thousands_sep, const gchar *mon_decimal_point)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a894affc3addf4e97be6c64194042209b">gsb_real_import_from_string</a> (const gchar *string)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">G_MODULE_EXPORT gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a9ffa1aad0087896f5a3f1e2320c97db4">gsb_real_cmp</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number_1, <a class="el" href="structgsb__real.html">gsb_real</a> number_2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a60c9f459971957544deea84d80d941d9">gsb_real_normalize</a> (<a class="el" href="structgsb__real.html">gsb_real</a> *number_1, <a class="el" href="structgsb__real.html">gsb_real</a> *number_2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#ae727c3ee72397bb23657fb3571bcf4da">gsb_real_abs</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a1db70fbb5eb9e7e373a05386989dc961">gsb_real_adjust_exponent</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number, gint return_exponent)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">G_MODULE_EXPORT <a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a5a3e9b2189f43f10c28333b09179e335">gsb_real_add</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number_1, <a class="el" href="structgsb__real.html">gsb_real</a> number_2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#aa5a0cf079b0a5a0e47d7eaca164e0f25">gsb_real_sub</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number_1, <a class="el" href="structgsb__real.html">gsb_real</a> number_2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">G_MODULE_EXPORT <a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#aee7dfb40ef3a60df7a55c6ccfcc6dfef">gsb_real_opposite</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a9038bcc6c7bae8ee08fbcdd05758d727">gsb_real_mul</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number_1, <a class="el" href="structgsb__real.html">gsb_real</a> number_2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a93c09778fbfddebc650260cc49da78a5">gsb_real_div</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number_1, <a class="el" href="structgsb__real.html">gsb_real</a> number_2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">G_MODULE_EXPORT <a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a13580c0fa17fb81c9fcc5c07393060a9">gsb_real_double_to_real</a> (gdouble number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a600b9eca05a8907718c54adcc579e7fb">gsb_str_to_real</a> (const gchar *str)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a50c880e082aa7241dfa50a9bc0a87207">gsb_real_save_real_to_string</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number, gint default_exponent)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gdouble&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a404579b669e686ba61e56dd0334c460d">gsb_real_real_to_double</a> (<a class="el" href="structgsb__real.html">gsb_real</a> number)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a> = { 0 , 0 }</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#a520cf94ffbcb7bc947e1cb63cda4af06">error_real</a> = { 0x80000000, 0 }</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">glong&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__real_8c.html#ae26786fc183c582276e5cdaf5d17192c">gsb_real_power_10</a> []</td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>grisbi use a special structure to describe a real number all is defined her </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+<hr/><h2>Documentation des macros</h2>
+<a class="anchor" id="a83415ffebb68b4e447c6c0befbc6cc57"></a><!-- doxytag: member="gsb_real.c::sizeofarray" ref="a83415ffebb68b4e447c6c0befbc6cc57" args="(x)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define sizeofarray</td>
+          <td>(</td>
+          <td class="paramtype">x&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;(sizeof(x)/sizeof(*x))</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00048">48</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="ae727c3ee72397bb23657fb3571bcf4da"></a><!-- doxytag: member="gsb_real.c::gsb_real_abs" ref="ae727c3ee72397bb23657fb3571bcf4da" args="(gsb_real number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_real_abs </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>give the absolute value of the number</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a <a class="el" href="structgsb__real.html">gsb_real</a>, the absolute value of the given number </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00696">696</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5a3e9b2189f43f10c28333b09179e335"></a><!-- doxytag: member="gsb_real.c::gsb_real_add" ref="a5a3e9b2189f43f10c28333b09179e335" args="(gsb_real number_1, gsb_real number_2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">G_MODULE_EXPORT <a class="el" href="structgsb__real.html">gsb_real</a> gsb_real_add </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number_2</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>add 2 <a class="el" href="structgsb__real.html">gsb_real</a> when an overflow occurs, error_real is returned</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number_1</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>number_2</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a <a class="el" href="structgsb__real.html">gsb_real</a> = number_1 + number_2, or error_real when an error occured </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00749">749</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1db70fbb5eb9e7e373a05386989dc961"></a><!-- doxytag: member="gsb_real.c::gsb_real_adjust_exponent" ref="a1db70fbb5eb9e7e373a05386989dc961" args="(gsb_real number, gint return_exponent)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_real_adjust_exponent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>return_exponent</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>modify the number to adjust the exponent wanted</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>return_exponent</em>&nbsp;</td><td>the exponent we want to have for the returned number, or -1 if no limit</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the transformed number </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00711">711</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9ffa1aad0087896f5a3f1e2320c97db4"></a><!-- doxytag: member="gsb_real.c::gsb_real_cmp" ref="a9ffa1aad0087896f5a3f1e2320c97db4" args="(gsb_real number_1, gsb_real number_2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">G_MODULE_EXPORT gint gsb_real_cmp </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number_2</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>compare 2 <a class="el" href="structgsb__real.html">gsb_real</a> and return the result (-1, 0, 1)</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number_1</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>number_2</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>-1 if number_1 &lt; number_2 ; 0 if number_1 = number_2 ; 1 if number_1 &gt; number_2 </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00562">562</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a93c09778fbfddebc650260cc49da78a5"></a><!-- doxytag: member="gsb_real.c::gsb_real_div" ref="a93c09778fbfddebc650260cc49da78a5" args="(gsb_real number_1, gsb_real number_2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_real_div </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number_2</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>divide 2 gsb_reals</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number_1</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>number_2</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the div between the 2 </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00844">844</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a13580c0fa17fb81c9fcc5c07393060a9"></a><!-- doxytag: member="gsb_real.c::gsb_real_double_to_real" ref="a13580c0fa17fb81c9fcc5c07393060a9" args="(gdouble number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">G_MODULE_EXPORT <a class="el" href="structgsb__real.html">gsb_real</a> gsb_real_double_to_real </td>
+          <td>(</td>
+          <td class="paramtype">gdouble&nbsp;</td>
+          <td class="paramname"> <em>number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>convert a double to a <a class="el" href="structgsb__real.html">gsb_real</a></p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number</em>&nbsp;</td><td>a gdouble number</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number in <a class="el" href="structgsb__real.html">gsb_real</a> format </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00884">884</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a55251dc8f90b19c4aad77b0ad4164f20"></a><!-- doxytag: member="gsb_real.c::gsb_real_format_string" ref="a55251dc8f90b19c4aad77b0ad4164f20" args="(gsb_real number, gint currency_number, gboolean show_symbol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_real_format_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>show_symbol</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Return the real in a formatted string with an optional currency symbol, according to the locale regarding decimal separator, thousands separator and positive or negative sign.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number</em>&nbsp;</td><td>Number to format. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>currency_number</em>&nbsp;</td><td>the currency we want to adapt the number, 0 for no adaptation </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>show_symbol</em>&nbsp;</td><td>TRUE to add the currency symbol in the string</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly allocated string of the number (this function will never return NULL) </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00260">260</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ada8e5c9cbdb5ccab2c0bbc6e52b04efe"></a><!-- doxytag: member="gsb_real.c::gsb_real_get_from_string" ref="ada8e5c9cbdb5ccab2c0bbc6e52b04efe" args="(const gchar *string)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_real_get_from_string </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>string</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get a real number from a string the string can be formatted :</p>
+<ul>
+<li>handle , or . as separator</li>
+<li>spaces are ignored</li>
+<li>another character makes a 0 return</li>
+</ul>
+<p>there is no ask for any exponent, so the <a class="el" href="structgsb__real.html">gsb_real</a> will be exactly the same as the string</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>string</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number in the string transformed to <a class="el" href="structgsb__real.html">gsb_real</a> </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00310">310</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9207a2084e51e49584c038b6c8ae4433"></a><!-- doxytag: member="gsb_real.c::gsb_real_get_string" ref="a9207a2084e51e49584c038b6c8ae4433" args="(gsb_real number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_real_get_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Return the real in a formatted string, according to the currency regarding decimal separator, thousands separator and positive or negative sign. this is directly the number coded in the real wich is returned usually, gsb_real_get_string_with_currency is better to adapt the format of the number to the currency format</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number</em>&nbsp;</td><td>Number to format.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly allocated string of the number (this function will never return NULL) </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00094">94</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a03f4474a9a4269e384951af9be4acedd"></a><!-- doxytag: member="gsb_real.c::gsb_real_get_string_with_currency" ref="a03f4474a9a4269e384951af9be4acedd" args="(gsb_real number, gint currency_number, gboolean show_symbol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_real_get_string_with_currency </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>show_symbol</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>format a <a class="el" href="structgsb__real.html">gsb_real</a> into a string from gsb_real_get_string adapt the format of the real to the currency (nb digits after , ...) show if asked the currency symbol</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number</em>&nbsp;</td><td>A number to format. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>currency_number</em>&nbsp;</td><td>Currency to use.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a newly allocated string of the number </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00109">109</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a894affc3addf4e97be6c64194042209b"></a><!-- doxytag: member="gsb_real.c::gsb_real_import_from_string" ref="a894affc3addf4e97be6c64194042209b" args="(const gchar *string)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_real_import_from_string </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>string</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get a <a class="el" href="structgsb__real.html">gsb_real</a> number from a string, during file load the string can be formatted :</p>
+<ul>
+<li>spaces and the given utf8-encoded thousands separators are ignored</li>
+<li>handle only "." as a decimal separator</li>
+<li>another character makes a error_real return</li>
+</ul>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>string</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mon_thousands_sep,can</em>&nbsp;</td><td>be NULL or empty, but only one utf8 sequence </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mon_decimal_point,can</em>&nbsp;</td><td>be NULL or empty, but only one utf8 sequence</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number in the string transformed to <a class="el" href="structgsb__real.html">gsb_real</a> </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00493">493</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9038bcc6c7bae8ee08fbcdd05758d727"></a><!-- doxytag: member="gsb_real.c::gsb_real_mul" ref="a9038bcc6c7bae8ee08fbcdd05758d727" args="(gsb_real number_1, gsb_real number_2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_real_mul </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number_2</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>multiply 2 gsb_reals. no overflow possible</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number_1</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>number_2</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the multiplication between the 2 </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00809">809</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2de01ed575642df6733b066db62b7211"></a><!-- doxytag: member="gsb_real.c::gsb_real_new" ref="a2de01ed575642df6733b066db62b7211" args="(gint mantissa, gint exponent)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_real_new </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>mantissa</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>exponent</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get a real number from an integer</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>mantissa</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>exponent</em>&nbsp;</td><td>-1 for no limit</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a <a class="el" href="structgsb__real.html">gsb_real</a> from the integer </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00339">339</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a60c9f459971957544deea84d80d941d9"></a><!-- doxytag: member="gsb_real.c::gsb_real_normalize" ref="a60c9f459971957544deea84d80d941d9" args="(gsb_real *number_1, gsb_real *number_2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_real_normalize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a> *&nbsp;</td>
+          <td class="paramname"> <em>number_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a> *&nbsp;</td>
+          <td class="paramname"> <em>number_2</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>normalize the 2 numbers to be able to add/substract/compare them later for that transform the 2 numbers to have the same exponent and after that we can work on the mantissa</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number_1</em>&nbsp;</td><td>a pointer to <a class="el" href="structgsb__real.html">gsb_real</a> wich contains the number_1 to transform </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>number_2</em>&nbsp;</td><td>a pointer to <a class="el" href="structgsb__real.html">gsb_real</a> wich contains the number_2 to transform</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if normalization occured without loss of precision FALSE if exponents can't be the same without loss of precision </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00651">651</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aee7dfb40ef3a60df7a55c6ccfcc6dfef"></a><!-- doxytag: member="gsb_real.c::gsb_real_opposite" ref="aee7dfb40ef3a60df7a55c6ccfcc6dfef" args="(gsb_real number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">G_MODULE_EXPORT <a class="el" href="structgsb__real.html">gsb_real</a> gsb_real_opposite </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the opposite of the number ie 5 returns -5 in <a class="el" href="structgsb__real.html">gsb_real</a> number</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>its opposite </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00794">794</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a744dbe148fd54b26989be45a2044a2a2"></a><!-- doxytag: member="gsb_real.c::gsb_real_raw_format_string" ref="a744dbe148fd54b26989be45a2044a2a2" args="(gsb_real number, struct lconv *conv, const gchar *currency_symbol)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_real_raw_format_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct lconv *&nbsp;</td>
+          <td class="paramname"> <em>conv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>currency_symbol</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Return the real in a formatted string with an optional currency symbol, according to the given locale regarding decimal separator, thousands separator and positive or negative sign.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number</em>&nbsp;</td><td>Number to format. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>conv</em>&nbsp;</td><td>the locale obtained with localeconv(), or built manually </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>currency_symbol</em>&nbsp;</td><td>the currency symbol</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly allocated string of the number (this function will never return NULL) </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00134">134</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af8a7458d3d739cc56e2f826e83b52a5e"></a><!-- doxytag: member="gsb_real.c::gsb_real_raw_get_from_string" ref="af8a7458d3d739cc56e2f826e83b52a5e" args="(const gchar *string, const gchar *mon_thousands_sep, const gchar *mon_decimal_point)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_real_raw_get_from_string </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>string</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>mon_thousands_sep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>mon_decimal_point</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get a <a class="el" href="structgsb__real.html">gsb_real</a> number from a string the string can be formatted :</p>
+<ul>
+<li>spaces and the given utf8-encoded thousands separators are ignored</li>
+<li>handle ",", "." and the given utf8-encoded decimal separator</li>
+<li>another character makes a error_real return</li>
+</ul>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>string</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mon_thousands_sep,can</em>&nbsp;</td><td>be NULL or empty, but only one utf8 sequence </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mon_decimal_point,can</em>&nbsp;</td><td>be NULL or empty, but only one utf8 sequence</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number in the string transformed to <a class="el" href="structgsb__real.html">gsb_real</a> </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00361">361</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a404579b669e686ba61e56dd0334c460d"></a><!-- doxytag: member="gsb_real.c::gsb_real_real_to_double" ref="a404579b669e686ba61e56dd0334c460d" args="(gsb_real number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gdouble gsb_real_real_to_double </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l01144">1144</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a50c880e082aa7241dfa50a9bc0a87207"></a><!-- doxytag: member="gsb_real.c::gsb_real_save_real_to_string" ref="a50c880e082aa7241dfa50a9bc0a87207" args="(gsb_real number, gint default_exponent)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_real_save_real_to_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>default_exponent</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l01051">1051</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa5a0cf079b0a5a0e47d7eaca164e0f25"></a><!-- doxytag: member="gsb_real.c::gsb_real_sub" ref="aa5a0cf079b0a5a0e47d7eaca164e0f25" args="(gsb_real number_1, gsb_real number_2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_real_sub </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>number_2</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>substract between 2 <a class="el" href="structgsb__real.html">gsb_real</a> : number_1 - number_2</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number_1</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>number_2</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a <a class="el" href="structgsb__real.html">gsb_real</a> = number_1 - number_2 </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00778">778</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a600b9eca05a8907718c54adcc579e7fb"></a><!-- doxytag: member="gsb_real.c::gsb_str_to_real" ref="a600b9eca05a8907718c54adcc579e7fb" args="(const gchar *str)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_str_to_real </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>str</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00975">975</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a520cf94ffbcb7bc947e1cb63cda4af06"></a><!-- doxytag: member="gsb_real.c::error_real" ref="a520cf94ffbcb7bc947e1cb63cda4af06" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> <a class="el" href="gsb__real_8c.html#a520cf94ffbcb7bc947e1cb63cda4af06">error_real</a> = { 0x80000000, 0 }</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00043">43</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae26786fc183c582276e5cdaf5d17192c"></a><!-- doxytag: member="gsb_real.c::gsb_real_power_10" ref="ae26786fc183c582276e5cdaf5d17192c" args="[]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">glong <a class="el" href="gsb__real_8c.html#ae26786fc183c582276e5cdaf5d17192c">gsb_real_power_10</a>[]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<b>Valeur initiale :</b><div class="fragment"><pre class="fragment"> { 1, 10, 100, 1000, 10000, 100000,
+                            1000000, 10000000, 100000000, 1000000000 }
+</pre></div>
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00045">45</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a26f304bec3fdc0651b9aa8765d4de3c6"></a><!-- doxytag: member="gsb_real.c::null_real" ref="a26f304bec3fdc0651b9aa8765d4de3c6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> <a class="el" href="utils__editables_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a> = { 0 , 0 }</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00042">42</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

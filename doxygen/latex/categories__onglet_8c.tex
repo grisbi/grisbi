@@ -1,0 +1,146 @@
+\section{Référence du fichier categories\_\-onglet.c}
+\label{categories__onglet_8c}\index{categories\_\-onglet.c@{categories\_\-onglet.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}categories\_\-onglet.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-file\_\-selection.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-automem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-category.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}main.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-buttons.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}metatree.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-categories} (void)
+\item 
+void {\bf remplit\_\-arbre\_\-categ} (void)
+\item 
+gboolean {\bf category\_\-hold\_\-position\_\-set\_\-path} (GtkTreePath $\ast$path)
+\item 
+gboolean {\bf category\_\-hold\_\-position\_\-set\_\-expand} (gboolean expand)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GtkTreeStore $\ast$ {\bf categ\_\-tree\_\-model} = NULL
+\item 
+GtkWidget $\ast$ {\bf arbre\_\-categ} = NULL
+\item 
+gint {\bf no\_\-devise\_\-totaux\_\-categ}
+\item 
+struct {\bf metatree\_\-hold\_\-position} $\ast$ {\bf category\_\-hold\_\-position}
+\item 
+{\bf MetatreeInterface} $\ast$ {\bf category\_\-interface}
+\item 
+GtkWidget $\ast$ {\bf window}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{categories\_\-onglet.c@{categories\_\-onglet.c}!category\_\-hold\_\-position\_\-set\_\-expand@{category\_\-hold\_\-position\_\-set\_\-expand}}
+\index{category\_\-hold\_\-position\_\-set\_\-expand@{category\_\-hold\_\-position\_\-set\_\-expand}!categories_onglet.c@{categories\_\-onglet.c}}
+\subsubsection[{category\_\-hold\_\-position\_\-set\_\-expand}]{\setlength{\rightskip}{0pt plus 5cm}gboolean category\_\-hold\_\-position\_\-set\_\-expand (gboolean {\em expand})}\label{categories__onglet_8c_a5b685ac483cc1dcc8dc736a644a80651}
+sauvegarde l'attribut expand.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em expand}]\end{DoxyParams}
+
+
+Définition à la ligne 891 du fichier categories\_\-onglet.c.
+
+\index{categories\_\-onglet.c@{categories\_\-onglet.c}!category\_\-hold\_\-position\_\-set\_\-path@{category\_\-hold\_\-position\_\-set\_\-path}}
+\index{category\_\-hold\_\-position\_\-set\_\-path@{category\_\-hold\_\-position\_\-set\_\-path}!categories_onglet.c@{categories\_\-onglet.c}}
+\subsubsection[{category\_\-hold\_\-position\_\-set\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}gboolean category\_\-hold\_\-position\_\-set\_\-path (GtkTreePath $\ast$ {\em path})}\label{categories__onglet_8c_a07189d15b8fbd91a38070efebee6ee97}
+sauvegarde le chemin de la dernière categorie sélectionnée.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em path}]\end{DoxyParams}
+
+
+Définition à la ligne 880 du fichier categories\_\-onglet.c.
+
+\index{categories\_\-onglet.c@{categories\_\-onglet.c}!onglet\_\-categories@{onglet\_\-categories}}
+\index{onglet\_\-categories@{onglet\_\-categories}!categories_onglet.c@{categories\_\-onglet.c}}
+\subsubsection[{onglet\_\-categories}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-categories (void)}\label{categories__onglet_8c_a4aca926dc47f973c138ed72e9aad5804}
+Create and return contents of the \char`\"{}Category\char`\"{} notebook page.
+
+\begin{DoxyReturn}{Renvoie}
+A newly allocated hbox. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 84 du fichier categories\_\-onglet.c.
+
+\index{categories\_\-onglet.c@{categories\_\-onglet.c}!remplit\_\-arbre\_\-categ@{remplit\_\-arbre\_\-categ}}
+\index{remplit\_\-arbre\_\-categ@{remplit\_\-arbre\_\-categ}!categories_onglet.c@{categories\_\-onglet.c}}
+\subsubsection[{remplit\_\-arbre\_\-categ}]{\setlength{\rightskip}{0pt plus 5cm}void remplit\_\-arbre\_\-categ (void)}\label{categories__onglet_8c_a07984d808278a498b3fef3e187cc29e2}
+Fill category tree with data. 
+
+First, remove previous tree
+
+Then, populate tree with categories.
+
+Each category has subcategories. 
+
+
+
+Définition à la ligne 211 du fichier categories\_\-onglet.c.
+
+
+
+\subsection{Documentation des variables}
+\index{categories\_\-onglet.c@{categories\_\-onglet.c}!arbre\_\-categ@{arbre\_\-categ}}
+\index{arbre\_\-categ@{arbre\_\-categ}!categories_onglet.c@{categories\_\-onglet.c}}
+\subsubsection[{arbre\_\-categ}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf arbre\_\-categ} = NULL}\label{categories__onglet_8c_a6cf88c38349ee099aa4138c213aae21b}
+
+
+Définition à la ligne 64 du fichier categories\_\-onglet.c.
+
+\index{categories\_\-onglet.c@{categories\_\-onglet.c}!categ\_\-tree\_\-model@{categ\_\-tree\_\-model}}
+\index{categ\_\-tree\_\-model@{categ\_\-tree\_\-model}!categories_onglet.c@{categories\_\-onglet.c}}
+\subsubsection[{categ\_\-tree\_\-model}]{\setlength{\rightskip}{0pt plus 5cm}GtkTreeStore$\ast$ {\bf categ\_\-tree\_\-model} = NULL}\label{categories__onglet_8c_ae8424f0222ea0a41ea824d2294ee1b34}
+
+
+Définition à la ligne 63 du fichier categories\_\-onglet.c.
+
+\index{categories\_\-onglet.c@{categories\_\-onglet.c}!category\_\-hold\_\-position@{category\_\-hold\_\-position}}
+\index{category\_\-hold\_\-position@{category\_\-hold\_\-position}!categories_onglet.c@{categories\_\-onglet.c}}
+\subsubsection[{category\_\-hold\_\-position}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf metatree\_\-hold\_\-position}$\ast$ {\bf category\_\-hold\_\-position}}\label{categories__onglet_8c_a7f1f945fd2d4ad6ccad85f0a7cc36f40}
+
+
+Définition à la ligne 71 du fichier categories\_\-onglet.c.
+
+\index{categories\_\-onglet.c@{categories\_\-onglet.c}!category\_\-interface@{category\_\-interface}}
+\index{category\_\-interface@{category\_\-interface}!categories_onglet.c@{categories\_\-onglet.c}}
+\subsubsection[{category\_\-interface}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MetatreeInterface}$\ast$ {\bf category\_\-interface}}\label{categories__onglet_8c_ac3d52fdc414a19ac674a323f25194bc7}
+
+
+Définition à la ligne 104 du fichier meta\_\-categories.c.
+
+\index{categories\_\-onglet.c@{categories\_\-onglet.c}!no\_\-devise\_\-totaux\_\-categ@{no\_\-devise\_\-totaux\_\-categ}}
+\index{no\_\-devise\_\-totaux\_\-categ@{no\_\-devise\_\-totaux\_\-categ}!categories_onglet.c@{categories\_\-onglet.c}}
+\subsubsection[{no\_\-devise\_\-totaux\_\-categ}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf no\_\-devise\_\-totaux\_\-categ}}\label{categories__onglet_8c_a8f609654dcfbbcaa6791bcee83d6473d}
+
+
+Définition à la ligne 65 du fichier categories\_\-onglet.c.
+
+\index{categories\_\-onglet.c@{categories\_\-onglet.c}!window@{window}}
+\index{window@{window}!categories_onglet.c@{categories\_\-onglet.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{categories__onglet_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

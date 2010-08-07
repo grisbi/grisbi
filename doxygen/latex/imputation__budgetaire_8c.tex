@@ -1,0 +1,178 @@
+\section{Référence du fichier imputation\_\-budgetaire.c}
+\label{imputation__budgetaire_8c}\index{imputation\_\-budgetaire.c@{imputation\_\-budgetaire.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}imputation\_\-budgetaire.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}metatree.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-file\_\-selection.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-autofunc.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-automem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-budget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-others.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-widget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gtk\_\-combofix.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}main.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-buttons.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-imputations} (void)
+\item 
+void {\bf remplit\_\-arbre\_\-imputation} (void)
+\item 
+gboolean {\bf gsb\_\-budget\_\-update\_\-combofix} (gboolean force)
+\item 
+gboolean {\bf budgetary\_\-hold\_\-position\_\-set\_\-path} (GtkTreePath $\ast$path)
+\item 
+gboolean {\bf budgetary\_\-hold\_\-position\_\-set\_\-expand} (gboolean expand)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf budgetary\_\-line\_\-tree} = NULL
+\item 
+GtkTreeStore $\ast$ {\bf budgetary\_\-line\_\-tree\_\-model} = NULL
+\item 
+gint {\bf no\_\-devise\_\-totaux\_\-ib}
+\item 
+gboolean {\bf sortie\_\-edit\_\-budgetary\_\-line} = FALSE
+\item 
+struct {\bf metatree\_\-hold\_\-position} $\ast$ {\bf budgetary\_\-hold\_\-position}
+\item 
+{\bf MetatreeInterface} $\ast$ {\bf budgetary\_\-interface}
+\item 
+GtkWidget $\ast$ {\bf window}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{imputation\_\-budgetaire.c@{imputation\_\-budgetaire.c}!budgetary\_\-hold\_\-position\_\-set\_\-expand@{budgetary\_\-hold\_\-position\_\-set\_\-expand}}
+\index{budgetary\_\-hold\_\-position\_\-set\_\-expand@{budgetary\_\-hold\_\-position\_\-set\_\-expand}!imputation_budgetaire.c@{imputation\_\-budgetaire.c}}
+\subsubsection[{budgetary\_\-hold\_\-position\_\-set\_\-expand}]{\setlength{\rightskip}{0pt plus 5cm}gboolean budgetary\_\-hold\_\-position\_\-set\_\-expand (gboolean {\em expand})}\label{imputation__budgetaire_8c_a3266a447db85ea0aff52f82aa54bbbd8}
+sauvegarde l'attribut expand.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em expand}]\end{DoxyParams}
+
+
+Définition à la ligne 927 du fichier imputation\_\-budgetaire.c.
+
+\index{imputation\_\-budgetaire.c@{imputation\_\-budgetaire.c}!budgetary\_\-hold\_\-position\_\-set\_\-path@{budgetary\_\-hold\_\-position\_\-set\_\-path}}
+\index{budgetary\_\-hold\_\-position\_\-set\_\-path@{budgetary\_\-hold\_\-position\_\-set\_\-path}!imputation_budgetaire.c@{imputation\_\-budgetaire.c}}
+\subsubsection[{budgetary\_\-hold\_\-position\_\-set\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}gboolean budgetary\_\-hold\_\-position\_\-set\_\-path (GtkTreePath $\ast$ {\em path})}\label{imputation__budgetaire_8c_a6228c4caafe41ed3474c70918e98cfac}
+sauvegarde le chemin de la dernière imputation sélectionnée.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em path}]\end{DoxyParams}
+
+
+Définition à la ligne 916 du fichier imputation\_\-budgetaire.c.
+
+\index{imputation\_\-budgetaire.c@{imputation\_\-budgetaire.c}!gsb\_\-budget\_\-update\_\-combofix@{gsb\_\-budget\_\-update\_\-combofix}}
+\index{gsb\_\-budget\_\-update\_\-combofix@{gsb\_\-budget\_\-update\_\-combofix}!imputation_budgetaire.c@{imputation\_\-budgetaire.c}}
+\subsubsection[{gsb\_\-budget\_\-update\_\-combofix}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-budget\_\-update\_\-combofix (gboolean {\em force})}\label{imputation__budgetaire_8c_ad363e475c28e0d82a408950418ffb877}
+update the form's combofix for the budget
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 345 du fichier imputation\_\-budgetaire.c.
+
+\index{imputation\_\-budgetaire.c@{imputation\_\-budgetaire.c}!onglet\_\-imputations@{onglet\_\-imputations}}
+\index{onglet\_\-imputations@{onglet\_\-imputations}!imputation_budgetaire.c@{imputation\_\-budgetaire.c}}
+\subsubsection[{onglet\_\-imputations}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-imputations (void)}\label{imputation__budgetaire_8c_ac694980b7be317dc9bdb169c8afd1876}
+
+
+Définition à la ligne 94 du fichier imputation\_\-budgetaire.c.
+
+\index{imputation\_\-budgetaire.c@{imputation\_\-budgetaire.c}!remplit\_\-arbre\_\-imputation@{remplit\_\-arbre\_\-imputation}}
+\index{remplit\_\-arbre\_\-imputation@{remplit\_\-arbre\_\-imputation}!imputation_budgetaire.c@{imputation\_\-budgetaire.c}}
+\subsubsection[{remplit\_\-arbre\_\-imputation}]{\setlength{\rightskip}{0pt plus 5cm}void remplit\_\-arbre\_\-imputation (void)}\label{imputation__budgetaire_8c_a3c4c67e80fdca7661b83a5176e7ac787}
+fill the tree of budget
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+First, remove previous tree
+
+Then, populate tree with budgetary lines.
+
+Each budget has sub budgetary lines. 
+
+
+
+Définition à la ligne 227 du fichier imputation\_\-budgetaire.c.
+
+
+
+\subsection{Documentation des variables}
+\index{imputation\_\-budgetaire.c@{imputation\_\-budgetaire.c}!budgetary\_\-hold\_\-position@{budgetary\_\-hold\_\-position}}
+\index{budgetary\_\-hold\_\-position@{budgetary\_\-hold\_\-position}!imputation_budgetaire.c@{imputation\_\-budgetaire.c}}
+\subsubsection[{budgetary\_\-hold\_\-position}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf metatree\_\-hold\_\-position}$\ast$ {\bf budgetary\_\-hold\_\-position}}\label{imputation__budgetaire_8c_ab8cd29b1bed89eccdf93a90305ccf732}
+
+
+Définition à la ligne 78 du fichier imputation\_\-budgetaire.c.
+
+\index{imputation\_\-budgetaire.c@{imputation\_\-budgetaire.c}!budgetary\_\-interface@{budgetary\_\-interface}}
+\index{budgetary\_\-interface@{budgetary\_\-interface}!imputation_budgetaire.c@{imputation\_\-budgetaire.c}}
+\subsubsection[{budgetary\_\-interface}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MetatreeInterface}$\ast$ {\bf budgetary\_\-interface}}\label{imputation__budgetaire_8c_a4b1a6befee9f0036849fd2ad597c7b13}
+
+
+Définition à la ligne 101 du fichier meta\_\-budgetary.c.
+
+\index{imputation\_\-budgetaire.c@{imputation\_\-budgetaire.c}!budgetary\_\-line\_\-tree@{budgetary\_\-line\_\-tree}}
+\index{budgetary\_\-line\_\-tree@{budgetary\_\-line\_\-tree}!imputation_budgetaire.c@{imputation\_\-budgetaire.c}}
+\subsubsection[{budgetary\_\-line\_\-tree}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf budgetary\_\-line\_\-tree} = NULL}\label{imputation__budgetaire_8c_a6523d5f68febaef00546d8c2066e0e6d}
+
+
+Définition à la ligne 70 du fichier imputation\_\-budgetaire.c.
+
+\index{imputation\_\-budgetaire.c@{imputation\_\-budgetaire.c}!budgetary\_\-line\_\-tree\_\-model@{budgetary\_\-line\_\-tree\_\-model}}
+\index{budgetary\_\-line\_\-tree\_\-model@{budgetary\_\-line\_\-tree\_\-model}!imputation_budgetaire.c@{imputation\_\-budgetaire.c}}
+\subsubsection[{budgetary\_\-line\_\-tree\_\-model}]{\setlength{\rightskip}{0pt plus 5cm}GtkTreeStore$\ast$ {\bf budgetary\_\-line\_\-tree\_\-model} = NULL}\label{imputation__budgetaire_8c_ae9ac273826562e08bcc3b6f5ed918a2f}
+
+
+Définition à la ligne 71 du fichier imputation\_\-budgetaire.c.
+
+\index{imputation\_\-budgetaire.c@{imputation\_\-budgetaire.c}!no\_\-devise\_\-totaux\_\-ib@{no\_\-devise\_\-totaux\_\-ib}}
+\index{no\_\-devise\_\-totaux\_\-ib@{no\_\-devise\_\-totaux\_\-ib}!imputation_budgetaire.c@{imputation\_\-budgetaire.c}}
+\subsubsection[{no\_\-devise\_\-totaux\_\-ib}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf no\_\-devise\_\-totaux\_\-ib}}\label{imputation__budgetaire_8c_a2f4b5073521c582e1bc8941533026556}
+
+
+Définition à la ligne 72 du fichier imputation\_\-budgetaire.c.
+
+\index{imputation\_\-budgetaire.c@{imputation\_\-budgetaire.c}!sortie\_\-edit\_\-budgetary\_\-line@{sortie\_\-edit\_\-budgetary\_\-line}}
+\index{sortie\_\-edit\_\-budgetary\_\-line@{sortie\_\-edit\_\-budgetary\_\-line}!imputation_budgetaire.c@{imputation\_\-budgetaire.c}}
+\subsubsection[{sortie\_\-edit\_\-budgetary\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf sortie\_\-edit\_\-budgetary\_\-line} = FALSE}\label{imputation__budgetaire_8c_a304c36cae720a8dd25ccca0cf183be0b}
+
+
+Définition à la ligne 75 du fichier imputation\_\-budgetaire.c.
+
+\index{imputation\_\-budgetaire.c@{imputation\_\-budgetaire.c}!window@{window}}
+\index{window@{window}!imputation_budgetaire.c@{imputation\_\-budgetaire.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{imputation__budgetaire_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

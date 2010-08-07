@@ -1,0 +1,129 @@
+\section{Référence du fichier gsb\_\-assistant\_\-archive\_\-export.c}
+\label{gsb__assistant__archive__export_8c}\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-assistant\_\-archive\_\-export.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-assistant.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}export\_\-csv.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-archive.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-save.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-util.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}qif.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf archive\_\-export\_\-assistant\_\-page} \{ {\bf ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-INTRO} =  0, 
+{\bf ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-CHOOSE}, 
+{\bf ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-NAME}, 
+{\bf ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-SUCCESS}
+ \}
+\item 
+enum {\bf archives\_\-export\_\-columns} \{ \par
+{\bf ARCHIVES\_\-EXPORT\_\-SELECT\_\-COLUMN} =  0, 
+{\bf ARCHIVES\_\-EXPORT\_\-NAME\_\-COLUMN}, 
+{\bf ARCHIVES\_\-EXPORT\_\-INIT\_\-DATE}, 
+{\bf ARCHIVES\_\-EXPORT\_\-FINAL\_\-DATE}, 
+\par
+{\bf ARCHIVES\_\-EXPORT\_\-FYEAR\_\-NAME}, 
+{\bf ARCHIVES\_\-EXPORT\_\-REPORT\_\-TITLE}, 
+{\bf ARCHIVES\_\-EXPORT\_\-NUMBER}, 
+{\bf NUM\_\-ARCHIVES\_\-EXPORT\_\-COLUMNS}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkResponseType {\bf gsb\_\-assistant\_\-archive\_\-export\_\-run} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf window}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation du type de l'énumération}
+\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!archive\_\-export\_\-assistant\_\-page@{archive\_\-export\_\-assistant\_\-page}}
+\index{archive\_\-export\_\-assistant\_\-page@{archive\_\-export\_\-assistant\_\-page}!gsb_assistant_archive_export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}
+\subsubsection[{archive\_\-export\_\-assistant\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf archive\_\-export\_\-assistant\_\-page}}\label{gsb__assistant__archive__export_8c_a763c6f09ed289b229e02b4ffa26657b7}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-INTRO@{ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-INTRO}!gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-INTRO@{ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-INTRO}}\item[{\em 
+ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-INTRO\label{gsb__assistant__archive__export_8c_a763c6f09ed289b229e02b4ffa26657b7afdf9bbe33b8b8ef7f0beecf28a446224}
+}]\index{ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-CHOOSE@{ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-CHOOSE}!gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-CHOOSE@{ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-CHOOSE}}\item[{\em 
+ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-CHOOSE\label{gsb__assistant__archive__export_8c_a763c6f09ed289b229e02b4ffa26657b7ac8d3d2fa172ad4d4303cb31942a3670c}
+}]\index{ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-NAME@{ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-NAME}!gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-NAME@{ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-NAME}}\item[{\em 
+ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-NAME\label{gsb__assistant__archive__export_8c_a763c6f09ed289b229e02b4ffa26657b7addd47c9bd17ca0d90075a9ac151e6b9d}
+}]\index{ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-SUCCESS@{ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-SUCCESS}!gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-SUCCESS@{ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-SUCCESS}}\item[{\em 
+ARCHIVE\_\-EXPORT\_\-ASSISTANT\_\-SUCCESS\label{gsb__assistant__archive__export_8c_a763c6f09ed289b229e02b4ffa26657b7a1741f651087e8fd92ee91446bba85f72}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 50 du fichier gsb\_\-assistant\_\-archive\_\-export.c.
+
+\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!archives\_\-export\_\-columns@{archives\_\-export\_\-columns}}
+\index{archives\_\-export\_\-columns@{archives\_\-export\_\-columns}!gsb_assistant_archive_export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}
+\subsubsection[{archives\_\-export\_\-columns}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf archives\_\-export\_\-columns}}\label{gsb__assistant__archive__export_8c_a29d6fcd60d70fbdb5fd1333cdf4f338f}
+Columns for payment methods tree \begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{ARCHIVES\_\-EXPORT\_\-SELECT\_\-COLUMN@{ARCHIVES\_\-EXPORT\_\-SELECT\_\-COLUMN}!gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!ARCHIVES\_\-EXPORT\_\-SELECT\_\-COLUMN@{ARCHIVES\_\-EXPORT\_\-SELECT\_\-COLUMN}}\item[{\em 
+ARCHIVES\_\-EXPORT\_\-SELECT\_\-COLUMN\label{gsb__assistant__archive__export_8c_a29d6fcd60d70fbdb5fd1333cdf4f338fa0e5f92656490d3efebadd44a8de0f6e8}
+}]\index{ARCHIVES\_\-EXPORT\_\-NAME\_\-COLUMN@{ARCHIVES\_\-EXPORT\_\-NAME\_\-COLUMN}!gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!ARCHIVES\_\-EXPORT\_\-NAME\_\-COLUMN@{ARCHIVES\_\-EXPORT\_\-NAME\_\-COLUMN}}\item[{\em 
+ARCHIVES\_\-EXPORT\_\-NAME\_\-COLUMN\label{gsb__assistant__archive__export_8c_a29d6fcd60d70fbdb5fd1333cdf4f338facc519ab0303b1c4e2363b2d3f9563379}
+}]\index{ARCHIVES\_\-EXPORT\_\-INIT\_\-DATE@{ARCHIVES\_\-EXPORT\_\-INIT\_\-DATE}!gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!ARCHIVES\_\-EXPORT\_\-INIT\_\-DATE@{ARCHIVES\_\-EXPORT\_\-INIT\_\-DATE}}\item[{\em 
+ARCHIVES\_\-EXPORT\_\-INIT\_\-DATE\label{gsb__assistant__archive__export_8c_a29d6fcd60d70fbdb5fd1333cdf4f338fa35b6247c3f6b9a589df8525f7756cd55}
+}]\index{ARCHIVES\_\-EXPORT\_\-FINAL\_\-DATE@{ARCHIVES\_\-EXPORT\_\-FINAL\_\-DATE}!gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!ARCHIVES\_\-EXPORT\_\-FINAL\_\-DATE@{ARCHIVES\_\-EXPORT\_\-FINAL\_\-DATE}}\item[{\em 
+ARCHIVES\_\-EXPORT\_\-FINAL\_\-DATE\label{gsb__assistant__archive__export_8c_a29d6fcd60d70fbdb5fd1333cdf4f338fa52f858edd9d2b0f56549c9d67bb3c7a4}
+}]\index{ARCHIVES\_\-EXPORT\_\-FYEAR\_\-NAME@{ARCHIVES\_\-EXPORT\_\-FYEAR\_\-NAME}!gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!ARCHIVES\_\-EXPORT\_\-FYEAR\_\-NAME@{ARCHIVES\_\-EXPORT\_\-FYEAR\_\-NAME}}\item[{\em 
+ARCHIVES\_\-EXPORT\_\-FYEAR\_\-NAME\label{gsb__assistant__archive__export_8c_a29d6fcd60d70fbdb5fd1333cdf4f338fac21fa69912f4f2353b465da78f9afd8e}
+}]\index{ARCHIVES\_\-EXPORT\_\-REPORT\_\-TITLE@{ARCHIVES\_\-EXPORT\_\-REPORT\_\-TITLE}!gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!ARCHIVES\_\-EXPORT\_\-REPORT\_\-TITLE@{ARCHIVES\_\-EXPORT\_\-REPORT\_\-TITLE}}\item[{\em 
+ARCHIVES\_\-EXPORT\_\-REPORT\_\-TITLE\label{gsb__assistant__archive__export_8c_a29d6fcd60d70fbdb5fd1333cdf4f338fa729d2a47fa11bf55d1d55935513952c3}
+}]\index{ARCHIVES\_\-EXPORT\_\-NUMBER@{ARCHIVES\_\-EXPORT\_\-NUMBER}!gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!ARCHIVES\_\-EXPORT\_\-NUMBER@{ARCHIVES\_\-EXPORT\_\-NUMBER}}\item[{\em 
+ARCHIVES\_\-EXPORT\_\-NUMBER\label{gsb__assistant__archive__export_8c_a29d6fcd60d70fbdb5fd1333cdf4f338fa020a022d2ce6f43ef523d394cfa554d5}
+}]\index{NUM\_\-ARCHIVES\_\-EXPORT\_\-COLUMNS@{NUM\_\-ARCHIVES\_\-EXPORT\_\-COLUMNS}!gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!NUM\_\-ARCHIVES\_\-EXPORT\_\-COLUMNS@{NUM\_\-ARCHIVES\_\-EXPORT\_\-COLUMNS}}\item[{\em 
+NUM\_\-ARCHIVES\_\-EXPORT\_\-COLUMNS\label{gsb__assistant__archive__export_8c_a29d6fcd60d70fbdb5fd1333cdf4f338fa605e7657acd38f13d36de206dc634cc7}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 59 du fichier gsb\_\-assistant\_\-archive\_\-export.c.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!gsb\_\-assistant\_\-archive\_\-export\_\-run@{gsb\_\-assistant\_\-archive\_\-export\_\-run}}
+\index{gsb\_\-assistant\_\-archive\_\-export\_\-run@{gsb\_\-assistant\_\-archive\_\-export\_\-run}!gsb_assistant_archive_export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}
+\subsubsection[{gsb\_\-assistant\_\-archive\_\-export\_\-run}]{\setlength{\rightskip}{0pt plus 5cm}GtkResponseType gsb\_\-assistant\_\-archive\_\-export\_\-run (void)}\label{gsb__assistant__archive__export_8c_a40ac4dec2f544da685d1013e9d3d84bb}
+this function is called to launch the assistant to export archives
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a GtkResponseType containing the return value at the end of the assistant 
+\end{DoxyReturn}
+
+
+Définition à la ligne 100 du fichier gsb\_\-assistant\_\-archive\_\-export.c.
+
+
+
+\subsection{Documentation des variables}
+\index{gsb\_\-assistant\_\-archive\_\-export.c@{gsb\_\-assistant\_\-archive\_\-export.c}!window@{window}}
+\index{window@{window}!gsb_assistant_archive_export.c@{gsb\_\-assistant\_\-archive\_\-export.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{gsb__assistant__archive__export_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

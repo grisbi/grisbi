@@ -1,0 +1,483 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier go-charmap-sel.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier go-charmap-sel.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.h</a>&quot;</code><br/>
+<code>#include &lt;gdk/gdk.h&gt;</code><br/>
+<code>#include &lt;gtk/gtkbutton.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="go-optionmenu_8h_source.html">go-optionmenu.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="go-charmap-sel_8h_source.html">go-charmap-sel.h</a>&quot;</code><br/>
+<code>#include &lt;gtk/gtkcheckmenuitem.h&gt;</code><br/>
+<code>#include &lt;gtk/gtkhbox.h&gt;</code><br/>
+<code>#include &lt;gtk/gtklabel.h&gt;</code><br/>
+<code>#include &lt;gtk/gtkmenu.h&gt;</code><br/>
+<code>#include &lt;gtk/gtkmenuitem.h&gt;</code><br/>
+<code>#include &lt;gtk/gtkseparatormenuitem.h&gt;</code><br/>
+<code>#include &lt;string.h&gt;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+
+<p><a href="go-charmap-sel_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Structures de données</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcb__find__entry.html">cb_find_entry</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__GOCharmapSel.html">_GOCharmapSel</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGOCharmapSelClass.html">GOCharmapSelClass</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLGroupInfo.html">LGroupInfo</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCharsetInfo.html">CharsetInfo</a></td></tr>
+<tr><td colspan="2"><h2>Macros</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="go-charmap-sel_8c.html#a1178db9855c046720f7b764ce8caafad">CS</a>(x)&nbsp;&nbsp;&nbsp;GO_CHARMAP_SEL (x)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="go-charmap-sel_8c.html#aa2d5961ee58c88d2a88625dac7264112">CHARMAP_NAME_KEY</a>&nbsp;&nbsp;&nbsp;&quot;Name of Character Encoding&quot;</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="go-charmap-sel_8c.html#ab8bbf5e25cc18dc87db85348fad1d5e7">GSF_CLASS_FULL</a>(name, prefix, base_init, base_finalize, class_init, class_finalize, instance_init, parent_type, abstract, interface_decl)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="go-charmap-sel_8c.html#ac4ecfb8448b614434a0d0f685a87cbaf">GSF_CLASS</a>(name, prefix, class_init, instance_init, parent)</td></tr>
+<tr><td colspan="2"><h2>Définition de type</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="struct__GOCharmapSel.html">GOCharmapSel</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="go-charmap-sel_8c.html#a98bb6ea1d67f7e272c0fe7be5eec1ea4">Cs</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structGOCharmapSelClass.html">GOCharmapSelClass</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="go-charmap-sel_8c.html#a8aedb7fb0d65217b02b2136a2a891321">CsClass</a></td></tr>
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="go-charmap-sel_8c.html#a99fb83031ce9923c84392b4e92f956b5a2d46d269c28f1438b81445027ac2fbc0">CHARMAP_CHANGED</a>, 
+<a class="el" href="go-charmap-sel_8c.html#a99fb83031ce9923c84392b4e92f956b5a0c34d85df8279641afad9e3c9b3a54ce">LAST_SIGNAL</a>
+ }</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="go-charmap-sel_8c.html#abc6126af1d45847bc59afa0aa3216b04ac37dda0da1a44e10c0504afeeb863f3c">PROP_0</a>, 
+<a class="el" href="go-charmap-sel_8c.html#abc6126af1d45847bc59afa0aa3216b04a625d5a11efb0a06be0cda62720db125d">PROP_TEST_DIRECTION</a>
+ }</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="go-charmap-sel_8c.html#a70f8d6bd79d25b8f86d16e27dc6e9af1">CharsetImportance</a> { <a class="el" href="go-charmap-sel_8c.html#a70f8d6bd79d25b8f86d16e27dc6e9af1ab652466c74b6b6eb53919239a0c69810">CI_MINOR</a>, 
+<a class="el" href="go-charmap-sel_8c.html#a70f8d6bd79d25b8f86d16e27dc6e9af1a343a36bb261bcdfca1fa391026ee3e8f">CI_MAJOR</a>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="go-charmap-sel_8c.html#aae247185acba9c3087636aa05049b932">GSF_CLASS</a> (<a class="el" href="struct__GOCharmapSel.html">GOCharmapSel</a>, go_charmap_sel, cs_class_init, cs_init, GTK_TYPE_HBOX)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="go-charmap-sel_8c.html#a68d9a2dfcd7e29cf4585e4d830abfba4">go_charmap_sel_new</a> (<a class="el" href="go-charmap-sel_8h.html#a758de5be5c36f44240e2a4fb4fcd7912">GOCharmapSelTestDirection</a> test)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar const *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="go-charmap-sel_8c.html#a17a7ca06cfc5d9a8d0e08f764d50b7f8">go_charmap_sel_get_encoding</a> (<a class="el" href="struct__GOCharmapSel.html">GOCharmapSel</a> *cs)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="go-charmap-sel_8c.html#afaad94b300355324942ac3632d75377b">go_charmap_sel_set_encoding</a> (<a class="el" href="struct__GOCharmapSel.html">GOCharmapSel</a> *cs, const char *enc)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="go-charmap-sel_8c.html#acc162ef6fd12567a701dc17144498ff3">LanguageGroup</a></td></tr>
+</table>
+<hr/><h2>Documentation des macros</h2>
+<a class="anchor" id="aa2d5961ee58c88d2a88625dac7264112"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::CHARMAP_NAME_KEY" ref="aa2d5961ee58c88d2a88625dac7264112" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CHARMAP_NAME_KEY&nbsp;&nbsp;&nbsp;&quot;Name of Character Encoding&quot;</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00085">85</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1178db9855c046720f7b764ce8caafad"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::CS" ref="a1178db9855c046720f7b764ce8caafad" args="(x)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CS</td>
+          <td>(</td>
+          <td class="paramtype">x&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;GO_CHARMAP_SEL (x)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00083">83</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac4ecfb8448b614434a0d0f685a87cbaf"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::GSF_CLASS" ref="ac4ecfb8448b614434a0d0f685a87cbaf" args="(name, prefix, class_init, instance_init, parent)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GSF_CLASS</td>
+          <td>(</td>
+          <td class="paramtype">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">prefix, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class_init, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">instance_init, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">parent&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<b>Valeur :</b><div class="fragment"><pre class="fragment"><a class="code" href="go-charmap-sel_8c.html#ab8bbf5e25cc18dc87db85348fad1d5e7">GSF_CLASS_FULL</a>(name, prefix, NULL, NULL, class_init, NULL, \
+                                instance_init, parent, 0, {})
+</pre></div>
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00145">145</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab8bbf5e25cc18dc87db85348fad1d5e7"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::GSF_CLASS_FULL" ref="ab8bbf5e25cc18dc87db85348fad1d5e7" args="(name, prefix, base_init, base_finalize, class_init, class_finalize, instance_init, parent_type, abstract, interface_decl)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GSF_CLASS_FULL</td>
+          <td>(</td>
+          <td class="paramtype">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">prefix, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">base_init, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">base_finalize, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class_init, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class_finalize, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">instance_init, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">parent_type, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">abstract, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">interface_decl&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<b>Valeur :</b><div class="fragment"><pre class="fragment">GType                                                                   \
+prefix ## _get_type (<span class="keywordtype">void</span>)                                              \
+{                                                                       \
+        <span class="keyword">static</span> GType type = 0;                                          \
+        <span class="keywordflow">if</span> (type == 0) {                                                \
+                <span class="keyword">static</span> GTypeInfo <span class="keyword">const</span> object_info = {                  \
+                        <span class="keyword">sizeof</span> (name ## Class),                         \
+                        (GBaseInitFunc) base_init,                      \
+                        (GBaseFinalizeFunc) base_finalize,              \
+                        (GClassInitFunc) class_init,                    \
+                        (GClassFinalizeFunc) class_finalize,            \
+                        NULL,   <span class="comment">/* class_data */</span>                        \
+                        <span class="keyword">sizeof</span> (name),                                  \
+                        0,      <span class="comment">/* n_preallocs */</span>                       \
+                        (GInstanceInitFunc) instance_init,              \
+                        NULL                                            \
+                };                                                      \
+                type = g_type_register_static (parent_type, #name,      \
+                        &amp;object_info, (GTypeFlags) <span class="keyword">abstract</span>);           \
+                interface_decl                                          \
+        }                                                               \
+        <span class="keywordflow">return</span> type;                                                    \
+}
+</pre></div>
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00121">121</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des définitions de type</h2>
+<a class="anchor" id="a98bb6ea1d67f7e272c0fe7be5eec1ea4"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::Cs" ref="a98bb6ea1d67f7e272c0fe7be5eec1ea4" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="struct__GOCharmapSel.html">GOCharmapSel</a> <a class="el" href="struct__GOCharmapSel.html">Cs</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00105">105</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8aedb7fb0d65217b02b2136a2a891321"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::CsClass" ref="a8aedb7fb0d65217b02b2136a2a891321" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="structGOCharmapSelClass.html">GOCharmapSelClass</a> <a class="el" href="structGOCharmapSelClass.html">CsClass</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00106">106</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="a99fb83031ce9923c84392b4e92f956b5"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::@2" ref="a99fb83031ce9923c84392b4e92f956b5" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a99fb83031ce9923c84392b4e92f956b5a2d46d269c28f1438b81445027ac2fbc0"></a><!-- doxytag: member="CHARMAP_CHANGED" ref="a99fb83031ce9923c84392b4e92f956b5a2d46d269c28f1438b81445027ac2fbc0" args="" -->CHARMAP_CHANGED</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a99fb83031ce9923c84392b4e92f956b5a0c34d85df8279641afad9e3c9b3a54ce"></a><!-- doxytag: member="LAST_SIGNAL" ref="a99fb83031ce9923c84392b4e92f956b5a0c34d85df8279641afad9e3c9b3a54ce" args="" -->LAST_SIGNAL</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00109">109</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abc6126af1d45847bc59afa0aa3216b04"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::@3" ref="abc6126af1d45847bc59afa0aa3216b04" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="abc6126af1d45847bc59afa0aa3216b04ac37dda0da1a44e10c0504afeeb863f3c"></a><!-- doxytag: member="PROP_0" ref="abc6126af1d45847bc59afa0aa3216b04ac37dda0da1a44e10c0504afeeb863f3c" args="" -->PROP_0</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="abc6126af1d45847bc59afa0aa3216b04a625d5a11efb0a06be0cda62720db125d"></a><!-- doxytag: member="PROP_TEST_DIRECTION" ref="abc6126af1d45847bc59afa0aa3216b04a625d5a11efb0a06be0cda62720db125d" args="" -->PROP_TEST_DIRECTION</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00114">114</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a70f8d6bd79d25b8f86d16e27dc6e9af1"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::CharsetImportance" ref="a70f8d6bd79d25b8f86d16e27dc6e9af1" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="go-charmap-sel_8c.html#a70f8d6bd79d25b8f86d16e27dc6e9af1">CharsetImportance</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a70f8d6bd79d25b8f86d16e27dc6e9af1ab652466c74b6b6eb53919239a0c69810"></a><!-- doxytag: member="CI_MINOR" ref="a70f8d6bd79d25b8f86d16e27dc6e9af1ab652466c74b6b6eb53919239a0c69810" args="" -->CI_MINOR</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a70f8d6bd79d25b8f86d16e27dc6e9af1a343a36bb261bcdfca1fa391026ee3e8f"></a><!-- doxytag: member="CI_MAJOR" ref="a70f8d6bd79d25b8f86d16e27dc6e9af1a343a36bb261bcdfca1fa391026ee3e8f" args="" -->CI_MAJOR</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00208">208</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a17a7ca06cfc5d9a8d0e08f764d50b7f8"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::go_charmap_sel_get_encoding" ref="a17a7ca06cfc5d9a8d0e08f764d50b7f8" args="(GOCharmapSel *cs)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar const* go_charmap_sel_get_encoding </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct__GOCharmapSel.html">GOCharmapSel</a> *&nbsp;</td>
+          <td class="paramname"> <em>cs</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00638">638</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a68d9a2dfcd7e29cf4585e4d830abfba4"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::go_charmap_sel_new" ref="a68d9a2dfcd7e29cf4585e4d830abfba4" args="(GOCharmapSelTestDirection test)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* go_charmap_sel_new </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="go-charmap-sel_8h.html#a758de5be5c36f44240e2a4fb4fcd7912">GOCharmapSelTestDirection</a>&nbsp;</td>
+          <td class="paramname"> <em>test</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00633">633</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afaad94b300355324942ac3632d75377b"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::go_charmap_sel_set_encoding" ref="afaad94b300355324942ac3632d75377b" args="(GOCharmapSel *cs, const char *enc)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean go_charmap_sel_set_encoding </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct__GOCharmapSel.html">GOCharmapSel</a> *&nbsp;</td>
+          <td class="paramname"> <em>cs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>enc</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00690">690</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aae247185acba9c3087636aa05049b932"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::GSF_CLASS" ref="aae247185acba9c3087636aa05049b932" args="(GOCharmapSel, go_charmap_sel, cs_class_init, cs_init, GTK_TYPE_HBOX)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSF_CLASS </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct__GOCharmapSel.html">GOCharmapSel</a>&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">go_charmap_sel&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cs_class_init&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cs_init&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GTK_TYPE_HBOX&nbsp;</td>
+          <td class="paramname"></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00148">148</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="acc162ef6fd12567a701dc17144498ff3"></a><!-- doxytag: member="go&#45;charmap&#45;sel.c::LanguageGroup" ref="acc162ef6fd12567a701dc17144498ff3" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="go-charmap-sel_8c.html#acc162ef6fd12567a701dc17144498ff3">LanguageGroup</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="go-charmap-sel_8c_source.html#l00170">170</a> du fichier <a class="el" href="go-charmap-sel_8c_source.html">go-charmap-sel.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,1100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de go-optionmenu.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>go-optionmenu.c</h1><a href="go-optionmenu_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<a name="l00002"></a>00002 <span class="comment"> * go-optionmenu.c</span>
+<a name="l00003"></a>00003 <span class="comment"> *</span>
+<a name="l00004"></a>00004 <span class="comment"> * Copyright (C) 2002 Andreas J. Guelzow &lt;aguelzow@taliesin.ca&gt;</span>
+<a name="l00005"></a>00005 <span class="comment"> *</span>
+<a name="l00006"></a>00006 <span class="comment"> * based extensively on:</span>
+<a name="l00007"></a>00007 <span class="comment"> *</span>
+<a name="l00008"></a>00008 <span class="comment"> * GTK - The GIMP Toolkit</span>
+<a name="l00009"></a>00009 <span class="comment"> * Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald</span>
+<a name="l00010"></a>00010 <span class="comment"> *</span>
+<a name="l00011"></a>00011 <span class="comment"> * Modified by the GTK+ Team and others 1997-2000.  See the GTK AUTHORS</span>
+<a name="l00012"></a>00012 <span class="comment"> * file for a list of people on the GTK+ Team.  See the ChangeLog</span>
+<a name="l00013"></a>00013 <span class="comment"> * files for a list of changes.  These files are distributed with</span>
+<a name="l00014"></a>00014 <span class="comment"> * GTK+ at ftp://ftp.gtk.org/pub/gtk/. </span>
+<a name="l00015"></a>00015 <span class="comment"> *</span>
+<a name="l00016"></a>00016 <span class="comment"> *</span>
+<a name="l00017"></a>00017 <span class="comment"> * This library is free software; you can redistribute it and/or</span>
+<a name="l00018"></a>00018 <span class="comment"> * modify it under the terms of the GNU Lesser General Public</span>
+<a name="l00019"></a>00019 <span class="comment"> * License as published by the Free Software Foundation; either</span>
+<a name="l00020"></a>00020 <span class="comment"> * version 2 of the License, or (at your option) any later version.</span>
+<a name="l00021"></a>00021 <span class="comment"> *</span>
+<a name="l00022"></a>00022 <span class="comment"> * This library is distributed in the hope that it will be useful,</span>
+<a name="l00023"></a>00023 <span class="comment"> * but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<a name="l00024"></a>00024 <span class="comment"> * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
+<a name="l00025"></a>00025 <span class="comment"> * Lesser General Public License for more details.</span>
+<a name="l00026"></a>00026 <span class="comment"> *</span>
+<a name="l00027"></a>00027 <span class="comment"> * You should have received a copy of the GNU Lesser General Public</span>
+<a name="l00028"></a>00028 <span class="comment"> * License along with this library; if not, write to the Free Software</span>
+<a name="l00029"></a>00029 <span class="comment"> * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301</span>
+<a name="l00030"></a>00030 <span class="comment"> * USA.</span>
+<a name="l00031"></a>00031 <span class="comment"> */</span>
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;<a class="code" href="go-optionmenu_8h.html">go-optionmenu.h</a>&quot;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00038"></a>00038 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040 <span class="comment">/*START_STATIC*/</span>
+<a name="l00041"></a>00041 <span class="keyword">static</span> <span class="keywordtype">void</span> connect_menu_signals (GtkMenu *menu, gpointer data);;
+<a name="l00042"></a>00042 <span class="keyword">static</span> <span class="keywordtype">void</span> connect_menu_signals_to_submenu (GtkMenuItem *item, gpointer data);
+<a name="l00043"></a>00043 <span class="keyword">static</span> gint go_option_menu_button_press (GtkWidget      *widget,
+<a name="l00044"></a>00044                               GdkEventButton *event);
+<a name="l00045"></a>00045 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_calc_size (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu);
+<a name="l00046"></a>00046 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_changed (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu);
+<a name="l00047"></a>00047 <span class="keyword">static</span> GType go_option_menu_child_type (GtkContainer       *container);
+<a name="l00048"></a>00048 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_class_init (<a class="code" href="struct__GOOptionMenuClass.html">GOOptionMenuClass</a> *<span class="keyword">class</span>);
+<a name="l00049"></a>00049 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_destroy (GtkObject *<span class="keywordtype">object</span>);
+<a name="l00050"></a>00050 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_detacher (GtkWidget     *widget,
+<a name="l00051"></a>00051                                      GtkMenu    *menu) ;
+<a name="l00052"></a>00052 <span class="keyword">static</span> gint go_option_menu_expose (GtkWidget      *widget,
+<a name="l00053"></a>00053                         GdkEventExpose *event);
+<a name="l00054"></a>00054 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_get_property (GObject            *<span class="keywordtype">object</span>,
+<a name="l00055"></a>00055                                    guint               prop_id,
+<a name="l00056"></a>00056                                    GValue             *value,
+<a name="l00057"></a>00057                                    GParamSpec         *pspec);
+<a name="l00058"></a>00058 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_get_props (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a>       *option_menu,
+<a name="l00059"></a>00059                            <a class="code" href="struct__GOOptionMenuProps.html">GOOptionMenuProps</a>  *props);
+<a name="l00060"></a>00060 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_hide_all (GtkWidget *widget);
+<a name="l00061"></a>00061 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_init (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu);
+<a name="l00062"></a>00062 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_item_destroy_cb (GtkWidget     *widget,
+<a name="l00063"></a>00063                                  <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu);
+<a name="l00064"></a>00064 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_item_state_changed_cb (GtkWidget      *widget,
+<a name="l00065"></a>00065                                        GtkStateType    previous_state,
+<a name="l00066"></a>00066                                        <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a>  *option_menu);
+<a name="l00067"></a>00067 <span class="keyword">static</span> gint go_option_menu_key_press (GtkWidget   *widget,
+<a name="l00068"></a>00068                            GdkEventKey *event);
+<a name="l00069"></a>00069 <span class="keyword">static</span> gboolean go_option_menu_mnemonic_activate (GtkWidget *widget,
+<a name="l00070"></a>00070                                    gboolean   group_cycling);
+<a name="l00071"></a>00071 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_paint (GtkWidget    *widget,
+<a name="l00072"></a>00072                        GdkRectangle *area);
+<a name="l00073"></a>00073 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_position (GtkMenu  *menu,
+<a name="l00074"></a>00074                           gint     *x,
+<a name="l00075"></a>00075                           gint     *y,
+<a name="l00076"></a>00076                           gboolean *push_in,
+<a name="l00077"></a>00077                           gpointer  user_data);
+<a name="l00078"></a>00078 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_remove_contents (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu);;
+<a name="l00079"></a>00079 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_remove_menu (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu);
+<a name="l00080"></a>00080 <span class="keyword">static</span> gint go_option_menu_scroll_event (GtkWidget          *widget,
+<a name="l00081"></a>00081                               GdkEventScroll     *event);
+<a name="l00082"></a>00082 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_select_first_sensitive (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu);
+<a name="l00083"></a>00083 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_selection_done (GtkMenu  *menu,
+<a name="l00084"></a>00084                                 <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu);
+<a name="l00085"></a>00085 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_set_property (GObject            *<span class="keywordtype">object</span>,
+<a name="l00086"></a>00086                               guint               prop_id,
+<a name="l00087"></a>00087                               <span class="keyword">const</span> GValue       *value,
+<a name="l00088"></a>00088                               GParamSpec         *pspec);
+<a name="l00089"></a>00089 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_show_all (GtkWidget *widget);
+<a name="l00090"></a>00090 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_size_allocate (GtkWidget     *widget,
+<a name="l00091"></a>00091                                     GtkAllocation *allocation);
+<a name="l00092"></a>00092 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_size_request (GtkWidget      *widget,
+<a name="l00093"></a>00093                                    GtkRequisition *requisition);
+<a name="l00094"></a>00094 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_update_contents (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu, GtkMenu *menu);;
+<a name="l00095"></a>00095 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_update_contents_real (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu, 
+<a name="l00096"></a>00096                                            GtkMenu *menu, GtkMenuItem *menu_item);
+<a name="l00097"></a>00097 <span class="comment">/*END_STATIC*/</span>
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00100"></a>00100 <span class="keyword">extern</span> GtkWidget *<a class="code" href="accueil_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a>;
+<a name="l00101"></a>00101 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104 <span class="preprocessor">#include &quot;<a class="code" href="go-optionmenu_8h.html">go-optionmenu.h</a>&quot;</span>
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106 <span class="preprocessor">#include &lt;gtk/gtkmenu.h&gt;</span>
+<a name="l00107"></a>00107 <span class="preprocessor">#include &lt;gtk/gtkmenuitem.h&gt;</span>
+<a name="l00108"></a>00108 <span class="preprocessor">#include &lt;gtk/gtkcheckmenuitem.h&gt;</span>
+<a name="l00109"></a>00109 <span class="preprocessor">#include &lt;gdk/gdkkeysyms.h&gt;</span>
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_class_init      (<a class="code" href="struct__GOOptionMenuClass.html">GOOptionMenuClass</a> *klass);
+<a name="l00112"></a>00112 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_init            (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a>      *option_menu);
+<a name="l00113"></a>00113 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_destroy         (GtkObject          *<span class="keywordtype">object</span>);
+<a name="l00114"></a>00114 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_set_property    (GObject            *<span class="keywordtype">object</span>,
+<a name="l00115"></a>00115                                                   guint               prop_id,
+<a name="l00116"></a>00116                                                   <span class="keyword">const</span> GValue       *value,
+<a name="l00117"></a>00117                                                   GParamSpec         *pspec);
+<a name="l00118"></a>00118 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_get_property    (GObject            *<span class="keywordtype">object</span>,
+<a name="l00119"></a>00119                                                   guint               prop_id,
+<a name="l00120"></a>00120                                                   GValue             *value,
+<a name="l00121"></a>00121                                                   GParamSpec         *pspec);
+<a name="l00122"></a>00122 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_size_request    (GtkWidget          *widget,
+<a name="l00123"></a>00123                                                   GtkRequisition     *requisition);
+<a name="l00124"></a>00124 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_size_allocate   (GtkWidget          *widget,
+<a name="l00125"></a>00125                                                   GtkAllocation      *allocation);
+<a name="l00126"></a>00126 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_paint           (GtkWidget          *widget,
+<a name="l00127"></a>00127                                                   GdkRectangle       *area);
+<a name="l00128"></a>00128 <span class="keyword">static</span> gint go_option_menu_expose          (GtkWidget          *widget,
+<a name="l00129"></a>00129                                                   GdkEventExpose     *event);
+<a name="l00130"></a>00130 <span class="keyword">static</span> gint go_option_menu_button_press    (GtkWidget          *widget,
+<a name="l00131"></a>00131                                                   GdkEventButton     *event);
+<a name="l00132"></a>00132 <span class="keyword">static</span> gint go_option_menu_key_press       (GtkWidget          *widget,
+<a name="l00133"></a>00133                                                   GdkEventKey        *event);
+<a name="l00134"></a>00134 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_selection_done  (GtkMenu            *menu,
+<a name="l00135"></a>00135                                                   <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu);
+<a name="l00136"></a>00136 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_update_contents (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu, GtkMenu *menu);
+<a name="l00137"></a>00137 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_remove_contents (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu);
+<a name="l00138"></a>00138 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_calc_size       (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu);
+<a name="l00139"></a>00139 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_position        (GtkMenu            *menu,
+<a name="l00140"></a>00140                                                   gint               *x,
+<a name="l00141"></a>00141                                                   gint               *y,
+<a name="l00142"></a>00142                                                   gint               *scroll_offet,
+<a name="l00143"></a>00143                                                   gpointer            user_data);
+<a name="l00144"></a>00144 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_show_all        (GtkWidget          *widget);
+<a name="l00145"></a>00145 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_hide_all        (GtkWidget          *widget);
+<a name="l00146"></a>00146 <span class="keyword">static</span> gboolean go_option_menu_mnemonic_activate (GtkWidget    *widget,
+<a name="l00147"></a>00147                                                         gboolean      group_cycling);
+<a name="l00148"></a>00148 <span class="keyword">static</span> GType go_option_menu_child_type   (GtkContainer       *container);
+<a name="l00149"></a>00149 <span class="keyword">static</span> gint go_option_menu_scroll_event    (GtkWidget          *widget,
+<a name="l00150"></a>00150                                                   GdkEventScroll     *event);
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152 <span class="keyword">enum</span>
+<a name="l00153"></a>00153 {
+<a name="l00154"></a><a class="code" href="go-optionmenu_8c.html#adc29c2ff13d900c2f185ee95427fb06ca02950f589a2addc8bff690a59d33cee7">00154</a>   <a class="code" href="go-optionmenu_8c.html#adc29c2ff13d900c2f185ee95427fb06ca02950f589a2addc8bff690a59d33cee7">CHANGED</a>,
+<a name="l00155"></a><a class="code" href="go-optionmenu_8c.html#adc29c2ff13d900c2f185ee95427fb06ca0c34d85df8279641afad9e3c9b3a54ce">00155</a>   <a class="code" href="go-charmap-sel_8c.html#a99fb83031ce9923c84392b4e92f956b5a0c34d85df8279641afad9e3c9b3a54ce">LAST_SIGNAL</a>
+<a name="l00156"></a>00156 };
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158 <span class="keyword">enum</span>
+<a name="l00159"></a>00159 {
+<a name="l00160"></a><a class="code" href="go-optionmenu_8c.html#a61dadd085c1777f559549e05962b2c9eac37dda0da1a44e10c0504afeeb863f3c">00160</a>   <a class="code" href="go-charmap-sel_8c.html#abc6126af1d45847bc59afa0aa3216b04ac37dda0da1a44e10c0504afeeb863f3c">PROP_0</a>,
+<a name="l00161"></a><a class="code" href="go-optionmenu_8c.html#a61dadd085c1777f559549e05962b2c9ea4eeefc644a379d0b127c793b061d3bbb">00161</a>   <a class="code" href="go-optionmenu_8c.html#a61dadd085c1777f559549e05962b2c9ea4eeefc644a379d0b127c793b061d3bbb">PROP_MENU</a>,
+<a name="l00162"></a><a class="code" href="go-optionmenu_8c.html#a61dadd085c1777f559549e05962b2c9eaed1845a7ee94addd86103e1ee5ccdc67">00162</a>   <a class="code" href="go-optionmenu_8c.html#a61dadd085c1777f559549e05962b2c9eaed1845a7ee94addd86103e1ee5ccdc67">LAST_PROP</a>
+<a name="l00163"></a>00163 };
+<a name="l00164"></a>00164 
+<a name="l00165"></a>00165 <span class="keyword">static</span> <span class="keyword">const</span> <a class="code" href="struct__GOOptionMenuProps.html">GOOptionMenuProps</a> default_props = {
+<a name="l00166"></a>00166   TRUE,
+<a name="l00167"></a>00167   { 7, 13 },
+<a name="l00168"></a>00168   { 7, 5, 2, 2 },               <span class="comment">/* Left, right, top, bottom */</span>
+<a name="l00169"></a>00169   1,
+<a name="l00170"></a>00170   0
+<a name="l00171"></a>00171 };
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173 <span class="keyword">static</span> GtkButtonClass *parent_class = NULL;
+<a name="l00174"></a>00174 <span class="keyword">static</span> guint           signals[<a class="code" href="go-charmap-sel_8c.html#a99fb83031ce9923c84392b4e92f956b5a0c34d85df8279641afad9e3c9b3a54ce">LAST_SIGNAL</a>] = { 0 };
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176 
+<a name="l00177"></a><a class="code" href="go-optionmenu_8h.html#a1489a0e86c99da95a7b619d447557e2c">00177</a> GType <a class="code" href="go-optionmenu_8c.html#a1489a0e86c99da95a7b619d447557e2c">go_option_menu_get_type</a> (<span class="keywordtype">void</span>)
+<a name="l00178"></a>00178 {
+<a name="l00179"></a>00179   <span class="keyword">static</span> GType option_menu_type = 0;
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181   <span class="keywordflow">if</span> (!option_menu_type)
+<a name="l00182"></a>00182     {
+<a name="l00183"></a>00183       <span class="keyword">static</span> <span class="keyword">const</span> GTypeInfo option_menu_info =
+<a name="l00184"></a>00184       {
+<a name="l00185"></a>00185         <span class="keyword">sizeof</span> (<a class="code" href="struct__GOOptionMenuClass.html">GOOptionMenuClass</a>),
+<a name="l00186"></a>00186         NULL,           <span class="comment">/* base_init */</span>
+<a name="l00187"></a>00187         NULL,           <span class="comment">/* base_finalize */</span>
+<a name="l00188"></a>00188         (GClassInitFunc) go_option_menu_class_init,
+<a name="l00189"></a>00189         NULL,           <span class="comment">/* class_finalize */</span>
+<a name="l00190"></a>00190         NULL,           <span class="comment">/* class_data */</span>
+<a name="l00191"></a>00191         <span class="keyword">sizeof</span> (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a>),
+<a name="l00192"></a>00192         0,              <span class="comment">/* n_preallocs */</span>
+<a name="l00193"></a>00193         (GInstanceInitFunc) go_option_menu_init,
+<a name="l00194"></a>00194       };
+<a name="l00195"></a>00195 
+<a name="l00196"></a>00196       option_menu_type =
+<a name="l00197"></a>00197         g_type_register_static (GTK_TYPE_BUTTON, <span class="stringliteral">&quot;GOOptionMenu&quot;</span>,
+<a name="l00198"></a>00198                                 &amp;option_menu_info, 0);
+<a name="l00199"></a>00199     }
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201   <span class="keywordflow">return</span> option_menu_type;
+<a name="l00202"></a>00202 }
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_class_init (<a class="code" href="struct__GOOptionMenuClass.html">GOOptionMenuClass</a> *<span class="keyword">class</span>)
+<a name="l00205"></a>00205 {
+<a name="l00206"></a>00206   GObjectClass *gobject_class;
+<a name="l00207"></a>00207   GtkObjectClass *object_class;
+<a name="l00208"></a>00208   GtkWidgetClass *widget_class;
+<a name="l00209"></a>00209   GtkButtonClass *button_class;
+<a name="l00210"></a>00210   GtkContainerClass *container_class;
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212   gobject_class = (GObjectClass*) <span class="keyword">class</span>;
+<a name="l00213"></a>00213   object_class = (GtkObjectClass*) <span class="keyword">class</span>;
+<a name="l00214"></a>00214   widget_class = (GtkWidgetClass*) <span class="keyword">class</span>;
+<a name="l00215"></a>00215   button_class = (GtkButtonClass*) <span class="keyword">class</span>;
+<a name="l00216"></a>00216   container_class = (GtkContainerClass*) <span class="keyword">class</span>;
+<a name="l00217"></a>00217 
+<a name="l00218"></a>00218   parent_class = g_type_class_peek_parent (<span class="keyword">class</span>);
+<a name="l00219"></a>00219 
+<a name="l00220"></a>00220   signals[<a class="code" href="go-optionmenu_8c.html#adc29c2ff13d900c2f185ee95427fb06ca02950f589a2addc8bff690a59d33cee7">CHANGED</a>] =
+<a name="l00221"></a>00221     g_signal_new (<span class="stringliteral">&quot;changed&quot;</span>,
+<a name="l00222"></a>00222                   G_OBJECT_CLASS_TYPE (<span class="keyword">class</span>),
+<a name="l00223"></a>00223                   G_SIGNAL_RUN_LAST,
+<a name="l00224"></a>00224                   G_STRUCT_OFFSET (<a class="code" href="struct__GOOptionMenuClass.html">GOOptionMenuClass</a>, changed),
+<a name="l00225"></a>00225                   NULL, NULL,
+<a name="l00226"></a>00226                   g_cclosure_marshal_VOID__VOID,
+<a name="l00227"></a>00227                   G_TYPE_NONE, 0);
+<a name="l00228"></a>00228 
+<a name="l00229"></a>00229   gobject_class-&gt;set_property = go_option_menu_set_property;
+<a name="l00230"></a>00230   gobject_class-&gt;get_property = go_option_menu_get_property;
+<a name="l00231"></a>00231   object_class-&gt;destroy = go_option_menu_destroy;
+<a name="l00232"></a>00232   
+<a name="l00233"></a>00233   widget_class-&gt;size_request = go_option_menu_size_request;
+<a name="l00234"></a>00234   widget_class-&gt;size_allocate = go_option_menu_size_allocate;
+<a name="l00235"></a>00235   widget_class-&gt;expose_event = go_option_menu_expose;
+<a name="l00236"></a>00236   widget_class-&gt;button_press_event = go_option_menu_button_press;
+<a name="l00237"></a>00237   widget_class-&gt;key_press_event = go_option_menu_key_press;
+<a name="l00238"></a>00238   widget_class-&gt;scroll_event = go_option_menu_scroll_event;
+<a name="l00239"></a>00239   widget_class-&gt;show_all = go_option_menu_show_all;
+<a name="l00240"></a>00240   widget_class-&gt;hide_all = go_option_menu_hide_all;
+<a name="l00241"></a>00241   widget_class-&gt;mnemonic_activate = go_option_menu_mnemonic_activate;
+<a name="l00242"></a>00242 
+<a name="l00243"></a>00243   container_class-&gt;child_type = go_option_menu_child_type;
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245   g_object_class_install_property (gobject_class,
+<a name="l00246"></a>00246                                    <a class="code" href="go-optionmenu_8c.html#a61dadd085c1777f559549e05962b2c9ea4eeefc644a379d0b127c793b061d3bbb">PROP_MENU</a>,
+<a name="l00247"></a>00247                                    g_param_spec_object (<span class="stringliteral">&quot;menu&quot;</span>,
+<a name="l00248"></a>00248                                                         _(<span class="stringliteral">&quot;Menu&quot;</span>),
+<a name="l00249"></a>00249                                                         _(<span class="stringliteral">&quot;The menu of options&quot;</span>),
+<a name="l00250"></a>00250                                                         GTK_TYPE_MENU,
+<a name="l00251"></a>00251                                                         G_PARAM_READABLE | G_PARAM_WRITABLE));
+<a name="l00252"></a>00252   
+<a name="l00253"></a>00253   gtk_widget_class_install_style_property (widget_class,
+<a name="l00254"></a>00254                                            g_param_spec_boxed (<span class="stringliteral">&quot;indicator_size&quot;</span>,
+<a name="l00255"></a>00255                                                                _(<span class="stringliteral">&quot;Indicator Size&quot;</span>),
+<a name="l00256"></a>00256                                                                _(<span class="stringliteral">&quot;Size of dropdown indicator&quot;</span>),
+<a name="l00257"></a>00257                                                                GTK_TYPE_REQUISITION,
+<a name="l00258"></a>00258                                                                G_PARAM_READABLE));
+<a name="l00259"></a>00259   gtk_widget_class_install_style_property (widget_class,
+<a name="l00260"></a>00260                                            g_param_spec_boxed (<span class="stringliteral">&quot;indicator_spacing&quot;</span>,
+<a name="l00261"></a>00261                                                                _(<span class="stringliteral">&quot;Indicator Spacing&quot;</span>),
+<a name="l00262"></a>00262                                                                _(<span class="stringliteral">&quot;Spacing around indicator&quot;</span>),
+<a name="l00263"></a>00263                                                                GTK_TYPE_BORDER,
+<a name="l00264"></a>00264                                                                G_PARAM_READABLE));
+<a name="l00265"></a>00265 }
+<a name="l00266"></a>00266 
+<a name="l00267"></a>00267 <span class="keyword">static</span> GType go_option_menu_child_type (GtkContainer       *container)
+<a name="l00268"></a>00268 {
+<a name="l00269"></a>00269   <span class="keywordflow">return</span> G_TYPE_NONE;
+<a name="l00270"></a>00270 }
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_init (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu)
+<a name="l00273"></a>00273 {
+<a name="l00274"></a>00274   GTK_WIDGET_SET_FLAGS (option_menu, GTK_CAN_FOCUS);
+<a name="l00275"></a>00275   GTK_WIDGET_UNSET_FLAGS (option_menu, GTK_CAN_DEFAULT | GTK_RECEIVES_DEFAULT);
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a> = NULL;
+<a name="l00278"></a>00278   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5d9a576e5d891231d25d65951bd9213c">select_menu</a> = NULL;
+<a name="l00279"></a>00279   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a> = NULL;
+<a name="l00280"></a>00280   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5df201adc46f9f144da31ae5f734b4ee">old_menu_item</a> = NULL;
+<a name="l00281"></a>00281   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a9432723e231444928d123cda4eeaed4f">last_signaled_menu_item</a> = NULL;
+<a name="l00282"></a>00282   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ad40624ee6d30e4a64a740da43a456d29">selection</a> = NULL;
+<a name="l00283"></a>00283   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a7d2136dee70ebf2070a990a856534467">new_selection</a> = TRUE;
+<a name="l00284"></a>00284   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#addb1689f2cd2040ee3c31f90a7efa854">width</a> = 0;
+<a name="l00285"></a>00285   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ace5a1b8c2a5c5f286f504b4995be0756">height</a> = 0;
+<a name="l00286"></a>00286 }
+<a name="l00287"></a>00287 
+<a name="l00288"></a><a class="code" href="go-optionmenu_8h.html#a65b28f33d04bd58f3961f16233e2a907">00288</a> GtkWidget* <a class="code" href="go-optionmenu_8c.html#a65b28f33d04bd58f3961f16233e2a907">go_option_menu_new</a> (<span class="keywordtype">void</span>)
+<a name="l00289"></a>00289 {
+<a name="l00290"></a>00290   <span class="keywordflow">return</span> g_object_new (<a class="code" href="go-optionmenu_8h.html#aaba73cade321e4478b28a458619c113b">GO_TYPE_OPTION_MENU</a>, NULL);
+<a name="l00291"></a>00291 }
+<a name="l00292"></a>00292 
+<a name="l00293"></a>00293 <span class="comment">/* TODO dOm : this function seems not to be used. Is it possible to remove it ?</span>
+<a name="l00294"></a>00294 <span class="comment">GtkWidget* go_option_menu_get_menu (GOOptionMenu *option_menu)</span>
+<a name="l00295"></a>00295 <span class="comment">{</span>
+<a name="l00296"></a>00296 <span class="comment">  g_return_val_if_fail (GO_IS_OPTION_MENU (option_menu), NULL);</span>
+<a name="l00297"></a>00297 <span class="comment"></span>
+<a name="l00298"></a>00298 <span class="comment">  return option_menu-&gt;menu;</span>
+<a name="l00299"></a>00299 <span class="comment">}</span>
+<a name="l00300"></a>00300 <span class="comment">*/</span>
+<a name="l00301"></a>00301 
+<a name="l00302"></a>00302 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_detacher (GtkWidget     *widget,
+<a name="l00303"></a>00303                                      GtkMenu    *menu) 
+<a name="l00304"></a>00304 {
+<a name="l00305"></a>00305   <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu;
+<a name="l00306"></a>00306 
+<a name="l00307"></a>00307   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (widget));
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309   option_menu = <a class="code" href="go-optionmenu_8h.html#ad5ed3feee959f2f515aace48cfdf4145">GO_OPTION_MENU</a> (widget);
+<a name="l00310"></a>00310   g_return_if_fail (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a> == (GtkWidget*) menu);
+<a name="l00311"></a>00311 
+<a name="l00312"></a>00312   go_option_menu_remove_contents (option_menu);
+<a name="l00313"></a>00313   g_signal_handlers_disconnect_by_func (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>,
+<a name="l00314"></a>00314                                         go_option_menu_selection_done,
+<a name="l00315"></a>00315                                         option_menu);
+<a name="l00316"></a>00316   g_signal_handlers_disconnect_by_func (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>,
+<a name="l00317"></a>00317                                         go_option_menu_calc_size,
+<a name="l00318"></a>00318                                         option_menu);
+<a name="l00319"></a>00319   
+<a name="l00320"></a>00320   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a> = NULL;
+<a name="l00321"></a>00321   g_object_notify (G_OBJECT (option_menu), <span class="stringliteral">&quot;menu&quot;</span>);
+<a name="l00322"></a>00322 }
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324 <span class="keyword">static</span> <span class="keywordtype">void</span> connect_menu_signals (GtkMenu *menu, gpointer data);
+<a name="l00325"></a>00325 
+<a name="l00326"></a>00326 <span class="keyword">static</span> <span class="keywordtype">void</span> connect_menu_signals_to_submenu (GtkMenuItem *item, gpointer data)
+<a name="l00327"></a>00327 {
+<a name="l00328"></a>00328         GtkMenu *menu = GTK_MENU(gtk_menu_item_get_submenu (item));
+<a name="l00329"></a>00329         
+<a name="l00330"></a>00330         <span class="keywordflow">if</span> (menu)
+<a name="l00331"></a>00331                 connect_menu_signals (menu, data);
+<a name="l00332"></a>00332 }
+<a name="l00333"></a>00333 
+<a name="l00334"></a>00334 
+<a name="l00335"></a>00335 <span class="keyword">static</span> <span class="keywordtype">void</span> connect_menu_signals (GtkMenu *menu, gpointer data)
+<a name="l00336"></a>00336 {
+<a name="l00337"></a>00337         GList *children;
+<a name="l00338"></a>00338         
+<a name="l00339"></a>00339         g_signal_connect_after (menu, <span class="stringliteral">&quot;selection_done&quot;</span>,
+<a name="l00340"></a>00340                                 G_CALLBACK (go_option_menu_selection_done),
+<a name="l00341"></a>00341                                 data);
+<a name="l00342"></a>00342         children = gtk_container_get_children (GTK_CONTAINER(menu));
+<a name="l00343"></a>00343         g_list_foreach (children, (GFunc)connect_menu_signals_to_submenu, data);
+<a name="l00344"></a>00344         g_list_free (children);
+<a name="l00345"></a>00345 }
+<a name="l00346"></a>00346 
+<a name="l00347"></a>00347 
+<a name="l00348"></a><a class="code" href="go-optionmenu_8h.html#ab42257d264938db93bcd16dbb6e78ec3">00348</a> <span class="keywordtype">void</span> <a class="code" href="go-optionmenu_8c.html#ab42257d264938db93bcd16dbb6e78ec3">go_option_menu_set_menu</a> (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu,
+<a name="l00349"></a>00349                                GtkWidget *menu)
+<a name="l00350"></a>00350 {
+<a name="l00351"></a>00351   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (option_menu));
+<a name="l00352"></a>00352   g_return_if_fail (GTK_IS_MENU (menu));
+<a name="l00353"></a>00353 
+<a name="l00354"></a>00354   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a> != menu)
+<a name="l00355"></a>00355     {
+<a name="l00356"></a>00356       go_option_menu_remove_menu (option_menu);
+<a name="l00357"></a>00357 
+<a name="l00358"></a>00358       option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a> = menu;
+<a name="l00359"></a>00359       gtk_menu_attach_to_widget (GTK_MENU (menu),
+<a name="l00360"></a>00360                                  GTK_WIDGET (option_menu),
+<a name="l00361"></a>00361                                  go_option_menu_detacher);
+<a name="l00362"></a>00362 
+<a name="l00363"></a>00363       go_option_menu_calc_size (option_menu);
+<a name="l00364"></a>00364 
+<a name="l00365"></a>00365       connect_menu_signals (GTK_MENU(option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>), option_menu);
+<a name="l00366"></a>00366       
+<a name="l00367"></a>00367       g_signal_connect_swapped (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>, <span class="stringliteral">&quot;size_request&quot;</span>,
+<a name="l00368"></a>00368                                 G_CALLBACK (go_option_menu_calc_size),
+<a name="l00369"></a>00369                                 option_menu);
+<a name="l00370"></a>00370 
+<a name="l00371"></a>00371       <span class="keywordflow">if</span> (GTK_WIDGET (option_menu)-&gt;parent)
+<a name="l00372"></a>00372         gtk_widget_queue_resize (GTK_WIDGET (option_menu));
+<a name="l00373"></a>00373 
+<a name="l00374"></a>00374       go_option_menu_update_contents (option_menu, NULL);
+<a name="l00375"></a>00375       
+<a name="l00376"></a>00376       g_object_notify (G_OBJECT (option_menu), <span class="stringliteral">&quot;menu&quot;</span>);
+<a name="l00377"></a>00377     }
+<a name="l00378"></a>00378 }
+<a name="l00379"></a>00379 
+<a name="l00380"></a>00380 <span class="keywordtype">void</span> go_option_menu_remove_menu (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu)
+<a name="l00381"></a>00381 {
+<a name="l00382"></a>00382   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (option_menu));
+<a name="l00383"></a>00383 
+<a name="l00384"></a>00384   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>)
+<a name="l00385"></a>00385     {
+<a name="l00386"></a>00386       <span class="keywordflow">if</span> (GTK_MENU_SHELL (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>)-&gt;active)
+<a name="l00387"></a>00387         g_signal_emit_by_name (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>, <span class="stringliteral">&quot;cancel&quot;</span>, 0);
+<a name="l00388"></a>00388       
+<a name="l00389"></a>00389       gtk_menu_detach (GTK_MENU (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>));
+<a name="l00390"></a>00390     }
+<a name="l00391"></a>00391 }
+<a name="l00392"></a>00392 
+<a name="l00393"></a><a class="code" href="go-optionmenu_8h.html#a782e70fffc9fb338b491ab5292015a4f">00393</a> <span class="keywordtype">void</span> <a class="code" href="go-optionmenu_8c.html#a782e70fffc9fb338b491ab5292015a4f">go_option_menu_set_history</a> (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu, GSList *selection)
+<a name="l00394"></a>00394 {
+<a name="l00395"></a>00395   GtkWidget *item;
+<a name="l00396"></a>00396   
+<a name="l00397"></a>00397   g_return_if_fail (selection != NULL);
+<a name="l00398"></a>00398   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (option_menu));
+<a name="l00399"></a>00399 
+<a name="l00400"></a>00400   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>)
+<a name="l00401"></a>00401     {
+<a name="l00402"></a>00402             GtkMenu *menu = GTK_MENU(option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>);
+<a name="l00403"></a>00403             
+<a name="l00404"></a>00404             <span class="keywordflow">while</span> (selection-&gt;next) {
+<a name="l00405"></a>00405                     GList *children = gtk_container_get_children (GTK_CONTAINER(menu));
+<a name="l00406"></a>00406                     gint index = GPOINTER_TO_INT (selection-&gt;data);
+<a name="l00407"></a>00407                     item = GTK_WIDGET(g_list_nth_data (children, index));
+<a name="l00408"></a>00408                     menu = GTK_MENU(gtk_menu_item_get_submenu (GTK_MENU_ITEM(item)));
+<a name="l00409"></a>00409                     selection = selection-&gt;next;
+<a name="l00410"></a>00410                     g_list_free (children);
+<a name="l00411"></a>00411             }
+<a name="l00412"></a>00412             
+<a name="l00413"></a>00413             gtk_menu_set_active (menu,  GPOINTER_TO_INT (selection-&gt;data));
+<a name="l00414"></a>00414             item = gtk_menu_get_active (menu);
+<a name="l00415"></a>00415             <span class="keywordflow">if</span> (item != option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>)
+<a name="l00416"></a>00416                     go_option_menu_update_contents (option_menu, menu);
+<a name="l00417"></a>00417             g_slist_free (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ad40624ee6d30e4a64a740da43a456d29">selection</a>);
+<a name="l00418"></a>00418             option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ad40624ee6d30e4a64a740da43a456d29">selection</a> = g_slist_copy (selection);
+<a name="l00419"></a>00419     }
+<a name="l00420"></a>00420 }
+<a name="l00421"></a>00421 
+<a name="l00432"></a><a class="code" href="go-optionmenu_8h.html#aa1e286812b1e20892052fbd0d1ba96fd">00432</a> GtkWidget * <a class="code" href="go-optionmenu_8c.html#aa1e286812b1e20892052fbd0d1ba96fd">go_option_menu_get_history</a> (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu)
+<a name="l00433"></a>00433 {
+<a name="l00434"></a>00434      <span class="keywordflow">return</span> GTK_WIDGET(option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>);
+<a name="l00435"></a>00435 }
+<a name="l00436"></a>00436 
+<a name="l00437"></a>00437 
+<a name="l00438"></a>00438 
+<a name="l00439"></a>00439 
+<a name="l00440"></a>00440 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_set_property (GObject            *<span class="keywordtype">object</span>,
+<a name="l00441"></a>00441                               guint               prop_id,
+<a name="l00442"></a>00442                               <span class="keyword">const</span> GValue       *value,
+<a name="l00443"></a>00443                               GParamSpec         *pspec)
+<a name="l00444"></a>00444 {
+<a name="l00445"></a>00445   <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu = <a class="code" href="go-optionmenu_8h.html#ad5ed3feee959f2f515aace48cfdf4145">GO_OPTION_MENU</a> (<span class="keywordtype">object</span>);
+<a name="l00446"></a>00446 
+<a name="l00447"></a>00447   <span class="keywordflow">switch</span> (prop_id)
+<a name="l00448"></a>00448     {
+<a name="l00449"></a>00449     <span class="keywordflow">case</span> <a class="code" href="go-optionmenu_8c.html#a61dadd085c1777f559549e05962b2c9ea4eeefc644a379d0b127c793b061d3bbb">PROP_MENU</a>:
+<a name="l00450"></a>00450       <a class="code" href="go-optionmenu_8c.html#ab42257d264938db93bcd16dbb6e78ec3">go_option_menu_set_menu</a> (option_menu, g_value_get_object (value));
+<a name="l00451"></a>00451       <span class="keywordflow">break</span>;
+<a name="l00452"></a>00452       
+<a name="l00453"></a>00453     <span class="keywordflow">default</span>:
+<a name="l00454"></a>00454       G_OBJECT_WARN_INVALID_PROPERTY_ID (<span class="keywordtype">object</span>, prop_id, pspec);
+<a name="l00455"></a>00455       <span class="keywordflow">break</span>;
+<a name="l00456"></a>00456     }
+<a name="l00457"></a>00457 }
+<a name="l00458"></a>00458 
+<a name="l00459"></a>00459 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_get_property (GObject            *<span class="keywordtype">object</span>,
+<a name="l00460"></a>00460                                    guint               prop_id,
+<a name="l00461"></a>00461                                    GValue             *value,
+<a name="l00462"></a>00462                                    GParamSpec         *pspec)
+<a name="l00463"></a>00463 {
+<a name="l00464"></a>00464   <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu = <a class="code" href="go-optionmenu_8h.html#ad5ed3feee959f2f515aace48cfdf4145">GO_OPTION_MENU</a> (<span class="keywordtype">object</span>);
+<a name="l00465"></a>00465 
+<a name="l00466"></a>00466   <span class="keywordflow">switch</span> (prop_id)
+<a name="l00467"></a>00467     {
+<a name="l00468"></a>00468     <span class="keywordflow">case</span> <a class="code" href="go-optionmenu_8c.html#a61dadd085c1777f559549e05962b2c9ea4eeefc644a379d0b127c793b061d3bbb">PROP_MENU</a>:
+<a name="l00469"></a>00469       g_value_set_object (value, option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>);
+<a name="l00470"></a>00470       <span class="keywordflow">break</span>;
+<a name="l00471"></a>00471       
+<a name="l00472"></a>00472     <span class="keywordflow">default</span>:
+<a name="l00473"></a>00473       G_OBJECT_WARN_INVALID_PROPERTY_ID (<span class="keywordtype">object</span>, prop_id, pspec);
+<a name="l00474"></a>00474       <span class="keywordflow">break</span>;
+<a name="l00475"></a>00475     }
+<a name="l00476"></a>00476 }
+<a name="l00477"></a>00477 
+<a name="l00478"></a>00478 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_destroy (GtkObject *<span class="keywordtype">object</span>)
+<a name="l00479"></a>00479 {
+<a name="l00480"></a>00480   <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu;
+<a name="l00481"></a>00481 
+<a name="l00482"></a>00482   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (<span class="keywordtype">object</span>));
+<a name="l00483"></a>00483 
+<a name="l00484"></a>00484   option_menu = <a class="code" href="go-optionmenu_8h.html#ad5ed3feee959f2f515aace48cfdf4145">GO_OPTION_MENU</a> (<span class="keywordtype">object</span>);
+<a name="l00485"></a>00485 
+<a name="l00486"></a>00486   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ad40624ee6d30e4a64a740da43a456d29">selection</a>) {
+<a name="l00487"></a>00487           g_slist_free (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ad40624ee6d30e4a64a740da43a456d29">selection</a>);
+<a name="l00488"></a>00488           option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ad40624ee6d30e4a64a740da43a456d29">selection</a> = NULL;
+<a name="l00489"></a>00489   }
+<a name="l00490"></a>00490 
+<a name="l00491"></a>00491   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>)
+<a name="l00492"></a>00492     gtk_widget_destroy (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>);
+<a name="l00493"></a>00493 
+<a name="l00494"></a>00494   <span class="keywordflow">if</span> (GTK_OBJECT_CLASS (parent_class)-&gt;destroy)
+<a name="l00495"></a>00495     (* GTK_OBJECT_CLASS (parent_class)-&gt;destroy) (<span class="keywordtype">object</span>);
+<a name="l00496"></a>00496 }
+<a name="l00497"></a>00497 
+<a name="l00498"></a>00498 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_get_props (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a>       *option_menu,
+<a name="l00499"></a>00499                            <a class="code" href="struct__GOOptionMenuProps.html">GOOptionMenuProps</a>  *props)
+<a name="l00500"></a>00500 {
+<a name="l00501"></a>00501   GtkRequisition *indicator_size;
+<a name="l00502"></a>00502   GtkBorder *indicator_spacing;
+<a name="l00503"></a>00503   
+<a name="l00504"></a>00504   gtk_widget_style_get (GTK_WIDGET (option_menu),
+<a name="l00505"></a>00505                         <span class="stringliteral">&quot;indicator_size&quot;</span>, &amp;indicator_size,
+<a name="l00506"></a>00506                         <span class="stringliteral">&quot;indicator_spacing&quot;</span>, &amp;indicator_spacing,
+<a name="l00507"></a>00507                         <span class="stringliteral">&quot;interior_focus&quot;</span>, &amp;props-&gt;<a class="code" href="struct__GOOptionMenuProps.html#a1ae09f1e4ad5ab9168a92276c44e0acc">interior_focus</a>,
+<a name="l00508"></a>00508                         <span class="stringliteral">&quot;focus_line_width&quot;</span>, &amp;props-&gt;<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a>,
+<a name="l00509"></a>00509                         <span class="stringliteral">&quot;focus_padding&quot;</span>, &amp;props-&gt;<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>,
+<a name="l00510"></a>00510                         NULL);
+<a name="l00511"></a>00511 
+<a name="l00512"></a>00512   <span class="keywordflow">if</span> (indicator_size)
+<a name="l00513"></a>00513     props-&gt;<a class="code" href="struct__GOOptionMenuProps.html#a92d0949910d76dee18d7d9aaf68b7312">indicator_size</a> = *indicator_size;
+<a name="l00514"></a>00514   <span class="keywordflow">else</span>
+<a name="l00515"></a>00515     props-&gt;<a class="code" href="struct__GOOptionMenuProps.html#a92d0949910d76dee18d7d9aaf68b7312">indicator_size</a> = default_props.<a class="code" href="struct__GOOptionMenuProps.html#a92d0949910d76dee18d7d9aaf68b7312">indicator_size</a>;
+<a name="l00516"></a>00516 
+<a name="l00517"></a>00517   <span class="keywordflow">if</span> (indicator_spacing)
+<a name="l00518"></a>00518     props-&gt;<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a> = *indicator_spacing;
+<a name="l00519"></a>00519   <span class="keywordflow">else</span>
+<a name="l00520"></a>00520     props-&gt;<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a> = default_props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>;
+<a name="l00521"></a>00521 
+<a name="l00522"></a>00522   g_free (indicator_size);
+<a name="l00523"></a>00523   g_free (indicator_spacing);
+<a name="l00524"></a>00524 }
+<a name="l00525"></a>00525 
+<a name="l00526"></a>00526 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_size_request (GtkWidget      *widget,
+<a name="l00527"></a>00527                                    GtkRequisition *requisition)
+<a name="l00528"></a>00528 {
+<a name="l00529"></a>00529   <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu = <a class="code" href="go-optionmenu_8h.html#ad5ed3feee959f2f515aace48cfdf4145">GO_OPTION_MENU</a> (widget);
+<a name="l00530"></a>00530   <a class="code" href="struct__GOOptionMenuProps.html">GOOptionMenuProps</a> props;
+<a name="l00531"></a>00531   gint tmp;
+<a name="l00532"></a>00532   GtkRequisition child_requisition = { 0, 0 };
+<a name="l00533"></a>00533       
+<a name="l00534"></a>00534   go_option_menu_get_props (option_menu, &amp;props);
+<a name="l00535"></a>00535  
+<a name="l00536"></a>00536   <span class="keywordflow">if</span> (GTK_BIN (option_menu)-&gt;child &amp;&amp; GTK_WIDGET_VISIBLE (GTK_BIN (option_menu)-&gt;child))
+<a name="l00537"></a>00537     {
+<a name="l00538"></a>00538       gtk_widget_size_request (GTK_BIN (option_menu)-&gt;child, &amp;child_requisition);
+<a name="l00539"></a>00539 
+<a name="l00540"></a>00540       requisition-&gt;width += child_requisition.width;
+<a name="l00541"></a>00541       requisition-&gt;height += child_requisition.height;
+<a name="l00542"></a>00542     }
+<a name="l00543"></a>00543   
+<a name="l00544"></a>00544   requisition-&gt;width = ((GTK_CONTAINER (widget)-&gt;border_width +
+<a name="l00545"></a>00545                          GTK_WIDGET (widget)-&gt;style-&gt;xthickness + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>) * 2 +
+<a name="l00546"></a>00546                         MAX (child_requisition.width, option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#addb1689f2cd2040ee3c31f90a7efa854">width</a>) +
+<a name="l00547"></a>00547                         props.<a class="code" href="struct__GOOptionMenuProps.html#a92d0949910d76dee18d7d9aaf68b7312">indicator_size</a>.width +
+<a name="l00548"></a>00548                         props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.left + props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.right +
+<a name="l00549"></a>00549                         <a class="code" href="go-optionmenu_8h.html#ac149705bffb6856a2330aedcff7efa73">CHILD_LEFT_SPACING</a> + <a class="code" href="go-optionmenu_8h.html#a15e64e61a1ea218e2ca88421ac4de8ff">CHILD_RIGHT_SPACING</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> * 2);
+<a name="l00550"></a>00550   requisition-&gt;height = ((GTK_CONTAINER (widget)-&gt;border_width +
+<a name="l00551"></a>00551                           GTK_WIDGET (widget)-&gt;style-&gt;ythickness + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>) * 2 +
+<a name="l00552"></a>00552                          MAX (child_requisition.height, option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ace5a1b8c2a5c5f286f504b4995be0756">height</a>) +
+<a name="l00553"></a>00553                          <a class="code" href="go-optionmenu_8h.html#a2d0c059cf7174650bbec019d61ba08e3">CHILD_TOP_SPACING</a> + <a class="code" href="go-optionmenu_8h.html#a07114dd60cc850293ae5855125774179">CHILD_BOTTOM_SPACING</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> * 2);
+<a name="l00554"></a>00554 
+<a name="l00555"></a>00555   tmp = (requisition-&gt;height - MAX (child_requisition.height, option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ace5a1b8c2a5c5f286f504b4995be0756">height</a>) +
+<a name="l00556"></a>00556          props.<a class="code" href="struct__GOOptionMenuProps.html#a92d0949910d76dee18d7d9aaf68b7312">indicator_size</a>.height + props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.top + props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.bottom);
+<a name="l00557"></a>00557   requisition-&gt;height = MAX (requisition-&gt;height, tmp);
+<a name="l00558"></a>00558 }
+<a name="l00559"></a>00559 
+<a name="l00560"></a>00560 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_size_allocate (GtkWidget     *widget,
+<a name="l00561"></a>00561                                     GtkAllocation *allocation)
+<a name="l00562"></a>00562 {
+<a name="l00563"></a>00563   GtkWidget *child;
+<a name="l00564"></a>00564   GtkButton *button = GTK_BUTTON (widget);
+<a name="l00565"></a>00565   GtkAllocation child_allocation;
+<a name="l00566"></a>00566   <a class="code" href="struct__GOOptionMenuProps.html">GOOptionMenuProps</a> props;
+<a name="l00567"></a>00567   gint border_width;
+<a name="l00568"></a>00568     
+<a name="l00569"></a>00569   go_option_menu_get_props (<a class="code" href="go-optionmenu_8h.html#ad5ed3feee959f2f515aace48cfdf4145">GO_OPTION_MENU</a> (widget), &amp;props);
+<a name="l00570"></a>00570   border_width = GTK_CONTAINER (widget)-&gt;border_width;
+<a name="l00571"></a>00571 
+<a name="l00572"></a>00572   widget-&gt;allocation = *allocation;
+<a name="l00573"></a>00573   <span class="keywordflow">if</span> (GTK_WIDGET_REALIZED (widget))
+<a name="l00574"></a>00574     gdk_window_move_resize (button-&gt;event_window,
+<a name="l00575"></a>00575                             allocation-&gt;x + border_width, allocation-&gt;y + border_width,
+<a name="l00576"></a>00576                             allocation-&gt;width - border_width * 2, allocation-&gt;height - border_width * 2);
+<a name="l00577"></a>00577 
+<a name="l00578"></a>00578   child = GTK_BIN (widget)-&gt;child;
+<a name="l00579"></a>00579   <span class="keywordflow">if</span> (child &amp;&amp; GTK_WIDGET_VISIBLE (child))
+<a name="l00580"></a>00580     {
+<a name="l00581"></a>00581       gint xthickness = GTK_WIDGET (widget)-&gt;style-&gt;xthickness;
+<a name="l00582"></a>00582       gint ythickness = GTK_WIDGET (widget)-&gt;style-&gt;ythickness;
+<a name="l00583"></a>00583       
+<a name="l00584"></a>00584       child_allocation.x = widget-&gt;allocation.x + border_width + xthickness + props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a> + <a class="code" href="go-optionmenu_8h.html#ac149705bffb6856a2330aedcff7efa73">CHILD_LEFT_SPACING</a>;
+<a name="l00585"></a>00585       child_allocation.y = widget-&gt;allocation.y + border_width + ythickness + props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a> + <a class="code" href="go-optionmenu_8h.html#a2d0c059cf7174650bbec019d61ba08e3">CHILD_TOP_SPACING</a>;
+<a name="l00586"></a>00586       child_allocation.width = MAX (1, allocation-&gt;width - (border_width + xthickness + props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>) * 2 -
+<a name="l00587"></a>00587                                     props.<a class="code" href="struct__GOOptionMenuProps.html#a92d0949910d76dee18d7d9aaf68b7312">indicator_size</a>.width - props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.left - props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.right -
+<a name="l00588"></a>00588                                     <a class="code" href="go-optionmenu_8h.html#ac149705bffb6856a2330aedcff7efa73">CHILD_LEFT_SPACING</a> - <a class="code" href="go-optionmenu_8h.html#a15e64e61a1ea218e2ca88421ac4de8ff">CHILD_RIGHT_SPACING</a>);
+<a name="l00589"></a>00589       child_allocation.height = MAX (1, allocation-&gt;height - (border_width + ythickness + props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>) * 2 -
+<a name="l00590"></a>00590                                      <a class="code" href="go-optionmenu_8h.html#a2d0c059cf7174650bbec019d61ba08e3">CHILD_TOP_SPACING</a> - <a class="code" href="go-optionmenu_8h.html#a07114dd60cc850293ae5855125774179">CHILD_BOTTOM_SPACING</a>);
+<a name="l00591"></a>00591 
+<a name="l00592"></a>00592       <span class="keywordflow">if</span> (gtk_widget_get_direction (GTK_WIDGET (widget)) == GTK_TEXT_DIR_RTL) 
+<a name="l00593"></a>00593         child_allocation.x += props.<a class="code" href="struct__GOOptionMenuProps.html#a92d0949910d76dee18d7d9aaf68b7312">indicator_size</a>.width + props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.left + props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.right;
+<a name="l00594"></a>00594 
+<a name="l00595"></a>00595       gtk_widget_size_allocate (child, &amp;child_allocation);
+<a name="l00596"></a>00596     }
+<a name="l00597"></a>00597 }
+<a name="l00598"></a>00598 
+<a name="l00599"></a>00599 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_paint (GtkWidget    *widget,
+<a name="l00600"></a>00600                        GdkRectangle *area)
+<a name="l00601"></a>00601 {
+<a name="l00602"></a>00602   GdkRectangle button_area;
+<a name="l00603"></a>00603   <a class="code" href="struct__GOOptionMenuProps.html">GOOptionMenuProps</a> props;
+<a name="l00604"></a>00604   gint border_width;
+<a name="l00605"></a>00605   gint tab_x;
+<a name="l00606"></a>00606 
+<a name="l00607"></a>00607   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (widget));
+<a name="l00608"></a>00608   g_return_if_fail (area != NULL);
+<a name="l00609"></a>00609 
+<a name="l00610"></a>00610   <span class="keywordflow">if</span> (GTK_WIDGET_DRAWABLE (widget))
+<a name="l00611"></a>00611     {
+<a name="l00612"></a>00612       border_width = GTK_CONTAINER (widget)-&gt;border_width;
+<a name="l00613"></a>00613       go_option_menu_get_props (<a class="code" href="go-optionmenu_8h.html#ad5ed3feee959f2f515aace48cfdf4145">GO_OPTION_MENU</a> (widget), &amp;props);
+<a name="l00614"></a>00614 
+<a name="l00615"></a>00615       button_area.x = widget-&gt;allocation.x + border_width;
+<a name="l00616"></a>00616       button_area.y = widget-&gt;allocation.y + border_width;
+<a name="l00617"></a>00617       button_area.width = widget-&gt;allocation.width - 2 * border_width;
+<a name="l00618"></a>00618       button_area.height = widget-&gt;allocation.height - 2 * border_width;
+<a name="l00619"></a>00619 
+<a name="l00620"></a>00620       <span class="keywordflow">if</span> (!props.<a class="code" href="struct__GOOptionMenuProps.html#a1ae09f1e4ad5ab9168a92276c44e0acc">interior_focus</a> &amp;&amp; GTK_WIDGET_HAS_FOCUS (widget))
+<a name="l00621"></a>00621         {
+<a name="l00622"></a>00622           button_area.x += props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>;
+<a name="l00623"></a>00623           button_area.y += props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>;
+<a name="l00624"></a>00624           button_area.width -= 2 * (props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>);
+<a name="l00625"></a>00625           button_area.height -= 2 * (props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>);
+<a name="l00626"></a>00626         }
+<a name="l00627"></a>00627       
+<a name="l00628"></a>00628       gtk_paint_box (widget-&gt;style, widget-&gt;window,
+<a name="l00629"></a>00629                      GTK_WIDGET_STATE (widget), GTK_SHADOW_OUT,
+<a name="l00630"></a>00630                      area, widget, <span class="stringliteral">&quot;optionmenu&quot;</span>,
+<a name="l00631"></a>00631                      button_area.x, button_area.y,
+<a name="l00632"></a>00632                      button_area.width, button_area.height);
+<a name="l00633"></a>00633       
+<a name="l00634"></a>00634       <span class="keywordflow">if</span> (gtk_widget_get_direction (GTK_WIDGET (widget)) == GTK_TEXT_DIR_RTL) 
+<a name="l00635"></a>00635         tab_x = button_area.x + props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.right + 
+<a name="l00636"></a>00636           widget-&gt;style-&gt;xthickness;
+<a name="l00637"></a>00637       <span class="keywordflow">else</span>
+<a name="l00638"></a>00638         tab_x = button_area.x + button_area.width - 
+<a name="l00639"></a>00639           props.<a class="code" href="struct__GOOptionMenuProps.html#a92d0949910d76dee18d7d9aaf68b7312">indicator_size</a>.width - props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.right -
+<a name="l00640"></a>00640           widget-&gt;style-&gt;xthickness;
+<a name="l00641"></a>00641 
+<a name="l00642"></a>00642       gtk_paint_tab (widget-&gt;style, widget-&gt;window,
+<a name="l00643"></a>00643                      GTK_WIDGET_STATE (widget), GTK_SHADOW_OUT,
+<a name="l00644"></a>00644                      area, widget, <span class="stringliteral">&quot;optionmenutab&quot;</span>,
+<a name="l00645"></a>00645                      tab_x,
+<a name="l00646"></a>00646                      button_area.y + (button_area.height - props.<a class="code" href="struct__GOOptionMenuProps.html#a92d0949910d76dee18d7d9aaf68b7312">indicator_size</a>.height) / 2,
+<a name="l00647"></a>00647                      props.<a class="code" href="struct__GOOptionMenuProps.html#a92d0949910d76dee18d7d9aaf68b7312">indicator_size</a>.width, props.<a class="code" href="struct__GOOptionMenuProps.html#a92d0949910d76dee18d7d9aaf68b7312">indicator_size</a>.height);
+<a name="l00648"></a>00648       
+<a name="l00649"></a>00649       <span class="keywordflow">if</span> (GTK_WIDGET_HAS_FOCUS (widget))
+<a name="l00650"></a>00650         {
+<a name="l00651"></a>00651           <span class="keywordflow">if</span> (props.<a class="code" href="struct__GOOptionMenuProps.html#a1ae09f1e4ad5ab9168a92276c44e0acc">interior_focus</a>)
+<a name="l00652"></a>00652             {
+<a name="l00653"></a>00653               button_area.x += widget-&gt;style-&gt;xthickness + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>;
+<a name="l00654"></a>00654               button_area.y += widget-&gt;style-&gt;ythickness + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>;
+<a name="l00655"></a>00655               button_area.width -= 2 * (widget-&gt;style-&gt;xthickness + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>) +
+<a name="l00656"></a>00656                       props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.left +
+<a name="l00657"></a>00657                       props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.right +
+<a name="l00658"></a>00658                       props.<a class="code" href="struct__GOOptionMenuProps.html#a92d0949910d76dee18d7d9aaf68b7312">indicator_size</a>.width;
+<a name="l00659"></a>00659               button_area.height -= 2 * (widget-&gt;style-&gt;ythickness + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>);
+<a name="l00660"></a>00660               <span class="keywordflow">if</span> (gtk_widget_get_direction (GTK_WIDGET (widget)) == GTK_TEXT_DIR_RTL) 
+<a name="l00661"></a>00661                 button_area.x += props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.left +
+<a name="l00662"></a>00662                   props.<a class="code" href="struct__GOOptionMenuProps.html#a4cc49d8195ef9e78d1e56e190e20b488">indicator_spacing</a>.right +
+<a name="l00663"></a>00663                   props.<a class="code" href="struct__GOOptionMenuProps.html#a92d0949910d76dee18d7d9aaf68b7312">indicator_size</a>.width;
+<a name="l00664"></a>00664             }
+<a name="l00665"></a>00665           <span class="keywordflow">else</span>
+<a name="l00666"></a>00666             {
+<a name="l00667"></a>00667               button_area.x -= props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>;
+<a name="l00668"></a>00668               button_area.y -= props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>;
+<a name="l00669"></a>00669               button_area.width += 2 * (props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>);
+<a name="l00670"></a>00670               button_area.height += 2 * (props.<a class="code" href="struct__GOOptionMenuProps.html#ab959d93388f95d6d852e21d0f9efe160">focus_width</a> + props.<a class="code" href="struct__GOOptionMenuProps.html#ac4ce5f102222b86f7e33991daf5664d4">focus_pad</a>);
+<a name="l00671"></a>00671             }
+<a name="l00672"></a>00672             
+<a name="l00673"></a>00673           gtk_paint_focus (widget-&gt;style, widget-&gt;window, GTK_WIDGET_STATE (widget),
+<a name="l00674"></a>00674                            area, widget, <span class="stringliteral">&quot;button&quot;</span>,
+<a name="l00675"></a>00675                            button_area.x, 
+<a name="l00676"></a>00676                            button_area.y, 
+<a name="l00677"></a>00677                            button_area.width,
+<a name="l00678"></a>00678                            button_area.height);
+<a name="l00679"></a>00679         }
+<a name="l00680"></a>00680     }
+<a name="l00681"></a>00681 }
+<a name="l00682"></a>00682 
+<a name="l00683"></a>00683 <span class="keyword">static</span> gint go_option_menu_expose (GtkWidget      *widget,
+<a name="l00684"></a>00684                         GdkEventExpose *event)
+<a name="l00685"></a>00685 {
+<a name="l00686"></a>00686   g_return_val_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (widget), FALSE);
+<a name="l00687"></a>00687   g_return_val_if_fail (event != NULL, FALSE);
+<a name="l00688"></a>00688 
+<a name="l00689"></a>00689   <span class="keywordflow">if</span> (GTK_WIDGET_DRAWABLE (widget))
+<a name="l00690"></a>00690     {
+<a name="l00691"></a>00691       go_option_menu_paint (widget, &amp;event-&gt;area);
+<a name="l00692"></a>00692 
+<a name="l00693"></a>00693       <span class="keywordflow">if</span> (GTK_BIN (widget)-&gt;child)
+<a name="l00694"></a>00694         gtk_container_propagate_expose (GTK_CONTAINER (widget),
+<a name="l00695"></a>00695                                         GTK_BIN (widget)-&gt;child,
+<a name="l00696"></a>00696                                         event);
+<a name="l00697"></a>00697     }
+<a name="l00698"></a>00698 
+<a name="l00699"></a>00699   <span class="keywordflow">return</span> FALSE;
+<a name="l00700"></a>00700 }
+<a name="l00701"></a>00701 
+<a name="l00702"></a>00702 <span class="keyword">static</span> gint go_option_menu_button_press (GtkWidget      *widget,
+<a name="l00703"></a>00703                               GdkEventButton *event)
+<a name="l00704"></a>00704 {
+<a name="l00705"></a>00705   <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu;
+<a name="l00706"></a>00706   GtkWidget *menu_item;
+<a name="l00707"></a>00707 
+<a name="l00708"></a>00708   g_return_val_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (widget), FALSE);
+<a name="l00709"></a>00709   g_return_val_if_fail (event != NULL, FALSE);
+<a name="l00710"></a>00710 
+<a name="l00711"></a>00711   option_menu = <a class="code" href="go-optionmenu_8h.html#ad5ed3feee959f2f515aace48cfdf4145">GO_OPTION_MENU</a> (widget);
+<a name="l00712"></a>00712 
+<a name="l00713"></a>00713   <span class="keywordflow">if</span> ((event-&gt;type == GDK_BUTTON_PRESS) &amp;&amp;
+<a name="l00714"></a>00714       (event-&gt;button == 1))
+<a name="l00715"></a>00715     {
+<a name="l00716"></a>00716             option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a7d2136dee70ebf2070a990a856534467">new_selection</a> = TRUE;
+<a name="l00717"></a>00717             option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5df201adc46f9f144da31ae5f734b4ee">old_menu_item</a> = option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>;
+<a name="l00718"></a>00718             go_option_menu_remove_contents (option_menu);
+<a name="l00719"></a>00719             gtk_menu_popup (GTK_MENU (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>), NULL, NULL,
+<a name="l00720"></a>00720                             go_option_menu_position, option_menu,
+<a name="l00721"></a>00721                             event-&gt;<a class="code" href="struct__GOOptionMenu.html#a9b79e27189ee6c0d6f152e90ca07a352">button</a>, event-&gt;time);
+<a name="l00722"></a>00722             menu_item = gtk_menu_get_active (GTK_MENU (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>));
+<a name="l00723"></a>00723             <span class="keywordflow">if</span> (menu_item)
+<a name="l00724"></a>00724                     gtk_menu_shell_select_item (GTK_MENU_SHELL (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>), menu_item);
+<a name="l00725"></a>00725             <span class="keywordflow">else</span>
+<a name="l00726"></a>00726                     gtk_menu_shell_select_item (GTK_MENU_SHELL (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5d9a576e5d891231d25d65951bd9213c">select_menu</a>), 
+<a name="l00727"></a>00727                                                 option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5df201adc46f9f144da31ae5f734b4ee">old_menu_item</a>);
+<a name="l00728"></a>00728                     
+<a name="l00729"></a>00729       <span class="keywordflow">return</span> TRUE;
+<a name="l00730"></a>00730     }
+<a name="l00731"></a>00731 
+<a name="l00732"></a>00732   <span class="keywordflow">return</span> FALSE;
+<a name="l00733"></a>00733 }
+<a name="l00734"></a>00734 
+<a name="l00735"></a>00735 <span class="keyword">static</span> gint go_option_menu_key_press (GtkWidget   *widget,
+<a name="l00736"></a>00736                            GdkEventKey *event)
+<a name="l00737"></a>00737 {
+<a name="l00738"></a>00738   <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu;
+<a name="l00739"></a>00739   GtkWidget *menu_item;
+<a name="l00740"></a>00740 
+<a name="l00741"></a>00741   g_return_val_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (widget), FALSE);
+<a name="l00742"></a>00742   g_return_val_if_fail (event != NULL, FALSE);
+<a name="l00743"></a>00743 
+<a name="l00744"></a>00744   option_menu = <a class="code" href="go-optionmenu_8h.html#ad5ed3feee959f2f515aace48cfdf4145">GO_OPTION_MENU</a> (widget);
+<a name="l00745"></a>00745 
+<a name="l00746"></a>00746   <span class="keywordflow">switch</span> (event-&gt;keyval)
+<a name="l00747"></a>00747     {
+<a name="l00748"></a>00748     <span class="keywordflow">case</span> GDK_KP_Space:
+<a name="l00749"></a>00749     <span class="keywordflow">case</span> GDK_space:
+<a name="l00750"></a>00750             option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a7d2136dee70ebf2070a990a856534467">new_selection</a>= TRUE;
+<a name="l00751"></a>00751             option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5df201adc46f9f144da31ae5f734b4ee">old_menu_item</a> = option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>;
+<a name="l00752"></a>00752             go_option_menu_remove_contents (option_menu);
+<a name="l00753"></a>00753             gtk_menu_popup (GTK_MENU (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>), NULL, NULL,
+<a name="l00754"></a>00754                             go_option_menu_position, option_menu,
+<a name="l00755"></a>00755                             0, event-&gt;time);
+<a name="l00756"></a>00756             menu_item = gtk_menu_get_active (GTK_MENU (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>));
+<a name="l00757"></a>00757             <span class="keywordflow">if</span> (menu_item)
+<a name="l00758"></a>00758                     gtk_menu_shell_select_item (GTK_MENU_SHELL (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>), menu_item);
+<a name="l00759"></a>00759             <span class="keywordflow">else</span>
+<a name="l00760"></a>00760                     gtk_menu_shell_select_item (GTK_MENU_SHELL (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5d9a576e5d891231d25d65951bd9213c">select_menu</a>), 
+<a name="l00761"></a>00761                                                 option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5df201adc46f9f144da31ae5f734b4ee">old_menu_item</a>);
+<a name="l00762"></a>00762             <span class="keywordflow">return</span> TRUE;
+<a name="l00763"></a>00763     }
+<a name="l00764"></a>00764   
+<a name="l00765"></a>00765   <span class="keywordflow">return</span> FALSE;
+<a name="l00766"></a>00766 }
+<a name="l00767"></a>00767 
+<a name="l00768"></a>00768 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_selection_done (GtkMenu  *menu,
+<a name="l00769"></a>00769                                 <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu)
+<a name="l00770"></a>00770 {
+<a name="l00771"></a>00771   g_return_if_fail (menu != NULL);
+<a name="l00772"></a>00772   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (option_menu));
+<a name="l00773"></a>00773 
+<a name="l00774"></a>00774   go_option_menu_update_contents (option_menu, menu);
+<a name="l00775"></a>00775 }
+<a name="l00776"></a>00776 
+<a name="l00777"></a>00777 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_changed (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu)
+<a name="l00778"></a>00778 {
+<a name="l00779"></a>00779   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (option_menu));
+<a name="l00780"></a>00780 
+<a name="l00781"></a>00781   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a9432723e231444928d123cda4eeaed4f">last_signaled_menu_item</a> &amp;&amp; GTK_IS_CHECK_MENU_ITEM(option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a9432723e231444928d123cda4eeaed4f">last_signaled_menu_item</a>))
+<a name="l00782"></a>00782           gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a9432723e231444928d123cda4eeaed4f">last_signaled_menu_item</a>),
+<a name="l00783"></a>00783                                           FALSE);
+<a name="l00784"></a>00784   
+<a name="l00785"></a>00785   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a9432723e231444928d123cda4eeaed4f">last_signaled_menu_item</a> = option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>;
+<a name="l00786"></a>00786   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a9432723e231444928d123cda4eeaed4f">last_signaled_menu_item</a>
+<a name="l00787"></a>00787       &amp;&amp; GTK_IS_CHECK_MENU_ITEM(option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a9432723e231444928d123cda4eeaed4f">last_signaled_menu_item</a>))
+<a name="l00788"></a>00788           gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a9432723e231444928d123cda4eeaed4f">last_signaled_menu_item</a>),
+<a name="l00789"></a>00789                                           TRUE);
+<a name="l00790"></a>00790   
+<a name="l00791"></a>00791   g_signal_emit (option_menu, signals[<a class="code" href="go-optionmenu_8c.html#adc29c2ff13d900c2f185ee95427fb06ca02950f589a2addc8bff690a59d33cee7">CHANGED</a>], 0);
+<a name="l00792"></a>00792 }
+<a name="l00793"></a>00793 
+<a name="l00794"></a>00794 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_select_first_sensitive (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu)
+<a name="l00795"></a>00795 {
+<a name="l00796"></a>00796 }
+<a name="l00797"></a>00797 
+<a name="l00798"></a>00798 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_item_state_changed_cb (GtkWidget      *widget,
+<a name="l00799"></a>00799                                        GtkStateType    previous_state,
+<a name="l00800"></a>00800                                        <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a>  *option_menu)
+<a name="l00801"></a>00801 {
+<a name="l00802"></a>00802   GtkWidget *child = GTK_BIN (option_menu)-&gt;child;
+<a name="l00803"></a>00803 
+<a name="l00804"></a>00804   <span class="keywordflow">if</span> (child &amp;&amp; GTK_WIDGET_SENSITIVE (child) != GTK_WIDGET_IS_SENSITIVE (widget))
+<a name="l00805"></a>00805     gtk_widget_set_sensitive (child, GTK_WIDGET_IS_SENSITIVE (widget));
+<a name="l00806"></a>00806 }
+<a name="l00807"></a>00807 
+<a name="l00808"></a>00808 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_item_destroy_cb (GtkWidget     *widget,
+<a name="l00809"></a>00809                                  <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu)
+<a name="l00810"></a>00810 {
+<a name="l00811"></a>00811   GtkWidget *child = GTK_BIN (option_menu)-&gt;child;
+<a name="l00812"></a>00812 
+<a name="l00813"></a>00813   <span class="keywordflow">if</span> (child)
+<a name="l00814"></a>00814     {
+<a name="l00815"></a>00815       g_object_ref (child);
+<a name="l00816"></a>00816       go_option_menu_remove_contents (option_menu);
+<a name="l00817"></a>00817       gtk_widget_destroy (child);
+<a name="l00818"></a>00818       g_object_unref (child);
+<a name="l00819"></a>00819 
+<a name="l00820"></a>00820       go_option_menu_select_first_sensitive (option_menu);
+<a name="l00821"></a>00821     }
+<a name="l00822"></a>00822 }
+<a name="l00823"></a>00823 
+<a name="l00824"></a>00824 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_update_contents_real (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu, 
+<a name="l00825"></a>00825                                            GtkMenu *menu, GtkMenuItem *menu_item)
+<a name="l00826"></a>00826 {
+<a name="l00827"></a>00827         GtkWidget *child;
+<a name="l00828"></a>00828         GtkRequisition child_requisition;
+<a name="l00829"></a>00829 
+<a name="l00830"></a>00830         g_return_if_fail (option_menu != NULL);
+<a name="l00831"></a>00831         g_return_if_fail (menu_item != NULL);
+<a name="l00832"></a>00832         g_return_if_fail (menu != NULL);
+<a name="l00833"></a>00833         
+<a name="l00834"></a>00834         go_option_menu_remove_contents (option_menu);
+<a name="l00835"></a>00835         option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a> = GTK_WIDGET(menu_item);
+<a name="l00836"></a>00836         option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5df201adc46f9f144da31ae5f734b4ee">old_menu_item</a> = NULL;
+<a name="l00837"></a>00837         option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5d9a576e5d891231d25d65951bd9213c">select_menu</a> = GTK_WIDGET(menu);
+<a name="l00838"></a>00838         g_object_ref (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>);
+<a name="l00839"></a>00839         child = GTK_BIN (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>)-&gt;child;
+<a name="l00840"></a>00840         <span class="keywordflow">if</span> (child)
+<a name="l00841"></a>00841         {
+<a name="l00842"></a>00842                 <span class="keywordflow">if</span> (!GTK_WIDGET_IS_SENSITIVE (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>))
+<a name="l00843"></a>00843                         gtk_widget_set_sensitive (child, FALSE);
+<a name="l00844"></a>00844                 gtk_widget_reparent (child, GTK_WIDGET (option_menu));
+<a name="l00845"></a>00845         }
+<a name="l00846"></a>00846         
+<a name="l00847"></a>00847         g_signal_connect (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>, <span class="stringliteral">&quot;state_changed&quot;</span>,
+<a name="l00848"></a>00848                           G_CALLBACK (go_option_menu_item_state_changed_cb), option_menu);
+<a name="l00849"></a>00849         g_signal_connect (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>, <span class="stringliteral">&quot;destroy&quot;</span>,
+<a name="l00850"></a>00850                           G_CALLBACK (go_option_menu_item_destroy_cb), option_menu);
+<a name="l00851"></a>00851         
+<a name="l00852"></a>00852         gtk_widget_size_request (child, &amp;child_requisition);
+<a name="l00853"></a>00853         gtk_widget_size_allocate (GTK_WIDGET (option_menu),
+<a name="l00854"></a>00854                                   &amp;(GTK_WIDGET (option_menu)-&gt;allocation));
+<a name="l00855"></a>00855         
+<a name="l00856"></a>00856         <span class="keywordflow">if</span> (GTK_WIDGET_DRAWABLE (option_menu))
+<a name="l00857"></a>00857                 gtk_widget_queue_draw (GTK_WIDGET (option_menu));
+<a name="l00858"></a>00858 }
+<a name="l00859"></a>00859 
+<a name="l00860"></a>00860 
+<a name="l00861"></a>00861 
+<a name="l00862"></a>00862 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_update_contents (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu, GtkMenu *menu)
+<a name="l00863"></a>00863 {
+<a name="l00864"></a>00864   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (option_menu));
+<a name="l00865"></a>00865 
+<a name="l00866"></a>00866   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>)
+<a name="l00867"></a>00867   {
+<a name="l00868"></a>00868           GtkWidget *old_item = option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>;
+<a name="l00869"></a>00869           GtkWidget *new_item;
+<a name="l00870"></a>00870           
+<a name="l00871"></a>00871           new_item = menu ? gtk_menu_get_active (menu) :
+<a name="l00872"></a>00872                   gtk_menu_get_active (GTK_MENU(option_menu-&gt;menu));
+<a name="l00873"></a>00873           
+<a name="l00874"></a>00874           <span class="keywordflow">if</span> (new_item &amp;&amp; !gtk_menu_item_get_submenu (GTK_MENU_ITEM(new_item))) {
+<a name="l00875"></a>00875                   g_slist_free (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ad40624ee6d30e4a64a740da43a456d29">selection</a>);
+<a name="l00876"></a>00876                   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ad40624ee6d30e4a64a740da43a456d29">selection</a> = NULL;
+<a name="l00877"></a>00877                   
+<a name="l00878"></a>00878                   go_option_menu_update_contents_real (option_menu, 
+<a name="l00879"></a>00879                                                              menu ? menu : GTK_MENU(option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>), 
+<a name="l00880"></a>00880                                                              GTK_MENU_ITEM(new_item));
+<a name="l00881"></a>00881           } <span class="keywordflow">else</span> {
+<a name="l00882"></a>00882                   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5df201adc46f9f144da31ae5f734b4ee">old_menu_item</a>)
+<a name="l00883"></a>00883                           go_option_menu_update_contents_real (option_menu, 
+<a name="l00884"></a>00884                                                                      GTK_MENU(option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5d9a576e5d891231d25d65951bd9213c">select_menu</a>), 
+<a name="l00885"></a>00885                                                                      GTK_MENU_ITEM(option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5df201adc46f9f144da31ae5f734b4ee">old_menu_item</a>));
+<a name="l00886"></a>00886           }
+<a name="l00887"></a>00887           <span class="keywordflow">if</span> (new_item &amp;&amp; !(gtk_menu_item_get_submenu (GTK_MENU_ITEM(new_item)) &amp;&amp; option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a7d2136dee70ebf2070a990a856534467">new_selection</a>)) {
+<a name="l00888"></a>00888                   GList *children = gtk_container_get_children (GTK_CONTAINER(menu ? menu : GTK_MENU(option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>)));
+<a name="l00889"></a>00889                   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ad40624ee6d30e4a64a740da43a456d29">selection</a> = g_slist_prepend(option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ad40624ee6d30e4a64a740da43a456d29">selection</a>, 
+<a name="l00890"></a>00890                                                            GINT_TO_POINTER(g_list_position
+<a name="l00891"></a>00891                                                                            (children, g_list_find (children, new_item))));
+<a name="l00892"></a>00892                   g_list_free (children);
+<a name="l00893"></a>00893                   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a7d2136dee70ebf2070a990a856534467">new_selection</a> = FALSE;
+<a name="l00894"></a>00894           }
+<a name="l00895"></a>00895           
+<a name="l00896"></a>00896           <span class="keywordflow">if</span> (old_item != option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>)
+<a name="l00897"></a>00897                   go_option_menu_changed (option_menu);
+<a name="l00898"></a>00898   }
+<a name="l00899"></a>00899 }
+<a name="l00900"></a>00900 
+<a name="l00901"></a>00901 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_remove_contents (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu)
+<a name="l00902"></a>00902 {
+<a name="l00903"></a>00903   GtkWidget *child;
+<a name="l00904"></a>00904   
+<a name="l00905"></a>00905   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (option_menu));
+<a name="l00906"></a>00906 
+<a name="l00907"></a>00907   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>)
+<a name="l00908"></a>00908     {
+<a name="l00909"></a>00909       child = GTK_BIN (option_menu)-&gt;child;
+<a name="l00910"></a>00910   
+<a name="l00911"></a>00911       <span class="keywordflow">if</span> (child)
+<a name="l00912"></a>00912         {
+<a name="l00913"></a>00913           gtk_widget_set_sensitive (child, TRUE);
+<a name="l00914"></a>00914           gtk_widget_reparent (child, option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>);
+<a name="l00915"></a>00915         }
+<a name="l00916"></a>00916 
+<a name="l00917"></a>00917       g_signal_handlers_disconnect_by_func (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>,
+<a name="l00918"></a>00918                                             go_option_menu_item_state_changed_cb,
+<a name="l00919"></a>00919                                             option_menu);                                    
+<a name="l00920"></a>00920       g_signal_handlers_disconnect_by_func (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>,
+<a name="l00921"></a>00921                                             go_option_menu_item_destroy_cb,
+<a name="l00922"></a>00922                                             option_menu);
+<a name="l00923"></a>00923       g_object_unref (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>);
+<a name="l00924"></a>00924       option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a> = NULL;
+<a name="l00925"></a>00925     }
+<a name="l00926"></a>00926 }
+<a name="l00927"></a>00927 
+<a name="l00928"></a>00928 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_calc_size (<a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu)
+<a name="l00929"></a>00929 {
+<a name="l00930"></a>00930   GtkWidget *child;
+<a name="l00931"></a>00931   GList *children;
+<a name="l00932"></a>00932   GtkRequisition child_requisition;
+<a name="l00933"></a>00933   gint old_width = option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#addb1689f2cd2040ee3c31f90a7efa854">width</a>;
+<a name="l00934"></a>00934   gint old_height = option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ace5a1b8c2a5c5f286f504b4995be0756">height</a>;
+<a name="l00935"></a>00935 
+<a name="l00936"></a>00936   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (option_menu));
+<a name="l00937"></a>00937 
+<a name="l00938"></a>00938   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#addb1689f2cd2040ee3c31f90a7efa854">width</a> = 0;
+<a name="l00939"></a>00939   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ace5a1b8c2a5c5f286f504b4995be0756">height</a> = 0;
+<a name="l00940"></a>00940 
+<a name="l00941"></a>00941   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>)
+<a name="l00942"></a>00942     {
+<a name="l00943"></a>00943       children = GTK_MENU_SHELL (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>)-&gt;children;
+<a name="l00944"></a>00944       <span class="keywordflow">while</span> (children)
+<a name="l00945"></a>00945         {
+<a name="l00946"></a>00946           child = children-&gt;data;
+<a name="l00947"></a>00947           children = children-&gt;next;
+<a name="l00948"></a>00948 
+<a name="l00949"></a>00949           <span class="keywordflow">if</span> (GTK_WIDGET_VISIBLE (child))
+<a name="l00950"></a>00950             {
+<a name="l00951"></a>00951               GtkWidget *inner = GTK_BIN (child)-&gt;child;
+<a name="l00952"></a>00952 
+<a name="l00953"></a>00953               <span class="keywordflow">if</span> (inner)
+<a name="l00954"></a>00954                 {
+<a name="l00955"></a>00955                   gtk_widget_size_request (inner, &amp;child_requisition);
+<a name="l00956"></a>00956 
+<a name="l00957"></a>00957                   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#addb1689f2cd2040ee3c31f90a7efa854">width</a> = MAX (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#addb1689f2cd2040ee3c31f90a7efa854">width</a>, child_requisition.width);
+<a name="l00958"></a>00958                   option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ace5a1b8c2a5c5f286f504b4995be0756">height</a> = MAX (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ace5a1b8c2a5c5f286f504b4995be0756">height</a>, child_requisition.height);
+<a name="l00959"></a>00959                 }
+<a name="l00960"></a>00960             }
+<a name="l00961"></a>00961         }
+<a name="l00962"></a>00962     }
+<a name="l00963"></a>00963 
+<a name="l00964"></a>00964   <span class="keywordflow">if</span> (old_width != option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#addb1689f2cd2040ee3c31f90a7efa854">width</a> || old_height != option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#ace5a1b8c2a5c5f286f504b4995be0756">height</a>)
+<a name="l00965"></a>00965     gtk_widget_queue_resize (GTK_WIDGET (option_menu));
+<a name="l00966"></a>00966 }
+<a name="l00967"></a>00967 
+<a name="l00968"></a>00968 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_position (GtkMenu  *menu,
+<a name="l00969"></a>00969                           gint     *x,
+<a name="l00970"></a>00970                           gint     *y,
+<a name="l00971"></a>00971                           gboolean *push_in,
+<a name="l00972"></a>00972                           gpointer  user_data)
+<a name="l00973"></a>00973 {
+<a name="l00974"></a>00974   <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu;
+<a name="l00975"></a>00975   GtkWidget *active;
+<a name="l00976"></a>00976   GtkWidget *child;
+<a name="l00977"></a>00977   GtkWidget *widget;
+<a name="l00978"></a>00978   GtkRequisition requisition;
+<a name="l00979"></a>00979   GList *children;
+<a name="l00980"></a>00980   gint screen_width;
+<a name="l00981"></a>00981   gint menu_xpos;
+<a name="l00982"></a>00982   gint menu_ypos;
+<a name="l00983"></a>00983   gint menu_width;
+<a name="l00984"></a>00984 
+<a name="l00985"></a>00985   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (user_data));
+<a name="l00986"></a>00986 
+<a name="l00987"></a>00987   option_menu = <a class="code" href="go-optionmenu_8h.html#ad5ed3feee959f2f515aace48cfdf4145">GO_OPTION_MENU</a> (user_data);
+<a name="l00988"></a>00988   widget = GTK_WIDGET (option_menu);
+<a name="l00989"></a>00989 
+<a name="l00990"></a>00990   gtk_widget_get_child_requisition (GTK_WIDGET (menu), &amp;requisition);
+<a name="l00991"></a>00991   menu_width = requisition.width;
+<a name="l00992"></a>00992 
+<a name="l00993"></a>00993   active = gtk_menu_get_active (GTK_MENU (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>));
+<a name="l00994"></a>00994   gdk_window_get_origin (widget-&gt;window, &amp;menu_xpos, &amp;menu_ypos);
+<a name="l00995"></a>00995 
+<a name="l00996"></a>00996   menu_xpos += widget-&gt;allocation.x;
+<a name="l00997"></a>00997   menu_ypos += widget-&gt;allocation.y + widget-&gt;allocation.height / 2 - 2;
+<a name="l00998"></a>00998 
+<a name="l00999"></a>00999   <span class="keywordflow">if</span> (active != NULL)
+<a name="l01000"></a>01000     {
+<a name="l01001"></a>01001       gtk_widget_get_child_requisition (active, &amp;requisition);
+<a name="l01002"></a>01002       menu_ypos -= requisition.height / 2;
+<a name="l01003"></a>01003     }
+<a name="l01004"></a>01004 
+<a name="l01005"></a>01005   children = GTK_MENU_SHELL (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>)-&gt;children;
+<a name="l01006"></a>01006   <span class="keywordflow">while</span> (children)
+<a name="l01007"></a>01007     {
+<a name="l01008"></a>01008       child = children-&gt;data;
+<a name="l01009"></a>01009 
+<a name="l01010"></a>01010       <span class="keywordflow">if</span> (active == child)
+<a name="l01011"></a>01011         <span class="keywordflow">break</span>;
+<a name="l01012"></a>01012 
+<a name="l01013"></a>01013       <span class="keywordflow">if</span> (GTK_WIDGET_VISIBLE (child))
+<a name="l01014"></a>01014         {
+<a name="l01015"></a>01015           gtk_widget_get_child_requisition (child, &amp;requisition);
+<a name="l01016"></a>01016           menu_ypos -= requisition.height;
+<a name="l01017"></a>01017         }
+<a name="l01018"></a>01018 
+<a name="l01019"></a>01019       children = children-&gt;next;
+<a name="l01020"></a>01020     }
+<a name="l01021"></a>01021 
+<a name="l01022"></a>01022   screen_width = gdk_screen_get_width (gtk_widget_get_screen (widget));
+<a name="l01023"></a>01023   
+<a name="l01024"></a>01024   <span class="keywordflow">if</span> (menu_xpos &lt; 0)
+<a name="l01025"></a>01025     menu_xpos = 0;
+<a name="l01026"></a>01026   <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((menu_xpos + menu_width) &gt; screen_width)
+<a name="l01027"></a>01027     menu_xpos -= ((menu_xpos + menu_width) - screen_width);
+<a name="l01028"></a>01028 
+<a name="l01029"></a>01029   *x = menu_xpos;
+<a name="l01030"></a>01030   *y = menu_ypos;
+<a name="l01031"></a>01031   *push_in = TRUE;
+<a name="l01032"></a>01032 }
+<a name="l01033"></a>01033 
+<a name="l01034"></a>01034 
+<a name="l01035"></a>01035 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_show_all (GtkWidget *widget)
+<a name="l01036"></a>01036 {
+<a name="l01037"></a>01037   GtkContainer *container;
+<a name="l01038"></a>01038   <a class="code" href="struct__GOOptionMenu.html">GOOptionMenu</a> *option_menu;
+<a name="l01039"></a>01039   
+<a name="l01040"></a>01040   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (widget));
+<a name="l01041"></a>01041   container = GTK_CONTAINER (widget);
+<a name="l01042"></a>01042   option_menu = <a class="code" href="go-optionmenu_8h.html#ad5ed3feee959f2f515aace48cfdf4145">GO_OPTION_MENU</a> (widget);
+<a name="l01043"></a>01043 
+<a name="l01044"></a>01044   gtk_widget_show (widget);
+<a name="l01045"></a>01045   gtk_container_foreach (container, (GtkCallback) gtk_widget_show_all, NULL);
+<a name="l01046"></a>01046   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>)
+<a name="l01047"></a>01047     gtk_widget_show_all (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a83e57577706c6b876278acf75d86f23a">menu</a>);
+<a name="l01048"></a>01048   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>)
+<a name="l01049"></a>01049     gtk_widget_show_all (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a3e67c1f448f5744922c570a941491201">menu_item</a>);
+<a name="l01050"></a>01050   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a9432723e231444928d123cda4eeaed4f">last_signaled_menu_item</a>)
+<a name="l01051"></a>01051     gtk_widget_show_all (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a9432723e231444928d123cda4eeaed4f">last_signaled_menu_item</a>);
+<a name="l01052"></a>01052   <span class="keywordflow">if</span> (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5d9a576e5d891231d25d65951bd9213c">select_menu</a>)
+<a name="l01053"></a>01053           gtk_widget_show_all (option_menu-&gt;<a class="code" href="struct__GOOptionMenu.html#a5d9a576e5d891231d25d65951bd9213c">select_menu</a>);
+<a name="l01054"></a>01054 }
+<a name="l01055"></a>01055 
+<a name="l01056"></a>01056 
+<a name="l01057"></a>01057 <span class="keyword">static</span> <span class="keywordtype">void</span> go_option_menu_hide_all (GtkWidget *widget)
+<a name="l01058"></a>01058 {
+<a name="l01059"></a>01059   GtkContainer *container;
+<a name="l01060"></a>01060 
+<a name="l01061"></a>01061   g_return_if_fail (<a class="code" href="go-optionmenu_8h.html#a3a89969a6daee6adfa9a1bee8e6726dc">GO_IS_OPTION_MENU</a> (widget));
+<a name="l01062"></a>01062   container = GTK_CONTAINER (widget);
+<a name="l01063"></a>01063 
+<a name="l01064"></a>01064   gtk_widget_hide (widget);
+<a name="l01065"></a>01065   gtk_container_foreach (container, (GtkCallback) gtk_widget_hide_all, NULL);
+<a name="l01066"></a>01066 }
+<a name="l01067"></a>01067 
+<a name="l01068"></a>01068 <span class="keyword">static</span> gboolean go_option_menu_mnemonic_activate (GtkWidget *widget,
+<a name="l01069"></a>01069                                    gboolean   group_cycling)
+<a name="l01070"></a>01070 {
+<a name="l01071"></a>01071   gtk_widget_grab_focus (widget);
+<a name="l01072"></a>01072   <span class="keywordflow">return</span> TRUE;
+<a name="l01073"></a>01073 }
+<a name="l01074"></a>01074 
+<a name="l01075"></a>01075 <span class="keyword">static</span> gint go_option_menu_scroll_event (GtkWidget          *widget,
+<a name="l01076"></a>01076                               GdkEventScroll     *event)
+<a name="l01077"></a>01077 {
+<a name="l01078"></a>01078   <span class="keywordflow">return</span> TRUE;
+<a name="l01079"></a>01079 }
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

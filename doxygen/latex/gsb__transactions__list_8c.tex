@@ -1,0 +1,846 @@
+\section{Référence du fichier gsb\_\-transactions\_\-list.c}
+\label{gsb__transactions__list_8c}\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}accueil.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}bet\_\-data.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-operations.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}affichage\_\-liste.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-archive.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-archive\_\-store.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-budget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-category.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payee.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payment.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-reconcile.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-scheduled.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}barre\_\-outils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}menu.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-reconcile.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-scheduler\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}main.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list\_\-select.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list\_\-sort.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-model.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}custom\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}fenetre\_\-principale.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}mouse.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-transactions\_\-list\_\-get\_\-tree\_\-view} (void)
+\item 
+void {\bf gsb\_\-transactions\_\-list\_\-update\_\-tree\_\-view} (gint account\_\-number, gboolean keep\_\-selected\_\-transaction)
+\item 
+GtkWidget $\ast$ {\bf creation\_\-fenetre\_\-operations} (void)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-transactions\_\-list\_\-make\_\-gui\_\-list} (void)
+\item 
+gboolean {\bf gsb\_\-transactions\_\-list\_\-fill\_\-archive\_\-store} (void)
+\item 
+gboolean {\bf gsb\_\-transactions\_\-list\_\-append\_\-new\_\-transaction} (gint transaction\_\-number, gboolean update\_\-tree\_\-view)
+\item 
+gchar $\ast$ {\bf gsb\_\-transactions\_\-list\_\-grep\_\-cell\_\-content} (gint transaction\_\-number, gint cell\_\-content\_\-number)
+\item 
+gboolean {\bf gsb\_\-transactions\_\-list\_\-update\_\-transaction} (gint transaction\_\-number)
+\item 
+gfloat {\bf gsb\_\-transactions\_\-list\_\-get\_\-row\_\-align} (void)
+\item 
+gboolean {\bf gsb\_\-transactions\_\-list\_\-set\_\-row\_\-align} (gfloat row\_\-align)
+\item 
+gint {\bf find\_\-element\_\-col} (gint element\_\-number)
+\item 
+gint {\bf find\_\-element\_\-line} (gint element\_\-number)
+\item 
+gint {\bf find\_\-element\_\-col\_\-split} (gint element\_\-number)
+\item 
+{\bf gsb\_\-real} {\bf solde\_\-debut\_\-affichage} (gint account\_\-number, gint floating\_\-point)
+\item 
+void {\bf gsb\_\-transactions\_\-list\_\-selection\_\-changed} (gint new\_\-selected\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-transactions\_\-list\_\-edit\_\-transaction} (gint transaction\_\-number)
+\item 
+gboolean {\bf gsb\_\-transactions\_\-list\_\-edit\_\-transaction\_\-by\_\-pointer} (gint $\ast$transaction\_\-number)
+\item 
+gboolean {\bf gsb\_\-transactions\_\-list\_\-edit\_\-current\_\-transaction} (void)
+\item 
+gboolean {\bf gsb\_\-transactions\_\-list\_\-delete\_\-transaction} (gint transaction\_\-number, gint show\_\-warning)
+\item 
+gboolean {\bf gsb\_\-transactions\_\-list\_\-delete\_\-transaction\_\-from\_\-tree\_\-view} (gint transaction\_\-number)
+\item 
+gboolean {\bf new\_\-transaction} ()
+\item 
+void {\bf remove\_\-transaction} ()
+\item 
+gboolean {\bf clone\_\-selected\_\-transaction} (GtkWidget $\ast$menu\_\-item, gpointer null)
+\item 
+void {\bf move\_\-selected\_\-operation\_\-to\_\-account\_\-nb} (gint $\ast$account)
+\item 
+void {\bf schedule\_\-selected\_\-transaction} ()
+\item 
+void {\bf gsb\_\-transactions\_\-list\_\-splitted\_\-to\_\-scheduled} (gint transaction\_\-number, gint scheduled\_\-number)
+\item 
+void {\bf mise\_\-a\_\-jour\_\-affichage\_\-r} (gboolean show\_\-r)
+\item 
+void {\bf gsb\_\-transactions\_\-list\_\-show\_\-archives\_\-lines} (gboolean show\_\-l)
+\item 
+void {\bf gsb\_\-transactions\_\-list\_\-set\_\-visible\_\-rows\_\-number} (gint rows\_\-number)
+\item 
+gboolean {\bf gsb\_\-transactions\_\-list\_\-transaction\_\-visible} (gpointer transaction\_\-ptr, gint account\_\-number, gint line\_\-in\_\-transaction, gint what\_\-is\_\-line)
+\item 
+gchar $\ast$ {\bf gsb\_\-transactions\_\-get\_\-category\_\-real\_\-name} (gint transaction\_\-number)
+\item 
+gboolean {\bf gsb\_\-transactions\_\-list\_\-switch\_\-expander} (gint transaction\_\-number)
+\item 
+gboolean {\bf gsb\_\-transactions\_\-list\_\-restore\_\-archive} (gint archive\_\-number, gboolean show\_\-warning)
+\item 
+gint {\bf find\_\-element\_\-col\_\-for\_\-archive} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf tree\_\-view\_\-vbox} = NULL
+\item 
+GtkTreeViewColumn $\ast$ {\bf transactions\_\-tree\_\-view\_\-columns} [CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]
+\item 
+gint {\bf transaction\_\-col\_\-width} [CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]
+\item 
+GtkWidget $\ast$ {\bf barre\_\-outils}
+\item 
+gchar $\ast$ {\bf tips\_\-col\_\-liste\_\-operations} [CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]
+\item 
+gchar $\ast$ {\bf titres\_\-colonnes\_\-liste\_\-operations} [CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]
+\item 
+GtkWidget $\ast$ {\bf solde\_\-label} = NULL
+\item 
+GtkWidget $\ast$ {\bf solde\_\-label\_\-pointe} = NULL
+\item 
+gint {\bf current\_\-tree\_\-view\_\-width} = 0
+\item 
+GSList $\ast$ {\bf orphan\_\-child\_\-transactions} = NULL
+\item 
+gchar $\ast$ {\bf cell\_\-views} [$\,$]
+\item 
+GSList $\ast$ {\bf liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope}
+\item 
+struct {\bf conditional\_\-message} {\bf messages} [$\,$]
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-soldes\_\-minimaux}
+\item 
+GtkWidget $\ast$ {\bf navigation\_\-tree\_\-view}
+\item 
+GtkWidget $\ast$ {\bf notebook\_\-general}
+\item 
+GtkWidget $\ast$ {\bf reconcile\_\-sort\_\-list\_\-button}
+\item 
+gint {\bf tab\_\-affichage\_\-ope} [TRANSACTION\_\-LIST\_\-ROWS\_\-NB][CUSTOM\_\-MODEL\_\-VISIBLE\_\-COLUMNS]
+\item 
+GtkWidget $\ast$ {\bf window}
+\item 
+struct {\bf conditional\_\-message} {\bf delete\_\-msg} [$\,$]
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!clone\_\-selected\_\-transaction@{clone\_\-selected\_\-transaction}}
+\index{clone\_\-selected\_\-transaction@{clone\_\-selected\_\-transaction}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{clone\_\-selected\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean clone\_\-selected\_\-transaction (GtkWidget $\ast$ {\em menu\_\-item}, \/  gpointer {\em null})}\label{gsb__transactions__list_8c_a8da0807401b34e59349e9534ed0e9cd9}
+Clone selected transaction if any. Update user interface as well.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em menu\_\-item}]\item[{\em null}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2428 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!creation\_\-fenetre\_\-operations@{creation\_\-fenetre\_\-operations}}
+\index{creation\_\-fenetre\_\-operations@{creation\_\-fenetre\_\-operations}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{creation\_\-fenetre\_\-operations}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ creation\_\-fenetre\_\-operations (void)}\label{gsb__transactions__list_8c_a750143785ed9e62525a92754c8262f55}
+Create the transaction window with all components needed. 
+
+Définition à la ligne 282 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!find\_\-element\_\-col@{find\_\-element\_\-col}}
+\index{find\_\-element\_\-col@{find\_\-element\_\-col}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{find\_\-element\_\-col}]{\setlength{\rightskip}{0pt plus 5cm}gint find\_\-element\_\-col (gint {\em element\_\-number})}\label{gsb__transactions__list_8c_a8be7f66c4c8f7c67eb187290c18fb6f7}
+find column number for the transaction element number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em element\_\-number}]the element we look for\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+column number or -\/1 if the element is not shown 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1014 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!find\_\-element\_\-col\_\-for\_\-archive@{find\_\-element\_\-col\_\-for\_\-archive}}
+\index{find\_\-element\_\-col\_\-for\_\-archive@{find\_\-element\_\-col\_\-for\_\-archive}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{find\_\-element\_\-col\_\-for\_\-archive}]{\setlength{\rightskip}{0pt plus 5cm}gint find\_\-element\_\-col\_\-for\_\-archive (void)}\label{gsb__transactions__list_8c_aa2d81179288c9dd410d36fc58c9a9ca4}
+find column number for the archive texte
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em element\_\-number}]the element we look for\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+column number or an other element 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3630 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!find\_\-element\_\-col\_\-split@{find\_\-element\_\-col\_\-split}}
+\index{find\_\-element\_\-col\_\-split@{find\_\-element\_\-col\_\-split}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{find\_\-element\_\-col\_\-split}]{\setlength{\rightskip}{0pt plus 5cm}gint find\_\-element\_\-col\_\-split (gint {\em element\_\-number})}\label{gsb__transactions__list_8c_aa33a589932f8d657a321fd0bb5a4447f}
+find column number for the element, but for split transaction there is no line find because only 1 line for now, only payee, debit and credit are shown in a split child
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em element\_\-number}]the element we look for in a split child\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+column number or -\/1 if the element is not shown 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1062 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!find\_\-element\_\-line@{find\_\-element\_\-line}}
+\index{find\_\-element\_\-line@{find\_\-element\_\-line}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{find\_\-element\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gint find\_\-element\_\-line (gint {\em element\_\-number})}\label{gsb__transactions__list_8c_a17bf5dcbc82415220a20244112d65aef}
+find line number for the transaction element number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em element\_\-number}]the element we look for\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+line number or -\/1 if the element is not shown 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1037 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-get\_\-category\_\-real\_\-name@{gsb\_\-transactions\_\-get\_\-category\_\-real\_\-name}}
+\index{gsb\_\-transactions\_\-get\_\-category\_\-real\_\-name@{gsb\_\-transactions\_\-get\_\-category\_\-real\_\-name}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-get\_\-category\_\-real\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-transactions\_\-get\_\-category\_\-real\_\-name (gint {\em transaction\_\-number})}\label{gsb__transactions__list_8c_a1144ff7dd8c9bf6a2a6eb870fc8ae2df}
+
+
+Définition à la ligne 3391 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-append\_\-new\_\-transaction@{gsb\_\-transactions\_\-list\_\-append\_\-new\_\-transaction}}
+\index{gsb\_\-transactions\_\-list\_\-append\_\-new\_\-transaction@{gsb\_\-transactions\_\-list\_\-append\_\-new\_\-transaction}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-append\_\-new\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-transactions\_\-list\_\-append\_\-new\_\-transaction (gint {\em transaction\_\-number}, \/  gboolean {\em update\_\-tree\_\-view})}\label{gsb__transactions__list_8c_ab384002f4635a570bc9907b04b3efd24}
+append a new transaction in the tree\_\-view use gsb\_\-transactions\_\-list\_\-append\_\-transaction and do all the stuff arround that, ie calculate the balances, show or not the line... so this function is very good to append 1 transactions, but to append several transactions, it's better to use gsb\_\-transactions\_\-list\_\-append\_\-transaction and do the stuff separatly
+
+if the transaction is a split, append a white line and open the split to see the daughters
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em update\_\-tree\_\-view}]should be TRUE, except if we append a lot of transactions (import...) this must be FALSE to avoid time consuming, and need to update tree view later\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 647 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-delete\_\-transaction@{gsb\_\-transactions\_\-list\_\-delete\_\-transaction}}
+\index{gsb\_\-transactions\_\-list\_\-delete\_\-transaction@{gsb\_\-transactions\_\-list\_\-delete\_\-transaction}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-delete\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-transactions\_\-list\_\-delete\_\-transaction (gint {\em transaction\_\-number}, \/  gint {\em show\_\-warning})}\label{gsb__transactions__list_8c_ab0651c16a8ca47b70e7ccdb2d9c18ba1}
+delete a transaction if it's a transfer, delete also the contra-\/transaction if it's a split, delete the childs
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction}]The transaction to delete \item[{\em show\_\-warning}]TRUE to ask if the user is sure, FALSE directly delete the transaction if TRUE, the form will be reset too\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE if canceled or nothing done, TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1888 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-delete\_\-transaction\_\-from\_\-tree\_\-view@{gsb\_\-transactions\_\-list\_\-delete\_\-transaction\_\-from\_\-tree\_\-view}}
+\index{gsb\_\-transactions\_\-list\_\-delete\_\-transaction\_\-from\_\-tree\_\-view@{gsb\_\-transactions\_\-list\_\-delete\_\-transaction\_\-from\_\-tree\_\-view}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-delete\_\-transaction\_\-from\_\-tree\_\-view}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-transactions\_\-list\_\-delete\_\-transaction\_\-from\_\-tree\_\-view (gint {\em transaction\_\-number})}\label{gsb__transactions__list_8c_af4607ecfa510ff666ad6f3a12b898e4f}
+Delete the transaction from the tree view if it's a transfer, delete the contra transaction from the tree view if it's a split, delete a the children and if necessary the contra transactions
+
+don't do any check about possible or marked... check before do nothing in memory, only on the tree view
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2083 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-edit\_\-current\_\-transaction@{gsb\_\-transactions\_\-list\_\-edit\_\-current\_\-transaction}}
+\index{gsb\_\-transactions\_\-list\_\-edit\_\-current\_\-transaction@{gsb\_\-transactions\_\-list\_\-edit\_\-current\_\-transaction}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-edit\_\-current\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-transactions\_\-list\_\-edit\_\-current\_\-transaction (void)}\label{gsb__transactions__list_8c_a78ae21515e884855e82af687571bb3c2}
+Called to edit a the current transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1457 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-edit\_\-transaction@{gsb\_\-transactions\_\-list\_\-edit\_\-transaction}}
+\index{gsb\_\-transactions\_\-list\_\-edit\_\-transaction@{gsb\_\-transactions\_\-list\_\-edit\_\-transaction}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-edit\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-transactions\_\-list\_\-edit\_\-transaction (gint {\em transaction\_\-number})}\label{gsb__transactions__list_8c_a01ca41bdcf1f932ae3a4289433d64cf5}
+Called to edit a specific transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1419 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-edit\_\-transaction\_\-by\_\-pointer@{gsb\_\-transactions\_\-list\_\-edit\_\-transaction\_\-by\_\-pointer}}
+\index{gsb\_\-transactions\_\-list\_\-edit\_\-transaction\_\-by\_\-pointer@{gsb\_\-transactions\_\-list\_\-edit\_\-transaction\_\-by\_\-pointer}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-edit\_\-transaction\_\-by\_\-pointer}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-transactions\_\-list\_\-edit\_\-transaction\_\-by\_\-pointer (gint $\ast$ {\em transaction\_\-number})}\label{gsb__transactions__list_8c_a586edcd7d904b6fd75ab87544f8609fa}
+Called to edit a specific transaction but the number of transaction is passed via a pointer (by g\_\-signal\_\-connect)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]a pointer wich is the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1441 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-fill\_\-archive\_\-store@{gsb\_\-transactions\_\-list\_\-fill\_\-archive\_\-store}}
+\index{gsb\_\-transactions\_\-list\_\-fill\_\-archive\_\-store@{gsb\_\-transactions\_\-list\_\-fill\_\-archive\_\-store}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-fill\_\-archive\_\-store}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-transactions\_\-list\_\-fill\_\-archive\_\-store (void)}\label{gsb__transactions__list_8c_a1a818af14b9c3c740d85b2c76cae24d5}
+fill the store with the archive it's only 1 line per archive, with a name, a date (the initial date) and an amount (the balance of the archive for the account)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 608 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-get\_\-row\_\-align@{gsb\_\-transactions\_\-list\_\-get\_\-row\_\-align}}
+\index{gsb\_\-transactions\_\-list\_\-get\_\-row\_\-align@{gsb\_\-transactions\_\-list\_\-get\_\-row\_\-align}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-get\_\-row\_\-align}]{\setlength{\rightskip}{0pt plus 5cm}gfloat gsb\_\-transactions\_\-list\_\-get\_\-row\_\-align (void)}\label{gsb__transactions__list_8c_aaae69a76295b86b7baace98ce4066738}
+calculate the row\_\-align of the current selected transaction to set it later with gtk\_\-tree\_\-view\_\-scroll\_\-to\_\-cell
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a gfloat used as row\_\-align 
+\end{DoxyReturn}
+
+
+Définition à la ligne 906 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-get\_\-tree\_\-view@{gsb\_\-transactions\_\-list\_\-get\_\-tree\_\-view}}
+\index{gsb\_\-transactions\_\-list\_\-get\_\-tree\_\-view@{gsb\_\-transactions\_\-list\_\-get\_\-tree\_\-view}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-get\_\-tree\_\-view}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-transactions\_\-list\_\-get\_\-tree\_\-view (void)}\label{gsb__transactions__list_8c_a9c93505713234d8fa4727b067a140641}
+get the transactions tree\_\-view
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the GtkTreeView 
+\end{DoxyReturn}
+
+
+Définition à la ligne 233 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-grep\_\-cell\_\-content@{gsb\_\-transactions\_\-list\_\-grep\_\-cell\_\-content}}
+\index{gsb\_\-transactions\_\-list\_\-grep\_\-cell\_\-content@{gsb\_\-transactions\_\-list\_\-grep\_\-cell\_\-content}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-grep\_\-cell\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-transactions\_\-list\_\-grep\_\-cell\_\-content (gint {\em transaction\_\-number}, \/  gint {\em cell\_\-content\_\-number})}\label{gsb__transactions__list_8c_a1e229d05133af4abe35b72675491f580}
+take in a transaction the content to set in a cell of the transaction's list all the value are dupplicate and have to be freed after use (except when NULL)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em cell\_\-content\_\-number}]what we need in the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a newly allocated string which represent the content of the transaction, or NULL 
+\end{DoxyReturn}
+
+
+Définition à la ligne 693 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-make\_\-gui\_\-list@{gsb\_\-transactions\_\-list\_\-make\_\-gui\_\-list}}
+\index{gsb\_\-transactions\_\-list\_\-make\_\-gui\_\-list@{gsb\_\-transactions\_\-list\_\-make\_\-gui\_\-list}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-make\_\-gui\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-transactions\_\-list\_\-make\_\-gui\_\-list (void)}\label{gsb__transactions__list_8c_a5a3574009546c888666713aa8269327b}
+create fully the gui list and fill it
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the widget which contains the list, to set at the right place 
+\end{DoxyReturn}
+
+
+Définition à la ligne 316 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-restore\_\-archive@{gsb\_\-transactions\_\-list\_\-restore\_\-archive}}
+\index{gsb\_\-transactions\_\-list\_\-restore\_\-archive@{gsb\_\-transactions\_\-list\_\-restore\_\-archive}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-restore\_\-archive}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-transactions\_\-list\_\-restore\_\-archive (gint {\em archive\_\-number}, \/  gboolean {\em show\_\-warning})}\label{gsb__transactions__list_8c_afb50643bfc50dcd627a5f720c30c8765}
+replace in the transactions list the archive lines by all the transactions in the archive remove too the archive\_\-store from the archive\_\-store list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the archive to restore \item[{\em show\_\-warning}]TRUE to show a warning if the R transactions are not shown on the account\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3471 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-selection\_\-changed@{gsb\_\-transactions\_\-list\_\-selection\_\-changed}}
+\index{gsb\_\-transactions\_\-list\_\-selection\_\-changed@{gsb\_\-transactions\_\-list\_\-selection\_\-changed}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-selection\_\-changed}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-transactions\_\-list\_\-selection\_\-changed (gint {\em new\_\-selected\_\-transaction})}\label{gsb__transactions__list_8c_a2528e018beffeb0d2ce2f2386e690360}
+called when the selection changed do some stuff wich happen in that case
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em new\_\-selected\_\-transaction}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 1374 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-set\_\-row\_\-align@{gsb\_\-transactions\_\-list\_\-set\_\-row\_\-align}}
+\index{gsb\_\-transactions\_\-list\_\-set\_\-row\_\-align@{gsb\_\-transactions\_\-list\_\-set\_\-row\_\-align}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-set\_\-row\_\-align}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-transactions\_\-list\_\-set\_\-row\_\-align (gfloat {\em row\_\-align})}\label{gsb__transactions__list_8c_a6de9b44e088a49d4d6328209a24443c2}
+set the list at the good position saved before with row\_\-align
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em row\_\-align}]a gfloat to aligne in the function gtk\_\-tree\_\-view\_\-scroll\_\-to\_\-cell if $<$ 0, don't use row\_\-align but let the tree view to move by himself to the selected transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 947 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-set\_\-visible\_\-rows\_\-number@{gsb\_\-transactions\_\-list\_\-set\_\-visible\_\-rows\_\-number}}
+\index{gsb\_\-transactions\_\-list\_\-set\_\-visible\_\-rows\_\-number@{gsb\_\-transactions\_\-list\_\-set\_\-visible\_\-rows\_\-number}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-set\_\-visible\_\-rows\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-transactions\_\-list\_\-set\_\-visible\_\-rows\_\-number (gint {\em rows\_\-number})}\label{gsb__transactions__list_8c_a8da293358f10b57d3107c903fbd4ef12}
+called to change the number of visible rows depends of the conf, change the number of rows of the current account, and if necessary of all the accounts adapts also the tree for the splits to set the expander on the new last line
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em rows\_\-number}]the new number of lines we want to see\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 3284 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-show\_\-archives\_\-lines@{gsb\_\-transactions\_\-list\_\-show\_\-archives\_\-lines}}
+\index{gsb\_\-transactions\_\-list\_\-show\_\-archives\_\-lines@{gsb\_\-transactions\_\-list\_\-show\_\-archives\_\-lines}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-show\_\-archives\_\-lines}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-transactions\_\-list\_\-show\_\-archives\_\-lines (gboolean {\em show\_\-l})}\label{gsb__transactions__list_8c_a7a066474fae8e311ca096b15cf9d33cc}
+switch the view between show the reconciled transactions or not
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em show\_\-r}]TRUE or FALSE\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 3232 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-splitted\_\-to\_\-scheduled@{gsb\_\-transactions\_\-list\_\-splitted\_\-to\_\-scheduled}}
+\index{gsb\_\-transactions\_\-list\_\-splitted\_\-to\_\-scheduled@{gsb\_\-transactions\_\-list\_\-splitted\_\-to\_\-scheduled}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-splitted\_\-to\_\-scheduled}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-transactions\_\-list\_\-splitted\_\-to\_\-scheduled (gint {\em transaction\_\-number}, \/  gint {\em scheduled\_\-number})}\label{gsb__transactions__list_8c_a0ea3d83f0d74d289b6ae23c495f4aa7d}
+clone the splitted children of a transaction to splitted children of the scheduled transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]mother of the splitted children we look for \item[{\em scheduled\_\-number}]splitted scheduled transaction we want to add the children\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 2826 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-switch\_\-expander@{gsb\_\-transactions\_\-list\_\-switch\_\-expander}}
+\index{gsb\_\-transactions\_\-list\_\-switch\_\-expander@{gsb\_\-transactions\_\-list\_\-switch\_\-expander}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-switch\_\-expander}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-transactions\_\-list\_\-switch\_\-expander (gint {\em transaction\_\-number})}\label{gsb__transactions__list_8c_a6089f07015c6278f5d0a689783fe4019}
+switch the expander of the split given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the split we want to switch\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3438 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-transaction\_\-visible@{gsb\_\-transactions\_\-list\_\-transaction\_\-visible}}
+\index{gsb\_\-transactions\_\-list\_\-transaction\_\-visible@{gsb\_\-transactions\_\-list\_\-transaction\_\-visible}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-transaction\_\-visible}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-transactions\_\-list\_\-transaction\_\-visible (gpointer {\em transaction\_\-ptr}, \/  gint {\em account\_\-number}, \/  gint {\em line\_\-in\_\-transaction}, \/  gint {\em what\_\-is\_\-line})}\label{gsb__transactions__list_8c_a3fea90bc90cbcb2b613935cb657fd320}
+check if the transaction given in param should be visible or not according to the account and the current line this function is called to filter the model for each line in transaction\_\-list\_\-filter so need to be very fast
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the pointer in the model, usually a transaction, but can be archive \item[{\em account\_\-number}]account number \item[{\em line\_\-in\_\-transaction}]the line in the transaction (0, 1, 2 or 3) \item[{\em what\_\-is\_\-line}]IS\_\-TRANSACTION / IS\_\-ARCHIVE\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if the transaction should be shown, FALSE else 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3334 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-update\_\-transaction@{gsb\_\-transactions\_\-list\_\-update\_\-transaction}}
+\index{gsb\_\-transactions\_\-list\_\-update\_\-transaction@{gsb\_\-transactions\_\-list\_\-update\_\-transaction}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-update\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-transactions\_\-list\_\-update\_\-transaction (gint {\em transaction\_\-number})}\label{gsb__transactions__list_8c_a83f53b0c0b9da33efa7f7691ea939f9e}
+update the transaction given in the tree\_\-view
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction}]transaction to update\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 873 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!gsb\_\-transactions\_\-list\_\-update\_\-tree\_\-view@{gsb\_\-transactions\_\-list\_\-update\_\-tree\_\-view}}
+\index{gsb\_\-transactions\_\-list\_\-update\_\-tree\_\-view@{gsb\_\-transactions\_\-list\_\-update\_\-tree\_\-view}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-update\_\-tree\_\-view}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-transactions\_\-list\_\-update\_\-tree\_\-view (gint {\em account\_\-number}, \/  gboolean {\em keep\_\-selected\_\-transaction})}\label{gsb__transactions__list_8c_ab7d08f59bcf7149edda9db47e67333a4}
+update the tree view, ie : filter it according to the account sort it colorize it set the balances keep the selected transaction if we want this should be called all the time, except when we need only 1 of all of this
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\item[{\em keep\_\-selected\_\-transaction}]TRUE if we want to keep the selected transaction else we need to select another transaction after that call\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 254 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!mise\_\-a\_\-jour\_\-affichage\_\-r@{mise\_\-a\_\-jour\_\-affichage\_\-r}}
+\index{mise\_\-a\_\-jour\_\-affichage\_\-r@{mise\_\-a\_\-jour\_\-affichage\_\-r}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-affichage\_\-r}]{\setlength{\rightskip}{0pt plus 5cm}void mise\_\-a\_\-jour\_\-affichage\_\-r (gboolean {\em show\_\-r})}\label{gsb__transactions__list_8c_a7885778abe9c7b1213f7f0485e666413}
+switch the view between show the reconciled transactions or not
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em show\_\-r}]TRUE or FALSE\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 3181 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!move\_\-selected\_\-operation\_\-to\_\-account\_\-nb@{move\_\-selected\_\-operation\_\-to\_\-account\_\-nb}}
+\index{move\_\-selected\_\-operation\_\-to\_\-account\_\-nb@{move\_\-selected\_\-operation\_\-to\_\-account\_\-nb}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{move\_\-selected\_\-operation\_\-to\_\-account\_\-nb}]{\setlength{\rightskip}{0pt plus 5cm}void move\_\-selected\_\-operation\_\-to\_\-account\_\-nb (gint $\ast$ {\em account})}\label{gsb__transactions__list_8c_a28b9f175715bce0ac88b473e29ac2fea}
+Move selected transaction to another account. Normally called as a handler.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em menu\_\-item}]The GtkMenuItem that triggered this handler. \end{DoxyParams}
+
+
+Définition à la ligne 2613 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!new\_\-transaction@{new\_\-transaction}}
+\index{new\_\-transaction@{new\_\-transaction}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{new\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean new\_\-transaction ()}\label{gsb__transactions__list_8c_a2f2bb8bf01af048e33c47d43c8370a21}
+Empty transaction form and select transactions tab. 
+
+Définition à la ligne 2390 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!remove\_\-transaction@{remove\_\-transaction}}
+\index{remove\_\-transaction@{remove\_\-transaction}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{remove\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}void remove\_\-transaction ()}\label{gsb__transactions__list_8c_aa52082e3faa52c7be3aa7d5dd41d0731}
+Remove selected transaction if any. 
+
+Définition à la ligne 2409 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!schedule\_\-selected\_\-transaction@{schedule\_\-selected\_\-transaction}}
+\index{schedule\_\-selected\_\-transaction@{schedule\_\-selected\_\-transaction}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{schedule\_\-selected\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}void schedule\_\-selected\_\-transaction ()}\label{gsb__transactions__list_8c_a57f2d9faad61b1154270e444656bd275}
+Convert selected transaction to a template of scheduled transaction via schedule\_\-transaction(). 
+
+Définition à la ligne 2708 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!solde\_\-debut\_\-affichage@{solde\_\-debut\_\-affichage}}
+\index{solde\_\-debut\_\-affichage@{solde\_\-debut\_\-affichage}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{solde\_\-debut\_\-affichage}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} solde\_\-debut\_\-affichage (gint {\em account\_\-number}, \/  gint {\em floating\_\-point})}\label{gsb__transactions__list_8c_ad8b68b6ef2fd8238d726e11c981fc701}
+cette fonction calcule le solde de départ pour l'affichage de la première opé du compte c'est soit le solde initial du compte si on affiche les R soit le solde initial -\/ les opés R si elles ne sont pas affichées 
+
+Définition à la ligne 1087 du fichier gsb\_\-transactions\_\-list.c.
+
+
+
+\subsection{Documentation des variables}
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!barre\_\-outils@{barre\_\-outils}}
+\index{barre\_\-outils@{barre\_\-outils}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{barre\_\-outils}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf barre\_\-outils}}\label{gsb__transactions__list_8c_a268b1e31b413c512d03776ae10b8f785}
+
+
+Définition à la ligne 124 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!cell\_\-views@{cell\_\-views}}
+\index{cell\_\-views@{cell\_\-views}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{cell\_\-views}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf cell\_\-views}[$\,$]}\label{gsb__transactions__list_8c_aa9959039948028badde16d39e1a74c43}
+{\bfseries Valeur initiale :}
+\begin{DoxyCode}
+ {
+    N_("Date"),
+    N_("Value date"),
+    N_("Payee"),
+    N_("Budgetary line"),
+    N_("Debit"),
+    N_("Credit"),
+    N_("Balance"),
+    N_("Amount"),
+    N_("Method of payment"),
+    N_("Reconciliation reference"),
+    N_("Financial year"),
+    N_("Category"),
+    N_("C/R"),
+    N_("Voucher"),
+    N_("Notes"),
+    N_("Bank references"),
+    N_("Transaction number"),
+    N_("Cheque number"),
+    NULL }
+\end{DoxyCode}
+
+
+Définition à la ligne 144 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!current\_\-tree\_\-view\_\-width@{current\_\-tree\_\-view\_\-width}}
+\index{current\_\-tree\_\-view\_\-width@{current\_\-tree\_\-view\_\-width}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{current\_\-tree\_\-view\_\-width}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf current\_\-tree\_\-view\_\-width} = 0}\label{gsb__transactions__list_8c_a265408c8482c4045a6e5e022d89696ba}
+
+
+Définition à la ligne 137 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!delete\_\-msg@{delete\_\-msg}}
+\index{delete\_\-msg@{delete\_\-msg}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{delete\_\-msg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf conditional\_\-message} {\bf delete\_\-msg}[$\,$]}\label{gsb__transactions__list_8c_a8be9044200783277533661fc770e77f5}
+{\bfseries Valeur initiale :}
+\begin{DoxyCode}
+
+{
+    { "delete-child-transaction", N_("Delete a child transaction."),
+      NULL, 
+      FALSE, FALSE, },
+
+    { "delete-transaction",  N_("Delete a transaction."),
+      NULL,
+      FALSE, FALSE, },
+
+    { "delete-child-scheduled", N_("Delete a child of scheduled transaction."),
+      NULL,
+      FALSE, FALSE, },
+
+    { "delete-scheduled", N_("Delete a scheduled transaction."),
+      NULL,
+      FALSE, FALSE, },
+
+    { "delete-scheduled-occurences", N_("Delete one or all occurences of schedule
+      d "
+      "transaction."),
+      NULL,
+      FALSE, FALSE, },
+
+
+    { NULL },
+}
+\end{DoxyCode}
+All delete messages 
+
+Définition à la ligne 182 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope@{liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope}}
+\index{liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope@{liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope}}\label{gsb__transactions__list_8c_a53693b9d5a4ba330fa5650e09ef0519f}
+
+
+Définition à la ligne 143 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!messages@{messages}}
+\index{messages@{messages}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{messages}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf conditional\_\-message} {\bf messages}[$\,$]}\label{gsb__transactions__list_8c_a430b9f94c0af809780196ca7d7040fde}
+All messages 
+
+Définition à la ligne 50 du fichier dialog.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs@{mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}}
+\index{mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs@{mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}}\label{gsb__transactions__list_8c_a9ebd251de44611d97ec364d1867a75ff}
+
+
+Définition à la ligne 131 du fichier accueil.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}}
+\index{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}}\label{gsb__transactions__list_8c_a018917e8dacfd8fbe4e94d0f99a59c08}
+
+
+Définition à la ligne 127 du fichier accueil.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}}
+\index{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-auto\_\-accueil}}\label{gsb__transactions__list_8c_a097d2eb216e05a68a5a153e7b68b6469}
+
+
+Définition à la ligne 129 du fichier accueil.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!mise\_\-a\_\-jour\_\-soldes\_\-minimaux@{mise\_\-a\_\-jour\_\-soldes\_\-minimaux}}
+\index{mise\_\-a\_\-jour\_\-soldes\_\-minimaux@{mise\_\-a\_\-jour\_\-soldes\_\-minimaux}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-soldes\_\-minimaux}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-soldes\_\-minimaux}}\label{gsb__transactions__list_8c_afaffaedc4fd0ae8638f7158c6777b35b}
+
+
+Définition à la ligne 130 du fichier accueil.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!navigation\_\-tree\_\-view@{navigation\_\-tree\_\-view}}
+\index{navigation\_\-tree\_\-view@{navigation\_\-tree\_\-view}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{navigation\_\-tree\_\-view}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf navigation\_\-tree\_\-view}}\label{gsb__transactions__list_8c_a1cd17e8b2fd91a191f8d5d6a7e5f6979}
+Navigation tree view. 
+
+Définition à la ligne 115 du fichier navigation.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!notebook\_\-general@{notebook\_\-general}}
+\index{notebook\_\-general@{notebook\_\-general}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{notebook\_\-general}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf notebook\_\-general}}\label{gsb__transactions__list_8c_a8924516aa4170f932308e93cf93a785b}
+
+
+Définition à la ligne 70 du fichier fenetre\_\-principale.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!orphan\_\-child\_\-transactions@{orphan\_\-child\_\-transactions}}
+\index{orphan\_\-child\_\-transactions@{orphan\_\-child\_\-transactions}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{orphan\_\-child\_\-transactions}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf orphan\_\-child\_\-transactions} = NULL}\label{gsb__transactions__list_8c_ac2f7ca891d6c3a7cfb5c8df02918cf7c}
+this is used when opening a file and filling the model, when some children didn't find their mother 
+
+Définition à la ligne 141 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!reconcile\_\-sort\_\-list\_\-button@{reconcile\_\-sort\_\-list\_\-button}}
+\index{reconcile\_\-sort\_\-list\_\-button@{reconcile\_\-sort\_\-list\_\-button}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{reconcile\_\-sort\_\-list\_\-button}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf reconcile\_\-sort\_\-list\_\-button}}\label{gsb__transactions__list_8c_a3cc34f74c4d6dae91c269439b2ea894c}
+
+
+Définition à la ligne 93 du fichier gsb\_\-reconcile.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!solde\_\-label@{solde\_\-label}}
+\index{solde\_\-label@{solde\_\-label}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{solde\_\-label}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf solde\_\-label} = NULL}\label{gsb__transactions__list_8c_a13463693429f5d9aeefc559d1a72ab84}
+
+
+Définition à la ligne 131 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!solde\_\-label\_\-pointe@{solde\_\-label\_\-pointe}}
+\index{solde\_\-label\_\-pointe@{solde\_\-label\_\-pointe}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{solde\_\-label\_\-pointe}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf solde\_\-label\_\-pointe} = NULL}\label{gsb__transactions__list_8c_a1a07890c391001f8dbed340113145fab}
+
+
+Définition à la ligne 133 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!tab\_\-affichage\_\-ope@{tab\_\-affichage\_\-ope}}
+\index{tab\_\-affichage\_\-ope@{tab\_\-affichage\_\-ope}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{tab\_\-affichage\_\-ope}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf tab\_\-affichage\_\-ope}[TRANSACTION\_\-LIST\_\-ROWS\_\-NB][CUSTOM\_\-MODEL\_\-VISIBLE\_\-COLUMNS]}\label{gsb__transactions__list_8c_a0c444565adac369ff42631d4b7b7e6bb}
+
+
+Définition à la ligne 63 du fichier affichage\_\-liste.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!tips\_\-col\_\-liste\_\-operations@{tips\_\-col\_\-liste\_\-operations}}
+\index{tips\_\-col\_\-liste\_\-operations@{tips\_\-col\_\-liste\_\-operations}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{tips\_\-col\_\-liste\_\-operations}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf tips\_\-col\_\-liste\_\-operations}[CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]}\label{gsb__transactions__list_8c_a7d49023563c9144cf16b6b4c2b65ce05}
+
+
+Définition à la ligne 127 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!titres\_\-colonnes\_\-liste\_\-operations@{titres\_\-colonnes\_\-liste\_\-operations}}
+\index{titres\_\-colonnes\_\-liste\_\-operations@{titres\_\-colonnes\_\-liste\_\-operations}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{titres\_\-colonnes\_\-liste\_\-operations}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf titres\_\-colonnes\_\-liste\_\-operations}[CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]}\label{gsb__transactions__list_8c_abe5a25ede887e60c7f679c9ff03607f0}
+
+
+Définition à la ligne 128 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!transaction\_\-col\_\-width@{transaction\_\-col\_\-width}}
+\index{transaction\_\-col\_\-width@{transaction\_\-col\_\-width}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{transaction\_\-col\_\-width}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf transaction\_\-col\_\-width}[CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]}\label{gsb__transactions__list_8c_a6e5e85a5f63608656ce9709950bb08e6}
+
+
+Définition à la ligne 121 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!transactions\_\-tree\_\-view\_\-columns@{transactions\_\-tree\_\-view\_\-columns}}
+\index{transactions\_\-tree\_\-view\_\-columns@{transactions\_\-tree\_\-view\_\-columns}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{transactions\_\-tree\_\-view\_\-columns}]{\setlength{\rightskip}{0pt plus 5cm}GtkTreeViewColumn$\ast$ {\bf transactions\_\-tree\_\-view\_\-columns}[CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]}\label{gsb__transactions__list_8c_a4f11139c6cd90bf0cd17d761652b069b}
+
+
+Définition à la ligne 118 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!tree\_\-view\_\-vbox@{tree\_\-view\_\-vbox}}
+\index{tree\_\-view\_\-vbox@{tree\_\-view\_\-vbox}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{tree\_\-view\_\-vbox}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf tree\_\-view\_\-vbox} = NULL}\label{gsb__transactions__list_8c_a852ebb7e2039cea38cf82e9d7b876d7c}
+
+
+Définition à la ligne 115 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-transactions\_\-list.c@{gsb\_\-transactions\_\-list.c}!window@{window}}
+\index{window@{window}!gsb_transactions_list.c@{gsb\_\-transactions\_\-list.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{gsb__transactions__list_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

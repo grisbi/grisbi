@@ -1,0 +1,296 @@
+\section{Référence du fichier gsb\_\-account\_\-property.c}
+\label{gsb__account__property_8c}\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-account\_\-property.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-autofunc.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-bank.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-buttons.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-bank.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-editables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-scheduler.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}accueil.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}menu.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-scheduler\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}main.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}tiers\_\-onglet.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}categories\_\-onglet.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}imputation\_\-budgetaire.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf origin} \{ \par
+{\bf PROPERTY\_\-NAME} =  0, 
+{\bf PROPERTY\_\-KIND}, 
+{\bf PROPERTY\_\-CURRENCY}, 
+{\bf PROPERTY\_\-CLOSED\_\-ACCOUNT}, 
+\par
+{\bf PROPERTY\_\-INIT\_\-BALANCE}, 
+{\bf PROPERTY\_\-WANTED\_\-BALANCE}, 
+{\bf PROPERTY\_\-HOLDER\_\-NAME}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-account\_\-property\_\-create\_\-page} (void)
+\item 
+void {\bf gsb\_\-account\_\-property\_\-fill\_\-page} (void)
+\item 
+GSList $\ast$ {\bf gsb\_\-account\_\-property\_\-create\_\-combobox\_\-list} (void)
+\item 
+void {\bf gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-banque} (gint bank\_\-number)
+\item 
+void {\bf gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-bic} (gint bank\_\-number)
+\item 
+void {\bf gsb\_\-account\_\-property\_\-clear\_\-config} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf iso\_\-13616\_\-iban} {\bf iso\_\-13616\_\-ibans} [$\,$]
+\item 
+GtkWidget $\ast$ {\bf detail\_\-nom\_\-compte} = NULL
+\item 
+GtkWidget $\ast$ {\bf detail\_\-devise\_\-compte} = NULL
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-soldes\_\-minimaux}
+\item 
+{\bf gsb\_\-real} {\bf null\_\-real}
+\item 
+gchar $\ast$ {\bf titre\_\-fichier}
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+work with the property page of the accounts 
+
+Définition dans le fichier {\bf gsb\_\-account\_\-property.c}.
+
+
+
+\subsection{Documentation du type de l'énumération}
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!origin@{origin}}
+\index{origin@{origin}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{origin}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf origin}}\label{gsb__account__property_8c_a06dbc3a3eb5aaab80edf32ea607f1ef3}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{PROPERTY\_\-NAME@{PROPERTY\_\-NAME}!gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}}\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!PROPERTY\_\-NAME@{PROPERTY\_\-NAME}}\item[{\em 
+PROPERTY\_\-NAME\label{gsb__account__property_8c_a06dbc3a3eb5aaab80edf32ea607f1ef3aa214c5f244356c77b204345a6a094570}
+}]\index{PROPERTY\_\-KIND@{PROPERTY\_\-KIND}!gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}}\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!PROPERTY\_\-KIND@{PROPERTY\_\-KIND}}\item[{\em 
+PROPERTY\_\-KIND\label{gsb__account__property_8c_a06dbc3a3eb5aaab80edf32ea607f1ef3ad145b6f52947c25f15663561c20806dc}
+}]\index{PROPERTY\_\-CURRENCY@{PROPERTY\_\-CURRENCY}!gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}}\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!PROPERTY\_\-CURRENCY@{PROPERTY\_\-CURRENCY}}\item[{\em 
+PROPERTY\_\-CURRENCY\label{gsb__account__property_8c_a06dbc3a3eb5aaab80edf32ea607f1ef3a6c1b210378e6b2fc660050d98ac6fb5e}
+}]\index{PROPERTY\_\-CLOSED\_\-ACCOUNT@{PROPERTY\_\-CLOSED\_\-ACCOUNT}!gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}}\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!PROPERTY\_\-CLOSED\_\-ACCOUNT@{PROPERTY\_\-CLOSED\_\-ACCOUNT}}\item[{\em 
+PROPERTY\_\-CLOSED\_\-ACCOUNT\label{gsb__account__property_8c_a06dbc3a3eb5aaab80edf32ea607f1ef3a6e574f0fa21fbce5d694b01cc0e294d0}
+}]\index{PROPERTY\_\-INIT\_\-BALANCE@{PROPERTY\_\-INIT\_\-BALANCE}!gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}}\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!PROPERTY\_\-INIT\_\-BALANCE@{PROPERTY\_\-INIT\_\-BALANCE}}\item[{\em 
+PROPERTY\_\-INIT\_\-BALANCE\label{gsb__account__property_8c_a06dbc3a3eb5aaab80edf32ea607f1ef3a8ba31c11349bc13a74ac76db409a8832}
+}]\index{PROPERTY\_\-WANTED\_\-BALANCE@{PROPERTY\_\-WANTED\_\-BALANCE}!gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}}\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!PROPERTY\_\-WANTED\_\-BALANCE@{PROPERTY\_\-WANTED\_\-BALANCE}}\item[{\em 
+PROPERTY\_\-WANTED\_\-BALANCE\label{gsb__account__property_8c_a06dbc3a3eb5aaab80edf32ea607f1ef3a07534083ef68b1ae406ae1cfb89716d1}
+}]\index{PROPERTY\_\-HOLDER\_\-NAME@{PROPERTY\_\-HOLDER\_\-NAME}!gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}}\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!PROPERTY\_\-HOLDER\_\-NAME@{PROPERTY\_\-HOLDER\_\-NAME}}\item[{\em 
+PROPERTY\_\-HOLDER\_\-NAME\label{gsb__account__property_8c_a06dbc3a3eb5aaab80edf32ea607f1ef3a13a654144ba76dc39a1e14a1541b31f3}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 165 du fichier gsb\_\-account\_\-property.c.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!gsb\_\-account\_\-property\_\-clear\_\-config@{gsb\_\-account\_\-property\_\-clear\_\-config}}
+\index{gsb\_\-account\_\-property\_\-clear\_\-config@{gsb\_\-account\_\-property\_\-clear\_\-config}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{gsb\_\-account\_\-property\_\-clear\_\-config}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-account\_\-property\_\-clear\_\-config (void)}\label{gsb__account__property_8c_a92437e45d23b702bc6eba7e601208861}
+required to avoid warnings change file. 
+
+Définition à la ligne 1484 du fichier gsb\_\-account\_\-property.c.
+
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!gsb\_\-account\_\-property\_\-create\_\-combobox\_\-list@{gsb\_\-account\_\-property\_\-create\_\-combobox\_\-list}}
+\index{gsb\_\-account\_\-property\_\-create\_\-combobox\_\-list@{gsb\_\-account\_\-property\_\-create\_\-combobox\_\-list}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{gsb\_\-account\_\-property\_\-create\_\-combobox\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-account\_\-property\_\-create\_\-combobox\_\-list (void)}\label{gsb__account__property_8c_ade6600516c1245dbeb1b249db4692a57}
+create a list of kind of account to use in a gsb\_\-combo\_\-box or gsb\_\-autofunc\_\-combobox this is an alternance of text (kind of account) and number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a newly allocated GSList 
+\end{DoxyReturn}
+
+
+Définition à la ligne 690 du fichier gsb\_\-account\_\-property.c.
+
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!gsb\_\-account\_\-property\_\-create\_\-page@{gsb\_\-account\_\-property\_\-create\_\-page}}
+\index{gsb\_\-account\_\-property\_\-create\_\-page@{gsb\_\-account\_\-property\_\-create\_\-page}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{gsb\_\-account\_\-property\_\-create\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-account\_\-property\_\-create\_\-page (void)}\label{gsb__account__property_8c_a5266ddf452ec44e874324c9edc910f4e}
+create the page of account property
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the page 
+\end{DoxyReturn}
+
+
+Définition à la ligne 193 du fichier gsb\_\-account\_\-property.c.
+
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!gsb\_\-account\_\-property\_\-fill\_\-page@{gsb\_\-account\_\-property\_\-fill\_\-page}}
+\index{gsb\_\-account\_\-property\_\-fill\_\-page@{gsb\_\-account\_\-property\_\-fill\_\-page}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{gsb\_\-account\_\-property\_\-fill\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-account\_\-property\_\-fill\_\-page (void)}\label{gsb__account__property_8c_ad38d51ca992f37d0392bd134617031ed}
+fill the content of the property of the selected account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 592 du fichier gsb\_\-account\_\-property.c.
+
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-banque@{gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-banque}}
+\index{gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-banque@{gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-banque}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-banque}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-banque (gint {\em bank\_\-number})}\label{gsb__account__property_8c_a75cc1b849ec26a65239a9864b21ef062}
+positionne le code bank
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em bank\_\-number}]\end{DoxyParams}
+
+
+Définition à la ligne 862 du fichier gsb\_\-account\_\-property.c.
+
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-bic@{gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-bic}}
+\index{gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-bic@{gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-bic}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-bic}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-account\_\-property\_\-set\_\-label\_\-code\_\-bic (gint {\em bank\_\-number})}\label{gsb__account__property_8c_a5375ffa889697cfd87407d2552481517}
+positionne le code BIC
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em bank\_\-number}]\end{DoxyParams}
+
+
+Définition à la ligne 883 du fichier gsb\_\-account\_\-property.c.
+
+
+
+\subsection{Documentation des variables}
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!detail\_\-devise\_\-compte@{detail\_\-devise\_\-compte}}
+\index{detail\_\-devise\_\-compte@{detail\_\-devise\_\-compte}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{detail\_\-devise\_\-compte}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf detail\_\-devise\_\-compte} = NULL}\label{gsb__account__property_8c_a41f9865652dc0c67db2dae5b516b18e6}
+
+
+Définition à la ligne 150 du fichier gsb\_\-account\_\-property.c.
+
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!detail\_\-nom\_\-compte@{detail\_\-nom\_\-compte}}
+\index{detail\_\-nom\_\-compte@{detail\_\-nom\_\-compte}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{detail\_\-nom\_\-compte}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf detail\_\-nom\_\-compte} = NULL}\label{gsb__account__property_8c_ab50d39aa9c7ad4a81407017d1fc060d1}
+
+
+Définition à la ligne 141 du fichier gsb\_\-account\_\-property.c.
+
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!iso\_\-13616\_\-ibans@{iso\_\-13616\_\-ibans}}
+\index{iso\_\-13616\_\-ibans@{iso\_\-13616\_\-ibans}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{iso\_\-13616\_\-ibans}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf iso\_\-13616\_\-iban} {\bf iso\_\-13616\_\-ibans}[$\,$]}\label{gsb__account__property_8c_aa56cb801e9f7d0894589a4d6962be2c7}
+{\bfseries Valeur initiale :}
+\begin{DoxyCode}
+ {
+    { "XX", "XXkk XXXX XXXX XXXX XXXX XXXX XXXX XXXX XX", 34 },
+    { "AD", "ADkk BBBB SSSS CCCC CCCC CCCC", 24 },
+    { "AT", "ATkk BBBB BCCC CCCC CCCC", 20 },
+    { "BA", "BAkk BBBS SSCC CCCC CCKK", 20 },
+    { "BE", "BEkk BBBC CCCC CCKK", 16 },
+    { "BG", "BGkk BBBB SSSS DDCC CCCC CC", 22 },
+    { "CH", "CHkk BBBB BCCC CCCC CCCC C", 21 },
+    { "CY", "CYkk BBBS SSSS CCCC CCCC CCCC CCCC", 28 },
+    { "CZ", "CZkk BBBB CCCC CCCC CCCC CCCC", 24 },
+    { "DE", "DEkk BBBB BBBB CCCC CCCC CC", 22 },
+    { "DK", "DKkk BBBB CCCC CCCC CC", 18 },
+    { "EE", "EEkk BBBB CCCC CCCC CCCK", 20 },
+    { "ES", "ESkk BBBB GGGG KKCC CCCC CCCC", 24 },
+    { "FI", "FIkk BBBB BBCC CCCC CK", 18 },
+    { "FO", "FOkk CCCC CCCC CCCC CC", 18 },
+    { "FR", "FRkk BBBB BGGG GGCC CCCC CCCC CKK", 27 },
+    { "GB", "GBkk BBBB SSSS SSCC CCCC CC", 22 },
+    { "GI", "GIkk BBBB CCCC CCCC CCCC CCC", 23 },
+    { "GR", "GRkk BBB BBBB CCCC CCCC CCCC CCCC", 27 },
+    { "HR", "HRkk BBBB BBBC CCCC CCCC C", 21 },
+    { "IE", "IEkk AAAA BBBB BBCC CCCC CC", 22 },
+    { "LU", "LUkk BBBC CCCC CCCC CCCC", 20 },
+    { "NL", "NLkk BBBB CCCC CCCC CC", 18 },
+    { "PT", "PTkk BBBB BBBB CCCC CCCC CCCK K", 25 },
+    { "SE", "SEkk BBBB CCCC CCCC CCCC CCCC", 24 },
+    { NULL },
+}
+\end{DoxyCode}
+
+
+Définition à la ligne 111 du fichier gsb\_\-account\_\-property.c.
+
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs@{mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}}
+\index{mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs@{mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-fin\_\-comptes\_\-passifs}}\label{gsb__account__property_8c_a9ebd251de44611d97ec364d1867a75ff}
+
+
+Définition à la ligne 131 du fichier accueil.c.
+
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}}
+\index{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}}\label{gsb__account__property_8c_a018917e8dacfd8fbe4e94d0f99a59c08}
+
+
+Définition à la ligne 127 du fichier accueil.c.
+
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}}
+\index{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-liste\_\-echeances\_\-manuelles\_\-accueil}}\label{gsb__account__property_8c_a5957dd978b4a0c3ab01e006cedfdf96c}
+
+
+Définition à la ligne 128 du fichier accueil.c.
+
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!mise\_\-a\_\-jour\_\-soldes\_\-minimaux@{mise\_\-a\_\-jour\_\-soldes\_\-minimaux}}
+\index{mise\_\-a\_\-jour\_\-soldes\_\-minimaux@{mise\_\-a\_\-jour\_\-soldes\_\-minimaux}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-soldes\_\-minimaux}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-soldes\_\-minimaux}}\label{gsb__account__property_8c_afaffaedc4fd0ae8638f7158c6777b35b}
+
+
+Définition à la ligne 130 du fichier accueil.c.
+
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!null\_\-real@{null\_\-real}}
+\index{null\_\-real@{null\_\-real}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{null\_\-real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf null\_\-real}}\label{gsb__account__property_8c_a26f304bec3fdc0651b9aa8765d4de3c6}
+
+
+Définition à la ligne 42 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-account\_\-property.c@{gsb\_\-account\_\-property.c}!titre\_\-fichier@{titre\_\-fichier}}
+\index{titre\_\-fichier@{titre\_\-fichier}!gsb_account_property.c@{gsb\_\-account\_\-property.c}}
+\subsubsection[{titre\_\-fichier}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf titre\_\-fichier}}\label{gsb__account__property_8c_a787cc81cf2ad728775b73d723713980b}
+
+
+Définition à la ligne 147 du fichier traitement\_\-variables.c.
+

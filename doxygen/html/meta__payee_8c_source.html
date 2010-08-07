@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de meta_payee.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>meta_payee.c</h1><a href="meta__payee_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*     Copyright (C)         2008 Benjamin Drieu (bdrieu@april.org)           */</span>
+<a name="l00004"></a>00004 <span class="comment">/*                      http://www.grisbi.org                                 */</span>
+<a name="l00005"></a>00005 <span class="comment">/*                                                                            */</span>
+<a name="l00006"></a>00006 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00007"></a>00007 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00010"></a>00010 <span class="comment">/*                                                                            */</span>
+<a name="l00011"></a>00011 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00015"></a>00015 <span class="comment">/*                                                                            */</span>
+<a name="l00016"></a>00016 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00019"></a>00019 <span class="comment">/*                                                                            */</span>
+<a name="l00020"></a>00020 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="metatree_8h.html">metatree.h</a>&quot;</span>
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="meta__payee_8h.html">meta_payee.h</a>&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__payee_8h.html">gsb_data_payee.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__transaction_8h.html">gsb_data_transaction.h</a>&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="utils__str_8h.html">utils_str.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="tiers__onglet_8h.html">tiers_onglet.h</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="metatree_8h.html">metatree.h</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="comment">/*START_STATIC*/</span>
+<a name="l00039"></a>00039 <span class="keyword">static</span> gint payee_add_div ();
+<a name="l00040"></a>00040 <span class="keyword">static</span> gint payee_add_sub_div ( <span class="keywordtype">int</span> div_id );
+<a name="l00041"></a>00041 <span class="keyword">static</span> gboolean payee_add_transaction_to_div ( gint transaction_number, 
+<a name="l00042"></a>00042                                         <span class="keywordtype">int</span> div_id );
+<a name="l00043"></a>00043 <span class="keyword">static</span> <span class="keywordtype">void</span> payee_add_transaction_to_sub_div ( gint transaction_number, 
+<a name="l00044"></a>00044                                         <span class="keywordtype">int</span> div_id, <span class="keywordtype">int</span> sub_div_id );
+<a name="l00045"></a>00045 <span class="keyword">static</span> gchar *payee_div_name ( gint div );
+<a name="l00046"></a>00046 <span class="keyword">static</span> GSList * payee_div_sub_div_list ( gint div );
+<a name="l00047"></a>00047 <span class="keyword">static</span> gint payee_div_type ( gint div );
+<a name="l00048"></a>00048 <span class="keyword">static</span> gint payee_get_sub_div_pointer_from_name ( <span class="keywordtype">int</span> div_id, <span class="keyword">const</span> gchar * name, 
+<a name="l00049"></a>00049                                            gboolean create );
+<a name="l00050"></a>00050 <span class="keyword">static</span> gint payee_get_without_div_pointer ( );
+<a name="l00051"></a>00051 <span class="keyword">static</span> gboolean payee_remove_sub_div ( <span class="keywordtype">int</span> div_id, <span class="keywordtype">int</span> sub_div_id );
+<a name="l00052"></a>00052 <span class="keyword">static</span> gint payee_scheduled_div_id ( gint scheduled_number );
+<a name="l00053"></a>00053 <span class="keyword">static</span> gboolean payee_scheduled_set_div_id ( gint scheduled_number, 
+<a name="l00054"></a>00054                                       <span class="keywordtype">int</span> no_div );
+<a name="l00055"></a>00055 <span class="keyword">static</span> gboolean payee_scheduled_set_sub_div_id ( gint scheduled_number,
+<a name="l00056"></a>00056                                           <span class="keywordtype">int</span> no_sub_div );
+<a name="l00057"></a>00057 <span class="keyword">static</span> gint payee_scheduled_sub_div_id ( gint scheduled_number );
+<a name="l00058"></a>00058 <span class="keyword">static</span> <a class="code" href="structgsb__real.html">gsb_real</a> payee_sub_div_balance ( gint div, gint sub_div );
+<a name="l00059"></a>00059 <span class="keyword">static</span> gint payee_sub_div_id ( gpointer sub_payee );
+<a name="l00060"></a>00060 <span class="keyword">static</span> gchar * payee_sub_div_name ( gint div, gint sub_div );
+<a name="l00061"></a>00061 <span class="keyword">static</span> gint payee_sub_div_nb_transactions ( gint div, gint sub_div );
+<a name="l00062"></a>00062 <span class="keyword">static</span> gboolean payee_transaction_set_sub_div_id ( gint transaction_number, 
+<a name="l00063"></a>00063                                             <span class="keywordtype">int</span> no_sub_div );
+<a name="l00064"></a>00064 <span class="keyword">static</span> gint payee_transaction_sub_div_id ( gint transaction_number );
+<a name="l00065"></a>00065 <span class="comment">/*END_STATIC*/</span>
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00068"></a>00068 <span class="keyword">extern</span> gint <a class="code" href="gsb__currency__config_8c.html#a3add720d0e0b25caa37589bcfb879c6f">no_devise_totaux_tiers</a>;
+<a name="l00069"></a>00069 <span class="keyword">extern</span> <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="accueil_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a>;
+<a name="l00070"></a>00070 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073 <span class="keyword">static</span> <a class="code" href="structmetatree__interface.html">MetatreeInterface</a> _payee_interface = {
+<a name="l00074"></a>00074     1,
+<a name="l00075"></a>00075     0,
+<a name="l00076"></a>00076     <a class="code" href="meta__payee_8c.html#a13137d55a50bdd16328232e84af26b44">payee_tree_currency</a>,
+<a name="l00077"></a>00077     N_(<span class="stringliteral">&quot;Payee&quot;</span>),
+<a name="l00078"></a>00078     N_(<span class="stringliteral">&quot;No payee&quot;</span>),
+<a name="l00079"></a>00079     N_(<span class="stringliteral">&quot;No sub-payee&quot;</span>),
+<a name="l00080"></a>00080     payee_get_without_div_pointer,
+<a name="l00081"></a>00081     <a class="code" href="gsb__data__payee_8c.html#a0841102ff1dc4d499187b11a187fe92d">gsb_data_payee_get_number_by_name</a>,
+<a name="l00082"></a>00082     payee_get_sub_div_pointer_from_name,
+<a name="l00083"></a>00083     <a class="code" href="gsb__data__payee_8c.html#a77b531f63870dea239c1f943329aebb1">gsb_data_payee_get_nb_transactions</a>,
+<a name="l00084"></a>00084     payee_sub_div_nb_transactions,
+<a name="l00085"></a>00085     payee_div_name,
+<a name="l00086"></a>00086     payee_sub_div_name,
+<a name="l00087"></a>00087     <a class="code" href="gsb__data__payee_8c.html#a4d9141bf920954170d54a7a8d9127d4f">gsb_data_payee_get_balance</a>,
+<a name="l00088"></a>00088     payee_sub_div_balance,
+<a name="l00089"></a>00089     <a class="code" href="gsb__data__payee_8c.html#a8fba569c8347fa6e1f98f5f396d6a518">gsb_data_payee_get_no_payee</a>,
+<a name="l00090"></a>00090     payee_sub_div_id,
+<a name="l00091"></a>00091     <a class="code" href="gsb__data__payee_8c.html#a2fe0b4b22dcae74be865456e5f7c9995">gsb_data_payee_get_payees_list</a>,
+<a name="l00092"></a>00092     payee_div_sub_div_list,
+<a name="l00093"></a>00093     payee_div_type,
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095     <a class="code" href="gsb__data__transaction_8c.html#afa032df45afa2ad7a4be48449a7e8d15">gsb_data_transaction_get_party_number</a>,
+<a name="l00096"></a>00096     payee_transaction_sub_div_id,
+<a name="l00097"></a>00097     <a class="code" href="gsb__data__transaction_8c.html#ae334be534c1cfcc7dacf260008ee49f2">gsb_data_transaction_set_party_number</a>,
+<a name="l00098"></a>00098     payee_transaction_set_sub_div_id,
+<a name="l00099"></a>00099     payee_scheduled_div_id,
+<a name="l00100"></a>00100     payee_scheduled_sub_div_id,
+<a name="l00101"></a>00101     payee_scheduled_set_div_id,
+<a name="l00102"></a>00102     payee_scheduled_set_sub_div_id,
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104     payee_add_div,
+<a name="l00105"></a>00105     payee_add_sub_div,
+<a name="l00106"></a>00106     <a class="code" href="gsb__data__payee_8c.html#a405a586d7f5ca10be88e833b68fa7d57">gsb_data_payee_remove</a>,
+<a name="l00107"></a>00107     payee_remove_sub_div,
+<a name="l00108"></a>00108     payee_add_transaction_to_div,
+<a name="l00109"></a>00109     payee_add_transaction_to_sub_div,
+<a name="l00110"></a>00110     <a class="code" href="gsb__data__payee_8c.html#afeef17c3b690983a07a2f373e5de6b55">gsb_data_payee_remove_transaction_from_payee</a>,
+<a name="l00111"></a>00111     gsb_data_payee_remove_transaction_from_payee,
+<a name="l00112"></a>00112     <a class="code" href="tiers__onglet_8c.html#a07d4064288024467a46893089d1a25c7">payee_hold_position_set_path</a>,
+<a name="l00113"></a>00113     <a class="code" href="tiers__onglet_8c.html#ac46dd13ab4a32f28d80c2d94535b58ca">payee_hold_position_set_expand</a>,
+<a name="l00114"></a>00114 };
+<a name="l00115"></a>00115 
+<a name="l00116"></a><a class="code" href="utils__operations_8c.html#a2b9ff3d909970141c14d4dd502841f70">00116</a> <a class="code" href="structmetatree__interface.html">MetatreeInterface</a> * <a class="code" href="meta__payee_8c.html#a2b9ff3d909970141c14d4dd502841f70">payee_interface</a> = &amp;_payee_interface;
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118 
+<a name="l00123"></a><a class="code" href="meta__payee_8h.html#a13137d55a50bdd16328232e84af26b44">00123</a> gint <a class="code" href="meta__payee_8c.html#a13137d55a50bdd16328232e84af26b44">payee_tree_currency</a> ( )
+<a name="l00124"></a>00124 {
+<a name="l00125"></a>00125     <span class="keywordflow">return</span> <a class="code" href="gsb__currency__config_8c.html#a3add720d0e0b25caa37589bcfb879c6f">no_devise_totaux_tiers</a>;
+<a name="l00126"></a>00126 }
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128 
+<a name="l00133"></a>00133 gint payee_get_without_div_pointer ( )
+<a name="l00134"></a>00134 {
+<a name="l00135"></a>00135     <span class="keywordflow">return</span> 0;
+<a name="l00136"></a>00136 }
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138 
+<a name="l00143"></a>00143 gint payee_get_sub_div_pointer_from_name ( <span class="keywordtype">int</span> div_id, <span class="keyword">const</span> gchar * name, 
+<a name="l00144"></a>00144                                            gboolean create )
+<a name="l00145"></a>00145 {
+<a name="l00146"></a>00146     <span class="keywordflow">return</span> 0;
+<a name="l00147"></a>00147 }
+<a name="l00148"></a>00148 
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150 
+<a name="l00155"></a>00155 gint payee_sub_div_nb_transactions ( gint div, gint sub_div )
+<a name="l00156"></a>00156 {
+<a name="l00157"></a>00157     <span class="keywordflow">return</span> 0;
+<a name="l00158"></a>00158 }
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161 
+<a name="l00166"></a>00166 gchar *payee_div_name ( gint div )
+<a name="l00167"></a>00167 {
+<a name="l00168"></a>00168     <span class="keyword">const</span> gchar * payee_name = <a class="code" href="gsb__data__payee_8c.html#adc6080b7376628d3902f5fd861deb45a">gsb_data_payee_get_name</a> ( div, TRUE );
+<a name="l00169"></a>00169     <span class="keywordflow">if</span> ( ! payee_name )
+<a name="l00170"></a>00170         payee_name = _(payee_interface -&gt; no_div_label);
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172     <span class="keywordflow">return</span> <a class="code" href="utils__str_8c.html#ad9a37361694eeaa2847b0fe11389824d">my_strdup</a> ( payee_name );
+<a name="l00173"></a>00173 }
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176 
+<a name="l00181"></a>00181 gchar * payee_sub_div_name ( gint div, gint sub_div )
+<a name="l00182"></a>00182 {
+<a name="l00183"></a>00183     <span class="keywordflow">return</span> <a class="code" href="utils__str_8c.html#ad9a37361694eeaa2847b0fe11389824d">my_strdup</a> (<span class="stringliteral">&quot;&quot;</span>);
+<a name="l00184"></a>00184 }
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187 
+<a name="l00188"></a>00188 
+<a name="l00193"></a>00193 <a class="code" href="structgsb__real.html">gsb_real</a> payee_sub_div_balance ( gint div, gint sub_div )
+<a name="l00194"></a>00194 {
+<a name="l00195"></a>00195     <span class="keywordflow">return</span> null_real;
+<a name="l00196"></a>00196 }
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199 
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201 
+<a name="l00206"></a>00206 gint payee_sub_div_id ( gpointer sub_payee )
+<a name="l00207"></a>00207 {
+<a name="l00208"></a>00208     <span class="keywordflow">return</span> 0;
+<a name="l00209"></a>00209 }
+<a name="l00210"></a>00210 
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212 
+<a name="l00213"></a>00213 
+<a name="l00214"></a>00214 
+<a name="l00219"></a>00219 GSList * payee_div_sub_div_list ( gint div )
+<a name="l00220"></a>00220 {
+<a name="l00221"></a>00221     <span class="keywordflow">return</span> NULL;
+<a name="l00222"></a>00222 }
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224 
+<a name="l00225"></a>00225 
+<a name="l00230"></a>00230 gint payee_div_type ( gint div )
+<a name="l00231"></a>00231 {
+<a name="l00232"></a>00232     <span class="keywordflow">return</span> -1;
+<a name="l00233"></a>00233 }
+<a name="l00234"></a>00234 
+<a name="l00235"></a>00235 
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237 
+<a name="l00242"></a>00242 gint payee_transaction_sub_div_id ( gint transaction_number )
+<a name="l00243"></a>00243 {
+<a name="l00244"></a>00244     <span class="keywordflow">return</span> 0;
+<a name="l00245"></a>00245 }
+<a name="l00246"></a>00246 
+<a name="l00247"></a>00247 
+<a name="l00248"></a>00248 
+<a name="l00253"></a>00253 gboolean payee_transaction_set_sub_div_id ( gint transaction_number, 
+<a name="l00254"></a>00254                                             <span class="keywordtype">int</span> no_sub_div )
+<a name="l00255"></a>00255 {
+<a name="l00256"></a>00256     <span class="keywordflow">return</span> FALSE;
+<a name="l00257"></a>00257 }
+<a name="l00258"></a>00258 
+<a name="l00259"></a>00259 
+<a name="l00260"></a>00260 
+<a name="l00265"></a>00265 gint payee_scheduled_div_id ( gint scheduled_number )
+<a name="l00266"></a>00266 {
+<a name="l00267"></a>00267     <span class="keywordflow">return</span> -1;
+<a name="l00268"></a>00268 }
+<a name="l00269"></a>00269 
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271 
+<a name="l00276"></a>00276 gint payee_scheduled_sub_div_id ( gint scheduled_number )
+<a name="l00277"></a>00277 {
+<a name="l00278"></a>00278     <span class="keywordflow">return</span> -1;
+<a name="l00279"></a>00279 }
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282 
+<a name="l00287"></a>00287 gboolean payee_scheduled_set_div_id ( gint scheduled_number, 
+<a name="l00288"></a>00288                                       <span class="keywordtype">int</span> no_div )
+<a name="l00289"></a>00289 {
+<a name="l00290"></a>00290     <span class="keywordflow">return</span> FALSE;
+<a name="l00291"></a>00291 }
+<a name="l00292"></a>00292 
+<a name="l00293"></a>00293 
+<a name="l00294"></a>00294 
+<a name="l00299"></a>00299 gboolean payee_scheduled_set_sub_div_id ( gint scheduled_number,
+<a name="l00300"></a>00300                                           <span class="keywordtype">int</span> no_sub_div )
+<a name="l00301"></a>00301 {
+<a name="l00302"></a>00302     <span class="keywordflow">return</span> FALSE;
+<a name="l00303"></a>00303 }
+<a name="l00304"></a>00304 
+<a name="l00305"></a>00305 
+<a name="l00306"></a>00306 
+<a name="l00316"></a>00316 gint payee_add_div ()
+<a name="l00317"></a>00317 {
+<a name="l00318"></a>00318     gint payee_number;
+<a name="l00319"></a>00319     gchar *name;
+<a name="l00320"></a>00320     <span class="keywordtype">int</span> i = 1;
+<a name="l00321"></a>00321 
+<a name="l00323"></a>00323     name =  <a class="code" href="utils__str_8c.html#ad9a37361694eeaa2847b0fe11389824d">my_strdup</a> ( _(<span class="stringliteral">&quot;New payee&quot;</span>) );
+<a name="l00324"></a>00324 
+<a name="l00325"></a>00325     <span class="keywordflow">while</span> ( <a class="code" href="gsb__data__payee_8c.html#a0841102ff1dc4d499187b11a187fe92d">gsb_data_payee_get_number_by_name</a> ( name,
+<a name="l00326"></a>00326                                                 FALSE ))
+<a name="l00327"></a>00327     {
+<a name="l00328"></a>00328         i++;
+<a name="l00329"></a>00329         g_free (name);
+<a name="l00330"></a>00330         name = g_strdup_printf ( _(<span class="stringliteral">&quot;New payee #%d&quot;</span>), i ); 
+<a name="l00331"></a>00331     }
+<a name="l00332"></a>00332 
+<a name="l00333"></a>00333     payee_number = <a class="code" href="gsb__data__payee_8c.html#a52d58725c813f6acd19b2e7f4056f162">gsb_data_payee_new</a> (name);
+<a name="l00334"></a>00334 
+<a name="l00335"></a>00335     g_free (name);
+<a name="l00336"></a>00336 
+<a name="l00337"></a>00337     <span class="keywordflow">return</span> payee_number;
+<a name="l00338"></a>00338 }
+<a name="l00339"></a>00339 
+<a name="l00340"></a>00340 
+<a name="l00341"></a>00341 
+<a name="l00346"></a>00346 gint payee_add_sub_div ( <span class="keywordtype">int</span> div_id )
+<a name="l00347"></a>00347 {
+<a name="l00348"></a>00348     <span class="keywordflow">return</span> 0;
+<a name="l00349"></a>00349 }
+<a name="l00350"></a>00350 
+<a name="l00351"></a>00351 
+<a name="l00352"></a>00352 
+<a name="l00353"></a>00353 
+<a name="l00358"></a>00358 gboolean payee_remove_sub_div ( <span class="keywordtype">int</span> div_id, <span class="keywordtype">int</span> sub_div_id )
+<a name="l00359"></a>00359 {
+<a name="l00360"></a>00360     <span class="keywordflow">return</span> FALSE;
+<a name="l00361"></a>00361 }
+<a name="l00362"></a>00362 
+<a name="l00363"></a>00363 
+<a name="l00364"></a>00364 
+<a name="l00369"></a>00369 gboolean payee_add_transaction_to_div ( gint transaction_number, 
+<a name="l00370"></a>00370                                         <span class="keywordtype">int</span> div_id )
+<a name="l00371"></a>00371 {
+<a name="l00372"></a>00372     <a class="code" href="gsb__data__payee_8c.html#ae57cf148af34346fc3d49bd1f313081d">gsb_data_payee_add_transaction_to_payee</a> (transaction_number);
+<a name="l00373"></a>00373     <span class="keywordflow">return</span> TRUE;
+<a name="l00374"></a>00374 }
+<a name="l00375"></a>00375 
+<a name="l00376"></a>00376 
+<a name="l00377"></a>00377 
+<a name="l00382"></a>00382 <span class="keywordtype">void</span> payee_add_transaction_to_sub_div ( gint transaction_number, 
+<a name="l00383"></a>00383                                         <span class="keywordtype">int</span> div_id, <span class="keywordtype">int</span> sub_div_id )
+<a name="l00384"></a>00384 {
+<a name="l00385"></a>00385     <span class="keywordflow">return</span>;
+<a name="l00386"></a>00386 }
+<a name="l00387"></a>00387 
+<a name="l00388"></a>00388 
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

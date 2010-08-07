@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier utils_operations.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier utils_operations.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__operations_8h_source.html">utils_operations.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__budget_8h_source.html">gsb_data_budget.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__category_8h_source.html">gsb_data_category.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__payee_8h_source.html">gsb_data_payee.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="metatree_8h_source.html">metatree.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="utils__operations_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__operations_8c.html#a74b8b20760e6e001d3344a0c9fc2204a">update_transaction_in_trees</a> (gint transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__operations_8c.html#a3e5da28eed95cd789a2b084e60463ac8">delete_transaction_in_trees</a> (gint transaction_number)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__operations_8c.html#a6cf88c38349ee099aa4138c213aae21b">arbre_categ</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmetatree__interface.html">MetatreeInterface</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__operations_8c.html#a4b1a6befee9f0036849fd2ad597c7b13">budgetary_interface</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__operations_8c.html#a6523d5f68febaef00546d8c2066e0e6d">budgetary_line_tree</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkTreeStore *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__operations_8c.html#ae9ac273826562e08bcc3b6f5ed918a2f">budgetary_line_tree_model</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkTreeStore *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__operations_8c.html#ae8424f0222ea0a41ea824d2294ee1b34">categ_tree_model</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmetatree__interface.html">MetatreeInterface</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__operations_8c.html#ac3d52fdc414a19ac674a323f25194bc7">category_interface</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmetatree__interface.html">MetatreeInterface</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__operations_8c.html#a2b9ff3d909970141c14d4dd502841f70">payee_interface</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__operations_8c.html#ab5b539c1af0cb10d03c328f20ecf23bf">payee_tree</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkTreeStore *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__operations_8c.html#a1621c167eb13470254518b600d2983bf">payee_tree_model</a></td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a3e5da28eed95cd789a2b084e60463ac8"></a><!-- doxytag: member="utils_operations.c::delete_transaction_in_trees" ref="a3e5da28eed95cd789a2b084e60463ac8" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void delete_transaction_in_trees </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>delete the given transaction in the metatrees</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td>the transaction to delete</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__operations_8c_source.html#l00083">83</a> du fichier <a class="el" href="utils__operations_8c_source.html">utils_operations.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a74b8b20760e6e001d3344a0c9fc2204a"></a><!-- doxytag: member="utils_operations.c::update_transaction_in_trees" ref="a74b8b20760e6e001d3344a0c9fc2204a" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void update_transaction_in_trees </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update the given transaction in the metatrees</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td>the transaction to update</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__operations_8c_source.html#l00067">67</a> du fichier <a class="el" href="utils__operations_8c_source.html">utils_operations.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a6cf88c38349ee099aa4138c213aae21b"></a><!-- doxytag: member="utils_operations.c::arbre_categ" ref="a6cf88c38349ee099aa4138c213aae21b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__operations_8c.html#a6cf88c38349ee099aa4138c213aae21b">arbre_categ</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="categories__onglet_8c_source.html#l00064">64</a> du fichier <a class="el" href="categories__onglet_8c_source.html">categories_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4b1a6befee9f0036849fd2ad597c7b13"></a><!-- doxytag: member="utils_operations.c::budgetary_interface" ref="a4b1a6befee9f0036849fd2ad597c7b13" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structmetatree__interface.html">MetatreeInterface</a>* <a class="el" href="utils__operations_8c.html#a4b1a6befee9f0036849fd2ad597c7b13">budgetary_interface</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="meta__budgetary_8c_source.html#l00101">101</a> du fichier <a class="el" href="meta__budgetary_8c_source.html">meta_budgetary.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6523d5f68febaef00546d8c2066e0e6d"></a><!-- doxytag: member="utils_operations.c::budgetary_line_tree" ref="a6523d5f68febaef00546d8c2066e0e6d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__operations_8c.html#a6523d5f68febaef00546d8c2066e0e6d">budgetary_line_tree</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="imputation__budgetaire_8c_source.html#l00070">70</a> du fichier <a class="el" href="imputation__budgetaire_8c_source.html">imputation_budgetaire.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae9ac273826562e08bcc3b6f5ed918a2f"></a><!-- doxytag: member="utils_operations.c::budgetary_line_tree_model" ref="ae9ac273826562e08bcc3b6f5ed918a2f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkTreeStore* <a class="el" href="utils__operations_8c.html#ae9ac273826562e08bcc3b6f5ed918a2f">budgetary_line_tree_model</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="imputation__budgetaire_8c_source.html#l00071">71</a> du fichier <a class="el" href="imputation__budgetaire_8c_source.html">imputation_budgetaire.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae8424f0222ea0a41ea824d2294ee1b34"></a><!-- doxytag: member="utils_operations.c::categ_tree_model" ref="ae8424f0222ea0a41ea824d2294ee1b34" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkTreeStore* <a class="el" href="utils__operations_8c.html#ae8424f0222ea0a41ea824d2294ee1b34">categ_tree_model</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="categories__onglet_8c_source.html#l00063">63</a> du fichier <a class="el" href="categories__onglet_8c_source.html">categories_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac3d52fdc414a19ac674a323f25194bc7"></a><!-- doxytag: member="utils_operations.c::category_interface" ref="ac3d52fdc414a19ac674a323f25194bc7" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structmetatree__interface.html">MetatreeInterface</a>* <a class="el" href="utils__operations_8c.html#ac3d52fdc414a19ac674a323f25194bc7">category_interface</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="meta__categories_8c_source.html#l00104">104</a> du fichier <a class="el" href="meta__categories_8c_source.html">meta_categories.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2b9ff3d909970141c14d4dd502841f70"></a><!-- doxytag: member="utils_operations.c::payee_interface" ref="a2b9ff3d909970141c14d4dd502841f70" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structmetatree__interface.html">MetatreeInterface</a>* <a class="el" href="utils__operations_8c.html#a2b9ff3d909970141c14d4dd502841f70">payee_interface</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="meta__payee_8c_source.html#l00116">116</a> du fichier <a class="el" href="meta__payee_8c_source.html">meta_payee.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab5b539c1af0cb10d03c328f20ecf23bf"></a><!-- doxytag: member="utils_operations.c::payee_tree" ref="ab5b539c1af0cb10d03c328f20ecf23bf" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__operations_8c.html#ab5b539c1af0cb10d03c328f20ecf23bf">payee_tree</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00105">105</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1621c167eb13470254518b600d2983bf"></a><!-- doxytag: member="utils_operations.c::payee_tree_model" ref="a1621c167eb13470254518b600d2983bf" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkTreeStore* <a class="el" href="utils__operations_8c.html#a1621c167eb13470254518b600d2983bf">payee_tree_model</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00106">106</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

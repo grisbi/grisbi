@@ -1,0 +1,114 @@
+\section{Référence du fichier gsb\_\-file\_\-save.h}
+\label{gsb__file__save_8h}\index{gsb\_\-file\_\-save.h@{gsb\_\-file\_\-save.h}}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gulong {\bf gsb\_\-file\_\-save\_\-append\_\-part} (gulong iterator, gulong $\ast$length\_\-calculated, gchar $\ast$$\ast$file\_\-content, gchar $\ast$new\_\-string)
+\item 
+gulong {\bf gsb\_\-file\_\-save\_\-budgetary\_\-part} (gulong iterator, gulong $\ast$length\_\-calculated, gchar $\ast$$\ast$file\_\-content)
+\item 
+gulong {\bf gsb\_\-file\_\-save\_\-category\_\-part} (gulong iterator, gulong $\ast$length\_\-calculated, gchar $\ast$$\ast$file\_\-content)
+\item 
+gulong {\bf gsb\_\-file\_\-save\_\-report\_\-part} (gulong iterator, gulong $\ast$length\_\-calculated, gchar $\ast$$\ast$file\_\-content, gboolean current\_\-report)
+\item 
+gboolean {\bf gsb\_\-file\_\-save\_\-save\_\-file} (const gchar $\ast$filename, gboolean compress, gint archive\_\-number)
+\item 
+const gchar $\ast$ {\bf my\_\-safe\_\-null\_\-str} (const gchar $\ast$string)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-file\_\-save.h@{gsb\_\-file\_\-save.h}!gsb\_\-file\_\-save\_\-append\_\-part@{gsb\_\-file\_\-save\_\-append\_\-part}}
+\index{gsb\_\-file\_\-save\_\-append\_\-part@{gsb\_\-file\_\-save\_\-append\_\-part}!gsb_file_save.h@{gsb\_\-file\_\-save.h}}
+\subsubsection[{gsb\_\-file\_\-save\_\-append\_\-part}]{\setlength{\rightskip}{0pt plus 5cm}gulong gsb\_\-file\_\-save\_\-append\_\-part (gulong {\em iterator}, \/  gulong $\ast$ {\em length\_\-calculated}, \/  gchar $\ast$$\ast$ {\em file\_\-content}, \/  gchar $\ast$ {\em new\_\-string})}\label{gsb__file__save_8h_a53abd581b16b2e5974e4b7b8cbfbd321}
+add the string given in arg and check if we don't go throw the upper limit of file\_\-content if yes, we reallocate it
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em file\_\-content}]the file content \item[{\em iterator}]the current iterator \item[{\em new\_\-string}]the string we want to add, it will be freed by this function. Do not free it again !\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the new iterator 
+\end{DoxyReturn}
+
+
+Définition à la ligne 511 du fichier gsb\_\-file\_\-save.c.
+
+\index{gsb\_\-file\_\-save.h@{gsb\_\-file\_\-save.h}!gsb\_\-file\_\-save\_\-budgetary\_\-part@{gsb\_\-file\_\-save\_\-budgetary\_\-part}}
+\index{gsb\_\-file\_\-save\_\-budgetary\_\-part@{gsb\_\-file\_\-save\_\-budgetary\_\-part}!gsb_file_save.h@{gsb\_\-file\_\-save.h}}
+\subsubsection[{gsb\_\-file\_\-save\_\-budgetary\_\-part}]{\setlength{\rightskip}{0pt plus 5cm}gulong gsb\_\-file\_\-save\_\-budgetary\_\-part (gulong {\em iterator}, \/  gulong $\ast$ {\em length\_\-calculated}, \/  gchar $\ast$$\ast$ {\em file\_\-content})}\label{gsb__file__save_8h_a46e773fc842889454bd36ed6e93ac4af}
+save the budgetaries
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em iterator}]the current iterator \item[{\em length\_\-calculated}]a pointer to the variable lengh\_\-calculated \item[{\em file\_\-content}]a pointer to the variable file\_\-content\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the new iterator 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1587 du fichier gsb\_\-file\_\-save.c.
+
+\index{gsb\_\-file\_\-save.h@{gsb\_\-file\_\-save.h}!gsb\_\-file\_\-save\_\-category\_\-part@{gsb\_\-file\_\-save\_\-category\_\-part}}
+\index{gsb\_\-file\_\-save\_\-category\_\-part@{gsb\_\-file\_\-save\_\-category\_\-part}!gsb_file_save.h@{gsb\_\-file\_\-save.h}}
+\subsubsection[{gsb\_\-file\_\-save\_\-category\_\-part}]{\setlength{\rightskip}{0pt plus 5cm}gulong gsb\_\-file\_\-save\_\-category\_\-part (gulong {\em iterator}, \/  gulong $\ast$ {\em length\_\-calculated}, \/  gchar $\ast$$\ast$ {\em file\_\-content})}\label{gsb__file__save_8h_af255442e956aa95c1b2c223b4cd07481}
+save the categories
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em iterator}]the current iterator \item[{\em length\_\-calculated}]a pointer to the variable lengh\_\-calculated \item[{\em file\_\-content}]a pointer to the variable file\_\-content\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the new iterator 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1510 du fichier gsb\_\-file\_\-save.c.
+
+\index{gsb\_\-file\_\-save.h@{gsb\_\-file\_\-save.h}!gsb\_\-file\_\-save\_\-report\_\-part@{gsb\_\-file\_\-save\_\-report\_\-part}}
+\index{gsb\_\-file\_\-save\_\-report\_\-part@{gsb\_\-file\_\-save\_\-report\_\-part}!gsb_file_save.h@{gsb\_\-file\_\-save.h}}
+\subsubsection[{gsb\_\-file\_\-save\_\-report\_\-part}]{\setlength{\rightskip}{0pt plus 5cm}gulong gsb\_\-file\_\-save\_\-report\_\-part (gulong {\em iterator}, \/  gulong $\ast$ {\em length\_\-calculated}, \/  gchar $\ast$$\ast$ {\em file\_\-content}, \/  gboolean {\em current\_\-report})}\label{gsb__file__save_8h_a3699f6e4d341e96824d32c5df54f6e8a}
+save the reports
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em iterator}]the current iterator \item[{\em length\_\-calculated}]a pointer to the variable lengh\_\-calculated \item[{\em file\_\-content}]a pointer to the variable file\_\-content \item[{\em current\_\-report}]if TRUE, only save the current report (to exporting a report)\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the new iterator 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2101 du fichier gsb\_\-file\_\-save.c.
+
+\index{gsb\_\-file\_\-save.h@{gsb\_\-file\_\-save.h}!gsb\_\-file\_\-save\_\-save\_\-file@{gsb\_\-file\_\-save\_\-save\_\-file}}
+\index{gsb\_\-file\_\-save\_\-save\_\-file@{gsb\_\-file\_\-save\_\-save\_\-file}!gsb_file_save.h@{gsb\_\-file\_\-save.h}}
+\subsubsection[{gsb\_\-file\_\-save\_\-save\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-save\_\-save\_\-file (const gchar $\ast$ {\em filename}, \/  gboolean {\em compress}, \/  gint {\em archive\_\-number})}\label{gsb__file__save_8h_a07b27e36f7166f5eae93c162039a78a7}
+save the grisbi file or an archive we don't check anything here, all must be done before, here we just write the file and set the permissions
+
+an archive file is a normal grisbi file, but only with the wanted archived transactions and without scheduled transactions
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em filename}]the name of the file \item[{\em compress}]TRUE if we want to compress the file \item[{\em archive\_\-number}]0 for complete file, the number of archive if export an archive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : ok, FALSE : problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 185 du fichier gsb\_\-file\_\-save.c.
+
+\index{gsb\_\-file\_\-save.h@{gsb\_\-file\_\-save.h}!my\_\-safe\_\-null\_\-str@{my\_\-safe\_\-null\_\-str}}
+\index{my\_\-safe\_\-null\_\-str@{my\_\-safe\_\-null\_\-str}!gsb_file_save.h@{gsb\_\-file\_\-save.h}}
+\subsubsection[{my\_\-safe\_\-null\_\-str}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ my\_\-safe\_\-null\_\-str (const gchar $\ast$ {\em string})}\label{gsb__file__save_8h_afab094df64a133cffdeb914484e1e52d}
+Protect the caller against NULL strings.
+
+It simply returns the passed string when it is not NULL, or \char`\"{}(null)\char`\"{} when it is NULL.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em string}]the string to be returned\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the given string, or \char`\"{}(null)\char`\"{} if it is a NULL pointer. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 553 du fichier gsb\_\-file\_\-save.c.
+

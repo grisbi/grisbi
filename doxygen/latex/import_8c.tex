@@ -1,0 +1,482 @@
+\section{Référence du fichier import.c}
+\label{import_8c}\index{import.c@{import.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}import.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}bet\_\-data.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}import\_\-csv.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-file\_\-selection.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}go-\/charmap-\/sel.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-account\_\-property.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-assistant.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-assistant\_\-file.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-automem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-buttons.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-combo\_\-box.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-currency\_\-config.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-budget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-category.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-import\_\-rule.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payee.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payment.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-util.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-scheduler.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}menu.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}tiers\_\-onglet.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-status.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gtk\_\-combofix.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}main.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}accueil.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}parametres.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}qif.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-files.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf OFXTransactionType} \{ \par
+{\bf OFX\_\-CREDIT}, 
+{\bf OFX\_\-DEBIT}, 
+{\bf OFX\_\-INT}, 
+{\bf OFX\_\-DIV}, 
+\par
+{\bf OFX\_\-FEE}, 
+{\bf OFX\_\-SRVCHG}, 
+{\bf OFX\_\-DEP}, 
+{\bf OFX\_\-ATM}, 
+\par
+{\bf OFX\_\-POS}, 
+{\bf OFX\_\-XFER}, 
+{\bf OFX\_\-CHECK}, 
+{\bf OFX\_\-PAYMENT}, 
+\par
+{\bf OFX\_\-CASH}, 
+{\bf OFX\_\-DIRECTDEP}, 
+{\bf OFX\_\-DIRECTDEBIT}, 
+{\bf OFX\_\-REPEATPMT}, 
+\par
+{\bf OFX\_\-OTHER}
+ \}
+\item 
+enum {\bf import\_\-filesel\_\-columns} \{ \par
+{\bf IMPORT\_\-FILESEL\_\-SELECTED} =  0, 
+{\bf IMPORT\_\-FILESEL\_\-TYPENAME}, 
+{\bf IMPORT\_\-FILESEL\_\-FILENAME}, 
+{\bf IMPORT\_\-FILESEL\_\-REALNAME}, 
+\par
+{\bf IMPORT\_\-FILESEL\_\-TYPE}, 
+{\bf IMPORT\_\-FILESEL\_\-CODING}, 
+{\bf IMPORT\_\-FILESEL\_\-NUM\_\-COLS}
+ \}
+\item 
+enum {\bf import\_\-pages} \{ \par
+{\bf IMPORT\_\-STARTUP\_\-PAGE}, 
+{\bf IMPORT\_\-FILESEL\_\-PAGE}, 
+{\bf IMPORT\_\-CSV\_\-PAGE}, 
+{\bf IMPORT\_\-RESUME\_\-PAGE}, 
+\par
+{\bf IMPORT\_\-FIRST\_\-ACCOUNT\_\-PAGE}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf register\_\-import\_\-formats} ()
+\item 
+G\_\-MODULE\_\-EXPORT void {\bf register\_\-import\_\-format} (struct {\bf import\_\-format} $\ast$format)
+\item 
+void {\bf importer\_\-fichier} (void)
+\item 
+GSList $\ast$ {\bf import\_\-selected\_\-files} (GtkWidget $\ast$assistant)
+\item 
+G\_\-MODULE\_\-EXPORT gchar $\ast$ {\bf unique\_\-imported\_\-name} (gchar $\ast$account\_\-name)
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-importation} (void)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-import\_\-associations\_\-gere\_\-tiers} (void)
+\item 
+void {\bf gsb\_\-import\_\-associations\_\-init\_\-variables} (void)
+\item 
+gint {\bf gsb\_\-import\_\-associations\_\-cmp\_\-assoc} (struct {\bf struct\_\-payee\_\-asso} $\ast$assoc\_\-1, struct {\bf struct\_\-payee\_\-asso} $\ast$assoc\_\-2)
+\item 
+gint {\bf gsb\_\-import\_\-associations\_\-list\_\-append\_\-assoc} (gint payee\_\-number, const gchar $\ast$search\_\-str)
+\item 
+G\_\-MODULE\_\-EXPORT void {\bf gsb\_\-import\_\-register\_\-account} (struct {\bf struct\_\-compte\_\-importation} $\ast$account)
+\item 
+G\_\-MODULE\_\-EXPORT void {\bf gsb\_\-import\_\-register\_\-account\_\-error} (struct {\bf struct\_\-compte\_\-importation} $\ast$account)
+\item 
+gboolean {\bf gsb\_\-import\_\-by\_\-rule} (gint rule)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf menu\_\-import\_\-rules}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}
+\item 
+gint {\bf mise\_\-a\_\-jour\_\-soldes\_\-minimaux}
+\item 
+gint {\bf no\_\-devise\_\-totaux\_\-categ}
+\item 
+gint {\bf no\_\-devise\_\-totaux\_\-ib}
+\item 
+gint {\bf no\_\-devise\_\-totaux\_\-tiers}
+\item 
+GtkWidget $\ast$ {\bf window}
+\item 
+struct {\bf import\_\-format} {\bf builtin\_\-formats} [$\,$]
+\item 
+gint {\bf valeur\_\-echelle\_\-recherche\_\-date\_\-import}
+\item 
+GSList $\ast$ {\bf liste\_\-comptes\_\-importes}
+\item 
+GSList $\ast$ {\bf liste\_\-comptes\_\-importes\_\-error}
+\item 
+gchar $\ast$ {\bf charmap\_\-imported}
+\item 
+GSList $\ast$ {\bf liste\_\-associations\_\-tiers} = NULL
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation du type de l'énumération}
+\index{import.c@{import.c}!import\_\-filesel\_\-columns@{import\_\-filesel\_\-columns}}
+\index{import\_\-filesel\_\-columns@{import\_\-filesel\_\-columns}!import.c@{import.c}}
+\subsubsection[{import\_\-filesel\_\-columns}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf import\_\-filesel\_\-columns}}\label{import_8c_ac8217d37285ac5d86ee34b65ce6b012a}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{IMPORT\_\-FILESEL\_\-SELECTED@{IMPORT\_\-FILESEL\_\-SELECTED}!import.c@{import.c}}\index{import.c@{import.c}!IMPORT\_\-FILESEL\_\-SELECTED@{IMPORT\_\-FILESEL\_\-SELECTED}}\item[{\em 
+IMPORT\_\-FILESEL\_\-SELECTED\label{import_8c_ac8217d37285ac5d86ee34b65ce6b012aa1198380335058f832ac22d4bcd04c5ca}
+}]\index{IMPORT\_\-FILESEL\_\-TYPENAME@{IMPORT\_\-FILESEL\_\-TYPENAME}!import.c@{import.c}}\index{import.c@{import.c}!IMPORT\_\-FILESEL\_\-TYPENAME@{IMPORT\_\-FILESEL\_\-TYPENAME}}\item[{\em 
+IMPORT\_\-FILESEL\_\-TYPENAME\label{import_8c_ac8217d37285ac5d86ee34b65ce6b012aae4a6bbea8769df27656c23cce1659f4a}
+}]\index{IMPORT\_\-FILESEL\_\-FILENAME@{IMPORT\_\-FILESEL\_\-FILENAME}!import.c@{import.c}}\index{import.c@{import.c}!IMPORT\_\-FILESEL\_\-FILENAME@{IMPORT\_\-FILESEL\_\-FILENAME}}\item[{\em 
+IMPORT\_\-FILESEL\_\-FILENAME\label{import_8c_ac8217d37285ac5d86ee34b65ce6b012aaaaf0ce41c0b5c0fe4497b35308c90f94}
+}]\index{IMPORT\_\-FILESEL\_\-REALNAME@{IMPORT\_\-FILESEL\_\-REALNAME}!import.c@{import.c}}\index{import.c@{import.c}!IMPORT\_\-FILESEL\_\-REALNAME@{IMPORT\_\-FILESEL\_\-REALNAME}}\item[{\em 
+IMPORT\_\-FILESEL\_\-REALNAME\label{import_8c_ac8217d37285ac5d86ee34b65ce6b012aaaad6483753cacb80277975fa466178fc}
+}]\index{IMPORT\_\-FILESEL\_\-TYPE@{IMPORT\_\-FILESEL\_\-TYPE}!import.c@{import.c}}\index{import.c@{import.c}!IMPORT\_\-FILESEL\_\-TYPE@{IMPORT\_\-FILESEL\_\-TYPE}}\item[{\em 
+IMPORT\_\-FILESEL\_\-TYPE\label{import_8c_ac8217d37285ac5d86ee34b65ce6b012aa5f35d70ce904f5ab9e49a78479fb779d}
+}]\index{IMPORT\_\-FILESEL\_\-CODING@{IMPORT\_\-FILESEL\_\-CODING}!import.c@{import.c}}\index{import.c@{import.c}!IMPORT\_\-FILESEL\_\-CODING@{IMPORT\_\-FILESEL\_\-CODING}}\item[{\em 
+IMPORT\_\-FILESEL\_\-CODING\label{import_8c_ac8217d37285ac5d86ee34b65ce6b012aac4bc8a9798d9e74e696dc9ee632a4305}
+}]\index{IMPORT\_\-FILESEL\_\-NUM\_\-COLS@{IMPORT\_\-FILESEL\_\-NUM\_\-COLS}!import.c@{import.c}}\index{import.c@{import.c}!IMPORT\_\-FILESEL\_\-NUM\_\-COLS@{IMPORT\_\-FILESEL\_\-NUM\_\-COLS}}\item[{\em 
+IMPORT\_\-FILESEL\_\-NUM\_\-COLS\label{import_8c_ac8217d37285ac5d86ee34b65ce6b012aaf470dcc802d3c36b71d8179922f9014c}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 220 du fichier import.c.
+
+\index{import.c@{import.c}!import\_\-pages@{import\_\-pages}}
+\index{import\_\-pages@{import\_\-pages}!import.c@{import.c}}
+\subsubsection[{import\_\-pages}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf import\_\-pages}}\label{import_8c_afc0bab97fcba28239c323fa850dabac1}
+Page numbering for the import wizard. \begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{IMPORT\_\-STARTUP\_\-PAGE@{IMPORT\_\-STARTUP\_\-PAGE}!import.c@{import.c}}\index{import.c@{import.c}!IMPORT\_\-STARTUP\_\-PAGE@{IMPORT\_\-STARTUP\_\-PAGE}}\item[{\em 
+IMPORT\_\-STARTUP\_\-PAGE\label{import_8c_afc0bab97fcba28239c323fa850dabac1aebdb3a554248367f00671fc0a0ebeadb}
+}]\index{IMPORT\_\-FILESEL\_\-PAGE@{IMPORT\_\-FILESEL\_\-PAGE}!import.c@{import.c}}\index{import.c@{import.c}!IMPORT\_\-FILESEL\_\-PAGE@{IMPORT\_\-FILESEL\_\-PAGE}}\item[{\em 
+IMPORT\_\-FILESEL\_\-PAGE\label{import_8c_afc0bab97fcba28239c323fa850dabac1a79e8d557aae1b5cc0a66044e2e77cabe}
+}]\index{IMPORT\_\-CSV\_\-PAGE@{IMPORT\_\-CSV\_\-PAGE}!import.c@{import.c}}\index{import.c@{import.c}!IMPORT\_\-CSV\_\-PAGE@{IMPORT\_\-CSV\_\-PAGE}}\item[{\em 
+IMPORT\_\-CSV\_\-PAGE\label{import_8c_afc0bab97fcba28239c323fa850dabac1ad9799f3a9f6875fb71a002d741a0cb21}
+}]\index{IMPORT\_\-RESUME\_\-PAGE@{IMPORT\_\-RESUME\_\-PAGE}!import.c@{import.c}}\index{import.c@{import.c}!IMPORT\_\-RESUME\_\-PAGE@{IMPORT\_\-RESUME\_\-PAGE}}\item[{\em 
+IMPORT\_\-RESUME\_\-PAGE\label{import_8c_afc0bab97fcba28239c323fa850dabac1ae3b9800771a2fbffc2d472c7a3095a0f}
+}]\index{IMPORT\_\-FIRST\_\-ACCOUNT\_\-PAGE@{IMPORT\_\-FIRST\_\-ACCOUNT\_\-PAGE}!import.c@{import.c}}\index{import.c@{import.c}!IMPORT\_\-FIRST\_\-ACCOUNT\_\-PAGE@{IMPORT\_\-FIRST\_\-ACCOUNT\_\-PAGE}}\item[{\em 
+IMPORT\_\-FIRST\_\-ACCOUNT\_\-PAGE\label{import_8c_afc0bab97fcba28239c323fa850dabac1ad7f5183fac1b068b43870a3ba511e2cb}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 231 du fichier import.c.
+
+\index{import.c@{import.c}!OFXTransactionType@{OFXTransactionType}}
+\index{OFXTransactionType@{OFXTransactionType}!import.c@{import.c}}
+\subsubsection[{OFXTransactionType}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf OFXTransactionType}}\label{import_8c_a735cf9b89f806f2be4c52117c5057173}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{OFX\_\-CREDIT@{OFX\_\-CREDIT}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-CREDIT@{OFX\_\-CREDIT}}\item[{\em 
+OFX\_\-CREDIT\label{import_8c_a735cf9b89f806f2be4c52117c5057173a55a44ce2b4561d75e1387d14bf4346e3}
+}]Generic credit \index{OFX\_\-DEBIT@{OFX\_\-DEBIT}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-DEBIT@{OFX\_\-DEBIT}}\item[{\em 
+OFX\_\-DEBIT\label{import_8c_a735cf9b89f806f2be4c52117c5057173ab60c4a61836e4c9eddd43df98f58f25a}
+}]Generic debit \index{OFX\_\-INT@{OFX\_\-INT}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-INT@{OFX\_\-INT}}\item[{\em 
+OFX\_\-INT\label{import_8c_a735cf9b89f806f2be4c52117c5057173a6c561a0df9837463a7badde944a6c6ce}
+}]Interest earned or paid (Note: Depends on signage of amount) \index{OFX\_\-DIV@{OFX\_\-DIV}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-DIV@{OFX\_\-DIV}}\item[{\em 
+OFX\_\-DIV\label{import_8c_a735cf9b89f806f2be4c52117c5057173adbf02dcc7c9b4bb5de5e0126127ec482}
+}]Dividend \index{OFX\_\-FEE@{OFX\_\-FEE}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-FEE@{OFX\_\-FEE}}\item[{\em 
+OFX\_\-FEE\label{import_8c_a735cf9b89f806f2be4c52117c5057173ad0b1678dd27d1caa1e0464b471b49d5b}
+}]FI fee \index{OFX\_\-SRVCHG@{OFX\_\-SRVCHG}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-SRVCHG@{OFX\_\-SRVCHG}}\item[{\em 
+OFX\_\-SRVCHG\label{import_8c_a735cf9b89f806f2be4c52117c5057173a94c350d04bb151bc7af01285f8564ff2}
+}]Service charge \index{OFX\_\-DEP@{OFX\_\-DEP}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-DEP@{OFX\_\-DEP}}\item[{\em 
+OFX\_\-DEP\label{import_8c_a735cf9b89f806f2be4c52117c5057173ad47566169d26dcbd4effe5bee0a5e02d}
+}]Deposit \index{OFX\_\-ATM@{OFX\_\-ATM}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-ATM@{OFX\_\-ATM}}\item[{\em 
+OFX\_\-ATM\label{import_8c_a735cf9b89f806f2be4c52117c5057173a64b99c67932f371b0793f91786dfcbce}
+}]ATM debit or credit (Note: Depends on signage of amount) \index{OFX\_\-POS@{OFX\_\-POS}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-POS@{OFX\_\-POS}}\item[{\em 
+OFX\_\-POS\label{import_8c_a735cf9b89f806f2be4c52117c5057173a15566db98285da8aa8c4f3b7b9fabc6e}
+}]Point of sale debit or credit (Note: Depends on signage of amount) \index{OFX\_\-XFER@{OFX\_\-XFER}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-XFER@{OFX\_\-XFER}}\item[{\em 
+OFX\_\-XFER\label{import_8c_a735cf9b89f806f2be4c52117c5057173a0cacbc14384739342490f0ee8662e4b6}
+}]Transfer \index{OFX\_\-CHECK@{OFX\_\-CHECK}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-CHECK@{OFX\_\-CHECK}}\item[{\em 
+OFX\_\-CHECK\label{import_8c_a735cf9b89f806f2be4c52117c5057173a791ae71426db867d29e0ce41fe8f4d02}
+}]Check \index{OFX\_\-PAYMENT@{OFX\_\-PAYMENT}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-PAYMENT@{OFX\_\-PAYMENT}}\item[{\em 
+OFX\_\-PAYMENT\label{import_8c_a735cf9b89f806f2be4c52117c5057173a44e13043cd858cc10e0d298c21373ce3}
+}]Electronic payment \index{OFX\_\-CASH@{OFX\_\-CASH}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-CASH@{OFX\_\-CASH}}\item[{\em 
+OFX\_\-CASH\label{import_8c_a735cf9b89f806f2be4c52117c5057173a4bef7088f38bcefd900bacc7956f969a}
+}]Cash withdrawal \index{OFX\_\-DIRECTDEP@{OFX\_\-DIRECTDEP}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-DIRECTDEP@{OFX\_\-DIRECTDEP}}\item[{\em 
+OFX\_\-DIRECTDEP\label{import_8c_a735cf9b89f806f2be4c52117c5057173a1eec1a02b6945ca4ab70e79c617b97ed}
+}]Direct deposit \index{OFX\_\-DIRECTDEBIT@{OFX\_\-DIRECTDEBIT}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-DIRECTDEBIT@{OFX\_\-DIRECTDEBIT}}\item[{\em 
+OFX\_\-DIRECTDEBIT\label{import_8c_a735cf9b89f806f2be4c52117c5057173ac66a49bd7d3e0e14a88c2ea30941efef}
+}]Merchant initiated debit \index{OFX\_\-REPEATPMT@{OFX\_\-REPEATPMT}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-REPEATPMT@{OFX\_\-REPEATPMT}}\item[{\em 
+OFX\_\-REPEATPMT\label{import_8c_a735cf9b89f806f2be4c52117c5057173af2b3f6d44dd25fd77be05880ec2a4edf}
+}]Repeating payment/standing order \index{OFX\_\-OTHER@{OFX\_\-OTHER}!import.c@{import.c}}\index{import.c@{import.c}!OFX\_\-OTHER@{OFX\_\-OTHER}}\item[{\em 
+OFX\_\-OTHER\label{import_8c_a735cf9b89f806f2be4c52117c5057173a67e1508a2089ea04720e582036f45101}
+}]Somer other type of transaction \end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 170 du fichier import.c.
+
+
+
+\subsection{Documentation des fonctions}
+\index{import.c@{import.c}!gsb\_\-import\_\-associations\_\-cmp\_\-assoc@{gsb\_\-import\_\-associations\_\-cmp\_\-assoc}}
+\index{gsb\_\-import\_\-associations\_\-cmp\_\-assoc@{gsb\_\-import\_\-associations\_\-cmp\_\-assoc}!import.c@{import.c}}
+\subsubsection[{gsb\_\-import\_\-associations\_\-cmp\_\-assoc}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-import\_\-associations\_\-cmp\_\-assoc (struct {\bf struct\_\-payee\_\-asso} $\ast$ {\em assoc\_\-1}, \/  struct {\bf struct\_\-payee\_\-asso} $\ast$ {\em assoc\_\-2})}\label{import_8c_a973a66dc9a88ed606bd0936f32919a4f}
+
+
+Définition à la ligne 3826 du fichier import.c.
+
+\index{import.c@{import.c}!gsb\_\-import\_\-associations\_\-gere\_\-tiers@{gsb\_\-import\_\-associations\_\-gere\_\-tiers}}
+\index{gsb\_\-import\_\-associations\_\-gere\_\-tiers@{gsb\_\-import\_\-associations\_\-gere\_\-tiers}!import.c@{import.c}}
+\subsubsection[{gsb\_\-import\_\-associations\_\-gere\_\-tiers}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-import\_\-associations\_\-gere\_\-tiers (void)}\label{import_8c_aeedd1884f94db09625397f7714850f82}
+
+
+Définition à la ligne 3573 du fichier import.c.
+
+\index{import.c@{import.c}!gsb\_\-import\_\-associations\_\-init\_\-variables@{gsb\_\-import\_\-associations\_\-init\_\-variables}}
+\index{gsb\_\-import\_\-associations\_\-init\_\-variables@{gsb\_\-import\_\-associations\_\-init\_\-variables}!import.c@{import.c}}
+\subsubsection[{gsb\_\-import\_\-associations\_\-init\_\-variables}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-import\_\-associations\_\-init\_\-variables (void)}\label{import_8c_af8486d8bf4c57369bd528eb5c4474cb5}
+
+
+Définition à la ligne 3744 du fichier import.c.
+
+\index{import.c@{import.c}!gsb\_\-import\_\-associations\_\-list\_\-append\_\-assoc@{gsb\_\-import\_\-associations\_\-list\_\-append\_\-assoc}}
+\index{gsb\_\-import\_\-associations\_\-list\_\-append\_\-assoc@{gsb\_\-import\_\-associations\_\-list\_\-append\_\-assoc}!import.c@{import.c}}
+\subsubsection[{gsb\_\-import\_\-associations\_\-list\_\-append\_\-assoc}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-import\_\-associations\_\-list\_\-append\_\-assoc (gint {\em payee\_\-number}, \/  const gchar $\ast$ {\em search\_\-str})}\label{import_8c_ac714bc1d2307956bd5172caaa39c1c21}
+
+
+Définition à la ligne 4053 du fichier import.c.
+
+\index{import.c@{import.c}!gsb\_\-import\_\-by\_\-rule@{gsb\_\-import\_\-by\_\-rule}}
+\index{gsb\_\-import\_\-by\_\-rule@{gsb\_\-import\_\-by\_\-rule}!import.c@{import.c}}
+\subsubsection[{gsb\_\-import\_\-by\_\-rule}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-import\_\-by\_\-rule (gint {\em rule})}\label{import_8c_a83937dc8d19317b124055841c3fd61a6}
+import a file with a rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em rule}]the number of rule to use\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : ok, FALSE : nothing done 
+\end{DoxyReturn}
+
+
+Définition à la ligne 4223 du fichier import.c.
+
+\index{import.c@{import.c}!gsb\_\-import\_\-register\_\-account@{gsb\_\-import\_\-register\_\-account}}
+\index{gsb\_\-import\_\-register\_\-account@{gsb\_\-import\_\-register\_\-account}!import.c@{import.c}}
+\subsubsection[{gsb\_\-import\_\-register\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT void gsb\_\-import\_\-register\_\-account (struct {\bf struct\_\-compte\_\-importation} $\ast$ {\em account})}\label{import_8c_a20d9d366175a0b8a38fb710d74df63b4}
+Add an imported account to the list of imported accounts.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account}]Account to register. \end{DoxyParams}
+
+
+Définition à la ligne 4198 du fichier import.c.
+
+\index{import.c@{import.c}!gsb\_\-import\_\-register\_\-account\_\-error@{gsb\_\-import\_\-register\_\-account\_\-error}}
+\index{gsb\_\-import\_\-register\_\-account\_\-error@{gsb\_\-import\_\-register\_\-account\_\-error}!import.c@{import.c}}
+\subsubsection[{gsb\_\-import\_\-register\_\-account\_\-error}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT void gsb\_\-import\_\-register\_\-account\_\-error (struct {\bf struct\_\-compte\_\-importation} $\ast$ {\em account})}\label{import_8c_a4bfa72d8a4cd4f0cb17bcce05e286607}
+Add an imported account to the list of imported accounts in error.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account}]Account to register. \end{DoxyParams}
+
+
+Définition à la ligne 4210 du fichier import.c.
+
+\index{import.c@{import.c}!import\_\-selected\_\-files@{import\_\-selected\_\-files}}
+\index{import\_\-selected\_\-files@{import\_\-selected\_\-files}!import.c@{import.c}}
+\subsubsection[{import\_\-selected\_\-files}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ import\_\-selected\_\-files (GtkWidget $\ast$ {\em assistant})}\label{import_8c_af47b0c4c36291dc40375ad1d3b402880}
+
+
+Définition à la ligne 1055 du fichier import.c.
+
+\index{import.c@{import.c}!importer\_\-fichier@{importer\_\-fichier}}
+\index{importer\_\-fichier@{importer\_\-fichier}!import.c@{import.c}}
+\subsubsection[{importer\_\-fichier}]{\setlength{\rightskip}{0pt plus 5cm}void importer\_\-fichier (void)}\label{import_8c_a109c976310f1373efb8fdb52b3ee4263}
+
+
+Définition à la ligne 277 du fichier import.c.
+
+\index{import.c@{import.c}!onglet\_\-importation@{onglet\_\-importation}}
+\index{onglet\_\-importation@{onglet\_\-importation}!import.c@{import.c}}
+\subsubsection[{onglet\_\-importation}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-importation (void)}\label{import_8c_a248bf76497a7936687f79e28da9ff0e8}
+
+
+Définition à la ligne 3491 du fichier import.c.
+
+\index{import.c@{import.c}!register\_\-import\_\-format@{register\_\-import\_\-format}}
+\index{register\_\-import\_\-format@{register\_\-import\_\-format}!import.c@{import.c}}
+\subsubsection[{register\_\-import\_\-format}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT void register\_\-import\_\-format (struct {\bf import\_\-format} $\ast$ {\em format})}\label{import_8c_a363697c684d8b70752d14c4a6eef0f73}
+Register a known import format as known.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em format}]A pointer to a structure describing this import format. \end{DoxyParams}
+
+
+Définition à la ligne 262 du fichier import.c.
+
+\index{import.c@{import.c}!register\_\-import\_\-formats@{register\_\-import\_\-formats}}
+\index{register\_\-import\_\-formats@{register\_\-import\_\-formats}!import.c@{import.c}}
+\subsubsection[{register\_\-import\_\-formats}]{\setlength{\rightskip}{0pt plus 5cm}void register\_\-import\_\-formats ()}\label{import_8c_a24f0a83e63a5c81379d5971d41256324}
+Register built-\/in import formats as known. 
+
+Définition à la ligne 244 du fichier import.c.
+
+\index{import.c@{import.c}!unique\_\-imported\_\-name@{unique\_\-imported\_\-name}}
+\index{unique\_\-imported\_\-name@{unique\_\-imported\_\-name}!import.c@{import.c}}
+\subsubsection[{unique\_\-imported\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT gchar$\ast$ unique\_\-imported\_\-name (gchar $\ast$ {\em account\_\-name})}\label{import_8c_a749d3f56e4864750955ed170111dca08}
+check if the name of the imported account in param is not already used, if yes, modify it
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-name}]name to check\end{DoxyParams}
+return a newly allocated string or NULL 
+
+Définition à la ligne 3455 du fichier import.c.
+
+
+
+\subsection{Documentation des variables}
+\index{import.c@{import.c}!builtin\_\-formats@{builtin\_\-formats}}
+\index{builtin\_\-formats@{builtin\_\-formats}!import.c@{import.c}}
+\subsubsection[{builtin\_\-formats}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf import\_\-format} {\bf builtin\_\-formats}[$\,$]}\label{import_8c_ad6a70f4778cc786375179b149bc44b24}
+{\bfseries Valeur initiale :}
+\begin{DoxyCode}
+ {
+{ "CSV", N_("Comma Separated Values"),     "csv", (import_function) 
+      csv_import_csv_account },
+{ "QIF", N_("Quicken Interchange Format"), "qif", (import_function) 
+      recuperation_donnees_qif },
+{ NULL,  NULL,              NULL,       NULL },
+}
+\end{DoxyCode}
+Known built-\/in import formats. Others are plugins. 
+
+Définition à la ligne 200 du fichier import.c.
+
+\index{import.c@{import.c}!charmap\_\-imported@{charmap\_\-imported}}
+\index{charmap\_\-imported@{charmap\_\-imported}!import.c@{import.c}}
+\subsubsection[{charmap\_\-imported}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf charmap\_\-imported}}\label{import_8c_ab4dbd4be47f9c5648daab02c47ff90e6}
+
+
+Définition à la ligne 214 du fichier import.c.
+
+\index{import.c@{import.c}!liste\_\-associations\_\-tiers@{liste\_\-associations\_\-tiers}}
+\index{liste\_\-associations\_\-tiers@{liste\_\-associations\_\-tiers}!import.c@{import.c}}
+\subsubsection[{liste\_\-associations\_\-tiers}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf liste\_\-associations\_\-tiers} = NULL}\label{import_8c_a8521224403aeb524822a05746e899bcf}
+
+
+Définition à la ligne 217 du fichier import.c.
+
+\index{import.c@{import.c}!liste\_\-comptes\_\-importes@{liste\_\-comptes\_\-importes}}
+\index{liste\_\-comptes\_\-importes@{liste\_\-comptes\_\-importes}!import.c@{import.c}}
+\subsubsection[{liste\_\-comptes\_\-importes}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf liste\_\-comptes\_\-importes}}\label{import_8c_a78273b1077a17a5b03056ffebb17a140}
+
+
+Définition à la ligne 210 du fichier import.c.
+
+\index{import.c@{import.c}!liste\_\-comptes\_\-importes\_\-error@{liste\_\-comptes\_\-importes\_\-error}}
+\index{liste\_\-comptes\_\-importes\_\-error@{liste\_\-comptes\_\-importes\_\-error}!import.c@{import.c}}
+\subsubsection[{liste\_\-comptes\_\-importes\_\-error}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf liste\_\-comptes\_\-importes\_\-error}}\label{import_8c_a6e161f53c7a853cfac180c82953b5111}
+
+
+Définition à la ligne 211 du fichier import.c.
+
+\index{import.c@{import.c}!menu\_\-import\_\-rules@{menu\_\-import\_\-rules}}
+\index{menu\_\-import\_\-rules@{menu\_\-import\_\-rules}!import.c@{import.c}}
+\subsubsection[{menu\_\-import\_\-rules}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf menu\_\-import\_\-rules}}\label{import_8c_ae624b78f586a9e3f5d60e6f2e2866819}
+the import rules button is showed or hidden if account have or no some rules so need to set in global variables 
+
+Définition à la ligne 71 du fichier barre\_\-outils.c.
+
+\index{import.c@{import.c}!mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}}
+\index{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil@{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}!import.c@{import.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-liste\_\-comptes\_\-accueil}}\label{import_8c_a018917e8dacfd8fbe4e94d0f99a59c08}
+
+
+Définition à la ligne 127 du fichier accueil.c.
+
+\index{import.c@{import.c}!mise\_\-a\_\-jour\_\-soldes\_\-minimaux@{mise\_\-a\_\-jour\_\-soldes\_\-minimaux}}
+\index{mise\_\-a\_\-jour\_\-soldes\_\-minimaux@{mise\_\-a\_\-jour\_\-soldes\_\-minimaux}!import.c@{import.c}}
+\subsubsection[{mise\_\-a\_\-jour\_\-soldes\_\-minimaux}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mise\_\-a\_\-jour\_\-soldes\_\-minimaux}}\label{import_8c_afaffaedc4fd0ae8638f7158c6777b35b}
+
+
+Définition à la ligne 130 du fichier accueil.c.
+
+\index{import.c@{import.c}!no\_\-devise\_\-totaux\_\-categ@{no\_\-devise\_\-totaux\_\-categ}}
+\index{no\_\-devise\_\-totaux\_\-categ@{no\_\-devise\_\-totaux\_\-categ}!import.c@{import.c}}
+\subsubsection[{no\_\-devise\_\-totaux\_\-categ}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf no\_\-devise\_\-totaux\_\-categ}}\label{import_8c_a8f609654dcfbbcaa6791bcee83d6473d}
+
+
+Définition à la ligne 65 du fichier categories\_\-onglet.c.
+
+\index{import.c@{import.c}!no\_\-devise\_\-totaux\_\-ib@{no\_\-devise\_\-totaux\_\-ib}}
+\index{no\_\-devise\_\-totaux\_\-ib@{no\_\-devise\_\-totaux\_\-ib}!import.c@{import.c}}
+\subsubsection[{no\_\-devise\_\-totaux\_\-ib}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf no\_\-devise\_\-totaux\_\-ib}}\label{import_8c_a2f4b5073521c582e1bc8941533026556}
+
+
+Définition à la ligne 72 du fichier imputation\_\-budgetaire.c.
+
+\index{import.c@{import.c}!no\_\-devise\_\-totaux\_\-tiers@{no\_\-devise\_\-totaux\_\-tiers}}
+\index{no\_\-devise\_\-totaux\_\-tiers@{no\_\-devise\_\-totaux\_\-tiers}!import.c@{import.c}}
+\subsubsection[{no\_\-devise\_\-totaux\_\-tiers}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf no\_\-devise\_\-totaux\_\-tiers}}\label{import_8c_a3add720d0e0b25caa37589bcfb879c6f}
+
+
+Définition à la ligne 103 du fichier tiers\_\-onglet.c.
+
+\index{import.c@{import.c}!valeur\_\-echelle\_\-recherche\_\-date\_\-import@{valeur\_\-echelle\_\-recherche\_\-date\_\-import}}
+\index{valeur\_\-echelle\_\-recherche\_\-date\_\-import@{valeur\_\-echelle\_\-recherche\_\-date\_\-import}!import.c@{import.c}}
+\subsubsection[{valeur\_\-echelle\_\-recherche\_\-date\_\-import}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf valeur\_\-echelle\_\-recherche\_\-date\_\-import}}\label{import_8c_abd82865835fd6c5fcfe97283dbfd0648}
+
+
+Définition à la ligne 209 du fichier import.c.
+
+\index{import.c@{import.c}!window@{window}}
+\index{window@{window}!import.c@{import.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{import_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

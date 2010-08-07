@@ -1,0 +1,539 @@
+\section{Référence du fichier gsb\_\-file\_\-load.c}
+\label{gsb__file__load_8c}\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include $<$glib/gstdio.h$>$}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-load.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}bet\_\-data.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-assistant\_\-archive.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-assistant\_\-first.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-archive.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-bank.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-budget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-category.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-currency\_\-link.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-import\_\-rule.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-partial\_\-balance.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payee.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payment.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-print\_\-config.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-reconcile.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-report\_\-amout\_\-comparison.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-report.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-report\_\-text\_\-comparison.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-scheduled.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-util.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}import.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-plugins.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-select\_\-icon.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-files.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}custom\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-scheduler\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-calendar.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-currency\_\-config.h\char`\"{}}\par
+\subsection*{Structures de données}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf payment\_\-conversion\_\-struct}
+\item 
+struct {\bf reconcile\_\-conversion\_\-struct}
+\item 
+struct {\bf old\_\-new\_\-rec\_\-conversion\_\-struct}
+\item 
+struct {\bf new\_\-div\_\-sous\_\-div\_\-struct}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-file\_\-load\_\-open\_\-file} (gchar $\ast$filename)
+\item 
+void {\bf gsb\_\-file\_\-load\_\-error} (GMarkupParseContext $\ast$context, GError $\ast$error, gpointer user\_\-data)
+\item 
+void {\bf gsb\_\-file\_\-load\_\-category} (const gchar $\ast$$\ast$attribute\_\-names, const gchar $\ast$$\ast$attribute\_\-values)
+\item 
+void {\bf gsb\_\-file\_\-load\_\-sub\_\-category} (const gchar $\ast$$\ast$attribute\_\-names, const gchar $\ast$$\ast$attribute\_\-values)
+\item 
+void {\bf gsb\_\-file\_\-load\_\-budgetary} (const gchar $\ast$$\ast$attribute\_\-names, const gchar $\ast$$\ast$attribute\_\-values)
+\item 
+void {\bf gsb\_\-file\_\-load\_\-sub\_\-budgetary} (const gchar $\ast$$\ast$attribute\_\-names, const gchar $\ast$$\ast$attribute\_\-values)
+\item 
+void {\bf gsb\_\-file\_\-load\_\-report} (const gchar $\ast$$\ast$attribute\_\-names, const gchar $\ast$$\ast$attribute\_\-values)
+\item 
+void {\bf gsb\_\-file\_\-load\_\-text\_\-comparison} (const gchar $\ast$$\ast$attribute\_\-names, const gchar $\ast$$\ast$attribute\_\-values)
+\item 
+void {\bf gsb\_\-file\_\-load\_\-amount\_\-comparison} (const gchar $\ast$$\ast$attribute\_\-names, const gchar $\ast$$\ast$attribute\_\-values)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+gchar $\ast$ {\bf adresse\_\-commune}
+\item 
+gchar $\ast$ {\bf adresse\_\-secondaire}
+\item 
+gint {\bf affichage\_\-echeances}
+\item 
+gint {\bf affichage\_\-echeances\_\-perso\_\-nb\_\-libre}
+\item 
+GdkColor {\bf archive\_\-background\_\-color}
+\item 
+GdkColor {\bf calendar\_\-entry\_\-color}
+\item 
+GdkColor {\bf couleur\_\-bet\_\-division}
+\item 
+GdkColor {\bf couleur\_\-bet\_\-future}
+\item 
+GdkColor {\bf couleur\_\-bet\_\-transfert}
+\item 
+GdkColor {\bf couleur\_\-fond} [2]
+\item 
+GdkColor {\bf couleur\_\-grise}
+\item 
+GdkColor {\bf couleur\_\-jour}
+\item 
+GdkColor {\bf couleur\_\-selection}
+\item 
+gint {\bf display\_\-one\_\-line}
+\item 
+gint {\bf display\_\-three\_\-lines}
+\item 
+gint {\bf display\_\-two\_\-lines}
+\item 
+{\bf gsb\_\-real} {\bf error\_\-real}
+\item 
+struct {\bf iso\_\-4217\_\-currency} {\bf iso\_\-4217\_\-currencies} [$\,$]
+\item 
+GtkWidget $\ast$ {\bf logo\_\-accueil}
+\item 
+gint {\bf no\_\-devise\_\-totaux\_\-categ}
+\item 
+gint {\bf no\_\-devise\_\-totaux\_\-ib}
+\item 
+gint {\bf no\_\-devise\_\-totaux\_\-tiers}
+\item 
+{\bf gsb\_\-real} {\bf null\_\-real}
+\item 
+gint {\bf scheduler\_\-col\_\-width} [SCHEDULER\_\-COL\_\-VISIBLE\_\-COLUMNS]
+\item 
+GdkColor {\bf split\_\-background}
+\item 
+gint {\bf tab\_\-affichage\_\-ope} [TRANSACTION\_\-LIST\_\-ROWS\_\-NB][CUSTOM\_\-MODEL\_\-VISIBLE\_\-COLUMNS]
+\item 
+GdkColor {\bf text\_\-color} [2]
+\item 
+gchar $\ast$ {\bf titre\_\-fichier}
+\item 
+gint {\bf transaction\_\-col\_\-width} [CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]
+\item 
+gint {\bf valeur\_\-echelle\_\-recherche\_\-date\_\-import}
+\item 
+gchar $\ast$ {\bf initial\_\-file\_\-title} = NULL
+\item 
+gchar $\ast$ {\bf initial\_\-holder\_\-title} = NULL
+\item 
+gboolean {\bf result\_\-reconcile} = FALSE
+\item 
+gchar $\ast$ {\bf copy\_\-old\_\-filename} = NULL
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!gsb\_\-file\_\-load\_\-amount\_\-comparison@{gsb\_\-file\_\-load\_\-amount\_\-comparison}}
+\index{gsb\_\-file\_\-load\_\-amount\_\-comparison@{gsb\_\-file\_\-load\_\-amount\_\-comparison}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{gsb\_\-file\_\-load\_\-amount\_\-comparison}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-file\_\-load\_\-amount\_\-comparison (const gchar $\ast$$\ast$ {\em attribute\_\-names}, \/  const gchar $\ast$$\ast$ {\em attribute\_\-values})}\label{gsb__file__load_8c_a341cc9d8b903c0ab9ecd89bb40fcbae4}
+load the amount comparaison structure in the grisbi file
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em attribute\_\-names}]\item[{\em attribute\_\-values}]\end{DoxyParams}
+
+
+Définition à la ligne 5154 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!gsb\_\-file\_\-load\_\-budgetary@{gsb\_\-file\_\-load\_\-budgetary}}
+\index{gsb\_\-file\_\-load\_\-budgetary@{gsb\_\-file\_\-load\_\-budgetary}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{gsb\_\-file\_\-load\_\-budgetary}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-file\_\-load\_\-budgetary (const gchar $\ast$$\ast$ {\em attribute\_\-names}, \/  const gchar $\ast$$\ast$ {\em attribute\_\-values})}\label{gsb__file__load_8c_a8977ebd1f3ba9972e934abdba45cd0db}
+load the budgetaries in the grisbi file
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em attribute\_\-names}]\item[{\em attribute\_\-values}]\end{DoxyParams}
+
+
+Définition à la ligne 2834 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!gsb\_\-file\_\-load\_\-category@{gsb\_\-file\_\-load\_\-category}}
+\index{gsb\_\-file\_\-load\_\-category@{gsb\_\-file\_\-load\_\-category}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{gsb\_\-file\_\-load\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-file\_\-load\_\-category (const gchar $\ast$$\ast$ {\em attribute\_\-names}, \/  const gchar $\ast$$\ast$ {\em attribute\_\-values})}\label{gsb__file__load_8c_aa24a461612b4aba269fd1d1cd820f794}
+load the categories in the grisbi file
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em attribute\_\-names}]\item[{\em attribute\_\-values}]\end{DoxyParams}
+
+
+Définition à la ligne 2693 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!gsb\_\-file\_\-load\_\-error@{gsb\_\-file\_\-load\_\-error}}
+\index{gsb\_\-file\_\-load\_\-error@{gsb\_\-file\_\-load\_\-error}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{gsb\_\-file\_\-load\_\-error}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-file\_\-load\_\-error (GMarkupParseContext $\ast$ {\em context}, \/  GError $\ast$ {\em error}, \/  gpointer {\em user\_\-data})}\label{gsb__file__load_8c_a50bcb5608cad0e40b872e97cbc3ceba6}
+
+
+Définition à la ligne 699 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!gsb\_\-file\_\-load\_\-open\_\-file@{gsb\_\-file\_\-load\_\-open\_\-file}}
+\index{gsb\_\-file\_\-load\_\-open\_\-file@{gsb\_\-file\_\-load\_\-open\_\-file}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{gsb\_\-file\_\-load\_\-open\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-load\_\-open\_\-file (gchar $\ast$ {\em filename})}\label{gsb__file__load_8c_a0e2c06ff7d8e1a4a4e164e21c03049a0}
+called to open the grisbi file given in param
+
+the filename to load with full path
+
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 296 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!gsb\_\-file\_\-load\_\-report@{gsb\_\-file\_\-load\_\-report}}
+\index{gsb\_\-file\_\-load\_\-report@{gsb\_\-file\_\-load\_\-report}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{gsb\_\-file\_\-load\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-file\_\-load\_\-report (const gchar $\ast$$\ast$ {\em attribute\_\-names}, \/  const gchar $\ast$$\ast$ {\em attribute\_\-values})}\label{gsb__file__load_8c_ab1cecde7461c3a46a43f28d70e79db92}
+load the report structure in the grisbi file
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em attribute\_\-names}]\item[{\em attribute\_\-values}]\end{DoxyParams}
+
+
+Définition à la ligne 4254 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!gsb\_\-file\_\-load\_\-sub\_\-budgetary@{gsb\_\-file\_\-load\_\-sub\_\-budgetary}}
+\index{gsb\_\-file\_\-load\_\-sub\_\-budgetary@{gsb\_\-file\_\-load\_\-sub\_\-budgetary}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{gsb\_\-file\_\-load\_\-sub\_\-budgetary}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-file\_\-load\_\-sub\_\-budgetary (const gchar $\ast$$\ast$ {\em attribute\_\-names}, \/  const gchar $\ast$$\ast$ {\em attribute\_\-values})}\label{gsb__file__load_8c_a709caad01ac9eea898ebca1fb200a8de}
+load the sub-\/budgetaries in the grisbi file
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em attribute\_\-names}]\item[{\em attribute\_\-values}]\end{DoxyParams}
+
+
+Définition à la ligne 2896 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!gsb\_\-file\_\-load\_\-sub\_\-category@{gsb\_\-file\_\-load\_\-sub\_\-category}}
+\index{gsb\_\-file\_\-load\_\-sub\_\-category@{gsb\_\-file\_\-load\_\-sub\_\-category}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{gsb\_\-file\_\-load\_\-sub\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-file\_\-load\_\-sub\_\-category (const gchar $\ast$$\ast$ {\em attribute\_\-names}, \/  const gchar $\ast$$\ast$ {\em attribute\_\-values})}\label{gsb__file__load_8c_a9b791438458e7fdace00a67a105d313f}
+load the sub-\/categories in the grisbi file
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em attribute\_\-names}]\item[{\em attribute\_\-values}]\end{DoxyParams}
+
+
+Définition à la ligne 2760 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!gsb\_\-file\_\-load\_\-text\_\-comparison@{gsb\_\-file\_\-load\_\-text\_\-comparison}}
+\index{gsb\_\-file\_\-load\_\-text\_\-comparison@{gsb\_\-file\_\-load\_\-text\_\-comparison}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{gsb\_\-file\_\-load\_\-text\_\-comparison}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-file\_\-load\_\-text\_\-comparison (const gchar $\ast$$\ast$ {\em attribute\_\-names}, \/  const gchar $\ast$$\ast$ {\em attribute\_\-values})}\label{gsb__file__load_8c_aa3a2441a09a865cecc43abf1606a4d1d}
+load the text comparison structure in the grisbi file
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em attribute\_\-names}]\item[{\em attribute\_\-values}]\end{DoxyParams}
+
+
+Définition à la ligne 4991 du fichier gsb\_\-file\_\-load.c.
+
+
+
+\subsection{Documentation des variables}
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!account\_\-part@{account\_\-part}}
+\index{account\_\-part@{account\_\-part}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{account\_\-part}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf account\_\-part}}\label{gsb__file__load_8c_a614e01231c829ffc54059d7d1c6f7798}
+
+
+Définition à la ligne 208 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!adresse\_\-commune@{adresse\_\-commune}}
+\index{adresse\_\-commune@{adresse\_\-commune}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{adresse\_\-commune}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf adresse\_\-commune}}\label{gsb__file__load_8c_ab7ec5b8a1b4dca10b71bfe0364eb7248}
+
+
+Définition à la ligne 148 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!adresse\_\-secondaire@{adresse\_\-secondaire}}
+\index{adresse\_\-secondaire@{adresse\_\-secondaire}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{adresse\_\-secondaire}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf adresse\_\-secondaire}}\label{gsb__file__load_8c_a5495a13fee46daf1634623fe4e63f99a}
+
+
+Définition à la ligne 149 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!affichage\_\-echeances@{affichage\_\-echeances}}
+\index{affichage\_\-echeances@{affichage\_\-echeances}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{affichage\_\-echeances}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf affichage\_\-echeances}}\label{gsb__file__load_8c_ab762c5bee8904fe3e83e8c2dfdecd94d}
+
+
+Définition à la ligne 48 du fichier gsb\_\-calendar.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!affichage\_\-echeances\_\-perso\_\-nb\_\-libre@{affichage\_\-echeances\_\-perso\_\-nb\_\-libre}}
+\index{affichage\_\-echeances\_\-perso\_\-nb\_\-libre@{affichage\_\-echeances\_\-perso\_\-nb\_\-libre}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{affichage\_\-echeances\_\-perso\_\-nb\_\-libre}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf affichage\_\-echeances\_\-perso\_\-nb\_\-libre}}\label{gsb__file__load_8c_aa8e493eac3d096f6914e1551552c590a}
+
+
+Définition à la ligne 49 du fichier gsb\_\-calendar.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!archive\_\-background\_\-color@{archive\_\-background\_\-color}}
+\index{archive\_\-background\_\-color@{archive\_\-background\_\-color}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{archive\_\-background\_\-color}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf archive\_\-background\_\-color}}\label{gsb__file__load_8c_a881db8e6c000ad504ff0183a674cb196}
+
+
+Définition à la ligne 115 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!calendar\_\-entry\_\-color@{calendar\_\-entry\_\-color}}
+\index{calendar\_\-entry\_\-color@{calendar\_\-entry\_\-color}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{calendar\_\-entry\_\-color}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf calendar\_\-entry\_\-color}}\label{gsb__file__load_8c_aa809fea280ab9cef6e16774b54a573ae}
+
+
+Définition à la ligne 119 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!copy\_\-old\_\-filename@{copy\_\-old\_\-filename}}
+\index{copy\_\-old\_\-filename@{copy\_\-old\_\-filename}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{copy\_\-old\_\-filename}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf copy\_\-old\_\-filename} = NULL}\label{gsb__file__load_8c_a3799162e8c0ae36914eea47bb3e63020}
+
+
+Définition à la ligne 274 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!couleur\_\-bet\_\-division@{couleur\_\-bet\_\-division}}
+\index{couleur\_\-bet\_\-division@{couleur\_\-bet\_\-division}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{couleur\_\-bet\_\-division}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-bet\_\-division}}\label{gsb__file__load_8c_a9c6b0a0f3037804c43aa435dbb98f7ec}
+
+
+Définition à la ligne 135 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!couleur\_\-bet\_\-future@{couleur\_\-bet\_\-future}}
+\index{couleur\_\-bet\_\-future@{couleur\_\-bet\_\-future}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{couleur\_\-bet\_\-future}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-bet\_\-future}}\label{gsb__file__load_8c_af7f95b1eb6717e97b624b506258fd893}
+
+
+Définition à la ligne 137 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!couleur\_\-bet\_\-transfert@{couleur\_\-bet\_\-transfert}}
+\index{couleur\_\-bet\_\-transfert@{couleur\_\-bet\_\-transfert}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{couleur\_\-bet\_\-transfert}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-bet\_\-transfert}}\label{gsb__file__load_8c_abf473d007a5860d19e62be3c33654a48}
+
+
+Définition à la ligne 139 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!couleur\_\-fond@{couleur\_\-fond}}
+\index{couleur\_\-fond@{couleur\_\-fond}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{couleur\_\-fond}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-fond}[2]}\label{gsb__file__load_8c_a58089bf9225ae2e274165369f8bc7a00}
+colors in the transactions list 
+
+Définition à la ligne 112 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!couleur\_\-grise@{couleur\_\-grise}}
+\index{couleur\_\-grise@{couleur\_\-grise}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{couleur\_\-grise}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-grise}}\label{gsb__file__load_8c_a4119417896b5652f640ead3795baac52}
+
+
+Définition à la ligne 114 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!couleur\_\-jour@{couleur\_\-jour}}
+\index{couleur\_\-jour@{couleur\_\-jour}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{couleur\_\-jour}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-jour}}\label{gsb__file__load_8c_a668e8ab17ed4a22af1464c091c2668c2}
+
+
+Définition à la ligne 113 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!couleur\_\-selection@{couleur\_\-selection}}
+\index{couleur\_\-selection@{couleur\_\-selection}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{couleur\_\-selection}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-selection}}\label{gsb__file__load_8c_a35e437a6db69c9160eeb81674971108b}
+
+
+Définition à la ligne 116 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!display\_\-one\_\-line@{display\_\-one\_\-line}}
+\index{display\_\-one\_\-line@{display\_\-one\_\-line}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{display\_\-one\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf display\_\-one\_\-line}}\label{gsb__file__load_8c_a36eb372c7727c89f6ed96a3756a28740}
+
+
+Définition à la ligne 66 du fichier affichage\_\-liste.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!display\_\-three\_\-lines@{display\_\-three\_\-lines}}
+\index{display\_\-three\_\-lines@{display\_\-three\_\-lines}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{display\_\-three\_\-lines}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf display\_\-three\_\-lines}}\label{gsb__file__load_8c_aa74165188c76a0e2ba64239b2236841c}
+
+
+Définition à la ligne 74 du fichier affichage\_\-liste.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!display\_\-two\_\-lines@{display\_\-two\_\-lines}}
+\index{display\_\-two\_\-lines@{display\_\-two\_\-lines}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{display\_\-two\_\-lines}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf display\_\-two\_\-lines}}\label{gsb__file__load_8c_a420ccd553ba703004c7415ba8ee25630}
+
+
+Définition à la ligne 70 du fichier affichage\_\-liste.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!download\_\-ok@{download\_\-ok}}
+\index{download\_\-ok@{download\_\-ok}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{download\_\-ok}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf download\_\-ok}}\label{gsb__file__load_8c_ab7b43328293e5cd584113802bdf6ec5a}
+
+
+Définition à la ligne 201 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!error\_\-real@{error\_\-real}}
+\index{error\_\-real@{error\_\-real}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{error\_\-real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf error\_\-real}}\label{gsb__file__load_8c_a520cf94ffbcb7bc947e1cb63cda4af06}
+
+
+Définition à la ligne 43 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!file\_\-version@{file\_\-version}}
+\index{file\_\-version@{file\_\-version}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{file\_\-version}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf file\_\-version}}\label{gsb__file__load_8c_a799f5f69ef6ebdfe63547e7bdbbbfb7f}
+
+
+Définition à la ligne 202 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!general\_\-part@{general\_\-part}}
+\index{general\_\-part@{general\_\-part}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{general\_\-part}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf general\_\-part}}\label{gsb__file__load_8c_ab34360bda14f29e99791e67f236b7d91}
+
+
+Définition à la ligne 207 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!grisbi\_\-version@{grisbi\_\-version}}
+\index{grisbi\_\-version@{grisbi\_\-version}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{grisbi\_\-version}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf grisbi\_\-version}}\label{gsb__file__load_8c_ad3e56334c6103b3e5e3cc2ba40384a07}
+
+
+Définition à la ligne 203 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!initial\_\-file\_\-title@{initial\_\-file\_\-title}}
+\index{initial\_\-file\_\-title@{initial\_\-file\_\-title}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{initial\_\-file\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf initial\_\-file\_\-title} = NULL}\label{gsb__file__load_8c_ac7526506154f32a987a2cd923aba4d7c}
+
+
+Définition à la ligne 226 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!initial\_\-holder\_\-title@{initial\_\-holder\_\-title}}
+\index{initial\_\-holder\_\-title@{initial\_\-holder\_\-title}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{initial\_\-holder\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf initial\_\-holder\_\-title} = NULL}\label{gsb__file__load_8c_a2b411f03999259d3ba57ceb09d126c6d}
+
+
+Définition à la ligne 227 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!iso\_\-4217\_\-currencies@{iso\_\-4217\_\-currencies}}
+\index{iso\_\-4217\_\-currencies@{iso\_\-4217\_\-currencies}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{iso\_\-4217\_\-currencies}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf iso\_\-4217\_\-currency} {\bf iso\_\-4217\_\-currencies}[$\,$]}\label{gsb__file__load_8c_a61593a340068b4fa06fda869f953f1a1}
+
+
+Définition à la ligne 88 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!logo\_\-accueil@{logo\_\-accueil}}
+\index{logo\_\-accueil@{logo\_\-accueil}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{logo\_\-accueil}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf logo\_\-accueil}}\label{gsb__file__load_8c_a54bbf4c2b1a287f2b68dd985bc3df3a0}
+
+
+Définition à la ligne 108 du fichier accueil.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!no\_\-devise\_\-totaux\_\-categ@{no\_\-devise\_\-totaux\_\-categ}}
+\index{no\_\-devise\_\-totaux\_\-categ@{no\_\-devise\_\-totaux\_\-categ}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{no\_\-devise\_\-totaux\_\-categ}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf no\_\-devise\_\-totaux\_\-categ}}\label{gsb__file__load_8c_a8f609654dcfbbcaa6791bcee83d6473d}
+
+
+Définition à la ligne 65 du fichier categories\_\-onglet.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!no\_\-devise\_\-totaux\_\-ib@{no\_\-devise\_\-totaux\_\-ib}}
+\index{no\_\-devise\_\-totaux\_\-ib@{no\_\-devise\_\-totaux\_\-ib}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{no\_\-devise\_\-totaux\_\-ib}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf no\_\-devise\_\-totaux\_\-ib}}\label{gsb__file__load_8c_a2f4b5073521c582e1bc8941533026556}
+
+
+Définition à la ligne 72 du fichier imputation\_\-budgetaire.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!no\_\-devise\_\-totaux\_\-tiers@{no\_\-devise\_\-totaux\_\-tiers}}
+\index{no\_\-devise\_\-totaux\_\-tiers@{no\_\-devise\_\-totaux\_\-tiers}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{no\_\-devise\_\-totaux\_\-tiers}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf no\_\-devise\_\-totaux\_\-tiers}}\label{gsb__file__load_8c_a3add720d0e0b25caa37589bcfb879c6f}
+
+
+Définition à la ligne 103 du fichier tiers\_\-onglet.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!null\_\-real@{null\_\-real}}
+\index{null\_\-real@{null\_\-real}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{null\_\-real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf null\_\-real}}\label{gsb__file__load_8c_a26f304bec3fdc0651b9aa8765d4de3c6}
+
+
+Définition à la ligne 42 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!report\_\-part@{report\_\-part}}
+\index{report\_\-part@{report\_\-part}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{report\_\-part}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf report\_\-part}}\label{gsb__file__load_8c_abb7c9a52142faa6ab5fd6c514f834058}
+
+
+Définition à la ligne 209 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!result\_\-reconcile@{result\_\-reconcile}}
+\index{result\_\-reconcile@{result\_\-reconcile}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{result\_\-reconcile}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf result\_\-reconcile} = FALSE}\label{gsb__file__load_8c_ac165dc8e950fecfeea085204f948425e}
+
+
+Définition à la ligne 255 du fichier gsb\_\-file\_\-load.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!scheduler\_\-col\_\-width@{scheduler\_\-col\_\-width}}
+\index{scheduler\_\-col\_\-width@{scheduler\_\-col\_\-width}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{scheduler\_\-col\_\-width}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf scheduler\_\-col\_\-width}[SCHEDULER\_\-COL\_\-VISIBLE\_\-COLUMNS]}\label{gsb__file__load_8c_a8278ca506ea616623cd8cdc764188ee9}
+used to save and restore the width of the scheduled list 
+
+Définition à la ligne 130 du fichier gsb\_\-scheduler\_\-list.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!split\_\-background@{split\_\-background}}
+\index{split\_\-background@{split\_\-background}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{split\_\-background}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf split\_\-background}}\label{gsb__file__load_8c_abc4f631d953e2be68189a6fbcf55cd1d}
+
+
+Définition à la ligne 117 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!tab\_\-affichage\_\-ope@{tab\_\-affichage\_\-ope}}
+\index{tab\_\-affichage\_\-ope@{tab\_\-affichage\_\-ope}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{tab\_\-affichage\_\-ope}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf tab\_\-affichage\_\-ope}[TRANSACTION\_\-LIST\_\-ROWS\_\-NB][CUSTOM\_\-MODEL\_\-VISIBLE\_\-COLUMNS]}\label{gsb__file__load_8c_a0c444565adac369ff42631d4b7b7e6bb}
+
+
+Définition à la ligne 63 du fichier affichage\_\-liste.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!text\_\-color@{text\_\-color}}
+\index{text\_\-color@{text\_\-color}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{text\_\-color}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf text\_\-color}[2]}\label{gsb__file__load_8c_a8169600c05eb3674c1b11ca67dd677d3}
+
+
+Définition à la ligne 118 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!titre\_\-fichier@{titre\_\-fichier}}
+\index{titre\_\-fichier@{titre\_\-fichier}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{titre\_\-fichier}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf titre\_\-fichier}}\label{gsb__file__load_8c_a787cc81cf2ad728775b73d723713980b}
+
+
+Définition à la ligne 147 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!transaction\_\-col\_\-width@{transaction\_\-col\_\-width}}
+\index{transaction\_\-col\_\-width@{transaction\_\-col\_\-width}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{transaction\_\-col\_\-width}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf transaction\_\-col\_\-width}[CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]}\label{gsb__file__load_8c_a6e5e85a5f63608656ce9709950bb08e6}
+
+
+Définition à la ligne 121 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-file\_\-load.c@{gsb\_\-file\_\-load.c}!valeur\_\-echelle\_\-recherche\_\-date\_\-import@{valeur\_\-echelle\_\-recherche\_\-date\_\-import}}
+\index{valeur\_\-echelle\_\-recherche\_\-date\_\-import@{valeur\_\-echelle\_\-recherche\_\-date\_\-import}!gsb_file_load.c@{gsb\_\-file\_\-load.c}}
+\subsubsection[{valeur\_\-echelle\_\-recherche\_\-date\_\-import}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf valeur\_\-echelle\_\-recherche\_\-date\_\-import}}\label{gsb__file__load_8c_abd82865835fd6c5fcfe97283dbfd0648}
+
+
+Définition à la ligne 209 du fichier import.c.
+

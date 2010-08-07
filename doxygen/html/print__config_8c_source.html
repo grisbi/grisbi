@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de print_config.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>print_config.c</h1><a href="print__config_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*     Copyright (C)    2008 Benjamin Drieu (bdrieu@april.org)                */</span>
+<a name="l00004"></a>00004 <span class="comment">/*                      2008 Cedric Auger (cedric@grisbi.org)                 */</span>
+<a name="l00005"></a>00005 <span class="comment">/*                      http://www.grisbi.org                                 */</span>
+<a name="l00006"></a>00006 <span class="comment">/*                                                                            */</span>
+<a name="l00007"></a>00007 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00010"></a>00010 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00011"></a>00011 <span class="comment">/*                                                                            */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00015"></a>00015 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00016"></a>00016 <span class="comment">/*                                                                            */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00019"></a>00019 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00020"></a>00020 <span class="comment">/*                                                                            */</span>
+<a name="l00021"></a>00021 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="print__config_8h.html">print_config.h</a>&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="utils__file__selection_8h.html">utils_file_selection.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="utils__files_8h.html">utils_files.h</a>&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="utils__str_8h.html">utils_str.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="utils_8h.html">utils.h</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="dialog_8h.html">dialog.h</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="structures_8h.html">structures.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037 <span class="comment">/*START_STATIC*/</span>
+<a name="l00038"></a>00038 <span class="keyword">static</span> GtkWidget * print_config_general ( GtkWidget * dialog );
+<a name="l00039"></a>00039 <span class="keyword">static</span> GtkWidget * print_config_paper ( GtkWidget * dialog );
+<a name="l00040"></a>00040 <span class="keyword">static</span> gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer user_data );
+<a name="l00041"></a>00041 <span class="comment">/*END_STATIC*/</span>
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046 
+<a name="l00049"></a><a class="code" href="print__config_8c.html#a6e4e00503d68a6f4d168d358eb7c289a">00049</a> <span class="keyword">struct </span><a class="code" href="structpaper__config.html">paper_config</a> <a class="code" href="print__config_8c.html#a6e4e00503d68a6f4d168d358eb7c289a">paper_sizes</a>[8] = {
+<a name="l00050"></a>00050     {N_(<span class="stringliteral">&quot;A3&quot;</span>), 297, 420},
+<a name="l00051"></a>00051     {N_(<span class="stringliteral">&quot;A4&quot;</span>), 210, 297},
+<a name="l00052"></a>00052     {N_(<span class="stringliteral">&quot;A5&quot;</span>), 148, 210},
+<a name="l00053"></a>00053     {N_(<span class="stringliteral">&quot;A6&quot;</span>), 105, 148},
+<a name="l00054"></a>00054     {N_(<span class="stringliteral">&quot;USletter&quot;</span>), 215, 279.4},
+<a name="l00055"></a>00055     {N_(<span class="stringliteral">&quot;USlegal&quot;</span>), 215, 355.6},
+<a name="l00056"></a>00056     {N_(<span class="stringliteral">&quot;USexecutive&quot;</span>), 184.15, 266.7},
+<a name="l00057"></a>00057     {NULL, 0, 0},
+<a name="l00058"></a>00058 };
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00061"></a>00061 <span class="keyword">extern</span> GtkWidget *<a class="code" href="accueil_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a>;
+<a name="l00062"></a>00062 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066 <span class="comment">/* FIXME : remove all of that when debian stable goes into gtk 2.10 */</span>
+<a name="l00074"></a><a class="code" href="print__config_8h.html#a859be9fe2a25afb221049f57641221b1">00074</a> gboolean <a class="code" href="print__config_8c.html#a859be9fe2a25afb221049f57641221b1">print_config</a> ( )
+<a name="l00075"></a>00075 {
+<a name="l00076"></a>00076     GtkWidget * dialog, *notebook;
+<a name="l00077"></a>00077     gint response;
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079     <span class="comment">/* Set up dialog */</span>
+<a name="l00080"></a>00080     dialog = gtk_dialog_new_with_buttons ( _(<span class="stringliteral">&quot;Print&quot;</span>),
+<a name="l00081"></a>00081                                            GTK_WINDOW ( <a class="code" href="accueil_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a> ),
+<a name="l00082"></a>00082                                            GTK_DIALOG_MODAL | GTK_DIALOG_NO_SEPARATOR | GTK_DIALOG_DESTROY_WITH_PARENT,
+<a name="l00083"></a>00083                                            GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+<a name="l00084"></a>00084                                            GTK_STOCK_PRINT, GTK_RESPONSE_OK,
+<a name="l00085"></a>00085                                            NULL );
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+<a name="l00088"></a>00088     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090     <span class="comment">/* Insert notebook */</span>
+<a name="l00091"></a>00091     notebook = gtk_notebook_new ();
+<a name="l00092"></a>00092     gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)-&gt;vbox), notebook, TRUE, TRUE, 6 );
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094     <span class="comment">/* Add tabs */</span>
+<a name="l00095"></a>00095     gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_general(dialog),
+<a name="l00096"></a>00096                                gtk_label_new (_(<span class="stringliteral">&quot;General&quot;</span>)) );
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098     gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_paper(dialog),
+<a name="l00099"></a>00099                                gtk_label_new (_(<span class="stringliteral">&quot;Paper&quot;</span>)) );
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101     <span class="comment">/*   gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_appearance(dialog),  */</span>
+<a name="l00102"></a>00102     <span class="comment">/*                       gtk_label_new (_(&quot;Appearance&quot;)) ); */</span>
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104     <span class="comment">/* Finish dialog */</span>
+<a name="l00105"></a>00105     gtk_widget_show_all ( dialog );
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107     <span class="keywordflow">do</span> {
+<a name="l00108"></a>00108         response = gtk_dialog_run ( GTK_DIALOG (dialog) );
+<a name="l00109"></a>00109         <span class="keywordflow">if</span> ( response == GTK_RESPONSE_OK )
+<a name="l00110"></a>00110         {
+<a name="l00111"></a>00111             FILE * test;
+<a name="l00112"></a>00112             gchar * filename;
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114             <span class="keywordflow">if</span> ( <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#a027ac5045394b5ec477942f0295f9e3d">printer</a> )
+<a name="l00115"></a>00115             {
+<a name="l00116"></a>00116                 <span class="keywordflow">break</span>;
+<a name="l00117"></a>00117             }
+<a name="l00118"></a>00118 
+<a name="l00119"></a>00119             filename = <a class="code" href="utils__str_8c.html#ad9a37361694eeaa2847b0fe11389824d">my_strdup</a> ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog),
+<a name="l00120"></a>00120                                                                                      <span class="stringliteral">&quot;printer_filename&quot;</span>) ) ) );
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122             <span class="keywordflow">if</span> ( ! filename )
+<a name="l00123"></a>00123             {
+<a name="l00124"></a>00124                 filename = <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00125"></a>00125             }
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127             test = <a class="code" href="utils__files_8c.html#ac113fb5932da8fd819f73d967a90c219" title="utf8 version of fopen (see fopen for more detail about mode)">utf8_fopen</a> ( filename, <span class="stringliteral">&quot;r&quot;</span> );
+<a name="l00128"></a>00128             <span class="keywordflow">if</span> ( test )
+<a name="l00129"></a>00129             {
+<a name="l00130"></a>00130                 fclose ( test );
+<a name="l00131"></a>00131                 <span class="keywordflow">if</span> ( <a class="code" href="dialog_8c.html#a9947d688fe96a482d5444e62108a4ed4">question_yes_no_hint</a> ( g_strdup_printf ( _(<span class="stringliteral">&quot;File %s already exists.&quot;</span>),
+<a name="l00132"></a>00132                                                               filename ),
+<a name="l00133"></a>00133                                             _(<span class="stringliteral">&quot;Do you want to overwrite it?  There is no undo for this.&quot;</span>),
+<a name="l00134"></a>00134                                             GTK_RESPONSE_NO  ) )
+<a name="l00135"></a>00135                 {
+<a name="l00136"></a>00136                     <span class="keywordflow">break</span>;
+<a name="l00137"></a>00137                 }
+<a name="l00138"></a>00138             }
+<a name="l00139"></a>00139             <span class="keywordflow">else</span>
+<a name="l00140"></a>00140             {
+<a name="l00141"></a>00141                 <span class="keywordflow">break</span>;
+<a name="l00142"></a>00142             }
+<a name="l00143"></a>00143         }
+<a name="l00144"></a>00144         <span class="keywordflow">else</span>
+<a name="l00145"></a>00145         {
+<a name="l00146"></a>00146             <span class="keywordflow">break</span>;
+<a name="l00147"></a>00147         }
+<a name="l00148"></a>00148     }
+<a name="l00149"></a>00149     <span class="keywordflow">while</span> ( 1 );
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152     <span class="keywordflow">if</span> ( response == GTK_RESPONSE_OK )
+<a name="l00153"></a>00153     {
+<a name="l00154"></a>00154         <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#a027ac5045394b5ec477942f0295f9e3d">printer</a> = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (g_object_get_data(G_OBJECT(dialog), <span class="stringliteral">&quot;printer&quot;</span>)) );
+<a name="l00155"></a>00155         <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#a56cb345559847edcf39fdc6bdd3621eb">printer_name</a> = <a class="code" href="utils__str_8c.html#ad9a37361694eeaa2847b0fe11389824d">my_strdup</a> ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), <span class="stringliteral">&quot;printer_name&quot;</span>) )));
+<a name="l00156"></a>00156         <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#a5f0f0798f348098e208f067cedf6aa0d">printer_filename</a> = <a class="code" href="utils__str_8c.html#ad9a37361694eeaa2847b0fe11389824d">my_strdup</a> ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), <span class="stringliteral">&quot;printer_filename&quot;</span>) )));
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158         <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#aa1dd16d3a4ea1d9ea2e80deafe76948f">filetype</a> = gtk_option_menu_get_history ( GTK_OPTION_MENU (g_object_get_data(G_OBJECT(dialog), <span class="stringliteral">&quot;filetype&quot;</span>) ));
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160         <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#a2754d52dcff250f2c78fdcd9267a704e">paper_config</a> = paper_sizes [ gtk_option_menu_get_history ( GTK_OPTION_MENU (g_object_get_data(G_OBJECT(dialog), <span class="stringliteral">&quot;paper_size&quot;</span>))) ];
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162         <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#af6c1e368a502dad3fc0fc1a042b99aa4">orientation</a> = !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (g_object_get_data(G_OBJECT(dialog), <span class="stringliteral">&quot;orientation&quot;</span>)) );
+<a name="l00163"></a>00163     }
+<a name="l00164"></a>00164 
+<a name="l00165"></a>00165     gtk_widget_destroy ( dialog );
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167     <span class="keywordflow">return</span> response == GTK_RESPONSE_OK;
+<a name="l00168"></a>00168 }
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171 
+<a name="l00181"></a>00181 <span class="comment">/* TODO dOm : this function seems not to be used. Is it possible to remove it</span>
+<a name="l00182"></a>00182 <span class="comment">gboolean change_print_to_file ( GtkButton *button, gpointer data )</span>
+<a name="l00183"></a>00183 <span class="comment">{</span>
+<a name="l00184"></a>00184 <span class="comment">    GtkFileSelection * file_selector;</span>
+<a name="l00185"></a>00185 <span class="comment"></span>
+<a name="l00186"></a>00186 <span class="comment">    file_selector = g_object_get_data ( G_OBJECT(button), &quot;entry&quot; );</span>
+<a name="l00187"></a>00187 <span class="comment">    gtk_entry_set_text ( GTK_ENTRY(data),</span>
+<a name="l00188"></a>00188 <span class="comment">                         file_selection_get_filename (GTK_FILE_CHOOSER (file_selector)));</span>
+<a name="l00189"></a>00189 <span class="comment"></span>
+<a name="l00190"></a>00190 <span class="comment">    return FALSE;</span>
+<a name="l00191"></a>00191 <span class="comment">}</span>
+<a name="l00192"></a>00192 <span class="comment">*/</span>
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195 
+<a name="l00202"></a>00202 GtkWidget * print_config_general ( GtkWidget * dialog )
+<a name="l00203"></a>00203 {
+<a name="l00204"></a>00204     GtkWidget *vbox, *paddingbox, *table, *radio1, *radio2;
+<a name="l00205"></a>00205     GtkWidget *input1, *input2, *omenu, *menu, *item;
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207     vbox = gtk_vbox_new ( FALSE, 6 );
+<a name="l00208"></a>00208     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+<a name="l00209"></a>00209 
+<a name="l00210"></a>00210 
+<a name="l00211"></a>00211     <span class="comment">/* Printer paddingbox */</span>
+<a name="l00212"></a>00212     paddingbox = <a class="code" href="utils_8c.html#a22ba81fcf046b5bec6cf6d55d440abc5">new_paddingbox_with_title</a> ( vbox, FALSE, _(<span class="stringliteral">&quot;Printer&quot;</span>) );
+<a name="l00213"></a>00213 
+<a name="l00214"></a>00214     table = gtk_table_new ( 2, 3, FALSE );
+<a name="l00215"></a>00215     gtk_box_pack_start ( GTK_BOX(paddingbox), table, FALSE, FALSE, 0 );
+<a name="l00216"></a>00216     gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
+<a name="l00217"></a>00217     gtk_table_set_col_spacings ( GTK_TABLE(table), 12 );
+<a name="l00218"></a>00218 
+<a name="l00219"></a>00219     <span class="comment">/* Print to printer */</span>
+<a name="l00220"></a>00220     radio1 = gtk_radio_button_new_with_label ( NULL, _(<span class="stringliteral">&quot;Printer&quot;</span>) );
+<a name="l00221"></a>00221     gtk_table_attach ( GTK_TABLE(table), radio1, 0, 1, 0, 1,
+<a name="l00222"></a>00222                        GTK_SHRINK, GTK_SHRINK,
+<a name="l00223"></a>00223                        0, 0 );
+<a name="l00224"></a>00224     g_object_set_data ( G_OBJECT(dialog), <span class="stringliteral">&quot;printer&quot;</span>, radio1 );
+<a name="l00225"></a>00225     g_object_set_data ( G_OBJECT(radio1), <span class="stringliteral">&quot;printer_value&quot;</span>, GINT_TO_POINTER (1));
+<a name="l00226"></a>00226     g_signal_connect ( G_OBJECT(radio1), <span class="stringliteral">&quot;toggled&quot;</span>,
+<a name="l00227"></a>00227                        (GCallback) print_config_radio_toggled, NULL );
+<a name="l00228"></a>00228     input1 = gtk_entry_new ( );
+<a name="l00229"></a>00229     gtk_table_attach_defaults ( GTK_TABLE(table), input1, 1, 2, 0, 1 );
+<a name="l00230"></a>00230     g_object_set_data ( G_OBJECT(dialog), <span class="stringliteral">&quot;printer_name&quot;</span>, input1 );
+<a name="l00231"></a>00231     gtk_entry_set_text ( GTK_ENTRY(input1), <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#a56cb345559847edcf39fdc6bdd3621eb">printer_name</a> );
+<a name="l00232"></a>00232 
+<a name="l00233"></a>00233     <span class="comment">/* Print to file */</span>
+<a name="l00234"></a>00234     radio2 = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (GTK_RADIO_BUTTON(radio1)), _(<span class="stringliteral">&quot;File&quot;</span>) );
+<a name="l00235"></a>00235     gtk_table_attach ( GTK_TABLE(table), radio2, 0, 1, 1, 2,
+<a name="l00236"></a>00236                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL,
+<a name="l00237"></a>00237                        0, 0 );
+<a name="l00238"></a>00238     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON(radio2), !<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#a027ac5045394b5ec477942f0295f9e3d">printer</a> );
+<a name="l00239"></a>00239     g_object_set_data ( G_OBJECT(radio2), <span class="stringliteral">&quot;printer_value&quot;</span>, 0 );
+<a name="l00240"></a>00240     g_signal_connect ( G_OBJECT(radio2), <span class="stringliteral">&quot;toggled&quot;</span>,
+<a name="l00241"></a>00241                        (GCallback) print_config_radio_toggled, NULL );
+<a name="l00242"></a>00242 
+<a name="l00243"></a>00243     input2 = <a class="code" href="utils__files_8c.html#ad180bc31f9d0e255a0e6e1a0a05a7d82">my_file_chooser</a> ();
+<a name="l00244"></a>00244     gtk_table_attach_defaults ( GTK_TABLE(table), input2, 1, 2, 1, 2 );
+<a name="l00245"></a>00245     g_object_set_data ( G_OBJECT(dialog), <span class="stringliteral">&quot;printer_filename&quot;</span>,
+<a name="l00246"></a>00246                         g_object_get_data (G_OBJECT(input2), <span class="stringliteral">&quot;entry&quot;</span>) );
+<a name="l00247"></a>00247     gtk_entry_set_text ( GTK_ENTRY(g_object_get_data (G_OBJECT(input2), <span class="stringliteral">&quot;entry&quot;</span>)),
+<a name="l00248"></a>00248                          <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#a5f0f0798f348098e208f067cedf6aa0d">printer_filename</a> );
+<a name="l00249"></a>00249 
+<a name="l00250"></a>00250     <span class="comment">/* Output file format */</span>
+<a name="l00251"></a>00251     omenu = gtk_option_menu_new();
+<a name="l00252"></a>00252     menu = gtk_menu_new();
+<a name="l00253"></a>00253     gtk_option_menu_set_menu ( GTK_OPTION_MENU(omenu), menu );
+<a name="l00254"></a>00254     g_object_set_data ( G_OBJECT(dialog), <span class="stringliteral">&quot;filetype&quot;</span>, omenu );
+<a name="l00255"></a>00255 
+<a name="l00256"></a>00256     item = gtk_menu_item_new_with_label ( _(<span class="stringliteral">&quot;Postscript file&quot;</span>) );
+<a name="l00257"></a>00257     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
+<a name="l00258"></a>00258     item = gtk_menu_item_new_with_label ( _(<span class="stringliteral">&quot;LaTeX file&quot;</span>) );
+<a name="l00259"></a>00259     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
+<a name="l00260"></a>00260     gtk_option_menu_set_history ( GTK_OPTION_MENU(omenu), <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#aa1dd16d3a4ea1d9ea2e80deafe76948f">filetype</a> );
+<a name="l00261"></a>00261     gtk_table_attach_defaults ( GTK_TABLE(table), omenu, 1, 2, 2, 3 );
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263     <span class="comment">/* Set pointers to widget that need to be (in)sensitived */</span>
+<a name="l00264"></a>00264     g_object_set_data ( G_OBJECT(radio1), <span class="stringliteral">&quot;peer1&quot;</span>, input2 );
+<a name="l00265"></a>00265     g_object_set_data ( G_OBJECT(radio1), <span class="stringliteral">&quot;peer2&quot;</span>, omenu );
+<a name="l00266"></a>00266     g_object_set_data ( G_OBJECT(radio2), <span class="stringliteral">&quot;peer1&quot;</span>, input1 );
+<a name="l00267"></a>00267     g_object_set_data ( G_OBJECT(radio2), <span class="stringliteral">&quot;peer2&quot;</span>, NULL );
+<a name="l00268"></a>00268     print_config_radio_toggled ( GTK_TOGGLE_BUTTON(radio1), NULL );
+<a name="l00269"></a>00269     print_config_radio_toggled ( GTK_TOGGLE_BUTTON(radio2), NULL );
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271     <span class="keywordflow">return</span> vbox;
+<a name="l00272"></a>00272 }
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274 
+<a name="l00275"></a>00275 
+<a name="l00281"></a>00281 GtkWidget * print_config_paper ( GtkWidget * dialog )
+<a name="l00282"></a>00282 {
+<a name="l00283"></a>00283     GtkWidget *vbox, *paddingbox, *omenu, *menu, *item, *radio;
+<a name="l00284"></a>00284     gint i, history;
+<a name="l00285"></a>00285 
+<a name="l00286"></a>00286     vbox = gtk_vbox_new ( FALSE, 6 );
+<a name="l00287"></a>00287     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289     <span class="comment">/* Paper size */</span>
+<a name="l00290"></a>00290     paddingbox = <a class="code" href="utils_8c.html#a22ba81fcf046b5bec6cf6d55d440abc5">new_paddingbox_with_title</a> ( vbox, FALSE, _(<span class="stringliteral">&quot;Size&quot;</span>) );
+<a name="l00291"></a>00291 
+<a name="l00292"></a>00292     omenu = gtk_option_menu_new();
+<a name="l00293"></a>00293     gtk_box_pack_start ( GTK_BOX(paddingbox), omenu, FALSE, FALSE, 0 );
+<a name="l00294"></a>00294 
+<a name="l00295"></a>00295     menu = gtk_menu_new();
+<a name="l00296"></a>00296     gtk_option_menu_set_menu ( GTK_OPTION_MENU(omenu), menu );
+<a name="l00297"></a>00297     g_object_set_data ( G_OBJECT(dialog), <span class="stringliteral">&quot;paper_size&quot;</span>, omenu );
+<a name="l00298"></a>00298     history = 0;
+<a name="l00299"></a>00299 
+<a name="l00300"></a>00300     <span class="keywordflow">for</span> ( i = 0; paper_sizes[i].<a class="code" href="structpaper__config.html#a2832e101e6347b1740bca5b49e60259f">name</a>; i++ )
+<a name="l00301"></a>00301     {
+<a name="l00302"></a>00302         item = gtk_menu_item_new_with_label (g_strdup_printf (<span class="stringliteral">&quot;%s (%2.1fcm × %2.1fcm)&quot;</span>,
+<a name="l00303"></a>00303                                                               _(paper_sizes[i].<a class="code" href="structpaper__config.html#a2832e101e6347b1740bca5b49e60259f">name</a>),
+<a name="l00304"></a>00304                                                               paper_sizes[i].<a class="code" href="structpaper__config.html#a7b21169b98e234c5104050e58a2fe8ba">width</a>/10,
+<a name="l00305"></a>00305                                                               paper_sizes[i].<a class="code" href="structpaper__config.html#ac0f577e33e0fd6f17a517d608df7d1e4">height</a>/10));
+<a name="l00306"></a>00306         <span class="keywordflow">if</span> ( !strcmp ( _(paper_sizes[i].<a class="code" href="structpaper__config.html#a2832e101e6347b1740bca5b49e60259f">name</a>), <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#a2754d52dcff250f2c78fdcd9267a704e">paper_config</a>.<a class="code" href="structpaper__config.html#a2832e101e6347b1740bca5b49e60259f">name</a> ))
+<a name="l00307"></a>00307             history = i;
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309         gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
+<a name="l00310"></a>00310     }
+<a name="l00311"></a>00311     gtk_option_menu_set_history ( GTK_OPTION_MENU(omenu), history );
+<a name="l00312"></a>00312 
+<a name="l00313"></a>00313     <span class="comment">/* Paper orientation */</span>
+<a name="l00314"></a>00314     paddingbox = <a class="code" href="utils_8c.html#a22ba81fcf046b5bec6cf6d55d440abc5">new_paddingbox_with_title</a> ( vbox, FALSE, _(<span class="stringliteral">&quot;Orientation&quot;</span>) );
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316     radio = gtk_radio_button_new_with_label ( NULL, _(<span class="stringliteral">&quot;Portrait&quot;</span>) );
+<a name="l00317"></a>00317     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319     radio = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (GTK_RADIO_BUTTON(radio)), _(<span class="stringliteral">&quot;Landscape&quot;</span>) );
+<a name="l00320"></a>00320     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
+<a name="l00321"></a>00321     g_object_set_data ( G_OBJECT(dialog), <span class="stringliteral">&quot;orientation&quot;</span>, radio );
+<a name="l00322"></a>00322 
+<a name="l00323"></a>00323     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON(radio), !<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#af6c1e368a502dad3fc0fc1a042b99aa4">orientation</a> );
+<a name="l00324"></a>00324 
+<a name="l00325"></a>00325     <span class="keywordflow">return</span> vbox;
+<a name="l00326"></a>00326 }
+<a name="l00327"></a>00327 
+<a name="l00328"></a>00328 
+<a name="l00329"></a>00329 
+<a name="l00335"></a>00335 <span class="comment">/* TODO dOm : this function seems not to be used. Is it possible to remove it</span>
+<a name="l00336"></a>00336 <span class="comment">GtkWidget * print_config_appearance ( GtkWidget * dialog )</span>
+<a name="l00337"></a>00337 <span class="comment">{</span>
+<a name="l00338"></a>00338 <span class="comment">    GtkWidget *vbox, *paddingbox;</span>
+<a name="l00339"></a>00339 <span class="comment"></span>
+<a name="l00340"></a>00340 <span class="comment">    vbox = gtk_vbox_new ( FALSE, 6 );</span>
+<a name="l00341"></a>00341 <span class="comment">    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );</span>
+<a name="l00342"></a>00342 <span class="comment"></span>
+<a name="l00343"></a>00343 <span class="comment">    !* Headers *!</span>
+<a name="l00344"></a>00344 <span class="comment">    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _(&quot;Headers&quot;) );</span>
+<a name="l00345"></a>00345 <span class="comment"></span>
+<a name="l00346"></a>00346 <span class="comment">    !* Footers *!</span>
+<a name="l00347"></a>00347 <span class="comment">    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _(&quot;Footers&quot;) );</span>
+<a name="l00348"></a>00348 <span class="comment"></span>
+<a name="l00349"></a>00349 <span class="comment">    !* Misc *!</span>
+<a name="l00350"></a>00350 <span class="comment">    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _(&quot;Misc&quot;) );</span>
+<a name="l00351"></a>00351 <span class="comment"></span>
+<a name="l00352"></a>00352 <span class="comment">    return vbox;</span>
+<a name="l00353"></a>00353 <span class="comment">}</span>
+<a name="l00354"></a>00354 <span class="comment"></span>
+<a name="l00355"></a>00355 <span class="comment">*/</span>
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357 
+<a name="l00368"></a>00368 gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer user_data )
+<a name="l00369"></a>00369 {
+<a name="l00370"></a>00370   GtkWidget *peer1, *peer2;
+<a name="l00371"></a>00371   gboolean value;
+<a name="l00372"></a>00372 
+<a name="l00373"></a>00373   value = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(togglebutton), <span class="stringliteral">&quot;printer_value&quot;</span> ));
+<a name="l00374"></a>00374   peer1 = g_object_get_data ( G_OBJECT(togglebutton), <span class="stringliteral">&quot;peer1&quot;</span> );
+<a name="l00375"></a>00375   peer2 = g_object_get_data ( G_OBJECT(togglebutton), <span class="stringliteral">&quot;peer2&quot;</span> );
+<a name="l00376"></a>00376 
+<a name="l00377"></a>00377   <span class="keywordflow">if</span> ( peer1 &amp;&amp; GTK_IS_WIDGET(peer1) )
+<a name="l00378"></a>00378     {
+<a name="l00379"></a>00379       gtk_widget_set_sensitive ( peer1, !gtk_toggle_button_get_active(togglebutton) );
+<a name="l00380"></a>00380     }
+<a name="l00381"></a>00381   <span class="keywordflow">if</span> ( peer2 &amp;&amp; GTK_IS_WIDGET(peer2) )
+<a name="l00382"></a>00382     {
+<a name="l00383"></a>00383       gtk_widget_set_sensitive ( peer2, !gtk_toggle_button_get_active(togglebutton) );
+<a name="l00384"></a>00384     }
+<a name="l00385"></a>00385 
+<a name="l00386"></a>00386   <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>.<a class="code" href="structprint__config.html#a027ac5045394b5ec477942f0295f9e3d">printer</a> = value;
+<a name="l00387"></a>00387 
+<a name="l00388"></a>00388   <span class="keywordflow">return</span> FALSE;
+<a name="l00389"></a>00389 }
+<a name="l00390"></a>00390 
+<a name="l00391"></a>00391 
+<a name="l00392"></a>00392 
+<a name="l00399"></a><a class="code" href="print__config_8h.html#ac71fc11b0525a8a8e08dc3146cde26ea">00399</a> <span class="keyword">struct </span><a class="code" href="structprint__config.html">print_config</a> * <a class="code" href="print__config_8c.html#ac71fc11b0525a8a8e08dc3146cde26ea">print_config_dup</a> ()
+<a name="l00400"></a>00400 {
+<a name="l00401"></a>00401     <span class="keywordflow">return</span> g_memdup ( &amp;(<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>), sizeof ( <span class="keyword">struct</span> <a class="code" href="structprint__config.html">print_config</a> ) );
+<a name="l00402"></a>00402 }
+<a name="l00403"></a>00403 
+<a name="l00404"></a>00404 
+<a name="l00405"></a>00405 
+<a name="l00413"></a><a class="code" href="print__config_8h.html#a45bfd318018a5f6eb2e79a193f59a695">00413</a> <span class="keywordtype">void</span> <a class="code" href="print__config_8c.html#a45bfd318018a5f6eb2e79a193f59a695">print_config_set</a> ( <span class="keyword">struct</span> <a class="code" href="structprint__config.html">print_config</a> * config )
+<a name="l00414"></a>00414 {
+<a name="l00415"></a>00415     g_memmove ( &amp;(<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7b6f0c9099af0a446bbbbc0205c4b3f6">print_config</a>), config, sizeof ( <span class="keyword">struct</span> <a class="code" href="structprint__config.html">print_config</a> ) );
+<a name="l00416"></a>00416 }
+<a name="l00417"></a>00417 
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419 
+<a name="l00420"></a>00420 <span class="comment">/* Local Variables: */</span>
+<a name="l00421"></a>00421 <span class="comment">/* c-basic-offset: 4 */</span>
+<a name="l00422"></a>00422 <span class="comment">/* End: */</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

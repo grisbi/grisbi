@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_scheduler.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_scheduler.h</h1><a href="gsb__scheduler_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _GSB_SCHEDULER_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _GSB_SCHEDULER_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00006"></a>00006 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00009"></a>00009 <span class="keywordtype">void</span> <a class="code" href="gsb__scheduler_8c.html#a01be712269ce407b49b2d995af85f2bf">gsb_scheduler_check_scheduled_transactions_time_limit</a> ( <span class="keywordtype">void</span> );
+<a name="l00010"></a>00010 gboolean <a class="code" href="gsb__scheduler_8c.html#abae75f35ff3f5218ffbf2444c0b8f8ed">gsb_scheduler_execute_children_of_scheduled_transaction</a> ( gint scheduled_number,
+<a name="l00011"></a>00011                                                                    gint transaction_number );
+<a name="l00012"></a>00012 GDate *<a class="code" href="gsb__scheduler_8c.html#ace6ee5adae18cc4bad4074296e8a5613">gsb_scheduler_get_next_date</a> ( gint scheduled_number,
+<a name="l00013"></a>00013                                      <span class="keyword">const</span> GDate *date );
+<a name="l00014"></a>00014 gboolean <a class="code" href="gsb__scheduler_8c.html#a835bf4208d739a5332dbfbf4f7ae066e">gsb_scheduler_increase_scheduled</a> ( gint scheduled_number );
+<a name="l00015"></a>00015 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00016"></a>00016 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:02 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

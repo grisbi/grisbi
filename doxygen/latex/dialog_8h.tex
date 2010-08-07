@@ -1,0 +1,350 @@
+\section{Référence du fichier dialog.h}
+\label{dialog_8h}\index{dialog.h@{dialog.h}}
+\subsection*{Structures de données}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf conditional\_\-message}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf dialog\_\-message} (gchar $\ast$label,...)
+\item 
+void {\bf dialogue} (gchar $\ast$texte\_\-dialogue)
+\item 
+void {\bf dialogue\_\-conditional\_\-hint} (gchar $\ast$hint, gchar $\ast$text, gchar $\ast$var)
+\item 
+G\_\-MODULE\_\-EXPORT void {\bf dialogue\_\-error} (gchar $\ast$text)
+\item 
+void {\bf dialogue\_\-error\_\-brain\_\-damage} ()
+\item 
+G\_\-MODULE\_\-EXPORT void {\bf dialogue\_\-error\_\-hint} (const gchar $\ast$text, gchar $\ast$hint)
+\item 
+void {\bf dialogue\_\-error\_\-memory} ()
+\item 
+void {\bf dialogue\_\-hint} (gchar $\ast$text, gchar $\ast$hint)
+\item 
+const gchar $\ast$ {\bf dialogue\_\-hint\_\-with\_\-entry} (gchar $\ast$text, gchar $\ast$hint, gchar $\ast$entry\_\-description)
+\item 
+void {\bf dialogue\_\-special} (GtkMessageType param, gchar $\ast$text)
+\item 
+GtkWidget $\ast$ {\bf dialogue\_\-special\_\-no\_\-run} (GtkMessageType param, GtkButtonsType buttons, gchar $\ast$text)
+\item 
+gboolean {\bf dialogue\_\-update\_\-struct\_\-message} (GtkWidget $\ast$checkbox, struct {\bf conditional\_\-message} $\ast$message)
+\item 
+G\_\-MODULE\_\-EXPORT void {\bf dialogue\_\-warning} (gchar $\ast$text)
+\item 
+void {\bf dialogue\_\-warning\_\-hint} (gchar $\ast$text, gchar $\ast$hint)
+\item 
+gchar $\ast$ {\bf make\_\-blue} (gchar $\ast$text)
+\item 
+gchar $\ast$ {\bf make\_\-hint} (const gchar $\ast$hint, const gchar $\ast$text)
+\item 
+gchar $\ast$ {\bf make\_\-pango\_\-attribut} (gchar $\ast$attribut, gchar $\ast$text)
+\item 
+gchar $\ast$ {\bf make\_\-red} (gchar $\ast$text)
+\item 
+gboolean {\bf question\_\-conditional\_\-yes\_\-no} (gchar $\ast$var)
+\item 
+gint {\bf question\_\-conditional\_\-yes\_\-no\_\-get\_\-no\_\-struct} (struct {\bf conditional\_\-message} $\ast$msg, gchar $\ast$name)
+\item 
+gboolean {\bf question\_\-conditional\_\-yes\_\-no\_\-with\_\-struct} (struct {\bf conditional\_\-message} $\ast$message)
+\item 
+gboolean {\bf question\_\-yes\_\-no} (gchar $\ast$text, gint default\_\-answer)
+\item 
+gboolean {\bf question\_\-yes\_\-no\_\-hint} (gchar $\ast$hint, gchar $\ast$texte, gint default\_\-answer)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{dialog.h@{dialog.h}!dialog\_\-message@{dialog\_\-message}}
+\index{dialog\_\-message@{dialog\_\-message}!dialog.h@{dialog.h}}
+\subsubsection[{dialog\_\-message}]{\setlength{\rightskip}{0pt plus 5cm}void dialog\_\-message (gchar $\ast$ {\em label}, \/   {\em ...})}\label{dialog_8h_a58737af017ec59765d14212870a4d8a6}
+
+
+Définition à la ligne 682 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!dialogue@{dialogue}}
+\index{dialogue@{dialogue}!dialog.h@{dialog.h}}
+\subsubsection[{dialogue}]{\setlength{\rightskip}{0pt plus 5cm}void dialogue (gchar $\ast$ {\em texte\_\-dialogue})}\label{dialog_8h_ade6e4adf08627021abf579246f58aac1}
+Display an info dialog window.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em text}]Text to display in window \end{DoxyParams}
+
+
+Définition à la ligne 145 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!dialogue\_\-conditional\_\-hint@{dialogue\_\-conditional\_\-hint}}
+\index{dialogue\_\-conditional\_\-hint@{dialogue\_\-conditional\_\-hint}!dialog.h@{dialog.h}}
+\subsubsection[{dialogue\_\-conditional\_\-hint}]{\setlength{\rightskip}{0pt plus 5cm}void dialogue\_\-conditional\_\-hint (gchar $\ast$ {\em hint}, \/  gchar $\ast$ {\em text}, \/  gchar $\ast$ {\em var})}\label{dialog_8h_a7c7ce9c290704cc435fb14dff9d4c988}
+This function pop ups a dialog with a hint (first sentence, in bold), an informal text and a checkbox that allow this message not to be displayed again thanks to preferences. It calls dialogue\_\-conditional to achieve display.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em text}]text to be displayed \item[{\em hint}]hint to be displayed \item[{\em var}]variable that both controls whether the dialog will appear or not and that indicates which variable could be modified so that this message won't appear again. \end{DoxyParams}
+
+
+Définition à la ligne 353 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!dialogue\_\-error@{dialogue\_\-error}}
+\index{dialogue\_\-error@{dialogue\_\-error}!dialog.h@{dialog.h}}
+\subsubsection[{dialogue\_\-error}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT void dialogue\_\-error (gchar $\ast$ {\em text})}\label{dialog_8h_aa88d9d93c78818a177e9a14eff15f360}
+Display an error dialog window
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em text}]Text to display in window \end{DoxyParams}
+
+
+Définition à la ligne 156 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!dialogue\_\-error\_\-brain\_\-damage@{dialogue\_\-error\_\-brain\_\-damage}}
+\index{dialogue\_\-error\_\-brain\_\-damage@{dialogue\_\-error\_\-brain\_\-damage}!dialog.h@{dialog.h}}
+\subsubsection[{dialogue\_\-error\_\-brain\_\-damage}]{\setlength{\rightskip}{0pt plus 5cm}void dialogue\_\-error\_\-brain\_\-damage ()}\label{dialog_8h_ae3e05f0c7c29303d83eba4c1fd2d3833}
+Displays a dialog message stating that bad things will happen soon. This dialog should not appear theorically, but it is here just in case to spot bugs. 
+
+Définition à la ligne 655 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!dialogue\_\-error\_\-hint@{dialogue\_\-error\_\-hint}}
+\index{dialogue\_\-error\_\-hint@{dialogue\_\-error\_\-hint}!dialog.h@{dialog.h}}
+\subsubsection[{dialogue\_\-error\_\-hint}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT void dialogue\_\-error\_\-hint (const gchar $\ast$ {\em text}, \/  gchar $\ast$ {\em hint})}\label{dialog_8h_a194ffa6e8e89cc8fb7fbfbc41109fe1e}
+Display an error dialog window with an optional hint.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em text}]Text to display in window \item[{\em hint}]Text to display in window as hint (bold, larger) \end{DoxyParams}
+
+
+Définition à la ligne 168 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!dialogue\_\-error\_\-memory@{dialogue\_\-error\_\-memory}}
+\index{dialogue\_\-error\_\-memory@{dialogue\_\-error\_\-memory}!dialog.h@{dialog.h}}
+\subsubsection[{dialogue\_\-error\_\-memory}]{\setlength{\rightskip}{0pt plus 5cm}void dialogue\_\-error\_\-memory ()}\label{dialog_8h_abb50e706a2eedd167eeb63d2de9c1245}
+Displays a dialog message stating that bad things will happen soon. This dialog should not appear theorically, but it is here just in case to spot bugs. 
+
+Définition à la ligne 668 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!dialogue\_\-hint@{dialogue\_\-hint}}
+\index{dialogue\_\-hint@{dialogue\_\-hint}!dialog.h@{dialog.h}}
+\subsubsection[{dialogue\_\-hint}]{\setlength{\rightskip}{0pt plus 5cm}void dialogue\_\-hint (gchar $\ast$ {\em text}, \/  gchar $\ast$ {\em hint})}\label{dialog_8h_a1ae76010f96aab227a640333d3933277}
+Display an info dialog window with a hint displayed larger and in bold.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em text}]Text to display in window \item[{\em hint}]Hint to display \end{DoxyParams}
+
+
+Définition à la ligne 134 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!dialogue\_\-hint\_\-with\_\-entry@{dialogue\_\-hint\_\-with\_\-entry}}
+\index{dialogue\_\-hint\_\-with\_\-entry@{dialogue\_\-hint\_\-with\_\-entry}!dialog.h@{dialog.h}}
+\subsubsection[{dialogue\_\-hint\_\-with\_\-entry}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ dialogue\_\-hint\_\-with\_\-entry (gchar $\ast$ {\em text}, \/  gchar $\ast$ {\em hint}, \/  gchar $\ast$ {\em entry\_\-description})}\label{dialog_8h_a7c2da4f5ed9a9065df01db0464431913}
+Display an info dialog window with a hint displayed larger and in bold. add an entry and return the content of the entry
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em text}]Text to display in window \item[{\em hint}]Hint to display \item[{\em entry\_\-description}]label to set in front of the entry \end{DoxyParams}
+
+
+Définition à la ligne 717 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!dialogue\_\-special@{dialogue\_\-special}}
+\index{dialogue\_\-special@{dialogue\_\-special}!dialog.h@{dialog.h}}
+\subsubsection[{dialogue\_\-special}]{\setlength{\rightskip}{0pt plus 5cm}void dialogue\_\-special (GtkMessageType {\em param}, \/  gchar $\ast$ {\em text})}\label{dialog_8h_ac3e0ed9412c48edad2cd0dad89c7d566}
+Display a dialog window with arbitrary icon. WARNING you may need to escape text with g\_\-markup\_\-escape\_\-text() or g\_\-markup\_\-printf\_\-escaped():
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em param}]Type of Window to display \item[{\em text}]Text to display in window \end{DoxyParams}
+
+
+Définition à la ligne 205 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!dialogue\_\-special\_\-no\_\-run@{dialogue\_\-special\_\-no\_\-run}}
+\index{dialogue\_\-special\_\-no\_\-run@{dialogue\_\-special\_\-no\_\-run}!dialog.h@{dialog.h}}
+\subsubsection[{dialogue\_\-special\_\-no\_\-run}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ dialogue\_\-special\_\-no\_\-run (GtkMessageType {\em param}, \/  GtkButtonsType {\em buttons}, \/  gchar $\ast$ {\em text})}\label{dialog_8h_aa20bfaae43172af04ddeb596029733a1}
+Display a dialog window with arbitrary icon. WARNING you may need to escape text with g\_\-markup\_\-escape\_\-text() or g\_\-markup\_\-printf\_\-escaped():
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em param}]Type of Window to display \item[{\em text}]Text to display in window \end{DoxyParams}
+
+
+Définition à la ligne 229 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!dialogue\_\-update\_\-struct\_\-message@{dialogue\_\-update\_\-struct\_\-message}}
+\index{dialogue\_\-update\_\-struct\_\-message@{dialogue\_\-update\_\-struct\_\-message}!dialog.h@{dialog.h}}
+\subsubsection[{dialogue\_\-update\_\-struct\_\-message}]{\setlength{\rightskip}{0pt plus 5cm}gboolean dialogue\_\-update\_\-struct\_\-message (GtkWidget $\ast$ {\em checkbox}, \/  struct {\bf conditional\_\-message} $\ast$ {\em message})}\label{dialog_8h_ac15d3ab451ee1444c3a5b9905a116241}
+Update the value of a message in memory according to the state of a checkbox button. These messages are conditional dialogs (see dialogue\_\-conditional\_\-new()). Normally called as an event.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em checbox}]GtkCheckbox that triggered this event. \item[{\em message}]struct \doxyref{conditional\_\-message}{p.}{structconditional__message} Message\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 257 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!dialogue\_\-warning@{dialogue\_\-warning}}
+\index{dialogue\_\-warning@{dialogue\_\-warning}!dialog.h@{dialog.h}}
+\subsubsection[{dialogue\_\-warning}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT void dialogue\_\-warning (gchar $\ast$ {\em text})}\label{dialog_8h_a198880c6e09a934c62fd541c9cb302f9}
+Display a warning dialog window
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em text}]Text to display in window \end{DoxyParams}
+
+
+Définition à la ligne 179 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!dialogue\_\-warning\_\-hint@{dialogue\_\-warning\_\-hint}}
+\index{dialogue\_\-warning\_\-hint@{dialogue\_\-warning\_\-hint}!dialog.h@{dialog.h}}
+\subsubsection[{dialogue\_\-warning\_\-hint}]{\setlength{\rightskip}{0pt plus 5cm}void dialogue\_\-warning\_\-hint (gchar $\ast$ {\em text}, \/  gchar $\ast$ {\em hint})}\label{dialog_8h_a36096082126042aa3b09c03d6215be78}
+Display a warning dialog window with an optional hint.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em text}]Text to display in window \item[{\em hint}]Text to display in window as hint (bold, larger) \end{DoxyParams}
+
+
+Définition à la ligne 191 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!make\_\-blue@{make\_\-blue}}
+\index{make\_\-blue@{make\_\-blue}!dialog.h@{dialog.h}}
+\subsubsection[{make\_\-blue}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ make\_\-blue (gchar $\ast$ {\em text})}\label{dialog_8h_a5927e30f6f690b1ea7391d140f8efa7d}
+use pango layout to produce a string that will contain a text.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em text}]Text\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a pango formated string It returns a newly allocated string which must be freed when no more used. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 640 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!make\_\-hint@{make\_\-hint}}
+\index{make\_\-hint@{make\_\-hint}!dialog.h@{dialog.h}}
+\subsubsection[{make\_\-hint}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ make\_\-hint (const gchar $\ast$ {\em hint}, \/  const gchar $\ast$ {\em text})}\label{dialog_8h_a84758de40aa2807a4e5ebd97ede7df23}
+Concatenate two strings and use pango layout to produce a string that will contain an hint and a text.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em hint}]Text to use as hint \item[{\em text}]Text to use as secondary text\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a pango formated string with the two arguments concatenated. It returns a newly allocated string which must be freed when no more used. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 579 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!make\_\-pango\_\-attribut@{make\_\-pango\_\-attribut}}
+\index{make\_\-pango\_\-attribut@{make\_\-pango\_\-attribut}!dialog.h@{dialog.h}}
+\subsubsection[{make\_\-pango\_\-attribut}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ make\_\-pango\_\-attribut (gchar $\ast$ {\em attribut}, \/  gchar $\ast$ {\em text})}\label{dialog_8h_a936cdb52ba9be8a56212e8a4e5979c3c}
+use pango layout to produce a string that will contain a text.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em attribut}]exemple foreground="red", size="x-\/large" \item[{\em text}]Text\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a pango formated string It returns a newly allocated string which must be freed when no more used. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 621 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!make\_\-red@{make\_\-red}}
+\index{make\_\-red@{make\_\-red}!dialog.h@{dialog.h}}
+\subsubsection[{make\_\-red}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ make\_\-red (gchar $\ast$ {\em text})}\label{dialog_8h_a1d3c21e1b14fa2a19ef5f3dae733b2e0}
+use pango layout to produce a string that will contain a text.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em text}]Text\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a pango formated string It returns a newly allocated string which must be freed when no more used. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 602 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!question\_\-conditional\_\-yes\_\-no@{question\_\-conditional\_\-yes\_\-no}}
+\index{question\_\-conditional\_\-yes\_\-no@{question\_\-conditional\_\-yes\_\-no}!dialog.h@{dialog.h}}
+\subsubsection[{question\_\-conditional\_\-yes\_\-no}]{\setlength{\rightskip}{0pt plus 5cm}gboolean question\_\-conditional\_\-yes\_\-no (gchar $\ast$ {\em var})}\label{dialog_8h_a757c418753eff02db57f09f216befbdf}
+Pop up a warning dialog window with a question and a checkbox that allow this message not to be displayed again thanks to preferences and wait for user to press 'YES' or 'NO'.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em var}]variable that both controls whether the dialog will appear or not and that indicates which variable could be modified so that this message won't appear again.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if user pressed 'YES'. FALSE otherwise. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 464 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!question\_\-conditional\_\-yes\_\-no\_\-get\_\-no\_\-struct@{question\_\-conditional\_\-yes\_\-no\_\-get\_\-no\_\-struct}}
+\index{question\_\-conditional\_\-yes\_\-no\_\-get\_\-no\_\-struct@{question\_\-conditional\_\-yes\_\-no\_\-get\_\-no\_\-struct}!dialog.h@{dialog.h}}
+\subsubsection[{question\_\-conditional\_\-yes\_\-no\_\-get\_\-no\_\-struct}]{\setlength{\rightskip}{0pt plus 5cm}gint question\_\-conditional\_\-yes\_\-no\_\-get\_\-no\_\-struct (struct {\bf conditional\_\-message} $\ast$ {\em msg}, \/  gchar $\ast$ {\em name})}\label{dialog_8h_ac46f7502c30130a2c344685a46638d2e}
+return the number of message
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em struct}]\doxyref{conditional\_\-message}{p.}{structconditional__message} \item[{\em name}]of message\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+message number or -\/1 is not present. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 556 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!question\_\-conditional\_\-yes\_\-no\_\-with\_\-struct@{question\_\-conditional\_\-yes\_\-no\_\-with\_\-struct}}
+\index{question\_\-conditional\_\-yes\_\-no\_\-with\_\-struct@{question\_\-conditional\_\-yes\_\-no\_\-with\_\-struct}!dialog.h@{dialog.h}}
+\subsubsection[{question\_\-conditional\_\-yes\_\-no\_\-with\_\-struct}]{\setlength{\rightskip}{0pt plus 5cm}gboolean question\_\-conditional\_\-yes\_\-no\_\-with\_\-struct (struct {\bf conditional\_\-message} $\ast$ {\em message})}\label{dialog_8h_acdc10d7ad7ab05de8c606827a1126034}
+Pop up a warning dialog window with a question and a checkbox that allow this message not to be displayed again thanks to preferences and wait for user to press 'YES' or 'NO'.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em struct}]\doxyref{conditional\_\-message}{p.}{structconditional__message}\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if user pressed 'YES'. FALSE otherwise. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 508 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!question\_\-yes\_\-no@{question\_\-yes\_\-no}}
+\index{question\_\-yes\_\-no@{question\_\-yes\_\-no}!dialog.h@{dialog.h}}
+\subsubsection[{question\_\-yes\_\-no}]{\setlength{\rightskip}{0pt plus 5cm}gboolean question\_\-yes\_\-no (gchar $\ast$ {\em text}, \/  gint {\em default\_\-answer})}\label{dialog_8h_ae0381692a8f62bcab164df4cf39cca9f}
+Pop up a warning dialog window with a question and wait for user to press 'YES' or 'NO'. WARNING you may need to escape text with g\_\-markup\_\-escape\_\-text() or g\_\-markup\_\-printf\_\-escaped():
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em texte}]Text to be displayed \item[{\em default\_\-answer}]GTK\_\-RESPONSE\_\-OK or GTK\_\-RESPONSE\_\-CANCEL, will give the focus to the button\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if user pressed 'YES'. FALSE otherwise. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 428 du fichier dialog.c.
+
+\index{dialog.h@{dialog.h}!question\_\-yes\_\-no\_\-hint@{question\_\-yes\_\-no\_\-hint}}
+\index{question\_\-yes\_\-no\_\-hint@{question\_\-yes\_\-no\_\-hint}!dialog.h@{dialog.h}}
+\subsubsection[{question\_\-yes\_\-no\_\-hint}]{\setlength{\rightskip}{0pt plus 5cm}gboolean question\_\-yes\_\-no\_\-hint (gchar $\ast$ {\em hint}, \/  gchar $\ast$ {\em texte}, \/  gint {\em default\_\-answer})}\label{dialog_8h_a9947d688fe96a482d5444e62108a4ed4}
+Pop up a warning dialog window with a question and wait for user to press 'OK' or 'Cancel'. A hint is displayed on the top of the window larger and in bold.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em hint}]Hint to be displayed \item[{\em texte}]Text to be displayed \item[{\em default\_\-answer}]GTK\_\-RESPONSE\_\-OK or GTK\_\-RESPONSE\_\-CANCEL, will give the focus to the button\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if user pressed 'OK'. FALSE otherwise. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 409 du fichier dialog.c.
+

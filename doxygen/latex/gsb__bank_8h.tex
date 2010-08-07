@@ -1,0 +1,93 @@
+\section{Référence du fichier gsb\_\-bank.h}
+\label{gsb__bank_8h}\index{gsb\_\-bank.h@{gsb\_\-bank.h}}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-bank\_\-create\_\-combobox} (gint index, GCallback hook, gpointer data, GCallback default\_\-func, gint number\_\-for\_\-func)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-bank\_\-create\_\-page} (gboolean default\_\-sensitive)
+\item 
+gboolean {\bf gsb\_\-bank\_\-edit\_\-from\_\-button} (GtkWidget $\ast$button, GtkWidget $\ast$combobox)
+\item 
+gint {\bf gsb\_\-bank\_\-list\_\-get\_\-bank\_\-number} (GtkWidget $\ast$combobox)
+\item 
+gboolean {\bf gsb\_\-bank\_\-list\_\-set\_\-bank} (GtkWidget $\ast$combobox, gint bank\_\-number, gint number\_\-for\_\-func)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-bank.h@{gsb\_\-bank.h}!gsb\_\-bank\_\-create\_\-combobox@{gsb\_\-bank\_\-create\_\-combobox}}
+\index{gsb\_\-bank\_\-create\_\-combobox@{gsb\_\-bank\_\-create\_\-combobox}!gsb_bank.h@{gsb\_\-bank.h}}
+\subsubsection[{gsb\_\-bank\_\-create\_\-combobox}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-bank\_\-create\_\-combobox (gint {\em index}, \/  GCallback {\em hook}, \/  gpointer {\em data}, \/  GCallback {\em default\_\-func}, \/  gint {\em number\_\-for\_\-func})}\label{gsb__bank_8h_abb748391feb66dfd26c0e0aaffa766bb}
+create a combo\_\-box with the name of all the banks and an 'add' button at the end update too if filled the value of the associated account (see gsb\_\-autofunc\_\-... for more explains)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em bank}]the index we want to place the combobox \item[{\em hook}]an optional function to execute if the combobox is modified \item[{\em data}]an optional pointer to pass to hook \item[{\em default\_\-func}]a function to change the value in memory (should be gsb\_\-data\_\-account\_\-set\_\-bank or NULL) \item[{\em number\_\-for\_\-func}]the gint to send to the default\_\-func (should be the account number)\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+GtkWidget $\ast$ the combo\_\-box 
+\end{DoxyReturn}
+
+
+Définition à la ligne 134 du fichier gsb\_\-bank.c.
+
+\index{gsb\_\-bank.h@{gsb\_\-bank.h}!gsb\_\-bank\_\-create\_\-page@{gsb\_\-bank\_\-create\_\-page}}
+\index{gsb\_\-bank\_\-create\_\-page@{gsb\_\-bank\_\-create\_\-page}!gsb_bank.h@{gsb\_\-bank.h}}
+\subsubsection[{gsb\_\-bank\_\-create\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-bank\_\-create\_\-page (gboolean {\em default\_\-sensitive})}\label{gsb__bank_8h_aef019dce3bfc8b3570e7bb6f8d356da1}
+Creates the \char`\"{}Banks\char`\"{} tab. It creates a bank list and then a form that allows to edit selected bank.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em default\_\-sensitive}]normally if there is no account, that page is unsensitive, but for assistant, we have to force to be sensitive so set default\_\-sensitive to TRUE to let grisbi choose between sensitive or net, set default\_\-sensitive to FALSE \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A newly allocated vbox 
+\end{DoxyReturn}
+
+
+Définition à la ligne 502 du fichier gsb\_\-bank.c.
+
+\index{gsb\_\-bank.h@{gsb\_\-bank.h}!gsb\_\-bank\_\-edit\_\-from\_\-button@{gsb\_\-bank\_\-edit\_\-from\_\-button}}
+\index{gsb\_\-bank\_\-edit\_\-from\_\-button@{gsb\_\-bank\_\-edit\_\-from\_\-button}!gsb_bank.h@{gsb\_\-bank.h}}
+\subsubsection[{gsb\_\-bank\_\-edit\_\-from\_\-button}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-bank\_\-edit\_\-from\_\-button (GtkWidget $\ast$ {\em button}, \/  GtkWidget $\ast$ {\em combobox})}\label{gsb__bank_8h_ae61d311db2db4446a87481841f9b1424}
+callback called when click on the edit-\/bank in the property of account show a window with the parameters of the bank in the combobox
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em button}]the button wich was clicked \item[{\em combobox}]the combobox selected a bank\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 321 du fichier gsb\_\-bank.c.
+
+\index{gsb\_\-bank.h@{gsb\_\-bank.h}!gsb\_\-bank\_\-list\_\-get\_\-bank\_\-number@{gsb\_\-bank\_\-list\_\-get\_\-bank\_\-number}}
+\index{gsb\_\-bank\_\-list\_\-get\_\-bank\_\-number@{gsb\_\-bank\_\-list\_\-get\_\-bank\_\-number}!gsb_bank.h@{gsb\_\-bank.h}}
+\subsubsection[{gsb\_\-bank\_\-list\_\-get\_\-bank\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-bank\_\-list\_\-get\_\-bank\_\-number (GtkWidget $\ast$ {\em combobox})}\label{gsb__bank_8h_af530b323e9bc34311e37d3795bddb807}
+return the number of the curently showed on the combobox
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combobox}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the bank number, 0 for none, -\/1 for 'new bank' 
+\end{DoxyReturn}
+
+
+Définition à la ligne 193 du fichier gsb\_\-bank.c.
+
+\index{gsb\_\-bank.h@{gsb\_\-bank.h}!gsb\_\-bank\_\-list\_\-set\_\-bank@{gsb\_\-bank\_\-list\_\-set\_\-bank}}
+\index{gsb\_\-bank\_\-list\_\-set\_\-bank@{gsb\_\-bank\_\-list\_\-set\_\-bank}!gsb_bank.h@{gsb\_\-bank.h}}
+\subsubsection[{gsb\_\-bank\_\-list\_\-set\_\-bank}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-bank\_\-list\_\-set\_\-bank (GtkWidget $\ast$ {\em combobox}, \/  gint {\em bank\_\-number}, \/  gint {\em number\_\-for\_\-func})}\label{gsb__bank_8h_a3733eb484b3e08e5f313fd7d45bdc1d9}
+show the current bank in the combobox acording to the bank number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combobox}]\item[{\em bank\_\-number}]0 for none, -\/1 for new bank \item[{\em number\_\-for\_\-func}]the number to give to the default\_\-func when something changed\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 222 du fichier gsb\_\-bank.c.
+

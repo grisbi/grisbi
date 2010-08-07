@@ -1,0 +1,299 @@
+\section{Référence du fichier gsb\_\-form\_\-widget.c}
+\label{gsb__form__widget_8c}\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-widget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-calendar\_\-entry.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-budget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-category.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payee.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-payment\_\-method.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gtk\_\-combofix.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payment.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GSList $\ast$ {\bf gsb\_\-form\_\-widget\_\-get\_\-list} (void)
+\item 
+gboolean {\bf gsb\_\-form\_\-widget\_\-free\_\-list} (void)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-form\_\-widget\_\-create} (gint element\_\-number, gint account\_\-number)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-form\_\-widget\_\-get\_\-widget} (gint element\_\-number)
+\item 
+gchar $\ast$ {\bf gsb\_\-form\_\-widget\_\-get\_\-name} (gint element\_\-number)
+\item 
+gint {\bf gsb\_\-form\_\-widget\_\-next\_\-element} (gint account\_\-number, gint element\_\-number, gint direction)
+\item 
+void {\bf gsb\_\-form\_\-widget\_\-set\_\-focus} (gint element\_\-number)
+\item 
+gboolean {\bf gsb\_\-form\_\-widget\_\-check\_\-empty} (GtkWidget $\ast$entry)
+\item 
+void {\bf gsb\_\-form\_\-widget\_\-set\_\-empty} (GtkWidget $\ast$entry, gboolean empty)
+\item 
+gchar $\ast$ {\bf gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit} (void)
+\item 
+gchar $\ast$ {\bf gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit} (void)
+\item 
+gboolean {\bf gsb\_\-form\_\-widget\_\-amount\_\-entry\_\-changed} (GtkWidget $\ast$entry, gpointer null)
+\item 
+gboolean {\bf gsb\_\-form\_\-widget\_\-get\_\-valide\_\-amout\_\-entry} (const gchar $\ast$string)
+\item 
+gint {\bf gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-number} (void)
+\item 
+gint {\bf gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-number} (void)
+\item 
+const gchar $\ast$ {\bf gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-content} (void)
+\item 
+const gchar $\ast$ {\bf gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-content} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GdkColor {\bf calendar\_\-entry\_\-color}
+\item 
+GtkWidget $\ast$ {\bf form\_\-button\_\-cancel}
+\item 
+GtkWidget $\ast$ {\bf form\_\-button\_\-valid}
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+convenient functions to work with the elements in the form 
+
+Définition dans le fichier {\bf gsb\_\-form\_\-widget.c}.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-amount\_\-entry\_\-changed@{gsb\_\-form\_\-widget\_\-amount\_\-entry\_\-changed}}
+\index{gsb\_\-form\_\-widget\_\-amount\_\-entry\_\-changed@{gsb\_\-form\_\-widget\_\-amount\_\-entry\_\-changed}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-amount\_\-entry\_\-changed}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-widget\_\-amount\_\-entry\_\-changed (GtkWidget $\ast$ {\em entry}, \/  gpointer {\em null})}\label{gsb__form__widget_8c_a7398bf4ce9d9bebb04a02f7a771a58fa}
+called when entry changed check the entry and set the entry red/invalid if not a good number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]\item[{\em null}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 912 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-check\_\-empty@{gsb\_\-form\_\-widget\_\-check\_\-empty}}
+\index{gsb\_\-form\_\-widget\_\-check\_\-empty@{gsb\_\-form\_\-widget\_\-check\_\-empty}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-check\_\-empty}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-widget\_\-check\_\-empty (GtkWidget $\ast$ {\em entry})}\label{gsb__form__widget_8c_ab190653d3c006279c4b0bc9bfea4d8c4}
+check if the entry or combofix given in param is empty (ie grey) or not
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]must be an entry\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : entry is free, FALSE : not free 
+\end{DoxyReturn}
+
+
+Définition à la ligne 676 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-create@{gsb\_\-form\_\-widget\_\-create}}
+\index{gsb\_\-form\_\-widget\_\-create@{gsb\_\-form\_\-widget\_\-create}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-create}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-form\_\-widget\_\-create (gint {\em element\_\-number}, \/  gint {\em account\_\-number})}\label{gsb__form__widget_8c_a12c6f45282e18968885785e41f434d50}
+create and return the widget according to its element number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em element\_\-number}]the number corresponding to the widget wanted \item[{\em account\_\-number}]used for method of payment and currency\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the widget or NULL (if the element number is zero) 
+\end{DoxyReturn}
+
+
+Définition à la ligne 164 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-free\_\-list@{gsb\_\-form\_\-widget\_\-free\_\-list}}
+\index{gsb\_\-form\_\-widget\_\-free\_\-list@{gsb\_\-form\_\-widget\_\-free\_\-list}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-free\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-widget\_\-free\_\-list (void)}\label{gsb__form__widget_8c_acabcc2310e5c066c35065e2b8d2fdd73}
+free the content of the list of the widget's form so free the content of the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 102 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-get\_\-list@{gsb\_\-form\_\-widget\_\-get\_\-list}}
+\index{gsb\_\-form\_\-widget\_\-get\_\-list@{gsb\_\-form\_\-widget\_\-get\_\-list}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-get\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-form\_\-widget\_\-get\_\-list (void)}\label{gsb__form__widget_8c_ad4885fdd3bce3607cf1aba2765864c35}
+return the list wich contains the widgets of the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a GSList with the pointers to the widgets of the form 
+\end{DoxyReturn}
+
+
+Définition à la ligne 88 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-get\_\-name@{gsb\_\-form\_\-widget\_\-get\_\-name}}
+\index{gsb\_\-form\_\-widget\_\-get\_\-name@{gsb\_\-form\_\-widget\_\-get\_\-name}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-get\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-form\_\-widget\_\-get\_\-name (gint {\em element\_\-number})}\label{gsb__form__widget_8c_a48e129aec71bef3117effe95f85c4a12}
+get an element number and return its name
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em element\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the name of the element or NULL if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 400 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit@{gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit}}
+\index{gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit@{gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit (void)}\label{gsb__form__widget_8c_ae7ff916027066e30c9979f501487ea99}
+
+
+Définition à la ligne 885 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-content@{gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-content}}
+\index{gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-content@{gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-content}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-content (void)}\label{gsb__form__widget_8c_a64e6bc61502ff19fc4ea8fb8df3b172e}
+
+
+Définition à la ligne 1092 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-number@{gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-number}}
+\index{gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-number@{gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-number}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-form\_\-widget\_\-get\_\-old\_\-credit\_\-payment\_\-number (void)}\label{gsb__form__widget_8c_a7daa646e13858fbb603260cecfca7671}
+
+
+Définition à la ligne 1068 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit@{gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit}}
+\index{gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit@{gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit (void)}\label{gsb__form__widget_8c_a2eb4aaa73002541694ea3376428698e4}
+
+
+Définition à la ligne 894 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-content@{gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-content}}
+\index{gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-content@{gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-content}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-content (void)}\label{gsb__form__widget_8c_a7fa4b04b3b5d5e3ce498e753d8278560}
+
+
+Définition à la ligne 1104 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-number@{gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-number}}
+\index{gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-number@{gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-number}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-form\_\-widget\_\-get\_\-old\_\-debit\_\-payment\_\-number (void)}\label{gsb__form__widget_8c_afde4e211d1dbebd81596b477e255dc59}
+
+
+Définition à la ligne 1080 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-get\_\-valide\_\-amout\_\-entry@{gsb\_\-form\_\-widget\_\-get\_\-valide\_\-amout\_\-entry}}
+\index{gsb\_\-form\_\-widget\_\-get\_\-valide\_\-amout\_\-entry@{gsb\_\-form\_\-widget\_\-get\_\-valide\_\-amout\_\-entry}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-get\_\-valide\_\-amout\_\-entry}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-widget\_\-get\_\-valide\_\-amout\_\-entry (const gchar $\ast$ {\em string})}\label{gsb__form__widget_8c_a8278574a493b1c7f20ba557c3cb82344}
+
+
+Définition à la ligne 960 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-get\_\-widget@{gsb\_\-form\_\-widget\_\-get\_\-widget}}
+\index{gsb\_\-form\_\-widget\_\-get\_\-widget@{gsb\_\-form\_\-widget\_\-get\_\-widget}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-get\_\-widget}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-form\_\-widget\_\-get\_\-widget (gint {\em element\_\-number})}\label{gsb__form__widget_8c_ad3d6e5f87dcce9c175f2f402fc63d94e}
+return the pointer to the widget corresponding to the given element
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em element\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the widget or NULL 
+\end{DoxyReturn}
+
+
+Définition à la ligne 386 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-next\_\-element@{gsb\_\-form\_\-widget\_\-next\_\-element}}
+\index{gsb\_\-form\_\-widget\_\-next\_\-element@{gsb\_\-form\_\-widget\_\-next\_\-element}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-next\_\-element}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-form\_\-widget\_\-next\_\-element (gint {\em account\_\-number}, \/  gint {\em element\_\-number}, \/  gint {\em direction})}\label{gsb__form__widget_8c_ad677f89db19be4b34cfe527f41387617}
+return the number of the next valid element in the direction given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\item[{\em element\_\-number}]\item[{\em direction}]GSB\_\-LEFT, GSB\_\-RIGHT, GSB\_\-UP, GSB\_\-DOWN\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the next element number -\/1 if problem or not change -\/2 if end of the form and need to finish it 
+\end{DoxyReturn}
+
+
+Définition à la ligne 502 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-set\_\-empty@{gsb\_\-form\_\-widget\_\-set\_\-empty}}
+\index{gsb\_\-form\_\-widget\_\-set\_\-empty@{gsb\_\-form\_\-widget\_\-set\_\-empty}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-set\_\-empty}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-form\_\-widget\_\-set\_\-empty (GtkWidget $\ast$ {\em entry}, \/  gboolean {\em empty})}\label{gsb__form__widget_8c_a0b68e260dc6da6f49888145c901faaa9}
+set the style to the entry as empty or not
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]must be an entry \item[{\em empty}]TRUE or FALSE\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 700 du fichier gsb\_\-form\_\-widget.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!gsb\_\-form\_\-widget\_\-set\_\-focus@{gsb\_\-form\_\-widget\_\-set\_\-focus}}
+\index{gsb\_\-form\_\-widget\_\-set\_\-focus@{gsb\_\-form\_\-widget\_\-set\_\-focus}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{gsb\_\-form\_\-widget\_\-set\_\-focus}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-form\_\-widget\_\-set\_\-focus (gint {\em element\_\-number})}\label{gsb__form__widget_8c_a44684cf3788bb37368da547e0a7c7296}
+set the focus on the given element
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em element\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 651 du fichier gsb\_\-form\_\-widget.c.
+
+
+
+\subsection{Documentation des variables}
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!calendar\_\-entry\_\-color@{calendar\_\-entry\_\-color}}
+\index{calendar\_\-entry\_\-color@{calendar\_\-entry\_\-color}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{calendar\_\-entry\_\-color}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf calendar\_\-entry\_\-color}}\label{gsb__form__widget_8c_aa809fea280ab9cef6e16774b54a573ae}
+
+
+Définition à la ligne 119 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!form\_\-button\_\-cancel@{form\_\-button\_\-cancel}}
+\index{form\_\-button\_\-cancel@{form\_\-button\_\-cancel}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{form\_\-button\_\-cancel}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf form\_\-button\_\-cancel}}\label{gsb__form__widget_8c_ae8d7190a1fb3183b5b2230a299e1ec3d}
+
+
+Définition à la ligne 141 du fichier gsb\_\-form.c.
+
+\index{gsb\_\-form\_\-widget.c@{gsb\_\-form\_\-widget.c}!form\_\-button\_\-valid@{form\_\-button\_\-valid}}
+\index{form\_\-button\_\-valid@{form\_\-button\_\-valid}!gsb_form_widget.c@{gsb\_\-form\_\-widget.c}}
+\subsubsection[{form\_\-button\_\-valid}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf form\_\-button\_\-valid}}\label{gsb__form__widget_8c_ab8cc725a56b7979ec55e7b4625d0b66c}
+need to set the 2 buttons valid/cancel here and cannot just show/hide the form\_\-button\_\-part because of the split button 
+
+Définition à la ligne 140 du fichier gsb\_\-form.c.
+

@@ -1,0 +1,1341 @@
+\section{Référence du fichier gsb\_\-data\_\-transaction.h}
+\label{gsb__data__transaction_8h}\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}}
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf operation\_\-etat\_\-rapprochement} \{ {\bf OPERATION\_\-NORMALE} =  0, 
+{\bf OPERATION\_\-POINTEE}, 
+{\bf OPERATION\_\-TELERAPPROCHEE}, 
+{\bf OPERATION\_\-RAPPROCHEE}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-add\_\-archived\_\-to\_\-list} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-check\_\-content\_\-payment} (gint payment\_\-number, const gchar $\ast$number)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-copy\_\-transaction} (gint source\_\-transaction\_\-number, gint target\_\-transaction\_\-number, gboolean reset\_\-mark)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-find\_\-by\_\-id} (gchar $\ast$id, gint account\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-find\_\-by\_\-payment\_\-content} (const gchar $\ast$string, gint account\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-account\_\-number} (gint transaction\_\-number)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount} (gint transaction\_\-number, gint return\_\-exponent)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount\_\-for\_\-currency} (gint transaction\_\-number, gint return\_\-currency\_\-number, gint return\_\-exponent)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-data\_\-transaction\_\-get\_\-amount} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-archive\_\-number} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-automatic\_\-transaction} (gint transaction\_\-number)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-transaction\_\-get\_\-bank\_\-references} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-budgetary\_\-number} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-category\_\-number} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-change\_\-between} (gint transaction\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-transaction\_\-get\_\-children} (gint transaction\_\-number, gboolean return\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-transaction\_\-get\_\-complete\_\-transactions\_\-list} (void)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-account} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-number} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-currency\_\-number} (gint transaction\_\-number)
+\item 
+const GDate $\ast$ {\bf gsb\_\-data\_\-transaction\_\-get\_\-date} (gint transaction\_\-number)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-fees} (gint transaction\_\-number)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-rate} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-financial\_\-year\_\-number} (gint transaction\_\-number)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-transaction\_\-get\_\-id} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-last\_\-number} (void)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-data\_\-transaction\_\-get\_\-last\_\-transaction\_\-with\_\-div\_\-sub\_\-div} (gint account\_\-number, gint div\_\-number, gint sub\_\-div\_\-nb, gint type\_\-div)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-marked\_\-transaction} (gint transaction\_\-number)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-content} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-number} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-mother\_\-transaction\_\-number} (gint transaction\_\-number)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-transaction\_\-get\_\-notes} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-party\_\-number} (gint transaction\_\-number)
+\item 
+gpointer {\bf gsb\_\-data\_\-transaction\_\-get\_\-pointer\_\-of\_\-transaction} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-reconcile\_\-number} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-split\_\-of\_\-transaction} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-budgetary\_\-number} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-category\_\-number} (gint transaction\_\-number)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-id} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-number} (gpointer transaction\_\-pointer)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list} (void)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list\_\-by\_\-date} (void)
+\item 
+const GDate $\ast$ {\bf gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date} (gint transaction\_\-number)
+\item 
+const GDate $\ast$ {\bf gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date\_\-or\_\-date} (gint transaction\_\-number)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-transaction\_\-get\_\-voucher} (gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-get\_\-white\_\-line} (gint transaction\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-init\_\-variables} (void)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-new\_\-transaction} (gint no\_\-account)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-new\_\-transaction\_\-with\_\-number} (gint no\_\-account, gint transaction\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-transaction\_\-new\_\-white\_\-line} (gint mother\_\-transaction\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-remove\_\-transaction} (gint transaction\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-remove\_\-transaction\_\-without\_\-check} (gint transaction\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-account\_\-number} (gint transaction\_\-number, gint no\_\-account)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-amount} (gint transaction\_\-number, {\bf gsb\_\-real} amount)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-archive\_\-number} (gint transaction\_\-number, gint archive\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-automatic\_\-transaction} (gint transaction\_\-number, gint automatic\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-bank\_\-references} (gint transaction\_\-number, const gchar $\ast$bank\_\-references)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-budgetary\_\-number} (gint transaction\_\-number, gint budgetary\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-category\_\-number} (gint transaction\_\-number, gint no\_\-category)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-change\_\-between} (gint transaction\_\-number, gint value)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-contra\_\-transaction\_\-number} (gint transaction\_\-number, gint transaction\_\-number\_\-transfer)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-currency\_\-number} (gint transaction\_\-number, gint no\_\-currency)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-date} (gint transaction\_\-number, const GDate $\ast$date)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-fees} (gint transaction\_\-number, {\bf gsb\_\-real} rate)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-rate} (gint transaction\_\-number, {\bf gsb\_\-real} rate)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-financial\_\-year\_\-number} (gint transaction\_\-number, gint financial\_\-year\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-marked\_\-transaction} (gint transaction\_\-number, gint marked\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-content} (gint transaction\_\-number, const gchar $\ast$method\_\-of\_\-payment\_\-content)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-number} (gint transaction\_\-number, gint number)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-mother\_\-transaction\_\-number} (gint transaction\_\-number, gint mother\_\-transaction\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-notes} (gint transaction\_\-number, const gchar $\ast$notes)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-party\_\-number} (gint transaction\_\-number, gint no\_\-party)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-reconcile\_\-number} (gint transaction\_\-number, gint reconcile\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-split\_\-of\_\-transaction} (gint transaction\_\-number, gint is\_\-split)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-budgetary\_\-number} (gint transaction\_\-number, gint sub\_\-budgetary\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-category\_\-number} (gint transaction\_\-number, gint no\_\-sub\_\-category)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-transaction\_\-id} (gint transaction\_\-number, const gchar $\ast$transaction\_\-id)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-value\_\-date} (gint transaction\_\-number, const GDate $\ast$date)
+\item 
+gboolean {\bf gsb\_\-data\_\-transaction\_\-set\_\-voucher} (gint transaction\_\-number, const gchar $\ast$voucher)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation du type de l'énumération}
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!operation\_\-etat\_\-rapprochement@{operation\_\-etat\_\-rapprochement}}
+\index{operation\_\-etat\_\-rapprochement@{operation\_\-etat\_\-rapprochement}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{operation\_\-etat\_\-rapprochement}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf operation\_\-etat\_\-rapprochement}}\label{gsb__data__transaction_8h_a82f385a1c75ac98496b5c09a123bf521}
+Etat de rapprochement d'une opération \begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{OPERATION\_\-NORMALE@{OPERATION\_\-NORMALE}!gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}}\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!OPERATION\_\-NORMALE@{OPERATION\_\-NORMALE}}\item[{\em 
+OPERATION\_\-NORMALE\label{gsb__data__transaction_8h_a82f385a1c75ac98496b5c09a123bf521a10e43b2cd416b38f68109a4898d3080e}
+}]\index{OPERATION\_\-POINTEE@{OPERATION\_\-POINTEE}!gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}}\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!OPERATION\_\-POINTEE@{OPERATION\_\-POINTEE}}\item[{\em 
+OPERATION\_\-POINTEE\label{gsb__data__transaction_8h_a82f385a1c75ac98496b5c09a123bf521a0d2386ee3dfac40bf6fa775bc7d6325e}
+}]\index{OPERATION\_\-TELERAPPROCHEE@{OPERATION\_\-TELERAPPROCHEE}!gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}}\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!OPERATION\_\-TELERAPPROCHEE@{OPERATION\_\-TELERAPPROCHEE}}\item[{\em 
+OPERATION\_\-TELERAPPROCHEE\label{gsb__data__transaction_8h_a82f385a1c75ac98496b5c09a123bf521ad2c1596b5d07a043b0cfaef131372b01}
+}]\index{OPERATION\_\-RAPPROCHEE@{OPERATION\_\-RAPPROCHEE}!gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}}\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!OPERATION\_\-RAPPROCHEE@{OPERATION\_\-RAPPROCHEE}}\item[{\em 
+OPERATION\_\-RAPPROCHEE\label{gsb__data__transaction_8h_a82f385a1c75ac98496b5c09a123bf521a41425f55add3a05ffc4c7aa366048fc9}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 11 du fichier gsb\_\-data\_\-transaction.h.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-add\_\-archived\_\-to\_\-list@{gsb\_\-data\_\-transaction\_\-add\_\-archived\_\-to\_\-list}}
+\index{gsb\_\-data\_\-transaction\_\-add\_\-archived\_\-to\_\-list@{gsb\_\-data\_\-transaction\_\-add\_\-archived\_\-to\_\-list}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-add\_\-archived\_\-to\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-add\_\-archived\_\-to\_\-list (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a0847630734b4419bc233f313ad6d2766}
+just append the archived transaction given in param into the non archived transactions list called when want to load archived transactions into grisbi
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the transaction to append\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok, FALSE pb 
+\end{DoxyReturn}
+
+
+Définition à la ligne 186 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-check\_\-content\_\-payment@{gsb\_\-data\_\-transaction\_\-check\_\-content\_\-payment}}
+\index{gsb\_\-data\_\-transaction\_\-check\_\-content\_\-payment@{gsb\_\-data\_\-transaction\_\-check\_\-content\_\-payment}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-check\_\-content\_\-payment}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-check\_\-content\_\-payment (gint {\em payment\_\-number}, \/  const gchar $\ast$ {\em number})}\label{gsb__data__transaction_8h_a40575cdeac27ba06abb312fabd076564}
+check if a number of cheque is not already used for a automatic numbering method of payment
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em payment\_\-number}]an automatic numbering method of payment \item[{\em number}]the number we want to set as content for that method of payment (ie the number of cheque...)\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the transaction if one is found, FALSE if none found, so can use it 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2574 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-copy\_\-transaction@{gsb\_\-data\_\-transaction\_\-copy\_\-transaction}}
+\index{gsb\_\-data\_\-transaction\_\-copy\_\-transaction@{gsb\_\-data\_\-transaction\_\-copy\_\-transaction}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-copy\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-copy\_\-transaction (gint {\em source\_\-transaction\_\-number}, \/  gint {\em target\_\-transaction\_\-number}, \/  gboolean {\em reset\_\-mark})}\label{gsb__data__transaction_8h_a62c650817612964ece479ede76beb9f3}
+copy the content of a transaction into the second one the 2 transactions must exist before only the account\_\-number and the transaction\_\-number will be modified in the target transaction all the char are dupplicated, transaction\_\-id is set to NULL, marked, reconcile number and archive number are set to 0
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em source\_\-transaction\_\-number}]the transaction we want to copy \item[{\em target\_\-transaction\_\-number}]the trnasaction we want to fill with the content of the first one \item[{\em reset}]transaction\_\-id, marked, reconcile number and archive number\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok, FALSE else 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2136 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-find\_\-by\_\-id@{gsb\_\-data\_\-transaction\_\-find\_\-by\_\-id}}
+\index{gsb\_\-data\_\-transaction\_\-find\_\-by\_\-id@{gsb\_\-data\_\-transaction\_\-find\_\-by\_\-id}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-find\_\-by\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-find\_\-by\_\-id (gchar $\ast$ {\em id}, \/  gint {\em account\_\-number})}\label{gsb__data__transaction_8h_a8904a22be0f714a36c52e4924491e959}
+find a transaction by its id
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em id}]a string containing an id\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of transaction or 0 if none found 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2493 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-find\_\-by\_\-payment\_\-content@{gsb\_\-data\_\-transaction\_\-find\_\-by\_\-payment\_\-content}}
+\index{gsb\_\-data\_\-transaction\_\-find\_\-by\_\-payment\_\-content@{gsb\_\-data\_\-transaction\_\-find\_\-by\_\-payment\_\-content}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-find\_\-by\_\-payment\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-find\_\-by\_\-payment\_\-content (const gchar $\ast$ {\em string}, \/  gint {\em account\_\-number})}\label{gsb__data__transaction_8h_aeb3022dd41bfae50a422aeca94d27d2e}
+find a transaction by the method of payment content in a given account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em string}]\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the transaction or 0 if not found 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2458 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-account\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-account\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-account\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-account\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-account\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-account\_\-number (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a5b486efbc486f946e9c998a114054bce}
+get the account\_\-number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the account of the transaction or -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 435 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount@{gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount@{gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount (gint {\em transaction\_\-number}, \/  gint {\em return\_\-exponent})}\label{gsb__data__transaction_8h_aa3739bd33106e8dbce2c0938f5f2a882}
+get the amount of the transaction, modified to be ok with the currency of the account !! we should never use -\/1 for the return\_\-exponent because the numbers become to deep and the functions gsb\_\-real\_\-add and others can return an overflow try to pass a return\_\-exponent by gsb\_\-data\_\-currency\_\-get\_\-floating\_\-point before
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction \item[{\em return\_\-exponent}]the exponent we want to have for the returned number, or -\/1 for the exponent of the returned currency\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the amount of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 717 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount\_\-for\_\-currency@{gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount\_\-for\_\-currency}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount\_\-for\_\-currency@{gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount\_\-for\_\-currency}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount\_\-for\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-data\_\-transaction\_\-get\_\-adjusted\_\-amount\_\-for\_\-currency (gint {\em transaction\_\-number}, \/  gint {\em return\_\-currency\_\-number}, \/  gint {\em return\_\-exponent})}\label{gsb__data__transaction_8h_a8f44da078801e109873c479399b72191}
+get the amount of the transaction, modified to be ok with the currency given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction \item[{\em return\_\-currency\_\-number}]the currency we want to adjust the transaction's amount \item[{\em return\_\-exponent}]the exponent we want to have for the returned number, or -\/1 for the exponent of the returned currency\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the amount of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 745 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-amount@{gsb\_\-data\_\-transaction\_\-get\_\-amount}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-amount@{gsb\_\-data\_\-transaction\_\-get\_\-amount}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-data\_\-transaction\_\-get\_\-amount (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a632c5ba71e742b3ac063b4b3207cf032}
+get the amount of the transaction without any currency change (so just get the given amout)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the amount of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 665 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-archive\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-archive\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-archive\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-archive\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-archive\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-archive\_\-number (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a5dfc3ab337c363b46380bf962a97d8d2}
+get the number of the archive
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the archive number, 0 if not archived and -\/1 if transaction not found 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1518 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-automatic\_\-transaction@{gsb\_\-data\_\-transaction\_\-get\_\-automatic\_\-transaction}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-automatic\_\-transaction@{gsb\_\-data\_\-transaction\_\-get\_\-automatic\_\-transaction}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-automatic\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-automatic\_\-transaction (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a4cc433dd23e93537f8554d6e1532f794}
+get the automatic\_\-transaction 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+1 if the transaction was taken automaticly 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1581 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-bank\_\-references@{gsb\_\-data\_\-transaction\_\-get\_\-bank\_\-references}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-bank\_\-references@{gsb\_\-data\_\-transaction\_\-get\_\-bank\_\-references}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-bank\_\-references}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-transaction\_\-get\_\-bank\_\-references (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a8ef7712f47278152551c3d9454ecf36a}
+get the bank\_\-references
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+bank\_\-references 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1849 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-budgetary\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-budgetary\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-budgetary\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-budgetary\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-budgetary\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-budgetary\_\-number (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a4d84c55dbdfa032c500f4ade0754501f}
+get the budgetary\_\-number 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the budgetary\_\-number of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1721 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-category\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-category\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-category\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-category\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-category\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-category\_\-number (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a5cdaf5e8911118bf8d1dbdfc42dc4761}
+get the category\_\-number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the category number of the transaction, -\/1 for error 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1160 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-change\_\-between@{gsb\_\-data\_\-transaction\_\-get\_\-change\_\-between}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-change\_\-between@{gsb\_\-data\_\-transaction\_\-get\_\-change\_\-between}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-change\_\-between}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-change\_\-between (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_afd1af457967cb31d2c7396bc1f19adf7}
+get the change\_\-between\_\-account\_\-and\_\-transaction if the value is 1, we have : 1 account\_\-currency = (exchange\_\-rate $\ast$ amount) transaction\_\-currency else we have : 1 transaction\_\-currency = (exchange\_\-rate $\ast$ amount) account\_\-currency
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the currency number of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 902 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-children@{gsb\_\-data\_\-transaction\_\-get\_\-children}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-children@{gsb\_\-data\_\-transaction\_\-get\_\-children}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-children}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-transaction\_\-get\_\-children (gint {\em transaction\_\-number}, \/  gboolean {\em return\_\-number})}\label{gsb__data__transaction_8h_a7694ce23370b2f50ab250c3162aaa0b3}
+find the children of the split given in param and return their adress or their number in a GSList the list sould be freed
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]a split of transaction \item[{\em return\_\-number}]TRUE if we want a list of numbers, FALSE if we want a list of adress\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a GSList of the address/numbers of the children, NULL if no child 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2392 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-complete\_\-transactions\_\-list@{gsb\_\-data\_\-transaction\_\-get\_\-complete\_\-transactions\_\-list}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-complete\_\-transactions\_\-list@{gsb\_\-data\_\-transaction\_\-get\_\-complete\_\-transactions\_\-list}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-complete\_\-transactions\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-transaction\_\-get\_\-complete\_\-transactions\_\-list (void)}\label{gsb__data__transaction_8h_aa54aeb205f29c2272154b2998fea490b}
+return a pointer to the complete g\_\-slist of transactions structure it's not a copy, so we must not free or change it if we want to change something, use gsb\_\-data\_\-transaction\_\-copy\_\-transactions\_\-list instead THIS IS THE COMPLETE LIST (WITH THE ARCHIVED TRANSACTIONS)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the slist of transactions structures 
+\end{DoxyReturn}
+
+
+Définition à la ligne 172 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-account@{gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-account}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-account@{gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-account}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-account (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a655b6ad03fae3a20ff86adffc95a3ab3}
+get the account number of the contra transaction it's not saved into grisbi, this function avoid just to get the contra-\/transaction and find its account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the account number of the contra-\/transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1947 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-contra\_\-transaction\_\-number (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a4040925a3db49485b5a2b0a8ea19d2ee}
+get the transaction\_\-number\_\-transfer
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the transaction\_\-number\_\-transfer number of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1902 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-currency\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-currency\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-currency\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-currency\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-currency\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-currency\_\-number (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_aa39edcb597bd75a438b00b67cf898e88}
+get the currency\_\-number 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the currency number of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 835 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-date@{gsb\_\-data\_\-transaction\_\-get\_\-date}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-date@{gsb\_\-data\_\-transaction\_\-get\_\-date}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}const GDate$\ast$ gsb\_\-data\_\-transaction\_\-get\_\-date (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_ab0b62014885bcf3e2fbfff1ae9b32080}
+get the GDate of the transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the GDate of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 501 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-fees@{gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-fees}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-fees@{gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-fees}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-fees}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-fees (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_ae9b1f8064c54242943010ba571769529}
+get the exchange\_\-fees of the transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the exchange\_\-fees of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1032 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-rate@{gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-rate}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-rate@{gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-rate}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-rate}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-data\_\-transaction\_\-get\_\-exchange\_\-rate (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a4a80a52634eeaaaa3b1ad3ad2e83389f}
+get the exchange\_\-rate of the transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the exchange\_\-rate of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 969 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-financial\_\-year\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-financial\_\-year\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-financial\_\-year\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-financial\_\-year\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-financial\_\-year\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-financial\_\-year\_\-number (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_ae8f3e659e304f02abd6c2ae7dd759203}
+get the financial\_\-year\_\-number 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the financial\_\-year\_\-number 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1679 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-id@{gsb\_\-data\_\-transaction\_\-get\_\-id}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-id@{gsb\_\-data\_\-transaction\_\-get\_\-id}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-transaction\_\-get\_\-id (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a14a1730f01690f24ee0b884cb9654e72}
+get the id of the transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the id of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2638 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-last\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-last\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-last\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-last\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-last\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-last\_\-number (void)}\label{gsb__data__transaction_8h_ad5e10499d956a8613076bbd11fa8d376}
+find the last number of transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number 
+\end{DoxyReturn}
+
+
+Définition à la ligne 226 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-last\_\-transaction\_\-with\_\-div\_\-sub\_\-div@{gsb\_\-data\_\-transaction\_\-get\_\-last\_\-transaction\_\-with\_\-div\_\-sub\_\-div}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-last\_\-transaction\_\-with\_\-div\_\-sub\_\-div@{gsb\_\-data\_\-transaction\_\-get\_\-last\_\-transaction\_\-with\_\-div\_\-sub\_\-div}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-last\_\-transaction\_\-with\_\-div\_\-sub\_\-div}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-data\_\-transaction\_\-get\_\-last\_\-transaction\_\-with\_\-div\_\-sub\_\-div (gint {\em account\_\-number}, \/  gint {\em div\_\-number}, \/  gint {\em sub\_\-div\_\-nb}, \/  gint {\em type\_\-div})}\label{gsb__data__transaction_8h_a8fe058c05884ab1196d1b8b0286a1db9}
+
+
+Définition à la ligne 2657 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-marked\_\-transaction@{gsb\_\-data\_\-transaction\_\-get\_\-marked\_\-transaction}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-marked\_\-transaction@{gsb\_\-data\_\-transaction\_\-get\_\-marked\_\-transaction}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-marked\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-marked\_\-transaction (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a52cf9684818c3930c5c688b54f7cf393}
+get the marked\_\-transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the marked\_\-transaction : OPERATION\_\-NORMALE, OPERATION\_\-POINTEE, OPERATION\_\-TELERAPPROCHEE, OPERATION\_\-RAPPROCHEE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1454 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-content@{gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-content}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-content@{gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-content}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-content (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a018a31b8a8fe99e813b4876206cf59a1}
+get the method\_\-of\_\-payment\_\-content
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the method\_\-of\_\-payment\_\-content of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1400 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-method\_\-of\_\-payment\_\-number (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_aa9bc2b3aba6d0a4df30e0584ab56ede0}
+get the method\_\-of\_\-payment\_\-number 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the method\_\-of\_\-payment\_\-number 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1338 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-mother\_\-transaction\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-mother\_\-transaction\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-mother\_\-transaction\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-mother\_\-transaction\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-mother\_\-transaction\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-mother\_\-transaction\_\-number (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a6018560ece7ab02e8d46bc9bdaffd607}
+get the mother\_\-transaction\_\-number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the mother\_\-transaction\_\-number of the transaction or 0 if the transaction doen't exist 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1974 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-notes@{gsb\_\-data\_\-transaction\_\-get\_\-notes}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-notes@{gsb\_\-data\_\-transaction\_\-get\_\-notes}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-notes}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-transaction\_\-get\_\-notes (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_ad73b393673217f5b9cc295c74e030550}
+get the notes
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the notes of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1287 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-party\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-party\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-party\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-party\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-party\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-party\_\-number (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_afa032df45afa2ad7a4be48449a7e8d15}
+get the party\_\-number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the currency number of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1096 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-pointer\_\-of\_\-transaction@{gsb\_\-data\_\-transaction\_\-get\_\-pointer\_\-of\_\-transaction}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-pointer\_\-of\_\-transaction@{gsb\_\-data\_\-transaction\_\-get\_\-pointer\_\-of\_\-transaction}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-pointer\_\-of\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gpointer gsb\_\-data\_\-transaction\_\-get\_\-pointer\_\-of\_\-transaction (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a4d90c43dcc4db054a1e2ec3b9ff45acc}
+transitionnal fonction, give back the pointer to the transaction, normally deleted when the transfer from old transactions is finished set also in the transactions list, check if it's fast enough with only the transactions number ?
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a pointer to the structure of the transation 
+\end{DoxyReturn}
+
+
+Définition à la ligne 210 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-reconcile\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-reconcile\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-reconcile\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-reconcile\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-reconcile\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-reconcile\_\-number (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a1f902ce2841e41d3eda536f2fdd3c32f}
+get the reconcile\_\-number 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the reconcile\_\-number 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1619 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-split\_\-of\_\-transaction@{gsb\_\-data\_\-transaction\_\-get\_\-split\_\-of\_\-transaction}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-split\_\-of\_\-transaction@{gsb\_\-data\_\-transaction\_\-get\_\-split\_\-of\_\-transaction}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-split\_\-of\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-split\_\-of\_\-transaction (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a2de1ba38ee196b44e3c00c10e1d645cc}
+check if the transaction is a split (mother)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if the transaction is a split of transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1243 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-budgetary\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-budgetary\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-budgetary\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-budgetary\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-budgetary\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-budgetary\_\-number (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a44dbcf1f953a233d0038027289aa2372}
+get the sub\_\-budgetary\_\-number 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the sub\_\-budgetary\_\-number number of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1759 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-category\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-category\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-category\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-category\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-category\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-sub\_\-category\_\-number (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a2e0ed6fbd584d4363d75e4b0155660b7}
+get the sub\_\-category\_\-number 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the sub\_\-category number of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1198 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-id@{gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-id}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-id@{gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-id}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-id (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_ad171eaf081403c90154beddf8521983f}
+get the transaction\_\-id 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction \item[{\em no\_\-account}]the number of account, may be -\/1, in that case we will look for the transaction in all accounts \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the id of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 385 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-number@{gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-transaction\_\-number (gpointer {\em transaction\_\-pointer})}\label{gsb__data__transaction_8h_a99bf548513083f4a71fe019faeccbe0a}
+get the number of the transaction and save the pointer in the buffer which will increase the speed later 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction}]a pointer to a transaction \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 290 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list@{gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list@{gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list (void)}\label{gsb__data__transaction_8h_af781a71a62eece020188ef62847f2887}
+return a pointer to the g\_\-slist of transactions structure it's not a copy, so we must not free or change it if we want to change something, use gsb\_\-data\_\-transaction\_\-copy\_\-transactions\_\-list instead THIS IS THE LIST WITHOUT THE ARCHIVED TRANSACTIONS
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the slist of transactions structures 
+\end{DoxyReturn}
+
+
+Définition à la ligne 157 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list\_\-by\_\-date@{gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list\_\-by\_\-date}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list\_\-by\_\-date@{gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list\_\-by\_\-date}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list\_\-by\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-transaction\_\-get\_\-transactions\_\-list\_\-by\_\-date (void)}\label{gsb__data__transaction_8h_ad256f5a749101f04cc270ce095eb9664}
+return a copy of the g\_\-slist of transactions structure sorted by date $\ast$ THIS IS THE LIST WITHOUT THE ARCHIVED TRANSACTIONS
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the slist of transactions structures 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2616 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date@{gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date@{gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}const GDate$\ast$ gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a5851b4114a8f23b40107fba99ae2fbef}
+get the value GDate of the transaction 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the GDate of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 570 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date\_\-or\_\-date@{gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date\_\-or\_\-date}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date\_\-or\_\-date@{gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date\_\-or\_\-date}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date\_\-or\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}const GDate$\ast$ gsb\_\-data\_\-transaction\_\-get\_\-value\_\-date\_\-or\_\-date (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_ab576cdbff4a0fdea4fbcbfed6d0a1669}
+get the value GDate of the transaction or the date if not exist
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the GDate of the transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 641 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-voucher@{gsb\_\-data\_\-transaction\_\-get\_\-voucher}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-voucher@{gsb\_\-data\_\-transaction\_\-get\_\-voucher}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-voucher}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-transaction\_\-get\_\-voucher (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_ad9886b09c3afc57a5c551896046a849a}
+get the voucher 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the number of the transaction \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+voucher 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1797 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-get\_\-white\_\-line@{gsb\_\-data\_\-transaction\_\-get\_\-white\_\-line}}
+\index{gsb\_\-data\_\-transaction\_\-get\_\-white\_\-line@{gsb\_\-data\_\-transaction\_\-get\_\-white\_\-line}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-get\_\-white\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-get\_\-white\_\-line (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_aaa9fc2828adf9b46a72b51e31df44d58}
+find the white line corresponding to the transaction given in param and return the number if the transaction is not a split, return -\/1, the general white line
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]a split transaction number\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the white line of the split or -\/1 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2536 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-init\_\-variables@{gsb\_\-data\_\-transaction\_\-init\_\-variables}}
+\index{gsb\_\-data\_\-transaction\_\-init\_\-variables@{gsb\_\-data\_\-transaction\_\-init\_\-variables}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-init\_\-variables}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-init\_\-variables (void)}\label{gsb__data__transaction_8h_a63f15bb161bcca8969c77167a8ae0b97}
+set the transactions global variables to NULL, usually when we init all the global variables
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 140 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-new\_\-transaction@{gsb\_\-data\_\-transaction\_\-new\_\-transaction}}
+\index{gsb\_\-data\_\-transaction\_\-new\_\-transaction@{gsb\_\-data\_\-transaction\_\-new\_\-transaction}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-new\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-new\_\-transaction (gint {\em no\_\-account})}\label{gsb__data__transaction_8h_af65a20fc0270cbfbc5d69f5d55da8112}
+create a new transaction with gsb\_\-data\_\-transaction\_\-new\_\-transaction\_\-with\_\-number but set automatickly the last number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-account}]the number of the account where the transaction should be made\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the new transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2065 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-new\_\-transaction\_\-with\_\-number@{gsb\_\-data\_\-transaction\_\-new\_\-transaction\_\-with\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-new\_\-transaction\_\-with\_\-number@{gsb\_\-data\_\-transaction\_\-new\_\-transaction\_\-with\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-new\_\-transaction\_\-with\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-new\_\-transaction\_\-with\_\-number (gint {\em no\_\-account}, \/  gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_afc9fc27f5219a49d80fb0922c904439d}
+create a new transaction and append it to the list in the right account set the transaction number given in param (if no number, give the last number + 1) set the number of the account, the number of the transaction and the currency number which is by default the currency of the account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-account}]the number of the account where the transaction should be made \item[{\em transaction\_\-number}]the number of the transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the new transaction 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2023 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-new\_\-white\_\-line@{gsb\_\-data\_\-transaction\_\-new\_\-white\_\-line}}
+\index{gsb\_\-data\_\-transaction\_\-new\_\-white\_\-line@{gsb\_\-data\_\-transaction\_\-new\_\-white\_\-line}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-new\_\-white\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-transaction\_\-new\_\-white\_\-line (gint {\em mother\_\-transaction\_\-number})}\label{gsb__data__transaction_8h_a06ebb4be3d0f5e8ca2a53bbb74fb6ef8}
+create a new white line if there is a mother transaction, it's a split and we increment in the negatives values the number of that line without mother transaction, it's the general white line, the number is -\/1
+
+if it's a child split, the account is set as for its mother, if it's the last white line, the account is set to -\/1 that transaction is appended to the white transactions list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em mother\_\-transaction\_\-number}]the number of the mother's transaction if it's a split child ; 0 if not\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the white line 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2086 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-remove\_\-transaction@{gsb\_\-data\_\-transaction\_\-remove\_\-transaction}}
+\index{gsb\_\-data\_\-transaction\_\-remove\_\-transaction@{gsb\_\-data\_\-transaction\_\-remove\_\-transaction}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-remove\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-remove\_\-transaction (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_aef8db2326b8eb8bce54ee20df4f49c1e}
+remove the transaction from the transaction's list free the transaction if there is a contra-\/transaction, remove it too if there is some children, remove them and their contra-\/transaction if they exist
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2226 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-remove\_\-transaction\_\-without\_\-check@{gsb\_\-data\_\-transaction\_\-remove\_\-transaction\_\-without\_\-check}}
+\index{gsb\_\-data\_\-transaction\_\-remove\_\-transaction\_\-without\_\-check@{gsb\_\-data\_\-transaction\_\-remove\_\-transaction\_\-without\_\-check}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-remove\_\-transaction\_\-without\_\-check}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-remove\_\-transaction\_\-without\_\-check (gint {\em transaction\_\-number})}\label{gsb__data__transaction_8h_a29e77fb492430ce1ddc9fad9ba9dab96}
+remove the transaction from the transaction's list just do it and only for that transaction, check nothing usefull when we need to delete a lot of transactions in one time (example to delete an archive)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2331 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-account\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-account\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-account\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-account\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-account\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-account\_\-number (gint {\em transaction\_\-number}, \/  gint {\em no\_\-account})}\label{gsb__data__transaction_8h_a06c1da0256f9341801ea21685bb99186}
+set the account\_\-number of the transaction if the transaction has some children, they change too
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em no\_\-account}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 457 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-amount@{gsb\_\-data\_\-transaction\_\-set\_\-amount}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-amount@{gsb\_\-data\_\-transaction\_\-set\_\-amount}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-amount (gint {\em transaction\_\-number}, \/  {\bf gsb\_\-real} {\em amount})}\label{gsb__data__transaction_8h_a76fbbfabc4f16f0f8a51d843785862d7}
+set the amount of the transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em amount}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 685 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-archive\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-archive\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-archive\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-archive\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-archive\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-archive\_\-number (gint {\em transaction\_\-number}, \/  gint {\em archive\_\-number})}\label{gsb__data__transaction_8h_adc4e030e27ded40c7fde043e91ca8811}
+set the number of the archive if it's an archived transaction add or remove the transaction from the list of transactions without archive according to the value
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em archive\_\-number}]or 0 if not an archive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1540 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-automatic\_\-transaction@{gsb\_\-data\_\-transaction\_\-set\_\-automatic\_\-transaction}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-automatic\_\-transaction@{gsb\_\-data\_\-transaction\_\-set\_\-automatic\_\-transaction}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-automatic\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-automatic\_\-transaction (gint {\em transaction\_\-number}, \/  gint {\em automatic\_\-transaction})}\label{gsb__data__transaction_8h_a6211d83ecff1be17883d8cc6427a19aa}
+set the automatic\_\-transaction 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em automatic\_\-transaction}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1599 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-bank\_\-references@{gsb\_\-data\_\-transaction\_\-set\_\-bank\_\-references}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-bank\_\-references@{gsb\_\-data\_\-transaction\_\-set\_\-bank\_\-references}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-bank\_\-references}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-bank\_\-references (gint {\em transaction\_\-number}, \/  const gchar $\ast$ {\em bank\_\-references})}\label{gsb__data__transaction_8h_a4e91601dcc725a5ff6a109e4d1dad915}
+set the bank\_\-references it's a copy of the parameter which will be stored in the transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em bank\_\-references.}]This string may be NULL. If not NULL, the string is duplicated.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1871 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-budgetary\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-budgetary\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-budgetary\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-budgetary\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-budgetary\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-budgetary\_\-number (gint {\em transaction\_\-number}, \/  gint {\em budgetary\_\-number})}\label{gsb__data__transaction_8h_a5cdc1a654e5dbb278af9ad23828fe82d}
+set the budgetary\_\-number 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em budgetary\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1739 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-category\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-category\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-category\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-category\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-category\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-category\_\-number (gint {\em transaction\_\-number}, \/  gint {\em no\_\-category})}\label{gsb__data__transaction_8h_a31f2706a543b988ba279b1cddb40c53e}
+set the category\_\-number 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em value}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1178 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-change\_\-between@{gsb\_\-data\_\-transaction\_\-set\_\-change\_\-between}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-change\_\-between@{gsb\_\-data\_\-transaction\_\-set\_\-change\_\-between}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-change\_\-between}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-change\_\-between (gint {\em transaction\_\-number}, \/  gint {\em value})}\label{gsb__data__transaction_8h_a2f40c4afd62edb73a6da1b79951c3fa3}
+set the change\_\-between\_\-account\_\-and\_\-transaction if the value is 1, we have : 1 account\_\-currency = (exchange\_\-rate $\ast$ amount) transaction\_\-currency else we have : 1 transaction\_\-currency = (exchange\_\-rate $\ast$ amount) account\_\-currency if the transaction has some children, they change too
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em value}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 926 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-contra\_\-transaction\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-contra\_\-transaction\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-contra\_\-transaction\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-contra\_\-transaction\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-contra\_\-transaction\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-contra\_\-transaction\_\-number (gint {\em transaction\_\-number}, \/  gint {\em transaction\_\-number\_\-transfer})}\label{gsb__data__transaction_8h_a7b333676b59c4dae3c5e56a88b4981e3}
+set the transaction\_\-number\_\-transfer
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em transaction\_\-number\_\-transfer}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1922 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-currency\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-currency\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-currency\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-currency\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-currency\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-currency\_\-number (gint {\em transaction\_\-number}, \/  gint {\em no\_\-currency})}\label{gsb__data__transaction_8h_ad36cc91a9e388b0d249e8d65c17debc0}
+set the currency\_\-number if the transaction has some children, they change too
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em no\_\-currency}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 857 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-date@{gsb\_\-data\_\-transaction\_\-set\_\-date}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-date@{gsb\_\-data\_\-transaction\_\-set\_\-date}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-date (gint {\em transaction\_\-number}, \/  const GDate $\ast$ {\em date})}\label{gsb__data__transaction_8h_a1e1d28bf9c59c6e0f24eaaa68769d302}
+set the GDate of the transaction if the transaction has some children, they change too
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em no\_\-account}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 523 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-fees@{gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-fees}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-fees@{gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-fees}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-fees}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-fees (gint {\em transaction\_\-number}, \/  {\bf gsb\_\-real} {\em rate})}\label{gsb__data__transaction_8h_a46915d31d731950c840d3ea7b8caf226}
+set the exchange\_\-fees of the transaction if the transaction has some children, they change too
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em rate}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1054 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-rate@{gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-rate}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-rate@{gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-rate}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-rate}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-exchange\_\-rate (gint {\em transaction\_\-number}, \/  {\bf gsb\_\-real} {\em rate})}\label{gsb__data__transaction_8h_ab820052bef3b75398e7a95f5ff25574d}
+set the exchange\_\-rate of the transaction if the transaction has some children, they change too
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em rate}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 991 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-financial\_\-year\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-financial\_\-year\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-financial\_\-year\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-financial\_\-year\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-financial\_\-year\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-financial\_\-year\_\-number (gint {\em transaction\_\-number}, \/  gint {\em financial\_\-year\_\-number})}\label{gsb__data__transaction_8h_a305e4bd347a0b42e2a5379b4c109d5b2}
+set the financial\_\-year\_\-number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em financial\_\-year\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1700 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-marked\_\-transaction@{gsb\_\-data\_\-transaction\_\-set\_\-marked\_\-transaction}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-marked\_\-transaction@{gsb\_\-data\_\-transaction\_\-set\_\-marked\_\-transaction}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-marked\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-marked\_\-transaction (gint {\em transaction\_\-number}, \/  gint {\em marked\_\-transaction})}\label{gsb__data__transaction_8h_ad6f2f1403737959c3aee7059b7115399}
+set the marked\_\-transaction if the transaction has some children, they change too
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em marked\_\-transaction}]: OPERATION\_\-NORMALE, OPERATION\_\-POINTEE, OPERATION\_\-TELERAPPROCHEE, OPERATION\_\-RAPPROCHEE\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1476 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-content@{gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-content}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-content@{gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-content}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-content (gint {\em transaction\_\-number}, \/  const gchar $\ast$ {\em method\_\-of\_\-payment\_\-content})}\label{gsb__data__transaction_8h_ac4d8a66d20d37abac0fd3af84460921c}
+set the method\_\-of\_\-payment\_\-content dupplicate the parameter before storing it in the transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em no\_\-account}]\item[{\em method\_\-of\_\-payment\_\-content}]a gchar with the new method\_\-of\_\-payment\_\-content \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1422 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-method\_\-of\_\-payment\_\-number (gint {\em transaction\_\-number}, \/  gint {\em number})}\label{gsb__data__transaction_8h_a2ec47094f3a4b930dc6057f574af8019}
+set the method\_\-of\_\-payment\_\-number if the transaction has some children, they change too
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1360 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-mother\_\-transaction\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-mother\_\-transaction\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-mother\_\-transaction\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-mother\_\-transaction\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-mother\_\-transaction\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-mother\_\-transaction\_\-number (gint {\em transaction\_\-number}, \/  gint {\em mother\_\-transaction\_\-number})}\label{gsb__data__transaction_8h_abfffebad5a6949bd032c09311e3f995e}
+set the mother\_\-transaction\_\-number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em mother\_\-transaction\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1995 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-notes@{gsb\_\-data\_\-transaction\_\-set\_\-notes}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-notes@{gsb\_\-data\_\-transaction\_\-set\_\-notes}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-notes}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-notes (gint {\em transaction\_\-number}, \/  const gchar $\ast$ {\em notes})}\label{gsb__data__transaction_8h_ab503c0949e0aff8438156f760e20f85e}
+set the notes the notes parameter will be copy before stored in memory 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em no\_\-account}]\item[{\em notes}]a gchar with the new notes. This string is duplicated. \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1307 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-party\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-party\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-party\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-party\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-party\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-party\_\-number (gint {\em transaction\_\-number}, \/  gint {\em no\_\-party})}\label{gsb__data__transaction_8h_ae334be534c1cfcc7dacf260008ee49f2}
+set the party\_\-number if the transaction has some children, they change too
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em value}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1118 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-reconcile\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-reconcile\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-reconcile\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-reconcile\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-reconcile\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-reconcile\_\-number (gint {\em transaction\_\-number}, \/  gint {\em reconcile\_\-number})}\label{gsb__data__transaction_8h_ab8a486754eb6b78bc3eaf156de7cec3f}
+set the reconcile\_\-number if the transaction has some children, they change too
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em reconcile\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1641 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-split\_\-of\_\-transaction@{gsb\_\-data\_\-transaction\_\-set\_\-split\_\-of\_\-transaction}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-split\_\-of\_\-transaction@{gsb\_\-data\_\-transaction\_\-set\_\-split\_\-of\_\-transaction}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-split\_\-of\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-split\_\-of\_\-transaction (gint {\em transaction\_\-number}, \/  gint {\em is\_\-split})}\label{gsb__data__transaction_8h_a6296340e0b31e2f5433b37924b86b3e6}
+set the transaction as split or not
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em is\_\-split}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1264 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-budgetary\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-budgetary\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-budgetary\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-budgetary\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-budgetary\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-budgetary\_\-number (gint {\em transaction\_\-number}, \/  gint {\em sub\_\-budgetary\_\-number})}\label{gsb__data__transaction_8h_aae141d1ea0866286b7d86231862e2b0a}
+set the sub\_\-budgetary\_\-number 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em sub\_\-budgetary\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1777 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-category\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-category\_\-number}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-category\_\-number@{gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-category\_\-number}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-category\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-sub\_\-category\_\-number (gint {\em transaction\_\-number}, \/  gint {\em no\_\-sub\_\-category})}\label{gsb__data__transaction_8h_a0a63ca7e6d34a226c6f0b8b339fbf518}
+set the sub\_\-category\_\-number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em value}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1220 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-transaction\_\-id@{gsb\_\-data\_\-transaction\_\-set\_\-transaction\_\-id}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-transaction\_\-id@{gsb\_\-data\_\-transaction\_\-set\_\-transaction\_\-id}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-transaction\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-transaction\_\-id (gint {\em transaction\_\-number}, \/  const gchar $\ast$ {\em transaction\_\-id})}\label{gsb__data__transaction_8h_aaafdf25dfa0a28d07716500082f6c35c}
+set the transaction\_\-id 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em no\_\-account}]\item[{\em transaction\_\-id}]a gchar with the new transaction\_\-id \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 407 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-value\_\-date@{gsb\_\-data\_\-transaction\_\-set\_\-value\_\-date}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-value\_\-date@{gsb\_\-data\_\-transaction\_\-set\_\-value\_\-date}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-value\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-value\_\-date (gint {\em transaction\_\-number}, \/  const GDate $\ast$ {\em date})}\label{gsb__data__transaction_8h_a4c7ae911e47c4968dea14e48bafa34ff}
+set the value GDate of the transaction if the transaction has some children, they change too
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em date}]the value date\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 592 du fichier gsb\_\-data\_\-transaction.c.
+
+\index{gsb\_\-data\_\-transaction.h@{gsb\_\-data\_\-transaction.h}!gsb\_\-data\_\-transaction\_\-set\_\-voucher@{gsb\_\-data\_\-transaction\_\-set\_\-voucher}}
+\index{gsb\_\-data\_\-transaction\_\-set\_\-voucher@{gsb\_\-data\_\-transaction\_\-set\_\-voucher}!gsb_data_transaction.h@{gsb\_\-data\_\-transaction.h}}
+\subsubsection[{gsb\_\-data\_\-transaction\_\-set\_\-voucher}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-transaction\_\-set\_\-voucher (gint {\em transaction\_\-number}, \/  const gchar $\ast$ {\em voucher})}\label{gsb__data__transaction_8h_a19ae235973c5bd3bbf35b25c12cc383e}
+set the voucher it's a copy of the parameter which will be stored in the transaction 
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em voucher.}]The string is duplicated. \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1816 du fichier gsb\_\-data\_\-transaction.c.
+

@@ -1,0 +1,413 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_data_form.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_data_form.c</h1><a href="gsb__data__form_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)           */</span>
+<a name="l00004"></a>00004 <span class="comment">/*                      2003-2008 Benjamin Drieu (bdrieu@april.org)           */</span>
+<a name="l00005"></a>00005 <span class="comment">/*                      http://www.grisbi.org                                 */</span>
+<a name="l00006"></a>00006 <span class="comment">/*                                                                            */</span>
+<a name="l00007"></a>00007 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00010"></a>00010 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00011"></a>00011 <span class="comment">/*                                                                            */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00015"></a>00015 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00016"></a>00016 <span class="comment">/*                                                                            */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00019"></a>00019 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00020"></a>00020 <span class="comment">/*                                                                            */</span>
+<a name="l00021"></a>00021 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00022"></a>00022 
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__form_8h.html">gsb_data_form.h</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="dialog_8h.html">dialog.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__account_8h.html">gsb_data_account.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="gsb__form_8h.html">gsb_form.h</a>&quot;</span>
+<a name="l00036"></a>00036 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="comment">/*START_STATIC*/</span>
+<a name="l00039"></a>00039 <span class="comment">/*END_STATIC*/</span>
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00042"></a>00042 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 
+<a name="l00050"></a>00050 <span class="comment">/* struct organisation_formulaire */</span>
+<a name="l00051"></a><a class="code" href="structform__organization.html">00051</a> <span class="keyword">typedef</span> <span class="keyword">struct</span>
+<a name="l00052"></a>00052 {
+<a name="l00053"></a>00053     <span class="comment">/* 1 to 6 columns */</span>
+<a name="l00054"></a><a class="code" href="structform__organization.html#a216862dbacc9bb4b3570bb2b0a346324">00054</a>     gint columns;
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056     <span class="comment">/* 1 to 4 rows */</span>
+<a name="l00057"></a><a class="code" href="structform__organization.html#ad46c64de9c51bcbbf22606d12b60e37f">00057</a>     gint rows;
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059     <span class="comment">/* form&#39;s filled by : */</span>
+<a name="l00060"></a>00060     <span class="comment">/*  1: TRANSACTION_FORM_DATE (always set) */</span>
+<a name="l00061"></a>00061     <span class="comment">/*  2: TRANSACTION_FORM_DEBIT (always set) */</span>
+<a name="l00062"></a>00062     <span class="comment">/*  3: TRANSACTION_FORM_CREDIT (always set) */</span>
+<a name="l00063"></a>00063     <span class="comment">/*  4: TRANSACTION_FORM_VALUE_DATE */</span>
+<a name="l00064"></a>00064     <span class="comment">/*  5: TRANSACTION_FORM_EXERCICE */</span>
+<a name="l00065"></a>00065     <span class="comment">/*  6: TRANSACTION_FORM_PARTY */</span>
+<a name="l00066"></a>00066     <span class="comment">/*  7: TRANSACTION_FORM_CATEGORY */</span>
+<a name="l00067"></a>00067     <span class="comment">/*  8: TRANSACTION_FORM_FREE */</span>
+<a name="l00068"></a>00068     <span class="comment">/*  9: TRANSACTION_FORM_BUDGET */</span>
+<a name="l00069"></a>00069     <span class="comment">/*  10: TRANSACTION_FORM_NOTES */</span>
+<a name="l00070"></a>00070     <span class="comment">/*  11: TRANSACTION_FORM_TYPE */</span>
+<a name="l00071"></a>00071     <span class="comment">/*  12: TRANSACTION_FORM_CHEQUE */</span>
+<a name="l00072"></a>00072     <span class="comment">/*  13: TRANSACTION_FORM_DEVISE */</span>
+<a name="l00073"></a>00073     <span class="comment">/*  14: TRANSACTION_FORM_CHANGE */</span>
+<a name="l00074"></a>00074     <span class="comment">/*  15: TRANSACTION_FORM_VOUCHER */</span>
+<a name="l00075"></a>00075     <span class="comment">/*  16: TRANSACTION_FORM_BANK */</span>
+<a name="l00076"></a>00076     <span class="comment">/*  17: TRANSACTION_FORM_CONTRA */</span>
+<a name="l00077"></a>00077     <span class="comment">/*  18: TRANSACTION_FORM_OP_NB */</span>
+<a name="l00078"></a>00078     <span class="comment">/*  19: TRANSACTION_FORM_MODE */</span>
+<a name="l00079"></a>00079     <span class="comment">/*  20: TRANSACTION_FORM_WIDGET_NB */</span>
+<a name="l00080"></a>00080         
+<a name="l00081"></a><a class="code" href="structform__organization.html#a74fdc5856bd870532d56599ebf9d1960">00081</a>     gint form_table[<a class="code" href="gsb__data__form_8h.html#a9059fa76eb5e8e86f870405d63e72c4c">MAX_HEIGHT</a>][<a class="code" href="gsb__data__form_8h.html#a0e9d4003787634607af9e97e14b9668b">MAX_WIDTH</a>];
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083     <span class="comment">/* percentage of each columns */</span>
+<a name="l00084"></a><a class="code" href="structform__organization.html#a2860e560a7a59e289b15d32e49136236">00084</a>     gint width_columns_percent[<a class="code" href="gsb__data__form_8h.html#a0e9d4003787634607af9e97e14b9668b">MAX_WIDTH</a>];
+<a name="l00085"></a>00085 } <a class="code" href="structform__organization.html">form_organization</a>;
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 
+<a name="l00097"></a><a class="code" href="gsb__data__form_8h.html#a8e695941eaf64be2d15afd287e064523">00097</a> gboolean <a class="code" href="gsb__data__form_8c.html#a8e695941eaf64be2d15afd287e064523">gsb_data_form_new_organization</a> ( gint account_number )
+<a name="l00098"></a>00098 {
+<a name="l00099"></a>00099     <a class="code" href="structform__organization.html">form_organization</a> *new_form;
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101     new_form = g_malloc0 (<span class="keyword">sizeof</span> (<a class="code" href="structform__organization.html">form_organization</a>));
+<a name="l00102"></a>00102     
+<a name="l00103"></a>00103     <span class="keywordflow">if</span> ( !new_form )
+<a name="l00104"></a>00104     {
+<a name="l00105"></a>00105         <a class="code" href="dialog_8c.html#abb50e706a2eedd167eeb63d2de9c1245">dialogue_error_memory</a> ();
+<a name="l00106"></a>00106         <span class="keywordflow">return</span> FALSE;
+<a name="l00107"></a>00107     }
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109     <a class="code" href="gsb__data__account_8c.html#a49f45eb02ce5833905fc2db3f5d2ecf2">gsb_data_account_set_form_organization</a> ( account_number,
+<a name="l00110"></a>00110                                              new_form );
+<a name="l00111"></a>00111     <span class="keywordflow">return</span> FALSE;
+<a name="l00112"></a>00112 }
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114 
+<a name="l00123"></a><a class="code" href="gsb__data__form_8h.html#a4f0c2bea1f39f695cccdee80bb8fe2ee">00123</a> gboolean <a class="code" href="gsb__data__form_8c.html#a4f0c2bea1f39f695cccdee80bb8fe2ee">gsb_data_form_set_default_organization</a> ( gint account_number )
+<a name="l00124"></a>00124 {
+<a name="l00125"></a>00125     <a class="code" href="structform__organization.html">form_organization</a> *form;
+<a name="l00126"></a>00126     gint tab[<a class="code" href="gsb__data__form_8h.html#a9059fa76eb5e8e86f870405d63e72c4c">MAX_HEIGHT</a>][<a class="code" href="gsb__data__form_8h.html#a0e9d4003787634607af9e97e14b9668b">MAX_WIDTH</a>] = { 
+<a name="l00127"></a>00127         { <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a6f643a4593287663756c1a27ab737928">TRANSACTION_FORM_DATE</a>, <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0ada5fb376a464a271d8367106cb8725e6">TRANSACTION_FORM_PARTY</a>, <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0adf4d1c605b1a540b073456f78b0ce09e">TRANSACTION_FORM_DEBIT</a>, <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0aea838f4dc3955f3ab0c14629e0e9ef15">TRANSACTION_FORM_CREDIT</a>, 0, 0 },
+<a name="l00128"></a>00128         { 0, <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a1aaea0001978835b5bfaf82154adc0a4">TRANSACTION_FORM_CATEGORY</a>, <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a3ae7bb2abdcc2e5494d0f453108d39ef">TRANSACTION_FORM_TYPE</a>, <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0ab040b10c7b94b662ad06c18899b16451">TRANSACTION_FORM_CHEQUE</a>, 0, 0 },
+<a name="l00129"></a>00129         { 0, <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a46d819ca8a4fdfc977e280e8ddd86e35">TRANSACTION_FORM_NOTES</a>, <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a7e4cf07a1e574ca1a47cb41f16380752">TRANSACTION_FORM_CONTRA</a>, 0, 0, 0 },
+<a name="l00130"></a>00130         { 0, 0, 0, 0, 0, 0 }
+<a name="l00131"></a>00131     };
+<a name="l00132"></a>00132     gint width[<a class="code" href="gsb__data__form_8h.html#a0e9d4003787634607af9e97e14b9668b">MAX_WIDTH</a>] = { 15, 50, 15, 15, 0, 0 };
+<a name="l00133"></a>00133     gint i, j;
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135     form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> ( account_number );
+<a name="l00136"></a>00136     
+<a name="l00137"></a>00137     <span class="keywordflow">if</span> ( !form )
+<a name="l00138"></a>00138         <span class="keywordflow">return</span> FALSE;
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140     <span class="comment">/* by default, 4 columns and 3 rows */</span>
+<a name="l00141"></a>00141     form -&gt; columns = 4;
+<a name="l00142"></a>00142     form -&gt; rows = 3;
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144     <span class="keywordflow">for</span> ( i = 0 ; i&lt;<a class="code" href="gsb__data__form_8h.html#a9059fa76eb5e8e86f870405d63e72c4c">MAX_HEIGHT</a> ; i++ )
+<a name="l00145"></a>00145         <span class="keywordflow">for</span> ( j = 0 ; j&lt;<a class="code" href="gsb__data__form_8h.html#a0e9d4003787634607af9e97e14b9668b">MAX_WIDTH</a> ; j++ )
+<a name="l00146"></a>00146             form -&gt; form_table[i][j] = tab[i][j];
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148     <span class="keywordflow">for</span> ( i = 0 ; i&lt;6 ; i++ )
+<a name="l00149"></a>00149         form -&gt; width_columns_percent[i] = width[i];
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151     <span class="keywordflow">return</span> FALSE;
+<a name="l00152"></a>00152 }
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154 
+<a name="l00163"></a><a class="code" href="gsb__data__form_8h.html#a838ada33bfce85d6324f0ea409216103">00163</a> gboolean <a class="code" href="gsb__data__form_8c.html#a838ada33bfce85d6324f0ea409216103">gsb_data_form_dup_organization</a> ( gint origin_account,
+<a name="l00164"></a>00164                                           gint target_account )
+<a name="l00165"></a>00165 {
+<a name="l00166"></a>00166     <a class="code" href="structform__organization.html">form_organization</a> *origin_form;
+<a name="l00167"></a>00167     <a class="code" href="structform__organization.html">form_organization</a> *new_form;
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169     origin_form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> (origin_account);
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171     <span class="keywordflow">if</span> ( !origin_form )
+<a name="l00172"></a>00172         <span class="keywordflow">return</span> FALSE;
+<a name="l00173"></a>00173 
+<a name="l00174"></a>00174     new_form = g_malloc0 ( <span class="keyword">sizeof</span> (<a class="code" href="structform__organization.html">form_organization</a>));
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176      <span class="keywordflow">if</span> ( !new_form )
+<a name="l00177"></a>00177     {
+<a name="l00178"></a>00178         <a class="code" href="dialog_8c.html#abb50e706a2eedd167eeb63d2de9c1245">dialogue_error_memory</a> ();
+<a name="l00179"></a>00179         <span class="keywordflow">return</span> FALSE;
+<a name="l00180"></a>00180     }
+<a name="l00181"></a>00181    
+<a name="l00182"></a>00182     memcpy ( new_form,
+<a name="l00183"></a>00183              origin_form,
+<a name="l00184"></a>00184              <span class="keyword">sizeof</span> (<a class="code" href="structform__organization.html">form_organization</a>));
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186     <a class="code" href="gsb__data__account_8c.html#a49f45eb02ce5833905fc2db3f5d2ecf2">gsb_data_account_set_form_organization</a> ( target_account,
+<a name="l00187"></a>00187                                              new_form );
+<a name="l00188"></a>00188  
+<a name="l00189"></a>00189     <span class="keywordflow">return</span> TRUE;
+<a name="l00190"></a>00190 }
+<a name="l00191"></a>00191 
+<a name="l00192"></a>00192 
+<a name="l00200"></a><a class="code" href="gsb__data__form_8h.html#a4bc1dd95bb028e836ef638b937e28116">00200</a> gint <a class="code" href="gsb__data__form_8c.html#a4bc1dd95bb028e836ef638b937e28116">gsb_data_form_get_nb_columns</a> ( gint account_number )
+<a name="l00201"></a>00201 {
+<a name="l00202"></a>00202     <a class="code" href="structform__organization.html">form_organization</a> *form;
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204     form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> ( account_number );
+<a name="l00205"></a>00205     
+<a name="l00206"></a>00206     <span class="keywordflow">if</span> ( !form )
+<a name="l00207"></a>00207         <span class="keywordflow">return</span> FALSE;
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209     <span class="keywordflow">return</span> form -&gt; columns;
+<a name="l00210"></a>00210 }
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212 
+<a name="l00223"></a><a class="code" href="gsb__data__form_8h.html#a9b4608cf8f2ffba4904a2fdd6263e8b6">00223</a> gboolean <a class="code" href="gsb__data__form_8c.html#a9b4608cf8f2ffba4904a2fdd6263e8b6">gsb_data_form_set_nb_columns</a> ( gint account_number,
+<a name="l00224"></a>00224                                         gint columns )
+<a name="l00225"></a>00225 {
+<a name="l00226"></a>00226     <a class="code" href="structform__organization.html">form_organization</a> *form;
+<a name="l00227"></a>00227 
+<a name="l00228"></a>00228     form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> ( account_number );
+<a name="l00229"></a>00229     
+<a name="l00230"></a>00230     <span class="keywordflow">if</span> ( !form )
+<a name="l00231"></a>00231         <span class="keywordflow">return</span> FALSE;
+<a name="l00232"></a>00232 
+<a name="l00233"></a>00233     form -&gt; columns = columns;
+<a name="l00234"></a>00234     <span class="keywordflow">return</span> TRUE;
+<a name="l00235"></a>00235 }
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237 
+<a name="l00245"></a><a class="code" href="gsb__data__form_8h.html#af5613a656e573f2e9a95d1c89c495c1c">00245</a> gint <a class="code" href="gsb__data__form_8c.html#af5613a656e573f2e9a95d1c89c495c1c">gsb_data_form_get_nb_rows</a> ( gint account_number )
+<a name="l00246"></a>00246 {
+<a name="l00247"></a>00247     <a class="code" href="structform__organization.html">form_organization</a> *form;
+<a name="l00248"></a>00248 
+<a name="l00249"></a>00249     form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> ( account_number );
+<a name="l00250"></a>00250     
+<a name="l00251"></a>00251     <span class="keywordflow">if</span> ( !form )
+<a name="l00252"></a>00252         <span class="keywordflow">return</span> FALSE;
+<a name="l00253"></a>00253 
+<a name="l00254"></a>00254     <span class="keywordflow">return</span> form -&gt; rows;
+<a name="l00255"></a>00255 }
+<a name="l00256"></a>00256 
+<a name="l00257"></a>00257 
+<a name="l00266"></a><a class="code" href="gsb__data__form_8h.html#aab897602de98433bb719ac14c3181479">00266</a> gboolean <a class="code" href="gsb__data__form_8c.html#aab897602de98433bb719ac14c3181479">gsb_data_form_set_nb_rows</a> ( gint account_number,
+<a name="l00267"></a>00267                                      gint rows )
+<a name="l00268"></a>00268 {
+<a name="l00269"></a>00269     <a class="code" href="structform__organization.html">form_organization</a> *form;
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271     form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> ( account_number );
+<a name="l00272"></a>00272     
+<a name="l00273"></a>00273     <span class="keywordflow">if</span> ( !form )
+<a name="l00274"></a>00274         <span class="keywordflow">return</span> FALSE;
+<a name="l00275"></a>00275 
+<a name="l00276"></a>00276     form -&gt; rows = rows;
+<a name="l00277"></a>00277     <span class="keywordflow">return</span> TRUE;
+<a name="l00278"></a>00278 }
+<a name="l00279"></a>00279 
+<a name="l00280"></a>00280 
+<a name="l00290"></a><a class="code" href="gsb__data__form_8h.html#a1f2dc075c964a00b50da003f969bb517">00290</a> gint <a class="code" href="gsb__data__form_8c.html#a1f2dc075c964a00b50da003f969bb517">gsb_data_form_get_value</a> ( gint account_number,
+<a name="l00291"></a>00291                                gint column,
+<a name="l00292"></a>00292                                gint row )
+<a name="l00293"></a>00293 {
+<a name="l00294"></a>00294     <a class="code" href="structform__organization.html">form_organization</a> *form;
+<a name="l00295"></a>00295 
+<a name="l00296"></a>00296     form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> ( account_number );
+<a name="l00297"></a>00297     
+<a name="l00298"></a>00298     <span class="keywordflow">if</span> ( !form
+<a name="l00299"></a>00299          ||
+<a name="l00300"></a>00300          column &gt; <a class="code" href="gsb__data__form_8h.html#a0e9d4003787634607af9e97e14b9668b">MAX_WIDTH</a>
+<a name="l00301"></a>00301          ||
+<a name="l00302"></a>00302          row &gt; <a class="code" href="gsb__data__form_8h.html#a9059fa76eb5e8e86f870405d63e72c4c">MAX_HEIGHT</a>)
+<a name="l00303"></a>00303         <span class="keywordflow">return</span> -1;
+<a name="l00304"></a>00304 
+<a name="l00305"></a>00305     <span class="keywordflow">return</span> form -&gt; form_table[row][column];
+<a name="l00306"></a>00306 }
+<a name="l00307"></a>00307 
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309 
+<a name="l00320"></a><a class="code" href="gsb__data__form_8h.html#a3451cf009bc77b47ab207415c06f5039">00320</a> gboolean <a class="code" href="gsb__data__form_8c.html#a3451cf009bc77b47ab207415c06f5039">gsb_data_form_set_value</a> ( gint account_number,
+<a name="l00321"></a>00321                                    gint column,
+<a name="l00322"></a>00322                                    gint row,
+<a name="l00323"></a>00323                                    gint value )
+<a name="l00324"></a>00324 {
+<a name="l00325"></a>00325     <a class="code" href="structform__organization.html">form_organization</a> *form;
+<a name="l00326"></a>00326 
+<a name="l00327"></a>00327     form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> ( account_number );
+<a name="l00328"></a>00328     
+<a name="l00329"></a>00329     <span class="keywordflow">if</span> ( !form
+<a name="l00330"></a>00330          ||
+<a name="l00331"></a>00331          column &gt; <a class="code" href="gsb__data__form_8h.html#a0e9d4003787634607af9e97e14b9668b">MAX_WIDTH</a>
+<a name="l00332"></a>00332          ||
+<a name="l00333"></a>00333          row &gt; <a class="code" href="gsb__data__form_8h.html#a9059fa76eb5e8e86f870405d63e72c4c">MAX_HEIGHT</a>)
+<a name="l00334"></a>00334         <span class="keywordflow">return</span> FALSE;
+<a name="l00335"></a>00335 
+<a name="l00336"></a>00336     form -&gt; form_table[row][column] = value;
+<a name="l00337"></a>00337     <span class="keywordflow">return</span> TRUE;
+<a name="l00338"></a>00338 }
+<a name="l00339"></a>00339 
+<a name="l00340"></a>00340 
+<a name="l00349"></a><a class="code" href="gsb__data__form_8h.html#a7e138cf8515b9688315d67ef12c338d9">00349</a> gint <a class="code" href="gsb__data__form_8c.html#a7e138cf8515b9688315d67ef12c338d9">gsb_data_form_get_width_column</a> ( gint account_number,
+<a name="l00350"></a>00350                                       gint column )
+<a name="l00351"></a>00351 {
+<a name="l00352"></a>00352     <a class="code" href="structform__organization.html">form_organization</a> *form;
+<a name="l00353"></a>00353 
+<a name="l00354"></a>00354     form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> ( account_number );
+<a name="l00355"></a>00355     
+<a name="l00356"></a>00356     <span class="keywordflow">if</span> ( !form
+<a name="l00357"></a>00357          ||
+<a name="l00358"></a>00358          column &gt; <a class="code" href="gsb__data__form_8h.html#a0e9d4003787634607af9e97e14b9668b">MAX_WIDTH</a> )
+<a name="l00359"></a>00359         <span class="keywordflow">return</span> -1;
+<a name="l00360"></a>00360 
+<a name="l00361"></a>00361     <span class="keywordflow">return</span> form -&gt; width_columns_percent[column];
+<a name="l00362"></a>00362 }
+<a name="l00363"></a>00363 
+<a name="l00364"></a>00364 
+<a name="l00365"></a>00365 
+<a name="l00375"></a><a class="code" href="gsb__data__form_8h.html#a18aec71c64bac7bd9c7da37e05254d3e">00375</a> gboolean <a class="code" href="gsb__data__form_8c.html#a18aec71c64bac7bd9c7da37e05254d3e">gsb_data_form_set_width_column</a> ( gint account_number,
+<a name="l00376"></a>00376                                           gint column,
+<a name="l00377"></a>00377                                           gint width )
+<a name="l00378"></a>00378 {
+<a name="l00379"></a>00379     <a class="code" href="structform__organization.html">form_organization</a> *form;
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381     form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> ( account_number );
+<a name="l00382"></a>00382     
+<a name="l00383"></a>00383     <span class="keywordflow">if</span> ( !form
+<a name="l00384"></a>00384          ||
+<a name="l00385"></a>00385          column &gt; <a class="code" href="gsb__data__form_8h.html#a0e9d4003787634607af9e97e14b9668b">MAX_WIDTH</a>)
+<a name="l00386"></a>00386         <span class="keywordflow">return</span> FALSE;
+<a name="l00387"></a>00387 
+<a name="l00388"></a>00388     form -&gt; width_columns_percent[column] = width;
+<a name="l00389"></a>00389     <span class="keywordflow">return</span> TRUE;
+<a name="l00390"></a>00390 }
+<a name="l00391"></a>00391 
+<a name="l00392"></a>00392 
+<a name="l00405"></a><a class="code" href="gsb__data__form_8h.html#a011611d3aa6cecc0c619981f69bf2a6e">00405</a> gboolean <a class="code" href="gsb__data__form_8c.html#a011611d3aa6cecc0c619981f69bf2a6e">gsb_data_form_look_for_value</a> ( gint account_number,
+<a name="l00406"></a>00406                                         gint value,
+<a name="l00407"></a>00407                                         gint *return_row,
+<a name="l00408"></a>00408                                         gint *return_column )
+<a name="l00409"></a>00409 {
+<a name="l00410"></a>00410     <a class="code" href="structform__organization.html">form_organization</a> *form;
+<a name="l00411"></a>00411     gint row, column;
+<a name="l00412"></a>00412 
+<a name="l00413"></a>00413     form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> ( account_number );
+<a name="l00414"></a>00414     
+<a name="l00415"></a>00415     <span class="keywordflow">if</span> ( !form )
+<a name="l00416"></a>00416         <span class="keywordflow">return</span> FALSE;
+<a name="l00417"></a>00417 
+<a name="l00418"></a>00418     <span class="keywordflow">for</span> ( row=0 ; row &lt; form -&gt; rows ; row++ )
+<a name="l00419"></a>00419         <span class="keywordflow">for</span> ( column=0 ; column &lt; form -&gt; columns ; column++ )
+<a name="l00420"></a>00420             <span class="keywordflow">if</span> ( form -&gt; form_table[row][column] == value )
+<a name="l00421"></a>00421             {
+<a name="l00422"></a>00422                 <span class="keywordflow">if</span> ( return_row )
+<a name="l00423"></a>00423                     *return_row = row;
+<a name="l00424"></a>00424                 <span class="keywordflow">if</span> ( return_column )
+<a name="l00425"></a>00425                     *return_column = column;
+<a name="l00426"></a>00426                 <span class="keywordflow">return</span> TRUE;
+<a name="l00427"></a>00427             }
+<a name="l00428"></a>00428     <span class="keywordflow">return</span> FALSE;
+<a name="l00429"></a>00429 }
+<a name="l00430"></a>00430 
+<a name="l00438"></a><a class="code" href="gsb__data__form_8h.html#ae6975b58c5f9085518baa3e97830514b">00438</a> gboolean <a class="code" href="gsb__data__form_8c.html#ae6975b58c5f9085518baa3e97830514b">gsb_data_form_check_for_value</a> ( gint value )
+<a name="l00439"></a>00439 {
+<a name="l00440"></a>00440     <span class="keywordflow">return</span> <a class="code" href="gsb__data__form_8c.html#a011611d3aa6cecc0c619981f69bf2a6e">gsb_data_form_look_for_value</a> ( <a class="code" href="gsb__form_8c.html#a6d9502c48d88f43354c126077ade6e1e">gsb_form_get_account_number</a> (),
+<a name="l00441"></a>00441                                           value,
+<a name="l00442"></a>00442                                           NULL, NULL );
+<a name="l00443"></a>00443 }
+<a name="l00444"></a>00444 
+<a name="l00445"></a>00445 
+<a name="l00453"></a><a class="code" href="gsb__data__form_8h.html#af78c7a67288bda5ba85257a29317fc0a">00453</a> gint <a class="code" href="gsb__data__form_8c.html#af78c7a67288bda5ba85257a29317fc0a">gsb_data_form_get_values_total</a> ( gint account_number )
+<a name="l00454"></a>00454 {
+<a name="l00455"></a>00455     <a class="code" href="structform__organization.html">form_organization</a> *form;
+<a name="l00456"></a>00456     gint row, column;
+<a name="l00457"></a>00457     gint values = 0;
+<a name="l00458"></a>00458 
+<a name="l00459"></a>00459     form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> ( account_number );
+<a name="l00460"></a>00460     
+<a name="l00461"></a>00461     <span class="keywordflow">if</span> ( !form )
+<a name="l00462"></a>00462         <span class="keywordflow">return</span> -1;
+<a name="l00463"></a>00463 
+<a name="l00464"></a>00464     <span class="keywordflow">for</span> ( row=0 ; row&lt;<a class="code" href="gsb__data__form_8h.html#a9059fa76eb5e8e86f870405d63e72c4c">MAX_HEIGHT</a> ; row++ )
+<a name="l00465"></a>00465         <span class="keywordflow">for</span> ( column=0 ; column&lt;<a class="code" href="gsb__data__form_8h.html#a0e9d4003787634607af9e97e14b9668b">MAX_WIDTH</a> ; column++ )
+<a name="l00466"></a>00466             <span class="keywordflow">if</span> ( form -&gt; form_table[row][column] )
+<a name="l00467"></a>00467                 values++;
+<a name="l00468"></a>00468 
+<a name="l00469"></a>00469     <span class="keywordflow">return</span> values;
+<a name="l00470"></a>00470 }
+<a name="l00471"></a>00471 
+<a name="l00472"></a>00472 
+<a name="l00473"></a>00473 
+<a name="l00482"></a><a class="code" href="gsb__data__form_8h.html#a206bff690e4524f0bb5c42c1ab55b6a0">00482</a> gboolean <a class="code" href="gsb__data__form_8c.html#a206bff690e4524f0bb5c42c1ab55b6a0">gsb_form_config_update_from_account</a> (gint account_number)
+<a name="l00483"></a>00483 {
+<a name="l00484"></a>00484     <a class="code" href="structform__organization.html">form_organization</a> *form;
+<a name="l00485"></a>00485     gint no_account;
+<a name="l00486"></a>00486 
+<a name="l00487"></a>00487     <span class="keywordflow">if</span> (account_number == -1)
+<a name="l00488"></a>00488         <span class="keywordflow">return</span> FALSE;
+<a name="l00489"></a>00489 
+<a name="l00490"></a>00490     form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> ( account_number );
+<a name="l00491"></a>00491 
+<a name="l00492"></a>00492     <span class="keywordflow">if</span> ( !form)
+<a name="l00493"></a>00493         <span class="keywordflow">return</span> FALSE;
+<a name="l00494"></a>00494 
+<a name="l00495"></a>00495     <span class="keywordflow">for</span> (no_account = 0 ; no_account &lt; <a class="code" href="gsb__data__account_8c.html#a56c9a589563db8c15800e41378908b27">gsb_data_account_get_accounts_amount</a> (); no_account++)
+<a name="l00496"></a>00496     {
+<a name="l00497"></a>00497         <a class="code" href="structform__organization.html">form_organization</a> *tmp_form;
+<a name="l00498"></a>00498         gint col;
+<a name="l00499"></a>00499 
+<a name="l00500"></a>00500         <span class="keywordflow">if</span> (no_account == account_number)
+<a name="l00501"></a>00501             <span class="keywordflow">continue</span>;
+<a name="l00502"></a>00502 
+<a name="l00503"></a>00503         tmp_form = <a class="code" href="gsb__data__account_8c.html#abb73efbf946995cd590e61abfd1a892b">gsb_data_account_get_form_organization</a> (no_account);
+<a name="l00504"></a>00504     <span class="keywordflow">if</span> ( tmp_form == NULL )
+<a name="l00505"></a>00505         <span class="keywordflow">continue</span>;
+<a name="l00506"></a>00506 
+<a name="l00507"></a>00507         <span class="keywordflow">for</span> (col = 0 ; col&lt;<a class="code" href="gsb__data__form_8h.html#a0e9d4003787634607af9e97e14b9668b">MAX_WIDTH</a> ; col++)
+<a name="l00508"></a>00508         {
+<a name="l00509"></a>00509             gint line;
+<a name="l00510"></a>00510 
+<a name="l00511"></a>00511             <span class="keywordflow">for</span> (line=0 ; line &lt;<a class="code" href="gsb__data__form_8h.html#a9059fa76eb5e8e86f870405d63e72c4c">MAX_HEIGHT</a> ; line++)
+<a name="l00512"></a>00512                 tmp_form -&gt; form_table[line][col] = form -&gt; form_table[line][col];
+<a name="l00513"></a>00513             tmp_form -&gt; width_columns_percent[col] = form -&gt; width_columns_percent[col];
+<a name="l00514"></a>00514         }
+<a name="l00515"></a>00515 
+<a name="l00516"></a>00516         tmp_form -&gt; columns = form -&gt; columns;
+<a name="l00517"></a>00517         tmp_form -&gt; rows = form -&gt; rows;
+<a name="l00518"></a>00518     }
+<a name="l00519"></a>00519     <span class="keywordflow">return</span> TRUE;
+<a name="l00520"></a>00520 }
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

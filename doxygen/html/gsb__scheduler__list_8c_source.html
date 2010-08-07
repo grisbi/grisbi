@@ -1,0 +1,1798 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_scheduler_list.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_scheduler_list.c</h1><a href="gsb__scheduler__list_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */</span>
+<a name="l00004"></a>00004 <span class="comment">/*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */</span>
+<a name="l00005"></a>00005 <span class="comment">/*      2009 Thomas Peel (thomas.peel@live.fr)                                */</span>
+<a name="l00006"></a>00006 <span class="comment">/*          2008-2009 Pierre Biava (grisbi@pierre.biava.name)                 */</span>
+<a name="l00007"></a>00007 <span class="comment">/*          http://www.grisbi.org                                             */</span>
+<a name="l00008"></a>00008 <span class="comment">/*                                                                            */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00010"></a>00010 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00011"></a>00011 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00013"></a>00013 <span class="comment">/*                                                                            */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00015"></a>00015 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00016"></a>00016 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00018"></a>00018 <span class="comment">/*                                                                            */</span>
+<a name="l00019"></a>00019 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00020"></a>00020 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00021"></a>00021 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00022"></a>00022 <span class="comment">/*                                                                            */</span>
+<a name="l00023"></a>00023 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00024"></a>00024 
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00033"></a>00033 
+<a name="l00034"></a>00034 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="gsb__scheduler__list_8h.html">gsb_scheduler_list.h</a>&quot;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;<a class="code" href="barre__outils_8h.html">barre_outils.h</a>&quot;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="dialog_8h.html">dialog.h</a>&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;<a class="code" href="utils__dates_8h.html">utils_dates.h</a>&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;<a class="code" href="gsb__automem_8h.html">gsb_automem.h</a>&quot;</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#include &quot;<a class="code" href="gsb__calendar_8h.html">gsb_calendar.h</a>&quot;</span>
+<a name="l00041"></a>00041 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__account_8h.html">gsb_data_account.h</a>&quot;</span>
+<a name="l00042"></a>00042 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__category_8h.html">gsb_data_category.h</a>&quot;</span>
+<a name="l00043"></a>00043 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__currency_8h.html">gsb_data_currency.h</a>&quot;</span>
+<a name="l00044"></a>00044 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__payee_8h.html">gsb_data_payee.h</a>&quot;</span>
+<a name="l00045"></a>00045 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__scheduled_8h.html">gsb_data_scheduled.h</a>&quot;</span>
+<a name="l00046"></a>00046 <span class="preprocessor">#include &quot;<a class="code" href="gsb__form_8h.html">gsb_form.h</a>&quot;</span>
+<a name="l00047"></a>00047 <span class="preprocessor">#include &quot;<a class="code" href="gsb__form__scheduler_8h.html">gsb_form_scheduler.h</a>&quot;</span>
+<a name="l00048"></a>00048 <span class="preprocessor">#include &quot;<a class="code" href="fenetre__principale_8h.html">fenetre_principale.h</a>&quot;</span>
+<a name="l00049"></a>00049 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00050"></a>00050 <span class="preprocessor">#include &quot;<a class="code" href="gsb__scheduler_8h.html">gsb_scheduler.h</a>&quot;</span>
+<a name="l00051"></a>00051 <span class="preprocessor">#include &quot;<a class="code" href="traitement__variables_8h.html">traitement_variables.h</a>&quot;</span>
+<a name="l00052"></a>00052 <span class="preprocessor">#include &quot;<a class="code" href="utils_8h.html">utils.h</a>&quot;</span>
+<a name="l00053"></a>00053 <span class="preprocessor">#include &quot;<a class="code" href="utils__str_8h.html">utils_str.h</a>&quot;</span>
+<a name="l00054"></a>00054 <span class="preprocessor">#include &quot;<a class="code" href="structures_8h.html">structures.h</a>&quot;</span>
+<a name="l00055"></a>00055 <span class="preprocessor">#include &quot;<a class="code" href="gsb__transactions__list_8h.html">gsb_transactions_list.h</a>&quot;</span>
+<a name="l00056"></a>00056 <span class="preprocessor">#include &quot;<a class="code" href="mouse_8h.html">mouse.h</a>&quot;</span>
+<a name="l00057"></a>00057 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00058"></a>00058 <span class="preprocessor">#include &quot;<a class="code" href="gsb__calendar_8h.html">gsb_calendar.h</a>&quot;</span>
+<a name="l00059"></a>00059 <span class="preprocessor">#include &quot;<a class="code" href="erreur_8h.html">erreur.h</a>&quot;</span>
+<a name="l00060"></a>00060 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062 <span class="comment">/*START_STATIC*/</span>
+<a name="l00063"></a>00063 <span class="keyword">static</span> gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
+<a name="l00064"></a>00064                         GdkEventButton *ev );
+<a name="l00065"></a>00065 <span class="keyword">static</span> <span class="keywordtype">void</span> gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view );
+<a name="l00066"></a>00066 <span class="keyword">static</span> GtkTreeModel *gsb_scheduler_list_create_model ( <span class="keywordtype">void</span> );
+<a name="l00067"></a>00067 <span class="keyword">static</span> GtkWidget *gsb_scheduler_list_create_tree_view (<span class="keywordtype">void</span>);
+<a name="l00068"></a>00068 <span class="keyword">static</span> gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
+<a name="l00069"></a>00069                         GtkTreeIter *iter_1,
+<a name="l00070"></a>00070                         GtkTreeIter *iter_2,
+<a name="l00071"></a>00071                         gpointer null );
+<a name="l00072"></a>00072 <span class="keyword">static</span> gboolean gsb_scheduler_list_edit_transaction_by_pointer ( gint *scheduled_number );
+<a name="l00073"></a>00073 <span class="keyword">static</span> gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
+<a name="l00074"></a>00074                         GtkTreeIter *iter,
+<a name="l00075"></a>00075                         <span class="keyword">const</span> gchar *line[<a class="code" href="gsb__scheduler__list_8h.html#af73ad30e2c80f3dc63b6f3495ce5ed26">SCHEDULER_COL_VISIBLE_COLUMNS</a>] );
+<a name="l00076"></a>00076 <span class="keyword">static</span> gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
+<a name="l00077"></a>00077                                                     <span class="keyword">const</span> gchar *line[<a class="code" href="gsb__scheduler__list_8h.html#af73ad30e2c80f3dc63b6f3495ce5ed26">SCHEDULER_COL_VISIBLE_COLUMNS</a>]  );
+<a name="l00078"></a>00078 <span class="keyword">static</span> GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_number );
+<a name="l00079"></a>00079 <span class="keyword">static</span> GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_number );
+<a name="l00080"></a>00080 <span class="keyword">static</span> GtkTreeModel *gsb_scheduler_list_get_model ( <span class="keywordtype">void</span> );
+<a name="l00081"></a>00081 <span class="keyword">static</span> gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
+<a name="l00082"></a>00082                         GdkEventKey *ev );
+<a name="l00083"></a>00083 <span class="keyword">static</span> gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (<span class="keywordtype">void</span>);
+<a name="l00084"></a>00084 <span class="keyword">static</span> gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
+<a name="l00085"></a>00085                         gpointer null );
+<a name="l00086"></a>00086 <span class="keyword">static</span> <span class="keywordtype">void</span> gsb_scheduler_list_set_model ( GtkTreeModel *model );
+<a name="l00087"></a>00087 <span class="keyword">static</span> <span class="keywordtype">void</span> gsb_scheduler_list_set_sorted_model ( GtkTreeModelSort *tree_model_sort );
+<a name="l00088"></a>00088 <span class="keyword">static</span> <span class="keywordtype">void</span> gsb_scheduler_list_set_tree_view ( GtkWidget *tree_view );
+<a name="l00089"></a>00089 <span class="keyword">static</span> gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
+<a name="l00090"></a>00090                         GtkAllocation *allocation,
+<a name="l00091"></a>00091                         gpointer null );
+<a name="l00092"></a>00092 <span class="keyword">static</span> gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number );
+<a name="l00093"></a>00093 <span class="keyword">static</span> <span class="keywordtype">void</span> popup_scheduled_context_menu ( <span class="keywordtype">void</span> );
+<a name="l00094"></a>00094 <span class="comment">/*END_STATIC*/</span>
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00098"></a>00098 <span class="keyword">extern</span> gint <a class="code" href="gsb__calendar_8c.html#ab762c5bee8904fe3e83e8c2dfdecd94d">affichage_echeances</a>;
+<a name="l00099"></a>00099 <span class="keyword">extern</span> gint <a class="code" href="gsb__calendar_8c.html#aa8e493eac3d096f6914e1551552c590a">affichage_echeances_perso_nb_libre</a>;
+<a name="l00100"></a>00100 <span class="keyword">extern</span> GdkColor <a class="code" href="affichage_8c.html#a58089bf9225ae2e274165369f8bc7a00">couleur_fond</a>[2];
+<a name="l00101"></a>00101 <span class="keyword">extern</span> GdkColor <a class="code" href="affichage_8c.html#a4119417896b5652f640ead3795baac52">couleur_grise</a>;
+<a name="l00102"></a>00102 <span class="keyword">extern</span> <span class="keyword">struct </span><a class="code" href="structconditional__message.html">conditional_message</a> <a class="code" href="gsb__file__config_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[];
+<a name="l00103"></a>00103 <span class="keyword">extern</span> gint <a class="code" href="accueil_8c.html#a5957dd978b4a0c3ab01e006cedfdf96c">mise_a_jour_liste_echeances_manuelles_accueil</a>;
+<a name="l00104"></a>00104 <span class="keyword">extern</span> GtkWidget * <a class="code" href="etats__config_8c.html#a1cd17e8b2fd91a191f8d5d6a7e5f6979">navigation_tree_view</a>;
+<a name="l00105"></a>00105 <span class="keyword">extern</span> GtkWidget *<a class="code" href="barre__outils_8c.html#a3eb48f27c4c4fe376efa3cbccab64398">scheduler_button_delete</a>;
+<a name="l00106"></a>00106 <span class="keyword">extern</span> GtkWidget *<a class="code" href="barre__outils_8c.html#aee9c73717e42febf99a7eb6a09521f3a">scheduler_button_edit</a>;
+<a name="l00107"></a>00107 <span class="keyword">extern</span> GtkWidget *<a class="code" href="barre__outils_8c.html#a1333bf48291dd195210eda922d5183c4">scheduler_button_execute</a>;
+<a name="l00108"></a>00108 <span class="keyword">extern</span> GdkColor <a class="code" href="affichage_8c.html#abc4f631d953e2be68189a6fbcf55cd1d">split_background</a>;
+<a name="l00109"></a>00109 <span class="keyword">extern</span> GtkWidget *<a class="code" href="accueil_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a>;
+<a name="l00110"></a>00110 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112 
+<a name="l00113"></a>00113 
+<a name="l00117"></a>00117 <span class="keyword">static</span> GtkWidget *tree_view_scheduler_list;
+<a name="l00118"></a>00118 <span class="keyword">static</span> GtkTreeModel *tree_model_scheduler_list;
+<a name="l00119"></a>00119 <span class="keyword">static</span> GtkTreeModelSort *tree_model_sort_scheduler_list;
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121 <span class="keyword">static</span> GtkTreeViewColumn *scheduler_list_column[<a class="code" href="gsb__scheduler__list_8h.html#af73ad30e2c80f3dc63b6f3495ce5ed26">SCHEDULER_COL_VISIBLE_COLUMNS</a>];
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123 <span class="keyword">static</span> gint last_scheduled_number;
+<a name="l00124"></a>00124 
+<a name="l00126"></a><a class="code" href="gsb__scheduler__list_8c.html#ade6e813638ccb1437faf234fa2725303">00126</a> GSList *<a class="code" href="accueil_8c.html#ade6e813638ccb1437faf234fa2725303">scheduled_transactions_to_take</a>;
+<a name="l00127"></a><a class="code" href="gsb__scheduler__list_8c.html#af539ba1ef9bfd1d56ab43b9865b0bab5">00127</a> GSList *<a class="code" href="accueil_8c.html#af539ba1ef9bfd1d56ab43b9865b0bab5">scheduled_transactions_taken</a>;
+<a name="l00128"></a>00128 
+<a name="l00130"></a><a class="code" href="traitement__variables_8c.html#a8278ca506ea616623cd8cdc764188ee9">00130</a> gint <a class="code" href="gsb__file__load_8c.html#a8278ca506ea616623cd8cdc764188ee9">scheduler_col_width</a>[<a class="code" href="gsb__scheduler__list_8h.html#af73ad30e2c80f3dc63b6f3495ce5ed26">SCHEDULER_COL_VISIBLE_COLUMNS</a>];
+<a name="l00131"></a>00131 
+<a name="l00132"></a><a class="code" href="traitement__variables_8c.html#afa241b31ec5f7f4750793852e3f49eeb">00132</a> gint <a class="code" href="gsb__scheduler__list_8c.html#afa241b31ec5f7f4750793852e3f49eeb">scheduler_current_tree_view_width</a> = 0;
+<a name="l00133"></a>00133 
+<a name="l00137"></a><a class="code" href="gsb__scheduler__list_8h.html#ad206fcc8ffc537e7d0eda58442a56acc">00137</a> <span class="keywordtype">void</span> <a class="code" href="gsb__scheduler__list_8c.html#ad206fcc8ffc537e7d0eda58442a56acc">gsb_scheduler_list_init_variables</a> ( <span class="keywordtype">void</span> )
+<a name="l00138"></a>00138 {
+<a name="l00139"></a>00139     <span class="keywordflow">if</span> ( <a class="code" href="accueil_8c.html#ade6e813638ccb1437faf234fa2725303">scheduled_transactions_to_take</a> )
+<a name="l00140"></a>00140     {
+<a name="l00141"></a>00141         g_slist_free ( <a class="code" href="accueil_8c.html#ade6e813638ccb1437faf234fa2725303">scheduled_transactions_to_take</a> );
+<a name="l00142"></a>00142         <a class="code" href="accueil_8c.html#ade6e813638ccb1437faf234fa2725303">scheduled_transactions_to_take</a> = NULL;
+<a name="l00143"></a>00143     }
+<a name="l00144"></a>00144     <span class="keywordflow">if</span> ( <a class="code" href="accueil_8c.html#af539ba1ef9bfd1d56ab43b9865b0bab5">scheduled_transactions_taken</a> )
+<a name="l00145"></a>00145     {
+<a name="l00146"></a>00146         g_slist_free ( <a class="code" href="accueil_8c.html#af539ba1ef9bfd1d56ab43b9865b0bab5">scheduled_transactions_taken</a> );
+<a name="l00147"></a>00147         <a class="code" href="accueil_8c.html#af539ba1ef9bfd1d56ab43b9865b0bab5">scheduled_transactions_taken</a> = NULL;
+<a name="l00148"></a>00148     }
+<a name="l00149"></a>00149 }
+<a name="l00150"></a>00150 
+<a name="l00158"></a><a class="code" href="gsb__scheduler__list_8h.html#a12e2a6349e0cdbd81b349b588f137336">00158</a> GtkWidget *<a class="code" href="gsb__scheduler__list_8c.html#a12e2a6349e0cdbd81b349b588f137336">gsb_scheduler_list_create_list</a> ( <span class="keywordtype">void</span> )
+<a name="l00159"></a>00159 {
+<a name="l00160"></a>00160     GtkWidget *vbox, *scrolled_window;
+<a name="l00161"></a>00161     GtkWidget *tree_view;
+<a name="l00162"></a>00162         GtkTreeModel *tree_model;
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164     <a class="code" href="erreur_8h.html#a17bfffc4306bc76edd79e060a8947dc4">devel_debug</a> (NULL);
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166     <span class="comment">/* first, a vbox */</span>
+<a name="l00167"></a>00167     vbox = gtk_vbox_new ( FALSE, 5 );
+<a name="l00168"></a>00168     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 0 );
+<a name="l00169"></a>00169     gtk_widget_show ( vbox );
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171     <span class="comment">/* create the toolbar */</span>
+<a name="l00172"></a>00172     gtk_box_pack_start ( GTK_BOX ( vbox ),
+<a name="l00173"></a>00173                          <a class="code" href="barre__outils_8c.html#a9f1ea21cc01c1a429a23c478fc9ca868">creation_barre_outils_echeancier</a>(),
+<a name="l00174"></a>00174                          FALSE, FALSE, 0 );
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176     <span class="comment">/* create the scrolled window */</span>
+<a name="l00177"></a>00177     scrolled_window = gtk_scrolled_window_new ( NULL, NULL);
+<a name="l00178"></a>00178     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+<a name="l00179"></a>00179                                      GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+<a name="l00180"></a>00180     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+<a name="l00181"></a>00181                                           GTK_SHADOW_IN );
+<a name="l00182"></a>00182     gtk_box_pack_start ( GTK_BOX ( vbox ),
+<a name="l00183"></a>00183                          scrolled_window,
+<a name="l00184"></a>00184                          TRUE, TRUE, 0 );
+<a name="l00185"></a>00185     gtk_widget_show ( scrolled_window );
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187     <span class="comment">/* we create and set the tree_view in the page */</span>
+<a name="l00188"></a>00188     tree_view = gsb_scheduler_list_create_tree_view ();
+<a name="l00189"></a>00189     gsb_scheduler_list_set_tree_view (tree_view);
+<a name="l00190"></a>00190     gtk_container_add ( GTK_CONTAINER (scrolled_window),
+<a name="l00191"></a>00191                         tree_view);
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194     <span class="comment">/* create the columns */</span>
+<a name="l00195"></a>00195     gsb_scheduler_list_create_list_columns (tree_view);
+<a name="l00196"></a>00196 
+<a name="l00197"></a>00197     <span class="comment">/* begin by hiding the notes (set to 1 because !1 in the function */</span>
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199     <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a973a219fce3f9cbfdd56022173c50206">affichage_commentaire_echeancier</a> = 1;
+<a name="l00200"></a>00200     <a class="code" href="gsb__scheduler__list_8c.html#a9eaf111074be94831038960ae9e56732">gsb_scheduler_list_show_notes</a> ();
+<a name="l00201"></a>00201 
+<a name="l00202"></a>00202     <span class="comment">/* create the store and set it in the tree_view */</span>
+<a name="l00203"></a>00203     tree_model = gsb_scheduler_list_create_model ();
+<a name="l00204"></a>00204     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), tree_model);
+<a name="l00205"></a>00205     g_object_unref (G_OBJECT(tree_model));
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207     g_signal_connect ( G_OBJECT ( gtk_tree_view_get_selection( GTK_TREE_VIEW (tree_view))),
+<a name="l00208"></a>00208                        <span class="stringliteral">&quot;changed&quot;</span>,
+<a name="l00209"></a>00209                        G_CALLBACK (gsb_scheduler_list_selection_changed),
+<a name="l00210"></a>00210                        NULL );
+<a name="l00211"></a>00211     <span class="keywordflow">return</span> vbox;
+<a name="l00212"></a>00212 }
+<a name="l00213"></a>00213 
+<a name="l00221"></a><a class="code" href="gsb__scheduler__list_8h.html#a672312ea4cd0c1237b5a8312c330aaef">00221</a> GtkWidget *<a class="code" href="gsb__scheduler__list_8c.html#a672312ea4cd0c1237b5a8312c330aaef">gsb_scheduler_list_get_tree_view</a> ( <span class="keywordtype">void</span> )
+<a name="l00222"></a>00222 {
+<a name="l00223"></a>00223     <span class="keywordflow">return</span> tree_view_scheduler_list;
+<a name="l00224"></a>00224 }
+<a name="l00225"></a>00225 
+<a name="l00233"></a>00233 <span class="keywordtype">void</span> gsb_scheduler_list_set_tree_view ( GtkWidget *tree_view )
+<a name="l00234"></a>00234 {
+<a name="l00235"></a>00235     tree_view_scheduler_list = tree_view;
+<a name="l00236"></a>00236 }
+<a name="l00237"></a>00237 
+<a name="l00238"></a>00238 
+<a name="l00246"></a>00246 GtkTreeModel *gsb_scheduler_list_get_model ( <span class="keywordtype">void</span> )
+<a name="l00247"></a>00247 {
+<a name="l00248"></a>00248     <span class="keywordflow">return</span> tree_model_scheduler_list;
+<a name="l00249"></a>00249 }
+<a name="l00250"></a>00250 
+<a name="l00258"></a>00258 <span class="keywordtype">void</span> gsb_scheduler_list_set_model ( GtkTreeModel *model )
+<a name="l00259"></a>00259 {
+<a name="l00260"></a>00260     tree_model_scheduler_list = model;
+<a name="l00261"></a>00261 }
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264 
+<a name="l00265"></a>00265 
+<a name="l00273"></a>00273 <span class="keywordtype">void</span> gsb_scheduler_list_set_sorted_model ( GtkTreeModelSort *tree_model_sort )
+<a name="l00274"></a>00274 {
+<a name="l00275"></a>00275     tree_model_sort_scheduler_list = tree_model_sort;
+<a name="l00276"></a>00276 }
+<a name="l00277"></a>00277 
+<a name="l00286"></a><a class="code" href="gsb__scheduler__list_8h.html#ae3d3fe09b37dc577b1b3f4564da0572a">00286</a> gint <a class="code" href="gsb__scheduler__list_8c.html#ae3d3fe09b37dc577b1b3f4564da0572a">gsb_scheduler_list_get_last_scheduled_number</a> ( <span class="keywordtype">void</span> )
+<a name="l00287"></a>00287 {
+<a name="l00288"></a>00288     <span class="keywordflow">return</span> last_scheduled_number;
+<a name="l00289"></a>00289 }
+<a name="l00290"></a>00290 
+<a name="l00298"></a>00298 GtkWidget *gsb_scheduler_list_create_tree_view (<span class="keywordtype">void</span>)
+<a name="l00299"></a>00299 {
+<a name="l00300"></a>00300     GtkWidget * tree_view;
+<a name="l00301"></a>00301 
+<a name="l00302"></a>00302     tree_view = gtk_tree_view_new ();
+<a name="l00303"></a>00303 
+<a name="l00304"></a>00304     <span class="comment">/* can select only one line */</span>
+<a name="l00305"></a>00305     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW( tree_view ))),
+<a name="l00306"></a>00306                                   GTK_SELECTION_SINGLE );
+<a name="l00307"></a>00307 
+<a name="l00308"></a>00308     g_signal_connect ( G_OBJECT ( tree_view ),
+<a name="l00309"></a>00309                        <span class="stringliteral">&quot;size_allocate&quot;</span>,
+<a name="l00310"></a>00310                        G_CALLBACK (gsb_scheduler_list_size_allocate),
+<a name="l00311"></a>00311                        NULL );
+<a name="l00312"></a>00312     g_signal_connect ( G_OBJECT ( tree_view ),
+<a name="l00313"></a>00313                        <span class="stringliteral">&quot;button-press-event&quot;</span>,
+<a name="l00314"></a>00314                        G_CALLBACK ( gsb_scheduler_list_button_press ),
+<a name="l00315"></a>00315                        NULL );
+<a name="l00316"></a>00316 
+<a name="l00317"></a>00317     g_signal_connect ( G_OBJECT ( tree_view ),
+<a name="l00318"></a>00318                        <span class="stringliteral">&quot;key-press-event&quot;</span>,
+<a name="l00319"></a>00319                        G_CALLBACK ( gsb_scheduler_list_key_press ),
+<a name="l00320"></a>00320                        NULL );
+<a name="l00321"></a>00321     gtk_widget_show ( tree_view );
+<a name="l00322"></a>00322 
+<a name="l00323"></a>00323     last_scheduled_number = -1;
+<a name="l00324"></a>00324     <span class="keywordflow">return</span> tree_view;
+<a name="l00325"></a>00325 }
+<a name="l00326"></a>00326 
+<a name="l00327"></a>00327 
+<a name="l00335"></a>00335 <span class="keywordtype">void</span> gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
+<a name="l00336"></a>00336 {
+<a name="l00337"></a>00337     gint i;
+<a name="l00338"></a>00338     gchar *scheduler_titles[] = {
+<a name="l00339"></a>00339         _(<span class="stringliteral">&quot;Date&quot;</span>), _(<span class="stringliteral">&quot;Account&quot;</span>), _(<span class="stringliteral">&quot;Payee&quot;</span>), _(<span class="stringliteral">&quot;Frequency&quot;</span>),
+<a name="l00340"></a>00340         _(<span class="stringliteral">&quot;Mode&quot;</span>), _(<span class="stringliteral">&quot;Comments&quot;</span>), _(<span class="stringliteral">&quot;Amount&quot;</span>), _(<span class="stringliteral">&quot;Balance&quot;</span>)
+<a name="l00341"></a>00341     };
+<a name="l00342"></a>00342     gfloat col_justs[] = {
+<a name="l00343"></a>00343         <a class="code" href="gsb__transactions__list_8h.html#a1acc57689f7f1675288fb8a4b29fb4e7">COLUMN_CENTER</a>, <a class="code" href="gsb__transactions__list_8h.html#a6af7ccb9deda7edaeea9ca8bfc7c6b37">COLUMN_LEFT</a>, COLUMN_LEFT, <a class="code" href="gsb__transactions__list_8h.html#a1acc57689f7f1675288fb8a4b29fb4e7">COLUMN_CENTER</a>,
+<a name="l00344"></a>00344         COLUMN_CENTER, COLUMN_LEFT, <a class="code" href="gsb__transactions__list_8h.html#a854253903a51c832eec04ab2ac08901b">COLUMN_RIGHT</a>, COLUMN_RIGHT
+<a name="l00345"></a>00345     };
+<a name="l00346"></a>00346 
+<a name="l00347"></a>00347     <a class="code" href="erreur_8h.html#a17bfffc4306bc76edd79e060a8947dc4">devel_debug</a> (NULL);
+<a name="l00348"></a>00348 
+<a name="l00349"></a>00349     <span class="keywordflow">for</span> ( i = 0 ; i &lt; <a class="code" href="gsb__scheduler__list_8h.html#af73ad30e2c80f3dc63b6f3495ce5ed26">SCHEDULER_COL_VISIBLE_COLUMNS</a> ; i++ )
+<a name="l00350"></a>00350     {
+<a name="l00351"></a>00351         GtkCellRenderer *cell_renderer;
+<a name="l00352"></a>00352 
+<a name="l00353"></a>00353         cell_renderer = gtk_cell_renderer_text_new ();
+<a name="l00354"></a>00354 
+<a name="l00355"></a>00355         g_object_set ( G_OBJECT (GTK_CELL_RENDERER ( cell_renderer )),
+<a name="l00356"></a>00356                        <span class="stringliteral">&quot;xalign&quot;</span>,
+<a name="l00357"></a>00357                        col_justs[i], NULL );
+<a name="l00358"></a>00358 
+<a name="l00359"></a>00359         scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
+<a name="l00360"></a>00360                                                                               cell_renderer,
+<a name="l00361"></a>00361                                                                               <span class="stringliteral">&quot;text&quot;</span>, i,
+<a name="l00362"></a>00362                                                                               <span class="stringliteral">&quot;cell-background-gdk&quot;</span>, <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da78937918a995b47f1677999dce25f5b5">SCHEDULER_COL_NB_BACKGROUND</a>,
+<a name="l00363"></a>00363                                                                               <span class="stringliteral">&quot;font-desc&quot;</span>, <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da30e69fc6367f79b11b253c112999423c">SCHEDULER_COL_NB_FONT</a>,
+<a name="l00364"></a>00364                                                                               NULL );
+<a name="l00365"></a>00365         gtk_tree_view_column_set_alignment ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
+<a name="l00366"></a>00366                                              col_justs[i] );
+<a name="l00367"></a>00367 
+<a name="l00368"></a>00368         gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+<a name="l00369"></a>00369                                       GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ));
+<a name="l00370"></a>00370 
+<a name="l00371"></a>00371         <span class="comment">/* no sorting by columns for now */</span>
+<a name="l00372"></a>00372         gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
+<a name="l00373"></a>00373                                              FALSE );
+<a name="l00374"></a>00374 
+<a name="l00375"></a>00375         <span class="comment">/* automatic and resizeable sizing */</span>
+<a name="l00376"></a>00376         gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
+<a name="l00377"></a>00377                                           GTK_TREE_VIEW_COLUMN_FIXED );
+<a name="l00378"></a>00378         gtk_tree_view_column_set_resizable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
+<a name="l00379"></a>00379                                              TRUE );
+<a name="l00380"></a>00380     }
+<a name="l00381"></a>00381 }
+<a name="l00382"></a>00382 
+<a name="l00383"></a>00383 
+<a name="l00391"></a>00391 GtkTreeModel *gsb_scheduler_list_create_model ( <span class="keywordtype">void</span> )
+<a name="l00392"></a>00392 {
+<a name="l00393"></a>00393     GtkTreeStore *store;
+<a name="l00394"></a>00394     GtkTreeModel *sortable;
+<a name="l00395"></a>00395 
+<a name="l00396"></a>00396     <a class="code" href="erreur_8h.html#a17bfffc4306bc76edd79e060a8947dc4">devel_debug</a> (NULL);
+<a name="l00397"></a>00397 
+<a name="l00398"></a>00398     store = gtk_tree_store_new ( <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf44b8a58c6dbe8eff99ff9a85522fe7c">SCHEDULER_COL_NB_TOTAL</a>,
+<a name="l00399"></a>00399                                  G_TYPE_STRING,
+<a name="l00400"></a>00400                                  G_TYPE_STRING,
+<a name="l00401"></a>00401                                  G_TYPE_STRING,
+<a name="l00402"></a>00402                                  G_TYPE_STRING,
+<a name="l00403"></a>00403                                  G_TYPE_STRING,
+<a name="l00404"></a>00404                                  G_TYPE_STRING,
+<a name="l00405"></a>00405                                  G_TYPE_STRING,
+<a name="l00406"></a>00406                                  GDK_TYPE_COLOR,
+<a name="l00407"></a>00407                                  GDK_TYPE_COLOR,
+<a name="l00408"></a>00408                                  G_TYPE_STRING,
+<a name="l00409"></a>00409                                  G_TYPE_INT,
+<a name="l00410"></a>00410                                  PANGO_TYPE_FONT_DESCRIPTION,
+<a name="l00411"></a>00411                                  G_TYPE_BOOLEAN );
+<a name="l00412"></a>00412 
+<a name="l00413"></a>00413     gsb_scheduler_list_set_model (GTK_TREE_MODEL (store));
+<a name="l00414"></a>00414     sortable = gtk_tree_model_sort_new_with_model ( GTK_TREE_MODEL (store));
+<a name="l00415"></a>00415     gsb_scheduler_list_set_sorted_model (GTK_TREE_MODEL_SORT (sortable));
+<a name="l00416"></a>00416     gtk_tree_sortable_set_default_sort_func ( GTK_TREE_SORTABLE (sortable),
+<a name="l00417"></a>00417                                               (GtkTreeIterCompareFunc) gsb_scheduler_list_default_sort_function,
+<a name="l00418"></a>00418                                               NULL,
+<a name="l00419"></a>00419                                               NULL );
+<a name="l00420"></a>00420     <span class="keywordflow">return</span> sortable;
+<a name="l00421"></a>00421 }
+<a name="l00422"></a>00422 
+<a name="l00423"></a>00423 
+<a name="l00429"></a>00429 gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
+<a name="l00430"></a>00430                         GtkTreeIter *iter_1,
+<a name="l00431"></a>00431                         GtkTreeIter *iter_2,
+<a name="l00432"></a>00432                         gpointer null )
+<a name="l00433"></a>00433 {
+<a name="l00434"></a>00434     GDate *date_1;
+<a name="l00435"></a>00435     GDate *date_2;
+<a name="l00436"></a>00436     gchar *date_str;
+<a name="l00437"></a>00437     gint number_1;
+<a name="l00438"></a>00438     gint number_2;
+<a name="l00439"></a>00439     gint return_value = 0;
+<a name="l00440"></a>00440 
+<a name="l00441"></a>00441     <span class="comment">/* first, we sort by date (col 0) */</span>
+<a name="l00442"></a>00442 
+<a name="l00443"></a>00443     gtk_tree_model_get ( model,
+<a name="l00444"></a>00444                          iter_1,
+<a name="l00445"></a>00445                          <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dafe0da1cd590cd7b9210ecf118624f384">COL_NB_DATE</a>, &amp;date_str,
+<a name="l00446"></a>00446                          <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf04e08f20fbe8f8207ab62bb55ac4f30">SCHEDULER_COL_NB_TRANSACTION_NUMBER</a>, &amp;number_1,
+<a name="l00447"></a>00447                          -1 );
+<a name="l00448"></a>00448     date_1 = <a class="code" href="utils__dates_8c.html#a76c6dc10a356af3bd3a74738d41960a8">gsb_parse_date_string</a> ( date_str );
+<a name="l00449"></a>00449 
+<a name="l00450"></a>00450     gtk_tree_model_get ( model,
+<a name="l00451"></a>00451                          iter_2,
+<a name="l00452"></a>00452                          <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dafe0da1cd590cd7b9210ecf118624f384">COL_NB_DATE</a>, &amp;date_str,
+<a name="l00453"></a>00453                          <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf04e08f20fbe8f8207ab62bb55ac4f30">SCHEDULER_COL_NB_TRANSACTION_NUMBER</a>, &amp;number_2,
+<a name="l00454"></a>00454                          -1 );
+<a name="l00455"></a>00455     date_2 = <a class="code" href="utils__dates_8c.html#a76c6dc10a356af3bd3a74738d41960a8">gsb_parse_date_string</a> ( date_str );
+<a name="l00456"></a>00456 
+<a name="l00457"></a>00457     <span class="keywordflow">if</span> ( date_1 &amp;&amp; date_2 )
+<a name="l00458"></a>00458         return_value = g_date_compare ( date_1,
+<a name="l00459"></a>00459                                         date_2 );
+<a name="l00460"></a>00460 
+<a name="l00461"></a>00461     <span class="comment">/* if we are here it&#39;s because we are in a child of split */</span>
+<a name="l00462"></a>00462 
+<a name="l00463"></a>00463     <span class="keywordflow">if</span> ( number_1 &lt; 0 )
+<a name="l00464"></a>00464     {
+<a name="l00465"></a>00465         <span class="keywordflow">if</span> ( date_1) g_free ( date_1);
+<a name="l00466"></a>00466         <span class="keywordflow">if</span> ( date_2) g_free ( date_2);
+<a name="l00467"></a>00467         <span class="keywordflow">return</span> 1;
+<a name="l00468"></a>00468     }
+<a name="l00469"></a>00469     <span class="keywordflow">if</span> ( number_2 &lt; 0 )
+<a name="l00470"></a>00470     {
+<a name="l00471"></a>00471         <span class="keywordflow">if</span> ( date_1) g_free ( date_1);
+<a name="l00472"></a>00472         <span class="keywordflow">if</span> ( date_2) g_free ( date_2);
+<a name="l00473"></a>00473         <span class="keywordflow">return</span> -1;
+<a name="l00474"></a>00474     }
+<a name="l00475"></a>00475 
+<a name="l00476"></a>00476     <span class="keywordflow">if</span> (! return_value )
+<a name="l00477"></a>00477         return_value = number_1 - number_2;
+<a name="l00478"></a>00478 
+<a name="l00479"></a>00479     <span class="keywordflow">if</span> ( date_1) g_free ( date_1);
+<a name="l00480"></a>00480     <span class="keywordflow">if</span> ( date_2) g_free ( date_2);
+<a name="l00481"></a>00481 
+<a name="l00482"></a>00482     <span class="keywordflow">return</span> return_value;
+<a name="l00483"></a>00483 }
+<a name="l00484"></a>00484 
+<a name="l00485"></a>00485 
+<a name="l00486"></a>00486 
+<a name="l00496"></a><a class="code" href="gsb__scheduler__list_8h.html#a9eaf111074be94831038960ae9e56732">00496</a> gboolean <a class="code" href="gsb__scheduler__list_8c.html#a9eaf111074be94831038960ae9e56732">gsb_scheduler_list_show_notes</a> ( <span class="keywordtype">void</span> )
+<a name="l00497"></a>00497 {
+<a name="l00498"></a>00498     <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a973a219fce3f9cbfdd56022173c50206">affichage_commentaire_echeancier</a> = !<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a973a219fce3f9cbfdd56022173c50206">affichage_commentaire_echeancier</a>;
+<a name="l00499"></a>00499 
+<a name="l00500"></a>00500     gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da272f48925ad6961f16ca1090650a72bd">COL_NB_FREQUENCY</a>] ),
+<a name="l00501"></a>00501                                        !<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a973a219fce3f9cbfdd56022173c50206">affichage_commentaire_echeancier</a> );
+<a name="l00502"></a>00502     gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daa1d42633cccb5217630366b2ec32544e">COL_NB_MODE</a>] ),
+<a name="l00503"></a>00503                                        !<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a973a219fce3f9cbfdd56022173c50206">affichage_commentaire_echeancier</a> );
+<a name="l00504"></a>00504     gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da79938fa2eecb166cf7b3181530cefd14">COL_NB_NOTES</a>] ),
+<a name="l00505"></a>00505                                        <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a973a219fce3f9cbfdd56022173c50206">affichage_commentaire_echeancier</a> );
+<a name="l00506"></a>00506     <span class="keywordflow">return</span> FALSE;
+<a name="l00507"></a>00507 }
+<a name="l00508"></a>00508 
+<a name="l00509"></a>00509 
+<a name="l00510"></a>00510 
+<a name="l00520"></a><a class="code" href="gsb__scheduler__list_8h.html#aecc0e9467fcae670ba2243053ce56334">00520</a> gboolean <a class="code" href="gsb__scheduler__list_8c.html#aecc0e9467fcae670ba2243053ce56334">gsb_scheduler_list_execute_transaction</a> ( gint scheduled_number )
+<a name="l00521"></a>00521 {
+<a name="l00522"></a>00522     <a class="code" href="erreur_8h.html#a10f4eeae4cc251a8d632fd62ec1057fb">devel_debug_int</a> (scheduled_number);
+<a name="l00523"></a>00523 
+<a name="l00524"></a>00524     <span class="keywordflow">if</span> ( !scheduled_number )
+<a name="l00525"></a>00525         scheduled_number = <a class="code" href="gsb__scheduler__list_8c.html#a52c8fea240a34ec37da7fe33460d06e7">gsb_scheduler_list_get_current_scheduled_number</a> ();
+<a name="l00526"></a>00526 
+<a name="l00527"></a>00527     <a class="code" href="gsb__scheduler__list_8c.html#a10a206d10ab971adb3ea36ec263c34d2">gsb_scheduler_list_edit_transaction</a> (scheduled_number);
+<a name="l00528"></a>00528 
+<a name="l00529"></a>00529     <span class="comment">/* the only difference for now between an execution and a edition of scheduled is here :</span>
+<a name="l00530"></a>00530 <span class="comment">     * set the flag to say that we execute the scheduled transaction</span>
+<a name="l00531"></a>00531 <span class="comment">     * and hide the scheduler part of the form */</span>
+<a name="l00532"></a>00532     g_object_set_data ( G_OBJECT (<a class="code" href="gsb__form_8c.html#a8cc8131c63a611a38f617ecd1e86b1e3">gsb_form_get_form_widget</a> ()),
+<a name="l00533"></a>00533                         <span class="stringliteral">&quot;execute_scheduled&quot;</span>, GINT_TO_POINTER (TRUE));
+<a name="l00534"></a>00534     gtk_widget_hide ( <a class="code" href="gsb__form_8c.html#ab792f6c61ee112779fdbf50028337d02">gsb_form_get_scheduler_part</a> ());
+<a name="l00535"></a>00535 
+<a name="l00536"></a>00536     <span class="keywordflow">return</span> FALSE;
+<a name="l00537"></a>00537 }
+<a name="l00538"></a>00538 
+<a name="l00539"></a>00539 
+<a name="l00540"></a>00540 
+<a name="l00548"></a><a class="code" href="gsb__scheduler__list_8h.html#a09e95845b5893d975e94605f02051651">00548</a> gboolean <a class="code" href="gsb__scheduler__list_8c.html#a09e95845b5893d975e94605f02051651">gsb_scheduler_list_fill_list</a> ( GtkWidget *tree_view )
+<a name="l00549"></a>00549 {
+<a name="l00550"></a>00550     GSList *tmp_list;
+<a name="l00551"></a>00551     GDate *end_date;
+<a name="l00552"></a>00552     GtkTreeIter iter;
+<a name="l00553"></a>00553     GSList *orphan_scheduled = NULL;
+<a name="l00554"></a>00554 
+<a name="l00555"></a>00555     <a class="code" href="erreur_8h.html#a17bfffc4306bc76edd79e060a8947dc4">devel_debug</a> (NULL);
+<a name="l00556"></a>00556 
+<a name="l00557"></a>00557     <span class="comment">/* get the last date we want to see the transactions */</span>
+<a name="l00558"></a>00558     end_date = <a class="code" href="gsb__scheduler__list_8c.html#ad9e65bbbb35121bbbb743a902b3632e9">gsb_scheduler_list_get_end_date_scheduled_showed</a> ();
+<a name="l00559"></a>00559 
+<a name="l00560"></a>00560     gtk_tree_store_clear (GTK_TREE_STORE (tree_model_scheduler_list));
+<a name="l00561"></a>00561 
+<a name="l00562"></a>00562     <span class="comment">/* fill the list */</span>
+<a name="l00563"></a>00563     tmp_list = <a class="code" href="gsb__data__scheduled_8c.html#a9e321b67331018d8f0a42022643a10d2">gsb_data_scheduled_get_scheduled_list</a> ();
+<a name="l00564"></a>00564 
+<a name="l00565"></a>00565     <span class="keywordflow">while</span> ( tmp_list )
+<a name="l00566"></a>00566     {
+<a name="l00567"></a>00567         gint scheduled_number;
+<a name="l00568"></a>00568 
+<a name="l00569"></a>00569         scheduled_number = <a class="code" href="gsb__data__scheduled_8c.html#ab2a72c93ed6dcf08a477aea4e069c5e3">gsb_data_scheduled_get_scheduled_number</a> (tmp_list -&gt; data);
+<a name="l00570"></a>00570 
+<a name="l00571"></a>00571         <span class="keywordflow">if</span> ( !end_date || 
+<a name="l00572"></a>00572          g_date_compare ( <a class="code" href="gsb__data__scheduled_8c.html#ae4e987a3bddc7f5550d91fae634d6dee">gsb_data_scheduled_get_date</a> (scheduled_number), end_date) &lt;= 0 )
+<a name="l00573"></a>00573         {
+<a name="l00574"></a>00574             <span class="keywordflow">if</span> ( !<a class="code" href="gsb__scheduler__list_8c.html#a44db4084e9e03a49fb9c73b5bff9e788">gsb_scheduler_list_append_new_scheduled</a> ( scheduled_number,
+<a name="l00575"></a>00575                                    end_date ) )
+<a name="l00576"></a>00576                 <span class="comment">/* the scheduled transaction was not added, add to orphan scheduledlist */</span>
+<a name="l00577"></a>00577                 orphan_scheduled = g_slist_append (orphan_scheduled, tmp_list -&gt; data);
+<a name="l00578"></a>00578         }
+<a name="l00579"></a>00579         tmp_list = tmp_list -&gt; next;
+<a name="l00580"></a>00580     }
+<a name="l00581"></a>00581 
+<a name="l00582"></a>00582     <span class="comment">/* if there are some orphan sheduler (children of breakdonw wich didn&#39;t find their mother */</span>
+<a name="l00583"></a>00583     <span class="keywordflow">if</span> (orphan_scheduled)
+<a name="l00584"></a>00584     {
+<a name="l00585"></a>00585         gchar *<span class="keywordtype">string</span> = NULL;
+<a name="l00586"></a>00586 
+<a name="l00587"></a>00587         tmp_list = orphan_scheduled;
+<a name="l00588"></a>00588         <span class="keywordflow">while</span> (tmp_list)
+<a name="l00589"></a>00589         {
+<a name="l00590"></a>00590             gint scheduled_number;
+<a name="l00591"></a>00591 
+<a name="l00592"></a>00592             scheduled_number = <a class="code" href="gsb__data__scheduled_8c.html#ab2a72c93ed6dcf08a477aea4e069c5e3">gsb_data_scheduled_get_scheduled_number</a> (tmp_list -&gt; data);
+<a name="l00593"></a>00593 
+<a name="l00594"></a>00594             <span class="keywordflow">if</span> (!<a class="code" href="gsb__scheduler__list_8c.html#a44db4084e9e03a49fb9c73b5bff9e788">gsb_scheduler_list_append_new_scheduled</a> ( scheduled_number,
+<a name="l00595"></a>00595                                    end_date ))
+<a name="l00596"></a>00596             {
+<a name="l00597"></a>00597                 <span class="keywordflow">if</span> ( <span class="keywordtype">string</span> == NULL )
+<a name="l00598"></a>00598                     <span class="keywordtype">string</span> = <a class="code" href="utils__str_8c.html#a1e50f3be459180b9dea9f14eb7e1204e" title="convert an integer into a gchar based string">utils_str_itoa</a> ( scheduled_number );
+<a name="l00599"></a>00599                 <span class="keywordflow">else</span>
+<a name="l00600"></a>00600                     <span class="keywordtype">string</span> = g_strconcat ( <span class="keywordtype">string</span>, <span class="stringliteral">&quot; - &quot;</span>,
+<a name="l00601"></a>00601                         <a class="code" href="utils__str_8c.html#a1e50f3be459180b9dea9f14eb7e1204e" title="convert an integer into a gchar based string">utils_str_itoa</a> ( scheduled_number ), NULL );
+<a name="l00602"></a>00602             }
+<a name="l00603"></a>00603 
+<a name="l00604"></a>00604             tmp_list = tmp_list -&gt; next;
+<a name="l00605"></a>00605         }
+<a name="l00606"></a>00606 
+<a name="l00607"></a>00607         <span class="comment">/* if string is not null, there is still some children</span>
+<a name="l00608"></a>00608 <span class="comment">         * wich didn&#39;t find their mother. show them now */</span>
+<a name="l00609"></a>00609         <span class="keywordflow">if</span> ( <span class="keywordtype">string</span> )
+<a name="l00610"></a>00610         {
+<a name="l00611"></a>00611             gchar *<a class="code" href="structconditional__message.html#a1ac78264fd28b6819d5bfaa1e9b0ef39">message</a>;
+<a name="l00612"></a>00612 
+<a name="l00613"></a>00613             message = _(<span class="stringliteral">&quot;Some scheduled children didn&#39;t find their mother in the list, &quot;</span>
+<a name="l00614"></a>00614             <span class="stringliteral">&quot;this shouldn&#39;t happen and there is probably a bug behind that. Please contact &quot;</span>
+<a name="l00615"></a>00615             <span class="stringliteral">&quot;the Grisbi team.\n\nThe concerned children number are :\n&quot;</span>);
+<a name="l00616"></a>00616 
+<a name="l00617"></a>00617             message = g_strconcat (message, <span class="keywordtype">string</span>, NULL);
+<a name="l00618"></a>00618             <a class="code" href="dialog_8c.html#a198880c6e09a934c62fd541c9cb302f9">dialogue_warning</a> ( message );
+<a name="l00619"></a>00619             g_free ( message );
+<a name="l00620"></a>00620             g_free ( <span class="keywordtype">string</span> );
+<a name="l00621"></a>00621         }
+<a name="l00622"></a>00622         g_slist_free (orphan_scheduled);
+<a name="l00623"></a>00623     }
+<a name="l00624"></a>00624 
+<a name="l00625"></a>00625     <span class="comment">/* create and append the white line */</span>
+<a name="l00626"></a>00626     gtk_tree_store_append ( GTK_TREE_STORE (tree_model_scheduler_list),
+<a name="l00627"></a>00627                             &amp;iter,
+<a name="l00628"></a>00628                             NULL );
+<a name="l00629"></a>00629     gtk_tree_store_set ( GTK_TREE_STORE (tree_model_scheduler_list),
+<a name="l00630"></a>00630                          &amp;iter,
+<a name="l00631"></a>00631                          <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf04e08f20fbe8f8207ab62bb55ac4f30">SCHEDULER_COL_NB_TRANSACTION_NUMBER</a>, <a class="code" href="gsb__data__scheduled_8c.html#ae06f8ce3a70b0bd8b4fe04b955c9c18b">gsb_data_scheduled_new_white_line</a> (0),
+<a name="l00632"></a>00632                          -1 );
+<a name="l00633"></a>00633 
+<a name="l00634"></a>00634     <span class="keywordflow">return</span> FALSE;
+<a name="l00635"></a>00635 }
+<a name="l00636"></a>00636 
+<a name="l00637"></a>00637 
+<a name="l00646"></a><a class="code" href="gsb__scheduler__list_8h.html#ab752b98c60209519778b0ccc5786527d">00646</a> gboolean <a class="code" href="gsb__scheduler__list_8c.html#ab752b98c60209519778b0ccc5786527d">gsb_scheduler_list_redraw</a> ( <span class="keywordtype">void</span> )
+<a name="l00647"></a>00647 {
+<a name="l00648"></a>00648     GtkTreeIter iter;
+<a name="l00649"></a>00649     GtkTreeModel *tree_model;
+<a name="l00650"></a>00650 
+<a name="l00651"></a>00651     tree_model = gsb_scheduler_list_get_model ();
+<a name="l00652"></a>00652 
+<a name="l00653"></a>00653     <span class="keywordflow">if</span> (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (tree_model), &amp;iter))
+<a name="l00654"></a>00654     {
+<a name="l00655"></a>00655         <span class="keywordflow">do</span>
+<a name="l00656"></a>00656         {
+<a name="l00657"></a>00657             GtkTreePath *path;
+<a name="l00658"></a>00658             GtkTreeIter child_iter;
+<a name="l00659"></a>00659 
+<a name="l00660"></a>00660             path = gtk_tree_model_get_path ( GTK_TREE_MODEL (tree_model),
+<a name="l00661"></a>00661                                              &amp;iter );
+<a name="l00662"></a>00662             gtk_tree_model_row_changed ( GTK_TREE_MODEL (tree_model), path, &amp;iter);
+<a name="l00663"></a>00663             gtk_tree_path_free(path);
+<a name="l00664"></a>00664 
+<a name="l00665"></a>00665             <span class="comment">/* update the children if necessary */</span>
+<a name="l00666"></a>00666             <span class="keywordflow">if</span> (gtk_tree_model_iter_children ( GTK_TREE_MODEL (tree_model),
+<a name="l00667"></a>00667                                                &amp;child_iter,
+<a name="l00668"></a>00668                                                &amp;iter ))
+<a name="l00669"></a>00669             {
+<a name="l00670"></a>00670                 <span class="keywordflow">do</span>
+<a name="l00671"></a>00671                 {
+<a name="l00672"></a>00672                     path = gtk_tree_model_get_path ( GTK_TREE_MODEL (tree_model),
+<a name="l00673"></a>00673                                                      &amp;child_iter );
+<a name="l00674"></a>00674                     gtk_tree_model_row_changed ( GTK_TREE_MODEL (tree_model), path, &amp;child_iter);
+<a name="l00675"></a>00675                     gtk_tree_path_free(path);
+<a name="l00676"></a>00676                 }
+<a name="l00677"></a>00677                 <span class="keywordflow">while</span> (gtk_tree_model_iter_next (GTK_TREE_MODEL (tree_model), &amp;child_iter));
+<a name="l00678"></a>00678             }
+<a name="l00679"></a>00679         }
+<a name="l00680"></a>00680         <span class="keywordflow">while</span> (gtk_tree_model_iter_next (GTK_TREE_MODEL (tree_model), &amp;iter));
+<a name="l00681"></a>00681     }
+<a name="l00682"></a>00682     <span class="keywordflow">return</span> FALSE;
+<a name="l00683"></a>00683 }
+<a name="l00684"></a>00684 
+<a name="l00685"></a>00685 
+<a name="l00696"></a><a class="code" href="gsb__scheduler__list_8h.html#a44db4084e9e03a49fb9c73b5bff9e788">00696</a> gboolean <a class="code" href="gsb__scheduler__list_8c.html#a44db4084e9e03a49fb9c73b5bff9e788">gsb_scheduler_list_append_new_scheduled</a> ( gint scheduled_number,
+<a name="l00697"></a>00697                         GDate *end_date )
+<a name="l00698"></a>00698 {
+<a name="l00699"></a>00699     GDate *pGDateCurrent;
+<a name="l00700"></a>00700     gint virtual_transaction = 0;
+<a name="l00701"></a>00701     GtkTreeIter *mother_iter = NULL;
+<a name="l00702"></a>00702     <span class="keyword">const</span> gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS];
+<a name="l00703"></a>00703     gint mother_scheduled_number;
+<a name="l00704"></a>00704 
+<a name="l00705"></a>00705     <span class="comment">/* devel_debug_int (scheduled_number); */</span>
+<a name="l00706"></a>00706 
+<a name="l00707"></a>00707     <span class="keywordflow">if</span> (!tree_model_scheduler_list)
+<a name="l00708"></a>00708         <span class="keywordflow">return</span> FALSE;
+<a name="l00709"></a>00709 
+<a name="l00710"></a>00710     <span class="comment">/* get the mother iter if needed */</span>
+<a name="l00711"></a>00711     mother_scheduled_number = <a class="code" href="gsb__data__scheduled_8c.html#a3f8e6e2985be6cb88c0f38965b75d804">gsb_data_scheduled_get_mother_scheduled_number</a> (scheduled_number);
+<a name="l00712"></a>00712     <span class="keywordflow">if</span> (mother_scheduled_number)
+<a name="l00713"></a>00713     {
+<a name="l00714"></a>00714         mother_iter = gsb_scheduler_list_get_iter_from_scheduled_number (mother_scheduled_number);
+<a name="l00715"></a>00715         <span class="keywordflow">if</span> (!mother_iter)
+<a name="l00716"></a>00716             <span class="comment">/* it&#39;s a child but didn&#39;t find the mother, it can happen in old files previous to 0.6</span>
+<a name="l00717"></a>00717 <span class="comment">             * where the children wer saved before the mother, return FALSE here will add that</span>
+<a name="l00718"></a>00718 <span class="comment">             * child to a list to append it again later */</span>
+<a name="l00719"></a>00719             <span class="keywordflow">return</span> FALSE;
+<a name="l00720"></a>00720     }
+<a name="l00721"></a>00721 
+<a name="l00722"></a>00722     pGDateCurrent = <a class="code" href="utils__dates_8c.html#ad688d2e013a4c82fa7e1cb47f64054d4">gsb_date_copy</a> (<a class="code" href="gsb__data__scheduled_8c.html#ae4e987a3bddc7f5550d91fae634d6dee">gsb_data_scheduled_get_date</a> (scheduled_number));
+<a name="l00723"></a>00723 
+<a name="l00724"></a>00724     <span class="comment">/* fill the text line */</span>
+<a name="l00725"></a>00725     gsb_scheduler_list_fill_transaction_text ( scheduled_number, line );
+<a name="l00726"></a>00726 
+<a name="l00727"></a>00727     <span class="keywordflow">do</span>
+<a name="l00728"></a>00728     {
+<a name="l00729"></a>00729         GtkTreeIter iter;
+<a name="l00730"></a>00730 
+<a name="l00731"></a>00731         gtk_tree_store_append ( GTK_TREE_STORE (tree_model_scheduler_list),
+<a name="l00732"></a>00732                                 &amp;iter,
+<a name="l00733"></a>00733                                 mother_iter );
+<a name="l00734"></a>00734 
+<a name="l00735"></a>00735         gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE (tree_model_scheduler_list),
+<a name="l00736"></a>00736                                                   &amp;iter,
+<a name="l00737"></a>00737                                                   line );
+<a name="l00738"></a>00738 
+<a name="l00739"></a>00739 
+<a name="l00740"></a>00740         <span class="comment">/* set the number of scheduled transaction to 0 if it&#39;s not the first one</span>
+<a name="l00741"></a>00741 <span class="comment">         * (when more than one showed ) */</span>
+<a name="l00742"></a>00742         gtk_tree_store_set ( GTK_TREE_STORE (tree_model_scheduler_list), &amp;iter,
+<a name="l00743"></a>00743                              <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf04e08f20fbe8f8207ab62bb55ac4f30">SCHEDULER_COL_NB_TRANSACTION_NUMBER</a>, scheduled_number,
+<a name="l00744"></a>00744                              <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daeadc5dc23981b29c14e504a0bb93aecb">SCHEDULER_COL_NB_VIRTUAL_TRANSACTION</a>, virtual_transaction,
+<a name="l00745"></a>00745                              -1 );
+<a name="l00746"></a>00746 
+<a name="l00747"></a>00747         <span class="comment">/* if it&#39;s a split, we append a white line now */</span>
+<a name="l00748"></a>00748         <span class="keywordflow">if</span> (<a class="code" href="gsb__data__scheduled_8c.html#ae2bbf34058b508781bd4af1292b64d6a">gsb_data_scheduled_get_split_of_scheduled</a> (scheduled_number) &amp;&amp; !virtual_transaction)
+<a name="l00749"></a>00749         {
+<a name="l00750"></a>00750             gint white_line_number = <a class="code" href="gsb__data__scheduled_8c.html#aac0788953cfa89ce5393e02e2b22d655">gsb_data_scheduled_get_white_line</a> (scheduled_number);
+<a name="l00751"></a>00751 
+<a name="l00752"></a>00752             <span class="keywordflow">if</span> (white_line_number == -1)
+<a name="l00753"></a>00753                 white_line_number = <a class="code" href="gsb__data__scheduled_8c.html#ae06f8ce3a70b0bd8b4fe04b955c9c18b">gsb_data_scheduled_new_white_line</a> (scheduled_number);
+<a name="l00754"></a>00754             <a class="code" href="gsb__scheduler__list_8c.html#a44db4084e9e03a49fb9c73b5bff9e788">gsb_scheduler_list_append_new_scheduled</a> ( white_line_number,
+<a name="l00755"></a>00755                                                       end_date );
+<a name="l00756"></a>00756         }
+<a name="l00757"></a>00757 
+<a name="l00758"></a>00758         <span class="comment">/* if it&#39;s a split, we show only one time and color the background */</span>
+<a name="l00759"></a>00759         <span class="keywordflow">if</span> ( mother_iter )
+<a name="l00760"></a>00760             gtk_tree_store_set ( GTK_TREE_STORE (tree_model_scheduler_list),
+<a name="l00761"></a>00761                                  &amp;iter,
+<a name="l00762"></a>00762                                  <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da78937918a995b47f1677999dce25f5b5">SCHEDULER_COL_NB_BACKGROUND</a>, &amp;<a class="code" href="affichage_8c.html#abc4f631d953e2be68189a6fbcf55cd1d">split_background</a>,
+<a name="l00763"></a>00763                                  -1 );
+<a name="l00764"></a>00764         <span class="keywordflow">else</span>
+<a name="l00765"></a>00765         {
+<a name="l00766"></a>00766             pGDateCurrent = <a class="code" href="gsb__scheduler_8c.html#ace6ee5adae18cc4bad4074296e8a5613">gsb_scheduler_get_next_date</a> ( scheduled_number, pGDateCurrent );
+<a name="l00767"></a>00767 
+<a name="l00768"></a>00768             line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dafe0da1cd590cd7b9210ecf118624f384">COL_NB_DATE</a>] = <a class="code" href="utils__dates_8c.html#a6e7537390d7569da5efc74f96ea57da7">gsb_format_gdate</a> ( pGDateCurrent );
+<a name="l00769"></a>00769             <span class="comment">/* now, it&#39;s not real transactions */</span>
+<a name="l00770"></a>00770             virtual_transaction = TRUE;
+<a name="l00771"></a>00771         }
+<a name="l00772"></a>00772     }
+<a name="l00773"></a>00773     <span class="keywordflow">while</span> ( pGDateCurrent &amp;&amp;
+<a name="l00774"></a>00774             end_date &amp;&amp;
+<a name="l00775"></a>00775             g_date_compare ( end_date, pGDateCurrent ) &gt; 0 &amp;&amp;
+<a name="l00776"></a>00776             !mother_iter );
+<a name="l00777"></a>00777     <span class="keywordflow">if</span> ( mother_iter )
+<a name="l00778"></a>00778         gtk_tree_iter_free (mother_iter);
+<a name="l00779"></a>00779     <span class="keywordflow">return</span> TRUE;
+<a name="l00780"></a>00780 }
+<a name="l00781"></a>00781 
+<a name="l00782"></a>00782 
+<a name="l00791"></a><a class="code" href="gsb__scheduler__list_8h.html#ae61448df24743985077437b1ef276cc5">00791</a> gboolean <a class="code" href="gsb__scheduler__list_8c.html#ae61448df24743985077437b1ef276cc5">gsb_scheduler_list_remove_transaction_from_list</a> ( gint scheduled_number )
+<a name="l00792"></a>00792 {
+<a name="l00793"></a>00793     GSList *iter_list;
+<a name="l00794"></a>00794 
+<a name="l00795"></a>00795     <a class="code" href="erreur_8h.html#a10f4eeae4cc251a8d632fd62ec1057fb">devel_debug_int</a> (scheduled_number);
+<a name="l00796"></a>00796 
+<a name="l00797"></a>00797     <span class="keywordflow">if</span> (!scheduled_number
+<a name="l00798"></a>00798         ||
+<a name="l00799"></a>00799         !gsb_scheduler_list_get_model ())
+<a name="l00800"></a>00800         <span class="keywordflow">return</span> FALSE;
+<a name="l00801"></a>00801 
+<a name="l00802"></a>00802     <span class="comment">/* at this level, normally the transaction is already deleted,</span>
+<a name="l00803"></a>00803 <span class="comment">     * so we cannot call gsb_data_scheduled_... we have only the number</span>
+<a name="l00804"></a>00804 <span class="comment">     * to remove it from the list */</span>
+<a name="l00805"></a>00805 
+<a name="l00806"></a>00806     iter_list = gsb_scheduler_list_get_iter_list_from_scheduled_number ( scheduled_number );
+<a name="l00807"></a>00807 
+<a name="l00808"></a>00808     <span class="keywordflow">if</span> ( iter_list )
+<a name="l00809"></a>00809     {
+<a name="l00810"></a>00810         GtkTreeStore *store;
+<a name="l00811"></a>00811         GSList *tmp_list;
+<a name="l00812"></a>00812 
+<a name="l00813"></a>00813         store = GTK_TREE_STORE (gsb_scheduler_list_get_model ());
+<a name="l00814"></a>00814         tmp_list = iter_list;
+<a name="l00815"></a>00815 
+<a name="l00816"></a>00816         <span class="keywordflow">while</span> (tmp_list)
+<a name="l00817"></a>00817         {
+<a name="l00818"></a>00818             GtkTreeIter *iter;
+<a name="l00819"></a>00819 
+<a name="l00820"></a>00820             iter = tmp_list -&gt; data;
+<a name="l00821"></a>00821 
+<a name="l00822"></a>00822             gtk_tree_store_remove ( store,
+<a name="l00823"></a>00823                                     iter );
+<a name="l00824"></a>00824             gtk_tree_iter_free ( iter );
+<a name="l00825"></a>00825             tmp_list = tmp_list -&gt; next;
+<a name="l00826"></a>00826         }
+<a name="l00827"></a>00827     }
+<a name="l00828"></a>00828     <span class="keywordflow">else</span>
+<a name="l00829"></a>00829     {
+<a name="l00830"></a>00830         gchar* tmpstr = g_strdup_printf ( _(<span class="stringliteral">&quot;in gsb_scheduler_list_remove_transaction_from_list, ask to remove the transaction no %d,\nbut didn&#39;t find the iter in the list...\nIt&#39;s normal if appending a new scheduled transaction, but abnormal else...&quot;</span>),
+<a name="l00831"></a>00831                                           scheduled_number );
+<a name="l00832"></a>00832         <a class="code" href="erreur_8h.html#a70b10c07513d0694ee36dcdcb1696949">warning_debug</a> ( tmpstr);
+<a name="l00833"></a>00833         g_free ( tmpstr );
+<a name="l00834"></a>00834     }
+<a name="l00835"></a>00835     <span class="keywordflow">return</span> FALSE;
+<a name="l00836"></a>00836 }
+<a name="l00837"></a>00837 
+<a name="l00838"></a>00838 
+<a name="l00846"></a><a class="code" href="gsb__scheduler__list_8h.html#a7b1d97387d5d2e281f3ead3e6ab0311b">00846</a> gboolean <a class="code" href="gsb__scheduler__list_8c.html#a7b1d97387d5d2e281f3ead3e6ab0311b">gsb_scheduler_list_update_transaction_in_list</a> ( gint scheduled_number )
+<a name="l00847"></a>00847 {
+<a name="l00848"></a>00848     GtkTreeStore *store;
+<a name="l00849"></a>00849     GtkTreeIter iter;
+<a name="l00850"></a>00850     GDate *pGDateCurrent;
+<a name="l00851"></a>00851 
+<a name="l00852"></a>00852     <span class="comment">/* TODO dOm : each line of the array `line&#39; contains a newly allocated string. When are they freed ? */</span>
+<a name="l00853"></a>00853     <span class="keyword">const</span> gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS];
+<a name="l00854"></a>00854 
+<a name="l00855"></a>00855     <a class="code" href="erreur_8h.html#a10f4eeae4cc251a8d632fd62ec1057fb">devel_debug_int</a> (scheduled_number);
+<a name="l00856"></a>00856 
+<a name="l00857"></a>00857     <span class="keywordflow">if</span> ( !scheduled_number
+<a name="l00858"></a>00858          ||
+<a name="l00859"></a>00859          !gsb_scheduler_list_get_model ())
+<a name="l00860"></a>00860         <span class="keywordflow">return</span> FALSE;
+<a name="l00861"></a>00861 
+<a name="l00862"></a>00862     <span class="comment">/* the same transaction can be showed more than one time because of the different views,</span>
+<a name="l00863"></a>00863 <span class="comment">     * not so difficult, go throw the list and for each iter corresponding to the scheduled</span>
+<a name="l00864"></a>00864 <span class="comment">     * transaction, re-fill the line */</span>
+<a name="l00865"></a>00865     store = GTK_TREE_STORE (gsb_scheduler_list_get_model ());
+<a name="l00866"></a>00866 
+<a name="l00867"></a>00867     pGDateCurrent = <a class="code" href="utils__dates_8c.html#ad688d2e013a4c82fa7e1cb47f64054d4">gsb_date_copy</a> (<a class="code" href="gsb__data__scheduled_8c.html#ae4e987a3bddc7f5550d91fae634d6dee">gsb_data_scheduled_get_date</a> (scheduled_number));
+<a name="l00868"></a>00868 
+<a name="l00869"></a>00869     <span class="comment">/* fill the text line */</span>
+<a name="l00870"></a>00870     gsb_scheduler_list_fill_transaction_text ( scheduled_number,
+<a name="l00871"></a>00871                                                line );
+<a name="l00872"></a>00872 
+<a name="l00873"></a>00873     <span class="keywordflow">if</span> (gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (store), &amp;iter))
+<a name="l00874"></a>00874     {
+<a name="l00875"></a>00875         <span class="keywordflow">do</span>
+<a name="l00876"></a>00876         {
+<a name="l00877"></a>00877             gint scheduled_number_tmp;
+<a name="l00878"></a>00878             GtkTreeIter child_iter;
+<a name="l00879"></a>00879 
+<a name="l00880"></a>00880             gtk_tree_model_get ( GTK_TREE_MODEL (store), &amp;iter,
+<a name="l00881"></a>00881                                  <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf04e08f20fbe8f8207ab62bb55ac4f30">SCHEDULER_COL_NB_TRANSACTION_NUMBER</a>, &amp;scheduled_number_tmp,
+<a name="l00882"></a>00882                                  -1 );
+<a name="l00883"></a>00883             <span class="keywordflow">if</span> (scheduled_number_tmp == scheduled_number)
+<a name="l00884"></a>00884             {
+<a name="l00885"></a>00885                 gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE (store),
+<a name="l00886"></a>00886                                                           &amp;iter,
+<a name="l00887"></a>00887                                                           line );
+<a name="l00888"></a>00888                 <span class="comment">/* go to the next date if ever there is several lines of that scheduled */</span>
+<a name="l00889"></a>00889                 pGDateCurrent = <a class="code" href="gsb__scheduler_8c.html#ace6ee5adae18cc4bad4074296e8a5613">gsb_scheduler_get_next_date</a> ( scheduled_number, pGDateCurrent );
+<a name="l00890"></a>00890 
+<a name="l00891"></a>00891                 line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dafe0da1cd590cd7b9210ecf118624f384">COL_NB_DATE</a>] = <a class="code" href="utils__dates_8c.html#a6e7537390d7569da5efc74f96ea57da7">gsb_format_gdate</a> ( pGDateCurrent );
+<a name="l00892"></a>00892             }
+<a name="l00893"></a>00893 
+<a name="l00894"></a>00894             <span class="comment">/* i still haven&#39;t found a function to go line by line, including the children,</span>
+<a name="l00895"></a>00895 <span class="comment">             * so do another do/while into the first one */</span>
+<a name="l00896"></a>00896             <span class="keywordflow">if</span> (gtk_tree_model_iter_children (GTK_TREE_MODEL (store), &amp;child_iter, &amp;iter))
+<a name="l00897"></a>00897             {
+<a name="l00898"></a>00898                 <span class="comment">/* we are on the child */</span>
+<a name="l00899"></a>00899                 <span class="keywordflow">do</span>
+<a name="l00900"></a>00900                 {
+<a name="l00901"></a>00901                     gtk_tree_model_get ( GTK_TREE_MODEL (store), &amp;child_iter,
+<a name="l00902"></a>00902                                          <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf04e08f20fbe8f8207ab62bb55ac4f30">SCHEDULER_COL_NB_TRANSACTION_NUMBER</a>, &amp;scheduled_number_tmp,
+<a name="l00903"></a>00903                                          -1 );
+<a name="l00904"></a>00904                     <span class="keywordflow">if</span> (scheduled_number_tmp == scheduled_number)
+<a name="l00905"></a>00905                         gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE (store),
+<a name="l00906"></a>00906                                                                   &amp;child_iter,
+<a name="l00907"></a>00907                                                                   line );
+<a name="l00908"></a>00908                 }
+<a name="l00909"></a>00909                 <span class="keywordflow">while</span> ( gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &amp;child_iter));
+<a name="l00910"></a>00910             }
+<a name="l00911"></a>00911         }
+<a name="l00912"></a>00912         <span class="keywordflow">while</span> ( gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &amp;iter));
+<a name="l00913"></a>00913     }
+<a name="l00914"></a>00914     <span class="keywordflow">return</span> FALSE;
+<a name="l00915"></a>00915 }
+<a name="l00916"></a>00916 
+<a name="l00917"></a>00917 
+<a name="l00926"></a>00926 gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
+<a name="l00927"></a>00927                                                     <span class="keyword">const</span> gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS]  )
+<a name="l00928"></a>00928 {
+<a name="l00929"></a>00929     <span class="keywordflow">if</span> ( <a class="code" href="gsb__data__scheduled_8c.html#a3f8e6e2985be6cb88c0f38965b75d804">gsb_data_scheduled_get_mother_scheduled_number</a> (scheduled_number))
+<a name="l00930"></a>00930     {
+<a name="l00931"></a>00931         <span class="comment">/* for child split we set all to NULL except the party, we show the category instead */</span>
+<a name="l00932"></a>00932         line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dafe0da1cd590cd7b9210ecf118624f384">COL_NB_DATE</a>] = NULL;
+<a name="l00933"></a>00933         line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da272f48925ad6961f16ca1090650a72bd">COL_NB_FREQUENCY</a>] = NULL;
+<a name="l00934"></a>00934         line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da9241ab78f620cf6a734e44238cd4f5e6">COL_NB_ACCOUNT</a>] = NULL;
+<a name="l00935"></a>00935         line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daa1d42633cccb5217630366b2ec32544e">COL_NB_MODE</a>] = NULL;
+<a name="l00936"></a>00936 
+<a name="l00937"></a>00937         <span class="keywordflow">if</span> ( <a class="code" href="gsb__data__scheduled_8c.html#a6d9e3ecf8c981f4d49d7b4c3d0f5dd86">gsb_data_scheduled_get_category_number</a> (scheduled_number))
+<a name="l00938"></a>00938             line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da1cf8ae6649e259b08f22ef4d67ee80da">COL_NB_PARTY</a>] = <a class="code" href="gsb__data__category_8c.html#a615342249ac310a61000690303ce88a9">gsb_data_category_get_name</a> ( <a class="code" href="gsb__data__scheduled_8c.html#a6d9e3ecf8c981f4d49d7b4c3d0f5dd86">gsb_data_scheduled_get_category_number</a> (scheduled_number),
+<a name="l00939"></a>00939                                                               <a class="code" href="gsb__data__scheduled_8c.html#a0f906373715193111c3dd1d6af30000a">gsb_data_scheduled_get_sub_category_number</a> (scheduled_number),
+<a name="l00940"></a>00940                                                               NULL );
+<a name="l00941"></a>00941         <span class="keywordflow">else</span>
+<a name="l00942"></a>00942         {
+<a name="l00943"></a>00943             <span class="comment">/* there is no category, it can be a transfer */</span>
+<a name="l00944"></a>00944             <span class="keywordflow">if</span> (<a class="code" href="gsb__data__scheduled_8c.html#ab6286df91402f557a522e8d6ff8b57c0">gsb_data_scheduled_get_account_number_transfer</a> (scheduled_number) &gt;= 0
+<a name="l00945"></a>00945                 &amp;&amp;
+<a name="l00946"></a>00946                 scheduled_number &gt; 0)
+<a name="l00947"></a>00947             {
+<a name="l00948"></a>00948                 <span class="comment">/* it&#39;s a transfer */</span>
+<a name="l00949"></a>00949                 <span class="keywordflow">if</span> (<a class="code" href="gsb__data__scheduled_8c.html#a60f83f62f6ca02e7b786ed30a1b9e6c6">gsb_data_scheduled_get_amount</a> (scheduled_number).mantissa &lt; 0)
+<a name="l00950"></a>00950                     line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da1cf8ae6649e259b08f22ef4d67ee80da">COL_NB_PARTY</a>] = g_strdup_printf ( _(<span class="stringliteral">&quot;Transfer to %s&quot;</span>),
+<a name="l00951"></a>00951                                                            <a class="code" href="gsb__data__account_8c.html#a6b0df19868e38619bff512f2c18ef51e">gsb_data_account_get_name</a> (<a class="code" href="gsb__data__scheduled_8c.html#ab6286df91402f557a522e8d6ff8b57c0">gsb_data_scheduled_get_account_number_transfer</a> (scheduled_number)));
+<a name="l00952"></a>00952                 <span class="keywordflow">else</span>
+<a name="l00953"></a>00953                     line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da1cf8ae6649e259b08f22ef4d67ee80da">COL_NB_PARTY</a>] = g_strdup_printf ( _(<span class="stringliteral">&quot;Transfer from %s&quot;</span>),
+<a name="l00954"></a>00954                                                            <a class="code" href="gsb__data__account_8c.html#a6b0df19868e38619bff512f2c18ef51e">gsb_data_account_get_name</a> (<a class="code" href="gsb__data__scheduled_8c.html#ab6286df91402f557a522e8d6ff8b57c0">gsb_data_scheduled_get_account_number_transfer</a> (scheduled_number)));
+<a name="l00955"></a>00955             }
+<a name="l00956"></a>00956             <span class="keywordflow">else</span>
+<a name="l00957"></a>00957                 <span class="comment">/* it&#39;s not a transfer, so no category */</span>
+<a name="l00958"></a>00958                 line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da1cf8ae6649e259b08f22ef4d67ee80da">COL_NB_PARTY</a>] = NULL;
+<a name="l00959"></a>00959         }
+<a name="l00960"></a>00960     }
+<a name="l00961"></a>00961     <span class="keywordflow">else</span>
+<a name="l00962"></a>00962     {
+<a name="l00963"></a>00963         <span class="comment">/* fill her for normal scheduled transaction (not children) */</span>
+<a name="l00964"></a>00964         gint frequency;
+<a name="l00965"></a>00965 
+<a name="l00966"></a>00966         line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dafe0da1cd590cd7b9210ecf118624f384">COL_NB_DATE</a>] = <a class="code" href="utils__dates_8c.html#a6e7537390d7569da5efc74f96ea57da7">gsb_format_gdate</a> (<a class="code" href="gsb__data__scheduled_8c.html#ae4e987a3bddc7f5550d91fae634d6dee">gsb_data_scheduled_get_date</a> (scheduled_number));
+<a name="l00967"></a>00967         frequency = <a class="code" href="gsb__data__scheduled_8c.html#a60ab7adb921a63a38d8bcaec72d4165d">gsb_data_scheduled_get_frequency</a> (scheduled_number);
+<a name="l00968"></a>00968 
+<a name="l00969"></a>00969         <span class="keywordflow">if</span> ( frequency == <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99faa61a2684a7f9891e9ab77e2e2c877ded">SCHEDULER_PERIODICITY_CUSTOM_VIEW</a> )
+<a name="l00970"></a>00970         {
+<a name="l00971"></a>00971             <span class="keywordflow">switch</span> (<a class="code" href="gsb__data__scheduled_8c.html#aaf1176d8c782270fe8e4eec21937bf05">gsb_data_scheduled_get_user_interval</a> (scheduled_number))
+<a name="l00972"></a>00972             {
+<a name="l00973"></a>00973                 <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952a1905f331721562b054eb5abd6b6d5cc9">PERIODICITY_DAYS</a>:
+<a name="l00974"></a>00974                     line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da272f48925ad6961f16ca1090650a72bd">COL_NB_FREQUENCY</a>] = g_strdup_printf ( _(<span class="stringliteral">&quot;%d days&quot;</span>),
+<a name="l00975"></a>00975                                                                 <a class="code" href="gsb__data__scheduled_8c.html#a7d7cfb1bc2ca105b20b5627c94981096">gsb_data_scheduled_get_user_entry</a> (scheduled_number));
+<a name="l00976"></a>00976                     <span class="keywordflow">break</span>;
+<a name="l00977"></a>00977 
+<a name="l00978"></a>00978                 <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952af14294244660bfb8e9efcb3c8b784b5e">PERIODICITY_WEEKS</a>:
+<a name="l00979"></a>00979                     line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da272f48925ad6961f16ca1090650a72bd">COL_NB_FREQUENCY</a>] = g_strdup_printf ( _(<span class="stringliteral">&quot;%d weeks&quot;</span>),
+<a name="l00980"></a>00980                                                                 <a class="code" href="gsb__data__scheduled_8c.html#a7d7cfb1bc2ca105b20b5627c94981096">gsb_data_scheduled_get_user_entry</a> (scheduled_number));
+<a name="l00981"></a>00981                     <span class="keywordflow">break</span>;
+<a name="l00982"></a>00982 
+<a name="l00983"></a>00983                 <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952a3d48559cf1477ea530192fae290fff37">PERIODICITY_MONTHS</a>:
+<a name="l00984"></a>00984                     line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da272f48925ad6961f16ca1090650a72bd">COL_NB_FREQUENCY</a>] = g_strdup_printf ( _(<span class="stringliteral">&quot;%d months&quot;</span>),
+<a name="l00985"></a>00985                                                                 <a class="code" href="gsb__data__scheduled_8c.html#a7d7cfb1bc2ca105b20b5627c94981096">gsb_data_scheduled_get_user_entry</a> (scheduled_number));
+<a name="l00986"></a>00986                     <span class="keywordflow">break</span>;
+<a name="l00987"></a>00987 
+<a name="l00988"></a>00988                 <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952a01edc95473eab3ab0b29b8e1fd43c68a">PERIODICITY_YEARS</a>:
+<a name="l00989"></a>00989                     line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da272f48925ad6961f16ca1090650a72bd">COL_NB_FREQUENCY</a>] = g_strdup_printf ( _(<span class="stringliteral">&quot;%d years&quot;</span>),
+<a name="l00990"></a>00990                                                                 <a class="code" href="gsb__data__scheduled_8c.html#a7d7cfb1bc2ca105b20b5627c94981096">gsb_data_scheduled_get_user_entry</a> (scheduled_number));
+<a name="l00991"></a>00991             }
+<a name="l00992"></a>00992         }
+<a name="l00993"></a>00993         <span class="keywordflow">else</span>
+<a name="l00994"></a>00994             <span class="keywordflow">if</span> ( frequency &lt; <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fac399afd88d18a2a804db420f3158006b">SCHEDULER_PERIODICITY_NB_CHOICES</a>
+<a name="l00995"></a>00995                  &amp;&amp;
+<a name="l00996"></a>00996                  frequency &gt;= 0 )
+<a name="l00997"></a>00997             {
+<a name="l00998"></a>00998                 gchar * names[] = { _(<span class="stringliteral">&quot;Once&quot;</span>), _(<span class="stringliteral">&quot;Weekly&quot;</span>), _(<span class="stringliteral">&quot;Monthly&quot;</span>),
+<a name="l00999"></a>00999                     _(<span class="stringliteral">&quot;Bimonthly&quot;</span>), _(<span class="stringliteral">&quot;Quarterly&quot;</span>), _(<span class="stringliteral">&quot;Yearly&quot;</span>) };
+<a name="l01000"></a>01000                 line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da272f48925ad6961f16ca1090650a72bd">COL_NB_FREQUENCY</a>] = names [frequency];
+<a name="l01001"></a>01001             }
+<a name="l01002"></a>01002 
+<a name="l01003"></a>01003         line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da9241ab78f620cf6a734e44238cd4f5e6">COL_NB_ACCOUNT</a>] = <a class="code" href="gsb__data__account_8c.html#a6b0df19868e38619bff512f2c18ef51e">gsb_data_account_get_name</a> (<a class="code" href="gsb__data__scheduled_8c.html#aa15f27d9a7a635618cfc3b536cebb980">gsb_data_scheduled_get_account_number</a> (scheduled_number));
+<a name="l01004"></a>01004         line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da1cf8ae6649e259b08f22ef4d67ee80da">COL_NB_PARTY</a>] = <a class="code" href="gsb__data__payee_8c.html#adc6080b7376628d3902f5fd861deb45a">gsb_data_payee_get_name</a> (<a class="code" href="gsb__data__scheduled_8c.html#a3005278f65b2a095b1ccebdbf7a70f3d">gsb_data_scheduled_get_party_number</a> (scheduled_number),
+<a name="l01005"></a>01005                                                        TRUE );
+<a name="l01006"></a>01006         <span class="keywordflow">if</span> ( <a class="code" href="gsb__data__scheduled_8c.html#ae5f2deb3539449512d8e9c3bc3011525">gsb_data_scheduled_get_automatic_scheduled</a> (scheduled_number))
+<a name="l01007"></a>01007             line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daa1d42633cccb5217630366b2ec32544e">COL_NB_MODE</a>]=_(<span class="stringliteral">&quot;Automatic&quot;</span>);
+<a name="l01008"></a>01008         <span class="keywordflow">else</span>
+<a name="l01009"></a>01009             line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daa1d42633cccb5217630366b2ec32544e">COL_NB_MODE</a>] = _(<span class="stringliteral">&quot;Manual&quot;</span>);
+<a name="l01010"></a>01010     }
+<a name="l01011"></a>01011 
+<a name="l01012"></a>01012     <span class="comment">/* that can be filled for mother and children of split */</span>
+<a name="l01013"></a>01013     line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da79938fa2eecb166cf7b3181530cefd14">COL_NB_NOTES</a>] = <a class="code" href="gsb__data__scheduled_8c.html#a77f3e371acac87303d217a472d5ebc3d">gsb_data_scheduled_get_notes</a> (scheduled_number);
+<a name="l01014"></a>01014 
+<a name="l01015"></a>01015     <span class="comment">/* if it&#39;s a white line don&#39;t fill the amount</span>
+<a name="l01016"></a>01016 <span class="comment">     * (in fact fill nothing, but normally all before was set to NULL,</span>
+<a name="l01017"></a>01017 <span class="comment">     * there is only the amount, we want NULL and not 0) */</span>
+<a name="l01018"></a>01018     <span class="keywordflow">if</span> (scheduled_number &lt; 0)
+<a name="l01019"></a>01019         line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dad0cc8e1ddd8d671367a12a6fae069d2b">COL_NB_AMOUNT</a>] = NULL;
+<a name="l01020"></a>01020     <span class="keywordflow">else</span>
+<a name="l01021"></a>01021         line[<a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dad0cc8e1ddd8d671367a12a6fae069d2b">COL_NB_AMOUNT</a>] = <a class="code" href="gsb__real_8c.html#a03f4474a9a4269e384951af9be4acedd">gsb_real_get_string_with_currency</a> (<a class="code" href="gsb__data__scheduled_8c.html#a60f83f62f6ca02e7b786ed30a1b9e6c6">gsb_data_scheduled_get_amount</a> (scheduled_number),
+<a name="l01022"></a>01022                                                                  <a class="code" href="gsb__data__scheduled_8c.html#ae2e1360e9ff4b1ba96bb241cbe55db25">gsb_data_scheduled_get_currency_number</a> (scheduled_number),
+<a name="l01023"></a>01023                                                                  TRUE );
+<a name="l01024"></a>01024 
+<a name="l01025"></a>01025     <span class="keywordflow">return</span> FALSE;
+<a name="l01026"></a>01026 }
+<a name="l01027"></a>01027 
+<a name="l01028"></a>01028 
+<a name="l01029"></a>01029 
+<a name="l01040"></a>01040 gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
+<a name="l01041"></a>01041                         GtkTreeIter *iter,
+<a name="l01042"></a>01042                         <span class="keyword">const</span> gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] )
+<a name="l01043"></a>01043 {
+<a name="l01044"></a>01044     gint i;
+<a name="l01045"></a>01045 
+<a name="l01046"></a>01046     <span class="keywordflow">for</span> ( i=0 ; i&lt;SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
+<a name="l01047"></a>01047         gtk_tree_store_set ( GTK_TREE_STORE ( store ),
+<a name="l01048"></a>01048                              iter,
+<a name="l01049"></a>01049                              i, line[i],
+<a name="l01050"></a>01050                              -1 );
+<a name="l01051"></a>01051 
+<a name="l01052"></a>01052     <span class="keywordflow">return</span> FALSE;
+<a name="l01053"></a>01053 }
+<a name="l01054"></a>01054 
+<a name="l01055"></a>01055 
+<a name="l01064"></a><a class="code" href="gsb__scheduler__list_8h.html#a4348c22b2bc74713a8615c749c61f4d8">01064</a> gboolean <a class="code" href="gsb__scheduler__list_8c.html#a4348c22b2bc74713a8615c749c61f4d8">gsb_scheduler_list_set_background_color</a> ( GtkWidget *tree_view )
+<a name="l01065"></a>01065 {
+<a name="l01066"></a>01066     GtkTreeStore *store;
+<a name="l01067"></a>01067     GtkTreeModel *sort_model;
+<a name="l01068"></a>01068     gint current_color;
+<a name="l01069"></a>01069     GtkTreePath *sorted_path;
+<a name="l01070"></a>01070     GtkTreePath *path;
+<a name="l01071"></a>01071 
+<a name="l01072"></a>01072     <a class="code" href="erreur_8h.html#a17bfffc4306bc76edd79e060a8947dc4">devel_debug</a> (NULL);
+<a name="l01073"></a>01073 
+<a name="l01074"></a>01074     <span class="keywordflow">if</span> (!tree_view)
+<a name="l01075"></a>01075         <span class="keywordflow">return</span> FALSE;
+<a name="l01076"></a>01076 
+<a name="l01077"></a>01077     sort_model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ));
+<a name="l01078"></a>01078     store = GTK_TREE_STORE (gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (sort_model)));
+<a name="l01079"></a>01079 
+<a name="l01080"></a>01080     current_color = 0;
+<a name="l01081"></a>01081     sorted_path = gtk_tree_path_new_first ();
+<a name="l01082"></a>01082 
+<a name="l01083"></a>01083     <span class="keywordflow">while</span> ((path = gtk_tree_model_sort_convert_path_to_child_path ( GTK_TREE_MODEL_SORT (sort_model),
+<a name="l01084"></a>01084                                                                     sorted_path )))
+<a name="l01085"></a>01085     {
+<a name="l01086"></a>01086         gint virtual_transaction;
+<a name="l01087"></a>01087         GtkTreeIter iter;
+<a name="l01088"></a>01088         gchar *amount;
+<a name="l01089"></a>01089 
+<a name="l01090"></a>01090 
+<a name="l01091"></a>01091         gtk_tree_model_get_iter ( GTK_TREE_MODEL ( store ),
+<a name="l01092"></a>01092                                   &amp;iter,
+<a name="l01093"></a>01093                                   path );
+<a name="l01094"></a>01094 
+<a name="l01095"></a>01095         gtk_tree_model_get ( GTK_TREE_MODEL ( store ),
+<a name="l01096"></a>01096                              &amp;iter,
+<a name="l01097"></a>01097                              <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daeadc5dc23981b29c14e504a0bb93aecb">SCHEDULER_COL_NB_VIRTUAL_TRANSACTION</a>, &amp;virtual_transaction,
+<a name="l01098"></a>01098                              <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2dad0cc8e1ddd8d671367a12a6fae069d2b">COL_NB_AMOUNT</a>, &amp;amount,
+<a name="l01099"></a>01099                              -1 );
+<a name="l01100"></a>01100 
+<a name="l01101"></a>01101         <span class="keywordflow">if</span> ( virtual_transaction )
+<a name="l01102"></a>01102             gtk_tree_store_set ( store,
+<a name="l01103"></a>01103                                  &amp;iter,
+<a name="l01104"></a>01104                                  <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da78937918a995b47f1677999dce25f5b5">SCHEDULER_COL_NB_BACKGROUND</a>, &amp;<a class="code" href="affichage_8c.html#a4119417896b5652f640ead3795baac52">couleur_grise</a>,
+<a name="l01105"></a>01105                                  -1 );
+<a name="l01106"></a>01106         <span class="keywordflow">else</span>
+<a name="l01107"></a>01107         {
+<a name="l01108"></a>01108             gtk_tree_store_set ( store,
+<a name="l01109"></a>01109                                  &amp;iter,
+<a name="l01110"></a>01110                                  <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2da78937918a995b47f1677999dce25f5b5">SCHEDULER_COL_NB_BACKGROUND</a>, &amp;<a class="code" href="affichage_8c.html#a58089bf9225ae2e274165369f8bc7a00">couleur_fond</a>[current_color],
+<a name="l01111"></a>01111                                  -1 );
+<a name="l01112"></a>01112             current_color = !current_color;
+<a name="l01113"></a>01113         }
+<a name="l01114"></a>01114 
+<a name="l01115"></a>01115         gtk_tree_path_free (path);
+<a name="l01116"></a>01116 
+<a name="l01117"></a>01117         <span class="comment">/* needn&#39;t to go in a child because the color is always the same, so</span>
+<a name="l01118"></a>01118 <span class="comment">         * gtk_tree_path_next is enough */</span>
+<a name="l01119"></a>01119 
+<a name="l01120"></a>01120         gtk_tree_path_next ( sorted_path );
+<a name="l01121"></a>01121     }
+<a name="l01122"></a>01122     <span class="keywordflow">return</span> FALSE;
+<a name="l01123"></a>01123 }
+<a name="l01124"></a>01124 
+<a name="l01125"></a>01125 
+<a name="l01133"></a><a class="code" href="gsb__scheduler__list_8h.html#acbc7a6e13ae89beb5afb56a3e8bba495">01133</a> gboolean <a class="code" href="gsb__scheduler__list_8c.html#acbc7a6e13ae89beb5afb56a3e8bba495">gsb_scheduler_list_select</a> ( gint scheduled_number )
+<a name="l01134"></a>01134 {
+<a name="l01135"></a>01135     GtkTreeIter *iter;
+<a name="l01136"></a>01136     GtkTreeIter iter_sort;
+<a name="l01137"></a>01137     gint mother_number;
+<a name="l01138"></a>01138 
+<a name="l01139"></a>01139     <a class="code" href="erreur_8h.html#a10f4eeae4cc251a8d632fd62ec1057fb">devel_debug_int</a> (scheduled_number);
+<a name="l01140"></a>01140 
+<a name="l01141"></a>01141     <span class="comment">/* if it&#39;s a split child, we must open the mother to select it */</span>
+<a name="l01142"></a>01142     mother_number = <a class="code" href="gsb__data__scheduled_8c.html#a3f8e6e2985be6cb88c0f38965b75d804">gsb_data_scheduled_get_mother_scheduled_number</a> (scheduled_number);
+<a name="l01143"></a>01143     <span class="keywordflow">if</span> (mother_number)
+<a name="l01144"></a>01144     {
+<a name="l01145"></a>01145         GtkTreeIter *iter_mother;
+<a name="l01146"></a>01146         GtkTreeIter iter_mother_sort;
+<a name="l01147"></a>01147 
+<a name="l01148"></a>01148         iter_mother = gsb_scheduler_list_get_iter_from_scheduled_number (mother_number);
+<a name="l01149"></a>01149         <span class="keywordflow">if</span> (iter_mother)
+<a name="l01150"></a>01150         {
+<a name="l01151"></a>01151             GtkTreePath *path;
+<a name="l01152"></a>01152 
+<a name="l01153"></a>01153             gtk_tree_model_sort_convert_child_iter_to_iter ( GTK_TREE_MODEL_SORT (tree_model_sort_scheduler_list),
+<a name="l01154"></a>01154                                                              &amp;iter_mother_sort,
+<a name="l01155"></a>01155                                                              iter_mother );
+<a name="l01156"></a>01156             path = gtk_tree_model_get_path ( GTK_TREE_MODEL (tree_model_sort_scheduler_list),
+<a name="l01157"></a>01157                                              &amp;iter_mother_sort );;
+<a name="l01158"></a>01158             gtk_tree_view_expand_row ( GTK_TREE_VIEW (tree_view_scheduler_list),
+<a name="l01159"></a>01159                                        path,
+<a name="l01160"></a>01160                                        TRUE );
+<a name="l01161"></a>01161             gtk_tree_iter_free (iter_mother);
+<a name="l01162"></a>01162             gtk_tree_path_free (path);
+<a name="l01163"></a>01163         }
+<a name="l01164"></a>01164     }
+<a name="l01165"></a>01165 
+<a name="l01166"></a>01166     <span class="comment">/* now can work with the transaction we want to select */</span>
+<a name="l01167"></a>01167     iter = gsb_scheduler_list_get_iter_from_scheduled_number (scheduled_number);
+<a name="l01168"></a>01168 
+<a name="l01169"></a>01169     <span class="keywordflow">if</span> (!iter)
+<a name="l01170"></a>01170         <span class="keywordflow">return</span> FALSE;
+<a name="l01171"></a>01171 
+<a name="l01172"></a>01172     gtk_tree_model_sort_convert_child_iter_to_iter ( GTK_TREE_MODEL_SORT (tree_model_sort_scheduler_list),
+<a name="l01173"></a>01173                                                      &amp;iter_sort,
+<a name="l01174"></a>01174                                                      iter );
+<a name="l01175"></a>01175     gtk_tree_selection_select_iter ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW (tree_view_scheduler_list))),
+<a name="l01176"></a>01176                                      &amp;iter_sort );
+<a name="l01177"></a>01177     gtk_tree_iter_free (iter);
+<a name="l01178"></a>01178 
+<a name="l01179"></a>01179     <span class="keywordflow">return</span> FALSE;
+<a name="l01180"></a>01180 }
+<a name="l01181"></a>01181 
+<a name="l01182"></a>01182 
+<a name="l01190"></a>01190 GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_number )
+<a name="l01191"></a>01191 {
+<a name="l01192"></a>01192     GtkTreeIter iter;
+<a name="l01193"></a>01193     GtkTreeModel *model;
+<a name="l01194"></a>01194 
+<a name="l01195"></a>01195     model = GTK_TREE_MODEL (gsb_scheduler_list_get_model ());
+<a name="l01196"></a>01196 
+<a name="l01197"></a>01197     <span class="keywordflow">if</span> ( !scheduled_number
+<a name="l01198"></a>01198          ||
+<a name="l01199"></a>01199          !model )
+<a name="l01200"></a>01200         <span class="keywordflow">return</span> NULL;
+<a name="l01201"></a>01201 
+<a name="l01202"></a>01202 
+<a name="l01203"></a>01203     <span class="comment">/* we go through the list in the model untill we find the transaction */</span>
+<a name="l01204"></a>01204     <span class="keywordflow">if</span> ( gtk_tree_model_get_iter_first ( model,
+<a name="l01205"></a>01205                                          &amp;iter ))
+<a name="l01206"></a>01206     {
+<a name="l01207"></a>01207         <span class="keywordflow">do</span>
+<a name="l01208"></a>01208         {
+<a name="l01209"></a>01209             gint scheduled_number_tmp;
+<a name="l01210"></a>01210             GtkTreeIter iter_child;
+<a name="l01211"></a>01211 
+<a name="l01212"></a>01212             gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
+<a name="l01213"></a>01213                                  &amp;iter,
+<a name="l01214"></a>01214                                  <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf04e08f20fbe8f8207ab62bb55ac4f30">SCHEDULER_COL_NB_TRANSACTION_NUMBER</a>, &amp;scheduled_number_tmp,
+<a name="l01215"></a>01215                                  -1 );
+<a name="l01216"></a>01216             <span class="keywordflow">if</span> ( scheduled_number == scheduled_number_tmp )
+<a name="l01217"></a>01217                 <span class="keywordflow">return</span> ( gtk_tree_iter_copy (&amp;iter));
+<a name="l01218"></a>01218 
+<a name="l01219"></a>01219             <span class="comment">/* gtk_tree_iter_next doesn&#39;t go in the children, so if the current transaction</span>
+<a name="l01220"></a>01220 <span class="comment">             * has children, we have to look for the transaction here, and go down into the children */</span>
+<a name="l01221"></a>01221             <span class="keywordflow">if</span> ( gtk_tree_model_iter_children ( GTK_TREE_MODEL (model),
+<a name="l01222"></a>01222                                                 &amp;iter_child, &amp;iter))
+<a name="l01223"></a>01223             {
+<a name="l01224"></a>01224                 <span class="comment">/* ok so iter_child is on a split child, we go to see all the splits */</span>
+<a name="l01225"></a>01225                 <span class="keywordflow">do</span>
+<a name="l01226"></a>01226                 {
+<a name="l01227"></a>01227                     gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
+<a name="l01228"></a>01228                                          &amp;iter_child,
+<a name="l01229"></a>01229                                          <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf04e08f20fbe8f8207ab62bb55ac4f30">SCHEDULER_COL_NB_TRANSACTION_NUMBER</a>, &amp;scheduled_number_tmp,
+<a name="l01230"></a>01230                                          -1 );
+<a name="l01231"></a>01231                     <span class="keywordflow">if</span> ( scheduled_number == scheduled_number_tmp )
+<a name="l01232"></a>01232                         <span class="keywordflow">return</span> ( gtk_tree_iter_copy (&amp;iter_child));
+<a name="l01233"></a>01233                 }
+<a name="l01234"></a>01234                 <span class="keywordflow">while</span> (gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),&amp;iter_child ));
+<a name="l01235"></a>01235             }
+<a name="l01236"></a>01236         }
+<a name="l01237"></a>01237         <span class="keywordflow">while</span> (gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),&amp;iter ));
+<a name="l01238"></a>01238 
+<a name="l01239"></a>01239     }
+<a name="l01240"></a>01240     <span class="keywordflow">return</span> NULL;
+<a name="l01241"></a>01241 }
+<a name="l01242"></a>01242 
+<a name="l01253"></a>01253 GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_number )
+<a name="l01254"></a>01254 {
+<a name="l01255"></a>01255     GtkTreeIter iter;
+<a name="l01256"></a>01256     GtkTreeModel *model;
+<a name="l01257"></a>01257     gint mother_number;
+<a name="l01258"></a>01258     gboolean return_iter = TRUE;
+<a name="l01259"></a>01259     GSList *iter_list = NULL;
+<a name="l01260"></a>01260 
+<a name="l01261"></a>01261     <span class="keywordflow">if</span> ( !scheduled_number )
+<a name="l01262"></a>01262         <span class="keywordflow">return</span> NULL;
+<a name="l01263"></a>01263 
+<a name="l01264"></a>01264     <span class="comment">/* that function is called too for deleting a scheduled transaction,</span>
+<a name="l01265"></a>01265 <span class="comment">     * and it can be already deleted, so we cannot call gsb_data_scheduled_... here</span>
+<a name="l01266"></a>01266 <span class="comment">     * but... we need to know if it&#39;s a child split, so we call it, in all</span>
+<a name="l01267"></a>01267 <span class="comment">     * the cases, if the transactions doesn&#39;t exist we will have no mother, so very good !*/</span>
+<a name="l01268"></a>01268 
+<a name="l01269"></a>01269     mother_number = <a class="code" href="gsb__data__scheduled_8c.html#a3f8e6e2985be6cb88c0f38965b75d804">gsb_data_scheduled_get_mother_scheduled_number</a> (scheduled_number);
+<a name="l01270"></a>01270 
+<a name="l01271"></a>01271     model = gsb_scheduler_list_get_model ();
+<a name="l01272"></a>01272 
+<a name="l01273"></a>01273     <span class="comment">/* go throw the list to find the transaction */</span>
+<a name="l01274"></a>01274     <span class="keywordflow">if</span> (!gtk_tree_model_get_iter_first ( model,
+<a name="l01275"></a>01275                                          &amp;iter ))
+<a name="l01276"></a>01276         <span class="keywordflow">return</span> NULL;
+<a name="l01277"></a>01277 
+<a name="l01278"></a>01278     <span class="keywordflow">while</span> ( return_iter )
+<a name="l01279"></a>01279     {
+<a name="l01280"></a>01280         gint scheduled_transaction_buf;
+<a name="l01281"></a>01281 
+<a name="l01282"></a>01282         gtk_tree_model_get ( model,
+<a name="l01283"></a>01283                              &amp;iter,
+<a name="l01284"></a>01284                              <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf04e08f20fbe8f8207ab62bb55ac4f30">SCHEDULER_COL_NB_TRANSACTION_NUMBER</a>, &amp;scheduled_transaction_buf,
+<a name="l01285"></a>01285                              -1 );
+<a name="l01286"></a>01286 
+<a name="l01287"></a>01287         <span class="keywordflow">if</span> ( scheduled_transaction_buf == scheduled_number )
+<a name="l01288"></a>01288         {
+<a name="l01289"></a>01289             iter_list = g_slist_append ( iter_list,
+<a name="l01290"></a>01290                                          gtk_tree_iter_copy ( &amp;iter ));
+<a name="l01291"></a>01291 
+<a name="l01292"></a>01292             <span class="comment">/* we have found the correct iter, but we want to continue to search,</span>
+<a name="l01293"></a>01293 <span class="comment">             * so we have to go back to the mother if necessary</span>
+<a name="l01294"></a>01294 <span class="comment">             * after that scheduled_transaction_buf is on the child, not on the</span>
+<a name="l01295"></a>01295 <span class="comment">             * mother so we will continue to the next scheduled transasction */</span>
+<a name="l01296"></a>01296 
+<a name="l01297"></a>01297             <span class="keywordflow">if</span> ( mother_number )
+<a name="l01298"></a>01298             {
+<a name="l01299"></a>01299                 GtkTreeIter *child_iter;
+<a name="l01300"></a>01300 
+<a name="l01301"></a>01301                 child_iter = gtk_tree_iter_copy (&amp;iter);
+<a name="l01302"></a>01302                 gtk_tree_model_iter_parent ( model,
+<a name="l01303"></a>01303                                              &amp;iter,
+<a name="l01304"></a>01304                                              child_iter );
+<a name="l01305"></a>01305                 gtk_tree_iter_free (child_iter);
+<a name="l01306"></a>01306             }
+<a name="l01307"></a>01307 
+<a name="l01308"></a>01308         }
+<a name="l01309"></a>01309 
+<a name="l01310"></a>01310         <span class="keywordflow">if</span> ( scheduled_transaction_buf == mother_number )
+<a name="l01311"></a>01311         {
+<a name="l01312"></a>01312             GtkTreeIter *mother_iter;
+<a name="l01313"></a>01313 
+<a name="l01314"></a>01314             mother_iter = gtk_tree_iter_copy (&amp;iter);
+<a name="l01315"></a>01315             return_iter = gtk_tree_model_iter_children ( model,
+<a name="l01316"></a>01316                                                          &amp;iter,
+<a name="l01317"></a>01317                                                          mother_iter );
+<a name="l01318"></a>01318             gtk_tree_iter_free (mother_iter);
+<a name="l01319"></a>01319         }
+<a name="l01320"></a>01320         <span class="keywordflow">else</span>
+<a name="l01321"></a>01321             return_iter = gtk_tree_model_iter_next ( model,
+<a name="l01322"></a>01322                                                      &amp;iter );
+<a name="l01323"></a>01323     }
+<a name="l01324"></a>01324     <span class="keywordflow">return</span> iter_list;
+<a name="l01325"></a>01325 }
+<a name="l01326"></a>01326 
+<a name="l01327"></a>01327 
+<a name="l01328"></a>01328 
+<a name="l01337"></a><a class="code" href="gsb__scheduler__list_8h.html#ad9e65bbbb35121bbbb743a902b3632e9">01337</a> GDate *<a class="code" href="gsb__scheduler__list_8c.html#ad9e65bbbb35121bbbb743a902b3632e9">gsb_scheduler_list_get_end_date_scheduled_showed</a> ( <span class="keywordtype">void</span> )
+<a name="l01338"></a>01338 {
+<a name="l01339"></a>01339     GDate *end_date;
+<a name="l01340"></a>01340 
+<a name="l01341"></a>01341     <span class="comment">/* on récupère la date du jour et la met dans end_date pour les</span>
+<a name="l01342"></a>01342 <span class="comment">    * vérifications ultérieures */</span>
+<a name="l01343"></a>01343 
+<a name="l01344"></a>01344     end_date = <a class="code" href="utils__dates_8c.html#a6b816aab8b5dd412b89406bcc587738b">gdate_today</a> ();
+<a name="l01345"></a>01345 
+<a name="l01346"></a>01346     <span class="comment">/* on calcule la date de fin de l&#39;affichage */</span>
+<a name="l01347"></a>01347 
+<a name="l01348"></a>01348     <span class="keywordflow">switch</span> ( <a class="code" href="gsb__calendar_8c.html#ab762c5bee8904fe3e83e8c2dfdecd94d">affichage_echeances</a> )
+<a name="l01349"></a>01349     {
+<a name="l01350"></a>01350         <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fa5bf38eda05b85e26a0f7805deb0bc25f">SCHEDULER_PERIODICITY_ONCE_VIEW</a>:
+<a name="l01351"></a>01351             <span class="keywordflow">return</span> NULL;
+<a name="l01352"></a>01352             <span class="keywordflow">break</span>;
+<a name="l01353"></a>01353 
+<a name="l01354"></a>01354         <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fabcdc8af8cb4dbf70adee82e655880b8d">SCHEDULER_PERIODICITY_WEEK_VIEW</a>:
+<a name="l01355"></a>01355             g_date_add_days ( end_date, 7 );
+<a name="l01356"></a>01356             g_date_add_months ( end_date, 0 );
+<a name="l01357"></a>01357             <span class="keywordflow">break</span>;
+<a name="l01358"></a>01358 
+<a name="l01359"></a>01359         <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fabe11ef4b2d7c753f7b1d54269770145e">SCHEDULER_PERIODICITY_MONTH_VIEW</a>:
+<a name="l01360"></a>01360             g_date_add_months ( end_date, 1 );
+<a name="l01361"></a>01361             end_date -&gt; day = 1;
+<a name="l01362"></a>01362             <span class="keywordflow">break</span>;
+<a name="l01363"></a>01363 
+<a name="l01364"></a>01364         <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fa2db2f2fd4c65c66599f6fab69380cae5">SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW</a>:
+<a name="l01365"></a>01365             g_date_add_months ( end_date, 2 );
+<a name="l01366"></a>01366             end_date -&gt; day = 1;
+<a name="l01367"></a>01367             <span class="keywordflow">break</span>;
+<a name="l01368"></a>01368 
+<a name="l01369"></a>01369         <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fa56886f0330e75d47ab8ce48862553d0c">SCHEDULER_PERIODICITY_TRIMESTER_VIEW</a>:
+<a name="l01370"></a>01370             g_date_add_months ( end_date, 3 );
+<a name="l01371"></a>01371             end_date -&gt; day = 1;
+<a name="l01372"></a>01372             <span class="keywordflow">break</span>;
+<a name="l01373"></a>01373 
+<a name="l01374"></a>01374         <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99fa827e62a34c30e5cd8bdf60b15bb96009">SCHEDULER_PERIODICITY_YEAR_VIEW</a>:
+<a name="l01375"></a>01375             g_date_add_years ( end_date, 1 );
+<a name="l01376"></a>01376             end_date -&gt; day = 1;
+<a name="l01377"></a>01377             end_date -&gt; month = 1;
+<a name="l01378"></a>01378             <span class="keywordflow">break</span>;
+<a name="l01379"></a>01379 
+<a name="l01380"></a>01380         <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99faa61a2684a7f9891e9ab77e2e2c877ded">SCHEDULER_PERIODICITY_CUSTOM_VIEW</a>:
+<a name="l01381"></a>01381             <span class="keywordflow">switch</span> ( <a class="code" href="gsb__calendar_8c.html#ab8c2018709e0110f2519d8233bb489d3">affichage_echeances_perso_j_m_a</a> )
+<a name="l01382"></a>01382             {
+<a name="l01383"></a>01383                 <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952a1905f331721562b054eb5abd6b6d5cc9">PERIODICITY_DAYS</a>:
+<a name="l01384"></a>01384                     g_date_add_days ( end_date, <a class="code" href="gsb__calendar_8c.html#aa8e493eac3d096f6914e1551552c590a">affichage_echeances_perso_nb_libre</a> );
+<a name="l01385"></a>01385                     <span class="keywordflow">break</span>;
+<a name="l01386"></a>01386 
+<a name="l01387"></a>01387                 <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952af14294244660bfb8e9efcb3c8b784b5e">PERIODICITY_WEEKS</a>:
+<a name="l01388"></a>01388                     g_date_add_days ( end_date, <a class="code" href="gsb__calendar_8c.html#aa8e493eac3d096f6914e1551552c590a">affichage_echeances_perso_nb_libre</a> * 7 );
+<a name="l01389"></a>01389                     <span class="keywordflow">break</span>;
+<a name="l01390"></a>01390 
+<a name="l01391"></a>01391                 <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952a3d48559cf1477ea530192fae290fff37">PERIODICITY_MONTHS</a>:
+<a name="l01392"></a>01392                     g_date_add_months ( end_date, <a class="code" href="gsb__calendar_8c.html#aa8e493eac3d096f6914e1551552c590a">affichage_echeances_perso_nb_libre</a> );
+<a name="l01393"></a>01393                     <span class="keywordflow">break</span>;
+<a name="l01394"></a>01394 
+<a name="l01395"></a>01395                 <span class="keywordflow">case</span> <a class="code" href="gsb__scheduler__list_8h.html#ab4cc7d54ee2fb3a2d61ea6256b850952a01edc95473eab3ab0b29b8e1fd43c68a">PERIODICITY_YEARS</a>:
+<a name="l01396"></a>01396                     g_date_add_years ( end_date, <a class="code" href="gsb__calendar_8c.html#aa8e493eac3d096f6914e1551552c590a">affichage_echeances_perso_nb_libre</a> );
+<a name="l01397"></a>01397                     <span class="keywordflow">break</span>;
+<a name="l01398"></a>01398             }
+<a name="l01399"></a>01399     }
+<a name="l01400"></a>01400     <span class="keywordflow">return</span> end_date;
+<a name="l01401"></a>01401 }
+<a name="l01402"></a>01402 
+<a name="l01403"></a>01403 
+<a name="l01404"></a>01404 
+<a name="l01413"></a>01413 gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
+<a name="l01414"></a>01414                         gpointer null )
+<a name="l01415"></a>01415 {
+<a name="l01416"></a>01416     gint tmp_number = 0;
+<a name="l01417"></a>01417     gint account_number;
+<a name="l01418"></a>01418 
+<a name="l01419"></a>01419     <span class="comment">/* wanted to set that function in gsb_scheduler_list_button_press but g_signal_connect_after</span>
+<a name="l01420"></a>01420 <span class="comment">     * seems not to work in that case... */</span>
+<a name="l01421"></a>01421 
+<a name="l01422"></a>01422     <span class="comment">/* protect last_scheduled_number because when refill the list, set selection to 0 and so last_scheduled_number... */</span>
+<a name="l01423"></a>01423     tmp_number = <a class="code" href="gsb__scheduler__list_8c.html#a52c8fea240a34ec37da7fe33460d06e7">gsb_scheduler_list_get_current_scheduled_number</a> ();
+<a name="l01424"></a>01424 
+<a name="l01425"></a>01425     <span class="keywordflow">if</span> (tmp_number)
+<a name="l01426"></a>01426         last_scheduled_number = tmp_number;
+<a name="l01427"></a>01427 
+<a name="l01428"></a>01428     <span class="comment">/* if conf.show_transaction_selected_in_form =&gt; edit the scheduled transaction */</span>
+<a name="l01429"></a>01429     <span class="keywordflow">if</span> ( tmp_number != 0 &amp;&amp; <a class="code" href="gsb__file__config_8c.html#ac390e947e97cef2bec2f5d59d6ec1071">conf</a>.<a class="code" href="structgsb__conf__t.html#a2e6917fe4ddb0d329be926062c2cccbd">show_transaction_selected_in_form</a> )
+<a name="l01430"></a>01430             <a class="code" href="gsb__scheduler__list_8c.html#a10a206d10ab971adb3ea36ec263c34d2">gsb_scheduler_list_edit_transaction</a> (tmp_number);
+<a name="l01431"></a>01431     <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( tmp_number == 0 )
+<a name="l01432"></a>01432     {
+<a name="l01433"></a>01433         <a class="code" href="gsb__form__scheduler_8c.html#a19610a2e8fde16919239e690bb1794c1">gsb_form_scheduler_clean</a> ( );
+<a name="l01434"></a>01434         account_number = <a class="code" href="gsb__data__scheduled_8c.html#aa15f27d9a7a635618cfc3b536cebb980">gsb_data_scheduled_get_account_number</a> (tmp_number);
+<a name="l01435"></a>01435         <a class="code" href="gsb__form_8c.html#aeefa6b4f242f4d3982b7eb0c7c5ef2cc">gsb_form_clean</a> ( account_number );
+<a name="l01436"></a>01436     }
+<a name="l01437"></a>01437 
+<a name="l01438"></a>01438     <span class="comment">/* sensitive/unsensitive the button execute */</span>
+<a name="l01439"></a>01439     gtk_widget_set_sensitive ( <a class="code" href="barre__outils_8c.html#a1333bf48291dd195210eda922d5183c4">scheduler_button_execute</a>,
+<a name="l01440"></a>01440                         (tmp_number &gt; 0)
+<a name="l01441"></a>01441                         &amp;&amp;
+<a name="l01442"></a>01442                         !<a class="code" href="gsb__data__scheduled_8c.html#a3f8e6e2985be6cb88c0f38965b75d804">gsb_data_scheduled_get_mother_scheduled_number</a> (tmp_number));
+<a name="l01443"></a>01443 
+<a name="l01444"></a>01444     <span class="comment">/* sensitive/unsensitive the button edit */</span>
+<a name="l01445"></a>01445 
+<a name="l01446"></a>01446     gtk_widget_set_sensitive ( <a class="code" href="barre__outils_8c.html#aee9c73717e42febf99a7eb6a09521f3a">scheduler_button_edit</a>,
+<a name="l01447"></a>01447                         (tmp_number &gt; 0));
+<a name="l01448"></a>01448 
+<a name="l01449"></a>01449     <span class="comment">/* sensitive/unsensitive the button delete */</span>
+<a name="l01450"></a>01450 
+<a name="l01451"></a>01451     gtk_widget_set_sensitive ( <a class="code" href="barre__outils_8c.html#a3eb48f27c4c4fe376efa3cbccab64398">scheduler_button_delete</a>,
+<a name="l01452"></a>01452                         (tmp_number &gt; 0));
+<a name="l01453"></a>01453 
+<a name="l01454"></a>01454     <span class="keywordflow">return</span> FALSE;
+<a name="l01455"></a>01455 }
+<a name="l01456"></a>01456 
+<a name="l01457"></a>01457 
+<a name="l01466"></a>01466 gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
+<a name="l01467"></a>01467                         GdkEventKey *ev )
+<a name="l01468"></a>01468 {
+<a name="l01469"></a>01469     gint scheduled_number;
+<a name="l01470"></a>01470 
+<a name="l01471"></a>01471     scheduled_number = <a class="code" href="gsb__scheduler__list_8c.html#a52c8fea240a34ec37da7fe33460d06e7">gsb_scheduler_list_get_current_scheduled_number</a> ();
+<a name="l01472"></a>01472 
+<a name="l01473"></a>01473     <span class="keywordflow">switch</span> ( ev-&gt;keyval )
+<a name="l01474"></a>01474     {
+<a name="l01475"></a>01475         <span class="keywordflow">case</span> GDK_Return :               <span class="comment">/* touches entrée */</span>
+<a name="l01476"></a>01476         <span class="keywordflow">case</span> GDK_KP_Enter :
+<a name="l01477"></a>01477 
+<a name="l01478"></a>01478             <span class="keywordflow">if</span> ( scheduled_number )
+<a name="l01479"></a>01479                 <a class="code" href="gsb__scheduler__list_8c.html#a10a206d10ab971adb3ea36ec263c34d2">gsb_scheduler_list_edit_transaction</a> (scheduled_number);
+<a name="l01480"></a>01480             <span class="keywordflow">break</span>;
+<a name="l01481"></a>01481 
+<a name="l01482"></a>01482 
+<a name="l01483"></a>01483         <span class="keywordflow">case</span> GDK_Delete :               <span class="comment">/*  del  */</span>
+<a name="l01484"></a>01484 
+<a name="l01485"></a>01485             <span class="keywordflow">if</span> ( scheduled_number &gt; 0 )
+<a name="l01486"></a>01486                 <a class="code" href="gsb__scheduler__list_8c.html#a250e1059f152f3bb43280745d0a66fe6">gsb_scheduler_list_delete_scheduled_transaction</a> (scheduled_number, TRUE);
+<a name="l01487"></a>01487             <span class="keywordflow">break</span>;
+<a name="l01488"></a>01488 
+<a name="l01489"></a>01489         <span class="keywordflow">case</span> GDK_Left:
+<a name="l01490"></a>01490             <span class="comment">/* if we press left, give back the focus to the tree at left */</span>
+<a name="l01491"></a>01491             gtk_widget_grab_focus (<a class="code" href="etats__config_8c.html#a1cd17e8b2fd91a191f8d5d6a7e5f6979">navigation_tree_view</a>);
+<a name="l01492"></a>01492             <span class="keywordflow">break</span>;
+<a name="l01493"></a>01493 
+<a name="l01494"></a>01494         <span class="keywordflow">case</span> GDK_space:
+<a name="l01495"></a>01495             <span class="comment">/* space open/close a split */</span>
+<a name="l01496"></a>01496             gsb_scheduler_list_switch_expander (scheduled_number);
+<a name="l01497"></a>01497             <span class="keywordflow">break</span>;
+<a name="l01498"></a>01498     }
+<a name="l01499"></a>01499     <span class="keywordflow">return</span> ( FALSE );
+<a name="l01500"></a>01500 }
+<a name="l01501"></a>01501 
+<a name="l01510"></a>01510 gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
+<a name="l01511"></a>01511                         GdkEventButton *ev )
+<a name="l01512"></a>01512 {
+<a name="l01513"></a>01513         <span class="comment">/* show the popup */</span>
+<a name="l01514"></a>01514         <span class="keywordflow">if</span> ( ev -&gt; button == <a class="code" href="mouse_8h.html#aeb17351958162535ab6af2cd6b030955">RIGHT_BUTTON</a> )
+<a name="l01515"></a>01515         popup_scheduled_context_menu ( );
+<a name="l01516"></a>01516     <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( ev -&gt; type == GDK_2BUTTON_PRESS )
+<a name="l01517"></a>01517     {
+<a name="l01518"></a>01518          <span class="comment">/* if double-click =&gt; edit the scheduled transaction */</span>
+<a name="l01519"></a>01519         gint current_scheduled_number;
+<a name="l01520"></a>01520 
+<a name="l01521"></a>01521         current_scheduled_number = <a class="code" href="gsb__scheduler__list_8c.html#a52c8fea240a34ec37da7fe33460d06e7">gsb_scheduler_list_get_current_scheduled_number</a> ();
+<a name="l01522"></a>01522 
+<a name="l01523"></a>01523         <span class="keywordflow">if</span> ( current_scheduled_number )
+<a name="l01524"></a>01524             <a class="code" href="gsb__scheduler__list_8c.html#a10a206d10ab971adb3ea36ec263c34d2">gsb_scheduler_list_edit_transaction</a> (current_scheduled_number);
+<a name="l01525"></a>01525     }
+<a name="l01526"></a>01526     <span class="keywordflow">return</span> FALSE;
+<a name="l01527"></a>01527 }
+<a name="l01528"></a>01528 
+<a name="l01529"></a>01529 
+<a name="l01538"></a><a class="code" href="gsb__scheduler__list_8h.html#a52c8fea240a34ec37da7fe33460d06e7">01538</a> gint <a class="code" href="gsb__scheduler__list_8c.html#a52c8fea240a34ec37da7fe33460d06e7">gsb_scheduler_list_get_current_scheduled_number</a> ( <span class="keywordtype">void</span> )
+<a name="l01539"></a>01539 {
+<a name="l01540"></a>01540     GList *list_tmp;
+<a name="l01541"></a>01541     GtkTreeModel *model;
+<a name="l01542"></a>01542     gint scheduled_number;
+<a name="l01543"></a>01543     gint virtual_transaction;
+<a name="l01544"></a>01544     GtkTreeIter iter;
+<a name="l01545"></a>01545     GtkWidget *tree_view;
+<a name="l01546"></a>01546 
+<a name="l01547"></a>01547     tree_view = <a class="code" href="gsb__scheduler__list_8c.html#a672312ea4cd0c1237b5a8312c330aaef">gsb_scheduler_list_get_tree_view</a> ();
+<a name="l01548"></a>01548     list_tmp = gtk_tree_selection_get_selected_rows ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
+<a name="l01549"></a>01549                                                       &amp;model );
+<a name="l01550"></a>01550 
+<a name="l01551"></a>01551     <span class="keywordflow">if</span> ( !list_tmp )
+<a name="l01552"></a>01552         <span class="keywordflow">return</span> 0;
+<a name="l01553"></a>01553 
+<a name="l01554"></a>01554     gtk_tree_model_get_iter ( GTK_TREE_MODEL (model),
+<a name="l01555"></a>01555                               &amp;iter,
+<a name="l01556"></a>01556                               list_tmp -&gt; data );
+<a name="l01557"></a>01557     gtk_tree_model_get ( GTK_TREE_MODEL (model),
+<a name="l01558"></a>01558                          &amp;iter,
+<a name="l01559"></a>01559                          <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daf04e08f20fbe8f8207ab62bb55ac4f30">SCHEDULER_COL_NB_TRANSACTION_NUMBER</a>, &amp;scheduled_number,
+<a name="l01560"></a>01560                          <a class="code" href="gsb__scheduler__list_8h.html#a0411cd49bb5b71852cecd93bcbf0ca2daeadc5dc23981b29c14e504a0bb93aecb">SCHEDULER_COL_NB_VIRTUAL_TRANSACTION</a>, &amp;virtual_transaction,
+<a name="l01561"></a>01561                          -1 );
+<a name="l01562"></a>01562 
+<a name="l01563"></a>01563     g_list_foreach (list_tmp, (GFunc) gtk_tree_path_free, NULL);
+<a name="l01564"></a>01564     g_list_free (list_tmp);
+<a name="l01565"></a>01565 
+<a name="l01566"></a>01566     <span class="keywordflow">if</span> ( virtual_transaction )
+<a name="l01567"></a>01567         <span class="keywordflow">return</span> 0;
+<a name="l01568"></a>01568     <span class="keywordflow">else</span>
+<a name="l01569"></a>01569         <span class="keywordflow">return</span> scheduled_number;
+<a name="l01570"></a>01570 }
+<a name="l01571"></a>01571 
+<a name="l01572"></a>01572 
+<a name="l01580"></a><a class="code" href="gsb__scheduler__list_8h.html#a10a206d10ab971adb3ea36ec263c34d2">01580</a> gboolean <a class="code" href="gsb__scheduler__list_8c.html#a10a206d10ab971adb3ea36ec263c34d2">gsb_scheduler_list_edit_transaction</a> ( gint scheduled_number )
+<a name="l01581"></a>01581 {
+<a name="l01582"></a>01582     <a class="code" href="erreur_8h.html#a10f4eeae4cc251a8d632fd62ec1057fb">devel_debug_int</a> (scheduled_number);
+<a name="l01583"></a>01583     <span class="keywordflow">if</span> ( scheduled_number == 0 )
+<a name="l01584"></a>01584         <a class="code" href="gsb__form_8c.html#af0e251779d36898a65c54b5a51d700f2">gsb_form_fill_by_transaction</a> ( <a class="code" href="gsb__scheduler__list_8c.html#a52c8fea240a34ec37da7fe33460d06e7">gsb_scheduler_list_get_current_scheduled_number</a> ( ), FALSE, TRUE );
+<a name="l01585"></a>01585     <span class="keywordflow">else</span>
+<a name="l01586"></a>01586         <a class="code" href="gsb__form_8c.html#af0e251779d36898a65c54b5a51d700f2">gsb_form_fill_by_transaction</a> ( scheduled_number, FALSE, TRUE );
+<a name="l01587"></a>01587     <span class="keywordflow">return</span> FALSE;
+<a name="l01588"></a>01588 }
+<a name="l01589"></a>01589 
+<a name="l01590"></a>01590 
+<a name="l01591"></a>01591 
+<a name="l01601"></a><a class="code" href="gsb__scheduler__list_8h.html#ad3d815d7983018de7999d778590f17dc">01601</a> gboolean <a class="code" href="gsb__scheduler__list_8c.html#ad3d815d7983018de7999d778590f17dc">gsb_scheduler_list_delete_scheduled_transaction_by_menu</a> ( GtkWidget *button,
+<a name="l01602"></a>01602                         gpointer null )
+<a name="l01603"></a>01603 {
+<a name="l01604"></a>01604     <a class="code" href="gsb__scheduler__list_8c.html#a250e1059f152f3bb43280745d0a66fe6">gsb_scheduler_list_delete_scheduled_transaction</a> (0, TRUE);
+<a name="l01605"></a>01605     <span class="keywordflow">return</span> FALSE;
+<a name="l01606"></a>01606 }
+<a name="l01607"></a>01607 
+<a name="l01608"></a>01608 
+<a name="l01609"></a>01609 
+<a name="l01620"></a><a class="code" href="gsb__scheduler__list_8h.html#a250e1059f152f3bb43280745d0a66fe6">01620</a> gboolean <a class="code" href="gsb__scheduler__list_8c.html#a250e1059f152f3bb43280745d0a66fe6">gsb_scheduler_list_delete_scheduled_transaction</a> ( gint scheduled_number,
+<a name="l01621"></a>01621                         gboolean show_warning )
+<a name="l01622"></a>01622 {
+<a name="l01623"></a>01623     gchar *tmpstr;
+<a name="l01624"></a>01624     gint result;
+<a name="l01625"></a>01625     gint msg_no = 0;
+<a name="l01626"></a>01626 
+<a name="l01627"></a>01627     <a class="code" href="erreur_8h.html#a10f4eeae4cc251a8d632fd62ec1057fb">devel_debug_int</a> (scheduled_number);
+<a name="l01628"></a>01628 
+<a name="l01629"></a>01629     <span class="keywordflow">if</span> ( !scheduled_number )
+<a name="l01630"></a>01630         scheduled_number = <a class="code" href="gsb__scheduler__list_8c.html#a52c8fea240a34ec37da7fe33460d06e7">gsb_scheduler_list_get_current_scheduled_number</a> ();
+<a name="l01631"></a>01631 
+<a name="l01632"></a>01632     <span class="comment">/* return for white line only if show_warning is set</span>
+<a name="l01633"></a>01633 <span class="comment">     * (means the action is not automatic) */</span>
+<a name="l01634"></a>01634     <span class="keywordflow">if</span> ( scheduled_number &lt;= 0
+<a name="l01635"></a>01635          &amp;&amp;
+<a name="l01636"></a>01636          show_warning )
+<a name="l01637"></a>01637         <span class="keywordflow">return</span> FALSE;
+<a name="l01638"></a>01638 
+<a name="l01639"></a>01639     <span class="comment">/* show a warning */</span>
+<a name="l01640"></a>01640     <span class="keywordflow">if</span> (show_warning)
+<a name="l01641"></a>01641     {
+<a name="l01642"></a>01642         <span class="keywordflow">if</span> ( <a class="code" href="gsb__data__scheduled_8c.html#a3f8e6e2985be6cb88c0f38965b75d804">gsb_data_scheduled_get_mother_scheduled_number</a> (scheduled_number))
+<a name="l01643"></a>01643         {
+<a name="l01644"></a>01644             <span class="comment">/* ask all the time for a child */</span>
+<a name="l01645"></a>01645             msg_no = <a class="code" href="dialog_8c.html#ac46f7502c30130a2c344685a46638d2e">question_conditional_yes_no_get_no_struct</a> ( &amp;<a class="code" href="gsb__file__config_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[0],
+<a name="l01646"></a>01646                         <span class="stringliteral">&quot;delete-child-scheduled&quot;</span> );
+<a name="l01647"></a>01647             tmpstr = g_strdup_printf ( _(<span class="stringliteral">&quot;Do you really want to delete the child of the &quot;</span>
+<a name="l01648"></a>01648                         <span class="stringliteral">&quot;scheduled transaction with party &#39;%s&#39; ?&quot;</span>),
+<a name="l01649"></a>01649                         <a class="code" href="gsb__data__payee_8c.html#adc6080b7376628d3902f5fd861deb45a">gsb_data_payee_get_name</a> (
+<a name="l01650"></a>01650                         <a class="code" href="gsb__data__scheduled_8c.html#a3005278f65b2a095b1ccebdbf7a70f3d">gsb_data_scheduled_get_party_number</a> (scheduled_number),
+<a name="l01651"></a>01651                         FALSE ) );
+<a name="l01652"></a>01652             <a class="code" href="gsb__file__config_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[msg_no].<a class="code" href="structconditional__message.html#a1ac78264fd28b6819d5bfaa1e9b0ef39">message</a> = tmpstr;
+<a name="l01653"></a>01653             <span class="keywordflow">if</span> ( !<a class="code" href="dialog_8c.html#acdc10d7ad7ab05de8c606827a1126034">question_conditional_yes_no_with_struct</a> ( &amp;<a class="code" href="gsb__file__config_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[msg_no] ) )
+<a name="l01654"></a>01654             {
+<a name="l01655"></a>01655                 g_free ( tmpstr );
+<a name="l01656"></a>01656                 <span class="keywordflow">return</span> FALSE;
+<a name="l01657"></a>01657             }
+<a name="l01658"></a>01658             g_free ( tmpstr );
+<a name="l01659"></a>01659         }
+<a name="l01660"></a>01660         <span class="keywordflow">else</span>
+<a name="l01661"></a>01661         {
+<a name="l01662"></a>01662             <span class="comment">/* for a normal scheduled, ask only if no frequency, else, it will </span>
+<a name="l01663"></a>01663 <span class="comment">             * have another dialog to delete the occurence or the transaction */</span>
+<a name="l01664"></a>01664             msg_no = <a class="code" href="dialog_8c.html#ac46f7502c30130a2c344685a46638d2e">question_conditional_yes_no_get_no_struct</a> ( &amp;<a class="code" href="gsb__file__config_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[0],
+<a name="l01665"></a>01665                         <span class="stringliteral">&quot;delete-scheduled&quot;</span> );
+<a name="l01666"></a>01666             tmpstr = g_strdup_printf ( _(<span class="stringliteral">&quot;Do you really want to delete the scheduled &quot;</span>
+<a name="l01667"></a>01667                         <span class="stringliteral">&quot;transaction with party &#39;%s&#39; ?&quot;</span>),
+<a name="l01668"></a>01668                         <a class="code" href="gsb__data__payee_8c.html#adc6080b7376628d3902f5fd861deb45a">gsb_data_payee_get_name</a> (
+<a name="l01669"></a>01669                         <a class="code" href="gsb__data__scheduled_8c.html#a3005278f65b2a095b1ccebdbf7a70f3d">gsb_data_scheduled_get_party_number</a> ( scheduled_number ),
+<a name="l01670"></a>01670                                                  FALSE ) );
+<a name="l01671"></a>01671             <a class="code" href="gsb__file__config_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[msg_no].<a class="code" href="structconditional__message.html#a1ac78264fd28b6819d5bfaa1e9b0ef39">message</a> = tmpstr;
+<a name="l01672"></a>01672             <span class="keywordflow">if</span> ( !<a class="code" href="gsb__data__scheduled_8c.html#a60ab7adb921a63a38d8bcaec72d4165d">gsb_data_scheduled_get_frequency</a> (scheduled_number)
+<a name="l01673"></a>01673              &amp;&amp;
+<a name="l01674"></a>01674              !<a class="code" href="dialog_8c.html#acdc10d7ad7ab05de8c606827a1126034">question_conditional_yes_no_with_struct</a> ( &amp;<a class="code" href="gsb__file__config_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[msg_no] ) )
+<a name="l01675"></a>01675             {
+<a name="l01676"></a>01676                 g_free ( tmpstr );
+<a name="l01677"></a>01677                 <span class="keywordflow">return</span> FALSE;
+<a name="l01678"></a>01678             }
+<a name="l01679"></a>01679             g_free ( tmpstr );
+<a name="l01680"></a>01680         }
+<a name="l01681"></a>01681     }
+<a name="l01682"></a>01682 
+<a name="l01683"></a>01683     <span class="comment">/* split with child of split or normal scheduled,</span>
+<a name="l01684"></a>01684 <span class="comment">     * for a child, we directly delete it, for mother, ask</span>
+<a name="l01685"></a>01685 <span class="comment">     * for just that occurrence or the complete transaction */</span>
+<a name="l01686"></a>01686 
+<a name="l01687"></a>01687     <span class="keywordflow">if</span> ( <a class="code" href="gsb__data__scheduled_8c.html#a3f8e6e2985be6cb88c0f38965b75d804">gsb_data_scheduled_get_mother_scheduled_number</a> (scheduled_number))
+<a name="l01688"></a>01688     {
+<a name="l01689"></a>01689         <span class="comment">/* !! important to remove first from the list... */</span>
+<a name="l01690"></a>01690         <a class="code" href="gsb__scheduler__list_8c.html#ae61448df24743985077437b1ef276cc5">gsb_scheduler_list_remove_transaction_from_list</a> ( scheduled_number );
+<a name="l01691"></a>01691         <a class="code" href="gsb__data__scheduled_8c.html#a234f69a2294c397daaa9e6ddd771e297">gsb_data_scheduled_remove_scheduled</a> (scheduled_number);
+<a name="l01692"></a>01692     }
+<a name="l01693"></a>01693     <span class="keywordflow">else</span>
+<a name="l01694"></a>01694     {
+<a name="l01695"></a>01695         <span class="comment">/* ask if we want to remove only the current one (so only change the date</span>
+<a name="l01696"></a>01696 <span class="comment">         * for the next) or all (so remove the transaction */</span>
+<a name="l01697"></a>01697 
+<a name="l01698"></a>01698         <span class="keywordflow">if</span> ( <a class="code" href="gsb__data__scheduled_8c.html#a60ab7adb921a63a38d8bcaec72d4165d">gsb_data_scheduled_get_frequency</a> (scheduled_number))
+<a name="l01699"></a>01699         {
+<a name="l01700"></a>01700             GtkWidget * vbox, * checkbox, *dialog = NULL;
+<a name="l01701"></a>01701             gchar *occurences;
+<a name="l01702"></a>01702 
+<a name="l01703"></a>01703         msg_no = <a class="code" href="dialog_8c.html#ac46f7502c30130a2c344685a46638d2e">question_conditional_yes_no_get_no_struct</a> ( &amp;<a class="code" href="gsb__file__config_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[0],
+<a name="l01704"></a>01704                         <span class="stringliteral">&quot;delete-scheduled-occurences&quot;</span> );
+<a name="l01705"></a>01705         
+<a name="l01706"></a>01706         <span class="keywordflow">if</span> ( <a class="code" href="gsb__file__config_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[msg_no].<a class="code" href="structconditional__message.html#a9aea2412afc1bcac3075ef180adf09b6">hidden</a> )
+<a name="l01707"></a>01707             result = <a class="code" href="gsb__file__config_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[msg_no].<a class="code" href="structconditional__message.html#a5d57366ec84bc24d47c0ed9caaba70c4">default_answer</a>;
+<a name="l01708"></a>01708         <span class="keywordflow">else</span>
+<a name="l01709"></a>01709         {
+<a name="l01710"></a>01710             tmpstr = <a class="code" href="gsb__real_8c.html#a9207a2084e51e49584c038b6c8ae4433">gsb_real_get_string</a> (<a class="code" href="gsb__data__scheduled_8c.html#a60f83f62f6ca02e7b786ed30a1b9e6c6">gsb_data_scheduled_get_amount</a> (scheduled_number));
+<a name="l01711"></a>01711             occurences = g_strdup_printf ( _(<span class="stringliteral">&quot;Do you want to delete just this occurrence or &quot;</span>
+<a name="l01712"></a>01712                         <span class="stringliteral">&quot;the whole scheduled transaction?\n\n%s : %s [%s %s]&quot;</span>),
+<a name="l01713"></a>01713                         <a class="code" href="utils__dates_8c.html#a6e7537390d7569da5efc74f96ea57da7">gsb_format_gdate</a> ( <a class="code" href="gsb__data__scheduled_8c.html#ae4e987a3bddc7f5550d91fae634d6dee">gsb_data_scheduled_get_date</a> (scheduled_number)),
+<a name="l01714"></a>01714                         <a class="code" href="gsb__data__payee_8c.html#adc6080b7376628d3902f5fd861deb45a">gsb_data_payee_get_name</a> (
+<a name="l01715"></a>01715                         <a class="code" href="gsb__data__scheduled_8c.html#a3005278f65b2a095b1ccebdbf7a70f3d">gsb_data_scheduled_get_party_number</a> (scheduled_number), FALSE ),
+<a name="l01716"></a>01716                         tmpstr,
+<a name="l01717"></a>01717                         <a class="code" href="gsb__data__currency_8c.html#a0120c1acd462d7ad69ae349d74b23a34">gsb_data_currency_get_name</a> (
+<a name="l01718"></a>01718                         <a class="code" href="gsb__data__scheduled_8c.html#ae2e1360e9ff4b1ba96bb241cbe55db25">gsb_data_scheduled_get_currency_number</a> (scheduled_number)));
+<a name="l01719"></a>01719             g_free ( tmpstr );
+<a name="l01720"></a>01720 
+<a name="l01721"></a>01721             dialog = <a class="code" href="dialog_8c.html#aa20bfaae43172af04ddeb596029733a1">dialogue_special_no_run</a> ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+<a name="l01722"></a>01722                         <a class="code" href="dialog_8c.html#a84758de40aa2807a4e5ebd97ede7df23">make_hint</a> ( _(<span class="stringliteral">&quot;Delete this scheduled transaction?&quot;</span>),
+<a name="l01723"></a>01723                         occurences ));
+<a name="l01724"></a>01724 
+<a name="l01725"></a>01725             gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+<a name="l01726"></a>01726                          GTK_STOCK_CANCEL, 2,
+<a name="l01727"></a>01727                          _(<span class="stringliteral">&quot;All the occurences&quot;</span>), 1,
+<a name="l01728"></a>01728                          _(<span class="stringliteral">&quot;Only this one&quot;</span>), 0,
+<a name="l01729"></a>01729                          NULL );
+<a name="l01730"></a>01730 
+<a name="l01731"></a>01731         vbox = GTK_DIALOG(dialog) -&gt; vbox;
+<a name="l01732"></a>01732 
+<a name="l01733"></a>01733         checkbox = gtk_check_button_new_with_label ( _(<span class="stringliteral">&quot;Do not show this message again&quot;</span>) );
+<a name="l01734"></a>01734         g_signal_connect ( G_OBJECT ( checkbox ),
+<a name="l01735"></a>01735                         <span class="stringliteral">&quot;toggled&quot;</span>, 
+<a name="l01736"></a>01736                         G_CALLBACK ( <a class="code" href="dialog_8c.html#ac15d3ab451ee1444c3a5b9905a116241">dialogue_update_struct_message</a> ),
+<a name="l01737"></a>01737                         &amp;<a class="code" href="gsb__file__config_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[msg_no] );
+<a name="l01738"></a>01738         gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
+<a name="l01739"></a>01739         gtk_widget_show_all ( checkbox );
+<a name="l01740"></a>01740 
+<a name="l01741"></a>01741             result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+<a name="l01742"></a>01742 
+<a name="l01743"></a>01743         <a class="code" href="gsb__file__config_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[msg_no].<a class="code" href="structconditional__message.html#a5d57366ec84bc24d47c0ed9caaba70c4">default_answer</a> = result;
+<a name="l01744"></a>01744             g_free (occurences);
+<a name="l01745"></a>01745             gtk_widget_destroy ( dialog );
+<a name="l01746"></a>01746         }
+<a name="l01747"></a>01747         }
+<a name="l01748"></a>01748         <span class="keywordflow">else</span>
+<a name="l01749"></a>01749             result = 1;
+<a name="l01750"></a>01750 
+<a name="l01751"></a>01751         <span class="keywordflow">switch</span> ( result )
+<a name="l01752"></a>01752         {
+<a name="l01753"></a>01753             <span class="keywordflow">case</span> 0:
+<a name="l01754"></a>01754                 <span class="keywordflow">if</span> ( <a class="code" href="gsb__scheduler_8c.html#a835bf4208d739a5332dbfbf4f7ae066e">gsb_scheduler_increase_scheduled</a> (scheduled_number))
+<a name="l01755"></a>01755                     <a class="code" href="gsb__scheduler__list_8c.html#a7b1d97387d5d2e281f3ead3e6ab0311b">gsb_scheduler_list_update_transaction_in_list</a> (scheduled_number);
+<a name="l01756"></a>01756                 <span class="keywordflow">break</span>;
+<a name="l01757"></a>01757 
+<a name="l01758"></a>01758             <span class="keywordflow">case</span> 1:
+<a name="l01759"></a>01759                 <span class="comment">/* !! important to remove first from the list... */</span>
+<a name="l01760"></a>01760                 <a class="code" href="gsb__scheduler__list_8c.html#ae61448df24743985077437b1ef276cc5">gsb_scheduler_list_remove_transaction_from_list</a> ( scheduled_number );
+<a name="l01761"></a>01761                 <a class="code" href="gsb__data__scheduled_8c.html#a234f69a2294c397daaa9e6ddd771e297">gsb_data_scheduled_remove_scheduled</a> (scheduled_number);
+<a name="l01762"></a>01762                 <span class="keywordflow">break</span>;
+<a name="l01763"></a>01763         }
+<a name="l01764"></a>01764     }
+<a name="l01765"></a>01765 
+<a name="l01766"></a>01766     <a class="code" href="gsb__scheduler__list_8c.html#a4348c22b2bc74713a8615c749c61f4d8">gsb_scheduler_list_set_background_color</a> (<a class="code" href="gsb__scheduler__list_8c.html#a672312ea4cd0c1237b5a8312c330aaef">gsb_scheduler_list_get_tree_view</a> ());
+<a name="l01767"></a>01767 
+<a name="l01768"></a>01768     <a class="code" href="gsb__calendar_8c.html#a97c1d6d132f4597521b5ec7bd8440cfb">gsb_calendar_update</a> ();
+<a name="l01769"></a>01769     <a class="code" href="accueil_8c.html#a5957dd978b4a0c3ab01e006cedfdf96c">mise_a_jour_liste_echeances_manuelles_accueil</a> = 1;
+<a name="l01770"></a>01770 
+<a name="l01771"></a>01771     <span class="keywordflow">if</span> ( <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a9d0fa9057da603e64a601d69d7bf2b51">modification_fichier</a> == 0 )
+<a name="l01772"></a>01772         <a class="code" href="traitement__variables_8c.html#aa4084b9e508b1d1fea1d09c6b6208021">modification_fichier</a> ( TRUE );
+<a name="l01773"></a>01773 
+<a name="l01774"></a>01774     <span class="keywordflow">return</span> FALSE;
+<a name="l01775"></a>01775 }
+<a name="l01776"></a>01776 
+<a name="l01777"></a>01777 
+<a name="l01786"></a><a class="code" href="gsb__scheduler__list_8h.html#a56cddba54e3383ebe1506b9a94e22a26">01786</a> gboolean <a class="code" href="gsb__scheduler__list_8c.html#a56cddba54e3383ebe1506b9a94e22a26">gsb_scheduler_list_change_scheduler_view</a> ( <span class="keyword">enum</span> <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99f">scheduler_periodicity</a> periodicity,
+<a name="l01787"></a>01787                         gpointer item )
+<a name="l01788"></a>01788 {
+<a name="l01789"></a>01789     gchar * names[] = { _(<span class="stringliteral">&quot;Unique view&quot;</span>), _(<span class="stringliteral">&quot;Week view&quot;</span>), _(<span class="stringliteral">&quot;Month view&quot;</span>),
+<a name="l01790"></a>01790                         _(<span class="stringliteral">&quot;Two months view&quot;</span>), _(<span class="stringliteral">&quot;Quarter view&quot;</span>),
+<a name="l01791"></a>01791                         _(<span class="stringliteral">&quot;Year view&quot;</span>), _(<span class="stringliteral">&quot;Custom view&quot;</span>), NULL };
+<a name="l01792"></a>01792         gchar* tmpstr;
+<a name="l01793"></a>01793 
+<a name="l01794"></a>01794     <span class="keywordflow">if</span> ( periodicity == <a class="code" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99faa61a2684a7f9891e9ab77e2e2c877ded">SCHEDULER_PERIODICITY_CUSTOM_VIEW</a> )
+<a name="l01795"></a>01795     {
+<a name="l01796"></a>01796         <span class="keywordflow">if</span> ( !gsb_scheduler_list_popup_custom_periodicity_dialog () )
+<a name="l01797"></a>01797             <span class="keywordflow">return</span> FALSE;
+<a name="l01798"></a>01798     }
+<a name="l01799"></a>01799 
+<a name="l01800"></a>01800     tmpstr = g_strconcat ( _(<span class="stringliteral">&quot;Scheduled transactions&quot;</span>), <span class="stringliteral">&quot; : &quot;</span>,
+<a name="l01801"></a>01801                                             names[periodicity], NULL);
+<a name="l01802"></a>01802     <a class="code" href="fenetre__principale_8c.html#a7dd6f116baa9323630e845e36615fc53">gsb_gui_headings_update_title</a> ( tmpstr );
+<a name="l01803"></a>01803     <a class="code" href="fenetre__principale_8c.html#aeed9c0940d61e6cf37c5f421ce3b663f">gsb_gui_headings_update_suffix</a> ( <span class="stringliteral">&quot;&quot;</span> );
+<a name="l01804"></a>01804     g_free ( tmpstr );
+<a name="l01805"></a>01805 
+<a name="l01806"></a>01806     <a class="code" href="gsb__calendar_8c.html#ab762c5bee8904fe3e83e8c2dfdecd94d">affichage_echeances</a> = periodicity;
+<a name="l01807"></a>01807     <a class="code" href="gsb__scheduler__list_8c.html#a09e95845b5893d975e94605f02051651">gsb_scheduler_list_fill_list</a> (<a class="code" href="gsb__scheduler__list_8c.html#a672312ea4cd0c1237b5a8312c330aaef">gsb_scheduler_list_get_tree_view</a> ());
+<a name="l01808"></a>01808     <a class="code" href="gsb__scheduler__list_8c.html#a4348c22b2bc74713a8615c749c61f4d8">gsb_scheduler_list_set_background_color</a> (<a class="code" href="gsb__scheduler__list_8c.html#a672312ea4cd0c1237b5a8312c330aaef">gsb_scheduler_list_get_tree_view</a> ());
+<a name="l01809"></a>01809     <a class="code" href="gsb__scheduler__list_8c.html#acbc7a6e13ae89beb5afb56a3e8bba495">gsb_scheduler_list_select</a> (-1);
+<a name="l01810"></a>01810 
+<a name="l01811"></a>01811     <span class="keywordflow">if</span> ( <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a9d0fa9057da603e64a601d69d7bf2b51">modification_fichier</a> == 0 )
+<a name="l01812"></a>01812         <a class="code" href="traitement__variables_8c.html#aa4084b9e508b1d1fea1d09c6b6208021">modification_fichier</a> ( TRUE );
+<a name="l01813"></a>01813     <span class="keywordflow">return</span> FALSE;
+<a name="l01814"></a>01814 }
+<a name="l01815"></a>01815 
+<a name="l01816"></a>01816 
+<a name="l01817"></a>01817 
+<a name="l01825"></a>01825 gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (<span class="keywordtype">void</span>)
+<a name="l01826"></a>01826 {
+<a name="l01827"></a>01827     GtkWidget * dialog, *hbox, *hbox2, *paddingbox, *label, *entry, *combobox;
+<a name="l01828"></a>01828     gchar * names[] = { _(<span class="stringliteral">&quot;days&quot;</span>), _(<span class="stringliteral">&quot;weeks&quot;</span>), _(<span class="stringliteral">&quot;months&quot;</span>), _(<span class="stringliteral">&quot;years&quot;</span>), NULL };
+<a name="l01829"></a>01829     <span class="keywordtype">int</span> i;
+<a name="l01830"></a>01830 
+<a name="l01831"></a>01831     dialog = gtk_dialog_new_with_buttons ( _(<span class="stringliteral">&quot;Show scheduled transactions&quot;</span>),
+<a name="l01832"></a>01832                                            GTK_WINDOW ( <a class="code" href="accueil_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a> ),
+<a name="l01833"></a>01833                                            GTK_DIALOG_MODAL,
+<a name="l01834"></a>01834                                            GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+<a name="l01835"></a>01835                                            GTK_STOCK_APPLY, GTK_RESPONSE_OK,
+<a name="l01836"></a>01836                                            NULL );
+<a name="l01837"></a>01837 
+<a name="l01838"></a>01838     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+<a name="l01839"></a>01839     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
+<a name="l01840"></a>01840 
+<a name="l01841"></a>01841     <span class="comment">/* Ugly dance to avoid side effects on dialog&#39;s vbox. */</span>
+<a name="l01842"></a>01842     hbox = gtk_hbox_new ( FALSE, 0 );
+<a name="l01843"></a>01843     gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)-&gt;vbox), hbox, FALSE, FALSE, 0 );
+<a name="l01844"></a>01844     paddingbox = <a class="code" href="utils_8c.html#a22ba81fcf046b5bec6cf6d55d440abc5">new_paddingbox_with_title</a> ( hbox, TRUE, _(<span class="stringliteral">&quot;Scheduler frequency&quot;</span>) );
+<a name="l01845"></a>01845     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
+<a name="l01846"></a>01846     gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
+<a name="l01847"></a>01847 
+<a name="l01848"></a>01848     hbox2 = gtk_hbox_new ( FALSE, 0 );
+<a name="l01849"></a>01849     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox2, FALSE, FALSE, 0 );
+<a name="l01850"></a>01850 
+<a name="l01851"></a>01851     label = gtk_label_new ( <a class="code" href="structures_8h.html#aaad3270d56994a956f6956f142c1c103">COLON</a>(_(<span class="stringliteral">&quot;Show transactions for the next&quot;</span>)));
+<a name="l01852"></a>01852     gtk_box_pack_start ( GTK_BOX(hbox2), label, FALSE, FALSE, 0 );
+<a name="l01853"></a>01853     entry = <a class="code" href="gsb__automem_8c.html#a1618f5cf86220d6e15f84ac3f94e5382">gsb_automem_spin_button_new</a> ( &amp;<a class="code" href="gsb__calendar_8c.html#aa8e493eac3d096f6914e1551552c590a">affichage_echeances_perso_nb_libre</a>,
+<a name="l01854"></a>01854                                           NULL, NULL );
+<a name="l01855"></a>01855     gtk_box_pack_start ( GTK_BOX(hbox2), entry, FALSE, FALSE, 6 );
+<a name="l01856"></a>01856 
+<a name="l01857"></a>01857     <span class="comment">/* combobox for userdefined frequency */</span>
+<a name="l01858"></a>01858     combobox = gtk_combo_box_new_text ();
+<a name="l01859"></a>01859     gtk_box_pack_start ( GTK_BOX(hbox2), combobox, FALSE, FALSE, 0 );
+<a name="l01860"></a>01860 
+<a name="l01861"></a>01861     <span class="keywordflow">for</span> ( i = 0; names[i]; i++ )
+<a name="l01862"></a>01862     {
+<a name="l01863"></a>01863         gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), names[i] );
+<a name="l01864"></a>01864     }
+<a name="l01865"></a>01865     gtk_combo_box_set_active ( GTK_COMBO_BOX ( combobox ), <a class="code" href="gsb__calendar_8c.html#ab8c2018709e0110f2519d8233bb489d3">affichage_echeances_perso_j_m_a</a> );
+<a name="l01866"></a>01866 
+<a name="l01867"></a>01867     gtk_widget_show_all ( dialog );
+<a name="l01868"></a>01868 
+<a name="l01869"></a>01869     <span class="keywordflow">switch</span> ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
+<a name="l01870"></a>01870     {
+<a name="l01871"></a>01871         <span class="keywordflow">case</span> GTK_RESPONSE_OK:
+<a name="l01872"></a>01872             <a class="code" href="gsb__calendar_8c.html#ab8c2018709e0110f2519d8233bb489d3">affichage_echeances_perso_j_m_a</a> = gtk_combo_box_get_active ( GTK_COMBO_BOX (combobox) );
+<a name="l01873"></a>01873             <a class="code" href="gsb__calendar_8c.html#aa8e493eac3d096f6914e1551552c590a">affichage_echeances_perso_nb_libre</a> = <a class="code" href="utils__str_8c.html#a5653e4c704f0c344ca9d1549561f9cd3" title="Secured version of atoi.">utils_str_atoi</a> ( gtk_entry_get_text ( GTK_ENTRY(entry)) );
+<a name="l01874"></a>01874             gtk_widget_destroy ( dialog );
+<a name="l01875"></a>01875             <span class="keywordflow">return</span> TRUE;
+<a name="l01876"></a>01876     }
+<a name="l01877"></a>01877 
+<a name="l01878"></a>01878     gtk_widget_destroy ( dialog );
+<a name="l01879"></a>01879     <span class="keywordflow">return</span> FALSE;
+<a name="l01880"></a>01880 }
+<a name="l01881"></a>01881 
+<a name="l01882"></a>01882 
+<a name="l01890"></a>01890 gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number )
+<a name="l01891"></a>01891 {
+<a name="l01892"></a>01892     GtkTreeIter *iter;
+<a name="l01893"></a>01893     GtkTreePath *path;
+<a name="l01894"></a>01894     GtkTreePath *path_sorted;
+<a name="l01895"></a>01895 
+<a name="l01896"></a>01896     <span class="keywordflow">if</span> ( !<a class="code" href="gsb__data__scheduled_8c.html#ae2bbf34058b508781bd4af1292b64d6a">gsb_data_scheduled_get_split_of_scheduled</a> (scheduled_number)
+<a name="l01897"></a>01897          ||
+<a name="l01898"></a>01898          !tree_view_scheduler_list )
+<a name="l01899"></a>01899         <span class="keywordflow">return</span> FALSE;
+<a name="l01900"></a>01900 
+<a name="l01901"></a>01901     iter = gsb_scheduler_list_get_iter_from_scheduled_number (scheduled_number);
+<a name="l01902"></a>01902 
+<a name="l01903"></a>01903     path = gtk_tree_model_get_path ( GTK_TREE_MODEL (tree_model_scheduler_list),
+<a name="l01904"></a>01904                                      iter );
+<a name="l01905"></a>01905     path_sorted = gtk_tree_model_sort_convert_child_path_to_path ( tree_model_sort_scheduler_list,
+<a name="l01906"></a>01906                                                                    path );
+<a name="l01907"></a>01907     <span class="keywordflow">if</span> (gtk_tree_view_row_expanded (GTK_TREE_VIEW (tree_view_scheduler_list), path_sorted))
+<a name="l01908"></a>01908         gtk_tree_view_collapse_row (GTK_TREE_VIEW (tree_view_scheduler_list), path_sorted);
+<a name="l01909"></a>01909     <span class="keywordflow">else</span>
+<a name="l01910"></a>01910         gtk_tree_view_expand_row (GTK_TREE_VIEW (tree_view_scheduler_list), path_sorted, FALSE);
+<a name="l01911"></a>01911     gtk_tree_path_free (path);
+<a name="l01912"></a>01912     gtk_tree_path_free (path_sorted);
+<a name="l01913"></a>01913     gtk_tree_iter_free (iter);
+<a name="l01914"></a>01914 
+<a name="l01915"></a>01915     <span class="keywordflow">return</span> FALSE;
+<a name="l01916"></a>01916 }
+<a name="l01917"></a>01917 
+<a name="l01918"></a>01918 
+<a name="l01919"></a>01919 
+<a name="l01920"></a>01920 
+<a name="l01931"></a>01931 gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
+<a name="l01932"></a>01932                         GtkAllocation *allocation,
+<a name="l01933"></a>01933                         gpointer null )
+<a name="l01934"></a>01934 {
+<a name="l01935"></a>01935     gint i;
+<a name="l01936"></a>01936 
+<a name="l01937"></a>01937     <span class="keywordflow">if</span> (allocation -&gt; width == <a class="code" href="gsb__scheduler__list_8c.html#afa241b31ec5f7f4750793852e3f49eeb">scheduler_current_tree_view_width</a>)
+<a name="l01938"></a>01938     {
+<a name="l01939"></a>01939         <span class="comment">/* size of the tree view didn&#39;t change, but we received an allocated signal</span>
+<a name="l01940"></a>01940 <span class="comment">         * it happens several times, and especially when we change the columns,</span>
+<a name="l01941"></a>01941 <span class="comment">         * so we update the colums */</span>
+<a name="l01942"></a>01942 
+<a name="l01943"></a>01943         <span class="comment">/* sometimes, when the list is not visible, he will set all the columns to 1%...</span>
+<a name="l01944"></a>01944 <span class="comment">         * we block that here */</span>
+<a name="l01945"></a>01945         <span class="keywordflow">if</span> (gtk_tree_view_column_get_width (scheduler_list_column[0]) == 1)
+<a name="l01946"></a>01946             <span class="keywordflow">return</span> FALSE;
+<a name="l01947"></a>01947 
+<a name="l01948"></a>01948         <span class="keywordflow">for</span> (i=0 ; i&lt;SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
+<a name="l01949"></a>01949         {
+<a name="l01950"></a>01950             <span class="keywordflow">if</span> (gtk_tree_view_column_get_width (scheduler_list_column[i]))
+<a name="l01951"></a>01951                 <a class="code" href="gsb__file__load_8c.html#a8278ca506ea616623cd8cdc764188ee9">scheduler_col_width</a>[i] = (gtk_tree_view_column_get_width (
+<a name="l01952"></a>01952                         scheduler_list_column[i]) * 100) / allocation -&gt; width + 1;
+<a name="l01953"></a>01953         }
+<a name="l01954"></a>01954 
+<a name="l01955"></a>01955         <span class="keywordflow">return</span> FALSE;
+<a name="l01956"></a>01956     }
+<a name="l01957"></a>01957 
+<a name="l01958"></a>01958     <span class="comment">/* the size of the tree view changed, we keep the ration between the columns,</span>
+<a name="l01959"></a>01959 <span class="comment">     * we don&#39;t set the size of the last column to avoid the calculate problems,</span>
+<a name="l01960"></a>01960 <span class="comment">     * it will take the end of the width alone */</span>
+<a name="l01961"></a>01961     <a class="code" href="gsb__scheduler__list_8c.html#afa241b31ec5f7f4750793852e3f49eeb">scheduler_current_tree_view_width</a> = allocation -&gt; width;
+<a name="l01962"></a>01962 
+<a name="l01963"></a>01963     <span class="keywordflow">for</span> ( i = 0 ; i &lt; SCHEDULER_COL_VISIBLE_COLUMNS - 1 ; i++ )
+<a name="l01964"></a>01964     {
+<a name="l01965"></a>01965         gint width;
+<a name="l01966"></a>01966 
+<a name="l01967"></a>01967         width = (<a class="code" href="gsb__file__load_8c.html#a8278ca506ea616623cd8cdc764188ee9">scheduler_col_width</a>[i] * (allocation -&gt; width))/ 100;
+<a name="l01968"></a>01968         <span class="keywordflow">if</span> ( width &gt; 0 )
+<a name="l01969"></a>01969             gtk_tree_view_column_set_fixed_width ( scheduler_list_column[i],
+<a name="l01970"></a>01970                                width );
+<a name="l01971"></a>01971     }
+<a name="l01972"></a>01972     <span class="keywordflow">return</span> FALSE;
+<a name="l01973"></a>01973 }
+<a name="l01974"></a>01974 
+<a name="l01975"></a>01975 
+<a name="l01982"></a>01982 <span class="keywordtype">void</span> popup_scheduled_context_menu ( <span class="keywordtype">void</span> )
+<a name="l01983"></a>01983 {
+<a name="l01984"></a>01984     GtkWidget *menu, *menu_item;
+<a name="l01985"></a>01985     gint scheduled_number;
+<a name="l01986"></a>01986 
+<a name="l01987"></a>01987     menu = gtk_menu_new ();
+<a name="l01988"></a>01988 
+<a name="l01989"></a>01989     <span class="comment">/* Edit transaction */</span>
+<a name="l01990"></a>01990     scheduled_number = <a class="code" href="gsb__scheduler__list_8c.html#a52c8fea240a34ec37da7fe33460d06e7">gsb_scheduler_list_get_current_scheduled_number</a> ( );
+<a name="l01991"></a>01991 
+<a name="l01992"></a>01992     menu_item = gtk_image_menu_item_new_with_label ( _(<span class="stringliteral">&quot;Edit transaction&quot;</span>) );
+<a name="l01993"></a>01993     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+<a name="l01994"></a>01994                         gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
+<a name="l01995"></a>01995                         GTK_ICON_SIZE_MENU ) );
+<a name="l01996"></a>01996     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+<a name="l01997"></a>01997                         <span class="stringliteral">&quot;activate&quot;</span>,
+<a name="l01998"></a>01998                         G_CALLBACK ( gsb_scheduler_list_edit_transaction_by_pointer ),
+<a name="l01999"></a>01999                         GINT_TO_POINTER ( scheduled_number ) );
+<a name="l02000"></a>02000     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+<a name="l02001"></a>02001 
+<a name="l02002"></a>02002     <span class="comment">/* Separator */</span>
+<a name="l02003"></a>02003     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
+<a name="l02004"></a>02004 
+<a name="l02005"></a>02005     <span class="comment">/* New transaction */</span>
+<a name="l02006"></a>02006     menu_item = gtk_image_menu_item_new_with_label ( _(<span class="stringliteral">&quot;New transaction&quot;</span>) );
+<a name="l02007"></a>02007     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+<a name="l02008"></a>02008                         gtk_image_new_from_stock ( GTK_STOCK_NEW,
+<a name="l02009"></a>02009                         GTK_ICON_SIZE_MENU ) );
+<a name="l02010"></a>02010     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+<a name="l02011"></a>02011                         <span class="stringliteral">&quot;activate&quot;</span>,
+<a name="l02012"></a>02012                         G_CALLBACK ( gsb_scheduler_list_edit_transaction_by_pointer ),
+<a name="l02013"></a>02013                         GINT_TO_POINTER ( -1 ) );
+<a name="l02014"></a>02014     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+<a name="l02015"></a>02015 
+<a name="l02016"></a>02016     <span class="comment">/* Delete transaction */</span>
+<a name="l02017"></a>02017     menu_item = gtk_image_menu_item_new_with_label ( _(<span class="stringliteral">&quot;Delete transaction&quot;</span>) );
+<a name="l02018"></a>02018     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+<a name="l02019"></a>02019                         gtk_image_new_from_stock ( GTK_STOCK_DELETE,
+<a name="l02020"></a>02020                                                 GTK_ICON_SIZE_MENU ) );
+<a name="l02021"></a>02021     g_signal_connect ( G_OBJECT ( menu_item ),
+<a name="l02022"></a>02022                         <span class="stringliteral">&quot;activate&quot;</span>,
+<a name="l02023"></a>02023                         G_CALLBACK ( <a class="code" href="gsb__scheduler__list_8c.html#ad3d815d7983018de7999d778590f17dc">gsb_scheduler_list_delete_scheduled_transaction_by_menu</a> ),
+<a name="l02024"></a>02024                         NULL );
+<a name="l02025"></a>02025     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+<a name="l02026"></a>02026 
+<a name="l02027"></a>02027     <span class="comment">/* Separator */</span>
+<a name="l02028"></a>02028     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
+<a name="l02029"></a>02029 
+<a name="l02030"></a>02030     <span class="comment">/* Display/hide comments */</span>
+<a name="l02031"></a>02031     menu_item = gtk_image_menu_item_new_with_label ( _(<span class="stringliteral">&quot;Displays/Cache comments&quot;</span>) );
+<a name="l02032"></a>02032     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+<a name="l02033"></a>02033                         gtk_image_new_from_file ( g_build_filename ( PIXMAPS_DIR,
+<a name="l02034"></a>02034                         <span class="stringliteral">&quot;comments.png&quot;</span>, NULL ) ) );
+<a name="l02035"></a>02035     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+<a name="l02036"></a>02036                         <span class="stringliteral">&quot;activate&quot;</span>,
+<a name="l02037"></a>02037                         G_CALLBACK ( <a class="code" href="gsb__scheduler__list_8c.html#a9eaf111074be94831038960ae9e56732">gsb_scheduler_list_show_notes</a> ),
+<a name="l02038"></a>02038                         NULL );
+<a name="l02039"></a>02039     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+<a name="l02040"></a>02040 
+<a name="l02041"></a>02041     <span class="comment">/* Separator */</span>
+<a name="l02042"></a>02042     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
+<a name="l02043"></a>02043 
+<a name="l02044"></a>02044     <span class="comment">/* Execute transaction */</span>
+<a name="l02045"></a>02045     menu_item = gtk_image_menu_item_new_with_label ( _(<span class="stringliteral">&quot;Execute transaction&quot;</span>) );
+<a name="l02046"></a>02046     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+<a name="l02047"></a>02047                         gtk_image_new_from_stock ( GTK_STOCK_EXECUTE,
+<a name="l02048"></a>02048                         GTK_ICON_SIZE_MENU ) );
+<a name="l02049"></a>02049     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+<a name="l02050"></a>02050                         <span class="stringliteral">&quot;activate&quot;</span>,
+<a name="l02051"></a>02051                         G_CALLBACK ( <a class="code" href="gsb__scheduler__list_8c.html#aecc0e9467fcae670ba2243053ce56334">gsb_scheduler_list_execute_transaction</a> ),
+<a name="l02052"></a>02052                         NULL );
+<a name="l02053"></a>02053     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+<a name="l02054"></a>02054 
+<a name="l02055"></a>02055     <span class="comment">/* Finish all. */</span>
+<a name="l02056"></a>02056     gtk_widget_show_all (menu);
+<a name="l02057"></a>02057     gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
+<a name="l02058"></a>02058 }
+<a name="l02059"></a>02059 
+<a name="l02068"></a>02068 gboolean gsb_scheduler_list_edit_transaction_by_pointer ( gint *scheduled_number )
+<a name="l02069"></a>02069 {
+<a name="l02070"></a>02070     <a class="code" href="erreur_8h.html#a10f4eeae4cc251a8d632fd62ec1057fb">devel_debug_int</a> (GPOINTER_TO_INT ( scheduled_number ) );
+<a name="l02071"></a>02071     <a class="code" href="gsb__scheduler__list_8c.html#a10a206d10ab971adb3ea36ec263c34d2">gsb_scheduler_list_edit_transaction</a> ( GPOINTER_TO_INT (scheduled_number));
+<a name="l02072"></a>02072     <span class="keywordflow">return</span> FALSE;
+<a name="l02073"></a>02073 }
+<a name="l02074"></a>02074 
+<a name="l02075"></a>02075 
+<a name="l02076"></a>02076 <span class="comment">/* Local Variables: */</span>
+<a name="l02077"></a>02077 <span class="comment">/* c-basic-offset: 4 */</span>
+<a name="l02078"></a>02078 <span class="comment">/* End: */</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:02 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

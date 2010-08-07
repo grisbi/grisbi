@@ -1,0 +1,650 @@
+\section{Référence du fichier etats\_\-affiche.c}
+\label{etats__affiche_8c}\index{etats\_\-affiche.c@{etats\_\-affiche.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}etats\_\-affiche.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}etats\_\-affiche.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-budget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-category.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payee.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payment.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-titre} (gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-separateur} (gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-total\_\-categories} (gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-categ} (gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-total\_\-ib} (gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-ib} (gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-total\_\-compte} (gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-total\_\-tiers} (gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-total\_\-periode} (gint transaction\_\-number, gint ligne, gint force)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-total\_\-exercice} (gint transaction\_\-number, gint ligne, gint force)
+\item 
+gint {\bf etat\_\-affiche\_\-affichage\_\-ligne\_\-ope} (gint transaction\_\-number, gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-total\_\-partiel} ({\bf gsb\_\-real} total\_\-partie, gint ligne, gint type)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-total\_\-general} ({\bf gsb\_\-real} total\_\-general, gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-categ\_\-etat} (gint transaction\_\-number, gchar $\ast$decalage\_\-categ, gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-sous\_\-categ\_\-etat} (gint transaction\_\-number, gchar $\ast$decalage\_\-sous\_\-categ, gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-ib\_\-etat} (gint transaction\_\-number, gchar $\ast$decalage\_\-ib, gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-sous\_\-ib\_\-etat} (gint transaction\_\-number, gchar $\ast$decalage\_\-sous\_\-ib, gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-compte\_\-etat} (gint transaction\_\-number, gchar $\ast$decalage\_\-compte, gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-tiers\_\-etat} (gint transaction\_\-number, gchar $\ast$decalage\_\-tiers, gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-titre\_\-revenus\_\-etat} (gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-titre\_\-depenses\_\-etat} (gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-totaux\_\-sous\_\-jaccent} (gint origine, gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-affiche\_\-titres\_\-colonnes} (gint ligne)
+\item 
+gint {\bf etat\_\-affiche\_\-initialise} (GSList $\ast$opes\_\-selectionnees, gchar $\ast$filename)
+\item 
+gint {\bf etat\_\-affiche\_\-finish} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+gint {\bf ancien\_\-compte\_\-etat}
+\item 
+gint {\bf ancienne\_\-categ\_\-etat}
+\item 
+gint {\bf ancienne\_\-categ\_\-speciale\_\-etat}
+\item 
+gint {\bf ancienne\_\-ib\_\-etat}
+\item 
+gint {\bf ancienne\_\-sous\_\-categ\_\-etat}
+\item 
+gint {\bf ancienne\_\-sous\_\-ib\_\-etat}
+\item 
+gint {\bf changement\_\-de\_\-groupe\_\-etat}
+\item 
+GDate $\ast$ {\bf date\_\-debut\_\-periode}
+\item 
+gint {\bf debut\_\-affichage\_\-etat}
+\item 
+gint {\bf devise\_\-categ\_\-etat}
+\item 
+gint {\bf devise\_\-compte\_\-en\_\-cours\_\-etat}
+\item 
+gint {\bf devise\_\-generale\_\-etat}
+\item 
+gint {\bf devise\_\-ib\_\-etat}
+\item 
+gint {\bf devise\_\-tiers\_\-etat}
+\item 
+struct {\bf struct\_\-etat\_\-affichage} $\ast$ {\bf etat\_\-affichage\_\-output}
+\item 
+gint {\bf exo\_\-en\_\-cours\_\-etat}
+\item 
+gint {\bf ligne\_\-debut\_\-partie}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-categ\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-compte\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-exo\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-ib\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-periode\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-sous\_\-categ\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-sous\_\-ib\_\-etat}
+\item 
+{\bf gsb\_\-real} {\bf montant\_\-tiers\_\-etat}
+\item 
+gint {\bf nb\_\-colonnes}
+\item 
+gint {\bf nb\_\-ope\_\-categ\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-compte\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-exo\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-general\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-ib\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-partie\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-periode\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-sous\_\-categ\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-sous\_\-ib\_\-etat}
+\item 
+gint {\bf nb\_\-ope\_\-tiers\_\-etat}
+\item 
+const gchar $\ast$ {\bf nom\_\-categ\_\-en\_\-cours}
+\item 
+const gchar $\ast$ {\bf nom\_\-compte\_\-en\_\-cours}
+\item 
+const gchar $\ast$ {\bf nom\_\-ib\_\-en\_\-cours}
+\item 
+const gchar $\ast$ {\bf nom\_\-ss\_\-categ\_\-en\_\-cours}
+\item 
+const gchar $\ast$ {\bf nom\_\-ss\_\-ib\_\-en\_\-cours}
+\item 
+const gchar $\ast$ {\bf nom\_\-tiers\_\-en\_\-cours}
+\item 
+{\bf gsb\_\-real} {\bf null\_\-real}
+\item 
+gint {\bf titres\_\-affiches}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affichage\_\-ligne\_\-ope@{etat\_\-affiche\_\-affichage\_\-ligne\_\-ope}}
+\index{etat\_\-affiche\_\-affichage\_\-ligne\_\-ope@{etat\_\-affiche\_\-affichage\_\-ligne\_\-ope}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affichage\_\-ligne\_\-ope}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affichage\_\-ligne\_\-ope (gint {\em transaction\_\-number}, \/  gint {\em ligne})}\label{etats__affiche_8c_ab00e4fcfeb69f01dd1447564693e1887}
+
+
+Définition à la ligne 1253 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-categ\_\-etat@{etat\_\-affiche\_\-affiche\_\-categ\_\-etat}}
+\index{etat\_\-affiche\_\-affiche\_\-categ\_\-etat@{etat\_\-affiche\_\-affiche\_\-categ\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-categ\_\-etat (gint {\em transaction\_\-number}, \/  gchar $\ast$ {\em decalage\_\-categ}, \/  gint {\em ligne})}\label{etats__affiche_8c_a466c2f771970489a9816c9e11732f662}
+
+
+Définition à la ligne 1772 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-compte\_\-etat@{etat\_\-affiche\_\-affiche\_\-compte\_\-etat}}
+\index{etat\_\-affiche\_\-affiche\_\-compte\_\-etat@{etat\_\-affiche\_\-affiche\_\-compte\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-compte\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-compte\_\-etat (gint {\em transaction\_\-number}, \/  gchar $\ast$ {\em decalage\_\-compte}, \/  gint {\em ligne})}\label{etats__affiche_8c_af8b7ccec4ce47a0fc4f85b185900a665}
+
+
+Définition à la ligne 2144 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-ib\_\-etat@{etat\_\-affiche\_\-affiche\_\-ib\_\-etat}}
+\index{etat\_\-affiche\_\-affiche\_\-ib\_\-etat@{etat\_\-affiche\_\-affiche\_\-ib\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-ib\_\-etat (gint {\em transaction\_\-number}, \/  gchar $\ast$ {\em decalage\_\-ib}, \/  gint {\em ligne})}\label{etats__affiche_8c_a644cc87f913a5116fdf64d41f52b366a}
+
+
+Définition à la ligne 1975 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-separateur@{etat\_\-affiche\_\-affiche\_\-separateur}}
+\index{etat\_\-affiche\_\-affiche\_\-separateur@{etat\_\-affiche\_\-affiche\_\-separateur}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-separateur}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-separateur (gint {\em ligne})}\label{etats__affiche_8c_a482bd2d47cd0b5df46e0198231f5660c}
+
+
+Définition à la ligne 128 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-sous\_\-categ\_\-etat@{etat\_\-affiche\_\-affiche\_\-sous\_\-categ\_\-etat}}
+\index{etat\_\-affiche\_\-affiche\_\-sous\_\-categ\_\-etat@{etat\_\-affiche\_\-affiche\_\-sous\_\-categ\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-sous\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-sous\_\-categ\_\-etat (gint {\em transaction\_\-number}, \/  gchar $\ast$ {\em decalage\_\-sous\_\-categ}, \/  gint {\em ligne})}\label{etats__affiche_8c_a20f3e545893f2398023f87c885d9644a}
+
+
+Définition à la ligne 1889 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-sous\_\-ib\_\-etat@{etat\_\-affiche\_\-affiche\_\-sous\_\-ib\_\-etat}}
+\index{etat\_\-affiche\_\-affiche\_\-sous\_\-ib\_\-etat@{etat\_\-affiche\_\-affiche\_\-sous\_\-ib\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-sous\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-sous\_\-ib\_\-etat (gint {\em transaction\_\-number}, \/  gchar $\ast$ {\em decalage\_\-sous\_\-ib}, \/  gint {\em ligne})}\label{etats__affiche_8c_a24b3cc976699bf78cb8e28e5e85d9544}
+
+
+Définition à la ligne 2056 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-tiers\_\-etat@{etat\_\-affiche\_\-affiche\_\-tiers\_\-etat}}
+\index{etat\_\-affiche\_\-affiche\_\-tiers\_\-etat@{etat\_\-affiche\_\-affiche\_\-tiers\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-tiers\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-tiers\_\-etat (gint {\em transaction\_\-number}, \/  gchar $\ast$ {\em decalage\_\-tiers}, \/  gint {\em ligne})}\label{etats__affiche_8c_aac3474fdf470273303bec55a54b25ca5}
+
+
+Définition à la ligne 2214 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-titre@{etat\_\-affiche\_\-affiche\_\-titre}}
+\index{etat\_\-affiche\_\-affiche\_\-titre@{etat\_\-affiche\_\-affiche\_\-titre}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-titre}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-titre (gint {\em ligne})}\label{etats__affiche_8c_a23d532904e268d1992c339aeecfb35bd}
+
+
+Définition à la ligne 113 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-titre\_\-depenses\_\-etat@{etat\_\-affiche\_\-affiche\_\-titre\_\-depenses\_\-etat}}
+\index{etat\_\-affiche\_\-affiche\_\-titre\_\-depenses\_\-etat@{etat\_\-affiche\_\-affiche\_\-titre\_\-depenses\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-titre\_\-depenses\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-titre\_\-depenses\_\-etat (gint {\em ligne})}\label{etats__affiche_8c_a184381e9870a9e98e164a74df418678f}
+
+
+Définition à la ligne 2309 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-titre\_\-revenus\_\-etat@{etat\_\-affiche\_\-affiche\_\-titre\_\-revenus\_\-etat}}
+\index{etat\_\-affiche\_\-affiche\_\-titre\_\-revenus\_\-etat@{etat\_\-affiche\_\-affiche\_\-titre\_\-revenus\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-titre\_\-revenus\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-titre\_\-revenus\_\-etat (gint {\em ligne})}\label{etats__affiche_8c_a2989e5cfdc63b98019ceb69842265605}
+
+
+Définition à la ligne 2289 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-titres\_\-colonnes@{etat\_\-affiche\_\-affiche\_\-titres\_\-colonnes}}
+\index{etat\_\-affiche\_\-affiche\_\-titres\_\-colonnes@{etat\_\-affiche\_\-affiche\_\-titres\_\-colonnes}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-titres\_\-colonnes}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-titres\_\-colonnes (gint {\em ligne})}\label{etats__affiche_8c_a5f5c4acce2b2b068699c0c0cf994ee42}
+
+
+Définition à la ligne 2386 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-total\_\-categories@{etat\_\-affiche\_\-affiche\_\-total\_\-categories}}
+\index{etat\_\-affiche\_\-affiche\_\-total\_\-categories@{etat\_\-affiche\_\-affiche\_\-total\_\-categories}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-total\_\-categories}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-total\_\-categories (gint {\em ligne})}\label{etats__affiche_8c_ad50f5b18eb520885a8b87346e8be3f0f}
+
+
+Définition à la ligne 141 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-total\_\-compte@{etat\_\-affiche\_\-affiche\_\-total\_\-compte}}
+\index{etat\_\-affiche\_\-affiche\_\-total\_\-compte@{etat\_\-affiche\_\-affiche\_\-total\_\-compte}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-total\_\-compte}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-total\_\-compte (gint {\em ligne})}\label{etats__affiche_8c_a66a960e46b7ba5b6b3d31b3b3450c343}
+
+
+Définition à la ligne 606 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-total\_\-exercice@{etat\_\-affiche\_\-affiche\_\-total\_\-exercice}}
+\index{etat\_\-affiche\_\-affiche\_\-total\_\-exercice@{etat\_\-affiche\_\-affiche\_\-total\_\-exercice}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-total\_\-exercice}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-total\_\-exercice (gint {\em transaction\_\-number}, \/  gint {\em ligne}, \/  gint {\em force})}\label{etats__affiche_8c_ac945a1899478f32291729b2a3d174cbf}
+
+
+Définition à la ligne 1151 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-total\_\-general@{etat\_\-affiche\_\-affiche\_\-total\_\-general}}
+\index{etat\_\-affiche\_\-affiche\_\-total\_\-general@{etat\_\-affiche\_\-affiche\_\-total\_\-general}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-total\_\-general}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-total\_\-general ({\bf gsb\_\-real} {\em total\_\-general}, \/  gint {\em ligne})}\label{etats__affiche_8c_ae7d557c89ed939a2d6c553647a0f2d8e}
+
+
+Définition à la ligne 1724 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-total\_\-ib@{etat\_\-affiche\_\-affiche\_\-total\_\-ib}}
+\index{etat\_\-affiche\_\-affiche\_\-total\_\-ib@{etat\_\-affiche\_\-affiche\_\-total\_\-ib}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-total\_\-ib}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-total\_\-ib (gint {\em ligne})}\label{etats__affiche_8c_a8efa140053832991d342959e71ea96fe}
+
+
+Définition à la ligne 377 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-total\_\-partiel@{etat\_\-affiche\_\-affiche\_\-total\_\-partiel}}
+\index{etat\_\-affiche\_\-affiche\_\-total\_\-partiel@{etat\_\-affiche\_\-affiche\_\-total\_\-partiel}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-total\_\-partiel}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-total\_\-partiel ({\bf gsb\_\-real} {\em total\_\-partie}, \/  gint {\em ligne}, \/  gint {\em type})}\label{etats__affiche_8c_ad978bb179e6046a57722765b1c880b4b}
+
+
+Définition à la ligne 1652 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-total\_\-periode@{etat\_\-affiche\_\-affiche\_\-total\_\-periode}}
+\index{etat\_\-affiche\_\-affiche\_\-total\_\-periode@{etat\_\-affiche\_\-affiche\_\-total\_\-periode}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-total\_\-periode}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-total\_\-periode (gint {\em transaction\_\-number}, \/  gint {\em ligne}, \/  gint {\em force})}\label{etats__affiche_8c_a03da49824d10761d4b5cbf8e04e3d912}
+
+
+Définition à la ligne 826 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-categ@{etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-categ}}
+\index{etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-categ@{etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-categ}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-categ}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-categ (gint {\em ligne})}\label{etats__affiche_8c_a5394e33be943c935ac5eb6e921f6c9be}
+
+
+Définition à la ligne 260 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-ib@{etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-ib}}
+\index{etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-ib@{etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-ib}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-ib}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-total\_\-sous\_\-ib (gint {\em ligne})}\label{etats__affiche_8c_a7bb63b27eaceb81963d25c0c374cfc19}
+
+
+Définition à la ligne 488 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-total\_\-tiers@{etat\_\-affiche\_\-affiche\_\-total\_\-tiers}}
+\index{etat\_\-affiche\_\-affiche\_\-total\_\-tiers@{etat\_\-affiche\_\-affiche\_\-total\_\-tiers}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-total\_\-tiers}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-total\_\-tiers (gint {\em ligne})}\label{etats__affiche_8c_abfea10bc47fb122065847a8954dc21f1}
+
+
+Définition à la ligne 715 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-affiche\_\-totaux\_\-sous\_\-jaccent@{etat\_\-affiche\_\-affiche\_\-totaux\_\-sous\_\-jaccent}}
+\index{etat\_\-affiche\_\-affiche\_\-totaux\_\-sous\_\-jaccent@{etat\_\-affiche\_\-affiche\_\-totaux\_\-sous\_\-jaccent}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-affiche\_\-totaux\_\-sous\_\-jaccent}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-affiche\_\-totaux\_\-sous\_\-jaccent (gint {\em origine}, \/  gint {\em ligne})}\label{etats__affiche_8c_ab745193ba95c3b3b507313d1e847218c}
+
+
+Définition à la ligne 2333 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-finish@{etat\_\-affiche\_\-finish}}
+\index{etat\_\-affiche\_\-finish@{etat\_\-affiche\_\-finish}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-finish}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-finish ()}\label{etats__affiche_8c_aa8e4b00738bfd1c77cad02514cef3b5c}
+
+
+Définition à la ligne 2529 du fichier etats\_\-affiche.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affiche\_\-initialise@{etat\_\-affiche\_\-initialise}}
+\index{etat\_\-affiche\_\-initialise@{etat\_\-affiche\_\-initialise}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affiche\_\-initialise}]{\setlength{\rightskip}{0pt plus 5cm}gint etat\_\-affiche\_\-initialise (GSList $\ast$ {\em opes\_\-selectionnees}, \/  gchar $\ast$ {\em filename})}\label{etats__affiche_8c_a552210432a4f14d6ccef1cb78f3a57c8}
+
+
+Définition à la ligne 2522 du fichier etats\_\-affiche.c.
+
+
+
+\subsection{Documentation des variables}
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!ancien\_\-compte\_\-etat@{ancien\_\-compte\_\-etat}}
+\index{ancien\_\-compte\_\-etat@{ancien\_\-compte\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{ancien\_\-compte\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ancien\_\-compte\_\-etat}}\label{etats__affiche_8c_aa963ebc8f70f33f5f763428e5b60223d}
+
+
+Définition à la ligne 314 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!ancienne\_\-categ\_\-etat@{ancienne\_\-categ\_\-etat}}
+\index{ancienne\_\-categ\_\-etat@{ancienne\_\-categ\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{ancienne\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ancienne\_\-categ\_\-etat}}\label{etats__affiche_8c_a27ae89b8d957ad090d865123d0140660}
+
+
+Définition à la ligne 311 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!ancienne\_\-categ\_\-speciale\_\-etat@{ancienne\_\-categ\_\-speciale\_\-etat}}
+\index{ancienne\_\-categ\_\-speciale\_\-etat@{ancienne\_\-categ\_\-speciale\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{ancienne\_\-categ\_\-speciale\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ancienne\_\-categ\_\-speciale\_\-etat}}\label{etats__affiche_8c_a272b0e6e10dda1b35e50300cd610cfd1}
+
+
+Définition à la ligne 312 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!ancienne\_\-ib\_\-etat@{ancienne\_\-ib\_\-etat}}
+\index{ancienne\_\-ib\_\-etat@{ancienne\_\-ib\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{ancienne\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ancienne\_\-ib\_\-etat}}\label{etats__affiche_8c_a7ec62d3e029ce7a90e4a2bbe363c4fe0}
+
+
+Définition à la ligne 309 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!ancienne\_\-sous\_\-categ\_\-etat@{ancienne\_\-sous\_\-categ\_\-etat}}
+\index{ancienne\_\-sous\_\-categ\_\-etat@{ancienne\_\-sous\_\-categ\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{ancienne\_\-sous\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ancienne\_\-sous\_\-categ\_\-etat}}\label{etats__affiche_8c_a5542f5d3ecd5af99198cd9bf67a9ff71}
+
+
+Définition à la ligne 313 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!ancienne\_\-sous\_\-ib\_\-etat@{ancienne\_\-sous\_\-ib\_\-etat}}
+\index{ancienne\_\-sous\_\-ib\_\-etat@{ancienne\_\-sous\_\-ib\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{ancienne\_\-sous\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ancienne\_\-sous\_\-ib\_\-etat}}\label{etats__affiche_8c_ab576c21677f0ca665531b1f8db06b724}
+
+
+Définition à la ligne 310 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!changement\_\-de\_\-groupe\_\-etat@{changement\_\-de\_\-groupe\_\-etat}}
+\index{changement\_\-de\_\-groupe\_\-etat@{changement\_\-de\_\-groupe\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{changement\_\-de\_\-groupe\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf changement\_\-de\_\-groupe\_\-etat}}\label{etats__affiche_8c_a68a05b085bd2003ba74b209e997cf8a1}
+
+
+Définition à la ligne 336 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!date\_\-debut\_\-periode@{date\_\-debut\_\-periode}}
+\index{date\_\-debut\_\-periode@{date\_\-debut\_\-periode}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{date\_\-debut\_\-periode}]{\setlength{\rightskip}{0pt plus 5cm}GDate$\ast$ {\bf date\_\-debut\_\-periode}}\label{etats__affiche_8c_a7cae10e43ecf35e09ff52cb168a4a18c}
+
+
+Définition à la ligne 334 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!debut\_\-affichage\_\-etat@{debut\_\-affichage\_\-etat}}
+\index{debut\_\-affichage\_\-etat@{debut\_\-affichage\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{debut\_\-affichage\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf debut\_\-affichage\_\-etat}}\label{etats__affiche_8c_a5467b112388c669f4170b0d644627bdf}
+
+
+Définition à la ligne 337 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!devise\_\-categ\_\-etat@{devise\_\-categ\_\-etat}}
+\index{devise\_\-categ\_\-etat@{devise\_\-categ\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{devise\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf devise\_\-categ\_\-etat}}\label{etats__affiche_8c_adaa4a489115440e4b626aa3b62a426e3}
+
+
+Définition à la ligne 339 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!devise\_\-compte\_\-en\_\-cours\_\-etat@{devise\_\-compte\_\-en\_\-cours\_\-etat}}
+\index{devise\_\-compte\_\-en\_\-cours\_\-etat@{devise\_\-compte\_\-en\_\-cours\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{devise\_\-compte\_\-en\_\-cours\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf devise\_\-compte\_\-en\_\-cours\_\-etat}}\label{etats__affiche_8c_a422822312d2318e4dcc89876b272190f}
+
+
+Définition à la ligne 338 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!devise\_\-generale\_\-etat@{devise\_\-generale\_\-etat}}
+\index{devise\_\-generale\_\-etat@{devise\_\-generale\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{devise\_\-generale\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf devise\_\-generale\_\-etat}}\label{etats__affiche_8c_ac386cfcb130eaec7498c754733b118df}
+
+
+Définition à la ligne 342 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!devise\_\-ib\_\-etat@{devise\_\-ib\_\-etat}}
+\index{devise\_\-ib\_\-etat@{devise\_\-ib\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{devise\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf devise\_\-ib\_\-etat}}\label{etats__affiche_8c_a98f915576da9142adfe793e027729e2a}
+
+
+Définition à la ligne 340 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!devise\_\-tiers\_\-etat@{devise\_\-tiers\_\-etat}}
+\index{devise\_\-tiers\_\-etat@{devise\_\-tiers\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{devise\_\-tiers\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf devise\_\-tiers\_\-etat}}\label{etats__affiche_8c_ade4d3d82f703c4de9afda7c90b2235c0}
+
+
+Définition à la ligne 341 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!etat\_\-affichage\_\-output@{etat\_\-affichage\_\-output}}
+\index{etat\_\-affichage\_\-output@{etat\_\-affichage\_\-output}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{etat\_\-affichage\_\-output}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf struct\_\-etat\_\-affichage}$\ast$ {\bf etat\_\-affichage\_\-output}}\label{etats__affiche_8c_aae756cdae82e9a8cc27ac8973bb719db}
+
+
+Définition à la ligne 82 du fichier etats\_\-calculs.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!exo\_\-en\_\-cours\_\-etat@{exo\_\-en\_\-cours\_\-etat}}
+\index{exo\_\-en\_\-cours\_\-etat@{exo\_\-en\_\-cours\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{exo\_\-en\_\-cours\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf exo\_\-en\_\-cours\_\-etat}}\label{etats__affiche_8c_a56b05d8c0d7da3d30651f195bb372762}
+
+
+Définition à la ligne 335 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!ligne\_\-debut\_\-partie@{ligne\_\-debut\_\-partie}}
+\index{ligne\_\-debut\_\-partie@{ligne\_\-debut\_\-partie}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{ligne\_\-debut\_\-partie}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf ligne\_\-debut\_\-partie}}\label{etats__affiche_8c_afc1615a7c4b111e99e0facb32aa27364}
+
+
+Définition à la ligne 77 du fichier etats\_\-onglet.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!montant\_\-categ\_\-etat@{montant\_\-categ\_\-etat}}
+\index{montant\_\-categ\_\-etat@{montant\_\-categ\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{montant\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-categ\_\-etat}}\label{etats__affiche_8c_afc4d1cbfa38b987f27933ddccd51598b}
+
+
+Définition à la ligne 316 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!montant\_\-compte\_\-etat@{montant\_\-compte\_\-etat}}
+\index{montant\_\-compte\_\-etat@{montant\_\-compte\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{montant\_\-compte\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-compte\_\-etat}}\label{etats__affiche_8c_ae5577643c4652cb316b536fe589be57a}
+
+
+Définition à la ligne 320 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!montant\_\-exo\_\-etat@{montant\_\-exo\_\-etat}}
+\index{montant\_\-exo\_\-etat@{montant\_\-exo\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{montant\_\-exo\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-exo\_\-etat}}\label{etats__affiche_8c_abf2d51bfad45c9a5e7e75400c92778a2}
+
+
+Définition à la ligne 323 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!montant\_\-ib\_\-etat@{montant\_\-ib\_\-etat}}
+\index{montant\_\-ib\_\-etat@{montant\_\-ib\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{montant\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-ib\_\-etat}}\label{etats__affiche_8c_a73e02b2358ae86d87963134245729348}
+
+
+Définition à la ligne 318 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!montant\_\-periode\_\-etat@{montant\_\-periode\_\-etat}}
+\index{montant\_\-periode\_\-etat@{montant\_\-periode\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{montant\_\-periode\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-periode\_\-etat}}\label{etats__affiche_8c_aed8c8e6d4a199c152eae898166a2e34a}
+
+
+Définition à la ligne 322 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!montant\_\-sous\_\-categ\_\-etat@{montant\_\-sous\_\-categ\_\-etat}}
+\index{montant\_\-sous\_\-categ\_\-etat@{montant\_\-sous\_\-categ\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{montant\_\-sous\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-sous\_\-categ\_\-etat}}\label{etats__affiche_8c_ab5c074fe2fc567694fbe4a2cf3ca86b9}
+
+
+Définition à la ligne 317 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!montant\_\-sous\_\-ib\_\-etat@{montant\_\-sous\_\-ib\_\-etat}}
+\index{montant\_\-sous\_\-ib\_\-etat@{montant\_\-sous\_\-ib\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{montant\_\-sous\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-sous\_\-ib\_\-etat}}\label{etats__affiche_8c_ab5efab0379678fac2d20097c5eef106a}
+
+
+Définition à la ligne 319 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!montant\_\-tiers\_\-etat@{montant\_\-tiers\_\-etat}}
+\index{montant\_\-tiers\_\-etat@{montant\_\-tiers\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{montant\_\-tiers\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf montant\_\-tiers\_\-etat}}\label{etats__affiche_8c_aae854ba19cf7827f321f3282a9f4b0c2}
+
+
+Définition à la ligne 321 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nb\_\-colonnes@{nb\_\-colonnes}}
+\index{nb\_\-colonnes@{nb\_\-colonnes}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nb\_\-colonnes}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-colonnes}}\label{etats__affiche_8c_a8c9db61caf800767da87c8e115ed2b12}
+
+
+Définition à la ligne 76 du fichier etats\_\-onglet.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nb\_\-ope\_\-categ\_\-etat@{nb\_\-ope\_\-categ\_\-etat}}
+\index{nb\_\-ope\_\-categ\_\-etat@{nb\_\-ope\_\-categ\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nb\_\-ope\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-categ\_\-etat}}\label{etats__affiche_8c_ae6985b862a00ba2b027e1563864be011}
+
+
+Définition à la ligne 324 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nb\_\-ope\_\-compte\_\-etat@{nb\_\-ope\_\-compte\_\-etat}}
+\index{nb\_\-ope\_\-compte\_\-etat@{nb\_\-ope\_\-compte\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nb\_\-ope\_\-compte\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-compte\_\-etat}}\label{etats__affiche_8c_a1b11951d1a56f8c68f55c0fa1cb0c1c7}
+
+
+Définition à la ligne 328 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nb\_\-ope\_\-exo\_\-etat@{nb\_\-ope\_\-exo\_\-etat}}
+\index{nb\_\-ope\_\-exo\_\-etat@{nb\_\-ope\_\-exo\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nb\_\-ope\_\-exo\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-exo\_\-etat}}\label{etats__affiche_8c_a4b03672e73353edd27cc31fb88ff998c}
+
+
+Définition à la ligne 331 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nb\_\-ope\_\-general\_\-etat@{nb\_\-ope\_\-general\_\-etat}}
+\index{nb\_\-ope\_\-general\_\-etat@{nb\_\-ope\_\-general\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nb\_\-ope\_\-general\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-general\_\-etat}}\label{etats__affiche_8c_ac17ce010b9f2b380c122b90b4059fb7b}
+
+
+Définition à la ligne 332 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nb\_\-ope\_\-ib\_\-etat@{nb\_\-ope\_\-ib\_\-etat}}
+\index{nb\_\-ope\_\-ib\_\-etat@{nb\_\-ope\_\-ib\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nb\_\-ope\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-ib\_\-etat}}\label{etats__affiche_8c_a10ebe84ab2fe2ca0757b40f9bf185c83}
+
+
+Définition à la ligne 326 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nb\_\-ope\_\-partie\_\-etat@{nb\_\-ope\_\-partie\_\-etat}}
+\index{nb\_\-ope\_\-partie\_\-etat@{nb\_\-ope\_\-partie\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nb\_\-ope\_\-partie\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-partie\_\-etat}}\label{etats__affiche_8c_a5f9793983be874655fa535ec4390fd0e}
+
+
+Définition à la ligne 333 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nb\_\-ope\_\-periode\_\-etat@{nb\_\-ope\_\-periode\_\-etat}}
+\index{nb\_\-ope\_\-periode\_\-etat@{nb\_\-ope\_\-periode\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nb\_\-ope\_\-periode\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-periode\_\-etat}}\label{etats__affiche_8c_a5a93de94b74c1dcf8b4ac05352f8a4fc}
+
+
+Définition à la ligne 330 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nb\_\-ope\_\-sous\_\-categ\_\-etat@{nb\_\-ope\_\-sous\_\-categ\_\-etat}}
+\index{nb\_\-ope\_\-sous\_\-categ\_\-etat@{nb\_\-ope\_\-sous\_\-categ\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nb\_\-ope\_\-sous\_\-categ\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-sous\_\-categ\_\-etat}}\label{etats__affiche_8c_a84bea4d1bc742aad297bc7746dfa4f4e}
+
+
+Définition à la ligne 325 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nb\_\-ope\_\-sous\_\-ib\_\-etat@{nb\_\-ope\_\-sous\_\-ib\_\-etat}}
+\index{nb\_\-ope\_\-sous\_\-ib\_\-etat@{nb\_\-ope\_\-sous\_\-ib\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nb\_\-ope\_\-sous\_\-ib\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-sous\_\-ib\_\-etat}}\label{etats__affiche_8c_a1f68e24419272f0faf0d6696d763aa88}
+
+
+Définition à la ligne 327 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nb\_\-ope\_\-tiers\_\-etat@{nb\_\-ope\_\-tiers\_\-etat}}
+\index{nb\_\-ope\_\-tiers\_\-etat@{nb\_\-ope\_\-tiers\_\-etat}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nb\_\-ope\_\-tiers\_\-etat}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-ope\_\-tiers\_\-etat}}\label{etats__affiche_8c_a2a4a8e2b7264cdb23ba5297beee6ce9c}
+
+
+Définition à la ligne 329 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nom\_\-categ\_\-en\_\-cours@{nom\_\-categ\_\-en\_\-cours}}
+\index{nom\_\-categ\_\-en\_\-cours@{nom\_\-categ\_\-en\_\-cours}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nom\_\-categ\_\-en\_\-cours}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ {\bf nom\_\-categ\_\-en\_\-cours}}\label{etats__affiche_8c_a8451d9f992a33f2f6a95572bf3ebe732}
+
+
+Définition à la ligne 344 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nom\_\-compte\_\-en\_\-cours@{nom\_\-compte\_\-en\_\-cours}}
+\index{nom\_\-compte\_\-en\_\-cours@{nom\_\-compte\_\-en\_\-cours}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nom\_\-compte\_\-en\_\-cours}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ {\bf nom\_\-compte\_\-en\_\-cours}}\label{etats__affiche_8c_aec1a39f8dd6a5209e972b1e3c18692a4}
+
+
+Définition à la ligne 348 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nom\_\-ib\_\-en\_\-cours@{nom\_\-ib\_\-en\_\-cours}}
+\index{nom\_\-ib\_\-en\_\-cours@{nom\_\-ib\_\-en\_\-cours}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nom\_\-ib\_\-en\_\-cours}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ {\bf nom\_\-ib\_\-en\_\-cours}}\label{etats__affiche_8c_ae7d124c4540ae28e59c875e7a273d1b2}
+
+
+Définition à la ligne 346 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nom\_\-ss\_\-categ\_\-en\_\-cours@{nom\_\-ss\_\-categ\_\-en\_\-cours}}
+\index{nom\_\-ss\_\-categ\_\-en\_\-cours@{nom\_\-ss\_\-categ\_\-en\_\-cours}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nom\_\-ss\_\-categ\_\-en\_\-cours}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ {\bf nom\_\-ss\_\-categ\_\-en\_\-cours}}\label{etats__affiche_8c_a70d5f4a7719dfb6e7256bf9c0c6c81c0}
+
+
+Définition à la ligne 345 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nom\_\-ss\_\-ib\_\-en\_\-cours@{nom\_\-ss\_\-ib\_\-en\_\-cours}}
+\index{nom\_\-ss\_\-ib\_\-en\_\-cours@{nom\_\-ss\_\-ib\_\-en\_\-cours}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nom\_\-ss\_\-ib\_\-en\_\-cours}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ {\bf nom\_\-ss\_\-ib\_\-en\_\-cours}}\label{etats__affiche_8c_aeebb77c73228c08a745bce2b31626184}
+
+
+Définition à la ligne 347 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!nom\_\-tiers\_\-en\_\-cours@{nom\_\-tiers\_\-en\_\-cours}}
+\index{nom\_\-tiers\_\-en\_\-cours@{nom\_\-tiers\_\-en\_\-cours}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{nom\_\-tiers\_\-en\_\-cours}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ {\bf nom\_\-tiers\_\-en\_\-cours}}\label{etats__affiche_8c_ad6c29bcab9528b5f233ca087daae59e2}
+
+
+Définition à la ligne 349 du fichier etats\_\-config.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!null\_\-real@{null\_\-real}}
+\index{null\_\-real@{null\_\-real}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{null\_\-real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf null\_\-real}}\label{etats__affiche_8c_a26f304bec3fdc0651b9aa8765d4de3c6}
+
+
+Définition à la ligne 42 du fichier gsb\_\-real.c.
+
+\index{etats\_\-affiche.c@{etats\_\-affiche.c}!titres\_\-affiches@{titres\_\-affiches}}
+\index{titres\_\-affiches@{titres\_\-affiches}!etats_affiche.c@{etats\_\-affiche.c}}
+\subsubsection[{titres\_\-affiches}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf titres\_\-affiches}}\label{etats__affiche_8c_aa74984417afb965dc68f02651313074b}
+
+
+Définition à la ligne 350 du fichier etats\_\-config.c.
+

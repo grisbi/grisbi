@@ -1,0 +1,713 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier affichage.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier affichage.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="affichage_8c_source.html">affichage.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__automem_8h_source.html">gsb_automem.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="fenetre__principale_8h_source.html">fenetre_principale.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="accueil_8h_source.html">accueil.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__scheduler__list_8h_source.html">gsb_scheduler_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__select__icon_8h_source.html">gsb_select_icon.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="main_8h_source.html">main.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__buttons_8h_source.html">utils_buttons.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="affichage_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#ab7ab35642d20a97b0129dc7df997c989">onglet_display_fonts</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a8188edfa1a69ab92d5aee186855442b8">onglet_display_addresses</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a540ad020b9ea9514f836a69f20e412cd">update_homepage_title</a> (GtkEntry *entry, gchar *value, gint length, gint *position)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#ad383c9540bfca50409800d2d9869c3ac">tab_display_toolbar</a> (void)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#ab7ec5b8a1b4dca10b71bfe0364eb7248">adresse_commune</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a5495a13fee46daf1634623fe4e63f99a">adresse_secondaire</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a881db8e6c000ad504ff0183a674cb196">archive_background_color</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#aa809fea280ab9cef6e16774b54a573ae">calendar_entry_color</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a9c6b0a0f3037804c43aa435dbb98f7ec">couleur_bet_division</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#af7f95b1eb6717e97b624b506258fd893">couleur_bet_future</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#abf473d007a5860d19e62be3c33654a48">couleur_bet_transfert</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a58089bf9225ae2e274165369f8bc7a00">couleur_fond</a> [2]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a4119417896b5652f640ead3795baac52">couleur_grise</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a668e8ab17ed4a22af1464c091c2668c2">couleur_jour</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a35e437a6db69c9160eeb81674971108b">couleur_selection</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a9b02755865b26afa2ff2c5fed58021d3">default_archive_background_color</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#acc3ef52863503926b5b8f9b17e3cf442">default_calendar_entry_color</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a8429a293f7b484c7ddd18477b5826837">default_couleur_bet_division</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#adba548ffc8e18696333d5a1c307f4c16">default_couleur_bet_future</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#aeb871339509ce469b886f7e5e302c85a">default_couleur_bet_transfert</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a825451c26e17de125aef98ca62e96358">default_couleur_fond</a> [2]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a1dff44f95100cba45b331a6ed4c8e005">default_couleur_grise</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a942af6b24cf90dcad3ad838b49394d6d">default_couleur_jour</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a7024ada5bb9ad3a42a530f28be2d1714">default_couleur_selection</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a3f6c86dcef012ed66805beb0c76fd2f8">default_split_background</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#ad2907ac01ffda6d7aefaddefb2369c9f">default_text_color</a> [2]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a280b98575c3c9e0b637ec78b157a1ff4">fenetre_preferences</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a5c4177f9546fc12979a20354c696c96a">hbox_title</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#ac7526506154f32a987a2cd923aba4d7c">initial_file_title</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a2b411f03999259d3ba57ceb09d126c6d">initial_holder_title</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#ad5a5e4da0960d4245ba98245c3a868dc">label_titre_fichier</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a54bbf4c2b1a287f2b68dd985bc3df3a0">logo_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#ae00b9af94c75169e6ab8cf0ec25e8b89">nom_fichier_comptes</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#abc4f631d953e2be68189a6fbcf55cd1d">split_background</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a8169600c05eb3674c1b11ca67dd677d3">text_color</a> [2]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a787cc81cf2ad728775b73d723713980b">titre_fichier</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="affichage_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a8188edfa1a69ab92d5aee186855442b8"></a><!-- doxytag: member="affichage.c::onglet_display_addresses" ref="a8188edfa1a69ab92d5aee186855442b8" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* onglet_display_addresses </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Creates the "Titles &amp; Addresses" tab. This tab is mainly composed of text entries and editables.</p>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly allocated vbox </dd></dl>
+
+<p><dl class="note"><dt><b>Note:</b></dt><dd>This is not implemented yet </dd></dl>
+</p>
+
+<p>Définition à la ligne <a class="el" href="affichage_8c_source.html#l00363">363</a> du fichier <a class="el" href="affichage_8c_source.html">affichage.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab7ab35642d20a97b0129dc7df997c989"></a><!-- doxytag: member="affichage.c::onglet_display_fonts" ref="ab7ab35642d20a97b0129dc7df997c989" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* onglet_display_fonts </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Creates the "Fonts &amp; logo" tab. This function creates some buttons that are borrowed from applications like gedit.</p>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly allocated vbox </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="affichage_8c_source.html#l00132">132</a> du fichier <a class="el" href="affichage_8c_source.html">affichage.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad383c9540bfca50409800d2d9869c3ac"></a><!-- doxytag: member="affichage.c::tab_display_toolbar" ref="ad383c9540bfca50409800d2d9869c3ac" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* tab_display_toolbar </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Create a vbox containing widgets allowing to change aspects of toolbar buttons.</p>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly created vbox. </dd></dl>
+
+<p><p>TODO: really add option to hide toolbar? This could save space, but if so, we should add all equivalents to menus. </p>
+</p>
+
+<p>Définition à la ligne <a class="el" href="affichage_8c_source.html#l00723">723</a> du fichier <a class="el" href="affichage_8c_source.html">affichage.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a540ad020b9ea9514f836a69f20e412cd"></a><!-- doxytag: member="affichage.c::update_homepage_title" ref="a540ad020b9ea9514f836a69f20e412cd" args="(GtkEntry *entry, gchar *value, gint length, gint *position)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean update_homepage_title </td>
+          <td>(</td>
+          <td class="paramtype">GtkEntry *&nbsp;</td>
+          <td class="paramname"> <em>entry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>length</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint *&nbsp;</td>
+          <td class="paramname"> <em>position</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Update the label that contain main title in homepage.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>entry</em>&nbsp;</td><td>Widget that triggered this handled. Not used. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td>Not used handler parameter. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>length</em>&nbsp;</td><td>Not used handler parameter. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>position</em>&nbsp;</td><td>Not used handler parameter. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="affichage_8c_source.html#l00661">661</a> du fichier <a class="el" href="affichage_8c_source.html">affichage.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="ab7ec5b8a1b4dca10b71bfe0364eb7248"></a><!-- doxytag: member="affichage.c::adresse_commune" ref="ab7ec5b8a1b4dca10b71bfe0364eb7248" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="traitement__variables_8c.html#ab7ec5b8a1b4dca10b71bfe0364eb7248">adresse_commune</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00148">148</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5495a13fee46daf1634623fe4e63f99a"></a><!-- doxytag: member="affichage.c::adresse_secondaire" ref="a5495a13fee46daf1634623fe4e63f99a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="traitement__variables_8c.html#a5495a13fee46daf1634623fe4e63f99a">adresse_secondaire</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00149">149</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a881db8e6c000ad504ff0183a674cb196"></a><!-- doxytag: member="affichage.c::archive_background_color" ref="a881db8e6c000ad504ff0183a674cb196" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#a881db8e6c000ad504ff0183a674cb196">archive_background_color</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00115">115</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa809fea280ab9cef6e16774b54a573ae"></a><!-- doxytag: member="affichage.c::calendar_entry_color" ref="aa809fea280ab9cef6e16774b54a573ae" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#aa809fea280ab9cef6e16774b54a573ae">calendar_entry_color</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00119">119</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9c6b0a0f3037804c43aa435dbb98f7ec"></a><!-- doxytag: member="affichage.c::couleur_bet_division" ref="a9c6b0a0f3037804c43aa435dbb98f7ec" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a9c6b0a0f3037804c43aa435dbb98f7ec">couleur_bet_division</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00135">135</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af7f95b1eb6717e97b624b506258fd893"></a><!-- doxytag: member="affichage.c::couleur_bet_future" ref="af7f95b1eb6717e97b624b506258fd893" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#af7f95b1eb6717e97b624b506258fd893">couleur_bet_future</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00137">137</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abf473d007a5860d19e62be3c33654a48"></a><!-- doxytag: member="affichage.c::couleur_bet_transfert" ref="abf473d007a5860d19e62be3c33654a48" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#abf473d007a5860d19e62be3c33654a48">couleur_bet_transfert</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00139">139</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a58089bf9225ae2e274165369f8bc7a00"></a><!-- doxytag: member="affichage.c::couleur_fond" ref="a58089bf9225ae2e274165369f8bc7a00" args="[2]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#a58089bf9225ae2e274165369f8bc7a00">couleur_fond</a>[2]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>colors in the transactions list </p>
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00112">112</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4119417896b5652f640ead3795baac52"></a><!-- doxytag: member="affichage.c::couleur_grise" ref="a4119417896b5652f640ead3795baac52" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a4119417896b5652f640ead3795baac52">couleur_grise</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00114">114</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a668e8ab17ed4a22af1464c091c2668c2"></a><!-- doxytag: member="affichage.c::couleur_jour" ref="a668e8ab17ed4a22af1464c091c2668c2" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#a668e8ab17ed4a22af1464c091c2668c2">couleur_jour</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00113">113</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a35e437a6db69c9160eeb81674971108b"></a><!-- doxytag: member="affichage.c::couleur_selection" ref="a35e437a6db69c9160eeb81674971108b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list__select_8c.html#a35e437a6db69c9160eeb81674971108b">couleur_selection</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00116">116</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9b02755865b26afa2ff2c5fed58021d3"></a><!-- doxytag: member="affichage.c::default_archive_background_color" ref="a9b02755865b26afa2ff2c5fed58021d3" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a9b02755865b26afa2ff2c5fed58021d3">default_archive_background_color</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00105">105</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acc3ef52863503926b5b8f9b17e3cf442"></a><!-- doxytag: member="affichage.c::default_calendar_entry_color" ref="acc3ef52863503926b5b8f9b17e3cf442" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#acc3ef52863503926b5b8f9b17e3cf442">default_calendar_entry_color</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00109">109</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8429a293f7b484c7ddd18477b5826837"></a><!-- doxytag: member="affichage.c::default_couleur_bet_division" ref="a8429a293f7b484c7ddd18477b5826837" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a8429a293f7b484c7ddd18477b5826837">default_couleur_bet_division</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00136">136</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adba548ffc8e18696333d5a1c307f4c16"></a><!-- doxytag: member="affichage.c::default_couleur_bet_future" ref="adba548ffc8e18696333d5a1c307f4c16" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#adba548ffc8e18696333d5a1c307f4c16">default_couleur_bet_future</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00138">138</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aeb871339509ce469b886f7e5e302c85a"></a><!-- doxytag: member="affichage.c::default_couleur_bet_transfert" ref="aeb871339509ce469b886f7e5e302c85a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#aeb871339509ce469b886f7e5e302c85a">default_couleur_bet_transfert</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00140">140</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a825451c26e17de125aef98ca62e96358"></a><!-- doxytag: member="affichage.c::default_couleur_fond" ref="a825451c26e17de125aef98ca62e96358" args="[2]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a825451c26e17de125aef98ca62e96358">default_couleur_fond</a>[2]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>defaults colors in the transactions list </p>
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00102">102</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1dff44f95100cba45b331a6ed4c8e005"></a><!-- doxytag: member="affichage.c::default_couleur_grise" ref="a1dff44f95100cba45b331a6ed4c8e005" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a1dff44f95100cba45b331a6ed4c8e005">default_couleur_grise</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00104">104</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a942af6b24cf90dcad3ad838b49394d6d"></a><!-- doxytag: member="affichage.c::default_couleur_jour" ref="a942af6b24cf90dcad3ad838b49394d6d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a942af6b24cf90dcad3ad838b49394d6d">default_couleur_jour</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00103">103</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7024ada5bb9ad3a42a530f28be2d1714"></a><!-- doxytag: member="affichage.c::default_couleur_selection" ref="a7024ada5bb9ad3a42a530f28be2d1714" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a7024ada5bb9ad3a42a530f28be2d1714">default_couleur_selection</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00106">106</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3f6c86dcef012ed66805beb0c76fd2f8"></a><!-- doxytag: member="affichage.c::default_split_background" ref="a3f6c86dcef012ed66805beb0c76fd2f8" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a3f6c86dcef012ed66805beb0c76fd2f8">default_split_background</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00107">107</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad2907ac01ffda6d7aefaddefb2369c9f"></a><!-- doxytag: member="affichage.c::default_text_color" ref="ad2907ac01ffda6d7aefaddefb2369c9f" args="[2]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#ad2907ac01ffda6d7aefaddefb2369c9f">default_text_color</a>[2]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00108">108</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a280b98575c3c9e0b637ec78b157a1ff4"></a><!-- doxytag: member="affichage.c::fenetre_preferences" ref="a280b98575c3c9e0b637ec78b157a1ff4" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="parametres_8c.html#a280b98575c3c9e0b637ec78b157a1ff4">fenetre_preferences</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="parametres_8c_source.html#l00091">91</a> du fichier <a class="el" href="parametres_8c_source.html">parametres.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5c4177f9546fc12979a20354c696c96a"></a><!-- doxytag: member="affichage.c::hbox_title" ref="a5c4177f9546fc12979a20354c696c96a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="affichage_8c.html#a5c4177f9546fc12979a20354c696c96a">hbox_title</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00109">109</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac7526506154f32a987a2cd923aba4d7c"></a><!-- doxytag: member="affichage.c::initial_file_title" ref="ac7526506154f32a987a2cd923aba4d7c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="traitement__variables_8c.html#ac7526506154f32a987a2cd923aba4d7c">initial_file_title</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__file__load_8c_source.html#l00226">226</a> du fichier <a class="el" href="gsb__file__load_8c_source.html">gsb_file_load.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2b411f03999259d3ba57ceb09d126c6d"></a><!-- doxytag: member="affichage.c::initial_holder_title" ref="a2b411f03999259d3ba57ceb09d126c6d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="traitement__variables_8c.html#a2b411f03999259d3ba57ceb09d126c6d">initial_holder_title</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__file__load_8c_source.html#l00227">227</a> du fichier <a class="el" href="gsb__file__load_8c_source.html">gsb_file_load.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad5a5e4da0960d4245ba98245c3a868dc"></a><!-- doxytag: member="affichage.c::label_titre_fichier" ref="ad5a5e4da0960d4245ba98245c3a868dc" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="affichage_8c.html#ad5a5e4da0960d4245ba98245c3a868dc">label_titre_fichier</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00110">110</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a54bbf4c2b1a287f2b68dd985bc3df3a0"></a><!-- doxytag: member="affichage.c::logo_accueil" ref="a54bbf4c2b1a287f2b68dd985bc3df3a0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__file__load_8c.html#a54bbf4c2b1a287f2b68dd985bc3df3a0">logo_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00108">108</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae00b9af94c75169e6ab8cf0ec25e8b89"></a><!-- doxytag: member="affichage.c::nom_fichier_comptes" ref="ae00b9af94c75169e6ab8cf0ec25e8b89" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="traitement__variables_8c.html#ae00b9af94c75169e6ab8cf0ec25e8b89">nom_fichier_comptes</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00145">145</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abc4f631d953e2be68189a6fbcf55cd1d"></a><!-- doxytag: member="affichage.c::split_background" ref="abc4f631d953e2be68189a6fbcf55cd1d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#abc4f631d953e2be68189a6fbcf55cd1d">split_background</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00117">117</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8169600c05eb3674c1b11ca67dd677d3"></a><!-- doxytag: member="affichage.c::text_color" ref="a8169600c05eb3674c1b11ca67dd677d3" args="[2]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#a8169600c05eb3674c1b11ca67dd677d3">text_color</a>[2]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00118">118</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a787cc81cf2ad728775b73d723713980b"></a><!-- doxytag: member="affichage.c::titre_fichier" ref="a787cc81cf2ad728775b73d723713980b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="traitement__variables_8c.html#a787cc81cf2ad728775b73d723713980b">titre_fichier</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00147">147</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="affichage.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

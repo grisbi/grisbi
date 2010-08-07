@@ -1,0 +1,107 @@
+\section{Référence du fichier gsb\_\-payment\_\-method.h}
+\label{gsb__payment__method_8h}\index{gsb\_\-payment\_\-method.h@{gsb\_\-payment\_\-method.h}}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-payment\_\-method\_\-changed\_\-callback} (GtkWidget $\ast$combo\_\-box, gpointer null)
+\item 
+gboolean {\bf gsb\_\-payment\_\-method\_\-create\_\-combo\_\-list} (GtkWidget $\ast$combo\_\-box, gint sign, gint account\_\-number, gint exclude)
+\item 
+gint {\bf gsb\_\-payment\_\-method\_\-get\_\-combo\_\-sign} (GtkWidget $\ast$combo\_\-box)
+\item 
+gint {\bf gsb\_\-payment\_\-method\_\-get\_\-selected\_\-number} (GtkWidget $\ast$combo\_\-box)
+\item 
+gboolean {\bf gsb\_\-payment\_\-method\_\-set\_\-combobox\_\-history} (GtkWidget $\ast$combo\_\-box, gint payment\_\-number)
+\item 
+void {\bf gsb\_\-payment\_\-method\_\-set\_\-payment\_\-position} (GtkWidget $\ast$combo\_\-box, gint payment\_\-number)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-payment\_\-method.h@{gsb\_\-payment\_\-method.h}!gsb\_\-payment\_\-method\_\-changed\_\-callback@{gsb\_\-payment\_\-method\_\-changed\_\-callback}}
+\index{gsb\_\-payment\_\-method\_\-changed\_\-callback@{gsb\_\-payment\_\-method\_\-changed\_\-callback}!gsb_payment_method.h@{gsb\_\-payment\_\-method.h}}
+\subsubsection[{gsb\_\-payment\_\-method\_\-changed\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-payment\_\-method\_\-changed\_\-callback (GtkWidget $\ast$ {\em combo\_\-box}, \/  gpointer {\em null})}\label{gsb__payment__method_8h_a5b947653cf00a61d5afa4870c4c63498}
+called when change the choice on the combo\_\-box on the form show or hide the entry for cheque in the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combo\_\-box}]\item[{\em null}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 396 du fichier gsb\_\-payment\_\-method.c.
+
+\index{gsb\_\-payment\_\-method.h@{gsb\_\-payment\_\-method.h}!gsb\_\-payment\_\-method\_\-create\_\-combo\_\-list@{gsb\_\-payment\_\-method\_\-create\_\-combo\_\-list}}
+\index{gsb\_\-payment\_\-method\_\-create\_\-combo\_\-list@{gsb\_\-payment\_\-method\_\-create\_\-combo\_\-list}!gsb_payment_method.h@{gsb\_\-payment\_\-method.h}}
+\subsubsection[{gsb\_\-payment\_\-method\_\-create\_\-combo\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-payment\_\-method\_\-create\_\-combo\_\-list (GtkWidget $\ast$ {\em combo\_\-box}, \/  gint {\em sign}, \/  gint {\em account\_\-number}, \/  gint {\em exclude})}\label{gsb__payment__method_8h_a161fa2bfbb02f3b3310759b78437586a}
+create a model with the method of payment according to the sign and the account and append it to the combo\_\-box given in param all is done only if the button exists for that form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combo\_\-box}]\item[{\em sign}]GSB\_\-PAYMENT\_\-DEBIT or GSB\_\-PAYMENT\_\-CREDIT \item[{\em account\_\-number}]\item[{\em exclude}]if we want to exclude a method of payment from the list, set the number here, else set 0\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE if fail, TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 68 du fichier gsb\_\-payment\_\-method.c.
+
+\index{gsb\_\-payment\_\-method.h@{gsb\_\-payment\_\-method.h}!gsb\_\-payment\_\-method\_\-get\_\-combo\_\-sign@{gsb\_\-payment\_\-method\_\-get\_\-combo\_\-sign}}
+\index{gsb\_\-payment\_\-method\_\-get\_\-combo\_\-sign@{gsb\_\-payment\_\-method\_\-get\_\-combo\_\-sign}!gsb_payment_method.h@{gsb\_\-payment\_\-method.h}}
+\subsubsection[{gsb\_\-payment\_\-method\_\-get\_\-combo\_\-sign}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-payment\_\-method\_\-get\_\-combo\_\-sign (GtkWidget $\ast$ {\em combo\_\-box})}\label{gsb__payment__method_8h_a3da00935a5480a41d3b8b31b3f073bfd}
+get the sign of the current combo\_\-box of method of payment in the combo\_\-box given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combo\_\-box}]the box wich contains the method of payment list\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+GSB\_\-PAYMENT\_\-DEBIT or GSB\_\-PAYMENT\_\-CREDIT 
+\end{DoxyReturn}
+
+
+Définition à la ligne 219 du fichier gsb\_\-payment\_\-method.c.
+
+\index{gsb\_\-payment\_\-method.h@{gsb\_\-payment\_\-method.h}!gsb\_\-payment\_\-method\_\-get\_\-selected\_\-number@{gsb\_\-payment\_\-method\_\-get\_\-selected\_\-number}}
+\index{gsb\_\-payment\_\-method\_\-get\_\-selected\_\-number@{gsb\_\-payment\_\-method\_\-get\_\-selected\_\-number}!gsb_payment_method.h@{gsb\_\-payment\_\-method.h}}
+\subsubsection[{gsb\_\-payment\_\-method\_\-get\_\-selected\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-payment\_\-method\_\-get\_\-selected\_\-number (GtkWidget $\ast$ {\em combo\_\-box})}\label{gsb__payment__method_8h_ae98cce0ba13ed710ed1f287915ba9acb}
+find and return the curent selected method of payment on combo-\/box given in param and created by gsb\_\-payment\_\-method\_\-create\_\-combo\_\-list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combo\_\-box}]an combo\_\-box filled by gsb\_\-payment\_\-method\_\-create\_\-combo\_\-list\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the method of payment currently selected or 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 241 du fichier gsb\_\-payment\_\-method.c.
+
+\index{gsb\_\-payment\_\-method.h@{gsb\_\-payment\_\-method.h}!gsb\_\-payment\_\-method\_\-set\_\-combobox\_\-history@{gsb\_\-payment\_\-method\_\-set\_\-combobox\_\-history}}
+\index{gsb\_\-payment\_\-method\_\-set\_\-combobox\_\-history@{gsb\_\-payment\_\-method\_\-set\_\-combobox\_\-history}!gsb_payment_method.h@{gsb\_\-payment\_\-method.h}}
+\subsubsection[{gsb\_\-payment\_\-method\_\-set\_\-combobox\_\-history}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-payment\_\-method\_\-set\_\-combobox\_\-history (GtkWidget $\ast$ {\em combo\_\-box}, \/  gint {\em payment\_\-number})}\label{gsb__payment__method_8h_a90ac47cc6325eaee622f9357d3b65f68}
+set the given payment number in the combobox if not found, set the default payment number for that account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combo\_\-box}]\item[{\em payment\_\-number}]\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if we can set the payment\_\-number, FALSE if it's the default wich is set 
+\end{DoxyReturn}
+
+
+Définition à la ligne 358 du fichier gsb\_\-payment\_\-method.c.
+
+\index{gsb\_\-payment\_\-method.h@{gsb\_\-payment\_\-method.h}!gsb\_\-payment\_\-method\_\-set\_\-payment\_\-position@{gsb\_\-payment\_\-method\_\-set\_\-payment\_\-position}}
+\index{gsb\_\-payment\_\-method\_\-set\_\-payment\_\-position@{gsb\_\-payment\_\-method\_\-set\_\-payment\_\-position}!gsb_payment_method.h@{gsb\_\-payment\_\-method.h}}
+\subsubsection[{gsb\_\-payment\_\-method\_\-set\_\-payment\_\-position}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-payment\_\-method\_\-set\_\-payment\_\-position (GtkWidget $\ast$ {\em combo\_\-box}, \/  gint {\em payment\_\-number})}\label{gsb__payment__method_8h_ab12f5c754ced75c920803d84259a2128}
+set active the payment number in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combo\_\-box}]\item[{\em payment\_\-number}]\end{DoxyParams}
+
+
+Définition à la ligne 317 du fichier gsb\_\-payment\_\-method.c.
+

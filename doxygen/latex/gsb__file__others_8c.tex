@@ -1,0 +1,142 @@
+\section{Référence du fichier gsb\_\-file\_\-others.c}
+\label{gsb__file__others_8c}\index{gsb\_\-file\_\-others.c@{gsb\_\-file\_\-others.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-others.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-budget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-category.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-report.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-load.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-save.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}categories\_\-onglet.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}imputation\_\-budgetaire.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-files.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-file\_\-others\_\-save\_\-category} (gchar $\ast$filename)
+\item 
+gboolean {\bf gsb\_\-file\_\-others\_\-save\_\-budget} (gchar $\ast$filename)
+\item 
+gboolean {\bf gsb\_\-file\_\-others\_\-save\_\-report} (gchar $\ast$filename)
+\item 
+gboolean {\bf gsb\_\-file\_\-others\_\-load\_\-category} (gchar $\ast$filename)
+\item 
+gboolean {\bf gsb\_\-file\_\-others\_\-load\_\-budget} (gchar $\ast$filename)
+\item 
+gboolean {\bf gsb\_\-file\_\-others\_\-load\_\-report} (gchar $\ast$filename)
+\item 
+gboolean {\bf gsb\_\-file\_\-others\_\-load\_\-budget\_\-from\_\-category} (const gchar $\ast$filename)
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+save and load differents files under grisbi for now : export/import categories, budgetaries, reports 
+
+Définition dans le fichier {\bf gsb\_\-file\_\-others.c}.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-file\_\-others.c@{gsb\_\-file\_\-others.c}!gsb\_\-file\_\-others\_\-load\_\-budget@{gsb\_\-file\_\-others\_\-load\_\-budget}}
+\index{gsb\_\-file\_\-others\_\-load\_\-budget@{gsb\_\-file\_\-others\_\-load\_\-budget}!gsb_file_others.c@{gsb\_\-file\_\-others.c}}
+\subsubsection[{gsb\_\-file\_\-others\_\-load\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-others\_\-load\_\-budget (gchar $\ast$ {\em filename})}\label{gsb__file__others_8c_ab94262275e2508a95eff55c1f2fa9274}
+load a budgetary file
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em filename}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 383 du fichier gsb\_\-file\_\-others.c.
+
+\index{gsb\_\-file\_\-others.c@{gsb\_\-file\_\-others.c}!gsb\_\-file\_\-others\_\-load\_\-budget\_\-from\_\-category@{gsb\_\-file\_\-others\_\-load\_\-budget\_\-from\_\-category}}
+\index{gsb\_\-file\_\-others\_\-load\_\-budget\_\-from\_\-category@{gsb\_\-file\_\-others\_\-load\_\-budget\_\-from\_\-category}!gsb_file_others.c@{gsb\_\-file\_\-others.c}}
+\subsubsection[{gsb\_\-file\_\-others\_\-load\_\-budget\_\-from\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-others\_\-load\_\-budget\_\-from\_\-category (const gchar $\ast$ {\em filename})}\label{gsb__file__others_8c_a8abf9e286be97d09b1c8b6d9197ee74f}
+
+
+Définition à la ligne 738 du fichier gsb\_\-file\_\-others.c.
+
+\index{gsb\_\-file\_\-others.c@{gsb\_\-file\_\-others.c}!gsb\_\-file\_\-others\_\-load\_\-category@{gsb\_\-file\_\-others\_\-load\_\-category}}
+\index{gsb\_\-file\_\-others\_\-load\_\-category@{gsb\_\-file\_\-others\_\-load\_\-category}!gsb_file_others.c@{gsb\_\-file\_\-others.c}}
+\subsubsection[{gsb\_\-file\_\-others\_\-load\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-others\_\-load\_\-category (gchar $\ast$ {\em filename})}\label{gsb__file__others_8c_a0cdca31242b817da6c6a18839e41ec90}
+load a category file
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em filename}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 369 du fichier gsb\_\-file\_\-others.c.
+
+\index{gsb\_\-file\_\-others.c@{gsb\_\-file\_\-others.c}!gsb\_\-file\_\-others\_\-load\_\-report@{gsb\_\-file\_\-others\_\-load\_\-report}}
+\index{gsb\_\-file\_\-others\_\-load\_\-report@{gsb\_\-file\_\-others\_\-load\_\-report}!gsb_file_others.c@{gsb\_\-file\_\-others.c}}
+\subsubsection[{gsb\_\-file\_\-others\_\-load\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-others\_\-load\_\-report (gchar $\ast$ {\em filename})}\label{gsb__file__others_8c_a03383737bac0b4cf40a29a702019457f}
+load a report file
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em filename}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 397 du fichier gsb\_\-file\_\-others.c.
+
+\index{gsb\_\-file\_\-others.c@{gsb\_\-file\_\-others.c}!gsb\_\-file\_\-others\_\-save\_\-budget@{gsb\_\-file\_\-others\_\-save\_\-budget}}
+\index{gsb\_\-file\_\-others\_\-save\_\-budget@{gsb\_\-file\_\-others\_\-save\_\-budget}!gsb_file_others.c@{gsb\_\-file\_\-others.c}}
+\subsubsection[{gsb\_\-file\_\-others\_\-save\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-others\_\-save\_\-budget (gchar $\ast$ {\em filename})}\label{gsb__file__others_8c_a4abd0499f3d53596ab95c19c2196e34b}
+save the budget file we don't check anything here, all must be done before, here we just write the file use the same method as gsb\_\-file\_\-save\_\-save\_\-file
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em filename}]the name of the file\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : ok, FALSE : problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 169 du fichier gsb\_\-file\_\-others.c.
+
+\index{gsb\_\-file\_\-others.c@{gsb\_\-file\_\-others.c}!gsb\_\-file\_\-others\_\-save\_\-category@{gsb\_\-file\_\-others\_\-save\_\-category}}
+\index{gsb\_\-file\_\-others\_\-save\_\-category@{gsb\_\-file\_\-others\_\-save\_\-category}!gsb_file_others.c@{gsb\_\-file\_\-others.c}}
+\subsubsection[{gsb\_\-file\_\-others\_\-save\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-others\_\-save\_\-category (gchar $\ast$ {\em filename})}\label{gsb__file__others_8c_a464a0f4acc3ce957fe2987d86c4e8f3e}
+save the category file we don't check anything here, all must be done before, here we just write the file use the same method as gsb\_\-file\_\-save\_\-save\_\-file
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em filename}]the name of the file\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : ok, FALSE : problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 88 du fichier gsb\_\-file\_\-others.c.
+
+\index{gsb\_\-file\_\-others.c@{gsb\_\-file\_\-others.c}!gsb\_\-file\_\-others\_\-save\_\-report@{gsb\_\-file\_\-others\_\-save\_\-report}}
+\index{gsb\_\-file\_\-others\_\-save\_\-report@{gsb\_\-file\_\-others\_\-save\_\-report}!gsb_file_others.c@{gsb\_\-file\_\-others.c}}
+\subsubsection[{gsb\_\-file\_\-others\_\-save\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-others\_\-save\_\-report (gchar $\ast$ {\em filename})}\label{gsb__file__others_8c_a1c440737d473de4c6100fef0d770139f}
+save the report file we don't check anything here, all must be done before, here we just write the file use the same method as gsb\_\-file\_\-save\_\-save\_\-file
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em filename}]the name of the file\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : ok, FALSE : problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 250 du fichier gsb\_\-file\_\-others.c.
+

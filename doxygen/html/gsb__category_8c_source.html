@@ -1,0 +1,391 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_category.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_category.c</h1><a href="gsb__category_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)           */</span>
+<a name="l00004"></a>00004 <span class="comment">/*                      2004-2008 Benjamin Drieu (bdrieu@april.org)           */</span>
+<a name="l00005"></a>00005 <span class="comment">/*                      http://www.grisbi.org                                 */</span>
+<a name="l00006"></a>00006 <span class="comment">/*                                                                            */</span>
+<a name="l00007"></a>00007 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00010"></a>00010 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00011"></a>00011 <span class="comment">/*                                                                            */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00015"></a>00015 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00016"></a>00016 <span class="comment">/*                                                                            */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00019"></a>00019 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00020"></a>00020 <span class="comment">/*                                                                            */</span>
+<a name="l00021"></a>00021 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00022"></a>00022 
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="gsb__category_8h.html">gsb_category.h</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="etats__calculs_8h.html">etats_calculs.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="dialog_8h.html">dialog.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__category_8h.html">gsb_data_category.h</a>&quot;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__form_8h.html">gsb_data_form.h</a>&quot;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="gsb__file__others_8h.html">gsb_file_others.h</a>&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;<a class="code" href="gsb__form__widget_8h.html">gsb_form_widget.h</a>&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;<a class="code" href="gtk__combofix_8h.html">gtk_combofix.h</a>&quot;</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#include &quot;<a class="code" href="utils__str_8h.html">utils_str.h</a>&quot;</span>
+<a name="l00041"></a>00041 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__category_8h.html">gsb_data_category.h</a>&quot;</span>
+<a name="l00042"></a>00042 <span class="preprocessor">#include &quot;<a class="code" href="utils__files_8h.html">utils_files.h</a>&quot;</span>
+<a name="l00043"></a>00043 <span class="preprocessor">#include &quot;<a class="code" href="gtk__combofix_8h.html">gtk_combofix.h</a>&quot;</span>
+<a name="l00044"></a>00044 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__form_8h.html">gsb_data_form.h</a>&quot;</span>
+<a name="l00045"></a>00045 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00046"></a>00046 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049 <span class="comment">/*START_STATIC*/</span>
+<a name="l00050"></a>00050 <span class="keyword">static</span> gint compare_basename ( gchar * file1, gchar * file2 );
+<a name="l00051"></a>00051 <span class="keyword">static</span> <span class="keywordtype">void</span> gsb_category_assistant_parse_file ( gchar * filename, GtkTreeModel * model );
+<a name="l00052"></a>00052 <span class="keyword">static</span> GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel * model );
+<a name="l00053"></a>00053 <span class="keyword">static</span> <span class="keywordtype">void</span> gsb_category_assistant_start_element ( GMarkupParseContext *context, <span class="keyword">const</span> gchar * element_name,
+<a name="l00054"></a>00054                                             <span class="keyword">const</span> gchar ** attribute_names, <span class="keyword">const</span> gchar ** attribute_values,
+<a name="l00055"></a>00055                                             gchar ** return_string, GError ** error );
+<a name="l00056"></a>00056 <span class="keyword">static</span> gboolean gsb_category_display_foreign_toggled ( GtkWidget * button );
+<a name="l00057"></a>00057 <span class="keyword">static</span> <span class="keywordtype">void</span> gsb_category_fill_sets ( GtkTreeView * view, GtkTreeModel * model, gboolean show_foreign );
+<a name="l00058"></a>00058 <span class="comment">/*END_STATIC*/</span>
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00061"></a>00061 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064 
+<a name="l00075"></a>00075 gint compare_basename ( gchar * file1, gchar * file2 )
+<a name="l00076"></a>00076 {
+<a name="l00077"></a>00077     gchar * base1 = g_path_get_basename ( file1 );
+<a name="l00078"></a>00078     gchar * base2 = g_path_get_basename ( file2 );
+<a name="l00079"></a>00079     gint result;
+<a name="l00080"></a>00080     
+<a name="l00081"></a>00081     result = strcmp ( base1, base2 );
+<a name="l00082"></a>00082     
+<a name="l00083"></a>00083     g_free ( base1 );
+<a name="l00084"></a>00084     g_free ( base2 );
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086     <span class="keywordflow">return</span> result;
+<a name="l00087"></a>00087 }
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090 
+<a name="l00099"></a>00099 <span class="keywordtype">void</span> gsb_category_fill_sets ( GtkTreeView * view, GtkTreeModel * model, gboolean show_foreign )
+<a name="l00100"></a>00100 {
+<a name="l00101"></a>00101     <span class="keyword">const</span> gchar* <span class="keyword">const</span> * languages = g_get_language_names ();
+<a name="l00102"></a>00102     GSList * category_files = NULL;
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104     <span class="comment">/* First, we iterate over all locales except for C to avoid mixing</span>
+<a name="l00105"></a>00105 <span class="comment">     * national languages and default one.  We will handle the C</span>
+<a name="l00106"></a>00106 <span class="comment">     * locale later if nothing wirlds a match.  */</span>
+<a name="l00107"></a>00107     <span class="keywordflow">while</span> ( *languages )
+<a name="l00108"></a>00108     {
+<a name="l00109"></a>00109         GSList * list;
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111         <span class="keywordflow">if</span> ( show_foreign || 
+<a name="l00112"></a>00112              ( strlen ( (gchar *) *languages ) &amp;&amp; strcmp ( (gchar *) *languages, <span class="stringliteral">&quot;C&quot;</span> ) ) )
+<a name="l00113"></a>00113         {
+<a name="l00114"></a>00114             list = gsb_category_assistant_scan_directory ( (gchar *) * languages, 
+<a name="l00115"></a>00115                                                            model );
+<a name="l00116"></a>00116             <span class="keywordflow">while</span> ( list )
+<a name="l00117"></a>00117             {
+<a name="l00118"></a>00118                 <span class="keywordflow">if</span> ( ! g_slist_find_custom ( category_files, list -&gt; data, 
+<a name="l00119"></a>00119                                              (GCompareFunc) <a class="code" href="etats__calculs_8c.html#a7be57203bd852c1d3aac7757b1aa17a4">cherche_string_equivalente_dans_slist</a> ) )
+<a name="l00120"></a>00120                 {
+<a name="l00121"></a>00121                     category_files = g_slist_append ( category_files, list -&gt; data );
+<a name="l00122"></a>00122                 }
+<a name="l00123"></a>00123                 list = list -&gt; next;
+<a name="l00124"></a>00124             }
+<a name="l00125"></a>00125         }
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127         languages++;
+<a name="l00128"></a>00128     }
+<a name="l00129"></a>00129     <span class="keywordflow">if</span> ( ! category_files )
+<a name="l00130"></a>00130     {
+<a name="l00131"></a>00131         category_files = gsb_category_assistant_scan_directory ( <span class="stringliteral">&quot;C&quot;</span>, model );
+<a name="l00132"></a>00132     }
+<a name="l00133"></a>00133     
+<a name="l00134"></a>00134     category_files = g_slist_sort ( category_files, (GCompareFunc) compare_basename );
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136     <span class="keywordflow">while</span> ( category_files )
+<a name="l00137"></a>00137     {
+<a name="l00138"></a>00138         gsb_category_assistant_parse_file ( (gchar * ) category_files -&gt; data, 
+<a name="l00139"></a>00139                                             model );
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141         category_files = category_files -&gt; next;
+<a name="l00142"></a>00142     }
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144     gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( view ),
+<a name="l00145"></a>00145                                      gtk_tree_path_new_first ( ) );
+<a name="l00146"></a>00146     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection ( view ),
+<a name="l00147"></a>00147                                   GTK_SELECTION_BROWSE );
+<a name="l00148"></a>00148 }
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151 
+<a name="l00159"></a>00159 gboolean gsb_category_display_foreign_toggled ( GtkWidget * button )
+<a name="l00160"></a>00160 {
+<a name="l00161"></a>00161     GtkTreeModel * model = g_object_get_data ( G_OBJECT(button), <span class="stringliteral">&quot;model&quot;</span> );
+<a name="l00162"></a>00162     GtkTreeView * view = g_object_get_data ( G_OBJECT(button), <span class="stringliteral">&quot;view&quot;</span> );
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164     gtk_list_store_clear ( GTK_LIST_STORE (model) );
+<a name="l00165"></a>00165     gsb_category_fill_sets ( view, model, (gboolean) gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON(button) ) );
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167     <span class="keywordflow">return</span> FALSE;
+<a name="l00168"></a>00168 }
+<a name="l00169"></a>00169 
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171 
+<a name="l00187"></a><a class="code" href="gsb__category_8h.html#a6a84b628fc462846e25667e888c76dc7">00187</a> GtkWidget *<a class="code" href="gsb__category_8c.html#a6a84b628fc462846e25667e888c76dc7">gsb_category_assistant_create_choice_page</a> ( GtkWidget *assistant )
+<a name="l00188"></a>00188 {
+<a name="l00189"></a>00189     GtkWidget * page, * sw, * radiobutton;
+<a name="l00190"></a>00190     GtkTreeModel * builtin_category_model;
+<a name="l00191"></a>00191     GtkTreeView * builtin_category_view;
+<a name="l00192"></a>00192     GtkCellRenderer *cell;
+<a name="l00193"></a>00193     gint col_offset;
+<a name="l00194"></a>00194 
+<a name="l00195"></a>00195     page = gtk_vbox_new ( FALSE, 6 );
+<a name="l00196"></a>00196     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198     sw = gtk_scrolled_window_new (NULL, NULL);
+<a name="l00199"></a>00199     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
+<a name="l00200"></a>00200                                          GTK_SHADOW_ETCHED_IN);
+<a name="l00201"></a>00201     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+<a name="l00202"></a>00202                                     GTK_POLICY_NEVER,
+<a name="l00203"></a>00203                                     GTK_POLICY_ALWAYS);
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205     builtin_category_model = (GtkTreeModel *) gtk_list_store_new (<a class="code" href="gsb__category_8h.html#a2f291e4e2a9f973f7343770b8dec3b66a0258d64bddf4f10af827409910aada93">BUILTIN_CATEGORY_MODEL_COLUMNS</a>,
+<a name="l00206"></a>00206                                                                   G_TYPE_STRING, G_TYPE_STRING );
+<a name="l00207"></a>00207     builtin_category_view = (GtkTreeView *) gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( builtin_category_model ) );
+<a name="l00208"></a>00208 
+<a name="l00209"></a>00209     gtk_container_add ( GTK_CONTAINER ( sw ), (GtkWidget *) builtin_category_view );
+<a name="l00210"></a>00210 
+<a name="l00211"></a>00211     cell = gtk_cell_renderer_text_new ();
+<a name="l00212"></a>00212     col_offset = 
+<a name="l00213"></a>00213         gtk_tree_view_insert_column_with_attributes ( GTK_TREE_VIEW ( builtin_category_view ),
+<a name="l00214"></a>00214                                                       -1, _(<span class="stringliteral">&quot;Category list&quot;</span>),
+<a name="l00215"></a>00215                                                       cell, <span class="stringliteral">&quot;markup&quot;</span>,
+<a name="l00216"></a>00216                                                       <a class="code" href="gsb__category_8h.html#a2f291e4e2a9f973f7343770b8dec3b66a761847c749845429409f031b229a6497">BUILTIN_CATEGORY_MODEL_NAME</a>,
+<a name="l00217"></a>00217                                                       NULL );
+<a name="l00218"></a>00218     gtk_box_pack_start ( GTK_BOX ( page ), GTK_WIDGET ( sw ),
+<a name="l00219"></a>00219                          TRUE, TRUE, 0 );
+<a name="l00220"></a>00220 
+<a name="l00221"></a>00221     gsb_category_fill_sets ( builtin_category_view, builtin_category_model, FALSE );
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223     g_object_set_data ( G_OBJECT (assistant), <span class="stringliteral">&quot;builtin_category_view&quot;</span>, builtin_category_view );
+<a name="l00224"></a>00224 
+<a name="l00225"></a>00225     radiobutton = gtk_check_button_new_with_label ( _(<span class="stringliteral">&quot;Display foreign category sets&quot;</span>) );
+<a name="l00226"></a>00226     gtk_box_pack_start ( GTK_BOX ( page ), radiobutton, FALSE, FALSE, 0 );
+<a name="l00227"></a>00227     g_object_set_data ( G_OBJECT(radiobutton), <span class="stringliteral">&quot;model&quot;</span>, builtin_category_model );
+<a name="l00228"></a>00228     g_object_set_data ( G_OBJECT(radiobutton), <span class="stringliteral">&quot;view&quot;</span>, builtin_category_view );
+<a name="l00229"></a>00229     g_signal_connect ( radiobutton, <span class="stringliteral">&quot;toggled&quot;</span>, G_CALLBACK(gsb_category_display_foreign_toggled), NULL );
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231     gtk_widget_show_all (page);
+<a name="l00232"></a>00232     <span class="keywordflow">return</span> page;
+<a name="l00233"></a>00233 }
+<a name="l00234"></a>00234 
+<a name="l00235"></a>00235 
+<a name="l00236"></a>00236 
+<a name="l00245"></a><a class="code" href="gsb__category_8h.html#a6f38ac76c4b1b44555742d71770eb83b">00245</a> gboolean <a class="code" href="gsb__category_8c.html#a6f38ac76c4b1b44555742d71770eb83b">gsb_category_assistant_create_categories</a> ( GtkWidget *assistant )
+<a name="l00246"></a>00246 {
+<a name="l00247"></a>00247     GtkTreeSelection * selection;
+<a name="l00248"></a>00248     GtkTreeModel * model;
+<a name="l00249"></a>00249     GtkTreeView * view;
+<a name="l00250"></a>00250     GtkTreeIter iter;
+<a name="l00251"></a>00251     gchar * filename;
+<a name="l00252"></a>00252 
+<a name="l00253"></a>00253     view = g_object_get_data ( G_OBJECT(assistant), <span class="stringliteral">&quot;builtin_category_view&quot;</span> );
+<a name="l00254"></a>00254     model = gtk_tree_view_get_model ( view );
+<a name="l00255"></a>00255     selection = gtk_tree_view_get_selection ( view );
+<a name="l00256"></a>00256 
+<a name="l00257"></a>00257     <span class="keywordflow">if</span> ( selection &amp;&amp; gtk_tree_selection_get_selected ( selection, &amp;model, &amp;iter ) )
+<a name="l00258"></a>00258     {
+<a name="l00259"></a>00259         gtk_tree_model_get ( GTK_TREE_MODEL (model),
+<a name="l00260"></a>00260                              &amp;iter,
+<a name="l00261"></a>00261                              <a class="code" href="gsb__category_8h.html#a2f291e4e2a9f973f7343770b8dec3b66ab19142b6a81f6055fffe1bd671d8ab25">BUILTIN_CATEGORY_MODEL_FILENAME</a>, &amp;filename,
+<a name="l00262"></a>00262                              -1);
+<a name="l00263"></a>00263         
+<a name="l00264"></a>00264         <a class="code" href="gsb__file__others_8c.html#a0cdca31242b817da6c6a18839e41ec90">gsb_file_others_load_category</a> ( filename );
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266     }
+<a name="l00267"></a>00267     <span class="keywordflow">return</span> FALSE;
+<a name="l00268"></a>00268 }
+<a name="l00269"></a>00269 
+<a name="l00270"></a>00270 
+<a name="l00271"></a>00271 
+<a name="l00279"></a><a class="code" href="gsb__category_8h.html#a4425cec992b659cc95662174b1879e04">00279</a> gboolean <a class="code" href="gsb__category_8c.html#a4425cec992b659cc95662174b1879e04">gsb_category_update_combofix</a> ( gboolean force )
+<a name="l00280"></a>00280 {
+<a name="l00281"></a>00281     <span class="keywordflow">if</span> ( <a class="code" href="gsb__data__form_8c.html#ae6975b58c5f9085518baa3e97830514b">gsb_data_form_check_for_value</a> ( <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a1aaea0001978835b5bfaf82154adc0a4">TRANSACTION_FORM_CATEGORY</a> ) || force )
+<a name="l00282"></a>00282     {
+<a name="l00283"></a>00283         <a class="code" href="gtk__combofix_8c.html#a7bfb57437f2c49510aa9eb2669dd133d">gtk_combofix_set_list</a> ( <a class="code" href="gtk__combofix_8h.html#a6c0219bc33d6d41e2e6ddf984572c041">GTK_COMBOFIX</a> ( <a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> (
+<a name="l00284"></a>00284                         <a class="code" href="gsb__data__form_8h.html#ae619a9c249e0b3dd1f3eda88078c03b0a1aaea0001978835b5bfaf82154adc0a4">TRANSACTION_FORM_CATEGORY</a> ) ),
+<a name="l00285"></a>00285                         <a class="code" href="gsb__data__category_8c.html#ac9e9466a500b7589b2b38af6ffdc9a27">gsb_data_category_get_name_list</a> ( TRUE, TRUE, TRUE, TRUE ) );
+<a name="l00286"></a>00286     }
+<a name="l00287"></a>00287  
+<a name="l00288"></a>00288     <span class="keywordflow">return</span> FALSE;
+<a name="l00289"></a>00289 }
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291 
+<a name="l00302"></a>00302 GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel * model )
+<a name="l00303"></a>00303 {
+<a name="l00304"></a>00304     gchar * dirname;
+<a name="l00305"></a>00305     GDir * dir;
+<a name="l00306"></a>00306     GSList * list = NULL;
+<a name="l00307"></a>00307 
+<a name="l00308"></a>00308     dirname = g_strconcat ( DATA_PATH, <a class="code" href="utils__files_8h.html#ac3fa58d590ca24e84c594e9222bdf20a">C_DIRECTORY_SEPARATOR</a>, <span class="stringliteral">&quot;categories&quot;</span>, <a class="code" href="utils__files_8h.html#ac3fa58d590ca24e84c594e9222bdf20a">C_DIRECTORY_SEPARATOR</a>, basename, NULL );
+<a name="l00309"></a>00309     <span class="keywordflow">if</span> ( ! g_file_test ( dirname, G_FILE_TEST_IS_DIR ) )
+<a name="l00310"></a>00310     {
+<a name="l00311"></a>00311         gchar * pos = strchr ( basename, <span class="charliteral">&#39;.&#39;</span> );
+<a name="l00312"></a>00312         <span class="keywordflow">if</span> ( pos ) 
+<a name="l00313"></a>00313             *pos = <span class="charliteral">&#39;\0&#39;</span>;
+<a name="l00314"></a>00314         dirname = g_strconcat ( DATA_PATH, <a class="code" href="utils__files_8h.html#ac3fa58d590ca24e84c594e9222bdf20a">C_DIRECTORY_SEPARATOR</a>, <span class="stringliteral">&quot;categories&quot;</span>, <a class="code" href="utils__files_8h.html#ac3fa58d590ca24e84c594e9222bdf20a">C_DIRECTORY_SEPARATOR</a>, basename, NULL );
+<a name="l00315"></a>00315     }
+<a name="l00316"></a>00316     <span class="keywordflow">if</span> ( ! g_file_test ( dirname, G_FILE_TEST_IS_DIR ) )
+<a name="l00317"></a>00317     {
+<a name="l00318"></a>00318         gchar * pos = strchr ( basename, <span class="charliteral">&#39;_&#39;</span> );
+<a name="l00319"></a>00319         <span class="keywordflow">if</span> ( pos ) 
+<a name="l00320"></a>00320             *pos = <span class="charliteral">&#39;\0&#39;</span>;
+<a name="l00321"></a>00321         dirname = g_strconcat ( DATA_PATH, <a class="code" href="utils__files_8h.html#ac3fa58d590ca24e84c594e9222bdf20a">C_DIRECTORY_SEPARATOR</a>, <span class="stringliteral">&quot;categories&quot;</span>, <a class="code" href="utils__files_8h.html#ac3fa58d590ca24e84c594e9222bdf20a">C_DIRECTORY_SEPARATOR</a>, basename, NULL );
+<a name="l00322"></a>00322     }
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324     dir = g_dir_open ( dirname, 0, NULL );
+<a name="l00325"></a>00325     <span class="keywordflow">if</span> ( dir )
+<a name="l00326"></a>00326     {
+<a name="l00327"></a>00327         gchar * filename;
+<a name="l00328"></a>00328         <span class="keywordflow">while</span> ( ( filename = (gchar *) g_dir_read_name ( dir ) ) )
+<a name="l00329"></a>00329         {
+<a name="l00330"></a>00330             filename = g_strconcat ( dirname, <span class="stringliteral">&quot;/&quot;</span>, filename, NULL );
+<a name="l00331"></a>00331             <span class="keywordflow">if</span> ( g_file_test ( filename, G_FILE_TEST_IS_REGULAR ) &amp;&amp;
+<a name="l00332"></a>00332                  g_str_has_suffix ( filename, <span class="stringliteral">&quot;.cgsb&quot;</span> ) )
+<a name="l00333"></a>00333             {
+<a name="l00334"></a>00334                 list = g_slist_append ( list, filename );
+<a name="l00335"></a>00335             }
+<a name="l00336"></a>00336         }
+<a name="l00337"></a>00337     }
+<a name="l00338"></a>00338 
+<a name="l00339"></a>00339     <span class="keywordflow">return</span> g_slist_sort ( list, (GCompareFunc) strcmp );
+<a name="l00340"></a>00340 }
+<a name="l00341"></a>00341 
+<a name="l00342"></a>00342 
+<a name="l00343"></a>00343 
+<a name="l00350"></a>00350 <span class="keywordtype">void</span> gsb_category_assistant_parse_file ( gchar * filename, GtkTreeModel * model )
+<a name="l00351"></a>00351 {    
+<a name="l00352"></a>00352     GMarkupParser *markup_parser = g_malloc0 (<span class="keyword">sizeof</span> (GMarkupParser));
+<a name="l00353"></a>00353     GMarkupParseContext * context;
+<a name="l00354"></a>00354     gchar * file_content, * description = NULL;
+<a name="l00355"></a>00355     GtkTreeIter iter;
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357     <span class="keywordflow">if</span> (!g_file_get_contents ( filename,
+<a name="l00358"></a>00358                                &amp;file_content,
+<a name="l00359"></a>00359                                NULL,
+<a name="l00360"></a>00360                                NULL ))
+<a name="l00361"></a>00361     {
+<a name="l00362"></a>00362         <a class="code" href="dialog_8c.html#aa88d9d93c78818a177e9a14eff15f360">dialogue_error</a> (_(<span class="stringliteral">&quot;Cannot open the category file.&quot;</span>));
+<a name="l00363"></a>00363         <span class="keywordflow">return</span>;
+<a name="l00364"></a>00364     }
+<a name="l00365"></a>00365 
+<a name="l00366"></a>00366     markup_parser -&gt; start_element = (<span class="keywordtype">void</span> *) gsb_category_assistant_start_element;
+<a name="l00367"></a>00367 
+<a name="l00368"></a>00368     context = g_markup_parse_context_new ( markup_parser,
+<a name="l00369"></a>00369                                            0,
+<a name="l00370"></a>00370                                            &amp;description,
+<a name="l00371"></a>00371                                            NULL );
+<a name="l00372"></a>00372     g_markup_parse_context_parse ( context,
+<a name="l00373"></a>00373                                    file_content,
+<a name="l00374"></a>00374                                    strlen (file_content),
+<a name="l00375"></a>00375                                    NULL );
+<a name="l00376"></a>00376 
+<a name="l00377"></a>00377     <span class="keywordflow">if</span> ( ! description )
+<a name="l00378"></a>00378     {
+<a name="l00379"></a>00379         description = g_strconcat ( <span class="stringliteral">&quot;&lt;span size=\&quot;larger\&quot; weight=\&quot;bold\&quot;&gt;&quot;</span>, _(<span class="stringliteral">&quot;Unnamed category list&quot;</span>), 
+<a name="l00380"></a>00380                                     <span class="stringliteral">&quot;&lt;/span&gt;&quot;</span>, NULL );
+<a name="l00381"></a>00381     }
+<a name="l00382"></a>00382 
+<a name="l00383"></a>00383     gtk_list_store_append ( GTK_LIST_STORE ( model ), &amp;iter );
+<a name="l00384"></a>00384     gtk_list_store_set ( GTK_LIST_STORE ( model ), &amp;iter,
+<a name="l00385"></a>00385                          <a class="code" href="gsb__category_8h.html#a2f291e4e2a9f973f7343770b8dec3b66ab19142b6a81f6055fffe1bd671d8ab25">BUILTIN_CATEGORY_MODEL_FILENAME</a>, filename,
+<a name="l00386"></a>00386                          <a class="code" href="gsb__category_8h.html#a2f291e4e2a9f973f7343770b8dec3b66a761847c749845429409f031b229a6497">BUILTIN_CATEGORY_MODEL_NAME</a>, description,
+<a name="l00387"></a>00387                          -1);
+<a name="l00388"></a>00388 
+<a name="l00389"></a>00389     <span class="comment">/* This has been allocated by gsb_category_assistant_start_element. */</span>
+<a name="l00390"></a>00390     g_free ( description );
+<a name="l00391"></a>00391 }
+<a name="l00392"></a>00392 
+<a name="l00393"></a>00393 
+<a name="l00394"></a>00394 
+<a name="l00395"></a>00395 <span class="keywordtype">void</span> gsb_category_assistant_start_element ( GMarkupParseContext *context, <span class="keyword">const</span> gchar * element_name,
+<a name="l00396"></a>00396                                             <span class="keyword">const</span> gchar ** attribute_names, <span class="keyword">const</span> gchar ** attribute_values,
+<a name="l00397"></a>00397                                             gchar ** return_string, GError ** error )
+<a name="l00398"></a>00398 {
+<a name="l00399"></a>00399     gchar * title = NULL, * description = NULL;
+<a name="l00400"></a>00400 
+<a name="l00401"></a>00401     <span class="keywordflow">if</span> ( ! <a class="code" href="utils__str_8c.html#af2728abf4fbd2d14f13a3025211dab47">my_strcasecmp</a> ( element_name, <span class="stringliteral">&quot;general&quot;</span> ) )
+<a name="l00402"></a>00402     {
+<a name="l00403"></a>00403         
+<a name="l00404"></a>00404         <span class="keywordflow">while</span> ( *attribute_names )
+<a name="l00405"></a>00405         {
+<a name="l00406"></a>00406             <span class="keywordflow">if</span> ( ! <a class="code" href="utils__str_8c.html#af2728abf4fbd2d14f13a3025211dab47">my_strcasecmp</a> ( *attribute_names, <span class="stringliteral">&quot;title&quot;</span> ) )
+<a name="l00407"></a>00407             {
+<a name="l00408"></a>00408                 title = (gchar *) *attribute_values;
+<a name="l00409"></a>00409             }
+<a name="l00410"></a>00410             <span class="keywordflow">if</span> ( ! <a class="code" href="utils__str_8c.html#af2728abf4fbd2d14f13a3025211dab47">my_strcasecmp</a> ( *attribute_names, <span class="stringliteral">&quot;description&quot;</span> ) )
+<a name="l00411"></a>00411             {
+<a name="l00412"></a>00412                 description = (gchar *) *attribute_values;
+<a name="l00413"></a>00413             }
+<a name="l00414"></a>00414             attribute_names ++;
+<a name="l00415"></a>00415             attribute_values ++;
+<a name="l00416"></a>00416         }
+<a name="l00417"></a>00417 
+<a name="l00418"></a>00418         <span class="keywordflow">if</span> ( title &amp;&amp; description )
+<a name="l00419"></a>00419         {
+<a name="l00420"></a>00420             *return_string = g_strconcat ( <span class="stringliteral">&quot;&lt;span size=\&quot;larger\&quot; weight=\&quot;bold\&quot;&gt;&quot;</span>, title, <span class="stringliteral">&quot;&lt;/span&gt;\n&quot;</span>, description, NULL );
+<a name="l00421"></a>00421         }
+<a name="l00422"></a>00422         <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( title )
+<a name="l00423"></a>00423         {
+<a name="l00424"></a>00424             *return_string = g_strconcat ( <span class="stringliteral">&quot;&lt;span size=\&quot;larger\&quot; weight=\&quot;bold\&quot;&gt;&quot;</span>, title, <span class="stringliteral">&quot;&lt;/span&gt;&quot;</span>, NULL );
+<a name="l00425"></a>00425         }
+<a name="l00426"></a>00426         <span class="keywordflow">else</span>
+<a name="l00427"></a>00427         {
+<a name="l00428"></a>00428             *return_string = NULL;
+<a name="l00429"></a>00429         }
+<a name="l00430"></a>00430     }
+<a name="l00431"></a>00431 }
+<a name="l00432"></a>00432 
+<a name="l00433"></a>00433 
+<a name="l00434"></a>00434 
+<a name="l00435"></a>00435 <span class="comment">/* Local Variables: */</span>
+<a name="l00436"></a>00436 <span class="comment">/* c-basic-offset: 4 */</span>
+<a name="l00437"></a>00437 <span class="comment">/* End: */</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

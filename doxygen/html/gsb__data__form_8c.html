@@ -1,0 +1,603 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_data_form.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_data_form.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__form_8h_source.html">gsb_data_form.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form_8h_source.html">gsb_form.h</a>&quot;</code><br/>
+
+<p><a href="gsb__data__form_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Structures de données</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structform__organization.html">form_organization</a></td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#a8e695941eaf64be2d15afd287e064523">gsb_data_form_new_organization</a> (gint account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#a4f0c2bea1f39f695cccdee80bb8fe2ee">gsb_data_form_set_default_organization</a> (gint account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#a838ada33bfce85d6324f0ea409216103">gsb_data_form_dup_organization</a> (gint origin_account, gint target_account)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#a4bc1dd95bb028e836ef638b937e28116">gsb_data_form_get_nb_columns</a> (gint account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#a9b4608cf8f2ffba4904a2fdd6263e8b6">gsb_data_form_set_nb_columns</a> (gint account_number, gint columns)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#af5613a656e573f2e9a95d1c89c495c1c">gsb_data_form_get_nb_rows</a> (gint account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#aab897602de98433bb719ac14c3181479">gsb_data_form_set_nb_rows</a> (gint account_number, gint rows)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#a1f2dc075c964a00b50da003f969bb517">gsb_data_form_get_value</a> (gint account_number, gint column, gint row)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#a3451cf009bc77b47ab207415c06f5039">gsb_data_form_set_value</a> (gint account_number, gint column, gint row, gint value)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#a7e138cf8515b9688315d67ef12c338d9">gsb_data_form_get_width_column</a> (gint account_number, gint column)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#a18aec71c64bac7bd9c7da37e05254d3e">gsb_data_form_set_width_column</a> (gint account_number, gint column, gint width)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#a011611d3aa6cecc0c619981f69bf2a6e">gsb_data_form_look_for_value</a> (gint account_number, gint value, gint *return_row, gint *return_column)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#ae6975b58c5f9085518baa3e97830514b">gsb_data_form_check_for_value</a> (gint value)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#af78c7a67288bda5ba85257a29317fc0a">gsb_data_form_get_values_total</a> (gint account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__form_8c.html#a206bff690e4524f0bb5c42c1ab55b6a0">gsb_form_config_update_from_account</a> (gint account_number)</td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="ae6975b58c5f9085518baa3e97830514b"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_check_for_value" ref="ae6975b58c5f9085518baa3e97830514b" args="(gint value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_form_check_for_value </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>value</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>check if the given value exists in the form of the CURRENT account</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE or TRUE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00438">438</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a838ada33bfce85d6324f0ea409216103"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_dup_organization" ref="a838ada33bfce85d6324f0ea409216103" args="(gint origin_account, gint target_account)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_form_dup_organization </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>origin_account</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>target_account</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>duplicate the form organization of the account in the param</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>origin_account</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>target_account</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE, FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00163">163</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4bc1dd95bb028e836ef638b937e28116"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_get_nb_columns" ref="a4bc1dd95bb028e836ef638b937e28116" args="(gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_form_get_nb_columns </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the number of columns of the form</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of columns or 0 if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00200">200</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af5613a656e573f2e9a95d1c89c495c1c"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_get_nb_rows" ref="af5613a656e573f2e9a95d1c89c495c1c" args="(gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_form_get_nb_rows </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the number of rows of the form</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of rows or 0 if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00245">245</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1f2dc075c964a00b50da003f969bb517"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_get_value" ref="a1f2dc075c964a00b50da003f969bb517" args="(gint account_number, gint column, gint row)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_form_get_value </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>column</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>row</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get a value in the table of the form</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>column</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>row</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the value, 0 if no value at this place or -1 if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00290">290</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af78c7a67288bda5ba85257a29317fc0a"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_get_values_total" ref="af78c7a67288bda5ba85257a29317fc0a" args="(gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_form_get_values_total </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the number of values in the table of the form</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of values or -1 if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00453">453</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7e138cf8515b9688315d67ef12c338d9"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_get_width_column" ref="a7e138cf8515b9688315d67ef12c338d9" args="(gint account_number, gint column)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_form_get_width_column </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>column</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the width of a column in the form</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>column</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the value or -1 if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00349">349</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a011611d3aa6cecc0c619981f69bf2a6e"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_look_for_value" ref="a011611d3aa6cecc0c619981f69bf2a6e" args="(gint account_number, gint value, gint *return_row, gint *return_column)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_form_look_for_value </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint *&nbsp;</td>
+          <td class="paramname"> <em>return_row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint *&nbsp;</td>
+          <td class="paramname"> <em>return_column</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>look for the value given in param in the form if found, fill row and column if not found, return FALSE</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td>the searched value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>*return_row</em>&nbsp;</td><td>a pointer to gint or NULL </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>*return_column</em>&nbsp;</td><td>a pointer to gint or NULL</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if value found, FALSE else </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00405">405</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8e695941eaf64be2d15afd287e064523"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_new_organization" ref="a8e695941eaf64be2d15afd287e064523" args="(gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_form_new_organization </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a new form organization and append it to the account the form struct is set to 0 and has to be filled</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00097">97</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4f0c2bea1f39f695cccdee80bb8fe2ee"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_set_default_organization" ref="a4f0c2bea1f39f695cccdee80bb8fe2ee" args="(gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_form_set_default_organization </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a default new form organization and append it to the account</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00123">123</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9b4608cf8f2ffba4904a2fdd6263e8b6"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_set_nb_columns" ref="a9b4608cf8f2ffba4904a2fdd6263e8b6" args="(gint account_number, gint columns)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_form_set_nb_columns </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>columns</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the number of columns of the form if we decrease the number of culumns, the content of the last column will be deleted</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>columns</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE if problem, TRUE if ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00223">223</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aab897602de98433bb719ac14c3181479"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_set_nb_rows" ref="aab897602de98433bb719ac14c3181479" args="(gint account_number, gint rows)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_form_set_nb_rows </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>rows</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the number of rows of the form</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>rows</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE if problem, TRUE if ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00266">266</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3451cf009bc77b47ab207415c06f5039"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_set_value" ref="a3451cf009bc77b47ab207415c06f5039" args="(gint account_number, gint column, gint row, gint value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_form_set_value </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>column</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set a value in the table of the form</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>column</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>row</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok, FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00320">320</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a18aec71c64bac7bd9c7da37e05254d3e"></a><!-- doxytag: member="gsb_data_form.c::gsb_data_form_set_width_column" ref="a18aec71c64bac7bd9c7da37e05254d3e" args="(gint account_number, gint column, gint width)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_form_set_width_column </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>column</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>width</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set a width for a column of the form</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>column</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok, FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00375">375</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a206bff690e4524f0bb5c42c1ab55b6a0"></a><!-- doxytag: member="gsb_data_form.c::gsb_form_config_update_from_account" ref="a206bff690e4524f0bb5c42c1ab55b6a0" args="(gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_form_config_update_from_account </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update all the accounts form organization according to the given account</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td>the account number model to fill the others</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE : ok, FALSE : problem, nothing done </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__form_8c_source.html#l00482">482</a> du fichier <a class="el" href="gsb__data__form_8c_source.html">gsb_data_form.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

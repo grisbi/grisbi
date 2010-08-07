@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_data_reconcile.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_data_reconcile.h</h1><a href="gsb__data__reconcile_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _GSB_DATA_RECONCILE_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _GSB_DATA_RECONCILE_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00007"></a>00007 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00010"></a>00010 gint <a class="code" href="gsb__data__reconcile_8c.html#a57f4a52c653f13e27564fc8ff2b4350b">gsb_data_reconcile_get_account</a> ( gint reconcile_number );
+<a name="l00011"></a>00011 gint <a class="code" href="gsb__data__reconcile_8c.html#a2ab9538da63a10bec22e1efe1cd3f19f">gsb_data_reconcile_get_account_last_number</a> ( gint account_number );
+<a name="l00012"></a>00012 <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="gsb__data__reconcile_8c.html#a261a4e1eacb9c6517df7daa4afa879bb">gsb_data_reconcile_get_final_balance</a> ( gint reconcile_number );
+<a name="l00013"></a>00013 <span class="keyword">const</span> GDate *<a class="code" href="gsb__data__reconcile_8c.html#ac2e105ad149161a371283aa75049d3b6">gsb_data_reconcile_get_final_date</a> ( gint reconcile_number );
+<a name="l00014"></a>00014 <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="gsb__data__reconcile_8c.html#ac14e8641bb156f533d7ac2427c4b9cfc">gsb_data_reconcile_get_init_balance</a> ( gint reconcile_number );
+<a name="l00015"></a>00015 <span class="keyword">const</span> GDate *<a class="code" href="gsb__data__reconcile_8c.html#a34a53feb10b93744a7230407d599b788">gsb_data_reconcile_get_init_date</a> ( gint reconcile_number );
+<a name="l00016"></a>00016 <span class="keyword">const</span> gchar *<a class="code" href="gsb__data__reconcile_8c.html#a0f88a3f39b7944967f373097fe9d1474">gsb_data_reconcile_get_name</a> ( gint reconcile_number );
+<a name="l00017"></a>00017 gint <a class="code" href="gsb__data__reconcile_8c.html#a834a5ace0380c21559fb87cb88f7da80">gsb_data_reconcile_get_no_reconcile</a> ( gpointer reconcile_ptr );
+<a name="l00018"></a>00018 gint <a class="code" href="gsb__data__reconcile_8c.html#a8b5fef84e7618bcd6f6ac22f28fbbbdd">gsb_data_reconcile_get_number_by_date</a> ( <span class="keyword">const</span> GDate *date,
+<a name="l00019"></a>00019                         gint account_number );
+<a name="l00020"></a>00020 gint <a class="code" href="gsb__data__reconcile_8c.html#a839ed7c90982127f0994a6472ba2f8bf">gsb_data_reconcile_get_number_by_name</a> ( <span class="keyword">const</span> gchar *name );
+<a name="l00021"></a>00021 GList *<a class="code" href="gsb__data__reconcile_8c.html#aa78fc612a3b6c450f074b879633c6db3">gsb_data_reconcile_get_reconcile_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00022"></a>00022 GList *<a class="code" href="gsb__data__reconcile_8c.html#a8224c264d9596777a0a701a31bd2487f">gsb_data_reconcile_get_sort_reconcile_list</a> ( gint account_number );
+<a name="l00023"></a>00023 gboolean <a class="code" href="gsb__data__reconcile_8c.html#a92e5a9c9c1a907d6b2f7571426a910b6">gsb_data_reconcile_init_variables</a> ( <span class="keywordtype">void</span> );
+<a name="l00024"></a>00024 gint <a class="code" href="gsb__data__reconcile_8c.html#a4bf21657f3550be9b9d6257c99bc2b4c">gsb_data_reconcile_max_number</a> ( <span class="keywordtype">void</span> );
+<a name="l00025"></a>00025 gint <a class="code" href="gsb__data__reconcile_8c.html#a62d7a52b2bf26c55b8a6cfe835aaf91a">gsb_data_reconcile_new</a> ( <span class="keyword">const</span> gchar *name );
+<a name="l00026"></a>00026 gboolean <a class="code" href="gsb__data__reconcile_8c.html#aab7d2ded64eec85188ff49c86165b53d">gsb_data_reconcile_remove</a> ( gint reconcile_number );
+<a name="l00027"></a>00027 gboolean <a class="code" href="gsb__data__reconcile_8c.html#a0c9177f5d2c4a6d4746ace048acb1f81">gsb_data_reconcile_set_account</a> ( gint reconcile_number,
+<a name="l00028"></a>00028                         gint account_number );
+<a name="l00029"></a>00029 gboolean <a class="code" href="gsb__data__reconcile_8c.html#adad38ed6864de1c3da2e1bb7965b05a5">gsb_data_reconcile_set_final_balance</a> ( gint reconcile_number,
+<a name="l00030"></a>00030                                                 <a class="code" href="structgsb__real.html">gsb_real</a> amount );
+<a name="l00031"></a>00031 gboolean <a class="code" href="gsb__data__reconcile_8c.html#afbeb0c882101954a2b3717b2275bfe5e">gsb_data_reconcile_set_final_date</a> ( gint reconcile_number,
+<a name="l00032"></a>00032                         <span class="keyword">const</span> GDate *date );
+<a name="l00033"></a>00033 gboolean <a class="code" href="gsb__data__reconcile_8c.html#ae00b62ef7aed10eaa1436c833fe8da0c">gsb_data_reconcile_set_init_balance</a> ( gint reconcile_number,
+<a name="l00034"></a>00034                                                <a class="code" href="structgsb__real.html">gsb_real</a> amount );
+<a name="l00035"></a>00035 gboolean <a class="code" href="gsb__data__reconcile_8c.html#a804d3e97ad7b144a45a11f9786cc1b80">gsb_data_reconcile_set_init_date</a> ( gint reconcile_number,
+<a name="l00036"></a>00036                                             <span class="keyword">const</span> GDate *date );
+<a name="l00037"></a>00037 gboolean <a class="code" href="gsb__data__reconcile_8c.html#ad4723e032886e6a97aa32b39363463f1">gsb_data_reconcile_set_name</a> ( gint reconcile_number,
+<a name="l00038"></a>00038                         <span class="keyword">const</span> gchar *name );
+<a name="l00039"></a>00039 gint <a class="code" href="gsb__data__reconcile_8c.html#aa86c8172d748f9c6d545e0062818578d">gsb_data_reconcile_set_new_number</a> ( gint reconcile_number,
+<a name="l00040"></a>00040                         gint new_no_reconcile );
+<a name="l00041"></a>00041 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00042"></a>00042 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:02 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

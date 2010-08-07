@@ -1,0 +1,91 @@
+\section{Référence du fichier utils\_\-editables.h}
+\label{utils__editables_8h}\index{utils\_\-editables.h@{utils\_\-editables.h}}
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-editable\_\-erase\_\-text\_\-view} (GtkWidget $\ast$button, GtkWidget $\ast$text\_\-view)
+\item 
+gchar $\ast$ {\bf gsb\_\-editable\_\-text\_\-view\_\-get\_\-content} (GtkWidget $\ast$text\_\-view)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-editable\_\-text\_\-view\_\-new} (const gchar $\ast$value)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-utils\_\-edit\_\-calculate\_\-entry} (GtkWidget $\ast$entry)
+\item 
+void {\bf increment\_\-decrement\_\-champ} (GtkWidget $\ast$entry, gint increment)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{utils\_\-editables.h@{utils\_\-editables.h}!gsb\_\-editable\_\-erase\_\-text\_\-view@{gsb\_\-editable\_\-erase\_\-text\_\-view}}
+\index{gsb\_\-editable\_\-erase\_\-text\_\-view@{gsb\_\-editable\_\-erase\_\-text\_\-view}!utils_editables.h@{utils\_\-editables.h}}
+\subsubsection[{gsb\_\-editable\_\-erase\_\-text\_\-view}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-editable\_\-erase\_\-text\_\-view (GtkWidget $\ast$ {\em button}, \/  GtkWidget $\ast$ {\em text\_\-view})}\label{utils__editables_8h_a144daaaa0139d9b489fcc9bc21664943}
+erase the text view given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em button}]not used \item[{\em text\_\-view}]the text\_\-view to erase\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 102 du fichier utils\_\-editables.c.
+
+\index{utils\_\-editables.h@{utils\_\-editables.h}!gsb\_\-editable\_\-text\_\-view\_\-get\_\-content@{gsb\_\-editable\_\-text\_\-view\_\-get\_\-content}}
+\index{gsb\_\-editable\_\-text\_\-view\_\-get\_\-content@{gsb\_\-editable\_\-text\_\-view\_\-get\_\-content}!utils_editables.h@{utils\_\-editables.h}}
+\subsubsection[{gsb\_\-editable\_\-text\_\-view\_\-get\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-editable\_\-text\_\-view\_\-get\_\-content (GtkWidget $\ast$ {\em text\_\-view})}\label{utils__editables_8h_a56e1df70defb8d072289f283b24627c0}
+get the entire content of a text view
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em the}]text\_\-view\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a gchar which is the content of the text view 
+\end{DoxyReturn}
+
+
+Définition à la ligne 76 du fichier utils\_\-editables.c.
+
+\index{utils\_\-editables.h@{utils\_\-editables.h}!gsb\_\-editable\_\-text\_\-view\_\-new@{gsb\_\-editable\_\-text\_\-view\_\-new}}
+\index{gsb\_\-editable\_\-text\_\-view\_\-new@{gsb\_\-editable\_\-text\_\-view\_\-new}!utils_editables.h@{utils\_\-editables.h}}
+\subsubsection[{gsb\_\-editable\_\-text\_\-view\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-editable\_\-text\_\-view\_\-new (const gchar $\ast$ {\em value})}\label{utils__editables_8h_aba01d00a8b7c423cb00e224ef2df56f2}
+create a normalised text view for grisbi and add the value inside
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em value}]a pointer to a string\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a GtkWidget which is a text\_\-view with the string inside 
+\end{DoxyReturn}
+
+
+Définition à la ligne 50 du fichier utils\_\-editables.c.
+
+\index{utils\_\-editables.h@{utils\_\-editables.h}!gsb\_\-utils\_\-edit\_\-calculate\_\-entry@{gsb\_\-utils\_\-edit\_\-calculate\_\-entry}}
+\index{gsb\_\-utils\_\-edit\_\-calculate\_\-entry@{gsb\_\-utils\_\-edit\_\-calculate\_\-entry}!utils_editables.h@{utils\_\-editables.h}}
+\subsubsection[{gsb\_\-utils\_\-edit\_\-calculate\_\-entry}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-utils\_\-edit\_\-calculate\_\-entry (GtkWidget $\ast$ {\em entry})}\label{utils__editables_8h_a45ab7802df06eecfebeeba20fc37a622}
+calcule le total du contenu de l'entrée donnée en argument accepte les + et les -\/
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]entrée d'un montant\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+\doxyref{gsb\_\-real}{p.}{structgsb__real} total de ce qui est dans l'entrée 
+\end{DoxyReturn}
+
+
+Définition à la ligne 148 du fichier utils\_\-editables.c.
+
+\index{utils\_\-editables.h@{utils\_\-editables.h}!increment\_\-decrement\_\-champ@{increment\_\-decrement\_\-champ}}
+\index{increment\_\-decrement\_\-champ@{increment\_\-decrement\_\-champ}!utils_editables.h@{utils\_\-editables.h}}
+\subsubsection[{increment\_\-decrement\_\-champ}]{\setlength{\rightskip}{0pt plus 5cm}void increment\_\-decrement\_\-champ (GtkWidget $\ast$ {\em entry}, \/  gint {\em increment})}\label{utils__editables_8h_a633b0bd1f5f7f4e4a1cb312d7679e4e2}
+Increment or decrement the value of a GtkEntry.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]Entry to change the value of. \item[{\em increment}]Value to add or substract from the numerical value of entry. \end{DoxyParams}
+
+
+Définition à la ligne 126 du fichier utils\_\-editables.c.
+

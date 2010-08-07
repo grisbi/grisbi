@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier bet_future.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier bet_future.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &lt;config.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="bet__future_8c_source.html">bet_future.h</a>&quot;</code><br/>
+<code>#include &lt;gtk/gtk.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__data_8h_source.html">bet_data.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__tab_8h_source.html">bet_tab.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="fenetre__principale_8h_source.html">fenetre_principale.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__dates_8h_source.html">utils_dates.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__calendar__entry_8h_source.html">gsb_calendar_entry.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__combo__box_8h_source.html">gsb_combo_box.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__budget_8h_source.html">gsb_data_budget.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__category_8h_source.html">gsb_data_category.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__partial__balance_8h_source.html">gsb_data_partial_balance.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__payee_8h_source.html">gsb_data_payee.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form_8h_source.html">gsb_form.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__scheduler_8h_source.html">gsb_form_scheduler.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__widget_8h_source.html">gsb_form_widget.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__fyear_8h_source.html">gsb_fyear.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gtk__combofix_8h_source.html">gtk_combofix.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__form_8h_source.html">gsb_data_form.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="bet__future_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Macros</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__future_8c.html#a10d8870f99c7abbffdc2ed9c3c5847da">BET_SCHEDULED_WIDTH</a>&nbsp;&nbsp;&nbsp;4</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__future_8c.html#a5ff48c89a9296c5cf66e6b33c1bca11c">BET_SCHEDULED_HEIGHT</a>&nbsp;&nbsp;&nbsp;2</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__future_8c.html#ab9f4286a82ff1209786e6f1720a9990c">bet_future_initialise_dialog</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__future_8c.html#ae2fa4dca9e56707df127ad926b5a01f8">bet_future_new_line_dialog</a> (GtkTreeModel *tab_model, gchar *str_date)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__future_8c.html#ae40824ff68f1d0feb3492cb0ae14d8ae">bet_future_modify_line</a> (gint account_number, gint number, gint mother_row)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__future_8c.html#ac02be860167b4f09f638c3b81f2af565">bet_transfert_new_line_dialog</a> (GtkTreeModel *tab_model, gchar *str_date)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__future_8c.html#a7ba318b5159699e3b2eca0a402826f8e">gsb_transfert_get_str_amount</a> (<a class="el" href="struct__transfert__data.html">struct_transfert_data</a> *transfert, <a class="el" href="structgsb__real.html">gsb_real</a> amount)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__future_8c.html#a5e8c1eac75f29a293cd5567c6041eea3">bet_transfert_modify_line</a> (gint account_number, gint number)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__future_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__future_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+</table>
+<hr/><h2>Documentation des macros</h2>
+<a class="anchor" id="a5ff48c89a9296c5cf66e6b33c1bca11c"></a><!-- doxytag: member="bet_future.c::BET_SCHEDULED_HEIGHT" ref="a5ff48c89a9296c5cf66e6b33c1bca11c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BET_SCHEDULED_HEIGHT&nbsp;&nbsp;&nbsp;2</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__future_8c_source.html#l00116">116</a> du fichier <a class="el" href="bet__future_8c_source.html">bet_future.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a10d8870f99c7abbffdc2ed9c3c5847da"></a><!-- doxytag: member="bet_future.c::BET_SCHEDULED_WIDTH" ref="a10d8870f99c7abbffdc2ed9c3c5847da" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BET_SCHEDULED_WIDTH&nbsp;&nbsp;&nbsp;4</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__future_8c_source.html#l00115">115</a> du fichier <a class="el" href="bet__future_8c_source.html">bet_future.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="ab9f4286a82ff1209786e6f1720a9990c"></a><!-- doxytag: member="bet_future.c::bet_future_initialise_dialog" ref="ab9f4286a82ff1209786e6f1720a9990c" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bet_future_initialise_dialog </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__future_8c_source.html#l00137">137</a> du fichier <a class="el" href="bet__future_8c_source.html">bet_future.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae40824ff68f1d0feb3492cb0ae14d8ae"></a><!-- doxytag: member="bet_future.c::bet_future_modify_line" ref="ae40824ff68f1d0feb3492cb0ae14d8ae" args="(gint account_number, gint number, gint mother_row)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean bet_future_modify_line </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>mother_row</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__future_8c_source.html#l01735">1735</a> du fichier <a class="el" href="bet__future_8c_source.html">bet_future.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae2fa4dca9e56707df127ad926b5a01f8"></a><!-- doxytag: member="bet_future.c::bet_future_new_line_dialog" ref="ae2fa4dca9e56707df127ad926b5a01f8" args="(GtkTreeModel *tab_model, gchar *str_date)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean bet_future_new_line_dialog </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreeModel *&nbsp;</td>
+          <td class="paramname"> <em>tab_model</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>str_date</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__future_8c_source.html#l00159">159</a> du fichier <a class="el" href="bet__future_8c_source.html">bet_future.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5e8c1eac75f29a293cd5567c6041eea3"></a><!-- doxytag: member="bet_future.c::bet_transfert_modify_line" ref="a5e8c1eac75f29a293cd5567c6041eea3" args="(gint account_number, gint number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean bet_transfert_modify_line </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__future_8c_source.html#l02374">2374</a> du fichier <a class="el" href="bet__future_8c_source.html">bet_future.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac02be860167b4f09f638c3b81f2af565"></a><!-- doxytag: member="bet_future.c::bet_transfert_new_line_dialog" ref="ac02be860167b4f09f638c3b81f2af565" args="(GtkTreeModel *tab_model, gchar *str_date)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean bet_transfert_new_line_dialog </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreeModel *&nbsp;</td>
+          <td class="paramname"> <em>tab_model</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>str_date</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__future_8c_source.html#l01802">1802</a> du fichier <a class="el" href="bet__future_8c_source.html">bet_future.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7ba318b5159699e3b2eca0a402826f8e"></a><!-- doxytag: member="bet_future.c::gsb_transfert_get_str_amount" ref="a7ba318b5159699e3b2eca0a402826f8e" args="(struct_transfert_data *transfert, gsb_real amount)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_transfert_get_str_amount </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct__transfert__data.html">struct_transfert_data</a> *&nbsp;</td>
+          <td class="paramname"> <em>transfert</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>amount</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__future_8c_source.html#l02332">2332</a> du fichier <a class="el" href="bet__future_8c_source.html">bet_future.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a26f304bec3fdc0651b9aa8765d4de3c6"></a><!-- doxytag: member="bet_future.c::null_real" ref="a26f304bec3fdc0651b9aa8765d4de3c6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> <a class="el" href="utils__editables_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00042">42</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="bet_future.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

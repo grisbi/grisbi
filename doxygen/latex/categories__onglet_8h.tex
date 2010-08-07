@@ -1,0 +1,67 @@
+\section{Référence du fichier categories\_\-onglet.h}
+\label{categories__onglet_8h}\index{categories\_\-onglet.h@{categories\_\-onglet.h}}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf category\_\-hold\_\-position\_\-set\_\-expand} (gboolean expand)
+\item 
+gboolean {\bf category\_\-hold\_\-position\_\-set\_\-path} (GtkTreePath $\ast$path)
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-categories} (void)
+\item 
+void {\bf remplit\_\-arbre\_\-categ} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{categories\_\-onglet.h@{categories\_\-onglet.h}!category\_\-hold\_\-position\_\-set\_\-expand@{category\_\-hold\_\-position\_\-set\_\-expand}}
+\index{category\_\-hold\_\-position\_\-set\_\-expand@{category\_\-hold\_\-position\_\-set\_\-expand}!categories_onglet.h@{categories\_\-onglet.h}}
+\subsubsection[{category\_\-hold\_\-position\_\-set\_\-expand}]{\setlength{\rightskip}{0pt plus 5cm}gboolean category\_\-hold\_\-position\_\-set\_\-expand (gboolean {\em expand})}\label{categories__onglet_8h_a5b685ac483cc1dcc8dc736a644a80651}
+sauvegarde l'attribut expand.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em expand}]\end{DoxyParams}
+
+
+Définition à la ligne 891 du fichier categories\_\-onglet.c.
+
+\index{categories\_\-onglet.h@{categories\_\-onglet.h}!category\_\-hold\_\-position\_\-set\_\-path@{category\_\-hold\_\-position\_\-set\_\-path}}
+\index{category\_\-hold\_\-position\_\-set\_\-path@{category\_\-hold\_\-position\_\-set\_\-path}!categories_onglet.h@{categories\_\-onglet.h}}
+\subsubsection[{category\_\-hold\_\-position\_\-set\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}gboolean category\_\-hold\_\-position\_\-set\_\-path (GtkTreePath $\ast$ {\em path})}\label{categories__onglet_8h_a07189d15b8fbd91a38070efebee6ee97}
+sauvegarde le chemin de la dernière categorie sélectionnée.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em path}]\end{DoxyParams}
+
+
+Définition à la ligne 880 du fichier categories\_\-onglet.c.
+
+\index{categories\_\-onglet.h@{categories\_\-onglet.h}!onglet\_\-categories@{onglet\_\-categories}}
+\index{onglet\_\-categories@{onglet\_\-categories}!categories_onglet.h@{categories\_\-onglet.h}}
+\subsubsection[{onglet\_\-categories}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-categories (void)}\label{categories__onglet_8h_a4aca926dc47f973c138ed72e9aad5804}
+Create and return contents of the \char`\"{}Category\char`\"{} notebook page.
+
+\begin{DoxyReturn}{Renvoie}
+A newly allocated hbox. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 84 du fichier categories\_\-onglet.c.
+
+\index{categories\_\-onglet.h@{categories\_\-onglet.h}!remplit\_\-arbre\_\-categ@{remplit\_\-arbre\_\-categ}}
+\index{remplit\_\-arbre\_\-categ@{remplit\_\-arbre\_\-categ}!categories_onglet.h@{categories\_\-onglet.h}}
+\subsubsection[{remplit\_\-arbre\_\-categ}]{\setlength{\rightskip}{0pt plus 5cm}void remplit\_\-arbre\_\-categ (void)}\label{categories__onglet_8h_a07984d808278a498b3fef3e187cc29e2}
+Fill category tree with data. 
+
+First, remove previous tree
+
+Then, populate tree with categories.
+
+Each category has subcategories. 
+
+
+
+Définition à la ligne 211 du fichier categories\_\-onglet.c.
+

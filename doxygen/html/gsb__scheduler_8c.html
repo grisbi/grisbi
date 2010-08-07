@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_scheduler.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_scheduler.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__scheduler_8h_source.html">gsb_scheduler.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__dates_8h_source.html">utils_dates.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__currency_8h_source.html">gsb_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__fyear_8h_source.html">gsb_data_fyear.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__payment_8h_source.html">gsb_data_payment.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__scheduled_8h_source.html">gsb_data_scheduled.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__transaction_8h_source.html">gsb_form_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="accueil_8h_source.html">accueil.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__scheduler__list_8h_source.html">gsb_scheduler_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="main_8h_source.html">main.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+
+<p><a href="gsb__scheduler_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler_8c.html#a835bf4208d739a5332dbfbf4f7ae066e">gsb_scheduler_increase_scheduled</a> (gint scheduled_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GDate *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler_8c.html#ace6ee5adae18cc4bad4074296e8a5613">gsb_scheduler_get_next_date</a> (gint scheduled_number, const GDate *date)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler_8c.html#abae75f35ff3f5218ffbf2444c0b8f8ed">gsb_scheduler_execute_children_of_scheduled_transaction</a> (gint scheduled_number, gint transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler_8c.html#a01be712269ce407b49b2d995af85f2bf">gsb_scheduler_check_scheduled_transactions_time_limit</a> (void)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler_8c.html#a097d2eb216e05a68a5a153e7b68b6469">mise_a_jour_liste_echeances_auto_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler_8c.html#a5957dd978b4a0c3ab01e006cedfdf96c">mise_a_jour_liste_echeances_manuelles_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler_8c.html#af539ba1ef9bfd1d56ab43b9865b0bab5">scheduled_transactions_taken</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler_8c.html#ade6e813638ccb1437faf234fa2725303">scheduled_transactions_to_take</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler_8c.html#ab4baae80534027ea3fe73d417c48caaa">nb_days_before_scheduled</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler_8c.html#a28dbce464ef05c5a6db0d64a31fff16d">execute_scheduled_of_month</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler_8c.html#a2f70ab8aa9d2a494c0653e8f29eddf40">balances_with_scheduled</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>contains several functions to work with the schedulers transactions </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__scheduler_8c_source.html">gsb_scheduler.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a01be712269ce407b49b2d995af85f2bf"></a><!-- doxytag: member="gsb_scheduler.c::gsb_scheduler_check_scheduled_transactions_time_limit" ref="a01be712269ce407b49b2d995af85f2bf" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_scheduler_check_scheduled_transactions_time_limit </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>check the scheduled transactions if the are in time limit and record the automatic transactions</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler_8c_source.html#l00456">456</a> du fichier <a class="el" href="gsb__scheduler_8c_source.html">gsb_scheduler.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abae75f35ff3f5218ffbf2444c0b8f8ed"></a><!-- doxytag: member="gsb_scheduler.c::gsb_scheduler_execute_children_of_scheduled_transaction" ref="abae75f35ff3f5218ffbf2444c0b8f8ed" args="(gint scheduled_number, gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_execute_children_of_scheduled_transaction </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>scheduled_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the children of a split scheduled transaction, make the transactions from them and append them to the transactions list</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>scheduled_number</em>&nbsp;</td><td>the number of the mother scheduled transaction (the split) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td>the number of the transaction created from that scheduled (so, the future mother of the children)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler_8c_source.html#l00422">422</a> du fichier <a class="el" href="gsb__scheduler_8c_source.html">gsb_scheduler.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ace6ee5adae18cc4bad4074296e8a5613"></a><!-- doxytag: member="gsb_scheduler.c::gsb_scheduler_get_next_date" ref="ace6ee5adae18cc4bad4074296e8a5613" args="(gint scheduled_number, const GDate *date)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GDate* gsb_scheduler_get_next_date </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>scheduled_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const GDate *&nbsp;</td>
+          <td class="paramname"> <em>date</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>find and return the next date after the given date for the given scheduled transaction</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>scheduled_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>date</em>&nbsp;</td><td>the current date, we want the next one after that one</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a newly allocated date, the next date or NULL if over the limit </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler_8c_source.html#l00152">152</a> du fichier <a class="el" href="gsb__scheduler_8c_source.html">gsb_scheduler.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a835bf4208d739a5332dbfbf4f7ae066e"></a><!-- doxytag: member="gsb_scheduler.c::gsb_scheduler_increase_scheduled" ref="a835bf4208d739a5332dbfbf4f7ae066e" args="(gint scheduled_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_increase_scheduled </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>scheduled_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the next date in the scheduled transaction if it's above the limit date, that transaction is deleted if it's a split, the children are updated too if the scheduled transaction is finished, it's removed from the list and from the scheduled transactions</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>scheduled_number</em>&nbsp;</td><td>the scheduled transaction we want to increase</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE if the scheduled transaction is finished, TRUE else </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler_8c_source.html#l00084">84</a> du fichier <a class="el" href="gsb__scheduler_8c_source.html">gsb_scheduler.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a2f70ab8aa9d2a494c0653e8f29eddf40"></a><!-- doxytag: member="gsb_scheduler.c::balances_with_scheduled" ref="a2f70ab8aa9d2a494c0653e8f29eddf40" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean <a class="el" href="parametres_8c.html#a2f70ab8aa9d2a494c0653e8f29eddf40">balances_with_scheduled</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Take into account the planned operations in the calculation of the balances (TRUE default) </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler_8c_source.html#l00071">71</a> du fichier <a class="el" href="gsb__scheduler_8c_source.html">gsb_scheduler.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a28dbce464ef05c5a6db0d64a31fff16d"></a><!-- doxytag: member="gsb_scheduler.c::execute_scheduled_of_month" ref="a28dbce464ef05c5a6db0d64a31fff16d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean <a class="el" href="parametres_8c.html#a28dbce464ef05c5a6db0d64a31fff16d">execute_scheduled_of_month</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>warn/execute scheduled at expiration (FALSE) or of the month (TRUE) </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler_8c_source.html#l00068">68</a> du fichier <a class="el" href="gsb__scheduler_8c_source.html">gsb_scheduler.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a097d2eb216e05a68a5a153e7b68b6469"></a><!-- doxytag: member="gsb_scheduler.c::mise_a_jour_liste_echeances_auto_accueil" ref="a097d2eb216e05a68a5a153e7b68b6469" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a097d2eb216e05a68a5a153e7b68b6469">mise_a_jour_liste_echeances_auto_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00129">129</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5957dd978b4a0c3ab01e006cedfdf96c"></a><!-- doxytag: member="gsb_scheduler.c::mise_a_jour_liste_echeances_manuelles_accueil" ref="a5957dd978b4a0c3ab01e006cedfdf96c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a5957dd978b4a0c3ab01e006cedfdf96c">mise_a_jour_liste_echeances_manuelles_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00128">128</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab4baae80534027ea3fe73d417c48caaa"></a><!-- doxytag: member="gsb_scheduler.c::nb_days_before_scheduled" ref="ab4baae80534027ea3fe73d417c48caaa" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="parametres_8c.html#ab4baae80534027ea3fe73d417c48caaa">nb_days_before_scheduled</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>number of days before the scheduled to execute it </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler_8c_source.html#l00065">65</a> du fichier <a class="el" href="gsb__scheduler_8c_source.html">gsb_scheduler.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af539ba1ef9bfd1d56ab43b9865b0bab5"></a><!-- doxytag: member="gsb_scheduler.c::scheduled_transactions_taken" ref="af539ba1ef9bfd1d56ab43b9865b0bab5" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* <a class="el" href="gsb__scheduler__list_8c.html#af539ba1ef9bfd1d56ab43b9865b0bab5">scheduled_transactions_taken</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00127">127</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ade6e813638ccb1437faf234fa2725303"></a><!-- doxytag: member="gsb_scheduler.c::scheduled_transactions_to_take" ref="ade6e813638ccb1437faf234fa2725303" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* <a class="el" href="gsb__scheduler__list_8c.html#ade6e813638ccb1437faf234fa2725303">scheduled_transactions_to_take</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>lists of number of scheduled transactions taken or to be taken </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00126">126</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

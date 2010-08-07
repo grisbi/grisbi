@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier bet_finance_ui.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier bet_finance_ui.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &lt;config.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="bet__finance__ui_8h_source.html">bet_finance_ui.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__data__finance_8h_source.html">bet_data_finance.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="fenetre__principale_8h_source.html">fenetre_principale.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__finance__ui_8c_source.html">gsb_combo_box.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__currency_8h_source.html">gsb_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__widget_8h_source.html">gsb_form_widget.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__dates_8h_source.html">utils_dates.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="bet__finance__ui_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Structures de données</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__echeance.html">struct_echeance</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__amortissement.html">struct_amortissement</a></td></tr>
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969">bet_finance_data_columns</a> { <br/>
+&nbsp;&nbsp;<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969af9133c674859f0922ab226e1547e2e38">BET_FINANCE_DURATION_COLUMN</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969a55724a111cfc1a43f7ee5e7f11719ba9">BET_FINANCE_NBRE_ECHEANCE_COLUMN</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969a52e171b6336947af0b4fdb1d019cb742">BET_FINANCE_DEVISE_COLUMN</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969a319c928bb6c09fabd76316516a4b6232">BET_FINANCE_CAPITAL_COLUMN</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969ad84adcbf0712dfb37aa2173adaa7e652">BET_FINANCE_CAPITAL_DOUBLE</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969aadc81c5739e6549a8891a82c2d3e9176">BET_FINANCE_TAUX_COLUMN</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969a8e3a482c9392c5fb744a44191a6b47fe">BET_FINANCE_TAUX_PERIODIQUE_DOUBLE</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969aa1de44a2151451edcc4391bb6367ecb8">BET_FINANCE_HORS_FRAIS_COLUMN</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969a247d646411fa5da3e61aa4bc401aa3e3">BET_FINANCE_HORS_FRAIS_DOUBLE</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969a71e87442fdc29abbcd76cd13d17e8530">BET_FINANCE_FRAIS_COLUMN</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969acd715717840ec31ba36ed819f3ccde69">BET_FINANCE_FRAIS_DOUBLE</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969ad369d6aff77c2b49abf679c8abd5b15d">BET_FINANCE_ECHEANCE_COLUMN</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969a3a0623fdead163fd6532a94e7d5d1a2d">BET_FINANCE_ECHEANCE_DOUBLE</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969a46bb20c186774dfdb23b511c8201bde1">BET_FINANCE_BACKGROUND_COLOR</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969a466acd755723ed2fafdb21d3402645c5">BET_FINANCE_NBRE_COLUMNS</a>
+<br/>
+ }</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__finance__ui_8c.html#a42da22eb4301aa900f99e8b40a23f3ba">bet_finance_amortization_columns</a> { <br/>
+&nbsp;&nbsp;<a class="el" href="bet__finance__ui_8c.html#a42da22eb4301aa900f99e8b40a23f3baaed4e0b91db2a4e3fd5067026c18fe6d7">BET_AMORTIZATION_NUMBER_COLUMN</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a42da22eb4301aa900f99e8b40a23f3baa80c130d15867570539822c9e82cb70cc">BET_AMORTIZATION_DATE_COLUMN</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a42da22eb4301aa900f99e8b40a23f3baac30bc644f74cb544de08c9bdf830d027">BET_AMORTIZATION_CAPITAL_DU_COLUMN</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a42da22eb4301aa900f99e8b40a23f3baa405bd4701b4746712d3e0e4d2eb6c1a3">BET_AMORTIZATION_INTERETS_COLUMN</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="bet__finance__ui_8c.html#a42da22eb4301aa900f99e8b40a23f3baac1357f4b61fc1bf7734ed22093bb08fb">BET_AMORTIZATION_PRINCIPAL_COLUMN</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a42da22eb4301aa900f99e8b40a23f3baaf87266f8bd679a84bacf23ff2411a3a4">BET_AMORTIZATION_FRAIS_COLUMN</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a42da22eb4301aa900f99e8b40a23f3baa0841bd2c6cab0ab85a77e779a16913af">BET_AMORTIZATION_ECHEANCE_COLUMN</a>, 
+<a class="el" href="bet__finance__ui_8c.html#a42da22eb4301aa900f99e8b40a23f3baa1ffddd05e3d7fe3f7bd95fea7e596cb9">BET_AMORTIZATION_BACKGROUND_COLOR</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="bet__finance__ui_8c.html#a42da22eb4301aa900f99e8b40a23f3baa4f5ba4c316e6f3fb9b44ca7d471ac7a6">BET_AMORTIZATION_NBRE_COLUMNS</a>
+<br/>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__finance__ui_8c.html#a98569354482d0a913898ce67b30e1557">bet_finance_create_page</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__finance__ui_8c.html#acd225a5272ed6727f094bd25e7cf3cd7">bet_finance_switch_simulator_page</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gdouble&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__finance__ui_8c.html#a3b9902404c8eb1a244e0a57f4e9bf079">bet_finance_get_number_from_string</a> (GtkWidget *parent, const gchar *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__finance__ui_8c.html#a96bad4699d87b533c1c4f2f51f285e2a">bet_finance_create_account_page</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__finance__ui_8c.html#ad177ea31ac56791c3a4e91ad9be07e5c">bet_finance_ui_update_amortization_tab</a> (gint account_number)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__finance__ui_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__finance__ui_8c.html#a58089bf9225ae2e274165369f8bc7a00">couleur_fond</a> [2]</td></tr>
+</table>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="a42da22eb4301aa900f99e8b40a23f3ba"></a><!-- doxytag: member="bet_finance_ui.c::bet_finance_amortization_columns" ref="a42da22eb4301aa900f99e8b40a23f3ba" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="bet__finance__ui_8c.html#a42da22eb4301aa900f99e8b40a23f3ba">bet_finance_amortization_columns</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a42da22eb4301aa900f99e8b40a23f3baaed4e0b91db2a4e3fd5067026c18fe6d7"></a><!-- doxytag: member="BET_AMORTIZATION_NUMBER_COLUMN" ref="a42da22eb4301aa900f99e8b40a23f3baaed4e0b91db2a4e3fd5067026c18fe6d7" args="" -->BET_AMORTIZATION_NUMBER_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a42da22eb4301aa900f99e8b40a23f3baa80c130d15867570539822c9e82cb70cc"></a><!-- doxytag: member="BET_AMORTIZATION_DATE_COLUMN" ref="a42da22eb4301aa900f99e8b40a23f3baa80c130d15867570539822c9e82cb70cc" args="" -->BET_AMORTIZATION_DATE_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a42da22eb4301aa900f99e8b40a23f3baac30bc644f74cb544de08c9bdf830d027"></a><!-- doxytag: member="BET_AMORTIZATION_CAPITAL_DU_COLUMN" ref="a42da22eb4301aa900f99e8b40a23f3baac30bc644f74cb544de08c9bdf830d027" args="" -->BET_AMORTIZATION_CAPITAL_DU_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a42da22eb4301aa900f99e8b40a23f3baa405bd4701b4746712d3e0e4d2eb6c1a3"></a><!-- doxytag: member="BET_AMORTIZATION_INTERETS_COLUMN" ref="a42da22eb4301aa900f99e8b40a23f3baa405bd4701b4746712d3e0e4d2eb6c1a3" args="" -->BET_AMORTIZATION_INTERETS_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a42da22eb4301aa900f99e8b40a23f3baac1357f4b61fc1bf7734ed22093bb08fb"></a><!-- doxytag: member="BET_AMORTIZATION_PRINCIPAL_COLUMN" ref="a42da22eb4301aa900f99e8b40a23f3baac1357f4b61fc1bf7734ed22093bb08fb" args="" -->BET_AMORTIZATION_PRINCIPAL_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a42da22eb4301aa900f99e8b40a23f3baaf87266f8bd679a84bacf23ff2411a3a4"></a><!-- doxytag: member="BET_AMORTIZATION_FRAIS_COLUMN" ref="a42da22eb4301aa900f99e8b40a23f3baaf87266f8bd679a84bacf23ff2411a3a4" args="" -->BET_AMORTIZATION_FRAIS_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a42da22eb4301aa900f99e8b40a23f3baa0841bd2c6cab0ab85a77e779a16913af"></a><!-- doxytag: member="BET_AMORTIZATION_ECHEANCE_COLUMN" ref="a42da22eb4301aa900f99e8b40a23f3baa0841bd2c6cab0ab85a77e779a16913af" args="" -->BET_AMORTIZATION_ECHEANCE_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a42da22eb4301aa900f99e8b40a23f3baa1ffddd05e3d7fe3f7bd95fea7e596cb9"></a><!-- doxytag: member="BET_AMORTIZATION_BACKGROUND_COLOR" ref="a42da22eb4301aa900f99e8b40a23f3baa1ffddd05e3d7fe3f7bd95fea7e596cb9" args="" -->BET_AMORTIZATION_BACKGROUND_COLOR</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a42da22eb4301aa900f99e8b40a23f3baa4f5ba4c316e6f3fb9b44ca7d471ac7a6"></a><!-- doxytag: member="BET_AMORTIZATION_NBRE_COLUMNS" ref="a42da22eb4301aa900f99e8b40a23f3baa4f5ba4c316e6f3fb9b44ca7d471ac7a6" args="" -->BET_AMORTIZATION_NBRE_COLUMNS</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="bet__finance__ui_8c_source.html#l00122">122</a> du fichier <a class="el" href="bet__finance__ui_8c_source.html">bet_finance_ui.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3aabcaab0229106aae57ad81565c3969"></a><!-- doxytag: member="bet_finance_ui.c::bet_finance_data_columns" ref="a3aabcaab0229106aae57ad81565c3969" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="bet__finance__ui_8c.html#a3aabcaab0229106aae57ad81565c3969">bet_finance_data_columns</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969af9133c674859f0922ab226e1547e2e38"></a><!-- doxytag: member="BET_FINANCE_DURATION_COLUMN" ref="a3aabcaab0229106aae57ad81565c3969af9133c674859f0922ab226e1547e2e38" args="" -->BET_FINANCE_DURATION_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969a55724a111cfc1a43f7ee5e7f11719ba9"></a><!-- doxytag: member="BET_FINANCE_NBRE_ECHEANCE_COLUMN" ref="a3aabcaab0229106aae57ad81565c3969a55724a111cfc1a43f7ee5e7f11719ba9" args="" -->BET_FINANCE_NBRE_ECHEANCE_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969a52e171b6336947af0b4fdb1d019cb742"></a><!-- doxytag: member="BET_FINANCE_DEVISE_COLUMN" ref="a3aabcaab0229106aae57ad81565c3969a52e171b6336947af0b4fdb1d019cb742" args="" -->BET_FINANCE_DEVISE_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969a319c928bb6c09fabd76316516a4b6232"></a><!-- doxytag: member="BET_FINANCE_CAPITAL_COLUMN" ref="a3aabcaab0229106aae57ad81565c3969a319c928bb6c09fabd76316516a4b6232" args="" -->BET_FINANCE_CAPITAL_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969ad84adcbf0712dfb37aa2173adaa7e652"></a><!-- doxytag: member="BET_FINANCE_CAPITAL_DOUBLE" ref="a3aabcaab0229106aae57ad81565c3969ad84adcbf0712dfb37aa2173adaa7e652" args="" -->BET_FINANCE_CAPITAL_DOUBLE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969aadc81c5739e6549a8891a82c2d3e9176"></a><!-- doxytag: member="BET_FINANCE_TAUX_COLUMN" ref="a3aabcaab0229106aae57ad81565c3969aadc81c5739e6549a8891a82c2d3e9176" args="" -->BET_FINANCE_TAUX_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969a8e3a482c9392c5fb744a44191a6b47fe"></a><!-- doxytag: member="BET_FINANCE_TAUX_PERIODIQUE_DOUBLE" ref="a3aabcaab0229106aae57ad81565c3969a8e3a482c9392c5fb744a44191a6b47fe" args="" -->BET_FINANCE_TAUX_PERIODIQUE_DOUBLE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969aa1de44a2151451edcc4391bb6367ecb8"></a><!-- doxytag: member="BET_FINANCE_HORS_FRAIS_COLUMN" ref="a3aabcaab0229106aae57ad81565c3969aa1de44a2151451edcc4391bb6367ecb8" args="" -->BET_FINANCE_HORS_FRAIS_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969a247d646411fa5da3e61aa4bc401aa3e3"></a><!-- doxytag: member="BET_FINANCE_HORS_FRAIS_DOUBLE" ref="a3aabcaab0229106aae57ad81565c3969a247d646411fa5da3e61aa4bc401aa3e3" args="" -->BET_FINANCE_HORS_FRAIS_DOUBLE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969a71e87442fdc29abbcd76cd13d17e8530"></a><!-- doxytag: member="BET_FINANCE_FRAIS_COLUMN" ref="a3aabcaab0229106aae57ad81565c3969a71e87442fdc29abbcd76cd13d17e8530" args="" -->BET_FINANCE_FRAIS_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969acd715717840ec31ba36ed819f3ccde69"></a><!-- doxytag: member="BET_FINANCE_FRAIS_DOUBLE" ref="a3aabcaab0229106aae57ad81565c3969acd715717840ec31ba36ed819f3ccde69" args="" -->BET_FINANCE_FRAIS_DOUBLE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969ad369d6aff77c2b49abf679c8abd5b15d"></a><!-- doxytag: member="BET_FINANCE_ECHEANCE_COLUMN" ref="a3aabcaab0229106aae57ad81565c3969ad369d6aff77c2b49abf679c8abd5b15d" args="" -->BET_FINANCE_ECHEANCE_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969a3a0623fdead163fd6532a94e7d5d1a2d"></a><!-- doxytag: member="BET_FINANCE_ECHEANCE_DOUBLE" ref="a3aabcaab0229106aae57ad81565c3969a3a0623fdead163fd6532a94e7d5d1a2d" args="" -->BET_FINANCE_ECHEANCE_DOUBLE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969a46bb20c186774dfdb23b511c8201bde1"></a><!-- doxytag: member="BET_FINANCE_BACKGROUND_COLOR" ref="a3aabcaab0229106aae57ad81565c3969a46bb20c186774dfdb23b511c8201bde1" args="" -->BET_FINANCE_BACKGROUND_COLOR</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a3aabcaab0229106aae57ad81565c3969a466acd755723ed2fafdb21d3402645c5"></a><!-- doxytag: member="BET_FINANCE_NBRE_COLUMNS" ref="a3aabcaab0229106aae57ad81565c3969a466acd755723ed2fafdb21d3402645c5" args="" -->BET_FINANCE_NBRE_COLUMNS</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="bet__finance__ui_8c_source.html#l00102">102</a> du fichier <a class="el" href="bet__finance__ui_8c_source.html">bet_finance_ui.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a96bad4699d87b533c1c4f2f51f285e2a"></a><!-- doxytag: member="bet_finance_ui.c::bet_finance_create_account_page" ref="a96bad4699d87b533c1c4f2f51f285e2a" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* bet_finance_create_account_page </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Create the account amortization page </p>
+
+<p>Définition à la ligne <a class="el" href="bet__finance__ui_8c_source.html#l01366">1366</a> du fichier <a class="el" href="bet__finance__ui_8c_source.html">bet_finance_ui.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a98569354482d0a913898ce67b30e1557"></a><!-- doxytag: member="bet_finance_ui.c::bet_finance_create_page" ref="a98569354482d0a913898ce67b30e1557" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* bet_finance_create_page </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Create the finance page </p>
+
+<p>Définition à la ligne <a class="el" href="bet__finance__ui_8c_source.html#l00142">142</a> du fichier <a class="el" href="bet__finance__ui_8c_source.html">bet_finance_ui.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3b9902404c8eb1a244e0a57f4e9bf079"></a><!-- doxytag: member="bet_finance_ui.c::bet_finance_get_number_from_string" ref="a3b9902404c8eb1a244e0a57f4e9bf079" args="(GtkWidget *parent, const gchar *name)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gdouble bet_finance_get_number_from_string </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>parent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>name</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__finance__ui_8c_source.html#l00704">704</a> du fichier <a class="el" href="bet__finance__ui_8c_source.html">bet_finance_ui.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acd225a5272ed6727f094bd25e7cf3cd7"></a><!-- doxytag: member="bet_finance_ui.c::bet_finance_switch_simulator_page" ref="acd225a5272ed6727f094bd25e7cf3cd7" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bet_finance_switch_simulator_page </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Switch to the simulator page </p>
+
+<p>Définition à la ligne <a class="el" href="bet__finance__ui_8c_source.html#l00171">171</a> du fichier <a class="el" href="bet__finance__ui_8c_source.html">bet_finance_ui.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad177ea31ac56791c3a4e91ad9be07e5c"></a><!-- doxytag: member="bet_finance_ui.c::bet_finance_ui_update_amortization_tab" ref="ad177ea31ac56791c3a4e91ad9be07e5c" args="(gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bet_finance_ui_update_amortization_tab </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__finance__ui_8c_source.html#l01443">1443</a> du fichier <a class="el" href="bet__finance__ui_8c_source.html">bet_finance_ui.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="ad5443d986a9ab5d64dd84c5346c4b87c"></a><!-- doxytag: member="bet_finance_ui.c::account_page" ref="ad5443d986a9ab5d64dd84c5346c4b87c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="navigation_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Notebook of the account pane. </p>
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00075">75</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a58089bf9225ae2e274165369f8bc7a00"></a><!-- doxytag: member="bet_finance_ui.c::couleur_fond" ref="a58089bf9225ae2e274165369f8bc7a00" args="[2]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#a58089bf9225ae2e274165369f8bc7a00">couleur_fond</a>[2]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>colors in the transactions list </p>
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00112">112</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

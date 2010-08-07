@@ -1,0 +1,156 @@
+\section{Référence du fichier bet\_\-config.c}
+\label{bet__config_8c}\index{bet\_\-config.c@{bet\_\-config.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include $<$config.h$>$}\par
+{\ttfamily \#include \char`\"{}bet\_\-config.h\char`\"{}}\par
+{\ttfamily \#include $<$gtk/gtk.h$>$}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-automem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-widget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf bet\_\-config\_\-general\_\-create\_\-general\_\-page} (void)
+\item 
+GtkWidget $\ast$ {\bf bet\_\-config\_\-account\_\-create\_\-account\_\-page} (void)
+\item 
+GtkWidget $\ast$ {\bf bet\_\-config\_\-get\_\-duration\_\-widget} (gint {\bf origin})
+\item 
+void {\bf bet\_\-config\_\-duration\_\-button\_\-clicked} (GtkWidget $\ast$togglebutton, GtkWidget $\ast$spin\_\-button)
+\item 
+gboolean {\bf bet\_\-config\_\-duration\_\-number\_\-changed} (GtkWidget $\ast$spin\_\-button, gpointer data)
+\item 
+void {\bf bet\_\-config\_\-origin\_\-data\_\-clicked} (GtkWidget $\ast$togglebutton, gpointer data)
+\item 
+void {\bf bet\_\-config\_\-fyear\_\-clicked} (GtkWidget $\ast$combo, gpointer data)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf account\_\-page}
+\item 
+GtkTreeModel $\ast$ {\bf bet\_\-fyear\_\-model}
+\item 
+GtkTreeModel $\ast$ {\bf bet\_\-fyear\_\-model\_\-filter}
+\item 
+GtkWidget $\ast$ {\bf notebook\_\-general}
+\item 
+gchar $\ast$ {\bf bet\_\-duration\_\-array} [$\,$]
+\item 
+const gdouble {\bf prev\_\-month\_\-max} = 60.0
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{bet\_\-config.c@{bet\_\-config.c}!bet\_\-config\_\-account\_\-create\_\-account\_\-page@{bet\_\-config\_\-account\_\-create\_\-account\_\-page}}
+\index{bet\_\-config\_\-account\_\-create\_\-account\_\-page@{bet\_\-config\_\-account\_\-create\_\-account\_\-page}!bet_config.c@{bet\_\-config.c}}
+\subsubsection[{bet\_\-config\_\-account\_\-create\_\-account\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ bet\_\-config\_\-account\_\-create\_\-account\_\-page (void)}\label{bet__config_8c_abeafee7e6cbd8bdf2c9f6f93ef24a964}
+
+
+Définition à la ligne 204 du fichier bet\_\-config.c.
+
+\index{bet\_\-config.c@{bet\_\-config.c}!bet\_\-config\_\-duration\_\-button\_\-clicked@{bet\_\-config\_\-duration\_\-button\_\-clicked}}
+\index{bet\_\-config\_\-duration\_\-button\_\-clicked@{bet\_\-config\_\-duration\_\-button\_\-clicked}!bet_config.c@{bet\_\-config.c}}
+\subsubsection[{bet\_\-config\_\-duration\_\-button\_\-clicked}]{\setlength{\rightskip}{0pt plus 5cm}void bet\_\-config\_\-duration\_\-button\_\-clicked (GtkWidget $\ast$ {\em togglebutton}, \/  GtkWidget $\ast$ {\em spin\_\-button})}\label{bet__config_8c_ac071c5c9f911ec54c1d9fd38d697a238}
+
+
+Définition à la ligne 747 du fichier bet\_\-config.c.
+
+\index{bet\_\-config.c@{bet\_\-config.c}!bet\_\-config\_\-duration\_\-number\_\-changed@{bet\_\-config\_\-duration\_\-number\_\-changed}}
+\index{bet\_\-config\_\-duration\_\-number\_\-changed@{bet\_\-config\_\-duration\_\-number\_\-changed}!bet_config.c@{bet\_\-config.c}}
+\subsubsection[{bet\_\-config\_\-duration\_\-number\_\-changed}]{\setlength{\rightskip}{0pt plus 5cm}gboolean bet\_\-config\_\-duration\_\-number\_\-changed (GtkWidget $\ast$ {\em spin\_\-button}, \/  gpointer {\em data})}\label{bet__config_8c_ace87486f57a421225e332ba7cd7dd5a6}
+
+
+Définition à la ligne 813 du fichier bet\_\-config.c.
+
+\index{bet\_\-config.c@{bet\_\-config.c}!bet\_\-config\_\-fyear\_\-clicked@{bet\_\-config\_\-fyear\_\-clicked}}
+\index{bet\_\-config\_\-fyear\_\-clicked@{bet\_\-config\_\-fyear\_\-clicked}!bet_config.c@{bet\_\-config.c}}
+\subsubsection[{bet\_\-config\_\-fyear\_\-clicked}]{\setlength{\rightskip}{0pt plus 5cm}void bet\_\-config\_\-fyear\_\-clicked (GtkWidget $\ast$ {\em combo}, \/  gpointer {\em data})}\label{bet__config_8c_a2a8189cead3056cb65d7d26433012d14}
+
+
+Définition à la ligne 891 du fichier bet\_\-config.c.
+
+\index{bet\_\-config.c@{bet\_\-config.c}!bet\_\-config\_\-general\_\-create\_\-general\_\-page@{bet\_\-config\_\-general\_\-create\_\-general\_\-page}}
+\index{bet\_\-config\_\-general\_\-create\_\-general\_\-page@{bet\_\-config\_\-general\_\-create\_\-general\_\-page}!bet_config.c@{bet\_\-config.c}}
+\subsubsection[{bet\_\-config\_\-general\_\-create\_\-general\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ bet\_\-config\_\-general\_\-create\_\-general\_\-page (void)}\label{bet__config_8c_a079506ce240edc48c94ff1ac64942696}
+
+
+Définition à la ligne 103 du fichier bet\_\-config.c.
+
+\index{bet\_\-config.c@{bet\_\-config.c}!bet\_\-config\_\-get\_\-duration\_\-widget@{bet\_\-config\_\-get\_\-duration\_\-widget}}
+\index{bet\_\-config\_\-get\_\-duration\_\-widget@{bet\_\-config\_\-get\_\-duration\_\-widget}!bet_config.c@{bet\_\-config.c}}
+\subsubsection[{bet\_\-config\_\-get\_\-duration\_\-widget}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ bet\_\-config\_\-get\_\-duration\_\-widget (gint {\em origin})}\label{bet__config_8c_a9fcc68ddba810306496668a2ab91abf9}
+
+
+Définition à la ligne 344 du fichier bet\_\-config.c.
+
+\index{bet\_\-config.c@{bet\_\-config.c}!bet\_\-config\_\-origin\_\-data\_\-clicked@{bet\_\-config\_\-origin\_\-data\_\-clicked}}
+\index{bet\_\-config\_\-origin\_\-data\_\-clicked@{bet\_\-config\_\-origin\_\-data\_\-clicked}!bet_config.c@{bet\_\-config.c}}
+\subsubsection[{bet\_\-config\_\-origin\_\-data\_\-clicked}]{\setlength{\rightskip}{0pt plus 5cm}void bet\_\-config\_\-origin\_\-data\_\-clicked (GtkWidget $\ast$ {\em togglebutton}, \/  gpointer {\em data})}\label{bet__config_8c_af35307117be15ea41c6a5eebcefdf975}
+
+
+Définition à la ligne 846 du fichier bet\_\-config.c.
+
+
+
+\subsection{Documentation des variables}
+\index{bet\_\-config.c@{bet\_\-config.c}!account\_\-page@{account\_\-page}}
+\index{account\_\-page@{account\_\-page}!bet_config.c@{bet\_\-config.c}}
+\subsubsection[{account\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf account\_\-page}}\label{bet__config_8c_ad5443d986a9ab5d64dd84c5346c4b87c}
+Notebook of the account pane. 
+
+Définition à la ligne 75 du fichier fenetre\_\-principale.c.
+
+\index{bet\_\-config.c@{bet\_\-config.c}!bet\_\-duration\_\-array@{bet\_\-duration\_\-array}}
+\index{bet\_\-duration\_\-array@{bet\_\-duration\_\-array}!bet_config.c@{bet\_\-config.c}}
+\subsubsection[{bet\_\-duration\_\-array}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf bet\_\-duration\_\-array}[$\,$]}\label{bet__config_8c_a9bc40d97c6989df4ee885344bc8110cd}
+{\bfseries Valeur initiale :}
+\begin{DoxyCode}
+ {
+    N_("Month"),
+    N_("Year"),
+    NULL
+}
+\end{DoxyCode}
+
+
+Définition à la ligne 88 du fichier bet\_\-config.c.
+
+\index{bet\_\-config.c@{bet\_\-config.c}!bet\_\-fyear\_\-model@{bet\_\-fyear\_\-model}}
+\index{bet\_\-fyear\_\-model@{bet\_\-fyear\_\-model}!bet_config.c@{bet\_\-config.c}}
+\subsubsection[{bet\_\-fyear\_\-model}]{\setlength{\rightskip}{0pt plus 5cm}GtkTreeModel$\ast$ {\bf bet\_\-fyear\_\-model}}\label{bet__config_8c_a3b7bcf1e9b05e7a812d6f4d4bc0627d6}
+this is a tree model filter with 3 columns : the name, the number and a boolean to show it or not 
+
+Définition à la ligne 107 du fichier bet\_\-hist.c.
+
+\index{bet\_\-config.c@{bet\_\-config.c}!bet\_\-fyear\_\-model\_\-filter@{bet\_\-fyear\_\-model\_\-filter}}
+\index{bet\_\-fyear\_\-model\_\-filter@{bet\_\-fyear\_\-model\_\-filter}!bet_config.c@{bet\_\-config.c}}
+\subsubsection[{bet\_\-fyear\_\-model\_\-filter}]{\setlength{\rightskip}{0pt plus 5cm}GtkTreeModel$\ast$ {\bf bet\_\-fyear\_\-model\_\-filter}}\label{bet__config_8c_aecc63d6768ce86bba48badbe50334f1b}
+this is a tree model filter from fyear\_\-model\_\-filter wich show only the financial years wich must be showed 
+
+Définition à la ligne 113 du fichier bet\_\-hist.c.
+
+\index{bet\_\-config.c@{bet\_\-config.c}!notebook\_\-general@{notebook\_\-general}}
+\index{notebook\_\-general@{notebook\_\-general}!bet_config.c@{bet\_\-config.c}}
+\subsubsection[{notebook\_\-general}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf notebook\_\-general}}\label{bet__config_8c_a8924516aa4170f932308e93cf93a785b}
+
+
+Définition à la ligne 70 du fichier fenetre\_\-principale.c.
+
+\index{bet\_\-config.c@{bet\_\-config.c}!prev\_\-month\_\-max@{prev\_\-month\_\-max}}
+\index{prev\_\-month\_\-max@{prev\_\-month\_\-max}!bet_config.c@{bet\_\-config.c}}
+\subsubsection[{prev\_\-month\_\-max}]{\setlength{\rightskip}{0pt plus 5cm}const gdouble {\bf prev\_\-month\_\-max} = 60.0}\label{bet__config_8c_a2a9036317d63fb6459987ed41b88bf4f}
+
+
+Définition à la ligne 94 du fichier bet\_\-config.c.
+

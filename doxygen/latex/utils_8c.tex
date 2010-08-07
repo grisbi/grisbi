@@ -1,0 +1,197 @@
+\section{Référence du fichier utils.c}
+\label{utils_8c}\index{utils.c@{utils.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-config.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf met\_\-en\_\-prelight} (GtkWidget $\ast$event\_\-box, GdkEventMotion $\ast$event, gpointer pointeur)
+\item 
+gboolean {\bf met\_\-en\_\-normal} (GtkWidget $\ast$event\_\-box, GdkEventMotion $\ast$event, gpointer pointeur)
+\item 
+gboolean {\bf sens\_\-desensitive\_\-pointeur} (GtkWidget $\ast$bouton, GtkWidget $\ast$widget)
+\item 
+gboolean {\bf sensitive\_\-widget} (gpointer object, GtkWidget $\ast$widget)
+\item 
+gboolean {\bf desensitive\_\-widget} (gpointer object, GtkWidget $\ast$widget)
+\item 
+gboolean {\bf lance\_\-navigateur\_\-web} (const gchar $\ast$url)
+\item 
+GtkWidget $\ast$ {\bf new\_\-paddingbox\_\-with\_\-title} (GtkWidget $\ast$parent, gboolean fill, gchar $\ast$title)
+\item 
+GtkWidget $\ast$ {\bf new\_\-vbox\_\-with\_\-title\_\-and\_\-icon} (gchar $\ast$title, gchar $\ast$image\_\-filename)
+\item 
+gboolean {\bf assert\_\-account\_\-loaded} ()
+\item 
+void {\bf update\_\-ecran} (void)
+\item 
+void {\bf register\_\-button\_\-as\_\-linked} (GtkWidget $\ast$widget, GtkWidget $\ast$linked)
+\item 
+gboolean {\bf radio\_\-set\_\-active\_\-linked\_\-widgets} (GtkWidget $\ast$widget)
+\item 
+gchar $\ast$ {\bf get\_\-gtk\_\-run\_\-version} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf window}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{utils.c@{utils.c}!assert\_\-account\_\-loaded@{assert\_\-account\_\-loaded}}
+\index{assert\_\-account\_\-loaded@{assert\_\-account\_\-loaded}!utils.c@{utils.c}}
+\subsubsection[{assert\_\-account\_\-loaded}]{\setlength{\rightskip}{0pt plus 5cm}gboolean assert\_\-account\_\-loaded ()}\label{utils_8c_a201366e3a41e970cd3009d8b5d7afdd0}
+Function that makes a nice title with an optional icon. It is mainly used to automate preference tabs with titles.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em title}]Title that will be displayed in window \item[{\em image.}]Use NULL if you don't want an image to be displayed\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A pointer to a vbox widget that will contain all created widgets and user defined widgets Returns TRUE if an account is loaded in memory. Usefull to be sure there is data to process.
+
+TRUE if an account is loaded in memory. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 418 du fichier utils.c.
+
+\index{utils.c@{utils.c}!desensitive\_\-widget@{desensitive\_\-widget}}
+\index{desensitive\_\-widget@{desensitive\_\-widget}!utils.c@{utils.c}}
+\subsubsection[{desensitive\_\-widget}]{\setlength{\rightskip}{0pt plus 5cm}gboolean desensitive\_\-widget (gpointer {\em object}, \/  GtkWidget $\ast$ {\em widget})}\label{utils_8c_a2c94bcb7fbf8bc4dc28ae7ab24425a62}
+unsensitive a widget this is usually a callback, so 2 parameters, the first one is not used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em object}]the object wich receive the signal, not used so can be NULL \item[{\em widget}]the widget to unsensitive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 142 du fichier utils.c.
+
+\index{utils.c@{utils.c}!get\_\-gtk\_\-run\_\-version@{get\_\-gtk\_\-run\_\-version}}
+\index{get\_\-gtk\_\-run\_\-version@{get\_\-gtk\_\-run\_\-version}!utils.c@{utils.c}}
+\subsubsection[{get\_\-gtk\_\-run\_\-version}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ get\_\-gtk\_\-run\_\-version (void)}\label{utils_8c_ae9b947fc18c3a21dcefe736a902a4926}
+Cette fonction renvoie une string de la version de GTK 
+
+Définition à la ligne 476 du fichier utils.c.
+
+\index{utils.c@{utils.c}!lance\_\-navigateur\_\-web@{lance\_\-navigateur\_\-web}}
+\index{lance\_\-navigateur\_\-web@{lance\_\-navigateur\_\-web}!utils.c@{utils.c}}
+\subsubsection[{lance\_\-navigateur\_\-web}]{\setlength{\rightskip}{0pt plus 5cm}gboolean lance\_\-navigateur\_\-web (const gchar $\ast$ {\em url})}\label{utils_8c_ac95e13303adfcd6b449afd319bc040ab}
+si la commande du navigateur contient s, on le remplace par url, sinon on ajoute l'url à la fin et \&
+
+sous Windows si la commande est vide ou egale a la valeur par defaut on lance le butineur par defaut (open) 
+
+Définition à la ligne 156 du fichier utils.c.
+
+\index{utils.c@{utils.c}!met\_\-en\_\-normal@{met\_\-en\_\-normal}}
+\index{met\_\-en\_\-normal@{met\_\-en\_\-normal}!utils.c@{utils.c}}
+\subsubsection[{met\_\-en\_\-normal}]{\setlength{\rightskip}{0pt plus 5cm}gboolean met\_\-en\_\-normal (GtkWidget $\ast$ {\em event\_\-box}, \/  GdkEventMotion $\ast$ {\em event}, \/  gpointer {\em pointeur})}\label{utils_8c_ab19e8857d0718043a43d7e4e9256f717}
+
+
+Définition à la ligne 78 du fichier utils.c.
+
+\index{utils.c@{utils.c}!met\_\-en\_\-prelight@{met\_\-en\_\-prelight}}
+\index{met\_\-en\_\-prelight@{met\_\-en\_\-prelight}!utils.c@{utils.c}}
+\subsubsection[{met\_\-en\_\-prelight}]{\setlength{\rightskip}{0pt plus 5cm}gboolean met\_\-en\_\-prelight (GtkWidget $\ast$ {\em event\_\-box}, \/  GdkEventMotion $\ast$ {\em event}, \/  gpointer {\em pointeur})}\label{utils_8c_abd40f595e7f75784d5151abd80a35af7}
+
+
+Définition à la ligne 54 du fichier utils.c.
+
+\index{utils.c@{utils.c}!new\_\-paddingbox\_\-with\_\-title@{new\_\-paddingbox\_\-with\_\-title}}
+\index{new\_\-paddingbox\_\-with\_\-title@{new\_\-paddingbox\_\-with\_\-title}!utils.c@{utils.c}}
+\subsubsection[{new\_\-paddingbox\_\-with\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ new\_\-paddingbox\_\-with\_\-title (GtkWidget $\ast$ {\em parent}, \/  gboolean {\em fill}, \/  gchar $\ast$ {\em title})}\label{utils_8c_a22ba81fcf046b5bec6cf6d55d440abc5}
+Create a box with a nice bold title and content slightly indented. All content is packed vertically in a GtkVBox. The paddingbox is also packed in its parent.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em parent}]Parent widget to pack paddingbox in \item[{\em fill}]Give all available space to padding box or not \item[{\em title}]Title to display on top of the paddingbox \end{DoxyParams}
+
+
+Définition à la ligne 241 du fichier utils.c.
+
+\index{utils.c@{utils.c}!new\_\-vbox\_\-with\_\-title\_\-and\_\-icon@{new\_\-vbox\_\-with\_\-title\_\-and\_\-icon}}
+\index{new\_\-vbox\_\-with\_\-title\_\-and\_\-icon@{new\_\-vbox\_\-with\_\-title\_\-and\_\-icon}!utils.c@{utils.c}}
+\subsubsection[{new\_\-vbox\_\-with\_\-title\_\-and\_\-icon}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ new\_\-vbox\_\-with\_\-title\_\-and\_\-icon (gchar $\ast$ {\em title}, \/  gchar $\ast$ {\em image\_\-filename})}\label{utils_8c_a3baab3fba6974f2ebf35757198ac8911}
+Function that makes a nice title with an optional icon. It is mainly used to automate preference tabs with titles.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em title}]Title that will be displayed in window \item[{\em filename}](relative or absolute) to an image in a file format recognized by gtk\_\-image\_\-new\_\-from\_\-file(). Use NULL if you don't want an image to be displayed\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A pointer to a vbox widget that will contain all created widgets and user defined widgets 
+\end{DoxyReturn}
+
+
+Définition à la ligne 303 du fichier utils.c.
+
+\index{utils.c@{utils.c}!radio\_\-set\_\-active\_\-linked\_\-widgets@{radio\_\-set\_\-active\_\-linked\_\-widgets}}
+\index{radio\_\-set\_\-active\_\-linked\_\-widgets@{radio\_\-set\_\-active\_\-linked\_\-widgets}!utils.c@{utils.c}}
+\subsubsection[{radio\_\-set\_\-active\_\-linked\_\-widgets}]{\setlength{\rightskip}{0pt plus 5cm}gboolean radio\_\-set\_\-active\_\-linked\_\-widgets (GtkWidget $\ast$ {\em widget})}\label{utils_8c_a055ba30be6b646e68d1b47934e392f1e}
+
+
+Définition à la ligne 457 du fichier utils.c.
+
+\index{utils.c@{utils.c}!register\_\-button\_\-as\_\-linked@{register\_\-button\_\-as\_\-linked}}
+\index{register\_\-button\_\-as\_\-linked@{register\_\-button\_\-as\_\-linked}!utils.c@{utils.c}}
+\subsubsection[{register\_\-button\_\-as\_\-linked}]{\setlength{\rightskip}{0pt plus 5cm}void register\_\-button\_\-as\_\-linked (GtkWidget $\ast$ {\em widget}, \/  GtkWidget $\ast$ {\em linked})}\label{utils_8c_a84c3531f5b0d92c5099a458bbf5df7cc}
+
+
+Définition à la ligne 440 du fichier utils.c.
+
+\index{utils.c@{utils.c}!sens\_\-desensitive\_\-pointeur@{sens\_\-desensitive\_\-pointeur}}
+\index{sens\_\-desensitive\_\-pointeur@{sens\_\-desensitive\_\-pointeur}!utils.c@{utils.c}}
+\subsubsection[{sens\_\-desensitive\_\-pointeur}]{\setlength{\rightskip}{0pt plus 5cm}gboolean sens\_\-desensitive\_\-pointeur (GtkWidget $\ast$ {\em bouton}, \/  GtkWidget $\ast$ {\em widget})}\label{utils_8c_ad678079f1b9eb979a0766e9dcbec0fd3}
+called by a \char`\"{}clicked\char`\"{} callback on a check button, according to its state, sensitive or not the widget given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em button}]a GtkCheckButton \item[{\em widget}]a widget to sensitive or unsensitive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 107 du fichier utils.c.
+
+\index{utils.c@{utils.c}!sensitive\_\-widget@{sensitive\_\-widget}}
+\index{sensitive\_\-widget@{sensitive\_\-widget}!utils.c@{utils.c}}
+\subsubsection[{sensitive\_\-widget}]{\setlength{\rightskip}{0pt plus 5cm}gboolean sensitive\_\-widget (gpointer {\em object}, \/  GtkWidget $\ast$ {\em widget})}\label{utils_8c_a1902d3a5ef1f0899109cd68bf014c7b6}
+sensitive a widget this is usually a callback, so 2 parameters, the first one is not used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em object}]the object wich receive the signal, not used so can be NULL \item[{\em widget}]the widget to sensitive\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 126 du fichier utils.c.
+
+\index{utils.c@{utils.c}!update\_\-ecran@{update\_\-ecran}}
+\index{update\_\-ecran@{update\_\-ecran}!utils.c@{utils.c}}
+\subsubsection[{update\_\-ecran}]{\setlength{\rightskip}{0pt plus 5cm}void update\_\-ecran (void)}\label{utils_8c_a07c1464833b8611d864feba6eee2d8e1}
+
+
+Définition à la ligne 431 du fichier utils.c.
+
+
+
+\subsection{Documentation des variables}
+\index{utils.c@{utils.c}!window@{window}}
+\index{window@{window}!utils.c@{utils.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{utils_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

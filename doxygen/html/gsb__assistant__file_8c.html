@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_assistant_file.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_assistant_file.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__assistant__file_8c_source.html">gsb_assistant_file.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__assistant_8h_source.html">gsb_assistant.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__automem_8h_source.html">gsb_automem.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__bank_8h_source.html">gsb_bank.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__category_8h_source.html">gsb_category.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__currency__config_8h_source.html">gsb_currency_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__currency_8h_source.html">gsb_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__file_8h_source.html">gsb_file.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="parametres_8h_source.html">parametres.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__select__icon_8h_source.html">gsb_select_icon.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="import_8h_source.html">import.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__files_8h_source.html">utils_files.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="affichage_8h_source.html">affichage.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+
+<p><a href="gsb__assistant__file_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant__file_8c.html#a6ee39fd2cf359fdc8f67bb590216e634">file_assistant_page</a> { <br/>
+&nbsp;&nbsp;<a class="el" href="gsb__assistant__file_8c.html#a6ee39fd2cf359fdc8f67bb590216e634a6095ad7c7fc6ff6af93dd1e5ff72be26">FILE_ASSISTANT_INTRO</a> =  0, 
+<a class="el" href="gsb__assistant__file_8c.html#a6ee39fd2cf359fdc8f67bb590216e634a42c721c6390cdb6fc21f0992789b065f">FILE_ASSISTANT_PAGE_2</a>, 
+<a class="el" href="gsb__assistant__file_8c.html#a6ee39fd2cf359fdc8f67bb590216e634ab407b68a0d4fdbb935cd209da8520311">FILE_ASSISTANT_PAGE_3</a>, 
+<a class="el" href="gsb__assistant__file_8c.html#a6ee39fd2cf359fdc8f67bb590216e634a7c69b86fadc9e4347af40abb7d3d80d2">FILE_ASSISTANT_PAGE_4</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="gsb__assistant__file_8c.html#a6ee39fd2cf359fdc8f67bb590216e634aade0e2b0af0a5df18f0ef9dfb329d019">FILE_ASSISTANT_PAGE_5</a>, 
+<a class="el" href="gsb__assistant__file_8c.html#a6ee39fd2cf359fdc8f67bb590216e634ae6020b2b779f2af0a68448845491ef3c">FILE_ASSISTANT_PAGE_FINISH</a>
+<br/>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkResponseType&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant__file_8c.html#aae9dc6c606124740c2518604c2b77685">gsb_assistant_file_run</a> (gboolean first_opening, gboolean import)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant__file_8c.html#ab7ec5b8a1b4dca10b71bfe0364eb7248">adresse_commune</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant__file_8c.html#ae00b9af94c75169e6ab8cf0ec25e8b89">nom_fichier_comptes</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant__file_8c.html#a787cc81cf2ad728775b73d723713980b">titre_fichier</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant__file_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>we find here the complete assistant launched for creating a new grisbi file </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__assistant__file_8c_source.html">gsb_assistant_file.c</a>.</p>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="a6ee39fd2cf359fdc8f67bb590216e634"></a><!-- doxytag: member="gsb_assistant_file.c::file_assistant_page" ref="a6ee39fd2cf359fdc8f67bb590216e634" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="gsb__assistant__file_8c.html#a6ee39fd2cf359fdc8f67bb590216e634">file_assistant_page</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a6ee39fd2cf359fdc8f67bb590216e634a6095ad7c7fc6ff6af93dd1e5ff72be26"></a><!-- doxytag: member="FILE_ASSISTANT_INTRO" ref="a6ee39fd2cf359fdc8f67bb590216e634a6095ad7c7fc6ff6af93dd1e5ff72be26" args="" -->FILE_ASSISTANT_INTRO</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a6ee39fd2cf359fdc8f67bb590216e634a42c721c6390cdb6fc21f0992789b065f"></a><!-- doxytag: member="FILE_ASSISTANT_PAGE_2" ref="a6ee39fd2cf359fdc8f67bb590216e634a42c721c6390cdb6fc21f0992789b065f" args="" -->FILE_ASSISTANT_PAGE_2</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a6ee39fd2cf359fdc8f67bb590216e634ab407b68a0d4fdbb935cd209da8520311"></a><!-- doxytag: member="FILE_ASSISTANT_PAGE_3" ref="a6ee39fd2cf359fdc8f67bb590216e634ab407b68a0d4fdbb935cd209da8520311" args="" -->FILE_ASSISTANT_PAGE_3</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a6ee39fd2cf359fdc8f67bb590216e634a7c69b86fadc9e4347af40abb7d3d80d2"></a><!-- doxytag: member="FILE_ASSISTANT_PAGE_4" ref="a6ee39fd2cf359fdc8f67bb590216e634a7c69b86fadc9e4347af40abb7d3d80d2" args="" -->FILE_ASSISTANT_PAGE_4</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a6ee39fd2cf359fdc8f67bb590216e634aade0e2b0af0a5df18f0ef9dfb329d019"></a><!-- doxytag: member="FILE_ASSISTANT_PAGE_5" ref="a6ee39fd2cf359fdc8f67bb590216e634aade0e2b0af0a5df18f0ef9dfb329d019" args="" -->FILE_ASSISTANT_PAGE_5</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a6ee39fd2cf359fdc8f67bb590216e634ae6020b2b779f2af0a68448845491ef3c"></a><!-- doxytag: member="FILE_ASSISTANT_PAGE_FINISH" ref="a6ee39fd2cf359fdc8f67bb590216e634ae6020b2b779f2af0a68448845491ef3c" args="" -->FILE_ASSISTANT_PAGE_FINISH</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant__file_8c_source.html#l00073">73</a> du fichier <a class="el" href="gsb__assistant__file_8c_source.html">gsb_assistant_file.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="aae9dc6c606124740c2518604c2b77685"></a><!-- doxytag: member="gsb_assistant_file.c::gsb_assistant_file_run" ref="aae9dc6c606124740c2518604c2b77685" args="(gboolean first_opening, gboolean import)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkResponseType gsb_assistant_file_run </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>first_opening</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>import</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>this function is called to launch the file opening assistant</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>first_opening</em>&nbsp;</td><td>TRUE if this is the first opening of Grisbi, and that assistant is continuing from the general configuration assistant </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>import</em>&nbsp;</td><td>TRUE if we come from import (possible when we do file-&gt;import without anything opened, because we need to set up the variables and currencies)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a GtkResponseType containing the return value at the end of the assistant </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant__file_8c_source.html#l00102">102</a> du fichier <a class="el" href="gsb__assistant__file_8c_source.html">gsb_assistant_file.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="ab7ec5b8a1b4dca10b71bfe0364eb7248"></a><!-- doxytag: member="gsb_assistant_file.c::adresse_commune" ref="ab7ec5b8a1b4dca10b71bfe0364eb7248" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="traitement__variables_8c.html#ab7ec5b8a1b4dca10b71bfe0364eb7248">adresse_commune</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00148">148</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae00b9af94c75169e6ab8cf0ec25e8b89"></a><!-- doxytag: member="gsb_assistant_file.c::nom_fichier_comptes" ref="ae00b9af94c75169e6ab8cf0ec25e8b89" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="traitement__variables_8c.html#ae00b9af94c75169e6ab8cf0ec25e8b89">nom_fichier_comptes</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00145">145</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a787cc81cf2ad728775b73d723713980b"></a><!-- doxytag: member="gsb_assistant_file.c::titre_fichier" ref="a787cc81cf2ad728775b73d723713980b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="traitement__variables_8c.html#a787cc81cf2ad728775b73d723713980b">titre_fichier</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00147">147</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="gsb_assistant_file.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

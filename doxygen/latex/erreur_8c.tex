@@ -1,0 +1,147 @@
+\section{Référence du fichier erreur.c}
+\label{erreur_8c}\index{erreur.c@{erreur.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-save.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-util.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}config.h\char`\"{}}\par
+{\ttfamily \#include $<$sys/stat.h$>$}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf traitement\_\-sigsegv} (gint signal\_\-nb)
+\item 
+void {\bf initialize\_\-debugging} (void)
+\item 
+G\_\-MODULE\_\-EXPORT void {\bf debug\_\-message\_\-string} (gchar $\ast$prefixe, gchar $\ast$file, gint line, const char $\ast$function, const gchar $\ast$message, gint level, gboolean force\_\-debug\_\-display)
+\item 
+void {\bf debug\_\-message\_\-int} (gchar $\ast$prefixe, gchar $\ast$file, gint line, const char $\ast$function, gint message, gint level, gboolean force\_\-debug\_\-display)
+\item 
+void {\bf debug\_\-message\_\-real} (gchar $\ast$prefixe, gchar $\ast$file, gint line, const char $\ast$function, {\bf gsb\_\-real} message, gint level, gboolean force\_\-debug\_\-display)
+\item 
+gboolean {\bf gsb\_\-debug\_\-start\_\-log} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+gchar $\ast$ {\bf nom\_\-fichier\_\-comptes}
+\item 
+GtkUIManager $\ast$ {\bf ui\_\-manager}
+\item 
+gchar $\ast$ {\bf debug\_\-filename} = NULL
+\item 
+FILE $\ast$ {\bf debug\_\-file} = NULL
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{erreur.c@{erreur.c}!debug\_\-message\_\-int@{debug\_\-message\_\-int}}
+\index{debug\_\-message\_\-int@{debug\_\-message\_\-int}!erreur.c@{erreur.c}}
+\subsubsection[{debug\_\-message\_\-int}]{\setlength{\rightskip}{0pt plus 5cm}void debug\_\-message\_\-int (gchar $\ast$ {\em prefixe}, \/  gchar $\ast$ {\em file}, \/  gint {\em line}, \/  const char $\ast$ {\em function}, \/  gint {\em message}, \/  gint {\em level}, \/  gboolean {\em force\_\-debug\_\-display})}\label{erreur_8c_ae591dcdff555bc84145ac56dd9a29100}
+show a debug message in the terminal only if debug mode is on not called directly so need to force the extern the param to chow is a number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em $\backslash$param}]\item[{\em $\backslash$param}]\item[{\em message}]a number to display with the message \item[{\em $\backslash$param}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 318 du fichier erreur.c.
+
+\index{erreur.c@{erreur.c}!debug\_\-message\_\-real@{debug\_\-message\_\-real}}
+\index{debug\_\-message\_\-real@{debug\_\-message\_\-real}!erreur.c@{erreur.c}}
+\subsubsection[{debug\_\-message\_\-real}]{\setlength{\rightskip}{0pt plus 5cm}void debug\_\-message\_\-real (gchar $\ast$ {\em prefixe}, \/  gchar $\ast$ {\em file}, \/  gint {\em line}, \/  const char $\ast$ {\em function}, \/  {\bf gsb\_\-real} {\em message}, \/  gint {\em level}, \/  gboolean {\em force\_\-debug\_\-display})}\label{erreur_8c_a1d5e8e58666af6134f40c6b2469749fe}
+show a debug message in the terminal only if debug mode is on not called directly so need to force the extern the param to chow is a number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em $\backslash$param}]\item[{\em $\backslash$param}]\item[{\em message}]a number to display with the message \item[{\em $\backslash$param}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 356 du fichier erreur.c.
+
+\index{erreur.c@{erreur.c}!debug\_\-message\_\-string@{debug\_\-message\_\-string}}
+\index{debug\_\-message\_\-string@{debug\_\-message\_\-string}!erreur.c@{erreur.c}}
+\subsubsection[{debug\_\-message\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT void debug\_\-message\_\-string (gchar $\ast$ {\em prefixe}, \/  gchar $\ast$ {\em file}, \/  gint {\em line}, \/  const char $\ast$ {\em function}, \/  const gchar $\ast$ {\em message}, \/  gint {\em level}, \/  gboolean {\em force\_\-debug\_\-display})}\label{erreur_8c_a610481ee224a2ea98c37456084c54638}
+show a debug message in the terminal only if debug mode is on not called directly so need to force the extern the param to chow is a string
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em $\backslash$param}]\item[{\em $\backslash$param}]\item[{\em message}]a string to display with the message, NULL if no message \item[{\em $\backslash$param}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 273 du fichier erreur.c.
+
+\index{erreur.c@{erreur.c}!gsb\_\-debug\_\-start\_\-log@{gsb\_\-debug\_\-start\_\-log}}
+\index{gsb\_\-debug\_\-start\_\-log@{gsb\_\-debug\_\-start\_\-log}!erreur.c@{erreur.c}}
+\subsubsection[{gsb\_\-debug\_\-start\_\-log}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-debug\_\-start\_\-log (void)}\label{erreur_8c_a8321053275e249fd34c4890aec24ab1e}
+called by menu : begin the debug mode show a message to say where the log will be saved
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 423 du fichier erreur.c.
+
+\index{erreur.c@{erreur.c}!initialize\_\-debugging@{initialize\_\-debugging}}
+\index{initialize\_\-debugging@{initialize\_\-debugging}!erreur.c@{erreur.c}}
+\subsubsection[{initialize\_\-debugging}]{\setlength{\rightskip}{0pt plus 5cm}void initialize\_\-debugging (void)}\label{erreur_8c_ab6d5eff68f3c78505c67b358955c3e85}
+
+
+Définition à la ligne 180 du fichier erreur.c.
+
+\index{erreur.c@{erreur.c}!traitement\_\-sigsegv@{traitement\_\-sigsegv}}
+\index{traitement\_\-sigsegv@{traitement\_\-sigsegv}!erreur.c@{erreur.c}}
+\subsubsection[{traitement\_\-sigsegv}]{\setlength{\rightskip}{0pt plus 5cm}void traitement\_\-sigsegv (gint {\em signal\_\-nb})}\label{erreur_8c_aac06461c37298dba178aed1b0c3fde98}
+
+
+Définition à la ligne 67 du fichier erreur.c.
+
+
+
+\subsection{Documentation des variables}
+\index{erreur.c@{erreur.c}!debug\_\-file@{debug\_\-file}}
+\index{debug\_\-file@{debug\_\-file}!erreur.c@{erreur.c}}
+\subsubsection[{debug\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}FILE$\ast$ {\bf debug\_\-file} = NULL}\label{erreur_8c_af5cc516f4d3c010da348387f6910a556}
+
+
+Définition à la ligne 64 du fichier erreur.c.
+
+\index{erreur.c@{erreur.c}!debug\_\-filename@{debug\_\-filename}}
+\index{debug\_\-filename@{debug\_\-filename}!erreur.c@{erreur.c}}
+\subsubsection[{debug\_\-filename}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf debug\_\-filename} = NULL}\label{erreur_8c_a4e0221c19e6c3e0722120ec7b55ca600}
+
+
+Définition à la ligne 63 du fichier erreur.c.
+
+\index{erreur.c@{erreur.c}!nom\_\-fichier\_\-comptes@{nom\_\-fichier\_\-comptes}}
+\index{nom\_\-fichier\_\-comptes@{nom\_\-fichier\_\-comptes}!erreur.c@{erreur.c}}
+\subsubsection[{nom\_\-fichier\_\-comptes}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf nom\_\-fichier\_\-comptes}}\label{erreur_8c_ae00b9af94c75169e6ab8cf0ec25e8b89}
+
+
+Définition à la ligne 145 du fichier traitement\_\-variables.c.
+
+\index{erreur.c@{erreur.c}!ui\_\-manager@{ui\_\-manager}}
+\index{ui\_\-manager@{ui\_\-manager}!erreur.c@{erreur.c}}
+\subsubsection[{ui\_\-manager}]{\setlength{\rightskip}{0pt plus 5cm}GtkUIManager$\ast$ {\bf ui\_\-manager}}\label{erreur_8c_aa6a3b64b294a67080fe530ae293bce63}
+
+
+Définition à la ligne 84 du fichier menu.c.
+

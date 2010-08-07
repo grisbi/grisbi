@@ -1,0 +1,273 @@
+\section{Référence du fichier gsb\_\-data\_\-form.c}
+\label{gsb__data__form_8c}\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form.h\char`\"{}}\par
+\subsection*{Structures de données}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf form\_\-organization}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-data\_\-form\_\-new\_\-organization} (gint account\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-form\_\-set\_\-default\_\-organization} (gint account\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-form\_\-dup\_\-organization} (gint origin\_\-account, gint target\_\-account)
+\item 
+gint {\bf gsb\_\-data\_\-form\_\-get\_\-nb\_\-columns} (gint account\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-form\_\-set\_\-nb\_\-columns} (gint account\_\-number, gint columns)
+\item 
+gint {\bf gsb\_\-data\_\-form\_\-get\_\-nb\_\-rows} (gint account\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-form\_\-set\_\-nb\_\-rows} (gint account\_\-number, gint rows)
+\item 
+gint {\bf gsb\_\-data\_\-form\_\-get\_\-value} (gint account\_\-number, gint column, gint row)
+\item 
+gboolean {\bf gsb\_\-data\_\-form\_\-set\_\-value} (gint account\_\-number, gint column, gint row, gint value)
+\item 
+gint {\bf gsb\_\-data\_\-form\_\-get\_\-width\_\-column} (gint account\_\-number, gint column)
+\item 
+gboolean {\bf gsb\_\-data\_\-form\_\-set\_\-width\_\-column} (gint account\_\-number, gint column, gint width)
+\item 
+gboolean {\bf gsb\_\-data\_\-form\_\-look\_\-for\_\-value} (gint account\_\-number, gint value, gint $\ast$return\_\-row, gint $\ast$return\_\-column)
+\item 
+gboolean {\bf gsb\_\-data\_\-form\_\-check\_\-for\_\-value} (gint value)
+\item 
+gint {\bf gsb\_\-data\_\-form\_\-get\_\-values\_\-total} (gint account\_\-number)
+\item 
+gboolean {\bf gsb\_\-form\_\-config\_\-update\_\-from\_\-account} (gint account\_\-number)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-check\_\-for\_\-value@{gsb\_\-data\_\-form\_\-check\_\-for\_\-value}}
+\index{gsb\_\-data\_\-form\_\-check\_\-for\_\-value@{gsb\_\-data\_\-form\_\-check\_\-for\_\-value}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-check\_\-for\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-form\_\-check\_\-for\_\-value (gint {\em value})}\label{gsb__data__form_8c_ae6975b58c5f9085518baa3e97830514b}
+check if the given value exists in the form of the CURRENT account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em value}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE or TRUE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 438 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-dup\_\-organization@{gsb\_\-data\_\-form\_\-dup\_\-organization}}
+\index{gsb\_\-data\_\-form\_\-dup\_\-organization@{gsb\_\-data\_\-form\_\-dup\_\-organization}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-dup\_\-organization}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-form\_\-dup\_\-organization (gint {\em origin\_\-account}, \/  gint {\em target\_\-account})}\label{gsb__data__form_8c_a838ada33bfce85d6324f0ea409216103}
+duplicate the form organization of the account in the param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em origin\_\-account}]\item[{\em target\_\-account}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE, FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 163 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-get\_\-nb\_\-columns@{gsb\_\-data\_\-form\_\-get\_\-nb\_\-columns}}
+\index{gsb\_\-data\_\-form\_\-get\_\-nb\_\-columns@{gsb\_\-data\_\-form\_\-get\_\-nb\_\-columns}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-get\_\-nb\_\-columns}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-form\_\-get\_\-nb\_\-columns (gint {\em account\_\-number})}\label{gsb__data__form_8c_a4bc1dd95bb028e836ef638b937e28116}
+get the number of columns of the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of columns or 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 200 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-get\_\-nb\_\-rows@{gsb\_\-data\_\-form\_\-get\_\-nb\_\-rows}}
+\index{gsb\_\-data\_\-form\_\-get\_\-nb\_\-rows@{gsb\_\-data\_\-form\_\-get\_\-nb\_\-rows}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-get\_\-nb\_\-rows}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-form\_\-get\_\-nb\_\-rows (gint {\em account\_\-number})}\label{gsb__data__form_8c_af5613a656e573f2e9a95d1c89c495c1c}
+get the number of rows of the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of rows or 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 245 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-get\_\-value@{gsb\_\-data\_\-form\_\-get\_\-value}}
+\index{gsb\_\-data\_\-form\_\-get\_\-value@{gsb\_\-data\_\-form\_\-get\_\-value}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-get\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-form\_\-get\_\-value (gint {\em account\_\-number}, \/  gint {\em column}, \/  gint {\em row})}\label{gsb__data__form_8c_a1f2dc075c964a00b50da003f969bb517}
+get a value in the table of the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\item[{\em column}]\item[{\em row}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the value, 0 if no value at this place or -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 290 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-get\_\-values\_\-total@{gsb\_\-data\_\-form\_\-get\_\-values\_\-total}}
+\index{gsb\_\-data\_\-form\_\-get\_\-values\_\-total@{gsb\_\-data\_\-form\_\-get\_\-values\_\-total}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-get\_\-values\_\-total}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-form\_\-get\_\-values\_\-total (gint {\em account\_\-number})}\label{gsb__data__form_8c_af78c7a67288bda5ba85257a29317fc0a}
+get the number of values in the table of the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of values or -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 453 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-get\_\-width\_\-column@{gsb\_\-data\_\-form\_\-get\_\-width\_\-column}}
+\index{gsb\_\-data\_\-form\_\-get\_\-width\_\-column@{gsb\_\-data\_\-form\_\-get\_\-width\_\-column}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-get\_\-width\_\-column}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-form\_\-get\_\-width\_\-column (gint {\em account\_\-number}, \/  gint {\em column})}\label{gsb__data__form_8c_a7e138cf8515b9688315d67ef12c338d9}
+get the width of a column in the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\item[{\em column}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the value or -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 349 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-look\_\-for\_\-value@{gsb\_\-data\_\-form\_\-look\_\-for\_\-value}}
+\index{gsb\_\-data\_\-form\_\-look\_\-for\_\-value@{gsb\_\-data\_\-form\_\-look\_\-for\_\-value}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-look\_\-for\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-form\_\-look\_\-for\_\-value (gint {\em account\_\-number}, \/  gint {\em value}, \/  gint $\ast$ {\em return\_\-row}, \/  gint $\ast$ {\em return\_\-column})}\label{gsb__data__form_8c_a011611d3aa6cecc0c619981f69bf2a6e}
+look for the value given in param in the form if found, fill row and column if not found, return FALSE
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\item[{\em value}]the searched value \item[{\em $\ast$return\_\-row}]a pointer to gint or NULL \item[{\em $\ast$return\_\-column}]a pointer to gint or NULL\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if value found, FALSE else 
+\end{DoxyReturn}
+
+
+Définition à la ligne 405 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-new\_\-organization@{gsb\_\-data\_\-form\_\-new\_\-organization}}
+\index{gsb\_\-data\_\-form\_\-new\_\-organization@{gsb\_\-data\_\-form\_\-new\_\-organization}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-new\_\-organization}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-form\_\-new\_\-organization (gint {\em account\_\-number})}\label{gsb__data__form_8c_a8e695941eaf64be2d15afd287e064523}
+create a new form organization and append it to the account the form struct is set to 0 and has to be filled
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 97 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-set\_\-default\_\-organization@{gsb\_\-data\_\-form\_\-set\_\-default\_\-organization}}
+\index{gsb\_\-data\_\-form\_\-set\_\-default\_\-organization@{gsb\_\-data\_\-form\_\-set\_\-default\_\-organization}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-set\_\-default\_\-organization}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-form\_\-set\_\-default\_\-organization (gint {\em account\_\-number})}\label{gsb__data__form_8c_a4f0c2bea1f39f695cccdee80bb8fe2ee}
+create a default new form organization and append it to the account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 123 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-set\_\-nb\_\-columns@{gsb\_\-data\_\-form\_\-set\_\-nb\_\-columns}}
+\index{gsb\_\-data\_\-form\_\-set\_\-nb\_\-columns@{gsb\_\-data\_\-form\_\-set\_\-nb\_\-columns}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-set\_\-nb\_\-columns}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-form\_\-set\_\-nb\_\-columns (gint {\em account\_\-number}, \/  gint {\em columns})}\label{gsb__data__form_8c_a9b4608cf8f2ffba4904a2fdd6263e8b6}
+set the number of columns of the form if we decrease the number of culumns, the content of the last column will be deleted
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\item[{\em columns}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE if problem, TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 223 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-set\_\-nb\_\-rows@{gsb\_\-data\_\-form\_\-set\_\-nb\_\-rows}}
+\index{gsb\_\-data\_\-form\_\-set\_\-nb\_\-rows@{gsb\_\-data\_\-form\_\-set\_\-nb\_\-rows}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-set\_\-nb\_\-rows}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-form\_\-set\_\-nb\_\-rows (gint {\em account\_\-number}, \/  gint {\em rows})}\label{gsb__data__form_8c_aab897602de98433bb719ac14c3181479}
+set the number of rows of the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\item[{\em rows}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE if problem, TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 266 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-set\_\-value@{gsb\_\-data\_\-form\_\-set\_\-value}}
+\index{gsb\_\-data\_\-form\_\-set\_\-value@{gsb\_\-data\_\-form\_\-set\_\-value}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-set\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-form\_\-set\_\-value (gint {\em account\_\-number}, \/  gint {\em column}, \/  gint {\em row}, \/  gint {\em value})}\label{gsb__data__form_8c_a3451cf009bc77b47ab207415c06f5039}
+set a value in the table of the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\item[{\em column}]\item[{\em row}]\item[{\em value}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok, FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 320 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-data\_\-form\_\-set\_\-width\_\-column@{gsb\_\-data\_\-form\_\-set\_\-width\_\-column}}
+\index{gsb\_\-data\_\-form\_\-set\_\-width\_\-column@{gsb\_\-data\_\-form\_\-set\_\-width\_\-column}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-data\_\-form\_\-set\_\-width\_\-column}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-form\_\-set\_\-width\_\-column (gint {\em account\_\-number}, \/  gint {\em column}, \/  gint {\em width})}\label{gsb__data__form_8c_a18aec71c64bac7bd9c7da37e05254d3e}
+set a width for a column of the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\item[{\em column}]\item[{\em value}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok, FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 375 du fichier gsb\_\-data\_\-form.c.
+
+\index{gsb\_\-data\_\-form.c@{gsb\_\-data\_\-form.c}!gsb\_\-form\_\-config\_\-update\_\-from\_\-account@{gsb\_\-form\_\-config\_\-update\_\-from\_\-account}}
+\index{gsb\_\-form\_\-config\_\-update\_\-from\_\-account@{gsb\_\-form\_\-config\_\-update\_\-from\_\-account}!gsb_data_form.c@{gsb\_\-data\_\-form.c}}
+\subsubsection[{gsb\_\-form\_\-config\_\-update\_\-from\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-config\_\-update\_\-from\_\-account (gint {\em account\_\-number})}\label{gsb__data__form_8c_a206bff690e4524f0bb5c42c1ab55b6a0}
+update all the accounts form organization according to the given account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]the account number model to fill the others\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : ok, FALSE : problem, nothing done 
+\end{DoxyReturn}
+
+
+Définition à la ligne 482 du fichier gsb\_\-data\_\-form.c.
+

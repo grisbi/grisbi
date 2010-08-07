@@ -1,0 +1,876 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier dialog.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier dialog.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="parametres_8h_source.html">parametres.h</a>&quot;</code><br/>
+
+<p><a href="dialog_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a1ae76010f96aab227a640333d3933277">dialogue_hint</a> (gchar *text, gchar *hint)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#ade6e4adf08627021abf579246f58aac1">dialogue</a> (gchar *texte_dialogue)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">G_MODULE_EXPORT void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#aa88d9d93c78818a177e9a14eff15f360">dialogue_error</a> (gchar *text)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">G_MODULE_EXPORT void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a194ffa6e8e89cc8fb7fbfbc41109fe1e">dialogue_error_hint</a> (const gchar *text, gchar *hint)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">G_MODULE_EXPORT void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a198880c6e09a934c62fd541c9cb302f9">dialogue_warning</a> (gchar *text)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a36096082126042aa3b09c03d6215be78">dialogue_warning_hint</a> (gchar *text, gchar *hint)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#ac3e0ed9412c48edad2cd0dad89c7d566">dialogue_special</a> (GtkMessageType param, gchar *text)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#aa20bfaae43172af04ddeb596029733a1">dialogue_special_no_run</a> (GtkMessageType param, GtkButtonsType buttons, gchar *text)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#ac15d3ab451ee1444c3a5b9905a116241">dialogue_update_struct_message</a> (GtkWidget *checkbox, struct <a class="el" href="structconditional__message.html">conditional_message</a> *message)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a7c7ce9c290704cc435fb14dff9d4c988">dialogue_conditional_hint</a> (gchar *hint, gchar *text, gchar *var)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a9947d688fe96a482d5444e62108a4ed4">question_yes_no_hint</a> (gchar *hint, gchar *texte, gint default_answer)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#ae0381692a8f62bcab164df4cf39cca9f">question_yes_no</a> (gchar *text, gint default_answer)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a757c418753eff02db57f09f216befbdf">question_conditional_yes_no</a> (gchar *var)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#acdc10d7ad7ab05de8c606827a1126034">question_conditional_yes_no_with_struct</a> (struct <a class="el" href="structconditional__message.html">conditional_message</a> *message)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#ac46f7502c30130a2c344685a46638d2e">question_conditional_yes_no_get_no_struct</a> (struct <a class="el" href="structconditional__message.html">conditional_message</a> *msg, gchar *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a84758de40aa2807a4e5ebd97ede7df23">make_hint</a> (const gchar *hint, const gchar *text)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a1d3c21e1b14fa2a19ef5f3dae733b2e0">make_red</a> (gchar *text)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a936cdb52ba9be8a56212e8a4e5979c3c">make_pango_attribut</a> (gchar *attribut, gchar *text)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a5927e30f6f690b1ea7391d140f8efa7d">make_blue</a> (gchar *text)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#ae3e05f0c7c29303d83eba4c1fd2d3833">dialogue_error_brain_damage</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#abb50e706a2eedd167eeb63d2de9c1245">dialogue_error_memory</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a58737af017ec59765d14212870a4d8a6">dialog_message</a> (gchar *label,...)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a7c2da4f5ed9a9065df01db0464431913">dialogue_hint_with_entry</a> (gchar *text, gchar *hint, gchar *entry_description)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structconditional__message.html">conditional_message</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dialog_8c.html#a430b9f94c0af809780196ca7d7040fde">messages</a> []</td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a58737af017ec59765d14212870a4d8a6"></a><!-- doxytag: member="dialog.c::dialog_message" ref="a58737af017ec59765d14212870a4d8a6" args="(gchar *label,...)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dialog_message </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>label</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&nbsp;</td>
+          <td class="paramname"> <em>...</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00682">682</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ade6e4adf08627021abf579246f58aac1"></a><!-- doxytag: member="dialog.c::dialogue" ref="ade6e4adf08627021abf579246f58aac1" args="(gchar *texte_dialogue)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dialogue </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>texte_dialogue</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Display an info dialog window.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Text to display in window </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00145">145</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7c7ce9c290704cc435fb14dff9d4c988"></a><!-- doxytag: member="dialog.c::dialogue_conditional_hint" ref="a7c7ce9c290704cc435fb14dff9d4c988" args="(gchar *hint, gchar *text, gchar *var)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dialogue_conditional_hint </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>hint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>var</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>This function pop ups a dialog with a hint (first sentence, in bold), an informal text and a checkbox that allow this message not to be displayed again thanks to preferences. It calls dialogue_conditional to achieve display.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>text to be displayed </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>hint</em>&nbsp;</td><td>hint to be displayed </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>var</em>&nbsp;</td><td>variable that both controls whether the dialog will appear or not and that indicates which variable could be modified so that this message won't appear again. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00353">353</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa88d9d93c78818a177e9a14eff15f360"></a><!-- doxytag: member="dialog.c::dialogue_error" ref="aa88d9d93c78818a177e9a14eff15f360" args="(gchar *text)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">G_MODULE_EXPORT void dialogue_error </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Display an error dialog window</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Text to display in window </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00156">156</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae3e05f0c7c29303d83eba4c1fd2d3833"></a><!-- doxytag: member="dialog.c::dialogue_error_brain_damage" ref="ae3e05f0c7c29303d83eba4c1fd2d3833" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dialogue_error_brain_damage </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Displays a dialog message stating that bad things will happen soon. This dialog should not appear theorically, but it is here just in case to spot bugs. </p>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00655">655</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a194ffa6e8e89cc8fb7fbfbc41109fe1e"></a><!-- doxytag: member="dialog.c::dialogue_error_hint" ref="a194ffa6e8e89cc8fb7fbfbc41109fe1e" args="(const gchar *text, gchar *hint)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">G_MODULE_EXPORT void dialogue_error_hint </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>hint</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Display an error dialog window with an optional hint.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Text to display in window </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>hint</em>&nbsp;</td><td>Text to display in window as hint (bold, larger) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00168">168</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abb50e706a2eedd167eeb63d2de9c1245"></a><!-- doxytag: member="dialog.c::dialogue_error_memory" ref="abb50e706a2eedd167eeb63d2de9c1245" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dialogue_error_memory </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Displays a dialog message stating that bad things will happen soon. This dialog should not appear theorically, but it is here just in case to spot bugs. </p>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00668">668</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1ae76010f96aab227a640333d3933277"></a><!-- doxytag: member="dialog.c::dialogue_hint" ref="a1ae76010f96aab227a640333d3933277" args="(gchar *text, gchar *hint)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dialogue_hint </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>hint</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Display an info dialog window with a hint displayed larger and in bold.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Text to display in window </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>hint</em>&nbsp;</td><td>Hint to display </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00134">134</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7c2da4f5ed9a9065df01db0464431913"></a><!-- doxytag: member="dialog.c::dialogue_hint_with_entry" ref="a7c2da4f5ed9a9065df01db0464431913" args="(gchar *text, gchar *hint, gchar *entry_description)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const gchar* dialogue_hint_with_entry </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>hint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>entry_description</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Display an info dialog window with a hint displayed larger and in bold. add an entry and return the content of the entry</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Text to display in window </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>hint</em>&nbsp;</td><td>Hint to display </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>entry_description</em>&nbsp;</td><td>label to set in front of the entry </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00717">717</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac3e0ed9412c48edad2cd0dad89c7d566"></a><!-- doxytag: member="dialog.c::dialogue_special" ref="ac3e0ed9412c48edad2cd0dad89c7d566" args="(GtkMessageType param, gchar *text)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dialogue_special </td>
+          <td>(</td>
+          <td class="paramtype">GtkMessageType&nbsp;</td>
+          <td class="paramname"> <em>param</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Display a dialog window with arbitrary icon. WARNING you may need to escape text with g_markup_escape_text() or g_markup_printf_escaped():</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>param</em>&nbsp;</td><td>Type of Window to display </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Text to display in window </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00205">205</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa20bfaae43172af04ddeb596029733a1"></a><!-- doxytag: member="dialog.c::dialogue_special_no_run" ref="aa20bfaae43172af04ddeb596029733a1" args="(GtkMessageType param, GtkButtonsType buttons, gchar *text)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* dialogue_special_no_run </td>
+          <td>(</td>
+          <td class="paramtype">GtkMessageType&nbsp;</td>
+          <td class="paramname"> <em>param</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkButtonsType&nbsp;</td>
+          <td class="paramname"> <em>buttons</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Display a dialog window with arbitrary icon. WARNING you may need to escape text with g_markup_escape_text() or g_markup_printf_escaped():</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>param</em>&nbsp;</td><td>Type of Window to display </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Text to display in window </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00229">229</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac15d3ab451ee1444c3a5b9905a116241"></a><!-- doxytag: member="dialog.c::dialogue_update_struct_message" ref="ac15d3ab451ee1444c3a5b9905a116241" args="(GtkWidget *checkbox, struct conditional_message *message)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean dialogue_update_struct_message </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>checkbox</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structconditional__message.html">conditional_message</a> *&nbsp;</td>
+          <td class="paramname"> <em>message</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Update the value of a message in memory according to the state of a checkbox button. These messages are conditional dialogs (see dialogue_conditional_new()). Normally called as an event.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>checbox</em>&nbsp;</td><td>GtkCheckbox that triggered this event. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>struct <a class="el" href="structconditional__message.html">conditional_message</a> Message</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00257">257</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a198880c6e09a934c62fd541c9cb302f9"></a><!-- doxytag: member="dialog.c::dialogue_warning" ref="a198880c6e09a934c62fd541c9cb302f9" args="(gchar *text)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">G_MODULE_EXPORT void dialogue_warning </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Display a warning dialog window</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Text to display in window </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00179">179</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a36096082126042aa3b09c03d6215be78"></a><!-- doxytag: member="dialog.c::dialogue_warning_hint" ref="a36096082126042aa3b09c03d6215be78" args="(gchar *text, gchar *hint)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dialogue_warning_hint </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>hint</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Display a warning dialog window with an optional hint.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Text to display in window </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>hint</em>&nbsp;</td><td>Text to display in window as hint (bold, larger) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00191">191</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5927e30f6f690b1ea7391d140f8efa7d"></a><!-- doxytag: member="dialog.c::make_blue" ref="a5927e30f6f690b1ea7391d140f8efa7d" args="(gchar *text)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* make_blue </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>use pango layout to produce a string that will contain a text.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Text</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a pango formated string It returns a newly allocated string which must be freed when no more used. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00640">640</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a84758de40aa2807a4e5ebd97ede7df23"></a><!-- doxytag: member="dialog.c::make_hint" ref="a84758de40aa2807a4e5ebd97ede7df23" args="(const gchar *hint, const gchar *text)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* make_hint </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>hint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Concatenate two strings and use pango layout to produce a string that will contain an hint and a text.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>hint</em>&nbsp;</td><td>Text to use as hint </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Text to use as secondary text</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a pango formated string with the two arguments concatenated. It returns a newly allocated string which must be freed when no more used. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00579">579</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a936cdb52ba9be8a56212e8a4e5979c3c"></a><!-- doxytag: member="dialog.c::make_pango_attribut" ref="a936cdb52ba9be8a56212e8a4e5979c3c" args="(gchar *attribut, gchar *text)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* make_pango_attribut </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>attribut</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>use pango layout to produce a string that will contain a text.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>attribut</em>&nbsp;</td><td>exemple foreground="red", size="x-large" </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Text</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a pango formated string It returns a newly allocated string which must be freed when no more used. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00621">621</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1d3c21e1b14fa2a19ef5f3dae733b2e0"></a><!-- doxytag: member="dialog.c::make_red" ref="a1d3c21e1b14fa2a19ef5f3dae733b2e0" args="(gchar *text)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* make_red </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>use pango layout to produce a string that will contain a text.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>Text</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a pango formated string It returns a newly allocated string which must be freed when no more used. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00602">602</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a757c418753eff02db57f09f216befbdf"></a><!-- doxytag: member="dialog.c::question_conditional_yes_no" ref="a757c418753eff02db57f09f216befbdf" args="(gchar *var)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean question_conditional_yes_no </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>var</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pop up a warning dialog window with a question and a checkbox that allow this message not to be displayed again thanks to preferences and wait for user to press 'YES' or 'NO'.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>var</em>&nbsp;</td><td>variable that both controls whether the dialog will appear or not and that indicates which variable could be modified so that this message won't appear again.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if user pressed 'YES'. FALSE otherwise. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00464">464</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac46f7502c30130a2c344685a46638d2e"></a><!-- doxytag: member="dialog.c::question_conditional_yes_no_get_no_struct" ref="ac46f7502c30130a2c344685a46638d2e" args="(struct conditional_message *msg, gchar *name)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint question_conditional_yes_no_get_no_struct </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structconditional__message.html">conditional_message</a> *&nbsp;</td>
+          <td class="paramname"> <em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>name</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the number of message</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>struct</em>&nbsp;</td><td><a class="el" href="structconditional__message.html">conditional_message</a> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>of message</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>message number or -1 is not present. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00556">556</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acdc10d7ad7ab05de8c606827a1126034"></a><!-- doxytag: member="dialog.c::question_conditional_yes_no_with_struct" ref="acdc10d7ad7ab05de8c606827a1126034" args="(struct conditional_message *message)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean question_conditional_yes_no_with_struct </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structconditional__message.html">conditional_message</a> *&nbsp;</td>
+          <td class="paramname"> <em>message</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pop up a warning dialog window with a question and a checkbox that allow this message not to be displayed again thanks to preferences and wait for user to press 'YES' or 'NO'.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>struct</em>&nbsp;</td><td><a class="el" href="structconditional__message.html">conditional_message</a></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if user pressed 'YES'. FALSE otherwise. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00508">508</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae0381692a8f62bcab164df4cf39cca9f"></a><!-- doxytag: member="dialog.c::question_yes_no" ref="ae0381692a8f62bcab164df4cf39cca9f" args="(gchar *text, gint default_answer)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean question_yes_no </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>default_answer</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pop up a warning dialog window with a question and wait for user to press 'YES' or 'NO'. WARNING you may need to escape text with g_markup_escape_text() or g_markup_printf_escaped():</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>texte</em>&nbsp;</td><td>Text to be displayed </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>default_answer</em>&nbsp;</td><td>GTK_RESPONSE_OK or GTK_RESPONSE_CANCEL, will give the focus to the button</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if user pressed 'YES'. FALSE otherwise. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00428">428</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9947d688fe96a482d5444e62108a4ed4"></a><!-- doxytag: member="dialog.c::question_yes_no_hint" ref="a9947d688fe96a482d5444e62108a4ed4" args="(gchar *hint, gchar *texte, gint default_answer)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean question_yes_no_hint </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>hint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>texte</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>default_answer</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Pop up a warning dialog window with a question and wait for user to press 'OK' or 'Cancel'. A hint is displayed on the top of the window larger and in bold.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>hint</em>&nbsp;</td><td>Hint to be displayed </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>texte</em>&nbsp;</td><td>Text to be displayed </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>default_answer</em>&nbsp;</td><td>GTK_RESPONSE_OK or GTK_RESPONSE_CANCEL, will give the focus to the button</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if user pressed 'OK'. FALSE otherwise. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00409">409</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a430b9f94c0af809780196ca7d7040fde"></a><!-- doxytag: member="dialog.c::messages" ref="a430b9f94c0af809780196ca7d7040fde" args="[]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structconditional__message.html">conditional_message</a> <a class="el" href="parametres_8c.html#a430b9f94c0af809780196ca7d7040fde">messages</a>[]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>All messages </p>
+
+<p>Définition à la ligne <a class="el" href="dialog_8c_source.html#l00050">50</a> du fichier <a class="el" href="dialog_8c_source.html">dialog.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="dialog.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

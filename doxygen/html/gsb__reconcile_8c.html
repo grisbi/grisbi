@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_reconcile.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_reconcile.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__reconcile_8h_source.html">gsb_reconcile.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__dates_8h_source.html">utils_dates.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__calendar__entry_8h_source.html">gsb_calendar_entry.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__reconcile_8h_source.html">gsb_data_reconcile.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form_8h_source.html">gsb_form.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__widget_8h_source.html">gsb_form_widget.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="fenetre__principale_8h_source.html">fenetre_principale.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__reconcile_8c_source.html">gsb_reconcile_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="custom__list_8h_source.html">custom_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__editables_8h_source.html">utils_editables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="transaction__list_8h_source.html">transaction_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+
+<p><a href="gsb__reconcile_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__reconcile_8c.html#a0a935736f287cf69e6339d44fd1e2260">gsb_reconcile_create_box</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__reconcile_8c.html#a45c97884b1bd45b63b597a626c38f36d">gsb_reconcile_run_reconciliation</a> (GtkWidget *button, gpointer null)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__reconcile_8c.html#ad4e6ccb1415c9f71f856acbb73ce8be3">gsb_reconcile_update_amounts</a> (GtkWidget *entry, gpointer null)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__reconcile_8c.html#aa809fea280ab9cef6e16774b54a573ae">calendar_entry_color</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__reconcile_8c.html#a1d4fbf807088a54821529a81f72bdd07">label_last_statement</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__reconcile_8c.html#a018917e8dacfd8fbe4e94d0f99a59c08">mise_a_jour_liste_comptes_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__reconcile_8c.html#a1cd17e8b2fd91a191f8d5d6a7e5f6979">navigation_tree_view</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__reconcile_8c.html#a0356c8380fe78fe23dc212255df45e4b">reconcile_panel</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkUIManager *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__reconcile_8c.html#aa6a3b64b294a67080fe530ae293bce63">ui_manager</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__reconcile_8c.html#a3cc34f74c4d6dae91c269439b2ea894c">reconcile_sort_list_button</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>functions used to reconcile an account </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__reconcile_8c_source.html">gsb_reconcile.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a0a935736f287cf69e6339d44fd1e2260"></a><!-- doxytag: member="gsb_reconcile.c::gsb_reconcile_create_box" ref="a0a935736f287cf69e6339d44fd1e2260" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_reconcile_create_box </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Create a vbox that contains all controls used to display information related to current reconciliation.</p>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly-allocated frame containing the reconcile widget </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__reconcile_8c_source.html#l00108">108</a> du fichier <a class="el" href="gsb__reconcile_8c_source.html">gsb_reconcile.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a45c97884b1bd45b63b597a626c38f36d"></a><!-- doxytag: member="gsb_reconcile.c::gsb_reconcile_run_reconciliation" ref="a45c97884b1bd45b63b597a626c38f36d" args="(GtkWidget *button, gpointer null)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_reconcile_run_reconciliation </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>button</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>null</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>start the reconciliation, called by a click on the reconcile button</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>button</em>&nbsp;</td><td>the button we click to come here </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>null</em>&nbsp;</td><td>not used</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__reconcile_8c_source.html#l00291">291</a> du fichier <a class="el" href="gsb__reconcile_8c_source.html">gsb_reconcile.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad4e6ccb1415c9f71f856acbb73ce8be3"></a><!-- doxytag: member="gsb_reconcile.c::gsb_reconcile_update_amounts" ref="ad4e6ccb1415c9f71f856acbb73ce8be3" args="(GtkWidget *entry, gpointer null)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_reconcile_update_amounts </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>entry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>null</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update the labels according to the value in the account structure and the entries so all the calculs must have been done before (for marked transactions)</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>entry</em>&nbsp;</td><td>not used </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>null</em>&nbsp;</td><td>not used</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__reconcile_8c_source.html#l00702">702</a> du fichier <a class="el" href="gsb__reconcile_8c_source.html">gsb_reconcile.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="aa809fea280ab9cef6e16774b54a573ae"></a><!-- doxytag: member="gsb_reconcile.c::calendar_entry_color" ref="aa809fea280ab9cef6e16774b54a573ae" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#aa809fea280ab9cef6e16774b54a573ae">calendar_entry_color</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00119">119</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1d4fbf807088a54821529a81f72bdd07"></a><!-- doxytag: member="gsb_reconcile.c::label_last_statement" ref="a1d4fbf807088a54821529a81f72bdd07" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="navigation_8c.html#a1d4fbf807088a54821529a81f72bdd07">label_last_statement</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>label of the last statement </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__form_8c_source.html#l00116">116</a> du fichier <a class="el" href="gsb__form_8c_source.html">gsb_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a018917e8dacfd8fbe4e94d0f99a59c08"></a><!-- doxytag: member="gsb_reconcile.c::mise_a_jour_liste_comptes_accueil" ref="a018917e8dacfd8fbe4e94d0f99a59c08" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a018917e8dacfd8fbe4e94d0f99a59c08">mise_a_jour_liste_comptes_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00127">127</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1cd17e8b2fd91a191f8d5d6a7e5f6979"></a><!-- doxytag: member="gsb_reconcile.c::navigation_tree_view" ref="a1cd17e8b2fd91a191f8d5d6a7e5f6979" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="traitement__variables_8c.html#a1cd17e8b2fd91a191f8d5d6a7e5f6979">navigation_tree_view</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Navigation tree view. </p>
+
+<p>Définition à la ligne <a class="el" href="navigation_8c_source.html#l00115">115</a> du fichier <a class="el" href="navigation_8c_source.html">navigation.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0356c8380fe78fe23dc212255df45e4b"></a><!-- doxytag: member="gsb_reconcile.c::reconcile_panel" ref="a0356c8380fe78fe23dc212255df45e4b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="navigation_8c.html#a0356c8380fe78fe23dc212255df45e4b">reconcile_panel</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Widget that hold all reconciliation widgets. </p>
+
+<p>Définition à la ligne <a class="el" href="navigation_8c_source.html#l00124">124</a> du fichier <a class="el" href="navigation_8c_source.html">navigation.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3cc34f74c4d6dae91c269439b2ea894c"></a><!-- doxytag: member="gsb_reconcile.c::reconcile_sort_list_button" ref="a3cc34f74c4d6dae91c269439b2ea894c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__transactions__list_8c.html#a3cc34f74c4d6dae91c269439b2ea894c">reconcile_sort_list_button</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__reconcile_8c_source.html#l00093">93</a> du fichier <a class="el" href="gsb__reconcile_8c_source.html">gsb_reconcile.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa6a3b64b294a67080fe530ae293bce63"></a><!-- doxytag: member="gsb_reconcile.c::ui_manager" ref="aa6a3b64b294a67080fe530ae293bce63" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkUIManager* <a class="el" href="menu_8c.html#aa6a3b64b294a67080fe530ae293bce63">ui_manager</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="menu_8c_source.html#l00084">84</a> du fichier <a class="el" href="menu_8c_source.html">menu.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

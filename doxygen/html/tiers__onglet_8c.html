@@ -1,0 +1,454 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier tiers_onglet.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier tiers_onglet.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="tiers__onglet_8h_source.html">tiers_onglet.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="metatree_8h_source.html">metatree.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__assistant_8h_source.html">gsb_assistant.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__automem_8h_source.html">gsb_automem.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__form_8h_source.html">gsb_data_form.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__mix_8h_source.html">gsb_data_mix.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__payee_8h_source.html">gsb_data_payee.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__scheduled_8h_source.html">gsb_data_scheduled.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__editables_8h_source.html">utils_editables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__widget_8h_source.html">gsb_form_widget.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="import_8h_source.html">import.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__status_8h_source.html">gsb_status.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gtk__combofix_8h_source.html">gtk_combofix.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__buttons_8h_source.html">utils_buttons.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="transaction__list_8h_source.html">transaction_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="tiers__onglet_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#a80edc56f47d496c8e57f5cdee036e12b">payees_assistant_page</a> { <a class="el" href="tiers__onglet_8c.html#a80edc56f47d496c8e57f5cdee036e12ba122f107e9b211a7fbff0cfa44ddfc75a">PAYEES_ASSISTANT_INTRO</a> =  0, 
+<a class="el" href="tiers__onglet_8c.html#a80edc56f47d496c8e57f5cdee036e12baf98aed966f4bead4bed4b98519254c89">PAYEES_ASSISTANT_PAGE_2</a>, 
+<a class="el" href="tiers__onglet_8c.html#a80edc56f47d496c8e57f5cdee036e12ba354ee91e7724cf508de11d5c9620b9aa">PAYEES_ASSISTANT_PAGE_3</a>, 
+<a class="el" href="tiers__onglet_8c.html#a80edc56f47d496c8e57f5cdee036e12baaf650546737eb1915f1426a50b5f71e6">PAYEES_ASSISTANT_PAGE_FINISH</a>
+ }</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="tiers__onglet_8c.html#abc5c98fcc1211af2b80116dd6e0a035da982886b778cf015f8d72c496ce4dedb6">COLUMN_BOOLEAN</a>, 
+<a class="el" href="tiers__onglet_8c.html#abc5c98fcc1211af2b80116dd6e0a035daad6041d7dcff206e48713c27d5e75628">COLUMN_INT</a>, 
+<a class="el" href="tiers__onglet_8c.html#abc5c98fcc1211af2b80116dd6e0a035da82ce7c336b8fb83f07086d96341923cd">COLUMN_STRING</a>, 
+<a class="el" href="tiers__onglet_8c.html#abc5c98fcc1211af2b80116dd6e0a035dac70d28409ca79aa291cc0e58244f1fe4">N_COLUMNS</a>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#a83502a3974423bccf9982335c494e683">gsb_payee_update_combofix</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#accd2776091bc5768c5d272ea591eb393">onglet_tiers</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#a3526c82a23ba142e443ce5c5282facf8">payee_fill_tree</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#a220dbddbe43e20dae2754060704816fe">classement_alphabetique_tree</a> (GtkWidget *tree, GtkCListRow *ligne_1, GtkCListRow *ligne_2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#a07d4064288024467a46893089d1a25c7">payee_hold_position_set_path</a> (GtkTreePath *path)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#ac46dd13ab4a32f28d80c2d94535b58ca">payee_hold_position_set_expand</a> (gboolean expand)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#a3add720d0e0b25caa37589bcfb879c6f">no_devise_totaux_tiers</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#ab5b539c1af0cb10d03c328f20ecf23bf">payee_tree</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkTreeStore *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#a1621c167eb13470254518b600d2983bf">payee_tree_model</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#ae51d7336b51ccdb5727c3e33cf79e7ea">sortie_edit_payee</a> = FALSE</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structmetatree__hold__position.html">metatree_hold_position</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#a64408238158197b82c938a98a1543956">payee_hold_position</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structconditional__message.html">conditional_message</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#a252108aab84c1009beb6363640d12536">overwrite_payee</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#a8521224403aeb524822a05746e899bcf">liste_associations_tiers</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmetatree__interface.html">MetatreeInterface</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#a2b9ff3d909970141c14d4dd502841f70">payee_interface</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiers__onglet_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>deal with the payee page </p>
+
+<p>Définition dans le fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="abc5c98fcc1211af2b80116dd6e0a035d"></a><!-- doxytag: member="tiers_onglet.c::@11" ref="abc5c98fcc1211af2b80116dd6e0a035d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="abc5c98fcc1211af2b80116dd6e0a035da982886b778cf015f8d72c496ce4dedb6"></a><!-- doxytag: member="COLUMN_BOOLEAN" ref="abc5c98fcc1211af2b80116dd6e0a035da982886b778cf015f8d72c496ce4dedb6" args="" -->COLUMN_BOOLEAN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="abc5c98fcc1211af2b80116dd6e0a035daad6041d7dcff206e48713c27d5e75628"></a><!-- doxytag: member="COLUMN_INT" ref="abc5c98fcc1211af2b80116dd6e0a035daad6041d7dcff206e48713c27d5e75628" args="" -->COLUMN_INT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="abc5c98fcc1211af2b80116dd6e0a035da82ce7c336b8fb83f07086d96341923cd"></a><!-- doxytag: member="COLUMN_STRING" ref="abc5c98fcc1211af2b80116dd6e0a035da82ce7c336b8fb83f07086d96341923cd" args="" -->COLUMN_STRING</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="abc5c98fcc1211af2b80116dd6e0a035dac70d28409ca79aa291cc0e58244f1fe4"></a><!-- doxytag: member="N_COLUMNS" ref="abc5c98fcc1211af2b80116dd6e0a035dac70d28409ca79aa291cc0e58244f1fe4" args="" -->N_COLUMNS</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00130">130</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a80edc56f47d496c8e57f5cdee036e12b"></a><!-- doxytag: member="tiers_onglet.c::payees_assistant_page" ref="a80edc56f47d496c8e57f5cdee036e12b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="tiers__onglet_8c.html#a80edc56f47d496c8e57f5cdee036e12b">payees_assistant_page</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a80edc56f47d496c8e57f5cdee036e12ba122f107e9b211a7fbff0cfa44ddfc75a"></a><!-- doxytag: member="PAYEES_ASSISTANT_INTRO" ref="a80edc56f47d496c8e57f5cdee036e12ba122f107e9b211a7fbff0cfa44ddfc75a" args="" -->PAYEES_ASSISTANT_INTRO</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a80edc56f47d496c8e57f5cdee036e12baf98aed966f4bead4bed4b98519254c89"></a><!-- doxytag: member="PAYEES_ASSISTANT_PAGE_2" ref="a80edc56f47d496c8e57f5cdee036e12baf98aed966f4bead4bed4b98519254c89" args="" -->PAYEES_ASSISTANT_PAGE_2</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a80edc56f47d496c8e57f5cdee036e12ba354ee91e7724cf508de11d5c9620b9aa"></a><!-- doxytag: member="PAYEES_ASSISTANT_PAGE_3" ref="a80edc56f47d496c8e57f5cdee036e12ba354ee91e7724cf508de11d5c9620b9aa" args="" -->PAYEES_ASSISTANT_PAGE_3</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a80edc56f47d496c8e57f5cdee036e12baaf650546737eb1915f1426a50b5f71e6"></a><!-- doxytag: member="PAYEES_ASSISTANT_PAGE_FINISH" ref="a80edc56f47d496c8e57f5cdee036e12baaf650546737eb1915f1426a50b5f71e6" args="" -->PAYEES_ASSISTANT_PAGE_FINISH</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00122">122</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a220dbddbe43e20dae2754060704816fe"></a><!-- doxytag: member="tiers_onglet.c::classement_alphabetique_tree" ref="a220dbddbe43e20dae2754060704816fe" args="(GtkWidget *tree, GtkCListRow *ligne_1, GtkCListRow *ligne_2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint classement_alphabetique_tree </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>tree</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkCListRow *&nbsp;</td>
+          <td class="paramname"> <em>ligne_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkCListRow *&nbsp;</td>
+          <td class="paramname"> <em>ligne_2</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00556">556</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a83502a3974423bccf9982335c494e683"></a><!-- doxytag: member="tiers_onglet.c::gsb_payee_update_combofix" ref="a83502a3974423bccf9982335c494e683" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_payee_update_combofix </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update the payee combofix in the form with the current list of payee</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00144">144</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="accd2776091bc5768c5d272ea591eb393"></a><!-- doxytag: member="tiers_onglet.c::onglet_tiers" ref="accd2776091bc5768c5d272ea591eb393" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* onglet_tiers </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00161">161</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3526c82a23ba142e443ce5c5282facf8"></a><!-- doxytag: member="tiers_onglet.c::payee_fill_tree" ref="a3526c82a23ba142e443ce5c5282facf8" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void payee_fill_tree </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>fill the payee tree</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p><p>First, remove previous tree</p>
+<p>Then, populate tree with payee. </p>
+</p>
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00460">460</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac46dd13ab4a32f28d80c2d94535b58ca"></a><!-- doxytag: member="tiers_onglet.c::payee_hold_position_set_expand" ref="ac46dd13ab4a32f28d80c2d94535b58ca" args="(gboolean expand)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean payee_hold_position_set_expand </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>expand</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>sauvegarde l'attribut expand.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>expand</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00782">782</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a07d4064288024467a46893089d1a25c7"></a><!-- doxytag: member="tiers_onglet.c::payee_hold_position_set_path" ref="a07d4064288024467a46893089d1a25c7" args="(GtkTreePath *path)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean payee_hold_position_set_path </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreePath *&nbsp;</td>
+          <td class="paramname"> <em>path</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>fonction pour sauvegarder le chemin du dernier tiers sélectionné.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00771">771</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a8521224403aeb524822a05746e899bcf"></a><!-- doxytag: member="tiers_onglet.c::liste_associations_tiers" ref="a8521224403aeb524822a05746e899bcf" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* <a class="el" href="tiers__onglet_8c.html#a8521224403aeb524822a05746e899bcf">liste_associations_tiers</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="import_8c_source.html#l00217">217</a> du fichier <a class="el" href="import_8c_source.html">import.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3add720d0e0b25caa37589bcfb879c6f"></a><!-- doxytag: member="tiers_onglet.c::no_devise_totaux_tiers" ref="a3add720d0e0b25caa37589bcfb879c6f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a3add720d0e0b25caa37589bcfb879c6f">no_devise_totaux_tiers</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00103">103</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a252108aab84c1009beb6363640d12536"></a><!-- doxytag: member="tiers_onglet.c::overwrite_payee" ref="a252108aab84c1009beb6363640d12536" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structconditional__message.html">conditional_message</a>* <a class="el" href="tiers__onglet_8c.html#a252108aab84c1009beb6363640d12536">overwrite_payee</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00114">114</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a64408238158197b82c938a98a1543956"></a><!-- doxytag: member="tiers_onglet.c::payee_hold_position" ref="a64408238158197b82c938a98a1543956" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structmetatree__hold__position.html">metatree_hold_position</a>* <a class="el" href="tiers__onglet_8c.html#a64408238158197b82c938a98a1543956">payee_hold_position</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00112">112</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2b9ff3d909970141c14d4dd502841f70"></a><!-- doxytag: member="tiers_onglet.c::payee_interface" ref="a2b9ff3d909970141c14d4dd502841f70" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structmetatree__interface.html">MetatreeInterface</a>* <a class="el" href="utils__operations_8c.html#a2b9ff3d909970141c14d4dd502841f70">payee_interface</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="meta__payee_8c_source.html#l00116">116</a> du fichier <a class="el" href="meta__payee_8c_source.html">meta_payee.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab5b539c1af0cb10d03c328f20ecf23bf"></a><!-- doxytag: member="tiers_onglet.c::payee_tree" ref="ab5b539c1af0cb10d03c328f20ecf23bf" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__operations_8c.html#ab5b539c1af0cb10d03c328f20ecf23bf">payee_tree</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00105">105</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1621c167eb13470254518b600d2983bf"></a><!-- doxytag: member="tiers_onglet.c::payee_tree_model" ref="a1621c167eb13470254518b600d2983bf" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkTreeStore* <a class="el" href="utils__operations_8c.html#a1621c167eb13470254518b600d2983bf">payee_tree_model</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00106">106</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae51d7336b51ccdb5727c3e33cf79e7ea"></a><!-- doxytag: member="tiers_onglet.c::sortie_edit_payee" ref="ae51d7336b51ccdb5727c3e33cf79e7ea" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean <a class="el" href="tiers__onglet_8c.html#ae51d7336b51ccdb5727c3e33cf79e7ea">sortie_edit_payee</a> = FALSE</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="tiers__onglet_8c_source.html#l00109">109</a> du fichier <a class="el" href="tiers__onglet_8c_source.html">tiers_onglet.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="tiers_onglet.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

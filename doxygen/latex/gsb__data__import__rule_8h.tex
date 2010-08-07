@@ -1,0 +1,382 @@
+\section{Référence du fichier gsb\_\-data\_\-import\_\-rule.h}
+\label{gsb__data__import__rule_8h}\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-data\_\-import\_\-rule\_\-account\_\-has\_\-rule} (gint account\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-import\_\-rule\_\-get\_\-account} (gint import\_\-rule\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-import\_\-rule\_\-get\_\-action} (gint import\_\-rule\_\-number)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-import\_\-rule\_\-get\_\-charmap} (gint import\_\-rule\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-import\_\-rule\_\-get\_\-currency} (gint import\_\-rule\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-import\_\-rule\_\-get\_\-from\_\-account} (gint account\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-import\_\-rule\_\-get\_\-invert} (gint import\_\-rule\_\-number)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-import\_\-rule\_\-get\_\-last\_\-file\_\-name} (gint import\_\-rule\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-import\_\-rule\_\-get\_\-list} (void)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-import\_\-rule\_\-get\_\-name} (gint import\_\-rule\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-import\_\-rule\_\-get\_\-number} (gpointer rule\_\-ptr)
+\item 
+gboolean {\bf gsb\_\-data\_\-import\_\-rule\_\-init\_\-variables} (void)
+\item 
+gint {\bf gsb\_\-data\_\-import\_\-rule\_\-new} (const gchar $\ast$name)
+\item 
+gboolean {\bf gsb\_\-data\_\-import\_\-rule\_\-remove} (gint import\_\-rule\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-import\_\-rule\_\-set\_\-account} (gint import\_\-rule\_\-number, gint account\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-import\_\-rule\_\-set\_\-action} (gint import\_\-rule\_\-number, gint action)
+\item 
+gboolean {\bf gsb\_\-data\_\-import\_\-rule\_\-set\_\-charmap} (gint import\_\-rule\_\-number, const gchar $\ast$charmap)
+\item 
+gboolean {\bf gsb\_\-data\_\-import\_\-rule\_\-set\_\-currency} (gint import\_\-rule\_\-number, gint currency\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-import\_\-rule\_\-set\_\-invert} (gint import\_\-rule\_\-number, gboolean invert)
+\item 
+gboolean {\bf gsb\_\-data\_\-import\_\-rule\_\-set\_\-last\_\-file\_\-name} (gint import\_\-rule\_\-number, const gchar $\ast$last\_\-file\_\-name)
+\item 
+gboolean {\bf gsb\_\-data\_\-import\_\-rule\_\-set\_\-name} (gint import\_\-rule\_\-number, const gchar $\ast$name)
+\item 
+gint {\bf gsb\_\-data\_\-import\_\-rule\_\-set\_\-new\_\-number} (gint import\_\-rule\_\-number, gint new\_\-no\_\-import\_\-rule)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-account\_\-has\_\-rule@{gsb\_\-data\_\-import\_\-rule\_\-account\_\-has\_\-rule}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-account\_\-has\_\-rule@{gsb\_\-data\_\-import\_\-rule\_\-account\_\-has\_\-rule}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-account\_\-has\_\-rule}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-import\_\-rule\_\-account\_\-has\_\-rule (gint {\em account\_\-number})}\label{gsb__data__import__rule_8h_a1551ae76c7867c88884532cb9da30d82}
+return TRUE or FALSE depending if there are some rules for the account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : there is at least 1 rule, FALSE : no rules 
+\end{DoxyReturn}
+
+
+Définition à la ligne 648 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-get\_\-account@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-account}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-get\_\-account@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-account}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-get\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-import\_\-rule\_\-get\_\-account (gint {\em import\_\-rule\_\-number})}\label{gsb__data__import__rule_8h_a760102a31b3b6486a76d7cc8b46857cc}
+return the account number of the import\_\-rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the account number of the import\_\-rule or 0 if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 371 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-get\_\-action@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-action}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-get\_\-action@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-action}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-get\_\-action}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-import\_\-rule\_\-get\_\-action (gint {\em import\_\-rule\_\-number})}\label{gsb__data__import__rule_8h_a099a82ae0d2fd6e50b4f2c8fa96631fb}
+return the action of the import\_\-rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the action of the import\_\-rule or 0 if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 603 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-get\_\-charmap@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-charmap}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-get\_\-charmap@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-charmap}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-get\_\-charmap}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-import\_\-rule\_\-get\_\-charmap (gint {\em import\_\-rule\_\-number})}\label{gsb__data__import__rule_8h_ad911feed98610882fa5070032aec5521}
+return the last\_\-file\_\-name of the import\_\-rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the last\_\-file\_\-name of the import\_\-rule or NULL if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 504 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-get\_\-currency@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-currency}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-get\_\-currency@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-currency}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-get\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-import\_\-rule\_\-get\_\-currency (gint {\em import\_\-rule\_\-number})}\label{gsb__data__import__rule_8h_a3e559b5525d971d76c625cd52ad1c37e}
+return the currency number of the import\_\-rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the currency number of the import\_\-rule or 0 if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 416 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-get\_\-from\_\-account@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-from\_\-account}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-get\_\-from\_\-account@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-from\_\-account}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-get\_\-from\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-import\_\-rule\_\-get\_\-from\_\-account (gint {\em account\_\-number})}\label{gsb__data__import__rule_8h_aa4149c339cd2bc676291cdf0a145a9f6}
+return a list of rules structure according to the account number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a GSList of \doxyref{struct\_\-import\_\-rule}{p.}{structstruct__import__rule} or NULL if none 
+\end{DoxyReturn}
+
+
+Définition à la ligne 678 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-get\_\-invert@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-invert}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-get\_\-invert@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-invert}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-get\_\-invert}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-import\_\-rule\_\-get\_\-invert (gint {\em import\_\-rule\_\-number})}\label{gsb__data__import__rule_8h_a5334888f570e3c3cfb844dd8731c9453}
+return the invert number of the import\_\-rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the invert number of the import\_\-rule or 0 if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 460 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-get\_\-last\_\-file\_\-name@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-last\_\-file\_\-name}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-get\_\-last\_\-file\_\-name@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-last\_\-file\_\-name}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-get\_\-last\_\-file\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-import\_\-rule\_\-get\_\-last\_\-file\_\-name (gint {\em import\_\-rule\_\-number})}\label{gsb__data__import__rule_8h_a55651878d4aeee5a08a2071c6e518b84}
+return the last\_\-file\_\-name of the import\_\-rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the last\_\-file\_\-name of the import\_\-rule or NULL if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 553 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-get\_\-list@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-list}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-get\_\-list@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-list}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-get\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-import\_\-rule\_\-get\_\-list (void)}\label{gsb__data__import__rule_8h_a5fecbacee14cb68d5e2dfa19cd5b0247}
+give the g\_\-slist of import rule structure usefull when want to check all import rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the g\_\-slist of import rule structure 
+\end{DoxyReturn}
+
+
+Définition à la ligne 157 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-get\_\-name@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-name}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-get\_\-name@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-name}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-get\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-import\_\-rule\_\-get\_\-name (gint {\em import\_\-rule\_\-number})}\label{gsb__data__import__rule_8h_a8dded18b2026b5d7a92a93cfb9c799a0}
+return the name of the import\_\-rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the name of the import\_\-rule or NULL if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 320 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-get\_\-number@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-number}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-get\_\-number@{gsb\_\-data\_\-import\_\-rule\_\-get\_\-number}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-get\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-import\_\-rule\_\-get\_\-number (gpointer {\em rule\_\-ptr})}\label{gsb__data__import__rule_8h_a0b13ebba7a8037ae25415a1a31c5d321}
+return the number of the import rule given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em rule\_\-ptr}]a pointer to the struct of the import\_\-rule\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the import\_\-rule, 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 169 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-init\_\-variables@{gsb\_\-data\_\-import\_\-rule\_\-init\_\-variables}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-init\_\-variables@{gsb\_\-data\_\-import\_\-rule\_\-init\_\-variables}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-init\_\-variables}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-import\_\-rule\_\-init\_\-variables (void)}\label{gsb__data__import__rule_8h_a6633acdeea0708d560a0029a80a9ba5d}
+set the import rule global variables to NULL, usually when we init all the global variables
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 88 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-new@{gsb\_\-data\_\-import\_\-rule\_\-new}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-new@{gsb\_\-data\_\-import\_\-rule\_\-new}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-import\_\-rule\_\-new (const gchar $\ast$ {\em name})}\label{gsb__data__import__rule_8h_a8d2561f54770ed44cea5192ecdd3d7f6}
+create a new import\_\-rule, give him a number, append it to the list and return the number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em name}]the name of the import\_\-rule (can be freed after, it's a copy) or NULL\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the new import\_\-rule 
+\end{DoxyReturn}
+
+
+Définition à la ligne 219 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-remove@{gsb\_\-data\_\-import\_\-rule\_\-remove}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-remove@{gsb\_\-data\_\-import\_\-rule\_\-remove}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-import\_\-rule\_\-remove (gint {\em import\_\-rule\_\-number})}\label{gsb__data__import__rule_8h_ac4f8eb7024f4768fdd7e7de34119f5c2}
+remove an import\_\-rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the import\_\-rule we want to remove\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 269 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-set\_\-account@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-account}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-set\_\-account@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-account}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-set\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-import\_\-rule\_\-set\_\-account (gint {\em import\_\-rule\_\-number}, \/  gint {\em account\_\-number})}\label{gsb__data__import__rule_8h_a08b2dffce7e174d22d7b3edbf5c535db}
+set the account number of the import\_\-rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule \item[{\em account\_\-number}]the account number of the import\_\-rule\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 392 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-set\_\-action@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-action}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-set\_\-action@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-action}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-set\_\-action}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-import\_\-rule\_\-set\_\-action (gint {\em import\_\-rule\_\-number}, \/  gint {\em action})}\label{gsb__data__import__rule_8h_a8ffd44577da9551b3a319838e225556a}
+set the action number of the import\_\-rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule \item[{\em action}]the action of the import\_\-rule (IMPORT\_\-ADD\_\-TRANSACTIONS, IMPORT\_\-MARK\_\-TRANSACTIONS)\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 624 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-set\_\-charmap@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-charmap}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-set\_\-charmap@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-charmap}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-set\_\-charmap}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-import\_\-rule\_\-set\_\-charmap (gint {\em import\_\-rule\_\-number}, \/  const gchar $\ast$ {\em charmap})}\label{gsb__data__import__rule_8h_a23233bd23d863d59ebef9c32b3b4f186}
+set the charmap of the import\_\-rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule \item[{\em charmap}]the charmap of the import\_\-file\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 525 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-set\_\-currency@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-currency}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-set\_\-currency@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-currency}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-set\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-import\_\-rule\_\-set\_\-currency (gint {\em import\_\-rule\_\-number}, \/  gint {\em currency\_\-number})}\label{gsb__data__import__rule_8h_aa3b67e78d2abb73c38d2b9373922cf3c}
+set the currency number of the import\_\-rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule \item[{\em currency\_\-number}]the currency number of the import\_\-rule\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 437 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-set\_\-invert@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-invert}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-set\_\-invert@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-invert}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-set\_\-invert}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-import\_\-rule\_\-set\_\-invert (gint {\em import\_\-rule\_\-number}, \/  gboolean {\em invert})}\label{gsb__data__import__rule_8h_aad4737db8b0a2921574a22e0fcfb1fb5}
+set the invert number of the import\_\-rule
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule \item[{\em invert}]TRUE to invert the amount of transactions\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 481 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-set\_\-last\_\-file\_\-name@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-last\_\-file\_\-name}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-set\_\-last\_\-file\_\-name@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-last\_\-file\_\-name}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-set\_\-last\_\-file\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-import\_\-rule\_\-set\_\-last\_\-file\_\-name (gint {\em import\_\-rule\_\-number}, \/  const gchar $\ast$ {\em last\_\-file\_\-name})}\label{gsb__data__import__rule_8h_a528a876800185bac62799e142d65613f}
+set the last\_\-file\_\-name of the import\_\-rule the value is dupplicate in memory
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule \item[{\em last\_\-file\_\-name}]the last\_\-file\_\-name of the import\_\-rule\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 575 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-set\_\-name@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-name}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-set\_\-name@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-name}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-set\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-import\_\-rule\_\-set\_\-name (gint {\em import\_\-rule\_\-number}, \/  const gchar $\ast$ {\em name})}\label{gsb__data__import__rule_8h_a77754103d6ae8e3f2f5a2213e069d03e}
+set the name of the import\_\-rule the value is dupplicate in memory
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule \item[{\em name}]the name of the import\_\-rule\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 342 du fichier gsb\_\-data\_\-import\_\-rule.c.
+
+\index{gsb\_\-data\_\-import\_\-rule.h@{gsb\_\-data\_\-import\_\-rule.h}!gsb\_\-data\_\-import\_\-rule\_\-set\_\-new\_\-number@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-new\_\-number}}
+\index{gsb\_\-data\_\-import\_\-rule\_\-set\_\-new\_\-number@{gsb\_\-data\_\-import\_\-rule\_\-set\_\-new\_\-number}!gsb_data_import_rule.h@{gsb\_\-data\_\-import\_\-rule.h}}
+\subsubsection[{gsb\_\-data\_\-import\_\-rule\_\-set\_\-new\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-import\_\-rule\_\-set\_\-new\_\-number (gint {\em import\_\-rule\_\-number}, \/  gint {\em new\_\-no\_\-import\_\-rule})}\label{gsb__data__import__rule_8h_ab0c65683fbafdb810e82b8d595cae8f2}
+set a new number for the import\_\-rule normally used only while loading the file because the number are given automaticly
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em import\_\-rule\_\-number}]the number of the import\_\-rule \item[{\em new\_\-no\_\-import\_\-rule}]the new number of the import\_\-rule\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the new number or 0 if the import\_\-rule doen't exist 
+\end{DoxyReturn}
+
+
+Définition à la ligne 298 du fichier gsb\_\-data\_\-import\_\-rule.c.
+

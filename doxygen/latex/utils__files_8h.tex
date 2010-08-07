@@ -1,0 +1,251 @@
+\section{Référence du fichier utils\_\-files.h}
+\label{utils__files_8h}\index{utils\_\-files.h@{utils\_\-files.h}}
+{\ttfamily \#include \char`\"{}config.h\char`\"{}}\par
+{\ttfamily \#include $<$sys/stat.h$>$}\par
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf C\_\-DIRECTORY\_\-SEPARATOR}~\char`\"{}/\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf get\_\-filename\_\-returned\_\-value} \{ {\bf UTILS\_\-FILES\_\-FILENAME}, 
+{\bf UTILS\_\-FILES\_\-BACKUP\_\-FILENAME}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gint {\bf get\_\-utf8\_\-line\_\-from\_\-file} (FILE $\ast$fichier, gchar $\ast$$\ast$string, const gchar $\ast$coding\_\-system)
+\item 
+GtkWidget $\ast$ {\bf my\_\-file\_\-chooser} ()
+\item 
+gchar $\ast$ {\bf my\_\-get\_\-XDG\_\-grisbi\_\-data\_\-dir} (void)
+\item 
+gchar $\ast$ {\bf my\_\-get\_\-XDG\_\-grisbirc\_\-dir} (void)
+\item 
+gchar $\ast$ {\bf my\_\-get\_\-grisbirc\_\-dir} (void)
+\item 
+gchar $\ast$ {\bf my\_\-get\_\-gsb\_\-file\_\-default\_\-dir} (void)
+\item 
+gchar $\ast$ {\bf safe\_\-file\_\-name} (gchar $\ast$filename)
+\item 
+G\_\-MODULE\_\-EXPORT FILE $\ast$ {\bf utf8\_\-fopen} (const gchar $\ast$utf8filename, gchar $\ast$mode)
+\begin{DoxyCompactList}\small\item\em utf8 version of fopen (see fopen for more detail about mode) \item\end{DoxyCompactList}\item 
+gint {\bf utf8\_\-remove} (const gchar $\ast$utf8filename)
+\begin{DoxyCompactList}\small\item\em utf8 version of remove (see remove for more detail about mode) \item\end{DoxyCompactList}\item 
+gboolean {\bf utils\_\-files\_\-create\_\-XDG\_\-dir} (void)
+\begin{DoxyCompactList}\small\item\em create the config and the data directories using the mechanisms described in the XDG Base Directory Specification \item\end{DoxyCompactList}\item 
+GtkWidget $\ast$ {\bf utils\_\-files\_\-create\_\-file\_\-chooser} (GtkWidget $\ast$parent, gchar $\ast$titre)
+\begin{DoxyCompactList}\small\item\em pallie à un bug du gtk\_\-file\_\-chooser\_\-button\_\-new \item\end{DoxyCompactList}\item 
+gchar $\ast$ {\bf utils\_\-files\_\-create\_\-sel\_\-charset} (GtkWidget $\ast$assistant, const gchar $\ast$tmp\_\-str, const gchar $\ast${\bf charmap\_\-imported}, gchar $\ast$filename)
+\item 
+gchar $\ast$ {\bf utils\_\-files\_\-get\_\-ofx\_\-charset} (gchar $\ast$contents)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des macros}
+\index{utils\_\-files.h@{utils\_\-files.h}!C\_\-DIRECTORY\_\-SEPARATOR@{C\_\-DIRECTORY\_\-SEPARATOR}}
+\index{C\_\-DIRECTORY\_\-SEPARATOR@{C\_\-DIRECTORY\_\-SEPARATOR}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{C\_\-DIRECTORY\_\-SEPARATOR}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\_\-DIRECTORY\_\-SEPARATOR~\char`\"{}/\char`\"{}}\label{utils__files_8h_ac3fa58d590ca24e84c594e9222bdf20a}
+
+
+Définition à la ligne 18 du fichier utils\_\-files.h.
+
+
+
+\subsection{Documentation du type de l'énumération}
+\index{utils\_\-files.h@{utils\_\-files.h}!get\_\-filename\_\-returned\_\-value@{get\_\-filename\_\-returned\_\-value}}
+\index{get\_\-filename\_\-returned\_\-value@{get\_\-filename\_\-returned\_\-value}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{get\_\-filename\_\-returned\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf get\_\-filename\_\-returned\_\-value}}\label{utils__files_8h_a5929e9a4bf80b5622f4d643adc49b379}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{UTILS\_\-FILES\_\-FILENAME@{UTILS\_\-FILES\_\-FILENAME}!utils\_\-files.h@{utils\_\-files.h}}\index{utils\_\-files.h@{utils\_\-files.h}!UTILS\_\-FILES\_\-FILENAME@{UTILS\_\-FILES\_\-FILENAME}}\item[{\em 
+UTILS\_\-FILES\_\-FILENAME\label{utils__files_8h_a5929e9a4bf80b5622f4d643adc49b379ab723ae7df3f5c24eec1187135caa3f32}
+}]\index{UTILS\_\-FILES\_\-BACKUP\_\-FILENAME@{UTILS\_\-FILES\_\-BACKUP\_\-FILENAME}!utils\_\-files.h@{utils\_\-files.h}}\index{utils\_\-files.h@{utils\_\-files.h}!UTILS\_\-FILES\_\-BACKUP\_\-FILENAME@{UTILS\_\-FILES\_\-BACKUP\_\-FILENAME}}\item[{\em 
+UTILS\_\-FILES\_\-BACKUP\_\-FILENAME\label{utils__files_8h_a5929e9a4bf80b5622f4d643adc49b379af5a78040c0492b5b66232a2c42e632a0}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 7 du fichier utils\_\-files.h.
+
+
+
+\subsection{Documentation des fonctions}
+\index{utils\_\-files.h@{utils\_\-files.h}!get\_\-utf8\_\-line\_\-from\_\-file@{get\_\-utf8\_\-line\_\-from\_\-file}}
+\index{get\_\-utf8\_\-line\_\-from\_\-file@{get\_\-utf8\_\-line\_\-from\_\-file}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{get\_\-utf8\_\-line\_\-from\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}gint get\_\-utf8\_\-line\_\-from\_\-file (FILE $\ast$ {\em fichier}, \/  gchar $\ast$$\ast$ {\em string}, \/  const gchar $\ast$ {\em coding\_\-system})}\label{utils__files_8h_a3a8b0bb721fc3468001ca2ea9e9d17a0}
+
+
+Définition à la ligne 283 du fichier utils\_\-files.c.
+
+\index{utils\_\-files.h@{utils\_\-files.h}!my\_\-file\_\-chooser@{my\_\-file\_\-chooser}}
+\index{my\_\-file\_\-chooser@{my\_\-file\_\-chooser}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{my\_\-file\_\-chooser}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ my\_\-file\_\-chooser ()}\label{utils__files_8h_ad180bc31f9d0e255a0e6e1a0a05a7d82}
+Make a GtkEntry that will contain a file name, a GtkButton that will pop up a file selector, pack them in a GtkHbox and return it.
+
+\begin{DoxyReturn}{Renvoie}
+A newly created GtkHbox. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 370 du fichier utils\_\-files.c.
+
+\index{utils\_\-files.h@{utils\_\-files.h}!my\_\-get\_\-grisbirc\_\-dir@{my\_\-get\_\-grisbirc\_\-dir}}
+\index{my\_\-get\_\-grisbirc\_\-dir@{my\_\-get\_\-grisbirc\_\-dir}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{my\_\-get\_\-grisbirc\_\-dir}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ my\_\-get\_\-grisbirc\_\-dir (void)}\label{utils__files_8h_a1a062adbff317c16f4e4930090068dd3}
+return the absolute path of where the configuration file should be located on Un$\ast$x based system return \$HOME on Windows based systems return APPDATA
+
+\begin{DoxyReturn}{Renvoie}
+the absolute path of the configuration file directory 
+\end{DoxyReturn}
+
+
+Définition à la ligne 211 du fichier utils\_\-files.c.
+
+\index{utils\_\-files.h@{utils\_\-files.h}!my\_\-get\_\-gsb\_\-file\_\-default\_\-dir@{my\_\-get\_\-gsb\_\-file\_\-default\_\-dir}}
+\index{my\_\-get\_\-gsb\_\-file\_\-default\_\-dir@{my\_\-get\_\-gsb\_\-file\_\-default\_\-dir}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{my\_\-get\_\-gsb\_\-file\_\-default\_\-dir}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ my\_\-get\_\-gsb\_\-file\_\-default\_\-dir (void)}\label{utils__files_8h_ab0e498f3274063f20c4a6fb54b52271a}
+return the absolute path of the default accounts files location on Un$\ast$x based system return \$HOME on Windows based systems return \char`\"{}My Documents\char`\"{}
+
+\begin{DoxyReturn}{Renvoie}
+the absolute path of the configuration file directory 
+\end{DoxyReturn}
+
+
+Définition à la ligne 263 du fichier utils\_\-files.c.
+
+\index{utils\_\-files.h@{utils\_\-files.h}!my\_\-get\_\-XDG\_\-grisbi\_\-data\_\-dir@{my\_\-get\_\-XDG\_\-grisbi\_\-data\_\-dir}}
+\index{my\_\-get\_\-XDG\_\-grisbi\_\-data\_\-dir@{my\_\-get\_\-XDG\_\-grisbi\_\-data\_\-dir}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{my\_\-get\_\-XDG\_\-grisbi\_\-data\_\-dir}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ my\_\-get\_\-XDG\_\-grisbi\_\-data\_\-dir (void)}\label{utils__files_8h_a73d323b60da65cb56316d1a057fcd312}
+return the absolute path of where the data files should be located On UNIX platforms this is determined using the mechanisms described in the XDG Base Directory Specification on Windows based systems return APPDATA
+
+\begin{DoxyReturn}{Renvoie}
+the absolute path of the home directory 
+\end{DoxyReturn}
+
+
+Définition à la ligne 247 du fichier utils\_\-files.c.
+
+\index{utils\_\-files.h@{utils\_\-files.h}!my\_\-get\_\-XDG\_\-grisbirc\_\-dir@{my\_\-get\_\-XDG\_\-grisbirc\_\-dir}}
+\index{my\_\-get\_\-XDG\_\-grisbirc\_\-dir@{my\_\-get\_\-XDG\_\-grisbirc\_\-dir}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{my\_\-get\_\-XDG\_\-grisbirc\_\-dir}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ my\_\-get\_\-XDG\_\-grisbirc\_\-dir (void)}\label{utils__files_8h_a1794f2646f6aa227df941dfd0f63b9b4}
+return the absolute path of where the configuration file should be located On UNIX platforms this is determined using the mechanisms described in the XDG Base Directory Specification on Windows based systems return APPDATA
+
+\begin{DoxyReturn}{Renvoie}
+the absolute path of the configuration file directory 
+\end{DoxyReturn}
+
+
+Définition à la ligne 229 du fichier utils\_\-files.c.
+
+\index{utils\_\-files.h@{utils\_\-files.h}!safe\_\-file\_\-name@{safe\_\-file\_\-name}}
+\index{safe\_\-file\_\-name@{safe\_\-file\_\-name}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{safe\_\-file\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ safe\_\-file\_\-name (gchar $\ast$ {\em filename})}\label{utils__files_8h_a3a57f67068b5f1274d722eac4cd5a9e6}
+Sanitize a safe filename. All chars that are not normally allowed are replaced by underscores.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em filename}]Filename to sanitize. \end{DoxyParams}
+
+
+Définition à la ligne 435 du fichier utils\_\-files.c.
+
+\index{utils\_\-files.h@{utils\_\-files.h}!utf8\_\-fopen@{utf8\_\-fopen}}
+\index{utf8\_\-fopen@{utf8\_\-fopen}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{utf8\_\-fopen}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT FILE$\ast$ utf8\_\-fopen (const gchar $\ast$ {\em utf8filename}, \/  gchar $\ast$ {\em mode})}\label{utils__files_8h_ac113fb5932da8fd819f73d967a90c219}
+
+
+utf8 version of fopen (see fopen for more detail about mode) 
+
+convert utf8 file path into the locale OS charset before calling fopen
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em utf8filename}]file to open path coded using utf8 charset \item[{\em mode}]fopen mode argument\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+file descriptor returned by fopen 
+\end{DoxyReturn}
+
+
+Définition à la ligne 399 du fichier utils\_\-files.c.
+
+\index{utils\_\-files.h@{utils\_\-files.h}!utf8\_\-remove@{utf8\_\-remove}}
+\index{utf8\_\-remove@{utf8\_\-remove}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{utf8\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}gint utf8\_\-remove (const gchar $\ast$ {\em utf8filename})}\label{utils__files_8h_a79409776739f0f2778cd6d4f477b6dd2}
+
+
+utf8 version of remove (see remove for more detail about mode) 
+
+convert utf8 file path into the locale OS charset before calling remove
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em utf8filename}]file to remove path coded using utf8 charset\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+remove returned value 
+\end{DoxyReturn}
+
+
+Définition à la ligne 420 du fichier utils\_\-files.c.
+
+\index{utils\_\-files.h@{utils\_\-files.h}!utils\_\-files\_\-create\_\-file\_\-chooser@{utils\_\-files\_\-create\_\-file\_\-chooser}}
+\index{utils\_\-files\_\-create\_\-file\_\-chooser@{utils\_\-files\_\-create\_\-file\_\-chooser}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{utils\_\-files\_\-create\_\-file\_\-chooser}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ utils\_\-files\_\-create\_\-file\_\-chooser (GtkWidget $\ast$ {\em parent}, \/  gchar $\ast$ {\em titre})}\label{utils__files_8h_ad52941b893b0fcc21576cebdaa93fe96}
+
+
+pallie à un bug du gtk\_\-file\_\-chooser\_\-button\_\-new 
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em widget}]parent et titre de la femnêtre\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+chooser 
+\end{DoxyReturn}
+
+
+Définition à la ligne 448 du fichier utils\_\-files.c.
+
+\index{utils\_\-files.h@{utils\_\-files.h}!utils\_\-files\_\-create\_\-sel\_\-charset@{utils\_\-files\_\-create\_\-sel\_\-charset}}
+\index{utils\_\-files\_\-create\_\-sel\_\-charset@{utils\_\-files\_\-create\_\-sel\_\-charset}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{utils\_\-files\_\-create\_\-sel\_\-charset}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ utils\_\-files\_\-create\_\-sel\_\-charset (GtkWidget $\ast$ {\em assistant}, \/  const gchar $\ast$ {\em tmp\_\-str}, \/  const gchar $\ast$ {\em charmap\_\-imported}, \/  gchar $\ast$ {\em filename})}\label{utils__files_8h_a317adcd21f47902ddbd7b39ea98a8ec6}
+creates a box for selecting a character sets
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em assistant}]GsbAssistant \item[{\em content}]of file \item[{\em charmap\_\-imported}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A charmap. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 600 du fichier utils\_\-files.c.
+
+\index{utils\_\-files.h@{utils\_\-files.h}!utils\_\-files\_\-create\_\-XDG\_\-dir@{utils\_\-files\_\-create\_\-XDG\_\-dir}}
+\index{utils\_\-files\_\-create\_\-XDG\_\-dir@{utils\_\-files\_\-create\_\-XDG\_\-dir}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{utils\_\-files\_\-create\_\-XDG\_\-dir}]{\setlength{\rightskip}{0pt plus 5cm}gboolean utils\_\-files\_\-create\_\-XDG\_\-dir (void)}\label{utils__files_8h_a2bf4ade67ac3b60272da8b85baaff59b}
+
+
+create the config and the data directories using the mechanisms described in the XDG Base Directory Specification 
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 504 du fichier utils\_\-files.c.
+
+\index{utils\_\-files.h@{utils\_\-files.h}!utils\_\-files\_\-get\_\-ofx\_\-charset@{utils\_\-files\_\-get\_\-ofx\_\-charset}}
+\index{utils\_\-files\_\-get\_\-ofx\_\-charset@{utils\_\-files\_\-get\_\-ofx\_\-charset}!utils_files.h@{utils\_\-files.h}}
+\subsubsection[{utils\_\-files\_\-get\_\-ofx\_\-charset}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ utils\_\-files\_\-get\_\-ofx\_\-charset (gchar $\ast$ {\em contents})}\label{utils__files_8h_ac9835d1064eac1edc68310b67ec5c249}
+
+
+Définition à la ligne 854 du fichier utils\_\-files.c.
+

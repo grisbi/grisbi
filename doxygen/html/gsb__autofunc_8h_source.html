@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_autofunc.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_autofunc.h</h1><a href="gsb__autofunc_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _GSB_AUTOFUNC_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _GSB_AUTOFUNC_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00007"></a>00007 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00010"></a>00010 GtkWidget *<a class="code" href="gsb__autofunc_8c.html#ac0a3d8ad6e17993923e2cbdbe548cd74">gsb_autofunc_checkbutton_new</a> ( <span class="keyword">const</span> gchar *label,
+<a name="l00011"></a>00011                                           gboolean value,
+<a name="l00012"></a>00012                                           GCallback hook,
+<a name="l00013"></a>00013                                           gpointer data,
+<a name="l00014"></a>00014                                           GCallback default_func,
+<a name="l00015"></a>00015                                           gint number_for_func );
+<a name="l00016"></a>00016 <span class="keywordtype">void</span> <a class="code" href="gsb__autofunc_8c.html#ab29a571b347a7249ba12c5c393e5606a">gsb_autofunc_checkbutton_set_value</a> ( GtkWidget *button,
+<a name="l00017"></a>00017                                           gboolean value,
+<a name="l00018"></a>00018                                           gint number_for_func );
+<a name="l00019"></a>00019 GtkWidget *<a class="code" href="gsb__autofunc_8c.html#a60280e4d24dc1226f86c04f91590f026">gsb_autofunc_combobox_new</a> ( GSList *list,
+<a name="l00020"></a>00020                                        gint index,
+<a name="l00021"></a>00021                                        GCallback hook,
+<a name="l00022"></a>00022                                        gpointer data,
+<a name="l00023"></a>00023                                        GCallback default_func,
+<a name="l00024"></a>00024                                        gint number_for_func );
+<a name="l00025"></a>00025 <span class="keywordtype">void</span> <a class="code" href="gsb__autofunc_8c.html#ad72332c8c6cd5b2f5bda99d05818ddb3">gsb_autofunc_combobox_set_index</a> ( GtkWidget *combobox,
+<a name="l00026"></a>00026                                        gint index,
+<a name="l00027"></a>00027                                        gint number_for_func );
+<a name="l00028"></a>00028 GtkWidget *<a class="code" href="gsb__autofunc_8c.html#a5abc871359d30d75fbbd0d61cf86964e">gsb_autofunc_currency_new</a> ( gboolean set_name,
+<a name="l00029"></a>00029                                        gint currency_number,
+<a name="l00030"></a>00030                                        GCallback hook,
+<a name="l00031"></a>00031                                        gpointer data,
+<a name="l00032"></a>00032                                        GCallback default_func,
+<a name="l00033"></a>00033                                        gint number_for_func );
+<a name="l00034"></a>00034 <span class="keywordtype">void</span> <a class="code" href="gsb__autofunc_8c.html#a230de49c41849d8f792404fa1e1f217f">gsb_autofunc_currency_set_currency_number</a> ( GtkWidget *combobox,
+<a name="l00035"></a>00035                                                  gint currency_number,
+<a name="l00036"></a>00036                                                  gint number_for_func );
+<a name="l00037"></a>00037 GtkWidget *<a class="code" href="gsb__autofunc_8c.html#a8a396c950e645d24628f2662752e4e36">gsb_autofunc_date_new</a> ( <span class="keyword">const</span> GDate *date,
+<a name="l00038"></a>00038                                    GCallback hook,
+<a name="l00039"></a>00039                                    gpointer data,
+<a name="l00040"></a>00040                                    GCallback default_func,
+<a name="l00041"></a>00041                                    gint number_for_func );
+<a name="l00042"></a>00042 <span class="keywordtype">void</span> <a class="code" href="gsb__autofunc_8c.html#a61cc64294638206a71a46a8cd40010e4">gsb_autofunc_date_set</a> ( GtkWidget *entry,
+<a name="l00043"></a>00043                              <span class="keyword">const</span> GDate *date,
+<a name="l00044"></a>00044                              gint number_for_func );
+<a name="l00045"></a>00045 GtkWidget *<a class="code" href="gsb__autofunc_8c.html#a8f639a4b8baa8f4aef2d21f3ddf8a923">gsb_autofunc_entry_new</a> ( <span class="keyword">const</span> gchar *value,
+<a name="l00046"></a>00046                                     GCallback hook,
+<a name="l00047"></a>00047                                     gpointer data,
+<a name="l00048"></a>00048                                     GCallback default_func,
+<a name="l00049"></a>00049                                     gint number_for_func );
+<a name="l00050"></a>00050 <span class="keywordtype">void</span> <a class="code" href="gsb__autofunc_8c.html#a90687a02e848c63b391846b3fbb9e1dc">gsb_autofunc_entry_set_value</a> ( GtkWidget *entry,
+<a name="l00051"></a>00051                                     <span class="keyword">const</span> gchar *value,
+<a name="l00052"></a>00052                                     gint number_for_func );
+<a name="l00053"></a>00053 <span class="keywordtype">void</span> <a class="code" href="gsb__autofunc_8c.html#a77364ef65f80cf8e3bfc10e014682527">gsb_autofunc_int_erase_entry</a> ( GtkWidget *entry );
+<a name="l00054"></a>00054 GtkWidget *<a class="code" href="gsb__autofunc_8c.html#ab622a9e12a9415db7d83ee30b507e606">gsb_autofunc_int_new</a> ( gint value,
+<a name="l00055"></a>00055                                   GCallback hook,
+<a name="l00056"></a>00056                                   gpointer data,
+<a name="l00057"></a>00057                                   GCallback default_func,
+<a name="l00058"></a>00058                                   gint number_for_func );
+<a name="l00059"></a>00059 <span class="keywordtype">void</span> <a class="code" href="gsb__autofunc_8c.html#a8814939a1b9b834bb3c60f0906c68abd">gsb_autofunc_int_set_value</a> ( GtkWidget *entry,
+<a name="l00060"></a>00060                                   gint value,
+<a name="l00061"></a>00061                                   gint number_for_func );
+<a name="l00062"></a>00062 GtkWidget *<a class="code" href="gsb__autofunc_8c.html#a1913dbcd3298102e54dda8204c5b45cc">gsb_autofunc_radiobutton_new</a> ( <span class="keyword">const</span> gchar *choice1,
+<a name="l00063"></a>00063                                           <span class="keyword">const</span> gchar *choice2,
+<a name="l00064"></a>00064                                           gboolean value,
+<a name="l00065"></a>00065                                           GCallback hook,
+<a name="l00066"></a>00066                                           gpointer data,
+<a name="l00067"></a>00067                                           GCallback default_func,
+<a name="l00068"></a>00068                                           gint number_for_func );
+<a name="l00069"></a>00069 GtkWidget *<a class="code" href="gsb__autofunc_8c.html#ad759bbde6842e05be05307ebf61d0fc0">gsb_autofunc_real_new</a> ( <a class="code" href="structgsb__real.html">gsb_real</a> real,
+<a name="l00070"></a>00070                                    GCallback hook,
+<a name="l00071"></a>00071                                    gpointer data,
+<a name="l00072"></a>00072                                    GCallback default_func,
+<a name="l00073"></a>00073                                    gint number_for_func );
+<a name="l00074"></a>00074 <span class="keywordtype">void</span> <a class="code" href="gsb__autofunc_8c.html#a345067f8585b4b18dfebaed8fccf16cc">gsb_autofunc_real_set</a> ( GtkWidget *entry,
+<a name="l00075"></a>00075                              <a class="code" href="structgsb__real.html">gsb_real</a> real,
+<a name="l00076"></a>00076                              gint number_for_func );
+<a name="l00077"></a>00077 GtkWidget *<a class="code" href="gsb__autofunc_8c.html#aa6cdaf51f731d81220e87367e8fcfc26">gsb_autofunc_spin_new</a> ( gint value,
+<a name="l00078"></a>00078                                    GCallback hook,
+<a name="l00079"></a>00079                                    gpointer data,
+<a name="l00080"></a>00080                                    GCallback default_func,
+<a name="l00081"></a>00081                                    gint number_for_func );
+<a name="l00082"></a>00082 <span class="keywordtype">void</span> <a class="code" href="gsb__autofunc_8c.html#a7bdf28aeb2c35244b5c7736c4137fee8">gsb_autofunc_spin_set_value</a> ( GtkWidget *spin_button,
+<a name="l00083"></a>00083                                    gint value,
+<a name="l00084"></a>00084                                    gint number_for_func );
+<a name="l00085"></a>00085 GtkWidget *<a class="code" href="gsb__autofunc_8c.html#a45037b6f178d33a4918467fa3121c56a">gsb_autofunc_textview_new</a> ( <span class="keyword">const</span> gchar *value,
+<a name="l00086"></a>00086                                        GCallback hook,
+<a name="l00087"></a>00087                                        gpointer data,
+<a name="l00088"></a>00088                                        GCallback default_func,
+<a name="l00089"></a>00089                                        gint number_for_func );
+<a name="l00090"></a>00090 <span class="keywordtype">void</span> <a class="code" href="gsb__autofunc_8c.html#a833176bb44bc8ad1a446a6d58a7e51cc">gsb_autofunc_textview_set_value</a> ( GtkWidget *text_view,
+<a name="l00091"></a>00091                                        <span class="keyword">const</span> gchar *value,
+<a name="l00092"></a>00092                                        gint number_for_func );
+<a name="l00093"></a>00093 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00094"></a>00094 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

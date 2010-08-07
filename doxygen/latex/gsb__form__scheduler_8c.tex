@@ -1,0 +1,261 @@
+\section{Référence du fichier gsb\_\-form\_\-scheduler.c}
+\label{gsb__form__scheduler_8c}\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-scheduler.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-calendar\_\-entry.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-combo\_\-box.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payment.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-scheduled.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form\_\-widget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-payment\_\-method.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-scheduler\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gtk\_\-combofix.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Structures de données}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf content\_\-element}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-form\_\-scheduler\_\-create} (GtkWidget $\ast$table)
+\item 
+gboolean {\bf gsb\_\-form\_\-scheduler\_\-free\_\-list} (void)
+\item 
+gboolean {\bf gsb\_\-form\_\-scheduler\_\-change\_\-account} (GtkWidget $\ast$button, gpointer null)
+\item 
+gboolean {\bf gsb\_\-form\_\-scheduler\_\-clean} (void)
+\item 
+gboolean {\bf gsb\_\-form\_\-scheduler\_\-sensitive\_\-buttons} (gboolean sensitive)
+\item 
+gboolean {\bf gsb\_\-form\_\-scheduler\_\-set} (gint scheduled\_\-number)
+\item 
+gboolean {\bf gsb\_\-form\_\-scheduler\_\-get\_\-scheduler\_\-part} (gint scheduled\_\-number)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-form\_\-scheduler\_\-get\_\-element\_\-widget} (gint element\_\-number)
+\item 
+gboolean {\bf gsb\_\-form\_\-scheduler\_\-button\_\-press\_\-event} (GtkWidget $\ast$entry, GdkEventButton $\ast$ev, gint $\ast$ptr\_\-origin)
+\item 
+gboolean {\bf gsb\_\-form\_\-scheduler\_\-entry\_\-lose\_\-focus} (GtkWidget $\ast$entry, GdkEventFocus $\ast$ev, gint $\ast$ptr\_\-origin)
+\item 
+gint {\bf gsb\_\-form\_\-scheduler\_\-get\_\-account} (void)
+\item 
+gboolean {\bf gsb\_\-form\_\-scheduler\_\-set\_\-frequency} (gint frequency)
+\item 
+gboolean {\bf gsb\_\-form\_\-scheduler\_\-recover\_\-splits\_\-of\_\-transaction} (gint scheduled\_\-transaction, gint transaction\_\-number)
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+work with the form of the scheduler 
+
+Définition dans le fichier {\bf gsb\_\-form\_\-scheduler.c}.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}!gsb\_\-form\_\-scheduler\_\-button\_\-press\_\-event@{gsb\_\-form\_\-scheduler\_\-button\_\-press\_\-event}}
+\index{gsb\_\-form\_\-scheduler\_\-button\_\-press\_\-event@{gsb\_\-form\_\-scheduler\_\-button\_\-press\_\-event}!gsb_form_scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+\subsubsection[{gsb\_\-form\_\-scheduler\_\-button\_\-press\_\-event}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-scheduler\_\-button\_\-press\_\-event (GtkWidget $\ast$ {\em entry}, \/  GdkEventButton $\ast$ {\em ev}, \/  gint $\ast$ {\em ptr\_\-origin})}\label{gsb__form__scheduler_8c_a13015cfb9bd4e5a5e9b916e180d3de11}
+called when we press the button in an entry field in the form for the scheduled part
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]wich receive the signal \item[{\em ev}]can be NULL \item[{\em ptr\_\-origin}]a pointer to int on the element\_\-number\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 777 du fichier gsb\_\-form\_\-scheduler.c.
+
+\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}!gsb\_\-form\_\-scheduler\_\-change\_\-account@{gsb\_\-form\_\-scheduler\_\-change\_\-account}}
+\index{gsb\_\-form\_\-scheduler\_\-change\_\-account@{gsb\_\-form\_\-scheduler\_\-change\_\-account}!gsb_form_scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+\subsubsection[{gsb\_\-form\_\-scheduler\_\-change\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-scheduler\_\-change\_\-account (GtkWidget $\ast$ {\em button}, \/  gpointer {\em null})}\label{gsb__form__scheduler_8c_a294ff0030e408d7286e58e03683d3ca5}
+callback called when changing the account from the form's button re-\/fill the form but keep the values
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em button}]\item[{\em null}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 291 du fichier gsb\_\-form\_\-scheduler.c.
+
+\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}!gsb\_\-form\_\-scheduler\_\-clean@{gsb\_\-form\_\-scheduler\_\-clean}}
+\index{gsb\_\-form\_\-scheduler\_\-clean@{gsb\_\-form\_\-scheduler\_\-clean}!gsb_form_scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+\subsubsection[{gsb\_\-form\_\-scheduler\_\-clean}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-scheduler\_\-clean (void)}\label{gsb__form__scheduler_8c_a19610a2e8fde16919239e690bb1794c1}
+clean the scheduled form part and set the default values
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account}]number\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 603 du fichier gsb\_\-form\_\-scheduler.c.
+
+\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}!gsb\_\-form\_\-scheduler\_\-create@{gsb\_\-form\_\-scheduler\_\-create}}
+\index{gsb\_\-form\_\-scheduler\_\-create@{gsb\_\-form\_\-scheduler\_\-create}!gsb_form_scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+\subsubsection[{gsb\_\-form\_\-scheduler\_\-create}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-scheduler\_\-create (GtkWidget $\ast$ {\em table})}\label{gsb__form__scheduler_8c_ae93578da3dadec26fe150fd8c3a0b1c2}
+create the scheduled part : that widgets are created at the beginning and normally never destroyed, they are showed only for scheduled transactions Cela ne fonctionne pas : tous les widgets sont détruits par la fonction gsb\_\-form\_\-create\_\-widgets ( )
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em table}]a GtkTable with the dimension SCHEDULED\_\-HEIGHT$\ast$SCHEDULED\_\-WIDTH to be filled\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 114 du fichier gsb\_\-form\_\-scheduler.c.
+
+\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}!gsb\_\-form\_\-scheduler\_\-entry\_\-lose\_\-focus@{gsb\_\-form\_\-scheduler\_\-entry\_\-lose\_\-focus}}
+\index{gsb\_\-form\_\-scheduler\_\-entry\_\-lose\_\-focus@{gsb\_\-form\_\-scheduler\_\-entry\_\-lose\_\-focus}!gsb_form_scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+\subsubsection[{gsb\_\-form\_\-scheduler\_\-entry\_\-lose\_\-focus}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-scheduler\_\-entry\_\-lose\_\-focus (GtkWidget $\ast$ {\em entry}, \/  GdkEventFocus $\ast$ {\em ev}, \/  gint $\ast$ {\em ptr\_\-origin})}\label{gsb__form__scheduler_8c_a4dc5a0bba31672a25faa607460a5bdcd}
+called when an entry lose the focus in the scheduled part
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]\item[{\em ev}]\item[{\em ptr\_\-origin}]a pointer gint wich is the number of the element\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 810 du fichier gsb\_\-form\_\-scheduler.c.
+
+\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}!gsb\_\-form\_\-scheduler\_\-free\_\-list@{gsb\_\-form\_\-scheduler\_\-free\_\-list}}
+\index{gsb\_\-form\_\-scheduler\_\-free\_\-list@{gsb\_\-form\_\-scheduler\_\-free\_\-list}!gsb_form_scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+\subsubsection[{gsb\_\-form\_\-scheduler\_\-free\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-scheduler\_\-free\_\-list (void)}\label{gsb__form__scheduler_8c_a179b105a5c76af5f798fe1f196271d50}
+destroy all the elements in scheduled\_\-element\_\-list and free the list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 251 du fichier gsb\_\-form\_\-scheduler.c.
+
+\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}!gsb\_\-form\_\-scheduler\_\-get\_\-account@{gsb\_\-form\_\-scheduler\_\-get\_\-account}}
+\index{gsb\_\-form\_\-scheduler\_\-get\_\-account@{gsb\_\-form\_\-scheduler\_\-get\_\-account}!gsb_form_scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+\subsubsection[{gsb\_\-form\_\-scheduler\_\-get\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-form\_\-scheduler\_\-get\_\-account (void)}\label{gsb__form__scheduler_8c_a79b8fe872500a5ae8cf42cfffe553af4}
+get the account number from the scheduled button and return it
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the account number or -\/2 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 907 du fichier gsb\_\-form\_\-scheduler.c.
+
+\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}!gsb\_\-form\_\-scheduler\_\-get\_\-element\_\-widget@{gsb\_\-form\_\-scheduler\_\-get\_\-element\_\-widget}}
+\index{gsb\_\-form\_\-scheduler\_\-get\_\-element\_\-widget@{gsb\_\-form\_\-scheduler\_\-get\_\-element\_\-widget}!gsb_form_scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+\subsubsection[{gsb\_\-form\_\-scheduler\_\-get\_\-element\_\-widget}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-form\_\-scheduler\_\-get\_\-element\_\-widget (gint {\em element\_\-number})}\label{gsb__form__scheduler_8c_a7d99c295efd93b1750ded52204d8ab72}
+return the widget of the element\_\-number given in param, for the scheduler part of the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em element\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a GtkWidget $\ast$ or NULL 
+\end{DoxyReturn}
+
+
+Définition à la ligne 760 du fichier gsb\_\-form\_\-scheduler.c.
+
+\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}!gsb\_\-form\_\-scheduler\_\-get\_\-scheduler\_\-part@{gsb\_\-form\_\-scheduler\_\-get\_\-scheduler\_\-part}}
+\index{gsb\_\-form\_\-scheduler\_\-get\_\-scheduler\_\-part@{gsb\_\-form\_\-scheduler\_\-get\_\-scheduler\_\-part}!gsb_form_scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+\subsubsection[{gsb\_\-form\_\-scheduler\_\-get\_\-scheduler\_\-part}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-scheduler\_\-get\_\-scheduler\_\-part (gint {\em scheduled\_\-number})}\label{gsb__form__scheduler_8c_ab8aa02a06e41634b309ce02f7c4eb8bd}
+fill the scheduled transaction given in param with the content of the scheduled part of the form (ie frequency...)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em scheduled\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 730 du fichier gsb\_\-form\_\-scheduler.c.
+
+\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}!gsb\_\-form\_\-scheduler\_\-recover\_\-splits\_\-of\_\-transaction@{gsb\_\-form\_\-scheduler\_\-recover\_\-splits\_\-of\_\-transaction}}
+\index{gsb\_\-form\_\-scheduler\_\-recover\_\-splits\_\-of\_\-transaction@{gsb\_\-form\_\-scheduler\_\-recover\_\-splits\_\-of\_\-transaction}!gsb_form_scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+\subsubsection[{gsb\_\-form\_\-scheduler\_\-recover\_\-splits\_\-of\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-scheduler\_\-recover\_\-splits\_\-of\_\-transaction (gint {\em scheduled\_\-transaction}, \/  gint {\em transaction\_\-number})}\label{gsb__form__scheduler_8c_a25a09f658b254f882516a3885234c67e}
+Clone the children of a splitted transaction to add the to the new splitted scheduled
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em scheduled\_\-transaction}]the splitted scheduled transaction we want to add the children \item[{\em transaction\_\-number}]the splitted transaction we want to clone the children\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1211 du fichier gsb\_\-form\_\-scheduler.c.
+
+\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}!gsb\_\-form\_\-scheduler\_\-sensitive\_\-buttons@{gsb\_\-form\_\-scheduler\_\-sensitive\_\-buttons}}
+\index{gsb\_\-form\_\-scheduler\_\-sensitive\_\-buttons@{gsb\_\-form\_\-scheduler\_\-sensitive\_\-buttons}!gsb_form_scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+\subsubsection[{gsb\_\-form\_\-scheduler\_\-sensitive\_\-buttons}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-scheduler\_\-sensitive\_\-buttons (gboolean {\em sensitive})}\label{gsb__form__scheduler_8c_af4c0e862daec4a1386d5431fce4d7efd}
+sensitive the buttons of the scheduler part of the form
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em sensitive}]TRUE or FALSE\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 663 du fichier gsb\_\-form\_\-scheduler.c.
+
+\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}!gsb\_\-form\_\-scheduler\_\-set@{gsb\_\-form\_\-scheduler\_\-set}}
+\index{gsb\_\-form\_\-scheduler\_\-set@{gsb\_\-form\_\-scheduler\_\-set}!gsb_form_scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+\subsubsection[{gsb\_\-form\_\-scheduler\_\-set}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-scheduler\_\-set (gint {\em scheduled\_\-number})}\label{gsb__form__scheduler_8c_a1b3f6e7bce1e5525ba19191b3364045e}
+set the scheduler part of the form from the scheduled transaction given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em scheduled\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 702 du fichier gsb\_\-form\_\-scheduler.c.
+
+\index{gsb\_\-form\_\-scheduler.c@{gsb\_\-form\_\-scheduler.c}!gsb\_\-form\_\-scheduler\_\-set\_\-frequency@{gsb\_\-form\_\-scheduler\_\-set\_\-frequency}}
+\index{gsb\_\-form\_\-scheduler\_\-set\_\-frequency@{gsb\_\-form\_\-scheduler\_\-set\_\-frequency}!gsb_form_scheduler.c@{gsb\_\-form\_\-scheduler.c}}
+\subsubsection[{gsb\_\-form\_\-scheduler\_\-set\_\-frequency}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-form\_\-scheduler\_\-set\_\-frequency (gint {\em frequency})}\label{gsb__form__scheduler_8c_ace37e579a0c5f661a5c46454079327a9}
+set the frequency on the form's button
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em frequency}]SCHEDULER\_\-PERIODICITY\_\-x\_\-VIEW (see \doxyref{gsb\_\-scheduler\_\-list.h}{p.}{gsb__scheduler__list_8h})\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok, FALSE else 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1035 du fichier gsb\_\-form\_\-scheduler.c.
+

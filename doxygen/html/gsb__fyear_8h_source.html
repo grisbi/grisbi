@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_fyear.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_fyear.h</h1><a href="gsb__fyear_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _GSB_FYEAR_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _GSB_FYEAR_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a><a class="code" href="gsb__fyear_8h.html#a246a4e0e04222fdb2a11a5ba02450160">00004</a> <span class="keyword">enum</span> <a class="code" href="gsb__fyear_8h.html#a246a4e0e04222fdb2a11a5ba02450160">fyear_list_columns</a> {
+<a name="l00005"></a><a class="code" href="gsb__fyear_8h.html#a246a4e0e04222fdb2a11a5ba02450160ae6c9f82dc2ce7479edaa9079fe087329">00005</a>     <a class="code" href="gsb__fyear_8h.html#a246a4e0e04222fdb2a11a5ba02450160ae6c9f82dc2ce7479edaa9079fe087329">FYEAR_COL_NAME</a> = 0,
+<a name="l00006"></a><a class="code" href="gsb__fyear_8h.html#a246a4e0e04222fdb2a11a5ba02450160a4eeeba3497eaa5fc6e5d9512ff45ae58">00006</a>     <a class="code" href="gsb__fyear_8h.html#a246a4e0e04222fdb2a11a5ba02450160a4eeeba3497eaa5fc6e5d9512ff45ae58">FYEAR_COL_NUMBER</a>,
+<a name="l00007"></a><a class="code" href="gsb__fyear_8h.html#a246a4e0e04222fdb2a11a5ba02450160adb9b40dd91d1b7e9be9ad797bfd78600">00007</a>     <a class="code" href="gsb__fyear_8h.html#a246a4e0e04222fdb2a11a5ba02450160adb9b40dd91d1b7e9be9ad797bfd78600">FYEAR_COL_VIEW</a>,
+<a name="l00008"></a>00008 };
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00012"></a>00012 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00013"></a>00013 
+<a name="l00014"></a>00014 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00015"></a>00015 gint <a class="code" href="gsb__fyear_8c.html#a587c6044305c503412e85ce68c61d18f">gsb_fyear_get_fyear_from_combobox</a> ( GtkWidget *combo_box,
+<a name="l00016"></a>00016                         <span class="keyword">const</span> GDate *date );
+<a name="l00017"></a>00017 gboolean <a class="code" href="gsb__fyear_8c.html#a860e2fbddb31ed8ddb8d70a4d90e7c37">gsb_fyear_hide_iter_by_name</a> ( GtkTreeModel *model, gchar *name );
+<a name="l00018"></a>00018 <span class="keywordtype">void</span> <a class="code" href="gsb__fyear_8c.html#ac8924e7fc78d895c0611fdaa4580a6f2">gsb_fyear_init_variables</a> ( <span class="keywordtype">void</span> );
+<a name="l00019"></a>00019 GtkWidget *<a class="code" href="gsb__fyear_8c.html#a6f8ef344dde2ca4102a8371319b7565e">gsb_fyear_make_combobox</a> ( gboolean set_automatic );
+<a name="l00020"></a>00020 GtkWidget *<a class="code" href="gsb__fyear_8c.html#af7e2bd1df0eccd82fa4fa78f269ae5d0">gsb_fyear_make_combobox_new</a> ( GtkTreeModel *model,
+<a name="l00021"></a>00021                         gboolean set_automatic );
+<a name="l00022"></a>00022 gboolean <a class="code" href="gsb__fyear_8c.html#a0e0eb0128f2cec486a664a028b70a273">gsb_fyear_select_iter_by_number</a> ( GtkWidget *combo_box,
+<a name="l00023"></a>00023                         GtkTreeModel *model,
+<a name="l00024"></a>00024                         GtkTreeModel *model_filter,
+<a name="l00025"></a>00025                         gint fyear_number );
+<a name="l00026"></a>00026 gboolean <a class="code" href="gsb__fyear_8c.html#a0b7a0d85ac5432e1a72a33493fce76d7">gsb_fyear_set_automatic</a> ( gboolean set_automatic );
+<a name="l00027"></a>00027 gboolean <a class="code" href="gsb__fyear_8c.html#aa7d81ecc027bf5ccacae5afd165b01c8">gsb_fyear_set_combobox_history</a> ( GtkWidget *combo_box,
+<a name="l00028"></a>00028                         gint fyear_number );
+<a name="l00029"></a>00029 gboolean <a class="code" href="gsb__fyear_8c.html#a1f37b63b2e43be7ebddf47e5f4b6ddb3">gsb_fyear_update_fyear_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00030"></a>00030 gboolean <a class="code" href="gsb__fyear_8c.html#a34d75e7b50bee69ad545dcea4df88f9a">gsb_fyear_update_fyear_list_new</a> ( GtkTreeModel *model,
+<a name="l00031"></a>00031                         GtkTreeModel *model_filter,
+<a name="l00032"></a>00032                         gchar *title );
+<a name="l00033"></a>00033 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:02 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

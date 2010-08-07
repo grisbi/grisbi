@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de utils_editables.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>utils_editables.c</h1><a href="utils__editables_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*     Copyright (C)    2000-2008 Cedric Auger (cedric@grisbi.org)            */</span>
+<a name="l00004"></a>00004 <span class="comment">/*                      2003-2008 Benjamin Drieu (bdrieu@april.org)           */</span>
+<a name="l00005"></a>00005 <span class="comment">/*                      http://www.grisbi.org                                 */</span>
+<a name="l00006"></a>00006 <span class="comment">/*                                                                            */</span>
+<a name="l00007"></a>00007 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00010"></a>00010 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00011"></a>00011 <span class="comment">/*                                                                            */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00015"></a>00015 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00016"></a>00016 <span class="comment">/*                                                                            */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00019"></a>00019 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00020"></a>00020 <span class="comment">/*                                                                            */</span>
+<a name="l00021"></a>00021 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="utils__editables_8h.html">utils_editables.h</a>&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="utils__str_8h.html">utils_str.h</a>&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033 <span class="comment">/*START_STATIC*/</span>
+<a name="l00034"></a>00034 <span class="comment">/*END_STATIC*/</span>
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00037"></a>00037 <span class="keyword">extern</span> <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="accueil_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a>;
+<a name="l00038"></a>00038 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042 
+<a name="l00050"></a><a class="code" href="utils__editables_8h.html#aba01d00a8b7c423cb00e224ef2df56f2">00050</a> GtkWidget *<a class="code" href="utils__editables_8c.html#aba01d00a8b7c423cb00e224ef2df56f2">gsb_editable_text_view_new</a> ( <span class="keyword">const</span> gchar *value )
+<a name="l00051"></a>00051 {
+<a name="l00052"></a>00052     GtkWidget * text_view;
+<a name="l00053"></a>00053     GtkTextBuffer *buffer;
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055     text_view = gtk_text_view_new ();
+<a name="l00056"></a>00056     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+<a name="l00057"></a>00057     gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (text_view), 3);
+<a name="l00058"></a>00058     gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (text_view), 3);
+<a name="l00059"></a>00059     gtk_text_view_set_left_margin (GTK_TEXT_VIEW (text_view), 3);
+<a name="l00060"></a>00060     gtk_text_view_set_right_margin (GTK_TEXT_VIEW (text_view), 3);
+<a name="l00061"></a>00061     gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD );
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063     <span class="keywordflow">if</span> (value)
+<a name="l00064"></a>00064         gtk_text_buffer_set_text (buffer, value, -1);
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066     <span class="keywordflow">return</span> text_view;
+<a name="l00067"></a>00067 }
+<a name="l00068"></a>00068 
+<a name="l00076"></a><a class="code" href="utils__editables_8h.html#a56e1df70defb8d072289f283b24627c0">00076</a> gchar *<a class="code" href="utils__editables_8c.html#a56e1df70defb8d072289f283b24627c0">gsb_editable_text_view_get_content</a> ( GtkWidget *text_view )
+<a name="l00077"></a>00077 {
+<a name="l00078"></a>00078     GtkTextIter start, end;
+<a name="l00079"></a>00079     GtkTextBuffer *buffer;
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081     g_return_val_if_fail (text_view,
+<a name="l00082"></a>00082                           NULL);
+<a name="l00083"></a>00083     g_return_val_if_fail (GTK_IS_TEXT_VIEW (text_view),
+<a name="l00084"></a>00084                           NULL);
+<a name="l00085"></a>00085     
+<a name="l00086"></a>00086     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+<a name="l00087"></a>00087     gtk_text_buffer_get_iter_at_offset ( buffer, &amp;start, 0 );
+<a name="l00088"></a>00088     gtk_text_buffer_get_iter_at_offset ( buffer, &amp;end, -1 );
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090     <span class="keywordflow">return</span> (gtk_text_buffer_get_text (buffer, &amp;start, &amp;end, 0));
+<a name="l00091"></a>00091 }
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 
+<a name="l00102"></a><a class="code" href="utils__editables_8h.html#a144daaaa0139d9b489fcc9bc21664943">00102</a> gboolean <a class="code" href="utils__editables_8c.html#a144daaaa0139d9b489fcc9bc21664943">gsb_editable_erase_text_view</a> ( GtkWidget *button,
+<a name="l00103"></a>00103                                         GtkWidget *text_view )
+<a name="l00104"></a>00104 {
+<a name="l00105"></a>00105     GtkTextBuffer *buffer;
+<a name="l00106"></a>00106     GtkTextIter start_iter;
+<a name="l00107"></a>00107     GtkTextIter end_iter;
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+<a name="l00110"></a>00110     gtk_text_buffer_get_start_iter ( GTK_TEXT_BUFFER (buffer),
+<a name="l00111"></a>00111                                      &amp;start_iter );
+<a name="l00112"></a>00112     gtk_text_buffer_get_end_iter ( GTK_TEXT_BUFFER (buffer),
+<a name="l00113"></a>00113                                    &amp;end_iter );
+<a name="l00114"></a>00114     gtk_text_buffer_delete ( GTK_TEXT_BUFFER (buffer),
+<a name="l00115"></a>00115                              &amp;start_iter,
+<a name="l00116"></a>00116                              &amp;end_iter );
+<a name="l00117"></a>00117     <span class="keywordflow">return</span> FALSE;
+<a name="l00118"></a>00118 }
+<a name="l00119"></a>00119 
+<a name="l00126"></a><a class="code" href="utils__editables_8h.html#a633b0bd1f5f7f4e4a1cb312d7679e4e2">00126</a> <span class="keywordtype">void</span> <a class="code" href="utils__editables_8c.html#a633b0bd1f5f7f4e4a1cb312d7679e4e2">increment_decrement_champ</a> ( GtkWidget *entry, gint increment )
+<a name="l00127"></a>00127 {
+<a name="l00128"></a>00128     gdouble number;
+<a name="l00129"></a>00129         gchar* tmpstr;
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131     number = <a class="code" href="utils__str_8c.html#a5653e4c704f0c344ca9d1549561f9cd3" title="Secured version of atoi.">utils_str_atoi</a> (gtk_entry_get_text ( GTK_ENTRY ( entry )));
+<a name="l00132"></a>00132     number += increment;
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134     tmpstr = <a class="code" href="utils__str_8c.html#a1e50f3be459180b9dea9f14eb7e1204e" title="convert an integer into a gchar based string">utils_str_itoa</a> ( number );
+<a name="l00135"></a>00135     gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr );
+<a name="l00136"></a>00136     g_free ( tmpstr );
+<a name="l00137"></a>00137 }
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139 
+<a name="l00148"></a><a class="code" href="utils__editables_8h.html#a45ab7802df06eecfebeeba20fc37a622">00148</a> <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="utils__editables_8c.html#a45ab7802df06eecfebeeba20fc37a622">gsb_utils_edit_calculate_entry</a> ( GtkWidget *entry )
+<a name="l00149"></a>00149 {
+<a name="l00150"></a>00150     gchar *string;
+<a name="l00151"></a>00151     gchar *pointeur;
+<a name="l00152"></a>00152     <a class="code" href="structgsb__real.html">gsb_real</a> total = null_real;
+<a name="l00153"></a>00153         
+<a name="l00154"></a>00154     <span class="keywordtype">string</span> = <a class="code" href="utils__str_8c.html#ad9a37361694eeaa2847b0fe11389824d">my_strdup</a> (gtk_entry_get_text ( GTK_ENTRY (entry)));
+<a name="l00155"></a>00155     <span class="comment">/* modified by pbiava 02/13/2009 To avoid a crash at the entrance to a 0 */</span>
+<a name="l00156"></a>00156     <span class="keywordflow">if</span> (<span class="keywordtype">string</span> &amp;&amp; strlen (<span class="keywordtype">string</span>))
+<a name="l00157"></a>00157         pointeur = <span class="keywordtype">string</span> + strlen (<span class="keywordtype">string</span>);
+<a name="l00158"></a>00158     <span class="keywordflow">else</span>
+<a name="l00159"></a>00159         <span class="keywordflow">return</span> total;
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161     <span class="keywordflow">while</span> ( pointeur != <span class="keywordtype">string</span> )
+<a name="l00162"></a>00162     {
+<a name="l00163"></a>00163         <span class="keywordflow">if</span> ( pointeur[0] == <span class="charliteral">&#39;+&#39;</span>
+<a name="l00164"></a>00164              ||
+<a name="l00165"></a>00165              pointeur[0] == <span class="charliteral">&#39;-&#39;</span> )
+<a name="l00166"></a>00166         {
+<a name="l00167"></a>00167             total = <a class="code" href="gsb__real_8c.html#a5a3e9b2189f43f10c28333b09179e335">gsb_real_add</a> ( total,
+<a name="l00168"></a>00168                                    <a class="code" href="gsb__real_8c.html#ada8e5c9cbdb5ccab2c0bbc6e52b04efe">gsb_real_get_from_string</a> (pointeur));
+<a name="l00169"></a>00169             pointeur[0] = 0;
+<a name="l00170"></a>00170         }
+<a name="l00171"></a>00171         pointeur--;
+<a name="l00172"></a>00172     }
+<a name="l00173"></a>00173     total = <a class="code" href="gsb__real_8c.html#a5a3e9b2189f43f10c28333b09179e335">gsb_real_add</a> ( total,
+<a name="l00174"></a>00174                            <a class="code" href="gsb__real_8c.html#ada8e5c9cbdb5ccab2c0bbc6e52b04efe">gsb_real_get_from_string</a> (pointeur));
+<a name="l00175"></a>00175     g_free (<span class="keywordtype">string</span>);
+<a name="l00176"></a>00176     <span class="keywordflow">return</span> total;
+<a name="l00177"></a>00177 }
+<a name="l00178"></a>00178 
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180 <span class="comment">/* Local Variables: */</span>
+<a name="l00181"></a>00181 <span class="comment">/* c-basic-offset: 4 */</span>
+<a name="l00182"></a>00182 <span class="comment">/* End: */</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

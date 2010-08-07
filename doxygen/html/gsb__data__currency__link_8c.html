@@ -1,0 +1,689 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_data_currency_link.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_data_currency_link.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__currency__link_8h_source.html">gsb_data_currency_link.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__dates_8h_source.html">utils_dates.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+
+<p><a href="gsb__data__currency__link_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Structures de données</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__currency__link.html">struct_currency_link</a></td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#a4cd0e66deb9185816119a0ddd973f1c6">gsb_data_currency_link_init_variables</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#a98649f0d33b433e86464d1446d72736e">gsb_data_currency_link_get_no_currency_link</a> (gpointer currency_link_ptr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#afabcb6dbde8dd4e991d69acf4c515ff6">gsb_data_currency_link_get_currency_link_list</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#a78bdeb826c13c39ba178ac66c41f17aa">gsb_data_currency_link_new</a> (gint currency_link_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#af6a6a897e207d9a9d1627640a96ade55">gsb_data_currency_link_remove</a> (gint currency_link_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#afcae5a85a8cd075e218f6eb7d3a4669a">gsb_data_currency_link_set_new_number</a> (gint currency_link_number, gint new_no_currency_link)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#a2591e4c674d78df9749c4b3550102a9c">gsb_data_currency_link_get_first_currency</a> (gint currency_link_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#a299015b16318ea3ffb9962b8e57f43d9">gsb_data_currency_link_set_first_currency</a> (gint currency_link_number, gint first_currency)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#a7b5878d793377c0cd6cb5c140f7dc56d">gsb_data_currency_link_get_second_currency</a> (gint currency_link_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#ab8ecae95419928fd21f71f9f9e31e449">gsb_data_currency_link_set_second_currency</a> (gint currency_link_number, gint second_currency)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#aa18864d68d7555d3b39e14ef87beeb7d">gsb_data_currency_link_get_change_rate</a> (gint currency_link_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#a8d185945246d4c709ddafcf1daecfa38">gsb_data_currency_link_set_change_rate</a> (gint currency_link_number, <a class="el" href="structgsb__real.html">gsb_real</a> change_rate)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#a43d077a96dc987da2527bb84cf830631">gsb_data_currency_link_get_invalid_link</a> (gint currency_link_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#a2e557736f1bcf1f082a81f73a36542c1">gsb_data_currency_link_get_invalid_message</a> (gint currency_link_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#ae1bb872fddbad3052301ba8ef1b1e9bb">gsb_data_currency_link_search</a> (gint currency_1, gint currency_2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GDate *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#aa69aa5e3a5a36188b6b78e37f72a566c">gsb_data_currency_link_get_modified_date</a> (gint currency_link_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#a45a0f10f5738e9fc8118bd99442e6366">gsb_data_currency_link_set_modified_date</a> (gint currency_link_number, GDate *date)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#a98c2a1a949a837d8a8e81273a1b5597a">gsb_data_currency_link_get_fixed_link</a> (gint currency_link_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#a82b5b120da2c6a35a220b2aec872dd89">gsb_data_currency_link_set_fixed_link</a> (gint currency_link_number, gboolean fixed_link)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__currency__link_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>work with the currency_link structure, no GUI here </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="aa18864d68d7555d3b39e14ef87beeb7d"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_get_change_rate" ref="aa18864d68d7555d3b39e14ef87beeb7d" args="(gint currency_link_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_data_currency_link_get_change_rate </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the change_rate of the currency_link * </p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td>the number of the currency_link</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the change_rate of the currency_link or 0 if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00403">403</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afabcb6dbde8dd4e991d69acf4c515ff6"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_get_currency_link_list" ref="afabcb6dbde8dd4e991d69acf4c515ff6" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* gsb_data_currency_link_get_currency_link_list </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>give the g_slist of currency_link structure usefull when want to check all currency_links</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>none</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the g_slist of currency_links structure </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00174">174</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2591e4c674d78df9749c4b3550102a9c"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_get_first_currency" ref="a2591e4c674d78df9749c4b3550102a9c" args="(gint currency_link_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_currency_link_get_first_currency </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the first_currency of the currency_link</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td>the number of the currency_link</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the first_currency of the currency_link or 0 if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00312">312</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a98c2a1a949a837d8a8e81273a1b5597a"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_get_fixed_link" ref="a98c2a1a949a837d8a8e81273a1b5597a" args="(gint currency_link_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_currency_link_get_fixed_link </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the change_link_currency flag</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td>the number of the currency_link</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if no ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00656">656</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a43d077a96dc987da2527bb84cf830631"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_get_invalid_link" ref="a43d077a96dc987da2527bb84cf830631" args="(gint currency_link_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_currency_link_get_invalid_link </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the invalid_link of the currency_link the flag invalid is set automatickly by gsb_data_currency_link_check_for_invalid when change 1 of the currency</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td>the number of the currency_link</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if the link is invalid </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00450">450</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2e557736f1bcf1f082a81f73a36542c1"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_get_invalid_message" ref="a2e557736f1bcf1f082a81f73a36542c1" args="(gint currency_link_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const gchar* gsb_data_currency_link_get_invalid_message </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the message error because of the invalid link</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td>the number of the currency_link</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a const gchar formatted with markup : error the message </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00471">471</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa69aa5e3a5a36188b6b78e37f72a566c"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_get_modified_date" ref="aa69aa5e3a5a36188b6b78e37f72a566c" args="(gint currency_link_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GDate* gsb_data_currency_link_get_modified_date </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the GDate of the currency link</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the GDate of the currency link </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00606">606</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a98649f0d33b433e86464d1446d72736e"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_get_no_currency_link" ref="a98649f0d33b433e86464d1446d72736e" args="(gpointer currency_link_ptr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_currency_link_get_no_currency_link </td>
+          <td>(</td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>currency_link_ptr</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the number of the currency_link given in param</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_ptr</em>&nbsp;</td><td>a pointer to the struct of the currency_link</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of the currency_link, 0 if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00153">153</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7b5878d793377c0cd6cb5c140f7dc56d"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_get_second_currency" ref="a7b5878d793377c0cd6cb5c140f7dc56d" args="(gint currency_link_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_currency_link_get_second_currency </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the second_currency of the currency_link</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td>the number of the currency_link</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the second_currency of the currency_link or 0 if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00358">358</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4cd0e66deb9185816119a0ddd973f1c6"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_init_variables" ref="a4cd0e66deb9185816119a0ddd973f1c6" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_currency_link_init_variables </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the currency_links global variables to NULL, usually when we init all the global variables</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>none</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00087">87</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a78bdeb826c13c39ba178ac66c41f17aa"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_new" ref="a78bdeb826c13c39ba178ac66c41f17aa" args="(gint currency_link_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_currency_link_new </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a new currency_link, give him a number, append it to the list and return the number</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td>the number of the new currency link or 0 for automatic (should be always automatic, except while loading a file)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of the new currency_link </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00219">219</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af6a6a897e207d9a9d1627640a96ade55"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_remove" ref="af6a6a897e207d9a9d1627640a96ade55" args="(gint currency_link_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_currency_link_remove </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>remove a currency_link set all the currency_links of transaction which are this one to 0 update combofix and mark file as modified</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td>the currency_link we want to remove</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00261">261</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae1bb872fddbad3052301ba8ef1b1e9bb"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_search" ref="ae1bb872fddbad3052301ba8ef1b1e9bb" args="(gint currency_1, gint currency_2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_currency_link_search </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_2</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>look for a link between the 2 currencies given in the param</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_1</em>&nbsp;</td><td>the number of the first currency </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>currency_2</em>&nbsp;</td><td>the number of the second currency</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of the link, 0 if not found, -1 if they are the same currencies </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00561">561</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8d185945246d4c709ddafcf1daecfa38"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_set_change_rate" ref="a8d185945246d4c709ddafcf1daecfa38" args="(gint currency_link_number, gsb_real change_rate)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_currency_link_set_change_rate </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>change_rate</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the change_rate of the currency_link</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td>the number of the currency_link </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>the</em>&nbsp;</td><td>of the currency_link</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00424">424</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a299015b16318ea3ffb9962b8e57f43d9"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_set_first_currency" ref="a299015b16318ea3ffb9962b8e57f43d9" args="(gint currency_link_number, gint first_currency)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_currency_link_set_first_currency </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>first_currency</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the first_currency of the currency_link check and fill the invalid flag</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td>the number of the currency_link </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>first_currency</em>&nbsp;</td><td>the first_currency of the currency_link</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00334">334</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a82b5b120da2c6a35a220b2aec872dd89"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_set_fixed_link" ref="a82b5b120da2c6a35a220b2aec872dd89" args="(gint currency_link_number, gboolean fixed_link)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_currency_link_set_fixed_link </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>fixed_link</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the change_link_currency flag</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td>the number of the currency_link </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>the</em>&nbsp;</td><td>change_link_currency flag for the currency_link</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00677">677</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a45a0f10f5738e9fc8118bd99442e6366"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_set_modified_date" ref="a45a0f10f5738e9fc8118bd99442e6366" args="(gint currency_link_number, GDate *date)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_currency_link_set_modified_date </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GDate *&nbsp;</td>
+          <td class="paramname"> <em>date</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the GDate of the currency link</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>date</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00627">627</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afcae5a85a8cd075e218f6eb7d3a4669a"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_set_new_number" ref="afcae5a85a8cd075e218f6eb7d3a4669a" args="(gint currency_link_number, gint new_no_currency_link)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_currency_link_set_new_number </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>new_no_currency_link</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set a new number for the currency_link normally used only while loading the file because the number are given automaticly</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td>the number of the currency_link </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>new_no_currency_link</em>&nbsp;</td><td>the new number of the currency_link</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the new number or 0 if the currency_link doen't exist </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00289">289</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab8ecae95419928fd21f71f9f9e31e449"></a><!-- doxytag: member="gsb_data_currency_link.c::gsb_data_currency_link_set_second_currency" ref="ab8ecae95419928fd21f71f9f9e31e449" args="(gint currency_link_number, gint second_currency)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_currency_link_set_second_currency </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_link_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>second_currency</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the second_currency of the currency_link check and fill the invalid flag</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_link_number</em>&nbsp;</td><td>the number of the currency_link </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>second_currency</em>&nbsp;</td><td>the second_currency of the currency_link</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__currency__link_8c_source.html#l00380">380</a> du fichier <a class="el" href="gsb__data__currency__link_8c_source.html">gsb_data_currency_link.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a26f304bec3fdc0651b9aa8765d4de3c6"></a><!-- doxytag: member="gsb_data_currency_link.c::null_real" ref="a26f304bec3fdc0651b9aa8765d4de3c6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> <a class="el" href="utils__editables_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00042">42</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier utils_buttons.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier utils_buttons.h</h1>
+<p><a href="utils__buttons_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Définition de type</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="utils__buttons_8h.html#a1e2cc1214fb1b856898e11ceb6f0ff99">GSB_BUTTON_STYLE</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__buttons_8h.html#af8036bcbb6554ad756fbf8d68d81a871">GsbButtonStyle</a></td></tr>
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__buttons_8h.html#a1e2cc1214fb1b856898e11ceb6f0ff99">GSB_BUTTON_STYLE</a> { <a class="el" href="utils__buttons_8h.html#a1e2cc1214fb1b856898e11ceb6f0ff99aa605056cbc9d31f38c677248709ccf7f">GSB_BUTTON_TEXT</a>, 
+<a class="el" href="utils__buttons_8h.html#a1e2cc1214fb1b856898e11ceb6f0ff99ad3ec00f56abe18b8c94706c3966eafce">GSB_BUTTON_ICON</a>, 
+<a class="el" href="utils__buttons_8h.html#a1e2cc1214fb1b856898e11ceb6f0ff99ad223c6deabeaffd86ef439af5b0c3403">GSB_BUTTON_BOTH</a>, 
+<a class="el" href="utils__buttons_8h.html#a1e2cc1214fb1b856898e11ceb6f0ff99aa1a60ff1b68de81a2bdefa8718a3903f">GSB_BUTTON_BOTH_HORIZ</a>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__buttons_8h.html#ad3fabcee0e67c73921725cf708b29be1">gsb_button_sensitive_by_checkbutton</a> (GtkWidget *check_button, GtkWidget *widget)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__buttons_8h.html#ad3b9b13c8568d4b884cac0d402d54c3c">new_image_label</a> (<a class="el" href="utils__buttons_8h.html#af8036bcbb6554ad756fbf8d68d81a871">GsbButtonStyle</a> style, const gchar *image_name, const gchar *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__buttons_8h.html#a239d96ea80c3728beec14f95995cabef">new_stock_image_label</a> (<a class="el" href="utils__buttons_8h.html#af8036bcbb6554ad756fbf8d68d81a871">GsbButtonStyle</a> style, const gchar *stock_id, const gchar *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__buttons_8h.html#a99ce5771bb0e5986914ff73a90ced973">set_popup_position</a> (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)</td></tr>
+</table>
+<hr/><h2>Documentation des définitions de type</h2>
+<a class="anchor" id="af8036bcbb6554ad756fbf8d68d81a871"></a><!-- doxytag: member="utils_buttons.h::GsbButtonStyle" ref="af8036bcbb6554ad756fbf8d68d81a871" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef enum <a class="el" href="utils__buttons_8h.html#a1e2cc1214fb1b856898e11ceb6f0ff99">GSB_BUTTON_STYLE</a>  <a class="el" href="utils__buttons_8h.html#af8036bcbb6554ad756fbf8d68d81a871">GsbButtonStyle</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="a1e2cc1214fb1b856898e11ceb6f0ff99"></a><!-- doxytag: member="utils_buttons.h::GSB_BUTTON_STYLE" ref="a1e2cc1214fb1b856898e11ceb6f0ff99" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="utils__buttons_8h.html#a1e2cc1214fb1b856898e11ceb6f0ff99">GSB_BUTTON_STYLE</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a1e2cc1214fb1b856898e11ceb6f0ff99aa605056cbc9d31f38c677248709ccf7f"></a><!-- doxytag: member="GSB_BUTTON_TEXT" ref="a1e2cc1214fb1b856898e11ceb6f0ff99aa605056cbc9d31f38c677248709ccf7f" args="" -->GSB_BUTTON_TEXT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a1e2cc1214fb1b856898e11ceb6f0ff99ad3ec00f56abe18b8c94706c3966eafce"></a><!-- doxytag: member="GSB_BUTTON_ICON" ref="a1e2cc1214fb1b856898e11ceb6f0ff99ad3ec00f56abe18b8c94706c3966eafce" args="" -->GSB_BUTTON_ICON</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a1e2cc1214fb1b856898e11ceb6f0ff99ad223c6deabeaffd86ef439af5b0c3403"></a><!-- doxytag: member="GSB_BUTTON_BOTH" ref="a1e2cc1214fb1b856898e11ceb6f0ff99ad223c6deabeaffd86ef439af5b0c3403" args="" -->GSB_BUTTON_BOTH</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a1e2cc1214fb1b856898e11ceb6f0ff99aa1a60ff1b68de81a2bdefa8718a3903f"></a><!-- doxytag: member="GSB_BUTTON_BOTH_HORIZ" ref="a1e2cc1214fb1b856898e11ceb6f0ff99aa1a60ff1b68de81a2bdefa8718a3903f" args="" -->GSB_BUTTON_BOTH_HORIZ</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="utils__buttons_8h_source.html#l00008">8</a> du fichier <a class="el" href="utils__buttons_8h_source.html">utils_buttons.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="ad3fabcee0e67c73921725cf708b29be1"></a><!-- doxytag: member="utils_buttons.h::gsb_button_sensitive_by_checkbutton" ref="ad3fabcee0e67c73921725cf708b29be1" args="(GtkWidget *check_button, GtkWidget *widget)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_button_sensitive_by_checkbutton </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>check_button</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>widget</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>called by a gsb_automem_checkbutton_new or a g_signal_connect on a checkbutton sensitive or unsensitive tha param widget, according to the checkbutton</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>check_button</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>widget</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="utils__buttons_8c_source.html#l00184">184</a> du fichier <a class="el" href="utils__buttons_8c_source.html">utils_buttons.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad3b9b13c8568d4b884cac0d402d54c3c"></a><!-- doxytag: member="utils_buttons.h::new_image_label" ref="ad3b9b13c8568d4b884cac0d402d54c3c" args="(GsbButtonStyle style, const gchar *image_name, const gchar *name)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* new_image_label </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="utils__buttons_8h.html#af8036bcbb6554ad756fbf8d68d81a871">GsbButtonStyle</a>&nbsp;</td>
+          <td class="paramname"> <em>style</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>image_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>name</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="utils__buttons_8c_source.html#l00087">87</a> du fichier <a class="el" href="utils__buttons_8c_source.html">utils_buttons.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a239d96ea80c3728beec14f95995cabef"></a><!-- doxytag: member="utils_buttons.h::new_stock_image_label" ref="a239d96ea80c3728beec14f95995cabef" args="(GsbButtonStyle style, const gchar *stock_id, const gchar *name)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* new_stock_image_label </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="utils__buttons_8h.html#af8036bcbb6554ad756fbf8d68d81a871">GsbButtonStyle</a>&nbsp;</td>
+          <td class="paramname"> <em>style</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>stock_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>name</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="utils__buttons_8c_source.html#l00040">40</a> du fichier <a class="el" href="utils__buttons_8c_source.html">utils_buttons.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a99ce5771bb0e5986914ff73a90ced973"></a><!-- doxytag: member="utils_buttons.h::set_popup_position" ref="a99ce5771bb0e5986914ff73a90ced973" args="(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void set_popup_position </td>
+          <td>(</td>
+          <td class="paramtype">GtkMenu *&nbsp;</td>
+          <td class="paramname"> <em>menu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint *&nbsp;</td>
+          <td class="paramname"> <em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint *&nbsp;</td>
+          <td class="paramname"> <em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean *&nbsp;</td>
+          <td class="paramname"> <em>push_in</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>user_data</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>TODO: document Borrowed from the Gimp Toolkit and modified. </p>
+
+<p>Définition à la ligne <a class="el" href="utils__buttons_8c_source.html#l00142">142</a> du fichier <a class="el" href="utils__buttons_8c_source.html">utils_buttons.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,178 @@
+\section{Référence du fichier gsb\_\-fyear.c}
+\label{gsb__fyear_8c}\index{gsb\_\-fyear.c@{gsb\_\-fyear.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-fyear.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf gsb\_\-fyear\_\-init\_\-variables} (void)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-fyear\_\-make\_\-combobox} (gboolean set\_\-automatic)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-fyear\_\-make\_\-combobox\_\-new} (GtkTreeModel $\ast$model, gboolean set\_\-automatic)
+\item 
+gboolean {\bf gsb\_\-fyear\_\-set\_\-combobox\_\-history} (GtkWidget $\ast$combo\_\-box, gint fyear\_\-number)
+\item 
+gint {\bf gsb\_\-fyear\_\-get\_\-fyear\_\-from\_\-combobox} (GtkWidget $\ast$combo\_\-box, const GDate $\ast$date)
+\item 
+gboolean {\bf gsb\_\-fyear\_\-set\_\-automatic} (gboolean set\_\-automatic)
+\item 
+gboolean {\bf gsb\_\-fyear\_\-update\_\-fyear\_\-list} (void)
+\item 
+gboolean {\bf gsb\_\-fyear\_\-update\_\-fyear\_\-list\_\-new} (GtkTreeModel $\ast$model, GtkTreeModel $\ast$model\_\-filter, gchar $\ast$title)
+\item 
+gboolean {\bf gsb\_\-fyear\_\-hide\_\-iter\_\-by\_\-name} (GtkTreeModel $\ast$model, gchar $\ast$name)
+\item 
+gboolean {\bf gsb\_\-fyear\_\-select\_\-iter\_\-by\_\-number} (GtkWidget $\ast$combo\_\-box, GtkTreeModel $\ast$model, GtkTreeModel $\ast$model\_\-filter, gint fyear\_\-number)
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+contains tools to work with the financial years 
+
+Définition dans le fichier {\bf gsb\_\-fyear.c}.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-fyear.c@{gsb\_\-fyear.c}!gsb\_\-fyear\_\-get\_\-fyear\_\-from\_\-combobox@{gsb\_\-fyear\_\-get\_\-fyear\_\-from\_\-combobox}}
+\index{gsb\_\-fyear\_\-get\_\-fyear\_\-from\_\-combobox@{gsb\_\-fyear\_\-get\_\-fyear\_\-from\_\-combobox}!gsb_fyear.c@{gsb\_\-fyear.c}}
+\subsubsection[{gsb\_\-fyear\_\-get\_\-fyear\_\-from\_\-combobox}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-fyear\_\-get\_\-fyear\_\-from\_\-combobox (GtkWidget $\ast$ {\em combo\_\-box}, \/  const GDate $\ast$ {\em date})}\label{gsb__fyear_8c_a587c6044305c503412e85ce68c61d18f}
+Get and return the number of the fyear in the combobox given in param if the fyear is 0, try to find a fyear with the givent date
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combo\_\-box}]a combo\_\-box with the financials years \item[{\em date}]date to find a corresponding fyear if the combobox is on Automatic or NULL\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of fyear or 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 160 du fichier gsb\_\-fyear.c.
+
+\index{gsb\_\-fyear.c@{gsb\_\-fyear.c}!gsb\_\-fyear\_\-hide\_\-iter\_\-by\_\-name@{gsb\_\-fyear\_\-hide\_\-iter\_\-by\_\-name}}
+\index{gsb\_\-fyear\_\-hide\_\-iter\_\-by\_\-name@{gsb\_\-fyear\_\-hide\_\-iter\_\-by\_\-name}!gsb_fyear.c@{gsb\_\-fyear.c}}
+\subsubsection[{gsb\_\-fyear\_\-hide\_\-iter\_\-by\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-fyear\_\-hide\_\-iter\_\-by\_\-name (GtkTreeModel $\ast$ {\em model}, \/  gchar $\ast$ {\em name})}\label{gsb__fyear_8c_a860e2fbddb31ed8ddb8d70a4d90e7c37}
+
+
+Définition à la ligne 321 du fichier gsb\_\-fyear.c.
+
+\index{gsb\_\-fyear.c@{gsb\_\-fyear.c}!gsb\_\-fyear\_\-init\_\-variables@{gsb\_\-fyear\_\-init\_\-variables}}
+\index{gsb\_\-fyear\_\-init\_\-variables@{gsb\_\-fyear\_\-init\_\-variables}!gsb_fyear.c@{gsb\_\-fyear.c}}
+\subsubsection[{gsb\_\-fyear\_\-init\_\-variables}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-fyear\_\-init\_\-variables (void)}\label{gsb__fyear_8c_ac8924e7fc78d895c0611fdaa4580a6f2}
+set to NULL the static variables
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 67 du fichier gsb\_\-fyear.c.
+
+\index{gsb\_\-fyear.c@{gsb\_\-fyear.c}!gsb\_\-fyear\_\-make\_\-combobox@{gsb\_\-fyear\_\-make\_\-combobox}}
+\index{gsb\_\-fyear\_\-make\_\-combobox@{gsb\_\-fyear\_\-make\_\-combobox}!gsb_fyear.c@{gsb\_\-fyear.c}}
+\subsubsection[{gsb\_\-fyear\_\-make\_\-combobox}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-fyear\_\-make\_\-combobox (gboolean {\em set\_\-automatic})}\label{gsb__fyear_8c_a6f8ef344dde2ca4102a8371319b7565e}
+create and return a combobox with the financial years
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em set\_\-automatic}]if TRUE, will show the choice \char`\"{}Automatic\char`\"{}\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a widget combobox or NULL 
+\end{DoxyReturn}
+
+
+Définition à la ligne 86 du fichier gsb\_\-fyear.c.
+
+\index{gsb\_\-fyear.c@{gsb\_\-fyear.c}!gsb\_\-fyear\_\-make\_\-combobox\_\-new@{gsb\_\-fyear\_\-make\_\-combobox\_\-new}}
+\index{gsb\_\-fyear\_\-make\_\-combobox\_\-new@{gsb\_\-fyear\_\-make\_\-combobox\_\-new}!gsb_fyear.c@{gsb\_\-fyear.c}}
+\subsubsection[{gsb\_\-fyear\_\-make\_\-combobox\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-fyear\_\-make\_\-combobox\_\-new (GtkTreeModel $\ast$ {\em model}, \/  gboolean {\em set\_\-automatic})}\label{gsb__fyear_8c_af7e2bd1df0eccd82fa4fa78f269ae5d0}
+create and return a combobox with the financial years
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em model}]for the combobox \item[{\em set\_\-automatic}]if TRUE, will show the choice \char`\"{}Automatic\char`\"{}\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a widget combobox or NULL 
+\end{DoxyReturn}
+
+
+Définition à la ligne 107 du fichier gsb\_\-fyear.c.
+
+\index{gsb\_\-fyear.c@{gsb\_\-fyear.c}!gsb\_\-fyear\_\-select\_\-iter\_\-by\_\-number@{gsb\_\-fyear\_\-select\_\-iter\_\-by\_\-number}}
+\index{gsb\_\-fyear\_\-select\_\-iter\_\-by\_\-number@{gsb\_\-fyear\_\-select\_\-iter\_\-by\_\-number}!gsb_fyear.c@{gsb\_\-fyear.c}}
+\subsubsection[{gsb\_\-fyear\_\-select\_\-iter\_\-by\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-fyear\_\-select\_\-iter\_\-by\_\-number (GtkWidget $\ast$ {\em combo\_\-box}, \/  GtkTreeModel $\ast$ {\em model}, \/  GtkTreeModel $\ast$ {\em model\_\-filter}, \/  gint {\em fyear\_\-number})}\label{gsb__fyear_8c_a0e0eb0128f2cec486a664a028b70a273}
+set the combobox on the fyear given in param if the fyear exists but is not showed normally, we show it because it's for a modification of a transaction (when the form will be freed, that fyear won't be showed again)
+
+the combo-\/box to set    the fyear we want to set on the combo-\/box, if 0, will be set on \char`\"{}Automatic\char`\"{}
+
+\begin{DoxyReturn}{Renvoie}
+TRUE fyear found, FALSE fyear not found, nothing change 
+\end{DoxyReturn}
+
+
+Définition à la ligne 367 du fichier gsb\_\-fyear.c.
+
+\index{gsb\_\-fyear.c@{gsb\_\-fyear.c}!gsb\_\-fyear\_\-set\_\-automatic@{gsb\_\-fyear\_\-set\_\-automatic}}
+\index{gsb\_\-fyear\_\-set\_\-automatic@{gsb\_\-fyear\_\-set\_\-automatic}!gsb_fyear.c@{gsb\_\-fyear.c}}
+\subsubsection[{gsb\_\-fyear\_\-set\_\-automatic}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-fyear\_\-set\_\-automatic (gboolean {\em set\_\-automatic})}\label{gsb__fyear_8c_a0b7a0d85ac5432e1a72a33493fce76d7}
+show or hide the Automatic line in the fyear list this will apply to all fyears combobox
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em set\_\-automatic}]TRUE to show the \char`\"{}Automatic\char`\"{} line, FALSE to hide it\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE done, FALSE problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 193 du fichier gsb\_\-fyear.c.
+
+\index{gsb\_\-fyear.c@{gsb\_\-fyear.c}!gsb\_\-fyear\_\-set\_\-combobox\_\-history@{gsb\_\-fyear\_\-set\_\-combobox\_\-history}}
+\index{gsb\_\-fyear\_\-set\_\-combobox\_\-history@{gsb\_\-fyear\_\-set\_\-combobox\_\-history}!gsb_fyear.c@{gsb\_\-fyear.c}}
+\subsubsection[{gsb\_\-fyear\_\-set\_\-combobox\_\-history}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-fyear\_\-set\_\-combobox\_\-history (GtkWidget $\ast$ {\em combo\_\-box}, \/  gint {\em fyear\_\-number})}\label{gsb__fyear_8c_aa7d81ecc027bf5ccacae5afd165b01c8}
+set the combobox on the fyear given in param if the fyear exists but is not showed normally, we show it because it's for a modification of a transaction (when the form will be freed, that fyear won't be showed again)
+
+the combo-\/box to set  the fyear we want to set on the combo-\/box, if 0, will be set on \char`\"{}Automatic\char`\"{}
+
+\begin{DoxyReturn}{Renvoie}
+TRUE fyear found, FALSE fyear not found, nothing change 
+\end{DoxyReturn}
+
+
+Définition à la ligne 140 du fichier gsb\_\-fyear.c.
+
+\index{gsb\_\-fyear.c@{gsb\_\-fyear.c}!gsb\_\-fyear\_\-update\_\-fyear\_\-list@{gsb\_\-fyear\_\-update\_\-fyear\_\-list}}
+\index{gsb\_\-fyear\_\-update\_\-fyear\_\-list@{gsb\_\-fyear\_\-update\_\-fyear\_\-list}!gsb_fyear.c@{gsb\_\-fyear.c}}
+\subsubsection[{gsb\_\-fyear\_\-update\_\-fyear\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-fyear\_\-update\_\-fyear\_\-list (void)}\label{gsb__fyear_8c_a1f37b63b2e43be7ebddf47e5f4b6ddb3}
+update the list of the financial years, wich change all the current combobox content set the first row with Automatic with 0 as number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 221 du fichier gsb\_\-fyear.c.
+
+\index{gsb\_\-fyear.c@{gsb\_\-fyear.c}!gsb\_\-fyear\_\-update\_\-fyear\_\-list\_\-new@{gsb\_\-fyear\_\-update\_\-fyear\_\-list\_\-new}}
+\index{gsb\_\-fyear\_\-update\_\-fyear\_\-list\_\-new@{gsb\_\-fyear\_\-update\_\-fyear\_\-list\_\-new}!gsb_fyear.c@{gsb\_\-fyear.c}}
+\subsubsection[{gsb\_\-fyear\_\-update\_\-fyear\_\-list\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-fyear\_\-update\_\-fyear\_\-list\_\-new (GtkTreeModel $\ast$ {\em model}, \/  GtkTreeModel $\ast$ {\em model\_\-filter}, \/  gchar $\ast$ {\em title})}\label{gsb__fyear_8c_a34d75e7b50bee69ad545dcea4df88f9a}
+update the list of the financial years, wich change all the current combobox content set the first row with title with 0 as number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em model}]\item[{\em model\_\-filter}]\item[{\em title}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 240 du fichier gsb\_\-fyear.c.
+

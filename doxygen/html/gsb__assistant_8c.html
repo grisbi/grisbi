@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_assistant.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_assistant.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__assistant_8h_source.html">gsb_assistant.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+
+<p><a href="gsb__assistant_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant_8c.html#a8502128771d8c3f3e8c83d877e1f20ea">gsb_assistant_new</a> (const gchar *title, const gchar *explanation, gchar *image_filename, GCallback enter_callback)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant_8c.html#a6972bde2415e07b7afb35a062456f129">gsb_assistant_add_page</a> (GtkWidget *assistant, GtkWidget *widget, gint position, gint prev, gint next, GCallback enter_callback)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkResponseType&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant_8c.html#a886a6fa8c458d71d7cfae7b54bd3187f">gsb_assistant_run</a> (GtkWidget *assistant)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant_8c.html#a9c400b973258731e6d4dd4a01a63e1aa">gsb_assistant_set_prev</a> (GtkWidget *assistant, gint page, gint prev)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant_8c.html#a06ff0b5745a3a4bd14ceecbd56cd09c1">gsb_assistant_set_next</a> (GtkWidget *assistant, gint page, gint next)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant_8c.html#ad38c5d761d97d2257a4b35a52c4048c6">gsb_assistant_sensitive_button_next</a> (GtkWidget *assistant, gboolean state)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant_8c.html#ae21578dcc45348d3400059b9c6794252">gsb_assistant_sensitive_button_prev</a> (GtkWidget *assistant, gboolean state)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant_8c.html#afa94b439f0978b7eac4d469df5def613">gsb_assistant_next_page</a> (GtkWidget *assistant)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant_8c.html#af9667499ec49ad50593c8662801d4a9c">gsb_assistant_change_button_next</a> (GtkWidget *assistant, gchar *title, GtkResponseType response)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>Various routines that implement the assistant "GnomeDruid-like" window. </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__assistant_8c_source.html">gsb_assistant.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a6972bde2415e07b7afb35a062456f129"></a><!-- doxytag: member="gsb_assistant.c::gsb_assistant_add_page" ref="a6972bde2415e07b7afb35a062456f129" args="(GtkWidget *assistant, GtkWidget *widget, gint position, gint prev, gint next, GCallback enter_callback)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_assistant_add_page </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>assistant</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>widget</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>position</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>prev</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>next</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GCallback&nbsp;</td>
+          <td class="paramname"> <em>enter_callback</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Add a page to the Grisbi assistant.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>assistant</em>&nbsp;</td><td>Grisbi assistant to add a page to. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>widget</em>&nbsp;</td><td>Widget containing the new page to insert. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>position</em>&nbsp;</td><td>Number of the page to insert. Page 0 is reserved to the explanation label. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>prev</em>&nbsp;</td><td>Page to display when the "Previous" button is clicked. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>next</em>&nbsp;</td><td>Page to display when the "Next" button is clicked. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>enter_callback</em>&nbsp;</td><td>A callback to connect to the "switch-page" callback of the Grisbi assistant notebook. (the callback should be : gboolean callback ( GtkWidget *assistant, gint new_page ) ) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant_8c_source.html#l00173">173</a> du fichier <a class="el" href="gsb__assistant_8c_source.html">gsb_assistant.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af9667499ec49ad50593c8662801d4a9c"></a><!-- doxytag: member="gsb_assistant.c::gsb_assistant_change_button_next" ref="af9667499ec49ad50593c8662801d4a9c" args="(GtkWidget *assistant, gchar *title, GtkResponseType response)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_assistant_change_button_next </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>assistant</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>title</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkResponseType&nbsp;</td>
+          <td class="paramname"> <em>response</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>force the assistant to go to the previous page</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>assistant</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant_8c_source.html#l00422">422</a> du fichier <a class="el" href="gsb__assistant_8c_source.html">gsb_assistant.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8502128771d8c3f3e8c83d877e1f20ea"></a><!-- doxytag: member="gsb_assistant.c::gsb_assistant_new" ref="a8502128771d8c3f3e8c83d877e1f20ea" args="(const gchar *title, const gchar *explanation, gchar *image_filename, GCallback enter_callback)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_assistant_new </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>title</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>explanation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>image_filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GCallback&nbsp;</td>
+          <td class="paramname"> <em>enter_callback</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Create and initialize a new grisbi assistant. It is basically composed of a GtkDialog with a notebook that is switched from page to page when user click on dialog buttons.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>title</em>&nbsp;</td><td>Title of the assistant. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>explanation</em>&nbsp;</td><td>Short text to display in the first page of the assistant. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>image_filename</em>&nbsp;</td><td>Icon to display in the title. (if NULL, use grisbi.png, default logo) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>enter_callback</em>&nbsp;</td><td>A callback to connect to the "switch-page" callback when go to the first page of the Grisbi assistant notebook. (the callback should be : gboolean callback ( GtkWidget *assistant, gint new_page ) ) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant_8c_source.html#l00062">62</a> du fichier <a class="el" href="gsb__assistant_8c_source.html">gsb_assistant.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afa94b439f0978b7eac4d469df5def613"></a><!-- doxytag: member="gsb_assistant.c::gsb_assistant_next_page" ref="afa94b439f0978b7eac4d469df5def613" args="(GtkWidget *assistant)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_assistant_next_page </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>assistant</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>force the assistant to go to the next page</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>assistant</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant_8c_source.html#l00391">391</a> du fichier <a class="el" href="gsb__assistant_8c_source.html">gsb_assistant.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a886a6fa8c458d71d7cfae7b54bd3187f"></a><!-- doxytag: member="gsb_assistant.c::gsb_assistant_run" ref="a886a6fa8c458d71d7cfae7b54bd3187f" args="(GtkWidget *assistant)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkResponseType gsb_assistant_run </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>assistant</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Run the Grisbi assistant. This will pop up a new dialog.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>assistant</em>&nbsp;</td><td>Grisbi assistant to run.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>Outcome of the Grisbi assistant. Can be GTK_RESPONSE_APPLY for success and GTK_RESPONSE_CANCEL for failure (user canceled or closed dialog). </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant_8c_source.html#l00204">204</a> du fichier <a class="el" href="gsb__assistant_8c_source.html">gsb_assistant.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad38c5d761d97d2257a4b35a52c4048c6"></a><!-- doxytag: member="gsb_assistant.c::gsb_assistant_sensitive_button_next" ref="ad38c5d761d97d2257a4b35a52c4048c6" args="(GtkWidget *assistant, gboolean state)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_assistant_sensitive_button_next </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>assistant</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>state</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant_8c_source.html#l00364">364</a> du fichier <a class="el" href="gsb__assistant_8c_source.html">gsb_assistant.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae21578dcc45348d3400059b9c6794252"></a><!-- doxytag: member="gsb_assistant.c::gsb_assistant_sensitive_button_prev" ref="ae21578dcc45348d3400059b9c6794252" args="(GtkWidget *assistant, gboolean state)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_assistant_sensitive_button_prev </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>assistant</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>state</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant_8c_source.html#l00376">376</a> du fichier <a class="el" href="gsb__assistant_8c_source.html">gsb_assistant.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a06ff0b5745a3a4bd14ceecbd56cd09c1"></a><!-- doxytag: member="gsb_assistant.c::gsb_assistant_set_next" ref="a06ff0b5745a3a4bd14ceecbd56cd09c1" args="(GtkWidget *assistant, gint page, gint next)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_assistant_set_next </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>assistant</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>page</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>next</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Change the next page associated to a notebook page. This can be used to insert a page between two others.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>assistant</em>&nbsp;</td><td>A pointer to a Grisbi assistant. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>page</em>&nbsp;</td><td>Page to change next link. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>next</em>&nbsp;</td><td>Number of the new next page. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant_8c_source.html#l00348">348</a> du fichier <a class="el" href="gsb__assistant_8c_source.html">gsb_assistant.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9c400b973258731e6d4dd4a01a63e1aa"></a><!-- doxytag: member="gsb_assistant.c::gsb_assistant_set_prev" ref="a9c400b973258731e6d4dd4a01a63e1aa" args="(GtkWidget *assistant, gint page, gint prev)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_assistant_set_prev </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>assistant</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>page</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>prev</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Change the previous page associated to a notebook page. This can be used to insert a page between two others.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>assistant</em>&nbsp;</td><td>A pointer to a Grisbi assistant. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>page</em>&nbsp;</td><td>Page to change previous link. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>prev</em>&nbsp;</td><td>Number of the new previous page. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant_8c_source.html#l00329">329</a> du fichier <a class="el" href="gsb__assistant_8c_source.html">gsb_assistant.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="gsb_assistant.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

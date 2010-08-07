@@ -1,0 +1,789 @@
+\section{Référence de la structure struct\_\-report}
+\label{structstruct__report}\index{struct\_\-report@{struct\_\-report}}
+\subsection*{Champs de données}
+\begin{Indent}{\bf general stuff}\par
+{\em \label{_amgrp52b07cac44d92ce9f787d506234f1ad4}
+ }\begin{DoxyCompactItemize}
+\item 
+gint {\bf report\_\-number}
+\item 
+gchar $\ast$ {\bf report\_\-name}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf what we show of the transactions}\par
+{\em \label{_amgrp56989fbdf4b0c5695db4179afa95c2e1}
+ }\begin{DoxyCompactItemize}
+\item 
+gint {\bf show\_\-r}
+\item 
+gint {\bf show\_\-report\_\-transactions}
+\item 
+gint {\bf show\_\-report\_\-transaction\_\-amount}
+\item 
+gint {\bf show\_\-report\_\-date}
+\item 
+gint {\bf show\_\-report\_\-value\_\-date}
+\item 
+gint {\bf show\_\-report\_\-payee}
+\item 
+gint {\bf show\_\-report\_\-category}
+\item 
+gint {\bf show\_\-report\_\-sub\_\-category}
+\item 
+gint {\bf show\_\-report\_\-budget}
+\item 
+gint {\bf show\_\-report\_\-sub\_\-budget}
+\item 
+gint {\bf show\_\-report\_\-note}
+\item 
+gint {\bf show\_\-report\_\-voucher}
+\item 
+gint {\bf show\_\-report\_\-bank\_\-references}
+\item 
+gint {\bf show\_\-report\_\-transaction\_\-number}
+\item 
+gint {\bf show\_\-report\_\-method\_\-of\_\-payment}
+\item 
+gint {\bf show\_\-report\_\-method\_\-of\_\-payment\_\-content}
+\item 
+gint {\bf show\_\-report\_\-marked}
+\item 
+gint {\bf show\_\-report\_\-financial\_\-year}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf stuff showed in the report}\par
+{\em \label{_amgrp573712d5aab0cb31b67871389062a27a}
+ }\begin{DoxyCompactItemize}
+\item 
+gint {\bf sorting\_\-report}
+\item 
+gint {\bf not\_\-detail\_\-split}
+\item 
+gint {\bf split\_\-credit\_\-debit}
+\item 
+gint {\bf currency\_\-general}
+\item 
+gint {\bf column\_\-title\_\-show}
+\item 
+gint {\bf column\_\-title\_\-type}
+\item 
+gint {\bf append\_\-in\_\-payee}
+\item 
+gint {\bf report\_\-can\_\-click}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf period part of the report}\par
+{\em \label{_amgrpfd1248743374f92ec71b4f68ab564e3a}
+ }\begin{DoxyCompactItemize}
+\item 
+gint {\bf use\_\-financial\_\-year}
+\item 
+gint {\bf financial\_\-year\_\-type}
+\item 
+GSList $\ast$ {\bf financial\_\-year\_\-list}
+\item 
+gint {\bf financial\_\-year\_\-split}
+\item 
+gint {\bf date\_\-type}
+\item 
+GDate $\ast$ {\bf personal\_\-date\_\-start}
+\item 
+GDate $\ast$ {\bf personal\_\-date\_\-end}
+\item 
+gint {\bf period\_\-split}
+\item 
+gint {\bf period\_\-split\_\-type}
+\item 
+gint {\bf period\_\-split\_\-day}
+\item 
+GSList $\ast$ {\bf sorting\_\-type}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf account part of the report}\par
+{\em \label{_amgrpf46aef3bb2f8b79e439534849c123ee3}
+ }\begin{DoxyCompactItemize}
+\item 
+gint {\bf account\_\-use\_\-chosen}
+\item 
+GSList $\ast$ {\bf account\_\-numbers}
+\item 
+gint {\bf account\_\-group\_\-reports}
+\item 
+gint {\bf account\_\-show\_\-amount}
+\item 
+gint {\bf account\_\-show\_\-name}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf transfer part of the report}\par
+{\em \label{_amgrp11e29b40f240973533a72ed41e8f3c73}
+ }\begin{DoxyCompactItemize}
+\item 
+gint {\bf transfer\_\-choice}
+\item 
+GSList $\ast$ {\bf transfer\_\-account\_\-numbers}
+\item 
+gint {\bf transfer\_\-reports\_\-only}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf category part of the report}\par
+{\em \label{_amgrp1cfd9f5cb206244641a599959b038da1}
+ }\begin{DoxyCompactItemize}
+\item 
+gint {\bf category\_\-used}
+\item 
+gint {\bf category\_\-detail\_\-used}
+\item 
+GSList $\ast$ {\bf categ\_\-select\_\-struct}
+\item 
+gint {\bf category\_\-show\_\-sub\_\-category}
+\item 
+gint {\bf category\_\-show\_\-category\_\-amount}
+\item 
+gint {\bf category\_\-show\_\-sub\_\-category\_\-amount}
+\item 
+gint {\bf category\_\-currency}
+\item 
+gint {\bf category\_\-show\_\-without\_\-category}
+\item 
+gint {\bf category\_\-show\_\-name}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf budget part of the report}\par
+{\em \label{_amgrp8e80a44cebcdc905d85bff7be4a6ea1b}
+ }\begin{DoxyCompactItemize}
+\item 
+gint {\bf budget\_\-used}
+\item 
+gint {\bf budget\_\-detail\_\-used}
+\item 
+GSList $\ast$ {\bf budget\_\-select\_\-struct}
+\item 
+gint {\bf budget\_\-show\_\-sub\_\-budget}
+\item 
+gint {\bf budget\_\-show\_\-budget\_\-amount}
+\item 
+gint {\bf budget\_\-show\_\-sub\_\-budget\_\-amount}
+\item 
+gint {\bf budget\_\-currency}
+\item 
+gint {\bf budget\_\-show\_\-without\_\-budget}
+\item 
+gint {\bf budget\_\-show\_\-name}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf payee part of the report}\par
+{\em \label{_amgrpbda7ab21f99ecb7ae40f3c8598128a34}
+ }\begin{DoxyCompactItemize}
+\item 
+gint {\bf payee\_\-used}
+\item 
+gint {\bf payee\_\-detail\_\-used}
+\item 
+GSList $\ast$ {\bf payee\_\-numbers}
+\item 
+gint {\bf payee\_\-show\_\-payee\_\-amount}
+\item 
+gint {\bf payee\_\-currency}
+\item 
+gint {\bf payee\_\-show\_\-name}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf text comparison part of the report}\par
+{\em \label{_amgrp3b140157240a7fc97fcca6de2a254319}
+ }\begin{DoxyCompactItemize}
+\item 
+gint {\bf text\_\-comparison\_\-used}
+\item 
+GSList $\ast$ {\bf text\_\-comparison\_\-list}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf amount comparison part of the report}\par
+{\em \label{_amgrp132952e62e7700823167dee4cfde5d57}
+ }\begin{DoxyCompactItemize}
+\item 
+gint {\bf amount\_\-comparison\_\-used}
+\item 
+gint {\bf amount\_\-comparison\_\-currency}
+\item 
+GSList $\ast$ {\bf amount\_\-comparison\_\-list}
+\item 
+gint {\bf amount\_\-comparison\_\-only\_\-report\_\-non\_\-null}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf method of payment part of the report}\par
+{\em \label{_amgrp65bde7696c7dbafe2a9b6239e9aea912}
+ }\begin{DoxyCompactItemize}
+\item 
+gint {\bf method\_\-of\_\-payment\_\-used}
+\item 
+GSList $\ast$ {\bf method\_\-of\_\-payment\_\-list}
+\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsection{Description détaillée}
+
+
+Définition à la ligne 44 du fichier gsb\_\-data\_\-report.c.
+
+
+
+\subsection{Documentation des champs}
+\index{struct\_\-report@{struct\_\-report}!account\_\-group\_\-reports@{account\_\-group\_\-reports}}
+\index{account\_\-group\_\-reports@{account\_\-group\_\-reports}!struct_report@{struct\_\-report}}
+\subsubsection[{account\_\-group\_\-reports}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::account\_\-group\_\-reports}}\label{structstruct__report_a41f8ab65c560384904e74bf9a0380126}
+
+
+Définition à la ligne 102 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!account\_\-numbers@{account\_\-numbers}}
+\index{account\_\-numbers@{account\_\-numbers}!struct_report@{struct\_\-report}}
+\subsubsection[{account\_\-numbers}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf struct\_\-report::account\_\-numbers}}\label{structstruct__report_a9ca947aae3db879d9f5ee6bdd9243eba}
+
+
+Définition à la ligne 101 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!account\_\-show\_\-amount@{account\_\-show\_\-amount}}
+\index{account\_\-show\_\-amount@{account\_\-show\_\-amount}!struct_report@{struct\_\-report}}
+\subsubsection[{account\_\-show\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::account\_\-show\_\-amount}}\label{structstruct__report_a5744bf01ebd31a7afca8d988314bbaa4}
+
+
+Définition à la ligne 103 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!account\_\-show\_\-name@{account\_\-show\_\-name}}
+\index{account\_\-show\_\-name@{account\_\-show\_\-name}!struct_report@{struct\_\-report}}
+\subsubsection[{account\_\-show\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::account\_\-show\_\-name}}\label{structstruct__report_a87da97d50df714d3edf738b12a7113a6}
+
+
+Définition à la ligne 104 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!account\_\-use\_\-chosen@{account\_\-use\_\-chosen}}
+\index{account\_\-use\_\-chosen@{account\_\-use\_\-chosen}!struct_report@{struct\_\-report}}
+\subsubsection[{account\_\-use\_\-chosen}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::account\_\-use\_\-chosen}}\label{structstruct__report_a98614ba88207af2a39a6f6a015c35ebc}
+
+
+Définition à la ligne 100 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!amount\_\-comparison\_\-currency@{amount\_\-comparison\_\-currency}}
+\index{amount\_\-comparison\_\-currency@{amount\_\-comparison\_\-currency}!struct_report@{struct\_\-report}}
+\subsubsection[{amount\_\-comparison\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::amount\_\-comparison\_\-currency}}\label{structstruct__report_a138963ee15ae4e7570616f2ba8ffceba}
+
+
+Définition à la ligne 147 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!amount\_\-comparison\_\-list@{amount\_\-comparison\_\-list}}
+\index{amount\_\-comparison\_\-list@{amount\_\-comparison\_\-list}!struct_report@{struct\_\-report}}
+\subsubsection[{amount\_\-comparison\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf struct\_\-report::amount\_\-comparison\_\-list}}\label{structstruct__report_af4ba45f2c23bbf8450af4e888bd29463}
+
+
+Définition à la ligne 148 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!amount\_\-comparison\_\-only\_\-report\_\-non\_\-null@{amount\_\-comparison\_\-only\_\-report\_\-non\_\-null}}
+\index{amount\_\-comparison\_\-only\_\-report\_\-non\_\-null@{amount\_\-comparison\_\-only\_\-report\_\-non\_\-null}!struct_report@{struct\_\-report}}
+\subsubsection[{amount\_\-comparison\_\-only\_\-report\_\-non\_\-null}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::amount\_\-comparison\_\-only\_\-report\_\-non\_\-null}}\label{structstruct__report_ae2f917737d7539826121715a3a35b82a}
+
+
+Définition à la ligne 149 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!amount\_\-comparison\_\-used@{amount\_\-comparison\_\-used}}
+\index{amount\_\-comparison\_\-used@{amount\_\-comparison\_\-used}!struct_report@{struct\_\-report}}
+\subsubsection[{amount\_\-comparison\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::amount\_\-comparison\_\-used}}\label{structstruct__report_a41c2bf29d16291655e32fb4ef359be9a}
+
+
+Définition à la ligne 146 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!append\_\-in\_\-payee@{append\_\-in\_\-payee}}
+\index{append\_\-in\_\-payee@{append\_\-in\_\-payee}!struct_report@{struct\_\-report}}
+\subsubsection[{append\_\-in\_\-payee}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::append\_\-in\_\-payee}}\label{structstruct__report_a0d108870c82523c3bd947c2fbe8c76dd}
+
+
+Définition à la ligne 79 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!budget\_\-currency@{budget\_\-currency}}
+\index{budget\_\-currency@{budget\_\-currency}!struct_report@{struct\_\-report}}
+\subsubsection[{budget\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::budget\_\-currency}}\label{structstruct__report_a0bee54a9daf8041609a956b6ca7e2841}
+
+
+Définition à la ligne 129 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!budget\_\-detail\_\-used@{budget\_\-detail\_\-used}}
+\index{budget\_\-detail\_\-used@{budget\_\-detail\_\-used}!struct_report@{struct\_\-report}}
+\subsubsection[{budget\_\-detail\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::budget\_\-detail\_\-used}}\label{structstruct__report_a4ef1c001999c752d0c11db81a27b8dde}
+
+
+Définition à la ligne 124 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!budget\_\-select\_\-struct@{budget\_\-select\_\-struct}}
+\index{budget\_\-select\_\-struct@{budget\_\-select\_\-struct}!struct_report@{struct\_\-report}}
+\subsubsection[{budget\_\-select\_\-struct}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf struct\_\-report::budget\_\-select\_\-struct}}\label{structstruct__report_a7dcc1abb1c0cc021a8b9734e0a06d194}
+
+
+Définition à la ligne 125 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!budget\_\-show\_\-budget\_\-amount@{budget\_\-show\_\-budget\_\-amount}}
+\index{budget\_\-show\_\-budget\_\-amount@{budget\_\-show\_\-budget\_\-amount}!struct_report@{struct\_\-report}}
+\subsubsection[{budget\_\-show\_\-budget\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::budget\_\-show\_\-budget\_\-amount}}\label{structstruct__report_ac35c7c1eb978ea24548ccd128c3a68d2}
+
+
+Définition à la ligne 127 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!budget\_\-show\_\-name@{budget\_\-show\_\-name}}
+\index{budget\_\-show\_\-name@{budget\_\-show\_\-name}!struct_report@{struct\_\-report}}
+\subsubsection[{budget\_\-show\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::budget\_\-show\_\-name}}\label{structstruct__report_aba27c0f34d3637a074a026737dac4460}
+
+
+Définition à la ligne 131 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!budget\_\-show\_\-sub\_\-budget@{budget\_\-show\_\-sub\_\-budget}}
+\index{budget\_\-show\_\-sub\_\-budget@{budget\_\-show\_\-sub\_\-budget}!struct_report@{struct\_\-report}}
+\subsubsection[{budget\_\-show\_\-sub\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::budget\_\-show\_\-sub\_\-budget}}\label{structstruct__report_af15d83482479a78653e8a0ae66d19770}
+
+
+Définition à la ligne 126 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!budget\_\-show\_\-sub\_\-budget\_\-amount@{budget\_\-show\_\-sub\_\-budget\_\-amount}}
+\index{budget\_\-show\_\-sub\_\-budget\_\-amount@{budget\_\-show\_\-sub\_\-budget\_\-amount}!struct_report@{struct\_\-report}}
+\subsubsection[{budget\_\-show\_\-sub\_\-budget\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::budget\_\-show\_\-sub\_\-budget\_\-amount}}\label{structstruct__report_aef618bc474971e07d50fd01b17eaaa03}
+
+
+Définition à la ligne 128 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!budget\_\-show\_\-without\_\-budget@{budget\_\-show\_\-without\_\-budget}}
+\index{budget\_\-show\_\-without\_\-budget@{budget\_\-show\_\-without\_\-budget}!struct_report@{struct\_\-report}}
+\subsubsection[{budget\_\-show\_\-without\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::budget\_\-show\_\-without\_\-budget}}\label{structstruct__report_a1605c1caed58e4902698339263624bfe}
+
+
+Définition à la ligne 130 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!budget\_\-used@{budget\_\-used}}
+\index{budget\_\-used@{budget\_\-used}!struct_report@{struct\_\-report}}
+\subsubsection[{budget\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::budget\_\-used}}\label{structstruct__report_aa14b85c9a79651bb8287dfb609a111ae}
+
+
+Définition à la ligne 123 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!categ\_\-select\_\-struct@{categ\_\-select\_\-struct}}
+\index{categ\_\-select\_\-struct@{categ\_\-select\_\-struct}!struct_report@{struct\_\-report}}
+\subsubsection[{categ\_\-select\_\-struct}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf struct\_\-report::categ\_\-select\_\-struct}}\label{structstruct__report_a3388b6aeb744bb79ddda4c6c545c5067}
+
+
+Définition à la ligne 114 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!category\_\-currency@{category\_\-currency}}
+\index{category\_\-currency@{category\_\-currency}!struct_report@{struct\_\-report}}
+\subsubsection[{category\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::category\_\-currency}}\label{structstruct__report_a9e008bb362a5db0193c24232ad5c3af2}
+
+
+Définition à la ligne 118 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!category\_\-detail\_\-used@{category\_\-detail\_\-used}}
+\index{category\_\-detail\_\-used@{category\_\-detail\_\-used}!struct_report@{struct\_\-report}}
+\subsubsection[{category\_\-detail\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::category\_\-detail\_\-used}}\label{structstruct__report_ae795793ee20fb3da567867b4ad6d99d9}
+
+
+Définition à la ligne 113 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!category\_\-show\_\-category\_\-amount@{category\_\-show\_\-category\_\-amount}}
+\index{category\_\-show\_\-category\_\-amount@{category\_\-show\_\-category\_\-amount}!struct_report@{struct\_\-report}}
+\subsubsection[{category\_\-show\_\-category\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::category\_\-show\_\-category\_\-amount}}\label{structstruct__report_a39d1ac3aa6fe5f696a8c04a64c16a158}
+
+
+Définition à la ligne 116 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!category\_\-show\_\-name@{category\_\-show\_\-name}}
+\index{category\_\-show\_\-name@{category\_\-show\_\-name}!struct_report@{struct\_\-report}}
+\subsubsection[{category\_\-show\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::category\_\-show\_\-name}}\label{structstruct__report_a3cd9c261f3fd88c5ae9dd907631e03ed}
+
+
+Définition à la ligne 120 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!category\_\-show\_\-sub\_\-category@{category\_\-show\_\-sub\_\-category}}
+\index{category\_\-show\_\-sub\_\-category@{category\_\-show\_\-sub\_\-category}!struct_report@{struct\_\-report}}
+\subsubsection[{category\_\-show\_\-sub\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::category\_\-show\_\-sub\_\-category}}\label{structstruct__report_a367b49d82197f64746fed92d6d4ba049}
+
+
+Définition à la ligne 115 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!category\_\-show\_\-sub\_\-category\_\-amount@{category\_\-show\_\-sub\_\-category\_\-amount}}
+\index{category\_\-show\_\-sub\_\-category\_\-amount@{category\_\-show\_\-sub\_\-category\_\-amount}!struct_report@{struct\_\-report}}
+\subsubsection[{category\_\-show\_\-sub\_\-category\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::category\_\-show\_\-sub\_\-category\_\-amount}}\label{structstruct__report_ad52af219233ae035aaabbcb706c28908}
+
+
+Définition à la ligne 117 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!category\_\-show\_\-without\_\-category@{category\_\-show\_\-without\_\-category}}
+\index{category\_\-show\_\-without\_\-category@{category\_\-show\_\-without\_\-category}!struct_report@{struct\_\-report}}
+\subsubsection[{category\_\-show\_\-without\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::category\_\-show\_\-without\_\-category}}\label{structstruct__report_ad50fad5557c73d96a5e8869b6d8bf933}
+
+
+Définition à la ligne 119 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!category\_\-used@{category\_\-used}}
+\index{category\_\-used@{category\_\-used}!struct_report@{struct\_\-report}}
+\subsubsection[{category\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::category\_\-used}}\label{structstruct__report_a02fdee7d77522897a9b11783053f3b9f}
+
+
+Définition à la ligne 112 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!column\_\-title\_\-show@{column\_\-title\_\-show}}
+\index{column\_\-title\_\-show@{column\_\-title\_\-show}!struct_report@{struct\_\-report}}
+\subsubsection[{column\_\-title\_\-show}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::column\_\-title\_\-show}}\label{structstruct__report_ad7166b57d7d8250b8987c832a1169be9}
+
+
+Définition à la ligne 77 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!column\_\-title\_\-type@{column\_\-title\_\-type}}
+\index{column\_\-title\_\-type@{column\_\-title\_\-type}!struct_report@{struct\_\-report}}
+\subsubsection[{column\_\-title\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::column\_\-title\_\-type}}\label{structstruct__report_ad27fb68dbad4347aab818b0b8a1333dd}
+
+
+Définition à la ligne 78 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!currency\_\-general@{currency\_\-general}}
+\index{currency\_\-general@{currency\_\-general}!struct_report@{struct\_\-report}}
+\subsubsection[{currency\_\-general}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::currency\_\-general}}\label{structstruct__report_a558b6ad9bfc3d899fd53ad991a8e3517}
+
+
+Définition à la ligne 76 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!date\_\-type@{date\_\-type}}
+\index{date\_\-type@{date\_\-type}!struct_report@{struct\_\-report}}
+\subsubsection[{date\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::date\_\-type}}\label{structstruct__report_aa87ebc3bb0bf40b66b52e5332b2468fb}
+
+
+Définition à la ligne 90 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!financial\_\-year\_\-list@{financial\_\-year\_\-list}}
+\index{financial\_\-year\_\-list@{financial\_\-year\_\-list}!struct_report@{struct\_\-report}}
+\subsubsection[{financial\_\-year\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf struct\_\-report::financial\_\-year\_\-list}}\label{structstruct__report_af513506e7cf17cd5a2eecbcf10602881}
+
+
+Définition à la ligne 87 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!financial\_\-year\_\-split@{financial\_\-year\_\-split}}
+\index{financial\_\-year\_\-split@{financial\_\-year\_\-split}!struct_report@{struct\_\-report}}
+\subsubsection[{financial\_\-year\_\-split}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::financial\_\-year\_\-split}}\label{structstruct__report_a94600058385b2389317c68e1b2145d2a}
+
+
+Définition à la ligne 88 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!financial\_\-year\_\-type@{financial\_\-year\_\-type}}
+\index{financial\_\-year\_\-type@{financial\_\-year\_\-type}!struct_report@{struct\_\-report}}
+\subsubsection[{financial\_\-year\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::financial\_\-year\_\-type}}\label{structstruct__report_a2c773b8aac70162ba7341e3233a69c32}
+
+
+Définition à la ligne 86 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!method\_\-of\_\-payment\_\-list@{method\_\-of\_\-payment\_\-list}}
+\index{method\_\-of\_\-payment\_\-list@{method\_\-of\_\-payment\_\-list}!struct_report@{struct\_\-report}}
+\subsubsection[{method\_\-of\_\-payment\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf struct\_\-report::method\_\-of\_\-payment\_\-list}}\label{structstruct__report_a6fb63bec1575dfcfdaea5c905e1108e4}
+
+
+Définition à la ligne 153 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!method\_\-of\_\-payment\_\-used@{method\_\-of\_\-payment\_\-used}}
+\index{method\_\-of\_\-payment\_\-used@{method\_\-of\_\-payment\_\-used}!struct_report@{struct\_\-report}}
+\subsubsection[{method\_\-of\_\-payment\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::method\_\-of\_\-payment\_\-used}}\label{structstruct__report_a26ff392f121c4a642e7f6ed879723dc4}
+
+
+Définition à la ligne 152 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!not\_\-detail\_\-split@{not\_\-detail\_\-split}}
+\index{not\_\-detail\_\-split@{not\_\-detail\_\-split}!struct_report@{struct\_\-report}}
+\subsubsection[{not\_\-detail\_\-split}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::not\_\-detail\_\-split}}\label{structstruct__report_a0279f83b46326ce4bc78ccc10c72c060}
+
+
+Définition à la ligne 73 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!payee\_\-currency@{payee\_\-currency}}
+\index{payee\_\-currency@{payee\_\-currency}!struct_report@{struct\_\-report}}
+\subsubsection[{payee\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::payee\_\-currency}}\label{structstruct__report_afb0eb8d31a0add17580c918002236316}
+
+
+Définition à la ligne 138 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!payee\_\-detail\_\-used@{payee\_\-detail\_\-used}}
+\index{payee\_\-detail\_\-used@{payee\_\-detail\_\-used}!struct_report@{struct\_\-report}}
+\subsubsection[{payee\_\-detail\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::payee\_\-detail\_\-used}}\label{structstruct__report_af294133d207954abf2965274d9708864}
+
+
+Définition à la ligne 135 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!payee\_\-numbers@{payee\_\-numbers}}
+\index{payee\_\-numbers@{payee\_\-numbers}!struct_report@{struct\_\-report}}
+\subsubsection[{payee\_\-numbers}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf struct\_\-report::payee\_\-numbers}}\label{structstruct__report_a0b011406e867357d59d22fd1264c14df}
+
+
+Définition à la ligne 136 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!payee\_\-show\_\-name@{payee\_\-show\_\-name}}
+\index{payee\_\-show\_\-name@{payee\_\-show\_\-name}!struct_report@{struct\_\-report}}
+\subsubsection[{payee\_\-show\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::payee\_\-show\_\-name}}\label{structstruct__report_a0aaeb9da612069a714bc8c455d3ca438}
+
+
+Définition à la ligne 139 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!payee\_\-show\_\-payee\_\-amount@{payee\_\-show\_\-payee\_\-amount}}
+\index{payee\_\-show\_\-payee\_\-amount@{payee\_\-show\_\-payee\_\-amount}!struct_report@{struct\_\-report}}
+\subsubsection[{payee\_\-show\_\-payee\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::payee\_\-show\_\-payee\_\-amount}}\label{structstruct__report_a728b3769d13f70bf831b051938ef6b30}
+
+
+Définition à la ligne 137 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!payee\_\-used@{payee\_\-used}}
+\index{payee\_\-used@{payee\_\-used}!struct_report@{struct\_\-report}}
+\subsubsection[{payee\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::payee\_\-used}}\label{structstruct__report_a429990fe8900a47a9857e06f4dbdf966}
+
+
+Définition à la ligne 134 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!period\_\-split@{period\_\-split}}
+\index{period\_\-split@{period\_\-split}!struct_report@{struct\_\-report}}
+\subsubsection[{period\_\-split}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::period\_\-split}}\label{structstruct__report_a441f0a79a3e2bc7c88d4b834280fe8d5}
+
+
+Définition à la ligne 93 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!period\_\-split\_\-day@{period\_\-split\_\-day}}
+\index{period\_\-split\_\-day@{period\_\-split\_\-day}!struct_report@{struct\_\-report}}
+\subsubsection[{period\_\-split\_\-day}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::period\_\-split\_\-day}}\label{structstruct__report_aaf955dd4926b6b9429eb9418639a5ff6}
+
+
+Définition à la ligne 95 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!period\_\-split\_\-type@{period\_\-split\_\-type}}
+\index{period\_\-split\_\-type@{period\_\-split\_\-type}!struct_report@{struct\_\-report}}
+\subsubsection[{period\_\-split\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::period\_\-split\_\-type}}\label{structstruct__report_a2eeddc5fc0da9ff279ea09e43fde8d34}
+
+
+Définition à la ligne 94 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!personal\_\-date\_\-end@{personal\_\-date\_\-end}}
+\index{personal\_\-date\_\-end@{personal\_\-date\_\-end}!struct_report@{struct\_\-report}}
+\subsubsection[{personal\_\-date\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}GDate$\ast$ {\bf struct\_\-report::personal\_\-date\_\-end}}\label{structstruct__report_a8c1029792b7144409ca3abf0963e8fc6}
+
+
+Définition à la ligne 92 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!personal\_\-date\_\-start@{personal\_\-date\_\-start}}
+\index{personal\_\-date\_\-start@{personal\_\-date\_\-start}!struct_report@{struct\_\-report}}
+\subsubsection[{personal\_\-date\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}GDate$\ast$ {\bf struct\_\-report::personal\_\-date\_\-start}}\label{structstruct__report_a3f90946ae55b908a84aa548a7b9a8531}
+
+
+Définition à la ligne 91 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!report\_\-can\_\-click@{report\_\-can\_\-click}}
+\index{report\_\-can\_\-click@{report\_\-can\_\-click}!struct_report@{struct\_\-report}}
+\subsubsection[{report\_\-can\_\-click}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::report\_\-can\_\-click}}\label{structstruct__report_ad2771435ec5d8d5efd27fb2b2ecc8e5f}
+
+
+Définition à la ligne 80 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!report\_\-name@{report\_\-name}}
+\index{report\_\-name@{report\_\-name}!struct_report@{struct\_\-report}}
+\subsubsection[{report\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf struct\_\-report::report\_\-name}}\label{structstruct__report_ac19acba0828af84e9e0bc6cb894877a1}
+
+
+Définition à la ligne 48 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!report\_\-number@{report\_\-number}}
+\index{report\_\-number@{report\_\-number}!struct_report@{struct\_\-report}}
+\subsubsection[{report\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::report\_\-number}}\label{structstruct__report_a41840aa5e3b777b24a907d48745a1bac}
+
+
+Définition à la ligne 47 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-r@{show\_\-r}}
+\index{show\_\-r@{show\_\-r}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-r}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-r}}\label{structstruct__report_a74bb9fce5dc7ab646ba66af81b37c210}
+0=all the reports, 1=report not marked R, 2=report marked R 
+
+Définition à la ligne 51 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-bank\_\-references@{show\_\-report\_\-bank\_\-references}}
+\index{show\_\-report\_\-bank\_\-references@{show\_\-report\_\-bank\_\-references}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-bank\_\-references}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-bank\_\-references}}\label{structstruct__report_a9db835ff05a8a634ca98aa0ef36074e1}
+
+
+Définition à la ligne 63 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-budget@{show\_\-report\_\-budget}}
+\index{show\_\-report\_\-budget@{show\_\-report\_\-budget}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-budget}}\label{structstruct__report_aef1b5079ee06d37af113a83601e844b2}
+
+
+Définition à la ligne 59 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-category@{show\_\-report\_\-category}}
+\index{show\_\-report\_\-category@{show\_\-report\_\-category}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-category}}\label{structstruct__report_ad1bfab29cce74181c5faf8b4f8790463}
+
+
+Définition à la ligne 57 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-date@{show\_\-report\_\-date}}
+\index{show\_\-report\_\-date@{show\_\-report\_\-date}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-date}}\label{structstruct__report_a1a96c0cdc04ab689c5df492af77e5cd0}
+
+
+Définition à la ligne 54 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-financial\_\-year@{show\_\-report\_\-financial\_\-year}}
+\index{show\_\-report\_\-financial\_\-year@{show\_\-report\_\-financial\_\-year}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-financial\_\-year}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-financial\_\-year}}\label{structstruct__report_a375e949bdae90828bb652998cb069463}
+
+
+Définition à la ligne 68 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-marked@{show\_\-report\_\-marked}}
+\index{show\_\-report\_\-marked@{show\_\-report\_\-marked}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-marked}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-marked}}\label{structstruct__report_a849329813a949ebd9b0ad4d1a7c0ed97}
+
+
+Définition à la ligne 67 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-method\_\-of\_\-payment@{show\_\-report\_\-method\_\-of\_\-payment}}
+\index{show\_\-report\_\-method\_\-of\_\-payment@{show\_\-report\_\-method\_\-of\_\-payment}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-method\_\-of\_\-payment}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-method\_\-of\_\-payment}}\label{structstruct__report_aae755aaa03efb95d077b069c059c1df4}
+
+
+Définition à la ligne 65 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-method\_\-of\_\-payment\_\-content@{show\_\-report\_\-method\_\-of\_\-payment\_\-content}}
+\index{show\_\-report\_\-method\_\-of\_\-payment\_\-content@{show\_\-report\_\-method\_\-of\_\-payment\_\-content}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-method\_\-of\_\-payment\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-method\_\-of\_\-payment\_\-content}}\label{structstruct__report_a68141847b25228066386e82d9d56e5a5}
+
+
+Définition à la ligne 66 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-note@{show\_\-report\_\-note}}
+\index{show\_\-report\_\-note@{show\_\-report\_\-note}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-note}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-note}}\label{structstruct__report_a57461cdcacc8023823c5185bd9081722}
+
+
+Définition à la ligne 61 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-payee@{show\_\-report\_\-payee}}
+\index{show\_\-report\_\-payee@{show\_\-report\_\-payee}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-payee}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-payee}}\label{structstruct__report_a2e199921e77834e4bd8b4bb9416d3d8c}
+
+
+Définition à la ligne 56 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-sub\_\-budget@{show\_\-report\_\-sub\_\-budget}}
+\index{show\_\-report\_\-sub\_\-budget@{show\_\-report\_\-sub\_\-budget}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-sub\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-sub\_\-budget}}\label{structstruct__report_a6d983f2d4cd68b474fc460523a3cb6ed}
+
+
+Définition à la ligne 60 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-sub\_\-category@{show\_\-report\_\-sub\_\-category}}
+\index{show\_\-report\_\-sub\_\-category@{show\_\-report\_\-sub\_\-category}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-sub\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-sub\_\-category}}\label{structstruct__report_a542aa6291e1522b471303313e850435d}
+
+
+Définition à la ligne 58 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-transaction\_\-amount@{show\_\-report\_\-transaction\_\-amount}}
+\index{show\_\-report\_\-transaction\_\-amount@{show\_\-report\_\-transaction\_\-amount}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-transaction\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-transaction\_\-amount}}\label{structstruct__report_a8b770e5c47e2501d316a1733b8edd02e}
+
+
+Définition à la ligne 53 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-transaction\_\-number@{show\_\-report\_\-transaction\_\-number}}
+\index{show\_\-report\_\-transaction\_\-number@{show\_\-report\_\-transaction\_\-number}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-transaction\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-transaction\_\-number}}\label{structstruct__report_a2f98f1b10a537af9781cc52cc1d29a14}
+
+
+Définition à la ligne 64 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-transactions@{show\_\-report\_\-transactions}}
+\index{show\_\-report\_\-transactions@{show\_\-report\_\-transactions}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-transactions}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-transactions}}\label{structstruct__report_adf2ea0ae58411efe4fa2f709a1aff788}
+
+
+Définition à la ligne 52 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-value\_\-date@{show\_\-report\_\-value\_\-date}}
+\index{show\_\-report\_\-value\_\-date@{show\_\-report\_\-value\_\-date}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-value\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-value\_\-date}}\label{structstruct__report_a32ec2995b0951728bfb04f77ca0c2474}
+
+
+Définition à la ligne 55 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!show\_\-report\_\-voucher@{show\_\-report\_\-voucher}}
+\index{show\_\-report\_\-voucher@{show\_\-report\_\-voucher}!struct_report@{struct\_\-report}}
+\subsubsection[{show\_\-report\_\-voucher}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::show\_\-report\_\-voucher}}\label{structstruct__report_aa80d2b539cbe691962980260ea7474fc}
+
+
+Définition à la ligne 62 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!sorting\_\-report@{sorting\_\-report}}
+\index{sorting\_\-report@{sorting\_\-report}!struct_report@{struct\_\-report}}
+\subsubsection[{sorting\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::sorting\_\-report}}\label{structstruct__report_a65cfd3a48752160bb8353e3e4afd41c5}
+0=date, 1=tr number, 2=payee, 3=categ, 4=budget, 5=notes, 6=method payment, 7=method paym content, 8=voucher, 9=bank ref, 10=marked number 
+
+Définition à la ligne 71 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!sorting\_\-type@{sorting\_\-type}}
+\index{sorting\_\-type@{sorting\_\-type}!struct_report@{struct\_\-report}}
+\subsubsection[{sorting\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf struct\_\-report::sorting\_\-type}}\label{structstruct__report_a4ce79a5283c9ff43ce3de5babbb50446}
+
+
+Définition à la ligne 97 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!split\_\-credit\_\-debit@{split\_\-credit\_\-debit}}
+\index{split\_\-credit\_\-debit@{split\_\-credit\_\-debit}!struct_report@{struct\_\-report}}
+\subsubsection[{split\_\-credit\_\-debit}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::split\_\-credit\_\-debit}}\label{structstruct__report_adcb9c369bcbf1b8d5d517253b4bd80a6}
+
+
+Définition à la ligne 74 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!text\_\-comparison\_\-list@{text\_\-comparison\_\-list}}
+\index{text\_\-comparison\_\-list@{text\_\-comparison\_\-list}!struct_report@{struct\_\-report}}
+\subsubsection[{text\_\-comparison\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf struct\_\-report::text\_\-comparison\_\-list}}\label{structstruct__report_a7e717b753e64b617cf3627c52dfcaec9}
+
+
+Définition à la ligne 143 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!text\_\-comparison\_\-used@{text\_\-comparison\_\-used}}
+\index{text\_\-comparison\_\-used@{text\_\-comparison\_\-used}!struct_report@{struct\_\-report}}
+\subsubsection[{text\_\-comparison\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::text\_\-comparison\_\-used}}\label{structstruct__report_a28a9dc58363522b96365a19d4aaece25}
+
+
+Définition à la ligne 142 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!transfer\_\-account\_\-numbers@{transfer\_\-account\_\-numbers}}
+\index{transfer\_\-account\_\-numbers@{transfer\_\-account\_\-numbers}!struct_report@{struct\_\-report}}
+\subsubsection[{transfer\_\-account\_\-numbers}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf struct\_\-report::transfer\_\-account\_\-numbers}}\label{structstruct__report_aa4b3e636330b92666a236d970baa08c3}
+
+
+Définition à la ligne 108 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!transfer\_\-choice@{transfer\_\-choice}}
+\index{transfer\_\-choice@{transfer\_\-choice}!struct_report@{struct\_\-report}}
+\subsubsection[{transfer\_\-choice}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::transfer\_\-choice}}\label{structstruct__report_a38325745bf7418b74f17643827acaeac}
+
+
+Définition à la ligne 107 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!transfer\_\-reports\_\-only@{transfer\_\-reports\_\-only}}
+\index{transfer\_\-reports\_\-only@{transfer\_\-reports\_\-only}!struct_report@{struct\_\-report}}
+\subsubsection[{transfer\_\-reports\_\-only}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::transfer\_\-reports\_\-only}}\label{structstruct__report_abdfc987a128b8f68d61064998372729d}
+
+
+Définition à la ligne 109 du fichier gsb\_\-data\_\-report.c.
+
+\index{struct\_\-report@{struct\_\-report}!use\_\-financial\_\-year@{use\_\-financial\_\-year}}
+\index{use\_\-financial\_\-year@{use\_\-financial\_\-year}!struct_report@{struct\_\-report}}
+\subsubsection[{use\_\-financial\_\-year}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf struct\_\-report::use\_\-financial\_\-year}}\label{structstruct__report_a65f3cde9fe1e0d2a5f7258e8e11018e3}
+
+
+Définition à la ligne 84 du fichier gsb\_\-data\_\-report.c.
+
+
+
+La documentation de cette structure a été générée à partir du fichier suivant :\begin{DoxyCompactItemize}
+\item 
+{\bf gsb\_\-data\_\-report.c}\end{DoxyCompactItemize}

@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de meta_budgetary.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>meta_budgetary.c</h1><a href="meta__budgetary_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*     Copyright (C)    2004-2006 Benjamin Drieu (bdrieu@april.org)           */</span>
+<a name="l00004"></a>00004 <span class="comment">/*                      http://www.grisbi.org                                 */</span>
+<a name="l00005"></a>00005 <span class="comment">/*                                                                            */</span>
+<a name="l00006"></a>00006 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00007"></a>00007 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00010"></a>00010 <span class="comment">/*                                                                            */</span>
+<a name="l00011"></a>00011 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00015"></a>00015 <span class="comment">/*                                                                            */</span>
+<a name="l00016"></a>00016 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00019"></a>00019 <span class="comment">/*                                                                            */</span>
+<a name="l00020"></a>00020 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="metatree_8h.html">metatree.h</a>&quot;</span>
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="meta__budgetary_8h.html">meta_budgetary.h</a>&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="imputation__budgetaire_8h.html">imputation_budgetaire.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__budget_8h.html">gsb_data_budget.h</a>&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__scheduled_8h.html">gsb_data_scheduled.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__transaction_8h.html">gsb_data_transaction.h</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="utils__str_8h.html">utils_str.h</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="metatree_8h.html">metatree.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00036"></a>00036 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039 <span class="comment">/*START_STATIC*/</span>
+<a name="l00040"></a>00040 <span class="keyword">static</span> gint budgetary_line_add_div ();
+<a name="l00041"></a>00041 <span class="keyword">static</span> gint budgetary_line_add_sub_div ( <span class="keywordtype">int</span> div_id );
+<a name="l00042"></a>00042 <span class="keyword">static</span> gboolean budgetary_line_add_transaction_to_div ( gint transaction_number, 
+<a name="l00043"></a>00043                                                  <span class="keywordtype">int</span> div_id );
+<a name="l00044"></a>00044 <span class="keyword">static</span> gchar * budgetary_line_div_name ( gint div );
+<a name="l00045"></a>00045 <span class="keyword">static</span> gint budgetary_line_get_without_div_pointer ( );
+<a name="l00046"></a>00046 <span class="keyword">static</span> <a class="code" href="structgsb__real.html">gsb_real</a> budgetary_line_sub_div_balance ( gint div, gint sub_div );
+<a name="l00047"></a>00047 <span class="keyword">static</span> gchar * budgetary_line_sub_div_name ( gint div, gint sub_div );
+<a name="l00048"></a>00048 <span class="keyword">static</span> gint budgetary_line_sub_div_nb_transactions ( gint div, gint sub_div );
+<a name="l00049"></a>00049 <span class="keyword">static</span> gint budgetary_lint_get_number_by_name ( <span class="keyword">const</span> gchar *name, gboolean create );
+<a name="l00050"></a>00050 <span class="comment">/*END_STATIC*/</span>
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00053"></a>00053 <span class="keyword">extern</span> gint <a class="code" href="gsb__currency__config_8c.html#a2f4b5073521c582e1bc8941533026556">no_devise_totaux_ib</a>;
+<a name="l00054"></a>00054 <span class="keyword">extern</span> <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="accueil_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a>;
+<a name="l00055"></a>00055 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058 <span class="keyword">static</span> <a class="code" href="structmetatree__interface.html">MetatreeInterface</a> _budgetary_interface = {
+<a name="l00059"></a>00059     2,
+<a name="l00060"></a>00060     2,
+<a name="l00061"></a>00061     <a class="code" href="meta__budgetary_8c.html#a646da781949900e101ad620ddc693a38">budgetary_line_tree_currency</a>,
+<a name="l00062"></a>00062     N_(<span class="stringliteral">&quot;Budgetary line&quot;</span>),
+<a name="l00063"></a>00063     N_(<span class="stringliteral">&quot;No budgetary line&quot;</span>),
+<a name="l00064"></a>00064     N_(<span class="stringliteral">&quot;No sub-budgetary line&quot;</span>),
+<a name="l00065"></a>00065     budgetary_line_get_without_div_pointer,
+<a name="l00066"></a>00066     budgetary_lint_get_number_by_name,
+<a name="l00067"></a>00067     <a class="code" href="gsb__data__budget_8c.html#a6d7e61d14b086448e7176f7681ce6087">gsb_data_budget_get_sub_budget_number_by_name</a>,
+<a name="l00068"></a>00068     <a class="code" href="gsb__data__budget_8c.html#ac8284c60c6666fcd5a9cfe61ea69502b">gsb_data_budget_get_nb_transactions</a>,
+<a name="l00069"></a>00069     budgetary_line_sub_div_nb_transactions,
+<a name="l00070"></a>00070     budgetary_line_div_name,
+<a name="l00071"></a>00071     budgetary_line_sub_div_name,
+<a name="l00072"></a>00072     <a class="code" href="gsb__data__budget_8c.html#a74f736d36e08cf069bd829f082c40c7b">gsb_data_budget_get_balance</a>,
+<a name="l00073"></a>00073     budgetary_line_sub_div_balance,
+<a name="l00074"></a>00074     <a class="code" href="gsb__data__budget_8c.html#ac49b01b1bea1214e11e6f4d917d2e96a">gsb_data_budget_get_no_budget</a>,
+<a name="l00075"></a>00075     <a class="code" href="gsb__data__budget_8c.html#ae9828f372bab1e58bba1fc7d99fef6ea">gsb_data_budget_get_no_sub_budget</a>,
+<a name="l00076"></a>00076     <a class="code" href="gsb__data__budget_8c.html#a5c36c8f11ed3cd9c03a97c89a27fbc5b">gsb_data_budget_get_budgets_list</a>,
+<a name="l00077"></a>00077     <a class="code" href="gsb__data__budget_8c.html#a6bc99abfd66c75159af15d6531c3677e">gsb_data_budget_get_sub_budget_list</a>,
+<a name="l00078"></a>00078     <a class="code" href="gsb__data__budget_8c.html#a11b94ff79cd2f1c623fd8e83463a2321">gsb_data_budget_get_type</a>,
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080     <a class="code" href="gsb__data__transaction_8c.html#a4d84c55dbdfa032c500f4ade0754501f">gsb_data_transaction_get_budgetary_number</a>,
+<a name="l00081"></a>00081     <a class="code" href="gsb__data__transaction_8c.html#a44dbcf1f953a233d0038027289aa2372">gsb_data_transaction_get_sub_budgetary_number</a>,
+<a name="l00082"></a>00082     <a class="code" href="gsb__data__transaction_8c.html#a5cdc1a654e5dbb278af9ad23828fe82d">gsb_data_transaction_set_budgetary_number</a>,
+<a name="l00083"></a>00083     <a class="code" href="gsb__data__transaction_8c.html#aae141d1ea0866286b7d86231862e2b0a">gsb_data_transaction_set_sub_budgetary_number</a>,
+<a name="l00084"></a>00084     <a class="code" href="gsb__data__scheduled_8c.html#a3019884175ba5217da66a26601fbf9f2">gsb_data_scheduled_get_budgetary_number</a>,
+<a name="l00085"></a>00085     <a class="code" href="gsb__data__scheduled_8c.html#a6e325242a5a8187b876eb57f6e1d10ed">gsb_data_scheduled_get_sub_budgetary_number</a>,
+<a name="l00086"></a>00086     <a class="code" href="gsb__data__scheduled_8c.html#a2e5a09822c03b4147c3d0b7c0b727e78">gsb_data_scheduled_set_budgetary_number</a>,
+<a name="l00087"></a>00087     <a class="code" href="gsb__data__scheduled_8c.html#a8bf824ef47fb1e26554ac1c4b7df2438">gsb_data_scheduled_set_sub_budgetary_number</a>,
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089     budgetary_line_add_div,
+<a name="l00090"></a>00090     budgetary_line_add_sub_div,
+<a name="l00091"></a>00091     <a class="code" href="gsb__data__budget_8c.html#a895e0a12bb94ecd94095e5aab8aa05d7">gsb_data_budget_remove</a>,
+<a name="l00092"></a>00092     <a class="code" href="gsb__data__budget_8c.html#ad30a7dbc9af5632fac4fd916de04db66">gsb_data_budget_sub_budget_remove</a>,
+<a name="l00093"></a>00093     budgetary_line_add_transaction_to_div,
+<a name="l00094"></a>00094     <a class="code" href="gsb__data__budget_8c.html#ac21b7a13604eb934237a2ef2ad426c50">gsb_data_budget_add_transaction_to_budget</a>,
+<a name="l00095"></a>00095     <a class="code" href="gsb__data__budget_8c.html#ab85a062bae73070637c4ff986150de7a">gsb_data_budget_remove_transaction_from_budget</a>,
+<a name="l00096"></a>00096     gsb_data_budget_remove_transaction_from_budget,
+<a name="l00097"></a>00097     <a class="code" href="imputation__budgetaire_8c.html#a6228c4caafe41ed3474c70918e98cfac">budgetary_hold_position_set_path</a>,
+<a name="l00098"></a>00098     <a class="code" href="imputation__budgetaire_8c.html#a3266a447db85ea0aff52f82aa54bbbd8">budgetary_hold_position_set_expand</a>,
+<a name="l00099"></a>00099 };
+<a name="l00100"></a>00100 
+<a name="l00101"></a><a class="code" href="utils__operations_8c.html#a4b1a6befee9f0036849fd2ad597c7b13">00101</a> <a class="code" href="structmetatree__interface.html">MetatreeInterface</a> * <a class="code" href="imputation__budgetaire_8c.html#a4b1a6befee9f0036849fd2ad597c7b13">budgetary_interface</a> = &amp;_budgetary_interface;
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103 
+<a name="l00108"></a><a class="code" href="meta__budgetary_8h.html#a646da781949900e101ad620ddc693a38">00108</a> gint <a class="code" href="meta__budgetary_8c.html#a646da781949900e101ad620ddc693a38">budgetary_line_tree_currency</a> ( )
+<a name="l00109"></a>00109 {
+<a name="l00110"></a>00110     <span class="keywordflow">return</span> <a class="code" href="gsb__currency__config_8c.html#a2f4b5073521c582e1bc8941533026556">no_devise_totaux_ib</a>;
+<a name="l00111"></a>00111 }
+<a name="l00112"></a>00112 
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114 
+<a name="l00119"></a>00119 gint budgetary_line_get_without_div_pointer ( )
+<a name="l00120"></a>00120 {
+<a name="l00121"></a>00121     <span class="keywordflow">return</span> 0;
+<a name="l00122"></a>00122 }
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124 
+<a name="l00129"></a>00129 gint budgetary_lint_get_number_by_name ( <span class="keyword">const</span> gchar *name, gboolean create )
+<a name="l00130"></a>00130 {
+<a name="l00131"></a>00131     <span class="keywordflow">return</span> <a class="code" href="gsb__data__budget_8c.html#a1c78de4fbfc0360b85bd503eafe28c96">gsb_data_budget_get_number_by_name</a> (name, create, 0 );
+<a name="l00132"></a>00132 }
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134 
+<a name="l00139"></a>00139 gint budgetary_line_sub_div_nb_transactions ( gint div, gint sub_div )
+<a name="l00140"></a>00140 {
+<a name="l00141"></a>00141     <span class="keywordflow">if</span> ( sub_div )
+<a name="l00142"></a>00142     {
+<a name="l00143"></a>00143         <span class="keywordflow">return</span> <a class="code" href="gsb__data__budget_8c.html#a4883bd0bfff37d0f4b520ed4dc0b69b4">gsb_data_budget_get_sub_budget_nb_transactions</a> ( div,
+<a name="l00144"></a>00144                                                                 sub_div );
+<a name="l00145"></a>00145     }
+<a name="l00146"></a>00146     <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( div )
+<a name="l00147"></a>00147     {
+<a name="l00148"></a>00148         <span class="keywordflow">return</span> <a class="code" href="gsb__data__budget_8c.html#a1459ccca9cd3a215c837409216667d00">gsb_data_budget_get_nb_direct_transactions</a> (div);
+<a name="l00149"></a>00149     }
+<a name="l00150"></a>00150     <span class="keywordflow">return</span> 0;
+<a name="l00151"></a>00151 }
+<a name="l00152"></a>00152 
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154 
+<a name="l00159"></a>00159 gchar * budgetary_line_div_name ( gint div )
+<a name="l00160"></a>00160 {
+<a name="l00161"></a>00161     <span class="keywordflow">return</span> <a class="code" href="gsb__data__budget_8c.html#af857141b1d34674997a047500fd76060">gsb_data_budget_get_name</a> ( div,
+<a name="l00162"></a>00162                                       0,
+<a name="l00163"></a>00163                                       _(budgetary_interface -&gt; no_div_label ));
+<a name="l00164"></a>00164 }
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167 
+<a name="l00172"></a>00172 gchar * budgetary_line_sub_div_name ( gint div, gint sub_div )
+<a name="l00173"></a>00173 {
+<a name="l00174"></a>00174     <span class="keywordflow">return</span> <a class="code" href="gsb__data__budget_8c.html#a10e64049e14c7fba1d4281d418f34eab">gsb_data_budget_get_sub_budget_name</a> ( div,
+<a name="l00175"></a>00175                                                  sub_div,
+<a name="l00176"></a>00176                                                  _(budgetary_interface -&gt; no_sub_div_label ));
+<a name="l00177"></a>00177 }
+<a name="l00178"></a>00178 
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181 
+<a name="l00182"></a>00182 
+<a name="l00187"></a>00187 <a class="code" href="structgsb__real.html">gsb_real</a> budgetary_line_sub_div_balance ( gint div, gint sub_div )
+<a name="l00188"></a>00188 {
+<a name="l00189"></a>00189     <span class="keywordflow">if</span> ( sub_div )
+<a name="l00190"></a>00190     {
+<a name="l00191"></a>00191         <span class="keywordflow">return</span> <a class="code" href="gsb__data__budget_8c.html#a6585ddd55f0d3b807f5319250c115ec7">gsb_data_budget_get_sub_budget_balance</a> ( div,
+<a name="l00192"></a>00192                                                         sub_div );
+<a name="l00193"></a>00193     }
+<a name="l00194"></a>00194     <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( div )
+<a name="l00195"></a>00195     {
+<a name="l00196"></a>00196         <span class="keywordflow">return</span> <a class="code" href="gsb__data__budget_8c.html#a836a45313442b4fcd3e7bb52a031d8c7">gsb_data_budget_get_direct_balance</a> (div);
+<a name="l00197"></a>00197     }
+<a name="l00198"></a>00198     <span class="keywordflow">return</span> null_real;
+<a name="l00199"></a>00199 }
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201 
+<a name="l00202"></a>00202 
+<a name="l00203"></a>00203 
+<a name="l00208"></a>00208 gint budgetary_line_add_div ()
+<a name="l00209"></a>00209 {
+<a name="l00210"></a>00210     gint new_budget_number;
+<a name="l00211"></a>00211     gchar * name;
+<a name="l00212"></a>00212     <span class="keywordtype">int</span> i = 1;
+<a name="l00213"></a>00213 
+<a name="l00215"></a>00215     name =  <a class="code" href="utils__str_8c.html#ad9a37361694eeaa2847b0fe11389824d">my_strdup</a> (_(<span class="stringliteral">&quot;New budget&quot;</span>));
+<a name="l00216"></a>00216 
+<a name="l00217"></a>00217     <span class="keywordflow">while</span> ( <a class="code" href="gsb__data__budget_8c.html#a1c78de4fbfc0360b85bd503eafe28c96">gsb_data_budget_get_number_by_name</a> ( name, FALSE, 0 ))
+<a name="l00218"></a>00218     {
+<a name="l00219"></a>00219         g_free (name);
+<a name="l00220"></a>00220         i++;
+<a name="l00221"></a>00221         name = g_strdup_printf ( _(<span class="stringliteral">&quot;New budget #%d&quot;</span>), i ); 
+<a name="l00222"></a>00222     }
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224     new_budget_number = <a class="code" href="gsb__data__budget_8c.html#a1c78de4fbfc0360b85bd503eafe28c96">gsb_data_budget_get_number_by_name</a> ( name, TRUE, 0 );
+<a name="l00225"></a>00225 
+<a name="l00226"></a>00226     <span class="keywordflow">return</span> new_budget_number;
+<a name="l00227"></a>00227 }
+<a name="l00228"></a>00228 
+<a name="l00229"></a>00229 
+<a name="l00230"></a>00230 
+<a name="l00235"></a>00235 gint budgetary_line_add_sub_div ( <span class="keywordtype">int</span> div_id )
+<a name="l00236"></a>00236 {
+<a name="l00237"></a>00237     gint new_sub_budget_number;
+<a name="l00238"></a>00238     gchar * name;
+<a name="l00239"></a>00239     <span class="keywordtype">int</span> i = 1;
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241     <span class="keywordflow">if</span> ( !div_id )
+<a name="l00242"></a>00242         <span class="keywordflow">return</span> 0;
+<a name="l00243"></a>00243 
+<a name="l00245"></a>00245     name =  <a class="code" href="utils__str_8c.html#ad9a37361694eeaa2847b0fe11389824d">my_strdup</a> (_(<span class="stringliteral">&quot;New sub-budget&quot;</span>));
+<a name="l00246"></a>00246 
+<a name="l00247"></a>00247     <span class="keywordflow">while</span> ( <a class="code" href="gsb__data__budget_8c.html#a6d7e61d14b086448e7176f7681ce6087">gsb_data_budget_get_sub_budget_number_by_name</a> ( div_id, name, FALSE ))
+<a name="l00248"></a>00248     {
+<a name="l00249"></a>00249         g_free (name);
+<a name="l00250"></a>00250         i++;
+<a name="l00251"></a>00251         name = g_strdup_printf ( _(<span class="stringliteral">&quot;New sub-budget #%d&quot;</span>), i ); 
+<a name="l00252"></a>00252     }
+<a name="l00253"></a>00253 
+<a name="l00254"></a>00254     new_sub_budget_number = <a class="code" href="gsb__data__budget_8c.html#a6d7e61d14b086448e7176f7681ce6087">gsb_data_budget_get_sub_budget_number_by_name</a> ( div_id, name, TRUE );
+<a name="l00255"></a>00255 
+<a name="l00256"></a>00256     <span class="keywordflow">return</span> new_sub_budget_number;
+<a name="l00257"></a>00257 }
+<a name="l00258"></a>00258 
+<a name="l00259"></a>00259 
+<a name="l00260"></a>00260 
+<a name="l00261"></a>00261 
+<a name="l00266"></a>00266 gboolean budgetary_line_add_transaction_to_div ( gint transaction_number, 
+<a name="l00267"></a>00267                                                  <span class="keywordtype">int</span> div_id )
+<a name="l00268"></a>00268 {
+<a name="l00269"></a>00269     <a class="code" href="gsb__data__budget_8c.html#ac21b7a13604eb934237a2ef2ad426c50">gsb_data_budget_add_transaction_to_budget</a> ( transaction_number,
+<a name="l00270"></a>00270                                                 div_id, 0 );
+<a name="l00271"></a>00271     <span class="keywordflow">return</span> TRUE;
+<a name="l00272"></a>00272 }
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274 
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

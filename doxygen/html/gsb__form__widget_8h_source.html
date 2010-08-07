@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_form_widget.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_form_widget.h</h1><a href="gsb__form__widget_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _GSB_FORM_WIDGET_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _GSB_FORM_WIDGET_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00009"></a><a class="code" href="structstruct__element.html">00009</a> <span class="keyword">typedef</span> <span class="keyword">struct</span>
+<a name="l00010"></a>00010 {
+<a name="l00011"></a><a class="code" href="structstruct__element.html#a71253591ce0ff12ec3fd58fc9b1a401c">00011</a>     gint element_number;
+<a name="l00012"></a><a class="code" href="structstruct__element.html#a3709048e08a85c59c9414bbf57f58e27">00012</a>     GtkWidget *element_widget;
+<a name="l00013"></a>00013 } <a class="code" href="structstruct__element.html">struct_element</a>;
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00017"></a>00017 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00020"></a>00020 gboolean <a class="code" href="gsb__form__widget_8c.html#a7398bf4ce9d9bebb04a02f7a771a58fa">gsb_form_widget_amount_entry_changed</a> ( GtkWidget *entry,
+<a name="l00021"></a>00021                                         gpointer null );
+<a name="l00022"></a>00022 gboolean <a class="code" href="gsb__form__widget_8c.html#ab190653d3c006279c4b0bc9bfea4d8c4">gsb_form_widget_check_empty</a> ( GtkWidget *entry );
+<a name="l00023"></a>00023 GtkWidget *<a class="code" href="gsb__form__widget_8c.html#a12c6f45282e18968885785e41f434d50">gsb_form_widget_create</a> ( gint element_number,
+<a name="l00024"></a>00024                         gint account_number );
+<a name="l00025"></a>00025 gboolean <a class="code" href="gsb__form__widget_8c.html#acabcc2310e5c066c35065e2b8d2fdd73">gsb_form_widget_free_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00026"></a>00026 GSList *<a class="code" href="gsb__form__widget_8c.html#ad4885fdd3bce3607cf1aba2765864c35">gsb_form_widget_get_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00027"></a>00027 gchar *<a class="code" href="gsb__form__widget_8c.html#a48e129aec71bef3117effe95f85c4a12">gsb_form_widget_get_name</a> ( gint element_number );
+<a name="l00028"></a>00028 gchar *<a class="code" href="gsb__form__widget_8c.html#ae7ff916027066e30c9979f501487ea99">gsb_form_widget_get_old_credit</a> ( <span class="keywordtype">void</span> );
+<a name="l00029"></a>00029 gint <a class="code" href="gsb__form__widget_8c.html#a7daa646e13858fbb603260cecfca7671">gsb_form_widget_get_old_credit_payment_number</a> ( <span class="keywordtype">void</span> );
+<a name="l00030"></a>00030 <span class="keyword">const</span> gchar *<a class="code" href="gsb__form__widget_8c.html#a64e6bc61502ff19fc4ea8fb8df3b172e">gsb_form_widget_get_old_credit_payment_content</a> ( <span class="keywordtype">void</span> );
+<a name="l00031"></a>00031 gchar *<a class="code" href="gsb__form__widget_8c.html#a2eb4aaa73002541694ea3376428698e4">gsb_form_widget_get_old_debit</a> ( <span class="keywordtype">void</span> );
+<a name="l00032"></a>00032 gint <a class="code" href="gsb__form__widget_8c.html#afde4e211d1dbebd81596b477e255dc59">gsb_form_widget_get_old_debit_payment_number</a> ( <span class="keywordtype">void</span> );
+<a name="l00033"></a>00033 <span class="keyword">const</span> gchar *<a class="code" href="gsb__form__widget_8c.html#a7fa4b04b3b5d5e3ce498e753d8278560">gsb_form_widget_get_old_debit_payment_content</a> ( <span class="keywordtype">void</span> );
+<a name="l00034"></a>00034 gboolean <a class="code" href="gsb__form__widget_8c.html#a8278574a493b1c7f20ba557c3cb82344">gsb_form_widget_get_valide_amout_entry</a> ( <span class="keyword">const</span> gchar *<span class="keywordtype">string</span> );
+<a name="l00035"></a>00035 GtkWidget *<a class="code" href="gsb__form__widget_8c.html#ad3d6e5f87dcce9c175f2f402fc63d94e">gsb_form_widget_get_widget</a> ( gint element_number );
+<a name="l00036"></a>00036 gint <a class="code" href="gsb__form__widget_8c.html#ad677f89db19be4b34cfe527f41387617">gsb_form_widget_next_element</a> ( gint account_number,
+<a name="l00037"></a>00037                         gint element_number,
+<a name="l00038"></a>00038                         gint direction );
+<a name="l00039"></a>00039 <span class="keywordtype">void</span> <a class="code" href="gsb__form__widget_8c.html#a0b68e260dc6da6f49888145c901faaa9">gsb_form_widget_set_empty</a> ( GtkWidget *entry,
+<a name="l00040"></a>00040                     gboolean empty );
+<a name="l00041"></a>00041 <span class="keywordtype">void</span> <a class="code" href="gsb__form__widget_8c.html#a44684cf3788bb37368da547e0a7c7296">gsb_form_widget_set_focus</a> ( gint element_number );
+<a name="l00042"></a>00042 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00043"></a>00043 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:02 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

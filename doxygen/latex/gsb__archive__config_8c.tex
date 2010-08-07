@@ -1,0 +1,113 @@
+\section{Référence du fichier gsb\_\-archive\_\-config.c}
+\label{gsb__archive__config_8c}\index{gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-archive\_\-config.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-account\_\-property.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-autofunc.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-automem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-archive\_\-store.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf archives\_\-columns} \{ \par
+{\bf ARCHIVES\_\-NAME\_\-COLUMN} =  0, 
+{\bf ARCHIVES\_\-INIT\_\-DATE}, 
+{\bf ARCHIVES\_\-FINAL\_\-DATE}, 
+{\bf ARCHIVES\_\-FYEAR\_\-NAME}, 
+\par
+{\bf ARCHIVES\_\-REPORT\_\-TITLE}, 
+{\bf ARCHIVES\_\-NUMBER}, 
+{\bf NUM\_\-ARCHIVES\_\-COLUMNS}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-archive\_\-config\_\-create} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf window}
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+this is the config part for the archive 
+
+Définition dans le fichier {\bf gsb\_\-archive\_\-config.c}.
+
+
+
+\subsection{Documentation du type de l'énumération}
+\index{gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}!archives\_\-columns@{archives\_\-columns}}
+\index{archives\_\-columns@{archives\_\-columns}!gsb_archive_config.c@{gsb\_\-archive\_\-config.c}}
+\subsubsection[{archives\_\-columns}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf archives\_\-columns}}\label{gsb__archive__config_8c_a5a5df3b02b66dc0144edab963b8000bb}
+Columns for payment methods tree \begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{ARCHIVES\_\-NAME\_\-COLUMN@{ARCHIVES\_\-NAME\_\-COLUMN}!gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}}\index{gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}!ARCHIVES\_\-NAME\_\-COLUMN@{ARCHIVES\_\-NAME\_\-COLUMN}}\item[{\em 
+ARCHIVES\_\-NAME\_\-COLUMN\label{gsb__archive__config_8c_a5a5df3b02b66dc0144edab963b8000bba37101df1a37da0a3e800fb1bed80e3f4}
+}]\index{ARCHIVES\_\-INIT\_\-DATE@{ARCHIVES\_\-INIT\_\-DATE}!gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}}\index{gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}!ARCHIVES\_\-INIT\_\-DATE@{ARCHIVES\_\-INIT\_\-DATE}}\item[{\em 
+ARCHIVES\_\-INIT\_\-DATE\label{gsb__archive__config_8c_a5a5df3b02b66dc0144edab963b8000bba51dceb65001be9fe835011eafedbf465}
+}]\index{ARCHIVES\_\-FINAL\_\-DATE@{ARCHIVES\_\-FINAL\_\-DATE}!gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}}\index{gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}!ARCHIVES\_\-FINAL\_\-DATE@{ARCHIVES\_\-FINAL\_\-DATE}}\item[{\em 
+ARCHIVES\_\-FINAL\_\-DATE\label{gsb__archive__config_8c_a5a5df3b02b66dc0144edab963b8000bba700225906a65bc881aafaf81cb758ef8}
+}]\index{ARCHIVES\_\-FYEAR\_\-NAME@{ARCHIVES\_\-FYEAR\_\-NAME}!gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}}\index{gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}!ARCHIVES\_\-FYEAR\_\-NAME@{ARCHIVES\_\-FYEAR\_\-NAME}}\item[{\em 
+ARCHIVES\_\-FYEAR\_\-NAME\label{gsb__archive__config_8c_a5a5df3b02b66dc0144edab963b8000bbacf978230737bf51697213a124e7cb261}
+}]\index{ARCHIVES\_\-REPORT\_\-TITLE@{ARCHIVES\_\-REPORT\_\-TITLE}!gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}}\index{gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}!ARCHIVES\_\-REPORT\_\-TITLE@{ARCHIVES\_\-REPORT\_\-TITLE}}\item[{\em 
+ARCHIVES\_\-REPORT\_\-TITLE\label{gsb__archive__config_8c_a5a5df3b02b66dc0144edab963b8000bba8892f6f339c2a9b64a1e5c7d371fef5e}
+}]\index{ARCHIVES\_\-NUMBER@{ARCHIVES\_\-NUMBER}!gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}}\index{gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}!ARCHIVES\_\-NUMBER@{ARCHIVES\_\-NUMBER}}\item[{\em 
+ARCHIVES\_\-NUMBER\label{gsb__archive__config_8c_a5a5df3b02b66dc0144edab963b8000bba6658eff7cf9f330915f448c2041ca239}
+}]\index{NUM\_\-ARCHIVES\_\-COLUMNS@{NUM\_\-ARCHIVES\_\-COLUMNS}!gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}}\index{gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}!NUM\_\-ARCHIVES\_\-COLUMNS@{NUM\_\-ARCHIVES\_\-COLUMNS}}\item[{\em 
+NUM\_\-ARCHIVES\_\-COLUMNS\label{gsb__archive__config_8c_a5a5df3b02b66dc0144edab963b8000bba845c7d68e3295a5d43d0a0b770d2ce95}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 55 du fichier gsb\_\-archive\_\-config.c.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}!gsb\_\-archive\_\-config\_\-create@{gsb\_\-archive\_\-config\_\-create}}
+\index{gsb\_\-archive\_\-config\_\-create@{gsb\_\-archive\_\-config\_\-create}!gsb_archive_config.c@{gsb\_\-archive\_\-config.c}}
+\subsubsection[{gsb\_\-archive\_\-config\_\-create}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-archive\_\-config\_\-create (void)}\label{gsb__archive__config_8c_a58f2c999f923a1d2ed35bd88b206b95d}
+Creates the Archive config tab.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A newly allocated vbox 
+\end{DoxyReturn}
+
+
+Do not set this tab sensitive is no account file is opened. 
+
+
+
+Définition à la ligne 92 du fichier gsb\_\-archive\_\-config.c.
+
+
+
+\subsection{Documentation des variables}
+\index{gsb\_\-archive\_\-config.c@{gsb\_\-archive\_\-config.c}!window@{window}}
+\index{window@{window}!gsb_archive_config.c@{gsb\_\-archive\_\-config.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{gsb__archive__config_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

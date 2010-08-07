@@ -1,0 +1,475 @@
+\section{Référence du fichier transaction\_\-list.c}
+\label{transaction__list_8c}\index{transaction\_\-list.c@{transaction\_\-list.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}custom\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}affichage\_\-liste.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-archive.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-archive\_\-store.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list\_\-select.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list\_\-sort.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-model.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf transaction\_\-list\_\-create} (void)
+\item 
+void {\bf transaction\_\-list\_\-append\_\-transaction} (gint transaction\_\-number)
+\item 
+void {\bf transaction\_\-list\_\-append\_\-archive} (gint archive\_\-store\_\-number)
+\item 
+gboolean {\bf transaction\_\-list\_\-remove\_\-transaction} (gint transaction\_\-number)
+\item 
+gboolean {\bf transaction\_\-list\_\-remove\_\-archive} (gint archive\_\-number)
+\item 
+void {\bf transaction\_\-list\_\-filter} (gint account\_\-number)
+\item 
+void {\bf transaction\_\-list\_\-colorize} (void)
+\item 
+void {\bf transaction\_\-list\_\-set\_\-balances} (void)
+\item 
+gboolean {\bf transaction\_\-list\_\-update\_\-transaction} (gint transaction\_\-number)
+\item 
+gboolean {\bf transaction\_\-list\_\-update\_\-element} (gint element\_\-number)
+\item 
+gboolean {\bf transaction\_\-list\_\-update\_\-column} (gint column, GValue $\ast$value)
+\item 
+gboolean {\bf transaction\_\-list\_\-update\_\-cell} (gint cell\_\-col, gint cell\_\-line)
+\item 
+gboolean {\bf transaction\_\-list\_\-show\_\-toggle\_\-mark} (gboolean show)
+\item 
+void {\bf transaction\_\-list\_\-set} (GtkTreeIter $\ast$iter,...)
+\item 
+gint {\bf transaction\_\-list\_\-get\_\-n\_\-children} (gint transaction\_\-number)
+\item 
+gboolean {\bf transaction\_\-list\_\-redraw} (void)
+\item 
+gint {\bf transaction\_\-list\_\-get\_\-last\_\-line} (gint nb\_\-rows)
+\item 
+void {\bf transaction\_\-list\_\-set\_\-color\_\-jour} (gint account\_\-number)
+\item 
+gboolean {\bf transaction\_\-list\_\-get\_\-variance} (gint transaction\_\-number)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GdkColor {\bf archive\_\-background\_\-color}
+\item 
+GdkColor {\bf couleur\_\-fond} [2]
+\item 
+GdkColor {\bf couleur\_\-jour}
+\item 
+gint {\bf display\_\-one\_\-line}
+\item 
+gint {\bf display\_\-three\_\-lines}
+\item 
+gint {\bf display\_\-two\_\-lines}
+\item 
+{\bf gsb\_\-real} {\bf null\_\-real}
+\item 
+GSList $\ast$ {\bf orphan\_\-child\_\-transactions}
+\item 
+GdkColor {\bf split\_\-background}
+\item 
+gint {\bf tab\_\-affichage\_\-ope} [TRANSACTION\_\-LIST\_\-ROWS\_\-NB][CUSTOM\_\-MODEL\_\-VISIBLE\_\-COLUMNS]
+\item 
+GdkColor {\bf text\_\-color} [2]
+\item 
+GtkWidget $\ast$ {\bf window}
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+this contains the general functions to work with the CustomList as append/remove some transactions, filter, colorize the list...
+
+Grisbi shouldn't work directly on the CustomList except by those files 
+
+Définition dans le fichier {\bf transaction\_\-list.c}.
+
+
+
+\subsection{Documentation des fonctions}
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-append\_\-archive@{transaction\_\-list\_\-append\_\-archive}}
+\index{transaction\_\-list\_\-append\_\-archive@{transaction\_\-list\_\-append\_\-archive}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-append\_\-archive}]{\setlength{\rightskip}{0pt plus 5cm}void transaction\_\-list\_\-append\_\-archive (gint {\em archive\_\-store\_\-number})}\label{transaction__list_8c_afbdc1da83c1a8ae632c753d56acad64c}
+append an archive to the list create the CustomList if still not created
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-store\_\-number}]the archive to append\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 294 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-append\_\-transaction@{transaction\_\-list\_\-append\_\-transaction}}
+\index{transaction\_\-list\_\-append\_\-transaction@{transaction\_\-list\_\-append\_\-transaction}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-append\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}void transaction\_\-list\_\-append\_\-transaction (gint {\em transaction\_\-number})}\label{transaction__list_8c_aa34d9e30792bb09d3dfef963febee748}
+append a transaction to the list that transaction can be a mother or a child (split)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the transaction to append\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 116 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-colorize@{transaction\_\-list\_\-colorize}}
+\index{transaction\_\-list\_\-colorize@{transaction\_\-list\_\-colorize}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-colorize}]{\setlength{\rightskip}{0pt plus 5cm}void transaction\_\-list\_\-colorize (void)}\label{transaction__list_8c_a31251e7e47a79c21b63cffdea74a2ee9}
+colorize transactions in the model
+
+to update all the tree view, use gsb\_\-transactions\_\-list\_\-update\_\-tree\_\-view instead
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 786 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-create@{transaction\_\-list\_\-create}}
+\index{transaction\_\-list\_\-create@{transaction\_\-list\_\-create}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-create}]{\setlength{\rightskip}{0pt plus 5cm}gboolean transaction\_\-list\_\-create (void)}\label{transaction__list_8c_a119133276c26aa62d5bc52f540c42148}
+create the new custom list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : ok, FALSE : pb while creating the list 
+\end{DoxyReturn}
+
+
+Définition à la ligne 97 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-filter@{transaction\_\-list\_\-filter}}
+\index{transaction\_\-list\_\-filter@{transaction\_\-list\_\-filter}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-filter}]{\setlength{\rightskip}{0pt plus 5cm}void transaction\_\-list\_\-filter (gint {\em account\_\-number})}\label{transaction__list_8c_aaa7ed8c4599c862c1ec1332b2ec80c2f}
+this function is called to filter the model, according to account number check each line of the list and mark it as visible or not this function will initialize and fill visibles\_\-rows and num\_\-visibles\_\-rows in the model
+
+usually, we need to call that function first, then transaction\_\-list\_\-sort, the transaction\_\-list\_\-colorize
+
+to update all the tree view, use gsb\_\-transactions\_\-list\_\-update\_\-tree\_\-view instead
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]account we want the filter\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 603 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-get\_\-last\_\-line@{transaction\_\-list\_\-get\_\-last\_\-line}}
+\index{transaction\_\-list\_\-get\_\-last\_\-line@{transaction\_\-list\_\-get\_\-last\_\-line}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-get\_\-last\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gint transaction\_\-list\_\-get\_\-last\_\-line (gint {\em nb\_\-rows})}\label{transaction__list_8c_a8a1d86e0958c09384cf1363b0f07eb3b}
+return the last visible line
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em nb\_\-rows}]the number of visibles lines (1, 2, 3 or 4)\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+numero of the last line 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1956 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-get\_\-n\_\-children@{transaction\_\-list\_\-get\_\-n\_\-children}}
+\index{transaction\_\-list\_\-get\_\-n\_\-children@{transaction\_\-list\_\-get\_\-n\_\-children}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-get\_\-n\_\-children}]{\setlength{\rightskip}{0pt plus 5cm}gint transaction\_\-list\_\-get\_\-n\_\-children (gint {\em transaction\_\-number})}\label{transaction__list_8c_a962d6144bbd2b7b482f964ba557cc38c}
+return the number of children of the transaction, in the tree view so the white line is count into
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the split we want the children number\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of children or 0 if not a split 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1594 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-get\_\-variance@{transaction\_\-list\_\-get\_\-variance}}
+\index{transaction\_\-list\_\-get\_\-variance@{transaction\_\-list\_\-get\_\-variance}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-get\_\-variance}]{\setlength{\rightskip}{0pt plus 5cm}gboolean transaction\_\-list\_\-get\_\-variance (gint {\em transaction\_\-number})}\label{transaction__list_8c_a735d8f0f97ed0239d4b0f7d0cd0604bf}
+retourne TRUE si la variance de l'opération ventilée == 0 
+
+Définition à la ligne 2091 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-redraw@{transaction\_\-list\_\-redraw}}
+\index{transaction\_\-list\_\-redraw@{transaction\_\-list\_\-redraw}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-redraw}]{\setlength{\rightskip}{0pt plus 5cm}gboolean transaction\_\-list\_\-redraw (void)}\label{transaction__list_8c_a05971725f868ba198edf8b30242fec2a}
+send a \char`\"{}row-\/changed\char`\"{} to all the row of the showed transactions, so in fact re-\/draw the list and colors
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 1626 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-remove\_\-archive@{transaction\_\-list\_\-remove\_\-archive}}
+\index{transaction\_\-list\_\-remove\_\-archive@{transaction\_\-list\_\-remove\_\-archive}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-remove\_\-archive}]{\setlength{\rightskip}{0pt plus 5cm}gboolean transaction\_\-list\_\-remove\_\-archive (gint {\em archive\_\-number})}\label{transaction__list_8c_aa086653043993d4f3fef7e086c595849}
+remove an archive from the tree model it should be a good thing to update the tree\_\-view after that
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em archive\_\-number}]the archive to remove\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : archive removed, FALSE : problem, nothing done 
+\end{DoxyReturn}
+
+
+Définition à la ligne 513 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-remove\_\-transaction@{transaction\_\-list\_\-remove\_\-transaction}}
+\index{transaction\_\-list\_\-remove\_\-transaction@{transaction\_\-list\_\-remove\_\-transaction}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-remove\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean transaction\_\-list\_\-remove\_\-transaction (gint {\em transaction\_\-number})}\label{transaction__list_8c_aaf9d03a4407c95f392ef53378ce1fd0f}
+remove a transaction from the tree model this doesn't change any filter or sort parameters, so just need to colorize and set the balances after that
+
+WARNING : the transaction (and its children) must not be freed when come here
+
+NOTE : if the removed transaction is the selected transaction, the model won't have selected transaction anymore, so need to do selection\_\-next before
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the transaction to remove\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : transaction removed, FALSE : problem, nothing done 
+\end{DoxyReturn}
+
+
+Définition à la ligne 371 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-set@{transaction\_\-list\_\-set}}
+\index{transaction\_\-list\_\-set@{transaction\_\-list\_\-set}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-set}]{\setlength{\rightskip}{0pt plus 5cm}void transaction\_\-list\_\-set (GtkTreeIter $\ast$ {\em iter}, \/   {\em ...})}\label{transaction__list_8c_ab23532a1ddd63489aaf16011032bd09b}
+
+
+Définition à la ligne 1485 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-set\_\-balances@{transaction\_\-list\_\-set\_\-balances}}
+\index{transaction\_\-list\_\-set\_\-balances@{transaction\_\-list\_\-set\_\-balances}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-set\_\-balances}]{\setlength{\rightskip}{0pt plus 5cm}void transaction\_\-list\_\-set\_\-balances (void)}\label{transaction__list_8c_a59ee075b27fa18fb9691201b52ec6692}
+fill the balance cell of the transactions in the sorted model
+
+to update all the tree view, use gsb\_\-transactions\_\-list\_\-update\_\-tree\_\-view instead
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 854 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-set\_\-color\_\-jour@{transaction\_\-list\_\-set\_\-color\_\-jour}}
+\index{transaction\_\-list\_\-set\_\-color\_\-jour@{transaction\_\-list\_\-set\_\-color\_\-jour}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-set\_\-color\_\-jour}]{\setlength{\rightskip}{0pt plus 5cm}void transaction\_\-list\_\-set\_\-color\_\-jour (gint {\em account\_\-number})}\label{transaction__list_8c_a8e2f2c3981823494ae5f16f0e8db383b}
+colorise avec un fond gris la ligne qui correspond à la date du jour
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 2029 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-show\_\-toggle\_\-mark@{transaction\_\-list\_\-show\_\-toggle\_\-mark}}
+\index{transaction\_\-list\_\-show\_\-toggle\_\-mark@{transaction\_\-list\_\-show\_\-toggle\_\-mark}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-show\_\-toggle\_\-mark}]{\setlength{\rightskip}{0pt plus 5cm}gboolean transaction\_\-list\_\-show\_\-toggle\_\-mark (gboolean {\em show})}\label{transaction__list_8c_acb52b4ec82acaa5e86ef02efad179bdd}
+show or hide the toggle button on the P column
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em show}]TRUE/FALSE\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : ok, FALSE : pb, nothing done 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1424 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-update\_\-cell@{transaction\_\-list\_\-update\_\-cell}}
+\index{transaction\_\-list\_\-update\_\-cell@{transaction\_\-list\_\-update\_\-cell}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-update\_\-cell}]{\setlength{\rightskip}{0pt plus 5cm}gboolean transaction\_\-list\_\-update\_\-cell (gint {\em cell\_\-col}, \/  gint {\em cell\_\-line})}\label{transaction__list_8c_afc18493ff506a23b7c89174b7e6a8992}
+update a cell with it's element usually you need transaction\_\-list\_\-update\_\-element wich will update all the cells of the element this function is called to erase some cell after moving the element (ie the notes element has moved the cell location, we need to erase the last cells, so we call this with the last cell\_\-col and cell\_\-line In that case, be sure to set before tab\_\-affichage\_\-ope[cell\_\-col][cell\_\-line] to 0, else the last cells will be re-\/written without change )
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em cell\_\-col}]the column of the element we want to update \item[{\em cell\_\-line}]the line of the element we want to update\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE : problem, nothing done ; TRUE : ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1322 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-update\_\-column@{transaction\_\-list\_\-update\_\-column}}
+\index{transaction\_\-list\_\-update\_\-column@{transaction\_\-list\_\-update\_\-column}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-update\_\-column}]{\setlength{\rightskip}{0pt plus 5cm}gboolean transaction\_\-list\_\-update\_\-column (gint {\em column}, \/  GValue $\ast$ {\em value})}\label{transaction__list_8c_ae0a3124ae16f900464b4f062e1ae794b}
+update the column of all the record with the value this is used to update some non seen fixed columns, as font for example to update some visible columns, use instead transaction\_\-list\_\-update\_\-element
+
+the columns are defined in \doxyref{custom\_\-list.h}{p.}{custom__list_8h}
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em column}]the column of the value we want to update \item[{\em value}]the value to set in the column\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE : problem, nothing done ; TRUE : ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1226 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-update\_\-element@{transaction\_\-list\_\-update\_\-element}}
+\index{transaction\_\-list\_\-update\_\-element@{transaction\_\-list\_\-update\_\-element}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-update\_\-element}]{\setlength{\rightskip}{0pt plus 5cm}gboolean transaction\_\-list\_\-update\_\-element (gint {\em element\_\-number})}\label{transaction__list_8c_aee9667138888c4cb946225cae2972363}
+update the given element for all the transactions in the list an element is something showed in the list, as date, payee... to update a column not showed, as color, font... use instead transaction\_\-list\_\-update\_\-column
+
+the elements are defined in \doxyref{gsb\_\-transactions\_\-list.h}{p.}{gsb__transactions__list_8h}
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em element\_\-number}]the element to update\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE : problem, nothing done ; TRUE : ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1194 du fichier transaction\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!transaction\_\-list\_\-update\_\-transaction@{transaction\_\-list\_\-update\_\-transaction}}
+\index{transaction\_\-list\_\-update\_\-transaction@{transaction\_\-list\_\-update\_\-transaction}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{transaction\_\-list\_\-update\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean transaction\_\-list\_\-update\_\-transaction (gint {\em transaction\_\-number})}\label{transaction__list_8c_a7530aa4be260035a39dc5de2acbb8f62}
+update a transaction on the model avoid to change it with transaction\_\-list\_\-set it's slower but lower code... and now, slower is not really visible, so use that function instead of transaction\_\-list\_\-set
+
+this function modify just the transaction on the view, call gsb\_\-transactions\_\-list\_\-update\_\-transaction will make all the other necessary changes when a transaction is modified
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : transaction updated, FALSE : problem, nothing done 
+\end{DoxyReturn}
+
+
+Définition à la ligne 969 du fichier transaction\_\-list.c.
+
+
+
+\subsection{Documentation des variables}
+\index{transaction\_\-list.c@{transaction\_\-list.c}!archive\_\-background\_\-color@{archive\_\-background\_\-color}}
+\index{archive\_\-background\_\-color@{archive\_\-background\_\-color}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{archive\_\-background\_\-color}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf archive\_\-background\_\-color}}\label{transaction__list_8c_a881db8e6c000ad504ff0183a674cb196}
+
+
+Définition à la ligne 115 du fichier traitement\_\-variables.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!couleur\_\-fond@{couleur\_\-fond}}
+\index{couleur\_\-fond@{couleur\_\-fond}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{couleur\_\-fond}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-fond}[2]}\label{transaction__list_8c_a58089bf9225ae2e274165369f8bc7a00}
+colors in the transactions list 
+
+Définition à la ligne 112 du fichier traitement\_\-variables.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!couleur\_\-jour@{couleur\_\-jour}}
+\index{couleur\_\-jour@{couleur\_\-jour}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{couleur\_\-jour}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-jour}}\label{transaction__list_8c_a668e8ab17ed4a22af1464c091c2668c2}
+
+
+Définition à la ligne 113 du fichier traitement\_\-variables.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!display\_\-one\_\-line@{display\_\-one\_\-line}}
+\index{display\_\-one\_\-line@{display\_\-one\_\-line}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{display\_\-one\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf display\_\-one\_\-line}}\label{transaction__list_8c_a36eb372c7727c89f6ed96a3756a28740}
+
+
+Définition à la ligne 66 du fichier affichage\_\-liste.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!display\_\-three\_\-lines@{display\_\-three\_\-lines}}
+\index{display\_\-three\_\-lines@{display\_\-three\_\-lines}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{display\_\-three\_\-lines}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf display\_\-three\_\-lines}}\label{transaction__list_8c_aa74165188c76a0e2ba64239b2236841c}
+
+
+Définition à la ligne 74 du fichier affichage\_\-liste.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!display\_\-two\_\-lines@{display\_\-two\_\-lines}}
+\index{display\_\-two\_\-lines@{display\_\-two\_\-lines}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{display\_\-two\_\-lines}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf display\_\-two\_\-lines}}\label{transaction__list_8c_a420ccd553ba703004c7415ba8ee25630}
+
+
+Définition à la ligne 70 du fichier affichage\_\-liste.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!null\_\-real@{null\_\-real}}
+\index{null\_\-real@{null\_\-real}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{null\_\-real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf null\_\-real}}\label{transaction__list_8c_a26f304bec3fdc0651b9aa8765d4de3c6}
+
+
+Définition à la ligne 42 du fichier gsb\_\-real.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!orphan\_\-child\_\-transactions@{orphan\_\-child\_\-transactions}}
+\index{orphan\_\-child\_\-transactions@{orphan\_\-child\_\-transactions}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{orphan\_\-child\_\-transactions}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf orphan\_\-child\_\-transactions}}\label{transaction__list_8c_ac2f7ca891d6c3a7cfb5c8df02918cf7c}
+this is used when opening a file and filling the model, when some children didn't find their mother 
+
+Définition à la ligne 141 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!split\_\-background@{split\_\-background}}
+\index{split\_\-background@{split\_\-background}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{split\_\-background}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf split\_\-background}}\label{transaction__list_8c_abc4f631d953e2be68189a6fbcf55cd1d}
+
+
+Définition à la ligne 117 du fichier traitement\_\-variables.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!tab\_\-affichage\_\-ope@{tab\_\-affichage\_\-ope}}
+\index{tab\_\-affichage\_\-ope@{tab\_\-affichage\_\-ope}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{tab\_\-affichage\_\-ope}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf tab\_\-affichage\_\-ope}[TRANSACTION\_\-LIST\_\-ROWS\_\-NB][CUSTOM\_\-MODEL\_\-VISIBLE\_\-COLUMNS]}\label{transaction__list_8c_a0c444565adac369ff42631d4b7b7e6bb}
+
+
+Définition à la ligne 63 du fichier affichage\_\-liste.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!text\_\-color@{text\_\-color}}
+\index{text\_\-color@{text\_\-color}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{text\_\-color}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf text\_\-color}[2]}\label{transaction__list_8c_a8169600c05eb3674c1b11ca67dd677d3}
+
+
+Définition à la ligne 118 du fichier traitement\_\-variables.c.
+
+\index{transaction\_\-list.c@{transaction\_\-list.c}!window@{window}}
+\index{window@{window}!transaction_list.c@{transaction\_\-list.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{transaction__list_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

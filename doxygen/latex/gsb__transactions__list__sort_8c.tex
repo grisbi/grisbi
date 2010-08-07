@@ -1,0 +1,82 @@
+\section{Référence du fichier gsb\_\-transactions\_\-list\_\-sort.c}
+\label{gsb__transactions__list__sort_8c}\index{gsb\_\-transactions\_\-list\_\-sort.c@{gsb\_\-transactions\_\-list\_\-sort.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list\_\-sort.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-archive\_\-store.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-budget.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payee.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payment.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-reconcile.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}custom\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gint {\bf gsb\_\-transactions\_\-list\_\-sort} ({\bf CustomRecord} $\ast$$\ast$a, {\bf CustomRecord} $\ast$$\ast$b, {\bf CustomList} $\ast$custom\_\-list)
+\item 
+gint {\bf gsb\_\-transactions\_\-list\_\-sort\_\-check\_\-archive} ({\bf CustomRecord} $\ast$record\_\-1, {\bf CustomRecord} $\ast$record\_\-2)
+\item 
+gint {\bf gsb\_\-transactions\_\-list\_\-sort\_\-general\_\-test} ({\bf CustomRecord} $\ast$record\_\-1, {\bf CustomRecord} $\ast$record\_\-2)
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+functions to sort the transactions list according to the columns 
+
+Définition dans le fichier {\bf gsb\_\-transactions\_\-list\_\-sort.c}.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-transactions\_\-list\_\-sort.c@{gsb\_\-transactions\_\-list\_\-sort.c}!gsb\_\-transactions\_\-list\_\-sort@{gsb\_\-transactions\_\-list\_\-sort}}
+\index{gsb\_\-transactions\_\-list\_\-sort@{gsb\_\-transactions\_\-list\_\-sort}!gsb_transactions_list_sort.c@{gsb\_\-transactions\_\-list\_\-sort.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-sort}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-transactions\_\-list\_\-sort ({\bf CustomRecord} $\ast$$\ast$ {\em a}, \/  {\bf CustomRecord} $\ast$$\ast$ {\em b}, \/  {\bf CustomList} $\ast$ {\em custom\_\-list})}\label{gsb__transactions__list__sort_8c_a3b2cd9609cb89b1c6f4af53433155300}
+called by a click on the column, used to sort the list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em model}]\item[{\em iter\_\-1}]\item[{\em iter\_\-2}]\item[{\em column\_\-number}]the number of the column (0 to CUSTOM\_\-MODEL\_\-VISIBLE\_\-COLUMNS) we want to sort by\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+-\/1 if iter\_\-1 is above iter\_\-2 
+\end{DoxyReturn}
+
+
+Définition à la ligne 113 du fichier gsb\_\-transactions\_\-list\_\-sort.c.
+
+\index{gsb\_\-transactions\_\-list\_\-sort.c@{gsb\_\-transactions\_\-list\_\-sort.c}!gsb\_\-transactions\_\-list\_\-sort\_\-check\_\-archive@{gsb\_\-transactions\_\-list\_\-sort\_\-check\_\-archive}}
+\index{gsb\_\-transactions\_\-list\_\-sort\_\-check\_\-archive@{gsb\_\-transactions\_\-list\_\-sort\_\-check\_\-archive}!gsb_transactions_list_sort.c@{gsb\_\-transactions\_\-list\_\-sort.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-sort\_\-check\_\-archive}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-transactions\_\-list\_\-sort\_\-check\_\-archive ({\bf CustomRecord} $\ast$ {\em record\_\-1}, \/  {\bf CustomRecord} $\ast$ {\em record\_\-2})}\label{gsb__transactions__list__sort_8c_a772947a41069fbbef61f4f63c4c25c2f}
+this is the first check of all : the archive we put them always at the top of the list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em model}]\item[{\em iter\_\-1}]\item[{\em iter\_\-2}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+-\/1 if iter\_\-1 is above iter\_\-2 
+\end{DoxyReturn}
+
+
+Définition à la ligne 180 du fichier gsb\_\-transactions\_\-list\_\-sort.c.
+
+\index{gsb\_\-transactions\_\-list\_\-sort.c@{gsb\_\-transactions\_\-list\_\-sort.c}!gsb\_\-transactions\_\-list\_\-sort\_\-general\_\-test@{gsb\_\-transactions\_\-list\_\-sort\_\-general\_\-test}}
+\index{gsb\_\-transactions\_\-list\_\-sort\_\-general\_\-test@{gsb\_\-transactions\_\-list\_\-sort\_\-general\_\-test}!gsb_transactions_list_sort.c@{gsb\_\-transactions\_\-list\_\-sort.c}}
+\subsubsection[{gsb\_\-transactions\_\-list\_\-sort\_\-general\_\-test}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-transactions\_\-list\_\-sort\_\-general\_\-test ({\bf CustomRecord} $\ast$ {\em record\_\-1}, \/  {\bf CustomRecord} $\ast$ {\em record\_\-2})}\label{gsb__transactions__list__sort_8c_a40753d7cbe5a9effda9f91b5261116d3}
+check for the part wich cannot change : the white line must always be at the end of the list and into a transaction, the lines are not sorted in ascending or descending method
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em model}]\item[{\em iter\_\-1}]\item[{\em iter\_\-2}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+0 if that test cannot say the return\_\-value between the 2 lines, or the return\_\-value if it's possible here 
+\end{DoxyReturn}
+
+
+Définition à la ligne 235 du fichier gsb\_\-transactions\_\-list\_\-sort.c.
+

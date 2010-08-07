@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de utils.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>utils.h</h1><a href="utils_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _UTILS_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _UTILS_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span><span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00004"></a>00004 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00008"></a>00008 gboolean <a class="code" href="utils_8c.html#a201366e3a41e970cd3009d8b5d7afdd0">assert_account_loaded</a> ();
+<a name="l00009"></a>00009 gboolean <a class="code" href="utils_8c.html#a2c94bcb7fbf8bc4dc28ae7ab24425a62">desensitive_widget</a> ( gpointer <span class="keywordtype">object</span>, GtkWidget *widget );
+<a name="l00010"></a>00010 gchar *<a class="code" href="utils_8c.html#ae9b947fc18c3a21dcefe736a902a4926">get_gtk_run_version</a> ( <span class="keywordtype">void</span> );
+<a name="l00011"></a>00011 gboolean <a class="code" href="utils_8c.html#ac95e13303adfcd6b449afd319bc040ab">lance_navigateur_web</a> ( <span class="keyword">const</span> gchar *url );
+<a name="l00012"></a>00012 gboolean <a class="code" href="utils_8c.html#ab19e8857d0718043a43d7e4e9256f717">met_en_normal</a> ( GtkWidget *event_box,
+<a name="l00013"></a>00013                         GdkEventMotion *event,
+<a name="l00014"></a>00014                         gpointer pointeur );
+<a name="l00015"></a>00015 gboolean <a class="code" href="utils_8c.html#abd40f595e7f75784d5151abd80a35af7">met_en_prelight</a> ( GtkWidget *event_box,
+<a name="l00016"></a>00016                         GdkEventMotion *event,
+<a name="l00017"></a>00017                         gpointer pointeur );
+<a name="l00018"></a>00018 GtkWidget *<a class="code" href="utils_8c.html#a22ba81fcf046b5bec6cf6d55d440abc5">new_paddingbox_with_title</a> (GtkWidget * parent, gboolean fill, gchar * title);
+<a name="l00019"></a>00019 GtkWidget *<a class="code" href="utils_8c.html#a3baab3fba6974f2ebf35757198ac8911">new_vbox_with_title_and_icon</a> ( gchar * title,
+<a name="l00020"></a>00020                         gchar * image_filename);
+<a name="l00021"></a>00021 gboolean <a class="code" href="utils_8c.html#a055ba30be6b646e68d1b47934e392f1e">radio_set_active_linked_widgets</a> ( GtkWidget * widget );
+<a name="l00022"></a>00022 <span class="keywordtype">void</span> <a class="code" href="utils_8c.html#a84c3531f5b0d92c5099a458bbf5df7cc">register_button_as_linked</a> ( GtkWidget * widget, GtkWidget * linked );
+<a name="l00023"></a>00023 gboolean <a class="code" href="utils_8c.html#ad678079f1b9eb979a0766e9dcbec0fd3">sens_desensitive_pointeur</a> ( GtkWidget *bouton,
+<a name="l00024"></a>00024                         GtkWidget *widget );
+<a name="l00025"></a>00025 gboolean <a class="code" href="utils_8c.html#a1902d3a5ef1f0899109cd68bf014c7b6">sensitive_widget</a> ( gpointer <span class="keywordtype">object</span>,
+<a name="l00026"></a>00026                         GtkWidget *widget );
+<a name="l00027"></a>00027 <span class="keywordtype">void</span> <a class="code" href="utils_8c.html#a07c1464833b8611d864feba6eee2d8e1">update_ecran</a> ( <span class="keywordtype">void</span> );
+<a name="l00028"></a>00028 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

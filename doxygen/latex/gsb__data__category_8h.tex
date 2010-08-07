@@ -1,0 +1,625 @@
+\section{Référence du fichier gsb\_\-data\_\-category.h}
+\label{gsb__data__category_8h}\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}}
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf category\_\-choice\_\-values} \{ {\bf CATEGORY\_\-CHOICE\_\-NONE} =  0, 
+{\bf CATEGORY\_\-CHOICE\_\-DEFAULT}, 
+{\bf CATEGORY\_\-CHOICE\_\-ASSOCIATION}, 
+{\bf CATEGORY\_\-CHOICE\_\-LIBERAL}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bf gsb\_\-data\_\-category\_\-add\_\-transaction\_\-to\_\-category} (gint transaction\_\-number, gint category\_\-id, gint sub\_\-category\_\-id)
+\item 
+gboolean {\bf gsb\_\-data\_\-category\_\-fill\_\-transaction\_\-by\_\-string} (gint transaction\_\-number, const gchar $\ast$string, gboolean is\_\-transaction)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-data\_\-category\_\-get\_\-balance} (gint no\_\-category)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-category\_\-get\_\-categories\_\-list} (void)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-data\_\-category\_\-get\_\-direct\_\-balance} (gint no\_\-category)
+\item 
+gpointer {\bf gsb\_\-data\_\-category\_\-get\_\-empty\_\-category} (void)
+\item 
+gchar $\ast$ {\bf gsb\_\-data\_\-category\_\-get\_\-name} (gint no\_\-category, gint no\_\-sub\_\-category, const gchar $\ast$return\_\-value\_\-error)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-category\_\-get\_\-name\_\-list} (gboolean set\_\-debit, gboolean set\_\-credit, gboolean set\_\-special, gboolean set\_\-split)
+\item 
+gint {\bf gsb\_\-data\_\-category\_\-get\_\-nb\_\-direct\_\-transactions} (gint no\_\-category)
+\item 
+gint {\bf gsb\_\-data\_\-category\_\-get\_\-nb\_\-transactions} (gint no\_\-category)
+\item 
+gint {\bf gsb\_\-data\_\-category\_\-get\_\-no\_\-category} (gpointer category\_\-ptr)
+\item 
+gint {\bf gsb\_\-data\_\-category\_\-get\_\-no\_\-sub\_\-category} (gpointer sub\_\-category\_\-ptr)
+\item 
+gint {\bf gsb\_\-data\_\-category\_\-get\_\-number\_\-by\_\-name} (const gchar $\ast$name, gboolean create, gint category\_\-type)
+\item 
+gpointer {\bf gsb\_\-data\_\-category\_\-get\_\-structure} (gint no\_\-category)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-balance} (gint no\_\-category, gint no\_\-sub\_\-category)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-list} (gint no\_\-category)
+\item 
+gchar $\ast$ {\bf gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-name} (gint no\_\-category, gint no\_\-sub\_\-category, const gchar $\ast$return\_\-value\_\-error)
+\item 
+gint {\bf gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-nb\_\-transactions} (gint no\_\-category, gint no\_\-sub\_\-category)
+\item 
+gint {\bf gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-number\_\-by\_\-name} (gint category\_\-number, const gchar $\ast$name, gboolean create)
+\item 
+gpointer {\bf gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-structure} (gint no\_\-category, gint no\_\-sub\_\-category)
+\item 
+gint {\bf gsb\_\-data\_\-category\_\-get\_\-type} (gint no\_\-category)
+\item 
+gboolean {\bf gsb\_\-data\_\-category\_\-init\_\-variables} (void)
+\item 
+gint {\bf gsb\_\-data\_\-category\_\-new\_\-sub\_\-category\_\-with\_\-number} (gint number, gint category\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-category\_\-new\_\-with\_\-number} (gint number)
+\item 
+gboolean {\bf gsb\_\-data\_\-category\_\-remove} (gint no\_\-category)
+\item 
+void {\bf gsb\_\-data\_\-category\_\-remove\_\-transaction\_\-from\_\-category} (gint transaction\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-category\_\-set\_\-name} (gint no\_\-category, const gchar $\ast$name)
+\item 
+gboolean {\bf gsb\_\-data\_\-category\_\-set\_\-sub\_\-category\_\-name} (gint no\_\-category, gint no\_\-sub\_\-category, const gchar $\ast$name)
+\item 
+gboolean {\bf gsb\_\-data\_\-category\_\-set\_\-type} (gint no\_\-category, gint category\_\-type)
+\item 
+gboolean {\bf gsb\_\-data\_\-category\_\-sub\_\-category\_\-remove} (gint no\_\-category, gint no\_\-sub\_\-category)
+\item 
+gint {\bf gsb\_\-data\_\-category\_\-test\_\-create\_\-category} (gint no\_\-category, const gchar $\ast$name, gint category\_\-type)
+\item 
+gboolean {\bf gsb\_\-data\_\-category\_\-test\_\-create\_\-sub\_\-category} (gint no\_\-category, gint no\_\-sub\_\-category, const gchar $\ast$name)
+\item 
+void {\bf gsb\_\-data\_\-category\_\-update\_\-counters} (void)
+\item 
+gchar $\ast$ {\bf gsb\_\-debug\_\-duplicate\_\-categ\_\-check} ()
+\begin{DoxyCompactList}\small\item\em Debug check to verify if some sub categories are doubled. \item\end{DoxyCompactList}\item 
+gboolean {\bf gsb\_\-debug\_\-duplicate\_\-categ\_\-fix} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation du type de l'énumération}
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!category\_\-choice\_\-values@{category\_\-choice\_\-values}}
+\index{category\_\-choice\_\-values@{category\_\-choice\_\-values}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{category\_\-choice\_\-values}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf category\_\-choice\_\-values}}\label{gsb__data__category_8h_a6f62ec3bb761e85562c32b19fc8014c7}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{CATEGORY\_\-CHOICE\_\-NONE@{CATEGORY\_\-CHOICE\_\-NONE}!gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}}\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!CATEGORY\_\-CHOICE\_\-NONE@{CATEGORY\_\-CHOICE\_\-NONE}}\item[{\em 
+CATEGORY\_\-CHOICE\_\-NONE\label{gsb__data__category_8h_a6f62ec3bb761e85562c32b19fc8014c7a8d314e7ccac8139217262aed2b4b997f}
+}]\index{CATEGORY\_\-CHOICE\_\-DEFAULT@{CATEGORY\_\-CHOICE\_\-DEFAULT}!gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}}\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!CATEGORY\_\-CHOICE\_\-DEFAULT@{CATEGORY\_\-CHOICE\_\-DEFAULT}}\item[{\em 
+CATEGORY\_\-CHOICE\_\-DEFAULT\label{gsb__data__category_8h_a6f62ec3bb761e85562c32b19fc8014c7a2a3a380d4d007c8c7eef29e832a95dc7}
+}]\index{CATEGORY\_\-CHOICE\_\-ASSOCIATION@{CATEGORY\_\-CHOICE\_\-ASSOCIATION}!gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}}\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!CATEGORY\_\-CHOICE\_\-ASSOCIATION@{CATEGORY\_\-CHOICE\_\-ASSOCIATION}}\item[{\em 
+CATEGORY\_\-CHOICE\_\-ASSOCIATION\label{gsb__data__category_8h_a6f62ec3bb761e85562c32b19fc8014c7abae1c9ae2fa1aee2061625453a140309}
+}]\index{CATEGORY\_\-CHOICE\_\-LIBERAL@{CATEGORY\_\-CHOICE\_\-LIBERAL}!gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}}\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!CATEGORY\_\-CHOICE\_\-LIBERAL@{CATEGORY\_\-CHOICE\_\-LIBERAL}}\item[{\em 
+CATEGORY\_\-CHOICE\_\-LIBERAL\label{gsb__data__category_8h_a6f62ec3bb761e85562c32b19fc8014c7a20f28c72f7674cd4c5173cbea5e55efa}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 9 du fichier gsb\_\-data\_\-category.h.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-add\_\-transaction\_\-to\_\-category@{gsb\_\-data\_\-category\_\-add\_\-transaction\_\-to\_\-category}}
+\index{gsb\_\-data\_\-category\_\-add\_\-transaction\_\-to\_\-category@{gsb\_\-data\_\-category\_\-add\_\-transaction\_\-to\_\-category}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-add\_\-transaction\_\-to\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-data\_\-category\_\-add\_\-transaction\_\-to\_\-category (gint {\em transaction\_\-number}, \/  gint {\em category\_\-id}, \/  gint {\em sub\_\-category\_\-id})}\label{gsb__data__category_8h_ab0125720f46b82a2e71c823b623008d7}
+Add the given transaction to a category in the counters if no category is specified, add it to the blank category.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the transaction we want to work with\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 1388 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-fill\_\-transaction\_\-by\_\-string@{gsb\_\-data\_\-category\_\-fill\_\-transaction\_\-by\_\-string}}
+\index{gsb\_\-data\_\-category\_\-fill\_\-transaction\_\-by\_\-string@{gsb\_\-data\_\-category\_\-fill\_\-transaction\_\-by\_\-string}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-fill\_\-transaction\_\-by\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-category\_\-fill\_\-transaction\_\-by\_\-string (gint {\em transaction\_\-number}, \/  const gchar $\ast$ {\em string}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__category_8h_ab038a913b9c16fabc45e33f60ea97649}
+get a string like 'category : sub-\/category', a transaction number and fill the transaction with the category and sub-\/category if the category or sub-\/category doesn't exist, create them
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]\item[{\em string}]\item[{\em is\_\-transaction}]TRUE if it's for a transaction, FALSE for a scheduled transaction\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok, FALSE if fail 
+\end{DoxyReturn}
+
+
+Définition à la ligne 649 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-balance@{gsb\_\-data\_\-category\_\-get\_\-balance}}
+\index{gsb\_\-data\_\-category\_\-get\_\-balance@{gsb\_\-data\_\-category\_\-get\_\-balance}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-balance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-data\_\-category\_\-get\_\-balance (gint {\em no\_\-category})}\label{gsb__data__category_8h_a102bf405f0b935f393efafaf1cf53503}
+return balance of the category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the number of the category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+balance of the category or 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1239 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-categories\_\-list@{gsb\_\-data\_\-category\_\-get\_\-categories\_\-list}}
+\index{gsb\_\-data\_\-category\_\-get\_\-categories\_\-list@{gsb\_\-data\_\-category\_\-get\_\-categories\_\-list}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-categories\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-category\_\-get\_\-categories\_\-list (void)}\label{gsb__data__category_8h_a818774b4775a516ebcffe7bbea3fbaeb}
+give the g\_\-slist of categories structure usefull when want to check all categories
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the g\_\-slist of categories structure 
+\end{DoxyReturn}
+
+
+Définition à la ligne 296 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-direct\_\-balance@{gsb\_\-data\_\-category\_\-get\_\-direct\_\-balance}}
+\index{gsb\_\-data\_\-category\_\-get\_\-direct\_\-balance@{gsb\_\-data\_\-category\_\-get\_\-direct\_\-balance}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-direct\_\-balance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-data\_\-category\_\-get\_\-direct\_\-balance (gint {\em no\_\-category})}\label{gsb__data__category_8h_ab0bd6098046498d7d3de366ffc6dd177}
+return direct\_\-balance of the category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the number of the category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+balance of the category or 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1281 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-empty\_\-category@{gsb\_\-data\_\-category\_\-get\_\-empty\_\-category}}
+\index{gsb\_\-data\_\-category\_\-get\_\-empty\_\-category@{gsb\_\-data\_\-category\_\-get\_\-empty\_\-category}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-empty\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gpointer gsb\_\-data\_\-category\_\-get\_\-empty\_\-category (void)}\label{gsb__data__category_8h_ac519a744a6487c166367b5e12fb3f2b5}
+return the empty\_\-category pointer
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a pointer to empty\_\-category 
+\end{DoxyReturn}
+
+
+Définition à la ligne 194 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-name@{gsb\_\-data\_\-category\_\-get\_\-name}}
+\index{gsb\_\-data\_\-category\_\-get\_\-name@{gsb\_\-data\_\-category\_\-get\_\-name}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-data\_\-category\_\-get\_\-name (gint {\em no\_\-category}, \/  gint {\em no\_\-sub\_\-category}, \/  const gchar $\ast$ {\em return\_\-value\_\-error})}\label{gsb__data__category_8h_a615342249ac310a61000690303ce88a9}
+return the name of the category and the full name (ie category : sub-\/category if no\_\-sub\_\-category is given)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the number of the category \item[{\em no\_\-sub\_\-category}]if we want the full name of the category \item[{\em return\_\-value\_\-error}]if problem, the value we return\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the name of the category, category : sub-\/category or NULL/No category if problem the returned value need to be freed after use 
+\end{DoxyReturn}
+
+
+Définition à la ligne 835 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-name\_\-list@{gsb\_\-data\_\-category\_\-get\_\-name\_\-list}}
+\index{gsb\_\-data\_\-category\_\-get\_\-name\_\-list@{gsb\_\-data\_\-category\_\-get\_\-name\_\-list}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-name\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-category\_\-get\_\-name\_\-list (gboolean {\em set\_\-debit}, \/  gboolean {\em set\_\-credit}, \/  gboolean {\em set\_\-special}, \/  gboolean {\em set\_\-split})}\label{gsb__data__category_8h_ac9e9466a500b7589b2b38af6ffdc9a27}
+return a g\_\-slist of g\_\-slist of names of the categories
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em set\_\-debit}]TRUE if we want to have the debits \item[{\em set\_\-credit}]TRUE if we want to have the credits \item[{\em set\_\-special}]TRUE if we want to have the specials \item[{\em set\_\-split}]TRUE if we want to add the split to the specials category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a g\_\-slist of g\_\-slist of gchar $\ast$ 
+\end{DoxyReturn}
+
+
+Définition à la ligne 993 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-nb\_\-direct\_\-transactions@{gsb\_\-data\_\-category\_\-get\_\-nb\_\-direct\_\-transactions}}
+\index{gsb\_\-data\_\-category\_\-get\_\-nb\_\-direct\_\-transactions@{gsb\_\-data\_\-category\_\-get\_\-nb\_\-direct\_\-transactions}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-nb\_\-direct\_\-transactions}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-category\_\-get\_\-nb\_\-direct\_\-transactions (gint {\em no\_\-category})}\label{gsb__data__category_8h_af73e48e7177061fe93a61a3d2ea8f34c}
+return nb\_\-direct\_\-transactions of the category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the number of the category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+nb\_\-direct\_\-transactions of the category or 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1217 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-nb\_\-transactions@{gsb\_\-data\_\-category\_\-get\_\-nb\_\-transactions}}
+\index{gsb\_\-data\_\-category\_\-get\_\-nb\_\-transactions@{gsb\_\-data\_\-category\_\-get\_\-nb\_\-transactions}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-nb\_\-transactions}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-category\_\-get\_\-nb\_\-transactions (gint {\em no\_\-category})}\label{gsb__data__category_8h_a680b3ce8f52b52d129b7476030f28751}
+return nb\_\-transactions of the category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the number of the category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+nb\_\-transactions of the category or 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1172 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-no\_\-category@{gsb\_\-data\_\-category\_\-get\_\-no\_\-category}}
+\index{gsb\_\-data\_\-category\_\-get\_\-no\_\-category@{gsb\_\-data\_\-category\_\-get\_\-no\_\-category}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-no\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-category\_\-get\_\-no\_\-category (gpointer {\em category\_\-ptr})}\label{gsb__data__category_8h_ad96f1f1ae0532eb5ae3503a79dcaa64d}
+return the number of the categories given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em category\_\-ptr}]a pointer to the struct of the category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the category, 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 330 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-no\_\-sub\_\-category@{gsb\_\-data\_\-category\_\-get\_\-no\_\-sub\_\-category}}
+\index{gsb\_\-data\_\-category\_\-get\_\-no\_\-sub\_\-category@{gsb\_\-data\_\-category\_\-get\_\-no\_\-sub\_\-category}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-no\_\-sub\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-category\_\-get\_\-no\_\-sub\_\-category (gpointer {\em sub\_\-category\_\-ptr})}\label{gsb__data__category_8h_a55a6b25f3fe1e0c08f603308ab091d97}
+return the number of the sub-\/category given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em sub\_\-category\_\-ptr}]a pointer to the struct of the sub-\/category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the category, 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 350 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-number\_\-by\_\-name@{gsb\_\-data\_\-category\_\-get\_\-number\_\-by\_\-name}}
+\index{gsb\_\-data\_\-category\_\-get\_\-number\_\-by\_\-name@{gsb\_\-data\_\-category\_\-get\_\-number\_\-by\_\-name}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-number\_\-by\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-category\_\-get\_\-number\_\-by\_\-name (const gchar $\ast$ {\em name}, \/  gboolean {\em create}, \/  gint {\em category\_\-type})}\label{gsb__data__category_8h_a0829907fff4f8dda3487debb5f2cc43f}
+return the number of the category wich has the name in param create it if necessary
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em name}]the name of the category \item[{\em create}]TRUE if we want to create it if it doen't exist \item[{\em category\_\-type}]the type of the category if we create it 0:credit / 1:debit / 2:special (transfert, split...) $\ast$ \end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the category or 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 707 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-structure@{gsb\_\-data\_\-category\_\-get\_\-structure}}
+\index{gsb\_\-data\_\-category\_\-get\_\-structure@{gsb\_\-data\_\-category\_\-get\_\-structure}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-structure}]{\setlength{\rightskip}{0pt plus 5cm}gpointer gsb\_\-data\_\-category\_\-get\_\-structure (gint {\em no\_\-category})}\label{gsb__data__category_8h_a1ea1662771313b5e9800d380eed970d2}
+find and return the structure of the category asked
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]number of category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the adr of the struct of the category, empty\_\-category or NULL if not exists 
+\end{DoxyReturn}
+
+
+Définition à la ligne 171 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-balance@{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-balance}}
+\index{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-balance@{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-balance}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-balance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-balance (gint {\em no\_\-category}, \/  gint {\em no\_\-sub\_\-category})}\label{gsb__data__category_8h_aeac932813d0fb3d2a96433c47f84360d}
+return balance of the sub-\/category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the number of the category \item[{\em no\_\-sub\_\-category}]the number of the sub-\/category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+balance of the sub-\/category or 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1260 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-list@{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-list}}
+\index{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-list@{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-list}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-list (gint {\em no\_\-category})}\label{gsb__data__category_8h_a5b6c6e3288cd0e25f28dd9ac1af6979f}
+return the g\_\-slist of the sub-\/categories of the category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the number of the category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a g\_\-slist of the struct of the sub-\/categories or NULL if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 309 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-name@{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-name}}
+\index{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-name@{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-name}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-name (gint {\em no\_\-category}, \/  gint {\em no\_\-sub\_\-category}, \/  const gchar $\ast$ {\em return\_\-value\_\-error})}\label{gsb__data__category_8h_a3b5bc5fb4125a2e3e8df0c922cbee149}
+return the name of the sub-\/category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the number of the category \item[{\em no\_\-sub\_\-category}]the number of the sub-\/category \item[{\em return\_\-value\_\-error}]if problem, return that value\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a newly allocated string with the name of the category or return\_\-value\_\-error to be freed too 
+\end{DoxyReturn}
+
+
+Définition à la ligne 923 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-nb\_\-transactions@{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-nb\_\-transactions}}
+\index{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-nb\_\-transactions@{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-nb\_\-transactions}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-nb\_\-transactions}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-nb\_\-transactions (gint {\em no\_\-category}, \/  gint {\em no\_\-sub\_\-category})}\label{gsb__data__category_8h_a5f16d58b41f4b4278206b7a1e060989f}
+return nb\_\-transactions of the sub-\/category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the number of the category \item[{\em no\_\-sub\_\-category}]the number of the sub-\/category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+nb\_\-transactions of the sub-\/category or 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1194 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-number\_\-by\_\-name@{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-number\_\-by\_\-name}}
+\index{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-number\_\-by\_\-name@{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-number\_\-by\_\-name}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-number\_\-by\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-number\_\-by\_\-name (gint {\em category\_\-number}, \/  const gchar $\ast$ {\em name}, \/  gboolean {\em create})}\label{gsb__data__category_8h_ae7a9bf73192580090b2d710ec5a1c0f9}
+return the number of the sub-\/category wich has the name in param create it if necessary
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em category\_\-number}]the number of the category \item[{\em name}]the name of the sub-\/category \item[{\em create}]TRUE if we want to create it if it doen't exist\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the sub-\/category or 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 749 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-structure@{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-structure}}
+\index{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-structure@{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-structure}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-structure}]{\setlength{\rightskip}{0pt plus 5cm}gpointer gsb\_\-data\_\-category\_\-get\_\-sub\_\-category\_\-structure (gint {\em no\_\-category}, \/  gint {\em no\_\-sub\_\-category})}\label{gsb__data__category_8h_ab36a02b615d8b89789810a7f74f338cd}
+find and return the structure of the sub-\/category asked
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]number of category \item[{\em no\_\-sub\_\-category}]the number of the sub-\/category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the adr of the struct of the sub-\/category (NULL if doesn't exit) 
+\end{DoxyReturn}
+
+
+Définition à la ligne 247 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-get\_\-type@{gsb\_\-data\_\-category\_\-get\_\-type}}
+\index{gsb\_\-data\_\-category\_\-get\_\-type@{gsb\_\-data\_\-category\_\-get\_\-type}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-get\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-category\_\-get\_\-type (gint {\em no\_\-category})}\label{gsb__data__category_8h_ad207c5dac58f010fe8c73c4e2f2f5a58}
+return the type of the category 0:credit / 1:debit / 2:special (transfert, split...)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the number of the category \item[{\em can\_\-return\_\-null}]if problem, return NULL if TRUE or \char`\"{}No category\char`\"{} if FALSE\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the name of the category or NULL/No category if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1128 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-init\_\-variables@{gsb\_\-data\_\-category\_\-init\_\-variables}}
+\index{gsb\_\-data\_\-category\_\-init\_\-variables@{gsb\_\-data\_\-category\_\-init\_\-variables}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-init\_\-variables}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-category\_\-init\_\-variables (void)}\label{gsb__data__category_8h_a0efec43fb6122b3f83bf71995d2a2459}
+set the categories global variables to NULL, usually when we init all the global variables
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 132 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-new\_\-sub\_\-category\_\-with\_\-number@{gsb\_\-data\_\-category\_\-new\_\-sub\_\-category\_\-with\_\-number}}
+\index{gsb\_\-data\_\-category\_\-new\_\-sub\_\-category\_\-with\_\-number@{gsb\_\-data\_\-category\_\-new\_\-sub\_\-category\_\-with\_\-number}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-new\_\-sub\_\-category\_\-with\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-category\_\-new\_\-sub\_\-category\_\-with\_\-number (gint {\em number}, \/  gint {\em category\_\-number})}\label{gsb__data__category_8h_a007e82a8aede52e25cabd4525cdd75af}
+create a new sub-\/category with a number, append it to the list and return the number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number}]the number we want to give to that sub-\/category \item[{\em category\_\-number}]the number of the mother\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the new sub-\/category or 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 614 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-new\_\-with\_\-number@{gsb\_\-data\_\-category\_\-new\_\-with\_\-number}}
+\index{gsb\_\-data\_\-category\_\-new\_\-with\_\-number@{gsb\_\-data\_\-category\_\-new\_\-with\_\-number}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-new\_\-with\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-category\_\-new\_\-with\_\-number (gint {\em number})}\label{gsb__data__category_8h_af1200f47ea735940d984eff24c5c41ef}
+create a new category with a number, append it to the list and return the number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number}]the number we want to give to that category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the new category 
+\end{DoxyReturn}
+
+
+Définition à la ligne 459 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-remove@{gsb\_\-data\_\-category\_\-remove}}
+\index{gsb\_\-data\_\-category\_\-remove@{gsb\_\-data\_\-category\_\-remove}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-category\_\-remove (gint {\em no\_\-category})}\label{gsb__data__category_8h_a6c7a65577a171613fef900fc5f2a3bc3}
+remove a category set all the categories of transaction which are this one to 0 update combofix and mark file as modified
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the category we want to remove\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 485 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-remove\_\-transaction\_\-from\_\-category@{gsb\_\-data\_\-category\_\-remove\_\-transaction\_\-from\_\-category}}
+\index{gsb\_\-data\_\-category\_\-remove\_\-transaction\_\-from\_\-category@{gsb\_\-data\_\-category\_\-remove\_\-transaction\_\-from\_\-category}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-remove\_\-transaction\_\-from\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-data\_\-category\_\-remove\_\-transaction\_\-from\_\-category (gint {\em transaction\_\-number})}\label{gsb__data__category_8h_aa19788e0032e0cac0e125c478c5a3b06}
+remove the given transaction to its category in the counters if the transaction has no category, remove it to the blank category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the transaction we want to work with\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 1462 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-set\_\-name@{gsb\_\-data\_\-category\_\-set\_\-name}}
+\index{gsb\_\-data\_\-category\_\-set\_\-name@{gsb\_\-data\_\-category\_\-set\_\-name}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-set\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-category\_\-set\_\-name (gint {\em no\_\-category}, \/  const gchar $\ast$ {\em name})}\label{gsb__data__category_8h_a24478d49cde92d7c4b165bd5a746aa6a}
+set the name of the category the value is dupplicate in memory
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the number of the category \item[{\em name}]the name of the category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 882 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-set\_\-sub\_\-category\_\-name@{gsb\_\-data\_\-category\_\-set\_\-sub\_\-category\_\-name}}
+\index{gsb\_\-data\_\-category\_\-set\_\-sub\_\-category\_\-name@{gsb\_\-data\_\-category\_\-set\_\-sub\_\-category\_\-name}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-set\_\-sub\_\-category\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-category\_\-set\_\-sub\_\-category\_\-name (gint {\em no\_\-category}, \/  gint {\em no\_\-sub\_\-category}, \/  const gchar $\ast$ {\em name})}\label{gsb__data__category_8h_aa34eb73fc8d399e770bfaf0e9dbae579}
+set the name of the sub-\/category the value is dupplicate in memory
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the number of the category \item[{\em no\_\-sub\_\-category}]the number of the sub-\/category \item[{\em name}]the name of the sub-\/category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 949 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-set\_\-type@{gsb\_\-data\_\-category\_\-set\_\-type}}
+\index{gsb\_\-data\_\-category\_\-set\_\-type@{gsb\_\-data\_\-category\_\-set\_\-type}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-set\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-category\_\-set\_\-type (gint {\em no\_\-category}, \/  gint {\em category\_\-type})}\label{gsb__data__category_8h_a5378b0ca829c745cd3cd2b8c11d090fd}
+set the type of the category 0:credit / 1:debit / 2:special (transfert, split...)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the number of the category \item[{\em name}]the name of the category\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1150 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-sub\_\-category\_\-remove@{gsb\_\-data\_\-category\_\-sub\_\-category\_\-remove}}
+\index{gsb\_\-data\_\-category\_\-sub\_\-category\_\-remove@{gsb\_\-data\_\-category\_\-sub\_\-category\_\-remove}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-sub\_\-category\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-category\_\-sub\_\-category\_\-remove (gint {\em no\_\-category}, \/  gint {\em no\_\-sub\_\-category})}\label{gsb__data__category_8h_a46cf96dd8292ede898029509cd912c13}
+remove a sub-\/category from a category set all the categories of transaction which are this one to 0 update combofix and mark file as modified
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-category}]the category we want to remove\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 554 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-test\_\-create\_\-category@{gsb\_\-data\_\-category\_\-test\_\-create\_\-category}}
+\index{gsb\_\-data\_\-category\_\-test\_\-create\_\-category@{gsb\_\-data\_\-category\_\-test\_\-create\_\-category}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-test\_\-create\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-category\_\-test\_\-create\_\-category (gint {\em no\_\-category}, \/  const gchar $\ast$ {\em name}, \/  gint {\em category\_\-type})}\label{gsb__data__category_8h_a5699c010964e46bf1579ff0b17d84242}
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 1630 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-test\_\-create\_\-sub\_\-category@{gsb\_\-data\_\-category\_\-test\_\-create\_\-sub\_\-category}}
+\index{gsb\_\-data\_\-category\_\-test\_\-create\_\-sub\_\-category@{gsb\_\-data\_\-category\_\-test\_\-create\_\-sub\_\-category}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-test\_\-create\_\-sub\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-category\_\-test\_\-create\_\-sub\_\-category (gint {\em no\_\-category}, \/  gint {\em no\_\-sub\_\-category}, \/  const gchar $\ast$ {\em name})}\label{gsb__data__category_8h_ab7e2bf16a1622e1a01729e05d081aaf6}
+
+
+Définition à la ligne 1668 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-data\_\-category\_\-update\_\-counters@{gsb\_\-data\_\-category\_\-update\_\-counters}}
+\index{gsb\_\-data\_\-category\_\-update\_\-counters@{gsb\_\-data\_\-category\_\-update\_\-counters}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-data\_\-category\_\-update\_\-counters}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-data\_\-category\_\-update\_\-counters (void)}\label{gsb__data__category_8h_a7493a6311c8104b85359d4e5845801f5}
+update the counters of the categories
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 1351 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-debug\_\-duplicate\_\-categ\_\-check@{gsb\_\-debug\_\-duplicate\_\-categ\_\-check}}
+\index{gsb\_\-debug\_\-duplicate\_\-categ\_\-check@{gsb\_\-debug\_\-duplicate\_\-categ\_\-check}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-debug\_\-duplicate\_\-categ\_\-check}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-debug\_\-duplicate\_\-categ\_\-check ()}\label{gsb__data__category_8h_a77a566f97efc985ed31a709e0f999884}
+
+
+Debug check to verify if some sub categories are doubled. 
+
+This is a bug caused in old version of Grisbi and this check has to be there since we need to access to the structures directly without resorting to numeric ids.
+
+\begin{DoxyReturn}{Renvoie}
+NULL if no error found. A string describing any issue if any. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1533 du fichier gsb\_\-data\_\-category.c.
+
+\index{gsb\_\-data\_\-category.h@{gsb\_\-data\_\-category.h}!gsb\_\-debug\_\-duplicate\_\-categ\_\-fix@{gsb\_\-debug\_\-duplicate\_\-categ\_\-fix}}
+\index{gsb\_\-debug\_\-duplicate\_\-categ\_\-fix@{gsb\_\-debug\_\-duplicate\_\-categ\_\-fix}!gsb_data_category.h@{gsb\_\-data\_\-category.h}}
+\subsubsection[{gsb\_\-debug\_\-duplicate\_\-categ\_\-fix}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-debug\_\-duplicate\_\-categ\_\-fix ()}\label{gsb__data__category_8h_adc32170e6ce2e5c802d70dc7e0e43085}
+Fix any duplicate in sub categories.
+
+\begin{DoxyReturn}{Renvoie}
+TRUE on success. FALSE otherwise. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1589 du fichier gsb\_\-data\_\-category.c.
+

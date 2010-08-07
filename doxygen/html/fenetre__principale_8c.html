@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier fenetre_principale.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier fenetre_principale.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="fenetre__principale_8h_source.html">fenetre_principale.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="accueil_8h_source.html">accueil.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__data_8h_source.html">bet_data.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__data__finance_8h_source.html">bet_data_finance.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__finance__ui_8h_source.html">bet_finance_ui.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__hist_8h_source.html">bet_hist.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="bet__tab_8h_source.html">bet_tab.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="etats__onglet_8h_source.html">etats_onglet.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="fenetre__principale_8c_source.html">gsb_account_property.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form_8h_source.html">gsb_form.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__scheduler__list_8h_source.html">gsb_scheduler_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="main_8h_source.html">main.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="categories__onglet_8h_source.html">categories_onglet.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="tiers__onglet_8h_source.html">tiers_onglet.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="fenetre__principale_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#af3f1b8f11e630ea3467cca17ef4ee048">create_main_widget</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#ac472c4356247af478d93db80f99a2792">gsb_gui_on_account_switch_page</a> (GtkNotebook *notebook, GtkNotebookPage *page, guint page_number, gpointer null)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#a94dc9871dffaaec186f7933619418064">gsb_gui_on_account_change_page</a> (<a class="el" href="fenetre__principale_8h.html#a52ecea0b75c8cf1a5b2dc61975676ff2">GsbaccountNotebookPages</a> page)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#a7dd6f116baa9323630e845e36615fc53">gsb_gui_headings_update_title</a> (gchar *title)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#aeed9c0940d61e6cf37c5f421ce3b663f">gsb_gui_headings_update_suffix</a> (gchar *suffix)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#a1ea5e5d9534b171d1062af58ac8c6f3b">gsb_gui_update_show_headings</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#a94542c45fb71a3cd8b955b5e0fcc2ed9">gsb_gui_sensitive_headings</a> (gboolean sensitive)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#ae7636cbe5e0d42949754b905193ce99d">gsb_gui_notebook_change_page</a> (<a class="el" href="fenetre__principale_8h.html#a6e3a0b1ab242e7ceb5beeef96a6ac8f1">GsbGeneralNotebookPages</a> page)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#aeedb26129c4cdb0718946b03abf8b0d5">mini_paned_width</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#a4a46e75f5e42baf4abffc03a92ec3030">main_hpaned</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#a59d87f8d62479b981be4e0618fe1b172">main_vbox</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="fenetre__principale_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a> = NULL</td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="af3f1b8f11e630ea3467cca17ef4ee048"></a><!-- doxytag: member="fenetre_principale.c::create_main_widget" ref="af3f1b8f11e630ea3467cca17ef4ee048" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* create_main_widget </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Create the main widget that holds all the user interface save the menus.</p>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly-allocated vbox holding all elements. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00091">91</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aeed9c0940d61e6cf37c5f421ce3b663f"></a><!-- doxytag: member="fenetre_principale.c::gsb_gui_headings_update_suffix" ref="aeed9c0940d61e6cf37c5f421ce3b663f" args="(gchar *suffix)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_gui_headings_update_suffix </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>suffix</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Update headings bar with a new suffix.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>suffix</em>&nbsp;</td><td>String to display as a suffix in headings bar. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00398">398</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7dd6f116baa9323630e845e36615fc53"></a><!-- doxytag: member="fenetre_principale.c::gsb_gui_headings_update_title" ref="a7dd6f116baa9323630e845e36615fc53" args="(gchar *title)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_gui_headings_update_title </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>title</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Update headings bar with a new title.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>title</em>&nbsp;</td><td>String to display as a title in headings bar. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00387">387</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae7636cbe5e0d42949754b905193ce99d"></a><!-- doxytag: member="fenetre_principale.c::gsb_gui_notebook_change_page" ref="ae7636cbe5e0d42949754b905193ce99d" args="(GsbGeneralNotebookPages page)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_gui_notebook_change_page </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="fenetre__principale_8h.html#a6e3a0b1ab242e7ceb5beeef96a6ac8f1">GsbGeneralNotebookPages</a>&nbsp;</td>
+          <td class="paramname"> <em>page</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Set the main notebook page.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>page</em>&nbsp;</td><td>Page to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00444">444</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a94dc9871dffaaec186f7933619418064"></a><!-- doxytag: member="fenetre_principale.c::gsb_gui_on_account_change_page" ref="a94dc9871dffaaec186f7933619418064" args="(GsbaccountNotebookPages page)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_gui_on_account_change_page </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="fenetre__principale_8h.html#a52ecea0b75c8cf1a5b2dc61975676ff2">GsbaccountNotebookPages</a>&nbsp;</td>
+          <td class="paramname"> <em>page</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Set the account notebook page.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>page</em>&nbsp;</td><td>Page to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00353">353</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac472c4356247af478d93db80f99a2792"></a><!-- doxytag: member="fenetre_principale.c::gsb_gui_on_account_switch_page" ref="ac472c4356247af478d93db80f99a2792" args="(GtkNotebook *notebook, GtkNotebookPage *page, guint page_number, gpointer null)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_gui_on_account_switch_page </td>
+          <td>(</td>
+          <td class="paramtype">GtkNotebook *&nbsp;</td>
+          <td class="paramname"> <em>notebook</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkNotebookPage *&nbsp;</td>
+          <td class="paramname"> <em>page</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">guint&nbsp;</td>
+          <td class="paramname"> <em>page_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>null</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>called when the account notebook changed page between transactions list and account description</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>notebook</em>&nbsp;</td><td>Widget that triggered event. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>page</em>&nbsp;</td><td>Not used. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>page_number</em>&nbsp;</td><td>Page set. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>null</em>&nbsp;</td><td>Not used.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00309">309</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a94542c45fb71a3cd8b955b5e0fcc2ed9"></a><!-- doxytag: member="fenetre_principale.c::gsb_gui_sensitive_headings" ref="a94542c45fb71a3cd8b955b5e0fcc2ed9" args="(gboolean sensitive)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_gui_sensitive_headings </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>sensitive</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>sensitive or unsensitive the headings</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>sensitive</em>&nbsp;</td><td>TRUE to sensitive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00431">431</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1ea5e5d9534b171d1062af58ac8c6f3b"></a><!-- doxytag: member="fenetre_principale.c::gsb_gui_update_show_headings" ref="a1ea5e5d9534b171d1062af58ac8c6f3b" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_gui_update_show_headings </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Display or hide the headings bar depending on configuration.</p>
+<p>return FALSE </p>
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00411">411</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="ad5443d986a9ab5d64dd84c5346c4b87c"></a><!-- doxytag: member="fenetre_principale.c::account_page" ref="ad5443d986a9ab5d64dd84c5346c4b87c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="navigation_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Notebook of the account pane. </p>
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00075">75</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4a46e75f5e42baf4abffc03a92ec3030"></a><!-- doxytag: member="fenetre_principale.c::main_hpaned" ref="a4a46e75f5e42baf4abffc03a92ec3030" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__file__config_8c.html#a4a46e75f5e42baf4abffc03a92ec3030">main_hpaned</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00071">71</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a59d87f8d62479b981be4e0618fe1b172"></a><!-- doxytag: member="fenetre_principale.c::main_vbox" ref="a59d87f8d62479b981be4e0618fe1b172" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__file_8c.html#a59d87f8d62479b981be4e0618fe1b172">main_vbox</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00072">72</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aeedb26129c4cdb0718946b03abf8b0d5"></a><!-- doxytag: member="fenetre_principale.c::mini_paned_width" ref="aeedb26129c4cdb0718946b03abf8b0d5" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="gsb__file__config_8c.html#aeedb26129c4cdb0718946b03abf8b0d5">mini_paned_width</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__file__config_8c_source.html#l00076">76</a> du fichier <a class="el" href="gsb__file__config_8c_source.html">gsb_file_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8924516aa4170f932308e93cf93a785b"></a><!-- doxytag: member="fenetre_principale.c::notebook_general" ref="a8924516aa4170f932308e93cf93a785b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="traitement__variables_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00070">70</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="fenetre_principale.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

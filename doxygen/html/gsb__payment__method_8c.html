@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_payment_method.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_payment_method.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__payment__method_8h_source.html">gsb_payment_method.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__mix_8h_source.html">gsb_data_mix.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__payment_8h_source.html">gsb_data_payment.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form_8h_source.html">gsb_form.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__widget_8h_source.html">gsb_form_widget.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__form_8h_source.html">gsb_data_form.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="gsb__payment__method_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__payment__method_8c.html#a161fa2bfbb02f3b3310759b78437586a">gsb_payment_method_create_combo_list</a> (GtkWidget *combo_box, gint sign, gint account_number, gint exclude)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__payment__method_8c.html#a3da00935a5480a41d3b8b31b3f073bfd">gsb_payment_method_get_combo_sign</a> (GtkWidget *combo_box)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__payment__method_8c.html#ae98cce0ba13ed710ed1f287915ba9acb">gsb_payment_method_get_selected_number</a> (GtkWidget *combo_box)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__payment__method_8c.html#ab12f5c754ced75c920803d84259a2128">gsb_payment_method_set_payment_position</a> (GtkWidget *combo_box, gint payment_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__payment__method_8c.html#a90ac47cc6325eaee622f9357d3b65f68">gsb_payment_method_set_combobox_history</a> (GtkWidget *combo_box, gint payment_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__payment__method_8c.html#a5b947653cf00a61d5afa4870c4c63498">gsb_payment_method_changed_callback</a> (GtkWidget *combo_box, gpointer null)</td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>work here with the payment method </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__payment__method_8c_source.html">gsb_payment_method.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a5b947653cf00a61d5afa4870c4c63498"></a><!-- doxytag: member="gsb_payment_method.c::gsb_payment_method_changed_callback" ref="a5b947653cf00a61d5afa4870c4c63498" args="(GtkWidget *combo_box, gpointer null)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_payment_method_changed_callback </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>combo_box</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>null</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>called when change the choice on the combo_box on the form show or hide the entry for cheque in the form</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>combo_box</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>null</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__payment__method_8c_source.html#l00396">396</a> du fichier <a class="el" href="gsb__payment__method_8c_source.html">gsb_payment_method.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a161fa2bfbb02f3b3310759b78437586a"></a><!-- doxytag: member="gsb_payment_method.c::gsb_payment_method_create_combo_list" ref="a161fa2bfbb02f3b3310759b78437586a" args="(GtkWidget *combo_box, gint sign, gint account_number, gint exclude)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_payment_method_create_combo_list </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>combo_box</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>sign</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>exclude</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a model with the method of payment according to the sign and the account and append it to the combo_box given in param all is done only if the button exists for that form</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>combo_box</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>sign</em>&nbsp;</td><td>GSB_PAYMENT_DEBIT or GSB_PAYMENT_CREDIT </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>exclude</em>&nbsp;</td><td>if we want to exclude a method of payment from the list, set the number here, else set 0</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE if fail, TRUE if ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__payment__method_8c_source.html#l00068">68</a> du fichier <a class="el" href="gsb__payment__method_8c_source.html">gsb_payment_method.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3da00935a5480a41d3b8b31b3f073bfd"></a><!-- doxytag: member="gsb_payment_method.c::gsb_payment_method_get_combo_sign" ref="a3da00935a5480a41d3b8b31b3f073bfd" args="(GtkWidget *combo_box)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_payment_method_get_combo_sign </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>combo_box</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the sign of the current combo_box of method of payment in the combo_box given in param</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>combo_box</em>&nbsp;</td><td>the box wich contains the method of payment list</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>GSB_PAYMENT_DEBIT or GSB_PAYMENT_CREDIT </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__payment__method_8c_source.html#l00219">219</a> du fichier <a class="el" href="gsb__payment__method_8c_source.html">gsb_payment_method.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae98cce0ba13ed710ed1f287915ba9acb"></a><!-- doxytag: member="gsb_payment_method.c::gsb_payment_method_get_selected_number" ref="ae98cce0ba13ed710ed1f287915ba9acb" args="(GtkWidget *combo_box)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_payment_method_get_selected_number </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>combo_box</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>find and return the curent selected method of payment on combo-box given in param and created by gsb_payment_method_create_combo_list</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>combo_box</em>&nbsp;</td><td>an combo_box filled by gsb_payment_method_create_combo_list</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of the method of payment currently selected or 0 if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__payment__method_8c_source.html#l00241">241</a> du fichier <a class="el" href="gsb__payment__method_8c_source.html">gsb_payment_method.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a90ac47cc6325eaee622f9357d3b65f68"></a><!-- doxytag: member="gsb_payment_method.c::gsb_payment_method_set_combobox_history" ref="a90ac47cc6325eaee622f9357d3b65f68" args="(GtkWidget *combo_box, gint payment_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_payment_method_set_combobox_history </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>combo_box</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the given payment number in the combobox if not found, set the default payment number for that account</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>combo_box</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if we can set the payment_number, FALSE if it's the default wich is set </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__payment__method_8c_source.html#l00358">358</a> du fichier <a class="el" href="gsb__payment__method_8c_source.html">gsb_payment_method.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab12f5c754ced75c920803d84259a2128"></a><!-- doxytag: member="gsb_payment_method.c::gsb_payment_method_set_payment_position" ref="ab12f5c754ced75c920803d84259a2128" args="(GtkWidget *combo_box, gint payment_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_payment_method_set_payment_position </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>combo_box</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set active the payment number in param</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>combo_box</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__payment__method_8c_source.html#l00317">317</a> du fichier <a class="el" href="gsb__payment__method_8c_source.html">gsb_payment_method.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

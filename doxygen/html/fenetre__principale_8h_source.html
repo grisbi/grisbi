@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de fenetre_principale.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>fenetre_principale.h</h1><a href="fenetre__principale_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _FENETRE_PRINCIPALE_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _FENETRE_PRINCIPALE_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a><a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767">00004</a> <span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767">GSB_GENERAL_NOTEBOOK_PAGES</a> {
+<a name="l00005"></a><a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767a014aa768e2bd5b6ec3653f5d92499817">00005</a>     <a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767a014aa768e2bd5b6ec3653f5d92499817">GSB_HOME_PAGE</a>,
+<a name="l00006"></a><a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767aa0842b1ab75cc108643f94f240f11905">00006</a>     <a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767aa0842b1ab75cc108643f94f240f11905">GSB_ACCOUNT_PAGE</a>,
+<a name="l00007"></a><a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767abcbf0d210d0e459dd61aeb38b8a94a34">00007</a>     <a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767abcbf0d210d0e459dd61aeb38b8a94a34">GSB_SCHEDULER_PAGE</a>,
+<a name="l00008"></a><a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767a6dc88978e0efdce656c83f10ff02354d">00008</a>     <a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767a6dc88978e0efdce656c83f10ff02354d">GSB_PAYEES_PAGE</a>,
+<a name="l00009"></a><a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767adcd7b89fa96cd8c96461d50946a1b82b">00009</a>     <a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767adcd7b89fa96cd8c96461d50946a1b82b">GSB_GENERAL_FINANCIAL_PAGE</a>, 
+<a name="l00010"></a><a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767aff0a64cd360ddbad895f5aa65a6ac476">00010</a>     <a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767aff0a64cd360ddbad895f5aa65a6ac476">GSB_CATEGORIES_PAGE</a>,
+<a name="l00011"></a><a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767a7697bb5eef5749ac8e9f5c0103f00b98">00011</a>     <a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767a7697bb5eef5749ac8e9f5c0103f00b98">GSB_BUDGETARY_LINES_PAGE</a>,
+<a name="l00012"></a><a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767a45e7a3ecc5d1c0d580104fd50516fdb9">00012</a>     <a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767a45e7a3ecc5d1c0d580104fd50516fdb9">GSB_REPORTS_PAGE</a>,
+<a name="l00014"></a><a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767adb3e6b72c55ca1294d0372f29d5f9e30">00014</a>     <a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767adb3e6b72c55ca1294d0372f29d5f9e30">GSB_AQBANKING_PAGE</a>,
+<a name="l00015"></a>00015 } <a class="code" href="fenetre__principale_8h.html#a6e3a0b1ab242e7ceb5beeef96a6ac8f1">GsbGeneralNotebookPages</a>;
+<a name="l00016"></a>00016 
+<a name="l00017"></a><a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520">00017</a> <span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520">GSB_ACCOUNT_NOTEBOOK_PAGES</a> {
+<a name="l00018"></a><a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520ab1e1afd5860f84ec3b2434c16e8d661e">00018</a>     <a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520ab1e1afd5860f84ec3b2434c16e8d661e">GSB_TRANSACTIONS_PAGE</a>,
+<a name="l00019"></a><a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520a64a555a792b2e49c42b925cad7bbc465">00019</a>     <a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520a64a555a792b2e49c42b925cad7bbc465">GSB_ESTIMATE_PAGE</a>,
+<a name="l00020"></a><a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520a90dc66bf685d88710b5f31dec284ca60">00020</a>     <a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520a90dc66bf685d88710b5f31dec284ca60">GSB_HISTORICAL_PAGE</a>,
+<a name="l00021"></a><a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520ae293458cd4959e914140e844db3e3cd7">00021</a>     <a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520ae293458cd4959e914140e844db3e3cd7">GSB_FINANCE_PAGE</a>,
+<a name="l00022"></a><a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520a45c82e5bce0145d1fa7756bd8d1776af">00022</a>     <a class="code" href="fenetre__principale_8h.html#a42855d1b033e0c804c7e4e8ae8616520a45c82e5bce0145d1fa7756bd8d1776af">GSB_PROPERTIES_PAGE</a>,
+<a name="l00023"></a>00023 } <a class="code" href="fenetre__principale_8h.html#a52ecea0b75c8cf1a5b2dc61975676ff2">GsbaccountNotebookPages</a>;
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00026"></a>00026 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00030"></a>00030 GtkWidget * <a class="code" href="fenetre__principale_8c.html#af3f1b8f11e630ea3467cca17ef4ee048">create_main_widget</a> ( <span class="keywordtype">void</span> );
+<a name="l00031"></a>00031 <span class="keywordtype">void</span> <a class="code" href="fenetre__principale_8c.html#aeed9c0940d61e6cf37c5f421ce3b663f">gsb_gui_headings_update_suffix</a> ( gchar * suffix );
+<a name="l00032"></a>00032 <span class="keywordtype">void</span> <a class="code" href="fenetre__principale_8c.html#a7dd6f116baa9323630e845e36615fc53">gsb_gui_headings_update_title</a> ( gchar * title );
+<a name="l00033"></a>00033 <span class="keywordtype">void</span> <a class="code" href="fenetre__principale_8c.html#ae7636cbe5e0d42949754b905193ce99d">gsb_gui_notebook_change_page</a> ( <a class="code" href="fenetre__principale_8h.html#a6e3a0b1ab242e7ceb5beeef96a6ac8f1">GsbGeneralNotebookPages</a> page );
+<a name="l00034"></a>00034 <span class="keywordtype">void</span> <a class="code" href="fenetre__principale_8c.html#a94dc9871dffaaec186f7933619418064">gsb_gui_on_account_change_page</a> ( <a class="code" href="fenetre__principale_8h.html#a52ecea0b75c8cf1a5b2dc61975676ff2">GsbaccountNotebookPages</a> page );
+<a name="l00035"></a>00035 gboolean <a class="code" href="fenetre__principale_8c.html#ac472c4356247af478d93db80f99a2792">gsb_gui_on_account_switch_page</a> ( GtkNotebook *notebook,
+<a name="l00036"></a>00036                         GtkNotebookPage *page,
+<a name="l00037"></a>00037                         guint page_number,
+<a name="l00038"></a>00038                         gpointer null );
+<a name="l00039"></a>00039 <span class="keywordtype">void</span> <a class="code" href="fenetre__principale_8c.html#a94542c45fb71a3cd8b955b5e0fcc2ed9">gsb_gui_sensitive_headings</a> ( gboolean sensitive );
+<a name="l00040"></a>00040 gboolean <a class="code" href="fenetre__principale_8c.html#a1ea5e5d9534b171d1062af58ac8c6f3b">gsb_gui_update_show_headings</a> ();
+<a name="l00041"></a>00041 <span class="comment">/*END_DECLARATION*/</span>
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

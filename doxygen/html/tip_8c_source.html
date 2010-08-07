@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de tip.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>tip.c</h1><a href="tip_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/* Ce fichier s&#39;occupe des astuces                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*                                                                            */</span>
+<a name="l00004"></a>00004 <span class="comment">/*     Copyright (C)    2004-2008 Benjamin Drieu (bdrieu@april.org)           */</span>
+<a name="l00005"></a>00005 <span class="comment">/*          2009 Pierre Biava (grisbi@pierre.biava.name)                      */</span>
+<a name="l00006"></a>00006 <span class="comment">/*          http://www.grisbi.org                                             */</span>
+<a name="l00007"></a>00007 <span class="comment">/*                                                                            */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00010"></a>00010 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00011"></a>00011 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00012"></a>00012 <span class="comment">/*                                                                            */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00015"></a>00015 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00016"></a>00016 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00017"></a>00017 <span class="comment">/*                                                                            */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00019"></a>00019 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00020"></a>00020 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00021"></a>00021 <span class="comment">/*                                                                            */</span>
+<a name="l00022"></a>00022 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00026"></a>00026 
+<a name="l00027"></a><a class="code" href="tip_8c.html#a40830a222d697bac493b539cef45f084">00027</a> <span class="preprocessor">#define START_INCLUDE</span>
+<a name="l00028"></a>00028 <span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="tip_8h.html">tip.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="dialog_8h.html">dialog.h</a>&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="gsb__automem_8h.html">gsb_automem.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="structures_8h.html">structures.h</a>&quot;</span>
+<a name="l00033"></a><a class="code" href="tip_8c.html#a55a18c280f8affeab9b62b641f867ad7">00033</a> <span class="preprocessor">#define END_INCLUDE</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span>
+<a name="l00035"></a>00035 <span class="keyword">static</span> <span class="keyword">const</span> gchar* tips[] =
+<a name="l00036"></a>00036 {
+<a name="l00037"></a>00037     N_(<span class="stringliteral">&quot;You can reconcile transactions to match your real financial state as &quot;</span>
+<a name="l00038"></a>00038     <span class="stringliteral">&quot;seen on your bank receipts.  If you just spend 15mn each month reconciling &quot;</span>
+<a name="l00039"></a>00039     <span class="stringliteral">&quot;Grisbi transactions with your bank receipts, you are guaranteed that your &quot;</span>
+<a name="l00040"></a>00040     <span class="stringliteral">&quot;accounts are in perfect shape.&quot;</span>),
+<a name="l00041"></a>00041     N_(<span class="stringliteral">&quot;Grisbi automatically saves a copy of your work if it crashes.\n\nThus &quot;</span>
+<a name="l00042"></a>00042     <span class="stringliteral">&quot;it is unlikely that you loose any data in case Grisbi encounters a &quot;</span>
+<a name="l00043"></a>00043     <span class="stringliteral">&quot;programming error.&quot;</span>),
+<a name="l00044"></a>00044     N_(<span class="stringliteral">&quot;Grisbi can import Gnucash files natively, then you don&#39;t loose your work &quot;</span>
+<a name="l00045"></a>00045     <span class="stringliteral">&quot;when you switch from Gnucash to Grisbi.&quot;</span>),
+<a name="l00046"></a>00046     N_(<span class="stringliteral">&quot;You can organize transactions into budgetary lines, which are budgetary &quot;</span>
+<a name="l00047"></a>00047     <span class="stringliteral">&quot;items (why money is spent) that can help you classify your spendings.\n\n&quot;</span>
+<a name="l00048"></a>00048     <span class="stringliteral">&quot;Combined with categories (how money is spend), budgetary lines are a &quot;</span>
+<a name="l00049"></a>00049     <span class="stringliteral">&quot;powerful way to analyse budget and to make reports.&quot;</span>),
+<a name="l00050"></a>00050     N_(<span class="stringliteral">&quot;You can create categories or budgetary lines directly by typing them in &quot;</span>
+<a name="l00051"></a>00051     <span class="stringliteral">&quot;transaction form.\n\nIf you write a category or a budgetary line which name &quot;</span>
+<a name="l00052"></a>00052     <span class="stringliteral">&quot;contains a &#39;:&#39;, a sub-category or sub-budgetary line will be created as &quot;</span>
+<a name="l00053"></a>00053     <span class="stringliteral">&quot;well.&quot;</span>),
+<a name="l00054"></a>00054     N_(<span class="stringliteral">&quot;You can encrypt your Grisbi files to improve your privacy.  Just select &quot;</span>
+<a name="l00055"></a>00055     <span class="stringliteral">&quot;the &#39;Encrypt Grisbi file&#39; in preferences window and enter a password next &quot;</span>
+<a name="l00056"></a>00056     <span class="stringliteral">&quot;time you save your file.\n\nEncryption is irreversible, if you loose your &quot;</span>
+<a name="l00057"></a>00057     <span class="stringliteral">&quot;password, there is NO WAY to restore your Grisbi accounts.  Use with &quot;</span>
+<a name="l00058"></a>00058     <span class="stringliteral">&quot;caution !&quot;</span>),
+<a name="l00059"></a>00059     N_(<span class="stringliteral">&quot;You can efficiently manage your professional expenses with Grisbi.\n\n&quot;</span>
+<a name="l00060"></a>00060     <span class="stringliteral">&quot;Create a &lt;i&gt;Professional expenses&lt;/i&gt; budgetary line and put all &quot;</span>
+<a name="l00061"></a>00061     <span class="stringliteral">&quot;professional expenses there.  When you are paid, split your salary as a &quot;</span>
+<a name="l00062"></a>00062     <span class="stringliteral">&quot;split of transaction, with both a &lt;i&gt;Salary&lt;/i&gt; part and a &lt;i&gt;Profesionnal &quot;</span>
+<a name="l00063"></a>00063     <span class="stringliteral">&quot;expenses&lt;/i&gt; part.\n\nThen, you can create a new report that sums up &quot;</span>
+<a name="l00064"></a>00064     <span class="stringliteral">&quot;transactions from the &lt;i&gt;Profesionnal expenses&lt;/i&gt; budgetary line and see &quot;</span>
+<a name="l00065"></a>00065     <span class="stringliteral">&quot;the balance.&quot;</span>),
+<a name="l00066"></a>00066     N_(<span class="stringliteral">&quot;You can use the import facility to automatically reconcile transactions &quot;</span>
+<a name="l00067"></a>00067     <span class="stringliteral">&quot;against a QIF or OFX file from your online bank.&quot;</span>),
+<a name="l00068"></a>00068     N_(<span class="stringliteral">&quot;You can configure the contents of the transaction list.\n\nRight-click &quot;</span>
+<a name="l00069"></a>00069     <span class="stringliteral">&quot;on a cell of the transaction list and select the &lt;i&gt;Change cell content&lt;/i&gt; &quot;</span>
+<a name="l00070"></a>00070     <span class="stringliteral">&quot;option.  Then select any content you want and configure transaction list to &quot;</span>
+<a name="l00071"></a>00071     <span class="stringliteral">&quot;your needs.&quot;</span>),
+<a name="l00072"></a>00072     N_(<span class="stringliteral">&quot;You can configure fields displayed in the transaction form.\n\nGo to the &quot;</span>
+<a name="l00073"></a>00073     <span class="stringliteral">&quot;&lt;i&gt;Preferences&lt;/i&gt; dialog and select the &lt;i&gt;Form content&lt;/i&gt; option.  Then &quot;</span>
+<a name="l00074"></a>00074     <span class="stringliteral">&quot;you can click on fields to be displayed and drag them through the form to &quot;</span>
+<a name="l00075"></a>00075     <span class="stringliteral">&quot;adjust their position.&quot;</span>),
+<a name="l00076"></a>00076     N_(<span class="stringliteral">&quot;You can hide annoying dialogs like this one, by clicking the &lt;i&gt;\&#39;Do not &quot;</span>
+<a name="l00077"></a>00077     <span class="stringliteral">&quot;show this message again\&#39;&lt;/i&gt; checkbox in this dialog.\n\nYou can then &quot;</span>
+<a name="l00078"></a>00078     <span class="stringliteral">&quot;activate them again by going to the &lt;i&gt;Preferences&lt;/i&gt; window and then to &quot;</span>
+<a name="l00079"></a>00079     <span class="stringliteral">&quot;the &lt;i&gt;Dialog and messages&lt;/i&gt; option.&quot;</span>),
+<a name="l00080"></a>00080     N_(<span class="stringliteral">&quot;By double cliking on a date field, you can pop up a calendar to select &quot;</span>
+<a name="l00081"></a>00081     <span class="stringliteral">&quot;a date.&quot;</span>),
+<a name="l00082"></a>00082     N_(<span class="stringliteral">&quot;There are shortcuts in date fields, to avoid typing date or selecting &quot;</span>
+<a name="l00083"></a>00083     <span class="stringliteral">&quot;it with mouse.\n\n&lt;b&gt;+&lt;/b&gt; and &lt;b&gt;-&lt;/b&gt; increment and decrement date of one &quot;</span>
+<a name="l00084"></a>00084     <span class="stringliteral">&quot;day, &lt;i&gt;Page Up&lt;/i&gt; and &lt;i&gt;Page Down&lt;/i&gt; increment and decrement date of &quot;</span>
+<a name="l00085"></a>00085     <span class="stringliteral">&quot;one month ... and there are more, check out the manual.&quot;</span>),
+<a name="l00086"></a>00086     N_(<span class="stringliteral">&quot;You can archive previous financial years to speed up Grisbi and &quot;</span>
+<a name="l00087"></a>00087     <span class="stringliteral">&quot;possibily put old transactions into separate files for archival.  Use &quot;</span>
+<a name="l00088"></a>00088     <span class="stringliteral">&quot;&#39;File/Archive transaction&#39; menu to achieve this.&quot;</span>),
+<a name="l00089"></a>00089     N_(<span class="stringliteral">&quot;If unused payees have accumulated in the course of time due to bank &quot;</span>
+<a name="l00090"></a>00090     <span class="stringliteral">&quot;imports, you can remove all of them in one click!  Just go to the &quot;</span>
+<a name="l00091"></a>00091     <span class="stringliteral">&quot;&lt;i&gt;Payees&lt;/i&gt; page and click on the &#39;Remove unused payees&#39; button.&quot;</span>),
+<a name="l00092"></a>00092     N_(<span class="stringliteral">&quot;You can sort the transaction list according to any criteria.  Click on &quot;</span>
+<a name="l00093"></a>00093     <span class="stringliteral">&quot;the column titles to sort transactions differently.  For example, you can &quot;</span>
+<a name="l00094"></a>00094     <span class="stringliteral">&quot;sort transactions by payee or category name.&quot;</span>),
+<a name="l00095"></a>00095     N_(<span class="stringliteral">&quot;You can reorder accounts in the navigation list using drag &amp;amp; drop.&quot;</span>),
+<a name="l00096"></a>00096     N_(<span class="stringliteral">&quot;You can have future scheduled transactions &#39;executed&#39; before their date, &quot;</span>),
+<a name="l00097"></a>00097     N_(<span class="stringliteral">&quot;No more tip available !  Please send any tips you know to &quot;</span>
+<a name="l00098"></a>00098     <span class="stringliteral">&quot;grisbi-devel@lists.sourceforge.net so that we can include them in next &quot;</span>
+<a name="l00099"></a>00099     <span class="stringliteral">&quot;version for all users.&quot;</span>)
+<a name="l00100"></a>00100 };
+<a name="l00101"></a>00101 
+<a name="l00105"></a><a class="code" href="tip_8h.html#a52290240d6d8d2a09291865bab161a6d">00105</a> <span class="keywordtype">void</span> <a class="code" href="tip_8c.html#a52290240d6d8d2a09291865bab161a6d">force_display_tip</a> (  )
+<a name="l00106"></a>00106 {
+<a name="l00107"></a>00107     <a class="code" href="tip_8c.html#a2486cf426d5d82b254fbd3caab2e253f">display_tip</a> ( TRUE );
+<a name="l00108"></a>00108 }
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111 
+<a name="l00118"></a><a class="code" href="tip_8h.html#a2486cf426d5d82b254fbd3caab2e253f">00118</a> <span class="keywordtype">void</span> <a class="code" href="tip_8c.html#a2486cf426d5d82b254fbd3caab2e253f">display_tip</a> ( gboolean force )
+<a name="l00119"></a>00119 {
+<a name="l00120"></a>00120     GtkWidget * checkbox;
+<a name="l00121"></a>00121     GtkWidget * dialog = NULL;
+<a name="l00122"></a>00122     GtkWidget *btn_back, *btn_forward, *btn_close;
+<a name="l00123"></a>00123     gchar *tmpstr;
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125     <span class="keywordflow">if</span> ( !force &amp;&amp; !<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7226554af3f7af0ed91ae5e4120daa5a">show_tip</a> )
+<a name="l00126"></a>00126         <span class="keywordflow">return</span>;
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128     <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#af10296b248b4be892fcb555fd4c12f44">last_tip</a> = CLAMP (<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#af10296b248b4be892fcb555fd4c12f44">last_tip</a>+1, 0, <span class="keyword">sizeof</span>(tips)/<span class="keyword">sizeof</span>(gpointer)-1);
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130     dialog = <a class="code" href="dialog_8c.html#aa20bfaae43172af04ddeb596029733a1">dialogue_special_no_run</a> ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
+<a name="l00131"></a>00131                         <a class="code" href="dialog_8c.html#a84758de40aa2807a4e5ebd97ede7df23">make_hint</a> ( _(<span class="stringliteral">&quot;Did you know that...&quot;</span>),
+<a name="l00132"></a>00132                         <span class="comment">/* We use the grisbi-tips catalog */</span>
+<a name="l00133"></a>00133                         g_dgettext(NULL, tips[<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#af10296b248b4be892fcb555fd4c12f44">last_tip</a>]) ) );
+<a name="l00134"></a>00134     gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136     checkbox = <a class="code" href="gsb__automem_8c.html#ad32c3b7a4ae54cbe312fe4e1ee22e10f">gsb_automem_checkbutton_new</a> ( _(<span class="stringliteral">&quot;Display tips at next start&quot;</span>), 
+<a name="l00137"></a>00137                         &amp;(<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#a7226554af3f7af0ed91ae5e4120daa5a">show_tip</a>), NULL, NULL );
+<a name="l00138"></a>00138     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -&gt; vbox ), checkbox, FALSE, FALSE, 6 );
+<a name="l00139"></a>00139     gtk_widget_show ( checkbox );
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141     btn_back =    gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_GO_BACK, 1);
+<a name="l00142"></a>00142     btn_forward = gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_GO_FORWARD, 2);
+<a name="l00143"></a>00143     btn_close =   gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_CLOSE, 3);
+<a name="l00144"></a>00144  
+<a name="l00145"></a>00145     <span class="comment">/* gtk_widget_set_size_request ( dialog, 450, -1 ); */</span>
+<a name="l00146"></a>00146     <span class="comment">/* We iterate as user can select several tips. */</span>
+<a name="l00147"></a>00147     <span class="keywordflow">while</span> ( TRUE )
+<a name="l00148"></a>00148     {
+<a name="l00149"></a>00149     <span class="keywordflow">if</span> (<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#af10296b248b4be892fcb555fd4c12f44">last_tip</a> == <span class="keyword">sizeof</span>(tips)/<span class="keyword">sizeof</span>(gpointer)-1)
+<a name="l00150"></a>00150         gtk_widget_set_sensitive (btn_forward, FALSE);
+<a name="l00151"></a>00151     <span class="keywordflow">if</span> (<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#af10296b248b4be892fcb555fd4c12f44">last_tip</a> == 0)
+<a name="l00152"></a>00152         gtk_widget_set_sensitive (btn_back, FALSE);
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154     <span class="keywordflow">switch</span> ( gtk_dialog_run ( GTK_DIALOG(dialog) ) )
+<a name="l00155"></a>00155     {
+<a name="l00156"></a>00156         <span class="keywordflow">case</span> 1:
+<a name="l00157"></a>00157         <span class="keywordflow">if</span> ( <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#af10296b248b4be892fcb555fd4c12f44">last_tip</a> &gt; 0 )
+<a name="l00158"></a>00158             <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#af10296b248b4be892fcb555fd4c12f44">last_tip</a>--;
+<a name="l00159"></a>00159         gtk_widget_set_sensitive (btn_forward, TRUE); 
+<a name="l00160"></a>00160         tmpstr = g_strconcat ( <a class="code" href="dialog_8c.html#a936cdb52ba9be8a56212e8a4e5979c3c">make_pango_attribut</a> (
+<a name="l00161"></a>00161                         <span class="stringliteral">&quot;size=\&quot;larger\&quot; weight=\&quot;bold\&quot;&quot;</span>, _(<span class="stringliteral">&quot;Did you know that...&quot;</span>) ),
+<a name="l00162"></a>00162                         <span class="stringliteral">&quot;\n\n&quot;</span>,
+<a name="l00163"></a>00163                         g_dgettext (NULL, tips[<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#af10296b248b4be892fcb555fd4c12f44">last_tip</a>] ),
+<a name="l00164"></a>00164                         NULL );
+<a name="l00165"></a>00165 
+<a name="l00166"></a>00166         gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -&gt; label ),
+<a name="l00167"></a>00167                         tmpstr );
+<a name="l00168"></a>00168         g_free ( tmpstr );
+<a name="l00169"></a>00169         <span class="keywordflow">break</span>;
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171         <span class="keywordflow">case</span> 2:
+<a name="l00172"></a>00172         <span class="keywordflow">if</span> (<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#af10296b248b4be892fcb555fd4c12f44">last_tip</a> &lt; <span class="keyword">sizeof</span>(tips)/<span class="keyword">sizeof</span>(gpointer)-1)
+<a name="l00173"></a>00173             <a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#af10296b248b4be892fcb555fd4c12f44">last_tip</a>++;
+<a name="l00174"></a>00174         tmpstr = g_strconcat ( <a class="code" href="dialog_8c.html#a936cdb52ba9be8a56212e8a4e5979c3c">make_pango_attribut</a> (
+<a name="l00175"></a>00175                         <span class="stringliteral">&quot;size=\&quot;larger\&quot; weight=\&quot;bold\&quot;&quot;</span>, _(<span class="stringliteral">&quot;Did you know that...&quot;</span>) ),
+<a name="l00176"></a>00176                         <span class="stringliteral">&quot;\n\n&quot;</span>,
+<a name="l00177"></a>00177                         g_dgettext (NULL, tips[<a class="code" href="parametres_8c.html#ab2a744f5d2124688473d13979420e911">etat</a>.<a class="code" href="structgsb__etat__t.html#af10296b248b4be892fcb555fd4c12f44">last_tip</a>] ),
+<a name="l00178"></a>00178                         NULL );
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180         gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -&gt; label ),
+<a name="l00181"></a>00181                         tmpstr );
+<a name="l00182"></a>00182         g_free ( tmpstr );
+<a name="l00183"></a>00183         gtk_widget_set_sensitive (btn_back, TRUE);
+<a name="l00184"></a>00184         <span class="keywordflow">break</span>;
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186         <span class="keywordflow">default</span>:
+<a name="l00187"></a>00187         gtk_widget_destroy ( dialog );
+<a name="l00188"></a>00188         <span class="keywordflow">return</span>;
+<a name="l00189"></a>00189     }
+<a name="l00190"></a>00190     }
+<a name="l00191"></a>00191 }
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193 
+<a name="l00194"></a>00194 <span class="comment">/* Local Variables: */</span>
+<a name="l00195"></a>00195 <span class="comment">/* c-basic-offset: 4 */</span>
+<a name="l00196"></a>00196 <span class="comment">/* End: */</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

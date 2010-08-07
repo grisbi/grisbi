@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_currency_link_config.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_currency_link_config.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__currency__link__config_8c_source.html">gsb_currency_link_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__dates_8h_source.html">utils_dates.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__currency_8h_source.html">gsb_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__currency_8h_source.html">gsb_data_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__currency__link_8h_source.html">gsb_data_currency_link.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+
+<p><a href="gsb__currency__link__config_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency__link__config_8c.html#a39025642427e4b058491512c83638fb6">link_list_column</a> { <br/>
+&nbsp;&nbsp;<a class="el" href="gsb__currency__link__config_8c.html#a39025642427e4b058491512c83638fb6a716550a1e3204eb5d04ed7c127e38e75">LINK_1_COLUMN</a> =  0, 
+<a class="el" href="gsb__currency__link__config_8c.html#a39025642427e4b058491512c83638fb6a917ead295b1768df7a92058a0021ef5a">LINK_CURRENCY1_COLUMN</a>, 
+<a class="el" href="gsb__currency__link__config_8c.html#a39025642427e4b058491512c83638fb6a03445135de28ae5326d0b8571a7ba004">LINK_EQUAL_COLUMN</a>, 
+<a class="el" href="gsb__currency__link__config_8c.html#a39025642427e4b058491512c83638fb6a9e9fef69da2fc74a4bf926360971125c">LINK_EXCHANGE_COLUMN</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="gsb__currency__link__config_8c.html#a39025642427e4b058491512c83638fb6af1209860a3c9cafac50eee0d59608287">LINK_CURRENCY2_COLUMN</a>, 
+<a class="el" href="gsb__currency__link__config_8c.html#a39025642427e4b058491512c83638fb6a5b92197fccf96c1f7c21fe778f04c4d3">LINK_DATE_COLUMN</a>, 
+<a class="el" href="gsb__currency__link__config_8c.html#a39025642427e4b058491512c83638fb6aec2f894421d376a06f418e04ed12f89e">LINK_INVALID_COLUMN</a>, 
+<a class="el" href="gsb__currency__link__config_8c.html#a39025642427e4b058491512c83638fb6af3d717be42577f782ddc0a68b5c420df">LINK_NUMBER_COLUMN</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="gsb__currency__link__config_8c.html#a39025642427e4b058491512c83638fb6ae4718f84110f8207c8effab6228f6920">NUM_LINKS_COLUMNS</a>
+<br/>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency__link__config_8c.html#ae256efc27c512e121dafe219352b4767">gsb_currency_link_config_create_page</a> (void)</td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>contains the part to set the configuration of the currency_links </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__currency__link__config_8c_source.html">gsb_currency_link_config.c</a>.</p>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="a39025642427e4b058491512c83638fb6"></a><!-- doxytag: member="gsb_currency_link_config.c::link_list_column" ref="a39025642427e4b058491512c83638fb6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="gsb__currency__link__config_8c.html#a39025642427e4b058491512c83638fb6">link_list_column</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Columns numbers for links list </p>
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a39025642427e4b058491512c83638fb6a716550a1e3204eb5d04ed7c127e38e75"></a><!-- doxytag: member="LINK_1_COLUMN" ref="a39025642427e4b058491512c83638fb6a716550a1e3204eb5d04ed7c127e38e75" args="" -->LINK_1_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a39025642427e4b058491512c83638fb6a917ead295b1768df7a92058a0021ef5a"></a><!-- doxytag: member="LINK_CURRENCY1_COLUMN" ref="a39025642427e4b058491512c83638fb6a917ead295b1768df7a92058a0021ef5a" args="" -->LINK_CURRENCY1_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a39025642427e4b058491512c83638fb6a03445135de28ae5326d0b8571a7ba004"></a><!-- doxytag: member="LINK_EQUAL_COLUMN" ref="a39025642427e4b058491512c83638fb6a03445135de28ae5326d0b8571a7ba004" args="" -->LINK_EQUAL_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a39025642427e4b058491512c83638fb6a9e9fef69da2fc74a4bf926360971125c"></a><!-- doxytag: member="LINK_EXCHANGE_COLUMN" ref="a39025642427e4b058491512c83638fb6a9e9fef69da2fc74a4bf926360971125c" args="" -->LINK_EXCHANGE_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a39025642427e4b058491512c83638fb6af1209860a3c9cafac50eee0d59608287"></a><!-- doxytag: member="LINK_CURRENCY2_COLUMN" ref="a39025642427e4b058491512c83638fb6af1209860a3c9cafac50eee0d59608287" args="" -->LINK_CURRENCY2_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a39025642427e4b058491512c83638fb6a5b92197fccf96c1f7c21fe778f04c4d3"></a><!-- doxytag: member="LINK_DATE_COLUMN" ref="a39025642427e4b058491512c83638fb6a5b92197fccf96c1f7c21fe778f04c4d3" args="" -->LINK_DATE_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a39025642427e4b058491512c83638fb6aec2f894421d376a06f418e04ed12f89e"></a><!-- doxytag: member="LINK_INVALID_COLUMN" ref="a39025642427e4b058491512c83638fb6aec2f894421d376a06f418e04ed12f89e" args="" -->LINK_INVALID_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a39025642427e4b058491512c83638fb6af3d717be42577f782ddc0a68b5c420df"></a><!-- doxytag: member="LINK_NUMBER_COLUMN" ref="a39025642427e4b058491512c83638fb6af3d717be42577f782ddc0a68b5c420df" args="" -->LINK_NUMBER_COLUMN</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a39025642427e4b058491512c83638fb6ae4718f84110f8207c8effab6228f6920"></a><!-- doxytag: member="NUM_LINKS_COLUMNS" ref="a39025642427e4b058491512c83638fb6ae4718f84110f8207c8effab6228f6920" args="" -->NUM_LINKS_COLUMNS</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__currency__link__config_8c_source.html#l00068">68</a> du fichier <a class="el" href="gsb__currency__link__config_8c_source.html">gsb_currency_link_config.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="ae256efc27c512e121dafe219352b4767"></a><!-- doxytag: member="gsb_currency_link_config.c::gsb_currency_link_config_create_page" ref="ae256efc27c512e121dafe219352b4767" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_currency_link_config_create_page </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create the currency_link page for the config</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a newly created box </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__currency__link__config_8c_source.html#l00087">87</a> du fichier <a class="el" href="gsb__currency__link__config_8c_source.html">gsb_currency_link_config.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

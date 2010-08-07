@@ -1,0 +1,209 @@
+\section{Référence du fichier menu.h}
+\label{menu_8h}\index{menu.h@{menu.h}}
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf view\_\-menu\_\-action} \{ \par
+{\bf HIDE\_\-SHOW\_\-TRANSACTION\_\-FORM} =  0, 
+{\bf HIDE\_\-SHOW\_\-GRID}, 
+{\bf HIDE\_\-SHOW\_\-RECONCILED\_\-TRANSACTIONS}, 
+{\bf ONE\_\-LINE\_\-PER\_\-TRANSACTION}, 
+\par
+{\bf TWO\_\-LINES\_\-PER\_\-TRANSACTION}, 
+{\bf THREE\_\-LINES\_\-PER\_\-TRANSACTION}, 
+{\bf FOUR\_\-LINES\_\-PER\_\-TRANSACTION}, 
+{\bf HIDE\_\-SHOW\_\-CLOSED\_\-ACCOUNTS}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf affiche\_\-derniers\_\-fichiers\_\-ouverts} (void)
+\item 
+void {\bf efface\_\-derniers\_\-fichiers\_\-ouverts} (void)
+\item 
+gboolean {\bf gsb\_\-gui\_\-sensitive\_\-menu\_\-item} (gchar $\ast$root\_\-menu\_\-name, gchar $\ast$submenu\_\-name, gchar $\ast$subsubmenu\_\-name, gboolean state)
+\item 
+gboolean {\bf gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string} (gchar $\ast$item\_\-name, gboolean state)
+\item 
+gboolean {\bf gsb\_\-gui\_\-toggle\_\-show\_\-archived} (void)
+\item 
+gboolean {\bf gsb\_\-gui\_\-toggle\_\-show\_\-reconciled} (void)
+\item 
+gboolean {\bf gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive} (gboolean sensitive)
+\item 
+gboolean {\bf gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus} (void)
+\item 
+gboolean {\bf gsb\_\-menu\_\-update\_\-view\_\-menu} (gint account\_\-number)
+\item 
+GtkWidget $\ast$ {\bf init\_\-menus} (GtkWidget $\ast$vbox)
+\item 
+gchar $\ast$ {\bf menu\_\-name} (gchar $\ast$menu, gchar $\ast$submenu, gchar $\ast$subsubmenu)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation du type de l'énumération}
+\index{menu.h@{menu.h}!view\_\-menu\_\-action@{view\_\-menu\_\-action}}
+\index{view\_\-menu\_\-action@{view\_\-menu\_\-action}!menu.h@{menu.h}}
+\subsubsection[{view\_\-menu\_\-action}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf view\_\-menu\_\-action}}\label{menu_8h_a4fb19928221d9919a926398aae6081af}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{HIDE\_\-SHOW\_\-TRANSACTION\_\-FORM@{HIDE\_\-SHOW\_\-TRANSACTION\_\-FORM}!menu.h@{menu.h}}\index{menu.h@{menu.h}!HIDE\_\-SHOW\_\-TRANSACTION\_\-FORM@{HIDE\_\-SHOW\_\-TRANSACTION\_\-FORM}}\item[{\em 
+HIDE\_\-SHOW\_\-TRANSACTION\_\-FORM\label{menu_8h_a4fb19928221d9919a926398aae6081afafd885ddc6cb061bcc423797ab10556ee}
+}]\index{HIDE\_\-SHOW\_\-GRID@{HIDE\_\-SHOW\_\-GRID}!menu.h@{menu.h}}\index{menu.h@{menu.h}!HIDE\_\-SHOW\_\-GRID@{HIDE\_\-SHOW\_\-GRID}}\item[{\em 
+HIDE\_\-SHOW\_\-GRID\label{menu_8h_a4fb19928221d9919a926398aae6081afa2b1b8481e0ee6d06d97050ac16ea891b}
+}]\index{HIDE\_\-SHOW\_\-RECONCILED\_\-TRANSACTIONS@{HIDE\_\-SHOW\_\-RECONCILED\_\-TRANSACTIONS}!menu.h@{menu.h}}\index{menu.h@{menu.h}!HIDE\_\-SHOW\_\-RECONCILED\_\-TRANSACTIONS@{HIDE\_\-SHOW\_\-RECONCILED\_\-TRANSACTIONS}}\item[{\em 
+HIDE\_\-SHOW\_\-RECONCILED\_\-TRANSACTIONS\label{menu_8h_a4fb19928221d9919a926398aae6081afa8471e146c2c9b6f1e711976f660107b8}
+}]\index{ONE\_\-LINE\_\-PER\_\-TRANSACTION@{ONE\_\-LINE\_\-PER\_\-TRANSACTION}!menu.h@{menu.h}}\index{menu.h@{menu.h}!ONE\_\-LINE\_\-PER\_\-TRANSACTION@{ONE\_\-LINE\_\-PER\_\-TRANSACTION}}\item[{\em 
+ONE\_\-LINE\_\-PER\_\-TRANSACTION\label{menu_8h_a4fb19928221d9919a926398aae6081afad1b37b5a85fad14be2069ae9b0789602}
+}]\index{TWO\_\-LINES\_\-PER\_\-TRANSACTION@{TWO\_\-LINES\_\-PER\_\-TRANSACTION}!menu.h@{menu.h}}\index{menu.h@{menu.h}!TWO\_\-LINES\_\-PER\_\-TRANSACTION@{TWO\_\-LINES\_\-PER\_\-TRANSACTION}}\item[{\em 
+TWO\_\-LINES\_\-PER\_\-TRANSACTION\label{menu_8h_a4fb19928221d9919a926398aae6081afa8eda7ab74da19a27e5fdad7a2fc89f5f}
+}]\index{THREE\_\-LINES\_\-PER\_\-TRANSACTION@{THREE\_\-LINES\_\-PER\_\-TRANSACTION}!menu.h@{menu.h}}\index{menu.h@{menu.h}!THREE\_\-LINES\_\-PER\_\-TRANSACTION@{THREE\_\-LINES\_\-PER\_\-TRANSACTION}}\item[{\em 
+THREE\_\-LINES\_\-PER\_\-TRANSACTION\label{menu_8h_a4fb19928221d9919a926398aae6081afafdf1c38795a05970d769285014ea8a15}
+}]\index{FOUR\_\-LINES\_\-PER\_\-TRANSACTION@{FOUR\_\-LINES\_\-PER\_\-TRANSACTION}!menu.h@{menu.h}}\index{menu.h@{menu.h}!FOUR\_\-LINES\_\-PER\_\-TRANSACTION@{FOUR\_\-LINES\_\-PER\_\-TRANSACTION}}\item[{\em 
+FOUR\_\-LINES\_\-PER\_\-TRANSACTION\label{menu_8h_a4fb19928221d9919a926398aae6081afa1380a41d0a0688980da82d64763ff6d3}
+}]\index{HIDE\_\-SHOW\_\-CLOSED\_\-ACCOUNTS@{HIDE\_\-SHOW\_\-CLOSED\_\-ACCOUNTS}!menu.h@{menu.h}}\index{menu.h@{menu.h}!HIDE\_\-SHOW\_\-CLOSED\_\-ACCOUNTS@{HIDE\_\-SHOW\_\-CLOSED\_\-ACCOUNTS}}\item[{\em 
+HIDE\_\-SHOW\_\-CLOSED\_\-ACCOUNTS\label{menu_8h_a4fb19928221d9919a926398aae6081afacf935d039b61dc97b16846557db77976}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 5 du fichier menu.h.
+
+
+
+\subsection{Documentation des fonctions}
+\index{menu.h@{menu.h}!affiche\_\-derniers\_\-fichiers\_\-ouverts@{affiche\_\-derniers\_\-fichiers\_\-ouverts}}
+\index{affiche\_\-derniers\_\-fichiers\_\-ouverts@{affiche\_\-derniers\_\-fichiers\_\-ouverts}!menu.h@{menu.h}}
+\subsubsection[{affiche\_\-derniers\_\-fichiers\_\-ouverts}]{\setlength{\rightskip}{0pt plus 5cm}gboolean affiche\_\-derniers\_\-fichiers\_\-ouverts (void)}\label{menu_8h_a7b48dc605d99995e31545dc3bdad1d85}
+Add menu items to the \char`\"{}Recent files\char`\"{} submenu. 
+
+Définition à la ligne 353 du fichier menu.c.
+
+\index{menu.h@{menu.h}!efface\_\-derniers\_\-fichiers\_\-ouverts@{efface\_\-derniers\_\-fichiers\_\-ouverts}}
+\index{efface\_\-derniers\_\-fichiers\_\-ouverts@{efface\_\-derniers\_\-fichiers\_\-ouverts}!menu.h@{menu.h}}
+\subsubsection[{efface\_\-derniers\_\-fichiers\_\-ouverts}]{\setlength{\rightskip}{0pt plus 5cm}void efface\_\-derniers\_\-fichiers\_\-ouverts (void)}\label{menu_8h_a31e1f092a06fca742e15442a4fd44313}
+Blank the \char`\"{}Recent files submenu\char`\"{}. 
+
+Définition à la ligne 343 du fichier menu.c.
+
+\index{menu.h@{menu.h}!gsb\_\-gui\_\-sensitive\_\-menu\_\-item@{gsb\_\-gui\_\-sensitive\_\-menu\_\-item}}
+\index{gsb\_\-gui\_\-sensitive\_\-menu\_\-item@{gsb\_\-gui\_\-sensitive\_\-menu\_\-item}!menu.h@{menu.h}}
+\subsubsection[{gsb\_\-gui\_\-sensitive\_\-menu\_\-item}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-gui\_\-sensitive\_\-menu\_\-item (gchar $\ast$ {\em root\_\-menu\_\-name}, \/  gchar $\ast$ {\em submenu\_\-name}, \/  gchar $\ast$ {\em subsubmenu\_\-name}, \/  gboolean {\em state})}\label{menu_8h_ad3557028823b3fd30c4d7367b698d2e2}
+Set sensitiveness of a menu item according to its position in the menu.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em root\_\-menu\_\-name}]Name of the menu. \item[{\em submenu\_\-name}]Name of the sub menu. \item[{\em subsubmenu\_\-name}]Name of the sub sub menu.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE on success. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 565 du fichier menu.c.
+
+\index{menu.h@{menu.h}!gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string@{gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string}}
+\index{gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string@{gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string}!menu.h@{menu.h}}
+\subsubsection[{gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-gui\_\-sensitive\_\-menu\_\-item\_\-from\_\-string (gchar $\ast$ {\em item\_\-name}, \/  gboolean {\em state})}\label{menu_8h_aa52fc499e8216c49fa496f24c46eb811}
+Set sensitiveness of a menu item according to a string representation of its position in the menu. menu.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em root\_\-menu\_\-name}]Name of the menu. \item[{\em submenu\_\-name}]Name of the sub menu. \item[{\em subsubmenu\_\-name}]Name of the sub sub menu.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE on success. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 539 du fichier menu.c.
+
+\index{menu.h@{menu.h}!gsb\_\-gui\_\-toggle\_\-show\_\-archived@{gsb\_\-gui\_\-toggle\_\-show\_\-archived}}
+\index{gsb\_\-gui\_\-toggle\_\-show\_\-archived@{gsb\_\-gui\_\-toggle\_\-show\_\-archived}!menu.h@{menu.h}}
+\subsubsection[{gsb\_\-gui\_\-toggle\_\-show\_\-archived}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-gui\_\-toggle\_\-show\_\-archived (void)}\label{menu_8h_aa2af14ac64481c25621aef9c3e43eea5}
+Show or hide display of lines archives.
+
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 653 du fichier menu.c.
+
+\index{menu.h@{menu.h}!gsb\_\-gui\_\-toggle\_\-show\_\-reconciled@{gsb\_\-gui\_\-toggle\_\-show\_\-reconciled}}
+\index{gsb\_\-gui\_\-toggle\_\-show\_\-reconciled@{gsb\_\-gui\_\-toggle\_\-show\_\-reconciled}!menu.h@{menu.h}}
+\subsubsection[{gsb\_\-gui\_\-toggle\_\-show\_\-reconciled}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-gui\_\-toggle\_\-show\_\-reconciled (void)}\label{menu_8h_aeb017cf19bed8e724d46231072994de9}
+Show or hide display of reconciled transactions.
+
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 628 du fichier menu.c.
+
+\index{menu.h@{menu.h}!gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive@{gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive}}
+\index{gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive@{gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive}!menu.h@{menu.h}}
+\subsubsection[{gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-menu\_\-transaction\_\-operations\_\-set\_\-sensitive (gboolean {\em sensitive})}\label{menu_8h_a2cd0fa9a87d28146f743c30d75c3ee00}
+Set sensitiveness of all menu items that work on the selected transaction.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em sensitive}]Sensitiveness (FALSE for unsensitive, TRUE for sensitive).\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 831 du fichier menu.c.
+
+\index{menu.h@{menu.h}!gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus@{gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus}}
+\index{gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus@{gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus}!menu.h@{menu.h}}
+\subsubsection[{gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-menu\_\-update\_\-accounts\_\-in\_\-menus (void)}\label{menu_8h_a82ddd4b1a12d79cf3c8211128ef52a88}
+Update the clickable list of closed accounts and target accounts to move a transaction, in menu.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em $\backslash$return}]FALSE \end{DoxyParams}
+
+
+Définition à la ligne 765 du fichier menu.c.
+
+\index{menu.h@{menu.h}!gsb\_\-menu\_\-update\_\-view\_\-menu@{gsb\_\-menu\_\-update\_\-view\_\-menu}}
+\index{gsb\_\-menu\_\-update\_\-view\_\-menu@{gsb\_\-menu\_\-update\_\-view\_\-menu}!menu.h@{menu.h}}
+\subsubsection[{gsb\_\-menu\_\-update\_\-view\_\-menu}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-menu\_\-update\_\-view\_\-menu (gint {\em account\_\-number})}\label{menu_8h_a60f727414d6ce8974582d80ae95c1f81}
+Update the view menu in the menu bar
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]The account used to update the menu\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 700 du fichier menu.c.
+
+\index{menu.h@{menu.h}!init\_\-menus@{init\_\-menus}}
+\index{init\_\-menus@{init\_\-menus}!menu.h@{menu.h}}
+\subsubsection[{init\_\-menus}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ init\_\-menus (GtkWidget $\ast$ {\em vbox})}\label{menu_8h_a797e59b4900aa4af71181ca9b7145aa4}
+
+
+Définition à la ligne 164 du fichier menu.c.
+
+\index{menu.h@{menu.h}!menu\_\-name@{menu\_\-name}}
+\index{menu\_\-name@{menu\_\-name}!menu.h@{menu.h}}
+\subsubsection[{menu\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ menu\_\-name (gchar $\ast$ {\em menu}, \/  gchar $\ast$ {\em submenu}, \/  gchar $\ast$ {\em subsubmenu})}\label{menu_8h_a8bf02c2e8820e600ffa71a0ef9f6cce8}
+Concatenate menu entry names to produce a valid menu path, like /Menubar/FileMenu/Save
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em menu}]Name of the root menu. \item[{\em submenu}]Name of the sub-\/menu. \item[{\em subsubmenu}]Name of the sub-\/sub-\/menu.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A newly-\/created string representing the menu path. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 516 du fichier menu.c.
+

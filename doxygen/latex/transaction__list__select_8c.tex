@@ -1,0 +1,140 @@
+\section{Référence du fichier transaction\_\-list\_\-select.c}
+\label{transaction__list__select_8c}\index{transaction\_\-list\_\-select.c@{transaction\_\-list\_\-select.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list\_\-select.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}menu.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-model.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}custom\_\-list.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf transaction\_\-list\_\-select} (gint transaction\_\-number)
+\item 
+gint {\bf transaction\_\-list\_\-select\_\-get} (void)
+\item 
+gboolean {\bf transaction\_\-list\_\-select\_\-up} (gboolean into\_\-children)
+\item 
+gboolean {\bf transaction\_\-list\_\-select\_\-down} (gboolean into\_\-children)
+\item 
+GtkTreePath $\ast$ {\bf transaction\_\-list\_\-select\_\-get\_\-path} (gint line\_\-in\_\-transaction)
+\item 
+void {\bf transaction\_\-list\_\-select\_\-unselect} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GdkColor {\bf couleur\_\-selection}
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+this contains the select function to use with the CustomList Grisbi shouldn't work directly on the CustomList except by those files 
+
+Définition dans le fichier {\bf transaction\_\-list\_\-select.c}.
+
+
+
+\subsection{Documentation des fonctions}
+\index{transaction\_\-list\_\-select.c@{transaction\_\-list\_\-select.c}!transaction\_\-list\_\-select@{transaction\_\-list\_\-select}}
+\index{transaction\_\-list\_\-select@{transaction\_\-list\_\-select}!transaction_list_select.c@{transaction\_\-list\_\-select.c}}
+\subsubsection[{transaction\_\-list\_\-select}]{\setlength{\rightskip}{0pt plus 5cm}gboolean transaction\_\-list\_\-select (gint {\em transaction\_\-number})}\label{transaction__list__select_8c_a85f38a439156b883335de73220dca237}
+set the selection on the given transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em transaction\_\-number}]the transaction to select\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE if not possible (not visible), TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 60 du fichier transaction\_\-list\_\-select.c.
+
+\index{transaction\_\-list\_\-select.c@{transaction\_\-list\_\-select.c}!transaction\_\-list\_\-select\_\-down@{transaction\_\-list\_\-select\_\-down}}
+\index{transaction\_\-list\_\-select\_\-down@{transaction\_\-list\_\-select\_\-down}!transaction_list_select.c@{transaction\_\-list\_\-select.c}}
+\subsubsection[{transaction\_\-list\_\-select\_\-down}]{\setlength{\rightskip}{0pt plus 5cm}gboolean transaction\_\-list\_\-select\_\-down (gboolean {\em into\_\-children})}\label{transaction__list__select_8c_aad826f93d59044effba7ca1c31eccabb}
+move down the selection this doesn't change the selection in the account, only on the model, so need to update the account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em into\_\-children}]if TRUE and the current selection has children and is opened, the selection goes on the first child of that transaction else it goes directly on the next mother\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : done, FALSE : no change 
+\end{DoxyReturn}
+
+
+Définition à la ligne 259 du fichier transaction\_\-list\_\-select.c.
+
+\index{transaction\_\-list\_\-select.c@{transaction\_\-list\_\-select.c}!transaction\_\-list\_\-select\_\-get@{transaction\_\-list\_\-select\_\-get}}
+\index{transaction\_\-list\_\-select\_\-get@{transaction\_\-list\_\-select\_\-get}!transaction_list_select.c@{transaction\_\-list\_\-select.c}}
+\subsubsection[{transaction\_\-list\_\-select\_\-get}]{\setlength{\rightskip}{0pt plus 5cm}gint transaction\_\-list\_\-select\_\-get (void)}\label{transaction__list__select_8c_a0a2effd6ee01ec6f9b848593b797398a}
+return the selected transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the transaction\_\-number or -\/1 (white line) if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 143 du fichier transaction\_\-list\_\-select.c.
+
+\index{transaction\_\-list\_\-select.c@{transaction\_\-list\_\-select.c}!transaction\_\-list\_\-select\_\-get\_\-path@{transaction\_\-list\_\-select\_\-get\_\-path}}
+\index{transaction\_\-list\_\-select\_\-get\_\-path@{transaction\_\-list\_\-select\_\-get\_\-path}!transaction_list_select.c@{transaction\_\-list\_\-select.c}}
+\subsubsection[{transaction\_\-list\_\-select\_\-get\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}GtkTreePath$\ast$ transaction\_\-list\_\-select\_\-get\_\-path (gint {\em line\_\-in\_\-transaction})}\label{transaction__list__select_8c_ac4dba240fa9e06af594157c07e62c2d8}
+return the path of the selected transaction according line\_\-in\_\-transaction
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em line\_\-in\_\-transaction}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a newly allocated GtkTreePath 
+\end{DoxyReturn}
+
+
+Définition à la ligne 363 du fichier transaction\_\-list\_\-select.c.
+
+\index{transaction\_\-list\_\-select.c@{transaction\_\-list\_\-select.c}!transaction\_\-list\_\-select\_\-unselect@{transaction\_\-list\_\-select\_\-unselect}}
+\index{transaction\_\-list\_\-select\_\-unselect@{transaction\_\-list\_\-select\_\-unselect}!transaction_list_select.c@{transaction\_\-list\_\-select.c}}
+\subsubsection[{transaction\_\-list\_\-select\_\-unselect}]{\setlength{\rightskip}{0pt plus 5cm}void transaction\_\-list\_\-select\_\-unselect (void)}\label{transaction__list__select_8c_afb819edf423709c65e5a7f0d427ddcf1}
+unselect the current selection of the custom list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 406 du fichier transaction\_\-list\_\-select.c.
+
+\index{transaction\_\-list\_\-select.c@{transaction\_\-list\_\-select.c}!transaction\_\-list\_\-select\_\-up@{transaction\_\-list\_\-select\_\-up}}
+\index{transaction\_\-list\_\-select\_\-up@{transaction\_\-list\_\-select\_\-up}!transaction_list_select.c@{transaction\_\-list\_\-select.c}}
+\subsubsection[{transaction\_\-list\_\-select\_\-up}]{\setlength{\rightskip}{0pt plus 5cm}gboolean transaction\_\-list\_\-select\_\-up (gboolean {\em into\_\-children})}\label{transaction__list__select_8c_afe4cb2b4907b0146fd152277511c5653}
+move up the selection this doesn't change the selection in the account, only on the model, so need to update the account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em into\_\-children}]if TRUE and the previous transaction is a split and is opened, the selection goes on the last child of the previous transactions, else it goes directly on the mother\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : done, FALSE : no change 
+\end{DoxyReturn}
+
+
+Définition à la ligne 171 du fichier transaction\_\-list\_\-select.c.
+
+
+
+\subsection{Documentation des variables}
+\index{transaction\_\-list\_\-select.c@{transaction\_\-list\_\-select.c}!couleur\_\-selection@{couleur\_\-selection}}
+\index{couleur\_\-selection@{couleur\_\-selection}!transaction_list_select.c@{transaction\_\-list\_\-select.c}}
+\subsubsection[{couleur\_\-selection}]{\setlength{\rightskip}{0pt plus 5cm}GdkColor {\bf couleur\_\-selection}}\label{transaction__list__select_8c_a35e437a6db69c9160eeb81674971108b}
+
+
+Définition à la ligne 116 du fichier traitement\_\-variables.c.
+

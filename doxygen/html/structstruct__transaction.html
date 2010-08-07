@@ -1,0 +1,516 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence de la structure struct_transaction</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li><a href="classes.html"><span>Index&nbsp;des&nbsp;structures&nbsp;de&nbsp;données</span></a></li>
+      <li><a href="functions.html"><span>Champs&nbsp;de&nbsp;donnée</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence de la structure struct_transaction</h1><!-- doxytag: class="struct_transaction" --><table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Champs de données</h2></td></tr>
+<tr><td colspan="2"><div class="groupHeader">general stuff</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp52b07cac44d92ce9f787d506234f1ad4"></a> </p>
+</div></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a3f9278776e0b002c6a2837c2b3d4f97e">transaction_number</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a4307686452f0f8f7fe77687565c22aac">transaction_id</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#ad59b1d52aaba0418e4a86fcb8d0649a0">account_number</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a347c871548e44d59c83edd08df06c624">transaction_amount</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#abf1a3dd7f217fba7bea03ff4df01fb2e">party_number</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a0189cfa17ca1a77dfe7280964d9e270b">notes</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a9ccf3249b61307eebc83e19602ecc006">marked_transaction</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a13eb2fc6bdc8798d243e4d10284cf801">archive_number</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gshort&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a25d2d46973ae8beee3c37465c9b558f3">automatic_transaction</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a64fd9a097e270d8dfc136bd644772097">reconcile_number</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">guint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#aef71093dc7b53b93cfb07a9cdfa64252">financial_year_number</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#aa0861a5055975fe5b6feac4934992aeb">voucher</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a9e372b023d420bd88ee7cc71768d15e0">bank_references</a></td></tr>
+<tr><td colspan="2"><div class="groupHeader">dates of the transaction</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpe5c8cd1770cd43720d123aeb9e80ba77"></a> </p>
+</div></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GDate *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a0f11b6fe27d26af4732f328b8560dd42">date</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GDate *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a75ff7fda8398391139583e7187c13242">value_date</a></td></tr>
+<tr><td colspan="2"><div class="groupHeader">currency stuff</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp75d2746ebe83b73f13346d6244b4075d"></a> </p>
+</div></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a515e646646391127a82740351fd8a311">currency_number</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#aab2c9329f0d87630c10fe3003ea108fd">change_between_account_and_transaction</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#aedcda507e04c4175bcfeee402b66ce06">exchange_rate</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a4267f7f81d486cc4795f91b38b832df2">exchange_fees</a></td></tr>
+<tr><td colspan="2"><div class="groupHeader">category stuff</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp5dd09ca295ac645b7efc407c1a87abab"></a> </p>
+</div></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#aef380fa8ba617e61ea31b262e93415b1">category_number</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a2c8422a8cde93c1a0d6cc1c438b6fae4">sub_category_number</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a61f036d52a9f50d3016f146e5fd80862">budgetary_number</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a7920b7bbbfebebef989a808e9696062d">sub_budgetary_number</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#ab411ca85b22e0ca411ba0bf511f0924d">transaction_number_transfer</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a6a7a36aeafcf20c493b1f05b249896f4">split_of_transaction</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#add7c901ade23cf2985485e1c1cbbf5f3">mother_transaction_number</a></td></tr>
+<tr><td colspan="2"><div class="groupHeader">method of payment</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpbbdbbfa765cb9005b09822cb581df3b1"></a> </p>
+</div></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#aec009dce4c2ccfb1c865b9b68fe1dfdf">method_of_payment_number</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__transaction.html#a8c9eb8f9b6ef31fbaa5bb230d9c67749">method_of_payment_content</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00057">57</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+<hr/><h2>Documentation des champs</h2>
+<a class="anchor" id="ad59b1d52aaba0418e4a86fcb8d0649a0"></a><!-- doxytag: member="struct_transaction::account_number" ref="ad59b1d52aaba0418e4a86fcb8d0649a0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#ad59b1d52aaba0418e4a86fcb8d0649a0">struct_transaction::account_number</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00062">62</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a13eb2fc6bdc8798d243e4d10284cf801"></a><!-- doxytag: member="struct_transaction::archive_number" ref="a13eb2fc6bdc8798d243e4d10284cf801" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#a13eb2fc6bdc8798d243e4d10284cf801">struct_transaction::archive_number</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>if it's an archived transaction, contains the number of the archive </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00067">67</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a25d2d46973ae8beee3c37465c9b558f3"></a><!-- doxytag: member="struct_transaction::automatic_transaction" ref="a25d2d46973ae8beee3c37465c9b558f3" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gshort <a class="el" href="structstruct__transaction.html#a25d2d46973ae8beee3c37465c9b558f3">struct_transaction::automatic_transaction</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>0=manual, 1=automatic (scheduled transaction) </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00068">68</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9e372b023d420bd88ee7cc71768d15e0"></a><!-- doxytag: member="struct_transaction::bank_references" ref="a9e372b023d420bd88ee7cc71768d15e0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="structstruct__transaction.html#a9e372b023d420bd88ee7cc71768d15e0">struct_transaction::bank_references</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00075">75</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a61f036d52a9f50d3016f146e5fd80862"></a><!-- doxytag: member="struct_transaction::budgetary_number" ref="a61f036d52a9f50d3016f146e5fd80862" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#a61f036d52a9f50d3016f146e5fd80862">struct_transaction::budgetary_number</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00090">90</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aef380fa8ba617e61ea31b262e93415b1"></a><!-- doxytag: member="struct_transaction::category_number" ref="aef380fa8ba617e61ea31b262e93415b1" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#aef380fa8ba617e61ea31b262e93415b1">struct_transaction::category_number</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00088">88</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aab2c9329f0d87630c10fe3003ea108fd"></a><!-- doxytag: member="struct_transaction::change_between_account_and_transaction" ref="aab2c9329f0d87630c10fe3003ea108fd" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#aab2c9329f0d87630c10fe3003ea108fd">struct_transaction::change_between_account_and_transaction</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>if 1 : 1 account_currency = (exchange_rate * amount) transaction_currency </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00083">83</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a515e646646391127a82740351fd8a311"></a><!-- doxytag: member="struct_transaction::currency_number" ref="a515e646646391127a82740351fd8a311" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#a515e646646391127a82740351fd8a311">struct_transaction::currency_number</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00082">82</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0f11b6fe27d26af4732f328b8560dd42"></a><!-- doxytag: member="struct_transaction::date" ref="a0f11b6fe27d26af4732f328b8560dd42" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GDate* <a class="el" href="structstruct__transaction.html#a0f11b6fe27d26af4732f328b8560dd42">struct_transaction::date</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00078">78</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4267f7f81d486cc4795f91b38b832df2"></a><!-- doxytag: member="struct_transaction::exchange_fees" ref="a4267f7f81d486cc4795f91b38b832df2" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> <a class="el" href="structstruct__transaction.html#a4267f7f81d486cc4795f91b38b832df2">struct_transaction::exchange_fees</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00085">85</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aedcda507e04c4175bcfeee402b66ce06"></a><!-- doxytag: member="struct_transaction::exchange_rate" ref="aedcda507e04c4175bcfeee402b66ce06" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> <a class="el" href="structstruct__transaction.html#aedcda507e04c4175bcfeee402b66ce06">struct_transaction::exchange_rate</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00084">84</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aef71093dc7b53b93cfb07a9cdfa64252"></a><!-- doxytag: member="struct_transaction::financial_year_number" ref="aef71093dc7b53b93cfb07a9cdfa64252" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">guint <a class="el" href="structstruct__transaction.html#aef71093dc7b53b93cfb07a9cdfa64252">struct_transaction::financial_year_number</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00073">73</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9ccf3249b61307eebc83e19602ecc006"></a><!-- doxytag: member="struct_transaction::marked_transaction" ref="a9ccf3249b61307eebc83e19602ecc006" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#a9ccf3249b61307eebc83e19602ecc006">struct_transaction::marked_transaction</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELERAPPROCHEE=T, OPERATION_RAPPROCHEE=R </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00066">66</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8c9eb8f9b6ef31fbaa5bb230d9c67749"></a><!-- doxytag: member="struct_transaction::method_of_payment_content" ref="a8c9eb8f9b6ef31fbaa5bb230d9c67749" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="structstruct__transaction.html#a8c9eb8f9b6ef31fbaa5bb230d9c67749">struct_transaction::method_of_payment_content</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00098">98</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aec009dce4c2ccfb1c865b9b68fe1dfdf"></a><!-- doxytag: member="struct_transaction::method_of_payment_number" ref="aec009dce4c2ccfb1c865b9b68fe1dfdf" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#aec009dce4c2ccfb1c865b9b68fe1dfdf">struct_transaction::method_of_payment_number</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00097">97</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="add7c901ade23cf2985485e1c1cbbf5f3"></a><!-- doxytag: member="struct_transaction::mother_transaction_number" ref="add7c901ade23cf2985485e1c1cbbf5f3" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#add7c901ade23cf2985485e1c1cbbf5f3">struct_transaction::mother_transaction_number</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>for a split, the mother's transaction number </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00094">94</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0189cfa17ca1a77dfe7280964d9e270b"></a><!-- doxytag: member="struct_transaction::notes" ref="a0189cfa17ca1a77dfe7280964d9e270b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="structstruct__transaction.html#a0189cfa17ca1a77dfe7280964d9e270b">struct_transaction::notes</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00065">65</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abf1a3dd7f217fba7bea03ff4df01fb2e"></a><!-- doxytag: member="struct_transaction::party_number" ref="abf1a3dd7f217fba7bea03ff4df01fb2e" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#abf1a3dd7f217fba7bea03ff4df01fb2e">struct_transaction::party_number</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00064">64</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a64fd9a097e270d8dfc136bd644772097"></a><!-- doxytag: member="struct_transaction::reconcile_number" ref="a64fd9a097e270d8dfc136bd644772097" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#a64fd9a097e270d8dfc136bd644772097">struct_transaction::reconcile_number</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>the number of reconcile, carreful : can be filled without marked_transaction=OPERATION_RAPPROCHEE sometimes, it happen if the user did ctrl R to un-R the transaction, we keep reconcile_number because most of them will re-R after the change, and that value will help the user to find wich statement it belong. o always check marked_transaction before checking reconcile_number here </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00069">69</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6a7a36aeafcf20c493b1f05b249896f4"></a><!-- doxytag: member="struct_transaction::split_of_transaction" ref="a6a7a36aeafcf20c493b1f05b249896f4" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#a6a7a36aeafcf20c493b1f05b249896f4">struct_transaction::split_of_transaction</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>1 if it's a split of transaction </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00093">93</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7920b7bbbfebebef989a808e9696062d"></a><!-- doxytag: member="struct_transaction::sub_budgetary_number" ref="a7920b7bbbfebebef989a808e9696062d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#a7920b7bbbfebebef989a808e9696062d">struct_transaction::sub_budgetary_number</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00091">91</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2c8422a8cde93c1a0d6cc1c438b6fae4"></a><!-- doxytag: member="struct_transaction::sub_category_number" ref="a2c8422a8cde93c1a0d6cc1c438b6fae4" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#a2c8422a8cde93c1a0d6cc1c438b6fae4">struct_transaction::sub_category_number</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00089">89</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a347c871548e44d59c83edd08df06c624"></a><!-- doxytag: member="struct_transaction::transaction_amount" ref="a347c871548e44d59c83edd08df06c624" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> <a class="el" href="structstruct__transaction.html#a347c871548e44d59c83edd08df06c624">struct_transaction::transaction_amount</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00063">63</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4307686452f0f8f7fe77687565c22aac"></a><!-- doxytag: member="struct_transaction::transaction_id" ref="a4307686452f0f8f7fe77687565c22aac" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="structstruct__transaction.html#a4307686452f0f8f7fe77687565c22aac">struct_transaction::transaction_id</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>filled by ofx </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00061">61</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3f9278776e0b002c6a2837c2b3d4f97e"></a><!-- doxytag: member="struct_transaction::transaction_number" ref="a3f9278776e0b002c6a2837c2b3d4f97e" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#a3f9278776e0b002c6a2837c2b3d4f97e">struct_transaction::transaction_number</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00060">60</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab411ca85b22e0ca411ba0bf511f0924d"></a><!-- doxytag: member="struct_transaction::transaction_number_transfer" ref="ab411ca85b22e0ca411ba0bf511f0924d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structstruct__transaction.html#ab411ca85b22e0ca411ba0bf511f0924d">struct_transaction::transaction_number_transfer</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>-1 for a transfer to a deleted account, the contra-transaction number else </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00092">92</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a75ff7fda8398391139583e7187c13242"></a><!-- doxytag: member="struct_transaction::value_date" ref="a75ff7fda8398391139583e7187c13242" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GDate* <a class="el" href="structstruct__transaction.html#a75ff7fda8398391139583e7187c13242">struct_transaction::value_date</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00079">79</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa0861a5055975fe5b6feac4934992aeb"></a><!-- doxytag: member="struct_transaction::voucher" ref="aa0861a5055975fe5b6feac4934992aeb" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="structstruct__transaction.html#aa0861a5055975fe5b6feac4934992aeb">struct_transaction::voucher</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__transaction_8c_source.html#l00074">74</a> du fichier <a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a>.</p>
+
+</div>
+</div>
+<hr/>La documentation de cette structure a été générée à partir du fichier suivant :<ul>
+<li><a class="el" href="gsb__data__transaction_8c_source.html">gsb_data_transaction.c</a></li>
+</ul>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

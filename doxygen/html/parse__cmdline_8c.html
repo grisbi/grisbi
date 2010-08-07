@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier parse_cmdline.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier parse_cmdline.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &lt;getopt.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="parse__cmdline_8h_source.html">parse_cmdline.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__plugins_8h_source.html">gsb_plugins.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="main_8h_source.html">main.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+
+<p><a href="parse__cmdline_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Macros</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse__cmdline_8c.html#adaf976c6dc58f7e99f48c052f3d75966">GET_DETAIL</a>&nbsp;&nbsp;&nbsp;N_(&quot;Try grisbi --help for details\n\n&quot;)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse__cmdline_8c.html#a6bd2376a5785c748b0ab78659aa5f70d">USAGE_STRING</a>&nbsp;&nbsp;&nbsp;N_(&quot;Usage: gribi [--version | -v] | [--help | -?]\n&quot;)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse__cmdline_8c.html#aafab6ebaf6f1a928f8b54482dffc489e">HELP_STRING</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse__cmdline_8c.html#ab0263fa09c96c836fbaf59de060094d0">NB_MAX_ONGLET</a>&nbsp;&nbsp;&nbsp;8</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse__cmdline_8c.html#ac87b7fb7cbd26b718fdfdc0000848ce1">parse_options</a> (int argc, char **argv, <a class="el" href="struct__cmdline__options.html">cmdline_options</a> *pOpt, gint *pErrval)</td></tr>
+</table>
+<hr/><h2>Documentation des macros</h2>
+<a class="anchor" id="adaf976c6dc58f7e99f48c052f3d75966"></a><!-- doxytag: member="parse_cmdline.c::GET_DETAIL" ref="adaf976c6dc58f7e99f48c052f3d75966" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GET_DETAIL&nbsp;&nbsp;&nbsp;N_(&quot;Try grisbi --help for details\n\n&quot;)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="parse__cmdline_8c_source.html#l00050">50</a> du fichier <a class="el" href="parse__cmdline_8c_source.html">parse_cmdline.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aafab6ebaf6f1a928f8b54482dffc489e"></a><!-- doxytag: member="parse_cmdline.c::HELP_STRING" ref="aafab6ebaf6f1a928f8b54482dffc489e" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define HELP_STRING</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<b>Valeur :</b><div class="fragment"><pre class="fragment">N_(<span class="stringliteral">&quot;grisbi [options] [file]\n&quot;</span>                                                 \
+    <span class="stringliteral">&quot;  --help                    Show this help message and exit\n&quot;</span>        \
+    <span class="stringliteral">&quot;  -v, --version             Show version number and exit\n&quot;</span>           \
+   )
+</pre></div>
+<p>Définition à la ligne <a class="el" href="parse__cmdline_8c_source.html#l00053">53</a> du fichier <a class="el" href="parse__cmdline_8c_source.html">parse_cmdline.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab0263fa09c96c836fbaf59de060094d0"></a><!-- doxytag: member="parse_cmdline.c::NB_MAX_ONGLET" ref="ab0263fa09c96c836fbaf59de060094d0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NB_MAX_ONGLET&nbsp;&nbsp;&nbsp;8</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="parse__cmdline_8c_source.html#l00312">312</a> du fichier <a class="el" href="parse__cmdline_8c_source.html">parse_cmdline.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6bd2376a5785c748b0ab78659aa5f70d"></a><!-- doxytag: member="parse_cmdline.c::USAGE_STRING" ref="a6bd2376a5785c748b0ab78659aa5f70d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define USAGE_STRING&nbsp;&nbsp;&nbsp;N_(&quot;Usage: gribi [--version | -v] | [--help | -?]\n&quot;)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="parse__cmdline_8c_source.html#l00051">51</a> du fichier <a class="el" href="parse__cmdline_8c_source.html">parse_cmdline.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="ac87b7fb7cbd26b718fdfdc0000848ce1"></a><!-- doxytag: member="parse_cmdline.c::parse_options" ref="ac87b7fb7cbd26b718fdfdc0000848ce1" args="(int argc, char **argv, cmdline_options *pOpt, gint *pErrval)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean parse_options </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&nbsp;</td>
+          <td class="paramname"> <em>argv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct__cmdline__options.html">cmdline_options</a> *&nbsp;</td>
+          <td class="paramname"> <em>pOpt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint *&nbsp;</td>
+          <td class="paramname"> <em>pErrval</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Parse command line arguments using getopt feature for options.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>argc</em>&nbsp;</td><td><a class="el" href="main_8c.html#a3c04138a5bfe5d72780bb7e82a18e627">main()</a> argc (or argn) parameter. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>argv</em>&nbsp;</td><td><a class="el" href="main_8c.html#a3c04138a5bfe5d72780bb7e82a18e627">main()</a> argv parameter. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pOpt</em>&nbsp;</td><td>pointer to the options structure to store configuration in. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>errval</em>&nbsp;</td><td>pointer to put the operation status:</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE when the application can continue, FALSEthe application should stop</dd></dl>
+<dl class="note"><dt><b>Note:</b></dt><dd>See short_options and long_options variables to have possible options. </dd></dl>
+
+<p><p>&lt; used to stop treating the command line args using getopt</p>
+<p>&lt; Index of the field of argv to compute </p>
+</p>
+
+<p>Définition à la ligne <a class="el" href="parse__cmdline_8c_source.html#l00072">72</a> du fichier <a class="el" href="parse__cmdline_8c_source.html">parse_cmdline.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

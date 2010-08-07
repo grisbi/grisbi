@@ -1,0 +1,810 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de utils_files.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>utils_files.c</h1><a href="utils__files_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                  utils_files.c                             */</span>
+<a name="l00003"></a>00003 <span class="comment">/*                                                                            */</span>
+<a name="l00004"></a>00004 <span class="comment">/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */</span>
+<a name="l00005"></a>00005 <span class="comment">/*          2003-2007 Benjamin Drieu (bdrieu@april.org)                       */</span>
+<a name="l00006"></a>00006 <span class="comment">/*          2003-2004 Alain Portal (aportal@univ-montp2.fr)                   */</span>
+<a name="l00007"></a>00007 <span class="comment">/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */</span>
+<a name="l00008"></a>00008 <span class="comment">/*          http://www.grisbi.org                                             */</span>
+<a name="l00009"></a>00009 <span class="comment">/*                                                                            */</span>
+<a name="l00010"></a>00010 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00011"></a>00011 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00014"></a>00014 <span class="comment">/*                                                                            */</span>
+<a name="l00015"></a>00015 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00016"></a>00016 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00019"></a>00019 <span class="comment">/*                                                                            */</span>
+<a name="l00020"></a>00020 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00021"></a>00021 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00022"></a>00022 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00023"></a>00023 <span class="comment">/*                                                                            */</span>
+<a name="l00024"></a>00024 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="utils__files_8h.html">utils_files.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="dialog_8h.html">dialog.h</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="utils__file__selection_8h.html">utils_file_selection.h</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="go-charmap-sel_8h.html">go-charmap-sel.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="gsb__file_8h.html">gsb_file.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="utils__str_8h.html">utils_str.h</a>&quot;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;<a class="code" href="gsb__file__config_8h.html">gsb_file_config.h</a>&quot;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="utils__file__selection_8h.html">utils_file_selection.h</a>&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;<a class="code" href="go-charmap-sel_8h.html">go-charmap-sel.h</a>&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#include &quot;<a class="code" href="erreur_8h.html">erreur.h</a>&quot;</span>
+<a name="l00041"></a>00041 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 <span class="comment">/*START_STATIC*/</span>
+<a name="l00044"></a>00044 <span class="keyword">static</span> <span class="keywordtype">void</span> browse_file ( GtkButton *button, gpointer data );
+<a name="l00045"></a>00045 <span class="keyword">static</span> gboolean utils_files_charmap_active_toggled ( GtkCellRendererToggle *cell,
+<a name="l00046"></a>00046                         gchar *path_str,
+<a name="l00047"></a>00047                         gpointer model );
+<a name="l00048"></a>00048 <span class="keyword">static</span> GSList *utils_files_check_UTF8_validity ( <span class="keyword">const</span> gchar *contents,
+<a name="l00049"></a>00049                         <span class="keyword">const</span> gchar *coding_system );
+<a name="l00050"></a>00050 <span class="keyword">static</span> <span class="keywordtype">void</span> utils_files_file_chooser_cancel ( GtkWidget *bouton, GtkWidget *chooser);
+<a name="l00051"></a>00051 <span class="keyword">static</span> <span class="keywordtype">void</span> utils_files_go_charmap_sel_changed ( GtkWidget *go_charmap_sel,
+<a name="l00052"></a>00052                         <span class="keyword">const</span> gchar *encoding,
+<a name="l00053"></a>00053                         GtkWidget *dialog );
+<a name="l00054"></a>00054 <span class="comment">/*END_STATIC*/</span>
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00058"></a>00058 <span class="keyword">extern</span> gchar *<a class="code" href="import_8c.html#ab4dbd4be47f9c5648daab02c47ff90e6">charmap_imported</a>;
+<a name="l00059"></a>00059 <span class="keyword">extern</span> GtkWidget *<a class="code" href="accueil_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a>;
+<a name="l00060"></a>00060 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062 
+<a name="l00063"></a><a class="code" href="structstruc__check__encoding.html">00063</a> <span class="keyword">struct </span><a class="code" href="structstruc__check__encoding.html">struc_check_encoding</a>
+<a name="l00064"></a>00064 {
+<a name="l00065"></a><a class="code" href="structstruc__check__encoding.html#abf4e33e49a7710dc12e1355fd6e51046">00065</a>     gchar *<a class="code" href="structstruc__check__encoding.html#abf4e33e49a7710dc12e1355fd6e51046">charset</a>;
+<a name="l00066"></a><a class="code" href="structstruc__check__encoding.html#a5d37cd5d2840616f79053df2dd1ab72d">00066</a>     gchar *<a class="code" href="structstruc__check__encoding.html#a5d37cd5d2840616f79053df2dd1ab72d">result</a>;
+<a name="l00067"></a>00067 };
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 <span class="comment">/* liste des colonnes charmap */</span>
+<a name="l00071"></a>00071 <span class="keyword">enum</span> {
+<a name="l00072"></a><a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a1a848c6b31ada54e40a41c3dd784cb9b">00072</a>     <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a1a848c6b31ada54e40a41c3dd784cb9b">IMPORT_CHARMAP_SELECTED</a> = 0,
+<a name="l00073"></a><a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a55ec3f5f5686aae4016b11a99e12d77d">00073</a>     <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a55ec3f5f5686aae4016b11a99e12d77d">IMPORT_CHARMAP_ENCODING</a>,
+<a name="l00074"></a><a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8ac1e0ea8b2ea01ee48177ba3c15f55051">00074</a>     <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8ac1e0ea8b2ea01ee48177ba3c15f55051">IMPORT_CHARMAP_RESULT</a>,
+<a name="l00075"></a><a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a2e9758d15b18219e6bd3807ea0dbe5fe">00075</a>     <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a2e9758d15b18219e6bd3807ea0dbe5fe">IMPORT_CHARMAP_NB</a>,
+<a name="l00076"></a>00076 };
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079 <span class="keyword">static</span> gchar *charset_array[] = {
+<a name="l00080"></a>00080     <span class="stringliteral">&quot;ISO-8859-1&quot;</span>,
+<a name="l00081"></a>00081     <span class="stringliteral">&quot;ISO-8859-15&quot;</span>,
+<a name="l00082"></a>00082     <span class="stringliteral">&quot;windows-1252&quot;</span>,
+<a name="l00083"></a>00083     <span class="stringliteral">&quot;IBM850&quot;</span>,
+<a name="l00084"></a>00084     NULL};
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 <span class="keyword">static</span> gchar *all_charset_array[] = {
+<a name="l00088"></a>00088     <span class="stringliteral">&quot;IBM850&quot;</span>,
+<a name="l00089"></a>00089     <span class="stringliteral">&quot;ISO-8859-1&quot;</span>,
+<a name="l00090"></a>00090     <span class="stringliteral">&quot;ISO-8859-15&quot;</span>,
+<a name="l00091"></a>00091     <span class="stringliteral">&quot;x-mac-roman&quot;</span>,
+<a name="l00092"></a>00092     <span class="stringliteral">&quot;windows-1252&quot;</span>,
+<a name="l00093"></a>00093     <span class="stringliteral">&quot;IBM864&quot;</span>,
+<a name="l00094"></a>00094     <span class="stringliteral">&quot;IBM864i&quot;</span>,
+<a name="l00095"></a>00095     <span class="stringliteral">&quot;ISO-8859-6&quot;</span>,
+<a name="l00096"></a>00096     <span class="stringliteral">&quot;ISO-8859-6-E&quot;</span>,
+<a name="l00097"></a>00097     <span class="stringliteral">&quot;ISO-8859-6-I&quot;</span>,
+<a name="l00098"></a>00098     <span class="stringliteral">&quot;x-mac-arabic&quot;</span>,
+<a name="l00099"></a>00099     <span class="stringliteral">&quot;windows-1256&quot;</span>,
+<a name="l00100"></a>00100     <span class="stringliteral">&quot;armscii-8&quot;</span>,
+<a name="l00101"></a>00101     <span class="stringliteral">&quot;ISO-8859-13&quot;</span>,
+<a name="l00102"></a>00102     <span class="stringliteral">&quot;ISO-8859-4&quot;</span>,
+<a name="l00103"></a>00103     <span class="stringliteral">&quot;windows-1257&quot;</span>,
+<a name="l00104"></a>00104     <span class="stringliteral">&quot;ISO-8859-14&quot;</span>,
+<a name="l00105"></a>00105     <span class="stringliteral">&quot;IBM852&quot;</span>,
+<a name="l00106"></a>00106     <span class="stringliteral">&quot;ISO-8859-2&quot;</span>,
+<a name="l00107"></a>00107     <span class="stringliteral">&quot;x-mac-ce&quot;</span>,
+<a name="l00108"></a>00108     <span class="stringliteral">&quot;windows-1250&quot;</span>,
+<a name="l00109"></a>00109     <span class="stringliteral">&quot;gb18030&quot;</span>,
+<a name="l00110"></a>00110     <span class="stringliteral">&quot;GB2312&quot;</span>,
+<a name="l00111"></a>00111     <span class="stringliteral">&quot;x-gbk&quot;</span>,
+<a name="l00112"></a>00112     <span class="stringliteral">&quot;HZ-GB-2312&quot;</span>,
+<a name="l00113"></a>00113     <span class="stringliteral">&quot;windows-936&quot;</span>,
+<a name="l00114"></a>00114     <span class="stringliteral">&quot;Big5&quot;</span>,
+<a name="l00115"></a>00115     <span class="stringliteral">&quot;Big5-HKSCS&quot;</span>,
+<a name="l00116"></a>00116     <span class="stringliteral">&quot;x-euc-tw&quot;</span>,
+<a name="l00117"></a>00117     <span class="stringliteral">&quot;x-mac-croatian&quot;</span>,
+<a name="l00118"></a>00118     <span class="stringliteral">&quot;IBM855&quot;</span>,
+<a name="l00119"></a>00119     <span class="stringliteral">&quot;ISO-8859-5&quot;</span>,
+<a name="l00120"></a>00120     <span class="stringliteral">&quot;ISO-IR-111&quot;</span>,
+<a name="l00121"></a>00121     <span class="stringliteral">&quot;KOI8-R&quot;</span>,
+<a name="l00122"></a>00122     <span class="stringliteral">&quot;x-mac-cyrillic&quot;</span>,
+<a name="l00123"></a>00123     <span class="stringliteral">&quot;windows-1251&quot;</span>,
+<a name="l00124"></a>00124     <span class="stringliteral">&quot;IBM866&quot;</span>,
+<a name="l00125"></a>00125     <span class="stringliteral">&quot;KOI8-U&quot;</span>,
+<a name="l00126"></a>00126     <span class="stringliteral">&quot;x-mac-ukrainian&quot;</span>,
+<a name="l00127"></a>00127     <span class="stringliteral">&quot;ANSI_X3.4-1968#ASCII&quot;</span>,
+<a name="l00128"></a>00128     <span class="stringliteral">&quot;x-mac-farsi&quot;</span>,
+<a name="l00129"></a>00129     <span class="stringliteral">&quot;geostd8&quot;</span>,
+<a name="l00130"></a>00130     <span class="stringliteral">&quot;ISO-8859-7&quot;</span>,
+<a name="l00131"></a>00131     <span class="stringliteral">&quot;x-mac-greek&quot;</span>,
+<a name="l00132"></a>00132     <span class="stringliteral">&quot;windows-1253&quot;</span>,
+<a name="l00133"></a>00133     <span class="stringliteral">&quot;x-mac-gujarati&quot;</span>,
+<a name="l00134"></a>00134     <span class="stringliteral">&quot;x-mac-gurmukhi&quot;</span>,
+<a name="l00135"></a>00135     <span class="stringliteral">&quot;IBM862&quot;</span>,
+<a name="l00136"></a>00136     <span class="stringliteral">&quot;ISO-8859-8-E&quot;</span>,
+<a name="l00137"></a>00137     <span class="stringliteral">&quot;ISO-8859-8-I&quot;</span>,
+<a name="l00138"></a>00138     <span class="stringliteral">&quot;x-mac-hebrew&quot;</span>,
+<a name="l00139"></a>00139     <span class="stringliteral">&quot;windows-1255&quot;</span>,
+<a name="l00140"></a>00140     <span class="stringliteral">&quot;x-mac-devanagari&quot;</span>,
+<a name="l00141"></a>00141     <span class="stringliteral">&quot;x-mac-icelandic&quot;</span>,
+<a name="l00142"></a>00142     <span class="stringliteral">&quot;EUC-JP&quot;</span>,
+<a name="l00143"></a>00143     <span class="stringliteral">&quot;ISO-2022-JP&quot;</span>,
+<a name="l00144"></a>00144     <span class="stringliteral">&quot;Shift_JIS&quot;</span>,
+<a name="l00145"></a>00145     <span class="stringliteral">&quot;EUC-KR&quot;</span>,
+<a name="l00146"></a>00146     <span class="stringliteral">&quot;ISO-2022-KR&quot;</span>,
+<a name="l00147"></a>00147     <span class="stringliteral">&quot;x-johab&quot;</span>,
+<a name="l00148"></a>00148     <span class="stringliteral">&quot;x-windows-949&quot;</span>,
+<a name="l00149"></a>00149     <span class="stringliteral">&quot;ISO-8859-10&quot;</span>,
+<a name="l00150"></a>00150     <span class="stringliteral">&quot;x-mac-romanian&quot;</span>,
+<a name="l00151"></a>00151     <span class="stringliteral">&quot;ISO-8859-16&quot;</span>,
+<a name="l00152"></a>00152     <span class="stringliteral">&quot;ISO-8859-3&quot;</span>,
+<a name="l00153"></a>00153     <span class="stringliteral">&quot;TIS-620&quot;</span>,
+<a name="l00154"></a>00154     <span class="stringliteral">&quot;IBM857&quot;</span>,
+<a name="l00155"></a>00155     <span class="stringliteral">&quot;ISO-8859-9&quot;</span>,
+<a name="l00156"></a>00156     <span class="stringliteral">&quot;x-mac-turkish&quot;</span>,
+<a name="l00157"></a>00157     <span class="stringliteral">&quot;windows-1254&quot;</span>,
+<a name="l00158"></a>00158     <span class="stringliteral">&quot;UTF-7&quot;</span>,
+<a name="l00159"></a>00159     <span class="stringliteral">&quot;UTF-8&quot;</span>,
+<a name="l00160"></a>00160     <span class="stringliteral">&quot;UTF-16BE&quot;</span>,
+<a name="l00161"></a>00161     <span class="stringliteral">&quot;UTF-16LE&quot;</span>,
+<a name="l00162"></a>00162     <span class="stringliteral">&quot;UTF-32BE&quot;</span>,
+<a name="l00163"></a>00163     <span class="stringliteral">&quot;UTF-32LE&quot;</span>,
+<a name="l00164"></a>00164     <span class="stringliteral">&quot;x-viet-tcvn5712&quot;</span>,
+<a name="l00165"></a>00165     <span class="stringliteral">&quot;VISCII&quot;</span>,
+<a name="l00166"></a>00166     <span class="stringliteral">&quot;x-viet-vps&quot;</span>,
+<a name="l00167"></a>00167     <span class="stringliteral">&quot;windows-1258&quot;</span>,
+<a name="l00168"></a>00168     <span class="stringliteral">&quot;ISO-8859-8&quot;</span>,
+<a name="l00169"></a>00169     NULL};
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171 
+<a name="l00180"></a>00180 <span class="keywordtype">void</span> browse_file ( GtkButton *button, gpointer data )
+<a name="l00181"></a>00181 {
+<a name="l00182"></a>00182     GtkWidget * file_selector;
+<a name="l00183"></a>00183 
+<a name="l00184"></a>00184     file_selector = <a class="code" href="utils__file__selection_8c.html#a28d01f93cf3b5c0f02cb506b15338c29">file_selection_new</a> (_(<span class="stringliteral">&quot;Print to file&quot;</span>),<a class="code" href="utils__file__selection_8h.html#a823595fd9dc58c9b9005a98335efd74e">FILE_SELECTION_IS_SAVE_DIALOG</a>);
+<a name="l00185"></a>00185     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector),
+<a name="l00186"></a>00186                                          <a class="code" href="gsb__file_8c.html#a05b2359af2cda48c801099a2d222aa55">gsb_file_get_last_path</a> ());
+<a name="l00187"></a>00187     gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
+<a name="l00188"></a>00188                                    GTK_WINDOW ( <a class="code" href="accueil_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a> ));
+<a name="l00189"></a>00189     gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
+<a name="l00190"></a>00190 
+<a name="l00191"></a>00191     <span class="keywordflow">switch</span> ( gtk_dialog_run ( GTK_DIALOG (file_selector)))
+<a name="l00192"></a>00192     {
+<a name="l00193"></a>00193         <span class="keywordflow">case</span> GTK_RESPONSE_OK:
+<a name="l00194"></a>00194             gtk_entry_set_text ( GTK_ENTRY(data),
+<a name="l00195"></a>00195                                  <a class="code" href="utils__file__selection_8c.html#a553733327d0e98dc761f3eec04c9d3d3">file_selection_get_filename</a> (GTK_FILE_CHOOSER (file_selector)));
+<a name="l00196"></a>00196             <a class="code" href="gsb__file_8c.html#abea90088f86f05e8386739483e16b380">gsb_file_update_last_path</a> (<a class="code" href="utils__file__selection_8c.html#a7ceee035264e3ea82cd7e5863650a6c3">file_selection_get_last_directory</a> (GTK_FILE_CHOOSER (file_selector), TRUE));
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198         <span class="keywordflow">default</span>:
+<a name="l00199"></a>00199             gtk_widget_destroy ( file_selector );
+<a name="l00200"></a>00200             <span class="keywordflow">break</span>;
+<a name="l00201"></a>00201     }
+<a name="l00202"></a>00202 }
+<a name="l00203"></a>00203 
+<a name="l00211"></a><a class="code" href="utils__files_8h.html#a1a062adbff317c16f4e4930090068dd3">00211</a> gchar* <a class="code" href="utils__files_8c.html#a1a062adbff317c16f4e4930090068dd3">my_get_grisbirc_dir</a>(<span class="keywordtype">void</span>)
+<a name="l00212"></a>00212 {
+<a name="l00213"></a>00213 <span class="preprocessor">#ifndef _WIN32</span>
+<a name="l00214"></a>00214 <span class="preprocessor"></span>    <span class="keywordflow">return</span> (gchar *) g_get_home_dir ();
+<a name="l00215"></a>00215 <span class="preprocessor">#else</span>
+<a name="l00216"></a>00216 <span class="preprocessor"></span>    <span class="keywordflow">return</span> win32_get_grisbirc_folder_path();
+<a name="l00217"></a>00217 <span class="preprocessor">#endif</span>
+<a name="l00218"></a>00218 <span class="preprocessor"></span>}
+<a name="l00219"></a>00219 
+<a name="l00220"></a>00220 
+<a name="l00229"></a><a class="code" href="utils__files_8h.html#a1794f2646f6aa227df941dfd0f63b9b4">00229</a> gchar* <a class="code" href="utils__files_8c.html#a1794f2646f6aa227df941dfd0f63b9b4">my_get_XDG_grisbirc_dir</a>(<span class="keywordtype">void</span>)
+<a name="l00230"></a>00230 {
+<a name="l00231"></a>00231 <span class="preprocessor">#ifndef _WIN32</span>
+<a name="l00232"></a>00232 <span class="preprocessor"></span>    <span class="keywordflow">return</span> (gchar *) <a class="code" href="gsb__file__config_8h.html#a21b147896fe5dc694a0b47ba8fccab0a">C_PATH_CONFIG</a>;
+<a name="l00233"></a>00233 <span class="preprocessor">#else</span>
+<a name="l00234"></a>00234 <span class="preprocessor"></span>    <span class="keywordflow">return</span> win32_get_grisbirc_folder_path();
+<a name="l00235"></a>00235 <span class="preprocessor">#endif</span>
+<a name="l00236"></a>00236 <span class="preprocessor"></span>}
+<a name="l00237"></a>00237 
+<a name="l00238"></a>00238 
+<a name="l00247"></a><a class="code" href="utils__files_8h.html#a73d323b60da65cb56316d1a057fcd312">00247</a> gchar* <a class="code" href="utils__files_8c.html#a73d323b60da65cb56316d1a057fcd312">my_get_XDG_grisbi_data_dir</a> ( <span class="keywordtype">void</span> )
+<a name="l00248"></a>00248 {
+<a name="l00249"></a>00249 <span class="preprocessor">#ifndef _WIN32</span>
+<a name="l00250"></a>00250 <span class="preprocessor"></span>    <span class="keywordflow">return</span> (gchar *) <a class="code" href="gsb__file__config_8h.html#acd336366602b4f8aceea5aa8daad396b">C_PATH_DATA_FILES</a>;
+<a name="l00251"></a>00251 <span class="preprocessor">#else</span>
+<a name="l00252"></a>00252 <span class="preprocessor"></span>    <span class="keywordflow">return</span> g_get_home_dir ();
+<a name="l00253"></a>00253 <span class="preprocessor">#endif</span>
+<a name="l00254"></a>00254 <span class="preprocessor"></span>}
+<a name="l00255"></a>00255 
+<a name="l00263"></a><a class="code" href="utils__files_8h.html#ab0e498f3274063f20c4a6fb54b52271a">00263</a> gchar* <a class="code" href="utils__files_8c.html#ab0e498f3274063f20c4a6fb54b52271a">my_get_gsb_file_default_dir</a> ( <span class="keywordtype">void</span> )
+<a name="l00264"></a>00264 {
+<a name="l00265"></a>00265 <span class="preprocessor">#ifndef _WIN32</span>
+<a name="l00266"></a>00266 <span class="preprocessor"></span>    <span class="keywordflow">return</span> (gchar *) g_get_home_dir();
+<a name="l00267"></a>00267 <span class="preprocessor">#else</span>
+<a name="l00268"></a>00268 <span class="preprocessor"></span>    <span class="keywordflow">return</span> win32_get_my_documents_folder_path();
+<a name="l00269"></a>00269 <span class="preprocessor">#endif</span>
+<a name="l00270"></a>00270 <span class="preprocessor"></span>}
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272 
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274 <span class="comment">/* get the line af the file,</span>
+<a name="l00275"></a>00275 <span class="comment"> * convert it in UTF8 and fill string with that line</span>
+<a name="l00276"></a>00276 <span class="comment"> *</span>
+<a name="l00277"></a>00277 <span class="comment"> * \param fichier</span>
+<a name="l00278"></a>00278 <span class="comment"> * \param string</span>
+<a name="l00279"></a>00279 <span class="comment"> * \param coding_system the orig coding system of the string</span>
+<a name="l00280"></a>00280 <span class="comment"> *</span>
+<a name="l00281"></a>00281 <span class="comment"> * \return EOF, 1 if ok, 0 if problem</span>
+<a name="l00282"></a>00282 <span class="comment"> * */</span>
+<a name="l00283"></a><a class="code" href="utils__files_8h.html#a3a8b0bb721fc3468001ca2ea9e9d17a0">00283</a> gint <a class="code" href="utils__files_8c.html#a3a8b0bb721fc3468001ca2ea9e9d17a0">get_utf8_line_from_file</a> ( FILE *fichier,
+<a name="l00284"></a>00284                         gchar **<span class="keywordtype">string</span>,
+<a name="l00285"></a>00285                         <span class="keyword">const</span> gchar *coding_system )
+<a name="l00286"></a>00286 {
+<a name="l00287"></a>00287     gchar c = 0;
+<a name="l00288"></a>00288     gint i = 0;
+<a name="l00289"></a>00289     gint j = 0;
+<a name="l00290"></a>00290     gchar *pointeur_char = NULL;
+<a name="l00291"></a>00291     gchar *tmp_string;
+<a name="l00292"></a>00292 
+<a name="l00293"></a>00293     <span class="keywordflow">if</span> ( !fichier )
+<a name="l00294"></a>00294         <span class="keywordflow">return</span> 0;
+<a name="l00295"></a>00295             
+<a name="l00296"></a>00296     <span class="comment">/* allocate 30 characters, and increase it 30 by 30 */</span>
+<a name="l00297"></a>00297     pointeur_char = (gchar*)g_realloc(pointeur_char,30*<span class="keyword">sizeof</span>(gchar));
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299     <span class="keywordflow">if</span> ( !pointeur_char )
+<a name="l00300"></a>00300     {
+<a name="l00301"></a>00301         <span class="comment">/* ouch, not enough memory */</span>
+<a name="l00302"></a>00302         <a class="code" href="dialog_8c.html#aa88d9d93c78818a177e9a14eff15f360">dialogue_error</a> ( _(<span class="stringliteral">&quot;Memory allocation error&quot;</span> ));
+<a name="l00303"></a>00303         <span class="keywordflow">return</span> 0;
+<a name="l00304"></a>00304     }
+<a name="l00305"></a>00305 
+<a name="l00306"></a>00306     <span class="comment">/* get the string untill \n or \r (windows format) */</span>
+<a name="l00307"></a>00307     c =(gchar)fgetc(fichier);
+<a name="l00308"></a>00308     <span class="keywordflow">while</span> ( ( c != <span class="charliteral">&#39;\n&#39;</span> ) &amp;&amp; (c != <span class="charliteral">&#39;\r&#39;</span>) &amp;&amp; !feof (fichier))
+<a name="l00309"></a>00309     {
+<a name="l00310"></a>00310         pointeur_char[j++] = c;
+<a name="l00311"></a>00311 
+<a name="l00312"></a>00312         <span class="keywordflow">if</span> ( ++i == 29 )
+<a name="l00313"></a>00313         {
+<a name="l00314"></a>00314             pointeur_char = (gchar*)g_realloc(pointeur_char, j + 1 + 30*<span class="keyword">sizeof</span>(gchar));
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316             <span class="keywordflow">if</span> ( !pointeur_char )
+<a name="l00317"></a>00317             {
+<a name="l00318"></a>00318                 <span class="comment">/* ouch, not enough memory */</span>
+<a name="l00319"></a>00319                 <a class="code" href="dialog_8c.html#aa88d9d93c78818a177e9a14eff15f360">dialogue_error</a> ( _(<span class="stringliteral">&quot;Memory allocation error&quot;</span> ));
+<a name="l00320"></a>00320                 <span class="keywordflow">return</span> 0;
+<a name="l00321"></a>00321             }
+<a name="l00322"></a>00322             i = 0;
+<a name="l00323"></a>00323         }
+<a name="l00324"></a>00324         c =(gchar)fgetc(fichier);
+<a name="l00325"></a>00325     }
+<a name="l00326"></a>00326     pointeur_char[j] = 0;
+<a name="l00327"></a>00327 
+<a name="l00328"></a>00328     <span class="comment">/* if we finished on \r, jump the \n after it */</span>
+<a name="l00329"></a>00329     <span class="keywordflow">if</span> ( c == <span class="charliteral">&#39;\r&#39;</span> )
+<a name="l00330"></a>00330     {
+<a name="l00331"></a>00331         c =(gchar)fgetc(fichier);
+<a name="l00332"></a>00332         <span class="keywordflow">if</span> ( c != <span class="charliteral">&#39;\n&#39;</span> )
+<a name="l00333"></a>00333         {
+<a name="l00334"></a>00334             ungetc ( c, fichier );
+<a name="l00335"></a>00335         }
+<a name="l00336"></a>00336     }
+<a name="l00337"></a>00337 
+<a name="l00338"></a>00338     tmp_string = g_convert ( pointeur_char, -1, <span class="stringliteral">&quot;UTF-8&quot;</span>, 
+<a name="l00339"></a>00339                              coding_system, NULL, NULL,
+<a name="l00340"></a>00340                              NULL );
+<a name="l00341"></a>00341     <span class="keywordflow">if</span> (!tmp_string)
+<a name="l00342"></a>00342     {
+<a name="l00343"></a>00343         <a class="code" href="erreur_8h.html#a17bfffc4306bc76edd79e060a8947dc4">devel_debug</a> (<span class="stringliteral">&quot;convert to utf8 failed, will use latin2utf8&quot;</span>);
+<a name="l00344"></a>00344         tmp_string = <a class="code" href="utils__str_8c.html#ab704c07d882cce97ac79ab6ad7623e60">latin2utf8</a> (pointeur_char);
+<a name="l00345"></a>00345         <span class="keywordflow">if</span> ( tmp_string == NULL )
+<a name="l00346"></a>00346         {
+<a name="l00347"></a>00347             <a class="code" href="dialog_8c.html#ac3e0ed9412c48edad2cd0dad89c7d566">dialogue_special</a> ( GTK_MESSAGE_ERROR, <a class="code" href="dialog_8c.html#a84758de40aa2807a4e5ebd97ede7df23">make_hint</a> (
+<a name="l00348"></a>00348                             _(<span class="stringliteral">&quot;Convert to utf8 failed.&quot;</span>),
+<a name="l00349"></a>00349                             _(<span class="stringliteral">&quot;If the result is not correct, try again by selecting the &quot;</span>
+<a name="l00350"></a>00350                             <span class="stringliteral">&quot;correct character set in the window for selecting files.&quot;</span>) ) );
+<a name="l00351"></a>00351             <span class="keywordflow">return</span> 0;
+<a name="l00352"></a>00352         }
+<a name="l00353"></a>00353     }
+<a name="l00354"></a>00354     *<span class="keywordtype">string</span> = tmp_string;
+<a name="l00355"></a>00355     g_free (pointeur_char);
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357     <span class="keywordflow">if</span> ( feof(fichier))
+<a name="l00358"></a>00358         <span class="keywordflow">return</span> EOF;
+<a name="l00359"></a>00359     <span class="keywordflow">else</span>
+<a name="l00360"></a>00360         <span class="keywordflow">return</span> 1;
+<a name="l00361"></a>00361 }
+<a name="l00362"></a>00362 
+<a name="l00363"></a>00363 
+<a name="l00370"></a><a class="code" href="utils__files_8h.html#ad180bc31f9d0e255a0e6e1a0a05a7d82">00370</a> GtkWidget * <a class="code" href="utils__files_8c.html#ad180bc31f9d0e255a0e6e1a0a05a7d82">my_file_chooser</a> ()
+<a name="l00371"></a>00371 {
+<a name="l00372"></a>00372     GtkWidget * hbox, *entry, *button;
+<a name="l00373"></a>00373 
+<a name="l00374"></a>00374     hbox = gtk_hbox_new ( FALSE, 6 );
+<a name="l00375"></a>00375 
+<a name="l00376"></a>00376     entry = gtk_entry_new ( );
+<a name="l00377"></a>00377     gtk_box_pack_start ( GTK_BOX(hbox), entry, TRUE, TRUE, 0 );
+<a name="l00378"></a>00378     g_object_set_data ( G_OBJECT(hbox), <span class="stringliteral">&quot;entry&quot;</span>, entry );
+<a name="l00379"></a>00379 
+<a name="l00380"></a>00380     button = gtk_button_new_with_label ( _(<span class="stringliteral">&quot;Browse&quot;</span>) );
+<a name="l00381"></a>00381     gtk_box_pack_start ( GTK_BOX(hbox), button, FALSE, FALSE, 0 );
+<a name="l00382"></a>00382 
+<a name="l00383"></a>00383     g_signal_connect ( G_OBJECT(button), <span class="stringliteral">&quot;clicked&quot;</span>,
+<a name="l00384"></a>00384                        (GCallback) browse_file, entry );
+<a name="l00385"></a>00385 
+<a name="l00386"></a>00386     <span class="keywordflow">return</span> hbox;
+<a name="l00387"></a>00387 }
+<a name="l00388"></a>00388 
+<a name="l00399"></a><a class="code" href="utils__files_8h.html#ac113fb5932da8fd819f73d967a90c219">00399</a> G_MODULE_EXPORT FILE* <a class="code" href="utils__files_8c.html#ac113fb5932da8fd819f73d967a90c219" title="utf8 version of fopen (see fopen for more detail about mode)">utf8_fopen</a>(<span class="keyword">const</span> gchar* utf8filename,gchar* mode)
+<a name="l00400"></a>00400 {
+<a name="l00401"></a>00401 <span class="preprocessor">#ifdef _MSC_VER</span>
+<a name="l00402"></a>00402 <span class="preprocessor"></span>        <span class="keywordflow">if</span>(!strncmp(mode, <span class="stringliteral">&quot;w+x&quot;</span>, 3))
+<a name="l00403"></a>00403                 mode = <span class="stringliteral">&quot;w+&quot;</span>;
+<a name="l00404"></a>00404     <span class="keywordflow">return</span> fopen(g_locale_from_utf8(utf8filename, -1, NULL, NULL, NULL),mode);
+<a name="l00405"></a>00405 <span class="preprocessor">#else</span>
+<a name="l00406"></a>00406 <span class="preprocessor"></span>        <span class="keywordflow">return</span> fopen(g_filename_from_utf8(utf8filename, -1, NULL, NULL, NULL),mode);
+<a name="l00407"></a>00407 <span class="preprocessor">#endif</span>
+<a name="l00408"></a>00408 <span class="preprocessor"></span>}
+<a name="l00409"></a>00409 
+<a name="l00410"></a>00410 
+<a name="l00420"></a><a class="code" href="utils__files_8h.html#a79409776739f0f2778cd6d4f477b6dd2">00420</a> gint <a class="code" href="utils__files_8c.html#a79409776739f0f2778cd6d4f477b6dd2" title="utf8 version of remove (see remove for more detail about mode)">utf8_remove</a>(<span class="keyword">const</span> gchar* utf8filename)
+<a name="l00421"></a>00421 {
+<a name="l00422"></a>00422 <span class="preprocessor">#ifdef _MSC_VER</span>
+<a name="l00423"></a>00423 <span class="preprocessor"></span>    <span class="keywordflow">return</span> <span class="keyword">remove</span>(g_locale_from_utf8(utf8filename, -1, NULL, NULL, NULL));
+<a name="l00424"></a>00424 <span class="preprocessor">#else</span>
+<a name="l00425"></a>00425 <span class="preprocessor"></span>    <span class="keywordflow">return</span> <span class="keyword">remove</span>(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
+<a name="l00426"></a>00426 <span class="preprocessor">#endif</span>
+<a name="l00427"></a>00427 <span class="preprocessor"></span>}
+<a name="l00428"></a>00428 
+<a name="l00435"></a><a class="code" href="utils__files_8h.html#a3a57f67068b5f1274d722eac4cd5a9e6">00435</a> gchar * <a class="code" href="utils__files_8c.html#a3a57f67068b5f1274d722eac4cd5a9e6">safe_file_name</a> ( gchar* filename )
+<a name="l00436"></a>00436 {
+<a name="l00437"></a>00437     <span class="keywordflow">return</span> g_strdelimit ( <a class="code" href="utils__str_8c.html#ad9a37361694eeaa2847b0fe11389824d">my_strdup</a>(filename), G_DIR_SEPARATOR_S, <span class="charliteral">&#39;_&#39;</span> );
+<a name="l00438"></a>00438 }
+<a name="l00439"></a>00439 
+<a name="l00440"></a>00440 
+<a name="l00448"></a><a class="code" href="utils__files_8h.html#ad52941b893b0fcc21576cebdaa93fe96">00448</a> GtkWidget *<a class="code" href="utils__files_8c.html#ad52941b893b0fcc21576cebdaa93fe96" title="pallie à un bug du gtk_file_chooser_button_new">utils_files_create_file_chooser</a> ( GtkWidget *parent, gchar * titre )
+<a name="l00449"></a>00449 {
+<a name="l00450"></a>00450     GtkWidget *chooser;
+<a name="l00451"></a>00451     GtkWidget *bouton_cancel, *bouton_OK;
+<a name="l00452"></a>00452     
+<a name="l00453"></a>00453     chooser = gtk_file_chooser_dialog_new ( titre,
+<a name="l00454"></a>00454                         GTK_WINDOW (parent),
+<a name="l00455"></a>00455                         GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+<a name="l00456"></a>00456                         NULL, NULL, NULL );
+<a name="l00457"></a>00457 
+<a name="l00458"></a>00458     bouton_cancel = gtk_dialog_add_button (GTK_DIALOG ( chooser ),
+<a name="l00459"></a>00459                                 GTK_STOCK_CANCEL,
+<a name="l00460"></a>00460                                 GTK_RESPONSE_CANCEL);
+<a name="l00461"></a>00461     g_signal_connect ( G_OBJECT (bouton_cancel),
+<a name="l00462"></a>00462                        <span class="stringliteral">&quot;clicked&quot;</span>,
+<a name="l00463"></a>00463                        G_CALLBACK (utils_files_file_chooser_cancel),
+<a name="l00464"></a>00464                        chooser );
+<a name="l00465"></a>00465 
+<a name="l00466"></a>00466     bouton_OK = gtk_dialog_add_button (GTK_DIALOG ( chooser ),
+<a name="l00467"></a>00467                                 GTK_STOCK_OPEN,
+<a name="l00468"></a>00468                                 GTK_RESPONSE_ACCEPT);
+<a name="l00469"></a>00469 
+<a name="l00470"></a>00470         gtk_window_set_position ( GTK_WINDOW (chooser), GTK_WIN_POS_CENTER_ON_PARENT );
+<a name="l00471"></a>00471     gtk_window_set_transient_for (GTK_WINDOW (chooser), GTK_WINDOW (parent));
+<a name="l00472"></a>00472     gtk_widget_set_size_request ( chooser, 600, 750 );
+<a name="l00473"></a>00473 
+<a name="l00474"></a>00474     <span class="keywordflow">return</span>  chooser;
+<a name="l00475"></a>00475 }
+<a name="l00476"></a>00476 
+<a name="l00477"></a>00477 
+<a name="l00484"></a>00484 <span class="keywordtype">void</span> utils_files_file_chooser_cancel ( GtkWidget *bouton, GtkWidget *chooser)
+<a name="l00485"></a>00485 {
+<a name="l00486"></a>00486     gchar *path;
+<a name="l00487"></a>00487 
+<a name="l00488"></a>00488     path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (chooser));
+<a name="l00489"></a>00489     <a class="code" href="erreur_8h.html#a17bfffc4306bc76edd79e060a8947dc4">devel_debug</a> ( path);
+<a name="l00490"></a>00490     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (chooser), path );
+<a name="l00491"></a>00491     <span class="keywordflow">if</span> (path &amp;&amp; strlen (path) &gt; 0)
+<a name="l00492"></a>00492         g_free (path);
+<a name="l00493"></a>00493 }
+<a name="l00494"></a>00494 
+<a name="l00495"></a>00495 
+<a name="l00504"></a><a class="code" href="utils__files_8h.html#a2bf4ade67ac3b60272da8b85baaff59b">00504</a> gboolean <a class="code" href="utils__files_8c.html#a2bf4ade67ac3b60272da8b85baaff59b" title="create the config and the data directories using the mechanisms described in the...">utils_files_create_XDG_dir</a> (<span class="keywordtype">void</span>)
+<a name="l00505"></a>00505 {
+<a name="l00506"></a>00506 <span class="preprocessor">#ifdef _MSC_VER</span>
+<a name="l00507"></a>00507 <span class="preprocessor"></span>    <span class="keywordtype">int</span> mode = 0;
+<a name="l00508"></a>00508 <span class="preprocessor">#else</span>
+<a name="l00509"></a>00509 <span class="preprocessor"></span>    <span class="keywordtype">int</span> mode = S_IRUSR | S_IWUSR | S_IXUSR;
+<a name="l00510"></a>00510 <span class="preprocessor">#endif </span><span class="comment">/*_MSC_VER */</span>
+<a name="l00511"></a>00511     <span class="keywordflow">if</span> ( g_mkdir_with_parents ( <a class="code" href="gsb__file__config_8h.html#a21b147896fe5dc694a0b47ba8fccab0a">C_PATH_CONFIG</a>, mode ) == 0 &amp;&amp;
+<a name="l00512"></a>00512          g_mkdir_with_parents ( <a class="code" href="gsb__file__config_8h.html#acd336366602b4f8aceea5aa8daad396b">C_PATH_DATA_FILES</a>, mode ) == 0 )
+<a name="l00513"></a>00513         <span class="keywordflow">return</span> TRUE;
+<a name="l00514"></a>00514     <span class="keywordflow">else</span>
+<a name="l00515"></a>00515         <span class="keywordflow">return</span> FALSE;
+<a name="l00516"></a>00516 }
+<a name="l00517"></a>00517 
+<a name="l00518"></a>00518 
+<a name="l00527"></a>00527 GSList *utils_files_check_UTF8_validity ( <span class="keyword">const</span> gchar *contents,
+<a name="l00528"></a>00528                         <span class="keyword">const</span> gchar *coding_system )
+<a name="l00529"></a>00529 {
+<a name="l00530"></a>00530     GSList *list = NULL;
+<a name="l00531"></a>00531     <span class="keyword">struct </span><a class="code" href="structstruc__check__encoding.html">struc_check_encoding</a> *<a class="code" href="structstruc__check__encoding.html#a5d37cd5d2840616f79053df2dd1ab72d">result</a>;
+<a name="l00532"></a>00532     gchar *<span class="keywordtype">string</span> = NULL;
+<a name="l00533"></a>00533     gint long_str = 0;
+<a name="l00534"></a>00534     gsize size = 0;
+<a name="l00535"></a>00535     gsize bytes_written = 0;
+<a name="l00536"></a>00536     GError * error = NULL;
+<a name="l00537"></a>00537     gint i = 0;
+<a name="l00538"></a>00538     gchar *ptr;
+<a name="l00539"></a>00539 
+<a name="l00540"></a>00540     ptr = (gchar *) contents;
+<a name="l00541"></a>00541     
+<a name="l00542"></a>00542     <span class="keywordflow">while</span> ( strlen ( ptr ) &gt; 0 )
+<a name="l00543"></a>00543     {
+<a name="l00544"></a>00544         gchar *ptr_tmp;
+<a name="l00545"></a>00545 
+<a name="l00546"></a>00546         ptr_tmp = g_strstr_len ( ptr, strlen ( ptr ), <span class="stringliteral">&quot;\n&quot;</span> );
+<a name="l00547"></a>00547         <span class="keywordflow">if</span> ( ptr_tmp )
+<a name="l00548"></a>00548         {
+<a name="l00549"></a>00549             gchar *ptr_r;
+<a name="l00550"></a>00550 
+<a name="l00551"></a>00551             <span class="keywordtype">string</span> = g_strndup ( ptr, ( ( ptr_tmp ) - ptr ) );
+<a name="l00552"></a>00552             <span class="keywordflow">if</span> ( ( ptr_r = g_strrstr ( <span class="keywordtype">string</span>, <span class="stringliteral">&quot;\r&quot;</span> ) ) )
+<a name="l00553"></a>00553                 ptr_r[0] = <span class="charliteral">&#39;\0&#39;</span>;
+<a name="l00554"></a>00554 
+<a name="l00555"></a>00555             <span class="keywordflow">if</span> ( g_convert ( <span class="keywordtype">string</span>, -1, <span class="stringliteral">&quot;UTF-8&quot;</span>, coding_system, NULL, NULL, NULL ) == NULL )
+<a name="l00556"></a>00556             {
+<a name="l00557"></a>00557                 gchar *tmp_str;
+<a name="l00558"></a>00558 
+<a name="l00559"></a>00559                 long_str = strlen ( <span class="keywordtype">string</span> );
+<a name="l00560"></a>00560                 result = g_malloc0 ( <span class="keyword">sizeof</span> ( <span class="keyword">struct</span> <a class="code" href="structstruc__check__encoding.html">struc_check_encoding</a> ) );
+<a name="l00561"></a>00561                 result -&gt; <a class="code" href="structstruc__check__encoding.html#abf4e33e49a7710dc12e1355fd6e51046">charset</a> = <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00562"></a>00562                 result -&gt; result = string;
+<a name="l00563"></a>00563                 list = g_slist_append ( list, result );
+<a name="l00564"></a>00564                 <span class="keywordflow">do</span>
+<a name="l00565"></a>00565                 {
+<a name="l00566"></a>00566                      tmp_str = g_convert ( <span class="keywordtype">string</span>, long_str, <span class="stringliteral">&quot;UTF-8&quot;</span>, charset_array[i],
+<a name="l00567"></a>00567                                 &amp;size, &amp;bytes_written, &amp;error );
+<a name="l00568"></a>00568                     <span class="keywordflow">if</span> ( tmp_str )
+<a name="l00569"></a>00569                     {
+<a name="l00570"></a>00570                         result = g_malloc0 ( <span class="keyword">sizeof</span> ( <span class="keyword">struct</span> <a class="code" href="structstruc__check__encoding.html">struc_check_encoding</a> ) );
+<a name="l00571"></a>00571                         result -&gt; <a class="code" href="structstruc__check__encoding.html#abf4e33e49a7710dc12e1355fd6e51046">charset</a> = charset_array[i];
+<a name="l00572"></a>00572                         result -&gt; result = tmp_str;
+<a name="l00573"></a>00573                         list = g_slist_append ( list, result );
+<a name="l00574"></a>00574                     }
+<a name="l00575"></a>00575                     i++;
+<a name="l00576"></a>00576                 } <span class="keywordflow">while</span> ( charset_array[i] );
+<a name="l00577"></a>00577 
+<a name="l00578"></a>00578                 <span class="keywordflow">return</span> list;
+<a name="l00579"></a>00579             }
+<a name="l00580"></a>00580             g_free ( <span class="keywordtype">string</span> );
+<a name="l00581"></a>00581             ptr = ptr_tmp + 1;
+<a name="l00582"></a>00582         }
+<a name="l00583"></a>00583         <span class="keywordflow">else</span>
+<a name="l00584"></a>00584             <span class="keywordflow">break</span>;
+<a name="l00585"></a>00585     }
+<a name="l00586"></a>00586 
+<a name="l00587"></a>00587     <span class="keywordflow">return</span> NULL;
+<a name="l00588"></a>00588 }
+<a name="l00589"></a>00589 
+<a name="l00590"></a>00590 
+<a name="l00600"></a><a class="code" href="utils__files_8h.html#a317adcd21f47902ddbd7b39ea98a8ec6">00600</a> gchar *<a class="code" href="utils__files_8c.html#a317adcd21f47902ddbd7b39ea98a8ec6">utils_files_create_sel_charset</a> ( GtkWidget *assistant,
+<a name="l00601"></a>00601                         <span class="keyword">const</span> gchar *tmp_str,
+<a name="l00602"></a>00602                         <span class="keyword">const</span> gchar *<a class="code" href="import_8c.html#ab4dbd4be47f9c5648daab02c47ff90e6">charmap_imported</a>,
+<a name="l00603"></a>00603                         gchar *filename )
+<a name="l00604"></a>00604 {
+<a name="l00605"></a>00605     GtkWidget *dialog, *vbox, *sw, *tree_view;
+<a name="l00606"></a>00606     GtkWidget *hbox, *warn, *label;
+<a name="l00607"></a>00607     GtkTreeViewColumn *column;
+<a name="l00608"></a>00608     GtkCellRenderer *renderer;
+<a name="l00609"></a>00609     GtkTreeModel *model;
+<a name="l00610"></a>00610     GSList *list;
+<a name="l00611"></a>00611     GtkTreeIter iter;
+<a name="l00612"></a>00612     gchar* tmpstr;
+<a name="l00613"></a>00613     GtkWidget *go_charmap_sel;
+<a name="l00614"></a>00614     gint result;
+<a name="l00615"></a>00615 
+<a name="l00616"></a>00616     dialog = gtk_dialog_new_with_buttons ( _(<span class="stringliteral">&quot;Select a charmap&quot;</span>),
+<a name="l00617"></a>00617                             GTK_WINDOW ( assistant ),
+<a name="l00618"></a>00618                             GTK_DIALOG_MODAL,
+<a name="l00619"></a>00619                             GTK_STOCK_CANCEL, 0,
+<a name="l00620"></a>00620                             GTK_STOCK_OK, GTK_RESPONSE_OK,
+<a name="l00621"></a>00621                             NULL );
+<a name="l00622"></a>00622     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+<a name="l00623"></a>00623     gtk_widget_set_size_request ( dialog, 600, -1 );
+<a name="l00624"></a>00624     gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK, FALSE );
+<a name="l00625"></a>00625 
+<a name="l00626"></a>00626     vbox = gtk_vbox_new ( FALSE, 6 );
+<a name="l00627"></a>00627     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+<a name="l00628"></a>00628     gtk_container_add ( GTK_CONTAINER ( GTK_DIALOG ( dialog ) -&gt; vbox ), vbox );
+<a name="l00629"></a>00629 
+<a name="l00630"></a>00630     <span class="comment">/* Warning label */</span>
+<a name="l00631"></a>00631     hbox = gtk_hbox_new ( FALSE, 6 );
+<a name="l00632"></a>00632     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
+<a name="l00633"></a>00633 
+<a name="l00634"></a>00634     warn = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_BUTTON );
+<a name="l00635"></a>00635     gtk_box_pack_start ( GTK_BOX ( hbox ), warn, FALSE, FALSE, 0 );
+<a name="l00636"></a>00636 
+<a name="l00637"></a>00637     label = gtk_label_new ( NULL );
+<a name="l00638"></a>00638     tmpstr = g_strdup_printf ( _(<span class="stringliteral">&quot;You are here because your file&quot;</span>
+<a name="l00639"></a>00639                         <span class="stringliteral">&quot; can&#39;t be imported directly into grisbi.\n%s&quot;</span>),
+<a name="l00640"></a>00640                         filename );
+<a name="l00641"></a>00641     gtk_label_set_markup ( GTK_LABEL ( label ),
+<a name="l00642"></a>00642                         <a class="code" href="dialog_8c.html#a936cdb52ba9be8a56212e8a4e5979c3c">make_pango_attribut</a> ( <span class="stringliteral">&quot;weight=\&quot;bold\&quot;&quot;</span>,tmpstr ) );
+<a name="l00643"></a>00643     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+<a name="l00644"></a>00644     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+<a name="l00645"></a>00645     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
+<a name="l00646"></a>00646     g_free ( tmpstr );
+<a name="l00647"></a>00647 
+<a name="l00648"></a>00648     <span class="comment">/*scrolled windows */</span>
+<a name="l00649"></a>00649     sw = gtk_scrolled_window_new (NULL, NULL);
+<a name="l00650"></a>00650     gtk_widget_set_size_request ( sw, 480, 150 );
+<a name="l00651"></a>00651     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
+<a name="l00652"></a>00652     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC,
+<a name="l00653"></a>00653                         GTK_POLICY_AUTOMATIC);
+<a name="l00654"></a>00654     gtk_box_pack_start ( GTK_BOX ( vbox ), sw, TRUE, TRUE, 6 );
+<a name="l00655"></a>00655 
+<a name="l00656"></a>00656     <span class="comment">/* Tree view and model. */</span>
+<a name="l00657"></a>00657     model = GTK_TREE_MODEL ( gtk_list_store_new ( <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a2e9758d15b18219e6bd3807ea0dbe5fe">IMPORT_CHARMAP_NB</a>, G_TYPE_BOOLEAN,
+<a name="l00658"></a>00658                         G_TYPE_STRING, G_TYPE_STRING ) );
+<a name="l00659"></a>00659     tree_view = gtk_tree_view_new_with_model ( model );
+<a name="l00660"></a>00660     gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
+<a name="l00661"></a>00661     g_object_set_data ( G_OBJECT ( model ), <span class="stringliteral">&quot;dialog&quot;</span>, dialog );
+<a name="l00662"></a>00662     g_object_set_data ( G_OBJECT ( dialog ), <span class="stringliteral">&quot;charset_model&quot;</span>, model );
+<a name="l00663"></a>00663     g_object_set_data ( G_OBJECT ( dialog ), <span class="stringliteral">&quot;charset_tree_view&quot;</span>, tree_view );
+<a name="l00664"></a>00664 
+<a name="l00665"></a>00665     <span class="comment">/* Toggle column. */</span>
+<a name="l00666"></a>00666     renderer = gtk_cell_renderer_toggle_new ( );
+<a name="l00667"></a>00667     g_signal_connect ( renderer,
+<a name="l00668"></a>00668                         <span class="stringliteral">&quot;toggled&quot;</span>,
+<a name="l00669"></a>00669                         G_CALLBACK (utils_files_charmap_active_toggled),
+<a name="l00670"></a>00670                         model );
+<a name="l00671"></a>00671     column = gtk_tree_view_column_new_with_attributes ( _(<span class="stringliteral">&quot;Import&quot;</span>), renderer,
+<a name="l00672"></a>00672                         <span class="stringliteral">&quot;active&quot;</span>, <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a1a848c6b31ada54e40a41c3dd784cb9b">IMPORT_CHARMAP_SELECTED</a>,
+<a name="l00673"></a>00673                         NULL);
+<a name="l00674"></a>00674     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), column );
+<a name="l00675"></a>00675 
+<a name="l00676"></a>00676     <span class="comment">/* Codage column. */</span>
+<a name="l00677"></a>00677     renderer = gtk_cell_renderer_text_new ( );
+<a name="l00678"></a>00678     column = gtk_tree_view_column_new_with_attributes ( _(<span class="stringliteral">&quot;Encoding&quot;</span>), renderer,
+<a name="l00679"></a>00679                         <span class="stringliteral">&quot;text&quot;</span>, <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a55ec3f5f5686aae4016b11a99e12d77d">IMPORT_CHARMAP_ENCODING</a>,
+<a name="l00680"></a>00680                         NULL);
+<a name="l00681"></a>00681     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), column );
+<a name="l00682"></a>00682 
+<a name="l00683"></a>00683     <span class="comment">/* Result column. */</span>
+<a name="l00684"></a>00684     renderer = gtk_cell_renderer_text_new ();
+<a name="l00685"></a>00685     column = gtk_tree_view_column_new_with_attributes ( _(<span class="stringliteral">&quot;Result&quot;</span>), renderer,
+<a name="l00686"></a>00686                         <span class="stringliteral">&quot;text&quot;</span>, <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8ac1e0ea8b2ea01ee48177ba3c15f55051">IMPORT_CHARMAP_RESULT</a>,
+<a name="l00687"></a>00687                         NULL);
+<a name="l00688"></a>00688     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), column );
+<a name="l00689"></a>00689 
+<a name="l00690"></a>00690     <span class="comment">/* select an other encoding */</span>
+<a name="l00691"></a>00691     label = gtk_label_new ( _(<span class="stringliteral">&quot;If no proposals above are correct you can choose a &quot;</span>
+<a name="l00692"></a>00692                         <span class="stringliteral">&quot;different charset&quot;</span>) );
+<a name="l00693"></a>00693     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+<a name="l00694"></a>00694     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+<a name="l00695"></a>00695     gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
+<a name="l00696"></a>00696 
+<a name="l00697"></a>00697     hbox = gtk_hbox_new ( FALSE, 6 );
+<a name="l00698"></a>00698     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
+<a name="l00699"></a>00699 
+<a name="l00700"></a>00700     go_charmap_sel = <a class="code" href="go-charmap-sel_8c.html#a68d9a2dfcd7e29cf4585e4d830abfba4">go_charmap_sel_new</a> (<a class="code" href="go-charmap-sel_8h.html#a758de5be5c36f44240e2a4fb4fcd7912a8d47de8eb25d43aebcf157ed4ab82418">GO_CHARMAP_SEL_TO_UTF8</a>);
+<a name="l00701"></a>00701     g_signal_connect ( go_charmap_sel,
+<a name="l00702"></a>00702                         <span class="stringliteral">&quot;charmap_changed&quot;</span>,
+<a name="l00703"></a>00703                         G_CALLBACK (utils_files_go_charmap_sel_changed),
+<a name="l00704"></a>00704                         dialog );
+<a name="l00705"></a>00705     g_object_set_data ( G_OBJECT ( dialog ), <span class="stringliteral">&quot;charset_cs&quot;</span>, go_charmap_sel );
+<a name="l00706"></a>00706     gtk_box_pack_start ( GTK_BOX ( hbox ), go_charmap_sel, FALSE, FALSE, 0 );
+<a name="l00707"></a>00707 
+<a name="l00708"></a>00708     label = gtk_label_new ( _(<span class="stringliteral">&quot;Select a charset&quot;</span>) );
+<a name="l00709"></a>00709     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+<a name="l00710"></a>00710     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+<a name="l00711"></a>00711     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
+<a name="l00712"></a>00712     g_object_set_data ( G_OBJECT ( dialog ), <span class="stringliteral">&quot;charset_label&quot;</span>, label );
+<a name="l00713"></a>00713 
+<a name="l00714"></a>00714     <span class="comment">/* on remplit le model */</span>
+<a name="l00715"></a>00715     list = utils_files_check_UTF8_validity (tmp_str, charmap_imported );
+<a name="l00716"></a>00716     <span class="keywordflow">if</span> ( list )
+<a name="l00717"></a>00717     {
+<a name="l00718"></a>00718         GSList *tmp_list;
+<a name="l00719"></a>00719         <span class="keyword">struct </span><a class="code" href="structstruc__check__encoding.html">struc_check_encoding</a> *result;
+<a name="l00720"></a>00720             
+<a name="l00721"></a>00721         tmp_list = list;
+<a name="l00722"></a>00722         result = tmp_list -&gt; data;
+<a name="l00723"></a>00723         g_object_set_data_full ( G_OBJECT ( dialog ), <span class="stringliteral">&quot;charset_str&quot;</span>,
+<a name="l00724"></a>00724                         g_strdup ( result -&gt; result ), g_free );
+<a name="l00725"></a>00725         tmp_list = tmp_list -&gt; next;
+<a name="l00726"></a>00726         <span class="keywordflow">while</span> ( tmp_list )
+<a name="l00727"></a>00727         {
+<a name="l00728"></a>00728             <span class="keyword">struct </span><a class="code" href="structstruc__check__encoding.html">struc_check_encoding</a> *result;
+<a name="l00729"></a>00729             
+<a name="l00730"></a>00730             result = tmp_list -&gt; data;
+<a name="l00731"></a>00731             
+<a name="l00732"></a>00732             gtk_list_store_append ( GTK_LIST_STORE ( model ), &amp;iter );
+<a name="l00733"></a>00733             gtk_list_store_set ( GTK_LIST_STORE ( model ), &amp;iter,
+<a name="l00734"></a>00734                         <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a55ec3f5f5686aae4016b11a99e12d77d">IMPORT_CHARMAP_ENCODING</a>, result -&gt; <a class="code" href="structstruc__check__encoding.html#abf4e33e49a7710dc12e1355fd6e51046">charset</a>,
+<a name="l00735"></a>00735                         <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8ac1e0ea8b2ea01ee48177ba3c15f55051">IMPORT_CHARMAP_RESULT</a>, result -&gt; result,
+<a name="l00736"></a>00736                         -1);
+<a name="l00737"></a>00737             tmp_list = tmp_list -&gt; next;
+<a name="l00738"></a>00738         }
+<a name="l00739"></a>00739     }
+<a name="l00740"></a>00740 
+<a name="l00741"></a>00741     gtk_widget_show_all ( dialog );
+<a name="l00742"></a>00742 
+<a name="l00743"></a>00743     result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+<a name="l00744"></a>00744 
+<a name="l00745"></a>00745     <span class="keywordflow">if</span> ( result == GTK_RESPONSE_OK )
+<a name="l00746"></a>00746     {
+<a name="l00747"></a>00747         gchar *<a class="code" href="structstruc__check__encoding.html#abf4e33e49a7710dc12e1355fd6e51046">charset</a>;
+<a name="l00748"></a>00748 
+<a name="l00749"></a>00749         charset = g_strdup ( g_object_get_data ( G_OBJECT ( dialog ), <span class="stringliteral">&quot;charset&quot;</span>) );
+<a name="l00750"></a>00750         gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+<a name="l00751"></a>00751         <span class="keywordflow">return</span> charset;
+<a name="l00752"></a>00752     }
+<a name="l00753"></a>00753     <span class="keywordflow">else</span>
+<a name="l00754"></a>00754     {
+<a name="l00755"></a>00755         gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+<a name="l00756"></a>00756         <span class="keywordflow">return</span> g_strdup ( <span class="stringliteral">&quot;UTF8&quot;</span> );
+<a name="l00757"></a>00757     }
+<a name="l00758"></a>00758 }
+<a name="l00759"></a>00759 
+<a name="l00765"></a>00765 gboolean utils_files_charmap_active_toggled ( GtkCellRendererToggle *cell,
+<a name="l00766"></a>00766                         gchar *path_str,
+<a name="l00767"></a>00767                         gpointer model )
+<a name="l00768"></a>00768 {
+<a name="l00769"></a>00769     GtkWidget *dialog;
+<a name="l00770"></a>00770     GtkTreePath *path = gtk_tree_path_new_from_string ( path_str );
+<a name="l00771"></a>00771     GtkTreePath *tmp_path;
+<a name="l00772"></a>00772     GtkTreeIter iter;
+<a name="l00773"></a>00773     gchar *enc;
+<a name="l00774"></a>00774     gboolean toggle_item;
+<a name="l00775"></a>00775 
+<a name="l00776"></a>00776     <span class="comment">/* on commence par initialiser les données */</span>
+<a name="l00777"></a>00777     dialog = g_object_get_data ( G_OBJECT ( model ), <span class="stringliteral">&quot;dialog&quot;</span> );
+<a name="l00778"></a>00778 
+<a name="l00779"></a>00779     gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK, FALSE );
+<a name="l00780"></a>00780     tmp_path = gtk_tree_path_new_first ( );
+<a name="l00781"></a>00781     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &amp;iter );
+<a name="l00782"></a>00782     <span class="keywordflow">do</span>
+<a name="l00783"></a>00783     {
+<a name="l00784"></a>00784         gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &amp;iter,
+<a name="l00785"></a>00785                         <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a1a848c6b31ada54e40a41c3dd784cb9b">IMPORT_CHARMAP_SELECTED</a>, &amp;toggle_item,
+<a name="l00786"></a>00786                         <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a55ec3f5f5686aae4016b11a99e12d77d">IMPORT_CHARMAP_ENCODING</a>, &amp;enc, -1 );
+<a name="l00787"></a>00787 
+<a name="l00788"></a>00788         tmp_path = gtk_tree_model_get_path ( GTK_TREE_MODEL ( model ), &amp;iter );
+<a name="l00789"></a>00789         <span class="keywordflow">if</span> ( gtk_tree_path_compare ( path, tmp_path ) == 0 )
+<a name="l00790"></a>00790         {
+<a name="l00791"></a>00791             gtk_list_store_set ( GTK_LIST_STORE ( model ), &amp;iter,
+<a name="l00792"></a>00792                         <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a1a848c6b31ada54e40a41c3dd784cb9b">IMPORT_CHARMAP_SELECTED</a>, !toggle_item, -1 );
+<a name="l00793"></a>00793             <span class="keywordflow">if</span> ( toggle_item  == 0 )
+<a name="l00794"></a>00794             {
+<a name="l00795"></a>00795                 <a class="code" href="struct__GOCharmapSel.html">GOCharmapSel</a> *cs;
+<a name="l00796"></a>00796 
+<a name="l00797"></a>00797                 cs = g_object_get_data ( G_OBJECT ( dialog ), <span class="stringliteral">&quot;charset_cs&quot;</span> );
+<a name="l00798"></a>00798                 <a class="code" href="go-charmap-sel_8c.html#afaad94b300355324942ac3632d75377b">go_charmap_sel_set_encoding</a> (cs, enc);
+<a name="l00799"></a>00799                 g_object_set_data ( G_OBJECT ( dialog ), <span class="stringliteral">&quot;charset&quot;</span>, enc );
+<a name="l00800"></a>00800                 gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ),
+<a name="l00801"></a>00801                         GTK_RESPONSE_OK, TRUE );
+<a name="l00802"></a>00802             }
+<a name="l00803"></a>00803         }
+<a name="l00804"></a>00804         <span class="keywordflow">else</span>
+<a name="l00805"></a>00805             gtk_list_store_set ( GTK_LIST_STORE ( model ), &amp;iter,
+<a name="l00806"></a>00806                         <a class="code" href="utils__files_8c.html#ac36f475ca5b446f4fde4c9b90bec77c8a1a848c6b31ada54e40a41c3dd784cb9b">IMPORT_CHARMAP_SELECTED</a>, FALSE, -1 );
+<a name="l00807"></a>00807     }
+<a name="l00808"></a>00808     <span class="keywordflow">while</span> ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &amp;iter ) );
+<a name="l00809"></a>00809 
+<a name="l00810"></a>00810     <span class="keywordflow">return</span> FALSE;
+<a name="l00811"></a>00811 }
+<a name="l00812"></a>00812 
+<a name="l00813"></a>00813 
+<a name="l00814"></a>00814 <span class="keywordtype">void</span> utils_files_go_charmap_sel_changed ( GtkWidget *go_charmap_sel,
+<a name="l00815"></a>00815                         <span class="keyword">const</span> gchar *encoding,
+<a name="l00816"></a>00816                         GtkWidget *dialog )
+<a name="l00817"></a>00817 {
+<a name="l00818"></a>00818     GtkWidget *label;
+<a name="l00819"></a>00819     gchar *contents;
+<a name="l00820"></a>00820     gchar *string;
+<a name="l00821"></a>00821 
+<a name="l00822"></a>00822     label = g_object_get_data ( G_OBJECT ( dialog ), <span class="stringliteral">&quot;charset_label&quot;</span> );
+<a name="l00823"></a>00823 
+<a name="l00824"></a>00824     <span class="keywordflow">if</span> ( strcmp ( encoding, <span class="stringliteral">&quot;UTF-8&quot;</span> ) == 0 )
+<a name="l00825"></a>00825     {
+<a name="l00826"></a>00826         gtk_label_set_text ( GTK_LABEL ( label ), _(<span class="stringliteral">&quot;Select a charset&quot;</span>) );
+<a name="l00827"></a>00827         <span class="keywordflow">return</span>;
+<a name="l00828"></a>00828     }
+<a name="l00829"></a>00829     
+<a name="l00830"></a>00830     contents = g_object_get_data ( G_OBJECT ( dialog ), <span class="stringliteral">&quot;charset_str&quot;</span> );
+<a name="l00831"></a>00831     <span class="keywordtype">string</span> = g_convert ( contents, -1, <span class="stringliteral">&quot;UTF-8&quot;</span>, encoding, NULL, NULL, NULL );
+<a name="l00832"></a>00832     <span class="keywordflow">if</span> ( <span class="keywordtype">string</span> )
+<a name="l00833"></a>00833     {
+<a name="l00834"></a>00834         gtk_label_set_text ( GTK_LABEL ( label ), <span class="stringliteral">&quot;&quot;</span>);
+<a name="l00835"></a>00835         gtk_label_set_markup ( GTK_LABEL ( label ), <a class="code" href="dialog_8c.html#a5927e30f6f690b1ea7391d140f8efa7d">make_blue</a> ( <span class="keywordtype">string</span> ) );
+<a name="l00836"></a>00836         g_object_set_data ( G_OBJECT ( dialog ), <span class="stringliteral">&quot;charset&quot;</span>, (gchar *) encoding );
+<a name="l00837"></a>00837         gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK, TRUE );
+<a name="l00838"></a>00838     }
+<a name="l00839"></a>00839     <span class="keywordflow">else</span>
+<a name="l00840"></a>00840     {
+<a name="l00841"></a>00841         gtk_label_set_text ( GTK_LABEL ( label ), <span class="stringliteral">&quot;&quot;</span>);
+<a name="l00842"></a>00842         gtk_label_set_markup ( GTK_LABEL ( label ),
+<a name="l00843"></a>00843                         <a class="code" href="dialog_8c.html#a1d3c21e1b14fa2a19ef5f3dae733b2e0">make_red</a> ( _(<span class="stringliteral">&quot;The conversion failed try another set of characters&quot;</span>) ) );
+<a name="l00844"></a>00844         gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK, FALSE );
+<a name="l00845"></a>00845     }
+<a name="l00846"></a>00846 }
+<a name="l00847"></a>00847 
+<a name="l00848"></a>00848 
+<a name="l00854"></a><a class="code" href="utils__files_8h.html#ac9835d1064eac1edc68310b67ec5c249">00854</a> gchar *<a class="code" href="utils__files_8c.html#ac9835d1064eac1edc68310b67ec5c249">utils_files_get_ofx_charset</a> ( gchar *contents )
+<a name="l00855"></a>00855 {
+<a name="l00856"></a>00856     gchar *tmp_str;
+<a name="l00857"></a>00857     gchar *string;
+<a name="l00858"></a>00858     gchar *ptr;
+<a name="l00859"></a>00859     gint i = 0;
+<a name="l00860"></a>00860 
+<a name="l00861"></a>00861     ptr = (gchar *) contents;
+<a name="l00862"></a>00862     
+<a name="l00863"></a>00863     <span class="keywordflow">while</span> ( strlen ( ptr ) &gt; 0 )
+<a name="l00864"></a>00864     {
+<a name="l00865"></a>00865         gchar *ptr_tmp;
+<a name="l00866"></a>00866 
+<a name="l00867"></a>00867         ptr_tmp = g_strstr_len ( ptr, strlen ( ptr ), <span class="stringliteral">&quot;\n&quot;</span> );
+<a name="l00868"></a>00868         <span class="keywordflow">if</span> ( ptr_tmp )
+<a name="l00869"></a>00869         {
+<a name="l00870"></a>00870             <span class="keywordtype">string</span> = g_strndup ( ptr, ( ( ptr_tmp ) - ptr ) );
+<a name="l00871"></a>00871             <span class="keywordflow">if</span> ( ( tmp_str = g_strrstr ( <span class="keywordtype">string</span>, <span class="stringliteral">&quot;CHARSET:&quot;</span> ) ) )
+<a name="l00872"></a>00872             {
+<a name="l00873"></a>00873                 <span class="keywordflow">do</span>
+<a name="l00874"></a>00874                 {
+<a name="l00875"></a>00875                     <span class="keywordflow">if</span> ( g_strrstr ( all_charset_array[i], ( tmp_str + 8 ) ) )
+<a name="l00876"></a>00876                     {
+<a name="l00877"></a>00877                         g_free ( <span class="keywordtype">string</span> );
+<a name="l00878"></a>00878                         <span class="keywordflow">return</span> g_strdup ( all_charset_array[i] );
+<a name="l00879"></a>00879                     }
+<a name="l00880"></a>00880                     i++;
+<a name="l00881"></a>00881                 } <span class="keywordflow">while</span> ( all_charset_array[i] );
+<a name="l00882"></a>00882                 <span class="comment">/* CHARSET found in OFX file, but no match --&gt; Exit function */</span>
+<a name="l00883"></a>00883                     <span class="keywordflow">return</span> NULL;
+<a name="l00884"></a>00884             }
+<a name="l00885"></a>00885             g_free ( <span class="keywordtype">string</span> );
+<a name="l00886"></a>00886             ptr = ptr_tmp + 1;
+<a name="l00887"></a>00887         }
+<a name="l00888"></a>00888         <span class="keywordflow">else</span>
+<a name="l00889"></a>00889             <span class="keywordflow">break</span>;
+<a name="l00890"></a>00890     }
+<a name="l00891"></a>00891 
+<a name="l00892"></a>00892       <span class="keywordflow">return</span> NULL;
+<a name="l00893"></a>00893 }
+<a name="l00894"></a>00894 <span class="comment">/* Local Variables: */</span>
+<a name="l00895"></a>00895 <span class="comment">/* c-basic-offset: 4 */</span>
+<a name="l00896"></a>00896 <span class="comment">/* End: */</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,129 @@
+\section{Référence du fichier gsb\_\-assistant\_\-reconcile\_\-config.c}
+\label{gsb__assistant__reconcile__config_8c}\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-assistant\_\-reconcile\_\-config.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-assistant.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-calendar\_\-entry.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-payee.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-reconcile.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+\subsection*{Structures de données}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf association\_\-transaction\_\-reconcile}
+\end{DoxyCompactItemize}
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf reconcile\_\-assistant\_\-page} \{ \par
+{\bf RECONCILE\_\-ASSISTANT\_\-INTRO} =  0, 
+{\bf RECONCILE\_\-ASSISTANT\_\-MENU}, 
+{\bf RECONCILE\_\-ASSISTANT\_\-NEW\_\-RECONCILE}, 
+{\bf RECONCILE\_\-ASSISTANT\_\-AUTOMATICALLY\_\-ASSOCIATE}, 
+\par
+{\bf RECONCILE\_\-ASSISTANT\_\-MANUALLY\_\-ASSOCIATE}, 
+{\bf RECONCILE\_\-ASSISTANT\_\-SUCCESS}
+ \}
+\item 
+enum {\bf transactions\_\-column} \{ \par
+{\bf TRANSACTION\_\-DATE} =  0, 
+{\bf TRANSACTION\_\-PAYEE}, 
+{\bf TRANSACTION\_\-AMOUNT}, 
+{\bf TRANSACTION\_\-ACCOUNT}, 
+\par
+{\bf TRANSACTION\_\-NUMBER}, 
+{\bf TRANSACTION\_\-NB\_\-COL}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkResponseType {\bf gsb\_\-assistant\_\-reconcile\_\-config\_\-run} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+we find here the pages used by the assistant to work with the reconcile configuration 
+
+Définition dans le fichier {\bf gsb\_\-assistant\_\-reconcile\_\-config.c}.
+
+
+
+\subsection{Documentation du type de l'énumération}
+\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!reconcile\_\-assistant\_\-page@{reconcile\_\-assistant\_\-page}}
+\index{reconcile\_\-assistant\_\-page@{reconcile\_\-assistant\_\-page}!gsb_assistant_reconcile_config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}
+\subsubsection[{reconcile\_\-assistant\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf reconcile\_\-assistant\_\-page}}\label{gsb__assistant__reconcile__config_8c_a9140d1eedfa6039af2622105b8376f25}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{RECONCILE\_\-ASSISTANT\_\-INTRO@{RECONCILE\_\-ASSISTANT\_\-INTRO}!gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!RECONCILE\_\-ASSISTANT\_\-INTRO@{RECONCILE\_\-ASSISTANT\_\-INTRO}}\item[{\em 
+RECONCILE\_\-ASSISTANT\_\-INTRO\label{gsb__assistant__reconcile__config_8c_a9140d1eedfa6039af2622105b8376f25a4b22b5424b926cdc3f5f6040d705384f}
+}]\index{RECONCILE\_\-ASSISTANT\_\-MENU@{RECONCILE\_\-ASSISTANT\_\-MENU}!gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!RECONCILE\_\-ASSISTANT\_\-MENU@{RECONCILE\_\-ASSISTANT\_\-MENU}}\item[{\em 
+RECONCILE\_\-ASSISTANT\_\-MENU\label{gsb__assistant__reconcile__config_8c_a9140d1eedfa6039af2622105b8376f25a72839762e60dd960b7a74e0fdc7ffc8b}
+}]\index{RECONCILE\_\-ASSISTANT\_\-NEW\_\-RECONCILE@{RECONCILE\_\-ASSISTANT\_\-NEW\_\-RECONCILE}!gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!RECONCILE\_\-ASSISTANT\_\-NEW\_\-RECONCILE@{RECONCILE\_\-ASSISTANT\_\-NEW\_\-RECONCILE}}\item[{\em 
+RECONCILE\_\-ASSISTANT\_\-NEW\_\-RECONCILE\label{gsb__assistant__reconcile__config_8c_a9140d1eedfa6039af2622105b8376f25ad2417513428b30096a33ea86131db2ba}
+}]\index{RECONCILE\_\-ASSISTANT\_\-AUTOMATICALLY\_\-ASSOCIATE@{RECONCILE\_\-ASSISTANT\_\-AUTOMATICALLY\_\-ASSOCIATE}!gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!RECONCILE\_\-ASSISTANT\_\-AUTOMATICALLY\_\-ASSOCIATE@{RECONCILE\_\-ASSISTANT\_\-AUTOMATICALLY\_\-ASSOCIATE}}\item[{\em 
+RECONCILE\_\-ASSISTANT\_\-AUTOMATICALLY\_\-ASSOCIATE\label{gsb__assistant__reconcile__config_8c_a9140d1eedfa6039af2622105b8376f25aa6a9c64c2ce0b87d428301d815275291}
+}]\index{RECONCILE\_\-ASSISTANT\_\-MANUALLY\_\-ASSOCIATE@{RECONCILE\_\-ASSISTANT\_\-MANUALLY\_\-ASSOCIATE}!gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!RECONCILE\_\-ASSISTANT\_\-MANUALLY\_\-ASSOCIATE@{RECONCILE\_\-ASSISTANT\_\-MANUALLY\_\-ASSOCIATE}}\item[{\em 
+RECONCILE\_\-ASSISTANT\_\-MANUALLY\_\-ASSOCIATE\label{gsb__assistant__reconcile__config_8c_a9140d1eedfa6039af2622105b8376f25a9647b7b772dead61f5456c11f0e2099d}
+}]\index{RECONCILE\_\-ASSISTANT\_\-SUCCESS@{RECONCILE\_\-ASSISTANT\_\-SUCCESS}!gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!RECONCILE\_\-ASSISTANT\_\-SUCCESS@{RECONCILE\_\-ASSISTANT\_\-SUCCESS}}\item[{\em 
+RECONCILE\_\-ASSISTANT\_\-SUCCESS\label{gsb__assistant__reconcile__config_8c_a9140d1eedfa6039af2622105b8376f25a55bddc5351b841913093a79019ffad60}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 77 du fichier gsb\_\-assistant\_\-reconcile\_\-config.c.
+
+\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!transactions\_\-column@{transactions\_\-column}}
+\index{transactions\_\-column@{transactions\_\-column}!gsb_assistant_reconcile_config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}
+\subsubsection[{transactions\_\-column}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf transactions\_\-column}}\label{gsb__assistant__reconcile__config_8c_a90c3e3851b339982e6bea71b6a9e9a61}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{TRANSACTION\_\-DATE@{TRANSACTION\_\-DATE}!gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!TRANSACTION\_\-DATE@{TRANSACTION\_\-DATE}}\item[{\em 
+TRANSACTION\_\-DATE\label{gsb__assistant__reconcile__config_8c_a90c3e3851b339982e6bea71b6a9e9a61a952c9e3faa4ed3a621d3007922366e77}
+}]\index{TRANSACTION\_\-PAYEE@{TRANSACTION\_\-PAYEE}!gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!TRANSACTION\_\-PAYEE@{TRANSACTION\_\-PAYEE}}\item[{\em 
+TRANSACTION\_\-PAYEE\label{gsb__assistant__reconcile__config_8c_a90c3e3851b339982e6bea71b6a9e9a61a528f6246616b12b05f4968fc68ea4f7e}
+}]\index{TRANSACTION\_\-AMOUNT@{TRANSACTION\_\-AMOUNT}!gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!TRANSACTION\_\-AMOUNT@{TRANSACTION\_\-AMOUNT}}\item[{\em 
+TRANSACTION\_\-AMOUNT\label{gsb__assistant__reconcile__config_8c_a90c3e3851b339982e6bea71b6a9e9a61a704c8db553b71c769d1af48e0fb46889}
+}]\index{TRANSACTION\_\-ACCOUNT@{TRANSACTION\_\-ACCOUNT}!gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!TRANSACTION\_\-ACCOUNT@{TRANSACTION\_\-ACCOUNT}}\item[{\em 
+TRANSACTION\_\-ACCOUNT\label{gsb__assistant__reconcile__config_8c_a90c3e3851b339982e6bea71b6a9e9a61a2b4785448c7bdbf28fc262efb0eadeca}
+}]\index{TRANSACTION\_\-NUMBER@{TRANSACTION\_\-NUMBER}!gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!TRANSACTION\_\-NUMBER@{TRANSACTION\_\-NUMBER}}\item[{\em 
+TRANSACTION\_\-NUMBER\label{gsb__assistant__reconcile__config_8c_a90c3e3851b339982e6bea71b6a9e9a61a7feac92da8f64c2dc680bfce62b6ee34}
+}]\index{TRANSACTION\_\-NB\_\-COL@{TRANSACTION\_\-NB\_\-COL}!gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!TRANSACTION\_\-NB\_\-COL@{TRANSACTION\_\-NB\_\-COL}}\item[{\em 
+TRANSACTION\_\-NB\_\-COL\label{gsb__assistant__reconcile__config_8c_a90c3e3851b339982e6bea71b6a9e9a61addd415207d8247b6f07d5c412cd82b6e}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 124 du fichier gsb\_\-assistant\_\-reconcile\_\-config.c.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-assistant\_\-reconcile\_\-config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}!gsb\_\-assistant\_\-reconcile\_\-config\_\-run@{gsb\_\-assistant\_\-reconcile\_\-config\_\-run}}
+\index{gsb\_\-assistant\_\-reconcile\_\-config\_\-run@{gsb\_\-assistant\_\-reconcile\_\-config\_\-run}!gsb_assistant_reconcile_config.c@{gsb\_\-assistant\_\-reconcile\_\-config.c}}
+\subsubsection[{gsb\_\-assistant\_\-reconcile\_\-config\_\-run}]{\setlength{\rightskip}{0pt plus 5cm}GtkResponseType gsb\_\-assistant\_\-reconcile\_\-config\_\-run (void)}\label{gsb__assistant__reconcile__config_8c_ac16081c512d6e40d5904ec9c62b668d4}
+function called to launch the reconcile\_\-config assistant calculate the number of transactions to link, and refuse to run the assistant if none
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+GtkResponseType, the returned value from the assistant 
+\end{DoxyReturn}
+
+
+Définition à la ligne 142 du fichier gsb\_\-assistant\_\-reconcile\_\-config.c.
+

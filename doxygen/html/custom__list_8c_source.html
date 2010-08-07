@@ -1,0 +1,725 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de custom_list.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>custom_list.c</h1><a href="custom__list_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)           */</span>
+<a name="l00004"></a>00004 <span class="comment">/*                      http://www.grisbi.org                                 */</span>
+<a name="l00005"></a>00005 <span class="comment">/*                                                                            */</span>
+<a name="l00006"></a>00006 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00007"></a>00007 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00010"></a>00010 <span class="comment">/*                                                                            */</span>
+<a name="l00011"></a>00011 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00015"></a>00015 <span class="comment">/*                                                                            */</span>
+<a name="l00016"></a>00016 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00019"></a>00019 <span class="comment">/*                                                                            */</span>
+<a name="l00020"></a>00020 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023 
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="custom__list_8h.html">custom_list.h</a>&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__transaction_8h.html">gsb_data_transaction.h</a>&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;<a class="code" href="transaction__list_8h.html">transaction_list.h</a>&quot;</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#include &quot;<a class="code" href="transaction__model_8h.html">transaction_model.h</a>&quot;</span>
+<a name="l00041"></a>00041 <span class="preprocessor">#include &quot;<a class="code" href="erreur_8h.html">erreur.h</a>&quot;</span>
+<a name="l00042"></a>00042 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 <span class="comment">/*START_STATIC*/</span>
+<a name="l00045"></a>00045 <span class="keyword">static</span> <span class="keywordtype">void</span> custom_list_class_init (<a class="code" href="struct__CustomListClass.html">CustomListClass</a> *klass);
+<a name="l00046"></a>00046 <span class="keyword">static</span> <span class="keywordtype">void</span> custom_list_finalize (GObject *<span class="keywordtype">object</span>);
+<a name="l00047"></a>00047 <span class="keyword">static</span> GType custom_list_get_column_type (GtkTreeModel *tree_model,
+<a name="l00048"></a>00048                                           gint          index);
+<a name="l00049"></a>00049 <span class="keyword">static</span> GtkTreeModelFlags custom_list_get_flags (GtkTreeModel *tree_model);
+<a name="l00050"></a>00050 <span class="keyword">static</span> gboolean custom_list_get_iter (GtkTreeModel *tree_model,
+<a name="l00051"></a>00051                                       GtkTreeIter  *iter,
+<a name="l00052"></a>00052                                       GtkTreePath  *<a class="code" href="structmetatree__hold__position.html#a117af8b442325dd362705fa0eb784ffa">path</a>);
+<a name="l00053"></a>00053 <span class="keyword">static</span> gint custom_list_get_n_columns (GtkTreeModel *tree_model);
+<a name="l00054"></a>00054 <span class="keyword">static</span> GtkTreePath *custom_list_get_path (GtkTreeModel *tree_model,
+<a name="l00055"></a>00055                                           GtkTreeIter  *iter);
+<a name="l00056"></a>00056 <span class="keyword">static</span> <span class="keywordtype">void</span> custom_list_get_value (GtkTreeModel *tree_model,
+<a name="l00057"></a>00057                                    GtkTreeIter  *iter,
+<a name="l00058"></a>00058                                    gint          column,
+<a name="l00059"></a>00059                                    GValue       *value);
+<a name="l00060"></a>00060 <span class="keyword">static</span> <span class="keywordtype">void</span> custom_list_init (<a class="code" href="struct__CustomList.html">CustomList</a> *custom_list);
+<a name="l00061"></a>00061 <span class="keyword">static</span> gboolean custom_list_iter_children (GtkTreeModel *tree_model,
+<a name="l00062"></a>00062                                            GtkTreeIter  *iter,
+<a name="l00063"></a>00063                                            GtkTreeIter  *parent);
+<a name="l00064"></a>00064 <span class="keyword">static</span> gboolean custom_list_iter_has_child (GtkTreeModel *tree_model,
+<a name="l00065"></a>00065                                             GtkTreeIter  *iter);
+<a name="l00066"></a>00066 <span class="keyword">static</span> gint custom_list_iter_n_children (GtkTreeModel *tree_model,
+<a name="l00067"></a>00067                                          GtkTreeIter  *iter);
+<a name="l00068"></a>00068 <span class="keyword">static</span> gboolean custom_list_iter_next (GtkTreeModel  *tree_model,
+<a name="l00069"></a>00069                                        GtkTreeIter   *iter);
+<a name="l00070"></a>00070 <span class="keyword">static</span> gboolean custom_list_iter_nth_child (GtkTreeModel *tree_model,
+<a name="l00071"></a>00071                                             GtkTreeIter  *iter,
+<a name="l00072"></a>00072                                             GtkTreeIter  *parent,
+<a name="l00073"></a>00073                                             gint          n);
+<a name="l00074"></a>00074 <span class="keyword">static</span> gboolean custom_list_iter_parent (GtkTreeModel *tree_model,
+<a name="l00075"></a>00075                                          GtkTreeIter  *iter,
+<a name="l00076"></a>00076                                          GtkTreeIter  *child);
+<a name="l00077"></a>00077 <span class="keyword">static</span> <span class="keywordtype">void</span> custom_list_tree_model_init (GtkTreeModelIface *iface);
+<a name="l00078"></a>00078 <span class="comment">/*END_STATIC*/</span>
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00081"></a>00081 <span class="keyword">extern</span> GdkColor <a class="code" href="affichage_8c.html#a8169600c05eb3674c1b11ca67dd677d3">text_color</a>[2];
+<a name="l00082"></a>00082 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085 <span class="keyword">static</span> GObjectClass *parent_class = NULL;  <span class="comment">/* GObject stuff - nothing to worry about */</span>
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 
+<a name="l00096"></a><a class="code" href="custom__list_8h.html#af2283d90d622138e25ad463bfd0c8557">00096</a> <a class="code" href="struct__CustomList.html">CustomList</a> *<a class="code" href="custom__list_8c.html#af2283d90d622138e25ad463bfd0c8557">custom_list_new</a> (<span class="keywordtype">void</span>)
+<a name="l00097"></a>00097 {
+<a name="l00098"></a>00098     <a class="code" href="struct__CustomList.html">CustomList</a> *custom_list;
+<a name="l00099"></a>00099     <a class="code" href="struct__CustomRecord.html">CustomRecord</a> *white_record[<a class="code" href="custom__list_8h.html#a738de041650943c6854c2fa523b2e2e5">TRANSACTION_LIST_ROWS_NB</a>];
+<a name="l00100"></a>00100     gint white_line_number;
+<a name="l00101"></a>00101     gint i, j;
+<a name="l00102"></a>00102     gulong newsize;
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104     custom_list = (<a class="code" href="struct__CustomList.html">CustomList</a>*) g_object_new (<a class="code" href="custom__list_8h.html#acf7860ec805007982ac2173ae5075384">CUSTOM_TYPE_LIST</a>, NULL);
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106     <span class="keywordflow">if</span> ( custom_list == NULL )
+<a name="l00107"></a>00107         <span class="keywordflow">return</span> NULL;
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109     <span class="comment">/* increase the table of CustomRecord */</span>
+<a name="l00110"></a>00110     custom_list-&gt;<a class="code" href="struct__CustomList.html#a767f2c2cec183c1d11dabb991c21382d">num_rows</a> = <a class="code" href="custom__list_8h.html#a738de041650943c6854c2fa523b2e2e5">TRANSACTION_LIST_ROWS_NB</a>;
+<a name="l00111"></a>00111     newsize = custom_list-&gt;<a class="code" href="struct__CustomList.html#a767f2c2cec183c1d11dabb991c21382d">num_rows</a> * <span class="keyword">sizeof</span>(<a class="code" href="struct__CustomRecord.html">CustomRecord</a>*);
+<a name="l00112"></a>00112     custom_list-&gt;<a class="code" href="struct__CustomList.html#a29febef0c197ed8b57888a0a4a95951e">rows</a> = g_malloc0 (newsize);
+<a name="l00113"></a>00113     custom_list-&gt;<a class="code" href="struct__CustomList.html#a32b88e9bd528795509229555a505a8a9">visibles_rows</a> = g_malloc0 (newsize);
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115     <span class="comment">/* create and fill the white line record */</span>
+<a name="l00116"></a>00116     white_line_number = <a class="code" href="gsb__data__transaction_8c.html#a06ebb4be3d0f5e8ca2a53bbb74fb6ef8">gsb_data_transaction_new_white_line</a> (0);
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118     <span class="comment">/* now we can save the 4 new rows, ie the complete white line */</span>
+<a name="l00119"></a>00119     <span class="keywordflow">for</span> (i=0 ; i&lt;<a class="code" href="custom__list_8h.html#a738de041650943c6854c2fa523b2e2e5">TRANSACTION_LIST_ROWS_NB</a> ; i++)
+<a name="l00120"></a>00120     {
+<a name="l00121"></a>00121         <span class="comment">/* fill the white_record structure */</span>
+<a name="l00122"></a>00122         white_record[i] = g_malloc0 (<span class="keyword">sizeof</span> (<a class="code" href="struct__CustomRecord.html">CustomRecord</a>));
+<a name="l00123"></a>00123         white_record[i] -&gt; transaction_pointer = <a class="code" href="gsb__data__transaction_8c.html#a4d90c43dcc4db054a1e2ec3b9ff45acc">gsb_data_transaction_get_pointer_of_transaction</a> (white_line_number);
+<a name="l00124"></a>00124         white_record[i] -&gt; what_is_line = <a class="code" href="custom__list_8h.html#a6845cc455dccec2a61535b0faa09414d">IS_TRANSACTION</a>;
+<a name="l00125"></a>00125         white_record[i] -&gt; line_in_transaction = i;
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127         <span class="comment">/* save the newrecord pointer */</span>
+<a name="l00128"></a>00128         custom_list-&gt;<a class="code" href="struct__CustomList.html#a29febef0c197ed8b57888a0a4a95951e">rows</a>[i] = white_record[i];
+<a name="l00129"></a>00129         <span class="comment">/* and the pos (number) of the row */</span>
+<a name="l00130"></a>00130         white_record[i]-&gt;<a class="code" href="struct__CustomRecord.html#a9828c1e98b005c504aaa3715f92b02a8">pos</a> = i;
+<a name="l00131"></a>00131     }
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133     <span class="comment">/* save the records in all the records of the transaction */</span>
+<a name="l00134"></a>00134     <span class="keywordflow">for</span> (i=0 ; i &lt; TRANSACTION_LIST_ROWS_NB ; i++)
+<a name="l00135"></a>00135         <span class="keywordflow">for</span> (j=0 ; j &lt; TRANSACTION_LIST_ROWS_NB ; j++)
+<a name="l00136"></a>00136             white_record[i] -&gt; transaction_records[j] = white_record[j];
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138     <span class="keywordflow">return</span> custom_list;
+<a name="l00139"></a>00139 }
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141 
+<a name="l00150"></a><a class="code" href="custom__list_8h.html#adeb9a6aec026a0fbbe6a22a1c7c13ece">00150</a> <span class="keyword">extern</span> GType <a class="code" href="custom__list_8c.html#adeb9a6aec026a0fbbe6a22a1c7c13ece">custom_list_get_type</a> (<span class="keywordtype">void</span>)
+<a name="l00151"></a>00151 {
+<a name="l00152"></a>00152     <span class="keyword">static</span> GType custom_list_type = 0;
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154     <span class="comment">/* Some boilerplate type registration stuff */</span>
+<a name="l00155"></a>00155     <span class="keywordflow">if</span> (custom_list_type == 0)
+<a name="l00156"></a>00156     {
+<a name="l00157"></a>00157         <span class="keyword">static</span> <span class="keyword">const</span> GTypeInfo custom_list_info =
+<a name="l00158"></a>00158         {
+<a name="l00159"></a>00159             <span class="keyword">sizeof</span> (<a class="code" href="struct__CustomListClass.html">CustomListClass</a>),
+<a name="l00160"></a>00160             NULL,                                         <span class="comment">/* base_init */</span>
+<a name="l00161"></a>00161             NULL,                                         <span class="comment">/* base_finalize */</span>
+<a name="l00162"></a>00162             (GClassInitFunc) custom_list_class_init,
+<a name="l00163"></a>00163             NULL,                                         <span class="comment">/* class finalize */</span>
+<a name="l00164"></a>00164             NULL,                                         <span class="comment">/* class_data */</span>
+<a name="l00165"></a>00165             <span class="keyword">sizeof</span> (<a class="code" href="struct__CustomList.html">CustomList</a>),
+<a name="l00166"></a>00166             0,                                           <span class="comment">/* n_preallocs */</span>
+<a name="l00167"></a>00167             (GInstanceInitFunc) custom_list_init
+<a name="l00168"></a>00168         };
+<a name="l00169"></a>00169         <span class="keyword">static</span> <span class="keyword">const</span> GInterfaceInfo tree_model_info =
+<a name="l00170"></a>00170         {
+<a name="l00171"></a>00171             (GInterfaceInitFunc) custom_list_tree_model_init,
+<a name="l00172"></a>00172             NULL,
+<a name="l00173"></a>00173             NULL
+<a name="l00174"></a>00174         };
+<a name="l00175"></a>00175 
+<a name="l00176"></a>00176         <span class="comment">/* First register the new derived type with the GObject type system */</span>
+<a name="l00177"></a>00177         custom_list_type = g_type_register_static (G_TYPE_OBJECT, <span class="stringliteral">&quot;CustomList&quot;</span>,
+<a name="l00178"></a>00178                                                    &amp;custom_list_info, (GTypeFlags)0);
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180         <span class="comment">/* Now register our GtkTreeModel interface with the type system */</span>
+<a name="l00181"></a>00181         g_type_add_interface_static (custom_list_type, GTK_TYPE_TREE_MODEL, &amp;tree_model_info);
+<a name="l00182"></a>00182     }
+<a name="l00183"></a>00183 
+<a name="l00184"></a>00184     <span class="keywordflow">return</span> custom_list_type;
+<a name="l00185"></a>00185 }
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187 
+<a name="l00196"></a>00196 <span class="keyword">static</span> <span class="keywordtype">void</span> custom_list_class_init (<a class="code" href="struct__CustomListClass.html">CustomListClass</a> *klass)
+<a name="l00197"></a>00197 {
+<a name="l00198"></a>00198     GObjectClass *object_class;
+<a name="l00199"></a>00199 
+<a name="l00200"></a>00200     parent_class = (GObjectClass*) g_type_class_peek_parent (klass);
+<a name="l00201"></a>00201     object_class = (GObjectClass*) klass;
+<a name="l00202"></a>00202 
+<a name="l00203"></a>00203     object_class-&gt;finalize = custom_list_finalize;
+<a name="l00204"></a>00204 }
+<a name="l00205"></a>00205 
+<a name="l00206"></a>00206 
+<a name="l00215"></a>00215 <span class="keyword">static</span> <span class="keywordtype">void</span> custom_list_tree_model_init (GtkTreeModelIface *iface)
+<a name="l00216"></a>00216 {
+<a name="l00217"></a>00217     iface-&gt;get_flags       = custom_list_get_flags;
+<a name="l00218"></a>00218     iface-&gt;get_n_columns   = custom_list_get_n_columns;
+<a name="l00219"></a>00219     iface-&gt;get_column_type = custom_list_get_column_type;
+<a name="l00220"></a>00220     iface-&gt;get_iter        = custom_list_get_iter;
+<a name="l00221"></a>00221     iface-&gt;get_path        = custom_list_get_path;
+<a name="l00222"></a>00222     iface-&gt;get_value       = custom_list_get_value;
+<a name="l00223"></a>00223     iface-&gt;iter_next       = custom_list_iter_next;
+<a name="l00224"></a>00224     iface-&gt;iter_children   = custom_list_iter_children;
+<a name="l00225"></a>00225     iface-&gt;iter_has_child  = custom_list_iter_has_child;
+<a name="l00226"></a>00226     iface-&gt;iter_n_children = custom_list_iter_n_children;
+<a name="l00227"></a>00227     iface-&gt;iter_nth_child  = custom_list_iter_nth_child;
+<a name="l00228"></a>00228     iface-&gt;iter_parent     = custom_list_iter_parent;
+<a name="l00229"></a>00229 }
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231 
+<a name="l00241"></a>00241 <span class="keyword">static</span> <span class="keywordtype">void</span> custom_list_init (<a class="code" href="struct__CustomList.html">CustomList</a> *custom_list)
+<a name="l00242"></a>00242 {
+<a name="l00243"></a>00243     custom_list-&gt;<a class="code" href="struct__CustomList.html#a3af8fef589d45c0274032570bea7b26e">n_columns</a> = <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba21364a6be11dce64147f8b64315a02c8">CUSTOM_MODEL_N_COLUMNS</a>;
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[0] = G_TYPE_STRING;       <span class="comment">/* col 0 ( check by default) */</span>
+<a name="l00246"></a>00246     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[1] = G_TYPE_STRING;       <span class="comment">/* col 1 ( date by default) */</span>
+<a name="l00247"></a>00247     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[2] = G_TYPE_STRING;       <span class="comment">/* col 2 ( payee by default) */</span>
+<a name="l00248"></a>00248     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[3] = G_TYPE_STRING;       <span class="comment">/* col 3 ( P/R by default) */</span>
+<a name="l00249"></a>00249     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[4] = G_TYPE_STRING;       <span class="comment">/* col 4 ( debit by default) */</span>
+<a name="l00250"></a>00250     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[5] = G_TYPE_STRING;       <span class="comment">/* col 5 ( credit by default) */</span>
+<a name="l00251"></a>00251     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[6] = G_TYPE_STRING;       <span class="comment">/* col 6 ( balance by default) */</span>
+<a name="l00252"></a>00252 
+<a name="l00253"></a>00253     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[7] = GDK_TYPE_COLOR;      <span class="comment">/* col 7 ( color of bg ) */</span>
+<a name="l00254"></a>00254     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[8] = GDK_TYPE_COLOR;      <span class="comment">/* col 8 ( bg saved when selected ) */</span>
+<a name="l00255"></a>00255     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[9] = G_TYPE_STRING;       <span class="comment">/* col 9 ( color of amount ) */</span>
+<a name="l00256"></a>00256     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[10] = GDK_TYPE_COLOR;     <span class="comment">/* col 10 ( color of the text ) */</span>
+<a name="l00257"></a>00257     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[11] = G_TYPE_POINTER;     <span class="comment">/* col 11 ( transaction struct address ) */</span>
+<a name="l00258"></a>00258     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[12] = G_TYPE_INT;         <span class="comment">/* col 12 ( what is line ) */</span>
+<a name="l00259"></a>00259     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[13] = G_TYPE_STRING;      <span class="comment">/* col 12 ( font ) */</span>
+<a name="l00260"></a>00260     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[14] = G_TYPE_INT;         <span class="comment">/* col 13 ( line in transaction ) */</span>
+<a name="l00261"></a>00261     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[15] = G_TYPE_BOOLEAN;     <span class="comment">/* col 14 ( transaction visible ) */</span>
+<a name="l00262"></a>00262     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[16] = G_TYPE_BOOLEAN;     <span class="comment">/* col 15 ( checkbox visible ) */</span>
+<a name="l00263"></a>00263     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[17] = G_TYPE_BOOLEAN;     <span class="comment">/* col 16 ( checkbox visible during reconciliation ) */</span>
+<a name="l00264"></a>00264     custom_list-&gt;<a class="code" href="struct__CustomList.html#a1310baccfe226bbb1c96ddeb0957aeef">column_types</a>[18] = G_TYPE_BOOLEAN;     <span class="comment">/* col 17 ( checkbox active ) */</span>
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266     <span class="comment">/* no row at the beginning */</span>
+<a name="l00267"></a>00267     custom_list-&gt;<a class="code" href="struct__CustomList.html#a767f2c2cec183c1d11dabb991c21382d">num_rows</a> = 0;
+<a name="l00268"></a>00268     custom_list-&gt;<a class="code" href="struct__CustomList.html#a29febef0c197ed8b57888a0a4a95951e">rows</a>     = NULL;
+<a name="l00269"></a>00269 
+<a name="l00270"></a>00270     custom_list -&gt; num_visibles_rows = 0;
+<a name="l00271"></a>00271     custom_list -&gt; visibles_rows = NULL;
+<a name="l00272"></a>00272 
+<a name="l00273"></a>00273     <span class="comment">/* default sort is col 1 (date) and descending */</span>
+<a name="l00274"></a>00274     custom_list-&gt;<a class="code" href="struct__CustomList.html#a043a204c10d9b9ad0411c75f9ccc1aca">sort_col</a>    = <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba733e087cf0a4f20063e866e5caef9947">CUSTOM_MODEL_COL_1</a>;
+<a name="l00275"></a>00275     custom_list-&gt;<a class="code" href="struct__CustomList.html#a9ef8c81501687072d17d5713c1ff0476">sort_order</a> = GTK_SORT_ASCENDING;
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277     custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a> = g_random_int();  <span class="comment">/* Random int to check whether an iter belongs to our model */</span>
+<a name="l00278"></a>00278 }
+<a name="l00279"></a>00279 
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282 
+<a name="l00291"></a>00291 <span class="keywordtype">void</span> custom_list_finalize (GObject *<span class="keywordtype">object</span>)
+<a name="l00292"></a>00292 {
+<a name="l00293"></a>00293     <a class="code" href="transaction__model_8c.html#ad2a7f1004a5b27450f8fc159f74351dc">transaction_model_initialize</a> ();
+<a name="l00294"></a>00294 
+<a name="l00295"></a>00295     <span class="comment">/* must chain up - finalize parent */</span>
+<a name="l00296"></a>00296     (* parent_class-&gt;finalize) (<span class="keywordtype">object</span>);
+<a name="l00297"></a>00297 }
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299 
+<a name="l00312"></a>00312 <span class="keyword">static</span> GtkTreeModelFlags custom_list_get_flags (GtkTreeModel *tree_model)
+<a name="l00313"></a>00313 {
+<a name="l00314"></a>00314     g_return_val_if_fail (<a class="code" href="custom__list_8h.html#a3a20caec4b867838cad01cece656424a">CUSTOM_IS_LIST</a>(tree_model), (GtkTreeModelFlags)0);
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316     <span class="keywordflow">return</span> (GTK_TREE_MODEL_ITERS_PERSIST);
+<a name="l00317"></a>00317 }
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319 
+<a name="l00329"></a>00329 <span class="keyword">static</span> gint custom_list_get_n_columns (GtkTreeModel *tree_model)
+<a name="l00330"></a>00330 {
+<a name="l00331"></a>00331 
+<a name="l00332"></a>00332     g_return_val_if_fail (<a class="code" href="custom__list_8h.html#a3a20caec4b867838cad01cece656424a">CUSTOM_IS_LIST</a>(tree_model), 0);
+<a name="l00333"></a>00333 
+<a name="l00334"></a>00334     <span class="keywordflow">return</span> <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model)-&gt;n_columns;
+<a name="l00335"></a>00335 }
+<a name="l00336"></a>00336 
+<a name="l00337"></a>00337 
+<a name="l00349"></a>00349 <span class="keyword">static</span> GType custom_list_get_column_type (GtkTreeModel *tree_model,
+<a name="l00350"></a>00350                                           gint          index)
+<a name="l00351"></a>00351 {
+<a name="l00352"></a>00352     g_return_val_if_fail (<a class="code" href="custom__list_8h.html#a3a20caec4b867838cad01cece656424a">CUSTOM_IS_LIST</a>(tree_model), G_TYPE_INVALID);
+<a name="l00353"></a>00353     g_return_val_if_fail (index &lt; <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model)-&gt;n_columns &amp;&amp; index &gt;= 0, G_TYPE_INVALID);
+<a name="l00354"></a>00354 
+<a name="l00355"></a>00355     <span class="keywordflow">return</span> <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model)-&gt;column_types[index];
+<a name="l00356"></a>00356 }
+<a name="l00357"></a>00357 
+<a name="l00358"></a>00358 
+<a name="l00372"></a>00372 <span class="keyword">static</span> gboolean custom_list_get_iter (GtkTreeModel *tree_model,
+<a name="l00373"></a>00373                                       GtkTreeIter  *iter,
+<a name="l00374"></a>00374                                       GtkTreePath  *<a class="code" href="structmetatree__hold__position.html#a117af8b442325dd362705fa0eb784ffa">path</a>)
+<a name="l00375"></a>00375 {
+<a name="l00376"></a>00376     <a class="code" href="struct__CustomList.html">CustomList</a>    *custom_list;
+<a name="l00377"></a>00377     <a class="code" href="struct__CustomRecord.html">CustomRecord</a>  *record = NULL;
+<a name="l00378"></a>00378     gint          *indices, depth;
+<a name="l00379"></a>00379     gint mother_n;
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381     g_return_val_if_fail (<a class="code" href="custom__list_8h.html#a3a20caec4b867838cad01cece656424a">CUSTOM_IS_LIST</a>(tree_model), FALSE);
+<a name="l00382"></a>00382     g_return_val_if_fail (path != NULL, FALSE);
+<a name="l00383"></a>00383     g_return_val_if_fail (iter != NULL, FALSE);
+<a name="l00384"></a>00384 
+<a name="l00385"></a>00385     custom_list = <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model);
+<a name="l00386"></a>00386 
+<a name="l00387"></a>00387     <span class="comment">/* get the list of indices, should have maximum 2 */</span>
+<a name="l00388"></a>00388     indices = gtk_tree_path_get_indices(path);
+<a name="l00389"></a>00389 
+<a name="l00390"></a>00390     <span class="comment">/* depth 1 = top level */</span>
+<a name="l00391"></a>00391     depth   = gtk_tree_path_get_depth(path);
+<a name="l00392"></a>00392 
+<a name="l00393"></a>00393     mother_n = indices[0];
+<a name="l00394"></a>00394     <span class="comment">/* get the first depth record */</span>
+<a name="l00395"></a>00395     <span class="keywordflow">if</span> ( mother_n &gt;= custom_list-&gt;<a class="code" href="struct__CustomList.html#ab641f57c7760917443a80627b6e6b35f">num_visibles_rows</a> || mother_n &lt; 0 )
+<a name="l00396"></a>00396         <span class="keywordflow">return</span> FALSE;
+<a name="l00397"></a>00397 
+<a name="l00398"></a>00398     record = custom_list -&gt; visibles_rows[mother_n];
+<a name="l00399"></a>00399     g_return_val_if_fail (record != NULL, FALSE);
+<a name="l00400"></a>00400 
+<a name="l00401"></a>00401     <span class="comment">/* if we want a child, get it here */</span>
+<a name="l00402"></a>00402     <span class="keywordflow">if</span> (depth == 2)
+<a name="l00403"></a>00403     {
+<a name="l00404"></a>00404         gint child_n;
+<a name="l00405"></a>00405 
+<a name="l00406"></a>00406         child_n = indices[1];
+<a name="l00407"></a>00407         <span class="keywordflow">if</span> (child_n &gt;= record -&gt; number_of_children || child_n &lt; 0)
+<a name="l00408"></a>00408             <span class="keywordflow">return</span> FALSE;
+<a name="l00409"></a>00409 
+<a name="l00410"></a>00410         record = record -&gt; children_rows[child_n];
+<a name="l00411"></a>00411         g_return_val_if_fail (record != NULL, FALSE);
+<a name="l00412"></a>00412     }
+<a name="l00413"></a>00413 
+<a name="l00414"></a>00414     <span class="comment">/* We simply store a pointer to our custom record in the iter */</span>
+<a name="l00415"></a>00415     iter-&gt;stamp      = custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>;
+<a name="l00416"></a>00416     iter-&gt;user_data  = record;
+<a name="l00417"></a>00417     <span class="comment">/*     iter-&gt;user_data2 = NULL; */</span>
+<a name="l00418"></a>00418     <span class="comment">/*     iter-&gt;user_data3 = NULL; */</span>
+<a name="l00419"></a>00419     <span class="keywordflow">return</span> TRUE;
+<a name="l00420"></a>00420 }
+<a name="l00421"></a>00421 
+<a name="l00422"></a>00422 
+<a name="l00435"></a>00435 <span class="keyword">static</span> GtkTreePath *custom_list_get_path (GtkTreeModel *tree_model,
+<a name="l00436"></a>00436                                           GtkTreeIter  *iter)
+<a name="l00437"></a>00437 {
+<a name="l00438"></a>00438     GtkTreePath  *path;
+<a name="l00439"></a>00439     <a class="code" href="struct__CustomRecord.html">CustomRecord</a> *record;
+<a name="l00440"></a>00440     <a class="code" href="struct__CustomList.html">CustomList</a>   *custom_list;
+<a name="l00441"></a>00441 
+<a name="l00442"></a>00442     g_return_val_if_fail (<a class="code" href="custom__list_8h.html#a3a20caec4b867838cad01cece656424a">CUSTOM_IS_LIST</a>(tree_model), NULL);
+<a name="l00443"></a>00443     g_return_val_if_fail (iter != NULL,               NULL);
+<a name="l00444"></a>00444     g_return_val_if_fail (iter-&gt;user_data != NULL,    NULL);
+<a name="l00445"></a>00445 
+<a name="l00446"></a>00446     custom_list = <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model);
+<a name="l00447"></a>00447 
+<a name="l00448"></a>00448     record = (<a class="code" href="struct__CustomRecord.html">CustomRecord</a>*) iter-&gt;user_data;
+<a name="l00449"></a>00449 
+<a name="l00450"></a>00450     path = gtk_tree_path_new();
+<a name="l00451"></a>00451 
+<a name="l00452"></a>00452     <span class="comment">/* if we are on a child, we need to append the index of the mother */</span>
+<a name="l00453"></a>00453     <span class="keywordflow">if</span> (record -&gt; mother_row)
+<a name="l00454"></a>00454         gtk_tree_path_append_index (path, record -&gt; mother_row -&gt; filtered_pos);
+<a name="l00455"></a>00455 
+<a name="l00456"></a>00456     gtk_tree_path_append_index(path, record-&gt;<a class="code" href="struct__CustomRecord.html#a19ee376d753e226f8e3586b3cda43d3c">filtered_pos</a>);
+<a name="l00457"></a>00457     <span class="keywordflow">return</span> path;
+<a name="l00458"></a>00458 }
+<a name="l00459"></a>00459 
+<a name="l00460"></a>00460 
+<a name="l00473"></a>00473 <span class="keyword">static</span> <span class="keywordtype">void</span> custom_list_get_value (GtkTreeModel *tree_model,
+<a name="l00474"></a>00474                                    GtkTreeIter  *iter,
+<a name="l00475"></a>00475                                    gint          column,
+<a name="l00476"></a>00476                                    GValue       *value)
+<a name="l00477"></a>00477 {
+<a name="l00478"></a>00478     <a class="code" href="struct__CustomRecord.html">CustomRecord</a>  *record;
+<a name="l00479"></a>00479     <a class="code" href="struct__CustomList.html">CustomList</a>    *custom_list;
+<a name="l00480"></a>00480 
+<a name="l00481"></a>00481     g_return_if_fail (<a class="code" href="custom__list_8h.html#a3a20caec4b867838cad01cece656424a">CUSTOM_IS_LIST</a> (tree_model));
+<a name="l00482"></a>00482     g_return_if_fail (iter != NULL);
+<a name="l00483"></a>00483     g_return_if_fail (column &lt; <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model)-&gt;n_columns);
+<a name="l00484"></a>00484 
+<a name="l00485"></a>00485     g_value_init (value, <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model)-&gt;column_types[column]);
+<a name="l00486"></a>00486 
+<a name="l00487"></a>00487     custom_list = <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model);
+<a name="l00488"></a>00488 
+<a name="l00489"></a>00489     record = (<a class="code" href="struct__CustomRecord.html">CustomRecord</a>*) iter-&gt;user_data;
+<a name="l00490"></a>00490     g_return_if_fail ( record != NULL );
+<a name="l00491"></a>00491 
+<a name="l00492"></a>00492     <span class="keywordflow">switch</span>(column)
+<a name="l00493"></a>00493     {
+<a name="l00494"></a>00494         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba814f49c3fc531956c7d01f9da8d4a960">CUSTOM_MODEL_COL_0</a>:
+<a name="l00495"></a>00495         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba733e087cf0a4f20063e866e5caef9947">CUSTOM_MODEL_COL_1</a>:
+<a name="l00496"></a>00496         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba88b547dd8c2ed9955f2fc15ffaddf77b">CUSTOM_MODEL_COL_2</a>:
+<a name="l00497"></a>00497         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bafb1cab466e2ec74739e45fb3063656ba">CUSTOM_MODEL_COL_3</a>:
+<a name="l00498"></a>00498         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bae24d6b83c76a2a80e03b75b511c337f2">CUSTOM_MODEL_COL_4</a>:
+<a name="l00499"></a>00499         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba61fe3dfa1de31f02d354b1b061d25b03">CUSTOM_MODEL_COL_5</a>:
+<a name="l00500"></a>00500         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba1bcafb22d3b7f38cc03ffd6d67eecd79">CUSTOM_MODEL_COL_6</a>:
+<a name="l00501"></a>00501             g_value_set_string(value, record-&gt;<a class="code" href="struct__CustomRecord.html#a0d64de6657df72561164b3317bbdc2f4">visible_col</a>[column]);
+<a name="l00502"></a>00502             <span class="keywordflow">break</span>;
+<a name="l00503"></a>00503         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55baaeb0154012fa2239dd4a640838a0b926">CUSTOM_MODEL_BACKGROUND</a>:
+<a name="l00504"></a>00504             g_value_set_boxed(value, (gpointer) record-&gt;<a class="code" href="struct__CustomRecord.html#a3b4f01fa0ed972c3446215cbe3fbdf56">row_bg</a>);
+<a name="l00505"></a>00505             <span class="keywordflow">break</span>;
+<a name="l00506"></a>00506         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba7d0d9c896b69815c5ccfc2965d5d96be">CUSTOM_MODEL_SAVE_BACKGROUND</a>:
+<a name="l00507"></a>00507             g_value_set_boxed(value, (gpointer) record-&gt;<a class="code" href="struct__CustomRecord.html#a7f10052deea3d5ebec35f030673e8253">row_bg_save</a>);
+<a name="l00508"></a>00508             <span class="keywordflow">break</span>;
+<a name="l00509"></a>00509         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bacdd498414fddfaf9ccf2fc84cf3f06f8">CUSTOM_MODEL_AMOUNT_COLOR</a>:
+<a name="l00510"></a>00510             g_value_set_string(value, record-&gt;<a class="code" href="struct__CustomRecord.html#a66af8b318031a32f0cec97a5f2701dfb">amount_color</a>);
+<a name="l00511"></a>00511             <span class="keywordflow">break</span>;
+<a name="l00512"></a>00512         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba6e2495ec36c3196595fd39b300480eb6">CUSTOM_MODEL_TEXT_COLOR</a>:
+<a name="l00513"></a>00513             g_value_set_boxed(value, (gpointer) record-&gt;<a class="code" href="struct__CustomRecord.html#a491bd83af15a416e2336ca3bcc93b69d">text_color</a>);
+<a name="l00514"></a>00514             <span class="keywordflow">break</span>;
+<a name="l00515"></a>00515         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba3e7ba59a4063e09dc7bbffdc48a353f6">CUSTOM_MODEL_TRANSACTION_ADDRESS</a>:
+<a name="l00516"></a>00516             g_value_set_pointer(value, record-&gt;<a class="code" href="struct__CustomRecord.html#a302b5408b8f955ac2a62e02a6f287477">transaction_pointer</a>);
+<a name="l00517"></a>00517             <span class="keywordflow">break</span>;
+<a name="l00518"></a>00518         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba0e1303b078e3aed4993a79f04757049d">CUSTOM_MODEL_WHAT_IS_LINE</a>:
+<a name="l00519"></a>00519             g_value_set_int(value, record-&gt;<a class="code" href="struct__CustomRecord.html#ada475877058ff4ab0c8602d6464168e7">what_is_line</a>);
+<a name="l00520"></a>00520             <span class="keywordflow">break</span>;
+<a name="l00521"></a>00521         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba8d29d48666a4bca641ba8b0b65502703">CUSTOM_MODEL_FONT</a>:
+<a name="l00522"></a>00522             g_value_set_string(value, record-&gt;<a class="code" href="struct__CustomRecord.html#a2eaa7f95e03924522ad36bed9c9f8be5">font</a>);
+<a name="l00523"></a>00523             <span class="keywordflow">break</span>;
+<a name="l00524"></a>00524         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bafd59f664816369fe6dedc31ef6e38779">CUSTOM_MODEL_TRANSACTION_LINE</a>:
+<a name="l00525"></a>00525             g_value_set_int(value, record-&gt;<a class="code" href="struct__CustomRecord.html#a8e3551cf21249d47290826d712fe0ade">line_in_transaction</a>);
+<a name="l00526"></a>00526             <span class="keywordflow">break</span>;
+<a name="l00527"></a>00527         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba2f791b4d1252fe72890c25436197d01c">CUSTOM_MODEL_VISIBLE</a>:
+<a name="l00528"></a>00528             g_value_set_boolean(value, record-&gt;<a class="code" href="struct__CustomRecord.html#a4a6cb1bab82180988050a4a4fffac318">line_visible</a>);
+<a name="l00529"></a>00529             <span class="keywordflow">break</span>;
+<a name="l00530"></a>00530         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba854287c59bb8bd04d517380095eae44b">CUSTOM_MODEL_CHECKBOX_VISIBLE</a>:
+<a name="l00531"></a>00531             g_value_set_boolean(value, record-&gt;<a class="code" href="struct__CustomRecord.html#a3f3cc89b6cd038db091b0d5fed5e28d3">checkbox_visible</a>);
+<a name="l00532"></a>00532             <span class="keywordflow">break</span>;
+<a name="l00533"></a>00533         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba26126a837f2bc53047c59d56d1e1853d">CUSTOM_MODEL_CHECKBOX_VISIBLE_RECONCILE</a>:
+<a name="l00534"></a>00534             g_value_set_boolean(value, record-&gt;<a class="code" href="struct__CustomRecord.html#ad15d63daf2ab88634558151d15e5017c">checkbox_visible_reconcile</a>);
+<a name="l00535"></a>00535             <span class="keywordflow">break</span>;
+<a name="l00536"></a>00536         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bac7a27e484ff94d8f9b4a2d42d24b2360">CUSTOM_MODEL_CHECKBOX_ACTIVE</a>:
+<a name="l00537"></a>00537             g_value_set_boolean(value, record-&gt;<a class="code" href="struct__CustomRecord.html#a681f7dfdab3c9727bfe2e651671f370a">checkbox_active</a>);
+<a name="l00538"></a>00538             <span class="keywordflow">break</span>;
+<a name="l00539"></a>00539         <span class="keywordflow">default</span>:
+<a name="l00540"></a>00540             <a class="code" href="erreur_8h.html#a17bfffc4306bc76edd79e060a8947dc4">devel_debug</a> (<span class="stringliteral">&quot;Wrong value asked for CustomList&quot;</span>);
+<a name="l00541"></a>00541     }
+<a name="l00542"></a>00542 }
+<a name="l00543"></a>00543 
+<a name="l00564"></a><a class="code" href="custom__list_8h.html#a328dd87cc6168f5d518078168fe046c3">00564</a> <span class="keywordtype">void</span> <a class="code" href="custom__list_8c.html#a328dd87cc6168f5d518078168fe046c3">custom_list_set_value</a> (GtkTreeModel *tree_model,
+<a name="l00565"></a>00565                             GtkTreeIter  *iter,
+<a name="l00566"></a>00566                             gint          column,
+<a name="l00567"></a>00567                             GValue       *value)
+<a name="l00568"></a>00568 {
+<a name="l00569"></a>00569     <a class="code" href="struct__CustomRecord.html">CustomRecord</a>  *record;
+<a name="l00570"></a>00570 
+<a name="l00571"></a>00571     g_return_if_fail (iter != NULL);
+<a name="l00572"></a>00572     g_return_if_fail (column &lt; <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model)-&gt;n_columns);
+<a name="l00573"></a>00573     g_return_if_fail (G_IS_VALUE (value));
+<a name="l00574"></a>00574 
+<a name="l00575"></a>00575     record = (<a class="code" href="struct__CustomRecord.html">CustomRecord</a>*) iter-&gt;user_data;
+<a name="l00576"></a>00576     g_return_if_fail ( record != NULL );
+<a name="l00577"></a>00577 
+<a name="l00578"></a>00578     <span class="keywordflow">switch</span>(column)
+<a name="l00579"></a>00579     {
+<a name="l00580"></a>00580         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba814f49c3fc531956c7d01f9da8d4a960">CUSTOM_MODEL_COL_0</a>:
+<a name="l00581"></a>00581         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba733e087cf0a4f20063e866e5caef9947">CUSTOM_MODEL_COL_1</a>:
+<a name="l00582"></a>00582         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba88b547dd8c2ed9955f2fc15ffaddf77b">CUSTOM_MODEL_COL_2</a>:
+<a name="l00583"></a>00583         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bafb1cab466e2ec74739e45fb3063656ba">CUSTOM_MODEL_COL_3</a>:
+<a name="l00584"></a>00584         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bae24d6b83c76a2a80e03b75b511c337f2">CUSTOM_MODEL_COL_4</a>:
+<a name="l00585"></a>00585         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba61fe3dfa1de31f02d354b1b061d25b03">CUSTOM_MODEL_COL_5</a>:
+<a name="l00586"></a>00586         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba1bcafb22d3b7f38cc03ffd6d67eecd79">CUSTOM_MODEL_COL_6</a>:
+<a name="l00587"></a>00587             record -&gt; visible_col[column] = g_value_dup_string(value);
+<a name="l00588"></a>00588             <span class="keywordflow">break</span>;
+<a name="l00589"></a>00589         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55baaeb0154012fa2239dd4a640838a0b926">CUSTOM_MODEL_BACKGROUND</a>:
+<a name="l00590"></a>00590             record -&gt; row_bg = g_value_get_boxed(value);
+<a name="l00591"></a>00591             <span class="keywordflow">break</span>;
+<a name="l00592"></a>00592         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba7d0d9c896b69815c5ccfc2965d5d96be">CUSTOM_MODEL_SAVE_BACKGROUND</a>:
+<a name="l00593"></a>00593             record -&gt; row_bg_save = g_value_get_boxed(value);
+<a name="l00594"></a>00594             <span class="keywordflow">break</span>;
+<a name="l00595"></a>00595         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bacdd498414fddfaf9ccf2fc84cf3f06f8">CUSTOM_MODEL_AMOUNT_COLOR</a>:
+<a name="l00596"></a>00596             record -&gt; amount_color = g_value_dup_string(value);
+<a name="l00597"></a>00597             <span class="keywordflow">break</span>;
+<a name="l00598"></a>00598         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba6e2495ec36c3196595fd39b300480eb6">CUSTOM_MODEL_TEXT_COLOR</a>:
+<a name="l00599"></a>00599             record -&gt; <a class="code" href="affichage_8c.html#a8169600c05eb3674c1b11ca67dd677d3">text_color</a> = g_value_get_boxed(value);
+<a name="l00600"></a>00600             <span class="keywordflow">break</span>;
+<a name="l00601"></a>00601         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba3e7ba59a4063e09dc7bbffdc48a353f6">CUSTOM_MODEL_TRANSACTION_ADDRESS</a>:
+<a name="l00602"></a>00602             record -&gt; transaction_pointer = g_value_get_pointer(value);
+<a name="l00603"></a>00603             <span class="keywordflow">break</span>;
+<a name="l00604"></a>00604         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba0e1303b078e3aed4993a79f04757049d">CUSTOM_MODEL_WHAT_IS_LINE</a>:
+<a name="l00605"></a>00605             record -&gt; what_is_line = g_value_get_int(value);
+<a name="l00606"></a>00606             <span class="keywordflow">break</span>;
+<a name="l00607"></a>00607         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba8d29d48666a4bca641ba8b0b65502703">CUSTOM_MODEL_FONT</a>:
+<a name="l00608"></a>00608             record -&gt; font = g_value_dup_string (value);
+<a name="l00609"></a>00609             <span class="keywordflow">break</span>;
+<a name="l00610"></a>00610         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bafd59f664816369fe6dedc31ef6e38779">CUSTOM_MODEL_TRANSACTION_LINE</a>:
+<a name="l00611"></a>00611             record -&gt; line_in_transaction = g_value_get_int(value);
+<a name="l00612"></a>00612             <span class="keywordflow">break</span>;
+<a name="l00613"></a>00613         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba2f791b4d1252fe72890c25436197d01c">CUSTOM_MODEL_VISIBLE</a>:
+<a name="l00614"></a>00614             record -&gt; line_visible = g_value_get_boolean(value);
+<a name="l00615"></a>00615             <span class="keywordflow">break</span>;
+<a name="l00616"></a>00616         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba854287c59bb8bd04d517380095eae44b">CUSTOM_MODEL_CHECKBOX_VISIBLE</a>:
+<a name="l00617"></a>00617             record -&gt; checkbox_visible = g_value_get_boolean(value);
+<a name="l00618"></a>00618             <span class="keywordflow">break</span>;
+<a name="l00619"></a>00619         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba26126a837f2bc53047c59d56d1e1853d">CUSTOM_MODEL_CHECKBOX_VISIBLE_RECONCILE</a>:
+<a name="l00620"></a>00620             record -&gt; checkbox_visible_reconcile = g_value_get_boolean(value);
+<a name="l00621"></a>00621             <span class="keywordflow">break</span>;
+<a name="l00622"></a>00622         <span class="keywordflow">case</span> <a class="code" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bac7a27e484ff94d8f9b4a2d42d24b2360">CUSTOM_MODEL_CHECKBOX_ACTIVE</a>:
+<a name="l00623"></a>00623             record -&gt; checkbox_active = g_value_get_boolean(value);
+<a name="l00624"></a>00624             <span class="keywordflow">break</span>;
+<a name="l00625"></a>00625         <span class="keywordflow">default</span>:
+<a name="l00626"></a>00626             <a class="code" href="erreur_8h.html#a17bfffc4306bc76edd79e060a8947dc4">devel_debug</a> (<span class="stringliteral">&quot;Wrong value asked for CustomList&quot;</span>);
+<a name="l00627"></a>00627             <span class="keywordflow">return</span>;
+<a name="l00628"></a>00628     }
+<a name="l00629"></a>00629 
+<a name="l00630"></a>00630     <span class="keywordflow">if</span> ((!record -&gt; mother_row &amp;&amp; record -&gt; filtered_pos != -1)
+<a name="l00631"></a>00631         ||
+<a name="l00632"></a>00632         (record -&gt; mother_row &amp;&amp; record -&gt; mother_row -&gt; filtered_pos != -1))
+<a name="l00633"></a>00633     {
+<a name="l00634"></a>00634         GtkTreePath *path;
+<a name="l00635"></a>00635 
+<a name="l00636"></a>00636         path = gtk_tree_path_new ();
+<a name="l00637"></a>00637         <span class="keywordflow">if</span> (record -&gt; mother_row)
+<a name="l00638"></a>00638             gtk_tree_path_append_index (path, record -&gt; mother_row -&gt; filtered_pos);
+<a name="l00639"></a>00639         gtk_tree_path_append_index (path, record -&gt; filtered_pos);
+<a name="l00640"></a>00640         gtk_tree_model_row_changed (GTK_TREE_MODEL (tree_model), path, iter);
+<a name="l00641"></a>00641         gtk_tree_path_free (path);
+<a name="l00642"></a>00642     }
+<a name="l00643"></a>00643 }
+<a name="l00644"></a>00644 
+<a name="l00645"></a>00645 
+<a name="l00659"></a>00659 <span class="keyword">static</span> gboolean custom_list_iter_next (GtkTreeModel  *tree_model,
+<a name="l00660"></a>00660                                        GtkTreeIter   *iter)
+<a name="l00661"></a>00661 {
+<a name="l00662"></a>00662     <a class="code" href="struct__CustomRecord.html">CustomRecord</a>  *record;
+<a name="l00663"></a>00663     <a class="code" href="struct__CustomList.html">CustomList</a>    *custom_list;
+<a name="l00664"></a>00664 
+<a name="l00665"></a>00665     g_return_val_if_fail (<a class="code" href="custom__list_8h.html#a3a20caec4b867838cad01cece656424a">CUSTOM_IS_LIST</a> (tree_model), FALSE);
+<a name="l00666"></a>00666     g_return_val_if_fail (iter != NULL, FALSE);
+<a name="l00667"></a>00667     g_return_val_if_fail (iter-&gt;user_data != NULL, FALSE);
+<a name="l00668"></a>00668 
+<a name="l00669"></a>00669     custom_list = <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model);
+<a name="l00670"></a>00670 
+<a name="l00671"></a>00671     record = (<a class="code" href="struct__CustomRecord.html">CustomRecord</a> *) iter-&gt;user_data;
+<a name="l00672"></a>00672 
+<a name="l00673"></a>00673     <span class="comment">/* 2 way now, either we are on a mother, either on a child */</span>
+<a name="l00674"></a>00674     if (record -&gt; mother_row)
+<a name="l00675"></a>00675     {
+<a name="l00676"></a>00676         <span class="comment">/* it&#39;s a child iter */</span>
+<a name="l00677"></a>00677         <a class="code" href="struct__CustomRecord.html">CustomRecord</a>  *mother_record;
+<a name="l00678"></a>00678 
+<a name="l00679"></a>00679         mother_record = record -&gt; mother_row;
+<a name="l00680"></a>00680         <span class="keywordflow">if</span> (record -&gt; pos == (mother_record -&gt; number_of_children - 1))
+<a name="l00681"></a>00681             <span class="comment">/* we are on the list child, no next */</span>
+<a name="l00682"></a>00682             <span class="keywordflow">return</span> FALSE;
+<a name="l00683"></a>00683 
+<a name="l00684"></a>00684         <span class="comment">/* go to the next child */</span>
+<a name="l00685"></a>00685         iter-&gt;stamp     = custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>;
+<a name="l00686"></a>00686         iter-&gt;user_data = mother_record -&gt; children_rows[record -&gt; pos + 1];
+<a name="l00687"></a>00687     }
+<a name="l00688"></a>00688     <span class="keywordflow">else</span>
+<a name="l00689"></a>00689     {
+<a name="l00690"></a>00690         <span class="comment">/* it&#39;s a mother iter */</span>
+<a name="l00691"></a>00691         <span class="keywordflow">if</span> (record -&gt; filtered_pos == (custom_list -&gt; num_visibles_rows - 1))
+<a name="l00692"></a>00692             <span class="comment">/* we are on the last mother, no next */</span>
+<a name="l00693"></a>00693             <span class="keywordflow">return</span> FALSE;
+<a name="l00694"></a>00694 
+<a name="l00695"></a>00695         iter-&gt;stamp     = custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>;
+<a name="l00696"></a>00696         iter-&gt;user_data = custom_list -&gt; visibles_rows[record -&gt; filtered_pos + 1];
+<a name="l00697"></a>00697     }
+<a name="l00698"></a>00698     <span class="keywordflow">return</span> TRUE;
+<a name="l00699"></a>00699 }
+<a name="l00700"></a>00700 
+<a name="l00701"></a>00701 
+<a name="l00718"></a>00718 <span class="keyword">static</span> gboolean custom_list_iter_children (GtkTreeModel *tree_model,
+<a name="l00719"></a>00719                                            GtkTreeIter  *iter,
+<a name="l00720"></a>00720                                            GtkTreeIter  *parent)
+<a name="l00721"></a>00721 {
+<a name="l00722"></a>00722     <a class="code" href="struct__CustomList.html">CustomList</a>  *custom_list;
+<a name="l00723"></a>00723     <a class="code" href="struct__CustomRecord.html">CustomRecord</a> *parent_record;
+<a name="l00724"></a>00724 
+<a name="l00725"></a>00725     g_return_val_if_fail (<a class="code" href="custom__list_8h.html#a3a20caec4b867838cad01cece656424a">CUSTOM_IS_LIST</a> (tree_model), FALSE);
+<a name="l00726"></a>00726     g_return_val_if_fail (iter != NULL, FALSE);
+<a name="l00727"></a>00727     custom_list = <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model);
+<a name="l00728"></a>00728 
+<a name="l00729"></a>00729     <span class="comment">/* No rows =&gt; no first row */</span>
+<a name="l00730"></a>00730     <span class="keywordflow">if</span> (!custom_list-&gt;<a class="code" href="struct__CustomList.html#ab641f57c7760917443a80627b6e6b35f">num_visibles_rows</a>)
+<a name="l00731"></a>00731         <span class="keywordflow">return</span> FALSE;
+<a name="l00732"></a>00732 
+<a name="l00733"></a>00733     <span class="comment">/* if parent is NULL, we want the first line */</span>
+<a name="l00734"></a>00734     <span class="keywordflow">if</span> (parent == NULL)
+<a name="l00735"></a>00735     {
+<a name="l00736"></a>00736         <span class="comment">/* parent == NULL is a special case; we need to return the first top-level row */</span>
+<a name="l00737"></a>00737         <span class="comment">/* Set iter to first item in list */</span>
+<a name="l00738"></a>00738         iter-&gt;stamp     = custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>;
+<a name="l00739"></a>00739         iter-&gt;user_data = custom_list-&gt;<a class="code" href="struct__CustomList.html#a32b88e9bd528795509229555a505a8a9">visibles_rows</a>[0];
+<a name="l00740"></a>00740         <span class="keywordflow">return</span> TRUE;
+<a name="l00741"></a>00741     }
+<a name="l00742"></a>00742 
+<a name="l00743"></a>00743     <span class="comment">/* get the parent structure */</span>
+<a name="l00744"></a>00744     parent_record = parent-&gt;user_data;
+<a name="l00745"></a>00745     g_return_val_if_fail (parent_record != NULL, FALSE);
+<a name="l00746"></a>00746 
+<a name="l00747"></a>00747     <span class="comment">/* if no child, return FALSE */</span>
+<a name="l00748"></a>00748     <span class="keywordflow">if</span> (!parent_record -&gt; has_expander)
+<a name="l00749"></a>00749         <span class="comment">/* no need to check number_of_children, if no child or no good line, has_expander is FALSE */</span>
+<a name="l00750"></a>00750         <span class="keywordflow">return</span> FALSE;
+<a name="l00751"></a>00751 
+<a name="l00752"></a>00752     <span class="comment">/* there is at least one child, so set iter on that child */</span>
+<a name="l00753"></a>00753     iter-&gt;stamp     = custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>;
+<a name="l00754"></a>00754     iter-&gt;user_data = parent_record -&gt; children_rows[0];
+<a name="l00755"></a>00755     <span class="keywordflow">return</span> TRUE;
+<a name="l00756"></a>00756 }
+<a name="l00757"></a>00757 
+<a name="l00758"></a>00758 
+<a name="l00770"></a>00770 <span class="keyword">static</span> gboolean custom_list_iter_has_child (GtkTreeModel *tree_model,
+<a name="l00771"></a>00771                                             GtkTreeIter  *iter)
+<a name="l00772"></a>00772 {
+<a name="l00773"></a>00773     <a class="code" href="struct__CustomRecord.html">CustomRecord</a> *parent_record;
+<a name="l00774"></a>00774 
+<a name="l00775"></a>00775     g_return_val_if_fail (<a class="code" href="custom__list_8h.html#a3a20caec4b867838cad01cece656424a">CUSTOM_IS_LIST</a> (tree_model), FALSE);
+<a name="l00776"></a>00776     g_return_val_if_fail (iter != NULL, FALSE);
+<a name="l00777"></a>00777 
+<a name="l00778"></a>00778     <span class="comment">/* get the parent structure */</span>
+<a name="l00779"></a>00779     parent_record = iter-&gt;user_data;
+<a name="l00780"></a>00780     g_return_val_if_fail (parent_record != NULL, FALSE);
+<a name="l00781"></a>00781 
+<a name="l00782"></a>00782     <span class="comment">/* the transaction can have some children but they can be displayed in another row */</span>
+<a name="l00783"></a>00783     <span class="keywordflow">if</span> (!parent_record -&gt; has_expander)
+<a name="l00784"></a>00784         <span class="keywordflow">return</span> FALSE;
+<a name="l00785"></a>00785 
+<a name="l00786"></a>00786     <span class="keywordflow">return</span> TRUE;
+<a name="l00787"></a>00787 }
+<a name="l00788"></a>00788 
+<a name="l00789"></a>00789 
+<a name="l00803"></a>00803 <span class="keyword">static</span> gint custom_list_iter_n_children (GtkTreeModel *tree_model,
+<a name="l00804"></a>00804                                          GtkTreeIter  *iter)
+<a name="l00805"></a>00805 {
+<a name="l00806"></a>00806     <a class="code" href="struct__CustomList.html">CustomList</a>  *custom_list;
+<a name="l00807"></a>00807     <a class="code" href="struct__CustomRecord.html">CustomRecord</a> *parent_record;
+<a name="l00808"></a>00808 
+<a name="l00809"></a>00809     g_return_val_if_fail (<a class="code" href="custom__list_8h.html#a3a20caec4b867838cad01cece656424a">CUSTOM_IS_LIST</a> (tree_model), -1);
+<a name="l00810"></a>00810 
+<a name="l00811"></a>00811     custom_list = <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model);
+<a name="l00812"></a>00812 
+<a name="l00813"></a>00813     <span class="keywordflow">if</span> (!iter)
+<a name="l00814"></a>00814         <span class="comment">/* special case: if iter == NULL, return number of top-level rows */</span>
+<a name="l00815"></a>00815         <span class="keywordflow">return</span> custom_list-&gt;<a class="code" href="struct__CustomList.html#ab641f57c7760917443a80627b6e6b35f">num_visibles_rows</a>;
+<a name="l00816"></a>00816 
+<a name="l00817"></a>00817     <span class="comment">/* get the parent structure */</span>
+<a name="l00818"></a>00818     parent_record = iter-&gt;user_data;
+<a name="l00819"></a>00819     g_return_val_if_fail (parent_record != NULL, 0);
+<a name="l00820"></a>00820 
+<a name="l00821"></a>00821     <span class="comment">/* the transaction can have some children but they can be displayed in another row */</span>
+<a name="l00822"></a>00822     <span class="keywordflow">if</span> (!parent_record -&gt; has_expander)
+<a name="l00823"></a>00823         <span class="keywordflow">return</span> 0;
+<a name="l00824"></a>00824 
+<a name="l00825"></a>00825     <span class="keywordflow">return</span> parent_record -&gt; number_of_children;
+<a name="l00826"></a>00826 }
+<a name="l00827"></a>00827 
+<a name="l00828"></a>00828 
+<a name="l00846"></a>00846 <span class="keyword">static</span> gboolean custom_list_iter_nth_child (GtkTreeModel *tree_model,
+<a name="l00847"></a>00847                                             GtkTreeIter  *iter,
+<a name="l00848"></a>00848                                             GtkTreeIter  *parent,
+<a name="l00849"></a>00849                                             gint          n)
+<a name="l00850"></a>00850 {
+<a name="l00851"></a>00851     <a class="code" href="struct__CustomList.html">CustomList</a>    *custom_list;
+<a name="l00852"></a>00852     <a class="code" href="struct__CustomRecord.html">CustomRecord</a>  *parent_record;
+<a name="l00853"></a>00853 
+<a name="l00854"></a>00854     g_return_val_if_fail (<a class="code" href="custom__list_8h.html#a3a20caec4b867838cad01cece656424a">CUSTOM_IS_LIST</a> (tree_model), FALSE);
+<a name="l00855"></a>00855     g_return_val_if_fail (iter != NULL, FALSE);
+<a name="l00856"></a>00856 
+<a name="l00857"></a>00857     custom_list = <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model);
+<a name="l00858"></a>00858 
+<a name="l00859"></a>00859     <span class="keywordflow">if</span> (parent == NULL)
+<a name="l00860"></a>00860     {
+<a name="l00861"></a>00861         <span class="comment">/* special case: if parent == NULL, set iter to n-th top-level row */</span>
+<a name="l00862"></a>00862         <span class="keywordflow">if</span>( n &gt;= custom_list-&gt;<a class="code" href="struct__CustomList.html#ab641f57c7760917443a80627b6e6b35f">num_visibles_rows</a> )
+<a name="l00863"></a>00863             <span class="keywordflow">return</span> FALSE;
+<a name="l00864"></a>00864 
+<a name="l00865"></a>00865         iter-&gt;stamp = custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>;
+<a name="l00866"></a>00866         iter-&gt;user_data = custom_list-&gt;<a class="code" href="struct__CustomList.html#a32b88e9bd528795509229555a505a8a9">visibles_rows</a>[n];
+<a name="l00867"></a>00867         <span class="keywordflow">return</span> TRUE;
+<a name="l00868"></a>00868     }
+<a name="l00869"></a>00869 
+<a name="l00870"></a>00870     <span class="comment">/* get the parent structure */</span>
+<a name="l00871"></a>00871     parent_record = parent-&gt;user_data;
+<a name="l00872"></a>00872     g_return_val_if_fail (parent_record != NULL, FALSE);
+<a name="l00873"></a>00873 
+<a name="l00874"></a>00874     <span class="comment">/* check n not too big (also check if child exist) */</span>
+<a name="l00875"></a>00875     <span class="keywordflow">if</span> (n &gt;= parent_record -&gt; number_of_children
+<a name="l00876"></a>00876         ||
+<a name="l00877"></a>00877         !parent_record -&gt; has_expander)
+<a name="l00878"></a>00878         <span class="keywordflow">return</span> FALSE;
+<a name="l00879"></a>00879 
+<a name="l00880"></a>00880     <span class="comment">/* there is at least one child, so set iter on that child */</span>
+<a name="l00881"></a>00881     iter-&gt;stamp     = custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>;
+<a name="l00882"></a>00882     iter-&gt;user_data = parent_record -&gt; children_rows[n];
+<a name="l00883"></a>00883     <span class="keywordflow">return</span> TRUE;
+<a name="l00884"></a>00884 }
+<a name="l00885"></a>00885 
+<a name="l00886"></a>00886 
+<a name="l00898"></a>00898 <span class="keyword">static</span> gboolean custom_list_iter_parent (GtkTreeModel *tree_model,
+<a name="l00899"></a>00899                                          GtkTreeIter  *iter,
+<a name="l00900"></a>00900                                          GtkTreeIter  *child)
+<a name="l00901"></a>00901 {
+<a name="l00902"></a>00902     <a class="code" href="struct__CustomList.html">CustomList</a>    *custom_list;
+<a name="l00903"></a>00903     <a class="code" href="struct__CustomRecord.html">CustomRecord</a>  *child_record;
+<a name="l00904"></a>00904 
+<a name="l00905"></a>00905     g_return_val_if_fail (<a class="code" href="custom__list_8h.html#a3a20caec4b867838cad01cece656424a">CUSTOM_IS_LIST</a> (tree_model), FALSE);
+<a name="l00906"></a>00906     g_return_val_if_fail (iter != NULL, FALSE);
+<a name="l00907"></a>00907     g_return_val_if_fail (child != NULL, FALSE);
+<a name="l00908"></a>00908 
+<a name="l00909"></a>00909     custom_list = <a class="code" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(tree_model);
+<a name="l00910"></a>00910 
+<a name="l00911"></a>00911     <span class="comment">/* get the child structure */</span>
+<a name="l00912"></a>00912     child_record = child-&gt;user_data;
+<a name="l00913"></a>00913     g_return_val_if_fail (child_record != NULL, FALSE);
+<a name="l00914"></a>00914     g_return_val_if_fail (child_record -&gt; mother_row != NULL, FALSE);
+<a name="l00915"></a>00915 
+<a name="l00916"></a>00916     <span class="comment">/* set iter on the parent */</span>
+<a name="l00917"></a>00917     iter-&gt;stamp     = custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>;
+<a name="l00918"></a>00918     iter-&gt;user_data = child_record -&gt; mother_row;
+<a name="l00919"></a>00919     <span class="keywordflow">return</span> TRUE;
+<a name="l00920"></a>00920 }
+<a name="l00921"></a>00921 
+<a name="l00922"></a>00922 
+<a name="l00923"></a>00923 
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:00 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

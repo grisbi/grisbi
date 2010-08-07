@@ -1,0 +1,2886 @@
+\section{Référence du fichier gsb\_\-data\_\-report.h}
+\label{gsb__data__report_8h}\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}}
+\subsection*{Structures de données}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf struct\_\-categ\_\-budget\_\-sel}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-check\_\-categ\_\-budget\_\-in\_\-report} (GSList $\ast$list\_\-struct\_\-report, gint div\_\-number, gint sub\_\-div\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-compare\_\-position} (gint report\_\-number\_\-1, gint report\_\-number\_\-2)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-dup} (gint report\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-free\_\-categ\_\-budget\_\-struct} (GSList $\ast$categ\_\-budget\_\-sel\_\-list)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-account\_\-group\_\-reports} (gint report\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-account\_\-numbers} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-amount} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-name} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-account\_\-use\_\-chosen} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-currency} (gint report\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-list} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-used} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-append\_\-in\_\-payee} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-budget\_\-currency} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-budget\_\-detail\_\-used} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-budget\_\-amount} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-name} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget\_\-amount} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-without\_\-budget} (gint report\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-budget\_\-struct} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-budget\_\-used} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-category\_\-currency} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-category\_\-detail\_\-used} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-category\_\-amount} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-name} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category\_\-amount} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-without\_\-category} (gint report\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-category\_\-struct} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-category\_\-used} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-show} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-type} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-currency\_\-general} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-date\_\-type} (gint report\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-list} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-split} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-type} (gint report\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-list} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-used} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-not\_\-detail\_\-split} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-payee\_\-currency} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-payee\_\-detail\_\-used} (gint report\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-payee\_\-numbers} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-name} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-payee\_\-amount} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-payee\_\-used} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-period\_\-split} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-day} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-type} (gint report\_\-number)
+\item 
+GDate $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-end} (gint report\_\-number)
+\item 
+GDate $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-start} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-report\_\-by\_\-name} (const gchar $\ast$name)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-report\_\-can\_\-click} (gint report\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-report\_\-list} (void)
+\item 
+gchar $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-report\_\-name} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-report\_\-number} (gpointer report\_\-pointer)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-r} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-bank\_\-references} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-budget} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-category} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-date} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-financial\_\-year} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-marked} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-note} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-payee} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-budget} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-category} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-amount} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-number} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transactions} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-value\_\-date} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-voucher} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-sorting\_\-report} (gint report\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-sorting\_\-type} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-split\_\-credit\_\-debit} (gint report\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-list} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-used} (gint report\_\-number)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-report\_\-get\_\-transfer\_\-account\_\-numbers} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-transfer\_\-choice} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-transfer\_\-reports\_\-only} (gint report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-get\_\-use\_\-financial\_\-year} (gint report\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-init\_\-variables} (void)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-max\_\-number} (void)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-move\_\-report} (gint report\_\-number, gint dest\_\-report\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-new} (gchar $\ast$name)
+\item 
+gint {\bf gsb\_\-data\_\-report\_\-new\_\-with\_\-number} (gint number)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-remove} (gint no\_\-report)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-account\_\-group\_\-reports} (gint report\_\-number, gint account\_\-group\_\-reports)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-account\_\-numbers} (gint report\_\-number, GSList $\ast$account\_\-numbers)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-amount} (gint report\_\-number, gint account\_\-show\_\-amount)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-name} (gint report\_\-number, gint account\_\-show\_\-name)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-account\_\-use\_\-chosen} (gint report\_\-number, gint account\_\-use\_\-chosen)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-currency} (gint report\_\-number, gint amount\_\-comparison\_\-currency)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-list} (gint report\_\-number, GSList $\ast$amount\_\-comparison\_\-list)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null} (gint report\_\-number, gint amount\_\-comparison\_\-only\_\-report\_\-non\_\-null)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-used} (gint report\_\-number, gint amount\_\-comparison\_\-used)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-append\_\-in\_\-payee} (gint report\_\-number, gint append\_\-in\_\-payee)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-budget\_\-currency} (gint report\_\-number, gint budget\_\-currency)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-budget\_\-detail\_\-used} (gint report\_\-number, gint budget\_\-detail\_\-used)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-budget\_\-amount} (gint report\_\-number, gint budget\_\-show\_\-budget\_\-amount)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-name} (gint report\_\-number, gint budget\_\-show\_\-name)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget} (gint report\_\-number, gint budget\_\-show\_\-sub\_\-budget)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget\_\-amount} (gint report\_\-number, gint budget\_\-show\_\-sub\_\-budget\_\-amount)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-without\_\-budget} (gint report\_\-number, gint budget\_\-show\_\-without\_\-budget)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-budget\_\-struct} (gint report\_\-number, GSList $\ast$budget\_\-select\_\-struct)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-budget\_\-used} (gint report\_\-number, gint budget\_\-used)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-category\_\-currency} (gint report\_\-number, gint category\_\-currency)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-category\_\-detail\_\-used} (gint report\_\-number, gint category\_\-detail\_\-used)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-category\_\-amount} (gint report\_\-number, gint category\_\-show\_\-category\_\-amount)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-name} (gint report\_\-number, gint category\_\-show\_\-name)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category} (gint report\_\-number, gint category\_\-show\_\-sub\_\-category)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category\_\-amount} (gint report\_\-number, gint category\_\-show\_\-sub\_\-category\_\-amount)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-without\_\-category} (gint report\_\-number, gint category\_\-show\_\-without\_\-category)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-category\_\-struct} (gint report\_\-number, GSList $\ast$categ\_\-select\_\-struct)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-category\_\-used} (gint report\_\-number, gint category\_\-used)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-show} (gint report\_\-number, gint column\_\-title\_\-show)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-type} (gint report\_\-number, gint column\_\-title\_\-type)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-currency\_\-general} (gint report\_\-number, gint currency\_\-general)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-date\_\-type} (gint report\_\-number, gint date\_\-type)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-list} (gint report\_\-number, GSList $\ast$financial\_\-year\_\-list)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-split} (gint report\_\-number, gint financial\_\-year\_\-split)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-type} (gint report\_\-number, gint financial\_\-year\_\-type)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-list} (gint report\_\-number, GSList $\ast$method\_\-of\_\-payment\_\-list)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-used} (gint report\_\-number, gint method\_\-of\_\-payment\_\-used)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-not\_\-detail\_\-split} (gint report\_\-number, gint not\_\-detail\_\-split)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-payee\_\-currency} (gint report\_\-number, gint payee\_\-currency)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-payee\_\-detail\_\-used} (gint report\_\-number, gint payee\_\-detail\_\-used)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-payee\_\-numbers} (gint report\_\-number, GSList $\ast$payee\_\-numbers)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-name} (gint report\_\-number, gint payee\_\-show\_\-name)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-payee\_\-amount} (gint report\_\-number, gint payee\_\-show\_\-payee\_\-amount)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-payee\_\-used} (gint report\_\-number, gint payee\_\-used)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-period\_\-split} (gint report\_\-number, gint period\_\-split)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-day} (gint report\_\-number, gint period\_\-split\_\-day)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-type} (gint report\_\-number, gint period\_\-split\_\-type)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-end} (gint report\_\-number, GDate $\ast$personal\_\-date\_\-end)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-start} (gint report\_\-number, GDate $\ast$personal\_\-date\_\-start)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-report\_\-can\_\-click} (gint report\_\-number, gint report\_\-can\_\-click)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-report\_\-name} (gint report\_\-number, const gchar $\ast$report\_\-name)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-r} (gint report\_\-number, gint show\_\-r)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-bank\_\-references} (gint report\_\-number, gint show\_\-report\_\-bank\_\-references)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-budget} (gint report\_\-number, gint show\_\-report\_\-budget)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-category} (gint report\_\-number, gint show\_\-report\_\-category)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-date} (gint report\_\-number, gint show\_\-report\_\-date)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-financial\_\-year} (gint report\_\-number, gint show\_\-report\_\-financial\_\-year)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-marked} (gint report\_\-number, gint show\_\-report\_\-marked)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment} (gint report\_\-number, gint show\_\-report\_\-method\_\-of\_\-payment)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content} (gint report\_\-number, gint show\_\-report\_\-method\_\-of\_\-payment\_\-content)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-note} (gint report\_\-number, gint show\_\-report\_\-note)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-payee} (gint report\_\-number, gint show\_\-report\_\-payee)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-budget} (gint report\_\-number, gint show\_\-report\_\-sub\_\-budget)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-category} (gint report\_\-number, gint show\_\-report\_\-sub\_\-category)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-amount} (gint report\_\-number, gint show\_\-report\_\-transaction\_\-amount)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-number} (gint report\_\-number, gint show\_\-report\_\-transaction\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transactions} (gint report\_\-number, gint show\_\-report\_\-transactions)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-value\_\-date} (gint report\_\-number, gint show\_\-report\_\-value\_\-date)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-voucher} (gint report\_\-number, gint show\_\-report\_\-voucher)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-sorting\_\-report} (gint report\_\-number, gint sorting\_\-report)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-sorting\_\-type} (gint report\_\-number, GSList $\ast$sorting\_\-type)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-split\_\-credit\_\-debit} (gint report\_\-number, gint split\_\-credit\_\-debit)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-list} (gint report\_\-number, GSList $\ast$text\_\-comparison\_\-list)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-used} (gint report\_\-number, gint text\_\-comparison\_\-used)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-transfer\_\-account\_\-numbers} (gint report\_\-number, GSList $\ast$transfer\_\-account\_\-numbers)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-transfer\_\-choice} (gint report\_\-number, gint transfer\_\-choice)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-transfer\_\-reports\_\-only} (gint report\_\-number, gint transfer\_\-reports\_\-only)
+\item 
+gboolean {\bf gsb\_\-data\_\-report\_\-set\_\-use\_\-financial\_\-year} (gint report\_\-number, gint use\_\-financial\_\-year)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-check\_\-categ\_\-budget\_\-in\_\-report@{gsb\_\-data\_\-report\_\-check\_\-categ\_\-budget\_\-in\_\-report}}
+\index{gsb\_\-data\_\-report\_\-check\_\-categ\_\-budget\_\-in\_\-report@{gsb\_\-data\_\-report\_\-check\_\-categ\_\-budget\_\-in\_\-report}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-check\_\-categ\_\-budget\_\-in\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-check\_\-categ\_\-budget\_\-in\_\-report (GSList $\ast$ {\em list\_\-struct\_\-report}, \/  gint {\em div\_\-number}, \/  gint {\em sub\_\-div\_\-number})}\label{gsb__data__report_8h_a9c727cd98fb76b61edc15eb6ee2a6cf7}
+get a category/budget and sub-\/category/budget number and check if they are selected in the report
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em list\_\-struct\_\-report}]a GSList of \doxyref{struct\_\-categ\_\-budget\_\-sel}{p.}{structstruct__categ__budget__sel} (either categ, either budget) \item[{\em div\_\-number}]categ or budget number \item[{\em sub\_\-div\_\-number}]sub-\/categ or sub-\/budget number\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : the couple categ/sub-\/categ or budget/sub-\/budget exist, FALSE : it is not in that report 
+\end{DoxyReturn}
+
+
+Définition à la ligne 4083 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-compare\_\-position@{gsb\_\-data\_\-report\_\-compare\_\-position}}
+\index{gsb\_\-data\_\-report\_\-compare\_\-position@{gsb\_\-data\_\-report\_\-compare\_\-position}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-compare\_\-position}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-compare\_\-position (gint {\em report\_\-number\_\-1}, \/  gint {\em report\_\-number\_\-2})}\label{gsb__data__report_8h_abda2daaf9f14fc7414cca3095ea38b54}
+check the position of the 2 reports in the list and return -\/1 if first report before second (and +1 else)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number\_\-1}]\item[{\em report\_\-number\_\-2}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+-\/1 if report\_\-number\_\-1 before, report\_\-number\_\-2, and +1 else, 0 if one of report doesn't exist 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3998 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-dup@{gsb\_\-data\_\-report\_\-dup}}
+\index{gsb\_\-data\_\-report\_\-dup@{gsb\_\-data\_\-report\_\-dup}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-dup}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-dup (gint {\em report\_\-number})}\label{gsb__data__report_8h_a9c61238b2aa695b3f68fa95738706901}
+dupplicate the report
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+number of the new report 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3911 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-free\_\-categ\_\-budget\_\-struct@{gsb\_\-data\_\-report\_\-free\_\-categ\_\-budget\_\-struct}}
+\index{gsb\_\-data\_\-report\_\-free\_\-categ\_\-budget\_\-struct@{gsb\_\-data\_\-report\_\-free\_\-categ\_\-budget\_\-struct}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-free\_\-categ\_\-budget\_\-struct}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-free\_\-categ\_\-budget\_\-struct (GSList $\ast$ {\em categ\_\-budget\_\-sel\_\-list})}\label{gsb__data__report_8h_a4b4e9db9308383255c4d5ad14050f731}
+free the list of categories/budgets struct
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em categ\_\-budget\_\-sel\_\-list}]the list of \doxyref{struct\_\-categ\_\-budget\_\-sel}{p.}{structstruct__categ__budget__sel} to free\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3632 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-account\_\-group\_\-reports@{gsb\_\-data\_\-report\_\-get\_\-account\_\-group\_\-reports}}
+\index{gsb\_\-data\_\-report\_\-get\_\-account\_\-group\_\-reports@{gsb\_\-data\_\-report\_\-get\_\-account\_\-group\_\-reports}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-account\_\-group\_\-reports}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-account\_\-group\_\-reports (gint {\em report\_\-number})}\label{gsb__data__report_8h_a42a9f65da4a9151a990da2d4a65cc226}
+get the account\_\-group\_\-reports
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the account\_\-group\_\-reports of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2081 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-account\_\-numbers@{gsb\_\-data\_\-report\_\-get\_\-account\_\-numbers}}
+\index{gsb\_\-data\_\-report\_\-get\_\-account\_\-numbers@{gsb\_\-data\_\-report\_\-get\_\-account\_\-numbers}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-account\_\-numbers}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-report\_\-get\_\-account\_\-numbers (gint {\em report\_\-number})}\label{gsb__data__report_8h_a073b6ce755d88520985137fea738c608}
+get the account\_\-numbers
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the account\_\-numbers of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3499 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-amount (gint {\em report\_\-number})}\label{gsb__data__report_8h_a9c5625a1a402793ea655690e1a3574a1}
+get the account\_\-show\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the account\_\-show\_\-amount of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2124 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-name@{gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-name}}
+\index{gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-name@{gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-name}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-account\_\-show\_\-name (gint {\em report\_\-number})}\label{gsb__data__report_8h_a6dc235068d7d26ab61b2093f601c7d47}
+get the account\_\-show\_\-name
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the account\_\-show\_\-name of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2167 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-account\_\-use\_\-chosen@{gsb\_\-data\_\-report\_\-get\_\-account\_\-use\_\-chosen}}
+\index{gsb\_\-data\_\-report\_\-get\_\-account\_\-use\_\-chosen@{gsb\_\-data\_\-report\_\-get\_\-account\_\-use\_\-chosen}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-account\_\-use\_\-chosen}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-account\_\-use\_\-chosen (gint {\em report\_\-number})}\label{gsb__data__report_8h_a8795e1ce126fb9646150f81dc88bec5e}
+get the account\_\-use\_\-chosen
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the account\_\-use\_\-chosen of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2038 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-currency@{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-currency}}
+\index{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-currency@{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-currency}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-currency (gint {\em report\_\-number})}\label{gsb__data__report_8h_a58c1bf88812b81d307bea9247695bfc9}
+get the amount\_\-comparison\_\-currency
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the amount\_\-comparison\_\-currency of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3287 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-list@{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-list}}
+\index{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-list@{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-list}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-list (gint {\em report\_\-number})}\label{gsb__data__report_8h_a67893d2be0b2f657aa1c41211820280b}
+get the amount\_\-comparison\_\-list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the amount\_\-comparison\_\-list of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3824 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null@{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null}}
+\index{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null@{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null (gint {\em report\_\-number})}\label{gsb__data__report_8h_a232972d837e5037f101cc7f4e1d08411}
+get the amount\_\-comparison\_\-only\_\-report\_\-non\_\-null
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the amount\_\-comparison\_\-only\_\-report\_\-non\_\-null of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3330 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-used@{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-used}}
+\index{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-used@{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-amount\_\-comparison\_\-used (gint {\em report\_\-number})}\label{gsb__data__report_8h_abc400fd723354a2aab046938ec38d391}
+get the amount\_\-comparison\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the amount\_\-comparison\_\-used of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3244 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-append\_\-in\_\-payee@{gsb\_\-data\_\-report\_\-get\_\-append\_\-in\_\-payee}}
+\index{gsb\_\-data\_\-report\_\-get\_\-append\_\-in\_\-payee@{gsb\_\-data\_\-report\_\-get\_\-append\_\-in\_\-payee}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-append\_\-in\_\-payee}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-append\_\-in\_\-payee (gint {\em report\_\-number})}\label{gsb__data__report_8h_afc1cb357b4bcd3737c5f3e629e85c2d3}
+get the append\_\-in\_\-payee
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the append\_\-in\_\-payee of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1566 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-budget\_\-currency@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-currency}}
+\index{gsb\_\-data\_\-report\_\-get\_\-budget\_\-currency@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-currency}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-budget\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-budget\_\-currency (gint {\em report\_\-number})}\label{gsb__data__report_8h_ac55bacd270ac28bb1ccb99bf05f56600}
+get the budget\_\-currency
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the budget\_\-currency of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2857 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-budget\_\-detail\_\-used@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-detail\_\-used}}
+\index{gsb\_\-data\_\-report\_\-get\_\-budget\_\-detail\_\-used@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-detail\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-budget\_\-detail\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-budget\_\-detail\_\-used (gint {\em report\_\-number})}\label{gsb__data__report_8h_a45e6a3c4276d00531dfdec020025e233}
+get the budget\_\-detail\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the budget\_\-detail\_\-used of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2684 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-budget\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-budget\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-budget\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-budget\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-budget\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-budget\_\-amount (gint {\em report\_\-number})}\label{gsb__data__report_8h_ab575f962ecdc5d88215734464c37f785}
+get the budget\_\-show\_\-budget\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the budget\_\-show\_\-budget\_\-amount of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2770 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-name@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-name}}
+\index{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-name@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-name}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-name (gint {\em report\_\-number})}\label{gsb__data__report_8h_a996b003e1a37decc93b190770ba98893}
+get the budget\_\-show\_\-name
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the budget\_\-show\_\-name of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2943 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget}}
+\index{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget (gint {\em report\_\-number})}\label{gsb__data__report_8h_abee9b7991ac2a4309cce782a30f4d56b}
+get the budget\_\-show\_\-sub\_\-budget
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the budget\_\-show\_\-sub\_\-budget of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2727 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-sub\_\-budget\_\-amount (gint {\em report\_\-number})}\label{gsb__data__report_8h_a47ab8953e5739e8bb7a86c08d253faf4}
+get the budget\_\-show\_\-sub\_\-budget\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the budget\_\-show\_\-sub\_\-budget\_\-amount of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2812 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-without\_\-budget@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-without\_\-budget}}
+\index{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-without\_\-budget@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-without\_\-budget}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-without\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-budget\_\-show\_\-without\_\-budget (gint {\em report\_\-number})}\label{gsb__data__report_8h_a024d23601c6cf79622a1f1c78d8aa9dc}
+get the budget\_\-show\_\-without\_\-budget
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the budget\_\-show\_\-without\_\-budget of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2900 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-budget\_\-struct@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-struct}}
+\index{gsb\_\-data\_\-report\_\-get\_\-budget\_\-struct@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-struct}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-budget\_\-struct}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-report\_\-get\_\-budget\_\-struct (gint {\em report\_\-number})}\label{gsb__data__report_8h_a73b4bbf059d42a3a4e769b935adf99e2}
+return the list of \doxyref{struct\_\-categ\_\-budget\_\-sel}{p.}{structstruct__categ__budget__sel} containing the selected budgets and sub-\/budgets
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the categ\_\-select\_\-struct of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3691 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-budget\_\-used@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-used}}
+\index{gsb\_\-data\_\-report\_\-get\_\-budget\_\-used@{gsb\_\-data\_\-report\_\-get\_\-budget\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-budget\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-budget\_\-used (gint {\em report\_\-number})}\label{gsb__data__report_8h_ac769ab6723a840d0059fe07116500866}
+get the budget\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the budget\_\-used of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2641 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-category\_\-currency@{gsb\_\-data\_\-report\_\-get\_\-category\_\-currency}}
+\index{gsb\_\-data\_\-report\_\-get\_\-category\_\-currency@{gsb\_\-data\_\-report\_\-get\_\-category\_\-currency}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-category\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-category\_\-currency (gint {\em report\_\-number})}\label{gsb__data__report_8h_ac6e52caf2a3546fea1a63e3893940e85}
+get the category\_\-currency
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the category\_\-currency of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2512 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-category\_\-detail\_\-used@{gsb\_\-data\_\-report\_\-get\_\-category\_\-detail\_\-used}}
+\index{gsb\_\-data\_\-report\_\-get\_\-category\_\-detail\_\-used@{gsb\_\-data\_\-report\_\-get\_\-category\_\-detail\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-category\_\-detail\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-category\_\-detail\_\-used (gint {\em report\_\-number})}\label{gsb__data__report_8h_ad49bc1036e429d9980dee8af4ca566f8}
+get the category\_\-detail\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the category\_\-detail\_\-used of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2339 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-category\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-category\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-category\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-category\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-category\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-category\_\-amount (gint {\em report\_\-number})}\label{gsb__data__report_8h_ab3344874887e7a1a8b6c8c697f25839d}
+get the category\_\-show\_\-category\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the category\_\-show\_\-category\_\-amount of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2425 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-name@{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-name}}
+\index{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-name@{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-name}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-name (gint {\em report\_\-number})}\label{gsb__data__report_8h_a63ce412e50b72a75e53acff971b2c543}
+get the category\_\-show\_\-name
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the category\_\-show\_\-name of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2598 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category@{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category}}
+\index{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category@{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category (gint {\em report\_\-number})}\label{gsb__data__report_8h_a88734d946b08911ec007ca161389df6b}
+get the category\_\-show\_\-sub\_\-category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the category\_\-show\_\-sub\_\-category of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2382 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-sub\_\-category\_\-amount (gint {\em report\_\-number})}\label{gsb__data__report_8h_ac9bd4b8fe61e9e585d1f096aac3593be}
+get the category\_\-show\_\-sub\_\-category\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the category\_\-show\_\-sub\_\-category\_\-amount of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2468 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-without\_\-category@{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-without\_\-category}}
+\index{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-without\_\-category@{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-without\_\-category}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-without\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-category\_\-show\_\-without\_\-category (gint {\em report\_\-number})}\label{gsb__data__report_8h_af4733ecea37c9687e09640429b1f1d36}
+get the category\_\-show\_\-without\_\-category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the category\_\-show\_\-without\_\-category of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2555 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-category\_\-struct@{gsb\_\-data\_\-report\_\-get\_\-category\_\-struct}}
+\index{gsb\_\-data\_\-report\_\-get\_\-category\_\-struct@{gsb\_\-data\_\-report\_\-get\_\-category\_\-struct}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-category\_\-struct}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-report\_\-get\_\-category\_\-struct (gint {\em report\_\-number})}\label{gsb__data__report_8h_af8cf9d659ba029877c116f4b7b2f549b}
+return the list of \doxyref{struct\_\-categ\_\-budget\_\-sel}{p.}{structstruct__categ__budget__sel} containing the selected categories and sub-\/categories
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the categ\_\-select\_\-struct of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3585 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-category\_\-used@{gsb\_\-data\_\-report\_\-get\_\-category\_\-used}}
+\index{gsb\_\-data\_\-report\_\-get\_\-category\_\-used@{gsb\_\-data\_\-report\_\-get\_\-category\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-category\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-category\_\-used (gint {\em report\_\-number})}\label{gsb__data__report_8h_af669229d09ac127bba5200c85a5c55f2}
+get the category\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the category\_\-used of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2296 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-show@{gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-show}}
+\index{gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-show@{gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-show}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-show}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-show (gint {\em report\_\-number})}\label{gsb__data__report_8h_a342b5f849aa7502164adca331cc01e70}
+get the column\_\-title\_\-show
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the column\_\-title\_\-show of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1480 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-type@{gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-type}}
+\index{gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-type@{gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-type}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-column\_\-title\_\-type (gint {\em report\_\-number})}\label{gsb__data__report_8h_a754246c573f2bada728cb53c8b8e64d2}
+get the column\_\-title\_\-type
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the column\_\-title\_\-type of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1523 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-currency\_\-general@{gsb\_\-data\_\-report\_\-get\_\-currency\_\-general}}
+\index{gsb\_\-data\_\-report\_\-get\_\-currency\_\-general@{gsb\_\-data\_\-report\_\-get\_\-currency\_\-general}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-currency\_\-general}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-currency\_\-general (gint {\em report\_\-number})}\label{gsb__data__report_8h_a612672a2c6a8f7a8d88eab53bbd675ea}
+get the currency\_\-general
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the currency\_\-general of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1437 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-date\_\-type@{gsb\_\-data\_\-report\_\-get\_\-date\_\-type}}
+\index{gsb\_\-data\_\-report\_\-get\_\-date\_\-type@{gsb\_\-data\_\-report\_\-get\_\-date\_\-type}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-date\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-date\_\-type (gint {\em report\_\-number})}\label{gsb__data__report_8h_af7a006077d16fc48a7b50dda1bc1a003}
+get the date\_\-type
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the date\_\-type of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1781 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-list@{gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-list}}
+\index{gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-list@{gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-list}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-list (gint {\em report\_\-number})}\label{gsb__data__report_8h_a3a5c318502c4291b825100997b2c1000}
+get the financial\_\-year\_\-list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the financial\_\-year\_\-list of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3415 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-split@{gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-split}}
+\index{gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-split@{gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-split}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-split}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-split (gint {\em report\_\-number})}\label{gsb__data__report_8h_a996aadce24ac64e6632f9984a358b8bc}
+get the financial\_\-year\_\-split
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the financial\_\-year\_\-split of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1738 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-type@{gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-type}}
+\index{gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-type@{gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-type}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-financial\_\-year\_\-type (gint {\em report\_\-number})}\label{gsb__data__report_8h_a7a1b2e1c08c6f27b78e33cc36b812b09}
+get the financial\_\-year\_\-type
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the financial\_\-year\_\-type of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1695 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-list@{gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-list}}
+\index{gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-list@{gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-list}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-list (gint {\em report\_\-number})}\label{gsb__data__report_8h_a3ceac05c6ab8d63dadc7c6245368874e}
+get the method\_\-of\_\-payment\_\-list this is a list of string of method of payment we want to see in the report
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the method\_\-of\_\-payment\_\-list of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3867 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-used@{gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-used}}
+\index{gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-used@{gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-method\_\-of\_\-payment\_\-used (gint {\em report\_\-number})}\label{gsb__data__report_8h_aea652d5031272334eb6d0d6dba670f2d}
+get the method\_\-of\_\-payment\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the method\_\-of\_\-payment\_\-used of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3372 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-not\_\-detail\_\-split@{gsb\_\-data\_\-report\_\-get\_\-not\_\-detail\_\-split}}
+\index{gsb\_\-data\_\-report\_\-get\_\-not\_\-detail\_\-split@{gsb\_\-data\_\-report\_\-get\_\-not\_\-detail\_\-split}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-not\_\-detail\_\-split}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-not\_\-detail\_\-split (gint {\em report\_\-number})}\label{gsb__data__report_8h_a8fadaed4b6bb256487ab1d3a96f1d810}
+get the not\_\-detail\_\-split
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the not\_\-detail\_\-split of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1351 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-payee\_\-currency@{gsb\_\-data\_\-report\_\-get\_\-payee\_\-currency}}
+\index{gsb\_\-data\_\-report\_\-get\_\-payee\_\-currency@{gsb\_\-data\_\-report\_\-get\_\-payee\_\-currency}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-payee\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-payee\_\-currency (gint {\em report\_\-number})}\label{gsb__data__report_8h_a6caa69e4c724ee89a5ce59e2be19a6fe}
+get the payee\_\-currency
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the payee\_\-currency of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3115 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-payee\_\-detail\_\-used@{gsb\_\-data\_\-report\_\-get\_\-payee\_\-detail\_\-used}}
+\index{gsb\_\-data\_\-report\_\-get\_\-payee\_\-detail\_\-used@{gsb\_\-data\_\-report\_\-get\_\-payee\_\-detail\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-payee\_\-detail\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-payee\_\-detail\_\-used (gint {\em report\_\-number})}\label{gsb__data__report_8h_ab1419810516f92c2abd2be0b8f9bbc46}
+get the payee\_\-detail\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the payee\_\-detail\_\-used of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3029 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-payee\_\-numbers@{gsb\_\-data\_\-report\_\-get\_\-payee\_\-numbers}}
+\index{gsb\_\-data\_\-report\_\-get\_\-payee\_\-numbers@{gsb\_\-data\_\-report\_\-get\_\-payee\_\-numbers}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-payee\_\-numbers}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-report\_\-get\_\-payee\_\-numbers (gint {\em report\_\-number})}\label{gsb__data__report_8h_a6fdd042f7f52de6f133b0fb00159aa54}
+get the payee\_\-numbers
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the payee\_\-numbers of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3740 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-name@{gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-name}}
+\index{gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-name@{gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-name}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-name (gint {\em report\_\-number})}\label{gsb__data__report_8h_a20ef94f2f9e40aff661015164410e781}
+get the payee\_\-show\_\-name
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the payee\_\-show\_\-name of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3158 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-payee\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-payee\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-payee\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-payee\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-payee\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-payee\_\-show\_\-payee\_\-amount (gint {\em report\_\-number})}\label{gsb__data__report_8h_ad29798d39b64acda018ddd1043d31845}
+get the payee\_\-show\_\-payee\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the payee\_\-show\_\-payee\_\-amount of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3072 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-payee\_\-used@{gsb\_\-data\_\-report\_\-get\_\-payee\_\-used}}
+\index{gsb\_\-data\_\-report\_\-get\_\-payee\_\-used@{gsb\_\-data\_\-report\_\-get\_\-payee\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-payee\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-payee\_\-used (gint {\em report\_\-number})}\label{gsb__data__report_8h_a1a3062adfe4e0dfd44c28241a9e6be74}
+get the payee\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the payee\_\-used of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2986 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-period\_\-split@{gsb\_\-data\_\-report\_\-get\_\-period\_\-split}}
+\index{gsb\_\-data\_\-report\_\-get\_\-period\_\-split@{gsb\_\-data\_\-report\_\-get\_\-period\_\-split}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-period\_\-split}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-period\_\-split (gint {\em report\_\-number})}\label{gsb__data__report_8h_ae6b88858361f9e177a6be4372786a98e}
+get the period\_\-split
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the period\_\-split of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1909 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-day@{gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-day}}
+\index{gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-day@{gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-day}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-day}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-day (gint {\em report\_\-number})}\label{gsb__data__report_8h_ade2bfa0985adb8d198819ed4017fbf69}
+get the period\_\-split\_\-day
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the period\_\-split\_\-day of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1995 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-type@{gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-type}}
+\index{gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-type@{gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-type}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-period\_\-split\_\-type (gint {\em report\_\-number})}\label{gsb__data__report_8h_ab62bea16821cbdf1770049a1f2a957dd}
+get the period\_\-split\_\-type
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the period\_\-split\_\-type of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1952 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-end@{gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-end}}
+\index{gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-end@{gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-end}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}GDate$\ast$ gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-end (gint {\em report\_\-number})}\label{gsb__data__report_8h_a3a534591a126c244500d4fb6e2e114bb}
+get the personal\_\-date\_\-end
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the personal\_\-date\_\-end of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1866 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-start@{gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-start}}
+\index{gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-start@{gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-start}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}GDate$\ast$ gsb\_\-data\_\-report\_\-get\_\-personal\_\-date\_\-start (gint {\em report\_\-number})}\label{gsb__data__report_8h_af91c5f48c615e21c7b46de6410743888}
+get the personal\_\-date\_\-start
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the personal\_\-date\_\-start of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1824 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-report\_\-by\_\-name@{gsb\_\-data\_\-report\_\-get\_\-report\_\-by\_\-name}}
+\index{gsb\_\-data\_\-report\_\-get\_\-report\_\-by\_\-name@{gsb\_\-data\_\-report\_\-get\_\-report\_\-by\_\-name}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-report\_\-by\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-report\_\-by\_\-name (const gchar $\ast$ {\em name})}\label{gsb__data__report_8h_aaefc7008e472177f918cd16aee615938}
+return the number of the report found by its name that report is stored in the buffer
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em name}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the report or 0 if not found 
+\end{DoxyReturn}
+
+
+Définition à la ligne 446 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-report\_\-can\_\-click@{gsb\_\-data\_\-report\_\-get\_\-report\_\-can\_\-click}}
+\index{gsb\_\-data\_\-report\_\-get\_\-report\_\-can\_\-click@{gsb\_\-data\_\-report\_\-get\_\-report\_\-can\_\-click}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-report\_\-can\_\-click}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-report\_\-can\_\-click (gint {\em report\_\-number})}\label{gsb__data__report_8h_ac5a36bf3cb9623e0c53a4e7a0d1f6633}
+get the report\_\-can\_\-click
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the report\_\-can\_\-click of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1609 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-report\_\-list@{gsb\_\-data\_\-report\_\-get\_\-report\_\-list}}
+\index{gsb\_\-data\_\-report\_\-get\_\-report\_\-list@{gsb\_\-data\_\-report\_\-get\_\-report\_\-list}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-report\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-report\_\-get\_\-report\_\-list (void)}\label{gsb__data__report_8h_a7a55a8189e9f34c587309954e2acbfb7}
+return a pointer on the g\_\-slist of reports carrefull : it's not a copy, so we must not free or change it
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a g\_\-slist on the reports 
+\end{DoxyReturn}
+
+
+Définition à la ligne 212 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-report\_\-name@{gsb\_\-data\_\-report\_\-get\_\-report\_\-name}}
+\index{gsb\_\-data\_\-report\_\-get\_\-report\_\-name@{gsb\_\-data\_\-report\_\-get\_\-report\_\-name}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-report\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-data\_\-report\_\-get\_\-report\_\-name (gint {\em report\_\-number})}\label{gsb__data__report_8h_ace8a87d303afdf89ef8f3a901987db83}
+get the report\_\-name
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the report\_\-name of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 488 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-report\_\-number@{gsb\_\-data\_\-report\_\-get\_\-report\_\-number}}
+\index{gsb\_\-data\_\-report\_\-get\_\-report\_\-number@{gsb\_\-data\_\-report\_\-get\_\-report\_\-number}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-report\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-report\_\-number (gpointer {\em report\_\-pointer})}\label{gsb__data__report_8h_ac2414893a361047cb656ac7a26247907}
+get the number of the report and save the pointer in the buffer which will increase the speed later
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-pointer}]a pointer to a report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the report 
+\end{DoxyReturn}
+
+
+Définition à la ligne 271 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-r@{gsb\_\-data\_\-report\_\-get\_\-show\_\-r}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-r@{gsb\_\-data\_\-report\_\-get\_\-show\_\-r}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-r}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-r (gint {\em report\_\-number})}\label{gsb__data__report_8h_af0c735cb4932dfd39c1bac8b709aac41}
+get the show\_\-r
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-r of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 534 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-bank\_\-references@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-bank\_\-references}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-bank\_\-references@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-bank\_\-references}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-bank\_\-references}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-bank\_\-references (gint {\em report\_\-number})}\label{gsb__data__report_8h_ad9ba2ec81d468b2897d7602159076a18}
+get the show\_\-report\_\-bank\_\-references
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-bank\_\-references of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1050 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-budget@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-budget}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-budget@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-budget}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-budget (gint {\em report\_\-number})}\label{gsb__data__report_8h_ae0d188ce272dba7a32193cd3b0def51a}
+get the show\_\-report\_\-budget
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-budget of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 878 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-category@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-category}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-category@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-category}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-category (gint {\em report\_\-number})}\label{gsb__data__report_8h_aa89d2ab64f4f6b8646abe25855047517}
+get the show\_\-report\_\-category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-category of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 792 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-date@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-date}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-date@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-date}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-date (gint {\em report\_\-number})}\label{gsb__data__report_8h_aed1abedff7cfc02a95dcaf2d22edb14c}
+get the show\_\-report\_\-date
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-date of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 664 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-financial\_\-year@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-financial\_\-year}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-financial\_\-year@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-financial\_\-year}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-financial\_\-year}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-financial\_\-year (gint {\em report\_\-number})}\label{gsb__data__report_8h_aaa96b52e90b04814a016c44bc68f05af}
+get the show\_\-report\_\-financial\_\-year
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-financial\_\-year of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1265 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-marked@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-marked}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-marked@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-marked}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-marked}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-marked (gint {\em report\_\-number})}\label{gsb__data__report_8h_a73804ddf13bb7adef8f0280f796029df}
+get the show\_\-report\_\-marked
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-marked of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1222 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment (gint {\em report\_\-number})}\label{gsb__data__report_8h_ad8c2e7e73636943574c5fbdca0504623}
+get the show\_\-report\_\-method\_\-of\_\-payment
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-method\_\-of\_\-payment of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1136 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content (gint {\em report\_\-number})}\label{gsb__data__report_8h_a04806d05098cdb8e2d62ed4fc08b6758}
+get the show\_\-report\_\-method\_\-of\_\-payment\_\-content
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-method\_\-of\_\-payment\_\-content of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1179 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-note@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-note}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-note@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-note}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-note}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-note (gint {\em report\_\-number})}\label{gsb__data__report_8h_a68663f18a0398ffded17aa69413cac65}
+get the show\_\-report\_\-note
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-note of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 964 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-payee@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-payee}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-payee@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-payee}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-payee}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-payee (gint {\em report\_\-number})}\label{gsb__data__report_8h_a4c1ff27e8311c12f34ec351fb4ece8c1}
+get the show\_\-report\_\-payee
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-payee of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 749 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-budget@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-budget}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-budget@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-budget}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-budget (gint {\em report\_\-number})}\label{gsb__data__report_8h_a286e3676a77392b04bb3d95301d1e31a}
+get the show\_\-report\_\-sub\_\-budget
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-sub\_\-budget of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 921 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-category@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-category}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-category@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-category}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-sub\_\-category (gint {\em report\_\-number})}\label{gsb__data__report_8h_ad1fcc27701930ed8407141e2229fc84b}
+get the show\_\-report\_\-sub\_\-category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-sub\_\-category of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 835 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-amount@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-amount (gint {\em report\_\-number})}\label{gsb__data__report_8h_a321cacb63f18e3aec2beca8b1939078f}
+get the show\_\-report\_\-transaction\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-transaction\_\-amount of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 621 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-number@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-number}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-number@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-number}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transaction\_\-number (gint {\em report\_\-number})}\label{gsb__data__report_8h_a1aaaf5b7a5cc6f02509c108607b21714}
+get the show\_\-report\_\-transaction\_\-number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-transaction\_\-number of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1093 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transactions@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transactions}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transactions@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transactions}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transactions}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-transactions (gint {\em report\_\-number})}\label{gsb__data__report_8h_a60ef2fcdc574a669ba7a14975ba532fa}
+get the show\_\-report\_\-transactions
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-transactions of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 578 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-value\_\-date@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-value\_\-date}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-value\_\-date@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-value\_\-date}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-value\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-value\_\-date (gint {\em report\_\-number})}\label{gsb__data__report_8h_ae74ac68a4250f92c23047231fd86e183}
+get the show\_\-report\_\-value\_\-date
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-value\_\-date of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 706 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-voucher@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-voucher}}
+\index{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-voucher@{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-voucher}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-voucher}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-show\_\-report\_\-voucher (gint {\em report\_\-number})}\label{gsb__data__report_8h_aace6b2c39c7cf9c260300071a9e79c8b}
+get the show\_\-report\_\-voucher
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the show\_\-report\_\-voucher of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1007 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-sorting\_\-report@{gsb\_\-data\_\-report\_\-get\_\-sorting\_\-report}}
+\index{gsb\_\-data\_\-report\_\-get\_\-sorting\_\-report@{gsb\_\-data\_\-report\_\-get\_\-sorting\_\-report}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-sorting\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-sorting\_\-report (gint {\em report\_\-number})}\label{gsb__data__report_8h_a819b84a6821b23316bbb49770677a2fd}
+get the sorting\_\-report
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the sorting\_\-report of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1308 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-sorting\_\-type@{gsb\_\-data\_\-report\_\-get\_\-sorting\_\-type}}
+\index{gsb\_\-data\_\-report\_\-get\_\-sorting\_\-type@{gsb\_\-data\_\-report\_\-get\_\-sorting\_\-type}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-sorting\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-report\_\-get\_\-sorting\_\-type (gint {\em report\_\-number})}\label{gsb__data__report_8h_a124d944a5ed747acf82c7d8986d47ee8}
+get the sorting\_\-type
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the sorting\_\-type of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3457 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-split\_\-credit\_\-debit@{gsb\_\-data\_\-report\_\-get\_\-split\_\-credit\_\-debit}}
+\index{gsb\_\-data\_\-report\_\-get\_\-split\_\-credit\_\-debit@{gsb\_\-data\_\-report\_\-get\_\-split\_\-credit\_\-debit}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-split\_\-credit\_\-debit}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-split\_\-credit\_\-debit (gint {\em report\_\-number})}\label{gsb__data__report_8h_a89c0ba1f36ce26a92b596f677ed040ea}
+get the split\_\-credit\_\-debit
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the split\_\-credit\_\-debit of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1394 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-list@{gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-list}}
+\index{gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-list@{gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-list}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-list (gint {\em report\_\-number})}\label{gsb__data__report_8h_acef51acc8cdd62ce33bf5bebdab0824d}
+get the text\_\-comparison\_\-list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the text\_\-comparison\_\-list of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3782 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-used@{gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-used}}
+\index{gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-used@{gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-text\_\-comparison\_\-used (gint {\em report\_\-number})}\label{gsb__data__report_8h_aa558931984bcd63613c24befdb7bca21}
+get the text\_\-comparison\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the text\_\-comparison\_\-used of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3201 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-transfer\_\-account\_\-numbers@{gsb\_\-data\_\-report\_\-get\_\-transfer\_\-account\_\-numbers}}
+\index{gsb\_\-data\_\-report\_\-get\_\-transfer\_\-account\_\-numbers@{gsb\_\-data\_\-report\_\-get\_\-transfer\_\-account\_\-numbers}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-transfer\_\-account\_\-numbers}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-report\_\-get\_\-transfer\_\-account\_\-numbers (gint {\em report\_\-number})}\label{gsb__data__report_8h_a6929187165177b9a96a64e254ac8ef5a}
+get the transfer\_\-account\_\-numbers
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the transfer\_\-account\_\-numbers of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3541 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-transfer\_\-choice@{gsb\_\-data\_\-report\_\-get\_\-transfer\_\-choice}}
+\index{gsb\_\-data\_\-report\_\-get\_\-transfer\_\-choice@{gsb\_\-data\_\-report\_\-get\_\-transfer\_\-choice}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-transfer\_\-choice}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-transfer\_\-choice (gint {\em report\_\-number})}\label{gsb__data__report_8h_ac06e2bf2147480c80e6b718b9a4684c8}
+get the transfer\_\-choice
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the transfer\_\-choice of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2210 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-transfer\_\-reports\_\-only@{gsb\_\-data\_\-report\_\-get\_\-transfer\_\-reports\_\-only}}
+\index{gsb\_\-data\_\-report\_\-get\_\-transfer\_\-reports\_\-only@{gsb\_\-data\_\-report\_\-get\_\-transfer\_\-reports\_\-only}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-transfer\_\-reports\_\-only}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-transfer\_\-reports\_\-only (gint {\em report\_\-number})}\label{gsb__data__report_8h_a84ed85db03b9ff0dbf79a4fa05f77cf9}
+get the transfer\_\-reports\_\-only
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the transfer\_\-reports\_\-only of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2253 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-get\_\-use\_\-financial\_\-year@{gsb\_\-data\_\-report\_\-get\_\-use\_\-financial\_\-year}}
+\index{gsb\_\-data\_\-report\_\-get\_\-use\_\-financial\_\-year@{gsb\_\-data\_\-report\_\-get\_\-use\_\-financial\_\-year}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-get\_\-use\_\-financial\_\-year}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-get\_\-use\_\-financial\_\-year (gint {\em report\_\-number})}\label{gsb__data__report_8h_a333c4b8854b3251bcaed0af381f6c9f0}
+get the use\_\-financial\_\-year
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the number of the report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the use\_\-financial\_\-year of the report, -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1652 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-init\_\-variables@{gsb\_\-data\_\-report\_\-init\_\-variables}}
+\index{gsb\_\-data\_\-report\_\-init\_\-variables@{gsb\_\-data\_\-report\_\-init\_\-variables}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-init\_\-variables}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-init\_\-variables (void)}\label{gsb__data__report_8h_a3c8ddc26a685eae6f27830b399f3786c}
+set the reports global variables to NULL, usually when we init all the global variables
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 185 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-max\_\-number@{gsb\_\-data\_\-report\_\-max\_\-number}}
+\index{gsb\_\-data\_\-report\_\-max\_\-number@{gsb\_\-data\_\-report\_\-max\_\-number}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-max\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-max\_\-number (void)}\label{gsb__data__report_8h_ac674afd1a5183b64dff409b0ad56ceed}
+find and return the last number of report
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+last number of report 
+\end{DoxyReturn}
+
+
+Définition à la ligne 295 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-move\_\-report@{gsb\_\-data\_\-report\_\-move\_\-report}}
+\index{gsb\_\-data\_\-report\_\-move\_\-report@{gsb\_\-data\_\-report\_\-move\_\-report}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-move\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-move\_\-report (gint {\em report\_\-number}, \/  gint {\em dest\_\-report\_\-number})}\label{gsb__data__report_8h_a70b1952b53d013aa7a3b348e59b09d9f}
+change the position of an report in the list of reports
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]the report we want to move \item[{\em dest\_\-report\_\-number}]the report before we want to move, or -\/1 to set at the end of list\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 4030 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-new@{gsb\_\-data\_\-report\_\-new}}
+\index{gsb\_\-data\_\-report\_\-new@{gsb\_\-data\_\-report\_\-new}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-new (gchar $\ast$ {\em name})}\label{gsb__data__report_8h_a82fe1c2ce10e0375e0468b35d6727fc2}
+create a new report, give it a number, append it to the list and return the number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em name}]the name of the report (can be freed after, it's a copy) or NULL\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the new report 
+\end{DoxyReturn}
+
+
+Définition à la ligne 326 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-new\_\-with\_\-number@{gsb\_\-data\_\-report\_\-new\_\-with\_\-number}}
+\index{gsb\_\-data\_\-report\_\-new\_\-with\_\-number@{gsb\_\-data\_\-report\_\-new\_\-with\_\-number}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-new\_\-with\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-report\_\-new\_\-with\_\-number (gint {\em number})}\label{gsb__data__report_8h_a930c53191d6cec63aa29af94110978b3}
+create a new report with a number, append it to the list and return the number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number}]the number we want to give to that report\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the new report 
+\end{DoxyReturn}
+
+
+Définition à la ligne 352 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-remove@{gsb\_\-data\_\-report\_\-remove}}
+\index{gsb\_\-data\_\-report\_\-remove@{gsb\_\-data\_\-report\_\-remove}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-remove (gint {\em no\_\-report})}\label{gsb__data__report_8h_a65c3e90fd33b0f7b6b2d3260629a77b8}
+remove a report
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em no\_\-report}]the report we want to remove\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 422 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-account\_\-group\_\-reports@{gsb\_\-data\_\-report\_\-set\_\-account\_\-group\_\-reports}}
+\index{gsb\_\-data\_\-report\_\-set\_\-account\_\-group\_\-reports@{gsb\_\-data\_\-report\_\-set\_\-account\_\-group\_\-reports}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-account\_\-group\_\-reports}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-account\_\-group\_\-reports (gint {\em report\_\-number}, \/  gint {\em account\_\-group\_\-reports})}\label{gsb__data__report_8h_abcf12d1638353b898d37e62c8e1389fb}
+set the account\_\-group\_\-reports
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em account\_\-group\_\-reports}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2101 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-account\_\-numbers@{gsb\_\-data\_\-report\_\-set\_\-account\_\-numbers}}
+\index{gsb\_\-data\_\-report\_\-set\_\-account\_\-numbers@{gsb\_\-data\_\-report\_\-set\_\-account\_\-numbers}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-account\_\-numbers}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-account\_\-numbers (gint {\em report\_\-number}, \/  GSList $\ast$ {\em account\_\-numbers})}\label{gsb__data__report_8h_aa4ef1bd5e516fcd7378accc678888668}
+set the account\_\-numbers
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em account\_\-numbers}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3519 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-amount (gint {\em report\_\-number}, \/  gint {\em account\_\-show\_\-amount})}\label{gsb__data__report_8h_a0947d46d6ad023cc68c8763a0fdccc52}
+set the account\_\-show\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em account\_\-show\_\-amount}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2144 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-name@{gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-name}}
+\index{gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-name@{gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-name}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-account\_\-show\_\-name (gint {\em report\_\-number}, \/  gint {\em account\_\-show\_\-name})}\label{gsb__data__report_8h_a862b85e96ac5068869e33ec932f638ab}
+set the account\_\-show\_\-name
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em account\_\-show\_\-name}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2187 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-account\_\-use\_\-chosen@{gsb\_\-data\_\-report\_\-set\_\-account\_\-use\_\-chosen}}
+\index{gsb\_\-data\_\-report\_\-set\_\-account\_\-use\_\-chosen@{gsb\_\-data\_\-report\_\-set\_\-account\_\-use\_\-chosen}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-account\_\-use\_\-chosen}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-account\_\-use\_\-chosen (gint {\em report\_\-number}, \/  gint {\em account\_\-use\_\-chosen})}\label{gsb__data__report_8h_ac54652a76d6a17444eb69fa1ee7e5db0}
+set the account\_\-use\_\-chosen
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em account\_\-use\_\-chosen}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2058 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-currency@{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-currency}}
+\index{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-currency@{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-currency}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-currency (gint {\em report\_\-number}, \/  gint {\em amount\_\-comparison\_\-currency})}\label{gsb__data__report_8h_a7afbedc46c35638211fefa91a96f2685}
+set the amount\_\-comparison\_\-currency
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em amount\_\-comparison\_\-currency}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3307 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-list@{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-list}}
+\index{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-list@{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-list}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-list (gint {\em report\_\-number}, \/  GSList $\ast$ {\em amount\_\-comparison\_\-list})}\label{gsb__data__report_8h_a6eb5115463b2a01bb92cc146d8892ba8}
+set the amount\_\-comparison\_\-list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em amount\_\-comparison\_\-list}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3844 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null@{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null}}
+\index{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null@{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-only\_\-report\_\-non\_\-null (gint {\em report\_\-number}, \/  gint {\em amount\_\-comparison\_\-only\_\-report\_\-non\_\-null})}\label{gsb__data__report_8h_a1750e8d64c30f9fde6862653b0b32d57}
+set the amount\_\-comparison\_\-only\_\-report\_\-non\_\-null
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em amount\_\-comparison\_\-only\_\-report\_\-non\_\-null}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3350 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-used@{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-used}}
+\index{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-used@{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-amount\_\-comparison\_\-used (gint {\em report\_\-number}, \/  gint {\em amount\_\-comparison\_\-used})}\label{gsb__data__report_8h_a2859e07734283fd656f77dbb1442b965}
+set the amount\_\-comparison\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em amount\_\-comparison\_\-used}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3264 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-append\_\-in\_\-payee@{gsb\_\-data\_\-report\_\-set\_\-append\_\-in\_\-payee}}
+\index{gsb\_\-data\_\-report\_\-set\_\-append\_\-in\_\-payee@{gsb\_\-data\_\-report\_\-set\_\-append\_\-in\_\-payee}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-append\_\-in\_\-payee}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-append\_\-in\_\-payee (gint {\em report\_\-number}, \/  gint {\em append\_\-in\_\-payee})}\label{gsb__data__report_8h_a27d3aea4ad671f1c0ffbafa5eb304892}
+set the append\_\-in\_\-payee
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em append\_\-in\_\-payee}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1586 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-budget\_\-currency@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-currency}}
+\index{gsb\_\-data\_\-report\_\-set\_\-budget\_\-currency@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-currency}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-budget\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-budget\_\-currency (gint {\em report\_\-number}, \/  gint {\em budget\_\-currency})}\label{gsb__data__report_8h_a77ed5a9735965540ea81585f9a6350f2}
+set the budget\_\-currency
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em budget\_\-currency}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2877 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-budget\_\-detail\_\-used@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-detail\_\-used}}
+\index{gsb\_\-data\_\-report\_\-set\_\-budget\_\-detail\_\-used@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-detail\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-budget\_\-detail\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-budget\_\-detail\_\-used (gint {\em report\_\-number}, \/  gint {\em budget\_\-detail\_\-used})}\label{gsb__data__report_8h_ac6285c2f45a4a2e2be883dc00eb1f121}
+set the budget\_\-detail\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em budget\_\-detail\_\-used}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2704 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-budget\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-budget\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-budget\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-budget\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-budget\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-budget\_\-amount (gint {\em report\_\-number}, \/  gint {\em budget\_\-show\_\-budget\_\-amount})}\label{gsb__data__report_8h_aa68de6945655fd72555983a8390f0dec}
+set the budget\_\-show\_\-budget\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em budget\_\-show\_\-budget\_\-amount}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2790 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-name@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-name}}
+\index{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-name@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-name}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-name (gint {\em report\_\-number}, \/  gint {\em budget\_\-show\_\-name})}\label{gsb__data__report_8h_a7824c4a94a88b7fd49c6c73d442b048d}
+set the budget\_\-show\_\-name
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em budget\_\-show\_\-name}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2963 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget}}
+\index{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget (gint {\em report\_\-number}, \/  gint {\em budget\_\-show\_\-sub\_\-budget})}\label{gsb__data__report_8h_a0256748105b93120b1fbac5ce910f3db}
+set the budget\_\-show\_\-sub\_\-budget
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em budget\_\-show\_\-sub\_\-budget}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2747 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-sub\_\-budget\_\-amount (gint {\em report\_\-number}, \/  gint {\em budget\_\-show\_\-sub\_\-budget\_\-amount})}\label{gsb__data__report_8h_a18a21a4e17c75f8497793c8140546a30}
+set the budget\_\-show\_\-sub\_\-budget\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em budget\_\-show\_\-sub\_\-budget\_\-amount}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2832 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-without\_\-budget@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-without\_\-budget}}
+\index{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-without\_\-budget@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-without\_\-budget}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-without\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-budget\_\-show\_\-without\_\-budget (gint {\em report\_\-number}, \/  gint {\em budget\_\-show\_\-without\_\-budget})}\label{gsb__data__report_8h_a4691d5cdf4228cbf67682f9d5ba15df6}
+set the budget\_\-show\_\-without\_\-budget
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em budget\_\-show\_\-without\_\-budget}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2920 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-budget\_\-struct@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-struct}}
+\index{gsb\_\-data\_\-report\_\-set\_\-budget\_\-struct@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-struct}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-budget\_\-struct}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-budget\_\-struct (gint {\em report\_\-number}, \/  GSList $\ast$ {\em budget\_\-select\_\-struct})}\label{gsb__data__report_8h_a487b3bc75744eb56f0e976f0e4619bf6}
+set the list of budgets struct this is a list of \doxyref{struct\_\-categ\_\-budget\_\-sel}{p.}{structstruct__categ__budget__sel} if there were a previous budget struct list, we free it before
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em categ\_\-select\_\-struct}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3713 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-budget\_\-used@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-used}}
+\index{gsb\_\-data\_\-report\_\-set\_\-budget\_\-used@{gsb\_\-data\_\-report\_\-set\_\-budget\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-budget\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-budget\_\-used (gint {\em report\_\-number}, \/  gint {\em budget\_\-used})}\label{gsb__data__report_8h_adcc6a605473017b85c9247e8993ed6d2}
+set the budget\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em budget\_\-used}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2661 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-category\_\-currency@{gsb\_\-data\_\-report\_\-set\_\-category\_\-currency}}
+\index{gsb\_\-data\_\-report\_\-set\_\-category\_\-currency@{gsb\_\-data\_\-report\_\-set\_\-category\_\-currency}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-category\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-category\_\-currency (gint {\em report\_\-number}, \/  gint {\em category\_\-currency})}\label{gsb__data__report_8h_a658593daf7e49a64355a99ad6cd06a85}
+set the category\_\-currency
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em category\_\-currency}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2532 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-category\_\-detail\_\-used@{gsb\_\-data\_\-report\_\-set\_\-category\_\-detail\_\-used}}
+\index{gsb\_\-data\_\-report\_\-set\_\-category\_\-detail\_\-used@{gsb\_\-data\_\-report\_\-set\_\-category\_\-detail\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-category\_\-detail\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-category\_\-detail\_\-used (gint {\em report\_\-number}, \/  gint {\em category\_\-detail\_\-used})}\label{gsb__data__report_8h_a3e57d2f10e345722eef212b2651445ac}
+set the category\_\-detail\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em category\_\-detail\_\-used}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2359 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-category\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-category\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-category\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-category\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-category\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-category\_\-amount (gint {\em report\_\-number}, \/  gint {\em category\_\-show\_\-category\_\-amount})}\label{gsb__data__report_8h_adffc908b069708969325ace8c9458dba}
+set the category\_\-show\_\-category\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em category\_\-show\_\-category\_\-amount}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2445 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-name@{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-name}}
+\index{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-name@{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-name}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-name (gint {\em report\_\-number}, \/  gint {\em category\_\-show\_\-name})}\label{gsb__data__report_8h_ab9f1fb9448436b4c66f4531c812f83ed}
+set the category\_\-show\_\-name
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em category\_\-show\_\-name}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2618 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category@{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category}}
+\index{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category@{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category (gint {\em report\_\-number}, \/  gint {\em category\_\-show\_\-sub\_\-category})}\label{gsb__data__report_8h_ae828391902dac653842424728c1145c8}
+set the category\_\-show\_\-sub\_\-category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em category\_\-show\_\-sub\_\-category}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2402 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-sub\_\-category\_\-amount (gint {\em report\_\-number}, \/  gint {\em category\_\-show\_\-sub\_\-category\_\-amount})}\label{gsb__data__report_8h_a5dcb920f8a7a54d32c3946ebc37ecd84}
+set the category\_\-show\_\-sub\_\-category\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em category\_\-show\_\-sub\_\-category\_\-amount}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2488 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-without\_\-category@{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-without\_\-category}}
+\index{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-without\_\-category@{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-without\_\-category}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-without\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-category\_\-show\_\-without\_\-category (gint {\em report\_\-number}, \/  gint {\em category\_\-show\_\-without\_\-category})}\label{gsb__data__report_8h_a33d95bde5fe8a0234bd1cae6b95343a6}
+set the category\_\-show\_\-without\_\-category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em category\_\-show\_\-without\_\-category}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2575 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-category\_\-struct@{gsb\_\-data\_\-report\_\-set\_\-category\_\-struct}}
+\index{gsb\_\-data\_\-report\_\-set\_\-category\_\-struct@{gsb\_\-data\_\-report\_\-set\_\-category\_\-struct}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-category\_\-struct}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-category\_\-struct (gint {\em report\_\-number}, \/  GSList $\ast$ {\em categ\_\-select\_\-struct})}\label{gsb__data__report_8h_a22af1dd38a4fdfdbf05c0ae2705d965a}
+set the list of \doxyref{struct\_\-categ\_\-budget\_\-sel}{p.}{structstruct__categ__budget__sel} this is a list of \doxyref{struct\_\-categ\_\-budget\_\-sel}{p.}{structstruct__categ__budget__sel} if there were a previous category struct list, we free it before
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em categ\_\-select\_\-struct}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3607 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-category\_\-used@{gsb\_\-data\_\-report\_\-set\_\-category\_\-used}}
+\index{gsb\_\-data\_\-report\_\-set\_\-category\_\-used@{gsb\_\-data\_\-report\_\-set\_\-category\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-category\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-category\_\-used (gint {\em report\_\-number}, \/  gint {\em category\_\-used})}\label{gsb__data__report_8h_a8214ff79a8eda5c90ced8765cd4d2332}
+set the category\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em category\_\-used}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2316 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-show@{gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-show}}
+\index{gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-show@{gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-show}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-show}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-show (gint {\em report\_\-number}, \/  gint {\em column\_\-title\_\-show})}\label{gsb__data__report_8h_aca83800b33424ae916e6f4c0a5ceed4c}
+set the column\_\-title\_\-show
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em column\_\-title\_\-show}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1500 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-type@{gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-type}}
+\index{gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-type@{gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-type}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-column\_\-title\_\-type (gint {\em report\_\-number}, \/  gint {\em column\_\-title\_\-type})}\label{gsb__data__report_8h_acfd5e551906807174bc7cdf2dd49b169}
+set the column\_\-title\_\-type
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em column\_\-title\_\-type}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1543 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-currency\_\-general@{gsb\_\-data\_\-report\_\-set\_\-currency\_\-general}}
+\index{gsb\_\-data\_\-report\_\-set\_\-currency\_\-general@{gsb\_\-data\_\-report\_\-set\_\-currency\_\-general}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-currency\_\-general}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-currency\_\-general (gint {\em report\_\-number}, \/  gint {\em currency\_\-general})}\label{gsb__data__report_8h_a62c52c55575358b3f8e6a5bc2b609cd1}
+set the currency\_\-general
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em currency\_\-general}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1457 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-date\_\-type@{gsb\_\-data\_\-report\_\-set\_\-date\_\-type}}
+\index{gsb\_\-data\_\-report\_\-set\_\-date\_\-type@{gsb\_\-data\_\-report\_\-set\_\-date\_\-type}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-date\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-date\_\-type (gint {\em report\_\-number}, \/  gint {\em date\_\-type})}\label{gsb__data__report_8h_a32f4be4d98f68b6c96ca94bebb79de20}
+set the date\_\-type
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em date\_\-type}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1801 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-list@{gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-list}}
+\index{gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-list@{gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-list}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-list (gint {\em report\_\-number}, \/  GSList $\ast$ {\em financial\_\-year\_\-list})}\label{gsb__data__report_8h_a34aae9a3c02a7e90ff33ce4e4559809c}
+set the financial\_\-year\_\-list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em financial\_\-year\_\-list}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3435 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-split@{gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-split}}
+\index{gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-split@{gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-split}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-split}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-split (gint {\em report\_\-number}, \/  gint {\em financial\_\-year\_\-split})}\label{gsb__data__report_8h_ab5a189185447f48b12879aea97930145}
+set the financial\_\-year\_\-split
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em financial\_\-year\_\-split}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1758 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-type@{gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-type}}
+\index{gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-type@{gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-type}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-financial\_\-year\_\-type (gint {\em report\_\-number}, \/  gint {\em financial\_\-year\_\-type})}\label{gsb__data__report_8h_a96718834b16c38b11763fbc814f5e086}
+set the financial\_\-year\_\-type
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em financial\_\-year\_\-type}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1715 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-list@{gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-list}}
+\index{gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-list@{gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-list}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-list (gint {\em report\_\-number}, \/  GSList $\ast$ {\em method\_\-of\_\-payment\_\-list})}\label{gsb__data__report_8h_a562272db6e3cedb588ddc4369fd600ca}
+set the method\_\-of\_\-payment\_\-list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em method\_\-of\_\-payment\_\-list}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3887 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-used@{gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-used}}
+\index{gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-used@{gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-method\_\-of\_\-payment\_\-used (gint {\em report\_\-number}, \/  gint {\em method\_\-of\_\-payment\_\-used})}\label{gsb__data__report_8h_ac09945d5127067695248a15d0d451c6f}
+set the method\_\-of\_\-payment\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em method\_\-of\_\-payment\_\-used}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3392 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-not\_\-detail\_\-split@{gsb\_\-data\_\-report\_\-set\_\-not\_\-detail\_\-split}}
+\index{gsb\_\-data\_\-report\_\-set\_\-not\_\-detail\_\-split@{gsb\_\-data\_\-report\_\-set\_\-not\_\-detail\_\-split}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-not\_\-detail\_\-split}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-not\_\-detail\_\-split (gint {\em report\_\-number}, \/  gint {\em not\_\-detail\_\-split})}\label{gsb__data__report_8h_a2e0c60e9d8f77c74b9337ccc96e9a78f}
+set the not\_\-detail\_\-split
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em not\_\-detail\_\-split}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1371 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-payee\_\-currency@{gsb\_\-data\_\-report\_\-set\_\-payee\_\-currency}}
+\index{gsb\_\-data\_\-report\_\-set\_\-payee\_\-currency@{gsb\_\-data\_\-report\_\-set\_\-payee\_\-currency}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-payee\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-payee\_\-currency (gint {\em report\_\-number}, \/  gint {\em payee\_\-currency})}\label{gsb__data__report_8h_a182247da4a5f2d536eda8e47b99a4af6}
+set the payee\_\-currency
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em payee\_\-currency}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3135 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-payee\_\-detail\_\-used@{gsb\_\-data\_\-report\_\-set\_\-payee\_\-detail\_\-used}}
+\index{gsb\_\-data\_\-report\_\-set\_\-payee\_\-detail\_\-used@{gsb\_\-data\_\-report\_\-set\_\-payee\_\-detail\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-payee\_\-detail\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-payee\_\-detail\_\-used (gint {\em report\_\-number}, \/  gint {\em payee\_\-detail\_\-used})}\label{gsb__data__report_8h_a589f69a29f71be146999e89481b03154}
+set the payee\_\-detail\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em payee\_\-detail\_\-used}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3049 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-payee\_\-numbers@{gsb\_\-data\_\-report\_\-set\_\-payee\_\-numbers}}
+\index{gsb\_\-data\_\-report\_\-set\_\-payee\_\-numbers@{gsb\_\-data\_\-report\_\-set\_\-payee\_\-numbers}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-payee\_\-numbers}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-payee\_\-numbers (gint {\em report\_\-number}, \/  GSList $\ast$ {\em payee\_\-numbers})}\label{gsb__data__report_8h_afc7b7b621ea125bac254c5aa8b9400d1}
+set the payee\_\-numbers
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em payee\_\-numbers}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3760 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-name@{gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-name}}
+\index{gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-name@{gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-name}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-name (gint {\em report\_\-number}, \/  gint {\em payee\_\-show\_\-name})}\label{gsb__data__report_8h_adf7170b9e6919b4e4cc4bf7c17884489}
+set the payee\_\-show\_\-name
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em payee\_\-show\_\-name}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3178 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-payee\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-payee\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-payee\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-payee\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-payee\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-payee\_\-show\_\-payee\_\-amount (gint {\em report\_\-number}, \/  gint {\em payee\_\-show\_\-payee\_\-amount})}\label{gsb__data__report_8h_abd9675b402887c4bd3ef03822176834f}
+set the payee\_\-show\_\-payee\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em payee\_\-show\_\-payee\_\-amount}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3092 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-payee\_\-used@{gsb\_\-data\_\-report\_\-set\_\-payee\_\-used}}
+\index{gsb\_\-data\_\-report\_\-set\_\-payee\_\-used@{gsb\_\-data\_\-report\_\-set\_\-payee\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-payee\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-payee\_\-used (gint {\em report\_\-number}, \/  gint {\em payee\_\-used})}\label{gsb__data__report_8h_afc3cfa2b75c2f93fd173149de4b7f716}
+set the payee\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em payee\_\-used}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3006 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-period\_\-split@{gsb\_\-data\_\-report\_\-set\_\-period\_\-split}}
+\index{gsb\_\-data\_\-report\_\-set\_\-period\_\-split@{gsb\_\-data\_\-report\_\-set\_\-period\_\-split}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-period\_\-split}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-period\_\-split (gint {\em report\_\-number}, \/  gint {\em period\_\-split})}\label{gsb__data__report_8h_a82dbac52eaaab86d4183ed4609f96d8b}
+set the period\_\-split
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em period\_\-split}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1929 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-day@{gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-day}}
+\index{gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-day@{gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-day}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-day}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-day (gint {\em report\_\-number}, \/  gint {\em period\_\-split\_\-day})}\label{gsb__data__report_8h_a02ed60f2f7e277b7634edb786376fd98}
+set the period\_\-split\_\-day
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em period\_\-split\_\-day}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2015 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-type@{gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-type}}
+\index{gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-type@{gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-type}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-period\_\-split\_\-type (gint {\em report\_\-number}, \/  gint {\em period\_\-split\_\-type})}\label{gsb__data__report_8h_a38b69c288d5827f9604f81066b79ea6f}
+set the period\_\-split\_\-type
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em period\_\-split\_\-type}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1972 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-end@{gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-end}}
+\index{gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-end@{gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-end}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-end}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-end (gint {\em report\_\-number}, \/  GDate $\ast$ {\em personal\_\-date\_\-end})}\label{gsb__data__report_8h_aa78f798f8271be7673969325cfcc6af3}
+set the personal\_\-date\_\-end
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em personal\_\-date\_\-end}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1886 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-start@{gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-start}}
+\index{gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-start@{gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-start}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-personal\_\-date\_\-start (gint {\em report\_\-number}, \/  GDate $\ast$ {\em personal\_\-date\_\-start})}\label{gsb__data__report_8h_a383795b5a8f79f6e2503b6a3c06a55ce}
+set the personal\_\-date\_\-start
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em personal\_\-date\_\-start}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1844 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-report\_\-can\_\-click@{gsb\_\-data\_\-report\_\-set\_\-report\_\-can\_\-click}}
+\index{gsb\_\-data\_\-report\_\-set\_\-report\_\-can\_\-click@{gsb\_\-data\_\-report\_\-set\_\-report\_\-can\_\-click}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-report\_\-can\_\-click}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-report\_\-can\_\-click (gint {\em report\_\-number}, \/  gint {\em report\_\-can\_\-click})}\label{gsb__data__report_8h_a71ab810cbda85aae7c911ffd4a0724c7}
+set the report\_\-can\_\-click
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em report\_\-can\_\-click}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1629 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-report\_\-name@{gsb\_\-data\_\-report\_\-set\_\-report\_\-name}}
+\index{gsb\_\-data\_\-report\_\-set\_\-report\_\-name@{gsb\_\-data\_\-report\_\-set\_\-report\_\-name}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-report\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-report\_\-name (gint {\em report\_\-number}, \/  const gchar $\ast$ {\em report\_\-name})}\label{gsb__data__report_8h_a25bdbca8cfa9b81378623973645112df}
+set the report\_\-name
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em report\_\-name}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 508 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-r@{gsb\_\-data\_\-report\_\-set\_\-show\_\-r}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-r@{gsb\_\-data\_\-report\_\-set\_\-show\_\-r}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-r}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-r (gint {\em report\_\-number}, \/  gint {\em show\_\-r})}\label{gsb__data__report_8h_a80450389b25e382a23c35ca150b53ff1}
+set the show\_\-r
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-r}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 554 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-bank\_\-references@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-bank\_\-references}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-bank\_\-references@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-bank\_\-references}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-bank\_\-references}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-bank\_\-references (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-bank\_\-references})}\label{gsb__data__report_8h_adc6d6f473b93adb284aec30cbf9a39fd}
+set the show\_\-report\_\-bank\_\-references
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-bank\_\-references}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1070 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-budget@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-budget}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-budget@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-budget}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-budget (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-budget})}\label{gsb__data__report_8h_a2621abe461aea953e4c83dfc8652da07}
+set the show\_\-report\_\-budget
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-budget}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 898 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-category@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-category}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-category@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-category}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-category (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-category})}\label{gsb__data__report_8h_aba338bba9af6a88f931479b0287e6530}
+set the show\_\-report\_\-category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-category}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 812 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-date@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-date}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-date@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-date}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-date (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-date})}\label{gsb__data__report_8h_abd6bd7b0e41dd49d856427d9dd5d023b}
+set the show\_\-report\_\-date
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-date}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 684 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-financial\_\-year@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-financial\_\-year}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-financial\_\-year@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-financial\_\-year}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-financial\_\-year}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-financial\_\-year (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-financial\_\-year})}\label{gsb__data__report_8h_a4a0d35c886f0a006393f10a7760efcb6}
+set the show\_\-report\_\-financial\_\-year
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-financial\_\-year}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1285 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-marked@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-marked}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-marked@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-marked}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-marked}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-marked (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-marked})}\label{gsb__data__report_8h_a086f3a436568144e3dd667ef01549942}
+set the show\_\-report\_\-marked
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-marked}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1242 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-method\_\-of\_\-payment})}\label{gsb__data__report_8h_a9b64b1f7da9c50dce29b7469ac1c1038}
+set the show\_\-report\_\-method\_\-of\_\-payment
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-method\_\-of\_\-payment}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1156 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-method\_\-of\_\-payment\_\-content (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-method\_\-of\_\-payment\_\-content})}\label{gsb__data__report_8h_acdc9553325bb223f4a53295f0c9e070e}
+set the show\_\-report\_\-method\_\-of\_\-payment\_\-content
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-method\_\-of\_\-payment\_\-content}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1199 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-note@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-note}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-note@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-note}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-note}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-note (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-note})}\label{gsb__data__report_8h_ad9acbf87438e562995060bcc68942441}
+set the show\_\-report\_\-note
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-note}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 984 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-payee@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-payee}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-payee@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-payee}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-payee}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-payee (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-payee})}\label{gsb__data__report_8h_adb330e5809198a0bb7156014be6c20b6}
+set the show\_\-report\_\-payee
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-payee}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 769 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-budget@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-budget}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-budget@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-budget}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-budget}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-budget (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-sub\_\-budget})}\label{gsb__data__report_8h_a7ba9d925d29e26d8545cc4ce4dbcc424}
+set the show\_\-report\_\-sub\_\-budget
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-sub\_\-budget}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 941 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-category@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-category}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-category@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-category}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-category}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-sub\_\-category (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-sub\_\-category})}\label{gsb__data__report_8h_af75663a9483d5bb68d91f60a1490c7ab}
+set the show\_\-report\_\-sub\_\-category
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-sub\_\-category}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 855 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-amount}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-amount@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-amount}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-amount (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-transaction\_\-amount})}\label{gsb__data__report_8h_a694ac1c5edad44bec026422a639e1a55}
+set the show\_\-report\_\-transaction\_\-amount
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-transaction\_\-amount}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 641 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-number@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-number}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-number@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-number}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transaction\_\-number (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-transaction\_\-number})}\label{gsb__data__report_8h_a45309025ed698120391b6606e1498119}
+set the show\_\-report\_\-transaction\_\-number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-transaction\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1113 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transactions@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transactions}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transactions@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transactions}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transactions}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-transactions (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-transactions})}\label{gsb__data__report_8h_ab73275f9e10bbb7227e1f267069fce51}
+set the show\_\-report\_\-transactions
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-transactions}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 598 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-value\_\-date@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-value\_\-date}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-value\_\-date@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-value\_\-date}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-value\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-value\_\-date (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-value\_\-date})}\label{gsb__data__report_8h_a5523d4f53bf5ed0a38f770d264000e8f}
+set the show\_\-report\_\-value\_\-date
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-value\_\-date}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 726 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-voucher@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-voucher}}
+\index{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-voucher@{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-voucher}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-voucher}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-show\_\-report\_\-voucher (gint {\em report\_\-number}, \/  gint {\em show\_\-report\_\-voucher})}\label{gsb__data__report_8h_adec44b9f95dce01af079008b55fef237}
+set the show\_\-report\_\-voucher
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em show\_\-report\_\-voucher}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1027 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-sorting\_\-report@{gsb\_\-data\_\-report\_\-set\_\-sorting\_\-report}}
+\index{gsb\_\-data\_\-report\_\-set\_\-sorting\_\-report@{gsb\_\-data\_\-report\_\-set\_\-sorting\_\-report}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-sorting\_\-report}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-sorting\_\-report (gint {\em report\_\-number}, \/  gint {\em sorting\_\-report})}\label{gsb__data__report_8h_a0fd1ad8543961f2d468ddc471dbf8ca7}
+set the sorting\_\-report
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em sorting\_\-report}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1328 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-sorting\_\-type@{gsb\_\-data\_\-report\_\-set\_\-sorting\_\-type}}
+\index{gsb\_\-data\_\-report\_\-set\_\-sorting\_\-type@{gsb\_\-data\_\-report\_\-set\_\-sorting\_\-type}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-sorting\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-sorting\_\-type (gint {\em report\_\-number}, \/  GSList $\ast$ {\em sorting\_\-type})}\label{gsb__data__report_8h_ac470e04ffa4140d369eaca9e93523f3f}
+set the sorting\_\-type
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em sorting\_\-type}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3477 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-split\_\-credit\_\-debit@{gsb\_\-data\_\-report\_\-set\_\-split\_\-credit\_\-debit}}
+\index{gsb\_\-data\_\-report\_\-set\_\-split\_\-credit\_\-debit@{gsb\_\-data\_\-report\_\-set\_\-split\_\-credit\_\-debit}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-split\_\-credit\_\-debit}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-split\_\-credit\_\-debit (gint {\em report\_\-number}, \/  gint {\em split\_\-credit\_\-debit})}\label{gsb__data__report_8h_a4e04bc87652541afa8393f847edc382a}
+set the split\_\-credit\_\-debit
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em split\_\-credit\_\-debit}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1414 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-list@{gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-list}}
+\index{gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-list@{gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-list}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-list (gint {\em report\_\-number}, \/  GSList $\ast$ {\em text\_\-comparison\_\-list})}\label{gsb__data__report_8h_a99112b283e821d4a6cf2195f7ccce028}
+set the text\_\-comparison\_\-list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em text\_\-comparison\_\-list}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3802 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-used@{gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-used}}
+\index{gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-used@{gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-used}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-used}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-text\_\-comparison\_\-used (gint {\em report\_\-number}, \/  gint {\em text\_\-comparison\_\-used})}\label{gsb__data__report_8h_a2fde1f7541c639ea299a80a1020a4090}
+set the text\_\-comparison\_\-used
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em text\_\-comparison\_\-used}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3221 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-transfer\_\-account\_\-numbers@{gsb\_\-data\_\-report\_\-set\_\-transfer\_\-account\_\-numbers}}
+\index{gsb\_\-data\_\-report\_\-set\_\-transfer\_\-account\_\-numbers@{gsb\_\-data\_\-report\_\-set\_\-transfer\_\-account\_\-numbers}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-transfer\_\-account\_\-numbers}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-transfer\_\-account\_\-numbers (gint {\em report\_\-number}, \/  GSList $\ast$ {\em transfer\_\-account\_\-numbers})}\label{gsb__data__report_8h_a5c378b6b33076ebc00ce1a9c27a88904}
+set the transfer\_\-account\_\-numbers
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em transfer\_\-account\_\-numbers}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 3561 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-transfer\_\-choice@{gsb\_\-data\_\-report\_\-set\_\-transfer\_\-choice}}
+\index{gsb\_\-data\_\-report\_\-set\_\-transfer\_\-choice@{gsb\_\-data\_\-report\_\-set\_\-transfer\_\-choice}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-transfer\_\-choice}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-transfer\_\-choice (gint {\em report\_\-number}, \/  gint {\em transfer\_\-choice})}\label{gsb__data__report_8h_aa672eb741c6007e90dd909a2a2ca50c3}
+set the transfer\_\-choice
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em transfer\_\-choice}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2230 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-transfer\_\-reports\_\-only@{gsb\_\-data\_\-report\_\-set\_\-transfer\_\-reports\_\-only}}
+\index{gsb\_\-data\_\-report\_\-set\_\-transfer\_\-reports\_\-only@{gsb\_\-data\_\-report\_\-set\_\-transfer\_\-reports\_\-only}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-transfer\_\-reports\_\-only}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-transfer\_\-reports\_\-only (gint {\em report\_\-number}, \/  gint {\em transfer\_\-reports\_\-only})}\label{gsb__data__report_8h_a779833aee2f5be4558a5ea7e4f357295}
+set the transfer\_\-reports\_\-only
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em transfer\_\-reports\_\-only}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 2273 du fichier gsb\_\-data\_\-report.c.
+
+\index{gsb\_\-data\_\-report.h@{gsb\_\-data\_\-report.h}!gsb\_\-data\_\-report\_\-set\_\-use\_\-financial\_\-year@{gsb\_\-data\_\-report\_\-set\_\-use\_\-financial\_\-year}}
+\index{gsb\_\-data\_\-report\_\-set\_\-use\_\-financial\_\-year@{gsb\_\-data\_\-report\_\-set\_\-use\_\-financial\_\-year}!gsb_data_report.h@{gsb\_\-data\_\-report.h}}
+\subsubsection[{gsb\_\-data\_\-report\_\-set\_\-use\_\-financial\_\-year}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-report\_\-set\_\-use\_\-financial\_\-year (gint {\em report\_\-number}, \/  gint {\em use\_\-financial\_\-year})}\label{gsb__data__report_8h_a2a3cb544c995b2742ecb932d43e5ddac}
+set the use\_\-financial\_\-year
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em report\_\-number}]number of the report \item[{\em use\_\-financial\_\-year}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1672 du fichier gsb\_\-data\_\-report.c.
+

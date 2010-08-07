@@ -1,0 +1,690 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier accueil.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier accueil.c</h1><code>#include &quot;<a class="el" href="accueil_8c_source.html">include.h</a>&quot;</code><br/>
+<code>#include &lt;locale.h&gt;</code><br/>
+<code>#include &lt;stdio.h&gt;</code><br/>
+<code>#include &lt;stdlib.h&gt;</code><br/>
+<code>#include &lt;strings.h&gt;</code><br/>
+<code>#include &lt;string.h&gt;</code><br/>
+<code>#include &lt;sys/types.h&gt;</code><br/>
+<code>#include &lt;sys/timeb.h&gt;</code><br/>
+<code>#include &lt;time.h&gt;</code><br/>
+<code>#include &lt;sys/stat.h&gt;</code><br/>
+<code>#include &lt;unistd.h&gt;</code><br/>
+<code>#include &lt;pwd.h&gt;</code><br/>
+<code>#include &lt;fcntl.h&gt;</code><br/>
+<code>#include &lt;signal.h&gt;</code><br/>
+<code>#include &lt;ctype.h&gt;</code><br/>
+<code>#include &lt;errno.h&gt;</code><br/>
+<code>#include &lt;math.h&gt;</code><br/>
+<code>#include &lt;gtk/gtktextview.h&gt;</code><br/>
+<code>#include &lt;gdk/gdkkeysyms.h&gt;</code><br/>
+<code>#include &lt;gtk/gtk.h&gt;</code><br/>
+<code>#include &lt;glib/gstdio.h&gt;</code><br/>
+<code>#include &lt;gdk-pixbuf/gdk-pixdata.h&gt;</code><br/>
+<code>#include &lt;glib/gi18n.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__select__icon_8h_source.html">gsb_select_icon.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__scheduler_8h_source.html">gsb_form_scheduler.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+
+<p><a href="accueil_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Macros</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#ab03f50b500134428099c1983259a4957">show_paddingbox</a>(child)&nbsp;&nbsp;&nbsp;gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a02da9b42f805679eb687619a1dc2aa71">hide_paddingbox</a>(child)&nbsp;&nbsp;&nbsp;gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a31cb1d27d08c170361e63a0a7ef4ddb0">creation_onglet_accueil</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a15511226739a34542ef8d7b979aedcf0">mise_a_jour_accueil</a> (gboolean force)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a14c0d85dd53f652a98e6a0ff81d9123b">affiche_dialogue_soldes_minimaux</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a3b20e859b5870632529db167d03decfa">gsb_main_page_update_finished_scheduled_transactions</a> (gint scheduled_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a2ce3fbe764b92fba9b115271c89ddbb1">onglet_accueil</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a464c456279ac03bc59b1f54ae2133bf1">gsb_main_page_update_homepage_title</a> (gchar *title)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a2f70ab8aa9d2a494c0653e8f29eddf40">balances_with_scheduled</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#abf8bca2fdf4d7ff487314637a68d8ca1">couleur_bleue</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#ab8c7a6a865f85f0e0ed7ba712c688552">couleur_jaune</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#afefd0503b07889ace94c105384b52c3b">couleur_nom_compte_normal</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a52532ca2dfcfc96be10da30f80c66839">couleur_nom_compte_prelight</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a062471eba775cb09f75d8c4d97c02172">couleur_solde_alarme_orange_normal</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a0619465546390ec6f870c9f85b773307">couleur_solde_alarme_orange_prelight</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#af38b374eef29a79c10501f0560f0569e">couleur_solde_alarme_rouge_normal</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a1f0e9441b29240d555149fa5e114f5da">couleur_solde_alarme_rouge_prelight</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a4cabdd7b9ef47892068e5d191cff512d">couleur_solde_alarme_verte_normal</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a59672cd86b54f5212dc6e0c5016e7661">couleur_solde_alarme_verte_prelight</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#afb5de72ed97c05cc117b44cf61adfb86">form_transaction_part</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#af539ba1ef9bfd1d56ab43b9865b0bab5">scheduled_transactions_taken</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#ade6e813638ccb1437faf234fa2725303">scheduled_transactions_to_take</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a787cc81cf2ad728775b73d723713980b">titre_fichier</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a54bbf4c2b1a287f2b68dd985bc3df3a0">logo_accueil</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a5c4177f9546fc12979a20354c696c96a">hbox_title</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#ad5a5e4da0960d4245ba98245c3a868dc">label_titre_fichier</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a018917e8dacfd8fbe4e94d0f99a59c08">mise_a_jour_liste_comptes_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a5957dd978b4a0c3ab01e006cedfdf96c">mise_a_jour_liste_echeances_manuelles_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a097d2eb216e05a68a5a153e7b68b6469">mise_a_jour_liste_echeances_auto_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#afaffaedc4fd0ae8638f7158c6777b35b">mise_a_jour_soldes_minimaux</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a9ebd251de44611d97ec364d1867a75ff">mise_a_jour_fin_comptes_passifs</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkSizeGroup *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a7a2c9fe3145d035ff2611ca3f3d06bca">size_group_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="accueil_8c.html#a0a186a4f6ba30156f2d8ff8025328371">chaine_espace</a> = &quot; &quot;</td></tr>
+</table>
+<hr/><h2>Documentation des macros</h2>
+<a class="anchor" id="a02da9b42f805679eb687619a1dc2aa71"></a><!-- doxytag: member="accueil.c::hide_paddingbox" ref="a02da9b42f805679eb687619a1dc2aa71" args="(child)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define hide_paddingbox</td>
+          <td>(</td>
+          <td class="paramtype">child&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00121">121</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab03f50b500134428099c1983259a4957"></a><!-- doxytag: member="accueil.c::show_paddingbox" ref="ab03f50b500134428099c1983259a4957" args="(child)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define show_paddingbox</td>
+          <td>(</td>
+          <td class="paramtype">child&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00120">120</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a14c0d85dd53f652a98e6a0ff81d9123b"></a><!-- doxytag: member="accueil.c::affiche_dialogue_soldes_minimaux" ref="a14c0d85dd53f652a98e6a0ff81d9123b" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void affiche_dialogue_soldes_minimaux </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l01591">1591</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a31cb1d27d08c170361e63a0a7ef4ddb0"></a><!-- doxytag: member="accueil.c::creation_onglet_accueil" ref="a31cb1d27d08c170361e63a0a7ef4ddb0" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* creation_onglet_accueil </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00137">137</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3b20e859b5870632529db167d03decfa"></a><!-- doxytag: member="accueil.c::gsb_main_page_update_finished_scheduled_transactions" ref="a3b20e859b5870632529db167d03decfa" args="(gint scheduled_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_main_page_update_finished_scheduled_transactions </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>scheduled_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update the finished scheduled transactions part in the main page the scheduled transaction in param is finished</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>scheduled_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l01857">1857</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a464c456279ac03bc59b1f54ae2133bf1"></a><!-- doxytag: member="accueil.c::gsb_main_page_update_homepage_title" ref="a464c456279ac03bc59b1f54ae2133bf1" args="(gchar *title)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_main_page_update_homepage_title </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>title</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update the title of the main page </p>
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l02138">2138</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a15511226739a34542ef8d7b979aedcf0"></a><!-- doxytag: member="accueil.c::mise_a_jour_accueil" ref="a15511226739a34542ef8d7b979aedcf0" args="(gboolean force)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void mise_a_jour_accueil </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>force</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update the first page, force the updating if asked, else, each function will decide if it need to be updated or not</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>force</em>&nbsp;</td><td>TRUE if we want to update all</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00295">295</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2ce3fbe764b92fba9b115271c89ddbb1"></a><!-- doxytag: member="accueil.c::onglet_accueil" ref="a2ce3fbe764b92fba9b115271c89ddbb1" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* onglet_accueil </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l01939">1939</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a2f70ab8aa9d2a494c0653e8f29eddf40"></a><!-- doxytag: member="accueil.c::balances_with_scheduled" ref="a2f70ab8aa9d2a494c0653e8f29eddf40" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean <a class="el" href="parametres_8c.html#a2f70ab8aa9d2a494c0653e8f29eddf40">balances_with_scheduled</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Take into account the planned operations in the calculation of the balances (TRUE default) </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler_8c_source.html#l00071">71</a> du fichier <a class="el" href="gsb__scheduler_8c_source.html">gsb_scheduler.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0a186a4f6ba30156f2d8ff8025328371"></a><!-- doxytag: member="accueil.c::chaine_espace" ref="a0a186a4f6ba30156f2d8ff8025328371" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="accueil_8c.html#a0a186a4f6ba30156f2d8ff8025328371">chaine_espace</a> = &quot; &quot;</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00134">134</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abf8bca2fdf4d7ff487314637a68d8ca1"></a><!-- doxytag: member="accueil.c::couleur_bleue" ref="abf8bca2fdf4d7ff487314637a68d8ca1" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#abf8bca2fdf4d7ff487314637a68d8ca1">couleur_bleue</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00131">131</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab8c7a6a865f85f0e0ed7ba712c688552"></a><!-- doxytag: member="accueil.c::couleur_jaune" ref="ab8c7a6a865f85f0e0ed7ba712c688552" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#ab8c7a6a865f85f0e0ed7ba712c688552">couleur_jaune</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00132">132</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afefd0503b07889ace94c105384b52c3b"></a><!-- doxytag: member="accueil.c::couleur_nom_compte_normal" ref="afefd0503b07889ace94c105384b52c3b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#afefd0503b07889ace94c105384b52c3b">couleur_nom_compte_normal</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00128">128</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a52532ca2dfcfc96be10da30f80c66839"></a><!-- doxytag: member="accueil.c::couleur_nom_compte_prelight" ref="a52532ca2dfcfc96be10da30f80c66839" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a52532ca2dfcfc96be10da30f80c66839">couleur_nom_compte_prelight</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00129">129</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a062471eba775cb09f75d8c4d97c02172"></a><!-- doxytag: member="accueil.c::couleur_solde_alarme_orange_normal" ref="a062471eba775cb09f75d8c4d97c02172" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a062471eba775cb09f75d8c4d97c02172">couleur_solde_alarme_orange_normal</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00124">124</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0619465546390ec6f870c9f85b773307"></a><!-- doxytag: member="accueil.c::couleur_solde_alarme_orange_prelight" ref="a0619465546390ec6f870c9f85b773307" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a0619465546390ec6f870c9f85b773307">couleur_solde_alarme_orange_prelight</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00125">125</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af38b374eef29a79c10501f0560f0569e"></a><!-- doxytag: member="accueil.c::couleur_solde_alarme_rouge_normal" ref="af38b374eef29a79c10501f0560f0569e" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#af38b374eef29a79c10501f0560f0569e">couleur_solde_alarme_rouge_normal</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00126">126</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1f0e9441b29240d555149fa5e114f5da"></a><!-- doxytag: member="accueil.c::couleur_solde_alarme_rouge_prelight" ref="a1f0e9441b29240d555149fa5e114f5da" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a1f0e9441b29240d555149fa5e114f5da">couleur_solde_alarme_rouge_prelight</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00127">127</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4cabdd7b9ef47892068e5d191cff512d"></a><!-- doxytag: member="accueil.c::couleur_solde_alarme_verte_normal" ref="a4cabdd7b9ef47892068e5d191cff512d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a4cabdd7b9ef47892068e5d191cff512d">couleur_solde_alarme_verte_normal</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00122">122</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a59672cd86b54f5212dc6e0c5016e7661"></a><!-- doxytag: member="accueil.c::couleur_solde_alarme_verte_prelight" ref="a59672cd86b54f5212dc6e0c5016e7661" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a59672cd86b54f5212dc6e0c5016e7661">couleur_solde_alarme_verte_prelight</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00123">123</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afb5de72ed97c05cc117b44cf61adfb86"></a><!-- doxytag: member="accueil.c::form_transaction_part" ref="afb5de72ed97c05cc117b44cf61adfb86" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__form__config_8c.html#afb5de72ed97c05cc117b44cf61adfb86">form_transaction_part</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__form_8c_source.html#l00126">126</a> du fichier <a class="el" href="gsb__form_8c_source.html">gsb_form.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5c4177f9546fc12979a20354c696c96a"></a><!-- doxytag: member="accueil.c::hbox_title" ref="a5c4177f9546fc12979a20354c696c96a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="affichage_8c.html#a5c4177f9546fc12979a20354c696c96a">hbox_title</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00109">109</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad5a5e4da0960d4245ba98245c3a868dc"></a><!-- doxytag: member="accueil.c::label_titre_fichier" ref="ad5a5e4da0960d4245ba98245c3a868dc" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="affichage_8c.html#ad5a5e4da0960d4245ba98245c3a868dc">label_titre_fichier</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00110">110</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a54bbf4c2b1a287f2b68dd985bc3df3a0"></a><!-- doxytag: member="accueil.c::logo_accueil" ref="a54bbf4c2b1a287f2b68dd985bc3df3a0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__file__load_8c.html#a54bbf4c2b1a287f2b68dd985bc3df3a0">logo_accueil</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00108">108</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9ebd251de44611d97ec364d1867a75ff"></a><!-- doxytag: member="accueil.c::mise_a_jour_fin_comptes_passifs" ref="a9ebd251de44611d97ec364d1867a75ff" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a9ebd251de44611d97ec364d1867a75ff">mise_a_jour_fin_comptes_passifs</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00131">131</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a018917e8dacfd8fbe4e94d0f99a59c08"></a><!-- doxytag: member="accueil.c::mise_a_jour_liste_comptes_accueil" ref="a018917e8dacfd8fbe4e94d0f99a59c08" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a018917e8dacfd8fbe4e94d0f99a59c08">mise_a_jour_liste_comptes_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00127">127</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a097d2eb216e05a68a5a153e7b68b6469"></a><!-- doxytag: member="accueil.c::mise_a_jour_liste_echeances_auto_accueil" ref="a097d2eb216e05a68a5a153e7b68b6469" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a097d2eb216e05a68a5a153e7b68b6469">mise_a_jour_liste_echeances_auto_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00129">129</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5957dd978b4a0c3ab01e006cedfdf96c"></a><!-- doxytag: member="accueil.c::mise_a_jour_liste_echeances_manuelles_accueil" ref="a5957dd978b4a0c3ab01e006cedfdf96c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a5957dd978b4a0c3ab01e006cedfdf96c">mise_a_jour_liste_echeances_manuelles_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00128">128</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afaffaedc4fd0ae8638f7158c6777b35b"></a><!-- doxytag: member="accueil.c::mise_a_jour_soldes_minimaux" ref="afaffaedc4fd0ae8638f7158c6777b35b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#afaffaedc4fd0ae8638f7158c6777b35b">mise_a_jour_soldes_minimaux</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00130">130</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a26f304bec3fdc0651b9aa8765d4de3c6"></a><!-- doxytag: member="accueil.c::null_real" ref="a26f304bec3fdc0651b9aa8765d4de3c6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> <a class="el" href="utils__editables_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00042">42</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af539ba1ef9bfd1d56ab43b9865b0bab5"></a><!-- doxytag: member="accueil.c::scheduled_transactions_taken" ref="af539ba1ef9bfd1d56ab43b9865b0bab5" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* <a class="el" href="gsb__scheduler__list_8c.html#af539ba1ef9bfd1d56ab43b9865b0bab5">scheduled_transactions_taken</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00127">127</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ade6e813638ccb1437faf234fa2725303"></a><!-- doxytag: member="accueil.c::scheduled_transactions_to_take" ref="ade6e813638ccb1437faf234fa2725303" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* <a class="el" href="gsb__scheduler__list_8c.html#ade6e813638ccb1437faf234fa2725303">scheduled_transactions_to_take</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>lists of number of scheduled transactions taken or to be taken </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00126">126</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7a2c9fe3145d035ff2611ca3f3d06bca"></a><!-- doxytag: member="accueil.c::size_group_accueil" ref="a7a2c9fe3145d035ff2611ca3f3d06bca" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkSizeGroup* <a class="el" href="accueil_8c.html#a7a2c9fe3145d035ff2611ca3f3d06bca">size_group_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00133">133</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a787cc81cf2ad728775b73d723713980b"></a><!-- doxytag: member="accueil.c::titre_fichier" ref="a787cc81cf2ad728775b73d723713980b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="traitement__variables_8c.html#a787cc81cf2ad728775b73d723713980b">titre_fichier</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00147">147</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="accueil.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

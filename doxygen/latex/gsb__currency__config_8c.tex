@@ -1,0 +1,268 @@
+\section{Référence du fichier gsb\_\-currency\_\-config.c}
+\label{gsb__currency__config_8c}\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-currency\_\-config.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-autofunc.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-automem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}parametres.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-currency.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-scheduled.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}main.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}tiers\_\-onglet.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}categories\_\-onglet.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}imputation\_\-budgetaire.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-files.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-currency\_\-config\_\-create\_\-page} (void)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-currency\_\-config\_\-create\_\-totals\_\-page} (void)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-currency\_\-config\_\-new\_\-combobox} (gint $\ast$value, GCallback hook)
+\item 
+gboolean {\bf gsb\_\-currency\_\-config\_\-add\_\-currency} (GtkWidget $\ast$button, GtkTreeModel $\ast$currency\_\-tree\_\-model)
+\item 
+gboolean {\bf gsb\_\-currency\_\-config\_\-add\_\-currency\_\-set\_\-combobox} (GtkWidget $\ast$button, GtkWidget $\ast$combobox)
+\item 
+gint {\bf gsb\_\-currency\_\-config\_\-create\_\-currency} (const gchar $\ast$currency\_\-name, const gchar $\ast$currency\_\-code, const gchar $\ast$currency\_\-isocode, gint floating\_\-point)
+\item 
+gint {\bf gsb\_\-currency\_\-config\_\-create\_\-currency\_\-from\_\-iso4217list} (gchar $\ast$currency\_\-name)
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-currency\_\-config\_\-create\_\-box\_\-popup} (GCallback select\_\-callback)
+\item 
+gboolean {\bf gsb\_\-currency\_\-config\_\-select\_\-default} (GtkTreeModel $\ast$tree\_\-model, GtkTreePath $\ast$path, GtkTreeIter $\ast$iter, GtkTreeView $\ast$tree\_\-view)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf main\_\-vbox}
+\item 
+gint {\bf no\_\-devise\_\-totaux\_\-categ}
+\item 
+gint {\bf no\_\-devise\_\-totaux\_\-ib}
+\item 
+gint {\bf no\_\-devise\_\-totaux\_\-tiers}
+\item 
+GtkWidget $\ast$ {\bf window}
+\item 
+GtkWidget $\ast$ {\bf combo\_\-devise\_\-totaux\_\-tiers}
+\item 
+GtkWidget $\ast$ {\bf combo\_\-devise\_\-totaux\_\-ib}
+\item 
+GtkWidget $\ast$ {\bf combo\_\-devise\_\-totaux\_\-categ}
+\item 
+struct {\bf iso\_\-4217\_\-currency} {\bf iso\_\-4217\_\-currencies} [$\,$]
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+contains the part to set the configuration of the currencies 
+
+Définition dans le fichier {\bf gsb\_\-currency\_\-config.c}.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!gsb\_\-currency\_\-config\_\-add\_\-currency@{gsb\_\-currency\_\-config\_\-add\_\-currency}}
+\index{gsb\_\-currency\_\-config\_\-add\_\-currency@{gsb\_\-currency\_\-config\_\-add\_\-currency}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{gsb\_\-currency\_\-config\_\-add\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-currency\_\-config\_\-add\_\-currency (GtkWidget $\ast$ {\em button}, \/  GtkTreeModel $\ast$ {\em currency\_\-tree\_\-model})}\label{gsb__currency__config_8c_ad50f95efd36cc02e06d28e54a52f70b9}
+Pop up a dialog to create a new currency, do some sanity checks and call the \doxyref{gsb\_\-currency\_\-config\_\-create\_\-currency()}{p.}{gsb__currency__config_8c_aac6af1bd33f834ca4d3c442fee69ccdf} function to do the grunt work.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em button}]GtkButton that triggered event. \item[{\em currency\_\-tree\_\-model}]the treemodel to add the new currency (can be NULL)\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if currency has been created. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 931 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!gsb\_\-currency\_\-config\_\-add\_\-currency\_\-set\_\-combobox@{gsb\_\-currency\_\-config\_\-add\_\-currency\_\-set\_\-combobox}}
+\index{gsb\_\-currency\_\-config\_\-add\_\-currency\_\-set\_\-combobox@{gsb\_\-currency\_\-config\_\-add\_\-currency\_\-set\_\-combobox}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{gsb\_\-currency\_\-config\_\-add\_\-currency\_\-set\_\-combobox}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-currency\_\-config\_\-add\_\-currency\_\-set\_\-combobox (GtkWidget $\ast$ {\em button}, \/  GtkWidget $\ast$ {\em combobox})}\label{gsb__currency__config_8c_a8bb9399b8a40378fefcf0662e598bc28}
+
+
+Définition à la ligne 1094 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!gsb\_\-currency\_\-config\_\-create\_\-box\_\-popup@{gsb\_\-currency\_\-config\_\-create\_\-box\_\-popup}}
+\index{gsb\_\-currency\_\-config\_\-create\_\-box\_\-popup@{gsb\_\-currency\_\-config\_\-create\_\-box\_\-popup}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{gsb\_\-currency\_\-config\_\-create\_\-box\_\-popup}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-currency\_\-config\_\-create\_\-box\_\-popup (GCallback {\em select\_\-callback})}\label{gsb__currency__config_8c_a8fa08658c01908eabd688481b170b926}
+create the box wich contains the world currencies list for the add currency popup the tree view and model are saved into the box with the keys : \char`\"{}model\char`\"{} and \char`\"{}treeview\char`\"{}
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em select\_\-callback}]callback to call when a line is selected callback (GtkTreeSelection $\ast$, GtkTreeModel $\ast$)\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a vbox 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1179 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!gsb\_\-currency\_\-config\_\-create\_\-currency@{gsb\_\-currency\_\-config\_\-create\_\-currency}}
+\index{gsb\_\-currency\_\-config\_\-create\_\-currency@{gsb\_\-currency\_\-config\_\-create\_\-currency}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{gsb\_\-currency\_\-config\_\-create\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-currency\_\-config\_\-create\_\-currency (const gchar $\ast$ {\em currency\_\-name}, \/  const gchar $\ast$ {\em currency\_\-code}, \/  const gchar $\ast$ {\em currency\_\-isocode}, \/  gint {\em floating\_\-point})}\label{gsb__currency__config_8c_aac6af1bd33f834ca4d3c442fee69ccdf}
+create a new currency according to the param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em currency\_\-name}]\item[{\em currency\_\-code}]\item[{\em currency\_\-isocode}]\item[{\em floating\_\-point}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the new currency 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1114 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!gsb\_\-currency\_\-config\_\-create\_\-currency\_\-from\_\-iso4217list@{gsb\_\-currency\_\-config\_\-create\_\-currency\_\-from\_\-iso4217list}}
+\index{gsb\_\-currency\_\-config\_\-create\_\-currency\_\-from\_\-iso4217list@{gsb\_\-currency\_\-config\_\-create\_\-currency\_\-from\_\-iso4217list}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{gsb\_\-currency\_\-config\_\-create\_\-currency\_\-from\_\-iso4217list}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-currency\_\-config\_\-create\_\-currency\_\-from\_\-iso4217list (gchar $\ast$ {\em currency\_\-name})}\label{gsb__currency__config_8c_adf41d824e72a4765c65aa9e9adc3a48c}
+look for a currency with its code name in the iso list and create it
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em currency\_\-name}]the currency code we look for\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the new currency or FALSE if not found 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1141 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!gsb\_\-currency\_\-config\_\-create\_\-page@{gsb\_\-currency\_\-config\_\-create\_\-page}}
+\index{gsb\_\-currency\_\-config\_\-create\_\-page@{gsb\_\-currency\_\-config\_\-create\_\-page}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{gsb\_\-currency\_\-config\_\-create\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-currency\_\-config\_\-create\_\-page (void)}\label{gsb__currency__config_8c_a0f914587992cfae9796fa25a4c804c13}
+Creates the currency list and associated form to configure them.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A newly created vbox 
+\end{DoxyReturn}
+
+
+Définition à la ligne 285 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!gsb\_\-currency\_\-config\_\-create\_\-totals\_\-page@{gsb\_\-currency\_\-config\_\-create\_\-totals\_\-page}}
+\index{gsb\_\-currency\_\-config\_\-create\_\-totals\_\-page@{gsb\_\-currency\_\-config\_\-create\_\-totals\_\-page}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{gsb\_\-currency\_\-config\_\-create\_\-totals\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-currency\_\-config\_\-create\_\-totals\_\-page (void)}\label{gsb__currency__config_8c_a944bf821634cb316ea25281b598fa563}
+show combo\_\-box with the currencies to choose the currency for totals of lists (payee, categories, budgets
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the widget to set in the conf 
+\end{DoxyReturn}
+
+
+Définition à la ligne 810 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!gsb\_\-currency\_\-config\_\-new\_\-combobox@{gsb\_\-currency\_\-config\_\-new\_\-combobox}}
+\index{gsb\_\-currency\_\-config\_\-new\_\-combobox@{gsb\_\-currency\_\-config\_\-new\_\-combobox}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{gsb\_\-currency\_\-config\_\-new\_\-combobox}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-currency\_\-config\_\-new\_\-combobox (gint $\ast$ {\em value}, \/  GCallback {\em hook})}\label{gsb__currency__config_8c_a70a632d5e5dd72fd58afe94aff11a2a6}
+Create a new GtkComboBox with a pointer to an integer that will be modified according to the entry's value.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em value}]A pointer to a gint wich contains the currency number \item[{\em hook}]An optional function to execute as a handler\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A newly allocated option menu. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 867 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!gsb\_\-currency\_\-config\_\-select\_\-default@{gsb\_\-currency\_\-config\_\-select\_\-default}}
+\index{gsb\_\-currency\_\-config\_\-select\_\-default@{gsb\_\-currency\_\-config\_\-select\_\-default}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{gsb\_\-currency\_\-config\_\-select\_\-default}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-currency\_\-config\_\-select\_\-default (GtkTreeModel $\ast$ {\em tree\_\-model}, \/  GtkTreePath $\ast$ {\em path}, \/  GtkTreeIter $\ast$ {\em iter}, \/  GtkTreeView $\ast$ {\em tree\_\-view})}\label{gsb__currency__config_8c_a5e9c50189044680992768cf5909f3f78}
+foreach function on the tree\_\-view to find the default currency according to the current locale
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em tree\_\-model}]\item[{\em path}]\item[{\em iter}]\item[{\em tree\_\-view}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if found 
+\end{DoxyReturn}
+
+
+Définition à la ligne 1371 du fichier gsb\_\-currency\_\-config.c.
+
+
+
+\subsection{Documentation des variables}
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!combo\_\-devise\_\-totaux\_\-categ@{combo\_\-devise\_\-totaux\_\-categ}}
+\index{combo\_\-devise\_\-totaux\_\-categ@{combo\_\-devise\_\-totaux\_\-categ}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{combo\_\-devise\_\-totaux\_\-categ}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf combo\_\-devise\_\-totaux\_\-categ}}\label{gsb__currency__config_8c_abe70dd95688032466d8be65418364937}
+
+
+Définition à la ligne 85 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!combo\_\-devise\_\-totaux\_\-ib@{combo\_\-devise\_\-totaux\_\-ib}}
+\index{combo\_\-devise\_\-totaux\_\-ib@{combo\_\-devise\_\-totaux\_\-ib}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{combo\_\-devise\_\-totaux\_\-ib}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf combo\_\-devise\_\-totaux\_\-ib}}\label{gsb__currency__config_8c_a1b537d048003238dcc92058cda5945b7}
+
+
+Définition à la ligne 84 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!combo\_\-devise\_\-totaux\_\-tiers@{combo\_\-devise\_\-totaux\_\-tiers}}
+\index{combo\_\-devise\_\-totaux\_\-tiers@{combo\_\-devise\_\-totaux\_\-tiers}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{combo\_\-devise\_\-totaux\_\-tiers}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf combo\_\-devise\_\-totaux\_\-tiers}}\label{gsb__currency__config_8c_a603e56a73bd24363ac8451504fb22e8d}
+
+
+Définition à la ligne 83 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!iso\_\-4217\_\-currencies@{iso\_\-4217\_\-currencies}}
+\index{iso\_\-4217\_\-currencies@{iso\_\-4217\_\-currencies}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{iso\_\-4217\_\-currencies}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf iso\_\-4217\_\-currency} {\bf iso\_\-4217\_\-currencies}[$\,$]}\label{gsb__currency__config_8c_a61593a340068b4fa06fda869f953f1a1}
+
+
+Définition à la ligne 88 du fichier gsb\_\-currency\_\-config.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!main\_\-vbox@{main\_\-vbox}}
+\index{main\_\-vbox@{main\_\-vbox}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{main\_\-vbox}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf main\_\-vbox}}\label{gsb__currency__config_8c_a59d87f8d62479b981be4e0618fe1b172}
+
+
+Définition à la ligne 72 du fichier fenetre\_\-principale.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!no\_\-devise\_\-totaux\_\-categ@{no\_\-devise\_\-totaux\_\-categ}}
+\index{no\_\-devise\_\-totaux\_\-categ@{no\_\-devise\_\-totaux\_\-categ}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{no\_\-devise\_\-totaux\_\-categ}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf no\_\-devise\_\-totaux\_\-categ}}\label{gsb__currency__config_8c_a8f609654dcfbbcaa6791bcee83d6473d}
+
+
+Définition à la ligne 65 du fichier categories\_\-onglet.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!no\_\-devise\_\-totaux\_\-ib@{no\_\-devise\_\-totaux\_\-ib}}
+\index{no\_\-devise\_\-totaux\_\-ib@{no\_\-devise\_\-totaux\_\-ib}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{no\_\-devise\_\-totaux\_\-ib}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf no\_\-devise\_\-totaux\_\-ib}}\label{gsb__currency__config_8c_a2f4b5073521c582e1bc8941533026556}
+
+
+Définition à la ligne 72 du fichier imputation\_\-budgetaire.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!no\_\-devise\_\-totaux\_\-tiers@{no\_\-devise\_\-totaux\_\-tiers}}
+\index{no\_\-devise\_\-totaux\_\-tiers@{no\_\-devise\_\-totaux\_\-tiers}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{no\_\-devise\_\-totaux\_\-tiers}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf no\_\-devise\_\-totaux\_\-tiers}}\label{gsb__currency__config_8c_a3add720d0e0b25caa37589bcfb879c6f}
+
+
+Définition à la ligne 103 du fichier tiers\_\-onglet.c.
+
+\index{gsb\_\-currency\_\-config.c@{gsb\_\-currency\_\-config.c}!window@{window}}
+\index{window@{window}!gsb_currency_config.c@{gsb\_\-currency\_\-config.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{gsb__currency__config_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

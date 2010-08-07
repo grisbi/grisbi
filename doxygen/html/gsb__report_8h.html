@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_report.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_report.h</h1>
+<p><a href="gsb__report_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__report_8h.html#aec0b1b2d20d93937ab296c312cba6016">gsb_report_get_current</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__report_8h.html#a856eaa582659de20a636421f85de8b00">gsb_report_get_report_from_combobox</a> (GtkWidget *combo_box)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__report_8h.html#a9e201d1b7152dc2bc111194ec7ad2e61">gsb_report_init_variables</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__report_8h.html#af2e1bf81ec2ee8448a590dd793bc1e9f">gsb_report_make_combobox</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__report_8h.html#a51d50ccf9e1c9ddeb43b0bb61a5af19e">gsb_report_set_current</a> (gint report_number)</td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="aec0b1b2d20d93937ab296c312cba6016"></a><!-- doxytag: member="gsb_report.h::gsb_report_get_current" ref="aec0b1b2d20d93937ab296c312cba6016" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_report_get_current </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the current report showed, or 0 if none (or need to re-calculate )</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the current report number </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__report_8c_source.html#l00244">244</a> du fichier <a class="el" href="gsb__report_8c_source.html">gsb_report.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a856eaa582659de20a636421f85de8b00"></a><!-- doxytag: member="gsb_report.h::gsb_report_get_report_from_combobox" ref="a856eaa582659de20a636421f85de8b00" args="(GtkWidget *combo_box)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_report_get_report_from_combobox </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>combo_box</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get and return the number of the report in the combobox given in param</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>combo_box</em>&nbsp;</td><td>a combo_box with the reports</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of report or 0 if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__report_8c_source.html#l00131">131</a> du fichier <a class="el" href="gsb__report_8c_source.html">gsb_report.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9e201d1b7152dc2bc111194ec7ad2e61"></a><!-- doxytag: member="gsb_report.h::gsb_report_init_variables" ref="a9e201d1b7152dc2bc111194ec7ad2e61" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_report_init_variables </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set to NULL the static variables</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__report_8c_source.html#l00079">79</a> du fichier <a class="el" href="gsb__report_8c_source.html">gsb_report.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af2e1bf81ec2ee8448a590dd793bc1e9f"></a><!-- doxytag: member="gsb_report.h::gsb_report_make_combobox" ref="af2e1bf81ec2ee8448a590dd793bc1e9f" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_report_make_combobox </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create and return a combobox with the reports</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a widget combobox or NULL </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__report_8c_source.html#l00099">99</a> du fichier <a class="el" href="gsb__report_8c_source.html">gsb_report.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a51d50ccf9e1c9ddeb43b0bb61a5af19e"></a><!-- doxytag: member="gsb_report.h::gsb_report_set_current" ref="a51d50ccf9e1c9ddeb43b0bb61a5af19e" args="(gint report_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_report_set_current </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>report_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the current report calculated, 0 to invalidate the report and re-calculate it the next time we try to show it</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>report_number</em>&nbsp;</td><td>the current report or 0 to invalidate it</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__report_8c_source.html#l00231">231</a> du fichier <a class="el" href="gsb__report_8c_source.html">gsb_report.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

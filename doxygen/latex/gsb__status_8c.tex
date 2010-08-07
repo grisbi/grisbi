@@ -1,0 +1,107 @@
+\section{Référence du fichier gsb\_\-status.c}
+\label{gsb__status_8c}\index{gsb\_\-status.c@{gsb\_\-status.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-status.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}main.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-new\_\-statusbar} ()
+\item 
+void {\bf gsb\_\-status\_\-message} (gchar $\ast$message)
+\item 
+void {\bf gsb\_\-status\_\-clear} ()
+\item 
+void {\bf gsb\_\-status\_\-wait} (gboolean force\_\-update)
+\item 
+void {\bf gsb\_\-status\_\-stop\_\-wait} (gboolean force\_\-update)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf window}
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+Various routines that implement the status bar. 
+
+Définition dans le fichier {\bf gsb\_\-status.c}.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-status.c@{gsb\_\-status.c}!gsb\_\-new\_\-statusbar@{gsb\_\-new\_\-statusbar}}
+\index{gsb\_\-new\_\-statusbar@{gsb\_\-new\_\-statusbar}!gsb_status.c@{gsb\_\-status.c}}
+\subsubsection[{gsb\_\-new\_\-statusbar}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-new\_\-statusbar ()}\label{gsb__status_8c_afefc29293b2b4910c410f379629d4086}
+Create and return a new GtkStatusBar to hold various status information.
+
+\begin{DoxyReturn}{Renvoie}
+A newly allocated GtkStatusBar. 
+\end{DoxyReturn}
+
+
+Définition à la ligne 73 du fichier gsb\_\-status.c.
+
+\index{gsb\_\-status.c@{gsb\_\-status.c}!gsb\_\-status\_\-clear@{gsb\_\-status\_\-clear}}
+\index{gsb\_\-status\_\-clear@{gsb\_\-status\_\-clear}!gsb_status.c@{gsb\_\-status.c}}
+\subsubsection[{gsb\_\-status\_\-clear}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-status\_\-clear ()}\label{gsb__status_8c_ae0a64a6da0c88a30c75e64e06c734aec}
+Clear any message in the status bar. 
+
+Call gtk\_\-main\_\-iteration() to ensure status message is displayed. This is done because we need to display it immediately without waiting to return to gtk\_\-main(). 
+
+
+
+Définition à la ligne 110 du fichier gsb\_\-status.c.
+
+\index{gsb\_\-status.c@{gsb\_\-status.c}!gsb\_\-status\_\-message@{gsb\_\-status\_\-message}}
+\index{gsb\_\-status\_\-message@{gsb\_\-status\_\-message}!gsb_status.c@{gsb\_\-status.c}}
+\subsubsection[{gsb\_\-status\_\-message}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-status\_\-message (gchar $\ast$ {\em message})}\label{gsb__status_8c_a476044d7002fa33e44709e7293974914}
+Display a message in the status bar.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em message}]Message to display. \end{DoxyParams}
+
+
+Call gtk\_\-main\_\-iteration() to ensure status message is displayed. This is done because we need to display it immediately without waiting to return to gtk\_\-main(). 
+
+
+
+Définition à la ligne 91 du fichier gsb\_\-status.c.
+
+\index{gsb\_\-status.c@{gsb\_\-status.c}!gsb\_\-status\_\-stop\_\-wait@{gsb\_\-status\_\-stop\_\-wait}}
+\index{gsb\_\-status\_\-stop\_\-wait@{gsb\_\-status\_\-stop\_\-wait}!gsb_status.c@{gsb\_\-status.c}}
+\subsubsection[{gsb\_\-status\_\-stop\_\-wait}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-status\_\-stop\_\-wait (gboolean {\em force\_\-update})}\label{gsb__status_8c_ac4035c7e810531f0bf1264ae3be76c52}
+Change current cursor to default cursor.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em force\_\-update}]Call a gtk iteration to ensure cursor is updated. May cause trouble if called from some signal handlers. \end{DoxyParams}
+
+
+Définition à la ligne 178 du fichier gsb\_\-status.c.
+
+\index{gsb\_\-status.c@{gsb\_\-status.c}!gsb\_\-status\_\-wait@{gsb\_\-status\_\-wait}}
+\index{gsb\_\-status\_\-wait@{gsb\_\-status\_\-wait}!gsb_status.c@{gsb\_\-status.c}}
+\subsubsection[{gsb\_\-status\_\-wait}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-status\_\-wait (gboolean {\em force\_\-update})}\label{gsb__status_8c_a16da6eed5923c59ba4584c96af26ff41}
+Change current cursor to a animated watch (if animation supported by environment).
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em force\_\-update}]Call a gtk iteration to ensure cursor is updated. May cause trouble if called from some signal handlers. \end{DoxyParams}
+
+
+Définition à la ligne 136 du fichier gsb\_\-status.c.
+
+
+
+\subsection{Documentation des variables}
+\index{gsb\_\-status.c@{gsb\_\-status.c}!window@{window}}
+\index{window@{window}!gsb_status.c@{gsb\_\-status.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{gsb__status_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

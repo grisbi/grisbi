@@ -1,0 +1,263 @@
+\section{Référence du fichier structures.h}
+\label{structures_8h}\index{structures.h@{structures.h}}
+{\ttfamily \#include \char`\"{}print\_\-config.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+\subsection*{Structures de données}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf gsb\_\-etat\_\-t}
+\item 
+struct {\bf gsb\_\-conf\_\-t}
+\item 
+struct {\bf struct\_\-payee\_\-asso}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf VERSION\_\-FICHIER}~\char`\"{}0.6.0\char`\"{}
+\item 
+\#define {\bf IS\_\-DEVELOPMENT\_\-VERSION}~1
+\item 
+\#define {\bf VERSION\_\-FICHIER\_\-ETAT}~\char`\"{}0.6.0\char`\"{}
+\item 
+\#define {\bf VERSION\_\-FICHIER\_\-CATEG}~\char`\"{}0.6.0\char`\"{}
+\item 
+\#define {\bf VERSION\_\-FICHIER\_\-IB}~\char`\"{}0.6.0\char`\"{}
+\item 
+\#define {\bf VERSION\_\-GTK\_\-MAJOR}~2
+\item 
+\#define {\bf VERSION\_\-GTK\_\-MINOR}~16
+\item 
+\#define {\bf VERSION\_\-GTK\_\-MICRO}~0
+\item 
+\#define {\bf COLON}(s)~(g\_\-strconcat ( s, \char`\"{} : \char`\"{}, NULL ))
+\item 
+\#define {\bf SPACIFY}(s)~(g\_\-strconcat ( \char`\"{} \char`\"{}, s, \char`\"{} \char`\"{}, NULL ))
+\item 
+\#define {\bf PRESPACIFY}(s)~(g\_\-strconcat ( \char`\"{} \char`\"{}, s, NULL ))
+\item 
+\#define {\bf POSTSPACIFY}(s)~(g\_\-strconcat ( s, \char`\"{} \char`\"{}, NULL ))
+\item 
+\#define {\bf CSV\_\-MAX\_\-TOP\_\-LINES}~10
+\end{DoxyCompactItemize}
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf alignement} \{ {\bf LEFT}, 
+{\bf CENTER}, 
+{\bf RIGHT}
+ \}
+\item 
+enum {\bf bet\_\-array\_\-origin\_\-data} \{ \par
+{\bf SPP\_\-ORIGIN\_\-TRANSACTION}, 
+{\bf SPP\_\-ORIGIN\_\-SCHEDULED}, 
+{\bf SPP\_\-ORIGIN\_\-HISTORICAL}, 
+{\bf SPP\_\-ORIGIN\_\-FUTURE}, 
+\par
+{\bf SPP\_\-ORIGIN\_\-ACCOUNT}, 
+{\bf SPP\_\-ORIGIN\_\-ARRAY}, 
+{\bf SPP\_\-ORIGIN\_\-CONFIG}, 
+{\bf SPP\_\-ORIGIN\_\-FINANCE}
+ \}
+\item 
+enum {\bf bet\_\-type\_\-maj} \{ \par
+{\bf BET\_\-MAJ\_\-FALSE} =  0, 
+{\bf BET\_\-MAJ\_\-ESTIMATE}, 
+{\bf BET\_\-MAJ\_\-HISTORICAL}, 
+{\bf BET\_\-MAJ\_\-FINANCIAL}, 
+\par
+{\bf BET\_\-MAJ\_\-ALL}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf gsb\_\-etat\_\-t} {\bf etat}
+\item 
+struct {\bf gsb\_\-conf\_\-t} {\bf conf}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des macros}
+\index{structures.h@{structures.h}!COLON@{COLON}}
+\index{COLON@{COLON}!structures.h@{structures.h}}
+\subsubsection[{COLON}]{\setlength{\rightskip}{0pt plus 5cm}\#define COLON(s)~(g\_\-strconcat ( s, \char`\"{} : \char`\"{}, NULL ))}\label{structures_8h_aaad3270d56994a956f6956f142c1c103}
+
+
+Définition à la ligne 25 du fichier structures.h.
+
+\index{structures.h@{structures.h}!CSV\_\-MAX\_\-TOP\_\-LINES@{CSV\_\-MAX\_\-TOP\_\-LINES}}
+\index{CSV\_\-MAX\_\-TOP\_\-LINES@{CSV\_\-MAX\_\-TOP\_\-LINES}!structures.h@{structures.h}}
+\subsubsection[{CSV\_\-MAX\_\-TOP\_\-LINES}]{\setlength{\rightskip}{0pt plus 5cm}\#define CSV\_\-MAX\_\-TOP\_\-LINES~10}\label{structures_8h_a6579a0d80c7ece1e151b927eaf548f62}
+
+
+Définition à la ligne 30 du fichier structures.h.
+
+\index{structures.h@{structures.h}!IS\_\-DEVELOPMENT\_\-VERSION@{IS\_\-DEVELOPMENT\_\-VERSION}}
+\index{IS\_\-DEVELOPMENT\_\-VERSION@{IS\_\-DEVELOPMENT\_\-VERSION}!structures.h@{structures.h}}
+\subsubsection[{IS\_\-DEVELOPMENT\_\-VERSION}]{\setlength{\rightskip}{0pt plus 5cm}\#define IS\_\-DEVELOPMENT\_\-VERSION~1}\label{structures_8h_a180760e9c5236a1ac40cad78329ecb7e}
+
+
+Définition à la ligne 16 du fichier structures.h.
+
+\index{structures.h@{structures.h}!POSTSPACIFY@{POSTSPACIFY}}
+\index{POSTSPACIFY@{POSTSPACIFY}!structures.h@{structures.h}}
+\subsubsection[{POSTSPACIFY}]{\setlength{\rightskip}{0pt plus 5cm}\#define POSTSPACIFY(s)~(g\_\-strconcat ( s, \char`\"{} \char`\"{}, NULL ))}\label{structures_8h_acec4595b4886c3686815d8cd5fb79a0f}
+
+
+Définition à la ligne 28 du fichier structures.h.
+
+\index{structures.h@{structures.h}!PRESPACIFY@{PRESPACIFY}}
+\index{PRESPACIFY@{PRESPACIFY}!structures.h@{structures.h}}
+\subsubsection[{PRESPACIFY}]{\setlength{\rightskip}{0pt plus 5cm}\#define PRESPACIFY(s)~(g\_\-strconcat ( \char`\"{} \char`\"{}, s, NULL ))}\label{structures_8h_a4b7af7f6d6792977527776b10b9d70e0}
+
+
+Définition à la ligne 27 du fichier structures.h.
+
+\index{structures.h@{structures.h}!SPACIFY@{SPACIFY}}
+\index{SPACIFY@{SPACIFY}!structures.h@{structures.h}}
+\subsubsection[{SPACIFY}]{\setlength{\rightskip}{0pt plus 5cm}\#define SPACIFY(s)~(g\_\-strconcat ( \char`\"{} \char`\"{}, s, \char`\"{} \char`\"{}, NULL ))}\label{structures_8h_a865883e81d37f6f4329636d5170f5209}
+
+
+Définition à la ligne 26 du fichier structures.h.
+
+\index{structures.h@{structures.h}!VERSION\_\-FICHIER@{VERSION\_\-FICHIER}}
+\index{VERSION\_\-FICHIER@{VERSION\_\-FICHIER}!structures.h@{structures.h}}
+\subsubsection[{VERSION\_\-FICHIER}]{\setlength{\rightskip}{0pt plus 5cm}\#define VERSION\_\-FICHIER~\char`\"{}0.6.0\char`\"{}}\label{structures_8h_ab543f4bce79f29c3d34f92ebec03c9fe}
+
+
+Définition à la ligne 13 du fichier structures.h.
+
+\index{structures.h@{structures.h}!VERSION\_\-FICHIER\_\-CATEG@{VERSION\_\-FICHIER\_\-CATEG}}
+\index{VERSION\_\-FICHIER\_\-CATEG@{VERSION\_\-FICHIER\_\-CATEG}!structures.h@{structures.h}}
+\subsubsection[{VERSION\_\-FICHIER\_\-CATEG}]{\setlength{\rightskip}{0pt plus 5cm}\#define VERSION\_\-FICHIER\_\-CATEG~\char`\"{}0.6.0\char`\"{}}\label{structures_8h_a1cb86b24780a16be7cdbb0abe9a14af6}
+
+
+Définition à la ligne 19 du fichier structures.h.
+
+\index{structures.h@{structures.h}!VERSION\_\-FICHIER\_\-ETAT@{VERSION\_\-FICHIER\_\-ETAT}}
+\index{VERSION\_\-FICHIER\_\-ETAT@{VERSION\_\-FICHIER\_\-ETAT}!structures.h@{structures.h}}
+\subsubsection[{VERSION\_\-FICHIER\_\-ETAT}]{\setlength{\rightskip}{0pt plus 5cm}\#define VERSION\_\-FICHIER\_\-ETAT~\char`\"{}0.6.0\char`\"{}}\label{structures_8h_ac67b9c98ee8d1934919e426bcdada8a1}
+
+
+Définition à la ligne 18 du fichier structures.h.
+
+\index{structures.h@{structures.h}!VERSION\_\-FICHIER\_\-IB@{VERSION\_\-FICHIER\_\-IB}}
+\index{VERSION\_\-FICHIER\_\-IB@{VERSION\_\-FICHIER\_\-IB}!structures.h@{structures.h}}
+\subsubsection[{VERSION\_\-FICHIER\_\-IB}]{\setlength{\rightskip}{0pt plus 5cm}\#define VERSION\_\-FICHIER\_\-IB~\char`\"{}0.6.0\char`\"{}}\label{structures_8h_ab3e20dc1e44d90436b46643e52d92adf}
+
+
+Définition à la ligne 20 du fichier structures.h.
+
+\index{structures.h@{structures.h}!VERSION\_\-GTK\_\-MAJOR@{VERSION\_\-GTK\_\-MAJOR}}
+\index{VERSION\_\-GTK\_\-MAJOR@{VERSION\_\-GTK\_\-MAJOR}!structures.h@{structures.h}}
+\subsubsection[{VERSION\_\-GTK\_\-MAJOR}]{\setlength{\rightskip}{0pt plus 5cm}\#define VERSION\_\-GTK\_\-MAJOR~2}\label{structures_8h_ad8e6c67206ef777067d2bad7f6d0cfe8}
+
+
+Définition à la ligne 21 du fichier structures.h.
+
+\index{structures.h@{structures.h}!VERSION\_\-GTK\_\-MICRO@{VERSION\_\-GTK\_\-MICRO}}
+\index{VERSION\_\-GTK\_\-MICRO@{VERSION\_\-GTK\_\-MICRO}!structures.h@{structures.h}}
+\subsubsection[{VERSION\_\-GTK\_\-MICRO}]{\setlength{\rightskip}{0pt plus 5cm}\#define VERSION\_\-GTK\_\-MICRO~0}\label{structures_8h_a1d2f4338aa44cc156bfcac60c7465a01}
+
+
+Définition à la ligne 23 du fichier structures.h.
+
+\index{structures.h@{structures.h}!VERSION\_\-GTK\_\-MINOR@{VERSION\_\-GTK\_\-MINOR}}
+\index{VERSION\_\-GTK\_\-MINOR@{VERSION\_\-GTK\_\-MINOR}!structures.h@{structures.h}}
+\subsubsection[{VERSION\_\-GTK\_\-MINOR}]{\setlength{\rightskip}{0pt plus 5cm}\#define VERSION\_\-GTK\_\-MINOR~16}\label{structures_8h_a2d31570fe40ad0097dd3b6312470eec2}
+
+
+Définition à la ligne 22 du fichier structures.h.
+
+
+
+\subsection{Documentation du type de l'énumération}
+\index{structures.h@{structures.h}!alignement@{alignement}}
+\index{alignement@{alignement}!structures.h@{structures.h}}
+\subsubsection[{alignement}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf alignement}}\label{structures_8h_a1de17aeac7cb885573d40a996aff3306}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{LEFT@{LEFT}!structures.h@{structures.h}}\index{structures.h@{structures.h}!LEFT@{LEFT}}\item[{\em 
+LEFT\label{structures_8h_a1de17aeac7cb885573d40a996aff3306adb45120aafd37a973140edee24708065}
+}]\index{CENTER@{CENTER}!structures.h@{structures.h}}\index{structures.h@{structures.h}!CENTER@{CENTER}}\item[{\em 
+CENTER\label{structures_8h_a1de17aeac7cb885573d40a996aff3306a2159ffbd3a68037511ab5ab4dd35ace7}
+}]\index{RIGHT@{RIGHT}!structures.h@{structures.h}}\index{structures.h@{structures.h}!RIGHT@{RIGHT}}\item[{\em 
+RIGHT\label{structures_8h_a1de17aeac7cb885573d40a996aff3306aec8379af7490bb9eaaf579cf17876f38}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 194 du fichier structures.h.
+
+\index{structures.h@{structures.h}!bet\_\-array\_\-origin\_\-data@{bet\_\-array\_\-origin\_\-data}}
+\index{bet\_\-array\_\-origin\_\-data@{bet\_\-array\_\-origin\_\-data}!structures.h@{structures.h}}
+\subsubsection[{bet\_\-array\_\-origin\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf bet\_\-array\_\-origin\_\-data}}\label{structures_8h_a3bcf2520348c5b510a0ead09dd209e25}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{SPP\_\-ORIGIN\_\-TRANSACTION@{SPP\_\-ORIGIN\_\-TRANSACTION}!structures.h@{structures.h}}\index{structures.h@{structures.h}!SPP\_\-ORIGIN\_\-TRANSACTION@{SPP\_\-ORIGIN\_\-TRANSACTION}}\item[{\em 
+SPP\_\-ORIGIN\_\-TRANSACTION\label{structures_8h_a3bcf2520348c5b510a0ead09dd209e25adbd514047946e59eb715c8940e168647}
+}]\index{SPP\_\-ORIGIN\_\-SCHEDULED@{SPP\_\-ORIGIN\_\-SCHEDULED}!structures.h@{structures.h}}\index{structures.h@{structures.h}!SPP\_\-ORIGIN\_\-SCHEDULED@{SPP\_\-ORIGIN\_\-SCHEDULED}}\item[{\em 
+SPP\_\-ORIGIN\_\-SCHEDULED\label{structures_8h_a3bcf2520348c5b510a0ead09dd209e25a1b682ad0ffa2fd82dcb7419b4f75ccb7}
+}]\index{SPP\_\-ORIGIN\_\-HISTORICAL@{SPP\_\-ORIGIN\_\-HISTORICAL}!structures.h@{structures.h}}\index{structures.h@{structures.h}!SPP\_\-ORIGIN\_\-HISTORICAL@{SPP\_\-ORIGIN\_\-HISTORICAL}}\item[{\em 
+SPP\_\-ORIGIN\_\-HISTORICAL\label{structures_8h_a3bcf2520348c5b510a0ead09dd209e25ae0dbf8c012d403e8e58c445f586eccca}
+}]\index{SPP\_\-ORIGIN\_\-FUTURE@{SPP\_\-ORIGIN\_\-FUTURE}!structures.h@{structures.h}}\index{structures.h@{structures.h}!SPP\_\-ORIGIN\_\-FUTURE@{SPP\_\-ORIGIN\_\-FUTURE}}\item[{\em 
+SPP\_\-ORIGIN\_\-FUTURE\label{structures_8h_a3bcf2520348c5b510a0ead09dd209e25accfd7d3ca8c28accee67d759767e6b81}
+}]\index{SPP\_\-ORIGIN\_\-ACCOUNT@{SPP\_\-ORIGIN\_\-ACCOUNT}!structures.h@{structures.h}}\index{structures.h@{structures.h}!SPP\_\-ORIGIN\_\-ACCOUNT@{SPP\_\-ORIGIN\_\-ACCOUNT}}\item[{\em 
+SPP\_\-ORIGIN\_\-ACCOUNT\label{structures_8h_a3bcf2520348c5b510a0ead09dd209e25a61b19c3f1430c6e5d4595e3fe30c94f9}
+}]\index{SPP\_\-ORIGIN\_\-ARRAY@{SPP\_\-ORIGIN\_\-ARRAY}!structures.h@{structures.h}}\index{structures.h@{structures.h}!SPP\_\-ORIGIN\_\-ARRAY@{SPP\_\-ORIGIN\_\-ARRAY}}\item[{\em 
+SPP\_\-ORIGIN\_\-ARRAY\label{structures_8h_a3bcf2520348c5b510a0ead09dd209e25a090ab38cc81f0b5ee45099b3afa3a8be}
+}]\index{SPP\_\-ORIGIN\_\-CONFIG@{SPP\_\-ORIGIN\_\-CONFIG}!structures.h@{structures.h}}\index{structures.h@{structures.h}!SPP\_\-ORIGIN\_\-CONFIG@{SPP\_\-ORIGIN\_\-CONFIG}}\item[{\em 
+SPP\_\-ORIGIN\_\-CONFIG\label{structures_8h_a3bcf2520348c5b510a0ead09dd209e25ae78a744f10bcd644ee9c94ca3fca40f0}
+}]\index{SPP\_\-ORIGIN\_\-FINANCE@{SPP\_\-ORIGIN\_\-FINANCE}!structures.h@{structures.h}}\index{structures.h@{structures.h}!SPP\_\-ORIGIN\_\-FINANCE@{SPP\_\-ORIGIN\_\-FINANCE}}\item[{\em 
+SPP\_\-ORIGIN\_\-FINANCE\label{structures_8h_a3bcf2520348c5b510a0ead09dd209e25a92b9256715f65fc290fc74d0e4e53b89}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 200 du fichier structures.h.
+
+\index{structures.h@{structures.h}!bet\_\-type\_\-maj@{bet\_\-type\_\-maj}}
+\index{bet\_\-type\_\-maj@{bet\_\-type\_\-maj}!structures.h@{structures.h}}
+\subsubsection[{bet\_\-type\_\-maj}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf bet\_\-type\_\-maj}}\label{structures_8h_ab021d1439ce505d767a56f4fc41af400}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{BET\_\-MAJ\_\-FALSE@{BET\_\-MAJ\_\-FALSE}!structures.h@{structures.h}}\index{structures.h@{structures.h}!BET\_\-MAJ\_\-FALSE@{BET\_\-MAJ\_\-FALSE}}\item[{\em 
+BET\_\-MAJ\_\-FALSE\label{structures_8h_ab021d1439ce505d767a56f4fc41af400a85b2c3349ecc04524add7ae231787dbc}
+}]\index{BET\_\-MAJ\_\-ESTIMATE@{BET\_\-MAJ\_\-ESTIMATE}!structures.h@{structures.h}}\index{structures.h@{structures.h}!BET\_\-MAJ\_\-ESTIMATE@{BET\_\-MAJ\_\-ESTIMATE}}\item[{\em 
+BET\_\-MAJ\_\-ESTIMATE\label{structures_8h_ab021d1439ce505d767a56f4fc41af400a8c9b47440bdc426dc6e11af2b2856792}
+}]\index{BET\_\-MAJ\_\-HISTORICAL@{BET\_\-MAJ\_\-HISTORICAL}!structures.h@{structures.h}}\index{structures.h@{structures.h}!BET\_\-MAJ\_\-HISTORICAL@{BET\_\-MAJ\_\-HISTORICAL}}\item[{\em 
+BET\_\-MAJ\_\-HISTORICAL\label{structures_8h_ab021d1439ce505d767a56f4fc41af400acf2c8b517c4d30e79bfe2e8b6b5400c5}
+}]\index{BET\_\-MAJ\_\-FINANCIAL@{BET\_\-MAJ\_\-FINANCIAL}!structures.h@{structures.h}}\index{structures.h@{structures.h}!BET\_\-MAJ\_\-FINANCIAL@{BET\_\-MAJ\_\-FINANCIAL}}\item[{\em 
+BET\_\-MAJ\_\-FINANCIAL\label{structures_8h_ab021d1439ce505d767a56f4fc41af400a3cb3fcf8bdeb6eb4bb3e8a5f44bc1b00}
+}]\index{BET\_\-MAJ\_\-ALL@{BET\_\-MAJ\_\-ALL}!structures.h@{structures.h}}\index{structures.h@{structures.h}!BET\_\-MAJ\_\-ALL@{BET\_\-MAJ\_\-ALL}}\item[{\em 
+BET\_\-MAJ\_\-ALL\label{structures_8h_ab021d1439ce505d767a56f4fc41af400a9d574c71c6a04cadf85be9083be54eed}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 212 du fichier structures.h.
+
+
+
+\subsection{Documentation des variables}
+\index{structures.h@{structures.h}!conf@{conf}}
+\index{conf@{conf}!structures.h@{structures.h}}
+\subsubsection[{conf}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf gsb\_\-conf\_\-t} {\bf conf}}\label{structures_8h_ac390e947e97cef2bec2f5d59d6ec1071}
+
+
+Définition à la ligne 74 du fichier gsb\_\-file\_\-config.c.
+
+\index{structures.h@{structures.h}!etat@{etat}}
+\index{etat@{etat}!structures.h@{structures.h}}
+\subsubsection[{etat}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf gsb\_\-etat\_\-t} {\bf etat}}\label{structures_8h_ab2a744f5d2124688473d13979420e911}
+
+
+Définition à la ligne 89 du fichier parametres.c.
+

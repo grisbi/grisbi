@@ -1,0 +1,28 @@
+\section{Référence du fichier utils\_\-font.c}
+\label{utils__font_8c}\index{utils\_\-font.c@{utils\_\-font.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-font.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf utils\_\-font\_\-create\_\-button} (gchar $\ast$$\ast$fontname, GCallback hook, gpointer data)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{utils\_\-font.c@{utils\_\-font.c}!utils\_\-font\_\-create\_\-button@{utils\_\-font\_\-create\_\-button}}
+\index{utils\_\-font\_\-create\_\-button@{utils\_\-font\_\-create\_\-button}!utils_font.c@{utils\_\-font.c}}
+\subsubsection[{utils\_\-font\_\-create\_\-button}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ utils\_\-font\_\-create\_\-button (gchar $\ast$$\ast$ {\em fontname}, \/  GCallback {\em hook}, \/  gpointer {\em data})}\label{utils__font_8c_acb32a0d74b002d3e38a74fff48c7c3e5}
+create a button displaying the name and the size of the font clicking on that button show a GtkFontSelectionDialog to change the font and update the fontname !! the fontname can be changed and freed so $\ast$fontname must not be const
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em fontname}]a pointer to a pointer to the name of the font to change with the selection of the user \item[{\em hook}]An optional function to execute when the font has changed (hook must be func ( gchar new\_\-font\_\-name, gpointer data ) ) \item[{\em data}]An optional pointer to pass to hooks.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a GtkButton 
+\end{DoxyReturn}
+
+
+Définition à la ligne 62 du fichier utils\_\-font.c.
+

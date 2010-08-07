@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_category.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_category.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__category_8h_source.html">gsb_category.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="etats__calculs_8h_source.html">etats_calculs.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__category_8h_source.html">gsb_data_category.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__form_8h_source.html">gsb_data_form.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__file__others_8h_source.html">gsb_file_others.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__widget_8h_source.html">gsb_form_widget.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gtk__combofix_8h_source.html">gtk_combofix.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__files_8h_source.html">utils_files.h</a>&quot;</code><br/>
+
+<p><a href="gsb__category_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__category_8c.html#a6a84b628fc462846e25667e888c76dc7">gsb_category_assistant_create_choice_page</a> (GtkWidget *assistant)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__category_8c.html#a6f38ac76c4b1b44555742d71770eb83b">gsb_category_assistant_create_categories</a> (GtkWidget *assistant)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__category_8c.html#a4425cec992b659cc95662174b1879e04">gsb_category_update_combofix</a> (gboolean force)</td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>fuctions to deal with the categories </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__category_8c_source.html">gsb_category.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a6f38ac76c4b1b44555742d71770eb83b"></a><!-- doxytag: member="gsb_category.c::gsb_category_assistant_create_categories" ref="a6f38ac76c4b1b44555742d71770eb83b" args="(GtkWidget *assistant)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_category_assistant_create_categories </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>assistant</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the choice in the assistant page created by gsb_category_assistant_create_choice_page and create the category list</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>assistant</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__category_8c_source.html#l00245">245</a> du fichier <a class="el" href="gsb__category_8c_source.html">gsb_category.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6a84b628fc462846e25667e888c76dc7"></a><!-- doxytag: member="gsb_category.c::gsb_category_assistant_create_choice_page" ref="a6a84b628fc462846e25667e888c76dc7" args="(GtkWidget *assistant)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_category_assistant_create_choice_page </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>assistant</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a widget to include in an assistant it gives the choice between the kind of categories list we can create later, to create the categories according to the choice, call gsb_category_assistant_create_categories</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>assistant</em>&nbsp;</td><td>the assistant wich that page will be added to the choice will be set into the assistant widget with the key "choice_value" CATEGORY_CHOICE_NONE CATEGORY_CHOICE_DEFAULT CATEGORY_CHOICE_ASSOCIATION CATEGORY_CHOICE_LIBERAL</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a box to include in an assistant </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__category_8c_source.html#l00187">187</a> du fichier <a class="el" href="gsb__category_8c_source.html">gsb_category.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4425cec992b659cc95662174b1879e04"></a><!-- doxytag: member="gsb_category.c::gsb_category_update_combofix" ref="a4425cec992b659cc95662174b1879e04" args="(gboolean force)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_category_update_combofix </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>force</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update the form's combofix category</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__category_8c_source.html#l00279">279</a> du fichier <a class="el" href="gsb__category_8c_source.html">gsb_category.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

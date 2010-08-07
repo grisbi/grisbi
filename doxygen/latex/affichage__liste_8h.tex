@@ -1,0 +1,77 @@
+\section{Référence du fichier affichage\_\-liste.h}
+\label{affichage__liste_8h}\index{affichage\_\-liste.h@{affichage\_\-liste.h}}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf display\_\-mode\_\-check\_\-line} (gint line\_\-in\_\-transaction, gint visibles\_\-lines)
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-affichage\_\-operations} (void)
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-diverse\_\-form\_\-and\_\-lists} (void)
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-form\_\-completion} (void)
+\item 
+void {\bf recuperation\_\-noms\_\-colonnes\_\-et\_\-tips} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{affichage\_\-liste.h@{affichage\_\-liste.h}!display\_\-mode\_\-check\_\-line@{display\_\-mode\_\-check\_\-line}}
+\index{display\_\-mode\_\-check\_\-line@{display\_\-mode\_\-check\_\-line}!affichage_liste.h@{affichage\_\-liste.h}}
+\subsubsection[{display\_\-mode\_\-check\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gboolean display\_\-mode\_\-check\_\-line (gint {\em line\_\-in\_\-transaction}, \/  gint {\em visibles\_\-lines})}\label{affichage__liste_8h_a29ff0d6bb71d4f22c3cfb6fc8d58d0a3}
+check if the line given in param, according to the number of visible lines if visibles\_\-lines is 4, that function returns always TRUE
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em line\_\-in\_\-transaction}]the line in the transaction we want to check \item[{\em visibles\_\-lines}]the number of visibles lines (1, 2, 3 or 4)\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : the line should be showed, FALSE : the line must be hidden 
+\end{DoxyReturn}
+
+
+Définition à la ligne 302 du fichier affichage\_\-liste.c.
+
+\index{affichage\_\-liste.h@{affichage\_\-liste.h}!onglet\_\-affichage\_\-operations@{onglet\_\-affichage\_\-operations}}
+\index{onglet\_\-affichage\_\-operations@{onglet\_\-affichage\_\-operations}!affichage_liste.h@{affichage\_\-liste.h}}
+\subsubsection[{onglet\_\-affichage\_\-operations}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-affichage\_\-operations (void)}\label{affichage__liste_8h_a822e762a82cda85425acf41f0be4ef90}
+create the page of configuration for the transaction list behavior
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a vbox containing the configuration page 
+\end{DoxyReturn}
+
+
+Définition à la ligne 94 du fichier affichage\_\-liste.c.
+
+\index{affichage\_\-liste.h@{affichage\_\-liste.h}!onglet\_\-diverse\_\-form\_\-and\_\-lists@{onglet\_\-diverse\_\-form\_\-and\_\-lists}}
+\index{onglet\_\-diverse\_\-form\_\-and\_\-lists@{onglet\_\-diverse\_\-form\_\-and\_\-lists}!affichage_liste.h@{affichage\_\-liste.h}}
+\subsubsection[{onglet\_\-diverse\_\-form\_\-and\_\-lists}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-diverse\_\-form\_\-and\_\-lists (void)}\label{affichage__liste_8h_a33da4cf29fe0704c65a8d2c3fc88700c}
+
+
+Définition à la ligne 445 du fichier affichage\_\-liste.c.
+
+\index{affichage\_\-liste.h@{affichage\_\-liste.h}!onglet\_\-form\_\-completion@{onglet\_\-form\_\-completion}}
+\index{onglet\_\-form\_\-completion@{onglet\_\-form\_\-completion}!affichage_liste.h@{affichage\_\-liste.h}}
+\subsubsection[{onglet\_\-form\_\-completion}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-form\_\-completion (void)}\label{affichage__liste_8h_a35c31378d6ff0acbfdd295ef8dea0982}
+
+
+Définition à la ligne 490 du fichier affichage\_\-liste.c.
+
+\index{affichage\_\-liste.h@{affichage\_\-liste.h}!recuperation\_\-noms\_\-colonnes\_\-et\_\-tips@{recuperation\_\-noms\_\-colonnes\_\-et\_\-tips}}
+\index{recuperation\_\-noms\_\-colonnes\_\-et\_\-tips@{recuperation\_\-noms\_\-colonnes\_\-et\_\-tips}!affichage_liste.h@{affichage\_\-liste.h}}
+\subsubsection[{recuperation\_\-noms\_\-colonnes\_\-et\_\-tips}]{\setlength{\rightskip}{0pt plus 5cm}void recuperation\_\-noms\_\-colonnes\_\-et\_\-tips (void)}\label{affichage__liste_8h_a0c0358b4457dcb87adf267e8fd04d971}
+fill the titres\_\-colonnes\_\-liste\_\-operations variable and the associated tips so get the first row element name and set it for title fill the tips with all the elements of the column
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 391 du fichier affichage\_\-liste.c.
+

@@ -1,0 +1,908 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_scheduler_list.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_scheduler_list.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__scheduler__list_8h_source.html">gsb_scheduler_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="barre__outils_8h_source.html">barre_outils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__dates_8h_source.html">utils_dates.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__automem_8h_source.html">gsb_automem.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__calendar_8h_source.html">gsb_calendar.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__category_8h_source.html">gsb_data_category.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__currency_8h_source.html">gsb_data_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__payee_8h_source.html">gsb_data_payee.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__scheduled_8h_source.html">gsb_data_scheduled.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form_8h_source.html">gsb_form.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__scheduler_8h_source.html">gsb_form_scheduler.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="fenetre__principale_8h_source.html">fenetre_principale.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__scheduler_8h_source.html">gsb_scheduler.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="mouse_8h_source.html">mouse.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="gsb__scheduler__list_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#ad206fcc8ffc537e7d0eda58442a56acc">gsb_scheduler_list_init_variables</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a12e2a6349e0cdbd81b349b588f137336">gsb_scheduler_list_create_list</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a672312ea4cd0c1237b5a8312c330aaef">gsb_scheduler_list_get_tree_view</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#ae3d3fe09b37dc577b1b3f4564da0572a">gsb_scheduler_list_get_last_scheduled_number</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a9eaf111074be94831038960ae9e56732">gsb_scheduler_list_show_notes</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#aecc0e9467fcae670ba2243053ce56334">gsb_scheduler_list_execute_transaction</a> (gint scheduled_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a09e95845b5893d975e94605f02051651">gsb_scheduler_list_fill_list</a> (GtkWidget *tree_view)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#ab752b98c60209519778b0ccc5786527d">gsb_scheduler_list_redraw</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a44db4084e9e03a49fb9c73b5bff9e788">gsb_scheduler_list_append_new_scheduled</a> (gint scheduled_number, GDate *end_date)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#ae61448df24743985077437b1ef276cc5">gsb_scheduler_list_remove_transaction_from_list</a> (gint scheduled_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a7b1d97387d5d2e281f3ead3e6ab0311b">gsb_scheduler_list_update_transaction_in_list</a> (gint scheduled_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a4348c22b2bc74713a8615c749c61f4d8">gsb_scheduler_list_set_background_color</a> (GtkWidget *tree_view)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#acbc7a6e13ae89beb5afb56a3e8bba495">gsb_scheduler_list_select</a> (gint scheduled_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GDate *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#ad9e65bbbb35121bbbb743a902b3632e9">gsb_scheduler_list_get_end_date_scheduled_showed</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a52c8fea240a34ec37da7fe33460d06e7">gsb_scheduler_list_get_current_scheduled_number</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a10a206d10ab971adb3ea36ec263c34d2">gsb_scheduler_list_edit_transaction</a> (gint scheduled_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#ad3d815d7983018de7999d778590f17dc">gsb_scheduler_list_delete_scheduled_transaction_by_menu</a> (GtkWidget *button, gpointer null)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a250e1059f152f3bb43280745d0a66fe6">gsb_scheduler_list_delete_scheduled_transaction</a> (gint scheduled_number, gboolean show_warning)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a56cddba54e3383ebe1506b9a94e22a26">gsb_scheduler_list_change_scheduler_view</a> (enum <a class="el" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99f">scheduler_periodicity</a> periodicity, gpointer item)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#ab762c5bee8904fe3e83e8c2dfdecd94d">affichage_echeances</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#aa8e493eac3d096f6914e1551552c590a">affichage_echeances_perso_nb_libre</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a58089bf9225ae2e274165369f8bc7a00">couleur_fond</a> [2]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a4119417896b5652f640ead3795baac52">couleur_grise</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structconditional__message.html">conditional_message</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a> []</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a5957dd978b4a0c3ab01e006cedfdf96c">mise_a_jour_liste_echeances_manuelles_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a1cd17e8b2fd91a191f8d5d6a7e5f6979">navigation_tree_view</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a3eb48f27c4c4fe376efa3cbccab64398">scheduler_button_delete</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#aee9c73717e42febf99a7eb6a09521f3a">scheduler_button_edit</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a1333bf48291dd195210eda922d5183c4">scheduler_button_execute</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#abc4f631d953e2be68189a6fbcf55cd1d">split_background</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#ade6e813638ccb1437faf234fa2725303">scheduled_transactions_to_take</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#af539ba1ef9bfd1d56ab43b9865b0bab5">scheduled_transactions_taken</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#a8278ca506ea616623cd8cdc764188ee9">scheduler_col_width</a> [SCHEDULER_COL_VISIBLE_COLUMNS]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__scheduler__list_8c.html#afa241b31ec5f7f4750793852e3f49eeb">scheduler_current_tree_view_width</a> = 0</td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>functions for the scheduled list </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a44db4084e9e03a49fb9c73b5bff9e788"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_append_new_scheduled" ref="a44db4084e9e03a49fb9c73b5bff9e788" args="(gint scheduled_number, GDate *end_date)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_list_append_new_scheduled </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>scheduled_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GDate *&nbsp;</td>
+          <td class="paramname"> <em>end_date</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>append the scheduled transaction to the tree_view given in param if that transaction need to be appended several times (untill end_date), it's done here</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>scheduled_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>end_date</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE : scheduled added, FALSE : not added (usually for children who didn't find their mother) </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00696">696</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a56cddba54e3383ebe1506b9a94e22a26"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_change_scheduler_view" ref="a56cddba54e3383ebe1506b9a94e22a26" args="(enum scheduler_periodicity periodicity, gpointer item)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_list_change_scheduler_view </td>
+          <td>(</td>
+          <td class="paramtype">enum <a class="el" href="gsb__scheduler__list_8h.html#a12be35db3678d06856d2d0a9ed88c99f">scheduler_periodicity</a>&nbsp;</td>
+          <td class="paramname"> <em>periodicity</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>item</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>called from the toolbar to change the scheduler view</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>periodicity</em>&nbsp;</td><td>the new view wanted </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>item</em>&nbsp;</td><td>not used</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l01786">1786</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a12e2a6349e0cdbd81b349b588f137336"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_create_list" ref="a12e2a6349e0cdbd81b349b588f137336" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_scheduler_list_create_list </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create the scheduler list</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a vbox widget containing the list </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00158">158</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a250e1059f152f3bb43280745d0a66fe6"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_delete_scheduled_transaction" ref="a250e1059f152f3bb43280745d0a66fe6" args="(gint scheduled_number, gboolean show_warning)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_list_delete_scheduled_transaction </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>scheduled_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>show_warning</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>delete the scheduled transaction</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>scheduled_number</em>&nbsp;</td><td>the transaction to delete </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>show_warning</em>&nbsp;</td><td>TRUE to warn, FALSE to delete directly !! this don't affect the question to delete only the occurence or the whole scheduled transaction it affects only for children of split, and especially deleting the white line child</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l01620">1620</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad3d815d7983018de7999d778590f17dc"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_delete_scheduled_transaction_by_menu" ref="ad3d815d7983018de7999d778590f17dc" args="(GtkWidget *button, gpointer null)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_list_delete_scheduled_transaction_by_menu </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>button</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>null</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>delete the current selected transaction, but called by menu just call gsb_scheduler_list_delete_scheduled_transaction with show_warning = TRUE because cannot do that by the signal</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>button</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l01601">1601</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a10a206d10ab971adb3ea36ec263c34d2"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_edit_transaction" ref="a10a206d10ab971adb3ea36ec263c34d2" args="(gint scheduled_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_list_edit_transaction </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>scheduled_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>edit the scheduling transaction given in param</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>scheduled_number</em>&nbsp;</td><td>the number, -1 if new scheduled transaction or &lt; -1 if new child of split</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l01580">1580</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aecc0e9467fcae670ba2243053ce56334"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_execute_transaction" ref="aecc0e9467fcae670ba2243053ce56334" args="(gint scheduled_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_list_execute_transaction </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>scheduled_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>called to execute a sheduled transaction, either by the button on the toolbar, either by click on the first page if scheduled_number is 0, get the selected transaction</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>scheduled_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00520">520</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a09e95845b5893d975e94605f02051651"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_fill_list" ref="a09e95845b5893d975e94605f02051651" args="(GtkWidget *tree_view)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_list_fill_list </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>tree_view</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>fill the scheduled transactions list</p>
+<p>tree_view</p>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00548">548</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a52c8fea240a34ec37da7fe33460d06e7"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_get_current_scheduled_number" ref="a52c8fea240a34ec37da7fe33460d06e7" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_scheduler_list_get_current_scheduled_number </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the current selected transaction and return it if it's a virtual transaction, return 0</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the current scheduled transaction number </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l01538">1538</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad9e65bbbb35121bbbb743a902b3632e9"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_get_end_date_scheduled_showed" ref="ad9e65bbbb35121bbbb743a902b3632e9" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GDate* gsb_scheduler_list_get_end_date_scheduled_showed </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>find the date untill we want to show the scheduled transactions on the scheduled list, with the user configuration</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a newly allocated final date or NULL for unique view </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l01337">1337</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae3d3fe09b37dc577b1b3f4564da0572a"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_get_last_scheduled_number" ref="ae3d3fe09b37dc577b1b3f4564da0572a" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_scheduler_list_get_last_scheduled_number </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the content of the last_scheduled_number variable that variable is filled when changing the selection of a scheduled transaction</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a gint </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00286">286</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a672312ea4cd0c1237b5a8312c330aaef"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_get_tree_view" ref="a672312ea4cd0c1237b5a8312c330aaef" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_scheduler_list_get_tree_view </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the scheduler tree view</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the scheduler tree_view </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00221">221</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad206fcc8ffc537e7d0eda58442a56acc"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_init_variables" ref="ad206fcc8ffc537e7d0eda58442a56acc" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_scheduler_list_init_variables </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00137">137</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab752b98c60209519778b0ccc5786527d"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_redraw" ref="ab752b98c60209519778b0ccc5786527d" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_list_redraw </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>send a "row-changed" to all the row of the showed transactions, so in fact re-draw the list and colors</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00646">646</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae61448df24743985077437b1ef276cc5"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_remove_transaction_from_list" ref="ae61448df24743985077437b1ef276cc5" args="(gint scheduled_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_list_remove_transaction_from_list </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>scheduled_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>remove the given scheduled transaction from the list and too all the corresponding virtual transactions</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00791">791</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acbc7a6e13ae89beb5afb56a3e8bba495"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_select" ref="acbc7a6e13ae89beb5afb56a3e8bba495" args="(gint scheduled_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_list_select </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>scheduled_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>select the given scheduled transaction</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>scheduled_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l01133">1133</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4348c22b2bc74713a8615c749c61f4d8"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_set_background_color" ref="a4348c22b2bc74713a8615c749c61f4d8" args="(GtkWidget *tree_view)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_list_set_background_color </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>tree_view</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the background colors of the list just for normal scheduled transactions, not for children of split</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>tree_view</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l01064">1064</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9eaf111074be94831038960ae9e56732"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_show_notes" ref="a9eaf111074be94831038960ae9e56732" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_list_show_notes </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>change the showed information on the list : either show the frequency and mode of the scheduled either show the notes</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00496">496</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7b1d97387d5d2e281f3ead3e6ab0311b"></a><!-- doxytag: member="gsb_scheduler_list.c::gsb_scheduler_list_update_transaction_in_list" ref="a7b1d97387d5d2e281f3ead3e6ab0311b" args="(gint scheduled_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_scheduler_list_update_transaction_in_list </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>scheduled_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update the scheduled transaction in the list (and all the virtuals too)</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>scheduled_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00846">846</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="ab762c5bee8904fe3e83e8c2dfdecd94d"></a><!-- doxytag: member="gsb_scheduler_list.c::affichage_echeances" ref="ab762c5bee8904fe3e83e8c2dfdecd94d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#ab762c5bee8904fe3e83e8c2dfdecd94d">affichage_echeances</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__calendar_8c_source.html#l00048">48</a> du fichier <a class="el" href="gsb__calendar_8c_source.html">gsb_calendar.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa8e493eac3d096f6914e1551552c590a"></a><!-- doxytag: member="gsb_scheduler_list.c::affichage_echeances_perso_nb_libre" ref="aa8e493eac3d096f6914e1551552c590a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#aa8e493eac3d096f6914e1551552c590a">affichage_echeances_perso_nb_libre</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__calendar_8c_source.html#l00049">49</a> du fichier <a class="el" href="gsb__calendar_8c_source.html">gsb_calendar.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a58089bf9225ae2e274165369f8bc7a00"></a><!-- doxytag: member="gsb_scheduler_list.c::couleur_fond" ref="a58089bf9225ae2e274165369f8bc7a00" args="[2]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#a58089bf9225ae2e274165369f8bc7a00">couleur_fond</a>[2]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>colors in the transactions list </p>
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00112">112</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4119417896b5652f640ead3795baac52"></a><!-- doxytag: member="gsb_scheduler_list.c::couleur_grise" ref="a4119417896b5652f640ead3795baac52" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#a4119417896b5652f640ead3795baac52">couleur_grise</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00114">114</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8be9044200783277533661fc770e77f5"></a><!-- doxytag: member="gsb_scheduler_list.c::delete_msg" ref="a8be9044200783277533661fc770e77f5" args="[]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structconditional__message.html">conditional_message</a> <a class="el" href="parametres_8c.html#a8be9044200783277533661fc770e77f5">delete_msg</a>[]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>All delete messages </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__transactions__list_8c_source.html#l00182">182</a> du fichier <a class="el" href="gsb__transactions__list_8c_source.html">gsb_transactions_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5957dd978b4a0c3ab01e006cedfdf96c"></a><!-- doxytag: member="gsb_scheduler_list.c::mise_a_jour_liste_echeances_manuelles_accueil" ref="a5957dd978b4a0c3ab01e006cedfdf96c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a5957dd978b4a0c3ab01e006cedfdf96c">mise_a_jour_liste_echeances_manuelles_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00128">128</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1cd17e8b2fd91a191f8d5d6a7e5f6979"></a><!-- doxytag: member="gsb_scheduler_list.c::navigation_tree_view" ref="a1cd17e8b2fd91a191f8d5d6a7e5f6979" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="traitement__variables_8c.html#a1cd17e8b2fd91a191f8d5d6a7e5f6979">navigation_tree_view</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Navigation tree view. </p>
+
+<p>Définition à la ligne <a class="el" href="navigation_8c_source.html#l00115">115</a> du fichier <a class="el" href="navigation_8c_source.html">navigation.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af539ba1ef9bfd1d56ab43b9865b0bab5"></a><!-- doxytag: member="gsb_scheduler_list.c::scheduled_transactions_taken" ref="af539ba1ef9bfd1d56ab43b9865b0bab5" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* <a class="el" href="gsb__scheduler__list_8c.html#af539ba1ef9bfd1d56ab43b9865b0bab5">scheduled_transactions_taken</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00127">127</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ade6e813638ccb1437faf234fa2725303"></a><!-- doxytag: member="gsb_scheduler_list.c::scheduled_transactions_to_take" ref="ade6e813638ccb1437faf234fa2725303" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* <a class="el" href="gsb__scheduler__list_8c.html#ade6e813638ccb1437faf234fa2725303">scheduled_transactions_to_take</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>lists of number of scheduled transactions taken or to be taken </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00126">126</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3eb48f27c4c4fe376efa3cbccab64398"></a><!-- doxytag: member="gsb_scheduler_list.c::scheduler_button_delete" ref="a3eb48f27c4c4fe376efa3cbccab64398" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__scheduler__list_8c.html#a3eb48f27c4c4fe376efa3cbccab64398">scheduler_button_delete</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="barre__outils_8c_source.html#l00065">65</a> du fichier <a class="el" href="barre__outils_8c_source.html">barre_outils.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aee9c73717e42febf99a7eb6a09521f3a"></a><!-- doxytag: member="gsb_scheduler_list.c::scheduler_button_edit" ref="aee9c73717e42febf99a7eb6a09521f3a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__scheduler__list_8c.html#aee9c73717e42febf99a7eb6a09521f3a">scheduler_button_edit</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="barre__outils_8c_source.html#l00066">66</a> du fichier <a class="el" href="barre__outils_8c_source.html">barre_outils.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1333bf48291dd195210eda922d5183c4"></a><!-- doxytag: member="gsb_scheduler_list.c::scheduler_button_execute" ref="a1333bf48291dd195210eda922d5183c4" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__scheduler__list_8c.html#a1333bf48291dd195210eda922d5183c4">scheduler_button_execute</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>here are the 3 buttons on the scheduler toolbar which can been unsensitive or sensitive </p>
+
+<p>Définition à la ligne <a class="el" href="barre__outils_8c_source.html#l00064">64</a> du fichier <a class="el" href="barre__outils_8c_source.html">barre_outils.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8278ca506ea616623cd8cdc764188ee9"></a><!-- doxytag: member="gsb_scheduler_list.c::scheduler_col_width" ref="a8278ca506ea616623cd8cdc764188ee9" args="[SCHEDULER_COL_VISIBLE_COLUMNS]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a8278ca506ea616623cd8cdc764188ee9">scheduler_col_width</a>[SCHEDULER_COL_VISIBLE_COLUMNS]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>used to save and restore the width of the scheduled list </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00130">130</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afa241b31ec5f7f4750793852e3f49eeb"></a><!-- doxytag: member="gsb_scheduler_list.c::scheduler_current_tree_view_width" ref="afa241b31ec5f7f4750793852e3f49eeb" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#afa241b31ec5f7f4750793852e3f49eeb">scheduler_current_tree_view_width</a> = 0</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__scheduler__list_8c_source.html#l00132">132</a> du fichier <a class="el" href="gsb__scheduler__list_8c_source.html">gsb_scheduler_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abc4f631d953e2be68189a6fbcf55cd1d"></a><!-- doxytag: member="gsb_scheduler_list.c::split_background" ref="abc4f631d953e2be68189a6fbcf55cd1d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="transaction__list_8c.html#abc4f631d953e2be68189a6fbcf55cd1d">split_background</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00117">117</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="gsb_scheduler_list.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

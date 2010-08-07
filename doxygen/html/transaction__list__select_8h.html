@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier transaction_list_select.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier transaction_list_select.h</h1>
+<p><a href="transaction__list__select_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list__select_8h.html#a85f38a439156b883335de73220dca237">transaction_list_select</a> (gint transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list__select_8h.html#aad826f93d59044effba7ca1c31eccabb">transaction_list_select_down</a> (gboolean into_children)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list__select_8h.html#a0a2effd6ee01ec6f9b848593b797398a">transaction_list_select_get</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkTreePath *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list__select_8h.html#ac4dba240fa9e06af594157c07e62c2d8">transaction_list_select_get_path</a> (gint line_in_transaction)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list__select_8h.html#afb819edf423709c65e5a7f0d427ddcf1">transaction_list_select_unselect</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list__select_8h.html#afe4cb2b4907b0146fd152277511c5653">transaction_list_select_up</a> (gboolean into_children)</td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a85f38a439156b883335de73220dca237"></a><!-- doxytag: member="transaction_list_select.h::transaction_list_select" ref="a85f38a439156b883335de73220dca237" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_select </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the selection on the given transaction</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td>the transaction to select</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE if not possible (not visible), TRUE if ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list__select_8c_source.html#l00060">60</a> du fichier <a class="el" href="transaction__list__select_8c_source.html">transaction_list_select.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aad826f93d59044effba7ca1c31eccabb"></a><!-- doxytag: member="transaction_list_select.h::transaction_list_select_down" ref="aad826f93d59044effba7ca1c31eccabb" args="(gboolean into_children)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_select_down </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>into_children</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>move down the selection this doesn't change the selection in the account, only on the model, so need to update the account</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>into_children</em>&nbsp;</td><td>if TRUE and the current selection has children and is opened, the selection goes on the first child of that transaction else it goes directly on the next mother</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE : done, FALSE : no change </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list__select_8c_source.html#l00259">259</a> du fichier <a class="el" href="transaction__list__select_8c_source.html">transaction_list_select.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0a2effd6ee01ec6f9b848593b797398a"></a><!-- doxytag: member="transaction_list_select.h::transaction_list_select_get" ref="a0a2effd6ee01ec6f9b848593b797398a" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint transaction_list_select_get </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the selected transaction</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the transaction_number or -1 (white line) if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list__select_8c_source.html#l00143">143</a> du fichier <a class="el" href="transaction__list__select_8c_source.html">transaction_list_select.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac4dba240fa9e06af594157c07e62c2d8"></a><!-- doxytag: member="transaction_list_select.h::transaction_list_select_get_path" ref="ac4dba240fa9e06af594157c07e62c2d8" args="(gint line_in_transaction)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkTreePath* transaction_list_select_get_path </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>line_in_transaction</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the path of the selected transaction according line_in_transaction</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>line_in_transaction</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a newly allocated GtkTreePath </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list__select_8c_source.html#l00363">363</a> du fichier <a class="el" href="transaction__list__select_8c_source.html">transaction_list_select.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afb819edf423709c65e5a7f0d427ddcf1"></a><!-- doxytag: member="transaction_list_select.h::transaction_list_select_unselect" ref="afb819edf423709c65e5a7f0d427ddcf1" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_list_select_unselect </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>unselect the current selection of the custom list</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list__select_8c_source.html#l00406">406</a> du fichier <a class="el" href="transaction__list__select_8c_source.html">transaction_list_select.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afe4cb2b4907b0146fd152277511c5653"></a><!-- doxytag: member="transaction_list_select.h::transaction_list_select_up" ref="afe4cb2b4907b0146fd152277511c5653" args="(gboolean into_children)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_select_up </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>into_children</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>move up the selection this doesn't change the selection in the account, only on the model, so need to update the account</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>into_children</em>&nbsp;</td><td>if TRUE and the previous transaction is a split and is opened, the selection goes on the last child of the previous transactions, else it goes directly on the mother</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE : done, FALSE : no change </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list__select_8c_source.html#l00171">171</a> du fichier <a class="el" href="transaction__list__select_8c_source.html">transaction_list_select.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

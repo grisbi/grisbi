@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de etats_csv.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>etats_csv.c</h1><a href="etats__csv_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*     Copyright (C)         2005 Benjamin Drieu (bdrieu@april.org)           */</span>
+<a name="l00004"></a>00004 <span class="comment">/*          2009 Pierre Biava (grisbi@pierre.biava.name)                      */</span>
+<a name="l00005"></a>00005 <span class="comment">/*          http://www.grisbi.org                                             */</span>
+<a name="l00006"></a>00006 <span class="comment">/*                                                                            */</span>
+<a name="l00007"></a>00007 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00010"></a>00010 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00011"></a>00011 <span class="comment">/*                                                                            */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00015"></a>00015 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00016"></a>00016 <span class="comment">/*                                                                            */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00019"></a>00019 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00020"></a>00020 <span class="comment">/*                                                                            */</span>
+<a name="l00021"></a>00021 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023 
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="etats__csv_8h.html">etats_csv.h</a>&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="dialog_8h.html">dialog.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="utils__files_8h.html">utils_files.h</a>&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="etats__config_8h.html">etats_config.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="structures_8h.html">structures.h</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="etats__affiche_8h.html">etats_affiche.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036 <span class="comment">/*START_STATIC*/</span>
+<a name="l00037"></a>00037 <span class="keyword">static</span> <span class="keywordtype">void</span> csv_attach_hsep ( gint x, gint x2, gint y, gint y2);
+<a name="l00038"></a>00038 <span class="keyword">static</span> <span class="keywordtype">void</span> csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint y, gint y2, 
+<a name="l00039"></a>00039                         <span class="keyword">enum</span> <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306">alignement</a> align, gint transaction_number );
+<a name="l00040"></a>00040 <span class="keyword">static</span> <span class="keywordtype">void</span> csv_attach_vsep ( gint x, gint x2, gint y, gint y2);
+<a name="l00041"></a>00041 <span class="keyword">static</span> gint csv_finish ();
+<a name="l00042"></a>00042 <span class="keyword">static</span> gint csv_initialise (GSList * opes_selectionnees, gchar * filename );
+<a name="l00043"></a>00043 <span class="keyword">static</span> <span class="keywordtype">void</span> csv_safe ( <span class="keyword">const</span> gchar * text ) ;
+<a name="l00044"></a>00044 <span class="comment">/*END_STATIC*/</span>
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046 
+<a name="l00047"></a><a class="code" href="etats__onglet_8c.html#a121b891fb05ffbd94cb74962dd89abd9">00047</a> <span class="keyword">struct </span><a class="code" href="structstruct__etat__affichage.html">struct_etat_affichage</a> <a class="code" href="etats__csv_8c.html#a121b891fb05ffbd94cb74962dd89abd9">csv_affichage</a> = {
+<a name="l00048"></a>00048     csv_initialise,
+<a name="l00049"></a>00049     csv_finish,
+<a name="l00050"></a>00050     csv_attach_hsep,
+<a name="l00051"></a>00051     csv_attach_vsep,
+<a name="l00052"></a>00052     csv_attach_label,
+<a name="l00053"></a>00053 };
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055 <span class="keyword">static</span> FILE * csv_out;
+<a name="l00056"></a>00056 <span class="keyword">static</span> gint csv_lastcol = 0;
+<a name="l00057"></a>00057 <span class="keyword">static</span> gint csv_lastline = 1;
+<a name="l00058"></a>00058 
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00061"></a>00061 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063 
+<a name="l00083"></a>00083 <span class="keywordtype">void</span> csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint y, gint y2, 
+<a name="l00084"></a>00084                         <span class="keyword">enum</span> <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306">alignement</a> align, gint transaction_number )
+<a name="l00085"></a>00085 {
+<a name="l00086"></a>00086     gint pad;
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088     <span class="keywordflow">if</span> ( !text )
+<a name="l00089"></a>00089         text = <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091     <span class="keywordflow">if</span> ( y &gt;= csv_lastline )
+<a name="l00092"></a>00092     {
+<a name="l00093"></a>00093         csv_lastcol = 0;
+<a name="l00094"></a>00094         csv_lastline = y2;
+<a name="l00095"></a>00095         fprintf ( csv_out, <span class="stringliteral">&quot;\n&quot;</span> );
+<a name="l00096"></a>00096     }
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098     <span class="keywordflow">for</span> ( pad = csv_lastcol ; pad &lt; x ; pad ++ )
+<a name="l00099"></a>00099     {
+<a name="l00100"></a>00100             fprintf ( csv_out, <span class="stringliteral">&quot;;&quot;</span> );
+<a name="l00101"></a>00101     }
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103     fprintf ( csv_out, <span class="stringliteral">&quot;\&quot;&quot;</span> );
+<a name="l00104"></a>00104     csv_safe (text);
+<a name="l00105"></a>00105     fprintf ( csv_out, <span class="stringliteral">&quot;\&quot;&quot;</span> );
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107     <span class="keywordflow">for</span> ( x++; x &lt;= x2 ; x++ )
+<a name="l00108"></a>00108     {
+<a name="l00109"></a>00109         fprintf ( csv_out, <span class="stringliteral">&quot;;&quot;</span> );
+<a name="l00110"></a>00110     }
+<a name="l00111"></a>00111     csv_lastcol = x2;
+<a name="l00112"></a>00112 }
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115 
+<a name="l00125"></a>00125 <span class="keywordtype">void</span> csv_attach_vsep ( gint x, gint x2, gint y, gint y2)
+<a name="l00126"></a>00126 {
+<a name="l00127"></a>00127 }
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130 
+<a name="l00140"></a>00140 <span class="keywordtype">void</span> csv_attach_hsep ( gint x, gint x2, gint y, gint y2)
+<a name="l00141"></a>00141 {
+<a name="l00142"></a>00142 }
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145 
+<a name="l00151"></a>00151 gint csv_initialise (GSList * opes_selectionnees, gchar * filename )
+<a name="l00152"></a>00152 {
+<a name="l00153"></a>00153     g_return_val_if_fail ( filename, FALSE );
+<a name="l00154"></a>00154    <span class="comment">/* initialise values */</span>
+<a name="l00155"></a>00155     csv_lastcol = 0;
+<a name="l00156"></a>00156     csv_lastline = 1;
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158     g_unlink ( filename );      <span class="comment">/* We don&#39;t care if this fails, this</span>
+<a name="l00159"></a>00159 <span class="comment">                                 * is just to guarantee next will</span>
+<a name="l00160"></a>00160 <span class="comment">                                 * not fail if file is existing.  This</span>
+<a name="l00161"></a>00161 <span class="comment">                                 * will help against file races. */</span>
+<a name="l00162"></a>00162     csv_out = <a class="code" href="utils__files_8c.html#ac113fb5932da8fd819f73d967a90c219" title="utf8 version of fopen (see fopen for more detail about mode)">utf8_fopen</a> ( filename, <span class="stringliteral">&quot;w+x&quot;</span> );
+<a name="l00163"></a>00163     <span class="keywordflow">if</span> ( ! csv_out )
+<a name="l00164"></a>00164     {
+<a name="l00165"></a>00165         <a class="code" href="dialog_8c.html#aa88d9d93c78818a177e9a14eff15f360">dialogue_error</a> ( g_strdup_printf (_(<span class="stringliteral">&quot;Unable to open file &#39;%s&#39;&quot;</span>), filename ));
+<a name="l00166"></a>00166         <span class="keywordflow">return</span> FALSE;
+<a name="l00167"></a>00167     }
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169     <span class="keywordflow">return</span> TRUE;
+<a name="l00170"></a>00170 }
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172 
+<a name="l00173"></a>00173 
+<a name="l00179"></a>00179 gint csv_finish ()
+<a name="l00180"></a>00180 {
+<a name="l00181"></a>00181     fclose (csv_out);
+<a name="l00182"></a>00182 
+<a name="l00183"></a>00183     <span class="keywordflow">return</span> 1;
+<a name="l00184"></a>00184 }
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186 
+<a name="l00187"></a>00187 
+<a name="l00195"></a>00195 <span class="keywordtype">void</span> csv_safe ( <span class="keyword">const</span> gchar * text ) 
+<a name="l00196"></a>00196 {
+<a name="l00197"></a>00197     <span class="keywordflow">if</span> ( ! text || ! strlen(text))
+<a name="l00198"></a>00198         <span class="keywordflow">return</span>;
+<a name="l00199"></a>00199 
+<a name="l00200"></a>00200     <span class="keywordflow">for</span> ( ; * text; text ++ )
+<a name="l00201"></a>00201     {
+<a name="l00202"></a>00202         <span class="keywordflow">switch</span> ( * text )
+<a name="l00203"></a>00203         {
+<a name="l00204"></a>00204             <span class="keywordflow">case</span> <span class="charliteral">&#39;&quot;&#39;</span>:
+<a name="l00205"></a>00205                 fprintf ( csv_out, <span class="stringliteral">&quot;\\&quot;</span> );
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207             <span class="keywordflow">default</span>:
+<a name="l00208"></a>00208                 fprintf ( csv_out, <span class="stringliteral">&quot;%c&quot;</span>, *text );
+<a name="l00209"></a>00209                 <span class="keywordflow">break</span>;
+<a name="l00210"></a>00210         }
+<a name="l00211"></a>00211     }
+<a name="l00212"></a>00212 }
+<a name="l00213"></a>00213 
+<a name="l00214"></a>00214 <span class="comment">/* Local variables: */</span>
+<a name="l00215"></a>00215 <span class="comment">/* c-basic-offset: 4 */</span>
+<a name="l00216"></a>00216 <span class="comment">/* End: */</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

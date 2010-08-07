@@ -1,0 +1,400 @@
+\section{Référence du fichier gsb\_\-data\_\-reconcile.h}
+\label{gsb__data__reconcile_8h}\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gint {\bf gsb\_\-data\_\-reconcile\_\-get\_\-account} (gint reconcile\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-reconcile\_\-get\_\-account\_\-last\_\-number} (gint account\_\-number)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-balance} (gint reconcile\_\-number)
+\item 
+const GDate $\ast$ {\bf gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-date} (gint reconcile\_\-number)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-balance} (gint reconcile\_\-number)
+\item 
+const GDate $\ast$ {\bf gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-date} (gint reconcile\_\-number)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-reconcile\_\-get\_\-name} (gint reconcile\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-reconcile\_\-get\_\-no\_\-reconcile} (gpointer reconcile\_\-ptr)
+\item 
+gint {\bf gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-date} (const GDate $\ast$date, gint account\_\-number)
+\item 
+gint {\bf gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-name} (const gchar $\ast$name)
+\item 
+GList $\ast$ {\bf gsb\_\-data\_\-reconcile\_\-get\_\-reconcile\_\-list} (void)
+\item 
+GList $\ast$ {\bf gsb\_\-data\_\-reconcile\_\-get\_\-sort\_\-reconcile\_\-list} (gint account\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-reconcile\_\-init\_\-variables} (void)
+\item 
+gint {\bf gsb\_\-data\_\-reconcile\_\-max\_\-number} (void)
+\item 
+gint {\bf gsb\_\-data\_\-reconcile\_\-new} (const gchar $\ast$name)
+\item 
+gboolean {\bf gsb\_\-data\_\-reconcile\_\-remove} (gint reconcile\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-reconcile\_\-set\_\-account} (gint reconcile\_\-number, gint account\_\-number)
+\item 
+gboolean {\bf gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-balance} (gint reconcile\_\-number, {\bf gsb\_\-real} amount)
+\item 
+gboolean {\bf gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-date} (gint reconcile\_\-number, const GDate $\ast$date)
+\item 
+gboolean {\bf gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-balance} (gint reconcile\_\-number, {\bf gsb\_\-real} amount)
+\item 
+gboolean {\bf gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-date} (gint reconcile\_\-number, const GDate $\ast$date)
+\item 
+gboolean {\bf gsb\_\-data\_\-reconcile\_\-set\_\-name} (gint reconcile\_\-number, const gchar $\ast$name)
+\item 
+gint {\bf gsb\_\-data\_\-reconcile\_\-set\_\-new\_\-number} (gint reconcile\_\-number, gint new\_\-no\_\-reconcile)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-get\_\-account@{gsb\_\-data\_\-reconcile\_\-get\_\-account}}
+\index{gsb\_\-data\_\-reconcile\_\-get\_\-account@{gsb\_\-data\_\-reconcile\_\-get\_\-account}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-get\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-reconcile\_\-get\_\-account (gint {\em reconcile\_\-number})}\label{gsb__data__reconcile_8h_a57f4a52c653f13e27564fc8ff2b4350b}
+return the account number of the reconcile
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account}]number the number of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the account number of the reconcile or -\/1 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 413 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-get\_\-account\_\-last\_\-number@{gsb\_\-data\_\-reconcile\_\-get\_\-account\_\-last\_\-number}}
+\index{gsb\_\-data\_\-reconcile\_\-get\_\-account\_\-last\_\-number@{gsb\_\-data\_\-reconcile\_\-get\_\-account\_\-last\_\-number}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-get\_\-account\_\-last\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-reconcile\_\-get\_\-account\_\-last\_\-number (gint {\em account\_\-number})}\label{gsb__data__reconcile_8h_a2ab9538da63a10bec22e1efe1cd3f19f}
+find the last reconcile number for the given account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the last reconcile number for that account, 0 if none found 
+\end{DoxyReturn}
+
+
+Définition à la ligne 649 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-balance@{gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-balance}}
+\index{gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-balance@{gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-balance}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-balance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-balance (gint {\em reconcile\_\-number})}\label{gsb__data__reconcile_8h_a261a4e1eacb9c6517df7daa4afa879bb}
+return the final\_\-amount of the reconcile
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-number}]the number of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the final balance of the reconcile or null\_\-real if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 605 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-date@{gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-date}}
+\index{gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-date@{gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-date}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}const GDate$\ast$ gsb\_\-data\_\-reconcile\_\-get\_\-final\_\-date (gint {\em reconcile\_\-number})}\label{gsb__data__reconcile_8h_ac2e105ad149161a371283aa75049d3b6}
+return the final\_\-date of the reconcile
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-number}]the number of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the final\_\-date of the reconcile or NULL if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 508 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-balance@{gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-balance}}
+\index{gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-balance@{gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-balance}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-balance}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-balance (gint {\em reconcile\_\-number})}\label{gsb__data__reconcile_8h_ac14e8641bb156f533d7ac2427c4b9cfc}
+return the init\_\-amount of the reconcile
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-number}]the number of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the init\_\-amount of the reconcile or null\_\-real if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 561 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-date@{gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-date}}
+\index{gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-date@{gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-date}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}const GDate$\ast$ gsb\_\-data\_\-reconcile\_\-get\_\-init\_\-date (gint {\em reconcile\_\-number})}\label{gsb__data__reconcile_8h_a34a53feb10b93744a7230407d599b788}
+return the init\_\-date of the reconcile
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-number}]the number of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the init\_\-date of the reconcile or NULL if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 458 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-get\_\-name@{gsb\_\-data\_\-reconcile\_\-get\_\-name}}
+\index{gsb\_\-data\_\-reconcile\_\-get\_\-name@{gsb\_\-data\_\-reconcile\_\-get\_\-name}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-get\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-reconcile\_\-get\_\-name (gint {\em reconcile\_\-number})}\label{gsb__data__reconcile_8h_a0f88a3f39b7944967f373097fe9d1474}
+return the name of the reconcile
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-number}]the number of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the name of the reconcile or NULL if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 328 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-get\_\-no\_\-reconcile@{gsb\_\-data\_\-reconcile\_\-get\_\-no\_\-reconcile}}
+\index{gsb\_\-data\_\-reconcile\_\-get\_\-no\_\-reconcile@{gsb\_\-data\_\-reconcile\_\-get\_\-no\_\-reconcile}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-get\_\-no\_\-reconcile}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-reconcile\_\-get\_\-no\_\-reconcile (gpointer {\em reconcile\_\-ptr})}\label{gsb__data__reconcile_8h_a834a5ace0380c21559fb87cb88f7da80}
+return the number of the reconcile given in param
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-ptr}]a pointer to the struct of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the reconcile, 0 if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 150 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-date@{gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-date}}
+\index{gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-date@{gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-date}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-date (const GDate $\ast$ {\em date}, \/  gint {\em account\_\-number})}\label{gsb__data__reconcile_8h_a8b5fef84e7618bcd6f6ac22f28fbbbdd}
+try to find a reconcile wich contains the date given in param for the given account
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em date}]\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the found reconcile or 0 if not found 
+\end{DoxyReturn}
+
+
+Définition à la ligne 671 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-name@{gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-name}}
+\index{gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-name@{gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-name}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-reconcile\_\-get\_\-number\_\-by\_\-name (const gchar $\ast$ {\em name})}\label{gsb__data__reconcile_8h_a839ed7c90982127f0994a6472ba2f8bf}
+return the number of the reconcile wich has the name in param create it if necessary
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em name}]the name of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the reconcile or 0 if doesn't exist 
+\end{DoxyReturn}
+
+
+Définition à la ligne 380 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-get\_\-reconcile\_\-list@{gsb\_\-data\_\-reconcile\_\-get\_\-reconcile\_\-list}}
+\index{gsb\_\-data\_\-reconcile\_\-get\_\-reconcile\_\-list@{gsb\_\-data\_\-reconcile\_\-get\_\-reconcile\_\-list}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-get\_\-reconcile\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GList$\ast$ gsb\_\-data\_\-reconcile\_\-get\_\-reconcile\_\-list (void)}\label{gsb__data__reconcile_8h_aa78fc612a3b6c450f074b879633c6db3}
+give the g\_\-list of reconcile structure
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the g\_\-list of reconciles structure 
+\end{DoxyReturn}
+
+
+Définition à la ligne 170 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-get\_\-sort\_\-reconcile\_\-list@{gsb\_\-data\_\-reconcile\_\-get\_\-sort\_\-reconcile\_\-list}}
+\index{gsb\_\-data\_\-reconcile\_\-get\_\-sort\_\-reconcile\_\-list@{gsb\_\-data\_\-reconcile\_\-get\_\-sort\_\-reconcile\_\-list}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-get\_\-sort\_\-reconcile\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}GList$\ast$ gsb\_\-data\_\-reconcile\_\-get\_\-sort\_\-reconcile\_\-list (gint {\em account\_\-number})}\label{gsb__data__reconcile_8h_a8224c264d9596777a0a701a31bd2487f}
+renvoie la liste des rapprochements triée par date pour un compte donné
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em account\_\-number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the reconcile list for that account 
+\end{DoxyReturn}
+
+
+Définition à la ligne 710 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-init\_\-variables@{gsb\_\-data\_\-reconcile\_\-init\_\-variables}}
+\index{gsb\_\-data\_\-reconcile\_\-init\_\-variables@{gsb\_\-data\_\-reconcile\_\-init\_\-variables}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-init\_\-variables}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-reconcile\_\-init\_\-variables (void)}\label{gsb__data__reconcile_8h_a92e5a9c9c1a907d6b2f7571426a910b6}
+set the reconciles global variables to NULL, usually when we init all the global variables
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 85 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-max\_\-number@{gsb\_\-data\_\-reconcile\_\-max\_\-number}}
+\index{gsb\_\-data\_\-reconcile\_\-max\_\-number@{gsb\_\-data\_\-reconcile\_\-max\_\-number}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-max\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-reconcile\_\-max\_\-number (void)}\label{gsb__data__reconcile_8h_a4bf21657f3550be9b9d6257c99bc2b4c}
+find and return the last number of reconcile
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em none}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+last number of reconcile 
+\end{DoxyReturn}
+
+
+Définition à la ligne 184 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-new@{gsb\_\-data\_\-reconcile\_\-new}}
+\index{gsb\_\-data\_\-reconcile\_\-new@{gsb\_\-data\_\-reconcile\_\-new}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-reconcile\_\-new (const gchar $\ast$ {\em name})}\label{gsb__data__reconcile_8h_a62d7a52b2bf26c55b8a6cfe835aaf91a}
+create a new reconcile, give it a number, append it to the list and return the number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em name}]the name of the reconcile (can be freed after, it's a copy) or NULL\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number of the new reconcile or 0 if memory problem (a message will be showed) 
+\end{DoxyReturn}
+
+
+Définition à la ligne 214 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-remove@{gsb\_\-data\_\-reconcile\_\-remove}}
+\index{gsb\_\-data\_\-reconcile\_\-remove@{gsb\_\-data\_\-reconcile\_\-remove}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-remove}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-reconcile\_\-remove (gint {\em reconcile\_\-number})}\label{gsb__data__reconcile_8h_aab7d2ded64eec85188ff49c86165b53d}
+remove a reconcile all the transactions marked by that reconcile will be marked P and lose the link to that reconcile
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-number}]the reconcile we want to remove\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 262 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-set\_\-account@{gsb\_\-data\_\-reconcile\_\-set\_\-account}}
+\index{gsb\_\-data\_\-reconcile\_\-set\_\-account@{gsb\_\-data\_\-reconcile\_\-set\_\-account}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-set\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-reconcile\_\-set\_\-account (gint {\em reconcile\_\-number}, \/  gint {\em account\_\-number})}\label{gsb__data__reconcile_8h_a0c9177f5d2c4a6d4746ace048acb1f81}
+set the account number of the reconcile
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-number}]the number of the reconcile \item[{\em account\_\-number}]the account number of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 434 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-balance@{gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-balance}}
+\index{gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-balance@{gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-balance}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-balance}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-balance (gint {\em reconcile\_\-number}, \/  {\bf gsb\_\-real} {\em amount})}\label{gsb__data__reconcile_8h_adad38ed6864de1c3da2e1bb7965b05a5}
+set the final\_\-amount of the reconcile
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-number}]the number of the reconcile \item[{\em amount}]the final\_\-amount of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 626 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-date@{gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-date}}
+\index{gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-date@{gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-date}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-reconcile\_\-set\_\-final\_\-date (gint {\em reconcile\_\-number}, \/  const GDate $\ast$ {\em date})}\label{gsb__data__reconcile_8h_afbeb0c882101954a2b3717b2275bfe5e}
+set the final\_\-date of the reconcile the value is dupplicate in memory (so parameter can be freed after)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-number}]the number of the reconcile \item[{\em date}]the final\_\-date of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 530 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-balance@{gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-balance}}
+\index{gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-balance@{gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-balance}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-balance}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-balance (gint {\em reconcile\_\-number}, \/  {\bf gsb\_\-real} {\em amount})}\label{gsb__data__reconcile_8h_ae00b62ef7aed10eaa1436c833fe8da0c}
+set the init\_\-amount of the reconcile
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-number}]the number of the reconcile \item[{\em amount}]the init\_\-amount of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 582 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-date@{gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-date}}
+\index{gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-date@{gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-date}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-reconcile\_\-set\_\-init\_\-date (gint {\em reconcile\_\-number}, \/  const GDate $\ast$ {\em date})}\label{gsb__data__reconcile_8h_a804d3e97ad7b144a45a11f9786cc1b80}
+set the init\_\-date of the reconcile the value is dupplicate in memory (so parameter can be freed after)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-number}]the number of the reconcile \item[{\em date}]the init\_\-date of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 480 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-set\_\-name@{gsb\_\-data\_\-reconcile\_\-set\_\-name}}
+\index{gsb\_\-data\_\-reconcile\_\-set\_\-name@{gsb\_\-data\_\-reconcile\_\-set\_\-name}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-set\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-reconcile\_\-set\_\-name (gint {\em reconcile\_\-number}, \/  const gchar $\ast$ {\em name})}\label{gsb__data__reconcile_8h_ad4723e032886e6a97aa32b39363463f1}
+set the name of the reconcile the value is dupplicate in memory (so parameter can be freed after)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-number}]the number of the reconcile \item[{\em name}]the name of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok or FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 350 du fichier gsb\_\-data\_\-reconcile.c.
+
+\index{gsb\_\-data\_\-reconcile.h@{gsb\_\-data\_\-reconcile.h}!gsb\_\-data\_\-reconcile\_\-set\_\-new\_\-number@{gsb\_\-data\_\-reconcile\_\-set\_\-new\_\-number}}
+\index{gsb\_\-data\_\-reconcile\_\-set\_\-new\_\-number@{gsb\_\-data\_\-reconcile\_\-set\_\-new\_\-number}!gsb_data_reconcile.h@{gsb\_\-data\_\-reconcile.h}}
+\subsubsection[{gsb\_\-data\_\-reconcile\_\-set\_\-new\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-reconcile\_\-set\_\-new\_\-number (gint {\em reconcile\_\-number}, \/  gint {\em new\_\-no\_\-reconcile})}\label{gsb__data__reconcile_8h_aa86c8172d748f9c6d545e0062818578d}
+set a new number for the reconcile normally used only while loading the file because the number are given automaticly
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em reconcile\_\-number}]the number of the reconcile \item[{\em new\_\-no\_\-reconcile}]the new number of the reconcile\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the new number or 0 if the reconcile doen't exist 
+\end{DoxyReturn}
+
+
+Définition à la ligne 306 du fichier gsb\_\-data\_\-reconcile.c.
+

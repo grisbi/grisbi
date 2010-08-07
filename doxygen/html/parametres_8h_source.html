@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de parametres.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>parametres.h</h1><a href="parametres_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _PARAMETRES_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _PARAMETRES_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="comment">/* Preference pages */</span>
+<a name="l00005"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ad">00005</a> <span class="keyword">enum</span> <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ad">preference_page</a>  {
+<a name="l00006"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada45dbc2abf3dd4f463cdc34b6c9fbc28a">00006</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada45dbc2abf3dd4f463cdc34b6c9fbc28a">NOT_A_PAGE</a> = -1,
+<a name="l00007"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada331431408001470a72aaae89798210c2">00007</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada331431408001470a72aaae89798210c2">FILES_PAGE</a>,
+<a name="l00008"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada1220a419de5254b18d4bf1e760375cd4">00008</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada1220a419de5254b18d4bf1e760375cd4">ARCHIVE_PAGE</a>,
+<a name="l00009"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada14937c0583996f24f239a93115eaa41e">00009</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada14937c0583996f24f239a93115eaa41e">IMPORT_PAGE</a>,
+<a name="l00010"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada3e9390c8431f275409f84274af743a4e">00010</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada3e9390c8431f275409f84274af743a4e">IMPORT_ASSOCIATION_PAGE</a>,
+<a name="l00011"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adab4da2662b602b98d5250f422637c1270">00011</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adab4da2662b602b98d5250f422637c1270">SOFTWARE_PAGE</a>,
+<a name="l00012"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada070e77c30f7ccd918c94fea843c963e9">00012</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada070e77c30f7ccd918c94fea843c963e9">SCHEDULER_PAGE</a>,
+<a name="l00013"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada18280b31065b2810b58f08f740a82c25">00013</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada18280b31065b2810b58f08f740a82c25">MAIN_PAGE</a>,
+<a name="l00014"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada7f841787883c223ff1dd2e1254bb0f24">00014</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada7f841787883c223ff1dd2e1254bb0f24">FONTS_AND_LOGO_PAGE</a>,
+<a name="l00015"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adae83a3f17663ebb4c53be5d042a096a0b">00015</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adae83a3f17663ebb4c53be5d042a096a0b">MESSAGES_AND_WARNINGS_PAGE</a>,
+<a name="l00016"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada2c95cdb3638ab7f48d3a0d6a302d6d6a">00016</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada2c95cdb3638ab7f48d3a0d6a302d6d6a">ADDRESSES_AND_TITLES_PAGE</a>,
+<a name="l00017"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada951b919efd43a0b7716045cda0bd215c">00017</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada951b919efd43a0b7716045cda0bd215c">TOTALS_PAGE</a>,
+<a name="l00018"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adaa89f718f214862b118d9f1642944c935">00018</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adaa89f718f214862b118d9f1642944c935">TOOLBARS_PAGE</a>,
+<a name="l00019"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada900c9d0969e1deb728e51ff62c065e81">00019</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada900c9d0969e1deb728e51ff62c065e81">TRANSACTIONS_PAGE</a>,
+<a name="l00020"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada34d67d89f14108b8f5a51f53e250df73">00020</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada34d67d89f14108b8f5a51f53e250df73">DELETE_MESSAGES_PAGE</a>,
+<a name="l00021"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada509444a87281eda2b2d98c0a0822ed4b">00021</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada509444a87281eda2b2d98c0a0822ed4b">RECONCILIATION_PAGE</a>,
+<a name="l00022"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada7a1c45431ebcb5068694f8769e33afbc">00022</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada7a1c45431ebcb5068694f8769e33afbc">RECONCILIATION_SORT_PAGE</a>,
+<a name="l00023"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada9979611eed6902cf0192eb1786bb3101">00023</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada9979611eed6902cf0192eb1786bb3101">TRANSACTION_FORM_PAGE</a>,
+<a name="l00024"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada6477f2d69a9ea1e8bb3cf6f441d028f7">00024</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada6477f2d69a9ea1e8bb3cf6f441d028f7">TRANSACTION_FORM_BEHAVIOR_PAGE</a>,
+<a name="l00025"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adae11ccd8275d35f4a7a7835e8805261c2">00025</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adae11ccd8275d35f4a7a7835e8805261c2">TRANSACTION_FORM_COMPLETION_PAGE</a>,
+<a name="l00026"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adab79eb0750176e0cdb2974df7c4e07a72">00026</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adab79eb0750176e0cdb2974df7c4e07a72">CURRENCIES_PAGE</a>,
+<a name="l00027"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada23b78429c72313d7e8dc0394d0291daa">00027</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada23b78429c72313d7e8dc0394d0291daa">CURRENCY_LINKS_PAGE</a>,
+<a name="l00028"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adab68a4c8554d8bcd28de926fc630fd9a7">00028</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adab68a4c8554d8bcd28de926fc630fd9a7">BANKS_PAGE</a>,
+<a name="l00029"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adaecd5ff1c0e984e0d341cec258ab2da92">00029</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adaecd5ff1c0e984e0d341cec258ab2da92">FINANCIAL_YEARS_PAGE</a>,
+<a name="l00030"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adad093060d77afa16e174d917acb1dd2c6">00030</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adad093060d77afa16e174d917acb1dd2c6">METHODS_OF_PAYMENT_PAGE</a>,
+<a name="l00031"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adacba7093a78bfe90186b10a94579eb89b">00031</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301adacba7093a78bfe90186b10a94579eb89b">BET_GENERAL_PAGE</a>,
+<a name="l00032"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada37ca4b9f2dd1670436276eb9a4544b6a">00032</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada37ca4b9f2dd1670436276eb9a4544b6a">BET_ACCOUNT_PAGE</a>,
+<a name="l00033"></a><a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada5302e12e65048e86bf7b29f6e85343fe">00033</a>     <a class="code" href="parametres_8h.html#a159af6b678395026f75b3cf6690301ada5302e12e65048e86bf7b29f6e85343fe">NUM_PREFERENCES_PAGES</a>
+<a name="l00034"></a>00034 };
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00037"></a>00037 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040 <span class="comment">/*START_DECLARATION*/</span>
+<a name="l00041"></a>00041 gboolean <a class="code" href="parametres_8c.html#a6d6ce89725f0f6ea7443041a44d96e41">gsb_config_backup_dir_chosen</a> ( GtkWidget *button,
+<a name="l00042"></a>00042                         GtkWidget *dialog );
+<a name="l00043"></a>00043 gboolean <a class="code" href="parametres_8c.html#abeee3f7f40a97726a843a50f81c4fcac">gsb_config_metatree_sort_transactions</a> ( GtkWidget *checkbutton,
+<a name="l00044"></a>00044                         gpointer null );
+<a name="l00045"></a>00045 gboolean <a class="code" href="parametres_8c.html#aeda2d150b221e3ecad4af85050194e3f">gsb_gui_encryption_toggled</a> ( GtkWidget * checkbox, gpointer data );
+<a name="l00046"></a>00046 gboolean <a class="code" href="parametres_8c.html#a0da746576e2617f919aa2c8047ec3bf0">gsb_preferences_menu_open</a> ( GtkWidget *menu_item,
+<a name="l00047"></a>00047                         gpointer page_ptr );
+<a name="l00048"></a>00048 gboolean <a class="code" href="parametres_8c.html#a11ca21a8e0c2101e89252e4b391530bf">preferences</a> ( gint page );
+<a name="l00049"></a>00049 <span class="comment">/*END_DECLARATION*/</span>
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051 <span class="preprocessor">#endif</span>
+<a name="l00052"></a>00052 <span class="preprocessor"></span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

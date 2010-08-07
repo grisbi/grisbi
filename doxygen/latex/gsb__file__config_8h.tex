@@ -1,0 +1,104 @@
+\section{Référence du fichier gsb\_\-file\_\-config.h}
+\label{gsb__file__config_8h}\index{gsb\_\-file\_\-config.h@{gsb\_\-file\_\-config.h}}
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf ETAT\_\-WWW\_\-BROWSER}~\char`\"{}xdg-\/open\char`\"{}
+\item 
+\#define {\bf C\_\-GRISBIRC}~(g\_\-strconcat ( \char`\"{}/\char`\"{}, PACKAGE, \char`\"{}.conf\char`\"{}, NULL))
+\item 
+\#define {\bf C\_\-OLD\_\-GRISBIRC}~(g\_\-strconcat ( \char`\"{}/.\char`\"{}, PACKAGE, \char`\"{}rc\char`\"{}, NULL))
+\item 
+\#define {\bf C\_\-PATH\_\-CONFIG}
+\item 
+\#define {\bf C\_\-PATH\_\-DATA\_\-FILES}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-file\_\-config\_\-load\_\-config} (void)
+\item 
+gboolean {\bf gsb\_\-file\_\-config\_\-save\_\-config} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des macros}
+\index{gsb\_\-file\_\-config.h@{gsb\_\-file\_\-config.h}!C\_\-GRISBIRC@{C\_\-GRISBIRC}}
+\index{C\_\-GRISBIRC@{C\_\-GRISBIRC}!gsb_file_config.h@{gsb\_\-file\_\-config.h}}
+\subsubsection[{C\_\-GRISBIRC}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\_\-GRISBIRC~(g\_\-strconcat ( \char`\"{}/\char`\"{}, PACKAGE, \char`\"{}.conf\char`\"{}, NULL))}\label{gsb__file__config_8h_aa4425d80cedbaa4d9d467eb83be930c9}
+
+
+Définition à la ligne 13 du fichier gsb\_\-file\_\-config.h.
+
+\index{gsb\_\-file\_\-config.h@{gsb\_\-file\_\-config.h}!C\_\-OLD\_\-GRISBIRC@{C\_\-OLD\_\-GRISBIRC}}
+\index{C\_\-OLD\_\-GRISBIRC@{C\_\-OLD\_\-GRISBIRC}!gsb_file_config.h@{gsb\_\-file\_\-config.h}}
+\subsubsection[{C\_\-OLD\_\-GRISBIRC}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\_\-OLD\_\-GRISBIRC~(g\_\-strconcat ( \char`\"{}/.\char`\"{}, PACKAGE, \char`\"{}rc\char`\"{}, NULL))}\label{gsb__file__config_8h_a2cf35d306fd36c0aa1d5f0b6a36d1e1b}
+
+
+Définition à la ligne 14 du fichier gsb\_\-file\_\-config.h.
+
+\index{gsb\_\-file\_\-config.h@{gsb\_\-file\_\-config.h}!C\_\-PATH\_\-CONFIG@{C\_\-PATH\_\-CONFIG}}
+\index{C\_\-PATH\_\-CONFIG@{C\_\-PATH\_\-CONFIG}!gsb_file_config.h@{gsb\_\-file\_\-config.h}}
+\subsubsection[{C\_\-PATH\_\-CONFIG}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\_\-PATH\_\-CONFIG}\label{gsb__file__config_8h_a21b147896fe5dc694a0b47ba8fccab0a}
+{\bfseries Valeur :}
+\begin{DoxyCode}
+(g_strconcat (g_get_user_config_dir ( ), G_DIR_SEPARATOR_S,\
+                        "grisbi", NULL))
+\end{DoxyCode}
+
+
+Définition à la ligne 15 du fichier gsb\_\-file\_\-config.h.
+
+\index{gsb\_\-file\_\-config.h@{gsb\_\-file\_\-config.h}!C\_\-PATH\_\-DATA\_\-FILES@{C\_\-PATH\_\-DATA\_\-FILES}}
+\index{C\_\-PATH\_\-DATA\_\-FILES@{C\_\-PATH\_\-DATA\_\-FILES}!gsb_file_config.h@{gsb\_\-file\_\-config.h}}
+\subsubsection[{C\_\-PATH\_\-DATA\_\-FILES}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\_\-PATH\_\-DATA\_\-FILES}\label{gsb__file__config_8h_acd336366602b4f8aceea5aa8daad396b}
+{\bfseries Valeur :}
+\begin{DoxyCode}
+(g_strconcat (g_get_user_data_dir ( ), G_DIR_SEPARATOR_S,\
+                        "grisbi", NULL))
+\end{DoxyCode}
+
+
+Définition à la ligne 17 du fichier gsb\_\-file\_\-config.h.
+
+\index{gsb\_\-file\_\-config.h@{gsb\_\-file\_\-config.h}!ETAT\_\-WWW\_\-BROWSER@{ETAT\_\-WWW\_\-BROWSER}}
+\index{ETAT\_\-WWW\_\-BROWSER@{ETAT\_\-WWW\_\-BROWSER}!gsb_file_config.h@{gsb\_\-file\_\-config.h}}
+\subsubsection[{ETAT\_\-WWW\_\-BROWSER}]{\setlength{\rightskip}{0pt plus 5cm}\#define ETAT\_\-WWW\_\-BROWSER~\char`\"{}xdg-\/open\char`\"{}}\label{gsb__file__config_8h_a969a4381d13ee5abf62a77b688bd9d8a}
+
+
+Définition à la ligne 9 du fichier gsb\_\-file\_\-config.h.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-file\_\-config.h@{gsb\_\-file\_\-config.h}!gsb\_\-file\_\-config\_\-load\_\-config@{gsb\_\-file\_\-config\_\-load\_\-config}}
+\index{gsb\_\-file\_\-config\_\-load\_\-config@{gsb\_\-file\_\-config\_\-load\_\-config}!gsb_file_config.h@{gsb\_\-file\_\-config.h}}
+\subsubsection[{gsb\_\-file\_\-config\_\-load\_\-config}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-config\_\-load\_\-config (void)}\label{gsb__file__config_8h_a75e81d75a401a5e21644fd1e61a3d32f}
+load the config file it uses the glib config utils after 0.6.0 if cannot load, try the xml file before that version
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok, FALSE if not found, usually for a new opening 
+\end{DoxyReturn}
+
+
+Définition à la ligne 95 du fichier gsb\_\-file\_\-config.c.
+
+\index{gsb\_\-file\_\-config.h@{gsb\_\-file\_\-config.h}!gsb\_\-file\_\-config\_\-save\_\-config@{gsb\_\-file\_\-config\_\-save\_\-config}}
+\index{gsb\_\-file\_\-config\_\-save\_\-config@{gsb\_\-file\_\-config\_\-save\_\-config}!gsb_file_config.h@{gsb\_\-file\_\-config.h}}
+\subsubsection[{gsb\_\-file\_\-config\_\-save\_\-config}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-config\_\-save\_\-config (void)}\label{gsb__file__config_8h_a74fd03c5b1ed804d94add079eca960fa}
+save the config file it uses the glib config utils after 0.6.0 if cannot load, try the xml file before that version
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 507 du fichier gsb\_\-file\_\-config.c.
+

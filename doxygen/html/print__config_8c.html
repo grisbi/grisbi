@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier print_config.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier print_config.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="print__config_8h_source.html">print_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__file__selection_8h_source.html">utils_file_selection.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__files_8h_source.html">utils_files.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+
+<p><a href="print__config_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="print__config_8c.html#a859be9fe2a25afb221049f57641221b1">print_config</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structprint__config.html">print_config</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="print__config_8c.html#ac71fc11b0525a8a8e08dc3146cde26ea">print_config_dup</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="print__config_8c.html#a45bfd318018a5f6eb2e79a193f59a695">print_config_set</a> (struct <a class="el" href="structprint__config.html">print_config</a> *config)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structpaper__config.html">paper_config</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="print__config_8c.html#a6e4e00503d68a6f4d168d358eb7c289a">paper_sizes</a> [8]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="print__config_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a859be9fe2a25afb221049f57641221b1"></a><!-- doxytag: member="print_config.c::print_config" ref="a859be9fe2a25afb221049f57641221b1" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean <a class="el" href="structprint__config.html">print_config</a> </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Open a dialog window which asks for information about paper, margins, etc..</p>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if print has been setup correctly, FALSE otherwise (most likely user canceled print). </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="print__config_8c_source.html#l00074">74</a> du fichier <a class="el" href="print__config_8c_source.html">print_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac71fc11b0525a8a8e08dc3146cde26ea"></a><!-- doxytag: member="print_config.c::print_config_dup" ref="ac71fc11b0525a8a8e08dc3146cde26ea" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structprint__config.html">print_config</a>* print_config_dup </td>
+          <td>(</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [read]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Make a backup of print configuration and return it. Very handy to make temporary backups.</p>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly-allocated print configuration. </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="print__config_8c_source.html#l00399">399</a> du fichier <a class="el" href="print__config_8c_source.html">print_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a45bfd318018a5f6eb2e79a193f59a695"></a><!-- doxytag: member="print_config.c::print_config_set" ref="a45bfd318018a5f6eb2e79a193f59a695" args="(struct print_config *config)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_config_set </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structprint__config.html">print_config</a> *&nbsp;</td>
+          <td class="paramname"> <em>config</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Set the print configuration according to <a class="el" href="structprint__config.html">print_config</a> structure passed in argument.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em><a class="el" href="structprint__config.html">print_config</a></em>&nbsp;</td><td>Print configuration to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="print__config_8c_source.html#l00413">413</a> du fichier <a class="el" href="print__config_8c_source.html">print_config.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a6e4e00503d68a6f4d168d358eb7c289a"></a><!-- doxytag: member="print_config.c::paper_sizes" ref="a6e4e00503d68a6f4d168d358eb7c289a" args="[8]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structpaper__config.html">paper_config</a> <a class="el" href="print__config_8c.html#a6e4e00503d68a6f4d168d358eb7c289a">paper_sizes</a>[8]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<b>Valeur initiale :</b><div class="fragment"><pre class="fragment"> {
+    {N_(<span class="stringliteral">&quot;A3&quot;</span>), 297, 420},
+    {N_(<span class="stringliteral">&quot;A4&quot;</span>), 210, 297},
+    {N_(<span class="stringliteral">&quot;A5&quot;</span>), 148, 210},
+    {N_(<span class="stringliteral">&quot;A6&quot;</span>), 105, 148},
+    {N_(<span class="stringliteral">&quot;USletter&quot;</span>), 215, 279.4},
+    {N_(<span class="stringliteral">&quot;USlegal&quot;</span>), 215, 355.6},
+    {N_(<span class="stringliteral">&quot;USexecutive&quot;</span>), 184.15, 266.7},
+    {NULL, 0, 0},
+}
+</pre></div><p>This array contains paper sizes to be used to construct print copies of reports. </p>
+
+<p>Définition à la ligne <a class="el" href="print__config_8c_source.html#l00049">49</a> du fichier <a class="el" href="print__config_8c_source.html">print_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="print_config.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_data_archive.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_data_archive.h</h1><a href="gsb__data__archive_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _GSB_DATA_ARCHIVE_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _GSB_DATA_ARCHIVE_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00006"></a>00006 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00009"></a>00009 GSList *<a class="code" href="gsb__data__archive_8c.html#a7d5b3a8b5e99a9bbe14f526ab3d1936b">gsb_data_archive_get_archives_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00010"></a>00010 GDate *<a class="code" href="gsb__data__archive_8c.html#afc0ef716ad2bcd7b9805571c6bcdc04d">gsb_data_archive_get_beginning_date</a> ( gint archive_number );
+<a name="l00011"></a>00011 GDate *<a class="code" href="gsb__data__archive_8c.html#acd3d52c042e9c6d8d3a42cd55c69cdd2">gsb_data_archive_get_end_date</a> ( gint archive_number );
+<a name="l00012"></a>00012 gint <a class="code" href="gsb__data__archive_8c.html#ad4fa84d9de6ee591fbe1d3e3bf42e22f">gsb_data_archive_get_from_date</a> ( <span class="keyword">const</span> GDate *date );
+<a name="l00013"></a>00013 gint <a class="code" href="gsb__data__archive_8c.html#a75a79145c15deb4977a71e7c5ee6db47">gsb_data_archive_get_from_fyear</a> ( gint fyear_number );
+<a name="l00014"></a>00014 gint <a class="code" href="gsb__data__archive_8c.html#a7155599a42559d8b97aa24f6c89c3684">gsb_data_archive_get_fyear</a> ( gint archive_number );
+<a name="l00015"></a>00015 <span class="keyword">const</span> gchar *<a class="code" href="gsb__data__archive_8c.html#ab61c1a7e1814ae6b8d5fd6f54db3606b">gsb_data_archive_get_name</a> ( gint archive_number );
+<a name="l00016"></a>00016 gint <a class="code" href="gsb__data__archive_8c.html#a4d89b738aff63b952bd74a74c9e4bdff">gsb_data_archive_get_no_archive</a> ( gpointer archive_ptr );
+<a name="l00017"></a>00017 <span class="keyword">const</span> gchar *<a class="code" href="gsb__data__archive_8c.html#a3d8b5fb39ae27430a4ef69a8de23c016">gsb_data_archive_get_report_title</a> ( gint archive_number );
+<a name="l00018"></a>00018 gboolean <a class="code" href="gsb__data__archive_8c.html#a1167784bcdd0ebef214194f217a6db7e">gsb_data_archive_init_variables</a> ( <span class="keywordtype">void</span> );
+<a name="l00019"></a>00019 gint <a class="code" href="gsb__data__archive_8c.html#af867698152bb736c36b4d02ec8a5b173">gsb_data_archive_new</a> ( <span class="keyword">const</span> gchar *name );
+<a name="l00020"></a>00020 gboolean <a class="code" href="gsb__data__archive_8c.html#a29c34a3d5e63dd56c7120e8ac464b204">gsb_data_archive_remove</a> ( gint archive_number );
+<a name="l00021"></a>00021 gboolean <a class="code" href="gsb__data__archive_8c.html#ad79c38199834ae790c8534d7addc6b9c">gsb_data_archive_set_beginning_date</a> ( gint archive_number,
+<a name="l00022"></a>00022                         <span class="keyword">const</span> GDate *date );
+<a name="l00023"></a>00023 gboolean <a class="code" href="gsb__data__archive_8c.html#a3a502c684a99f9d9d431c7a7a1ba8ce2">gsb_data_archive_set_end_date</a> ( gint archive_number,
+<a name="l00024"></a>00024                         <span class="keyword">const</span> GDate *date );
+<a name="l00025"></a>00025 gboolean <a class="code" href="gsb__data__archive_8c.html#ae4edb9d1b45b34750d48ba8405db21bf">gsb_data_archive_set_fyear</a> ( gint archive_number,
+<a name="l00026"></a>00026                         gint fyear_number );
+<a name="l00027"></a>00027 gboolean <a class="code" href="gsb__data__archive_8c.html#abfc44c529725db841973582c3cf438ed">gsb_data_archive_set_name</a> ( gint archive_number,
+<a name="l00028"></a>00028                         <span class="keyword">const</span> gchar *name );
+<a name="l00029"></a>00029 gint <a class="code" href="gsb__data__archive_8c.html#a85712d057b32e6e854932bc6d9d30b73">gsb_data_archive_set_new_number</a> ( gint archive_number,
+<a name="l00030"></a>00030                         gint new_no_archive );
+<a name="l00031"></a>00031 gboolean <a class="code" href="gsb__data__archive_8c.html#a29cea4dae2fb32483efd7bc480d07d4d">gsb_data_archive_set_report_title</a> ( gint archive_number,
+<a name="l00032"></a>00032                         <span class="keyword">const</span> gchar *report_title );
+<a name="l00033"></a>00033 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de etats_html.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>etats_html.c</h1><a href="etats__html_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*  Fichier qui s&#39;occupe d&#39;afficher les états via une impression html */</span>
+<a name="l00002"></a>00002 <span class="comment">/*      etats_html.c */</span>
+<a name="l00003"></a>00003 
+<a name="l00004"></a>00004 <span class="comment">/*     Copyright (C)    2004 Benjamin Drieu (bdrieu@april.org)                */</span>
+<a name="l00005"></a>00005 <span class="comment">/*                      http://www.grisbi.org                                 */</span>
+<a name="l00006"></a>00006 
+<a name="l00007"></a>00007 <span class="comment">/*     This program is free software; you can redistribute it and/or modify */</span>
+<a name="l00008"></a>00008 <span class="comment">/*     it under the terms of the GNU General Public License as published by */</span>
+<a name="l00009"></a>00009 <span class="comment">/*     the Free Software Foundation; either version 2 of the License, or */</span>
+<a name="l00010"></a>00010 <span class="comment">/*     (at your option) any later version. */</span>
+<a name="l00011"></a>00011 
+<a name="l00012"></a>00012 <span class="comment">/*     This program is distributed in the hope that it will be useful, */</span>
+<a name="l00013"></a>00013 <span class="comment">/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */</span>
+<a name="l00014"></a>00014 <span class="comment">/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */</span>
+<a name="l00015"></a>00015 <span class="comment">/*     GNU General Public License for more details. */</span>
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017 <span class="comment">/*     You should have received a copy of the GNU General Public License */</span>
+<a name="l00018"></a>00018 <span class="comment">/*     along with this program; if not, write to the Free Software */</span>
+<a name="l00019"></a>00019 <span class="comment">/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00020"></a>00020 
+<a name="l00021"></a>00021 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include &quot;<a class="code" href="etats__html_8h.html">etats_html.h</a>&quot;</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include &quot;<a class="code" href="dialog_8h.html">dialog.h</a>&quot;</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;<a class="code" href="etats__support_8h.html">etats_support.h</a>&quot;</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__report_8h.html">gsb_data_report.h</a>&quot;</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include &quot;<a class="code" href="navigation_8h.html">navigation.h</a>&quot;</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="utils__files_8h.html">utils_files.h</a>&quot;</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="structures_8h.html">structures.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="etats__config_8h.html">etats_config.h</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="etats__affiche_8h.html">etats_affiche.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00035"></a>00035 
+<a name="l00036"></a>00036 <span class="comment">/* FOLLOWING LINES REVERTS BACK TO THE ORIGINAL FPRINTF (LIBINTL_FPRINTF IS BUGGY) */</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#ifdef _WIN32</span>
+<a name="l00038"></a>00038 <span class="preprocessor"></span><span class="preprocessor">        #undef fprintf</span>
+<a name="l00039"></a>00039 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00040"></a>00040 <span class="preprocessor"></span>
+<a name="l00041"></a>00041 <span class="comment">/*START_STATIC*/</span>
+<a name="l00042"></a>00042 <span class="keyword">static</span> <span class="keywordtype">void</span> html_attach_hsep ( <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> y2);
+<a name="l00043"></a>00043 <span class="keyword">static</span> <span class="keywordtype">void</span> html_attach_label ( gchar * text, gdouble properties, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> y2, 
+<a name="l00044"></a>00044                           <span class="keyword">enum</span> <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306">alignement</a> align, gint transaction_number );
+<a name="l00045"></a>00045 <span class="keyword">static</span> <span class="keywordtype">void</span> html_attach_vsep ( <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> y2);
+<a name="l00046"></a>00046 <span class="keyword">static</span> gint html_finish ();
+<a name="l00047"></a>00047 <span class="keyword">static</span> gint html_initialise ( GSList * opes_selectionnees, gchar * filename );
+<a name="l00048"></a>00048 <span class="keyword">static</span> <span class="keywordtype">void</span> html_safe ( gchar * text ) ;
+<a name="l00049"></a>00049 <span class="comment">/*END_STATIC*/</span>
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00052"></a>00052 <span class="keyword">extern</span> gint <a class="code" href="etats__affiche_8c.html#a8c9db61caf800767da87c8e115ed2b12">nb_colonnes</a>;
+<a name="l00053"></a>00053 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058 <span class="keyword">static</span> FILE * html_out;
+<a name="l00059"></a>00059 <span class="keyword">static</span> <span class="keywordtype">int</span> html_lastline;
+<a name="l00060"></a>00060 <span class="keyword">static</span> <span class="keywordtype">int</span> html_lastcol;
+<a name="l00061"></a>00061 <span class="keyword">static</span> gboolean html_last_is_hsep;
+<a name="l00062"></a>00062 <span class="keyword">static</span> gboolean html_first_line;
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064 
+<a name="l00065"></a><a class="code" href="etats__onglet_8c.html#a82e802227c548b6c4ff47ca8b6c4958b">00065</a> <span class="keyword">struct </span><a class="code" href="structstruct__etat__affichage.html">struct_etat_affichage</a> <a class="code" href="etats__html_8c.html#a82e802227c548b6c4ff47ca8b6c4958b">html_affichage</a> = {
+<a name="l00066"></a>00066     html_initialise,
+<a name="l00067"></a>00067     html_finish,
+<a name="l00068"></a>00068     html_attach_hsep,
+<a name="l00069"></a>00069     html_attach_vsep,
+<a name="l00070"></a>00070     html_attach_label,
+<a name="l00071"></a>00071 };
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073 
+<a name="l00093"></a>00093 <span class="keywordtype">void</span> html_attach_label ( gchar * text, gdouble properties, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> y2, 
+<a name="l00094"></a>00094                           <span class="keyword">enum</span> <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306">alignement</a> align, gint transaction_number )
+<a name="l00095"></a>00095 {
+<a name="l00096"></a>00096     <span class="keywordtype">int</span> pad, realsize, realcolumns;
+<a name="l00097"></a>00097     gint current_report_number;
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099     current_report_number = <a class="code" href="navigation_8c.html#aef700722a199569003341a41144ee004">gsb_gui_navigation_get_current_report</a> ();
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102     <span class="keywordflow">if</span> ( !text )
+<a name="l00103"></a>00103         text = <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105     <span class="keywordflow">if</span> ( y &gt;= html_lastline )
+<a name="l00106"></a>00106     {
+<a name="l00107"></a>00107         html_lastcol = 0;
+<a name="l00108"></a>00108         html_lastline = y2;
+<a name="l00109"></a>00109         <span class="keywordflow">if</span> ( ! html_first_line )
+<a name="l00110"></a>00110           {
+<a name="l00111"></a>00111             fprintf ( html_out, <span class="stringliteral">&quot;      &lt;/tr&gt;\n\n&quot;</span>);
+<a name="l00112"></a>00112           }
+<a name="l00113"></a>00113         html_first_line = FALSE;
+<a name="l00114"></a>00114         fprintf ( html_out, <span class="stringliteral">&quot;      &lt;tr&gt;\n&quot;</span>);
+<a name="l00115"></a>00115     }
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117     <span class="keywordflow">for</span> ( pad = html_lastcol ; pad &lt; x ; pad ++ )
+<a name="l00118"></a>00118         fprintf ( html_out, <span class="stringliteral">&quot;        &lt;td&gt;&lt;/td&gt;\n&quot;</span> );
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120     fprintf ( html_out, <span class="stringliteral">&quot;        &lt;td&quot;</span> );
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122     <span class="keywordflow">if</span> ( (x2 - x) &gt; 1 )
+<a name="l00123"></a>00123         fprintf ( html_out, <span class="stringliteral">&quot; colspan=\&quot;%d\&quot;&quot;</span>, (x2 - x) );
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125     realsize = (x2 - x);
+<a name="l00126"></a>00126     <span class="keywordflow">if</span> ( realsize &gt; 1 )
+<a name="l00127"></a>00127     {
+<a name="l00128"></a>00128         <span class="keywordflow">if</span> ( <a class="code" href="gsb__data__report_8c.html#a60ef2fcdc574a669ba7a14975ba532fa">gsb_data_report_get_show_report_transactions</a> (current_report_number))
+<a name="l00129"></a>00129         {
+<a name="l00130"></a>00130             realsize /= 2;
+<a name="l00131"></a>00131             <span class="keywordflow">if</span> ( x == 0 )
+<a name="l00132"></a>00132                 realsize ++;
+<a name="l00133"></a>00133         }
+<a name="l00134"></a>00134     }
+<a name="l00135"></a>00135     <span class="keywordflow">if</span> ( <a class="code" href="gsb__data__report_8c.html#a60ef2fcdc574a669ba7a14975ba532fa">gsb_data_report_get_show_report_transactions</a> (current_report_number))
+<a name="l00136"></a>00136         realcolumns = (<span class="keywordtype">float</span>)((<a class="code" href="etats__affiche_8c.html#a8c9db61caf800767da87c8e115ed2b12">nb_colonnes</a> / 2) + 1);
+<a name="l00137"></a>00137     <span class="keywordflow">else</span> 
+<a name="l00138"></a>00138         realcolumns = <a class="code" href="etats__affiche_8c.html#a8c9db61caf800767da87c8e115ed2b12">nb_colonnes</a>;
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140     <span class="keywordflow">switch</span> ( align )
+<a name="l00141"></a>00141     {
+<a name="l00142"></a>00142         <span class="keywordflow">case</span> <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306adb45120aafd37a973140edee24708065">LEFT</a>:
+<a name="l00143"></a>00143             fprintf ( html_out, <span class="stringliteral">&quot; align=\&quot;left\&quot;&quot;</span> );
+<a name="l00144"></a>00144             <span class="keywordflow">break</span>;
+<a name="l00145"></a>00145 
+<a name="l00146"></a>00146         <span class="keywordflow">case</span> <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306aec8379af7490bb9eaaf579cf17876f38">RIGHT</a>:
+<a name="l00147"></a>00147             fprintf ( html_out, <span class="stringliteral">&quot; align=\&quot;right\&quot;&quot;</span> );
+<a name="l00148"></a>00148             <span class="keywordflow">break</span>;
+<a name="l00149"></a>00149 
+<a name="l00150"></a>00150         <span class="keywordflow">case</span> <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306a2159ffbd3a68037511ab5ab4dd35ace7">CENTER</a>:
+<a name="l00151"></a>00151             fprintf ( html_out, <span class="stringliteral">&quot; align=\&quot;center\&quot;&quot;</span> );
+<a name="l00152"></a>00152             <span class="keywordflow">break</span>;
+<a name="l00153"></a>00153     }
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155     fprintf ( html_out, <span class="stringliteral">&quot;&gt;&amp;nbsp;&quot;</span> );
+<a name="l00156"></a>00156 
+<a name="l00157"></a>00157     <span class="keywordflow">if</span> ( ((<span class="keywordtype">int</span>) properties) &amp; <a class="code" href="etats__config_8h.html#ac6a05036dfbcc5b69c4e3f9b6bbedb2a">TEXT_BOLD</a> )
+<a name="l00158"></a>00158     {
+<a name="l00159"></a>00159         fprintf ( html_out, <span class="stringliteral">&quot;&lt;b&gt;&quot;</span>);
+<a name="l00160"></a>00160     }
+<a name="l00161"></a>00161     <span class="keywordflow">if</span> ( ((<span class="keywordtype">int</span>) properties) &amp; <a class="code" href="etats__config_8h.html#a7000b34e44b52793133316521b6bf486">TEXT_ITALIC</a> )
+<a name="l00162"></a>00162     {
+<a name="l00163"></a>00163         fprintf ( html_out, <span class="stringliteral">&quot;&lt;em&gt;&quot;</span>);
+<a name="l00164"></a>00164     }
+<a name="l00165"></a>00165     <span class="keywordflow">if</span> ( ((<span class="keywordtype">int</span>) properties) &amp; <a class="code" href="etats__config_8h.html#a6da9ea675cad4cae380d40effba08953">TEXT_HUGE</a> )
+<a name="l00166"></a>00166     {
+<a name="l00167"></a>00167         fprintf ( html_out, <span class="stringliteral">&quot;&lt;font size=\&quot;+5\&quot;&gt;&quot;</span>);
+<a name="l00168"></a>00168     }
+<a name="l00169"></a>00169     <span class="keywordflow">if</span> ( ((<span class="keywordtype">int</span>) properties) &amp; <a class="code" href="etats__config_8h.html#aad16158a590754a5968d016e87369945">TEXT_LARGE</a> )
+<a name="l00170"></a>00170     {
+<a name="l00171"></a>00171         fprintf ( html_out, <span class="stringliteral">&quot;&lt;font size=\&quot;+2\&quot;&gt;&quot;</span>);
+<a name="l00172"></a>00172     }
+<a name="l00173"></a>00173     <span class="keywordflow">if</span> ( ((<span class="keywordtype">int</span>) properties) &amp; <a class="code" href="etats__config_8h.html#aa27dd4cbfa0f47509fa3248775e46a9e">TEXT_SMALL</a> )
+<a name="l00174"></a>00174     {
+<a name="l00175"></a>00175         fprintf ( html_out, <span class="stringliteral">&quot;&lt;font size=\&quot;-2\&quot;&gt;&quot;</span>);
+<a name="l00176"></a>00176     }
+<a name="l00177"></a>00177 
+<a name="l00178"></a>00178     html_safe(text);
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180     <span class="keywordflow">if</span> ( ((<span class="keywordtype">int</span>) properties) &amp; TEXT_SMALL )
+<a name="l00181"></a>00181     {
+<a name="l00182"></a>00182         fprintf ( html_out, <span class="stringliteral">&quot;&lt;/font&gt;&quot;</span>);
+<a name="l00183"></a>00183     }
+<a name="l00184"></a>00184     <span class="keywordflow">if</span> ( ((<span class="keywordtype">int</span>) properties) &amp; TEXT_LARGE )
+<a name="l00185"></a>00185     {
+<a name="l00186"></a>00186         fprintf ( html_out, <span class="stringliteral">&quot;&lt;/font&gt;&quot;</span>);
+<a name="l00187"></a>00187     }
+<a name="l00188"></a>00188     <span class="keywordflow">if</span> ( ((<span class="keywordtype">int</span>) properties) &amp; TEXT_HUGE )
+<a name="l00189"></a>00189     {
+<a name="l00190"></a>00190         fprintf ( html_out, <span class="stringliteral">&quot;&lt;/font&gt;&quot;</span>);
+<a name="l00191"></a>00191     }
+<a name="l00192"></a>00192     <span class="keywordflow">if</span> ( ((<span class="keywordtype">int</span>) properties) &amp; TEXT_ITALIC )
+<a name="l00193"></a>00193     {
+<a name="l00194"></a>00194         fprintf ( html_out, <span class="stringliteral">&quot;&lt;/em&gt;&quot;</span>);
+<a name="l00195"></a>00195     }
+<a name="l00196"></a>00196     <span class="keywordflow">if</span> ( ((<span class="keywordtype">int</span>) properties) &amp; TEXT_BOLD )
+<a name="l00197"></a>00197     {
+<a name="l00198"></a>00198         fprintf ( html_out, <span class="stringliteral">&quot;&lt;/b&gt;&quot;</span>);
+<a name="l00199"></a>00199     }
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201     fprintf ( html_out, <span class="stringliteral">&quot;        &lt;/td&gt;\n&quot;</span> );
+<a name="l00202"></a>00202 
+<a name="l00203"></a>00203     html_last_is_hsep = 0;
+<a name="l00204"></a>00204     html_lastcol = x2;
+<a name="l00205"></a>00205 }
+<a name="l00206"></a>00206 
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208 
+<a name="l00218"></a>00218 <span class="keywordtype">void</span> html_attach_vsep ( <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> y2)
+<a name="l00219"></a>00219 { 
+<a name="l00220"></a>00220   <span class="keywordtype">int</span> pad;
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222   <span class="keywordflow">if</span> ( y &gt;= html_lastline )
+<a name="l00223"></a>00223     {
+<a name="l00224"></a>00224       <span class="keywordflow">if</span> ( ! html_first_line )
+<a name="l00225"></a>00225         {
+<a name="l00226"></a>00226           fprintf ( html_out, <span class="stringliteral">&quot;      &lt;/tr&gt;\n\n&quot;</span>);
+<a name="l00227"></a>00227         }
+<a name="l00228"></a>00228       fprintf ( html_out, <span class="stringliteral">&quot;      &lt;tr&gt;\n&quot;</span>);
+<a name="l00229"></a>00229       html_lastline = y2;
+<a name="l00230"></a>00230     }
+<a name="l00231"></a>00231 
+<a name="l00232"></a>00232   <span class="keywordflow">for</span> ( pad = html_lastcol ; pad &lt; x ; pad ++ )
+<a name="l00233"></a>00233     fprintf ( html_out, <span class="stringliteral">&quot;        &lt;td&gt;&lt;/td&gt;&quot;</span> );
+<a name="l00234"></a>00234 
+<a name="l00235"></a>00235   fprintf ( html_out, <span class="stringliteral">&quot;        &lt;td width=\&quot;1\&quot; bgcolor=\&quot;black\&quot;&gt;&lt;/td&gt;\n&quot;</span> );
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237   html_last_is_hsep = 0;
+<a name="l00238"></a>00238   html_lastcol = x2;
+<a name="l00239"></a>00239   html_first_line = FALSE;
+<a name="l00240"></a>00240 }
+<a name="l00241"></a>00241 
+<a name="l00242"></a>00242 
+<a name="l00243"></a>00243 
+<a name="l00253"></a>00253 <span class="keywordtype">void</span> html_attach_hsep ( <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> y2)
+<a name="l00254"></a>00254 {
+<a name="l00255"></a>00255   <span class="keywordflow">if</span> ( ! html_first_line )
+<a name="l00256"></a>00256     {
+<a name="l00257"></a>00257       fprintf ( html_out, <span class="stringliteral">&quot;      &lt;/tr&gt;\n\n&quot;</span>);
+<a name="l00258"></a>00258     }
+<a name="l00259"></a>00259 
+<a name="l00260"></a>00260   fprintf ( html_out, 
+<a name="l00261"></a>00261             <span class="stringliteral">&quot;      &lt;tr&gt;\n&quot;</span>
+<a name="l00262"></a>00262             <span class="stringliteral">&quot;        &lt;td colspan=\&quot;%d\&quot;&gt;\n&quot;</span>
+<a name="l00263"></a>00263             <span class="stringliteral">&quot;          &lt;hr/&gt;\n&quot;</span> 
+<a name="l00264"></a>00264             <span class="stringliteral">&quot;        &lt;/td&gt;\n&quot;</span>,
+<a name="l00265"></a>00265             <a class="code" href="etats__affiche_8c.html#a8c9db61caf800767da87c8e115ed2b12">nb_colonnes</a> );
+<a name="l00266"></a>00266 
+<a name="l00267"></a>00267   html_last_is_hsep = 1;
+<a name="l00268"></a>00268   html_lastline = y2;
+<a name="l00269"></a>00269   html_lastcol = x2;
+<a name="l00270"></a>00270   html_first_line = FALSE;
+<a name="l00271"></a>00271 }
+<a name="l00272"></a>00272 
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274 
+<a name="l00280"></a>00280 gint html_initialise ( GSList * opes_selectionnees, gchar * filename )
+<a name="l00281"></a>00281 {
+<a name="l00282"></a>00282     g_return_val_if_fail ( filename, FALSE );
+<a name="l00283"></a>00283 
+<a name="l00284"></a>00284     html_lastline = -1;
+<a name="l00285"></a>00285     html_lastcol = 0;
+<a name="l00286"></a>00286     html_last_is_hsep = FALSE;
+<a name="l00287"></a>00287     html_first_line = TRUE;
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289     html_out = <a class="code" href="utils__files_8c.html#ac113fb5932da8fd819f73d967a90c219" title="utf8 version of fopen (see fopen for more detail about mode)">utf8_fopen</a> ( filename, <span class="stringliteral">&quot;w&quot;</span> );
+<a name="l00290"></a>00290     <span class="keywordflow">if</span> ( ! html_out )
+<a name="l00291"></a>00291     {
+<a name="l00292"></a>00292       <a class="code" href="dialog_8c.html#a194ffa6e8e89cc8fb7fbfbc41109fe1e">dialogue_error_hint</a> ( _(<span class="stringliteral">&quot;Make sure file exists and is writable.&quot;</span>),
+<a name="l00293"></a>00293                            g_strdup_printf (_(<span class="stringliteral">&quot;Cannot open file &#39;%s&#39; for writing&quot;</span>), filename));
+<a name="l00294"></a>00294       <span class="keywordflow">return</span> FALSE;
+<a name="l00295"></a>00295     }
+<a name="l00296"></a>00296 
+<a name="l00297"></a>00297     fprintf (html_out, 
+<a name="l00298"></a>00298              <span class="stringliteral">&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;utf-8\&quot; ?&gt;\n&quot;</span>
+<a name="l00299"></a>00299              <span class="stringliteral">&quot;&lt;!DOCTYPE html PUBLIC \&quot;-//W3C//DTD XHTML 1.0 Transitional//EN\&quot;\n&quot;</span>
+<a name="l00300"></a>00300              <span class="stringliteral">&quot;  \&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\&quot;&gt;\n\n&quot;</span>
+<a name="l00301"></a>00301              <span class="stringliteral">&quot;&lt;html&gt;\n&quot;</span>
+<a name="l00302"></a>00302              <span class="stringliteral">&quot;  &lt;head&gt;\n&quot;</span>
+<a name="l00303"></a>00303              <span class="stringliteral">&quot;    &lt;meta http-equiv=\&quot;Content-Type\&quot; content=\&quot;text/html; charset=UTF-8\&quot; /&gt;\n&quot;</span>
+<a name="l00304"></a>00304              <span class="stringliteral">&quot;    &lt;title&gt;&quot;</span>);
+<a name="l00305"></a>00305 
+<a name="l00306"></a>00306     <span class="keywordflow">if</span> (!<a class="code" href="navigation_8c.html#aef700722a199569003341a41144ee004">gsb_gui_navigation_get_current_report</a> ())
+<a name="l00307"></a>00307         <span class="keywordflow">return</span> FALSE;
+<a name="l00308"></a>00308 
+<a name="l00309"></a>00309     html_safe (<a class="code" href="etats__support_8c.html#afebb1d8c6e6cc8825f96e411d2b9e618">etats_titre</a>(<a class="code" href="navigation_8c.html#aef700722a199569003341a41144ee004">gsb_gui_navigation_get_current_report</a> ()));
+<a name="l00310"></a>00310     fprintf (html_out, 
+<a name="l00311"></a>00311              <span class="stringliteral">&quot;&lt;/title&gt;\n&quot;</span>
+<a name="l00312"></a>00312              <span class="stringliteral">&quot;  &lt;/head&gt;\n\n&quot;</span>
+<a name="l00313"></a>00313              <span class="stringliteral">&quot;  &lt;body&gt;\n&quot;</span>
+<a name="l00314"></a>00314              <span class="stringliteral">&quot;    &lt;table cellspacing=\&quot;0\&quot; cellpadding=\&quot;0\&quot; border=\&quot;0\&quot;&gt;\n\n&quot;</span>);
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316     <span class="keywordflow">return</span> TRUE;
+<a name="l00317"></a>00317 }
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319 
+<a name="l00320"></a>00320 
+<a name="l00326"></a>00326 gint html_finish ()
+<a name="l00327"></a>00327 {
+<a name="l00328"></a>00328     fprintf (html_out, 
+<a name="l00329"></a>00329              <span class="stringliteral">&quot;      &lt;/tr&gt;\n\n&quot;</span>
+<a name="l00330"></a>00330              <span class="stringliteral">&quot;    &lt;/table&gt;\n&quot;</span>
+<a name="l00331"></a>00331              <span class="stringliteral">&quot;  &lt;/body&gt;\n&quot;</span>
+<a name="l00332"></a>00332              <span class="stringliteral">&quot;&lt;/html&gt;\n&quot;</span>);
+<a name="l00333"></a>00333     fclose (html_out);
+<a name="l00334"></a>00334 
+<a name="l00335"></a>00335     <span class="keywordflow">return</span> 1;
+<a name="l00336"></a>00336 }
+<a name="l00337"></a>00337 
+<a name="l00338"></a>00338 
+<a name="l00339"></a>00339 
+<a name="l00347"></a>00347 <span class="keywordtype">void</span> html_safe ( gchar * text ) 
+<a name="l00348"></a>00348 {
+<a name="l00349"></a>00349     gboolean start = 1;
+<a name="l00350"></a>00350 
+<a name="l00351"></a>00351     <span class="keywordflow">if</span> ( ! text || ! strlen(text))
+<a name="l00352"></a>00352         <span class="keywordflow">return</span>;
+<a name="l00353"></a>00353 
+<a name="l00354"></a>00354     <span class="keywordflow">for</span> ( ; * text; text ++ )
+<a name="l00355"></a>00355     {
+<a name="l00356"></a>00356         <span class="keywordflow">switch</span> ( * text )
+<a name="l00357"></a>00357         {
+<a name="l00358"></a>00358 
+<a name="l00359"></a>00359             <span class="keywordflow">case</span> <span class="charliteral">&#39; &#39;</span>:
+<a name="l00360"></a>00360                 <span class="keywordflow">if</span> ( start )
+<a name="l00361"></a>00361                     fprintf ( html_out, <span class="stringliteral">&quot;&amp;nbsp;&quot;</span> );
+<a name="l00362"></a>00362                 <span class="keywordflow">else</span>
+<a name="l00363"></a>00363                     fprintf ( html_out, <span class="stringliteral">&quot;%c&quot;</span>, *text );
+<a name="l00364"></a>00364                 <span class="keywordflow">break</span>;
+<a name="l00365"></a>00365 
+<a name="l00366"></a>00366             <span class="keywordflow">case</span> <span class="charliteral">&#39;&amp;&#39;</span>:
+<a name="l00367"></a>00367                 fprintf ( html_out, <span class="stringliteral">&quot;&amp;amp;&quot;</span> );
+<a name="l00368"></a>00368                 <span class="keywordflow">break</span>;
+<a name="l00369"></a>00369 
+<a name="l00370"></a>00370             <span class="keywordflow">case</span> <span class="charliteral">&#39;&lt;&#39;</span>:
+<a name="l00371"></a>00371                 fprintf ( html_out, <span class="stringliteral">&quot;&amp;lt;&quot;</span> );
+<a name="l00372"></a>00372                 <span class="keywordflow">break</span>;
+<a name="l00373"></a>00373 
+<a name="l00374"></a>00374             <span class="keywordflow">case</span> <span class="charliteral">&#39;&gt;&#39;</span>:
+<a name="l00375"></a>00375                 fprintf ( html_out, <span class="stringliteral">&quot;&amp;gt;&quot;</span> );
+<a name="l00376"></a>00376                 <span class="keywordflow">break</span>;
+<a name="l00377"></a>00377 
+<a name="l00378"></a>00378             <span class="keywordflow">default</span>:
+<a name="l00379"></a>00379                 start = 0;
+<a name="l00380"></a>00380                 fprintf ( html_out, <span class="stringliteral">&quot;%c&quot;</span>, *text );
+<a name="l00381"></a>00381                 <span class="keywordflow">break</span>;
+<a name="l00382"></a>00382         }
+<a name="l00383"></a>00383     }
+<a name="l00384"></a>00384 
+<a name="l00385"></a>00385 }
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

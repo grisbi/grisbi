@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier bet_config.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier bet_config.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &lt;config.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="bet__config_8c_source.html">bet_config.h</a>&quot;</code><br/>
+<code>#include &lt;gtk/gtk.h&gt;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__automem_8h_source.html">gsb_automem.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__currency_8h_source.html">gsb_data_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__widget_8h_source.html">gsb_form_widget.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__dates_8h_source.html">utils_dates.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="bet__config_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__config_8c.html#a079506ce240edc48c94ff1ac64942696">bet_config_general_create_general_page</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__config_8c.html#abeafee7e6cbd8bdf2c9f6f93ef24a964">bet_config_account_create_account_page</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__config_8c.html#a9fcc68ddba810306496668a2ab91abf9">bet_config_get_duration_widget</a> (gint <a class="el" href="gsb__account__property_8c.html#a06dbc3a3eb5aaab80edf32ea607f1ef3">origin</a>)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__config_8c.html#ac071c5c9f911ec54c1d9fd38d697a238">bet_config_duration_button_clicked</a> (GtkWidget *togglebutton, GtkWidget *spin_button)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__config_8c.html#ace87486f57a421225e332ba7cd7dd5a6">bet_config_duration_number_changed</a> (GtkWidget *spin_button, gpointer data)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__config_8c.html#af35307117be15ea41c6a5eebcefdf975">bet_config_origin_data_clicked</a> (GtkWidget *togglebutton, gpointer data)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__config_8c.html#a2a8189cead3056cb65d7d26433012d14">bet_config_fyear_clicked</a> (GtkWidget *combo, gpointer data)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__config_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkTreeModel *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__config_8c.html#a3b7bcf1e9b05e7a812d6f4d4bc0627d6">bet_fyear_model</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkTreeModel *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__config_8c.html#aecc63d6768ce86bba48badbe50334f1b">bet_fyear_model_filter</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__config_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__config_8c.html#a9bc40d97c6989df4ee885344bc8110cd">bet_duration_array</a> []</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const gdouble&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="bet__config_8c.html#a2a9036317d63fb6459987ed41b88bf4f">prev_month_max</a> = 60.0</td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="abeafee7e6cbd8bdf2c9f6f93ef24a964"></a><!-- doxytag: member="bet_config.c::bet_config_account_create_account_page" ref="abeafee7e6cbd8bdf2c9f6f93ef24a964" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* bet_config_account_create_account_page </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__config_8c_source.html#l00204">204</a> du fichier <a class="el" href="bet__config_8c_source.html">bet_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac071c5c9f911ec54c1d9fd38d697a238"></a><!-- doxytag: member="bet_config.c::bet_config_duration_button_clicked" ref="ac071c5c9f911ec54c1d9fd38d697a238" args="(GtkWidget *togglebutton, GtkWidget *spin_button)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bet_config_duration_button_clicked </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>togglebutton</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>spin_button</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__config_8c_source.html#l00747">747</a> du fichier <a class="el" href="bet__config_8c_source.html">bet_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ace87486f57a421225e332ba7cd7dd5a6"></a><!-- doxytag: member="bet_config.c::bet_config_duration_number_changed" ref="ace87486f57a421225e332ba7cd7dd5a6" args="(GtkWidget *spin_button, gpointer data)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean bet_config_duration_number_changed </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>spin_button</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>data</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__config_8c_source.html#l00813">813</a> du fichier <a class="el" href="bet__config_8c_source.html">bet_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2a8189cead3056cb65d7d26433012d14"></a><!-- doxytag: member="bet_config.c::bet_config_fyear_clicked" ref="a2a8189cead3056cb65d7d26433012d14" args="(GtkWidget *combo, gpointer data)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bet_config_fyear_clicked </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>combo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>data</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__config_8c_source.html#l00891">891</a> du fichier <a class="el" href="bet__config_8c_source.html">bet_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a079506ce240edc48c94ff1ac64942696"></a><!-- doxytag: member="bet_config.c::bet_config_general_create_general_page" ref="a079506ce240edc48c94ff1ac64942696" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* bet_config_general_create_general_page </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__config_8c_source.html#l00103">103</a> du fichier <a class="el" href="bet__config_8c_source.html">bet_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9fcc68ddba810306496668a2ab91abf9"></a><!-- doxytag: member="bet_config.c::bet_config_get_duration_widget" ref="a9fcc68ddba810306496668a2ab91abf9" args="(gint origin)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* bet_config_get_duration_widget </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>origin</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__config_8c_source.html#l00344">344</a> du fichier <a class="el" href="bet__config_8c_source.html">bet_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af35307117be15ea41c6a5eebcefdf975"></a><!-- doxytag: member="bet_config.c::bet_config_origin_data_clicked" ref="af35307117be15ea41c6a5eebcefdf975" args="(GtkWidget *togglebutton, gpointer data)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bet_config_origin_data_clicked </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>togglebutton</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>data</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__config_8c_source.html#l00846">846</a> du fichier <a class="el" href="bet__config_8c_source.html">bet_config.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="ad5443d986a9ab5d64dd84c5346c4b87c"></a><!-- doxytag: member="bet_config.c::account_page" ref="ad5443d986a9ab5d64dd84c5346c4b87c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="navigation_8c.html#ad5443d986a9ab5d64dd84c5346c4b87c">account_page</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Notebook of the account pane. </p>
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00075">75</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9bc40d97c6989df4ee885344bc8110cd"></a><!-- doxytag: member="bet_config.c::bet_duration_array" ref="a9bc40d97c6989df4ee885344bc8110cd" args="[]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="bet__tab_8c.html#a9bc40d97c6989df4ee885344bc8110cd">bet_duration_array</a>[]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<b>Valeur initiale :</b><div class="fragment"><pre class="fragment"> {
+    N_(<span class="stringliteral">&quot;Month&quot;</span>),
+    N_(<span class="stringliteral">&quot;Year&quot;</span>),
+    NULL
+}
+</pre></div>
+<p>Définition à la ligne <a class="el" href="bet__config_8c_source.html#l00088">88</a> du fichier <a class="el" href="bet__config_8c_source.html">bet_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3b7bcf1e9b05e7a812d6f4d4bc0627d6"></a><!-- doxytag: member="bet_config.c::bet_fyear_model" ref="a3b7bcf1e9b05e7a812d6f4d4bc0627d6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkTreeModel* <a class="el" href="bet__hist_8c.html#a3b7bcf1e9b05e7a812d6f4d4bc0627d6">bet_fyear_model</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>this is a tree model filter with 3 columns : the name, the number and a boolean to show it or not </p>
+
+<p>Définition à la ligne <a class="el" href="bet__hist_8c_source.html#l00107">107</a> du fichier <a class="el" href="bet__hist_8c_source.html">bet_hist.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aecc63d6768ce86bba48badbe50334f1b"></a><!-- doxytag: member="bet_config.c::bet_fyear_model_filter" ref="aecc63d6768ce86bba48badbe50334f1b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkTreeModel* <a class="el" href="bet__hist_8c.html#aecc63d6768ce86bba48badbe50334f1b">bet_fyear_model_filter</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>this is a tree model filter from fyear_model_filter wich show only the financial years wich must be showed </p>
+
+<p>Définition à la ligne <a class="el" href="bet__hist_8c_source.html#l00113">113</a> du fichier <a class="el" href="bet__hist_8c_source.html">bet_hist.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8924516aa4170f932308e93cf93a785b"></a><!-- doxytag: member="bet_config.c::notebook_general" ref="a8924516aa4170f932308e93cf93a785b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="traitement__variables_8c.html#a8924516aa4170f932308e93cf93a785b">notebook_general</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="fenetre__principale_8c_source.html#l00070">70</a> du fichier <a class="el" href="fenetre__principale_8c_source.html">fenetre_principale.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2a9036317d63fb6459987ed41b88bf4f"></a><!-- doxytag: member="bet_config.c::prev_month_max" ref="a2a9036317d63fb6459987ed41b88bf4f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const gdouble <a class="el" href="bet__tab_8c.html#a2a9036317d63fb6459987ed41b88bf4f">prev_month_max</a> = 60.0</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="bet__config_8c_source.html#l00094">94</a> du fichier <a class="el" href="bet__config_8c_source.html">bet_config.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

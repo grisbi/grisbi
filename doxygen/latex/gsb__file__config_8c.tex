@@ -1,0 +1,183 @@
+\section{Référence du fichier gsb\_\-file\_\-config.c}
+\label{gsb__file__config_8c}\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-config.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}main.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-files.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}print\_\-config.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-buttons.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-file\_\-config\_\-load\_\-config} (void)
+\item 
+gboolean {\bf gsb\_\-file\_\-config\_\-save\_\-config} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf balances\_\-with\_\-scheduled}
+\item 
+struct {\bf conditional\_\-message} {\bf delete\_\-msg} [$\,$]
+\item 
+gboolean {\bf execute\_\-scheduled\_\-of\_\-month}
+\item 
+GtkWidget $\ast$ {\bf main\_\-hpaned}
+\item 
+struct {\bf conditional\_\-message} {\bf messages} [$\,$]
+\item 
+gint {\bf nb\_\-days\_\-before\_\-scheduled}
+\item 
+gchar $\ast$ {\bf nom\_\-fichier\_\-comptes}
+\item 
+GtkWidget $\ast$ {\bf window}
+\item 
+struct {\bf gsb\_\-conf\_\-t} {\bf conf}
+\item 
+gint {\bf mini\_\-paned\_\-width} = 0
+\item 
+gsize {\bf nb\_\-derniers\_\-fichiers\_\-ouverts} = 0
+\item 
+gint {\bf nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts} = 0
+\item 
+gchar $\ast$$\ast$ {\bf tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts} = NULL
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+save and load the config file 
+
+Définition dans le fichier {\bf gsb\_\-file\_\-config.c}.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!gsb\_\-file\_\-config\_\-load\_\-config@{gsb\_\-file\_\-config\_\-load\_\-config}}
+\index{gsb\_\-file\_\-config\_\-load\_\-config@{gsb\_\-file\_\-config\_\-load\_\-config}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{gsb\_\-file\_\-config\_\-load\_\-config}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-config\_\-load\_\-config (void)}\label{gsb__file__config_8c_a75e81d75a401a5e21644fd1e61a3d32f}
+load the config file it uses the glib config utils after 0.6.0 if cannot load, try the xml file before that version
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok, FALSE if not found, usually for a new opening 
+\end{DoxyReturn}
+
+
+Définition à la ligne 95 du fichier gsb\_\-file\_\-config.c.
+
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!gsb\_\-file\_\-config\_\-save\_\-config@{gsb\_\-file\_\-config\_\-save\_\-config}}
+\index{gsb\_\-file\_\-config\_\-save\_\-config@{gsb\_\-file\_\-config\_\-save\_\-config}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{gsb\_\-file\_\-config\_\-save\_\-config}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-config\_\-save\_\-config (void)}\label{gsb__file__config_8c_a74fd03c5b1ed804d94add079eca960fa}
+save the config file it uses the glib config utils after 0.6.0 if cannot load, try the xml file before that version
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 507 du fichier gsb\_\-file\_\-config.c.
+
+
+
+\subsection{Documentation des variables}
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!balances\_\-with\_\-scheduled@{balances\_\-with\_\-scheduled}}
+\index{balances\_\-with\_\-scheduled@{balances\_\-with\_\-scheduled}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{balances\_\-with\_\-scheduled}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf balances\_\-with\_\-scheduled}}\label{gsb__file__config_8c_a2f70ab8aa9d2a494c0653e8f29eddf40}
+Take into account the planned operations in the calculation of the balances (TRUE default) 
+
+Définition à la ligne 71 du fichier gsb\_\-scheduler.c.
+
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!conf@{conf}}
+\index{conf@{conf}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{conf}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf gsb\_\-conf\_\-t} {\bf conf}}\label{gsb__file__config_8c_ac390e947e97cef2bec2f5d59d6ec1071}
+
+
+Définition à la ligne 74 du fichier gsb\_\-file\_\-config.c.
+
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!delete\_\-msg@{delete\_\-msg}}
+\index{delete\_\-msg@{delete\_\-msg}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{delete\_\-msg}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf conditional\_\-message} {\bf delete\_\-msg}[$\,$]}\label{gsb__file__config_8c_a8be9044200783277533661fc770e77f5}
+All delete messages 
+
+Définition à la ligne 182 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!execute\_\-scheduled\_\-of\_\-month@{execute\_\-scheduled\_\-of\_\-month}}
+\index{execute\_\-scheduled\_\-of\_\-month@{execute\_\-scheduled\_\-of\_\-month}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{execute\_\-scheduled\_\-of\_\-month}]{\setlength{\rightskip}{0pt plus 5cm}gboolean {\bf execute\_\-scheduled\_\-of\_\-month}}\label{gsb__file__config_8c_a28dbce464ef05c5a6db0d64a31fff16d}
+warn/execute scheduled at expiration (FALSE) or of the month (TRUE) 
+
+Définition à la ligne 68 du fichier gsb\_\-scheduler.c.
+
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!main\_\-hpaned@{main\_\-hpaned}}
+\index{main\_\-hpaned@{main\_\-hpaned}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{main\_\-hpaned}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf main\_\-hpaned}}\label{gsb__file__config_8c_a4a46e75f5e42baf4abffc03a92ec3030}
+
+
+Définition à la ligne 71 du fichier fenetre\_\-principale.c.
+
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!messages@{messages}}
+\index{messages@{messages}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{messages}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf conditional\_\-message} {\bf messages}[$\,$]}\label{gsb__file__config_8c_a430b9f94c0af809780196ca7d7040fde}
+All messages 
+
+Définition à la ligne 50 du fichier dialog.c.
+
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!mini\_\-paned\_\-width@{mini\_\-paned\_\-width}}
+\index{mini\_\-paned\_\-width@{mini\_\-paned\_\-width}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{mini\_\-paned\_\-width}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf mini\_\-paned\_\-width} = 0}\label{gsb__file__config_8c_aeedb26129c4cdb0718946b03abf8b0d5}
+
+
+Définition à la ligne 76 du fichier gsb\_\-file\_\-config.c.
+
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!nb\_\-days\_\-before\_\-scheduled@{nb\_\-days\_\-before\_\-scheduled}}
+\index{nb\_\-days\_\-before\_\-scheduled@{nb\_\-days\_\-before\_\-scheduled}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{nb\_\-days\_\-before\_\-scheduled}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-days\_\-before\_\-scheduled}}\label{gsb__file__config_8c_ab4baae80534027ea3fe73d417c48caaa}
+number of days before the scheduled to execute it 
+
+Définition à la ligne 65 du fichier gsb\_\-scheduler.c.
+
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!nb\_\-derniers\_\-fichiers\_\-ouverts@{nb\_\-derniers\_\-fichiers\_\-ouverts}}
+\index{nb\_\-derniers\_\-fichiers\_\-ouverts@{nb\_\-derniers\_\-fichiers\_\-ouverts}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{nb\_\-derniers\_\-fichiers\_\-ouverts}]{\setlength{\rightskip}{0pt plus 5cm}gsize {\bf nb\_\-derniers\_\-fichiers\_\-ouverts} = 0}\label{gsb__file__config_8c_a602b7cdee2b4750d17e89e642189e6ba}
+
+
+Définition à la ligne 79 du fichier gsb\_\-file\_\-config.c.
+
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts@{nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts}}
+\index{nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts@{nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf nb\_\-max\_\-derniers\_\-fichiers\_\-ouverts} = 0}\label{gsb__file__config_8c_a691d56f7a427c60a7714f6bec232807b}
+
+
+Définition à la ligne 82 du fichier gsb\_\-file\_\-config.c.
+
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!nom\_\-fichier\_\-comptes@{nom\_\-fichier\_\-comptes}}
+\index{nom\_\-fichier\_\-comptes@{nom\_\-fichier\_\-comptes}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{nom\_\-fichier\_\-comptes}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf nom\_\-fichier\_\-comptes}}\label{gsb__file__config_8c_ae00b9af94c75169e6ab8cf0ec25e8b89}
+
+
+Définition à la ligne 145 du fichier traitement\_\-variables.c.
+
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts@{tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts}}
+\index{tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts@{tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$$\ast$ {\bf tab\_\-noms\_\-derniers\_\-fichiers\_\-ouverts} = NULL}\label{gsb__file__config_8c_a29a380dfbc7b7bc62547a1c0f5d95ff4}
+
+
+Définition à la ligne 83 du fichier gsb\_\-file\_\-config.c.
+
+\index{gsb\_\-file\_\-config.c@{gsb\_\-file\_\-config.c}!window@{window}}
+\index{window@{window}!gsb_file_config.c@{gsb\_\-file\_\-config.c}}
+\subsubsection[{window}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ {\bf window}}\label{gsb__file__config_8c_a3d346c08cf2d67c388caabffb412b293}
+
+
+Définition à la ligne 70 du fichier main.c.
+

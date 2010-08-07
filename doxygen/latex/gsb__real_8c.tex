@@ -1,0 +1,422 @@
+\section{Référence du fichier gsb\_\-real.c}
+\label{gsb__real_8c}\index{gsb\_\-real.c@{gsb\_\-real.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include $<$assert.h$>$}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-currency.h\char`\"{}}\par
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf sizeofarray}(x)~(sizeof(x)/sizeof($\ast$x))
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gchar $\ast$ {\bf gsb\_\-real\_\-get\_\-string} ({\bf gsb\_\-real} number)
+\item 
+gchar $\ast$ {\bf gsb\_\-real\_\-get\_\-string\_\-with\_\-currency} ({\bf gsb\_\-real} number, gint currency\_\-number, gboolean show\_\-symbol)
+\item 
+gchar $\ast$ {\bf gsb\_\-real\_\-raw\_\-format\_\-string} ({\bf gsb\_\-real} number, struct lconv $\ast$conv, const gchar $\ast$currency\_\-symbol)
+\item 
+gchar $\ast$ {\bf gsb\_\-real\_\-format\_\-string} ({\bf gsb\_\-real} number, gint currency\_\-number, gboolean show\_\-symbol)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-real\_\-get\_\-from\_\-string} (const gchar $\ast$string)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-real\_\-new} (gint mantissa, gint exponent)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-real\_\-raw\_\-get\_\-from\_\-string} (const gchar $\ast$string, const gchar $\ast$mon\_\-thousands\_\-sep, const gchar $\ast$mon\_\-decimal\_\-point)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-real\_\-import\_\-from\_\-string} (const gchar $\ast$string)
+\item 
+G\_\-MODULE\_\-EXPORT gint {\bf gsb\_\-real\_\-cmp} ({\bf gsb\_\-real} number\_\-1, {\bf gsb\_\-real} number\_\-2)
+\item 
+gboolean {\bf gsb\_\-real\_\-normalize} ({\bf gsb\_\-real} $\ast$number\_\-1, {\bf gsb\_\-real} $\ast$number\_\-2)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-real\_\-abs} ({\bf gsb\_\-real} number)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-real\_\-adjust\_\-exponent} ({\bf gsb\_\-real} number, gint return\_\-exponent)
+\item 
+G\_\-MODULE\_\-EXPORT {\bf gsb\_\-real} {\bf gsb\_\-real\_\-add} ({\bf gsb\_\-real} number\_\-1, {\bf gsb\_\-real} number\_\-2)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-real\_\-sub} ({\bf gsb\_\-real} number\_\-1, {\bf gsb\_\-real} number\_\-2)
+\item 
+G\_\-MODULE\_\-EXPORT {\bf gsb\_\-real} {\bf gsb\_\-real\_\-opposite} ({\bf gsb\_\-real} number)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-real\_\-mul} ({\bf gsb\_\-real} number\_\-1, {\bf gsb\_\-real} number\_\-2)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-real\_\-div} ({\bf gsb\_\-real} number\_\-1, {\bf gsb\_\-real} number\_\-2)
+\item 
+G\_\-MODULE\_\-EXPORT {\bf gsb\_\-real} {\bf gsb\_\-real\_\-double\_\-to\_\-real} (gdouble number)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-str\_\-to\_\-real} (const gchar $\ast$str)
+\item 
+gchar $\ast$ {\bf gsb\_\-real\_\-save\_\-real\_\-to\_\-string} ({\bf gsb\_\-real} number, gint default\_\-exponent)
+\item 
+gdouble {\bf gsb\_\-real\_\-real\_\-to\_\-double} ({\bf gsb\_\-real} number)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+{\bf gsb\_\-real} {\bf null\_\-real} = \{ 0 , 0 \}
+\item 
+{\bf gsb\_\-real} {\bf error\_\-real} = \{ 0x80000000, 0 \}
+\item 
+glong {\bf gsb\_\-real\_\-power\_\-10} [$\,$]
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+grisbi use a special structure to describe a real number all is defined her 
+
+Définition dans le fichier {\bf gsb\_\-real.c}.
+
+
+
+\subsection{Documentation des macros}
+\index{gsb\_\-real.c@{gsb\_\-real.c}!sizeofarray@{sizeofarray}}
+\index{sizeofarray@{sizeofarray}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{sizeofarray}]{\setlength{\rightskip}{0pt plus 5cm}\#define sizeofarray(x)~(sizeof(x)/sizeof($\ast$x))}\label{gsb__real_8c_a83415ffebb68b4e447c6c0befbc6cc57}
+
+
+Définition à la ligne 48 du fichier gsb\_\-real.c.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-abs@{gsb\_\-real\_\-abs}}
+\index{gsb\_\-real\_\-abs@{gsb\_\-real\_\-abs}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-abs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-real\_\-abs ({\bf gsb\_\-real} {\em number})}\label{gsb__real_8c_ae727c3ee72397bb23657fb3571bcf4da}
+give the absolute value of the number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a \doxyref{gsb\_\-real}{p.}{structgsb__real}, the absolute value of the given number 
+\end{DoxyReturn}
+
+
+Définition à la ligne 696 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-add@{gsb\_\-real\_\-add}}
+\index{gsb\_\-real\_\-add@{gsb\_\-real\_\-add}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-add}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT {\bf gsb\_\-real} gsb\_\-real\_\-add ({\bf gsb\_\-real} {\em number\_\-1}, \/  {\bf gsb\_\-real} {\em number\_\-2})}\label{gsb__real_8c_a5a3e9b2189f43f10c28333b09179e335}
+add 2 \doxyref{gsb\_\-real}{p.}{structgsb__real} when an overflow occurs, error\_\-real is returned
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number\_\-1}]\item[{\em number\_\-2}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a \doxyref{gsb\_\-real}{p.}{structgsb__real} = number\_\-1 + number\_\-2, or error\_\-real when an error occured 
+\end{DoxyReturn}
+
+
+Définition à la ligne 749 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-adjust\_\-exponent@{gsb\_\-real\_\-adjust\_\-exponent}}
+\index{gsb\_\-real\_\-adjust\_\-exponent@{gsb\_\-real\_\-adjust\_\-exponent}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-adjust\_\-exponent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-real\_\-adjust\_\-exponent ({\bf gsb\_\-real} {\em number}, \/  gint {\em return\_\-exponent})}\label{gsb__real_8c_a1db70fbb5eb9e7e373a05386989dc961}
+modify the number to adjust the exponent wanted
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number}]\item[{\em return\_\-exponent}]the exponent we want to have for the returned number, or -\/1 if no limit\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the transformed number 
+\end{DoxyReturn}
+
+
+Définition à la ligne 711 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-cmp@{gsb\_\-real\_\-cmp}}
+\index{gsb\_\-real\_\-cmp@{gsb\_\-real\_\-cmp}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-cmp}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT gint gsb\_\-real\_\-cmp ({\bf gsb\_\-real} {\em number\_\-1}, \/  {\bf gsb\_\-real} {\em number\_\-2})}\label{gsb__real_8c_a9ffa1aad0087896f5a3f1e2320c97db4}
+compare 2 \doxyref{gsb\_\-real}{p.}{structgsb__real} and return the result (-\/1, 0, 1)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number\_\-1}]\item[{\em number\_\-2}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+-\/1 if number\_\-1 $<$ number\_\-2 ; 0 if number\_\-1 = number\_\-2 ; 1 if number\_\-1 $>$ number\_\-2 
+\end{DoxyReturn}
+
+
+Définition à la ligne 562 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-div@{gsb\_\-real\_\-div}}
+\index{gsb\_\-real\_\-div@{gsb\_\-real\_\-div}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-div}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-real\_\-div ({\bf gsb\_\-real} {\em number\_\-1}, \/  {\bf gsb\_\-real} {\em number\_\-2})}\label{gsb__real_8c_a93c09778fbfddebc650260cc49da78a5}
+divide 2 gsb\_\-reals
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number\_\-1}]\item[{\em number\_\-2}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the div between the 2 
+\end{DoxyReturn}
+
+
+Définition à la ligne 844 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-double\_\-to\_\-real@{gsb\_\-real\_\-double\_\-to\_\-real}}
+\index{gsb\_\-real\_\-double\_\-to\_\-real@{gsb\_\-real\_\-double\_\-to\_\-real}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-double\_\-to\_\-real}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT {\bf gsb\_\-real} gsb\_\-real\_\-double\_\-to\_\-real (gdouble {\em number})}\label{gsb__real_8c_a13580c0fa17fb81c9fcc5c07393060a9}
+convert a double to a \doxyref{gsb\_\-real}{p.}{structgsb__real}
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number}]a gdouble number\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number in \doxyref{gsb\_\-real}{p.}{structgsb__real} format 
+\end{DoxyReturn}
+
+
+Définition à la ligne 884 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-format\_\-string@{gsb\_\-real\_\-format\_\-string}}
+\index{gsb\_\-real\_\-format\_\-string@{gsb\_\-real\_\-format\_\-string}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-format\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-real\_\-format\_\-string ({\bf gsb\_\-real} {\em number}, \/  gint {\em currency\_\-number}, \/  gboolean {\em show\_\-symbol})}\label{gsb__real_8c_a55251dc8f90b19c4aad77b0ad4164f20}
+Return the real in a formatted string with an optional currency symbol, according to the locale regarding decimal separator, thousands separator and positive or negative sign.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number}]Number to format. \item[{\em currency\_\-number}]the currency we want to adapt the number, 0 for no adaptation \item[{\em show\_\-symbol}]TRUE to add the currency symbol in the string\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A newly allocated string of the number (this function will never return NULL) 
+\end{DoxyReturn}
+
+
+Définition à la ligne 260 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-get\_\-from\_\-string@{gsb\_\-real\_\-get\_\-from\_\-string}}
+\index{gsb\_\-real\_\-get\_\-from\_\-string@{gsb\_\-real\_\-get\_\-from\_\-string}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-get\_\-from\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-real\_\-get\_\-from\_\-string (const gchar $\ast$ {\em string})}\label{gsb__real_8c_ada8e5c9cbdb5ccab2c0bbc6e52b04efe}
+get a real number from a string the string can be formatted :
+\begin{DoxyItemize}
+\item handle , or . as separator
+\item spaces are ignored
+\item another character makes a 0 return
+\end{DoxyItemize}
+
+there is no ask for any exponent, so the \doxyref{gsb\_\-real}{p.}{structgsb__real} will be exactly the same as the string
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em string}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number in the string transformed to \doxyref{gsb\_\-real}{p.}{structgsb__real} 
+\end{DoxyReturn}
+
+
+Définition à la ligne 310 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-get\_\-string@{gsb\_\-real\_\-get\_\-string}}
+\index{gsb\_\-real\_\-get\_\-string@{gsb\_\-real\_\-get\_\-string}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-get\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-real\_\-get\_\-string ({\bf gsb\_\-real} {\em number})}\label{gsb__real_8c_a9207a2084e51e49584c038b6c8ae4433}
+Return the real in a formatted string, according to the currency regarding decimal separator, thousands separator and positive or negative sign. this is directly the number coded in the real wich is returned usually, gsb\_\-real\_\-get\_\-string\_\-with\_\-currency is better to adapt the format of the number to the currency format
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number}]Number to format.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A newly allocated string of the number (this function will never return NULL) 
+\end{DoxyReturn}
+
+
+Définition à la ligne 94 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-get\_\-string\_\-with\_\-currency@{gsb\_\-real\_\-get\_\-string\_\-with\_\-currency}}
+\index{gsb\_\-real\_\-get\_\-string\_\-with\_\-currency@{gsb\_\-real\_\-get\_\-string\_\-with\_\-currency}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-get\_\-string\_\-with\_\-currency}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-real\_\-get\_\-string\_\-with\_\-currency ({\bf gsb\_\-real} {\em number}, \/  gint {\em currency\_\-number}, \/  gboolean {\em show\_\-symbol})}\label{gsb__real_8c_a03f4474a9a4269e384951af9be4acedd}
+format a \doxyref{gsb\_\-real}{p.}{structgsb__real} into a string from gsb\_\-real\_\-get\_\-string adapt the format of the real to the currency (nb digits after , ...) show if asked the currency symbol
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number}]A number to format. \item[{\em currency\_\-number}]Currency to use.\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a newly allocated string of the number 
+\end{DoxyReturn}
+
+
+Définition à la ligne 109 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-import\_\-from\_\-string@{gsb\_\-real\_\-import\_\-from\_\-string}}
+\index{gsb\_\-real\_\-import\_\-from\_\-string@{gsb\_\-real\_\-import\_\-from\_\-string}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-import\_\-from\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-real\_\-import\_\-from\_\-string (const gchar $\ast$ {\em string})}\label{gsb__real_8c_a894affc3addf4e97be6c64194042209b}
+get a \doxyref{gsb\_\-real}{p.}{structgsb__real} number from a string, during file load the string can be formatted :
+\begin{DoxyItemize}
+\item spaces and the given utf8-\/encoded thousands separators are ignored
+\item handle only \char`\"{}.\char`\"{} as a decimal separator
+\item another character makes a error\_\-real return
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em string}]\item[{\em mon\_\-thousands\_\-sep,can}]be NULL or empty, but only one utf8 sequence \item[{\em mon\_\-decimal\_\-point,can}]be NULL or empty, but only one utf8 sequence\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number in the string transformed to \doxyref{gsb\_\-real}{p.}{structgsb__real} 
+\end{DoxyReturn}
+
+
+Définition à la ligne 493 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-mul@{gsb\_\-real\_\-mul}}
+\index{gsb\_\-real\_\-mul@{gsb\_\-real\_\-mul}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-mul}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-real\_\-mul ({\bf gsb\_\-real} {\em number\_\-1}, \/  {\bf gsb\_\-real} {\em number\_\-2})}\label{gsb__real_8c_a9038bcc6c7bae8ee08fbcdd05758d727}
+multiply 2 gsb\_\-reals. no overflow possible
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number\_\-1}]\item[{\em number\_\-2}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the multiplication between the 2 
+\end{DoxyReturn}
+
+
+Définition à la ligne 809 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-new@{gsb\_\-real\_\-new}}
+\index{gsb\_\-real\_\-new@{gsb\_\-real\_\-new}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-real\_\-new (gint {\em mantissa}, \/  gint {\em exponent})}\label{gsb__real_8c_a2de01ed575642df6733b066db62b7211}
+get a real number from an integer
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em mantissa}]\item[{\em exponent}]-\/1 for no limit\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a \doxyref{gsb\_\-real}{p.}{structgsb__real} from the integer 
+\end{DoxyReturn}
+
+
+Définition à la ligne 339 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-normalize@{gsb\_\-real\_\-normalize}}
+\index{gsb\_\-real\_\-normalize@{gsb\_\-real\_\-normalize}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-normalize}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-real\_\-normalize ({\bf gsb\_\-real} $\ast$ {\em number\_\-1}, \/  {\bf gsb\_\-real} $\ast$ {\em number\_\-2})}\label{gsb__real_8c_a60c9f459971957544deea84d80d941d9}
+normalize the 2 numbers to be able to add/substract/compare them later for that transform the 2 numbers to have the same exponent and after that we can work on the mantissa
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number\_\-1}]a pointer to \doxyref{gsb\_\-real}{p.}{structgsb__real} wich contains the number\_\-1 to transform \item[{\em number\_\-2}]a pointer to \doxyref{gsb\_\-real}{p.}{structgsb__real} wich contains the number\_\-2 to transform\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if normalization occured without loss of precision FALSE if exponents can't be the same without loss of precision 
+\end{DoxyReturn}
+
+
+Définition à la ligne 651 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-opposite@{gsb\_\-real\_\-opposite}}
+\index{gsb\_\-real\_\-opposite@{gsb\_\-real\_\-opposite}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-opposite}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-MODULE\_\-EXPORT {\bf gsb\_\-real} gsb\_\-real\_\-opposite ({\bf gsb\_\-real} {\em number})}\label{gsb__real_8c_aee7dfb40ef3a60df7a55c6ccfcc6dfef}
+return the opposite of the number ie 5 returns -\/5 in \doxyref{gsb\_\-real}{p.}{structgsb__real} number
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+its opposite 
+\end{DoxyReturn}
+
+
+Définition à la ligne 794 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-raw\_\-format\_\-string@{gsb\_\-real\_\-raw\_\-format\_\-string}}
+\index{gsb\_\-real\_\-raw\_\-format\_\-string@{gsb\_\-real\_\-raw\_\-format\_\-string}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-raw\_\-format\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-real\_\-raw\_\-format\_\-string ({\bf gsb\_\-real} {\em number}, \/  struct lconv $\ast$ {\em conv}, \/  const gchar $\ast$ {\em currency\_\-symbol})}\label{gsb__real_8c_a744dbe148fd54b26989be45a2044a2a2}
+Return the real in a formatted string with an optional currency symbol, according to the given locale regarding decimal separator, thousands separator and positive or negative sign.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number}]Number to format. \item[{\em conv}]the locale obtained with localeconv(), or built manually \item[{\em currency\_\-symbol}]the currency symbol\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A newly allocated string of the number (this function will never return NULL) 
+\end{DoxyReturn}
+
+
+Définition à la ligne 134 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-raw\_\-get\_\-from\_\-string@{gsb\_\-real\_\-raw\_\-get\_\-from\_\-string}}
+\index{gsb\_\-real\_\-raw\_\-get\_\-from\_\-string@{gsb\_\-real\_\-raw\_\-get\_\-from\_\-string}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-raw\_\-get\_\-from\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-real\_\-raw\_\-get\_\-from\_\-string (const gchar $\ast$ {\em string}, \/  const gchar $\ast$ {\em mon\_\-thousands\_\-sep}, \/  const gchar $\ast$ {\em mon\_\-decimal\_\-point})}\label{gsb__real_8c_af8a7458d3d739cc56e2f826e83b52a5e}
+get a \doxyref{gsb\_\-real}{p.}{structgsb__real} number from a string the string can be formatted :
+\begin{DoxyItemize}
+\item spaces and the given utf8-\/encoded thousands separators are ignored
+\item handle \char`\"{},\char`\"{}, \char`\"{}.\char`\"{} and the given utf8-\/encoded decimal separator
+\item another character makes a error\_\-real return
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em string}]\item[{\em mon\_\-thousands\_\-sep,can}]be NULL or empty, but only one utf8 sequence \item[{\em mon\_\-decimal\_\-point,can}]be NULL or empty, but only one utf8 sequence\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the number in the string transformed to \doxyref{gsb\_\-real}{p.}{structgsb__real} 
+\end{DoxyReturn}
+
+
+Définition à la ligne 361 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-real\_\-to\_\-double@{gsb\_\-real\_\-real\_\-to\_\-double}}
+\index{gsb\_\-real\_\-real\_\-to\_\-double@{gsb\_\-real\_\-real\_\-to\_\-double}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-real\_\-to\_\-double}]{\setlength{\rightskip}{0pt plus 5cm}gdouble gsb\_\-real\_\-real\_\-to\_\-double ({\bf gsb\_\-real} {\em number})}\label{gsb__real_8c_a404579b669e686ba61e56dd0334c460d}
+
+
+Définition à la ligne 1144 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-save\_\-real\_\-to\_\-string@{gsb\_\-real\_\-save\_\-real\_\-to\_\-string}}
+\index{gsb\_\-real\_\-save\_\-real\_\-to\_\-string@{gsb\_\-real\_\-save\_\-real\_\-to\_\-string}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-save\_\-real\_\-to\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ gsb\_\-real\_\-save\_\-real\_\-to\_\-string ({\bf gsb\_\-real} {\em number}, \/  gint {\em default\_\-exponent})}\label{gsb__real_8c_a50c880e082aa7241dfa50a9bc0a87207}
+
+
+Définition à la ligne 1051 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-sub@{gsb\_\-real\_\-sub}}
+\index{gsb\_\-real\_\-sub@{gsb\_\-real\_\-sub}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-sub}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-real\_\-sub ({\bf gsb\_\-real} {\em number\_\-1}, \/  {\bf gsb\_\-real} {\em number\_\-2})}\label{gsb__real_8c_aa5a0cf079b0a5a0e47d7eaca164e0f25}
+substract between 2 \doxyref{gsb\_\-real}{p.}{structgsb__real} : number\_\-1 -\/ number\_\-2
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em number\_\-1}]\item[{\em number\_\-2}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a \doxyref{gsb\_\-real}{p.}{structgsb__real} = number\_\-1 -\/ number\_\-2 
+\end{DoxyReturn}
+
+
+Définition à la ligne 778 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-str\_\-to\_\-real@{gsb\_\-str\_\-to\_\-real}}
+\index{gsb\_\-str\_\-to\_\-real@{gsb\_\-str\_\-to\_\-real}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-str\_\-to\_\-real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-str\_\-to\_\-real (const gchar $\ast$ {\em str})}\label{gsb__real_8c_a600b9eca05a8907718c54adcc579e7fb}
+
+
+Définition à la ligne 975 du fichier gsb\_\-real.c.
+
+
+
+\subsection{Documentation des variables}
+\index{gsb\_\-real.c@{gsb\_\-real.c}!error\_\-real@{error\_\-real}}
+\index{error\_\-real@{error\_\-real}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{error\_\-real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf error\_\-real} = \{ 0x80000000, 0 \}}\label{gsb__real_8c_a520cf94ffbcb7bc947e1cb63cda4af06}
+
+
+Définition à la ligne 43 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!gsb\_\-real\_\-power\_\-10@{gsb\_\-real\_\-power\_\-10}}
+\index{gsb\_\-real\_\-power\_\-10@{gsb\_\-real\_\-power\_\-10}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{gsb\_\-real\_\-power\_\-10}]{\setlength{\rightskip}{0pt plus 5cm}glong {\bf gsb\_\-real\_\-power\_\-10}[$\,$]}\label{gsb__real_8c_ae26786fc183c582276e5cdaf5d17192c}
+{\bfseries Valeur initiale :}
+\begin{DoxyCode}
+ { 1, 10, 100, 1000, 10000, 100000,
+                            1000000, 10000000, 100000000, 1000000000 }
+\end{DoxyCode}
+
+
+Définition à la ligne 45 du fichier gsb\_\-real.c.
+
+\index{gsb\_\-real.c@{gsb\_\-real.c}!null\_\-real@{null\_\-real}}
+\index{null\_\-real@{null\_\-real}!gsb_real.c@{gsb\_\-real.c}}
+\subsubsection[{null\_\-real}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} {\bf null\_\-real} = \{ 0 , 0 \}}\label{gsb__real_8c_a26f304bec3fdc0651b9aa8765d4de3c6}
+
+
+Définition à la ligne 42 du fichier gsb\_\-real.c.
+

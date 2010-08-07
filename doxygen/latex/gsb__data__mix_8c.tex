@@ -1,0 +1,386 @@
+\section{Référence du fichier gsb\_\-data\_\-mix.c}
+\label{gsb__data__mix_8c}\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-mix.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-scheduled.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-real.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-new\_\-transaction} (gint account\_\-number, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-account\_\-number} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+const GDate $\ast$ {\bf gsb\_\-data\_\-mix\_\-get\_\-date} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-date} (gint transaction\_\-number, GDate $\ast$date, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-value\_\-date} (gint transaction\_\-number, GDate $\ast$date, gboolean is\_\-transaction)
+\item 
+{\bf gsb\_\-real} {\bf gsb\_\-data\_\-mix\_\-get\_\-amount} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-amount} (gint transaction\_\-number, {\bf gsb\_\-real} amount, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-currency\_\-number} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-currency\_\-number} (gint transaction\_\-number, gint no\_\-currency, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-party\_\-number} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-party\_\-number} (gint transaction\_\-number, gint no\_\-party, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-category\_\-number} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-category\_\-number} (gint transaction\_\-number, gint no\_\-category, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-sub\_\-category\_\-number} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-sub\_\-category\_\-number} (gint transaction\_\-number, gint no\_\-sub\_\-category, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-split\_\-of\_\-transaction} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-split\_\-of\_\-transaction} (gint transaction\_\-number, gint is\_\-split, gboolean is\_\-transaction)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-mix\_\-get\_\-notes} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-notes} (gint transaction\_\-number, const gchar $\ast$notes, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-method\_\-of\_\-payment\_\-number} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-number} (gint transaction\_\-number, gint number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-content} (gint transaction\_\-number, const gchar $\ast$method\_\-of\_\-payment\_\-content, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-automatic\_\-transaction} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-financial\_\-year\_\-number} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-financial\_\-year\_\-number} (gint transaction\_\-number, gint financial\_\-year\_\-number, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-budgetary\_\-number} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-budgetary\_\-number} (gint transaction\_\-number, gint budgetary\_\-number, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-sub\_\-budgetary\_\-number} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-sub\_\-budgetary\_\-number} (gint transaction\_\-number, gint sub\_\-budgetary\_\-number, gboolean is\_\-transaction)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-mix\_\-get\_\-voucher} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-voucher} (gint transaction\_\-number, const gchar $\ast$voucher, gboolean is\_\-transaction)
+\item 
+const gchar $\ast$ {\bf gsb\_\-data\_\-mix\_\-get\_\-bank\_\-references} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-bank\_\-references} (gint transaction\_\-number, const gchar $\ast$bank\_\-references, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-transaction\_\-number\_\-transfer} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-transaction\_\-number\_\-transfer} (gint transaction\_\-number, gint transaction\_\-number\_\-transfer, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-account\_\-number\_\-transfer} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-mother\_\-transaction\_\-number} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gboolean {\bf gsb\_\-data\_\-mix\_\-set\_\-mother\_\-transaction\_\-number} (gint transaction\_\-number, gint mother\_\-transaction\_\-number, gboolean is\_\-transaction)
+\item 
+gint {\bf gsb\_\-data\_\-mix\_\-get\_\-white\_\-line} (gint transaction\_\-number, gboolean is\_\-transaction)
+\item 
+GSList $\ast$ {\bf gsb\_\-data\_\-mix\_\-get\_\-children} (gint transaction\_\-number, gboolean return\_\-number, gboolean is\_\-transaction)
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+this file contains some functions used to split between transactions and scheduled transactions in mixed calls example : if a function wants to set the account number : for a transaction : gsb\_\-data\_\-mix\_\-set\_\-account\_\-number for a scheduled : gsb\_\-data\_\-scheduled\_\-set\_\-account\_\-number
+
+but if the function can work with transactions and scheduled (usually a boolean is\_\-transaction is used), it can call the function here : gsb\_\-data\_\-mix\_\-set\_\-account\_\-number with the is\_\-transaction param (TRUE for transaction, FALSE for scheduled transaction), wich will call the directly gsb\_\-data\_\-mix\_\-set\_\-account\_\-number or gsb\_\-data\_\-scheduled\_\-set\_\-account\_\-number
+
+there is no description here, to see the description, go to see the description of the relative functions in transaction or scheduled transaction
+
+-\/2 interestings points with that functions : -\/reduce place of code, instead of if (is\_\-transaction) gsb\_\-data\_\-... 4 lines, only one with gsb\_\-data\_\-mix\_\-... -\/it exists also some gsb\_\-data\_\-mix\_\- wich exist only for transaction. it's a good thing because avoid to fill a transaction with the number of the scheduled transaction (for example if someone succeed to fill a value date for a scheduled transaction (normally not possible), if we don't use gsb\_\-data\_\-mix and don't protect before against that kind of error, the transaction with the number of the scheduled transaction will have its value date changed... 
+
+Définition dans le fichier {\bf gsb\_\-data\_\-mix.c}.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-account\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-account\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-account\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-account\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-account\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-account\_\-number (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_aaf2ab2d3eb0c28c8582e1099229c56fb}
+
+
+Définition à la ligne 86 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-account\_\-number\_\-transfer@{gsb\_\-data\_\-mix\_\-get\_\-account\_\-number\_\-transfer}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-account\_\-number\_\-transfer@{gsb\_\-data\_\-mix\_\-get\_\-account\_\-number\_\-transfer}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-account\_\-number\_\-transfer}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-account\_\-number\_\-transfer (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_ae37f747ccb8cc786b5354c5b64f6babe}
+
+
+Définition à la ligne 435 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-amount@{gsb\_\-data\_\-mix\_\-get\_\-amount}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-amount@{gsb\_\-data\_\-mix\_\-get\_\-amount}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}{\bf gsb\_\-real} gsb\_\-data\_\-mix\_\-get\_\-amount (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_aa963e3136d650325f75c04f6f1de62bd}
+
+
+Définition à la ligne 126 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-automatic\_\-transaction@{gsb\_\-data\_\-mix\_\-get\_\-automatic\_\-transaction}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-automatic\_\-transaction@{gsb\_\-data\_\-mix\_\-get\_\-automatic\_\-transaction}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-automatic\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-automatic\_\-transaction (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a985bfc0d8565c8ebd4977e4f9b1fae48}
+
+
+Définition à la ligne 307 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-bank\_\-references@{gsb\_\-data\_\-mix\_\-get\_\-bank\_\-references}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-bank\_\-references@{gsb\_\-data\_\-mix\_\-get\_\-bank\_\-references}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-bank\_\-references}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-mix\_\-get\_\-bank\_\-references (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_ad691b36a183805222a9894da611728e4}
+
+
+Définition à la ligne 396 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-budgetary\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-budgetary\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-budgetary\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-budgetary\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-budgetary\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-budgetary\_\-number (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a45830c30d41b2587fa29718ed7e4dd00}
+
+
+Définition à la ligne 336 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-category\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-category\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-category\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-category\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-category\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-category\_\-number (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_ac80ddad52ce85a6a444b717f4fa0dcd4}
+
+
+Définition à la ligne 190 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-children@{gsb\_\-data\_\-mix\_\-get\_\-children}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-children@{gsb\_\-data\_\-mix\_\-get\_\-children}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-children}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ gsb\_\-data\_\-mix\_\-get\_\-children (gint {\em transaction\_\-number}, \/  gboolean {\em return\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_ac42d68a2260ed0ac4bc59dc65d4475b4}
+
+
+Définition à la ligne 475 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-currency\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-currency\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-currency\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-currency\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-currency\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-currency\_\-number (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_ab20294d6e3c998c6ad5b05783b0f3f9e}
+
+
+Définition à la ligne 147 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-date@{gsb\_\-data\_\-mix\_\-get\_\-date}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-date@{gsb\_\-data\_\-mix\_\-get\_\-date}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}const GDate$\ast$ gsb\_\-data\_\-mix\_\-get\_\-date (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a60cef843742c4b8ab778e9e368f6853c}
+
+
+Définition à la ligne 95 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-financial\_\-year\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-financial\_\-year\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-financial\_\-year\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-financial\_\-year\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-financial\_\-year\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-financial\_\-year\_\-number (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a963227d3abcb625b80b421a19801a0a5}
+
+
+Définition à la ligne 315 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-method\_\-of\_\-payment\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-method\_\-of\_\-payment\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-method\_\-of\_\-payment\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-method\_\-of\_\-payment\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-method\_\-of\_\-payment\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-method\_\-of\_\-payment\_\-number (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_adfdc384233ca30c861e7b1673034fcf6}
+
+
+Définition à la ligne 274 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-mother\_\-transaction\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-mother\_\-transaction\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-mother\_\-transaction\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-mother\_\-transaction\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-mother\_\-transaction\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-mother\_\-transaction\_\-number (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a92077f6b914030fd23025b5083687ee7}
+
+
+Définition à la ligne 445 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-notes@{gsb\_\-data\_\-mix\_\-get\_\-notes}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-notes@{gsb\_\-data\_\-mix\_\-get\_\-notes}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-notes}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-mix\_\-get\_\-notes (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a675cd78efcd3c110c33a70d32a19200d}
+
+
+Définition à la ligne 253 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-party\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-party\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-party\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-party\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-party\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-party\_\-number (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a15f48a192807e7e7aa53eb3238974c6f}
+
+
+Définition à la ligne 169 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-split\_\-of\_\-transaction@{gsb\_\-data\_\-mix\_\-get\_\-split\_\-of\_\-transaction}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-split\_\-of\_\-transaction@{gsb\_\-data\_\-mix\_\-get\_\-split\_\-of\_\-transaction}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-split\_\-of\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-split\_\-of\_\-transaction (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a7e68c6caa132138585cd69bb86af3e3b}
+
+
+Définition à la ligne 232 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-sub\_\-budgetary\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-sub\_\-budgetary\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-sub\_\-budgetary\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-sub\_\-budgetary\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-sub\_\-budgetary\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-sub\_\-budgetary\_\-number (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a506db91a5bcc2237ef00303b469d1d9e}
+
+
+Définition à la ligne 357 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-sub\_\-category\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-sub\_\-category\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-sub\_\-category\_\-number@{gsb\_\-data\_\-mix\_\-get\_\-sub\_\-category\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-sub\_\-category\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-sub\_\-category\_\-number (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a9457ca7226d64e11bbbf1120c9d5a660}
+
+
+Définition à la ligne 211 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-transaction\_\-number\_\-transfer@{gsb\_\-data\_\-mix\_\-get\_\-transaction\_\-number\_\-transfer}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-transaction\_\-number\_\-transfer@{gsb\_\-data\_\-mix\_\-get\_\-transaction\_\-number\_\-transfer}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-transaction\_\-number\_\-transfer}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-transaction\_\-number\_\-transfer (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a99e5d9e76610f78b4aa4a5d0693af581}
+
+
+Définition à la ligne 414 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-voucher@{gsb\_\-data\_\-mix\_\-get\_\-voucher}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-voucher@{gsb\_\-data\_\-mix\_\-get\_\-voucher}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-voucher}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gsb\_\-data\_\-mix\_\-get\_\-voucher (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a0dd263006adf896881cca980f22d06c8}
+
+
+Définition à la ligne 378 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-get\_\-white\_\-line@{gsb\_\-data\_\-mix\_\-get\_\-white\_\-line}}
+\index{gsb\_\-data\_\-mix\_\-get\_\-white\_\-line@{gsb\_\-data\_\-mix\_\-get\_\-white\_\-line}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-get\_\-white\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-get\_\-white\_\-line (gint {\em transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a3dc82f9e36f410db25ad621d29312453}
+
+
+Définition à la ligne 466 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-new\_\-transaction@{gsb\_\-data\_\-mix\_\-new\_\-transaction}}
+\index{gsb\_\-data\_\-mix\_\-new\_\-transaction@{gsb\_\-data\_\-mix\_\-new\_\-transaction}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-new\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-data\_\-mix\_\-new\_\-transaction (gint {\em account\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a5714cbc7cb820305d7ac6cf5b114d47e}
+
+
+Définition à la ligne 69 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-amount@{gsb\_\-data\_\-mix\_\-set\_\-amount}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-amount@{gsb\_\-data\_\-mix\_\-set\_\-amount}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-amount}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-amount (gint {\em transaction\_\-number}, \/  {\bf gsb\_\-real} {\em amount}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a022e6c0c15e4571efdc96764aa91319c}
+
+
+Définition à la ligne 135 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-bank\_\-references@{gsb\_\-data\_\-mix\_\-set\_\-bank\_\-references}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-bank\_\-references@{gsb\_\-data\_\-mix\_\-set\_\-bank\_\-references}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-bank\_\-references}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-bank\_\-references (gint {\em transaction\_\-number}, \/  const gchar $\ast$ {\em bank\_\-references}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_affc56e22d9b1e1efd43277730d3cc0c3}
+
+
+Définition à la ligne 404 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-budgetary\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-budgetary\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-budgetary\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-budgetary\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-budgetary\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-budgetary\_\-number (gint {\em transaction\_\-number}, \/  gint {\em budgetary\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a994eba0bb188e850a488d9cf0bbce05e}
+
+
+Définition à la ligne 345 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-category\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-category\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-category\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-category\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-category\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-category\_\-number (gint {\em transaction\_\-number}, \/  gint {\em no\_\-category}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a029842af9cad6db80d07dd9650944d08}
+
+
+Définition à la ligne 199 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-currency\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-currency\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-currency\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-currency\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-currency\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-currency\_\-number (gint {\em transaction\_\-number}, \/  gint {\em no\_\-currency}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_af48fe57865c39cceaf3199f4b24dae12}
+
+
+Définition à la ligne 156 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-date@{gsb\_\-data\_\-mix\_\-set\_\-date}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-date@{gsb\_\-data\_\-mix\_\-set\_\-date}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-date (gint {\em transaction\_\-number}, \/  GDate $\ast$ {\em date}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a57c125cb2e58f59ed3b7ee5148eca14c}
+
+
+Définition à la ligne 104 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-financial\_\-year\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-financial\_\-year\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-financial\_\-year\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-financial\_\-year\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-financial\_\-year\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-financial\_\-year\_\-number (gint {\em transaction\_\-number}, \/  gint {\em financial\_\-year\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a8530f9bcbd47edb4c920160f1e8d4594}
+
+
+Définition à la ligne 324 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-content@{gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-content}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-content@{gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-content}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-content (gint {\em transaction\_\-number}, \/  const gchar $\ast$ {\em method\_\-of\_\-payment\_\-content}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_ad35a8d6c8628a64b60cbda3cef75dac7}
+
+
+Définition à la ligne 295 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-method\_\-of\_\-payment\_\-number (gint {\em transaction\_\-number}, \/  gint {\em number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_ad3a49dff6f817169bdec431db0f39ddd}
+
+
+Définition à la ligne 283 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-mother\_\-transaction\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-mother\_\-transaction\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-mother\_\-transaction\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-mother\_\-transaction\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-mother\_\-transaction\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-mother\_\-transaction\_\-number (gint {\em transaction\_\-number}, \/  gint {\em mother\_\-transaction\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a6f6fc50274dce4f39dd79160eb87dbce}
+
+
+Définition à la ligne 454 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-notes@{gsb\_\-data\_\-mix\_\-set\_\-notes}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-notes@{gsb\_\-data\_\-mix\_\-set\_\-notes}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-notes}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-notes (gint {\em transaction\_\-number}, \/  const gchar $\ast$ {\em notes}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_ac86fbf196be1cfb41afdf1ab32436396}
+
+
+Définition à la ligne 262 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-party\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-party\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-party\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-party\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-party\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-party\_\-number (gint {\em transaction\_\-number}, \/  gint {\em no\_\-party}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_aaf3ff9d5cd9e6b540aca93e7b1bdf236}
+
+
+Définition à la ligne 178 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-split\_\-of\_\-transaction@{gsb\_\-data\_\-mix\_\-set\_\-split\_\-of\_\-transaction}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-split\_\-of\_\-transaction@{gsb\_\-data\_\-mix\_\-set\_\-split\_\-of\_\-transaction}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-split\_\-of\_\-transaction}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-split\_\-of\_\-transaction (gint {\em transaction\_\-number}, \/  gint {\em is\_\-split}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_ac0d0557f4d82e2072a4059751c163ffa}
+
+
+Définition à la ligne 241 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-sub\_\-budgetary\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-sub\_\-budgetary\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-sub\_\-budgetary\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-sub\_\-budgetary\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-sub\_\-budgetary\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-sub\_\-budgetary\_\-number (gint {\em transaction\_\-number}, \/  gint {\em sub\_\-budgetary\_\-number}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a6166a76f93e77b6bafd43afb1ed616ad}
+
+
+Définition à la ligne 366 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-sub\_\-category\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-sub\_\-category\_\-number}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-sub\_\-category\_\-number@{gsb\_\-data\_\-mix\_\-set\_\-sub\_\-category\_\-number}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-sub\_\-category\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-sub\_\-category\_\-number (gint {\em transaction\_\-number}, \/  gint {\em no\_\-sub\_\-category}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a409ba94a9f91539a976c4181048f2e32}
+
+
+Définition à la ligne 220 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-transaction\_\-number\_\-transfer@{gsb\_\-data\_\-mix\_\-set\_\-transaction\_\-number\_\-transfer}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-transaction\_\-number\_\-transfer@{gsb\_\-data\_\-mix\_\-set\_\-transaction\_\-number\_\-transfer}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-transaction\_\-number\_\-transfer}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-transaction\_\-number\_\-transfer (gint {\em transaction\_\-number}, \/  gint {\em transaction\_\-number\_\-transfer}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a37d924fdac56d828fe15f795bdb48229}
+
+
+Définition à la ligne 425 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-value\_\-date@{gsb\_\-data\_\-mix\_\-set\_\-value\_\-date}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-value\_\-date@{gsb\_\-data\_\-mix\_\-set\_\-value\_\-date}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-value\_\-date}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-value\_\-date (gint {\em transaction\_\-number}, \/  GDate $\ast$ {\em date}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_acf0d9be87925bf822e6f46187703353e}
+
+
+Définition à la ligne 116 du fichier gsb\_\-data\_\-mix.c.
+
+\index{gsb\_\-data\_\-mix.c@{gsb\_\-data\_\-mix.c}!gsb\_\-data\_\-mix\_\-set\_\-voucher@{gsb\_\-data\_\-mix\_\-set\_\-voucher}}
+\index{gsb\_\-data\_\-mix\_\-set\_\-voucher@{gsb\_\-data\_\-mix\_\-set\_\-voucher}!gsb_data_mix.c@{gsb\_\-data\_\-mix.c}}
+\subsubsection[{gsb\_\-data\_\-mix\_\-set\_\-voucher}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-data\_\-mix\_\-set\_\-voucher (gint {\em transaction\_\-number}, \/  const gchar $\ast$ {\em voucher}, \/  gboolean {\em is\_\-transaction})}\label{gsb__data__mix_8c_a5277046f76b6bc872ef6c9df7b9fb6ca}
+
+
+Définition à la ligne 386 du fichier gsb\_\-data\_\-mix.c.
+

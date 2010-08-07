@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_data_mix.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_data_mix.h</h1><a href="gsb__data__mix_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _GSB_DATA_MIX_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _GSB_DATA_MIX_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00007"></a>00007 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00008"></a>00008 
+<a name="l00009"></a>00009 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00010"></a>00010 gint <a class="code" href="gsb__data__mix_8c.html#aaf2ab2d3eb0c28c8582e1099229c56fb">gsb_data_mix_get_account_number</a> ( gint transaction_number,
+<a name="l00011"></a>00011                                        gboolean is_transaction );
+<a name="l00012"></a>00012 gint <a class="code" href="gsb__data__mix_8c.html#ae37f747ccb8cc786b5354c5b64f6babe">gsb_data_mix_get_account_number_transfer</a> ( gint transaction_number,
+<a name="l00013"></a>00013                                                 gboolean is_transaction );
+<a name="l00014"></a>00014 <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="gsb__data__mix_8c.html#aa963e3136d650325f75c04f6f1de62bd">gsb_data_mix_get_amount</a> ( gint transaction_number,
+<a name="l00015"></a>00015                                    gboolean is_transaction );
+<a name="l00016"></a>00016 gint <a class="code" href="gsb__data__mix_8c.html#a985bfc0d8565c8ebd4977e4f9b1fae48">gsb_data_mix_get_automatic_transaction</a> ( gint transaction_number,
+<a name="l00017"></a>00017                                               gboolean is_transaction );
+<a name="l00018"></a>00018 <span class="keyword">const</span> gchar *<a class="code" href="gsb__data__mix_8c.html#ad691b36a183805222a9894da611728e4">gsb_data_mix_get_bank_references</a> ( gint transaction_number,
+<a name="l00019"></a>00019                                                 gboolean is_transaction );
+<a name="l00020"></a>00020 gint <a class="code" href="gsb__data__mix_8c.html#a45830c30d41b2587fa29718ed7e4dd00">gsb_data_mix_get_budgetary_number</a> ( gint transaction_number,
+<a name="l00021"></a>00021                                          gboolean is_transaction );
+<a name="l00022"></a>00022 gint <a class="code" href="gsb__data__mix_8c.html#ac80ddad52ce85a6a444b717f4fa0dcd4">gsb_data_mix_get_category_number</a> ( gint transaction_number,
+<a name="l00023"></a>00023                                         gboolean is_transaction );
+<a name="l00024"></a>00024 GSList *<a class="code" href="gsb__data__mix_8c.html#ac42d68a2260ed0ac4bc59dc65d4475b4">gsb_data_mix_get_children</a> ( gint transaction_number,
+<a name="l00025"></a>00025                                     gboolean return_number,
+<a name="l00026"></a>00026                                     gboolean is_transaction );
+<a name="l00027"></a>00027 gint <a class="code" href="gsb__data__mix_8c.html#ab20294d6e3c998c6ad5b05783b0f3f9e">gsb_data_mix_get_currency_number</a> ( gint transaction_number,
+<a name="l00028"></a>00028                                         gboolean is_transaction );
+<a name="l00029"></a>00029 <span class="keyword">const</span> GDate *<a class="code" href="gsb__data__mix_8c.html#a60cef843742c4b8ab778e9e368f6853c">gsb_data_mix_get_date</a> ( gint transaction_number,
+<a name="l00030"></a>00030                                      gboolean is_transaction );
+<a name="l00031"></a>00031 gint <a class="code" href="gsb__data__mix_8c.html#a963227d3abcb625b80b421a19801a0a5">gsb_data_mix_get_financial_year_number</a> ( gint transaction_number,
+<a name="l00032"></a>00032                                               gboolean is_transaction );
+<a name="l00033"></a>00033 gint <a class="code" href="gsb__data__mix_8c.html#adfdc384233ca30c861e7b1673034fcf6">gsb_data_mix_get_method_of_payment_number</a> ( gint transaction_number,
+<a name="l00034"></a>00034                                                  gboolean is_transaction );
+<a name="l00035"></a>00035 gint <a class="code" href="gsb__data__mix_8c.html#a92077f6b914030fd23025b5083687ee7">gsb_data_mix_get_mother_transaction_number</a> ( gint transaction_number,
+<a name="l00036"></a>00036                                                   gboolean is_transaction );
+<a name="l00037"></a>00037 <span class="keyword">const</span> gchar *<a class="code" href="gsb__data__mix_8c.html#a675cd78efcd3c110c33a70d32a19200d">gsb_data_mix_get_notes</a> ( gint transaction_number,
+<a name="l00038"></a>00038                                       gboolean is_transaction );
+<a name="l00039"></a>00039 gint <a class="code" href="gsb__data__mix_8c.html#a15f48a192807e7e7aa53eb3238974c6f">gsb_data_mix_get_party_number</a> ( gint transaction_number,
+<a name="l00040"></a>00040                                      gboolean is_transaction );
+<a name="l00041"></a>00041 gint <a class="code" href="gsb__data__mix_8c.html#a7e68c6caa132138585cd69bb86af3e3b">gsb_data_mix_get_split_of_transaction</a> ( gint transaction_number,
+<a name="l00042"></a>00042                                                  gboolean is_transaction );
+<a name="l00043"></a>00043 gint <a class="code" href="gsb__data__mix_8c.html#a506db91a5bcc2237ef00303b469d1d9e">gsb_data_mix_get_sub_budgetary_number</a> ( gint transaction_number,
+<a name="l00044"></a>00044                                              gboolean is_transaction );
+<a name="l00045"></a>00045 gint <a class="code" href="gsb__data__mix_8c.html#a9457ca7226d64e11bbbf1120c9d5a660">gsb_data_mix_get_sub_category_number</a> ( gint transaction_number,
+<a name="l00046"></a>00046                                             gboolean is_transaction );
+<a name="l00047"></a>00047 gint <a class="code" href="gsb__data__mix_8c.html#a99e5d9e76610f78b4aa4a5d0693af581">gsb_data_mix_get_transaction_number_transfer</a> ( gint transaction_number,
+<a name="l00048"></a>00048                                                     gboolean is_transaction );
+<a name="l00049"></a>00049 <span class="keyword">const</span> gchar *<a class="code" href="gsb__data__mix_8c.html#a0dd263006adf896881cca980f22d06c8">gsb_data_mix_get_voucher</a> ( gint transaction_number,
+<a name="l00050"></a>00050                                         gboolean is_transaction );
+<a name="l00051"></a>00051 gint <a class="code" href="gsb__data__mix_8c.html#a3dc82f9e36f410db25ad621d29312453">gsb_data_mix_get_white_line</a> ( gint transaction_number,
+<a name="l00052"></a>00052                                    gboolean is_transaction );
+<a name="l00053"></a>00053 gint <a class="code" href="gsb__data__mix_8c.html#a5714cbc7cb820305d7ac6cf5b114d47e">gsb_data_mix_new_transaction</a> ( gint account_number,
+<a name="l00054"></a>00054                                     gboolean is_transaction );
+<a name="l00055"></a>00055 gboolean <a class="code" href="gsb__data__mix_8c.html#a022e6c0c15e4571efdc96764aa91319c">gsb_data_mix_set_amount</a> ( gint transaction_number,
+<a name="l00056"></a>00056                                    <a class="code" href="structgsb__real.html">gsb_real</a> amount,
+<a name="l00057"></a>00057                                    gboolean is_transaction );
+<a name="l00058"></a>00058 gboolean <a class="code" href="gsb__data__mix_8c.html#affc56e22d9b1e1efd43277730d3cc0c3">gsb_data_mix_set_bank_references</a> ( gint transaction_number,
+<a name="l00059"></a>00059                                             <span class="keyword">const</span> gchar *bank_references,
+<a name="l00060"></a>00060                                             gboolean is_transaction );
+<a name="l00061"></a>00061 gboolean <a class="code" href="gsb__data__mix_8c.html#a994eba0bb188e850a488d9cf0bbce05e">gsb_data_mix_set_budgetary_number</a> ( gint transaction_number,
+<a name="l00062"></a>00062                                              gint budgetary_number,
+<a name="l00063"></a>00063                                              gboolean is_transaction );
+<a name="l00064"></a>00064 gboolean <a class="code" href="gsb__data__mix_8c.html#a029842af9cad6db80d07dd9650944d08">gsb_data_mix_set_category_number</a> ( gint transaction_number,
+<a name="l00065"></a>00065                                             gint no_category,
+<a name="l00066"></a>00066                                             gboolean is_transaction );
+<a name="l00067"></a>00067 gboolean <a class="code" href="gsb__data__mix_8c.html#af48fe57865c39cceaf3199f4b24dae12">gsb_data_mix_set_currency_number</a> ( gint transaction_number,
+<a name="l00068"></a>00068                                             gint no_currency,
+<a name="l00069"></a>00069                                             gboolean is_transaction );
+<a name="l00070"></a>00070 gboolean <a class="code" href="gsb__data__mix_8c.html#a57c125cb2e58f59ed3b7ee5148eca14c">gsb_data_mix_set_date</a> ( gint transaction_number,
+<a name="l00071"></a>00071                                  GDate *date,
+<a name="l00072"></a>00072                                  gboolean is_transaction );
+<a name="l00073"></a>00073 gboolean <a class="code" href="gsb__data__mix_8c.html#a8530f9bcbd47edb4c920160f1e8d4594">gsb_data_mix_set_financial_year_number</a> ( gint transaction_number,
+<a name="l00074"></a>00074                                                   gint financial_year_number,
+<a name="l00075"></a>00075                                                   gboolean is_transaction );
+<a name="l00076"></a>00076 gboolean <a class="code" href="gsb__data__mix_8c.html#ad35a8d6c8628a64b60cbda3cef75dac7">gsb_data_mix_set_method_of_payment_content</a> ( gint transaction_number,
+<a name="l00077"></a>00077                                                       <span class="keyword">const</span> gchar *method_of_payment_content,
+<a name="l00078"></a>00078                                                       gboolean is_transaction );
+<a name="l00079"></a>00079 gboolean <a class="code" href="gsb__data__mix_8c.html#ad3a49dff6f817169bdec431db0f39ddd">gsb_data_mix_set_method_of_payment_number</a> ( gint transaction_number,
+<a name="l00080"></a>00080                                                      gint number,
+<a name="l00081"></a>00081                                                      gboolean is_transaction );
+<a name="l00082"></a>00082 gboolean <a class="code" href="gsb__data__mix_8c.html#a6f6fc50274dce4f39dd79160eb87dbce">gsb_data_mix_set_mother_transaction_number</a> ( gint transaction_number,
+<a name="l00083"></a>00083                                                       gint mother_transaction_number,
+<a name="l00084"></a>00084                                                       gboolean is_transaction );
+<a name="l00085"></a>00085 gboolean <a class="code" href="gsb__data__mix_8c.html#ac86fbf196be1cfb41afdf1ab32436396">gsb_data_mix_set_notes</a> ( gint transaction_number,
+<a name="l00086"></a>00086                                   <span class="keyword">const</span> gchar *notes,
+<a name="l00087"></a>00087                                   gboolean is_transaction );
+<a name="l00088"></a>00088 gboolean <a class="code" href="gsb__data__mix_8c.html#aaf3ff9d5cd9e6b540aca93e7b1bdf236">gsb_data_mix_set_party_number</a> ( gint transaction_number,
+<a name="l00089"></a>00089                                          gint no_party,
+<a name="l00090"></a>00090                                          gboolean is_transaction );
+<a name="l00091"></a>00091 gboolean <a class="code" href="gsb__data__mix_8c.html#ac0d0557f4d82e2072a4059751c163ffa">gsb_data_mix_set_split_of_transaction</a> ( gint transaction_number,
+<a name="l00092"></a>00092                                                      gint is_split,
+<a name="l00093"></a>00093                                                      gboolean is_transaction );
+<a name="l00094"></a>00094 gboolean <a class="code" href="gsb__data__mix_8c.html#a6166a76f93e77b6bafd43afb1ed616ad">gsb_data_mix_set_sub_budgetary_number</a> ( gint transaction_number,
+<a name="l00095"></a>00095                                                  gint sub_budgetary_number,
+<a name="l00096"></a>00096                                                  gboolean is_transaction );
+<a name="l00097"></a>00097 gboolean <a class="code" href="gsb__data__mix_8c.html#a409ba94a9f91539a976c4181048f2e32">gsb_data_mix_set_sub_category_number</a> ( gint transaction_number,
+<a name="l00098"></a>00098                                                 gint no_sub_category,
+<a name="l00099"></a>00099                                                 gboolean is_transaction );
+<a name="l00100"></a>00100 gboolean <a class="code" href="gsb__data__mix_8c.html#a37d924fdac56d828fe15f795bdb48229">gsb_data_mix_set_transaction_number_transfer</a> ( gint transaction_number,
+<a name="l00101"></a>00101                                                         gint transaction_number_transfer,
+<a name="l00102"></a>00102                                                         gboolean is_transaction );
+<a name="l00103"></a>00103 gboolean <a class="code" href="gsb__data__mix_8c.html#acf0d9be87925bf822e6f46187703353e">gsb_data_mix_set_value_date</a> ( gint transaction_number,
+<a name="l00104"></a>00104                                        GDate *date,
+<a name="l00105"></a>00105                                        gboolean is_transaction );
+<a name="l00106"></a>00106 gboolean <a class="code" href="gsb__data__mix_8c.html#a5277046f76b6bc872ef6c9df7b9fb6ca">gsb_data_mix_set_voucher</a> ( gint transaction_number,
+<a name="l00107"></a>00107                                     <span class="keyword">const</span> gchar *voucher,
+<a name="l00108"></a>00108                                     gboolean is_transaction );
+<a name="l00109"></a>00109 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00110"></a>00110 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

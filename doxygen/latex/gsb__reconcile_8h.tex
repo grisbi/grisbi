@@ -1,0 +1,56 @@
+\section{Référence du fichier gsb\_\-reconcile.h}
+\label{gsb__reconcile_8h}\index{gsb\_\-reconcile.h@{gsb\_\-reconcile.h}}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-reconcile\_\-create\_\-box} (void)
+\item 
+gboolean {\bf gsb\_\-reconcile\_\-run\_\-reconciliation} (GtkWidget $\ast$button, gpointer null)
+\item 
+gboolean {\bf gsb\_\-reconcile\_\-update\_\-amounts} (GtkWidget $\ast$entry, gpointer null)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-reconcile.h@{gsb\_\-reconcile.h}!gsb\_\-reconcile\_\-create\_\-box@{gsb\_\-reconcile\_\-create\_\-box}}
+\index{gsb\_\-reconcile\_\-create\_\-box@{gsb\_\-reconcile\_\-create\_\-box}!gsb_reconcile.h@{gsb\_\-reconcile.h}}
+\subsubsection[{gsb\_\-reconcile\_\-create\_\-box}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-reconcile\_\-create\_\-box (void)}\label{gsb__reconcile_8h_a0a935736f287cf69e6339d44fd1e2260}
+Create a vbox that contains all controls used to display information related to current reconciliation.
+
+\begin{DoxyReturn}{Renvoie}
+A newly-\/allocated frame containing the reconcile widget 
+\end{DoxyReturn}
+
+
+Définition à la ligne 108 du fichier gsb\_\-reconcile.c.
+
+\index{gsb\_\-reconcile.h@{gsb\_\-reconcile.h}!gsb\_\-reconcile\_\-run\_\-reconciliation@{gsb\_\-reconcile\_\-run\_\-reconciliation}}
+\index{gsb\_\-reconcile\_\-run\_\-reconciliation@{gsb\_\-reconcile\_\-run\_\-reconciliation}!gsb_reconcile.h@{gsb\_\-reconcile.h}}
+\subsubsection[{gsb\_\-reconcile\_\-run\_\-reconciliation}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-reconcile\_\-run\_\-reconciliation (GtkWidget $\ast$ {\em button}, \/  gpointer {\em null})}\label{gsb__reconcile_8h_a45c97884b1bd45b63b597a626c38f36d}
+start the reconciliation, called by a click on the reconcile button
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em button}]the button we click to come here \item[{\em null}]not used\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 291 du fichier gsb\_\-reconcile.c.
+
+\index{gsb\_\-reconcile.h@{gsb\_\-reconcile.h}!gsb\_\-reconcile\_\-update\_\-amounts@{gsb\_\-reconcile\_\-update\_\-amounts}}
+\index{gsb\_\-reconcile\_\-update\_\-amounts@{gsb\_\-reconcile\_\-update\_\-amounts}!gsb_reconcile.h@{gsb\_\-reconcile.h}}
+\subsubsection[{gsb\_\-reconcile\_\-update\_\-amounts}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-reconcile\_\-update\_\-amounts (GtkWidget $\ast$ {\em entry}, \/  gpointer {\em null})}\label{gsb__reconcile_8h_ad4e6ccb1415c9f71f856acbb73ce8be3}
+update the labels according to the value in the account structure and the entries so all the calculs must have been done before (for marked transactions)
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em entry}]not used \item[{\em null}]not used\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 702 du fichier gsb\_\-reconcile.c.
+

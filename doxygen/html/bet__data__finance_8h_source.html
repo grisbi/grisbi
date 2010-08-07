@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de bet_data_finance.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>bet_data_finance.h</h1><a href="bet__data__finance_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _BET_DATA_FINANCE_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _BET_DATA_FINANCE_H</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="preprocessor">#include &lt;gtk/gtk.h&gt;</span>
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00007"></a>00007 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00008"></a>00008 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 
+<a name="l00011"></a>00011 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00012"></a>00012 GDate *<a class="code" href="bet__data__finance_8c.html#a458866f9c7b31421885e2c6a6907b35a">bet_data_finance_get_date_last_installment_paid</a> ( GDate *date_depart );
+<a name="l00013"></a>00013 gdouble <a class="code" href="bet__data__finance_8c.html#a000ced710980fbd826287f66cd12a153">bet_data_finance_get_last_echeance</a> ( gdouble capital_du,
+<a name="l00014"></a>00014                         gdouble interets,
+<a name="l00015"></a>00015                         gdouble frais );
+<a name="l00016"></a>00016 gdouble <a class="code" href="bet__data__finance_8c.html#ae0451f64ed5a9f86ac3ceb7d79954ad4">bet_data_finance_get_echeance</a> ( gdouble capital,
+<a name="l00017"></a>00017                         gdouble taux_periodique,
+<a name="l00018"></a>00018                         gint duree );
+<a name="l00019"></a>00019 gdouble <a class="code" href="bet__data__finance_8c.html#ac0231e5d0ce8fea81b31249558bde098">bet_data_finance_get_frais_par_echeance</a> ( gdouble capital,
+<a name="l00020"></a>00020                         gdouble taux_frais,
+<a name="l00021"></a>00021                         gint nbre_echeances );
+<a name="l00022"></a>00022 gdouble <a class="code" href="bet__data__finance_8c.html#a6a129b4a8d1873a1215384ab6ccee3e6">bet_data_finance_get_interets</a> ( gdouble capital_du, gdouble taux_periodique );
+<a name="l00023"></a>00023 gdouble <a class="code" href="bet__data__finance_8c.html#a66297619c92a4041ff4f4fe1240f212a">bet_data_finance_get_principal</a> ( gdouble echeance,
+<a name="l00024"></a>00024                         gdouble interets,
+<a name="l00025"></a>00025                         gdouble frais );
+<a name="l00026"></a>00026 gdouble <a class="code" href="bet__data__finance_8c.html#ad31dc1b97b1e3874d40e5dae112aa66c">bet_data_finance_get_taux_periodique</a> ( gdouble taux, gint type_taux );
+<a name="l00027"></a>00027 gdouble <a class="code" href="bet__data__finance_8c.html#a6e87f9712fa8d75a50417f77f17cf53e">bet_data_finance_troncate_number</a> ( gdouble number, gint nbre_decimal );
+<a name="l00028"></a>00028 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="preprocessor">#endif </span><span class="comment">/*_BET_DATA_FINANCE*/</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:00 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

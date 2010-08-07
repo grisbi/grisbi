@@ -1,0 +1,321 @@
+\section{Référence du fichier gtk\_\-combofix.c}
+\label{gtk__combofix_8c}\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}}
+{\ttfamily \#include $<$gdk/gdkkeysyms.h$>$}\par
+{\ttfamily \#include $<$ctype.h$>$}\par
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gtk\_\-combofix.h\char`\"{}}\par
+\subsection*{Structures de données}
+\begin{DoxyCompactItemize}
+\item 
+struct {\bf \_\-GtkComboFixPrivate}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define {\bf GTK\_\-COMBOFIX\_\-GET\_\-PRIVATE}(obj)~(G\_\-TYPE\_\-INSTANCE\_\-GET\_\-PRIVATE ((obj), GTK\_\-TYPE\_\-COMBOFIX, {\bf GtkComboFixPrivate}))
+\end{DoxyCompactItemize}
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf combofix\_\-columns} \{ \par
+{\bf COMBOFIX\_\-COL\_\-VISIBLE\_\-STRING} =  0, 
+{\bf COMBOFIX\_\-COL\_\-REAL\_\-STRING}, 
+{\bf COMBOFIX\_\-COL\_\-VISIBLE}, 
+{\bf COMBOFIX\_\-COL\_\-LIST\_\-NUMBER}, 
+\par
+{\bf COMBOFIX\_\-COL\_\-SEPARATOR}, 
+{\bf COMBOFIX\_\-N\_\-COLUMNS}
+ \}
+\item 
+enum {\bf combofix\_\-key\_\-direction} \{ {\bf COMBOFIX\_\-UP} =  0, 
+{\bf COMBOFIX\_\-PAGE\_\-UP}, 
+{\bf COMBOFIX\_\-DOWN}, 
+{\bf COMBOFIX\_\-PAGE\_\-DOWN}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf G\_\-DEFINE\_\-TYPE} ({\bf GtkComboFix}, gtk\_\-combofix, GTK\_\-TYPE\_\-HBOX)
+\item 
+GtkWidget $\ast$ {\bf gtk\_\-combofix\_\-new} (GSList $\ast$list)
+\item 
+const gchar $\ast$ {\bf gtk\_\-combofix\_\-get\_\-text} ({\bf GtkComboFix} $\ast$combofix)
+\item 
+void {\bf gtk\_\-combofix\_\-set\_\-text} ({\bf GtkComboFix} $\ast$combofix, const gchar $\ast$text)
+\item 
+void {\bf gtk\_\-combofix\_\-set\_\-force\_\-text} ({\bf GtkComboFix} $\ast$combofix, gboolean value)
+\item 
+void {\bf gtk\_\-combofix\_\-set\_\-case\_\-sensitive} ({\bf GtkComboFix} $\ast$combofix, gboolean case\_\-sensitive)
+\item 
+gboolean {\bf gtk\_\-combofix\_\-hide\_\-popup} ({\bf GtkComboFix} $\ast$combofix)
+\item 
+gboolean {\bf gtk\_\-combofix\_\-show\_\-popup} ({\bf GtkComboFix} $\ast$combofix)
+\item 
+void {\bf gtk\_\-combofix\_\-set\_\-max\_\-items} ({\bf GtkComboFix} $\ast$combofix, gint max\_\-items)
+\item 
+void {\bf gtk\_\-combofix\_\-set\_\-mixed\_\-sort} ({\bf GtkComboFix} $\ast$combofix, gboolean mixed\_\-sort)
+\item 
+gboolean {\bf gtk\_\-combofix\_\-set\_\-list} ({\bf GtkComboFix} $\ast$combofix, GSList $\ast$list)
+\item 
+void {\bf gtk\_\-combofix\_\-append\_\-text} ({\bf GtkComboFix} $\ast$combofix, const gchar $\ast$text)
+\item 
+void {\bf gtk\_\-combofix\_\-remove\_\-text} ({\bf GtkComboFix} $\ast$combofix, const gchar $\ast$text)
+\item 
+void {\bf gtk\_\-combofix\_\-set\_\-selection\_\-callback} ({\bf GtkComboFix} $\ast$combofix, GCallback func, gpointer data)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des macros}
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!GTK\_\-COMBOFIX\_\-GET\_\-PRIVATE@{GTK\_\-COMBOFIX\_\-GET\_\-PRIVATE}}
+\index{GTK\_\-COMBOFIX\_\-GET\_\-PRIVATE@{GTK\_\-COMBOFIX\_\-GET\_\-PRIVATE}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{GTK\_\-COMBOFIX\_\-GET\_\-PRIVATE}]{\setlength{\rightskip}{0pt plus 5cm}\#define GTK\_\-COMBOFIX\_\-GET\_\-PRIVATE(obj)~(G\_\-TYPE\_\-INSTANCE\_\-GET\_\-PRIVATE ((obj), GTK\_\-TYPE\_\-COMBOFIX, {\bf GtkComboFixPrivate}))}\label{gtk__combofix_8c_a36451c4cdc101baf60ebe2267f070e7f}
+
+
+Définition à la ligne 36 du fichier gtk\_\-combofix.c.
+
+
+
+\subsection{Documentation du type de l'énumération}
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!combofix\_\-columns@{combofix\_\-columns}}
+\index{combofix\_\-columns@{combofix\_\-columns}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{combofix\_\-columns}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf combofix\_\-columns}}\label{gtk__combofix_8c_a7c12bd7d6126fa4fa918ed2316e89fda}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{COMBOFIX\_\-COL\_\-VISIBLE\_\-STRING@{COMBOFIX\_\-COL\_\-VISIBLE\_\-STRING}!gtk\_\-combofix.c@{gtk\_\-combofix.c}}\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!COMBOFIX\_\-COL\_\-VISIBLE\_\-STRING@{COMBOFIX\_\-COL\_\-VISIBLE\_\-STRING}}\item[{\em 
+COMBOFIX\_\-COL\_\-VISIBLE\_\-STRING\label{gtk__combofix_8c_a7c12bd7d6126fa4fa918ed2316e89fdaa032a61fb54843386497edefd61c7d335}
+}]\index{COMBOFIX\_\-COL\_\-REAL\_\-STRING@{COMBOFIX\_\-COL\_\-REAL\_\-STRING}!gtk\_\-combofix.c@{gtk\_\-combofix.c}}\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!COMBOFIX\_\-COL\_\-REAL\_\-STRING@{COMBOFIX\_\-COL\_\-REAL\_\-STRING}}\item[{\em 
+COMBOFIX\_\-COL\_\-REAL\_\-STRING\label{gtk__combofix_8c_a7c12bd7d6126fa4fa918ed2316e89fdaacc6add259fb149085e2b0c62efbac8ce}
+}]\index{COMBOFIX\_\-COL\_\-VISIBLE@{COMBOFIX\_\-COL\_\-VISIBLE}!gtk\_\-combofix.c@{gtk\_\-combofix.c}}\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!COMBOFIX\_\-COL\_\-VISIBLE@{COMBOFIX\_\-COL\_\-VISIBLE}}\item[{\em 
+COMBOFIX\_\-COL\_\-VISIBLE\label{gtk__combofix_8c_a7c12bd7d6126fa4fa918ed2316e89fdaa1e16f70ca7de1a5017a387258aea795c}
+}]\index{COMBOFIX\_\-COL\_\-LIST\_\-NUMBER@{COMBOFIX\_\-COL\_\-LIST\_\-NUMBER}!gtk\_\-combofix.c@{gtk\_\-combofix.c}}\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!COMBOFIX\_\-COL\_\-LIST\_\-NUMBER@{COMBOFIX\_\-COL\_\-LIST\_\-NUMBER}}\item[{\em 
+COMBOFIX\_\-COL\_\-LIST\_\-NUMBER\label{gtk__combofix_8c_a7c12bd7d6126fa4fa918ed2316e89fdaa597384f3d86d9213d637b32b93d9b25e}
+}]\index{COMBOFIX\_\-COL\_\-SEPARATOR@{COMBOFIX\_\-COL\_\-SEPARATOR}!gtk\_\-combofix.c@{gtk\_\-combofix.c}}\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!COMBOFIX\_\-COL\_\-SEPARATOR@{COMBOFIX\_\-COL\_\-SEPARATOR}}\item[{\em 
+COMBOFIX\_\-COL\_\-SEPARATOR\label{gtk__combofix_8c_a7c12bd7d6126fa4fa918ed2316e89fdaac6e2ecc754a8339836bfd166081a0f2c}
+}]\index{COMBOFIX\_\-N\_\-COLUMNS@{COMBOFIX\_\-N\_\-COLUMNS}!gtk\_\-combofix.c@{gtk\_\-combofix.c}}\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!COMBOFIX\_\-N\_\-COLUMNS@{COMBOFIX\_\-N\_\-COLUMNS}}\item[{\em 
+COMBOFIX\_\-N\_\-COLUMNS\label{gtk__combofix_8c_a7c12bd7d6126fa4fa918ed2316e89fdaabd09d09e57cc43d98ae256d86bfa0af2}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 147 du fichier gtk\_\-combofix.c.
+
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!combofix\_\-key\_\-direction@{combofix\_\-key\_\-direction}}
+\index{combofix\_\-key\_\-direction@{combofix\_\-key\_\-direction}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{combofix\_\-key\_\-direction}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf combofix\_\-key\_\-direction}}\label{gtk__combofix_8c_a05627a429a10ce9c3a439b43b787ae3d}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{COMBOFIX\_\-UP@{COMBOFIX\_\-UP}!gtk\_\-combofix.c@{gtk\_\-combofix.c}}\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!COMBOFIX\_\-UP@{COMBOFIX\_\-UP}}\item[{\em 
+COMBOFIX\_\-UP\label{gtk__combofix_8c_a05627a429a10ce9c3a439b43b787ae3da2e4fe93e15e2c320bdd41f42a4fbef61}
+}]\index{COMBOFIX\_\-PAGE\_\-UP@{COMBOFIX\_\-PAGE\_\-UP}!gtk\_\-combofix.c@{gtk\_\-combofix.c}}\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!COMBOFIX\_\-PAGE\_\-UP@{COMBOFIX\_\-PAGE\_\-UP}}\item[{\em 
+COMBOFIX\_\-PAGE\_\-UP\label{gtk__combofix_8c_a05627a429a10ce9c3a439b43b787ae3da63c4f3ff8f67701fc4fe8bb1f12796b0}
+}]\index{COMBOFIX\_\-DOWN@{COMBOFIX\_\-DOWN}!gtk\_\-combofix.c@{gtk\_\-combofix.c}}\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!COMBOFIX\_\-DOWN@{COMBOFIX\_\-DOWN}}\item[{\em 
+COMBOFIX\_\-DOWN\label{gtk__combofix_8c_a05627a429a10ce9c3a439b43b787ae3da3e6c6955808422fa9102d717e40c4f5c}
+}]\index{COMBOFIX\_\-PAGE\_\-DOWN@{COMBOFIX\_\-PAGE\_\-DOWN}!gtk\_\-combofix.c@{gtk\_\-combofix.c}}\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!COMBOFIX\_\-PAGE\_\-DOWN@{COMBOFIX\_\-PAGE\_\-DOWN}}\item[{\em 
+COMBOFIX\_\-PAGE\_\-DOWN\label{gtk__combofix_8c_a05627a429a10ce9c3a439b43b787ae3dab5da958575983788865fc638b02a9f35}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 156 du fichier gtk\_\-combofix.c.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!G\_\-DEFINE\_\-TYPE@{G\_\-DEFINE\_\-TYPE}}
+\index{G\_\-DEFINE\_\-TYPE@{G\_\-DEFINE\_\-TYPE}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{G\_\-DEFINE\_\-TYPE}]{\setlength{\rightskip}{0pt plus 5cm}G\_\-DEFINE\_\-TYPE ({\bf GtkComboFix}, \/  gtk\_\-combofix, \/  GTK\_\-TYPE\_\-HBOX)}\label{gtk__combofix_8c_a7d936459b8df5a5179ec555572539ad7}
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!gtk\_\-combofix\_\-append\_\-text@{gtk\_\-combofix\_\-append\_\-text}}
+\index{gtk\_\-combofix\_\-append\_\-text@{gtk\_\-combofix\_\-append\_\-text}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{gtk\_\-combofix\_\-append\_\-text}]{\setlength{\rightskip}{0pt plus 5cm}void gtk\_\-combofix\_\-append\_\-text ({\bf GtkComboFix} $\ast$ {\em combofix}, \/  const gchar $\ast$ {\em text})}\label{gtk__combofix_8c_a18cf71b93180a5a0699f90ed7d76e32c}
+append a new line in a combofix
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combofix}]text\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 441 du fichier gtk\_\-combofix.c.
+
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!gtk\_\-combofix\_\-get\_\-text@{gtk\_\-combofix\_\-get\_\-text}}
+\index{gtk\_\-combofix\_\-get\_\-text@{gtk\_\-combofix\_\-get\_\-text}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{gtk\_\-combofix\_\-get\_\-text}]{\setlength{\rightskip}{0pt plus 5cm}const gchar$\ast$ gtk\_\-combofix\_\-get\_\-text ({\bf GtkComboFix} $\ast$ {\em combofix})}\label{gtk__combofix_8c_a957ebcb179fe43537f34c0e4134dc182}
+get the text in the combofix
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combofix}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a const gchar 
+\end{DoxyReturn}
+
+
+Définition à la ligne 198 du fichier gtk\_\-combofix.c.
+
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!gtk\_\-combofix\_\-hide\_\-popup@{gtk\_\-combofix\_\-hide\_\-popup}}
+\index{gtk\_\-combofix\_\-hide\_\-popup@{gtk\_\-combofix\_\-hide\_\-popup}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{gtk\_\-combofix\_\-hide\_\-popup}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gtk\_\-combofix\_\-hide\_\-popup ({\bf GtkComboFix} $\ast$ {\em combofix})}\label{gtk__combofix_8c_a37b13db2ce7129dcca712862f118d531}
+hide the popup
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combofix}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 288 du fichier gtk\_\-combofix.c.
+
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!gtk\_\-combofix\_\-new@{gtk\_\-combofix\_\-new}}
+\index{gtk\_\-combofix\_\-new@{gtk\_\-combofix\_\-new}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{gtk\_\-combofix\_\-new}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gtk\_\-combofix\_\-new (GSList $\ast$ {\em list})}\label{gtk__combofix_8c_a7642341a194730bea49a96c515349870}
+create a combofix, with several list set one after the others by default, force is not set, no max items and case unsensitive
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em list}]a g\_\-slist of name ( at the beginning makes it as a child) \item[{\em force}]TRUE and the text must be in the list \item[{\em sort}]TRUE and the list will be sorted automatickly \item[{\em max\_\-items}]the minimum of characters to show the popup\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+the new widget 
+\end{DoxyReturn}
+
+
+Définition à la ligne 181 du fichier gtk\_\-combofix.c.
+
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!gtk\_\-combofix\_\-remove\_\-text@{gtk\_\-combofix\_\-remove\_\-text}}
+\index{gtk\_\-combofix\_\-remove\_\-text@{gtk\_\-combofix\_\-remove\_\-text}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{gtk\_\-combofix\_\-remove\_\-text}]{\setlength{\rightskip}{0pt plus 5cm}void gtk\_\-combofix\_\-remove\_\-text ({\bf GtkComboFix} $\ast$ {\em combofix}, \/  const gchar $\ast$ {\em text})}\label{gtk__combofix_8c_a0b47a7c0d8c8cc2772313880d2f2b0e1}
+remove a line in a combofix
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combofix}]text\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 500 du fichier gtk\_\-combofix.c.
+
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!gtk\_\-combofix\_\-set\_\-case\_\-sensitive@{gtk\_\-combofix\_\-set\_\-case\_\-sensitive}}
+\index{gtk\_\-combofix\_\-set\_\-case\_\-sensitive@{gtk\_\-combofix\_\-set\_\-case\_\-sensitive}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{gtk\_\-combofix\_\-set\_\-case\_\-sensitive}]{\setlength{\rightskip}{0pt plus 5cm}void gtk\_\-combofix\_\-set\_\-case\_\-sensitive ({\bf GtkComboFix} $\ast$ {\em combofix}, \/  gboolean {\em case\_\-sensitive})}\label{gtk__combofix_8c_ac7743a3ebf76e8dc9203d696dbc02cae}
+set if the completion is case sensitive or not
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combofix}]\item[{\em case\_\-sensitive}]TRUE or FALSE\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 270 du fichier gtk\_\-combofix.c.
+
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!gtk\_\-combofix\_\-set\_\-force\_\-text@{gtk\_\-combofix\_\-set\_\-force\_\-text}}
+\index{gtk\_\-combofix\_\-set\_\-force\_\-text@{gtk\_\-combofix\_\-set\_\-force\_\-text}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{gtk\_\-combofix\_\-set\_\-force\_\-text}]{\setlength{\rightskip}{0pt plus 5cm}void gtk\_\-combofix\_\-set\_\-force\_\-text ({\bf GtkComboFix} $\ast$ {\em combofix}, \/  gboolean {\em value})}\label{gtk__combofix_8c_af698335af63e4952d8c35d912732b4e4}
+set the flag to force/unforce the text in the entry if force is set, the value in the entry must belong to the list
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combofix}]\item[{\em value}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 251 du fichier gtk\_\-combofix.c.
+
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!gtk\_\-combofix\_\-set\_\-list@{gtk\_\-combofix\_\-set\_\-list}}
+\index{gtk\_\-combofix\_\-set\_\-list@{gtk\_\-combofix\_\-set\_\-list}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{gtk\_\-combofix\_\-set\_\-list}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gtk\_\-combofix\_\-set\_\-list ({\bf GtkComboFix} $\ast$ {\em combofix}, \/  GSList $\ast$ {\em list})}\label{gtk__combofix_8c_a7bfb57437f2c49510aa9eb2669dd133d}
+change the list of an existing combofix
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combofix}]\item[{\em list}]the new list\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok, FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 393 du fichier gtk\_\-combofix.c.
+
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!gtk\_\-combofix\_\-set\_\-max\_\-items@{gtk\_\-combofix\_\-set\_\-max\_\-items}}
+\index{gtk\_\-combofix\_\-set\_\-max\_\-items@{gtk\_\-combofix\_\-set\_\-max\_\-items}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{gtk\_\-combofix\_\-set\_\-max\_\-items}]{\setlength{\rightskip}{0pt plus 5cm}void gtk\_\-combofix\_\-set\_\-max\_\-items ({\bf GtkComboFix} $\ast$ {\em combofix}, \/  gint {\em max\_\-items})}\label{gtk__combofix_8c_a5f12519f66c3da8248e512bf6b584d29}
+set the maximum items viewable in the popup, if there is more items corresponding to the entry than that number, the popup is not showed
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combofix}]\item[{\em max\_\-items}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 354 du fichier gtk\_\-combofix.c.
+
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!gtk\_\-combofix\_\-set\_\-mixed\_\-sort@{gtk\_\-combofix\_\-set\_\-mixed\_\-sort}}
+\index{gtk\_\-combofix\_\-set\_\-mixed\_\-sort@{gtk\_\-combofix\_\-set\_\-mixed\_\-sort}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{gtk\_\-combofix\_\-set\_\-mixed\_\-sort}]{\setlength{\rightskip}{0pt plus 5cm}void gtk\_\-combofix\_\-set\_\-mixed\_\-sort ({\bf GtkComboFix} $\ast$ {\em combofix}, \/  gboolean {\em mixed\_\-sort})}\label{gtk__combofix_8c_a4d9749a858856cb3818749500a0a3d86}
+set for the complex combofix if the different list have to be mixed or separate
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combofix}]\item[{\em mixed\_\-sort}]TRUE or FALSE\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 374 du fichier gtk\_\-combofix.c.
+
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!gtk\_\-combofix\_\-set\_\-selection\_\-callback@{gtk\_\-combofix\_\-set\_\-selection\_\-callback}}
+\index{gtk\_\-combofix\_\-set\_\-selection\_\-callback@{gtk\_\-combofix\_\-set\_\-selection\_\-callback}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{gtk\_\-combofix\_\-set\_\-selection\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}void gtk\_\-combofix\_\-set\_\-selection\_\-callback ({\bf GtkComboFix} $\ast$ {\em combofix}, \/  GCallback {\em func}, \/  gpointer {\em data})}\label{gtk__combofix_8c_aaaedc2affe02e18b822ef9b59254334c}
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combofix}]text\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 553 du fichier gtk\_\-combofix.c.
+
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!gtk\_\-combofix\_\-set\_\-text@{gtk\_\-combofix\_\-set\_\-text}}
+\index{gtk\_\-combofix\_\-set\_\-text@{gtk\_\-combofix\_\-set\_\-text}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{gtk\_\-combofix\_\-set\_\-text}]{\setlength{\rightskip}{0pt plus 5cm}void gtk\_\-combofix\_\-set\_\-text ({\bf GtkComboFix} $\ast$ {\em combofix}, \/  const gchar $\ast$ {\em text})}\label{gtk__combofix_8c_ac041b5bd83117286152eb388569f137d}
+set the text in the combofix without showing the popup or doing any check
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combofix}]\item[{\em text}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 216 du fichier gtk\_\-combofix.c.
+
+\index{gtk\_\-combofix.c@{gtk\_\-combofix.c}!gtk\_\-combofix\_\-show\_\-popup@{gtk\_\-combofix\_\-show\_\-popup}}
+\index{gtk\_\-combofix\_\-show\_\-popup@{gtk\_\-combofix\_\-show\_\-popup}!gtk_combofix.c@{gtk\_\-combofix.c}}
+\subsubsection[{gtk\_\-combofix\_\-show\_\-popup}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gtk\_\-combofix\_\-show\_\-popup ({\bf GtkComboFix} $\ast$ {\em combofix})}\label{gtk__combofix_8c_a39a306b39734cda29d4ba4dddd589a26}
+show the popup with all the content, not according to the entry
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em combofix}]return FALSE \end{DoxyParams}
+
+
+Définition à la ligne 312 du fichier gtk\_\-combofix.c.
+

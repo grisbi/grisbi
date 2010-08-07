@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_data_partial_balance.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_data_partial_balance.h</h1><a href="gsb__data__partial__balance_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _GSB_DATA_PARTIAL_BALANCE_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _GSB_DATA_PARTIAL_BALANCE_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00007"></a>00007 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__account_8h.html">gsb_data_account.h</a>&quot;</span>
+<a name="l00008"></a>00008 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00011"></a>00011 gboolean <a class="code" href="gsb__data__partial__balance_8c.html#ae6b9a481d5b88820519dff2b7904824c">gsb_data_partial_balance_drag_data_get</a> ( GtkTreeDragSource * drag_source,
+<a name="l00012"></a>00012                         GtkTreePath * path,
+<a name="l00013"></a>00013                         GtkSelectionData * selection_data );
+<a name="l00014"></a>00014 gboolean <a class="code" href="gsb__data__partial__balance_8c.html#a644c11f20828df365b13b5e5312f65a2">gsb_data_partial_balance_drag_data_received</a> ( GtkTreeDragDest * drag_dest,
+<a name="l00015"></a>00015                         GtkTreePath * dest_path,
+<a name="l00016"></a>00016                         GtkSelectionData * selection_data );
+<a name="l00017"></a>00017 gboolean <a class="code" href="gsb__data__partial__balance_8c.html#aa45781dd7d5f787326c68fd88af26104">gsb_data_partial_balance_get_colorise</a> ( gint partial_balance_number );
+<a name="l00018"></a>00018 gint <a class="code" href="gsb__data__partial__balance_8c.html#adc46165b029838315336eabdd6df6e63">gsb_data_partial_balance_get_currency</a> ( gint partial_balance_number );
+<a name="l00019"></a>00019 <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="gsb__data__partial__balance_8c.html#a3b93643dcaf37d9037bd7c62d244a0d1">gsb_data_partial_balance_get_current_amount</a> ( gint partial_balance_number );
+<a name="l00020"></a>00020 gchar *<a class="code" href="gsb__data__partial__balance_8c.html#aa499f52edc2425fcf0ab8c87235e5f33">gsb_data_partial_balance_get_current_balance</a> ( gint partial_balance_number );
+<a name="l00021"></a>00021 <a class="code" href="gsb__data__account_8h.html#abe336abc6aaa13733b0ea311c9478862">kind_account</a> <a class="code" href="gsb__data__partial__balance_8c.html#ae06d0d8f3876578c0c96fb902a2f1a64">gsb_data_partial_balance_get_kind</a> ( gint partial_balance_number );
+<a name="l00022"></a>00022 GSList *<a class="code" href="gsb__data__partial__balance_8c.html#a09c15eba9140e6063aeaeb754481da19">gsb_data_partial_balance_get_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00023"></a>00023 <span class="keyword">const</span> gchar *<a class="code" href="gsb__data__partial__balance_8c.html#a60c22c649a2f4ff7460ece9208c88bc5">gsb_data_partial_balance_get_liste_cptes</a> ( gint partial_balance_number );
+<a name="l00024"></a>00024 gchar *<a class="code" href="gsb__data__partial__balance_8c.html#afdd82919a412742b289e9ce8c8593138">gsb_data_partial_balance_get_marked_balance</a> ( gint partial_balance_number );
+<a name="l00025"></a>00025 <span class="keyword">const</span> gchar *<a class="code" href="gsb__data__partial__balance_8c.html#a742abdf5e9bbd787e85bd0ef54b9fe8c">gsb_data_partial_balance_get_name</a> ( gint partial_balance_number );
+<a name="l00026"></a>00026 gint <a class="code" href="gsb__data__partial__balance_8c.html#a645d1d88a2b73c7c48d218d5dc240ec4">gsb_data_partial_balance_get_number</a> ( gpointer balance_ptr );
+<a name="l00027"></a>00027 gboolean <a class="code" href="gsb__data__partial__balance_8c.html#a6f4eaeeee77c8cdf2080849eb4df9133">gsb_data_partial_balance_init_variables</a> ( <span class="keywordtype">void</span> );
+<a name="l00028"></a>00028 gboolean <a class="code" href="gsb__data__partial__balance_8c.html#a1089db03152e013649c65d8d8778396c">gsb_data_partial_balance_set_colorise</a> ( gint partial_balance_number,
+<a name="l00029"></a>00029                         gboolean colorise );
+<a name="l00030"></a>00030 gboolean <a class="code" href="gsb__data__partial__balance_8c.html#af4cb703ca2fc2dd7795ac931ce6c0cc7">gsb_data_partial_balance_set_currency</a> ( gint partial_balance_number,
+<a name="l00031"></a>00031                         gint currency );
+<a name="l00032"></a>00032 gboolean <a class="code" href="gsb__data__partial__balance_8c.html#ac2900a59a974385c4946ecddb1618f83">gsb_data_partial_balance_set_kind</a> ( gint partial_balance_number,
+<a name="l00033"></a>00033                         <a class="code" href="gsb__data__account_8h.html#abe336abc6aaa13733b0ea311c9478862">kind_account</a> kind );
+<a name="l00034"></a>00034 gboolean <a class="code" href="gsb__data__partial__balance_8c.html#a84f976f707046b30d436a82a94921441">gsb_data_partial_balance_set_liste_cptes</a> ( gint partial_balance_number,
+<a name="l00035"></a>00035                         <span class="keyword">const</span> gchar *liste_cptes );
+<a name="l00036"></a>00036 gboolean <a class="code" href="gsb__data__partial__balance_8c.html#ae2945c54476e4bdd915ec04fd8d5d899">gsb_data_partial_balance_set_name</a> ( gint partial_balance_number,
+<a name="l00037"></a>00037                         <span class="keyword">const</span> gchar *name );
+<a name="l00038"></a>00038 <span class="keywordtype">void</span> <a class="code" href="gsb__data__partial__balance_8c.html#a45a38bad71b403cb72573fc296cb6eff">gsb_partial_balance_add</a> ( GtkWidget *button, GtkWidget *main_widget );
+<a name="l00039"></a>00039 gboolean <a class="code" href="gsb__data__partial__balance_8c.html#a07410f9e80aa69142600b84367d48054">gsb_partial_balance_button_press</a> ( GtkWidget *tree_view,
+<a name="l00040"></a>00040                         GdkEventButton *ev,
+<a name="l00041"></a>00041                         gpointer null );
+<a name="l00042"></a>00042 <span class="keywordtype">void</span> <a class="code" href="gsb__data__partial__balance_8c.html#a128e5e6d3ef890a29e00cf9854b7d682">gsb_partial_balance_colorise_toggled</a> ( GtkCellRendererToggle *cell,
+<a name="l00043"></a>00043                         gchar *path_str,
+<a name="l00044"></a>00044                         GtkWidget *tree_view );
+<a name="l00045"></a>00045 GtkListStore *<a class="code" href="gsb__data__partial__balance_8c.html#ab8b7da472ebbe6633b0c5f9fae61a413">gsb_partial_balance_create_model</a> ( <span class="keywordtype">void</span> );
+<a name="l00046"></a>00046 <span class="keywordtype">void</span> <a class="code" href="gsb__data__partial__balance_8c.html#ab9bf1f9d085f6e1b450474068837b101">gsb_partial_balance_delete</a> ( GtkWidget *button, GtkWidget *main_widget );
+<a name="l00047"></a>00047 <span class="keywordtype">void</span> <a class="code" href="gsb__data__partial__balance_8c.html#a2136465d129225b7cfef720d0880af2d">gsb_partial_balance_edit</a> ( GtkWidget *button, GtkWidget *main_widget );
+<a name="l00048"></a>00048 <span class="keywordtype">void</span> <a class="code" href="gsb__data__partial__balance_8c.html#a3ad14b86fa26a4473be2c400d0dcb9e3">gsb_partial_balance_fill_model</a> ( GtkListStore *list_store );
+<a name="l00049"></a>00049 gboolean <a class="code" href="gsb__data__partial__balance_8c.html#a76a78a9bfc49e4215ddbdd12c9de66a7">gsb_partial_balance_key_press</a> ( GtkWidget *tree_view, GdkEventKey *ev );
+<a name="l00050"></a>00050 gint <a class="code" href="gsb__data__partial__balance_8c.html#a6b7468f19714666d0e109e82c1e2250a">gsb_partial_balance_new_at_position</a> ( <span class="keyword">const</span> gchar *name, gint pos );
+<a name="l00051"></a>00051 gboolean <a class="code" href="gsb__data__partial__balance_8c.html#a41445613bc74e7cec65115a097e486fa">gsb_partial_balance_select_func</a> ( GtkTreeSelection *selection,
+<a name="l00052"></a>00052                         GtkTreeModel *model,
+<a name="l00053"></a>00053                         GtkTreePath *path,
+<a name="l00054"></a>00054                         gboolean path_currently_selected,
+<a name="l00055"></a>00055                         GObject *main_widget );
+<a name="l00056"></a>00056 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00057"></a>00057 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

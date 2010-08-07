@@ -1,0 +1,162 @@
+\section{Référence du fichier affichage\_\-liste.c}
+\label{affichage__liste_8c}\index{affichage\_\-liste.c@{affichage\_\-liste.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}affichage\_\-liste.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-automem.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-form.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}navigation.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+{\ttfamily \#include $<$gtk/gtk.h$>$}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}custom\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}fenetre\_\-principale.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gtk\_\-combofix.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-affichage\_\-operations} (void)
+\item 
+gboolean {\bf display\_\-mode\_\-check\_\-line} (gint line\_\-in\_\-transaction, gint visibles\_\-lines)
+\item 
+void {\bf recuperation\_\-noms\_\-colonnes\_\-et\_\-tips} (void)
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-diverse\_\-form\_\-and\_\-lists} (void)
+\item 
+GtkWidget $\ast$ {\bf onglet\_\-form\_\-completion} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+gint {\bf tab\_\-affichage\_\-ope} [TRANSACTION\_\-LIST\_\-ROWS\_\-NB][CUSTOM\_\-MODEL\_\-VISIBLE\_\-COLUMNS]
+\item 
+gint {\bf display\_\-one\_\-line}
+\item 
+gint {\bf display\_\-two\_\-lines}
+\item 
+gint {\bf display\_\-three\_\-lines}
+\item 
+GSList $\ast$ {\bf liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope}
+\item 
+gchar $\ast$ {\bf tips\_\-col\_\-liste\_\-operations} [CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]
+\item 
+gchar $\ast$ {\bf titres\_\-colonnes\_\-liste\_\-operations} [CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{affichage\_\-liste.c@{affichage\_\-liste.c}!display\_\-mode\_\-check\_\-line@{display\_\-mode\_\-check\_\-line}}
+\index{display\_\-mode\_\-check\_\-line@{display\_\-mode\_\-check\_\-line}!affichage_liste.c@{affichage\_\-liste.c}}
+\subsubsection[{display\_\-mode\_\-check\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gboolean display\_\-mode\_\-check\_\-line (gint {\em line\_\-in\_\-transaction}, \/  gint {\em visibles\_\-lines})}\label{affichage__liste_8c_a29ff0d6bb71d4f22c3cfb6fc8d58d0a3}
+check if the line given in param, according to the number of visible lines if visibles\_\-lines is 4, that function returns always TRUE
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em line\_\-in\_\-transaction}]the line in the transaction we want to check \item[{\em visibles\_\-lines}]the number of visibles lines (1, 2, 3 or 4)\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE : the line should be showed, FALSE : the line must be hidden 
+\end{DoxyReturn}
+
+
+Définition à la ligne 302 du fichier affichage\_\-liste.c.
+
+\index{affichage\_\-liste.c@{affichage\_\-liste.c}!onglet\_\-affichage\_\-operations@{onglet\_\-affichage\_\-operations}}
+\index{onglet\_\-affichage\_\-operations@{onglet\_\-affichage\_\-operations}!affichage_liste.c@{affichage\_\-liste.c}}
+\subsubsection[{onglet\_\-affichage\_\-operations}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-affichage\_\-operations (void)}\label{affichage__liste_8c_a822e762a82cda85425acf41f0be4ef90}
+create the page of configuration for the transaction list behavior
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+a vbox containing the configuration page 
+\end{DoxyReturn}
+
+
+Définition à la ligne 94 du fichier affichage\_\-liste.c.
+
+\index{affichage\_\-liste.c@{affichage\_\-liste.c}!onglet\_\-diverse\_\-form\_\-and\_\-lists@{onglet\_\-diverse\_\-form\_\-and\_\-lists}}
+\index{onglet\_\-diverse\_\-form\_\-and\_\-lists@{onglet\_\-diverse\_\-form\_\-and\_\-lists}!affichage_liste.c@{affichage\_\-liste.c}}
+\subsubsection[{onglet\_\-diverse\_\-form\_\-and\_\-lists}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-diverse\_\-form\_\-and\_\-lists (void)}\label{affichage__liste_8c_a33da4cf29fe0704c65a8d2c3fc88700c}
+
+
+Définition à la ligne 445 du fichier affichage\_\-liste.c.
+
+\index{affichage\_\-liste.c@{affichage\_\-liste.c}!onglet\_\-form\_\-completion@{onglet\_\-form\_\-completion}}
+\index{onglet\_\-form\_\-completion@{onglet\_\-form\_\-completion}!affichage_liste.c@{affichage\_\-liste.c}}
+\subsubsection[{onglet\_\-form\_\-completion}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ onglet\_\-form\_\-completion (void)}\label{affichage__liste_8c_a35c31378d6ff0acbfdd295ef8dea0982}
+
+
+Définition à la ligne 490 du fichier affichage\_\-liste.c.
+
+\index{affichage\_\-liste.c@{affichage\_\-liste.c}!recuperation\_\-noms\_\-colonnes\_\-et\_\-tips@{recuperation\_\-noms\_\-colonnes\_\-et\_\-tips}}
+\index{recuperation\_\-noms\_\-colonnes\_\-et\_\-tips@{recuperation\_\-noms\_\-colonnes\_\-et\_\-tips}!affichage_liste.c@{affichage\_\-liste.c}}
+\subsubsection[{recuperation\_\-noms\_\-colonnes\_\-et\_\-tips}]{\setlength{\rightskip}{0pt plus 5cm}void recuperation\_\-noms\_\-colonnes\_\-et\_\-tips (void)}\label{affichage__liste_8c_a0c0358b4457dcb87adf267e8fd04d971}
+fill the titres\_\-colonnes\_\-liste\_\-operations variable and the associated tips so get the first row element name and set it for title fill the tips with all the elements of the column
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 391 du fichier affichage\_\-liste.c.
+
+
+
+\subsection{Documentation des variables}
+\index{affichage\_\-liste.c@{affichage\_\-liste.c}!display\_\-one\_\-line@{display\_\-one\_\-line}}
+\index{display\_\-one\_\-line@{display\_\-one\_\-line}!affichage_liste.c@{affichage\_\-liste.c}}
+\subsubsection[{display\_\-one\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf display\_\-one\_\-line}}\label{affichage__liste_8c_a36eb372c7727c89f6ed96a3756a28740}
+
+
+Définition à la ligne 66 du fichier affichage\_\-liste.c.
+
+\index{affichage\_\-liste.c@{affichage\_\-liste.c}!display\_\-three\_\-lines@{display\_\-three\_\-lines}}
+\index{display\_\-three\_\-lines@{display\_\-three\_\-lines}!affichage_liste.c@{affichage\_\-liste.c}}
+\subsubsection[{display\_\-three\_\-lines}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf display\_\-three\_\-lines}}\label{affichage__liste_8c_aa74165188c76a0e2ba64239b2236841c}
+
+
+Définition à la ligne 74 du fichier affichage\_\-liste.c.
+
+\index{affichage\_\-liste.c@{affichage\_\-liste.c}!display\_\-two\_\-lines@{display\_\-two\_\-lines}}
+\index{display\_\-two\_\-lines@{display\_\-two\_\-lines}!affichage_liste.c@{affichage\_\-liste.c}}
+\subsubsection[{display\_\-two\_\-lines}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf display\_\-two\_\-lines}}\label{affichage__liste_8c_a420ccd553ba703004c7415ba8ee25630}
+
+
+Définition à la ligne 70 du fichier affichage\_\-liste.c.
+
+\index{affichage\_\-liste.c@{affichage\_\-liste.c}!liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope@{liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope}}
+\index{liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope@{liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope}!affichage_liste.c@{affichage\_\-liste.c}}
+\subsubsection[{liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope}]{\setlength{\rightskip}{0pt plus 5cm}GSList$\ast$ {\bf liste\_\-labels\_\-titres\_\-colonnes\_\-liste\_\-ope}}\label{affichage__liste_8c_a53693b9d5a4ba330fa5650e09ef0519f}
+
+
+Définition à la ligne 143 du fichier traitement\_\-variables.c.
+
+\index{affichage\_\-liste.c@{affichage\_\-liste.c}!tab\_\-affichage\_\-ope@{tab\_\-affichage\_\-ope}}
+\index{tab\_\-affichage\_\-ope@{tab\_\-affichage\_\-ope}!affichage_liste.c@{affichage\_\-liste.c}}
+\subsubsection[{tab\_\-affichage\_\-ope}]{\setlength{\rightskip}{0pt plus 5cm}gint {\bf tab\_\-affichage\_\-ope}[TRANSACTION\_\-LIST\_\-ROWS\_\-NB][CUSTOM\_\-MODEL\_\-VISIBLE\_\-COLUMNS]}\label{affichage__liste_8c_a0c444565adac369ff42631d4b7b7e6bb}
+
+
+Définition à la ligne 63 du fichier affichage\_\-liste.c.
+
+\index{affichage\_\-liste.c@{affichage\_\-liste.c}!tips\_\-col\_\-liste\_\-operations@{tips\_\-col\_\-liste\_\-operations}}
+\index{tips\_\-col\_\-liste\_\-operations@{tips\_\-col\_\-liste\_\-operations}!affichage_liste.c@{affichage\_\-liste.c}}
+\subsubsection[{tips\_\-col\_\-liste\_\-operations}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf tips\_\-col\_\-liste\_\-operations}[CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]}\label{affichage__liste_8c_a7d49023563c9144cf16b6b4c2b65ce05}
+
+
+Définition à la ligne 127 du fichier gsb\_\-transactions\_\-list.c.
+
+\index{affichage\_\-liste.c@{affichage\_\-liste.c}!titres\_\-colonnes\_\-liste\_\-operations@{titres\_\-colonnes\_\-liste\_\-operations}}
+\index{titres\_\-colonnes\_\-liste\_\-operations@{titres\_\-colonnes\_\-liste\_\-operations}!affichage_liste.c@{affichage\_\-liste.c}}
+\subsubsection[{titres\_\-colonnes\_\-liste\_\-operations}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf titres\_\-colonnes\_\-liste\_\-operations}[CUSTOM\_\-MODEL\_\-N\_\-VISIBLES\_\-COLUMN]}\label{affichage__liste_8c_abe5a25ede887e60c7f679c9ff03607f0}
+
+
+Définition à la ligne 128 du fichier gsb\_\-transactions\_\-list.c.
+

@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier transaction_model.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier transaction_model.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="transaction__model_8h_source.html">transaction_model.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="custom__list_8h_source.html">custom_list.h</a>&quot;</code><br/>
+
+<p><a href="transaction__model_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__model_8c.html#ad2a7f1004a5b27450f8fc159f74351dc">transaction_model_initialize</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct__CustomList.html">CustomList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__model_8c.html#a416a1ee9231b6f7d74d3b0811902163a">transaction_model_get_model</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__model_8c.html#abdb06cefc313c26f54d556ad09f71302">transaction_model_set_model</a> (<a class="el" href="struct__CustomList.html">CustomList</a> *new_custom_list)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__model_8c.html#af10137737c1d42087c8fed2fa2d8c9ee">transaction_model_get_transaction_iter</a> (GtkTreeIter *iter, gint transaction_number, gint line_in_transaction)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__model_8c.html#a553ed5bab955a902b0494f0b4521e0fc">transaction_model_get_iter</a> (GtkTreeIter *iter, GtkTreePath *path)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__model_8c.html#a2fd3b631729b3a7c5fd463d06f511b7b">transaction_model_iter_next</a> (GtkTreeIter *iter)</td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>this contains the functions to play with iter and path in the CustomList Grisbi shouldn't work directly on the CustomList except by those files </p>
+
+<p>Définition dans le fichier <a class="el" href="transaction__model_8c_source.html">transaction_model.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a553ed5bab955a902b0494f0b4521e0fc"></a><!-- doxytag: member="transaction_model.c::transaction_model_get_iter" ref="a553ed5bab955a902b0494f0b4521e0fc" args="(GtkTreeIter *iter, GtkTreePath *path)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_model_get_iter </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreeIter *&nbsp;</td>
+          <td class="paramname"> <em>iter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkTreePath *&nbsp;</td>
+          <td class="paramname"> <em>path</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>convert a tree path into a tree iter structure this function work with the complete list, so path refer a row wich can be not visible to work in the filtered list, use gtk_tree_model_get_iter</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>tree_model</em>&nbsp;</td><td>the custom list </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>iter</em>&nbsp;</td><td>iter to fill </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td>the tree path</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE ok, FALSE problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__model_8c_source.html#l00228">228</a> du fichier <a class="el" href="transaction__model_8c_source.html">transaction_model.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a416a1ee9231b6f7d74d3b0811902163a"></a><!-- doxytag: member="transaction_model.c::transaction_model_get_model" ref="a416a1ee9231b6f7d74d3b0811902163a" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct__CustomList.html">CustomList</a>* transaction_model_get_model </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the CustomList</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the CustomList </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__model_8c_source.html#l00117">117</a> du fichier <a class="el" href="transaction__model_8c_source.html">transaction_model.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af10137737c1d42087c8fed2fa2d8c9ee"></a><!-- doxytag: member="transaction_model.c::transaction_model_get_transaction_iter" ref="af10137737c1d42087c8fed2fa2d8c9ee" args="(GtkTreeIter *iter, gint transaction_number, gint line_in_transaction)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_model_get_transaction_iter </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreeIter *&nbsp;</td>
+          <td class="paramname"> <em>iter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>line_in_transaction</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>find the iter of the line of the asked transaction the transaction can be a mother or a child</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>iter</em>&nbsp;</td><td>iter to fill </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td>transaction to search </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>line_in_transaction</em>&nbsp;</td><td>line of the transaction we want</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE not found, TRUE ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__model_8c_source.html#l00146">146</a> du fichier <a class="el" href="transaction__model_8c_source.html">transaction_model.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad2a7f1004a5b27450f8fc159f74351dc"></a><!-- doxytag: member="transaction_model.c::transaction_model_initialize" ref="ad2a7f1004a5b27450f8fc159f74351dc" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_model_initialize </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>erase the custom_list variable and free the memory used by the list called when closing a file, while destroying the list</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__model_8c_source.html#l00062">62</a> du fichier <a class="el" href="transaction__model_8c_source.html">transaction_model.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2fd3b631729b3a7c5fd463d06f511b7b"></a><!-- doxytag: member="transaction_model.c::transaction_model_iter_next" ref="a2fd3b631729b3a7c5fd463d06f511b7b" args="(GtkTreeIter *iter)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_model_iter_next </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreeIter *&nbsp;</td>
+          <td class="paramname"> <em>iter</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Takes an iter structure and sets it to point to the next row. this function stay at the same level (ie don't go into the children) this function work on the complete model (not filtered), to work in the filtered list, use gtk_tree_model_iter_next</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>tree_model</em>&nbsp;</td><td>the CustomList </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>iter</em>&nbsp;</td><td>the iter to increase</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE ok, FALSE problem or end of list </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__model_8c_source.html#l00287">287</a> du fichier <a class="el" href="transaction__model_8c_source.html">transaction_model.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abdb06cefc313c26f54d556ad09f71302"></a><!-- doxytag: member="transaction_model.c::transaction_model_set_model" ref="abdb06cefc313c26f54d556ad09f71302" args="(CustomList *new_custom_list)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_model_set_model </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct__CustomList.html">CustomList</a> *&nbsp;</td>
+          <td class="paramname"> <em>new_custom_list</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the CustomList</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>new_custom_list</em>&nbsp;</td><td>a CustomList to save</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__model_8c_source.html#l00129">129</a> du fichier <a class="el" href="transaction__model_8c_source.html">transaction_model.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

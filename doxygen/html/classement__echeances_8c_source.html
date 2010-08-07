@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de classement_echeances.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>classement_echeances.c</h1><a href="classement__echeances_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                  classement_echeances.c                    */</span>
+<a name="l00003"></a>00003 <span class="comment">/*                                                                            */</span>
+<a name="l00004"></a>00004 <span class="comment">/*     Copyright (C)    2000-2003 CÃ©dric Auger (cedric@grisbi.org)           */</span>
+<a name="l00005"></a>00005 <span class="comment">/*          2003-2004 Benjamin Drieu (bdrieu@april.org)                       */</span>
+<a name="l00006"></a>00006 <span class="comment">/*          2003-2004 Alain Portal (aportal@univ-montp2.fr)                   */</span>
+<a name="l00007"></a>00007 <span class="comment">/*          2008-2009 Pierre Biava (grisbi@pierre.biava.name)                 */</span>
+<a name="l00008"></a>00008 <span class="comment">/*          http://www.grisbi.org                                             */</span>
+<a name="l00009"></a>00009 <span class="comment">/*                                                                            */</span>
+<a name="l00010"></a>00010 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00011"></a>00011 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00014"></a>00014 <span class="comment">/*                                                                            */</span>
+<a name="l00015"></a>00015 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00016"></a>00016 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00019"></a>00019 <span class="comment">/*                                                                            */</span>
+<a name="l00020"></a>00020 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00021"></a>00021 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00022"></a>00022 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00023"></a>00023 <span class="comment">/*                                                                            */</span>
+<a name="l00024"></a>00024 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="classement__echeances_8h.html">classement_echeances.h</a>&quot;</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__scheduled_8h.html">gsb_data_scheduled.h</a>&quot;</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__transaction_8h.html">gsb_data_transaction.h</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035 <span class="comment">/*START_STATIC*/</span>
+<a name="l00036"></a>00036 <span class="comment">/*END_STATIC*/</span>
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00040"></a>00040 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 
+<a name="l00045"></a>00045 <span class="comment">/* ************************************************************************* */</span>
+<a name="l00046"></a>00046 <span class="comment">/* Classement de deux échéances d&#39;opérations par date                        */</span>
+<a name="l00047"></a>00047 <span class="comment">/* ************************************************************************* */</span>
+<a name="l00048"></a><a class="code" href="classement__echeances_8h.html#af017713fbadf31f7b537329b389515d1">00048</a> gint <a class="code" href="classement__echeances_8c.html#af017713fbadf31f7b537329b389515d1">classement_sliste_echeance_par_date</a> ( gint scheduled_number_1, 
+<a name="l00049"></a>00049                         gint scheduled_number_2,
+<a name="l00050"></a>00050                         gpointer manual )
+<a name="l00051"></a>00051 {
+<a name="l00052"></a>00052     <span class="keyword">const</span> GDate *date;
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054     <span class="keywordflow">if</span> ( manual )
+<a name="l00055"></a>00055     {
+<a name="l00056"></a>00056         date = <a class="code" href="gsb__data__scheduled_8c.html#ae4e987a3bddc7f5550d91fae634d6dee">gsb_data_scheduled_get_date</a> ( scheduled_number_1 );
+<a name="l00057"></a>00057         <span class="keywordflow">if</span> ( date )
+<a name="l00058"></a>00058             <span class="keywordflow">return</span> ( g_date_compare ( date,
+<a name="l00059"></a>00059                             <a class="code" href="gsb__data__scheduled_8c.html#ae4e987a3bddc7f5550d91fae634d6dee">gsb_data_scheduled_get_date</a> (scheduled_number_2) ));
+<a name="l00060"></a>00060         <span class="keywordflow">else</span>
+<a name="l00061"></a>00061             <span class="keywordflow">return</span> -1;
+<a name="l00062"></a>00062     }
+<a name="l00063"></a>00063     <span class="keywordflow">else</span>
+<a name="l00064"></a>00064     {
+<a name="l00065"></a>00065         date = <a class="code" href="gsb__data__transaction_8c.html#ab0b62014885bcf3e2fbfff1ae9b32080">gsb_data_transaction_get_date</a> ( scheduled_number_1 );
+<a name="l00066"></a>00066         <span class="keywordflow">if</span> ( date )
+<a name="l00067"></a>00067             <span class="keywordflow">return</span> ( g_date_compare ( date,
+<a name="l00068"></a>00068                             <a class="code" href="gsb__data__transaction_8c.html#ab0b62014885bcf3e2fbfff1ae9b32080">gsb_data_transaction_get_date</a> (scheduled_number_2) ));
+<a name="l00069"></a>00069         <span class="keywordflow">else</span>
+<a name="l00070"></a>00070             <span class="keywordflow">return</span> -1;
+<a name="l00071"></a>00071     }
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073 }
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076 <span class="comment">/* ************************************************************************* */</span>
+<a name="l00077"></a>00077 <span class="comment">/* Classement de deux opérations par date croissante                           */</span>
+<a name="l00078"></a>00078 <span class="comment">/* ************************************************************************* */</span>
+<a name="l00079"></a><a class="code" href="classement__echeances_8h.html#a232a7c3b304a4f2fa38967d8e761d827">00079</a> gint <a class="code" href="classement__echeances_8c.html#a232a7c3b304a4f2fa38967d8e761d827">classement_sliste_transactions_par_date</a> ( gpointer transaction_pointer_1, 
+<a name="l00080"></a>00080                         gpointer transaction_pointer_2 )
+<a name="l00081"></a>00081 {
+<a name="l00082"></a>00082     <span class="keyword">const</span> GDate *date;
+<a name="l00083"></a>00083     gint transaction_number_1;
+<a name="l00084"></a>00084     gint transaction_number_2;
+<a name="l00085"></a>00085 
+<a name="l00086"></a>00086     transaction_number_1 = <a class="code" href="gsb__data__transaction_8c.html#a99bf548513083f4a71fe019faeccbe0a">gsb_data_transaction_get_transaction_number</a> (
+<a name="l00087"></a>00087                         transaction_pointer_1 );
+<a name="l00088"></a>00088     transaction_number_2 = <a class="code" href="gsb__data__transaction_8c.html#a99bf548513083f4a71fe019faeccbe0a">gsb_data_transaction_get_transaction_number</a> (
+<a name="l00089"></a>00089                         transaction_pointer_2 );
+<a name="l00090"></a>00090     date = <a class="code" href="gsb__data__transaction_8c.html#ab0b62014885bcf3e2fbfff1ae9b32080">gsb_data_transaction_get_date</a> (transaction_number_1);
+<a name="l00091"></a>00091     <span class="keywordflow">if</span> ( date )
+<a name="l00092"></a>00092         <span class="keywordflow">return</span> ( g_date_compare ( date,
+<a name="l00093"></a>00093                         <a class="code" href="gsb__data__transaction_8c.html#ab0b62014885bcf3e2fbfff1ae9b32080">gsb_data_transaction_get_date</a> (transaction_number_2) ));
+<a name="l00094"></a>00094     <span class="keywordflow">else</span>
+<a name="l00095"></a>00095         <span class="keywordflow">return</span> -1;
+<a name="l00096"></a>00096 }
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098 
+<a name="l00105"></a><a class="code" href="classement__echeances_8h.html#a31706ce946b77cec0e449468cd49b194">00105</a> gint <a class="code" href="classement__echeances_8c.html#a31706ce946b77cec0e449468cd49b194">classement_sliste_transactions_par_date_decroissante</a> ( gpointer transaction_pointer_1, 
+<a name="l00106"></a>00106                         gpointer transaction_pointer_2 )
+<a name="l00107"></a>00107 {
+<a name="l00108"></a>00108     <span class="keyword">const</span> GDate *date;
+<a name="l00109"></a>00109     gint transaction_number_1;
+<a name="l00110"></a>00110     gint transaction_number_2;
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112     transaction_number_1 = <a class="code" href="gsb__data__transaction_8c.html#a99bf548513083f4a71fe019faeccbe0a">gsb_data_transaction_get_transaction_number</a> (
+<a name="l00113"></a>00113                         transaction_pointer_1 );
+<a name="l00114"></a>00114     transaction_number_2 = <a class="code" href="gsb__data__transaction_8c.html#a99bf548513083f4a71fe019faeccbe0a">gsb_data_transaction_get_transaction_number</a> (
+<a name="l00115"></a>00115                         transaction_pointer_2 );
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117     date = <a class="code" href="gsb__data__transaction_8c.html#ab0b62014885bcf3e2fbfff1ae9b32080">gsb_data_transaction_get_date</a> ( transaction_number_1 );
+<a name="l00118"></a>00118     <span class="keywordflow">if</span> ( date )
+<a name="l00119"></a>00119         <span class="keywordflow">return</span> - ( g_date_compare ( date,
+<a name="l00120"></a>00120                         <a class="code" href="gsb__data__transaction_8c.html#ab0b62014885bcf3e2fbfff1ae9b32080">gsb_data_transaction_get_date</a> ( transaction_number_2 ) ) );
+<a name="l00121"></a>00121     <span class="keywordflow">else</span>
+<a name="l00122"></a>00122         <span class="keywordflow">return</span> -1;
+<a name="l00123"></a>00123 }
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126 <span class="comment">/* Local Variables: */</span>
+<a name="l00127"></a>00127 <span class="comment">/* c-basic-offset: 4 */</span>
+<a name="l00128"></a>00128 <span class="comment">/* End: */</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:00 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

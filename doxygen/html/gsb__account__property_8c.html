@@ -1,0 +1,459 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_account_property.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_account_property.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__account__property_8h_source.html">gsb_account_property.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__account_8h_source.html">gsb_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__autofunc_8h_source.html">gsb_autofunc.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__account__property_8c_source.html">gsb_bank.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__buttons_8h_source.html">utils_buttons.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__currency_8h_source.html">gsb_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__bank_8h_source.html">gsb_data_bank.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__currency_8h_source.html">gsb_data_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__editables_8h_source.html">utils_editables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__file_8h_source.html">gsb_file.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form_8h_source.html">gsb_form.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__scheduler_8h_source.html">gsb_form_scheduler.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="navigation_8h_source.html">navigation.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="accueil_8h_source.html">accueil.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="menu_8h_source.html">menu.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__scheduler__list_8h_source.html">gsb_scheduler_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="main_8h_source.html">main.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="tiers__onglet_8h_source.html">tiers_onglet.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="categories__onglet_8h_source.html">categories_onglet.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="imputation__budgetaire_8h_source.html">imputation_budgetaire.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="transaction__list_8h_source.html">transaction_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="gsb__account__property_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#a06dbc3a3eb5aaab80edf32ea607f1ef3">origin</a> { <br/>
+&nbsp;&nbsp;<a class="el" href="gsb__account__property_8c.html#a06dbc3a3eb5aaab80edf32ea607f1ef3aa214c5f244356c77b204345a6a094570">PROPERTY_NAME</a> =  0, 
+<a class="el" href="gsb__account__property_8c.html#a06dbc3a3eb5aaab80edf32ea607f1ef3ad145b6f52947c25f15663561c20806dc">PROPERTY_KIND</a>, 
+<a class="el" href="gsb__account__property_8c.html#a06dbc3a3eb5aaab80edf32ea607f1ef3a6c1b210378e6b2fc660050d98ac6fb5e">PROPERTY_CURRENCY</a>, 
+<a class="el" href="gsb__account__property_8c.html#a06dbc3a3eb5aaab80edf32ea607f1ef3a6e574f0fa21fbce5d694b01cc0e294d0">PROPERTY_CLOSED_ACCOUNT</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="gsb__account__property_8c.html#a06dbc3a3eb5aaab80edf32ea607f1ef3a8ba31c11349bc13a74ac76db409a8832">PROPERTY_INIT_BALANCE</a>, 
+<a class="el" href="gsb__account__property_8c.html#a06dbc3a3eb5aaab80edf32ea607f1ef3a07534083ef68b1ae406ae1cfb89716d1">PROPERTY_WANTED_BALANCE</a>, 
+<a class="el" href="gsb__account__property_8c.html#a06dbc3a3eb5aaab80edf32ea607f1ef3a13a654144ba76dc39a1e14a1541b31f3">PROPERTY_HOLDER_NAME</a>
+<br/>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#a5266ddf452ec44e874324c9edc910f4e">gsb_account_property_create_page</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#ad38d51ca992f37d0392bd134617031ed">gsb_account_property_fill_page</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#ade6600516c1245dbeb1b249db4692a57">gsb_account_property_create_combobox_list</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#a75cc1b849ec26a65239a9864b21ef062">gsb_account_property_set_label_code_banque</a> (gint bank_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#a5375ffa889697cfd87407d2552481517">gsb_account_property_set_label_code_bic</a> (gint bank_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#a92437e45d23b702bc6eba7e601208861">gsb_account_property_clear_config</a> (void)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structiso__13616__iban.html">iso_13616_iban</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#aa56cb801e9f7d0894589a4d6962be2c7">iso_13616_ibans</a> []</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#ab50d39aa9c7ad4a81407017d1fc060d1">detail_nom_compte</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#a41f9865652dc0c67db2dae5b516b18e6">detail_devise_compte</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#a9ebd251de44611d97ec364d1867a75ff">mise_a_jour_fin_comptes_passifs</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#a018917e8dacfd8fbe4e94d0f99a59c08">mise_a_jour_liste_comptes_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#a5957dd978b4a0c3ab01e006cedfdf96c">mise_a_jour_liste_echeances_manuelles_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#afaffaedc4fd0ae8638f7158c6777b35b">mise_a_jour_soldes_minimaux</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__account__property_8c.html#a787cc81cf2ad728775b73d723713980b">titre_fichier</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>work with the property page of the accounts </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__account__property_8c_source.html">gsb_account_property.c</a>.</p>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="a06dbc3a3eb5aaab80edf32ea607f1ef3"></a><!-- doxytag: member="gsb_account_property.c::origin" ref="a06dbc3a3eb5aaab80edf32ea607f1ef3" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="gsb__account__property_8c.html#a06dbc3a3eb5aaab80edf32ea607f1ef3">origin</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a06dbc3a3eb5aaab80edf32ea607f1ef3aa214c5f244356c77b204345a6a094570"></a><!-- doxytag: member="PROPERTY_NAME" ref="a06dbc3a3eb5aaab80edf32ea607f1ef3aa214c5f244356c77b204345a6a094570" args="" -->PROPERTY_NAME</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06dbc3a3eb5aaab80edf32ea607f1ef3ad145b6f52947c25f15663561c20806dc"></a><!-- doxytag: member="PROPERTY_KIND" ref="a06dbc3a3eb5aaab80edf32ea607f1ef3ad145b6f52947c25f15663561c20806dc" args="" -->PROPERTY_KIND</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06dbc3a3eb5aaab80edf32ea607f1ef3a6c1b210378e6b2fc660050d98ac6fb5e"></a><!-- doxytag: member="PROPERTY_CURRENCY" ref="a06dbc3a3eb5aaab80edf32ea607f1ef3a6c1b210378e6b2fc660050d98ac6fb5e" args="" -->PROPERTY_CURRENCY</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06dbc3a3eb5aaab80edf32ea607f1ef3a6e574f0fa21fbce5d694b01cc0e294d0"></a><!-- doxytag: member="PROPERTY_CLOSED_ACCOUNT" ref="a06dbc3a3eb5aaab80edf32ea607f1ef3a6e574f0fa21fbce5d694b01cc0e294d0" args="" -->PROPERTY_CLOSED_ACCOUNT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06dbc3a3eb5aaab80edf32ea607f1ef3a8ba31c11349bc13a74ac76db409a8832"></a><!-- doxytag: member="PROPERTY_INIT_BALANCE" ref="a06dbc3a3eb5aaab80edf32ea607f1ef3a8ba31c11349bc13a74ac76db409a8832" args="" -->PROPERTY_INIT_BALANCE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06dbc3a3eb5aaab80edf32ea607f1ef3a07534083ef68b1ae406ae1cfb89716d1"></a><!-- doxytag: member="PROPERTY_WANTED_BALANCE" ref="a06dbc3a3eb5aaab80edf32ea607f1ef3a07534083ef68b1ae406ae1cfb89716d1" args="" -->PROPERTY_WANTED_BALANCE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06dbc3a3eb5aaab80edf32ea607f1ef3a13a654144ba76dc39a1e14a1541b31f3"></a><!-- doxytag: member="PROPERTY_HOLDER_NAME" ref="a06dbc3a3eb5aaab80edf32ea607f1ef3a13a654144ba76dc39a1e14a1541b31f3" args="" -->PROPERTY_HOLDER_NAME</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__account__property_8c_source.html#l00165">165</a> du fichier <a class="el" href="gsb__account__property_8c_source.html">gsb_account_property.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a92437e45d23b702bc6eba7e601208861"></a><!-- doxytag: member="gsb_account_property.c::gsb_account_property_clear_config" ref="a92437e45d23b702bc6eba7e601208861" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_account_property_clear_config </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>required to avoid warnings change file. </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__account__property_8c_source.html#l01484">1484</a> du fichier <a class="el" href="gsb__account__property_8c_source.html">gsb_account_property.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ade6600516c1245dbeb1b249db4692a57"></a><!-- doxytag: member="gsb_account_property.c::gsb_account_property_create_combobox_list" ref="ade6600516c1245dbeb1b249db4692a57" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* gsb_account_property_create_combobox_list </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a list of kind of account to use in a gsb_combo_box or gsb_autofunc_combobox this is an alternance of text (kind of account) and number</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a newly allocated GSList </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__account__property_8c_source.html#l00690">690</a> du fichier <a class="el" href="gsb__account__property_8c_source.html">gsb_account_property.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5266ddf452ec44e874324c9edc910f4e"></a><!-- doxytag: member="gsb_account_property.c::gsb_account_property_create_page" ref="a5266ddf452ec44e874324c9edc910f4e" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_account_property_create_page </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create the page of account property</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the page </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__account__property_8c_source.html#l00193">193</a> du fichier <a class="el" href="gsb__account__property_8c_source.html">gsb_account_property.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad38d51ca992f37d0392bd134617031ed"></a><!-- doxytag: member="gsb_account_property.c::gsb_account_property_fill_page" ref="ad38d51ca992f37d0392bd134617031ed" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_account_property_fill_page </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>fill the content of the property of the selected account</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__account__property_8c_source.html#l00592">592</a> du fichier <a class="el" href="gsb__account__property_8c_source.html">gsb_account_property.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a75cc1b849ec26a65239a9864b21ef062"></a><!-- doxytag: member="gsb_account_property.c::gsb_account_property_set_label_code_banque" ref="a75cc1b849ec26a65239a9864b21ef062" args="(gint bank_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_account_property_set_label_code_banque </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>bank_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>positionne le code bank</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>bank_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__account__property_8c_source.html#l00862">862</a> du fichier <a class="el" href="gsb__account__property_8c_source.html">gsb_account_property.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5375ffa889697cfd87407d2552481517"></a><!-- doxytag: member="gsb_account_property.c::gsb_account_property_set_label_code_bic" ref="a5375ffa889697cfd87407d2552481517" args="(gint bank_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_account_property_set_label_code_bic </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>bank_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>positionne le code BIC</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>bank_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__account__property_8c_source.html#l00883">883</a> du fichier <a class="el" href="gsb__account__property_8c_source.html">gsb_account_property.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="a41f9865652dc0c67db2dae5b516b18e6"></a><!-- doxytag: member="gsb_account_property.c::detail_devise_compte" ref="a41f9865652dc0c67db2dae5b516b18e6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="traitement__variables_8c.html#a41f9865652dc0c67db2dae5b516b18e6">detail_devise_compte</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__account__property_8c_source.html#l00150">150</a> du fichier <a class="el" href="gsb__account__property_8c_source.html">gsb_account_property.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab50d39aa9c7ad4a81407017d1fc060d1"></a><!-- doxytag: member="gsb_account_property.c::detail_nom_compte" ref="ab50d39aa9c7ad4a81407017d1fc060d1" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__account__property_8c.html#ab50d39aa9c7ad4a81407017d1fc060d1">detail_nom_compte</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__account__property_8c_source.html#l00141">141</a> du fichier <a class="el" href="gsb__account__property_8c_source.html">gsb_account_property.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa56cb801e9f7d0894589a4d6962be2c7"></a><!-- doxytag: member="gsb_account_property.c::iso_13616_ibans" ref="aa56cb801e9f7d0894589a4d6962be2c7" args="[]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structiso__13616__iban.html">iso_13616_iban</a> <a class="el" href="gsb__account__property_8c.html#aa56cb801e9f7d0894589a4d6962be2c7">iso_13616_ibans</a>[]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<b>Valeur initiale :</b><div class="fragment"><pre class="fragment"> {
+    { <span class="stringliteral">&quot;XX&quot;</span>, <span class="stringliteral">&quot;XXkk XXXX XXXX XXXX XXXX XXXX XXXX XXXX XX&quot;</span>, 34 },
+    { <span class="stringliteral">&quot;AD&quot;</span>, <span class="stringliteral">&quot;ADkk BBBB SSSS CCCC CCCC CCCC&quot;</span>, 24 },
+    { <span class="stringliteral">&quot;AT&quot;</span>, <span class="stringliteral">&quot;ATkk BBBB BCCC CCCC CCCC&quot;</span>, 20 },
+    { <span class="stringliteral">&quot;BA&quot;</span>, <span class="stringliteral">&quot;BAkk BBBS SSCC CCCC CCKK&quot;</span>, 20 },
+    { <span class="stringliteral">&quot;BE&quot;</span>, <span class="stringliteral">&quot;BEkk BBBC CCCC CCKK&quot;</span>, 16 },
+    { <span class="stringliteral">&quot;BG&quot;</span>, <span class="stringliteral">&quot;BGkk BBBB SSSS DDCC CCCC CC&quot;</span>, 22 },
+    { <span class="stringliteral">&quot;CH&quot;</span>, <span class="stringliteral">&quot;CHkk BBBB BCCC CCCC CCCC C&quot;</span>, 21 },
+    { <span class="stringliteral">&quot;CY&quot;</span>, <span class="stringliteral">&quot;CYkk BBBS SSSS CCCC CCCC CCCC CCCC&quot;</span>, 28 },
+    { <span class="stringliteral">&quot;CZ&quot;</span>, <span class="stringliteral">&quot;CZkk BBBB CCCC CCCC CCCC CCCC&quot;</span>, 24 },
+    { <span class="stringliteral">&quot;DE&quot;</span>, <span class="stringliteral">&quot;DEkk BBBB BBBB CCCC CCCC CC&quot;</span>, 22 },
+    { <span class="stringliteral">&quot;DK&quot;</span>, <span class="stringliteral">&quot;DKkk BBBB CCCC CCCC CC&quot;</span>, 18 },
+    { <span class="stringliteral">&quot;EE&quot;</span>, <span class="stringliteral">&quot;EEkk BBBB CCCC CCCC CCCK&quot;</span>, 20 },
+    { <span class="stringliteral">&quot;ES&quot;</span>, <span class="stringliteral">&quot;ESkk BBBB GGGG KKCC CCCC CCCC&quot;</span>, 24 },
+    { <span class="stringliteral">&quot;FI&quot;</span>, <span class="stringliteral">&quot;FIkk BBBB BBCC CCCC CK&quot;</span>, 18 },
+    { <span class="stringliteral">&quot;FO&quot;</span>, <span class="stringliteral">&quot;FOkk CCCC CCCC CCCC CC&quot;</span>, 18 },
+    { <span class="stringliteral">&quot;FR&quot;</span>, <span class="stringliteral">&quot;FRkk BBBB BGGG GGCC CCCC CCCC CKK&quot;</span>, 27 },
+    { <span class="stringliteral">&quot;GB&quot;</span>, <span class="stringliteral">&quot;GBkk BBBB SSSS SSCC CCCC CC&quot;</span>, 22 },
+    { <span class="stringliteral">&quot;GI&quot;</span>, <span class="stringliteral">&quot;GIkk BBBB CCCC CCCC CCCC CCC&quot;</span>, 23 },
+    { <span class="stringliteral">&quot;GR&quot;</span>, <span class="stringliteral">&quot;GRkk BBB BBBB CCCC CCCC CCCC CCCC&quot;</span>, 27 },
+    { <span class="stringliteral">&quot;HR&quot;</span>, <span class="stringliteral">&quot;HRkk BBBB BBBC CCCC CCCC C&quot;</span>, 21 },
+    { <span class="stringliteral">&quot;IE&quot;</span>, <span class="stringliteral">&quot;IEkk AAAA BBBB BBCC CCCC CC&quot;</span>, 22 },
+    { <span class="stringliteral">&quot;LU&quot;</span>, <span class="stringliteral">&quot;LUkk BBBC CCCC CCCC CCCC&quot;</span>, 20 },
+    { <span class="stringliteral">&quot;NL&quot;</span>, <span class="stringliteral">&quot;NLkk BBBB CCCC CCCC CC&quot;</span>, 18 },
+    { <span class="stringliteral">&quot;PT&quot;</span>, <span class="stringliteral">&quot;PTkk BBBB BBBB CCCC CCCC CCCK K&quot;</span>, 25 },
+    { <span class="stringliteral">&quot;SE&quot;</span>, <span class="stringliteral">&quot;SEkk BBBB CCCC CCCC CCCC CCCC&quot;</span>, 24 },
+    { NULL },
+}
+</pre></div>
+<p>Définition à la ligne <a class="el" href="gsb__account__property_8c_source.html#l00111">111</a> du fichier <a class="el" href="gsb__account__property_8c_source.html">gsb_account_property.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9ebd251de44611d97ec364d1867a75ff"></a><!-- doxytag: member="gsb_account_property.c::mise_a_jour_fin_comptes_passifs" ref="a9ebd251de44611d97ec364d1867a75ff" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a9ebd251de44611d97ec364d1867a75ff">mise_a_jour_fin_comptes_passifs</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00131">131</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a018917e8dacfd8fbe4e94d0f99a59c08"></a><!-- doxytag: member="gsb_account_property.c::mise_a_jour_liste_comptes_accueil" ref="a018917e8dacfd8fbe4e94d0f99a59c08" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a018917e8dacfd8fbe4e94d0f99a59c08">mise_a_jour_liste_comptes_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00127">127</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5957dd978b4a0c3ab01e006cedfdf96c"></a><!-- doxytag: member="gsb_account_property.c::mise_a_jour_liste_echeances_manuelles_accueil" ref="a5957dd978b4a0c3ab01e006cedfdf96c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a5957dd978b4a0c3ab01e006cedfdf96c">mise_a_jour_liste_echeances_manuelles_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00128">128</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afaffaedc4fd0ae8638f7158c6777b35b"></a><!-- doxytag: member="gsb_account_property.c::mise_a_jour_soldes_minimaux" ref="afaffaedc4fd0ae8638f7158c6777b35b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#afaffaedc4fd0ae8638f7158c6777b35b">mise_a_jour_soldes_minimaux</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00130">130</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a26f304bec3fdc0651b9aa8765d4de3c6"></a><!-- doxytag: member="gsb_account_property.c::null_real" ref="a26f304bec3fdc0651b9aa8765d4de3c6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> <a class="el" href="utils__editables_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00042">42</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a787cc81cf2ad728775b73d723713980b"></a><!-- doxytag: member="gsb_account_property.c::titre_fichier" ref="a787cc81cf2ad728775b73d723713980b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="traitement__variables_8c.html#a787cc81cf2ad728775b73d723713980b">titre_fichier</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00147">147</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

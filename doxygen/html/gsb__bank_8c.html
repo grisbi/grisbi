@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_bank.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_bank.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__bank_8h_source.html">gsb_bank.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__account__property_8h_source.html">gsb_account_property.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__autofunc_8h_source.html">gsb_autofunc.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__bank_8h_source.html">gsb_data_bank.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="traitement__variables_8h_source.html">traitement_variables.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+
+<p><a href="gsb__bank_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__bank_8c.html#a78fbfb0d1e05ec62c8b73ad231246021">bank_list_col</a> { <a class="el" href="gsb__bank_8c.html#a78fbfb0d1e05ec62c8b73ad231246021a5ea690dfc0cc1ebd0d174597d342f743">BANK_VIEW_NAME_COL</a> =  0, 
+<a class="el" href="gsb__bank_8c.html#a78fbfb0d1e05ec62c8b73ad231246021a9c09ec058705397b37ab3d2c0652530a">BANK_TALKER_COL</a>, 
+<a class="el" href="gsb__bank_8c.html#a78fbfb0d1e05ec62c8b73ad231246021a5176121cc926d5c01f033fa5383873da">BANK_NUMBER</a>, 
+<a class="el" href="gsb__bank_8c.html#a78fbfb0d1e05ec62c8b73ad231246021a8de3f416202f9e946a7edec2e569e2cf">BANK_LIST_COL_NB</a>
+ }</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__bank_8c.html#aa9205d71df729c5e05c3a703d21bc6e8">bank_list_model_col</a> { <a class="el" href="gsb__bank_8c.html#aa9205d71df729c5e05c3a703d21bc6e8a41aaa2e414041f55d51ec61ba2009d52">BANK_NAME_COL</a> =  0, 
+<a class="el" href="gsb__bank_8c.html#aa9205d71df729c5e05c3a703d21bc6e8a1c1d9b356dd7208482d589998060f4d2">BANK_NUMBER_COL</a>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__bank_8c.html#abb748391feb66dfd26c0e0aaffa766bb">gsb_bank_create_combobox</a> (gint index, GCallback hook, gpointer data, GCallback default_func, gint number_for_func)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__bank_8c.html#af530b323e9bc34311e37d3795bddb807">gsb_bank_list_get_bank_number</a> (GtkWidget *combobox)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__bank_8c.html#a3733eb484b3e08e5f313fd7d45bdc1d9">gsb_bank_list_set_bank</a> (GtkWidget *combobox, gint bank_number, gint number_for_func)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__bank_8c.html#ae61d311db2db4446a87481841f9b1424">gsb_bank_edit_from_button</a> (GtkWidget *button, GtkWidget *combobox)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__bank_8c.html#aef019dce3bfc8b3570e7bb6f8d356da1">gsb_bank_create_page</a> (gboolean default_sensitive)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkTreeModel *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__bank_8c.html#ae7353d8093723c2b4afba1f49cfaecf0">bank_list_model</a> = NULL</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__bank_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>do the bank configuration do the bank combobox </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__bank_8c_source.html">gsb_bank.c</a>.</p>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="a78fbfb0d1e05ec62c8b73ad231246021"></a><!-- doxytag: member="gsb_bank.c::bank_list_col" ref="a78fbfb0d1e05ec62c8b73ad231246021" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="gsb__bank_8c.html#a78fbfb0d1e05ec62c8b73ad231246021">bank_list_col</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a78fbfb0d1e05ec62c8b73ad231246021a5ea690dfc0cc1ebd0d174597d342f743"></a><!-- doxytag: member="BANK_VIEW_NAME_COL" ref="a78fbfb0d1e05ec62c8b73ad231246021a5ea690dfc0cc1ebd0d174597d342f743" args="" -->BANK_VIEW_NAME_COL</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a78fbfb0d1e05ec62c8b73ad231246021a9c09ec058705397b37ab3d2c0652530a"></a><!-- doxytag: member="BANK_TALKER_COL" ref="a78fbfb0d1e05ec62c8b73ad231246021a9c09ec058705397b37ab3d2c0652530a" args="" -->BANK_TALKER_COL</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a78fbfb0d1e05ec62c8b73ad231246021a5176121cc926d5c01f033fa5383873da"></a><!-- doxytag: member="BANK_NUMBER" ref="a78fbfb0d1e05ec62c8b73ad231246021a5176121cc926d5c01f033fa5383873da" args="" -->BANK_NUMBER</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a78fbfb0d1e05ec62c8b73ad231246021a8de3f416202f9e946a7edec2e569e2cf"></a><!-- doxytag: member="BANK_LIST_COL_NB" ref="a78fbfb0d1e05ec62c8b73ad231246021a8de3f416202f9e946a7edec2e569e2cf" args="" -->BANK_LIST_COL_NB</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__bank_8c_source.html#l00077">77</a> du fichier <a class="el" href="gsb__bank_8c_source.html">gsb_bank.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa9205d71df729c5e05c3a703d21bc6e8"></a><!-- doxytag: member="gsb_bank.c::bank_list_model_col" ref="aa9205d71df729c5e05c3a703d21bc6e8" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="gsb__bank_8c.html#aa9205d71df729c5e05c3a703d21bc6e8">bank_list_model_col</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="aa9205d71df729c5e05c3a703d21bc6e8a41aaa2e414041f55d51ec61ba2009d52"></a><!-- doxytag: member="BANK_NAME_COL" ref="aa9205d71df729c5e05c3a703d21bc6e8a41aaa2e414041f55d51ec61ba2009d52" args="" -->BANK_NAME_COL</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="aa9205d71df729c5e05c3a703d21bc6e8a1c1d9b356dd7208482d589998060f4d2"></a><!-- doxytag: member="BANK_NUMBER_COL" ref="aa9205d71df729c5e05c3a703d21bc6e8a1c1d9b356dd7208482d589998060f4d2" args="" -->BANK_NUMBER_COL</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__bank_8c_source.html#l00089">89</a> du fichier <a class="el" href="gsb__bank_8c_source.html">gsb_bank.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="abb748391feb66dfd26c0e0aaffa766bb"></a><!-- doxytag: member="gsb_bank.c::gsb_bank_create_combobox" ref="abb748391feb66dfd26c0e0aaffa766bb" args="(gint index, GCallback hook, gpointer data, GCallback default_func, gint number_for_func)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_bank_create_combobox </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GCallback&nbsp;</td>
+          <td class="paramname"> <em>hook</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GCallback&nbsp;</td>
+          <td class="paramname"> <em>default_func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>number_for_func</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a combo_box with the name of all the banks and an 'add' button at the end update too if filled the value of the associated account (see gsb_autofunc_... for more explains)</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>bank</em>&nbsp;</td><td>the index we want to place the combobox </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>hook</em>&nbsp;</td><td>an optional function to execute if the combobox is modified </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td>an optional pointer to pass to hook </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>default_func</em>&nbsp;</td><td>a function to change the value in memory (should be gsb_data_account_set_bank or NULL) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>number_for_func</em>&nbsp;</td><td>the gint to send to the default_func (should be the account number)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>GtkWidget * the combo_box </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__bank_8c_source.html#l00134">134</a> du fichier <a class="el" href="gsb__bank_8c_source.html">gsb_bank.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aef019dce3bfc8b3570e7bb6f8d356da1"></a><!-- doxytag: member="gsb_bank.c::gsb_bank_create_page" ref="aef019dce3bfc8b3570e7bb6f8d356da1" args="(gboolean default_sensitive)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_bank_create_page </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>default_sensitive</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Creates the "Banks" tab. It creates a bank list and then a form that allows to edit selected bank.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>default_sensitive</em>&nbsp;</td><td>normally if there is no account, that page is unsensitive, but for assistant, we have to force to be sensitive so set default_sensitive to TRUE to let grisbi choose between sensitive or net, set default_sensitive to FALSE </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>A newly allocated vbox </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__bank_8c_source.html#l00502">502</a> du fichier <a class="el" href="gsb__bank_8c_source.html">gsb_bank.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae61d311db2db4446a87481841f9b1424"></a><!-- doxytag: member="gsb_bank.c::gsb_bank_edit_from_button" ref="ae61d311db2db4446a87481841f9b1424" args="(GtkWidget *button, GtkWidget *combobox)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_bank_edit_from_button </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>button</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>combobox</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>callback called when click on the edit-bank in the property of account show a window with the parameters of the bank in the combobox</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>button</em>&nbsp;</td><td>the button wich was clicked </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>combobox</em>&nbsp;</td><td>the combobox selected a bank</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__bank_8c_source.html#l00321">321</a> du fichier <a class="el" href="gsb__bank_8c_source.html">gsb_bank.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af530b323e9bc34311e37d3795bddb807"></a><!-- doxytag: member="gsb_bank.c::gsb_bank_list_get_bank_number" ref="af530b323e9bc34311e37d3795bddb807" args="(GtkWidget *combobox)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_bank_list_get_bank_number </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>combobox</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the number of the curently showed on the combobox</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>combobox</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the bank number, 0 for none, -1 for 'new bank' </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__bank_8c_source.html#l00193">193</a> du fichier <a class="el" href="gsb__bank_8c_source.html">gsb_bank.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3733eb484b3e08e5f313fd7d45bdc1d9"></a><!-- doxytag: member="gsb_bank.c::gsb_bank_list_set_bank" ref="a3733eb484b3e08e5f313fd7d45bdc1d9" args="(GtkWidget *combobox, gint bank_number, gint number_for_func)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_bank_list_set_bank </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>combobox</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>bank_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>number_for_func</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>show the current bank in the combobox acording to the bank number</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>combobox</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bank_number</em>&nbsp;</td><td>0 for none, -1 for new bank </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>number_for_func</em>&nbsp;</td><td>the number to give to the default_func when something changed</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__bank_8c_source.html#l00222">222</a> du fichier <a class="el" href="gsb__bank_8c_source.html">gsb_bank.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="ae7353d8093723c2b4afba1f49cfaecf0"></a><!-- doxytag: member="gsb_bank.c::bank_list_model" ref="ae7353d8093723c2b4afba1f49cfaecf0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkTreeModel* <a class="el" href="traitement__variables_8c.html#ae7353d8093723c2b4afba1f49cfaecf0">bank_list_model</a> = NULL</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__bank_8c_source.html#l00087">87</a> du fichier <a class="el" href="gsb__bank_8c_source.html">gsb_bank.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="gsb_bank.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

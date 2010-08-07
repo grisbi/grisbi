@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_assistant_reconcile_config.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_assistant_reconcile_config.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__assistant__reconcile__config_8c_source.html">gsb_assistant_reconcile_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__account_8h_source.html">gsb_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__assistant_8h_source.html">gsb_assistant.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__calendar__entry_8h_source.html">gsb_calendar_entry.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__payee_8h_source.html">gsb_data_payee.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__reconcile_8h_source.html">gsb_data_reconcile.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__dates_8h_source.html">utils_dates.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__transactions__list_8h_source.html">gsb_transactions_list.h</a>&quot;</code><br/>
+
+<p><a href="gsb__assistant__reconcile__config_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Structures de données</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structassociation__transaction__reconcile.html">association_transaction_reconcile</a></td></tr>
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant__reconcile__config_8c.html#a9140d1eedfa6039af2622105b8376f25">reconcile_assistant_page</a> { <br/>
+&nbsp;&nbsp;<a class="el" href="gsb__assistant__reconcile__config_8c.html#a9140d1eedfa6039af2622105b8376f25a4b22b5424b926cdc3f5f6040d705384f">RECONCILE_ASSISTANT_INTRO</a> =  0, 
+<a class="el" href="gsb__assistant__reconcile__config_8c.html#a9140d1eedfa6039af2622105b8376f25a72839762e60dd960b7a74e0fdc7ffc8b">RECONCILE_ASSISTANT_MENU</a>, 
+<a class="el" href="gsb__assistant__reconcile__config_8c.html#a9140d1eedfa6039af2622105b8376f25ad2417513428b30096a33ea86131db2ba">RECONCILE_ASSISTANT_NEW_RECONCILE</a>, 
+<a class="el" href="gsb__assistant__reconcile__config_8c.html#a9140d1eedfa6039af2622105b8376f25aa6a9c64c2ce0b87d428301d815275291">RECONCILE_ASSISTANT_AUTOMATICALLY_ASSOCIATE</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="gsb__assistant__reconcile__config_8c.html#a9140d1eedfa6039af2622105b8376f25a9647b7b772dead61f5456c11f0e2099d">RECONCILE_ASSISTANT_MANUALLY_ASSOCIATE</a>, 
+<a class="el" href="gsb__assistant__reconcile__config_8c.html#a9140d1eedfa6039af2622105b8376f25a55bddc5351b841913093a79019ffad60">RECONCILE_ASSISTANT_SUCCESS</a>
+<br/>
+ }</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant__reconcile__config_8c.html#a90c3e3851b339982e6bea71b6a9e9a61">transactions_column</a> { <br/>
+&nbsp;&nbsp;<a class="el" href="gsb__assistant__reconcile__config_8c.html#a90c3e3851b339982e6bea71b6a9e9a61a952c9e3faa4ed3a621d3007922366e77">TRANSACTION_DATE</a> =  0, 
+<a class="el" href="gsb__assistant__reconcile__config_8c.html#a90c3e3851b339982e6bea71b6a9e9a61a528f6246616b12b05f4968fc68ea4f7e">TRANSACTION_PAYEE</a>, 
+<a class="el" href="gsb__assistant__reconcile__config_8c.html#a90c3e3851b339982e6bea71b6a9e9a61a704c8db553b71c769d1af48e0fb46889">TRANSACTION_AMOUNT</a>, 
+<a class="el" href="gsb__assistant__reconcile__config_8c.html#a90c3e3851b339982e6bea71b6a9e9a61a2b4785448c7bdbf28fc262efb0eadeca">TRANSACTION_ACCOUNT</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="gsb__assistant__reconcile__config_8c.html#a90c3e3851b339982e6bea71b6a9e9a61a7feac92da8f64c2dc680bfce62b6ee34">TRANSACTION_NUMBER</a>, 
+<a class="el" href="gsb__assistant__reconcile__config_8c.html#a90c3e3851b339982e6bea71b6a9e9a61addd415207d8247b6f07d5c412cd82b6e">TRANSACTION_NB_COL</a>
+<br/>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkResponseType&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__assistant__reconcile__config_8c.html#ac16081c512d6e40d5904ec9c62b668d4">gsb_assistant_reconcile_config_run</a> (void)</td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>we find here the pages used by the assistant to work with the reconcile configuration </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__assistant__reconcile__config_8c_source.html">gsb_assistant_reconcile_config.c</a>.</p>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="a9140d1eedfa6039af2622105b8376f25"></a><!-- doxytag: member="gsb_assistant_reconcile_config.c::reconcile_assistant_page" ref="a9140d1eedfa6039af2622105b8376f25" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="gsb__assistant__reconcile__config_8c.html#a9140d1eedfa6039af2622105b8376f25">reconcile_assistant_page</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a9140d1eedfa6039af2622105b8376f25a4b22b5424b926cdc3f5f6040d705384f"></a><!-- doxytag: member="RECONCILE_ASSISTANT_INTRO" ref="a9140d1eedfa6039af2622105b8376f25a4b22b5424b926cdc3f5f6040d705384f" args="" -->RECONCILE_ASSISTANT_INTRO</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a9140d1eedfa6039af2622105b8376f25a72839762e60dd960b7a74e0fdc7ffc8b"></a><!-- doxytag: member="RECONCILE_ASSISTANT_MENU" ref="a9140d1eedfa6039af2622105b8376f25a72839762e60dd960b7a74e0fdc7ffc8b" args="" -->RECONCILE_ASSISTANT_MENU</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a9140d1eedfa6039af2622105b8376f25ad2417513428b30096a33ea86131db2ba"></a><!-- doxytag: member="RECONCILE_ASSISTANT_NEW_RECONCILE" ref="a9140d1eedfa6039af2622105b8376f25ad2417513428b30096a33ea86131db2ba" args="" -->RECONCILE_ASSISTANT_NEW_RECONCILE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a9140d1eedfa6039af2622105b8376f25aa6a9c64c2ce0b87d428301d815275291"></a><!-- doxytag: member="RECONCILE_ASSISTANT_AUTOMATICALLY_ASSOCIATE" ref="a9140d1eedfa6039af2622105b8376f25aa6a9c64c2ce0b87d428301d815275291" args="" -->RECONCILE_ASSISTANT_AUTOMATICALLY_ASSOCIATE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a9140d1eedfa6039af2622105b8376f25a9647b7b772dead61f5456c11f0e2099d"></a><!-- doxytag: member="RECONCILE_ASSISTANT_MANUALLY_ASSOCIATE" ref="a9140d1eedfa6039af2622105b8376f25a9647b7b772dead61f5456c11f0e2099d" args="" -->RECONCILE_ASSISTANT_MANUALLY_ASSOCIATE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a9140d1eedfa6039af2622105b8376f25a55bddc5351b841913093a79019ffad60"></a><!-- doxytag: member="RECONCILE_ASSISTANT_SUCCESS" ref="a9140d1eedfa6039af2622105b8376f25a55bddc5351b841913093a79019ffad60" args="" -->RECONCILE_ASSISTANT_SUCCESS</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant__reconcile__config_8c_source.html#l00077">77</a> du fichier <a class="el" href="gsb__assistant__reconcile__config_8c_source.html">gsb_assistant_reconcile_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a90c3e3851b339982e6bea71b6a9e9a61"></a><!-- doxytag: member="gsb_assistant_reconcile_config.c::transactions_column" ref="a90c3e3851b339982e6bea71b6a9e9a61" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="gsb__assistant__reconcile__config_8c.html#a90c3e3851b339982e6bea71b6a9e9a61">transactions_column</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a90c3e3851b339982e6bea71b6a9e9a61a952c9e3faa4ed3a621d3007922366e77"></a><!-- doxytag: member="TRANSACTION_DATE" ref="a90c3e3851b339982e6bea71b6a9e9a61a952c9e3faa4ed3a621d3007922366e77" args="" -->TRANSACTION_DATE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a90c3e3851b339982e6bea71b6a9e9a61a528f6246616b12b05f4968fc68ea4f7e"></a><!-- doxytag: member="TRANSACTION_PAYEE" ref="a90c3e3851b339982e6bea71b6a9e9a61a528f6246616b12b05f4968fc68ea4f7e" args="" -->TRANSACTION_PAYEE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a90c3e3851b339982e6bea71b6a9e9a61a704c8db553b71c769d1af48e0fb46889"></a><!-- doxytag: member="TRANSACTION_AMOUNT" ref="a90c3e3851b339982e6bea71b6a9e9a61a704c8db553b71c769d1af48e0fb46889" args="" -->TRANSACTION_AMOUNT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a90c3e3851b339982e6bea71b6a9e9a61a2b4785448c7bdbf28fc262efb0eadeca"></a><!-- doxytag: member="TRANSACTION_ACCOUNT" ref="a90c3e3851b339982e6bea71b6a9e9a61a2b4785448c7bdbf28fc262efb0eadeca" args="" -->TRANSACTION_ACCOUNT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a90c3e3851b339982e6bea71b6a9e9a61a7feac92da8f64c2dc680bfce62b6ee34"></a><!-- doxytag: member="TRANSACTION_NUMBER" ref="a90c3e3851b339982e6bea71b6a9e9a61a7feac92da8f64c2dc680bfce62b6ee34" args="" -->TRANSACTION_NUMBER</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a90c3e3851b339982e6bea71b6a9e9a61addd415207d8247b6f07d5c412cd82b6e"></a><!-- doxytag: member="TRANSACTION_NB_COL" ref="a90c3e3851b339982e6bea71b6a9e9a61addd415207d8247b6f07d5c412cd82b6e" args="" -->TRANSACTION_NB_COL</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant__reconcile__config_8c_source.html#l00124">124</a> du fichier <a class="el" href="gsb__assistant__reconcile__config_8c_source.html">gsb_assistant_reconcile_config.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="ac16081c512d6e40d5904ec9c62b668d4"></a><!-- doxytag: member="gsb_assistant_reconcile_config.c::gsb_assistant_reconcile_config_run" ref="ac16081c512d6e40d5904ec9c62b668d4" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkResponseType gsb_assistant_reconcile_config_run </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>function called to launch the reconcile_config assistant calculate the number of transactions to link, and refuse to run the assistant if none</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>GtkResponseType, the returned value from the assistant </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__assistant__reconcile__config_8c_source.html#l00142">142</a> du fichier <a class="el" href="gsb__assistant__reconcile__config_8c_source.html">gsb_assistant_reconcile_config.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier parse_cmdline.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier parse_cmdline.h</h1><code>#include &lt;glib.h&gt;</code><br/>
+
+<p><a href="parse__cmdline_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Structures de données</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__cmdline__options.html">_cmdline_options</a></td></tr>
+<tr><td colspan="2"><h2>Macros</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse__cmdline_8h.html#af31dfbab816122e327305dced3588e23">CMDLINE_ERROR</a>(err)&nbsp;&nbsp;&nbsp;(gint)(-err)</td></tr>
+<tr><td colspan="2"><h2>Définition de type</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct__cmdline__options.html">_cmdline_options</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse__cmdline_8h.html#a6a22e029ac4549d051b93ef73f32a36c">cmdline_options</a></td></tr>
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse__cmdline_8h.html#a693cd18c8525f58d567c1bfadb5172a8">CMDLINE_ERRNO</a> { <br/>
+&nbsp;&nbsp;<a class="el" href="parse__cmdline_8h.html#a693cd18c8525f58d567c1bfadb5172a8a4e164121d67b9eb5ea18adb3af48e97d">CMDLINE_SYNTAX_OK</a> =  0, 
+<a class="el" href="parse__cmdline_8h.html#a693cd18c8525f58d567c1bfadb5172a8a19e02f72690914b1a9528060b62cc245">CMDLINE_MISSING_PARAMETER</a>, 
+<a class="el" href="parse__cmdline_8h.html#a693cd18c8525f58d567c1bfadb5172a8ad6d175fc632325bd1adc3e5b7bf09566">CMDLINE_SYNTAX_ERROR</a>, 
+<a class="el" href="parse__cmdline_8h.html#a693cd18c8525f58d567c1bfadb5172a8a8bb992a49477bca4ec50ac6753636fed">CMDLINE_UNKNOWN_OPTION</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="parse__cmdline_8h.html#a693cd18c8525f58d567c1bfadb5172a8aa0c079361f27bb7ae4e031065437fd30">CMDLINE_TOO_MANY_PARAMETERS</a>, 
+<a class="el" href="parse__cmdline_8h.html#a693cd18c8525f58d567c1bfadb5172a8ad9e3873d4d37e84f7e48a100a72f59c0">CMDLINE_TAB_ID_OUT_OF_RANGE</a>, 
+<a class="el" href="parse__cmdline_8h.html#a693cd18c8525f58d567c1bfadb5172a8ad3e5ca703a57c2f14328b0a6ade016d0">CMDLINE_GETOPT_CONFIGURATION_ERROR</a>, 
+<a class="el" href="parse__cmdline_8h.html#a693cd18c8525f58d567c1bfadb5172a8abd0e636006671aff1153c37630f5d1a2">CMDLINE_OTHER</a>
+<br/>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="parse__cmdline_8h.html#ac87b7fb7cbd26b718fdfdc0000848ce1">parse_options</a> (int argc, char **argv, <a class="el" href="struct__cmdline__options.html">cmdline_options</a> *pOpt, gint *pErrval)</td></tr>
+</table>
+<hr/><h2>Documentation des macros</h2>
+<a class="anchor" id="af31dfbab816122e327305dced3588e23"></a><!-- doxytag: member="parse_cmdline.h::CMDLINE_ERROR" ref="af31dfbab816122e327305dced3588e23" args="(err)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CMDLINE_ERROR</td>
+          <td>(</td>
+          <td class="paramtype">err&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;(gint)(-err)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="parse__cmdline_8h_source.html#l00050">50</a> du fichier <a class="el" href="parse__cmdline_8h_source.html">parse_cmdline.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des définitions de type</h2>
+<a class="anchor" id="a6a22e029ac4549d051b93ef73f32a36c"></a><!-- doxytag: member="parse_cmdline.h::cmdline_options" ref="a6a22e029ac4549d051b93ef73f32a36c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct__cmdline__options.html">_cmdline_options</a>  <a class="el" href="struct__cmdline__options.html">cmdline_options</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="a693cd18c8525f58d567c1bfadb5172a8"></a><!-- doxytag: member="parse_cmdline.h::CMDLINE_ERRNO" ref="a693cd18c8525f58d567c1bfadb5172a8" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="parse__cmdline_8h.html#a693cd18c8525f58d567c1bfadb5172a8">CMDLINE_ERRNO</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a693cd18c8525f58d567c1bfadb5172a8a4e164121d67b9eb5ea18adb3af48e97d"></a><!-- doxytag: member="CMDLINE_SYNTAX_OK" ref="a693cd18c8525f58d567c1bfadb5172a8a4e164121d67b9eb5ea18adb3af48e97d" args="" -->CMDLINE_SYNTAX_OK</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a693cd18c8525f58d567c1bfadb5172a8a19e02f72690914b1a9528060b62cc245"></a><!-- doxytag: member="CMDLINE_MISSING_PARAMETER" ref="a693cd18c8525f58d567c1bfadb5172a8a19e02f72690914b1a9528060b62cc245" args="" -->CMDLINE_MISSING_PARAMETER</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a693cd18c8525f58d567c1bfadb5172a8ad6d175fc632325bd1adc3e5b7bf09566"></a><!-- doxytag: member="CMDLINE_SYNTAX_ERROR" ref="a693cd18c8525f58d567c1bfadb5172a8ad6d175fc632325bd1adc3e5b7bf09566" args="" -->CMDLINE_SYNTAX_ERROR</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a693cd18c8525f58d567c1bfadb5172a8a8bb992a49477bca4ec50ac6753636fed"></a><!-- doxytag: member="CMDLINE_UNKNOWN_OPTION" ref="a693cd18c8525f58d567c1bfadb5172a8a8bb992a49477bca4ec50ac6753636fed" args="" -->CMDLINE_UNKNOWN_OPTION</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a693cd18c8525f58d567c1bfadb5172a8aa0c079361f27bb7ae4e031065437fd30"></a><!-- doxytag: member="CMDLINE_TOO_MANY_PARAMETERS" ref="a693cd18c8525f58d567c1bfadb5172a8aa0c079361f27bb7ae4e031065437fd30" args="" -->CMDLINE_TOO_MANY_PARAMETERS</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a693cd18c8525f58d567c1bfadb5172a8ad9e3873d4d37e84f7e48a100a72f59c0"></a><!-- doxytag: member="CMDLINE_TAB_ID_OUT_OF_RANGE" ref="a693cd18c8525f58d567c1bfadb5172a8ad9e3873d4d37e84f7e48a100a72f59c0" args="" -->CMDLINE_TAB_ID_OUT_OF_RANGE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a693cd18c8525f58d567c1bfadb5172a8ad3e5ca703a57c2f14328b0a6ade016d0"></a><!-- doxytag: member="CMDLINE_GETOPT_CONFIGURATION_ERROR" ref="a693cd18c8525f58d567c1bfadb5172a8ad3e5ca703a57c2f14328b0a6ade016d0" args="" -->CMDLINE_GETOPT_CONFIGURATION_ERROR</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a693cd18c8525f58d567c1bfadb5172a8abd0e636006671aff1153c37630f5d1a2"></a><!-- doxytag: member="CMDLINE_OTHER" ref="a693cd18c8525f58d567c1bfadb5172a8abd0e636006671aff1153c37630f5d1a2" args="" -->CMDLINE_OTHER</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="parse__cmdline_8h_source.html#l00039">39</a> du fichier <a class="el" href="parse__cmdline_8h_source.html">parse_cmdline.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="ac87b7fb7cbd26b718fdfdc0000848ce1"></a><!-- doxytag: member="parse_cmdline.h::parse_options" ref="ac87b7fb7cbd26b718fdfdc0000848ce1" args="(int argc, char **argv, cmdline_options *pOpt, gint *pErrval)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean parse_options </td>
+          <td>(</td>
+          <td class="paramtype">int&nbsp;</td>
+          <td class="paramname"> <em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&nbsp;</td>
+          <td class="paramname"> <em>argv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct__cmdline__options.html">cmdline_options</a> *&nbsp;</td>
+          <td class="paramname"> <em>pOpt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint *&nbsp;</td>
+          <td class="paramname"> <em>pErrval</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Parse command line arguments using getopt feature for options.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>argc</em>&nbsp;</td><td><a class="el" href="main_8c.html#a3c04138a5bfe5d72780bb7e82a18e627">main()</a> argc (or argn) parameter. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>argv</em>&nbsp;</td><td><a class="el" href="main_8c.html#a3c04138a5bfe5d72780bb7e82a18e627">main()</a> argv parameter. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pOpt</em>&nbsp;</td><td>pointer to the options structure to store configuration in. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>errval</em>&nbsp;</td><td>pointer to put the operation status:</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE when the application can continue, FALSEthe application should stop</dd></dl>
+<dl class="note"><dt><b>Note:</b></dt><dd>See short_options and long_options variables to have possible options. </dd></dl>
+
+<p><p>&lt; used to stop treating the command line args using getopt</p>
+<p>&lt; Index of the field of argv to compute </p>
+</p>
+
+<p>Définition à la ligne <a class="el" href="parse__cmdline_8c_source.html#l00072">72</a> du fichier <a class="el" href="parse__cmdline_8c_source.html">parse_cmdline.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

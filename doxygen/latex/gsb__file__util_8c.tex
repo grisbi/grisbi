@@ -1,0 +1,118 @@
+\section{Référence du fichier gsb\_\-file\_\-util.c}
+\label{gsb__file__util_8c}\index{gsb\_\-file\_\-util.c@{gsb\_\-file\_\-util.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include $<$zlib.h$>$}\par
+{\ttfamily \#include \char`\"{}gsb\_\-file\_\-util.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-str.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-files.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}erreur.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-file\_\-util\_\-test\_\-overwrite} (const gchar $\ast$filename)
+\item 
+gboolean {\bf gsb\_\-file\_\-util\_\-get\_\-contents} (gchar $\ast$filename, gchar $\ast$$\ast$file\_\-content, gulong $\ast$length)
+\item 
+void {\bf switch\_\-t\_\-r} (void)
+\item 
+gboolean {\bf gsb\_\-file\_\-util\_\-modify\_\-lock} (gboolean create\_\-swp)
+\item 
+void {\bf gsb\_\-file\_\-util\_\-change\_\-permissions} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+gchar $\ast$ {\bf nom\_\-fichier\_\-comptes}
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-file\_\-util.c@{gsb\_\-file\_\-util.c}!gsb\_\-file\_\-util\_\-change\_\-permissions@{gsb\_\-file\_\-util\_\-change\_\-permissions}}
+\index{gsb\_\-file\_\-util\_\-change\_\-permissions@{gsb\_\-file\_\-util\_\-change\_\-permissions}!gsb_file_util.c@{gsb\_\-file\_\-util.c}}
+\subsubsection[{gsb\_\-file\_\-util\_\-change\_\-permissions}]{\setlength{\rightskip}{0pt plus 5cm}void gsb\_\-file\_\-util\_\-change\_\-permissions (void)}\label{gsb__file__util_8c_a5860b25ee5eef286dbb07e812c66c0fd}
+called when loading a file, if the permissions are not set only for the user propose to change the permissions
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 392 du fichier gsb\_\-file\_\-util.c.
+
+\index{gsb\_\-file\_\-util.c@{gsb\_\-file\_\-util.c}!gsb\_\-file\_\-util\_\-get\_\-contents@{gsb\_\-file\_\-util\_\-get\_\-contents}}
+\index{gsb\_\-file\_\-util\_\-get\_\-contents@{gsb\_\-file\_\-util\_\-get\_\-contents}!gsb_file_util.c@{gsb\_\-file\_\-util.c}}
+\subsubsection[{gsb\_\-file\_\-util\_\-get\_\-contents}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-util\_\-get\_\-contents (gchar $\ast$ {\em filename}, \/  gchar $\ast$$\ast$ {\em file\_\-content}, \/  gulong $\ast$ {\em length})}\label{gsb__file__util_8c_aa976d6f0795a4f897ac1092f95ca247c}
+this function do the same as g\_\-file\_\-get\_\-contents but can also open a compressed file with zlib
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em filename}]the name of file to open \item[{\em file\_\-content}]a gchar pointer to fill with the adress of the content of the file \item[{\em length}]a gulong pointer to file with the length of the loaded file\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE all is ok, FALSE a problem occured 
+\end{DoxyReturn}
+
+
+Définition à la ligne 105 du fichier gsb\_\-file\_\-util.c.
+
+\index{gsb\_\-file\_\-util.c@{gsb\_\-file\_\-util.c}!gsb\_\-file\_\-util\_\-modify\_\-lock@{gsb\_\-file\_\-util\_\-modify\_\-lock}}
+\index{gsb\_\-file\_\-util\_\-modify\_\-lock@{gsb\_\-file\_\-util\_\-modify\_\-lock}!gsb_file_util.c@{gsb\_\-file\_\-util.c}}
+\subsubsection[{gsb\_\-file\_\-util\_\-modify\_\-lock}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-util\_\-modify\_\-lock (gboolean {\em create\_\-swp})}\label{gsb__file__util_8c_a80670d5f3bf53ded5ead442f5c6d1be0}
+create or delete a file \char`\"{}.name\_\-of\_\-file.swp\char`\"{} to check if the file is opened already or not
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em create\_\-swp}]if we create or delete it\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok 
+\end{DoxyReturn}
+
+
+Définition à la ligne 278 du fichier gsb\_\-file\_\-util.c.
+
+\index{gsb\_\-file\_\-util.c@{gsb\_\-file\_\-util.c}!gsb\_\-file\_\-util\_\-test\_\-overwrite@{gsb\_\-file\_\-util\_\-test\_\-overwrite}}
+\index{gsb\_\-file\_\-util\_\-test\_\-overwrite@{gsb\_\-file\_\-util\_\-test\_\-overwrite}!gsb_file_util.c@{gsb\_\-file\_\-util.c}}
+\subsubsection[{gsb\_\-file\_\-util\_\-test\_\-overwrite}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-file\_\-util\_\-test\_\-overwrite (const gchar $\ast$ {\em filename})}\label{gsb__file__util_8c_af69c587f1e5d21b56fe1c8f53b32565a}
+check if the file exists, and if so, ask the user if he wants to overwrite it show an error message if necessary return TRUE if the saving action can continue, FALSE to stop it
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em filename}]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok, can continue (no file exists or user wants to overwrite), FALSE stop the action 
+\end{DoxyReturn}
+
+
+Définition à la ligne 57 du fichier gsb\_\-file\_\-util.c.
+
+\index{gsb\_\-file\_\-util.c@{gsb\_\-file\_\-util.c}!switch\_\-t\_\-r@{switch\_\-t\_\-r}}
+\index{switch\_\-t\_\-r@{switch\_\-t\_\-r}!gsb_file_util.c@{gsb\_\-file\_\-util.c}}
+\subsubsection[{switch\_\-t\_\-r}]{\setlength{\rightskip}{0pt plus 5cm}void switch\_\-t\_\-r (void)}\label{gsb__file__util_8c_ae79b0f000a8686ec053bddcd2f0c1d35}
+for a grisbi file before 0.5.1, switch the R and T transactions because T appears called only for a file before 0.5.1
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+
+\end{DoxyReturn}
+
+
+Définition à la ligne 232 du fichier gsb\_\-file\_\-util.c.
+
+
+
+\subsection{Documentation des variables}
+\index{gsb\_\-file\_\-util.c@{gsb\_\-file\_\-util.c}!nom\_\-fichier\_\-comptes@{nom\_\-fichier\_\-comptes}}
+\index{nom\_\-fichier\_\-comptes@{nom\_\-fichier\_\-comptes}!gsb_file_util.c@{gsb\_\-file\_\-util.c}}
+\subsubsection[{nom\_\-fichier\_\-comptes}]{\setlength{\rightskip}{0pt plus 5cm}gchar$\ast$ {\bf nom\_\-fichier\_\-comptes}}\label{gsb__file__util_8c_ae00b9af94c75169e6ab8cf0ec25e8b89}
+
+
+Définition à la ligne 145 du fichier traitement\_\-variables.c.
+

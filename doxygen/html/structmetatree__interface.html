@@ -1,0 +1,655 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence de la structure metatree_interface</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li><a href="classes.html"><span>Index&nbsp;des&nbsp;structures&nbsp;de&nbsp;données</span></a></li>
+      <li><a href="functions.html"><span>Champs&nbsp;de&nbsp;donnée</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence de la structure metatree_interface</h1><!-- doxytag: class="metatree_interface" -->
+<p><code>#include &lt;<a class="el" href="metatree_8h_source.html">metatree.h</a>&gt;</code></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Champs de données</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#aace6dc61ff0a82159daceecc337ea859">depth</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#ac1c0431807412961f368e085c5725890">content</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a7ab40104bf2380d133fb8ea9d6b0dcd1">tree_currency</a> )()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#aa9d70406fad4f1aba6e4b601bbb95a89">meta_name</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a27b859e6c492a083b99ec6cde1bbfe2e">no_div_label</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a92da245dbce813893cf92f748e662734">no_sub_div_label</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a68d791c4afac5c5972aafe7efcec2a11">get_without_div_pointer</a> )()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a0d4a70d654cfb14fea7cc84529c9c23c">get_div_pointer_from_name</a> )(const gchar *, gboolean)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#ae23faf569f3cb13ce91f640d5bbe88cf">get_sub_div_pointer_from_name</a> )(int, const gchar *, gboolean)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#ac0d8da7081759c07c196ef81f72b7a8b">div_nb_transactions</a> )(gint)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#ab8ded2fa7527cee822f8210f82ea11a2">sub_div_nb_transactions</a> )(gint, gint)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#afb9d91d292283c5250707d57139e3f60">div_name</a> )(gint)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#ad5126f6ad091ba08666844a6e082b92c">sub_div_name</a> )(gint, gint)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a0b3b6060b22b0a42cb4e2f5a78447b07">div_balance</a> )(gint)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a1b24651778a74f9eebe4dbd59607f5e2">sub_div_balance</a> )(gint, gint)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#acf4885e6b2d5fa5418d5fd1a0c46d860">div_id</a> )(gpointer)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#ac7971d65e0011bfc0884275d5ff3a0cb">sub_div_id</a> )(gpointer)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a87b80fadda4471f348d694e972370042">div_list</a> )()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a157c0657918bf598a401ea66b51200f1">div_sub_div_list</a> )(gint)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a2292c27893368fbaa395205ec934db4a">div_type</a> )(gint)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a5cac668f9945ead5b4254c4f80b99266">transaction_div_id</a> )(gint)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a71df7590f3837cc0abcf2ac0c8ef0669">transaction_sub_div_id</a> )(gint)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a74107bfb0474039c0dcf8cc27bfbd7b7">transaction_set_div_id</a> )(gint, int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a91a0a9e7831c6216261b9d1526b665c4">transaction_set_sub_div_id</a> )(gint, int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#ace90eff6526afed3cfea014df535b1ae">scheduled_div_id</a> )(int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a253410a86799d63980a8da65dbea0255">scheduled_sub_div_id</a> )(int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#afb5a2cdac5c447733597d53024b1f68c">scheduled_set_div_id</a> )(int, int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#abe96706f67f980d36cf5e0f13244b9a7">scheduled_set_sub_div_id</a> )(int, int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a646b1dc505a16f0fca45a49171890c56">add_div</a> )()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a61b8cb425a554296258fc34eed00abb0">add_sub_div</a> )(int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a6a09c3389c0f3b80e23addfdafca27a5">remove_div</a> )(int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#ac69d8fde7f6e5e99923ab2848e9149f6">remove_sub_div</a> )(int, int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a2be0eb2049ea2110b10501c5e27cf6e3">add_transaction_to_div</a> )(gint, int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#aa43e3294c308800aa226dee40f048a5b">add_transaction_to_sub_div</a> )(gint, int, int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#ab4ed1f3d2bd093b428069f724e605022">remove_transaction_from_div</a> )(int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a5cbad2e99f7615d600c16ea4cdb0a478">remove_transaction_from_sub_div</a> )(int)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#af323070e902eabe028e842724a292bc7">hold_position_set_path</a> )(GtkTreePath *)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean(*&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmetatree__interface.html#a0406d4ccfabf7ee063d4482d1365ab69">hold_position_set_expand</a> )(gboolean)</td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>Interface between various tree data and metatree </p>
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00011">11</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+<hr/><h2>Documentation des champs</h2>
+<a class="anchor" id="a646b1dc505a16f0fca45a49171890c56"></a><!-- doxytag: member="metatree_interface::add_div" ref="a646b1dc505a16f0fca45a49171890c56" args=")()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#a646b1dc505a16f0fca45a49171890c56">metatree_interface::add_div</a>)()</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00045">45</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a61b8cb425a554296258fc34eed00abb0"></a><!-- doxytag: member="metatree_interface::add_sub_div" ref="a61b8cb425a554296258fc34eed00abb0" args=")(int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#a61b8cb425a554296258fc34eed00abb0">metatree_interface::add_sub_div</a>)(int)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00046">46</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2be0eb2049ea2110b10501c5e27cf6e3"></a><!-- doxytag: member="metatree_interface::add_transaction_to_div" ref="a2be0eb2049ea2110b10501c5e27cf6e3" args=")(gint, int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean(*  <a class="el" href="structmetatree__interface.html#a2be0eb2049ea2110b10501c5e27cf6e3">metatree_interface::add_transaction_to_div</a>)(gint, int)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00049">49</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa43e3294c308800aa226dee40f048a5b"></a><!-- doxytag: member="metatree_interface::add_transaction_to_sub_div" ref="aa43e3294c308800aa226dee40f048a5b" args=")(gint, int, int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(*  <a class="el" href="structmetatree__interface.html#aa43e3294c308800aa226dee40f048a5b">metatree_interface::add_transaction_to_sub_div</a>)(gint, int, int)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00050">50</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac1c0431807412961f368e085c5725890"></a><!-- doxytag: member="metatree_interface::content" ref="ac1c0431807412961f368e085c5725890" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structmetatree__interface.html#ac1c0431807412961f368e085c5725890">metatree_interface::content</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00013">13</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aace6dc61ff0a82159daceecc337ea859"></a><!-- doxytag: member="metatree_interface::depth" ref="aace6dc61ff0a82159daceecc337ea859" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structmetatree__interface.html#aace6dc61ff0a82159daceecc337ea859">metatree_interface::depth</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00012">12</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0b3b6060b22b0a42cb4e2f5a78447b07"></a><!-- doxytag: member="metatree_interface::div_balance" ref="a0b3b6060b22b0a42cb4e2f5a78447b07" args=")(gint)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a>(*  <a class="el" href="structmetatree__interface.html#a0b3b6060b22b0a42cb4e2f5a78447b07">metatree_interface::div_balance</a>)(gint)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00026">26</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acf4885e6b2d5fa5418d5fd1a0c46d860"></a><!-- doxytag: member="metatree_interface::div_id" ref="acf4885e6b2d5fa5418d5fd1a0c46d860" args=")(gpointer)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#acf4885e6b2d5fa5418d5fd1a0c46d860">metatree_interface::div_id</a>)(gpointer)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00028">28</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a87b80fadda4471f348d694e972370042"></a><!-- doxytag: member="metatree_interface::div_list" ref="a87b80fadda4471f348d694e972370042" args=")()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList*(*  <a class="el" href="structmetatree__interface.html#a87b80fadda4471f348d694e972370042">metatree_interface::div_list</a>)()</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00030">30</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afb9d91d292283c5250707d57139e3f60"></a><!-- doxytag: member="metatree_interface::div_name" ref="afb9d91d292283c5250707d57139e3f60" args=")(gint)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar*(*  <a class="el" href="structmetatree__interface.html#afb9d91d292283c5250707d57139e3f60">metatree_interface::div_name</a>)(gint)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00024">24</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac0d8da7081759c07c196ef81f72b7a8b"></a><!-- doxytag: member="metatree_interface::div_nb_transactions" ref="ac0d8da7081759c07c196ef81f72b7a8b" args=")(gint)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#ac0d8da7081759c07c196ef81f72b7a8b">metatree_interface::div_nb_transactions</a>)(gint)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00022">22</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a157c0657918bf598a401ea66b51200f1"></a><!-- doxytag: member="metatree_interface::div_sub_div_list" ref="a157c0657918bf598a401ea66b51200f1" args=")(gint)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList*(*  <a class="el" href="structmetatree__interface.html#a157c0657918bf598a401ea66b51200f1">metatree_interface::div_sub_div_list</a>)(gint)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00031">31</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2292c27893368fbaa395205ec934db4a"></a><!-- doxytag: member="metatree_interface::div_type" ref="a2292c27893368fbaa395205ec934db4a" args=")(gint)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#a2292c27893368fbaa395205ec934db4a">metatree_interface::div_type</a>)(gint)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00032">32</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0d4a70d654cfb14fea7cc84529c9c23c"></a><!-- doxytag: member="metatree_interface::get_div_pointer_from_name" ref="a0d4a70d654cfb14fea7cc84529c9c23c" args=")(const gchar *, gboolean)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#a0d4a70d654cfb14fea7cc84529c9c23c">metatree_interface::get_div_pointer_from_name</a>)(const gchar *, gboolean)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00020">20</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae23faf569f3cb13ce91f640d5bbe88cf"></a><!-- doxytag: member="metatree_interface::get_sub_div_pointer_from_name" ref="ae23faf569f3cb13ce91f640d5bbe88cf" args=")(int, const gchar *, gboolean)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#ae23faf569f3cb13ce91f640d5bbe88cf">metatree_interface::get_sub_div_pointer_from_name</a>)(int, const gchar *, gboolean)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00021">21</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a68d791c4afac5c5972aafe7efcec2a11"></a><!-- doxytag: member="metatree_interface::get_without_div_pointer" ref="a68d791c4afac5c5972aafe7efcec2a11" args=")()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#a68d791c4afac5c5972aafe7efcec2a11">metatree_interface::get_without_div_pointer</a>)()</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00019">19</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0406d4ccfabf7ee063d4482d1365ab69"></a><!-- doxytag: member="metatree_interface::hold_position_set_expand" ref="a0406d4ccfabf7ee063d4482d1365ab69" args=")(gboolean)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean(*  <a class="el" href="structmetatree__interface.html#a0406d4ccfabf7ee063d4482d1365ab69">metatree_interface::hold_position_set_expand</a>)(gboolean)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00056">56</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af323070e902eabe028e842724a292bc7"></a><!-- doxytag: member="metatree_interface::hold_position_set_path" ref="af323070e902eabe028e842724a292bc7" args=")(GtkTreePath *)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean(*  <a class="el" href="structmetatree__interface.html#af323070e902eabe028e842724a292bc7">metatree_interface::hold_position_set_path</a>)(GtkTreePath *)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00055">55</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa9d70406fad4f1aba6e4b601bbb95a89"></a><!-- doxytag: member="metatree_interface::meta_name" ref="aa9d70406fad4f1aba6e4b601bbb95a89" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const gchar* <a class="el" href="structmetatree__interface.html#aa9d70406fad4f1aba6e4b601bbb95a89">metatree_interface::meta_name</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00016">16</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a27b859e6c492a083b99ec6cde1bbfe2e"></a><!-- doxytag: member="metatree_interface::no_div_label" ref="a27b859e6c492a083b99ec6cde1bbfe2e" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const gchar* <a class="el" href="structmetatree__interface.html#a27b859e6c492a083b99ec6cde1bbfe2e">metatree_interface::no_div_label</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00017">17</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a92da245dbce813893cf92f748e662734"></a><!-- doxytag: member="metatree_interface::no_sub_div_label" ref="a92da245dbce813893cf92f748e662734" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const gchar* <a class="el" href="structmetatree__interface.html#a92da245dbce813893cf92f748e662734">metatree_interface::no_sub_div_label</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00018">18</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6a09c3389c0f3b80e23addfdafca27a5"></a><!-- doxytag: member="metatree_interface::remove_div" ref="a6a09c3389c0f3b80e23addfdafca27a5" args=")(int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean(*  <a class="el" href="structmetatree__interface.html#a6a09c3389c0f3b80e23addfdafca27a5">metatree_interface::remove_div</a>)(int)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00047">47</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac69d8fde7f6e5e99923ab2848e9149f6"></a><!-- doxytag: member="metatree_interface::remove_sub_div" ref="ac69d8fde7f6e5e99923ab2848e9149f6" args=")(int, int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean(*  <a class="el" href="structmetatree__interface.html#ac69d8fde7f6e5e99923ab2848e9149f6">metatree_interface::remove_sub_div</a>)(int, int)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00048">48</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab4ed1f3d2bd093b428069f724e605022"></a><!-- doxytag: member="metatree_interface::remove_transaction_from_div" ref="ab4ed1f3d2bd093b428069f724e605022" args=")(int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(*  <a class="el" href="structmetatree__interface.html#ab4ed1f3d2bd093b428069f724e605022">metatree_interface::remove_transaction_from_div</a>)(int)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00051">51</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5cbad2e99f7615d600c16ea4cdb0a478"></a><!-- doxytag: member="metatree_interface::remove_transaction_from_sub_div" ref="a5cbad2e99f7615d600c16ea4cdb0a478" args=")(int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(*  <a class="el" href="structmetatree__interface.html#a5cbad2e99f7615d600c16ea4cdb0a478">metatree_interface::remove_transaction_from_sub_div</a>)(int)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00052">52</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ace90eff6526afed3cfea014df535b1ae"></a><!-- doxytag: member="metatree_interface::scheduled_div_id" ref="ace90eff6526afed3cfea014df535b1ae" args=")(int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#ace90eff6526afed3cfea014df535b1ae">metatree_interface::scheduled_div_id</a>)(int)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00039">39</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afb5a2cdac5c447733597d53024b1f68c"></a><!-- doxytag: member="metatree_interface::scheduled_set_div_id" ref="afb5a2cdac5c447733597d53024b1f68c" args=")(int, int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean(*  <a class="el" href="structmetatree__interface.html#afb5a2cdac5c447733597d53024b1f68c">metatree_interface::scheduled_set_div_id</a>)(int, int)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00041">41</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abe96706f67f980d36cf5e0f13244b9a7"></a><!-- doxytag: member="metatree_interface::scheduled_set_sub_div_id" ref="abe96706f67f980d36cf5e0f13244b9a7" args=")(int, int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean(*  <a class="el" href="structmetatree__interface.html#abe96706f67f980d36cf5e0f13244b9a7">metatree_interface::scheduled_set_sub_div_id</a>)(int, int)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00042">42</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a253410a86799d63980a8da65dbea0255"></a><!-- doxytag: member="metatree_interface::scheduled_sub_div_id" ref="a253410a86799d63980a8da65dbea0255" args=")(int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#a253410a86799d63980a8da65dbea0255">metatree_interface::scheduled_sub_div_id</a>)(int)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00040">40</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1b24651778a74f9eebe4dbd59607f5e2"></a><!-- doxytag: member="metatree_interface::sub_div_balance" ref="a1b24651778a74f9eebe4dbd59607f5e2" args=")(gint, gint)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a>(*  <a class="el" href="structmetatree__interface.html#a1b24651778a74f9eebe4dbd59607f5e2">metatree_interface::sub_div_balance</a>)(gint, gint)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00027">27</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac7971d65e0011bfc0884275d5ff3a0cb"></a><!-- doxytag: member="metatree_interface::sub_div_id" ref="ac7971d65e0011bfc0884275d5ff3a0cb" args=")(gpointer)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#ac7971d65e0011bfc0884275d5ff3a0cb">metatree_interface::sub_div_id</a>)(gpointer)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00029">29</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad5126f6ad091ba08666844a6e082b92c"></a><!-- doxytag: member="metatree_interface::sub_div_name" ref="ad5126f6ad091ba08666844a6e082b92c" args=")(gint, gint)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar*(*  <a class="el" href="structmetatree__interface.html#ad5126f6ad091ba08666844a6e082b92c">metatree_interface::sub_div_name</a>)(gint, gint)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00025">25</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab8ded2fa7527cee822f8210f82ea11a2"></a><!-- doxytag: member="metatree_interface::sub_div_nb_transactions" ref="ab8ded2fa7527cee822f8210f82ea11a2" args=")(gint, gint)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#ab8ded2fa7527cee822f8210f82ea11a2">metatree_interface::sub_div_nb_transactions</a>)(gint,gint)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00023">23</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5cac668f9945ead5b4254c4f80b99266"></a><!-- doxytag: member="metatree_interface::transaction_div_id" ref="a5cac668f9945ead5b4254c4f80b99266" args=")(gint)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#a5cac668f9945ead5b4254c4f80b99266">metatree_interface::transaction_div_id</a>)(gint)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00035">35</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a74107bfb0474039c0dcf8cc27bfbd7b7"></a><!-- doxytag: member="metatree_interface::transaction_set_div_id" ref="a74107bfb0474039c0dcf8cc27bfbd7b7" args=")(gint, int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean(*  <a class="el" href="structmetatree__interface.html#a74107bfb0474039c0dcf8cc27bfbd7b7">metatree_interface::transaction_set_div_id</a>)(gint, int)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00037">37</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a91a0a9e7831c6216261b9d1526b665c4"></a><!-- doxytag: member="metatree_interface::transaction_set_sub_div_id" ref="a91a0a9e7831c6216261b9d1526b665c4" args=")(gint, int)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean(*  <a class="el" href="structmetatree__interface.html#a91a0a9e7831c6216261b9d1526b665c4">metatree_interface::transaction_set_sub_div_id</a>)(gint, int)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00038">38</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a71df7590f3837cc0abcf2ac0c8ef0669"></a><!-- doxytag: member="metatree_interface::transaction_sub_div_id" ref="a71df7590f3837cc0abcf2ac0c8ef0669" args=")(gint)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#a71df7590f3837cc0abcf2ac0c8ef0669">metatree_interface::transaction_sub_div_id</a>)(gint)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00036">36</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7ab40104bf2380d133fb8ea9d6b0dcd1"></a><!-- doxytag: member="metatree_interface::tree_currency" ref="a7ab40104bf2380d133fb8ea9d6b0dcd1" args=")()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint(*  <a class="el" href="structmetatree__interface.html#a7ab40104bf2380d133fb8ea9d6b0dcd1">metatree_interface::tree_currency</a>)()</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="metatree_8h_source.html#l00014">14</a> du fichier <a class="el" href="metatree_8h_source.html">metatree.h</a>.</p>
+
+</div>
+</div>
+<hr/>La documentation de cette structure a été générée à partir du fichier suivant :<ul>
+<li><a class="el" href="metatree_8h_source.html">metatree.h</a></li>
+</ul>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

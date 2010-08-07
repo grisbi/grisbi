@@ -1,0 +1,634 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_data_archive.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_data_archive.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__archive_8h_source.html">gsb_data_archive.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__dates_8h_source.html">utils_dates.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__str_8h_source.html">utils_str.h</a>&quot;</code><br/>
+
+<p><a href="gsb__data__archive_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Structures de données</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstruct__archive.html">struct_archive</a></td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#a1167784bcdd0ebef214194f217a6db7e">gsb_data_archive_init_variables</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#a7d5b3a8b5e99a9bbe14f526ab3d1936b">gsb_data_archive_get_archives_list</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#a4d89b738aff63b952bd74a74c9e4bdff">gsb_data_archive_get_no_archive</a> (gpointer archive_ptr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#af867698152bb736c36b4d02ec8a5b173">gsb_data_archive_new</a> (const gchar *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#a29c34a3d5e63dd56c7120e8ac464b204">gsb_data_archive_remove</a> (gint archive_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#a85712d057b32e6e854932bc6d9d30b73">gsb_data_archive_set_new_number</a> (gint archive_number, gint new_no_archive)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#ab61c1a7e1814ae6b8d5fd6f54db3606b">gsb_data_archive_get_name</a> (gint archive_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#abfc44c529725db841973582c3cf438ed">gsb_data_archive_set_name</a> (gint archive_number, const gchar *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GDate *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#afc0ef716ad2bcd7b9805571c6bcdc04d">gsb_data_archive_get_beginning_date</a> (gint archive_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#ad79c38199834ae790c8534d7addc6b9c">gsb_data_archive_set_beginning_date</a> (gint archive_number, const GDate *date)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GDate *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#acd3d52c042e9c6d8d3a42cd55c69cdd2">gsb_data_archive_get_end_date</a> (gint archive_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#a3a502c684a99f9d9d431c7a7a1ba8ce2">gsb_data_archive_set_end_date</a> (gint archive_number, const GDate *date)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#a7155599a42559d8b97aa24f6c89c3684">gsb_data_archive_get_fyear</a> (gint archive_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#ae4edb9d1b45b34750d48ba8405db21bf">gsb_data_archive_set_fyear</a> (gint archive_number, gint fyear_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#a3d8b5fb39ae27430a4ef69a8de23c016">gsb_data_archive_get_report_title</a> (gint archive_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#a29cea4dae2fb32483efd7bc480d07d4d">gsb_data_archive_set_report_title</a> (gint archive_number, const gchar *report_title)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#ad4fa84d9de6ee591fbe1d3e3bf42e22f">gsb_data_archive_get_from_date</a> (const GDate *date)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__archive_8c.html#a75a79145c15deb4977a71e7c5ee6db47">gsb_data_archive_get_from_fyear</a> (gint fyear_number)</td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>work with the archive structure, no GUI here</p>
+<p>work with the archive store structure, no GUI here the archive store are used to show the archive in the list of transactions as an archive by itself contains several accounts and no balance for each account at the opening of grisbi, we create an intermediate list of structures wich contains the link to the archive, but 1 structure per account, with the number of transactions and the balance for each. </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a7d5b3a8b5e99a9bbe14f526ab3d1936b"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_get_archives_list" ref="a7d5b3a8b5e99a9bbe14f526ab3d1936b" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* gsb_data_archive_get_archives_list </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>give the g_slist of archives structure usefull when want to check all archives</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>none</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the g_slist of archives structure </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00158">158</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afc0ef716ad2bcd7b9805571c6bcdc04d"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_get_beginning_date" ref="afc0ef716ad2bcd7b9805571c6bcdc04d" args="(gint archive_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GDate* gsb_data_archive_get_beginning_date </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the beginning date of the archive</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the number of the archive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the beginning date of the archive or NULL if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00387">387</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acd3d52c042e9c6d8d3a42cd55c69cdd2"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_get_end_date" ref="acd3d52c042e9c6d8d3a42cd55c69cdd2" args="(gint archive_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GDate* gsb_data_archive_get_end_date </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the end date of the archive</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the number of the archive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the end date of the archive or NULL if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00437">437</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad4fa84d9de6ee591fbe1d3e3bf42e22f"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_get_from_date" ref="ad4fa84d9de6ee591fbe1d3e3bf42e22f" args="(const GDate *date)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_archive_get_from_date </td>
+          <td>(</td>
+          <td class="paramtype">const GDate *&nbsp;</td>
+          <td class="paramname"> <em>date</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the archive corresponding to the given date if there is more than 1 archive corresponding to that date, return -1</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>date</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of archive, 0 if none on that date, -1 if more than 1 on that date </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00579">579</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a75a79145c15deb4977a71e7c5ee6db47"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_get_from_fyear" ref="a75a79145c15deb4977a71e7c5ee6db47" args="(gint fyear_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_archive_get_from_fyear </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>fyear_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get the archive corresponding to the given financial year</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>fyear_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of archive, 0 if none </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00622">622</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7155599a42559d8b97aa24f6c89c3684"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_get_fyear" ref="a7155599a42559d8b97aa24f6c89c3684" args="(gint archive_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_archive_get_fyear </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the fyear of the archive</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the number of the archive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the fyear of the archive or 0 if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00486">486</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab61c1a7e1814ae6b8d5fd6f54db3606b"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_get_name" ref="ab61c1a7e1814ae6b8d5fd6f54db3606b" args="(gint archive_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const gchar* gsb_data_archive_get_name </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the name of the archive</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the number of the archive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the name of the archive or NULL if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00336">336</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4d89b738aff63b952bd74a74c9e4bdff"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_get_no_archive" ref="a4d89b738aff63b952bd74a74c9e4bdff" args="(gpointer archive_ptr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_archive_get_no_archive </td>
+          <td>(</td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>archive_ptr</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the number of the archives given in param</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_ptr</em>&nbsp;</td><td>a pointer to the struct of the archive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of the archive, 0 if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00170">170</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d8b5fb39ae27430a4ef69a8de23c016"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_get_report_title" ref="a3d8b5fb39ae27430a4ef69a8de23c016" args="(gint archive_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const gchar* gsb_data_archive_get_report_title </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the report creation of the archive</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the number of the archive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the report_title or NULL </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00530">530</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1167784bcdd0ebef214194f217a6db7e"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_init_variables" ref="a1167784bcdd0ebef214194f217a6db7e" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_archive_init_variables </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the archives global variables to NULL, usually when we init all the global variables</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00088">88</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af867698152bb736c36b4d02ec8a5b173"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_new" ref="af867698152bb736c36b4d02ec8a5b173" args="(const gchar *name)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_archive_new </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>name</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a new archive, give him a number, append it to the list and return the number</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>the name of the archive (can be freed after, it's a copy) or NULL</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of the new archive </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00220">220</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a29c34a3d5e63dd56c7120e8ac464b204"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_remove" ref="a29c34a3d5e63dd56c7120e8ac464b204" args="(gint archive_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_archive_remove </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>remove an archive remove too the archive from the transactions linked to it</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the archive we want to remove</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00271">271</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad79c38199834ae790c8534d7addc6b9c"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_set_beginning_date" ref="ad79c38199834ae790c8534d7addc6b9c" args="(gint archive_number, const GDate *date)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_archive_set_beginning_date </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const GDate *&nbsp;</td>
+          <td class="paramname"> <em>date</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the beginning date of the archive the value is dupplicate in memory</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the number of the archive </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>date</em>&nbsp;</td><td>the beginning date of the archive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00409">409</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3a502c684a99f9d9d431c7a7a1ba8ce2"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_set_end_date" ref="a3a502c684a99f9d9d431c7a7a1ba8ce2" args="(gint archive_number, const GDate *date)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_archive_set_end_date </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const GDate *&nbsp;</td>
+          <td class="paramname"> <em>date</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the end date of the archive the value is dupplicate in memory</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the number of the archive </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>date</em>&nbsp;</td><td>the end date of the archive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00459">459</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae4edb9d1b45b34750d48ba8405db21bf"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_set_fyear" ref="ae4edb9d1b45b34750d48ba8405db21bf" args="(gint archive_number, gint fyear_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_archive_set_fyear </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>fyear_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the fyear of the archive</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the number of the archive </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>fyear_number</em>&nbsp;</td><td>the fyear of the archive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00507">507</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abfc44c529725db841973582c3cf438ed"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_set_name" ref="abfc44c529725db841973582c3cf438ed" args="(gint archive_number, const gchar *name)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_archive_set_name </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>name</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the name of the archive the value is dupplicate in memory</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the number of the archive </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>the name of the archive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00358">358</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a85712d057b32e6e854932bc6d9d30b73"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_set_new_number" ref="a85712d057b32e6e854932bc6d9d30b73" args="(gint archive_number, gint new_no_archive)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_archive_set_new_number </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>new_no_archive</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set a new number for the archive normally used only while loading the file because the number are given automaticly</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the number of the archive </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>new_no_archive</em>&nbsp;</td><td>the new number of the archive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the new number or 0 if the archive doen't exist </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00314">314</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a29cea4dae2fb32483efd7bc480d07d4d"></a><!-- doxytag: member="gsb_data_archive.c::gsb_data_archive_set_report_title" ref="a29cea4dae2fb32483efd7bc480d07d4d" args="(gint archive_number, const gchar *report_title)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_archive_set_report_title </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>archive_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>report_title</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the report_title value,</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>archive_number</em>&nbsp;</td><td>the number of the archive </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>report_title</em>&nbsp;</td><td>the title to set if created by a report</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__archive_8c_source.html#l00551">551</a> du fichier <a class="el" href="gsb__data__archive_8c_source.html">gsb_data_archive.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

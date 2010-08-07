@@ -1,0 +1,44 @@
+\section{Référence du fichier export\_\-csv.h}
+\label{export__csv_8h}\index{export\_\-csv.h@{export\_\-csv.h}}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-csv\_\-export\_\-account} (const gchar $\ast$filename, gint account\_\-nb)
+\begin{DoxyCompactList}\small\item\em export all account from the provided list in a csv file per account. \item\end{DoxyCompactList}\item 
+gboolean {\bf gsb\_\-csv\_\-export\_\-archive} (const gchar $\ast$filename, gint archive\_\-number)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{export\_\-csv.h@{export\_\-csv.h}!gsb\_\-csv\_\-export\_\-account@{gsb\_\-csv\_\-export\_\-account}}
+\index{gsb\_\-csv\_\-export\_\-account@{gsb\_\-csv\_\-export\_\-account}!export_csv.h@{export\_\-csv.h}}
+\subsubsection[{gsb\_\-csv\_\-export\_\-account}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-csv\_\-export\_\-account (const gchar $\ast$ {\em filename}, \/  gint {\em account\_\-nb})}\label{export__csv_8h_abdc7bb25c030ea9a260d4bf9f67e36c9}
+
+
+export all account from the provided list in a csv file per account. 
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em export\_\-entries\_\-list}]list of selected account. export an account into a csv file\item[{\em filename}]\item[{\em account\_\-nb}]the account to export\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE if ok, FALSE if problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 261 du fichier export\_\-csv.c.
+
+\index{export\_\-csv.h@{export\_\-csv.h}!gsb\_\-csv\_\-export\_\-archive@{gsb\_\-csv\_\-export\_\-archive}}
+\index{gsb\_\-csv\_\-export\_\-archive@{gsb\_\-csv\_\-export\_\-archive}!export_csv.h@{export\_\-csv.h}}
+\subsubsection[{gsb\_\-csv\_\-export\_\-archive}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-csv\_\-export\_\-archive (const gchar $\ast$ {\em filename}, \/  gint {\em archive\_\-number})}\label{export__csv_8h_a96e088f5208d8fcd8dae087fdc9f5028}
+export an archive into the csv format
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em filename}]name of the csv file \item[{\em archive\_\-number}]the archive to export\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+TRUE ok, FALSE problem 
+\end{DoxyReturn}
+
+
+Définition à la ligne 345 du fichier export\_\-csv.c.
+

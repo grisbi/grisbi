@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence de la structure exported_account</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li><a href="classes.html"><span>Index&nbsp;des&nbsp;structures&nbsp;de&nbsp;données</span></a></li>
+      <li><a href="functions.html"><span>Champs&nbsp;de&nbsp;donnée</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence de la structure exported_account</h1><!-- doxytag: class="exported_account" -->
+<p><code>#include &lt;<a class="el" href="export_8h_source.html">export.h</a>&gt;</code></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Types publics</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structexported__account.html#a226bd49d6fafaa77a45581dc085c6b0f">exported_format</a> { <a class="el" href="structexported__account.html#a226bd49d6fafaa77a45581dc085c6b0fad26948249f3b07b87e049db6c69c3bcc">EXPORT_QIF</a>, 
+<a class="el" href="structexported__account.html#a226bd49d6fafaa77a45581dc085c6b0fa4a9ca4ff8217a2a37b7208f96402da32">EXPORT_CSV</a>
+ }</td></tr>
+<tr><td colspan="2"><h2>Champs de données</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structexported__account.html#ac3432f073ad78bbc31ecaa15a2b6e358">account_nb</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum <br class="typebreak"/>
+<a class="el" href="structexported__account.html#a226bd49d6fafaa77a45581dc085c6b0f">exported_account::exported_format</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structexported__account.html#a77fd0833e50e85469cc0d90e967a7889">format</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structexported__account.html#a27b7a0e50f6b9bb0345ddb0ae7d5c701">filename</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structexported__account.html#ae7d68fd01cbbfd8a1adaec55bd1c8ddc">chooser</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>Structure used to hold exported account information. </p>
+
+<p>Définition à la ligne <a class="el" href="export_8h_source.html#l00009">9</a> du fichier <a class="el" href="export_8h_source.html">export.h</a>.</p>
+<hr/><h2>Documentation des énumérations membres</h2>
+<a class="anchor" id="a226bd49d6fafaa77a45581dc085c6b0f"></a><!-- doxytag: member="exported_account::exported_format" ref="a226bd49d6fafaa77a45581dc085c6b0f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="structexported__account.html#a226bd49d6fafaa77a45581dc085c6b0f">exported_account::exported_format</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Account number, to use with gsb_data_account_get...() functions </p>
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a226bd49d6fafaa77a45581dc085c6b0fad26948249f3b07b87e049db6c69c3bcc"></a><!-- doxytag: member="EXPORT_QIF" ref="a226bd49d6fafaa77a45581dc085c6b0fad26948249f3b07b87e049db6c69c3bcc" args="" -->EXPORT_QIF</em>&nbsp;</td><td>
+<p>Export format. </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a226bd49d6fafaa77a45581dc085c6b0fa4a9ca4ff8217a2a37b7208f96402da32"></a><!-- doxytag: member="EXPORT_CSV" ref="a226bd49d6fafaa77a45581dc085c6b0fa4a9ca4ff8217a2a37b7208f96402da32" args="" -->EXPORT_CSV</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="export_8h_source.html#l00012">12</a> du fichier <a class="el" href="export_8h_source.html">export.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des champs</h2>
+<a class="anchor" id="ac3432f073ad78bbc31ecaa15a2b6e358"></a><!-- doxytag: member="exported_account::account_nb" ref="ac3432f073ad78bbc31ecaa15a2b6e358" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="structexported__account.html#ac3432f073ad78bbc31ecaa15a2b6e358">exported_account::account_nb</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="export_8h_source.html#l00010">10</a> du fichier <a class="el" href="export_8h_source.html">export.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae7d68fd01cbbfd8a1adaec55bd1c8ddc"></a><!-- doxytag: member="exported_account::chooser" ref="ae7d68fd01cbbfd8a1adaec55bd1c8ddc" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="structexported__account.html#ae7d68fd01cbbfd8a1adaec55bd1c8ddc">exported_account::chooser</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Filename to export into. </p>
+
+<p>Définition à la ligne <a class="el" href="export_8h_source.html#l00017">17</a> du fichier <a class="el" href="export_8h_source.html">export.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a27b7a0e50f6b9bb0345ddb0ae7d5c701"></a><!-- doxytag: member="exported_account::filename" ref="a27b7a0e50f6b9bb0345ddb0ae7d5c701" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* <a class="el" href="structexported__account.html#a27b7a0e50f6b9bb0345ddb0ae7d5c701">exported_account::filename</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="export_8h_source.html#l00016">16</a> du fichier <a class="el" href="export_8h_source.html">export.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a77fd0833e50e85469cc0d90e967a7889"></a><!-- doxytag: member="exported_account::format" ref="a77fd0833e50e85469cc0d90e967a7889" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="structexported__account.html#a226bd49d6fafaa77a45581dc085c6b0f">exported_account::exported_format</a>  <a class="el" href="structexported__account.html#a77fd0833e50e85469cc0d90e967a7889">exported_account::format</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Account number, to use with gsb_data_account_get...() functions </p>
+
+</div>
+</div>
+<hr/>La documentation de cette structure a été générée à partir du fichier suivant :<ul>
+<li><a class="el" href="export_8h_source.html">export.h</a></li>
+</ul>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

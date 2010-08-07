@@ -1,0 +1,497 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier custom_list.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier custom_list.h</h1>
+<p><a href="custom__list_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Structures de données</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__CustomRecord.html">_CustomRecord</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__CustomList.html">_CustomList</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__CustomListClass.html">_CustomListClass</a></td></tr>
+<tr><td colspan="2"><h2>Macros</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#acf7860ec805007982ac2173ae5075384">CUSTOM_TYPE_LIST</a>&nbsp;&nbsp;&nbsp;(custom_list_get_type ())</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#a593f79cbaa113cc9bf06ca84901e100f">CUSTOM_LIST</a>(obj)&nbsp;&nbsp;&nbsp;(G_TYPE_CHECK_INSTANCE_CAST ((obj), CUSTOM_TYPE_LIST, <a class="el" href="struct__CustomList.html">CustomList</a>))</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#a063dc052cfd76fad0e8fd5fd68ec60ff">CUSTOM_LIST_CLASS</a>(klass)&nbsp;&nbsp;&nbsp;(G_TYPE_CHECK_CLASS_CAST ((klass),  CUSTOM_TYPE_LIST, <a class="el" href="struct__CustomListClass.html">CustomListClass</a>))</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#a3a20caec4b867838cad01cece656424a">CUSTOM_IS_LIST</a>(obj)&nbsp;&nbsp;&nbsp;(G_TYPE_CHECK_INSTANCE_TYPE ((obj), CUSTOM_TYPE_LIST))</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#ad7a201e2a9ceb72db2963c2667f22e67">CUSTOM_IS_LIST_CLASS</a>(klass)&nbsp;&nbsp;&nbsp;(G_TYPE_CHECK_CLASS_TYPE ((klass),  CUSTOM_TYPE_LIST))</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#ac18b30ae5927be9dc50b8d880e58ca92">CUSTOM_LIST_GET_CLASS</a>(obj)&nbsp;&nbsp;&nbsp;(G_TYPE_INSTANCE_GET_CLASS ((obj),  CUSTOM_TYPE_LIST, <a class="el" href="struct__CustomListClass.html">CustomListClass</a>))</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#a94bc00a237b4803e1096242436b77bcf">CUSTOM_MODEL_VISIBLE_COLUMNS</a>&nbsp;&nbsp;&nbsp;7</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#a738de041650943c6854c2fa523b2e2e5">TRANSACTION_LIST_ROWS_NB</a>&nbsp;&nbsp;&nbsp;4</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#a6845cc455dccec2a61535b0faa09414d">IS_TRANSACTION</a>&nbsp;&nbsp;&nbsp;0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#a0caea412748bef9b8222da212aaa0069">IS_ARCHIVE</a>&nbsp;&nbsp;&nbsp;1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#a5120df6c303afc3c01e77218f39b80b5">CUSTOM_MODEL_N_VISIBLES_COLUMN</a>&nbsp;&nbsp;&nbsp;7</td></tr>
+<tr><td colspan="2"><h2>Définition de type</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct__CustomRecord.html">_CustomRecord</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#a7a58d939ac57dbe87b707a8c89d4400b">CustomRecord</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct__CustomList.html">_CustomList</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#a8dfc5fdcc111d2377407cb0f0152b28d">CustomList</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct__CustomListClass.html">_CustomListClass</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#a38c44de5f526966a9e94913114c7c74f">CustomListClass</a></td></tr>
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom">{ <br/>
+&nbsp;&nbsp;<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba814f49c3fc531956c7d01f9da8d4a960">CUSTOM_MODEL_COL_0</a> =  0, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba733e087cf0a4f20063e866e5caef9947">CUSTOM_MODEL_COL_1</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba88b547dd8c2ed9955f2fc15ffaddf77b">CUSTOM_MODEL_COL_2</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bafb1cab466e2ec74739e45fb3063656ba">CUSTOM_MODEL_COL_3</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bae24d6b83c76a2a80e03b75b511c337f2">CUSTOM_MODEL_COL_4</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba61fe3dfa1de31f02d354b1b061d25b03">CUSTOM_MODEL_COL_5</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba1bcafb22d3b7f38cc03ffd6d67eecd79">CUSTOM_MODEL_COL_6</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55baaeb0154012fa2239dd4a640838a0b926">CUSTOM_MODEL_BACKGROUND</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba7d0d9c896b69815c5ccfc2965d5d96be">CUSTOM_MODEL_SAVE_BACKGROUND</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bacdd498414fddfaf9ccf2fc84cf3f06f8">CUSTOM_MODEL_AMOUNT_COLOR</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba6e2495ec36c3196595fd39b300480eb6">CUSTOM_MODEL_TEXT_COLOR</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba3e7ba59a4063e09dc7bbffdc48a353f6">CUSTOM_MODEL_TRANSACTION_ADDRESS</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba0e1303b078e3aed4993a79f04757049d">CUSTOM_MODEL_WHAT_IS_LINE</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba8d29d48666a4bca641ba8b0b65502703">CUSTOM_MODEL_FONT</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bafd59f664816369fe6dedc31ef6e38779">CUSTOM_MODEL_TRANSACTION_LINE</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba2f791b4d1252fe72890c25436197d01c">CUSTOM_MODEL_VISIBLE</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba854287c59bb8bd04d517380095eae44b">CUSTOM_MODEL_CHECKBOX_VISIBLE</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba26126a837f2bc53047c59d56d1e1853d">CUSTOM_MODEL_CHECKBOX_VISIBLE_RECONCILE</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55bac7a27e484ff94d8f9b4a2d42d24b2360">CUSTOM_MODEL_CHECKBOX_ACTIVE</a>, 
+<a class="el" href="custom__list_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba21364a6be11dce64147f8b64315a02c8">CUSTOM_MODEL_N_COLUMNS</a>
+<br/>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GType&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#adeb9a6aec026a0fbbe6a22a1c7c13ece">custom_list_get_type</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct__CustomList.html">CustomList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#af2283d90d622138e25ad463bfd0c8557">custom_list_new</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="custom__list_8h.html#a328dd87cc6168f5d518078168fe046c3">custom_list_set_value</a> (GtkTreeModel *tree_model, GtkTreeIter *iter, gint column, GValue *value)</td></tr>
+</table>
+<hr/><h2>Documentation des macros</h2>
+<a class="anchor" id="a3a20caec4b867838cad01cece656424a"></a><!-- doxytag: member="custom_list.h::CUSTOM_IS_LIST" ref="a3a20caec4b867838cad01cece656424a" args="(obj)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CUSTOM_IS_LIST</td>
+          <td>(</td>
+          <td class="paramtype">obj&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;(G_TYPE_CHECK_INSTANCE_TYPE ((obj), CUSTOM_TYPE_LIST))</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00007">7</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad7a201e2a9ceb72db2963c2667f22e67"></a><!-- doxytag: member="custom_list.h::CUSTOM_IS_LIST_CLASS" ref="ad7a201e2a9ceb72db2963c2667f22e67" args="(klass)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CUSTOM_IS_LIST_CLASS</td>
+          <td>(</td>
+          <td class="paramtype">klass&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;(G_TYPE_CHECK_CLASS_TYPE ((klass),  CUSTOM_TYPE_LIST))</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00008">8</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a593f79cbaa113cc9bf06ca84901e100f"></a><!-- doxytag: member="custom_list.h::CUSTOM_LIST" ref="a593f79cbaa113cc9bf06ca84901e100f" args="(obj)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CUSTOM_LIST</td>
+          <td>(</td>
+          <td class="paramtype">obj&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;(G_TYPE_CHECK_INSTANCE_CAST ((obj), CUSTOM_TYPE_LIST, <a class="el" href="struct__CustomList.html">CustomList</a>))</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00005">5</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a063dc052cfd76fad0e8fd5fd68ec60ff"></a><!-- doxytag: member="custom_list.h::CUSTOM_LIST_CLASS" ref="a063dc052cfd76fad0e8fd5fd68ec60ff" args="(klass)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CUSTOM_LIST_CLASS</td>
+          <td>(</td>
+          <td class="paramtype">klass&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;(G_TYPE_CHECK_CLASS_CAST ((klass),  CUSTOM_TYPE_LIST, <a class="el" href="struct__CustomListClass.html">CustomListClass</a>))</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00006">6</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac18b30ae5927be9dc50b8d880e58ca92"></a><!-- doxytag: member="custom_list.h::CUSTOM_LIST_GET_CLASS" ref="ac18b30ae5927be9dc50b8d880e58ca92" args="(obj)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CUSTOM_LIST_GET_CLASS</td>
+          <td>(</td>
+          <td class="paramtype">obj&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;(G_TYPE_INSTANCE_GET_CLASS ((obj),  CUSTOM_TYPE_LIST, <a class="el" href="struct__CustomListClass.html">CustomListClass</a>))</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00009">9</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5120df6c303afc3c01e77218f39b80b5"></a><!-- doxytag: member="custom_list.h::CUSTOM_MODEL_N_VISIBLES_COLUMN" ref="a5120df6c303afc3c01e77218f39b80b5" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CUSTOM_MODEL_N_VISIBLES_COLUMN&nbsp;&nbsp;&nbsp;7</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00056">56</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a94bc00a237b4803e1096242436b77bcf"></a><!-- doxytag: member="custom_list.h::CUSTOM_MODEL_VISIBLE_COLUMNS" ref="a94bc00a237b4803e1096242436b77bcf" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CUSTOM_MODEL_VISIBLE_COLUMNS&nbsp;&nbsp;&nbsp;7</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00041">41</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acf7860ec805007982ac2173ae5075384"></a><!-- doxytag: member="custom_list.h::CUSTOM_TYPE_LIST" ref="acf7860ec805007982ac2173ae5075384" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CUSTOM_TYPE_LIST&nbsp;&nbsp;&nbsp;(custom_list_get_type ())</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00004">4</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0caea412748bef9b8222da212aaa0069"></a><!-- doxytag: member="custom_list.h::IS_ARCHIVE" ref="a0caea412748bef9b8222da212aaa0069" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IS_ARCHIVE&nbsp;&nbsp;&nbsp;1</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00048">48</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6845cc455dccec2a61535b0faa09414d"></a><!-- doxytag: member="custom_list.h::IS_TRANSACTION" ref="a6845cc455dccec2a61535b0faa09414d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define IS_TRANSACTION&nbsp;&nbsp;&nbsp;0</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00047">47</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a738de041650943c6854c2fa523b2e2e5"></a><!-- doxytag: member="custom_list.h::TRANSACTION_LIST_ROWS_NB" ref="a738de041650943c6854c2fa523b2e2e5" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TRANSACTION_LIST_ROWS_NB&nbsp;&nbsp;&nbsp;4</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00044">44</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des définitions de type</h2>
+<a class="anchor" id="a8dfc5fdcc111d2377407cb0f0152b28d"></a><!-- doxytag: member="custom_list.h::CustomList" ref="a8dfc5fdcc111d2377407cb0f0152b28d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct__CustomList.html">_CustomList</a> <a class="el" href="struct__CustomList.html">CustomList</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00052">52</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a38c44de5f526966a9e94913114c7c74f"></a><!-- doxytag: member="custom_list.h::CustomListClass" ref="a38c44de5f526966a9e94913114c7c74f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct__CustomListClass.html">_CustomListClass</a> <a class="el" href="struct__CustomListClass.html">CustomListClass</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00053">53</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7a58d939ac57dbe87b707a8c89d4400b"></a><!-- doxytag: member="custom_list.h::CustomRecord" ref="a7a58d939ac57dbe87b707a8c89d4400b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct__CustomRecord.html">_CustomRecord</a> <a class="el" href="struct__CustomRecord.html">CustomRecord</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00051">51</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55b"></a><!-- doxytag: member="custom_list.h::@0" ref="a06fc87d81c62e9abb8790b6e5713c55b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba814f49c3fc531956c7d01f9da8d4a960"></a><!-- doxytag: member="CUSTOM_MODEL_COL_0" ref="a06fc87d81c62e9abb8790b6e5713c55ba814f49c3fc531956c7d01f9da8d4a960" args="" -->CUSTOM_MODEL_COL_0</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba733e087cf0a4f20063e866e5caef9947"></a><!-- doxytag: member="CUSTOM_MODEL_COL_1" ref="a06fc87d81c62e9abb8790b6e5713c55ba733e087cf0a4f20063e866e5caef9947" args="" -->CUSTOM_MODEL_COL_1</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba88b547dd8c2ed9955f2fc15ffaddf77b"></a><!-- doxytag: member="CUSTOM_MODEL_COL_2" ref="a06fc87d81c62e9abb8790b6e5713c55ba88b547dd8c2ed9955f2fc15ffaddf77b" args="" -->CUSTOM_MODEL_COL_2</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55bafb1cab466e2ec74739e45fb3063656ba"></a><!-- doxytag: member="CUSTOM_MODEL_COL_3" ref="a06fc87d81c62e9abb8790b6e5713c55bafb1cab466e2ec74739e45fb3063656ba" args="" -->CUSTOM_MODEL_COL_3</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55bae24d6b83c76a2a80e03b75b511c337f2"></a><!-- doxytag: member="CUSTOM_MODEL_COL_4" ref="a06fc87d81c62e9abb8790b6e5713c55bae24d6b83c76a2a80e03b75b511c337f2" args="" -->CUSTOM_MODEL_COL_4</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba61fe3dfa1de31f02d354b1b061d25b03"></a><!-- doxytag: member="CUSTOM_MODEL_COL_5" ref="a06fc87d81c62e9abb8790b6e5713c55ba61fe3dfa1de31f02d354b1b061d25b03" args="" -->CUSTOM_MODEL_COL_5</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba1bcafb22d3b7f38cc03ffd6d67eecd79"></a><!-- doxytag: member="CUSTOM_MODEL_COL_6" ref="a06fc87d81c62e9abb8790b6e5713c55ba1bcafb22d3b7f38cc03ffd6d67eecd79" args="" -->CUSTOM_MODEL_COL_6</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55baaeb0154012fa2239dd4a640838a0b926"></a><!-- doxytag: member="CUSTOM_MODEL_BACKGROUND" ref="a06fc87d81c62e9abb8790b6e5713c55baaeb0154012fa2239dd4a640838a0b926" args="" -->CUSTOM_MODEL_BACKGROUND</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba7d0d9c896b69815c5ccfc2965d5d96be"></a><!-- doxytag: member="CUSTOM_MODEL_SAVE_BACKGROUND" ref="a06fc87d81c62e9abb8790b6e5713c55ba7d0d9c896b69815c5ccfc2965d5d96be" args="" -->CUSTOM_MODEL_SAVE_BACKGROUND</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55bacdd498414fddfaf9ccf2fc84cf3f06f8"></a><!-- doxytag: member="CUSTOM_MODEL_AMOUNT_COLOR" ref="a06fc87d81c62e9abb8790b6e5713c55bacdd498414fddfaf9ccf2fc84cf3f06f8" args="" -->CUSTOM_MODEL_AMOUNT_COLOR</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba6e2495ec36c3196595fd39b300480eb6"></a><!-- doxytag: member="CUSTOM_MODEL_TEXT_COLOR" ref="a06fc87d81c62e9abb8790b6e5713c55ba6e2495ec36c3196595fd39b300480eb6" args="" -->CUSTOM_MODEL_TEXT_COLOR</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba3e7ba59a4063e09dc7bbffdc48a353f6"></a><!-- doxytag: member="CUSTOM_MODEL_TRANSACTION_ADDRESS" ref="a06fc87d81c62e9abb8790b6e5713c55ba3e7ba59a4063e09dc7bbffdc48a353f6" args="" -->CUSTOM_MODEL_TRANSACTION_ADDRESS</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba0e1303b078e3aed4993a79f04757049d"></a><!-- doxytag: member="CUSTOM_MODEL_WHAT_IS_LINE" ref="a06fc87d81c62e9abb8790b6e5713c55ba0e1303b078e3aed4993a79f04757049d" args="" -->CUSTOM_MODEL_WHAT_IS_LINE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba8d29d48666a4bca641ba8b0b65502703"></a><!-- doxytag: member="CUSTOM_MODEL_FONT" ref="a06fc87d81c62e9abb8790b6e5713c55ba8d29d48666a4bca641ba8b0b65502703" args="" -->CUSTOM_MODEL_FONT</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55bafd59f664816369fe6dedc31ef6e38779"></a><!-- doxytag: member="CUSTOM_MODEL_TRANSACTION_LINE" ref="a06fc87d81c62e9abb8790b6e5713c55bafd59f664816369fe6dedc31ef6e38779" args="" -->CUSTOM_MODEL_TRANSACTION_LINE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba2f791b4d1252fe72890c25436197d01c"></a><!-- doxytag: member="CUSTOM_MODEL_VISIBLE" ref="a06fc87d81c62e9abb8790b6e5713c55ba2f791b4d1252fe72890c25436197d01c" args="" -->CUSTOM_MODEL_VISIBLE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba854287c59bb8bd04d517380095eae44b"></a><!-- doxytag: member="CUSTOM_MODEL_CHECKBOX_VISIBLE" ref="a06fc87d81c62e9abb8790b6e5713c55ba854287c59bb8bd04d517380095eae44b" args="" -->CUSTOM_MODEL_CHECKBOX_VISIBLE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba26126a837f2bc53047c59d56d1e1853d"></a><!-- doxytag: member="CUSTOM_MODEL_CHECKBOX_VISIBLE_RECONCILE" ref="a06fc87d81c62e9abb8790b6e5713c55ba26126a837f2bc53047c59d56d1e1853d" args="" -->CUSTOM_MODEL_CHECKBOX_VISIBLE_RECONCILE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55bac7a27e484ff94d8f9b4a2d42d24b2360"></a><!-- doxytag: member="CUSTOM_MODEL_CHECKBOX_ACTIVE" ref="a06fc87d81c62e9abb8790b6e5713c55bac7a27e484ff94d8f9b4a2d42d24b2360" args="" -->CUSTOM_MODEL_CHECKBOX_ACTIVE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a06fc87d81c62e9abb8790b6e5713c55ba21364a6be11dce64147f8b64315a02c8"></a><!-- doxytag: member="CUSTOM_MODEL_N_COLUMNS" ref="a06fc87d81c62e9abb8790b6e5713c55ba21364a6be11dce64147f8b64315a02c8" args="" -->CUSTOM_MODEL_N_COLUMNS</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="custom__list_8h_source.html#l00012">12</a> du fichier <a class="el" href="custom__list_8h_source.html">custom_list.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="adeb9a6aec026a0fbbe6a22a1c7c13ece"></a><!-- doxytag: member="custom_list.h::custom_list_get_type" ref="adeb9a6aec026a0fbbe6a22a1c7c13ece" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GType custom_list_get_type </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>we register our new type and its interfaces with the type system. extern is necessary for mk_include to set that function in <a class="el" href="custom__list_8h.html">custom_list.h</a></p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>Gtype </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="custom__list_8c_source.html#l00150">150</a> du fichier <a class="el" href="custom__list_8c_source.html">custom_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af2283d90d622138e25ad463bfd0c8557"></a><!-- doxytag: member="custom_list.h::custom_list_new" ref="af2283d90d622138e25ad463bfd0c8557" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct__CustomList.html">CustomList</a>* custom_list_new </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create the new custom list add automatically the white line</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the new CustomList tree model </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="custom__list_8c_source.html#l00096">96</a> du fichier <a class="el" href="custom__list_8c_source.html">custom_list.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a328dd87cc6168f5d518078168fe046c3"></a><!-- doxytag: member="custom_list.h::custom_list_set_value" ref="a328dd87cc6168f5d518078168fe046c3" args="(GtkTreeModel *tree_model, GtkTreeIter *iter, gint column, GValue *value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void custom_list_set_value </td>
+          <td>(</td>
+          <td class="paramtype">GtkTreeModel *&nbsp;</td>
+          <td class="paramname"> <em>tree_model</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkTreeIter *&nbsp;</td>
+          <td class="paramname"> <em>iter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>column</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GValue *&nbsp;</td>
+          <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Sets the data in the cell specified by iter and column. The type of value must be convertible to the type of the column. this function doesn't check the type of the value, it's done already in transaction_list_update_column so the type must be the good one (todo if we begin to call that function directly)</p>
+<p>shouldn't be called to set a string in the visibles columns, should use transaction_list_update_element instead</p>
+<p>reached by gtk_tree_model_get_value</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>tree_model</em>&nbsp;</td><td>the CustomList </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>iter</em>&nbsp;</td><td>iter of the row of the value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>column</em>&nbsp;</td><td>column of the value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td>value to fill</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="custom__list_8c_source.html#l00564">564</a> du fichier <a class="el" href="custom__list_8c_source.html">custom_list.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

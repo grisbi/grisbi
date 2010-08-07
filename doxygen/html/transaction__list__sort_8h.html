@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier transaction_list_sort.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier transaction_list_sort.h</h1>
+<p><a href="transaction__list__sort_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list__sort_8h.html#a4437cb573f9bba01a794b2e2695e58d4">transaction_list_sort</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list__sort_8h.html#ae3160f04fcf15af961324f65b9759799">transaction_list_sort_get_column</a> (gint *sort_col, GtkSortType *sort_order)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list__sort_8h.html#a436b2ef3d8acb82f320e2b9fe2e6c8c6">transaction_list_sort_get_reconcile_sort</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list__sort_8h.html#ad124c81fa4121869ac23b1e67a96a9d2">transaction_list_sort_set_column</a> (gint new_sort_col, GtkSortType new_sort_order)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="transaction__list__sort_8h.html#aa6a0e83f7d489f7a8cf4e0083d5c2360">transaction_list_sort_set_reconcile_sort</a> (gboolean use_reconcile_sort)</td></tr>
+</table>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="a4437cb573f9bba01a794b2e2695e58d4"></a><!-- doxytag: member="transaction_list_sort.h::transaction_list_sort" ref="a4437cb573f9bba01a794b2e2695e58d4" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_list_sort </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Sort the list according to the current column and sort type sort the filtered model because we don't need to sort not showed columns so filter the model before calling this function</p>
+<p>for now, only sort mother transactions, if need the children too, need to go into each record structure and sort the children. could be time consuming...</p>
+<p>to update all the tree view, use gsb_transactions_list_update_tree_view instead</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list__sort_8c_source.html#l00069">69</a> du fichier <a class="el" href="transaction__list__sort_8c_source.html">transaction_list_sort.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae3160f04fcf15af961324f65b9759799"></a><!-- doxytag: member="transaction_list_sort.h::transaction_list_sort_get_column" ref="ae3160f04fcf15af961324f65b9759799" args="(gint *sort_col, GtkSortType *sort_order)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_list_sort_get_column </td>
+          <td>(</td>
+          <td class="paramtype">gint *&nbsp;</td>
+          <td class="paramname"> <em>sort_col</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkSortType *&nbsp;</td>
+          <td class="paramname"> <em>sort_order</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>change the sort column and/or the sort order</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>custom_list</em>&nbsp;</td><td>the CustomList </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>sort_col</em>&nbsp;</td><td>column number to use to sort the list </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>sort_order</em>&nbsp;</td><td>GTK_SORT_DESCENDING / GTK_SORT_ASCENDING</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list__sort_8c_source.html#l00183">183</a> du fichier <a class="el" href="transaction__list__sort_8c_source.html">transaction_list_sort.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a436b2ef3d8acb82f320e2b9fe2e6c8c6"></a><!-- doxytag: member="transaction_list_sort.h::transaction_list_sort_get_reconcile_sort" ref="a436b2ef3d8acb82f320e2b9fe2e6c8c6" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean transaction_list_sort_get_reconcile_sort </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get if the sorting function is normal (by columns) or for reconcile</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if the list is sorted for reconcile, FALSE if column sort </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list__sort_8c_source.html#l00233">233</a> du fichier <a class="el" href="transaction__list__sort_8c_source.html">transaction_list_sort.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad124c81fa4121869ac23b1e67a96a9d2"></a><!-- doxytag: member="transaction_list_sort.h::transaction_list_sort_set_column" ref="ad124c81fa4121869ac23b1e67a96a9d2" args="(gint new_sort_col, GtkSortType new_sort_order)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_list_sort_set_column </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>new_sort_col</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GtkSortType&nbsp;</td>
+          <td class="paramname"> <em>new_sort_order</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>change the sort column and/or the sort order do nothing to the tree view, use gsb_transactions_list_update_tree_view to update it or transaction_list_sort</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>custom_list</em>&nbsp;</td><td>the CustomList </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>new_sort_col</em>&nbsp;</td><td>column number to use to sort the list </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>new_sort_order</em>&nbsp;</td><td>GTK_SORT_DESCENDING / GTK_SORT_ASCENDING</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list__sort_8c_source.html#l00140">140</a> du fichier <a class="el" href="transaction__list__sort_8c_source.html">transaction_list_sort.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa6a0e83f7d489f7a8cf4e0083d5c2360"></a><!-- doxytag: member="transaction_list_sort.h::transaction_list_sort_set_reconcile_sort" ref="aa6a0e83f7d489f7a8cf4e0083d5c2360" args="(gboolean use_reconcile_sort)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void transaction_list_sort_set_reconcile_sort </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>use_reconcile_sort</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set if the sorting function is normal (by columns) or for reconcile</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>use_reconcile_sort</em>&nbsp;</td><td>TRUE to sort for reconciliation, FALSE for column sort</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="transaction__list__sort_8c_source.html#l00207">207</a> du fichier <a class="el" href="transaction__list__sort_8c_source.html">transaction_list_sort.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:05 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

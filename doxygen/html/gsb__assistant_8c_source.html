@@ -1,0 +1,389 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_assistant.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_assistant.c</h1><a href="gsb__assistant_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*     Copyright (C)    2005-2006 Benjamin Drieu (bdrieu@april.org)           */</span>
+<a name="l00004"></a>00004 <span class="comment">/*                      http://www.grisbi.org                                 */</span>
+<a name="l00005"></a>00005 <span class="comment">/*                                                                            */</span>
+<a name="l00006"></a>00006 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00007"></a>00007 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00010"></a>00010 <span class="comment">/*                                                                            */</span>
+<a name="l00011"></a>00011 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00015"></a>00015 <span class="comment">/*                                                                            */</span>
+<a name="l00016"></a>00016 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00019"></a>00019 <span class="comment">/*                                                                            */</span>
+<a name="l00020"></a>00020 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00032"></a>00032 <span class="preprocessor">#include &quot;<a class="code" href="gsb__assistant_8h.html">gsb_assistant.h</a>&quot;</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="utils__str_8h.html">utils_str.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00036"></a>00036 
+<a name="l00037"></a>00037 <span class="comment">/*START_STATIC*/</span>
+<a name="l00038"></a>00038 <span class="keyword">static</span> gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage,
+<a name="l00039"></a>00039                                      gint page, gpointer assistant );
+<a name="l00040"></a>00040 <span class="comment">/*END_STATIC*/</span>
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00043"></a>00043 <span class="keyword">extern</span> GtkWidget *<a class="code" href="accueil_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a>;
+<a name="l00044"></a>00044 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047 
+<a name="l00062"></a><a class="code" href="gsb__assistant_8h.html#a8502128771d8c3f3e8c83d877e1f20ea">00062</a> GtkWidget * <a class="code" href="gsb__assistant_8c.html#a8502128771d8c3f3e8c83d877e1f20ea">gsb_assistant_new</a> ( <span class="keyword">const</span> gchar * title, <span class="keyword">const</span> gchar * explanation,
+<a name="l00063"></a>00063                                 gchar * image_filename,
+<a name="l00064"></a>00064                                 GCallback enter_callback )
+<a name="l00065"></a>00065 {
+<a name="l00066"></a>00066     GtkWidget * assistant, *notebook, *hbox, *label, *image, *view, *eb;
+<a name="l00067"></a>00067     GtkWidget * button_cancel, * button_prev, * button_next;
+<a name="l00068"></a>00068     GtkStyle * style;
+<a name="l00069"></a>00069     GtkTextBuffer * buffer;
+<a name="l00070"></a>00070         gchar* tmpstr;
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072     assistant = gtk_dialog_new_with_buttons ( title,
+<a name="l00073"></a>00073                                            GTK_WINDOW ( <a class="code" href="accueil_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a> ),
+<a name="l00074"></a>00074                                            GTK_DIALOG_MODAL | GTK_DIALOG_NO_SEPARATOR,
+<a name="l00075"></a>00075                                            NULL );
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077     gtk_window_set_default_size ( GTK_WINDOW ( assistant ), 800, 500 );
+<a name="l00078"></a>00078     gtk_window_set_position ( GTK_WINDOW ( assistant ), GTK_WIN_POS_CENTER_ON_PARENT );
+<a name="l00079"></a>00079     gtk_window_set_resizable ( GTK_WINDOW ( assistant ), TRUE );
+<a name="l00080"></a>00080 
+<a name="l00081"></a>00081     button_cancel = gtk_dialog_add_button ( GTK_DIALOG(assistant),
+<a name="l00082"></a>00082                                             GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL );
+<a name="l00083"></a>00083     g_object_set_data ( G_OBJECT(assistant), <span class="stringliteral">&quot;button_cancel&quot;</span>, button_cancel );
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085     button_prev = gtk_dialog_add_button ( GTK_DIALOG(assistant),
+<a name="l00086"></a>00086                                           GTK_STOCK_GO_BACK, GTK_RESPONSE_NO );
+<a name="l00087"></a>00087     g_object_set_data ( G_OBJECT(assistant), <span class="stringliteral">&quot;button_prev&quot;</span>, button_prev );
+<a name="l00088"></a>00088     gtk_widget_set_sensitive ( button_prev, FALSE );
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090     button_next = gtk_dialog_add_button ( GTK_DIALOG(assistant),
+<a name="l00091"></a>00091                                           GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+<a name="l00092"></a>00092     g_object_set_data ( G_OBJECT(assistant), <span class="stringliteral">&quot;button_next&quot;</span>, button_next );
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094     eb = gtk_event_box_new ();
+<a name="l00095"></a>00095     style = gtk_widget_get_style ( eb );
+<a name="l00096"></a>00096     gtk_widget_modify_bg ( eb, 0, &amp;(style -&gt; bg[GTK_STATE_ACTIVE]) );
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098     hbox = gtk_hbox_new ( FALSE, 12 );
+<a name="l00099"></a>00099     gtk_container_add ( GTK_CONTAINER(eb), hbox );
+<a name="l00100"></a>00100     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102     label = gtk_label_new ( NULL );
+<a name="l00103"></a>00103     tmpstr = g_markup_printf_escaped (
+<a name="l00104"></a>00104                         <span class="stringliteral">&quot;&lt;b&gt;&lt;span size=\&quot;x-large\&quot;&gt;%s&lt;/span&gt;&lt;/b&gt;&quot;</span>, title );
+<a name="l00105"></a>00105     gtk_label_set_markup ( GTK_LABEL(label), tmpstr );
+<a name="l00106"></a>00106     g_free ( tmpstr );
+<a name="l00107"></a>00107     gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 0 );
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109     <span class="keywordflow">if</span> (!image_filename)
+<a name="l00110"></a>00110         image_filename = <span class="stringliteral">&quot;grisbi-logo.png&quot;</span>;
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112     tmpstr = g_build_filename ( PIXMAPS_DIR, image_filename, NULL);
+<a name="l00113"></a>00113     image = gtk_image_new_from_file ( tmpstr );
+<a name="l00114"></a>00114     g_free ( tmpstr );
+<a name="l00115"></a>00115     gtk_box_pack_start ( GTK_BOX(hbox), image, FALSE, FALSE, 0 );
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(assistant) -&gt; vbox ), eb,
+<a name="l00118"></a>00118                          FALSE, FALSE, 0 );
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120     notebook = gtk_notebook_new ();
+<a name="l00121"></a>00121     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(notebook), FALSE );
+<a name="l00122"></a>00122     gtk_notebook_set_show_border ( GTK_NOTEBOOK(notebook), FALSE );
+<a name="l00123"></a>00123     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(assistant) -&gt; vbox ), notebook,
+<a name="l00124"></a>00124                          TRUE, TRUE, 0 );
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126     view = gtk_text_view_new ();
+<a name="l00127"></a>00127     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
+<a name="l00128"></a>00128     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+<a name="l00129"></a>00129     tmpstr = g_strconcat ( <span class="stringliteral">&quot;\n&quot;</span>, explanation, <span class="stringliteral">&quot;\n&quot;</span>, NULL );
+<a name="l00130"></a>00130     gtk_text_buffer_set_text (buffer, tmpstr, -1);
+<a name="l00131"></a>00131     g_free ( tmpstr );
+<a name="l00132"></a>00132     gtk_text_view_set_editable ( GTK_TEXT_VIEW(view), FALSE );
+<a name="l00133"></a>00133     gtk_text_view_set_cursor_visible ( GTK_TEXT_VIEW(view), FALSE );
+<a name="l00134"></a>00134     gtk_text_view_set_left_margin ( GTK_TEXT_VIEW(view), 12 );
+<a name="l00135"></a>00135     gtk_text_view_set_right_margin ( GTK_TEXT_VIEW(view), 12 );
+<a name="l00136"></a>00136 
+<a name="l00137"></a>00137     <span class="comment">/* Create some handy fonts. */</span>
+<a name="l00138"></a>00138     gtk_text_buffer_create_tag ( buffer, <span class="stringliteral">&quot;bold&quot;</span>, <span class="stringliteral">&quot;weight&quot;</span>, PANGO_WEIGHT_BOLD, NULL );
+<a name="l00139"></a>00139     gtk_text_buffer_create_tag ( buffer, <span class="stringliteral">&quot;x-large&quot;</span>, <span class="stringliteral">&quot;scale&quot;</span>, PANGO_SCALE_X_LARGE, NULL );
+<a name="l00140"></a>00140     gtk_text_buffer_create_tag ( buffer, <span class="stringliteral">&quot;indented&quot;</span>, <span class="stringliteral">&quot;left-margin&quot;</span>, 24, NULL );
+<a name="l00141"></a>00141 
+<a name="l00142"></a>00142     gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), view, gtk_label_new(NULL) );
+<a name="l00143"></a>00143 
+<a name="l00144"></a>00144     g_signal_connect_after ( notebook, <span class="stringliteral">&quot;switch-page&quot;</span>,
+<a name="l00145"></a>00145                              G_CALLBACK ( gsb_assistant_change_page ), assistant );
+<a name="l00146"></a>00146 
+<a name="l00147"></a>00147     <a class="code" href="gsb__assistant_8c.html#a06ff0b5745a3a4bd14ceecbd56cd09c1">gsb_assistant_set_next</a> ( assistant, 0, 1 );
+<a name="l00148"></a>00148     g_object_set_data ( G_OBJECT(assistant), <span class="stringliteral">&quot;notebook&quot;</span>, notebook );
+<a name="l00149"></a>00149     <span class="comment">/* need to set (gchar *) because title is const gchar, the good way should be my_strdup,</span>
+<a name="l00150"></a>00150 <span class="comment">     * but we don&#39;t touch/free title later so it should be ok... */</span>
+<a name="l00151"></a>00151     g_object_set_data ( G_OBJECT(assistant), <span class="stringliteral">&quot;title&quot;</span>, (gchar *) title );
+<a name="l00152"></a>00152     g_object_set_data ( G_OBJECT(assistant), <span class="stringliteral">&quot;enter0&quot;</span>, enter_callback );
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154     <span class="keywordflow">return</span> assistant;
+<a name="l00155"></a>00155 }
+<a name="l00156"></a>00156 
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158 
+<a name="l00173"></a><a class="code" href="gsb__assistant_8h.html#a6972bde2415e07b7afb35a062456f129">00173</a> <span class="keywordtype">void</span> <a class="code" href="gsb__assistant_8c.html#a6972bde2415e07b7afb35a062456f129">gsb_assistant_add_page</a> ( GtkWidget * assistant, GtkWidget * widget, gint position,
+<a name="l00174"></a>00174                               gint prev, gint next, GCallback enter_callback )
+<a name="l00175"></a>00175 {
+<a name="l00176"></a>00176     GtkWidget * notebook;
+<a name="l00177"></a>00177     gchar *tmpstr;
+<a name="l00178"></a>00178 
+<a name="l00179"></a>00179     notebook = g_object_get_data ( G_OBJECT(assistant), <span class="stringliteral">&quot;notebook&quot;</span> );
+<a name="l00180"></a>00180     gtk_notebook_insert_page ( GTK_NOTEBOOK(notebook), widget, gtk_label_new(NULL), position );
+<a name="l00181"></a>00181 
+<a name="l00182"></a>00182     <a class="code" href="gsb__assistant_8c.html#a9c400b973258731e6d4dd4a01a63e1aa">gsb_assistant_set_prev</a> ( assistant, position, prev );
+<a name="l00183"></a>00183     <a class="code" href="gsb__assistant_8c.html#a06ff0b5745a3a4bd14ceecbd56cd09c1">gsb_assistant_set_next</a> ( assistant, position, next );
+<a name="l00184"></a>00184     tmpstr = g_strdup_printf ( <span class="stringliteral">&quot;enter%d&quot;</span>, position );
+<a name="l00185"></a>00185     g_object_set_data ( G_OBJECT(assistant), tmpstr,
+<a name="l00186"></a>00186                         enter_callback );
+<a name="l00187"></a>00187     g_free (tmpstr);
+<a name="l00188"></a>00188 
+<a name="l00189"></a>00189     gtk_widget_show_all ( widget );
+<a name="l00190"></a>00190 }
+<a name="l00191"></a>00191 
+<a name="l00192"></a>00192 
+<a name="l00193"></a>00193 
+<a name="l00204"></a><a class="code" href="gsb__assistant_8h.html#a886a6fa8c458d71d7cfae7b54bd3187f">00204</a> GtkResponseType <a class="code" href="gsb__assistant_8c.html#a886a6fa8c458d71d7cfae7b54bd3187f">gsb_assistant_run</a> ( GtkWidget * assistant )
+<a name="l00205"></a>00205 {
+<a name="l00206"></a>00206     GtkWidget * notebook, * button_prev;
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208     button_prev = g_object_get_data ( G_OBJECT(assistant), <span class="stringliteral">&quot;button_prev&quot;</span> );
+<a name="l00209"></a>00209 
+<a name="l00210"></a>00210     gtk_widget_show_all ( assistant );
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212     notebook = g_object_get_data ( G_OBJECT(assistant), <span class="stringliteral">&quot;notebook&quot;</span> );
+<a name="l00213"></a>00213     gtk_notebook_set_current_page ( GTK_NOTEBOOK (notebook),
+<a name="l00214"></a>00214                             0 );
+<a name="l00215"></a>00215     gtk_widget_grab_focus (GTK_WIDGET (g_object_get_data (G_OBJECT (assistant),
+<a name="l00216"></a>00216                                                           <span class="stringliteral">&quot;button_next&quot;</span>)));
+<a name="l00217"></a>00217 
+<a name="l00218"></a>00218     <span class="keywordflow">while</span> ( TRUE )
+<a name="l00219"></a>00219     {
+<a name="l00220"></a>00220         gint current = gtk_notebook_get_current_page ( GTK_NOTEBOOK(notebook) );
+<a name="l00221"></a>00221         gint result, prev, next;
+<a name="l00222"></a>00222 
+<a name="l00223"></a>00223         gchar* tmpstr = g_strdup_printf ( _(<span class="stringliteral">&quot;%s (%d of %d)&quot;</span>),
+<a name="l00224"></a>00224                                                  (gchar *) g_object_get_data ( G_OBJECT(assistant),
+<a name="l00225"></a>00225                                                                                <span class="stringliteral">&quot;title&quot;</span> ),
+<a name="l00226"></a>00226                                                  current + 1,
+<a name="l00227"></a>00227                                                  gtk_notebook_get_n_pages ( GTK_NOTEBOOK(notebook) ) );
+<a name="l00228"></a>00228         gtk_window_set_title ( GTK_WINDOW(assistant), tmpstr);
+<a name="l00229"></a>00229         g_free ( tmpstr );
+<a name="l00230"></a>00230 
+<a name="l00231"></a>00231         result = gtk_dialog_run ( GTK_DIALOG(assistant) );
+<a name="l00232"></a>00232 
+<a name="l00233"></a>00233         tmpstr = g_strdup_printf ( <span class="stringliteral">&quot;prev%d&quot;</span>, current );
+<a name="l00234"></a>00234         prev = GPOINTER_TO_INT( g_object_get_data ( G_OBJECT(assistant), tmpstr ));
+<a name="l00235"></a>00235         g_free ( tmpstr );
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237     tmpstr = g_strdup_printf ( <span class="stringliteral">&quot;next%d&quot;</span>, current );
+<a name="l00238"></a>00238         next = GPOINTER_TO_INT( g_object_get_data ( G_OBJECT(assistant), tmpstr));
+<a name="l00239"></a>00239         g_free ( tmpstr );
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241          <span class="keywordflow">switch</span> ( result )
+<a name="l00242"></a>00242          {
+<a name="l00243"></a>00243              <span class="keywordflow">case</span> GTK_RESPONSE_YES:
+<a name="l00244"></a>00244                 gtk_widget_set_sensitive ( button_prev, TRUE );
+<a name="l00245"></a>00245                 <span class="keywordflow">if</span> ( gtk_notebook_get_n_pages ( GTK_NOTEBOOK(notebook) ) == ( next + 1 ) )
+<a name="l00246"></a>00246                 {
+<a name="l00247"></a>00247                     <a class="code" href="gsb__assistant_8c.html#af9667499ec49ad50593c8662801d4a9c">gsb_assistant_change_button_next</a> ( assistant, GTK_STOCK_CLOSE,
+<a name="l00248"></a>00248                                                        GTK_RESPONSE_APPLY );
+<a name="l00249"></a>00249                     <a class="code" href="gsb__assistant_8c.html#ae21578dcc45348d3400059b9c6794252">gsb_assistant_sensitive_button_prev</a> ( assistant,
+<a name="l00250"></a>00250                                                           FALSE );
+<a name="l00251"></a>00251                 }
+<a name="l00252"></a>00252 
+<a name="l00253"></a>00253                 gtk_notebook_set_current_page ( GTK_NOTEBOOK(notebook), next );
+<a name="l00254"></a>00254                 <span class="keywordflow">break</span>;
+<a name="l00255"></a>00255 
+<a name="l00256"></a>00256             <span class="keywordflow">case</span> GTK_RESPONSE_NO:
+<a name="l00257"></a>00257                 <span class="keywordflow">if</span> ( next == -1 )
+<a name="l00258"></a>00258                 {
+<a name="l00259"></a>00259                     <a class="code" href="gsb__assistant_8c.html#af9667499ec49ad50593c8662801d4a9c">gsb_assistant_change_button_next</a> ( assistant, GTK_STOCK_GO_FORWARD,
+<a name="l00260"></a>00260                                                        GTK_RESPONSE_YES );
+<a name="l00261"></a>00261                 }
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263                 <a class="code" href="gsb__assistant_8c.html#ad38c5d761d97d2257a4b35a52c4048c6">gsb_assistant_sensitive_button_next</a> ( assistant, TRUE );
+<a name="l00264"></a>00264 
+<a name="l00265"></a>00265                 <span class="keywordflow">if</span> ( prev == 0 )
+<a name="l00266"></a>00266                 {
+<a name="l00267"></a>00267                     gtk_widget_set_sensitive ( button_prev, FALSE );
+<a name="l00268"></a>00268                 }
+<a name="l00269"></a>00269 
+<a name="l00270"></a>00270                 gtk_notebook_set_current_page ( GTK_NOTEBOOK(notebook), prev );
+<a name="l00271"></a>00271                 <span class="keywordflow">break</span>;
+<a name="l00272"></a>00272 
+<a name="l00273"></a>00273             <span class="keywordflow">case</span> GTK_RESPONSE_APPLY:
+<a name="l00274"></a>00274                 <span class="keywordflow">return</span> GTK_RESPONSE_APPLY;
+<a name="l00275"></a>00275 
+<a name="l00276"></a>00276             <span class="keywordflow">default</span>:
+<a name="l00277"></a>00277             <span class="keywordflow">case</span> GTK_RESPONSE_CANCEL:
+<a name="l00278"></a>00278                 <span class="keywordflow">return</span> GTK_RESPONSE_CANCEL;
+<a name="l00279"></a>00279         }
+<a name="l00280"></a>00280     }
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282     <span class="keywordflow">return</span> GTK_RESPONSE_CANCEL;
+<a name="l00283"></a>00283 }
+<a name="l00284"></a>00284 
+<a name="l00285"></a>00285 
+<a name="l00286"></a>00286 
+<a name="l00299"></a>00299 gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage,
+<a name="l00300"></a>00300                                      gint page, gpointer assistant )
+<a name="l00301"></a>00301 {
+<a name="l00302"></a>00302     <span class="keyword">typedef</span> gboolean ( * gsb_assistant_callback ) ( GtkWidget *, gint );
+<a name="l00303"></a>00303     gsb_assistant_callback callback;
+<a name="l00304"></a>00304 <span class="comment">/*     gpointer padding[32];    /\* Don&#39;t touch, looks like we have a */</span>
+<a name="l00305"></a>00305 <span class="comment">/*                               * buffer overflow problem. *\/ */</span>
+<a name="l00306"></a>00306 
+<a name="l00307"></a>00307     gchar* tmpstr = g_strdup_printf ( <span class="stringliteral">&quot;enter%d&quot;</span>, page );
+<a name="l00308"></a>00308     callback = ( gsb_assistant_callback ) g_object_get_data ( G_OBJECT (assistant), tmpstr );
+<a name="l00309"></a>00309     g_free ( tmpstr );
+<a name="l00310"></a>00310 
+<a name="l00311"></a>00311     <span class="keywordflow">if</span> ( callback )
+<a name="l00312"></a>00312     {
+<a name="l00313"></a>00313         <span class="keywordflow">return</span> callback ( assistant, page );
+<a name="l00314"></a>00314     }
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316     <span class="keywordflow">return</span> FALSE;
+<a name="l00317"></a>00317 }
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319 
+<a name="l00320"></a>00320 
+<a name="l00329"></a><a class="code" href="gsb__assistant_8h.html#a9c400b973258731e6d4dd4a01a63e1aa">00329</a> <span class="keywordtype">void</span> <a class="code" href="gsb__assistant_8c.html#a9c400b973258731e6d4dd4a01a63e1aa">gsb_assistant_set_prev</a> ( GtkWidget * assistant, gint page, gint prev )
+<a name="l00330"></a>00330 {
+<a name="l00331"></a>00331     gchar * string;
+<a name="l00332"></a>00332 
+<a name="l00333"></a>00333     <span class="keywordtype">string</span> = g_strdup_printf ( <span class="stringliteral">&quot;prev%d&quot;</span>, page );
+<a name="l00334"></a>00334     g_object_set_data ( G_OBJECT(assistant), <span class="keywordtype">string</span>, GINT_TO_POINTER (prev));
+<a name="l00335"></a>00335     g_free ( <span class="keywordtype">string</span> );
+<a name="l00336"></a>00336 }
+<a name="l00337"></a>00337 
+<a name="l00338"></a>00338 
+<a name="l00339"></a>00339 
+<a name="l00348"></a><a class="code" href="gsb__assistant_8h.html#a06ff0b5745a3a4bd14ceecbd56cd09c1">00348</a> <span class="keywordtype">void</span> <a class="code" href="gsb__assistant_8c.html#a06ff0b5745a3a4bd14ceecbd56cd09c1">gsb_assistant_set_next</a> ( GtkWidget * assistant, gint page, gint next )
+<a name="l00349"></a>00349 {
+<a name="l00350"></a>00350     gchar * string;
+<a name="l00351"></a>00351 
+<a name="l00352"></a>00352     <span class="keywordtype">string</span> = g_strdup_printf ( <span class="stringliteral">&quot;next%d&quot;</span>, page );
+<a name="l00353"></a>00353     g_object_set_data ( G_OBJECT(assistant), <span class="keywordtype">string</span>, GINT_TO_POINTER (next));
+<a name="l00354"></a>00354     g_free ( <span class="keywordtype">string</span> );
+<a name="l00355"></a>00355 }
+<a name="l00356"></a>00356 
+<a name="l00357"></a>00357 
+<a name="l00358"></a>00358 
+<a name="l00359"></a>00359 
+<a name="l00364"></a><a class="code" href="gsb__assistant_8h.html#ad38c5d761d97d2257a4b35a52c4048c6">00364</a> gboolean <a class="code" href="gsb__assistant_8c.html#ad38c5d761d97d2257a4b35a52c4048c6">gsb_assistant_sensitive_button_next</a> ( GtkWidget * assistant, gboolean state )
+<a name="l00365"></a>00365 {
+<a name="l00366"></a>00366     gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), <span class="stringliteral">&quot;button_next&quot;</span> ),
+<a name="l00367"></a>00367                                state );
+<a name="l00368"></a>00368 
+<a name="l00369"></a>00369     <span class="keywordflow">return</span> FALSE;
+<a name="l00370"></a>00370 }
+<a name="l00371"></a>00371 
+<a name="l00376"></a><a class="code" href="gsb__assistant_8h.html#ae21578dcc45348d3400059b9c6794252">00376</a> gboolean <a class="code" href="gsb__assistant_8c.html#ae21578dcc45348d3400059b9c6794252">gsb_assistant_sensitive_button_prev</a> ( GtkWidget * assistant, gboolean state )
+<a name="l00377"></a>00377 {
+<a name="l00378"></a>00378     gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), <span class="stringliteral">&quot;button_prev&quot;</span> ),
+<a name="l00379"></a>00379                                state );
+<a name="l00380"></a>00380 
+<a name="l00381"></a>00381     <span class="keywordflow">return</span> FALSE;
+<a name="l00382"></a>00382 }
+<a name="l00383"></a>00383 
+<a name="l00391"></a><a class="code" href="gsb__assistant_8h.html#afa94b439f0978b7eac4d469df5def613">00391</a> <span class="keywordtype">void</span> <a class="code" href="gsb__assistant_8c.html#afa94b439f0978b7eac4d469df5def613">gsb_assistant_next_page</a> ( GtkWidget *assistant )
+<a name="l00392"></a>00392 {
+<a name="l00393"></a>00393     GtkWidget * button_next;
+<a name="l00394"></a>00394 
+<a name="l00395"></a>00395     button_next = g_object_get_data ( G_OBJECT (assistant), <span class="stringliteral">&quot;button_next&quot;</span> );
+<a name="l00396"></a>00396     gtk_button_clicked ( GTK_BUTTON (button_next));
+<a name="l00397"></a>00397 }
+<a name="l00398"></a>00398 
+<a name="l00406"></a>00406 <span class="comment">/* dOm TODO : this function seems not to be used. Is it possible to remove it ?</span>
+<a name="l00407"></a>00407 <span class="comment">void gsb_assistant_prev_page ( GtkWidget *assistant )</span>
+<a name="l00408"></a>00408 <span class="comment">{</span>
+<a name="l00409"></a>00409 <span class="comment">    GtkWidget * button_prev;</span>
+<a name="l00410"></a>00410 <span class="comment"></span>
+<a name="l00411"></a>00411 <span class="comment">    button_prev = g_object_get_data ( G_OBJECT (assistant), &quot;button_prev&quot; );</span>
+<a name="l00412"></a>00412 <span class="comment">    gtk_button_clicked ( GTK_BUTTON (button_prev));</span>
+<a name="l00413"></a>00413 <span class="comment">}</span>
+<a name="l00414"></a>00414 <span class="comment">*/</span>
+<a name="l00415"></a>00415 
+<a name="l00416"></a>00416 
+<a name="l00417"></a>00417 
+<a name="l00422"></a><a class="code" href="gsb__assistant_8h.html#af9667499ec49ad50593c8662801d4a9c">00422</a> <span class="keywordtype">void</span> <a class="code" href="gsb__assistant_8c.html#af9667499ec49ad50593c8662801d4a9c">gsb_assistant_change_button_next</a> ( GtkWidget * assistant, gchar * title,
+<a name="l00423"></a>00423                                         GtkResponseType response )
+<a name="l00424"></a>00424 {
+<a name="l00425"></a>00425     GtkWidget * button_next;
+<a name="l00426"></a>00426 
+<a name="l00427"></a>00427     button_next = g_object_get_data ( G_OBJECT (assistant), <span class="stringliteral">&quot;button_next&quot;</span> );
+<a name="l00428"></a>00428     gtk_widget_destroy ( button_next );
+<a name="l00429"></a>00429     button_next = gtk_dialog_add_button ( GTK_DIALOG (assistant), title, response );
+<a name="l00430"></a>00430     g_object_set_data ( G_OBJECT (assistant), <span class="stringliteral">&quot;button_next&quot;</span>, button_next );
+<a name="l00431"></a>00431 }
+<a name="l00432"></a>00432 
+<a name="l00433"></a>00433 
+<a name="l00438"></a>00438 <span class="comment">/* dOm TODO : this function seems not to be used. Is it possible to remove it ?</span>
+<a name="l00439"></a>00439 <span class="comment">void gsb_assistant_set_additional_button ( GtkWidget * assistant, gchar * title )</span>
+<a name="l00440"></a>00440 <span class="comment">{</span>
+<a name="l00441"></a>00441 <span class="comment">    GtkWidget * additional_button;</span>
+<a name="l00442"></a>00442 <span class="comment"></span>
+<a name="l00443"></a>00443 <span class="comment">    additional_button = gtk_button_new_with_label ( title );</span>
+<a name="l00444"></a>00444 <span class="comment">    g_return_if_fail ( additional_button );</span>
+<a name="l00445"></a>00445 <span class="comment">    gtk_widget_show_all ( additional_button );</span>
+<a name="l00446"></a>00446 <span class="comment"></span>
+<a name="l00447"></a>00447 <span class="comment"></span>
+<a name="l00448"></a>00448 <span class="comment">    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG(assistant)-&gt;action_area), additional_button, TRUE, TRUE, 0 );</span>
+<a name="l00449"></a>00449 <span class="comment"></span>
+<a name="l00450"></a>00450 <span class="comment">    additional_button = gtk_button_new_with_label ( title );</span>
+<a name="l00451"></a>00451 <span class="comment">    gtk_widget_show_all ( additional_button );</span>
+<a name="l00452"></a>00452 <span class="comment">    gtk_box_pack_end ( GTK_BOX (GTK_DIALOG(assistant)-&gt;action_area), additional_button, TRUE, TRUE, 0 );</span>
+<a name="l00453"></a>00453 <span class="comment">}</span>
+<a name="l00454"></a>00454 <span class="comment">*/</span>
+<a name="l00455"></a>00455 
+<a name="l00456"></a>00456 
+<a name="l00457"></a>00457 
+<a name="l00458"></a>00458 <span class="comment">/* Local Variables: */</span>
+<a name="l00459"></a>00459 <span class="comment">/* c-basic-offset: 4 */</span>
+<a name="l00460"></a>00460 <span class="comment">/* End: */</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

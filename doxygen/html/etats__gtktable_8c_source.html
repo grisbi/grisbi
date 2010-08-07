@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de etats_gtktable.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>etats_gtktable.c</h1><a href="etats__gtktable_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */</span>
+<a name="l00004"></a>00004 <span class="comment">/*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */</span>
+<a name="l00005"></a>00005 <span class="comment">/*          http://www.grisbi.org                                             */</span>
+<a name="l00006"></a>00006 <span class="comment">/*                                                                            */</span>
+<a name="l00007"></a>00007 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00010"></a>00010 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00011"></a>00011 <span class="comment">/*                                                                            */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00015"></a>00015 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00016"></a>00016 <span class="comment">/*                                                                            */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00019"></a>00019 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00020"></a>00020 <span class="comment">/*                                                                            */</span>
+<a name="l00021"></a>00021 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00022"></a>00022 
+<a name="l00029"></a>00029 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="etats__gtktable_8h.html">etats_gtktable.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__account_8h.html">gsb_data_account.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__transaction_8h.html">gsb_data_transaction.h</a>&quot;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;<a class="code" href="navigation_8h.html">navigation.h</a>&quot;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include &quot;<a class="code" href="menu_8h.html">menu.h</a>&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include &quot;<a class="code" href="gsb__transactions__list_8h.html">gsb_transactions_list.h</a>&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include &quot;<a class="code" href="utils_8h.html">utils.h</a>&quot;</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#include &quot;<a class="code" href="transaction__list_8h.html">transaction_list.h</a>&quot;</span>
+<a name="l00041"></a>00041 <span class="preprocessor">#include &quot;<a class="code" href="transaction__list__select_8h.html">transaction_list_select.h</a>&quot;</span>
+<a name="l00042"></a>00042 <span class="preprocessor">#include &quot;<a class="code" href="structures_8h.html">structures.h</a>&quot;</span>
+<a name="l00043"></a>00043 <span class="preprocessor">#include &quot;<a class="code" href="fenetre__principale_8h.html">fenetre_principale.h</a>&quot;</span>
+<a name="l00044"></a>00044 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__transaction_8h.html">gsb_data_transaction.h</a>&quot;</span>
+<a name="l00045"></a>00045 <span class="preprocessor">#include &quot;<a class="code" href="etats__config_8h.html">etats_config.h</a>&quot;</span>
+<a name="l00046"></a>00046 <span class="preprocessor">#include &quot;<a class="code" href="etats__affiche_8h.html">etats_affiche.h</a>&quot;</span>
+<a name="l00047"></a>00047 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049 <span class="comment">/*START_STATIC*/</span>
+<a name="l00050"></a>00050 <span class="keyword">static</span> <span class="keywordtype">void</span> gtktable_attach_hsep ( <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> y2);
+<a name="l00051"></a>00051 <span class="keyword">static</span> <span class="keywordtype">void</span> gtktable_attach_label ( gchar * text, gdouble properties, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> y2, 
+<a name="l00052"></a>00052                              <span class="keyword">enum</span> <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306">alignement</a> align, gint transaction_number );
+<a name="l00053"></a>00053 <span class="keyword">static</span> <span class="keywordtype">void</span> gtktable_attach_vsep ( <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> y2);
+<a name="l00054"></a>00054 <span class="keyword">static</span> <span class="keywordtype">void</span> gtktable_click_sur_ope_etat ( gint transaction_number );
+<a name="l00055"></a>00055 <span class="keyword">static</span> gint gtktable_finish ();
+<a name="l00056"></a>00056 <span class="keyword">static</span> gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename );
+<a name="l00057"></a>00057 <span class="comment">/*END_STATIC*/</span>
+<a name="l00058"></a>00058 
+<a name="l00059"></a><a class="code" href="gsb__file_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">00059</a> GtkWidget *<a class="code" href="etats__gtktable_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">table_etat</a> = NULL;
+<a name="l00060"></a><a class="code" href="etats__gtktable_8c.html#ad2d63b63790f190b5017e7b721f6f52c">00060</a> <span class="keyword">struct </span><a class="code" href="structstruct__etat__affichage.html">struct_etat_affichage</a> <a class="code" href="etats__calculs_8c.html#ad2d63b63790f190b5017e7b721f6f52c">gtktable_affichage</a>;
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062 <span class="keyword">struct </span><a class="code" href="structstruct__etat__affichage.html">struct_etat_affichage</a> <a class="code" href="etats__calculs_8c.html#ad2d63b63790f190b5017e7b721f6f52c">gtktable_affichage</a> = {
+<a name="l00063"></a>00063     gtktable_initialise,
+<a name="l00064"></a>00064     gtktable_finish,
+<a name="l00065"></a>00065     gtktable_attach_hsep,
+<a name="l00066"></a>00066     gtktable_attach_vsep,
+<a name="l00067"></a>00067     gtktable_attach_label,
+<a name="l00068"></a>00068 };
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00074"></a>00074 <span class="keyword">extern</span> gint <a class="code" href="etats__affiche_8c.html#a8c9db61caf800767da87c8e115ed2b12">nb_colonnes</a>;
+<a name="l00075"></a>00075 <span class="keyword">extern</span> GtkWidget *<a class="code" href="etats__gtktable_8c.html#adb1790226edec7f94cf9ddebf2790c62">scrolled_window_etat</a>;
+<a name="l00076"></a>00076 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079 
+<a name="l00094"></a>00094 <span class="keywordtype">void</span> gtktable_attach_label ( gchar * text, gdouble properties, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> y2, 
+<a name="l00095"></a>00095                              <span class="keyword">enum</span> <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306">alignement</a> align, gint transaction_number )
+<a name="l00096"></a>00096 {
+<a name="l00097"></a>00097     GtkWidget * label;
+<a name="l00098"></a>00098     GtkStyle * style;
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100     <span class="keywordflow">if</span> (!text)
+<a name="l00101"></a>00101     {
+<a name="l00102"></a>00102         text = <span class="stringliteral">&quot;&quot;</span>;
+<a name="l00103"></a>00103     }
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105     label = gtk_label_new ( text );
+<a name="l00106"></a>00106     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108     <span class="keywordflow">switch</span> (align) 
+<a name="l00109"></a>00109     {
+<a name="l00110"></a>00110         <span class="keywordflow">case</span> <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306adb45120aafd37a973140edee24708065">LEFT</a>:
+<a name="l00111"></a>00111             gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+<a name="l00112"></a>00112             <span class="keywordflow">break</span>;
+<a name="l00113"></a>00113         <span class="keywordflow">case</span> <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306a2159ffbd3a68037511ab5ab4dd35ace7">CENTER</a>:
+<a name="l00114"></a>00114             gtk_misc_set_alignment ( GTK_MISC ( label ), 0.5, 0.0 );
+<a name="l00115"></a>00115             <span class="keywordflow">break</span>;
+<a name="l00116"></a>00116         <span class="keywordflow">case</span> <a class="code" href="structures_8h.html#a1de17aeac7cb885573d40a996aff3306aec8379af7490bb9eaaf579cf17876f38">RIGHT</a>:
+<a name="l00117"></a>00117             gtk_misc_set_alignment ( GTK_MISC ( label ), 1.0, 0.0 );
+<a name="l00118"></a>00118             <span class="keywordflow">break</span>;
+<a name="l00119"></a>00119     }
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121     style = gtk_style_copy ( gtk_widget_get_style (label));
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123     <span class="keywordflow">if</span> (transaction_number)
+<a name="l00124"></a>00124     {
+<a name="l00125"></a>00125         GtkWidget *event_box;
+<a name="l00126"></a>00126         GdkColor color;
+<a name="l00127"></a>00127 
+<a name="l00128"></a>00128         <span class="comment">/* Put prelight */</span>
+<a name="l00129"></a>00129         color.red =   1.00 * 65535 ;
+<a name="l00130"></a>00130         color.green = 0.00 * 65535 ;
+<a name="l00131"></a>00131         color.blue =  0.00 * 65535 ;
+<a name="l00132"></a>00132         color.pixel = 0;
+<a name="l00133"></a>00133         style-&gt;fg[GTK_STATE_PRELIGHT] = color;
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135         event_box = gtk_event_box_new ();
+<a name="l00136"></a>00136         g_signal_connect ( G_OBJECT ( event_box ),
+<a name="l00137"></a>00137                              <span class="stringliteral">&quot;enter_notify_event&quot;</span>,
+<a name="l00138"></a>00138                              G_CALLBACK ( <a class="code" href="utils_8c.html#abd40f595e7f75784d5151abd80a35af7">met_en_prelight</a> ),
+<a name="l00139"></a>00139                              NULL );
+<a name="l00140"></a>00140         g_signal_connect ( G_OBJECT ( event_box ),
+<a name="l00141"></a>00141                              <span class="stringliteral">&quot;leave_notify_event&quot;</span>,
+<a name="l00142"></a>00142                              G_CALLBACK ( <a class="code" href="utils_8c.html#ab19e8857d0718043a43d7e4e9256f717">met_en_normal</a> ),
+<a name="l00143"></a>00143                              NULL );
+<a name="l00144"></a>00144         g_signal_connect_swapped ( G_OBJECT ( event_box ),
+<a name="l00145"></a>00145                                     <span class="stringliteral">&quot;button_press_event&quot;</span>,
+<a name="l00146"></a>00146                                     G_CALLBACK ( gtktable_click_sur_ope_etat ),
+<a name="l00147"></a>00147                                     (GtkObject *) GINT_TO_POINTER (transaction_number) );
+<a name="l00148"></a>00148         gtk_table_attach ( GTK_TABLE ( <a class="code" href="etats__gtktable_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">table_etat</a> ), event_box,
+<a name="l00149"></a>00149                            x, x2, y, y2,
+<a name="l00150"></a>00150                            GTK_SHRINK | GTK_FILL,
+<a name="l00151"></a>00151                            GTK_SHRINK | GTK_FILL,
+<a name="l00152"></a>00152                            0, 0 );
+<a name="l00153"></a>00153         gtk_widget_show ( event_box );
+<a name="l00154"></a>00154         gtk_container_add ( GTK_CONTAINER ( event_box ), label );
+<a name="l00155"></a>00155     }
+<a name="l00156"></a>00156     <span class="keywordflow">else</span>
+<a name="l00157"></a>00157     {
+<a name="l00158"></a>00158         gtk_table_attach ( GTK_TABLE ( <a class="code" href="etats__gtktable_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">table_etat</a> ), label,
+<a name="l00159"></a>00159                            x, x2, y, y2,
+<a name="l00160"></a>00160                            GTK_SHRINK | GTK_FILL,
+<a name="l00161"></a>00161                            GTK_SHRINK | GTK_FILL,
+<a name="l00162"></a>00162                            0, 0 );
+<a name="l00163"></a>00163     }
+<a name="l00164"></a>00164 
+<a name="l00165"></a>00165     <span class="keywordflow">if</span> ( ((gint) properties) &amp; <a class="code" href="etats__config_8h.html#a7000b34e44b52793133316521b6bf486">TEXT_ITALIC</a>)
+<a name="l00166"></a>00166         pango_font_description_set_style ( style -&gt; font_desc, 
+<a name="l00167"></a>00167                                            PANGO_STYLE_ITALIC );
+<a name="l00168"></a>00168     <span class="keywordflow">if</span> ( ((gint) properties) &amp; <a class="code" href="etats__config_8h.html#ac6a05036dfbcc5b69c4e3f9b6bbedb2a">TEXT_BOLD</a>)
+<a name="l00169"></a>00169         pango_font_description_set_weight ( style -&gt; font_desc, 
+<a name="l00170"></a>00170                                             PANGO_WEIGHT_BOLD );
+<a name="l00171"></a>00171     <span class="keywordflow">if</span> ( ((gint) properties) &amp; <a class="code" href="etats__config_8h.html#a6da9ea675cad4cae380d40effba08953">TEXT_HUGE</a> )
+<a name="l00172"></a>00172         pango_font_description_set_size ( style -&gt; font_desc, 
+<a name="l00173"></a>00173                                           pango_font_description_get_size(style-&gt;font_desc) + 100 );
+<a name="l00174"></a>00174     <span class="keywordflow">if</span> ( ((gint) properties) &amp; <a class="code" href="etats__config_8h.html#aad16158a590754a5968d016e87369945">TEXT_LARGE</a> )
+<a name="l00175"></a>00175         pango_font_description_set_size ( style -&gt; font_desc, 
+<a name="l00176"></a>00176                                           pango_font_description_get_size(style-&gt;font_desc) + 2 );
+<a name="l00177"></a>00177     <span class="keywordflow">if</span> ( ((gint) properties) &amp; <a class="code" href="etats__config_8h.html#aa27dd4cbfa0f47509fa3248775e46a9e">TEXT_SMALL</a> )
+<a name="l00178"></a>00178         pango_font_description_set_size ( style -&gt; font_desc, 
+<a name="l00179"></a>00179                                           pango_font_description_get_size(style-&gt;font_desc) - 2 );
+<a name="l00180"></a>00180 
+<a name="l00181"></a>00181     gtk_widget_set_style ( label, style );
+<a name="l00182"></a>00182     gtk_widget_show ( label );
+<a name="l00183"></a>00183 }
+<a name="l00184"></a>00184 
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186 
+<a name="l00200"></a>00200 <span class="keywordtype">void</span> gtktable_attach_vsep ( <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> y2)
+<a name="l00201"></a>00201 {
+<a name="l00202"></a>00202     GtkWidget * separateur;
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204     separateur = gtk_vseparator_new ();
+<a name="l00205"></a>00205     gtk_table_attach ( GTK_TABLE ( <a class="code" href="etats__gtktable_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">table_etat</a> ),
+<a name="l00206"></a>00206                        separateur,
+<a name="l00207"></a>00207                        x, x2, y, y2,
+<a name="l00208"></a>00208                        GTK_SHRINK | GTK_FILL,
+<a name="l00209"></a>00209                        GTK_SHRINK | GTK_FILL,
+<a name="l00210"></a>00210                        2, 0 );
+<a name="l00211"></a>00211     gtk_widget_show ( separateur );
+<a name="l00212"></a>00212 }
+<a name="l00213"></a>00213 
+<a name="l00214"></a>00214 
+<a name="l00223"></a>00223 <span class="keywordtype">void</span> gtktable_attach_hsep ( <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> y2)
+<a name="l00224"></a>00224 {
+<a name="l00225"></a>00225     GtkWidget * separateur;
+<a name="l00226"></a>00226 
+<a name="l00227"></a>00227     separateur = gtk_hseparator_new ();
+<a name="l00228"></a>00228     gtk_table_attach ( GTK_TABLE ( <a class="code" href="etats__gtktable_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">table_etat</a> ),
+<a name="l00229"></a>00229                        separateur,
+<a name="l00230"></a>00230                        x, x2, y, y2,
+<a name="l00231"></a>00231                        GTK_SHRINK | GTK_FILL,
+<a name="l00232"></a>00232                        GTK_SHRINK | GTK_FILL,
+<a name="l00233"></a>00233                        0, 0 );
+<a name="l00234"></a>00234     gtk_widget_show ( separateur );
+<a name="l00235"></a>00235 }
+<a name="l00236"></a>00236 
+<a name="l00237"></a>00237 
+<a name="l00238"></a>00238 
+<a name="l00239"></a>00239 <span class="comment">/*****************************************************************************************************/</span>
+<a name="l00240"></a>00240 gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
+<a name="l00241"></a>00241 {
+<a name="l00242"></a>00242     <span class="comment">/* on peut maintenant créer la table */</span>
+<a name="l00243"></a>00243     <span class="comment">/* pas besoin d&#39;indiquer la hauteur, elle grandit automatiquement */</span>
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245     <span class="keywordflow">if</span> ( <a class="code" href="etats__gtktable_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">table_etat</a> &amp;&amp; GTK_IS_TABLE(<a class="code" href="etats__gtktable_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">table_etat</a>) )
+<a name="l00246"></a>00246         gtk_widget_destroy (<a class="code" href="etats__gtktable_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">table_etat</a>);
+<a name="l00247"></a>00247 
+<a name="l00248"></a>00248     <span class="keywordflow">if</span> ( <a class="code" href="etats__gtktable_8c.html#adb1790226edec7f94cf9ddebf2790c62">scrolled_window_etat</a> &amp;&amp; GTK_BIN ( <a class="code" href="etats__gtktable_8c.html#adb1790226edec7f94cf9ddebf2790c62">scrolled_window_etat</a> ) -&gt; child )
+<a name="l00249"></a>00249         gtk_widget_hide ( GTK_BIN ( <a class="code" href="etats__gtktable_8c.html#adb1790226edec7f94cf9ddebf2790c62">scrolled_window_etat</a> ) -&gt; child );
+<a name="l00250"></a>00250 
+<a name="l00251"></a>00251     <a class="code" href="etats__gtktable_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">table_etat</a> = gtk_table_new ( 0, <a class="code" href="etats__affiche_8c.html#a8c9db61caf800767da87c8e115ed2b12">nb_colonnes</a>, FALSE );
+<a name="l00252"></a>00252     gtk_table_set_col_spacings ( GTK_TABLE ( <a class="code" href="etats__gtktable_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">table_etat</a> ), 5 );
+<a name="l00253"></a>00253 
+<a name="l00254"></a>00254     <span class="keywordflow">return</span> 1;
+<a name="l00255"></a>00255 }
+<a name="l00256"></a>00256 <span class="comment">/*****************************************************************************************************/</span>
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258 
+<a name="l00259"></a>00259 <span class="comment">/*****************************************************************************************************/</span>
+<a name="l00260"></a>00260 gint gtktable_finish ()
+<a name="l00261"></a>00261 {
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( <a class="code" href="etats__gtktable_8c.html#adb1790226edec7f94cf9ddebf2790c62">scrolled_window_etat</a> ), <a class="code" href="etats__gtktable_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">table_etat</a> );
+<a name="l00264"></a>00264     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( <a class="code" href="etats__gtktable_8c.html#adb1790226edec7f94cf9ddebf2790c62">scrolled_window_etat</a> ), GTK_SHADOW_NONE );
+<a name="l00265"></a>00265 
+<a name="l00266"></a>00266     gtk_container_set_border_width ( GTK_CONTAINER(<a class="code" href="etats__gtktable_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">table_etat</a>), 6 );
+<a name="l00267"></a>00267     gtk_widget_show_all ( <a class="code" href="etats__gtktable_8c.html#a8acf276de2f2a805f29b0ab451bbcc6a">table_etat</a> );
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269     <span class="keywordflow">if</span> ( GTK_BIN ( <a class="code" href="etats__gtktable_8c.html#adb1790226edec7f94cf9ddebf2790c62">scrolled_window_etat</a> ) -&gt; child )
+<a name="l00270"></a>00270         gtk_widget_show ( GTK_BIN ( <a class="code" href="etats__gtktable_8c.html#adb1790226edec7f94cf9ddebf2790c62">scrolled_window_etat</a> ) -&gt; child );
+<a name="l00271"></a>00271 
+<a name="l00272"></a>00272     <span class="keywordflow">return</span> 1;
+<a name="l00273"></a>00273 }
+<a name="l00274"></a>00274 <span class="comment">/*****************************************************************************************************/</span>
+<a name="l00275"></a>00275 
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277 <span class="comment">/*****************************************************************************************************/</span>
+<a name="l00278"></a>00278 <span class="comment">/* cette fonction est appelée si on click sur une opé dans un état */</span>
+<a name="l00279"></a>00279 <span class="comment">/* elle affiche la liste des opés sur cette opé */</span>
+<a name="l00280"></a>00280 <span class="comment">/*****************************************************************************************************/</span>
+<a name="l00281"></a>00281 
+<a name="l00282"></a>00282 <span class="keywordtype">void</span> gtktable_click_sur_ope_etat ( gint transaction_number )
+<a name="l00283"></a>00283 {
+<a name="l00284"></a>00284     gint archive_number;
+<a name="l00285"></a>00285     gint account_number;
+<a name="l00286"></a>00286 
+<a name="l00287"></a>00287     account_number = <a class="code" href="gsb__data__transaction_8c.html#a5b486efbc486f946e9c998a114054bce">gsb_data_transaction_get_account_number</a> (transaction_number);
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289     <span class="comment">/* if it&#39;s an archived transaction, open the archive */</span>
+<a name="l00290"></a>00290     archive_number = <a class="code" href="gsb__data__transaction_8c.html#a5dfc3ab337c363b46380bf962a97d8d2">gsb_data_transaction_get_archive_number</a> (transaction_number);
+<a name="l00291"></a>00291     <span class="keywordflow">if</span> (archive_number)
+<a name="l00292"></a>00292     {
+<a name="l00293"></a>00293         <span class="comment">/* re-filter the tree view because if we go directly into the report</span>
+<a name="l00294"></a>00294 <span class="comment">         * and the model was never filtered, we have a nice crash */</span>
+<a name="l00295"></a>00295         <a class="code" href="transaction__list_8c.html#aaa7ed8c4599c862c1ec1332b2ec80c2f">transaction_list_filter</a> (account_number);
+<a name="l00296"></a>00296         <a class="code" href="gsb__transactions__list_8c.html#afb50643bfc50dcd627a5f720c30c8765">gsb_transactions_list_restore_archive</a> (archive_number, FALSE);
+<a name="l00297"></a>00297     }
+<a name="l00298"></a>00298 
+<a name="l00299"></a>00299     <span class="keywordflow">if</span> ( transaction_number )
+<a name="l00300"></a>00300     {
+<a name="l00301"></a>00301         gint mother_transaction;
+<a name="l00302"></a>00302 
+<a name="l00303"></a>00303         <span class="comment">/* go on the good account */</span>
+<a name="l00304"></a>00304         <a class="code" href="navigation_8c.html#a3fb9bd34026d724eefe1309fb63bf8fc">gsb_gui_navigation_set_selection</a> ( <a class="code" href="fenetre__principale_8h.html#a1667fdc1081851887c24c98c97d51767aa0842b1ab75cc108643f94f240f11905">GSB_ACCOUNT_PAGE</a>, 
+<a name="l00305"></a>00305                                            account_number,
+<a name="l00306"></a>00306                                            GINT_TO_POINTER (-1));
+<a name="l00307"></a>00307 
+<a name="l00308"></a>00308         <span class="comment">/* récupération de la ligne de l&#39;opé dans la liste ; affichage de toutes les opé si nécessaire */</span>
+<a name="l00309"></a>00309         <span class="keywordflow">if</span> ( <a class="code" href="gsb__data__transaction_8c.html#a52cf9684818c3930c5c688b54f7cf393">gsb_data_transaction_get_marked_transaction</a> (transaction_number) == <a class="code" href="gsb__data__transaction_8h.html#a82f385a1c75ac98496b5c09a123bf521a41425f55add3a05ffc4c7aa366048fc9">OPERATION_RAPPROCHEE</a> 
+<a name="l00310"></a>00310              &amp;&amp;
+<a name="l00311"></a>00311              !<a class="code" href="gsb__data__account_8c.html#aca61a61a56a3e161716a443b366cd899">gsb_data_account_get_r</a> ( account_number ) )
+<a name="l00312"></a>00312     {
+<a name="l00313"></a>00313         <a class="code" href="gsb__data__account_8c.html#a30c0eb4d420396ce451edefa343aa3cc">gsb_data_account_set_r</a> ( account_number, TRUE );
+<a name="l00314"></a>00314         <a class="code" href="menu_8c.html#a60f727414d6ce8974582d80ae95c1f81">gsb_menu_update_view_menu</a> ( account_number );
+<a name="l00315"></a>00315         <a class="code" href="gsb__transactions__list_8c.html#a7885778abe9c7b1213f7f0485e666413">mise_a_jour_affichage_r</a> ( TRUE );
+<a name="l00316"></a>00316     }
+<a name="l00317"></a>00317         
+<a name="l00318"></a>00318         <span class="comment">/* if it&#39;s a child, open the mother */</span>
+<a name="l00319"></a>00319         mother_transaction = <a class="code" href="gsb__data__transaction_8c.html#a6018560ece7ab02e8d46bc9bdaffd607">gsb_data_transaction_get_mother_transaction_number</a> (transaction_number);
+<a name="l00320"></a>00320         <span class="keywordflow">if</span> (mother_transaction)
+<a name="l00321"></a>00321             <a class="code" href="gsb__transactions__list_8c.html#a6089f07015c6278f5d0a689783fe4019">gsb_transactions_list_switch_expander</a> (mother_transaction);
+<a name="l00322"></a>00322 
+<a name="l00323"></a>00323         <a class="code" href="transaction__list__select_8c.html#a85f38a439156b883335de73220dca237">transaction_list_select</a> ( transaction_number );
+<a name="l00324"></a>00324     }
+<a name="l00325"></a>00325 }
+<a name="l00326"></a>00326 
+<a name="l00327"></a>00327 <span class="comment">/* Local Variables: */</span>
+<a name="l00328"></a>00328 <span class="comment">/* c-basic-offset: 4 */</span>
+<a name="l00329"></a>00329 <span class="comment">/* End: */</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:01 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

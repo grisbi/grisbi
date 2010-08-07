@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de import.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>import.h</h1><a href="import_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _IMPORT_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _IMPORT_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00005"></a>00005 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00006"></a>00006 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__transaction_8h.html">gsb_data_transaction.h</a>&quot;</span>
+<a name="l00007"></a>00007 <span class="preprocessor">#include &quot;<a class="code" href="structures_8h.html">structures.h</a>&quot;</span>
+<a name="l00008"></a>00008 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00009"></a>00009 
+<a name="l00010"></a>00010 <span class="comment">/* struture d&#39;une importation : compte contient la liste des opés importées */</span>
+<a name="l00011"></a><a class="code" href="structstruct__compte__importation.html">00011</a> <span class="keyword">struct </span><a class="code" href="structstruct__compte__importation.html">struct_compte_importation</a>
+<a name="l00012"></a>00012 {
+<a name="l00013"></a><a class="code" href="structstruct__compte__importation.html#a98f4d0a1bbbb5dd69fb25e6a4fdb477b">00013</a>     gchar *<a class="code" href="structstruct__compte__importation.html#a98f4d0a1bbbb5dd69fb25e6a4fdb477b">id_compte</a>;
+<a name="l00014"></a>00014 
+<a name="l00015"></a><a class="code" href="structstruct__compte__importation.html#adac142c3810e741372cf8df90774662c">00015</a>     gchar * <a class="code" href="structstruct__compte__importation.html#adac142c3810e741372cf8df90774662c">origine</a>;    <span class="comment">/* QIF, OFX ... */</span>
+<a name="l00016"></a>00016 
+<a name="l00017"></a><a class="code" href="structstruct__compte__importation.html#a0313677b85878147bb5e5776425f7413">00017</a>     gchar *<a class="code" href="structstruct__compte__importation.html#a0313677b85878147bb5e5776425f7413">nom_de_compte</a>;
+<a name="l00018"></a><a class="code" href="structstruct__compte__importation.html#a251887d1a77ba7cd4cb99759fc1e9bed">00018</a>     gchar *<a class="code" href="structstruct__compte__importation.html#a251887d1a77ba7cd4cb99759fc1e9bed">filename</a>;
+<a name="l00019"></a><a class="code" href="structstruct__compte__importation.html#ae8d33c742956a6b9b668c6d3f291e4db">00019</a>     gchar *<a class="code" href="structstruct__compte__importation.html#ae8d33c742956a6b9b668c6d3f291e4db">real_filename</a>;       <span class="comment">/* needed because filename is overwritten, need to fix that when work again with imports */</span>
+<a name="l00020"></a><a class="code" href="structstruct__compte__importation.html#a36a0a4246c032137dfe0f526cc98e21a">00020</a>     gint <a class="code" href="structstruct__compte__importation.html#a36a0a4246c032137dfe0f526cc98e21a">type_de_compte</a>;  <span class="comment">/* 0=OFX_CHECKING,1=OFX_SAVINGS,2=OFX_MONEYMRKT,3=OFX_CREDITLINE,4=OFX_CMA,5=OFX_CREDITCARD,6=OFX_INVESTMENT, 7=cash */</span>
+<a name="l00021"></a><a class="code" href="structstruct__compte__importation.html#a1b5632b0fd43c57a888151bbb68de21e">00021</a>     gchar *<a class="code" href="structstruct__compte__importation.html#a1b5632b0fd43c57a888151bbb68de21e">devise</a>;
+<a name="l00022"></a>00022 
+<a name="l00023"></a><a class="code" href="structstruct__compte__importation.html#a57bf92d17c4a68f9643db6a08641aa1b">00023</a>     GDate *<a class="code" href="structstruct__compte__importation.html#a57bf92d17c4a68f9643db6a08641aa1b">date_depart</a>;
+<a name="l00024"></a><a class="code" href="structstruct__compte__importation.html#aeb1a31dd01d33a5e8c9534e6c71490a7">00024</a>     GDate *<a class="code" href="structstruct__compte__importation.html#aeb1a31dd01d33a5e8c9534e6c71490a7">date_fin</a>;
+<a name="l00025"></a>00025 
+<a name="l00026"></a><a class="code" href="structstruct__compte__importation.html#a5ecc8020d6a8cc2f35c895c074286881">00026</a>     GSList *<a class="code" href="structstruct__compte__importation.html#a5ecc8020d6a8cc2f35c895c074286881">operations_importees</a>;          <span class="comment">/* liste des struct des opés importées */</span>
+<a name="l00027"></a>00027 
+<a name="l00028"></a><a class="code" href="structstruct__compte__importation.html#a9c9132279c2dac0301bc5061088d3596">00028</a>     <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="structstruct__compte__importation.html#a9c9132279c2dac0301bc5061088d3596">solde</a>;
+<a name="l00029"></a><a class="code" href="structstruct__compte__importation.html#a1e445710edd182ae1fec5cc094aeb8ed">00029</a>     gchar *<a class="code" href="structstruct__compte__importation.html#a1e445710edd182ae1fec5cc094aeb8ed">date_solde_qif</a>;            <span class="comment">/* utilisé temporairement pour un fichier qif */</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a><a class="code" href="structstruct__compte__importation.html#aea1b3ea4a0ba7aa24da4851e96ce1002">00031</a>     GtkWidget *<a class="code" href="structstruct__compte__importation.html#aea1b3ea4a0ba7aa24da4851e96ce1002">bouton_devise</a>;             <span class="comment">/* adr du bouton de la devise dans le récapitulatif */</span>
+<a name="l00032"></a><a class="code" href="structstruct__compte__importation.html#a0393a47e80bf0f244d22c17c20be31c6">00032</a>     gint <a class="code" href="structstruct__compte__importation.html#a0393a47e80bf0f244d22c17c20be31c6">action</a>;                                <span class="comment">/* IMPORT_CREATE_ACCOUNT, IMPORT_ADD_TRANSACTIONS, IMPORT_MARK_TRANSACTIONS */</span>
+<a name="l00033"></a>00033 
+<a name="l00034"></a><a class="code" href="structstruct__compte__importation.html#a0f636d05dd8412ef76fe29b93349dcce">00034</a>     gboolean    <a class="code" href="structstruct__compte__importation.html#a0f636d05dd8412ef76fe29b93349dcce">invert_transaction_amount</a>;      <span class="comment">/* if TRUE, all the transactions imported will have their amount inverted */</span>
+<a name="l00035"></a>00035 
+<a name="l00036"></a><a class="code" href="structstruct__compte__importation.html#a7d24f424b8216b1ecfbbde5af6e42e1d">00036</a>     gboolean    <a class="code" href="structstruct__compte__importation.html#a7d24f424b8216b1ecfbbde5af6e42e1d">create_rule</a>;                    <span class="comment">/* if TRUE, we create a rule according the values of this structure */</span>
+<a name="l00037"></a><a class="code" href="structstruct__compte__importation.html#a58f4a96d0afb16f16f615c729250a94a">00037</a>     GtkWidget   *<a class="code" href="structstruct__compte__importation.html#a58f4a96d0afb16f16f615c729250a94a">entry_name_rule</a>;                       <span class="comment">/* entry containing the name of the rule */</span>
+<a name="l00038"></a><a class="code" href="structstruct__compte__importation.html#abc9c9bafb88d9ad438ec22e9bb90c2b9">00038</a>     GtkWidget   *<a class="code" href="structstruct__compte__importation.html#abc9c9bafb88d9ad438ec22e9bb90c2b9">hbox_rule</a>;
+<a name="l00039"></a>00039 
+<a name="l00040"></a><a class="code" href="structstruct__compte__importation.html#aeb1267b8ebbe8d35b5cdcbe20c754028">00040</a>     GtkWidget *<a class="code" href="structstruct__compte__importation.html#aeb1267b8ebbe8d35b5cdcbe20c754028">bouton_type_compte</a>;             <span class="comment">/* adr du bouton du type de compte dans le récapitulatif */</span>
+<a name="l00041"></a><a class="code" href="structstruct__compte__importation.html#aae36436487430bfade72e24031f2feb0">00041</a>     GtkWidget *<a class="code" href="structstruct__compte__importation.html#aae36436487430bfade72e24031f2feb0">bouton_compte_add</a>;             <span class="comment">/* adr du bouton du compte</span>
+<a name="l00042"></a>00042 <span class="comment">                                           * dans le récapitulatif */</span>
+<a name="l00043"></a><a class="code" href="structstruct__compte__importation.html#aa29a9309c5ed724e203778ef76f4d5d5">00043</a>     GtkWidget *<a class="code" href="structstruct__compte__importation.html#aa29a9309c5ed724e203778ef76f4d5d5">bouton_compte_mark</a>;             <span class="comment">/* adr du bouton du compte dans le récapitulatif */</span>
+<a name="l00044"></a>00044 
+<a name="l00045"></a><a class="code" href="structstruct__compte__importation.html#a5bf56c845b4b614f2ff708a93725ca28">00045</a>     GtkWidget * <a class="code" href="structstruct__compte__importation.html#a5bf56c845b4b614f2ff708a93725ca28">hbox1</a>;
+<a name="l00046"></a><a class="code" href="structstruct__compte__importation.html#a2fcc401a65dab09ef1c70e95a86371a7">00046</a>     GtkWidget * <a class="code" href="structstruct__compte__importation.html#a2fcc401a65dab09ef1c70e95a86371a7">hbox2</a>;
+<a name="l00047"></a><a class="code" href="structstruct__compte__importation.html#a8262f71d590e76596af72da501edd71f">00047</a>     GtkWidget * <a class="code" href="structstruct__compte__importation.html#a8262f71d590e76596af72da501edd71f">hbox3</a>;
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049     <span class="comment">/* Used by gnucash import */</span>
+<a name="l00050"></a><a class="code" href="structstruct__compte__importation.html#a4804c10f65cebad7f81555409a3f89c4">00050</a>     gchar * <a class="code" href="structstruct__compte__importation.html#a4804c10f65cebad7f81555409a3f89c4">guid</a>;
+<a name="l00051"></a>00051 };
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053 <span class="comment">/* possible actions to the import */</span>
+<a name="l00054"></a><a class="code" href="import_8h.html#ad9e4b45dec9fbedb5154906d8a5cfc47">00054</a> <span class="preprocessor">#define IMPORT_CREATE_ACCOUNT 0</span>
+<a name="l00055"></a><a class="code" href="import_8h.html#ab305602f6b5404b42e8d2789aaff3885">00055</a> <span class="preprocessor"></span><span class="preprocessor">#define IMPORT_ADD_TRANSACTIONS 1</span>
+<a name="l00056"></a><a class="code" href="import_8h.html#ac9f1610298b18bf7ca81eb1ac4974629">00056</a> <span class="preprocessor"></span><span class="preprocessor">#define IMPORT_MARK_TRANSACTIONS 2</span>
+<a name="l00057"></a>00057 <span class="preprocessor"></span>
+<a name="l00058"></a>00058 
+<a name="l00060"></a><a class="code" href="structstruct__ope__importation.html">00060</a> <span class="keyword">struct </span><a class="code" href="structstruct__ope__importation.html">struct_ope_importation</a>
+<a name="l00061"></a>00061 {
+<a name="l00062"></a><a class="code" href="structstruct__ope__importation.html#a9117942cf1ba68459e85803c55420dd0">00062</a>     gchar *<a class="code" href="structstruct__ope__importation.html#a9117942cf1ba68459e85803c55420dd0">id_operation</a>;
+<a name="l00063"></a>00063 
+<a name="l00064"></a><a class="code" href="structstruct__ope__importation.html#a8f9a20942dd3d0811670c24f9daa1a62">00064</a>     gint <a class="code" href="structstruct__ope__importation.html#a8f9a20942dd3d0811670c24f9daa1a62">no_compte</a>;             <span class="comment">/* mis à jour si lors du marquage, si pas d&#39;opé associée trouvée */</span>
+<a name="l00065"></a><a class="code" href="structstruct__ope__importation.html#ac3ee087af86e925117eaa97d036e626a">00065</a>     gint <a class="code" href="structstruct__ope__importation.html#ac3ee087af86e925117eaa97d036e626a">devise</a>;                <span class="comment">/* mis à jour au moment de l&#39;enregistrement de l&#39;opé */</span>
+<a name="l00066"></a><a class="code" href="structstruct__ope__importation.html#a98d11b6875040c7783b12abdedc6f5a0">00066</a>     GDate *<a class="code" href="structstruct__ope__importation.html#a98d11b6875040c7783b12abdedc6f5a0">date</a>;
+<a name="l00067"></a><a class="code" href="structstruct__ope__importation.html#a87810cbd10a0ce882486b602d9de8f36">00067</a>     GDate *<a class="code" href="structstruct__ope__importation.html#a87810cbd10a0ce882486b602d9de8f36">date_de_valeur</a>;
+<a name="l00068"></a><a class="code" href="structstruct__ope__importation.html#aaa2c862b15a3b083f8fcfdec9be576b4">00068</a>     gchar *<a class="code" href="structstruct__ope__importation.html#aaa2c862b15a3b083f8fcfdec9be576b4">date_tmp</a>;            <span class="comment">/* pour un fichier qif, utilisé en tmp avant de le transformer en gdate */</span>
+<a name="l00069"></a>00069 
+<a name="l00070"></a><a class="code" href="structstruct__ope__importation.html#a3dffaa080a9fc75d32af4353c9eab627">00070</a>     gint <a class="code" href="structstruct__ope__importation.html#a3dffaa080a9fc75d32af4353c9eab627">action</a>;                        <span class="comment">/* IMPORT_TRANSACTION_GET_TRANSACTION, IMPORT_TRANSACTION_ASK_FOR_TRANSACTION, IMPORT_TRANSACTION_LEAVE_TRANSACTION*/</span>
+<a name="l00071"></a><a class="code" href="structstruct__ope__importation.html#aab3dedcb8364500b7df11ba68d12541c">00071</a>     gint <a class="code" href="structstruct__ope__importation.html#aab3dedcb8364500b7df11ba68d12541c">ope_correspondante</a>;    <span class="comment">/* contient l&#39;adr de l&#39;opé qui correspond peut être à l&#39;opé importée pour la présentation à l&#39;utilisateur */</span>
+<a name="l00072"></a><a class="code" href="structstruct__ope__importation.html#a971aa1abd415f4c6a78c2e991bbd6978">00072</a>     GtkWidget *<a class="code" href="structstruct__ope__importation.html#a971aa1abd415f4c6a78c2e991bbd6978">bouton</a>;          <span class="comment">/*  adr du bouton si cette opé est douteuse et vérifiée par l&#39;utilisateur */</span>
+<a name="l00073"></a>00073     
+<a name="l00074"></a><a class="code" href="structstruct__ope__importation.html#a29bbb5cbb09891b7d9b8bcecf635a123">00074</a>     gchar *<a class="code" href="structstruct__ope__importation.html#a29bbb5cbb09891b7d9b8bcecf635a123">tiers</a>;
+<a name="l00075"></a><a class="code" href="structstruct__ope__importation.html#a9e55cfbe35026b7cabdd2d93e6e6dc3a">00075</a>     gchar *<a class="code" href="structstruct__ope__importation.html#a9e55cfbe35026b7cabdd2d93e6e6dc3a">notes</a>;
+<a name="l00076"></a><a class="code" href="structstruct__ope__importation.html#a9bf5717da655fe4e25e8c4006584d5de">00076</a>     gchar *<a class="code" href="structstruct__ope__importation.html#a9bf5717da655fe4e25e8c4006584d5de">cheque</a>;
+<a name="l00077"></a>00077 
+<a name="l00078"></a><a class="code" href="structstruct__ope__importation.html#afa6a9d44530054f14c841f799dc0b723">00078</a>     gchar *<a class="code" href="structstruct__ope__importation.html#afa6a9d44530054f14c841f799dc0b723">categ</a>;
+<a name="l00079"></a><a class="code" href="structstruct__ope__importation.html#a6f43995ba43d76590e8c3324db78f150">00079</a>         gchar *<a class="code" href="structstruct__ope__importation.html#a6f43995ba43d76590e8c3324db78f150">budget</a>;
+<a name="l00080"></a>00080 
+<a name="l00081"></a><a class="code" href="structstruct__ope__importation.html#a6eb3906974bf127228cb61ca9ea1389f">00081</a>     <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="structstruct__ope__importation.html#a6eb3906974bf127228cb61ca9ea1389f">montant</a>;
+<a name="l00082"></a>00082 
+<a name="l00083"></a><a class="code" href="structstruct__ope__importation.html#a9b894c7f538103950a23655ff003b5f1">00083</a>     <span class="keyword">enum</span> <a class="code" href="gsb__data__transaction_8h.html#a82f385a1c75ac98496b5c09a123bf521">operation_etat_rapprochement</a> <a class="code" href="structstruct__ope__importation.html#a9b894c7f538103950a23655ff003b5f1">p_r</a>;
+<a name="l00084"></a>00084 
+<a name="l00085"></a><a class="code" href="structstruct__ope__importation.html#a8eafdd598a1677000d009a7da16b81e6">00085</a>     gint <a class="code" href="structstruct__ope__importation.html#a8eafdd598a1677000d009a7da16b81e6">type_de_transaction</a>;
+<a name="l00086"></a>00086 
+<a name="l00087"></a><a class="code" href="structstruct__ope__importation.html#ad0311d9f5d7bf9c8837d31614a176742">00087</a>     gint <a class="code" href="structstruct__ope__importation.html#ad0311d9f5d7bf9c8837d31614a176742">operation_ventilee</a>;  <span class="comment">/* à 1 si c&#39;est une ventil, dans ce cas les opés de ventil suivent et ont ope_de_ventilation à 1 */</span>
+<a name="l00088"></a><a class="code" href="structstruct__ope__importation.html#aa550ffd55aca6827a90343fcc251339f">00088</a>     gint <a class="code" href="structstruct__ope__importation.html#aa550ffd55aca6827a90343fcc251339f">ope_de_ventilation</a>;
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090     <span class="comment">/* Used by gnucash import */</span>
+<a name="l00091"></a><a class="code" href="structstruct__ope__importation.html#ad734dc36c77cdbd23941f570f0a7d90d">00091</a>     gchar * <a class="code" href="structstruct__ope__importation.html#ad734dc36c77cdbd23941f570f0a7d90d">guid</a>;
+<a name="l00092"></a>00092 };
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094 <span class="comment">/* possible actions to the transaction */</span>
+<a name="l00095"></a><a class="code" href="import_8h.html#a27cf9d59526d475c8f2cfc3835517226">00095</a> <span class="preprocessor">#define IMPORT_TRANSACTION_GET_TRANSACTION 0</span>
+<a name="l00096"></a><a class="code" href="import_8h.html#a1d50fba49a2567252133addea50b83bc">00096</a> <span class="preprocessor"></span><span class="preprocessor">#define IMPORT_TRANSACTION_ASK_FOR_TRANSACTION 1</span>
+<a name="l00097"></a><a class="code" href="import_8h.html#a835ae119c50247e8cf93d47580689a5a">00097</a> <span class="preprocessor"></span><span class="preprocessor">#define IMPORT_TRANSACTION_LEAVE_TRANSACTION 2</span>
+<a name="l00098"></a>00098 <span class="preprocessor"></span>
+<a name="l00099"></a><a class="code" href="structimported__file.html">00099</a> <span class="keyword">struct </span><a class="code" href="structimported__file.html">imported_file</a> {
+<a name="l00100"></a><a class="code" href="structimported__file.html#abfd9a9c068751bb65b413afecca70e6f">00100</a>     gchar * <a class="code" href="structimported__file.html#abfd9a9c068751bb65b413afecca70e6f">name</a>;
+<a name="l00101"></a><a class="code" href="structimported__file.html#af9b8e05e83e1adcd22c504ee990736d3">00101</a>     <span class="keyword">const</span> gchar * <a class="code" href="structimported__file.html#af9b8e05e83e1adcd22c504ee990736d3">coding_system</a>;
+<a name="l00102"></a><a class="code" href="structimported__file.html#a69a7b09e52de8d330bae9a1e9f1391a5">00102</a>     <span class="keyword">const</span> gchar * <a class="code" href="structimported__file.html#a69a7b09e52de8d330bae9a1e9f1391a5">type</a>;
+<a name="l00103"></a>00103 };
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105 
+<a name="l00106"></a><a class="code" href="import_8h.html#ae5eefe8d2e5aee94dc314801a7faaf15">00106</a> <span class="keyword">typedef</span> gboolean ( * <a class="code" href="import_8h.html#ae5eefe8d2e5aee94dc314801a7faaf15">import_function</a> ) ( GtkWidget * assistant, <span class="keyword">struct </span><a class="code" href="structimported__file.html">imported_file</a> * );
+<a name="l00107"></a>00107 
+<a name="l00108"></a><a class="code" href="structimport__format.html">00108</a> <span class="keyword">struct </span><a class="code" href="structimport__format.html">import_format</a> {
+<a name="l00109"></a><a class="code" href="structimport__format.html#af9cf8699252e2fc46a307afd3ed73cd2">00109</a>     gchar * <a class="code" href="structimport__format.html#af9cf8699252e2fc46a307afd3ed73cd2">name</a>;
+<a name="l00110"></a><a class="code" href="structimport__format.html#ad56aa46c179fd48f77dfdd535aa2e734">00110</a>     gchar * <a class="code" href="structimport__format.html#ad56aa46c179fd48f77dfdd535aa2e734">complete_name</a>;
+<a name="l00111"></a><a class="code" href="structimport__format.html#a218d1ed91e7f487691b69458206c1b52">00111</a>     gchar * <a class="code" href="structimport__format.html#a218d1ed91e7f487691b69458206c1b52">extension</a>;
+<a name="l00112"></a><a class="code" href="structimport__format.html#aa4fbb3045ac2172614b166a4dda07822">00112</a>     gboolean ( * <span class="keyword">import</span> ) ( GtkWidget * assistant, <span class="keyword">struct </span><a class="code" href="structimported__file.html">imported_file</a> * );
+<a name="l00113"></a>00113 };
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00116"></a>00116 gint <a class="code" href="import_8c.html#a973a66dc9a88ed606bd0936f32919a4f">gsb_import_associations_cmp_assoc</a> (<span class="keyword">struct</span> <a class="code" href="structstruct__payee__asso.html">struct_payee_asso</a> *assoc_1,
+<a name="l00117"></a>00117                                         <span class="keyword">struct</span> <a class="code" href="structstruct__payee__asso.html">struct_payee_asso</a> *assoc_2);
+<a name="l00118"></a>00118 GtkWidget * <a class="code" href="import_8c.html#aeedd1884f94db09625397f7714850f82">gsb_import_associations_gere_tiers</a> ( <span class="keywordtype">void</span> );
+<a name="l00119"></a>00119 <span class="keywordtype">void</span> <a class="code" href="import_8c.html#af8486d8bf4c57369bd528eb5c4474cb5">gsb_import_associations_init_variables</a> ( <span class="keywordtype">void</span> );
+<a name="l00120"></a>00120 gint <a class="code" href="import_8c.html#ac714bc1d2307956bd5172caaa39c1c21">gsb_import_associations_list_append_assoc</a> ( gint payee_number,
+<a name="l00121"></a>00121                         <span class="keyword">const</span> gchar *search_str );
+<a name="l00122"></a>00122 gboolean <a class="code" href="import_8c.html#a83937dc8d19317b124055841c3fd61a6">gsb_import_by_rule</a> ( gint rule );
+<a name="l00123"></a>00123 G_MODULE_EXPORT <span class="keywordtype">void</span> <a class="code" href="import_8c.html#a20d9d366175a0b8a38fb710d74df63b4">gsb_import_register_account</a> ( <span class="keyword">struct</span> <a class="code" href="structstruct__compte__importation.html">struct_compte_importation</a> * account );
+<a name="l00124"></a>00124 G_MODULE_EXPORT <span class="keywordtype">void</span> <a class="code" href="import_8c.html#a4bfa72d8a4cd4f0cb17bcce05e286607">gsb_import_register_account_error</a> ( <span class="keyword">struct</span> <a class="code" href="structstruct__compte__importation.html">struct_compte_importation</a> * account );
+<a name="l00125"></a>00125 GSList *<a class="code" href="import_8c.html#af47b0c4c36291dc40375ad1d3b402880">import_selected_files</a> ( GtkWidget * assistant );
+<a name="l00126"></a>00126 <span class="keywordtype">void</span> <a class="code" href="import_8c.html#a109c976310f1373efb8fdb52b3ee4263">importer_fichier</a> ( <span class="keywordtype">void</span> );
+<a name="l00127"></a>00127 GtkWidget *<a class="code" href="import_8c.html#a248bf76497a7936687f79e28da9ff0e8">onglet_importation</a> (<span class="keywordtype">void</span>);
+<a name="l00128"></a>00128 G_MODULE_EXPORT <span class="keywordtype">void</span> <a class="code" href="import_8c.html#a363697c684d8b70752d14c4a6eef0f73">register_import_format</a> ( <span class="keyword">struct</span> <a class="code" href="structimport__format.html">import_format</a> * format );
+<a name="l00129"></a>00129 <span class="keywordtype">void</span> <a class="code" href="import_8c.html#a24f0a83e63a5c81379d5971d41256324">register_import_formats</a> ();
+<a name="l00130"></a>00130 G_MODULE_EXPORT gchar * <a class="code" href="import_8c.html#a749d3f56e4864750955ed170111dca08">unique_imported_name</a> ( gchar * account_name );
+<a name="l00131"></a>00131 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

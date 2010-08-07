@@ -1,0 +1,151 @@
+\section{Référence du fichier bet\_\-hist.h}
+\label{bet__hist_8h}\index{bet\_\-hist.h@{bet\_\-hist.h}}
+{\ttfamily \#include $<$gtk/gtk.h$>$}\par
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf bet\_\-historical\_\-data\_\-columns} \{ \par
+{\bf SPP\_\-HISTORICAL\_\-SELECT\_\-COLUMN}, 
+{\bf SPP\_\-HISTORICAL\_\-DESC\_\-COLUMN}, 
+{\bf SPP\_\-HISTORICAL\_\-PERIOD\_\-COLUMN}, 
+{\bf SPP\_\-HISTORICAL\_\-BALANCE\_\-COLUMN}, 
+\par
+{\bf SPP\_\-HISTORICAL\_\-AVERAGE\_\-COLUMN}, 
+{\bf SPP\_\-HISTORICAL\_\-AVERAGE\_\-AMOUNT}, 
+{\bf SPP\_\-HISTORICAL\_\-RETAINED\_\-COLUMN}, 
+{\bf SPP\_\-HISTORICAL\_\-RETAINED\_\-AMOUNT}, 
+\par
+{\bf SPP\_\-HISTORICAL\_\-BALANCE\_\-COLOR}, 
+{\bf SPP\_\-HISTORICAL\_\-ACCOUNT\_\-NUMBER}, 
+{\bf SPP\_\-HISTORICAL\_\-DIV\_\-NUMBER}, 
+{\bf SPP\_\-HISTORICAL\_\-SUB\_\-DIV\_\-NUMBER}, 
+\par
+{\bf SPP\_\-HISTORICAL\_\-EDITED\_\-COLUMN}, 
+{\bf SPP\_\-HISTORICAL\_\-BACKGROUND\_\-COLOR}, 
+{\bf SPP\_\-HISTORICAL\_\-NUM\_\-COLUMNS}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf bet\_\-historical\_\-create\_\-page} (void)
+\item 
+gint {\bf bet\_\-historical\_\-get\_\-fyear\_\-from\_\-combobox} (GtkWidget $\ast$combo\_\-box)
+\item 
+void {\bf bet\_\-historical\_\-g\_\-signal\_\-block\_\-tree\_\-view} (void)
+\item 
+void {\bf bet\_\-historical\_\-g\_\-signal\_\-unblock\_\-tree\_\-view} (void)
+\item 
+void {\bf bet\_\-historical\_\-populate\_\-data} (gint account\_\-number)
+\item 
+void {\bf bet\_\-historical\_\-refresh\_\-data} (GtkTreeModel $\ast$tab\_\-model, GDate $\ast$date\_\-min, GDate $\ast$date\_\-max)
+\item 
+void {\bf bet\_\-historical\_\-set\_\-fyear\_\-from\_\-combobox} (GtkWidget $\ast$combo\_\-box, gint fyear)
+\item 
+void {\bf bet\_\-historical\_\-set\_\-page\_\-title} (gint account\_\-number)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation du type de l'énumération}
+\index{bet\_\-hist.h@{bet\_\-hist.h}!bet\_\-historical\_\-data\_\-columns@{bet\_\-historical\_\-data\_\-columns}}
+\index{bet\_\-historical\_\-data\_\-columns@{bet\_\-historical\_\-data\_\-columns}!bet_hist.h@{bet\_\-hist.h}}
+\subsubsection[{bet\_\-historical\_\-data\_\-columns}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf bet\_\-historical\_\-data\_\-columns}}\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897}
+\begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{SPP\_\-HISTORICAL\_\-SELECT\_\-COLUMN@{SPP\_\-HISTORICAL\_\-SELECT\_\-COLUMN}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-SELECT\_\-COLUMN@{SPP\_\-HISTORICAL\_\-SELECT\_\-COLUMN}}\item[{\em 
+SPP\_\-HISTORICAL\_\-SELECT\_\-COLUMN\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897a5d0bcfb3283a599dc1f20ca75cb6faf2}
+}]\index{SPP\_\-HISTORICAL\_\-DESC\_\-COLUMN@{SPP\_\-HISTORICAL\_\-DESC\_\-COLUMN}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-DESC\_\-COLUMN@{SPP\_\-HISTORICAL\_\-DESC\_\-COLUMN}}\item[{\em 
+SPP\_\-HISTORICAL\_\-DESC\_\-COLUMN\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897aeff2bf9d7b77605f4e1deb048cd0c84b}
+}]\index{SPP\_\-HISTORICAL\_\-PERIOD\_\-COLUMN@{SPP\_\-HISTORICAL\_\-PERIOD\_\-COLUMN}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-PERIOD\_\-COLUMN@{SPP\_\-HISTORICAL\_\-PERIOD\_\-COLUMN}}\item[{\em 
+SPP\_\-HISTORICAL\_\-PERIOD\_\-COLUMN\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897a45ca3b7c980e082587741f06f4c48d46}
+}]\index{SPP\_\-HISTORICAL\_\-BALANCE\_\-COLUMN@{SPP\_\-HISTORICAL\_\-BALANCE\_\-COLUMN}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-BALANCE\_\-COLUMN@{SPP\_\-HISTORICAL\_\-BALANCE\_\-COLUMN}}\item[{\em 
+SPP\_\-HISTORICAL\_\-BALANCE\_\-COLUMN\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897a6a40f807c6a610907487b055f4fa741e}
+}]\index{SPP\_\-HISTORICAL\_\-AVERAGE\_\-COLUMN@{SPP\_\-HISTORICAL\_\-AVERAGE\_\-COLUMN}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-AVERAGE\_\-COLUMN@{SPP\_\-HISTORICAL\_\-AVERAGE\_\-COLUMN}}\item[{\em 
+SPP\_\-HISTORICAL\_\-AVERAGE\_\-COLUMN\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897a1631c4f97d7e33268a015d35f8908b2d}
+}]\index{SPP\_\-HISTORICAL\_\-AVERAGE\_\-AMOUNT@{SPP\_\-HISTORICAL\_\-AVERAGE\_\-AMOUNT}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-AVERAGE\_\-AMOUNT@{SPP\_\-HISTORICAL\_\-AVERAGE\_\-AMOUNT}}\item[{\em 
+SPP\_\-HISTORICAL\_\-AVERAGE\_\-AMOUNT\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897a9383c850b527e1beb1a23ce870c7bbde}
+}]\index{SPP\_\-HISTORICAL\_\-RETAINED\_\-COLUMN@{SPP\_\-HISTORICAL\_\-RETAINED\_\-COLUMN}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-RETAINED\_\-COLUMN@{SPP\_\-HISTORICAL\_\-RETAINED\_\-COLUMN}}\item[{\em 
+SPP\_\-HISTORICAL\_\-RETAINED\_\-COLUMN\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897a94988d43a9fb250409c6de6324165e5e}
+}]\index{SPP\_\-HISTORICAL\_\-RETAINED\_\-AMOUNT@{SPP\_\-HISTORICAL\_\-RETAINED\_\-AMOUNT}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-RETAINED\_\-AMOUNT@{SPP\_\-HISTORICAL\_\-RETAINED\_\-AMOUNT}}\item[{\em 
+SPP\_\-HISTORICAL\_\-RETAINED\_\-AMOUNT\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897a97b1a54b3d43dc7cf517776044d275c9}
+}]\index{SPP\_\-HISTORICAL\_\-BALANCE\_\-COLOR@{SPP\_\-HISTORICAL\_\-BALANCE\_\-COLOR}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-BALANCE\_\-COLOR@{SPP\_\-HISTORICAL\_\-BALANCE\_\-COLOR}}\item[{\em 
+SPP\_\-HISTORICAL\_\-BALANCE\_\-COLOR\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897a7e8d04e4b520d5cc8c24c5e26af9ec75}
+}]\index{SPP\_\-HISTORICAL\_\-ACCOUNT\_\-NUMBER@{SPP\_\-HISTORICAL\_\-ACCOUNT\_\-NUMBER}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-ACCOUNT\_\-NUMBER@{SPP\_\-HISTORICAL\_\-ACCOUNT\_\-NUMBER}}\item[{\em 
+SPP\_\-HISTORICAL\_\-ACCOUNT\_\-NUMBER\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897ab8bc5e130fa8cfb9100d47fda24a5bff}
+}]\index{SPP\_\-HISTORICAL\_\-DIV\_\-NUMBER@{SPP\_\-HISTORICAL\_\-DIV\_\-NUMBER}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-DIV\_\-NUMBER@{SPP\_\-HISTORICAL\_\-DIV\_\-NUMBER}}\item[{\em 
+SPP\_\-HISTORICAL\_\-DIV\_\-NUMBER\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897ac666b9db44d7d9a667f13a3906efef93}
+}]\index{SPP\_\-HISTORICAL\_\-SUB\_\-DIV\_\-NUMBER@{SPP\_\-HISTORICAL\_\-SUB\_\-DIV\_\-NUMBER}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-SUB\_\-DIV\_\-NUMBER@{SPP\_\-HISTORICAL\_\-SUB\_\-DIV\_\-NUMBER}}\item[{\em 
+SPP\_\-HISTORICAL\_\-SUB\_\-DIV\_\-NUMBER\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897a80af7fc45177c92a3469977cc1e481f8}
+}]\index{SPP\_\-HISTORICAL\_\-EDITED\_\-COLUMN@{SPP\_\-HISTORICAL\_\-EDITED\_\-COLUMN}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-EDITED\_\-COLUMN@{SPP\_\-HISTORICAL\_\-EDITED\_\-COLUMN}}\item[{\em 
+SPP\_\-HISTORICAL\_\-EDITED\_\-COLUMN\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897a5a2e837c9fd864ef47eeb0b61b23bfe7}
+}]\index{SPP\_\-HISTORICAL\_\-BACKGROUND\_\-COLOR@{SPP\_\-HISTORICAL\_\-BACKGROUND\_\-COLOR}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-BACKGROUND\_\-COLOR@{SPP\_\-HISTORICAL\_\-BACKGROUND\_\-COLOR}}\item[{\em 
+SPP\_\-HISTORICAL\_\-BACKGROUND\_\-COLOR\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897a428a7138affdd5d06c282366109bacb5}
+}]\index{SPP\_\-HISTORICAL\_\-NUM\_\-COLUMNS@{SPP\_\-HISTORICAL\_\-NUM\_\-COLUMNS}!bet\_\-hist.h@{bet\_\-hist.h}}\index{bet\_\-hist.h@{bet\_\-hist.h}!SPP\_\-HISTORICAL\_\-NUM\_\-COLUMNS@{SPP\_\-HISTORICAL\_\-NUM\_\-COLUMNS}}\item[{\em 
+SPP\_\-HISTORICAL\_\-NUM\_\-COLUMNS\label{bet__hist_8h_a92c216be7a6952ea73c1b52b44ad4897a72f24a1895933b5600b451876c773e47}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 9 du fichier bet\_\-hist.h.
+
+
+
+\subsection{Documentation des fonctions}
+\index{bet\_\-hist.h@{bet\_\-hist.h}!bet\_\-historical\_\-create\_\-page@{bet\_\-historical\_\-create\_\-page}}
+\index{bet\_\-historical\_\-create\_\-page@{bet\_\-historical\_\-create\_\-page}!bet_hist.h@{bet\_\-hist.h}}
+\subsubsection[{bet\_\-historical\_\-create\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ bet\_\-historical\_\-create\_\-page (void)}\label{bet__hist_8h_a339ca48839f4c4ed5480bd2d36822c9c}
+Create the historical page 
+
+Définition à la ligne 122 du fichier bet\_\-hist.c.
+
+\index{bet\_\-hist.h@{bet\_\-hist.h}!bet\_\-historical\_\-g\_\-signal\_\-block\_\-tree\_\-view@{bet\_\-historical\_\-g\_\-signal\_\-block\_\-tree\_\-view}}
+\index{bet\_\-historical\_\-g\_\-signal\_\-block\_\-tree\_\-view@{bet\_\-historical\_\-g\_\-signal\_\-block\_\-tree\_\-view}!bet_hist.h@{bet\_\-hist.h}}
+\subsubsection[{bet\_\-historical\_\-g\_\-signal\_\-block\_\-tree\_\-view}]{\setlength{\rightskip}{0pt plus 5cm}void bet\_\-historical\_\-g\_\-signal\_\-block\_\-tree\_\-view (void)}\label{bet__hist_8h_adf6e0f9c8fad1ccf20cf59f847952694}
+
+
+Définition à la ligne 1599 du fichier bet\_\-hist.c.
+
+\index{bet\_\-hist.h@{bet\_\-hist.h}!bet\_\-historical\_\-g\_\-signal\_\-unblock\_\-tree\_\-view@{bet\_\-historical\_\-g\_\-signal\_\-unblock\_\-tree\_\-view}}
+\index{bet\_\-historical\_\-g\_\-signal\_\-unblock\_\-tree\_\-view@{bet\_\-historical\_\-g\_\-signal\_\-unblock\_\-tree\_\-view}!bet_hist.h@{bet\_\-hist.h}}
+\subsubsection[{bet\_\-historical\_\-g\_\-signal\_\-unblock\_\-tree\_\-view}]{\setlength{\rightskip}{0pt plus 5cm}void bet\_\-historical\_\-g\_\-signal\_\-unblock\_\-tree\_\-view (void)}\label{bet__hist_8h_abdc34191d350f48a5dfa2aab50e813d5}
+
+
+Définition à la ligne 1623 du fichier bet\_\-hist.c.
+
+\index{bet\_\-hist.h@{bet\_\-hist.h}!bet\_\-historical\_\-get\_\-fyear\_\-from\_\-combobox@{bet\_\-historical\_\-get\_\-fyear\_\-from\_\-combobox}}
+\index{bet\_\-historical\_\-get\_\-fyear\_\-from\_\-combobox@{bet\_\-historical\_\-get\_\-fyear\_\-from\_\-combobox}!bet_hist.h@{bet\_\-hist.h}}
+\subsubsection[{bet\_\-historical\_\-get\_\-fyear\_\-from\_\-combobox}]{\setlength{\rightskip}{0pt plus 5cm}gint bet\_\-historical\_\-get\_\-fyear\_\-from\_\-combobox (GtkWidget $\ast$ {\em combo\_\-box})}\label{bet__hist_8h_abcb09aee0aaff63d36a2da702ad4520b}
+
+
+Définition à la ligne 996 du fichier bet\_\-hist.c.
+
+\index{bet\_\-hist.h@{bet\_\-hist.h}!bet\_\-historical\_\-populate\_\-data@{bet\_\-historical\_\-populate\_\-data}}
+\index{bet\_\-historical\_\-populate\_\-data@{bet\_\-historical\_\-populate\_\-data}!bet_hist.h@{bet\_\-hist.h}}
+\subsubsection[{bet\_\-historical\_\-populate\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}void bet\_\-historical\_\-populate\_\-data (gint {\em account\_\-number})}\label{bet__hist_8h_adc9c988a689a8786009b652946cafd79}
+
+
+Définition à la ligne 640 du fichier bet\_\-hist.c.
+
+\index{bet\_\-hist.h@{bet\_\-hist.h}!bet\_\-historical\_\-refresh\_\-data@{bet\_\-historical\_\-refresh\_\-data}}
+\index{bet\_\-historical\_\-refresh\_\-data@{bet\_\-historical\_\-refresh\_\-data}!bet_hist.h@{bet\_\-hist.h}}
+\subsubsection[{bet\_\-historical\_\-refresh\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}void bet\_\-historical\_\-refresh\_\-data (GtkTreeModel $\ast$ {\em tab\_\-model}, \/  GDate $\ast$ {\em date\_\-min}, \/  GDate $\ast$ {\em date\_\-max})}\label{bet__hist_8h_a91d084d5b8b5d19d52294b1148c758b9}
+
+
+Définition à la ligne 1037 du fichier bet\_\-hist.c.
+
+\index{bet\_\-hist.h@{bet\_\-hist.h}!bet\_\-historical\_\-set\_\-fyear\_\-from\_\-combobox@{bet\_\-historical\_\-set\_\-fyear\_\-from\_\-combobox}}
+\index{bet\_\-historical\_\-set\_\-fyear\_\-from\_\-combobox@{bet\_\-historical\_\-set\_\-fyear\_\-from\_\-combobox}!bet_hist.h@{bet\_\-hist.h}}
+\subsubsection[{bet\_\-historical\_\-set\_\-fyear\_\-from\_\-combobox}]{\setlength{\rightskip}{0pt plus 5cm}void bet\_\-historical\_\-set\_\-fyear\_\-from\_\-combobox (GtkWidget $\ast$ {\em combo\_\-box}, \/  gint {\em fyear})}\label{bet__hist_8h_ae25049d7e4dc6d068bafe7eef985e0db}
+
+
+Définition à la ligne 1022 du fichier bet\_\-hist.c.
+
+\index{bet\_\-hist.h@{bet\_\-hist.h}!bet\_\-historical\_\-set\_\-page\_\-title@{bet\_\-historical\_\-set\_\-page\_\-title}}
+\index{bet\_\-historical\_\-set\_\-page\_\-title@{bet\_\-historical\_\-set\_\-page\_\-title}!bet_hist.h@{bet\_\-hist.h}}
+\subsubsection[{bet\_\-historical\_\-set\_\-page\_\-title}]{\setlength{\rightskip}{0pt plus 5cm}void bet\_\-historical\_\-set\_\-page\_\-title (gint {\em account\_\-number})}\label{bet__hist_8h_aa39deaae836fcf9b62acc430d95e1479}
+
+
+Définition à la ligne 1650 du fichier bet\_\-hist.c.
+

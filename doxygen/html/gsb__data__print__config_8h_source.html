@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_data_print_config.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_data_print_config.h</h1><a href="gsb__data__print__config_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _GSB_DATA_PRINT_CONFIG_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _GSB_DATA_PRINT_CONFIG_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00006"></a>00006 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00007"></a>00007 
+<a name="l00008"></a>00008 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00009"></a>00009 gboolean <a class="code" href="gsb__data__print__config_8c.html#a6e773923f44e66e6e047ec8bd6bbdb21">gsb_data_print_config_get_draw_archives</a>  (<span class="keywordtype">void</span>);
+<a name="l00010"></a>00010 gboolean <a class="code" href="gsb__data__print__config_8c.html#aba43ee990b36315212df9e30ce5a640e">gsb_data_print_config_get_draw_background</a>  (<span class="keywordtype">void</span>);
+<a name="l00011"></a>00011 gboolean <a class="code" href="gsb__data__print__config_8c.html#a9eee382b1ee81d2291ef4eb4aae4bb7a">gsb_data_print_config_get_draw_column</a>  (<span class="keywordtype">void</span>);
+<a name="l00012"></a>00012 gboolean <a class="code" href="gsb__data__print__config_8c.html#a01e892528ff87835487d03a5ba6c24e5">gsb_data_print_config_get_draw_columns_name</a>  (<span class="keywordtype">void</span>);
+<a name="l00013"></a>00013 gboolean <a class="code" href="gsb__data__print__config_8c.html#a533bc3e1fa5039645557a0d959571497">gsb_data_print_config_get_draw_dates_are_value_dates</a>  (<span class="keywordtype">void</span>);
+<a name="l00014"></a>00014 gboolean <a class="code" href="gsb__data__print__config_8c.html#a10c52e1083f665efc453c87daff007a7">gsb_data_print_config_get_draw_interval_dates</a>  (<span class="keywordtype">void</span>);
+<a name="l00015"></a>00015 gboolean <a class="code" href="gsb__data__print__config_8c.html#a6214f4edbeb618543155d93c1440fb13">gsb_data_print_config_get_draw_lines</a>  (<span class="keywordtype">void</span>);
+<a name="l00016"></a>00016 gboolean <a class="code" href="gsb__data__print__config_8c.html#afd8a78e043b717e6bc2a6a18b6ced76d">gsb_data_print_config_get_draw_title</a>  (<span class="keywordtype">void</span>);
+<a name="l00017"></a>00017 PangoFontDescription *<a class="code" href="gsb__data__print__config_8c.html#a683c317369e1e940e1066cccd3306099">gsb_data_print_config_get_font_title</a> (<span class="keywordtype">void</span>);
+<a name="l00018"></a>00018 PangoFontDescription *<a class="code" href="gsb__data__print__config_8c.html#af32e6fae377170c98443900214ddd009">gsb_data_print_config_get_font_transactions</a> (<span class="keywordtype">void</span>);
+<a name="l00019"></a>00019 PangoFontDescription *<a class="code" href="gsb__data__print__config_8c.html#a42842df1055227a0faa8c7a17c2b2f46">gsb_data_print_config_get_report_font_title</a> (<span class="keywordtype">void</span>);
+<a name="l00020"></a>00020 PangoFontDescription *<a class="code" href="gsb__data__print__config_8c.html#a6adfdd58927d0c92a60106bcb1a94536">gsb_data_print_config_get_report_font_transactions</a> (<span class="keywordtype">void</span>);
+<a name="l00021"></a>00021 <span class="keywordtype">void</span> <a class="code" href="gsb__data__print__config_8c.html#ac41ddc7fc1b56a817f79bcab5de201ac">gsb_data_print_config_init</a> (<span class="keywordtype">void</span>);
+<a name="l00022"></a>00022 gboolean <a class="code" href="gsb__data__print__config_8c.html#a39ab91c1594098a305ee245957ce6e2b">gsb_data_print_config_set_draw_archives</a>  ( gint number,
+<a name="l00023"></a>00023                                                     gboolean value );
+<a name="l00024"></a>00024 gboolean <a class="code" href="gsb__data__print__config_8c.html#ad06a44fa956ad56ee3ecbb4834c541c2">gsb_data_print_config_set_draw_background</a>  ( gint number,
+<a name="l00025"></a>00025                                                       gboolean value );
+<a name="l00026"></a>00026 gboolean <a class="code" href="gsb__data__print__config_8c.html#aa24596906e01248f337b10c9ef207a66">gsb_data_print_config_set_draw_column</a>  ( gint number,
+<a name="l00027"></a>00027                                                   gboolean value );
+<a name="l00028"></a>00028 gboolean <a class="code" href="gsb__data__print__config_8c.html#a59f35cc5d8bddd66c4c302f32820b4b9">gsb_data_print_config_set_draw_columns_name</a>  ( gint number,
+<a name="l00029"></a>00029                                                         gboolean value );
+<a name="l00030"></a>00030 gboolean <a class="code" href="gsb__data__print__config_8c.html#aaa7ae93d7b50c959a8844a2e6773c7e4">gsb_data_print_config_set_draw_dates_are_value_dates</a>  ( gint number,
+<a name="l00031"></a>00031                                                                  gboolean value );
+<a name="l00032"></a>00032 gboolean <a class="code" href="gsb__data__print__config_8c.html#a672a308b8bc95de4e737f7abd610d0b1">gsb_data_print_config_set_draw_interval_dates</a>  ( gint number,
+<a name="l00033"></a>00033                                                           gboolean value );
+<a name="l00034"></a>00034 gboolean <a class="code" href="gsb__data__print__config_8c.html#acbb938f35f95f8ab78bb62f266ea3143">gsb_data_print_config_set_draw_lines</a>  ( gint number,
+<a name="l00035"></a>00035                                                  gboolean value );
+<a name="l00036"></a>00036 gboolean <a class="code" href="gsb__data__print__config_8c.html#a8d6dcd2b99ea76bfb003da07439fee75">gsb_data_print_config_set_draw_title</a>  ( gint number,
+<a name="l00037"></a>00037                                                  gboolean value );
+<a name="l00038"></a>00038 gboolean <a class="code" href="gsb__data__print__config_8c.html#a2829de8cc372604bb83ad2f7e80e2ee6">gsb_data_print_config_set_font_title</a> ( PangoFontDescription *font_desc );
+<a name="l00039"></a>00039 gboolean <a class="code" href="gsb__data__print__config_8c.html#ab1a5ac2e69698c3aa4cd3cff44344538">gsb_data_print_config_set_font_transaction</a>  ( PangoFontDescription *font_desc );
+<a name="l00040"></a>00040 gboolean <a class="code" href="gsb__data__print__config_8c.html#a57d1c4cbe472fd57f2c4312ab9d23520">gsb_data_print_config_set_report_font_title</a> ( PangoFontDescription *font_desc );
+<a name="l00041"></a>00041 gboolean <a class="code" href="gsb__data__print__config_8c.html#ad01d9f7bfcb5b81d37a5650b41ce17d9">gsb_data_print_config_set_report_font_transaction</a> ( PangoFontDescription *font_desc );
+<a name="l00042"></a>00042 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00043"></a>00043 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:02 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

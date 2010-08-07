@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de transaction_model.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>transaction_model.c</h1><a href="transaction__model_8c.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00002"></a>00002 <span class="comment">/*                                                                            */</span>
+<a name="l00003"></a>00003 <span class="comment">/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */</span>
+<a name="l00004"></a>00004 <span class="comment">/*          http://www.grisbi.org                                             */</span>
+<a name="l00005"></a>00005 <span class="comment">/*                                                                            */</span>
+<a name="l00006"></a>00006 <span class="comment">/*  This program is free software; you can redistribute it and/or modify      */</span>
+<a name="l00007"></a>00007 <span class="comment">/*  it under the terms of the GNU General Public License as published by      */</span>
+<a name="l00008"></a>00008 <span class="comment">/*  the Free Software Foundation; either version 2 of the License, or         */</span>
+<a name="l00009"></a>00009 <span class="comment">/*  (at your option) any later version.                                       */</span>
+<a name="l00010"></a>00010 <span class="comment">/*                                                                            */</span>
+<a name="l00011"></a>00011 <span class="comment">/*  This program is distributed in the hope that it will be useful,           */</span>
+<a name="l00012"></a>00012 <span class="comment">/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */</span>
+<a name="l00013"></a>00013 <span class="comment">/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */</span>
+<a name="l00014"></a>00014 <span class="comment">/*  GNU General Public License for more details.                              */</span>
+<a name="l00015"></a>00015 <span class="comment">/*                                                                            */</span>
+<a name="l00016"></a>00016 <span class="comment">/*  You should have received a copy of the GNU General Public License         */</span>
+<a name="l00017"></a>00017 <span class="comment">/*  along with this program; if not, write to the Free Software               */</span>
+<a name="l00018"></a>00018 <span class="comment">/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */</span>
+<a name="l00019"></a>00019 <span class="comment">/*                                                                            */</span>
+<a name="l00020"></a>00020 <span class="comment">/* ************************************************************************** */</span>
+<a name="l00021"></a>00021 
+<a name="l00022"></a>00022 
+<a name="l00023"></a>00023 
+<a name="l00030"></a>00030 <span class="preprocessor">#include &quot;<a class="code" href="include_8h.html">include.h</a>&quot;</span>
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 <span class="comment">/*START_INCLUDE*/</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include &quot;<a class="code" href="transaction__model_8h.html">transaction_model.h</a>&quot;</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="gsb__data__transaction_8h.html">gsb_data_transaction.h</a>&quot;</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &quot;<a class="code" href="custom__list_8h.html">custom_list.h</a>&quot;</span>
+<a name="l00036"></a>00036 <span class="comment">/*END_INCLUDE*/</span>
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="comment">/*START_STATIC*/</span>
+<a name="l00039"></a>00039 <span class="comment">/*END_STATIC*/</span>
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 <span class="comment">/*START_EXTERN*/</span>
+<a name="l00042"></a>00042 <span class="comment">/*END_EXTERN*/</span>
+<a name="l00043"></a>00043 
+<a name="l00044"></a>00044 
+<a name="l00049"></a>00049 <span class="keyword">static</span> <a class="code" href="struct__CustomList.html">CustomList</a> *custom_list = NULL;
+<a name="l00050"></a>00050 
+<a name="l00051"></a>00051 
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053 
+<a name="l00062"></a><a class="code" href="transaction__model_8h.html#ad2a7f1004a5b27450f8fc159f74351dc">00062</a> <span class="keywordtype">void</span> <a class="code" href="transaction__model_8c.html#ad2a7f1004a5b27450f8fc159f74351dc">transaction_model_initialize</a> ( <span class="keywordtype">void</span> )
+<a name="l00063"></a>00063 {
+<a name="l00064"></a>00064     gint i;
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066     <span class="keywordflow">if</span> (!custom_list)
+<a name="l00067"></a>00067         <span class="keywordflow">return</span>;
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069     <span class="comment">/* free all records and free all memory used by the list */</span>
+<a name="l00070"></a>00070     <span class="keywordflow">for</span> (i=0 ; i&lt;custom_list -&gt; num_rows ; i++)
+<a name="l00071"></a>00071     {
+<a name="l00072"></a>00072         <a class="code" href="struct__CustomRecord.html">CustomRecord</a> *record;
+<a name="l00073"></a>00073         gint j;
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075         record = custom_list -&gt; rows[i];
+<a name="l00076"></a>00076         <span class="keywordflow">for</span> (j=0 ; j&lt;<a class="code" href="custom__list_8h.html#a5120df6c303afc3c01e77218f39b80b5">CUSTOM_MODEL_N_VISIBLES_COLUMN</a> ; j++)
+<a name="l00077"></a>00077             <span class="keywordflow">if</span> (record -&gt; visible_col[j])
+<a name="l00078"></a>00078                 g_free (record -&gt; visible_col[j]);
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080         <span class="keywordflow">if</span> (record -&gt; number_of_children)
+<a name="l00081"></a>00081         {
+<a name="l00082"></a>00082             gint k;
+<a name="l00083"></a>00083             <span class="keywordflow">for</span> (k=0 ; k&lt;record -&gt; number_of_children ; k++)
+<a name="l00084"></a>00084             {
+<a name="l00085"></a>00085                 <a class="code" href="struct__CustomRecord.html">CustomRecord</a> *child_record;
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087                 child_record = record -&gt; children_rows[k];
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089                 <span class="keywordflow">for</span> (j=0 ; j&lt;CUSTOM_MODEL_N_VISIBLES_COLUMN ; j++)
+<a name="l00090"></a>00090                     <span class="keywordflow">if</span> (child_record -&gt; visible_col[j])
+<a name="l00091"></a>00091                         g_free (child_record -&gt; visible_col[j]);
+<a name="l00092"></a>00092                 g_free (child_record);
+<a name="l00093"></a>00093             }
+<a name="l00094"></a>00094             g_free (record -&gt; children_rows);
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096             <span class="keywordflow">for</span> (k=0 ; k&lt;<a class="code" href="custom__list_8h.html#a738de041650943c6854c2fa523b2e2e5">TRANSACTION_LIST_ROWS_NB</a> ; k++)
+<a name="l00097"></a>00097                 record -&gt; transaction_records[k] -&gt; number_of_children = 0;
+<a name="l00098"></a>00098         }
+<a name="l00099"></a>00099         g_free (record);
+<a name="l00100"></a>00100     }
+<a name="l00101"></a>00101     g_free (custom_list -&gt; rows);
+<a name="l00102"></a>00102     g_free (custom_list -&gt; visibles_rows);
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104     <span class="comment">/* cannot free custom_list without crashing grisbi... perhaps done automatically</span>
+<a name="l00105"></a>00105 <span class="comment">     * when destroying the tree view ? */</span>
+<a name="l00106"></a>00106     <span class="comment">/*     g_free (custom_list); */</span>
+<a name="l00107"></a>00107     custom_list = NULL;
+<a name="l00108"></a>00108 }
+<a name="l00109"></a>00109 
+<a name="l00117"></a><a class="code" href="transaction__model_8h.html#a416a1ee9231b6f7d74d3b0811902163a">00117</a> <a class="code" href="struct__CustomList.html">CustomList</a> *<a class="code" href="transaction__model_8c.html#a416a1ee9231b6f7d74d3b0811902163a">transaction_model_get_model</a> (<span class="keywordtype">void</span>)
+<a name="l00118"></a>00118 {
+<a name="l00119"></a>00119     <span class="keywordflow">return</span> custom_list;
+<a name="l00120"></a>00120 }
+<a name="l00121"></a>00121 
+<a name="l00129"></a><a class="code" href="transaction__model_8h.html#abdb06cefc313c26f54d556ad09f71302">00129</a> <span class="keywordtype">void</span> <a class="code" href="transaction__model_8c.html#abdb06cefc313c26f54d556ad09f71302">transaction_model_set_model</a> ( <a class="code" href="struct__CustomList.html">CustomList</a> *new_custom_list )
+<a name="l00130"></a>00130 {
+<a name="l00131"></a>00131     custom_list = new_custom_list;
+<a name="l00132"></a>00132 }
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135 
+<a name="l00146"></a><a class="code" href="transaction__model_8h.html#af10137737c1d42087c8fed2fa2d8c9ee">00146</a> gboolean <a class="code" href="transaction__model_8c.html#af10137737c1d42087c8fed2fa2d8c9ee">transaction_model_get_transaction_iter</a> ( GtkTreeIter *iter,
+<a name="l00147"></a>00147                                                   gint transaction_number,
+<a name="l00148"></a>00148                                                   gint line_in_transaction )
+<a name="l00149"></a>00149 {
+<a name="l00150"></a>00150     gint i;
+<a name="l00151"></a>00151     gint mother_transaction_number = transaction_number;
+<a name="l00152"></a>00152     gboolean is_child;
+<a name="l00153"></a>00153     <a class="code" href="struct__CustomRecord.html">CustomRecord</a> *record = NULL;
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155     g_return_val_if_fail (iter != NULL, FALSE);
+<a name="l00156"></a>00156     g_return_val_if_fail (transaction_number != 0, FALSE);
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158     <span class="comment">/* the transaction can be a mother or a child,</span>
+<a name="l00159"></a>00159 <span class="comment">     * in all cases, we have to find first the mother (or herself)</span>
+<a name="l00160"></a>00160 <span class="comment">     * because the children are saved into the mother structure */</span>
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162     <span class="comment">/* if it&#39;s a child, look for the mother first */</span>
+<a name="l00163"></a>00163     is_child = <a class="code" href="gsb__data__transaction_8c.html#a6018560ece7ab02e8d46bc9bdaffd607">gsb_data_transaction_get_mother_transaction_number</a> (transaction_number) != 0;
+<a name="l00164"></a>00164     <span class="keywordflow">if</span> (is_child)
+<a name="l00165"></a>00165         mother_transaction_number = <a class="code" href="gsb__data__transaction_8c.html#a6018560ece7ab02e8d46bc9bdaffd607">gsb_data_transaction_get_mother_transaction_number</a> (transaction_number);
+<a name="l00166"></a>00166 
+<a name="l00167"></a>00167     <span class="comment">/* search the mother */</span>
+<a name="l00168"></a>00168     <span class="keywordflow">for</span> (i=0 ; i&lt;custom_list -&gt; num_rows ; i++)
+<a name="l00169"></a>00169     {
+<a name="l00170"></a>00170         record = custom_list -&gt; rows[i];
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172         <span class="comment">/* if we are on the good transaction, check the line, or if child can only be that line */</span>
+<a name="l00173"></a>00173         <span class="keywordflow">if</span> (record -&gt; what_is_line == <a class="code" href="custom__list_8h.html#a6845cc455dccec2a61535b0faa09414d">IS_TRANSACTION</a>
+<a name="l00174"></a>00174             &amp;&amp;
+<a name="l00175"></a>00175             <a class="code" href="gsb__data__transaction_8c.html#a99bf548513083f4a71fe019faeccbe0a">gsb_data_transaction_get_transaction_number</a> (record -&gt; transaction_pointer) == mother_transaction_number )
+<a name="l00176"></a>00176         {
+<a name="l00177"></a>00177             <span class="comment">/* ok, found the mother ; if search a child, stop here and continue to search,</span>
+<a name="l00178"></a>00178 <span class="comment">             * if want the mother, need to check if it&#39;s the good line */</span>
+<a name="l00179"></a>00179             <span class="keywordflow">if</span> (is_child)
+<a name="l00180"></a>00180                 <span class="keywordflow">break</span>;
+<a name="l00181"></a>00181 
+<a name="l00182"></a>00182             <span class="keywordflow">if</span> (record -&gt; line_in_transaction == line_in_transaction)
+<a name="l00183"></a>00183             {
+<a name="l00184"></a>00184                 <span class="comment">/* fill the iter */</span>
+<a name="l00185"></a>00185                 iter-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>     = custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>;
+<a name="l00186"></a>00186                 iter-&gt;user_data = record;
+<a name="l00187"></a>00187                 <span class="keywordflow">return</span> TRUE;
+<a name="l00188"></a>00188             }
+<a name="l00189"></a>00189         }
+<a name="l00190"></a>00190     }
+<a name="l00191"></a>00191 
+<a name="l00192"></a>00192     <span class="comment">/* come here only if it&#39;s a child, else, iter not found */</span>
+<a name="l00193"></a>00193     <span class="keywordflow">if</span> (!is_child)
+<a name="l00194"></a>00194         <span class="keywordflow">return</span> FALSE;
+<a name="l00195"></a>00195 
+<a name="l00196"></a>00196     <span class="comment">/* for now, record is the mother, we search the child */</span>
+<a name="l00197"></a>00197     <span class="keywordflow">for</span> (i=0 ; i &lt; record -&gt; number_of_children ; i++)
+<a name="l00198"></a>00198     {
+<a name="l00199"></a>00199         <a class="code" href="struct__CustomRecord.html">CustomRecord</a> *child_record;
+<a name="l00200"></a>00200 
+<a name="l00201"></a>00201         child_record = record -&gt; children_rows[i];
+<a name="l00202"></a>00202 
+<a name="l00203"></a>00203         <span class="keywordflow">if</span> (child_record -&gt; what_is_line == <a class="code" href="custom__list_8h.html#a6845cc455dccec2a61535b0faa09414d">IS_TRANSACTION</a>
+<a name="l00204"></a>00204             &amp;&amp;
+<a name="l00205"></a>00205             <a class="code" href="gsb__data__transaction_8c.html#a99bf548513083f4a71fe019faeccbe0a">gsb_data_transaction_get_transaction_number</a> (child_record -&gt; transaction_pointer) == transaction_number)
+<a name="l00206"></a>00206         {
+<a name="l00207"></a>00207             <span class="comment">/* ok, the child is found ; and only 1 line, so no more check */</span>
+<a name="l00208"></a>00208             <span class="comment">/* fill the iter */</span>
+<a name="l00209"></a>00209             iter-&gt;stamp     = custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>;
+<a name="l00210"></a>00210             iter-&gt;user_data = child_record;
+<a name="l00211"></a>00211             <span class="keywordflow">return</span> TRUE;
+<a name="l00212"></a>00212         }
+<a name="l00213"></a>00213     }
+<a name="l00214"></a>00214     <span class="keywordflow">return</span> FALSE;
+<a name="l00215"></a>00215 }
+<a name="l00216"></a>00216 
+<a name="l00228"></a><a class="code" href="transaction__model_8h.html#a553ed5bab955a902b0494f0b4521e0fc">00228</a> gboolean <a class="code" href="transaction__model_8c.html#a553ed5bab955a902b0494f0b4521e0fc">transaction_model_get_iter</a> (GtkTreeIter  *iter,
+<a name="l00229"></a>00229                                      GtkTreePath  *path)
+<a name="l00230"></a>00230 {
+<a name="l00231"></a>00231     <a class="code" href="struct__CustomRecord.html">CustomRecord</a>  *record = NULL;
+<a name="l00232"></a>00232     gint          *indices, depth;
+<a name="l00233"></a>00233     gint mother_n;
+<a name="l00234"></a>00234 
+<a name="l00235"></a>00235     g_return_val_if_fail (path != NULL, FALSE);
+<a name="l00236"></a>00236     g_return_val_if_fail (iter != NULL, FALSE);
+<a name="l00237"></a>00237 
+<a name="l00238"></a>00238     <span class="comment">/* get the list of indices, should have maximum 2 */</span>
+<a name="l00239"></a>00239     indices = gtk_tree_path_get_indices(path);
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241     <span class="comment">/* depth 1 = top level */</span>
+<a name="l00242"></a>00242     depth   = gtk_tree_path_get_depth(path);
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244     <span class="comment">/* get the mother line first */</span>
+<a name="l00245"></a>00245     mother_n = indices[0];
+<a name="l00246"></a>00246 
+<a name="l00247"></a>00247     <span class="comment">/* get the parent record */</span>
+<a name="l00248"></a>00248     <span class="keywordflow">if</span> ( mother_n &gt;= custom_list-&gt;<a class="code" href="struct__CustomList.html#a767f2c2cec183c1d11dabb991c21382d">num_rows</a> || mother_n &lt; 0 )
+<a name="l00249"></a>00249         <span class="keywordflow">return</span> FALSE;
+<a name="l00250"></a>00250 
+<a name="l00251"></a>00251     record = custom_list -&gt; rows[mother_n];
+<a name="l00252"></a>00252     g_return_val_if_fail (record != NULL, FALSE);
+<a name="l00253"></a>00253 
+<a name="l00254"></a>00254     <span class="comment">/* if we want a child, get it here */</span>
+<a name="l00255"></a>00255     <span class="keywordflow">if</span> (depth == 2)
+<a name="l00256"></a>00256     {
+<a name="l00257"></a>00257         gint child_n;
+<a name="l00258"></a>00258 
+<a name="l00259"></a>00259         child_n = indices[1];
+<a name="l00260"></a>00260         <span class="keywordflow">if</span> (child_n &gt;= record -&gt; number_of_children || child_n &lt; 0)
+<a name="l00261"></a>00261             <span class="keywordflow">return</span> FALSE;
+<a name="l00262"></a>00262 
+<a name="l00263"></a>00263         record = record -&gt; children_rows[child_n];
+<a name="l00264"></a>00264         g_return_val_if_fail (record != NULL, FALSE);
+<a name="l00265"></a>00265     }
+<a name="l00266"></a>00266 
+<a name="l00267"></a>00267     <span class="comment">/* We simply store a pointer to our custom record in the iter */</span>
+<a name="l00268"></a>00268     iter-&gt;stamp      = custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>;
+<a name="l00269"></a>00269     iter-&gt;user_data  = record;
+<a name="l00270"></a>00270     <span class="comment">/*     iter-&gt;user_data2 = NULL; */</span>
+<a name="l00271"></a>00271     <span class="comment">/*     iter-&gt;user_data3 = NULL; */</span>
+<a name="l00272"></a>00272     <span class="keywordflow">return</span> TRUE;
+<a name="l00273"></a>00273 }
+<a name="l00274"></a>00274 
+<a name="l00275"></a>00275 
+<a name="l00287"></a><a class="code" href="transaction__model_8h.html#a2fd3b631729b3a7c5fd463d06f511b7b">00287</a> gboolean <a class="code" href="transaction__model_8c.html#a2fd3b631729b3a7c5fd463d06f511b7b">transaction_model_iter_next</a> (GtkTreeIter *iter)
+<a name="l00288"></a>00288 {
+<a name="l00289"></a>00289     <a class="code" href="struct__CustomRecord.html">CustomRecord</a>  *record;
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291     g_return_val_if_fail (iter != NULL, FALSE);
+<a name="l00292"></a>00292     g_return_val_if_fail (iter-&gt;user_data != NULL, FALSE);
+<a name="l00293"></a>00293 
+<a name="l00294"></a>00294     record = (<a class="code" href="struct__CustomRecord.html">CustomRecord</a> *) iter-&gt;user_data;
+<a name="l00295"></a>00295 
+<a name="l00296"></a>00296     <span class="comment">/* 2 way now, either we are on a mother, either on a child */</span>
+<a name="l00297"></a>00297     if (record -&gt; mother_row)
+<a name="l00298"></a>00298     {
+<a name="l00299"></a>00299         <span class="comment">/* it&#39;s a child iter */</span>
+<a name="l00300"></a>00300         <a class="code" href="struct__CustomRecord.html">CustomRecord</a>  *mother_record;
+<a name="l00301"></a>00301 
+<a name="l00302"></a>00302         mother_record = record -&gt; mother_row;
+<a name="l00303"></a>00303         <span class="keywordflow">if</span> (record -&gt; pos == (mother_record -&gt; number_of_children - 1))
+<a name="l00304"></a>00304             <span class="comment">/* we are on the list child, no next */</span>
+<a name="l00305"></a>00305             <span class="keywordflow">return</span> FALSE;
+<a name="l00306"></a>00306 
+<a name="l00307"></a>00307         <span class="comment">/* go to the next child */</span>
+<a name="l00308"></a>00308         iter-&gt;stamp     = custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>;
+<a name="l00309"></a>00309         iter-&gt;user_data = mother_record -&gt; children_rows[record -&gt; pos + 1];
+<a name="l00310"></a>00310     }
+<a name="l00311"></a>00311     <span class="keywordflow">else</span>
+<a name="l00312"></a>00312     {
+<a name="l00313"></a>00313         <span class="comment">/* it&#39;s a mother iter */</span>
+<a name="l00314"></a>00314         <span class="keywordflow">if</span> (record -&gt; pos == (custom_list -&gt; num_rows - 1))
+<a name="l00315"></a>00315             <span class="comment">/* we are on the last mother, no next */</span>
+<a name="l00316"></a>00316             <span class="keywordflow">return</span> FALSE;
+<a name="l00317"></a>00317 
+<a name="l00318"></a>00318         iter-&gt;stamp     = custom_list-&gt;<a class="code" href="struct__CustomList.html#ad55c29483a410971d02c114ce4616fbe">stamp</a>;
+<a name="l00319"></a>00319         iter-&gt;user_data = custom_list -&gt; rows[record -&gt; pos + 1];
+<a name="l00320"></a>00320     }
+<a name="l00321"></a>00321     <span class="keywordflow">return</span> TRUE;
+<a name="l00322"></a>00322 }
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324 
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_data_report.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_data_report.h</h1><a href="gsb__data__report_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _GSB_DATA_REPORT_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _GSB_DATA_REPORT_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00005"></a>00005 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00006"></a>00006 
+<a name="l00012"></a><a class="code" href="structstruct__categ__budget__sel.html">00012</a> <span class="keyword">typedef</span> <span class="keyword">struct</span>
+<a name="l00013"></a>00013 {
+<a name="l00014"></a><a class="code" href="structstruct__categ__budget__sel.html#ab4d8a88c70542ed25a12d707c95a7cfc">00014</a>     gint div_number;
+<a name="l00015"></a><a class="code" href="structstruct__categ__budget__sel.html#a50367e87c3c0f1c70d293cd43e2c81d6">00015</a>     GSList *sub_div_numbers;    <span class="comment">/* list of number of sub-categories/budgets selected for the category/budget */</span>
+<a name="l00016"></a>00016 
+<a name="l00017"></a>00017 } <a class="code" href="structstruct__categ__budget__sel.html">struct_categ_budget_sel</a>;
+<a name="l00018"></a>00018 
+<a name="l00019"></a>00019 
+<a name="l00020"></a>00020 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00021"></a>00021 gboolean <a class="code" href="gsb__data__report_8c.html#a9c727cd98fb76b61edc15eb6ee2a6cf7">gsb_data_report_check_categ_budget_in_report</a> ( GSList *list_struct_report,
+<a name="l00022"></a>00022                                                         gint div_number,
+<a name="l00023"></a>00023                                                         gint sub_div_number );
+<a name="l00024"></a>00024 gint <a class="code" href="gsb__data__report_8c.html#abda2daaf9f14fc7414cca3095ea38b54">gsb_data_report_compare_position</a> ( gint report_number_1,
+<a name="l00025"></a>00025                                         gint report_number_2 );
+<a name="l00026"></a>00026 gint <a class="code" href="gsb__data__report_8c.html#a9c61238b2aa695b3f68fa95738706901">gsb_data_report_dup</a> ( gint report_number );
+<a name="l00027"></a>00027 gboolean <a class="code" href="gsb__data__report_8c.html#a4b4e9db9308383255c4d5ad14050f731">gsb_data_report_free_categ_budget_struct</a> (GSList *categ_budget_sel_list);
+<a name="l00028"></a>00028 gint <a class="code" href="gsb__data__report_8c.html#a42a9f65da4a9151a990da2d4a65cc226">gsb_data_report_get_account_group_reports</a> ( gint report_number );
+<a name="l00029"></a>00029 GSList *<a class="code" href="gsb__data__report_8c.html#a073b6ce755d88520985137fea738c608">gsb_data_report_get_account_numbers</a> ( gint report_number );
+<a name="l00030"></a>00030 gint <a class="code" href="gsb__data__report_8c.html#a9c5625a1a402793ea655690e1a3574a1">gsb_data_report_get_account_show_amount</a> ( gint report_number );
+<a name="l00031"></a>00031 gint <a class="code" href="gsb__data__report_8c.html#a6dc235068d7d26ab61b2093f601c7d47">gsb_data_report_get_account_show_name</a> ( gint report_number );
+<a name="l00032"></a>00032 gint <a class="code" href="gsb__data__report_8c.html#a8795e1ce126fb9646150f81dc88bec5e">gsb_data_report_get_account_use_chosen</a> ( gint report_number );
+<a name="l00033"></a>00033 gint <a class="code" href="gsb__data__report_8c.html#a58c1bf88812b81d307bea9247695bfc9">gsb_data_report_get_amount_comparison_currency</a> ( gint report_number );
+<a name="l00034"></a>00034 GSList *<a class="code" href="gsb__data__report_8c.html#a67893d2be0b2f657aa1c41211820280b">gsb_data_report_get_amount_comparison_list</a> ( gint report_number );
+<a name="l00035"></a>00035 gint <a class="code" href="gsb__data__report_8c.html#a232972d837e5037f101cc7f4e1d08411">gsb_data_report_get_amount_comparison_only_report_non_null</a> ( gint report_number );
+<a name="l00036"></a>00036 gint <a class="code" href="gsb__data__report_8c.html#abc400fd723354a2aab046938ec38d391">gsb_data_report_get_amount_comparison_used</a> ( gint report_number );
+<a name="l00037"></a>00037 gint <a class="code" href="gsb__data__report_8c.html#afc1cb357b4bcd3737c5f3e629e85c2d3">gsb_data_report_get_append_in_payee</a> ( gint report_number );
+<a name="l00038"></a>00038 gint <a class="code" href="gsb__data__report_8c.html#ac55bacd270ac28bb1ccb99bf05f56600">gsb_data_report_get_budget_currency</a> ( gint report_number );
+<a name="l00039"></a>00039 gint <a class="code" href="gsb__data__report_8c.html#a45e6a3c4276d00531dfdec020025e233">gsb_data_report_get_budget_detail_used</a> ( gint report_number );
+<a name="l00040"></a>00040 gint <a class="code" href="gsb__data__report_8c.html#ab575f962ecdc5d88215734464c37f785">gsb_data_report_get_budget_show_budget_amount</a> ( gint report_number );
+<a name="l00041"></a>00041 gint <a class="code" href="gsb__data__report_8c.html#a996b003e1a37decc93b190770ba98893">gsb_data_report_get_budget_show_name</a> ( gint report_number );
+<a name="l00042"></a>00042 gint <a class="code" href="gsb__data__report_8c.html#abee9b7991ac2a4309cce782a30f4d56b">gsb_data_report_get_budget_show_sub_budget</a> ( gint report_number );
+<a name="l00043"></a>00043 gint <a class="code" href="gsb__data__report_8c.html#a47ab8953e5739e8bb7a86c08d253faf4">gsb_data_report_get_budget_show_sub_budget_amount</a> ( gint report_number );
+<a name="l00044"></a>00044 gint <a class="code" href="gsb__data__report_8c.html#a024d23601c6cf79622a1f1c78d8aa9dc">gsb_data_report_get_budget_show_without_budget</a> ( gint report_number );
+<a name="l00045"></a>00045 GSList *<a class="code" href="gsb__data__report_8c.html#a73b4bbf059d42a3a4e769b935adf99e2">gsb_data_report_get_budget_struct</a> ( gint report_number );
+<a name="l00046"></a>00046 gint <a class="code" href="gsb__data__report_8c.html#ac769ab6723a840d0059fe07116500866">gsb_data_report_get_budget_used</a> ( gint report_number );
+<a name="l00047"></a>00047 gint <a class="code" href="gsb__data__report_8c.html#ac6e52caf2a3546fea1a63e3893940e85">gsb_data_report_get_category_currency</a> ( gint report_number );
+<a name="l00048"></a>00048 gint <a class="code" href="gsb__data__report_8c.html#ad49bc1036e429d9980dee8af4ca566f8">gsb_data_report_get_category_detail_used</a> ( gint report_number );
+<a name="l00049"></a>00049 gint <a class="code" href="gsb__data__report_8c.html#ab3344874887e7a1a8b6c8c697f25839d">gsb_data_report_get_category_show_category_amount</a> ( gint report_number );
+<a name="l00050"></a>00050 gint <a class="code" href="gsb__data__report_8c.html#a63ce412e50b72a75e53acff971b2c543">gsb_data_report_get_category_show_name</a> ( gint report_number );
+<a name="l00051"></a>00051 gint <a class="code" href="gsb__data__report_8c.html#a88734d946b08911ec007ca161389df6b">gsb_data_report_get_category_show_sub_category</a> ( gint report_number );
+<a name="l00052"></a>00052 gint <a class="code" href="gsb__data__report_8c.html#ac9bd4b8fe61e9e585d1f096aac3593be">gsb_data_report_get_category_show_sub_category_amount</a> ( gint report_number );
+<a name="l00053"></a>00053 gint <a class="code" href="gsb__data__report_8c.html#af4733ecea37c9687e09640429b1f1d36">gsb_data_report_get_category_show_without_category</a> ( gint report_number );
+<a name="l00054"></a>00054 GSList *<a class="code" href="gsb__data__report_8c.html#af8cf9d659ba029877c116f4b7b2f549b">gsb_data_report_get_category_struct</a> ( gint report_number );
+<a name="l00055"></a>00055 gint <a class="code" href="gsb__data__report_8c.html#af669229d09ac127bba5200c85a5c55f2">gsb_data_report_get_category_used</a> ( gint report_number );
+<a name="l00056"></a>00056 gint <a class="code" href="gsb__data__report_8c.html#a342b5f849aa7502164adca331cc01e70">gsb_data_report_get_column_title_show</a> ( gint report_number );
+<a name="l00057"></a>00057 gint <a class="code" href="gsb__data__report_8c.html#a754246c573f2bada728cb53c8b8e64d2">gsb_data_report_get_column_title_type</a> ( gint report_number );
+<a name="l00058"></a>00058 gint <a class="code" href="gsb__data__report_8c.html#a612672a2c6a8f7a8d88eab53bbd675ea">gsb_data_report_get_currency_general</a> ( gint report_number );
+<a name="l00059"></a>00059 gint <a class="code" href="gsb__data__report_8c.html#af7a006077d16fc48a7b50dda1bc1a003">gsb_data_report_get_date_type</a> ( gint report_number );
+<a name="l00060"></a>00060 GSList *<a class="code" href="gsb__data__report_8c.html#a3a5c318502c4291b825100997b2c1000">gsb_data_report_get_financial_year_list</a> ( gint report_number );
+<a name="l00061"></a>00061 gint <a class="code" href="gsb__data__report_8c.html#a996aadce24ac64e6632f9984a358b8bc">gsb_data_report_get_financial_year_split</a> ( gint report_number );
+<a name="l00062"></a>00062 gint <a class="code" href="gsb__data__report_8c.html#a7a1b2e1c08c6f27b78e33cc36b812b09">gsb_data_report_get_financial_year_type</a> ( gint report_number );
+<a name="l00063"></a>00063 GSList *<a class="code" href="gsb__data__report_8c.html#a3ceac05c6ab8d63dadc7c6245368874e">gsb_data_report_get_method_of_payment_list</a> ( gint report_number );
+<a name="l00064"></a>00064 gint <a class="code" href="gsb__data__report_8c.html#aea652d5031272334eb6d0d6dba670f2d">gsb_data_report_get_method_of_payment_used</a> ( gint report_number );
+<a name="l00065"></a>00065 gint <a class="code" href="gsb__data__report_8c.html#a8fadaed4b6bb256487ab1d3a96f1d810">gsb_data_report_get_not_detail_split</a> ( gint report_number );
+<a name="l00066"></a>00066 gint <a class="code" href="gsb__data__report_8c.html#a6caa69e4c724ee89a5ce59e2be19a6fe">gsb_data_report_get_payee_currency</a> ( gint report_number );
+<a name="l00067"></a>00067 gint <a class="code" href="gsb__data__report_8c.html#ab1419810516f92c2abd2be0b8f9bbc46">gsb_data_report_get_payee_detail_used</a> ( gint report_number );
+<a name="l00068"></a>00068 GSList *<a class="code" href="gsb__data__report_8c.html#a6fdd042f7f52de6f133b0fb00159aa54">gsb_data_report_get_payee_numbers</a> ( gint report_number );
+<a name="l00069"></a>00069 gint <a class="code" href="gsb__data__report_8c.html#a20ef94f2f9e40aff661015164410e781">gsb_data_report_get_payee_show_name</a> ( gint report_number );
+<a name="l00070"></a>00070 gint <a class="code" href="gsb__data__report_8c.html#ad29798d39b64acda018ddd1043d31845">gsb_data_report_get_payee_show_payee_amount</a> ( gint report_number );
+<a name="l00071"></a>00071 gint <a class="code" href="gsb__data__report_8c.html#a1a3062adfe4e0dfd44c28241a9e6be74">gsb_data_report_get_payee_used</a> ( gint report_number );
+<a name="l00072"></a>00072 gint <a class="code" href="gsb__data__report_8c.html#ae6b88858361f9e177a6be4372786a98e">gsb_data_report_get_period_split</a> ( gint report_number );
+<a name="l00073"></a>00073 gint <a class="code" href="gsb__data__report_8c.html#ade2bfa0985adb8d198819ed4017fbf69">gsb_data_report_get_period_split_day</a> ( gint report_number );
+<a name="l00074"></a>00074 gint <a class="code" href="gsb__data__report_8c.html#ab62bea16821cbdf1770049a1f2a957dd">gsb_data_report_get_period_split_type</a> ( gint report_number );
+<a name="l00075"></a>00075 GDate *<a class="code" href="gsb__data__report_8c.html#a3a534591a126c244500d4fb6e2e114bb">gsb_data_report_get_personal_date_end</a> ( gint report_number );
+<a name="l00076"></a>00076 GDate *<a class="code" href="gsb__data__report_8c.html#af91c5f48c615e21c7b46de6410743888">gsb_data_report_get_personal_date_start</a> ( gint report_number );
+<a name="l00077"></a>00077 gint <a class="code" href="gsb__data__report_8c.html#aaefc7008e472177f918cd16aee615938">gsb_data_report_get_report_by_name</a> ( <span class="keyword">const</span> gchar *name );
+<a name="l00078"></a>00078 gint <a class="code" href="gsb__data__report_8c.html#ac5a36bf3cb9623e0c53a4e7a0d1f6633">gsb_data_report_get_report_can_click</a> ( gint report_number );
+<a name="l00079"></a>00079 GSList *<a class="code" href="gsb__data__report_8c.html#a7a55a8189e9f34c587309954e2acbfb7">gsb_data_report_get_report_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00080"></a>00080 gchar *<a class="code" href="gsb__data__report_8c.html#ace8a87d303afdf89ef8f3a901987db83">gsb_data_report_get_report_name</a> ( gint report_number );
+<a name="l00081"></a>00081 gint <a class="code" href="gsb__data__report_8c.html#ac2414893a361047cb656ac7a26247907">gsb_data_report_get_report_number</a> ( gpointer report_pointer );
+<a name="l00082"></a>00082 gint <a class="code" href="gsb__data__report_8c.html#af0c735cb4932dfd39c1bac8b709aac41">gsb_data_report_get_show_r</a> ( gint report_number );
+<a name="l00083"></a>00083 gint <a class="code" href="gsb__data__report_8c.html#ad9ba2ec81d468b2897d7602159076a18">gsb_data_report_get_show_report_bank_references</a> ( gint report_number );
+<a name="l00084"></a>00084 gint <a class="code" href="gsb__data__report_8c.html#ae0d188ce272dba7a32193cd3b0def51a">gsb_data_report_get_show_report_budget</a> ( gint report_number );
+<a name="l00085"></a>00085 gint <a class="code" href="gsb__data__report_8c.html#aa89d2ab64f4f6b8646abe25855047517">gsb_data_report_get_show_report_category</a> ( gint report_number );
+<a name="l00086"></a>00086 gint <a class="code" href="gsb__data__report_8c.html#aed1abedff7cfc02a95dcaf2d22edb14c">gsb_data_report_get_show_report_date</a> ( gint report_number );
+<a name="l00087"></a>00087 gint <a class="code" href="gsb__data__report_8c.html#aaa96b52e90b04814a016c44bc68f05af">gsb_data_report_get_show_report_financial_year</a> ( gint report_number );
+<a name="l00088"></a>00088 gint <a class="code" href="gsb__data__report_8c.html#a73804ddf13bb7adef8f0280f796029df">gsb_data_report_get_show_report_marked</a> ( gint report_number );
+<a name="l00089"></a>00089 gint <a class="code" href="gsb__data__report_8c.html#ad8c2e7e73636943574c5fbdca0504623">gsb_data_report_get_show_report_method_of_payment</a> ( gint report_number );
+<a name="l00090"></a>00090 gint <a class="code" href="gsb__data__report_8c.html#a04806d05098cdb8e2d62ed4fc08b6758">gsb_data_report_get_show_report_method_of_payment_content</a> ( gint report_number );
+<a name="l00091"></a>00091 gint <a class="code" href="gsb__data__report_8c.html#a68663f18a0398ffded17aa69413cac65">gsb_data_report_get_show_report_note</a> ( gint report_number );
+<a name="l00092"></a>00092 gint <a class="code" href="gsb__data__report_8c.html#a4c1ff27e8311c12f34ec351fb4ece8c1">gsb_data_report_get_show_report_payee</a> ( gint report_number );
+<a name="l00093"></a>00093 gint <a class="code" href="gsb__data__report_8c.html#a286e3676a77392b04bb3d95301d1e31a">gsb_data_report_get_show_report_sub_budget</a> ( gint report_number );
+<a name="l00094"></a>00094 gint <a class="code" href="gsb__data__report_8c.html#ad1fcc27701930ed8407141e2229fc84b">gsb_data_report_get_show_report_sub_category</a> ( gint report_number );
+<a name="l00095"></a>00095 gint <a class="code" href="gsb__data__report_8c.html#a321cacb63f18e3aec2beca8b1939078f">gsb_data_report_get_show_report_transaction_amount</a> ( gint report_number );
+<a name="l00096"></a>00096 gint <a class="code" href="gsb__data__report_8c.html#a1aaaf5b7a5cc6f02509c108607b21714">gsb_data_report_get_show_report_transaction_number</a> ( gint report_number );
+<a name="l00097"></a>00097 gint <a class="code" href="gsb__data__report_8c.html#a60ef2fcdc574a669ba7a14975ba532fa">gsb_data_report_get_show_report_transactions</a> ( gint report_number );
+<a name="l00098"></a>00098 gint <a class="code" href="gsb__data__report_8c.html#ae74ac68a4250f92c23047231fd86e183">gsb_data_report_get_show_report_value_date</a> ( gint report_number );
+<a name="l00099"></a>00099 gint <a class="code" href="gsb__data__report_8c.html#aace6b2c39c7cf9c260300071a9e79c8b">gsb_data_report_get_show_report_voucher</a> ( gint report_number );
+<a name="l00100"></a>00100 gint <a class="code" href="gsb__data__report_8c.html#a819b84a6821b23316bbb49770677a2fd">gsb_data_report_get_sorting_report</a> ( gint report_number );
+<a name="l00101"></a>00101 GSList *<a class="code" href="gsb__data__report_8c.html#a124d944a5ed747acf82c7d8986d47ee8">gsb_data_report_get_sorting_type</a> ( gint report_number );
+<a name="l00102"></a>00102 gint <a class="code" href="gsb__data__report_8c.html#a89c0ba1f36ce26a92b596f677ed040ea">gsb_data_report_get_split_credit_debit</a> ( gint report_number );
+<a name="l00103"></a>00103 GSList *<a class="code" href="gsb__data__report_8c.html#acef51acc8cdd62ce33bf5bebdab0824d">gsb_data_report_get_text_comparison_list</a> ( gint report_number );
+<a name="l00104"></a>00104 gint <a class="code" href="gsb__data__report_8c.html#aa558931984bcd63613c24befdb7bca21">gsb_data_report_get_text_comparison_used</a> ( gint report_number );
+<a name="l00105"></a>00105 GSList *<a class="code" href="gsb__data__report_8c.html#a6929187165177b9a96a64e254ac8ef5a">gsb_data_report_get_transfer_account_numbers</a> ( gint report_number );
+<a name="l00106"></a>00106 gint <a class="code" href="gsb__data__report_8c.html#ac06e2bf2147480c80e6b718b9a4684c8">gsb_data_report_get_transfer_choice</a> ( gint report_number );
+<a name="l00107"></a>00107 gint <a class="code" href="gsb__data__report_8c.html#a84ed85db03b9ff0dbf79a4fa05f77cf9">gsb_data_report_get_transfer_reports_only</a> ( gint report_number );
+<a name="l00108"></a>00108 gint <a class="code" href="gsb__data__report_8c.html#a333c4b8854b3251bcaed0af381f6c9f0">gsb_data_report_get_use_financial_year</a> ( gint report_number );
+<a name="l00109"></a>00109 gboolean <a class="code" href="gsb__data__report_8c.html#a3c8ddc26a685eae6f27830b399f3786c">gsb_data_report_init_variables</a> ( <span class="keywordtype">void</span> );
+<a name="l00110"></a>00110 gint <a class="code" href="gsb__data__report_8c.html#ac674afd1a5183b64dff409b0ad56ceed">gsb_data_report_max_number</a> ( <span class="keywordtype">void</span> );
+<a name="l00111"></a>00111 gboolean <a class="code" href="gsb__data__report_8c.html#a70b1952b53d013aa7a3b348e59b09d9f">gsb_data_report_move_report</a> ( gint report_number,
+<a name="l00112"></a>00112                                        gint dest_report_number );
+<a name="l00113"></a>00113 gint <a class="code" href="gsb__data__report_8c.html#a82fe1c2ce10e0375e0468b35d6727fc2">gsb_data_report_new</a> ( gchar *name );
+<a name="l00114"></a>00114 gint <a class="code" href="gsb__data__report_8c.html#a930c53191d6cec63aa29af94110978b3">gsb_data_report_new_with_number</a> ( gint number );
+<a name="l00115"></a>00115 gboolean <a class="code" href="gsb__data__report_8c.html#a65c3e90fd33b0f7b6b2d3260629a77b8">gsb_data_report_remove</a> ( gint no_report );
+<a name="l00116"></a>00116 gboolean <a class="code" href="gsb__data__report_8c.html#abcf12d1638353b898d37e62c8e1389fb">gsb_data_report_set_account_group_reports</a> ( gint report_number,
+<a name="l00117"></a>00117                                                      gint account_group_reports );
+<a name="l00118"></a>00118 gboolean <a class="code" href="gsb__data__report_8c.html#aa4ef1bd5e516fcd7378accc678888668">gsb_data_report_set_account_numbers</a> ( gint report_number,
+<a name="l00119"></a>00119                                                GSList *account_numbers );
+<a name="l00120"></a>00120 gboolean <a class="code" href="gsb__data__report_8c.html#a0947d46d6ad023cc68c8763a0fdccc52">gsb_data_report_set_account_show_amount</a> ( gint report_number,
+<a name="l00121"></a>00121                                                    gint account_show_amount );
+<a name="l00122"></a>00122 gboolean <a class="code" href="gsb__data__report_8c.html#a862b85e96ac5068869e33ec932f638ab">gsb_data_report_set_account_show_name</a> ( gint report_number,
+<a name="l00123"></a>00123                                                  gint account_show_name );
+<a name="l00124"></a>00124 gboolean <a class="code" href="gsb__data__report_8c.html#ac54652a76d6a17444eb69fa1ee7e5db0">gsb_data_report_set_account_use_chosen</a> ( gint report_number,
+<a name="l00125"></a>00125                                                    gint account_use_chosen );
+<a name="l00126"></a>00126 gboolean <a class="code" href="gsb__data__report_8c.html#a7afbedc46c35638211fefa91a96f2685">gsb_data_report_set_amount_comparison_currency</a> ( gint report_number,
+<a name="l00127"></a>00127                                                           gint amount_comparison_currency );
+<a name="l00128"></a>00128 gboolean <a class="code" href="gsb__data__report_8c.html#a6eb5115463b2a01bb92cc146d8892ba8">gsb_data_report_set_amount_comparison_list</a> ( gint report_number,
+<a name="l00129"></a>00129                                                       GSList *amount_comparison_list );
+<a name="l00130"></a>00130 gboolean <a class="code" href="gsb__data__report_8c.html#a1750e8d64c30f9fde6862653b0b32d57">gsb_data_report_set_amount_comparison_only_report_non_null</a> ( gint report_number,
+<a name="l00131"></a>00131                                                                       gint amount_comparison_only_report_non_null );
+<a name="l00132"></a>00132 gboolean <a class="code" href="gsb__data__report_8c.html#a2859e07734283fd656f77dbb1442b965">gsb_data_report_set_amount_comparison_used</a> ( gint report_number,
+<a name="l00133"></a>00133                                                       gint amount_comparison_used );
+<a name="l00134"></a>00134 gboolean <a class="code" href="gsb__data__report_8c.html#a27d3aea4ad671f1c0ffbafa5eb304892">gsb_data_report_set_append_in_payee</a> ( gint report_number,
+<a name="l00135"></a>00135                                                gint append_in_payee );
+<a name="l00136"></a>00136 gboolean <a class="code" href="gsb__data__report_8c.html#a77ed5a9735965540ea81585f9a6350f2">gsb_data_report_set_budget_currency</a> ( gint report_number,
+<a name="l00137"></a>00137                                                gint budget_currency );
+<a name="l00138"></a>00138 gboolean <a class="code" href="gsb__data__report_8c.html#ac6285c2f45a4a2e2be883dc00eb1f121">gsb_data_report_set_budget_detail_used</a> ( gint report_number,
+<a name="l00139"></a>00139                                                   gint budget_detail_used );
+<a name="l00140"></a>00140 gboolean <a class="code" href="gsb__data__report_8c.html#aa68de6945655fd72555983a8390f0dec">gsb_data_report_set_budget_show_budget_amount</a> ( gint report_number,
+<a name="l00141"></a>00141                                                          gint budget_show_budget_amount );
+<a name="l00142"></a>00142 gboolean <a class="code" href="gsb__data__report_8c.html#a7824c4a94a88b7fd49c6c73d442b048d">gsb_data_report_set_budget_show_name</a> ( gint report_number,
+<a name="l00143"></a>00143                                                 gint budget_show_name );
+<a name="l00144"></a>00144 gboolean <a class="code" href="gsb__data__report_8c.html#a0256748105b93120b1fbac5ce910f3db">gsb_data_report_set_budget_show_sub_budget</a> ( gint report_number,
+<a name="l00145"></a>00145                                                       gint budget_show_sub_budget );
+<a name="l00146"></a>00146 gboolean <a class="code" href="gsb__data__report_8c.html#a18a21a4e17c75f8497793c8140546a30">gsb_data_report_set_budget_show_sub_budget_amount</a> ( gint report_number,
+<a name="l00147"></a>00147                                                          gint budget_show_sub_budget_amount );
+<a name="l00148"></a>00148 gboolean <a class="code" href="gsb__data__report_8c.html#a4691d5cdf4228cbf67682f9d5ba15df6">gsb_data_report_set_budget_show_without_budget</a> ( gint report_number,
+<a name="l00149"></a>00149                                                           gint budget_show_without_budget );
+<a name="l00150"></a>00150 gboolean <a class="code" href="gsb__data__report_8c.html#a487b3bc75744eb56f0e976f0e4619bf6">gsb_data_report_set_budget_struct</a> ( gint report_number,
+<a name="l00151"></a>00151                                              GSList *budget_select_struct );
+<a name="l00152"></a>00152 gboolean <a class="code" href="gsb__data__report_8c.html#adcc6a605473017b85c9247e8993ed6d2">gsb_data_report_set_budget_used</a> ( gint report_number,
+<a name="l00153"></a>00153                                            gint budget_used );
+<a name="l00154"></a>00154 gboolean <a class="code" href="gsb__data__report_8c.html#a658593daf7e49a64355a99ad6cd06a85">gsb_data_report_set_category_currency</a> ( gint report_number,
+<a name="l00155"></a>00155                                                  gint category_currency );
+<a name="l00156"></a>00156 gboolean <a class="code" href="gsb__data__report_8c.html#a3e57d2f10e345722eef212b2651445ac">gsb_data_report_set_category_detail_used</a> ( gint report_number,
+<a name="l00157"></a>00157                                                     gint category_detail_used );
+<a name="l00158"></a>00158 gboolean <a class="code" href="gsb__data__report_8c.html#adffc908b069708969325ace8c9458dba">gsb_data_report_set_category_show_category_amount</a> ( gint report_number,
+<a name="l00159"></a>00159                                                              gint category_show_category_amount );
+<a name="l00160"></a>00160 gboolean <a class="code" href="gsb__data__report_8c.html#ab9f1fb9448436b4c66f4531c812f83ed">gsb_data_report_set_category_show_name</a> ( gint report_number,
+<a name="l00161"></a>00161                                                   gint category_show_name );
+<a name="l00162"></a>00162 gboolean <a class="code" href="gsb__data__report_8c.html#ae828391902dac653842424728c1145c8">gsb_data_report_set_category_show_sub_category</a> ( gint report_number,
+<a name="l00163"></a>00163                                                           gint category_show_sub_category );
+<a name="l00164"></a>00164 gboolean <a class="code" href="gsb__data__report_8c.html#a5dcb920f8a7a54d32c3946ebc37ecd84">gsb_data_report_set_category_show_sub_category_amount</a> ( gint report_number,
+<a name="l00165"></a>00165                                                                  gint category_show_sub_category_amount );
+<a name="l00166"></a>00166 gboolean <a class="code" href="gsb__data__report_8c.html#a33d95bde5fe8a0234bd1cae6b95343a6">gsb_data_report_set_category_show_without_category</a> ( gint report_number,
+<a name="l00167"></a>00167                                                               gint category_show_without_category );
+<a name="l00168"></a>00168 gboolean <a class="code" href="gsb__data__report_8c.html#a22af1dd38a4fdfdbf05c0ae2705d965a">gsb_data_report_set_category_struct</a> ( gint report_number,
+<a name="l00169"></a>00169                                                GSList *categ_select_struct );
+<a name="l00170"></a>00170 gboolean <a class="code" href="gsb__data__report_8c.html#a8214ff79a8eda5c90ced8765cd4d2332">gsb_data_report_set_category_used</a> ( gint report_number,
+<a name="l00171"></a>00171                                              gint category_used );
+<a name="l00172"></a>00172 gboolean <a class="code" href="gsb__data__report_8c.html#aca83800b33424ae916e6f4c0a5ceed4c">gsb_data_report_set_column_title_show</a> ( gint report_number,
+<a name="l00173"></a>00173                                                  gint column_title_show );
+<a name="l00174"></a>00174 gboolean <a class="code" href="gsb__data__report_8c.html#acfd5e551906807174bc7cdf2dd49b169">gsb_data_report_set_column_title_type</a> ( gint report_number,
+<a name="l00175"></a>00175                                                  gint column_title_type );
+<a name="l00176"></a>00176 gboolean <a class="code" href="gsb__data__report_8c.html#a62c52c55575358b3f8e6a5bc2b609cd1">gsb_data_report_set_currency_general</a> ( gint report_number,
+<a name="l00177"></a>00177                                                 gint currency_general );
+<a name="l00178"></a>00178 gboolean <a class="code" href="gsb__data__report_8c.html#a32f4be4d98f68b6c96ca94bebb79de20">gsb_data_report_set_date_type</a> ( gint report_number,
+<a name="l00179"></a>00179                                          gint date_type );
+<a name="l00180"></a>00180 gboolean <a class="code" href="gsb__data__report_8c.html#a34aae9a3c02a7e90ff33ce4e4559809c">gsb_data_report_set_financial_year_list</a> ( gint report_number,
+<a name="l00181"></a>00181                                                    GSList *financial_year_list );
+<a name="l00182"></a>00182 gboolean <a class="code" href="gsb__data__report_8c.html#ab5a189185447f48b12879aea97930145">gsb_data_report_set_financial_year_split</a> ( gint report_number,
+<a name="l00183"></a>00183                                                     gint financial_year_split );
+<a name="l00184"></a>00184 gboolean <a class="code" href="gsb__data__report_8c.html#a96718834b16c38b11763fbc814f5e086">gsb_data_report_set_financial_year_type</a> ( gint report_number,
+<a name="l00185"></a>00185                                                    gint financial_year_type );
+<a name="l00186"></a>00186 gboolean <a class="code" href="gsb__data__report_8c.html#a562272db6e3cedb588ddc4369fd600ca">gsb_data_report_set_method_of_payment_list</a> ( gint report_number,
+<a name="l00187"></a>00187                                                       GSList *method_of_payment_list );
+<a name="l00188"></a>00188 gboolean <a class="code" href="gsb__data__report_8c.html#ac09945d5127067695248a15d0d451c6f">gsb_data_report_set_method_of_payment_used</a> ( gint report_number,
+<a name="l00189"></a>00189                                                       gint method_of_payment_used );
+<a name="l00190"></a>00190 gboolean <a class="code" href="gsb__data__report_8c.html#a2e0c60e9d8f77c74b9337ccc96e9a78f">gsb_data_report_set_not_detail_split</a> ( gint report_number,
+<a name="l00191"></a>00191                                                     gint not_detail_split );
+<a name="l00192"></a>00192 gboolean <a class="code" href="gsb__data__report_8c.html#a182247da4a5f2d536eda8e47b99a4af6">gsb_data_report_set_payee_currency</a> ( gint report_number,
+<a name="l00193"></a>00193                                               gint payee_currency );
+<a name="l00194"></a>00194 gboolean <a class="code" href="gsb__data__report_8c.html#a589f69a29f71be146999e89481b03154">gsb_data_report_set_payee_detail_used</a> ( gint report_number,
+<a name="l00195"></a>00195                                                  gint payee_detail_used );
+<a name="l00196"></a>00196 gboolean <a class="code" href="gsb__data__report_8c.html#afc7b7b621ea125bac254c5aa8b9400d1">gsb_data_report_set_payee_numbers</a> ( gint report_number,
+<a name="l00197"></a>00197                                              GSList *payee_numbers );
+<a name="l00198"></a>00198 gboolean <a class="code" href="gsb__data__report_8c.html#adf7170b9e6919b4e4cc4bf7c17884489">gsb_data_report_set_payee_show_name</a> ( gint report_number,
+<a name="l00199"></a>00199                                                gint payee_show_name );
+<a name="l00200"></a>00200 gboolean <a class="code" href="gsb__data__report_8c.html#abd9675b402887c4bd3ef03822176834f">gsb_data_report_set_payee_show_payee_amount</a> ( gint report_number,
+<a name="l00201"></a>00201                                                        gint payee_show_payee_amount );
+<a name="l00202"></a>00202 gboolean <a class="code" href="gsb__data__report_8c.html#afc3cfa2b75c2f93fd173149de4b7f716">gsb_data_report_set_payee_used</a> ( gint report_number,
+<a name="l00203"></a>00203                                           gint payee_used );
+<a name="l00204"></a>00204 gboolean <a class="code" href="gsb__data__report_8c.html#a82dbac52eaaab86d4183ed4609f96d8b">gsb_data_report_set_period_split</a> ( gint report_number,
+<a name="l00205"></a>00205                                             gint period_split );
+<a name="l00206"></a>00206 gboolean <a class="code" href="gsb__data__report_8c.html#a02ed60f2f7e277b7634edb786376fd98">gsb_data_report_set_period_split_day</a> ( gint report_number,
+<a name="l00207"></a>00207                                                 gint period_split_day );
+<a name="l00208"></a>00208 gboolean <a class="code" href="gsb__data__report_8c.html#a38b69c288d5827f9604f81066b79ea6f">gsb_data_report_set_period_split_type</a> ( gint report_number,
+<a name="l00209"></a>00209                                                  gint period_split_type );
+<a name="l00210"></a>00210 gboolean <a class="code" href="gsb__data__report_8c.html#aa78f798f8271be7673969325cfcc6af3">gsb_data_report_set_personal_date_end</a> ( gint report_number,
+<a name="l00211"></a>00211                                                  GDate *personal_date_end );
+<a name="l00212"></a>00212 gboolean <a class="code" href="gsb__data__report_8c.html#a383795b5a8f79f6e2503b6a3c06a55ce">gsb_data_report_set_personal_date_start</a> ( gint report_number,
+<a name="l00213"></a>00213                                                    GDate *personal_date_start );
+<a name="l00214"></a>00214 gboolean <a class="code" href="gsb__data__report_8c.html#a71ab810cbda85aae7c911ffd4a0724c7">gsb_data_report_set_report_can_click</a> ( gint report_number,
+<a name="l00215"></a>00215                                                 gint report_can_click );
+<a name="l00216"></a>00216 gboolean <a class="code" href="gsb__data__report_8c.html#a25bdbca8cfa9b81378623973645112df">gsb_data_report_set_report_name</a> ( gint report_number,
+<a name="l00217"></a>00217                                            <span class="keyword">const</span> gchar *report_name );
+<a name="l00218"></a>00218 gboolean <a class="code" href="gsb__data__report_8c.html#a80450389b25e382a23c35ca150b53ff1">gsb_data_report_set_show_r</a> ( gint report_number,
+<a name="l00219"></a>00219                                       gint show_r );
+<a name="l00220"></a>00220 gboolean <a class="code" href="gsb__data__report_8c.html#adc6d6f473b93adb284aec30cbf9a39fd">gsb_data_report_set_show_report_bank_references</a> ( gint report_number,
+<a name="l00221"></a>00221                                                            gint show_report_bank_references );
+<a name="l00222"></a>00222 gboolean <a class="code" href="gsb__data__report_8c.html#a2621abe461aea953e4c83dfc8652da07">gsb_data_report_set_show_report_budget</a> ( gint report_number,
+<a name="l00223"></a>00223                                                   gint show_report_budget );
+<a name="l00224"></a>00224 gboolean <a class="code" href="gsb__data__report_8c.html#aba338bba9af6a88f931479b0287e6530">gsb_data_report_set_show_report_category</a> ( gint report_number,
+<a name="l00225"></a>00225                                                     gint show_report_category );
+<a name="l00226"></a>00226 gboolean <a class="code" href="gsb__data__report_8c.html#abd6bd7b0e41dd49d856427d9dd5d023b">gsb_data_report_set_show_report_date</a> ( gint report_number,
+<a name="l00227"></a>00227                                                 gint show_report_date );
+<a name="l00228"></a>00228 gboolean <a class="code" href="gsb__data__report_8c.html#a4a0d35c886f0a006393f10a7760efcb6">gsb_data_report_set_show_report_financial_year</a> ( gint report_number,
+<a name="l00229"></a>00229                                                           gint show_report_financial_year );
+<a name="l00230"></a>00230 gboolean <a class="code" href="gsb__data__report_8c.html#a086f3a436568144e3dd667ef01549942">gsb_data_report_set_show_report_marked</a> ( gint report_number,
+<a name="l00231"></a>00231                                                   gint show_report_marked );
+<a name="l00232"></a>00232 gboolean <a class="code" href="gsb__data__report_8c.html#a9b64b1f7da9c50dce29b7469ac1c1038">gsb_data_report_set_show_report_method_of_payment</a> ( gint report_number,
+<a name="l00233"></a>00233                                                              gint show_report_method_of_payment );
+<a name="l00234"></a>00234 gboolean <a class="code" href="gsb__data__report_8c.html#acdc9553325bb223f4a53295f0c9e070e">gsb_data_report_set_show_report_method_of_payment_content</a> ( gint report_number,
+<a name="l00235"></a>00235                                                                      gint show_report_method_of_payment_content );
+<a name="l00236"></a>00236 gboolean <a class="code" href="gsb__data__report_8c.html#ad9acbf87438e562995060bcc68942441">gsb_data_report_set_show_report_note</a> ( gint report_number,
+<a name="l00237"></a>00237                                                 gint show_report_note );
+<a name="l00238"></a>00238 gboolean <a class="code" href="gsb__data__report_8c.html#adb330e5809198a0bb7156014be6c20b6">gsb_data_report_set_show_report_payee</a> ( gint report_number,
+<a name="l00239"></a>00239                                                  gint show_report_payee );
+<a name="l00240"></a>00240 gboolean <a class="code" href="gsb__data__report_8c.html#a7ba9d925d29e26d8545cc4ce4dbcc424">gsb_data_report_set_show_report_sub_budget</a> ( gint report_number,
+<a name="l00241"></a>00241                                                       gint show_report_sub_budget );
+<a name="l00242"></a>00242 gboolean <a class="code" href="gsb__data__report_8c.html#af75663a9483d5bb68d91f60a1490c7ab">gsb_data_report_set_show_report_sub_category</a> ( gint report_number,
+<a name="l00243"></a>00243                                                         gint show_report_sub_category );
+<a name="l00244"></a>00244 gboolean <a class="code" href="gsb__data__report_8c.html#a694ac1c5edad44bec026422a639e1a55">gsb_data_report_set_show_report_transaction_amount</a> ( gint report_number,
+<a name="l00245"></a>00245                                                               gint show_report_transaction_amount );
+<a name="l00246"></a>00246 gboolean <a class="code" href="gsb__data__report_8c.html#a45309025ed698120391b6606e1498119">gsb_data_report_set_show_report_transaction_number</a> ( gint report_number,
+<a name="l00247"></a>00247                                                               gint show_report_transaction_number );
+<a name="l00248"></a>00248 gboolean <a class="code" href="gsb__data__report_8c.html#ab73275f9e10bbb7227e1f267069fce51">gsb_data_report_set_show_report_transactions</a> ( gint report_number,
+<a name="l00249"></a>00249                                                         gint show_report_transactions );
+<a name="l00250"></a>00250 gboolean <a class="code" href="gsb__data__report_8c.html#a5523d4f53bf5ed0a38f770d264000e8f">gsb_data_report_set_show_report_value_date</a> ( gint report_number,
+<a name="l00251"></a>00251                                                       gint show_report_value_date );
+<a name="l00252"></a>00252 gboolean <a class="code" href="gsb__data__report_8c.html#adec44b9f95dce01af079008b55fef237">gsb_data_report_set_show_report_voucher</a> ( gint report_number,
+<a name="l00253"></a>00253                                                    gint show_report_voucher );
+<a name="l00254"></a>00254 gboolean <a class="code" href="gsb__data__report_8c.html#a0fd1ad8543961f2d468ddc471dbf8ca7">gsb_data_report_set_sorting_report</a> ( gint report_number,
+<a name="l00255"></a>00255                                               gint sorting_report );
+<a name="l00256"></a>00256 gboolean <a class="code" href="gsb__data__report_8c.html#ac470e04ffa4140d369eaca9e93523f3f">gsb_data_report_set_sorting_type</a> ( gint report_number,
+<a name="l00257"></a>00257                                             GSList *sorting_type );
+<a name="l00258"></a>00258 gboolean <a class="code" href="gsb__data__report_8c.html#a4e04bc87652541afa8393f847edc382a">gsb_data_report_set_split_credit_debit</a> ( gint report_number,
+<a name="l00259"></a>00259                                                   gint split_credit_debit );
+<a name="l00260"></a>00260 gboolean <a class="code" href="gsb__data__report_8c.html#a99112b283e821d4a6cf2195f7ccce028">gsb_data_report_set_text_comparison_list</a> ( gint report_number,
+<a name="l00261"></a>00261                                                     GSList *text_comparison_list );
+<a name="l00262"></a>00262 gboolean <a class="code" href="gsb__data__report_8c.html#a2fde1f7541c639ea299a80a1020a4090">gsb_data_report_set_text_comparison_used</a> ( gint report_number,
+<a name="l00263"></a>00263                                                     gint text_comparison_used );
+<a name="l00264"></a>00264 gboolean <a class="code" href="gsb__data__report_8c.html#a5c378b6b33076ebc00ce1a9c27a88904">gsb_data_report_set_transfer_account_numbers</a> ( gint report_number,
+<a name="l00265"></a>00265                                                         GSList *transfer_account_numbers );
+<a name="l00266"></a>00266 gboolean <a class="code" href="gsb__data__report_8c.html#aa672eb741c6007e90dd909a2a2ca50c3">gsb_data_report_set_transfer_choice</a> ( gint report_number,
+<a name="l00267"></a>00267                                                gint transfer_choice );
+<a name="l00268"></a>00268 gboolean <a class="code" href="gsb__data__report_8c.html#a779833aee2f5be4558a5ea7e4f357295">gsb_data_report_set_transfer_reports_only</a> ( gint report_number,
+<a name="l00269"></a>00269                                                      gint transfer_reports_only );
+<a name="l00270"></a>00270 gboolean <a class="code" href="gsb__data__report_8c.html#a2a3cb544c995b2742ecb932d43e5ddac">gsb_data_report_set_use_financial_year</a> ( gint report_number,
+<a name="l00271"></a>00271                                                   gint use_financial_year );
+<a name="l00272"></a>00272 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:02 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

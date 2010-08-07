@@ -1,0 +1,601 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier erreur.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier erreur.h</h1><code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+
+<p><a href="erreur_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Macros</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#ad72dbcf6d0153db1b8d8a58001feed83">DEBUG</a>&nbsp;&nbsp;&nbsp;utils_str_atoi (getenv (&quot;DEBUG_GRISBI&quot;))</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#adcb5727a0eed4d0e81391f5cae4c4262">DEBUG_LEVEL_ALERT</a>&nbsp;&nbsp;&nbsp;1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#af1733a7d8293df75bf64a9af8159c5e0">DEBUG_LEVEL_IMPORTANT</a>&nbsp;&nbsp;&nbsp;2</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#aa1d0c9dd70a64b98644f322b77848c7e">DEBUG_LEVEL_NOTICE</a>&nbsp;&nbsp;&nbsp;3</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a5f068e0ead7c7e158d2ff28e7b2f2794">DEBUG_LEVEL_INFO</a>&nbsp;&nbsp;&nbsp;4</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a50e285e7f95e4a1f0fb16c600921836c">DEBUG_LEVEL_DEBUG</a>&nbsp;&nbsp;&nbsp;5</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a18d5723f78024cc6ae507a57cbd18e15">MAX_DEBUG_LEVEL</a>&nbsp;&nbsp;&nbsp;5</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a10f4eeae4cc251a8d632fd62ec1057fb">devel_debug_int</a>(x)&nbsp;&nbsp;&nbsp;debug_message_int(&quot;Debug&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_DEBUG,FALSE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a19258644ccb654e0ef9522bdc9e84715">devel_debug_real</a>(x)&nbsp;&nbsp;&nbsp;debug_message_real(&quot;Debug&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_DEBUG,FALSE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a17bfffc4306bc76edd79e060a8947dc4">devel_debug</a>(x)&nbsp;&nbsp;&nbsp;debug_message_string(&quot;Debug&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_DEBUG,FALSE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a4538fd4861a4ef0fdec1e42edd2ebf2b">notice_debug</a>(x)&nbsp;&nbsp;&nbsp;debug_message_string(&quot;Info&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_INFO,FALSE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a70b10c07513d0694ee36dcdcb1696949">warning_debug</a>(x)&nbsp;&nbsp;&nbsp;debug_message_string(&quot;Warning&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_NOTICE,FALSE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a212b1bbf19e79a680a6ee370df9d76c1">important_debug</a>(x)&nbsp;&nbsp;&nbsp;debug_message_string(&quot;Important&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_IMPORTANT,FALSE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a89605ef34ba8b746a61b0614aa552b80">alert_debug</a>(x)&nbsp;&nbsp;&nbsp;debug_message_string(&quot;Alert&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_ALERT,FALSE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a7b65e07d6935901fcfcfa961f2a61fbf">DEBUG_WHERE_AM_I</a>&nbsp;&nbsp;&nbsp;g_strdup_printf(&quot;%s line %05d&quot;,__FILE__,__LINE__)</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#ae591dcdff555bc84145ac56dd9a29100">debug_message_int</a> (gchar *prefixe, gchar *file, gint line, const char *function, gint message, gint level, gboolean force_debug_display)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a1d5e8e58666af6134f40c6b2469749fe">debug_message_real</a> (gchar *prefixe, gchar *file, gint line, const char *function, <a class="el" href="structgsb__real.html">gsb_real</a> message, gint level, gboolean force_debug_display)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">G_MODULE_EXPORT void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a610481ee224a2ea98c37456084c54638">debug_message_string</a> (gchar *prefixe, gchar *file, gint line, const char *function, const gchar *message, gint level, gboolean force_debug_display)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#a8321053275e249fd34c4890aec24ab1e">gsb_debug_start_log</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#ab6d5eff68f3c78505c67b358955c3e85">initialize_debugging</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="erreur_8h.html#aac06461c37298dba178aed1b0c3fde98">traitement_sigsegv</a> (gint signal_nb)</td></tr>
+</table>
+<hr/><h2>Documentation des macros</h2>
+<a class="anchor" id="a89605ef34ba8b746a61b0614aa552b80"></a><!-- doxytag: member="erreur.h::alert_debug" ref="a89605ef34ba8b746a61b0614aa552b80" args="(x)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define alert_debug</td>
+          <td>(</td>
+          <td class="paramtype">x&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;debug_message_string(&quot;Alert&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_ALERT,FALSE)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00025">25</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad72dbcf6d0153db1b8d8a58001feed83"></a><!-- doxytag: member="erreur.h::DEBUG" ref="ad72dbcf6d0153db1b8d8a58001feed83" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEBUG&nbsp;&nbsp;&nbsp;utils_str_atoi (getenv (&quot;DEBUG_GRISBI&quot;))</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00009">9</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adcb5727a0eed4d0e81391f5cae4c4262"></a><!-- doxytag: member="erreur.h::DEBUG_LEVEL_ALERT" ref="adcb5727a0eed4d0e81391f5cae4c4262" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEBUG_LEVEL_ALERT&nbsp;&nbsp;&nbsp;1</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00012">12</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a50e285e7f95e4a1f0fb16c600921836c"></a><!-- doxytag: member="erreur.h::DEBUG_LEVEL_DEBUG" ref="a50e285e7f95e4a1f0fb16c600921836c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEBUG_LEVEL_DEBUG&nbsp;&nbsp;&nbsp;5</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00016">16</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af1733a7d8293df75bf64a9af8159c5e0"></a><!-- doxytag: member="erreur.h::DEBUG_LEVEL_IMPORTANT" ref="af1733a7d8293df75bf64a9af8159c5e0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEBUG_LEVEL_IMPORTANT&nbsp;&nbsp;&nbsp;2</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00013">13</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5f068e0ead7c7e158d2ff28e7b2f2794"></a><!-- doxytag: member="erreur.h::DEBUG_LEVEL_INFO" ref="a5f068e0ead7c7e158d2ff28e7b2f2794" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEBUG_LEVEL_INFO&nbsp;&nbsp;&nbsp;4</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00015">15</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa1d0c9dd70a64b98644f322b77848c7e"></a><!-- doxytag: member="erreur.h::DEBUG_LEVEL_NOTICE" ref="aa1d0c9dd70a64b98644f322b77848c7e" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEBUG_LEVEL_NOTICE&nbsp;&nbsp;&nbsp;3</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00014">14</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7b65e07d6935901fcfcfa961f2a61fbf"></a><!-- doxytag: member="erreur.h::DEBUG_WHERE_AM_I" ref="a7b65e07d6935901fcfcfa961f2a61fbf" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEBUG_WHERE_AM_I&nbsp;&nbsp;&nbsp;g_strdup_printf(&quot;%s line %05d&quot;,__FILE__,__LINE__)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00026">26</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a17bfffc4306bc76edd79e060a8947dc4"></a><!-- doxytag: member="erreur.h::devel_debug" ref="a17bfffc4306bc76edd79e060a8947dc4" args="(x)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define devel_debug</td>
+          <td>(</td>
+          <td class="paramtype">x&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;debug_message_string(&quot;Debug&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_DEBUG,FALSE)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00021">21</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a10f4eeae4cc251a8d632fd62ec1057fb"></a><!-- doxytag: member="erreur.h::devel_debug_int" ref="a10f4eeae4cc251a8d632fd62ec1057fb" args="(x)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define devel_debug_int</td>
+          <td>(</td>
+          <td class="paramtype">x&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;debug_message_int(&quot;Debug&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_DEBUG,FALSE)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00019">19</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a19258644ccb654e0ef9522bdc9e84715"></a><!-- doxytag: member="erreur.h::devel_debug_real" ref="a19258644ccb654e0ef9522bdc9e84715" args="(x)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define devel_debug_real</td>
+          <td>(</td>
+          <td class="paramtype">x&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;debug_message_real(&quot;Debug&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_DEBUG,FALSE)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00020">20</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a212b1bbf19e79a680a6ee370df9d76c1"></a><!-- doxytag: member="erreur.h::important_debug" ref="a212b1bbf19e79a680a6ee370df9d76c1" args="(x)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define important_debug</td>
+          <td>(</td>
+          <td class="paramtype">x&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;debug_message_string(&quot;Important&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_IMPORTANT,FALSE)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00024">24</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a18d5723f78024cc6ae507a57cbd18e15"></a><!-- doxytag: member="erreur.h::MAX_DEBUG_LEVEL" ref="a18d5723f78024cc6ae507a57cbd18e15" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_DEBUG_LEVEL&nbsp;&nbsp;&nbsp;5</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00017">17</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4538fd4861a4ef0fdec1e42edd2ebf2b"></a><!-- doxytag: member="erreur.h::notice_debug" ref="a4538fd4861a4ef0fdec1e42edd2ebf2b" args="(x)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define notice_debug</td>
+          <td>(</td>
+          <td class="paramtype">x&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;debug_message_string(&quot;Info&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_INFO,FALSE)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00022">22</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a70b10c07513d0694ee36dcdcb1696949"></a><!-- doxytag: member="erreur.h::warning_debug" ref="a70b10c07513d0694ee36dcdcb1696949" args="(x)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define warning_debug</td>
+          <td>(</td>
+          <td class="paramtype">x&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;debug_message_string(&quot;Warning&quot;,__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_NOTICE,FALSE)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8h_source.html#l00023">23</a> du fichier <a class="el" href="erreur_8h_source.html">erreur.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="ae591dcdff555bc84145ac56dd9a29100"></a><!-- doxytag: member="erreur.h::debug_message_int" ref="ae591dcdff555bc84145ac56dd9a29100" args="(gchar *prefixe, gchar *file, gint line, const char *function, gint message, gint level, gboolean force_debug_display)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void debug_message_int </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>prefixe</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>function</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>level</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>force_debug_display</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>show a debug message in the terminal only if debug mode is on not called directly so need to force the extern the param to chow is a number</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>\param</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>\param</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>a number to display with the message </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>\param</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="erreur_8c_source.html#l00318">318</a> du fichier <a class="el" href="erreur_8c_source.html">erreur.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1d5e8e58666af6134f40c6b2469749fe"></a><!-- doxytag: member="erreur.h::debug_message_real" ref="a1d5e8e58666af6134f40c6b2469749fe" args="(gchar *prefixe, gchar *file, gint line, const char *function, gsb_real message, gint level, gboolean force_debug_display)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void debug_message_real </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>prefixe</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>function</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>level</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>force_debug_display</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>show a debug message in the terminal only if debug mode is on not called directly so need to force the extern the param to chow is a number</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>\param</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>\param</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>a number to display with the message </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>\param</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="erreur_8c_source.html#l00356">356</a> du fichier <a class="el" href="erreur_8c_source.html">erreur.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a610481ee224a2ea98c37456084c54638"></a><!-- doxytag: member="erreur.h::debug_message_string" ref="a610481ee224a2ea98c37456084c54638" args="(gchar *prefixe, gchar *file, gint line, const char *function, const gchar *message, gint level, gboolean force_debug_display)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">G_MODULE_EXPORT void debug_message_string </td>
+          <td>(</td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>prefixe</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gchar *&nbsp;</td>
+          <td class="paramname"> <em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>function</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>level</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>force_debug_display</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>show a debug message in the terminal only if debug mode is on not called directly so need to force the extern the param to chow is a string</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>\param</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>\param</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>a string to display with the message, NULL if no message </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>\param</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="erreur_8c_source.html#l00273">273</a> du fichier <a class="el" href="erreur_8c_source.html">erreur.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8321053275e249fd34c4890aec24ab1e"></a><!-- doxytag: member="erreur.h::gsb_debug_start_log" ref="a8321053275e249fd34c4890aec24ab1e" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_debug_start_log </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>called by menu : begin the debug mode show a message to say where the log will be saved</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="erreur_8c_source.html#l00423">423</a> du fichier <a class="el" href="erreur_8c_source.html">erreur.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab6d5eff68f3c78505c67b358955c3e85"></a><!-- doxytag: member="erreur.h::initialize_debugging" ref="ab6d5eff68f3c78505c67b358955c3e85" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void initialize_debugging </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8c_source.html#l00180">180</a> du fichier <a class="el" href="erreur_8c_source.html">erreur.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aac06461c37298dba178aed1b0c3fde98"></a><!-- doxytag: member="erreur.h::traitement_sigsegv" ref="aac06461c37298dba178aed1b0c3fde98" args="(gint signal_nb)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void traitement_sigsegv </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>signal_nb</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="erreur_8c_source.html#l00067">67</a> du fichier <a class="el" href="erreur_8c_source.html">erreur.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_currency.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_currency.c</h1><code>#include &quot;<a class="el" href="include_8h_source.html">include.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__currency_8h_source.html">gsb_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="dialog_8h_source.html">dialog.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__autofunc_8h_source.html">gsb_autofunc.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__account_8h_source.html">gsb_data_account.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__currency_8h_source.html">gsb_data_currency.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__currency__link_8h_source.html">gsb_data_currency_link.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__transaction_8h_source.html">gsb_data_transaction.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__form__widget_8h_source.html">gsb_form_widget.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__real_8h_source.html">gsb_real.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils_8h_source.html">utils.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="structures_8h_source.html">structures.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="utils__files_8h_source.html">utils_files.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__data__form_8h_source.html">gsb_data_form.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="gsb__currency__config_8h_source.html">gsb_currency_config.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="erreur_8h_source.html">erreur.h</a>&quot;</code><br/>
+
+<p><a href="gsb__currency_8c_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Énumérations</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#af9940019db3e8478ba0fd174b2ef0c12">currency_list_columns</a> { <br/>
+&nbsp;&nbsp;<a class="el" href="gsb__currency_8c.html#af9940019db3e8478ba0fd174b2ef0c12a8e2fff33d13c51d2882671a03a0452d5">CURRENCY_COL_CODE</a> =  0, 
+<a class="el" href="gsb__currency_8c.html#af9940019db3e8478ba0fd174b2ef0c12a81f964da9b834c0d60fe9dea6bdf8fa2">CURRENCY_COL_NAME</a>, 
+<a class="el" href="gsb__currency_8c.html#af9940019db3e8478ba0fd174b2ef0c12a71cdec02aa0802a0e38865ba59d6aeeb">CURRENCY_COL_NUMBER</a>, 
+<a class="el" href="gsb__currency_8c.html#af9940019db3e8478ba0fd174b2ef0c12af9ef12e6656cd025d634563921f38879">CURRENCY_COL_FLAG</a>, 
+<br/>
+&nbsp;&nbsp;<a class="el" href="gsb__currency_8c.html#af9940019db3e8478ba0fd174b2ef0c12a42e6675f13a5452a1c0ca2c63c75509b">CURRENCY_NUM_COL</a>
+<br/>
+ }</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#ad3d2955dc098538b6745184d1dd571f0">gsb_currency_init_variables</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#ad0c6f15f859f45a94923fa743d81f5b5">gsb_currency_make_combobox</a> (gboolean set_name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a8774e282bad3c3101b161fd54bcb660a">gsb_currency_set_combobox_history</a> (GtkWidget *combo_box, gint currency_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a3abd39af3aafa4213a8ffbe74d5d6b10">gsb_currency_get_currency_from_combobox</a> (GtkWidget *combo_box)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#aa0749d5749e2bef8d4e3d4f19f5d4524">gsb_currency_update_combobox_currency_list</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#aad743bb08129ef82240ca9ecc743b4dc">gsb_currency_check_for_change</a> (gint transaction_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a729f791b99a98165dcd022823e0613c4">gsb_currency_exchange_dialog</a> (gint account_currency_number, gint transaction_currency_number, gboolean link_currency, <a class="el" href="structgsb__real.html">gsb_real</a> exchange_rate, <a class="el" href="structgsb__real.html">gsb_real</a> exchange_fees, gboolean force)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a11418c2c043ae6df7915c8f71a5af31e">gsb_currency_init_exchanges</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a1c636201d2a34c0b844ec47062791c5c">gsb_currency_get_current_exchange</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a1ec60f51d17f25c548d65ec10fa7498a">gsb_currency_get_current_exchange_fees</a> (void)</td></tr>
+<tr><td colspan="2"><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GdkColor&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#aa809fea280ab9cef6e16774b54a573ae">calendar_entry_color</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#abe70dd95688032466d8be65418364937">combo_devise_totaux_categ</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a1b537d048003238dcc92058cda5945b7">combo_devise_totaux_ib</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a603e56a73bd24363ac8451504fb22e8d">combo_devise_totaux_tiers</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a41f9865652dc0c67db2dae5b516b18e6">detail_devise_compte</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a018917e8dacfd8fbe4e94d0f99a59c08">mise_a_jour_liste_comptes_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a097d2eb216e05a68a5a153e7b68b6469">mise_a_jour_liste_echeances_auto_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a5957dd978b4a0c3ab01e006cedfdf96c">mise_a_jour_liste_echeances_manuelles_accueil</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GtkWidget *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__currency_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td></tr>
+</table>
+<hr/><a name="_details"></a><h2>Description détaillée</h2>
+<p>contains tools to work with the currencies </p>
+
+<p>Définition dans le fichier <a class="el" href="gsb__currency_8c_source.html">gsb_currency.c</a>.</p>
+<hr/><h2>Documentation du type de l'énumération</h2>
+<a class="anchor" id="af9940019db3e8478ba0fd174b2ef0c12"></a><!-- doxytag: member="gsb_currency.c::currency_list_columns" ref="af9940019db3e8478ba0fd174b2ef0c12" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="gsb__currency_8c.html#af9940019db3e8478ba0fd174b2ef0c12">currency_list_columns</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Valeurs énumérées: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="af9940019db3e8478ba0fd174b2ef0c12a8e2fff33d13c51d2882671a03a0452d5"></a><!-- doxytag: member="CURRENCY_COL_CODE" ref="af9940019db3e8478ba0fd174b2ef0c12a8e2fff33d13c51d2882671a03a0452d5" args="" -->CURRENCY_COL_CODE</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="af9940019db3e8478ba0fd174b2ef0c12a81f964da9b834c0d60fe9dea6bdf8fa2"></a><!-- doxytag: member="CURRENCY_COL_NAME" ref="af9940019db3e8478ba0fd174b2ef0c12a81f964da9b834c0d60fe9dea6bdf8fa2" args="" -->CURRENCY_COL_NAME</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="af9940019db3e8478ba0fd174b2ef0c12a71cdec02aa0802a0e38865ba59d6aeeb"></a><!-- doxytag: member="CURRENCY_COL_NUMBER" ref="af9940019db3e8478ba0fd174b2ef0c12a71cdec02aa0802a0e38865ba59d6aeeb" args="" -->CURRENCY_COL_NUMBER</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="af9940019db3e8478ba0fd174b2ef0c12af9ef12e6656cd025d634563921f38879"></a><!-- doxytag: member="CURRENCY_COL_FLAG" ref="af9940019db3e8478ba0fd174b2ef0c12af9ef12e6656cd025d634563921f38879" args="" -->CURRENCY_COL_FLAG</em>&nbsp;</td><td>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="af9940019db3e8478ba0fd174b2ef0c12a42e6675f13a5452a1c0ca2c63c75509b"></a><!-- doxytag: member="CURRENCY_NUM_COL" ref="af9940019db3e8478ba0fd174b2ef0c12a42e6675f13a5452a1c0ca2c63c75509b" args="" -->CURRENCY_NUM_COL</em>&nbsp;</td><td>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__currency_8c_source.html#l00078">78</a> du fichier <a class="el" href="gsb__currency_8c_source.html">gsb_currency.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="aad743bb08129ef82240ca9ecc743b4dc"></a><!-- doxytag: member="gsb_currency.c::gsb_currency_check_for_change" ref="aad743bb08129ef82240ca9ecc743b4dc" args="(gint transaction_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_currency_check_for_change </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Check if a transaction need an exchange rate and fees with its account if yes, ask for that and set the in the transaction.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>transaction_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__currency_8c_source.html#l00415">415</a> du fichier <a class="el" href="gsb__currency_8c_source.html">gsb_currency.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a729f791b99a98165dcd022823e0613c4"></a><!-- doxytag: member="gsb_currency.c::gsb_currency_exchange_dialog" ref="a729f791b99a98165dcd022823e0613c4" args="(gint account_currency_number, gint transaction_currency_number, gboolean link_currency, gsb_real exchange_rate, gsb_real exchange_fees, gboolean force)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_currency_exchange_dialog </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_currency_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>transaction_currency_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>link_currency</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>exchange_rate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structgsb__real.html">gsb_real</a>&nbsp;</td>
+          <td class="paramname"> <em>exchange_fees</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>force</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>ask to the user the exchange and the fees for a transaction fill the variables current_exchange and current_exchange_fees with the data of the user if this was asked before, will use the buffer cached exchange rate, except if force is set to TRUE</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_currency_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>transaction_currency_number</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>link_currency</em>&nbsp;</td><td>si = TRUE : 1 nom_devise = "change" devise_en_rapport </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>exchange_rate</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>exchange_fees</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>force</em>&nbsp;</td><td>if TRUE will not get the cached exchange rate and will really ask to the user</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__currency_8c_source.html#l00492">492</a> du fichier <a class="el" href="gsb__currency_8c_source.html">gsb_currency.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3abd39af3aafa4213a8ffbe74d5d6b10"></a><!-- doxytag: member="gsb_currency.c::gsb_currency_get_currency_from_combobox" ref="a3abd39af3aafa4213a8ffbe74d5d6b10" args="(GtkWidget *combo_box)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_currency_get_currency_from_combobox </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>combo_box</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get and return the number of the currency in the option_menu given in param</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>currency_option_menu</em>&nbsp;</td><td>an option menu with the currencies</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of currency </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__currency_8c_source.html#l00231">231</a> du fichier <a class="el" href="gsb__currency_8c_source.html">gsb_currency.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1c636201d2a34c0b844ec47062791c5c"></a><!-- doxytag: member="gsb_currency.c::gsb_currency_get_current_exchange" ref="a1c636201d2a34c0b844ec47062791c5c" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_currency_get_current_exchange </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__currency_8c_source.html#l01111">1111</a> du fichier <a class="el" href="gsb__currency_8c_source.html">gsb_currency.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1ec60f51d17f25c548d65ec10fa7498a"></a><!-- doxytag: member="gsb_currency.c::gsb_currency_get_current_exchange_fees" ref="a1ec60f51d17f25c548d65ec10fa7498a" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> gsb_currency_get_current_exchange_fees </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__currency_8c_source.html#l01121">1121</a> du fichier <a class="el" href="gsb__currency_8c_source.html">gsb_currency.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a11418c2c043ae6df7915c8f71a5af31e"></a><!-- doxytag: member="gsb_currency.c::gsb_currency_init_exchanges" ref="a11418c2c043ae6df7915c8f71a5af31e" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_currency_init_exchanges </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__currency_8c_source.html#l00948">948</a> du fichier <a class="el" href="gsb__currency_8c_source.html">gsb_currency.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad3d2955dc098538b6745184d1dd571f0"></a><!-- doxytag: member="gsb_currency.c::gsb_currency_init_variables" ref="ad3d2955dc098538b6745184d1dd571f0" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void gsb_currency_init_variables </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set to NULL the static variables</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd></dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__currency_8c_source.html#l00124">124</a> du fichier <a class="el" href="gsb__currency_8c_source.html">gsb_currency.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad0c6f15f859f45a94923fa743d81f5b5"></a><!-- doxytag: member="gsb_currency.c::gsb_currency_make_combobox" ref="ad0c6f15f859f45a94923fa743d81f5b5" args="(gboolean set_name)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* gsb_currency_make_combobox </td>
+          <td>(</td>
+          <td class="paramtype">gboolean&nbsp;</td>
+          <td class="paramname"> <em>set_name</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create and return a combobox with the currencies for automatic value changed in memory, see gsb_autofunc_currency_new</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>set_name</em>&nbsp;</td><td>if TRUE, the currencies in the combobox will be name(code), else it will be only the code</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a widget combobox or NULL </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__currency_8c_source.html#l00144">144</a> du fichier <a class="el" href="gsb__currency_8c_source.html">gsb_currency.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8774e282bad3c3101b161fd54bcb660a"></a><!-- doxytag: member="gsb_currency.c::gsb_currency_set_combobox_history" ref="a8774e282bad3c3101b161fd54bcb660a" args="(GtkWidget *combo_box, gint currency_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_currency_set_combobox_history </td>
+          <td>(</td>
+          <td class="paramtype">GtkWidget *&nbsp;</td>
+          <td class="paramname"> <em>combo_box</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>currency_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the combobox on the currency given in param</p>
+<p>the combo-box to set  the currency we want to set on the combo-box</p>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE currency found, FALSE currency not found, nothing change </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__currency_8c_source.html#l00190">190</a> du fichier <a class="el" href="gsb__currency_8c_source.html">gsb_currency.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa0749d5749e2bef8d4e3d4f19f5d4524"></a><!-- doxytag: member="gsb_currency.c::gsb_currency_update_combobox_currency_list" ref="aa0749d5749e2bef8d4e3d4f19f5d4524" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_currency_update_combobox_currency_list </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>update the list of the currencies for combobox, wich change all the current combobox content</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__currency_8c_source.html#l00258">258</a> du fichier <a class="el" href="gsb__currency_8c_source.html">gsb_currency.c</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des variables</h2>
+<a class="anchor" id="aa809fea280ab9cef6e16774b54a573ae"></a><!-- doxytag: member="gsb_currency.c::calendar_entry_color" ref="aa809fea280ab9cef6e16774b54a573ae" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GdkColor <a class="el" href="traitement__variables_8c.html#aa809fea280ab9cef6e16774b54a573ae">calendar_entry_color</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="traitement__variables_8c_source.html#l00119">119</a> du fichier <a class="el" href="traitement__variables_8c_source.html">traitement_variables.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abe70dd95688032466d8be65418364937"></a><!-- doxytag: member="gsb_currency.c::combo_devise_totaux_categ" ref="abe70dd95688032466d8be65418364937" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__currency__config_8c.html#abe70dd95688032466d8be65418364937">combo_devise_totaux_categ</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__currency__config_8c_source.html#l00085">85</a> du fichier <a class="el" href="gsb__currency__config_8c_source.html">gsb_currency_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1b537d048003238dcc92058cda5945b7"></a><!-- doxytag: member="gsb_currency.c::combo_devise_totaux_ib" ref="a1b537d048003238dcc92058cda5945b7" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__currency__config_8c.html#a1b537d048003238dcc92058cda5945b7">combo_devise_totaux_ib</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__currency__config_8c_source.html#l00084">84</a> du fichier <a class="el" href="gsb__currency__config_8c_source.html">gsb_currency_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a603e56a73bd24363ac8451504fb22e8d"></a><!-- doxytag: member="gsb_currency.c::combo_devise_totaux_tiers" ref="a603e56a73bd24363ac8451504fb22e8d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="gsb__currency__config_8c.html#a603e56a73bd24363ac8451504fb22e8d">combo_devise_totaux_tiers</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__currency__config_8c_source.html#l00083">83</a> du fichier <a class="el" href="gsb__currency__config_8c_source.html">gsb_currency_config.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a41f9865652dc0c67db2dae5b516b18e6"></a><!-- doxytag: member="gsb_currency.c::detail_devise_compte" ref="a41f9865652dc0c67db2dae5b516b18e6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="traitement__variables_8c.html#a41f9865652dc0c67db2dae5b516b18e6">detail_devise_compte</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__account__property_8c_source.html#l00150">150</a> du fichier <a class="el" href="gsb__account__property_8c_source.html">gsb_account_property.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a018917e8dacfd8fbe4e94d0f99a59c08"></a><!-- doxytag: member="gsb_currency.c::mise_a_jour_liste_comptes_accueil" ref="a018917e8dacfd8fbe4e94d0f99a59c08" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a018917e8dacfd8fbe4e94d0f99a59c08">mise_a_jour_liste_comptes_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00127">127</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a097d2eb216e05a68a5a153e7b68b6469"></a><!-- doxytag: member="gsb_currency.c::mise_a_jour_liste_echeances_auto_accueil" ref="a097d2eb216e05a68a5a153e7b68b6469" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a097d2eb216e05a68a5a153e7b68b6469">mise_a_jour_liste_echeances_auto_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00129">129</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5957dd978b4a0c3ab01e006cedfdf96c"></a><!-- doxytag: member="gsb_currency.c::mise_a_jour_liste_echeances_manuelles_accueil" ref="a5957dd978b4a0c3ab01e006cedfdf96c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint <a class="el" href="traitement__variables_8c.html#a5957dd978b4a0c3ab01e006cedfdf96c">mise_a_jour_liste_echeances_manuelles_accueil</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="accueil_8c_source.html#l00128">128</a> du fichier <a class="el" href="accueil_8c_source.html">accueil.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a26f304bec3fdc0651b9aa8765d4de3c6"></a><!-- doxytag: member="gsb_currency.c::null_real" ref="a26f304bec3fdc0651b9aa8765d4de3c6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structgsb__real.html">gsb_real</a> <a class="el" href="utils__editables_8c.html#a26f304bec3fdc0651b9aa8765d4de3c6">null_real</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__real_8c_source.html#l00042">42</a> du fichier <a class="el" href="gsb__real_8c_source.html">gsb_real.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d346c08cf2d67c388caabffb412b293"></a><!-- doxytag: member="gsb_currency.c::window" ref="a3d346c08cf2d67c388caabffb412b293" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GtkWidget* <a class="el" href="utils__files_8c.html#a3d346c08cf2d67c388caabffb412b293">window</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="main_8c_source.html#l00070">70</a> du fichier <a class="el" href="main_8c_source.html">main.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

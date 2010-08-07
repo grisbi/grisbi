@@ -1,0 +1,982 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi: Référence du fichier gsb_data_payment.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+</div>
+<div class="contents">
+<h1>Référence du fichier gsb_data_payment.h</h1>
+<p><a href="gsb__data__payment_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td colspan="2"><h2>Macros</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a4cc6ee85419c370a33a7f4522cb96b31">GSB_PAYMENT_NEUTRAL</a>&nbsp;&nbsp;&nbsp;0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a75b824ed98739971febf033ea0293012">GSB_PAYMENT_DEBIT</a>&nbsp;&nbsp;&nbsp;1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#aeb7171fc651a06537ca3296b3d38680b">GSB_PAYMENT_CREDIT</a>&nbsp;&nbsp;&nbsp;2</td></tr>
+<tr><td colspan="2"><h2>Fonctions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#ac5615b1d09ddb9d46e13d9cf552e1925">gsb_data_payment_create_default</a> (gint account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a02601e83e3a7796d9fc863077dd91627">gsb_data_payment_get_account_number</a> (gint payment_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#adcfc32426d570e071cb397b7a20e5988">gsb_data_payment_get_automatic_numbering</a> (gint payment_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a2e5d8517394a5d0685cfae13ff906f1b">gsb_data_payment_get_last_number</a> (gint payment_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a420ad8a019ad5a7f5578c17752339de9">gsb_data_payment_get_last_number_to_int</a> (gint payment_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#abfa8982981645e91eef08885f26151df">gsb_data_payment_get_list_for_account</a> (gint account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">const gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a3384c18af92833d2152faad71ccd16c4">gsb_data_payment_get_name</a> (gint payment_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#ad8738991cf8066d32f2a9a76f465f941">gsb_data_payment_get_number</a> (gpointer payment_ptr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a84385c444819731fbdddb56c553ed2e0">gsb_data_payment_get_number_by_name</a> (const gchar *name, gint account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">GSList *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#acec454aa5a57af2dd716d6b38e97baec">gsb_data_payment_get_payments_list</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a8255baec69955b14988acbff6f5bc3d9">gsb_data_payment_get_show_entry</a> (gint payment_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a18c88a62c285b34be984f88c03dc2e70">gsb_data_payment_get_sign</a> (gint payment_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#abcd7cbec25fc03ab15e1faeda58ba32d">gsb_data_payment_get_similar</a> (gint origin_payment, gint target_account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a11b56161aa3440cc9367c89a72c595d5">gsb_data_payment_get_transfer_payment_number</a> (gint account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gchar *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a15adc3fcd792571b25cfef5fd1779bd6">gsb_data_payment_incremente_last_number</a> (gint payment_number, gint increment)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#ab3a02cace81e02ece354b3b1579156f2">gsb_data_payment_init_variables</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a839e324a76bf9095b680b6e94d76f4b7">gsb_data_payment_new</a> (const gchar *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#ace280b004905bd21d550f4e1d15e95bb">gsb_data_payment_remove</a> (gint payment_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a76cc59b81186e59c739cc0eb7727255d">gsb_data_payment_search_number_other_account_by_name</a> (gint payment_number, gint account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a45b6ba45944aef62dbdc97f4b4142979">gsb_data_payment_set_account_number</a> (gint payment_number, gint account_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#aaba6a376380a3b99fa6b38400a245ecb">gsb_data_payment_set_automatic_numbering</a> (gint payment_number, gint automatic_numbering)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a7f9e29b9c638bee6d6a848e8f6968a1e">gsb_data_payment_set_last_number</a> (gint payment_number, const gchar *last_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#aa96739efe92d5ba723d24e45ef9f9f6a">gsb_data_payment_set_last_number_from_int</a> (gint payment_number, gint last_number)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a3e237dcdba177b752d7b340bdb9ea9a8">gsb_data_payment_set_name</a> (gint payment_number, const gchar *name)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a733c8bde55e9529a1b29a6b7125d6c5b">gsb_data_payment_set_new_number</a> (gint payment_number, gint new_no_payment)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#ab1a0de140307670fff65c15ec703a1dd">gsb_data_payment_set_show_entry</a> (gint payment_number, gint show_entry)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">gboolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="gsb__data__payment_8h.html#a59432ce2f2e199d8e5eb5a1edca94ee9">gsb_data_payment_set_sign</a> (gint payment_number, gint sign)</td></tr>
+</table>
+<hr/><h2>Documentation des macros</h2>
+<a class="anchor" id="aeb7171fc651a06537ca3296b3d38680b"></a><!-- doxytag: member="gsb_data_payment.h::GSB_PAYMENT_CREDIT" ref="aeb7171fc651a06537ca3296b3d38680b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GSB_PAYMENT_CREDIT&nbsp;&nbsp;&nbsp;2</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8h_source.html#l00008">8</a> du fichier <a class="el" href="gsb__data__payment_8h_source.html">gsb_data_payment.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a75b824ed98739971febf033ea0293012"></a><!-- doxytag: member="gsb_data_payment.h::GSB_PAYMENT_DEBIT" ref="a75b824ed98739971febf033ea0293012" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GSB_PAYMENT_DEBIT&nbsp;&nbsp;&nbsp;1</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8h_source.html#l00007">7</a> du fichier <a class="el" href="gsb__data__payment_8h_source.html">gsb_data_payment.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4cc6ee85419c370a33a7f4522cb96b31"></a><!-- doxytag: member="gsb_data_payment.h::GSB_PAYMENT_NEUTRAL" ref="a4cc6ee85419c370a33a7f4522cb96b31" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GSB_PAYMENT_NEUTRAL&nbsp;&nbsp;&nbsp;0</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8h_source.html#l00006">6</a> du fichier <a class="el" href="gsb__data__payment_8h_source.html">gsb_data_payment.h</a>.</p>
+
+</div>
+</div>
+<hr/><h2>Documentation des fonctions</h2>
+<a class="anchor" id="ac5615b1d09ddb9d46e13d9cf552e1925"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_create_default" ref="ac5615b1d09ddb9d46e13d9cf552e1925" args="(gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_payment_create_default </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a set of preformated method of payment and associate them to the account given in param moreover, create a preformated list to sort the transaction list according to the method of payment, and set it in the account</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE ok, FALSE problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00698">698</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a02601e83e3a7796d9fc863077dd91627"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_get_account_number" ref="a02601e83e3a7796d9fc863077dd91627" args="(gint payment_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_payment_get_account_number </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the account_number of the method of payment</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the method of payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the name of the payment or 0 if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00380">380</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adcfc32426d570e071cb397b7a20e5988"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_get_automatic_numbering" ref="adcfc32426d570e071cb397b7a20e5988" args="(gint payment_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_payment_get_automatic_numbering </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the automatic_numbering of the method of payment if automatic_numbering is set and if show_entry is set, when choosing the method of payment in the form, an entry is showed and the content contains automatically the last_number for that method of payment + 1</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the method of payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the automatic_numbering of the payment or -1 if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00571">571</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2e5d8517394a5d0685cfae13ff906f1b"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_get_last_number" ref="a2e5d8517394a5d0685cfae13ff906f1b" args="(gint payment_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const gchar* gsb_data_payment_get_last_number </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the last_number of the method of payment this is the last number to set automatically that number + 1 in the cheque entry ; nothing to deal with gsb_data_payment_max_number wich give the last payment_number, internal number to count the method of payment</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the method of payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the last_number of the payment or -1 if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00651">651</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a420ad8a019ad5a7f5578c17752339de9"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_get_last_number_to_int" ref="a420ad8a019ad5a7f5578c17752339de9" args="(gint payment_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_payment_get_last_number_to_int </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the last_number of the method of payment to int this is the last number to set automatically that number + 1 in the cheque entry ; nothing to deal with gsb_data_payment_max_number wich give the last payment_number, internal number to count the method of payment</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the method of payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the int_last_number of the payment or -1 if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00858">858</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abfa8982981645e91eef08885f26151df"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_get_list_for_account" ref="abfa8982981645e91eef08885f26151df" args="(gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* gsb_data_payment_get_list_for_account </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return a newly allocated list with the payments numbers for the asked account usefull to know for example if there is some method of payments for that account</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>a newly allocated GSList of payments number (to be freed), or NULL if none </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00167">167</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3384c18af92833d2152faad71ccd16c4"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_get_name" ref="a3384c18af92833d2152faad71ccd16c4" args="(gint payment_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const gchar* gsb_data_payment_get_name </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the name of the payment</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the name of the payment or NULL if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00424">424</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad8738991cf8066d32f2a9a76f465f941"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_get_number" ref="ad8738991cf8066d32f2a9a76f465f941" args="(gpointer payment_ptr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_payment_get_number </td>
+          <td>(</td>
+          <td class="paramtype">gpointer&nbsp;</td>
+          <td class="paramname"> <em>payment_ptr</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the number of the payment given in param and initialise the buffer</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_ptr</em>&nbsp;</td><td>a pointer to the struct of the payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of the payment, 0 if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00198">198</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a84385c444819731fbdddb56c553ed2e0"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_get_number_by_name" ref="a84385c444819731fbdddb56c553ed2e0" args="(const gchar *name, gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_payment_get_number_by_name </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the number of the payment given in param</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>the</em>&nbsp;</td><td>name of the payment </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>the</em>&nbsp;</td><td>account_number</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of the payment, 0 if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00219">219</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acec454aa5a57af2dd716d6b38e97baec"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_get_payments_list" ref="acec454aa5a57af2dd716d6b38e97baec" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GSList* gsb_data_payment_get_payments_list </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the list of payment structure usefull when want to check all payments</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>none</em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the g_slist of payments structure </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00153">153</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8255baec69955b14988acbff6f5bc3d9"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_get_show_entry" ref="a8255baec69955b14988acbff6f5bc3d9" args="(gint payment_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_payment_get_show_entry </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the show_entry flag of the method of payment if TRUE, choosing that method of payment will show an entry in the form to set a number (cheque, transfer...)</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the method of payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the show_entry flag of the payment or -1 if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00523">523</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a18c88a62c285b34be984f88c03dc2e70"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_get_sign" ref="a18c88a62c285b34be984f88c03dc2e70" args="(gint payment_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_payment_get_sign </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>return the sign of the method of payment GSB_PAYMENT_NEUTRAL : neutral sign (can be negative or positive) GSB_PAYMENT_DEBIT : debit GSB_PAYMENT_CREDIT : credit</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the method of payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the sign of the payment or -1 if fail </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00477">477</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abcd7cbec25fc03ab15e1faeda58ba32d"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_get_similar" ref="abcd7cbec25fc03ab15e1faeda58ba32d" args="(gint origin_payment, gint target_account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_payment_get_similar </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>origin_payment</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>target_account_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>try to find a method of payment similar to the origin method of payment</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>origin_payment</em>&nbsp;</td><td>the method of payment we try to find a similar other </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>target_account_number</em>&nbsp;</td><td>the account we want to search into for the new method of payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the similar method of payment or default method of payment if nothing found </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00778">778</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a11b56161aa3440cc9367c89a72c595d5"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_get_transfer_payment_number" ref="a11b56161aa3440cc9367c89a72c595d5" args="(gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_payment_get_transfer_payment_number </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>used to find easily the transfer payment number for an account while importing transactions and if grisbi found a link between 2 transactions, it tries to set transfer as method of payment and use that function if necessary, we can modify that function to find any method of payment, but it's not usefull for now...</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td>the account we want the transfer payment number</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of payment for transfer or 0 if not found </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00619">619</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a15adc3fcd792571b25cfef5fd1779bd6"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_incremente_last_number" ref="a15adc3fcd792571b25cfef5fd1779bd6" args="(gint payment_number, gint increment)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gchar* gsb_data_payment_incremente_last_number </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>increment</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00818">818</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab3a02cace81e02ece354b3b1579156f2"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_init_variables" ref="ab3a02cace81e02ece354b3b1579156f2" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_payment_init_variables </td>
+          <td>(</td>
+          <td class="paramtype">void&nbsp;</td>
+          <td class="paramname"></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the payments global variables to NULL, usually when we init all the global variables</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em></em>&nbsp;</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>FALSE </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00084">84</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a839e324a76bf9095b680b6e94d76f4b7"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_new" ref="a839e324a76bf9095b680b6e94d76f4b7" args="(const gchar *name)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_payment_new </td>
+          <td>(</td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>name</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>create a new payment, give him a number, append it to the list and return the number</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>the name of the payment (can be freed after, it's a copy) or NULL</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the number of the new payment </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00285">285</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ace280b004905bd21d550f4e1d15e95bb"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_remove" ref="ace280b004905bd21d550f4e1d15e95bb" args="(gint payment_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_payment_remove </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em></td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>remove a payment set all the payments of transaction which are this one to 0</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the payment we want to remove</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE ok </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00330">330</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a76cc59b81186e59c739cc0eb7727255d"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_search_number_other_account_by_name" ref="a76cc59b81186e59c739cc0eb7727255d" args="(gint payment_number, gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_payment_search_number_other_account_by_name </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>permet de trouver pour un autre compte le moyen de paiement ayant le même nom.</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>number</em>&nbsp;</td><td>initial \ numéro du nouveau compte</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>\ return the numéro de paiement si trouvé ou celui par défaut pour le compte concerné. </p>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00921">921</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a45b6ba45944aef62dbdc97f4b4142979"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_set_account_number" ref="a45b6ba45944aef62dbdc97f4b4142979" args="(gint payment_number, gint account_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_payment_set_account_number </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>account_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the account_number of the method of payment</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the method of payment </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>account_number</em>&nbsp;</td><td>the account_number of the method of payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00401">401</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aaba6a376380a3b99fa6b38400a245ecb"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_set_automatic_numbering" ref="aaba6a376380a3b99fa6b38400a245ecb" args="(gint payment_number, gint automatic_numbering)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_payment_set_automatic_numbering </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>automatic_numbering</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the automatic_numbering of the method of payment</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the method of payment </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>automatic_numbering</em>&nbsp;</td><td>the automatic_numbering of the method of payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00592">592</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7f9e29b9c638bee6d6a848e8f6968a1e"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_set_last_number" ref="a7f9e29b9c638bee6d6a848e8f6968a1e" args="(gint payment_number, const gchar *last_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_payment_set_last_number </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>last_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the last_number of the method of payment</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the method of payment </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>last_number</em>&nbsp;</td><td>the last_number of the method of payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00672">672</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa96739efe92d5ba723d24e45ef9f9f6a"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_set_last_number_from_int" ref="aa96739efe92d5ba723d24e45ef9f9f6a" args="(gint payment_number, gint last_number)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_payment_set_last_number_from_int </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>last_number</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the last_number of the method of payment from an int</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the method of payment </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>last_number</em>&nbsp;</td><td>the last_number of the method of payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00879">879</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3e237dcdba177b752d7b340bdb9ea9a8"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_set_name" ref="a3e237dcdba177b752d7b340bdb9ea9a8" args="(gint payment_number, const gchar *name)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_payment_set_name </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const gchar *&nbsp;</td>
+          <td class="paramname"> <em>name</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the name of the payment the value is dupplicate in memory</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the payment </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>the name of the payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00446">446</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a733c8bde55e9529a1b29a6b7125d6c5b"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_set_new_number" ref="a733c8bde55e9529a1b29a6b7125d6c5b" args="(gint payment_number, gint new_no_payment)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gint gsb_data_payment_set_new_number </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>new_no_payment</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set a new number for the payment normally used only while loading the file because the number are given automatically</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the payment </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>new_no_payment</em>&nbsp;</td><td>the new number of the payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>the new number or 0 if the payment doen't exist </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00358">358</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab1a0de140307670fff65c15ec703a1dd"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_set_show_entry" ref="ab1a0de140307670fff65c15ec703a1dd" args="(gint payment_number, gint show_entry)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_payment_set_show_entry </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>show_entry</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the show_entry of the method of payment</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the method of payment </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>show_entry</em>&nbsp;</td><td>the show_entry of the method of payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00544">544</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a59432ce2f2e199d8e5eb5a1edca94ee9"></a><!-- doxytag: member="gsb_data_payment.h::gsb_data_payment_set_sign" ref="a59432ce2f2e199d8e5eb5a1edca94ee9" args="(gint payment_number, gint sign)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gboolean gsb_data_payment_set_sign </td>
+          <td>(</td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>payment_number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gint&nbsp;</td>
+          <td class="paramname"> <em>sign</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>set the sign of the method of payment</p>
+<dl><dt><b>Paramètres:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>payment_number</em>&nbsp;</td><td>the number of the method of payment </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>sign</em>&nbsp;</td><td>the sign of the method of payment</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Renvoie:</b></dt><dd>TRUE if ok or FALSE if problem </dd></dl>
+
+<p>Définition à la ligne <a class="el" href="gsb__data__payment_8c_source.html#l00498">498</a> du fichier <a class="el" href="gsb__data__payment_8c_source.html">gsb_data_payment.c</a>.</p>
+
+</div>
+</div>
+</div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:04 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

@@ -1,0 +1,88 @@
+\section{Référence du fichier gsb\_\-fyear\_\-config.c}
+\label{gsb__fyear__config_8c}\index{gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}}
+{\ttfamily \#include \char`\"{}include.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-fyear\_\-config.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}dialog.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils\_\-dates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-autofunc.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-calendar\_\-entry.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-account.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-data\_\-transaction.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-fyear.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}traitement\_\-variables.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}utils.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}transaction\_\-list.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}structures.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}gsb\_\-transactions\_\-list.h\char`\"{}}\par
+\subsection*{Énumérations}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf fyear\_\-list\_\-column} \{ \par
+{\bf FYEAR\_\-NAME\_\-COLUMN} =  0, 
+{\bf FYEAR\_\-BEGIN\_\-DATE\_\-COLUMN}, 
+{\bf FYEAR\_\-END\_\-DATE\_\-COLUMN}, 
+{\bf FYEAR\_\-INVALID\_\-COLUMN}, 
+\par
+{\bf FYEAR\_\-NUMBER\_\-COLUMN}, 
+{\bf NUM\_\-FYEARS\_\-COLUMNS}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+GtkWidget $\ast$ {\bf gsb\_\-fyear\_\-config\_\-create\_\-page} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Description détaillée}
+work with the configuration of the finacial year 
+
+Définition dans le fichier {\bf gsb\_\-fyear\_\-config.c}.
+
+
+
+\subsection{Documentation du type de l'énumération}
+\index{gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}!fyear\_\-list\_\-column@{fyear\_\-list\_\-column}}
+\index{fyear\_\-list\_\-column@{fyear\_\-list\_\-column}!gsb_fyear_config.c@{gsb\_\-fyear\_\-config.c}}
+\subsubsection[{fyear\_\-list\_\-column}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf fyear\_\-list\_\-column}}\label{gsb__fyear__config_8c_a088085e85de78ca80e0b873d851158f0}
+Columns numbers for fyears list \begin{Desc}
+\item[Valeurs énumérées: ]\par
+\begin{description}
+\index{FYEAR\_\-NAME\_\-COLUMN@{FYEAR\_\-NAME\_\-COLUMN}!gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}}\index{gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}!FYEAR\_\-NAME\_\-COLUMN@{FYEAR\_\-NAME\_\-COLUMN}}\item[{\em 
+FYEAR\_\-NAME\_\-COLUMN\label{gsb__fyear__config_8c_a088085e85de78ca80e0b873d851158f0a94deb64ee392821b38374d552fede7cd}
+}]\index{FYEAR\_\-BEGIN\_\-DATE\_\-COLUMN@{FYEAR\_\-BEGIN\_\-DATE\_\-COLUMN}!gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}}\index{gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}!FYEAR\_\-BEGIN\_\-DATE\_\-COLUMN@{FYEAR\_\-BEGIN\_\-DATE\_\-COLUMN}}\item[{\em 
+FYEAR\_\-BEGIN\_\-DATE\_\-COLUMN\label{gsb__fyear__config_8c_a088085e85de78ca80e0b873d851158f0af9c10820a9d04b822ebad88dde1661c2}
+}]\index{FYEAR\_\-END\_\-DATE\_\-COLUMN@{FYEAR\_\-END\_\-DATE\_\-COLUMN}!gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}}\index{gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}!FYEAR\_\-END\_\-DATE\_\-COLUMN@{FYEAR\_\-END\_\-DATE\_\-COLUMN}}\item[{\em 
+FYEAR\_\-END\_\-DATE\_\-COLUMN\label{gsb__fyear__config_8c_a088085e85de78ca80e0b873d851158f0aa3a21ba2779d34aa27ee20a16cea2167}
+}]\index{FYEAR\_\-INVALID\_\-COLUMN@{FYEAR\_\-INVALID\_\-COLUMN}!gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}}\index{gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}!FYEAR\_\-INVALID\_\-COLUMN@{FYEAR\_\-INVALID\_\-COLUMN}}\item[{\em 
+FYEAR\_\-INVALID\_\-COLUMN\label{gsb__fyear__config_8c_a088085e85de78ca80e0b873d851158f0ac4a5416f7dd5896530479a3bfd5006cf}
+}]\index{FYEAR\_\-NUMBER\_\-COLUMN@{FYEAR\_\-NUMBER\_\-COLUMN}!gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}}\index{gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}!FYEAR\_\-NUMBER\_\-COLUMN@{FYEAR\_\-NUMBER\_\-COLUMN}}\item[{\em 
+FYEAR\_\-NUMBER\_\-COLUMN\label{gsb__fyear__config_8c_a088085e85de78ca80e0b873d851158f0a0fb39cca353049b7f5302d79ed6a6593}
+}]\index{NUM\_\-FYEARS\_\-COLUMNS@{NUM\_\-FYEARS\_\-COLUMNS}!gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}}\index{gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}!NUM\_\-FYEARS\_\-COLUMNS@{NUM\_\-FYEARS\_\-COLUMNS}}\item[{\em 
+NUM\_\-FYEARS\_\-COLUMNS\label{gsb__fyear__config_8c_a088085e85de78ca80e0b873d851158f0a5bf8ca2258578fc0c663356423cf6979}
+}]\end{description}
+\end{Desc}
+
+
+
+Définition à la ligne 51 du fichier gsb\_\-fyear\_\-config.c.
+
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-fyear\_\-config.c@{gsb\_\-fyear\_\-config.c}!gsb\_\-fyear\_\-config\_\-create\_\-page@{gsb\_\-fyear\_\-config\_\-create\_\-page}}
+\index{gsb\_\-fyear\_\-config\_\-create\_\-page@{gsb\_\-fyear\_\-config\_\-create\_\-page}!gsb_fyear_config.c@{gsb\_\-fyear\_\-config.c}}
+\subsubsection[{gsb\_\-fyear\_\-config\_\-create\_\-page}]{\setlength{\rightskip}{0pt plus 5cm}GtkWidget$\ast$ gsb\_\-fyear\_\-config\_\-create\_\-page (void)}\label{gsb__fyear__config_8c_a37421ef73d8d61900daa3c6c18846ed6}
+Creates the \char`\"{}Financial years\char`\"{} tab. It creates a financial years list and then a form that allows to edit selected financial year.
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em }]\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+A newly allocated vbox 
+\end{DoxyReturn}
+
+
+Définition à la ligne 89 du fichier gsb\_\-fyear\_\-config.c.
+

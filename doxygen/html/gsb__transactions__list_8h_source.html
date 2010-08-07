@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<title>Grisbi:  Fichier source de gsb_transactions_list.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- Généré par Doxygen 1.6.3 -->
+<div class="navigation" id="top">
+  <div class="tabs">
+    <ul>
+      <li><a href="main.html"><span>Page&nbsp;principale</span></a></li>
+      <li><a href="pages.html"><span>Pages&nbsp;associées</span></a></li>
+      <li><a href="annotated.html"><span>Structures&nbsp;de&nbsp;données</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li><a href="files.html"><span>Liste&nbsp;des&nbsp;fichiers</span></a></li>
+      <li><a href="globals.html"><span>Portée&nbsp;globale</span></a></li>
+    </ul>
+  </div>
+<h1>gsb_transactions_list.h</h1><a href="gsb__transactions__list_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _OPERATIONS_LISTE_H</span>
+<a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _OPERATIONS_LISTE_H (1)</span>
+<a name="l00003"></a>00003 <span class="preprocessor"></span>
+<a name="l00004"></a>00004 
+<a name="l00005"></a>00005 
+<a name="l00006"></a>00006 <span class="comment">/* the element number for each showable in the list */</span>
+<a name="l00007"></a>00007 <span class="keyword">enum</span>
+<a name="l00008"></a>00008 {
+<a name="l00009"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a23886a6e4002c32ce2faadbc7caa5e5a">00009</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a23886a6e4002c32ce2faadbc7caa5e5a">ELEMENT_DATE</a> = 1,
+<a name="l00010"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57ab761a8d812187a4600c7525771f7f8e6">00010</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57ab761a8d812187a4600c7525771f7f8e6">ELEMENT_VALUE_DATE</a> ,
+<a name="l00011"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a2c500de74c55386754d7406fec8040ce">00011</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a2c500de74c55386754d7406fec8040ce">ELEMENT_PARTY</a> ,
+<a name="l00012"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a9ac9d9fa61388060ab239d177bd6eda8">00012</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a9ac9d9fa61388060ab239d177bd6eda8">ELEMENT_BUDGET</a> ,
+<a name="l00013"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a562334a8510015ee6bd6be39ec899828">00013</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a562334a8510015ee6bd6be39ec899828">ELEMENT_DEBIT</a> ,
+<a name="l00014"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57adb5de8e2e54fe03605af16b9eb86452e">00014</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57adb5de8e2e54fe03605af16b9eb86452e">ELEMENT_CREDIT</a> ,
+<a name="l00015"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a0f73340eb5af6e8a5454c1aa833339e8">00015</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a0f73340eb5af6e8a5454c1aa833339e8">ELEMENT_BALANCE</a> ,
+<a name="l00016"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57ab1d48e2978669bb807a1baaa8cdea794">00016</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57ab1d48e2978669bb807a1baaa8cdea794">ELEMENT_AMOUNT</a> ,
+<a name="l00017"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57ab990b13349c34bf1524cab596b6c614b">00017</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57ab990b13349c34bf1524cab596b6c614b">ELEMENT_PAYMENT_TYPE</a> ,
+<a name="l00018"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57af5e128aeac4005857a0cc18fd45b9ea2">00018</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57af5e128aeac4005857a0cc18fd45b9ea2">ELEMENT_RECONCILE_NB</a> ,
+<a name="l00019"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a4825ce568dc0468f2fc4c1bc5ab11ff6">00019</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a4825ce568dc0468f2fc4c1bc5ab11ff6">ELEMENT_EXERCICE</a> ,
+<a name="l00020"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a14d07ec8c3f6be2c40010a64205711be">00020</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a14d07ec8c3f6be2c40010a64205711be">ELEMENT_CATEGORY</a> ,
+<a name="l00021"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a1c9bb425c66169e4464498e2d76c6f00">00021</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a1c9bb425c66169e4464498e2d76c6f00">ELEMENT_MARK</a> ,
+<a name="l00022"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57aa39a67b0d3d908e1564af0b203c5d585">00022</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57aa39a67b0d3d908e1564af0b203c5d585">ELEMENT_VOUCHER</a> ,
+<a name="l00023"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a5bc876fbf3281eb4cc86a5fefdfc4487">00023</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57a5bc876fbf3281eb4cc86a5fefdfc4487">ELEMENT_NOTES</a> ,
+<a name="l00024"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57aa1f58a928f37cd97e2ef66a05cb18f47">00024</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57aa1f58a928f37cd97e2ef66a05cb18f47">ELEMENT_BANK</a> ,
+<a name="l00025"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57ac81545daeefa24557d7b18826cb11fad">00025</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57ac81545daeefa24557d7b18826cb11fad">ELEMENT_NO</a> ,
+<a name="l00026"></a><a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57aa2c405cbd6e9496265ce869d0fad27c0">00026</a>     <a class="code" href="gsb__transactions__list_8h.html#ab04a0655cd1e3bcac5e8f48c18df1a57aa2c405cbd6e9496265ce869d0fad27c0">ELEMENT_CHQ</a> ,
+<a name="l00027"></a>00027 };
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 
+<a name="l00030"></a>00030 <span class="comment">/* used for gtk_tree_view_column_set_alignment() (GTK2) */</span>
+<a name="l00031"></a><a class="code" href="gsb__transactions__list_8h.html#a6af7ccb9deda7edaeea9ca8bfc7c6b37">00031</a> <span class="preprocessor">#define COLUMN_LEFT 0.0</span>
+<a name="l00032"></a><a class="code" href="gsb__transactions__list_8h.html#a1acc57689f7f1675288fb8a4b29fb4e7">00032</a> <span class="preprocessor"></span><span class="preprocessor">#define COLUMN_CENTER 0.5</span>
+<a name="l00033"></a><a class="code" href="gsb__transactions__list_8h.html#a854253903a51c832eec04ab2ac08901b">00033</a> <span class="preprocessor"></span><span class="preprocessor">#define COLUMN_RIGHT 1.0</span>
+<a name="l00034"></a>00034 <span class="preprocessor"></span>
+<a name="l00035"></a>00035 <span class="comment">/* START_INCLUDE_H */</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include &quot;<a class="code" href="gsb__real_8h.html">gsb_real.h</a>&quot;</span>
+<a name="l00037"></a>00037 <span class="comment">/* END_INCLUDE_H */</span>
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040 <span class="comment">/* START_DECLARATION */</span>
+<a name="l00041"></a>00041 gboolean <a class="code" href="gsb__transactions__list_8c.html#a8da0807401b34e59349e9534ed0e9cd9">clone_selected_transaction</a> ( GtkWidget *menu_item,
+<a name="l00042"></a>00042                         gpointer null );
+<a name="l00043"></a>00043 GtkWidget *<a class="code" href="gsb__transactions__list_8c.html#a750143785ed9e62525a92754c8262f55">creation_fenetre_operations</a> ( <span class="keywordtype">void</span> );
+<a name="l00044"></a>00044 gint <a class="code" href="gsb__transactions__list_8c.html#a8be7f66c4c8f7c67eb187290c18fb6f7">find_element_col</a> ( gint element_number );
+<a name="l00045"></a>00045 gint <a class="code" href="gsb__transactions__list_8c.html#aa2d81179288c9dd410d36fc58c9a9ca4">find_element_col_for_archive</a> ( <span class="keywordtype">void</span> );
+<a name="l00046"></a>00046 gint <a class="code" href="gsb__transactions__list_8c.html#aa33a589932f8d657a321fd0bb5a4447f">find_element_col_split</a> ( gint element_number );
+<a name="l00047"></a>00047 gint <a class="code" href="gsb__transactions__list_8c.html#a17bf5dcbc82415220a20244112d65aef">find_element_line</a> ( gint element_number );
+<a name="l00048"></a>00048 gchar *<a class="code" href="gsb__transactions__list_8c.html#a1144ff7dd8c9bf6a2a6eb870fc8ae2df">gsb_transactions_get_category_real_name</a> ( gint transaction_number );
+<a name="l00049"></a>00049 gboolean <a class="code" href="gsb__transactions__list_8c.html#ab384002f4635a570bc9907b04b3efd24">gsb_transactions_list_append_new_transaction</a> ( gint transaction_number,
+<a name="l00050"></a>00050                         gboolean update_tree_view );
+<a name="l00051"></a>00051 gboolean <a class="code" href="gsb__transactions__list_8c.html#ab0651c16a8ca47b70e7ccdb2d9c18ba1">gsb_transactions_list_delete_transaction</a> ( gint transaction_number,
+<a name="l00052"></a>00052                         gint show_warning );
+<a name="l00053"></a>00053 gboolean <a class="code" href="gsb__transactions__list_8c.html#af4607ecfa510ff666ad6f3a12b898e4f">gsb_transactions_list_delete_transaction_from_tree_view</a> ( gint transaction_number );
+<a name="l00054"></a>00054 gboolean <a class="code" href="gsb__transactions__list_8c.html#a78ae21515e884855e82af687571bb3c2">gsb_transactions_list_edit_current_transaction</a> ( <span class="keywordtype">void</span> );
+<a name="l00055"></a>00055 gboolean <a class="code" href="gsb__transactions__list_8c.html#a01ca41bdcf1f932ae3a4289433d64cf5">gsb_transactions_list_edit_transaction</a> ( gint transaction_number );
+<a name="l00056"></a>00056 gboolean <a class="code" href="gsb__transactions__list_8c.html#a586edcd7d904b6fd75ab87544f8609fa">gsb_transactions_list_edit_transaction_by_pointer</a> ( gint *transaction_number );
+<a name="l00057"></a>00057 gboolean <a class="code" href="gsb__transactions__list_8c.html#a1a818af14b9c3c740d85b2c76cae24d5">gsb_transactions_list_fill_archive_store</a> ( <span class="keywordtype">void</span> );
+<a name="l00058"></a>00058 gfloat <a class="code" href="gsb__transactions__list_8c.html#aaae69a76295b86b7baace98ce4066738">gsb_transactions_list_get_row_align</a> ( <span class="keywordtype">void</span> );
+<a name="l00059"></a>00059 GtkWidget *<a class="code" href="gsb__transactions__list_8c.html#a9c93505713234d8fa4727b067a140641">gsb_transactions_list_get_tree_view</a> (<span class="keywordtype">void</span>);
+<a name="l00060"></a>00060 gchar *<a class="code" href="gsb__transactions__list_8c.html#a1e229d05133af4abe35b72675491f580">gsb_transactions_list_grep_cell_content</a> ( gint transaction_number,
+<a name="l00061"></a>00061                         gint cell_content_number );
+<a name="l00062"></a>00062 GtkWidget *<a class="code" href="gsb__transactions__list_8c.html#a5a3574009546c888666713aa8269327b">gsb_transactions_list_make_gui_list</a> ( <span class="keywordtype">void</span> );
+<a name="l00063"></a>00063 gboolean <a class="code" href="gsb__transactions__list_8c.html#afb50643bfc50dcd627a5f720c30c8765">gsb_transactions_list_restore_archive</a> ( gint archive_number,
+<a name="l00064"></a>00064                         gboolean show_warning );
+<a name="l00065"></a>00065 <span class="keywordtype">void</span> <a class="code" href="gsb__transactions__list_8c.html#a2528e018beffeb0d2ce2f2386e690360">gsb_transactions_list_selection_changed</a> ( gint new_selected_transaction );
+<a name="l00066"></a>00066 gboolean <a class="code" href="gsb__transactions__list_8c.html#a6de9b44e088a49d4d6328209a24443c2">gsb_transactions_list_set_row_align</a> ( gfloat row_align );
+<a name="l00067"></a>00067 <span class="keywordtype">void</span> <a class="code" href="gsb__transactions__list_8c.html#a8da293358f10b57d3107c903fbd4ef12">gsb_transactions_list_set_visible_rows_number</a> ( gint rows_number );
+<a name="l00068"></a>00068 <span class="keywordtype">void</span> <a class="code" href="gsb__transactions__list_8c.html#a7a066474fae8e311ca096b15cf9d33cc">gsb_transactions_list_show_archives_lines</a> ( gboolean show_l );
+<a name="l00069"></a>00069 <span class="keywordtype">void</span> <a class="code" href="gsb__transactions__list_8c.html#a0ea3d83f0d74d289b6ae23c495f4aa7d">gsb_transactions_list_splitted_to_scheduled</a> ( gint transaction_number,
+<a name="l00070"></a>00070                         gint scheduled_number );
+<a name="l00071"></a>00071 gboolean <a class="code" href="gsb__transactions__list_8c.html#a6089f07015c6278f5d0a689783fe4019">gsb_transactions_list_switch_expander</a> ( gint transaction_number );
+<a name="l00072"></a>00072 gboolean <a class="code" href="gsb__transactions__list_8c.html#a3fea90bc90cbcb2b613935cb657fd320">gsb_transactions_list_transaction_visible</a> ( gpointer transaction_ptr,
+<a name="l00073"></a>00073                         gint account_number,
+<a name="l00074"></a>00074                         gint line_in_transaction,
+<a name="l00075"></a>00075                         gint what_is_line );
+<a name="l00076"></a>00076 gboolean <a class="code" href="gsb__transactions__list_8c.html#a83f53b0c0b9da33efa7f7691ea939f9e">gsb_transactions_list_update_transaction</a> ( gint transaction_number );
+<a name="l00077"></a>00077 <span class="keywordtype">void</span> <a class="code" href="gsb__transactions__list_8c.html#ab7d08f59bcf7149edda9db47e67333a4">gsb_transactions_list_update_tree_view</a> ( gint account_number,
+<a name="l00078"></a>00078                         gboolean keep_selected_transaction );
+<a name="l00079"></a>00079 <span class="keywordtype">void</span> <a class="code" href="gsb__transactions__list_8c.html#a7885778abe9c7b1213f7f0485e666413">mise_a_jour_affichage_r</a> ( gboolean show_r );
+<a name="l00080"></a>00080 <span class="keywordtype">void</span> <a class="code" href="gsb__transactions__list_8c.html#a28b9f175715bce0ac88b473e29ac2fea">move_selected_operation_to_account_nb</a> ( gint *account );
+<a name="l00081"></a>00081 gboolean <a class="code" href="gsb__transactions__list_8c.html#a2f2bb8bf01af048e33c47d43c8370a21">new_transaction</a> ();
+<a name="l00082"></a>00082 <span class="keywordtype">void</span> <a class="code" href="gsb__transactions__list_8c.html#aa52082e3faa52c7be3aa7d5dd41d0731">remove_transaction</a> ();
+<a name="l00083"></a>00083 <span class="keywordtype">void</span> <a class="code" href="gsb__transactions__list_8c.html#a57f2d9faad61b1154270e444656bd275">schedule_selected_transaction</a> ();
+<a name="l00084"></a>00084 <a class="code" href="structgsb__real.html">gsb_real</a> <a class="code" href="gsb__transactions__list_8c.html#ad8b68b6ef2fd8238d726e11c981fc701">solde_debut_affichage</a> ( gint account_number,
+<a name="l00085"></a>00085                         gint floating_point);
+<a name="l00086"></a>00086 <span class="comment">/* END_DECLARATION */</span>
+<a name="l00087"></a>00087 <span class="preprocessor">#endif</span>
+</pre></div></div>
+<hr class="footer"/><address style="text-align: right;"><small>Généré le Sat Aug 7 22:12:03 2010 pour Grisbi par&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
+</body>
+</html>

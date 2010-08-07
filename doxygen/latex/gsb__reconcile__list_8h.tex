@@ -1,0 +1,43 @@
+\section{Référence du fichier gsb\_\-reconcile\_\-list.h}
+\label{gsb__reconcile__list_8h}\index{gsb\_\-reconcile\_\-list.h@{gsb\_\-reconcile\_\-list.h}}
+{\ttfamily \#include \char`\"{}custom\_\-list.h\char`\"{}}\par
+\subsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+gboolean {\bf gsb\_\-reconcile\_\-list\_\-button\_\-clicked} (GtkWidget $\ast$button, gpointer null)
+\item 
+gint {\bf gsb\_\-reconcile\_\-list\_\-sort\_\-func} ({\bf CustomRecord} $\ast$$\ast$a, {\bf CustomRecord} $\ast$$\ast$b, {\bf CustomList} $\ast$custom\_\-list)
+\end{DoxyCompactItemize}
+
+
+\subsection{Documentation des fonctions}
+\index{gsb\_\-reconcile\_\-list.h@{gsb\_\-reconcile\_\-list.h}!gsb\_\-reconcile\_\-list\_\-button\_\-clicked@{gsb\_\-reconcile\_\-list\_\-button\_\-clicked}}
+\index{gsb\_\-reconcile\_\-list\_\-button\_\-clicked@{gsb\_\-reconcile\_\-list\_\-button\_\-clicked}!gsb_reconcile_list.h@{gsb\_\-reconcile\_\-list.h}}
+\subsubsection[{gsb\_\-reconcile\_\-list\_\-button\_\-clicked}]{\setlength{\rightskip}{0pt plus 5cm}gboolean gsb\_\-reconcile\_\-list\_\-button\_\-clicked (GtkWidget $\ast$ {\em button}, \/  gpointer {\em null})}\label{gsb__reconcile__list_8h_a247eaf28cea2bed53eb6048878100f35}
+called by a switch on the button to sort the list with the method of payment while reconciling this function switches between the 2 modes
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em button}]the check\_\-button \item[{\em null}]not used\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+FALSE 
+\end{DoxyReturn}
+
+
+Définition à la ligne 63 du fichier gsb\_\-reconcile\_\-list.c.
+
+\index{gsb\_\-reconcile\_\-list.h@{gsb\_\-reconcile\_\-list.h}!gsb\_\-reconcile\_\-list\_\-sort\_\-func@{gsb\_\-reconcile\_\-list\_\-sort\_\-func}}
+\index{gsb\_\-reconcile\_\-list\_\-sort\_\-func@{gsb\_\-reconcile\_\-list\_\-sort\_\-func}!gsb_reconcile_list.h@{gsb\_\-reconcile\_\-list.h}}
+\subsubsection[{gsb\_\-reconcile\_\-list\_\-sort\_\-func}]{\setlength{\rightskip}{0pt plus 5cm}gint gsb\_\-reconcile\_\-list\_\-sort\_\-func ({\bf CustomRecord} $\ast$$\ast$ {\em a}, \/  {\bf CustomRecord} $\ast$$\ast$ {\em b}, \/  {\bf CustomList} $\ast$ {\em custom\_\-list})}\label{gsb__reconcile__list_8h_ab702a2bc4806b81e6d3c32c5606f2e8f}
+function used to sort the list according to the user conf, with the method of payment
+
+
+\begin{DoxyParams}{Paramètres}
+\item[{\em model}]\item[{\em iter\_\-1}]\item[{\em iter\_\-2}]\item[{\em null}]not used\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+-\/1 if iter\_\-1 before iter\_\-2 ... 
+\end{DoxyReturn}
+
+
+Définition à la ligne 90 du fichier gsb\_\-reconcile\_\-list.c.
+
