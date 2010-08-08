@@ -44,6 +44,7 @@
 /*START_STATIC*/
 static gint gsb_payment_method_get_payment_position ( GtkWidget *combo_box,
                         gint payment_number );
+static gboolean gsb_payment_method_set_cheque_entry ( gint payment_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -70,8 +71,6 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
                         gint account_number,
                         gint exclude )
 {
-    GtkWidget *widget =  NULL;
-    GtkWidget *cheque_entry;
     GtkListStore *store;
     GSList *tmp_list;
     gint store_filled = 0;
@@ -80,9 +79,7 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
 	return FALSE;
 
     /* on bloque le signal du gtk_combo_box pour éviter de multiples appels */
-    widget = gsb_form_widget_get_widget (TRANSACTION_FORM_TYPE);
-    if ( widget )
-        g_signal_handlers_block_by_func (widget, 
+    g_signal_handlers_block_by_func ( combo_box, 
                         gsb_payment_method_changed_callback, NULL);
 
     /* we check first the existing model ; if none, we create it */
@@ -138,8 +135,6 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
                         "combo_sign",
                         GINT_TO_POINTER (sign));
 
-    cheque_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
-
     /* if nothing in the store, hide it */
     if (store_filled)
     {
@@ -150,58 +145,18 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
         else if ( sign == GSB_PAYMENT_CREDIT )
             payment_number = gsb_data_account_get_default_credit ( account_number );
 
-            gsb_payment_method_set_combobox_history ( combo_box, payment_number );
+        gsb_payment_method_set_combobox_history ( combo_box, payment_number );
 
-        gtk_widget_show (combo_box);
-
-        if ( gsb_data_payment_get_show_entry ( payment_number) )
-        {
-            /* set the next number if needed */
-            if ( cheque_entry
-             &&
-             gsb_data_payment_get_automatic_numbering ( payment_number ) )
-            {
-                    gchar* tmpstr;
-
-                    gsb_form_entry_get_focus (cheque_entry);
-                    
-                    tmpstr = gsb_data_payment_incremente_last_number ( payment_number, 1 );
-                    gtk_entry_set_text ( GTK_ENTRY (cheque_entry), tmpstr);
-                    g_free ( tmpstr );
-                    gtk_widget_show (cheque_entry);
-            }
-            else if ( cheque_entry )
-            {
-                gtk_entry_set_text ( GTK_ENTRY (cheque_entry),
-                         "" );
-                gsb_form_entry_lose_focus ( cheque_entry,
-                            FALSE,
-                            GINT_TO_POINTER ( TRANSACTION_FORM_CHEQUE ));
-                gtk_widget_show (cheque_entry);
-            }
-        }
-        else if ( cheque_entry )
-        {
-            gtk_entry_set_text ( GTK_ENTRY (cheque_entry),
-                         "" );
-            gsb_form_entry_lose_focus ( cheque_entry,
-                            FALSE,
-                            GINT_TO_POINTER ( TRANSACTION_FORM_CHEQUE ));
-            gtk_widget_hide ( cheque_entry );
-        }
+        gtk_widget_show ( combo_box );
     }
     else
     {
         gtk_widget_hide (combo_box);
-        gtk_entry_set_text ( GTK_ENTRY (cheque_entry), "" );
-        gsb_form_entry_lose_focus ( cheque_entry,
-                        FALSE,
-                        GINT_TO_POINTER ( TRANSACTION_FORM_CHEQUE ));
-        gtk_widget_hide ( cheque_entry );
-
+        gsb_payment_method_set_cheque_entry ( 0 );
     }
-    if ( widget )
-        g_signal_handlers_unblock_by_func (widget, 
+
+    /* on réactive le signal du gtk_combo_box */
+    g_signal_handlers_unblock_by_func ( combo_box, 
                         gsb_payment_method_changed_callback, NULL);
 
     return TRUE;
@@ -362,24 +317,38 @@ gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
     gboolean return_value;
     gint account_number;
 
+    /* on sort si le moyen de paiement est déjà le bon */
+    if ( gsb_payment_method_get_selected_number ( combo_box ) == payment_number )
+        return TRUE;
+
+    /* on bloque le signal du gtk_combo_box pour éviter de multiples appels */
+    g_signal_handlers_block_by_func ( combo_box, 
+                        gsb_payment_method_changed_callback, NULL);
+
     account_number = gsb_data_payment_get_account_number (payment_number);
-    position = gsb_payment_method_get_payment_position ( combo_box,
-							 payment_number );
+    position = gsb_payment_method_get_payment_position ( combo_box, payment_number );
 
     if (position != -1)
-	return_value = TRUE;
+        return_value = TRUE;
     else
     {
-	if ( gsb_payment_method_get_combo_sign (combo_box) == GSB_PAYMENT_CREDIT)
-	    position = gsb_payment_method_get_payment_position ( combo_box,
-								 gsb_data_account_get_default_credit (account_number));
-	else
-	    position = gsb_payment_method_get_payment_position ( combo_box,
-								 gsb_data_account_get_default_debit (account_number));
-	return_value = FALSE;
+        if ( gsb_payment_method_get_combo_sign ( combo_box ) == GSB_PAYMENT_CREDIT )
+            position = gsb_payment_method_get_payment_position ( combo_box,
+								gsb_data_account_get_default_credit ( account_number ) );
+        else
+            position = gsb_payment_method_get_payment_position ( combo_box,
+								gsb_data_account_get_default_debit ( account_number ) );
+
+        return_value = FALSE;
     }
-    gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box),
-			       position );
+    
+    gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box), position );
+    gsb_payment_method_set_cheque_entry ( payment_number );
+
+    /* on réactive le signal du gtk_combo_box */
+    g_signal_handlers_unblock_by_func ( combo_box, 
+                        gsb_payment_method_changed_callback, NULL);
+
     return return_value;
 }
 
@@ -441,12 +410,8 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
             }
         }
         else
-        {
-            gtk_entry_set_text ( GTK_ENTRY (cheque_entry), "" );
-            gsb_form_entry_lose_focus ( cheque_entry,
-                        FALSE,
-                        GINT_TO_POINTER ( TRANSACTION_FORM_CHEQUE ));
-        }
+            gsb_payment_method_set_cheque_entry ( 0 );
+
         gtk_widget_show (cheque_entry);
     }
     else
@@ -455,6 +420,59 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
     return FALSE;
 }
 
+
+/**
+ * show or hide the entry for cheque in the form
+ * if payment_number = 0 reset cheque_entry and hide it
+ *
+ * \param gint payment_number
+ *
+ * \return FALSE if not cheque_entry TRUE if OK
+ * */
+gboolean gsb_payment_method_set_cheque_entry ( gint payment_number )
+{
+    GtkWidget *cheque_entry;
+
+    cheque_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
+    if ( !cheque_entry )
+        return FALSE;
+
+    if ( gsb_data_payment_get_show_entry ( payment_number) == TRUE )
+    {
+        /* set the next number if needed */
+        if ( gsb_data_payment_get_automatic_numbering ( payment_number ) == TRUE )
+        {
+            gchar* tmpstr;
+
+            gsb_form_entry_get_focus ( cheque_entry );
+            
+            tmpstr = gsb_data_payment_incremente_last_number ( payment_number, 1 );
+            gtk_entry_set_text ( GTK_ENTRY (cheque_entry), tmpstr);
+            g_free ( tmpstr );
+            
+        }
+        else
+        {
+            gtk_entry_set_text ( GTK_ENTRY ( cheque_entry ), "" );
+            gsb_form_entry_lose_focus ( cheque_entry,
+                        FALSE,
+                        GINT_TO_POINTER ( TRANSACTION_FORM_CHEQUE ) );
+        }
+
+        gtk_widget_show (cheque_entry);
+    }
+    else
+    {
+        gtk_entry_set_text ( GTK_ENTRY (cheque_entry), "" );
+        gsb_form_entry_lose_focus ( cheque_entry,
+                        FALSE,
+                        GINT_TO_POINTER ( TRANSACTION_FORM_CHEQUE ) );
+
+        gtk_widget_hide ( cheque_entry );
+    }
+    
+    return TRUE;
+}
 
 
 /* Local Variables: */

@@ -333,6 +333,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 	gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, TRUE, TRUE, 0 );
 	gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
 	gtk_widget_reparent ( form_transaction_part, hbox );
+    gtk_widget_show_all ( hbox );
 
     /* next we fill the form,
      * don't use gsb_form_show because we are neither on transactions list, neither scheduled list */
@@ -342,6 +343,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
                         NULL );
 
     gsb_form_fill_from_account (gsb_data_scheduled_get_account_number (scheduled_number));
+
     /* fill the form with the scheduled transaction */
     gsb_scheduler_list_execute_transaction(scheduled_number);
 
@@ -349,7 +351,6 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
                         G_CALLBACK (gsb_form_scheduler_change_account),
                         NULL );
 
-	gtk_widget_show_all ( hbox );
 	result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     if ( result == GTK_RESPONSE_OK )
