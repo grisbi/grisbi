@@ -664,11 +664,14 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 						NULL );
 
 	    if ( no_second_element == -1 )
-		dialogue_hint ( _("There is no place enough to put the element. You need to increase the number of rows or columns to add an element."),
-				_("The table is full"));
+		dialogue_hint ( _("There is no place enough to put the element. You need to increase "
+                          "the number of rows or columns to add an element."),
+                        _("The table is full"));
 	    else
-		dialogue_hint ( _("There is no place enough to put the two elements (you have clicked on an element which contains two). You need to increase the number of rows or columns to add the elements."),
-				_("The table is full"));
+		dialogue_hint ( _("There is no place enough to put the two elements (you have clicked on "
+                          "an element which contains two). You need to increase the number of rows "
+                          "or columns to add the elements."),
+                        _("The table is full"));
 
 	    return TRUE;
 	}
@@ -719,6 +722,10 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 
     gsb_form_config_update_from_account (
                         gsb_account_get_combo_account_number ( accounts_combobox ) );
+    /* update the form */
+    gsb_form_config_fill_store (account_number);
+    gsb_form_create_widgets ();
+
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
     return FALSE;
@@ -843,6 +850,7 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
     /* update the form if needed */
 	saved_allocation_size = 0;
 	gsb_form_allocate_size ( NULL, &(form_transaction_part -> allocation), NULL );
+    gsb_form_create_widgets ();
 
     return FALSE;
 }

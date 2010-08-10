@@ -82,7 +82,6 @@
 #include "include.h"
 #include "structures.h"
 #include "erreur.h"
-#include "gsb_form_widget.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
