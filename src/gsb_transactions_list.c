@@ -89,6 +89,7 @@ static gint gsb_transactions_list_clone_transaction ( gint transaction_number,
                         gint mother_transaction_number );
 static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model );
 static void gsb_transactions_list_create_tree_view_columns ( void );
+static void gsb_transactions_list_display_contra_transaction ( gint *transaction_number );
 static gboolean gsb_transactions_list_fill_model ( void );
 static gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
                         GdkEventKey *ev );
@@ -2134,8 +2135,12 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     GtkWidget *menu, *menu_item;
     gint transaction_number;
     gboolean mi_full = TRUE;
+    gint contra_number;
 
-    transaction_number = gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ());
+    transaction_number = gsb_data_account_get_current_transaction_number (
+                            gsb_gui_navigation_get_current_account ( ) );
+    /* Add a sub menu to display the contra transaction */
+    contra_number = gsb_data_transaction_get_contra_transaction_number ( transaction_number );
 
     /* full is used for the whites line, to unsensitive some fields in the menu */
     if ( transaction_number < 0 )
@@ -2144,8 +2149,24 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     /* mi_full is used for children of transactions, to unselect some fields in the menu */
     if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
 	mi_full = FALSE;
-
     menu = gtk_menu_new ();
+
+    if ( contra_number > 0 )
+    {
+        menu_item = gtk_image_menu_item_new_with_label ( _("Displays the contra-transaction") );
+        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				    gtk_image_new_from_stock ( GTK_STOCK_JUMP_TO,
+							       GTK_ICON_SIZE_MENU ));
+        g_signal_connect_swapped ( G_OBJECT(menu_item),
+                        "activate",
+                        G_CALLBACK ( gsb_transactions_list_display_contra_transaction ),
+                        GINT_TO_POINTER ( contra_number ) );
+        gtk_widget_set_sensitive ( menu_item, full );
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+        /* Separator */
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
+    }
 
     /* Edit transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
@@ -3642,6 +3663,36 @@ gint find_element_col_for_archive ( void )
 
     return -1;
 }
+
+
+/**
+ * display contra_transaction
+ * 
+ *
+ * 
+ */
+void gsb_transactions_list_display_contra_transaction ( gint *element_ptr )
+{
+    gint target_account;
+    gint transaction_number;
+
+    transaction_number = GPOINTER_TO_INT ( element_ptr );
+    target_account = gsb_data_transaction_get_account_number ( transaction_number );
+
+    if ( gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, target_account, NULL ) )
+    {
+        /* If transaction is reconciled, show reconciled transactions. */
+        if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE
+         &&
+         !gsb_data_account_get_r ( target_account ) )
+        {
+            mise_a_jour_affichage_r ( TRUE );
+        }
+
+        transaction_list_select ( transaction_number );
+    }
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
