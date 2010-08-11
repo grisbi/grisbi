@@ -96,10 +96,22 @@ SET (grisbi_source
 	../src/affichage.h
 	../src/affichage_liste.c
 	../src/affichage_liste.h
-#	../src/balance_estimate_tab.c
-#	../src/balance_estimate_tab.h
 	../src/barre_outils.c
 	../src/barre_outils.h
+	../bet_config.c
+	../bet_config.h
+	../bet_data.c
+	../bet_data.h
+	../bet_data_finance.c
+	../bet_data_finance.h
+	../bet_finance_ui.c
+	../bet_finance_ui.h
+	../bet_future.c
+	../bet_future.h
+	../bet_hist.c
+	../bet_hist.h
+	../src/bet_tab.c
+	../src/bet_tab.h
 	../src/categories_onglet.c
 	../src/categories_onglet.h
 	../src/classement_echeances.c
