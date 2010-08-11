@@ -202,6 +202,18 @@ GDate *bet_data_finance_get_date_last_installment_paid ( GDate *date_depart )
  *
  *
  * */
+gdouble bet_data_finance_get_total_cost ( gdouble capital,
+                        gdouble mensualite,
+                        gdouble duree )
+{
+    gdouble cost;
+
+    
+    cost = ( ( mensualite + 0.01) * duree ) - capital;
+
+    return cost;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

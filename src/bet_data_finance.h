@@ -24,6 +24,9 @@ gdouble bet_data_finance_get_principal ( gdouble echeance,
                         gdouble interets,
                         gdouble frais );
 gdouble bet_data_finance_get_taux_periodique ( gdouble taux, gint type_taux );
+gdouble bet_data_finance_get_total_cost ( gdouble capital,
+                        gdouble mensualite,
+                        gdouble duree );
 gdouble bet_data_finance_troncate_number ( gdouble number, gint nbre_decimal );
 /* END_DECLARATION */
 

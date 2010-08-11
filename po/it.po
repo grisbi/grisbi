@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-11 19:48+0200\n"
+"POT-Creation-Date: 2010-08-11 21:21+0200\n"
 "PO-Revision-Date: 2007-04-05 00:03+0000\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -695,9 +695,9 @@ msgstr "Ipoteche/Mutui : Capitale"
 #. Duration
 #. create columns
 #. Duration
-#: ../src/bet_config.c:1196 ../src/bet_finance_ui.c:254
-#: ../src/bet_finance_ui.c:455 ../src/bet_finance_ui.c:1013
-#: ../src/bet_finance_ui.c:1418
+#: ../src/bet_config.c:1196 ../src/bet_finance_ui.c:258
+#: ../src/bet_finance_ui.c:461 ../src/bet_finance_ui.c:1047
+#: ../src/bet_finance_ui.c:1452
 #, fuzzy
 msgid "Duration"
 msgstr "Traduzione"
@@ -714,13 +714,13 @@ msgstr "metodo di pagamento"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:999
-#: ../src/bet_finance_ui.c:1404
+#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1033
+#: ../src/bet_finance_ui.c:1438
 msgid "Annuel rate interest"
 msgstr ""
 
-#: ../src/bet_config.c:1236 ../src/bet_finance_ui.c:249
-#: ../src/bet_finance_ui.c:1008 ../src/bet_finance_ui.c:1413
+#: ../src/bet_config.c:1236 ../src/bet_finance_ui.c:253
+#: ../src/bet_finance_ui.c:1042 ../src/bet_finance_ui.c:1447
 msgid "%"
 msgstr ""
 
@@ -729,16 +729,16 @@ msgstr ""
 msgid "Fees per month"
 msgstr "%d mesi"
 
-#: ../src/bet_config.c:1267 ../src/bet_finance_ui.c:385
+#: ../src/bet_config.c:1267 ../src/bet_finance_ui.c:389
 #, fuzzy
 msgid "Rate Type"
 msgstr "Tipo"
 
-#: ../src/bet_config.c:1271 ../src/bet_finance_ui.c:389
+#: ../src/bet_config.c:1271 ../src/bet_finance_ui.c:393
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1275 ../src/bet_finance_ui.c:393
+#: ../src/bet_config.c:1275 ../src/bet_finance_ui.c:397
 msgid "Proportional rate"
 msgstr ""
 
@@ -746,71 +746,71 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:761
-#: ../src/bet_finance_ui.c:1507
+#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:791
+#: ../src/bet_finance_ui.c:1541
 #, fuzzy
 msgid " year "
 msgstr "anno %d"
 
-#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:763
-#: ../src/bet_finance_ui.c:1509
+#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:793
+#: ../src/bet_finance_ui.c:1543
 #, fuzzy
 msgid " years "
 msgstr "Anni"
 
-#: ../src/bet_config.c:1388 ../src/bet_finance_ui.c:627
+#: ../src/bet_config.c:1388 ../src/bet_finance_ui.c:652
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
 #. set the title
-#: ../src/bet_finance_ui.c:204 ../src/fenetre_principale.c:277
+#: ../src/bet_finance_ui.c:208 ../src/fenetre_principale.c:277
 #: ../src/navigation.c:300 ../src/navigation.c:1233
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Carta di credito"
 
 #. capital
-#: ../src/bet_finance_ui.c:215 ../src/bet_finance_ui.c:1394
+#: ../src/bet_finance_ui.c:219 ../src/bet_finance_ui.c:1428
 #, fuzzy
 msgid "Loan capital"
 msgstr "Ipoteche/Mutui : Capitale"
 
 #. taux
-#: ../src/bet_finance_ui.c:239
+#: ../src/bet_finance_ui.c:243
 #, fuzzy
 msgid "Annual interest"
 msgstr "Budget annuale"
 
-#: ../src/bet_finance_ui.c:269
+#: ../src/bet_finance_ui.c:273
 msgid "Entering Detailed"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:272
+#: ../src/bet_finance_ui.c:276
 #, fuzzy
 msgid "Calculate"
 msgstr "tutte le date"
 
-#: ../src/bet_finance_ui.c:308
+#: ../src/bet_finance_ui.c:312
 msgid "Between 1 and 15 years"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:309
+#: ../src/bet_finance_ui.c:313
 msgid "Between 15 and 30 years"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:364 ../src/bet_finance_ui.c:540
+#: ../src/bet_finance_ui.c:368 ../src/bet_finance_ui.c:546
 #, fuzzy
 msgid "Fees"
 msgstr "Tassa"
 
-#: ../src/bet_finance_ui.c:374
+#: ../src/bet_finance_ui.c:378
 #, c-format
 msgid "% of borrowed capital"
 msgstr ""
 
 #. Number of periods
-#: ../src/bet_finance_ui.c:472
+#: ../src/bet_finance_ui.c:478
 #, fuzzy
 msgid ""
 "Number\n"
@@ -818,52 +818,62 @@ msgid ""
 msgstr "Bilancio iniziale"
 
 #. Loan capital
-#: ../src/bet_finance_ui.c:489
+#: ../src/bet_finance_ui.c:495
 msgid ""
 "Loan\n"
 "capital"
 msgstr ""
 
 #. Annuel rate interest
-#: ../src/bet_finance_ui.c:506
+#: ../src/bet_finance_ui.c:512
 msgid ""
 "Annuel\n"
 "rate interest"
 msgstr ""
 
 #. Amount without fees
-#: ../src/bet_finance_ui.c:523
+#: ../src/bet_finance_ui.c:529
 msgid ""
 "Amount\n"
 "without fees"
 msgstr ""
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:557 ../src/bet_finance_ui.c:1166
+#: ../src/bet_finance_ui.c:563 ../src/bet_finance_ui.c:1200
 #, fuzzy
 msgid "Monthly paid"
 msgstr "Mensile"
 
-#: ../src/bet_finance_ui.c:931
+#. Total cost
+#: ../src/bet_finance_ui.c:580
+#, fuzzy
+msgid "Total cost"
+msgstr "Totale %s"
+
+#: ../src/bet_finance_ui.c:592
+msgid "Approximate cost"
+msgstr ""
+
+#: ../src/bet_finance_ui.c:965
 msgid "View amortization table"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:939
+#: ../src/bet_finance_ui.c:973
 msgid "View credits simulator"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:978 ../src/bet_finance_ui.c:1382
-#: ../src/bet_finance_ui.c:1480
+#: ../src/bet_finance_ui.c:1012 ../src/bet_finance_ui.c:1416
+#: ../src/bet_finance_ui.c:1514
 msgid "Amortization Table"
 msgstr ""
 
 #. capital
-#: ../src/bet_finance_ui.c:989
+#: ../src/bet_finance_ui.c:1023
 #, fuzzy
 msgid "Loan amount"
 msgstr "Carica un documento di conto"
 
-#: ../src/bet_finance_ui.c:1071 ../src/bet_future.c:770 ../src/bet_tab.c:615
+#: ../src/bet_finance_ui.c:1105 ../src/bet_future.c:770 ../src/bet_tab.c:615
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:760
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1283
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:155
@@ -873,29 +883,29 @@ msgstr "Carica un documento di conto"
 msgid "Date"
 msgstr "Data"
 
-#: ../src/bet_finance_ui.c:1081 ../src/etats_affiche.c:2398
+#: ../src/bet_finance_ui.c:1115 ../src/etats_affiche.c:2398
 #: ../src/traitement_variables.c:96
 msgid "Number"
 msgstr "Numero"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1098
+#: ../src/bet_finance_ui.c:1132
 msgid "Capital remaining"
 msgstr ""
 
 #. Interests
-#: ../src/bet_finance_ui.c:1115
+#: ../src/bet_finance_ui.c:1149
 #, fuzzy
 msgid "Interests"
 msgstr "Interessi"
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1132
+#: ../src/bet_finance_ui.c:1166
 msgid "Capital repaid"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:1149
+#: ../src/bet_finance_ui.c:1183
 #, fuzzy
 msgid "Insurance"
 msgstr "Assicurazione : Macchina"

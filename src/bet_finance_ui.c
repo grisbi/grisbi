@@ -49,6 +49,8 @@
     gdouble capital;
     gdouble frais;
     gdouble echeance;
+    gdouble total_echeance;
+    gdouble total_cost;
 }  struct_echeance;
 
 /* structure amortissement */
@@ -114,6 +116,8 @@ static GtkWidget *finance_notebook;
     BET_FINANCE_FRAIS_DOUBLE,
     BET_FINANCE_ECHEANCE_COLUMN,
     BET_FINANCE_ECHEANCE_DOUBLE,
+    BET_FINANCE_COUT_COLUMN,
+    BET_FINANCE_COUT_DOUBLE,
     BET_FINANCE_BACKGROUND_COLOR,
     BET_FINANCE_NBRE_COLUMNS
 };
@@ -445,6 +449,8 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
                         G_TYPE_DOUBLE,      /* BET_FINANCE_FRAIS_DOUBLE           */
                         G_TYPE_STRING,      /* BET_FINANCE_ECHEANCE_COLUMN        */
                         G_TYPE_DOUBLE,      /* BET_FINANCE_ECHEANCE_DOUBLE        */
+                        G_TYPE_STRING,      /* BET_FINANCE_COUT_COLUMN            */
+                        G_TYPE_DOUBLE,      /* BET_FINANCE_COUT_DOUBLE            */
                         GDK_TYPE_COLOR );   /* BET_FINANCE_BACKGROUND_COLOR       */
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( tree_model ) );
     g_object_unref ( G_OBJECT ( tree_model ) );
@@ -570,6 +576,25 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
     gtk_tree_view_column_set_alignment ( column, 0.5 );
     g_free ( title );
 
+    /* Total cost */
+    title = g_strdup ( _("Total cost") );
+    cell = gtk_cell_renderer_text_new ( );
+    g_object_set ( G_OBJECT ( cell ), "xalign", 0.5, NULL );
+
+    column = gtk_tree_view_column_new_with_attributes ( title,
+                        cell,
+                        "text", BET_FINANCE_COUT_COLUMN,
+                        "cell-background-gdk", BET_FINANCE_BACKGROUND_COLOR,
+                        NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+                        GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( GTK_TREE_VIEW_COLUMN ( column )->button ),
+                        _("Approximate cost") );
+    gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
+    g_free ( title );
+
     g_signal_connect ( G_OBJECT ( tree_view ),
                         "button-press-event",
                         G_CALLBACK ( bet_finance_data_list_button_press ),
@@ -682,6 +707,11 @@ void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget )
                         s_echeance -> taux_periodique,
                         s_echeance -> nbre_echeances );
 
+        s_echeance -> total_echeance = s_echeance -> echeance + s_echeance -> frais;
+        s_echeance -> total_cost = bet_data_finance_get_total_cost ( s_echeance -> capital,
+                        s_echeance -> total_echeance,
+                        s_echeance -> nbre_echeances );
+
         bet_finance_fill_data_ligne ( model, s_echeance );
 
         s_echeance -> duree = 0;
@@ -753,8 +783,8 @@ void bet_finance_fill_data_ligne ( GtkTreeModel *model, struct_echeance *s_echea
     gchar *str_frais;
     gchar *str_echeance;
     gchar *str_totale;
+    gchar *str_total_cost;
     gchar buffer[256];
-    gdouble echeance_totale;
     gint nbre_char;
 
     if ( s_echeance -> duree == 1 )
@@ -777,11 +807,13 @@ void bet_finance_fill_data_ligne ( GtkTreeModel *model, struct_echeance *s_echea
                         gsb_real_double_to_real ( s_echeance -> echeance ),
                         s_echeance -> devise, TRUE );
 
-    echeance_totale = s_echeance -> echeance + s_echeance -> frais;
     str_totale = gsb_real_get_string_with_currency (
-                        gsb_real_double_to_real ( echeance_totale ),
+                        gsb_real_double_to_real ( s_echeance -> total_echeance ),
                         s_echeance -> devise, TRUE );
 
+    str_total_cost = gsb_real_get_string_with_currency (
+                        gsb_real_double_to_real ( s_echeance -> total_cost ),
+                        s_echeance -> devise, TRUE );
 
     gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
@@ -798,7 +830,9 @@ void bet_finance_fill_data_ligne ( GtkTreeModel *model, struct_echeance *s_echea
                         BET_FINANCE_FRAIS_COLUMN, str_frais,
                         BET_FINANCE_FRAIS_DOUBLE, s_echeance -> frais,
                         BET_FINANCE_ECHEANCE_COLUMN, str_totale,
-                        BET_FINANCE_ECHEANCE_DOUBLE, echeance_totale,
+                        BET_FINANCE_ECHEANCE_DOUBLE, s_echeance -> total_echeance,
+                        BET_FINANCE_COUT_COLUMN, str_total_cost,
+                        BET_FINANCE_COUT_DOUBLE, s_echeance -> total_cost,
                         - 1 );
 
     g_free ( str_duree );
