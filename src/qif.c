@@ -117,459 +117,422 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
 
     do
     {
-	GSList *tmp_list;
-	gint order = 0;
-	struct struct_ope_importation *imported_transaction;
+        GSList *tmp_list;
+        gint order = 0;
+        struct struct_ope_importation *imported_transaction;
 
-	do
-	{
-	    /* si ce n'est pas le premier imported_account du qif_file, 
-         * tmp_str est déjà sur la ligne du nouveau imported_account
-	     * tant que pas_le_premier_compte = 1 ; du coup on le met à 2 s'il était à 1 */
-	    if ( pas_le_premier_compte != 1 )
-	    {
-		returned_value = get_utf8_line_from_file ( qif_file,
-							   &tmp_str,
-							   imported -> coding_system );
-	    }
-	    else
-		pas_le_premier_compte = 2;
+        do
+        {
+            /* si ce n'est pas le premier imported_account du qif_file, 
+             * tmp_str est déjà sur la ligne du nouveau imported_account
+             * tant que pas_le_premier_compte = 1 ; du coup on le met à 2 s'il était à 1 */
+            if ( pas_le_premier_compte != 1 )
+            {
+                returned_value = get_utf8_line_from_file ( qif_file,
+                                   &tmp_str,
+                                   imported -> coding_system );
+            }
+            else
+                pas_le_premier_compte = 2;
 
-	    if ( returned_value
-		 &&
-		 returned_value != EOF
-		 &&
-		 tmp_str
-		 &&
-		 !g_strncasecmp ( tmp_str,
-				  "!Type",
-				  5 ))
-	    {
-		/* we go throw the file untill we find an account we can understand
-		 * (sometimes there are categories list and other stuff at the begining
-		 * of the qif files ) */
-
-		/* a new of money : now it sets the name bank (and perhaps the others ??)
-		 * into the language of origine (so not "bank" but "banque" for a french export...
-		 * so i do it here, and keep the non transalated strings because
-		 * there is not only money on earth... pfff... */
-
-		if ( !g_strncasecmp ( tmp_str+6,
-				      "bank",
-				      4 )
-		     ||
-		     !g_strncasecmp ( tmp_str+6,
-				      "cash",
-				      4 )
-		     ||
-		     !g_strncasecmp ( tmp_str+6,
-				      "ccard",
-				      5 )
-		     ||
-		     !g_strncasecmp ( tmp_str+6,
-				      "invst",
-				      5 )
-		     ||
-		     !g_strncasecmp ( tmp_str+6,
-				      "oth a",
-				      5 )
-		     ||
-		     !g_strncasecmp ( tmp_str+6,
-				      "oth l",
-				      5 )
-		     ||
-		     !my_strcasecmp ( tmp_str+6,
-				      _("bank"))
-		     ||
-		     !my_strcasecmp ( tmp_str+6,
-				      _("cash)"))
-		     ||
-		     !my_strcasecmp ( tmp_str+6,
-				      _("ccard)"))
-		     ||
-		     !my_strcasecmp ( tmp_str+6,
-				      _("invst)"))
-		     ||
-		     !my_strcasecmp ( tmp_str+6,
-				      _("oth a)"))
-		     ||
-		     !my_strcasecmp ( tmp_str+6,
-				      _("oth l)")))
-		    returned_value = -2;
-	    }
-        else  
-            break;
-	}
-	while ( returned_value != EOF
-		&&
-		returned_value != -2 );
-
-	/* now, either we are on a understandable account, either at the
-	 * end of the file without found anything for us */
-	if ( returned_value == EOF )
-	{
-	    if ( !pas_le_premier_compte )
-	    {
-		/* no account already saved, so send an error */
-		liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
-								imported_account );
-		fclose ( qif_file );
-		return FALSE;
-	    }
-	    else
-	    {
-		/* we have at least saved an account before, ok, enough for me */
-		fclose ( qif_file );
-		return TRUE;
-	    }
-	}
-
-	/* create and fill the new account */
-	imported_account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
-	imported_account -> origine = my_strdup ( "QIF" );
-
-	/* save filename */
-	imported_account -> real_filename = my_strdup (imported -> name);
-	imported_account -> filename = my_strdup ( imported -> name );
-
-	/* get the type of account : only bank, cash, ccard, invst (with warning), oth a and oth l */
-	if ( !g_strncasecmp ( tmp_str+6,
-			      "bank",
-			      4 )
-	     ||
-	     !my_strcasecmp ( tmp_str+6,
-			      _("bank")))
-	    imported_account -> type_de_compte = 0;
-	else
-	{
-	    if ( !g_strncasecmp ( tmp_str+6,
-				  "invst",
-				  5 )
-		 ||
-		 !my_strcasecmp ( tmp_str+6,
-				  _("invst)")))
-	    {
-		/* on considère le imported_account d'investissement comme un imported_account 
-         * bancaire mais met un warning car pas implémenté ; aucune idée si ça passe ou pas... */
-		gchar *tmpstr;
-
-		imported_account -> type_de_compte = 0;
-		tmpstr = g_strdup_printf ( _("Grisbi found an investment account (%s), "
-                        "which is not implemented yet.  Nevertheless, Grisbi will try "
-                        "to import it as a bank account." ),
-					    imported -> name );
-		dialogue_warning (tmpstr);
-		g_free (tmpstr);
-	    }
-	    else
-	    {
-		if ( !g_strncasecmp ( tmp_str+6,
-				      "cash",
-				      4 )
-		     ||
-		     !my_strcasecmp ( tmp_str+6,
-				      _("cash)")))
-		    imported_account -> type_de_compte = 7;
-		else
-		{
-		    if ( !g_strncasecmp ( tmp_str+6,
-					  "oth a",
-					  5 )
-			 ||
-			 !my_strcasecmp ( tmp_str+6,
-					  _("oth a)")))
-			imported_account -> type_de_compte = 2;
-		    else
-		    {
-			if ( !g_strncasecmp ( tmp_str+6,
-					      "oth l",
-					      5 )
-			     ||
-			     !my_strcasecmp ( tmp_str+6,
-					      _("oth l)")))
-			    imported_account -> type_de_compte = 3;
-			else
-			    /* CCard */
-			    imported_account -> type_de_compte = 5;
-		    }
-		}
-	    }
-	}
-
-	/* get the data of the account */
-	/* some files are an export of account and the first transaction is the initials datas of the
-	 * account (in that case, the payee is "Opening balance",
-	 * for others, it begins directly with the first transaction
-	 * it depends too of the type of account ...
-	 * the best way will to take the first data as a transaction, later, we will check if there
-	 * is "Opening balance" as payee and fill the initial values of the account if necessary */
-
-	/* fill the struct_ope_importation */
-	/* we fill all the fields except the date, because that format is variable,
-	 * so keep the date into date_tmp in string and try to decode the string later */
-	do
-	{
-	    struct struct_ope_importation *imported_splitted = NULL;
-
-	    imported_transaction = g_malloc0 (sizeof ( struct struct_ope_importation ));
-
-	    do
-	    {
-		returned_value = get_utf8_line_from_file ( qif_file,
-							   &tmp_str,
-							   imported -> coding_system );
-
-		/* a transaction never begin with ^ and ! */
-		if ( strlen ( tmp_str )
+            if ( returned_value
              &&
              returned_value != EOF
-		     &&
-		     tmp_str[0] != '^'
-		     &&
-		     tmp_str[0] != '!' )
-		{
-		    /* set the date into date_tmp */
-		    if ( tmp_str[0] == 'D' )
-			imported_transaction -> date_tmp = my_strdup ( tmp_str + 1 );
-
-
-		    /* récupération du pointage */
-		    if ( tmp_str[0] == 'C' )
-		    {
-			if ( tmp_str[1] == '*' )
-			    imported_transaction -> p_r = OPERATION_POINTEE;
-			else
-			    imported_transaction -> p_r = OPERATION_RAPPROCHEE;
-		    }
-
-
-		    /* récupération de la note */
-		    if ( tmp_str[0] == 'M' )
-		    {
-			imported_transaction -> notes = g_strstrip ( g_strdelimit ( tmp_str + 1,
-										    ";",
-										    '/' ));
-			if ( imported_transaction -> notes && !strlen ( imported_transaction -> notes ))
-			    imported_transaction -> notes = NULL;
-		    }
-
-		    if ( tmp_str[0] == 'T' )
+             &&
+             tmp_str
+             &&
+             g_strncasecmp ( tmp_str, "!Type", 5 ) == 0 )
             {
-                gchar *new_str;
+                /* we go throw the file untill we find an account we can understand
+                 * (sometimes there are categories list and other stuff at the begining
+                 * of the qif files ) */
 
-                new_str = utils_str_localise_decimal_point_from_string ( tmp_str + 1 );
-                imported_transaction -> montant = gsb_real_get_from_string ( new_str );
-
-                g_free ( new_str );
+                /* a new of money : now it sets the name bank (and perhaps the others ??)
+                 * into the language of origine (so not "bank" but "banque" for a french export...
+                 * so i do it here, and keep the non transalated strings because
+                 * there is not only money on earth... pfff... */
+                if ( !g_strncasecmp ( tmp_str+6, "bank", 4 )
+                 ||
+                 !g_strncasecmp ( tmp_str+6, "cash", 4 )
+                 ||
+                 !g_strncasecmp ( tmp_str+6, "ccard", 5 )
+                 ||
+                 !g_strncasecmp ( tmp_str+6, "invst", 5 )
+                 ||
+                 !g_strncasecmp ( tmp_str+6, "oth a", 5 )
+                 ||
+                 !g_strncasecmp ( tmp_str+6, "oth l", 5 )
+                 ||
+                 !my_strcasecmp ( tmp_str+6, ("bank") )
+                 ||
+                 !my_strcasecmp ( tmp_str+6, ("cash)") )
+                 ||
+                 !my_strcasecmp ( tmp_str+6, _("ccard)") )
+                 ||
+                 !my_strcasecmp ( tmp_str+6, ("invst)") )
+                 ||
+                 !my_strcasecmp ( tmp_str+6, ("oth a)") )
+                 ||
+                 !my_strcasecmp ( tmp_str+6, ("oth l)") ) )
+                    returned_value = -2;
             }
-
-		    /* récupération du chèque */
-		    if ( tmp_str[0] == 'N' )
-			imported_transaction -> cheque = my_strdup ( tmp_str + 1 ); 
-
-		    /* récupération du tiers */
-		    if ( tmp_str[0] == 'P' )
-			imported_transaction -> tiers = my_strdup ( tmp_str + 1 );
-
-
-		    /* récupération des catég */
-		    if ( tmp_str[0] == 'L' )
-			imported_transaction -> categ = my_strdup ( tmp_str + 1 );
-
-		    /* get the splitted transaction */
-		    if ( tmp_str[0] == 'S' )
-		    {
-			/* begin a splitted transaction, if we were on a transaction,
-			 * we save it */
-			if ( returned_value != EOF && imported_transaction && imported_transaction -> date_tmp )
-			{
-			    if ( !imported_splitted )
-				imported_account -> operations_importees = g_slist_append ( imported_account -> operations_importees,
-											    imported_transaction );
-			}
-			else
-			{
-			    /* it's the end of file or the transaction is not valid,
-			     * so the children are not valid too */
-			    g_free ( imported_transaction );
-
-			    if ( imported_splitted )
-				g_free ( imported_splitted );
-
-			    imported_transaction = NULL;
-			    imported_splitted = NULL;
-			}
-
-			/* if we were on a splitted transaction, we save it */
-			if ( imported_splitted )
-			    imported_account -> operations_importees = g_slist_append ( imported_account -> operations_importees,
-											imported_splitted );
-
-			imported_splitted = g_malloc0 ( sizeof ( struct struct_ope_importation ));
-
-			if ( imported_transaction )
-			{
-			    imported_transaction -> operation_ventilee = 1;
-
-			    /* get the datas of the transaction */
-			    imported_splitted -> date_tmp = my_strdup ( imported_transaction -> date_tmp );
-			    imported_splitted -> tiers = imported_transaction -> tiers;
-			    imported_splitted -> cheque = imported_transaction -> cheque;
-			    imported_splitted -> p_r = imported_transaction -> p_r;
-			    imported_splitted -> ope_de_ventilation = 1;
-			}
-
-			imported_splitted -> categ = my_strdup ( tmp_str + 1 );
-		    }
-
-		    /* récupération de la note de imported_splitted */
-		    if ( tmp_str[0] == 'E'
-			 &&
-			 imported_splitted )
-		    {
-			imported_splitted -> notes = g_strstrip ( g_strdelimit ( tmp_str + 1,
-										 ";",
-										 '/' ));
-			if ( imported_splitted -> notes && !strlen ( imported_splitted -> notes ))
-			    imported_splitted -> notes = NULL;
-		    }
-
-		    /* récupération du montant de la imported_splitted */
-		    /* récupération du montant ( on doit virer la , que money met pour séparer les milliers ) */
-		    /* on ne vire la , que s'il y a un . */
-		    if ( tmp_str[0] == '$'
-			 &&
-			 imported_splitted )
-            {
-                gchar *new_str;
-
-                new_str = utils_str_localise_decimal_point_from_string ( tmp_str + 1 );
-                imported_splitted -> montant = gsb_real_get_from_string ( new_str );
-
-                g_free ( new_str );
-            }
-		}
-	    }
-	    while ( tmp_str[0] != '^'
-		    &&
-		    returned_value != EOF
-		    &&
-		    tmp_str[0] != '!' );
-
-	    /* either we are at the end of a transaction, either at the end of the file */
-
-	    /* 	    en théorie, on a toujours ^ à la fin d'une opération */
-	    /* 		donc si on en est à eof ou !, on n'enregistre pas l'opé */
-	    /* sometimes we have ^ and EOF, so we need in that case to take the transaction */
-
-	    if ( strlen ( tmp_str )
-         &&
-         (returned_value != EOF || (tmp_str && tmp_str[0]=='^'))
-		 &&
-		 tmp_str[0] != '!' )
-	    {
-		if ( imported_splitted )
-		{
-		    imported_account -> operations_importees = g_slist_append ( imported_account -> operations_importees,
-										imported_splitted );
-		    imported_splitted = NULL;
-		}
-		else
-		{
-		    if ( !(imported_transaction -> date_tmp
-			   && 
-			   strlen ( g_strstrip (imported_transaction -> date_tmp ))))
-		    {
-			/* 	l'opération n'a pas de date, c'est pas normal. pour éviter de la perdre, on va lui */
-			/* 	 donner la date 01/01/1970 et on ajoute au tiers [opération sans date] */
-
-			imported_transaction -> date_tmp = my_strdup ( "01/01/1970" );
-			if ( imported_transaction -> tiers )
-			    imported_transaction -> tiers = g_strconcat ( imported_transaction -> tiers,
-									  _(" [Transaction imported without date]"),
-									  NULL );
-			else
-			    imported_transaction -> tiers = my_strdup ( _(" [Transaction imported without date]"));
-		    }
-		    imported_account -> operations_importees = g_slist_append ( imported_account -> operations_importees,
-										imported_transaction );
-		}
-	    }
-	}
-	/* continue untill the end of the file or a change of account */
-	while ( returned_value != EOF
-		&&
-		tmp_str[0] != '!' );
-
-	/* the struct_ope_importation has been filled */
-
-	/* first, we need to check if the first transaction is an opening balance
-	 * or a normal transaction
-	 * update : money sometimes translate Opening balance... */
-    if ( g_slist_length ( imported_account -> operations_importees) > 0 )
-    {
-        imported_transaction = imported_account -> operations_importees -> data;
-        if (imported_transaction -> tiers
-            &&
-            (!g_ascii_strcasecmp (imported_transaction -> tiers, "Opening Balance")
-             ||
-             !g_ascii_strcasecmp (imported_transaction -> tiers, _("Opening Balance"))))
-        {
-            /* ok, we are on an opening balance, we transfer the first transaction
-             * to the initial datas of the account */
-
-            /* get the initial amount */
-            imported_account -> solde = imported_transaction -> montant;
-
-            /* get the name of account */
-            tmp_str = my_strdelimit (imported_transaction -> categ, "[]", "");
-            imported_account -> nom_de_compte = unique_imported_name (tmp_str);
-            g_free (tmp_str);
-
-            /* get the date of the file */
-            imported_account -> date_solde_qif = my_strdup (imported_transaction -> date_tmp);
-
-            /* now, we can remove the first imported transaction */
-            imported_account -> operations_importees = g_slist_remove ( imported_account -> operations_importees,
-                                        imported_transaction );
-            g_free (imported_transaction);
+            else  
+                break;
         }
-        /* if no name, set a new name */
-        if ( !imported_account -> nom_de_compte )
-            imported_account -> nom_de_compte = unique_imported_name ( my_strdup ( _("Imported QIF account" )) );
+        while ( returned_value != EOF && returned_value != -2 );
 
-        /* now we need to transform the dates of transaction
-         * into gdate */
+        /* now, either we are on a understandable account, either at the
+         * end of the file without found anything for us */
+        if ( returned_value == EOF )
+        {
+            if ( pas_le_premier_compte == 0 )
+            {
+                /* no account already saved, so send an error */
+                liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
+                                        imported_account );
+                fclose ( qif_file );
+                return FALSE;
+            }
+            else
+            {
+                /* we have at least saved an account before, ok, enough for me */
+                fclose ( qif_file );
+                return TRUE;
+            }
+        }
 
-        /* try to understand the order */
-        order = gsb_qif_get_date_order (imported_account -> operations_importees);
-        if (order == -1)
-            dialogue_error (_("Grisbi couldn't determine the format of the date into the qif file.\nPlease contact the Grisbi team (devel@listes.grisbi.org) to find the problem.\nFor now, all the dates will be imported as 01.01.1970"));
-    }
+        /* create and fill the new account */
+        imported_account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
+        imported_account -> origine = my_strdup ( "QIF" );
 
-	tmp_list = imported_account -> operations_importees;
-	while (tmp_list)
-	{
-	    imported_transaction = tmp_list -> data;
+        /* save filename */
+        imported_account -> real_filename = my_strdup (imported -> name);
+        imported_account -> filename = my_strdup ( imported -> name );
 
-	    if (order == -1)
-		/* we didn't find the order */
-		imported_transaction -> date = g_date_new_dmy (1,1,1970);
-	    else
-		imported_transaction -> date = gsb_qif_get_date (imported_transaction -> date_tmp, order);
-	    tmp_list = tmp_list -> next;
-	}
+        /* get the type of account : only bank, cash, ccard, invst (with warning), oth a and oth l */
+        if ( !g_strncasecmp ( tmp_str+6, "bank", 4 )
+         ||
+         !my_strcasecmp ( tmp_str+6, _("bank") ) )
+            imported_account -> type_de_compte = 0;
+        else
+        {
+            if ( !g_strncasecmp ( tmp_str+6, "invst", 5 )
+             ||
+             !my_strcasecmp ( tmp_str+6, _("invst)") ) )
+            {
+                /* on considère le imported_account d'investissement comme un imported_account 
+                 * bancaire mais met un warning car pas implémenté ; aucune idée si ça passe ou pas... */
+                gchar *tmpstr;
 
-	/* set the date of the qif file */
-	if ( imported_account -> date_solde_qif )
-	    imported_account -> date_fin = gsb_qif_get_date (imported_account -> date_solde_qif, order);
+                imported_account -> type_de_compte = 0;
+                tmpstr = g_strdup_printf ( _("Grisbi found an investment account (%s), "
+                                "which is not implemented yet.  Nevertheless, Grisbi will try "
+                                "to import it as a bank account." ),
+                                imported -> name );
+                dialogue_warning (tmpstr);
+                g_free (tmpstr);
+            }
+            else
+            {
+                if ( !g_strncasecmp ( tmp_str+6, "cash", 4 )
+                     ||
+                     !my_strcasecmp ( tmp_str+6, _("cash)") ) )
+                    imported_account -> type_de_compte = 7;
+                else
+                {
+                    if ( !g_strncasecmp ( tmp_str+6, "oth a", 5 )
+                     ||
+                     !my_strcasecmp ( tmp_str+6, _("oth a)") ) )
+                        imported_account -> type_de_compte = 2;
+                    else
+                    {
+                        if ( !g_strncasecmp ( tmp_str+6, "oth l", 5 )
+                         ||
+                         !my_strcasecmp ( tmp_str+6, _("oth l)") ) )
+                            imported_account -> type_de_compte = 3;
+                        else
+                            /* CCard */
+                            imported_account -> type_de_compte = 5;
+                    }
+                }
+            }
+        }
 
-	/* add that account to the others */
-	liste_comptes_importes = g_slist_append ( liste_comptes_importes,
-						  imported_account );
+        /* some files are an export of account and the first transaction is the initials datas of the
+         * account (in that case, the payee is "Opening balance",
+         * for others, it begins directly with the first transaction
+         * it depends too of the type of account ...
+         * the best way will to take the first data as a transaction, later, we will check if there
+         * is "Opening balance" as payee and fill the initial values of the account if necessary */
 
-	/* go to the next account */
-	pas_le_premier_compte = 1;
+        /* fill the struct_ope_importation */
+        /* we fill all the fields except the date, because that format is variable,
+         * so keep the date into date_tmp in string and try to decode the string later */
+        do
+        {
+            struct struct_ope_importation *imported_splitted = NULL;
+
+            imported_transaction = g_malloc0 (sizeof ( struct struct_ope_importation ));
+
+            do
+            {
+                returned_value = get_utf8_line_from_file ( qif_file,
+                                   &tmp_str,
+                                   imported -> coding_system );
+
+                /* a transaction never begin with ^ and ! */
+                if ( strlen ( tmp_str )
+                     &&
+                     returned_value != EOF
+                     &&
+                     tmp_str[0] != '^'
+                     &&
+                     tmp_str[0] != '!' )
+                {
+                    /* set the date into date_tmp */
+                    if ( tmp_str[0] == 'D' )
+                    imported_transaction -> date_tmp = my_strdup ( tmp_str + 1 );
+
+
+                    /* récupération du pointage */
+                    if ( tmp_str[0] == 'C' )
+                    {
+                    if ( tmp_str[1] == '*' )
+                        imported_transaction -> p_r = OPERATION_POINTEE;
+                    else
+                        imported_transaction -> p_r = OPERATION_RAPPROCHEE;
+                    }
+
+
+                    /* récupération de la note */
+                    if ( tmp_str[0] == 'M' )
+                    {
+                    imported_transaction -> notes = g_strstrip ( g_strdelimit ( tmp_str + 1,
+                                                    ";",
+                                                    '/' ));
+                    if ( imported_transaction -> notes && !strlen ( imported_transaction -> notes ))
+                        imported_transaction -> notes = NULL;
+                    }
+
+                    if ( tmp_str[0] == 'T' )
+                    {
+                        gchar *new_str;
+
+                        new_str = utils_str_localise_decimal_point_from_string ( tmp_str + 1 );
+                        imported_transaction -> montant = gsb_real_get_from_string ( new_str );
+
+                        g_free ( new_str );
+                    }
+
+                    /* récupération du chèque */
+                    if ( tmp_str[0] == 'N' )
+                    imported_transaction -> cheque = my_strdup ( tmp_str + 1 ); 
+
+                    /* récupération du tiers */
+                    if ( tmp_str[0] == 'P' )
+                    imported_transaction -> tiers = my_strdup ( tmp_str + 1 );
+
+
+                    /* récupération des catég */
+                    if ( tmp_str[0] == 'L' )
+                    imported_transaction -> categ = my_strdup ( tmp_str + 1 );
+
+                    /* get the splitted transaction */
+                    if ( tmp_str[0] == 'S' )
+                    {
+                    /* begin a splitted transaction, if we were on a transaction,
+                     * we save it */
+                    if ( returned_value != EOF && imported_transaction && imported_transaction -> date_tmp )
+                    {
+                        if ( !imported_splitted )
+                        imported_account -> operations_importees = g_slist_append ( imported_account -> operations_importees,
+                                                        imported_transaction );
+                    }
+                    else
+                    {
+                        /* it's the end of file or the transaction is not valid,
+                         * so the children are not valid too */
+                        g_free ( imported_transaction );
+
+                        if ( imported_splitted )
+                        g_free ( imported_splitted );
+
+                        imported_transaction = NULL;
+                        imported_splitted = NULL;
+                    }
+
+                    /* if we were on a splitted transaction, we save it */
+                    if ( imported_splitted )
+                        imported_account -> operations_importees = g_slist_append ( imported_account -> operations_importees,
+                                                    imported_splitted );
+
+                    imported_splitted = g_malloc0 ( sizeof ( struct struct_ope_importation ));
+
+                    if ( imported_transaction )
+                    {
+                        imported_transaction -> operation_ventilee = 1;
+
+                        /* get the datas of the transaction */
+                        imported_splitted -> date_tmp = my_strdup ( imported_transaction -> date_tmp );
+                        imported_splitted -> tiers = imported_transaction -> tiers;
+                        imported_splitted -> cheque = imported_transaction -> cheque;
+                        imported_splitted -> p_r = imported_transaction -> p_r;
+                        imported_splitted -> ope_de_ventilation = 1;
+                    }
+
+                    imported_splitted -> categ = my_strdup ( tmp_str + 1 );
+                    }
+
+                    /* récupération de la note de imported_splitted */
+                    if ( tmp_str[0] == 'E'
+                     &&
+                     imported_splitted )
+                    {
+                    imported_splitted -> notes = g_strstrip ( g_strdelimit ( tmp_str + 1,
+                                                 ";",
+                                                 '/' ));
+                    if ( imported_splitted -> notes && !strlen ( imported_splitted -> notes ))
+                        imported_splitted -> notes = NULL;
+                    }
+
+                    /* récupération du montant de la imported_splitted */
+                    /* récupération du montant ( on doit virer la , que money met pour séparer les milliers ) */
+                    /* on ne vire la , que s'il y a un . */
+                    if ( tmp_str[0] == '$'
+                     &&
+                     imported_splitted )
+                    {
+                        gchar *new_str;
+
+                        new_str = utils_str_localise_decimal_point_from_string ( tmp_str + 1 );
+                        imported_splitted -> montant = gsb_real_get_from_string ( new_str );
+
+                        g_free ( new_str );
+                    }
+                }
+            }
+            while ( tmp_str[0] != '^'
+                &&
+                returned_value != EOF
+                &&
+                tmp_str[0] != '!' );
+
+            /* either we are at the end of a transaction, either at the end of the file */
+
+            /* 	    en théorie, on a toujours ^ à la fin d'une opération */
+            /* 		donc si on en est à eof ou !, on n'enregistre pas l'opé */
+            /* sometimes we have ^ and EOF, so we need in that case to take the transaction */
+
+            if ( strlen ( tmp_str )
+             &&
+             (returned_value != EOF || (tmp_str && tmp_str[0]=='^'))
+             &&
+             tmp_str[0] != '!' )
+            {
+            if ( imported_splitted )
+            {
+                imported_account -> operations_importees = g_slist_append ( imported_account -> operations_importees,
+                                            imported_splitted );
+                imported_splitted = NULL;
+            }
+            else
+            {
+                if ( !(imported_transaction -> date_tmp
+                   && 
+                   strlen ( g_strstrip (imported_transaction -> date_tmp ))))
+                {
+                /* 	l'opération n'a pas de date, c'est pas normal. pour éviter de la perdre, on va lui */
+                /* 	 donner la date 01/01/1970 et on ajoute au tiers [opération sans date] */
+
+                imported_transaction -> date_tmp = my_strdup ( "01/01/1970" );
+                if ( imported_transaction -> tiers )
+                    imported_transaction -> tiers = g_strconcat ( imported_transaction -> tiers,
+                                          _(" [Transaction imported without date]"),
+                                          NULL );
+                else
+                    imported_transaction -> tiers = my_strdup ( _(" [Transaction imported without date]"));
+                }
+                imported_account -> operations_importees = g_slist_append ( imported_account -> operations_importees,
+                                            imported_transaction );
+            }
+            }
+        }
+        /* continue untill the end of the file or a change of account */
+        while ( returned_value != EOF && tmp_str[0] != '!' );
+
+        /* the struct_ope_importation has been filled */
+
+        /* first, we need to check if the first transaction is an opening balance
+         * or a normal transaction
+         * update : money sometimes translate Opening balance... */
+        if ( g_slist_length ( imported_account -> operations_importees) > 0 )
+        {
+            imported_transaction = imported_account -> operations_importees -> data;
+            if (imported_transaction -> tiers
+                &&
+                (!g_ascii_strcasecmp (imported_transaction -> tiers, "Opening Balance")
+                 ||
+                 !g_ascii_strcasecmp (imported_transaction -> tiers, _("Opening Balance"))))
+            {
+                /* ok, we are on an opening balance, we transfer the first transaction
+                 * to the initial datas of the account */
+
+                /* get the initial amount */
+                imported_account -> solde = imported_transaction -> montant;
+
+                /* get the name of account */
+                tmp_str = my_strdelimit (imported_transaction -> categ, "[]", "");
+                imported_account -> nom_de_compte = unique_imported_name (tmp_str);
+                g_free (tmp_str);
+
+                /* get the date of the file */
+                imported_account -> date_solde_qif = my_strdup (imported_transaction -> date_tmp);
+
+                /* now, we can remove the first imported transaction */
+                imported_account -> operations_importees = g_slist_remove ( imported_account -> operations_importees,
+                                            imported_transaction );
+                g_free (imported_transaction);
+            }
+            /* if no name, set a new name */
+            if ( !imported_account -> nom_de_compte )
+                imported_account -> nom_de_compte = unique_imported_name ( my_strdup ( _("Imported QIF account" )) );
+
+            /* now we need to transform the dates of transaction
+             * into gdate */
+
+            /* try to understand the order */
+            order = gsb_qif_get_date_order (imported_account -> operations_importees);
+            if (order == -1)
+                dialogue_error (_("Grisbi couldn't determine the format of the date into the qif file.\n"
+                                "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
+                                "problem.\nFor now, all the dates will be imported as 01.01.1970"));
+        }
+
+        tmp_list = imported_account -> operations_importees;
+        while (tmp_list)
+        {
+            imported_transaction = tmp_list -> data;
+
+            if (order == -1)
+                /* we didn't find the order */
+                imported_transaction -> date = g_date_new_dmy ( 1,1,1970 );
+            else
+                imported_transaction -> date = gsb_qif_get_date ( imported_transaction -> date_tmp, order );
+
+            tmp_list = tmp_list -> next;
+        }
+
+        /* set the date of the qif file */
+        if ( imported_account -> date_solde_qif )
+            imported_account -> date_fin = gsb_qif_get_date ( imported_account -> date_solde_qif, order );
+
+        /* add that account to the others */
+        liste_comptes_importes = g_slist_append ( liste_comptes_importes,
+                              imported_account );
+
+
+        /* go to the next account */
+        pas_le_premier_compte = 1;
     }
     while ( returned_value != EOF );
 
