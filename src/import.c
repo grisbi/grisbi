@@ -124,6 +124,8 @@ static gboolean gsb_import_check_transaction_link ( gint transaction_number,
                         gint tested_transaction );
 static GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent );
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
+void gsb_import_create_imported_transactions ( struct struct_compte_importation *imported_account,
+                        gint account_number );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
                         gint account_number, gchar * origine );
 static gboolean gsb_import_define_action ( struct struct_compte_importation *imported_account,
@@ -1503,7 +1505,7 @@ void traitement_operations_importees ( void )
         else
             gsb_gui_navigation_add_account ( account_number, FALSE );
 
-            gsb_import_add_imported_transactions ( compte, account_number );
+            gsb_import_create_imported_transactions ( compte, account_number );
         break;
 
         case IMPORT_ADD_TRANSACTIONS:
@@ -1873,6 +1875,59 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
     gsb_data_form_set_default_organization ( account_number );
 
     return account_number;
+}
+
+
+/**
+ * import the transactions in a new account.
+ *
+ * \param imported_account an imported structure account which contains the transactions
+ * \param account_number the number of account where we want to put the new transations
+ *
+ * \return
+ * */
+void gsb_import_create_imported_transactions ( struct struct_compte_importation *imported_account,
+                        gint account_number )
+{
+    GSList *list_tmp;
+
+    mother_transaction_number = 0;
+
+    list_tmp = imported_account -> operations_importees;
+
+    while ( list_tmp )
+    {
+        struct struct_ope_importation *imported_transaction;
+        gint transaction_number;
+
+        imported_transaction = list_tmp -> data;
+
+        /* set the account currency to the transaction and create the transaction */
+        if (imported_account -> bouton_devise)
+            imported_transaction -> devise = gsb_currency_get_currency_from_combobox (
+                        imported_account -> bouton_devise );
+        else
+            imported_transaction -> devise = gsb_data_currency_get_number_by_code_iso4217 (
+                        imported_account -> devise );
+
+        transaction_number = gsb_import_create_transaction ( imported_transaction,
+                        account_number, imported_account -> origine );
+
+        /* invert the amount of the transaction if asked */
+        if ( imported_account -> invert_transaction_amount )
+            gsb_data_transaction_set_amount ( transaction_number,
+                        gsb_real_opposite (gsb_data_transaction_get_amount (
+                        transaction_number ) ) );
+
+        /* we need to add the transaction now to the tree model here
+         * to avoid to write again all the account */
+        gsb_transactions_list_append_new_transaction ( transaction_number, FALSE );
+
+        list_tmp = list_tmp -> next;
+    }
+
+    /** some payee should have been added, so update the combofix */
+    gsb_payee_update_combofix ();
 }
 
 
