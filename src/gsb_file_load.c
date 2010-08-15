@@ -335,8 +335,8 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     return_value = g_stat (filename, &buffer_stat);
     /* check the access to the file and propose to change it */
 #ifndef _WIN32
-    if ( buffer_stat.st_mode != 33152 )
-    gsb_file_util_change_permissions();
+    if ( buffer_stat.st_mode != ( S_IFREG | S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP ) )
+        gsb_file_util_change_permissions ( );
 #endif /* _WIN32 */
 
     /* load the file */

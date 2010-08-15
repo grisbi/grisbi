@@ -401,7 +401,7 @@ void gsb_file_util_change_permissions ( void )
 #ifndef _WIN32
     if ( question_conditional_yes_no ( "account-file-readable" ) == TRUE )
     {
-	chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR );
+        chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP );
     }
 
 #endif /* _WIN32 */
