@@ -2731,15 +2731,21 @@ void schedule_selected_transaction ()
     gint scheduled_number;
 
     if (!assert_selected_transaction())
-	return;
+        return;
 
-    scheduled_number = schedule_transaction ( gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()));
+    scheduled_number = schedule_transaction ( gsb_data_account_get_current_transaction_number (
+                                    gsb_gui_navigation_get_current_account () ) );
 
     mise_a_jour_liste_echeances_auto_accueil = 1;
 
-    gsb_gui_navigation_set_selection (GSB_SCHEDULER_PAGE, 0, NULL);
-    gsb_scheduler_list_select (scheduled_number);
-    gsb_scheduler_list_edit_transaction (scheduled_number);
+    if ( etat.equilibrage == 0 )
+    {
+        gsb_gui_navigation_set_selection (GSB_SCHEDULER_PAGE, 0, NULL);
+        gsb_scheduler_list_select (scheduled_number);
+        gsb_scheduler_list_edit_transaction (scheduled_number);
+    }
+    else
+        gsb_reconcile_set_last_scheduled_transaction ( scheduled_number );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );

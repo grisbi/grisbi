@@ -43,6 +43,7 @@
 #include "fenetre_principale.h"
 #include "gsb_real.h"
 #include "gsb_reconcile_list.h"
+#include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "utils_editables.h"
 #include "traitement_variables.h"
@@ -97,6 +98,8 @@ static gint reconcile_save_rows_number;
 static gint reconcile_save_show_marked;
 static gint reconcile_save_account_display;
 
+/* backup the number of the last transaction converted into planned transaction during the reconciliation */
+static gint reconcile_save_last_scheduled_convert = 0;
 
 
 /**
@@ -609,6 +612,15 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
+
+    if ( reconcile_save_last_scheduled_convert )
+    {
+        gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
+        gsb_scheduler_list_select ( reconcile_save_last_scheduled_convert );
+        gsb_scheduler_list_edit_transaction ( reconcile_save_last_scheduled_convert );
+        reconcile_save_last_scheduled_convert = 0;
+    }
+
     return FALSE;
 }
 
@@ -777,6 +789,21 @@ gboolean gsb_reconcile_entry_lose_focus ( GtkWidget *entry,
 
     return FALSE;
 }
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_reconcile_set_last_scheduled_transaction ( gint scheduled_transaction )
+{
+    reconcile_save_last_scheduled_convert = scheduled_transaction;
+
+    return FALSE;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
