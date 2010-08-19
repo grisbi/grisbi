@@ -124,6 +124,7 @@ libgrisbi_la_SOURCES = \
 	print_dialog_config.c		\
 	print_report.c		\
 	print_transactions_list.c		\
+	print_tree_view_list.c	\
 	qif.c			\
 	tiers_onglet.c		\
 	tip.c			\
@@ -272,6 +273,7 @@ libgrisbi_la_SOURCES = \
 	print_dialog_config.h	\
 	print_report.h		\
 	print_transactions_list.h	\
+	print_tree_view_list.h	\
 	qif.h			\
 	tip.h			\
 	structures.h		\
