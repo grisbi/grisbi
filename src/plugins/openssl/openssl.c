@@ -276,17 +276,19 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
 
     gtk_widget_show_all ( dialog );
 
+#ifdef __APPLE__
 return_bad_password:
+#endif /* __APPLE__ */
     result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     switch (result)
     {
     case GTK_RESPONSE_OK:
-
         key = g_strdup (gtk_entry_get_text ( GTK_ENTRY ( entry )));
 
         if (!strlen ( key ) )
             key = NULL;
+#ifdef __APPLE__
         else if ( g_utf8_strlen ( key, -1 ) < 7 )
         {
             dialogue_warning_hint ( _("The password must contain at least 7 characters"),
@@ -295,7 +297,7 @@ return_bad_password:
 
             goto return_bad_password;
         }
-
+#endif /* __APPLE__ */
 
         if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button )))
             crypt_key = key;
