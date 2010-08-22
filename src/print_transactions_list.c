@@ -368,7 +368,8 @@ gboolean print_transactions_list ( GtkWidget * button,
 			  G_CALLBACK (print_transactions_list_draw_page),
 			  _("Fonts & layout"),
 			  G_CALLBACK (print_transactions_list_layout_config),
-			  G_CALLBACK (print_transactions_list_apply) );
+			  G_CALLBACK (print_transactions_list_apply),
+              NULL );
     return FALSE;
 }
 
@@ -730,7 +731,7 @@ static gint print_transactions_list_draw_columns_title ( GtkPrintContext *contex
 {
     gint column;
 
-    if (!gsb_data_print_config_get_draw_column ())
+    if (!gsb_data_print_config_get_draw_columns_name ())
 	return line_position;
 
     for (column=0 ; column<CUSTOM_MODEL_VISIBLE_COLUMNS ; column++)
