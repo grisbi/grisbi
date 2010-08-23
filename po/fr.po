@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-15 14:35+0200\n"
+"POT-Creation-Date: 2010-08-23 18:33+0200\n"
 "PO-Revision-Date: 2010-05-02 23:26+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -234,8 +234,8 @@ msgid "Click on preview to change logo"
 msgstr "Cliquer sur la prévisualisation pour modifier le logo"
 
 #. Change fonts
-#: ../src/affichage.c:202 ../src/print_report.c:105 ../src/print_report.c:405
-#: ../src/print_transactions_list.c:261
+#: ../src/affichage.c:202 ../src/print_report.c:105 ../src/print_report.c:406
+#: ../src/print_transactions_list.c:261 ../src/print_tree_view_list.c:907
 msgid "Fonts"
 msgstr "Polices"
 
@@ -653,9 +653,9 @@ msgstr "Capital emprunté"
 #. Duration
 #. create columns
 #. Duration
-#: ../src/bet_config.c:1196 ../src/bet_finance_ui.c:258
-#: ../src/bet_finance_ui.c:461 ../src/bet_finance_ui.c:1047
-#: ../src/bet_finance_ui.c:1452
+#: ../src/bet_config.c:1196 ../src/bet_finance_ui.c:263
+#: ../src/bet_finance_ui.c:504 ../src/bet_finance_ui.c:1136
+#: ../src/bet_finance_ui.c:1556
 msgid "Duration"
 msgstr "Durée"
 
@@ -669,13 +669,13 @@ msgstr "Date de la première échéance"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1033
-#: ../src/bet_finance_ui.c:1438
+#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1122
+#: ../src/bet_finance_ui.c:1542
 msgid "Annuel rate interest"
 msgstr "Taux d'intérêt annuel"
 
-#: ../src/bet_config.c:1236 ../src/bet_finance_ui.c:253
-#: ../src/bet_finance_ui.c:1042 ../src/bet_finance_ui.c:1447
+#: ../src/bet_config.c:1236 ../src/bet_finance_ui.c:258
+#: ../src/bet_finance_ui.c:1131 ../src/bet_finance_ui.c:1551
 msgid "%"
 msgstr "%"
 
@@ -683,15 +683,15 @@ msgstr "%"
 msgid "Fees per month"
 msgstr "Frais par échéance"
 
-#: ../src/bet_config.c:1267 ../src/bet_finance_ui.c:389
+#: ../src/bet_config.c:1267 ../src/bet_finance_ui.c:432
 msgid "Rate Type"
 msgstr "Type de taux"
 
-#: ../src/bet_config.c:1271 ../src/bet_finance_ui.c:393
+#: ../src/bet_config.c:1271 ../src/bet_finance_ui.c:436
 msgid "CAGR"
 msgstr "Taux actuariel"
 
-#: ../src/bet_config.c:1275 ../src/bet_finance_ui.c:397
+#: ../src/bet_config.c:1275 ../src/bet_finance_ui.c:440
 msgid "Proportional rate"
 msgstr "Taux proportionnel"
 
@@ -699,64 +699,83 @@ msgstr "Taux proportionnel"
 msgid "Apply"
 msgstr "Appliquer"
 
-#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:791
-#: ../src/bet_finance_ui.c:1541
+#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:860
+#: ../src/bet_finance_ui.c:1645
 msgid " year "
 msgstr " an "
 
-#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:793
-#: ../src/bet_finance_ui.c:1543
+#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:862
+#: ../src/bet_finance_ui.c:1647
 msgid " years "
 msgstr " ans "
 
-#: ../src/bet_config.c:1388 ../src/bet_finance_ui.c:652
+#: ../src/bet_config.c:1388 ../src/bet_finance_ui.c:712
 msgid "You must enter at least one value for the capital"
 msgstr "Vous devez entrer au moins une valeur pour le capital"
 
+#. titre de la page
 #. set the title
-#: ../src/bet_finance_ui.c:208 ../src/fenetre_principale.c:277
+#: ../src/bet_finance_ui.c:209 ../src/fenetre_principale.c:277
 #: ../src/navigation.c:300 ../src/navigation.c:1233
 msgid "Credits simulator"
 msgstr "Simulateur de crédits"
 
 #. capital
-#: ../src/bet_finance_ui.c:219 ../src/bet_finance_ui.c:1428
+#: ../src/bet_finance_ui.c:224 ../src/bet_finance_ui.c:1532
 msgid "Loan capital"
 msgstr "Capital emprunté"
 
 #. taux
-#: ../src/bet_finance_ui.c:243
+#: ../src/bet_finance_ui.c:248
 msgid "Annual interest"
 msgstr "Intérêt annuel"
 
-#: ../src/bet_finance_ui.c:273
+#: ../src/bet_finance_ui.c:278
 msgid "Entering Detailed"
 msgstr "Saisie détaillée"
 
-#: ../src/bet_finance_ui.c:276
+#: ../src/bet_finance_ui.c:284 ../src/bet_finance_ui.c:287
 msgid "Calculate"
 msgstr "Calculer"
 
-#: ../src/bet_finance_ui.c:312
+#: ../src/bet_finance_ui.c:310
+msgid "Amortization"
+msgstr "Amortissement"
+
+#: ../src/bet_finance_ui.c:314 ../src/bet_finance_ui.c:1034
+msgid "View amortization table"
+msgstr "Afficher le tableau d'amortissement"
+
+#. Set up dialog
+#: ../src/bet_finance_ui.c:326 ../src/barre_outils.c:139
+#: ../src/etats_onglet.c:148 ../src/print_config.c:80
+msgid "Print"
+msgstr "Imprimer"
+
+#: ../src/bet_finance_ui.c:329 ../src/bet_finance_ui.c:1040
+msgid "Print the array"
+msgstr "Imprimer le tableau"
+
+#: ../src/bet_finance_ui.c:355
 msgid "Between 1 and 15 years"
 msgstr "Entre 1 et 15 ans"
 
-#: ../src/bet_finance_ui.c:313
+#: ../src/bet_finance_ui.c:356
 msgid "Between 15 and 30 years"
 msgstr "Entre 15 et 30 ans"
 
 #. Fees
-#: ../src/bet_finance_ui.c:368 ../src/bet_finance_ui.c:546
+#: ../src/bet_finance_ui.c:411 ../src/bet_finance_ui.c:599
 msgid "Fees"
 msgstr "Frais"
 
-#: ../src/bet_finance_ui.c:378
+#: ../src/bet_finance_ui.c:421
 #, c-format
 msgid "% of borrowed capital"
 msgstr "% du capital emprunté"
 
 #. Number of periods
-#: ../src/bet_finance_ui.c:478
+#: ../src/bet_finance_ui.c:523
 msgid ""
 "Number\n"
 "of periods"
@@ -765,7 +784,7 @@ msgstr ""
 "d'échéances"
 
 #. Loan capital
-#: ../src/bet_finance_ui.c:495
+#: ../src/bet_finance_ui.c:542
 msgid ""
 "Loan\n"
 "capital"
@@ -774,7 +793,7 @@ msgstr ""
 "emprunté"
 
 #. Annuel rate interest
-#: ../src/bet_finance_ui.c:512
+#: ../src/bet_finance_ui.c:561
 msgid ""
 "Annuel\n"
 "rate interest"
@@ -783,7 +802,7 @@ msgstr ""
 "annuel"
 
 #. Amount without fees
-#: ../src/bet_finance_ui.c:529
+#: ../src/bet_finance_ui.c:580
 msgid ""
 "Amount\n"
 "without fees"
@@ -792,69 +811,70 @@ msgstr ""
 "hors frais"
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:563 ../src/bet_finance_ui.c:1200
+#: ../src/bet_finance_ui.c:618 ../src/bet_finance_ui.c:1302
 msgid "Monthly paid"
 msgstr "Mensualité"
 
 #. Total cost
-#: ../src/bet_finance_ui.c:580
+#: ../src/bet_finance_ui.c:637
 msgid "Total cost"
 msgstr "Coût total"
 
-#: ../src/bet_finance_ui.c:592
+#: ../src/bet_finance_ui.c:649
 msgid "Approximate cost"
 msgstr "Coût approximatif"
 
-#: ../src/bet_finance_ui.c:965
-msgid "View amortization table"
-msgstr "Afficher le tableau d'amortissement"
-
-#: ../src/bet_finance_ui.c:973
+#: ../src/bet_finance_ui.c:1044
 msgid "View credits simulator"
 msgstr "Afficher le simulateur de crédits"
 
-#: ../src/bet_finance_ui.c:1012 ../src/bet_finance_ui.c:1416
-#: ../src/bet_finance_ui.c:1514
+#: ../src/bet_finance_ui.c:1050
+msgid "Print amortization table"
+msgstr "Imprimer le tableau d'amortissement"
+
+#. titre de la page
+#: ../src/bet_finance_ui.c:1097 ../src/bet_finance_ui.c:1520
+#: ../src/bet_finance_ui.c:1618
 msgid "Amortization Table"
 msgstr "Tableau d'amortissement"
 
 #. capital
-#: ../src/bet_finance_ui.c:1023
+#: ../src/bet_finance_ui.c:1112
 msgid "Loan amount"
 msgstr "Montant emprunté"
 
-#: ../src/bet_finance_ui.c:1105 ../src/bet_future.c:770 ../src/bet_tab.c:615
+#: ../src/bet_finance_ui.c:1195 ../src/bet_future.c:770 ../src/bet_tab.c:615
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:760
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1283
-#: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:155
+#: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
 #: ../src/gsb_scheduler_list.c:339 ../src/gsb_transactions_list.c:146
 #: ../src/import.c:3238 ../src/import_csv.c:79
 #: ../src/traitement_variables.c:79
 msgid "Date"
 msgstr "Date"
 
-#: ../src/bet_finance_ui.c:1115 ../src/etats_affiche.c:2398
+#: ../src/bet_finance_ui.c:1207 ../src/etats_affiche.c:2398
 #: ../src/traitement_variables.c:96
 msgid "Number"
 msgstr "N°"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1132
+#: ../src/bet_finance_ui.c:1226
 msgid "Capital remaining"
 msgstr "Capital restant dû"
 
 #. Interests
-#: ../src/bet_finance_ui.c:1149
+#: ../src/bet_finance_ui.c:1245
 msgid "Interests"
 msgstr "Intérêts"
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1166
+#: ../src/bet_finance_ui.c:1264
 msgid "Capital repaid"
 msgstr "Capital remboursé"
 
 #. Fees
-#: ../src/bet_finance_ui.c:1183
+#: ../src/bet_finance_ui.c:1283
 msgid "Insurance"
 msgstr "Frais"
 
@@ -1150,9 +1170,9 @@ msgstr "Cochez la case pour changer automatiquement de date de début"
 msgid "Description"
 msgstr "Description"
 
-#: ../src/bet_tab.c:670 ../src/export_csv.c:787 ../src/gsb_reconcile.c:158
+#: ../src/bet_tab.c:670 ../src/export_csv.c:787 ../src/gsb_reconcile.c:161
 #: ../src/gsb_scheduler_list.c:340 ../src/gsb_transactions_list.c:152
-#: ../src/gsb_transactions_list.c:3013 ../src/import_csv.c:88
+#: ../src/gsb_transactions_list.c:3019 ../src/import_csv.c:88
 #: ../src/traitement_variables.c:85
 msgid "Balance"
 msgstr "Solde"
@@ -1268,12 +1288,6 @@ msgstr "Rapprocher"
 #: ../src/barre_outils.c:131
 msgid "Start account reconciliation"
 msgstr "Commencer à effectuer un rapprochement sur le compte"
-
-#. Set up dialog
-#: ../src/barre_outils.c:139 ../src/etats_onglet.c:148
-#: ../src/print_config.c:80
-msgid "Print"
-msgstr "Imprimer"
 
 #: ../src/barre_outils.c:144
 msgid "Print the transactions list"
@@ -2031,13 +2045,13 @@ msgid "Result without financial year"
 msgstr "Resultat sans exercice"
 
 #: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:950
-#: ../src/gsb_transactions_list.c:3440
+#: ../src/gsb_transactions_list.c:3446
 #, c-format
 msgid "Transfer to %s"
 msgstr "Virement vers %s"
 
 #: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:953
-#: ../src/gsb_transactions_list.c:3443
+#: ../src/gsb_transactions_list.c:3449
 #, c-format
 msgid "Transfer from %s"
 msgstr "Virement de %s"
@@ -2087,7 +2101,7 @@ msgstr "Total général"
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:571
 #: ../src/gsb_data_category.c:1054 ../src/gsb_form.c:727
 #: ../src/gsb_form.c:2757 ../src/gsb_form.c:3159
-#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3418
+#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3424
 msgid "Split of transaction"
 msgstr "Opération ventilée"
 
@@ -3397,7 +3411,7 @@ msgstr "Format CSV"
 
 #. set the initial balance
 #: ../src/export_csv.c:277 ../src/gsb_account_property.c:520
-#: ../src/gsb_assistant_reconcile_config.c:433 ../src/gsb_reconcile.c:209
+#: ../src/gsb_assistant_reconcile_config.c:433 ../src/gsb_reconcile.c:212
 #: ../src/gsb_reconcile_config.c:232
 msgid "Initial balance"
 msgstr "Solde initial"
@@ -5112,7 +5126,7 @@ msgstr ""
 "rapprochement\""
 
 #. set the final balance
-#: ../src/gsb_assistant_reconcile_config.c:444 ../src/gsb_reconcile.c:217
+#: ../src/gsb_assistant_reconcile_config.c:444 ../src/gsb_reconcile.c:220
 #: ../src/gsb_reconcile_config.c:97 ../src/gsb_reconcile_config.c:246
 msgid "Final balance"
 msgstr "Solde final"
@@ -5230,7 +5244,7 @@ msgstr "Sélectionnez le rapprochement à associer aux opérations sélectionné
 msgid "No selection found, the transactions are not modified."
 msgstr "Aucune opération sélectionnée, elles ne sont pas modifiées."
 
-#: ../src/gsb_bank.c:386 ../src/gsb_reconcile.c:417
+#: ../src/gsb_bank.c:386 ../src/gsb_reconcile.c:420
 msgid "None"
 msgstr "Aucun"
 
@@ -8201,11 +8215,11 @@ msgstr "Associer ces opérations avec"
 msgid "with plugins"
 msgstr "avec les greffons"
 
-#: ../src/gsb_reconcile.c:127 ../src/gsb_transactions_list.c:155
+#: ../src/gsb_reconcile.c:130 ../src/gsb_transactions_list.c:155
 msgid "Reconciliation reference"
 msgstr "N° rapprochement"
 
-#: ../src/gsb_reconcile.c:132
+#: ../src/gsb_reconcile.c:135
 msgid ""
 "If reconciliation reference ends in a digit, it is automatically incremented "
 "at each reconciliation.\n"
@@ -8216,25 +8230,25 @@ msgstr ""
 "Vous pouvez le laisser vide si vous ne voulez pas garder une trace du "
 "rapprochement."
 
-#: ../src/gsb_reconcile.c:225
+#: ../src/gsb_reconcile.c:228
 msgid "Checking"
 msgstr "Pointage"
 
-#: ../src/gsb_reconcile.c:236
+#: ../src/gsb_reconcile.c:239
 msgid "Variance"
 msgstr "Écart"
 
-#: ../src/gsb_reconcile.c:251
+#: ../src/gsb_reconcile.c:254
 msgid "Sort by method of payment"
 msgstr "Tri par mode de règlement"
 
 #. set the title
-#: ../src/gsb_reconcile.c:438
+#: ../src/gsb_reconcile.c:441
 #, c-format
 msgid " <b>%s reconciliation</b> "
 msgstr " <b>%s rapprochement</b> "
 
-#: ../src/gsb_reconcile.c:511
+#: ../src/gsb_reconcile.c:514
 msgid ""
 "There is a variance in balances, check that both final balance and initial "
 "balance minus marked transactions are equal."
@@ -8242,12 +8256,12 @@ msgstr ""
 "Il y a une inconsistance dans les soldes, vérifiez que le solde de départ "
 "moins les opérations marquées donnent bien le solde final."
 
-#: ../src/gsb_reconcile.c:512 ../src/gsb_reconcile.c:521
-#: ../src/gsb_reconcile.c:533 ../src/gsb_reconcile.c:541
+#: ../src/gsb_reconcile.c:515 ../src/gsb_reconcile.c:524
+#: ../src/gsb_reconcile.c:536 ../src/gsb_reconcile.c:544
 msgid "Reconciliation can't be completed."
 msgstr "La réconciliation ne peux pas être terminée."
 
-#: ../src/gsb_reconcile.c:520
+#: ../src/gsb_reconcile.c:523
 msgid ""
 "There is already a reconcile with that name, you must use another name or "
 "let it free.\n"
@@ -8259,12 +8273,12 @@ msgstr ""
 " Si le nom du rapprochement se termine par un chiffre,\n"
 "il sera automatiquement incrémenté."
 
-#: ../src/gsb_reconcile.c:530
+#: ../src/gsb_reconcile.c:533
 #, c-format
 msgid "Invalid date: '%s'"
 msgstr "Date invalide: '%s'"
 
-#: ../src/gsb_reconcile.c:540
+#: ../src/gsb_reconcile.c:543
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automatically incremented later"
@@ -8272,7 +8286,7 @@ msgstr ""
 "Vous devez définir un nom pour le rapprochement ou au moins, un numéro,\n"
 "il sera automatiquement incrémenté plus tard"
 
-#: ../src/gsb_reconcile.c:553
+#: ../src/gsb_reconcile.c:556
 #, c-format
 msgid "Last statement: %s"
 msgstr "Dernier relevé : %s"
@@ -8520,7 +8534,7 @@ msgstr "Supprimer une opération planifiée."
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "Supprimer cette occurence ou toutes, de l'opération sélectionnée"
 
-#: ../src/gsb_transactions_list.c:573 ../src/gsb_transactions_list.c:3555
+#: ../src/gsb_transactions_list.c:573 ../src/gsb_transactions_list.c:3561
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8690,19 +8704,19 @@ msgid "Cannot move a transfer on his contra-account"
 msgstr "Impossible de déplacer un virement vers son compte de destination"
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:2967
+#: ../src/gsb_transactions_list.c:2973
 msgid "Sort list by :"
 msgstr "Tri par :"
 
-#: ../src/gsb_transactions_list.c:3427
+#: ../src/gsb_transactions_list.c:3433
 msgid "Transfer to a deleted account"
 msgstr "Virement vers un compte supprimé"
 
-#: ../src/gsb_transactions_list.c:3429
+#: ../src/gsb_transactions_list.c:3435
 msgid "Transfer from a deleted account"
 msgstr "Virement d'un compte supprimé"
 
-#: ../src/gsb_transactions_list.c:3584
+#: ../src/gsb_transactions_list.c:3590
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -10305,25 +10319,26 @@ msgstr "S'il vous plaît sélectionnez un état avant d'essayer de l'imprimer."
 msgid "No report selected"
 msgstr "Aucun état sélectionné"
 
-#: ../src/print_report.c:416
+#: ../src/print_report.c:417
 msgid "Lines font"
 msgstr "Police des lignes"
 
-#: ../src/print_report.c:425 ../src/print_report.c:445
+#: ../src/print_report.c:426 ../src/print_report.c:446
 #: ../src/print_transactions_list.c:282 ../src/print_transactions_list.c:305
+#: ../src/print_tree_view_list.c:924 ../src/print_tree_view_list.c:941
 #: ../src/utils_font.c:121
 msgid "Choosing font"
 msgstr "Choisissez une police"
 
-#: ../src/print_report.c:436
+#: ../src/print_report.c:437
 msgid "Title's font"
 msgstr "Police des titres"
 
-#: ../src/print_transactions_list.c:145
+#: ../src/print_transactions_list.c:145 ../src/print_tree_view_list.c:866
 msgid "Layout"
 msgstr "Mise en page"
 
-#: ../src/print_transactions_list.c:156
+#: ../src/print_transactions_list.c:156 ../src/print_tree_view_list.c:875
 msgid "Print a title : "
 msgstr "Imprimer un titre : "
 
@@ -10344,11 +10359,11 @@ msgid "Use value date"
 msgstr "Utiliser la date de valeur"
 
 #. set up all the checkbuttons
-#: ../src/print_transactions_list.c:222
+#: ../src/print_transactions_list.c:222 ../src/print_tree_view_list.c:886
 msgid "Draw the lines between transactions"
 msgstr "Bordures : séparer les lignes par un trait"
 
-#: ../src/print_transactions_list.c:229
+#: ../src/print_transactions_list.c:229 ../src/print_tree_view_list.c:893
 msgid "Draw the lines between the columns"
 msgstr "Bordures : séparer les colonnes par un trait"
 
@@ -10360,19 +10375,19 @@ msgstr "Utiliser le même fond d'écran que la liste des transactions."
 msgid "Print the archives lines"
 msgstr "Imprimer les opérations archivées"
 
-#: ../src/print_transactions_list.c:253
+#: ../src/print_transactions_list.c:253 ../src/print_tree_view_list.c:900
 msgid "Print the names of the columns"
 msgstr "Imprimer le nom des colonnes"
 
-#: ../src/print_transactions_list.c:270
+#: ../src/print_transactions_list.c:270 ../src/print_tree_view_list.c:914
 msgid "Transactions font"
 msgstr "Police de la liste des opérations"
 
-#: ../src/print_transactions_list.c:293
+#: ../src/print_transactions_list.c:293 ../src/print_tree_view_list.c:931
 msgid "Title font"
 msgstr "Police du titre"
 
-#: ../src/print_transactions_list.c:369
+#: ../src/print_transactions_list.c:369 ../src/print_tree_view_list.c:138
 msgid "Fonts & layout"
 msgstr "Polices et mise en page"
 
