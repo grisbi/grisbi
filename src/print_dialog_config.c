@@ -29,6 +29,7 @@
 
 /*START_INCLUDE*/
 #include "print_dialog_config.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -50,12 +51,15 @@ static GtkPrintSettings *settings = NULL;
  * \param custom_tab_label	Tab title for an optional custom config tab
  * \param custom_tab_callback	Callback that creates an optional config tab 
  * \param custom_apply_callback	Callback called when user validate config
+ * \param data data for callback
+ *
  */
 void print_dialog_config ( GCallback begin_callback,
-			   GCallback draw_callback,
-			   gchar * custom_tab_label,
-			   GCallback custom_tab_callback,
-			   GCallback custom_apply_callback )
+                        GCallback draw_callback,
+                        gchar *custom_tab_label,
+                        GCallback custom_tab_callback,
+                        GCallback custom_apply_callback,
+                        gpointer data )
 {
     GtkPrintOperation *print;
     GtkPrintOperationResult res;
@@ -70,12 +74,12 @@ void print_dialog_config ( GCallback begin_callback,
     if ( custom_tab_label )
 	gtk_print_operation_set_custom_tab_label ( print, custom_tab_label );
     if ( custom_tab_callback )
-	g_signal_connect (print, "create-custom-widget", custom_tab_callback, NULL);
+	g_signal_connect (print, "create-custom-widget", custom_tab_callback, data );
     if ( custom_apply_callback )
-	g_signal_connect (print, "custom-widget-apply", custom_apply_callback, NULL);
+	g_signal_connect (print, "custom-widget-apply", custom_apply_callback, data );
 
-    g_signal_connect (print, "begin_print", G_CALLBACK (begin_callback), NULL);
-    g_signal_connect (print, "draw_page", G_CALLBACK (draw_callback), NULL);
+    g_signal_connect (print, "begin_print", G_CALLBACK (begin_callback), data );
+    g_signal_connect (print, "draw_page", G_CALLBACK (draw_callback), data );
 
 
     res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,

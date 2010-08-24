@@ -3021,7 +3021,7 @@ gint gsb_data_account_get_bet_months ( gint account_number )
 gboolean gsb_data_account_set_bet_months ( gint account_number, gint months )
 {
     struct_account *account;
-devel_debug_int ( months );
+
     account = gsb_data_account_get_structure ( account_number );
 
     if (!account )

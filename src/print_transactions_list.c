@@ -45,9 +45,6 @@
 #if GTK_CHECK_VERSION(2,12,0)
 
 /*START_STATIC*/
-static gboolean print_transactions_list_apply ( GtkPrintOperation * operation,
-					 GtkWidget * widget,
-					 gpointer null );
 static gboolean print_transactions_list_begin ( GtkPrintOperation *operation,
 					 GtkPrintContext *context,
 					 gpointer null );

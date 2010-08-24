@@ -38,6 +38,7 @@ gint my_strncasecmp ( gchar *string_1,
                         gint longueur );
 double my_strtod ( const gchar *nptr, gchar **endptr );
 G_MODULE_EXPORT gint utils_str_atoi ( const gchar *chaine );
+gint utils_str_get_nbre_motifs ( const gchar *chaine, const gchar *motif );
 gchar *utils_str_itoa ( gint integer );
 gchar *utils_str_dtostr ( gdouble number, gint nbre_decimal, gboolean canonical );
 gchar *utils_str_localise_decimal_point_from_string ( const gchar *string );

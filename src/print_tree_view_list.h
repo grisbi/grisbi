@@ -9,6 +9,8 @@
 
 
 /* START_DECLARATION */
+gboolean print_tree_view_list ( GtkWidget *menu_item, GtkTreeView *tree_view );
+
 /* END_DECLARATION */
 
 
