@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-23 22:59+0200\n"
+"POT-Creation-Date: 2010-08-24 19:14+0200\n"
 "PO-Revision-Date: 2010-05-02 23:26+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -60,7 +60,7 @@ msgid "Account balances in %s"
 msgstr "Solde des comptes en %s"
 
 #: ../src/accueil.c:481 ../src/accueil.c:559 ../src/accueil.c:636
-#: ../src/accueil.c:705 ../src/bet_finance_ui.c:1621
+#: ../src/accueil.c:705 ../src/bet_finance_ui.c:1614
 msgid " at "
 msgstr " au "
 
@@ -654,8 +654,8 @@ msgstr "Capital emprunté"
 #. create columns
 #. Duration
 #: ../src/bet_config.c:1196 ../src/bet_finance_ui.c:263
-#: ../src/bet_finance_ui.c:465 ../src/bet_finance_ui.c:1103
-#: ../src/bet_finance_ui.c:1537
+#: ../src/bet_finance_ui.c:464 ../src/bet_finance_ui.c:1096
+#: ../src/bet_finance_ui.c:1530
 msgid "Duration"
 msgstr "Durée"
 
@@ -669,13 +669,13 @@ msgstr "Date de la première échéance"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1089
-#: ../src/bet_finance_ui.c:1523
+#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1082
+#: ../src/bet_finance_ui.c:1516
 msgid "Annuel rate interest"
 msgstr "Taux d'intérêt annuel"
 
 #: ../src/bet_config.c:1236 ../src/bet_finance_ui.c:258
-#: ../src/bet_finance_ui.c:1098 ../src/bet_finance_ui.c:1532
+#: ../src/bet_finance_ui.c:1091 ../src/bet_finance_ui.c:1525
 msgid "%"
 msgstr "%"
 
@@ -683,15 +683,15 @@ msgstr "%"
 msgid "Fees per month"
 msgstr "Frais par échéance"
 
-#: ../src/bet_config.c:1267 ../src/bet_finance_ui.c:393
+#: ../src/bet_config.c:1267 ../src/bet_finance_ui.c:392
 msgid "Rate Type"
 msgstr "Type de taux"
 
-#: ../src/bet_config.c:1271 ../src/bet_finance_ui.c:397
+#: ../src/bet_config.c:1271 ../src/bet_finance_ui.c:396
 msgid "CAGR"
 msgstr "Taux actuariel"
 
-#: ../src/bet_config.c:1275 ../src/bet_finance_ui.c:401
+#: ../src/bet_config.c:1275 ../src/bet_finance_ui.c:400
 msgid "Proportional rate"
 msgstr "Taux proportionnel"
 
@@ -699,17 +699,17 @@ msgstr "Taux proportionnel"
 msgid "Apply"
 msgstr "Appliquer"
 
-#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:827
-#: ../src/bet_finance_ui.c:1648
+#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:820
+#: ../src/bet_finance_ui.c:1641
 msgid " year "
 msgstr " an "
 
-#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:829
-#: ../src/bet_finance_ui.c:1650
+#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:822
+#: ../src/bet_finance_ui.c:1643
 msgid " years "
 msgstr " ans "
 
-#: ../src/bet_config.c:1388 ../src/bet_finance_ui.c:673
+#: ../src/bet_config.c:1388 ../src/bet_finance_ui.c:672
 msgid "You must enter at least one value for the capital"
 msgstr "Vous devez entrer au moins une valeur pour le capital"
 
@@ -720,7 +720,7 @@ msgid "Credits simulator"
 msgstr "Simulateur de crédits"
 
 #. capital
-#: ../src/bet_finance_ui.c:224 ../src/bet_finance_ui.c:1513
+#: ../src/bet_finance_ui.c:224 ../src/bet_finance_ui.c:1506
 msgid "Loan capital"
 msgstr "Capital emprunté"
 
@@ -734,29 +734,25 @@ msgid "Entering Detailed"
 msgstr "Saisie détaillée"
 
 #: ../src/bet_finance_ui.c:315
-msgid "Between 3 and 18 months"
-msgstr "Entre 3 et 18 mois"
-
-#: ../src/bet_finance_ui.c:316
 msgid "Between 1 and 15 years"
 msgstr "Entre 1 et 15 ans"
 
-#: ../src/bet_finance_ui.c:317
+#: ../src/bet_finance_ui.c:316
 msgid "Between 15 and 30 years"
 msgstr "Entre 15 et 30 ans"
 
 #. Fees
-#: ../src/bet_finance_ui.c:372 ../src/bet_finance_ui.c:560
+#: ../src/bet_finance_ui.c:371 ../src/bet_finance_ui.c:559
 msgid "Fees"
 msgstr "Frais"
 
-#: ../src/bet_finance_ui.c:382
+#: ../src/bet_finance_ui.c:381
 #, c-format
 msgid "% of borrowed capital"
 msgstr "% du capital emprunté"
 
 #. Number of periods
-#: ../src/bet_finance_ui.c:484
+#: ../src/bet_finance_ui.c:483
 msgid ""
 "Number\n"
 "of periods"
@@ -765,7 +761,7 @@ msgstr ""
 "d'échéances"
 
 #. Loan capital
-#: ../src/bet_finance_ui.c:503
+#: ../src/bet_finance_ui.c:502
 msgid ""
 "Loan\n"
 "capital"
@@ -774,7 +770,7 @@ msgstr ""
 "emprunté"
 
 #. Annuel rate interest
-#: ../src/bet_finance_ui.c:522
+#: ../src/bet_finance_ui.c:521
 msgid ""
 "Annuel\n"
 "rate interest"
@@ -783,7 +779,7 @@ msgstr ""
 "annuel"
 
 #. Amount without fees
-#: ../src/bet_finance_ui.c:541
+#: ../src/bet_finance_ui.c:540
 msgid ""
 "Amount\n"
 "without fees"
@@ -792,47 +788,47 @@ msgstr ""
 "hors frais"
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:579 ../src/bet_finance_ui.c:1274
+#: ../src/bet_finance_ui.c:578 ../src/bet_finance_ui.c:1267
 msgid "Monthly paid"
 msgstr "Mensualité"
 
 #. Total cost
-#: ../src/bet_finance_ui.c:598
+#: ../src/bet_finance_ui.c:597
 msgid "Total cost"
 msgstr "Coût total"
 
-#: ../src/bet_finance_ui.c:610
+#: ../src/bet_finance_ui.c:609
 msgid "Approximate cost"
 msgstr "Coût approximatif"
 
-#: ../src/bet_finance_ui.c:1001 ../src/bet_finance_ui.c:1778
+#: ../src/bet_finance_ui.c:994 ../src/bet_finance_ui.c:1771
 msgid "View amortization table"
 msgstr "Afficher le tableau d'amortissement"
 
-#: ../src/bet_finance_ui.c:1007 ../src/bet_finance_ui.c:1562
-#: ../src/bet_finance_ui.c:1793 ../src/bet_finance_ui.c:1847
+#: ../src/bet_finance_ui.c:1000 ../src/bet_finance_ui.c:1555
+#: ../src/bet_finance_ui.c:1786 ../src/bet_finance_ui.c:1840
 msgid "Print the array"
 msgstr "Imprimer le tableau"
 
-#: ../src/bet_finance_ui.c:1011 ../src/bet_finance_ui.c:1834
+#: ../src/bet_finance_ui.c:1004 ../src/bet_finance_ui.c:1827
 msgid "View credits simulator"
 msgstr "Afficher le simulateur de crédits"
 
-#: ../src/bet_finance_ui.c:1017
+#: ../src/bet_finance_ui.c:1010
 msgid "Print amortization table"
 msgstr "Imprimer le tableau d'amortissement"
 
-#: ../src/bet_finance_ui.c:1068 ../src/bet_finance_ui.c:1501
-#: ../src/bet_finance_ui.c:1621
+#: ../src/bet_finance_ui.c:1061 ../src/bet_finance_ui.c:1494
+#: ../src/bet_finance_ui.c:1614
 msgid "Amortization Table"
 msgstr "Tableau d'amortissement"
 
 #. capital
-#: ../src/bet_finance_ui.c:1079
+#: ../src/bet_finance_ui.c:1072
 msgid "Loan amount"
 msgstr "Montant emprunté"
 
-#: ../src/bet_finance_ui.c:1167 ../src/bet_future.c:770 ../src/bet_tab.c:615
+#: ../src/bet_finance_ui.c:1160 ../src/bet_future.c:770 ../src/bet_tab.c:615
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:760
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1283
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
@@ -842,47 +838,47 @@ msgstr "Montant emprunté"
 msgid "Date"
 msgstr "Date"
 
-#: ../src/bet_finance_ui.c:1179 ../src/etats_affiche.c:2398
+#: ../src/bet_finance_ui.c:1172 ../src/etats_affiche.c:2398
 #: ../src/traitement_variables.c:96
 msgid "Number"
 msgstr "N°"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1198
+#: ../src/bet_finance_ui.c:1191
 msgid "Capital remaining"
 msgstr "Capital restant dû"
 
 #. Interests
-#: ../src/bet_finance_ui.c:1217
+#: ../src/bet_finance_ui.c:1210
 msgid "Interests"
 msgstr "Intérêts"
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1236
+#: ../src/bet_finance_ui.c:1229
 msgid "Capital repaid"
 msgstr "Capital remboursé"
 
 #. Fees
-#: ../src/bet_finance_ui.c:1255
+#: ../src/bet_finance_ui.c:1248
 msgid "Insurance"
 msgstr "Frais"
 
 #. Set up dialog
-#: ../src/bet_finance_ui.c:1559 ../src/bet_finance_ui.c:1790
-#: ../src/bet_finance_ui.c:1844 ../src/barre_outils.c:139
+#: ../src/bet_finance_ui.c:1552 ../src/bet_finance_ui.c:1783
+#: ../src/bet_finance_ui.c:1837 ../src/barre_outils.c:139
 #: ../src/etats_onglet.c:148 ../src/print_config.c:80
 msgid "Print"
 msgstr "Imprimer"
 
-#: ../src/bet_finance_ui.c:1760 ../src/bet_finance_ui.c:1763
+#: ../src/bet_finance_ui.c:1753 ../src/bet_finance_ui.c:1756
 msgid "Calculate"
 msgstr "Calculer"
 
-#: ../src/bet_finance_ui.c:1774
+#: ../src/bet_finance_ui.c:1767
 msgid "Amortization"
 msgstr "Amortissement"
 
-#: ../src/bet_finance_ui.c:1830
+#: ../src/bet_finance_ui.c:1823
 msgid "Credits"
 msgstr "Crédits"
 
@@ -10237,11 +10233,11 @@ msgstr "Mot de passe"
 msgid "Don't ask password again for this session."
 msgstr "Ne pas redemander le mot de passe pour cette session."
 
-#: ../src/plugins/openssl/openssl.c:292
+#: ../src/plugins/openssl/openssl.c:294
 msgid "The password must contain at least 7 characters"
 msgstr "Le mot de passe doit contenir au moins 7 caractères"
 
-#: ../src/plugins/openssl/openssl.c:293
+#: ../src/plugins/openssl/openssl.c:295
 msgid "Password too short"
 msgstr "Mot de passe trop court"
 
@@ -11082,3 +11078,6 @@ msgstr "Aucune police définie"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Gestionnaire de finances personnelles"
+
+#~ msgid "Between 3 and 18 months"
+#~ msgstr "Entre 3 et 18 mois"
