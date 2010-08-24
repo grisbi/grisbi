@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-23 18:33+0200\n"
+"POT-Creation-Date: 2010-08-23 22:59+0200\n"
 "PO-Revision-Date: 2010-05-02 23:26+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -60,7 +60,7 @@ msgid "Account balances in %s"
 msgstr "Solde des comptes en %s"
 
 #: ../src/accueil.c:481 ../src/accueil.c:559 ../src/accueil.c:636
-#: ../src/accueil.c:705
+#: ../src/accueil.c:705 ../src/bet_finance_ui.c:1621
 msgid " at "
 msgstr " au "
 
@@ -235,7 +235,7 @@ msgstr "Cliquer sur la prévisualisation pour modifier le logo"
 
 #. Change fonts
 #: ../src/affichage.c:202 ../src/print_report.c:105 ../src/print_report.c:406
-#: ../src/print_transactions_list.c:261 ../src/print_tree_view_list.c:907
+#: ../src/print_transactions_list.c:258 ../src/print_tree_view_list.c:924
 msgid "Fonts"
 msgstr "Polices"
 
@@ -654,8 +654,8 @@ msgstr "Capital emprunté"
 #. create columns
 #. Duration
 #: ../src/bet_config.c:1196 ../src/bet_finance_ui.c:263
-#: ../src/bet_finance_ui.c:504 ../src/bet_finance_ui.c:1136
-#: ../src/bet_finance_ui.c:1556
+#: ../src/bet_finance_ui.c:465 ../src/bet_finance_ui.c:1103
+#: ../src/bet_finance_ui.c:1537
 msgid "Duration"
 msgstr "Durée"
 
@@ -669,13 +669,13 @@ msgstr "Date de la première échéance"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1122
-#: ../src/bet_finance_ui.c:1542
+#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1089
+#: ../src/bet_finance_ui.c:1523
 msgid "Annuel rate interest"
 msgstr "Taux d'intérêt annuel"
 
 #: ../src/bet_config.c:1236 ../src/bet_finance_ui.c:258
-#: ../src/bet_finance_ui.c:1131 ../src/bet_finance_ui.c:1551
+#: ../src/bet_finance_ui.c:1098 ../src/bet_finance_ui.c:1532
 msgid "%"
 msgstr "%"
 
@@ -683,15 +683,15 @@ msgstr "%"
 msgid "Fees per month"
 msgstr "Frais par échéance"
 
-#: ../src/bet_config.c:1267 ../src/bet_finance_ui.c:432
+#: ../src/bet_config.c:1267 ../src/bet_finance_ui.c:393
 msgid "Rate Type"
 msgstr "Type de taux"
 
-#: ../src/bet_config.c:1271 ../src/bet_finance_ui.c:436
+#: ../src/bet_config.c:1271 ../src/bet_finance_ui.c:397
 msgid "CAGR"
 msgstr "Taux actuariel"
 
-#: ../src/bet_config.c:1275 ../src/bet_finance_ui.c:440
+#: ../src/bet_config.c:1275 ../src/bet_finance_ui.c:401
 msgid "Proportional rate"
 msgstr "Taux proportionnel"
 
@@ -699,29 +699,28 @@ msgstr "Taux proportionnel"
 msgid "Apply"
 msgstr "Appliquer"
 
-#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:860
-#: ../src/bet_finance_ui.c:1645
+#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:827
+#: ../src/bet_finance_ui.c:1648
 msgid " year "
 msgstr " an "
 
-#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:862
-#: ../src/bet_finance_ui.c:1647
+#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:829
+#: ../src/bet_finance_ui.c:1650
 msgid " years "
 msgstr " ans "
 
-#: ../src/bet_config.c:1388 ../src/bet_finance_ui.c:712
+#: ../src/bet_config.c:1388 ../src/bet_finance_ui.c:673
 msgid "You must enter at least one value for the capital"
 msgstr "Vous devez entrer au moins une valeur pour le capital"
 
-#. titre de la page
 #. set the title
-#: ../src/bet_finance_ui.c:209 ../src/fenetre_principale.c:277
+#: ../src/bet_finance_ui.c:213 ../src/fenetre_principale.c:277
 #: ../src/navigation.c:300 ../src/navigation.c:1233
 msgid "Credits simulator"
 msgstr "Simulateur de crédits"
 
 #. capital
-#: ../src/bet_finance_ui.c:224 ../src/bet_finance_ui.c:1532
+#: ../src/bet_finance_ui.c:224 ../src/bet_finance_ui.c:1513
 msgid "Loan capital"
 msgstr "Capital emprunté"
 
@@ -734,48 +733,30 @@ msgstr "Intérêt annuel"
 msgid "Entering Detailed"
 msgstr "Saisie détaillée"
 
-#: ../src/bet_finance_ui.c:284 ../src/bet_finance_ui.c:287
-msgid "Calculate"
-msgstr "Calculer"
+#: ../src/bet_finance_ui.c:315
+msgid "Between 3 and 18 months"
+msgstr "Entre 3 et 18 mois"
 
-#: ../src/bet_finance_ui.c:310
-msgid "Amortization"
-msgstr "Amortissement"
-
-#: ../src/bet_finance_ui.c:314 ../src/bet_finance_ui.c:1034
-msgid "View amortization table"
-msgstr "Afficher le tableau d'amortissement"
-
-#. Set up dialog
-#: ../src/bet_finance_ui.c:326 ../src/barre_outils.c:139
-#: ../src/etats_onglet.c:148 ../src/print_config.c:80
-msgid "Print"
-msgstr "Imprimer"
-
-#: ../src/bet_finance_ui.c:329 ../src/bet_finance_ui.c:1040
-msgid "Print the array"
-msgstr "Imprimer le tableau"
-
-#: ../src/bet_finance_ui.c:355
+#: ../src/bet_finance_ui.c:316
 msgid "Between 1 and 15 years"
 msgstr "Entre 1 et 15 ans"
 
-#: ../src/bet_finance_ui.c:356
+#: ../src/bet_finance_ui.c:317
 msgid "Between 15 and 30 years"
 msgstr "Entre 15 et 30 ans"
 
 #. Fees
-#: ../src/bet_finance_ui.c:411 ../src/bet_finance_ui.c:599
+#: ../src/bet_finance_ui.c:372 ../src/bet_finance_ui.c:560
 msgid "Fees"
 msgstr "Frais"
 
-#: ../src/bet_finance_ui.c:421
+#: ../src/bet_finance_ui.c:382
 #, c-format
 msgid "% of borrowed capital"
 msgstr "% du capital emprunté"
 
 #. Number of periods
-#: ../src/bet_finance_ui.c:523
+#: ../src/bet_finance_ui.c:484
 msgid ""
 "Number\n"
 "of periods"
@@ -784,7 +765,7 @@ msgstr ""
 "d'échéances"
 
 #. Loan capital
-#: ../src/bet_finance_ui.c:542
+#: ../src/bet_finance_ui.c:503
 msgid ""
 "Loan\n"
 "capital"
@@ -793,7 +774,7 @@ msgstr ""
 "emprunté"
 
 #. Annuel rate interest
-#: ../src/bet_finance_ui.c:561
+#: ../src/bet_finance_ui.c:522
 msgid ""
 "Annuel\n"
 "rate interest"
@@ -802,7 +783,7 @@ msgstr ""
 "annuel"
 
 #. Amount without fees
-#: ../src/bet_finance_ui.c:580
+#: ../src/bet_finance_ui.c:541
 msgid ""
 "Amount\n"
 "without fees"
@@ -811,39 +792,47 @@ msgstr ""
 "hors frais"
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:618 ../src/bet_finance_ui.c:1302
+#: ../src/bet_finance_ui.c:579 ../src/bet_finance_ui.c:1274
 msgid "Monthly paid"
 msgstr "Mensualité"
 
 #. Total cost
-#: ../src/bet_finance_ui.c:637
+#: ../src/bet_finance_ui.c:598
 msgid "Total cost"
 msgstr "Coût total"
 
-#: ../src/bet_finance_ui.c:649
+#: ../src/bet_finance_ui.c:610
 msgid "Approximate cost"
 msgstr "Coût approximatif"
 
-#: ../src/bet_finance_ui.c:1044
+#: ../src/bet_finance_ui.c:1001 ../src/bet_finance_ui.c:1778
+msgid "View amortization table"
+msgstr "Afficher le tableau d'amortissement"
+
+#: ../src/bet_finance_ui.c:1007 ../src/bet_finance_ui.c:1562
+#: ../src/bet_finance_ui.c:1793 ../src/bet_finance_ui.c:1847
+msgid "Print the array"
+msgstr "Imprimer le tableau"
+
+#: ../src/bet_finance_ui.c:1011 ../src/bet_finance_ui.c:1834
 msgid "View credits simulator"
 msgstr "Afficher le simulateur de crédits"
 
-#: ../src/bet_finance_ui.c:1050
+#: ../src/bet_finance_ui.c:1017
 msgid "Print amortization table"
 msgstr "Imprimer le tableau d'amortissement"
 
-#. titre de la page
-#: ../src/bet_finance_ui.c:1097 ../src/bet_finance_ui.c:1520
-#: ../src/bet_finance_ui.c:1618
+#: ../src/bet_finance_ui.c:1068 ../src/bet_finance_ui.c:1501
+#: ../src/bet_finance_ui.c:1621
 msgid "Amortization Table"
 msgstr "Tableau d'amortissement"
 
 #. capital
-#: ../src/bet_finance_ui.c:1112
+#: ../src/bet_finance_ui.c:1079
 msgid "Loan amount"
 msgstr "Montant emprunté"
 
-#: ../src/bet_finance_ui.c:1195 ../src/bet_future.c:770 ../src/bet_tab.c:615
+#: ../src/bet_finance_ui.c:1167 ../src/bet_future.c:770 ../src/bet_tab.c:615
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:760
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1283
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
@@ -853,30 +842,49 @@ msgstr "Montant emprunté"
 msgid "Date"
 msgstr "Date"
 
-#: ../src/bet_finance_ui.c:1207 ../src/etats_affiche.c:2398
+#: ../src/bet_finance_ui.c:1179 ../src/etats_affiche.c:2398
 #: ../src/traitement_variables.c:96
 msgid "Number"
 msgstr "N°"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1226
+#: ../src/bet_finance_ui.c:1198
 msgid "Capital remaining"
 msgstr "Capital restant dû"
 
 #. Interests
-#: ../src/bet_finance_ui.c:1245
+#: ../src/bet_finance_ui.c:1217
 msgid "Interests"
 msgstr "Intérêts"
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1264
+#: ../src/bet_finance_ui.c:1236
 msgid "Capital repaid"
 msgstr "Capital remboursé"
 
 #. Fees
-#: ../src/bet_finance_ui.c:1283
+#: ../src/bet_finance_ui.c:1255
 msgid "Insurance"
 msgstr "Frais"
+
+#. Set up dialog
+#: ../src/bet_finance_ui.c:1559 ../src/bet_finance_ui.c:1790
+#: ../src/bet_finance_ui.c:1844 ../src/barre_outils.c:139
+#: ../src/etats_onglet.c:148 ../src/print_config.c:80
+msgid "Print"
+msgstr "Imprimer"
+
+#: ../src/bet_finance_ui.c:1760 ../src/bet_finance_ui.c:1763
+msgid "Calculate"
+msgstr "Calculer"
+
+#: ../src/bet_finance_ui.c:1774
+msgid "Amortization"
+msgstr "Amortissement"
+
+#: ../src/bet_finance_ui.c:1830
+msgid "Credits"
+msgstr "Crédits"
 
 #: ../src/bet_future.c:227 ../src/bet_future.c:1773 ../src/bet_future.c:1872
 #: ../src/bet_future.c:2419
@@ -10324,8 +10332,8 @@ msgid "Lines font"
 msgstr "Police des lignes"
 
 #: ../src/print_report.c:426 ../src/print_report.c:446
-#: ../src/print_transactions_list.c:282 ../src/print_transactions_list.c:305
-#: ../src/print_tree_view_list.c:924 ../src/print_tree_view_list.c:941
+#: ../src/print_transactions_list.c:279 ../src/print_transactions_list.c:302
+#: ../src/print_tree_view_list.c:941 ../src/print_tree_view_list.c:958
 #: ../src/utils_font.c:121
 msgid "Choosing font"
 msgstr "Choisissez une police"
@@ -10334,60 +10342,60 @@ msgstr "Choisissez une police"
 msgid "Title's font"
 msgstr "Police des titres"
 
-#: ../src/print_transactions_list.c:145 ../src/print_tree_view_list.c:866
+#: ../src/print_transactions_list.c:142 ../src/print_tree_view_list.c:883
 msgid "Layout"
 msgstr "Mise en page"
 
-#: ../src/print_transactions_list.c:156 ../src/print_tree_view_list.c:875
+#: ../src/print_transactions_list.c:153 ../src/print_tree_view_list.c:892
 msgid "Print a title : "
 msgstr "Imprimer un titre : "
 
-#: ../src/print_transactions_list.c:172
+#: ../src/print_transactions_list.c:169
 msgid "Select dates interval : "
 msgstr "Sélectionner l'intervalle des dates : "
 
-#: ../src/print_transactions_list.c:185
+#: ../src/print_transactions_list.c:182
 msgid "Initial date : "
 msgstr "Date initiale"
 
-#: ../src/print_transactions_list.c:197
+#: ../src/print_transactions_list.c:194
 msgid "Final date : "
 msgstr "Date finale"
 
-#: ../src/print_transactions_list.c:209
+#: ../src/print_transactions_list.c:206
 msgid "Use value date"
 msgstr "Utiliser la date de valeur"
 
 #. set up all the checkbuttons
-#: ../src/print_transactions_list.c:222 ../src/print_tree_view_list.c:886
+#: ../src/print_transactions_list.c:219 ../src/print_tree_view_list.c:903
 msgid "Draw the lines between transactions"
 msgstr "Bordures : séparer les lignes par un trait"
 
-#: ../src/print_transactions_list.c:229 ../src/print_tree_view_list.c:893
+#: ../src/print_transactions_list.c:226 ../src/print_tree_view_list.c:910
 msgid "Draw the lines between the columns"
 msgstr "Bordures : séparer les colonnes par un trait"
 
-#: ../src/print_transactions_list.c:237
+#: ../src/print_transactions_list.c:234
 msgid "Fill the background as the transactions list"
 msgstr "Utiliser le même fond d'écran que la liste des transactions."
 
-#: ../src/print_transactions_list.c:245
+#: ../src/print_transactions_list.c:242
 msgid "Print the archives lines"
 msgstr "Imprimer les opérations archivées"
 
-#: ../src/print_transactions_list.c:253 ../src/print_tree_view_list.c:900
+#: ../src/print_transactions_list.c:250 ../src/print_tree_view_list.c:917
 msgid "Print the names of the columns"
 msgstr "Imprimer le nom des colonnes"
 
-#: ../src/print_transactions_list.c:270 ../src/print_tree_view_list.c:914
+#: ../src/print_transactions_list.c:267 ../src/print_tree_view_list.c:931
 msgid "Transactions font"
 msgstr "Police de la liste des opérations"
 
-#: ../src/print_transactions_list.c:293 ../src/print_tree_view_list.c:931
+#: ../src/print_transactions_list.c:290 ../src/print_tree_view_list.c:948
 msgid "Title font"
 msgstr "Police du titre"
 
-#: ../src/print_transactions_list.c:369 ../src/print_tree_view_list.c:138
+#: ../src/print_transactions_list.c:366 ../src/print_tree_view_list.c:141
 msgid "Fonts & layout"
 msgstr "Polices et mise en page"
 
