@@ -63,7 +63,7 @@ struct conditional_message messages[] =
 
     { "account-file-readable",  N_("Account file is world readable."),
       N_("Your account file should not be readable by anybody else, but it is. You should "
-      "change its permissions.\nShould this be fixed now?"),
+      "change its permissions."),
       FALSE, FALSE, },
 
     { "account-already-opened", N_("File \"%s\" is already opened"),

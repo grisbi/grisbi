@@ -40,6 +40,7 @@
 
 
 /*START_EXTERN*/
+extern struct conditional_message messages[];
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
@@ -398,13 +399,35 @@ void gsb_file_util_change_permissions ( void )
      * check box is not displayed and the paramater is forced to
      * not display msg. */
     devel_debug (NULL);
+
 #ifndef _WIN32
     if ( question_conditional_yes_no ( "account-file-readable" ) == TRUE )
     {
-        chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP );
+        chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR );
     }
 
 #endif /* _WIN32 */
+}
+
+
+/**
+ *
+ * called when loading a file, if the permissions are not set only for the user
+ * display a conditional warning
+ *
+ * \param
+ *
+ * \return
+ * */
+void gsb_file_util_display_warning_permissions ( void )
+{
+    gint msg_no = 0;
+
+    devel_debug (NULL);
+
+    msg_no = question_conditional_yes_no_get_no_struct ( &messages[0], "account-file-readable" );
+
+    dialogue_conditional_hint ( _(messages[msg_no].hint), _(messages[msg_no].message), "account-file-readable" );
 }
 
 

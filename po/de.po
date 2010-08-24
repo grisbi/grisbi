@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-24 19:14+0200\n"
+"POT-Creation-Date: 2010-08-24 21:05+0200\n"
 "PO-Revision-Date: 2010-05-16 14:55+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -1618,10 +1618,10 @@ msgid "Account file is world readable."
 msgstr "Die Datei ist für alle Benutzer lesbar"
 
 #: ../src/dialog.c:65
+#, fuzzy
 msgid ""
 "Your account file should not be readable by anybody else, but it is. You "
-"should change its permissions.\n"
-"Should this be fixed now?"
+"should change its permissions."
 msgstr ""
 "Ihre Grisbi-Datei sollte nicht von jedem gelesen werden können. Die "
 "Berechtigungen sollten geändert werden.\n"
@@ -7732,11 +7732,11 @@ msgstr ""
 "Diese Datei ist keine Bericht-Datei,\n"
 "die Verarbeitung wird beendet."
 
-#: ../src/gsb_file_util.c:66
+#: ../src/gsb_file_util.c:67
 msgid "No name to the file !"
 msgstr "Kein Dateiname !"
 
-#: ../src/gsb_file_util.c:77
+#: ../src/gsb_file_util.c:78
 #, c-format
 msgid ""
 "%s is a directory...\n"
@@ -7745,31 +7745,31 @@ msgstr ""
 "%s ist ein Ordner...\n"
 "Bitte einen andern Namen wählen."
 
-#: ../src/gsb_file_util.c:84
+#: ../src/gsb_file_util.c:85
 #, c-format
 msgid "Do you want to overwrite file \"%s\"?"
 msgstr "Soll die vorhandene Datei \"%s\" überschrieben werden?"
 
-#: ../src/gsb_file_util.c:85
+#: ../src/gsb_file_util.c:86
 msgid "File already exists"
 msgstr "Die Datei ist bereits vorhanden"
 
-#: ../src/gsb_file_util.c:132
+#: ../src/gsb_file_util.c:133
 #, c-format
 msgid "Grisbi cannot stat file %s, please check the file."
 msgstr "Die Datei %s kann nicht geöffnet werden - bitte die Datei überprüfen."
 
-#: ../src/gsb_file_util.c:174
+#: ../src/gsb_file_util.c:175
 #, c-format
 msgid "Failed to read from file '%s': %s"
 msgstr "Die Datei kann nicht gelesen werden '%s': %s"
 
-#: ../src/gsb_file_util.c:345
+#: ../src/gsb_file_util.c:346
 #, c-format
 msgid "Cannot write lock file :'%s': %s"
 msgstr "Die Datei kann nicht gesperrt werden '%s': %s"
 
-#: ../src/gsb_file_util.c:372
+#: ../src/gsb_file_util.c:373
 #, c-format
 msgid "Cannot erase lock file :'%s': %s"
 msgstr "Die Datei kann nicht entsperrt werden '%s': %s"

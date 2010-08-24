@@ -462,31 +462,33 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 
     /* if it's a new file, we set the permission */
     if ( do_chmod )
-	{
-	/* it's a new file or stat couldn't find the permissions,
-	 * so set only user can see the file by default */
+    {
+        /* it's a new file or stat couldn't find the permissions,
+         * so set only user can see the file by default */
 #ifdef _MSC_VER
-	_chmod ( filename, _S_IREAD | _S_IWRITE );
+    _   chmod ( filename, _S_IREAD | _S_IWRITE );
 #else
-	chmod ( filename, S_IRUSR | S_IWUSR );
+        chmod ( filename, S_IRUSR | S_IWUSR );
 #endif /*_MSC_VER */
 	}
     else
     {
-	/* it's not a new file but gtk overwrite the permissions
-	 * so need to re-set the good permissions saved before */
+        /* it's not a new file but gtk overwrite the permissions
+         * so need to re-set the good permissions saved before */
 #ifdef _MSC_VER
-	if (_chmod (filename, buf.st_mode) == -1)
-	{
-	    /* we couldn't set the chmod, set the default permission */
-		_chmod ( filename, _S_IREAD | _S_IWRITE );
-	}
+        if (_chmod (filename, buf.st_mode) == -1)
+        {
+            /* we couldn't set the chmod, set the default permission */
+            _chmod ( filename, _S_IREAD | _S_IWRITE );
+        }
 #else
-	if (chmod (filename, buf.st_mode) == -1)
-	{
-	    /* we couldn't set the chmod, set the default permission */
-		chmod ( filename, S_IRUSR | S_IWUSR );
-	}
+        if (chmod (filename, buf.st_mode) == -1)
+        {
+            /* we couldn't set the chmod, set the default permission */
+            chmod ( filename, S_IRUSR | S_IWUSR );
+        }
+        /* restores uid and gid */
+        chown ( filename, buf.st_uid, buf.st_gid );
 #endif /*_MSC_VER */
     }
 

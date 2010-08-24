@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-24 19:14+0200\n"
+"POT-Creation-Date: 2010-08-24 21:05+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -1735,8 +1735,7 @@ msgstr "Rekening bestanden"
 #: ../src/dialog.c:65
 msgid ""
 "Your account file should not be readable by anybody else, but it is. You "
-"should change its permissions.\n"
-"Should this be fixed now?"
+"should change its permissions."
 msgstr ""
 
 #: ../src/dialog.c:69
@@ -7721,43 +7720,43 @@ msgid "This is not a report file, loading canceled..."
 msgstr ""
 
 # titel van scherm bij het opslaan met een nieuwe naam (dus ook bij de eerste keer)
-#: ../src/gsb_file_util.c:66
+#: ../src/gsb_file_util.c:67
 #, fuzzy
 msgid "No name to the file !"
 msgstr "Bestand opslaan als"
 
-#: ../src/gsb_file_util.c:77
+#: ../src/gsb_file_util.c:78
 #, c-format
 msgid ""
 "%s is a directory...\n"
 "Please choose another name."
 msgstr ""
 
-#: ../src/gsb_file_util.c:84
+#: ../src/gsb_file_util.c:85
 #, c-format
 msgid "Do you want to overwrite file \"%s\"?"
 msgstr "Wilt u het bestand \"%s\" overschrijven?"
 
-#: ../src/gsb_file_util.c:85
+#: ../src/gsb_file_util.c:86
 msgid "File already exists"
 msgstr "Bestand bestaat reeds"
 
-#: ../src/gsb_file_util.c:132
+#: ../src/gsb_file_util.c:133
 #, c-format
 msgid "Grisbi cannot stat file %s, please check the file."
 msgstr ""
 
-#: ../src/gsb_file_util.c:174
+#: ../src/gsb_file_util.c:175
 #, fuzzy, c-format
 msgid "Failed to read from file '%s': %s"
 msgstr "Kan bestand '%s': %s niet vergrendelen"
 
-#: ../src/gsb_file_util.c:345
+#: ../src/gsb_file_util.c:346
 #, fuzzy, c-format
 msgid "Cannot write lock file :'%s': %s"
 msgstr "Kan bestand '%s': %s niet vergrendelen"
 
-#: ../src/gsb_file_util.c:372
+#: ../src/gsb_file_util.c:373
 #, fuzzy, c-format
 msgid "Cannot erase lock file :'%s': %s"
 msgstr "Kan bestand '%s': %s niet vergrendelen"

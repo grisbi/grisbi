@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-24 19:14+0200\n"
+"POT-Creation-Date: 2010-08-24 21:05+0200\n"
 "PO-Revision-Date: 2010-04-27 00:47+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -1619,10 +1619,10 @@ msgid "Account file is world readable."
 msgstr "Soubor účtů je zcela čitelný."
 
 #: ../src/dialog.c:65
+#, fuzzy
 msgid ""
 "Your account file should not be readable by anybody else, but it is. You "
-"should change its permissions.\n"
-"Should this be fixed now?"
+"should change its permissions."
 msgstr ""
 "Váš soubor účtů by neměl být čitelný pro nikoho jiného, ale je. Měl(a) byste "
 "změnit jeho oprávnění.\n"
@@ -7660,11 +7660,11 @@ msgstr "Toto není soubor rozpočtů, nahrávání bylo zrušeno..."
 msgid "This is not a report file, loading canceled..."
 msgstr "Toto není soubor sestavy, nahrávání bylo zrušeno..."
 
-#: ../src/gsb_file_util.c:66
+#: ../src/gsb_file_util.c:67
 msgid "No name to the file !"
 msgstr "Pojmenujte soubor účtů!"
 
-#: ../src/gsb_file_util.c:77
+#: ../src/gsb_file_util.c:78
 #, c-format
 msgid ""
 "%s is a directory...\n"
@@ -7673,31 +7673,31 @@ msgstr ""
 "%s je složka...\n"
 "Prosím zvolte jiný název."
 
-#: ../src/gsb_file_util.c:84
+#: ../src/gsb_file_util.c:85
 #, c-format
 msgid "Do you want to overwrite file \"%s\"?"
 msgstr "Chcete přepsat soubor \"%s\"?"
 
-#: ../src/gsb_file_util.c:85
+#: ../src/gsb_file_util.c:86
 msgid "File already exists"
 msgstr "Soubor již existuje"
 
-#: ../src/gsb_file_util.c:132
+#: ../src/gsb_file_util.c:133
 #, c-format
 msgid "Grisbi cannot stat file %s, please check the file."
 msgstr "Grisbi nemohlo ověřit soubor %s, prosím zkontrolujte soubor."
 
-#: ../src/gsb_file_util.c:174
+#: ../src/gsb_file_util.c:175
 #, c-format
 msgid "Failed to read from file '%s': %s"
 msgstr "Nelze číst ze souboru '%s': %s"
 
-#: ../src/gsb_file_util.c:345
+#: ../src/gsb_file_util.c:346
 #, c-format
 msgid "Cannot write lock file :'%s': %s"
 msgstr "Nelze zapsat soubor zámku: '%s': %s"
 
-#: ../src/gsb_file_util.c:372
+#: ../src/gsb_file_util.c:373
 #, c-format
 msgid "Cannot erase lock file :'%s': %s"
 msgstr "Nelze odstranit soubor zámku: '%s': %s"
