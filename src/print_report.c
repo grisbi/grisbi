@@ -104,7 +104,8 @@ gboolean print_report ( GtkWidget *button,
 			  G_CALLBACK (print_report_draw_page),
 			  _("Fonts"),
 			  G_CALLBACK (print_config_show_config),
-			  G_CALLBACK (print_config_show_config_apply) );
+			  G_CALLBACK (print_config_show_config_apply),
+              NULL );
     return FALSE;
 }
 

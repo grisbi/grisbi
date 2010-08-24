@@ -338,6 +338,8 @@ SET (grisbi_source
 	../src/print_report.h
 	../src/print_transactions_list.c
 	../src/print_transactions_list.h
+	../src/print_tree_view_list.c
+	../src/print_tree_view_list.h
 	../src/qif.c
 	../src/qif.h
 	../src/tiers_onglet.c

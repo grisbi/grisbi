@@ -853,9 +853,15 @@ gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle )
         if ( tab_str[i] && strlen (tab_str[i]) > 0)
         {
             if ( g_strstr_len (payee_name, -1, tab_str[i]))
+            {
+                g_strfreev ( tab_str );
                 return TRUE;
+            }
         }
     }
+
+    g_strfreev ( tab_str );
+
     return FALSE;
 }
 
@@ -938,6 +944,9 @@ gchar *gsb_string_uniform_new_line ( const gchar *chaine, gint nbre_char )
 {
     gchar **tab_str;
 
+    if ( chaine == NULL )
+        return NULL;
+
     if ( g_strstr_len ( chaine, nbre_char, "\r\n" ) )
     {
         tab_str = g_strsplit_set ( chaine, "\r", 0 );
@@ -982,6 +991,25 @@ gchar *utils_str_dtostr ( gdouble number, gint nbre_decimal, gboolean canonical 
         str_number = my_strdelimit ( str_number, ",", "." );
 
     return str_number;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gint utils_str_get_nbre_motifs ( const gchar *chaine, const gchar *motif )
+{
+    gchar **tab_str;
+    gint nbre_motifs = 0;
+
+    tab_str = g_strsplit ( chaine, motif, 0 );
+    nbre_motifs = g_strv_length ( tab_str ) -1;
+    g_strfreev ( tab_str );
+
+    return nbre_motifs;
 }
 
 
