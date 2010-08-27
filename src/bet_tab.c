@@ -21,8 +21,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ./configure --with-balance-estimate */
-
 /*
  * prefix bet : Balance Estimate Tab
  *
@@ -42,7 +40,8 @@
 #include "bet_data.h"
 #include "bet_future.h"
 #include "bet_hist.h"
-#include "utils_dates.h"
+#include "fenetre_principale.h"
+#include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -51,17 +50,18 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
-#include "navigation.h"
 #include "gsb_real.h"
 #include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
+#include "include.h"
+#include "mouse.h"
+#include "navigation.h"
+#include "print_tree_view_list.h"
+#include "structures.h"
 #include "traitement_variables.h"
 #include "transaction_list_select.h"
-#include "structures.h"
-#include "fenetre_principale.h"
-#include "mouse.h"
-#include "include.h"
+#include "utils_dates.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -86,6 +86,7 @@ static gboolean bet_array_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev );
 static void bet_array_list_change_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
+static GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_view );
 static void bet_array_list_context_menu ( GtkWidget *tree_view );
 static void bet_array_list_delete_all_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
@@ -106,6 +107,9 @@ static gint bet_array_list_schedule_line ( gint origine, gint account_number, gi
 static void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static gboolean bet_array_list_set_background_color ( GtkWidget *tree_view );
+static gboolean bet_array_list_size_allocate ( GtkWidget *tree_view,
+                        GtkAllocation *allocation,
+                        gpointer null );
 static void bet_array_list_traite_double_click ( GtkTreeView *tree_view );
 static void bet_array_list_update_balance ( GtkTreeModel *model );
 static void bet_array_refresh_estimate_tab ( gint account_number );
@@ -133,7 +137,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
                         GtkTreePath *path,
                         GtkTreeIter *iter,
                         gpointer data );
-static GtkWidget *bet_array_create_tree_view ( void );
+static GtkWidget *bet_array_create_tree_view ( GtkWidget *container );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -150,7 +154,18 @@ extern const gdouble prev_month_max;
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
-enum bet_estimation_tree_columns {
+/* gestion de la largeur des colonnes du tableau */
+
+/* tableau des colonnes */
+GtkTreeViewColumn *bet_array_tree_view_columns[BET_ARRAY_COLUMNS];
+/* the initial width of each column */
+gint bet_array_col_width[BET_ARRAY_COLUMNS];
+/* the initial width of the tree_view */
+gint bet_array_current_tree_view_width = 0;
+
+
+ enum bet_estimation_tree_columns
+ {
     SPP_ESTIMATE_TREE_SELECT_COLUMN,    /* select column for the balance */
     SPP_ESTIMATE_TREE_ORIGIN_DATA,      /* origin of data : transaction, scheduled, hist, future */
     SPP_ESTIMATE_TREE_DIVISION_COLUMN,  /* div_number, transaction_number, futur_number, scheduled_number*/
@@ -164,7 +179,8 @@ enum bet_estimation_tree_columns {
     SPP_ESTIMATE_TREE_AMOUNT_COLUMN,    /* the amount without currency */
     SPP_ESTIMATE_TREE_BALANCE_COLOR,
     SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-    SPP_ESTIMATE_TREE_NUM_COLUMNS,
+    SPP_ESTIMATE_TREE_COLOR_STRING,
+    SPP_ESTIMATE_TREE_NUM_COLUMNS
 };
 
 
@@ -494,8 +510,10 @@ GtkWidget *bet_array_create_page ( void )
     GtkWidget *initial_date = NULL;
     GtkWidget *hbox;
     GtkWidget *align;
+    GtkWidget *label_title;
     GtkWidget *label;
     GtkWidget *tree_view;
+    GtkWidget *toolbar;
 
     devel_debug (NULL);
     page = gtk_vbox_new ( FALSE, 5 );
@@ -505,9 +523,9 @@ GtkWidget *bet_array_create_page ( void )
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
 
-    label = gtk_label_new ("Estimate array");
-    gtk_container_add ( GTK_CONTAINER ( align ), label );
-    g_object_set_data ( G_OBJECT ( account_page ), "bet_array_title", label );
+    label_title = gtk_label_new ("Estimate array");
+    gtk_container_add ( GTK_CONTAINER ( align ), label_title );
+    g_object_set_data ( G_OBJECT ( account_page ), "bet_array_title", label_title );
 
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
@@ -544,8 +562,32 @@ GtkWidget *bet_array_create_page ( void )
 			            G_CALLBACK ( bet_array_auto_inc_month_toggle ),
 			            NULL );
 
-    tree_view = bet_array_create_tree_view ( );
-    gtk_box_pack_start ( GTK_BOX ( page ), tree_view, TRUE, TRUE, 5 );
+    tree_view = bet_array_create_tree_view ( page );
+    g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
+
+    /* création du bouton print
+    handlebox = gtk_handle_box_new ( );
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER ( handlebox ), hbox );
+
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+                        GTK_STOCK_PRINT,
+                        _("Print"),
+                        NULL,
+                        NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Print the array") );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( print_tree_view_list ),
+                        tree_view );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( page ), handlebox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( page ), handlebox, 0 ); */
+
+    /* on y ajoute la barre d'outils */
+    toolbar = bet_array_list_create_toolbar ( page, tree_view );
+    gtk_box_pack_start ( GTK_BOX ( page ), toolbar, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( page ), toolbar, 0 );
 
     gtk_widget_show_all ( page );
 
@@ -559,19 +601,23 @@ GtkWidget *bet_array_create_page ( void )
  *
  *
  * */
-GtkWidget *bet_array_create_tree_view ( void )
+GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 {
     GtkWidget *scrolled_window;
     GtkWidget *tree_view;
     GtkTreeStore *tree_model;
     GtkTreeModel *sortable;
     GtkCellRenderer *cell;
-    GtkTreeViewColumn *column;
+    gint i;
 
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ( );
     gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
     g_object_set_data ( G_OBJECT ( account_page ), "bet_estimate_treeview", tree_view );
+    g_object_set_data ( G_OBJECT ( tree_view ), "origin_data_model",
+                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_ORIGIN_DATA ) );
+    g_object_set_data ( G_OBJECT ( tree_view ), "color_data_model",
+                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_COLOR_STRING ) );
 
     /* create the model */
     tree_model = gtk_tree_store_new ( SPP_ESTIMATE_TREE_NUM_COLUMNS,
@@ -587,7 +633,8 @@ GtkWidget *bet_array_create_tree_view ( void )
                     G_TYPE_DATE,        /* SPP_ESTIMATE_TREE_SORT_DATE_COLUMN */
                     G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_AMOUNT_COLUMN */
                     G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_BALANCE_COLOR */
-                    GDK_TYPE_COLOR );   /* SPP_ESTIMATE_TREE_BACKGROUND_COLOR */
+                    GDK_TYPE_COLOR,     /* SPP_ESTIMATE_TREE_BACKGROUND_COLOR */
+                    G_TYPE_STRING );    /* SPP_ESTIMATE_TREE_COLOR_STRING */
 
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( tree_model ) );
     g_object_unref ( G_OBJECT ( tree_model ) );
@@ -607,85 +654,112 @@ GtkWidget *bet_array_create_tree_view ( void )
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
                         GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view );
-    gtk_widget_show ( scrolled_window );
+    gtk_box_pack_start ( GTK_BOX ( container ), scrolled_window, TRUE, TRUE, 5 );
 
+    /* create columns */
+    i = 0;
     /* Date column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (
+    g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 0.5, NULL );
+
+    bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
                         _("Date"), cell,
                         "text", SPP_ESTIMATE_TREE_DATE_COLUMN,
                         "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
                         NULL);
-    g_object_set (cell, "xalign", 0.5, NULL);
 
-    gtk_tree_view_column_set_alignment ( column, 0.5 );
-    gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
-                        GTK_TREE_VIEW_COLUMN(column));
-    gtk_tree_view_column_set_resizable ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 0.5 );
+    gtk_tree_view_append_column( GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
+    gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
+    g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
+                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_DATE_COLUMN ) );
 
+    i++;
     /* Description column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (
+
+    bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
 					    _("Description"), cell,
 					    "text", SPP_ESTIMATE_TREE_DESC_COLUMN,
                         "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
 					    NULL);
-    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ),
-				GTK_TREE_VIEW_COLUMN ( column ) );
-    gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
-    gtk_tree_view_column_set_resizable ( column, TRUE );
 
+    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
+    gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
+    g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
+                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_DESC_COLUMN ) );
+
+    i++;
     /* Debit column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (
+    g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
+
+    bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
 						_("Debit"), cell,
 					    "text", SPP_ESTIMATE_TREE_DEBIT_COLUMN,
                         "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
 					    NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
-				GTK_TREE_VIEW_COLUMN(column));
-    g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1.0, NULL );
-    gtk_tree_view_column_set_alignment(column, 1);
-    gtk_tree_view_column_set_expand(GTK_TREE_VIEW_COLUMN(column), FALSE);
-    gtk_tree_view_column_set_resizable ( column, TRUE );
 
+    gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
+    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
+    gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
+    g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
+                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_DEBIT_COLUMN ) );
+
+    i++;
     /* Credit column */
     cell = gtk_cell_renderer_text_new ();
-    g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1.0, NULL );
-    column = gtk_tree_view_column_new_with_attributes (
+    g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
+
+    bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
 					    _("Credit"), cell,
 					    "text", SPP_ESTIMATE_TREE_CREDIT_COLUMN,
                         "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
 						NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
-				GTK_TREE_VIEW_COLUMN(column));
-    g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1.0, NULL );
-    gtk_tree_view_column_set_alignment ( column, 1 );
-    gtk_tree_view_column_set_expand(GTK_TREE_VIEW_COLUMN(column), FALSE);
-    gtk_tree_view_column_set_resizable ( column, TRUE );
 
+    gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
+    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
+    gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
+    g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
+                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_CREDIT_COLUMN ) );
+
+    i++;
     /* Balance column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (
+    g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
+
+    bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
 					    _("Balance"), cell,
 					    "text", SPP_ESTIMATE_TREE_BALANCE_COLUMN,
                         "foreground", SPP_ESTIMATE_TREE_BALANCE_COLOR,
                         "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
 					    NULL);
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
-				GTK_TREE_VIEW_COLUMN(column));
-    g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1.0, NULL );
-    gtk_tree_view_column_set_alignment(column, 1);
-    gtk_tree_view_column_set_expand(GTK_TREE_VIEW_COLUMN(column), FALSE);
-    gtk_tree_view_column_set_resizable ( column, TRUE );
+
+    gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
+    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
+    gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
+    g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
+                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_BALANCE_COLUMN ) );
+
+    /* signals of tree_view */
     g_signal_connect ( G_OBJECT ( tree_view ),
 		                "button-press-event",
 		                G_CALLBACK ( bet_array_list_button_press ),
 		                NULL );
 
-    gtk_widget_show_all ( tree_view );
+    g_signal_connect ( G_OBJECT ( tree_view ),
+		                "size_allocate",
+		                G_CALLBACK ( bet_array_list_size_allocate ),
+		                NULL );
 
-    return scrolled_window;;
+    gtk_widget_show_all ( scrolled_window );
+
+    return tree_view;
 }
 
 
@@ -1426,6 +1500,19 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
                         tree_selection );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
+    /* Separator */
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
+
+    /* Print list */
+    menu_item = gtk_image_menu_item_new_with_label ( _("Print the array") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_PRINT, GTK_ICON_SIZE_MENU ) );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( print_tree_view_list ),
+                        tree_view );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
     /* Finish all. */
     gtk_widget_show_all ( menu );
     gtk_menu_popup ( GTK_MENU( menu ), NULL, NULL, NULL, NULL, 3,
@@ -1960,18 +2047,21 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
                         SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_division,
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gdk_color_to_string ( &couleur_bet_division ),
                         -1 );
                 break;
             case SPP_ORIGIN_FUTURE:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
                         SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_future,
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gdk_color_to_string ( &couleur_bet_future ),
                         -1 );
                 break;
             case SPP_ORIGIN_ACCOUNT:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
                         SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_transfert,
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gdk_color_to_string ( &couleur_bet_transfert ),
                         -1 );
                 break;
             }                    
@@ -2641,6 +2731,100 @@ gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_mo
 
     return FALSE;
 }
+
+
+/**
+ * called when the size of the tree view changed, to keep the same ration
+ * between the columns
+ *
+ * \param tree_view	    the tree view of the list
+ * \param allocation	the new size
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean bet_array_list_size_allocate ( GtkWidget *tree_view,
+                        GtkAllocation *allocation,
+                        gpointer null )
+{
+    gint i;
+
+    if ( allocation -> width == bet_array_current_tree_view_width )
+    {
+        /* size of the tree view didn't change, but we received an allocated signal
+         * it happens several times, and especially when we change the columns,
+         * so we update the colums */
+
+        /* sometimes, when the list is not visible, he will set all the columns to 1%... we block that here */
+        if ( gtk_tree_view_column_get_width ( bet_array_tree_view_columns[0]) == 1 )
+            return FALSE;
+
+        for ( i = 0 ; i < BET_ARRAY_COLUMNS; i++ )
+        {
+            bet_array_col_width[i] = ( gtk_tree_view_column_get_width (
+                                            bet_array_tree_view_columns[i]) * 100 ) / allocation -> width + 1;
+        }
+
+        return FALSE;
+    }
+
+    /* the size of the tree view changed, we keep the ratio between the columns,
+     * we don't set the size of the last column to avoid the calculate problems,
+     * it will take the end of the width alone */
+    bet_array_current_tree_view_width = allocation -> width;
+
+    for ( i = 0; i < BET_ARRAY_COLUMNS - 1; i++ )
+    {
+        gint width;
+
+        width = ( bet_array_col_width[i] * ( allocation -> width ) ) / 100;
+        if ( width > 0 )
+            gtk_tree_view_column_set_fixed_width ( bet_array_tree_view_columns[i], width );
+    }
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_view )
+{
+    GtkWidget *handlebox;
+    GtkWidget *hbox;
+    GtkWidget *button;
+
+    /* HandleBox */
+    handlebox = gtk_handle_box_new ( );
+
+    /* Hbox */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER ( handlebox ), hbox );
+
+    /* création du bouton print */
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+                        GTK_STOCK_PRINT,
+                        _("Print"),
+                        NULL,
+                        NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Print the array") );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( print_tree_view_list ),
+                        tree_view );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+
+    gtk_widget_show_all ( handlebox );
+
+    return ( handlebox );
+
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -145,6 +145,7 @@ extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor archive_background_color;
+extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
@@ -586,6 +587,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *new_string;
     gchar *tmpstr;
     gchar *skipped_lines_string;
+    gchar *bet_array_column_width_write;
     gboolean is_archive = FALSE;
 
     /* prepare stuff to save general information */
@@ -623,7 +625,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	else
 	    transaction_column_width_write  = utils_str_itoa ( transaction_col_width[i] );
 
-
     scheduler_column_width_write = NULL;
 
     for ( i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
@@ -639,7 +640,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	else
 	    scheduler_column_width_write  = utils_str_itoa ( scheduler_col_width[i] );
 
-
     /* CSV skipped lines */
     skipped_lines_string = utils_str_itoa ( etat.csv_skipped_lines[0] );
     for ( i = 1; i < CSV_MAX_TOP_LINES ; i ++ )
@@ -650,6 +650,24 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					     utils_str_itoa ( etat.csv_skipped_lines[i] ),
 					     NULL );
         g_free ( tmpstr );
+    }
+
+    /* prepare bet_array_column_width_write */
+    bet_array_column_width_write = NULL;
+
+    for ( i=0 ; i < BET_ARRAY_COLUMNS ; i++ )
+    {
+        if ( bet_array_column_width_write )
+        {
+            bet_array_column_width_write = g_strconcat ( first_string_to_free = bet_array_column_width_write,
+                                 "-",
+                                 second_string_to_free = utils_str_itoa ( bet_array_col_width[i] ),
+                                 NULL );
+            g_free ( first_string_to_free );
+            g_free ( second_string_to_free );
+        }
+        else
+            bet_array_column_width_write  = utils_str_itoa ( bet_array_col_width[i] );
     }
 
     /* if we save an archive, we save it here */
@@ -704,7 +722,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tCSV_separator=\"%s\"\n"
 					   "\t\tCSV_skipped_lines=\"%s\"\n"
 					   "\t\tMetatree_sort_transactions=\"%d\"\n"
-					   "\t\tAdd_archive_in_total_balance=\"%d\" />\n",
+					   "\t\tAdd_archive_in_total_balance=\"%d\"\n"
+                       "\t\tBet_array_column_width=\"%s\" />\n",
 	my_safe_null_str(VERSION_FICHIER),
 	my_safe_null_str(VERSION),
 	etat.crypt_file,
@@ -743,7 +762,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	my_safe_null_str(etat.csv_separator),
 	my_safe_null_str(skipped_lines_string),
     etat.metatree_sort_transactions,
-    etat.add_archive_in_total_balance );
+    etat.add_archive_in_total_balance,
+    my_safe_null_str ( bet_array_column_width_write ) );
 
     g_free (transactions_view);
     g_free (scheduler_column_width_write);

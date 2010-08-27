@@ -153,6 +153,7 @@ gchar *adresse_secondaire = NULL;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GtkTreeModel *bank_list_model;
+extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern GtkTreeStore *categ_tree_model;
 extern gint current_tree_view_width;
 extern GtkWidget *detail_devise_compte;
@@ -232,6 +233,7 @@ void init_variables ( void )
     /* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
     gint scheduler_col_width_init[SCHEDULER_COL_VISIBLE_COLUMNS] = {10, 12, 36, 12, 12, 12, 12 };
     gint transaction_col_width_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = {10, 12, 36, 6, 12, 12, 12 };
+    gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 40, 15, 15, 15 };
     gint i;
     
 /* xxx on devrait séparer ça en 2 : les variables liées au fichier de compte, qui doivent être remises  à 0,
@@ -361,7 +363,6 @@ void init_variables ( void )
      for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
     scheduler_col_width[i] = scheduler_col_width_init[i];
     
-
     navigation_tree_view = NULL;
 
     /* free the form */
@@ -398,6 +399,10 @@ void init_variables ( void )
     /* initialisation des boites de dialogue */
     bet_future_initialise_dialog ( );
     etat.bet_deb_period = 1;
+    /* defaut value for width of columns */
+    for ( i = 0 ; i < BET_ARRAY_COLUMNS ; i++ )
+        bet_array_col_width[i] = bet_array_col_width_init[i];
+
 }
 
 

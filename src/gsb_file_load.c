@@ -169,6 +169,7 @@ extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor archive_background_color;
+extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
@@ -1035,6 +1036,21 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                         "Add_archive_in_total_balance" ))
     {
         etat.add_archive_in_total_balance = utils_str_atoi( attribute_values[i]);
+    }
+
+
+    else if ( !strcmp ( attribute_names[i], "Bet_array_column_width" ))
+    {
+        gchar **pointeur_char;
+        gint j;
+
+        /* the bet_array columns are xx-xx-xx-xx-xx and we want to set in bet_array_col_width[1-2-3...] */
+        pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
+
+        for ( j = 0; j < BET_ARRAY_COLUMNS; j++ )
+            bet_array_col_width[j] = utils_str_atoi ( pointeur_char[j] );
+
+        g_strfreev ( pointeur_char );
     }
 
     i++;

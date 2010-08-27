@@ -32,6 +32,7 @@
 #include "print_config.h"
 #include "print_dialog_config.h"
 #include "print_transactions_list.h"
+#include "structures.h"
 #include "utils.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -43,6 +44,9 @@ static gboolean print_tree_view_list_begin ( GtkPrintOperation *operation,
                         GtkPrintContext *context,
                         gpointer data );
 static void print_tree_view_list_calculate_columns_width ( GtkTreeView *tree_view, gdouble page_width );
+static void print_tree_view_list_draw_background ( GtkPrintContext *context,
+                        GtkTreeView *tree_view,
+                        gint line_position );
 static gint print_tree_view_list_draw_cell ( GtkPrintContext *context,
                         gint line_position,
                         gint column_position,
@@ -78,6 +82,9 @@ static GtkWidget *print_tree_view_list_layout_config ( GtkPrintOperation *operat
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GdkColor couleur_bet_division;
+extern GdkColor couleur_bet_future;
+extern GdkColor couleur_bet_transfert;
 /*END_EXTERN*/
 
 #define MAX_COLS 32
@@ -265,7 +272,7 @@ gboolean print_tree_view_list_begin ( GtkPrintOperation *operation,
     if ( gsb_data_print_config_get_draw_columns_name () )
         line_position = print_tree_view_list_draw_columns_title ( context, line_position, tree_view );
 
-    /* draw the transactions lines */
+    /* draw the lines */
     line_position = print_tree_view_list_draw_rows_data ( context, line_position, tree_view, page );
 
     return FALSE;
@@ -294,7 +301,6 @@ static gint print_tree_view_list_draw_row ( GtkPrintContext *context,
     if ( !gtk_tree_model_get_iter ( model, &iter, tree_path_to_print ) )
         return line_position;
     
-
     list_tmp = gtk_tree_view_get_columns ( tree_view );
     while ( list_tmp )
     {
@@ -417,6 +423,7 @@ static gint print_tree_view_list_draw_rows_data ( GtkPrintContext *context,
 
     while ( lines_to_draw )
     {
+        print_tree_view_list_draw_background ( context, tree_view, line_position );
         /* begin a row : fill the line before the row */
         line_position = print_tree_view_list_draw_line ( line_position );
 
@@ -970,6 +977,56 @@ GtkWidget *print_tree_view_list_layout_config ( GtkPrintOperation *operation, gp
     gtk_widget_show_all ( vbox );
 
     return vbox;
+}
+
+
+/**
+ * draw the background of the row
+ *
+ * \param cr                cairo context
+ * \param tree_view         get_model
+ * \param line_position     position where drawing the line
+ *
+ * \return
+ * */
+static void print_tree_view_list_draw_background ( GtkPrintContext *context,
+                        GtkTreeView *tree_view,
+                        gint line_position )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gint col_origin;
+    gint origin;
+
+    if ( !gsb_data_print_config_get_draw_background () )
+        return;
+
+    model = gtk_tree_view_get_model ( tree_view );
+    if ( !gtk_tree_model_get_iter ( model, &iter, tree_path_to_print ) )
+        return;
+    
+    col_origin = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( tree_view ), "origin_data_model" ) );
+    gtk_tree_model_get ( model, &iter, col_origin, &origin, -1 );
+
+    if ( origin == SPP_ORIGIN_ACCOUNT || origin == SPP_ORIGIN_FUTURE || origin == SPP_ORIGIN_HISTORICAL )
+    {
+        gchar *str_color;
+        gint col_color;
+        GdkColor color;
+
+        col_color = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( tree_view ), "color_data_model" ) );
+        gtk_tree_model_get ( model, &iter, col_color, &str_color, -1 );
+        gdk_color_parse ( str_color, &color );
+
+        cairo_rectangle ( cr, 0, line_position, page_width, size_row + 2 * gsb_data_print_config_get_draw_lines () );
+        cairo_set_source_rgb ( cr,
+                        (gdouble) color.red/65535,
+                        (gdouble) color.green/65535,
+                        (gdouble) color.blue/65535 );
+
+        cairo_fill (cr);
+        cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+    }
 }
 
 

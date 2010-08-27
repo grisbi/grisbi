@@ -7,6 +7,8 @@
 #include "gsb_real.h"
 /* END_INCLUDE_H */
 
+/* nombre de colonnes du tableau des prévisions */
+#define BET_ARRAY_COLUMNS 5
 
 typedef struct _bet_range           SBR;
 typedef struct _historical          SH;
