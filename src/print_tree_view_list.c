@@ -995,7 +995,7 @@ static void print_tree_view_list_draw_background ( GtkPrintContext *context,
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
-    gint col_origin;
+    gint col_origin = 0;
     gint origin;
 
     if ( !gsb_data_print_config_get_draw_background () )
@@ -1006,6 +1006,9 @@ static void print_tree_view_list_draw_background ( GtkPrintContext *context,
         return;
     
     col_origin = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( tree_view ), "origin_data_model" ) );
+    if ( col_origin == 0 )
+        return;
+
     gtk_tree_model_get ( model, &iter, col_origin, &origin, -1 );
 
     if ( origin == SPP_ORIGIN_ACCOUNT || origin == SPP_ORIGIN_FUTURE || origin == SPP_ORIGIN_HISTORICAL )
