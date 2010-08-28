@@ -10,7 +10,11 @@
 
 /* mise en conformité avec les recommandations FreeDesktop. */
 #ifndef _WIN32
+#if IS_DEVELOPMENT_VERSION == 1
+#define C_GRISBIRC  (g_strconcat ( "/", PACKAGE, "dev.conf", NULL))
+#else
 #define C_GRISBIRC  (g_strconcat ( "/", PACKAGE, ".conf", NULL))
+#endif
 #define C_OLD_GRISBIRC  (g_strconcat ( "/.", PACKAGE, "rc", NULL))
 #define C_PATH_CONFIG (g_strconcat (g_get_user_config_dir ( ), G_DIR_SEPARATOR_S,\
                         "grisbi", NULL))

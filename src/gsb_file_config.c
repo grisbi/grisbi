@@ -82,7 +82,9 @@ gsize nb_derniers_fichiers_ouverts = 0;
 gint nb_max_derniers_fichiers_ouverts = 0;
 gchar **tab_noms_derniers_fichiers_ouverts = NULL;
 
+/* flag de chargement du fichier modèle */
 
+static gboolean used_model = FALSE;
 /**
  * load the config file
  * it uses the glib config utils after 0.6.0
@@ -105,6 +107,15 @@ gboolean gsb_file_config_load_config ( void )
     gsb_file_config_clean_config ();
 
     filename = g_strconcat ( my_get_XDG_grisbirc_dir(), C_GRISBIRC, NULL );
+#if IS_DEVELOPMENT_VERSION == 1
+    if ( !g_file_test (filename, G_FILE_TEST_EXISTS) )
+    {
+        g_free ( filename );
+        filename = g_strconcat ( my_get_XDG_grisbirc_dir(), "/", PACKAGE, ".conf", NULL );
+        used_model = FALSE;
+    }
+#endif
+
     config = g_key_file_new ();
     
     result = g_key_file_load_from_file ( config,
@@ -116,16 +127,16 @@ gboolean gsb_file_config_load_config ( void )
     if (!result)
     {
         /* On recherche le fichier dans HOME */
-        #ifndef _WIN32
+#ifndef _WIN32
         /* On recherche les fichiers possibles seulement sous linux */
         g_free ( filename );
         filename = gsb_config_get_old_conf_name ( );
         devel_debug (filename);
         if ( ! filename || strlen ( filename ) == 0 )
             return FALSE;
-        #else
+#else
         filename = g_strconcat ( my_get_grisbirc_dir(), C_OLD_GRISBIRC, NULL );
-        #endif
+#endif
         
         config = g_key_file_new ();
         
@@ -145,6 +156,28 @@ gboolean gsb_file_config_load_config ( void )
         else
             g_unlink ( filename );
     }
+
+#if IS_DEVELOPMENT_VERSION == 1
+    /* get config model */
+    conf.stable_config_file_model = g_key_file_get_integer ( config,
+                        "Model",
+                        "Stable_config_file_model",
+                        NULL );
+    if ( conf.stable_config_file_model )
+    {
+        used_model = TRUE;
+        filename = g_strconcat ( my_get_XDG_grisbirc_dir(), "/", PACKAGE, ".conf", NULL );
+        if ( !g_file_test (filename, G_FILE_TEST_EXISTS) )
+            return FALSE;
+
+        g_key_file_free (config);
+        config = g_key_file_new ();
+        result = g_key_file_load_from_file ( config,
+                        filename,
+                        G_KEY_FILE_KEEP_COMMENTS,
+                        NULL );
+    }
+#endif
 
     /* get the geometry */
     conf.root_x = g_key_file_get_integer ( config,
@@ -518,7 +551,15 @@ gboolean gsb_file_config_save_config ( void )
 
     filename = g_strconcat ( my_get_XDG_grisbirc_dir(), C_GRISBIRC, NULL );
     config = g_key_file_new ();
-    
+
+#if IS_DEVELOPMENT_VERSION == 1
+    /* set config model */
+    g_key_file_set_integer ( config,
+                        "Model",
+                        "Stable_config_file_model",
+                        conf.stable_config_file_model );
+#endif
+
     /* get the geometry */
     if ( GTK_WIDGET ( window) -> window ) 
         gtk_window_get_size ( GTK_WINDOW ( window ),
@@ -814,7 +855,6 @@ gboolean gsb_file_config_save_config ( void )
                         delete_msg[i].hidden );
     }
 
-
     g_key_file_set_integer ( config,
                         "Messages",
                         "Last tip",
@@ -826,7 +866,6 @@ gboolean gsb_file_config_save_config ( void )
                         etat.show_tip );
 
     /* save printer config */
-
     g_key_file_set_integer ( config,
                         "Print config",
                         "Printer",
@@ -1336,6 +1375,10 @@ void gsb_file_config_clean_config ( void )
     conf.make_backup = 1;
     conf.make_backup_every_minutes = FALSE;
     conf.make_backup_nb_minutes = 0;
+
+#if IS_DEVELOPMENT_VERSION == 1
+    conf.stable_config_file_model = 0;
+#endif
 
     nb_derniers_fichiers_ouverts = 0;
     nb_max_derniers_fichiers_ouverts = 3;

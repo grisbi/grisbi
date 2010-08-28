@@ -167,6 +167,11 @@ struct gsb_conf_t
     gint make_bakup_single_file;                    /* TRUE if a single backup file */
     gint compress_backup;                           /* TRUE if we want to compress the backup */
 
+#if IS_DEVELOPMENT_VERSION == 1
+    /* config file */
+    gint stable_config_file_model;                  /* TRUE for use the stable config file as model */
+#endif
+
     /* variables for the list of transactions */
     gint show_transaction_selected_in_form;         /* TRUE will show the selected transaction in the form */
     gint show_transaction_gives_balance;            /* TRUE si on visualise l'opération qui donne le solde du jour */
