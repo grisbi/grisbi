@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-28 17:57+0200\n"
+"POT-Creation-Date: 2010-08-29 11:15+0200\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team:  <bucuresti@free.fr>\n"
@@ -1857,7 +1857,7 @@ msgid ""
 "versions)."
 msgstr ""
 
-#: ../src/dialog.c:112 ../src/main.c:218
+#: ../src/dialog.c:112 ../src/main.c:223
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
@@ -9463,12 +9463,12 @@ msgstr "Imputaţia bugetară '%s' există deja."
 msgid "New sub-budget"
 msgstr "Nouă sub-imputaţie"
 
-#: ../src/main.c:166
+#: ../src/main.c:171
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Eroare pe sigaction, semnalul SIGSEGV nu va fi deturnat\n"
 
-#: ../src/main.c:221
+#: ../src/main.c:226
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -11002,6 +11002,10 @@ msgstr ""
 #, fuzzy
 msgid "No font defined"
 msgstr "Nici'o imputaţie"
+
+#: ../src/utils_str.c:1026
+msgid ":"
+msgstr ""
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"

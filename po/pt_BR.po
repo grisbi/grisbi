@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-28 17:57+0200\n"
+"POT-Creation-Date: 2010-08-29 11:15+0200\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
@@ -1825,7 +1825,7 @@ msgid ""
 "versions)."
 msgstr ""
 
-#: ../src/dialog.c:112 ../src/main.c:218
+#: ../src/dialog.c:112 ../src/main.c:223
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
@@ -9432,12 +9432,12 @@ msgstr "Orçamento %s já existe"
 msgid "New sub-budget"
 msgstr "Novo sub-orçamento"
 
-#: ../src/main.c:166
+#: ../src/main.c:171
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erro em sigaction: SIGSEGV não será prendido\n"
 
-#: ../src/main.c:221
+#: ../src/main.c:226
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -10970,6 +10970,10 @@ msgstr ""
 #, fuzzy
 msgid "No font defined"
 msgstr "Nenhum orçamento"
+
+#: ../src/utils_str.c:1026
+msgid ":"
+msgstr ""
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"

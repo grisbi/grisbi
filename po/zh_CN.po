@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-28 17:57+0200\n"
+"POT-Creation-Date: 2010-08-29 11:15+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -1817,7 +1817,7 @@ msgid ""
 "versions)."
 msgstr ""
 
-#: ../src/dialog.c:112 ../src/main.c:218
+#: ../src/dialog.c:112 ../src/main.c:223
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
@@ -9349,12 +9349,12 @@ msgstr "预算行 '%s' 已存在。"
 msgid "New sub-budget"
 msgstr "新子预算行"
 
-#: ../src/main.c:166
+#: ../src/main.c:171
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "信号错误：SIGSEGV不能捕捉\n"
 
-#: ../src/main.c:221
+#: ../src/main.c:226
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -10877,6 +10877,10 @@ msgstr ""
 #, fuzzy
 msgid "No font defined"
 msgstr "没有定义汇率"
+
+#: ../src/utils_str.c:1026
+msgid ":"
+msgstr ""
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"

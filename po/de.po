@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-28 17:57+0200\n"
+"POT-Creation-Date: 2010-08-29 11:15+0200\n"
 "PO-Revision-Date: 2010-05-16 14:55+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -1736,7 +1736,7 @@ msgstr ""
 "Dateiformat kann sich ändern, dadurch kann diese Datei inkompatibel zu "
 "Vorversionen von Grisbi werden)."
 
-#: ../src/dialog.c:112 ../src/main.c:218
+#: ../src/dialog.c:112 ../src/main.c:223
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Sie führen Grisbi mit GTK-Version %s aus"
@@ -9513,12 +9513,12 @@ msgstr "Der Budgeteintrag ist bereits vorhanden"
 msgid "New sub-budget"
 msgstr "Neuer Teil-Budgeteintrag"
 
-#: ../src/main.c:166
+#: ../src/main.c:171
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Fehler bei der Sigaktion. SIGSEGV wird nicht eingeschlossen\n"
 
-#: ../src/main.c:221
+#: ../src/main.c:226
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -11132,6 +11132,10 @@ msgstr ""
 #: ../src/utils_font.c:199
 msgid "No font defined"
 msgstr "Keine Schrift definiert"
+
+#: ../src/utils_str.c:1026
+msgid ":"
+msgstr ""
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"

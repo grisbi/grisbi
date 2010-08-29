@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-28 17:57+0200\n"
+"POT-Creation-Date: 2010-08-29 11:15+0200\n"
 "PO-Revision-Date: 2010-05-02 23:26+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -1730,7 +1730,7 @@ msgstr ""
 "N'utilisez en aucun cas votre fichier grisbi original car il ne sera plus "
 "compatible avec la version précédente. "
 
-#: ../src/dialog.c:112 ../src/main.c:218
+#: ../src/dialog.c:112 ../src/main.c:223
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Vous utilisez Grisbi avec GTK version %s"
@@ -9483,12 +9483,12 @@ msgstr "L'imputation existe déjà"
 msgid "New sub-budget"
 msgstr "Nouvelle sous-imputation"
 
-#: ../src/main.c:166
+#: ../src/main.c:171
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
 
-#: ../src/main.c:221
+#: ../src/main.c:226
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -11084,6 +11084,10 @@ msgstr "La conversion à échoué essayez un autre jeu de caractères"
 #: ../src/utils_font.c:199
 msgid "No font defined"
 msgstr "Aucune police définie"
+
+#: ../src/utils_str.c:1026
+msgid ":"
+msgstr " : "
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"

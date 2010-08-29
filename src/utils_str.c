@@ -1013,6 +1013,22 @@ gint utils_str_get_nbre_motifs ( const gchar *chaine, const gchar *motif )
 }
 
 
+/**
+ * adapte l'utilisation de : en fonction de la langue de l'utilisateur
+ *
+ *
+ *
+ * */
+gchar *utils_str_colon ( const gchar *s )
+{
+    gchar *tmp_str;
+
+    tmp_str = g_strconcat ( s, _(":"), NULL );
+
+    return tmp_str;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
