@@ -28,6 +28,8 @@
 #define C_PATH_DATA_FILES (g_get_home_dir ( ))
 #endif
 
+#define C_PATH_CONFIG_ACCELS (g_strconcat ( C_PATH_CONFIG, G_DIR_SEPARATOR_S,\
+                        "grisbi-accels", NULL ))
 
 /* START_DECLARATION */
 gboolean gsb_file_config_load_config ( void );

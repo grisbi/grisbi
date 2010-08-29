@@ -110,7 +110,6 @@ int main (int argc, char **argv)
     GtkWidget * statusbar;
     gboolean first_use = FALSE;
     gchar *string;
-    gchar *path;
     cmdline_options  opt;
 #if IS_DEVELOPMENT_VERSION == 1
 	struct lconv *conv;
@@ -263,9 +262,7 @@ int main (int argc, char **argv)
     menus_sensitifs ( FALSE );
 
     /* charge les raccourcis claviers */
-    path = g_strconcat ( C_PATH_CONFIG, G_DIR_SEPARATOR_S, 
-                        "grisbi-accels", NULL );
-    gtk_accel_map_load (path);
+    gtk_accel_map_load ( C_PATH_CONFIG_ACCELS );
 
     /* set the last opened files */
     affiche_derniers_fichiers_ouverts ();
@@ -323,8 +320,7 @@ int main (int argc, char **argv)
     gsb_plugins_release ( );
 
     /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save (path);
-    g_free (path);
+    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
 
 #if GSB_GMEMPROFILE
     g_mem_profile();
