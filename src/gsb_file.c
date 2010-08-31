@@ -103,7 +103,6 @@ extern GtkWidget *table_etat;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view_vbox;
 extern GtkWidget *window;
-extern GtkWidget *window_vbox_principale;
 /*END_EXTERN*/
 
 
@@ -167,6 +166,7 @@ gboolean gsb_file_new_finish ( void )
  */
 void gsb_file_new_gui ( void )
 {
+    GtkWidget *window_vbox_principale;
     GtkWidget * tree_view_widget;
 
     /* dégrise les menus nécessaire */
@@ -177,8 +177,8 @@ void gsb_file_new_gui ( void )
 
     /* Create main widget. */
     gsb_status_message ( _("Creating main window"));
-    gtk_box_pack_start ( GTK_BOX ( window_vbox_principale), create_main_widget(),
-                        TRUE, TRUE, 0 );
+    window_vbox_principale = g_object_get_data ( G_OBJECT ( window ), "window_vbox_principale" );
+    gtk_box_pack_start ( GTK_BOX ( window_vbox_principale), create_main_widget(), TRUE, TRUE, 0 );
 
     /* create the model */
     if (!transaction_list_create ())

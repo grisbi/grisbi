@@ -5,10 +5,10 @@ bin_PROGRAMS = grisbi
 
 noinst_LTLIBRARIES = libgrisbi.la
 
-grisbi_LDADD = $(GRISBI_LIBS) libgrisbi.la
+grisbi_LDADD = $(GRISBI_LIBS) $(IGE_MAC_LIBS) libgrisbi.la
 
 libgrisbi_la_LDFLAGS = -export_dynamic
-libgrisbi_la_LIBADD = $(GRISBI_LIBS)
+libgrisbi_la_LIBADD = $(GRISBI_LIBS) $(IGE_MAC_LIBS)
 libgrisbi_la_SOURCES = \
 	accueil.c		\
 	affichage.c		\
