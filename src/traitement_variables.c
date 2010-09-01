@@ -583,6 +583,7 @@ void menus_sensitifs ( gboolean sensitif )
     menu_name ( "ViewMenu",     "ShowTransactionForm",  NULL ),
     menu_name ( "ViewMenu",     "ShowGrid",             NULL ),
     menu_name ( "ViewMenu",     "ShowReconciled",       NULL ),
+    menu_name ( "ViewMenu",     "ShowArchived",         NULL ),
     menu_name ( "ViewMenu",     "ShowClosed",           NULL ),
     menu_name ( "ViewMenu",     "ShowOneLine",          NULL ),
     menu_name ( "ViewMenu",     "ShowTwoLines",         NULL ),
