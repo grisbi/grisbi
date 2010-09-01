@@ -129,7 +129,7 @@ int main ( int argc, char **argv )
 
 #ifdef _WIN32
     main_win_32 (  argc, argv );
-##elif defined  OS_OSX
+#elif defined OS_OSX
         main_mac_osx ( argc, argv );
 #else
         main_linux ( argc, argv );
@@ -213,9 +213,9 @@ void main_mac_osx ( int argc, char **argv )
  */
 
     /* initialise les données de l'application */
-    first_use = gsb_grisbi_init_app ( );
+/*     first_use = gsb_grisbi_init_app ( );  */
 
-    window = create_window ("Test Integration Grisbi");
+    window = grisbi_osx_create_window ("Test Integration Grisbi");
     {
         gboolean falseval = FALSE;
         gboolean trueval = TRUE;
