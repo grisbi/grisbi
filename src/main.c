@@ -43,7 +43,6 @@
 #include "gsb_status.h"
 #include "gsb_plugins.h"
 #include "traitement_variables.h"
-#include "erreur.h"
 #include "parse_cmdline.h"
 #include "import.h"
 #include "parse_cmdline.h"
@@ -52,6 +51,10 @@
 #include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
+
+#ifdef OS_OSX
+#include "grisbi_osx.h"
+#endif  /* OS_OSX */
 
 /* including resources so that the exe generated with MSVC has the right icon. */
 #ifdef _MSC_VER
@@ -101,6 +104,7 @@ G_MODULE_EXPORT GtkWidget *window = NULL;
 extern FILE *debug_file;
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
+
 
 /**
  * Main function
@@ -197,14 +201,16 @@ void main_linux ( int argc, char **argv )
 void main_mac_osx ( int argc, char **argv )
 {
 #ifdef OS_OSX
-    gboolean first_use = FALSE;
-    cmdline_options  opt;
-    GtkOSXApplication *theApp
+/*     gboolean first_use = FALSE;  */
+/*     cmdline_options  opt;  */
+    GtkWidget *window1, *window2;
+    GtkOSXApplication *theApp;
 
     gtk_init ( &argc, &argv );
 
     theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
 
+    grisbi_osx_print_element ( );
 /*     gsb_grisbi_trappe_signal_sigsegv ( );  */
 
     /* parse command line parameter, exit with correct error code when needed */
@@ -215,26 +221,27 @@ void main_mac_osx ( int argc, char **argv )
     /* initialise les données de l'application */
 /*     first_use = gsb_grisbi_init_app ( );  */
 
-    window = grisbi_osx_create_window ("Test Integration Grisbi");
+    window1 = grisbi_osx_create_window ("Test Integration Window 1");
+    window2 = grisbi_osx_create_window ("Test Integration Window 2");
     {
         gboolean falseval = FALSE;
         gboolean trueval = TRUE;
 
         g_signal_connect ( theApp,
                         "NSApplicationDidBecomeActive",
-                        G_CALLBACK ( app_active_cb ),
+                        G_CALLBACK ( grisbi_osx_app_active_cb ),
                         &trueval );
         g_signal_connect ( theApp,
                         "NSApplicationWillResignActive",
-                        G_CALLBACK ( app_active_cb ),
+                        G_CALLBACK ( grisbi_osx_app_active_cb ),
                         &falseval);
         g_signal_connect ( theApp,
                         "NSApplicationBlockTermination",
-                        G_CALLBACK ( app_should_quit_cb ),
+                        G_CALLBACK ( grisbi_osx_app_should_quit_cb ),
                         NULL);
         g_signal_connect ( theApp,
                         "NSApplicationWillTerminate",
-                        G_CALLBACK ( app_will_quit_cb ),
+                        G_CALLBACK ( grisbi_osx_app_will_quit_cb ),
                         NULL );
     }
 
@@ -247,9 +254,16 @@ void main_mac_osx ( int argc, char **argv )
         id = quartz_application_get_bundle_id ( );
         if ( id != NULL )
         {
-            g_print ("Error! Bundle Has ID %s\n", id); 
+            g_print ("Error! Bundle Has ID %s\n", id);
         }
     }
+
+    gtk_main ();
+
+    g_object_unref ( theApp );
+
+    return 0;
+
 #endif /* OS_OSX */
 }
 
@@ -409,17 +423,17 @@ void gsb_grisbi_create_top_window ( void )
     /* create the toplevel window */
     window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
     g_signal_connect ( G_OBJECT ( window ),
-		       "delete_event",
-		       G_CALLBACK ( main_window_delete_event ),
-		       NULL);
+                        "delete_event",
+                        G_CALLBACK ( main_window_delete_event ),
+                        NULL);
     g_signal_connect ( G_OBJECT ( window ),
-		       "destroy",
-		       G_CALLBACK ( main_window_destroy_event ),
-		       NULL);
+                        "destroy",
+                        G_CALLBACK ( main_window_destroy_event ),
+                        NULL);
     g_signal_connect ( G_OBJECT ( window ),
-		       "window-state-event",
-		       G_CALLBACK (gsb_grisbi_change_state_window),
-		       NULL );
+                        "window-state-event",
+                        G_CALLBACK (gsb_grisbi_change_state_window),
+                        NULL );
     gtk_window_set_policy ( GTK_WINDOW ( window ), TRUE, TRUE, FALSE );
 
     /* create the main window : a vbox */
