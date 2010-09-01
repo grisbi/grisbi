@@ -63,6 +63,7 @@
 void init_variables ( void );
 void initialisation_couleurs_listes ( void );
 void menus_sensitifs ( gboolean sensitif );
+void menus_view_sensitifs ( gboolean sensitif );
 void modification_fichier ( gboolean modif );
 /*END_DECLARATION*/
 
