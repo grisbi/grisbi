@@ -73,6 +73,7 @@ static gboolean print_tree_view_list_foreach_callback ( GtkTreeModel *model,
                         GtkTreePath *path,
                         GtkTreeIter *iter,
                         gpointer data );
+static gint print_tree_view_list_get_columns_data_nbre_lines ( GtkTreeView *tree_view );
 static gint print_tree_view_list_get_columns_title_nbre_lines ( GtkTreeView *tree_view );
 static gint print_tree_view_list_get_columns_title_size ( gint nbre_lines );
 static gint print_tree_view_list_get_title_size ( void );
@@ -117,6 +118,7 @@ static gint columns_width[MAX_COLS];
 static gint size_title = 0;
 static gint size_columns_title = 0;
 static gint size_row = 0;
+static gint nbre_lines_col_data;
 static gint nbre_lines_col_title;
 static cairo_t *cr = NULL;
 static gdouble page_width = 0.0;
@@ -300,52 +302,128 @@ static gint print_tree_view_list_draw_row ( GtkPrintContext *context,
     model = gtk_tree_view_get_model ( tree_view );
     if ( !gtk_tree_model_get_iter ( model, &iter, tree_path_to_print ) )
         return line_position;
-    
-    list_tmp = gtk_tree_view_get_columns ( tree_view );
-    while ( list_tmp )
+
+    if ( nbre_lines_col_data == 1 )
     {
-        GtkTreeViewColumn *col;
-        gchar *text;
-        gint column_position;
-        gint col_num_model;
-        GType col_type_model;
-
-        col = list_tmp -> data;
-        col_num_model = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( col ), "num_col_model" ) );
-        col_type_model = gtk_tree_model_get_column_type ( model, col_num_model );
-        column_position = columns_position[column];
-
-        /* get the text */
-        if ( col_type_model == G_TYPE_STRING )
-            gtk_tree_model_get ( model, &iter, col_num_model, &text, -1 );
-        else if ( col_type_model == G_TYPE_INT )
+        list_tmp = gtk_tree_view_get_columns ( tree_view );
+        while ( list_tmp )
         {
-            gint number;
+            GtkTreeViewColumn *col;
+            gchar *text;
+            gint column_position;
+            gint col_num_model;
+            GType col_type_model;
 
-            gtk_tree_model_get ( model, &iter, col_num_model, &number, -1 );
-            text = utils_str_itoa ( number );
-        }
-        else
-            text = NULL;
+            col = list_tmp -> data;
+            col_num_model = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( col ), "num_col_model" ) );
+            col_type_model = gtk_tree_model_get_column_type ( model, col_num_model );
+            column_position = columns_position[column];
 
-        if ( !text )
-        {
-            /* draw first the column */
-            column_position = print_tree_view_list_draw_column ( column_position, line_position );
+            /* get the text */
+            if ( col_type_model == G_TYPE_STRING )
+                gtk_tree_model_get ( model, &iter, col_num_model, &text, -1 );
+            else if ( col_type_model == G_TYPE_INT )
+            {
+                gint number;
 
+                gtk_tree_model_get ( model, &iter, col_num_model, &number, -1 );
+                text = utils_str_itoa ( number );
+            }
+            else
+                text = NULL;
+
+            if ( !text )
+            {
+                /* draw first the column */
+                column_position = print_tree_view_list_draw_column ( column_position, line_position );
+
+                list_tmp  = list_tmp -> next;
+                column++;
+                continue;
+            }
+
+            print_tree_view_list_draw_cell ( context, line_position, column_position, column, text );
             list_tmp  = list_tmp -> next;
             column++;
-            continue;
+            g_free ( text );
         }
-
-        print_tree_view_list_draw_cell ( context, line_position, column_position, column, text );
-        list_tmp  = list_tmp -> next;
-        column++;
-        g_free ( text );
+        /* go to the next row */
+        line_position = line_position + size_row;
     }
+    else
+    {
+        gchar **tab;
+        gchar *str_tmp;
+        gint i = 0;
 
-    /* go to the next row */
-    line_position = line_position + size_row;
+        for ( i = 0; i < nbre_lines_col_data; i ++ )
+        {
+            /* draw the last column */
+            print_tree_view_list_draw_column ( page_width, line_position );
+            list_tmp = gtk_tree_view_get_columns ( tree_view );
+
+            while ( list_tmp )
+            {
+                GtkTreeViewColumn *col;
+                gchar *text;
+                gint column_position;
+                gint col_num_model;
+                GType col_type_model;
+
+                col = ( GtkTreeViewColumn * ) list_tmp -> data;
+                col_num_model = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( col ), "num_col_model" ) );
+                col_type_model = gtk_tree_model_get_column_type ( model, col_num_model );
+                column_position = columns_position[column];
+
+                /* get the text */
+                if ( col_type_model == G_TYPE_STRING )
+                    gtk_tree_model_get ( model, &iter, col_num_model, &text, -1 );
+                else if ( col_type_model == G_TYPE_INT )
+                {
+                    gint number;
+
+                    gtk_tree_model_get ( model, &iter, col_num_model, &number, -1 );
+                    text = utils_str_itoa ( number );
+                }
+                else
+                    text = NULL;
+
+                if ( text == NULL || strlen ( text ) == 0 )
+                {
+                    print_tree_view_list_draw_column ( column_position, line_position );
+                    list_tmp  = list_tmp -> next;
+                    column++;
+                    continue;
+                }
+
+                str_tmp = gsb_string_uniform_new_line ( text, strlen ( text ) );
+                if ( str_tmp == NULL )
+                {
+                    if ( i == 0 )
+                        print_tree_view_list_draw_cell ( context, line_position, column_position, column, text );
+                    else
+                        print_tree_view_list_draw_column ( column_position, line_position );
+                    list_tmp  = list_tmp -> next;
+                    column++;
+                    continue;
+                }
+
+                tab = g_strsplit ( str_tmp, "\n", 0 );
+
+                if ( tab[i] && strlen ( tab[i] ) )
+                    print_tree_view_list_draw_cell ( context, line_position, column_position, column, tab[i] );
+                else
+                    print_tree_view_list_draw_column ( column_position, line_position );
+
+                list_tmp  = list_tmp -> next;
+                column++;
+                g_strfreev ( tab );
+                g_free ( str_tmp );
+            }
+            line_position = line_position + size_row + gsb_data_print_config_get_draw_lines ( );
+            column = 0;
+        }
+    }
 
     return line_position;
 }
@@ -423,6 +501,7 @@ static gint print_tree_view_list_draw_rows_data ( GtkPrintContext *context,
 
     while ( lines_to_draw )
     {
+        nbre_lines_col_data = print_tree_view_list_get_columns_data_nbre_lines ( tree_view );
         print_tree_view_list_draw_background ( context, tree_view, line_position );
         /* begin a row : fill the line before the row */
         line_position = print_tree_view_list_draw_line ( line_position );
@@ -1030,6 +1109,62 @@ static void print_tree_view_list_draw_background ( GtkPrintContext *context,
         cairo_fill (cr);
         cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
     }
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+static gint print_tree_view_list_get_columns_data_nbre_lines ( GtkTreeView *tree_view )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GList *list_tmp;
+    gint nbre_lines = 0;
+
+    model = gtk_tree_view_get_model ( tree_view );
+    if ( !gtk_tree_model_get_iter ( model, &iter, tree_path_to_print ) )
+        return 0;
+
+    list_tmp = gtk_tree_view_get_columns ( tree_view );
+    while ( list_tmp )
+    {
+        GtkTreeViewColumn *col;
+        const gchar *text;
+        gint nbre_motifs = 0;
+        gint col_num_model;
+        GType col_type_model;
+
+        col = ( GtkTreeViewColumn * ) list_tmp -> data;
+
+        col_num_model = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( col ), "num_col_model" ) );
+        col_type_model = gtk_tree_model_get_column_type ( model, col_num_model );
+
+        /* get the text */
+        if ( col_type_model == G_TYPE_STRING )
+            gtk_tree_model_get ( model, &iter, col_num_model, &text, -1 );
+
+        if ( text == NULL || strlen ( text ) == 0 )
+        {
+            list_tmp  = list_tmp -> next;
+            continue;
+        }
+
+        if ( g_utf8_strchr ( text, -1, '\n' ) )
+        {
+            nbre_motifs = utils_str_get_nbre_motifs ( text, "\n" );
+            if ( nbre_motifs > nbre_lines )
+                nbre_lines = nbre_motifs;
+        }
+
+        list_tmp  = list_tmp -> next;
+    }
+    nbre_lines++;
+
+    return nbre_lines;
 }
 
 

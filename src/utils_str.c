@@ -1005,6 +1005,9 @@ gint utils_str_get_nbre_motifs ( const gchar *chaine, const gchar *motif )
     gchar **tab_str;
     gint nbre_motifs = 0;
 
+    if ( chaine == NULL || motif == NULL )
+        return -1;
+
     tab_str = g_strsplit ( chaine, motif, 0 );
     nbre_motifs = g_strv_length ( tab_str ) -1;
     g_strfreev ( tab_str );
