@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-29 11:15+0200\n"
+"POT-Creation-Date: 2010-09-04 08:30+0200\n"
 "PO-Revision-Date: 2010-04-27 00:47+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -204,8 +204,8 @@ msgstr "Měna"
 
 #. initialization of titles and logo part
 #: ../src/accueil.c:2150 ../src/affichage.c:1023 ../src/affichage.c:1024
-#: ../src/gsb_assistant_file.c:564 ../src/navigation.c:1154
-#: ../src/navigation.c:1155 ../src/traitement_variables.c:307
+#: ../src/gsb_assistant_file.c:564 ../src/navigation.c:1155
+#: ../src/navigation.c:1156 ../src/traitement_variables.c:307
 msgid "My accounts"
 msgstr "Moje účty"
 
@@ -558,7 +558,7 @@ msgstr "Kreditní karta"
 #: ../src/gsb_assistant_reconcile_config.c:594
 #: ../src/gsb_payment_method_config.c:159 ../src/gsb_reconcile_config.c:96
 #: ../src/gsb_scheduler_list.c:339 ../src/imputation_budgetaire.c:164
-#: ../src/navigation.c:1175 ../src/tiers_onglet.c:231
+#: ../src/navigation.c:1177 ../src/tiers_onglet.c:231
 msgid "Account"
 msgstr "Účet"
 
@@ -586,7 +586,7 @@ msgstr "Výchozí"
 #: ../src/bet_config.c:634 ../src/bet_hist.c:156 ../src/etats_config.c:526
 #: ../src/etats_config.c:529 ../src/etats_config.c:2991
 #: ../src/etats_config.c:7057 ../src/fenetre_principale.c:282
-#: ../src/navigation.c:316 ../src/navigation.c:1244
+#: ../src/navigation.c:316 ../src/navigation.c:1246
 msgid "Categories"
 msgstr "Kategorie"
 
@@ -597,7 +597,7 @@ msgstr "Kategorie"
 #: ../src/etats_config.c:538 ../src/etats_config.c:3797
 #: ../src/etats_config.c:7134 ../src/export_csv.c:799
 #: ../src/fenetre_principale.c:287 ../src/import_csv.c:86
-#: ../src/navigation.c:332 ../src/navigation.c:1255
+#: ../src/navigation.c:332 ../src/navigation.c:1257
 #: ../src/traitement_variables.c:82
 msgid "Budgetary lines"
 msgstr "Rozpočty"
@@ -714,7 +714,7 @@ msgstr ""
 
 #. set the title
 #: ../src/bet_finance_ui.c:213 ../src/fenetre_principale.c:277
-#: ../src/navigation.c:300 ../src/navigation.c:1233
+#: ../src/navigation.c:300 ../src/navigation.c:1235
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Kreditní karta"
@@ -804,7 +804,7 @@ msgstr ""
 #. Print list
 #: ../src/bet_finance_ui.c:1000 ../src/bet_finance_ui.c:1555
 #: ../src/bet_finance_ui.c:1786 ../src/bet_finance_ui.c:1840
-#: ../src/bet_tab.c:1507 ../src/bet_tab.c:2814
+#: ../src/bet_tab.c:1509 ../src/bet_tab.c:2816
 #, fuzzy
 msgid "Print the array"
 msgstr "Tiskárna"
@@ -868,7 +868,7 @@ msgstr "Israel"
 
 #. Set up dialog
 #: ../src/bet_finance_ui.c:1552 ../src/bet_finance_ui.c:1783
-#: ../src/bet_finance_ui.c:1837 ../src/bet_tab.c:2811
+#: ../src/bet_finance_ui.c:1837 ../src/bet_tab.c:2813
 #: ../src/barre_outils.c:139 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
@@ -1194,7 +1194,7 @@ msgid "Balance"
 msgstr "Zůstatek"
 
 #: ../src/bet_tab.c:827 ../src/bet_tab.c:837 ../src/bet_tab.c:1024
-#: ../src/bet_tab.c:2425 ../src/bet_tab.c:2430
+#: ../src/bet_tab.c:2427 ../src/bet_tab.c:2432
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
@@ -1203,69 +1203,69 @@ msgstr ""
 "Převod mezi účtem: %s\n"
 "a účtem: %s"
 
-#: ../src/bet_tab.c:1346
+#: ../src/bet_tab.c:1348
 msgid "Subtract to the balance"
 msgstr "Odečíst od zůstatku"
 
-#: ../src/bet_tab.c:1353
+#: ../src/bet_tab.c:1355
 msgid "Adding to the balance"
 msgstr "Připočíst k zůstatku"
 
 #. Insert Row
-#: ../src/bet_tab.c:1370
+#: ../src/bet_tab.c:1372
 msgid "Insert Row"
 msgstr "Vložit řádek"
 
-#: ../src/bet_tab.c:1387 ../src/bet_tab.c:1399 ../src/bet_tab.c:1420
-#: ../src/bet_tab.c:1477
+#: ../src/bet_tab.c:1389 ../src/bet_tab.c:1401 ../src/bet_tab.c:1422
+#: ../src/bet_tab.c:1479
 msgid "Delete selection"
 msgstr "Odstranit výběr"
 
-#: ../src/bet_tab.c:1410
+#: ../src/bet_tab.c:1412
 msgid "Change selection"
 msgstr "Změnit výběr"
 
-#: ../src/bet_tab.c:1431
+#: ../src/bet_tab.c:1433
 msgid "Delete all occurences of the selection"
 msgstr "Odstranit všechny výskyty výběru"
 
-#: ../src/bet_tab.c:1446
+#: ../src/bet_tab.c:1448
 msgid "Convert selection to scheduled transaction"
 msgstr "Změnit výběr na plánovanou transakci"
 
-#: ../src/bet_tab.c:1467
+#: ../src/bet_tab.c:1469
 #, fuzzy
 msgid "Insert the balance of a cash account"
 msgstr "Nelze převádět na uzavřený účet."
 
 #. redo item
-#: ../src/bet_tab.c:1493
+#: ../src/bet_tab.c:1495
 msgid "Reset data"
 msgstr "Vynulovat data"
 
-#: ../src/bet_tab.c:1825
+#: ../src/bet_tab.c:1827
 msgid " (still available)"
 msgstr " (stále k dispozici)"
 
-#: ../src/bet_tab.c:1834 ../src/bet_tab.c:1855
+#: ../src/bet_tab.c:1836 ../src/bet_tab.c:1857
 msgid " (budget exceeded)"
 msgstr " (rozpočet překročen)"
 
-#: ../src/bet_tab.c:1846
+#: ../src/bet_tab.c:1848
 msgid " (yet to receive)"
 msgstr " (zbývá k příjmu)"
 
-#: ../src/bet_tab.c:2348 ../src/bet_tab.c:2398 ../src/bet_tab.c:2458
+#: ../src/bet_tab.c:2350 ../src/bet_tab.c:2400 ../src/bet_tab.c:2460
 msgid "No data by default"
 msgstr "Žádná výchozí data"
 
-#: ../src/bet_tab.c:2356 ../src/bet_tab.c:2406 ../src/bet_tab.c:2464
+#: ../src/bet_tab.c:2358 ../src/bet_tab.c:2408 ../src/bet_tab.c:2466
 #: ../src/etats_affiche.c:1860 ../src/gsb_data_category.c:157
 #: ../src/meta_categories.c:66
 msgid "No category"
 msgstr "Žádná kategorie"
 
-#: ../src/bet_tab.c:2364 ../src/bet_tab.c:2414 ../src/bet_tab.c:2470
+#: ../src/bet_tab.c:2366 ../src/bet_tab.c:2416 ../src/bet_tab.c:2472
 #: ../src/etats_affiche.c:2030 ../src/meta_budgetary.c:63
 msgid "No budgetary line"
 msgstr "Žádný rozpočet"
@@ -1736,7 +1736,7 @@ msgstr ""
 "účetních souborech. (Formát souboru se může měnit a způsobit tak "
 "nekompatibilitu s předchozími verzemi)."
 
-#: ../src/dialog.c:112 ../src/main.c:223
+#: ../src/dialog.c:112 ../src/main.c:256
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Máte spušteno Grisbi s verzí GTK %s"
@@ -2556,7 +2556,7 @@ msgid "Outgoing budget lines"
 msgstr "Výdajové rozpočty"
 
 #. set the title
-#: ../src/etats_config.c:3981 ../src/navigation.c:284 ../src/navigation.c:1222
+#: ../src/etats_config.c:3981 ../src/navigation.c:284 ../src/navigation.c:1224
 #: ../src/tiers_onglet.c:222
 msgid "Payees"
 msgstr "Plátci/příjemci"
@@ -3095,7 +3095,7 @@ msgid "Clone selected report"
 msgstr "Duplikovat zvolenou sestavu"
 
 #: ../src/etats_onglet.c:212 ../src/fenetre_principale.c:292
-#: ../src/navigation.c:348 ../src/navigation.c:1271
+#: ../src/navigation.c:348 ../src/navigation.c:1273
 msgid "Reports"
 msgstr "Sestavy"
 
@@ -4537,7 +4537,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr "Grisbi zaarchivuje transakce podle zvolené sestavy."
 
 #: ../src/gsb_assistant_archive.c:314 ../src/gsb_data_payee.c:541
-#: ../src/gsb_form.c:2868 ../src/gsb_form.c:2869 ../src/navigation.c:1269
+#: ../src/gsb_form.c:2868 ../src/gsb_form.c:2869 ../src/navigation.c:1271
 msgid "Report"
 msgstr "Sestava"
 
@@ -8379,7 +8379,7 @@ msgid "Only this one"
 msgstr "Pouze tento"
 
 #. set the title
-#: ../src/gsb_scheduler_list.c:1800 ../src/navigation.c:1198
+#: ../src/gsb_scheduler_list.c:1800 ../src/navigation.c:1200
 msgid "Scheduled transactions"
 msgstr "Plánované transakce"
 
@@ -9399,12 +9399,7 @@ msgstr "Rozpočet již existuje"
 msgid "New sub-budget"
 msgstr "Nový podrozpočet"
 
-#: ../src/main.c:171
-#, c-format
-msgid "Error on sigaction: SIGSEGV won't be trapped\n"
-msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
-
-#: ../src/main.c:226
+#: ../src/main.c:259
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -9413,6 +9408,11 @@ msgstr ""
 "Verze GTK kterou používáte neobsahuje poslední vylepšení.\n"
 "\n"
 "Měl(a) byste GTK upgradovat."
+
+#: ../src/main.c:287
+#, c-format
+msgid "Error on sigaction: SIGSEGV won't be trapped\n"
+msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
 
 #: ../src/menu.c:171
 msgid "_File"

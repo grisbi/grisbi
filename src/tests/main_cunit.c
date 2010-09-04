@@ -47,8 +47,6 @@
  * Everything should be removed as soon as core functions and GUI functions
  * are properly separated and a libgrisbi_core.a library is generated.
  */
-G_MODULE_EXPORT GtkWidget *window = NULL;
-GtkWidget *window_vbox_principale = NULL;
 extern FILE *debug_file;
 extern gchar *nom_fichier_comptes;
 gboolean gsb_grisbi_close( void )

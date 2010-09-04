@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-29 11:15+0200\n"
+"POT-Creation-Date: 2010-09-04 08:30+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -218,8 +218,8 @@ msgstr "Νόμισμα"
 
 #. initialization of titles and logo part
 #: ../src/accueil.c:2150 ../src/affichage.c:1023 ../src/affichage.c:1024
-#: ../src/gsb_assistant_file.c:564 ../src/navigation.c:1154
-#: ../src/navigation.c:1155 ../src/traitement_variables.c:307
+#: ../src/gsb_assistant_file.c:564 ../src/navigation.c:1155
+#: ../src/navigation.c:1156 ../src/traitement_variables.c:307
 msgid "My accounts"
 msgstr "Οι λογαριασμοί μου"
 
@@ -593,7 +593,7 @@ msgstr "Πιστωτική κάρτα"
 #: ../src/gsb_assistant_reconcile_config.c:594
 #: ../src/gsb_payment_method_config.c:159 ../src/gsb_reconcile_config.c:96
 #: ../src/gsb_scheduler_list.c:339 ../src/imputation_budgetaire.c:164
-#: ../src/navigation.c:1175 ../src/tiers_onglet.c:231
+#: ../src/navigation.c:1177 ../src/tiers_onglet.c:231
 msgid "Account"
 msgstr "Λογαριασμός"
 
@@ -624,7 +624,7 @@ msgstr "Πίσω στην προεπιλογή"
 #: ../src/bet_config.c:634 ../src/bet_hist.c:156 ../src/etats_config.c:526
 #: ../src/etats_config.c:529 ../src/etats_config.c:2991
 #: ../src/etats_config.c:7057 ../src/fenetre_principale.c:282
-#: ../src/navigation.c:316 ../src/navigation.c:1244
+#: ../src/navigation.c:316 ../src/navigation.c:1246
 msgid "Categories"
 msgstr "Κατηγορίες"
 
@@ -635,7 +635,7 @@ msgstr "Κατηγορίες"
 #: ../src/etats_config.c:538 ../src/etats_config.c:3797
 #: ../src/etats_config.c:7134 ../src/export_csv.c:799
 #: ../src/fenetre_principale.c:287 ../src/import_csv.c:86
-#: ../src/navigation.c:332 ../src/navigation.c:1255
+#: ../src/navigation.c:332 ../src/navigation.c:1257
 #: ../src/traitement_variables.c:82
 msgid "Budgetary lines"
 msgstr "Δημοσιονομικές γραμμές"
@@ -753,7 +753,7 @@ msgstr ""
 
 #. set the title
 #: ../src/bet_finance_ui.c:213 ../src/fenetre_principale.c:277
-#: ../src/navigation.c:300 ../src/navigation.c:1233
+#: ../src/navigation.c:300 ../src/navigation.c:1235
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Πιστωτική κάρτα"
@@ -844,7 +844,7 @@ msgstr ""
 #. Print list
 #: ../src/bet_finance_ui.c:1000 ../src/bet_finance_ui.c:1555
 #: ../src/bet_finance_ui.c:1786 ../src/bet_finance_ui.c:1840
-#: ../src/bet_tab.c:1507 ../src/bet_tab.c:2814
+#: ../src/bet_tab.c:1509 ../src/bet_tab.c:2816
 #, fuzzy
 msgid "Print the array"
 msgstr "Εκτυπωτής"
@@ -908,7 +908,7 @@ msgstr "Ισραήλ"
 
 #. Set up dialog
 #: ../src/bet_finance_ui.c:1552 ../src/bet_finance_ui.c:1783
-#: ../src/bet_finance_ui.c:1837 ../src/bet_tab.c:2811
+#: ../src/bet_finance_ui.c:1837 ../src/bet_tab.c:2813
 #: ../src/barre_outils.c:139 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
@@ -1239,84 +1239,84 @@ msgid "Balance"
 msgstr "Ισορροπία"
 
 #: ../src/bet_tab.c:827 ../src/bet_tab.c:837 ../src/bet_tab.c:1024
-#: ../src/bet_tab.c:2425 ../src/bet_tab.c:2430
+#: ../src/bet_tab.c:2427 ../src/bet_tab.c:2432
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Μεταφορά σε έναν διαγραμμένο λογαριασμό."
 
-#: ../src/bet_tab.c:1346
+#: ../src/bet_tab.c:1348
 msgid "Subtract to the balance"
 msgstr ""
 
-#: ../src/bet_tab.c:1353
+#: ../src/bet_tab.c:1355
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Αρχική ισορροπία"
 
 #. Insert Row
-#: ../src/bet_tab.c:1370
+#: ../src/bet_tab.c:1372
 msgid "Insert Row"
 msgstr ""
 
-#: ../src/bet_tab.c:1387 ../src/bet_tab.c:1399 ../src/bet_tab.c:1420
-#: ../src/bet_tab.c:1477
+#: ../src/bet_tab.c:1389 ../src/bet_tab.c:1401 ../src/bet_tab.c:1422
+#: ../src/bet_tab.c:1479
 #, fuzzy
 msgid "Delete selection"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/bet_tab.c:1410
+#: ../src/bet_tab.c:1412
 #, fuzzy
 msgid "Change selection"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/bet_tab.c:1431
+#: ../src/bet_tab.c:1433
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "Διαγράψτε την επιλεγμένη σχεδιασμένη συναλλαγή"
 
-#: ../src/bet_tab.c:1446
+#: ../src/bet_tab.c:1448
 #, fuzzy
 msgid "Convert selection to scheduled transaction"
 msgstr "Μετατρέψτε τη συναλλαγή στη σχεδιασμένη συναλλαγή"
 
-#: ../src/bet_tab.c:1467
+#: ../src/bet_tab.c:1469
 #, fuzzy
 msgid "Insert the balance of a cash account"
 msgstr "Αδύνατη η εκροή της μεταφοράς σε έναν κλειστό λογαριασμό"
 
 #. redo item
-#: ../src/bet_tab.c:1493
+#: ../src/bet_tab.c:1495
 msgid "Reset data"
 msgstr ""
 
-#: ../src/bet_tab.c:1825
+#: ../src/bet_tab.c:1827
 #, fuzzy
 msgid " (still available)"
 msgstr "Καμία περιγραφή διαθέσιμη"
 
-#: ../src/bet_tab.c:1834 ../src/bet_tab.c:1855
+#: ../src/bet_tab.c:1836 ../src/bet_tab.c:1857
 #, fuzzy
 msgid " (budget exceeded)"
 msgstr "Δεν καθορίζεται κανένας προϋπολογισμός."
 
-#: ../src/bet_tab.c:1846
+#: ../src/bet_tab.c:1848
 msgid " (yet to receive)"
 msgstr ""
 
-#: ../src/bet_tab.c:2348 ../src/bet_tab.c:2398 ../src/bet_tab.c:2458
+#: ../src/bet_tab.c:2350 ../src/bet_tab.c:2400 ../src/bet_tab.c:2460
 #, fuzzy
 msgid "No data by default"
 msgstr "Πίσω στην προεπιλογή"
 
-#: ../src/bet_tab.c:2356 ../src/bet_tab.c:2406 ../src/bet_tab.c:2464
+#: ../src/bet_tab.c:2358 ../src/bet_tab.c:2408 ../src/bet_tab.c:2466
 #: ../src/etats_affiche.c:1860 ../src/gsb_data_category.c:157
 #: ../src/meta_categories.c:66
 msgid "No category"
 msgstr "Καμία κατηγορία"
 
-#: ../src/bet_tab.c:2364 ../src/bet_tab.c:2414 ../src/bet_tab.c:2470
+#: ../src/bet_tab.c:2366 ../src/bet_tab.c:2416 ../src/bet_tab.c:2472
 #: ../src/etats_affiche.c:2030 ../src/meta_budgetary.c:63
 msgid "No budgetary line"
 msgstr "Καμία δημοσιονομική γραμμή"
@@ -1800,7 +1800,7 @@ msgstr ""
 "αρχεία λογιστικής σας. (Η μορφή αρχείου μπορεί να αλλάξει και να καταστήσει "
 "τα αρχεία ασύμβατα με τις προηγούμενες εκδόσεις)."
 
-#: ../src/dialog.c:112 ../src/main.c:223
+#: ../src/dialog.c:112 ../src/main.c:256
 #, fuzzy, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Τρέχετε  την έκδοση Grisbi %s"
@@ -2629,7 +2629,7 @@ msgid "Outgoing budget lines"
 msgstr "Κονδύλια εξόδων του προϋπολογισμού"
 
 #. set the title
-#: ../src/etats_config.c:3981 ../src/navigation.c:284 ../src/navigation.c:1222
+#: ../src/etats_config.c:3981 ../src/navigation.c:284 ../src/navigation.c:1224
 #: ../src/tiers_onglet.c:222
 msgid "Payees"
 msgstr "Δικαιούχοι πληρωμής"
@@ -3174,7 +3174,7 @@ msgid "Clone selected report"
 msgstr "Κλωνοποιήστε την επιλεγμένη αναφορά"
 
 #: ../src/etats_onglet.c:212 ../src/fenetre_principale.c:292
-#: ../src/navigation.c:348 ../src/navigation.c:1271
+#: ../src/navigation.c:348 ../src/navigation.c:1273
 msgid "Reports"
 msgstr "Αναφορές"
 
@@ -4640,7 +4640,7 @@ msgstr ""
 "Το Grisbi θα αρχειοθετήσει τις συναλλαγές που επιλέγονται από μια έκθεση."
 
 #: ../src/gsb_assistant_archive.c:314 ../src/gsb_data_payee.c:541
-#: ../src/gsb_form.c:2868 ../src/gsb_form.c:2869 ../src/navigation.c:1269
+#: ../src/gsb_form.c:2868 ../src/gsb_form.c:2869 ../src/navigation.c:1271
 msgid "Report"
 msgstr "Αναφορά"
 
@@ -8605,7 +8605,7 @@ msgid "Only this one"
 msgstr "Μόνο αυτό"
 
 #. set the title
-#: ../src/gsb_scheduler_list.c:1800 ../src/navigation.c:1198
+#: ../src/gsb_scheduler_list.c:1800 ../src/navigation.c:1200
 msgid "Scheduled transactions"
 msgstr "Προγραμματισμένες μεταφορές"
 
@@ -9657,17 +9657,17 @@ msgstr "Η δημοσιονομική γραμμή υπάρχει ήδη"
 msgid "New sub-budget"
 msgstr "Νέος υπο--προϋπολογισμός"
 
-#: ../src/main.c:171
-#, c-format
-msgid "Error on sigaction: SIGSEGV won't be trapped\n"
-msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμένο\n"
-
-#: ../src/main.c:226
+#: ../src/main.c:259
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
 "You should upgrade GTK."
 msgstr ""
+
+#: ../src/main.c:287
+#, c-format
+msgid "Error on sigaction: SIGSEGV won't be trapped\n"
+msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμένο\n"
 
 #: ../src/menu.c:171
 msgid "_File"
