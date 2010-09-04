@@ -1132,6 +1132,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     {
         gsb_gui_sensitive_menu_item ( "EditMenu", "NewTransaction", NULL, FALSE );
         gsb_gui_sensitive_menu_item ( "EditMenu", "RemoveAccount", NULL, FALSE );
+        menus_view_sensitifs ( FALSE );
     }
 
     if ( page_number != GSB_SCHEDULER_PAGE ) 
@@ -1164,6 +1165,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_ACCOUNT_PAGE:
 	    notice_debug ("Account page selected");
 
+        menus_view_sensitifs ( TRUE );
 	    gsb_gui_sensitive_menu_item ( "EditMenu", "RemoveAccount", NULL, TRUE );
 
 	    account_number = gsb_gui_navigation_get_current_account ();
