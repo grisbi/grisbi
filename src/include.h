@@ -26,6 +26,9 @@
 #include <ctype.h>
 #include <errno.h>
 #include <math.h>
+#ifdef OS_OSX
+#include <gtkosxapplication.h>
+#endif /* OS_OSX */
 
 #define G_BROKEN_FILENAMES 1
 #include <gtk/gtktextview.h>

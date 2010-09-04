@@ -1,20 +1,46 @@
-AC_INIT([grisbi],[0.7.3])
+dnl Process this file with autoconf to produce a configure script.
+
+m4_define(grisbi_major_version, 0)
+m4_define(grisbi_minor_version, 7)
+m4_define(grisbi_micro_version, 4)
+m4_define(grisbi_version, grisbi_major_version.grisbi_minor_version.grisbi_micro_version)
+
+AC_INIT([grisbi],[grisbi_version],[http://grisbi.tuxfamily.org/mantis/login_select_proj_page.php?ref=bug_report_page.php],[grisbi],[http://www.grisbi.org/index.fr.html])
+
 AC_CONFIG_SRCDIR(src/main.c)
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
-dnl Standard checks
+AC_DEFINE(GRISBI_MAJOR_VERSION, grisbi_major_version, [grisbi major version])
+AC_SUBST(GRISBI_MAJOR_VERSION, grisbi_major_version)
+AC_DEFINE(GRISBI_MINOR_VERSION, grisbi_minor_version, [grisbi minor version])
+AC_SUBST(GRISBI_MINOR_VERSION, grisbi_minor_version)
+AC_DEFINE(GRISBI_MICRO_VERSION, grisbi_micro_version, [grisbi micro version])
+AC_SUBST(GRISBI_MICRO_VERSION, grisbi_micro_version)
+
+dnl ================================================================
+dnl Standard checks.
+dnl ================================================================
+
 AC_PROG_CC
 AC_USE_SYSTEM_EXTENSIONS
 AC_HEADER_STDC
+
+dnl needed on osx
+AC_PROG_OBJC
+
 dnl Check if we have backtrace support
 AC_CHECK_FUNCS(backtrace)
 
 AM_INIT_AUTOMAKE([-Wall foreign])
 
+dnl Initialize libtool
 LT_INIT
 
-dnl Check for NLS support.                                                      
+dnl ================================================================
+dnl Check for NLS support.
+dnl ================================================================
+                                               
 AM_GLIB_GNU_GETTEXT
 IT_PROG_INTLTOOL([0.40.0])
 
@@ -22,9 +48,10 @@ GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package.])
 
-dnl
+dnl ================================================================
 dnl Main Grisbi libraries
-dnl
+dnl ================================================================
+
 #PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 gmodule-2.0 >= 2.2 zlib])
 # Temporary hack until Mandriva ships zlib.pc
 PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 gmodule-2.0 >= 2.2])
@@ -32,9 +59,10 @@ GRISBI_LIBS="$GRISBI_LIBS -lz"
 AC_SUBST(GRISBI_LIBS)
 # </hack>
 
-dnl
+dnl ================================================================
 dnl Plugin support using glib's GModule
-dnl
+dnl ================================================================
+
 AC_ARG_WITH(plugins,
 	AS_HELP_STRING([--with-plugins],[support plugins (default=auto)]),
 	[build_plugins=$withval],
@@ -63,10 +91,10 @@ fi
 AM_CONDITIONAL(HAVE_PLUGINS, [test "$build_plugins" = yes])
 AC_SUBST(plugindir,[$\(libdir\)/$\(PACKAGE\)])
 
-
-dnl
+dnl ================================================================
 dnl XML2
-dnl
+dnl ================================================================
+
 AC_ARG_WITH(libxml2,
 	AS_HELP_STRING([--with-libxml2],[libxml2 support for the GnuCash plugin (default=auto)]),
 	[build_libxml2=$withval],
@@ -86,10 +114,10 @@ if test "$build_libxml2" = no; then
 fi
 AM_CONDITIONAL(HAVE_XML2, [test "$build_libxml2" = yes])
 
-
-dnl
+dnl ================================================================
 dnl OpenSSL Check
-dnl
+dnl ================================================================
+
 AC_ARG_WITH(openssl,
 	AS_HELP_STRING([--with-openssl],[OpenSSL support for file encryption support (default=auto)]),
 	[build_openssl=$withval],
@@ -109,10 +137,10 @@ if test "$build_openssl" = no; then
 fi
 AM_CONDITIONAL(HAVE_SSL, [test "$build_openssl" = yes])
 
-
-dnl
+dnl ================================================================
 dnl Check for cunit
-dnl
+dnl ================================================================
+
 AC_CHECK_HEADER(CUnit/Basic.h,,nocunit=true)
 AC_ARG_WITH(cunit,
 	AC_HELP_STRING([--with-cunit],
@@ -137,10 +165,10 @@ AC_SUBST(CUNIT_CFLAGS)
 AC_SUBST(CUNIT_LIBS)
 AM_CONDITIONAL(HAVE_CUNIT, test x$nocunit != xtrue)
 
-
-dnl
+dnl ================================================================
 dnl Check for libofx
-dnl
+dnl ================================================================
+
 AC_ARG_WITH(ofx,
 	AS_HELP_STRING([--with-ofx],[build grisbi without ofx support (default=auto)]),
 	[build_ofx=$withval]
@@ -160,10 +188,10 @@ if test "$build_ofx" = yes; then
 fi
 AM_CONDITIONAL(HAVE_OFX, [test "$build_ofx" = yes])
 
-
-dnl
+dnl ================================================================
 dnl WError support
-dnl
+dnl ================================================================
+
 AC_ARG_ENABLE(werror,
  	[AC_HELP_STRING([--enable-werror],
  	[Treates warning as errors (default=no)])],,
@@ -177,9 +205,10 @@ if test "x$enable_werror" = xyes ; then
 	fi
 fi
 
-dnl
-dnl GMemProfile support 
-dnl
+dnl ================================================================
+dnl GMemProfile support
+dnl ================================================================
+
 AC_ARG_ENABLE(gmemprofile,
  	[AC_HELP_STRING([--enable-gmemprofile],
  	[Outputs a summary of memory usage when grisbi terminates (default=no)])],,
@@ -194,10 +223,10 @@ AC_DEFINE_UNQUOTED([GSB_GMEMPROFILE], [${GSB_GMEMPROFILE}],
 	[define to 1 if g_mem_profile support is enabled])
 AC_SUBST(GSB_GMEMPROFILE)
 
+dnl ================================================================
+dnl NoOptim support
+dnl ================================================================
 
-dnl
-dnl NoOptim support 
-dnl
 AC_ARG_ENABLE(nooptim,
  	[AC_HELP_STRING([--enable-nooptim],
  	[Outputs a summary of memory usage when grisbi terminates (default=no)])],,
@@ -210,9 +239,51 @@ AC_DEFINE_UNQUOTED([GSB_NOOPTIM], [${GSB_NOOPTIM}],
 	[define to 1 if g_no_optim support is enabled])
 AC_SUBST(GSB_NOOPTIM)
 
-dnl ******************************
+dnl ================================================================
+dnl check for osx platform
+dnl ================================================================
+
+AC_MSG_CHECKING([for Mac OS X platform])
+case "$host" in
+  *-*-darwin*)
+    platform_osx=yes
+    ;;
+  *)
+    platform_osx=no
+    ;;
+esac
+AC_MSG_RESULT([$platform_osx])
+AM_CONDITIONAL(PLATFORM_OSX, test "$platform_osx" = "yes")
+
+dnl check for native osx
+gdk_windowing=`$PKG_CONFIG --variable=target gdk-2.0`
+
+AC_MSG_CHECKING([for native Mac OS X])
+if test "$gdk_windowing" = "quartz"; then
+	os_osx=yes
+	ACTIVE_PLUGINS="${ACTIVE_PLUGINS},checkupdate"
+else
+	os_osx=no
+fi
+AC_MSG_RESULT([$os_osx])
+AM_CONDITIONAL(OS_OSX, test "$os_osx" = "yes")
+
+if test "$platform_osx" = "yes"; then
+	AC_DEFINE([PLATFORM_OSX],[1],[Defined if platform is Mac OSX])
+fi
+
+if test "$os_osx" = "yes"; then
+	AC_DEFINE([OS_OSX],[1],[Defined if os is Mac OSX])
+
+	PKG_CHECK_MODULES(IGE_MAC, ige-mac-integration)
+
+	AC_SUBST(IGE_MAC_CFLAGS)
+	AC_SUBST(IGE_MAC_LIBS)
+fi
+
+dnl ================================================================
 dnl Makefiles
-dnl ******************************
+dnl ================================================================
 
 AC_CONFIG_FILES([
 Makefile
@@ -238,6 +309,7 @@ src/plugins/gnucash/Makefile
 src/plugins/ofx/Makefile
 src/plugins/openssl/Makefile
 ])
+
 AC_OUTPUT
 
 echo "
@@ -248,3 +320,21 @@ echo "
                 Build with OFX plugin: $build_ofx
 
 "
+if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
+
+cat << EOF
+ *** IMPORTANT ***
+
+This is an unstable version of grisbi. It is for test purposes only.
+Please, DO NOT use it in a production environment. It will probably crash and you will lose your data.
+
+If you are looking for a stable release of grisbi (0.0.0), either download it from:
+http://www.grisbi.org/download.fr.html
+
+Thanks,
+The grisbi team
+
+ *** END OF WARNING ***
+EOF
+
+fi

@@ -583,6 +583,7 @@ void menus_sensitifs ( gboolean sensitif )
     menu_name ( "ViewMenu",     "ShowTransactionForm",  NULL ),
     menu_name ( "ViewMenu",     "ShowGrid",             NULL ),
     menu_name ( "ViewMenu",     "ShowReconciled",       NULL ),
+    menu_name ( "ViewMenu",     "ShowArchived",         NULL ),
     menu_name ( "ViewMenu",     "ShowClosed",           NULL ),
     menu_name ( "ViewMenu",     "ShowOneLine",          NULL ),
     menu_name ( "ViewMenu",     "ShowTwoLines",         NULL ),
@@ -606,6 +607,33 @@ void menus_sensitifs ( gboolean sensitif )
     gsb_gui_sensitive_menu_item ( "EditMenu", "NewTransaction", NULL, FALSE );
     gsb_menu_transaction_operations_set_sensitive ( FALSE );
 }
+
+void menus_view_sensitifs ( gboolean sensitif )
+{
+    gchar * items[] = {
+    menu_name ( "ViewMenu",     "ShowTransactionForm",  NULL ),
+    menu_name ( "ViewMenu",     "ShowGrid",             NULL ),
+    menu_name ( "ViewMenu",     "ShowReconciled",       NULL ),
+    menu_name ( "ViewMenu",     "ShowArchived",         NULL ),
+    menu_name ( "ViewMenu",     "ShowClosed",           NULL ),
+    menu_name ( "ViewMenu",     "ShowOneLine",          NULL ),
+    menu_name ( "ViewMenu",     "ShowTwoLines",         NULL ),
+    menu_name ( "ViewMenu",     "ShowThreeLines",       NULL ),
+    menu_name ( "ViewMenu",     "ShowFourLines",        NULL ),
+    NULL,
+    };
+    gchar ** tmp = items;
+
+    devel_debug_int (sensitif);
+
+    while ( *tmp )
+    {
+        gsb_gui_sensitive_menu_item_from_string ( *tmp, sensitif );
+        tmp++;
+    }
+}
+
+
 /*****************************************************************************************************/
 
 

@@ -5,8 +5,8 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*                      http://www.grisbi.org                                    */
-/*      Version : 0.6.0                                                          */
+/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          http://www.grisbi.org                                                */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
 /*     it under the terms of the GNU General Public License as published by      */
@@ -43,7 +43,6 @@
 #include "gsb_status.h"
 #include "gsb_plugins.h"
 #include "traitement_variables.h"
-#include "erreur.h"
 #include "parse_cmdline.h"
 #include "import.h"
 #include "parse_cmdline.h"
@@ -53,29 +52,14 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
+#ifdef OS_OSX
+#include "grisbi_osx.h"
+#endif  /* OS_OSX */
+
 /* including resources so that the exe generated with MSVC has the right icon. */
 #ifdef _MSC_VER
 #include "resource.h"
-#endif
 
-/*START_STATIC*/
-static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
-                        GdkEventWindowState *event,
-                        gpointer null );
-static gboolean main_window_delete_event (GtkWidget *window, gpointer data);
-static void main_window_destroy_event( GObject* obj, gpointer data);
-/*END_STATIC*/
-
-/* vbox ajoutée dans la fenetre de base, contient le menu et la fenetre d'utilisation */
-G_MODULE_EXPORT GtkWidget *window = NULL;
-GtkWidget *window_vbox_principale = NULL;
-
-/*START_EXTERN*/
-extern FILE *debug_file;
-extern gchar *nom_fichier_comptes;
-/*END_EXTERN*/
-
-#ifdef _MSC_VER
 int APIENTRY wWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      LPWSTR    lpCmdLine,
@@ -94,7 +78,32 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 	}
 	return main(argc, argv);
 }
-#endif
+#endif /* _MSC_VER */
+
+/*START_STATIC*/
+static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
+                        GdkEventWindowState *event,
+                        gpointer null );
+static void gsb_grisbi_create_top_window ( void );
+static gboolean main_window_delete_event (GtkWidget *window, gpointer data);
+static void main_window_destroy_event( GObject* obj, gpointer data);
+static gboolean gsb_grisbi_init_app ( void );
+static gboolean gsb_grisbi_init_development_mode ( void );
+static void gsb_grisbi_load_file_if_necessary ( cmdline_options *opt );
+static void gsb_grisbi_trappe_signal_sigsegv ( void );
+static void main_mac_osx ( int argc, char **argv );
+static void main_linux ( int argc, char **argv );
+static void main_win_32 (  int argc, char **argv );
+static void create_window ( const gchar *title );
+/*END_STATIC*/
+
+/* Fenetre principale de grisbi */
+G_MODULE_EXPORT GtkWidget *window = NULL;
+
+/*START_EXTERN*/
+extern FILE *debug_file;
+extern gchar *nom_fichier_comptes;
+/*END_EXTERN*/
 
 
 /**
@@ -105,86 +114,230 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
  *
  * @return Nothing
  */
-int main (int argc, char **argv)
+int main ( int argc, char **argv )
 {
-    GtkWidget * statusbar;
-    gboolean first_use = FALSE;
-    gchar *string;
-    cmdline_options  opt;
-#if IS_DEVELOPMENT_VERSION == 1
-	struct lconv *conv;
-#endif
-#ifndef _WIN32
-    struct sigaction sig_sev;
-#endif
-
 #if GSB_GMEMPROFILE
     g_mem_set_vtable(glib_mem_profiler_table);
 #endif
 
 #if IS_DEVELOPMENT_VERSION == 1
-    initialize_debugging();
-#endif
-
-#ifdef _WIN32
-    /* Retrieve exception information and store them under grisbi.rpt file!
-     * see http://jrfonseca.dyndns.org/projects/gnu-win32/software/drmingw/index.html for more information */
-    LoadLibrary("exchndl.dll");
-
-    /* we store the path of the running file to use it for pixmaps, help and locales .... */
-    win32_set_app_path(argv[0]);
-    /* needed to be able to use the "common" installation of GTK libraries */
-    win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
+    gsb_grisbi_init_development_mode ( );
 #endif
 
     bindtextdomain (PACKAGE, LOCALEDIR);
     bind_textdomain_codeset (PACKAGE, "UTF-8");
     textdomain (PACKAGE);
 
-	setlocale (LC_ALL, "");
+    /* Setup locale/gettext */
+    setlocale (LC_ALL, "");
 
-    gtk_init(&argc, &argv);
 #ifdef _WIN32
-	win32_parse_gtkrc("gtkrc");
+    main_win_32 (  argc, argv );
+#elif defined OS_OSX
+        main_mac_osx ( argc, argv );
+#else
+        main_linux ( argc, argv );
+#endif /* _WIN32 */
+
+    gtk_main ();
+
+    gsb_plugins_release ( );
+
+    /* sauvegarde les raccourcis claviers */
+    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
+
+#if GSB_GMEMPROFILE
+    g_mem_profile();
 #endif
 
-    /* on commence par détourner le signal SIGSEGV */
-#ifndef _WIN32
-    /* sauf sous Windows*/
-    memset ( &sig_sev, 0, sizeof ( struct sigaction ));
-    sig_sev.sa_handler = traitement_sigsegv;
-    sig_sev.sa_flags = 0;
-    sigemptyset (&(sig_sev.sa_mask));
+    exit ( 0 );
+}
 
-    if ( sigaction ( SIGSEGV, &sig_sev, NULL ))
-    g_print (_("Error on sigaction: SIGSEGV won't be trapped\n"));
-#endif
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void main_linux ( int argc, char **argv )
+{
+    gboolean first_use = FALSE;
+    cmdline_options  opt;
+    gint status = CMDLINE_SYNTAX_OK;
+
+    gtk_init ( &argc, &argv );
 
     /* parse command line parameter, exit with correct error code when needed */
+    if ( !parse_options (argc, argv, &opt, &status ) )
+        exit ( status );
+
+    /* initialise les données de l'application */
+    first_use = gsb_grisbi_init_app ( );
+
+    /* create the toplevel window */
+    gsb_grisbi_create_top_window ( );
+    gtk_widget_show ( window );
+
+#if IS_DEVELOPMENT_VERSION == 1
+    dialog_message ( "development-version", VERSION );
+#endif
+
+    gsb_grisbi_load_file_if_necessary ( &opt );
+
+    if ( first_use && !nom_fichier_comptes )
+        gsb_assistant_first_run ();
+    else
+        display_tip ( FALSE );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void main_mac_osx ( int argc, char **argv )
+{
+#ifdef OS_OSX
+/*     gboolean first_use = FALSE;  */
+/*     cmdline_options  opt;  */
+    GtkWidget *window1, *window2;
+    GtkOSXApplication *theApp;
+
+    gtk_init ( &argc, &argv );
+
+    theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
+
+    grisbi_osx_print_element ( );
+/*     gsb_grisbi_trappe_signal_sigsegv ( );  */
+
+    /* parse command line parameter, exit with correct error code when needed */
+/*     if ( !parse_options (argc, argv, &opt, &status ) )
+ *         exit ( status );
+ */
+
+    /* initialise les données de l'application */
+/*     first_use = gsb_grisbi_init_app ( );  */
+
+    window1 = grisbi_osx_create_window ("Test Integration Window 1");
+    window2 = grisbi_osx_create_window ("Test Integration Window 2");
     {
-        gint status = CMDLINE_SYNTAX_OK;/* be optimistic ;-) */
-        if (!parse_options(argc, argv, &opt,&status))
+        gboolean falseval = FALSE;
+        gboolean trueval = TRUE;
+
+        g_signal_connect ( theApp,
+                        "NSApplicationDidBecomeActive",
+                        G_CALLBACK ( grisbi_osx_app_active_cb ),
+                        &trueval );
+        g_signal_connect ( theApp,
+                        "NSApplicationWillResignActive",
+                        G_CALLBACK ( grisbi_osx_app_active_cb ),
+                        &falseval);
+        g_signal_connect ( theApp,
+                        "NSApplicationBlockTermination",
+                        G_CALLBACK ( grisbi_osx_app_should_quit_cb ),
+                        NULL);
+        g_signal_connect ( theApp,
+                        "NSApplicationWillTerminate",
+                        G_CALLBACK ( grisbi_osx_app_will_quit_cb ),
+                        NULL );
+    }
+
+    gtk_osxapplication_set_use_quartz_accelerators ( theApp, FALSE );
+
+    gtk_osxapplication_ready ( theApp );
+    {
+        const gchar *id;
+
+        id = quartz_application_get_bundle_id ( );
+        if ( id != NULL )
         {
-            exit(status);
+            g_print ("Error! Bundle Has ID %s\n", id);
         }
     }
 
-#ifdef HAVE_PLUGINS
-    gsb_plugins_scan_dir ( PLUGINS_DIR );
-#endif
+    gtk_main ();
 
-    /* create the icon of grisbi (set in the panel of gnome or other) */
-    string = g_build_filename ( PIXMAPS_DIR, "grisbi-logo.png", NULL );
-    if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
-    gtk_window_set_default_icon_from_file ( string, NULL );
-    g_free (string);
+    g_object_unref ( theApp );
 
-    /* initialisation of the variables */
-    initialisation_couleurs_listes ();
-    init_variables ();
-    register_import_formats ();
+    return 0;
+
+#endif /* OS_OSX */
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void main_win_32 (  int argc, char **argv )
+{
+#ifdef _WIN32
+    gboolean first_use = FALSE;
+    cmdline_options  opt;
+    gint status = CMDLINE_SYNTAX_OK;    /* be optimistic ;-) */
+
+    /* Retrieve exception information and store them under grisbi.rpt file!
+     * see http://jrfonseca.dyndns.org/projects/gnu-win32/software/drmingw/index.html for more information */
+    LoadLibrary("exchndl.dll");
+
+    /* we store the path of the running file to use it for pixmaps, help and locales .... */
+    win32_set_app_path(argv[0]);
+
+     /* needed to be able to use the "common" installation of GTK libraries */
+    win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
+
+    gtk_init ( &argc, &argv );
 
 #if IS_DEVELOPMENT_VERSION == 1
+    gsb_grisbi_init_development_mode ( );
+#endif
+
+	win32_parse_gtkrc ( "gtkrc" );
+
+    /* parse command line parameter, exit with correct error code when needed */
+    if ( !parse_options (argc, argv, &opt, &status ) )
+        exit ( status );
+
+    /* initialise les données de l'application */
+    first_use = gsb_grisbi_init_app ( );
+
+    /* create the toplevel window */
+    gsb_grisbi_create_top_window ( );
+    gtk_widget_show ( window );
+
+#if IS_DEVELOPMENT_VERSION == 1
+    dialog_message ( "development-version", VERSION );
+#endif
+
+    gsb_grisbi_load_file_if_necessary ( &opt );
+
+    if ( first_use && !nom_fichier_comptes )
+        gsb_assistant_first_run ();
+    else
+        display_tip ( FALSE );
+
+#endif /* WIN_32 */
+}
+
+
+
+/**
+ * gère le fait d'être en mode developpement sauf pour l'alerte
+ *
+ *
+ *
+ * */
+gboolean gsb_grisbi_init_development_mode ( void )
+{
+	struct lconv *conv;
+
+    initialize_debugging ( );
+
     /* test local pour les nombres */
 	conv = localeconv();
     
@@ -200,11 +353,43 @@ int main (int argc, char **argv)
             g_locale_to_utf8 ( conv->positive_sign, -1, NULL, NULL, NULL ),
             g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL ),
             conv->frac_digits );
+
+    return FALSE;
+}
+
+
+/**
+ * charge le fichier de configuration et initialise les variabes.
+ *
+ *
+ *
+ * */
+gboolean gsb_grisbi_init_app ( void )
+{
+    gboolean first_use = FALSE;
+    gchar *string;
+
+#ifdef HAVE_PLUGINS
+    gsb_plugins_scan_dir ( PLUGINS_DIR );
 #endif
+
+    /* create the icon of grisbi (set in the panel of gnome or other) */
+    string = g_build_filename ( PIXMAPS_DIR, "grisbi-logo.png", NULL );
+    if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
+        gtk_window_set_default_icon_from_file ( string, NULL );
+    g_free (string);
+
+    /* initialisation of the variables */
+    initialisation_couleurs_listes ();
+    init_variables ();
+    register_import_formats ();
 
     /* firt use ? */
     if ( ! gsb_file_config_load_config () )
         first_use = TRUE;
+
+    if ( IS_DEVELOPMENT_VERSION == 1 )
+        dialog_message ( "development-version", VERSION );
 
     /* test version of GTK */
     if ( gtk_check_version ( VERSION_GTK_MAJOR, VERSION_GTK_MINOR, VERSION_GTK_MICRO ) )
@@ -220,40 +405,50 @@ int main (int argc, char **argv)
         g_free ( string );
     }
 
+    return first_use;
+}
+
+
+/**
+ * crée la fenêtre principale de grisbi.
+ *
+ *
+ *
+ * */
+void gsb_grisbi_create_top_window ( void )
+{
+    GtkWidget *window_vbox_principale;
+    GtkWidget *statusbar;
+
     /* create the toplevel window */
     window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
-    g_signal_connect ( G_OBJECT (window),
-		       "delete_event",
-		       G_CALLBACK ( main_window_delete_event ),
-		       NULL);
     g_signal_connect ( G_OBJECT ( window ),
-		       "destroy",
-		       G_CALLBACK ( main_window_destroy_event ),
-		       NULL);
-    g_signal_connect ( G_OBJECT (window),
-		       "window-state-event",
-		       G_CALLBACK (gsb_grisbi_change_state_window),
-		       NULL );
-
-    gtk_window_set_policy ( GTK_WINDOW ( window ),
-			    TRUE,
-			    TRUE,
-			    FALSE );
+                        "delete_event",
+                        G_CALLBACK ( main_window_delete_event ),
+                        NULL);
+    g_signal_connect ( G_OBJECT ( window ),
+                        "destroy",
+                        G_CALLBACK ( main_window_destroy_event ),
+                        NULL);
+    g_signal_connect ( G_OBJECT ( window ),
+                        "window-state-event",
+                        G_CALLBACK (gsb_grisbi_change_state_window),
+                        NULL );
+    gtk_window_set_policy ( GTK_WINDOW ( window ), TRUE, TRUE, FALSE );
 
     /* create the main window : a vbox */
     window_vbox_principale = gtk_vbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER ( window ),
-			window_vbox_principale );
+    g_object_set_data ( G_OBJECT ( window ), "window_vbox_principale", window_vbox_principale );
+    gtk_container_add ( GTK_CONTAINER ( window ), window_vbox_principale );
+    g_signal_connect ( G_OBJECT ( window_vbox_principale ),
+                        "destroy",
+                        G_CALLBACK ( gtk_widget_destroyed ),
+                        &window_vbox_principale );
     gtk_widget_show ( window_vbox_principale );
-    g_signal_connect ( G_OBJECT(window_vbox_principale), "destroy",
-    			G_CALLBACK(gtk_widget_destroyed),
-			&window_vbox_principale);
 
     /* We create the statusbar first. */
-    statusbar = gsb_new_statusbar ();
-    gtk_box_pack_end ( GTK_BOX(window_vbox_principale),
-		       statusbar,
-		       FALSE, FALSE, 0 );
+    statusbar = gsb_new_statusbar ( );
+    gtk_box_pack_end ( GTK_BOX ( window_vbox_principale ), statusbar, FALSE, FALSE, 0 );
 
     /* create the menus */
     init_menus ( window_vbox_principale );
@@ -265,71 +460,83 @@ int main (int argc, char **argv)
     gtk_accel_map_load ( C_PATH_CONFIG_ACCELS );
 
     /* set the last opened files */
-    affiche_derniers_fichiers_ouverts ();
+    affiche_derniers_fichiers_ouverts ( );
 
     /* set the size of the window */
     if ( conf.main_width && conf.main_height )
-	gtk_window_set_default_size ( GTK_WINDOW ( window ),
-				      conf.main_width, conf.main_height );
+        gtk_window_set_default_size ( GTK_WINDOW ( window ), conf.main_width, conf.main_height );
     else
-	gtk_window_set_default_size ( GTK_WINDOW ( window ), 900, 600 );
+        gtk_window_set_default_size ( GTK_WINDOW ( window ), 900, 600 );
 
     /* display window at position */
-    gtk_window_move ( GTK_WINDOW (window), conf.root_x, conf.root_y );
-
-    gtk_widget_show ( window );
-
-    /* check the command line, if there is something to open */
-
-    if (opt.fichier)
-    {
-	nom_fichier_comptes = opt.fichier;
-
-	if (!gsb_file_open_file(nom_fichier_comptes))
-	    nom_fichier_comptes = NULL;
-    }
-    else
-    {
-	/* open the last file if needed, nom_fichier_comptes was filled while loading the configuration */
-	if ( conf.dernier_fichier_auto
-	     &&
-	     nom_fichier_comptes )
-	    if (!gsb_file_open_file(nom_fichier_comptes))
-		nom_fichier_comptes = NULL;
-    }
-
-#if IS_DEVELOPMENT_VERSION == 1
-    dialog_message ( "development-version", VERSION );
-#endif
-
-    if ( first_use && !nom_fichier_comptes )
-    {
-	gsb_assistant_first_run ();
-    }
-    else
-    {
-	display_tip ( FALSE );
-    }
+    gtk_window_move ( GTK_WINDOW ( window ), conf.root_x, conf.root_y );
 
     /* set the full screen if necessary */
     if ( conf.full_screen )
-        gtk_window_maximize (GTK_WINDOW (window));
-
-    gtk_main ();
-
-    gsb_plugins_release ( );
-
-    /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
-
-#if GSB_GMEMPROFILE
-    g_mem_profile();
-#endif
-
-    exit(0);
+        gtk_window_maximize ( GTK_WINDOW ( window ) );
 }
 
 
+/**
+ * detourne le signal SIGSEGV
+ *
+ *
+ *
+ * */
+void gsb_grisbi_trappe_signal_sigsegv ( void )
+{
+    struct sigaction sig_sev;
+
+    memset ( &sig_sev, 0, sizeof ( struct sigaction ) );
+    sig_sev.sa_handler = traitement_sigsegv;
+    sig_sev.sa_flags = 0;
+    sigemptyset ( &( sig_sev.sa_mask ) );
+
+    if ( sigaction ( SIGSEGV, &sig_sev, NULL ) )
+        g_print ( _("Error on sigaction: SIGSEGV won't be trapped\n") );
+}
+
+
+/**
+ * Load file if necessary
+ *
+ *
+ *
+ * */
+void gsb_grisbi_load_file_if_necessary ( cmdline_options  *opt )
+{
+    gchar *tmp_str = NULL;
+
+    /* check the command line, if there is something to open */
+    if ( opt -> fichier )
+    {
+        tmp_str = opt -> fichier;
+
+        if ( gsb_file_open_file ( tmp_str ) )
+        {
+            if ( nom_fichier_comptes )
+                g_free ( nom_fichier_comptes );
+            nom_fichier_comptes = tmp_str;
+        }
+        else
+        {
+            if ( nom_fichier_comptes )
+                g_free ( nom_fichier_comptes );
+            nom_fichier_comptes = NULL;
+        }
+    }
+    else
+    {
+        /* open the last file if needed, nom_fichier_comptes was filled while loading the configuration */
+        if ( conf.dernier_fichier_auto && nom_fichier_comptes )
+        {
+            if ( !gsb_file_open_file ( nom_fichier_comptes ) )
+                g_free ( nom_fichier_comptes );
+        }
+    }
+
+    return;
+}
 
 
 /**

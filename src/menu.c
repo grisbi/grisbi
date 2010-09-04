@@ -3,9 +3,9 @@
 /*                                                                            */
 /*                                  menu.c                                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2009 Benjamin Drieu (bdrieu@april.org)	      */
-/*			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2004-2009 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -84,68 +84,68 @@ gboolean block_menu_cb = FALSE;
 GtkUIManager * ui_manager;
 static gint recent_files_merge_id = -1, move_to_account_merge_id = -1;
 
-static gchar * buffer = 
+static gchar *buffer = 
 "<ui>"
 "  <menubar name='MenuBar'>"
-"    <menu action='FileMenu'>"
-"      <menuitem action='New'/>"
-"      <menuitem action='Open'/>"
-"      <menuitem action='Save'/>"
-"      <menuitem action='SaveAs'/>"
+"    <menu name='FileMenu' action='FileMenu'>"
+"      <menuitem name='New' action='New'/>"
+"      <menuitem name='Open' action='Open'/>"
+"      <menuitem name='Save' action='Save'/>"
+"      <menuitem name='SaveAs' action='SaveAs'/>"
 "      <separator/>"
-"      <menu action='RecentFiles'>"
+"      <menu name='RecentFiles' action='RecentFiles'>"
 "      </menu>"
 "      <separator/>"
-"      <menuitem action='ImportFile'/>"
-"      <menuitem action='ExportFile'/>"
+"      <menuitem name='ImportFile' action='ImportFile'/>"
+"      <menuitem name='ExportFile' action='ExportFile'/>"
 "      <separator/>"
-"      <menuitem action='CreateArchive'/>"
-"      <menuitem action='ExportArchive'/>"
+"      <menuitem name='CreateArchive' action='CreateArchive'/>"
+"      <menuitem name='ExportArchive' action='ExportArchive'/>"
 "      <separator/>"
-"      <menuitem action='DebugFile'/>"
-"      <menuitem action='Obfuscate'/>"
-"      <menuitem action='ObfuscateQif'/>"
-"      <menuitem action='DebugMode'/>"
+"      <menuitem name='DebugFile' action='DebugFile'/>"
+"      <menuitem name='Obfuscate' action='Obfuscate'/>"
+"      <menuitem name='ObfuscateQif' action='ObfuscateQif'/>"
+"      <menuitem name='DebugMode' action='DebugMode'/>"
 "      <separator/>"
-"      <menuitem action='Close'/>"
-"      <menuitem action='Quit'/>"
+"      <menuitem name='Close' action='Close'/>"
+"      <menuitem name='Quit' action='Quit'/>"
 "    </menu>"
-"    <menu action='EditMenu'>"
-"	<menuitem action='NewTransaction'/>"
-"	<menuitem action='RemoveTransaction'/>"
-"	<menuitem action='CloneTransaction'/>"
-"	<menuitem action='EditTransaction'/>"
-"	<separator/>"
-"	<menuitem action='ConvertToScheduled'/>"
-"	<menu action='MoveToAnotherAccount'>"
+"    <menu name='EditMenu' action='EditMenu'>"
+"   <menuitem name='NewTransaction' action='NewTransaction'/>"
+"   <menuitem name='RemoveTransaction' action='RemoveTransaction'/>"
+"   <menuitem name='CloneTransaction' action='CloneTransaction'/>"
+"   <menuitem name='EditTransaction' action='EditTransaction'/>"
+"   <separator/>"
+"   <menuitem name='ConvertToScheduled' action='ConvertToScheduled'/>"
+"   <menu name='MoveToAnotherAccount' action='MoveToAnotherAccount'>"
 "       </menu>"
-"	<separator/>"
-"       <menuitem action='NewAccount'/>"
-"       <menuitem action='RemoveAccount'/>"
-"	<separator/>"
-"	<menuitem action='Preferences'/>"
+"   <separator/>"
+"       <menuitem name='NewAccount' action='NewAccount'/>"
+"       <menuitem name='RemoveAccount' action='RemoveAccount'/>"
+"   <separator/>"
+"   <menuitem name='Preferences' action='Preferences'/>"
 "    </menu>"
-"    <menu action='ViewMenu'>"
-"      <menuitem action='ShowTransactionForm'/>"
-"      <menuitem action='ShowReconciled'/>"
-"      <menuitem action='ShowArchived'/>"
-"      <menuitem action='ShowClosed'/>"
+"    <menu name='ViewMenu' action='ViewMenu'>"
+"      <menuitem name='ShowTransactionForm' action='ShowTransactionForm'/>"
+"      <menuitem name='ShowReconciled' action='ShowReconciled'/>"
+"      <menuitem name='ShowArchived' action='ShowArchived'/>"
+"      <menuitem name='ShowClosed' action='ShowClosed'/>"
 "      <separator/>"
-"      <menuitem action='ShowOneLine'/>"
-"      <menuitem action='ShowTwoLines'/>"
-"      <menuitem action='ShowThreeLines'/>"
-"      <menuitem action='ShowFourLines'/>"
+"      <menuitem name='ShowOneLine' action='ShowOneLine'/>"
+"      <menuitem name='ShowTwoLines' action='ShowTwoLines'/>"
+"      <menuitem name='ShowThreeLines' action='ShowThreeLines'/>"
+"      <menuitem name='ShowFourLines' action='ShowFourLines'/>"
 "    </menu>"
-"    <menu action='HelpMenu'>"
-"      <menuitem action='Manual'/>"
-"      <menuitem action='QuickStart'/>"
-"      <menuitem action='Translation'/>"
-"      <menuitem action='About'/>"
+"    <menu name='HelpMenu' action='HelpMenu'>"
+"      <menuitem name='Manual' action='Manual'/>"
+"      <menuitem name='QuickStart' action='QuickStart'/>"
+"      <menuitem name='Translation' action='Translation'/>"
+"      <menuitem name='About' action='About'/>"
 "      <separator/>"
-"      <menuitem action='GrisbiWebsite'/>"
-"      <menuitem action='ReportBug'/>"
+"      <menuitem name='GrisbiWebsite' action='GrisbiWebsite'/>"
+"      <menuitem name='ReportBug' action='ReportBug'/>"
 "      <separator/>"
-"      <menuitem action='Tip'/>"
+"      <menuitem name='Tip' action='Tip'/>"
 "    </menu>"
 "  </menubar>"
 "</ui>";
@@ -158,7 +158,6 @@ static void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget,
     gtk_widget_show (p_widget); 
     return; 
 }
-
 
 
 GtkWidget *init_menus ( GtkWidget *vbox )
