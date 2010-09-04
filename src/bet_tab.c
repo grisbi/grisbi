@@ -1121,7 +1121,9 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
 
         if ( g_date_compare ( date, date_min ) < 0 
          ||
-         g_date_get_month ( date ) < g_date_get_month ( date_jour ) )
+         ( g_date_get_year ( date ) == g_date_get_year ( date_jour )
+         &&
+         g_date_get_month ( date ) < g_date_get_month ( date_jour ) ) )
         {
             g_date_add_months ( date, 1 );
             continue;
