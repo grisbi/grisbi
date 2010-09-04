@@ -52,9 +52,9 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-#ifdef OS_OSX
+#ifdef GTKOSXAPPLICATION
 #include "grisbi_osx.h"
-#endif  /* OS_OSX */
+#endif  /* GTKOSXAPPLICATION */
 
 /* including resources so that the exe generated with MSVC has the right icon. */
 #ifdef _MSC_VER
@@ -133,7 +133,7 @@ int main ( int argc, char **argv )
 
 #ifdef _WIN32
     main_win_32 (  argc, argv );
-#elif defined OS_OSX
+#elif defined GTKOSXAPPLICATION
         main_mac_osx ( argc, argv );
 #else
         main_linux ( argc, argv );
@@ -200,7 +200,7 @@ void main_linux ( int argc, char **argv )
  * */
 void main_mac_osx ( int argc, char **argv )
 {
-#ifdef OS_OSX
+#ifdef GTKOSXAPPLICATION
 /*     gboolean first_use = FALSE;  */
 /*     cmdline_options  opt;  */
     GtkWidget *window1, *window2;
@@ -264,7 +264,7 @@ void main_mac_osx ( int argc, char **argv )
 
     return 0;
 
-#endif /* OS_OSX */
+#endif /* GTKOSXAPPLICATION */
 }
 
 

@@ -23,7 +23,7 @@
 
 /* WARNING this is a copy of test_integration.c (from ige-mac-integration-0.9.5) */
 
-#ifdef OS_OSX
+#ifdef GTKOSXAPPLICATION
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>
@@ -536,7 +536,7 @@ void grisbi_osx_print_element ( void )
 {
     return;
 }
-#endif /* OS_OSX */
+#endif /* GTKOSXAPPLICATION */
 
 /**
  *
