@@ -23,11 +23,11 @@
 
 /* WARNING this is a copy of test_integration.c (from ige-mac-integration-0.9.5) */
 
-#ifdef GTKOSXAPPLICATION
-
 #ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif
+
+#ifdef GTKOSXAPPLICATION
 
 #include "include.h"
 
@@ -35,14 +35,6 @@
 #include "grisbi_osx.h"
 #include "menu.h"
 /*END_INCLUDE*/
-
-
-/*START_STATIC*/
-/*END_STATIC*/
-
-
-/*START_EXTERN*/
-/*END_EXTERN*/
 
 typedef struct {
     GtkWindow *window;
@@ -66,6 +58,26 @@ typedef struct
   GtkOSXApplication *app;
   GtkOSXApplicationAttentionType type;
 } AttentionRequest;
+
+
+/*START_STATIC*/
+static void action_activate_cb ( GtkAction *action, gpointer data );
+static gboolean attention_cb ( AttentionRequest* req );
+static void bounce_cb ( GtkWidget  *button, GtkOSXApplication *app );
+static void change_icon_cb ( GtkWidget  *button, GtkOSXApplication *app );
+static void change_menu_cb ( GtkWidget  *button, gpointer    user_data );
+static MenuCBData *menu_cbdata_new ( gchar *label, gpointer item );
+static void menu_cbdata_delete ( MenuCBData *datum );
+static void menu_item_activate_cb ( GtkWidget *item, MenuCBData  *datum );
+static void menu_items_destroy ( MenuItems *items );
+static MenuItems *menu_items_new ( void );
+static void radio_item_changed_cb ( GtkAction* action, GtkAction* current, MenuCBData *datum );
+static void view_menu_cb (GtkWidget *button, gpointer user_data);
+/*END_STATIC*/
+
+
+/*START_EXTERN*/
+/*END_EXTERN*/
 
 static GQuark menu_items_quark = 0;
 
@@ -264,9 +276,7 @@ static void change_icon_cb ( GtkWidget  *button, GtkOSXApplication *app )
 
     if ( !pixbuf )
     {
-        char filename [PATH_MAX];
-        snprintf (filename, sizeof ( filename ), "%s/%s", PREFIX, "share/gtk-2.0/demo/gnome-foot.png");
-        pixbuf = gdk_pixbuf_new_from_file ( filename, NULL );
+        pixbuf = gtk_image_get_pixbuf ( gtk_image_new_from_stock ( GTK_STOCK_HELP , GTK_ICON_SIZE_MENU ) );
     }
 
     if ( changed )
@@ -532,12 +542,7 @@ GtkWidget *grisbi_osx_create_window ( gchar *title )
 }
 
 
-void grisbi_osx_print_element ( void )
-{
-    return;
-}
 #endif /* GTKOSXAPPLICATION */
-
 /**
  *
  *

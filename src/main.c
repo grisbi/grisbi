@@ -33,26 +33,25 @@
 
 /*START_INCLUDE*/
 #include "main.h"
-#include "menu.h"
 #include "dialog.h"
-#include "tip.h"
-#include "utils.h"
 #include "gsb_assistant_first.h"
 #include "gsb_file.h"
 #include "gsb_file_config.h"
-#include "gsb_status.h"
 #include "gsb_plugins.h"
-#include "traitement_variables.h"
-#include "parse_cmdline.h"
+#include "gsb_status.h"
 #include "import.h"
+#include "menu.h"
 #include "parse_cmdline.h"
-#include "gsb_file_config.h"
 #include "structures.h"
-#include "include.h"
+#include "tip.h"
+#include "traitement_variables.h"
+#include "utils.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
 #ifdef GTKOSXAPPLICATION
+#include <gtkosxapplication.h>
+
 #include "grisbi_osx.h"
 #endif  /* GTKOSXAPPLICATION */
 
@@ -210,7 +209,6 @@ void main_mac_osx ( int argc, char **argv )
 
     theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
 
-    grisbi_osx_print_element ( );
 /*     gsb_grisbi_trappe_signal_sigsegv ( );  */
 
     /* parse command line parameter, exit with correct error code when needed */
@@ -262,7 +260,7 @@ void main_mac_osx ( int argc, char **argv )
 
     g_object_unref ( theApp );
 
-    return 0;
+    return;
 
 #endif /* GTKOSXAPPLICATION */
 }

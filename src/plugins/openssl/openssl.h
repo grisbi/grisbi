@@ -9,7 +9,7 @@
 
 
 /* START_INCLUDE_H */
-#include "./../.././include.h"
+#include "./include.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

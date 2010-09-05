@@ -24,13 +24,10 @@
 
 /*START_INCLUDE*/
 #include "ofx.h"
-#include "./../../dialog.h"
-#include "./../../import.h"
-#include "./../../gsb_real.h"
-#include "./../../utils_str.h"
-#include "./../../include.h"
-#include "./../../erreur.h"
-#include "./../../import.h"
+#include "./dialog.h"
+#include "./gsb_real.h"
+#include "./utils_str.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
