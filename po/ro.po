@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-29 11:15+0200\n"
+"POT-Creation-Date: 2010-09-05 21:28+0200\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team:  <bucuresti@free.fr>\n"
@@ -243,8 +243,8 @@ msgstr "Deviză"
 
 #. initialization of titles and logo part
 #: ../src/accueil.c:2150 ../src/affichage.c:1023 ../src/affichage.c:1024
-#: ../src/gsb_assistant_file.c:564 ../src/navigation.c:1154
-#: ../src/navigation.c:1155 ../src/traitement_variables.c:307
+#: ../src/gsb_assistant_file.c:564 ../src/navigation.c:1155
+#: ../src/navigation.c:1156 ../src/traitement_variables.c:307
 #, fuzzy
 msgid "My accounts"
 msgstr "Afişarea conturilor"
@@ -638,7 +638,7 @@ msgstr "Cartă de credit"
 #: ../src/gsb_assistant_reconcile_config.c:594
 #: ../src/gsb_payment_method_config.c:159 ../src/gsb_reconcile_config.c:96
 #: ../src/gsb_scheduler_list.c:339 ../src/imputation_budgetaire.c:164
-#: ../src/navigation.c:1175 ../src/tiers_onglet.c:231
+#: ../src/navigation.c:1177 ../src/tiers_onglet.c:231
 msgid "Account"
 msgstr "Cont"
 
@@ -669,7 +669,7 @@ msgstr "Restabilirea reglajelor de origine"
 #: ../src/bet_config.c:634 ../src/bet_hist.c:156 ../src/etats_config.c:526
 #: ../src/etats_config.c:529 ../src/etats_config.c:2991
 #: ../src/etats_config.c:7057 ../src/fenetre_principale.c:282
-#: ../src/navigation.c:316 ../src/navigation.c:1244
+#: ../src/navigation.c:316 ../src/navigation.c:1246
 msgid "Categories"
 msgstr "Categorii"
 
@@ -680,7 +680,7 @@ msgstr "Categorii"
 #: ../src/etats_config.c:538 ../src/etats_config.c:3797
 #: ../src/etats_config.c:7134 ../src/export_csv.c:799
 #: ../src/fenetre_principale.c:287 ../src/import_csv.c:86
-#: ../src/navigation.c:332 ../src/navigation.c:1255
+#: ../src/navigation.c:332 ../src/navigation.c:1257
 #: ../src/traitement_variables.c:82
 msgid "Budgetary lines"
 msgstr "Imputaţii bugetare"
@@ -799,7 +799,7 @@ msgstr ""
 
 #. set the title
 #: ../src/bet_finance_ui.c:213 ../src/fenetre_principale.c:277
-#: ../src/navigation.c:300 ../src/navigation.c:1233
+#: ../src/navigation.c:300 ../src/navigation.c:1235
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Cartă de credit"
@@ -891,7 +891,7 @@ msgstr ""
 #. Print list
 #: ../src/bet_finance_ui.c:1000 ../src/bet_finance_ui.c:1555
 #: ../src/bet_finance_ui.c:1786 ../src/bet_finance_ui.c:1840
-#: ../src/bet_tab.c:1507 ../src/bet_tab.c:2814
+#: ../src/bet_tab.c:1509 ../src/bet_tab.c:2816
 #, fuzzy
 msgid "Print the array"
 msgstr "Imprimantă"
@@ -955,7 +955,7 @@ msgstr "Asigurare : Automobile"
 
 #. Set up dialog
 #: ../src/bet_finance_ui.c:1552 ../src/bet_finance_ui.c:1783
-#: ../src/bet_finance_ui.c:1837 ../src/bet_tab.c:2811
+#: ../src/bet_finance_ui.c:1837 ../src/bet_tab.c:2813
 #: ../src/barre_outils.c:139 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
@@ -1148,7 +1148,7 @@ msgstr "Observaţii"
 #: ../src/export_csv.c:725 ../src/gsb_data_category.c:1056
 #: ../src/gsb_data_payment.c:633 ../src/gsb_data_payment.c:714
 #: ../src/gsb_data_payment.c:753 ../src/gsb_form.c:2254 ../src/import.c:2686
-#: ../src/import.c:2704 ../src/plugins/ofx/ofx.c:464
+#: ../src/import.c:2704 ../src/plugins/ofx/ofx.c:461
 msgid "Transfer"
 msgstr "Virament"
 
@@ -1291,84 +1291,84 @@ msgid "Balance"
 msgstr "Sold"
 
 #: ../src/bet_tab.c:827 ../src/bet_tab.c:837 ../src/bet_tab.c:1024
-#: ../src/bet_tab.c:2425 ../src/bet_tab.c:2430
+#: ../src/bet_tab.c:2427 ../src/bet_tab.c:2432
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Virament spre un cont suprimat"
 
-#: ../src/bet_tab.c:1346
+#: ../src/bet_tab.c:1348
 msgid "Subtract to the balance"
 msgstr ""
 
-#: ../src/bet_tab.c:1353
+#: ../src/bet_tab.c:1355
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Sold iniţial"
 
 #. Insert Row
-#: ../src/bet_tab.c:1370
+#: ../src/bet_tab.c:1372
 msgid "Insert Row"
 msgstr ""
 
-#: ../src/bet_tab.c:1387 ../src/bet_tab.c:1399 ../src/bet_tab.c:1420
-#: ../src/bet_tab.c:1477
+#: ../src/bet_tab.c:1389 ../src/bet_tab.c:1401 ../src/bet_tab.c:1422
+#: ../src/bet_tab.c:1479
 #, fuzzy
 msgid "Delete selection"
 msgstr "Selecţia datelor"
 
-#: ../src/bet_tab.c:1410
+#: ../src/bet_tab.c:1412
 #, fuzzy
 msgid "Change selection"
 msgstr "Selecţia datelor"
 
-#: ../src/bet_tab.c:1431
+#: ../src/bet_tab.c:1433
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "Şterge o operaţie planificată"
 
-#: ../src/bet_tab.c:1446
+#: ../src/bet_tab.c:1448
 #, fuzzy
 msgid "Convert selection to scheduled transaction"
 msgstr "Convertirea operaţiunii în operaţiune planificată"
 
-#: ../src/bet_tab.c:1467
+#: ../src/bet_tab.c:1469
 #, fuzzy
 msgid "Insert the balance of a cash account"
 msgstr "Imposibil de a efectua un virament pe un cont închis"
 
 #. redo item
-#: ../src/bet_tab.c:1493
+#: ../src/bet_tab.c:1495
 #, fuzzy
 msgid "Reset data"
 msgstr "Ultima dată"
 
-#: ../src/bet_tab.c:1825
+#: ../src/bet_tab.c:1827
 msgid " (still available)"
 msgstr ""
 
-#: ../src/bet_tab.c:1834 ../src/bet_tab.c:1855
+#: ../src/bet_tab.c:1836 ../src/bet_tab.c:1857
 #, fuzzy
 msgid " (budget exceeded)"
 msgstr "Nici'o imputaţie"
 
-#: ../src/bet_tab.c:1846
+#: ../src/bet_tab.c:1848
 msgid " (yet to receive)"
 msgstr ""
 
-#: ../src/bet_tab.c:2348 ../src/bet_tab.c:2398 ../src/bet_tab.c:2458
+#: ../src/bet_tab.c:2350 ../src/bet_tab.c:2400 ../src/bet_tab.c:2460
 #, fuzzy
 msgid "No data by default"
 msgstr "Restabilirea reglajelor de origine"
 
-#: ../src/bet_tab.c:2356 ../src/bet_tab.c:2406 ../src/bet_tab.c:2464
+#: ../src/bet_tab.c:2358 ../src/bet_tab.c:2408 ../src/bet_tab.c:2466
 #: ../src/etats_affiche.c:1860 ../src/gsb_data_category.c:157
 #: ../src/meta_categories.c:66
 msgid "No category"
 msgstr "Nici o categorie"
 
-#: ../src/bet_tab.c:2364 ../src/bet_tab.c:2414 ../src/bet_tab.c:2470
+#: ../src/bet_tab.c:2366 ../src/bet_tab.c:2416 ../src/bet_tab.c:2472
 #: ../src/etats_affiche.c:2030 ../src/meta_budgetary.c:63
 msgid "No budgetary line"
 msgstr "Nici o imputaţie bugetara"
@@ -1849,17 +1849,24 @@ msgstr ""
 msgid "You are running Grisbi version %s"
 msgstr ""
 
-#: ../src/dialog.c:107 ../src/dialog.c:113
+#: ../src/dialog.c:107
+msgid ""
+"Warning, please be aware that the version you run is a DEVELOPMENT version. "
+"Never use your original file grisbi: you could make it unusable.\n"
+"Make a copy now."
+msgstr ""
+
+#: ../src/dialog.c:112 ../src/main.c:395
+#, c-format
+msgid "You are running Grisbi with GTK version %s"
+msgstr ""
+
+#: ../src/dialog.c:113
 msgid ""
 "Warning, please be aware that the version you run is a DEVELOPMENT version. "
 "In any case do not work with this version on your original accounting files. "
 "(File format may change and render files incompatible with previous "
 "versions)."
-msgstr ""
-
-#: ../src/dialog.c:112 ../src/main.c:223
-#, c-format
-msgid "You are running Grisbi with GTK version %s"
 msgstr ""
 
 #: ../src/dialog.c:329 ../src/dialog.c:528 ../src/gsb_scheduler_list.c:1733
@@ -2688,7 +2695,7 @@ msgid "Outgoing budget lines"
 msgstr "I.B. de cheltueli"
 
 #. set the title
-#: ../src/etats_config.c:3981 ../src/navigation.c:284 ../src/navigation.c:1222
+#: ../src/etats_config.c:3981 ../src/navigation.c:284 ../src/navigation.c:1224
 #: ../src/tiers_onglet.c:222
 #, fuzzy
 msgid "Payees"
@@ -3271,7 +3278,7 @@ msgid "Clone selected report"
 msgstr "Clonaţi starea"
 
 #: ../src/etats_onglet.c:212 ../src/fenetre_principale.c:292
-#: ../src/navigation.c:348 ../src/navigation.c:1271
+#: ../src/navigation.c:348 ../src/navigation.c:1273
 msgid "Reports"
 msgstr "Stări"
 
@@ -4682,7 +4689,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
 #: ../src/gsb_assistant_archive.c:314 ../src/gsb_data_payee.c:541
-#: ../src/gsb_form.c:2868 ../src/gsb_form.c:2869 ../src/navigation.c:1269
+#: ../src/gsb_form.c:2868 ../src/gsb_form.c:2869 ../src/navigation.c:1271
 msgid "Report"
 msgstr "Stare"
 
@@ -7084,7 +7091,7 @@ msgstr ""
 
 #. Deposit = Dépôt
 #: ../src/gsb_data_payment.c:719 ../src/import.c:2668
-#: ../src/plugins/ofx/ofx.c:452
+#: ../src/plugins/ofx/ofx.c:449
 msgid "Deposit"
 msgstr "Depozit"
 
@@ -7791,13 +7798,13 @@ msgstr "Manual"
 msgid "Cheque/Transfer number"
 msgstr "Nr cec/Virament"
 
-#: ../src/gsb_form.c:2215 ../src/plugins/ofx/ofx.c:476
+#: ../src/gsb_form.c:2215 ../src/plugins/ofx/ofx.c:473
 msgid "Direct deposit"
 msgstr "Depunere directă"
 
 #. Check = Chèque
 #: ../src/gsb_form.c:2224 ../src/import.c:2479 ../src/import.c:2526
-#: ../src/import.c:2649 ../src/plugins/ofx/ofx.c:432
+#: ../src/import.c:2649 ../src/plugins/ofx/ofx.c:429
 msgid "Check"
 msgstr "Cec"
 
@@ -8442,7 +8449,7 @@ msgid "Only this one"
 msgstr "Numai aceasta"
 
 #. set the title
-#: ../src/gsb_scheduler_list.c:1800 ../src/navigation.c:1198
+#: ../src/gsb_scheduler_list.c:1800 ../src/navigation.c:1200
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "Închidera inventarului automatic"
@@ -9463,237 +9470,237 @@ msgstr "Imputaţia bugetară '%s' există deja."
 msgid "New sub-budget"
 msgstr "Nouă sub-imputaţie"
 
-#: ../src/main.c:171
-#, c-format
-msgid "Error on sigaction: SIGSEGV won't be trapped\n"
-msgstr "Eroare pe sigaction, semnalul SIGSEGV nu va fi deturnat\n"
-
-#: ../src/main.c:226
+#: ../src/main.c:398
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
 "You should upgrade GTK."
 msgstr ""
 
-#: ../src/menu.c:171
+#: ../src/main.c:494
+#, c-format
+msgid "Error on sigaction: SIGSEGV won't be trapped\n"
+msgstr "Eroare pe sigaction, semnalul SIGSEGV nu va fi deturnat\n"
+
+#: ../src/menu.c:170
 #, fuzzy
 msgid "_File"
 msgstr "Fişier"
 
-#: ../src/menu.c:174
+#: ../src/menu.c:173
 #, fuzzy
 msgid "_New account file..."
 msgstr "Nou fişier de cont"
 
-#: ../src/menu.c:177
+#: ../src/menu.c:176
 #, fuzzy
 msgid "_Open..."
 msgstr "Deschide"
 
-#: ../src/menu.c:180
+#: ../src/menu.c:179
 #, fuzzy
 msgid "_Recently opened files"
 msgstr "Ultimile fişiere"
 
-#: ../src/menu.c:183
+#: ../src/menu.c:182
 #, fuzzy
 msgid "_Save"
 msgstr "Înregistraţi"
 
-#: ../src/menu.c:186
+#: ../src/menu.c:185
 #, fuzzy
 msgid "_Save as..."
 msgstr "Înregistraţi sub"
 
-#: ../src/menu.c:189
+#: ../src/menu.c:188
 #, fuzzy
 msgid "_Import file..."
 msgstr "Exporta fişiere"
 
-#: ../src/menu.c:192
+#: ../src/menu.c:191
 #, fuzzy
 msgid "_Export accounts as QIF/CSV file..."
 msgstr "Conturi spre un fişier QIF ..."
 
-#: ../src/menu.c:195
+#: ../src/menu.c:194
 #, fuzzy
 msgid "Archive transactions..."
 msgstr "Agăugaţi operaţiunile"
 
-#: ../src/menu.c:198
+#: ../src/menu.c:197
 msgid "_Export an archive as GSB/QIF/CSV file..."
 msgstr ""
 
-#: ../src/menu.c:201
+#: ../src/menu.c:200
 #, fuzzy
 msgid "_Debug account file..."
 msgstr "Nou fişier de cont"
 
-#: ../src/menu.c:204
+#: ../src/menu.c:203
 #, fuzzy
 msgid "_Obfuscate account file..."
 msgstr "Nou fişier de cont"
 
-#: ../src/menu.c:207
+#: ../src/menu.c:206
 #, fuzzy
 msgid "_Obfuscate QIF file..."
 msgstr "Nou fişier de cont"
 
-#: ../src/menu.c:210
+#: ../src/menu.c:209
 #, fuzzy
 msgid "_Close"
 msgstr "Închide"
 
-#: ../src/menu.c:213
+#: ../src/menu.c:212
 msgid "_Quit"
 msgstr ""
 
-#: ../src/menu.c:216
+#: ../src/menu.c:215
 #, fuzzy
 msgid "_Edit"
 msgstr "Editare"
 
-#: ../src/menu.c:219
+#: ../src/menu.c:218
 #, fuzzy
 msgid "_New transaction"
 msgstr "O nouă operaţiune"
 
-#: ../src/menu.c:222
+#: ../src/menu.c:221
 #, fuzzy
 msgid "_Remove transaction"
 msgstr "Suprimarea unei operaţiuni"
 
-#: ../src/menu.c:225
+#: ../src/menu.c:224
 #, fuzzy
 msgid "_Clone transaction"
 msgstr "Clonaţi operaţiunea"
 
-#: ../src/menu.c:228
+#: ../src/menu.c:227
 #, fuzzy
 msgid "_Edit transaction"
 msgstr "Edtarea operaţiunii"
 
-#: ../src/menu.c:231
+#: ../src/menu.c:230
 #, fuzzy
 msgid "Convert to _scheduled transaction"
 msgstr "Intrarea une operaţii planificate"
 
-#: ../src/menu.c:234
+#: ../src/menu.c:233
 #, fuzzy
 msgid "_Move transaction to another account"
 msgstr "Deplasaţi operaţiunea spre un alt cont"
 
-#: ../src/menu.c:237
+#: ../src/menu.c:236
 #, fuzzy
 msgid "_Preferences"
 msgstr "Preferinţe"
 
 #. View menu
-#: ../src/menu.c:241
+#: ../src/menu.c:240
 msgid "_View"
 msgstr ""
 
-#: ../src/menu.c:244
+#: ../src/menu.c:243
 #, fuzzy
 msgid "_New account"
 msgstr "Cont nou"
 
-#: ../src/menu.c:247
+#: ../src/menu.c:246
 #, fuzzy
 msgid "_Remove current account"
 msgstr "Suprimarea unui cont"
 
 #. Help Menu
-#: ../src/menu.c:251
+#: ../src/menu.c:250
 #, fuzzy
 msgid "_Help"
 msgstr "Ajutor"
 
-#: ../src/menu.c:254
+#: ../src/menu.c:253
 #, fuzzy
 msgid "_Manual"
 msgstr "Manual"
 
-#: ../src/menu.c:257
+#: ../src/menu.c:256
 #, fuzzy
 msgid "_Quick start"
 msgstr "Demaraj rapid"
 
-#: ../src/menu.c:260
+#: ../src/menu.c:259
 #, fuzzy
 msgid "_Translation"
 msgstr "Traducere"
 
-#: ../src/menu.c:263
+#: ../src/menu.c:262
 #, fuzzy
 msgid "_About Grisbi..."
 msgstr "Despre Grisbi"
 
-#: ../src/menu.c:266
+#: ../src/menu.c:265
 #, fuzzy
 msgid "_Grisbi website"
 msgstr "Situl web Grisbi"
 
-#: ../src/menu.c:269
+#: ../src/menu.c:268
 #, fuzzy
 msgid "_Report a bug"
 msgstr "Semnalarea unui bog"
 
-#: ../src/menu.c:272
+#: ../src/menu.c:271
 msgid "_Tip of the day"
 msgstr ""
 
-#: ../src/menu.c:277
+#: ../src/menu.c:276
 #, fuzzy
 msgid "Show _one line per transaction"
 msgstr "O linie pe tranzacţie"
 
-#: ../src/menu.c:280
+#: ../src/menu.c:279
 #, fuzzy
 msgid "Show _two lines per transaction"
 msgstr "Două linii pe tranzacţie"
 
-#: ../src/menu.c:283
+#: ../src/menu.c:282
 #, fuzzy
 msgid "Show _three lines per transaction"
 msgstr "Trei linii pe tranzacţie"
 
-#: ../src/menu.c:286
+#: ../src/menu.c:285
 #, fuzzy
 msgid "Show _four lines per transaction"
 msgstr "Patru linii pe tranzacţie"
 
-#: ../src/menu.c:290
+#: ../src/menu.c:289
 #, fuzzy
 msgid "Debug mode"
 msgstr "Debogaţi fişierul"
 
-#: ../src/menu.c:294
+#: ../src/menu.c:293
 #, fuzzy
 msgid "Show transaction _form"
 msgstr "Formular de tranzacţie"
 
-#: ../src/menu.c:297
+#: ../src/menu.c:296
 #, fuzzy
 msgid "Show _reconciled"
 msgstr "Apropiaţi"
 
-#: ../src/menu.c:301
+#: ../src/menu.c:300
 #, fuzzy
 msgid "Show _lines archives"
 msgstr "Devize cunoscute"
 
-#: ../src/menu.c:305
+#: ../src/menu.c:304
 #, fuzzy
 msgid "Show _closed accounts"
 msgstr "Conturi închise"
 
-#: ../src/menu.c:414 ../src/menu.c:446 ../src/menu.c:466
+#: ../src/menu.c:413 ../src/menu.c:445 ../src/menu.c:465
 #, fuzzy
 msgid "en"
 msgstr "Manual"
 
-#: ../src/menu.c:793
+#: ../src/menu.c:792
 #, fuzzy
 msgid "Unnamed account"
 msgstr "Cont importat"
@@ -10106,26 +10113,26 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ../src/plugins/gnucash/gnucash.c:171
+#: ../src/plugins/gnucash/gnucash.c:168
 #, fuzzy
 msgid "Gnucash"
 msgstr "În lichid"
 
-#: ../src/plugins/gnucash/gnucash.c:172
+#: ../src/plugins/gnucash/gnucash.c:169
 msgid "Invalid Gnucash account, please check gnucash file is not compressed."
 msgstr ""
 
-#: ../src/plugins/gnucash/gnucash.c:612
+#: ../src/plugins/gnucash/gnucash.c:609
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
 msgstr "Ori fişierul \"%s\" nu există, ori nu este un fişier normal."
 
-#: ../src/plugins/gnucash/gnucash.c:614
+#: ../src/plugins/gnucash/gnucash.c:611
 #, c-format
 msgid "Error opening file '%s'."
 msgstr "Eroare la deschiderea fişierului '%s'."
 
-#: ../src/plugins/gnucash/gnucash.c:622
+#: ../src/plugins/gnucash/gnucash.c:619
 msgid ""
 "Grisbi needs to open a temporary file in order to import Gnucash data but "
 "file can't be created.  Check that you have permission to do that."
@@ -10134,89 +10141,89 @@ msgstr ""
 "Gnucash, dar acest fişier nu poate fi creat.Verificaţi că aveţi permisiunea "
 "de a face."
 
-#: ../src/plugins/gnucash/gnucash.c:623
+#: ../src/plugins/gnucash/gnucash.c:620
 #, c-format
 msgid "Error opening temporary file '%s'."
 msgstr "Eroare la deschiderea fişierului temporar '%s'"
 
-#: ../src/plugins/ofx/ofx.c:152
+#: ../src/plugins/ofx/ofx.c:149
 #, fuzzy
 msgid "Invalid OFX file"
 msgstr "Starea fişierului nu este bună"
 
-#: ../src/plugins/ofx/ofx.c:213
+#: ../src/plugins/ofx/ofx.c:210
 #, fuzzy
 msgid "OFX processing returned following message:\n"
 msgstr "Această operaţie a întors un mesaj"
 
-#: ../src/plugins/ofx/ofx.c:219
+#: ../src/plugins/ofx/ofx.c:216
 #, fuzzy
 msgid "OFX processing ended in a warning message which is not valid."
 msgstr "Fişierul a întors un mesaj de avertisment nu valid."
 
-#: ../src/plugins/ofx/ofx.c:225
+#: ../src/plugins/ofx/ofx.c:222
 #, fuzzy
 msgid "OFX processing returned following error message:\n"
 msgstr "Această operaţie a întors un mesaj"
 
-#: ../src/plugins/ofx/ofx.c:231
+#: ../src/plugins/ofx/ofx.c:228
 #, fuzzy
 msgid "OFX processing returned an error message which is not valid."
 msgstr "Fişierul a întors un mesaj de avertisment nu valid."
 
-#: ../src/plugins/ofx/ofx.c:370
+#: ../src/plugins/ofx/ofx.c:367
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr ""
 "Tentativă de înregistrare a unei operaţiuni fără cont creată înainte..\n"
 
-#: ../src/plugins/ofx/ofx.c:436
+#: ../src/plugins/ofx/ofx.c:433
 msgid "Interest"
 msgstr "Interes"
 
-#: ../src/plugins/ofx/ofx.c:440
+#: ../src/plugins/ofx/ofx.c:437
 msgid "Dividend"
 msgstr "Devident"
 
-#: ../src/plugins/ofx/ofx.c:444
+#: ../src/plugins/ofx/ofx.c:441
 msgid "Service charge"
 msgstr "Cheltueli de serviciu"
 
-#: ../src/plugins/ofx/ofx.c:448
+#: ../src/plugins/ofx/ofx.c:445
 msgid "Fee"
 msgstr "Proaspăt"
 
-#: ../src/plugins/ofx/ofx.c:456
+#: ../src/plugins/ofx/ofx.c:453
 msgid "Cash dispenser"
 msgstr "Distributor de bani"
 
-#: ../src/plugins/ofx/ofx.c:460
+#: ../src/plugins/ofx/ofx.c:457
 msgid "Point of sale"
 msgstr "Punct de vânzare"
 
-#: ../src/plugins/ofx/ofx.c:468
+#: ../src/plugins/ofx/ofx.c:465
 msgid "Electronic payment"
 msgstr "Plătire electronică"
 
-#: ../src/plugins/ofx/ofx.c:472
+#: ../src/plugins/ofx/ofx.c:469
 msgid "Cash"
 msgstr "În lichid"
 
-#: ../src/plugins/ofx/ofx.c:480
+#: ../src/plugins/ofx/ofx.c:477
 msgid "Merchant initiated debit"
 msgstr "Prelevare"
 
-#: ../src/plugins/ofx/ofx.c:484
+#: ../src/plugins/ofx/ofx.c:481
 msgid "Repeating payment/standing order"
 msgstr "Plată repetată"
 
-#: ../src/plugins/openssl/openssl.c:181
+#: ../src/plugins/openssl/openssl.c:180
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
 msgstr ""
 
 #. FIXME: import symbols to be sure we can call this kind of stuff.
-#: ../src/plugins/openssl/openssl.c:192
+#: ../src/plugins/openssl/openssl.c:191
 #, fuzzy
 msgid ""
 "This build of Grisbi does not support encryption.\n"
@@ -10225,53 +10232,53 @@ msgstr ""
 "Această construcţie de Grisbi nu suportă formatul OFX. Vă rugăm recompilaţi "
 "Grisbi activând gestiunea formatului OFX"
 
-#: ../src/plugins/openssl/openssl.c:194
+#: ../src/plugins/openssl/openssl.c:193
 #, fuzzy, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Imposibil de a deschide fişierul '%s': %s"
 
-#: ../src/plugins/openssl/openssl.c:219
+#: ../src/plugins/openssl/openssl.c:218
 #, fuzzy
 msgid "Grisbi password"
 msgstr "Logoul lui Grisbi"
 
-#: ../src/plugins/openssl/openssl.c:223
+#: ../src/plugins/openssl/openssl.c:222
 #, fuzzy
 msgid "Crypt file"
 msgstr "Fişier Postscript"
 
-#: ../src/plugins/openssl/openssl.c:223
+#: ../src/plugins/openssl/openssl.c:222
 #, fuzzy
 msgid "Decrypt file"
 msgstr "Fişier Postscript"
 
-#: ../src/plugins/openssl/openssl.c:251
+#: ../src/plugins/openssl/openssl.c:250
 #, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
 "<span foreground=\"blue\">%s</span>"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:257
+#: ../src/plugins/openssl/openssl.c:256
 #, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
 "<span foreground=\"blue\">%s</span>"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:265
+#: ../src/plugins/openssl/openssl.c:264
 msgid "Password"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:273
+#: ../src/plugins/openssl/openssl.c:272
 msgid "Don't ask password again for this session."
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:294
+#: ../src/plugins/openssl/openssl.c:293
 msgid "The password must contain at least 7 characters"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:295
+#: ../src/plugins/openssl/openssl.c:294
 msgid "Password too short"
 msgstr ""
 

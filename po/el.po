@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-29 11:15+0200\n"
+"POT-Creation-Date: 2010-09-05 21:28+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -218,8 +218,8 @@ msgstr "Νόμισμα"
 
 #. initialization of titles and logo part
 #: ../src/accueil.c:2150 ../src/affichage.c:1023 ../src/affichage.c:1024
-#: ../src/gsb_assistant_file.c:564 ../src/navigation.c:1154
-#: ../src/navigation.c:1155 ../src/traitement_variables.c:307
+#: ../src/gsb_assistant_file.c:564 ../src/navigation.c:1155
+#: ../src/navigation.c:1156 ../src/traitement_variables.c:307
 msgid "My accounts"
 msgstr "Οι λογαριασμοί μου"
 
@@ -593,7 +593,7 @@ msgstr "Πιστωτική κάρτα"
 #: ../src/gsb_assistant_reconcile_config.c:594
 #: ../src/gsb_payment_method_config.c:159 ../src/gsb_reconcile_config.c:96
 #: ../src/gsb_scheduler_list.c:339 ../src/imputation_budgetaire.c:164
-#: ../src/navigation.c:1175 ../src/tiers_onglet.c:231
+#: ../src/navigation.c:1177 ../src/tiers_onglet.c:231
 msgid "Account"
 msgstr "Λογαριασμός"
 
@@ -624,7 +624,7 @@ msgstr "Πίσω στην προεπιλογή"
 #: ../src/bet_config.c:634 ../src/bet_hist.c:156 ../src/etats_config.c:526
 #: ../src/etats_config.c:529 ../src/etats_config.c:2991
 #: ../src/etats_config.c:7057 ../src/fenetre_principale.c:282
-#: ../src/navigation.c:316 ../src/navigation.c:1244
+#: ../src/navigation.c:316 ../src/navigation.c:1246
 msgid "Categories"
 msgstr "Κατηγορίες"
 
@@ -635,7 +635,7 @@ msgstr "Κατηγορίες"
 #: ../src/etats_config.c:538 ../src/etats_config.c:3797
 #: ../src/etats_config.c:7134 ../src/export_csv.c:799
 #: ../src/fenetre_principale.c:287 ../src/import_csv.c:86
-#: ../src/navigation.c:332 ../src/navigation.c:1255
+#: ../src/navigation.c:332 ../src/navigation.c:1257
 #: ../src/traitement_variables.c:82
 msgid "Budgetary lines"
 msgstr "Δημοσιονομικές γραμμές"
@@ -753,7 +753,7 @@ msgstr ""
 
 #. set the title
 #: ../src/bet_finance_ui.c:213 ../src/fenetre_principale.c:277
-#: ../src/navigation.c:300 ../src/navigation.c:1233
+#: ../src/navigation.c:300 ../src/navigation.c:1235
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Πιστωτική κάρτα"
@@ -844,7 +844,7 @@ msgstr ""
 #. Print list
 #: ../src/bet_finance_ui.c:1000 ../src/bet_finance_ui.c:1555
 #: ../src/bet_finance_ui.c:1786 ../src/bet_finance_ui.c:1840
-#: ../src/bet_tab.c:1507 ../src/bet_tab.c:2814
+#: ../src/bet_tab.c:1509 ../src/bet_tab.c:2816
 #, fuzzy
 msgid "Print the array"
 msgstr "Εκτυπωτής"
@@ -908,7 +908,7 @@ msgstr "Ισραήλ"
 
 #. Set up dialog
 #: ../src/bet_finance_ui.c:1552 ../src/bet_finance_ui.c:1783
-#: ../src/bet_finance_ui.c:1837 ../src/bet_tab.c:2811
+#: ../src/bet_finance_ui.c:1837 ../src/bet_tab.c:2813
 #: ../src/barre_outils.c:139 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
@@ -1097,7 +1097,7 @@ msgstr "Σημειώσεις"
 #: ../src/export_csv.c:725 ../src/gsb_data_category.c:1056
 #: ../src/gsb_data_payment.c:633 ../src/gsb_data_payment.c:714
 #: ../src/gsb_data_payment.c:753 ../src/gsb_form.c:2254 ../src/import.c:2686
-#: ../src/import.c:2704 ../src/plugins/ofx/ofx.c:464
+#: ../src/import.c:2704 ../src/plugins/ofx/ofx.c:461
 msgid "Transfer"
 msgstr "Μεταφορά"
 
@@ -1239,84 +1239,84 @@ msgid "Balance"
 msgstr "Ισορροπία"
 
 #: ../src/bet_tab.c:827 ../src/bet_tab.c:837 ../src/bet_tab.c:1024
-#: ../src/bet_tab.c:2425 ../src/bet_tab.c:2430
+#: ../src/bet_tab.c:2427 ../src/bet_tab.c:2432
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Μεταφορά σε έναν διαγραμμένο λογαριασμό."
 
-#: ../src/bet_tab.c:1346
+#: ../src/bet_tab.c:1348
 msgid "Subtract to the balance"
 msgstr ""
 
-#: ../src/bet_tab.c:1353
+#: ../src/bet_tab.c:1355
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Αρχική ισορροπία"
 
 #. Insert Row
-#: ../src/bet_tab.c:1370
+#: ../src/bet_tab.c:1372
 msgid "Insert Row"
 msgstr ""
 
-#: ../src/bet_tab.c:1387 ../src/bet_tab.c:1399 ../src/bet_tab.c:1420
-#: ../src/bet_tab.c:1477
+#: ../src/bet_tab.c:1389 ../src/bet_tab.c:1401 ../src/bet_tab.c:1422
+#: ../src/bet_tab.c:1479
 #, fuzzy
 msgid "Delete selection"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/bet_tab.c:1410
+#: ../src/bet_tab.c:1412
 #, fuzzy
 msgid "Change selection"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/bet_tab.c:1431
+#: ../src/bet_tab.c:1433
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "Διαγράψτε την επιλεγμένη σχεδιασμένη συναλλαγή"
 
-#: ../src/bet_tab.c:1446
+#: ../src/bet_tab.c:1448
 #, fuzzy
 msgid "Convert selection to scheduled transaction"
 msgstr "Μετατρέψτε τη συναλλαγή στη σχεδιασμένη συναλλαγή"
 
-#: ../src/bet_tab.c:1467
+#: ../src/bet_tab.c:1469
 #, fuzzy
 msgid "Insert the balance of a cash account"
 msgstr "Αδύνατη η εκροή της μεταφοράς σε έναν κλειστό λογαριασμό"
 
 #. redo item
-#: ../src/bet_tab.c:1493
+#: ../src/bet_tab.c:1495
 msgid "Reset data"
 msgstr ""
 
-#: ../src/bet_tab.c:1825
+#: ../src/bet_tab.c:1827
 #, fuzzy
 msgid " (still available)"
 msgstr "Καμία περιγραφή διαθέσιμη"
 
-#: ../src/bet_tab.c:1834 ../src/bet_tab.c:1855
+#: ../src/bet_tab.c:1836 ../src/bet_tab.c:1857
 #, fuzzy
 msgid " (budget exceeded)"
 msgstr "Δεν καθορίζεται κανένας προϋπολογισμός."
 
-#: ../src/bet_tab.c:1846
+#: ../src/bet_tab.c:1848
 msgid " (yet to receive)"
 msgstr ""
 
-#: ../src/bet_tab.c:2348 ../src/bet_tab.c:2398 ../src/bet_tab.c:2458
+#: ../src/bet_tab.c:2350 ../src/bet_tab.c:2400 ../src/bet_tab.c:2460
 #, fuzzy
 msgid "No data by default"
 msgstr "Πίσω στην προεπιλογή"
 
-#: ../src/bet_tab.c:2356 ../src/bet_tab.c:2406 ../src/bet_tab.c:2464
+#: ../src/bet_tab.c:2358 ../src/bet_tab.c:2408 ../src/bet_tab.c:2466
 #: ../src/etats_affiche.c:1860 ../src/gsb_data_category.c:157
 #: ../src/meta_categories.c:66
 msgid "No category"
 msgstr "Καμία κατηγορία"
 
-#: ../src/bet_tab.c:2364 ../src/bet_tab.c:2414 ../src/bet_tab.c:2470
+#: ../src/bet_tab.c:2366 ../src/bet_tab.c:2416 ../src/bet_tab.c:2472
 #: ../src/etats_affiche.c:2030 ../src/meta_budgetary.c:63
 msgid "No budgetary line"
 msgstr "Καμία δημοσιονομική γραμμή"
@@ -1788,7 +1788,24 @@ msgstr ""
 msgid "You are running Grisbi version %s"
 msgstr "Τρέχετε  την έκδοση Grisbi %s"
 
-#: ../src/dialog.c:107 ../src/dialog.c:113
+#: ../src/dialog.c:107
+#, fuzzy
+msgid ""
+"Warning, please be aware that the version you run is a DEVELOPMENT version. "
+"Never use your original file grisbi: you could make it unusable.\n"
+"Make a copy now."
+msgstr ""
+"Προειδοποίηση, σας ενημερώνουμε ότι η έκδοση που τρέχετε είναι μια έκδοση "
+"ΑΝΑΠΤΥΞΗΣ. Εν πάση περιπτώσει μην εργαστείτε με αυτήν την έκδοση στα αρχικά "
+"αρχεία λογιστικής σας. (Η μορφή αρχείου μπορεί να αλλάξει και να καταστήσει "
+"τα αρχεία ασύμβατα με τις προηγούμενες εκδόσεις)."
+
+#: ../src/dialog.c:112 ../src/main.c:395
+#, fuzzy, c-format
+msgid "You are running Grisbi with GTK version %s"
+msgstr "Τρέχετε  την έκδοση Grisbi %s"
+
+#: ../src/dialog.c:113
 msgid ""
 "Warning, please be aware that the version you run is a DEVELOPMENT version. "
 "In any case do not work with this version on your original accounting files. "
@@ -1799,11 +1816,6 @@ msgstr ""
 "ΑΝΑΠΤΥΞΗΣ. Εν πάση περιπτώσει μην εργαστείτε με αυτήν την έκδοση στα αρχικά "
 "αρχεία λογιστικής σας. (Η μορφή αρχείου μπορεί να αλλάξει και να καταστήσει "
 "τα αρχεία ασύμβατα με τις προηγούμενες εκδόσεις)."
-
-#: ../src/dialog.c:112 ../src/main.c:223
-#, fuzzy, c-format
-msgid "You are running Grisbi with GTK version %s"
-msgstr "Τρέχετε  την έκδοση Grisbi %s"
 
 #: ../src/dialog.c:329 ../src/dialog.c:528 ../src/gsb_scheduler_list.c:1733
 msgid "Do not show this message again"
@@ -2629,7 +2641,7 @@ msgid "Outgoing budget lines"
 msgstr "Κονδύλια εξόδων του προϋπολογισμού"
 
 #. set the title
-#: ../src/etats_config.c:3981 ../src/navigation.c:284 ../src/navigation.c:1222
+#: ../src/etats_config.c:3981 ../src/navigation.c:284 ../src/navigation.c:1224
 #: ../src/tiers_onglet.c:222
 msgid "Payees"
 msgstr "Δικαιούχοι πληρωμής"
@@ -3174,7 +3186,7 @@ msgid "Clone selected report"
 msgstr "Κλωνοποιήστε την επιλεγμένη αναφορά"
 
 #: ../src/etats_onglet.c:212 ../src/fenetre_principale.c:292
-#: ../src/navigation.c:348 ../src/navigation.c:1271
+#: ../src/navigation.c:348 ../src/navigation.c:1273
 msgid "Reports"
 msgstr "Αναφορές"
 
@@ -4640,7 +4652,7 @@ msgstr ""
 "Το Grisbi θα αρχειοθετήσει τις συναλλαγές που επιλέγονται από μια έκθεση."
 
 #: ../src/gsb_assistant_archive.c:314 ../src/gsb_data_payee.c:541
-#: ../src/gsb_form.c:2868 ../src/gsb_form.c:2869 ../src/navigation.c:1269
+#: ../src/gsb_form.c:2868 ../src/gsb_form.c:2869 ../src/navigation.c:1271
 msgid "Report"
 msgstr "Αναφορά"
 
@@ -7165,7 +7177,7 @@ msgstr "Η συναλλαγή %d έχει έναν δικαιούχο πληρω
 
 #. Deposit = Dépôt
 #: ../src/gsb_data_payment.c:719 ../src/import.c:2668
-#: ../src/plugins/ofx/ofx.c:452
+#: ../src/plugins/ofx/ofx.c:449
 msgid "Deposit"
 msgstr "Κατάθεση"
 
@@ -7941,13 +7953,13 @@ msgstr "Εγχειρίδιο"
 msgid "Cheque/Transfer number"
 msgstr "Επιταγή/αριθμός μεταφοράς"
 
-#: ../src/gsb_form.c:2215 ../src/plugins/ofx/ofx.c:476
+#: ../src/gsb_form.c:2215 ../src/plugins/ofx/ofx.c:473
 msgid "Direct deposit"
 msgstr "Άμεση κατάθεση"
 
 #. Check = Chèque
 #: ../src/gsb_form.c:2224 ../src/import.c:2479 ../src/import.c:2526
-#: ../src/import.c:2649 ../src/plugins/ofx/ofx.c:432
+#: ../src/import.c:2649 ../src/plugins/ofx/ofx.c:429
 msgid "Check"
 msgstr "Έλεγχος"
 
@@ -8605,7 +8617,7 @@ msgid "Only this one"
 msgstr "Μόνο αυτό"
 
 #. set the title
-#: ../src/gsb_scheduler_list.c:1800 ../src/navigation.c:1198
+#: ../src/gsb_scheduler_list.c:1800 ../src/navigation.c:1200
 msgid "Scheduled transactions"
 msgstr "Προγραμματισμένες μεταφορές"
 
@@ -9657,199 +9669,199 @@ msgstr "Η δημοσιονομική γραμμή υπάρχει ήδη"
 msgid "New sub-budget"
 msgstr "Νέος υπο--προϋπολογισμός"
 
-#: ../src/main.c:171
-#, c-format
-msgid "Error on sigaction: SIGSEGV won't be trapped\n"
-msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμένο\n"
-
-#: ../src/main.c:226
+#: ../src/main.c:398
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
 "You should upgrade GTK."
 msgstr ""
 
-#: ../src/menu.c:171
+#: ../src/main.c:494
+#, c-format
+msgid "Error on sigaction: SIGSEGV won't be trapped\n"
+msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμένο\n"
+
+#: ../src/menu.c:170
 msgid "_File"
 msgstr "_Αρχείο"
 
-#: ../src/menu.c:174
+#: ../src/menu.c:173
 msgid "_New account file..."
 msgstr "_Αρχείο νέου λογαριασμού"
 
-#: ../src/menu.c:177
+#: ../src/menu.c:176
 msgid "_Open..."
 msgstr "_Άνοιγμα"
 
-#: ../src/menu.c:180
+#: ../src/menu.c:179
 msgid "_Recently opened files"
 msgstr "_Πρόσφατα ανοιγμένα αρχεία"
 
-#: ../src/menu.c:183
+#: ../src/menu.c:182
 msgid "_Save"
 msgstr "_Αποθήκευση"
 
-#: ../src/menu.c:186
+#: ../src/menu.c:185
 msgid "_Save as..."
 msgstr "_Αποθήκευση ως..."
 
-#: ../src/menu.c:189
+#: ../src/menu.c:188
 msgid "_Import file..."
 msgstr "_Εισαγωγή αρχείου..."
 
-#: ../src/menu.c:192
+#: ../src/menu.c:191
 msgid "_Export accounts as QIF/CSV file..."
 msgstr "_Εξαγωγή λογαριασμών ως αρχείο QIF/CSV..."
 
-#: ../src/menu.c:195
+#: ../src/menu.c:194
 msgid "Archive transactions..."
 msgstr "Συναλλαγές αρχείων…"
 
-#: ../src/menu.c:198
+#: ../src/menu.c:197
 msgid "_Export an archive as GSB/QIF/CSV file..."
 msgstr "_Εξαγωγή αρχείου ως GSB/QIF/CSV..."
 
-#: ../src/menu.c:201
+#: ../src/menu.c:200
 msgid "_Debug account file..."
 msgstr "_Διορθώστε το αρχείο λογαριασμού..."
 
-#: ../src/menu.c:204
+#: ../src/menu.c:203
 msgid "_Obfuscate account file..."
 msgstr "_Αλλάξτε την πορεία του αρχείου λογαριασμού…"
 
-#: ../src/menu.c:207
+#: ../src/menu.c:206
 msgid "_Obfuscate QIF file..."
 msgstr "_Αλλάξτε το αρχείο QIF..."
 
-#: ../src/menu.c:210
+#: ../src/menu.c:209
 msgid "_Close"
 msgstr "_Κλείστε"
 
-#: ../src/menu.c:213
+#: ../src/menu.c:212
 msgid "_Quit"
 msgstr "_Εγκαταλείψτε"
 
-#: ../src/menu.c:216
+#: ../src/menu.c:215
 msgid "_Edit"
 msgstr "_Επεξεργασία"
 
-#: ../src/menu.c:219
+#: ../src/menu.c:218
 msgid "_New transaction"
 msgstr "_Νέα μεταφορά"
 
-#: ../src/menu.c:222
+#: ../src/menu.c:221
 msgid "_Remove transaction"
 msgstr "_Μετακίνηση μεταφοράς"
 
-#: ../src/menu.c:225
+#: ../src/menu.c:224
 msgid "_Clone transaction"
 msgstr "_Συναλλαγή κλώνων"
 
-#: ../src/menu.c:228
+#: ../src/menu.c:227
 msgid "_Edit transaction"
 msgstr "_Επεξεργαστείτε τη συναλλαγή"
 
-#: ../src/menu.c:231
+#: ../src/menu.c:230
 msgid "Convert to _scheduled transaction"
 msgstr "Μετατρέψτε σε _προγραμματισμένη συνναλαγή"
 
-#: ../src/menu.c:234
+#: ../src/menu.c:233
 msgid "_Move transaction to another account"
 msgstr "_Μετακινήστε την συναλλαγή σε άλλον λογαριασμό"
 
-#: ../src/menu.c:237
+#: ../src/menu.c:236
 msgid "_Preferences"
 msgstr "_Προτιμήσεις"
 
 #. View menu
-#: ../src/menu.c:241
+#: ../src/menu.c:240
 msgid "_View"
 msgstr "_Προβολή"
 
-#: ../src/menu.c:244
+#: ../src/menu.c:243
 msgid "_New account"
 msgstr "_Νέος λογαριασμός"
 
-#: ../src/menu.c:247
+#: ../src/menu.c:246
 msgid "_Remove current account"
 msgstr "_Απομακρύνετε το τρέχον λογαριασμό"
 
 #. Help Menu
-#: ../src/menu.c:251
+#: ../src/menu.c:250
 msgid "_Help"
 msgstr "_Βοήθεια"
 
-#: ../src/menu.c:254
+#: ../src/menu.c:253
 msgid "_Manual"
 msgstr "_Εγχειρίδιο"
 
-#: ../src/menu.c:257
+#: ../src/menu.c:256
 msgid "_Quick start"
 msgstr "_Γρήγορη εκκίνηση"
 
-#: ../src/menu.c:260
+#: ../src/menu.c:259
 msgid "_Translation"
 msgstr "_Μετάφραση"
 
-#: ../src/menu.c:263
+#: ../src/menu.c:262
 msgid "_About Grisbi..."
 msgstr "_Σχετικά με το Grisbi"
 
-#: ../src/menu.c:266
+#: ../src/menu.c:265
 msgid "_Grisbi website"
 msgstr "_Ιστοσελίδα του Grisbi"
 
-#: ../src/menu.c:269
+#: ../src/menu.c:268
 msgid "_Report a bug"
 msgstr "_Αναφορά σφαλμάτων"
 
-#: ../src/menu.c:272
+#: ../src/menu.c:271
 msgid "_Tip of the day"
 msgstr "_Συμβουλή της ημέρας"
 
-#: ../src/menu.c:277
+#: ../src/menu.c:276
 msgid "Show _one line per transaction"
 msgstr "Παρουσιάστε _μια γραμμή  ανά συναλλαγή"
 
-#: ../src/menu.c:280
+#: ../src/menu.c:279
 msgid "Show _two lines per transaction"
 msgstr "Παρουσιάστε _δύο γραμμές  ανά συναλλαγή"
 
-#: ../src/menu.c:283
+#: ../src/menu.c:282
 msgid "Show _three lines per transaction"
 msgstr "Παρουσιάστε _τρεις γραμμές  ανά συναλλαγή"
 
-#: ../src/menu.c:286
+#: ../src/menu.c:285
 msgid "Show _four lines per transaction"
 msgstr "Παρουσιάστε _τέσσερις  γραμμές  ανά συναλλαγή"
 
-#: ../src/menu.c:290
+#: ../src/menu.c:289
 #, fuzzy
 msgid "Debug mode"
 msgstr "Εκκινήστε την διαδικασία διόρθωσης"
 
-#: ../src/menu.c:294
+#: ../src/menu.c:293
 msgid "Show transaction _form"
 msgstr "Παρουσιάστε _μορφή συναλλαγής"
 
-#: ../src/menu.c:297
+#: ../src/menu.c:296
 msgid "Show _reconciled"
 msgstr "Παρουσιάστε _συμφωνίες"
 
-#: ../src/menu.c:301
+#: ../src/menu.c:300
 #, fuzzy
 msgid "Show _lines archives"
 msgstr "Γνωστά αρχεία"
 
-#: ../src/menu.c:305
+#: ../src/menu.c:304
 msgid "Show _closed accounts"
 msgstr "Παρουσιάστε _κλειστούς λογαριασμούς"
 
-#: ../src/menu.c:414 ../src/menu.c:446 ../src/menu.c:466
+#: ../src/menu.c:413 ../src/menu.c:445 ../src/menu.c:465
 msgid "en"
 msgstr "en"
 
-#: ../src/menu.c:793
+#: ../src/menu.c:792
 msgid "Unnamed account"
 msgstr "Απροσδιόριστος λογαριασμός"
 
@@ -10274,27 +10286,27 @@ msgstr ""
 "Λάθος σύνταξης!\n"
 "\n"
 
-#: ../src/plugins/gnucash/gnucash.c:171
+#: ../src/plugins/gnucash/gnucash.c:168
 msgid "Gnucash"
 msgstr "Gnucash"
 
-#: ../src/plugins/gnucash/gnucash.c:172
+#: ../src/plugins/gnucash/gnucash.c:169
 msgid "Invalid Gnucash account, please check gnucash file is not compressed."
 msgstr ""
 "Άκυρος Gnucash λογαριασμός, παρακαλώ έλεγξτε ότι το αρχείο gnucash  δεν "
 "συμπιέζεται."
 
-#: ../src/plugins/gnucash/gnucash.c:612
+#: ../src/plugins/gnucash/gnucash.c:609
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
 msgstr "Είτε το αρχείο \"%s\" δεν υπάρχει ή δεν είναι ένα κανονικό αρχείο"
 
-#: ../src/plugins/gnucash/gnucash.c:614
+#: ../src/plugins/gnucash/gnucash.c:611
 #, c-format
 msgid "Error opening file '%s'."
 msgstr "Αρχείο ανοίγματος λάθους '%s'."
 
-#: ../src/plugins/gnucash/gnucash.c:622
+#: ../src/plugins/gnucash/gnucash.c:619
 msgid ""
 "Grisbi needs to open a temporary file in order to import Gnucash data but "
 "file can't be created.  Check that you have permission to do that."
@@ -10303,79 +10315,79 @@ msgstr ""
 "στοιχεία Gnucash αλλά το αρχείο δεν μπορεί να δημιουργηθεί.  Ελέγξτε ότι "
 "έχετε την άδεια να το κάνετε ."
 
-#: ../src/plugins/gnucash/gnucash.c:623
+#: ../src/plugins/gnucash/gnucash.c:620
 #, c-format
 msgid "Error opening temporary file '%s'."
 msgstr "Λάθος κατά το άνοιγμα του προσωρινού αρχείου '%s'."
 
-#: ../src/plugins/ofx/ofx.c:152
+#: ../src/plugins/ofx/ofx.c:149
 msgid "Invalid OFX file"
 msgstr "Άκυρο αρχείο OFX"
 
-#: ../src/plugins/ofx/ofx.c:213
+#: ../src/plugins/ofx/ofx.c:210
 msgid "OFX processing returned following message:\n"
 msgstr "Η επεξεργασία OFX επέστρεψε αυτό το μήνυμα:\n"
 
-#: ../src/plugins/ofx/ofx.c:219
+#: ../src/plugins/ofx/ofx.c:216
 msgid "OFX processing ended in a warning message which is not valid."
 msgstr ""
 "Η επεξεργασία OFX τελείωσε σε ένα μήνυμα προειδοποίησης που είναι άκυρο."
 
-#: ../src/plugins/ofx/ofx.c:225
+#: ../src/plugins/ofx/ofx.c:222
 msgid "OFX processing returned following error message:\n"
 msgstr "Η επεξεργασία OFX επέστρεψε ένα μήνυμα λάθους που είναι άκυρο:\n"
 
-#: ../src/plugins/ofx/ofx.c:231
+#: ../src/plugins/ofx/ofx.c:228
 msgid "OFX processing returned an error message which is not valid."
 msgstr "Η επεξεργασία OFX επέστρεψε ένα μήνυμα λάθους που είναι άκυρο."
 
-#: ../src/plugins/ofx/ofx.c:370
+#: ../src/plugins/ofx/ofx.c:367
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr ""
 "Μια συναλλαγή προσπαθεί να αποθηκευτεί  αλλά κανένας λογαριασμός δεν ήταν "
 "δημιουργημένος…\n"
 
-#: ../src/plugins/ofx/ofx.c:436
+#: ../src/plugins/ofx/ofx.c:433
 msgid "Interest"
 msgstr "Ενδιαφέρον"
 
-#: ../src/plugins/ofx/ofx.c:440
+#: ../src/plugins/ofx/ofx.c:437
 msgid "Dividend"
 msgstr "Μέρισμα"
 
-#: ../src/plugins/ofx/ofx.c:444
+#: ../src/plugins/ofx/ofx.c:441
 msgid "Service charge"
 msgstr "Χρέωση υπηρεσιών"
 
-#: ../src/plugins/ofx/ofx.c:448
+#: ../src/plugins/ofx/ofx.c:445
 msgid "Fee"
 msgstr "Αμοιβή"
 
-#: ../src/plugins/ofx/ofx.c:456
+#: ../src/plugins/ofx/ofx.c:453
 msgid "Cash dispenser"
 msgstr "Διανομέας μετρητών"
 
-#: ../src/plugins/ofx/ofx.c:460
+#: ../src/plugins/ofx/ofx.c:457
 msgid "Point of sale"
 msgstr "Θέση πώλησης"
 
-#: ../src/plugins/ofx/ofx.c:468
+#: ../src/plugins/ofx/ofx.c:465
 msgid "Electronic payment"
 msgstr "Ηλεκτρονική πληρωμή"
 
-#: ../src/plugins/ofx/ofx.c:472
+#: ../src/plugins/ofx/ofx.c:469
 msgid "Cash"
 msgstr "Μετρητά"
 
-#: ../src/plugins/ofx/ofx.c:480
+#: ../src/plugins/ofx/ofx.c:477
 msgid "Merchant initiated debit"
 msgstr "Αρχική χρέωση εμπόρου"
 
-#: ../src/plugins/ofx/ofx.c:484
+#: ../src/plugins/ofx/ofx.c:481
 msgid "Repeating payment/standing order"
 msgstr "Επανάληψη της πληρωμής/της μόνιμης διαταγής"
 
-#: ../src/plugins/openssl/openssl.c:181
+#: ../src/plugins/openssl/openssl.c:180
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
@@ -10385,7 +10397,7 @@ msgstr ""
 "\n"
 
 #. FIXME: import symbols to be sure we can call this kind of stuff.
-#: ../src/plugins/openssl/openssl.c:192
+#: ../src/plugins/openssl/openssl.c:191
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
@@ -10393,24 +10405,24 @@ msgstr ""
 "Αυτή η έκδοση του Grisbi δεν υποστηρίζει κρυπτογράφηση.\n"
 "Παρακαλώ ξαναμεταγλωττίστε το Grisbi με κρυπτογράφηση OpenSSL ενεργοποιημένη."
 
-#: ../src/plugins/openssl/openssl.c:194
+#: ../src/plugins/openssl/openssl.c:193
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Αδύνατο το άνοιγμα του κρυπτογραφημένου αρχείου '%s'"
 
-#: ../src/plugins/openssl/openssl.c:219
+#: ../src/plugins/openssl/openssl.c:218
 msgid "Grisbi password"
 msgstr "Κωδικός πρόσβασης του Grisbi"
 
-#: ../src/plugins/openssl/openssl.c:223
+#: ../src/plugins/openssl/openssl.c:222
 msgid "Crypt file"
 msgstr "Κρυπτογραφημένο αρχείο"
 
-#: ../src/plugins/openssl/openssl.c:223
+#: ../src/plugins/openssl/openssl.c:222
 msgid "Decrypt file"
 msgstr "Αποκρυπτογραφημένο αρχείο"
 
-#: ../src/plugins/openssl/openssl.c:251
+#: ../src/plugins/openssl/openssl.c:250
 #, fuzzy, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
@@ -10420,7 +10432,7 @@ msgstr ""
 "αρχείο\n"
 "'<span foreground=\"blue\">%s</span>'"
 
-#: ../src/plugins/openssl/openssl.c:257
+#: ../src/plugins/openssl/openssl.c:256
 #, fuzzy, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
@@ -10430,19 +10442,19 @@ msgstr ""
 "αρχείο\n"
 "'<span foreground=\"blue\">%s</span>'"
 
-#: ../src/plugins/openssl/openssl.c:265
+#: ../src/plugins/openssl/openssl.c:264
 msgid "Password"
 msgstr "Κωδικός πρόσβασης"
 
-#: ../src/plugins/openssl/openssl.c:273
+#: ../src/plugins/openssl/openssl.c:272
 msgid "Don't ask password again for this session."
 msgstr "Να μην ξαναζητηθεί κωδικός πρόσβασης για αυτήν τη συνεδρία."
 
-#: ../src/plugins/openssl/openssl.c:294
+#: ../src/plugins/openssl/openssl.c:293
 msgid "The password must contain at least 7 characters"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:295
+#: ../src/plugins/openssl/openssl.c:294
 #, fuzzy
 msgid "Password too short"
 msgstr "Κωδικός πρόσβασης"
