@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-05 21:28+0200\n"
+"POT-Creation-Date: 2010-09-08 21:07+0200\n"
 "PO-Revision-Date: 2006-05-15 12:44+0200\n"
 "Last-Translator: Ryszard Jeziorski <r.jeziorski@dart.kielce.pl>\n"
 "Language-Team: Polish\n"
@@ -1824,7 +1824,7 @@ msgid ""
 "Make a copy now."
 msgstr ""
 
-#: ../src/dialog.c:112 ../src/main.c:395
+#: ../src/dialog.c:112 ../src/main.c:436
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
@@ -9399,20 +9399,21 @@ msgstr "Linia budżetowa '%s' już istnieje."
 msgid "New sub-budget"
 msgstr "Nowa podgrupa linii budżetowej"
 
-#: ../src/main.c:398
+#: ../src/main.c:439
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
 "You should upgrade GTK."
 msgstr ""
 
-#: ../src/main.c:494
+#: ../src/main.c:559
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 "Błąd podczas przechwytywania sygnału: SIGSEGV nie będzie przechwycony\n"
 
-#: ../src/menu.c:170
+#. File menu
+#: ../src/menu.c:172
 #, fuzzy
 msgid "_File"
 msgstr "Plik"
@@ -9422,215 +9423,217 @@ msgstr "Plik"
 msgid "_New account file..."
 msgstr "Nowy plik kont"
 
-#: ../src/menu.c:176
+#: ../src/menu.c:175
 #, fuzzy
 msgid "_Open..."
 msgstr "_Otwórz"
 
-#: ../src/menu.c:179
+#: ../src/menu.c:177
 #, fuzzy
 msgid "_Recently opened files"
 msgstr "Ostatnio otwierane pliki"
 
-#: ../src/menu.c:182
+#: ../src/menu.c:179
 #, fuzzy
 msgid "_Save"
 msgstr "Zapisz"
 
-#: ../src/menu.c:185
+#: ../src/menu.c:181
 #, fuzzy
 msgid "_Save as..."
 msgstr "Zapisz jako"
 
-#: ../src/menu.c:188
+#: ../src/menu.c:183
 #, fuzzy
 msgid "_Import file..."
 msgstr "Eksport plików"
 
-#: ../src/menu.c:191
+#: ../src/menu.c:185
 #, fuzzy
 msgid "_Export accounts as QIF/CSV file..."
 msgstr "Export kont do pliku QIF ..."
 
-#: ../src/menu.c:194
+#: ../src/menu.c:187
 #, fuzzy
 msgid "Archive transactions..."
 msgstr "Dodaj transakcję"
 
-#: ../src/menu.c:197
+#: ../src/menu.c:189
 msgid "_Export an archive as GSB/QIF/CSV file..."
 msgstr ""
 
-#: ../src/menu.c:200
+#: ../src/menu.c:191
 #, fuzzy
 msgid "_Debug account file..."
 msgstr "Nowy plik kont"
 
-#: ../src/menu.c:203
+#: ../src/menu.c:193
 #, fuzzy
 msgid "_Obfuscate account file..."
 msgstr "Nowy plik kont"
 
-#: ../src/menu.c:206
+#: ../src/menu.c:195
 #, fuzzy
 msgid "_Obfuscate QIF file..."
 msgstr "Nowy plik kont"
 
-#: ../src/menu.c:209
+#: ../src/menu.c:197
 #, fuzzy
 msgid "_Close"
 msgstr "Zamknij"
 
-#: ../src/menu.c:212
+#: ../src/menu.c:199
 msgid "_Quit"
 msgstr ""
 
-#: ../src/menu.c:215
+#. Editmenu
+#: ../src/menu.c:203
 #, fuzzy
 msgid "_Edit"
 msgstr "Edycja"
 
-#: ../src/menu.c:218
+#: ../src/menu.c:204
 #, fuzzy
 msgid "_New transaction"
 msgstr "Nowa transakcja"
 
-#: ../src/menu.c:221
+#: ../src/menu.c:206
 #, fuzzy
 msgid "_Remove transaction"
 msgstr "Usuń transakcję"
 
-#: ../src/menu.c:224
+#: ../src/menu.c:208
 #, fuzzy
 msgid "_Clone transaction"
 msgstr "Powiel transakcję"
 
-#: ../src/menu.c:227
+#: ../src/menu.c:210
 #, fuzzy
 msgid "_Edit transaction"
 msgstr "Edytuj transakcję"
 
-#: ../src/menu.c:230
+#: ../src/menu.c:212
 #, fuzzy
 msgid "Convert to _scheduled transaction"
 msgstr "Podaj zaplanowaną transakcję"
 
-#: ../src/menu.c:233
+#: ../src/menu.c:214
 #, fuzzy
 msgid "_Move transaction to another account"
 msgstr "Przenieś transakcję do innego konta"
 
-#: ../src/menu.c:236
+#: ../src/menu.c:216
+#, fuzzy
+msgid "_New account"
+msgstr "Nowe konto"
+
+#: ../src/menu.c:218
+#, fuzzy
+msgid "_Remove current account"
+msgstr "Usuń konto"
+
+#: ../src/menu.c:220
 #, fuzzy
 msgid "_Preferences"
 msgstr "Ustawienia"
 
 #. View menu
-#: ../src/menu.c:240
+#: ../src/menu.c:224
 msgid "_View"
 msgstr ""
 
-#: ../src/menu.c:243
-#, fuzzy
-msgid "_New account"
-msgstr "Nowe konto"
-
-#: ../src/menu.c:246
-#, fuzzy
-msgid "_Remove current account"
-msgstr "Usuń konto"
-
-#. Help Menu
-#: ../src/menu.c:250
+#. Help menu
+#: ../src/menu.c:227
 #, fuzzy
 msgid "_Help"
 msgstr "Pomoc"
 
-#: ../src/menu.c:253
+#: ../src/menu.c:228
 #, fuzzy
 msgid "_Manual"
 msgstr "Ręczny"
 
-#: ../src/menu.c:256
+#: ../src/menu.c:230
 #, fuzzy
 msgid "_Quick start"
 msgstr "Szybki start"
 
-#: ../src/menu.c:259
+#: ../src/menu.c:232
 #, fuzzy
 msgid "_Translation"
 msgstr "Tłumaczenie"
 
-#: ../src/menu.c:262
+#: ../src/menu.c:234
 #, fuzzy
 msgid "_About Grisbi..."
 msgstr "O Grisbi"
 
-#: ../src/menu.c:265
+#: ../src/menu.c:236
 #, fuzzy
 msgid "_Grisbi website"
 msgstr "Strona domowa Grisbi"
 
-#: ../src/menu.c:268
+#: ../src/menu.c:238
 #, fuzzy
 msgid "_Report a bug"
 msgstr "Zgłoś błąd w programie"
 
-#: ../src/menu.c:271
+#: ../src/menu.c:240
 msgid "_Tip of the day"
 msgstr ""
 
-#: ../src/menu.c:276
+#. Name, StockID, Label, Accelerator, Tooltip, Value
+#: ../src/menu.c:247
 #, fuzzy
 msgid "Show _one line per transaction"
 msgstr "Transakcja w jednym wierszu"
 
-#: ../src/menu.c:279
+#: ../src/menu.c:249
 #, fuzzy
 msgid "Show _two lines per transaction"
 msgstr "Transakcja w dwóch wierszach"
 
-#: ../src/menu.c:282
+#: ../src/menu.c:251
 #, fuzzy
 msgid "Show _three lines per transaction"
 msgstr "Transakcja w trzech wierszach"
 
-#: ../src/menu.c:285
+#: ../src/menu.c:253
 #, fuzzy
 msgid "Show _four lines per transaction"
 msgstr "Pokaż transakcje w czterech liniach"
 
-#: ../src/menu.c:289
+#: ../src/menu.c:259
 #, fuzzy
 msgid "Debug mode"
 msgstr "Napraw plik"
 
-#: ../src/menu.c:293
+#: ../src/menu.c:261
 #, fuzzy
 msgid "Show transaction _form"
 msgstr "Formularz transakcji"
 
-#: ../src/menu.c:296
+#: ../src/menu.c:263
 #, fuzzy
 msgid "Show _reconciled"
 msgstr "Potwierdzenie sald"
 
-#: ../src/menu.c:300
+#: ../src/menu.c:265
 #, fuzzy
 msgid "Show _lines archives"
 msgstr "Zdefiniowane waluty"
 
-#: ../src/menu.c:304
+#: ../src/menu.c:267
 #, fuzzy
 msgid "Show _closed accounts"
 msgstr "Zamknięte konta"
 
-#: ../src/menu.c:413 ../src/menu.c:445 ../src/menu.c:465
+#: ../src/menu.c:397 ../src/menu.c:429 ../src/menu.c:449
 #, fuzzy
 msgid "en"
 msgstr "Ręczny"
 
-#: ../src/menu.c:792
+#: ../src/menu.c:781
 #, fuzzy
 msgid "Unnamed account"
 msgstr "Zaimportowane konto"
@@ -10943,13 +10946,17 @@ msgstr ""
 msgid "No font defined"
 msgstr "Nieokreślona linia budżetowa"
 
-#: ../src/utils_str.c:1026
+#: ../src/utils_str.c:1029
 msgid ":"
 msgstr ""
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#, fuzzy
+#~ msgid "_Open"
+#~ msgstr "_Otwórz"
 
 #, fuzzy
 #~ msgid "Montly"

@@ -456,7 +456,7 @@ gboolean gsb_debug_start_log (void)
 			   "w" );
     if (debug_file)
     {
-	GtkWidget * widget = gtk_ui_manager_get_widget ( ui_manager, "/MenuBar/FileMenu/DebugMode" );
+	GtkWidget * widget = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/DebugMode" );
 	etat.debug_mode = TRUE;
 
 	/* unsensitive the menu, we cannot reverse the debug mode */

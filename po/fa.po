@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-05 21:28+0200\n"
+"POT-Creation-Date: 2010-09-08 21:07+0200\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -1728,7 +1728,7 @@ msgid ""
 "Make a copy now."
 msgstr ""
 
-#: ../src/dialog.c:112 ../src/main.c:395
+#: ../src/dialog.c:112 ../src/main.c:436
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
@@ -8994,19 +8994,20 @@ msgstr "این فایل موجود است."
 msgid "New sub-budget"
 msgstr ""
 
-#: ../src/main.c:398
+#: ../src/main.c:439
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
 "You should upgrade GTK."
 msgstr ""
 
-#: ../src/main.c:494
+#: ../src/main.c:559
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
-#: ../src/menu.c:170
+#. File menu
+#: ../src/menu.c:172
 msgid "_File"
 msgstr "فایل"
 
@@ -9014,179 +9015,181 @@ msgstr "فایل"
 msgid "_New account file..."
 msgstr ""
 
-#: ../src/menu.c:176
+#: ../src/menu.c:175
 msgid "_Open..."
 msgstr ""
 
-#: ../src/menu.c:179
+#: ../src/menu.c:177
 msgid "_Recently opened files"
 msgstr ""
 
-#: ../src/menu.c:182
+#: ../src/menu.c:179
 msgid "_Save"
 msgstr "ذخیره"
 
-#: ../src/menu.c:185
+#: ../src/menu.c:181
 msgid "_Save as..."
 msgstr ""
 
-#: ../src/menu.c:188
+#: ../src/menu.c:183
 msgid "_Import file..."
 msgstr ""
 
-#: ../src/menu.c:191
+#: ../src/menu.c:185
 msgid "_Export accounts as QIF/CSV file..."
 msgstr ""
 
-#: ../src/menu.c:194
+#: ../src/menu.c:187
 #, fuzzy
 msgid "Archive transactions..."
 msgstr "جستجوی تراکنش"
 
-#: ../src/menu.c:197
+#: ../src/menu.c:189
 msgid "_Export an archive as GSB/QIF/CSV file..."
 msgstr ""
 
-#: ../src/menu.c:200
+#: ../src/menu.c:191
 msgid "_Debug account file..."
 msgstr ""
 
-#: ../src/menu.c:203
+#: ../src/menu.c:193
 msgid "_Obfuscate account file..."
 msgstr ""
 
-#: ../src/menu.c:206
+#: ../src/menu.c:195
 msgid "_Obfuscate QIF file..."
 msgstr ""
 
-#: ../src/menu.c:209
+#: ../src/menu.c:197
 msgid "_Close"
 msgstr "بستن"
 
-#: ../src/menu.c:212
+#: ../src/menu.c:199
 msgid "_Quit"
 msgstr "خروج"
 
-#: ../src/menu.c:215
+#. Editmenu
+#: ../src/menu.c:203
 msgid "_Edit"
 msgstr "ویرایش"
 
-#: ../src/menu.c:218
+#: ../src/menu.c:204
 msgid "_New transaction"
 msgstr ""
 
-#: ../src/menu.c:221
+#: ../src/menu.c:206
 msgid "_Remove transaction"
 msgstr "حذف تراکنش"
 
-#: ../src/menu.c:224
+#: ../src/menu.c:208
 msgid "_Clone transaction"
 msgstr ""
 
-#: ../src/menu.c:227
+#: ../src/menu.c:210
 msgid "_Edit transaction"
 msgstr ""
 
-#: ../src/menu.c:230
+#: ../src/menu.c:212
 msgid "Convert to _scheduled transaction"
 msgstr ""
 
-#: ../src/menu.c:233
+#: ../src/menu.c:214
 msgid "_Move transaction to another account"
 msgstr ""
 
-#: ../src/menu.c:236
+#: ../src/menu.c:216
+msgid "_New account"
+msgstr ""
+
+#: ../src/menu.c:218
+msgid "_Remove current account"
+msgstr "حذف حساب جاری"
+
+#: ../src/menu.c:220
 msgid "_Preferences"
 msgstr ""
 
 #. View menu
-#: ../src/menu.c:240
+#: ../src/menu.c:224
 msgid "_View"
 msgstr ""
 
-#: ../src/menu.c:243
-msgid "_New account"
-msgstr ""
-
-#: ../src/menu.c:246
-msgid "_Remove current account"
-msgstr "حذف حساب جاری"
-
-#. Help Menu
-#: ../src/menu.c:250
+#. Help menu
+#: ../src/menu.c:227
 msgid "_Help"
 msgstr ""
 
-#: ../src/menu.c:253
+#: ../src/menu.c:228
 msgid "_Manual"
 msgstr "دستی"
 
-#: ../src/menu.c:256
+#: ../src/menu.c:230
 msgid "_Quick start"
 msgstr ""
 
-#: ../src/menu.c:259
+#: ../src/menu.c:232
 msgid "_Translation"
 msgstr "ترجمه"
 
-#: ../src/menu.c:262
+#: ../src/menu.c:234
 msgid "_About Grisbi..."
 msgstr "در باره گریزبی"
 
-#: ../src/menu.c:265
+#: ../src/menu.c:236
 msgid "_Grisbi website"
 msgstr ""
 
-#: ../src/menu.c:268
+#: ../src/menu.c:238
 msgid "_Report a bug"
 msgstr ""
 
-#: ../src/menu.c:271
+#: ../src/menu.c:240
 msgid "_Tip of the day"
 msgstr ""
 
-#: ../src/menu.c:276
+#. Name, StockID, Label, Accelerator, Tooltip, Value
+#: ../src/menu.c:247
 msgid "Show _one line per transaction"
 msgstr ""
 
-#: ../src/menu.c:279
+#: ../src/menu.c:249
 msgid "Show _two lines per transaction"
 msgstr ""
 
-#: ../src/menu.c:282
+#: ../src/menu.c:251
 msgid "Show _three lines per transaction"
 msgstr ""
 
-#: ../src/menu.c:285
+#: ../src/menu.c:253
 msgid "Show _four lines per transaction"
 msgstr ""
 
-#: ../src/menu.c:289
+#: ../src/menu.c:259
 msgid "Debug mode"
 msgstr ""
 
-#: ../src/menu.c:293
+#: ../src/menu.c:261
 msgid "Show transaction _form"
 msgstr ""
 
-#: ../src/menu.c:296
+#: ../src/menu.c:263
 msgid "Show _reconciled"
 msgstr ""
 
-#: ../src/menu.c:300
+#: ../src/menu.c:265
 msgid "Show _lines archives"
 msgstr ""
 
-#: ../src/menu.c:304
+#: ../src/menu.c:267
 msgid "Show _closed accounts"
 msgstr ""
 
-#: ../src/menu.c:413 ../src/menu.c:445 ../src/menu.c:465
+#: ../src/menu.c:397 ../src/menu.c:429 ../src/menu.c:449
 #, fuzzy
 msgid "en"
 msgstr "دستی"
 
-#: ../src/menu.c:792
+#: ../src/menu.c:781
 #, fuzzy
 msgid "Unnamed account"
 msgstr "حساب بسته شده"
@@ -10426,7 +10429,7 @@ msgstr ""
 msgid "No font defined"
 msgstr ""
 
-#: ../src/utils_str.c:1026
+#: ../src/utils_str.c:1029
 msgid ":"
 msgstr ""
 

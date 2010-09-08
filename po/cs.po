@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-05 21:28+0200\n"
+"POT-Creation-Date: 2010-09-08 21:07+0200\n"
 "PO-Revision-Date: 2010-04-27 00:47+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -1736,7 +1736,7 @@ msgstr ""
 "účetních souborech. (Formát souboru se může měnit a způsobit tak "
 "nekompatibilitu s předchozími verzemi)."
 
-#: ../src/dialog.c:112 ../src/main.c:395
+#: ../src/dialog.c:112 ../src/main.c:436
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Máte spušteno Grisbi s verzí GTK %s"
@@ -9411,7 +9411,7 @@ msgstr "Rozpočet již existuje"
 msgid "New sub-budget"
 msgstr "Nový podrozpočet"
 
-#: ../src/main.c:398
+#: ../src/main.c:439
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -9421,12 +9421,13 @@ msgstr ""
 "\n"
 "Měl(a) byste GTK upgradovat."
 
-#: ../src/main.c:494
+#: ../src/main.c:559
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
 
-#: ../src/menu.c:170
+#. File menu
+#: ../src/menu.c:172
 msgid "_File"
 msgstr "_Soubor"
 
@@ -9434,177 +9435,179 @@ msgstr "_Soubor"
 msgid "_New account file..."
 msgstr "_Nový soubor účtů..."
 
-#: ../src/menu.c:176
+#: ../src/menu.c:175
 msgid "_Open..."
 msgstr "_Otevřít..."
 
-#: ../src/menu.c:179
+#: ../src/menu.c:177
 msgid "_Recently opened files"
 msgstr "_Naposledy otvřené soubory"
 
-#: ../src/menu.c:182
+#: ../src/menu.c:179
 msgid "_Save"
 msgstr "_Uložit"
 
-#: ../src/menu.c:185
+#: ../src/menu.c:181
 msgid "_Save as..."
 msgstr "_Uložit jako..."
 
-#: ../src/menu.c:188
+#: ../src/menu.c:183
 msgid "_Import file..."
 msgstr "_Importovat soubor..."
 
-#: ../src/menu.c:191
+#: ../src/menu.c:185
 msgid "_Export accounts as QIF/CSV file..."
 msgstr "_Exportovat účty jako soubor QIF/CSV..."
 
-#: ../src/menu.c:194
+#: ../src/menu.c:187
 msgid "Archive transactions..."
 msgstr "Archivovat transakce..."
 
-#: ../src/menu.c:197
+#: ../src/menu.c:189
 msgid "_Export an archive as GSB/QIF/CSV file..."
 msgstr "_Exportovat archiv jako soubor GSB/QIF/CSV..."
 
-#: ../src/menu.c:200
+#: ../src/menu.c:191
 msgid "_Debug account file..."
 msgstr "Z_kontrolovat soubor účtů..."
 
-#: ../src/menu.c:203
+#: ../src/menu.c:193
 msgid "_Obfuscate account file..."
 msgstr "_Znepřehlednit soubor účtů..."
 
-#: ../src/menu.c:206
+#: ../src/menu.c:195
 msgid "_Obfuscate QIF file..."
 msgstr "Znepřehlednit soubor _QIF..."
 
-#: ../src/menu.c:209
+#: ../src/menu.c:197
 msgid "_Close"
 msgstr "_Zavřít"
 
-#: ../src/menu.c:212
+#: ../src/menu.c:199
 msgid "_Quit"
 msgstr "_Konec"
 
-#: ../src/menu.c:215
+#. Editmenu
+#: ../src/menu.c:203
 msgid "_Edit"
 msgstr "_Upravit"
 
-#: ../src/menu.c:218
+#: ../src/menu.c:204
 msgid "_New transaction"
 msgstr "_Nová transakce"
 
-#: ../src/menu.c:221
+#: ../src/menu.c:206
 msgid "_Remove transaction"
 msgstr "_Odstranit transakci"
 
-#: ../src/menu.c:224
+#: ../src/menu.c:208
 msgid "_Clone transaction"
 msgstr "_Duplikovat transakci"
 
-#: ../src/menu.c:227
+#: ../src/menu.c:210
 msgid "_Edit transaction"
 msgstr "_Upravit transakci"
 
-#: ../src/menu.c:230
+#: ../src/menu.c:212
 msgid "Convert to _scheduled transaction"
 msgstr "Změnit na _plánovanou transakci"
 
-#: ../src/menu.c:233
+#: ../src/menu.c:214
 msgid "_Move transaction to another account"
 msgstr "Přesunout transakci na _jiný účet"
 
-#: ../src/menu.c:236
+#: ../src/menu.c:216
+msgid "_New account"
+msgstr "_Nový účet"
+
+#: ../src/menu.c:218
+msgid "_Remove current account"
+msgstr "_Odstranit aktuální účet"
+
+#: ../src/menu.c:220
 msgid "_Preferences"
 msgstr "_Možnosti"
 
 #. View menu
-#: ../src/menu.c:240
+#: ../src/menu.c:224
 msgid "_View"
 msgstr "_Pohled"
 
-#: ../src/menu.c:243
-msgid "_New account"
-msgstr "_Nový účet"
-
-#: ../src/menu.c:246
-msgid "_Remove current account"
-msgstr "_Odstranit aktuální účet"
-
-#. Help Menu
-#: ../src/menu.c:250
+#. Help menu
+#: ../src/menu.c:227
 msgid "_Help"
 msgstr "_Nápověda"
 
-#: ../src/menu.c:253
+#: ../src/menu.c:228
 msgid "_Manual"
 msgstr "_Manuál"
 
-#: ../src/menu.c:256
+#: ../src/menu.c:230
 msgid "_Quick start"
 msgstr "_Rychlý start"
 
-#: ../src/menu.c:259
+#: ../src/menu.c:232
 msgid "_Translation"
 msgstr "_Překlad"
 
-#: ../src/menu.c:262
+#: ../src/menu.c:234
 msgid "_About Grisbi..."
 msgstr "_O Grisbi..."
 
-#: ../src/menu.c:265
+#: ../src/menu.c:236
 msgid "_Grisbi website"
 msgstr "_Webová stránka Grisbi"
 
-#: ../src/menu.c:268
+#: ../src/menu.c:238
 msgid "_Report a bug"
 msgstr "_Nahlásit chybu"
 
-#: ../src/menu.c:271
+#: ../src/menu.c:240
 msgid "_Tip of the day"
 msgstr "_Tip dne"
 
-#: ../src/menu.c:276
+#. Name, StockID, Label, Accelerator, Tooltip, Value
+#: ../src/menu.c:247
 msgid "Show _one line per transaction"
 msgstr "Zobrazit _jeden řádek na transakci"
 
-#: ../src/menu.c:279
+#: ../src/menu.c:249
 msgid "Show _two lines per transaction"
 msgstr "Zobrazit _dva řádky na transakci"
 
-#: ../src/menu.c:282
+#: ../src/menu.c:251
 msgid "Show _three lines per transaction"
 msgstr "Zobrazit _tři řádky na transakci"
 
-#: ../src/menu.c:285
+#: ../src/menu.c:253
 msgid "Show _four lines per transaction"
 msgstr "Zobrazit _čtyři řádky na transakci"
 
-#: ../src/menu.c:289
+#: ../src/menu.c:259
 msgid "Debug mode"
 msgstr "Režim ladění"
 
-#: ../src/menu.c:293
+#: ../src/menu.c:261
 msgid "Show transaction _form"
 msgstr "Zobrazit _formulář transakcí"
 
-#: ../src/menu.c:296
+#: ../src/menu.c:263
 msgid "Show _reconciled"
 msgstr "Zobrazit _odsouhlasené"
 
-#: ../src/menu.c:300
+#: ../src/menu.c:265
 msgid "Show _lines archives"
 msgstr "Známé archivy"
 
-#: ../src/menu.c:304
+#: ../src/menu.c:267
 msgid "Show _closed accounts"
 msgstr "Zobrazit _uzavřené účty"
 
-#: ../src/menu.c:413 ../src/menu.c:445 ../src/menu.c:465
+#: ../src/menu.c:397 ../src/menu.c:429 ../src/menu.c:449
 msgid "en"
 msgstr "en"
 
-#: ../src/menu.c:792
+#: ../src/menu.c:781
 msgid "Unnamed account"
 msgstr "Nepojmenovaný účet"
 
@@ -10913,7 +10916,7 @@ msgstr "Konverze se nezdařila, zkuste jinou znakovou sadu"
 msgid "No font defined"
 msgstr "Není zvoleno písmo"
 
-#: ../src/utils_str.c:1026
+#: ../src/utils_str.c:1029
 msgid ":"
 msgstr ""
 
@@ -10921,6 +10924,10 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Osobní správce financí pro každého\n"
+
+#, fuzzy
+#~ msgid "_Open"
+#~ msgstr "_Otevřít..."
 
 #~ msgid "Montly"
 #~ msgstr "Měsíčně"

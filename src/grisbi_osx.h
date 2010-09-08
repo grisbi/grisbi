@@ -14,6 +14,7 @@ void grisbi_osx_app_active_cb ( GtkOSXApplication* app, gboolean* data );
 GtkWidget *grisbi_osx_create_window ( gchar *title );
 gboolean grisbi_osx_app_should_quit_cb ( GtkOSXApplication *app, gpointer data );
 void grisbi_osx_app_will_quit_cb ( GtkOSXApplication *app, gpointer data );
+GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *vbox );
 /* END_DECLARATION */
 
 
