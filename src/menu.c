@@ -197,7 +197,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
         {"CloseAction", GTK_STOCK_CLOSE, _("_Close"), NULL, NULL,
          G_CALLBACK ( gsb_file_close ) },
         {"QuitAction", GTK_STOCK_QUIT, _("_Quit"), NULL, NULL,
-         G_CALLBACK ( gtk_main_quit ) },
+         G_CALLBACK ( gsb_grisbi_close ) },
 
         /* Editmenu */
         {"EditMenuAction", NULL, _("_Edit"), NULL, NULL, NULL },
