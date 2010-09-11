@@ -247,7 +247,7 @@ gboolean gsb_file_open_menu ( void )
 {
     GtkWidget *selection_fichier;
     GtkFileFilter * filter;
-
+devel_debug (NULL);
     selection_fichier = gtk_file_chooser_dialog_new ( _("Open an accounts file"),
 					   GTK_WINDOW ( window ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -276,8 +276,9 @@ gboolean gsb_file_open_menu ( void )
 	    {
 		gtk_widget_hide ( selection_fichier );
 		nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_CHOOSER ( selection_fichier ) ) ;
-		gsb_file_update_last_path (file_selection_get_last_directory ( GTK_FILE_CHOOSER ( selection_fichier),
-									       TRUE ));
+        gsb_file_update_last_path ( file_selection_get_last_directory (
+                        GTK_FILE_CHOOSER ( selection_fichier),
+                        TRUE ) );
 		gsb_file_open_file (nom_fichier_comptes);
 	    }
 	    break;

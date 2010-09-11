@@ -122,7 +122,9 @@ static gchar *ui_manager_buffer =
 "   <separator/>"
 "       <menuitem name='NewAccount' action='NewAccountAction'/>"
 "       <menuitem name='RemoveAccount' action='RemoveAccountAction'/>"
+#ifndef GTKOSXAPPLICATION
 "      <separator/>"
+#endif
 "      <menuitem name='Preferences' action='PrefsAction'/>"
 "    </menu>"
 "    <menu name='ViewMenu' action='ViewMenuAction'>"

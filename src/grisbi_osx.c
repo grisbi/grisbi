@@ -57,7 +57,7 @@ typedef struct {
     GtkWindow *window;
     GtkWidget *open_item;
     GtkWidget *edit_item;
-    GtkWidget *copy_item;
+    GtkWidget *view_item;
     GtkWidget *quit_item;
     GtkWidget *help_menu;
     GtkWidget *about_item;
@@ -156,40 +156,6 @@ static void menu_cbdata_delete ( MenuCBData *datum )
  *
  *
  * */
-static void menu_item_activate_cb ( GtkWidget *item, MenuCBData  *datum )
-{
-    gboolean visible;
-    gboolean sensitive;
-    MenuItems *items = g_object_get_qdata ( G_OBJECT ( datum->item ), menu_items_quark );
-
-    if ( GTK_IS_WINDOW ( G_OBJECT ( datum->item ) ) )
-        g_print ( "Item activated: %s:%s\n",
-                        gtk_window_get_title ( GTK_WINDOW ( datum->item ) ),
-                        datum->label);
-    else
-        g_print ("Item activated %s\n", datum->label);
-
-    if ( !items )
-        return;
-
-    g_object_get ( G_OBJECT ( items->copy_item ),
-                        "visible", &visible,
-                        "sensitive", &sensitive,
-                        NULL);
-
-    if ( item == items->open_item )
-    {
-        gtk_widget_set_sensitive ( items->copy_item, !gtk_widget_get_sensitive ( items->copy_item ) );
-    }
-}
-
-
-/**
- *
- *
- *
- *
- * */
 static void action_activate_cb ( GtkAction *action, gpointer data )
 {
     GtkWindow *window = data;
@@ -263,93 +229,9 @@ void grisbi_osx_app_active_cb ( GtkOSXApplication* app, gboolean* data )
  *
  *
  * */
-gboolean grisbi_osx_app_should_quit_cb ( GtkOSXApplication *app, gpointer data )
+GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *menubar )
 {
-    static gboolean abort = TRUE;
-    gboolean answer;
-
-    answer = abort;
-    abort = FALSE;
-    g_print ("Application has been requested to quit, %s\n", answer ? "but no!" : "it's OK.");
-
-    return answer;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-void grisbi_osx_app_will_quit_cb ( GtkOSXApplication *app, gpointer data )
-{
-    g_print ("Quitting Now\n");
-
-    gtk_main_quit();
-}
-
-
-/**
- *
- *
- *
- *
- * */
-GtkWidget *grisbi_osx_create_window ( gchar *title )
-{
-    gpointer dock = NULL;
-    GtkWidget *window;
-    GtkWidget *vbox;
-    GtkWidget *statusbar;
-    GtkWidget *menubar;
-    GtkWidget *bbox;
-    GtkWidget *button;
-    GtkWidget *sep;
-    MenuItems *items = menu_items_new ();
-    GtkUIManager *mgr = gtk_ui_manager_new ();
-    GtkActionGroup *actions = gtk_action_group_new ("TestActions");
-    guint mergeid;
-
-    GtkOSXApplication *theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
-
-    /* create the menus */
-/*     menubar = grisbi_osx_init_menus ( window, vbox );  */
-
-    /* unsensitive the necessaries menus */
-/*     menus_sensitifs ( FALSE );  */
-
-    /* charge les raccourcis claviers */
-    gtk_accel_map_load ( C_PATH_CONFIG_ACCELS );
-
-    /* set the last opened files */
-    affiche_derniers_fichiers_ouverts ( );
-
-    /* set the size of the window */
-    if ( conf.main_width && conf.main_height )
-        gtk_window_set_default_size ( GTK_WINDOW ( window ), conf.main_width, conf.main_height );
-    else
-        gtk_window_set_default_size ( GTK_WINDOW ( window ), 900, 600 );
-
-    /* display window at position */
-    gtk_window_move ( GTK_WINDOW ( window ), conf.root_x, conf.root_y );
-
-    /* set the full screen if necessary */
-    if ( conf.full_screen )
-        gtk_window_maximize ( GTK_WINDOW ( window ) );
-
-    return window;
-}
-
-/**
- *
- *
- *
- *
- * */
-GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *vbox )
-{
-    GtkWidget *menubar;
+    GtkWidget *widget;
     GtkWidget *sep;
     MenuItems *items;
     GtkUIManager *ui_manager;
@@ -357,17 +239,19 @@ GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *vbox )
 
     theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
 
-    menubar = init_menus ( vbox );
-
     ui_manager = gsb_menu_get_ui_manager ( );
     items = menu_items_new ( );
 
     items->open_item = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/Open" );
     items->edit_item = gtk_ui_manager_get_widget ( ui_manager, "/menubar/EditMenu" );
+    items->view_item = gtk_ui_manager_get_widget ( ui_manager, "/menubar/ViewMenu" );
     items->help_menu = gtk_ui_manager_get_widget ( ui_manager, "/menubar/Help/Manual" );
     items->quit_item = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/Quit" );
     items->about_item = gtk_ui_manager_get_widget ( ui_manager, "/menubar/Help/About" );
     items->preferences_item = gtk_ui_manager_get_widget ( ui_manager, "/menubar/EditMenu/Preferences" );
+
+    gtk_widget_set_sensitive ( items->preferences_item, FALSE );
+    gtk_widget_hide ( items->quit_item );
     gtk_widget_hide ( menubar );
 
     gtk_osxapplication_set_menu_bar ( theApp, GTK_MENU_SHELL ( menubar ) );
@@ -378,8 +262,8 @@ GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *vbox )
     gtk_osxapplication_insert_app_menu_item  ( theApp, sep, 1 );
     gtk_osxapplication_insert_app_menu_item  ( theApp, items->preferences_item, 2);
   
-    sep = gtk_separator_menu_item_new();
-    g_object_ref(sep);
+    sep = gtk_separator_menu_item_new ( );
+    g_object_ref ( sep );
     gtk_osxapplication_insert_app_menu_item  ( theApp, sep, 3 );
 
     gtk_osxapplication_set_help_menu ( theApp, GTK_MENU_ITEM ( items->help_menu ) );

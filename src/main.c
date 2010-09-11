@@ -86,14 +86,14 @@ static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
 static GtkWidget *gsb_grisbi_create_main_menu ( GtkWidget *vbox );
 static GtkWidget *gsb_grisbi_create_top_window ( void );
 static gboolean gsb_grisbi_init_app ( void );
-static gboolean gsb_grisbi_init_development_mode ( void );
 static void gsb_grisbi_load_file_if_necessary ( cmdline_options *opt );
+static gboolean gsb_grisbi_print_environment_var ( void );
 static void gsb_grisbi_trappe_signal_sigsegv ( void );
 static void main_mac_osx ( int argc, char **argv );
 static void main_linux ( int argc, char **argv );
 static void main_win_32 (  int argc, char **argv );
 static gboolean main_window_delete_event (GtkWidget *window, gpointer data);
-static void main_window_destroy_event( GObject* obj, gpointer data);
+static void main_window_destroy_event ( GObject* obj, gpointer data);
 static void main_window_set_size_and_position ( void );
 /*END_STATIC*/
 
@@ -116,12 +116,12 @@ extern gchar *nom_fichier_comptes;
  */
 int main ( int argc, char **argv )
 {
-#if GSB_GMEMPROFILE
-    g_mem_set_vtable(glib_mem_profiler_table);
+#if IS_DEVELOPMENT_VERSION == 1
+        initialize_debugging ( );
 #endif
 
-#if IS_DEVELOPMENT_VERSION == 1
-    gsb_grisbi_init_development_mode ( );
+#if GSB_GMEMPROFILE
+    g_mem_set_vtable(glib_mem_profiler_table);
 #endif
 
     bindtextdomain (PACKAGE, LOCALEDIR);
@@ -130,6 +130,10 @@ int main ( int argc, char **argv )
 
     /* Setup locale/gettext */
     setlocale (LC_ALL, "");
+
+#if IS_DEVELOPMENT_VERSION == 1
+    gsb_grisbi_print_environment_var ( );
+#endif
 
 #ifdef _WIN32
     main_win_32 (  argc, argv );
@@ -173,7 +177,7 @@ void main_linux ( int argc, char **argv )
     /* initialise les données de l'application */
     first_use = gsb_grisbi_init_app ( );
 
-    /* create the toplevel window */
+    /* create the toplevel window and the main menu */
     vbox = gsb_grisbi_create_top_window ( );
     gsb_grisbi_create_main_menu ( vbox );
     main_window_set_size_and_position ( );
@@ -249,15 +253,15 @@ void main_mac_osx ( int argc, char **argv )
                         &falseval);
         g_signal_connect ( theApp,
                         "NSApplicationBlockTermination",
-                        G_CALLBACK ( grisbi_osx_app_should_quit_cb ),
+                        G_CALLBACK ( gsb_grisbi_close ),
                         NULL);
         g_signal_connect ( theApp,
                         "NSApplicationWillTerminate",
-                        G_CALLBACK ( grisbi_osx_app_will_quit_cb ),
+                        G_CALLBACK ( main_window_destroy_event ),
                         NULL );
     }
-    
-    menubar = grisbi_osx_init_menus ( window, vbox );
+    menubar = gsb_grisbi_create_main_menu ( vbox );
+    grisbi_osx_init_menus ( window, menubar );
     main_window_set_size_and_position ( );
 
     gtk_widget_show ( window );
@@ -308,6 +312,7 @@ void main_mac_osx ( int argc, char **argv )
 void main_win_32 (  int argc, char **argv )
 {
 #ifdef _WIN32
+    GtkWidget *vbox;
     gboolean first_use = FALSE;
     cmdline_options  opt;
     gint status = CMDLINE_SYNTAX_OK;    /* be optimistic ;-) */
@@ -337,9 +342,8 @@ void main_win_32 (  int argc, char **argv )
     /* initialise les données de l'application */
     first_use = gsb_grisbi_init_app ( );
 
-    /* create the toplevel window */
-    gsb_grisbi_create_top_window ( );
-    vbox = g_object_get_data ( G_OBJECT ( window ), "window_vbox_principale" );
+    /* create the toplevel window and the main menu */
+    vbox = gsb_grisbi_create_top_window ( );
     gsb_grisbi_create_main_menu ( vbox );
     main_window_set_size_and_position ( );
 
@@ -374,27 +378,37 @@ void main_win_32 (  int argc, char **argv )
  *
  *
  * */
-gboolean gsb_grisbi_init_development_mode ( void )
+gboolean gsb_grisbi_print_environment_var ( void )
 {
-	struct lconv *conv;
-
-    initialize_debugging ( );
+    struct lconv *conv;
 
     /* test local pour les nombres */
-	conv = localeconv();
+    conv = localeconv();
     
-    printf ("currency_symbol = %s\n"
-            "mon_thousands_sep = \"%s\"\n"
-            "mon_decimal_point = %s\n"
-            "positive_sign = \"%s\"\n"
-            "negative_sign = \"%s\"\n"
-            "frac_digits = \"%d\"\n",
+    printf ("Variables d'environnement :\n\n" );
+    printf ("Currency\n"
+            "\tcurrency_symbol = %s\n"
+            "\tmon_thousands_sep = \"%s\"\n"
+            "\tmon_decimal_point = %s\n"
+            "\tpositive_sign = \"%s\"\n"
+            "\tnegative_sign = \"%s\"\n"
+            "\tfrac_digits = \"%d\"\n\n",
             conv->currency_symbol,
             g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL ),
             g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL ),
             g_locale_to_utf8 ( conv->positive_sign, -1, NULL, NULL, NULL ),
             g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL ),
             conv->frac_digits );
+
+    printf ("Paths\n"
+            "\tC_GRISBIRC = %s\n"
+            "\tC_PATH_CONFIG = %s\n"
+            "\tC_PATH_CONFIG_ACCELS = %s\n"
+            "\tC_PATH_DATA_FILES = %s\n\n",
+            C_GRISBIRC,
+            C_PATH_CONFIG,
+            C_PATH_CONFIG_ACCELS,
+            C_PATH_DATA_FILES );
 
     return FALSE;
 }
@@ -641,11 +655,11 @@ gboolean gsb_grisbi_close ( void )
     gtk_window_get_position ( GTK_WINDOW ( window ), &conf.root_x, &conf.root_y  );
 
     if (! main_window_delete_event (window, NULL))
-    	gtk_widget_destroy ( window );
+        gtk_widget_destroy ( window );
 
     /* clean finish of the debug file */
     if (etat.debug_mode && debug_file)
-	fclose (debug_file);
+        fclose (debug_file);
 
     return FALSE;
 }
@@ -667,7 +681,7 @@ static gboolean main_window_delete_event (GtkWidget *window, gpointer data)
 /**
  * exit the gtk main loop when the main window is destroyed.
  */
-static void main_window_destroy_event( GObject* obj, gpointer data)
+static void main_window_destroy_event ( GObject* obj, gpointer data)
 {
    window = NULL;
    gtk_main_quit();
