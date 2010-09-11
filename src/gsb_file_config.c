@@ -103,7 +103,7 @@ gboolean gsb_file_config_load_config ( void )
     gint i;
     gint int_ret;
     GError* err = NULL;
-
+devel_debug (NULL);
     gsb_file_config_clean_config ();
 
     filename = g_strconcat ( my_get_XDG_grisbirc_dir(), C_GRISBIRC, NULL );

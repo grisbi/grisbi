@@ -404,11 +404,15 @@ gboolean gsb_grisbi_print_environment_var ( void )
             "\tC_GRISBIRC = %s\n"
             "\tC_PATH_CONFIG = %s\n"
             "\tC_PATH_CONFIG_ACCELS = %s\n"
-            "\tC_PATH_DATA_FILES = %s\n\n",
+            "\tC_PATH_DATA_FILES = %s\n"
+            "\tPLUGINS_DIR = %s\n"
+            "\tPIXMAPS_DIR = %s\n\n",
             C_GRISBIRC,
             C_PATH_CONFIG,
             C_PATH_CONFIG_ACCELS,
-            C_PATH_DATA_FILES );
+            C_PATH_DATA_FILES,
+            PLUGINS_DIR,
+            PIXMAPS_DIR );
 
     return FALSE;
 }

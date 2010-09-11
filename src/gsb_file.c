@@ -254,7 +254,7 @@ devel_debug (NULL);
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 					   NULL);
-
+printf ("pahse1\n");
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( selection_fichier ), gsb_file_get_last_path () );
     gtk_window_set_position ( GTK_WINDOW ( selection_fichier ), GTK_WIN_POS_CENTER_ON_PARENT );
 
@@ -300,6 +300,7 @@ devel_debug (NULL);
  * */
 void gsb_file_update_last_path ( const gchar *last_path )
 {
+devel_debug ( last_path );
     if (last_path
 	&&
 	strlen (last_path))
@@ -320,6 +321,7 @@ void gsb_file_update_last_path ( const gchar *last_path )
  * */
 const gchar *gsb_file_get_last_path ( void )
 {
+devel_debug (NULL);
     return last_path_used;
 }
 
@@ -816,7 +818,7 @@ static gint gsb_file_dialog_save ( void )
     gchar* message;
 	gchar* tmpstr1;
 	gchar* tmpstr2;
-
+devel_debug (NULL);
     /*     si le fichier n'est pas modifié on renvoie qu'on ne veut pas enregistrer */
 
     if ( !etat.modification_fichier )
