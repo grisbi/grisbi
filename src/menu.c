@@ -81,7 +81,9 @@ extern GtkWidget *window;
 
 gboolean block_menu_cb = FALSE;
 GtkUIManager *ui_manager;
-static gint recent_files_merge_id = -1, move_to_account_merge_id = -1;
+static gint merge_id = -1;
+static gint recent_files_merge_id = -1;
+static gint move_to_account_merge_id = -1;
 
 static gchar *ui_manager_buffer = 
 "<ui>"
@@ -89,7 +91,6 @@ static gchar *ui_manager_buffer =
 "    <menu name='FileMenu' action='FileMenuAction' >"
 "      <menuitem name='New' action='NewAction'/>"
 "      <menuitem name='Open' action='OpenAction'/>"
-"      <separator/>"
 "      <menu name='RecentFiles' action='RecentFilesAction'>"
 "      </menu>"
 "      <separator/>"
@@ -176,8 +177,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
          G_CALLBACK ( gsb_file_new ) },
         {"OpenAction",  GTK_STOCK_OPEN, _("_Open..."), NULL, NULL,
          G_CALLBACK ( gsb_file_open_menu ) },
-        {"RecentFilesAction", NULL, _("_Recently opened files"), NULL, NULL,
-         G_CALLBACK ( NULL ) },
+        {"RecentFilesAction", NULL, _("_Recently opened files"), NULL, NULL, NULL },
         {"SaveAction", GTK_STOCK_SAVE, _("_Save"), NULL, NULL,
          G_CALLBACK ( gsb_file_save ) },
         {"SaveAsAction", GTK_STOCK_SAVE_AS,	_("_Save as..."), NULL, NULL,
@@ -213,8 +213,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
          G_CALLBACK ( gsb_transactions_list_edit_current_transaction ) },
         {"ConvertToScheduledAction", GTK_STOCK_CONVERT, _("Convert to _scheduled transaction"), NULL, NULL,
          G_CALLBACK ( schedule_selected_transaction ) },
-        {"MoveToAnotherAccountAction", NULL, _("_Move transaction to another account"), NULL, NULL,
-         G_CALLBACK ( NULL ) },
+        {"MoveToAnotherAccountAction", NULL, _("_Move transaction to another account"), NULL, NULL, NULL },
         {"NewAccountAction", GTK_STOCK_NEW, _("_New account"), "", NULL,
          G_CALLBACK ( gsb_assistant_account_run ) },
         {"RemoveAccountAction", GTK_STOCK_DELETE, _("_Remove current account"), "", NULL,
@@ -292,7 +291,10 @@ GtkWidget *init_menus ( GtkWidget *vbox )
                         NULL );
 
     gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
-    gtk_ui_manager_add_ui_from_string ( ui_manager, ui_manager_buffer, strlen ( ui_manager_buffer ), NULL );
+    merge_id = gtk_ui_manager_add_ui_from_string ( ui_manager,
+                        ui_manager_buffer,
+                        strlen ( ui_manager_buffer ),
+                        NULL );
 
 #ifndef GTKOSXAPPLICATION
     gtk_window_add_accel_group ( GTK_WINDOW ( window ),
@@ -340,12 +342,13 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 
     action_group = gtk_action_group_new ( "Group2" );
 
-    for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
+    for ( i = 0 ; i < nb_derniers_fichiers_ouverts ; i++ )
     {
         gchar *tmp_name;
         GtkAction *action;
 
         tmp_name = g_strdup_printf ( "LastFile%d", i );
+
         action = gtk_action_new ( tmp_name, 
                         tab_noms_derniers_fichiers_ouverts[i], 
                         "",
@@ -381,8 +384,21 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
         g_free ( tmp_name );
         g_free ( tmp_label );
     }
+
+    /* add a separator */
+    gtk_ui_manager_add_ui ( ui_manager,
+                    merge_id, 
+                    "/menubar/FileMenu/Open/",
+                    NULL,
+                    NULL,
+                    GTK_UI_MANAGER_SEPARATOR,
+                    FALSE );
+
     gtk_ui_manager_ensure_update ( ui_manager );
 
+#ifdef GTKOSXAPPLICATION
+    grisbi_osx_app_update_menus_cb ( );
+#endif /* GTKOSXAPPLICATION */
     return FALSE;
 }
 

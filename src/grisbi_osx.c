@@ -284,6 +284,22 @@ GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *menubar )
  *
  *
  * */
+void grisbi_osx_app_update_menus_cb ( void )
+{
+    GtkOSXApplication *theApp;
+
+    theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
+
+    gtk_osxapplication_sync_menubar ( theApp );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
 #endif /* GTKOSXAPPLICATION */
 /**
  *
