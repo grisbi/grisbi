@@ -984,6 +984,9 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 
     devel_debug_int (transaction_number);
 
+    if ( transaction_number == 0 )
+        return FALSE;
+
     custom_list = transaction_model_get_model ();
 
     g_return_val_if_fail ( custom_list != NULL, FALSE);
