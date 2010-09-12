@@ -277,7 +277,7 @@ void main_mac_osx ( int argc, char **argv )
     else
         display_tip ( FALSE );
 
-    gtk_osxapplication_set_use_quartz_accelerators ( theApp, FALSE );
+    gtk_osxapplication_set_use_quartz_accelerators ( theApp, TRUE );
 
     gtk_osxapplication_ready ( theApp );
     {
