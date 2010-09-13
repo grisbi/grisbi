@@ -9108,7 +9108,7 @@ msgid ""
 "Warning : the cheque number %s is already used.\n"
 "We skip it"
 msgstr ""
-"Attention, le numéro du chèque %ld est déjà utilisé.\n"
+"Attention, le numéro du chèque %s est déjà utilisé.\n"
 "Nous le sautons"
 
 #: ../src/import.c:3152
