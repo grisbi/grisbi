@@ -220,6 +220,7 @@ void main_mac_osx ( int argc, char **argv )
     cmdline_options  opt;
     gint status = CMDLINE_SYNTAX_OK;
     GtkOSXApplication *theApp;
+    GdkPixbuf *pixbuf;
 
     devel_debug ("main_mac_osx");
 
@@ -276,6 +277,18 @@ void main_mac_osx ( int argc, char **argv )
         gsb_assistant_first_run ();
     else
         display_tip ( FALSE );
+
+    pixbuf = gsb_select_icon_get_default_logo_pixbuf ( );
+    if ( pixbuf )
+    {
+        gtk_osxapplication_set_dock_icon_pixbuf ( theApp, pixbuf );
+        printf ("pixbuf existe\n");
+    }
+    else
+        printf ("pixbuf n'existe pas\n");
+
+    if ( quartz_application_get_bundle_id ( ) )
+        gtk_osxapplication_set_dock_icon_resource  ( theApp, "grisbi_logo", "png", "share/pixmaps/grisbi" );
 
     gtk_osxapplication_set_use_quartz_accelerators ( theApp, TRUE );
 
