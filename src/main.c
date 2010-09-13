@@ -329,10 +329,6 @@ void main_win_32 (  int argc, char **argv )
 
     gtk_init ( &argc, &argv );
 
-#if IS_DEVELOPMENT_VERSION == 1
-    gsb_grisbi_init_development_mode ( );
-#endif
-
     win32_parse_gtkrc ( "gtkrc" );
 
     /* parse command line parameter, exit with correct error code when needed */
@@ -566,6 +562,7 @@ void main_window_set_size_and_position ( void )
  * */
 void gsb_grisbi_trappe_signal_sigsegv ( void )
 {
+#ifndef _WIN32
     struct sigaction sig_sev;
 
     memset ( &sig_sev, 0, sizeof ( struct sigaction ) );
@@ -575,6 +572,7 @@ void gsb_grisbi_trappe_signal_sigsegv ( void )
 
     if ( sigaction ( SIGSEGV, &sig_sev, NULL ) )
         g_print ( _("Error on sigaction: SIGSEGV won't be trapped\n") );
+#endif /* not WIN_32 */
 }
 
 

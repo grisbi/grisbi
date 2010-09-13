@@ -428,7 +428,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     GtkWidget *credit;
     gint element_number;
     gint row = 2;
-    gint column = 0;;
+    gint column = 0;
     struct_element *element;
     GSList *tmp_list;
 
