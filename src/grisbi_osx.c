@@ -305,7 +305,6 @@ gchar *grisbi_osx_get_locale_dir ( void )
     gchar *dir;
 
     dir = g_strconcat (gtk_osxapplication_get_resource_path (), "/share/locale", NULL );
-    g_print ("localedir = %s\n", dir );
 
     return dir;
 }
@@ -322,7 +321,6 @@ gchar *grisbi_osx_get_pixmaps_dir ( void )
     gchar *dir;
 
     dir = g_strconcat (gtk_osxapplication_get_resource_path (), "/share/pixmaps/grisbi", NULL );
-    g_print ("pixmapsdir = %s\n", dir );
 
     return dir;
 }
@@ -339,7 +337,6 @@ gchar *grisbi_osx_get_plugins_dir ( void )
     gchar *dir;
 
     dir = g_strconcat (gtk_osxapplication_get_resource_path (), "/lib/grisbi", NULL );
-    g_print ("pluginsdir = %s\n", dir );
 
     return dir;
 }
