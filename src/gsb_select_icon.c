@@ -648,7 +648,7 @@ GdkPixbuf *gsb_select_icon_get_default_logo_pixbuf ( void )
     GError *error = NULL;
 
     pixbuf = gdk_pixbuf_new_from_file ( g_build_filename 
-                        (PIXMAPS_DIR, "grisbi-logo.png", NULL), &error );
+                        (GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL), &error );
 
     if ( ! pixbuf )
         devel_debug ( error -> message );

@@ -377,7 +377,7 @@ GtkWidget *import_create_file_selection_page ( GtkWidget * assistant )
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, _("Choose file to import"));
 
     chooser = gtk_button_new_with_label ( _("Add file to import..." ));
-    tmpstr = g_build_filename ( PIXMAPS_DIR, "import.png", NULL );
+    tmpstr = g_build_filename ( GRISBI_PIXMAPS_DIR, "import.png", NULL );
     gtk_button_set_image ( GTK_BUTTON(chooser),
                         gtk_image_new_from_file ( tmpstr ) );
     g_free ( tmpstr );
