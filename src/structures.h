@@ -29,6 +29,10 @@
 
 #define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
 
+/* definition des variables PIXMAPS_DIR PLUGINS_DIR */
+#define GRISBI_PIXMAPS_DIR (utils_get_pixmaps_dir ( ) )
+#define GRISBI_PLUGINS_DIR (utils_get_plugins_dir ( ) ) 
+
 /** structure etat
  * variables contenant juste 0 ou 1
  * FIXME : scinder cette structure en 3 parties :
@@ -61,7 +65,7 @@ struct gsb_etat_t
 
     /* Fonts & logo */
     gint utilise_logo;
-    gboolean is_pixmaps_dir;        /* TRUE if path_icon == PIXMAPS_DIR */
+    gboolean is_pixmaps_dir;        /* TRUE if path_icon == GRISBI_PIXMAPS_DIR */
     gchar *name_logo;
     gint display_grisbi_title;      /* selection du titre principal de grisbi */
     

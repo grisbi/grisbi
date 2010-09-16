@@ -26,6 +26,8 @@
 /*START_INCLUDE*/
 #include "utils_buttons.h"
 #include "gsb_automem.h"
+#include "structures.h"
+#include "utils.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -94,13 +96,13 @@ GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, co
     /* Define image */
     if ( style == GSB_BUTTON_ICON || style == GSB_BUTTON_BOTH )
     {
-	image = gtk_image_new_from_file (g_build_filename (PIXMAPS_DIR,
+	image = gtk_image_new_from_file (g_build_filename ( GRISBI_PIXMAPS_DIR,
 							   image_name, NULL));
 	gtk_box_pack_start ( GTK_BOX(vbox), image, TRUE, TRUE, 0 );
     }
     else if (style == GSB_BUTTON_BOTH_HORIZ )
     {
-        image = gtk_image_new_from_file (g_build_filename (PIXMAPS_DIR,
+        image = gtk_image_new_from_file (g_build_filename ( GRISBI_PIXMAPS_DIR,
 							   image_name, NULL));
         gtk_box_pack_start ( GTK_BOX(hbox), image, TRUE, TRUE, 0 );
     }

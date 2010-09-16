@@ -558,7 +558,7 @@ void gsb_currency_append_currency_to_list ( GtkListStore *model,
     GtkTreeIter iter;
     gchar *string;
 
-    string = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+    string = g_strconcat( GRISBI_PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
 			  "flags", C_DIRECTORY_SEPARATOR,
 			  gsb_data_currency_get_code_iso4217 (currency_number),
 			  ".png", NULL );
@@ -1243,7 +1243,7 @@ void gsb_currency_config_fill_popup_list ( GtkTreeView * tree_view,
 	    GdkPixbuf * pixbuf;
 	    gchar *string;
 
-	    string = g_build_filename ( PIXMAPS_DIR,
+	    string = g_build_filename ( GRISBI_PIXMAPS_DIR,
 					"flags",
 					currency -> flag_filename,
 					NULL );

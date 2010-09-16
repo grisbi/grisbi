@@ -207,7 +207,7 @@ GtkWidget *gsb_archive_config_create ( void )
 		       "clicked",
 		       G_CALLBACK (gsb_archive_config_delete_archive),
 		       archive_treeview );
-    tmpstr = g_build_filename ( PIXMAPS_DIR, "import.png", NULL );
+    tmpstr = g_build_filename ( GRISBI_PIXMAPS_DIR, "import.png", NULL );
     gtk_button_set_image ( GTK_BUTTON(button), 
 			   gtk_image_new_from_file ( tmpstr ) );
     g_free ( tmpstr );
@@ -224,7 +224,7 @@ GtkWidget *gsb_archive_config_create ( void )
 		       "clicked",
 		       G_CALLBACK (gsb_archive_config_destroy_archive),
 		       archive_treeview );
-    tmpstr = g_build_filename ( PIXMAPS_DIR, "import.png", NULL );
+    tmpstr = g_build_filename ( GRISBI_PIXMAPS_DIR, "import.png", NULL );
     gtk_button_set_image ( GTK_BUTTON(button), 
 			   gtk_image_new_from_file ( tmpstr ) );
     g_free ( tmpstr );

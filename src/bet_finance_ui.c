@@ -37,6 +37,7 @@
 #include "navigation.h"
 #include "print_tree_view_list.h"
 #include "structures.h"
+#include "utils.h"
 #include "utils_dates.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -984,7 +985,7 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
 
     menu = gtk_menu_new ();
 
-    tmp_str = g_build_filename ( PIXMAPS_DIR, "ac_liability_16.png", NULL);
+    tmp_str = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_liability_16.png", NULL);
     image = gtk_image_new_from_file ( tmp_str );
     gtk_image_set_pixel_size ( GTK_IMAGE ( image ), GTK_ICON_SIZE_MENU );
     g_free ( tmp_str );

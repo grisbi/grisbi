@@ -124,12 +124,16 @@ int main ( int argc, char **argv )
     g_mem_set_vtable(glib_mem_profiler_table);
 #endif
 
-    bindtextdomain (PACKAGE, LOCALEDIR);
-    bind_textdomain_codeset (PACKAGE, "UTF-8");
-    textdomain (PACKAGE);
+#ifndef GTKOSXAPPLICATION
+    #define GRISBI_LOCALEDIR LOCALEDIR
+
+    bindtextdomain ( PACKAGE, GRISBI_LOCALEDIR );
+    bind_textdomain_codeset ( PACKAGE, "UTF-8" );
+    textdomain ( PACKAGE );
 
     /* Setup locale/gettext */
     setlocale (LC_ALL, "");
+#endif /* !GTKOSXAPPLICATION */
 
 #if IS_DEVELOPMENT_VERSION == 1
     gsb_grisbi_print_environment_var ( );
@@ -216,11 +220,12 @@ void main_mac_osx ( int argc, char **argv )
 #ifdef GTKOSXAPPLICATION
     GtkWidget *vbox;
     GtkWidget *menubar;
-    gboolean first_use = FALSE;
+    GdkPixbuf *pixbuf;
     cmdline_options  opt;
+    const gchar *locale_dir;
+    gboolean first_use = FALSE;
     gint status = CMDLINE_SYNTAX_OK;
     GtkOSXApplication *theApp;
-    GdkPixbuf *pixbuf;
 
     devel_debug ("main_mac_osx");
 
@@ -228,6 +233,14 @@ void main_mac_osx ( int argc, char **argv )
 
     /* init the app */
     theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
+
+    locale_dir = grisbi_osx_get_locale_dir ( );
+    bindtextdomain ( PACKAGE, locale_dir );
+    bind_textdomain_codeset ( PACKAGE, "UTF-8" );
+    textdomain ( PACKAGE );
+
+    /* Setup locale/gettext */
+    setlocale (LC_ALL, "");
 
     /* on commence par détourner le signal SIGSEGV */
     gsb_grisbi_trappe_signal_sigsegv ( );
@@ -270,7 +283,7 @@ void main_mac_osx ( int argc, char **argv )
 #if IS_DEVELOPMENT_VERSION == 1
     dialog_message ( "development-version", VERSION );
 #endif
-
+    
     gsb_grisbi_load_file_if_necessary ( &opt );
 
     if ( first_use && !nom_fichier_comptes )
@@ -280,28 +293,11 @@ void main_mac_osx ( int argc, char **argv )
 
     pixbuf = gsb_select_icon_get_default_logo_pixbuf ( );
     if ( pixbuf )
-    {
         gtk_osxapplication_set_dock_icon_pixbuf ( theApp, pixbuf );
-        printf ("pixbuf existe\n");
-    }
-    else
-        printf ("pixbuf n'existe pas\n");
-
-    if ( quartz_application_get_bundle_id ( ) )
-        gtk_osxapplication_set_dock_icon_resource  ( theApp, "grisbi_logo", "png", "share/pixmaps/grisbi" );
 
     gtk_osxapplication_set_use_quartz_accelerators ( theApp, TRUE );
 
     gtk_osxapplication_ready ( theApp );
-    {
-        const gchar *id;
-
-        id = quartz_application_get_bundle_id ( );
-        if ( id != NULL )
-        {
-            g_print ("Error! Bundle Has ID %s\n", id);
-        }
-    }
 
     gtk_main ();
 
@@ -414,14 +410,20 @@ gboolean gsb_grisbi_print_environment_var ( void )
             "\tC_PATH_CONFIG = %s\n"
             "\tC_PATH_CONFIG_ACCELS = %s\n"
             "\tC_PATH_DATA_FILES = %s\n"
-            "\tPLUGINS_DIR = %s\n"
-            "\tPIXMAPS_DIR = %s\n\n",
+            "\tGRISBI_LOCALEDIR = %s\n"
+            "\tGRISBI_PLUGINS_DIR = %s\n"
+            "\tGRISBI_PIXMAPS_DIR = %s\n\n",
             C_GRISBIRC,
             C_PATH_CONFIG,
             C_PATH_CONFIG_ACCELS,
             C_PATH_DATA_FILES,
-            PLUGINS_DIR,
-            PIXMAPS_DIR );
+#ifdef GTKOSXAPPLICATION
+            grisbi_osx_get_locale_dir ( ),
+#else
+            GRISBI_LOCALEDIR,
+#endif
+            GRISBI_PLUGINS_DIR,
+            GRISBI_PIXMAPS_DIR );
 
     return FALSE;
 }
@@ -439,11 +441,11 @@ gboolean gsb_grisbi_init_app ( void )
     gchar *string;
 
 #ifdef HAVE_PLUGINS
-    gsb_plugins_scan_dir ( PLUGINS_DIR );
+    gsb_plugins_scan_dir ( GRISBI_PLUGINS_DIR );
 #endif
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
-    string = g_build_filename ( PIXMAPS_DIR, "grisbi-logo.png", NULL );
+    string = g_build_filename ( GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL );
     if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
         gtk_window_set_default_icon_from_file ( string, NULL );
     g_free (string);

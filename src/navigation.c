@@ -55,9 +55,9 @@
 #include "transaction_list_sort.h"
 #include "utils_str.h"
 #include "fenetre_principale.h"
-#include "include.h"
 #include "erreur.h"
 #include "structures.h"
+#include "utils.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -242,7 +242,7 @@ GtkWidget * create_navigation_pane ( void )
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ), 
 				  GTK_TREE_VIEW_COLUMN ( column ) );
     /* Account list */
-    tmpstr = g_build_filename ( PIXMAPS_DIR, "ac_home.png", NULL );
+    tmpstr = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_home.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &account_iter, NULL);
@@ -259,7 +259,7 @@ GtkWidget * create_navigation_pane ( void )
     create_account_list ( GTK_TREE_MODEL(navigation_model) );
 
     /* Scheduler */
-    tmpstr = g_build_filename( PIXMAPS_DIR, "scheduler.png", NULL );
+    tmpstr = g_build_filename( GRISBI_PIXMAPS_DIR, "scheduler.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -275,7 +275,7 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Payees */
-    tmpstr =  g_build_filename( PIXMAPS_DIR, "payees.png", NULL );
+    tmpstr =  g_build_filename( GRISBI_PIXMAPS_DIR, "payees.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -291,7 +291,7 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Credits simulator */
-    tmpstr = g_build_filename( PIXMAPS_DIR, "ac_liability.png", NULL );
+    tmpstr = g_build_filename( GRISBI_PIXMAPS_DIR, "ac_liability.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -307,7 +307,7 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Categories */
-    tmpstr = g_build_filename( PIXMAPS_DIR, "categories.png", NULL );
+    tmpstr = g_build_filename( GRISBI_PIXMAPS_DIR, "categories.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -323,7 +323,7 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Budgetary lines */
-    tmpstr = g_build_filename( PIXMAPS_DIR, "budgetary_lines.png", NULL );
+    tmpstr = g_build_filename( GRISBI_PIXMAPS_DIR, "budgetary_lines.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -339,7 +339,7 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Reports */
-    tmpstr = g_build_filename( PIXMAPS_DIR, "reports.png", NULL );
+    tmpstr = g_build_filename( GRISBI_PIXMAPS_DIR, "reports.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &reports_iter, NULL);

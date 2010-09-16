@@ -43,6 +43,7 @@
 #include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"
+#include "utils.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -2691,7 +2692,7 @@ gchar *gsb_data_account_get_account_standard_pixbuf_filename ( kind_account acco
         break;
     }
 
-    filename = g_build_filename ( PIXMAPS_DIR, account_icon, NULL );
+    filename = g_build_filename ( GRISBI_PIXMAPS_DIR, account_icon, NULL );
 
     return filename;
 }
