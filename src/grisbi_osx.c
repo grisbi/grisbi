@@ -304,7 +304,10 @@ gchar *grisbi_osx_get_locale_dir ( void )
 {
     gchar *dir;
 
-    dir = g_strconcat (gtk_osxapplication_get_resource_path (), "/share/locale", NULL );
+    if ( gtk_osxapplication_get_bundle_id ( ) )
+        dir = g_strconcat (gtk_osxapplication_get_resource_path (), "/share/locale", NULL );
+    else
+        dir = g_strdup ( LOCALEDIR );
 
     return dir;
 }
@@ -320,7 +323,10 @@ gchar *grisbi_osx_get_pixmaps_dir ( void )
 {
     gchar *dir;
 
-    dir = g_strconcat (gtk_osxapplication_get_resource_path (), "/share/pixmaps/grisbi", NULL );
+    if ( gtk_osxapplication_get_bundle_id ( ) )
+        dir = g_strconcat (gtk_osxapplication_get_resource_path (), "/share/pixmaps/grisbi", NULL );
+    else
+        dir = g_strdup ( PIXMAPS_DIR );
 
     return dir;
 }
@@ -336,10 +342,14 @@ gchar *grisbi_osx_get_plugins_dir ( void )
 {
     gchar *dir;
 
-    dir = g_strconcat (gtk_osxapplication_get_resource_path (), "/lib/grisbi", NULL );
+    if ( gtk_osxapplication_get_bundle_id ( ) )
+        dir = g_strconcat (gtk_osxapplication_get_resource_path (), "/lib/grisbi", NULL );
+    else
+        dir = g_strdup ( PLUGINS_DIR );
 
     return dir;
 }
+
 
 #endif /* GTKOSXAPPLICATION */
 /**

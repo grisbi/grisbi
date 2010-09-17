@@ -222,7 +222,7 @@ void main_mac_osx ( int argc, char **argv )
     GtkWidget *menubar;
     GdkPixbuf *pixbuf;
     cmdline_options  opt;
-    const gchar *locale_dir;
+    gchar *locale_dir;
     gboolean first_use = FALSE;
     gint status = CMDLINE_SYNTAX_OK;
     GtkOSXApplication *theApp;
@@ -410,6 +410,7 @@ gboolean gsb_grisbi_print_environment_var ( void )
             "\tC_PATH_CONFIG = %s\n"
             "\tC_PATH_CONFIG_ACCELS = %s\n"
             "\tC_PATH_DATA_FILES = %s\n"
+            "\tLOCALEDIR = %s\n"
             "\tGRISBI_LOCALEDIR = %s\n"
             "\tGRISBI_PLUGINS_DIR = %s\n"
             "\tGRISBI_PIXMAPS_DIR = %s\n\n",
@@ -417,6 +418,7 @@ gboolean gsb_grisbi_print_environment_var ( void )
             C_PATH_CONFIG,
             C_PATH_CONFIG_ACCELS,
             C_PATH_DATA_FILES,
+            LOCALEDIR,
 #ifdef GTKOSXAPPLICATION
             grisbi_osx_get_locale_dir ( ),
 #else
