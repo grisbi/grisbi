@@ -521,7 +521,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
             }
             else
             {
-                if ( g_strcmp0 ( g_path_get_dirname ( chemin_logo ), PIXMAPS_DIR ) == 0 )
+                if ( g_strcmp0 ( g_path_get_dirname ( chemin_logo ), GRISBI_PIXMAPS_DIR ) == 0 )
                 {
                     gchar *name_logo;
 
@@ -585,7 +585,7 @@ gboolean modification_logo_accueil ( )
 
     if ( etat.is_pixmaps_dir )
         gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (
-                        file_selector ), PIXMAPS_DIR );
+                        file_selector ), GRISBI_PIXMAPS_DIR );
     else
         gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (
                         file_selector ), gsb_file_get_last_path () );

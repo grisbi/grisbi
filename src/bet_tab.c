@@ -61,6 +61,7 @@
 #include "structures.h"
 #include "traitement_variables.h"
 #include "transaction_list_select.h"
+#include "utils.h"
 #include "utils_dates.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -1462,7 +1463,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
     gtk_widget_show ( menu_item );
 
     /* Insert an account balance */
-    tmp_str = g_build_filename ( PIXMAPS_DIR, "ac_bank_16.png", NULL);
+    tmp_str = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_bank_16.png", NULL);
     image = gtk_image_new_from_file ( tmp_str );
     g_free ( tmp_str );
     menu_item = gtk_image_menu_item_new_with_label ( 

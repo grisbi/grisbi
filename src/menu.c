@@ -3,9 +3,9 @@
 /*                                                                            */
 /*                                  menu.c                                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2009 Benjamin Drieu (bdrieu@april.org)	      */
-/*			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2004-2009 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -30,7 +30,6 @@
 #include "menu.h"
 #include "help.h"
 #include "barre_outils.h"
-#include "gsb_transactions_list.h"
 #include "navigation.h"
 #include "export.h"
 #include "file_obfuscate_qif.h"
@@ -45,28 +44,28 @@
 #include "erreur.h"
 #include "gsb_file.h"
 #include "gsb_form.h"
+#include "gsb_transactions_list.h"
 #include "main.h"
+#include "parametres.h"
 #include "import.h"
 #include "utils.h"
 #include "traitement_variables.h"
-#include "parametres.h"
 #include "include.h"
 #include "erreur.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
-				     gpointer user_data );
 static gboolean gsb_gui_toggle_show_closed_accounts ( void );
 static gboolean gsb_gui_toggle_show_form ( void );
+
 static gboolean help_bugreport ( void );
 static gboolean help_manual ( void );
 static gboolean help_quick_start ( void );
 static gboolean help_translation ( void );
 static gboolean help_website ( void );
 static void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
-			     GtkContainer * p_box) ;
+                        GtkContainer * p_box) ;
 /*END_STATIC*/
 
 
@@ -81,78 +80,82 @@ extern GtkWidget *window;
 
 
 gboolean block_menu_cb = FALSE;
-GtkUIManager * ui_manager;
-static gint recent_files_merge_id = -1, move_to_account_merge_id = -1;
+GtkUIManager *ui_manager;
+static gint merge_id = -1;
+static gint recent_files_merge_id = -1;
+static gint move_to_account_merge_id = -1;
 
-static gchar * buffer = 
+static gchar *ui_manager_buffer = 
 "<ui>"
-"  <menubar name='MenuBar'>"
-"    <menu action='FileMenu'>"
-"      <menuitem action='New'/>"
-"      <menuitem action='Open'/>"
-"      <menuitem action='Save'/>"
-"      <menuitem action='SaveAs'/>"
-"      <separator/>"
-"      <menu action='RecentFiles'>"
+"  <menubar>"
+"    <menu name='FileMenu' action='FileMenuAction' >"
+"      <menuitem name='New' action='NewAction'/>"
+"      <menuitem name='Open' action='OpenAction'/>"
+"      <menu name='RecentFiles' action='RecentFilesAction'>"
 "      </menu>"
 "      <separator/>"
-"      <menuitem action='ImportFile'/>"
-"      <menuitem action='ExportFile'/>"
+"      <menuitem name='Save' action='SaveAction'/>"
+"      <menuitem name='SaveAs' action='SaveAsAction'/>"
 "      <separator/>"
-"      <menuitem action='CreateArchive'/>"
-"      <menuitem action='ExportArchive'/>"
+"      <menuitem name='ImportFile' action='ImportFileAction'/>"
+"      <menuitem name='ExportFile' action='ExportFileAction'/>"
 "      <separator/>"
-"      <menuitem action='DebugFile'/>"
-"      <menuitem action='Obfuscate'/>"
-"      <menuitem action='ObfuscateQif'/>"
-"      <menuitem action='DebugMode'/>"
+"      <menuitem name='CreateArchive' action='CreateArchiveAction'/>"
+"      <menuitem name='ExportArchive' action='ExportArchiveAction'/>"
 "      <separator/>"
-"      <menuitem action='Close'/>"
-"      <menuitem action='Quit'/>"
+"      <menuitem name='DebugFile' action='DebugFileAction'/>"
+"      <menuitem name='Obfuscate' action='ObfuscateAction'/>"
+"      <menuitem name='ObfuscateQif' action='ObfuscateQifAction'/>"
+"      <menuitem name='DebugMode' action='DebugModeAction'/>"
+"      <separator/>"
+"      <menuitem name='Close' action='CloseAction'/>"
+"      <menuitem name='Quit' action='QuitAction'/>"
 "    </menu>"
-"    <menu action='EditMenu'>"
-"	<menuitem action='NewTransaction'/>"
-"	<menuitem action='RemoveTransaction'/>"
-"	<menuitem action='CloneTransaction'/>"
-"	<menuitem action='EditTransaction'/>"
-"	<separator/>"
-"	<menuitem action='ConvertToScheduled'/>"
-"	<menu action='MoveToAnotherAccount'>"
-"       </menu>"
-"	<separator/>"
-"       <menuitem action='NewAccount'/>"
-"       <menuitem action='RemoveAccount'/>"
-"	<separator/>"
-"	<menuitem action='Preferences'/>"
+"    <menu name='EditMenu' action='EditMenuAction' >"
+"      <menuitem name='NewTransaction' action='NewTransactionAction'/>"
+"      <menuitem name='RemoveTransaction' action='RemoveTransactionAction'/>"
+"      <menuitem name='CloneTransaction' action='CloneTransactionAction'/>"
+"      <menuitem name='EditTransaction' action='EditTransactionAction'/>"
+"      <separator/>"
+"      <menuitem name='ConvertToScheduled' action='ConvertToScheduledAction'/>"
+"      <menu name='MoveToAnotherAccount' action='MoveToAnotherAccountAction'>"
+"      </menu>"
+"   <separator/>"
+"       <menuitem name='NewAccount' action='NewAccountAction'/>"
+"       <menuitem name='RemoveAccount' action='RemoveAccountAction'/>"
+#ifndef GTKOSXAPPLICATION
+"      <separator/>"
+#endif
+"      <menuitem name='Preferences' action='PrefsAction'/>"
 "    </menu>"
-"    <menu action='ViewMenu'>"
-"      <menuitem action='ShowTransactionForm'/>"
-"      <menuitem action='ShowReconciled'/>"
-"      <menuitem action='ShowArchived'/>"
-"      <menuitem action='ShowClosed'/>"
+"    <menu name='ViewMenu' action='ViewMenuAction'>"
+"      <menuitem name='ShowTransactionForm' action='ShowTransactionFormAction'/>"
+"      <menuitem name='ShowReconciled' action='ShowReconciledAction'/>"
+"      <menuitem name='ShowArchived' action='ShowArchivedAction'/>"
+"      <menuitem name='ShowClosed' action='ShowClosedAction'/>"
 "      <separator/>"
-"      <menuitem action='ShowOneLine'/>"
-"      <menuitem action='ShowTwoLines'/>"
-"      <menuitem action='ShowThreeLines'/>"
-"      <menuitem action='ShowFourLines'/>"
+"      <menuitem name='ShowOneLine' action='ShowOneLineAction'/>"
+"      <menuitem name='ShowTwoLines' action='ShowTwoLinesAction'/>"
+"      <menuitem name='ShowThreeLines' action='ShowThreeLinesAction'/>"
+"      <menuitem name='ShowFourLines' action='ShowFourLinesAction'/>"
 "    </menu>"
-"    <menu action='HelpMenu'>"
-"      <menuitem action='Manual'/>"
-"      <menuitem action='QuickStart'/>"
-"      <menuitem action='Translation'/>"
-"      <menuitem action='About'/>"
+"    <menu name='Help' action='HelpMenuAction' >"
+"      <menuitem name='Manual' action='ManualAction'/>"
+"      <menuitem name='QuickStart' action='QuickStartAction'/>"
+"      <menuitem name='Translation' action='TranslationAction'/>"
+"      <menuitem name='About' action='AboutAction'/>"
 "      <separator/>"
-"      <menuitem action='GrisbiWebsite'/>"
-"      <menuitem action='ReportBug'/>"
+"      <menuitem name='GrisbiWebsite' action='GrisbiWebsiteAction'/>"
+"      <menuitem name='ReportBug' action='ReportBugAction'/>"
 "      <separator/>"
-"      <menuitem action='Tip'/>"
+"      <menuitem name='Tip' action='TipAction'/>"
 "    </menu>"
 "  </menubar>"
 "</ui>";
 
 
 static void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
-			     GtkContainer * p_box) 
+                        GtkContainer * p_box) 
 { 
     gtk_box_pack_start (GTK_BOX (p_box), p_widget, FALSE, FALSE, 0);
     gtk_widget_show (p_widget); 
@@ -160,181 +163,152 @@ static void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget,
 }
 
 
-
 GtkWidget *init_menus ( GtkWidget *vbox )
 {
-    GtkWidget * barre_menu;
-    GtkActionGroup * action_group;
+    GtkWidget *menubar;
+    GtkActionGroup *actions;
 
     /* remind of GtkActionEntry : name, stock_id, label, accelerator, tooltip, callback */
-    GtkActionEntry entries[] = {
-	{ "FileMenu",		NULL,			_("_File"),
-	  NULL,			NULL,			G_CALLBACK( NULL ) },
+    GtkActionEntry entries[] =
+    {
+        /* File menu */
+        {"FileMenuAction", NULL, _("_File"), NULL, NULL, NULL},
+        { "NewAction", GTK_STOCK_NEW, _("_New account file..."), NULL, NULL,
+         G_CALLBACK ( gsb_file_new ) },
+        {"OpenAction",  GTK_STOCK_OPEN, _("_Open..."), NULL, NULL,
+         G_CALLBACK ( gsb_file_open_menu ) },
+        {"RecentFilesAction", NULL, _("_Recently opened files"), NULL, NULL, NULL },
+        {"SaveAction", GTK_STOCK_SAVE, _("_Save"), NULL, NULL,
+         G_CALLBACK ( gsb_file_save ) },
+        {"SaveAsAction", GTK_STOCK_SAVE_AS,	_("_Save as..."), NULL, NULL,
+         G_CALLBACK ( gsb_file_save_as ) },
+        {"ImportFileAction", GTK_STOCK_CONVERT,	_("_Import file..."), NULL, NULL,
+         G_CALLBACK ( importer_fichier ) },
+        { "ExportFileAction", GTK_STOCK_CONVERT, _("_Export accounts as QIF/CSV file..."), NULL, NULL,
+         G_CALLBACK ( export_accounts ) },
+        {"CreateArchiveAction", GTK_STOCK_CLEAR, _("Archive transactions..."), NULL, NULL,
+         G_CALLBACK ( gsb_assistant_archive_run_by_menu ) },
+        {"ExportArchiveAction",	GTK_STOCK_HARDDISK,	_("_Export an archive as GSB/QIF/CSV file..."), NULL, NULL,
+         G_CALLBACK ( gsb_assistant_archive_export_run ) },
+        {"DebugFileAction", GTK_STOCK_FIND, _("_Debug account file..."), "", NULL,
+         G_CALLBACK ( gsb_debug ) },
+        {"ObfuscateAction", GTK_STOCK_FIND, _("_Obfuscate account file..."), "", NULL,
+         G_CALLBACK ( file_obfuscate_run ) },
+        {"ObfuscateQifAction", GTK_STOCK_FIND, _("_Obfuscate QIF file..."), "", NULL,
+         G_CALLBACK ( file_obfuscate_qif_run ) },
+        {"CloseAction", GTK_STOCK_CLOSE, _("_Close"), NULL, NULL,
+         G_CALLBACK ( gsb_file_close ) },
+        {"QuitAction", GTK_STOCK_QUIT, _("_Quit"), NULL, NULL,
+         G_CALLBACK ( gsb_grisbi_close ) },
 
-	{ "New",		GTK_STOCK_NEW,		_("_New account file..."),
-	  NULL,			NULL,			G_CALLBACK( gsb_file_new ) },
+        /* Editmenu */
+        {"EditMenuAction", NULL, _("_Edit"), NULL, NULL, NULL },
+        {"NewTransactionAction", GTK_STOCK_NEW, _("_New transaction"), "", NULL,
+         G_CALLBACK ( new_transaction ) },
+        {"RemoveTransactionAction", GTK_STOCK_DELETE, _("_Remove transaction"), "", NULL,
+         G_CALLBACK ( remove_transaction ) },
+        {"CloneTransactionAction", GTK_STOCK_COPY, _("_Clone transaction"), "", NULL,
+         G_CALLBACK ( clone_selected_transaction ) },
+        {"EditTransactionAction", GTK_STOCK_PROPERTIES, _("_Edit transaction"), "", NULL,
+         G_CALLBACK ( gsb_transactions_list_edit_current_transaction ) },
+        {"ConvertToScheduledAction", GTK_STOCK_CONVERT, _("Convert to _scheduled transaction"), NULL, NULL,
+         G_CALLBACK ( schedule_selected_transaction ) },
+        {"MoveToAnotherAccountAction", NULL, _("_Move transaction to another account"), NULL, NULL, NULL },
+        {"NewAccountAction", GTK_STOCK_NEW, _("_New account"), "", NULL,
+         G_CALLBACK ( gsb_assistant_account_run ) },
+        {"RemoveAccountAction", GTK_STOCK_DELETE, _("_Remove current account"), "", NULL,
+         G_CALLBACK ( gsb_account_delete ) },
+        {"PrefsAction", GTK_STOCK_PREFERENCES, _("_Preferences"), NULL, NULL,
+         G_CALLBACK ( preferences ) },
 
-	{ "Open",		GTK_STOCK_OPEN,		_("_Open..."),
-	  NULL,			NULL,			G_CALLBACK( gsb_file_open_menu ) },
+        /* View menu */
+        {"ViewMenuAction", NULL, _("_View"), NULL, NULL, NULL },
 
-	{ "RecentFiles",	NULL,			_("_Recently opened files"),
-	  NULL,			NULL,			G_CALLBACK( NULL ) },
-
-	{ "Save",		GTK_STOCK_SAVE,		_("_Save"),
-	  NULL,			NULL,			G_CALLBACK( gsb_file_save ) },
-
-	{ "SaveAs",		GTK_STOCK_SAVE_AS,	_("_Save as..."),
-	  NULL,			NULL,			G_CALLBACK( gsb_file_save_as ) },	
-
-	{ "ImportFile",		GTK_STOCK_CONVERT,	_("_Import file..."),
-	  NULL,			NULL,			G_CALLBACK( importer_fichier ) },
-
-	{ "ExportFile",		GTK_STOCK_CONVERT,	_("_Export accounts as QIF/CSV file..."),
-	  NULL,			NULL,			G_CALLBACK( export_accounts ) },
-
-	{ "CreateArchive",	GTK_STOCK_CLEAR,	_("Archive transactions..."),
-	  NULL,			NULL,			G_CALLBACK(gsb_assistant_archive_run_by_menu) },
-
-	{ "ExportArchive",	GTK_STOCK_HARDDISK,	_("_Export an archive as GSB/QIF/CSV file..."),
-	  NULL,			NULL,			G_CALLBACK(gsb_assistant_archive_export_run) },
-
-	{ "DebugFile",		GTK_STOCK_FIND,		_("_Debug account file..."),
-	  "",			NULL,			G_CALLBACK( gsb_debug ) },
-
-	{ "Obfuscate",		GTK_STOCK_FIND,		_("_Obfuscate account file..."),
-	  "",			NULL,			G_CALLBACK( file_obfuscate_run ) },
-
-	{ "ObfuscateQif",	GTK_STOCK_FIND,		_("_Obfuscate QIF file..."),
-	  "",			NULL,			G_CALLBACK( file_obfuscate_qif_run ) },
-
-	{ "Close",		GTK_STOCK_CLOSE,	_("_Close"),
-	  NULL,			NULL,			G_CALLBACK( gsb_file_close ) },
-
-	{ "Quit",		GTK_STOCK_QUIT,		_("_Quit"),
-	  NULL,			NULL,			G_CALLBACK( gsb_grisbi_close ) },
-
-	{ "EditMenu",		NULL,			_("_Edit"),
-	  NULL,			NULL,			G_CALLBACK( NULL ) },
-
-	{ "NewTransaction",	GTK_STOCK_NEW,		_("_New transaction"),	
-	  "",			NULL,			G_CALLBACK( new_transaction ) },
-
-	{ "RemoveTransaction",	GTK_STOCK_DELETE,	_("_Remove transaction"),	
-	  "",			NULL,			G_CALLBACK( remove_transaction ) },
-
-	{ "CloneTransaction",	GTK_STOCK_COPY,		_("_Clone transaction"),	
-	  "",			NULL,			G_CALLBACK( clone_selected_transaction ) },
-
-	{ "EditTransaction",	GTK_STOCK_PROPERTIES,	_("_Edit transaction"),	
-	  "",			NULL,			G_CALLBACK( gsb_transactions_list_edit_current_transaction ) },
-
-	{ "ConvertToScheduled",	GTK_STOCK_CONVERT,	_("Convert to _scheduled transaction"),
-	  NULL,			NULL,			G_CALLBACK( schedule_selected_transaction ) },
-
-	{ "MoveToAnotherAccount",NULL,			_("_Move transaction to another account"),
-	  NULL,			NULL,			G_CALLBACK( NULL ) },
-
-	{ "Preferences",	GTK_STOCK_PREFERENCES,	_("_Preferences"),
-	  NULL,			NULL,			G_CALLBACK( preferences ) },
-
-	/* View menu */
-	{ "ViewMenu",		NULL,			_("_View"),
-	  NULL,			NULL,			G_CALLBACK( NULL ) },
-
-	{ "NewAccount",		GTK_STOCK_NEW,		_("_New account"),
-	  "",			NULL,			G_CALLBACK( gsb_assistant_account_run ) },
-
-	{ "RemoveAccount",	GTK_STOCK_DELETE,	_("_Remove current account"),
-	  "",			NULL,			G_CALLBACK( gsb_account_delete ) },
-
-	/* Help Menu */
-	{ "HelpMenu",		NULL,			_("_Help"),
-	  NULL,			NULL,			G_CALLBACK( NULL ) },
-
-	{ "Manual",		GTK_STOCK_HELP,		_("_Manual"),
-	  NULL,			NULL,			G_CALLBACK( help_manual ) },
-
-	{ "QuickStart",		NULL,			_("_Quick start"),
-	  NULL,			NULL,			G_CALLBACK( help_quick_start ) },
-
-	{ "Translation",	NULL,			_("_Translation"),
-	  NULL,			NULL,			G_CALLBACK( help_translation ) },
-
-	{ "About",		GTK_STOCK_ABOUT,	_("_About Grisbi..."),
-	  NULL,			NULL,			G_CALLBACK( a_propos ) },
-
-	{ "GrisbiWebsite",	NULL,			_("_Grisbi website"),
-	  NULL,			NULL,			G_CALLBACK( help_website ) },
-
-	{ "ReportBug",		NULL,			_("_Report a bug"),
-	  NULL,			NULL,			G_CALLBACK( help_bugreport ) },
-
-	{ "Tip",		GTK_STOCK_DIALOG_INFO,	_("_Tip of the day"),
-	  NULL,			NULL,			G_CALLBACK( force_display_tip ) },
+        /* Help menu */
+        {"HelpMenuAction", NULL, _("_Help"), NULL, NULL, NULL },
+        {"ManualAction", GTK_STOCK_HELP, _("_Manual"), NULL, NULL,
+         G_CALLBACK ( help_manual ) },
+        {"QuickStartAction", NULL, _("_Quick start"), NULL, NULL,
+         G_CALLBACK ( help_quick_start ) },
+        {"TranslationAction", NULL, _("_Translation"), NULL, NULL,
+         G_CALLBACK ( help_translation ) },
+        {"AboutAction", GTK_STOCK_ABOUT, _("_About Grisbi..."), NULL, NULL,
+         G_CALLBACK ( a_propos ) },
+        {"GrisbiWebsiteAction", NULL, _("_Grisbi website"), NULL, NULL,
+         G_CALLBACK ( help_website ) },
+        {"ReportBugAction", NULL, _("_Report a bug"), NULL, NULL,
+         G_CALLBACK ( help_bugreport ) },
+        {"TipAction", GTK_STOCK_DIALOG_INFO, _("_Tip of the day"), NULL, NULL,
+         G_CALLBACK ( force_display_tip ) },
     };
 
-    GtkRadioActionEntry radio_entries[] = {
-	{ "ShowOneLine",	NULL,			_("Show _one line per transaction"),
-	  NULL,			NULL,			ONE_LINE_PER_TRANSACTION },
+    GtkRadioActionEntry radio_entries[] =
+    {
+        /* Name, StockID, Label, Accelerator, Tooltip, Value */
+        {"ShowOneLineAction", NULL, _("Show _one line per transaction"), NULL, NULL,
+         ONE_LINE_PER_TRANSACTION },
+        {"ShowTwoLinesAction", NULL, _("Show _two lines per transaction"), NULL, NULL,
+         TWO_LINES_PER_TRANSACTION },
+        {"ShowThreeLinesAction", NULL, _("Show _three lines per transaction"), NULL, NULL,
+         THREE_LINES_PER_TRANSACTION },
+        {"ShowFourLinesAction", NULL, _("Show _four lines per transaction"), NULL, NULL,
+         FOUR_LINES_PER_TRANSACTION },
+    };
 
-	{ "ShowTwoLines",	NULL,			_("Show _two lines per transaction"),
-	  NULL,			NULL,			TWO_LINES_PER_TRANSACTION },
-
-	{ "ShowThreeLines",	NULL,			_("Show _three lines per transaction"),
-	  NULL,			NULL,			THREE_LINES_PER_TRANSACTION },
-
-	{ "ShowFourLines",	NULL,			_("Show _four lines per transaction"),
-	  NULL,			NULL,			FOUR_LINES_PER_TRANSACTION },
-    }; 
-    GtkToggleActionEntry toggle_entries[] = {
-	{ "DebugMode",		NULL,			_("Debug mode"),
-	  NULL,			NULL,			G_CALLBACK(gsb_debug_start_log ),
-	  etat.debug_mode },
-
-	{ "ShowTransactionForm",NULL,			_("Show transaction _form"),
-	  NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_show_form ), 
-	  etat.formulaire_toujours_affiche },
-	{ "ShowReconciled",	NULL,			_("Show _reconciled"),
-	  "<Alt>R", 
-	  NULL,			G_CALLBACK ( gsb_gui_toggle_show_reconciled ),
-	  0 },
-	{ "ShowArchived",	NULL,			_("Show _lines archives"),
-	  "<Alt>L", 
-	  NULL,			G_CALLBACK ( gsb_gui_toggle_show_archived ),
-	  0 },
-	{ "ShowClosed",		NULL,			_("Show _closed accounts"),
-	  NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_show_closed_accounts ),
-	  etat.show_closed_accounts } 
+    GtkToggleActionEntry toggle_entries[] =
+    {
+        {"DebugModeAction", NULL, _("Debug mode"), NULL, NULL,
+         G_CALLBACK ( gsb_debug_start_log ), etat.debug_mode },
+        {"ShowTransactionFormAction", NULL, _("Show transaction _form"), NULL, NULL,
+         G_CALLBACK ( gsb_gui_toggle_show_form ), etat.formulaire_toujours_affiche },
+        {"ShowReconciledAction", NULL, _("Show _reconciled"), "<Alt>R", NULL,
+         G_CALLBACK ( gsb_gui_toggle_show_reconciled ), 0 },
+        {"ShowArchivedAction", NULL, _("Show _lines archives"), "<Alt>L", NULL,
+         G_CALLBACK ( gsb_gui_toggle_show_archived ), 0 },
+        {"ShowClosedAction", NULL, _("Show _closed accounts"), NULL, NULL,
+         G_CALLBACK ( gsb_gui_toggle_show_closed_accounts ), etat.show_closed_accounts } 
     };
 
     ui_manager = gtk_ui_manager_new ();
 
-    g_signal_connect ( ui_manager, "add_widget", G_CALLBACK( menu_add_widget ), vbox );
+    actions = gtk_action_group_new ( "Actions" );
 
-    action_group = gtk_action_group_new ( "Group" );
-    gtk_action_group_add_actions ( action_group, entries, G_N_ELEMENTS( entries ), NULL );
-    gtk_action_group_add_radio_actions ( action_group, radio_entries, 
-					 G_N_ELEMENTS( radio_entries ), 
-					 -1, G_CALLBACK(gsb_gui_toggle_line_view_mode), 
-					 NULL );
-    gtk_action_group_add_toggle_actions ( action_group, toggle_entries, 
-					  G_N_ELEMENTS( toggle_entries ), 
-					  NULL );
+    gtk_action_group_add_actions (actions,
+                        entries,
+                        G_N_ELEMENTS ( entries ),
+                        (gpointer) window );
 
-    gtk_ui_manager_insert_action_group ( ui_manager, action_group, 0 );
-    gtk_ui_manager_add_ui_from_string ( ui_manager, buffer, strlen(buffer), NULL );
+    gtk_action_group_add_radio_actions ( actions,
+                        radio_entries, 
+                        G_N_ELEMENTS ( radio_entries ), 
+                        -1,
+                        G_CALLBACK ( gsb_gui_toggle_line_view_mode ), 
+                        NULL );
 
-    gtk_window_add_accel_group (GTK_WINDOW (window),
-				gtk_ui_manager_get_accel_group (ui_manager));
+    gtk_action_group_add_toggle_actions ( actions,
+                        toggle_entries, 
+                        G_N_ELEMENTS ( toggle_entries ), 
+                        NULL );
 
-    barre_menu = gtk_ui_manager_get_widget ( ui_manager, "/menubar" );
- 
+    gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
+    merge_id = gtk_ui_manager_add_ui_from_string ( ui_manager,
+                        ui_manager_buffer,
+                        strlen ( ui_manager_buffer ),
+                        NULL );
+
+#ifndef GTKOSXAPPLICATION
+    gtk_window_add_accel_group ( GTK_WINDOW ( window ),
+                        gtk_ui_manager_get_accel_group ( ui_manager ) );
+#endif /* GTKOSXAPPLICATION */
+
+    menubar = gtk_ui_manager_get_widget ( ui_manager, "/menubar" );
+    gtk_box_pack_start ( GTK_BOX ( vbox ),  menubar, FALSE, TRUE, 0 );
+
     gsb_gui_sensitive_menu_item ( "EditMenu", "NewTransaction", NULL, FALSE );
     gsb_menu_transaction_operations_set_sensitive ( FALSE );
 
-    return barre_menu;
+    return menubar;
 }
-
 
 
 /**
@@ -344,7 +318,6 @@ void efface_derniers_fichiers_ouverts ( void )
 {
     gtk_ui_manager_remove_ui ( ui_manager, recent_files_merge_id );
 }
-
 
 
 /**
@@ -359,26 +332,33 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 
     if ( nb_derniers_fichiers_ouverts > nb_max_derniers_fichiers_ouverts )
     {
-	nb_derniers_fichiers_ouverts = nb_max_derniers_fichiers_ouverts;
+        nb_derniers_fichiers_ouverts = nb_max_derniers_fichiers_ouverts;
     }
-	
+
     if ( ! nb_derniers_fichiers_ouverts || ! nb_max_derniers_fichiers_ouverts )
     {
-	return FALSE;
+        return FALSE;
     }
 
     action_group = gtk_action_group_new ( "Group2" );
 
-    for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
+    for ( i = 0 ; i < nb_derniers_fichiers_ouverts ; i++ )
     {
-	gchar * tmp_name = g_strdup_printf ( "LastFile%d", i );
-	GtkAction * action = gtk_action_new ( tmp_name, 
-					      tab_noms_derniers_fichiers_ouverts[i], 
-					      "", "" );
-	g_free ( tmp_name );
-	g_signal_connect ( action, "activate", G_CALLBACK(gsb_file_open_direct_menu), 
-			   GINT_TO_POINTER(i) );
-	gtk_action_group_add_action ( action_group, action );
+        gchar *tmp_name;
+        GtkAction *action;
+
+        tmp_name = g_strdup_printf ( "LastFile%d", i );
+
+        action = gtk_action_new ( tmp_name, 
+                        tab_noms_derniers_fichiers_ouverts[i], 
+                        "",
+                        "" );
+        g_free ( tmp_name );
+        g_signal_connect ( action,
+                        "activate",
+                        G_CALLBACK ( gsb_file_open_direct_menu ), 
+                        GINT_TO_POINTER ( i ) );
+        gtk_action_group_add_action ( action_group, action );
     }
 
     gtk_ui_manager_insert_action_group ( ui_manager, action_group, 1 );
@@ -387,17 +367,38 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 
     for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
     {
-	gchar * tmp_name = g_strdup_printf ( "LastFile%d", i );
-	gchar * tmp_label = g_strdup_printf ( "_%d LastFile%d", i, i );
+        gchar *tmp_name;
+        gchar *tmp_label;
 
-	gtk_ui_manager_add_ui ( ui_manager, recent_files_merge_id, 
-				"/MenuBar/FileMenu/RecentFiles/",
-				tmp_label, tmp_name, GTK_UI_MANAGER_MENUITEM, FALSE );
-	g_free ( tmp_name );
-	g_free ( tmp_label );
+        tmp_name = g_strdup_printf ( "LastFile%d", i );
+        tmp_label = g_strdup_printf ( "_%d LastFile%d", i, i );
+
+        gtk_ui_manager_add_ui ( ui_manager,
+                    recent_files_merge_id, 
+                    "/menubar/FileMenu/RecentFiles/",
+                    tmp_label,
+                    tmp_name,
+                    GTK_UI_MANAGER_MENUITEM,
+                    FALSE );
+
+        g_free ( tmp_name );
+        g_free ( tmp_label );
     }
+
+    /* add a separator */
+    gtk_ui_manager_add_ui ( ui_manager,
+                    merge_id, 
+                    "/menubar/FileMenu/Open/",
+                    NULL,
+                    NULL,
+                    GTK_UI_MANAGER_SEPARATOR,
+                    FALSE );
+
     gtk_ui_manager_ensure_update ( ui_manager );
 
+#ifdef GTKOSXAPPLICATION
+    grisbi_osx_app_update_menus_cb ( );
+#endif /* GTKOSXAPPLICATION */
     return FALSE;
 }
 
@@ -505,7 +506,7 @@ gboolean help_bugreport ( void )
 
 /**
  * Concatenate menu entry names to produce a valid menu path, like
- * /Menubar/FileMenu/Save
+ * /menubar/FileMenu/Save
  *
  * \param menu		Name of the root menu.
  * \param submenu	Name of the sub-menu.
@@ -516,11 +517,11 @@ gboolean help_bugreport ( void )
 gchar * menu_name ( gchar * menu, gchar * submenu, gchar * subsubmenu )
 {
   if ( subsubmenu )
-    return g_strconcat ( "/MenuBar/", menu, "/", submenu, "/", subsubmenu, NULL );
+    return g_strconcat ( "/menubar/", menu, "/", submenu, "/", subsubmenu, NULL );
   else if ( submenu )
-    return g_strconcat ( "/MenuBar/", menu, "/", submenu, NULL );
+    return g_strconcat ( "/menubar/", menu, "/", submenu, NULL );
   else
-    return g_strconcat ( "/MenuBar/", menu, NULL );
+    return g_strconcat ( "/menubar/", menu, NULL );
 }
 
 
@@ -563,11 +564,16 @@ gboolean gsb_gui_sensitive_menu_item_from_string ( gchar * item_name, gboolean s
  * \return TRUE on success.
  */
 gboolean gsb_gui_sensitive_menu_item ( gchar * root_menu_name, gchar * submenu_name,
-				       gchar * subsubmenu_name, gboolean state )
+                        gchar * subsubmenu_name, gboolean state )
 {
-    gchar* tmpstr = menu_name ( root_menu_name, submenu_name, subsubmenu_name );
-    gboolean result = gsb_gui_sensitive_menu_item_from_string ( tmpstr, state );
+    gchar* tmpstr;
+    gboolean result;
+
+    tmpstr = menu_name ( root_menu_name, submenu_name, subsubmenu_name );
+    result = gsb_gui_sensitive_menu_item_from_string ( tmpstr, state );
+
     g_free ( tmpstr );
+
     return result;
 }
 
@@ -577,7 +583,7 @@ gboolean gsb_gui_sensitive_menu_item ( gchar * root_menu_name, gchar * submenu_n
  * triggered.
  */
 void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
-				     gpointer user_data )
+                        gpointer user_data )
 {
     /* FIXME benj: ugly but I cannot find a way to block this ... */
     if ( block_menu_cb ) return;
@@ -803,7 +809,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 			       G_CALLBACK(move_selected_operation_to_account_nb), 
 			       GINT_TO_POINTER(i) );
 	    gtk_ui_manager_add_ui ( ui_manager, recent_files_merge_id, 
-				    "/MenuBar/EditMenu/MoveToAnotherAccount/",
+				    "/menubar/EditMenu/MoveToAnotherAccount/",
 				    tmp_name, tmp_name,
 				    GTK_UI_MANAGER_MENUITEM, FALSE );
 	    g_free ( tmp_name );
@@ -839,6 +845,18 @@ gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive )
     gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", NULL, sensitive );
 
     return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ * 
+ **/
+GtkUIManager *gsb_menu_get_ui_manager ( void )
+{
+    return ui_manager;
 }
 
 

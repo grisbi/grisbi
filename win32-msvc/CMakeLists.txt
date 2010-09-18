@@ -98,18 +98,18 @@ SET (grisbi_source
 	../src/affichage_liste.h
 	../src/barre_outils.c
 	../src/barre_outils.h
-	../bet_config.c
-	../bet_config.h
-	../bet_data.c
-	../bet_data.h
-	../bet_data_finance.c
-	../bet_data_finance.h
-	../bet_finance_ui.c
-	../bet_finance_ui.h
-	../bet_future.c
-	../bet_future.h
-	../bet_hist.c
-	../bet_hist.h
+	../src/bet_config.c
+	../src/bet_config.h
+	../src/bet_data.c
+	../src/bet_data.h
+	../src/bet_data_finance.c
+	../src/bet_data_finance.h
+	../src/bet_finance_ui.c
+	../src/bet_finance_ui.h
+	../src/bet_future.c
+	../src/bet_future.h
+	../src/bet_hist.c
+	../src/bet_hist.h
 	../src/bet_tab.c
 	../src/bet_tab.h
 	../src/categories_onglet.c
@@ -551,12 +551,12 @@ set(
   ../po/zh_CN.po
 ) 
 
-set (
-  tips_po_files
-  ../help/tips/de.po
-  ../help/tips/es.po
-  ../help/tips/fr.po
-)
+# set (
+  # tips_po_files
+  # ../help/tips/de.po
+  # ../help/tips/es.po
+  # ../help/tips/fr.po
+# )
 
 set (msgfmt msgfmt.exe)
 
@@ -588,28 +588,28 @@ foreach (current_po ${po_files})
   )
  endforeach (current_po)
  
- foreach (current_po ${tips_po_files})
-  get_filename_component(
-    lang
-    ${current_po}
-    NAME_WE
-  )
+ # foreach (current_po ${tips_po_files})
+  # get_filename_component(
+    # lang
+    # ${current_po}
+    # NAME_WE
+  # )
   
-  set(mo_file target\\lib\\locale\\${lang}\\LC_MESSAGES\\${PACKAGE_NAME}-tips.mo)
+  # set(mo_file target\\lib\\locale\\${lang}\\LC_MESSAGES\\${PACKAGE_NAME}-tips.mo)
   
-  add_custom_command(TARGET prepare_mo
-    POST_BUILD
-	COMMAND IF NOT EXIST target\\lib\\locale\\${lang} mkdir target\\lib\\locale\\${lang}
-	COMMAND IF NOT EXIST target\\lib\\locale\\${lang}\\LC_MESSAGES mkdir target\\lib\\locale\\${lang}\\LC_MESSAGES
-  )
+  # add_custom_command(TARGET prepare_mo
+    # POST_BUILD
+	# COMMAND IF NOT EXIST target\\lib\\locale\\${lang} mkdir target\\lib\\locale\\${lang}
+	# COMMAND IF NOT EXIST target\\lib\\locale\\${lang}\\LC_MESSAGES mkdir target\\lib\\locale\\${lang}\\LC_MESSAGES
+  # )
 	
-  add_custom_command(TARGET prepare_mo
-	POST_BUILD
-    # OUTPUT ${mo_file}
-    COMMAND ${msgfmt} -c ${current_po} -o ${mo_file}
-    DEPENDS ${current_po}
-  )
- endforeach (current_po)
+  # add_custom_command(TARGET prepare_mo
+	# POST_BUILD
+  ##  OUTPUT ${mo_file}
+    # COMMAND ${msgfmt} -c ${current_po} -o ${mo_file}
+    # DEPENDS ${current_po}
+  # )
+ # endforeach (current_po)
  
  add_custom_command(TARGET prepare_mo
 	POST_BUILD

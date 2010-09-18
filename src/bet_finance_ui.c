@@ -37,6 +37,7 @@
 #include "navigation.h"
 #include "print_tree_view_list.h"
 #include "structures.h"
+#include "utils.h"
 #include "utils_dates.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -358,6 +359,7 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
     GtkWidget *label;
     GtkWidget *spin_button = NULL;
     GtkWidget *button_1, *button_2;
+    gchar *tmp_str;
 
     vbox = gtk_vbox_new ( FALSE, 5 );
 
@@ -378,9 +380,11 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
     g_object_set_data ( G_OBJECT ( parent ), "frais", spin_button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( _("% of borrowed capital") );
+    tmp_str = g_strconcat (_("%"), _(" of borrowed capital"), NULL );
+    label = gtk_label_new ( tmp_str );
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
+    g_free ( tmp_str );
 
     /* Type de taux */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
@@ -984,7 +988,7 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
 
     menu = gtk_menu_new ();
 
-    tmp_str = g_build_filename ( PIXMAPS_DIR, "ac_liability_16.png", NULL);
+    tmp_str = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_liability_16.png", NULL);
     image = gtk_image_new_from_file ( tmp_str );
     gtk_image_set_pixel_size ( GTK_IMAGE ( image ), GTK_ICON_SIZE_MENU );
     g_free ( tmp_str );

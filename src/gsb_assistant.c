@@ -30,8 +30,9 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant.h"
+#include "structures.h"
+#include "utils.h"
 #include "utils_str.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -109,7 +110,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     if (!image_filename)
         image_filename = "grisbi-logo.png";
 
-    tmpstr = g_build_filename ( PIXMAPS_DIR, image_filename, NULL);
+    tmpstr = g_build_filename ( GRISBI_PIXMAPS_DIR, image_filename, NULL);
     image = gtk_image_new_from_file ( tmpstr );
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX(hbox), image, FALSE, FALSE, 0 );

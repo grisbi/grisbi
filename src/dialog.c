@@ -105,8 +105,8 @@ struct conditional_message messages[] =
 
     { "development-version", N_("You are running Grisbi version %s"), 
       N_("Warning, please be aware that the version you run is a DEVELOPMENT version. "
-     "In any case do not work with this version on your original accounting files. "
-     "(File format may change and render files incompatible with previous versions)."),
+      "Never use your original file grisbi: you could make it unusable.\n"
+      "Make a copy now."),
       FALSE, FALSE },
 
     { "gtk_obsolete", N_("You are running Grisbi with GTK version %s"), 

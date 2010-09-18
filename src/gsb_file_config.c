@@ -103,7 +103,7 @@ gboolean gsb_file_config_load_config ( void )
     gint i;
     gint int_ret;
     GError* err = NULL;
-
+devel_debug (NULL);
     gsb_file_config_clean_config ();
 
     filename = g_strconcat ( my_get_XDG_grisbirc_dir(), C_GRISBIRC, NULL );
@@ -663,7 +663,8 @@ gboolean gsb_file_config_save_config ( void )
         gchar *string;
 
         string = my_strdelimit ( conf.browser_command, "&", "\\e" );
-        g_key_file_set_string ( config,
+        if ( string )
+            g_key_file_set_string ( config,
                         "General",
                         "Web",
                         string );
@@ -871,7 +872,8 @@ gboolean gsb_file_config_save_config ( void )
                         "Printer",
                         etat.print_config.printer );
 
-    g_key_file_set_string ( config,
+    if ( etat.print_config.printer_name )
+        g_key_file_set_string ( config,
                         "Print config",
                         "Printer name",
                         etat.print_config.printer_name );
@@ -893,7 +895,8 @@ gboolean gsb_file_config_save_config ( void )
                         etat.print_config.orientation );
 
     /* save the paper config */
-    g_key_file_set_string ( config,
+    if ( etat.print_config.paper_config.name )
+        g_key_file_set_string ( config,
                         "Paper config",
                         "Name",
                         etat.print_config.paper_config.name );

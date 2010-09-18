@@ -79,6 +79,7 @@
 #include "gsb_real.h"
 #include "gsb_currency_config.h"
 #include "gsb_data_report.h"
+#include "utils.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -875,9 +876,9 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
             gchar *chemin_logo = NULL;
 
             if ( etat.name_logo )
-                chemin_logo = g_build_filename  ( PIXMAPS_DIR, etat.name_logo, NULL );
+                chemin_logo = g_build_filename  ( GRISBI_PIXMAPS_DIR, etat.name_logo, NULL );
             else
-                chemin_logo = g_build_filename  ( PIXMAPS_DIR, "grisbi-logo.png", NULL );
+                chemin_logo = g_build_filename  ( GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL );
             if ( chemin_logo )
                 pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
             if ( chemin_logo && strlen ( chemin_logo ) > 0 )

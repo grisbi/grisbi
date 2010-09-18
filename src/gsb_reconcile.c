@@ -639,19 +639,19 @@ void gsb_reconcile_sensitive ( gboolean sensitive )
     gsb_gui_sensitive_headings (sensitive);
     /* add by pbiava 02/11/2009 */
     gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager, 
-                              "/MenuBar/ViewMenu/ShowReconciled/" ),
+                              "/menubar/ViewMenu/ShowReconciled/" ),
 			       sensitive );
     gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager, 
-							  "/MenuBar/ViewMenu/ShowClosed/" ),
+							  "/menubar/ViewMenu/ShowClosed/" ),
 			       sensitive );
     gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager, 
-							  "/MenuBar/EditMenu/ConvertToScheduled/" ),
+							  "/menubar/EditMenu/ConvertToScheduled/" ),
 			       sensitive );
     gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager, 
-							  "/MenuBar/EditMenu/NewAccount/" ),
+							  "/menubar/EditMenu/NewAccount/" ),
 			       sensitive );
     gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager, 
-							  "/MenuBar/EditMenu/RemoveAccount/" ),
+							  "/menubar/EditMenu/RemoveAccount/" ),
 			       sensitive );
 }
 

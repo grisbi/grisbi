@@ -2030,7 +2030,7 @@ void popup_scheduled_context_menu ( void )
     /* Display/hide comments */
     menu_item = gtk_image_menu_item_new_with_label ( _("Displays/Cache comments") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_file ( g_build_filename ( PIXMAPS_DIR,
+                        gtk_image_new_from_file ( g_build_filename ( GRISBI_PIXMAPS_DIR,
                         "comments.png", NULL ) ) );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",

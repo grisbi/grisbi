@@ -233,6 +233,9 @@ gboolean preferences ( gint page )
 
     devel_debug_int (page);
 
+    if ( gsb_gui_navigation_get_current_page ( ) == - 1 )
+        return FALSE;
+
     /* Create dialog */
     fenetre_preferences = gtk_dialog_new_with_buttons (_("Grisbi preferences"),
                         GTK_WINDOW ( window ),

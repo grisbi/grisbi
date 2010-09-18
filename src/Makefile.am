@@ -1,14 +1,14 @@
 # Process this file with automake to produce Makefile.in
 
-AM_CPPFLAGS = -I$(top_srcdir) $(GRISBI_CFLAGS) -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(plugindir)\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(docdir)\""
+AM_CPPFLAGS = -I$(top_srcdir) $(GRISBI_CFLAGS) $(IGE_MAC_CFLAGS) -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(plugindir)\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(docdir)\""
 bin_PROGRAMS = grisbi
 
 noinst_LTLIBRARIES = libgrisbi.la
 
-grisbi_LDADD = $(GRISBI_LIBS) libgrisbi.la
+grisbi_LDADD = $(GRISBI_LIBS) $(IGE_MAC_LIBS) libgrisbi.la
 
 libgrisbi_la_LDFLAGS = -export_dynamic
-libgrisbi_la_LIBADD = $(GRISBI_LIBS)
+libgrisbi_la_LIBADD = $(GRISBI_LIBS) $(IGE_MAC_LIBS)
 libgrisbi_la_SOURCES = \
 	accueil.c		\
 	affichage.c		\
@@ -36,6 +36,7 @@ libgrisbi_la_SOURCES = \
 	file_obfuscate_qif.c	\
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
+    grisbi_osx.c \
 	gsb_account.c		\
 	gsb_account_property.c	\
 	gsb_archive_config.c	\
@@ -172,6 +173,7 @@ libgrisbi_la_SOURCES = \
     export_csv.h            \
     go-charmap-sel.h        \
     go-optionmenu.h         \
+    grisbi_osx.h \
 	gsb_account.h		\
 	gsb_account_property.h	\
 	gsb_archive_config.h	\

@@ -1,5 +1,5 @@
 %define name    grisbi
-%define version 0.6.1
+%define version 0.7.4
 %define release %mkrel 1
 
 %define _disable_ld_no_undefined 1
@@ -26,7 +26,7 @@ Grisbi helps you to manage your personal finances with Linux.
 %setup -q
 
 %build 
-%configure --with-balance-estimate
+%configure
 %make
 
 %install
@@ -77,6 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 %_iconsdir/hicolor/48x48/apps/%name.png
 
 %changelog
+* Sun Sep 12 2010 Pierre Biava <grisbi@pierre.biava.name> 0.7.4-1mdv2010.1
+- new version 0.6.0
+
 * Sun Apr 18 2010 Pierre Biava <grisbi@pierre.biava.name> 0.6.0-1mdv2010.0
 - new version 0.6.0
 

@@ -247,7 +247,7 @@ gboolean gsb_file_open_menu ( void )
 {
     GtkWidget *selection_fichier;
     GtkFileFilter * filter;
-
+devel_debug (NULL);
     selection_fichier = gtk_file_chooser_dialog_new ( _("Open an accounts file"),
 					   GTK_WINDOW ( window ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -276,8 +276,9 @@ gboolean gsb_file_open_menu ( void )
 	    {
 		gtk_widget_hide ( selection_fichier );
 		nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_CHOOSER ( selection_fichier ) ) ;
-		gsb_file_update_last_path (file_selection_get_last_directory ( GTK_FILE_CHOOSER ( selection_fichier),
-									       TRUE ));
+        gsb_file_update_last_path ( file_selection_get_last_directory (
+                        GTK_FILE_CHOOSER ( selection_fichier),
+                        TRUE ) );
 		gsb_file_open_file (nom_fichier_comptes);
 	    }
 	    break;
@@ -299,6 +300,7 @@ gboolean gsb_file_open_menu ( void )
  * */
 void gsb_file_update_last_path ( const gchar *last_path )
 {
+devel_debug ( last_path );
     if (last_path
 	&&
 	strlen (last_path))
@@ -319,6 +321,7 @@ void gsb_file_update_last_path ( const gchar *last_path )
  * */
 const gchar *gsb_file_get_last_path ( void )
 {
+devel_debug (NULL);
     return last_path_used;
 }
 
@@ -815,7 +818,7 @@ static gint gsb_file_dialog_save ( void )
     gchar* message;
 	gchar* tmpstr1;
 	gchar* tmpstr2;
-
+devel_debug (NULL);
     /*     si le fichier n'est pas modifié on renvoie qu'on ne veut pas enregistrer */
 
     if ( !etat.modification_fichier )
@@ -1063,8 +1066,7 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
 
     devel_debug (path_fichier);
 
-    if ( !nb_max_derniers_fichiers_ouverts ||
-	 !path_fichier)
+    if ( !path_fichier )
         return;
 
     if ( nb_derniers_fichiers_ouverts < 0 )
@@ -1089,56 +1091,62 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
      * noms */
     position = 0;
 
-    for ( i = 0; i < nb_derniers_fichiers_ouverts; i++ )
-    {
-        if ( !strcmp ( real_name, tab_noms_derniers_fichiers_ouverts[i] ))
-        {
-            /* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
-            if ( !i )
-                return;
-
-            position = i;
-        }
-    }
-
-    efface_derniers_fichiers_ouverts ( );
-
-    if ( position )
-    {
-        /* le fichier a été trouvé, on fait juste une rotation */
-        for ( i = position; i > 0 ; i-- )
-            tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
-        if ( real_name )
-            tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
-        else
-            tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( "<no file>" );
-
-        affiche_derniers_fichiers_ouverts ( );
-
-        return;
-    }
-
-    /* le fichier est nouveau, on décale tout d'un cran et on met le nouveau à 0 */
-
-    /* si on est déjà au max, c'est juste un décalage avec perte du dernier */
-    /* on garde le ptit dernier dans le cas contraire */
-
     if ( nb_derniers_fichiers_ouverts )
-	dernier = tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1];
-    else
-	dernier = NULL;
+    {
+        for ( i = 0; i < nb_derniers_fichiers_ouverts; i++ )
+        {
+            if ( !strcmp ( real_name, tab_noms_derniers_fichiers_ouverts[i] ) )
+            {
+                /* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
+                if ( !i )
+                    return;
 
-    for ( i= nb_derniers_fichiers_ouverts - 1 ; i>0 ; i-- )
-	tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
+                position = i;
+            }
+        }
+
+        efface_derniers_fichiers_ouverts ( );
+
+        if ( position )
+        {
+            /* le fichier a été trouvé, on fait juste une rotation */
+            for ( i = position; i > 0 ; i-- )
+                tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
+            if ( real_name )
+                tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
+            else
+                tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( "<no file>" );
+
+            affiche_derniers_fichiers_ouverts ( );
+
+            return;
+        }
+        /* le fichier est nouveau, on décale tout d'un cran et on met le nouveau à 0 */
+
+        /* si on est déjà au max, c'est juste un décalage avec perte du dernier */
+        /* on garde le ptit dernier dans le cas contraire */
+        dernier = tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1];
+        for ( i = nb_derniers_fichiers_ouverts - 1 ; i > 0 ; i-- )
+            tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
+    }
+    else
+        dernier = NULL;
 
     if ( nb_derniers_fichiers_ouverts < nb_max_derniers_fichiers_ouverts )
     {
-	tab_noms_derniers_fichiers_ouverts = g_realloc ( tab_noms_derniers_fichiers_ouverts,
-						       ( ++nb_derniers_fichiers_ouverts ) * sizeof ( gpointer ));
-	tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1] = dernier;
+        tab_noms_derniers_fichiers_ouverts = g_realloc ( tab_noms_derniers_fichiers_ouverts,
+						    ( ++nb_derniers_fichiers_ouverts ) * sizeof ( gpointer ) );
+        tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1] = dernier;
     }
-
+    else
+    {
+        nb_derniers_fichiers_ouverts = 1;
+        nb_max_derniers_fichiers_ouverts = 1;
+        tab_noms_derniers_fichiers_ouverts = g_malloc0 (  sizeof ( gpointer ) );
+    }   
+printf ("phase 4\n");
     tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
+printf ("phase 5\n");
 
     affiche_derniers_fichiers_ouverts();
     g_free ( real_name );

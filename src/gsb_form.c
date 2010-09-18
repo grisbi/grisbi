@@ -344,6 +344,9 @@ void gsb_form_create_widgets ( void )
     gtk_widget_show_all ( transaction_form );
     gtk_widget_hide ( form_scheduled_part );
 
+    gtk_widget_set_sensitive ( GTK_WIDGET ( form_button_valid ), FALSE );
+    gtk_widget_set_sensitive ( GTK_WIDGET ( form_button_cancel ), FALSE );
+
     gsb_form_show ( FALSE );
 }
 
@@ -412,10 +415,6 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
 
     /* show and prepare the form */
     gsb_form_show (TRUE);
-
-    /* sensitive the valid and cancel buttons */
-    gtk_widget_set_sensitive (GTK_WIDGET (form_button_valid), TRUE);
-    gtk_widget_set_sensitive (GTK_WIDGET (form_button_cancel), TRUE);
 
     if (!is_transaction)
     {
