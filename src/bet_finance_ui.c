@@ -359,6 +359,7 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
     GtkWidget *label;
     GtkWidget *spin_button = NULL;
     GtkWidget *button_1, *button_2;
+    gchar *tmp_str;
 
     vbox = gtk_vbox_new ( FALSE, 5 );
 
@@ -379,9 +380,11 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
     g_object_set_data ( G_OBJECT ( parent ), "frais", spin_button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( _("% of borrowed capital") );
+    tmp_str = g_strconcat (_("%"), _(" of borrowed capital"), NULL );
+    label = gtk_label_new ( tmp_str );
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
+    g_free ( tmp_str );
 
     /* Type de taux */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
