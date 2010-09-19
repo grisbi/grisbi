@@ -48,16 +48,16 @@ done
 # Check for "glibtool" first.
 # Borrowed from ethereal
 #
-#LTVER=`glibtool --version 2>/dev/null | grep ' libtool)' | \
-#    sed 's/.*libtool) \([0-9][0-9.]*\)[^ ]* .*/\1/'`
-#if test -z "$LTVER"
-#then
+LTVER=`glibtool --version 2>/dev/null | grep ' libtool)' | \
+    sed 's/.*libtool) \([0-9][0-9.]*\)[^ ]* .*/\1/'`
+if test -z "$LTVER"
+then
 	LTVER=`libtool --version | grep ' libtool)' | \
 	    sed 's/.*) \([0-9][0-9.]*\)[^ ]* .*/\1/' `
 	LIBTOOLIZE=libtoolize
-#else
-#	LIBTOOLIZE=glibtoolize
-#fi
+else
+	LIBTOOLIZE=glibtoolize
+fi
 case "$LTVER" in
 '' | 0.* | 1.[0-3]* )
 
