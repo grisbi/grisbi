@@ -525,11 +525,11 @@ ADD_CUSTOM_COMMAND(TARGET prepare_env
 	# COMMAND xcopy /S /Y /D ..\\share\\categories target\\Release\\help\\tips\\categories\\
 )
 
-ADD_CUSTOM_COMMAND(TARGET prepare_env
-	POST_BUILD
-	COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\$(PlatformName)\\$(ConfigurationName)\\help\\tips\\tips.txt
+#ADD_CUSTOM_COMMAND(TARGET prepare_env
+#	POST_BUILD
+#	COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\$(PlatformName)\\$(ConfigurationName)\\help\\tips\\tips#.txt
 	# COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\Release\\help\\tips\\tips.txt
-)
+#)
 
 set(
   po_files

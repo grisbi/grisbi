@@ -467,7 +467,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
         /* it's a new file or stat couldn't find the permissions,
          * so set only user can see the file by default */
 #ifdef _MSC_VER
-    _   chmod ( filename, _S_IREAD | _S_IWRITE );
+	_chmod ( filename, _S_IREAD | _S_IWRITE );
 #else
         chmod ( filename, S_IRUSR | S_IWUSR );
 #endif /*_MSC_VER */

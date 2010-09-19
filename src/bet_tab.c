@@ -226,6 +226,7 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
     GValue date_value_b = {0,};
     GDate* date_a;
     GDate* date_b;
+    gint result;
 
     if ( itera == NULL )
         return -1;
@@ -245,7 +246,7 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
     if ( date_b == NULL )
         return -1;
 
-    gint result = g_date_compare (date_b, date_a);
+    result = g_date_compare (date_b, date_a);
 
     if ( result == 0 )
     {
