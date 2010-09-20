@@ -32,7 +32,7 @@ G_MODULE_EXPORT extern GSList * ofx_plugin_run ( GtkWidget * assistant,
 #ifndef OFX_ERROR
 #ifdef _MSC_VER
 #undef ERROR
-#endif // _MSC_VER
+#endif /* _MSC_VER */
 #define OFX_ERROR   ERROR
 #endif
 
