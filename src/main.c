@@ -125,9 +125,7 @@ int main ( int argc, char **argv )
 #endif
 
 #ifndef GTKOSXAPPLICATION
-    #define GRISBI_LOCALEDIR LOCALEDIR
-
-    bindtextdomain ( PACKAGE, GRISBI_LOCALEDIR );
+    bindtextdomain ( PACKAGE, LOCALEDIR );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
 
@@ -135,10 +133,9 @@ int main ( int argc, char **argv )
     setlocale (LC_ALL, "");
 #endif /* !GTKOSXAPPLICATION */
 
-/* #if IS_DEVELOPMENT_VERSION == 1
- *     gsb_grisbi_print_environment_var ( );
- * #endif
- */
+#if IS_DEVELOPMENT_VERSION == 1
+    gsb_grisbi_print_environment_var ( );
+#endif
 
 #ifdef _WIN32
     main_win_32 (  argc, argv );
@@ -172,9 +169,6 @@ void main_linux ( int argc, char **argv )
     gint status = CMDLINE_SYNTAX_OK;
 
     gtk_init ( &argc, &argv );
-#if IS_DEVELOPMENT_VERSION == 1
-    gsb_grisbi_print_environment_var ( );
-#endif
 
     /* on commence par détourner le signal SIGSEGV */
     gsb_grisbi_trappe_signal_sigsegv ( );
@@ -234,9 +228,6 @@ void main_mac_osx ( int argc, char **argv )
     devel_debug ("main_mac_osx");
 
     gtk_init ( &argc, &argv );
-#if IS_DEVELOPMENT_VERSION == 1
-    gsb_grisbi_print_environment_var ( );
-#endif
 
     /* init the app */
     theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
@@ -393,14 +384,11 @@ void main_win_32 (  int argc, char **argv )
 gboolean gsb_grisbi_print_environment_var ( void )
 {
     struct lconv *conv;
-    gchar *tmp_str;
-    gchar *tmp_str_1;
-    gchar *tmp_str_2;
 
     /* test local pour les nombres */
     conv = localeconv();
     
-/*    printf ("Variables d'environnement :\n\n" );
+    printf ("Variables d'environnement :\n\n" );
     printf ("Currency\n"
             "\tcurrency_symbol = %s\n"
             "\tmon_thousands_sep = \"%s\"\n"
@@ -420,7 +408,6 @@ gboolean gsb_grisbi_print_environment_var ( void )
             "\tC_PATH_CONFIG = %s\n"
             "\tC_PATH_CONFIG_ACCELS = %s\n"
             "\tC_PATH_DATA_FILES = %s\n"
-            "\tLOCALEDIR = %s\n"
             "\tGRISBI_LOCALEDIR = %s\n"
             "\tGRISBI_PLUGINS_DIR = %s\n"
             "\tGRISBI_PIXMAPS_DIR = %s\n\n",
@@ -428,57 +415,13 @@ gboolean gsb_grisbi_print_environment_var ( void )
             C_PATH_CONFIG,
             C_PATH_CONFIG_ACCELS,
             C_PATH_DATA_FILES,
-            LOCALEDIR,
 #ifdef GTKOSXAPPLICATION
             grisbi_osx_get_locale_dir ( ),
 #else
-            GRISBI_LOCALEDIR,
-#endif
-            GRISBI_PLUGINS_DIR,
-            GRISBI_PIXMAPS_DIR );
-*/
-    tmp_str_1 = g_strdup_printf ("Currency\n"
-            "\tcurrency_symbol = %s\n"
-            "\tmon_thousands_sep = \"%s\"\n"
-            "\tmon_decimal_point = %s\n"
-            "\tpositive_sign = \"%s\"\n"
-            "\tnegative_sign = \"%s\"\n"
-            "\tfrac_digits = \"%d\"\n\n",
-            conv->currency_symbol,
-            g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL ),
-            g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL ),
-            g_locale_to_utf8 ( conv->positive_sign, -1, NULL, NULL, NULL ),
-            g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL ),
-            conv->frac_digits );
-
-    tmp_str_2 = g_strdup_printf ("Paths\n"
-            "\tC_GRISBIRC = %s\n"
-            "\tC_PATH_CONFIG = %s\n"
-            "\tC_PATH_CONFIG_ACCELS = %s\n"
-            "\tC_PATH_DATA_FILES = %s\n"
-            "\tLOCALEDIR = %s\n"
-            "\tGRISBI_LOCALEDIR = %s\n"
-            "\tGRISBI_PLUGINS_DIR = %s\n"
-            "\tGRISBI_PIXMAPS_DIR = %s\n\n",
-            C_GRISBIRC,
-            C_PATH_CONFIG,
-            C_PATH_CONFIG_ACCELS,
-            C_PATH_DATA_FILES,
             LOCALEDIR,
-#ifdef GTKOSXAPPLICATION
-            grisbi_osx_get_locale_dir ( ),
-#else
-            GRISBI_LOCALEDIR,
 #endif
             GRISBI_PLUGINS_DIR,
             GRISBI_PIXMAPS_DIR );
-
-    tmp_str = g_strconcat (tmp_str_1, "\n\n", tmp_str_2, NULL );
-    dialogue_hint ( tmp_str, "Variables d'environnement :\n\n" );
-
-    g_free ( tmp_str_1 );
-    g_free ( tmp_str_2 );
-    g_free ( tmp_str );
 
     return FALSE;
 }
