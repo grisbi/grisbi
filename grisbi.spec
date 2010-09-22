@@ -78,7 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Sun Sep 12 2010 Pierre Biava <grisbi@pierre.biava.name> 0.7.4-1mdv2010.1
-- new version 0.6.0
+- new version 0.7.4
 
 * Sun Apr 18 2010 Pierre Biava <grisbi@pierre.biava.name> 0.6.0-1mdv2010.0
 - new version 0.6.0
