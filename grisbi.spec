@@ -68,7 +68,6 @@ rm -rf $RPM_BUILD_ROOT
 %_bindir/*
 %_libdir/grisbi
 %dir %_datadir/grisbi
-%_datadir/grisbi/tips.txt
 %_datadir/grisbi/categories
 %_datadir/pixmaps/*
 %_datadir/applications/*
