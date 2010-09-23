@@ -149,6 +149,7 @@ extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
+extern GdkColor couleur_bet_solde;
 extern GdkColor couleur_bet_transfert;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
@@ -833,6 +834,9 @@ gulong gsb_file_save_color_part ( gulong iterator,
                         "\t\tCouleur_bet_future_red=\"%d\"\n"
                         "\t\tCouleur_bet_future_green=\"%d\"\n"
                         "\t\tCouleur_bet_future_blue=\"%d\"\n"
+                        "\t\tCouleur_bet_solde_red=\"%d\"\n"
+                        "\t\tCouleur_bet_solde_green=\"%d\"\n"
+                        "\t\tCouleur_bet_solde_blue=\"%d\"\n"
                         "\t\tCouleur_bet_transfert_red=\"%d\"\n"
                         "\t\tCouleur_bet_transfert_green=\"%d\"\n"
                         "\t\tCouleur_bet_transfert_blue=\"%d\" />\n",
@@ -873,6 +877,9 @@ gulong gsb_file_save_color_part ( gulong iterator,
     couleur_bet_future.red,
     couleur_bet_future.green,
     couleur_bet_future.blue,
+    couleur_bet_solde.red,
+    couleur_bet_solde.green,
+    couleur_bet_solde.blue,
     couleur_bet_transfert.red,
     couleur_bet_transfert.green,
     couleur_bet_transfert.blue );

@@ -215,7 +215,8 @@ enum bet_array_origin_data
     SPP_ORIGIN_ACCOUNT,
     SPP_ORIGIN_ARRAY,
     SPP_ORIGIN_CONFIG,
-    SPP_ORIGIN_FINANCE
+    SPP_ORIGIN_FINANCE,
+    SPP_ORIGIN_SOLDE
 };
 
 enum bet_type_maj 

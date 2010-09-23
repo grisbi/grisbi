@@ -174,6 +174,7 @@ extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
+extern GdkColor couleur_bet_solde;
 extern GdkColor couleur_bet_transfert;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
@@ -1299,6 +1300,24 @@ void gsb_file_load_color_part ( const gchar **attribute_names,
                         "Couleur_bet_future_blue" ))
     {
         couleur_bet_future.blue = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_bet_solde_red" ))
+    {
+        couleur_bet_solde.red = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_bet_solde_green" ))
+    {
+        couleur_bet_solde.green = utils_str_atoi (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Couleur_bet_solde_blue" ))
+    {
+        couleur_bet_solde.blue = utils_str_atoi (attribute_values[i]);
     }
 
     else if ( !strcmp ( attribute_names[i],

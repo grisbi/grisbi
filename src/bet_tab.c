@@ -128,6 +128,9 @@ static void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
 static gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
                         GDate *date_min,
                         GDate *date_max );
+static gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model,
+                        GDate *date_min,
+                        GDate *date_max );
 static gboolean bet_array_sort_scheduled_transactions ( gint div_number,
                         gint sub_div_nb,
                         GtkTreeModel *model );
@@ -146,6 +149,7 @@ extern GtkWidget *account_page;
 extern gchar* bet_duration_array[];
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
+extern GdkColor couleur_bet_solde;
 extern GdkColor couleur_bet_transfert;
 extern GdkColor couleur_fond[2];
 extern gint mise_a_jour_liste_echeances_auto_accueil;
@@ -277,6 +281,11 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
             }
 
             g_free ( str_amount_b );
+        }
+
+        if ( origine == SPP_ORIGIN_SOLDE )
+        {
+            result = 1;
         }
 
         g_free ( str_amount_a );
@@ -446,12 +455,13 @@ void bet_array_refresh_estimate_tab ( gint account_number )
                         SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
                         &date_value);
     gtk_tree_store_set(GTK_TREE_STORE(tree_model), &iter,
+                        SPP_ESTIMATE_TREE_ORIGIN_DATA, SPP_ORIGIN_SOLDE,
                         SPP_ESTIMATE_TREE_DATE_COLUMN, str_date_min,
                         SPP_ESTIMATE_TREE_DESC_COLUMN, tmp_str,
                         SPP_ESTIMATE_TREE_BALANCE_COLUMN, str_current_balance,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
                         SPP_ESTIMATE_TREE_BALANCE_COLOR, color_str,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_fond[0],
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_solde,
                         -1);
 
     g_value_unset ( &date_value );
@@ -481,6 +491,9 @@ void bet_array_refresh_estimate_tab ( gint account_number )
 
     /* search data from a transfer */
     bet_array_refresh_transfert_data ( tree_model, date_min, date_max );
+
+    /* shows the balance at beginning of month */
+    bet_array_shows_balance_at_beginning_of_month ( tree_model, date_min, date_max );
 
     g_date_free ( date_min );
     g_date_free ( date_init );
@@ -648,8 +661,9 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
                         (GtkTreeIterCompareFunc) bet_array_date_sort_function,
                         NULL,
                         NULL );
-    gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(tree_model),
-                        SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, GTK_SORT_DESCENDING);
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( tree_model ),
+                        SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
+                        GTK_SORT_DESCENDING );
 
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_widget_show ( scrolled_window );
@@ -2068,7 +2082,13 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
                         SPP_ESTIMATE_TREE_COLOR_STRING, gdk_color_to_string ( &couleur_bet_transfert ),
                         -1 );
                 break;
-            }                    
+            case SPP_ORIGIN_SOLDE:
+                gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                        &iter,
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_solde,
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gdk_color_to_string ( &couleur_bet_solde ),
+                        -1 );
+            }
         }
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
     }
@@ -2826,6 +2846,60 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
 
     return ( handlebox );
 
+}
+
+
+gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model,
+                        GDate *date_min,
+                        GDate *date_max )
+{
+    GDate *date;
+    gchar *str_amount;
+
+    date = gsb_date_copy ( date_min );
+    g_date_add_months ( date, 1 );
+    g_date_set_day ( date, 1 );
+
+    str_amount = gsb_real_save_real_to_string ( null_real, 2 );
+
+    while ( g_date_compare ( date, date_max ) < 0 )
+    {
+        GtkTreeIter tab_iter;
+        GValue date_value = {0, };
+        gchar *str_date;
+        gchar *str_description;
+
+        g_value_init ( &date_value, G_TYPE_DATE );
+        g_value_set_boxed ( &date_value, date );
+
+        str_date = gsb_format_gdate ( date );
+        str_description = g_strconcat ( _("Balance at "), str_date, NULL ); 
+
+        /* add a line in the estimate array */
+        gtk_tree_store_append ( GTK_TREE_STORE ( tab_model ), &tab_iter, NULL );
+        gtk_tree_store_set_value ( GTK_TREE_STORE ( tab_model ), &tab_iter,
+                        SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
+                        &date_value );
+
+        gtk_tree_store_set ( GTK_TREE_STORE ( tab_model ), &tab_iter,
+                        SPP_ESTIMATE_TREE_ORIGIN_DATA, SPP_ORIGIN_SOLDE,
+                        SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
+                        SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
+                        SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
+                        SPP_ESTIMATE_TREE_BALANCE_COLOR, NULL,
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_solde,
+                        -1);
+
+        g_value_unset ( &date_value );
+        g_free ( str_date );
+        g_free ( str_description );
+
+        g_date_add_months ( date, 1 );
+    }
+    g_free ( str_amount );
+    g_date_free ( date );
+    
+    return FALSE;
 }
 
 

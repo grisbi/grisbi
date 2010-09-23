@@ -136,6 +136,8 @@ GdkColor couleur_bet_division;
 GdkColor default_couleur_bet_division;
 GdkColor couleur_bet_future;
 GdkColor default_couleur_bet_future;
+GdkColor couleur_bet_solde;
+GdkColor default_couleur_bet_solde;
 GdkColor couleur_bet_transfert;
 GdkColor default_couleur_bet_transfert;
 
@@ -542,6 +544,15 @@ void initialisation_couleurs_listes ( void )
     default_couleur_bet_future.red = 31829;
     default_couleur_bet_future.green = 51015;
     default_couleur_bet_future.blue =  35908;
+
+    /* colors of the background bet solde data */
+    couleur_bet_solde.red = 2318;
+    couleur_bet_solde.green = 65535;
+    couleur_bet_solde.blue = 60331;
+
+    default_couleur_bet_solde.red = 2318;
+    default_couleur_bet_solde.green = 65535;
+    default_couleur_bet_solde.blue =  60331;
 
     /* colors of the background bet transfert data */
     couleur_bet_transfert.red = 31829;

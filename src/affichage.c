@@ -83,6 +83,7 @@ extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
+extern GdkColor couleur_bet_solde;
 extern GdkColor couleur_bet_transfert;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
@@ -92,6 +93,7 @@ extern GdkColor default_archive_background_color;
 extern GdkColor default_calendar_entry_color;
 extern GdkColor default_couleur_bet_division;
 extern GdkColor default_couleur_bet_future;
+extern GdkColor default_couleur_bet_solde;
 extern GdkColor default_couleur_bet_transfert;
 extern GdkColor default_couleur_fond[2];
 extern GdkColor default_couleur_grise;
@@ -829,6 +831,7 @@ static GtkWidget *preferences_view_create_color_combobox (void)
     { N_("Background of invalid date entry"), &calendar_entry_color, &default_calendar_entry_color },
     { N_("Background of bet division"), &couleur_bet_division, &default_couleur_bet_division },
     { N_("Background of bet futur"), &couleur_bet_future, &default_couleur_bet_future },
+    { N_("Background of bet solde"), &couleur_bet_solde, &default_couleur_bet_solde },
     { N_("Background of bet transfer"), &couleur_bet_transfert, &default_couleur_bet_transfert },
     { NULL, 0, 0},
     };
