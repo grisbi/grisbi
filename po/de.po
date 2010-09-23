@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-18 09:19+0200\n"
+"POT-Creation-Date: 2010-09-23 21:42+0200\n"
 "PO-Revision-Date: 2010-05-16 14:55+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -206,169 +206,174 @@ msgid "Currency"
 msgstr "Währung"
 
 #. initialization of titles and logo part
-#: ../src/accueil.c:2150 ../src/affichage.c:1023 ../src/affichage.c:1024
+#: ../src/accueil.c:2150 ../src/affichage.c:1026 ../src/affichage.c:1027
 #: ../src/gsb_assistant_file.c:564 ../src/navigation.c:1155
-#: ../src/navigation.c:1156 ../src/traitement_variables.c:307
+#: ../src/navigation.c:1156 ../src/traitement_variables.c:309
 msgid "My accounts"
 msgstr "Meine Konten"
 
-#: ../src/affichage.c:141 ../src/parametres.c:353
+#: ../src/affichage.c:143 ../src/parametres.c:353
 msgid "Fonts & logo"
 msgstr "Schrift & Farben"
 
 #. Change Grisbi Logo
-#: ../src/affichage.c:144
+#: ../src/affichage.c:146
 msgid "Grisbi logo"
 msgstr "Logo"
 
-#: ../src/affichage.c:149
+#: ../src/affichage.c:151
 msgid "Display a logo"
 msgstr "Das Logo anzeigen"
 
-#: ../src/affichage.c:198
+#: ../src/affichage.c:200
 msgid "Click on preview to change logo"
 msgstr "Auswahl mit Klick auf Logo"
 
 #. Change fonts
-#: ../src/affichage.c:202 ../src/print_report.c:105 ../src/print_report.c:406
+#: ../src/affichage.c:204 ../src/print_report.c:105 ../src/print_report.c:406
 #: ../src/print_transactions_list.c:258 ../src/print_tree_view_list.c:1010
 msgid "Fonts"
 msgstr "Schriften"
 
-#: ../src/affichage.c:208
+#: ../src/affichage.c:210
 msgid "Use a custom font for the transactions"
 msgstr "Eine benutzerdefinierte Schrift für Buchungen verwenden"
 
 #. change colors
-#: ../src/affichage.c:233
+#: ../src/affichage.c:235
 msgid "Colors"
 msgstr "Farben"
 
-#: ../src/affichage.c:247
+#: ../src/affichage.c:249
 msgid "Choosing color"
 msgstr "Farbe auswählen - Grisbi"
 
-#: ../src/affichage.c:262
+#: ../src/affichage.c:264
 msgid "Back to default"
 msgstr "Voreinstellung"
 
-#: ../src/affichage.c:370 ../src/parametres.c:371
+#: ../src/affichage.c:372 ../src/parametres.c:371
 msgid "Addresses & titles"
 msgstr "Bezeichnung & Adressen"
 
 #. Account file title
-#: ../src/affichage.c:374 ../src/etats_config.c:624 ../src/etats_config.c:627
+#: ../src/affichage.c:376 ../src/etats_config.c:624 ../src/etats_config.c:627
 #: ../src/etats_config.c:6988
 msgid "Titles"
 msgstr "Bezeichnungen"
 
 #. label account name
-#: ../src/affichage.c:385 ../src/affichage.c:429
+#: ../src/affichage.c:387 ../src/affichage.c:431
 #: ../src/gsb_assistant_file.c:283
 msgid "Accounts file title"
 msgstr "Bezeichnung"
 
-#: ../src/affichage.c:400
+#: ../src/affichage.c:402
 msgid "Account owner name"
 msgstr "Kontoinhaber"
 
 #. filename
-#: ../src/affichage.c:414 ../src/gsb_assistant_file.c:305
+#: ../src/affichage.c:416 ../src/gsb_assistant_file.c:305
 msgid "Filename"
 msgstr "Dateiname"
 
-#: ../src/affichage.c:442
+#: ../src/affichage.c:444
 msgid "Addresses"
 msgstr "Adressen"
 
 #. Common address
-#: ../src/affichage.c:445
+#: ../src/affichage.c:447
 msgid "Common address"
 msgstr "Hauptadresse"
 
 #. Secondary address
 #. * \note This is not implemented yet
-#: ../src/affichage.c:464
+#: ../src/affichage.c:466
 msgid "Secondary address"
 msgstr "Zusatzadresse"
 
-#: ../src/affichage.c:579
+#: ../src/affichage.c:581
 msgid "Select a new logo"
 msgstr "Logo auswählen - Grisbi"
 
-#: ../src/affichage.c:727 ../src/parametres.c:389
+#: ../src/affichage.c:729 ../src/parametres.c:389
 msgid "Toolbars"
 msgstr "Werkzeugleisten"
 
-#: ../src/affichage.c:730
+#: ../src/affichage.c:732
 msgid "Display toolbar buttons as"
 msgstr "Werkzeugleisten Darstellung"
 
-#: ../src/affichage.c:732
+#: ../src/affichage.c:734
 msgid "Text"
 msgstr "Text"
 
-#: ../src/affichage.c:741
+#: ../src/affichage.c:743
 msgid "Icons"
 msgstr "Symbole"
 
-#: ../src/affichage.c:750
+#: ../src/affichage.c:752
 msgid "Both"
 msgstr "Text und Symbole"
 
-#: ../src/affichage.c:772
+#: ../src/affichage.c:774
 msgid "Display headings bar"
 msgstr "Kopfzeile anzeigen"
 
-#: ../src/affichage.c:820
+#: ../src/affichage.c:822
 msgid "Transaction list background 1"
 msgstr "Hintergrund gerade Zeilen"
 
-#: ../src/affichage.c:821
+#: ../src/affichage.c:823
 msgid "Transaction list background 2"
 msgstr "Hintergrund ungerade Zeilen"
 
-#: ../src/affichage.c:822
+#: ../src/affichage.c:824
 msgid "Color for the operation that gives the balance today"
 msgstr "Hintergrund aktueller Saldo"
 
-#: ../src/affichage.c:823
+#: ../src/affichage.c:825
 msgid "Color of transaction's text"
 msgstr "Text Buchungen"
 
-#: ../src/affichage.c:824
+#: ../src/affichage.c:826
 msgid "Text of unfinished split transaction"
 msgstr "Text unvollständige Splittbuchungen"
 
-#: ../src/affichage.c:825
+#: ../src/affichage.c:827
 msgid "Children of split transaction"
 msgstr "Teilbuchungen von Splittbuchungen"
 
-#: ../src/affichage.c:826
+#: ../src/affichage.c:828
 msgid "Selection color"
 msgstr "Selektierte Buchung"
 
-#: ../src/affichage.c:827
+#: ../src/affichage.c:829
 msgid "Background of non selectable scheduled transactions"
 msgstr "Hintergrund nicht auswählbarer geplanter Buchungen"
 
-#: ../src/affichage.c:828
+#: ../src/affichage.c:830
 msgid "Archive color"
 msgstr "Archivierte Buchungen"
 
-#: ../src/affichage.c:829
+#: ../src/affichage.c:831
 msgid "Background of invalid date entry"
 msgstr "Hintergrund ungültiger Datumswert"
 
-#: ../src/affichage.c:830
+#: ../src/affichage.c:832
 msgid "Background of bet division"
 msgstr "Hintergrund geschätzte Teilung"
 
-#: ../src/affichage.c:831
+#: ../src/affichage.c:833
 msgid "Background of bet futur"
 msgstr "Hintergrund geschätzte Prognose"
 
-#: ../src/affichage.c:832
+#: ../src/affichage.c:834
+#, fuzzy
+msgid "Background of bet solde"
+msgstr "Hintergrund geschätzte Teilung"
+
+#: ../src/affichage.c:835
 msgid "Background of bet transfer"
 msgstr "Hintergrund geschätzte Prognose"
 
@@ -808,7 +813,7 @@ msgstr ""
 #. Print list
 #: ../src/bet_finance_ui.c:1004 ../src/bet_finance_ui.c:1559
 #: ../src/bet_finance_ui.c:1790 ../src/bet_finance_ui.c:1844
-#: ../src/bet_tab.c:1510 ../src/bet_tab.c:2817
+#: ../src/bet_tab.c:1525 ../src/bet_tab.c:2838
 #, fuzzy
 msgid "Print the array"
 msgstr "Drucker"
@@ -833,7 +838,7 @@ msgstr ""
 msgid "Loan amount"
 msgstr "Konten laden"
 
-#: ../src/bet_finance_ui.c:1164 ../src/bet_future.c:770 ../src/bet_tab.c:667
+#: ../src/bet_finance_ui.c:1164 ../src/bet_future.c:770 ../src/bet_tab.c:682
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:760
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1282
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
@@ -872,7 +877,7 @@ msgstr "Israel"
 
 #. Set up dialog
 #: ../src/bet_finance_ui.c:1556 ../src/bet_finance_ui.c:1787
-#: ../src/bet_finance_ui.c:1841 ../src/bet_tab.c:2814
+#: ../src/bet_finance_ui.c:1841 ../src/bet_tab.c:2835
 #: ../src/barre_outils.c:139 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
@@ -1017,7 +1022,7 @@ msgid "Payee"
 msgstr "Empfänger"
 
 #. Debit method_ptr
-#: ../src/bet_future.c:795 ../src/bet_tab.c:701 ../src/categories_onglet.c:696
+#: ../src/bet_future.c:795 ../src/bet_tab.c:716 ../src/categories_onglet.c:696
 #: ../src/export_csv.c:781 ../src/gsb_form.c:1308 ../src/gsb_form_widget.c:416
 #: ../src/gsb_payment_method_config.c:316
 #: ../src/gsb_payment_method_config.c:387
@@ -1028,7 +1033,7 @@ msgid "Debit"
 msgstr "Ausgaben"
 
 #. Credit method_ptr
-#: ../src/bet_future.c:802 ../src/bet_tab.c:719 ../src/categories_onglet.c:696
+#: ../src/bet_future.c:802 ../src/bet_tab.c:734 ../src/categories_onglet.c:696
 #: ../src/export_csv.c:778 ../src/gsb_form.c:1313 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:323
 #: ../src/gsb_payment_method_config.c:400
@@ -1160,110 +1165,115 @@ msgstr "Den durchschnittlichen Betrag kopieren"
 msgid "Please select the data source for the account: \"%s\""
 msgstr "Eine Datenquelle für das Konto: \"%s\" auswählen"
 
-#: ../src/bet_tab.c:425
+#: ../src/bet_tab.c:435
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Voraussichtlicher Saldo für das Konto \"%s\" von %s bis %s"
 
-#: ../src/bet_tab.c:442
+#: ../src/bet_tab.c:452
 msgid "balance beginning of period"
 msgstr "Saldo Anfangsperiode"
 
 #. set the start date and the automatic change of month
-#: ../src/bet_tab.c:539
+#: ../src/bet_tab.c:553
 msgid "Start date"
 msgstr "Beginndatum"
 
-#: ../src/bet_tab.c:558
+#: ../src/bet_tab.c:572
 msgid "Check the box to automatically change start date"
 msgstr ""
 "Für eine automatische Änderung vom Beginndatum bitte die 'Checkbox' auswählen"
 
 #. Description entry
-#: ../src/bet_tab.c:684 ../src/etats_onglet.c:260 ../src/tiers_onglet.c:638
+#: ../src/bet_tab.c:699 ../src/etats_onglet.c:260 ../src/tiers_onglet.c:638
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../src/bet_tab.c:737 ../src/export_csv.c:787 ../src/gsb_reconcile.c:161
+#: ../src/bet_tab.c:752 ../src/export_csv.c:787 ../src/gsb_reconcile.c:161
 #: ../src/gsb_scheduler_list.c:340 ../src/gsb_transactions_list.c:152
 #: ../src/gsb_transactions_list.c:3019 ../src/import_csv.c:88
 #: ../src/traitement_variables.c:85
 msgid "Balance"
 msgstr "Saldo"
 
-#: ../src/bet_tab.c:828 ../src/bet_tab.c:838 ../src/bet_tab.c:1025
-#: ../src/bet_tab.c:2428 ../src/bet_tab.c:2433
+#: ../src/bet_tab.c:843 ../src/bet_tab.c:853 ../src/bet_tab.c:1040
+#: ../src/bet_tab.c:2449 ../src/bet_tab.c:2454
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Umbuchung: %s <-> %s"
 
-#: ../src/bet_tab.c:1349
+#: ../src/bet_tab.c:1364
 msgid "Subtract to the balance"
 msgstr "Vom Saldo abziehen"
 
-#: ../src/bet_tab.c:1356
+#: ../src/bet_tab.c:1371
 msgid "Adding to the balance"
 msgstr "Zum Saldo hinzufügen"
 
 #. Insert Row
-#: ../src/bet_tab.c:1373
+#: ../src/bet_tab.c:1388
 msgid "Insert Row"
 msgstr "Zeile einfügen"
 
-#: ../src/bet_tab.c:1390 ../src/bet_tab.c:1402 ../src/bet_tab.c:1423
-#: ../src/bet_tab.c:1480
+#: ../src/bet_tab.c:1405 ../src/bet_tab.c:1417 ../src/bet_tab.c:1438
+#: ../src/bet_tab.c:1495
 msgid "Delete selection"
 msgstr "Auswahl löschen"
 
-#: ../src/bet_tab.c:1413
+#: ../src/bet_tab.c:1428
 msgid "Change selection"
 msgstr "Auswahl ändern"
 
-#: ../src/bet_tab.c:1434
+#: ../src/bet_tab.c:1449
 msgid "Delete all occurences of the selection"
 msgstr "Ein oder alle Vorkommen von der Auswahl löschen"
 
-#: ../src/bet_tab.c:1449
+#: ../src/bet_tab.c:1464
 msgid "Convert selection to scheduled transaction"
 msgstr "Buchung regelmäßig ausführen"
 
-#: ../src/bet_tab.c:1470
+#: ../src/bet_tab.c:1485
 msgid "Insert the balance of a cash account"
 msgstr "Den Saldo von einem Bargeldkonto eingeben"
 
 #. redo item
-#: ../src/bet_tab.c:1496
+#: ../src/bet_tab.c:1511
 msgid "Reset data"
 msgstr "Daten zurücksetzen"
 
-#: ../src/bet_tab.c:1828
+#: ../src/bet_tab.c:1843
 msgid " (still available)"
 msgstr " (weiterhin verfügbar)"
 
-#: ../src/bet_tab.c:1837 ../src/bet_tab.c:1858
+#: ../src/bet_tab.c:1852 ../src/bet_tab.c:1873
 msgid " (budget exceeded)"
 msgstr " (Budget überschritten)"
 
-#: ../src/bet_tab.c:1849
+#: ../src/bet_tab.c:1864
 msgid " (yet to receive)"
 msgstr " (noch nicht verfügbar)"
 
-#: ../src/bet_tab.c:2351 ../src/bet_tab.c:2401 ../src/bet_tab.c:2461
+#: ../src/bet_tab.c:2372 ../src/bet_tab.c:2422 ../src/bet_tab.c:2482
 msgid "No data by default"
 msgstr "Keine Daten per Voreinstellung"
 
-#: ../src/bet_tab.c:2359 ../src/bet_tab.c:2409 ../src/bet_tab.c:2467
+#: ../src/bet_tab.c:2380 ../src/bet_tab.c:2430 ../src/bet_tab.c:2488
 #: ../src/etats_affiche.c:1860 ../src/gsb_data_category.c:157
 #: ../src/meta_categories.c:66
 msgid "No category"
 msgstr "Keine Kategorie"
 
-#: ../src/bet_tab.c:2367 ../src/bet_tab.c:2417 ../src/bet_tab.c:2473
+#: ../src/bet_tab.c:2388 ../src/bet_tab.c:2438 ../src/bet_tab.c:2494
 #: ../src/etats_affiche.c:2030 ../src/meta_budgetary.c:63
 msgid "No budgetary line"
 msgstr "Kein Budgeteintrag"
+
+#: ../src/bet_tab.c:2876
+#, fuzzy
+msgid "Balance at "
+msgstr "Saldo"
 
 #. New transaction
 #: ../src/barre_outils.c:92 ../src/gsb_scheduler_list.c:2006
@@ -1736,7 +1746,7 @@ msgstr ""
 "Dateiformat kann sich ändern, dadurch kann diese Datei inkompatibel zu "
 "Vorversionen von Grisbi werden)."
 
-#: ../src/dialog.c:112 ../src/main.c:467
+#: ../src/dialog.c:112 ../src/main.c:463
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Sie führen Grisbi mit GTK-Version %s aus"
@@ -7385,8 +7395,8 @@ msgstr "Konten laden"
 msgid "Failed to load accounts"
 msgstr "Fehler beim Laden der Konten"
 
-#: ../src/gsb_file.c:421 ../src/gsb_file.c:438 ../src/gsb_file_load.c:314
-#: ../src/gsb_file_load.c:328 ../src/gsb_file_load.c:429
+#: ../src/gsb_file.c:421 ../src/gsb_file.c:438 ../src/gsb_file_load.c:315
+#: ../src/gsb_file_load.c:329 ../src/gsb_file_load.c:430
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Fehler beim Öffnen der Datei '%s'"
@@ -7610,18 +7620,18 @@ msgstr ""
 "\n"
 "Die Eingabe mit 'OK' bestätigen."
 
-#: ../src/gsb_file_load.c:311 ../src/gsb_file_load.c:426
+#: ../src/gsb_file_load.c:312 ../src/gsb_file_load.c:427
 #: ../src/gsb_file_others.c:425 ../src/gsb_file_others.c:562
 #: ../src/gsb_file_others.c:749 ../src/gsb_file_others.c:809
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Die Datei kann nicht geöffnet werden '%s': %s"
 
-#: ../src/gsb_file_load.c:313
+#: ../src/gsb_file_load.c:314
 msgid "File does not exist"
 msgstr "Die Datei ist nicht vorhanden"
 
-#: ../src/gsb_file_load.c:326 ../src/gsb_file_others.c:438
+#: ../src/gsb_file_load.c:327 ../src/gsb_file_others.c:438
 #: ../src/gsb_file_others.c:761
 #, c-format
 msgid ""
@@ -7631,7 +7641,7 @@ msgstr ""
 "%s scheint keine reguläre Datei zu sein,\n"
 "bitte prüfen und erneut versuchen."
 
-#: ../src/gsb_file_load.c:367 ../src/gsb_file_save.c:410
+#: ../src/gsb_file_load.c:368 ../src/gsb_file_save.c:411
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7643,15 +7653,15 @@ msgstr ""
 "\n"
 "Bitte prüfen, ob das Modul installiert ist und erneut versuchen."
 
-#: ../src/gsb_file_load.c:372 ../src/gsb_file_save.c:415
+#: ../src/gsb_file_load.c:373 ../src/gsb_file_save.c:416
 msgid "Encryption plugin not found."
 msgstr "Das Modul für die Verschlüsselung kann nicht gefunden werden."
 
-#: ../src/gsb_file_load.c:470 ../src/gsb_file_load.c:5396
+#: ../src/gsb_file_load.c:471 ../src/gsb_file_load.c:5415
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Diese Datei ist kein Grisbi-Datei...der Ladevorgang wird abgebrochen."
 
-#: ../src/gsb_file_load.c:707
+#: ../src/gsb_file_load.c:708
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7663,7 +7673,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8794
+#: ../src/gsb_file_load.c:8813
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7672,7 +7682,7 @@ msgstr ""
 "Grisbi mit Version %s ist zum Öffnen der Datei notwendig.\n"
 "Sie verwenden Version %s."
 
-#: ../src/gsb_file_load.c:8833
+#: ../src/gsb_file_load.c:8852
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7683,13 +7693,13 @@ msgstr ""
 "Bevor Buchungen oder wichtige Informationen geändert werden sollten Sie "
 "beachten, dass es sich um ein Archiv handelt."
 
-#: ../src/gsb_file_load.c:8837
+#: ../src/gsb_file_load.c:8856
 msgid "Grisbi archive opened"
 msgstr "Grisbi Archiv geöffnet"
 
 #: ../src/gsb_file_others.c:144 ../src/gsb_file_others.c:225
-#: ../src/gsb_file_others.c:308 ../src/gsb_file_save.c:435
-#: ../src/gsb_file_save.c:453
+#: ../src/gsb_file_others.c:308 ../src/gsb_file_save.c:436
+#: ../src/gsb_file_save.c:454
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Die Datei kann nicht gespeichert werden '%s': %s"
@@ -9525,7 +9535,7 @@ msgstr "Der Budgeteintrag ist bereits vorhanden"
 msgid "New sub-budget"
 msgstr "Neuer Teil-Budgeteintrag"
 
-#: ../src/main.c:470
+#: ../src/main.c:466
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -9536,7 +9546,7 @@ msgstr ""
 "\n"
 "Es wird eine Aktualisierung auf eine neuere Version empfohlen."
 
-#: ../src/main.c:591
+#: ../src/main.c:587
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Fehler bei der Sigaktion. SIGSEGV wird nicht eingeschlossen\n"
