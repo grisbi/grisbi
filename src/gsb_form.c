@@ -401,7 +401,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     devel_debug_int (transaction_number);
 
     if ( !transaction_number )
-	return FALSE;
+        return FALSE;
 
     /* get the account */
     account_number = gsb_data_mix_get_account_number (transaction_number, is_transaction);
@@ -411,12 +411,12 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     /* if here account number = -1, it's because it's a white line or there were a problem ; 
      * in all case, get the current account number */
     if (account_number == -1)
-	account_number = gsb_form_get_account_number ();
+        account_number = gsb_form_get_account_number ();
 
     /* show and prepare the form */
-    gsb_form_show (TRUE);
+    gsb_form_show ( TRUE );
 
-    if (!is_transaction)
+    if ( !is_transaction )
     {
 	/* we need to set up the part of scheduler form here because changing the account
 	 * button will change the form */
@@ -428,25 +428,26 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
      * on white line will do the same */
     if ( transaction_number == -1 )
     {
-	GtkWidget *date_entry;
+        GtkWidget *date_entry;
 
-	/* if we can't touch the focus, it's because we just select a transaction, and
-	 * for now, select the white line, so keep the form blank */
-	if (!grab_focus)
-	    return FALSE;
+        /* if we can't touch the focus, it's because we just select a transaction, and
+         * for now, select the white line, so keep the form blank */
+        if ( !grab_focus )
+            return FALSE;
 
-	date_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_DATE);
+        date_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_DATE);
 
-	if ( gsb_form_widget_check_empty (date_entry))
-	    /* for now,  transaction_number_in_form is NULL so can call the next function
-	     * wich will prepare the form for a new transaction */
-	    gsb_form_button_press_event ( date_entry,
-					  NULL,
-					  GINT_TO_POINTER (TRANSACTION_FORM_DATE));
+        if ( gsb_form_widget_check_empty (date_entry))
+            /* for now,  transaction_number_in_form is NULL so can call the next function
+             * wich will prepare the form for a new transaction */
+            gsb_form_button_press_event ( date_entry,
+                          NULL,
+                          GINT_TO_POINTER (TRANSACTION_FORM_DATE));
 
-	gtk_editable_select_region ( GTK_EDITABLE (date_entry), 0, -1);
-	gtk_widget_grab_focus ( GTK_WIDGET (date_entry));
-	return FALSE;
+        gtk_editable_select_region ( GTK_EDITABLE (date_entry), 0, -1);
+        gtk_widget_grab_focus ( GTK_WIDGET (date_entry));
+
+        return FALSE;
     }
 
     /* set the number of the transaction in the form, can be -2, -3...
@@ -825,10 +826,14 @@ void gsb_form_fill_element ( gint element_number,
             tmp_widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
 	    if ( GTK_WIDGET_VISIBLE (widget))
 	    {
+            gboolean check_entry = FALSE;
+
             number = gsb_data_mix_get_method_of_payment_number (transaction_number, is_transaction);
+            if ( transaction_number == - 1 )
+                check_entry = TRUE;
 
             /* we show the cheque entry only for transactions */
-            if (gsb_payment_method_set_combobox_history ( widget, number )
+            if (gsb_payment_method_set_combobox_history ( widget, number, check_entry )
              &&
              gsb_data_payment_get_show_entry (number)
              &&
@@ -908,8 +913,7 @@ void gsb_form_fill_element ( gint element_number,
                 else
                     method = gsb_data_scheduled_get_contra_method_of_payment_number (transaction_number);
 
-                gsb_payment_method_set_combobox_history ( widget,
-                                      method );
+                gsb_payment_method_set_combobox_history ( widget, method, FALSE );
             }
 	    }
         else
@@ -1227,12 +1231,14 @@ gboolean gsb_form_fill_from_account ( gint account_number )
          * the means of payment in accordance with the type of account */
 	    if ( element == TRANSACTION_FORM_TYPE )
         {
+            gint sign;
+
             if ( gsb_data_account_get_default_credit ( account_number ) == 0 )
-                gtk_widget_hide ( widget );
+                sign = GSB_PAYMENT_NEUTRAL;
             else
-                gsb_payment_method_create_combo_list ( widget,
-                                        GSB_PAYMENT_DEBIT,
-                                        account_number, 0 );
+                sign = GSB_PAYMENT_DEBIT;
+
+            gsb_payment_method_create_combo_list ( widget, sign, account_number, 0 );
         }
 		else if ( element != TRANSACTION_FORM_CONTRA
          &&
@@ -1333,11 +1339,16 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_TYPE:
-		    gsb_payment_method_set_combobox_history ( element -> element_widget,
-							      gsb_data_account_get_default_debit ( account_number ) );
-		    gtk_widget_set_sensitive ( GTK_WIDGET ( element -> element_widget ), FALSE );
-		    break;
+        {
+            gint payment_number;
 
+            payment_number = gsb_data_account_get_default_debit ( account_number );
+		    gsb_payment_method_set_combobox_history ( element -> element_widget, payment_number, TRUE );
+		    gtk_widget_set_sensitive ( GTK_WIDGET ( element -> element_widget ), FALSE );
+            gsb_payment_method_show_cheque_entry_if_necessary ( payment_number );
+
+		    break;
+        }
 		case TRANSACTION_FORM_CONTRA:
 		    gtk_widget_hide ( element -> element_widget );
 		    break;
@@ -2205,7 +2216,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
             payment_number = gsb_data_payment_get_number_by_name ( _("Credit card"),
                         account_number );
             if ( payment_number )
-                gsb_payment_method_set_combobox_history ( widget, payment_number );
+                gsb_payment_method_set_combobox_history ( widget, payment_number, TRUE );
 
             return TRUE;
             break;
@@ -2214,7 +2225,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
             payment_number = gsb_data_payment_get_number_by_name ( _("Direct deposit"),
                         account_number );
             if ( payment_number )
-                gsb_payment_method_set_combobox_history ( widget, payment_number );
+                gsb_payment_method_set_combobox_history ( widget, payment_number, TRUE );
 
             return TRUE;
             break;
@@ -2223,7 +2234,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
             payment_number = gsb_data_payment_get_number_by_name ( _("Check"),
                         account_number );
             if ( payment_number )
-                gsb_payment_method_set_combobox_history ( widget, payment_number );
+                gsb_payment_method_set_combobox_history ( widget, payment_number, TRUE );
 
             return TRUE;
             break;
@@ -2232,7 +2243,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
             payment_number = gsb_data_payment_get_number_by_name ( _("Cash withdrawal"),
                         account_number );
             if ( payment_number )
-                gsb_payment_method_set_combobox_history ( widget, payment_number );
+                gsb_payment_method_set_combobox_history ( widget, payment_number, TRUE );
 
             return TRUE;
             break;
@@ -2242,7 +2253,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
             payment_number = gsb_data_payment_get_number_by_name ( _("Direct debit"),
                         account_number );
             if ( payment_number )
-                gsb_payment_method_set_combobox_history ( widget, payment_number );
+                gsb_payment_method_set_combobox_history ( widget, payment_number, TRUE );
 
             return TRUE;
             break;
@@ -2253,7 +2264,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
             payment_number = gsb_data_payment_get_number_by_name ( _("Transfer"),
                         account_number );
             if ( payment_number )
-                gsb_payment_method_set_combobox_history ( widget, payment_number );
+                gsb_payment_method_set_combobox_history ( widget, payment_number, TRUE );
 
             return TRUE;
             break;

@@ -825,7 +825,7 @@ gboolean bet_form_clean ( gint account_number )
 
             case TRANSACTION_FORM_TYPE:
                 gsb_payment_method_set_combobox_history ( element -> element_widget,
-                                      gsb_data_account_get_default_debit (account_number));
+                                      gsb_data_account_get_default_debit ( account_number ), TRUE );
                 break;
 
             }
@@ -1403,7 +1403,7 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
     gsb_form_widget_set_empty ( widget, FALSE );
 
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
-    gsb_payment_method_set_combobox_history ( widget, scheduled -> payment_number );
+    gsb_payment_method_set_combobox_history ( widget, scheduled -> payment_number, TRUE );
 
     if ( scheduled -> category_number > 0 )
     {

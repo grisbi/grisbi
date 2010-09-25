@@ -145,14 +145,14 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
         else if ( sign == GSB_PAYMENT_CREDIT )
             payment_number = gsb_data_account_get_default_credit ( account_number );
 
-        gsb_payment_method_set_combobox_history ( combo_box, payment_number );
+        gsb_payment_method_set_combobox_history ( combo_box, payment_number, FALSE );
 
         gtk_widget_show ( combo_box );
     }
     else
     {
         gtk_widget_hide (combo_box);
-        gsb_payment_method_set_cheque_entry ( 0 );
+        gsb_payment_method_show_cheque_entry_if_necessary ( 0 );
     }
 
     /* on réactive le signal du gtk_combo_box */
@@ -311,14 +311,15 @@ void gsb_payment_method_set_payment_position ( GtkWidget *combo_box,
  * \return TRUE if we can set the payment_number, FALSE if it's the default wich is set
  * */
 gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
-                        gint payment_number )
+                        gint payment_number,
+                        gboolean check_entry )
 {
     gint position;
     gboolean return_value;
     gint account_number;
 
     /* on sort si le moyen de paiement est déjà le bon */
-    if ( gsb_payment_method_get_selected_number ( combo_box ) == payment_number )
+    if ( payment_number && gsb_payment_method_get_selected_number ( combo_box ) == payment_number )
         return TRUE;
 
     /* on bloque le signal du gtk_combo_box pour éviter de multiples appels */
@@ -328,22 +329,25 @@ gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
     account_number = gsb_data_payment_get_account_number (payment_number);
     position = gsb_payment_method_get_payment_position ( combo_box, payment_number );
 
-    if (position != -1)
+    if ( position != -1 )
         return_value = TRUE;
     else
     {
         if ( gsb_payment_method_get_combo_sign ( combo_box ) == GSB_PAYMENT_CREDIT )
             position = gsb_payment_method_get_payment_position ( combo_box,
 								gsb_data_account_get_default_credit ( account_number ) );
-        else
+        else if ( gsb_payment_method_get_combo_sign ( combo_box ) == GSB_PAYMENT_DEBIT )
             position = gsb_payment_method_get_payment_position ( combo_box,
 								gsb_data_account_get_default_debit ( account_number ) );
+        else
+            position = 0;
 
         return_value = FALSE;
     }
     
     gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box), position );
-    gsb_payment_method_set_cheque_entry ( payment_number );
+    if ( check_entry )
+        gsb_payment_method_set_cheque_entry ( payment_number );
 
     /* on réactive le signal du gtk_combo_box */
     g_signal_handlers_unblock_by_func ( combo_box, 
@@ -381,7 +385,7 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
     if ( gsb_data_payment_get_show_entry ( payment_number) )
     {
         /* set the next number if needed */
-        if (gsb_data_payment_get_automatic_numbering (payment_number) )
+        if (gsb_data_payment_get_automatic_numbering ( payment_number ) )
         {
             if ( gsb_form_widget_check_empty (cheque_entry) )
             {
@@ -459,7 +463,7 @@ gboolean gsb_payment_method_set_cheque_entry ( gint payment_number )
                         GINT_TO_POINTER ( TRANSACTION_FORM_CHEQUE ) );
         }
 
-        gtk_widget_show (cheque_entry);
+        gtk_widget_show ( cheque_entry );
     }
     else
     {
@@ -471,6 +475,30 @@ gboolean gsb_payment_method_set_cheque_entry ( gint payment_number )
         gtk_widget_hide ( cheque_entry );
     }
     
+    return TRUE;
+}
+
+
+/**
+ * show or hide the entry for cheque in the form if necessary
+ *
+ * \param gint payment_number
+ *
+ * \return FALSE if not cheque_entry TRUE if OK
+ * */
+gboolean gsb_payment_method_show_cheque_entry_if_necessary ( gint payment_number )
+{
+    GtkWidget *cheque_entry;
+
+    cheque_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
+    if ( !cheque_entry )
+        return FALSE;
+
+    if ( gsb_data_payment_get_show_entry ( payment_number ) == TRUE )
+        gtk_widget_show ( cheque_entry );
+    else
+        gtk_widget_hide ( cheque_entry );
+
     return TRUE;
 }
 

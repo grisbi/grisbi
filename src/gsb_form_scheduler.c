@@ -523,7 +523,7 @@ void gsb_form_scheduler_set_content_list ( GSList *content_list )
 							   gsb_data_payment_get_sign (element -> element_int),
 							   account_number, FALSE );
 		    gsb_payment_method_set_combobox_history ( form_element -> element_widget,
-							      gsb_data_payment_get_similar (element -> element_int, account_number));
+							   gsb_data_payment_get_similar (element -> element_int, account_number), TRUE );
 		    break;
 
 		case TRANSACTION_FORM_CONTRA:
@@ -531,7 +531,7 @@ void gsb_form_scheduler_set_content_list ( GSList *content_list )
 							   gsb_data_payment_get_sign (element -> element_int),
 							   account_number, FALSE );
 		    gsb_payment_method_set_combobox_history ( form_element -> element_widget,
-							      gsb_data_payment_get_similar (element -> element_int, account_number));
+							   gsb_data_payment_get_similar (element -> element_int, account_number), TRUE );
 			break;
 
 		case TRANSACTION_FORM_EXERCICE:

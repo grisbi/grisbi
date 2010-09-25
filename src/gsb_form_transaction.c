@@ -206,7 +206,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
                                 account_number );
 
             /* we show the cheque entry only for transactions */
-            if (gsb_payment_method_set_combobox_history ( widget, number )
+            if (gsb_payment_method_set_combobox_history ( widget, number, TRUE )
                 &&
                 gsb_data_payment_get_show_entry ( number )
                 &&
