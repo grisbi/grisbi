@@ -26,11 +26,13 @@
 #include "bet_finance_ui.h"
 #include "bet_data_finance.h"
 #include "dialog.h"
+#include "export_csv.h"
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
 #include "gsb_combo_box.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
+#include "gsb_file.h"
 #include "gsb_form_widget.h"
 #include "gsb_real.h"
 #include "mouse.h"
@@ -39,6 +41,7 @@
 #include "structures.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_file_selection.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -94,6 +97,7 @@ static void bet_finance_fill_amortization_ligne ( GtkTreeModel *model,
                         struct_amortissement *s_amortissement );
 static void bet_finance_fill_data_ligne ( GtkTreeModel *model, struct_echeance *s_echeance );
 static gboolean bet_finance_list_set_background_color ( GtkWidget *tree_view, gint color_column );
+static void bet_finance_ui_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view );
 static void bet_finance_ui_struct_amortization_free ( struct_amortissement *s_amortissement );
 static void bet_finance_type_taux_changed ( GtkWidget *togglebutton, GtkWidget *widget );
 /*END_STATIC*/
@@ -101,6 +105,7 @@ static void bet_finance_type_taux_changed ( GtkWidget *togglebutton, GtkWidget *
 /*START_EXTERN*/
 extern GtkWidget *account_page;
 extern GdkColor couleur_fond[2];
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 /* notebook pour la simulation de crédits */
@@ -1546,7 +1551,7 @@ GtkWidget *bet_finance_create_account_page ( void )
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
 
-    /* création du bouton print */
+    /* Export button */
     handlebox = gtk_handle_box_new ( );
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_container_add ( GTK_CONTAINER ( handlebox ), hbox );
@@ -1562,6 +1567,20 @@ GtkWidget *bet_finance_create_account_page ( void )
                         G_CALLBACK ( print_tree_view_list ),
                         tree_view );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+
+    /* Export button */
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_SAVE,
+					   _("Export"),
+					   NULL,
+					   NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), SPACIFY ( _("Export the array") ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( bet_finance_ui_export_tab ),
+                        tree_view );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+
     gtk_box_pack_start ( GTK_BOX ( page ), handlebox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( page ), handlebox, 0 );
 
@@ -1796,6 +1815,21 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent, GtkWidget *
     g_object_set_data ( G_OBJECT ( parent ), "print_button", button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
+    /* Export button */
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_SAVE,
+					   _("Export"),
+					   NULL,
+					   NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), SPACIFY ( _("Export the array") ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( bet_finance_ui_export_tab ),
+                        tree_view );
+    gtk_widget_set_sensitive ( button, FALSE );
+    g_object_set_data ( G_OBJECT ( parent ), "export_button", button );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+
     gtk_widget_show_all ( handlebox );
 
     return ( handlebox );
@@ -1848,10 +1882,72 @@ GtkWidget *bet_finance_create_amortization_toolbar ( GtkWidget *parent, GtkWidge
                         tree_view );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
+    /* Export button */
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_SAVE,
+					   _("Export"),
+					   NULL,
+					   NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), SPACIFY ( _("Export the array") ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( bet_finance_ui_export_tab ),
+                        tree_view );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+
     gtk_widget_show_all ( handlebox );
 
     return ( handlebox );
 
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_finance_ui_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
+{
+    GtkWidget *dialog;
+    gint resultat;
+    gchar *filename;
+
+    dialog = gtk_file_chooser_dialog_new ( _("Export the array"),
+					   GTK_WINDOW ( window ),
+					   GTK_FILE_CHOOSER_ACTION_SAVE,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					   NULL);
+
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ),  _("credit.csv"));
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
+    gtk_file_chooser_set_do_overwrite_confirmation ( GTK_FILE_CHOOSER ( dialog ), TRUE);
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+
+    switch ( resultat )
+    {
+	case GTK_RESPONSE_OK :
+	    filename = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ) );
+	    gsb_file_update_last_path ( file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE ) );
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+
+	    /* vérification que c'est possible est faite par la boite de dialogue */
+	    if ( !gsb_csv_export_tree_view_list ( filename, tree_view ) )
+	    {
+            dialogue_error ( _("Cannot save file.") );
+            return;
+	    }
+
+	    break;
+
+	default :
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+	    return;
+    }
 }
 
 

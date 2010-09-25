@@ -40,6 +40,8 @@
 #include "bet_data.h"
 #include "bet_future.h"
 #include "bet_hist.h"
+#include "dialog.h"
+#include "export_csv.h"
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
@@ -50,6 +52,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_real.h"
 #include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
@@ -63,6 +66,7 @@
 #include "transaction_list_select.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_file_selection.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -80,6 +84,7 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
 static gboolean bet_array_entry_key_press ( GtkWidget *entry,
                         GdkEventKey *ev,
                         gpointer data );
+static void bet_array_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view );
 static gboolean bet_array_initializes_account_settings ( gint account_number );
 static void bet_array_list_add_substract_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
@@ -157,6 +162,7 @@ extern GtkWidget *notebook_general;
 extern gsb_real null_real;
 extern const gdouble prev_month_max;
 extern gint valeur_echelle_recherche_date_import;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 /* gestion de la largeur des colonnes du tableau */
@@ -2829,16 +2835,29 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_container_add ( GTK_CONTAINER ( handlebox ), hbox );
 
-    /* création du bouton print */
+    /* print button */
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
                         GTK_STOCK_PRINT,
                         _("Print"),
                         NULL,
                         NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Print the array") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), SPACIFY ( _("Print the array") ) );
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( print_tree_view_list ),
+                        tree_view );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+
+    /* Export button */
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_SAVE,
+					   _("Export"),
+					   NULL,
+					   NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), SPACIFY ( _("Export the array of forecast") ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( bet_array_export_tab ),
                         tree_view );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
@@ -2849,6 +2868,12 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
 gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model,
                         GDate *date_min,
                         GDate *date_max )
@@ -2900,6 +2925,55 @@ gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model
     g_date_free ( date );
     
     return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_array_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
+{
+    GtkWidget *dialog;
+    gint resultat;
+    gchar *filename;
+
+    dialog = gtk_file_chooser_dialog_new ( _("Export the array of forecast"),
+					   GTK_WINDOW ( window ),
+					   GTK_FILE_CHOOSER_ACTION_SAVE,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					   NULL);
+
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ),  _("forecast.csv"));
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
+    gtk_file_chooser_set_do_overwrite_confirmation ( GTK_FILE_CHOOSER ( dialog ), TRUE);
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+
+    switch ( resultat )
+    {
+	case GTK_RESPONSE_OK :
+	    filename = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ) );
+	    gsb_file_update_last_path ( file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE ) );
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+
+	    /* vérification que c'est possible est faite par la boite de dialogue */
+	    if ( !gsb_csv_export_tree_view_list ( filename, tree_view ) )
+	    {
+            dialogue_error ( _("Cannot save file.") );
+            return;
+	    }
+
+	    break;
+
+	default :
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+	    return;
+    }
 }
 
 

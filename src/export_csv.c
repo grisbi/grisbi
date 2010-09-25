@@ -62,6 +62,13 @@ static gboolean gsb_csv_export_title_line ( FILE *csv_file,
 static gboolean gsb_csv_export_transaction ( gint transaction_number,
 					     FILE *csv_file,
 					     gboolean print_balance );
+static gboolean gsb_csv_export_tree_view_list_foreach_callback ( GtkTreeModel *model,
+                        GtkTreePath *path,
+                        GtkTreeIter *iter,
+                        FILE *csv_file );
+static void gsb_csv_export_tree_view_list_export_rows ( FILE *csv_file, GtkTreeView *tree_view );
+static void gsb_csv_export_tree_view_list_export_title_line ( FILE *csv_file, GtkTreeView *tree_view );
+
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -342,8 +349,7 @@ gboolean gsb_csv_export_account ( const gchar *filename, gint account_nb )
  *
  * \return TRUE ok, FALSE problem
  * */
-gboolean gsb_csv_export_archive ( const gchar *filename,
-				  gint archive_number )
+gboolean gsb_csv_export_archive ( const gchar *filename, gint archive_number )
 {
     FILE *csv_file;
     GSList *pTransactionList;
@@ -386,9 +392,6 @@ static FILE *gsb_csv_export_open_file ( const gchar *filename )
 {
     FILE *csv_file;
     gchar *sMessage = NULL;
-
-    if (!gsb_file_util_test_overwrite (filename))
-	return NULL;
 
     /* Ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
     if ( !( csv_file = utf8_fopen ( filename, "w" ) ))
@@ -813,6 +816,135 @@ static gboolean gsb_csv_export_title_line ( FILE *csv_file,
     csv_add_record(csv_file,TRUE, print_balance);
     return TRUE;
 }
+
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_csv_export_tree_view_list ( const gchar *filename, GtkTreeView *tree_view )
+{
+    FILE *csv_file;
+
+    csv_file = gsb_csv_export_open_file ( filename );
+    if ( !csv_file )
+        return FALSE;
+
+    gsb_csv_export_tree_view_list_export_title_line ( csv_file, tree_view );
+    gsb_csv_export_tree_view_list_export_rows ( csv_file, tree_view );
+
+    fclose ( csv_file );
+
+    return TRUE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+static void gsb_csv_export_tree_view_list_export_title_line ( FILE *csv_file, GtkTreeView *tree_view )
+{
+    GList *list;
+    GList *list_tmp;
+
+    list = gtk_tree_view_get_columns ( tree_view );
+    list_tmp = list;
+
+    while ( list_tmp )
+    {
+        GtkTreeViewColumn *col;
+        const gchar *text;
+
+        col = ( GtkTreeViewColumn * ) list_tmp -> data;
+
+        /* get the text */
+        text = gtk_tree_view_column_get_title ( col );
+
+        CSV_STR_FIELD( csv_file, text );
+
+        list_tmp  = list_tmp -> next;
+    }
+    CSV_END_RECORD( csv_file );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+static void gsb_csv_export_tree_view_list_export_rows ( FILE *csv_file, GtkTreeView *tree_view )
+{
+    GtkTreeModel *model;
+
+    model = gtk_tree_view_get_model ( tree_view );
+    g_object_set_data ( G_OBJECT ( model ), "tree_view", tree_view );
+
+    gtk_tree_model_foreach ( model,
+                        ( GtkTreeModelForeachFunc ) gsb_csv_export_tree_view_list_foreach_callback,
+                        csv_file );
+
+    g_object_steal_data ( G_OBJECT ( model ), "tree_view" );
+}
+
+
+
+static gboolean gsb_csv_export_tree_view_list_foreach_callback ( GtkTreeModel *model,
+                        GtkTreePath *path,
+                        GtkTreeIter *iter,
+                        FILE *csv_file )
+{
+    GtkTreeView *tree_view;
+    GList *list;
+    GList *list_tmp;
+
+    tree_view = g_object_get_data ( G_OBJECT ( model ), "tree_view" );
+    list = gtk_tree_view_get_columns ( tree_view );
+    list_tmp = list;
+
+    while ( list_tmp )
+    {
+        GtkTreeViewColumn *col;
+        gchar *text;
+        gint col_num_model;
+        GType col_type_model;
+
+        col = list_tmp -> data;
+
+        col_num_model = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( col ), "num_col_model" ) );
+        col_type_model = gtk_tree_model_get_column_type ( model, col_num_model );
+
+        /* get the text */
+        if ( col_type_model == G_TYPE_STRING )
+            gtk_tree_model_get ( model, iter, col_num_model, &text, -1 );
+        else if ( col_type_model == G_TYPE_INT )
+        {
+            gint number;
+
+            gtk_tree_model_get ( model, iter, col_num_model, &number, -1 );
+            text = utils_str_itoa ( number );
+        }
+        else
+            text = NULL;
+
+        CSV_STR_FIELD ( csv_file, text );
+        CSV_CLEAR_FIELD ( text );
+
+        list_tmp  = list_tmp -> next;
+    }
+
+    CSV_END_RECORD( csv_file );
+
+    return FALSE;
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
