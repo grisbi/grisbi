@@ -265,11 +265,11 @@ void gsb_transactions_list_update_tree_view ( gint account_number,
     if ( keep_selected_transaction )
         selected_transaction = transaction_list_select_get ( );
     transaction_list_filter ( account_number );
+    transaction_list_set_balances ( );
     transaction_list_sort ();
     transaction_list_colorize ();
     if ( conf.show_transaction_gives_balance )
         transaction_list_set_color_jour ( account_number );
-    transaction_list_set_balances ( );
     if ( keep_selected_transaction )
         transaction_list_select ( selected_transaction );
 }
@@ -2375,10 +2375,10 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr )
     update_titres_tree_view ( );
 
     /* update the sort column */
+    gsb_data_account_set_element_sort ( current_account, col, element );
     if ( sort_column == last_col )
     {
         gsb_data_account_set_sort_column ( current_account, col );
-        gsb_data_account_set_element_sort ( current_account, col, element );
         transaction_list_sort_set_column ( col, 
 				        gsb_data_account_get_sort_type ( current_account ) );
     }
@@ -2954,7 +2954,8 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                         GdkEventButton *ev,
                         gint *no_column )
 {
-    GtkWidget *menu, *menu_item;
+    GtkWidget *menu = NULL;
+    GtkWidget *menu_item = NULL;
     gint i;
     gint active_sort;
     gint column_number;
@@ -2966,91 +2967,68 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
     {
 	case 3:
 	    /* we press the right button, show the popup */
-
-	    menu = gtk_menu_new ();
-
-	    /*  sort by line */
-	    menu_item = gtk_menu_item_new_with_label ( _("Sort list by :") );
-
-	    /*     les 2 signaux sont bloqués pour éviter que la ligne s'affiche comme un bouton */
-	    /* pas réussi à faire autrement... */
-
-	    g_signal_connect ( G_OBJECT ( menu_item),
-			       "enter-notify-event",
-			       G_CALLBACK ( gtk_true ),
-			       NULL );
-	    g_signal_connect ( G_OBJECT ( menu_item),
-			       "motion-notify-event",
-			       G_CALLBACK ( gtk_true ),
-			       NULL );
-
-	    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
-			      menu_item );
-	    gtk_widget_show_all ( menu_item );
-
-	    menu_item = gtk_separator_menu_item_new ();
-	    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
-			      menu_item );
-	    gtk_widget_show ( menu_item );
-
-
 	    active_sort = gsb_data_account_get_element_sort ( gsb_gui_navigation_get_current_account (),
 							      column_number);
 
 	    /*     get the name of the labels of the columns and put them in a menu */
 	    for ( i=0 ; i<4 ; i++ )
 	    {
-		gchar *temp;
+            gchar *temp;
 
-		switch ( tab_affichage_ope[i][column_number] )
-		{
-		    case 0:
-			temp = NULL;
-			break;
+            switch ( tab_affichage_ope[i][column_number] )
+            {
+                case 0:
+                temp = NULL;
+                break;
 
-		    default:
-			temp = _(g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
-						  tab_affichage_ope[i][column_number] - 1 ));
-		}
+                default:
+                temp = _(g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
+                              tab_affichage_ope[i][column_number] - 1 ));
+            }
 
-		if ( temp
-		     &&
-		     strcmp ( temp,
-			      N_("Balance")))
-		{
-		    if ( i )
-			menu_item = gtk_radio_menu_item_new_with_label_from_widget ( GTK_RADIO_MENU_ITEM ( menu_item ),
-										     temp );
-		    else
-			menu_item = gtk_radio_menu_item_new_with_label ( NULL,
-									 temp );
+            if ( temp && strcmp ( temp, _("Balance") ) )
+            {
+                if ( menu == NULL )
+                {
+                    menu = gtk_menu_new ();
+                    /*  sort by line */
+                    menu_item = gtk_menu_item_new_with_label ( _("Sort list by :") );
+                    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+                    gtk_widget_show_all ( menu_item );
 
-		    if ( tab_affichage_ope[i][column_number] == active_sort )
-			gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ),
-							 TRUE );
+                    menu_item = gtk_separator_menu_item_new ();
+                    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+                    gtk_widget_show ( menu_item );
+                }
 
-		    g_object_set_data ( G_OBJECT ( menu_item ),
-					"no_sort",
-					GINT_TO_POINTER (tab_affichage_ope[i][column_number]));
-		    g_signal_connect ( G_OBJECT(menu_item),
-				       "activate",
-				       G_CALLBACK ( gsb_transactions_list_change_sort_type ),
-				       no_column );
-		    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
-				      menu_item );
-		    gtk_widget_show ( menu_item );
-		}
+                if ( i && GTK_IS_RADIO_MENU_ITEM ( menu_item ) )
+                    menu_item = gtk_radio_menu_item_new_with_label_from_widget ( GTK_RADIO_MENU_ITEM ( menu_item ),
+                                                 temp );
+                else
+                    menu_item = gtk_radio_menu_item_new_with_label ( NULL, temp );
+
+                if ( tab_affichage_ope[i][column_number] == active_sort )
+                    gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ), TRUE );
+
+                g_object_set_data ( G_OBJECT ( menu_item ),
+                        "no_sort",
+                        GINT_TO_POINTER (tab_affichage_ope[i][column_number]));
+                g_signal_connect ( G_OBJECT(menu_item),
+                        "activate",
+                        G_CALLBACK ( gsb_transactions_list_change_sort_type ),
+                        no_column );
+
+                gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+                gtk_widget_show ( menu_item );
+            }
 
 	    }
 
-	    gtk_menu_popup ( GTK_MENU(menu),
-			     NULL,
-			     NULL,
-			     NULL,
-			     NULL,
-			     3,
-			     gtk_get_current_event_time());
-	    gtk_widget_show (menu);
+        if ( menu )
+        {
+            gtk_menu_popup ( GTK_MENU ( menu ), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time () );
+            gtk_widget_show ( menu );
+        }
 	    break;
     }
     return FALSE;
@@ -3118,13 +3096,18 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
     gint new_column;
     GSList *tmp_list;
     gint selected_transaction;
+    gint element_number;
 
     devel_debug (NULL);
 
     account_number = gsb_gui_navigation_get_current_account ();
-    transaction_list_sort_get_column ( &current_column,
-				       &sort_type );
+    transaction_list_sort_get_column ( &current_column, &sort_type );
     new_column = GPOINTER_TO_INT (column_ptr);
+
+    element_number = gsb_data_account_get_element_sort ( account_number, new_column );
+
+    if ( element_number == ELEMENT_BALANCE )
+        return FALSE;
 
     /* if we come here and the list was user custom sorted for reconcile,
      * we stop the reconcile sort and set what is asked by the user */
@@ -3183,13 +3166,13 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
     selected_transaction = transaction_list_select_get ();
 
     /* now we can sort the list */
-    transaction_list_sort_set_column ( new_column,
-				       sort_type );
+    transaction_list_sort_set_column ( new_column, sort_type );
+    transaction_list_filter ( account_number );
+    transaction_list_set_balances ();
     transaction_list_sort ();
     transaction_list_colorize ();
     if ( conf.show_transaction_gives_balance )
         transaction_list_set_color_jour ( account_number );
-    transaction_list_set_balances ();
     transaction_list_select (selected_transaction);
 
     if ( etat.modification_fichier == 0 )

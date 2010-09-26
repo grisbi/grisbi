@@ -1058,7 +1058,76 @@ gint gsb_transactions_list_sort_by_chq ( gint transaction_number_1,
 }
 
 
+/**
+ * called by a click on the column, used to sort the list
+ *
+ * \param model
+ * \param iter_1
+ * \param iter_2
+ *
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_initial (CustomRecord **a,
+                        CustomRecord **b,
+                        CustomList *custom_list)
+{
+    gint account_number;
+    gint return_value;
+    CustomRecord *record_1 = NULL;
+    CustomRecord *record_2 = NULL;
 
+    account_number = gsb_gui_navigation_get_current_account ();
+    if (account_number == -1)
+    {
+        /* normally cannot happen, except come here at the opening
+         * of grisbi, and must return 0 if we don't want a crash */
+        return 0;
+    }   
+
+    /* i don't know why but sometimes there is a comparison between the 2 same rows... */
+    if (*a == *b)
+        return 0;
+
+    /* first of all, check the archive */
+    return_value = gsb_transactions_list_sort_check_archive ( *a, *b );
+    if (!return_value)
+    {
+        /* check the general tests (white line...) */
+        /* get the records */
+        record_1 = *a;
+        record_2 = *b;
+        return_value = gsb_transactions_list_sort_general_test ( record_1, record_2 );
+    }
+
+    if (return_value)
+    {
+        /* we have already a returned value, but for archive or general test,
+         * the pos of the row need not to change, so must keep the return_value */
+        return return_value;
+    }
+    else
+    {
+        /* get the transaction numbers */
+        gint transaction_number_1;
+        gint transaction_number_2;
+        gint element_number;
+
+        transaction_number_1 = gsb_data_transaction_get_transaction_number (record_1 -> transaction_pointer);
+        transaction_number_2 = gsb_data_transaction_get_transaction_number (record_2 -> transaction_pointer);
+
+        element_number = gsb_data_account_get_element_sort ( account_number,
+							     custom_list -> sort_col);
+
+        if ( element_number == ELEMENT_DATE || element_number == ELEMENT_VALUE_DATE )
+            return_value = gsb_transactions_list_sort_by_no_sort ( transaction_number_1,
+							       transaction_number_2,
+							       element_number );
+        else
+            return_value = gsb_transactions_list_sort_by_value_date ( transaction_number_1, transaction_number_2 );
+    }
+
+    return return_value;
+}
 
 
 /* Local Variables: */

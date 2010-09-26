@@ -31,18 +31,20 @@
 
 /*START_INCLUDE*/
 #include "transaction_list_sort.h"
-#include "gsb_data_transaction.h"
-#include "utils_dates.h"
-#include "gsb_reconcile_list.h"
-#include "gsb_transactions_list_sort.h"
-#include "gsb_transactions_list.h"
-#include "transaction_model.h"
 #include "custom_list.h"
-#include "include.h"
+#include "gsb_data_account.h"
+#include "gsb_data_transaction.h"
+#include "gsb_reconcile_list.h"
+#include "gsb_transactions_list.h"
+#include "gsb_transactions_list_sort.h"
+#include "navigation.h"
+#include "transaction_model.h"
+#include "utils_dates.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean transaction_list_sort_get_initial_sort ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -72,10 +74,8 @@ void transaction_list_sort (void)
     gint        *neworder, i;
     CustomList *custom_list;
 
-    custom_list = transaction_model_get_model ();
-
     devel_debug (NULL);
-
+    custom_list = transaction_model_get_model ();
     g_return_if_fail ( custom_list != NULL );
 
     /* resort */
@@ -85,8 +85,10 @@ void transaction_list_sort (void)
                         sizeof(CustomRecord*),
                         (GCompareDataFunc) gsb_reconcile_list_sort_func,
                         custom_list);
+    else if ( transaction_list_sort_get_initial_sort ( ) && custom_list -> sort_order == GTK_SORT_ASCENDING )
+        return;
     else
-    g_qsort_with_data(custom_list->visibles_rows,
+        g_qsort_with_data(custom_list->visibles_rows,
                         custom_list->num_visibles_rows,
                         sizeof(CustomRecord*),
                         (GCompareDataFunc) gsb_transactions_list_sort,
@@ -97,21 +99,6 @@ void transaction_list_sort (void)
 
     for (i = 0; i < custom_list->num_visibles_rows; ++i)
     {
-        /* CustomRecord *record;
-        gint transaction_number;
-
-        record = custom_list -> visibles_rows[i];
-        transaction_number = gsb_data_transaction_get_transaction_number (
-                        record -> transaction_pointer);
-        printf ("pos = %d date = %s transaction_number = %d\n",
-                        i,
-                        gsb_format_gdate ( gsb_data_transaction_get_date (
-                        transaction_number ) ),
-                        transaction_number);
-        printf ("transaction_number = %d record -> filtered_pos = %d record -> line_in_transaction =%d\n",
-                        gsb_data_transaction_get_transaction_number ( record -> transaction_pointer),
-                        record -> filtered_pos,
-                        record -> line_in_transaction); */
         neworder[i] = (custom_list->visibles_rows[i])->filtered_pos;
         (custom_list->visibles_rows[i])->filtered_pos = i;
     }
@@ -242,4 +229,27 @@ gboolean transaction_list_sort_get_reconcile_sort ( void )
 }
 
 
+/**
+ * get if the sorting function is initial (by date or value_date) or not
+ *
+ * \param
+ *
+ * \return TRUE if the list is sorted by date or value_date, FALSE if not
+ * */
+gboolean transaction_list_sort_get_initial_sort ( void )
+{
+    gint account_number;
+    gint element_number;
 
+    account_number = gsb_gui_navigation_get_current_account ();
+    if (account_number == -1)
+        return FALSE;
+
+    element_number = gsb_data_account_get_element_sort ( account_number,
+                        gsb_data_account_get_sort_column ( account_number ) );
+
+    if ( element_number == ELEMENT_DATE || element_number == ELEMENT_VALUE_DATE )
+        return TRUE;
+    else
+        return FALSE;
+}

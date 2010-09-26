@@ -44,6 +44,7 @@
 #include "gsb_data_archive_store.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_transaction.h"
+#include "gsb_transactions_list_sort.h"
 #include "navigation.h"
 #include "gsb_real.h"
 #include "transaction_list_select.h"
@@ -612,6 +613,7 @@ void transaction_list_filter ( gint account_number )
     gint previous_visible_rows;
     GtkTreeIter iter;
     gint i;
+    gint *neworder;
     CustomList *custom_list;
 
     custom_list = transaction_model_get_model ();
@@ -775,6 +777,29 @@ void transaction_list_filter ( gint account_number )
 	    gtk_tree_model_row_deleted ( GTK_TREE_MODEL (custom_list),
 					 path );
     gtk_tree_path_free(path);
+
+    /* initial sort of the list */
+    g_qsort_with_data(custom_list->visibles_rows,
+                        custom_list->num_visibles_rows,
+                        sizeof(CustomRecord*),
+                        (GCompareDataFunc) gsb_transactions_list_sort_initial,
+                        custom_list);
+
+    /* let other objects know about the new order */
+    neworder = g_new0(gint, custom_list->num_visibles_rows);
+
+    for (i = 0; i < custom_list->num_visibles_rows; ++i)
+    {
+        neworder[i] = (custom_list->visibles_rows[i])->filtered_pos;
+        (custom_list->visibles_rows[i])->filtered_pos = i;
+    }
+
+    path = gtk_tree_path_new();
+
+    gtk_tree_model_rows_reordered(GTK_TREE_MODEL(custom_list), path, NULL, neworder);
+
+    gtk_tree_path_free(path);
+    g_free(neworder);
 }
 
 
