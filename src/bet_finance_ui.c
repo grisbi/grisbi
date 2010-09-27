@@ -757,6 +757,8 @@ void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget )
     gtk_widget_set_sensitive ( bouton, TRUE );
     bouton = g_object_get_data ( G_OBJECT ( widget ), "print_button" );
     gtk_widget_set_sensitive ( bouton, TRUE );
+    bouton = g_object_get_data ( G_OBJECT ( widget ), "export_button" );
+    gtk_widget_set_sensitive ( bouton, TRUE );
 
     gtk_tree_path_free ( path );
     g_free ( s_echeance );
