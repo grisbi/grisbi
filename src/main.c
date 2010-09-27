@@ -289,10 +289,13 @@ void main_mac_osx ( int argc, char **argv )
     else
         display_tip ( FALSE );
 
-    pixbuf = gdk_pixbuf_new_from_file ( g_build_filename 
+    if ( quartz_application_get_bundle_id ( ) == NULL )
+    {
+        pixbuf = gdk_pixbuf_new_from_file ( g_build_filename 
                         (GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL), NULL );
-    if ( pixbuf )
-        gtk_osxapplication_set_dock_icon_pixbuf ( theApp, pixbuf );
+        if ( pixbuf )
+            gtk_osxapplication_set_dock_icon_pixbuf ( theApp, pixbuf );
+    }
 
     gtk_osxapplication_set_use_quartz_accelerators ( theApp, TRUE );
 
