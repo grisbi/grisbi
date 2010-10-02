@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-25 22:02+0200\n"
+"POT-Creation-Date: 2010-10-02 16:26+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgid "Account balances in %s"
 msgstr "账户余额 %s"
 
 #: ../src/accueil.c:481 ../src/accueil.c:559 ../src/accueil.c:636
-#: ../src/accueil.c:705 ../src/bet_finance_ui.c:1637
+#: ../src/accueil.c:705 ../src/bet_finance_ui.c:1639
 msgid " at "
 msgstr ""
 
@@ -700,8 +700,8 @@ msgstr "贷款/抵押 : 资产"
 #. create columns
 #. Duration
 #: ../src/bet_config.c:1196 ../src/bet_finance_ui.c:269
-#: ../src/bet_finance_ui.c:473 ../src/bet_finance_ui.c:1105
-#: ../src/bet_finance_ui.c:1539
+#: ../src/bet_finance_ui.c:473 ../src/bet_finance_ui.c:1107
+#: ../src/bet_finance_ui.c:1541
 #, fuzzy
 msgid "Duration"
 msgstr "翻译"
@@ -718,14 +718,14 @@ msgstr "支付方式"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1091
-#: ../src/bet_finance_ui.c:1525
+#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1093
+#: ../src/bet_finance_ui.c:1527
 msgid "Annuel rate interest"
 msgstr ""
 
 #: ../src/bet_config.c:1236 ../src/bet_finance_ui.c:264
-#: ../src/bet_finance_ui.c:388 ../src/bet_finance_ui.c:1100
-#: ../src/bet_finance_ui.c:1534
+#: ../src/bet_finance_ui.c:388 ../src/bet_finance_ui.c:1102
+#: ../src/bet_finance_ui.c:1536
 msgid "%"
 msgstr ""
 
@@ -751,14 +751,14 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:829
-#: ../src/bet_finance_ui.c:1664
+#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:831
+#: ../src/bet_finance_ui.c:1666
 #, fuzzy
 msgid " year "
 msgstr "年 %d"
 
-#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:831
-#: ../src/bet_finance_ui.c:1666
+#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:833
+#: ../src/bet_finance_ui.c:1668
 #, fuzzy
 msgid " years "
 msgstr "年"
@@ -775,7 +775,7 @@ msgid "Credits simulator"
 msgstr "信用卡"
 
 #. capital
-#: ../src/bet_finance_ui.c:230 ../src/bet_finance_ui.c:1515
+#: ../src/bet_finance_ui.c:230 ../src/bet_finance_ui.c:1517
 #, fuzzy
 msgid "Loan capital"
 msgstr "贷款/抵押 : 资产"
@@ -838,7 +838,7 @@ msgid ""
 msgstr ""
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:587 ../src/bet_finance_ui.c:1276
+#: ../src/bet_finance_ui.c:587 ../src/bet_finance_ui.c:1278
 #, fuzzy
 msgid "Monthly paid"
 msgstr "每月"
@@ -853,39 +853,39 @@ msgstr "总计 %s"
 msgid "Approximate cost"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1003 ../src/bet_finance_ui.c:1794
+#: ../src/bet_finance_ui.c:1005 ../src/bet_finance_ui.c:1796
 msgid "View amortization table"
 msgstr ""
 
 #. Print list
-#: ../src/bet_finance_ui.c:1009 ../src/bet_finance_ui.c:1564
-#: ../src/bet_finance_ui.c:1809 ../src/bet_finance_ui.c:1878
+#: ../src/bet_finance_ui.c:1011 ../src/bet_finance_ui.c:1566
+#: ../src/bet_finance_ui.c:1811 ../src/bet_finance_ui.c:1880
 #: ../src/bet_tab.c:1531 ../src/bet_tab.c:2844
 #, fuzzy
 msgid "Print the array"
 msgstr "打印机"
 
-#: ../src/bet_finance_ui.c:1013 ../src/bet_finance_ui.c:1865
+#: ../src/bet_finance_ui.c:1015 ../src/bet_finance_ui.c:1867
 msgid "View credits simulator"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1019
+#: ../src/bet_finance_ui.c:1021
 #, fuzzy
 msgid "Print amortization table"
 msgstr "打印到文件"
 
-#: ../src/bet_finance_ui.c:1070 ../src/bet_finance_ui.c:1503
-#: ../src/bet_finance_ui.c:1637
+#: ../src/bet_finance_ui.c:1072 ../src/bet_finance_ui.c:1505
+#: ../src/bet_finance_ui.c:1639
 msgid "Amortization Table"
 msgstr ""
 
 #. capital
-#: ../src/bet_finance_ui.c:1081
+#: ../src/bet_finance_ui.c:1083
 #, fuzzy
 msgid "Loan amount"
 msgstr "载入账户文件"
 
-#: ../src/bet_finance_ui.c:1169 ../src/bet_future.c:770 ../src/bet_tab.c:688
+#: ../src/bet_finance_ui.c:1171 ../src/bet_future.c:770 ../src/bet_tab.c:688
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:763
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1288
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
@@ -895,75 +895,75 @@ msgstr "载入账户文件"
 msgid "Date"
 msgstr "日期"
 
-#: ../src/bet_finance_ui.c:1181 ../src/etats_affiche.c:2398
+#: ../src/bet_finance_ui.c:1183 ../src/etats_affiche.c:2398
 #: ../src/traitement_variables.c:96
 msgid "Number"
 msgstr "编号"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1200
+#: ../src/bet_finance_ui.c:1202
 msgid "Capital remaining"
 msgstr ""
 
 #. Interests
-#: ../src/bet_finance_ui.c:1219
+#: ../src/bet_finance_ui.c:1221
 #, fuzzy
 msgid "Interests"
 msgstr "兴趣"
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1238
+#: ../src/bet_finance_ui.c:1240
 msgid "Capital repaid"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:1257
+#: ../src/bet_finance_ui.c:1259
 #, fuzzy
 msgid "Insurance"
 msgstr "保险 : 汽车"
 
 #. Set up dialog
-#: ../src/bet_finance_ui.c:1561 ../src/bet_finance_ui.c:1806
-#: ../src/bet_finance_ui.c:1875 ../src/bet_tab.c:2841
+#: ../src/bet_finance_ui.c:1563 ../src/bet_finance_ui.c:1808
+#: ../src/bet_finance_ui.c:1877 ../src/bet_tab.c:2841
 #: ../src/barre_outils.c:139 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
 msgstr "打印"
 
-#: ../src/bet_finance_ui.c:1574 ../src/bet_finance_ui.c:1821
-#: ../src/bet_finance_ui.c:1888 ../src/bet_tab.c:2854
+#: ../src/bet_finance_ui.c:1576 ../src/bet_finance_ui.c:1823
+#: ../src/bet_finance_ui.c:1890 ../src/bet_tab.c:2854
 #: ../src/categories_onglet.c:517 ../src/etats_onglet.c:138
 #: ../src/export.c:161 ../src/imputation_budgetaire.c:554
 msgid "Export"
 msgstr "导出"
 
-#: ../src/bet_finance_ui.c:1577 ../src/bet_finance_ui.c:1824
-#: ../src/bet_finance_ui.c:1891 ../src/bet_finance_ui.c:1917
+#: ../src/bet_finance_ui.c:1579 ../src/bet_finance_ui.c:1826
+#: ../src/bet_finance_ui.c:1893 ../src/bet_finance_ui.c:1919
 #, fuzzy
 msgid "Export the array"
 msgstr "打印机"
 
-#: ../src/bet_finance_ui.c:1776 ../src/bet_finance_ui.c:1779
+#: ../src/bet_finance_ui.c:1778 ../src/bet_finance_ui.c:1781
 #, fuzzy
 msgid "Calculate"
 msgstr "所有日期"
 
-#: ../src/bet_finance_ui.c:1790
+#: ../src/bet_finance_ui.c:1792
 #, fuzzy
 msgid "Amortization"
 msgstr "动作"
 
-#: ../src/bet_finance_ui.c:1861
+#: ../src/bet_finance_ui.c:1863
 #, fuzzy
 msgid "Credits"
 msgstr "贷方"
 
-#: ../src/bet_finance_ui.c:1924
+#: ../src/bet_finance_ui.c:1926
 #, fuzzy
 msgid "credit.csv"
 msgstr "贷方"
 
-#: ../src/bet_finance_ui.c:1941 ../src/bet_tab.c:2967
+#: ../src/bet_finance_ui.c:1943 ../src/bet_tab.c:2967
 #: ../src/imputation_budgetaire.c:391
 msgid "Cannot save file."
 msgstr "不能保存文件"
@@ -1139,7 +1139,7 @@ msgstr "备注"
 #: ../src/etats_affiche.c:1844 ../src/export_csv.c:604 ../src/export_csv.c:716
 #: ../src/export_csv.c:728 ../src/gsb_data_category.c:1056
 #: ../src/gsb_data_payment.c:633 ../src/gsb_data_payment.c:714
-#: ../src/gsb_data_payment.c:753 ../src/gsb_form.c:2264 ../src/import.c:2686
+#: ../src/gsb_data_payment.c:753 ../src/gsb_form.c:2270 ../src/import.c:2686
 #: ../src/import.c:2704 ../src/plugins/ofx/ofx.c:461
 msgid "Transfer"
 msgstr "转帐"
@@ -1277,7 +1277,7 @@ msgstr "描述"
 
 #: ../src/bet_tab.c:758 ../src/export_csv.c:790 ../src/gsb_reconcile.c:161
 #: ../src/gsb_scheduler_list.c:340 ../src/gsb_transactions_list.c:152
-#: ../src/gsb_transactions_list.c:3019 ../src/import_csv.c:88
+#: ../src/gsb_transactions_list.c:2989 ../src/import_csv.c:88
 #: ../src/traitement_variables.c:85
 msgid "Balance"
 msgstr "余额"
@@ -1852,7 +1852,7 @@ msgid ""
 "Make a copy now."
 msgstr ""
 
-#: ../src/dialog.c:112 ../src/main.c:463
+#: ../src/dialog.c:112 ../src/main.c:467
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
@@ -2015,7 +2015,7 @@ msgstr "总计 %s (%d 交易)"
 #: ../src/etats_affiche.c:225 ../src/etats_affiche.c:345
 #: ../src/etats_affiche.c:458 ../src/etats_affiche.c:574
 #: ../src/etats_affiche.c:683 ../src/etats_affiche.c:791
-#: ../src/transaction_list.c:334
+#: ../src/transaction_list.c:335
 #, fuzzy, c-format
 msgid "%s (%d transactions)"
 msgstr "总计 %s (%d 交易)"
@@ -2174,13 +2174,13 @@ msgid "Result without financial year"
 msgstr "没有财年的结果"
 
 #: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:950
-#: ../src/gsb_transactions_list.c:3446
+#: ../src/gsb_transactions_list.c:3429
 #, c-format
 msgid "Transfer to %s"
 msgstr "转帐到 %s"
 
 #: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:953
-#: ../src/gsb_transactions_list.c:3449
+#: ../src/gsb_transactions_list.c:3432
 #, c-format
 msgid "Transfer from %s"
 msgstr "从 %s 转帐"
@@ -2229,8 +2229,8 @@ msgstr "一般总计"
 
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:574
 #: ../src/gsb_data_category.c:1054 ../src/gsb_form.c:727
-#: ../src/gsb_form.c:2767 ../src/gsb_form.c:3169
-#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3424
+#: ../src/gsb_form.c:2773 ../src/gsb_form.c:3176
+#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3407
 #, fuzzy
 msgid "Split of transaction"
 msgstr "更改交易"
@@ -2258,7 +2258,7 @@ msgid "Outgoings"
 msgstr "支出"
 
 #: ../src/etats_affiche.c:2412 ../src/export_csv.c:766 ../src/gsb_form.c:1293
-#: ../src/gsb_form.c:2114 ../src/gsb_form.c:2137 ../src/gsb_form_widget.c:424
+#: ../src/gsb_form.c:2120 ../src/gsb_form.c:2143 ../src/gsb_form_widget.c:424
 #: ../src/gsb_transactions_list.c:147 ../src/import_csv.c:80
 #: ../src/traitement_variables.c:80
 msgid "Value date"
@@ -3596,7 +3596,7 @@ msgstr ""
 msgid "B"
 msgstr "B"
 
-#: ../src/export_csv.c:718 ../src/gsb_form.c:1888
+#: ../src/export_csv.c:718 ../src/gsb_form.c:1894
 msgid "Deleted account"
 msgstr "已删除账户"
 
@@ -4663,7 +4663,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
 #: ../src/gsb_assistant_archive.c:314 ../src/gsb_data_payee.c:541
-#: ../src/gsb_form.c:2878 ../src/gsb_form.c:2879 ../src/navigation.c:1271
+#: ../src/gsb_form.c:2886 ../src/gsb_form.c:2887 ../src/navigation.c:1271
 msgid "Report"
 msgstr "报表"
 
@@ -7057,14 +7057,14 @@ msgstr "存款"
 
 #. pas trouvé de définition remplacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:728 ../src/gsb_form.c:2216 ../src/import.c:2674
+#: ../src/gsb_data_payment.c:728 ../src/gsb_form.c:2222 ../src/import.c:2674
 #: ../src/import.c:2680
 msgid "Credit card"
 msgstr "信用卡"
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:737 ../src/gsb_form.c:2253 ../src/import.c:2692
+#: ../src/gsb_data_payment.c:737 ../src/gsb_form.c:2259 ../src/import.c:2692
 #: ../src/import.c:2710
 msgid "Direct debit"
 msgstr "直接借记"
@@ -7721,8 +7721,8 @@ msgstr ""
 msgid "Transfer : Deleted account"
 msgstr "转帐：已删除的账户"
 
-#: ../src/gsb_form.c:759 ../src/gsb_form.c:1877 ../src/gsb_form.c:1878
-#: ../src/gsb_form_widget.c:1034
+#: ../src/gsb_form.c:759 ../src/gsb_form.c:1883 ../src/gsb_form.c:1884
+#: ../src/gsb_form_widget.c:1040
 #, fuzzy
 msgid "Transfer : "
 msgstr "转帐"
@@ -7740,73 +7740,73 @@ msgstr "手动"
 msgid "Cheque/Transfer number"
 msgstr "支票/转帐编号"
 
-#: ../src/gsb_form.c:2225 ../src/plugins/ofx/ofx.c:473
+#: ../src/gsb_form.c:2231 ../src/plugins/ofx/ofx.c:473
 msgid "Direct deposit"
 msgstr "直接存款"
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2234 ../src/import.c:2479 ../src/import.c:2526
+#: ../src/gsb_form.c:2240 ../src/import.c:2479 ../src/import.c:2526
 #: ../src/import.c:2649 ../src/plugins/ofx/ofx.c:429
 msgid "Check"
 msgstr "支票"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2243 ../src/import.c:2698
+#: ../src/gsb_form.c:2249 ../src/import.c:2698
 msgid "Cash withdrawal"
 msgstr ""
 
-#: ../src/gsb_form.c:2372
+#: ../src/gsb_form.c:2378
 #, fuzzy
 msgid "No payee selected for this report."
 msgstr "本报表没有选择第三方。"
 
-#: ../src/gsb_form.c:2684
+#: ../src/gsb_form.c:2690
 msgid "You must enter a date."
 msgstr "您必须输入日期"
 
-#: ../src/gsb_form.c:2691
+#: ../src/gsb_form.c:2697
 #, fuzzy, c-format
 msgid "Invalid date %s"
 msgstr "非法日期"
 
-#: ../src/gsb_form.c:2714
+#: ../src/gsb_form.c:2720
 #, fuzzy, c-format
 msgid "Invalid value date %s"
 msgstr "非法日期"
 
-#: ../src/gsb_form.c:2749
+#: ../src/gsb_form.c:2755
 #, fuzzy
 msgid "You must enter an amount."
 msgstr "您必须输入日期"
 
-#: ../src/gsb_form.c:2769
+#: ../src/gsb_form.c:2775
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
 msgstr ""
 
-#: ../src/gsb_form.c:2803
+#: ../src/gsb_form.c:2809
 #, fuzzy
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "转换交易为计划交易"
 
-#: ../src/gsb_form.c:2810
+#: ../src/gsb_form.c:2816
 #, fuzzy
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "本转帐关联的账户不合法"
 
-#: ../src/gsb_form.c:2818
+#: ../src/gsb_form.c:2824
 msgid "Can't issue a transfer its own account."
 msgstr "不能转帐到本账户。"
 
-#: ../src/gsb_form.c:2823
+#: ../src/gsb_form.c:2829
 msgid "Can't issue a transfer on a closed account."
 msgstr "不能在结算账户上产生交易。"
 
-#: ../src/gsb_form.c:2849
+#: ../src/gsb_form.c:2855
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7816,7 +7816,7 @@ msgstr ""
 "但是没有任何编号。\n"
 "仍然继续？"
 
-#: ../src/gsb_form.c:2865
+#: ../src/gsb_form.c:2873
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7824,31 +7824,31 @@ msgstr ""
 "警告：该支票的编号已经使用过了。\n"
 "仍然继续？"
 
-#: ../src/gsb_form.c:2886
+#: ../src/gsb_form.c:2894
 #, fuzzy
 msgid "A transaction with a multiple payee must be a new one."
 msgstr "有多个第三方的交易必须生成新的交易。"
 
-#: ../src/gsb_form.c:2891
+#: ../src/gsb_form.c:2899
 #, fuzzy
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "有多个第三方的交易必须生成新的交易。"
 
-#: ../src/gsb_form.c:2902
+#: ../src/gsb_form.c:2910
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 
-#: ../src/gsb_form.c:2909
+#: ../src/gsb_form.c:2917
 #, fuzzy
 msgid "Invalid multiple payee."
 msgstr "无效的多第三方。"
 
-#: ../src/gsb_form.c:3192
+#: ../src/gsb_form.c:3199
 #, fuzzy
 msgid "Modifying a transaction"
 msgstr "更改交易"
 
-#: ../src/gsb_form.c:3193
+#: ../src/gsb_form.c:3200
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7858,7 +7858,7 @@ msgid ""
 msgstr ""
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3494
+#: ../src/gsb_form.c:3503
 msgid "Configure the form"
 msgstr ""
 
@@ -8484,7 +8484,7 @@ msgstr "删除一条定期交易"
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "删除一条定期交易"
 
-#: ../src/gsb_transactions_list.c:573 ../src/gsb_transactions_list.c:3561
+#: ../src/gsb_transactions_list.c:573 ../src/gsb_transactions_list.c:3544
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8633,20 +8633,20 @@ msgid "Cannot move a transfer on his contra-account"
 msgstr "不能移动交易到它的反账户"
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:2973
+#: ../src/gsb_transactions_list.c:2995
 #, fuzzy
 msgid "Sort list by :"
 msgstr "按日期排序"
 
-#: ../src/gsb_transactions_list.c:3433
+#: ../src/gsb_transactions_list.c:3416
 msgid "Transfer to a deleted account"
 msgstr "转帐到一个删除的账户"
 
-#: ../src/gsb_transactions_list.c:3435
+#: ../src/gsb_transactions_list.c:3418
 msgid "Transfer from a deleted account"
 msgstr "来自已删除的账户转帐"
 
-#: ../src/gsb_transactions_list.c:3590
+#: ../src/gsb_transactions_list.c:3573
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -9388,14 +9388,14 @@ msgstr "预算行 '%s' 已存在。"
 msgid "New sub-budget"
 msgstr "新子预算行"
 
-#: ../src/main.c:466
+#: ../src/main.c:470
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
 "You should upgrade GTK."
 msgstr ""
 
-#: ../src/main.c:587
+#: ../src/main.c:591
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "信号错误：SIGSEGV不能捕捉\n"
@@ -9601,27 +9601,27 @@ msgstr "除错"
 msgid "Show transaction _form"
 msgstr "交易表格"
 
-#: ../src/menu.c:264
+#: ../src/menu.c:265 ../src/menu.c:270
 #, fuzzy
 msgid "Show _reconciled"
 msgstr "对账"
 
-#: ../src/menu.c:266
+#: ../src/menu.c:267 ../src/menu.c:272
 #, fuzzy
 msgid "Show _lines archives"
 msgstr "已知货币"
 
-#: ../src/menu.c:268
+#: ../src/menu.c:275
 #, fuzzy
 msgid "Show _closed accounts"
 msgstr "结算账户"
 
-#: ../src/menu.c:415 ../src/menu.c:447 ../src/menu.c:467
+#: ../src/menu.c:422 ../src/menu.c:454 ../src/menu.c:474
 #, fuzzy
 msgid "en"
 msgstr "手动"
 
-#: ../src/menu.c:799
+#: ../src/menu.c:806
 #, fuzzy
 msgid "Unnamed account"
 msgstr "已导入的账户"
@@ -10811,21 +10811,21 @@ msgstr "显示交易"
 msgid "Reconciliation ref."
 msgstr "调整参考"
 
-#: ../src/transaction_list.c:166 ../src/transaction_list.c:1033
-#: ../src/transaction_list.c:1934
+#: ../src/transaction_list.c:167 ../src/transaction_list.c:1058
+#: ../src/transaction_list.c:1959
 #, fuzzy, c-format
 msgid "Total : %s (variance : %s)"
 msgstr "总计 %s: %s (%d 交易)"
 
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
-#: ../src/transaction_list.c:1565
+#: ../src/transaction_list.c:1590
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't append ! "
 "Check that."
 msgstr ""
 
-#: ../src/transaction_list.c:1760
+#: ../src/transaction_list.c:1785
 #, c-format
 msgid ""
 "Trying to append the child number %d to the mother %d in the model, but no "
@@ -10833,7 +10833,7 @@ msgid ""
 "Grisbi team to fix that issue."
 msgstr ""
 
-#: ../src/transaction_list_sort.c:153
+#: ../src/transaction_list_sort.c:140
 #, c-format
 msgid ""
 "Asked to sort by column %d, wich is bigger than the visible columns (%d)"

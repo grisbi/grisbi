@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-25 22:02+0200\n"
+"POT-Creation-Date: 2010-10-02 16:26+0200\n"
 "PO-Revision-Date: 2010-05-02 23:26+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -60,7 +60,7 @@ msgid "Account balances in %s"
 msgstr "Solde des comptes en %s"
 
 #: ../src/accueil.c:481 ../src/accueil.c:559 ../src/accueil.c:636
-#: ../src/accueil.c:705 ../src/bet_finance_ui.c:1637
+#: ../src/accueil.c:705 ../src/bet_finance_ui.c:1639
 msgid " at "
 msgstr " au "
 
@@ -658,8 +658,8 @@ msgstr "Capital emprunté"
 #. create columns
 #. Duration
 #: ../src/bet_config.c:1196 ../src/bet_finance_ui.c:269
-#: ../src/bet_finance_ui.c:473 ../src/bet_finance_ui.c:1105
-#: ../src/bet_finance_ui.c:1539
+#: ../src/bet_finance_ui.c:473 ../src/bet_finance_ui.c:1107
+#: ../src/bet_finance_ui.c:1541
 msgid "Duration"
 msgstr "Durée"
 
@@ -673,14 +673,14 @@ msgstr "Date de la première échéance"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1091
-#: ../src/bet_finance_ui.c:1525
+#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1093
+#: ../src/bet_finance_ui.c:1527
 msgid "Annuel rate interest"
 msgstr "Taux d'intérêt annuel"
 
 #: ../src/bet_config.c:1236 ../src/bet_finance_ui.c:264
-#: ../src/bet_finance_ui.c:388 ../src/bet_finance_ui.c:1100
-#: ../src/bet_finance_ui.c:1534
+#: ../src/bet_finance_ui.c:388 ../src/bet_finance_ui.c:1102
+#: ../src/bet_finance_ui.c:1536
 msgid "%"
 msgstr "%"
 
@@ -704,13 +704,13 @@ msgstr "Taux proportionnel"
 msgid "Apply"
 msgstr "Appliquer"
 
-#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:829
-#: ../src/bet_finance_ui.c:1664
+#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:831
+#: ../src/bet_finance_ui.c:1666
 msgid " year "
 msgstr " an "
 
-#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:831
-#: ../src/bet_finance_ui.c:1666
+#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:833
+#: ../src/bet_finance_ui.c:1668
 msgid " years "
 msgstr " ans "
 
@@ -725,7 +725,7 @@ msgid "Credits simulator"
 msgstr "Simulateur de crédits"
 
 #. capital
-#: ../src/bet_finance_ui.c:230 ../src/bet_finance_ui.c:1515
+#: ../src/bet_finance_ui.c:230 ../src/bet_finance_ui.c:1517
 msgid "Loan capital"
 msgstr "Capital emprunté"
 
@@ -792,7 +792,7 @@ msgstr ""
 "hors frais"
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:587 ../src/bet_finance_ui.c:1276
+#: ../src/bet_finance_ui.c:587 ../src/bet_finance_ui.c:1278
 msgid "Monthly paid"
 msgstr "Mensualité"
 
@@ -805,36 +805,36 @@ msgstr "Coût total"
 msgid "Approximate cost"
 msgstr "Coût approximatif"
 
-#: ../src/bet_finance_ui.c:1003 ../src/bet_finance_ui.c:1794
+#: ../src/bet_finance_ui.c:1005 ../src/bet_finance_ui.c:1796
 msgid "View amortization table"
 msgstr "Afficher le tableau d'amortissement"
 
 #. Print list
-#: ../src/bet_finance_ui.c:1009 ../src/bet_finance_ui.c:1564
-#: ../src/bet_finance_ui.c:1809 ../src/bet_finance_ui.c:1878
+#: ../src/bet_finance_ui.c:1011 ../src/bet_finance_ui.c:1566
+#: ../src/bet_finance_ui.c:1811 ../src/bet_finance_ui.c:1880
 #: ../src/bet_tab.c:1531 ../src/bet_tab.c:2844
 msgid "Print the array"
 msgstr "Imprimer le tableau"
 
-#: ../src/bet_finance_ui.c:1013 ../src/bet_finance_ui.c:1865
+#: ../src/bet_finance_ui.c:1015 ../src/bet_finance_ui.c:1867
 msgid "View credits simulator"
 msgstr "Afficher le simulateur de crédits"
 
-#: ../src/bet_finance_ui.c:1019
+#: ../src/bet_finance_ui.c:1021
 msgid "Print amortization table"
 msgstr "Imprimer le tableau d'amortissement"
 
-#: ../src/bet_finance_ui.c:1070 ../src/bet_finance_ui.c:1503
-#: ../src/bet_finance_ui.c:1637
+#: ../src/bet_finance_ui.c:1072 ../src/bet_finance_ui.c:1505
+#: ../src/bet_finance_ui.c:1639
 msgid "Amortization Table"
 msgstr "Tableau d'amortissement"
 
 #. capital
-#: ../src/bet_finance_ui.c:1081
+#: ../src/bet_finance_ui.c:1083
 msgid "Loan amount"
 msgstr "Montant emprunté"
 
-#: ../src/bet_finance_ui.c:1169 ../src/bet_future.c:770 ../src/bet_tab.c:688
+#: ../src/bet_finance_ui.c:1171 ../src/bet_future.c:770 ../src/bet_tab.c:688
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:763
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1288
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
@@ -844,68 +844,68 @@ msgstr "Montant emprunté"
 msgid "Date"
 msgstr "Date"
 
-#: ../src/bet_finance_ui.c:1181 ../src/etats_affiche.c:2398
+#: ../src/bet_finance_ui.c:1183 ../src/etats_affiche.c:2398
 #: ../src/traitement_variables.c:96
 msgid "Number"
 msgstr "N°"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1200
+#: ../src/bet_finance_ui.c:1202
 msgid "Capital remaining"
 msgstr "Capital restant dû"
 
 #. Interests
-#: ../src/bet_finance_ui.c:1219
+#: ../src/bet_finance_ui.c:1221
 msgid "Interests"
 msgstr "Intérêts"
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1238
+#: ../src/bet_finance_ui.c:1240
 msgid "Capital repaid"
 msgstr "Capital remboursé"
 
 #. Fees
-#: ../src/bet_finance_ui.c:1257
+#: ../src/bet_finance_ui.c:1259
 msgid "Insurance"
 msgstr "Frais"
 
 #. Set up dialog
-#: ../src/bet_finance_ui.c:1561 ../src/bet_finance_ui.c:1806
-#: ../src/bet_finance_ui.c:1875 ../src/bet_tab.c:2841
+#: ../src/bet_finance_ui.c:1563 ../src/bet_finance_ui.c:1808
+#: ../src/bet_finance_ui.c:1877 ../src/bet_tab.c:2841
 #: ../src/barre_outils.c:139 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
 msgstr "Imprimer"
 
-#: ../src/bet_finance_ui.c:1574 ../src/bet_finance_ui.c:1821
-#: ../src/bet_finance_ui.c:1888 ../src/bet_tab.c:2854
+#: ../src/bet_finance_ui.c:1576 ../src/bet_finance_ui.c:1823
+#: ../src/bet_finance_ui.c:1890 ../src/bet_tab.c:2854
 #: ../src/categories_onglet.c:517 ../src/etats_onglet.c:138
 #: ../src/export.c:161 ../src/imputation_budgetaire.c:554
 msgid "Export"
 msgstr "Exporter"
 
-#: ../src/bet_finance_ui.c:1577 ../src/bet_finance_ui.c:1824
-#: ../src/bet_finance_ui.c:1891 ../src/bet_finance_ui.c:1917
+#: ../src/bet_finance_ui.c:1579 ../src/bet_finance_ui.c:1826
+#: ../src/bet_finance_ui.c:1893 ../src/bet_finance_ui.c:1919
 msgid "Export the array"
 msgstr "Exporter le tableau"
 
-#: ../src/bet_finance_ui.c:1776 ../src/bet_finance_ui.c:1779
+#: ../src/bet_finance_ui.c:1778 ../src/bet_finance_ui.c:1781
 msgid "Calculate"
 msgstr "Calculer"
 
-#: ../src/bet_finance_ui.c:1790
+#: ../src/bet_finance_ui.c:1792
 msgid "Amortization"
 msgstr "Amortissement"
 
-#: ../src/bet_finance_ui.c:1861
+#: ../src/bet_finance_ui.c:1863
 msgid "Credits"
 msgstr "Crédits"
 
-#: ../src/bet_finance_ui.c:1924
+#: ../src/bet_finance_ui.c:1926
 msgid "credit.csv"
 msgstr "crédit.csv"
 
-#: ../src/bet_finance_ui.c:1941 ../src/bet_tab.c:2967
+#: ../src/bet_finance_ui.c:1943 ../src/bet_tab.c:2967
 #: ../src/imputation_budgetaire.c:391
 msgid "Cannot save file."
 msgstr "Impossible d'enregistrer le fichier."
@@ -1077,7 +1077,7 @@ msgstr "Remarques"
 #: ../src/etats_affiche.c:1844 ../src/export_csv.c:604 ../src/export_csv.c:716
 #: ../src/export_csv.c:728 ../src/gsb_data_category.c:1056
 #: ../src/gsb_data_payment.c:633 ../src/gsb_data_payment.c:714
-#: ../src/gsb_data_payment.c:753 ../src/gsb_form.c:2264 ../src/import.c:2686
+#: ../src/gsb_data_payment.c:753 ../src/gsb_form.c:2270 ../src/import.c:2686
 #: ../src/import.c:2704 ../src/plugins/ofx/ofx.c:461
 msgid "Transfer"
 msgstr "Virement"
@@ -1204,7 +1204,7 @@ msgstr "Description"
 
 #: ../src/bet_tab.c:758 ../src/export_csv.c:790 ../src/gsb_reconcile.c:161
 #: ../src/gsb_scheduler_list.c:340 ../src/gsb_transactions_list.c:152
-#: ../src/gsb_transactions_list.c:3019 ../src/import_csv.c:88
+#: ../src/gsb_transactions_list.c:2989 ../src/import_csv.c:88
 #: ../src/traitement_variables.c:85
 msgid "Balance"
 msgstr "Solde"
@@ -1762,7 +1762,7 @@ msgstr ""
 "le rendre inutilisable.\n"
 "Faites une copie maintenant."
 
-#: ../src/dialog.c:112 ../src/main.c:463
+#: ../src/dialog.c:112 ../src/main.c:467
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Vous utilisez Grisbi avec GTK version %s"
@@ -1937,7 +1937,7 @@ msgstr "%s (%d opération)"
 #: ../src/etats_affiche.c:225 ../src/etats_affiche.c:345
 #: ../src/etats_affiche.c:458 ../src/etats_affiche.c:574
 #: ../src/etats_affiche.c:683 ../src/etats_affiche.c:791
-#: ../src/transaction_list.c:334
+#: ../src/transaction_list.c:335
 #, c-format
 msgid "%s (%d transactions)"
 msgstr "%s (%d opérations)"
@@ -2095,13 +2095,13 @@ msgid "Result without financial year"
 msgstr "Resultat sans exercice"
 
 #: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:950
-#: ../src/gsb_transactions_list.c:3446
+#: ../src/gsb_transactions_list.c:3429
 #, c-format
 msgid "Transfer to %s"
 msgstr "Virement vers %s"
 
 #: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:953
-#: ../src/gsb_transactions_list.c:3449
+#: ../src/gsb_transactions_list.c:3432
 #, c-format
 msgid "Transfer from %s"
 msgstr "Virement de %s"
@@ -2150,8 +2150,8 @@ msgstr "Total général"
 
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:574
 #: ../src/gsb_data_category.c:1054 ../src/gsb_form.c:727
-#: ../src/gsb_form.c:2767 ../src/gsb_form.c:3169
-#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3424
+#: ../src/gsb_form.c:2773 ../src/gsb_form.c:3176
+#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3407
 msgid "Split of transaction"
 msgstr "Opération ventilée"
 
@@ -2177,7 +2177,7 @@ msgid "Outgoings"
 msgstr "Dépenses"
 
 #: ../src/etats_affiche.c:2412 ../src/export_csv.c:766 ../src/gsb_form.c:1293
-#: ../src/gsb_form.c:2114 ../src/gsb_form.c:2137 ../src/gsb_form_widget.c:424
+#: ../src/gsb_form.c:2120 ../src/gsb_form.c:2143 ../src/gsb_form_widget.c:424
 #: ../src/gsb_transactions_list.c:147 ../src/import_csv.c:80
 #: ../src/traitement_variables.c:80
 msgid "Value date"
@@ -3479,7 +3479,7 @@ msgstr ""
 msgid "B"
 msgstr "V"
 
-#: ../src/export_csv.c:718 ../src/gsb_form.c:1888
+#: ../src/export_csv.c:718 ../src/gsb_form.c:1894
 msgid "Deleted account"
 msgstr "Compte supprimé"
 
@@ -4599,7 +4599,7 @@ msgstr ""
 "Grisbi archivera toutes les transactions appartenant à l'état sélectionné"
 
 #: ../src/gsb_assistant_archive.c:314 ../src/gsb_data_payee.c:541
-#: ../src/gsb_form.c:2878 ../src/gsb_form.c:2879 ../src/navigation.c:1271
+#: ../src/gsb_form.c:2886 ../src/gsb_form.c:2887 ../src/navigation.c:1271
 msgid "Report"
 msgstr "État"
 
@@ -7073,14 +7073,14 @@ msgstr "Dépôt"
 
 #. pas trouvé de définition remplacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:728 ../src/gsb_form.c:2216 ../src/import.c:2674
+#: ../src/gsb_data_payment.c:728 ../src/gsb_form.c:2222 ../src/import.c:2674
 #: ../src/import.c:2680
 msgid "Credit card"
 msgstr "Carte de crédit"
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:737 ../src/gsb_form.c:2253 ../src/import.c:2692
+#: ../src/gsb_data_payment.c:737 ../src/gsb_form.c:2259 ../src/import.c:2692
 #: ../src/import.c:2710
 msgid "Direct debit"
 msgstr "Prélèvement"
@@ -7826,8 +7826,8 @@ msgstr "Restaurer les sous-opérations"
 msgid "Transfer : Deleted account"
 msgstr "Virement : Compte supprimé"
 
-#: ../src/gsb_form.c:759 ../src/gsb_form.c:1877 ../src/gsb_form.c:1878
-#: ../src/gsb_form_widget.c:1034
+#: ../src/gsb_form.c:759 ../src/gsb_form.c:1883 ../src/gsb_form.c:1884
+#: ../src/gsb_form_widget.c:1040
 msgid "Transfer : "
 msgstr "Virement : "
 
@@ -7844,44 +7844,44 @@ msgstr "Manuel"
 msgid "Cheque/Transfer number"
 msgstr "N° Chèque/Virement"
 
-#: ../src/gsb_form.c:2225 ../src/plugins/ofx/ofx.c:473
+#: ../src/gsb_form.c:2231 ../src/plugins/ofx/ofx.c:473
 msgid "Direct deposit"
 msgstr "Dépôt"
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2234 ../src/import.c:2479 ../src/import.c:2526
+#: ../src/gsb_form.c:2240 ../src/import.c:2479 ../src/import.c:2526
 #: ../src/import.c:2649 ../src/plugins/ofx/ofx.c:429
 msgid "Check"
 msgstr "Chèque"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2243 ../src/import.c:2698
+#: ../src/gsb_form.c:2249 ../src/import.c:2698
 msgid "Cash withdrawal"
 msgstr "Liquide"
 
-#: ../src/gsb_form.c:2372
+#: ../src/gsb_form.c:2378
 msgid "No payee selected for this report."
 msgstr "Cet état ne comporte pas de tiers sélectionnés."
 
-#: ../src/gsb_form.c:2684
+#: ../src/gsb_form.c:2690
 msgid "You must enter a date."
 msgstr "Une date est obligatoire."
 
-#: ../src/gsb_form.c:2691
+#: ../src/gsb_form.c:2697
 #, c-format
 msgid "Invalid date %s"
 msgstr "Date invalide %s"
 
-#: ../src/gsb_form.c:2714
+#: ../src/gsb_form.c:2720
 #, c-format
 msgid "Invalid value date %s"
 msgstr "La date est invalide %s"
 
-#: ../src/gsb_form.c:2749
+#: ../src/gsb_form.c:2755
 msgid "You must enter an amount."
 msgstr "Un montant est obligatoire."
 
-#: ../src/gsb_form.c:2769
+#: ../src/gsb_form.c:2775
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
@@ -7889,28 +7889,28 @@ msgstr ""
 "Vous ne pouvez pas choisir la catégorie « opération ventilée » pour une "
 "opération fille"
 
-#: ../src/gsb_form.c:2803
+#: ../src/gsb_form.c:2809
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 "Vous ne pouvez pas associer un virement pour un compte supprimé dans une "
 "opération programmée."
 
-#: ../src/gsb_form.c:2810
+#: ../src/gsb_form.c:2816
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "Il n'y a pas de compte associé à ce virement où il est invalide"
 
-#: ../src/gsb_form.c:2818
+#: ../src/gsb_form.c:2824
 msgid "Can't issue a transfer its own account."
 msgstr "Impossible d'effectuer un virement sur son propre compte"
 
-#: ../src/gsb_form.c:2823
+#: ../src/gsb_form.c:2829
 msgid "Can't issue a transfer on a closed account."
 msgstr "Impossible d'effectuer un virement sur un compte clos"
 
-#: ../src/gsb_form.c:2849
+#: ../src/gsb_form.c:2855
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7920,7 +7920,7 @@ msgstr ""
 "aucun numéro.\n"
 "Souhaitez-vous continuer ?"
 
-#: ../src/gsb_form.c:2865
+#: ../src/gsb_form.c:2873
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7928,30 +7928,30 @@ msgstr ""
 "Attention, le numéro du chèque est déjà utilisé.\n"
 "Souhaitez-vous continuer ?"
 
-#: ../src/gsb_form.c:2886
+#: ../src/gsb_form.c:2894
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 "Une opération dont le tiers est un état doit forcément être une nouvelle "
 "opération."
 
-#: ../src/gsb_form.c:2891
+#: ../src/gsb_form.c:2899
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "Une opération dont le tiers est un état ne peut pas être une sous-opération."
 
-#: ../src/gsb_form.c:2902
+#: ../src/gsb_form.c:2910
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr "Le mot « État » est réservé.  Veuillez en utiliser un autre."
 
-#: ../src/gsb_form.c:2909
+#: ../src/gsb_form.c:2917
 msgid "Invalid multiple payee."
 msgstr "Nom de tiers déjà utilisé."
 
-#: ../src/gsb_form.c:3192
+#: ../src/gsb_form.c:3199
 msgid "Modifying a transaction"
 msgstr "Modifier une opération"
 
-#: ../src/gsb_form.c:3193
+#: ../src/gsb_form.c:3200
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7966,7 +7966,7 @@ msgstr ""
 "Etes vous certain ?"
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3494
+#: ../src/gsb_form.c:3503
 msgid "Configure the form"
 msgstr "Configurer le formulaire"
 
@@ -8584,7 +8584,7 @@ msgstr "Supprimer une opération planifiée."
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "Supprimer cette occurence ou toutes, de l'opération sélectionnée"
 
-#: ../src/gsb_transactions_list.c:573 ../src/gsb_transactions_list.c:3561
+#: ../src/gsb_transactions_list.c:573 ../src/gsb_transactions_list.c:3544
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8754,19 +8754,19 @@ msgid "Cannot move a transfer on his contra-account"
 msgstr "Impossible de déplacer un virement vers son compte de destination"
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:2973
+#: ../src/gsb_transactions_list.c:2995
 msgid "Sort list by :"
 msgstr "Tri par :"
 
-#: ../src/gsb_transactions_list.c:3433
+#: ../src/gsb_transactions_list.c:3416
 msgid "Transfer to a deleted account"
 msgstr "Virement vers un compte supprimé"
 
-#: ../src/gsb_transactions_list.c:3435
+#: ../src/gsb_transactions_list.c:3418
 msgid "Transfer from a deleted account"
 msgstr "Virement d'un compte supprimé"
 
-#: ../src/gsb_transactions_list.c:3590
+#: ../src/gsb_transactions_list.c:3573
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -9523,7 +9523,7 @@ msgstr "L'imputation existe déjà"
 msgid "New sub-budget"
 msgstr "Nouvelle sous-imputation"
 
-#: ../src/main.c:466
+#: ../src/main.c:470
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -9534,7 +9534,7 @@ msgstr ""
 "\n"
 " Vous devriez mettre à jour GTK"
 
-#: ../src/main.c:587
+#: ../src/main.c:591
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
@@ -9704,23 +9704,23 @@ msgstr "Mode de déboggage"
 msgid "Show transaction _form"
 msgstr "Montrer le _formulaire de saisie d'opérations"
 
-#: ../src/menu.c:264
+#: ../src/menu.c:265 ../src/menu.c:270
 msgid "Show _reconciled"
 msgstr "Montrer les opérations _rapprochées"
 
-#: ../src/menu.c:266
+#: ../src/menu.c:267 ../src/menu.c:272
 msgid "Show _lines archives"
 msgstr "Montrer les _lignes d'archives"
 
-#: ../src/menu.c:268
+#: ../src/menu.c:275
 msgid "Show _closed accounts"
 msgstr "Montrer les comptes _clos"
 
-#: ../src/menu.c:415 ../src/menu.c:447 ../src/menu.c:467
+#: ../src/menu.c:422 ../src/menu.c:454 ../src/menu.c:474
 msgid "en"
 msgstr "fr"
 
-#: ../src/menu.c:799
+#: ../src/menu.c:806
 msgid "Unnamed account"
 msgstr "Compte inconnu"
 
@@ -11007,15 +11007,15 @@ msgstr "Afficher l'astuce lors du prochain démarrage"
 msgid "Reconciliation ref."
 msgstr "N° de rapprochement"
 
-#: ../src/transaction_list.c:166 ../src/transaction_list.c:1033
-#: ../src/transaction_list.c:1934
+#: ../src/transaction_list.c:167 ../src/transaction_list.c:1058
+#: ../src/transaction_list.c:1959
 #, c-format
 msgid "Total : %s (variance : %s)"
 msgstr "Total : %s (écart : %s)"
 
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
-#: ../src/transaction_list.c:1565
+#: ../src/transaction_list.c:1590
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't append ! "
 "Check that."
@@ -11023,7 +11023,7 @@ msgstr ""
 "Essai de changer une ligne visible par la fonction transaction_list_set. "
 "Cela ne devrait pas arriver ! On recherche pourquoi"
 
-#: ../src/transaction_list.c:1760
+#: ../src/transaction_list.c:1785
 #, c-format
 msgid ""
 "Trying to append the child number %d to the mother %d in the model, but no "
@@ -11034,7 +11034,7 @@ msgstr ""
 "qu'une opération blanche n'ait été crée avant... Mieux vaut s'arrêter ici. "
 "Contactez les développeurs de Grisbi pour corriger ce bug."
 
-#: ../src/transaction_list_sort.c:153
+#: ../src/transaction_list_sort.c:140
 #, c-format
 msgid ""
 "Asked to sort by column %d, wich is bigger than the visible columns (%d)"
