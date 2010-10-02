@@ -189,10 +189,10 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
         if ( gsb_data_mix_get_amount ( number, TRUE ).mantissa < 0 )
             gsb_payment_method_create_combo_list ( widget,
                                    GSB_PAYMENT_DEBIT,
-                                   account_number, 0 );
+                                   account_number, 0, FALSE );
         else
             gsb_payment_method_create_combo_list ( widget, GSB_PAYMENT_CREDIT, 
-                        account_number, 0 );
+                        account_number, 0, FALSE );
 
         if ( GTK_WIDGET_VISIBLE (widget))
         {
@@ -427,6 +427,7 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
                         gint new_transaction,
                         gint account_transfer )
 {
+    const gchar *contra_transaction_content = NULL;
     gint contra_transaction_number;
     gint contra_mother_number = 0;
     gint contra_marked_transaction = 0;
@@ -439,46 +440,48 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
      * we delete the contra-transaction and it's the same as a new transfer */
     if ( !new_transaction )
     {
-	/* it's a modification of a transaction */
+        /* it's a modification of a transaction */
 
-	/* as we will do a transfer, the category number is null */
-	gsb_data_transaction_set_category_number ( transaction_number, 0 );
-	gsb_data_transaction_set_sub_category_number ( transaction_number, 0 );
-	contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (
-                        transaction_number);
+        /* as we will do a transfer, the category number is null */
+        gsb_data_transaction_set_category_number ( transaction_number, 0 );
+        gsb_data_transaction_set_sub_category_number ( transaction_number, 0 );
+        contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (
+                            transaction_number);
+        if (contra_transaction_number > 0)
+        {
+            /* the transaction is a transfer */
 
-	if (contra_transaction_number > 0)
-	{
-	    /* the transaction is a transfer */
+            /* if the contra transaction was a child of split, copying/deleting it
+             * will remove the information of the mother, so we get it here */
+            contra_mother_number = gsb_data_transaction_get_mother_transaction_number (
+                            contra_transaction_number );
 
-	    /* if the contra transaction was a child of split, copying/deleting it
-	     * will remove the information of the mother, so we get it here */
-	    contra_mother_number = gsb_data_transaction_get_mother_transaction_number (
-                        contra_transaction_number );
+            /* Copying/deleting remove the marked information, so we get it here */
+            contra_marked_transaction = gsb_data_transaction_get_marked_transaction (
+                            contra_transaction_number );
 
-        /* Copying/deleting remove the marked information, so we get it here */
-        contra_marked_transaction = gsb_data_transaction_get_marked_transaction (
-                        contra_transaction_number );
-        
-	    /* check if we change the account target */
-	    if ( gsb_data_transaction_get_contra_transaction_account (
-                        transaction_number) != account_transfer )
-	    {
-            /* it was a transfer and the user changed the target account so we delete
-             * the last contra transaction contra_transaction_transfer has just been set */
+            /* Copying/deleting remove the content information, so we get it here */
+            contra_transaction_content = gsb_data_transaction_get_method_of_payment_content (
+                            contra_transaction_number );
 
-            gsb_data_transaction_set_contra_transaction_number (
-                            contra_transaction_number, 0);
-            gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE);
+            /* check if we change the account target */
+            if ( gsb_data_transaction_get_contra_transaction_account (
+                            transaction_number) != account_transfer )
+            {
+                /* it was a transfer and the user changed the target account so we delete
+                 * the last contra transaction contra_transaction_transfer has just been set */
+
+                gsb_data_transaction_set_contra_transaction_number (
+                                contra_transaction_number, 0);
+                gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE);
+                new_transaction = 1;
+            }
+        }
+        else
+        {
+            /* the transaction was not a transfer, so it's the same as a new transaction, to do the contra-transaction */
             new_transaction = 1;
-	    }
-	}
-	else
-	{
-	    /* the transaction was not a transfer, so it's the same as a new transaction, to do the contra-transaction */
-
-	    new_transaction = 1;
-	}
+        }
     }
 
     /* so, now, it's either a new transfer and new_transaction is TRUE,
@@ -519,6 +522,11 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 	GTK_WIDGET_VISIBLE (contra_payment_button))
 	gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
 							    gsb_payment_method_get_selected_number (contra_payment_button));
+
+    /* set the content of the contra-method of paiement if it is not a new transaction */
+    if ( !new_transaction )
+        gsb_data_transaction_set_method_of_payment_content ( contra_transaction_number,
+                        contra_transaction_content );
 
     /* set the link between the transactions */
     gsb_data_transaction_set_contra_transaction_number ( transaction_number,

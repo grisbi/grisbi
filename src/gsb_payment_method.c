@@ -63,13 +63,15 @@ static gboolean gsb_payment_method_set_cheque_entry ( gint payment_number );
  * \param sign GSB_PAYMENT_DEBIT or GSB_PAYMENT_CREDIT
  * \param account_number
  * \param exclude if we want to exclude a method of payment from the list, set the number here, else set 0
+ * \param TRUE if contra transaction
  *
  * \return FALSE if fail, TRUE if ok
  * */
 gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
                         gint sign,
                         gint account_number,
-                        gint exclude )
+                        gint exclude,
+                        gboolean contra )
 {
     GtkListStore *store;
     GSList *tmp_list;
@@ -146,6 +148,8 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
             payment_number = gsb_data_account_get_default_credit ( account_number );
 
         gsb_payment_method_set_combobox_history ( combo_box, payment_number, FALSE );
+        if ( contra == FALSE )
+            gsb_payment_method_show_cheque_entry_if_necessary ( payment_number );
 
         gtk_widget_show ( combo_box );
     }

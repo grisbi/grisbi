@@ -808,7 +808,7 @@ void gsb_form_fill_element ( gint element_number,
              gsb_data_account_get_default_debit ( account_number ) ) )
                 gsb_payment_method_create_combo_list ( widget,
                                 GSB_PAYMENT_DEBIT,
-                                account_number, 0 );
+                                account_number, 0, FALSE );
         }
 	    else
         {
@@ -819,12 +819,12 @@ void gsb_form_fill_element ( gint element_number,
              gsb_data_account_get_default_debit ( account_number ) ) )
                 gsb_payment_method_create_combo_list ( widget,
                                 GSB_PAYMENT_CREDIT,
-                                account_number, 0 );
+                                account_number, 0, FALSE );
         }
 
 	    /* don't show the cheque entry for a child of split */
-            tmp_widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
-	    if ( GTK_WIDGET_VISIBLE (widget))
+        tmp_widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
+	    if ( GTK_WIDGET_VISIBLE ( widget ) )
 	    {
             gboolean check_entry = FALSE;
 
@@ -897,11 +897,11 @@ void gsb_form_fill_element ( gint element_number,
             if ( gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa < 0 )
                 gsb_payment_method_create_combo_list ( widget,
 							   GSB_PAYMENT_CREDIT,
-							   number, 0);
+							   number, 0, TRUE );
             else
                 gsb_payment_method_create_combo_list ( widget,
 							   GSB_PAYMENT_DEBIT,
-							   number, 0);
+							   number, 0, TRUE );
 
             if (GTK_WIDGET_VISIBLE (widget))
             {
@@ -1238,7 +1238,7 @@ gboolean gsb_form_fill_from_account ( gint account_number )
             else
                 sign = GSB_PAYMENT_DEBIT;
 
-            gsb_payment_method_create_combo_list ( widget, sign, account_number, 0 );
+            gsb_payment_method_create_combo_list ( widget, sign, account_number, 0, FALSE );
         }
 		else if ( element != TRANSACTION_FORM_CONTRA
          &&
@@ -1551,7 +1551,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
             {
             gsb_payment_method_create_combo_list ( widget,
                                             GSB_PAYMENT_DEBIT,
-                                            account_number, 0 );
+                                            account_number, 0, FALSE );
             /* if there is no payment method, the last function hide it, but we have
              * to hide the cheque element too */
             if ( !GTK_WIDGET_VISIBLE ( widget ) )
@@ -1562,7 +1562,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                 gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (
                                             TRANSACTION_FORM_CONTRA ),
                                             GSB_PAYMENT_CREDIT,
-                                            account_number, 0 );
+                                            account_number, 0, TRUE );
             }
         }
         gsb_form_check_auto_separator (entry);
@@ -1594,15 +1594,18 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 
                     gsb_payment_method_create_combo_list ( widget,
                                             GSB_PAYMENT_CREDIT,
-                                            account_number, 0 );
+                                            account_number, 0, FALSE );
                     gsb_payment_method_set_payment_position ( widget, payment_number );
 
                     widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
                     if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
                     {
-                        gtk_entry_set_text ( GTK_ENTRY ( widget ),
+                        if ( gsb_form_widget_get_old_credit_payment_content ( ) )
+                        {
+                            gtk_entry_set_text ( GTK_ENTRY ( widget ),
                                             gsb_form_widget_get_old_credit_payment_content ( ) );
-                        gsb_form_widget_set_empty ( widget, FALSE );
+                            gsb_form_widget_set_empty ( widget, FALSE );
+                        }
                     }
 
                     widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
@@ -1610,7 +1613,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                         gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (
                                             TRANSACTION_FORM_CONTRA ),
                                             GSB_PAYMENT_DEBIT,
-                                            account_number, 0 );
+                                            account_number, 0, TRUE );
                     }
                 }
             }
@@ -1643,7 +1646,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
             {
             gsb_payment_method_create_combo_list ( widget,
                         GSB_PAYMENT_CREDIT,
-                        account_number, 0 );
+                        account_number, 0, FALSE );
             /* if there is no payment method, the last function hide it, but we have
              * to hide the cheque element too */
             if ( !GTK_WIDGET_VISIBLE (widget))
@@ -1653,7 +1656,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
             if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
                 gsb_payment_method_create_combo_list ( widget,
                         GSB_PAYMENT_DEBIT,
-                        account_number, 0 );
+                        account_number, 0, TRUE );
             }
         }
         gsb_form_check_auto_separator (entry);
@@ -1685,15 +1688,18 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 
                     gsb_payment_method_create_combo_list ( widget,
                                             GSB_PAYMENT_DEBIT,
-                                            account_number, 0 );
+                                            account_number, 0, FALSE );
                     gsb_payment_method_set_payment_position ( widget, payment_number );
 
                     widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
                     if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
                     {
-                        gtk_entry_set_text ( GTK_ENTRY ( widget ),
+                        if ( gsb_form_widget_get_old_debit_payment_content ( ) )
+                        {
+                            gtk_entry_set_text ( GTK_ENTRY ( widget ),
                                             gsb_form_widget_get_old_debit_payment_content ( ) );
-                        gsb_form_widget_set_empty ( widget, FALSE );
+                            gsb_form_widget_set_empty ( widget, FALSE );
+                        }
                     }
  
                     widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
@@ -1701,7 +1707,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                         gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (
                                             TRANSACTION_FORM_CONTRA ),
                                             GSB_PAYMENT_CREDIT,
-                                            account_number, 0 );
+                                            account_number, 0, TRUE );
                     }
                 }
             }
@@ -1726,12 +1732,12 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 			    /* there is something in debit */
 			    gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA),
 								   GSB_PAYMENT_CREDIT,
-								   contra_account_number, 0 );
+								   contra_account_number, 0, TRUE );
 			else
 			    /* there is something in credit */
 			    gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA),
 								   GSB_PAYMENT_DEBIT,
-								   contra_account_number, 0 );
+								   contra_account_number, 0, TRUE );
 		    }
 		    else
 			gtk_widget_hide ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA));
@@ -2828,7 +2834,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
     /* for the automatic method of payment entry (especially cheques)
      * check if not used before (only for new transaction) */
-    widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE);
+    widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
 
     if ( widget
 	 &&
@@ -2844,10 +2850,12 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 	{
 	    /* check if there is something in */
 
-	    if (gsb_form_widget_check_empty (widget))
+	    if ( gsb_form_widget_check_empty ( widget ) )
 	    {
-		if (!question_yes_no ( _("Selected method of payment has an automatic incremental number\nbut doesn't contain any number.\nContinue anyway?"), GTK_RESPONSE_CANCEL))
-		    return (FALSE);
+            if ( !question_yes_no ( _("Selected method of payment has an automatic incremental number\n"
+                        "but doesn't contain any number.\nContinue anyway?"),
+                        GTK_RESPONSE_CANCEL ) )
+                return (FALSE);
 	    }
 	    else if ( mother_number == 0 )
 	    {
@@ -3165,8 +3173,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
     /* On protège la chaine pendant toute l'opération */
 	string = g_strdup ( gtk_combofix_get_text ( GTK_COMBOFIX ( category_combofix ) ) );
 
-	if ( strcmp ( string,
-		      _("Split of transaction") ))
+	if ( strcmp ( string, _("Split of transaction") ) )
 	{
 	    /* it's not a split of transaction, if it was one, we delete the
 	     * transaction's daughters */
@@ -3190,7 +3197,9 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		    GSList *save_children_list;
 
 		    if (!question_yes_no_hint ( _("Modifying a transaction"),
-						_("You are trying to change a split of transaction to another kind of transaction.\nThere is some children to that transaction, if you continue, the children will be deleted.\nAre you sure ?"),
+						_("You are trying to change a split of transaction to another kind of transaction.\n"
+                        "There is some children to that transaction, if you continue, the children will "
+                        "be deleted.\nAre you sure ?"),
 						GTK_RESPONSE_OK ))
 			return FALSE;
 

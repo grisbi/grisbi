@@ -729,7 +729,7 @@ gboolean gsb_payment_method_config_name_changed ( GtkWidget *entry,
 		{
 		    gsb_payment_method_create_combo_list ( widget,
 							   GSB_PAYMENT_DEBIT,
-							   account_number, 0);
+							   account_number, 0, FALSE );
 
 		    if (GTK_WIDGET_VISIBLE (widget))
 		    {
@@ -1292,7 +1292,7 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
     if (!gsb_payment_method_create_combo_list ( combo_box,
 						gsb_data_payment_get_sign (payment_number),
 						account_number,
-						payment_number ))
+						payment_number, FALSE ))
     {
 	dialogue_error ( _("Problem while filling the target method of payment to delete it.\nThis is not normal, please contact the grisbi team."));
 	return FALSE;

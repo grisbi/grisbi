@@ -259,7 +259,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    widget = gtk_combo_box_new ();
 	    gsb_payment_method_create_combo_list ( widget,
                         GSB_PAYMENT_DEBIT,
-                        account_number, 0 );
+                        account_number, 0, FALSE );
 	    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
 	    gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
                         SPACIFY(_("Choose the method of payment")));
@@ -808,20 +808,23 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
                 {
                     if ( old_credit_payment_content )
                         g_free ( old_credit_payment_content );
-                    old_credit_payment_content = g_strdup ( gtk_entry_get_text (
+                    if ( gsb_form_widget_check_empty ( tmp_widget ) == FALSE )
+                        old_credit_payment_content = g_strdup ( gtk_entry_get_text (
                                         GTK_ENTRY ( tmp_widget ) ) );
+                    else
+                        old_credit_payment_content = NULL;
                 }
 
                 gsb_payment_method_create_combo_list ( widget,
                                         GSB_PAYMENT_DEBIT,
-                                        account_number, 0 );
+                                        account_number, 0, FALSE );
 
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA );
                 if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
                     gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (
                                         TRANSACTION_FORM_CONTRA ),
                                         GSB_PAYMENT_CREDIT,
-                                        account_number, 0 );
+                                        account_number, 0, TRUE );
             }
         }
         gsb_form_check_auto_separator ( entry );
@@ -855,19 +858,22 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
                 {
                     if ( old_debit_payment_content )
                         g_free ( old_debit_payment_content );
-                    old_debit_payment_content = g_strdup ( gtk_entry_get_text (
+                    if ( gsb_form_widget_check_empty ( tmp_widget ) == FALSE )
+                        old_debit_payment_content = g_strdup ( gtk_entry_get_text (
                                         GTK_ENTRY ( tmp_widget ) ) );
+                    else
+                        old_debit_payment_content = NULL;
                 }
 
                 gsb_payment_method_create_combo_list ( widget,
                                         GSB_PAYMENT_CREDIT,
-                                        account_number, 0 );
+                                        account_number, 0, FALSE );
 
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA);
                 if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
                     gsb_payment_method_create_combo_list ( widget,
                                         GSB_PAYMENT_DEBIT,
-                                        account_number, 0 );
+                                        account_number, 0, TRUE );
             }
         }
         gsb_form_check_auto_separator (entry);

@@ -568,7 +568,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     widget = gtk_combo_box_new ();
     gsb_payment_method_create_combo_list ( widget,
                         GSB_PAYMENT_DEBIT,
-                        account_number, 0 );
+                        account_number, 0, FALSE );
     gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
                         SPACIFY(_("Choose the method of payment")));
@@ -1006,7 +1006,7 @@ gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
             {
                 gsb_payment_method_create_combo_list ( widget,
                                             GSB_PAYMENT_DEBIT,
-                                            account_number, 0 );
+                                            account_number, 0, FALSE );
             }
         }
         gsb_form_check_auto_separator (entry);
@@ -1034,7 +1034,7 @@ gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
                     {
                         gsb_payment_method_create_combo_list ( widget,
                                             GSB_PAYMENT_CREDIT,
-                                            account_number, 0 );
+                                            account_number, 0, FALSE );
                     }
                 }
             }
@@ -1067,7 +1067,7 @@ gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
             {
                 gsb_payment_method_create_combo_list ( widget,
                         GSB_PAYMENT_CREDIT,
-                        account_number, 0 );
+                        account_number, 0, FALSE );
             }
         }
         gsb_form_check_auto_separator (entry);
@@ -1095,7 +1095,7 @@ gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
                     {
                         gsb_payment_method_create_combo_list ( widget,
                                             GSB_PAYMENT_DEBIT,
-                                            account_number, 0 );
+                                            account_number, 0, FALSE );
                     }
                 }
             }
