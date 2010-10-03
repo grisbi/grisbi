@@ -101,9 +101,9 @@ extern gboolean balances_with_scheduled;
 extern struct conditional_message delete_msg[];
 extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
+extern gchar *nom_fichier_comptes;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
-extern gchar *titre_fichier;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -658,7 +658,8 @@ GtkWidget *onglet_messages_and_warnings ( void )
         GtkTreeIter iter;
 
         if ( g_utf8_collate ( messages[i].name, "account-already-opened" ) == 0 )
-            tmpstr = g_strdup_printf ( _(messages[i] . hint), titre_fichier );
+            tmpstr = g_strdup_printf ( _(messages[i] . hint),
+                        g_path_get_basename ( nom_fichier_comptes ) );
         else if ( g_utf8_collate ( messages[i].name, "development-version" ) == 0 )
             tmpstr = g_strdup_printf ( _(messages[i] . hint), VERSION );
         else if ( g_utf8_collate ( messages[i].name, "gtk_obsolete" ) == 0 )

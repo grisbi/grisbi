@@ -67,7 +67,6 @@ struct gsb_etat_t
     gint utilise_logo;
     gboolean is_pixmaps_dir;        /* TRUE if path_icon == GRISBI_PIXMAPS_DIR */
     gchar *name_logo;
-    gint display_grisbi_title;      /* selection du titre principal de grisbi */
     
     gint display_toolbar;           /** Display mode of toolbar. */
     gboolean show_toolbar;          /** Show toolbar or not.  */
@@ -155,6 +154,8 @@ struct gsb_conf_t
     gchar *latex_command;
     gchar *dvips_command;
     gint pluriel_final;                             /* 0 = finals 1 = finaux */
+
+    gint display_grisbi_title;                      /* selection du titre principal de grisbi */
 
     /* files part */
     gint sauvegarde_demarrage;                      /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */

@@ -24,6 +24,5 @@ gboolean gsb_file_save ( void );
 gboolean gsb_file_save_as ( void );
 void gsb_file_set_backup_path ( const gchar *path );
 void gsb_file_update_last_path ( const gchar *last_path );
-void gsb_file_update_window_title ( void );
 /* END_DECLARATION */
 #endif

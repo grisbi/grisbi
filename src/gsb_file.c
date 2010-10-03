@@ -89,8 +89,6 @@ gint id_timeout = 0;
 
 /*START_EXTERN*/
 extern gchar *copy_old_filename;
-extern gchar *initial_file_title;
-extern gchar *initial_holder_title;
 extern GtkWidget *main_hpaned;
 extern GtkWidget *main_vbox;
 extern GtkWidget * navigation_tree_view;
@@ -201,33 +199,6 @@ void gsb_file_new_gui ( void )
 
     /* Display accounts in menus */
     gsb_menu_update_accounts_in_menus ();
-
-    /* Initialisation du titre pour grisbi */
-    if (titre_fichier && strlen (titre_fichier) )
-        g_free (titre_fichier);
-
-    switch ( etat.display_grisbi_title )
-    {
-        case GSB_ACCOUNTS_TITLE:
-            titre_fichier = my_strdup ( initial_file_title );
-        break;
-        case GSB_ACCOUNT_HOLDER:
-            if ( initial_holder_title && strlen ( initial_holder_title ) )
-                titre_fichier = my_strdup ( initial_holder_title );
-            else
-            {
-                etat.display_grisbi_title = GSB_ACCOUNTS_TITLE;
-                titre_fichier = my_strdup ( initial_file_title );
-            }
-        break;
-        case GSB_ACCOUNTS_FILE:
-            titre_fichier = my_strdup ( nom_fichier_comptes );
-        break;
-    }
-
-    /* Affiche le nom du fichier de comptes dans le titre de la fenetre */
-    gsb_file_update_window_title();
-    gsb_main_page_update_homepage_title ( titre_fichier );
 
     gtk_notebook_set_current_page ( GTK_NOTEBOOK( notebook_general ), GSB_HOME_PAGE );
 
@@ -495,6 +466,9 @@ gboolean gsb_file_open_file ( gchar *filename )
 	list_tmp = list_tmp -> next;
     }
 
+    /* set Grisbi title */
+    gsb_main_set_grisbi_title ( -1 );
+
     /* update the main page */
     mise_a_jour_accueil (TRUE);
 
@@ -622,7 +596,7 @@ gboolean gsb_file_save_file ( gint origine )
 	/* update variables */
 	etat.fichier_deja_ouvert = 0;
     modification_fichier ( FALSE );
-	gsb_file_update_window_title ();
+	gsb_main_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
 	gsb_file_append_name_to_opened_list ( nom_fichier_comptes );
     }
 
@@ -928,9 +902,11 @@ static gchar *gsb_file_dialog_ask_name ( void )
 
     if ( ! nom_fichier_comptes )
     {
-        gchar* tmpstr = g_strconcat ( titre_fichier, ".gsb", NULL );
-        gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ), tmpstr);
-        g_free ( tmpstr );
+        gchar* tmp_str;
+
+        tmp_str = g_strconcat ( titre_fichier, ".gsb", NULL );
+        gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ), tmp_str);
+        g_free ( tmp_str );
     }
     else
 	gtk_file_chooser_select_filename ( GTK_FILE_CHOOSER (dialog), nom_fichier_comptes );
@@ -1005,7 +981,7 @@ gboolean gsb_file_close ( void )
  	    init_variables ();
         gsb_account_property_clear_config ( );
 
-	    gsb_file_update_window_title();
+        gsb_main_set_grisbi_title ( -1 );
 
 	    menus_sensitifs ( FALSE );
 
@@ -1018,38 +994,6 @@ gboolean gsb_file_close ( void )
 	    return FALSE;
     }
 }
-
-
-/**
- * set/update the name of the file on the title of the window
- *
- * \param
- *
- * \return
- * */
-void gsb_file_update_window_title ( void )
-{
-    gchar *titre = NULL;
-
-    devel_debug ( "gsb_file_update_window_title" );
-
-    if ( titre_fichier && strlen ( titre_fichier ) )
-        titre = g_strdup ( titre_fichier );
-    else
-    {
-        if ( nom_fichier_comptes )
-            titre = g_path_get_basename ( nom_fichier_comptes );
-        else
-            titre = g_strconcat ( "<", _("unnamed"), ">", NULL );
-    }
-
-    titre = g_strconcat ( titre, " - ", _("Grisbi"), NULL );
-    gtk_window_set_title ( GTK_WINDOW ( window ), titre );
-
-    if ( titre && strlen ( titre ) > 0 )
-        g_free ( titre );
-}
-
 
 
 /**

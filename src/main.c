@@ -33,8 +33,10 @@
 
 /*START_INCLUDE*/
 #include "main.h"
+#include "accueil.h"
 #include "dialog.h"
 #include "gsb_assistant_first.h"
+#include "gsb_data_account.h"
 #include "gsb_file.h"
 #include "gsb_file_config.h"
 #include "gsb_plugins.h"
@@ -103,6 +105,7 @@ G_MODULE_EXPORT GtkWidget *window = NULL;
 /*START_EXTERN*/
 extern FILE *debug_file;
 extern gchar *nom_fichier_comptes;
+extern gchar *titre_fichier;
 /*END_EXTERN*/
 
 
@@ -705,6 +708,87 @@ static void main_window_destroy_event ( GObject* obj, gpointer data)
    window = NULL;
    gtk_main_quit();
 }
+
+
+/**
+ * set Grisbi title
+ *
+ *
+ *
+ * */
+gboolean gsb_main_set_grisbi_title ( gint account_number )
+{
+    gchar *titre_grisbi = NULL;
+    gchar *titre = NULL;
+    gint tmp_number;
+    gboolean return_value;
+    
+    devel_debug_int ( account_number );
+
+    if ( nom_fichier_comptes == NULL )
+    {
+        titre_grisbi = g_strdup ( _("Grisbi") );
+        return_value = TRUE;
+    }
+    else
+    {
+        switch ( conf.display_grisbi_title )
+        {
+            case GSB_ACCOUNTS_TITLE:
+                if ( titre_fichier && strlen ( titre_fichier ) )
+                    titre = g_strdup ( titre_fichier );
+            break;
+            case GSB_ACCOUNT_HOLDER:
+            {
+                if ( account_number == -1 )
+                    tmp_number = gsb_data_account_first_number ( );
+                else
+                    tmp_number = account_number;
+
+                if ( tmp_number == -1 )
+                {
+                    if ( titre_fichier && strlen ( titre_fichier ) )
+                        titre = g_strdup ( titre_fichier );
+                }
+                else
+                {
+                    titre = g_strdup ( gsb_data_account_get_holder_name ( tmp_number ) );
+
+                    if ( titre == NULL )
+                        titre = g_strdup ( gsb_data_account_get_name ( tmp_number ) );
+                }
+            break;
+            }
+            case GSB_ACCOUNTS_FILE:
+                if ( nom_fichier_comptes && strlen ( nom_fichier_comptes ) )
+                    titre = g_path_get_basename ( nom_fichier_comptes );
+            break;
+        }
+
+        if ( titre && strlen ( titre ) > 0 )
+        {
+            titre_grisbi = g_strconcat ( titre, " - ", _("Grisbi"), NULL );
+            return_value = TRUE;
+        }
+        else
+        {
+            titre_grisbi = g_strconcat ( "<", _("unnamed"), ">", NULL );
+            return_value = FALSE;
+        }
+    }
+    gtk_window_set_title ( GTK_WINDOW ( window ), titre_grisbi );
+
+    gsb_main_page_update_homepage_title ( titre_grisbi );
+
+    if ( titre && strlen ( titre ) )
+        g_free ( titre );
+
+    if ( titre_grisbi && strlen ( titre_grisbi ) > 0 )
+        g_free ( titre_grisbi );
+
+    return return_value;
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

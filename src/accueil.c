@@ -101,7 +101,6 @@ extern GtkWidget *form_transaction_part;
 extern gsb_real null_real;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
-extern gchar *titre_fichier;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -133,10 +132,17 @@ gint mise_a_jour_fin_comptes_passifs;
 GtkSizeGroup * size_group_accueil;
 gchar *chaine_espace = "                         ";
 
-/* ************************************************************************* */
+/**
+ * Create the home page of Grisbi
+ *
+ *
+ *
+ * */
 GtkWidget *creation_onglet_accueil ( void )
 {
     GtkWidget *paddingbox, *base, *base_scroll;
+    GtkWidget * eb;
+    GtkStyle * style;
 
     devel_debug ( NULL );
 
@@ -155,41 +161,28 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_widget_show ( base_scroll );
     gtk_widget_show ( base );
 
-    /* en dessous, on met le titre du fichier s'il existe */
-    if ( titre_fichier )
+    /* en dessous, on met le titre du fichier */
+    hbox_title = gtk_hbox_new ( FALSE, 0 );
+
+    eb = gtk_event_box_new ();
+    style = gtk_widget_get_style ( eb );
+    gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
+
+    label_titre_fichier = gtk_label_new ( NULL );
+
+    if ( etat.utilise_logo )
     {
-        GtkWidget * eb;
-        GtkStyle * style;
+        logo_accueil =  gtk_image_new_from_pixbuf ( gsb_select_icon_get_logo_pixbuf ( ) );
 
-        hbox_title = gtk_hbox_new ( FALSE, 0 );
-
-        eb = gtk_event_box_new ();
-        style = gtk_widget_get_style ( eb );
-        gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
-
-        label_titre_fichier = gtk_label_new ( titre_fichier );
-        gsb_main_page_update_homepage_title ( titre_fichier );
-
-        if ( etat.utilise_logo )
-        {
-            logo_accueil =  gtk_image_new_from_pixbuf ( 
-                        gsb_select_icon_get_logo_pixbuf ( ) );
-
-            gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 20 );
-            gtk_widget_set_size_request ( hbox_title, -1, LOGO_HEIGHT + 20 );
-        }
-
-        gtk_box_pack_end ( GTK_BOX ( hbox_title ), label_titre_fichier, TRUE, TRUE, 20 );
-        gtk_container_set_border_width ( GTK_CONTAINER ( hbox_title ), 6 );
-        gtk_container_add ( GTK_CONTAINER(eb), hbox_title );
-        gtk_box_pack_start ( GTK_BOX ( base ), eb, FALSE, FALSE, 0 );
-        gtk_widget_show_all ( eb );
+        gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 20 );
+        gtk_widget_set_size_request ( hbox_title, -1, LOGO_HEIGHT + 20 );
     }
-    else
-    {
-        label_titre_fichier = gtk_label_new ( NULL );
-        gtk_box_pack_start ( GTK_BOX ( base ), label_titre_fichier, FALSE, FALSE, 0 );
-    }
+
+    gtk_box_pack_end ( GTK_BOX ( hbox_title ), label_titre_fichier, TRUE, TRUE, 20 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( hbox_title ), 6 );
+    gtk_container_add ( GTK_CONTAINER ( eb ), hbox_title );
+    gtk_box_pack_start ( GTK_BOX ( base ), eb, FALSE, FALSE, 0 );
+    gtk_widget_show_all ( eb );
 
     /* on crée le size_group pour l'alignement des tableaux */
     size_group_accueil = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
@@ -280,7 +273,6 @@ GtkWidget *creation_onglet_accueil ( void )
 
     return ( base_scroll );
 }
-/* ************************************************************************* */
 
 
 /**
@@ -1184,8 +1176,6 @@ gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste )
 
     return nbre_lignes;
 }
-/* ************************************************************************* */
-
 
 /**
  * called by a click on an account name or balance of accounts on the main page
@@ -1205,10 +1195,12 @@ gboolean gsb_main_page_click_on_account ( gint *account_number )
 }
 
 
-
-
-
-/* ************************************************************************* */
+/**
+ * 
+ *
+ *
+ *
+ * */
 void update_liste_echeances_manuelles_accueil ( gboolean force )
 {
     devel_debug_int (force);
@@ -1345,9 +1337,8 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	hide_paddingbox ( frame_etat_echeances_manuelles_accueil );
     }
 }
-/* ************************************************************************* */
 
-/* ************************************************************************* */
+
 void update_liste_echeances_auto_accueil ( gboolean force )
 {
     if ( !force
@@ -1470,14 +1461,16 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	hide_paddingbox ( frame_etat_echeances_auto_accueil );
     }
 }
-/* ************************************************************************* */
 
-/* ************************************************************************* */
-/* Fonction update_soldes_minimaux */
-/* vérifie les soldes de tous les comptes, affiche un message d'alerte si nécessaire */
-/* et ajoute dans l'accueil les comptes sous les soldes minimaux */
-/* ************************************************************************* */
 
+/**
+ * Fonction update_soldes_minimaux
+ * vérifie les soldes de tous les comptes, affiche un message d'alerte si nécessaire
+ * 
+ *
+ *
+ *
+ * */
 void update_soldes_minimaux ( gboolean force )
 {
     GtkWidget *vbox_1;
@@ -2135,24 +2128,26 @@ GtkWidget *onglet_accueil (void)
 /**
  * update the title of the main page
  *
+ * \param title
+ *
+ *
  * */
-void gsb_main_page_update_homepage_title ( gchar *title )
+void gsb_main_page_update_homepage_title ( const gchar *title )
 {
-    gchar * tmpstr;
+    gchar * tmp_str;
 
     /* at the first use of grisbi,label_titre_fichier doesn't still exist */
     if ( !label_titre_fichier || !GTK_IS_LABEL ( label_titre_fichier ) )
         return;
 
-    if ( title && strlen ( title ) > 0 )
-        tmpstr = g_markup_printf_escaped ("<span size=\"x-large\">%s</span>", title );
-    else
-        tmpstr = g_strconcat ("<span size=\"x-large\">", _("My accounts"), "</span>", NULL );
+    tmp_str = g_markup_printf_escaped ("<span size=\"x-large\">%s</span>", title );
 
-    gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr );
-    g_free ( tmpstr );
+    gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmp_str );
 
+    g_free ( tmp_str );
 }
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

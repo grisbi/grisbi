@@ -442,7 +442,7 @@ devel_debug (NULL);
                         "Show closed accounts",
                         NULL );
 
-    etat.display_grisbi_title = g_key_file_get_integer ( config,
+    conf.display_grisbi_title = g_key_file_get_integer ( config,
                         "Display",
                         "Display grisbi title",
                         NULL );
@@ -838,7 +838,7 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Display",
                         "Display grisbi title",
-                        etat.display_grisbi_title );
+                        conf.display_grisbi_title );
 
     /* save messages */
     for ( i = 0; messages[i].name; i ++ )
@@ -1356,7 +1356,7 @@ void gsb_file_config_clean_config ( void )
     etat.automatic_completion_payee = 1;        /* by default automatic completion */
     etat.limit_completion_to_current_account = 0;        /* By default, do full search */
 
-    etat.display_grisbi_title = GSB_ACCOUNTS_TITLE;  /* show Accounts file title par défaut */
+    conf.display_grisbi_title = GSB_ACCOUNTS_TITLE;  /* show Accounts file title par défaut */
     etat.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
     etat.show_toolbar = TRUE;                       /* Show toolbar or not. */
     etat.show_headings_bar = TRUE;                  /* Show toolbar or not. */

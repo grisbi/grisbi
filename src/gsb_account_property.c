@@ -179,7 +179,6 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gsb_real null_real;
-extern gchar *titre_fichier;
 /*END_EXTERN*/
 
 
@@ -1514,7 +1513,6 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
 {
     gint origin = GPOINTER_TO_INT (p_origin);
     gint account_number;
-    const gchar *tmpstr;
 
     account_number = gsb_gui_navigation_get_current_account ();
     if ( account_number == -1)
@@ -1540,10 +1538,7 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
         payee_fill_tree ();
         break;
     case PROPERTY_HOLDER_NAME:
-        tmpstr = gtk_entry_get_text ( GTK_ENTRY ( widget ) );
-        titre_fichier = my_strdup ( tmpstr );
-        gsb_main_page_update_homepage_title ( titre_fichier );
-        gsb_file_update_window_title ( );
+        gsb_main_set_grisbi_title ( account_number );
         break;
     }
 

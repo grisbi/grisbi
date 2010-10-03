@@ -225,10 +225,6 @@ static gint last_sub_budget_number = 0;
 /* to import older file than 0.6, makes the link between report and comparison structures */
 static gint last_report_number;
 
-/* initialization of titles for grisbi */
-gchar *initial_file_title = NULL;
-gchar *initial_holder_title = NULL;
-
 /* filled only when loading a version before 0.6, contains the order of the accounts
  * in the 0.6, the accounts are saved directly in the good order
  * this is a list of the accounts number, in the good order */
@@ -771,7 +767,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     else if ( !strcmp ( attribute_names[i],
                         "File_title" ) && strlen (attribute_values[i]))
     {
-        initial_file_title = my_strdup (attribute_values[i]);
+        titre_fichier = my_strdup (attribute_values[i]);
     }
 
     else if ( !strcmp ( attribute_names[i],
@@ -1519,10 +1515,6 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
     {
         gsb_data_account_set_holder_name ( account_number,
                         attribute_values[i]);
-
-        if ( initial_holder_title == NULL 
-         && attribute_values[i] && strlen ( attribute_values[i] ) )
-            initial_holder_title = g_strdup ( attribute_values[i] );
         i++;
         continue;
     }
@@ -6618,7 +6610,6 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( titre_fichier )
         g_free ( titre_fichier );
     titre_fichier = my_strdup (text);
-    initial_file_title = my_strdup (text);
     return;
     }
 

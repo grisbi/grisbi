@@ -158,7 +158,6 @@ extern GdkColor couleur_selection;
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
-extern gchar *initial_file_title;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -166,6 +165,7 @@ extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];
+extern gchar *titre_fichier;
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
@@ -586,7 +586,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *scheduler_column_width_write;
     gchar *transaction_column_width_write;
     gchar *new_string;
-    gchar *tmpstr;
     gchar *skipped_lines_string;
     gchar *bet_array_column_width_write;
     gboolean is_archive = FALSE;
@@ -677,12 +676,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.is_archive )
 	is_archive = TRUE;
 
-    /* save the file_title or the initial_file_title */
-    if ( initial_file_title && strlen (initial_file_title) )
-        tmpstr = initial_file_title;
-    else
-        tmpstr = "";
-
     /* save the general information */
     new_string = g_markup_printf_escaped ( "\t<General\n"
 					   "\t\tFile_version=\"%s\"\n"
@@ -729,7 +722,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	my_safe_null_str(VERSION),
 	etat.crypt_file,
 	is_archive,
-	my_safe_null_str(tmpstr),
+	my_safe_null_str ( titre_fichier ),
 	my_safe_null_str(adresse_commune),
 	my_safe_null_str(adresse_secondaire),
 	no_devise_totaux_tiers,

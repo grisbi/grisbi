@@ -102,12 +102,10 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern gchar *initial_holder_title;
 extern GtkWidget *label_last_statement;
 extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget *notebook_general;
-extern gchar *titre_fichier;
 /*END_EXTERN*/
 
 
@@ -971,40 +969,19 @@ gboolean navigation_change_account ( gint *no_account )
 
     /* Sensitive menu items if something is selected. */
     if ( gsb_data_account_get_current_transaction_number ( new_account ) == -1 )
-    {
-	gsb_menu_transaction_operations_set_sensitive ( FALSE );
-    }
+        gsb_menu_transaction_operations_set_sensitive ( FALSE );
     else
-    {
-	gsb_menu_transaction_operations_set_sensitive ( TRUE );
-    }
+        gsb_menu_transaction_operations_set_sensitive ( TRUE );
 
     /* show or hide the rules button in toolbar */
     if ( gsb_data_import_rule_account_has_rule ( new_account ) )
-	gtk_widget_show ( menu_import_rules );
+        gtk_widget_show ( menu_import_rules );
     else
-	gtk_widget_hide ( menu_import_rules );
+        gtk_widget_hide ( menu_import_rules );
 
     /* Update the title of the file if needed */
-    if ( etat.display_grisbi_title == GSB_ACCOUNT_HOLDER )
-    {
-        gchar * tmpstr;
-
-        if (titre_fichier && strlen (titre_fichier) )
-            g_free (titre_fichier);
-
-        tmpstr = my_strdup ( gsb_data_account_get_holder_name ( new_account ) );
-        if ( tmpstr && strlen (tmpstr) > 0 )
-        {
-            titre_fichier = g_strdup ( tmpstr );
-            g_free ( tmpstr );
-        }
-        else
-            titre_fichier = g_strdup ( initial_holder_title );
-
-        gsb_main_page_update_homepage_title ( titre_fichier );
-        gsb_file_update_window_title ( );
-    }
+    if ( conf.display_grisbi_title == GSB_ACCOUNT_HOLDER )
+        gsb_main_set_grisbi_title ( new_account );
 
     bet_data_select_bet_pages ( new_account );
 
@@ -1145,21 +1122,9 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_HOME_PAGE:
 	    notice_debug ("Home page selected");
 
-	    /* set the title */
-	    if ( titre_fichier && strlen ( titre_fichier ) )
-	    {
-            title = g_strconcat ( "Grisbi : " , titre_fichier, NULL );
-	    }
-	    else
-	    {
-            title = g_strconcat ( "Grisbi : " , _("My accounts"), NULL );
-            titre_fichier = g_strdup  ( _("My accounts") );
-	    }
-
 	    /* what to be done if switch to that page */
-	    mise_a_jour_accueil (FALSE);
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
+	    mise_a_jour_accueil ( FALSE );
+	    gsb_form_set_expander_visible ( FALSE, FALSE );
 	    break;
 
 	case GSB_ACCOUNT_PAGE:
