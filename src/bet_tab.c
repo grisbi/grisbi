@@ -1537,6 +1537,16 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
                         tree_view );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
+    /* Export list */
+    menu_item = gtk_image_menu_item_new_with_label ( SPACIFY ( _("Export the array") ) );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_SAVE, GTK_ICON_SIZE_MENU ) );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( bet_array_export_tab ),
+                        tree_view );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
     /* Finish all. */
     gtk_widget_show_all ( menu );
     gtk_menu_popup ( GTK_MENU( menu ), NULL, NULL, NULL, NULL, 3,

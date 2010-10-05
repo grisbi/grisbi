@@ -209,15 +209,16 @@ enum alignement
 
 enum bet_array_origin_data
 {
-    SPP_ORIGIN_TRANSACTION,
-    SPP_ORIGIN_SCHEDULED,
-    SPP_ORIGIN_HISTORICAL,
-    SPP_ORIGIN_FUTURE,
-    SPP_ORIGIN_ACCOUNT,
-    SPP_ORIGIN_ARRAY,
-    SPP_ORIGIN_CONFIG,
-    SPP_ORIGIN_FINANCE,
-    SPP_ORIGIN_SOLDE
+    SPP_ORIGIN_TRANSACTION,             /* Ligne issue d'une opération */
+    SPP_ORIGIN_SCHEDULED,               /* Ligne issue d'une opération plannifiée */
+    SPP_ORIGIN_HISTORICAL,              /* Ligne issue d'une donnée historique */
+    SPP_ORIGIN_FUTURE,                  /* Ligne issue d'une opération future */
+    SPP_ORIGIN_ACCOUNT,                 /* Ligne issue d'un compte */
+    SPP_ORIGIN_ARRAY,                   /* Donnée provenant du tableau de prévision */
+    SPP_ORIGIN_CONFIG,                  /* Donnée provenant de la page des préférences */
+    SPP_ORIGIN_SIMULATOR,               /* Donnée provenant du tableau du simulateur de crédit */
+    SPP_ORIGIN_FINANCE,                 /* Donnée provenant du tableau d'amortissement du simulateur */
+    SPP_ORIGIN_SOLDE                    /* Ligne de solde au premier du mois  */
 };
 
 enum bet_type_maj 

@@ -296,6 +296,8 @@ GtkWidget *bet_finance_create_simulator_page ( void )
 
     /* création de la liste des données */
     tree_view = bet_finance_create_data_tree_view ( page );
+    g_object_set_data ( G_OBJECT ( tree_view ), "origin",
+                        GINT_TO_POINTER ( SPP_ORIGIN_SIMULATOR ) );
     g_object_set_data ( G_OBJECT ( page ), "tree_view", tree_view );
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
@@ -989,6 +991,7 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
     GtkTreeSelection *tree_selection;
     GtkTreeIter iter;
     gchar *tmp_str;
+    gint origin;
 
     tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
 
@@ -998,40 +1001,40 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
 
     menu = gtk_menu_new ();
 
-    tmp_str = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_liability_16.png", NULL);
-    image = gtk_image_new_from_file ( tmp_str );
-    gtk_image_set_pixel_size ( GTK_IMAGE ( image ), GTK_ICON_SIZE_MENU );
-    g_free ( tmp_str );
-
-    if ( page_num == 0 )
+    origin = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( tree_view ), "origin" ) );
+    if ( origin == SPP_ORIGIN_SIMULATOR )
     {
-        menu_item = gtk_image_menu_item_new_with_label ( _("View amortization table") );
-        g_signal_connect ( G_OBJECT ( menu_item ),
+        tmp_str = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_liability_16.png", NULL);
+        image = gtk_image_new_from_file ( tmp_str );
+        gtk_image_set_pixel_size ( GTK_IMAGE ( image ), GTK_ICON_SIZE_MENU );
+        g_free ( tmp_str );
+
+        if ( page_num == 0 )
+        {
+            menu_item = gtk_image_menu_item_new_with_label ( _("View amortization table") );
+            g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_finance_fill_amortization_array ),
                         tree_selection );
-
-        tmp_str = g_strdup ( _("Print the array") );
-    }
-    else
-    {
-        menu_item = gtk_image_menu_item_new_with_label ( _("View credits simulator") );
-        g_signal_connect ( G_OBJECT ( menu_item ),
+        }
+        else
+        {
+            menu_item = gtk_image_menu_item_new_with_label ( _("View credits simulator") );
+            g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_finance_switch_simulator_page ),
                         NULL );
+        }
+        
+        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-        tmp_str = g_strdup ( _("Print amortization table") );
+        /* Separator */
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
     }
-    
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-
-    /* Separator */
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* Print list */
-    menu_item = gtk_image_menu_item_new_with_label ( tmp_str );
+    menu_item = gtk_image_menu_item_new_with_label ( _("Print the array") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_PRINT, GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
@@ -1039,7 +1042,16 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
                         G_CALLBACK ( print_tree_view_list ),
                         tree_view );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-    g_free ( tmp_str );
+
+    /* Export list */
+    menu_item = gtk_image_menu_item_new_with_label ( _("Export the array") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_SAVE, GTK_ICON_SIZE_MENU ) );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( bet_finance_ui_export_tab ),
+                        tree_view );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Finish all. */
     gtk_widget_show_all ( menu );
@@ -1117,7 +1129,9 @@ GtkWidget *bet_finance_create_amortization_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     /* création de la liste des données */
-    tree_view = bet_finance_create_amortization_tree_view ( page, 0 );
+    tree_view = bet_finance_create_amortization_tree_view ( page, SPP_ORIGIN_SIMULATOR );
+    g_object_set_data ( G_OBJECT ( tree_view ), "origin",
+                        GINT_TO_POINTER ( SPP_ORIGIN_SIMULATOR ) );
     g_object_set_data ( G_OBJECT ( page ), "tree_view", tree_view );
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
@@ -1296,8 +1310,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
                         GINT_TO_POINTER ( BET_AMORTIZATION_ECHEANCE_COLUMN ) );
     g_free ( title );
 
-    if ( origin != SPP_ORIGIN_FINANCE )
-        g_signal_connect ( G_OBJECT ( tree_view ),
+    g_signal_connect ( G_OBJECT ( tree_view ),
                         "button-press-event",
                         G_CALLBACK ( bet_finance_data_list_button_press ),
                         container );
@@ -1494,8 +1507,6 @@ GtkWidget *bet_finance_create_account_page ( void )
     GtkWidget *label_title;
     GtkWidget *label;
     GtkWidget *tree_view;
-    GtkWidget *handlebox;
-    GtkWidget *button;
     GtkWidget *toolbar;
 
     devel_debug (NULL);
@@ -1553,6 +1564,8 @@ GtkWidget *bet_finance_create_account_page ( void )
 
     /* création de la liste des données */
     tree_view = bet_finance_create_amortization_tree_view ( page, SPP_ORIGIN_FINANCE );
+    g_object_set_data ( G_OBJECT ( tree_view ), "origin",
+                        GINT_TO_POINTER ( SPP_ORIGIN_FINANCE ) );
     g_object_set_data ( G_OBJECT ( account_page ), "bet_finance_tree_view", tree_view );
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
