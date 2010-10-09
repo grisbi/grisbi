@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-05 22:49+0200\n"
+"POT-Creation-Date: 2010-10-09 09:36+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgid "Account balances in %s"
 msgstr "账户余额 %s"
 
 #: ../src/accueil.c:473 ../src/accueil.c:551 ../src/accueil.c:628
-#: ../src/accueil.c:697 ../src/bet_finance_ui.c:1627
+#: ../src/accueil.c:697 ../src/bet_finance_ui.c:1635
 msgid " at "
 msgstr ""
 
@@ -691,9 +691,9 @@ msgstr "贷款/抵押 : 资产"
 #. Duration
 #. create columns
 #. Duration
-#: ../src/bet_config.c:1196 ../src/bet_finance_ui.c:272
-#: ../src/bet_finance_ui.c:478 ../src/bet_finance_ui.c:1122
-#: ../src/bet_finance_ui.c:1556
+#: ../src/bet_config.c:1196 ../src/bet_finance_ui.c:273
+#: ../src/bet_finance_ui.c:479 ../src/bet_finance_ui.c:1123
+#: ../src/bet_finance_ui.c:1557
 #, fuzzy
 msgid "Duration"
 msgstr "翻译"
@@ -710,14 +710,14 @@ msgstr "支付方式"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1108
-#: ../src/bet_finance_ui.c:1542
+#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1109
+#: ../src/bet_finance_ui.c:1543
 msgid "Annuel rate interest"
 msgstr ""
 
-#: ../src/bet_config.c:1236 ../src/bet_finance_ui.c:267
-#: ../src/bet_finance_ui.c:393 ../src/bet_finance_ui.c:1117
-#: ../src/bet_finance_ui.c:1551
+#: ../src/bet_config.c:1236 ../src/bet_finance_ui.c:268
+#: ../src/bet_finance_ui.c:394 ../src/bet_finance_ui.c:1118
+#: ../src/bet_finance_ui.c:1552
 msgid "%"
 msgstr ""
 
@@ -726,16 +726,16 @@ msgstr ""
 msgid "Fees per month"
 msgstr "%d 月"
 
-#: ../src/bet_config.c:1267 ../src/bet_finance_ui.c:406
+#: ../src/bet_config.c:1267 ../src/bet_finance_ui.c:407
 #, fuzzy
 msgid "Rate Type"
 msgstr "类型"
 
-#: ../src/bet_config.c:1271 ../src/bet_finance_ui.c:410
+#: ../src/bet_config.c:1271 ../src/bet_finance_ui.c:411
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1275 ../src/bet_finance_ui.c:414
+#: ../src/bet_config.c:1275 ../src/bet_finance_ui.c:415
 msgid "Proportional rate"
 msgstr ""
 
@@ -743,65 +743,65 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:836
-#: ../src/bet_finance_ui.c:1654
+#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:837
+#: ../src/bet_finance_ui.c:1662
 #, fuzzy
 msgid " year "
 msgstr "年 %d"
 
-#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:838
-#: ../src/bet_finance_ui.c:1656
+#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:839
+#: ../src/bet_finance_ui.c:1664
 #, fuzzy
 msgid " years "
 msgstr "年"
 
-#: ../src/bet_config.c:1388 ../src/bet_finance_ui.c:686
+#: ../src/bet_config.c:1388 ../src/bet_finance_ui.c:687
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
 #. set the title
-#: ../src/bet_finance_ui.c:222 ../src/fenetre_principale.c:277
+#: ../src/bet_finance_ui.c:223 ../src/fenetre_principale.c:277
 #: ../src/navigation.c:298 ../src/navigation.c:1200
 #, fuzzy
 msgid "Credits simulator"
 msgstr "信用卡"
 
 #. capital
-#: ../src/bet_finance_ui.c:233 ../src/bet_finance_ui.c:1532
+#: ../src/bet_finance_ui.c:234 ../src/bet_finance_ui.c:1533
 #, fuzzy
 msgid "Loan capital"
 msgstr "贷款/抵押 : 资产"
 
 #. taux
-#: ../src/bet_finance_ui.c:257
+#: ../src/bet_finance_ui.c:258
 #, fuzzy
 msgid "Annual interest"
 msgstr "年度预算"
 
-#: ../src/bet_finance_ui.c:287
+#: ../src/bet_finance_ui.c:288
 msgid "Entering Detailed"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:326
+#: ../src/bet_finance_ui.c:327
 msgid "Between 1 and 15 years"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:327
+#: ../src/bet_finance_ui.c:328
 msgid "Between 15 and 30 years"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:383 ../src/bet_finance_ui.c:573
+#: ../src/bet_finance_ui.c:384 ../src/bet_finance_ui.c:574
 #, fuzzy
 msgid "Fees"
 msgstr "费用"
 
-#: ../src/bet_finance_ui.c:393
+#: ../src/bet_finance_ui.c:394
 msgid " of borrowed capital"
 msgstr ""
 
 #. Number of periods
-#: ../src/bet_finance_ui.c:497
+#: ../src/bet_finance_ui.c:498
 #, fuzzy
 msgid ""
 "Number\n"
@@ -809,76 +809,76 @@ msgid ""
 msgstr "初始余额"
 
 #. Loan capital
-#: ../src/bet_finance_ui.c:516
+#: ../src/bet_finance_ui.c:517
 msgid ""
 "Loan\n"
 "capital"
 msgstr ""
 
 #. Annuel rate interest
-#: ../src/bet_finance_ui.c:535
+#: ../src/bet_finance_ui.c:536
 msgid ""
 "Annuel\n"
 "rate interest"
 msgstr ""
 
 #. Amount without fees
-#: ../src/bet_finance_ui.c:554
+#: ../src/bet_finance_ui.c:555
 msgid ""
 "Amount\n"
 "without fees"
 msgstr ""
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:592 ../src/bet_finance_ui.c:1295
+#: ../src/bet_finance_ui.c:593 ../src/bet_finance_ui.c:1296
 #, fuzzy
 msgid "Monthly paid"
 msgstr "每月"
 
 #. Total cost
-#: ../src/bet_finance_ui.c:611
+#: ../src/bet_finance_ui.c:612
 #, fuzzy
 msgid "Total cost"
 msgstr "总计 %s"
 
-#: ../src/bet_finance_ui.c:623
+#: ../src/bet_finance_ui.c:624
 msgid "Approximate cost"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1014 ../src/bet_finance_ui.c:1789
+#: ../src/bet_finance_ui.c:1015 ../src/bet_finance_ui.c:1797
 msgid "View amortization table"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1022 ../src/bet_finance_ui.c:1807
+#: ../src/bet_finance_ui.c:1023 ../src/bet_finance_ui.c:1814
 msgid "View credits simulator"
 msgstr ""
 
 #. Print list
-#: ../src/bet_finance_ui.c:1037 ../src/bet_finance_ui.c:1821
+#: ../src/bet_finance_ui.c:1038 ../src/bet_finance_ui.c:1846
 #: ../src/bet_tab.c:1531 ../src/bet_tab.c:2854
 #, fuzzy
 msgid "Print the array"
 msgstr "打印机"
 
 #. Export list
-#: ../src/bet_finance_ui.c:1047 ../src/bet_finance_ui.c:1837
-#: ../src/bet_finance_ui.c:1866 ../src/bet_tab.c:1541
+#: ../src/bet_finance_ui.c:1048 ../src/bet_finance_ui.c:1862
+#: ../src/bet_finance_ui.c:1891 ../src/bet_tab.c:1541
 #, fuzzy
 msgid "Export the array"
 msgstr "打印机"
 
-#: ../src/bet_finance_ui.c:1087 ../src/bet_finance_ui.c:1520
-#: ../src/bet_finance_ui.c:1627
+#: ../src/bet_finance_ui.c:1088 ../src/bet_finance_ui.c:1521
+#: ../src/bet_finance_ui.c:1635
 msgid "Amortization Table"
 msgstr ""
 
 #. capital
-#: ../src/bet_finance_ui.c:1098
+#: ../src/bet_finance_ui.c:1099
 #, fuzzy
 msgid "Loan amount"
 msgstr "载入账户文件"
 
-#: ../src/bet_finance_ui.c:1188 ../src/bet_future.c:770 ../src/bet_tab.c:688
+#: ../src/bet_finance_ui.c:1189 ../src/bet_future.c:770 ../src/bet_tab.c:688
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:763
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1288
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
@@ -888,70 +888,78 @@ msgstr "载入账户文件"
 msgid "Date"
 msgstr "日期"
 
-#: ../src/bet_finance_ui.c:1200 ../src/etats_affiche.c:2398
+#: ../src/bet_finance_ui.c:1201 ../src/etats_affiche.c:2398
 #: ../src/traitement_variables.c:96
 msgid "Number"
 msgstr "编号"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1219
+#: ../src/bet_finance_ui.c:1220
 msgid "Capital remaining"
 msgstr ""
 
 #. Interests
-#: ../src/bet_finance_ui.c:1238
+#: ../src/bet_finance_ui.c:1239
 #, fuzzy
 msgid "Interests"
 msgstr "兴趣"
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1257
+#: ../src/bet_finance_ui.c:1258
 msgid "Capital repaid"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:1276
+#: ../src/bet_finance_ui.c:1277
 #, fuzzy
 msgid "Insurance"
 msgstr "保险 : 汽车"
 
-#: ../src/bet_finance_ui.c:1771 ../src/bet_finance_ui.c:1774
+#: ../src/bet_finance_ui.c:1779 ../src/bet_finance_ui.c:1782
 #, fuzzy
 msgid "Calculate"
 msgstr "所有日期"
 
-#: ../src/bet_finance_ui.c:1785
+#: ../src/bet_finance_ui.c:1793 ../src/bet_finance_ui.c:1825
 #, fuzzy
 msgid "Amortization"
 msgstr "动作"
 
-#: ../src/bet_finance_ui.c:1803
+#: ../src/bet_finance_ui.c:1810
 #, fuzzy
 msgid "Credits"
 msgstr "贷方"
 
+#: ../src/bet_finance_ui.c:1829 ../src/bet_finance_ui.c:1949
+msgid "Show amortization schedule from the beginning"
+msgstr ""
+
 #. Set up dialog
-#: ../src/bet_finance_ui.c:1818 ../src/bet_tab.c:2851
+#: ../src/bet_finance_ui.c:1843 ../src/bet_tab.c:2851
 #: ../src/barre_outils.c:139 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
 msgstr "打印"
 
-#: ../src/bet_finance_ui.c:1834 ../src/bet_tab.c:2864
+#: ../src/bet_finance_ui.c:1859 ../src/bet_tab.c:2864
 #: ../src/categories_onglet.c:517 ../src/etats_onglet.c:138
 #: ../src/export.c:161 ../src/imputation_budgetaire.c:554
 msgid "Export"
 msgstr "导出"
 
-#: ../src/bet_finance_ui.c:1873
+#: ../src/bet_finance_ui.c:1898
 #, fuzzy
 msgid "credit.csv"
 msgstr "贷方"
 
-#: ../src/bet_finance_ui.c:1890 ../src/bet_tab.c:2977
+#: ../src/bet_finance_ui.c:1915 ../src/bet_tab.c:2977
 #: ../src/imputation_budgetaire.c:391
 msgid "Cannot save file."
 msgstr "不能保存文件"
+
+#: ../src/bet_finance_ui.c:1947
+msgid "Show amortization schedule to date"
+msgstr ""
 
 #: ../src/bet_future.c:227 ../src/bet_future.c:1773 ../src/bet_future.c:1872
 #: ../src/bet_future.c:2419
