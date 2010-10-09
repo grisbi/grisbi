@@ -189,8 +189,8 @@ GDate *bet_data_finance_get_date_last_installment_paid ( GDate *date_depart )
     date_jour = gdate_today ( );
     jour = g_date_get_day ( date_depart );
 
-    if ( g_date_get_day ( date_jour ) < jour )
-        g_date_subtract_months  ( date_jour, 1 );
+    if ( g_date_get_day ( date_jour ) > jour )
+        g_date_add_months  ( date_jour, 1 );
     
     g_date_set_day ( date_jour, jour );
 

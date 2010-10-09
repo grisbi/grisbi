@@ -100,6 +100,7 @@ static void bet_finance_fill_amortization_ligne ( GtkTreeModel *model,
                         struct_amortissement *s_amortissement );
 static void bet_finance_fill_data_ligne ( GtkTreeModel *model, struct_echeance *s_echeance );
 static gboolean bet_finance_list_set_background_color ( GtkWidget *tree_view, gint color_column );
+static void bet_finance_switch_amortization_initial_date ( GtkWidget *button, GtkWidget *tree_view );
 static void bet_finance_ui_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view );
 static void bet_finance_ui_struct_amortization_free ( struct_amortissement *s_amortissement );
 static void bet_finance_type_taux_changed ( GtkWidget *togglebutton, GtkWidget *widget );
@@ -114,7 +115,7 @@ extern GtkWidget *window;
 /* notebook pour la simulation de crédits */
 static GtkWidget *finance_notebook;
 
- enum bet_finance_data_columns
+enum bet_finance_data_columns
 {
     BET_FINANCE_DURATION_COLUMN,
     BET_FINANCE_NBRE_ECHEANCE_COLUMN,
@@ -136,7 +137,7 @@ static GtkWidget *finance_notebook;
 };
 
 
- enum bet_finance_amortization_columns
+enum bet_finance_amortization_columns
 {
     BET_AMORTIZATION_NUMBER_COLUMN,
     BET_AMORTIZATION_DATE_COLUMN,
@@ -1002,13 +1003,14 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
     menu = gtk_menu_new ();
 
     origin = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( tree_view ), "origin" ) );
+
+    tmp_str = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_liability_16.png", NULL);
+    image = gtk_image_new_from_file ( tmp_str );
+    gtk_image_set_pixel_size ( GTK_IMAGE ( image ), GTK_ICON_SIZE_MENU );
+    g_free ( tmp_str );
+
     if ( origin == SPP_ORIGIN_SIMULATOR )
     {
-        tmp_str = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_liability_16.png", NULL);
-        image = gtk_image_new_from_file ( tmp_str );
-        gtk_image_set_pixel_size ( GTK_IMAGE ( image ), GTK_ICON_SIZE_MENU );
-        g_free ( tmp_str );
-
         if ( page_num == 0 )
         {
             menu_item = gtk_image_menu_item_new_with_label ( _("View amortization table") );
@@ -1026,12 +1028,30 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
                         NULL );
         }
         
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
-        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-
-        /* Separator */
-        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
     }
+    else
+    {
+        gboolean amortization_initial_date;
+
+        amortization_initial_date = GPOINTER_TO_INT ( g_object_get_data (
+                        G_OBJECT ( tree_view ), "amortization_initial_date" ) );
+
+        if ( amortization_initial_date )
+            menu_item = gtk_image_menu_item_new_with_label ( _("Show amortization schedule to date") );
+        else
+            menu_item = gtk_image_menu_item_new_with_label ( _("Show amortization schedule from the beginning") );
+
+        g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( bet_finance_switch_amortization_initial_date ),
+                        tree_view );
+    }
+
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+    /* Separator */
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* Print list */
     menu_item = gtk_image_menu_item_new_with_label ( _("Print the array") );
@@ -1314,6 +1334,8 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
                         "button-press-event",
                         G_CALLBACK ( bet_finance_data_list_button_press ),
                         container );
+    g_object_set_data ( G_OBJECT ( tree_view ), "amortization_initial_date",
+                        GINT_TO_POINTER ( FALSE ) );
 
     /* create the scrolled window */
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
@@ -1602,8 +1624,9 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     gdouble taux;
     gdouble taux_periodique;
     GDate *date;
-    GDate *last_paid_date;
+    GDate *last_paid_date = NULL;
     struct_amortissement *s_amortissement;
+    gboolean amortization_initial_date;
 
     /* devel_debug ( NULL ); */
     if ( gsb_gui_navigation_get_current_account ( ) != account_number )
@@ -1612,15 +1635,21 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     s_amortissement = g_malloc0 ( sizeof ( struct_amortissement ) );
     s_amortissement -> origin = SPP_ORIGIN_FINANCE;
 
-    /* récupère la page du tableau d'amortissement */
+    /* récupère la page du tableau d'amortissement et le tableau */
     page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( finance_notebook ), 1 );
+    tree_view = g_object_get_data ( G_OBJECT ( account_page ), "bet_finance_tree_view" );
+    amortization_initial_date = GPOINTER_TO_INT ( g_object_get_data (
+                        G_OBJECT ( tree_view ), "amortization_initial_date" ) );
 
     /* récupère les paramètres du compte */
     s_amortissement -> devise = gsb_data_account_get_currency ( account_number );
     nbre_echeances = gsb_data_account_get_bet_months ( account_number );
     date = gsb_data_account_get_bet_start_date ( account_number );
     s_amortissement -> str_date = gsb_format_gdate ( date );
-    last_paid_date = bet_data_finance_get_date_last_installment_paid ( date );
+    if ( amortization_initial_date == FALSE )
+        last_paid_date = bet_data_finance_get_date_last_installment_paid ( date );
+    else
+        last_paid_date = gsb_date_copy ( date );
 
     /* met à jour le titre du tableau */
     label = g_object_get_data ( G_OBJECT ( account_page ), "bet_finance_amortization_title" );
@@ -1666,7 +1695,6 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
                         s_amortissement -> devise, TRUE );
 
     /* remplit le tableau d'amortissement */
-    tree_view = g_object_get_data ( G_OBJECT ( account_page ), "bet_finance_tree_view" );
     store = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_store_clear ( GTK_TREE_STORE ( store ) );
 
@@ -1795,8 +1823,7 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
         g_object_set_data ( G_OBJECT ( parent ), "amortization_button", button );
         gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
     }
-
-    if ( amortization )
+    else if ( amortization )
     {
         /* création du bouton afficher le simulateur de crédits */
         button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
@@ -1810,6 +1837,27 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
                         G_CALLBACK ( bet_finance_switch_simulator_page ),
                         NULL );
         gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+    }
+    else
+    {
+        gboolean amortization_initial_date = FALSE;
+
+        /* création du bouton afficher le simulateur de crédits */
+        button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+                        _("Amortization"),
+                        "ac_liability_16.png",
+                        NULL,
+                        NULL );
+        gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Show amortization schedule from the beginning") );
+        g_object_set_data ( G_OBJECT ( tree_view ), "amortization_initial_date_button", button );
+        g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( bet_finance_switch_amortization_initial_date ),
+                        tree_view );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+
+        g_object_set_data ( G_OBJECT ( tree_view ), "amortization_initial_date",
+                        GINT_TO_POINTER ( amortization_initial_date ) );
     }
 
     /* création du bouton print */
@@ -1897,6 +1945,40 @@ void bet_finance_ui_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 	    return;
     }
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_finance_switch_amortization_initial_date ( GtkWidget *widget, GtkWidget *tree_view )
+{
+    GtkWidget *tmp_button;
+    gint account_number;
+    gboolean amortization_initial_date;
+
+    amortization_initial_date = GPOINTER_TO_INT ( g_object_get_data (
+                        G_OBJECT ( tree_view ), "amortization_initial_date" ) );
+    amortization_initial_date = !amortization_initial_date;
+
+    g_object_set_data ( G_OBJECT ( tree_view ), "amortization_initial_date",
+                        GINT_TO_POINTER ( amortization_initial_date ) );
+
+    if ( GTK_IS_BUTTON ( widget ) )
+        tmp_button = widget;
+    else
+        tmp_button = g_object_get_data ( G_OBJECT ( tree_view ), "amortization_initial_date_button" );
+    
+    if ( amortization_initial_date )
+            gtk_widget_set_tooltip_text ( GTK_WIDGET ( tmp_button ), _("Show amortization schedule to date") );
+    else
+        gtk_widget_set_tooltip_text ( GTK_WIDGET ( tmp_button ), _("Show amortization schedule from the beginning") );
+
+    account_number = gsb_gui_navigation_get_current_account ( );
+    bet_finance_ui_update_amortization_tab ( account_number );
 }
 
 
