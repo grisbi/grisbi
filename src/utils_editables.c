@@ -1,8 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cedric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -27,7 +28,6 @@
 #include "utils_editables.h"
 #include "gsb_real.h"
 #include "utils_str.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -36,8 +36,6 @@
 /*START_EXTERN*/
 extern gsb_real null_real;
 /*END_EXTERN*/
-
-
 
 
 /**
@@ -149,27 +147,52 @@ gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry )
     gsb_real total = null_real;
 	
     string = my_strdup (gtk_entry_get_text ( GTK_ENTRY (entry)));
-    /* modified by pbiava 02/13/2009 To avoid a crash at the entrance to a 0 */
-    if (string && strlen (string))
-        pointeur = string + strlen (string);
+
+    if ( string && strlen ( string ) )
+        pointeur = string + strlen ( string );
     else
         return total;
 
-    while ( pointeur != string )
+    if ( g_utf8_strchr ( string, -1, '-' ) || g_utf8_strchr ( string, -1, '+' ) )
     {
-	if ( pointeur[0] == '+'
-	     ||
-	     pointeur[0] == '-' )
-	{
-	    total = gsb_real_add ( total,
-				   gsb_real_get_from_string (pointeur));
-	    pointeur[0] = 0;
-	}
-	pointeur--;
+        while ( pointeur != string )
+        {
+            if ( pointeur[0] == '+'
+                 ||
+                 pointeur[0] == '-' )
+            {
+                total = gsb_real_add ( total,
+                            gsb_real_get_from_string ( pointeur ) );
+                pointeur[0] = 0;
+            }
+            
+            pointeur--;
+        }
+        total = gsb_real_add ( total,
+                        gsb_real_get_from_string ( pointeur ) );
     }
-    total = gsb_real_add ( total,
-			   gsb_real_get_from_string (pointeur));
-    g_free (string);
+    else
+    {
+        total.mantissa = 1;
+        total.exponent = 0;
+
+        while ( pointeur != string )
+        {
+            if ( pointeur[0] == '*' )
+            {
+                total = gsb_real_mul ( total,
+                            gsb_real_get_from_string ( pointeur + 1 ) );
+                pointeur[0] = 0;
+            }
+            
+            pointeur--;
+        }
+        total = gsb_real_mul ( total,
+                        gsb_real_get_from_string ( pointeur ) );
+    }
+
+    g_free ( string );
+
     return total;
 }
 
