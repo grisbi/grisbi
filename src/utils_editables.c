@@ -125,14 +125,11 @@ gboolean gsb_editable_erase_text_view ( GtkWidget *button,
  */
 void increment_decrement_champ ( GtkWidget *entry, gint increment )
 {
-    gdouble number;
 	gchar* tmpstr;
 
-    number = utils_str_atoi (gtk_entry_get_text ( GTK_ENTRY ( entry )));
-    number += increment;
-
-    tmpstr = utils_str_itoa ( number );
+    tmpstr = utils_str_incremente_number_from_str ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ), 1 );
     gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr );
+
     g_free ( tmpstr );
 }
 

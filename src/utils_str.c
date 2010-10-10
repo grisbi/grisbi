@@ -1032,6 +1032,42 @@ gchar *utils_str_colon ( const gchar *s )
 }
 
 
+/**
+ * adapte l'utilisation de : en fonction de la langue de l'utilisateur
+ *
+ *
+ *
+ * */
+gchar *utils_str_incremente_number_from_str ( const gchar *str_number, gint increment )
+{
+    gchar *new_str_number;
+    gchar *prefix = NULL;
+    gint number = 0;
+    gint i = 0;
+
+    if ( str_number && strlen ( str_number ) > 0 )
+    {
+        while ( str_number[i] == '0' )
+        {
+            i++;
+        }
+        if ( i > 0 )
+            prefix = g_strndup ( str_number, i );
+    
+        number = utils_str_atoi ( str_number );
+    }
+
+    number += increment;
+
+    new_str_number = utils_str_itoa ( number );
+
+    if ( prefix && strlen ( prefix ) > 0 )
+        new_str_number = g_strconcat ( prefix, new_str_number, NULL );
+
+    return new_str_number;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

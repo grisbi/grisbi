@@ -42,6 +42,7 @@ gint utils_str_get_nbre_motifs ( const gchar *chaine, const gchar *motif );
 G_MODULE_EXPORT gchar *utils_str_colon ( const gchar *s );
 gchar *utils_str_itoa ( gint integer );
 gchar *utils_str_dtostr ( gdouble number, gint nbre_decimal, gboolean canonical );
+gchar *utils_str_incremente_number_from_str ( const gchar *str_number, gint increment );
 gchar *utils_str_localise_decimal_point_from_string ( const gchar *string );
 gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
                         gint exponent );
