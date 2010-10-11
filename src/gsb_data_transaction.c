@@ -2164,6 +2164,9 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
         target_transaction -> archive_number = 0;
     }
 
+    /* make the archive_number */
+    target_transaction -> archive_number = 0;
+
     /* make a new copy of all the pointers */
     if ( target_transaction -> notes)
 	target_transaction -> notes = my_strdup ( source_transaction -> notes );
