@@ -139,7 +139,6 @@ gchar *gsb_real_raw_format_string (gsb_real number,
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
     gchar format[40];
     gchar *result = NULL;
-    gchar *mon_thousands_sep;
 	const gchar *cs_start;
     const gchar *cs_start_space;
     const gchar *sign;
@@ -155,13 +154,22 @@ gchar *gsb_real_raw_format_string (gsb_real number,
     mon_decimal_point = conv->mon_decimal_point && *conv->mon_decimal_point ? conv->mon_decimal_point : ".";
     cs_end_space = (currency_symbol && !conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
     cs_end = (currency_symbol && !conv->p_cs_precedes) ? currency_symbol : "";
-    mon_thousands_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
-
+    
     units = lldiv ( llabs (number.mantissa), gsb_real_power_10[number.exponent] );
 
     nbre_char = g_sprintf ( buffer, "%.0f", (gdouble) units.quot );
 
-    result = gsb_real_add_thousands_sep ( g_strndup ( buffer, nbre_char ), mon_thousands_sep );
+    result = g_strndup ( buffer, nbre_char );
+
+    if ( units.quot >= 1000 )
+    {
+        gchar *mon_thousands_sep;
+
+        mon_thousands_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
+        result = gsb_real_add_thousands_sep ( result, mon_thousands_sep );
+
+        g_free ( mon_thousands_sep );
+    }
 
     g_snprintf ( format, sizeof ( format ), "%s%d%s",
                                             "%s%s%s%s%s%0",
@@ -178,7 +186,6 @@ gchar *gsb_real_raw_format_string (gsb_real number,
                             cs_end_space,
                             cs_end );
 
-    g_free ( mon_thousands_sep );
 
     return result;
 }
