@@ -1087,13 +1087,10 @@ gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_se
 
     while ( i < nbre_char )
     {
-        gchar *tmp_char;
-
-        tmp_char = g_strndup ( ptr, 1 );
-        tmp_ptr = g_stpcpy ( tmp_ptr, tmp_char );
-        g_free ( tmp_char );
+        dest[i+sep] = ptr[0];
 
         ptr++;
+        tmp_ptr++;
         i++;
         j++;
         if ( i < nbre_char && j == 3 )
@@ -1104,10 +1101,12 @@ gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_se
         }
     };
 
-    g_free ( str_number );
     result = g_strndup ( dest, nbre_char + sep );
     result = g_strreverse ( result );
 
+    g_free ( str_number );
+    g_free ( dest );
+    
     return result;
 }
 
