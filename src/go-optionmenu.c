@@ -34,7 +34,10 @@
 
 /*START_INCLUDE*/
 #include "go-optionmenu.h"
-#include "include.h"
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkcheckmenuitem.h>
+#include <gdk/gdkkeysyms.h>
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -100,13 +103,6 @@ static void go_option_menu_update_contents_real (GOOptionMenu *option_menu,
 extern GtkWidget *window;
 /*END_EXTERN*/
 
-
-#include "go-optionmenu.h"
-
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gdk/gdkkeysyms.h>
 
 static void go_option_menu_class_init      (GOOptionMenuClass *klass);
 static void go_option_menu_init            (GOOptionMenu      *option_menu);
