@@ -888,6 +888,7 @@ void transaction_list_set_balances ( void )
     gint line_balance;
     gint nb_rows;
     gint floating_point;
+    gint currency_number;
     gint i;
     GtkTreeIter iter;
     GtkTreePath *path;
@@ -918,8 +919,8 @@ void transaction_list_set_balances ( void )
     /* begin to fill the iter for later */
     iter.stamp = custom_list->stamp;
 
-    floating_point = gsb_data_currency_get_floating_point (
-                        gsb_data_account_get_currency ( account_number ) );
+    currency_number = gsb_data_account_get_currency ( account_number );
+    floating_point = gsb_data_currency_get_floating_point ( currency_number );
 
     /* get the beginning balance */
     current_total = solde_debut_affichage ( account_number, floating_point);
@@ -957,10 +958,9 @@ void transaction_list_set_balances ( void )
         }
 
         /* calculate the new balance */
-        current_total = gsb_real_add ( current_total,
-                           amount);
+        current_total = gsb_real_add ( current_total, amount );
         record -> visible_col[column_balance] = gsb_real_get_string_with_currency ( current_total,
-                                                gsb_data_account_get_currency (account_number), TRUE);
+                                                 currency_number , TRUE);
         if (current_total.mantissa >= 0)
             record -> amount_color = NULL;
         else

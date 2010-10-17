@@ -40,7 +40,7 @@
 /*END_INCLUDE*/
 
 gsb_real null_real = { 0 , 0 };
-gsb_real error_real = { 0x80000000, 0 };
+gsb_real error_real = { G_MININT64, 0 };
 
 glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
                             1000000, 10000000, 100000000, 1000000000 };
@@ -67,6 +67,7 @@ lldiv_t lldiv(long long numerator, long long denominator)
 #endif /*_MSC_VER */
 
 /*START_STATIC*/
+static gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_sep );
 static gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add );
 static gboolean gsb_real_grow_exponent( gsb_real *num, guint target_exponent );
 static void gsb_real_minimize_exponent ( gsb_real *num );
@@ -135,15 +136,18 @@ gchar *gsb_real_raw_format_string (gsb_real number,
                         struct lconv *conv,
                         const gchar *currency_symbol )
 {
+    gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
     gchar format[40];
     gchar *result = NULL;
+    gchar *mon_thousands_sep;
 	const gchar *cs_start;
     const gchar *cs_start_space;
     const gchar *sign;
     const gchar *mon_decimal_point;
     const gchar *cs_end_space;
     const gchar *cs_end;
-	ldiv_t units;
+    gint nbre_char;
+	lldiv_t units;
 
     cs_start = (currency_symbol && conv->p_cs_precedes) ? currency_symbol : "";
     cs_start_space = (currency_symbol && conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
@@ -151,96 +155,31 @@ gchar *gsb_real_raw_format_string (gsb_real number,
     mon_decimal_point = conv->mon_decimal_point && *conv->mon_decimal_point ? conv->mon_decimal_point : ".";
     cs_end_space = (currency_symbol && !conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
     cs_end = (currency_symbol && !conv->p_cs_precedes) ? currency_symbol : "";
+    mon_thousands_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
 
-    units = ldiv ( labs (number.mantissa), gsb_real_power_10[number.exponent] );
-    if ( units.quot < 1000 )
-    {
-        g_snprintf (format, sizeof(format), "%s%d%s",
-                                           "%s%s%s%d%s%0",
-                                           number.exponent,
-                                           "d%s%s" );
-        result = g_strdup_printf ( format, 
-                        cs_start,
-                        cs_start_space,
-                        sign,
-                        units.quot,
-                        mon_decimal_point,
-                        units.rem,
-                        cs_end_space,
-                        cs_end );
-    }
-    else
-    {
-        gchar *mon_thousands_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1,
-                                                        NULL, NULL, NULL );
-        div_t thousands = div ( units.quot, 1000 );
-        if ( thousands.quot < 1000 )
-        {
-            g_snprintf ( format, sizeof (format), "%s%d%s",
-                                                "%s%s%s%d%s%03d%s%0",
-                                                number.exponent,
-                                                "d%s%s");
-            result = g_strdup_printf ( format, 
+    units = lldiv ( llabs (number.mantissa), gsb_real_power_10[number.exponent] );
+
+    nbre_char = g_sprintf ( buffer, "%.0f", (gdouble) units.quot );
+
+    result = gsb_real_add_thousands_sep ( g_strndup ( buffer, nbre_char ), mon_thousands_sep );
+
+    g_snprintf ( format, sizeof ( format ), "%s%d%s",
+                                            "%s%s%s%s%s%0",
+                                            number.exponent,
+                                            "lld%s%s" );
+
+    result = g_strdup_printf ( format, 
                             cs_start,
                             cs_start_space,
                             sign,
-                            thousands.quot,
-                            mon_thousands_sep,
-                            thousands.rem,
+                            result,
                             mon_decimal_point,
                             units.rem,
                             cs_end_space,
                             cs_end );
-        }
-        else
-        {
-            div_t millions = div ( thousands.quot, 1000 );
-            if ( millions.quot < 1000 )
-            {
-                g_snprintf ( format, sizeof (format), "%s%d%s",
-                                                    "%s%s%s%d%s%03d%s%03d%s%0",
-                                                    number.exponent,
-                                                    "d%s%s");
-                result = g_strdup_printf ( format, 
-                                cs_start,
-                                cs_start_space,
-                                sign,
-                                millions.quot,
-                                mon_thousands_sep,
-                                millions.rem,
-                                mon_thousands_sep,
-                                thousands.rem,
-                                mon_decimal_point,
-                                units.rem,
-                                cs_end_space,
-                                cs_end);
-            }
-            else
-            {
-                div_t billions = div ( millions.quot, 1000 );
-                g_snprintf ( format, sizeof (format), "%s%d%s",
-                                                    "%s%s%s%d%s%03d%s%03d%s%03d%s%0",
-                                                    number.exponent,
-                                                    "d%s%s" );
-                result = g_strdup_printf ( format, 
-                                cs_start,
-                                cs_start_space,
-                                sign,
-                                billions.quot,
-                                mon_thousands_sep,
-                                billions.rem,
-                                mon_thousands_sep,
-                                millions.rem,
-                                mon_thousands_sep,
-                                thousands.rem,
-                                mon_decimal_point,
-                                units.rem,
-                                cs_end_space,
-                                cs_end );
-            }
-        }
-        g_free ( mon_thousands_sep );
-    }
+
+    g_free ( mon_thousands_sep );
+
     return result;
 }
 
@@ -261,7 +200,7 @@ gchar *gsb_real_format_string ( gsb_real number,
                         gint currency_number,
                         gboolean show_symbol )
 {
-    struct lconv * conv = localeconv ( );
+    struct lconv *conv = localeconv ();
     gint floating_point;
 
     const gchar *currency_symbol = (currency_number && show_symbol)
@@ -289,7 +228,7 @@ gchar *gsb_real_format_string ( gsb_real number,
     if ( currency_number && number.exponent != floating_point )
         number = gsb_real_adjust_exponent ( number, floating_point );
 
-    return gsb_real_raw_format_string ( number, localeconv(), currency_symbol );
+    return gsb_real_raw_format_string ( number, conv, currency_symbol );
 }
 
 
@@ -408,7 +347,7 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
         {
             mantissa *= 10;
             mantissa += ( *p - '0' );
-            if ( mantissa > G_MAXLONG )
+            if ( mantissa > G_MAXINT64 )
             {
                 break;
             }
@@ -509,7 +448,7 @@ gsb_real gsb_real_import_from_string ( const gchar *string )
         {
             mantissa *= 10;
             mantissa += ( *p - '0' );
-            if ( mantissa > G_MAXLONG )
+            if ( mantissa > G_MAXINT64 )
                 return error_real;
             if ( sign == 0 ) sign = 1; /* no sign found yet ==> positive */
             ++nb_digits;
@@ -623,7 +562,7 @@ gboolean gsb_real_grow_exponent( gsb_real *num, guint target_exponent )
         gint64 new_mantissa;
 
         new_mantissa = mantissa * 10;
-        if ( ( new_mantissa > G_MAXLONG ) || ( new_mantissa < G_MINLONG ) )
+        if ( ( new_mantissa > G_MAXINT64 ) || ( new_mantissa < G_MININT64 ) )
         {
             succes = FALSE;
             break;
@@ -695,7 +634,7 @@ gboolean gsb_real_normalize ( gsb_real *number_1, gsb_real *number_2 )
  * */
 gsb_real gsb_real_abs ( gsb_real number )
 {
-    number.mantissa = labs (number.mantissa);
+    number.mantissa = llabs (number.mantissa);
     return number;
 }
 
@@ -731,7 +670,8 @@ gsb_real gsb_real_adjust_exponent ( gsb_real number,
 	    number.exponent--;
 	}
     }
-    number.mantissa = lrint (tmp);
+    number.mantissa = llrint ( tmp );
+
     return number;
 }
 
@@ -757,7 +697,7 @@ G_MODULE_EXPORT gsb_real gsb_real_add ( gsb_real number_1,
         return error_real;
 
 	mantissa = ( gint64 ) number_1.mantissa + number_2.mantissa;
-    if ( ( mantissa > G_MAXLONG ) || ( mantissa < G_MINLONG ) )
+    if ( ( mantissa > G_MAXINT64 ) || ( mantissa < G_MININT64 ) )
     {
         if ( ! gsb_real_raw_truncate_number (&mantissa, &number_1.exponent ) )
             return error_real;
@@ -822,7 +762,7 @@ gsb_real gsb_real_mul ( gsb_real number_1,
 
     gsb_real_raw_minimize_exponent ( &mantissa, &number_1.exponent );
 
-    if ( ( mantissa > G_MAXLONG ) || ( mantissa < G_MINLONG ) )
+    if ( ( mantissa > G_MAXINT64 ) || ( mantissa < G_MININT64 ) )
     {
         if ( ! gsb_real_raw_truncate_number (&mantissa, &number_1.exponent ) )
             return error_real;
@@ -845,7 +785,7 @@ gsb_real gsb_real_div ( gsb_real number_1,
                         gsb_real number_2 )
 {
     gsb_real number;
-	glong reste;
+	gint64 reste;
 	
 	if ( number_1.mantissa == error_real.mantissa ||
 	     number_2.mantissa == error_real.mantissa ||
@@ -892,8 +832,9 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
     gdouble maxlong;
 	gsb_real real_number = {0, exp_add};
 
-    maxlong = G_MAXLONG / 10;
-    /* printf ("number initial = %f exp_add = %d\n",number, exp_add); */
+    maxlong = G_MAXINT64 / 10;
+/*     printf ("number initial = %f exp_add = %d\n",number, exp_add);  */
+
 	if(exp_add >=9)
 		return null_real;
 
@@ -908,19 +849,21 @@ gsb_real gsb_real_double_to_real_add_exponent ( gdouble number, gint exp_add )
             number = rint (number);
     }
 	decimal = modf ( number, &tmp_double );
-    /* printf ("number = %f decimal = %f tmp_double = %f\n", number, decimal, tmp_double); */
+/*     printf ("number = %f decimal = %f tmp_double = %f\n", number, decimal, tmp_double);  */
+
 	if ( ( ( real_number.exponent == ( 9 - exp_add ) ) ) && ( fabs ( decimal ) >= 0.5 ) )
     {
         if ( tmp_double < 0 )
-		    real_number.mantissa = ((glong) tmp_double ) - 1;
+		    real_number.mantissa = ((gint64) tmp_double ) - 1;
         else
-            real_number.mantissa = ((glong) tmp_double ) + 1;
+            real_number.mantissa = ((gint64) tmp_double ) + 1;
 
         gsb_real_minimize_exponent ( &real_number );
     }
 	else
-        real_number.mantissa = (glong) ( tmp_double );
-    /* printf ("real_number.mantissa = %ld real_number.exponent = %d\n", real_number.mantissa,real_number.exponent); */
+        real_number.mantissa = (gint64) ( tmp_double );
+/*     printf ("real_number.mantissa = %lld real_number.exponent = %d\n", real_number.mantissa,real_number.exponent);  */
+
     return real_number;
 }
 
@@ -936,21 +879,21 @@ gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent )
     gint64 new_mantissa = *mantissa;
     gint new_exponent = *exponent;
 
-    if ( new_mantissa > G_MAXLONG )
+    if ( new_mantissa > G_MAXINT64 )
     {
         do
         {
             --new_exponent;
             new_mantissa = new_mantissa / 10;
-        } while ( new_mantissa > G_MAXLONG );
+        } while ( new_mantissa > G_MAXINT64 );
     }
-    else if ( new_mantissa < G_MINLONG )
+    else if ( new_mantissa < G_MININT64 )
     {
         do
         {
             --new_exponent;
             new_mantissa = new_mantissa / 10;
-        } while ( new_mantissa < G_MINLONG );
+        } while ( new_mantissa < G_MININT64 );
     }
     else
     {
@@ -979,10 +922,8 @@ gsb_real gsb_str_to_real ( const gchar * str )
 	static gchar *space_chars;
     static gchar *decimal_chars;
 	int decimals;
-	glong nombre;
+	gint64 nombre;
 	gsb_real resu;
-	gsb_real null_real = { 0 , 0 };
-	gsb_real error_real = { 0x80000000, 0 };
 	struct lconv *loc;
 
 	loc = localeconv();
@@ -1050,11 +991,13 @@ gsb_real gsb_str_to_real ( const gchar * str )
 
 gchar *gsb_real_save_real_to_string ( gsb_real number, gint default_exponent )
 {
+    gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
     gchar format[40];
     gchar *result = NULL;
     const gchar *sign;
     const gchar *mon_decimal_point;
-	ldiv_t units;
+    gint nbre_char;
+	lldiv_t units;
 
 	if ( (number.exponent < 0)
     || (number.exponent > sizeofarray ( gsb_real_power_10 ) )
@@ -1070,73 +1013,26 @@ gchar *gsb_real_save_real_to_string ( gsb_real number, gint default_exponent )
     sign = (number.mantissa < 0) ? "-" : "";
     mon_decimal_point = ".";
 
-    units = ldiv ( labs (number.mantissa), gsb_real_power_10[number.exponent] );
-    if ( units.quot < 1000 )
-    {
-        g_snprintf (format, sizeof(format), "%s%d%s",
-                                           "%s%d%s%0",
-                                           number.exponent,
-                                           "d" );
-        result = g_strdup_printf ( format, 
-                        sign,
-                        units.quot,
-                        mon_decimal_point,
-                        units.rem );
-    }
-    else
-    {
-        div_t thousands = div ( units.quot, 1000 );
-        if ( thousands.quot < 1000 )
-        {
-            g_snprintf ( format, sizeof (format), "%s%d%s",
-                                                "%s%d%03d%s%0",
-                                                number.exponent,
-                                                "d");
-            result = g_strdup_printf ( format, 
+    units = lldiv ( llabs (number.mantissa), gsb_real_power_10[number.exponent] );
+
+    nbre_char = g_sprintf ( buffer, "%.0f", (gdouble) units.quot );
+
+    result = g_strndup ( buffer, nbre_char );
+
+    g_snprintf ( format, sizeof ( format ), "%s%d%s",
+                                            "%s%s%s%0",
+                                            number.exponent,
+                                            "lld" );
+
+    result = g_strdup_printf ( format, 
                             sign,
-                            thousands.quot,
-                            thousands.rem,
+                            result,
                             mon_decimal_point,
                             units.rem );
-        }
-        else
-        {
-            div_t millions = div ( thousands.quot, 1000 );
-            if ( millions.quot < 1000 )
-            {
-                g_snprintf ( format, sizeof (format), "%s%d%s",
-                                                    "%s%d%03d%03d%s%0",
-                                                    number.exponent,
-                                                    "d");
-                result = g_strdup_printf ( format, 
-                                sign,
-                                millions.quot,
-                                millions.rem,
-                                thousands.rem,
-                                mon_decimal_point,
-                                units.rem );
-            }
-            else
-            {
-                div_t billions = div ( millions.quot, 1000 );
-                g_snprintf ( format, sizeof (format), "%s%d%s",
-                                                    "%s%d%03d%03d%03d%s%0",
-                                                    number.exponent,
-                                                    "d" );
-                result = g_strdup_printf ( format, 
-                                sign,
-                                billions.quot,
-                                billions.rem,
-                                millions.rem,
-                                thousands.rem,
-                                mon_decimal_point,
-                                units.rem );
-            }
-        }
-    }
-    /* printf ("number.mantissa = %ld number.exponent = %d résultat = %s\n",
-                        number.mantissa, number.exponent, result ); */
 
+/*     printf ("number.mantissa = %lld number.exponent = %d résultat = %s\n",
+ *                         number.mantissa, number.exponent, result );
+ */
     return result;
 }
 
@@ -1152,6 +1048,58 @@ gdouble gsb_real_real_to_double ( gsb_real number )
         result /= 10;
         number.exponent--;
     }
+
+    return result;
+}
+
+
+/**
+ * ajoute le séparateur des milliers paasé en paramêtre
+ * 
+ * \param string to modify WARNING string is free
+ *
+ * \return a new allocated sring
+ * */
+gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_sep )
+{
+    gchar *result = NULL;
+    gchar *ptr;
+    gchar *dest;
+    gchar *tmp_ptr;
+    gint nbre_char;
+    gint i = 0;
+    gint j = 0;
+    gint sep = 0;
+
+    nbre_char = strlen ( str_number );
+    str_number = g_strreverse ( str_number );
+    ptr = str_number;
+
+    dest = g_malloc0 ( 128 * sizeof ( gchar ) );
+    tmp_ptr = dest;
+
+    while ( i < nbre_char )
+    {
+        gchar *tmp_char;
+
+        tmp_char = g_strndup ( ptr, 1 );
+        tmp_ptr = g_stpcpy ( tmp_ptr, tmp_char );
+        g_free ( tmp_char );
+
+        ptr++;
+        i++;
+        j++;
+        if ( i < nbre_char && j == 3 )
+        {
+            tmp_ptr = g_stpcpy ( tmp_ptr, thousands_sep );
+            j = 0;
+            sep++;
+        }
+    };
+
+    g_free ( str_number );
+    result = g_strndup ( dest, nbre_char + sep );
+    result = g_strreverse ( result );
 
     return result;
 }

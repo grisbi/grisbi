@@ -7,7 +7,7 @@
  * */
 typedef struct
 {
-    glong mantissa;
+    gint64 mantissa;
     gint exponent;
 } gsb_real;
 
