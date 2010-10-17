@@ -410,6 +410,10 @@ gboolean gsb_grisbi_print_environment_var ( void )
             g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL ),
             conv->frac_digits );
 
+    printf ("gint64\n" );
+    printf ("\tG_GINT64_MODIFIER = \"%s\"\n", G_GINT64_MODIFIER );
+    printf ("\t%"G_GINT64_MODIFIER"d\n\n", G_MAXINT64 );
+
     printf ("Paths\n"
             "\tC_GRISBIRC = %s\n"
             "\tC_PATH_CONFIG = %s\n"
