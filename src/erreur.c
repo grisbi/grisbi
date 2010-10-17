@@ -360,9 +360,9 @@ extern void debug_message_real ( gchar *prefixe, gchar * file, gint line, const 
     if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode) 
     {
 	/* on affiche dans la console le message */
-	gchar* tmpstr = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %"G_GINT64_MODIFIER"d E %d\n"),
-					get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
-					file, line, function, message.mantissa, message.exponent);
+	gchar* tmpstr = g_strdup_printf ("%s, %2f : %s - %s:%d:%s - %"G_GINT64_MODIFIER"d E %d\n",
+                        get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        file, line, function, message.mantissa, message.exponent);
 
 	if (etat.debug_mode)
 	{
