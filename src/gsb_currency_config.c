@@ -136,6 +136,7 @@ struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Asia"), N_("Iraqi Dinar"), N_("Iraq"), "IQD", NULL, TRUE, "IQD.png", 3, 1 },
     { N_("Asia"), N_("Japanese Yen"), N_("Japan"), "JPY", "¥", TRUE, "JPY.png", 0, 1 },
     { N_("Asia"), N_("Jordanian Dinar"), N_("Jordan"), "JOD", NULL, TRUE, "JOD.png", 3, 1 },
+    { N_("Asia"), N_("Kazakhstan Tenge"), N_("Kazakhstan"), "KZT", NULL, TRUE, "KZT.png", 2, 1 },
     { N_("Asia"), N_("Kuwaiti Dinar"), N_("Kuwait"), "KWD", NULL, TRUE, "KWD.png", 3, 1 },
     { N_("Asia"), N_("Lao Kip"), N_("Lao People's Democratic Republic"), "LAK", "₭", TRUE, "LAK.png", 2, 1 },
     { N_("Asia"), N_("Lebanese Pound"), N_("Lebanon"), "LBP", "£", TRUE, "LBP.png", 3, 1 },
