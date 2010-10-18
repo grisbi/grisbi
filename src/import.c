@@ -2912,9 +2912,10 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 			 &&
 			 ( g_date_compare ( gsb_data_transaction_get_date (transaction_number),
 					    date_fin_comparaison ) <= 0 )
-
 			 &&
-			 !gsb_data_transaction_get_mother_transaction_number (transaction_number))
+			 !gsb_data_transaction_get_mother_transaction_number (transaction_number)
+             &&
+             gsb_data_transaction_get_marked_transaction ( transaction_number ) < 2 )
 			/* on a retouvé une opé de même date et même montant, on l'ajoute à la liste 
              * des opés trouvées */
 			ope_trouvees = g_slist_append ( ope_trouvees,
@@ -3121,6 +3122,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 
 		}
 	}
+    g_slist_free ( ope_trouvees );
 	list_tmp = list_tmp -> next;
     }
 
