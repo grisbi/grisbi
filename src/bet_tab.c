@@ -434,7 +434,10 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     if ( current_balance.mantissa < 0 )
         color_str = "red";
     else
+    {
+        g_free ( color_str );
         color_str = NULL;
+    }
 
     /* set the titles of tabs module budget */
     title = g_strdup_printf (

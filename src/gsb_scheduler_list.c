@@ -356,7 +356,17 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
 		       "xalign",
 		       col_justs[i], NULL );
 
-	scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
+    if ( i == 6 )
+        scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
+									      cell_renderer,
+									      "text", i,
+									      "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                          "foreground", SCHEDULER_COL_NB_AMOUNT_COLOR,
+									      "font-desc", SCHEDULER_COL_NB_FONT,
+									      NULL );
+
+    else
+        scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
 									      cell_renderer,
 									      "text", i,
 									      "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
@@ -1041,13 +1051,24 @@ gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
                         GtkTreeIter *iter,
                         const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] )
 {
+    gchar *color_str = NULL;
     gint i;
 
+    if ( g_utf8_strchr ( line[COL_NB_AMOUNT], -1, '-' ) )
+        color_str = "red";
+    else
+    {
+        g_free ( color_str );
+        color_str = NULL;
+    }
+
     for ( i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
-	gtk_tree_store_set ( GTK_TREE_STORE ( store ),
-			     iter,
-			     i, line[i],
-			     -1 );
+    {
+        if ( i == 6 )
+            gtk_tree_store_set ( store, iter, i, line[i], SCHEDULER_COL_NB_AMOUNT_COLOR, color_str, -1 );
+        else
+            gtk_tree_store_set ( store, iter, i, line[i], -1 );
+    }
 
     return FALSE;
 }
