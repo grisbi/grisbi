@@ -1082,15 +1082,8 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
 						    ( ++nb_derniers_fichiers_ouverts ) * sizeof ( gpointer ) );
         tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1] = dernier;
     }
-    else
-    {
-        nb_derniers_fichiers_ouverts = 1;
-        nb_max_derniers_fichiers_ouverts = 1;
-        tab_noms_derniers_fichiers_ouverts = g_malloc0 (  sizeof ( gpointer ) );
-    }   
-printf ("phase 4\n");
+
     tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
-printf ("phase 5\n");
 
     affiche_derniers_fichiers_ouverts();
     g_free ( real_name );
