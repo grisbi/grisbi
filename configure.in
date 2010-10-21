@@ -143,29 +143,27 @@ dnl ================================================================
 dnl Check for cunit
 dnl ================================================================
 
-AC_CHECK_HEADER(CUnit/Basic.h,,nocunit=true)
 AC_ARG_WITH(cunit,
-	AC_HELP_STRING([--with-cunit],
-	[build grisbi with cunit tests [default=without]]),
+	AS_HELP_STRING([--with-cunit],[CUnit support for unit tests (default=auto)]),
 	[build_cunit=$withval],
-	[build_cunit=no]
-)
-if test x$build_cunit != xyes
-then
-	nocunit=true
+	[build_cunit=auto])
+
+AC_CHECK_HEADER([CUnit/Basic.h], have_cunit=yes, have_cunit=no)
+if test "$build_cunit" = yes -a "$have_cunit" = no; then
+	AC_MSG_ERROR([CUnit support was requested but headers/library could not be found.])
+fi
+if test "$build_cunit" != no; then
+	build_cunit=$have_cunit
 else
-	if test x$nocunit != xtrue
-	then
-		nocunit=false
-		CUNIT_CFLAGS="-DHAVE_CUNIT"
-		CUNIT_LIBS="-lcunit"
-	else
-		AC_MSG_RESULT([libcunit header missing. Check your libcunit installation])
-	fi
+	build_cunit=no
+fi
+if test "$build_cunit" = yes; then
+	CUNIT_CFLAGS="-DHAVE_CUNIT"
+	CUNIT_LIBS="-lcunit"
 fi
 AC_SUBST(CUNIT_CFLAGS)
 AC_SUBST(CUNIT_LIBS)
-AM_CONDITIONAL(HAVE_CUNIT, test x$nocunit != xtrue)
+AM_CONDITIONAL(HAVE_CUNIT, [test "$build_cunit" = yes])
 
 dnl ================================================================
 dnl Check for libofx
@@ -321,6 +319,7 @@ echo "
                 Build with OpenSSL:        $build_openssl
                 Build with OFX plugin:     $build_ofx
                 Build ige_mac_integration: $os_osx
+                CUnit/unit tests support:  $build_cunit
 
 "
 if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
