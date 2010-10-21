@@ -13,7 +13,6 @@ cunit_tests_SOURCES = \
 	gsb_real_cunit.c	\
 	utils_dates_cunit.c	\
 	\
-	main_cunit.h	\
 	gsb_data_account_cunit.h	\
 	gsb_real_cunit.h	\
 	utils_dates_cunit.h

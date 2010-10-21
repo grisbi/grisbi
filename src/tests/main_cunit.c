@@ -36,10 +36,11 @@
 #include "include.h"
 
 /*START_INCLUDE*/
-#include "main_cunit.h"
-#include "./gsb_data_account_cunit.h"
-#include "./gsb_real_cunit.h"
-#include "./utils_dates_cunit.h"
+#include <CUnit/Automated.h>
+#include <CUnit/Basic.h>
+#include "gsb_data_account_cunit.h"
+#include "gsb_real_cunit.h"
+#include "utils_dates_cunit.h"
 /*END_INCLUDE*/
 
 
@@ -60,10 +61,6 @@ gboolean gsb_main_set_grisbi_title ( gint account_number )
 }
 /* End of unnecessary things */
 
-
-
-#include <CUnit/Automated.h>
-#include <CUnit/Basic.h>
 
 
 
