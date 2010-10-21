@@ -61,7 +61,6 @@ gboolean gsb_main_set_grisbi_title ( gint account_number )
 /* End of unnecessary things */
 
 
-#if HAVE_CUNIT
 
 #include <CUnit/Automated.h>
 #include <CUnit/Basic.h>
@@ -94,14 +93,6 @@ int gsb_cunit_run_tests()
     return CU_get_error();
 }
 
-#else/*HAVE_CUNIT*/
-
-int gsb_cunit_run_tests()
-{
-    return 0;
-}
-
-#endif/*HAVE_CUNIT*/
 
 #ifdef _MSC_VER
 int APIENTRY wWinMain(HINSTANCE hInstance,
