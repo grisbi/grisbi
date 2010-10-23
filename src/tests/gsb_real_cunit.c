@@ -434,22 +434,22 @@ void gsb_real_cunit__gsb_real_raw_format_string ( void )
     CU_ASSERT_STRING_EQUAL("<+>21< >474< >836<.>47<€>", s);
     g_free(s);
 
-    n.mantissa = 0x80000001;
+    n.mantissa = -2147483649;
     n.exponent = 0;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<->2< >147< >483< >647<.>0<€>", s);
+    CU_ASSERT_STRING_EQUAL("<->2< >147< >483< >649<.>0<€>", s);
     g_free(s);
 
-    n.mantissa = 0x80000001;
+    n.mantissa = -2147483649;
     n.exponent = 1;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<->214< >748< >364<.>7<€>", s);
+    CU_ASSERT_STRING_EQUAL("<->214< >748< >364<.>9<€>", s);
     g_free(s);
 
-    n.mantissa = 0x80000001;
+    n.mantissa = -2147483649;
     n.exponent = 2;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("<->21< >474< >836<.>47<€>", s);
+    CU_ASSERT_STRING_EQUAL("<->21< >474< >836<.>49<€>", s);
     g_free(s);
 
     /* TODO do this test for gsb_real_format_string instead
@@ -675,12 +675,12 @@ void gsb_real_cunit__gsb_real_adjust_exponent ( void )
     CU_ASSERT_EQUAL(10000, r.mantissa);
     CU_ASSERT_EQUAL(4, r.exponent);
 
-    a.mantissa = 12345678;
-    a.exponent = 6;
-    b = 4;
+    a.mantissa = -11926672494897;
+    a.exponent = 9;
+    b = 2;
     r = gsb_real_adjust_exponent ( a, b );
-    CU_ASSERT_EQUAL(123457, r.mantissa);
-    CU_ASSERT_EQUAL(4, r.exponent);
+    CU_ASSERT_EQUAL(-1192667, r.mantissa);
+    CU_ASSERT_EQUAL(2, r.exponent);
 }
 
 
@@ -695,7 +695,7 @@ CU_pSuite gsb_real_cunit_create_suite ( void )
     if ( ( NULL == CU_add_test( pSuite, "of gsb_real_get_from_string()",     gsb_real_cunit__gsb_real_get_from_string ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_raw_get_from_string()", gsb_real_cunit__gsb_real_raw_get_from_string ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_raw_get_from_string() with locale", gsb_real_cunit__gsb_real_raw_get_from_string__locale ) )
-/*       || ( NULL == CU_add_test( pSuite, "of gsb_real_raw_format_string()",   gsb_real_cunit__gsb_real_raw_format_string ) )  */
+      || ( NULL == CU_add_test( pSuite, "of gsb_real_raw_format_string()",   gsb_real_cunit__gsb_real_raw_format_string ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_gsb_real_normalize()",  gsb_real_cunit__gsb_real_normalize ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_add()",                 gsb_real_cunit__gsb_real_add ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_sub()",                 gsb_real_cunit__gsb_real_sub ) )
