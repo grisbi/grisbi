@@ -84,7 +84,7 @@ int gsb_cunit_run_tests()
 #ifdef _WIN32
     CU_automated_run_tests();
 #else /* _WIN32 */
-/*     CU_basic_set_mode(CU_BRM_VERBOSE);  */
+    CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
 #endif /* _WIN32 */
     CU_cleanup_registry();

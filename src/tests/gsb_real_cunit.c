@@ -45,6 +45,7 @@ static void gsb_real_cunit__gsb_real_raw_format_string ( void );
 static void gsb_real_cunit__gsb_real_raw_get_from_string();
 static void gsb_real_cunit__gsb_real_raw_get_from_string__locale();
 static void gsb_real_cunit__gsb_real_sub();
+static void gsb_real_cunit__gsb_real_adjust_exponent ( void );
 static int gsb_real_cunit_clean_suite ( void );
 static int gsb_real_cunit_init_suite ( void );
 /* END_STATIC */
@@ -665,6 +666,24 @@ void gsb_real_cunit__gsb_real_mul()
     CU_ASSERT_EQUAL ( 0, r.exponent );
 }
 
+
+void gsb_real_cunit__gsb_real_adjust_exponent ( void )
+{
+    gsb_real a = {1, 0};
+    gint b = 4;
+    gsb_real r = gsb_real_adjust_exponent ( a, b );
+    CU_ASSERT_EQUAL(10000, r.mantissa);
+    CU_ASSERT_EQUAL(4, r.exponent);
+
+    a.mantissa = 12345678;
+    a.exponent = 6;
+    b = 4;
+    r = gsb_real_adjust_exponent ( a, b );
+    CU_ASSERT_EQUAL(123457, r.mantissa);
+    CU_ASSERT_EQUAL(4, r.exponent);
+}
+
+
 CU_pSuite gsb_real_cunit_create_suite ( void )
 {
     CU_pSuite pSuite = CU_add_suite("gsb_real",
@@ -681,6 +700,7 @@ CU_pSuite gsb_real_cunit_create_suite ( void )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_add()",                 gsb_real_cunit__gsb_real_add ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_sub()",                 gsb_real_cunit__gsb_real_sub ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_mul()",                 gsb_real_cunit__gsb_real_mul ) )
+      || ( NULL == CU_add_test( pSuite, "of gsb_real_adjust_exponent()",     gsb_real_cunit__gsb_real_adjust_exponent ) )
        )
         return NULL;
 
