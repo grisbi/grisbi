@@ -97,8 +97,8 @@ void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balan
     CU_ASSERT_EQUAL(0x80000000, balance.mantissa);
     CU_ASSERT_EQUAL(0, balance.exponent);
     */
-    CU_ASSERT_EQUAL(220000002, balance.mantissa);
-    CU_ASSERT_EQUAL(1, balance.exponent);
+    CU_ASSERT_EQUAL(2200000021, balance.mantissa);
+    CU_ASSERT_EQUAL(2, balance.exponent);
     
     gint tr_number_3 = gsb_data_transaction_new_transaction(account_number);
     CU_ASSERT_EQUAL(3, tr_number_3);
@@ -106,14 +106,13 @@ void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balan
     CU_ASSERT_EQUAL(TRUE, gsb_data_transaction_set_amount(tr_number_3, amount));
     CU_ASSERT_EQUAL(TRUE, gsb_data_transaction_set_date(tr_number_3, date));
     balance = gsb_data_account_calculate_current_and_marked_balances(account_number);
-    CU_ASSERT_EQUAL(210000002, balance.mantissa);
-    CU_ASSERT_EQUAL(1, balance.exponent);
+    CU_ASSERT_EQUAL(2100000021, balance.mantissa);
+    CU_ASSERT_EQUAL(2, balance.exponent);
 
-    /*
     gsb_data_transaction_remove_transaction( tr_number_3 );
     gsb_data_transaction_remove_transaction( tr_number_2 );
     gsb_data_transaction_remove_transaction( tr_number_1 );
-    */
+
     gsb_data_account_delete( account_number );
     g_date_free(date);
 }

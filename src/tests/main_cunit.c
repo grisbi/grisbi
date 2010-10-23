@@ -83,9 +83,10 @@ int gsb_cunit_run_tests()
     /* Run all tests */
 #ifdef _WIN32
     CU_automated_run_tests();
-#else//_WIN32
+#else /* _WIN32 */
+/*     CU_basic_set_mode(CU_BRM_VERBOSE);  */
     CU_basic_run_tests();
-#endif//_WIN32
+#endif /* _WIN32 */
     CU_cleanup_registry();
     return CU_get_error();
 }
@@ -109,7 +110,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 	free(argv);
 	return result;
 }
-#endif //_MSC_VER
+#endif /* _MSC_VER */
 
 int main(int argc, char** argv)
 {

@@ -10,4 +10,4 @@
 CU_pSuite gsb_data_account_cunit_create_suite();
 /* END_DECLARATION */
 
-#endif//_GSB_DATA_ACCOUNT_CUNIT_H
+#endif /*_GSB_DATA_ACCOUNT_CUNIT_H */
