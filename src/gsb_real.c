@@ -62,6 +62,15 @@ lldiv_t lldiv(long long numerator, long long denominator)
 	result.rem = numerator % denominator;
 	return result;
 }
+
+long long llabs ( long long number )
+{
+    if ( number < 0 )
+        number = number * -1;
+    return number;
+}
+
+
 #define lrint(x) (floor(x + 0.5))
 #define rint(x) (floor(x + 0.5))
 #endif /*_MSC_VER */
@@ -166,6 +175,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
         gchar *mon_thousands_sep;
 
         mon_thousands_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
+
         result = gsb_real_add_thousands_sep ( result, mon_thousands_sep );
 
         g_free ( mon_thousands_sep );
@@ -185,7 +195,6 @@ gchar *gsb_real_raw_format_string (gsb_real number,
                             units.rem,
                             cs_end_space,
                             cs_end );
-
 
     return result;
 }
@@ -657,28 +666,46 @@ gsb_real gsb_real_abs ( gsb_real number )
 gsb_real gsb_real_adjust_exponent ( gsb_real number,
                         gint return_exponent )
 {
-    gdouble tmp;
+    gint exponent;
 
     if (return_exponent == -1)
-	return number;
+        return number;
 
-    tmp = number.mantissa;
+    if ( number.exponent == return_exponent )
+        return number;
 
-    while ( number.exponent != return_exponent )
-    {
-	if (number.exponent < return_exponent)
+/*    printf ("\nnumber.mantissa = %"G_GINT64_MODIFIER"d number.exponent = %d return_exponent = %d\n",
+                number.mantissa, number.exponent, return_exponent);
+*/
+    exponent = abs ( number.exponent - return_exponent );
+/*
+    printf ("exponent = %d gsb_real_power_10[exponent] = %ld\n", exponent, gsb_real_power_10[exponent] );
+*/
+	if ( number.exponent < return_exponent )
 	{
-	    tmp = tmp * 10;
-	    number.exponent++;
+        number.mantissa = number.mantissa * gsb_real_power_10[exponent];
+        number.exponent = return_exponent;
 	}
 	else
 	{
-	    tmp = tmp / 10;
-	    number.exponent--;
-	}
-    }
-    number.mantissa = llrint ( tmp );
+        lldiv_t tmp_num;
+        gint sign;
 
+        sign = ( number.mantissa < 0 ) ? -1 : 1;
+
+        tmp_num = lldiv ( llabs ( number.mantissa ), gsb_real_power_10[exponent] );
+        
+        if ( tmp_num.rem > ( 0.5 * gsb_real_power_10[exponent] ) )
+            number.mantissa = ( tmp_num.quot + 1 ) * sign;
+        else
+            number.mantissa = tmp_num.quot * sign;
+
+        number.exponent = return_exponent;
+    }
+/*
+    printf ("number.mantissa = %"G_GINT64_MODIFIER"d number.exponent = %d\n",
+                number.mantissa, number.exponent);
+*/
     return number;
 }
 
@@ -1069,18 +1096,26 @@ gdouble gsb_real_real_to_double ( gsb_real number )
  * */
 gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_sep )
 {
+    gchar *mon_thousands_sep;
     gchar *result = NULL;
     gchar *ptr;
     gchar *dest;
     gchar *tmp_ptr;
+    gchar **tab_str = NULL;
     gint nbre_char;
     gint i = 0;
     gint j = 0;
     gint sep = 0;
+    gint longueur;
 
     nbre_char = strlen ( str_number );
     str_number = g_strreverse ( str_number );
     ptr = str_number;
+
+    if ( ( longueur = strlen ( thousands_sep ) ) == 1 )
+        mon_thousands_sep = g_strndup ( thousands_sep, 1 );
+    else
+        mon_thousands_sep = g_strndup ( "&", 1 );
 
     dest = g_malloc0 ( 128 * sizeof ( gchar ) );
     tmp_ptr = dest;
@@ -1095,7 +1130,7 @@ gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_se
         j++;
         if ( i < nbre_char && j == 3 )
         {
-            tmp_ptr = g_stpcpy ( tmp_ptr, thousands_sep );
+            tmp_ptr = g_stpcpy ( tmp_ptr, mon_thousands_sep );
             j = 0;
             sep++;
         }
@@ -1103,6 +1138,16 @@ gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_se
 
     result = g_strndup ( dest, nbre_char + sep );
     result = g_strreverse ( result );
+
+    /* on met le bon séparateur si necessaire */
+    if ( longueur > 1 )
+    {
+        tab_str = g_strsplit ( result, "&", 0 );
+        g_free ( result );
+
+        result = g_strjoinv ( thousands_sep, tab_str );
+        g_strfreev ( tab_str );
+    }
 
     g_free ( str_number );
     g_free ( dest );
