@@ -125,7 +125,7 @@ void increment_decrement_champ ( GtkWidget *entry, gint increment )
 {
 	gchar* tmpstr;
 
-    tmpstr = utils_str_incremente_number_from_str ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ), 1 );
+    tmpstr = utils_str_incremente_number_from_str ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ), increment );
     gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr );
 
     g_free ( tmpstr );
