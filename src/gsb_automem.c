@@ -596,10 +596,10 @@ GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
 
     if ( callback )
     {
-	    g_signal_connect ( G_OBJECT ( button1 ), "released", G_CALLBACK ( callback ), data );
-        g_signal_connect ( G_OBJECT ( button2 ), "released", G_CALLBACK ( callback ), data );
+	    g_signal_connect ( G_OBJECT ( button1 ), "button-release-event", G_CALLBACK ( callback ), data );
+        g_signal_connect ( G_OBJECT ( button2 ), "button-release-event", G_CALLBACK ( callback ), data );
         if ( button3 )
-            g_signal_connect ( G_OBJECT ( button3 ), "released", G_CALLBACK ( callback ), data );
+            g_signal_connect ( G_OBJECT ( button3 ), "button-release-event", G_CALLBACK ( callback ), data );
     }
  
     return hbox;

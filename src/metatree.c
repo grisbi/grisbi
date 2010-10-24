@@ -53,7 +53,7 @@
 
 
 /*START_STATIC*/
-static void button_delete_div_sub_div_clicked ( GtkWidget *togglebutton, GtkWidget *button );
+static void button_delete_div_sub_div_clicked ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *button );
 static gboolean division_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path, 
                         GtkTreeIter *iter, gpointer data );
 static void fill_division_zero ( GtkTreeModel * model,
@@ -1858,12 +1858,12 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 
     /* set the signals */
     g_signal_connect ( G_OBJECT ( button_move ),
-                        "released",
+                        "button-release-event",
                         G_CALLBACK ( button_delete_div_sub_div_clicked ),
                         NULL );
 
     g_signal_connect ( G_OBJECT ( button_delete ),
-                        "released",
+                        "button-release-event",
                         G_CALLBACK ( button_delete_div_sub_div_clicked ),
                         NULL );
 
@@ -1999,12 +1999,12 @@ gboolean find_associated_transactions ( MetatreeInterface * iface,
  */
 GtkTreeIter *get_iter_from_div ( GtkTreeModel * model, int div, int sub_div )
 {
-    gpointer pointers[3] = { GINT_TO_POINTER (div), GINT_TO_POINTER (sub_div), NULL };
+    gpointer pointeurs[3] = { GINT_TO_POINTER (div), GINT_TO_POINTER (sub_div), NULL };
 
     gtk_tree_model_foreach ( model, (GtkTreeModelForeachFunc) search_for_div_or_subdiv, 
-			     pointers );
+			     pointeurs );
 
-    return (GtkTreeIter *) pointers[2];
+    return (GtkTreeIter *) pointeurs[2];
 }
 
 
@@ -2068,12 +2068,12 @@ gboolean search_for_div_or_subdiv ( GtkTreeModel *model, GtkTreePath *path,
 GtkTreeIter * get_iter_from_transaction ( GtkTreeModel * model, 
                         gint transaction_number )
 {
-    gpointer pointers[2] = { GINT_TO_POINTER (transaction_number), NULL };
+    gpointer pointeurs[2] = { GINT_TO_POINTER (transaction_number), NULL };
 
     gtk_tree_model_foreach ( model, (GtkTreeModelForeachFunc) 
-                        search_for_transaction, pointers );
+                        search_for_transaction, pointeurs );
 
-    return (GtkTreeIter *) pointers[1];
+    return (GtkTreeIter *) pointeurs[1];
 }
 
 
@@ -2749,7 +2749,7 @@ void move_transactions_to_division_payee (GtkTreeModel * model,
  *
  *
  * */
-static void button_delete_div_sub_div_clicked ( GtkWidget *togglebutton, GtkWidget *button )
+static void button_delete_div_sub_div_clicked ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *button )
 {
     button_move_selected = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( togglebutton ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( togglebutton ),

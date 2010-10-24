@@ -443,14 +443,14 @@ void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text )
     GtkComboFixPrivate *priv;
     gchar **tab_char;
     gint empty;
-    gpointer pointers[3] = { ( gpointer ) text, NULL, NULL };
+    gpointer pointeurs[3] = { ( gpointer ) text, NULL, NULL };
 
     g_return_if_fail ( combofix );
     g_return_if_fail ( GTK_IS_COMBOFIX ( combofix ) );
 
     /* g_print ("gtk_combofix_append_text = %s\n", text ); */
     priv = combofix -> priv;
-    pointers[2] = GINT_TO_POINTER ( priv -> case_sensitive );
+    pointeurs[2] = GINT_TO_POINTER ( priv -> case_sensitive );
 
     empty = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( combofix -> entry ), "empty" ) );
     if ( empty || priv -> force )
@@ -461,9 +461,9 @@ void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text )
 
     gtk_tree_model_foreach ( GTK_TREE_MODEL ( priv -> store ),
                         (GtkTreeModelForeachFunc) gtk_combofix_search_for_text,
-                        pointers );
+                        pointeurs );
 
-    if ( pointers[1] && GINT_TO_POINTER ( pointers[1] ) )
+    if ( pointeurs[1] && GINT_TO_POINTER ( pointeurs[1] ) )
         return;
 
     tab_char = g_strsplit ( text, " : ", 2 );

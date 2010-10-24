@@ -130,7 +130,7 @@ GtkWidget *bet_historical_create_page ( void )
     GtkWidget *tree_view;
     gchar *str_year;
     gint year;
-    gpointer pointer;
+    gpointer pointeur;
 
     devel_debug (NULL);
     page = gtk_vbox_new ( FALSE, 5 );
@@ -156,7 +156,7 @@ GtkWidget *bet_historical_create_page ( void )
                         _("Categories") );
     gtk_widget_set_name ( button_1, "bet_hist_button_1" );
     g_signal_connect ( G_OBJECT ( button_1 ),
-                        "released",
+                        "button-release-event",
                         G_CALLBACK ( bet_config_origin_data_clicked ),
                         GINT_TO_POINTER ( 1 ) );
 
@@ -164,7 +164,7 @@ GtkWidget *bet_historical_create_page ( void )
                         GTK_RADIO_BUTTON ( button_1 ),
                         _("Budgetary lines") );
     g_signal_connect ( G_OBJECT ( button_2 ),
-                        "released",
+                        "button-release-event",
                         G_CALLBACK ( bet_config_origin_data_clicked ),
                         GINT_TO_POINTER ( 1 ) );
 
@@ -195,12 +195,12 @@ GtkWidget *bet_historical_create_page ( void )
         g_free ( str_year );
 
         /* set the signal */
-        pointer = GINT_TO_POINTER ( 1 );
-        g_object_set_data ( G_OBJECT ( widget ), "pointer", pointer );
+        pointeur = GINT_TO_POINTER ( 1 );
+        g_object_set_data ( G_OBJECT ( widget ), "pointer", pointeur );
         g_signal_connect ( G_OBJECT ( widget ),
                         "changed",
                         G_CALLBACK (bet_config_fyear_clicked),
-                        pointer );
+                        pointeur );
     }
 
     /* création de la liste des données */
@@ -1513,16 +1513,16 @@ gboolean bet_historical_initializes_account_settings ( gint account_number )
 {
     GtkWidget *combo = NULL;
     gint fyear_number;
-    gpointer pointer;
+    gpointer pointeur;
 
     combo = g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_fyear_combo" );
 
     fyear_number = gsb_data_account_get_bet_hist_fyear ( account_number );
 
-    pointer = g_object_get_data ( G_OBJECT ( combo ), "pointer" );
+    pointeur = g_object_get_data ( G_OBJECT ( combo ), "pointer" );
     g_signal_handlers_block_by_func ( G_OBJECT ( combo ),
                         G_CALLBACK ( bet_config_fyear_clicked ),
-                        pointer );
+                        pointeur );
 
     gsb_fyear_select_iter_by_number ( combo,
                         bet_fyear_model,
@@ -1531,7 +1531,7 @@ gboolean bet_historical_initializes_account_settings ( gint account_number )
 
     g_signal_handlers_unblock_by_func ( G_OBJECT ( combo ),
                         G_CALLBACK ( bet_config_fyear_clicked ),
-                        pointer );
+                        pointeur );
 
     return FALSE;
 }

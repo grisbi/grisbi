@@ -63,8 +63,9 @@ static GtkWidget *bet_config_account_get_select_account ( gchar *title );
 static GtkWidget *bet_config_account_get_select_historical_data ( gchar *title );
 static void bet_config_finance_apply_clicked ( GtkButton *button, GtkWidget *parent );
 static GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container );
-static void bet_config_period_clicked ( GtkWidget *togglebutton, GtkWidget *button );
+static void bet_config_period_clicked ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *button );
 static gboolean bet_config_select_label_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
                         gpointer data );
 static GtkWidget *bet_config_get_select_historical_data ( GtkWidget *container,
                         GtkWidget *notebook );
@@ -172,11 +173,11 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
 
     /*set the signals */
     g_signal_connect (G_OBJECT ( button_1 ),
-                        "released",
+                        "button-release-event",
                         G_CALLBACK ( bet_config_period_clicked ),
                         NULL );
     g_signal_connect (G_OBJECT ( button_2 ),
-                        "released",
+                        "button-release-event",
                         G_CALLBACK ( bet_config_period_clicked ),
                         NULL );
 
@@ -349,18 +350,18 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
     GtkWidget *widget = NULL;
     GtkWidget *hbox;
     GtkWidget *previous = NULL;
-    gpointer pointer = NULL;
+    gpointer pointeur = NULL;
     gint iduration;
 
     if ( origin == SPP_ORIGIN_CONFIG )
     {
         box = gtk_vbox_new ( FALSE, 0 );
-        pointer = GINT_TO_POINTER ( 0 );
+        pointeur = GINT_TO_POINTER ( 0 );
     }
     else if ( origin == SPP_ORIGIN_ARRAY )
     {
         box = gtk_hbox_new ( FALSE, 0 );
-        pointer = GINT_TO_POINTER ( 1 );
+        pointeur = GINT_TO_POINTER ( 1 );
     }
 
     /* partie mensuelle */
@@ -393,7 +394,7 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
         gtk_widget_set_name ( widget, bet_duration_array[iduration] );
         gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 0 );
         g_signal_connect (G_OBJECT ( widget ),
-                        "released",
+                        "button-release-event",
                         G_CALLBACK ( bet_config_duration_button_clicked ),
                         spin_button );
     }
@@ -401,7 +402,7 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
     if ( origin == SPP_ORIGIN_CONFIG )
     {
 
-        g_object_set_data ( G_OBJECT ( spin_button ), "bet_origin_signal", pointer );
+        g_object_set_data ( G_OBJECT ( spin_button ), "bet_origin_signal", pointeur );
         g_object_set_data ( G_OBJECT ( account_page ), "bet_config_account_previous",
                         previous );
         g_object_set_data ( G_OBJECT ( account_page ), "bet_config_account_widget",
@@ -411,7 +412,7 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
     }
     else if ( origin == SPP_ORIGIN_ARRAY )
     {
-        g_object_set_data ( G_OBJECT ( spin_button ), "bet_origin_signal", pointer );
+        g_object_set_data ( G_OBJECT ( spin_button ), "bet_origin_signal", pointeur );
         g_object_set_data ( G_OBJECT ( account_page ), "bet_account_previous", previous );
         g_object_set_data ( G_OBJECT ( account_page ), "bet_account_widget", widget );
         g_object_set_data ( G_OBJECT ( account_page ), "bet_account_spin_button", spin_button );
@@ -422,8 +423,8 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
     g_signal_connect ( G_OBJECT ( spin_button ),
                         "value-changed",
                         G_CALLBACK ( bet_config_duration_number_changed ),
-                        pointer );
-    g_object_set_data ( G_OBJECT ( spin_button ), "pointer", pointer );
+                        pointeur );
+    g_object_set_data ( G_OBJECT ( spin_button ), "pointer", pointeur );
 
     gtk_widget_show_all ( box );
 
@@ -634,7 +635,7 @@ GtkWidget *bet_config_get_select_historical_data ( GtkWidget *container,
                         _("Categories") );
     gtk_widget_set_name ( button_1, "bet_hist_button_1" );
     g_signal_connect (G_OBJECT ( button_1 ),
-                        "released",
+                        "button-release-event",
                         G_CALLBACK ( bet_config_origin_data_clicked ),
                         GINT_TO_POINTER ( 0 ) );
 
@@ -642,7 +643,7 @@ GtkWidget *bet_config_get_select_historical_data ( GtkWidget *container,
                         GTK_RADIO_BUTTON ( button_1 ),
                         _("Budgetary lines") );
     g_signal_connect (G_OBJECT ( button_2 ),
-                        "released",
+                        "button-release-event",
                         G_CALLBACK ( bet_config_origin_data_clicked ),
                         GINT_TO_POINTER ( 0 ) );
 
@@ -710,7 +711,7 @@ void bet_config_initialise_select_historical_data ( gint account_number,
  * It copies the new durations from the data parameter (of the radio button) into
  * the bet_period property of the bet container
  */
-void bet_config_period_clicked ( GtkWidget *togglebutton, GtkWidget *button )
+void bet_config_period_clicked ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *button )
 {
     const gchar *name;
 
@@ -745,17 +746,21 @@ void bet_config_period_clicked ( GtkWidget *togglebutton, GtkWidget *button )
  * the bet_months property of the bet container
  */
 void bet_config_duration_button_clicked ( GtkWidget *togglebutton,
+                        GdkEventButton *event,
                         GtkWidget *spin_button )
 {
     const gchar *name;
     gpointer data;
     gint account_number;
     gint months;
+    gint origin;
+
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( togglebutton ), TRUE );
 
     name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
     data = g_object_get_data ( G_OBJECT ( spin_button ), "bet_origin_signal");
 
-    if ( GPOINTER_TO_INT ( data ) == 0 )
+    if ( ( origin = GPOINTER_TO_INT ( data ) ) == 0 )
         account_number = bet_config_get_account_from_combo ( );
     else
         account_number = gsb_gui_navigation_get_current_account ( );
@@ -790,6 +795,8 @@ void bet_config_duration_button_clicked ( GtkWidget *togglebutton,
         months = gsb_data_account_get_bet_months ( account_number );
         gsb_data_account_set_bet_months ( account_number, months );
         gtk_spin_button_set_range ( GTK_SPIN_BUTTON ( spin_button ), 1.0, prev_month_max );
+        if ( origin == 0 )
+            gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ), months );
     }
 
     g_signal_handlers_unblock_by_func ( G_OBJECT ( spin_button ),
@@ -843,14 +850,17 @@ gboolean bet_config_duration_number_changed ( GtkWidget *spin_button,
  *
  *
  * */
-void bet_config_origin_data_clicked ( GtkWidget *togglebutton, gpointer data )
+void bet_config_origin_data_clicked ( GtkWidget *togglebutton, GdkEventButton *event, gpointer data )
 {
     GtkTreeViewColumn *column;
     const gchar *name;
     gchar *title;
     gint account_number;
+    gint origin;
 
-    if ( GPOINTER_TO_INT ( data ) == 0 )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( togglebutton ), TRUE );
+
+    if ( ( origin = GPOINTER_TO_INT ( data ) ) == 0 )
         account_number = bet_config_get_account_from_combo ( );
     else
         account_number = gsb_gui_navigation_get_current_account ( );
@@ -862,12 +872,26 @@ void bet_config_origin_data_clicked ( GtkWidget *togglebutton, gpointer data )
         gsb_data_account_set_bet_hist_data ( account_number, 0 );
         bet_data_set_div_ptr ( 0 );
         title = g_strdup ( _("Category") );
+        if ( origin == 0 )
+        {
+            GtkWidget *button;
+
+            button = g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_button_1" );
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
+        }
     }
     else
     {
         gsb_data_account_set_bet_hist_data ( account_number, 1 );
         bet_data_set_div_ptr ( 1 );
         title = g_strdup ( _("Budgetary line") );
+        if ( origin == 0 )
+        {
+            GtkWidget *button;
+
+            button = g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_button_2" );
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
+        }
     }
 
     column = g_object_get_data ( G_OBJECT ( account_page ),
@@ -1007,6 +1031,7 @@ gint bet_config_get_account_from_combo ( void )
  * \return FALSE
  * */
 gboolean bet_config_select_label_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
                         gpointer data )
 {
     gint value;

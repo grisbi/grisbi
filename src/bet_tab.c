@@ -2127,7 +2127,7 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
     GtkWidget *widget = NULL;
     GtkWidget *button = NULL;
     GtkWidget *toggled = NULL;
-    gpointer pointer;
+    gpointer pointeur;
     gint param;
     gint months;
 
@@ -2194,15 +2194,15 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
 
     param = gsb_data_account_get_bet_hist_fyear ( account_number );
     widget = g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_fyear_combo" );
-    pointer = g_object_get_data ( G_OBJECT ( widget ), "pointer" );
+    pointeur = g_object_get_data ( G_OBJECT ( widget ), "pointer" );
     g_signal_handlers_block_by_func ( G_OBJECT ( widget ),
                         G_CALLBACK ( bet_config_fyear_clicked ),
-                        pointer );
+                        pointeur );
 
     bet_historical_set_fyear_from_combobox ( widget, param );
     g_signal_handlers_unblock_by_func ( G_OBJECT ( widget ),
                         G_CALLBACK ( bet_config_fyear_clicked ),
-                        pointer );
+                        pointeur );
 
     return FALSE;
 }

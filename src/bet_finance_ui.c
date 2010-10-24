@@ -103,7 +103,7 @@ static gboolean bet_finance_list_set_background_color ( GtkWidget *tree_view, gi
 static void bet_finance_switch_amortization_initial_date ( GtkWidget *button, GtkWidget *tree_view );
 static void bet_finance_ui_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view );
 static void bet_finance_ui_struct_amortization_free ( struct_amortissement *s_amortissement );
-static void bet_finance_type_taux_changed ( GtkWidget *togglebutton, GtkWidget *widget );
+static void bet_finance_type_taux_changed ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *widget );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -420,11 +420,11 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 5) ;
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 5) ;
     g_signal_connect ( button_1,
-                        "released",
+                        "button-release-event",
                         G_CALLBACK ( bet_finance_type_taux_changed ),
                         parent );
     g_signal_connect ( button_2,
-                        "released",
+                        "button-release-event",
                         G_CALLBACK ( bet_finance_type_taux_changed ),
                         parent );
 
@@ -947,7 +947,7 @@ gboolean bet_finance_duration_button_changed ( GtkWidget *combobox, GtkWidget *w
  *
  *
  * */
-void bet_finance_type_taux_changed ( GtkWidget *togglebutton, GtkWidget *widget )
+void bet_finance_type_taux_changed ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *widget )
 {
     bet_finance_calculer_clicked ( NULL, widget );
 }
