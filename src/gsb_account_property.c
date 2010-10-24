@@ -298,7 +298,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NONE );
 
     g_signal_connect ( G_OBJECT( bouton_icon ),
-                        "pressed",
+                        "clicked",
                         G_CALLBACK(gsb_data_account_change_account_icon),
                         NULL );
 

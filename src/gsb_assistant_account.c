@@ -331,7 +331,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 		       0, 0 );
     g_object_set_data ( G_OBJECT (assistant), "bouton_icon", button );
     g_signal_connect ( G_OBJECT( button ), 
-                            "pressed", 
+                            "clicked", 
                             G_CALLBACK(gsb_assistant_account_change_account_icon), 
                             NULL );
 

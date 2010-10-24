@@ -198,7 +198,7 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
                         NULL );
 
     g_signal_connect ( G_OBJECT ( chooser_button ), 
-                        "pressed", 
+                        "clicked", 
                         G_CALLBACK(gsb_select_icon_create_file_chooser), 
                         NULL );
 
