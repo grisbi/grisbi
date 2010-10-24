@@ -50,6 +50,5 @@ gdouble gsb_real_real_to_double ( gsb_real number );
 gchar *gsb_real_save_real_to_string ( gsb_real number, gint default_exponent );
 gsb_real gsb_real_sub ( gsb_real number_1,
                         gsb_real number_2 );
-gsb_real gsb_str_to_real ( const gchar * str );
 /* END_DECLARATION */
 #endif
