@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-17 21:34+0200\n"
+"POT-Creation-Date: 2010-10-24 14:57+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -502,62 +502,62 @@ msgstr ""
 "Máximo número de elementos mostrados en las listas desplegables (0 para "
 "ilimitado)"
 
-#: ../src/bet_config.c:89 ../src/etats_config.c:6371
+#: ../src/bet_config.c:90 ../src/etats_config.c:6371
 msgid "Month"
 msgstr "Mes"
 
-#: ../src/bet_config.c:90 ../src/etats_config.c:6375
+#: ../src/bet_config.c:91 ../src/etats_config.c:6375
 msgid "Year"
 msgstr "Año"
 
-#: ../src/bet_config.c:110 ../src/parametres.c:548
+#: ../src/bet_config.c:111 ../src/parametres.c:548
 msgid "General Options"
 msgstr "Opciones Generales"
 
 #. Calculation of period
-#: ../src/bet_config.c:114
+#: ../src/bet_config.c:115
 msgid "Common data"
 msgstr "Datos comunes"
 
-#: ../src/bet_config.c:148
+#: ../src/bet_config.c:149
 msgid "Beginning of period"
 msgstr "Comienzo del periodo"
 
-#: ../src/bet_config.c:157
+#: ../src/bet_config.c:158
 msgid "1st day of month"
 msgstr "Primer día del mes"
 
-#: ../src/bet_config.c:163
+#: ../src/bet_config.c:164
 msgid "date today"
 msgstr "Fecha de hoy"
 
-#: ../src/bet_config.c:183
+#: ../src/bet_config.c:184
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
 "Nota: Esta opción se usa si no hay una fecha de inicio para las predicciones."
 
-#: ../src/bet_config.c:211 ../src/parametres.c:557
+#: ../src/bet_config.c:212 ../src/parametres.c:557
 msgid "Accounts data"
 msgstr "Datos de la cuenta"
 
 #. Data for the forecast
-#: ../src/bet_config.c:233
+#: ../src/bet_config.c:234
 msgid "Data for the forecast"
 msgstr "Datos para la predicción"
 
 #. Sources of historical data
-#: ../src/bet_config.c:238
+#: ../src/bet_config.c:239
 msgid "Sources of historical data"
 msgstr "Fuentes de datos históricos"
 
 #. Data for the credit
-#: ../src/bet_config.c:248
+#: ../src/bet_config.c:249
 #, fuzzy
 msgid "Credit Data"
 msgstr "Tarjeta de crédito"
 
 #. set the choice of account
-#: ../src/bet_config.c:284 ../src/categories_onglet.c:152
+#: ../src/bet_config.c:285 ../src/categories_onglet.c:152
 #: ../src/etats_config.c:681 ../src/gsb_assistant_reconcile_config.c:399
 #: ../src/gsb_assistant_reconcile_config.c:594
 #: ../src/gsb_payment_method_config.c:159 ../src/gsb_reconcile_config.c:96
@@ -566,27 +566,27 @@ msgstr "Tarjeta de crédito"
 msgid "Account"
 msgstr "Cuenta"
 
-#: ../src/bet_config.c:298
+#: ../src/bet_config.c:299
 msgid "Use the budget module"
 msgstr "Usar el módulo de presupuestos"
 
 #. partie mensuelle
-#: ../src/bet_config.c:367
+#: ../src/bet_config.c:368
 msgid "Duration estimation"
 msgstr "Duración estimada"
 
-#: ../src/bet_config.c:530
+#: ../src/bet_config.c:531
 msgid "Labels for transactions"
 msgstr "Etiquetas para las transacciones"
 
-#: ../src/bet_config.c:535 ../src/bet_config.c:553 ../src/bet_config.c:570
+#: ../src/bet_config.c:536 ../src/bet_config.c:554 ../src/bet_config.c:571
 msgid "By default"
 msgstr "Por defecto"
 
 #. mise en place de la paddingbox des catégories
 #. set the title
-#: ../src/bet_config.c:536 ../src/bet_config.c:554 ../src/bet_config.c:571
-#: ../src/bet_config.c:634 ../src/bet_hist.c:156 ../src/etats_config.c:526
+#: ../src/bet_config.c:537 ../src/bet_config.c:555 ../src/bet_config.c:572
+#: ../src/bet_config.c:635 ../src/bet_hist.c:156 ../src/etats_config.c:526
 #: ../src/etats_config.c:529 ../src/etats_config.c:2991
 #: ../src/etats_config.c:7057 ../src/fenetre_principale.c:282
 #: ../src/navigation.c:314 ../src/navigation.c:1211
@@ -595,8 +595,8 @@ msgstr "Categorías"
 
 #. mise en place de la paddingbox des ib
 #. set the title
-#: ../src/bet_config.c:537 ../src/bet_config.c:555 ../src/bet_config.c:572
-#: ../src/bet_config.c:643 ../src/bet_hist.c:165 ../src/etats_config.c:535
+#: ../src/bet_config.c:538 ../src/bet_config.c:556 ../src/bet_config.c:573
+#: ../src/bet_config.c:644 ../src/bet_hist.c:165 ../src/etats_config.c:535
 #: ../src/etats_config.c:538 ../src/etats_config.c:3797
 #: ../src/etats_config.c:7134 ../src/export_csv.c:802
 #: ../src/fenetre_principale.c:287 ../src/import_csv.c:86
@@ -605,15 +605,15 @@ msgstr "Categorías"
 msgid "Budgetary lines"
 msgstr "Líneas presupuestarias"
 
-#: ../src/bet_config.c:548
+#: ../src/bet_config.c:549
 msgid "Labels for scheduled transactions"
 msgstr "Etiquetas para las transacciones programadas"
 
-#: ../src/bet_config.c:565
+#: ../src/bet_config.c:566
 msgid "Labels for futur data"
 msgstr "Etiquetas para futuros datos"
 
-#: ../src/bet_config.c:578
+#: ../src/bet_config.c:579
 msgid ""
 "Order by default if the data are not zero: notes, payee, category and "
 "budgetary line."
@@ -621,12 +621,12 @@ msgstr ""
 "Orden por defecto si los datos no son cero: notas, tercero, categoría y "
 "línea presupuestaria."
 
-#: ../src/bet_config.c:658 ../src/bet_hist.c:185
+#: ../src/bet_config.c:659 ../src/bet_hist.c:185
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Elija el año financiero o 12 meses naturales"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:864 ../src/bet_hist.c:530
+#: ../src/bet_config.c:874 ../src/bet_hist.c:530
 #: ../src/categories_onglet.c:143 ../src/etats_affiche.c:2433
 #: ../src/etats_config.c:673 ../src/export_csv.c:793
 #: ../src/gsb_transactions_list.c:157 ../src/import_csv.c:84
@@ -634,7 +634,7 @@ msgstr "Elija el año financiero o 12 meses naturales"
 msgid "Category"
 msgstr "Categoría"
 
-#: ../src/bet_config.c:870 ../src/bet_future.c:816 ../src/bet_future.c:2024
+#: ../src/bet_config.c:887 ../src/bet_future.c:816 ../src/bet_future.c:2024
 #: ../src/bet_future.c:2501 ../src/etats_affiche.c:2440
 #: ../src/etats_config.c:677 ../src/gsb_form.c:1333
 #: ../src/gsb_form_widget.c:444 ../src/gsb_transactions_list.c:149
@@ -642,7 +642,7 @@ msgstr "Categoría"
 msgid "Budgetary line"
 msgstr "Línea presupuestaria"
 
-#: ../src/bet_config.c:1176
+#: ../src/bet_config.c:1201
 #, fuzzy
 msgid "Loan Capital"
 msgstr "Préstamo/Hipoteca : Capital"
@@ -650,71 +650,71 @@ msgstr "Préstamo/Hipoteca : Capital"
 #. Duration
 #. create columns
 #. Duration
-#: ../src/bet_config.c:1196 ../src/bet_finance_ui.c:273
+#: ../src/bet_config.c:1221 ../src/bet_finance_ui.c:273
 #: ../src/bet_finance_ui.c:479 ../src/bet_finance_ui.c:1142
 #: ../src/bet_finance_ui.c:1578
 #, fuzzy
 msgid "Duration"
 msgstr "Tabulación"
 
-#: ../src/bet_config.c:1205
+#: ../src/bet_config.c:1230
 #, fuzzy
 msgid "year"
 msgstr "años"
 
-#: ../src/bet_config.c:1214
+#: ../src/bet_config.c:1239
 #, fuzzy
 msgid "Date of first Repayment"
 msgstr "la forma de pago"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1227 ../src/bet_finance_ui.c:1128
+#: ../src/bet_config.c:1252 ../src/bet_finance_ui.c:1128
 #: ../src/bet_finance_ui.c:1564
 msgid "Annuel rate interest"
 msgstr ""
 
-#: ../src/bet_config.c:1236 ../src/bet_finance_ui.c:268
+#: ../src/bet_config.c:1261 ../src/bet_finance_ui.c:268
 #: ../src/bet_finance_ui.c:394 ../src/bet_finance_ui.c:1137
 #: ../src/bet_finance_ui.c:1573
 msgid "%"
 msgstr ""
 
-#: ../src/bet_config.c:1244
+#: ../src/bet_config.c:1269
 #, fuzzy
 msgid "Fees per month"
 msgstr "Tres meses"
 
-#: ../src/bet_config.c:1267 ../src/bet_finance_ui.c:407
+#: ../src/bet_config.c:1292 ../src/bet_finance_ui.c:407
 #, fuzzy
 msgid "Rate Type"
 msgstr "Tipo"
 
-#: ../src/bet_config.c:1271 ../src/bet_finance_ui.c:411
+#: ../src/bet_config.c:1296 ../src/bet_finance_ui.c:411
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1275 ../src/bet_finance_ui.c:415
+#: ../src/bet_config.c:1300 ../src/bet_finance_ui.c:415
 msgid "Proportional rate"
 msgstr ""
 
-#: ../src/bet_config.c:1283
+#: ../src/bet_config.c:1308
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1336 ../src/bet_finance_ui.c:837
+#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:837
 #: ../src/bet_finance_ui.c:1683
 #, fuzzy
 msgid " year "
 msgstr "año %d"
 
-#: ../src/bet_config.c:1338 ../src/bet_finance_ui.c:839
+#: ../src/bet_config.c:1363 ../src/bet_finance_ui.c:839
 #: ../src/bet_finance_ui.c:1685
 #, fuzzy
 msgid " years "
 msgstr "años"
 
-#: ../src/bet_config.c:1388 ../src/bet_finance_ui.c:687
+#: ../src/bet_config.c:1413 ../src/bet_finance_ui.c:687
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
@@ -823,14 +823,14 @@ msgstr ""
 
 #. Print list
 #: ../src/bet_finance_ui.c:1057 ../src/bet_finance_ui.c:1869
-#: ../src/bet_tab.c:1531 ../src/bet_tab.c:2854
+#: ../src/bet_tab.c:1534 ../src/bet_tab.c:2857
 #, fuzzy
 msgid "Print the array"
 msgstr "Impresora"
 
 #. Export list
 #: ../src/bet_finance_ui.c:1067 ../src/bet_finance_ui.c:1885
-#: ../src/bet_finance_ui.c:1914 ../src/bet_tab.c:1541
+#: ../src/bet_finance_ui.c:1914 ../src/bet_tab.c:1544
 #, fuzzy
 msgid "Export the array"
 msgstr "Impresora"
@@ -846,12 +846,12 @@ msgstr ""
 msgid "Loan amount"
 msgstr "Cargando cuentas"
 
-#: ../src/bet_finance_ui.c:1208 ../src/bet_future.c:770 ../src/bet_tab.c:688
+#: ../src/bet_finance_ui.c:1208 ../src/bet_future.c:770 ../src/bet_tab.c:691
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:763
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1288
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
 #: ../src/gsb_scheduler_list.c:339 ../src/gsb_transactions_list.c:146
-#: ../src/import.c:3238 ../src/import_csv.c:79
+#: ../src/import.c:3240 ../src/import_csv.c:79
 #: ../src/traitement_variables.c:79
 msgid "Date"
 msgstr "Fecha"
@@ -899,13 +899,13 @@ msgid "Credits"
 msgstr "Crédito"
 
 #. Set up dialog
-#: ../src/bet_finance_ui.c:1866 ../src/bet_tab.c:2851
+#: ../src/bet_finance_ui.c:1866 ../src/bet_tab.c:2854
 #: ../src/barre_outils.c:139 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
 msgstr "Imprimir"
 
-#: ../src/bet_finance_ui.c:1882 ../src/bet_tab.c:2864
+#: ../src/bet_finance_ui.c:1882 ../src/bet_tab.c:2867
 #: ../src/categories_onglet.c:517 ../src/etats_onglet.c:138
 #: ../src/export.c:161 ../src/imputation_budgetaire.c:554
 msgid "Export"
@@ -916,7 +916,7 @@ msgstr "Exportar"
 msgid "credit.csv"
 msgstr "Crédito"
 
-#: ../src/bet_finance_ui.c:1938 ../src/bet_tab.c:2977
+#: ../src/bet_finance_ui.c:1938 ../src/bet_tab.c:2980
 #: ../src/imputation_budgetaire.c:391
 msgid "Cannot save file."
 msgstr "No puedo guardar el archivo."
@@ -942,32 +942,32 @@ msgstr "Introducir una línea presupuestaria"
 
 #: ../src/bet_future.c:313 ../src/bet_future.c:855
 #: ../src/gsb_form_scheduler.c:152 ../src/gsb_form_scheduler.c:874
-#: ../src/gsb_scheduler_list.c:998
+#: ../src/gsb_scheduler_list.c:1008
 msgid "Once"
 msgstr "Una vez"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:998
+#: ../src/gsb_scheduler_list.c:1008
 msgid "Weekly"
 msgstr "Semanalmente"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:998
+#: ../src/gsb_scheduler_list.c:1008
 msgid "Monthly"
 msgstr "Mensualmente"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:999
+#: ../src/gsb_scheduler_list.c:1009
 msgid "Bimonthly"
 msgstr "Bimensualmente"
 
 #: ../src/bet_future.c:314 ../src/gsb_form_scheduler.c:153
-#: ../src/gsb_scheduler_list.c:999
+#: ../src/gsb_scheduler_list.c:1009
 msgid "Quarterly"
 msgstr "Cuatrimestralmente"
 
 #: ../src/bet_future.c:314 ../src/gsb_form_scheduler.c:153
-#: ../src/gsb_scheduler_list.c:999
+#: ../src/gsb_scheduler_list.c:1009
 msgid "Yearly"
 msgstr "Anualmente"
 
@@ -1040,14 +1040,14 @@ msgstr "Elegir el método de pago"
 #: ../src/export_csv.c:778 ../src/fenetre_principale.c:272
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1309
 #: ../src/gsb_form_widget.c:432 ../src/gsb_scheduler_list.c:339
-#: ../src/gsb_transactions_list.c:148 ../src/import.c:3245
+#: ../src/gsb_transactions_list.c:148 ../src/import.c:3247
 #: ../src/import_csv.c:81 ../src/meta_payee.c:77
 #: ../src/traitement_variables.c:81
 msgid "Payee"
 msgstr "Tercero"
 
 #. Debit method_ptr
-#: ../src/bet_future.c:795 ../src/bet_tab.c:722 ../src/categories_onglet.c:696
+#: ../src/bet_future.c:795 ../src/bet_tab.c:725 ../src/categories_onglet.c:696
 #: ../src/export_csv.c:784 ../src/gsb_form.c:1314 ../src/gsb_form_widget.c:416
 #: ../src/gsb_payment_method_config.c:316
 #: ../src/gsb_payment_method_config.c:387
@@ -1058,7 +1058,7 @@ msgid "Debit"
 msgstr "Débito"
 
 #. Credit method_ptr
-#: ../src/bet_future.c:802 ../src/bet_tab.c:740 ../src/categories_onglet.c:696
+#: ../src/bet_future.c:802 ../src/bet_tab.c:743 ../src/categories_onglet.c:696
 #: ../src/export_csv.c:781 ../src/gsb_form.c:1319 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:323
 #: ../src/gsb_payment_method_config.c:400
@@ -1152,7 +1152,7 @@ msgstr "Periodo"
 #: ../src/bet_hist.c:562 ../src/categories_onglet.c:161
 #: ../src/etats_config.c:5239 ../src/export_csv.c:787
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_scheduler_list.c:340
-#: ../src/gsb_transactions_list.c:153 ../src/import.c:3252
+#: ../src/gsb_transactions_list.c:153 ../src/import.c:3254
 #: ../src/imputation_budgetaire.c:173 ../src/tiers_onglet.c:240
 #: ../src/traitement_variables.c:86
 msgid "Amount"
@@ -1190,38 +1190,38 @@ msgstr "Copiar la cantidad promedio"
 msgid "Please select the data source for the account: \"%s\""
 msgstr "Por favor, elija la fuente de datos para la cuenta: \"%s\""
 
-#: ../src/bet_tab.c:441
+#: ../src/bet_tab.c:444
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Balance estimado de la cuenta \"%s\" desde %s hasta %s"
 
-#: ../src/bet_tab.c:458
+#: ../src/bet_tab.c:461
 msgid "balance beginning of period"
 msgstr "Balance al comienzo del periodo"
 
 #. set the start date and the automatic change of month
-#: ../src/bet_tab.c:559
+#: ../src/bet_tab.c:562
 msgid "Start date"
 msgstr "Fecha de comienzo"
 
-#: ../src/bet_tab.c:578
+#: ../src/bet_tab.c:581
 msgid "Check the box to automatically change start date"
 msgstr "Marque la casilla para cambiar automáticamente la fecha de comienzo"
 
 #. Description entry
-#: ../src/bet_tab.c:705 ../src/etats_onglet.c:260 ../src/tiers_onglet.c:638
+#: ../src/bet_tab.c:708 ../src/etats_onglet.c:260 ../src/tiers_onglet.c:638
 msgid "Description"
 msgstr "Descripción"
 
-#: ../src/bet_tab.c:758 ../src/export_csv.c:790 ../src/gsb_reconcile.c:161
+#: ../src/bet_tab.c:761 ../src/export_csv.c:790 ../src/gsb_reconcile.c:161
 #: ../src/gsb_scheduler_list.c:340 ../src/gsb_transactions_list.c:152
 #: ../src/gsb_transactions_list.c:2989 ../src/import_csv.c:88
 #: ../src/traitement_variables.c:85
 msgid "Balance"
 msgstr "Balance"
 
-#: ../src/bet_tab.c:849 ../src/bet_tab.c:859 ../src/bet_tab.c:1046
-#: ../src/bet_tab.c:2465 ../src/bet_tab.c:2470
+#: ../src/bet_tab.c:852 ../src/bet_tab.c:862 ../src/bet_tab.c:1049
+#: ../src/bet_tab.c:2468 ../src/bet_tab.c:2473
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
@@ -1230,89 +1230,89 @@ msgstr ""
 "Transferencia entre la cuenta: %s\n"
 "y la cuenta: %s"
 
-#: ../src/bet_tab.c:1370
+#: ../src/bet_tab.c:1373
 msgid "Subtract to the balance"
 msgstr "Restar al total"
 
-#: ../src/bet_tab.c:1377
+#: ../src/bet_tab.c:1380
 msgid "Adding to the balance"
 msgstr "Añadiendo al balance"
 
 #. Insert Row
-#: ../src/bet_tab.c:1394
+#: ../src/bet_tab.c:1397
 msgid "Insert Row"
 msgstr "Insertar una Fila"
 
-#: ../src/bet_tab.c:1411 ../src/bet_tab.c:1423 ../src/bet_tab.c:1444
-#: ../src/bet_tab.c:1501
+#: ../src/bet_tab.c:1414 ../src/bet_tab.c:1426 ../src/bet_tab.c:1447
+#: ../src/bet_tab.c:1504
 msgid "Delete selection"
 msgstr "Borrar selección"
 
-#: ../src/bet_tab.c:1434
+#: ../src/bet_tab.c:1437
 msgid "Change selection"
 msgstr "Cambiar selección"
 
-#: ../src/bet_tab.c:1455
+#: ../src/bet_tab.c:1458
 msgid "Delete all occurences of the selection"
 msgstr "Borrar todas las ocurrencias de la selección"
 
-#: ../src/bet_tab.c:1470
+#: ../src/bet_tab.c:1473
 msgid "Convert selection to scheduled transaction"
 msgstr "Convertir la selección en un transacción programada"
 
-#: ../src/bet_tab.c:1491
+#: ../src/bet_tab.c:1494
 msgid "Insert the balance of a cash account"
 msgstr "Inserte el balance de una cuenta de efectivo"
 
 #. redo item
-#: ../src/bet_tab.c:1517
+#: ../src/bet_tab.c:1520
 msgid "Reset data"
 msgstr "Reiniciar datos"
 
-#: ../src/bet_tab.c:1859
+#: ../src/bet_tab.c:1862
 msgid " (still available)"
 msgstr "(aun disponible)"
 
-#: ../src/bet_tab.c:1868 ../src/bet_tab.c:1889
+#: ../src/bet_tab.c:1871 ../src/bet_tab.c:1892
 msgid " (budget exceeded)"
 msgstr "(presupuesto excedido)"
 
-#: ../src/bet_tab.c:1880
+#: ../src/bet_tab.c:1883
 msgid " (yet to receive)"
 msgstr "(sí a recibir)"
 
-#: ../src/bet_tab.c:2388 ../src/bet_tab.c:2438 ../src/bet_tab.c:2498
+#: ../src/bet_tab.c:2391 ../src/bet_tab.c:2441 ../src/bet_tab.c:2501
 msgid "No data by default"
 msgstr "Sin valores por defecto"
 
-#: ../src/bet_tab.c:2396 ../src/bet_tab.c:2446 ../src/bet_tab.c:2504
+#: ../src/bet_tab.c:2399 ../src/bet_tab.c:2449 ../src/bet_tab.c:2507
 #: ../src/etats_affiche.c:1860 ../src/gsb_data_category.c:157
 #: ../src/meta_categories.c:66
 msgid "No category"
 msgstr "Sin categoría"
 
-#: ../src/bet_tab.c:2404 ../src/bet_tab.c:2454 ../src/bet_tab.c:2510
+#: ../src/bet_tab.c:2407 ../src/bet_tab.c:2457 ../src/bet_tab.c:2513
 #: ../src/etats_affiche.c:2030 ../src/meta_budgetary.c:63
 msgid "No budgetary line"
 msgstr "Sin línea presupuestaria"
 
-#: ../src/bet_tab.c:2867 ../src/bet_tab.c:2953
+#: ../src/bet_tab.c:2870 ../src/bet_tab.c:2956
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "Exportar las líneas presupuestarias"
 
-#: ../src/bet_tab.c:2911
+#: ../src/bet_tab.c:2914
 #, fuzzy
 msgid "Balance at "
 msgstr "Balance"
 
-#: ../src/bet_tab.c:2960
+#: ../src/bet_tab.c:2963
 #, fuzzy
 msgid "forecast.csv"
 msgstr "Predicción"
 
 #. New transaction
-#: ../src/barre_outils.c:92 ../src/gsb_scheduler_list.c:2006
+#: ../src/barre_outils.c:92 ../src/gsb_scheduler_list.c:2027
 #: ../src/gsb_transactions_list.c:2187
 msgid "New transaction"
 msgstr "Nueva transacción"
@@ -1398,31 +1398,31 @@ msgstr "Mostrar archivos de líneas"
 msgid "Remove the rule"
 msgstr "Eliminar la regla"
 
-#: ../src/barre_outils.c:456 ../src/gsb_scheduler_list.c:1789
+#: ../src/barre_outils.c:456 ../src/gsb_scheduler_list.c:1810
 msgid "Unique view"
 msgstr "Vista única"
 
-#: ../src/barre_outils.c:456 ../src/gsb_scheduler_list.c:1789
+#: ../src/barre_outils.c:456 ../src/gsb_scheduler_list.c:1810
 msgid "Week view"
 msgstr "Vista semanal"
 
-#: ../src/barre_outils.c:456 ../src/gsb_scheduler_list.c:1789
+#: ../src/barre_outils.c:456 ../src/gsb_scheduler_list.c:1810
 msgid "Month view"
 msgstr "Vista mensual"
 
-#: ../src/barre_outils.c:457 ../src/gsb_scheduler_list.c:1790
+#: ../src/barre_outils.c:457 ../src/gsb_scheduler_list.c:1811
 msgid "Two months view"
 msgstr "Vista bimensual"
 
-#: ../src/barre_outils.c:457 ../src/gsb_scheduler_list.c:1790
+#: ../src/barre_outils.c:457 ../src/gsb_scheduler_list.c:1811
 msgid "Quarter view"
 msgstr "Vista cuatrimestral"
 
-#: ../src/barre_outils.c:458 ../src/gsb_scheduler_list.c:1791
+#: ../src/barre_outils.c:458 ../src/gsb_scheduler_list.c:1812
 msgid "Year view"
 msgstr "Vista anual"
 
-#: ../src/barre_outils.c:458 ../src/gsb_scheduler_list.c:1791
+#: ../src/barre_outils.c:458 ../src/gsb_scheduler_list.c:1812
 msgid "Custom view"
 msgstr "Vista Aleatoria"
 
@@ -1541,7 +1541,7 @@ msgid "Create a new sub-category"
 msgstr "Crear una nueva subcategoría"
 
 #: ../src/categories_onglet.c:507 ../src/etats_onglet.c:129
-#: ../src/import.c:406 ../src/import.c:3557 ../src/imputation_budgetaire.c:543
+#: ../src/import.c:406 ../src/import.c:3559 ../src/imputation_budgetaire.c:543
 #: ../src/parametres.c:298 ../src/utils_files.c:671
 msgid "Import"
 msgstr "Importar"
@@ -1798,7 +1798,7 @@ msgstr ""
 "puede cambiar y originar ficheros incompatibles con cualquier versión "
 "anterior)."
 
-#: ../src/dialog.c:329 ../src/dialog.c:528 ../src/gsb_scheduler_list.c:1733
+#: ../src/dialog.c:329 ../src/dialog.c:528 ../src/gsb_scheduler_list.c:1754
 msgid "Do not show this message again"
 msgstr "No volver a mostrar este mensaje"
 
@@ -2108,13 +2108,13 @@ msgstr "Resultado sin el año financiero (%d transacciones)"
 msgid "Result without financial year"
 msgstr "Resultado sin el año financiero"
 
-#: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:950
+#: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:960
 #: ../src/gsb_transactions_list.c:3429
 #, c-format
 msgid "Transfer to %s"
 msgstr "Transferido a %s"
 
-#: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:953
+#: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:963
 #: ../src/gsb_transactions_list.c:3432
 #, c-format
 msgid "Transfer from %s"
@@ -7585,11 +7585,11 @@ msgstr "Si cierra sin guardar, todos los cambios desde %s se perderán."
 msgid "Name the accounts file"
 msgstr "Nombre de los ficheros de cuentas"
 
-#: ../src/gsb_file.c:1147
+#: ../src/gsb_file.c:1140
 msgid "Delete file copy from a previous version of grisbi"
 msgstr "Borrar una copia del fichero de la versión antigua de Grisbi"
 
-#: ../src/gsb_file.c:1167
+#: ../src/gsb_file.c:1160
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -7853,7 +7853,7 @@ msgid "Auto"
 msgstr "Auto"
 
 #: ../src/gsb_form.c:929 ../src/gsb_form_scheduler.c:151
-#: ../src/gsb_scheduler_list.c:1009
+#: ../src/gsb_scheduler_list.c:1019
 msgid "Manual"
 msgstr "Manual"
 
@@ -8066,7 +8066,7 @@ msgstr ""
 "La función cambiará el tamaño de la tabla a los valores correctos pero "
 "debería comprobar esta advertencia."
 
-#: ../src/gsb_form_scheduler.c:151 ../src/gsb_scheduler_list.c:1007
+#: ../src/gsb_form_scheduler.c:151 ../src/gsb_scheduler_list.c:1017
 msgid "Automatic"
 msgstr "Automático"
 
@@ -8429,7 +8429,7 @@ msgstr "Dividir formas de pago neutrales"
 msgid "Mode"
 msgstr "Modo"
 
-#: ../src/gsb_scheduler_list.c:613
+#: ../src/gsb_scheduler_list.c:623
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that. Please contact the Grisbi "
@@ -8443,7 +8443,7 @@ msgstr ""
 "\n"
 "Los números de hijos implicados son :\n"
 
-#: ../src/gsb_scheduler_list.c:830
+#: ../src/gsb_scheduler_list.c:840
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -8457,27 +8457,27 @@ msgstr ""
 "Esto es normal si se añade una nueva transacción programada, pero sino no lo "
 "es..."
 
-#: ../src/gsb_scheduler_list.c:974
+#: ../src/gsb_scheduler_list.c:984
 #, c-format
 msgid "%d days"
 msgstr "%d días"
 
-#: ../src/gsb_scheduler_list.c:979
+#: ../src/gsb_scheduler_list.c:989
 #, c-format
 msgid "%d weeks"
 msgstr "%d semanas"
 
-#: ../src/gsb_scheduler_list.c:984
+#: ../src/gsb_scheduler_list.c:994
 #, c-format
 msgid "%d months"
 msgstr "%d meses"
 
-#: ../src/gsb_scheduler_list.c:989
+#: ../src/gsb_scheduler_list.c:999
 #, c-format
 msgid "%d years"
 msgstr "%d años"
 
-#: ../src/gsb_scheduler_list.c:1647
+#: ../src/gsb_scheduler_list.c:1668
 #, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
@@ -8486,7 +8486,7 @@ msgstr ""
 "¿Está seguro de que quiere borrar el hijo de la transacción programada con "
 "el tercero '%s' ?"
 
-#: ../src/gsb_scheduler_list.c:1666
+#: ../src/gsb_scheduler_list.c:1687
 #, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
@@ -8494,7 +8494,7 @@ msgstr ""
 "¿ Está seguro de que quiere borrar la transacción programada con el tercero "
 "'%s' ?"
 
-#: ../src/gsb_scheduler_list.c:1711
+#: ../src/gsb_scheduler_list.c:1732
 #, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -8506,68 +8506,68 @@ msgstr ""
 "\n"
 "%s : %s [%s %s]"
 
-#: ../src/gsb_scheduler_list.c:1722
+#: ../src/gsb_scheduler_list.c:1743
 msgid "Delete this scheduled transaction?"
 msgstr "¿ Borrar esta transacción programada ?"
 
-#: ../src/gsb_scheduler_list.c:1727
+#: ../src/gsb_scheduler_list.c:1748
 msgid "All the occurences"
 msgstr "Todos los resultados"
 
-#: ../src/gsb_scheduler_list.c:1728
+#: ../src/gsb_scheduler_list.c:1749
 msgid "Only this one"
 msgstr "Sólo ésta"
 
 #. set the title
-#: ../src/gsb_scheduler_list.c:1800 ../src/navigation.c:1165
+#: ../src/gsb_scheduler_list.c:1821 ../src/navigation.c:1165
 msgid "Scheduled transactions"
 msgstr "Transacciones programadas"
 
-#: ../src/gsb_scheduler_list.c:1828
+#: ../src/gsb_scheduler_list.c:1849
 msgid "days"
 msgstr "días"
 
-#: ../src/gsb_scheduler_list.c:1828
+#: ../src/gsb_scheduler_list.c:1849
 msgid "weeks"
 msgstr "semanas"
 
-#: ../src/gsb_scheduler_list.c:1828
+#: ../src/gsb_scheduler_list.c:1849
 msgid "months"
 msgstr "meses"
 
-#: ../src/gsb_scheduler_list.c:1828
+#: ../src/gsb_scheduler_list.c:1849
 msgid "years"
 msgstr "años"
 
-#: ../src/gsb_scheduler_list.c:1831
+#: ../src/gsb_scheduler_list.c:1852
 msgid "Show scheduled transactions"
 msgstr "Mostrar las transacciones programadas"
 
-#: ../src/gsb_scheduler_list.c:1844
+#: ../src/gsb_scheduler_list.c:1865
 msgid "Scheduler frequency"
 msgstr "Frecuencia del programador de tareas"
 
-#: ../src/gsb_scheduler_list.c:1851
+#: ../src/gsb_scheduler_list.c:1872
 msgid "Show transactions for the next"
 msgstr "Seleccionar transacciones para las siguientes"
 
 #. Edit transaction
-#: ../src/gsb_scheduler_list.c:1992 ../src/gsb_transactions_list.c:2172
+#: ../src/gsb_scheduler_list.c:2013 ../src/gsb_transactions_list.c:2172
 msgid "Edit transaction"
 msgstr "Editar la transacción"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:2017 ../src/gsb_transactions_list.c:2195
+#: ../src/gsb_scheduler_list.c:2038 ../src/gsb_transactions_list.c:2195
 msgid "Delete transaction"
 msgstr "Borrar transacción"
 
 #. Display/hide comments
-#: ../src/gsb_scheduler_list.c:2031
+#: ../src/gsb_scheduler_list.c:2052
 msgid "Displays/Cache comments"
 msgstr "Mostrar/Cachear comentarios"
 
 #. Execute transaction
-#: ../src/gsb_scheduler_list.c:2045
+#: ../src/gsb_scheduler_list.c:2066
 msgid "Execute transaction"
 msgstr "Ejecutar la transacción"
 
@@ -8937,14 +8937,14 @@ msgstr "Añadir ficheros para importar..."
 msgid "File name"
 msgstr "Nombre del archivo"
 
-#: ../src/import.c:508 ../src/import.c:662 ../src/import.c:4324
+#: ../src/import.c:508 ../src/import.c:662 ../src/import.c:4326
 #: ../src/import_csv.c:1081 ../src/import_csv.c:1105
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr "No se puede leer el fichero: %s\n"
 
-#: ../src/import.c:610 ../src/import.c:718 ../src/import.c:4220
-#: ../src/import.c:4243
+#: ../src/import.c:610 ../src/import.c:718 ../src/import.c:4222
+#: ../src/import.c:4245
 msgid "Unknown"
 msgstr "Desconocido"
 
@@ -9173,24 +9173,24 @@ msgstr ""
 "Aviso: El número de cheque %ld ya está siendo usado.\n"
 "Lo saltamos"
 
-#: ../src/import.c:3152
+#: ../src/import.c:3154
 msgid "Orphaned transactions"
 msgstr "Transacciones huérfanas"
 
-#: ../src/import.c:3165
+#: ../src/import.c:3167
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 "Marque las transacciones que desea añadir a la lista y pinche en el botón OK"
 
-#: ../src/import.c:3231
+#: ../src/import.c:3233
 msgid "Mark"
 msgstr "Marcar"
 
-#: ../src/import.c:3285
+#: ../src/import.c:3287
 msgid "The id of the imported and chosen accounts are different"
 msgstr "El id de las cuentas importada y elegida son distintos"
 
-#: ../src/import.c:3286
+#: ../src/import.c:3288
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
@@ -9198,54 +9198,54 @@ msgstr ""
 "¿Quizá eligió una cuenta equivocada? Si elige coninuar, el id de la cuenta "
 "cambiará.  ¿Desea continuar ?"
 
-#: ../src/import.c:3535
+#: ../src/import.c:3537
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: ../src/import.c:3562
+#: ../src/import.c:3564
 msgid "Import settings"
 msgstr "Importar configuración"
 
-#: ../src/import.c:3569
+#: ../src/import.c:3571
 msgid "Threshold while matching transaction date during import (in days)"
 msgstr ""
 "Umbral para cuadrar la fecha de transacción en la importación (en días)"
 
-#: ../src/import.c:3588
+#: ../src/import.c:3590
 msgid "Merge the imported transactions with the transactions found"
 msgstr "Unir las transacciones importadas con la transacción encontrada"
 
-#: ../src/import.c:3598
+#: ../src/import.c:3600
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr "Asociar automáticamente la categoría del tercero si es posible"
 
-#: ../src/import.c:3609 ../src/tiers_onglet.c:1026
+#: ../src/import.c:3611 ../src/tiers_onglet.c:1026
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 "Extrayendo un número y guardándolo en el campo Sin Cheque/Transferencia"
 
-#: ../src/import.c:3617
+#: ../src/import.c:3619
 msgid "Set the financial year"
 msgstr "Configurar el año financiero"
 
-#: ../src/import.c:3618
+#: ../src/import.c:3620
 msgid "According to the date"
 msgstr "De acuerdo con la fecha"
 
-#: ../src/import.c:3619
+#: ../src/import.c:3621
 msgid "According to the value date (if fail, try with the date)"
 msgstr "De acuerdo con la fecha valor (si fall, intentar con la fecha)"
 
-#: ../src/import.c:3644
+#: ../src/import.c:3646
 msgid "Manage import associations"
 msgstr "Administrar la importación de asociaciones"
 
-#: ../src/import.c:3651 ../src/parametres.c:307
+#: ../src/import.c:3653 ../src/parametres.c:307
 msgid "Import associations"
 msgstr "Importar asociaciones"
 
-#: ../src/import.c:3653
+#: ../src/import.c:3655
 msgid ""
 "This will associate a search string to a payee every time you import a file. "
 "For instance, all QIF labels containing 'Rent' could be associated with  a "
@@ -9256,25 +9256,25 @@ msgstr ""
 "asociarse con un tercero específico que represente a su casero."
 
 #. Create entry liste des tiers
-#: ../src/import.c:3722 ../src/import.c:3754 ../src/tiers_onglet.c:1129
+#: ../src/import.c:3724 ../src/import.c:3756 ../src/tiers_onglet.c:1129
 msgid "Payee name"
 msgstr "Nombre de la tercera parte"
 
 #. Create entry search string
-#: ../src/import.c:3736 ../src/import.c:3777
+#: ../src/import.c:3738 ../src/import.c:3779
 msgid "Search string"
 msgstr "Cadena de búsqueda"
 
-#: ../src/import.c:3745
+#: ../src/import.c:3747
 msgid "Details of associations"
 msgstr "Detalles de las asociaciones"
 
-#: ../src/import.c:4071
+#: ../src/import.c:4073
 #, c-format
 msgid "You cannot choose this payee because it already has an association"
 msgstr "No puede elegir este tercero porque ya tiene una asociación"
 
-#: ../src/import.c:4308
+#: ../src/import.c:4310
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
@@ -9283,7 +9283,7 @@ msgstr ""
 "%s no es un fichero OFX, ni un fichero QIF. No se hará nada para este "
 "fichero."
 
-#: ../src/import.c:4367
+#: ../src/import.c:4369
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
@@ -9292,49 +9292,49 @@ msgstr ""
 "%s no se importó con éxito. Un error ocurrió mientras que se tomaban las "
 "transacciones."
 
-#: ../src/import.c:4454
+#: ../src/import.c:4456
 msgid "Import a file with a rule"
 msgstr "Importar un fichero con una regla"
 
 #. text for paddingbox
-#: ../src/import.c:4465
+#: ../src/import.c:4467
 #, c-format
 msgid "Properties of the rule : %s\n"
 msgstr "Propiedades de la regla : %s\n"
 
-#: ../src/import.c:4484
+#: ../src/import.c:4486
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Las transacciones importadas se añadirán a la cuenta %s.\n"
 
-#: ../src/import.c:4487
+#: ../src/import.c:4489
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr ""
 "Las transacciones importadas marcarán las transacciones en la cuenta %s.\n"
 
 #. textstring 2
-#: ../src/import.c:4492
+#: ../src/import.c:4494
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "La moneda a importar es %s.\n"
 
-#: ../src/import.c:4499
+#: ../src/import.c:4501
 #, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Se invertirán las cantidades de las transacciones.\n"
 
 #. label filename
-#: ../src/import.c:4510
+#: ../src/import.c:4512
 msgid "Name of the file to import "
 msgstr "Nombre del fichero a importar "
 
-#: ../src/import.c:4611
+#: ../src/import.c:4613
 #, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr "No se ha podido crear el fichero tmp: %s\n"
 
-#: ../src/import.c:4639
+#: ../src/import.c:4641
 #, c-format
 msgid "cannot unzip file '%s': %s"
 msgstr "No se puede descomprimir el fichero '%s': %s"
@@ -10094,7 +10094,8 @@ msgstr ""
 "\n"
 
 #: ../src/parse_cmdline.c:53
-msgid "Usage: gribi [--version | -v] | [--help | -?]\n"
+#, fuzzy
+msgid "Usage: grisbi [--version | -v] | [--help | -?]\n"
 msgstr "Uso: grisbi [--version | -v] | [--help | -?]\n"
 
 #: ../src/parse_cmdline.c:56
