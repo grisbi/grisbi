@@ -74,6 +74,7 @@ static gboolean bet_historical_fyear_create_combobox_store ( void );
 static gsb_real bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *parent );
 static GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container );
 static gboolean bet_historical_get_full_div ( GtkTreeModel *model, GtkTreeIter *parent );
+static GDate *bet_historical_get_start_date_current_fyear ( void );
 static gboolean bet_historical_initializes_account_settings ( gint account_number );
 static void bet_historical_populate_div_model ( gpointer key,
                         gpointer value,
@@ -478,7 +479,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     tree_model = gtk_tree_store_new ( SPP_HISTORICAL_NUM_COLUMNS,
                         G_TYPE_BOOLEAN,     /* SPP_HISTORICAL_SELECT_COLUMN     */
                         G_TYPE_STRING,      /* SPP_HISTORICAL_DESC_COLUMN       */
-                        G_TYPE_STRING,      /* SPP_HISTORICAL_PERIOD_COLUMN     */
+                        G_TYPE_STRING,      /* SPP_HISTORICAL_CURRENT_COLUMN     */
                         G_TYPE_STRING,      /* SPP_HISTORICAL_BALANCE_COLUMN    */
                         G_TYPE_STRING,      /* SPP_HISTORICAL_AVERAGE_COLUMN    */
                         G_TYPE_STRING,      /* SPP_HISTORICAL_AVERAGE_AMOUNT    */
@@ -542,20 +543,21 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     gtk_tree_view_column_set_resizable ( column, TRUE );
 
     /* period analysis column */
-    cell = gtk_cell_renderer_text_new ( );
-    column = gtk_tree_view_column_new_with_attributes (
-                        _("Period"), cell,
-                        "text", SPP_HISTORICAL_PERIOD_COLUMN,
-                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
-                        NULL);
-    g_object_set (cell, "xalign", 0.5, NULL);
-
-    gtk_tree_view_column_set_alignment ( column, 0.5 );
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
-                        GTK_TREE_VIEW_COLUMN ( column ) );
-    gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
-    gtk_tree_view_column_set_resizable ( column, TRUE );
-
+/*     cell = gtk_cell_renderer_text_new ( );
+ *     column = gtk_tree_view_column_new_with_attributes (
+ *                         _("Period"), cell,
+ *                         "text", SPP_HISTORICAL_PERIOD_COLUMN,
+ *                         "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
+ *                         NULL);
+ *     g_object_set (cell, "xalign", 0.5, NULL);
+ * 
+ *     gtk_tree_view_column_set_alignment ( column, 0.5 );
+ *     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+ *                         GTK_TREE_VIEW_COLUMN ( column ) );
+ *     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+ *     gtk_tree_view_column_set_resizable ( column, TRUE );
+ * 
+ */
     /* amount column */
     cell = gtk_cell_renderer_text_new ( );
     column = gtk_tree_view_column_new_with_attributes (
@@ -615,6 +617,23 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         G_CALLBACK (bet_historical_div_cell_edited),
                         tree_view );
 
+    /* current year column */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes (
+                        _("current year"), cell,
+                        "text", SPP_HISTORICAL_CURRENT_COLUMN,
+                        "foreground", SPP_HISTORICAL_BALANCE_COLOR,
+                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
+                        NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+                        GTK_TREE_VIEW_COLUMN ( column ) );
+    g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
+    gtk_tree_view_column_set_alignment ( column, 1 );
+    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
+
+
     g_signal_connect ( G_OBJECT ( tree_view ),
                         "row-expanded",
                         G_CALLBACK ( bet_historical_row_expanded_event ),
@@ -644,6 +663,7 @@ void bet_historical_populate_data ( gint account_number )
     gint fyear_number;
     GDate *date_min;
     GDate *date_max;
+    GDate *start_current_fyear;
     GSList* tmp_list;
     GHashTable  *list_div;
 
@@ -666,16 +686,23 @@ void bet_historical_populate_data ( gint account_number )
         g_date_subtract_years ( date_min, 1 );
         date_max = gdate_today ( );
         g_date_subtract_days ( date_max, 1 );
-        g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_period",
-                g_strdup ( _("12 months rolling") ) );
+/*         g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_period",
+ *                 g_strdup ( _("12 months rolling") ) );
+ */
     }
     else
     {
         date_min = gsb_data_fyear_get_beginning_date ( fyear_number );
         date_max = gsb_data_fyear_get_end_date ( fyear_number );
-        g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_period",
-                g_strdup ( gsb_data_fyear_get_name ( fyear_number ) ) );
+/*         g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_period",
+ *                 g_strdup ( gsb_data_fyear_get_name ( fyear_number ) ) );
+ */
     }
+
+    /* calculate the current_fyear */
+    start_current_fyear = bet_historical_get_start_date_current_fyear ( );
+    printf ("start_current_fyear = %s\n", gsb_format_gdate ( start_current_fyear ));
+
     list_div = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         (GDestroyNotify) g_free,
@@ -764,7 +791,7 @@ void bet_historical_populate_div_model ( gpointer key,
     gchar *str_average;
     gchar *str_amount;
     gchar *str_retained = NULL;
-    gchar *titre;
+/*     gchar *titre;  */
     gint div_number;
     gint account_nb;
     gboolean sub_div_visible = FALSE;
@@ -782,7 +809,7 @@ void bet_historical_populate_div_model ( gpointer key,
     if ( kind == GSB_TYPE_CASH )
         edited = FALSE;
 
-    titre = g_object_get_data ( G_OBJECT ( account_page ), "bet_historical_period" );
+/*     titre = g_object_get_data ( G_OBJECT ( account_page ), "bet_historical_period" );  */
 
     model = gtk_tree_view_get_model ( tree_view );
 
@@ -797,7 +824,7 @@ void bet_historical_populate_div_model ( gpointer key,
     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &parent,
                         SPP_HISTORICAL_DESC_COLUMN, div_name,
-                        SPP_HISTORICAL_PERIOD_COLUMN, titre,
+                        SPP_HISTORICAL_CURRENT_COLUMN, "TEST",
                         SPP_HISTORICAL_BALANCE_COLUMN, str_balance,
                         SPP_HISTORICAL_AVERAGE_COLUMN, str_average,
                         SPP_HISTORICAL_AVERAGE_AMOUNT, str_amount,
@@ -1658,6 +1685,49 @@ void bet_historical_set_page_title ( gint account_number )
     widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_title") );
     gtk_label_set_label ( GTK_LABEL ( widget ), title );
     g_free ( title );
+}
+
+
+/**
+ * retourne la date de début de l'exercice en cours ou la date de l'année en cours.
+ *
+ *
+ * \return date de début de la période courante
+ * */
+GDate *bet_historical_get_start_date_current_fyear ( void )
+{
+    GSList *tmp_list;
+    GDate *date = NULL;
+
+    tmp_list = gsb_data_fyear_get_fyears_list ( );
+
+    if ( g_slist_length ( tmp_list ) == 0 )
+    {
+        date = gdate_today ( );
+        g_date_set_month ( date, 1 );
+        g_date_set_day ( date, 1 );
+
+        return date;
+    }
+
+    while ( tmp_list )
+    {
+        struct_fyear *fyear;
+
+	    fyear = tmp_list -> data;
+
+	    if ( date == NULL )
+            date = fyear -> beginning_date;
+        else
+        {
+            if ( g_date_compare ( date, fyear -> beginning_date ) < 0 )
+                date = fyear -> beginning_date;
+        }
+
+	    tmp_list = tmp_list -> next;
+    }
+
+    return gsb_date_copy ( date );
 }
 
 

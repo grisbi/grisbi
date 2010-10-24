@@ -26,6 +26,7 @@ struct _bet_range
     gsb_real current_balance;
 };
 
+/* utilisée pour gérer la liste des données historiques dans la vue historique */
 struct _historical
 {
     gint div;
@@ -34,7 +35,7 @@ struct _historical
 	GHashTable *list_sub_div;
 };
 
-
+/* utilisée pour gérer la liste des données historiques dans le tableau des prévisions */
 struct _hist_div
 {
     gint account_nb;
@@ -42,6 +43,7 @@ struct _hist_div
     gboolean div_edited;
     GHashTable *sub_div_list;
     gsb_real amount;
+    gsb_real current;
 };
 
 
