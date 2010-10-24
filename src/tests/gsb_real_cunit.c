@@ -41,6 +41,7 @@ static void gsb_real_cunit__gsb_real_add ( void );
 static void gsb_real_cunit__gsb_real_get_from_string ( void );
 static void gsb_real_cunit__gsb_real_mul();
 static void gsb_real_cunit__gsb_real_normalize();
+static void gsb_real_cunit__gsb_real_format_string ( void );
 static void gsb_real_cunit__gsb_real_raw_format_string ( void );
 static void gsb_real_cunit__gsb_real_raw_get_from_string();
 static void gsb_real_cunit__gsb_real_raw_get_from_string__locale();
@@ -400,22 +401,6 @@ void gsb_real_cunit__gsb_real_raw_format_string ( void )
     CU_ASSERT_STRING_EQUAL("<+>0<.>000031415<€>", s);
     g_free(s);
 
-    /* TODO do this test for gsb_real_format_string instead
-    n.mantissa = 31415;
-    n.exponent = 10;
-    s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("###ERR###", s);
-    g_free(s);
-    */
-
-    /* TODO do this test for gsb_real_format_string instead
-    n.mantissa = 31415;
-    n.exponent = -1;
-    s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("###ERR###", s);
-    g_free(s);
-    */
-
     n.mantissa = 0x7FFFFFFF;
     n.exponent = 0;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
@@ -452,14 +437,6 @@ void gsb_real_cunit__gsb_real_raw_format_string ( void )
     CU_ASSERT_STRING_EQUAL("<->21< >474< >836<.>49<€>", s);
     g_free(s);
 
-    /* TODO do this test for gsb_real_format_string instead
-    n.mantissa = 0x80000000;
-    n.exponent = 2;
-    s = gsb_real_raw_format_string(n, &conv, currency_symbol);
-    CU_ASSERT_STRING_EQUAL("###ERR###", s);
-    g_free(s);
-    */
-
     n.mantissa = 2100000000;
     n.exponent = 2;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
@@ -480,6 +457,38 @@ void gsb_real_cunit__gsb_real_raw_format_string ( void )
     CU_ASSERT_STRING_EQUAL("<+>1<.>23 <€>", s);
     g_free(s);
 }
+
+
+void gsb_real_cunit__gsb_real_format_string ( void )
+{
+    gchar *s;
+    gsb_real n;
+    gint currency_number = 1;
+
+    n.mantissa = 0;
+    n.exponent = 0;
+    s = gsb_real_format_string ( n, currency_number, FALSE );
+    CU_ASSERT_STRING_EQUAL("0", s);
+    g_free(s);
+
+    n.mantissa = 31415;
+    n.exponent = 100;
+    s = gsb_real_format_string ( n, currency_number, FALSE );
+    CU_ASSERT_STRING_EQUAL("###ERR###", s);
+    g_free(s);
+
+    n.mantissa = 31415;
+    n.exponent = -1;
+    s = gsb_real_format_string ( n, currency_number, FALSE );
+    CU_ASSERT_STRING_EQUAL("###ERR###", s);
+    g_free(s);
+
+    n.mantissa = 0x7fffffffffffffff + 1;
+    n.exponent = 2;
+    s = gsb_real_format_string ( n, currency_number, FALSE );
+    CU_ASSERT_STRING_EQUAL("###ERR###", s);
+}
+
 
 void gsb_real_cunit__gsb_real_normalize()
 {
@@ -701,6 +710,7 @@ CU_pSuite gsb_real_cunit_create_suite ( void )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_sub()",                 gsb_real_cunit__gsb_real_sub ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_mul()",                 gsb_real_cunit__gsb_real_mul ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_adjust_exponent()",     gsb_real_cunit__gsb_real_adjust_exponent ) )
+      || ( NULL == CU_add_test( pSuite, "of gsb_real_format_string()",   gsb_real_cunit__gsb_real_format_string ) )
        )
         return NULL;
 
