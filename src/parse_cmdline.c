@@ -50,7 +50,7 @@ static struct option long_options[] =           /*!< configure the list of 'long
 
 /* Please make sure to keep consistency between short_options/long_options and USAGE_STRING/HELP_STRING definition */
 #define   GET_DETAIL N_("Try grisbi --help for details\n\n")
-#define   USAGE_STRING N_("Usage: gribi [--version | -v] | [--help | -?]\n")
+#define   USAGE_STRING N_("Usage: grisbi [--version | -v] | [--help | -?]\n")
 
 #define   HELP_STRING  				                               \
  N_("grisbi [options] [file]\n"                                                 \
