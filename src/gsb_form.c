@@ -2605,7 +2605,8 @@ gboolean gsb_form_finish_edition ( void )
 
 	/* we need to use edit_transaction to make a new child split if necessary */
 	if ( is_transaction)
-	    gsb_transactions_list_edit_transaction ( transaction_number );
+	    gsb_transactions_list_edit_transaction (
+                        gsb_data_account_get_current_transaction_number (account_number) );
 	else
 	    gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
     }
