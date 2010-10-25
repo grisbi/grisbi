@@ -9983,7 +9983,7 @@ msgstr "Fichier de configuration"
 
 #: ../src/parametres.c:943
 msgid "Use the config file of version stable as model"
-msgstr "Utiliser le fichier de configuration de la version stable comme model"
+msgstr "Utiliser le fichier de configuration de la version stable comme modèle"
 
 #: ../src/parametres.c:1033
 #, c-format
