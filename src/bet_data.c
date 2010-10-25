@@ -981,8 +981,7 @@ SBR *struct_initialise_bet_range ( void )
     sbr -> first_pass = TRUE;
     sbr -> min_date = NULL;
     sbr -> max_date = NULL;
-    sbr -> min_balance = null_real;
-    sbr -> max_balance = null_real;
+    sbr -> current_fyear = null_real;
     sbr -> current_balance = null_real;
 
 	return sbr;

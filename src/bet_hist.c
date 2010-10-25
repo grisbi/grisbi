@@ -75,6 +75,9 @@ static gsb_real bet_historical_get_children_amount ( GtkTreeModel *model, GtkTre
 static GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container );
 static gboolean bet_historical_get_full_div ( GtkTreeModel *model, GtkTreeIter *parent );
 static GDate *bet_historical_get_start_date_current_fyear ( void );
+static gint bet_historical_get_type_transaction ( const GDate *date,
+                        GDate *start_current_fyear,
+                        GDate *date_max );
 static gboolean bet_historical_initializes_account_settings ( gint account_number );
 static void bet_historical_populate_div_model ( gpointer key,
                         gpointer value,
@@ -661,6 +664,7 @@ void bet_historical_populate_data ( gint account_number )
     GtkWidget *tree_view;
     GtkTreeModel *model;
     gint fyear_number;
+    GDate *date_jour;
     GDate *date_min;
     GDate *date_max;
     GDate *start_current_fyear;
@@ -678,7 +682,9 @@ void bet_historical_populate_data ( gint account_number )
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_store_clear ( GTK_TREE_STORE ( model ) );
 
-    /* calculate date_min and date_max */
+    /* calculate date_jour, date_min and date_max */
+    date_jour = gdate_today ( );
+
     fyear_number = gsb_data_account_get_bet_hist_fyear ( account_number );
     if ( fyear_number == 0 )
     {
@@ -686,22 +692,16 @@ void bet_historical_populate_data ( gint account_number )
         g_date_subtract_years ( date_min, 1 );
         date_max = gdate_today ( );
         g_date_subtract_days ( date_max, 1 );
-/*         g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_period",
- *                 g_strdup ( _("12 months rolling") ) );
- */
     }
     else
     {
-        date_min = gsb_data_fyear_get_beginning_date ( fyear_number );
-        date_max = gsb_data_fyear_get_end_date ( fyear_number );
-/*         g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_period",
- *                 g_strdup ( gsb_data_fyear_get_name ( fyear_number ) ) );
- */
+        date_min = gsb_date_copy ( gsb_data_fyear_get_beginning_date ( fyear_number ) );
+        date_max = gsb_date_copy ( gsb_data_fyear_get_end_date ( fyear_number ) );
     }
 
     /* calculate the current_fyear */
     start_current_fyear = bet_historical_get_start_date_current_fyear ( );
-    printf ("start_current_fyear = %s\n", gsb_format_gdate ( start_current_fyear ));
+/*     printf ("start_current_fyear = %s\n", gsb_format_gdate ( start_current_fyear ));  */
 
     list_div = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
@@ -715,28 +715,32 @@ void bet_historical_populate_data ( gint account_number )
         gint transaction_number;
         gint tmp_account_number;
         const GDate *date;
+        gint type_de_transaction;
 
-        transaction_number = gsb_data_transaction_get_transaction_number (
-                        tmp_list->data );
+        transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
         tmp_list = tmp_list -> next;
 
-        tmp_account_number =  gsb_data_transaction_get_account_number (
-                        transaction_number );
+        tmp_account_number =  gsb_data_transaction_get_account_number ( transaction_number );
         if ( tmp_account_number != account_number )
             continue;
 
         date = gsb_data_transaction_get_date ( transaction_number );
-        /* ignore transaction which are before date_min (today) */
+        /* ignore transaction which are before date_min */
         if ( g_date_compare ( date, date_min ) <= 0 )
             continue;
-        /* ignore transaction which are after date_max */
-        if ( g_date_compare (date, date_max ) > 0 )
+
+        if ( g_date_compare ( date, date_jour ) > 0 )
             continue;
 
         /* ignore splitted transactions */
         if ( gsb_data_transaction_get_mother_transaction_number (
          transaction_number ) != 0 )
             continue;
+
+        type_de_transaction = bet_historical_get_type_transaction ( date, start_current_fyear, date_max );
+/*         if ( type_de_transaction )
+ *             printf ("type_de_transaction = %d\n", type_de_transaction );
+ */
 
         bet_data_populate_div ( transaction_number, TRUE, list_div );
     }
@@ -745,6 +749,10 @@ void bet_historical_populate_data ( gint account_number )
     /* bet_data_synchronise_hist_div_list ( list_div ); */
 
     g_hash_table_remove_all ( list_div );
+    g_date_free ( date_jour );
+    g_date_free ( date_min );
+    g_date_free ( date_max );
+    g_date_free ( start_current_fyear );
 
     bet_historical_set_background_color ( tree_view );
 }
@@ -1732,12 +1740,44 @@ GDate *bet_historical_get_start_date_current_fyear ( void )
 
 
 /**
+ * \return 0    opération <= à date_max et < start_current_fyear (n'appartient pas à l'exercice en cours)
+ * \return 1    opération > à date_max et > start_current_fyear (appartient à l'exercice en cours)
+ * \return 2    opération <= à date_max et > start_current_fyear (appartient à l'exercice en cours)
+ *
+ * */
+gint bet_historical_get_type_transaction ( const GDate *date,
+                        GDate *start_current_fyear,
+                        GDate *date_max )
+{
+    gint result = 0;
+/*
+    printf ("date = %s", gsb_format_gdate ( date ));
+    printf (" start_current_fyear = %s", gsb_format_gdate ( start_current_fyear ));
+    printf (" date_max = %s", gsb_format_gdate ( date_max ));
+*/
+    if ( g_date_compare ( date, date_max ) <= 0 )
+    {
+        if ( g_date_compare ( date, start_current_fyear ) >= 0 )
+            result = 2;
+    }
+    else
+    {
+        if ( g_date_compare ( date, start_current_fyear ) >= 0 )
+            result = 1;
+    }
+
+/*    printf (" result = %d\n", result ); */
+
+    return result;
+}
+
+
+/**
  *
  *
  *
  *
  * */
-
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

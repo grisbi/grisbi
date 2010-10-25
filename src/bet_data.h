@@ -21,8 +21,7 @@ struct _bet_range
     gboolean first_pass;
     GDate *min_date;
     GDate *max_date;
-    gsb_real min_balance;
-    gsb_real max_balance;
+    gsb_real current_fyear;
     gsb_real current_balance;
 };
 
@@ -43,7 +42,6 @@ struct _hist_div
     gboolean div_edited;
     GHashTable *sub_div_list;
     gsb_real amount;
-    gsb_real current;
 };
 
 
