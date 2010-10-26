@@ -115,7 +115,8 @@ gboolean bet_data_init_variables ( void );
 void bet_data_insert_div_hist ( struct_hist_div *shd, struct_hist_div *sub_shd );
 gboolean bet_data_populate_div ( gint transaction_number,
                         gboolean is_transaction,
-                        GHashTable  *list_div );
+                        GHashTable  *list_div,
+                        gint type_de_transaction );
 gboolean bet_data_remove_all_bet_data ( gint account_number );
 gboolean bet_data_remove_div_hist ( gint account_nb, gint div_number, gint sub_div_nb );
 gboolean bet_data_search_div_hist ( gint account_nb, gint div_number, gint sub_div_nb );

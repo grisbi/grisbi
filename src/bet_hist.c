@@ -545,22 +545,6 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
 
-    /* period analysis column */
-/*     cell = gtk_cell_renderer_text_new ( );
- *     column = gtk_tree_view_column_new_with_attributes (
- *                         _("Period"), cell,
- *                         "text", SPP_HISTORICAL_PERIOD_COLUMN,
- *                         "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
- *                         NULL);
- *     g_object_set (cell, "xalign", 0.5, NULL);
- * 
- *     gtk_tree_view_column_set_alignment ( column, 0.5 );
- *     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
- *                         GTK_TREE_VIEW_COLUMN ( column ) );
- *     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
- *     gtk_tree_view_column_set_resizable ( column, TRUE );
- * 
- */
     /* amount column */
     cell = gtk_cell_renderer_text_new ( );
     column = gtk_tree_view_column_new_with_attributes (
@@ -582,6 +566,22 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     column = gtk_tree_view_column_new_with_attributes (
                         _("Average"), cell,
                         "text", SPP_HISTORICAL_AVERAGE_COLUMN,
+                        "foreground", SPP_HISTORICAL_BALANCE_COLOR,
+                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
+                        NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+                        GTK_TREE_VIEW_COLUMN ( column ) );
+    g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
+    gtk_tree_view_column_set_alignment ( column, 1 );
+    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
+
+    /* current fyear column */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes (
+                        _("Current fyear"), cell,
+                        "text", SPP_HISTORICAL_CURRENT_COLUMN,
                         "foreground", SPP_HISTORICAL_BALANCE_COLOR,
                         "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
                         NULL);
@@ -619,23 +619,6 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         "edited",
                         G_CALLBACK (bet_historical_div_cell_edited),
                         tree_view );
-
-    /* current year column */
-    cell = gtk_cell_renderer_text_new ( );
-    column = gtk_tree_view_column_new_with_attributes (
-                        _("current year"), cell,
-                        "text", SPP_HISTORICAL_CURRENT_COLUMN,
-                        "foreground", SPP_HISTORICAL_BALANCE_COLOR,
-                        "cell-background-gdk", SPP_HISTORICAL_BACKGROUND_COLOR,
-                        NULL);
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
-                        GTK_TREE_VIEW_COLUMN ( column ) );
-    g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
-    gtk_tree_view_column_set_alignment ( column, 1 );
-    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
-    gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
-    gtk_tree_view_column_set_resizable ( column, TRUE );
-
 
     g_signal_connect ( G_OBJECT ( tree_view ),
                         "row-expanded",
@@ -729,6 +712,7 @@ void bet_historical_populate_data ( gint account_number )
         if ( g_date_compare ( date, date_min ) <= 0 )
             continue;
 
+        /* ignore transaction which is after date_jour */
         if ( g_date_compare ( date, date_jour ) > 0 )
             continue;
 
@@ -737,12 +721,10 @@ void bet_historical_populate_data ( gint account_number )
          transaction_number ) != 0 )
             continue;
 
+        /* on détermine le type de transaction pour l'affichage */
         type_de_transaction = bet_historical_get_type_transaction ( date, start_current_fyear, date_max );
-/*         if ( type_de_transaction )
- *             printf ("type_de_transaction = %d\n", type_de_transaction );
- */
 
-        bet_data_populate_div ( transaction_number, TRUE, list_div );
+        bet_data_populate_div ( transaction_number, TRUE, list_div, type_de_transaction );
     }
 
     bet_historical_affiche_div ( list_div, tree_view );
@@ -799,9 +781,10 @@ void bet_historical_populate_div_model ( gpointer key,
     gchar *str_average;
     gchar *str_amount;
     gchar *str_retained = NULL;
-/*     gchar *titre;  */
+    gchar *str_current_fyear;
     gint div_number;
     gint account_nb;
+    gint currency_number;
     gboolean sub_div_visible = FALSE;
     gboolean edited = TRUE;
     gsb_real period = { 12, 0 };
@@ -817,22 +800,22 @@ void bet_historical_populate_div_model ( gpointer key,
     if ( kind == GSB_TYPE_CASH )
         edited = FALSE;
 
-/*     titre = g_object_get_data ( G_OBJECT ( account_page ), "bet_historical_period" );  */
+    currency_number = gsb_data_account_get_currency ( account_nb );
 
     model = gtk_tree_view_get_model ( tree_view );
 
-    str_balance = gsb_real_get_string_with_currency ( sbr -> current_balance, 
-                        gsb_data_account_get_currency ( account_nb ), TRUE );
+    str_balance = gsb_real_get_string_with_currency ( sbr -> current_balance, currency_number, TRUE );
     average = gsb_real_div ( sbr -> current_balance, period );
     str_amount = gsb_real_save_real_to_string ( average, 2 );
-    str_average = gsb_real_get_string_with_currency ( average,
-                        gsb_data_account_get_currency ( account_nb ), TRUE );
+    str_average = gsb_real_get_string_with_currency ( average, currency_number, TRUE );
+
+    str_current_fyear = gsb_real_get_string_with_currency ( sbr -> current_fyear, currency_number, TRUE );
 
     gtk_tree_store_append ( GTK_TREE_STORE ( model ), &parent, NULL);
     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &parent,
                         SPP_HISTORICAL_DESC_COLUMN, div_name,
-                        SPP_HISTORICAL_CURRENT_COLUMN, "TEST",
+                        SPP_HISTORICAL_CURRENT_COLUMN, str_current_fyear,
                         SPP_HISTORICAL_BALANCE_COLUMN, str_balance,
                         SPP_HISTORICAL_AVERAGE_COLUMN, str_average,
                         SPP_HISTORICAL_AVERAGE_AMOUNT, str_amount,
@@ -867,6 +850,7 @@ void bet_historical_populate_div_model ( gpointer key,
     g_free ( div_name );
     g_free ( str_average );
     g_free ( str_amount );
+    g_free ( str_current_fyear );
 
     if ( g_hash_table_size ( sh -> list_sub_div ) <= 1 )
         return;
@@ -901,11 +885,14 @@ void bet_historical_populate_div_model ( gpointer key,
         str_amount = gsb_real_save_real_to_string ( average, 2 );
         str_average = gsb_real_get_string_with_currency ( average,
                         gsb_data_account_get_currency ( sh -> account_nb ), TRUE );
+        str_current_fyear = gsb_real_get_string_with_currency ( sub_sbr -> current_fyear,
+                        currency_number, TRUE );
 
         gtk_tree_store_append ( GTK_TREE_STORE ( model ), &fils, &parent );
         gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &fils,
                         SPP_HISTORICAL_DESC_COLUMN, div_name,
+                        SPP_HISTORICAL_CURRENT_COLUMN, str_current_fyear,
                         SPP_HISTORICAL_BALANCE_COLUMN, str_balance,
                         SPP_HISTORICAL_AVERAGE_COLUMN, str_average,
                         SPP_HISTORICAL_AVERAGE_AMOUNT, str_amount,
@@ -955,6 +942,7 @@ void bet_historical_populate_div_model ( gpointer key,
         g_free ( str_balance );
         g_free ( str_average );
         g_free ( str_amount );
+        g_free ( str_current_fyear );
     }
 
     if ( sub_div_visible && bet_historical_get_full_div ( model, &parent ) )
@@ -1743,30 +1731,26 @@ GDate *bet_historical_get_start_date_current_fyear ( void )
  * \return 0    opération <= à date_max et < start_current_fyear (n'appartient pas à l'exercice en cours)
  * \return 1    opération > à date_max et > start_current_fyear (appartient à l'exercice en cours)
  * \return 2    opération <= à date_max et > start_current_fyear (appartient à l'exercice en cours)
- *
+ * \return -1   toutes les autres opérations 
  * */
 gint bet_historical_get_type_transaction ( const GDate *date,
                         GDate *start_current_fyear,
                         GDate *date_max )
 {
-    gint result = 0;
-/*
-    printf ("date = %s", gsb_format_gdate ( date ));
-    printf (" start_current_fyear = %s", gsb_format_gdate ( start_current_fyear ));
-    printf (" date_max = %s", gsb_format_gdate ( date_max ));
-*/
+    gint result = -1;
+
     if ( g_date_compare ( date, date_max ) <= 0 )
     {
         if ( g_date_compare ( date, start_current_fyear ) >= 0 )
             result = 2;
+        else
+            result = 0;
     }
     else
     {
         if ( g_date_compare ( date, start_current_fyear ) >= 0 )
             result = 1;
     }
-
-/*    printf (" result = %d\n", result ); */
 
     return result;
 }
