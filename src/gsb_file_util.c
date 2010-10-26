@@ -281,7 +281,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
     gchar *lock_filename;
     gchar **tab_str;
     gint i;
-
+devel_debug_int ( create_swp );
     /* if the file was already opened and we don't force the saving, we do nothing */
     if ( (etat.fichier_deja_ouvert
 	  &&
