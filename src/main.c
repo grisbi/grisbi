@@ -772,6 +772,8 @@ gboolean gsb_main_set_grisbi_title ( gint account_number )
         if ( titre && strlen ( titre ) > 0 )
         {
             titre_grisbi = g_strconcat ( titre, " - ", _("Grisbi"), NULL );
+            g_free ( titre );
+
             return_value = TRUE;
         }
         else
@@ -783,9 +785,6 @@ gboolean gsb_main_set_grisbi_title ( gint account_number )
     gtk_window_set_title ( GTK_WINDOW ( window ), titre_grisbi );
 
     gsb_main_page_update_homepage_title ( titre_grisbi );
-
-    if ( titre && strlen ( titre ) )
-        g_free ( titre );
 
     if ( titre_grisbi && strlen ( titre_grisbi ) > 0 )
         g_free ( titre_grisbi );
