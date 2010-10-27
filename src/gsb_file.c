@@ -1043,7 +1043,10 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
             {
                 /* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
                 if ( !i )
+                {
+                    g_free ( real_name );
                     return;
+                }
 
                 position = i;
             }
@@ -1062,6 +1065,7 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
                 tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( "<no file>" );
 
             affiche_derniers_fichiers_ouverts ( );
+            g_free ( real_name );
 
             return;
         }
