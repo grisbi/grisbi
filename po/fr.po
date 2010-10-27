@@ -10035,7 +10035,7 @@ msgstr ""
 
 #: ../src/parametres.c:1181
 msgid "Sort option for transactions"
-msgstr "Option de tri  pour les opérations"
+msgstr "Options de tri pour les opérations"
 
 #: ../src/parametres.c:1182
 msgid "by number"
