@@ -1,5 +1,5 @@
 %define name    grisbi
-%define version 0.7.90
+%define version 0.7.91
 %define release %mkrel 1
 
 %define _disable_ld_no_undefined 1
