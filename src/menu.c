@@ -173,6 +173,15 @@ GtkWidget *init_menus ( GtkWidget *vbox )
     {
         /* File menu */
         {"FileMenuAction", NULL, _("_File"), NULL, NULL, NULL},
+	#ifdef GTKOSXAPPLICATION
+        { "NewAction", GTK_STOCK_NEW, _("_New account file..."), "<Meta>N", NULL,
+         G_CALLBACK ( gsb_file_new ) },
+        {"OpenAction",  GTK_STOCK_OPEN, _("_Open..."), "<Meta>O", NULL,
+         G_CALLBACK ( gsb_file_open_menu ) },
+        {"RecentFilesAction", NULL, _("_Recently opened files"), NULL, NULL, NULL },
+        {"SaveAction", GTK_STOCK_SAVE, _("_Save"), "<Meta>S", NULL,
+         G_CALLBACK ( gsb_file_save ) },
+	#else
         { "NewAction", GTK_STOCK_NEW, _("_New account file..."), NULL, NULL,
          G_CALLBACK ( gsb_file_new ) },
         {"OpenAction",  GTK_STOCK_OPEN, _("_Open..."), NULL, NULL,
@@ -180,6 +189,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
         {"RecentFilesAction", NULL, _("_Recently opened files"), NULL, NULL, NULL },
         {"SaveAction", GTK_STOCK_SAVE, _("_Save"), NULL, NULL,
          G_CALLBACK ( gsb_file_save ) },
+	#endif
         {"SaveAsAction", GTK_STOCK_SAVE_AS,	_("_Save as..."), NULL, NULL,
          G_CALLBACK ( gsb_file_save_as ) },
         {"ImportFileAction", GTK_STOCK_CONVERT,	_("_Import file..."), NULL, NULL,
@@ -196,8 +206,13 @@ GtkWidget *init_menus ( GtkWidget *vbox )
          G_CALLBACK ( file_obfuscate_run ) },
         {"ObfuscateQifAction", GTK_STOCK_FIND, _("_Obfuscate QIF file..."), "", NULL,
          G_CALLBACK ( file_obfuscate_qif_run ) },
+	#ifdef GTKOSXAPPLICATION
+        {"CloseAction", GTK_STOCK_CLOSE, _("_Close"), "<Meta>W", NULL,
+         G_CALLBACK ( gsb_file_close ) },
+	#else
         {"CloseAction", GTK_STOCK_CLOSE, _("_Close"), NULL, NULL,
          G_CALLBACK ( gsb_file_close ) },
+	#endif
         {"QuitAction", GTK_STOCK_QUIT, _("_Quit"), NULL, NULL,
          G_CALLBACK ( gsb_grisbi_close ) },
 
@@ -226,8 +241,13 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 
         /* Help menu */
         {"HelpMenuAction", NULL, _("_Help"), NULL, NULL, NULL },
+	#ifdef GTKOSXAPPLICATION
+        {"ManualAction", GTK_STOCK_HELP, _("_Manual"), "<Meta>H", NULL,
+         G_CALLBACK ( help_manual ) },
+	#else
         {"ManualAction", GTK_STOCK_HELP, _("_Manual"), NULL, NULL,
          G_CALLBACK ( help_manual ) },
+	#endif
         {"QuickStartAction", NULL, _("_Quick start"), NULL, NULL,
          G_CALLBACK ( help_quick_start ) },
         {"TranslationAction", NULL, _("_Translation"), NULL, NULL,
