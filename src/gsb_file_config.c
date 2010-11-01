@@ -292,6 +292,12 @@ devel_debug (NULL);
                         "Make backup nb minutes",
                         NULL );
 
+    /* exec gsb_file_automatic_backup_start ( ) if necessary */
+    if ( conf.make_backup_every_minutes
+	&&
+	conf.make_backup_nb_minutes )
+        gsb_file_automatic_backup_start ( NULL, NULL );
+
     conf.compress_backup = g_key_file_get_integer ( config,
                         "Backup",
                         "Compress backup",
