@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-24 14:57+0200\n"
+"POT-Creation-Date: 2010-11-01 11:08+0100\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -627,7 +627,7 @@ msgstr "恢复默认值"
 #. mise en place de la paddingbox des catégories
 #. set the title
 #: ../src/bet_config.c:537 ../src/bet_config.c:555 ../src/bet_config.c:572
-#: ../src/bet_config.c:635 ../src/bet_hist.c:156 ../src/etats_config.c:526
+#: ../src/bet_config.c:635 ../src/bet_hist.c:160 ../src/etats_config.c:526
 #: ../src/etats_config.c:529 ../src/etats_config.c:2991
 #: ../src/etats_config.c:7057 ../src/fenetre_principale.c:282
 #: ../src/navigation.c:314 ../src/navigation.c:1211
@@ -637,7 +637,7 @@ msgstr "类别"
 #. mise en place de la paddingbox des ib
 #. set the title
 #: ../src/bet_config.c:538 ../src/bet_config.c:556 ../src/bet_config.c:573
-#: ../src/bet_config.c:644 ../src/bet_hist.c:165 ../src/etats_config.c:535
+#: ../src/bet_config.c:644 ../src/bet_hist.c:169 ../src/etats_config.c:535
 #: ../src/etats_config.c:538 ../src/etats_config.c:3797
 #: ../src/etats_config.c:7134 ../src/export_csv.c:802
 #: ../src/fenetre_principale.c:287 ../src/import_csv.c:86
@@ -661,13 +661,13 @@ msgid ""
 "budgetary line."
 msgstr ""
 
-#: ../src/bet_config.c:659 ../src/bet_hist.c:185
+#: ../src/bet_config.c:659 ../src/bet_hist.c:189
 #, fuzzy
 msgid "Choose the financial year or 12 months rolling"
 msgstr "选择财年"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:874 ../src/bet_hist.c:530
+#: ../src/bet_config.c:874 ../src/bet_hist.c:534
 #: ../src/categories_onglet.c:143 ../src/etats_affiche.c:2433
 #: ../src/etats_config.c:673 ../src/export_csv.c:793
 #: ../src/gsb_transactions_list.c:157 ../src/import_csv.c:84
@@ -1192,17 +1192,12 @@ msgstr "现金账户"
 msgid "Type"
 msgstr "类型"
 
-#: ../src/bet_hist.c:520 ../src/tiers_onglet.c:1111
+#: ../src/bet_hist.c:524 ../src/tiers_onglet.c:1111
 #, fuzzy
 msgid "Select"
 msgstr "选择所有"
 
-#: ../src/bet_hist.c:547
-#, fuzzy
-msgid "Period"
-msgstr "纸张"
-
-#: ../src/bet_hist.c:562 ../src/categories_onglet.c:161
+#: ../src/bet_hist.c:551 ../src/categories_onglet.c:161
 #: ../src/etats_config.c:5239 ../src/export_csv.c:787
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_scheduler_list.c:340
 #: ../src/gsb_transactions_list.c:153 ../src/import.c:3254
@@ -1211,11 +1206,16 @@ msgstr "纸张"
 msgid "Amount"
 msgstr "总计"
 
-#: ../src/bet_hist.c:578
+#: ../src/bet_hist.c:567
 msgid "Average"
 msgstr ""
 
-#: ../src/bet_hist.c:595
+#: ../src/bet_hist.c:583
+#, fuzzy
+msgid "Current fyear"
+msgstr "本年"
+
+#: ../src/bet_hist.c:600
 #, fuzzy
 msgid "Amount retained"
 msgstr "每预算行总额"
@@ -1225,22 +1225,22 @@ msgstr "每预算行总额"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it the fyear should be showed
-#: ../src/bet_hist.c:670 ../src/bet_hist.c:972
+#: ../src/bet_hist.c:995
 msgid "12 months rolling"
 msgstr ""
 
 #. Add last amount menu
-#: ../src/bet_hist.c:1372
+#: ../src/bet_hist.c:1395
 #, fuzzy
 msgid "Assign the amount of the last operation"
 msgstr "导入交易包含的日期"
 
 #. Add average amount menu
-#: ../src/bet_hist.c:1395
+#: ../src/bet_hist.c:1418
 msgid "Copy the average amount"
 msgstr ""
 
-#: ../src/bet_hist.c:1656
+#: ../src/bet_hist.c:1679
 #, fuzzy, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr "使用选中交易做模板"
@@ -2217,7 +2217,7 @@ msgstr "一般总计"
 
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:574
 #: ../src/gsb_data_category.c:1054 ../src/gsb_form.c:727
-#: ../src/gsb_form.c:2772 ../src/gsb_form.c:3175
+#: ../src/gsb_form.c:2773 ../src/gsb_form.c:3176
 #: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3407
 #, fuzzy
 msgid "Split of transaction"
@@ -4651,7 +4651,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
 #: ../src/gsb_assistant_archive.c:314 ../src/gsb_data_payee.c:541
-#: ../src/gsb_form.c:2885 ../src/gsb_form.c:2886 ../src/navigation.c:1236
+#: ../src/gsb_form.c:2886 ../src/gsb_form.c:2887 ../src/navigation.c:1236
 msgid "Report"
 msgstr "报表"
 
@@ -7448,7 +7448,7 @@ msgid ""
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:820 ../src/gsb_file.c:831 ../src/main.c:779
+#: ../src/gsb_file.c:820 ../src/gsb_file.c:831 ../src/main.c:781
 msgid "unnamed"
 msgstr "未命名"
 
@@ -7486,11 +7486,11 @@ msgstr "如果您不保存就关闭文件，将丢失更新的数据"
 msgid "Name the accounts file"
 msgstr "命名账户文件"
 
-#: ../src/gsb_file.c:1140
+#: ../src/gsb_file.c:1144
 msgid "Delete file copy from a previous version of grisbi"
 msgstr ""
 
-#: ../src/gsb_file.c:1160
+#: ../src/gsb_file.c:1164
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -7719,7 +7719,7 @@ msgid "Transfer : Deleted account"
 msgstr "转帐：已删除的账户"
 
 #: ../src/gsb_form.c:759 ../src/gsb_form.c:1883 ../src/gsb_form.c:1884
-#: ../src/gsb_form_widget.c:1044
+#: ../src/gsb_form_widget.c:1046
 #, fuzzy
 msgid "Transfer : "
 msgstr "转帐"
@@ -7757,53 +7757,53 @@ msgstr ""
 msgid "No payee selected for this report."
 msgstr "本报表没有选择第三方。"
 
-#: ../src/gsb_form.c:2689
+#: ../src/gsb_form.c:2690
 msgid "You must enter a date."
 msgstr "您必须输入日期"
 
-#: ../src/gsb_form.c:2696
+#: ../src/gsb_form.c:2697
 #, fuzzy, c-format
 msgid "Invalid date %s"
 msgstr "非法日期"
 
-#: ../src/gsb_form.c:2719
+#: ../src/gsb_form.c:2720
 #, fuzzy, c-format
 msgid "Invalid value date %s"
 msgstr "非法日期"
 
-#: ../src/gsb_form.c:2754
+#: ../src/gsb_form.c:2755
 #, fuzzy
 msgid "You must enter an amount."
 msgstr "您必须输入日期"
 
-#: ../src/gsb_form.c:2774
+#: ../src/gsb_form.c:2775
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
 msgstr ""
 
-#: ../src/gsb_form.c:2808
+#: ../src/gsb_form.c:2809
 #, fuzzy
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "转换交易为计划交易"
 
-#: ../src/gsb_form.c:2815
+#: ../src/gsb_form.c:2816
 #, fuzzy
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "本转帐关联的账户不合法"
 
-#: ../src/gsb_form.c:2823
+#: ../src/gsb_form.c:2824
 msgid "Can't issue a transfer its own account."
 msgstr "不能转帐到本账户。"
 
-#: ../src/gsb_form.c:2828
+#: ../src/gsb_form.c:2829
 msgid "Can't issue a transfer on a closed account."
 msgstr "不能在结算账户上产生交易。"
 
-#: ../src/gsb_form.c:2854
+#: ../src/gsb_form.c:2855
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7813,7 +7813,7 @@ msgstr ""
 "但是没有任何编号。\n"
 "仍然继续？"
 
-#: ../src/gsb_form.c:2872
+#: ../src/gsb_form.c:2873
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7821,31 +7821,31 @@ msgstr ""
 "警告：该支票的编号已经使用过了。\n"
 "仍然继续？"
 
-#: ../src/gsb_form.c:2893
+#: ../src/gsb_form.c:2894
 #, fuzzy
 msgid "A transaction with a multiple payee must be a new one."
 msgstr "有多个第三方的交易必须生成新的交易。"
 
-#: ../src/gsb_form.c:2898
+#: ../src/gsb_form.c:2899
 #, fuzzy
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "有多个第三方的交易必须生成新的交易。"
 
-#: ../src/gsb_form.c:2909
+#: ../src/gsb_form.c:2910
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 
-#: ../src/gsb_form.c:2916
+#: ../src/gsb_form.c:2917
 #, fuzzy
 msgid "Invalid multiple payee."
 msgstr "无效的多第三方。"
 
-#: ../src/gsb_form.c:3198
+#: ../src/gsb_form.c:3199
 #, fuzzy
 msgid "Modifying a transaction"
 msgstr "更改交易"
 
-#: ../src/gsb_form.c:3199
+#: ../src/gsb_form.c:3200
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7855,7 +7855,7 @@ msgid ""
 msgstr ""
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3502
+#: ../src/gsb_form.c:3503
 msgid "Configure the form"
 msgstr ""
 
@@ -10931,6 +10931,10 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Period"
+#~ msgstr "纸张"
 
 #, fuzzy
 #~ msgid "Print amortization table"

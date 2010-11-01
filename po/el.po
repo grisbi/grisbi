@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-24 14:57+0200\n"
+"POT-Creation-Date: 2010-11-01 11:08+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -619,7 +619,7 @@ msgstr "Πίσω στην προεπιλογή"
 #. mise en place de la paddingbox des catégories
 #. set the title
 #: ../src/bet_config.c:537 ../src/bet_config.c:555 ../src/bet_config.c:572
-#: ../src/bet_config.c:635 ../src/bet_hist.c:156 ../src/etats_config.c:526
+#: ../src/bet_config.c:635 ../src/bet_hist.c:160 ../src/etats_config.c:526
 #: ../src/etats_config.c:529 ../src/etats_config.c:2991
 #: ../src/etats_config.c:7057 ../src/fenetre_principale.c:282
 #: ../src/navigation.c:314 ../src/navigation.c:1211
@@ -629,7 +629,7 @@ msgstr "Κατηγορίες"
 #. mise en place de la paddingbox des ib
 #. set the title
 #: ../src/bet_config.c:538 ../src/bet_config.c:556 ../src/bet_config.c:573
-#: ../src/bet_config.c:644 ../src/bet_hist.c:165 ../src/etats_config.c:535
+#: ../src/bet_config.c:644 ../src/bet_hist.c:169 ../src/etats_config.c:535
 #: ../src/etats_config.c:538 ../src/etats_config.c:3797
 #: ../src/etats_config.c:7134 ../src/export_csv.c:802
 #: ../src/fenetre_principale.c:287 ../src/import_csv.c:86
@@ -653,13 +653,13 @@ msgid ""
 "budgetary line."
 msgstr ""
 
-#: ../src/bet_config.c:659 ../src/bet_hist.c:185
+#: ../src/bet_config.c:659 ../src/bet_hist.c:189
 #, fuzzy
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Επιλέξτε το οικονομικό έτος"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:874 ../src/bet_hist.c:530
+#: ../src/bet_config.c:874 ../src/bet_hist.c:534
 #: ../src/categories_onglet.c:143 ../src/etats_affiche.c:2433
 #: ../src/etats_config.c:673 ../src/export_csv.c:793
 #: ../src/gsb_transactions_list.c:157 ../src/import_csv.c:84
@@ -1178,16 +1178,11 @@ msgstr "Λογαριασμός μετρητών"
 msgid "Type"
 msgstr "Τύπος"
 
-#: ../src/bet_hist.c:520 ../src/tiers_onglet.c:1111
+#: ../src/bet_hist.c:524 ../src/tiers_onglet.c:1111
 msgid "Select"
 msgstr "Επιλέξτε"
 
-#: ../src/bet_hist.c:547
-#, fuzzy
-msgid "Period"
-msgstr "Πέσο"
-
-#: ../src/bet_hist.c:562 ../src/categories_onglet.c:161
+#: ../src/bet_hist.c:551 ../src/categories_onglet.c:161
 #: ../src/etats_config.c:5239 ../src/export_csv.c:787
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_scheduler_list.c:340
 #: ../src/gsb_transactions_list.c:153 ../src/import.c:3254
@@ -1196,11 +1191,16 @@ msgstr "Πέσο"
 msgid "Amount"
 msgstr "Ποσό"
 
-#: ../src/bet_hist.c:578
+#: ../src/bet_hist.c:567
 msgid "Average"
 msgstr "Μέσος όρος"
 
-#: ../src/bet_hist.c:595
+#: ../src/bet_hist.c:583
+#, fuzzy
+msgid "Current fyear"
+msgstr "Τρέχον έτος"
+
+#: ../src/bet_hist.c:600
 #, fuzzy
 msgid "Amount retained"
 msgstr "Όνομα λογαριασμού"
@@ -1210,22 +1210,22 @@ msgstr "Όνομα λογαριασμού"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it the fyear should be showed
-#: ../src/bet_hist.c:670 ../src/bet_hist.c:972
+#: ../src/bet_hist.c:995
 msgid "12 months rolling"
 msgstr ""
 
 #. Add last amount menu
-#: ../src/bet_hist.c:1372
+#: ../src/bet_hist.c:1395
 #, fuzzy
 msgid "Assign the amount of the last operation"
 msgstr "Αναστρέψτε το ποσό των εισαγόμενων συναλλαγών"
 
 #. Add average amount menu
-#: ../src/bet_hist.c:1395
+#: ../src/bet_hist.c:1418
 msgid "Copy the average amount"
 msgstr ""
 
-#: ../src/bet_hist.c:1656
+#: ../src/bet_hist.c:1679
 #, fuzzy, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr "Παρακαλώ επιλέξτε τις συναλλαγές που συγχωνεύονται"
@@ -2215,7 +2215,7 @@ msgstr "Γενικό σύνολο"
 
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:574
 #: ../src/gsb_data_category.c:1054 ../src/gsb_form.c:727
-#: ../src/gsb_form.c:2772 ../src/gsb_form.c:3175
+#: ../src/gsb_form.c:2773 ../src/gsb_form.c:3176
 #: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3407
 msgid "Split of transaction"
 msgstr "Διάσπαση της συναλλαγής"
@@ -4678,7 +4678,7 @@ msgstr ""
 "Το Grisbi θα αρχειοθετήσει τις συναλλαγές που επιλέγονται από μια έκθεση."
 
 #: ../src/gsb_assistant_archive.c:314 ../src/gsb_data_payee.c:541
-#: ../src/gsb_form.c:2885 ../src/gsb_form.c:2886 ../src/navigation.c:1236
+#: ../src/gsb_form.c:2886 ../src/gsb_form.c:2887 ../src/navigation.c:1236
 msgid "Report"
 msgstr "Αναφορά"
 
@@ -7668,7 +7668,7 @@ msgstr ""
 "πρέπει να το ακυρώσετε και το σώζετε με ένα άλλο όνομα ή ενεργοποιείτε την "
 "επιλογή \"%s\" στην οργάνωση."
 
-#: ../src/gsb_file.c:820 ../src/gsb_file.c:831 ../src/main.c:779
+#: ../src/gsb_file.c:820 ../src/gsb_file.c:831 ../src/main.c:781
 msgid "unnamed"
 msgstr "απροσδιόριστος"
 
@@ -7707,11 +7707,11 @@ msgstr ""
 msgid "Name the accounts file"
 msgstr "Ονομάστε το αρχείο λογαριασμών"
 
-#: ../src/gsb_file.c:1140
+#: ../src/gsb_file.c:1144
 msgid "Delete file copy from a previous version of grisbi"
 msgstr ""
 
-#: ../src/gsb_file.c:1160
+#: ../src/gsb_file.c:1164
 #, fuzzy, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -7970,7 +7970,7 @@ msgid "Transfer : Deleted account"
 msgstr "Μεταφορά: Διαγραμμένος λογαριασμός"
 
 #: ../src/gsb_form.c:759 ../src/gsb_form.c:1883 ../src/gsb_form.c:1884
-#: ../src/gsb_form_widget.c:1044
+#: ../src/gsb_form_widget.c:1046
 msgid "Transfer : "
 msgstr "Μεταφορά : "
 
@@ -8006,26 +8006,26 @@ msgstr "Απόσυρση μετρητών"
 msgid "No payee selected for this report."
 msgstr "Δεν επιλέχτηκε κανένας δικαιούχος πληρωμής  σε αυτήν την έκθεση."
 
-#: ../src/gsb_form.c:2689
+#: ../src/gsb_form.c:2690
 msgid "You must enter a date."
 msgstr "Πρέπει να εισαγάγετε μια ημερομηνία."
 
-#: ../src/gsb_form.c:2696
+#: ../src/gsb_form.c:2697
 #, c-format
 msgid "Invalid date %s"
 msgstr "Άκυρη ημερομηνία %s"
 
-#: ../src/gsb_form.c:2719
+#: ../src/gsb_form.c:2720
 #, c-format
 msgid "Invalid value date %s"
 msgstr "Άκυρη τοκοφόρος ημερομηνία %s"
 
-#: ../src/gsb_form.c:2754
+#: ../src/gsb_form.c:2755
 #, fuzzy
 msgid "You must enter an amount."
 msgstr "Πρέπει να εισαγάγετε μια ημερομηνία."
 
-#: ../src/gsb_form.c:2774
+#: ../src/gsb_form.c:2775
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
@@ -8033,14 +8033,14 @@ msgstr ""
 "Δεν μπορείτε να θέσετε τη διάσπαση της συναλλαγής στην κατηγορία για μια "
 "απόγονο μιας διάσπασης της συναλλαγής."
 
-#: ../src/gsb_form.c:2808
+#: ../src/gsb_form.c:2809
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 "Αδύνατη η σύνδεση μιας μεταφοράς σε έναν διαγραμμένο λογαριασμό σε μια "
 "σχεδιασμένη συναλλαγή."
 
-#: ../src/gsb_form.c:2815
+#: ../src/gsb_form.c:2816
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
@@ -8048,15 +8048,15 @@ msgstr ""
 "Δεν υπάρχει κανένας σχετικός λογαριασμός για αυτήν την μεταφορά ή ο σχετικός "
 "λογαριασμός είναι άκυρος."
 
-#: ../src/gsb_form.c:2823
+#: ../src/gsb_form.c:2824
 msgid "Can't issue a transfer its own account."
 msgstr "Αδύνατη η εκροή της μεταφοράς στον λογαριασμό"
 
-#: ../src/gsb_form.c:2828
+#: ../src/gsb_form.c:2829
 msgid "Can't issue a transfer on a closed account."
 msgstr "Αδύνατη η εκροή της μεταφοράς σε έναν κλειστό λογαριασμό"
 
-#: ../src/gsb_form.c:2854
+#: ../src/gsb_form.c:2855
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -8066,7 +8066,7 @@ msgstr ""
 "αλλά δεν περιέχει οποιοδήποτε αριθμό.\n"
 "Θα συνεχίσετε παρόλα αυτά;"
 
-#: ../src/gsb_form.c:2872
+#: ../src/gsb_form.c:2873
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -8074,31 +8074,31 @@ msgstr ""
 "Προειδοποίηση: αυτός ο αριθμός επιταγών χρησιμοποιείται ήδη.\n"
 "θα συνεχίσετε παρόλα αυτά;"
 
-#: ../src/gsb_form.c:2893
+#: ../src/gsb_form.c:2894
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 "Μια συναλλαγή με έναν πολλαπλάσιο δικαιούχο πληρωμής πρέπει να είναι νέα."
 
-#: ../src/gsb_form.c:2898
+#: ../src/gsb_form.c:2899
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "Μια συναλλαγή με έναν πολλαπλάσιο δικαιούχο πληρωμής δεν μπορεί να είναι "
 "διασπασμένος απόγονος."
 
-#: ../src/gsb_form.c:2909
+#: ../src/gsb_form.c:2910
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 "Η λέξη \"έκθεση \" είναι διατηρημένη. Παρακαλώ χρησιμοποιήστε μια άλλη."
 
-#: ../src/gsb_form.c:2916
+#: ../src/gsb_form.c:2917
 msgid "Invalid multiple payee."
 msgstr "Άκυρος πολλαπλάσιος δικαιούχος πληρωμής."
 
-#: ../src/gsb_form.c:3198
+#: ../src/gsb_form.c:3199
 msgid "Modifying a transaction"
 msgstr "Τροποποίηση μιας συναλλαγής"
 
-#: ../src/gsb_form.c:3199
+#: ../src/gsb_form.c:3200
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -8113,7 +8113,7 @@ msgstr ""
 "Είστε βέβαιοι;"
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3502
+#: ../src/gsb_form.c:3503
 msgid "Configure the form"
 msgstr "Διαμορφώστε τη μορφή"
 
@@ -11244,6 +11244,10 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Προσωπικός διευθυντής χρηματοδότησης για τον καθέναν\n"
+
+#, fuzzy
+#~ msgid "Period"
+#~ msgstr "Πέσο"
 
 #, fuzzy
 #~ msgid "%s, %2f : %s - %s:%d:%s - %"

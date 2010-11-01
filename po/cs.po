@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-24 14:57+0200\n"
+"POT-Creation-Date: 2010-11-01 11:08+0100\n"
 "PO-Revision-Date: 2010-04-27 00:47+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -581,7 +581,7 @@ msgstr "Výchozí"
 #. mise en place de la paddingbox des catégories
 #. set the title
 #: ../src/bet_config.c:537 ../src/bet_config.c:555 ../src/bet_config.c:572
-#: ../src/bet_config.c:635 ../src/bet_hist.c:156 ../src/etats_config.c:526
+#: ../src/bet_config.c:635 ../src/bet_hist.c:160 ../src/etats_config.c:526
 #: ../src/etats_config.c:529 ../src/etats_config.c:2991
 #: ../src/etats_config.c:7057 ../src/fenetre_principale.c:282
 #: ../src/navigation.c:314 ../src/navigation.c:1211
@@ -591,7 +591,7 @@ msgstr "Kategorie"
 #. mise en place de la paddingbox des ib
 #. set the title
 #: ../src/bet_config.c:538 ../src/bet_config.c:556 ../src/bet_config.c:573
-#: ../src/bet_config.c:644 ../src/bet_hist.c:165 ../src/etats_config.c:535
+#: ../src/bet_config.c:644 ../src/bet_hist.c:169 ../src/etats_config.c:535
 #: ../src/etats_config.c:538 ../src/etats_config.c:3797
 #: ../src/etats_config.c:7134 ../src/export_csv.c:802
 #: ../src/fenetre_principale.c:287 ../src/import_csv.c:86
@@ -616,12 +616,12 @@ msgstr ""
 "Výchozí řazení, pokud jsou neprázdná data: poznámky, plátce/příjemce, "
 "kategorie a rozpočet."
 
-#: ../src/bet_config.c:659 ../src/bet_hist.c:185
+#: ../src/bet_config.c:659 ../src/bet_hist.c:189
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Zvolte fiskální rok nebo pohyblivých 12 měsíců"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:874 ../src/bet_hist.c:530
+#: ../src/bet_config.c:874 ../src/bet_hist.c:534
 #: ../src/categories_onglet.c:143 ../src/etats_affiche.c:2433
 #: ../src/etats_config.c:673 ../src/export_csv.c:793
 #: ../src/gsb_transactions_list.c:157 ../src/import_csv.c:84
@@ -1137,15 +1137,11 @@ msgstr "Hotovostní účet"
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/bet_hist.c:520 ../src/tiers_onglet.c:1111
+#: ../src/bet_hist.c:524 ../src/tiers_onglet.c:1111
 msgid "Select"
 msgstr "Vybrat"
 
-#: ../src/bet_hist.c:547
-msgid "Period"
-msgstr "Období"
-
-#: ../src/bet_hist.c:562 ../src/categories_onglet.c:161
+#: ../src/bet_hist.c:551 ../src/categories_onglet.c:161
 #: ../src/etats_config.c:5239 ../src/export_csv.c:787
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_scheduler_list.c:340
 #: ../src/gsb_transactions_list.c:153 ../src/import.c:3254
@@ -1154,11 +1150,16 @@ msgstr "Období"
 msgid "Amount"
 msgstr "Částka"
 
-#: ../src/bet_hist.c:578
+#: ../src/bet_hist.c:567
 msgid "Average"
 msgstr "Průměr"
 
-#: ../src/bet_hist.c:595
+#: ../src/bet_hist.c:583
+#, fuzzy
+msgid "Current fyear"
+msgstr "Aktuální rok"
+
+#: ../src/bet_hist.c:600
 msgid "Amount retained"
 msgstr "Zadržená částka"
 
@@ -1167,21 +1168,21 @@ msgstr "Zadržená částka"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it the fyear should be showed
-#: ../src/bet_hist.c:670 ../src/bet_hist.c:972
+#: ../src/bet_hist.c:995
 msgid "12 months rolling"
 msgstr "pohyblivých 12 měsíců"
 
 #. Add last amount menu
-#: ../src/bet_hist.c:1372
+#: ../src/bet_hist.c:1395
 msgid "Assign the amount of the last operation"
 msgstr "Přiřadit částku podle poslední transakce"
 
 #. Add average amount menu
-#: ../src/bet_hist.c:1395
+#: ../src/bet_hist.c:1418
 msgid "Copy the average amount"
 msgstr "Kopírovat průměrnou částku"
 
-#: ../src/bet_hist.c:1656
+#: ../src/bet_hist.c:1679
 #, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr "Prosím vyberte zdroj dat pro účet: \"%s\""
@@ -2149,7 +2150,7 @@ msgstr "Celkový součet"
 
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:574
 #: ../src/gsb_data_category.c:1054 ../src/gsb_form.c:727
-#: ../src/gsb_form.c:2772 ../src/gsb_form.c:3175
+#: ../src/gsb_form.c:2773 ../src/gsb_form.c:3176
 #: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3407
 msgid "Split of transaction"
 msgstr "Rozdělení transakce"
@@ -4576,7 +4577,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr "Grisbi zaarchivuje transakce podle zvolené sestavy."
 
 #: ../src/gsb_assistant_archive.c:314 ../src/gsb_data_payee.c:541
-#: ../src/gsb_form.c:2885 ../src/gsb_form.c:2886 ../src/navigation.c:1236
+#: ../src/gsb_form.c:2886 ../src/gsb_form.c:2887 ../src/navigation.c:1236
 msgid "Report"
 msgstr "Sestava"
 
@@ -7468,7 +7469,7 @@ msgstr ""
 "zrušit tuto akci a uložit jej pod jiným jménem, nebo v Možnostech aktivovat "
 "volbu \"%s\"."
 
-#: ../src/gsb_file.c:820 ../src/gsb_file.c:831 ../src/main.c:779
+#: ../src/gsb_file.c:820 ../src/gsb_file.c:831 ../src/main.c:781
 msgid "unnamed"
 msgstr "nepojmenovaný"
 
@@ -7508,11 +7509,11 @@ msgstr ""
 msgid "Name the accounts file"
 msgstr "Pojmenujte soubor účtů"
 
-#: ../src/gsb_file.c:1140
+#: ../src/gsb_file.c:1144
 msgid "Delete file copy from a previous version of grisbi"
 msgstr "Odstranit kopii souboru z předchozí verze Grisbi."
 
-#: ../src/gsb_file.c:1160
+#: ../src/gsb_file.c:1164
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -7766,7 +7767,7 @@ msgid "Transfer : Deleted account"
 msgstr "Převod : Odstraněný účet"
 
 #: ../src/gsb_form.c:759 ../src/gsb_form.c:1883 ../src/gsb_form.c:1884
-#: ../src/gsb_form_widget.c:1044
+#: ../src/gsb_form_widget.c:1046
 msgid "Transfer : "
 msgstr "Převod : "
 
@@ -7802,25 +7803,25 @@ msgstr "Výběr hotovosti"
 msgid "No payee selected for this report."
 msgstr "Pro tuto sestavu nebyly vybrány žádní plátci/příjemci."
 
-#: ../src/gsb_form.c:2689
+#: ../src/gsb_form.c:2690
 msgid "You must enter a date."
 msgstr "Musíte zadat datum."
 
-#: ../src/gsb_form.c:2696
+#: ../src/gsb_form.c:2697
 #, c-format
 msgid "Invalid date %s"
 msgstr "Neplatné datum %s"
 
-#: ../src/gsb_form.c:2719
+#: ../src/gsb_form.c:2720
 #, c-format
 msgid "Invalid value date %s"
 msgstr "Neplatné datum pohybu %s"
 
-#: ../src/gsb_form.c:2754
+#: ../src/gsb_form.c:2755
 msgid "You must enter an amount."
 msgstr "Musíte zadat datum."
 
-#: ../src/gsb_form.c:2774
+#: ../src/gsb_form.c:2775
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
@@ -7828,26 +7829,26 @@ msgstr ""
 "Nemůžete nastavit rozdělení transakce do kategorií pro detail rozdělené "
 "transakce."
 
-#: ../src/gsb_form.c:2808
+#: ../src/gsb_form.c:2809
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "Transakci plánovaného převodu nelze přiřadit smazaný účet."
 
-#: ../src/gsb_form.c:2815
+#: ../src/gsb_form.c:2816
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "Připojený účet pro tento převod není zadaný, nebo je neplatný."
 
-#: ../src/gsb_form.c:2823
+#: ../src/gsb_form.c:2824
 msgid "Can't issue a transfer its own account."
 msgstr "Nelze převést na ten samý účet"
 
-#: ../src/gsb_form.c:2828
+#: ../src/gsb_form.c:2829
 msgid "Can't issue a transfer on a closed account."
 msgstr "Nelze převádět na uzavřený účet."
 
-#: ../src/gsb_form.c:2854
+#: ../src/gsb_form.c:2855
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7857,7 +7858,7 @@ msgstr ""
 "ale neobsahuje žádné číslo.\n"
 "Přesto pokračovat?"
 
-#: ../src/gsb_form.c:2872
+#: ../src/gsb_form.c:2873
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7865,27 +7866,27 @@ msgstr ""
 "Pozor: toto číslo šeku již bylo použito.\n"
 "Přesto pokračovat?"
 
-#: ../src/gsb_form.c:2893
+#: ../src/gsb_form.c:2894
 msgid "A transaction with a multiple payee must be a new one."
 msgstr "Transakce s více plátci/příjemci musí být nová."
 
-#: ../src/gsb_form.c:2898
+#: ../src/gsb_form.c:2899
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "Transakce s více plátci/příjemci nemůže být detailem jiné transakce."
 
-#: ../src/gsb_form.c:2909
+#: ../src/gsb_form.c:2910
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr "Slovo \"Report\" je vyhrazené. Prosím použijte jiné."
 
-#: ../src/gsb_form.c:2916
+#: ../src/gsb_form.c:2917
 msgid "Invalid multiple payee."
 msgstr "Neplatných více plátců/příjemců."
 
-#: ../src/gsb_form.c:3198
+#: ../src/gsb_form.c:3199
 msgid "Modifying a transaction"
 msgstr "Úprava transakce"
 
-#: ../src/gsb_form.c:3199
+#: ../src/gsb_form.c:3200
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7899,7 +7900,7 @@ msgstr ""
 "Jste si jist(a)?"
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3502
+#: ../src/gsb_form.c:3503
 msgid "Configure the form"
 msgstr "Nastavit formulář"
 
@@ -10963,6 +10964,9 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Osobní správce financí pro každého\n"
+
+#~ msgid "Period"
+#~ msgstr "Období"
 
 #, fuzzy
 #~ msgid "%s, %2f : %s - %s:%d:%s - %"
