@@ -608,7 +608,7 @@ gboolean gsb_calendar_entry_calendar_key_press ( GtkCalendar *pCalendar,
 	case GDK_KP_Enter :
 	    /* get the date an close the calendar */
 	    gtk_entry_set_text ( GTK_ENTRY ( entry ),
-				 gsb_format_date ( day, month + 1, year ));
+				 gsb_format_date ( day, month, year ));
 	    if ( GTK_WIDGET_TOPLEVEL ( pTopLevelWidget ) )
 		gtk_widget_destroy ( pTopLevelWidget );
 	    g_date_free (date);
