@@ -776,7 +776,9 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
     case TRANSACTION_FORM_VALUE_DATE:
         /* set the financial year on automatic by default */
         fyear_button = gsb_form_widget_get_widget (TRANSACTION_FORM_EXERCICE);
-        if (fyear_button)
+        if ( fyear_button
+         &&
+         gsb_data_account_get_current_transaction_number (account_number) == -1 )
             gsb_fyear_set_combobox_history ( fyear_button, 0 );
         break;
     case TRANSACTION_FORM_DEBIT :
