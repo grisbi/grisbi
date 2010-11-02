@@ -272,6 +272,8 @@ void gsb_transactions_list_update_tree_view ( gint account_number,
         transaction_list_set_color_jour ( account_number );
     if ( keep_selected_transaction )
         transaction_list_select ( selected_transaction );
+    else
+        transaction_list_select ( -1 );
 }
 
 
@@ -405,14 +407,8 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 	gtk_tree_view_column_set_alignment ( transactions_tree_view_columns[i],
 					     alignment[i] );
 
-	/* automatic and resizeable sizing */
-    if ( i == column_balance )
-        gtk_tree_view_column_set_sizing ( transactions_tree_view_columns[i],
-					    GTK_TREE_VIEW_COLUMN_AUTOSIZE );
-    else
-	    gtk_tree_view_column_set_sizing ( transactions_tree_view_columns[i],
+    gtk_tree_view_column_set_sizing ( transactions_tree_view_columns[i],
 					    GTK_TREE_VIEW_COLUMN_FIXED );
-
 	gtk_tree_view_column_set_resizable ( transactions_tree_view_columns[i],
 					    TRUE );
     }
@@ -466,6 +462,8 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection (
                         GTK_TREE_VIEW( tree_view ))),
 				        GTK_SELECTION_NONE );
+
+    gtk_tree_view_set_fixed_height_mode ( GTK_TREE_VIEW ( tree_view ), TRUE );
 
     /* check the buttons on the list */
     g_signal_connect ( G_OBJECT ( tree_view ),

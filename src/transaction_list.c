@@ -140,7 +140,7 @@ void transaction_list_append_transaction ( gint transaction_number )
     }
 
     /* the transaction is a mother */
-    account_number = gsb_data_transaction_get_account_number ( transaction_number );
+    account_number = gsb_gui_navigation_get_current_account ( );
 
     /* if the transaction is a split, create a white line, we will append it later */
     if ( gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
@@ -217,7 +217,7 @@ void transaction_list_append_transaction ( gint transaction_number )
 	/* we check if the row is visible or not only if we are on an account,
 	 * in other case, the model will be filtered when change account so no need
 	 * to do that here */
-	if ( gsb_gui_navigation_get_current_account ( ) != -1
+	if ( account_number != -1
 	    &&
 	    gsb_transactions_list_transaction_visible ( newrecord[i] -> transaction_pointer,
 							account_number,
