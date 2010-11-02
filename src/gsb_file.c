@@ -292,7 +292,6 @@ devel_debug ( last_path );
  * */
 const gchar *gsb_file_get_last_path ( void )
 {
-devel_debug (NULL);
     return last_path_used;
 }
 

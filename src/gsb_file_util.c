@@ -28,6 +28,7 @@
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "utils_str.h"
 #include "utils_files.h"
 #include "include.h"
@@ -269,115 +270,104 @@ void switch_t_r ( void )
 
 
 /**
- * create or delete a file ".name_of_file.swp" to check if the file is opened
+ * create or delete a file ".name_of_file.lock" to check if the file is opened
  * already or not
  *
- * \param create_swp if we create or delete it
+ * \param create_lock if we create or delete it
  *
  * \return TRUE if ok
  * */
-gboolean gsb_file_util_modify_lock ( gboolean create_swp )
+gboolean gsb_file_util_modify_lock ( gboolean create_lock )
 {
     gchar *lock_filename;
-    gchar **tab_str;
-    gint i;
-devel_debug_int ( create_swp );
+
+    devel_debug_int ( create_lock );
     /* if the file was already opened and we don't force the saving, we do nothing */
-    if ( (etat.fichier_deja_ouvert
-	  &&
-	  !conf.force_enregistrement)
+    if ( ( etat.fichier_deja_ouvert && !conf.force_enregistrement )
 	 ||
 	 !nom_fichier_comptes
 	 ||
-	 !strlen(nom_fichier_comptes) )
-	return TRUE;
+	 strlen ( nom_fichier_comptes) == 0 )
+        return TRUE;
 
     /* Check if nom_fichier_comptes exists.  If not, this is a new
      * file so don't try to lock it. */
-    if (!g_file_test ( nom_fichier_comptes,
-		       G_FILE_TEST_EXISTS ))
-    {
-	return FALSE;
-    }
+    if ( !g_file_test ( nom_fichier_comptes, G_FILE_TEST_EXISTS ) )
+        return FALSE;
 
     /* Create the name of the lock file */
-    tab_str = g_strsplit ( nom_fichier_comptes, G_DIR_SEPARATOR_S, 0 );
-
-    i=0;
-
-    while ( tab_str[i+1] )
-	i++;
-
-    tab_str[i] = g_strconcat ( 
+    lock_filename = g_strconcat ( gsb_file_get_backup_path ( ),
+                        G_DIR_SEPARATOR_S,
 #ifndef _WIN32
-                              ".",
+                        ".",
 #endif
-			       tab_str[i],
-			       ".swp",
-			       NULL );
-    lock_filename = g_strjoinv ( G_DIR_SEPARATOR_S,
-				 tab_str );
-    g_strfreev ( tab_str );
+                        g_path_get_basename ( nom_fichier_comptes ),
+                        ".lock",
+                        NULL );
 
-    if ( create_swp )
+    if ( create_lock )
     {
-	/* now we create the lock file */
+        /* now we create the lock file */
 
-	FILE *fichier;
+        FILE *fichier;
 
-	/* check if the file lock exists */
-	if (g_file_test ( lock_filename,
-			  G_FILE_TEST_EXISTS ))
-	{
-	    if ( ! conf.force_enregistrement )
-		dialog_message ( "account-already-opened", nom_fichier_comptes );
+        /* check if the file lock exists */
+        if ( g_file_test ( lock_filename, G_FILE_TEST_EXISTS ) )
+        {
+            if ( ! conf.force_enregistrement )
+                dialog_message ( "account-already-opened", nom_fichier_comptes );
 
-	    /* the lock is already created, return TRUE */
-	    etat.fichier_deja_ouvert = 1;
-	    return TRUE;
-	}
+            /* the lock is already created, return TRUE */
+            etat.fichier_deja_ouvert = 1;
+            return TRUE;
+        }
 
-	etat.fichier_deja_ouvert = 0;
+        etat.fichier_deja_ouvert = 0;
 
-	fichier = utf8_fopen ( lock_filename, "w" );
+        fichier = utf8_fopen ( lock_filename, "w" );
 
-	if ( !fichier )
-	{
-	    gchar* tmpstr = g_strdup_printf (_("Cannot write lock file :'%s': %s"),
-					     nom_fichier_comptes,
-					     g_strerror(errno));
-	    dialogue_error ( tmpstr );
-	    g_free ( tmpstr );
-	    return FALSE;
-	}
+        if ( !fichier )
+        {
+            gchar* tmp_str;
 
-	fclose ( fichier );
-	return TRUE;
+            tmp_str = g_strdup_printf ( _("Cannot write lock file :'%s': %s"),
+                                nom_fichier_comptes,
+                                g_strerror ( errno ) );
+            dialogue_error ( tmp_str );
+            g_free ( tmp_str );
+
+            return FALSE;
+        }
+
+        fclose ( fichier );
+        return TRUE;
     }
     else
     {
-	/* delete the lock file */
-	gint result;
+        /* delete the lock file */
+        gint result;
 
-	etat.fichier_deja_ouvert = 0;
+        etat.fichier_deja_ouvert = 0;
 
-	/* check if it exits, if not, just go away */
-	if (!g_file_test ( lock_filename,
-			   G_FILE_TEST_EXISTS ))
-	    return TRUE;
+        /* check if it exits, if not, just go away */
+        if ( !g_file_test ( lock_filename, G_FILE_TEST_EXISTS ) )
+            return TRUE;
 
-	result = utf8_remove ( lock_filename );
+        result = utf8_remove ( lock_filename );
 
-	if ( result == -1 )
-	{
-	    gchar* tmpstr = g_strdup_printf (_("Cannot erase lock file :'%s': %s"),
-					     nom_fichier_comptes,
-					     g_strerror(errno));
-	    dialogue_error ( tmpstr );
-	    g_free ( tmpstr );
-	    return FALSE;
-	}
-	return TRUE;
+        if ( result == -1 )
+        {
+            gchar* tmp_str;
+
+            tmp_str = g_strdup_printf (_("Cannot erase lock file :'%s': %s"),
+                                nom_fichier_comptes,
+                                g_strerror ( errno ) );
+            dialogue_error ( tmp_str );
+            g_free ( tmp_str );
+
+            return FALSE;
+        }
+        return TRUE;
     }
 }
 
