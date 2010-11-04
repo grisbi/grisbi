@@ -666,7 +666,7 @@ gboolean gsb_gui_toggle_show_reconciled ( void )
 	    return FALSE;
 
     current_account = gsb_gui_navigation_get_current_account ( );
-    if ( current_account == -1 )
+    if ( current_account == -1 || etat.equilibrage == 1 )
         return FALSE;
 
     if ( gsb_data_account_get_r ( current_account ) )
@@ -752,7 +752,7 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 				        gsb_form_is_visible ( ) );
     g_free ( tmpstr );
 
-    /* update the showing of reconciled transactions */
+    /* update the showing of archived transactions */
     tmpstr = menu_name ( "ViewMenu", "ShowArchived", NULL );
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager, tmpstr) ), 

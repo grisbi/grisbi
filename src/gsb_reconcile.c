@@ -641,6 +641,9 @@ void gsb_reconcile_sensitive ( gboolean sensitive )
     gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager, 
                               "/menubar/ViewMenu/ShowReconciled/" ),
 			       sensitive );
+    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager, 
+                              "/menubar/ViewMenu/ShowArchived/" ),
+			       sensitive );
     gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager, 
 							  "/menubar/ViewMenu/ShowClosed/" ),
 			       sensitive );

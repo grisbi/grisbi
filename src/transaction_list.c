@@ -1460,6 +1460,15 @@ gboolean transaction_list_show_toggle_mark ( gboolean show )
     gint i;
     CustomList *custom_list;
 
+    if ( show )
+        /* remet le gtk_tree_view en mode normal */
+        gtk_tree_view_set_fixed_height_mode ( GTK_TREE_VIEW (
+                        gsb_transactions_list_get_tree_view ( ) ), FALSE );
+    else
+        /* remet le gtk_tree_view en mode ligne fixe */
+        gtk_tree_view_set_fixed_height_mode ( GTK_TREE_VIEW (
+                        gsb_transactions_list_get_tree_view ( ) ), TRUE );
+
     custom_list = transaction_model_get_model ();
 
     line_p = find_element_line (ELEMENT_MARK);

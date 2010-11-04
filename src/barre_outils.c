@@ -44,6 +44,7 @@
 #include "utils_buttons.h"
 #include "structures.h"
 #include "include.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -156,11 +157,6 @@ GtkWidget *creation_barre_outils ( void )
 #endif
     gtk_box_pack_start ( GTK_BOX(hbox), menu, FALSE, FALSE, 0 );
 
-    /* set the button to show/hide R transactions */
-/*     if ( bouton_affiche_ope_r && GTK_IS_WIDGET ( bouton_affiche_ope_r ) ) */
-/* 	    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_affiche_ope_r, FALSE, FALSE, 0 ); */
-
-
     menu_import_rules = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 							    GTK_STOCK_EXECUTE, _("Import rules"),
 							    G_CALLBACK(popup_transaction_rules_menu),
@@ -244,17 +240,25 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
     menu_item = gtk_check_menu_item_new_with_label ( _("Show reconciled transactions") );
     gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
 				        gsb_data_account_get_r ( current_account ) );
+    if ( etat.equilibrage == 1 )
+        gtk_widget_set_sensitive ( menu_item, FALSE );
+    else
+        gtk_widget_set_sensitive ( menu_item, TRUE );
+
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate", 
 			            G_CALLBACK ( gsb_gui_toggle_show_reconciled ),
                         NULL );
 
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
-
     menu_item = gtk_check_menu_item_new_with_label ( _("Show lines archives") );
     gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
 				        gsb_data_account_get_l ( current_account ) );
+    if ( etat.equilibrage == 1 )
+        gtk_widget_set_sensitive ( menu_item, FALSE );
+    else
+        gtk_widget_set_sensitive ( menu_item, TRUE );
+
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate", 
