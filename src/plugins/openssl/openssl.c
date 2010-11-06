@@ -77,103 +77,101 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 
     if ( crypt )
     {
-	/* we want to encrypt the file */
+        /* we want to encrypt the file */
 
-	gchar *encrypted_file;
+        gchar *encrypted_file;
 
-	/* now, if we know here a key to crypt, we use it, else, we ask for it */
+        /* now, if we know here a key to crypt, we use it, else, we ask for it */
 
-	if ( crypt_key )
-	    key = crypt_key;
-	else
-	    key = gsb_file_util_ask_for_crypt_key ( file_name, message, TRUE);
+        if ( crypt_key )
+            key = crypt_key;
+        else
+            key = gsb_file_util_ask_for_crypt_key ( file_name, message, TRUE);
 
-	/* if we have no key, we will no crypt that file */
+        /* if we have no key, we will no crypt that file */
 
-	if ( !key )
-	    return 0;
+        if ( !key )
+            return 0;
 
-	des_string_to_key ( key, &openssl_key );
-	des_set_key_unchecked( &openssl_key, sched );
-	DES_set_odd_parity ( &openssl_key );
+        des_string_to_key ( key, &openssl_key );
+        des_set_key_unchecked ( &openssl_key, sched );
+        DES_set_odd_parity ( &openssl_key );
 
-	/* we create a copy of the file in memory which will begin by
-	 * "Grisbi encrypted file " */
+        /* we create a copy of the file in memory which will begin by
+         * "Grisbi encrypted file " */
 
-	encrypted_file = g_malloc ( (length + 22) * sizeof ( gchar ));
-	strncpy ( encrypted_file,
-		  "Grisbi encrypted file ",
-		  22 );
+        encrypted_file = g_malloc0 ( ( length + 23 ) * sizeof ( gchar ) );
+        encrypted_file = strncpy ( encrypted_file, "Grisbi encrypted file ", 22 );
 
-	des_cbc_encrypt ( (guchar *) (* file_content),
-			  (guchar *) (encrypted_file + 22),
-			  (long) length,
-			  sched,
-			  (DES_cblock *) key,
-			  TRUE );
+        des_cbc_encrypt ( (guchar *) (* file_content),
+                        (guchar *) (encrypted_file + 22),
+                        (long) length,
+                        sched,
+                        (DES_cblock *) key,
+                        TRUE );
 
-	if ( length % 8 != 0 )
-	{
-	    length += ( 8 - length % 8 );
-	}
+        if ( length % 8 != 0 )
+        {
+            length += ( 8 - length % 8 );
+        }
 
-	*file_content = encrypted_file;
+        *file_content = encrypted_file;
 
-	/* the actual length is the initial + 22 (size of Grisbi encrypted file */
-	return length + 22;
+        /* the actual length is the initial + 22 (size of Grisbi encrypted file */
+        return length + 22;
     }
     else
     {
-	/* we want to decrypt the file */
+        /* we want to decrypt the file */
 
-	gchar *decrypted_file;
+        gchar *decrypted_file;
 
-	/* we set the length on the rigt size */
+        /* we set the length on the rigt size */
 
-	length = length - 22;
+        length = length - 22;
 
 return_bad_password:
 
-	/* now, if we know here a key to crypt, we use it, else, we ask for it */
+        /* now, if we know here a key to crypt, we use it, else, we ask for it */
 
-	if ( crypt_key )
-	    key = crypt_key;
-	else
-	    key = gsb_file_util_ask_for_crypt_key ( file_name, message, FALSE );
+        if ( crypt_key )
+            key = crypt_key;
+        else
+            key = gsb_file_util_ask_for_crypt_key ( file_name, message, FALSE );
 
-	/* if we have no key, we stop the loading */
+        /* if we have no key, we stop the loading */
 
-	if ( !key )
-	    return 0;
+        if ( !key )
+            return 0;
 
-	des_string_to_key ( key, &openssl_key );
-	des_set_key_unchecked( &openssl_key, sched );
-	DES_set_odd_parity ( &openssl_key );
+        des_string_to_key ( key, &openssl_key );
+        des_set_key_unchecked( &openssl_key, sched );
+        DES_set_odd_parity ( &openssl_key );
 
-	/* we create a copy of the file in memory which will begin
-	 * with "Grisbi encrypted file " */
+        /* we create a copy of the file in memory which will begin
+         * with "Grisbi encrypted file " */
 
-	decrypted_file = g_malloc ( length * sizeof ( gchar ));
+        decrypted_file = g_malloc0 ( length * sizeof ( gchar ));
 
-	des_cbc_encrypt ( (guchar *) (* file_content + 22),
-			  (guchar *) decrypted_file,
-			  (long) length,
-			  sched,
-			  (DES_cblock *) key,
-			  FALSE );
+        des_cbc_encrypt ( (guchar *) (* file_content + 22),
+                  (guchar *) decrypted_file,
+                  (long) length,
+                  sched,
+                  (DES_cblock *) key,
+                  FALSE );
 
-	/* before freeing file_content and go back, we check that the password was correct
-	 * if not, we free the decrypted_file and ask again for the password */
+        /* before freeing file_content and go back, we check that the password was correct
+         * if not, we free the decrypted_file and ask again for the password */
 
-	if ( strncmp ( decrypted_file,
-		       "<?xml version=\"1.0\"?>",
-		       18 )
-	     &&
-	     strncmp ( decrypted_file,
-		       "Grisbi compressed file ",
-		       23 ))
-	{
-	    /* it seems that it was not the correct password */
+        if ( strncmp ( decrypted_file,
+                   "<?xml version=\"1.0\"?>",
+                   18 )
+             &&
+             strncmp ( decrypted_file,
+                   "Grisbi compressed file ",
+                   23 ))
+        {
+            /* it seems that it was not the correct password */
 
 	    g_free ( decrypted_file );
 
@@ -189,8 +187,8 @@ return_bad_password:
 #else
     /* FIXME: import symbols to be sure we can call this kind of stuff. */
     dialogue_error_hint ( _("This build of Grisbi does not support encryption.\n"
-			    "Please recompile Grisbi with OpenSSL encryption enabled."),
-			  g_strdup_printf ( _("Cannot open encrypted file '%s'"),
+                        "Please recompile Grisbi with OpenSSL encryption enabled."),
+                        g_strdup_printf ( _("Cannot open encrypted file '%s'"),
 					    file_name ) );
 #endif
 

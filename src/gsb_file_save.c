@@ -194,24 +194,24 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gulong length_calculated;
     gchar *file_content;
 
-    gint general_part;
-    gint account_part;
-    gint transaction_part;
-    gint party_part;
-    gint category_part;
-    gint budgetary_part;
-    gint currency_part;
-    gint currency_link_part;
-    gint bank_part;
-    gint financial_year_part;
-    gint archive_part;
-    gint reconcile_part;
-    gint report_part;
-    gint import_rule_part;
-    gint partial_balance_part;
-    gint logo_part;
-    gint account_icon_part;
-    gint bet_part;
+    gint general_part = 4048;
+    gint account_part = 1300;
+    gint transaction_part = 350;
+    gint party_part = 256;
+    gint category_part = 500;
+    gint budgetary_part = 500;
+    gint currency_part = 100;
+    gint currency_link_part = 100;
+    gint bank_part = 500;
+    gint financial_year_part = 100;
+    gint archive_part = 120;
+    gint reconcile_part = 50;
+    gint report_part = 2500;
+    gint import_rule_part = 50;
+    gint partial_balance_part = 50;
+    gint logo_part = 65536;
+    gint account_icon_part = 4500;
+    gint bet_part = 500;
 
     struct stat buf;
 
@@ -219,21 +219,19 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 
     devel_debug (filename);
 
-    if (g_file_test ( filename,
-		      G_FILE_TEST_EXISTS ))
+    if ( g_file_test ( filename, G_FILE_TEST_EXISTS ) )
     {
-	/* the file exists, we need to get the chmod values
-	 * because gtk will overwrite it */
-	if (stat (filename, &buf) == -1)
-	    /* stat couldn't get the information, so do as a new file
-	     * and we will set the good chmod */
-	    do_chmod = TRUE;
-	else
-	    do_chmod = FALSE;
+        /* the file exists, we need to get the chmod values because gtk will overwrite it */
+        if (stat (filename, &buf) == -1)
+            /* stat couldn't get the information, so do as a new file
+             * and we will set the good chmod */
+            do_chmod = TRUE;
+        else
+            do_chmod = FALSE;
     }
     else
-	/* the file doesn't exist, so we will set the only user chmod */
-	do_chmod = TRUE;
+        /* the file doesn't exist, so we will set the only user chmod */
+        do_chmod = TRUE;
 
     etat.en_train_de_sauvegarder = 1;
 
@@ -241,25 +239,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
      * if not enough, we will make it growth later
      * the data below are about the memory to take for each part and for 1 of this part
      * with that i think we will allocate enough memory in one time but not too much */
-
-    general_part = 900;
-    account_part = 1200;
-    transaction_part = 350;
-    party_part = 100;
-    category_part = 500;
-    budgetary_part = 500;
-    currency_part = 100;
-    currency_link_part = 100;
-    bank_part = 300;
-    financial_year_part = 100;
-    archive_part = 120;
-    reconcile_part = 50;
-    report_part = 2500;
-    import_rule_part = 50;
-    partial_balance_part = 50;
-    logo_part = 65536;
-    account_icon_part = 4048;
-    bet_part = 250;
     
     length_calculated = general_part
 	+ account_part * gsb_data_account_get_accounts_amount ()
@@ -281,7 +260,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     + bet_part;
 
     iterator = 0;
-    file_content = g_malloc0 ( length_calculated );
+    file_content = g_malloc0 ( length_calculated * sizeof ( gchar ) );
 
     /* begin the file whith xml markup */
     iterator = gsb_file_save_append_part ( iterator,
@@ -397,25 +376,30 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     /* crypt the file if asked */
     if ( etat.crypt_file )
     {
-	if ( ( plugin = gsb_plugin_find ( "openssl" ) ) )
-	{
-	    gint (*crypt_function) ( const gchar *, gchar **, gboolean, gulong );
-	    
-	    crypt_function = (gpointer) plugin -> plugin_run;
-	    iterator = crypt_function ( filename, &file_content, TRUE, iterator );	
-	    if ( ! iterator )
-		return FALSE;
-	}
-	else
-	{
-	    dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
-				    "handle that file.\n\n"
-				    "Please make sure if is installed (i.e. check "
-				    "that 'grisbi-ssl' package is installed) and "
-				    "try again."),
-				  _("Encryption plugin not found." ) );
-	    return FALSE;
-	}
+        if ( ( plugin = gsb_plugin_find ( "openssl" ) ) )
+        {
+            gint (*crypt_function) ( const gchar *, gchar **, gboolean, gulong );
+            
+            crypt_function = (gpointer) plugin -> plugin_run;
+            iterator = crypt_function ( filename, &file_content, TRUE, iterator );
+            if ( ! iterator )
+            {
+                g_free ( file_content);
+                return FALSE;
+            }
+        }
+        else
+        {
+            dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
+                        "handle that file.\n\n"
+                        "Please make sure if is installed (i.e. check "
+                        "that 'grisbi-ssl' package is installed) and "
+                        "try again."),
+                      _("Encryption plugin not found." ) );
+
+            g_free ( file_content);
+            return FALSE;
+        }
     }
     
     /* the file is in memory, we can save it */
@@ -424,42 +408,42 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
      * zlib if compression */
     if (compress)
     {
-	gzFile grisbi_file;
-	grisbi_file = gzopen (filename, "wb9");
+        gzFile grisbi_file;
 
-	if ( !grisbi_file
-	     ||
-	     !gzwrite ( grisbi_file,
-			file_content,
-			iterator ))
-	{
-	    gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
-					      filename,
-					      g_strerror(errno) );
-	    dialogue_error ( tmpstr );
-	    g_free ( tmpstr );
-	    g_free ( file_content);
-	    return ( FALSE );
-	}
-	gzclose (grisbi_file);
+        grisbi_file = gzopen (filename, "wb9");
+
+        if ( !grisbi_file
+         ||
+         !gzwrite ( grisbi_file, file_content, iterator ) )
+        {
+            gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
+                              filename,
+                              g_strerror(errno) );
+            dialogue_error ( tmpstr );
+            g_free ( tmpstr );
+            g_free ( file_content);
+
+            return ( FALSE );
+        }
+
+        g_free ( file_content);
+        gzclose (grisbi_file);
     }
     else
     {
-	GError *error = NULL;
+        GError *error = NULL;
 
-	if (!g_file_set_contents ( filename,
-				   file_content,
-				   iterator, &error ))
-	{
-	    gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
-					      filename,
-					      error -> message);
-	    dialogue_error ( tmpstr );
-	    g_free ( tmpstr );
-	    g_free ( file_content);
-	    g_error_free (error);
-	    return ( FALSE );
-	}
+        if ( !g_file_set_contents ( filename, file_content, iterator, &error ) )
+        {
+            gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
+                              filename,
+                              error -> message);
+            dialogue_error ( tmpstr );
+            g_free ( tmpstr );
+            g_error_free (error);
+            return ( FALSE );
+        }
+        g_free ( file_content);
     }
 
     /* if it's a new file, we set the permission */
