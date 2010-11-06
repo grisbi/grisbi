@@ -2160,29 +2160,31 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	     * we need to finish with the dialog wich contains the form */
 	    if (gsb_gui_navigation_get_current_page () == GSB_HOME_PAGE)
 	    {
-		GtkWidget *tmp_widget;
+            GtkWidget *tmp_widget;
 
-		/* ok, we are on the home page. the best way is to send the response ok
-		 * to the dialog */
-		tmp_widget = widget;
+            /* ok, we are on the home page. the best way is to send the response ok
+             * to the dialog */
+            tmp_widget = widget;
 
-		do
-		{
-		    tmp_widget = gtk_widget_get_parent (GTK_WIDGET (tmp_widget));
-		}
-		while ( GTK_IS_WIDGET (tmp_widget)
-			&&
-			!GTK_IS_DIALOG (tmp_widget));
-		gtk_dialog_response (GTK_DIALOG (tmp_widget), GTK_RESPONSE_OK);
-		return TRUE;
+            do
+            {
+                tmp_widget = gtk_widget_get_parent (GTK_WIDGET (tmp_widget));
+            }
+            while ( GTK_IS_WIDGET (tmp_widget)
+                &&
+                !GTK_IS_DIALOG (tmp_widget));
+            gtk_dialog_response (GTK_DIALOG (tmp_widget), GTK_RESPONSE_OK);
+            return TRUE;
 	    }
 	    else
 	    {
             widget_prov = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
-            
-            gsb_form_transaction_complete_form_by_payee ( gtk_combofix_get_text (
-                        GTK_COMBOFIX ( widget_prov ) ) ); 
-            gsb_form_finish_edition();
+
+            if ( GTK_IS_COMBOFIX ( widget_prov ) )
+                gsb_form_transaction_complete_form_by_payee ( gtk_combofix_get_text (
+                        GTK_COMBOFIX ( widget_prov ) ) );
+
+            gsb_form_finish_edition ();
             return TRUE;
 	    }
 	    break;
