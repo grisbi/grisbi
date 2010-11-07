@@ -387,10 +387,15 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 	}
 	g_strfreev(tab_format);
 #else
-    if ( g_str_has_prefix ( g_getenv ( "LANG"), "en_" ) )
+{
+    const gchar *langue;
+
+    langue = g_getenv ( "LANG");
+    if ( g_str_has_prefix ( langue, "en_" ) || g_str_has_prefix ( langue, "cs_" ) )
         format = g_strndup ( "%m/%d/%Y", 8 );
     else
         format = nl_langinfo ( D_FMT );
+}
 #endif
 
     while ( * format )
@@ -605,6 +610,7 @@ gchar *gsb_format_date ( gint day, gint month, gint year )
 gchar *gsb_format_gdate ( const GDate *date )
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
+    const gchar *langue;
     guint longueur;
 
     if ( !date || !g_date_valid ( date ) )
@@ -612,7 +618,8 @@ gchar *gsb_format_gdate ( const GDate *date )
         return my_strdup ( "" );
     }
 
-    if ( g_str_has_prefix ( g_getenv ( "LANG"), "en_" ) )
+    langue = g_getenv ( "LANG");
+    if ( g_str_has_prefix ( langue, "en_" ) || g_str_has_prefix ( langue, "cs_" ) )
         longueur = g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%m/%d/%Y", date );
     else
         longueur = g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
