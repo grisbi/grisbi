@@ -67,12 +67,12 @@ gchar *gsb_date_today ( void )
     if (!last_date)
     {
         GDate *date;
-        gchar date_str[SIZEOF_FORMATTED_STRING_DATE];
+        gchar *date_string;
 
-        date = gdate_today();
-        g_date_strftime ( date_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
-        gsb_date_set_last_date (date_str);
-        g_date_free( date );
+        date = gdate_today ( );
+        date_string = gsb_format_gdate ( date );
+        gsb_date_set_last_date ( date_string );
+        g_date_free ( date );
     }
     return (last_date);
 }
@@ -387,7 +387,10 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 	}
 	g_strfreev(tab_format);
 #else
-    format = nl_langinfo ( D_FMT );
+    if ( g_str_has_prefix ( g_getenv ( "LANG"), "en_" ) )
+        format = g_strndup ( "%m/%d/%Y", 8 );
+    else
+        format = nl_langinfo ( D_FMT );
 #endif
 
     while ( * format )
@@ -579,9 +582,13 @@ GDate *gsb_parse_date_string_safe ( const gchar *date_string )
  */
 gchar *gsb_format_date ( gint day, gint month, gint year )
 {
-    GDate* date = g_date_new_dmy ( day, month, year );
-    gchar* result = gsb_format_gdate ( date );
+    GDate* date;
+    gchar* result;
+
+    date = g_date_new_dmy ( day, month, year );
+    result = gsb_format_gdate ( date );
     g_date_free ( date );
+
     return result;
 }
 
@@ -598,15 +605,23 @@ gchar *gsb_format_date ( gint day, gint month, gint year )
 gchar *gsb_format_gdate ( const GDate *date )
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
+    guint longueur;
 
-    if ( !date || !g_date_valid ( date ))
+    if ( !date || !g_date_valid ( date ) )
     {
-    return my_strdup ( "" );
+        return my_strdup ( "" );
     }
 
-    g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
+    if ( g_str_has_prefix ( g_getenv ( "LANG"), "en_" ) )
+        longueur = g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%m/%d/%Y", date );
+    else
+        longueur = g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
 
-    return my_strdup ( retour_str );
+    if ( longueur == 0 )
+        return NULL;
+    else
+        return g_strndup ( retour_str, longueur );
+        
 }
 
 
@@ -622,15 +637,19 @@ gchar *gsb_format_gdate ( const GDate *date )
 gchar *gsb_format_gdate_safe ( const GDate *date )
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
+    guint longueur;
 
-    if ( !date || !g_date_valid ( date ))
+    if ( !date || !g_date_valid ( date ) )
     {
-    return g_strdup ( "" );
+        return g_strdup ( "" );
     }
 
-    g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%m/%d/%Y", date );
+    longueur = g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%m/%d/%Y", date );
 
-    return g_strdup ( retour_str );
+    if ( longueur == 0 )
+        return NULL;
+    else
+        return g_strndup ( retour_str, longueur );
 }
 
 

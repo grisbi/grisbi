@@ -396,13 +396,15 @@ gboolean gsb_grisbi_print_environment_var ( void )
     conv = localeconv();
     
     printf ("Variables d'environnement :\n\n" );
-    printf ("Currency\n"
+    printf ("LANG = %s\n\n"
+            "Currency\n"
             "\tcurrency_symbol = %s\n"
             "\tmon_thousands_sep = \"%s\"\n"
             "\tmon_decimal_point = %s\n"
             "\tpositive_sign = \"%s\"\n"
             "\tnegative_sign = \"%s\"\n"
             "\tfrac_digits = \"%d\"\n\n",
+            g_getenv ( "LANG"),
             conv->currency_symbol,
             g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL ),
             g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL ),
