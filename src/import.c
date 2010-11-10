@@ -159,6 +159,7 @@ static void traitement_operations_importees ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gboolean balances_with_scheduled;
 extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
@@ -1521,8 +1522,11 @@ void traitement_operations_importees ( void )
         break;
     }
 
-        /* MAJ des données du module bet */
-        gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
+    /* MAJ du solde du compte nécessaire suivant date des opérations existantes */
+    if ( balances_with_scheduled == FALSE )
+        gsb_data_account_set_balances_are_dirty ( account_number );
+    /* MAJ des données du module bet */
+    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
 
     /* first, we create the rule if asked */
     if (compte -> create_rule && compte -> action != IMPORT_CREATE_ACCOUNT)
@@ -4421,6 +4425,10 @@ gboolean gsb_import_by_rule ( gint rule )
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_accueil (FALSE);
+
+    /* MAJ du solde du compte nécessaire suivant date des opérations existantes */
+    if ( balances_with_scheduled == FALSE )
+        gsb_data_account_set_balances_are_dirty ( account_number );
 
     /* force the update module budget */
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
