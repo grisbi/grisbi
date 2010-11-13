@@ -572,6 +572,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *new_string;
     gchar *skipped_lines_string;
     gchar *bet_array_column_width_write;
+    gchar *date_format;
     gboolean is_archive = FALSE;
 
     /* prepare stuff to save general information */
@@ -654,6 +655,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
             bet_array_column_width_write  = utils_str_itoa ( bet_array_col_width[i] );
     }
 
+    date_format = gsb_date_get_format_date ( );
+
     /* if we save an archive, we save it here */
     if (archive_number
 	||
@@ -669,6 +672,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tFile_title=\"%s\"\n"
 					   "\t\tGeneral_address=\"%s\"\n"
 					   "\t\tSecond_general_address=\"%s\"\n"
+					   "\t\tDate_format=\"%s\"\n"
 					   "\t\tParty_list_currency_number=\"%d\"\n"
 					   "\t\tCategory_list_currency_number=\"%d\"\n"
 					   "\t\tBudget_list_currency_number=\"%d\"\n"
@@ -709,6 +713,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	my_safe_null_str ( titre_fichier ),
 	my_safe_null_str(adresse_commune),
 	my_safe_null_str(adresse_secondaire),
+	my_safe_null_str ( date_format ),
 	no_devise_totaux_tiers,
 	no_devise_totaux_categ,
 	no_devise_totaux_ib,

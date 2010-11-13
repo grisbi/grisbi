@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*                      2009-2010 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -31,6 +32,8 @@
 #include "traitement_variables.h"
 #include "bet_data.h"
 #include "bet_future.h"
+#include "custom_list.h"
+#include "gsb_calendar.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -53,22 +56,19 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form_scheduler.h"
-#include "gsb_select_icon.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
-#include "menu.h"
-#include "import.h"
 #include "gsb_report.h"
 #include "gsb_scheduler_list.h"
-#include "main.h"
-#include "transaction_model.h"
-#include "custom_list.h"
+#include "gsb_select_icon.h"
 #include "gsb_transactions_list.h"
-#include "include.h"
-#include "gsb_scheduler_list.h"
-#include "gsb_calendar.h"
-#include "erreur.h"
+#include "import.h"
+#include "main.h"
+#include "menu.h"
+#include "transaction_model.h"
 #include "structures.h"
+#include "utils_dates.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -239,6 +239,9 @@ void init_variables ( void )
 /* xxx on devrait séparer ça en 2 : les variables liées au fichier de compte, qui doivent être remises  à 0,
  * et les variables liées à grisbi (ex sauvegarde auto...) qui doivent rester */
     devel_debug (NULL);
+
+    /* init the format date */
+    gsb_date_init_format_date ( );
 
     /* if ever there is still something from the previous list,
      * erase now */

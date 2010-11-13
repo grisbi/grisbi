@@ -31,9 +31,10 @@
 /*START_INCLUDE*/
 #include "utils_dates.h"
 #include "dialog.h"
+#include "gsb_calendar_entry.h"
 #include "gsb_form_widget.h"
 #include "utils_str.h"
-#include "gsb_calendar_entry.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -44,6 +45,8 @@ static gchar **split_unique_datefield ( gchar * string, gchar date_tokens [] );
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+/* format pour les dates */
+static gchar *format = NULL;
 
 /* save of the last date entried */
 static gchar *last_date = NULL;
@@ -341,71 +344,35 @@ gchar **split_unique_datefield ( gchar * string, gchar date_tokens [] )
 GDate *gsb_parse_date_string ( const gchar *date_string )
 {
     GDate *date;
-    gchar *string, *string_ptr, *format;
+    gchar *string, *string_ptr;
+    gchar *date_format;
     gchar **tab_date;
     gchar date_tokens [ 4 ] = { 0, 0, 0, 0 };
     int num_tokens = 0, num_fields = 0, i, j;
-#ifdef _MSC_VER
-	gchar * sreturn;
-	gchar ** tab_format;
-	int k = 0;
-#endif
 
-    if ( !date_string || !strlen (date_string) )
+    if ( !date_string || !strlen ( date_string ) )
         return NULL;
 
     /* Keep the const gchar in that function */
-    string = g_strdup (date_string);
+    string = g_strdup ( date_string );
+
     /* And keep a pointer to free memory later */
     string_ptr = string;
-    if ( ! strlen ( string ) )
-    {
-        g_free ( string_ptr );
-        return NULL;
-    }
+
+    /* keep the string format */
+    date_format = g_strdup ( format );
+
+    /* delete space char */
     g_strstrip ( string );
 
-    /* Obtain date format tokens to compute order. */
-#ifdef _MSC_VER
-	sreturn = g_strnfill(81,'\0');
-	GetLocaleInfo(GetThreadLocale(), LOCALE_SSHORTDATE, sreturn, 80);
-	g_strcanon (sreturn, "dMy", '.');
-	tab_format = g_strsplit(sreturn, ".", 3);
-	g_free(sreturn);
-	format = "";
-	while (k < 3)
-	{
-		if(!strncmp(tab_format[k], "dd", 2) || !strncmp(tab_format[k], "d", 1))
-			format = g_strconcat(format, "%d", NULL);
-		else if(!strncmp(tab_format[k], "MM", 2) || !strncmp(tab_format[k], "M", 1))
-			format = g_strconcat(format, "%m", NULL);
-		else if(!strncmp(tab_format[k], "yyyy", 4))
-			format = g_strconcat(format, "%Y", NULL);
-		else if(!strncmp(tab_format[k], "yy", 2))
-			format = g_strconcat(format, "%y", NULL);
-		k++;
-	}
-	g_strfreev(tab_format);
-#else
-{
-    const gchar *langue;
-
-    langue = g_getenv ( "LANG");
-    if ( g_str_has_prefix ( langue, "en_" ) || g_str_has_prefix ( langue, "cs_" ) )
-        format = g_strndup ( "%m/%d/%Y", 8 );
-    else
-        format = nl_langinfo ( D_FMT );
-}
-#endif
-
-    while ( * format )
+    while ( *date_format )
     {
-        if ( * format == '%' )
+        if ( *date_format == '%' )
         {
-            switch ( * ++format )
+            switch ( * ++date_format )
             {
             case 'd': case 'm': case 'y': case 'Y':
-                date_tokens [ num_tokens++ ] = *format ;
+                date_tokens [ num_tokens++ ] = *date_format ;
                 if ( num_tokens > 3 )
                 {
                     dialogue_error_brain_damage ();
@@ -414,13 +381,14 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
                 break;
             }
         }
-        format++;
+        date_format++;
     }
 
     /* TODO: Check that m,d,Yy are present. */
-    
+
     /* replace all separators by . */
     g_strcanon ( string, "0123456789", '.' );
+
     /* remove the . at the beginning and ending of the string */
     while ( * string == '.' && * string ) string ++;
     while ( string [ strlen ( string ) - 1 ] == '.' && strlen ( string ) ) 
@@ -432,8 +400,10 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     string = g_strjoinv ( ".", tab_date );
     string_ptr = string;
     g_strfreev ( tab_date );
+
     /* split the parts of the date */
     tab_date = g_strsplit_set ( string, ".", 0 );
+
     /* From here, string is no more used */
     g_free ( string_ptr );
     string = string_ptr = NULL;
@@ -449,7 +419,9 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     {
         /* there is only 1 field in the date, try to split the number
          * (ie 01042000 gives 01/04/2000) */
-        gchar ** new_tab_date = split_unique_datefield ( tab_date [ 0 ], date_tokens );
+        gchar ** new_tab_date;
+
+        new_tab_date = split_unique_datefield ( tab_date [ 0 ], date_tokens );
         g_strfreev ( tab_date );
         if ( ! new_tab_date )
             return NULL;
@@ -466,6 +438,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     for ( i = 0, j = 0 ; i < num_tokens && j < num_fields ; i ++ )
     {
         int nvalue = atoi ( tab_date [ j ] );
+
         switch ( date_tokens [ i ] )
         {
             case 'm':
@@ -534,7 +507,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 
     /* need here to check if the date is valid, else an error occurs when
      * write for example only 31, and the current month has only 30 days... */
-    if ( !g_date_valid (date) )
+    if ( !g_date_valid ( date ) )
     {
         g_date_free ( date );
         return NULL;
@@ -610,25 +583,17 @@ gchar *gsb_format_date ( gint day, gint month, gint year )
 gchar *gsb_format_gdate ( const GDate *date )
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
-    const gchar *langue;
     guint longueur;
 
     if ( !date || !g_date_valid ( date ) )
-    {
         return my_strdup ( "" );
-    }
 
-    langue = g_getenv ( "LANG");
-    if ( g_str_has_prefix ( langue, "en_" ) || g_str_has_prefix ( langue, "cs_" ) )
-        longueur = g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%m/%d/%Y", date );
-    else
-        longueur = g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
+    longueur = g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, format, date );
 
     if ( longueur == 0 )
-        return NULL;
+        return my_strdup ( "" );
     else
         return g_strndup ( retour_str, longueur );
-        
 }
 
 
@@ -729,6 +694,65 @@ GDate *gsb_date_get_last_day_of_month ( const GDate *date )
 
     return tmp_date;
 }
+
+
+/**
+ * returns the format of date.
+ * The returned string should be freed with g_free() when no longer needed.
+ *
+ * \return %d/%m/%Y or %m/%d/%Y 
+ * */
+gchar *gsb_date_get_format_date ( void )
+{
+    return g_strdup ( format );
+}
+
+
+/**
+ * set the format of date.
+ * 
+ * */
+void gsb_date_set_format_date ( const gchar *format_date )
+{
+    if ( format )
+        g_free ( format );
+
+    if ( strcmp ( format_date, "%d/%m/%Y" ) == 0 )
+        format = g_strdup ( "%d/%m/%Y" );
+    else if ( strcmp ( format_date, "%m/%d/%Y" ) == 0 )
+        format = g_strdup ( "%m/%d/%Y" );
+    else
+        format = NULL;
+
+    if ( last_date )
+        g_free ( last_date );
+    last_date = NULL;
+}
+
+
+/**
+ * init the format of date.
+ * 
+ * */
+void gsb_date_init_format_date ( void )
+{
+    const gchar *langue;
+
+    if ( format )
+        g_free ( format );
+
+    langue = g_getenv ( "LANG");
+
+    if ( g_str_has_prefix ( langue, "en_" ) || g_str_has_prefix ( langue, "cs_" ) )
+        format = g_strdup ( "%m/%d/%Y" );
+    else
+        format = g_strdup ( "%d/%m/%Y" );
+/* 
+ *     printf ("format date = %s\n", format);
+ */
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -786,6 +786,11 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         adresse_secondaire = my_strdup (attribute_values[i]);
     }
 
+    else if ( !strcmp ( attribute_names[i], "Date_format" ) )
+    {
+        gsb_date_set_format_date ( attribute_values[i] );
+    }
+
     else if ( !strcmp ( attribute_names[i],
                         "Party_list_currency_number" ))
     {
