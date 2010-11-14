@@ -73,7 +73,9 @@ static gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar 
                         GtkTreeModel * model );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
-static gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebutton, gpointer user_data );
+static gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebutton,
+                        GdkEventButton *event,
+                        gpointer user_data);
 static GtkWidget *onglet_delete_messages ( void );
 static GtkWidget *onglet_fichier ( void );
 static GtkWidget *onglet_localisation ( void );
@@ -1248,46 +1250,13 @@ gboolean gsb_config_metatree_sort_transactions ( GtkWidget *checkbutton,
 GtkWidget *onglet_localisation ( void )
 {
     GtkWidget *vbox_pref, *paddingbox;
-    GtkWidget *button_1, *button_2;
-    gchar *format_date;
 
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Localization"), "locale.png" );
 
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Choose Language") );
 
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Choose the date format") );
-
-    button_1 =gtk_radio_button_new_with_label ( NULL, "dd/mm/yyyy" );
-    format_date = g_strdup ( "%d/%m/%Y" );
-    g_object_set_data_full ( G_OBJECT ( button_1 ),
-                        "pointer",
-                        format_date,
-                        g_free );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_1, FALSE, FALSE, 0 );
-
-    button_2 = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (
-                        GTK_RADIO_BUTTON ( button_1 ) ),
-						"mm/dd/yyyy" );
-    format_date = g_strdup ( "%m/%d/%Y" );
-    g_object_set_data_full ( G_OBJECT ( button_2 ),
-                        "pointer",
-                        format_date,
-                        g_free );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_2, FALSE, FALSE, 0 );
-
-    format_date = gsb_date_get_format_date ( );
-    if ( format_date && strcmp ( format_date, "%m/%d/%Y" ) == 0 )
-        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_2 ), TRUE );
-
-    g_signal_connect ( G_OBJECT ( button_1 ),
-                        "button-release-event",
-                        G_CALLBACK ( gsb_localisation_format_date_toggle ),
-                        NULL );
-    g_signal_connect ( G_OBJECT ( button_2 ),
-                        "button-release-event",
-                        G_CALLBACK ( gsb_localisation_format_date_toggle ),
-                        NULL );
+    paddingbox = gsb_config_date_format_chosen ( vbox_pref, GTK_ORIENTATION_VERTICAL );
 
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Choose the decimal and thousands separator") );
 
@@ -1301,13 +1270,79 @@ GtkWidget *onglet_localisation ( void )
  *
  *
  * */
-gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebutton, gpointer user_data)
+GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens )
+{
+    GtkWidget *hbox, *paddingbox;
+    GtkWidget *button_1, *button_2;
+    gchar *format_date;
+
+    button_1 =gtk_radio_button_new_with_label ( NULL, "dd/mm/yyyy" );
+    format_date = g_strdup ( "%d/%m/%Y" );
+    g_object_set_data_full ( G_OBJECT ( button_1 ),
+                        "pointer",
+                        format_date,
+                        g_free );
+
+    button_2 = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (
+                        GTK_RADIO_BUTTON ( button_1 ) ),
+						"mm/dd/yyyy" );
+    format_date = g_strdup ( "%m/%d/%Y" );
+    g_object_set_data_full ( G_OBJECT ( button_2 ),
+                        "pointer",
+                        format_date,
+                        g_free );
+
+    if ( sens == GTK_ORIENTATION_VERTICAL )
+    {
+        paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Choose the date format") );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_1, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_2, FALSE, FALSE, 0 );
+    }
+    else
+    {
+        paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Date format") );
+        hbox = gtk_hbox_new ( FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 0 );
+    }
+
+    format_date = gsb_date_get_format_date ( );
+    if ( format_date && strcmp ( format_date, "%m/%d/%Y" ) == 0 )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_2 ), TRUE );
+    g_free ( format_date );
+
+    g_signal_connect ( G_OBJECT ( button_1 ),
+                        "button-release-event",
+                        G_CALLBACK ( gsb_localisation_format_date_toggle ),
+                        GINT_TO_POINTER ( sens ) );
+    g_signal_connect ( G_OBJECT ( button_2 ),
+                        "button-release-event",
+                        G_CALLBACK ( gsb_localisation_format_date_toggle ),
+                        GINT_TO_POINTER ( sens ) );
+
+    return paddingbox;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebutton,
+                        GdkEventButton *event,
+                        gpointer user_data)
 {
     const gchar *format_date;
     gint current_page;
 
     format_date = g_object_get_data ( G_OBJECT ( togglebutton ), "pointer" );
     gsb_date_set_format_date ( format_date );
+
+    if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
+        return FALSE;
 
     current_page = gsb_gui_navigation_get_current_page ( );
 

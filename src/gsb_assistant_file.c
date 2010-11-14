@@ -325,9 +325,11 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
+    /* date format */
+    paddingbox = gsb_config_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );
+
     /* Address */
-    paddingbox = new_paddingbox_with_title ( vbox, FALSE,
-					     _("Your address"));
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Your address") );
 
     /* Common address */
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );

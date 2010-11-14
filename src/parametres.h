@@ -41,6 +41,7 @@ enum preference_page  {
 /*START_DECLARATION*/
 gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
                         GtkWidget *dialog );
+GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens );
 gboolean gsb_config_metatree_sort_transactions ( GtkWidget *checkbutton,
                         gpointer null );
 gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data );
