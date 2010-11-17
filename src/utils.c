@@ -225,7 +225,7 @@ gboolean lance_navigateur_web ( const gchar *url )
     else
     {
         win32_shell_execute_open ( url );
-    } 
+    }
 #endif /* _WIN32 */
     g_free(chaine);
 
@@ -518,6 +518,33 @@ gchar *utils_get_plugins_dir ( void )
 #else
     return PLUGINS_DIR;
 #endif
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void lance_mailer ( const gchar *uri )
+{
+    gchar *chaine;
+    GError *error = NULL;
+
+    chaine = g_strconcat ( "mailto:", uri, NULL );
+
+    if ( gtk_show_uri ( NULL, chaine, GDK_CURRENT_TIME, &error ) == FALSE )
+    {
+        gchar *tmp_str;
+
+        tmp_str = g_strdup_printf ( _("Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
+                    "The error was: %s."),
+                    uri, error -> message );
+        dialogue_error_hint ( tmp_str, _("Cannot execute mailer") );
+        g_free(tmp_str);
+    }
+    g_free ( chaine );
 }
 
 /* Local Variables: */
