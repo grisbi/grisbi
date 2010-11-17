@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-16 19:48+0100\n"
+"POT-Creation-Date: 2010-11-17 20:06+0100\n"
 "PO-Revision-Date: 2010-05-02 23:26+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -11103,18 +11103,18 @@ msgstr ""
 "La commande était : %s.\n"
 "Veuillez modifier votre configuration pour un exécutable valide."
 
-#: ../src/utils.c:540
+#: ../src/utils.c:541
 #, c-format
 msgid ""
 "Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
-"The command was: %s."
+"The error was: %s."
 msgstr ""
 "Grisbi n'a pas pu lancer le logiciel de messagerie pour écrire à <tt>%s</"
 "tt>.\n"
-"La commande était : %s.\n"
+"L'erreur était : %s.\n"
 "Veuillez modifier votre configuration pour un exécutable valide."
 
-#: ../src/utils.c:543
+#: ../src/utils.c:544
 msgid "Cannot execute mailer"
 msgstr "Impossible de lancer le logiciel de messagerie"
 

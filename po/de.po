@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-16 19:48+0100\n"
+"POT-Creation-Date: 2010-11-17 20:06+0100\n"
 "PO-Revision-Date: 2010-05-16 14:55+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -11163,17 +11163,17 @@ msgstr ""
 "Es wurde folgender Befehl ausgeführt: %s.\n"
 "Bitte prüfen Sie die Einstellungen für den Browser."
 
-#: ../src/utils.c:540
+#: ../src/utils.c:541
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
-"The command was: %s."
+"The error was: %s."
 msgstr ""
 "Grisbi konnte die URL nicht öffnen <tt>%s</tt>.\n"
 "Es wurde folgender Befehl ausgeführt: %s.\n"
 "Bitte prüfen Sie die Einstellungen für den Browser."
 
-#: ../src/utils.c:543
+#: ../src/utils.c:544
 #, fuzzy
 msgid "Cannot execute mailer"
 msgstr "Browser kann nicht gestartet werden"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-16 19:48+0100\n"
+"POT-Creation-Date: 2010-11-17 20:06+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -11216,18 +11216,18 @@ msgstr ""
 "Η εντολή ήταν: %s.\n"
 "Παρακαλώ ρυθμίστε τις τοποθετήσεις σας σε ένα έγκυρο  εκτελέσιμο."
 
-#: ../src/utils.c:540
+#: ../src/utils.c:541
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
-"The command was: %s."
+"The error was: %s."
 msgstr ""
 "Το Grisbi δεν μπορεί να εκτελέσει μια μηχανή αναζήτησης Ιστού για να ψάξει "
 "url <tt>%s</tt>.\n"
 "Η εντολή ήταν: %s.\n"
 "Παρακαλώ ρυθμίστε τις τοποθετήσεις σας σε ένα έγκυρο  εκτελέσιμο."
 
-#: ../src/utils.c:543
+#: ../src/utils.c:544
 #, fuzzy
 msgid "Cannot execute mailer"
 msgstr "Αδυναμία εκτέλεσης μηχανής αναζήτησης Ιστού"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-16 19:48+0100\n"
+"POT-Creation-Date: 2010-11-17 20:06+0100\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -10455,14 +10455,14 @@ msgid ""
 "Please adjust your settings to a valid executable."
 msgstr ""
 
-#: ../src/utils.c:540
+#: ../src/utils.c:541
 #, c-format
 msgid ""
 "Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
-"The command was: %s."
+"The error was: %s."
 msgstr ""
 
-#: ../src/utils.c:543
+#: ../src/utils.c:544
 #, fuzzy
 msgid "Cannot execute mailer"
 msgstr "Невозможно сохранить файл"

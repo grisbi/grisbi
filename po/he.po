@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-16 19:48+0100\n"
+"POT-Creation-Date: 2010-11-17 20:06+0100\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team:  <en@li.org>\n"
@@ -11218,16 +11218,16 @@ msgstr ""
 "גריסבי לא הצליח להפעיל דפדפן, כדי לגלוש לכתובת <tt>%s</tt>.  נא לשנות את "
 "ההגדרות, כך שיופיע שם המיקום הנכון של הדפדפן."
 
-#: ../src/utils.c:540
+#: ../src/utils.c:541
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
-"The command was: %s."
+"The error was: %s."
 msgstr ""
 "גריסבי לא הצליח להפעיל דפדפן, כדי לגלוש לכתובת <tt>%s</tt>.  נא לשנות את "
 "ההגדרות, כך שיופיע שם המיקום הנכון של הדפדפן."
 
-#: ../src/utils.c:543
+#: ../src/utils.c:544
 #, fuzzy
 msgid "Cannot execute mailer"
 msgstr "לא ניתן להריץ דפדפן אינטרנט"

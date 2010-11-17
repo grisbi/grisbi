@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-16 19:48+0100\n"
+"POT-Creation-Date: 2010-11-17 20:06+0100\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -11052,16 +11052,16 @@ msgstr ""
 "Grisbi was niet instaat om de url <tt>%s</tt>.te open in een web browser. Om "
 "deze pagina te kunnen bekijken dient u eerst de instellingen aan te passen."
 
-#: ../src/utils.c:540
+#: ../src/utils.c:541
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
-"The command was: %s."
+"The error was: %s."
 msgstr ""
 "Grisbi was niet instaat om de url <tt>%s</tt>.te open in een web browser. Om "
 "deze pagina te kunnen bekijken dient u eerst de instellingen aan te passen."
 
-#: ../src/utils.c:543
+#: ../src/utils.c:544
 #, fuzzy
 msgid "Cannot execute mailer"
 msgstr "Het is niet mogelijk om de web browser te gebruiken"

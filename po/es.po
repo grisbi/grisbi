@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-16 19:48+0100\n"
+"POT-Creation-Date: 2010-11-17 20:06+0100\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -11127,17 +11127,17 @@ msgstr ""
 "Se usó el comando: %s.\n"
 "Por favor ajuste sus preferencias a una orden válida."
 
-#: ../src/utils.c:540
+#: ../src/utils.c:541
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
-"The command was: %s."
+"The error was: %s."
 msgstr ""
 "Grisbi no pudo ejecutar un navegador web para mostrar la url <tt>%s</tt>.\n"
 "Se usó el comando: %s.\n"
 "Por favor ajuste sus preferencias a una orden válida."
 
-#: ../src/utils.c:543
+#: ../src/utils.c:544
 #, fuzzy
 msgid "Cannot execute mailer"
 msgstr "No puedo ejecutar el navegador web"
