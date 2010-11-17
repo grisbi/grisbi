@@ -717,7 +717,9 @@ void gsb_date_set_format_date ( const gchar *format_date )
     if ( format )
         g_free ( format );
 
-    if ( strcmp ( format_date, "%d/%m/%Y" ) == 0 )
+    if ( format_date == NULL )
+        format = NULL;
+    else if ( strcmp ( format_date, "%d/%m/%Y" ) == 0 )
         format = g_strdup ( "%d/%m/%Y" );
     else if ( strcmp ( format_date, "%m/%d/%Y" ) == 0 )
         format = g_strdup ( "%m/%d/%Y" );
@@ -727,29 +729,6 @@ void gsb_date_set_format_date ( const gchar *format_date )
     if ( last_date )
         g_free ( last_date );
     last_date = NULL;
-}
-
-
-/**
- * init the format of date.
- * 
- * */
-void gsb_date_init_format_date ( void )
-{
-    const gchar *langue;
-
-    if ( format )
-        g_free ( format );
-
-    langue = g_getenv ( "LANG");
-
-    if ( g_str_has_prefix ( langue, "en_" ) || g_str_has_prefix ( langue, "cs_" ) )
-        format = g_strdup ( "%m/%d/%Y" );
-    else
-        format = g_strdup ( "%d/%m/%Y" );
-/* 
- *     printf ("format date = %s\n", format);
- */
 }
 
 

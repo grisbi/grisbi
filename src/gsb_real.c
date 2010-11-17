@@ -1,10 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                  gsb_real                                  */
-/*                                                                            */
 /*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/*                      2009 Pierre Biava (grisbi@pierre.biava.name)          */
+/*                      2009-2010 Pierre Biava (grisbi@pierre.biava.name)     */
 /*                      2009 Mickaël Remars (grisbi@remars.com)               */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
@@ -36,16 +34,16 @@
 
 /*START_INCLUDE*/
 #include "gsb_real.h"
-#include "gsb_data_currency.h"
 /*END_INCLUDE*/
 
 gsb_real null_real = { 0 , 0 };
 gsb_real error_real = { G_MININT64, 0 };
 
+static gchar *gsb_thousands_sep;
+static gchar *gsb_decimal_point;
+
 glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
                             1000000, 10000000, 100000000, 1000000000 };
-
-#define sizeofarray(x) (sizeof(x)/sizeof(*x))
 
 #ifdef _MSC_VER
 typedef struct _lldiv_t
@@ -103,29 +101,9 @@ static gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent 
 */
 gchar *gsb_real_get_string ( gsb_real number )
 {
-    return gsb_real_format_string ( number, 0, FALSE );
-}
+    struct lconv *conv = localeconv ();
 
-/**
- * format a gsb_real into a string from gsb_real_get_string
- *	adapt the format of the real to the currency (nb digits after , ...)
- *	show if asked the currency symbol
- *
- * \param number		A number to format.
- * \param currency_number	Currency to use.
- *
- * \return a newly allocated string of the number
- * */
-gchar *gsb_real_get_string_with_currency ( gsb_real number,
-                        gint currency_number,
-                        gboolean show_symbol )
-{
-    gchar *string;
-
-    string = gsb_real_format_string (number,
-				     currency_number,
-				     show_symbol);
-    return string;
+    return gsb_real_raw_format_string ( number, conv, FALSE );
 }
 
 
@@ -160,7 +138,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
     cs_start = (currency_symbol && conv->p_cs_precedes) ? currency_symbol : "";
     cs_start_space = (currency_symbol && conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
     sign = (number.mantissa < 0) ? conv->negative_sign : conv->positive_sign;
-    mon_decimal_point = conv->mon_decimal_point && *conv->mon_decimal_point ? conv->mon_decimal_point : ".";
+    mon_decimal_point = gsb_decimal_point;
     cs_end_space = (currency_symbol && !conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
     cs_end = (currency_symbol && !conv->p_cs_precedes) ? currency_symbol : "";
     
@@ -172,13 +150,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
 
     if ( units.quot >= 1000 )
     {
-        gchar *mon_thousands_sep;
-
-        mon_thousands_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
-
-        result = gsb_real_add_thousands_sep ( result, mon_thousands_sep );
-
-        g_free ( mon_thousands_sep );
+        result = gsb_real_add_thousands_sep ( result, gsb_thousands_sep );
     }
 
     g_snprintf ( format, sizeof ( format ), "%s%d%s",
@@ -201,54 +173,6 @@ gchar *gsb_real_raw_format_string (gsb_real number,
 
 
 /**
- * Return the real in a formatted string with an optional currency
- * symbol, according to the locale regarding decimal separator,
- * thousands separator and positive or negative sign.
- * 
- * \param number		Number to format.
- * \param currency_number 	the currency we want to adapt the number, 0 for no adaptation
- * \param show_symbol 		TRUE to add the currency symbol in the string
- *
- * \return		A newly allocated string of the number (this
- *			function will never return NULL) 
- */
-gchar *gsb_real_format_string ( gsb_real number,
-                        gint currency_number,
-                        gboolean show_symbol )
-{
-    struct lconv *conv = localeconv ();
-    gint floating_point;
-
-    const gchar *currency_symbol = (currency_number && show_symbol)
-                                   ? gsb_data_currency_get_code_or_isocode (currency_number)
-                                   : NULL;
-
-    /* First of all if number = 0 I return 0 with the symbol of the currency if necessary */
-    if (number.mantissa == 0)
-    {
-        if (currency_symbol && conv -> p_cs_precedes)
-            return g_strdup_printf ( "%s %s", currency_symbol, "0" );
-        else if (currency_symbol && ! conv -> p_cs_precedes)
-            return g_strdup_printf ( "%s %s", "0", currency_symbol );
-        else
-            return g_strdup ("0");
-    }
-    else if ( (number.exponent < 0)
-    || (number.exponent > sizeofarray ( gsb_real_power_10 ) )
-    || (number.mantissa == error_real.mantissa) )
-        return g_strdup ( "###ERR###" );
-
-    /* first we need to adapt the exponent to the currency */
-    /* if the exponent of the real is not the same of the currency, need to adapt it */
-    floating_point = gsb_data_currency_get_floating_point ( currency_number );
-    if ( currency_number && number.exponent != floating_point )
-        number = gsb_real_adjust_exponent ( number, floating_point );
-
-    return gsb_real_raw_format_string ( number, conv, currency_symbol );
-}
-
-
-/**
  * get a real number from a string
  * the string can be formatted :
  * - handle , or . as separator
@@ -264,20 +188,9 @@ gchar *gsb_real_format_string ( gsb_real number,
  * */
 gsb_real gsb_real_get_from_string ( const gchar *string )
 {
-    struct lconv *conv = localeconv ( );
-    gchar *mon_thousands_sep;
-    gchar *mon_decimal_point;
     gsb_real result;
 
-    mon_thousands_sep = g_locale_to_utf8 (
-                             conv->mon_thousands_sep, -1, NULL, NULL, NULL );
-    mon_decimal_point = g_locale_to_utf8 (
-                             conv->mon_decimal_point, -1, NULL, NULL, NULL );
-
-    result =  gsb_real_raw_get_from_string ( string, mon_thousands_sep, mon_decimal_point );
-
-    g_free ( mon_thousands_sep );
-    g_free ( mon_decimal_point );
+    result =  gsb_real_raw_get_from_string ( string, gsb_thousands_sep, gsb_decimal_point );
 
     return result;
 }
@@ -291,11 +204,13 @@ gsb_real gsb_real_get_from_string ( const gchar *string )
  *
  * \return a gsb_real from the integer
  */
-gsb_real gsb_real_new ( gint mantissa, gint exponent )
+gsb_real gsb_real_new ( gint64 mantissa, gint exponent )
 {
     gsb_real number = null_real;
+
     number.mantissa = mantissa;
     number.exponent = exponent;
+
     return number;
 }
 
@@ -338,9 +253,7 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
     if ( !string)
         return error_real;
 
-    mts_len = mon_thousands_sep
-              ? strlen ( mon_thousands_sep )
-              : 0;
+    mts_len = mon_thousands_sep ? strlen ( mon_thousands_sep ) : 0;
     mdp_len = mon_decimal_point ? strlen ( mon_decimal_point ) : 0;
 
     if ( mon_thousands_sep )
@@ -455,7 +368,7 @@ gsb_real gsb_real_import_from_string ( const gchar *string )
 
     if ( !string)
         return error_real;
-    if ( g_strstr_len ( string, -1, "###ERR###" ) )
+    if ( g_strstr_len ( string, -1, ERROR_REAL_STRING ) )
         return error_real;
 
     for ( ; ; )
@@ -956,12 +869,12 @@ gchar *gsb_real_save_real_to_string ( gsb_real number, gint default_exponent )
     const gchar *sign;
     const gchar *mon_decimal_point;
     gint nbre_char;
-	lldiv_t units;
+    lldiv_t units;
 
-	if ( (number.exponent < 0)
-    || (number.exponent > sizeofarray ( gsb_real_power_10 ) )
+    if ( (number.exponent < 0)
+    || (number.exponent > EXPONENT_MAX )
     || (number.mantissa == error_real.mantissa) )
-      return g_strdup ( "###ERR###" );
+      return g_strdup ( ERROR_REAL_STRING );
 
     if (number.mantissa == 0)
         return g_strdup ("0.00");
@@ -1013,8 +926,8 @@ gdouble gsb_real_real_to_double ( gsb_real number )
 
 
 /**
- * ajoute le séparateur des milliers paasé en paramêtre
- * 
+ * ajoute le séparateur des milliers passé en paramètre
+ *
  * \param string to modify WARNING string is free
  *
  * \return a new allocated sring
@@ -1032,6 +945,9 @@ gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_se
     gint j = 0;
     gint sep = 0;
     gint longueur;
+
+    if ( thousands_sep == NULL )
+        return str_number;
 
     nbre_char = strlen ( str_number );
     str_number = g_strreverse ( str_number );
@@ -1078,6 +994,63 @@ gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_se
     g_free ( dest );
     
     return result;
+}
+
+
+/**
+ *
+ * The returned string should be freed with g_free() when no longer needed.
+ *
+ *
+ * */
+gchar *gsb_real_get_decimal_point ( void )
+{
+    return g_strdup ( gsb_decimal_point );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void gsb_real_set_decimal_point ( const gchar *decimal_point )
+{
+    if ( gsb_decimal_point )
+        g_free ( gsb_decimal_point );
+
+    gsb_decimal_point = g_strdup ( decimal_point );
+}
+
+
+/**
+ *
+ * The returned string should be freed with g_free() when no longer needed.
+ *
+ *
+ * */
+gchar *gsb_real_get_thousands_sep ( void )
+{
+    return g_strdup ( gsb_thousands_sep );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void gsb_real_set_thousands_sep ( const gchar *thousands_sep )
+{
+    if ( gsb_thousands_sep )
+        g_free ( gsb_thousands_sep );
+
+    if ( thousands_sep == NULL )
+        gsb_thousands_sep = NULL;
+    else
+        gsb_thousands_sep = g_strdup ( thousands_sep );
 }
 
 

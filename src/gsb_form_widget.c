@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/*                      2009 Pierre Biava (grisbi@pierre.biava.name)          */
+/*                      2009-2010 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -931,6 +931,7 @@ gboolean gsb_form_widget_amount_entry_changed ( GtkWidget *entry,
      * because it's a special style too */
     element_number = GPOINTER_TO_INT ( g_object_get_data (
                         G_OBJECT ( entry ), "element_number" ) );
+
     if ( g_strcmp0 ( gsb_form_widget_get_name ( element_number ),
      gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) == 0 )
         return FALSE;
@@ -971,10 +972,11 @@ gboolean gsb_form_widget_amount_entry_changed ( GtkWidget *entry,
  * */
 gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
 {
-    struct lconv *conv = localeconv ( );
-    gchar *mon_thousands_sep;
-    gunichar thousands_sep;
     const gchar *ptr;
+    gchar *mon_decimal_point;
+    gunichar decimal_point;
+    gchar *mon_thousands_sep;
+    gunichar thousands_sep = ( gunichar ) -1;
 
     ptr = string;
 
@@ -983,29 +985,61 @@ gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
      ( g_utf8_strchr ( ptr, -1, '*' ) && g_utf8_strchr ( ptr, -1, '-' ) ) )
         return FALSE;
 
-    mon_thousands_sep = g_locale_to_utf8 ( conv->mon_thousands_sep,
-                        -1, NULL, NULL, NULL );
-    thousands_sep = g_utf8_get_char_validated ( mon_thousands_sep, -1 );
-    
-    while ( g_utf8_strlen (ptr, -1) > 0 )
+    mon_decimal_point = gsb_real_get_decimal_point ( );
+    decimal_point = g_utf8_get_char_validated ( mon_decimal_point, -1 );
+    mon_thousands_sep = gsb_real_get_thousands_sep ( );
+    if ( mon_thousands_sep )
+        thousands_sep = g_utf8_get_char_validated ( mon_thousands_sep, -1 );
+
+    while ( g_utf8_strlen ( ptr, -1) > 0 )
     {
         gunichar ch;
 
-        ch = g_utf8_get_char_validated (ptr, -1);
+        ch = g_utf8_get_char_validated ( ptr, -1 );
+
         if ( !g_unichar_isdefined ( ch ) )
             return FALSE;
+
         if ( !g_ascii_isdigit ( ch ) )
         {
             if ( g_unichar_isdefined ( thousands_sep ) )
             {
                 if ( ch != '.' && ch != ',' && ch != '+' && ch != '-' && ch != '*' && ch != thousands_sep )
                     return FALSE;
+
+                if ( ch == decimal_point
+                 && g_utf8_strlen ( ptr, -1) == 1
+                 && g_utf8_strchr ( string, -1, thousands_sep ) )
+                {
+                    gchar **tab;
+                    guint i = 0;
+                    guint nbre_champs;
+
+                    tab = g_strsplit ( string, mon_thousands_sep, 0 );
+                    nbre_champs = g_strv_length ( tab );
+
+                    while ( i < nbre_champs )
+                    {
+                        if ( i < nbre_champs - 1 && g_utf8_strlen ( tab[i], -1 ) != 3 )
+                        {
+                            g_strfreev ( tab );
+                            return FALSE;
+                        }
+                        else if ( i == nbre_champs - 1 && g_utf8_strlen ( tab[i], -1 ) != 4 )
+                        {
+                            g_strfreev ( tab );
+                            return FALSE;
+                        }
+                        i++;
+                    }
+                    g_strfreev ( tab );
+                }
             }
             else if ( ch != '.' && ch != ',' && ch != '+' && ch != '-' && ch != '*' )
-                    return FALSE;
+                return FALSE;
         }
 
-        ptr = g_utf8_next_char (ptr);
+        ptr = g_utf8_next_char ( ptr );
     }
 
     return TRUE;
@@ -1019,7 +1053,7 @@ gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
  *
  * */
 gboolean gsb_form_combo_selection_changed ( GtkTreeSelection *tree_selection,
-						  gint *ptr_origin )
+                        gint *ptr_origin )
 {
     GtkWidget *widget;
     GtkTreeModel *model;
@@ -1120,6 +1154,65 @@ const gchar *gsb_form_widget_get_old_credit_payment_content ( void )
 const gchar *gsb_form_widget_get_old_debit_payment_content ( void )
 {
     return old_debit_payment_content;
+}
+
+
+/**
+ * called when entry validated by Enter Tab lose focus
+ * check the entry and set the entry red/invalid if not a good number
+ *
+ * \param entry
+ *
+ * \return TRUE if entry is valid
+ * */
+gboolean gsb_form_widget_amount_entry_validate ( gint element_number )
+{
+    GtkWidget *entry;
+    const gchar *text;
+    gchar *tmp_str;
+    gchar *mon_decimal_point;
+    gboolean valide;
+    gboolean return_value;
+
+    entry = gsb_form_widget_get_widget ( element_number );
+    if ( gsb_form_widget_check_empty ( entry ) )
+        return TRUE;
+
+    text = gtk_entry_get_text ( GTK_ENTRY ( entry ) );
+    if ( g_strcmp0 ( gsb_form_widget_get_name ( element_number ), text ) == 0 )
+        return TRUE;
+
+    /* if nothing in the entry, keep the normal style */
+    if ( !strlen ( text ) )
+    {
+        gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+        return TRUE;
+    }
+
+    mon_decimal_point = gsb_real_get_decimal_point ( );
+    if ( g_strrstr ( text, gsb_real_get_decimal_point ( ) ) == NULL )
+        tmp_str = g_strconcat ( text, mon_decimal_point, NULL );
+    else
+        tmp_str= g_strdup ( text );
+
+    valide = gsb_form_widget_get_valide_amout_entry ( tmp_str );
+    if ( valide )
+    {
+        /* the entry is valid, make it normal */
+        gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+        return_value = TRUE;
+    }
+    else
+    {
+        /* the entry is not valid, make it red */
+        gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, &calendar_entry_color );
+        return_value = FALSE;
+    }
+
+    g_free ( tmp_str );
+    g_free ( mon_decimal_point );
+
+    return return_value;
 }
 
 

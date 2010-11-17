@@ -16,7 +16,6 @@ gchar *gsb_date_get_compiled_time ( void );
 gchar *gsb_date_get_format_date ( void );
 GDate *gsb_date_get_last_day_of_month ( const GDate *date );
 GDate *gsb_date_get_last_entry_date ( const gchar *string );
-void gsb_date_init_format_date ( void );
 void gsb_date_set_format_date ( const gchar *format_date );
 void gsb_date_set_last_date ( const gchar *date );
 gchar *gsb_date_today ( void );

@@ -58,6 +58,7 @@
 #include "gsb_form_scheduler.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
+#include "gsb_real.h"
 #include "gsb_report.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
@@ -65,13 +66,15 @@
 #include "import.h"
 #include "main.h"
 #include "menu.h"
-#include "transaction_model.h"
 #include "structures.h"
+#include "transaction_model.h"
 #include "utils_dates.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void initialise_format_date ( void );
+static void initialise_number_separators ( void );
 static void initialise_tab_affichage_ope ( void );
 /*END_STATIC*/
 
@@ -241,7 +244,10 @@ void init_variables ( void )
     devel_debug (NULL);
 
     /* init the format date */
-    gsb_date_init_format_date ( );
+    initialise_format_date ( );
+
+    /* init the decimal point and the thousands separator. */
+    initialise_number_separators ( );
 
     /* if ever there is still something from the previous list,
      * erase now */
@@ -666,6 +672,45 @@ void initialise_tab_affichage_ope ( void )
     display_two_lines = 0;
     display_three_lines = 0;
 }
+
+
+/**
+ * init the format of date.
+ *
+ * */
+void initialise_format_date ( void )
+{
+    const gchar *langue;
+
+    gsb_date_set_format_date ( NULL );
+
+    langue = g_getenv ( "LANG");
+
+    if ( g_str_has_prefix ( langue, "en_" ) || g_str_has_prefix ( langue, "cs_" ) )
+        gsb_date_set_format_date ( "%m/%d/%Y" );
+    else
+        gsb_date_set_format_date ( "%d/%m/%Y" );
+}
+
+
+/**
+ * init the decimal point and the thousands separator.
+ *
+ * */
+void initialise_number_separators ( void )
+{
+    struct lconv *conv;
+
+    gsb_real_set_decimal_point ( NULL );
+    gsb_real_set_thousands_sep ( NULL );
+
+    conv = localeconv();
+
+    gsb_real_set_decimal_point ( g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL ) );
+    gsb_real_set_thousands_sep ( g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL ) );
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

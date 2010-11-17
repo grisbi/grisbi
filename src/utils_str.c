@@ -28,6 +28,7 @@
 /*START_INCLUDE*/
 #include "utils_str.h"
 #include "gsb_data_report.h"
+#include "gsb_data_currency.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -37,6 +38,7 @@ static gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trun
 
 
 /*START_EXTERN*/
+extern gsb_real error_real;
 /*END_EXTERN*/
 
 
@@ -167,15 +169,14 @@ gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
  * */
 gchar *utils_str_localise_decimal_point_from_string ( const gchar *string )
 {
-    struct lconv *conv = localeconv ( );
     gchar *ptr_1, *ptr_2;
     gchar *new_str;
     gchar *mon_decimal_point;
     gchar *mon_separateur;
     gchar **tab;
 
-    mon_decimal_point = g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL );
-    mon_separateur = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
+    mon_decimal_point = gsb_real_get_decimal_point ( );
+    mon_separateur = gsb_real_get_thousands_sep ( );
 
     if ( ( ptr_1 = g_strstr_len ( string, -1, "," ) )
      &&
@@ -205,7 +206,7 @@ gchar *utils_str_localise_decimal_point_from_string ( const gchar *string )
 
     if ( mon_separateur && g_strstr_len ( new_str, -1, mon_separateur ) )
     {
-        tab = g_strsplit ( new_str, " ", 0 );
+        tab = g_strsplit ( new_str, mon_separateur, 0 );
         g_free ( new_str );
         new_str = g_strjoinv ( "", tab );
         g_strfreev ( tab );
@@ -1026,7 +1027,7 @@ gchar *utils_str_colon ( const gchar *s )
 {
     gchar *tmp_str;
 
-    tmp_str = g_strconcat ( s, _(":"), NULL );
+    tmp_str = g_strconcat ( s, _(": "), NULL );
 
     return tmp_str;
 }
@@ -1065,6 +1066,54 @@ gchar *utils_str_incremente_number_from_str ( const gchar *str_number, gint incr
         new_str_number = g_strconcat ( prefix, new_str_number, NULL );
 
     return new_str_number;
+}
+
+
+/**
+ * Return the real in a formatted string with an optional currency
+ * symbol, according to the locale regarding decimal separator,
+ * thousands separator and positive or negative sign.
+ *
+ * \param number		Number to format.
+ * \param currency_number 	the currency we want to adapt the number, 0 for no adaptation
+ * \param show_symbol 		TRUE to add the currency symbol in the string
+ *
+ * \return		A newly allocated string of the number (this
+ *			function will never return NULL)
+ */
+gchar *gsb_real_get_string_with_currency ( gsb_real number,
+                        gint currency_number,
+                        gboolean show_symbol )
+{
+    struct lconv *conv = localeconv ();
+    gint floating_point;
+
+    const gchar *currency_symbol = (currency_number && show_symbol)
+                                   ? gsb_data_currency_get_code_or_isocode (currency_number)
+                                   : NULL;
+
+    /* First of all if number = 0 I return 0 with the symbol of the currency if necessary */
+    if (number.mantissa == 0)
+    {
+        if (currency_symbol && conv -> p_cs_precedes)
+            return g_strdup_printf ( "%s %s", currency_symbol, "0" );
+        else if (currency_symbol && ! conv -> p_cs_precedes)
+            return g_strdup_printf ( "%s %s", "0", currency_symbol );
+        else
+            return g_strdup ("0");
+    }
+    else if ( (number.exponent < 0)
+    || (number.exponent > EXPONENT_MAX )
+    || (number.mantissa == error_real.mantissa) )
+        return g_strdup ( ERROR_REAL_STRING );
+
+    /* first we need to adapt the exponent to the currency */
+    /* if the exponent of the real is not the same of the currency, need to adapt it */
+    floating_point = gsb_data_currency_get_floating_point ( currency_number );
+    if ( currency_number && number.exponent != floating_point )
+        number = gsb_real_adjust_exponent ( number, floating_point );
+
+    return gsb_real_raw_format_string ( number, conv, currency_symbol );
 }
 
 

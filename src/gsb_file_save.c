@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2009 Benjamin Drieu (bdrieu@april.org)	                      */
+/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -573,6 +574,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *skipped_lines_string;
     gchar *bet_array_column_width_write;
     gchar *date_format;
+    gchar *mon_decimal_point;
+    gchar *mon_thousands_sep;
     gboolean is_archive = FALSE;
 
     /* prepare stuff to save general information */
@@ -655,7 +658,12 @@ gulong gsb_file_save_general_part ( gulong iterator,
             bet_array_column_width_write  = utils_str_itoa ( bet_array_col_width[i] );
     }
 
+    /* save localization data */
     date_format = gsb_date_get_format_date ( );
+    mon_decimal_point = gsb_real_get_decimal_point ( );
+    mon_thousands_sep = gsb_real_get_thousands_sep ( );
+    if ( mon_thousands_sep == NULL )
+        mon_thousands_sep = g_strdup ( "empty" );
 
     /* if we save an archive, we save it here */
     if (archive_number
@@ -673,6 +681,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tGeneral_address=\"%s\"\n"
 					   "\t\tSecond_general_address=\"%s\"\n"
 					   "\t\tDate_format=\"%s\"\n"
+					   "\t\tDecimal_point=\"%s\"\n"
+					   "\t\tThousands_separator=\"%s\"\n"
 					   "\t\tParty_list_currency_number=\"%d\"\n"
 					   "\t\tCategory_list_currency_number=\"%d\"\n"
 					   "\t\tBudget_list_currency_number=\"%d\"\n"
@@ -714,6 +724,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	my_safe_null_str(adresse_commune),
 	my_safe_null_str(adresse_secondaire),
 	my_safe_null_str ( date_format ),
+	my_safe_null_str ( mon_decimal_point ),
+	my_safe_null_str ( mon_thousands_sep ),
 	no_devise_totaux_tiers,
 	no_devise_totaux_categ,
 	no_devise_totaux_ib,
@@ -751,6 +763,10 @@ gulong gsb_file_save_general_part ( gulong iterator,
     g_free (transactions_view);
     g_free (scheduler_column_width_write);
     g_free (transaction_column_width_write);
+
+    g_free ( date_format );
+    g_free ( mon_decimal_point );
+    g_free ( mon_thousands_sep );
 
     /* append the new string to the file content
      * and return the new iterator */

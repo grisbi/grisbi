@@ -106,7 +106,8 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget * navigation_tree_view;
+extern GdkColor calendar_entry_color;
+extern GtkWidget *navigation_tree_view;
 extern gsb_real null_real;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -1526,6 +1527,8 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
         break;
 
     case TRANSACTION_FORM_DEBIT :
+        if ( gsb_form_widget_amount_entry_validate ( element_number ) == FALSE )
+            return TRUE;
         /* we change the payment method to adapt it for the debit */
         if ( strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
         {
@@ -1622,6 +1625,8 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
         break;
 
     case TRANSACTION_FORM_CREDIT :
+        if ( gsb_form_widget_amount_entry_validate ( element_number ) == FALSE )
+            return TRUE;
         /* we change the payment method to adapt it for the debit */
         if ( strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
         {
@@ -2105,6 +2110,13 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    break;
 
 	case GDK_ISO_Left_Tab:
+        if ( element_number == TRANSACTION_FORM_CREDIT
+         || element_number == TRANSACTION_FORM_DEBIT )
+        {
+            if ( gsb_form_widget_amount_entry_validate ( element_number ) == FALSE )
+                return TRUE;
+        }
+
         element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_LEFT );
@@ -2127,7 +2139,14 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    break;
 
 	case GDK_Tab :
-	    element_suivant = gsb_form_widget_next_element ( account_number,
+        if ( element_number == TRANSACTION_FORM_CREDIT
+         || element_number == TRANSACTION_FORM_DEBIT )
+        {
+            if ( gsb_form_widget_amount_entry_validate ( element_number ) == FALSE )
+                return TRUE;
+        }
+
+        element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_RIGHT );
 
@@ -2178,6 +2197,13 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    }
 	    else
 	    {
+            if ( element_number == TRANSACTION_FORM_CREDIT
+             || element_number == TRANSACTION_FORM_DEBIT )
+            {
+                if ( gsb_form_widget_amount_entry_validate ( element_number ) == FALSE )
+                    return TRUE;
+            }
+
             widget_prov = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
 
             if ( GTK_IS_COMBOFIX ( widget_prov ) )
