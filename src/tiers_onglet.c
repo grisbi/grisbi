@@ -872,21 +872,21 @@ void appui_sur_manage_tiers ( void )
                         "check_option_2" ) ) );
 
         /* on ajoute la nouvelle association à la liste des assoc */
+        assoc = g_malloc ( sizeof ( struct struct_payee_asso ) );
+        assoc -> payee_number = new_payee_number;
+        assoc -> search_str = g_strdup ( str_cherche );
+        if ( !g_slist_find_custom ( liste_associations_tiers,
+                    assoc,
+                    (GCompareFunc) gsb_import_associations_cmp_assoc ) )
+        {
+            liste_associations_tiers = g_slist_insert_sorted (
+                    liste_associations_tiers,
+                    assoc,
+                    (GCompareFunc) gsb_import_associations_cmp_assoc );
+        }
+
         if ( nb_removed > 1 )
         {
-            assoc = g_malloc ( sizeof ( struct struct_payee_asso ) );
-            assoc -> payee_number = new_payee_number;
-            assoc -> search_str = g_strdup ( str_cherche );
-            if ( !g_slist_find_custom ( liste_associations_tiers,
-                        assoc,
-                        (GCompareFunc) gsb_import_associations_cmp_assoc ) )
-            {
-                liste_associations_tiers = g_slist_insert_sorted (
-                        liste_associations_tiers,
-                        assoc,
-                        (GCompareFunc) gsb_import_associations_cmp_assoc );
-            }
-
             tmp_list = gsb_data_transaction_get_complete_transactions_list ( );
             while ( tmp_list )
             {

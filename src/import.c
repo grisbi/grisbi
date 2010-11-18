@@ -2516,7 +2516,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                         imported_transaction -> tiers, TRUE );
         else
         {
-            if ( g_utf8_collate ( (gchar *) gsb_data_payee_get_name (
+            if ( g_utf8_collate ( gsb_data_payee_get_name (
                         payee_number, FALSE ),
                         imported_transaction -> tiers ) != 0 )
                 gsb_data_transaction_set_notes ( transaction_number,
