@@ -349,63 +349,70 @@ GSList *gsb_form_transaction_get_parties_list_from_report ( void )
     /*     check that the party's form exist, else, append -1 and go away */
     if ( gsb_data_form_check_for_value (TRANSACTION_FORM_PARTY))
     {
-	const gchar *string;
+        GtkWidget *combofix;
+        const gchar *string;
 
-	string = gtk_combofix_get_text ( GTK_COMBOFIX ( gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY)));
+        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+        if ( GTK_IS_COMBOFIX ( combofix ) )
+            string = gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ) );
+        else
+        {
+            parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( - 1) );
+            return parties_list;
+        }
 
-	if ( strncmp ( string,
-		       _("Report : "),
-		       7 ))
-	    /* the party is not a report, set -1 and go away */
-	    parties_list = g_slist_append (parties_list,
-					   GINT_TO_POINTER (-1));
-	else
-	{
-	    /* it's a report */
+        if ( string == NULL || strlen ( string ) == 0 )
+        {
+            parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( - 1) );
+            return parties_list;
+        }
 
-	    gchar **tab_char;
-	    gint report_number;
+        if ( strncmp ( string, _("Report : "), 7 ) )
+            /* the party is not a report, set -1 and go away */
+            parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( -1 ) );
+        else
+        {
+            /* it's a report */
+            gchar **tab_char;
+            gint report_number;
 
-	    tab_char = g_strsplit ( string,
-				    " : ",
-				    2 );
+            tab_char = g_strsplit ( string, " : ", 2 );
 
-	    report_number = gsb_data_report_get_report_by_name (tab_char[1]);
+            report_number = gsb_data_report_get_report_by_name (tab_char[1]);
 
-	    if (report_number)
-	    {
-		GSList *list_transactions;
-		GSList *list_tmp;
+            if (report_number)
+            {
+            GSList *list_transactions;
+            GSList *list_tmp;
 
-		list_transactions = recupere_opes_etat (report_number);
+            list_transactions = recupere_opes_etat (report_number);
 
-		list_tmp = list_transactions;
+            list_tmp = list_transactions;
 
-		while ( list_tmp )
-		{
-		    gint transaction_number;
+            while ( list_tmp )
+            {
+                gint transaction_number;
 
-		    transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
+                transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
 
-		    if ( !g_slist_find ( parties_list,
-					 GINT_TO_POINTER (gsb_data_transaction_get_party_number (transaction_number))))
-			parties_list = g_slist_append ( parties_list,
-							GINT_TO_POINTER ( gsb_data_transaction_get_party_number (transaction_number)));
-		    list_tmp = list_tmp -> next;
-		}
-		g_slist_free ( list_transactions );
-	    }
-	    else
-		/* the report was not found, set -1 */
-		parties_list = g_slist_append (parties_list,
-					       GINT_TO_POINTER (-1));
-	    g_strfreev ( tab_char );
-	}
+                if ( !g_slist_find ( parties_list,
+                         GINT_TO_POINTER (gsb_data_transaction_get_party_number (transaction_number))))
+                parties_list = g_slist_append ( parties_list,
+                                GINT_TO_POINTER ( gsb_data_transaction_get_party_number (transaction_number)));
+                list_tmp = list_tmp -> next;
+            }
+            g_slist_free ( list_transactions );
+            }
+            else
+            /* the report was not found, set -1 */
+            parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( -1 ) );
+            g_strfreev ( tab_char );
+        }
     }
     else
 	/* no party so not a report */
-	parties_list = g_slist_append ( parties_list,
-					GINT_TO_POINTER (-1));
+	parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( - 1) );
+
     return parties_list;
 }
 
