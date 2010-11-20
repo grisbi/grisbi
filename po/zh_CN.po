@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-17 20:06+0100\n"
+"POT-Creation-Date: 2010-11-20 18:13+0100\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -627,7 +627,7 @@ msgstr "恢复默认值"
 #. mise en place de la paddingbox des catégories
 #. set the title
 #: ../src/bet_config.c:537 ../src/bet_config.c:555 ../src/bet_config.c:572
-#: ../src/bet_config.c:635 ../src/bet_hist.c:160 ../src/etats_config.c:526
+#: ../src/bet_config.c:635 ../src/bet_hist.c:159 ../src/etats_config.c:526
 #: ../src/etats_config.c:529 ../src/etats_config.c:2991
 #: ../src/etats_config.c:7057 ../src/fenetre_principale.c:282
 #: ../src/navigation.c:314 ../src/navigation.c:1211
@@ -637,7 +637,7 @@ msgstr "类别"
 #. mise en place de la paddingbox des ib
 #. set the title
 #: ../src/bet_config.c:538 ../src/bet_config.c:556 ../src/bet_config.c:573
-#: ../src/bet_config.c:644 ../src/bet_hist.c:169 ../src/etats_config.c:535
+#: ../src/bet_config.c:644 ../src/bet_hist.c:168 ../src/etats_config.c:535
 #: ../src/etats_config.c:538 ../src/etats_config.c:3797
 #: ../src/etats_config.c:7134 ../src/export_csv.c:802
 #: ../src/fenetre_principale.c:287 ../src/import_csv.c:86
@@ -661,7 +661,7 @@ msgid ""
 "budgetary line."
 msgstr ""
 
-#: ../src/bet_config.c:659 ../src/bet_hist.c:189
+#: ../src/bet_config.c:659 ../src/bet_hist.c:188
 #, fuzzy
 msgid "Choose the financial year or 12 months rolling"
 msgstr "选择财年"
@@ -864,14 +864,14 @@ msgstr ""
 
 #. Print list
 #: ../src/bet_finance_ui.c:1057 ../src/bet_finance_ui.c:1869
-#: ../src/bet_tab.c:1534 ../src/bet_tab.c:2857
+#: ../src/bet_tab.c:1542 ../src/bet_tab.c:2866
 #, fuzzy
 msgid "Print the array"
 msgstr "打印机"
 
 #. Export list
 #: ../src/bet_finance_ui.c:1067 ../src/bet_finance_ui.c:1885
-#: ../src/bet_finance_ui.c:1914 ../src/bet_tab.c:1544
+#: ../src/bet_finance_ui.c:1914 ../src/bet_tab.c:1552
 #, fuzzy
 msgid "Export the array"
 msgstr "打印机"
@@ -887,7 +887,7 @@ msgstr ""
 msgid "Loan amount"
 msgstr "载入账户文件"
 
-#: ../src/bet_finance_ui.c:1208 ../src/bet_future.c:770 ../src/bet_tab.c:691
+#: ../src/bet_finance_ui.c:1208 ../src/bet_future.c:770 ../src/bet_tab.c:695
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:763
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1289
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
@@ -940,13 +940,13 @@ msgid "Credits"
 msgstr "贷方"
 
 #. Set up dialog
-#: ../src/bet_finance_ui.c:1866 ../src/bet_tab.c:2854
+#: ../src/bet_finance_ui.c:1866 ../src/bet_tab.c:2863
 #: ../src/barre_outils.c:140 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
 msgstr "打印"
 
-#: ../src/bet_finance_ui.c:1882 ../src/bet_tab.c:2867
+#: ../src/bet_finance_ui.c:1882 ../src/bet_tab.c:2876
 #: ../src/categories_onglet.c:517 ../src/etats_onglet.c:138
 #: ../src/export.c:161 ../src/imputation_budgetaire.c:554
 msgid "Export"
@@ -957,7 +957,7 @@ msgstr "导出"
 msgid "credit.csv"
 msgstr "贷方"
 
-#: ../src/bet_finance_ui.c:1938 ../src/bet_tab.c:2980
+#: ../src/bet_finance_ui.c:1938 ../src/bet_tab.c:2991
 #: ../src/imputation_budgetaire.c:391
 msgid "Cannot save file."
 msgstr "不能保存文件"
@@ -1092,7 +1092,7 @@ msgid "Payee"
 msgstr "支付方"
 
 #. Debit method_ptr
-#: ../src/bet_future.c:795 ../src/bet_tab.c:725 ../src/categories_onglet.c:696
+#: ../src/bet_future.c:795 ../src/bet_tab.c:729 ../src/categories_onglet.c:696
 #: ../src/export_csv.c:784 ../src/gsb_form.c:1315 ../src/gsb_form_widget.c:416
 #: ../src/gsb_payment_method_config.c:316
 #: ../src/gsb_payment_method_config.c:387
@@ -1103,7 +1103,7 @@ msgid "Debit"
 msgstr "借方"
 
 #. Credit method_ptr
-#: ../src/bet_future.c:802 ../src/bet_tab.c:743 ../src/categories_onglet.c:696
+#: ../src/bet_future.c:802 ../src/bet_tab.c:747 ../src/categories_onglet.c:696
 #: ../src/export_csv.c:781 ../src/gsb_form.c:1320 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:323
 #: ../src/gsb_payment_method_config.c:400
@@ -1225,151 +1225,151 @@ msgstr "每预算行总额"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it the fyear should be showed
-#: ../src/bet_hist.c:995
+#: ../src/bet_hist.c:997
 msgid "12 months rolling"
 msgstr ""
 
 #. Add last amount menu
-#: ../src/bet_hist.c:1395
+#: ../src/bet_hist.c:1397
 #, fuzzy
 msgid "Assign the amount of the last operation"
 msgstr "导入交易包含的日期"
 
 #. Add average amount menu
-#: ../src/bet_hist.c:1418
+#: ../src/bet_hist.c:1420
 msgid "Copy the average amount"
 msgstr ""
 
-#: ../src/bet_hist.c:1679
+#: ../src/bet_hist.c:1683
 #, fuzzy, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr "使用选中交易做模板"
 
-#: ../src/bet_tab.c:444
+#: ../src/bet_tab.c:448
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
-#: ../src/bet_tab.c:461
+#: ../src/bet_tab.c:465
 msgid "balance beginning of period"
 msgstr ""
 
 #. set the start date and the automatic change of month
-#: ../src/bet_tab.c:562
+#: ../src/bet_tab.c:566
 #, fuzzy
 msgid "Start date"
 msgstr "开始"
 
-#: ../src/bet_tab.c:581
+#: ../src/bet_tab.c:585
 msgid "Check the box to automatically change start date"
 msgstr ""
 
 #. Description entry
-#: ../src/bet_tab.c:708 ../src/etats_onglet.c:260 ../src/tiers_onglet.c:638
+#: ../src/bet_tab.c:712 ../src/etats_onglet.c:260 ../src/tiers_onglet.c:638
 msgid "Description"
 msgstr "描述"
 
-#: ../src/bet_tab.c:761 ../src/export_csv.c:790 ../src/gsb_reconcile.c:161
+#: ../src/bet_tab.c:765 ../src/export_csv.c:790 ../src/gsb_reconcile.c:161
 #: ../src/gsb_scheduler_list.c:340 ../src/gsb_transactions_list.c:152
 #: ../src/gsb_transactions_list.c:2987 ../src/import_csv.c:88
 #: ../src/traitement_variables.c:88
 msgid "Balance"
 msgstr "余额"
 
-#: ../src/bet_tab.c:852 ../src/bet_tab.c:862 ../src/bet_tab.c:1049
-#: ../src/bet_tab.c:2468 ../src/bet_tab.c:2473
+#: ../src/bet_tab.c:857 ../src/bet_tab.c:867 ../src/bet_tab.c:1055
+#: ../src/bet_tab.c:2480 ../src/bet_tab.c:2485
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "转帐到一个删除的账户"
 
-#: ../src/bet_tab.c:1373
+#: ../src/bet_tab.c:1381
 msgid "Subtract to the balance"
 msgstr ""
 
-#: ../src/bet_tab.c:1380
+#: ../src/bet_tab.c:1388
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "初始余额"
 
 #. Insert Row
-#: ../src/bet_tab.c:1397
+#: ../src/bet_tab.c:1405
 msgid "Insert Row"
 msgstr ""
 
-#: ../src/bet_tab.c:1414 ../src/bet_tab.c:1426 ../src/bet_tab.c:1447
-#: ../src/bet_tab.c:1504
+#: ../src/bet_tab.c:1422 ../src/bet_tab.c:1434 ../src/bet_tab.c:1455
+#: ../src/bet_tab.c:1512
 #, fuzzy
 msgid "Delete selection"
 msgstr "数据选择"
 
-#: ../src/bet_tab.c:1437
+#: ../src/bet_tab.c:1445
 #, fuzzy
 msgid "Change selection"
 msgstr "数据选择"
 
-#: ../src/bet_tab.c:1458
+#: ../src/bet_tab.c:1466
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "删除一条定期交易"
 
-#: ../src/bet_tab.c:1473
+#: ../src/bet_tab.c:1481
 #, fuzzy
 msgid "Convert selection to scheduled transaction"
 msgstr "转换交易为计划交易"
 
-#: ../src/bet_tab.c:1494
+#: ../src/bet_tab.c:1502
 #, fuzzy
 msgid "Insert the balance of a cash account"
 msgstr "不能在结算账户上产生交易。"
 
 #. redo item
-#: ../src/bet_tab.c:1520
+#: ../src/bet_tab.c:1528
 #, fuzzy
 msgid "Reset data"
 msgstr "最后日期"
 
-#: ../src/bet_tab.c:1862
+#: ../src/bet_tab.c:1873
 msgid " (still available)"
 msgstr ""
 
-#: ../src/bet_tab.c:1871 ../src/bet_tab.c:1892
+#: ../src/bet_tab.c:1882 ../src/bet_tab.c:1904
 #, fuzzy
 msgid " (budget exceeded)"
 msgstr "没有预算行"
 
-#: ../src/bet_tab.c:1883
+#: ../src/bet_tab.c:1895
 msgid " (yet to receive)"
 msgstr ""
 
-#: ../src/bet_tab.c:2391 ../src/bet_tab.c:2441 ../src/bet_tab.c:2501
+#: ../src/bet_tab.c:2403 ../src/bet_tab.c:2453 ../src/bet_tab.c:2513
 #, fuzzy
 msgid "No data by default"
 msgstr "恢复默认值"
 
-#: ../src/bet_tab.c:2399 ../src/bet_tab.c:2449 ../src/bet_tab.c:2507
+#: ../src/bet_tab.c:2411 ../src/bet_tab.c:2461 ../src/bet_tab.c:2519
 #: ../src/etats_affiche.c:1860 ../src/gsb_data_category.c:157
 #: ../src/meta_categories.c:66
 msgid "No category"
 msgstr "未分类"
 
-#: ../src/bet_tab.c:2407 ../src/bet_tab.c:2457 ../src/bet_tab.c:2513
+#: ../src/bet_tab.c:2419 ../src/bet_tab.c:2469 ../src/bet_tab.c:2525
 #: ../src/etats_affiche.c:2030 ../src/meta_budgetary.c:63
 msgid "No budgetary line"
 msgstr "没有预算行"
 
-#: ../src/bet_tab.c:2870 ../src/bet_tab.c:2956
+#: ../src/bet_tab.c:2879 ../src/bet_tab.c:2967
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "导出预算行"
 
-#: ../src/bet_tab.c:2914
+#: ../src/bet_tab.c:2925
 #, fuzzy
 msgid "Balance at "
 msgstr "余额"
 
-#: ../src/bet_tab.c:2963
+#: ../src/bet_tab.c:2974
 msgid "forecast.csv"
 msgstr ""
 
