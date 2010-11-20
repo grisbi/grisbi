@@ -32,10 +32,10 @@
 /*START_INCLUDE*/
 #include "gsb_data_scheduled.h"
 #include "dialog.h"
+#include "gsb_data_currency.h"
+#include "gsb_real.h"
 #include "utils_dates.h"
 #include "utils_str.h"
-#include "include.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 
@@ -1739,6 +1739,30 @@ gint gsb_data_scheduled_get_white_line ( gint scheduled_number)
 	tmp_list = tmp_list -> next;
     }
     return -1;
+}
+
+
+/**
+ * get floating point of the currency of the scheduled given
+ *
+ * \param scheduled_number the number of the scheduled
+ *
+ * \return the floating_point of currency number of the scheduled
+ * */
+gint gsb_data_scheduled_get_currency_floating_point ( gint scheduled_number )
+{
+    struct_scheduled *scheduled;
+    gint floating_point;
+
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
+
+    if ( !scheduled )
+        return -1;
+    else
+    {
+        floating_point = gsb_data_currency_get_floating_point ( scheduled -> currency_number );
+        return floating_point;
+    }
 }
 
 

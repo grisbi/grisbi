@@ -45,6 +45,7 @@ GSList *gsb_data_transaction_get_complete_transactions_list ( void );
 gint gsb_data_transaction_get_contra_transaction_account ( gint transaction_number );
 gint gsb_data_transaction_get_contra_transaction_number ( gint transaction_number );
 gint gsb_data_transaction_get_currency_number ( gint transaction_number );
+gint gsb_data_transaction_get_currency_floating_point ( gint transaction_number );
 const GDate *gsb_data_transaction_get_date ( gint transaction_number );
 gsb_real gsb_data_transaction_get_exchange_fees ( gint transaction_number );
 gsb_real gsb_data_transaction_get_exchange_rate ( gint transaction_number );

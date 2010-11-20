@@ -3499,6 +3499,30 @@ gboolean gsb_data_account_set_bet_finance_type_taux ( gint account_number, gint 
 
 
 /**
+ * get floating_point of the currency on the account given
+ * 
+ * \param account_number no of the account
+ * 
+ * \return floating_point or 0 if the account or the currency doesn't exist
+ * */
+gint gsb_data_account_get_currency_floating_point ( gint account_number )
+{
+    struct_account *account;
+    gint floating_point;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+        return 0;
+    else
+    {
+        floating_point = gsb_data_currency_get_floating_point ( account -> currency );
+        return floating_point;
+    }
+}
+
+
+/**
  *
  *
  *

@@ -836,7 +836,8 @@ GPtrArray *bet_data_get_strings_to_save ( void )
                         shd -> account_nb,
                         shd -> div_number,
                         shd -> div_edited,
-                        gsb_real_save_real_to_string ( shd -> amount, 2 ),
+                        gsb_real_save_real_to_string ( shd -> amount,
+                        gsb_data_account_get_currency_floating_point ( shd -> account_nb ) ),
                         0, 0, "0.00" );
 
             g_ptr_array_add ( tab, tmp_str );
@@ -849,7 +850,9 @@ GPtrArray *bet_data_get_strings_to_save ( void )
             while ( g_hash_table_iter_next ( &new_iter, &key, &value ) )
             {
                 struct_hist_div *sub_shd = ( struct_hist_div* ) value;
+                gint floating_point;
 
+                floating_point = gsb_data_account_get_currency_floating_point ( shd -> account_nb );
                 tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
                         "Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
                         "SEdit=\"%d\" SDamount=\"%s\" />\n",
@@ -857,10 +860,10 @@ GPtrArray *bet_data_get_strings_to_save ( void )
                         shd -> account_nb,
                         shd -> div_number,
                         shd -> div_edited,
-                        gsb_real_save_real_to_string ( shd -> amount, 2 ),
+                        gsb_real_save_real_to_string ( shd -> amount, floating_point ),
                         sub_shd -> div_number,
                         sub_shd -> div_edited,
-                        gsb_real_save_real_to_string ( sub_shd -> amount, 2 ) );
+                        gsb_real_save_real_to_string ( sub_shd -> amount, floating_point ) );
 
                 g_ptr_array_add ( tab, tmp_str );
             }
@@ -876,7 +879,8 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         gchar *limit_date;
 
         /* set the real */
-        amount = gsb_real_save_real_to_string ( scheduled -> amount, 2 );
+        amount = gsb_real_save_real_to_string ( scheduled -> amount,
+                        gsb_data_account_get_currency_floating_point ( scheduled -> account_number ) );
 
         /* set the dates */
         date = gsb_format_gdate_safe ( scheduled -> date );

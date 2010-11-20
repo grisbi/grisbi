@@ -2695,6 +2695,30 @@ gsb_real gsb_data_transaction_get_last_transaction_with_div_sub_div (
 
 
 /**
+ * get floating point of the currency of the transaction given
+ *
+ * \param transaction_number the number of the transaction
+ *
+ * \return the floating_point of currency number of the transaction
+ * */
+gint gsb_data_transaction_get_currency_floating_point ( gint transaction_number )
+{
+    struct_transaction *transaction;
+    gint floating_point;
+
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
+
+    if ( !transaction )
+        return -1;
+    else
+    {
+        floating_point = gsb_data_currency_get_floating_point ( transaction -> currency_number );
+        return floating_point;
+    }
+}
+
+
+/**
  *
  *
  *

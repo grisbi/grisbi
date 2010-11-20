@@ -947,6 +947,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	gchar *second_string_to_free;
 	gint account_number;
 	gint j, k;
+    gint floating_point;
 	gchar *sort_list;
 	gchar *sort_kind_column;
 	gchar *form_organization;
@@ -1044,12 +1045,16 @@ gulong gsb_file_save_account_part ( gulong iterator,
 										       k ));
 
 	/* set the reals */
+    floating_point = gsb_data_account_get_currency_floating_point ( account_number );
 	init_balance = gsb_real_save_real_to_string (
-                        gsb_data_account_get_init_balance ( account_number, -1 ), 2 );
+                        gsb_data_account_get_init_balance ( account_number, -1 ),
+                        floating_point );
 	mini_wanted = gsb_real_save_real_to_string (
-                        gsb_data_account_get_mini_balance_wanted ( account_number ), 2 );
+                        gsb_data_account_get_mini_balance_wanted ( account_number ),
+                        floating_point );
 	mini_auto = gsb_real_save_real_to_string (
-                        gsb_data_account_get_mini_balance_authorized ( account_number ), 2 );
+                        gsb_data_account_get_mini_balance_authorized ( account_number ),
+                        floating_point );
 
     /* protect the owner adress */
     owner_str = g_strdup ( my_safe_null_str (
@@ -1284,6 +1289,7 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 	gchar *date;
 	gchar *value_date;
 	gint transaction_archive_number;
+    gint floating_point;
 
 	transaction_number = gsb_data_transaction_get_transaction_number ( list_tmp -> data );
 
@@ -1306,12 +1312,15 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 
 	/* set the reals. On met en forme le résultat pour avoir une cohérence dans les montants
      * enregistrés dans le fichier à valider */
+    floating_point = gsb_data_transaction_get_currency_floating_point ( transaction_number );
 	amount = gsb_real_save_real_to_string (
-                        gsb_data_transaction_get_amount ( transaction_number ), 2 );
+                        gsb_data_transaction_get_amount ( transaction_number ),
+                        floating_point );
 	exchange_rate = gsb_real_save_real_to_string (
                         gsb_data_transaction_get_exchange_rate ( transaction_number ), -1 );
 	exchange_fees = gsb_real_save_real_to_string (
-                        gsb_data_transaction_get_exchange_fees ( transaction_number ), 2 );
+                        gsb_data_transaction_get_exchange_fees ( transaction_number ),
+                        floating_point );
 	
 	/* set the dates */
 	date = gsb_format_gdate_safe ( gsb_data_transaction_get_date ( transaction_number ));
@@ -1395,12 +1404,15 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 	gchar *amount;
 	gchar *date;
 	gchar *limit_date;
+    gint floating_point;
 
 	scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
 
 	/* set the real */
+    floating_point = gsb_data_transaction_get_currency_floating_point ( scheduled_number );
 	amount = gsb_real_save_real_to_string (
-                        gsb_data_scheduled_get_amount ( scheduled_number ), 2 );
+                        gsb_data_scheduled_get_amount ( scheduled_number ),
+                        floating_point );
 
 	/* set the dates */
 	date = gsb_format_gdate_safe (gsb_data_scheduled_get_date ( scheduled_number));
@@ -1957,6 +1969,7 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
 	gchar *final_date;
 	gchar *init_balance;
 	gchar *final_balance;
+    gint floating_point;
 
 	reconcile_number = gsb_data_reconcile_get_no_reconcile (list_tmp -> data);
 
@@ -1970,10 +1983,14 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
 	    final_date = my_strdup ("");
 
 	/* set the balances strings */
+    floating_point = gsb_data_account_get_currency_floating_point ( gsb_data_reconcile_get_account (
+                        reconcile_number ) );
 	init_balance = gsb_real_save_real_to_string (
-                        gsb_data_reconcile_get_init_balance ( reconcile_number ), 2 );
+                        gsb_data_reconcile_get_init_balance ( reconcile_number ),
+                        floating_point );
 	final_balance = gsb_real_save_real_to_string (
-                        gsb_data_reconcile_get_final_balance ( reconcile_number ), 2 );
+                        gsb_data_reconcile_get_final_balance ( reconcile_number ),
+                        floating_point );
 
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" Acc=\"%d\" "
@@ -2623,6 +2640,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gint amount_comparison_number;
 	    gchar *first_amount;
 	    gchar *second_amount;
+        gint floating_point;
 
 	    amount_comparison_number = GPOINTER_TO_INT (list_tmp_2 -> data);
 
@@ -2635,12 +2653,16 @@ gulong gsb_file_save_report_part ( gulong iterator,
 		amount_comparison_number_to_write = amount_comparison_number;
 
 	    /* set the numbers */
+        floating_point = gsb_data_currency_get_floating_point (
+                        gsb_data_report_get_currency_general ( report_number ) );
 	    first_amount = gsb_real_save_real_to_string (
                         gsb_data_report_amount_comparison_get_first_amount (
-                        amount_comparison_number ), 2 );
+                        amount_comparison_number ),
+                        floating_point );
 	    second_amount = gsb_real_save_real_to_string (
                         gsb_data_report_amount_comparison_get_second_amount (
-                        amount_comparison_number ), 2 );
+                        amount_comparison_number ),
+                        floating_point );
 
 	    /* now we can fill the file content */
 	    new_string = g_markup_printf_escaped ( "\t<Amount_comparison\n"

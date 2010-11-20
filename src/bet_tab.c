@@ -49,6 +49,7 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_partial_balance.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
@@ -397,6 +398,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     gsb_real current_balance;
     SBR *tmp_range;
     GValue date_value = {0, };
+    gint currency_number;
 
     devel_debug (NULL);
 
@@ -427,9 +429,11 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     current_balance = gsb_data_account_calculate_current_day_balance (
                         account_number, date_min );
 
-    str_amount = gsb_real_save_real_to_string ( current_balance, 2 );
-    str_current_balance = gsb_real_get_string_with_currency ( current_balance,
-                        gsb_data_account_get_currency ( account_number ), TRUE );
+    currency_number = gsb_data_account_get_currency ( account_number );
+
+    str_amount = gsb_real_save_real_to_string ( current_balance, 
+                    gsb_data_currency_get_floating_point ( currency_number ) );
+    str_current_balance = gsb_real_get_string_with_currency ( current_balance, currency_number, TRUE );
 
     if ( current_balance.mantissa < 0 )
         color_str = "red";
@@ -817,6 +821,7 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
         gint transfer_account_number;
         gint div_number;
         gint sub_div_nb;
+        gint currency_number;
         GDate *date;
         GValue date_value = {0, };
         gsb_real amount;
@@ -880,13 +885,13 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
         else
             continue;
 
-        str_amount = gsb_real_save_real_to_string ( amount, 2 );
+        currency_number = gsb_data_scheduled_get_currency_number ( scheduled_number );
+        str_amount = gsb_real_save_real_to_string ( amount, 
+                    gsb_data_currency_get_floating_point ( currency_number ) );
         if (amount.mantissa < 0)
-            str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
-                        gsb_data_scheduled_get_currency_number ( scheduled_number ), TRUE );
+            str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ), currency_number, TRUE );
         else
-            str_credit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
-                        gsb_data_scheduled_get_currency_number ( scheduled_number ), TRUE );
+            str_credit = gsb_real_get_string_with_currency ( amount, currency_number, TRUE );
 
         /* calculate each instance of the scheduled operation
          * in the range from date_min (today) to date_max */
@@ -982,6 +987,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         gint transfer_account_number;
         gint div_number;
         gint sub_div_nb;
+        gint currency_number;
         const GDate *date;
         GValue date_value = {0, };
         gsb_real amount;
@@ -1030,14 +1036,14 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         g_value_init ( &date_value, G_TYPE_DATE );
         g_value_set_boxed ( &date_value, date );
 
-        str_amount = gsb_real_save_real_to_string ( amount, 2 );
+        currency_number = gsb_data_transaction_get_currency_number ( transaction_number);
+        str_amount = gsb_real_save_real_to_string ( amount, 
+                    gsb_data_currency_get_floating_point ( currency_number ) );
 
         if (amount.mantissa < 0)
-            str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
-                        gsb_data_transaction_get_currency_number ( transaction_number), TRUE );
+            str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ), currency_number, TRUE );
         else
-            str_credit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ),
-                        gsb_data_transaction_get_currency_number (transaction_number), TRUE);
+            str_credit = gsb_real_get_string_with_currency ( amount, currency_number, TRUE);
 
         transfer_number =
                         gsb_data_transaction_get_contra_transaction_number (
@@ -1228,6 +1234,7 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
         GDate *date_tomorrow;
         gsb_real amount;
         gboolean inverse_amount = FALSE;
+        gint currency_number;
 
         if ( account_number != scheduled -> account_number )
         {
@@ -1265,14 +1272,15 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
         else
             amount = scheduled -> amount;
 
-        str_amount = gsb_real_save_real_to_string ( amount, 2 );
+        currency_number = gsb_data_account_get_currency ( account_number );
+        str_amount = gsb_real_save_real_to_string ( amount, 
+                    gsb_data_currency_get_floating_point ( currency_number ) );
 
         if ( amount.mantissa < 0 )
             str_debit = gsb_real_get_string_with_currency ( gsb_real_opposite ( amount ),
-                            bet_data_get_selected_currency ( ), TRUE );
+                            currency_number, TRUE );
         else
-            str_credit = gsb_real_get_string_with_currency ( amount,
-                            bet_data_get_selected_currency ( ), TRUE );
+            str_credit = gsb_real_get_string_with_currency ( amount, currency_number, TRUE );
 
         str_date = gsb_format_gdate ( scheduled -> date );
 
@@ -1817,6 +1825,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
         gint sign = 1;
         gint tmp_div_number;
         gint tmp_sub_div_nb;
+        gint currency_number;
 
         do
         {
@@ -1836,6 +1845,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
             {
                 div_name = bet_data_get_div_name ( tmp_div_number, tmp_sub_div_nb, FALSE );
 
+                currency_number = bet_data_get_selected_currency ( );
                 date = gsb_parse_date_string ( str_date );
                 date_today = gdate_today ( );
                 if ( g_date_get_month ( date ) - g_date_get_month ( date_today ) == 0 )
@@ -1854,10 +1864,11 @@ void bet_array_adjust_hist_amount ( gint div_number,
                         {
                             if ( number.mantissa < 0 )
                             {
-                                str_amount = gsb_real_save_real_to_string ( number, 2 );
+                                str_amount = gsb_real_save_real_to_string ( number, 
+                                            gsb_data_currency_get_floating_point ( currency_number ) );
                                 str_debit = gsb_real_get_string_with_currency (
                                             gsb_real_abs ( number ),
-                                            bet_data_get_selected_currency ( ),
+                                            currency_number,
                                             TRUE );
                                 str_desc = g_strconcat ( div_name, _(" (still available)"), NULL);
                             }
@@ -1865,7 +1876,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                             {
                                 str_debit = gsb_real_get_string_with_currency (
                                             null_real,
-                                            bet_data_get_selected_currency ( ),
+                                            currency_number,
                                             TRUE );
                                 str_amount = g_strdup ( "0.00" );
                                 str_desc = g_strconcat ( div_name, _(" (budget exceeded)"), NULL);
@@ -1875,10 +1886,11 @@ void bet_array_adjust_hist_amount ( gint div_number,
                         {
                             if ( number.mantissa > 0 )
                             {
-                                str_amount = gsb_real_save_real_to_string ( number, 2 );
+                                str_amount = gsb_real_save_real_to_string ( number, 
+                                            gsb_data_currency_get_floating_point ( currency_number ) );
                                 str_credit = gsb_real_get_string_with_currency (
                                             gsb_real_abs ( number ),
-                                            bet_data_get_selected_currency ( ),
+                                            currency_number,
                                             TRUE );
                                 str_desc = g_strconcat ( div_name, _(" (yet to receive)"), NULL);
                             }
@@ -1886,7 +1898,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                             {
                                 str_credit = gsb_real_get_string_with_currency (
                                             null_real,
-                                            bet_data_get_selected_currency ( ),
+                                            currency_number,
                                             TRUE );
                                 str_amount = g_strdup ( "0.00" );
                                 str_desc = g_strconcat ( div_name, _(" (budget exceeded)"), NULL);
@@ -2614,16 +2626,13 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
                         value );
 
         if ( transfert -> type == 0 )
-        {
             amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
-            str_amount = gsb_real_save_real_to_string ( amount, 2 );
-        }
         else
-        {
             amount = gsb_data_partial_balance_get_current_amount (
                         transfert -> replace_account );
-            str_amount = gsb_real_save_real_to_string ( amount, 2 );
-        }
+
+        str_amount = gsb_real_save_real_to_string ( amount,
+                        gsb_data_account_get_currency_floating_point ( account_number ) );
 
         if ( amount.mantissa < 0 )
             str_debit = gsb_transfert_get_str_amount ( transfert,
@@ -2898,7 +2907,9 @@ gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model
     g_date_add_months ( date, 1 );
     g_date_set_day ( date, 1 );
 
-    str_amount = gsb_real_save_real_to_string ( null_real, 2 );
+    str_amount = gsb_real_save_real_to_string ( null_real, 
+                        gsb_data_currency_get_floating_point (
+                        bet_data_get_selected_currency ( ) ) );
 
     while ( g_date_compare ( date, date_max ) < 0 )
     {

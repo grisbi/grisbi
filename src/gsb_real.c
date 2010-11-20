@@ -156,7 +156,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
     const gchar *cs_end;
     gint nbre_char;
 	lldiv_t units;
-
+/*printf ("currency_symbol = %s\n", currency_symbol);*/
     cs_start = (currency_symbol && conv->p_cs_precedes) ? currency_symbol : "";
     cs_start_space = (currency_symbol && conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
     sign = (number.mantissa < 0) ? conv->negative_sign : conv->positive_sign;
@@ -218,8 +218,9 @@ gchar *gsb_real_format_string ( gsb_real number,
 {
     struct lconv *conv = localeconv ();
     gint floating_point;
+    const gchar *currency_symbol;
 
-    const gchar *currency_symbol = (currency_number && show_symbol)
+    currency_symbol = (currency_number && show_symbol)
                                    ? gsb_data_currency_get_code_or_isocode (currency_number)
                                    : NULL;
 
@@ -1076,7 +1077,7 @@ gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_se
 
     g_free ( str_number );
     g_free ( dest );
-    
+
     return result;
 }
 

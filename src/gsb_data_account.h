@@ -59,6 +59,7 @@ gint gsb_data_account_get_bet_use_budget ( gint account_number );
 gint gsb_data_account_get_closed_account ( gint account_number );
 gchar *gsb_data_account_get_comment ( gint account_number );
 gint gsb_data_account_get_currency ( gint account_number );
+gint gsb_data_account_get_currency_floating_point ( gint account_number );
 gsb_real gsb_data_account_get_current_balance ( gint account_number );
 gint gsb_data_account_get_current_transaction_number ( gint account_number );
 gint gsb_data_account_get_default_credit ( gint account_number );
