@@ -1,9 +1,9 @@
 %define name    grisbi
-%define version 0.7.91
+%define version 0.7.92
 %define release %mkrel 1
 
 %define _disable_ld_no_undefined 1
-%define _disable_ld_as_needed 1 
+%define _disable_ld_as_needed 1
 
 Summary:        Personal finance manager
 Name:           %{name}
@@ -25,7 +25,7 @@ Grisbi helps you to manage your personal finances with Linux.
 %prep
 %setup -q
 
-%build 
+%build
 %configure
 %make
 
@@ -169,10 +169,9 @@ rm -rf $RPM_BUILD_ROOT
 - 0.5.1
 
 * Tue Jul 20 2004 Lenny Cartier <lenny@mandrakesoft.com> 0.5.0-1mdk
-- from neoclust <n1c0l4s.l3@wanadoo.fr> : 
+- from neoclust <n1c0l4s.l3@wanadoo.fr> :
         - 0.5.0
 
 * Sat Apr 24 2004 Lenny Cartier <lenny@mandrakesoft.com> 0.4.5-1mdk
 - 0.4.5
 - merge with original grisbi spec
-

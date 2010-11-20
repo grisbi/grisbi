@@ -30,10 +30,13 @@
 
 /*START_INCLUDE*/
 #include "parametres.h"
-#include "menu.h"
-#include "utils.h"
+#include "accueil.h"
+#include "affichage.h"
+#include "affichage_liste.h"
 #include "bet_config.h"
+#include "categories_onglet.h"
 #include "dialog.h"
+#include "fenetre_principale.h"
 #include "gsb_archive_config.h"
 #include "gsb_automem.h"
 #include "gsb_bank.h"
@@ -43,22 +46,23 @@
 #include "gsb_file.h"
 #include "gsb_form_config.h"
 #include "gsb_fyear_config.h"
-#include "navigation.h"
-#include "import.h"
 #include "gsb_payment_method_config.h"
+#include "gsb_real.h"
 #include "gsb_reconcile_config.h"
 #include "gsb_reconcile_sort_config.h"
-#include "traitement_variables.h"
-#include "utils_files.h"
-#include "accueil.h"
-#include "affichage_liste.h"
-#include "affichage.h"
-#include "tiers_onglet.h"
-#include "categories_onglet.h"
+#include "gsb_scheduler_list.h"
+#include "gsb_transactions_list.h"
+#include "import.h"
 #include "imputation_budgetaire.h"
+#include "menu.h"
+#include "navigation.h"
 #include "structures.h"
-#include "fenetre_principale.h"
-#include "include.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "transaction_list.h"
+#include "utils.h"
+#include "utils_dates.h"
+#include "utils_files.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -66,12 +70,19 @@
 static GtkWidget * create_preferences_tree ( );
 static GtkWidget *gsb_config_scheduler_page ( void );
 static gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void );
+static void gsb_config_update_affichage ( gint type_maj );
 static gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
+static void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user_data );
+static gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebutton,
+                        GdkEventButton *event,
+                        gpointer user_data);
+static void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user_data );
 static GtkWidget *onglet_delete_messages ( void );
 static GtkWidget *onglet_fichier ( void );
+static GtkWidget *onglet_localisation ( void );
 static GtkWidget *onglet_messages_and_warnings ( void );
 static GtkWidget *onglet_metatree ( void );
 static GtkWidget *onglet_programmes (void);
@@ -101,6 +112,7 @@ extern gboolean balances_with_scheduled;
 extern struct conditional_message delete_msg[];
 extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
+extern gint mise_a_jour_liste_comptes_accueil;
 extern gchar *nom_fichier_comptes;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
@@ -337,6 +349,15 @@ gboolean preferences ( gint page )
                         2, 400,
                         -1);
     gtk_notebook_append_page (preference_frame, onglet_accueil (), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        &iter2,
+                        0, _("Localization"),
+                        1, LOCALISATION_PAGE,
+                        2, 400,
+                        -1);
+    gtk_notebook_append_page (preference_frame, onglet_localisation (), NULL);
 
     /* Display subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
@@ -1188,6 +1209,12 @@ GtkWidget *onglet_metatree ( void )
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
 gboolean gsb_config_metatree_sort_transactions ( GtkWidget *checkbutton,
                         gpointer null )
 {
@@ -1216,6 +1243,328 @@ gboolean gsb_config_metatree_sort_transactions ( GtkWidget *checkbutton,
 
     return FALSE;
 }
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+GtkWidget *onglet_localisation ( void )
+{
+    GtkWidget *vbox_pref, *paddingbox;
+
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Localization"), "locale.png" );
+
+/*    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Choose Language") ); */
+
+    paddingbox = gsb_config_date_format_chosen ( vbox_pref, GTK_ORIENTATION_VERTICAL );
+
+    paddingbox = gsb_config_number_format_chosen ( vbox_pref, GTK_ORIENTATION_VERTICAL );
+
+    return vbox_pref;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens )
+{
+    GtkWidget *hbox, *paddingbox;
+    GtkWidget *button_1, *button_2;
+    gchar *format_date;
+
+    button_1 =gtk_radio_button_new_with_label ( NULL, "dd/mm/yyyy" );
+    format_date = g_strdup ( "%d/%m/%Y" );
+    g_object_set_data_full ( G_OBJECT ( button_1 ),
+                        "pointer",
+                        format_date,
+                        g_free );
+
+    button_2 = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (
+                        GTK_RADIO_BUTTON ( button_1 ) ),
+						"mm/dd/yyyy" );
+    format_date = g_strdup ( "%m/%d/%Y" );
+    g_object_set_data_full ( G_OBJECT ( button_2 ),
+                        "pointer",
+                        format_date,
+                        g_free );
+
+    if ( sens == GTK_ORIENTATION_VERTICAL )
+    {
+        paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Choose the date format") );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_1, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_2, FALSE, FALSE, 0 );
+    }
+    else
+    {
+        paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Date format") );
+        hbox = gtk_hbox_new ( FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 0 );
+    }
+
+    format_date = gsb_date_get_format_date ( );
+    if ( format_date && strcmp ( format_date, "%m/%d/%Y" ) == 0 )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_2 ), TRUE );
+    g_free ( format_date );
+
+    g_signal_connect ( G_OBJECT ( button_1 ),
+                        "button-release-event",
+                        G_CALLBACK ( gsb_localisation_format_date_toggle ),
+                        GINT_TO_POINTER ( sens ) );
+    g_signal_connect ( G_OBJECT ( button_2 ),
+                        "button-release-event",
+                        G_CALLBACK ( gsb_localisation_format_date_toggle ),
+                        GINT_TO_POINTER ( sens ) );
+
+    return paddingbox;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebutton,
+                        GdkEventButton *event,
+                        gpointer user_data)
+{
+    const gchar *format_date;
+
+    format_date = g_object_get_data ( G_OBJECT ( togglebutton ), "pointer" );
+    gsb_date_set_format_date ( format_date );
+
+    if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
+        return FALSE;
+
+    gsb_config_update_affichage ( 0 );
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
+{
+    GtkWidget *hbox, *paddingbox, *label;
+    GtkWidget *dec_hbox, *dec_sep, *thou_hbox, *thou_sep;
+    GtkSizeGroup *size_group;
+    gchar *mon_decimal_point;
+    gchar *mon_thousands_sep;
+
+    size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
+
+    dec_hbox = gtk_hbox_new ( FALSE, 0 );
+    label = gtk_label_new ( COLON ( _("Decimal point") ) );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
+    gtk_box_pack_start ( GTK_BOX ( dec_hbox ), label, FALSE, FALSE, 0 );
+
+    dec_sep = gtk_combo_box_entry_new_text ( );
+    gtk_editable_set_editable ( GTK_EDITABLE ( GTK_BIN ( dec_sep ) -> child ), FALSE );
+    gtk_entry_set_width_chars ( GTK_ENTRY ( GTK_BIN ( dec_sep ) -> child ), 5 );
+    gtk_combo_box_append_text ( GTK_COMBO_BOX ( dec_sep ), "." );
+    gtk_combo_box_append_text ( GTK_COMBO_BOX ( dec_sep ), "," );
+    gtk_box_pack_start ( GTK_BOX ( dec_hbox ), dec_sep, FALSE, FALSE, 0 );
+
+    thou_hbox = gtk_hbox_new ( FALSE, 0 );
+    label = gtk_label_new ( COLON ( _("Thousands separator") ) );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
+    gtk_box_pack_start ( GTK_BOX ( thou_hbox ), label, FALSE, FALSE, 0 );
+
+    thou_sep = gtk_combo_box_entry_new_text ( );
+    gtk_editable_set_editable ( GTK_EDITABLE ( GTK_BIN ( thou_sep ) -> child ), FALSE );
+    gtk_entry_set_width_chars ( GTK_ENTRY ( GTK_BIN ( thou_sep ) -> child ), 5 );
+    gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "' '" );
+    gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "," );
+    gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "''" );
+
+    gtk_box_pack_start ( GTK_BOX ( thou_hbox ), thou_sep, FALSE, FALSE, 0 );
+
+    if ( sens == GTK_ORIENTATION_VERTICAL )
+    {
+        paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Choose the decimal and thousands separator") );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), dec_hbox, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), thou_hbox, FALSE, FALSE, 0 );
+    }
+    else
+    {
+        paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Decimal and thousands separator") );
+        hbox = gtk_hbox_new ( TRUE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), dec_hbox, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), thou_hbox, FALSE, FALSE, 0 );
+    }
+
+    mon_decimal_point = gsb_real_get_decimal_point ( );
+    if ( strcmp ( mon_decimal_point, "," ) == 0 )
+        gtk_combo_box_set_active ( GTK_COMBO_BOX ( dec_sep ), 1 );
+    else
+        gtk_combo_box_set_active ( GTK_COMBO_BOX ( dec_sep ), 0 );
+    g_free ( mon_decimal_point );
+
+    mon_thousands_sep = gsb_real_get_thousands_sep ( );
+    if ( mon_thousands_sep == NULL )
+        gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 2 );
+    else if ( strcmp ( mon_thousands_sep, "," ) == 0 )
+        gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 1 );
+    else
+        gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 0 );
+
+    if ( mon_thousands_sep )
+        g_free ( mon_thousands_sep );
+
+    g_object_set_data ( G_OBJECT ( dec_sep ), "separator", thou_sep );
+    g_object_set_data ( G_OBJECT ( thou_sep ), "separator", dec_sep );
+
+    g_signal_connect ( G_OBJECT ( dec_sep ),
+                        "changed",
+                        G_CALLBACK ( gsb_localisation_decimal_point_changed ),
+                        GINT_TO_POINTER ( sens ) );
+    g_signal_connect ( G_OBJECT ( thou_sep ),
+                        "changed",
+                        G_CALLBACK ( gsb_localisation_thousands_sep_changed ),
+                        GINT_TO_POINTER ( sens ) );
+
+    return paddingbox;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user_data )
+{
+    const gchar *text;
+
+    text = gtk_combo_box_get_active_text ( widget );
+
+    if ( g_strcmp0 ( text, "," ) == 0 )
+    {
+        GtkWidget *combo_box;
+
+        gsb_real_set_decimal_point ( "," );
+        combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
+
+        if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "," ) == 0 )
+        {
+            gsb_real_set_thousands_sep ( " " );
+            gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 0 );
+        }
+    }
+    else
+        gsb_real_set_decimal_point ( "." );
+
+    if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
+        return;
+
+    gsb_config_update_affichage ( 1 );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user_data )
+{
+    const gchar *text;
+
+    text = gtk_combo_box_get_active_text ( widget );
+    
+    if ( g_strcmp0 ( text, "' '" ) == 0 )
+    {
+        gsb_real_set_thousands_sep ( " " );
+    }
+    else if ( g_strcmp0 ( text, "," ) == 0 )
+    {
+        GtkWidget *combo_box;
+
+        gsb_real_set_thousands_sep ( "," );
+        combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
+        if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "," ) == 0 )
+        {
+            gsb_real_set_decimal_point ( "." );
+            gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 0 );
+        }
+    }
+    else
+        gsb_real_set_thousands_sep ( NULL );
+
+    if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
+        return;
+
+    gsb_config_update_affichage ( 1 );
+}
+
+
+/**
+ * met à jour l'affichage suite à modification des données de localisation
+ *
+ *\param type_maj 0 = ELEMENT_DATE 1 =  ELEMENT_CREDIT && ELEMENT_DEBIT
+ *
+ * */
+void gsb_config_update_affichage ( gint type_maj )
+{
+    gint current_page;
+
+    current_page = gsb_gui_navigation_get_current_page ( );
+
+    /* update home page */
+    if ( current_page == GSB_HOME_PAGE )
+        mise_a_jour_accueil ( TRUE );
+    else
+        mise_a_jour_liste_comptes_accueil = TRUE;
+
+    /* update sheduled liste */
+    gsb_scheduler_list_fill_list ( gsb_scheduler_list_get_tree_view ( ) );
+    gsb_scheduler_list_set_background_color ( gsb_scheduler_list_get_tree_view ( ) );
+    if ( current_page == GSB_SCHEDULER_PAGE )
+        gsb_scheduler_list_select (-1);
+
+    /* update transaction liste */
+    if ( type_maj == 0 )
+    {
+        transaction_list_update_element ( ELEMENT_DATE );
+    }
+    else
+    {
+        transaction_list_update_element ( ELEMENT_CREDIT );
+        transaction_list_update_element ( ELEMENT_DEBIT );
+        gsb_transactions_list_update_tree_view ( gsb_gui_navigation_get_current_account ( ), FALSE );
+    }
+
+    /* update payees, categories and budgetary lines */
+    if ( current_page == GSB_PAYEES_PAGE )
+        payee_fill_tree ( );
+    else if ( current_page == GSB_CATEGORIES_PAGE )
+        remplit_arbre_categ ( );
+    else if ( current_page == GSB_BUDGETARY_LINES_PAGE )
+        remplit_arbre_imputation ( );
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

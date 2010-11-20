@@ -11,6 +11,7 @@ enum preference_page  {
     SOFTWARE_PAGE,
     SCHEDULER_PAGE,
     MAIN_PAGE,
+    LOCALISATION_PAGE,
     FONTS_AND_LOGO_PAGE,
     MESSAGES_AND_WARNINGS_PAGE,
     ADDRESSES_AND_TITLES_PAGE,
@@ -40,8 +41,10 @@ enum preference_page  {
 /*START_DECLARATION*/
 gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
                         GtkWidget *dialog );
+GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens );
 gboolean gsb_config_metatree_sort_transactions ( GtkWidget *checkbutton,
                         gpointer null );
+GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens );
 gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data );
 gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,
                         gpointer page_ptr );

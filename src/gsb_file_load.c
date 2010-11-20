@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2009 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2009 Pierre Biava (grisbi@pierre.biava.name)          */
+/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -784,6 +784,24 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         if ( adresse_secondaire )
             g_free ( adresse_secondaire );
         adresse_secondaire = my_strdup (attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Date_format" ) )
+    {
+        gsb_date_set_format_date ( attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Decimal_point" ) )
+    {
+        gsb_real_set_decimal_point ( attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Thousands_separator" ) )
+    {
+        if ( !strcmp ( attribute_values[i], "empty" ) )
+            gsb_real_set_thousands_sep ( NULL );
+        else
+            gsb_real_set_thousands_sep ( attribute_values[i] );
     }
 
     else if ( !strcmp ( attribute_names[i],
