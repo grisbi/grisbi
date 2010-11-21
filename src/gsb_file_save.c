@@ -1165,6 +1165,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    my_safe_null_str(form_columns_width),
         gsb_data_account_get_bet_use_budget ( account_number ) );
 
+    if ( gsb_data_account_get_bet_use_budget ( account_number ) > 0 )
     switch ( kind )
     {
         case GSB_TYPE_LIABILITIES:
@@ -1188,7 +1189,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
             g_free ( bet_str );
             break;
         case GSB_TYPE_ASSET:
-            new_string = g_strconcat ( new_string, " />\n",NULL );
+            new_string = g_strconcat ( new_string, " />\n", NULL );
             break;
         default:
             bet_str = g_markup_printf_escaped ( "\t\tBet_start_date=\"%s\"\n"
@@ -1214,6 +1215,8 @@ gulong gsb_file_save_account_part ( gulong iterator,
             g_free ( bet_str );
             break;
     }
+    else
+        new_string = g_strconcat ( new_string, " />\n", NULL );
 
 	g_free (sort_list);
 	g_free (sort_kind_column);
