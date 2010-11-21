@@ -863,23 +863,26 @@ gboolean gsb_data_payment_set_last_number_from_int ( gint payment_number,
 					    gint last_number )
 {
     struct_payment *payment;
-    const gchar *old_number;
+    const gchar *old_number = NULL;
     gchar *new_number;
     gchar *prefix = NULL;
     gint i = 0;
 
     payment = gsb_data_payment_get_structure ( payment_number );
 
-    if (!payment)
-	return FALSE;
+    if ( !payment )
+        return FALSE;
 
     old_number = gsb_data_payment_get_last_number ( payment_number );
-    while ( old_number[i] == '0' )
+    if ( old_number )
     {
-        i++;
+        while ( old_number[i] == '0' )
+        {
+            i++;
+        }
+        if ( i > 0 )
+            prefix = g_strndup ( old_number, i );
     }
-    if ( i > 0 )
-        prefix = g_strndup ( old_number, i );
 
     new_number = utils_str_itoa ( last_number );
     if ( prefix && strlen ( prefix ) )
