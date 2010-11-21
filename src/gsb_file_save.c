@@ -959,6 +959,9 @@ gulong gsb_file_save_account_part ( gulong iterator,
                         gchar **file_content )
 {
     GSList *list_tmp;
+    gint first_account;
+
+    first_account = gsb_data_account_first_number ( );
 
     list_tmp = gsb_data_account_get_list_accounts ();
 
@@ -1032,10 +1035,10 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	for ( k=0 ; k<MAX_HEIGHT ; k++ )
 	    for ( j=0 ; j<MAX_WIDTH ; j++ )
 		if ( form_organization )
-		{ 
+		{
 		    form_organization = g_strconcat ( first_string_to_free = form_organization,
 						      "-",
-						      second_string_to_free = utils_str_itoa ( gsb_data_form_get_value ( account_number,
+						      second_string_to_free = utils_str_itoa ( gsb_data_form_get_value ( first_account,
 															 j,
 															 k )),
 						      NULL );
@@ -1043,7 +1046,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 		    g_free (second_string_to_free);
 		}
 		else
-		    form_organization = utils_str_itoa (gsb_data_form_get_value ( account_number,
+		    form_organization = utils_str_itoa (gsb_data_form_get_value ( first_account,
 										  j,
 										  k ));
 
@@ -1055,14 +1058,14 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    {
 		form_columns_width = g_strconcat ( first_string_to_free = form_columns_width,
 						   "-",
-						   second_string_to_free = utils_str_itoa ( gsb_data_form_get_width_column ( account_number,
+						   second_string_to_free = utils_str_itoa ( gsb_data_form_get_width_column ( first_account,
 															     k )),
 						   NULL );
 		g_free (first_string_to_free);
 		g_free (second_string_to_free);
 	    }
 	    else
-		form_columns_width = utils_str_itoa ( gsb_data_form_get_width_column ( account_number,
+		form_columns_width = utils_str_itoa ( gsb_data_form_get_width_column ( first_account,
 										       k ));
 
 	/* set the reals */
